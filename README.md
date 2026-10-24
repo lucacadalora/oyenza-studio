@@ -2,7 +2,9 @@
 
 <h1 align="center">Oyen Poni</h1>
 
-<p align="center"><b>A living notch for Windows and Mac.</b><br>Music with synced lyrics, a focus timer, a file shelf, tasks and your clipboard, one hover away.<br>Windows 10 and 11 · macOS 14 or later</p>
+<h3 align="center">A living notch for Windows and Mac</h3>
+
+<p align="center">Like the Dynamic Island on a phone, for your computer. A small island hangs from the top of your screen, shows what's playing, counting down and arriving, and opens into quick pages when you point at it.</p>
 
 <p align="center">
   <a href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe"><img src="https://img.shields.io/badge/Download_for_Windows-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI%2BPHBhdGggZD0iTTIgMmg5LjJ2OS4ySDJ6bTEwLjggMEgyMnY5LjJoLTkuMnpNMiAxMi44aDkuMlYyMkgyem0xMC44IDBIMjJWMjJoLTkuMnoiLz48L3N2Zz4=" height="34" alt="Download for Windows"></a>
@@ -13,54 +15,210 @@
 <p align="center">
   <a href="https://lucacadalora.github.io/poni/"><b>Website</b></a>
   &nbsp;·&nbsp;
-  <a href="#install">Install notes</a>
+  <a href="#features">Features</a>
+  &nbsp;·&nbsp;
+  <a href="#install">Install</a>
+  &nbsp;·&nbsp;
+  <a href="#faq">FAQ</a>
+  &nbsp;·&nbsp;
+  <a href="#guides">Guides</a>
 </p>
 
-<p align="center"><a href="https://github.com/lucacadalora/poni/blob/metrics/README.md"><img src="https://raw.githubusercontent.com/lucacadalora/poni/metrics/badge.svg" height="20" alt="Downloads so far"></a></p>
+<p align="center">
+  <a href="https://github.com/lucacadalora/poni/releases/latest"><img src="https://img.shields.io/github/v/release/lucacadalora/poni?label=latest&color=F0892E" height="20" alt="Latest release"></a>
+  <a href="https://github.com/lucacadalora/poni/blob/metrics/README.md"><img src="https://raw.githubusercontent.com/lucacadalora/poni/metrics/badge.svg" height="20" alt="Downloads so far"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-555555" height="20" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/built_with-Rust-555555?logo=rust" height="20" alt="Built with Rust">
+</p>
 
-<p align="center"><img src="docs/brand/readme-hero.webp" width="880" alt="The open island hanging from the top of the screen, showing the Music page with synced lyrics, next to Oyen peeking over a playing island"></p>
+<p align="center"><img src="docs/brand/readme/hero.webp" width="880" alt="The island hanging from the top of the screen, open on the Music page with lyrics in time, and Oyen the cat peeking over a playing island"></p>
 
-A small black island hangs from the top of your screen. It shows what's happening (music, timers, volume, headphones connecting), and when you point at it, it opens into a set of quick pages. On a MacBook it wraps the camera notch ([On a Mac](#on-a-mac)).
+<p align="center"><sub>Free and open source &nbsp;·&nbsp; Windows 10 and 11 &nbsp;·&nbsp; macOS 14 or later &nbsp;·&nbsp; No account needed</sub></p>
 
-Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothing is moving**. It draws on the GPU, in step with your display's refresh rate (60, 144 or 240 Hz). No accounts, no tracking: your data stays on your computer.
+## Features
 
-| Collapsed | |
-|---|---|
-| ![Music playing](docs/screenshots/03-media-activity.png) | ![Music and a focus timer](docs/screenshots/05-media-timer.png) |
-| ![Volume](docs/screenshots/06-volume-hud.png) | ![Headphones connected](docs/screenshots/08-bluetooth-hud.png) |
-| ![Daily step goal reached](docs/screenshots/09-health-notice.png) | |
+### Music, word by word
 
-## What it does
+Controls for whatever is playing: Spotify, Apple Music, YouTube in your browser, or any app in Windows' media controls. The lyrics scroll in time with the song, and Korean, Japanese and Chinese lines get their reading underneath, the way Apple Music shows pronunciation. Drag the bar to jump anywhere in a song.
 
-**While collapsed, the island shows live activities:**
-- Album art and an equalizer while music plays. The title peeks for a moment when the song changes.
-- A focus-timer countdown.
-- Pop-ups for volume, charging and Bluetooth headsets, with battery level.
-- Signed in to [Oyenza](#oyenza-optional), a notice when money comes in or goes out and a reminder the day before a bill is due.
-- With the [Prayer times](#add-ons) add-on on, the minutes before each prayer and a notice when it's time.
-- Once Oyenza can send the steps from your phone (coming soon), a notice when they reach the daily goal.
+<p align="center"><img src="docs/brand/readme/music.webp" width="880" alt="The open island on the Music page: the song, its controls and a Korean lyric line with its reading underneath"></p>
 
-**Point at the island (or click it) to open it.** Scroll over the header to switch pages.
+Lyrics come free from [LRCLIB](https://lrclib.net), or from Apple Music itself with [your Apple Music token](#apple-music-lyrics).
+
+### What's happening, at a glance
+
+While it rests, the island is a small black pill that tells you what's going on, then gets out of the way: album art and a beat while music plays, your focus timer, volume and charging, headphones connecting with their battery, money coming in, the next prayer.
+
+<p align="center"><img src="docs/brand/readme/glance.webp" width="880" alt="Six resting islands: music playing, a focus timer, volume, headphones connected, money in, and minutes to the next prayer"></p>
+
+### From your phone to your PC, no app needed
+
+Open the Shelf, scan the code with your phone's camera, pick photos or files and tap **Send**. The island asks first, then they land on the Shelf. It works with iPhones and Android phones over your own Wi-Fi, and a phone you pair once can send from any network.
+
+<p align="center"><img src="docs/brand/readme/phone.webp" width="880" alt="The Shelf with three files, and a request from an iPhone to send three more, with Decline and Accept"></p>
+
+[How Phone drop works](#phone-drop) &nbsp;·&nbsp; [Paired phones](#paired-phones-send-from-any-network)
+
+### FPS, GPU and CPU over your games
+
+**New in 0.1.18.** Switch on **Show over games** and, while a borderless full-screen game is in front, the island becomes a small readout: frames per second, the GPU's load and temperature and the CPU's load. It reads Windows' own log of each frame, the way PresentMon and Xbox Game Bar count them, so nothing is loaded into the game.
+
+<p align="center"><img src="docs/brand/readme/games.webp" width="880" alt="The readout over a game: 144 fps, GPU 97 % at 71 degrees, CPU 38 %; below it the System page's Games view with the frame rate chart"></p>
+
+[More on Show over games](#show-over-games)
+
+### Your whole PC on one page
+
+CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the apps using the most. Read straight from Windows' own counters, with no drivers and no admin rights, and it never leaves your PC.
+
+<p align="center"><img src="docs/brand/readme/system.webp" width="880" alt="The System page: CPU temperature, load and clock rings, usage history, each core's load and the top processes"></p>
+
+### The small things, one hover away
+
+**Focus** is a Pomodoro timer that keeps counting in the island. **Tasks** is a tiny to-do list. **Clipboard** keeps your recent copied text in memory only and skips anything a password manager marks private. **Today** has the date, the month and your PC's vitals. **Shelf** keeps the files you drop on the island. Scroll over the top of the island to switch pages.
+
+<p align="center"><img src="docs/brand/readme/pages.webp" width="880" alt="Four open pages: the Focus timer, Tasks, Clipboard history and Today"></p>
+
+### Black, Oyen or Glass
+
+The island is black by default, like the one on a phone. **Oyen** turns it warm cream, and Oyen the cat moves in: he peeks over the edge, follows your pointer and sleeps from midnight to five. **Glass** bends and frosts whatever is behind it, after Apple's Liquid Glass.
+
+<p align="center"><img src="docs/brand/readme/themes.webp" width="880" alt="The Music page in Classic and in the Oyen theme, and the Glass theme over a light and a dark page"></p>
+
+[The Oyen theme](#the-oyen-theme) &nbsp;·&nbsp; [The Glass theme](#the-glass-theme)
+
+### Your money, as it moves
+
+If you keep your money in [Oyenza](https://oyenza.app), sign in (optional) and the island tells you when money comes in or goes out, reminds you the day before a bill is due, and lists your week by day. Sums stay hidden until you click **Show**, so a shared screen shows only that much. On Windows.
+
+<p align="center"><img src="docs/brand/readme/oyenza.webp" width="880" alt="A Money in notice from BCA with the amount hidden, and the Oyenza tab listing today's transactions with hidden sums"></p>
+
+[How signing in works](#oyenza-optional)
+
+### Prayer times for your city
+
+Today's times for your kab/kota as Kemenag RI publishes them, a countdown in the ten minutes before each prayer, the adzan recorded at Masjidil Haram, and the qibla. It's an add-on: 1.9 MB, downloaded only when you switch it on. On Windows.
+
+<p align="center"><img src="docs/brand/readme/prayer.webp" width="880" alt="Eight minutes to Ashar on the resting island, and the Prayer tab with today's times for Kota Jakarta"></p>
+
+[Add-ons](#add-ons)
+
+### On a Mac, it wraps the notch
+
+On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Music and Spotify with lyrics, the focus timer, the Shelf and Phone drop, tasks, the clipboard and Today are all there.
+
+<p align="center"><img src="docs/brand/readme/mac.webp" width="880" alt="On a MacBook: music playing and a focus timer either side of the notch, and the Music page opening below it"></p>
+
+[What's on the Mac so far](#on-a-mac)
+
+## Light by design
 
 <table>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-music.webp" width="64" alt=""></td><td><b>Music</b><br>Controls for whatever is playing (Spotify, Apple Music, YouTube in your browser, any app in Windows' media controls), with time-synced lyrics from <a href="https://lrclib.net">LRCLIB</a>, or Apple Music's own lyrics if you add <a href="#apple-music-lyrics">your Apple Music token</a></td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-focus.webp" width="64" alt=""></td><td><b>Focus</b><br>A Pomodoro timer that keeps counting in the island</td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-health.webp" width="64" alt=""></td><td><b>Health</b><br>Today's steps against your goal, distance, active energy and your week, from Apple Health or Health Connect on your phone through your Oyenza account (coming soon)</td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-shelf.webp" width="64" alt=""></td><td><b>Shelf</b><br>Drop files on the island to keep them handy; click to open or drag them back out. <a href="#phone-drop">Phone drop</a> brings files over from your phone and sends Shelf files to it</td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-tasks.webp" width="64" alt=""></td><td><b>Tasks</b><br>A tiny to-do list</td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-clipboard.webp" width="64" alt=""></td><td><b>Clipboard</b><br>Recent copied text, kept in memory only. It skips anything password managers mark as private.</td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-today.webp" width="64" alt=""></td><td><b>Today</b><br>Date and calendar, plus CPU, memory, disk and battery. Click a ring to open it on the System page</td></tr>
-<tr><td width="84" align="center"></td><td><b>System</b><br>CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the processes using the most. Read straight from Windows' own kernel counters, without drivers or admin rights, and never leaves your PC. The minute keeps going while the page is closed (a light reading once a second; switch it off with right-click › Keep System page history)</td></tr>
-<tr><td width="84" align="center"></td><td><b>Show over games</b><br>FPS, GPU load and temperature and CPU load on the island while a borderless full-screen game is in front. Switch it on in System › Games or right-click › In full-screen apps. See <a href="#show-over-games">Show over games</a></td></tr>
-<tr><td width="84" align="center"></td><td><b>Prayer</b> (an <a href="#add-ons">add-on</a>)<br>Today's prayer times for your kab/kota from Kemenag RI, the next prayer and how long until it, and the qibla</td></tr>
+<tr>
+<td align="center" width="25%"><h3>6.3 MB</h3>download on Windows</td>
+<td align="center" width="25%"><h3>Rust</h3>native code, no web view, no runtime</td>
+<td align="center" width="25%"><h3>240 Hz</h3>drawn on the GPU, in step with your screen</td>
+<td align="center" width="25%"><h3>0</h3>accounts, ads or analytics</td>
+</tr>
 </table>
 
-| | |
-|---|---|
-| ![Focus](docs/screenshots/11-page-focus.png) | ![Health](docs/screenshots/12-page-health.png) |
-| ![Shelf](docs/screenshots/13-page-shelf.png) | ![Tasks](docs/screenshots/15-page-tasks.png) |
-| ![Clipboard](docs/screenshots/16-page-clipboard.png) | ![Today](docs/screenshots/17-page-today.png) |
-| ![System: CPU rings, a minute of history, each core and the processes using the most](docs/screenshots/page-system.png) | ![System: download and upload, the mirrored chart and the connection](docs/screenshots/page-system-network.png) |
+On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. The one thing that reads at rest is the System page's last minute of history, a light reading once a second that right-click › **Keep System page history** turns off. Features you don't use don't run: Show over games only counts while a game is in front, and add-ons download only when you switch them on.
+
+## Your data stays on your computer
+
+- **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
+- **Clipboard in memory.** Copied text is never written to disk, and anything a password manager marks private is skipped.
+- **Files go straight between your devices.** Phone drop asks before it takes anything and uses your own Wi-Fi; paired phones connect directly, encrypted with keys made on the two devices.
+- **Online only when you say so.** Lyrics lookups go to LRCLIB. Apple Music lyrics, Oyenza and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
+
+## Install
+
+<img src="docs/brand/art/oyen-poni-peek.webp" width="260" align="right" alt="Oyen peeking over the island while it plays music">
+
+### Windows
+
+**[Download Oyen-Poni-Setup.exe](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe)** and run it. It installs just for you and needs no admin rights. Older versions and a portable zip are on the [Releases](https://github.com/lucacadalora/poni/releases) page.
+
+Builds aren't code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info → Run anyway**.
+
+Your data lives in `%APPDATA%\Poni\`, and cache plus log in `%LOCALAPPDATA%\Poni\`. Uninstalling removes the app, cache and log, and keeps your data.
+
+### Mac
+
+macOS 14 or later, Apple silicon or Intel (one app for both): **[download Oyen-Poni-Mac.dmg](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg)**, open it and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click **Done**, then open **System Settings → Privacy & Security** and click **Open Anyway**. What's on the Mac so far: [On a Mac](#on-a-mac). Your data lives in `~/Library/Application Support/Poni/`, the log in `~/Library/Logs/Poni/`.
+
+## FAQ
+
+<details>
+<summary><b>Is it free?</b></summary>
+<br>
+
+Yes. Oyen Poni is free to download and use, and its code is open source under the [MIT license](LICENSE). Oyenza sign-in is optional.
+
+</details>
+
+<details>
+<summary><b>Will it slow my computer down?</b></summary>
+<br>
+
+It's built not to. It's native code with no web view, it draws nothing while nothing moves, and its features sleep until you use them. See [Light by design](#light-by-design).
+
+</details>
+
+<details>
+<summary><b>Why does Windows say "Windows protected your PC"?</b></summary>
+<br>
+
+The builds aren't code-signed yet, so Windows SmartScreen doesn't know them. Click **More info → Run anyway**. On a Mac, the first launch needs **Open Anyway** in Privacy & Security for the same reason.
+
+</details>
+
+<details>
+<summary><b>Does it work on Windows 10?</b></summary>
+<br>
+
+Yes, on Windows 10 and 11. Glass needs Windows 10 version 2004 or later to bend what's behind it; before that it draws smoked glass.
+
+</details>
+
+<details>
+<summary><b>What's different on a Mac?</b></summary>
+<br>
+
+The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Clipboard, Today, the Classic and Oyen themes and start at login. Not on the Mac yet: Glass, paired phones, Oyenza sign-in, add-ons, Show over games, headphone pop-ups and hiding in full-screen apps. [On a Mac](#on-a-mac) has the details.
+
+</details>
+
+<details>
+<summary><b>Can it hide during games and videos?</b></summary>
+<br>
+
+Yes: right-click the island › **In full-screen apps** › **Hide**. Pick **Stay on top** instead to keep it over borderless games and videos, or turn on [Show over games](#show-over-games) for a frame rate readout.
+
+</details>
+
+<details>
+<summary><b>Where are my files and settings?</b></summary>
+<br>
+
+On Windows in `%APPDATA%\Poni\` (cache and log in `%LOCALAPPDATA%\Poni\`); on a Mac in `~/Library/Application Support/Poni/` (log in `~/Library/Logs/Poni/`). Uninstalling keeps your data.
+
+</details>
+
+## Guides
+
+The details behind each feature.
+
+### Settings and options
+
+The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
+- the theme: Classic, Oyen or Glass
+- the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
+- lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
+- in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
+- start with Windows, and quit
+
+On a Mac, every option is in the menu bar, under Oyen's mark.
 
 ### The Oyen theme
 
@@ -74,13 +232,6 @@ Glass turns the island into liquid glass, after Apple's Liquid Glass. Its rim be
 
 To bend what's under it, Glass copies the part of the screen behind its window (the island and the space it opens into) whenever something there changes, and not while the island is hidden or the PC is locked. The copy stays in your PC's memory and on its graphics card, and each new copy replaces the last; it's never saved or sent. While Glass is on, Windows leaves Oyen Poni out of screenshots, screen recordings and screen sharing. On a display in HDR, Poni maps the copy back to ordinary colours itself. Where Poni can't copy the screen (the software renderer, Windows 10 before version 2004, Remote Desktop, a laptop display that no graphics card lets it copy), Glass draws smoked glass instead: the same shape, light and shadow over a see-through tint, and it stays in screenshots.
 
-The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
-- the theme: Classic, Oyen or Glass
-- the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
-- lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
-- in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
-- start with Windows, and quit
-
 ### Show over games
 
 Switch on **Show over games** (System › Games, or right-click › In full-screen apps) and, while a game fills the screen in borderless full-screen, the island becomes a small readout: frames per second, the GPU's load and temperature and the CPU's load, once a second. Hover it to open the island as usual. Turning it on also keeps the island on top of full-screen apps; picking Hide there turns it off again.
@@ -89,38 +240,15 @@ The frame rate is counted the way Intel's PresentMon and Xbox Game Bar count it:
 
 Windows lets only admins and the **Performance Log Users** group read that log. The first time, System › Games asks for a one-time OK: an admin prompt adds your Windows account to that group (Xbox Game Bar's FPS counter asks for the same), and Windows applies it the next time you sign in. Until then the FPS slot shows a dash and the rest works. To undo it, remove your account from Performance Log Users in Computer Management, or run `net localgroup "Performance Log Users" <your user name> /delete` as an admin. A game in exclusive full-screen mode still covers the island, as it covers every window.
 
-## On a Mac
+### On a Mac
 
 On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera (the album art on the left and the beat on the right, a timer's ring and its minutes the same way), and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows.
 
-| | |
-|---|---|
-| ![Music playing on a MacBook: the album art left of the notch, the equalizer on its right](site/assets/shots/mac/classic/media-activity.webp) | ![The Oyen theme: cream ears around the black notch, the album art on the left and Oyen on the right](site/assets/shots/mac/oyen/media-activity.webp) |
-| ![A focus timer around the notch: the ring on the left, the minutes on the right](site/assets/shots/mac/classic/timer-activity.webp) | ![Resting in the Oyen theme: Oyen left of the notch, the time on its right](site/assets/shots/mac/oyen/idle-clock.webp) |
-
-![The open island hanging below the notch in the Oyen theme: the Music page with synced lyrics](site/assets/shots/mac/oyen/page-media.webp)
-
 The Mac app has the island, Music and Spotify with synced lyrics (and Apple Music's own with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, clipboard history, Today with your Mac's CPU, memory, disk and battery, pop-ups for volume and charging, the Classic and Oyen themes, and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: Glass, paired phones, Oyenza sign-in, add-ons, Show over games, headphone pop-ups and hiding in full-screen apps.
 
-These pictures come from the Mac app itself (`poni --render <dir> --notch`, run by the `mac` workflow on a macOS runner with a MacBook's notch drawn in).
+The Mac pictures come from the Mac app itself (`poni --render <dir> --notch`, run by the `mac` workflow on a macOS runner with a MacBook's notch drawn in).
 
-## Install
-
-<img src="docs/brand/art/oyen-poni-peek.webp" width="260" align="right" alt="Oyen peeking over the island while it plays music">
-
-### On Windows
-
-**[Download Oyen-Poni-Setup.exe](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe)** and run it. It installs just for you and needs no admin rights. Older versions and a portable zip are on the [Releases](https://github.com/lucacadalora/poni/releases) page.
-
-Builds aren't code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info → Run anyway**.
-
-Your data lives in `%APPDATA%\Poni\`, and cache plus log in `%LOCALAPPDATA%\Poni\`. Uninstalling removes the app, cache and log, and keeps your data.
-
-### On a Mac
-
-macOS 14 or later, Apple silicon or Intel (one app for both): **[download Oyen-Poni-Mac.dmg](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg)**, open it and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click **Done**, then open **System Settings → Privacy & Security** and click **Open Anyway**. What's on the Mac so far: [On a Mac](#on-a-mac). Your data lives in `~/Library/Application Support/Poni/`, the log in `~/Library/Logs/Poni/`.
-
-## Apple Music lyrics
+### Apple Music lyrics
 
 Lyrics come from LRCLIB by default. With an Apple Music subscription, Oyen Poni can show Apple Music's own synced lyrics instead: the ones the Apple Music app shows. This works whichever app is playing. LRCLIB stays the backup for songs Apple has no synced lyrics for.
 
@@ -134,7 +262,7 @@ Oyen Poni checks the token with Apple and says whether it worked. It stores the 
 
 With a token saved, Oyen Poni sends each song's title and artist to Apple to find its lyrics. It uses the Apple Music web player's own API, which Apple doesn't publish for other apps, so it can stop working when Apple changes its site. LRCLIB keeps working either way.
 
-## Phone drop
+### Phone drop
 
 Send photos and files from your phone to the Shelf, or save Shelf files on your phone, over your own Wi-Fi. Nothing to install on the phone, and it works with iPhones and Android phones alike.
 
@@ -153,7 +281,7 @@ Each session gets a new secret link that only the QR code carries. It stops work
 
 This isn't AirDrop. An iPhone only AirDrops over Apple's own Wi-Fi link (AWDL), which Windows Wi-Fi drivers can't run, so Phone drop uses the phone's browser instead.
 
-### Paired phones: send from any network
+#### Paired phones: send from any network
 
 Pair a phone once, and it finds this PC from any network, whenever Oyen Poni runs: the same Wi-Fi, another Wi-Fi or mobile data.
 
@@ -169,7 +297,7 @@ Pair a phone once, and it finds this PC from any network, whenever Oyen Poni run
 
 The phone and PC meet through a small server (`drop.oyenza.com`, code in [`server/`](server)); the files go straight between them over WebRTC, encrypted with keys made on the two devices, or through a relay that can't read them when both networks block a direct link. The server never sees a file, a file name, or the pairing secret: every message is signed with that secret, which only the QR code carries. **Paired phones** lists each phone with **Remove**. How it works: [docs/paired-drop.md](docs/paired-drop.md).
 
-## Oyenza (optional)
+### Oyenza (optional)
 
 If you keep your money in [Oyenza](https://oyenza.app), the island can show it. Signing in is optional and works like a TV: no password is typed into Oyen Poni.
 
@@ -185,7 +313,7 @@ Then the island shows:
 
 This PC gets a key of its own that can do only these things: it reads the last 7 days of transactions in the space where Oyenza logs your bank's emails and notifications, never balances, account numbers, notes or receipts, and it can't change or delete anything else or touch your account. It is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`). Oyen Poni asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep), and every 15 seconds while the Oyenza tab is open. **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
 
-## Add-ons
+### Add-ons
 
 The **+** at the end of the tabs lists features that aren't part of the download. Switching one on downloads its files from this project's releases (each checked against the size and SHA-256 built into the app); switching it off deletes them. While every add-on is off, nothing is downloaded and nothing of theirs runs.
 
@@ -230,7 +358,7 @@ target/release/poni --render shots --notch   # every island state as a picture, 
 
 ### Testing without clicking around
 
-`poni.exe --selftest <dir>` runs a scripted tour of every state with fake data and writes a screenshot of each one, plus `report.json` with layout and timing checks. The exit code is non-zero on failure. It also works under Wine on Linux (`tools/run-selftest-wine.sh`), which is how the screenshots above were made, so the font is a stand-in for Segoe UI.
+`poni.exe --selftest <dir>` runs a scripted tour of every state with fake data and writes a screenshot of each one, plus `report.json` with layout and timing checks. The exit code is non-zero on failure. It also works under Wine on Linux (`tools/run-selftest-wine.sh`), which is how the pictures in this README were made, so the font is a stand-in for Segoe UI.
 
 | Variable | Effect |
 |---|---|
@@ -245,6 +373,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit: threads, the rend
 ### Website
 
 The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Every release updates it too ([AGENTS.md](AGENTS.md#every-release-updates-the-website) has the checklist). A page that names a version not released yet waits until that release is published, and a release whose page wasn't updated opens an issue. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes, and its Mac pictures from the `mac` workflow's renders (`tools/site_shots.py`).
+
+The README's feature pictures are drawn from those same screenshots by `tools/make_readme_art.py` (from `tools/readme_art.html`) into `docs/brand/readme/`. Rerun it after retaking the screenshots.
 
 ### Download stats
 

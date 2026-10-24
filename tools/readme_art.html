@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Oyen Poni README pictures</title>
+<!-- The README's feature pictures, drawn by tools/make_readme_art.py: one
+     <figure class="card" id="NAME"> per picture, saved as
+     docs/brand/readme/NAME.webp. Every island is a real self-test screenshot
+     at 200 % (site/assets/shots, cut by tools/site_shots.py), shown at true
+     size or scaled with data-scale, hanging from the top edge of the website's
+     morning sky the way it hangs from the top of a screen. Oyen is the brand
+     art in docs/brand/art. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&display=block">
+<style>
+:root {
+  --ink: #171717;
+  --muted: #6e6e73;
+  --line: #e2e2e7;
+  --panel: #f5f5f7;
+  --orange: #f0892e;
+  --cream: #fff0da;
+}
+html, body { margin: 0; background: transparent; }
+body { width: 880px; padding: 24px; font-family: "Outfit", sans-serif; -webkit-font-smoothing: antialiased; color: var(--ink); }
+img { display: block; }
+.card { position: relative; width: 880px; margin: 0 0 48px; border-radius: 22px; overflow: hidden; background: #fff; }
+.grid { display: grid; gap: 8px; }
+.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* One "top of a screen": the sky, the island hanging from its top edge, Oyen
+   standing on its bottom edge beside the island (never over it). */
+.stage { position: relative; display: flex; justify-content: center; align-items: flex-start; background: #f4d2b8 url("../site/assets/wall/morning.jpg") center 30% / cover no-repeat; overflow: hidden; }
+.stage.dusk::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23, 18, 40, 0.62), rgba(40, 22, 30, 0.38)); }
+.stage.cream { background: var(--cream); }
+.stage > .isl { position: relative; z-index: 1; }
+.stage > .pose { position: absolute; bottom: 0; z-index: 1; }
+.stage > .tag { position: absolute; left: 14px; bottom: 12px; z-index: 2; font: 600 13px/1 "Outfit", sans-serif; letter-spacing: 0.01em; color: rgba(23, 23, 23, 0.78); background: rgba(255, 255, 255, 0.74); padding: 6px 10px; border-radius: 999px; backdrop-filter: blur(6px); white-space: nowrap; }
+.stage.dusk > .tag { color: rgba(255, 255, 255, 0.92); background: rgba(255, 255, 255, 0.16); }
+.stage .new { color: #fff; background: var(--orange); }
+/* A whole picture that brings its own background (Glass, the Mac renders). */
+.full { position: relative; overflow: hidden; background: #000; }
+.full > img { width: 100%; height: auto; }
+.full > .tag { position: absolute; left: 14px; bottom: 12px; font: 600 13px/1 "Outfit", sans-serif; color: rgba(23, 23, 23, 0.78); background: rgba(255, 255, 255, 0.78); padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- Hero: the open island on the Music page, and Oyen peeking over a playing
+     island below it (data-at: Oyen's left edge, in px, instead of beside the island). -->
+<figure class="card" id="hero">
+  <div class="stage" data-pad="190">
+    <img class="isl" src="../site/assets/shots/classic/page-media.webp" alt="">
+    <img class="pose" data-at="560" data-w="300" src="../docs/brand/art/oyen-poni-peek.webp" alt="">
+  </div>
+</figure>
+
+<!-- Music: lyrics in time, with the reading under Korean lines. -->
+<figure class="card" id="music">
+  <div class="stage" data-pad="30">
+    <img class="isl" data-scale="0.9" src="../site/assets/shots/classic/page-media-ko.webp" alt="">
+    <img class="pose" data-side="right" data-w="118" src="../docs/brand/art/poses/oyen-music.webp" alt="">
+  </div>
+</figure>
+
+<!-- While it rests: six collapsed states, each on its own strip. -->
+<figure class="card" id="glance">
+  <div class="grid cols-2">
+    <div class="stage" data-pad="44"><img class="isl" src="../site/assets/shots/classic/media-activity.webp" alt=""><span class="tag">Music playing</span></div>
+    <div class="stage" data-pad="44"><img class="isl" src="../site/assets/shots/classic/timer-activity.webp" alt=""><span class="tag">Focus timer</span></div>
+    <div class="stage" data-pad="44"><img class="isl" src="../site/assets/shots/classic/volume-hud.webp" alt=""><span class="tag">Volume</span></div>
+    <div class="stage" data-pad="44"><img class="isl" src="../site/assets/shots/classic/bluetooth-hud.webp" alt=""><span class="tag">Headphones</span></div>
+    <div class="stage" data-pad="44"><img class="isl" src="../site/assets/shots/classic/oyenza-money.webp" alt=""><span class="tag">Money in</span></div>
+    <div class="stage" data-pad="44"><img class="isl" src="../site/assets/shots/classic/prayer-countdown.webp" alt=""><span class="tag">Prayer times</span></div>
+  </div>
+</figure>
+
+<!-- Phone drop: an iPhone asks to send three files. -->
+<figure class="card" id="phone">
+  <div class="stage" data-pad="30">
+    <img class="isl" data-scale="0.9" src="../site/assets/shots/classic/page-shelf-phone-ask.webp" alt="">
+    <img class="pose" data-side="left" data-w="118" src="../docs/brand/art/poses/oyen-shelf.webp" alt="">
+  </div>
+</figure>
+
+<!-- Show over games: the readout over a game, and System › Games. -->
+<figure class="card" id="games">
+  <div class="grid">
+    <div class="stage dusk" data-pad="46"><img class="isl" src="../site/assets/shots/classic/game-stats.webp" alt=""><span class="tag">Over a game</span></div>
+    <div class="stage" data-pad="46"><img class="isl" data-scale="0.9" src="../site/assets/shots/classic/page-system-games.webp" alt=""><span class="tag">System › Games</span></div>
+  </div>
+</figure>
+
+<!-- System: your PC at a glance. -->
+<figure class="card" id="system">
+  <div class="stage" data-pad="30">
+    <img class="isl" data-scale="0.9" src="../site/assets/shots/classic/page-system.webp" alt="">
+    <img class="pose" data-side="right" data-w="118" src="../docs/brand/art/poses/oyen-today.webp" alt="">
+  </div>
+</figure>
+
+<!-- The everyday pages. -->
+<figure class="card" id="pages">
+  <div class="grid cols-2">
+    <div class="stage" data-pad="16"><img class="isl" data-scale="0.64" src="../site/assets/shots/classic/page-focus.webp" alt=""></div>
+    <div class="stage" data-pad="16"><img class="isl" data-scale="0.64" src="../site/assets/shots/classic/page-tasks.webp" alt=""></div>
+    <div class="stage" data-pad="16"><img class="isl" data-scale="0.64" src="../site/assets/shots/classic/page-clipboard.webp" alt=""></div>
+    <div class="stage" data-pad="16"><img class="isl" data-scale="0.64" src="../site/assets/shots/classic/page-today.webp" alt=""></div>
+  </div>
+</figure>
+
+<!-- Themes: Classic, Oyen and Glass (Glass shots are whole screen corners). -->
+<figure class="card" id="themes">
+  <div class="grid cols-2">
+    <div class="stage" data-pad="44"><img class="isl" data-scale="0.64" src="../site/assets/shots/classic/page-media.webp" alt=""><span class="tag">Classic</span></div>
+    <div class="stage" data-pad="44"><img class="isl" data-scale="0.64" src="../site/assets/shots/oyen/page-media.webp" alt=""><span class="tag">Oyen</span></div>
+    <div class="full"><img src="../site/assets/shots/glass/light-page-media.webp" alt=""><span class="tag">Glass, light</span></div>
+    <div class="full"><img src="../site/assets/shots/glass/dark-page-media.webp" alt=""><span class="tag">Glass, dark</span></div>
+  </div>
+</figure>
+
+<!-- Oyenza: money in, and the week by day (amounts hidden). -->
+<figure class="card" id="oyenza">
+  <div class="grid">
+    <div class="stage" data-pad="46"><img class="isl" src="../site/assets/shots/classic/oyenza-money.webp" alt=""><span class="tag">As it happens</span></div>
+    <div class="stage" data-pad="46"><img class="isl" data-scale="0.9" src="../site/assets/shots/classic/page-oyenza.webp" alt=""><span class="tag">Oyenza tab</span></div>
+  </div>
+</figure>
+
+<!-- Prayer times add-on. -->
+<figure class="card" id="prayer">
+  <div class="grid">
+    <div class="stage" data-pad="46"><img class="isl" src="../site/assets/shots/classic/prayer-countdown.webp" alt=""><span class="tag">Before each prayer</span></div>
+    <div class="stage" data-pad="46"><img class="isl" data-scale="0.9" src="../site/assets/shots/classic/page-prayer.webp" alt=""><span class="tag">Prayer tab</span></div>
+  </div>
+</figure>
+
+<!-- On a Mac: the Mac app's own renders around a MacBook's notch. -->
+<figure class="card" id="mac">
+  <div class="grid cols-2">
+    <div class="full"><img src="../site/assets/shots/mac/classic/media-activity.webp" alt=""></div>
+    <div class="full"><img src="../site/assets/shots/mac/classic/timer-activity.webp" alt=""></div>
+  </div>
+  <div class="full" style="margin-top: 8px"><img src="../site/assets/shots/mac/classic/page-media.webp" alt=""></div>
+</figure>
+
+<script>
+// True size = half the 200 % shot, times data-scale. Oyen stands on the bottom
+// edge, centred in the space beside the island, and never wider than it.
+function layout() {
+  for (const img of document.querySelectorAll(".isl")) {
+    const s = parseFloat(img.dataset.scale || "1");
+    img.style.width = (img.naturalWidth / 2 * s) + "px";
+  }
+  for (const st of document.querySelectorAll(".stage")) {
+    const isl = st.querySelector(".isl");
+    const pad = parseFloat(st.dataset.pad || "28");
+    let h = isl.getBoundingClientRect().height + pad;
+    const side = (st.clientWidth - isl.getBoundingClientRect().width) / 2;
+    for (const p of st.querySelectorAll(".pose")) {
+      if (p.dataset.at) {
+        p.style.width = p.dataset.w + "px";
+        p.style.left = p.dataset.at + "px";
+        continue;
+      }
+      const w = Math.min(parseFloat(p.dataset.w), side - 20);
+      p.style.width = w + "px";
+      const off = (side - w) / 2;
+      p.style[p.dataset.side === "left" ? "left" : "right"] = off + "px";
+      h = Math.max(h, p.naturalHeight * w / p.naturalWidth + 18);
+    }
+    st.style.height = h + "px";
+  }
+  document.body.dataset.ready = "1";
+}
+Promise.all([...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = r; i.onerror = r; })))
+  .then(() => document.fonts.ready).then(layout);
+</script>
+</body>
+</html>
