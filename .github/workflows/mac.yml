@@ -66,7 +66,8 @@ jobs:
       # window is and waits; this script takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
         run: |
-          set -u
+          # Not -e: the report must print even when a check fails.
+          set +e -u
           system_profiler SPDisplaysDataType | grep -E "Resolution|Retina|Main Display" || true
           bin="dist/Oyen Poni.app/Contents/MacOS/poni"
           mkdir -p smoke

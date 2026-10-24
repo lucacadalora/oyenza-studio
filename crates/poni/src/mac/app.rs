@@ -125,7 +125,8 @@ pub fn main_entry() -> i32 {
     }
     let smoke_dir = arg_after("--smoke").map(PathBuf::from);
     if let Some(dir) = &smoke_dir {
-        let home = dir.join("home");
+        // Absolute: Finder icons and file URLs need full paths.
+        let home = std::path::absolute(dir.join("home")).unwrap_or_else(|_| dir.join("home"));
         let _ = std::fs::remove_dir_all(&home);
         std::env::set_var("PONI_HOME", &home);
     }
@@ -1633,8 +1634,17 @@ impl App {
         match sm.phase {
             SmokePhase::Apply => {
                 if sm.step >= SMOKE_STEPS.len() {
-                    let login = services::login::status();
-                    sm.note("start-at-login", login != Login::Unavailable, format!("login item status {login:?}"));
+                    // Register as a login item and back out again, and report what
+                    // macOS said (an ad-hoc signed build may not be allowed).
+                    let before = services::login::status();
+                    let on = services::login::set_enabled(true);
+                    let during = services::login::status();
+                    let off = services::login::set_enabled(false);
+                    sm.note(
+                        "start-at-login",
+                        before != Login::Unavailable,
+                        format!("before {before:?} ({}), register {on:?}, then {during:?}, unregister {off:?}", services::login::raw_status()),
+                    );
                     sm.finish(self.frames_drawn);
                     let code = if sm.failed { 1 } else { 0 };
                     self.smoke = Some(sm);

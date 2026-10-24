@@ -92,7 +92,9 @@ fn picture(path: &str, px: u32) -> Option<Image> {
 
 /// The Finder icon, fitted inside the tile.
 fn icon(path: &str, px: u32) -> Option<Image> {
-    let img = NSWorkspace::sharedWorkspace().iconForFile(&NSString::from_str(path));
+    // A relative path gets the generic document icon.
+    let full = std::path::absolute(path).map(|p| p.to_string_lossy().into_owned()).unwrap_or_else(|_| path.to_string());
+    let img = NSWorkspace::sharedWorkspace().iconForFile(&NSString::from_str(&full));
     let side = ((px as f32 * ICON_FRACTION).round()).max(16.0);
     let mut rect = CGRect { origin: CGPoint { x: 0.0, y: 0.0 }, size: CGSize { width: side as CGFloat, height: side as CGFloat } };
     let cg = unsafe { img.CGImageForProposedRect_context_hints(&mut rect, None, None) }?;

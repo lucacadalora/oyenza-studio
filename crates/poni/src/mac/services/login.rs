@@ -19,7 +19,9 @@ pub enum Status {
     On,
     /// Registered, but the person has to allow it in System Settings.
     NeedsApproval,
-    /// macOS can't find the app (not running from an .app bundle).
+    /// macOS can't find this app's service (SMAppService says "not found").
+    NotFound,
+    /// No SMAppService on this macOS (before 13).
     Unavailable,
 }
 
@@ -31,15 +33,20 @@ fn service() -> Option<Retained<AnyObject>> {
 }
 
 pub fn status() -> Status {
-    let Some(svc) = service() else { return Status::Unavailable };
-    // SMAppServiceStatus: 0 not registered, 1 enabled, 2 requires approval, 3 not found.
-    let s: isize = unsafe { msg_send![&*svc, status] };
-    match s {
+    match raw_status() {
+        -1 => Status::Unavailable,
         1 => Status::On,
         2 => Status::NeedsApproval,
-        3 => Status::Unavailable,
+        3 => Status::NotFound,
         _ => Status::Off,
     }
+}
+
+/// SMAppServiceStatus as macOS reports it: 0 not registered, 1 enabled,
+/// 2 requires approval, 3 not found (-1: no SMAppService).
+pub fn raw_status() -> isize {
+    let Some(svc) = service() else { return -1 };
+    unsafe { msg_send![&*svc, status] }
 }
 
 pub fn set_enabled(on: bool) -> Result<(), String> {
