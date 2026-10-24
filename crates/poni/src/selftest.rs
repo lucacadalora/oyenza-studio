@@ -538,11 +538,13 @@ enum Scene {
     SystemBattery,
     /// System page just opened: no reading yet.
     SystemWaiting,
+    /// Settings with Stay on top chosen for full-screen apps.
+    SettingsStayOnTop,
     /// System page: the graphics card.
     SystemGpu,
 }
 
-const SCENES: [Scene; 40] = [
+const SCENES: [Scene; 41] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -583,6 +585,7 @@ const SCENES: [Scene; 40] = [
     Scene::SystemNetwork,
     Scene::SystemBattery,
     Scene::SystemWaiting,
+    Scene::SettingsStayOnTop,
     Scene::SystemGpu,
 ];
 
@@ -621,6 +624,7 @@ impl Scene {
             Scene::SystemNetwork => "page-system-network".into(),
             Scene::SystemBattery => "page-system-battery".into(),
             Scene::SystemWaiting => "page-system-waiting".into(),
+            Scene::SettingsStayOnTop => "page-settings-stay-on-top".into(),
             Scene::SystemGpu => "page-system-gpu".into(),
         }
     }
@@ -633,7 +637,7 @@ impl Scene {
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved => Some(PageKind::Oyenza),
             Scene::HealthSignedIn => Some(PageKind::Health),
-            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn => Some(PageKind::Settings),
+            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop => Some(PageKind::Settings),
             Scene::SystemMemory | Scene::SystemDrives | Scene::SystemNetwork | Scene::SystemBattery | Scene::SystemWaiting | Scene::SystemGpu => {
                 Some(PageKind::System)
             }
@@ -1106,6 +1110,8 @@ impl SelfTest {
         st.health = if matches!(scene, Scene::HealthSignedOut | Scene::HealthSignedIn) { None } else { self.health.clone() };
         // Start with Windows as Settings shows it once read (it's read off the UI thread).
         st.ui.autostart = Some(true);
+        // Hide in full-screen apps (the default), except in the Stay on top scene.
+        st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
         st.phone = fake_phone(scene);
         st.store.shelf.items = if scene == Scene::ShelfEmpty { Vec::new() } else { self.shelf_items.clone() };
         if scene != Scene::ShelfEmpty {

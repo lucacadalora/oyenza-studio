@@ -58,7 +58,8 @@ pub enum MenuCmd {
     ToggleSystemHistory,
     ToggleLyrics,
     TogglePronunciation,
-    ToggleHideFullscreen,
+    /// true: hide in full-screen apps; false: stay on top of them.
+    SetHideFullscreen(bool),
     ToggleSounds,
     TogglePinned,
     ToggleAutostart,
@@ -92,6 +93,7 @@ fn item(label: &str, cmd: MenuCmd, checked: bool) -> MenuItem {
 pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink) -> Vec<MenuItem> {
     let style = |label: &str, st: IdleStyle| item(label, MenuCmd::ToggleIdleStyle(st), s.idle_style == st);
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
+    let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
     // In the Oyen theme the eyes are Oyen's own.
     let eyes = if s.theme == Theme::Oyen { "Oyen" } else { "Eyes" };
     vec![
@@ -114,7 +116,7 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink) -> Vec<MenuIt
         item("Clipboard history", MenuCmd::ToggleClipboard, s.clipboard_history),
         item("Keep System page history", MenuCmd::ToggleSystemHistory, s.system_history),
         item("Sounds", MenuCmd::ToggleSounds, s.sounds),
-        item("Hide in full-screen apps", MenuCmd::ToggleHideFullscreen, s.hide_in_fullscreen),
+        MenuItem::Sub { label: "In full-screen apps".into(), items: vec![fullscreen("Hide", true), fullscreen("Stay on top", false)] },
         item("Start with Windows", MenuCmd::ToggleAutostart, crate::autostart::is_enabled()),
         MenuItem::Separator,
         item("Open settings file", MenuCmd::OpenSettings, false),
@@ -207,5 +209,40 @@ pub fn show_menu(owner: HWND, pt: POINT, items: &[MenuItem]) -> Option<MenuCmd> 
             let _ = SetForegroundWindow(prev);
         }
         cmd
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn fullscreen_choices(s: &Settings) -> Vec<(String, MenuCmd, bool)> {
+        let items = menu_items(s, false, &OyenzaLink::Off);
+        let Some(MenuItem::Sub { items, .. }) = items.into_iter().find(|i| matches!(i, MenuItem::Sub { label, .. } if label == "In full-screen apps")) else {
+            panic!("no full-screen submenu");
+        };
+        items
+            .into_iter()
+            .filter_map(|i| match i {
+                MenuItem::Item { label, cmd, checked } => Some((label, cmd, checked)),
+                _ => None,
+            })
+            .collect()
+    }
+
+    #[test]
+    fn full_screen_submenu_checks_the_current_choice() {
+        let mut s = Settings::default();
+        for hide in [true, false] {
+            s.hide_in_fullscreen = hide;
+            let choices = fullscreen_choices(&s);
+            assert_eq!(
+                choices,
+                vec![
+                    ("Hide".to_string(), MenuCmd::SetHideFullscreen(true), hide),
+                    ("Stay on top".to_string(), MenuCmd::SetHideFullscreen(false), !hide),
+                ]
+            );
+        }
     }
 }

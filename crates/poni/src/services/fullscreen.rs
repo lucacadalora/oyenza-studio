@@ -36,9 +36,9 @@ use windows::Win32::UI::Shell::{
     QUERY_USER_NOTIFICATION_STATE, QUNS_BUSY, QUNS_PRESENTATION_MODE, QUNS_RUNNING_D3D_FULL_SCREEN,
 };
 use windows::Win32::UI::WindowsAndMessaging::{
-    FindWindowExW, GetClassNameW, GetForegroundWindow, GetWindowLongW, GetWindowRect, GetWindowThreadProcessId,
+    FindWindowExW, GetClassNameW, GetForegroundWindow, GetWindow, GetWindowLongW, GetWindowRect, GetWindowThreadProcessId,
     GetDesktopWindow, GetShellWindow, IsIconic, IsWindow, IsWindowVisible, IsZoomed, CHILDID_SELF, EVENT_OBJECT_DESTROY, EVENT_OBJECT_HIDE,
-    EVENT_OBJECT_LOCATIONCHANGE, EVENT_SYSTEM_FOREGROUND, GWL_STYLE, OBJID_WINDOW, WINEVENT_OUTOFCONTEXT, WS_CAPTION,
+    EVENT_OBJECT_LOCATIONCHANGE, EVENT_SYSTEM_FOREGROUND, GWL_STYLE, GW_HWNDPREV, OBJID_WINDOW, WINEVENT_OUTOFCONTEXT, WS_CAPTION,
     WS_THICKFRAME,
 };
 
@@ -55,6 +55,18 @@ const SHELL_CLASSES: [&str; 8] = [
     "ForegroundStaging",
     "MultitaskingViewFrame",
     "XamlExplorerHostIslandWindow",
+];
+
+/// Pop-ups that may sit above the island: menus, tooltips and the shell's
+/// flyouts (Start and Search, the tray overflow, taskbar thumbnails).
+const POPUP_CLASSES: [&str; 7] = [
+    "#32768",
+    "tooltips_class32",
+    "Xaml_WindowedPopupClass",
+    "Windows.UI.Core.CoreWindow",
+    "TaskListThumbnailWnd",
+    "NotifyIconOverflowWindow",
+    "TopLevelWindowForOverflowXamlIsland",
 ];
 
 /// Re-runs of [`evaluate`] when signals arrive while it is running.
@@ -286,8 +298,16 @@ unsafe extern "system" fn on_win_event(
             return;
         }
     }
-    if let Some(on) = reevaluate(&w, None) {
-        w.sink.send(AppEvent::Fullscreen(on));
+    match reevaluate(&w, None) {
+        Some(on) => w.sink.send(AppEvent::Fullscreen(on)),
+        // Still full-screen, but the new foreground window (a game often makes
+        // itself topmost) may now sit above the island: report it again so the
+        // app can raise the island.
+        None if event == EVENT_SYSTEM_FOREGROUND && w.fullscreen.get() => w.sink.send(AppEvent::Fullscreen(true)),
+        // Any other new foreground window can do the same (a browser left
+        // topmost after F11, a tool's "always on top").
+        None if event == EVENT_SYSTEM_FOREGROUND => w.sink.send(AppEvent::Foreground),
+        None => {}
     }
 }
 
@@ -531,6 +551,45 @@ fn is_cloaked(hwnd: HWND) -> bool {
         )
     };
     ok.is_ok() && cloaked != 0
+}
+
+/// The class of the first window above the island in the z-order that
+/// overlaps it: visible, not cloaked, not ours, and not a pop-up or a shell
+/// surface (those may cover the island for a moment). `None` when the island
+/// is on top.
+pub fn window_above(island: HWND) -> Option<String> {
+    let mut r = RECT::default();
+    unsafe { GetWindowRect(island, &mut r) }.ok()?;
+    let pid = unsafe { GetCurrentProcessId() };
+    let mut hwnd = island;
+    // Each step is one cheap call; the cap only guards against a z-order
+    // that changes under the walk.
+    for _ in 0..2048 {
+        hwnd = unsafe { GetWindow(hwnd, GW_HWNDPREV) }.ok()?;
+        if !unsafe { IsWindowVisible(hwnd) }.as_bool() || is_cloaked(hwnd) {
+            continue;
+        }
+        let mut wr = RECT::default();
+        if unsafe { GetWindowRect(hwnd, &mut wr) }.is_err()
+            || wr.left >= r.right
+            || wr.right <= r.left
+            || wr.top >= r.bottom
+            || wr.bottom <= r.top
+        {
+            continue;
+        }
+        let mut owner = 0u32;
+        unsafe { GetWindowThreadProcessId(hwnd, Some(&mut owner)) };
+        if owner == pid {
+            continue;
+        }
+        let class = class_name(hwnd);
+        if SHELL_CLASSES.contains(&class.as_str()) || POPUP_CLASSES.contains(&class.as_str()) {
+            continue;
+        }
+        return Some(class);
+    }
+    None
 }
 
 fn class_name(hwnd: HWND) -> String {

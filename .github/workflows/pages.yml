@@ -1,25 +1,54 @@
 # The website (site/ + docs/brand), published with GitHub Pages on every push
 # to main that touches it. Repo setting: Pages → Source: GitHub Actions.
+#
+# Every release updates the website too (AGENTS.md). A page that names a version
+# newer than the latest release is held here; the `site` job of that release's
+# ci run starts this workflow once the release is published, and opens an issue
+# if the page was never updated. The deploy closes such issues. The checks are
+# in tools/ci-site-check.sh.
 name: Website
 
 on:
   push:
     branches: [main]
-    paths: ["site/**", "docs/brand/**", "tools/build_site.sh", ".github/workflows/pages.yml"]
+    paths: ["site/**", "docs/brand/**", "tools/build_site.sh", "tools/ci-site-check.sh", ".github/workflows/pages.yml"]
   workflow_dispatch:
+    inputs:
+      released:
+        description: "A version that counts as released even if GitHub doesn't list it as the latest yet (the release run sets it)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  gate:
+    name: Page matches a published release
     runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.gate.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASED: ${{ inputs.released }}
+        run: tools/ci-site-check.sh gate "$RELEASED"
+
+  deploy:
+    needs: gate
+    if: needs.gate.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      issues: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -32,3 +61,7 @@ jobs:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Close the "not updated" issues this page answers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: tools/ci-site-check.sh close

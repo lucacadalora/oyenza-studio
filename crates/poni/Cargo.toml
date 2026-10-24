@@ -101,5 +101,17 @@ features = [
     "Wdk_System_SystemInformation",
 ]
 
+# The Mac app (slice 1: island, drawing, clock, timer, menu bar icon).
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "=0.6.5"
+block2 = "=0.6.2"
+dispatch2 = "=0.3.1"
+objc2-foundation = "=0.3.2"
+objc2-app-kit = "=0.3.2"
+objc2-core-foundation = "=0.3.2"
+objc2-core-graphics = "=0.3.2"
+objc2-core-text = "=0.3.2"
+objc2-quartz-core = "=0.3.2"
+
 [build-dependencies]
 embed-resource = "2.5"

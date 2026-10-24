@@ -65,7 +65,7 @@ The gear at the top right of the open island opens **Settings**: your Oyenza acc
 - the theme: Classic or Oyen
 - the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
-- hide in full-screen apps
+- in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it)
 - start with Windows, and quit
 
 ## Install
@@ -166,7 +166,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit: threads, the rend
 
 ### Website
 
-The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes (`tools/site_shots.py`).
+The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Every release updates it too ([AGENTS.md](AGENTS.md#every-release-updates-the-website) has the checklist). A page that names a version not released yet waits until that release is published, and a release whose page wasn't updated opens an issue. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes (`tools/site_shots.py`).
 
 ### Download stats
 

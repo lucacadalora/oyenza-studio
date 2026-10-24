@@ -12,6 +12,7 @@ small web page on the local network so a phone can send files to it.
 |---|---|---|
 | `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyen Poni's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, clipboard history, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), and the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
+| `crates/poni/src/mac/` | The Mac app (AppKit + Core Graphics + Core Text via `objc2`): its own window, renderer, main loop, notch layouts and menu bar item around the same state, pages, activities and Oyen. See [The Mac app](#the-mac-app). | macOS 14+ (`cargo mcheck` type-checks it from Linux) |
 
 ## Threads and data flow
 
@@ -162,4 +163,32 @@ python3 tools/make_ja_dict.py    # rebuild the Japanese reading dictionary (--ch
 cargo wcheck                     # type-check the Windows app from macOS/Linux
 cargo wbuild                     # cross-build target/x86_64-pc-windows-gnu/release/poni.exe (needs mingw-w64)
 cargo build -p poni --release    # on Windows (MSVC)
+cargo mcheck                     # type-check the Mac app from Linux/Windows (no linker needed)
+cargo build -p poni --release    # on a Mac: the Mac app (tools/make_mac_app.sh makes the .app and DMG)
 ```
+
+## The Mac app
+
+Built in slices (slice 1: the island, drawing, clock, timer and the menu bar
+item; music, the Shelf, clipboard history, pop-ups and Oyenza sign-in come
+later). `main.rs` builds the shared modules (`activities`, `commands`,
+`icons`, `island`, `oyen`, `pages`, `plog`, `png`, `state`, `ui`) for both
+systems and takes the platform ones from `src/mac/` by `#[path]` on macOS, so
+the Windows files are untouched.
+
+| File | What |
+|---|---|
+| `mac/gfx.rs` | `Canvas` on Core Graphics + Core Text, call for call the Windows API: sRGB colours, the theme's look, SF Pro (or the embedded Outfit), images, icons, clips, shape masks, transparency layers for fades. Also `Bitmap` (offscreen) |
+| `mac/window.rs` | A borderless, non-activating `NSPanel` above the menu bar (level 27, all Spaces), sized once for the largest island; its view draws (y down) and forwards input; a display link on the view paces frames at the screen's refresh (120 Hz on ProMotion) |
+| `mac/app.rs` | The island's behaviour, ported from `app.rs`: hover lift, dwell to open, collapse delay, morphs and cross-fades, page switches, notices, the Pomodoro, settings and data. Clicks pass through to the apps below except over the island (the app toggles the panel's `ignoresMouseEvents` from global mouse-move monitors, which need no permission) |
+| `mac/notch.rs` | The camera notch: resting islands hide inside it, live activities sit in the menu bar's line left and right of the camera, notices and the open island hang below it |
+| `mac/menubar.rs` | The menu bar item (Oyen's mark as a template image) and its menu, also on a right-click of the island |
+| `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |
+| `mac/clock.rs`, `paths.rs`, `events.rs`, `services.rs`, `dragdrop.rs` | Local time, `~/Library` folders, the event channel (drained on the main queue), the accent colour, links, clipboard, sounds |
+
+CI (`.github/workflows/mac.yml`, on `main` and `mac-*` branches) builds for
+Apple Silicon and Intel, renders every state, runs the real window through a
+few states with screenshots (`poni --smoke <dir>` writes where its window is
+and waits for each screenshot), and packages `Oyen-Poni-<version>-mac-unsigned.dmg`
+(ad-hoc signed; Developer ID signing and notarization need the Apple secrets).
+

@@ -1,0 +1,81 @@
+//! Messages from service threads to the UI (main) thread.
+//!
+//! Services hold an [`EventSink`]. `send` pushes onto an mpsc channel and
+//! queues a drain on the main dispatch queue; the main thread then applies
+//! every waiting event. The event types match the Windows app's, so the
+//! services that arrive in later slices plug in the same way.
+
+use crate::gfx::Image;
+use crate::state::{MediaSession, PowerState, SysStats};
+use poni_core::lrc::Lyrics;
+use poni_core::romanize::Ruby;
+use poni_core::timeline::Timeline;
+use std::sync::mpsc::Sender;
+
+#[derive(Clone)]
+pub struct EventSink {
+    tx: Sender<AppEvent>,
+}
+
+impl EventSink {
+    pub fn new(tx: Sender<AppEvent>) -> Self {
+        Self { tx }
+    }
+
+    pub fn send(&self, ev: AppEvent) {
+        if self.tx.send(ev).is_ok() {
+            dispatch2::DispatchQueue::main().exec_async(|| {
+                crate::app::drain_events();
+            });
+        }
+    }
+}
+
+/// What Apple Music said about the user's token.
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AppleMusicStatus {
+    Accepted,
+    Rejected,
+    Unreachable,
+    NoAccess,
+}
+
+#[allow(dead_code)]
+#[derive(Clone, Debug)]
+pub enum LyricsResult {
+    /// `ruby`: each line's pieces with their readings (empty = none needed).
+    Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>> },
+    Instrumental,
+    NotFound,
+    Error(String),
+}
+
+#[allow(dead_code)]
+pub enum AppEvent {
+    /// The current media session changed (None = nothing playing / no session).
+    Media(Option<MediaSession>),
+    /// Only the timeline/playback state of the current track changed.
+    MediaTimeline { track_key: String, timeline: Timeline },
+    /// Album art finished decoding for a track.
+    MediaArt { track_key: String, art: Option<Image> },
+    Lyrics { track_key: String, result: LyricsResult },
+    AppleMusic(AppleMusicStatus),
+    /// Master volume changed (0..=1).
+    Volume { level: f32, muted: bool },
+    Power(PowerState),
+    Bluetooth { name: String, connected: bool, battery: Option<u8>, audio: bool },
+    /// A full-screen app took over (or left) the island's screen.
+    Fullscreen(bool),
+    /// Files dropped on the island.
+    ShelfAdd(Vec<String>),
+    /// Files are being dragged over the island (true) or left (false).
+    DragHover(bool),
+    ShelfThumb { path: String, image: Option<Image> },
+    Stats(SysStats),
+    ClipboardText(String),
+    /// Something happened in Phone drop (a phone visited, asked, sent files).
+    Phone(poni_core::phonedrop::Event),
+    /// Free-form log line from a service thread.
+    Log(String),
+}

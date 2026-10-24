@@ -293,3 +293,25 @@ jobs:
             dist/Oyen-Poni-Setup.exe
             dist/Oyen-Poni-${{ env.PONI_VERSION }}-portable.zip
           fail_on_unmatched_files: true
+
+  # Every release updates the website too (AGENTS.md). If the page on main names
+  # this version, start the Website workflow, which has held it until now;
+  # otherwise open a "Landing page not updated" issue.
+  site:
+    name: Website shows the release (tags v*)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      actions: write
+    steps:
+      # main, not the tag: the website is published from main.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Put the page live, or open an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: tools/ci-site-check.sh release "$GITHUB_REF_NAME"

@@ -118,8 +118,13 @@ pub enum AppEvent {
     Volume { level: f32, muted: bool },
     Power(PowerState),
     Bluetooth { name: String, connected: bool, battery: Option<u8>, audio: bool },
-    /// A full-screen app took over (or left) the island's monitor.
+    /// A full-screen app took over (or left) the island's monitor. `true` is
+    /// sent again when another window comes to the foreground while the
+    /// monitor stays full-screen, so the island can be raised back on top.
     Fullscreen(bool),
+    /// Another window came to the foreground on a monitor that isn't
+    /// full-screen. It may have made itself topmost and now cover the island.
+    Foreground,
     /// Files dropped on the island.
     ShelfAdd(Vec<String>),
     /// Files are being dragged over the island (true) or left (false).

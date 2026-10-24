@@ -4,6 +4,8 @@ wcheck = "check -p poni --target x86_64-pc-windows-gnu"
 wclippy = "clippy -p poni --target x86_64-pc-windows-gnu"
 # Build a Windows exe locally (needs mingw-w64: x86_64-w64-mingw32-gcc).
 wbuild = "build -p poni --release --target x86_64-pc-windows-gnu"
+# Type-check the Mac app from Linux/Windows (`rustup target add aarch64-apple-darwin`).
+mcheck = "check -p poni --target aarch64-apple-darwin"
 
 [target.x86_64-pc-windows-gnu]
 linker = "x86_64-w64-mingw32-gcc"
