@@ -16,7 +16,7 @@
 
 A small black island hangs from the top of your screen. It shows what's happening (music, timers, volume, headphones connecting), and when you point at it, it opens into a set of quick pages.
 
-Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothing is moving**. No accounts, no tracking: your data stays on your PC.
+Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothing is moving**. It draws on the GPU, in step with your display's refresh rate (60, 144 or 240 Hz). No accounts, no tracking: your data stays on your PC.
 
 | Collapsed | |
 |---|---|
@@ -118,7 +118,8 @@ NSIS_HOST=user@linux-box tools/package.sh   # exe + portable zip + installer int
 | Variable | Effect |
 |---|---|
 | `PONI_SELFTEST_DPI=144` | Render at 150% scaling (also 120 and 192) |
-| `PONI_SELFTEST_ANIM=1` | Also record the transitions frame by frame |
+| `PONI_SELFTEST_ANIM=1` | Also record the transitions frame by frame (plus each frame's screen position in `anim-<name>.json`) |
+| `PONI_RENDERER=software` | Draw in software instead of on the GPU (also outside the self-test, for troubleshooting) |
 
 ![The expand animation, frame by frame](docs/screenshots/expand-motion.png)
 

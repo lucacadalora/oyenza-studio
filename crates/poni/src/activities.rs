@@ -187,7 +187,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
     }
 }
 
-/// Needs continuous (30 fps) frames: animated equalizer while music plays.
+/// Needs continuous ambient frames (near 60 fps): animated equalizer while music plays.
 /// A paused (lingering) pill is static.
 pub fn is_live(m: &Mode, st: &AppState) -> bool {
     matches!(m, Mode::Activity(Activity::Media) | Mode::Activity(Activity::MediaTimer))
