@@ -41,6 +41,8 @@ const IO_TIMEOUT: Duration = Duration::from_secs(30);
 const TRANSFER_STALE: Duration = Duration::from_secs(90);
 /// Progress events at most this often.
 const PROGRESS_EVERY: Duration = Duration::from_millis(200);
+/// Staging folders in the inbox: `<prefix><transfer id>`.
+const STAGING_PREFIX: &str = ".oyen-poni-incoming-";
 
 #[derive(Clone, Debug)]
 pub struct Config {
@@ -152,6 +154,7 @@ impl Server {
     /// Listen on `cfg.bind` and serve until [`Server::stop`].
     pub fn start(cfg: Config, sink: impl Fn(Event) + Send + Sync + 'static) -> io::Result<Server> {
         fs::create_dir_all(&cfg.inbox)?;
+        clear_stale_staging(&cfg.inbox);
         let listener = TcpListener::bind(cfg.bind)?;
         let addr = listener.local_addr()?;
         let shared = Arc::new(Shared {
@@ -431,7 +434,7 @@ fn serve_ask(shared: &Shared, w: &mut TcpStream, head: &Head, rest: Vec<u8>, fro
     st.pending = None;
     match answer {
         Some(true) => {
-            let staging = shared.cfg.inbox.join(format!(".oyen-poni-incoming-{id}"));
+            let staging = shared.cfg.inbox.join(format!("{STAGING_PREFIX}{id}"));
             let _ = fs::remove_dir_all(&staging);
             if let Err(e) = fs::create_dir_all(&staging) {
                 drop(st);
@@ -457,6 +460,17 @@ fn serve_ask(shared: &Shared, w: &mut TcpStream, head: &Head, rest: Vec<u8>, fro
             (shared.sink)(Event::AskEnded { id });
             let why = if shared.stop.load(Ordering::SeqCst) { "closed" } else { "timeout" };
             reply(w, false, json!({ "why": why }))
+        }
+    }
+}
+
+/// Half-received sends left behind when the app quit mid-transfer.
+fn clear_stale_staging(inbox: &Path) {
+    let Ok(entries) = fs::read_dir(inbox) else { return };
+    for e in entries.flatten() {
+        let is_staging = e.file_name().to_str().is_some_and(|n| n.starts_with(STAGING_PREFIX));
+        if is_staging && e.file_type().is_ok_and(|t| t.is_dir()) {
+            let _ = fs::remove_dir_all(e.path());
         }
     }
 }
@@ -910,6 +924,20 @@ mod tests {
         let _ = write!(s, "GET /{TOKEN}/ HTTP/1.1\r\n\r\n");
         let mut b = [0u8; 16];
         !matches!(s.read(&mut b), Ok(n) if n > 0)
+    }
+
+    #[test]
+    fn clears_leftovers_of_an_interrupted_send() {
+        let dir = std::env::temp_dir().join(format!("poni-phonedrop-leftover-{}", std::process::id()));
+        let inbox = dir.join("inbox");
+        fs::create_dir_all(inbox.join(".oyen-poni-incoming-3")).unwrap();
+        fs::write(inbox.join(".oyen-poni-incoming-3").join("0.part"), b"half").unwrap();
+        fs::write(inbox.join("kept.jpg"), b"a photo").unwrap();
+        let s = Server::start(Config::new("127.0.0.1:0".parse().unwrap(), TOKEN.into(), "PC".into(), inbox.clone()), |_| {}).unwrap();
+        let left: Vec<String> = fs::read_dir(&inbox).unwrap().flatten().map(|e| e.file_name().to_string_lossy().into_owned()).collect();
+        assert_eq!(left, vec!["kept.jpg"]);
+        s.stop();
+        let _ = fs::remove_dir_all(&dir);
     }
 
     #[test]
