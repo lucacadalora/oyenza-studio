@@ -4,7 +4,7 @@ use crate::state::PowerState;
 use windows::Win32::Foundation::{HANDLE, HWND, LPARAM, WPARAM};
 use windows::Win32::System::Power::{GetSystemPowerStatus, RegisterPowerSettingNotification, POWERBROADCAST_SETTING, SYSTEM_POWER_STATUS};
 use windows::Win32::System::RemoteDesktop::{WTSRegisterSessionNotification, NOTIFY_FOR_THIS_SESSION};
-use windows::Win32::System::SystemServices::{GUID_ACDC_POWER_SOURCE, GUID_BATTERY_PERCENTAGE_REMAINING, GUID_CONSOLE_DISPLAY_STATE};
+use windows::Win32::System::SystemServices::{GUID_ACDC_POWER_SOURCE, GUID_BATTERY_PERCENTAGE_REMAINING, GUID_CONSOLE_DISPLAY_STATE, GUID_POWER_SAVING_STATUS};
 use windows::Win32::UI::WindowsAndMessaging::{DEVICE_NOTIFY_WINDOW_HANDLE, PBT_POWERSETTINGCHANGE};
 
 pub fn query() -> PowerState {
@@ -23,11 +23,12 @@ pub fn query() -> PowerState {
     }
 }
 
-/// Ask Windows to send `WM_POWERBROADCAST` to `hwnd` when the power source or
-/// battery percentage changes.
+/// Ask Windows to send `WM_POWERBROADCAST` to `hwnd` when the power source,
+/// the battery percentage or battery saver changes (battery saver can be
+/// switched by hand at any charge).
 pub fn register(hwnd: HWND) {
     unsafe {
-        for guid in [&GUID_ACDC_POWER_SOURCE, &GUID_BATTERY_PERCENTAGE_REMAINING] {
+        for guid in [&GUID_ACDC_POWER_SOURCE, &GUID_BATTERY_PERCENTAGE_REMAINING, &GUID_POWER_SAVING_STATUS] {
             if let Err(e) = RegisterPowerSettingNotification(HANDLE(hwnd.0), guid, DEVICE_NOTIFY_WINDOW_HANDLE) {
                 crate::pwarn!("RegisterPowerSettingNotification failed: {e}");
             }

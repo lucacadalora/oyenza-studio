@@ -34,9 +34,9 @@
 
 use crate::events::{AppEvent, EventSink};
 use poni_core::sysmon::{
-    core_kinds, core_split, cpu_split, display_name, gpu_busy, parse_core_times, parse_process_list, top_cpu, top_io, top_memory, AppTracker, AppUse,
-    BatteryReading, CoreKind, CoreLoad, CoreTimes, CpuReading, CpuTimes, DiskActivity, Drive, Engine, GpuReading, MemoryReading, Monitor, NetReading,
-    ProcSample, Reading, TOP_APPS,
+    core_kinds, core_split, cpu_split, display_name, gpu_busy, parse_core_times, parse_process_list, reads, top_cpu, top_io, top_memory, AppTracker,
+    AppUse, BatteryReading, CoreKind, CoreLoad, CoreTimes, CpuReading, CpuTimes, DiskActivity, Drive, Engine, GpuReading, MemoryReading, Monitor,
+    NetReading, ProcSample, Reading, Rest, TOP_APPS,
 };
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicU32, Ordering};
@@ -129,13 +129,15 @@ enum Msg {
     Background(bool),
     /// A game is in front under Show over games: readings for the island.
     Game(bool),
+    /// Nobody at the PC, or battery saver: see [`reads`].
+    Rest(Rest),
     Quit,
 }
 
 impl SysMon {
-    pub fn start(sink: EventSink, background: bool) -> std::io::Result<Self> {
+    pub fn start(sink: EventSink, background: bool, rest: Rest) -> std::io::Result<Self> {
         let (tx, rx) = mpsc::channel();
-        let thread = std::thread::Builder::new().name("poni-sysmon".into()).spawn(move || worker(sink, rx, background))?;
+        let thread = std::thread::Builder::new().name("poni-sysmon".into()).spawn(move || worker(sink, rx, background, rest))?;
         Ok(Self { tx, thread: Some(thread) })
     }
 
@@ -150,6 +152,10 @@ impl SysMon {
     pub fn game(&self, on: bool) {
         let _ = self.tx.send(Msg::Game(on));
     }
+
+    pub fn rest(&self, rest: Rest) {
+        let _ = self.tx.send(Msg::Rest(rest));
+    }
 }
 
 impl Drop for SysMon {
@@ -162,10 +168,10 @@ impl Drop for SysMon {
     }
 }
 
-fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
+fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool, mut rest: Rest) {
     let mut open = false;
     let mut game = false;
-    let mut sampler: Option<Sampler> = background.then(Sampler::new);
+    let mut sampler: Option<Sampler> = reads(open, game, background, rest).then(Sampler::new);
     let mut monitor = Monitor::default();
     let mut due = Instant::now() + FIRST;
     loop {
@@ -198,13 +204,14 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
         };
         // Everything queued counts, the latest of each kind winning (and Quit
         // above all): flipping tabs queues several, and each would cost a sampler.
-        let (mut quit, mut want_open, mut want_bg, mut want_game) = (false, None, None, None);
+        let (mut quit, mut want_open, mut want_bg, mut want_game, mut want_rest) = (false, None, None, None, None);
         for m in std::iter::once(first).chain(std::iter::from_fn(|| rx.try_recv().ok())) {
             match m {
                 Msg::Quit => quit = true,
                 Msg::Open(on) => want_open = Some(on),
                 Msg::Background(on) => want_bg = Some(on),
                 Msg::Game(on) => want_game = Some(on),
+                Msg::Rest(r) => want_rest = Some(r),
             }
         }
         if quit {
@@ -219,12 +226,21 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
         if let Some(g) = want_game {
             game = g;
         }
-        if !open && !background && !game {
+        if let Some(r) = want_rest {
+            if r != rest && (background || open || game) {
+                crate::pinfo!("system readings: {}", if r.away { "resting while nobody is at the PC" } else if r.saver { "kept minute resting on battery saver" } else { "reading again" });
+            }
+            rest = r;
+        }
+        // Not reading: no thread wake-ups at all until a message comes, and
+        // the kept minute goes so a gap never shows as part of it.
+        if !reads(open, game, background, rest) {
             sampler = None;
             monitor.clear();
             continue;
         }
-        if sampler.is_none() {
+        let fresh = sampler.is_none();
+        if fresh {
             sampler = Some(Sampler::new());
             monitor.clear();
             due = Instant::now() + FIRST;
@@ -237,7 +253,8 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
             }
             due = due.min(Instant::now() + FIRST);
         }
-        if want_open == Some(true) {
+        // The page opened, or reads again after a rest while open.
+        if want_open == Some(true) || (fresh && open) {
             if let Some(s) = sampler.as_mut() {
                 // The kept minute shows at once; the process list to measure
                 // apps from comes after, and the first full reading shortly.

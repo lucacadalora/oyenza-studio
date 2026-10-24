@@ -396,6 +396,25 @@ impl Monitor {
     }
 }
 
+/// When the readings rest: nobody at the PC, or battery saver on.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct Rest {
+    /// The session is locked or the display is off: nothing is on screen, so
+    /// nothing is read at all.
+    pub away: bool,
+    /// Battery saver: the minute kept while the page is closed rests; the open
+    /// page and the readout over a game keep reading.
+    pub saver: bool,
+}
+
+/// Whether the reader takes readings: for the open page or the readout over a
+/// game while someone is there, and for the minute kept while the page is
+/// closed (`background`) unless nobody is there or battery saver is on. When
+/// it stops, the kept minute goes, and the next one starts fresh.
+pub fn reads(open: bool, game: bool, background: bool, rest: Rest) -> bool {
+    !rest.away && (open || game || (background && !rest.saver))
+}
+
 // ---------------------------------------------------------------- CPU
 
 /// Cumulative processor times in 100 ns ticks, as `GetSystemTimes` reports
@@ -1289,6 +1308,26 @@ mod tests {
         assert_eq!((e.engine_3d, e.copy), (0.0, 1.0));
         assert_eq!(gpu_busy(&kinds, &prev, &now[..4], 1e7), None);
         assert_eq!(gpu_busy(&kinds, &prev, &now, 0.0), None);
+    }
+
+    #[test]
+    fn readings_rest_when_nobody_is_there() {
+        let here = Rest::default();
+        let away = Rest { away: true, saver: false };
+        let saver = Rest { away: false, saver: true };
+        // The kept minute: read while someone is there, rest when away or on battery saver.
+        assert!(reads(false, false, true, here));
+        assert!(!reads(false, false, true, away));
+        assert!(!reads(false, false, true, saver));
+        assert!(!reads(false, false, true, Rest { away: true, saver: true }));
+        // The open page and the readout over a game: rest only when nobody can see them.
+        for (open, game) in [(true, false), (false, true), (true, true)] {
+            assert!(reads(open, game, false, here));
+            assert!(reads(open, game, false, saver));
+            assert!(!reads(open, game, true, away));
+        }
+        // Nothing open and no history kept: never.
+        assert!(!reads(false, false, false, here));
     }
 
     #[test]

@@ -122,7 +122,7 @@ On a MacBook, the island lives around the camera notch: the album art on one sid
 </tr>
 </table>
 
-On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. Features you don't use don't run: Show over games counts only while a game is in front, and add-ons download only when you switch them on. The System page keeps its last minute of history with a light reading once a second; right-click › **Keep System page history** turns that off.
+On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. Features you don't use don't run: Show over games counts only while a game is in front, and add-ons download only when you switch them on. The System page keeps its last minute of history with a light reading once a second. It rests while your PC is locked, the screen is off or battery saver is on, and starts a fresh minute when you're back; right-click › **Keep System page history** turns it off.
 
 ## Your data stays on your computer
 

@@ -341,6 +341,8 @@ pub struct App {
     sysmon: Option<services::sysmon::SysMon>,
     /// The System page is open (its readings come each second).
     sysmon_on: bool,
+    /// What the System reader was last told about nobody being there and battery saver.
+    sysmon_rest: poni_core::sysmon::Rest,
     /// The Oyenza page is on screen: its day list stays live (`services::oyenza`).
     oyenza_watch: bool,
     /// Show over games: the game's frames, counted while the readout shows.
@@ -510,6 +512,7 @@ impl App {
             stats_on: false,
             sysmon: None,
             sysmon_on: false,
+            sysmon_rest: poni_core::sysmon::Rest::default(),
             oyenza_watch: false,
             frames: None,
             game_pid: None,
@@ -1035,6 +1038,7 @@ impl App {
                 let p = services::power::query();
                 self.on_event(AppEvent::Power(p));
                 self.tell_oyenza_activity();
+                self.tell_sysmon_rest();
                 self.request_frame();
                 Some(LRESULT(1))
             }
@@ -1045,6 +1049,7 @@ impl App {
                     _ => {}
                 }
                 self.tell_oyenza_activity();
+                self.tell_sysmon_rest();
                 self.request_frame();
                 Some(LRESULT(0))
             }
@@ -1918,9 +1923,32 @@ impl App {
     }
 
     fn start_sysmon(&mut self) {
-        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history) {
+        self.sysmon_rest = self.rest_now();
+        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history, self.sysmon_rest) {
             Ok(s) => self.sysmon = Some(s),
             Err(e) => pwarn!("sysmon: couldn't start ({e})"),
+        }
+    }
+
+    /// Nobody at the PC (locked, or the display off) and battery saver.
+    fn rest_now(&self) -> poni_core::sysmon::Rest {
+        poni_core::sysmon::Rest { away: self.locked || self.display_off, saver: self.st.power.saver }
+    }
+
+    /// The System reader rests while nobody is at the PC, and its kept minute
+    /// also on battery saver (`poni_core::sysmon::reads`). What it drops, the
+    /// page drops too, so a minute from before never shows as the last one.
+    fn tell_sysmon_rest(&mut self) {
+        let rest = self.rest_now();
+        if rest == self.sysmon_rest || self.selftest.is_some() {
+            return;
+        }
+        self.sysmon_rest = rest;
+        if let Some(s) = &self.sysmon {
+            s.rest(rest);
+        }
+        if !poni_core::sysmon::reads(self.sysmon_on, self.st.game.active, self.st.settings.system_history, rest) {
+            self.st.system.clear();
         }
     }
 

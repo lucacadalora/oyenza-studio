@@ -55,12 +55,16 @@ small web page on the local network so a phone can send files to it.
   (smooth at 60, 144 or 240 Hz). A morph that starts from rest advances one
   refresh on its first frame. Morphs log a `motion` line (frames, fps,
   hitches, worst gap) for the first 20, then only when frames were dropped.
-* **Idle = zero CPU**: frames are produced only while the island animates,
+* **Idle = no frames**: frames are produced only while the island animates,
   a page calls `ui.request_anim()`, input arrives, or a live activity is
   showing. Real motion runs on every vblank; ambient motion on every n-th
   (the equalizer near 60 fps, a drifting progress bar near 30). Otherwise the
   frame clock thread is parked and one-shot timers wake the UI for the next
-  visible change (countdown second, HUD expiry, minute tick).
+  visible change (countdown second, HUD expiry, minute tick). The one thing
+  that reads at rest is the System page's kept minute (`system_history`, on
+  by default): a light reading a second, about 0.35 ms of CPU. It rests while
+  the session is locked or the display is off, and on battery saver
+  (`poni_core::sysmon::reads`). See "Keep it light" in AGENTS.md.
 * **Window**: `WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE`.
   It never takes focus on click; text fields temporarily drop NOACTIVATE
   (`Command::FocusText`) and give focus back afterwards.
@@ -144,7 +148,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard, imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: its thread runs only while the page is open), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets Poni read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard, imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets Poni read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `selftest.rs` | `poni.exe --selftest <dir>` scripted screenshots for CI |
 
