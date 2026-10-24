@@ -913,6 +913,10 @@ impl App {
                 self.blur_text();
             }
             self.st.ui.clip_flash = None;
+            // Settings closes with the island: it opens again on the page it was opened from.
+            if self.st.page == PageKind::Settings {
+                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
+            }
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -920,6 +924,20 @@ impl App {
             }
         }
         self.request_frame();
+    }
+
+    fn set_page(&mut self, p: PageKind) {
+        if p != self.st.page {
+            self.st.page = p;
+            // Settings is never where the island opens next time.
+            if p != PageKind::Settings {
+                self.st.store.last_page = p.key().to_string();
+                self.set_timer(Timer::Save, 800);
+            }
+            if self.text_focus {
+                self.blur_text();
+            }
+        }
     }
 
     fn maybe_schedule_collapse(&mut self) {
@@ -998,16 +1016,16 @@ impl App {
                     self.save_settings();
                 }
                 Command::SaveStore => self.set_timer(Timer::Save, 800),
-                Command::SetPage(p) => {
-                    if p != self.st.page {
-                        self.st.page = p;
-                        self.st.store.last_page = p.key().to_string();
-                        self.set_timer(Timer::Save, 800);
-                        if self.text_focus {
-                            self.blur_text();
-                        }
-                    }
+                Command::SetPage(p) => self.set_page(p),
+                Command::OpenSystem(m) => {
+                    self.st.ui.system_module = m;
+                    self.set_page(PageKind::System);
                 }
+                // App icons for the System page come with the stats slice.
+                Command::LoadAppIcon(p) => {
+                    self.st.app_icons.entry(p).or_insert(None);
+                }
+                Command::OpenTaskManager => services::open("/System/Applications/Utilities/Activity Monitor.app"),
                 Command::SetPinned(b) => {
                     self.st.pinned = b;
                     if !b {
@@ -1018,8 +1036,8 @@ impl App {
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
                 Command::WantStats(_) => {}
-                // Phone drop and Oyenza sign-in come to the Mac in later slices.
-                Command::Phone(_) | Command::Oyenza(_) => {}
+                // Start at login, Phone drop and Oyenza sign-in come to the Mac in later slices.
+                Command::SetAutostart(_) | Command::Phone(_) | Command::Oyenza(_) => {}
             }
         }
     }
