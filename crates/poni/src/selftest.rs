@@ -1066,6 +1066,8 @@ enum Phase {
     Anim { seq: usize },
     /// Record the media pill playing, then paused (PONI_SELFTEST_LOOP=1).
     Loop,
+    /// Film the lyrics moving to the next line (PONI_SELFTEST_SCROLL=<Hz>).
+    Scroll,
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
@@ -1095,6 +1097,9 @@ pub struct SelfTest {
     /// PONI_SELFTEST_LOOP=1: after the scenes, record the media pill on a held
     /// clock, frame by frame.
     media_loop: bool,
+    /// PONI_SELFTEST_SCROLL=<Hz>: after the scenes, film the lyrics moving to
+    /// the next line on a held clock, one frame per refresh at that rate.
+    scroll_hz: Option<f64>,
     dpi_applied: bool,
     /// PONI_SELFTEST_THEME=oyen|glass: run every scene in that theme.
     theme: Theme,
@@ -1137,6 +1142,11 @@ const LOOP_PAUSE_S: f64 = 2.4;
 const LOOP_FPS: f64 = 30.0;
 const LOOP_ALIGN_S: f64 = 4.8;
 const LOOP_PREROLL_S: f64 = 2.4;
+/// The lyrics scroll film (PONI_SELFTEST_SCROLL): where the track starts
+/// (the next line starts 0.5 s in), unsaved lead-in, and the filmed length.
+const SCROLL_FROM_S: f64 = 65.0;
+const SCROLL_PREROLL_S: f64 = 1.0;
+const SCROLL_FILM_S: f64 = 1.3;
 
 impl SelfTest {
     pub fn new(dir: String) -> Self {
@@ -1158,6 +1168,7 @@ impl SelfTest {
             dpi: std::env::var("PONI_SELFTEST_DPI").ok().and_then(|v| v.trim().parse().ok()),
             anim: std::env::var("PONI_SELFTEST_ANIM").is_ok_and(|v| v.trim() == "1"),
             media_loop: std::env::var("PONI_SELFTEST_LOOP").is_ok_and(|v| v.trim() == "1"),
+            scroll_hz: std::env::var("PONI_SELFTEST_SCROLL").ok().and_then(|v| v.trim().parse().ok()).filter(|hz: &f64| (20.0..=500.0).contains(hz)),
             dpi_applied: false,
             theme: match std::env::var("PONI_SELFTEST_THEME").map(|v| v.trim().to_ascii_lowercase()).as_deref() {
                 Ok("oyen") => Theme::Oyen,
@@ -1327,7 +1338,7 @@ impl SelfTest {
         self.renderer = app.renderer();
         let now = clock::mono();
         let elapsed = self.t0.elapsed().as_secs_f64();
-        if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop) {
+        if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll) {
             let at = match &self.phase {
                 Phase::Settle { i, .. } | Phase::Click { i } | Phase::ClickWait { i, .. } => SCENES[*i].name(),
                 _ => String::new(),
@@ -1344,12 +1355,20 @@ impl SelfTest {
                     Phase::Anim { seq: seq + 1 }
                 } else if self.media_loop {
                     Phase::Loop
+                } else if self.scroll_hz.is_some() {
+                    Phase::Scroll
                 } else {
                     Phase::Finish { since: now }
                 };
             }
             Phase::Loop => {
                 self.record_loop(app);
+                self.phase = if self.scroll_hz.is_some() { Phase::Scroll } else { Phase::Finish { since: clock::mono() } };
+            }
+            Phase::Scroll => {
+                if let Some(hz) = self.scroll_hz {
+                    self.record_scroll(app, hz);
+                }
                 self.phase = Phase::Finish { since: clock::mono() };
             }
             Phase::Settle { i, since, steps, stable } => {
@@ -1404,7 +1423,7 @@ impl SelfTest {
             }
             Phase::Finish { since } => {
                 let all_done = self.writes.iter().all(|(_, h)| h.is_finished());
-                let deadline = if self.anim || self.media_loop { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
+                let deadline = if self.anim || self.media_loop || self.scroll_hz.is_some() { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
                 if all_done || elapsed > deadline {
                     let code = self.finish(all_done, now - since);
                     self.phase = Phase::Done(code);
@@ -1422,6 +1441,7 @@ impl SelfTest {
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             None if self.anim => Phase::Anim { seq: 0 },
             None if self.media_loop => Phase::Loop,
+            None if self.scroll_hz.is_some() => Phase::Scroll,
             None => Phase::Finish { since: now },
         }
     }
@@ -1506,6 +1526,67 @@ impl SelfTest {
             crate::pwarn!("selftest: writing loop-media.json failed: {e}");
         }
         crate::pinfo!("selftest: media loop recorded, {frames} frames");
+    }
+
+    /// The Music page on a held clock while the lyrics move on to the next
+    /// line ("Over the grey...", at 01:05.50), one frame per refresh at `hz`,
+    /// after SCROLL_PREROLL_S of unsaved frames. Saves the lyrics column (grey)
+    /// as scroll-lyrics-NNN.png and scroll-lyrics.json; qa tooling measures
+    /// from them how evenly the lines move.
+    fn record_scroll(&mut self, app: &mut App, hz: f64) {
+        let t = Instant::now();
+        loop {
+            self.apply(app, Scene::Page(PageKind::Media));
+            let _ = app.selftest_capture();
+            if (app.selftest_settled() && t.elapsed().as_millis() > 200) || t.elapsed().as_secs_f64() > 2.5 {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(16));
+        }
+        let start = clock::mono() + SCROLL_PREROLL_S + 1.0;
+        let pre = (SCROLL_PREROLL_S * hz).round() as usize;
+        let frames = (SCROLL_FILM_S * hz).round() as usize;
+        let mut placed = Vec::with_capacity(frames);
+        for i in 0..pre + frames {
+            let now = start + (i as f64 - pre as f64) / hz;
+            clock::hold(Some(now));
+            self.apply(app, Scene::Page(PageKind::Media));
+            if let Some(m) = app.st.media.as_mut() {
+                // Sampled at `now`: a timeline sampled later doesn't run backwards.
+                m.timeline = Timeline::new(SCROLL_FROM_S + (now - start), TRACK_LEN_S, now, true);
+            }
+            let (w, h, px, _) = app.selftest_capture();
+            let Some(k) = i.checked_sub(pre) else { continue };
+            // The right half of the page body: the lyrics column.
+            let s = self.scale;
+            let body = app.island_body_in_capture();
+            let x0 = ((body.x + body.w * 0.5) * s).round().clamp(0.0, w as f32) as usize;
+            let x1 = (body.right() * s).round().clamp(0.0, w as f32) as usize;
+            let y0 = ((body.y + pages::HEADER_H) * s).round().clamp(0.0, h as f32) as usize;
+            let y1 = ((body.bottom() - pages::PAD) * s).round().clamp(0.0, h as f32) as usize;
+            if x1 <= x0 || y1 <= y0 || px.len() < (w * h * 4) as usize {
+                continue;
+            }
+            let mut gray = Vec::with_capacity((x1 - x0) * (y1 - y0));
+            for y in y0..y1 {
+                for x in x0..x1 {
+                    let p = &px[(y * w as usize + x) * 4..][..4];
+                    gray.push(p[0].max(p[1]).max(p[2]));
+                }
+            }
+            placed.push(format!("{{\"frame\": {k}, \"t\": {:.5}, \"w\": {}, \"h\": {}}}", now - start, x1 - x0, y1 - y0));
+            let path = self.dir.join(format!("scroll-lyrics-{k:03}.png"));
+            let (gw, gh) = ((x1 - x0) as u32, (y1 - y0) as u32);
+            if let Err(e) = png::save_gray(&path, gw, gh, &gray) {
+                crate::pwarn!("selftest: {e}");
+            }
+        }
+        clock::hold(None);
+        let json = format!("{{\"name\": \"lyrics\", \"hz\": {hz}, \"scale\": {}, \"frames\": [\n  {}\n]}}\n", self.scale, placed.join(",\n  "));
+        if let Err(e) = fs::write(self.dir.join("scroll-lyrics.json"), json) {
+            crate::pwarn!("selftest: writing scroll-lyrics.json failed: {e}");
+        }
+        crate::pinfo!("selftest: lyrics scroll recorded, {frames} frames at {hz} Hz");
     }
 
     // ------------------------------------------------------------ scene state
