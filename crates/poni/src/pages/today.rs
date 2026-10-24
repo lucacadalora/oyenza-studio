@@ -9,12 +9,14 @@
 //! Stats are sampled once a second by the app while this page is open; the
 //! page itself never asks for continuous frames.
 
+use crate::commands::Command;
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::state::{AppState, PowerState, SysStats};
-use crate::ui::Ui;
+use crate::ui::{wid_n, Ui};
 use poni_core::datetime::{civil_from_days, days_from_civil, fmt_clock, month_grid, weekday_from_days, LocalDateTime, MONTH_SHORT, WEEKDAY_SHORT};
 use poni_core::geom::{palette, Color, Point, Rect};
+use poni_core::sysmon::Module;
 
 const HEIGHT: f32 = 164.0;
 
@@ -160,22 +162,29 @@ struct Tile {
     detail_short: String,
 }
 
-fn draw_tiles(ui: &mut Ui, st: &AppState, r: Rect) {
+fn draw_tiles(ui: &mut Ui, st: &mut AppState, r: Rect) {
     if r.w < 120.0 {
         return;
     }
     let s = &st.stats;
-    let tiles = [cpu_tile(s), memory_tile(s), disk_tile(s), if st.power.has_battery { battery_tile(&st.power) } else { uptime_tile(st) }];
+    let battery = st.power.has_battery;
+    let tiles = [cpu_tile(s), memory_tile(s), disk_tile(s), if battery { battery_tile(&st.power) } else { uptime_tile(st) }];
+    // Each ring opens its module on the System page (uptime lives under CPU there).
+    let modules = [Module::Cpu, Module::Memory, Module::Drives, if battery { Module::Battery } else { Module::Cpu }];
     let rows = r.rows(2, TILE_GAP);
     for (i, tile) in tiles.iter().enumerate() {
         let row = rows[i / 2];
         let cell = row.columns(2, TILE_GAP)[i % 2];
-        draw_tile(ui, cell, tile);
+        let resp = ui.button(wid_n("today-tile", i as u64), cell);
+        draw_tile(ui, cell, tile, resp.hovered);
+        if resp.clicked {
+            st.cmd(Command::OpenSystem(modules[i]));
+        }
     }
 }
 
-fn draw_tile(ui: &mut Ui, r: Rect, t: &Tile) {
-    ui.c.fill_rrect(r, TILE_RADIUS, palette::SURFACE);
+fn draw_tile(ui: &mut Ui, r: Rect, t: &Tile, hovered: bool) {
+    ui.c.fill_rrect(r, TILE_RADIUS, if hovered { palette::SURFACE_HOVER } else { palette::SURFACE });
     let cy = r.center().y;
     let c = Point::new(r.x + 12.0 + RING_R, cy);
     match t.frac {

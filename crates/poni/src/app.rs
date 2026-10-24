@@ -26,6 +26,7 @@ use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::settings::MonitorChoice;
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
 use std::cell::{Cell, RefCell};
+use std::collections::HashSet;
 use std::path::PathBuf;
 use std::sync::mpsc::{self, Receiver};
 use windows::core::{w, Result};
@@ -309,6 +310,12 @@ pub struct App {
     fullscreen_hidden: bool,
     shown: bool,
     stats_on: bool,
+    /// The System page's sampler thread (started the first time the page opens).
+    sysmon: Option<services::sysmon::SysMon>,
+    sysmon_on: bool,
+    /// App icons the System page asked for and hasn't got yet (the Shelf's
+    /// thumbnail worker answers both pages with the same event).
+    icon_wait: HashSet<String>,
     tray: Option<Tray>,
     taskbar_created_msg: u32,
     selftest: Option<selftest::SelfTest>,
@@ -440,6 +447,9 @@ impl App {
             fullscreen_hidden: false,
             shown: false,
             stats_on: false,
+            sysmon: None,
+            sysmon_on: false,
+            icon_wait: HashSet::new(),
             tray: None,
             taskbar_created_msg,
             selftest,
@@ -1488,9 +1498,23 @@ impl App {
                 }
             }
             AppEvent::ShelfThumb { path, image } => {
-                self.st.shelf_thumbs.insert(path, image);
+                // An app icon for the System page, unless the Shelf asked for the same file too.
+                let for_shelf = !self.icon_wait.remove(&path) || self.st.shelf_thumbs.contains_key(&path);
+                if let Some(slot) = self.st.app_icons.get_mut(&path) {
+                    let px = pages::system::icon_px(self.gfx.scale());
+                    *slot = image.as_ref().map(|i| pages::system::shrink_icon(i, px));
+                }
+                if for_shelf {
+                    self.st.shelf_thumbs.insert(path, image);
+                }
             }
             AppEvent::Stats(s) => self.st.stats = s,
+            AppEvent::System(r) => {
+                // A reading still on its way when the page closed is dropped.
+                if self.sysmon_on {
+                    self.st.system.push(*r);
+                }
+            }
             AppEvent::ClipboardText(t) => {
                 if self.own_clip.as_deref() == Some(t.as_str()) {
                     self.own_clip = None;
@@ -1573,6 +1597,7 @@ impl App {
                 self.blur_text();
             }
             self.set_stats(false);
+            self.set_sysmon(false);
             self.st.ui.clip_flash = None;
             // Sums shown in the Oyenza tab hide again.
             self.st.oyenza.reveal = false;
@@ -1605,6 +1630,31 @@ impl App {
             } else {
                 let _ = KillTimer(self.hwnd, TIMER_STATS);
             }
+        }
+    }
+
+    /// Readings for the System page run only while it is open; each opening
+    /// starts a fresh minute of history.
+    fn set_sysmon(&mut self, on: bool) {
+        if on == self.sysmon_on {
+            return;
+        }
+        self.sysmon_on = on;
+        // The self-test shows sample readings; the real sources get their own check.
+        if self.selftest.is_some() {
+            return;
+        }
+        if on {
+            self.st.system.clear();
+            if self.sysmon.is_none() {
+                match services::sysmon::SysMon::start(self.sink.clone()) {
+                    Ok(s) => self.sysmon = Some(s),
+                    Err(e) => pwarn!("sysmon: couldn't start ({e})"),
+                }
+            }
+        }
+        if let Some(s) = &self.sysmon {
+            s.run(on);
         }
     }
 
@@ -1813,6 +1863,7 @@ impl App {
         }
         let dt = dt.clamp(0.0, 0.05) as f32;
         self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
+        self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
         self.island.step(dt, now);
         self.ensure_room();
         self.note_motion(retarget, rendered_at, period, dt as f64);
@@ -2170,6 +2221,24 @@ impl App {
         pinfo!("notice: inline action {a:?} done");
     }
 
+    fn set_page(&mut self, p: PageKind) {
+        if p != self.st.page {
+            self.st.page = p;
+            self.st.store.last_page = p.key().to_string();
+            unsafe {
+                SetTimer(self.hwnd, TIMER_SAVE, 800, None);
+            }
+            self.set_stats(p == PageKind::Today && self.expanded);
+            self.set_sysmon(p == PageKind::System && self.expanded);
+            if self.text_focus {
+                self.blur_text();
+            }
+            if p == PageKind::Oyenza {
+                self.oyenza(OyenzaCmd::Refresh);
+            }
+        }
+    }
+
     fn run_commands(&mut self, deferred: &mut Vec<Deferred>) {
         let cmds = std::mem::take(&mut self.st.cmds);
         for c in cmds {
@@ -2215,22 +2284,19 @@ impl App {
                 Command::SaveStore => unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
                 },
-                Command::SetPage(p) => {
-                    if p != self.st.page {
-                        self.st.page = p;
-                        self.st.store.last_page = p.key().to_string();
-                        unsafe {
-                            SetTimer(self.hwnd, TIMER_SAVE, 800, None);
-                        }
-                        self.set_stats(p == PageKind::Today && self.expanded);
-                        if self.text_focus {
-                            self.blur_text();
-                        }
-                        if p == PageKind::Oyenza {
-                            self.oyenza(OyenzaCmd::Refresh);
-                        }
+                Command::SetPage(p) => self.set_page(p),
+                Command::OpenSystem(m) => {
+                    self.st.ui.system_module = m;
+                    self.set_page(PageKind::System);
+                }
+                Command::LoadAppIcon(path) => {
+                    if !self.st.app_icons.contains_key(&path) {
+                        self.st.app_icons.insert(path.clone(), None);
+                        self.icon_wait.insert(path.clone());
+                        services::imaging::load_thumb_async(path, self.sink.clone());
                     }
                 }
+                Command::OpenTaskManager => shell::open("taskmgr.exe"),
                 Command::SetPinned(b) => {
                     self.st.pinned = b;
                     if !b {

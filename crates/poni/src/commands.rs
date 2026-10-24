@@ -77,6 +77,11 @@ pub enum Command {
     OpenUrl(String),
     /// Start/stop the 1 Hz system-stats sampler.
     WantStats(bool),
+    /// Open the System page on this module (a Today ring was clicked).
+    OpenSystem(poni_core::sysmon::Module),
+    /// Request an app's icon for the System page (arrives in `AppState::app_icons`).
+    LoadAppIcon(String),
+    OpenTaskManager,
     Phone(PhoneCmd),
     Oyenza(OyenzaCmd),
 }

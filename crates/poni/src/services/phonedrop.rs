@@ -193,7 +193,7 @@ fn adapter_ipv4s() -> Vec<(u32, bool, Ipv4Addr)> {
 }
 
 /// The local address of a route to the internet (no packet is sent).
-fn route_ipv4() -> Option<Ipv4Addr> {
+pub(crate) fn route_ipv4() -> Option<Ipv4Addr> {
     let s = UdpSocket::bind("0.0.0.0:0").ok()?;
     s.connect("192.0.2.1:9").ok()?;
     match s.local_addr().ok()?.ip() {

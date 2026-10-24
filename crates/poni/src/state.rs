@@ -217,6 +217,8 @@ pub struct PageUiState {
     pub peek_until: f64,
     /// Header tab under the pointer and since when (for hover labels).
     pub tab_hover: Option<(usize, f64)>,
+    /// The module the System page shows on the right.
+    pub system_module: poni_core::sysmon::Module,
 }
 
 /// Oyenza sign-in, as the island sees it.
@@ -284,7 +286,11 @@ pub struct AppState {
     pub notice: Option<Notice>,
     pub clip: ClipHistory,
     pub stats: SysStats,
+    /// The System page's readings and their last minute (empty while it's closed).
+    pub system: poni_core::sysmon::Monitor,
     pub shelf_thumbs: HashMap<String, Option<Image>>,
+    /// Icons of the apps the System page lists, by executable path (None = loading or none).
+    pub app_icons: HashMap<String, Option<Image>>,
     pub ui: PageUiState,
     /// System accent colour (falls back to blue).
     pub accent: Color,
@@ -327,7 +333,9 @@ impl AppState {
             notice: None,
             clip: ClipHistory::default(),
             stats: SysStats::default(),
+            system: poni_core::sysmon::Monitor::default(),
             shelf_thumbs: HashMap::new(),
+            app_icons: HashMap::new(),
             ui: PageUiState::default(),
             accent: palette::BLUE,
             health: None,

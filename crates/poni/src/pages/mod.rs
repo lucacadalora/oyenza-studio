@@ -15,6 +15,7 @@ pub mod health;
 pub mod media;
 pub mod oyenza;
 pub mod shelf;
+pub mod system;
 pub mod tasks;
 pub mod today;
 
@@ -50,12 +51,13 @@ pub enum PageKind {
     Tasks,
     Clipboard,
     Today,
+    System,
     /// Only while signing in to Oyenza or signed in ([`tabs`]).
     Oyenza,
 }
 
 impl PageKind {
-    pub const ALL: [PageKind; 8] = [
+    pub const ALL: [PageKind; 9] = [
         PageKind::Media,
         PageKind::Focus,
         PageKind::Health,
@@ -63,6 +65,7 @@ impl PageKind {
         PageKind::Tasks,
         PageKind::Clipboard,
         PageKind::Today,
+        PageKind::System,
         PageKind::Oyenza,
     ];
 
@@ -75,6 +78,7 @@ impl PageKind {
             PageKind::Tasks => "tasks",
             PageKind::Clipboard => "clipboard",
             PageKind::Today => "today",
+            PageKind::System => "system",
             PageKind::Oyenza => "oyenza",
         }
     }
@@ -94,6 +98,7 @@ impl PageKind {
             PageKind::Tasks => "Tasks",
             PageKind::Clipboard => "Clipboard",
             PageKind::Today => "Today",
+            PageKind::System => "System",
             PageKind::Oyenza => "Oyenza",
         }
     }
@@ -107,6 +112,7 @@ impl PageKind {
             PageKind::Tasks => Icon::ListChecks,
             PageKind::Clipboard => Icon::Clipboard,
             PageKind::Today => Icon::Calendar,
+            PageKind::System => Icon::Gauge,
             PageKind::Oyenza => Icon::Wallet,
         }
     }
@@ -144,6 +150,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Tasks => tasks::height(st),
         PageKind::Clipboard => clipboard::height(st),
         PageKind::Today => today::height(st),
+        PageKind::System => system::height(st),
         PageKind::Oyenza => oyenza::height(st),
     }
 }
@@ -248,6 +255,7 @@ fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKind) {
         PageKind::Tasks => tasks::draw(ui, st, area),
         PageKind::Clipboard => clipboard::draw(ui, st, area),
         PageKind::Today => today::draw(ui, st, area),
+        PageKind::System => system::draw(ui, st, area),
         PageKind::Oyenza => oyenza::draw(ui, st, area),
     }
 }
