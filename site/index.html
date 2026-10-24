@@ -178,6 +178,16 @@ section { padding-block: 88px; }
 .theme-notes ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
 .theme-notes li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; font-size: 16px; }
 .theme-notes li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); margin-top: 8px; }
+/* the Glass theme: its pictures are whole screen corners, page and island together */
+.glass { background: linear-gradient(180deg, var(--bg), #eef1f6 22%, #eef1f6 78%, var(--bg)); }
+.glass-shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.glass-shot { margin: 0; border-radius: 18px; overflow: hidden; background: var(--bg); border: 1px solid #dfe3ea; }
+.glass-shot img { width: 100%; }
+.glass-shot figcaption { padding: 14px 16px 16px; display: grid; gap: 2px; }
+.glass-shot strong { font: 600 16px/1.3 var(--display); }
+.glass-shot span { font-size: 14px; color: var(--muted); }
+.glass-flip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.glass-flip figcaption { padding: 10px 12px 12px; }
 .how { margin-top: 18px; font-size: 15px; color: var(--muted); }
 .how kbd { font: 600 13px/1 var(--sans); background: var(--bg); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 3px 7px; color: var(--ink); }
 
@@ -214,7 +224,7 @@ footer a { color: var(--muted); }
 
 @media (max-width: 900px) {
   .hero-copy, .music, .music.flip, .theme-notes, .oyenza, .install { grid-template-columns: minmax(0, 1fr); }
-  .compare, .facts { grid-template-columns: minmax(0, 1fr); }
+  .compare, .facts, .glass-shots { grid-template-columns: minmax(0, 1fr); }
   .hero-oyen { max-width: 320px; }
   .oyenza { padding: 32px 24px; }
 }
@@ -237,6 +247,7 @@ footer a { color: var(--muted); }
     <nav aria-label="Sections">
       <a href="#features">Features</a>
       <a href="#oyen">Oyen theme</a>
+      <a href="#glass">Glass</a>
       <a href="#oyenza">Oyenza</a>
       <a href="#install">Install</a>
       <a href="https://github.com/lucacadalora/poni">GitHub</a>
@@ -252,7 +263,7 @@ footer a { color: var(--muted); }
         <button type="button" id="heroToggle" aria-expanded="true" aria-label="Close the island">
           <div class="state closed">
             <img class="look-classic" src="assets/shots/classic/media-activity.webp" alt="The island while music plays: album art and a little equalizer" width="135" height="32">
-            <img class="look-oyen" src="assets/shots/oyen/media-activity.webp" alt="The cream island of the Oyen theme: album art, and Oyen bobbing to the music" width="135" height="32">
+            <img class="look-oyen" src="assets/shots/oyen/media-activity.webp" alt="The cream island of the Oyen theme: album art, and Oyen swaying as music notes float up" width="135" height="32">
           </div>
           <div class="state open">
             <img class="look-classic" src="assets/shots/classic/page-media.webp" alt="The open island: the Music page with synced lyrics" width="660" height="227">
@@ -274,7 +285,7 @@ footer a { color: var(--muted); }
           </a>
           <a class="btn btn-line" href="https://github.com/lucacadalora/poni">Source on GitHub</a>
         </div>
-        <p class="small">Free and open source (MIT) · <span data-release="size">5.2 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.12</span></a></p>
+        <p class="small">Free and open source (MIT) · <span data-release="size">5.2 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.13</span></a></p>
         <div class="look-switch" role="group" aria-label="Island look">
           <button type="button" data-look="classic" aria-pressed="true"><span class="dot"></span>Classic</button>
           <button type="button" data-look="oyen" aria-pressed="false"><span class="dot dot-oyen"></span>Oyen theme</button>
@@ -295,7 +306,7 @@ footer a { color: var(--muted); }
         <figure class="strip" style="margin:0">
           <div class="sky"><div class="island">
             <img class="look-classic" src="assets/shots/classic/media-activity.webp" alt="Album art and an equalizer" width="135" height="32" loading="lazy">
-            <img class="look-oyen" src="assets/shots/oyen/media-activity.webp" alt="Album art and Oyen bobbing to the music" width="135" height="32" loading="lazy">
+            <img class="look-oyen" src="assets/shots/oyen/media-activity.webp" alt="Album art, and Oyen swaying as music notes float up" width="135" height="32" loading="lazy">
           </div></div>
           <figcaption><strong>Music playing</strong><span>Album art and a beat. The title peeks in when the song changes.</span></figcaption>
         </figure>
@@ -430,13 +441,13 @@ footer a { color: var(--muted); }
       </div>
       <div class="music" id="settings">
         <div class="sky"><div class="island">
-          <img class="look-classic" src="assets/shots/classic/page-settings.webp" alt="The Settings page: Sign in with Oyenza at the top, then the theme, the idle look and six switches" width="660" height="277" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-settings.webp" alt="The Settings page: Sign in with Oyenza at the top, then the theme, the idle look, five switches and a Hide or Stay on top choice for full-screen apps" width="660" height="277" loading="lazy">
           <img class="look-oyen" src="assets/shots/oyen/page-settings.webp" alt="The Settings page in the Oyen theme" width="660" height="277" loading="lazy">
         </div></div>
         <div>
           <p class="eyebrow">New in 0.1.10</p>
           <h3>Settings, right in the island</h3>
-          <p>Press the gear beside the pin. Your Oyenza account comes first: sign in, see who is signed in, or disconnect. Below it are the theme, the idle look, and switches for lyrics, pronunciation, sounds, clipboard history, full-screen apps and starting with Windows. Changes apply at once.</p>
+          <p>Press the gear beside the pin. Your Oyenza account comes first: sign in, see who is signed in, or disconnect. Below it are the theme, the idle look, switches for lyrics, pronunciation, sounds, clipboard history and starting with Windows, and what the island does in full-screen apps. Changes apply at once.</p>
         </div>
       </div>
       <div class="music flip" id="system">
@@ -449,6 +460,18 @@ footer a { color: var(--muted); }
           <img class="look-classic" src="assets/shots/classic/page-system.webp" alt="The System page: CPU, memory, drives, network and battery, each with a one-minute chart" width="660" height="251" loading="lazy">
           <img class="look-oyen" src="assets/shots/oyen/page-system.webp" alt="The System page in the Oyen theme" width="660" height="251" loading="lazy">
         </div></div>
+      </div>
+      <div class="music" id="on-top">
+        <div class="sky"><div class="island">
+          <img class="look-classic" src="assets/shots/classic/page-settings-stay-on-top.webp" alt="The Settings page with In full-screen apps set to Stay on top" width="660" height="277" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-settings-stay-on-top.webp" alt="In full-screen apps set to Stay on top, in the Oyen theme" width="660" height="277" loading="lazy">
+        </div></div>
+        <div>
+          <p class="eyebrow">New in 0.1.13</p>
+          <h3>Stays on top</h3>
+          <p>When another window covers the island, such as a browser left on top after full screen or an app set to stay on top, the island goes back on top.</p>
+          <p>In full-screen games and videos you choose: hide the island, or keep it on top. Right-click the island or open Settings, then <b>In full-screen apps</b> › <b>Hide</b> or <b>Stay on top</b>. Hide is the default. A game in exclusive full-screen mode still covers every window.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -473,8 +496,8 @@ footer a { color: var(--muted); }
         </figure>
         <figure class="pair" style="margin:0">
           <div class="sky"><div class="island"><img src="assets/shots/classic/media-activity.webp" alt="Classic: album art and an equalizer" width="135" height="32" loading="lazy"></div><span class="tag">Classic</span></div>
-          <div class="sky"><div class="island"><img src="assets/shots/oyen/media-activity.webp" alt="Oyen theme: a cream island, Oyen bobbing to the music" width="135" height="32" loading="lazy"></div><span class="tag">Oyen</span></div>
-          <figcaption><strong>Music</strong><span>Oyen bobs along while a song plays.</span></figcaption>
+          <div class="sky"><div class="island"><img src="assets/shots/oyen/media-activity.webp" alt="Oyen theme: a cream island, Oyen swaying as music notes float up" width="135" height="32" loading="lazy"></div><span class="tag">Oyen</span></div>
+          <figcaption><strong>Music</strong><span>New in 0.1.13: music notes float up beside Oyen on every beat, and he sways along.</span></figcaption>
         </figure>
       </div>
       <figure class="theme-page">
@@ -490,6 +513,47 @@ footer a { color: var(--muted); }
         <div>
           <img src="brand/art/oyen-poni-asleep.webp" alt="Oyen asleep on the island while a song plays" width="900" height="654" loading="lazy" style="width:min(340px,100%)">
           <p class="how">Open the island and press the gear, then <kbd>Theme</kbd> › <kbd>Oyen</kbd>. Switch back to <kbd>Classic</kbd> any time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="glass" id="glass">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Optional theme · New in 0.1.13</p>
+        <h2>Glass: the island as liquid glass</h2>
+        <p>Its edge bends and magnifies what's under it, the middle is frosted, a light runs along the rim, and it turns light or dark with what's behind it.</p>
+      </div>
+      <div class="glass-shots">
+        <figure class="glass-shot">
+          <img src="assets/shots/glass/light-page-media.webp" alt="The Music page in the Glass theme over a bright web page, in light mode: frosted glass, with the page bending at the rim" width="756" height="267" loading="lazy">
+          <figcaption><strong>Light mode</strong><span>Clear, frosted glass over a bright page. Look at the rim: the page bends there.</span></figcaption>
+        </figure>
+        <figure class="glass-shot">
+          <img src="assets/shots/glass/dark-page-media.webp" alt="The Music page in the Glass theme over a dark video page, in dark mode" width="756" height="267" loading="lazy">
+          <figcaption><strong>Dark mode</strong><span>The open island follows Windows' light or dark mode.</span></figcaption>
+        </figure>
+      </div>
+      <div class="theme-notes">
+        <ul>
+          <li><span>To draw the glass, Oyen Poni copies the part of the screen behind its window (the island and the space it opens into) while Glass is on, and not while the island is hidden or the PC is locked. The copy stays in your PC's memory, each new copy replaces the last, and it's never saved or sent.</span></li>
+          <li><span>While Glass is on, Windows leaves the island out of screenshots, recordings and screen sharing.</span></li>
+          <li><span>Where it can't copy the screen (Remote Desktop, Windows 10 before version 2004, HDR displays, some laptops), Glass draws smoked glass instead: the same shape and light over a solid tint, and it stays in screenshots.</span></li>
+          <li><span>Classic stays the default look.</span></li>
+        </ul>
+        <div>
+          <div class="glass-flip">
+            <figure class="glass-shot">
+              <img src="assets/shots/glass/light-media-activity.webp" alt="The resting island in the Glass theme over a bright page: light glass" width="256" height="83" loading="lazy">
+              <figcaption><span>Over a bright page</span></figcaption>
+            </figure>
+            <figure class="glass-shot">
+              <img src="assets/shots/glass/flip-media-activity.webp" alt="The resting island in the Glass theme over a dark page with Windows in light mode: it turns dark" width="256" height="83" loading="lazy">
+              <figcaption><span>Over a dark page, same light mode</span></figcaption>
+            </figure>
+          </div>
+          <p class="how">The small island turns light or dark with what's behind it. Open the island and press the gear, then <kbd>Theme</kbd> › <kbd>Glass</kbd>.</p>
         </div>
       </div>
     </div>
