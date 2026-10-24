@@ -592,7 +592,17 @@ impl SelfTest {
             lyric_ok,
             format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
         ));
-        let ruby = crate::services::romanize::pronounce(&parsed);
+        // Read on a thread in the multithreaded apartment, the way the lyrics
+        // worker reads a real song (the UI thread here is single-threaded,
+        // and Windows' Japanese analyzer only works from one).
+        let ruby = std::thread::scope(|s| {
+            s.spawn(|| {
+                let _com = crate::services::http::MtaGuard::new();
+                crate::services::romanize::pronounce(&parsed)
+            })
+            .join()
+            .unwrap_or_default()
+        });
         if let Some(lang) = &self.lyrics_lang {
             // The CI log shows how each line reads (on Windows the Japanese
             // readings come from the system's analyzer).
@@ -601,7 +611,12 @@ impl SelfTest {
             for (line, p) in parsed.lines.iter().zip(&ruby) {
                 crate::pinfo!("selftest: [{lang}] {} -> {}", line.text, read(p));
             }
-            self.checks.push(check("lyrics-pronunciation", lines_read > 0, format!("{lines_read} of {} {lang} lines read in Latin letters", parsed.lines.len())));
+            // PONI_SELFTEST_ANALYZER=required (Windows CI): every line must
+            // read, kanji lines included. Wine has no analyzer, so there only
+            // the kana lines can.
+            let all = std::env::var("PONI_SELFTEST_ANALYZER").is_ok_and(|v| v.trim() == "required");
+            let ok = if all { lines_read == parsed.lines.len() } else { lines_read > 0 };
+            self.checks.push(check("lyrics-pronunciation", ok, format!("{lines_read} of {} {lang} lines read in Latin letters", parsed.lines.len())));
         }
         self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby };
 
