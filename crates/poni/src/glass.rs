@@ -382,7 +382,7 @@ impl GlassPass {
             light: [p.light_dir.0, p.light_dir.1, p.rim, p.glow],
             shadow: [p.shadow_alpha, (p.shadow_reach * scale).max(1.0), p.shadow_drop * scale, p.light_mix.clamp(0.0, 1.0)],
             copy: [cw as f32, ch as f32, p.saturation, p.dispersion],
-            probe: [p.probe_x as f32, if p.probe { 1.0 } else { 0.0 }, p.lens, 0.0],
+            probe: [p.probe_x as f32, if p.probe { 1.0 } else { 0.0 }, p.lens, if use_copy { 1.0 } else { poni_core::glass::SMOKED_OPACITY }],
             origin: [p.copy_origin.0, p.copy_origin.1, 0.0, 0.0],
         };
         ctx.UpdateSubresource(&self.cb, 0, None, &k as *const Consts as *const c_void, 0, 0);

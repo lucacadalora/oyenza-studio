@@ -11,8 +11,9 @@
 //           far as legible text needs (chosen on the CPU)
 //   light   runs along the rim, brightest where the edge faces the light
 //   shadow  falls under the island, deeper over busy backdrops
-// Without a screen copy the body is the look's ground ("smoked glass") with
-// the same rim light and shadow. Output is premultiplied BGRA.
+// Without a screen copy the body is the look's ground ("smoked glass"),
+// see-through so the screen still shows under it, with the same rim light
+// and shadow. Output is premultiplied BGRA.
 
 Texture2D sharpTex : register(t0);
 Texture2D frostLo : register(t1);
@@ -29,7 +30,7 @@ cbuffer Glass : register(b0)
     float4 light;     // xy: light direction; z: rim strength; w: glow strength
     float4 shadow;    // alpha, reach (px), drop (px), light mix (0 dark .. 1 light glass)
     float4 copy;      // copy width, height (px), saturation, dispersion
-    float4 probe;     // first probe pixel x, 1 = draw the probe, lens strength, unused
+    float4 probe;     // first probe pixel x, 1 = draw the probe, lens strength, smoked glass opacity
     float4 origin;    // xy: where the copy's top-left is, in this window's pixels
 };
 
@@ -109,6 +110,7 @@ float4 ps_main(VsOut i) : SV_Target
     float mixL = shadow.w;
 
     float3 col;
+    float bodyA = 1.0;
     if (shape.w > 0.5)
     {
         float2 inv = 1.0 / copy.xy;
@@ -131,7 +133,11 @@ float4 ps_main(VsOut i) : SV_Target
     }
     else
     {
+        // A little brighter toward the top, as light falls on glass.
         col = lerp(tintDark.rgb, tintLight.rgb, mixL);
+        float sheen = saturate(1.0 - (p.y - body.y) / max(body.w - body.y, 1.0));
+        col = lerp(col, float3(1.0, 1.0, 1.0), 0.07 * sheen);
+        bodyA = probe.w;
     }
 
     // Light along the rim (the lit side, and the inner reflection opposite)
@@ -143,13 +149,16 @@ float4 ps_main(VsOut i) : SV_Target
     float rim = saturate(1.0 - (d - 1.0) / (1.7 * px)) * (0.30 + 0.70 * facing) * light.z;
     float glow = exp(-max(d - 1.0, 0.0) / (lerp(4.0, 7.0, lens.w) * px)) * light.w;
     float la = saturate(rim + glow);
-    col = col * (1.0 - la) + la;
 
     if (k >= 0)
     {
         // Snap to whole 8-bit steps first, so each nudge lands exactly.
+        col = col * (1.0 - la) + la;
         col = (round(saturate(col) * 255.0) + probeStep(k)) / 255.0;
-        cov = 1.0;
+        return float4(col, 1.0);
     }
-    return float4(col * cov, cov + sh * (1.0 - cov));
+    // The body (see-through when smoked), then the light on top of it.
+    float a = (bodyA * (1.0 - la) + la) * cov;
+    float3 pm = (col * bodyA * (1.0 - la) + la) * cov;
+    return float4(pm, a + sh * (1.0 - a));
 }

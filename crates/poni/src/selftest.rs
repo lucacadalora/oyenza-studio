@@ -1335,8 +1335,11 @@ impl SelfTest {
             let top = (3.0 * scale).round() as i32;
             let [b, g, r, a] = frame.at(cx, top);
             if self.glass.is_some() {
-                // Glass shows what's under it, so no one ground colour: opaque is the rule.
-                checks.push(check("glass-opaque", a >= 254, format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a})")));
+                // Glass shows what's under it, so no one ground colour: opaque is
+                // the rule, and smoked glass (no backdrop) lets the screen through.
+                let copy = app.selftest_glass_state().1;
+                let min = if copy { 254 } else { (poni_core::glass::SMOKED_OPACITY * 255.0) as u8 - 3 };
+                checks.push(check("glass-opaque", a >= min, format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), want alpha >= {min}")));
             } else {
                 let ground = rgb8(poni_core::look::of(self.theme).ground);
                 let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);

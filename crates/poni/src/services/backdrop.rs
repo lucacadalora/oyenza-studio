@@ -13,8 +13,9 @@
 //! logged, never sent. Interruptions (the secure desktop of a UAC prompt, a
 //! display mode change or reconnect, a GPU reset) are waited out. Only what
 //! can't change gives up for good, and the island then draws smoked glass:
-//! a rotated display, HDR pixels, or a display this PC never let Poni copy
-//! (another GPU drives it, Remote Desktop). The log says why.
+//! a rotated display, or a display this PC never let Poni copy (Remote
+//! Desktop, or no adapter that shows it can copy it). HDR displays are copied
+//! in 8 bits, which Windows converts to. The log says why.
 
 use crate::events::{AppEvent, EventSink};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
@@ -132,23 +133,32 @@ impl Drop for Backdrop {
     }
 }
 
-/// The output showing `monitor`, and its adapter.
-unsafe fn find_output(monitor: isize) -> std::result::Result<(IDXGIAdapter1, IDXGIOutput, DXGI_OUTPUT_DESC), String> {
+/// Every output showing `monitor`, with its adapter. Laptops with two GPUs
+/// can list the display under both; only the one that drives it can copy it.
+unsafe fn find_outputs(monitor: isize) -> std::result::Result<Vec<(IDXGIAdapter1, IDXGIOutput, DXGI_OUTPUT_DESC)>, String> {
     let factory: IDXGIFactory1 = CreateDXGIFactory1().map_err(|e| format!("no DXGI factory: {e}"))?;
+    let mut found = Vec::new();
     let mut a = 0;
     while let Ok(adapter) = factory.EnumAdapters1(a) {
         let mut o = 0;
         while let Ok(output) = adapter.EnumOutputs(o) {
             if let Ok(desc) = output.GetDesc() {
                 if desc.Monitor == HMONITOR(monitor as *mut core::ffi::c_void) {
-                    return Ok((adapter, output, desc));
+                    found.push((adapter.clone(), output, desc));
                 }
             }
             o += 1;
         }
         a += 1;
     }
-    Err("the island's monitor isn't on any adapter's outputs".into())
+    if found.is_empty() {
+        return Err("the island's monitor isn't on any adapter's outputs".into());
+    }
+    Ok(found)
+}
+
+fn luid(adapter: &IDXGIAdapter1) -> Option<(u32, i32)> {
+    unsafe { adapter.GetDesc1().ok().map(|d| (d.AdapterLuid.LowPart, d.AdapterLuid.HighPart)) }
 }
 
 unsafe fn device_on(adapter: &IDXGIAdapter1) -> Result<(ID3D11Device, ID3D11DeviceContext)> {
@@ -161,12 +171,12 @@ unsafe fn device_on(adapter: &IDXGIAdapter1) -> Result<(ID3D11Device, ID3D11Devi
     }
 }
 
-/// Duplicate `output`. 8-bit BGRA is what the glass samples; HDR displays
-/// are asked for half floats too, so they show up as such (and stop the copy)
-/// instead of arriving washed out.
+/// Duplicate `output` in 8-bit BGRA, what the glass samples. An HDR display
+/// is converted to it by Windows: a little paler than on screen, which the
+/// frost hides, and far better than no glass at all.
 unsafe fn duplicate(output: &IDXGIOutput, dev: &ID3D11Device) -> std::result::Result<IDXGIOutputDuplication, String> {
     let dup = match output.cast::<IDXGIOutput5>() {
-        Ok(o5) => o5.DuplicateOutput1(dev, 0, &[DXGI_FORMAT_B8G8R8A8_UNORM, DXGI_FORMAT_R16G16B16A16_FLOAT]),
+        Ok(o5) => o5.DuplicateOutput1(dev, 0, &[DXGI_FORMAT_B8G8R8A8_UNORM]),
         Err(_) => output.cast::<IDXGIOutput1>().map_err(|e| format!("no IDXGIOutput1: {e}"))?.DuplicateOutput(dev),
     };
     dup.map_err(|e| {
@@ -240,6 +250,8 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
     unsafe {
         let started = Instant::now();
         let mut device: Option<(ID3D11Device, ID3D11DeviceContext)> = None;
+        // The adapter `device` lives on.
+        let mut device_on_luid = None;
         let mut staging: Option<(ID3D11Texture2D, i32, i32)> = None;
         let (mut moves, mut dirty) = (Vec::new(), Vec::new());
         let mut last: Option<Arc<Frame>> = None;
@@ -259,8 +271,7 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                 return Ok(());
             }
             // Displays move, rotate and reconnect: find this one afresh each time.
-            let found = find_output(monitor);
-            let (adapter, output, odesc) = match found {
+            let found = match find_outputs(monitor) {
                 Ok(v) => v,
                 Err(why) => {
                     if !retry(&mut tries, announced, why)? {
@@ -269,39 +280,55 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                     continue;
                 }
             };
-            if !matches!(odesc.Rotation, DXGI_MODE_ROTATION_IDENTITY | DXGI_MODE_ROTATION_UNSPECIFIED) {
-                return Err("the display is rotated".into());
-            }
-            if device.is_none() {
-                match device_on(&adapter) {
+            let rect_gen = s.rect_gen.load(Ordering::Relaxed);
+            // The adapter that worked last time first, then the others.
+            let mut order: Vec<usize> = (0..found.len()).collect();
+            order.sort_by_key(|&i| luid(&found[i].0) != device_on_luid);
+            let mut why = String::new();
+            let mut got = None;
+            for i in order {
+                let (adapter, output, odesc) = &found[i];
+                if !matches!(odesc.Rotation, DXGI_MODE_ROTATION_IDENTITY | DXGI_MODE_ROTATION_UNSPECIFIED) {
+                    return Err("the display is rotated".into());
+                }
+                if device.is_none() || luid(adapter) != device_on_luid {
+                    match device_on(adapter) {
+                        Ok(d) => {
+                            device = Some(d);
+                            device_on_luid = luid(adapter);
+                            staging = None;
+                        }
+                        Err(e) => {
+                            why = format!("no Direct3D device on the display's adapter: {e}");
+                            device = None;
+                            continue;
+                        }
+                    }
+                }
+                let Some((dev, _)) = device.as_ref() else { continue };
+                match duplicate(output, dev) {
                     Ok(d) => {
-                        device = Some(d);
-                        staging = None;
+                        got = Some((d, *odesc));
+                        break;
                     }
                     Err(e) => {
-                        if !retry(&mut tries, announced, format!("no Direct3D device on the display's adapter: {e}"))? {
-                            return Ok(());
-                        }
-                        continue;
+                        // Refused while a UAC prompt or the lock screen is up, or a
+                        // mode change runs; the device may be from before a reset;
+                        // or this adapter only lists the display another GPU drives.
+                        why = e;
+                        device = None;
                     }
                 }
             }
+            let Some((dup, odesc)) = got else {
+                if !retry(&mut tries, announced, why)? {
+                    return Ok(());
+                }
+                continue;
+            };
             let Some((dev, ctx)) = device.clone() else { continue };
             let origin = (odesc.DesktopCoordinates.left, odesc.DesktopCoordinates.top);
             let name = String::from_utf16_lossy(&odesc.DeviceName).trim_end_matches('\0').to_string();
-            let rect_gen = s.rect_gen.load(Ordering::Relaxed);
-            let dup = match duplicate(&output, &dev) {
-                Ok(d) => d,
-                Err(why) => {
-                    // Refused while a UAC prompt or the lock screen is up, or a
-                    // mode change runs; the device may be from before a reset.
-                    device = None;
-                    if !retry(&mut tries, announced, why)? {
-                        return Ok(());
-                    }
-                    continue;
-                }
-            };
             let ddesc = dup.GetDesc();
             let (ow, oh) = (ddesc.ModeDesc.Width as i32, ddesc.ModeDesc.Height as i32);
             let mut fresh = true; // a new duplication starts with the whole screen
@@ -342,7 +369,7 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                         tex.GetDesc(&mut tdesc);
                         if tdesc.Format != DXGI_FORMAT_B8G8R8A8_UNORM {
                             let _ = dup.ReleaseFrame();
-                            return Err(format!("the display sends {:?} pixels (HDR), not 8-bit", tdesc.Format));
+                            return Err(format!("the display sends {:?} pixels, not 8-bit", tdesc.Format));
                         }
                         match copy_area(&dev, &ctx, &tex, &mut staging, area, rect, origin, w, h) {
                             Ok(px) => copied = Some(px),
