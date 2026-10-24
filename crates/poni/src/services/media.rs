@@ -19,9 +19,10 @@
 
 use crate::commands::MediaCmd;
 use crate::events::{AppEvent, EventSink};
+use crate::services::applemusic_ui::AppleMusicUi;
 use crate::state::MediaSession;
-use poni_core::nowplaying;
-use poni_core::timeline::Timeline;
+use poni_core::nowplaying::{self, Controls as Caps};
+use poni_core::timeline::{PendingSeek, Timeline};
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
@@ -57,6 +58,8 @@ const CONNECT_RETRY_MAX: Duration = Duration::from_secs(300);
 /// After a command, re-send the real playback state once this much later, so
 /// the UI's optimistic play/pause flip is corrected if the player ignored us.
 const RESYNC_AFTER_CMD: Duration = Duration::from_millis(1200);
+/// While a seek waits for the player to report it, look again this often.
+const SEEK_RECHECK: Duration = Duration::from_millis(300);
 /// Retries for a media-properties read that timed out (500 ms, 1 s, 2 s).
 const PROPS_RETRIES: u32 = 3;
 /// Album-art reads per track: the first one plus re-reads when the player
@@ -329,14 +332,6 @@ struct Meta {
     album: String,
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct Caps {
-    prev: bool,
-    next: bool,
-    play_pause: bool,
-    seek: bool,
-}
-
 /// What the UI currently shows (the last thing we sent).
 struct Shown {
     meta: Meta,
@@ -395,6 +390,13 @@ struct Worker {
 
     dirty: Dirty,
     force_timeline: bool,
+    /// A seek the player hasn't reported yet: its older reports are held back.
+    pending_seek: Option<PendingSeek>,
+    /// The controls a player last reported, as logged (session id, controls).
+    logged_caps: Option<(String, Caps)>,
+    /// Apple Music's own slider and back button (it declines both from the
+    /// media session).
+    apple_ui: AppleMusicUi,
     /// Position jumps logged for the shown track so far.
     timeline_logs: u32,
     refresh_at: Option<Instant>,
@@ -423,6 +425,9 @@ impl Worker {
             site_recheck: String::new(),
             dirty: Dirty::default(),
             force_timeline: false,
+            pending_seek: None,
+            logged_caps: None,
+            apple_ui: AppleMusicUi::default(),
             timeline_logs: 0,
             refresh_at: None,
             last_refresh: None,
@@ -795,8 +800,21 @@ impl Worker {
         let timeline =
             make_timeline(start, end, pos, updated, playing, rate, crate::clock::filetime_now(), crate::clock::mono());
         self.start_ticks = start;
-        let mut caps = read_caps(&info);
-        caps.seek &= timeline.has_duration();
+        let reported = read_caps(&info);
+        let aumid = &self.sessions[i].aumid;
+        if self.logged_caps.as_ref().is_none_or(|(id, c)| id != aumid || *c != reported) {
+            let on = |b: bool| if b { "on" } else { "off" };
+            crate::pinfo!(
+                "media: {} reports Previous {}, Next {}, play/pause {}, seeking {}",
+                self.names.get(aumid).map_or(aumid.as_str(), String::as_str),
+                on(reported.prev),
+                on(reported.next),
+                on(reported.play_pause),
+                on(reported.seek)
+            );
+            self.logged_caps = Some((aumid.clone(), reported));
+        }
+        let caps = nowplaying::island_controls(aumid, reported, timeline.has_duration());
 
         self.publish(caps, timeline, fresh_props, explicit_props, force);
         Ok(())
@@ -828,19 +846,32 @@ impl Worker {
         match self.shown.as_mut() {
             Some(s) if s.meta == meta && s.caps == caps => {
                 let now = crate::clock::mono();
-                if s.timeline.playing && timeline.playing && self.timeline_logs < TIMELINE_LOGS_PER_TRACK {
-                    let jump = timeline.position_at(now) - s.timeline.position_at(now);
-                    if jump.abs() >= 0.05 {
-                        self.timeline_logs += 1;
-                        crate::pinfo!("media: {} position report moved {:+.0} ms at {:.1} s", meta.app_name, jump * 1000.0, timeline.position_at(now));
+                if self.pending_seek.is_some_and(|p| p.holds(&timeline, now)) {
+                    // After a seek the bar shows where it was dropped; a report
+                    // from before the seek would pull it back for a moment.
+                    self.schedule(SEEK_RECHECK);
+                } else {
+                    let settled = self.pending_seek.take();
+                    if let Some(p) = settled.filter(|p| p.expired(now)) {
+                        crate::pinfo!("media: {} did not move to {:.1} s (it reports {:.1} s)", meta.app_name, p.target_s(), timeline.position_at(now));
                     }
-                }
-                if force || timeline_differs(&s.timeline, &timeline, now) {
-                    s.timeline = timeline;
-                    self.sink.send(AppEvent::MediaTimeline { track_key: key.clone(), timeline });
+                    if s.timeline.playing && timeline.playing && self.timeline_logs < TIMELINE_LOGS_PER_TRACK {
+                        let jump = timeline.position_at(now) - s.timeline.position_at(now);
+                        if jump.abs() >= 0.05 {
+                            self.timeline_logs += 1;
+                            crate::pinfo!("media: {} position report moved {:+.0} ms at {:.1} s", meta.app_name, jump * 1000.0, timeline.position_at(now));
+                        }
+                    }
+                    // Once a seek settles the UI gets the player's own timeline,
+                    // even when it matches the one sent before the seek.
+                    if force || settled.is_some() || timeline_differs(&s.timeline, &timeline, now) {
+                        s.timeline = timeline;
+                        self.sink.send(AppEvent::MediaTimeline { track_key: key.clone(), timeline });
+                    }
                 }
             }
             _ => {
+                self.pending_seek = None;
                 self.sink.send(AppEvent::Media(Some(MediaSession {
                     app_id: meta.app_id.clone(),
                     app_name: meta.app_name.clone(),
@@ -870,6 +901,7 @@ impl Worker {
             self.sink.send(AppEvent::Media(None));
         }
         self.art = ArtState::default();
+        self.pending_seek = None;
     }
 
     /// Read + decode the thumbnail once per track; re-read (and only decode
@@ -907,9 +939,11 @@ impl Worker {
     fn command(&mut self, cmd: MediaCmd) {
         let Some(i) = self.chosen.and_then(|sid| self.index_of(sid)) else { return };
         let session = self.sessions[i].session.clone();
+        let apple = nowplaying::is_apple_music(&self.sessions[i].aumid);
         let result = match &cmd {
             MediaCmd::PlayPause => toggle_play_pause(&session),
             MediaCmd::Next => run_bool(session.TrySkipNextAsync()),
+            MediaCmd::Prev if apple => self.apple_back(&session),
             MediaCmd::Prev => run_bool(session.TrySkipPreviousAsync()),
             MediaCmd::Seek(s) => {
                 if !s.is_finite() {
@@ -917,8 +951,9 @@ impl Worker {
                 }
                 let duration = self.shown.as_ref().map_or(0.0, |sh| sh.timeline.duration_s);
                 let secs = if duration > 0.0 { s.clamp(0.0, duration) } else { s.max(0.0) };
-                let ticks = ((secs * TICKS_PER_S).round() as i64).saturating_add(self.start_ticks);
-                run_bool(session.TryChangePlaybackPositionAsync(ticks))
+                let result = if apple { self.apple_seek(&session, secs, duration) } else { self.session_seek(&session, secs) };
+                self.pending_seek = matches!(result, Ok(true)).then(|| PendingSeek::new(secs, crate::clock::mono()));
+                result
             }
         };
         match result {
@@ -934,6 +969,43 @@ impl Worker {
         // Players often don't report a refused or partial change; re-send the
         // real state shortly so the UI's optimistic update can't stick.
         self.resync_at = Some(Instant::now() + RESYNC_AFTER_CMD);
+    }
+
+    fn session_seek(&self, session: &Session, secs: f64) -> Result<bool, OpErr> {
+        let ticks = ((secs * TICKS_PER_S).round() as i64).saturating_add(self.start_ticks);
+        run_bool(session.TryChangePlaybackPositionAsync(ticks))
+    }
+
+    /// Apple Music declines seeks from the media session: move its own
+    /// progress slider, and ask the session only when the slider can't be
+    /// reached.
+    fn apple_seek(&mut self, session: &Session, secs: f64, duration: f64) -> Result<bool, OpErr> {
+        if duration > 0.0 {
+            match self.apple_ui.seek(secs / duration) {
+                Ok(()) => {
+                    crate::pinfo!("media: Apple Music moved to {secs:.1} s with its own progress slider");
+                    return Ok(true);
+                }
+                Err(e) => crate::pinfo!("media: Apple Music's progress slider: {e}; asking its media session"),
+            }
+        }
+        self.session_seek(session, secs)
+    }
+
+    /// Apple Music usually reports Previous as off: press its own back button
+    /// (restart the song, or go back one), and ask the media session only when
+    /// the button can't be reached.
+    fn apple_back(&mut self, session: &Session) -> Result<bool, OpErr> {
+        match self.apple_ui.skip_back() {
+            Ok(()) => {
+                crate::pinfo!("media: pressed Apple Music's own back button");
+                Ok(true)
+            }
+            Err(e) => {
+                crate::pinfo!("media: Apple Music's back button: {e}; asking its media session");
+                run_bool(session.TrySkipPreviousAsync())
+            }
+        }
     }
 }
 

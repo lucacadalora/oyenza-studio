@@ -4,6 +4,7 @@
 pub mod addons;
 pub mod adzan;
 pub mod applemusic;
+pub mod applemusic_ui;
 pub mod audio;
 pub mod backdrop;
 pub mod bluetooth;

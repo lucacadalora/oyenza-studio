@@ -42,6 +42,23 @@ jobs:
       - name: Unit tests
         run: cargo test --workspace --release
 
+      - name: Apple Music's own slider and back button (a stand-in window)
+        shell: pwsh
+        run: |
+          $fw = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319"
+          New-Item -ItemType Directory -Force fake-am | Out-Null
+          & "$fw\csc.exe" /nologo /target:winexe /out:fake-am\AppleMusic.exe /r:"$fw\WPF\PresentationFramework.dll" /r:"$fw\WPF\PresentationCore.dll" /r:"$fw\WPF\WindowsBase.dll" /r:"$fw\System.Xaml.dll" tools\fake-apple-music.cs
+          if ($LASTEXITCODE -ne 0) { throw "the stand-in didn't build" }
+          $env:PONI_FAKE_AM_LOG = "$PWD\fake-am\am.log"
+          $am = Start-Process -FilePath fake-am\AppleMusic.exe -ArgumentList "`"$env:PONI_FAKE_AM_LOG`"" -PassThru
+          try {
+            cargo test -p poni --release presses_apple_musics_own_controls -- --ignored --nocapture
+            if ($LASTEXITCODE -ne 0) { throw "Apple Music controls test failed" }
+          } finally {
+            Stop-Process -Id $am.Id -Force -ErrorAction SilentlyContinue
+            Get-Content $env:PONI_FAKE_AM_LOG -ErrorAction SilentlyContinue
+          }
+
       # The runner is an admin, so Show over games' frame count runs on Oyen
       # Poni's own frames here: Windows' frame log must deliver them.
       - name: Self-test (scripted screenshots)
