@@ -60,17 +60,20 @@ jobs:
           tools/make_mac_app.sh target/aarch64-apple-darwin/release/poni target/x86_64-apple-darwin/release/poni build/OyenPoni.icns dist
 
       # The real app on the runner's screen: idle, hover, open (Focus, then
-      # Today), the timer, a notice. At each state the app writes where its
+      # Today with live stats), the timer, a notice, the volume and charging
+      # pop-ups, a real copy landing in clipboard history, files dropped on
+      # the Shelf, and the menu. At each state the app writes where its
       # window is and waits; this script takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
         run: |
-          set -u
+          # Not -e: the report must print even when a check fails.
+          set +e -u
           system_profiler SPDisplaysDataType | grep -E "Resolution|Retina|Main Display" || true
           bin="dist/Oyen Poni.app/Contents/MacOS/poni"
           mkdir -p smoke
           "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
           pid=$!
-          deadline=$((SECONDS + 150))
+          deadline=$((SECONDS + 240))
           shots=0
           while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
             for r in smoke/ready-*.txt; do
@@ -78,8 +81,16 @@ jobs:
               base="${r#smoke/ready-}"; base="${base%.txt}"
               [ -e "smoke/shot-$base.done" ] && continue
               IFS=, read -r x y w h < "$r"
+              case "$base" in
+                # A real copy: the app's clipboard history should pick it up.
+                *clipboard-copy) printf 'Oyen Poni smoke test, copied at %s' "$(date +%T)" | pbcopy; sleep 1.5 ;;
+              esac
               left=$(( x > 40 ? x - 40 : 0 ))
-              screencapture -x -R "$left,0,$(( w + 80 )),$(( y + h + 40 ))" "smoke/shot-$base.png" || true
+              case "$base" in
+                # The menu opens under the menu bar item at the top right.
+                *menu) screencapture -x "smoke/shot-$base.png" || true ;;
+                *) screencapture -x -R "$left,0,$(( w + 80 )),$(( y + h + 40 ))" "smoke/shot-$base.png" || true ;;
+              esac
               if [ $shots -eq 0 ]; then screencapture -x smoke/screen-full.png || true; fi
               shots=$(( shots + 1 ))
               touch "smoke/shot-$base.done"
@@ -87,7 +98,7 @@ jobs:
             sleep 0.2
           done
           if kill -0 $pid 2>/dev/null; then
-            echo "smoke run did not finish within 150 s"
+            echo "smoke run did not finish within 240 s"
             kill $pid
             code=1
           else

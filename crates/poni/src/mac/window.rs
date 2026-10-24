@@ -9,12 +9,14 @@
 
 use crate::notch::Notch;
 use objc2::rc::Retained;
-use objc2::runtime::AnyObject;
-use objc2::{define_class, msg_send, sel, MainThreadMarker, MainThreadOnly};
+use objc2::runtime::{AnyClass, AnyObject, ProtocolObject};
+use objc2::{define_class, msg_send, sel, AllocAnyThread, ClassType, MainThreadMarker, MainThreadOnly, Message};
 use objc2_app_kit::{
-    NSBackingStoreType, NSColor, NSEvent, NSGraphicsContext, NSPanel, NSResponder, NSScreen, NSView, NSWindow, NSWindowCollectionBehavior, NSWindowStyleMask,
+    NSBackingStoreType, NSColor, NSDragOperation, NSDraggingContext, NSDraggingInfo, NSDraggingItem, NSDraggingSession, NSDraggingSource, NSEvent,
+    NSGraphicsContext, NSPanel, NSPasteboardTypeFileURL, NSPasteboardURLReadingFileURLsOnlyKey, NSResponder, NSScreen, NSView, NSWindow,
+    NSWindowCollectionBehavior, NSWindowStyleMask, NSWorkspace,
 };
-use objc2_foundation::{NSObject, NSObjectProtocol, NSPoint, NSRect, NSRunLoop, NSRunLoopCommonModes, NSSize};
+use objc2_foundation::{NSArray, NSDictionary, NSNumber, NSObject, NSObjectProtocol, NSPoint, NSRect, NSRunLoop, NSRunLoopCommonModes, NSSize, NSString, NSURL};
 use objc2_quartz_core::{CADisplayLink, CAFrameRateRange};
 use poni_core::geom::Rect;
 use std::cell::RefCell;
@@ -23,6 +25,23 @@ use std::sync::atomic::{AtomicBool, Ordering};
 /// The panel takes the keyboard only while a text field asks for it; any
 /// other click leaves the keyboard with the app the person is typing in.
 static WANT_KEY: AtomicBool = AtomicBool::new(false);
+
+thread_local! {
+    /// The last mouse-down or drag in the view: a drag out of the Shelf
+    /// starts from it.
+    static LAST_MOUSE: RefCell<Option<Retained<NSEvent>>> = const { RefCell::new(None) };
+}
+
+/// File paths a drag carries (empty when it carries none).
+fn dragged_paths(info: &ProtocolObject<dyn NSDraggingInfo>) -> Vec<String> {
+    let pb = info.draggingPasteboard();
+    let class: &AnyClass = NSURL::class();
+    let classes = NSArray::from_slice(&[class]);
+    let yes = NSNumber::numberWithBool(true);
+    let opts = NSDictionary::from_slices(&[unsafe { NSPasteboardURLReadingFileURLsOnlyKey }], &[yes.as_ref() as &AnyObject]);
+    let objs = unsafe { pb.readObjectsForClasses_options(&classes, Some(&opts)) };
+    objs.map(|a| a.iter().filter_map(|o| o.downcast::<NSURL>().ok()).filter_map(|u| u.path()).map(|p| p.to_string()).collect()).unwrap_or_default()
+}
 
 /// Above the menu bar (24) and its status items, below pop-up menus (101).
 const ISLAND_LEVEL: isize = 24 + 3;
@@ -153,13 +172,17 @@ define_class!(
 
         #[unsafe(method(mouseDown:))]
         fn mouse_down(&self, event: &NSEvent) {
+            LAST_MOUSE.with(|m| *m.borrow_mut() = Some(event.retain()));
             let p = self.local(event);
             crate::app::view_input(ViewInput::Down { x: p.0, y: p.1, double: event.clickCount() >= 2 }, Some(event));
         }
 
         #[unsafe(method(mouseDragged:))]
-        fn mouse_dragged(&self, _event: &NSEvent) {
+        fn mouse_dragged(&self, event: &NSEvent) {
+            LAST_MOUSE.with(|m| *m.borrow_mut() = Some(event.retain()));
             crate::app::pointer_moved();
+            // A Shelf item dragged far enough asked to leave the island.
+            crate::app::start_pending_drag();
         }
 
         #[unsafe(method(mouseUp:))]
@@ -198,6 +221,60 @@ define_class!(
         #[unsafe(method(step:))]
         fn step(&self, link: &CADisplayLink) {
             crate::app::on_frame_tick(link.timestamp(), link.targetTimestamp());
+        }
+
+        // Files dragged onto the island go to the Shelf.
+        #[unsafe(method(draggingEntered:))]
+        fn dragging_entered(&self, sender: &ProtocolObject<dyn NSDraggingInfo>) -> NSDragOperation {
+            if crate::dragdrop::is_dragging_out() || dragged_paths(sender).is_empty() {
+                return NSDragOperation::None;
+            }
+            crate::app::post(crate::events::AppEvent::DragHover(true));
+            NSDragOperation::Copy
+        }
+
+        #[unsafe(method(draggingUpdated:))]
+        fn dragging_updated(&self, _sender: &ProtocolObject<dyn NSDraggingInfo>) -> NSDragOperation {
+            crate::app::pointer_moved();
+            if crate::dragdrop::is_dragging_out() {
+                NSDragOperation::None
+            } else {
+                NSDragOperation::Copy
+            }
+        }
+
+        #[unsafe(method(draggingExited:))]
+        fn dragging_exited(&self, _sender: Option<&ProtocolObject<dyn NSDraggingInfo>>) {
+            crate::app::post(crate::events::AppEvent::DragHover(false));
+        }
+
+        #[unsafe(method(prepareForDragOperation:))]
+        fn prepare_for_drag(&self, _sender: &ProtocolObject<dyn NSDraggingInfo>) -> bool {
+            true
+        }
+
+        #[unsafe(method(performDragOperation:))]
+        fn perform_drag(&self, sender: &ProtocolObject<dyn NSDraggingInfo>) -> bool {
+            let paths = dragged_paths(sender);
+            let any = !paths.is_empty();
+            if any {
+                crate::app::post(crate::events::AppEvent::ShelfAdd(paths));
+            }
+            any
+        }
+    }
+
+    // Shelf items dragged out of the island.
+    unsafe impl NSDraggingSource for IslandView {
+        #[unsafe(method(draggingSession:sourceOperationMaskForDraggingContext:))]
+        fn source_operations(&self, _session: &NSDraggingSession, _context: NSDraggingContext) -> NSDragOperation {
+            NSDragOperation::Copy
+        }
+
+        #[unsafe(method(draggingSession:endedAtPoint:operation:))]
+        fn drag_ended(&self, _session: &NSDraggingSession, _point: NSPoint, _op: NSDragOperation) {
+            crate::dragdrop::set_dragging_out(false);
+            crate::app::pointer_moved();
         }
     }
 );
@@ -256,6 +333,7 @@ pub fn create(mtm: MainThreadMarker) {
 
     let view: Retained<IslandView> = unsafe { msg_send![IslandView::alloc(mtm), initWithFrame: rect] };
     view.setWantsLayer(true);
+    view.registerForDraggedTypes(&NSArray::from_slice(&[unsafe { NSPasteboardTypeFileURL }]));
     panel.setContentView(Some(&view));
 
     // The display link drives frames at the screen's refresh rate (macOS 14+).
@@ -384,4 +462,29 @@ pub fn frame_top_left() -> Option<(f64, f64, f64, f64)> {
         let f = win.frame;
         (f.origin.x, primary_h - (f.origin.y + f.size.height), f.size.width, f.size.height)
     })
+}
+
+/// Start dragging `paths` out of the island, from the press in progress.
+/// Returns false when there is no press to start from.
+pub fn begin_drag(paths: &[String]) -> bool {
+    let (Some(view), Some(event)) = (view(), LAST_MOUSE.with(|m| m.borrow().clone())) else { return false };
+    let at = view.convertPoint_fromView(event.locationInWindow(), None);
+    let items: Vec<Retained<NSDraggingItem>> = paths
+        .iter()
+        .enumerate()
+        .map(|(i, p)| {
+            let url = NSURL::fileURLWithPath(&NSString::from_str(p));
+            let item = NSDraggingItem::initWithPasteboardWriter(NSDraggingItem::alloc(), ProtocolObject::from_ref(&*url));
+            let icon = NSWorkspace::sharedWorkspace().iconForFile(&NSString::from_str(p));
+            let frame = NSRect::new(NSPoint::new(at.x - 24.0 + 6.0 * i as f64, at.y - 24.0 + 6.0 * i as f64), NSSize::new(48.0, 48.0));
+            unsafe { item.setDraggingFrame_contents(frame, Some(&icon)) };
+            item
+        })
+        .collect();
+    if items.is_empty() {
+        return false;
+    }
+    crate::dragdrop::set_dragging_out(true);
+    let _session = view.beginDraggingSessionWithItems_event_source(&NSArray::from_retained_slice(&items), &event, ProtocolObject::from_ref(&*view));
+    true
 }

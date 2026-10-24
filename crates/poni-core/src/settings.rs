@@ -26,6 +26,8 @@ pub enum Theme {
     /// Oyen, the Oyenza cat, lives in the island: he peeks over its edge
     /// while it rests, bobs to the music and takes Oyen's orange as accent.
     Oyen,
+    /// Liquid glass: the island bends, frosts and tints what's under it.
+    Glass,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -161,6 +163,8 @@ mod tests {
         assert_eq!(s.theme, Theme::Classic);
         let s: Settings = serde_json::from_str(r#"{"theme":"oyen"}"#).unwrap();
         assert_eq!(s.theme, Theme::Oyen);
+        let s: Settings = serde_json::from_str(r#"{"theme":"glass"}"#).unwrap();
+        assert_eq!(s.theme, Theme::Glass);
     }
 
     #[test]

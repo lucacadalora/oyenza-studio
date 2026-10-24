@@ -22,6 +22,7 @@
 //! something animates, so idle CPU stays at zero.
 
 use crate::icons::{self, Icon};
+use crate::glass::{GlassParams, GlassPass};
 use poni_core::geom::{Color, Point, Rect};
 use poni_core::look::{self, Look};
 use poni_core::svgpath::Seg;
@@ -684,6 +685,16 @@ pub struct Gfx {
     gpu_frames: u32,
     /// The renderer switched (GPU lost or started) since the app last asked.
     renderer_changed: bool,
+    /// The Glass theme's shader and textures (GPU only, made on first use).
+    glass: Option<GlassPass>,
+    /// The shader can't run here (compile failed, old GPU): smoked glass.
+    glass_broken: bool,
+    glass_failures: u32,
+    glass_ok: u32,
+    /// `prepare_glass` drew this frame's glass.
+    glass_drawn: bool,
+    /// ...and the last time it was called (the self-test reads this).
+    glass_drew_last: bool,
 }
 
 fn pick_font_family(dwrite: &IDWriteFactory) -> Vec<u16> {
@@ -817,6 +828,12 @@ impl Gfx {
                 gpu_failures: 0,
                 gpu_frames: 0,
                 renderer_changed: false,
+                glass: None,
+                glass_broken: false,
+                glass_failures: 0,
+                glass_ok: 0,
+                glass_drawn: false,
+                glass_drew_last: false,
             })
         }
     }
@@ -949,6 +966,7 @@ impl Gfx {
     /// draw in software until the GPU renderer can be rebuilt.
     fn gpu_lost(&mut self, what: &str, e: windows::core::Error) {
         crate::pwarn!("GPU renderer lost at {what} ({e})");
+        self.glass = None;
         self.gpu = None;
         self.gpu_frames = 0;
         self.renderer_changed = true;
@@ -960,6 +978,105 @@ impl Gfx {
         self.soft_full = true;
         if let Ok(m) = self.soft.rt.cast::<ID2D1RenderTarget>() {
             let _ = self.use_main(m);
+        }
+    }
+
+    /// The glass shader, made on first use. False on the software renderer
+    /// or where it can't run (the island then draws smoked glass).
+    fn ensure_glass(&mut self) -> bool {
+        if self.glass.is_some() {
+            return true;
+        }
+        if self.glass_broken {
+            return false;
+        }
+        let Some(g) = self.gpu.as_ref() else { return false };
+        match unsafe { GlassPass::new(&g.d3d, &g.dc) } {
+            Ok(p) => {
+                crate::pinfo!("glass: shader ready");
+                self.glass = Some(p);
+                true
+            }
+            Err(e) => {
+                crate::pwarn!("glass: no glass shader here ({e}); smoked glass");
+                self.glass_broken = true;
+                false
+            }
+        }
+    }
+
+    /// Glass: hand over a screen copy (BGRA, the window's rectangle). False
+    /// when it can't be used here (software renderer, no shader).
+    pub fn glass_copy(&mut self, px: &[u8], w: i32, h: i32) -> bool {
+        if !self.ensure_glass() {
+            return false;
+        }
+        let scale = self.scale();
+        let (Some(g), Some(p)) = (self.gpu.as_ref(), self.glass.as_mut()) else { return false };
+        match unsafe { p.set_copy(&g.d3d, &g.ctx, &g.dc, px, w, h, scale) } {
+            Ok(()) => true,
+            Err(e) => {
+                crate::pwarn!("glass: uploading the screen copy failed ({e})");
+                false
+            }
+        }
+    }
+
+    /// The last frame's glass came from the shader (not smoked glass).
+    pub fn glass_drew(&self) -> bool {
+        self.glass_drew_last
+    }
+
+    /// The look content is painted in now.
+    pub fn look(&self) -> &'static Look {
+        self.look
+    }
+
+    pub fn glass_clear_copy(&mut self) {
+        if let Some(p) = self.glass.as_mut() {
+            p.clear_copy();
+        }
+    }
+
+    /// A screen copy is on the GPU (lost with the device; the app uploads its
+    /// last one again when this turns false).
+    pub fn glass_has_copy(&self) -> bool {
+        self.glass.as_ref().is_some_and(|p| p.has_copy())
+    }
+
+    /// Draw this frame's glass (before [`Gfx::begin`]) inside `area`
+    /// (surface pixels). False: the canvas draws smoked glass itself.
+    pub fn prepare_glass(&mut self, params: &GlassParams, area: RECT) -> bool {
+        self.glass_drawn = false;
+        self.glass_drew_last = false;
+        // (No GPU restart from here: `begin` does that, once per frame.)
+        if !self.ensure_glass() {
+            return false;
+        }
+        let (w, h, dpi) = (self.surf_w, self.surf_h, self.dpi);
+        let (Some(g), Some(p)) = (self.gpu.as_ref(), self.glass.as_mut()) else { return false };
+        match unsafe { p.render(&g.d3d, &g.ctx, &g.dc, w, h, dpi, params, area) } {
+            Ok(()) => {
+                self.glass_drawn = true;
+                self.glass_drew_last = true;
+                // A long healthy run forgives earlier failures (driver resets).
+                self.glass_ok = self.glass_ok.saturating_add(1);
+                if self.glass_ok > 600 {
+                    self.glass_failures = 0;
+                }
+                true
+            }
+            Err(e) => {
+                self.glass_ok = 0;
+                self.glass_failures += 1;
+                crate::pwarn!("glass: drawing failed ({e})");
+                self.glass = None;
+                if self.glass_failures >= 3 {
+                    self.glass_broken = true;
+                    crate::pwarn!("glass: smoked glass from now on");
+                }
+                false
+            }
         }
     }
 
@@ -1013,6 +1130,7 @@ impl Gfx {
     /// Finish the frame. Evicts bitmaps and text layouts that weren't used
     /// recently once the caches grow large.
     pub fn end(&mut self) -> Result<()> {
+        self.glass_drawn = false;
         // Balance any shape masks a caller forgot to pop.
         while let Some(pushed) = self.mask_stack.pop() {
             if pushed {
@@ -1470,6 +1588,32 @@ impl<'a> Canvas<'a> {
             ];
             self.path(&segs, None, Some((b, 1.0)));
         }
+    }
+
+    /// The island body in the Glass theme: the liquid glass drawn before the
+    /// frame ([`Gfx::prepare_glass`]) over `area`, else smoked glass.
+    pub fn glass(&mut self, p: &GlassParams, area: Rect) {
+        if self.g.glass_drawn {
+            if let Some(bmp) = self.g.glass.as_ref().and_then(|x| x.output()).cloned() {
+                let r = rectf(area);
+                unsafe { self.g.rt.DrawBitmap(&bmp, Some(&r), self.alpha, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, Some(&r)) };
+                return;
+            }
+        }
+        self.unthemed(|c| c.smoked_glass(p));
+    }
+
+    /// Glass without a view of the screen: the look's ground, a soft shadow
+    /// and the rim light, like iOS with Reduce Transparency.
+    fn smoked_glass(&mut self, p: &GlassParams) {
+        for i in 1..=3 {
+            let grow = i as f32 * p.shadow_reach / 3.0;
+            let b = p.body;
+            let shadow = Rect::new(b.x - grow, b.y, b.w + 2.0 * grow, b.h + p.shadow_drop + grow);
+            self.path(&notch_segments(shadow, p.radius + grow, p.shoulder), Some(Color::black(p.shadow_alpha / 4.0)), None);
+        }
+        let ground = Color::lerp(p.ground_dark, p.ground_light, p.light_mix);
+        self.notch(p.body, p.radius, p.shoulder, ground, Some(Color::white((0.45 * p.rim).clamp(0.0, 1.0))));
     }
 
     /// Mask subsequent drawing to the island silhouette (anti-aliased) until

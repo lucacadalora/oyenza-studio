@@ -1,10 +1,28 @@
-//! The Mac's side of what the pages ask the system for. Slice 1 has no
-//! background services (music, Bluetooth, clipboard history and the Shelf's
-//! thumbnails come in later slices); this holds the few direct calls the
-//! island makes: the accent colour, opening links, the clipboard for paste.
+//! The Mac's side of what the island asks the system for: power, volume,
+//! system stats, the clipboard, Shelf tiles, Phone drop and start at login
+//! (one file each), plus a few direct calls (the accent colour, opening and
+//! revealing files, sounds). Music and Oyenza sign-in come in later slices.
 
-use objc2_app_kit::{NSColor, NSColorSpace, NSPasteboard, NSPasteboardTypeString, NSSound, NSWorkspace};
-use objc2_foundation::{NSString, NSURL};
+// This file is loaded with #[path], so its modules sit in services/ by path.
+#[path = "services/audio.rs"]
+pub mod audio;
+#[path = "services/cf.rs"]
+mod cf;
+#[path = "services/clipboard.rs"]
+pub mod clipboard;
+#[path = "services/login.rs"]
+pub mod login;
+#[path = "services/phonedrop.rs"]
+pub mod phonedrop;
+#[path = "services/power.rs"]
+pub mod power;
+#[path = "services/sysstats.rs"]
+pub mod sysstats;
+#[path = "services/thumbs.rs"]
+pub mod thumbs;
+
+use objc2_app_kit::{NSColor, NSColorSpace, NSSound, NSWorkspace};
+use objc2_foundation::{NSArray, NSString, NSURL};
 use poni_core::geom::Color;
 
 pub mod imaging {
@@ -39,6 +57,12 @@ pub fn system_accent() -> Option<Color> {
     Some(Color::rgba(c.redComponent() as f32, c.greenComponent() as f32, c.blueComponent() as f32, 1.0))
 }
 
+/// Show a file selected in a Finder window.
+pub fn reveal(path: &str) {
+    let url = NSURL::fileURLWithPath(&NSString::from_str(path));
+    NSWorkspace::sharedWorkspace().activateFileViewerSelectingURLs(&NSArray::from_retained_slice(&[url]));
+}
+
 /// Open a URL (or a file path) with its default app.
 pub fn open(target: &str) {
     let s = NSString::from_str(target);
@@ -51,20 +75,6 @@ pub fn open(target: &str) {
         }
         None => pwarn!("not a URL: {target}"),
     }
-}
-
-/// Plain text on the clipboard (for paste into a text field).
-pub fn clipboard_text() -> Option<String> {
-    let pb = NSPasteboard::generalPasteboard();
-    let s = pb.stringForType(unsafe { NSPasteboardTypeString })?;
-    Some(s.to_string())
-}
-
-/// Put text on the clipboard.
-pub fn set_clipboard_text(text: &str) {
-    let pb = NSPasteboard::generalPasteboard();
-    pb.clearContents();
-    let _ = pb.setString_forType(&NSString::from_str(text), unsafe { NSPasteboardTypeString });
 }
 
 /// The gentle chime (timer finished): one of macOS's own alert sounds.

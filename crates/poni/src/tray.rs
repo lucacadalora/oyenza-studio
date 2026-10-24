@@ -97,7 +97,7 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink) -> Vec<MenuIt
     let eyes = if s.theme == Theme::Oyen { "Oyen" } else { "Eyes" };
     vec![
         item("Keep island open", MenuCmd::TogglePinned, pinned),
-        MenuItem::Sub { label: "Theme".into(), items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen)] },
+        MenuItem::Sub { label: "Theme".into(), items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen), theme("Glass", Theme::Glass)] },
         MenuItem::Sub {
             label: "Idle look".into(),
             items: vec![

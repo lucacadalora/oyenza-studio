@@ -141,4 +141,6 @@ pub enum AppEvent {
     Autostart(bool),
     /// Free-form log line from a service thread.
     Log(String),
+    /// The Glass theme's screen copy has new pixels (or stopped).
+    Backdrop,
 }

@@ -3,6 +3,7 @@
 
 pub mod applemusic;
 pub mod audio;
+pub mod backdrop;
 pub mod bluetooth;
 pub mod clipboard;
 pub mod fullscreen;
@@ -124,6 +125,22 @@ impl Services {
     pub fn on_appbar_message(&self, wp: WPARAM, lp: LPARAM, monitor: isize) -> Option<bool> {
         self.fullscreen.as_ref().and_then(|f| f.on_appbar_message(wp, lp, monitor))
     }
+}
+
+/// Windows apps are set to light mode (Settings › Personalization › Colors).
+pub fn apps_use_light_theme() -> bool {
+    use windows::UI::ViewManagement::{UIColorType, UISettings};
+    // The system background is white in light mode and black in dark mode.
+    UISettings::new().and_then(|s| s.GetColorValue(UIColorType::Background)).map(|c| c.R as u32 + c.G as u32 + c.B as u32 > 382).unwrap_or(true)
+}
+
+/// The Windows accent colour as it is: the Glass theme's text and fills sit
+/// on light and dark glass alike, so it isn't lightened for black.
+pub fn system_accent_base() -> Option<Color> {
+    use windows::UI::ViewManagement::{UIColorType, UISettings};
+    let s = UISettings::new().ok()?;
+    let c = s.GetColorValue(UIColorType::Accent).ok()?;
+    Some(Color::rgba(c.R as f32 / 255.0, c.G as f32 / 255.0, c.B as f32 / 255.0, 1.0))
 }
 
 /// The Windows accent colour, lightened for use on the black island.

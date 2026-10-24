@@ -74,6 +74,8 @@ pub enum AppEvent {
     ShelfThumb { path: String, image: Option<Image> },
     Stats(SysStats),
     ClipboardText(String),
+    /// Something happened in Phone drop (a phone visited, asked, sent files).
+    Phone(poni_core::phonedrop::Event),
     /// Free-form log line from a service thread.
     Log(String),
 }

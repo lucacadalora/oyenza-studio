@@ -79,6 +79,45 @@ pub fn create_island_window() -> Result<HWND> {
     }
 }
 
+/// Leave the island out of screenshots, screen recordings and screen sharing
+/// (`on`), or put it back. The Glass theme turns this on while it copies the
+/// screen under the island, so the copy never contains the island itself.
+/// True when Windows took the setting.
+pub fn set_capture_excluded(hwnd: HWND, on: bool) -> bool {
+    let want = if on { WDA_EXCLUDEFROMCAPTURE } else { WDA_NONE };
+    unsafe {
+        if SetWindowDisplayAffinity(hwnd, want).is_err() {
+            return false;
+        }
+        let mut got = 0u32;
+        GetWindowDisplayAffinity(hwnd, &mut got).is_ok() && got == want.0
+    }
+}
+
+/// Windows' build number (19041 = Windows 10 version 2004, the first that can
+/// leave a window out of capture instead of blacking it out).
+pub fn windows_build() -> Option<u32> {
+    use windows::Win32::System::Registry::{RegGetValueW, HKEY_LOCAL_MACHINE, RRF_RT_REG_SZ};
+    let mut buf = [0u16; 32];
+    let mut size = (buf.len() * 2) as u32;
+    let r = unsafe {
+        RegGetValueW(
+            HKEY_LOCAL_MACHINE,
+            w!("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"),
+            w!("CurrentBuildNumber"),
+            RRF_RT_REG_SZ,
+            None,
+            Some(buf.as_mut_ptr() as *mut core::ffi::c_void),
+            Some(&mut size),
+        )
+    };
+    if r.is_err() {
+        return None;
+    }
+    let len = buf.iter().position(|&c| c == 0).unwrap_or(buf.len());
+    String::from_utf16_lossy(&buf[..len]).trim().parse().ok()
+}
+
 /// Hidden top-level helper window: owns the tray icon, the AppBar
 /// registration (full-screen notifications) and power/clipboard messages.
 pub fn create_helper_window() -> Result<HWND> {
