@@ -147,13 +147,18 @@ function Read-Weight($p, [int]$seconds) {
 
 function WaitFor([string]$file, [string]$pattern, [int]$seconds) {
     for ($i = 0; $i -lt $seconds * 4; $i++) {
-        if (Select-String -Path $file -Pattern $pattern -Quiet -ErrorAction SilentlyContinue) { return $true }
+        if ((Test-Path $file) -and (Select-String -Path $file -Pattern $pattern -Quiet -ErrorAction SilentlyContinue)) { return $true }
         Start-Sleep -Milliseconds 250
     }
     return $false
 }
 
 $result = [ordered]@{ exe_mb = [Math]::Round((Get-Item $Exe).Length / 1e6, 2); cpu_mhz = $mhz }
+
+# Only one island runs at a time: a Poni still on its way out (the smoke
+# run's) would make this one quit at once.
+Get-Process -Name poni -ErrorAction SilentlyContinue | Wait-Process -Timeout 20 -ErrorAction SilentlyContinue
+if (Get-Process -Name poni -ErrorAction SilentlyContinue) { throw "another poni.exe is still running" }
 
 # A home of its own: default settings, nothing cached.
 $env:PONI_HOME = (New-Item -ItemType Directory -Force -Path (Join-Path $Out "home")).FullName
