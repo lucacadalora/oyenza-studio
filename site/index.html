@@ -274,7 +274,7 @@ footer a { color: var(--muted); }
           </a>
           <a class="btn btn-line" href="https://github.com/lucacadalora/poni">Source on GitHub</a>
         </div>
-        <p class="small">Free and open source (MIT) · <span data-release="size">1.2 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.9</span></a></p>
+        <p class="small">Free and open source (MIT) · <span data-release="size">1.2 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.11</span></a></p>
         <div class="look-switch" role="group" aria-label="Island look">
           <button type="button" data-look="classic" aria-pressed="true"><span class="dot"></span>Classic</button>
           <button type="button" data-look="oyen" aria-pressed="false"><span class="dot dot-oyen"></span>Oyen theme</button>
@@ -342,8 +342,8 @@ footer a { color: var(--muted); }
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">Point at it</p>
-        <h2>Seven quick pages, one hover away</h2>
-        <p>Point at the island or click it and it opens. Scroll over the header to switch pages. Sign in to Oyenza and an eighth page joins them.</p>
+        <h2>Eight quick pages, one hover away</h2>
+        <p>Point at the island or click it and it opens; move away and it closes at once. Scroll over the header to switch pages; the gear on the right opens Settings. Sign in to Oyenza and a ninth page joins them.</p>
       </div>
       <div class="music">
         <div class="sky"><div class="island">
@@ -352,7 +352,7 @@ footer a { color: var(--muted); }
         </div></div>
         <div>
           <h3>Music, with the words</h3>
-          <p>Controls for whatever is playing: Spotify, Apple Music, YouTube in your browser, or any app that shows up in Windows' media controls. Lyrics scroll in time with the song, from the free LRCLIB library, or Apple Music's own synced lyrics if you have a subscription.</p>
+          <p>Controls for whatever is playing: Spotify, Apple Music, YouTube in your browser, or any app that shows up in Windows' media controls. Lyrics scroll in time with the song, from the free LRCLIB library, or Apple Music's own synced lyrics if you have a subscription. YouTube videos find theirs too, even when the title carries subtitle tags or puts the song name first.</p>
           <img class="oyen-pose" src="brand/art/poses/oyen-music.webp" alt="Oyen in headphones" width="480" height="560" loading="lazy">
         </div>
       </div>
@@ -360,7 +360,7 @@ footer a { color: var(--muted); }
         <div>
           <p class="eyebrow">New in 0.1.7</p>
           <h3>Read along in Korean, Japanese and Chinese</h3>
-          <p>Like Apple Music's Show Pronunciation, each word of a lyric line gets its reading in Latin letters, set small underneath: the syllables for Korean, romaji for Japanese and pinyin with tone marks for Chinese. Turn it off in the tray menu.</p>
+          <p>Like Apple Music's Show Pronunciation, each word of a lyric line gets its reading in Latin letters, set small underneath: the syllables for Korean, romaji for Japanese and pinyin with tone marks for Chinese. Since 0.1.10, Japanese lines with kanji get romaji too. Those readings come from Windows' own Japanese reader, which on Windows 11 needs Japanese typing added. Turn it off in Settings or the tray menu.</p>
         </div>
         <div class="sky"><div class="island">
           <img class="look-classic" src="assets/shots/classic/page-media-ko.webp" alt="The Music page with Korean lyrics, each word's reading in Latin letters set small underneath" width="660" height="227" loading="lazy">
@@ -409,7 +409,7 @@ footer a { color: var(--muted); }
           </div></div></div>
         </article>
         <article class="card">
-          <div class="card-top"><img src="brand/art/poses/oyen-today.webp" alt="" width="480" height="499" loading="lazy"><div><h3>Today</h3><p>The date and calendar, plus CPU, memory, disk and battery at a glance.</p></div></div>
+          <div class="card-top"><img src="brand/art/poses/oyen-today.webp" alt="" width="480" height="499" loading="lazy"><div><h3>Today</h3><p>The date and calendar, plus CPU, memory, disk and battery at a glance. Click one to open it on the System page.</p></div></div>
           <div></div>
           <div class="shot"><div class="sky"><div class="island">
             <img class="look-classic" src="assets/shots/classic/page-today.webp" alt="The Today page" width="660" height="243" loading="lazy">
@@ -426,6 +426,28 @@ footer a { color: var(--muted); }
         <div class="sky"><div class="island">
           <img class="look-classic" src="assets/shots/classic/page-shelf-phone-ask.webp" alt="The Shelf with Phone drop open: iPhone wants to send 3 files, with Decline and Accept" width="660" height="393" loading="lazy">
           <img class="look-oyen" src="assets/shots/oyen/page-shelf-phone-ask.webp" alt="Phone drop asking to accept 3 files from an iPhone, in the Oyen theme" width="660" height="393" loading="lazy">
+        </div></div>
+      </div>
+      <div class="music" id="settings">
+        <div class="sky"><div class="island">
+          <img class="look-classic" src="assets/shots/classic/page-settings.webp" alt="The Settings page: Sign in with Oyenza at the top, then the theme, the idle look and six switches" width="660" height="277" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-settings.webp" alt="The Settings page in the Oyen theme" width="660" height="277" loading="lazy">
+        </div></div>
+        <div>
+          <p class="eyebrow">New in 0.1.10</p>
+          <h3>Settings, right in the island</h3>
+          <p>Press the gear beside the pin. Your Oyenza account comes first: sign in, see who is signed in, or disconnect. Below it are the theme, the idle look, and switches for lyrics, pronunciation, sounds, clipboard history, full-screen apps and starting with Windows. Changes apply at once.</p>
+        </div>
+      </div>
+      <div class="music flip" id="system">
+        <div>
+          <p class="eyebrow">New in 0.1.11</p>
+          <h3>System: your PC at a glance</h3>
+          <p>CPU, memory, drives, network and battery, each with the last minute as a chart, the apps using the most, and Task Manager one click away. It reads only while the page is open, from the same counters Task Manager uses: no driver, no admin rights, and nothing leaves your PC.</p>
+        </div>
+        <div class="sky"><div class="island">
+          <img class="look-classic" src="assets/shots/classic/page-system.webp" alt="The System page: CPU, memory, drives, network and battery, each with a one-minute chart" width="660" height="251" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-system.webp" alt="The System page in the Oyen theme" width="660" height="251" loading="lazy">
         </div></div>
       </div>
     </div>
@@ -467,7 +489,7 @@ footer a { color: var(--muted); }
         </ul>
         <div>
           <img src="brand/art/oyen-poni-asleep.webp" alt="Oyen asleep on the island while a song plays" width="900" height="654" loading="lazy" style="width:min(340px,100%)">
-          <p class="how">Right-click the island, then <kbd>Theme</kbd> › <kbd>Oyen</kbd>. Switch back to <kbd>Classic</kbd> any time.</p>
+          <p class="how">Open the island and press the gear, then <kbd>Theme</kbd> › <kbd>Oyen</kbd>. Switch back to <kbd>Classic</kbd> any time.</p>
         </div>
       </div>
     </div>
@@ -479,14 +501,14 @@ footer a { color: var(--muted); }
         <div>
           <p class="eyebrow">Oyenza account · New in 0.1.9</p>
           <h2>Your Oyenza, at the top of your screen</h2>
-          <p>Sign in with your <a href="https://oyenza.app" style="color:#fff">oyenza.app</a> account the way you sign in on a TV: the island shows a code and you approve this PC at oyenza.app/connect. No password is ever typed into Oyen Poni. An Oyenza page then joins the island.</p>
+          <p>Sign in with your <a href="https://oyenza.app" style="color:#fff">oyenza.app</a> account the way you sign in on a TV: press the gear, choose Sign in with Oyenza, and approve the code the island shows at oyenza.app/connect. No password is ever typed into Oyen Poni. An Oyenza page then joins the island.</p>
           <ul>
             <li><span><b>Money as it arrives.</b> When Oyenza logs money coming in, the island tells you, with the amount and sender hidden until you click Show.</span></li>
             <li><span><b>Bills before they're due.</b> Subscriptions and card due dates for the next 7 days, and a reminder the day before each one.</span></li>
             <li><span><b>Note a spend in a second.</b> Type "kopi 25rb" on the Oyenza page and press Enter: it goes straight to Oyenza, with 10 seconds to undo.</span></li>
             <li><span><b>Your steps, next.</b> Steps from Apple Health or Health Connect will come through Oyenza in a later version.</span></li>
           </ul>
-          <p class="fine">Signing in is optional. This PC gets a key of its own, never your password: it sees money coming in and bills due, and saves the spends you type, nothing else. Disconnect it from the island's Oyenza menu, or in oyenza.app under Connected apps.</p>
+          <p class="fine">Signing in is optional. This PC gets a key of its own, never your password: it sees money coming in and bills due, and saves the spends you type, nothing else. Disconnect it in the island's Settings, or in oyenza.app under Connected apps.</p>
         </div>
         <img src="brand/art/oyen-poni-sit.webp" alt="Oyen sitting on the island while a song plays" width="893" height="1200" loading="lazy">
       </div>
