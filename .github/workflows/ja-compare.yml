@@ -1,0 +1,53 @@
+# Reads the Japanese songs on Apple Music Japan's chart with Windows' own
+# reading analyzer and with Oyen Poni's dictionary, and lists the words they
+# read differently (crates/poni/src/services/romanize_compare.rs). The lyrics
+# come from LRCLIB at run time and are never stored; the report shows words,
+# not lines. It informs the dictionary's fix list (tools/ja_dict_fixes.csv),
+# so it runs when the dictionary or its reader changes, or by hand.
+name: Japanese readings compared
+
+on:
+  push:
+    paths:
+      - "crates/poni-core/data/**"
+      - "crates/poni-core/src/romanize/**"
+      - "crates/poni/src/services/romanize.rs"
+      - "crates/poni/src/services/romanize_compare.rs"
+      - "tools/make_ja_dict.py"
+      - "tools/ja_dict_fixes.csv"
+      - "tools/ja_compare_fetch.py"
+      - ".github/workflows/ja-compare.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    name: Windows' analyzer and Oyen Poni's dictionary
+    # Windows Server ships the analyzer's Japanese data.
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch the chart's lyrics (for this run only)
+        shell: pwsh
+        run: python tools/ja_compare_fetch.py "$env:RUNNER_TEMP\ja-songs" --limit 100
+      - name: Read every line both ways
+        shell: pwsh
+        run: |
+          $env:PONI_JA_COMPARE = "$env:RUNNER_TEMP\ja-songs"
+          $env:PONI_JA_COMPARE_OUT = "$env:RUNNER_TEMP\ja-compare.md"
+          cargo test -p poni compare_readings -- --ignored --nocapture
+      - name: Report in the run summary
+        if: always()
+        shell: pwsh
+        run: if (Test-Path "$env:RUNNER_TEMP\ja-compare.md") { Get-Content "$env:RUNNER_TEMP\ja-compare.md" -Raw | Add-Content $env:GITHUB_STEP_SUMMARY }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ja-compare
+          path: ${{ runner.temp }}/ja-compare.md
+          retention-days: 14
+          if-no-files-found: warn

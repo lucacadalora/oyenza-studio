@@ -14,6 +14,8 @@ pub mod oyenza;
 pub mod phonedrop;
 pub mod power;
 pub mod romanize;
+#[cfg(test)]
+mod romanize_compare;
 pub mod secret;
 pub mod sound;
 pub mod sysmon;

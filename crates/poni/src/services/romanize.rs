@@ -116,7 +116,7 @@ pub fn analyzer_works() -> Result<(), String> {
 
 /// One Japanese line through the analyzer, and how many of its kanji words
 /// came back without a reading (those pieces get none).
-fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
+pub(super) fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
     let mut words: Vec<(String, String, bool)> = Vec::new();
     for chunk in chunks(line, ANALYZER_MAX) {
         let found = JapanesePhoneticAnalyzer::GetWords(&HSTRING::from(chunk)).map_err(|e| format!("Windows' Japanese reading analyzer failed ({e})"))?;
@@ -213,7 +213,7 @@ fn chunks(s: &str, max: usize) -> Vec<&str> {
 /// Run `f` on a short-lived thread in a single-threaded COM apartment
 /// (synchronous calls only, so it needs no message loop). None when the
 /// thread can't start or `f` panics.
-fn on_sta<R: Send>(f: impl FnOnce() -> R + Send) -> Option<R> {
+pub(super) fn on_sta<R: Send>(f: impl FnOnce() -> R + Send) -> Option<R> {
     struct Sta(bool);
     impl Drop for Sta {
         fn drop(&mut self) {
