@@ -12,14 +12,14 @@ use objc2::rc::Retained;
 use objc2::runtime::{AnyClass, AnyObject, ProtocolObject};
 use objc2::{define_class, msg_send, sel, AllocAnyThread, ClassType, MainThreadMarker, MainThreadOnly, Message};
 use objc2_app_kit::{
-    NSBackingStoreType, NSColor, NSDragOperation, NSDraggingContext, NSDraggingInfo, NSDraggingItem, NSDraggingSession, NSDraggingSource, NSEvent,
-    NSGraphicsContext, NSPanel, NSPasteboardTypeFileURL, NSPasteboardURLReadingFileURLsOnlyKey, NSResponder, NSScreen, NSView, NSWindow,
-    NSWindowCollectionBehavior, NSWindowStyleMask, NSWorkspace,
+    NSAutoresizingMaskOptions, NSBackingStoreType, NSColor, NSDragOperation, NSDraggingContext, NSDraggingInfo, NSDraggingItem, NSDraggingSession,
+    NSDraggingSource, NSEvent, NSGraphicsContext, NSPanel, NSPasteboardTypeFileURL, NSPasteboardURLReadingFileURLsOnlyKey, NSResponder, NSScreen, NSView,
+    NSWindow, NSWindowCollectionBehavior, NSWindowStyleMask, NSWorkspace,
 };
 use objc2_foundation::{NSArray, NSDictionary, NSNumber, NSObject, NSObjectProtocol, NSPoint, NSRect, NSRunLoop, NSRunLoopCommonModes, NSSize, NSString, NSURL};
 use objc2_quartz_core::{CADisplayLink, CAFrameRateRange};
 use poni_core::geom::Rect;
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 use std::sync::atomic::{AtomicBool, Ordering};
 
 /// The panel takes the keyboard only while a text field asks for it; any
@@ -30,6 +30,9 @@ thread_local! {
     /// The last mouse-down or drag in the view: a drag out of the Shelf
     /// starts from it.
     static LAST_MOUSE: RefCell<Option<Retained<NSEvent>>> = const { RefCell::new(None) };
+    /// A notch the smoke test gives the screen (CI's Macs have none), so its
+    /// pictures show the island the way a MacBook shows it.
+    static FAKE_NOTCH: Cell<Option<Notch>> = const { Cell::new(None) };
 }
 
 /// File paths a drag carries (empty when it carries none).
@@ -75,7 +78,13 @@ pub fn pick_screen(mtm: MainThreadMarker) -> Option<ScreenInfo> {
             best = Some(info);
         }
     }
-    best
+    let fake = FAKE_NOTCH.get();
+    best.map(|s| ScreenInfo { notch: fake.or(s.notch), ..s })
+}
+
+/// Pretend the screen has a notch (the smoke test), or stop pretending.
+pub fn fake_notch(n: Option<Notch>) {
+    FAKE_NOTCH.set(n);
 }
 
 fn screen_info(s: &NSScreen) -> ScreenInfo {
@@ -291,6 +300,9 @@ impl IslandView {
 
 pub struct IslandWindow {
     pub panel: Retained<IslandPanel>,
+    /// The panel's content: the island view, and under it the Glass theme's
+    /// glass when it shows (mac/glass.rs).
+    pub root: Retained<NSView>,
     pub view: Retained<IslandView>,
     link: Option<Retained<CADisplayLink>>,
     /// Frame-paced fallback timer when the display link isn't available.
@@ -334,7 +346,11 @@ pub fn create(mtm: MainThreadMarker) {
     let view: Retained<IslandView> = unsafe { msg_send![IslandView::alloc(mtm), initWithFrame: rect] };
     view.setWantsLayer(true);
     view.registerForDraggedTypes(&NSArray::from_slice(&[unsafe { NSPasteboardTypeFileURL }]));
-    panel.setContentView(Some(&view));
+    view.setAutoresizingMask(NSAutoresizingMaskOptions::ViewWidthSizable | NSAutoresizingMaskOptions::ViewHeightSizable);
+    let root = NSView::initWithFrame(NSView::alloc(mtm), rect);
+    root.setWantsLayer(true);
+    root.addSubview(&view);
+    panel.setContentView(Some(&root));
 
     // The display link drives frames at the screen's refresh rate (macOS 14+).
     let has_link: bool = unsafe { msg_send![&*view, respondsToSelector: sel!(displayLinkWithTarget:selector:)] };
@@ -350,7 +366,7 @@ pub fn create(mtm: MainThreadMarker) {
         pwarn!("no display link on this macOS; frames come from a 60 Hz timer");
     }
     let frame = panel.frame();
-    WINDOW.with(|w| *w.borrow_mut() = Some(IslandWindow { panel, view, link, fallback: None, ignoring: true, frame }));
+    WINDOW.with(|w| *w.borrow_mut() = Some(IslandWindow { panel, root, view, link, fallback: None, ignoring: true, frame }));
 }
 
 /// Place the panel: `w`×`h` DIPs hanging from the top of `screen`, centred on

@@ -2,7 +2,7 @@
 
 <h1 align="center">Oyen Poni</h1>
 
-<p align="center"><b>A living notch for Windows 10 and 11.</b><br>Music with synced lyrics, a focus timer, your steps, a file shelf, tasks and your clipboard, one hover away.</p>
+<p align="center"><b>A living notch for Windows and Mac.</b><br>Music with synced lyrics, a focus timer, a file shelf, tasks and your clipboard, one hover away.<br>Windows 10 and 11 · macOS 14 or later</p>
 
 <p align="center">
   <a href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe"><img src="https://img.shields.io/badge/Download_for_Windows-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI%2BPHBhdGggZD0iTTIgMmg5LjJ2OS4ySDJ6bTEwLjggMEgyMnY5LjJoLTkuMnpNMiAxMi44aDkuMlYyMkgyem0xMC44IDBIMjJWMjJoLTkuMnoiLz48L3N2Zz4=" height="34" alt="Download for Windows"></a>
@@ -20,9 +20,9 @@
 
 <p align="center"><img src="docs/brand/readme-hero.webp" width="880" alt="The open island hanging from the top of the screen, showing the Music page with synced lyrics, next to Oyen peeking over a playing island"></p>
 
-A small black island hangs from the top of your screen. It shows what's happening (music, timers, volume, headphones connecting), and when you point at it, it opens into a set of quick pages.
+A small black island hangs from the top of your screen. It shows what's happening (music, timers, volume, headphones connecting), and when you point at it, it opens into a set of quick pages. On a MacBook it wraps the camera notch ([On a Mac](#on-a-mac)).
 
-Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothing is moving**. It draws on the GPU, in step with your display's refresh rate (60, 144 or 240 Hz). No accounts, no tracking: your data stays on your PC.
+Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothing is moving**. It draws on the GPU, in step with your display's refresh rate (60, 144 or 240 Hz). No accounts, no tracking: your data stays on your computer.
 
 | Collapsed | |
 |---|---|
@@ -89,9 +89,26 @@ The frame rate is counted the way Intel's PresentMon and Xbox Game Bar count it:
 
 Windows lets only admins and the **Performance Log Users** group read that log. The first time, System › Games asks for a one-time OK: an admin prompt adds your Windows account to that group (Xbox Game Bar's FPS counter asks for the same), and Windows applies it the next time you sign in. Until then the FPS slot shows a dash and the rest works. To undo it, remove your account from Performance Log Users in Computer Management, or run `net localgroup "Performance Log Users" <your user name> /delete` as an admin. A game in exclusive full-screen mode still covers the island, as it covers every window.
 
+## On a Mac
+
+On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera (the album art on the left and the beat on the right, a timer's ring and its minutes the same way), and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows.
+
+| | |
+|---|---|
+| ![Music playing on a MacBook: the album art left of the notch, the equalizer on its right](site/assets/shots/mac/classic/media-activity.webp) | ![The Oyen theme: cream ears around the black notch, the album art on the left and Oyen on the right](site/assets/shots/mac/oyen/media-activity.webp) |
+| ![A focus timer around the notch: the ring on the left, the minutes on the right](site/assets/shots/mac/classic/timer-activity.webp) | ![Resting in the Oyen theme: Oyen left of the notch, the time on its right](site/assets/shots/mac/oyen/idle-clock.webp) |
+
+![The open island hanging below the notch in the Oyen theme: the Music page with synced lyrics](site/assets/shots/mac/oyen/page-media.webp)
+
+The Mac app has the island, Music and Spotify with synced lyrics (and Apple Music's own with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, clipboard history, Today with your Mac's CPU, memory, disk and battery, pop-ups for volume and charging, the Classic and Oyen themes, and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: Glass, paired phones, Oyenza sign-in, add-ons, Show over games, headphone pop-ups and hiding in full-screen apps.
+
+These pictures come from the Mac app itself (`poni --render <dir> --notch`, run by the `mac` workflow on a macOS runner with a MacBook's notch drawn in).
+
 ## Install
 
 <img src="docs/brand/art/oyen-poni-peek.webp" width="260" align="right" alt="Oyen peeking over the island while it plays music">
+
+### On Windows
 
 **[Download Oyen-Poni-Setup.exe](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe)** and run it. It installs just for you and needs no admin rights. Older versions and a portable zip are on the [Releases](https://github.com/lucacadalora/poni/releases) page.
 
@@ -99,7 +116,9 @@ Builds aren't code-signed yet, so Windows SmartScreen may say "Windows protected
 
 Your data lives in `%APPDATA%\Poni\`, and cache plus log in `%LOCALAPPDATA%\Poni\`. Uninstalling removes the app, cache and log, and keeps your data.
 
-**On a Mac** (macOS 14 or later, Apple silicon or Intel): **[download Oyen-Poni-Mac.dmg](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg)**, open it and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click **Done**, then open **System Settings → Privacy & Security** and click **Open Anyway**. On a Mac the music page follows Music and Spotify, and Glass, paired phones, Oyenza sign-in and add-ons aren't there yet. Your data lives in `~/Library/Application Support/Poni/`, the log in `~/Library/Logs/Poni/`.
+### On a Mac
+
+macOS 14 or later, Apple silicon or Intel (one app for both): **[download Oyen-Poni-Mac.dmg](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg)**, open it and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click **Done**, then open **System Settings → Privacy & Security** and click **Open Anyway**. What's on the Mac so far: [On a Mac](#on-a-mac). Your data lives in `~/Library/Application Support/Poni/`, the log in `~/Library/Logs/Poni/`.
 
 ## Apple Music lyrics
 
@@ -183,7 +202,7 @@ Oyen Poni is a Cargo workspace:
 |---|---|
 | `crates/poni-core` | Pure logic (springs, lyrics parsing, Pomodoro, steps, tasks, settings…), Phone drop's small web server and paired phone drop (pairing, signed messages, the WebRTC link). Unit-tested on any OS. |
 | `server` | The meeting server and phone page for paired phones (`drop.oyenza.com`); Node, no dependencies. |
-| `crates/poni` | The Windows app: Win32 + Direct2D + WinRT through [windows-rs](https://github.com/microsoft/windows-rs). |
+| `crates/poni` | The app. On Windows: Win32 + Direct2D + WinRT through [windows-rs](https://github.com/microsoft/windows-rs). On a Mac (`src/mac/`): AppKit, Core Graphics and Core Text through [objc2](https://github.com/madsmtm/objc2), drawing the same pages. |
 
 On Windows, with Rust stable and the MSVC toolchain:
 
@@ -199,6 +218,15 @@ cargo wcheck                          # type-check the Windows app
 cargo wbuild                          # target/x86_64-pc-windows-gnu/release/poni.exe
 NSIS_HOST=user@linux-box tools/package.sh   # exe + portable zip + installer into dist/
 ```
+
+On a Mac, with Rust stable:
+
+```
+cargo build -p poni --release        # target/release/poni
+target/release/poni --render shots --notch   # every island state as a picture, with a MacBook's notch
+```
+
+`tools/make_mac_app.sh` turns the Apple silicon and Intel builds into `Oyen Poni.app` and its DMG (the `mac` workflow does it for every pull request, push to main and tag). From Linux or Windows, `cargo mcheck` type-checks the Mac app (`rustup target add aarch64-apple-darwin`).
 
 ### Testing without clicking around
 
@@ -216,7 +244,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit: threads, the rend
 
 ### Website
 
-The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Every release updates it too ([AGENTS.md](AGENTS.md#every-release-updates-the-website) has the checklist). A page that names a version not released yet waits until that release is published, and a release whose page wasn't updated opens an issue. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes (`tools/site_shots.py`).
+The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Every release updates it too ([AGENTS.md](AGENTS.md#every-release-updates-the-website) has the checklist). A page that names a version not released yet waits until that release is published, and a release whose page wasn't updated opens an issue. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes, and its Mac pictures from the `mac` workflow's renders (`tools/site_shots.py`).
 
 ### Download stats
 
@@ -224,7 +252,7 @@ The website is `site/index.html`, published with GitHub Pages by `.github/workfl
 
 ## Status
 
-Early, but in daily use on Windows 11. Most rough edges are in places a test machine can't fully exercise: specific media players, Bluetooth devices, and multi-monitor setups. Issues and pull requests are welcome. Please attach `%LOCALAPPDATA%\Poni\poni.log` when something misbehaves.
+Early, but in daily use on Windows 11. The Mac app is newer: it runs on GitHub's macOS runners on every change, and a real MacBook's notch, music apps and drag and drop are where it most needs reports. Most rough edges are in places a test machine can't fully exercise: specific media players, Bluetooth devices, and multi-monitor setups. Issues and pull requests are welcome. Please attach `%LOCALAPPDATA%\Poni\poni.log` (on a Mac, `~/Library/Logs/Poni/poni.log`) when something misbehaves.
 
 ## Credits
 

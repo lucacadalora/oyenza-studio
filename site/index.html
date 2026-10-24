@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Oyen Poni · A living notch for Windows</title>
-<meta name="description" content="Oyen Poni is a free, open-source living notch for Windows 10 and 11: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away at the top of your screen.">
+<title>Oyen Poni · A living notch for Windows and Mac</title>
+<meta name="description" content="Oyen Poni is a free, open-source living notch for Windows 10 and 11 and macOS 14 or later: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away at the top of your screen.">
 <link rel="canonical" href="https://lucacadalora.github.io/poni/">
 <!-- Link previews (WhatsApp, X, LinkedIn, Facebook, Slack, Discord...). URLs are
      absolute because the networks read these tags without loading the page. The
@@ -14,17 +14,17 @@
 <meta property="og:site_name" content="Oyen Poni">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://lucacadalora.github.io/poni/">
-<meta property="og:title" content="Oyen Poni · A living notch for Windows">
-<meta property="og:description" content="A free, open-source island at the top of your Windows screen: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away.">
-<meta property="og:image" content="https://lucacadalora.github.io/poni/assets/share/oyen-poni-share.jpg?v=1">
+<meta property="og:title" content="Oyen Poni · A living notch for Windows and Mac">
+<meta property="og:description" content="A free, open-source island at the top of your screen, on Windows and Mac: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away.">
+<meta property="og:image" content="https://lucacadalora.github.io/poni/assets/share/oyen-poni-share.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The Oyen Poni island hanging from the top of the screen, open on the Music page with synced lyrics, and Oyen the cat peeking over the island.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Oyen Poni · A living notch for Windows">
-<meta name="twitter:description" content="A free, open-source island at the top of your Windows screen: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away.">
-<meta name="twitter:image" content="https://lucacadalora.github.io/poni/assets/share/oyen-poni-share.jpg?v=1">
+<meta name="twitter:title" content="Oyen Poni · A living notch for Windows and Mac">
+<meta name="twitter:description" content="A free, open-source island at the top of your screen, on Windows and Mac: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away.">
+<meta name="twitter:image" content="https://lucacadalora.github.io/poni/assets/share/oyen-poni-share.jpg?v=2">
 <meta name="twitter:image:alt" content="The Oyen Poni island hanging from the top of the screen, open on the Music page with synced lyrics, and Oyen the cat peeking over the island.">
 <link rel="icon" href="brand/oyen-poni-logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -188,6 +188,15 @@ section { padding-block: 88px; }
 .glass-shot span { font-size: 14px; color: var(--muted); }
 .glass-flip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .glass-flip figcaption { padding: 10px 12px 12px; }
+/* the Mac: screen pictures with the menu bar and the camera notch, so they keep their own frame */
+.mac-strips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.mac-shot { margin: 0; border-radius: 18px; overflow: hidden; background: var(--bg); border: 1px solid #dfe3ea; }
+.mac-shot img { width: 100%; }
+.mac-shot figcaption { padding: 14px 16px 16px; display: grid; gap: 2px; }
+.mac-shot strong { font: 600 16px/1.3 var(--display); }
+.mac-shot span { font-size: 14px; color: var(--muted); }
+.mac-get { display: grid; gap: 14px; justify-items: start; }
+.mac-get .how { margin-top: 0; }
 .how { margin-top: 18px; font-size: 15px; color: var(--muted); }
 .how kbd { font: 600 13px/1 var(--sans); background: var(--bg); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 3px 7px; color: var(--ink); }
 
@@ -214,8 +223,9 @@ section { padding-block: 88px; }
 .steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line); display: grid; place-items: center; font: 600 14px/1 var(--display); }
 .steps b { font-weight: 600; }
 .steps p { color: var(--muted); font-size: 15px; }
-.mac-steps { margin-top: 18px; color: var(--muted); font-size: 15px; }
-.mac-steps b { color: var(--ink); font-weight: 600; }
+.install h3.os { font-size: 20px; margin: 0 0 14px; }
+.install h3.os span { font: 400 14px/1.4 var(--sans); color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+.install .steps + h3.os { margin-top: 28px; }
 .where { margin-top: 20px; background: var(--panel); border-radius: 16px; padding: 16px 18px; font-size: 14px; color: #3a3a3e; display: grid; gap: 6px; }
 .where code { font: 13px/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; background: var(--bg); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; word-break: break-all; }
 
@@ -226,7 +236,7 @@ footer a { color: var(--muted); }
 
 @media (max-width: 900px) {
   .hero-copy, .music, .music.flip, .theme-notes, .oyenza, .install { grid-template-columns: minmax(0, 1fr); }
-  .compare, .facts, .glass-shots { grid-template-columns: minmax(0, 1fr); }
+  .compare, .facts, .glass-shots, .mac-strips { grid-template-columns: minmax(0, 1fr); }
   .hero-oyen { max-width: 320px; }
   .oyenza { padding: 32px 24px; }
 }
@@ -248,6 +258,7 @@ footer a { color: var(--muted); }
     <a class="brand" href="#top"><img src="brand/oyen-poni-logo.svg" alt="" width="32" height="32">Oyen Poni</a>
     <nav aria-label="Sections">
       <a href="#features">Features</a>
+      <a href="#mac">Mac</a>
       <a href="#oyen">Oyen theme</a>
       <a href="#glass">Glass</a>
       <a href="#oyenza">Oyenza</a>
@@ -277,9 +288,9 @@ footer a { color: var(--muted); }
     </div>
     <div class="wrap hero-copy">
       <div>
-        <p class="eyebrow">For Windows 10 and 11</p>
-        <h1>A living notch <span>for Windows</span></h1>
-        <p class="lead">Oyen Poni hangs a small island from the top of your screen. It shows what is happening, and opens into quick pages when you point at it: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks, your clipboard, and money in and bills due from Oyenza.</p>
+        <p class="eyebrow">For Windows 10 and 11, and macOS 14 or later</p>
+        <h1>A living notch <span>for Windows and Mac</span></h1>
+        <p class="lead">Oyen Poni hangs a small island from the top of your screen. It shows what is happening, and opens into quick pages when you point at it: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks, your clipboard and, on Windows, money in and bills due from Oyenza.</p>
         <div class="ctas">
           <a class="btn btn-dark" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 2h9.2v9.2H2zm10.8 0H22v9.2h-9.2zM2 12.8h9.2V22H2zm10.8 0H22V22h-9.2z"/></svg>
@@ -291,7 +302,7 @@ footer a { color: var(--muted); }
           </a>
           <a class="btn btn-line" href="https://github.com/lucacadalora/poni">Source on GitHub</a>
         </div>
-        <p class="small">Free and open source (MIT) · Windows <span data-release="size">6.3&nbsp;MB</span>, Mac <span data-release="mac-size">10.6&nbsp;MB</span> · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.18</span></a></p>
+        <p class="small">Free and open source (MIT) · Windows <span data-release="size">6.3&nbsp;MB</span>, Mac <span data-release="mac-size">10.6&nbsp;MB</span> · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.19</span></a></p>
         <div class="look-switch" role="group" aria-label="Island look">
           <button type="button" data-look="classic" aria-pressed="true"><span class="dot"></span>Classic</button>
           <button type="button" data-look="oyen" aria-pressed="false"><span class="dot dot-oyen"></span>Oyen theme</button>
@@ -300,6 +311,61 @@ footer a { color: var(--muted); }
       <img class="hero-oyen" src="brand/art/oyen-poni-peek.webp" alt="Oyen, an orange plush cat, peeking over the island while a song plays" width="1200" height="661">
     </div>
   </div>
+
+  <section id="mac">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">New · Oyen Poni for Mac</p>
+        <h2>On a Mac, it wraps the notch</h2>
+        <p>On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera, and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows. Around the notch, the Oyen theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it.</p>
+      </div>
+      <div class="mac-strips">
+        <figure class="mac-shot">
+          <img class="look-classic" src="assets/shots/mac/classic/media-activity.webp" alt="A MacBook's menu bar while music plays: the album art left of the camera notch, the equalizer on its right" width="420" height="68" loading="lazy">
+          <img class="look-oyen" src="assets/shots/mac/oyen/media-activity.webp" alt="The same in the Oyen theme: black like the notch, the album art on the left and Oyen on the right" width="420" height="68" loading="lazy">
+          <figcaption><strong>Music playing</strong><span>The album art left of the camera, the beat on its right.</span></figcaption>
+        </figure>
+        <figure class="mac-shot">
+          <img class="look-classic" src="assets/shots/mac/classic/timer-activity.webp" alt="A focus timer around the notch: its progress ring on the left, the minutes left on the right" width="420" height="68" loading="lazy">
+          <img class="look-oyen" src="assets/shots/mac/oyen/timer-activity.webp" alt="The focus timer around the notch in the Oyen theme" width="420" height="68" loading="lazy">
+          <figcaption><strong>Focus timer</strong><span>The ring on one side of the camera, the minutes left on the other.</span></figcaption>
+        </figure>
+        <figure class="mac-shot">
+          <img class="look-classic" src="assets/shots/mac/classic/idle-clock.webp" alt="The resting island on a MacBook: the time to the right of the notch" width="420" height="68" loading="lazy">
+          <img class="look-oyen" src="assets/shots/mac/oyen/idle-clock.webp" alt="The resting island in the Oyen theme: Oyen peeking left of the notch, the time on its right" width="420" height="68" loading="lazy">
+          <figcaption><strong>Resting</strong><span>The clock sits beside the notch. The other idle looks hide inside it until you point there.</span></figcaption>
+        </figure>
+      </div>
+      <div class="pages-2">
+        <figure class="mac-shot">
+          <img class="look-classic" src="assets/shots/mac/classic/page-media.webp" alt="The open island hanging below a MacBook's notch: the Music page with synced lyrics" width="710" height="288" loading="lazy">
+          <img class="look-oyen" src="assets/shots/mac/oyen/page-media.webp" alt="The open island in the Oyen theme, black around the notch with cream type and an orange play button: the Music page with synced lyrics" width="710" height="288" loading="lazy">
+          <figcaption><strong>Music, with the words</strong><span>Music and Spotify, with synced lyrics and the reading under Japanese, Korean and Chinese lines.</span></figcaption>
+        </figure>
+        <figure class="mac-shot">
+          <img class="look-classic" src="assets/shots/mac/classic/page-today.webp" alt="The Today page below the notch: the date and calendar beside CPU, memory, disk and battery" width="710" height="304" loading="lazy">
+          <img class="look-oyen" src="assets/shots/mac/oyen/page-today.webp" alt="The Today page in the Oyen theme below the notch" width="710" height="304" loading="lazy">
+          <figcaption><strong>Today</strong><span>The date and calendar, with your Mac's CPU, memory, disk and battery.</span></figcaption>
+        </figure>
+      </div>
+      <div class="theme-notes">
+        <ul>
+          <li><span>Music and Spotify, with synced lyrics from LRCLIB, or Apple Music's own with your token, and the reading under Japanese, Korean and Chinese lines.</span></li>
+          <li><span>The focus timer, the Shelf with Phone drop over the same Wi-Fi, tasks and clipboard history.</span></li>
+          <li><span>Pop-ups for volume and charging, the Classic, Oyen and Glass themes, and start at login. Every option is in the menu bar, under Oyen's mark.</span></li>
+          <li><span>New in 0.1.19: Glass on the Mac is macOS's own glass, Liquid Glass on macOS 26 and a dark blur before it, with a black strip where it meets the notch.</span></li>
+          <li><span>Not on the Mac yet: paired phones, Oyenza sign-in, add-ons, Show over games, headphone pop-ups and hiding in full-screen apps.</span></li>
+        </ul>
+        <div class="mac-get">
+          <a class="btn btn-dark" data-release="mac-link" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+            Download for Mac
+          </a>
+          <p class="how">macOS 14 or later, on Apple silicon or Intel. One app for both, <span data-release="mac-size">10.5&nbsp;MB</span>. It isn't signed with an Apple Developer ID yet, so the first time, macOS holds it back until you allow it in Privacy &amp; Security: <a href="#install">see Install</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="features">
     <div class="wrap">
@@ -656,7 +722,7 @@ footer a { color: var(--muted); }
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">Private by design</p>
-        <h2>Your data stays on your PC</h2>
+        <h2>Your data stays on your computer</h2>
       </div>
       <div class="facts">
         <div class="fact"><h3>No account needed</h3><p>No sign-up and no tracking. Tasks, shelf and focus history are files in your own user folder.</p></div>
@@ -673,12 +739,18 @@ footer a { color: var(--muted); }
           <p class="eyebrow">Install</p>
           <h2>Ready in under a minute</h2>
         </div>
+        <h3 class="os">On Windows <span>10 and 11</span></h3>
         <ol class="steps">
           <li><div><b>Download the installer</b><p>Oyen-Poni-Setup.exe, from the latest release on GitHub. A portable zip is on the <a href="https://github.com/lucacadalora/poni/releases">Releases</a> page too.</p></div></li>
           <li><div><b>Run it</b><p>It installs just for you and needs no admin rights.</p></div></li>
           <li><div><b>If Windows warns you</b><p>Builds aren't code-signed yet, so SmartScreen may say "Windows protected your PC". Choose More info, then Run anyway. If Smart App Control is on, Windows won't run unsigned apps at all; a Microsoft Store version is on the way.</p></div></li>
         </ol>
-        <p class="mac-steps"><b>On a Mac</b> (macOS 14 or later, Apple silicon or Intel): open Oyen-Poni-Mac.dmg and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click Done, then open System Settings › Privacy &amp; Security and click Open Anyway. On a Mac the music page follows Music and Spotify, and Glass, paired phones, Oyenza sign-in and add-ons aren't there yet.</p>
+        <h3 class="os">On a Mac <span>macOS 14 or later, Apple silicon or Intel</span></h3>
+        <ol class="steps">
+          <li><div><b>Download the app</b><p>Oyen-Poni-Mac.dmg, from the same release.</p></div></li>
+          <li><div><b>Drag it into Applications</b><p>Open the DMG and drag Oyen Poni into the Applications folder.</p></div></li>
+          <li><div><b>Allow it the first time</b><p>It isn't signed with an Apple Developer ID yet, so macOS warns you the first time you open it. Click Done, then open System Settings › Privacy &amp; Security and click Open Anyway.</p></div></li>
+        </ol>
         <div class="ctas" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
           <a class="btn btn-dark" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 2h9.2v9.2H2zm10.8 0H22v9.2h-9.2zM2 12.8h9.2V22H2zm10.8 0H22V22h-9.2z"/></svg>

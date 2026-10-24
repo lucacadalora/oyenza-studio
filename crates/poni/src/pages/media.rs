@@ -516,8 +516,8 @@ fn play_button(ui: &mut Ui, c: Point, playing: bool, enabled: bool) -> bool {
         return false;
     }
     let resp = ui.button(wid("media_play"), Rect::from_center(c, PLAY_D, PLAY_D));
-    let look = ui.c.look();
-    let (rest, hover, press, glyph) = match look.accent.filter(|_| look.light) {
+    // A look with its own accent (Oyen's, cream or black) plays in it; the others in white.
+    let (rest, hover, press, glyph) = match ui.c.look().accent {
         Some(a) => (a, Color::lerp(a, Color::white(1.0), 0.08), Color::lerp(a, Color::black(1.0), 0.15), palette::ON_ACCENT),
         None => (palette::TEXT, Color::white(1.0), Color::white(0.82), Color::black(1.0)),
     };

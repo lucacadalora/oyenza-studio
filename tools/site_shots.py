@@ -38,6 +38,16 @@ glass is made of, so they are kept whole, as glass/<run>-<state>.webp:
     python3 tools/site_shots.py selftest-glass-dark glass dark
     python3 tools/site_shots.py selftest-glass-flip glass flip
 
+The Mac pictures come from the mac workflow's `mac-renders` artifact (the
+Mac app's own `--render`, 200 %, Classic and Oyen, with and without a
+MacBook's notch). They show the island with the menu bar and the camera
+notch around it, so they are kept as screen pictures, as
+mac/<theme>/<state>.webp; the resting states are cut to the middle of the
+menu bar:
+
+    gh run download <mac run> -R lucacadalora/poni -n mac-renders -D mac-renders
+    python3 tools/site_shots.py mac-renders mac
+
 The self-test writes NAME.png (the island's canvas on a test gradient, with
 margins) and NAME-alpha.png (the canvas's own alpha). This cuts the canvas out,
 takes its alpha from NAME-alpha.png and removes the gradient from the
@@ -63,6 +73,11 @@ KEEP = {
 # By run: the open island in light and dark mode, and the resting island
 # over a bright page and over a dark one with Windows still in light mode.
 GLASS_KEEP = {"light": {"page-media", "media-activity"}, "dark": {"page-media"}, "flip": {"media-activity"}}
+# Mac pictures, with the notch: the resting states sit in the menu bar's line,
+# cut to its middle (MAC_STRIP, in pixels at 200 %); the open pages hang below
+# the notch and are kept whole.
+MAC_KEEP = {"idle-clock", "media-activity", "timer-activity", "page-media", "page-today"}
+MAC_STRIP = (840, 136)
 
 
 def cut(shot: Path, alpha: Path) -> Image.Image:
@@ -97,9 +112,31 @@ def glass(src: Path, run: str) -> None:
         print(f"glass/{run}-{name}.webp  {img.width}x{img.height}")
 
 
+def mac(src: Path) -> None:
+    for shot in sorted(src.glob("[0-9][0-9]-*-notch.png")):
+        name = re.sub(r"^\d\d-", "", shot.stem)[: -len("-notch")]
+        theme = "classic"
+        if name.endswith("-oyen"):
+            name, theme = name[: -len("-oyen")], "oyen"
+        if name not in MAC_KEEP:
+            continue
+        img = Image.open(shot).convert("RGB")
+        if not name.startswith("page-"):
+            w, h = MAC_STRIP
+            x0 = (img.width - w) // 2
+            img = img.crop((x0, 0, x0 + w, h))
+        dst = ROOT / "site" / "assets" / "shots" / "mac" / theme
+        dst.mkdir(parents=True, exist_ok=True)
+        img.save(dst / f"{name}.webp", quality=90, method=6)
+        print(f"mac/{theme}/{name}.webp  {img.width}x{img.height}")
+
+
 def main() -> None:
     if len(sys.argv) == 4 and sys.argv[2] == "glass" and sys.argv[3] in ("light", "dark", "flip"):
         glass(Path(sys.argv[1]), sys.argv[3])
+        return
+    if len(sys.argv) == 3 and sys.argv[2] == "mac":
+        mac(Path(sys.argv[1]))
         return
     if len(sys.argv) not in (3, 4) or sys.argv[2] not in ("classic", "oyen"):
         sys.exit(__doc__)

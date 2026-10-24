@@ -24,7 +24,8 @@ use objc2_core_foundation::{
 };
 use objc2_core_graphics::{
     kCGColorSpaceSRGB, CGBitmapContextCreate, CGBitmapContextCreateImage, CGBitmapContextGetData, CGBitmapInfo, CGColorRenderingIntent, CGColorSpace,
-    CGContext, CGDataProvider, CGImage, CGImageAlphaInfo, CGImageByteOrderInfo, CGInterpolationQuality, CGLineCap, CGLineJoin, CGMutablePath, CGPath,
+    CGContext, CGDataProvider, CGGradient, CGGradientDrawingOptions, CGImage, CGImageAlphaInfo, CGImageByteOrderInfo, CGInterpolationQuality, CGLineCap,
+    CGLineJoin, CGMutablePath, CGPath,
 };
 use objc2_core_text::{
     kCTFontAttributeName, kCTForegroundColorFromContextAttributeName, CTFont, CTFontDescriptor, CTFontManagerCreateFontDescriptorsFromData, CTLine,
@@ -863,16 +864,24 @@ impl<'a> Canvas<'a> {
     }
 
     /// Fill a path with `c` fading from `alpha0` at height `y0` to `alpha1`
-    /// at `y1` (a vertical gradient, as under Stats' charts), in thin bands.
+    /// at `y1` (a vertical gradient, as under Stats' charts); above `y0` and
+    /// below `y1` the end opacities carry on, as Direct2D's gradient brush
+    /// does on Windows.
     pub fn fill_path_fade(&mut self, segs: &[Seg], c: Color, y0: f32, y1: f32, alpha0: f32, alpha1: f32) {
-        const BANDS: usize = 8;
-        for b in 0..BANDS {
-            let (ya, yb) = (y0 + (y1 - y0) * b as f32 / BANDS as f32, y0 + (y1 - y0) * (b + 1) as f32 / BANDS as f32);
-            let t = (b as f32 + 0.5) / BANDS as f32;
-            self.clip(Rect::new(-1.0e5, ya.min(yb), 2.0e5, (yb - ya).abs()));
-            self.path(segs, Some(c.mul_alpha(alpha0 + (alpha1 - alpha0) * t)), None);
-            self.unclip();
-        }
+        let paint = self.g.look.paint(c);
+        let (a, b) = (self.components(paint.mul_alpha(alpha0)), self.components(paint.mul_alpha(alpha1)));
+        let stops = [a[0], a[1], a[2], a[3], b[0], b[1], b[2], b[3]];
+        let at: [CGFloat; 2] = [0.0, 1.0];
+        let Some(grad) = (unsafe { CGGradient::with_color_components(Some(&self.g.srgb), stops.as_ptr(), at.as_ptr(), 2) }) else { return };
+        CGContext::save_g_state(self.cg());
+        let p = cg_path(segs);
+        CGContext::begin_path(self.cg());
+        CGContext::add_path(self.cg(), Some(&p));
+        CGContext::clip(self.cg());
+        let (from, to) = (CGPoint { x: 0.0, y: y0 as CGFloat }, CGPoint { x: 0.0, y: y1 as CGFloat });
+        let extend = CGGradientDrawingOptions::DrawsBeforeStartLocation | CGGradientDrawingOptions::DrawsAfterEndLocation;
+        CGContext::draw_linear_gradient(self.cg(), Some(&grad), from, to, extend);
+        CGContext::restore_g_state(self.cg());
     }
 
     /// The island silhouette: flat top flush with the screen edge, concave

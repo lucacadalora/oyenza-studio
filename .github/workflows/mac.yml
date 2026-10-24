@@ -41,16 +41,19 @@ jobs:
       - name: Unit tests (core)
         run: cargo test -p poni-core --release
 
-      # Every island state with sample data, Classic and Oyen, without and
-      # with a MacBook's notch. The runner has no notch, so this is where the
-      # notch layouts are looked at.
+      # Every island state with sample data, Classic, Oyen and Glass (a
+      # smoked stand-in for macOS's glass), without and with a MacBook's
+      # notch. The runner has no notch, so this is where the notch layouts
+      # are looked at.
       - name: Render the island (offscreen)
         run: |
           bin=target/aarch64-apple-darwin/release/poni
           $bin --render mac-renders
           $bin --render mac-renders --theme oyen
+          $bin --render mac-renders --theme glass
           $bin --render mac-renders --notch
           $bin --render mac-renders --theme oyen --notch
+          $bin --render mac-renders --theme glass --notch
           ls mac-renders | wc -l
 
       - name: App icon
@@ -69,57 +72,12 @@ jobs:
       # Today with live stats), the timer, a notice, the volume and charging
       # pop-ups, a real copy landing in clipboard history, files dropped on
       # the Shelf, a Spotify "now playing" notification with its lyrics
-      # looked up on LRCLIB, and the menu. At each state the app writes where its
-      # window is and waits; this script takes the screenshot and answers.
+      # looked up on LRCLIB, the Glass theme, Oyen and Glass around a notch
+      # the app pretends the screen has, and the menu. At each state the app
+      # writes where its window is and waits; tools/mac-smoke.sh takes the
+      # screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
-        run: |
-          # Not -e: the report must print even when a check fails.
-          set +e -u
-          system_profiler SPDisplaysDataType | grep -E "Resolution|Retina|Main Display" || true
-          bin="dist/Oyen Poni.app/Contents/MacOS/poni"
-          mkdir -p smoke
-          "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
-          pid=$!
-          deadline=$((SECONDS + 240))
-          shots=0
-          while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
-            for r in smoke/ready-*.txt; do
-              [ -e "$r" ] || continue
-              base="${r#smoke/ready-}"; base="${base%.txt}"
-              [ -e "smoke/shot-$base.done" ] && continue
-              IFS=, read -r x y w h < "$r"
-              case "$base" in
-                # A real copy: the app's clipboard history should pick it up.
-                *clipboard-copy) printf 'Oyen Poni smoke test, copied at %s' "$(date +%T)" | pbcopy; sleep 1.5 ;;
-                # What Spotify announces when a track plays (no Spotify on the runner).
-                *music-notify)
-                  osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Blinding Lights", "Artist": "The Weeknd", "Album": "After Hours", "Duration": 200040, "Playback Position": 42.5, "Player State": "Playing"}), true)' || true
-                  sleep 1.5 ;;
-              esac
-              left=$(( x > 40 ? x - 40 : 0 ))
-              case "$base" in
-                # The menu opens under the menu bar item at the top right.
-                *menu) screencapture -x "smoke/shot-$base.png" || true ;;
-                *) screencapture -x -R "$left,0,$(( w + 80 )),$(( y + h + 40 ))" "smoke/shot-$base.png" || true ;;
-              esac
-              if [ $shots -eq 0 ]; then screencapture -x smoke/screen-full.png || true; fi
-              shots=$(( shots + 1 ))
-              touch "smoke/shot-$base.done"
-            done
-            sleep 0.2
-          done
-          if kill -0 $pid 2>/dev/null; then
-            echo "smoke run did not finish within 240 s"
-            kill $pid
-            code=1
-          else
-            wait $pid
-            code=$?
-          fi
-          echo "smoke exit code: $code ($shots screenshots)"
-          echo "---- report.json"; cat smoke/report.json || echo "(missing)"
-          echo "---- poni.log"; tail -80 smoke/home/poni.log || true
-          exit $code
+        run: bash tools/mac-smoke.sh "dist/Oyen Poni.app/Contents/MacOS/poni"
 
       - name: Check the DMG
         run: |
@@ -145,6 +103,37 @@ jobs:
         if: always()
         with:
           name: mac-smoke
+          path: |
+            smoke/*.png
+            smoke/report.json
+            smoke/stdout.txt
+            smoke/home/poni.log
+
+  # Liquid Glass came with macOS 26: the same DMG's smoke run on a macOS 26
+  # runner, where the Glass steps show the real glass (the macOS 15 run
+  # above shows the blur that stands in before it).
+  tahoe:
+    name: Smoke-run on macOS 26 (Liquid Glass)
+    needs: mac
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: oyen-poni-mac-dmg
+          path: dmg
+      - name: Smoke run (the real window, with screenshots)
+        run: |
+          sw_vers
+          hdiutil attach dmg/*.dmg -nobrowse -readonly -mountpoint /tmp/poni-dmg
+          mkdir -p dist
+          cp -R "/tmp/poni-dmg/Oyen Poni.app" dist/
+          hdiutil detach /tmp/poni-dmg
+          bash tools/mac-smoke.sh "dist/Oyen Poni.app/Contents/MacOS/poni"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mac-smoke-tahoe
           path: |
             smoke/*.png
             smoke/report.json
