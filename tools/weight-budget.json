@@ -11,7 +11,7 @@
   },
   "music": {
     "private_mib": 30.0,
-    "mcycles_per_s": 140.0,
+    "mcycles_per_s": 175.0,
     "wakeups_per_s": 1000.0
   }
 }
