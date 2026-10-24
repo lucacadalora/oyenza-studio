@@ -73,9 +73,10 @@ use windows::Win32::System::Power::{
 use windows::Win32::System::ProcessStatus::{GetPerformanceInfo, PERFORMANCE_INFORMATION};
 use windows::Win32::System::SystemInformation::{GetSystemCpuSetInformation, GetTickCount64, GlobalMemoryStatusEx, MEMORYSTATUSEX, SYSTEM_CPU_SET_INFORMATION};
 use windows::Win32::System::Threading::{
-    GetActiveProcessorCount, GetSystemTimes, OpenProcess, QueryFullProcessImageNameW, ALL_PROCESSOR_GROUPS, PROCESS_NAME_WIN32,
+    GetActiveProcessorCount, GetCurrentThread, GetSystemTimes, OpenProcess, QueryFullProcessImageNameW, ALL_PROCESSOR_GROUPS, PROCESS_NAME_WIN32,
     PROCESS_QUERY_LIMITED_INFORMATION,
 };
+use windows::Win32::System::WindowsProgramming::QueryThreadCycleTime;
 use windows::Win32::System::IO::DeviceIoControl;
 
 /// One reading a second, open or not.
@@ -229,6 +230,9 @@ pub struct Probe {
     pub full: Duration,
     /// What one more light reading spent on each source (and the process list).
     pub parts: Vec<(&'static str, Duration)>,
+    /// Processor cycles one light reading takes, averaged over a few (what
+    /// keeping the history costs each second).
+    pub light_cycles: Option<u64>,
 }
 
 pub fn probe() -> Probe {
@@ -266,7 +270,20 @@ pub fn probe() -> Probe {
     let t = Instant::now();
     let _ = s.process_list();
     parts.push(("process list (open only)", t.elapsed()));
-    Probe { reading, light, first_full, full, parts }
+    // The thread's own cycle count, exact where its CPU time is counted in clock ticks.
+    const RUNS: u64 = 5;
+    let cycles = || {
+        let mut c = 0u64;
+        unsafe { QueryThreadCycleTime(GetCurrentThread(), &mut c) }.ok().map(|_| c)
+    };
+    let mut spent = Some(0u64);
+    for _ in 0..RUNS {
+        std::thread::sleep(Duration::from_millis(200));
+        let c0 = cycles();
+        let _ = s.sample(false);
+        spent = spent.zip(c0.zip(cycles())).map(|(sum, (a, b))| sum + b.saturating_sub(a));
+    }
+    Probe { reading, light, first_full, full, parts, light_cycles: spent.map(|c| c / RUNS) }
 }
 
 // Each failing source is logged once per run, not once a second.

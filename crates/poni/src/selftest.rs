@@ -405,7 +405,7 @@ fn system_readings(p: crate::services::sysmon::Probe) -> (bool, String) {
     });
     let ms = |d: std::time::Duration| format!("{:.1} ms", d.as_secs_f64() * 1000.0);
     let detail = format!(
-        "cpu {} · cores {} · temperature {} · package power {} · gpu {} · memory {} · drives {} · disk activity {} · network {} · battery {} · top memory {} · light reading {} · first full {} · full {} ({})",
+        "cpu {} · cores {} · temperature {} · package power {} · gpu {} · memory {} · drives {} · disk activity {} · network {} · battery {} · top memory {} · light reading {} · first full {} · full {} ({}) · light reading CPU {}",
         cpu.map_or("missing".into(), |c| format!("{:.0}% of {} threads{}", c.load * 100.0, c.logical, c.mhz.map_or(String::new(), |m| format!(" at {m} MHz")))),
         cores,
         cpu.and_then(|c| c.temp_c).map_or("not reported".into(), |t| format!("{t:.0} °C")),
@@ -421,6 +421,11 @@ fn system_readings(p: crate::services::sysmon::Probe) -> (bool, String) {
         ms(p.first_full),
         ms(p.full),
         p.parts.iter().map(|(name, d)| format!("{name} {}", ms(*d))).collect::<Vec<_>>().join(", "),
+        match (p.light_cycles, cpu.and_then(|c| c.mhz)) {
+            (Some(cycles), Some(mhz)) => format!("{cycles} cycles = {:.2} ms at {mhz} MHz", cycles as f64 / (f64::from(mhz) * 1000.0)),
+            (Some(cycles), None) => format!("{cycles} cycles"),
+            _ => "not measured".into(),
+        },
     );
     (ok, detail)
 }
