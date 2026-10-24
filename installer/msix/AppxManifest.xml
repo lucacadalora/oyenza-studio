@@ -52,6 +52,8 @@
   <Capabilities>
     <!-- Lyrics lookups (LRCLIB, and Apple Music once the user adds a token). -->
     <Capability Name="internetClient" />
+    <!-- Phone drop: a page on the home network for the user's own phone, while its panel is open. -->
+    <Capability Name="privateNetworkClientServer" />
     <!-- A desktop app: runs outside the app sandbox, like the installer build. -->
     <rescap:Capability Name="runFullTrust" />
     <!-- Headphone battery levels over Bluetooth LE. -->

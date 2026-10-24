@@ -13,7 +13,7 @@
 
 use crate::commands::{Command, PhoneCmd};
 use crate::dragdrop;
-use crate::gfx::{Image, TextStyle, Weight};
+use crate::gfx::{Image, ImageData, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::services::imaging::{self, PathKind};
 use crate::state::{AppState, PhoneDrop};
@@ -91,6 +91,8 @@ struct Local {
     /// Shelf contents before the last removal, for "Undo".
     undo: Option<(Vec<ShelfItem>, f64)>,
     count: usize,
+    /// The phone link's QR code as a bitmap: (link, device pixels per module, image).
+    qr_img: Option<(String, u32, Image)>,
 }
 
 thread_local! {
@@ -157,7 +159,7 @@ fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, l: &mut Local) {
         draw_items(ui, st, l, main, &items, dt, shown, &mut actions);
     }
     if let (Some(r), Some(pd)) = (phone_r, st.phone.clone()) {
-        draw_phone(ui, st, &pd, r, &mut actions);
+        draw_phone(ui, st, l, &pd, r, &mut actions);
     }
     apply(st, l, &items, actions);
 }
@@ -679,12 +681,12 @@ fn link_host(url: &str) -> &str {
 
 /// The panel under the shelf while Phone drop is open: the QR code on the
 /// left, what the phone is doing on the right.
-fn draw_phone(ui: &mut Ui, st: &AppState, pd: &PhoneDrop, r: Rect, actions: &mut Vec<Action>) {
+fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect, actions: &mut Vec<Action>) {
     drop_zone(ui, r, PHONE_R, Color::white(0.03), Color::white(0.12));
     let inset = (r.h - QR_BOX) / 2.0;
     let qr_r = Rect::new(r.x + inset, r.y + inset, QR_BOX, QR_BOX);
     match &pd.qr {
-        Some(qr) => draw_qr(ui, qr, qr_r),
+        Some(qr) => draw_qr(ui, l, qr, &pd.url, qr_r),
         None => {
             ui.c.fill_rrect(qr_r, 12.0, Color::white(0.06));
             let icon = if pd.error.is_some() { Icon::Close } else { Icon::Phone };
@@ -794,31 +796,48 @@ fn draw_phone(ui: &mut Ui, st: &AppState, pd: &PhoneDrop, r: Rect, actions: &mut
     }
 }
 
-/// The QR code, module edges on whole device pixels so it scans crisply.
-fn draw_qr(ui: &mut Ui, qr: &QrMatrix, r: Rect) {
+/// The QR code on its white square, each module a whole number of device
+/// pixels so the edges stay sharp enough to scan from a screen.
+fn draw_qr(ui: &mut Ui, l: &mut Local, qr: &QrMatrix, url: &str, r: Rect) {
     ui.c.fill_rrect(r, 12.0, Color::white(1.0));
-    let n = qr.size.max(1) as f32;
     let scale = ui.c.scale().max(0.5);
-    let avail_px = (r.w - 2.0 * QR_MARGIN) * scale;
-    let module_px = (avail_px / n).floor().max(1.0);
-    let m = module_px / scale;
-    let side = m * n;
+    let n = qr.size.max(1) as f32;
+    let module_px = (((r.w - 2.0 * QR_MARGIN) * scale) / n).floor().max(1.0) as u32;
+    let img = qr_image(l, qr, url, module_px);
+    // One device pixel per bitmap pixel, on the pixel grid.
+    let side = img.width as f32 / scale;
     let snap = |v: f32| (v * scale).round() / scale;
-    let ox = snap(r.center().x - side / 2.0);
-    let oy = snap(r.center().y - side / 2.0);
-    let ink = Color::black(1.0);
-    for y in 0..qr.size {
-        let mut x = 0;
-        while x < qr.size {
-            if !qr.get(x, y) {
-                x += 1;
-                continue;
-            }
-            let start = x;
-            while x < qr.size && qr.get(x, y) {
-                x += 1;
-            }
-            ui.c.fill_rect(Rect::new(ox + start as f32 * m, oy + y as f32 * m, (x - start) as f32 * m, m), ink);
+    let dst = Rect::new(snap(r.center().x - side / 2.0), snap(r.center().y - side / 2.0), side, side);
+    ui.c.image(&img, dst, 0.0);
+}
+
+/// The QR code as one bitmap (a single draw per frame instead of hundreds
+/// of rectangles), rebuilt when the link or the scaling changes.
+fn qr_image(l: &mut Local, qr: &QrMatrix, url: &str, module_px: u32) -> Image {
+    if let Some((u, m, img)) = &l.qr_img {
+        if u == url && *m == module_px {
+            return img.clone();
         }
     }
+    let n = qr.size as u32;
+    let side = n * module_px;
+    // Premultiplied BGRA: opaque white, then black modules.
+    let mut px = vec![255u8; (side * side * 4) as usize];
+    for y in 0..n {
+        for x in 0..n {
+            if !qr.get(x as usize, y as usize) {
+                continue;
+            }
+            for dy in 0..module_px {
+                let row = (y * module_px + dy) * side;
+                for dx in 0..module_px {
+                    let o = ((row + x * module_px + dx) * 4) as usize;
+                    px[o..o + 3].fill(0);
+                }
+            }
+        }
+    }
+    let img = ImageData::new(side, side, px);
+    l.qr_img = Some((url.to_string(), module_px, img.clone()));
+    img
 }

@@ -58,6 +58,7 @@ First release in the Microsoft Store.
 - A file shelf: drop files on the island, drag them back out later
 - A tiny to-do list
 - Clipboard history kept in memory only
+- Phone drop: send photos and files from your phone to the Shelf, or Shelf files to your phone, over your Wi-Fi
 - Volume, charging and Bluetooth headset pop-ups with battery level
 - Starts with Windows (you can turn it off from its menu or in Settings)
 
@@ -75,7 +76,7 @@ Category: utility/productivity. No violence, sexual content, gambling or purchas
 
 ## Notes for certification
 
-> Oyen Poni is a desktop app that draws a small "island" at the top centre of the primary screen. No sign-in is needed. Point at the top centre of the screen (or click the island) to open it. Play music in any app that uses Windows media controls (Spotify, Edge) to see the music page and synced lyrics. Lyrics need an internet connection; everything else works offline. "Start with Windows" is the package's startup task (TaskId PoniStartup); users can turn it off from the tray icon's menu or in Settings > Apps > Startup.
+> Oyen Poni is a desktop app that draws a small "island" at the top centre of the primary screen. No sign-in is needed. Point at the top centre of the screen (or click the island) to open it. Play music in any app that uses Windows media controls (Spotify, Edge) to see the music page and synced lyrics. Lyrics need an internet connection; everything else works offline. Phone drop (Shelf › Phone) serves a page on the local network only while its panel is open, for a phone on the same Wi-Fi. "Start with Windows" is the package's startup task (TaskId PoniStartup); users can turn it off from the tray icon's menu or in Settings > Apps > Startup.
 
 **runFullTrust justification**
 

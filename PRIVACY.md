@@ -10,6 +10,8 @@ To stop lookups, right-click the island or the tray icon and turn off **Synced l
 
 **Apple Music lyrics, only if you turn them on.** If you add your Apple Music token (right-click the island, then **Apple Music lyrics › Use token from clipboard**), Oyen Poni also asks Apple Music for lyrics the way Apple's web player does. It checks the token, searches Apple Music's catalog for the playing song's artist and title, and downloads that song's lyrics. These requests go to Apple (`music.apple.com` and `amp-api.music.apple.com`) and carry your token; the token goes nowhere else. To stop, choose **Remove token** in the same menu.
 
+**Phone drop, only while its panel is open.** When you open Phone drop on the Shelf, Oyen Poni serves a small web page on your local network so your phone can send files to the Shelf and save Shelf files. Only a device on the same network with that session's secret link, which only the QR code carries, can open it. Files go straight between your phone and your PC: nothing passes through the internet or through us. Oyen Poni reads nothing from an upload until you click **Accept**. The page stops working when you click **Done**, or after 10 minutes without a phone.
+
 Nothing else is sent anywhere. Music, volume, Bluetooth battery levels, the date and calendar, and the system stats are all read from Windows on your PC.
 
 ## What stays on your PC
@@ -20,6 +22,7 @@ Nothing else is sent anywhere. Music, volume, Bluetooth battery levels, the date
 | Lyrics cache and a log file (the log names songs that were looked up, to help fix problems) | `%LOCALAPPDATA%\Poni\` |
 | Your Apple Music token, if you added one, sealed so only your Windows account on this PC can read it | `%LOCALAPPDATA%\Poni\` |
 | Clipboard history | Memory only, never written to disk. Text that password managers mark as private is skipped. |
+| Files you accepted from your phone with Phone drop | `Downloads\Oyen Poni\`, kept when you uninstall |
 
 Uninstalling removes the app, its cache, its log and the Apple Music token. If you installed from the Microsoft Store, Windows also removes the files the app created. Data from an earlier copy installed from GitHub stays in `%APPDATA%\Poni\` until you delete it.
 

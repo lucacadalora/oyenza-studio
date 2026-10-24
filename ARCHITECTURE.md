@@ -139,7 +139,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   token sealed with DPAPI (`apple-music-token.bin`) and the web player's public
   developer token (`apple-music-web.json`).
 * Phone drop: received files go to `Downloads\Oyen Poni` (`paths::phone_inbox_dir`),
-  staged in a hidden `.oyen-poni-incoming-<n>` folder there until every file of a send has arrived.
+  staged in a `.oyen-poni-incoming-<n>` folder there until every file of a send has arrived.
 * `PONI_HOME` overrides both (the self-test uses it).
 * Clipboard history is memory-only and skips content marked
   `ExcludeClipboardContentFromMonitorProcessing` / `CanIncludeInClipboardHistory=0`
