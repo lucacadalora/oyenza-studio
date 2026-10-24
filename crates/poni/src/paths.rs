@@ -52,3 +52,24 @@ pub fn apple_music_token_path() -> PathBuf {
 pub fn apple_music_web_token_path() -> PathBuf {
     cache_dir().join("apple-music-web.json")
 }
+
+/// Where files sent from a phone land: `Downloads\Oyen Poni` (wherever the
+/// user moved Downloads to). Under `PONI_HOME` for the self-test.
+pub fn phone_inbox_dir() -> PathBuf {
+    if let Some(h) = home_override() {
+        return h.join("phone-drop");
+    }
+    downloads_dir().unwrap_or_else(|| env_dir("USERPROFILE").join("Downloads")).join("Oyen Poni")
+}
+
+fn downloads_dir() -> Option<PathBuf> {
+    use windows::Win32::Foundation::HANDLE;
+    use windows::Win32::System::Com::CoTaskMemFree;
+    use windows::Win32::UI::Shell::{FOLDERID_Downloads, SHGetKnownFolderPath, KF_FLAG_DEFAULT};
+    unsafe {
+        let p = SHGetKnownFolderPath(&FOLDERID_Downloads, KF_FLAG_DEFAULT, HANDLE::default()).ok()?;
+        let s = p.to_string().ok();
+        CoTaskMemFree(Some(p.0 as *const _));
+        s.filter(|s| !s.is_empty()).map(PathBuf::from)
+    }
+}

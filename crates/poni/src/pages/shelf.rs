@@ -5,15 +5,21 @@
 //! (requested with `Command::LoadThumb`); the thumbnail worker also reports
 //! whether each file still exists, so moved or deleted items are greyed out
 //! without touching the disk on the UI thread.
+//!
+//! Phone drop lives here too: a Phone tile (empty shelf) or pill (filled
+//! shelf) opens a panel under the shelf with a QR code. A phone that scans it
+//! sends files to the Shelf after a yes on the island, and can save Shelf
+//! files (`services::phonedrop`, `poni_core::phonedrop`).
 
-use crate::commands::Command;
+use crate::commands::{Command, PhoneCmd};
 use crate::dragdrop;
 use crate::gfx::{Image, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::services::imaging::{self, PathKind};
-use crate::state::AppState;
+use crate::state::{AppState, PhoneDrop};
 use crate::ui::{wid, wid_n, PillStyle, Ui, WidgetId, PILL_GAP, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
+use poni_core::phonedrop::{fmt_bytes, QrMatrix};
 use poni_core::shelf::{display_name, extension, ShelfItem, MAX_SHELF_ITEMS};
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -42,9 +48,24 @@ const GLOW_SECS: f32 = 0.14;
 /// Drop-zone outline: one solid hairline, the same idle and while dragging.
 const ZONE_STROKE: f32 = 1.5;
 const DROP_LABEL: &str = "Drop to add to Shelf";
+/// The phone panel under the shelf while Phone drop is open.
+const PHONE_GAP: f32 = 12.0;
+const PHONE_H: f32 = 152.0;
+const PHONE_R: f32 = 18.0;
+/// White square behind the QR code, and the light margin inside it.
+const QR_BOX: f32 = 128.0;
+const QR_MARGIN: f32 = 6.0;
+/// The Phone tile beside the drop zone on an empty shelf.
+const PHONE_TILE_W: f32 = 196.0;
+/// How long a phone result ("3 files from iPhone…") stays in the panel.
+pub const PHONE_OUTCOME_S: f64 = 8.0;
 
-pub fn height(_st: &AppState) -> f32 {
-    PAGE_H
+pub fn height(st: &AppState) -> f32 {
+    if st.phone.is_some() {
+        PAGE_H + PHONE_GAP + PHONE_H
+    } else {
+        PAGE_H
+    }
 }
 
 /// Transient page state (UI thread only).
@@ -77,6 +98,9 @@ thread_local! {
 }
 
 enum Action {
+    PhoneOpen,
+    PhoneClose,
+    PhoneAnswer(u64, bool),
     Open(String),
     Reveal(String),
     DragOut(String),
@@ -122,10 +146,18 @@ fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, l: &mut Local) {
     }
 
     let mut actions = Vec::new();
+    // With Phone drop open the shelf keeps its height and the panel sits below.
+    let (main, phone_r) = match &st.phone {
+        Some(_) => (Rect::new(area.x, area.y, area.w, PAGE_H), Some(Rect::new(area.x, area.y + PAGE_H + PHONE_GAP, area.w, PHONE_H))),
+        None => (area, None),
+    };
     if items.is_empty() {
-        draw_empty(ui, st, l, area, &mut actions);
+        draw_empty(ui, st, l, main, &mut actions);
     } else {
-        draw_items(ui, st, l, area, &items, dt, shown, &mut actions);
+        draw_items(ui, st, l, main, &items, dt, shown, &mut actions);
+    }
+    if let (Some(r), Some(pd)) = (phone_r, st.phone.clone()) {
+        draw_phone(ui, st, &pd, r, &mut actions);
     }
     apply(st, l, &items, actions);
 }
@@ -213,6 +245,9 @@ fn apply(st: &mut AppState, l: &mut Local, items: &[ShelfItem], actions: Vec<Act
     let now = st.now;
     for a in actions {
         match a {
+            Action::PhoneOpen => st.cmd(Command::Phone(PhoneCmd::Open)),
+            Action::PhoneClose => st.cmd(Command::Phone(PhoneCmd::Close)),
+            Action::PhoneAnswer(id, accept) => st.cmd(Command::Phone(PhoneCmd::Answer { id, accept })),
             Action::Open(p) => st.cmd(Command::OpenPath(p)),
             Action::Reveal(p) => st.cmd(Command::RevealPath(p)),
             Action::DragOut(p) => {
@@ -426,6 +461,15 @@ fn draw_header(ui: &mut Ui, st: &AppState, l: &Local, head: Rect, items: &[Shelf
         }
         right = undo_r.x;
     }
+    // Phone drop: send from or save to a phone (the panel opens below).
+    if st.phone.is_none() {
+        let phone_w = ui.pill_width("Phone", true, true);
+        let phone_r = Rect::new(right - PILL_GAP - phone_w, head.y, phone_w, PILL_SMALL);
+        if ui.pill(wid("shelf.phone"), phone_r, "Phone", Some(Icon::Phone), PillStyle::Utility).clicked {
+            actions.push(Action::PhoneOpen);
+        }
+        right = phone_r.x;
+    }
 
     // No instructions by default: the row only describes the hovered tile
     // (where it lives) or a full shelf.
@@ -496,7 +540,17 @@ fn draw_empty(ui: &mut Ui, st: &AppState, l: &Local, area: Rect, actions: &mut V
     let g = l.glow;
     let accent = st.accent;
     // Same bottom edge as the drop overlay over a filled shelf.
-    let zone = Rect::new(area.x, area.y + TOP, area.w, (area.h - TOP - 4.0).max(0.0));
+    let full = Rect::new(area.x, area.y + TOP, area.w, (area.h - TOP - 4.0).max(0.0));
+    // The Phone tile shares the row until Phone drop is open.
+    let zone = if st.phone.is_none() {
+        let tile = Rect::new(full.right() - PHONE_TILE_W, full.y, PHONE_TILE_W, full.h);
+        if draw_phone_tile(ui, tile, 1.0 - g) {
+            actions.push(Action::PhoneOpen);
+        }
+        Rect::new(full.x, full.y, (full.w - PHONE_TILE_W - PILL_GAP).max(0.0), full.h)
+    } else {
+        full
+    };
     let fill = Color::lerp(Color::white(0.03), accent.with_alpha(0.10), g);
     let stroke = Color::lerp(Color::white(0.12), accent.with_alpha(0.9), g);
     drop_zone(ui, zone, 18.0, fill, stroke);
@@ -568,7 +622,203 @@ fn drop_zone(ui: &mut Ui, zone: Rect, radius: f32, fill: Color, stroke: Color) {
     ui.c.stroke_rrect(zone, (radius - ZONE_STROKE / 2.0).max(0.0), stroke, ZONE_STROKE);
 }
 
-/// When the Undo pill lapses (the page needs a frame then), if one is up.
-pub fn next_wake(_st: &AppState) -> Option<f64> {
-    LOCAL.with(|l| l.borrow().undo.as_ref().map(|(_, t)| t + UNDO_SECS))
+/// When the Undo pill lapses or a phone result leaves the panel (the page
+/// needs a frame then), whichever comes first.
+pub fn next_wake(st: &AppState) -> Option<f64> {
+    let undo = LOCAL.with(|l| l.borrow().undo.as_ref().map(|(_, t)| t + UNDO_SECS));
+    let outcome = st.phone.as_ref().and_then(|p| p.outcome.as_ref()).map(|o| o.2).filter(|t| *t > st.now);
+    match (undo, outcome) {
+        (Some(a), Some(b)) => Some(a.min(b)),
+        (a, b) => a.or(b),
+    }
+}
+
+// ---------------------------------------------------------------- phone drop
+
+/// The Phone tile on an empty shelf; true when clicked.
+fn draw_phone_tile(ui: &mut Ui, tile: Rect, alpha: f32) -> bool {
+    let resp = ui.button(wid("shelf.phone.tile"), tile);
+    let base = ui.c.alpha();
+    ui.c.set_alpha(base * alpha);
+    let fill = if resp.pressed {
+        Color::white(0.09)
+    } else if resp.hovered {
+        Color::white(0.06)
+    } else {
+        Color::white(0.03)
+    };
+    drop_zone(ui, tile, 18.0, fill, Color::white(0.12));
+    let c = tile.center();
+    ui.c.fill_circle(Point::new(c.x, c.y - 24.0), 18.0, Color::white(0.10));
+    ui.c.icon(Icon::Phone, Rect::from_center(Point::new(c.x, c.y - 24.0), 20.0, 20.0), palette::TEXT);
+    ui.c.text("Phone drop", Rect::new(tile.x, c.y + 2.0, tile.w, 20.0), &TextStyle::headline().center());
+    ui.c.text("Send from or save to a phone", Rect::new(tile.x + 10.0, c.y + 22.0, tile.w - 20.0, 18.0), &TextStyle::footnote().color(palette::TEXT_DIM).center());
+    ui.c.set_alpha(base);
+    resp.clicked
+}
+
+/// "IMG_1.HEIC, IMG_2.HEIC and 3 more".
+fn names_line(files: &[(String, u64)]) -> String {
+    match files {
+        [] => String::new(),
+        [a] => a.0.clone(),
+        [a, b] => format!("{} and {}", a.0, b.0),
+        [a, b, rest @ ..] => format!("{}, {} and {} more", a.0, b.0, rest.len()),
+    }
+}
+
+fn plural(n: usize, one: &str, many: &str) -> String {
+    format!("{n} {}", if n == 1 { one } else { many })
+}
+
+/// The host part of the link ("192.168.1.20"), for the panel's small print.
+fn link_host(url: &str) -> &str {
+    let rest = url.split_once("//").map_or(url, |(_, r)| r);
+    rest.split(['/', ':']).next().unwrap_or("")
+}
+
+/// The panel under the shelf while Phone drop is open: the QR code on the
+/// left, what the phone is doing on the right.
+fn draw_phone(ui: &mut Ui, st: &AppState, pd: &PhoneDrop, r: Rect, actions: &mut Vec<Action>) {
+    drop_zone(ui, r, PHONE_R, Color::white(0.03), Color::white(0.12));
+    let inset = (r.h - QR_BOX) / 2.0;
+    let qr_r = Rect::new(r.x + inset, r.y + inset, QR_BOX, QR_BOX);
+    match &pd.qr {
+        Some(qr) => draw_qr(ui, qr, qr_r),
+        None => {
+            ui.c.fill_rrect(qr_r, 12.0, Color::white(0.06));
+            let icon = if pd.error.is_some() { Icon::Close } else { Icon::Phone };
+            ui.c.icon(icon, Rect::from_center(qr_r.center(), 28.0, 28.0), palette::TEXT_FAINT);
+        }
+    }
+
+    let x = qr_r.right() + 18.0;
+    let w = (r.right() - 16.0 - x).max(0.0);
+    let pills_y = r.bottom() - 16.0 - PILL_SMALL;
+    let title_r = Rect::new(x, r.y + 18.0, w, 20.0);
+    let line = |i: f32| Rect::new(x, r.y + 44.0 + i * 19.0, w, 18.0);
+    let dim = TextStyle::footnote().color(palette::TEXT_DIM);
+    let now = st.now;
+
+    // Pills from the right edge leftwards; returns the clicked index.
+    let pills = |ui: &mut Ui, list: &[(&str, Option<Icon>, PillStyle, &str)]| -> Option<usize> {
+        let mut right = r.right() - 16.0;
+        let mut hit = None;
+        for (i, (label, icon, style, id)) in list.iter().enumerate() {
+            let pw = ui.pill_width(label, icon.is_some(), true).max(72.0);
+            let pr = Rect::new(right - pw, pills_y, pw, PILL_SMALL);
+            if ui.pill(wid(id), pr, label, *icon, *style).clicked {
+                hit = Some(i);
+            }
+            right = pr.x - PILL_GAP;
+        }
+        hit
+    };
+
+    if let Some(err) = &pd.error {
+        ui.c.text("Phone drop couldn't start", title_r, &TextStyle::headline());
+        ui.c.text(err, line(0.0), &dim);
+        match pills(ui, &[("Close", None, PillStyle::Utility, "shelf.phone.close"), ("Try again", None, PillStyle::Primary(st.accent), "shelf.phone.retry")]) {
+            Some(0) => actions.push(Action::PhoneClose),
+            Some(1) => actions.push(Action::PhoneOpen),
+            _ => {}
+        }
+        return;
+    }
+
+    if let Some(ask) = &pd.ask {
+        let n = ask.files.len();
+        ui.c.text(&format!("{} wants to send {}", ask.from, plural(n, "file", "files")), title_r, &TextStyle::headline());
+        ui.c.text(&names_line(&ask.files), line(0.0), &dim);
+        ui.c.text(&fmt_bytes(ask.total), line(1.0), &dim);
+        match pills(ui, &[("Accept", Some(Icon::Check), PillStyle::Primary(palette::GREEN), "shelf.phone.accept"), ("Decline", None, PillStyle::Utility, "shelf.phone.decline")]) {
+            Some(0) => actions.push(Action::PhoneAnswer(ask.id, true)),
+            Some(1) => actions.push(Action::PhoneAnswer(ask.id, false)),
+            _ => {}
+        }
+        return;
+    }
+
+    if let Some(t) = &pd.transfer {
+        ui.c.text(&format!("Receiving from {}", t.from), title_r, &TextStyle::headline());
+        let detail = if t.files > 1 {
+            format!("File {} of {} · {} of {}", (t.file + 1).min(t.files), t.files, fmt_bytes(t.done), fmt_bytes(t.total))
+        } else {
+            format!("{} of {}", fmt_bytes(t.done), fmt_bytes(t.total))
+        };
+        ui.c.text(&detail, line(0.0), &dim);
+        let frac = if t.total > 0 { (t.done as f64 / t.total as f64) as f32 } else { 1.0 };
+        ui.progress_bar(wid("shelf.phone.progress"), Rect::new(x, line(1.0).y + 8.0, w, 4.0), frac, palette::GREEN, false);
+        if pills(ui, &[("Stop", None, PillStyle::Utility, "shelf.phone.stop")]) == Some(0) {
+            actions.push(Action::PhoneClose);
+        }
+        return;
+    }
+
+    match pd.outcome.as_ref().filter(|o| o.2 > now) {
+        Some((text, good, _)) => {
+            let color = if *good { palette::GREEN } else { palette::TEXT };
+            let ix = if *good {
+                ui.c.icon(Icon::CheckCircle, Rect::new(x, title_r.y + 1.0, 18.0, 18.0), palette::GREEN);
+                24.0
+            } else {
+                0.0
+            };
+            ui.c.text(text, Rect::new(x + ix, title_r.y, w - ix, title_r.h), &TextStyle::headline().color(color));
+            let next = match &pd.visitor {
+                Some(v) => format!("{v} can send more from the same page."),
+                None => "Scan the code with your phone's camera.".to_string(),
+            };
+            ui.c.text(&next, line(0.0), &dim);
+        }
+        None => match &pd.visitor {
+            Some(v) => {
+                ui.c.text(&format!("{v} is connected"), title_r, &TextStyle::headline());
+                ui.c.text("Pick photos or files on the phone and tap Send.", line(0.0), &dim);
+                ui.c.text("Files on the Shelf can be saved from the phone.", line(1.0), &dim);
+            }
+            None => {
+                ui.c.text("Scan with your phone's camera", title_r, &TextStyle::headline());
+                ui.c.text("Your phone needs the same Wi-Fi as this PC.", line(0.0), &dim);
+                ui.c.text("If Windows asks, allow Oyen Poni on private networks.", line(1.0), &dim);
+            }
+        },
+    }
+    let host = link_host(&pd.url);
+    if !host.is_empty() {
+        let small = TextStyle::caption().color(palette::TEXT_FAINT);
+        ui.c.text(&format!("This session's link · {host}"), Rect::new(x, pills_y + 7.0, (w - 100.0).max(0.0), 16.0), &small);
+    }
+    if pills(ui, &[("Done", None, PillStyle::Utility, "shelf.phone.done")]) == Some(0) {
+        actions.push(Action::PhoneClose);
+    }
+}
+
+/// The QR code, module edges on whole device pixels so it scans crisply.
+fn draw_qr(ui: &mut Ui, qr: &QrMatrix, r: Rect) {
+    ui.c.fill_rrect(r, 12.0, Color::white(1.0));
+    let n = qr.size.max(1) as f32;
+    let scale = ui.c.scale().max(0.5);
+    let avail_px = (r.w - 2.0 * QR_MARGIN) * scale;
+    let module_px = (avail_px / n).floor().max(1.0);
+    let m = module_px / scale;
+    let side = m * n;
+    let snap = |v: f32| (v * scale).round() / scale;
+    let ox = snap(r.center().x - side / 2.0);
+    let oy = snap(r.center().y - side / 2.0);
+    let ink = Color::black(1.0);
+    for y in 0..qr.size {
+        let mut x = 0;
+        while x < qr.size {
+            if !qr.get(x, y) {
+                x += 1;
+                continue;
+            }
+            let start = x;
+            while x < qr.size && qr.get(x, y) {
+                x += 1;
+            }
+            ui.c.fill_rect(Rect::new(ox + start as f32 * m, oy + y as f32 * m, (x - start) as f32 * m, m), ink);
+        }
+    }
 }

@@ -12,6 +12,7 @@ use poni_core::datetime::LocalDateTime;
 use poni_core::geom::{palette, Color};
 use poni_core::health::HealthSnapshot;
 use poni_core::lrc::Lyrics;
+use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
@@ -141,6 +142,54 @@ pub struct Notice {
     pub inline: Option<InlineAction>,
 }
 
+/// A phone wants to send these files; the Shelf asks the person at the PC.
+#[derive(Clone, Debug, PartialEq)]
+pub struct PhoneAsk {
+    pub id: u64,
+    /// "iPhone", "Android phone", …
+    pub from: String,
+    /// (name, size) in the order the phone sends them.
+    pub files: Vec<(String, u64)>,
+    pub total: u64,
+}
+
+/// Files coming in from the phone.
+#[derive(Clone, Debug, PartialEq)]
+pub struct PhoneTransfer {
+    pub id: u64,
+    pub from: String,
+    /// The file being sent (0-based) and how many there are.
+    pub file: usize,
+    pub files: usize,
+    pub done: u64,
+    pub total: u64,
+}
+
+/// Phone drop while the Shelf's phone panel is open: the link, its QR code
+/// and what the phone is doing (`services::phonedrop` runs the server).
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct PhoneDrop {
+    /// The link the QR code carries (empty while starting or after an error).
+    pub url: String,
+    pub qr: Option<QrMatrix>,
+    /// Why it couldn't start, as a sentence for the island.
+    pub error: Option<String>,
+    /// The kind of phone that last opened the page ("iPhone").
+    pub visitor: Option<String>,
+    pub ask: Option<PhoneAsk>,
+    pub transfer: Option<PhoneTransfer>,
+    /// The last result, whether it's good news, and until when it shows.
+    pub outcome: Option<(String, bool, f64)>,
+}
+
+impl PhoneDrop {
+    /// The island stays open while the QR code waits for a phone and while
+    /// a phone waits for an answer.
+    pub fn holds_island(&self) -> bool {
+        self.ask.is_some() || (self.error.is_none() && self.visitor.is_none() && self.transfer.is_none())
+    }
+}
+
 /// Transient per-page UI state (scroll offsets, text being typed, …).
 #[derive(Clone, Debug, Default)]
 pub struct PageUiState {
@@ -190,6 +239,8 @@ pub struct AppState {
     pub pinned: bool,
     /// Files are being dragged over the island right now.
     pub drag_hover: bool,
+    /// Phone drop, while it's open.
+    pub phone: Option<PhoneDrop>,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -225,6 +276,7 @@ impl AppState {
             media_paused_at: None,
             pinned: false,
             drag_hover: false,
+            phone: None,
             cmds: Vec::new(),
         }
     }

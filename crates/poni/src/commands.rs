@@ -19,6 +19,17 @@ pub enum Sound {
     Tick,
 }
 
+/// Phone drop (the Shelf's phone panel).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PhoneCmd {
+    /// Start it (or try again after an error).
+    Open,
+    /// Stop it; files still coming in are dropped.
+    Close,
+    /// Answer the phone's question.
+    Answer { id: u64, accept: bool },
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum Command {
     Media(MediaCmd),
@@ -49,4 +60,5 @@ pub enum Command {
     OpenUrl(String),
     /// Start/stop the 1 Hz system-stats sampler.
     WantStats(bool),
+    Phone(PhoneCmd),
 }

@@ -98,8 +98,9 @@ pub enum Event {
     Progress { id: u64, file: usize, files: usize, done: u64, total: u64 },
     /// Every file arrived and was moved into the inbox, in the order sent.
     Received { id: u64, from: String, paths: Vec<PathBuf> },
-    /// The transfer broke off; nothing from it was kept.
-    Failed { id: u64, from: String, reason: String },
+    /// The transfer broke off; nothing from it was kept. `reason` is a plain
+    /// sentence for the island, `detail` the system's own words for the log.
+    Failed { id: u64, from: String, reason: String, detail: String },
 }
 
 type Sink = Arc<dyn Fn(Event) + Send + Sync>;
@@ -230,7 +231,7 @@ impl Server {
         for id in idle {
             if let Some(t) = st.transfers.remove(&id) {
                 let _ = fs::remove_dir_all(&t.staging);
-                (self.shared.sink)(Event::Failed { id, from: t.from, reason: "Phone drop was closed".into() });
+                (self.shared.sink)(Event::Failed { id, from: t.from, reason: "Phone drop was closed".into(), detail: String::new() });
             }
         }
     }
@@ -434,7 +435,7 @@ fn serve_ask(shared: &Shared, w: &mut TcpStream, head: &Head, rest: Vec<u8>, fro
             let _ = fs::remove_dir_all(&staging);
             if let Err(e) = fs::create_dir_all(&staging) {
                 drop(st);
-                (shared.sink)(Event::Failed { id, from: ask.from, reason: format!("Couldn't make a folder for the files ({e})") });
+                (shared.sink)(Event::Failed { id, from: ask.from, reason: "Couldn't make a folder for the files".into(), detail: e.to_string() });
                 return reply(w, false, json!({ "why": "pc-error" }));
             }
             let total = ask.total();
@@ -466,16 +467,16 @@ fn drop_stale_transfers(shared: &Shared, st: &mut State) {
     for id in stale {
         if let Some(t) = st.transfers.remove(&id) {
             let _ = fs::remove_dir_all(&t.staging);
-            (shared.sink)(Event::Failed { id, from: t.from, reason: "The phone stopped sending".into() });
+            (shared.sink)(Event::Failed { id, from: t.from, reason: "The phone stopped sending".into(), detail: String::new() });
         }
     }
 }
 
-fn fail_transfer(shared: &Shared, id: u64, reason: String) {
+fn fail_transfer(shared: &Shared, id: u64, reason: &str, detail: String) {
     let t = shared.state.lock().unwrap_or_else(|e| e.into_inner()).transfers.remove(&id);
     if let Some(t) = t {
         let _ = fs::remove_dir_all(&t.staging);
-        (shared.sink)(Event::Failed { id, from: t.from, reason });
+        (shared.sink)(Event::Failed { id, from: t.from, reason: reason.into(), detail });
     }
 }
 
@@ -504,7 +505,7 @@ fn serve_upload(shared: &Shared, w: &mut TcpStream, head: &Head, rest: Vec<u8>, 
         (t.staging.join(format!("{n}.part")), t.files[n].size, t.files.len())
     };
     if len != expected {
-        fail_transfer(shared, id, "A file didn't match the size the phone announced".into());
+        fail_transfer(shared, id, "A file didn't match the size the phone announced", String::new());
         return reply(w, false, json!({ "why": "size" }));
     }
     if head.expects_continue() {
@@ -514,8 +515,8 @@ fn serve_upload(shared: &Shared, w: &mut TcpStream, head: &Head, rest: Vec<u8>, 
     match write_file(shared, w, rest, &path, len, id, n, files) {
         Ok(()) => {}
         Err(e) => {
-            let reason = if shared.stop.load(Ordering::SeqCst) { "Phone drop was closed".to_string() } else { format!("The connection dropped ({e})") };
-            fail_transfer(shared, id, reason);
+            let reason = if shared.stop.load(Ordering::SeqCst) { "Phone drop was closed" } else { "The connection dropped" };
+            fail_transfer(shared, id, reason, e.to_string());
             return reply(w, false, json!({ "why": "failed" }));
         }
     }
@@ -545,7 +546,7 @@ fn serve_upload(shared: &Shared, w: &mut TcpStream, head: &Head, rest: Vec<u8>, 
             }
             Err(e) => {
                 let _ = fs::remove_dir_all(&t.staging);
-                (shared.sink)(Event::Failed { id, from: t.from, reason: format!("Couldn't save the files ({e})") });
+                (shared.sink)(Event::Failed { id, from: t.from, reason: "Couldn't save the files".into(), detail: e.to_string() });
                 reply(w, false, json!({ "why": "pc-error" }))
             }
         },

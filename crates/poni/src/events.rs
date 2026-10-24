@@ -100,6 +100,8 @@ pub enum AppEvent {
     ShelfThumb { path: String, image: Option<Image> },
     Stats(SysStats),
     ClipboardText(String),
+    /// Phone drop's server: a phone opened the page, asked, sent, gave up.
+    Phone(poni_core::phonedrop::Event),
     /// Free-form log line from a service thread.
     Log(String),
 }

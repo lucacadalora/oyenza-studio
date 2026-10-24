@@ -10,6 +10,7 @@ pub mod http;
 pub mod imaging;
 pub mod lyrics;
 pub mod media;
+pub mod phonedrop;
 pub mod power;
 pub mod secret;
 pub mod sound;
