@@ -20,6 +20,9 @@
 //! 7. for a browser tab, `/api/search` once more reading the title as
 //!    "Artist - Song" (`lrclib::artist_song_guess`).
 //!
+//! A plain-only answer doesn't end steps 4-7: it is kept while the later
+//! steps look for a synced copy of the song.
+//!
 //! Synced lyrics whose recording is much longer or shorter than what plays
 //! (a music video's intro, a radio edit) are shown unsynced.
 //!
@@ -406,6 +409,10 @@ impl Worker {
         // Set when /api/get failed on LRCLIB's side. The search still runs,
         // but a miss there is no longer a sure "no lyrics" and isn't cached.
         let mut get_failed = None;
+        // Plain lyrics found on the way. One signature can hold a plain-only
+        // copy while another copy of the song is synced, so the looser
+        // lookups still run before settling for these.
+        let mut plain: Option<LrclibRecord> = None;
         // /api/get needs an artist; try the full signature, then without album.
         if !q.artist.is_empty() {
             let mut urls = vec![lrclib::get_url(q)];
@@ -416,7 +423,10 @@ impl Worker {
                 let resp = self.call(job, &url)?;
                 match resp.status {
                     200 => match lrclib::parse_get(&resp.body) {
-                        Ok(record) if usable(&record) => return Ok(Fetched::Found(record)),
+                        Ok(record) if complete(&record) => return Ok(Fetched::Found(record)),
+                        Ok(record) if usable(&record) => {
+                            plain.get_or_insert(record);
+                        }
                         Ok(_) => {}
                         Err(e) => return Err(self.bad_reply(job, "/api/get", &e)),
                     },
@@ -436,19 +446,24 @@ impl Worker {
                 }
             }
         }
-        if let Some(record) = self.search(job, q)? {
-            return Ok(Fetched::Found(record));
-        }
+        let mut searches = vec![q.clone()];
         // A browser tab whose channel isn't the artist (a lyric-video
         // channel): read the title as "Artist - Song" and search again.
         if job.browser {
-            if let Some(guess) = lrclib::artist_song_guess(q) {
-                if let Some(record) = self.search(job, &guess)? {
+            searches.extend(lrclib::artist_song_guess(q));
+        }
+        for sq in &searches {
+            if let Some(record) = self.search(job, sq)? {
+                if complete(&record) {
                     return Ok(Fetched::Found(record));
                 }
+                plain.get_or_insert(record);
             }
         }
-        get_failed.map_or(Ok(Fetched::Missing), Err)
+        match plain {
+            Some(record) => Ok(Fetched::Found(record)),
+            None => get_failed.map_or(Ok(Fetched::Missing), Err),
+        }
     }
 
     /// `/api/search` by title + primary artist; the best usable match.
@@ -554,6 +569,12 @@ impl Worker {
             retry_at: Some(Instant::now() + retry_delay(job.attempt)),
         }
     }
+}
+
+/// A record that answers the lookup for good: synced lyrics, or a definite
+/// "instrumental".
+fn complete(r: &LrclibRecord) -> bool {
+    r.instrumental || r.has_full_synced()
 }
 
 fn to_result(record: Option<&LrclibRecord>, job: &Job, source: &str) -> LyricsResult {
