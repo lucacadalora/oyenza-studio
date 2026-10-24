@@ -677,7 +677,8 @@ fn draw_games(ui: &mut Ui, st: &mut AppState, cols: &Cols) {
         FpsAccess::NeedsOk => ("Needs a one-time OK from Windows, as Xbox Game Bar does.".to_string(), Some(("Allow FPS", Command::AllowFps))),
         FpsAccess::Asking => ("Answer Windows' prompt to allow it.".to_string(), None),
         FpsAccess::SignOut => ("Allowed. Sign out of Windows and back in, and FPS shows.".to_string(), None),
-        FpsAccess::Failed(why) => (format!("It didn't work ({why})."), Some(("Check again", Command::CheckFps))),
+        // Why goes to poni.log; the page says it plainly.
+        FpsAccess::Failed(_) => ("Windows didn't allow it this time.".to_string(), Some(("Check again", Command::CheckFps))),
     };
     let (text_r, rest) = rest.split_top(44.0);
     ui.c.text(&text, text_r.inset(0.0, 3.0), &note);
