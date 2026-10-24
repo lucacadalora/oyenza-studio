@@ -470,11 +470,9 @@ impl App {
         }
         self.schedule_minute_timer();
         services::sysmon::watch_away(self.mtm, self.sink.clone());
-        pinfo!("sysmon crumb: away watch on");
         if self.st.settings.system_history {
             self.start_sysmon();
         }
-        pinfo!("sysmon crumb: started");
         if self.first_run && self.smoke.is_none() {
             let place = if self.screen.notch.is_some() { "Point at the notch to open it" } else { "Point at the island to open it" };
             self.st.notify(Icon::CheckCircle, self.st.accent, "Oyen Poni is on", place, 6.0, None);
@@ -1528,9 +1526,12 @@ impl App {
                     self.st.ui.system_module = m;
                     self.set_page(PageKind::System);
                 }
-                // The System page's app icons, from Finder (on the main thread).
+                // The System page's app icons, from Finder (on the main thread). The
+                // first can take a tenth of a second (Finder's icons starting up in
+                // Poni), so none starts while the island moves: the page asks again
+                // with its next frame.
                 Command::LoadAppIcon(p) => {
-                    if !self.st.app_icons.contains_key(&p) {
+                    if !self.st.app_icons.contains_key(&p) && self.island.settled() {
                         self.st.app_icons.insert(p.clone(), None);
                         services::thumbs::app_icon_async(p, pages::system::icon_px(self.gfx.scale()), self.sink.clone());
                     }
@@ -2215,8 +2216,9 @@ fn system_report(st: &AppState) -> (bool, String) {
     let wanted: Vec<&String> = r.top_cpu.iter().chain(&r.top_memory).filter_map(|a| a.path.as_ref()).collect();
     let drawn = wanted.iter().filter(|p| st.app_icons.get(p.as_str()).is_some_and(|i| i.is_some())).count();
     let detail = format!(
-        "CPU {cores}, up {} min · memory {memory} · drives {} · disk {} · network {network} · GPU {gpu} · battery {battery} \
+        "{} · CPU {cores}, up {} min · memory {memory} · drives {} · disk {} · network {network} · GPU {gpu} · battery {battery} \
          · top CPU {} · top memory {} · icons {drawn} of {} drawn",
+        services::sysmon::mac_model().unwrap_or_else(|| "model not reported".into()),
         cpu.map_or(0, |c| c.uptime_s / 60),
         if drives.is_empty() { "none".into() } else { drives.join("; ") },
         r.disk.map_or("not reported".into(), |d| format!("read {} write {}", fmt_rate(d.read_bps), fmt_rate(d.write_bps))),

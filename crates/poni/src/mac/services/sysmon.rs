@@ -405,15 +405,6 @@ impl Laps {
     }
 }
 
-// DEBUG (temporary): where the first sampler and readings get to.
-static CRUMBS: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(true);
-
-fn crumb(what: &str) {
-    if CRUMBS.load(Ordering::Relaxed) {
-        pinfo!("sysmon crumb: {what}");
-    }
-}
-
 // Each failing source is logged once per run, not once a second.
 static WARNED: AtomicU32 = AtomicU32::new(0);
 
@@ -474,7 +465,6 @@ impl Sampler {
     }
 
     fn new() -> Sampler {
-        crumb("new");
         let mut tb = MachTimebase { numer: 1, denom: 1 };
         unsafe { mach_timebase_info(&mut tb) };
         let ram = sysstats::sysctl_u64(c"hw.memsize").unwrap_or(0);
@@ -493,10 +483,7 @@ impl Sampler {
             names: HashMap::new(),
             gpu: Gpu::open(ram),
             gpu_misses: 0,
-            disks: {
-                crumb("disks");
-                block_drivers()
-            },
+            disks: block_drivers(),
             disk_prev: None,
             if_buf: Vec::new(),
             net_prev: None,
@@ -504,28 +491,19 @@ impl Sampler {
             ipv4s: Vec::new(),
             labels: HashMap::new(),
             drive_list: Vec::new(),
-            battery: {
-                crumb("battery");
-                battery_now(None)
-            },
+            battery: battery_now(None),
             details: None,
             power: None,
             slow_at: None,
         };
         // Baselines for everything measured between two readings.
-        crumb("ticks");
         s.ticks = s.core_ticks();
         let cores = s.ticks.as_ref().map_or(0, |t| t.len());
         s.logical = if cores > 0 { cores as u32 } else { sysstats::sysctl_u64(c"hw.logicalcpu").unwrap_or(1).max(1) as u32 };
-        crumb("kinds");
         s.kinds = mac_core_kinds(s.logical as usize);
-        crumb("disk activity");
         let _ = s.disk_activity();
-        crumb("route");
         s.refresh_route();
-        crumb("net");
         let _ = s.net_reading();
-        crumb("new done");
         s
     }
 
@@ -537,14 +515,11 @@ impl Sampler {
 
     /// A reading: `full` while the page is open, else light.
     fn sample(&mut self, full: bool, laps: &mut Laps) -> Reading {
-        crumb(if full { "full reading" } else { "light reading" });
         if full && self.slow_at.is_none_or(|t| t.elapsed() >= SLOW) {
             self.slow_at = Some(Instant::now());
-            crumb("volumes");
             self.drive_list = volumes();
             laps.lap("volumes");
             self.refresh_route();
-            crumb("battery details");
             self.details = battery_details();
             // A GPU that went away or came back (an eGPU), disks added or removed.
             if self.gpu.is_none() {
@@ -554,33 +529,25 @@ impl Sampler {
             self.prune();
             laps.lap("route, battery details, GPU and disks");
         }
-        crumb("cpu");
         let cpu = self.cpu_reading();
         laps.lap("CPU");
-        crumb("memory");
         let memory = self.memory();
         laps.lap("memory");
-        crumb("disks");
         let disk = self.disk_activity();
         laps.lap("disks");
-        crumb("network");
         let network = self.net_reading();
         laps.lap("network");
-        crumb("gpu");
         let gpu = self.gpu_reading();
         laps.lap("GPU");
         let mut top = (Vec::new(), Vec::new(), Vec::new());
         if full {
-            crumb("apps");
             let procs = self.process_list();
             laps.processes = procs.len();
             let apps = self.apps.update(self.started.elapsed().as_secs_f64(), self.logical, &procs);
             top = (self.named(top_cpu(&apps, TOP_APPS)), self.named(top_memory(&apps, TOP_APPS)), self.named(top_io(&apps, TOP_APPS)));
             laps.lap("apps");
-            crumb("battery");
             self.battery = self.battery_reading();
             laps.lap("battery");
-            CRUMBS.store(false, Ordering::Relaxed);
         }
         let (top_cpu, top_memory, top_io) = top;
         Reading { cpu, gpu, memory, drives: self.drive_list.clone(), disk, network, battery: self.battery.clone(), top_cpu, top_memory, top_io }
@@ -770,13 +737,10 @@ impl Sampler {
     /// Where internet traffic goes (the address macOS would send it from),
     /// each interface's address, and the interfaces' names in System Settings.
     fn refresh_route(&mut self) {
-        crumb("route: addresses");
         self.ipv4s = phonedrop::interface_ipv4s();
-        crumb("route: route");
         let ip = phonedrop::route_ipv4();
         self.routed = ip.and_then(|ip| self.ipv4s.iter().find(|(_, a)| *a == ip).map(|(n, _)| n.clone()));
         if self.labels.is_empty() || self.ipv4s.iter().any(|(n, _)| n.starts_with("en") && !self.labels.contains_key(n)) {
-            crumb("route: labels");
             self.labels = interface_labels();
         }
     }
@@ -1267,6 +1231,21 @@ fn battery_details() -> Option<BatteryDetails> {
         cycles: num("CycleCount").and_then(|c| u32::try_from(c).ok()).filter(|c| *c > 0),
         rate_mw: mv.zip(ma).and_then(|(v, a)| i32::try_from(v.saturating_mul(a) / 1000).ok()),
     })
+}
+
+/// The Mac's model ("Mac14,2"), as its registry names it (the smoke test's report).
+pub fn mac_model() -> Option<String> {
+    let matching = unsafe { IOServiceMatching(c"IOPlatformExpertDevice".as_ptr()) };
+    if matching.is_null() {
+        return None;
+    }
+    // The call takes the matching dictionary over.
+    let e = unsafe { IOServiceGetMatchingService(0, matching) };
+    if e == 0 {
+        return None;
+    }
+    let e = Io(e);
+    prop(e.0, "model").and_then(|v| cf::text(v.0)).filter(|m| !m.is_empty())
 }
 
 // ---------------------------------------------------------------- nobody there
