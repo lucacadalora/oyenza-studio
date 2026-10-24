@@ -1,28 +1,40 @@
-//! Readings for the System page (`pages::system`): one a second on their own
-//! thread, and only while the page is open. The rest of the time the thread
-//! waits on its channel, so a closed page costs nothing.
+//! Readings for the System page (`pages::system`), taken the way Stats takes
+//! them on macOS: straight from the kernel's own counters, never from another
+//! app, with no driver and no admin rights.
 //!
-//! Every source works without a driver or admin rights:
-//! * CPU: `GetSystemTimes` (load, and how much of it is apps or Windows); the
-//!   "% Processor Performance" counter times the base speed from
-//!   `CallNtPowerInformation` gives the current speed, as in Task Manager.
-//! * Apps: `NtQuerySystemInformation(SystemProcessInformation)`, grouped per
-//!   executable by `poni_core::sysmon::AppTracker`; each top app's path (for
-//!   its icon) from `QueryFullProcessImageNameW` and its name from the file's
-//!   version info, both cached.
-//! * Memory: `GlobalMemoryStatusEx`, `GetPerformanceInfo` (commit and cache).
-//! * Drives: every fixed drive's space; disk activity from the PhysicalDisk counters.
-//! * Network: `GetIfTable2` over connected hardware adapters; the adapter and
-//!   local address of the route to the internet (looked up, no packet sent).
-//! * Battery: `GetSystemPowerStatus`, plus capacity, cycles and power from
-//!   the battery driver (`IOCTL_BATTERY_QUERY_*`), every 10 s.
+//! * CPU: every logical processor's idle, kernel, user, deferred-call and
+//!   interrupt time (`NtQuerySystemInformation(SystemProcessorPerformance-
+//!   Information)`, the counterpart of `host_processor_info`), each core's
+//!   kind on hybrid CPUs (`GetSystemCpuSetInformation`), each core's speed
+//!   (the "% Processor Performance" counters times the base speed from
+//!   `CallNtPowerInformation`), the warmest ACPI thermal zone and the
+//!   package's energy counters when the firmware has them.
+//! * GPU: for the card with the most video memory (named by DXGI), the
+//!   graphics kernel's own accounting: each engine's running time and the
+//!   memory segments in use (`D3DKMTQueryStatistics`), and what the driver
+//!   reports of temperature, fan and clock (`D3DKMTQueryAdapterInfo`).
+//! * Memory: `GlobalMemoryStatusEx`, `GetPerformanceInfo` and the memory
+//!   manager's lists (standby, modified, free, nonpaged pool, page file);
+//!   compressed memory is the Memory Compression process's working set.
+//! * Apps: the kernel's process list (`SystemProcessInformation`), grouped
+//!   per executable by `poni_core::sysmon::AppTracker`; names from each
+//!   file's version info, icons from its path.
+//! * Drives, network and battery: fixed drives' space and the physical
+//!   disks' counters; `GetIfTable2` per adapter plus the route's adapter,
+//!   address and link speed; `GetSystemPowerStatus` and the battery driver.
 //!
-//! A source that fails is left out of the reading and logged once.
+//! The thread keeps the charts' minute while the page is closed (Settings ›
+//! keep System history): one light reading a second of the processor times,
+//! memory status, disk and network counters and the GPU's engines, touching
+//! no window and no drive. Open, each second also walks the process list and
+//! reads the sensors, drives, battery and the driver's GPU readings. A source
+//! that fails is left out of the reading and logged once.
 
 use crate::events::{AppEvent, EventSink};
 use poni_core::sysmon::{
-    cpu_split, display_name, parse_process_list, top_cpu, top_memory, AppTracker, AppUse, BatteryReading, CpuReading, CpuTimes, DiskActivity,
-    Drive, MemoryReading, NetReading, Reading, TOP_APPS,
+    core_kinds, core_split, cpu_split, display_name, gpu_busy, parse_core_times, parse_process_list, top_cpu, top_io, top_memory, AppTracker, AppUse,
+    BatteryReading, CoreKind, CoreLoad, CoreTimes, CpuReading, CpuTimes, DiskActivity, Drive, Engine, GpuReading, MemoryReading, Monitor, NetReading,
+    ProcSample, Reading, TOP_APPS,
 };
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicU32, Ordering};
@@ -30,12 +42,19 @@ use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 use windows::core::{w, HSTRING, PCWSTR, PWSTR};
-use windows::Wdk::System::SystemInformation::{NtQuerySystemInformation, SystemProcessInformation};
+use windows::Wdk::Graphics::Direct3D::{
+    D3DKMTCloseAdapter, D3DKMTOpenAdapterFromLuid, D3DKMTQueryAdapterInfo, D3DKMTQueryStatistics, D3DKMT_ADAPTER_PERFDATA, D3DKMT_CLOSEADAPTER,
+    D3DKMT_NODEMETADATA, D3DKMT_NODE_PERFDATA, D3DKMT_OPENADAPTERFROMLUID, D3DKMT_QUERYADAPTERINFO, D3DKMT_QUERYSTATISTICS,
+    D3DKMT_QUERYSTATISTICS_ADAPTER, D3DKMT_QUERYSTATISTICS_NODE, D3DKMT_QUERYSTATISTICS_RESULT, D3DKMT_QUERYSTATISTICS_SEGMENT,
+    D3DKMT_QUERYSTATISTICS_TYPE, KMTQAITYPE_ADAPTERPERFDATA, KMTQAITYPE_NODEMETADATA, KMTQAITYPE_NODEPERFDATA, KMTQUERYADAPTERINFOTYPE,
+};
+use windows::Wdk::System::SystemInformation::{NtQuerySystemInformation, SystemProcessInformation, SystemProcessorPerformanceInformation};
 use windows::Win32::Devices::DeviceAndDriverInstallation::{
     SetupDiDestroyDeviceInfoList, SetupDiEnumDeviceInterfaces, SetupDiGetClassDevsW, SetupDiGetDeviceInterfaceDetailW, DIGCF_DEVICEINTERFACE,
     DIGCF_PRESENT, SP_DEVICE_INTERFACE_DATA, SP_DEVICE_INTERFACE_DETAIL_DATA_W,
 };
-use windows::Win32::Foundation::{CloseHandle, FILETIME, GENERIC_READ, GENERIC_WRITE, HANDLE, HWND};
+use windows::Win32::Foundation::{CloseHandle, FILETIME, GENERIC_READ, GENERIC_WRITE, HANDLE, HWND, LUID};
+use windows::Win32::Graphics::Dxgi::{CreateDXGIFactory1, IDXGIFactory1, DXGI_ADAPTER_FLAG_SOFTWARE};
 use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetBestInterface, GetIfTable2, MIB_IF_ROW2, MIB_IF_TABLE2};
 use windows::Win32::NetworkManagement::Ndis::IfOperStatusUp;
 use windows::Win32::Storage::FileSystem::{
@@ -43,31 +62,32 @@ use windows::Win32::Storage::FileSystem::{
     VerQueryValueW, FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, FILE_SHARE_WRITE, OPEN_EXISTING,
 };
 use windows::Win32::System::Performance::{
-    PdhAddEnglishCounterW, PdhCloseQuery, PdhCollectQueryData, PdhGetFormattedCounterValue, PdhOpenQueryW, PDH_FMT, PDH_FMT_COUNTERVALUE,
-    PDH_FMT_DOUBLE,
+    PdhAddEnglishCounterW, PdhCloseQuery, PdhCollectQueryData, PdhGetFormattedCounterArrayW, PdhGetFormattedCounterValue, PdhOpenQueryW, PDH_FMT,
+    PDH_FMT_COUNTERVALUE, PDH_FMT_COUNTERVALUE_ITEM_W, PDH_FMT_DOUBLE,
 };
 use windows::Win32::System::Power::{
-    CallNtPowerInformation, GetSystemPowerStatus, ProcessorInformation, BatteryInformation, BATTERY_CAPACITY_RELATIVE, BATTERY_INFORMATION,
+    BatteryInformation, CallNtPowerInformation, GetSystemPowerStatus, ProcessorInformation, BATTERY_CAPACITY_RELATIVE, BATTERY_INFORMATION,
     BATTERY_QUERY_INFORMATION, BATTERY_STATUS, BATTERY_UNKNOWN_CAPACITY, BATTERY_UNKNOWN_RATE, BATTERY_WAIT_STATUS, GUID_DEVICE_BATTERY,
     IOCTL_BATTERY_QUERY_INFORMATION, IOCTL_BATTERY_QUERY_STATUS, IOCTL_BATTERY_QUERY_TAG, PROCESSOR_POWER_INFORMATION, SYSTEM_POWER_STATUS,
 };
 use windows::Win32::System::ProcessStatus::{GetPerformanceInfo, PERFORMANCE_INFORMATION};
-use windows::Win32::System::SystemInformation::{GetTickCount64, GlobalMemoryStatusEx, MEMORYSTATUSEX};
+use windows::Win32::System::SystemInformation::{GetSystemCpuSetInformation, GetTickCount64, GlobalMemoryStatusEx, MEMORYSTATUSEX, SYSTEM_CPU_SET_INFORMATION};
 use windows::Win32::System::Threading::{
     GetActiveProcessorCount, GetSystemTimes, OpenProcess, QueryFullProcessImageNameW, ALL_PROCESSOR_GROUPS, PROCESS_NAME_WIN32,
     PROCESS_QUERY_LIMITED_INFORMATION,
 };
 use windows::Win32::System::IO::DeviceIoControl;
 
-/// One reading a second.
+/// One reading a second, open or not.
 const PERIOD: Duration = Duration::from_secs(1);
-/// The first reading needs a second CPU sample to compare with; this soon.
+/// After the page opens, the first full reading needs a second process list to compare with; this soon.
 const FIRST: Duration = Duration::from_millis(350);
 /// Drive list, route and battery details change rarely: look again this often.
 const SLOW: Duration = Duration::from_secs(10);
 /// A process list rarely needs more than this; it grows when Windows asks.
 const PROC_BUF: usize = 512 * 1024;
 const STATUS_INFO_LENGTH_MISMATCH: i32 = 0xC000_0004_u32 as i32;
+const PDH_MORE_DATA: u32 = 0x8000_07D2;
 const DRIVE_FIXED: u32 = 3;
 const IF_TYPE_SOFTWARE_LOOPBACK: u32 = 24;
 /// `MIB_IF_ROW2.InterfaceAndOperStatusFlags` bits.
@@ -77,6 +97,11 @@ const IF_FILTER: u8 = 0x02;
 const PDH_FMT_NOCAP100: u32 = 0x8000;
 /// TEST-NET-1: the route lookup for "the internet" (nothing is sent there).
 const ROUTE_PROBE: [u8; 4] = [192, 0, 2, 1];
+/// A thermal zone that hasn't moved this much since the page first opened is a fixed placeholder, not a sensor.
+const ZONE_STILL_C: f32 = 0.5;
+/// Less dedicated memory than this is a GPU built into the processor (its
+/// small carve-out of RAM); its real memory is the share of RAM it may use.
+const INTEGRATED_BELOW: u64 = 512 * 1024 * 1024;
 
 pub struct SysMon {
     tx: Sender<Msg>,
@@ -84,20 +109,26 @@ pub struct SysMon {
 }
 
 enum Msg {
-    Run(bool),
+    /// The page opened (true) or closed.
+    Open(bool),
+    /// Keep the history while the page is closed.
+    Background(bool),
     Quit,
 }
 
 impl SysMon {
-    pub fn start(sink: EventSink) -> std::io::Result<Self> {
+    pub fn start(sink: EventSink, background: bool) -> std::io::Result<Self> {
         let (tx, rx) = mpsc::channel();
-        let thread = std::thread::Builder::new().name("poni-sysmon".into()).spawn(move || worker(sink, rx))?;
+        let thread = std::thread::Builder::new().name("poni-sysmon".into()).spawn(move || worker(sink, rx, background))?;
         Ok(Self { tx, thread: Some(thread) })
     }
 
-    /// Start (the page opened) or stop (it closed) the readings.
-    pub fn run(&self, on: bool) {
-        let _ = self.tx.send(Msg::Run(on));
+    pub fn open(&self, on: bool) {
+        let _ = self.tx.send(Msg::Open(on));
+    }
+
+    pub fn background(&self, on: bool) {
+        let _ = self.tx.send(Msg::Background(on));
     }
 }
 
@@ -111,11 +142,13 @@ impl Drop for SysMon {
     }
 }
 
-fn worker(sink: EventSink, rx: Receiver<Msg>) {
-    let mut sampler: Option<Sampler> = None;
-    let mut due = Instant::now();
+fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
+    let mut open = false;
+    let mut sampler: Option<Sampler> = background.then(Sampler::new);
+    let mut monitor = Monitor::default();
+    let mut due = Instant::now() + FIRST;
     loop {
-        let msg = if sampler.is_some() {
+        let first = if sampler.is_some() {
             match rx.recv_timeout(due.saturating_duration_since(Instant::now())) {
                 Ok(m) => Some(m),
                 Err(RecvTimeoutError::Timeout) => None,
@@ -127,47 +160,108 @@ fn worker(sink: EventSink, rx: Receiver<Msg>) {
                 Err(_) => break,
             }
         };
-        // Only the latest request counts (Quit wins): flipping through the tabs
-        // queues several, and building a sampler for each would hold up exit.
-        let msg = msg.map(|first| {
-            let mut last = first;
-            while !matches!(last, Msg::Quit) {
-                match rx.try_recv() {
-                    Ok(next) => last = next,
-                    Err(_) => break,
+        let Some(first) = first else {
+            // A reading: light while closed, full while open.
+            if let Some(s) = sampler.as_mut() {
+                monitor.push(s.sample(open));
+                if open {
+                    sink.send(AppEvent::System(Box::new(monitor.clone())));
                 }
             }
-            last
-        });
-        match msg {
-            Some(Msg::Quit) => break,
-            Some(Msg::Run(true)) => {
-                if sampler.is_none() {
-                    sampler = Some(Sampler::new());
-                    due = Instant::now() + FIRST;
-                }
+            let now = Instant::now();
+            due += PERIOD;
+            if due <= now {
+                due = now + PERIOD;
             }
-            Some(Msg::Run(false)) => sampler = None,
-            None => {
-                if let Some(s) = sampler.as_mut() {
-                    sink.send(AppEvent::System(Box::new(s.sample())));
+            continue;
+        };
+        // Everything queued counts, the latest of each kind winning (and Quit
+        // above all): flipping tabs queues several, and each would cost a sampler.
+        let (mut quit, mut want_open, mut want_bg) = (false, None, None);
+        for m in std::iter::once(first).chain(std::iter::from_fn(|| rx.try_recv().ok())) {
+            match m {
+                Msg::Quit => quit = true,
+                Msg::Open(on) => want_open = Some(on),
+                Msg::Background(on) => want_bg = Some(on),
+            }
+        }
+        if quit {
+            break;
+        }
+        if let Some(b) = want_bg {
+            background = b;
+        }
+        if let Some(o) = want_open {
+            open = o;
+        }
+        if !open && !background {
+            sampler = None;
+            monitor.clear();
+            continue;
+        }
+        if sampler.is_none() {
+            sampler = Some(Sampler::new());
+            monitor.clear();
+            due = Instant::now() + FIRST;
+        }
+        if want_open == Some(true) {
+            if let Some(s) = sampler.as_mut() {
+                // The kept minute shows at once; the first full reading follows shortly.
+                s.prime_apps();
+                if monitor.latest.is_some() {
+                    sink.send(AppEvent::System(Box::new(monitor.clone())));
                 }
-                let now = Instant::now();
-                due += PERIOD;
-                if due <= now {
-                    due = now + PERIOD;
-                }
+                due = Instant::now() + FIRST;
             }
         }
     }
 }
 
-/// Two readings 350 ms apart from a fresh sampler (the self-test's check of
-/// the real sources).
-pub fn probe() -> Reading {
+/// The self-test's check of the real sources: a fresh sampler's light
+/// reading, its first full reading (which also lists drives and battery)
+/// and a second full one, 350 ms apart, and how long each took.
+pub struct Probe {
+    pub reading: Reading,
+    pub light: Duration,
+    pub first_full: Duration,
+    pub full: Duration,
+    /// What one more light reading spent on each source (and the process list).
+    pub parts: Vec<(&'static str, Duration)>,
+}
+
+pub fn probe() -> Probe {
     let mut s = Sampler::new();
+    s.prime_apps();
+    let mut timed = |full: bool| {
+        std::thread::sleep(FIRST);
+        let t = Instant::now();
+        let r = s.sample(full);
+        (r, t.elapsed())
+    };
+    let (_, light) = timed(false);
+    let (_, first_full) = timed(true);
+    let (reading, full) = timed(true);
     std::thread::sleep(FIRST);
-    s.sample()
+    let mut parts = Vec::new();
+    let t = Instant::now();
+    let _ = s.core_times();
+    parts.push(("processor times", t.elapsed()));
+    let t = Instant::now();
+    let _ = s.pdh.as_ref().filter(|p| p.collect(false)).map(|p| p.read(false));
+    parts.push(("performance counters", t.elapsed()));
+    let t = Instant::now();
+    let _ = s.gpu.as_mut().map(|g| g.reading(false));
+    parts.push(("GPU statistics", t.elapsed()));
+    let t = Instant::now();
+    let _ = memory();
+    parts.push(("memory status", t.elapsed()));
+    let t = Instant::now();
+    let _ = net_counters(s.route.0);
+    parts.push(("network adapters", t.elapsed()));
+    let t = Instant::now();
+    let _ = s.process_list();
+    parts.push(("process list (open only)", t.elapsed()));
+    Probe { reading, light, first_full, full, parts }
 }
 
 // Each failing source is logged once per run, not once a second.
@@ -179,11 +273,15 @@ fn warn_once(bit: u32, what: &str) {
     }
 }
 
-/// Reads everything; created when the page opens and dropped when it closes.
+/// Reads everything; created when the history or the page needs it.
 struct Sampler {
     started: Instant,
     logical: u32,
     base_mhz: Option<u32>,
+    /// Each logical processor's kind (group 0, in Windows' order).
+    kinds: Vec<CoreKind>,
+    cores: Option<Vec<CoreTimes>>,
+    cores_buf: Vec<u64>,
     cpu: Option<CpuTimes>,
     apps: AppTracker,
     /// The process list buffer (u64 keeps the entries 8-byte aligned).
@@ -191,6 +289,7 @@ struct Sampler {
     /// Image name → (path, display name), for apps that made a top list.
     names: HashMap<String, (Option<String>, String)>,
     pdh: Option<Pdh>,
+    gpu: Option<Gpu>,
     /// When the adapters were last read, and each one's (received, sent) bytes by LUID.
     net: Option<(Instant, HashMap<u64, (u64, u64)>)>,
     drives: Vec<(String, String)>,
@@ -198,6 +297,13 @@ struct Sampler {
     battery: Option<BatteryDetails>,
     /// (plugged in, charging) at the last reading: a change refreshes the battery details.
     power: Option<(bool, bool)>,
+    /// The drives at the last full reading: light readings carry them, so
+    /// the page shows them the moment it opens (drives aren't read while closed).
+    drive_list: Vec<Drive>,
+    /// The Memory Compression store, from the last process list.
+    compressed: u64,
+    /// The thermal zone reading, its lowest and highest so far (placeholders never move).
+    zone: Option<(f32, f32, f32)>,
     slow_at: Option<Instant>,
 }
 
@@ -208,59 +314,86 @@ impl Sampler {
             started: Instant::now(),
             logical,
             base_mhz: base_mhz(logical),
+            kinds: core_kinds(&efficiency_classes(logical)),
+            cores: None,
+            cores_buf: Vec::new(),
             cpu: None,
             apps: AppTracker::default(),
             procs: vec![0u64; PROC_BUF / 8],
             names: HashMap::new(),
             pdh: Pdh::open(),
+            gpu: Gpu::open(),
             net: None,
             drives: Vec::new(),
             route: (None, None),
             battery: None,
             power: None,
+            drive_list: Vec::new(),
+            compressed: 0,
+            zone: None,
             slow_at: None,
         };
-        // Baselines for everything measured between two samples, taken after
-        // the slow setup above so the first interval is the real one.
+        // Baselines for everything measured between two samples.
+        s.cores = s.core_times();
         s.cpu = cpu_times();
-        s.started = Instant::now();
-        let procs = s.process_list();
-        s.apps.update(0.0, logical, &procs);
         s.net = net_counters(None).map(|(_, adapters)| (Instant::now(), adapters.into_iter().map(|(luid, rx, tx)| (luid, (rx, tx))).collect()));
         s
     }
 
-    fn sample(&mut self) -> Reading {
-        if self.slow_at.is_none_or(|t| t.elapsed() >= SLOW) {
+    /// A fresh process list to measure the next full reading's app CPU and I/O against.
+    fn prime_apps(&mut self) {
+        let procs = self.process_list();
+        self.apps.update(self.started.elapsed().as_secs_f64(), self.logical, &procs);
+    }
+
+    fn sample(&mut self, full: bool) -> Reading {
+        if full && self.slow_at.is_none_or(|t| t.elapsed() >= SLOW) {
             self.slow_at = Some(Instant::now());
             self.drives = fixed_drives();
             self.route = (route_index(), super::phonedrop::route_ipv4().map(|ip| ip.to_string()));
             self.battery = battery_details();
         }
-        // (perf %, read B/s, write B/s, idle %), each when Windows had it.
-        let counters = self.pdh.as_ref().filter(|p| p.collect()).map(|p| (p.value(p.perf), p.value(p.read), p.value(p.write), p.value(p.idle)));
-        let (perf, read, write, idle) = counters.unwrap_or_default();
+        let pdh = self.pdh.as_ref().filter(|p| p.collect(full));
+        let counters = pdh.map(|p| p.read(full)).unwrap_or_default();
 
-        let cpu = cpu_times().and_then(|now| {
-            let split = self.cpu.and_then(|prev| cpu_split(prev, now));
-            self.cpu = Some(now);
-            let (load, user, kernel) = split?;
-            let mhz = perf.zip(self.base_mhz).map(|(pct, base)| (pct * f64::from(base) / 100.0).round() as u32);
-            Some(CpuReading { load, user, kernel, logical: self.logical, mhz: mhz.filter(|m| *m > 0), uptime_s: unsafe { GetTickCount64() } / 1000 })
+        let mut cpu = self.cpu_reading(&counters);
+        if let Some(c) = cpu.as_mut() {
+            c.temp_c = self.zone_temp(counters.zone_c);
+            c.power_w = counters.package_w;
+        }
+
+        let gpu = self.gpu.as_mut().and_then(|g| g.reading(full));
+
+        let mut top = (Vec::new(), Vec::new(), Vec::new());
+        if full {
+            let procs = self.process_list();
+            if let Some(mc) = procs.iter().find(|p| p.image.eq_ignore_ascii_case("Memory Compression")) {
+                self.compressed = mc.memory;
+            }
+            let apps = self.apps.update(self.started.elapsed().as_secs_f64(), self.logical, &procs);
+            top = (self.named(top_cpu(&apps, TOP_APPS)), self.named(top_memory(&apps, TOP_APPS)), self.named(top_io(&apps, TOP_APPS)));
+        }
+
+        let memory = memory().map(|mut m| {
+            if let Some(standby) = counters.standby {
+                m.cached = standby + counters.modified.unwrap_or(0);
+            }
+            m.wired = counters.nonpaged.unwrap_or(0);
+            m.free = counters.free.unwrap_or(0);
+            m.compressed = self.compressed;
+            m.page_total = m.commit_limit.saturating_sub(m.total);
+            m.page_used = counters.page_pct.map_or(0, |p| (p / 100.0 * m.page_total as f64) as u64);
+            m
         });
 
-        let procs = self.process_list();
-        let apps = self.apps.update(self.started.elapsed().as_secs_f64(), self.logical, &procs);
-        let top_cpu = self.named(top_cpu(&apps, TOP_APPS));
-        let top_memory = self.named(top_memory(&apps, TOP_APPS));
-
-        let disk = read.zip(write).map(|(read, write)| DiskActivity {
+        let disk = counters.read.zip(counters.write).map(|(read, write)| DiskActivity {
             read_bps: read.max(0.0),
             write_bps: write.max(0.0),
-            active: idle.map(|idle| (1.0 - idle / 100.0).clamp(0.0, 1.0) as f32),
+            active: counters.idle.map(|idle| (1.0 - idle / 100.0).clamp(0.0, 1.0) as f32),
         });
 
-        let network = net_counters(self.route.0).map(|(mut n, adapters)| {
+        let route = self.route.0;
+        let network = net_counters(route).map(|(mut n, adapters)| {
             let now = Instant::now();
             // Only adapters seen last time count: one that just (re)connected
             // brings its whole total since startup, which isn't this second's traffic.
@@ -283,33 +416,106 @@ impl Sampler {
             n
         });
 
+        if full {
+            self.drive_list = self.drives.iter().filter_map(|(root, label)| drive(root, label)).collect();
+        }
+        let (top_cpu, top_memory, top_io) = top;
         Reading {
             cpu,
-            memory: memory(),
-            drives: self.drives.iter().filter_map(|(root, label)| drive(root, label)).collect(),
+            gpu,
+            memory,
+            drives: self.drive_list.clone(),
             disk,
             network,
-            battery: self.battery_reading(),
+            // The power status is one cheap call; the battery's details come from the last slow refresh.
+            battery: if full { self.battery_reading() } else { battery(self.battery.as_ref()) },
             top_cpu,
             top_memory,
+            top_io,
         }
     }
 
-    /// The battery now; plugging in or out refreshes its power reading at once
-    /// instead of at the next slow refresh.
-    fn battery_reading(&mut self) -> Option<BatteryReading> {
-        let mut r = battery(self.battery.as_ref())?;
-        let state = (r.on_ac, r.charging);
-        if self.power.is_some_and(|p| p != state) {
-            self.battery = battery_details();
-            r = battery(self.battery.as_ref())?;
+    /// Every core's load since the last reading (the processor times by
+    /// core), or the machine's total when Windows won't list the cores.
+    fn cpu_reading(&mut self, counters: &Counters) -> Option<CpuReading> {
+        let uptime_s = unsafe { GetTickCount64() } / 1000;
+        let mhz = counters.perf.zip(self.base_mhz).map(|(pct, base)| (pct * f64::from(base) / 100.0).round() as u32).filter(|m| *m > 0);
+        let (mhz_p, mhz_e) = self.kind_speeds(&counters.perf_cores);
+        if let Some(now) = self.core_times() {
+            let split = self.cores.as_ref().and_then(|prev| core_split(prev, &now));
+            self.cores = Some(now);
+            let s = split?;
+            let cores = s.cores.iter().enumerate().map(|(i, load)| CoreLoad { load: *load, kind: self.kinds.get(i).copied().unwrap_or_default() }).collect();
+            return Some(CpuReading {
+                load: s.load,
+                user: s.user,
+                kernel: s.kernel,
+                interrupt: s.interrupt,
+                cores,
+                logical: self.logical,
+                base_mhz: self.base_mhz,
+                mhz,
+                mhz_p,
+                mhz_e,
+                uptime_s,
+                ..CpuReading::default()
+            });
         }
-        self.power = Some(state);
-        Some(r)
+        let now = cpu_times()?;
+        let split = self.cpu.and_then(|prev| cpu_split(prev, now));
+        self.cpu = Some(now);
+        let (load, user, kernel) = split?;
+        Some(CpuReading { load, user, kernel, logical: self.logical, base_mhz: self.base_mhz, mhz, uptime_s, ..CpuReading::default() })
+    }
+
+    /// Each logical processor's times, straight from the kernel.
+    fn core_times(&mut self) -> Option<Vec<CoreTimes>> {
+        let bytes = (self.logical as usize * 48).max(48);
+        if self.cores_buf.len() * 8 < bytes {
+            self.cores_buf = vec![0u64; bytes.div_ceil(8)];
+        }
+        let mut got = 0u32;
+        let status = unsafe {
+            NtQuerySystemInformation(SystemProcessorPerformanceInformation, self.cores_buf.as_mut_ptr().cast(), (self.cores_buf.len() * 8) as u32, &mut got)
+        };
+        if status.0 < 0 || got < 48 {
+            warn_once(1 << 9, &format!("per-core times unavailable (0x{:08X})", status.0 as u32));
+            return None;
+        }
+        // SAFETY: Windows filled `got` bytes of the buffer.
+        let buf = unsafe { std::slice::from_raw_parts(self.cores_buf.as_ptr().cast::<u8>(), (got as usize).min(self.cores_buf.len() * 8)) };
+        Some(parse_core_times(buf))
+    }
+
+    /// Average speed of the performance and efficiency cores ("0,5" = group 0, core 5).
+    fn kind_speeds(&self, perf: &[(String, f64)]) -> (Option<u32>, Option<u32>) {
+        let Some(base) = self.base_mhz else { return (None, None) };
+        let mut sums: [(f64, u32); 2] = [(0.0, 0); 2];
+        for (name, pct) in perf {
+            let Some((group, index)) = name.split_once(',') else { continue };
+            let (Ok(0), Ok(i)) = (group.parse::<u32>(), index.parse::<usize>()) else { continue };
+            let slot = match self.kinds.get(i) {
+                Some(CoreKind::Performance) => 0,
+                Some(CoreKind::Efficiency) => 1,
+                _ => continue,
+            };
+            sums[slot].0 += pct * f64::from(base) / 100.0;
+            sums[slot].1 += 1;
+        }
+        let avg = |(sum, n): (f64, u32)| (n > 0).then(|| (sum / f64::from(n)).round() as u32).filter(|m| *m > 0);
+        (avg(sums[0]), avg(sums[1]))
+    }
+
+    /// The thermal zone's temperature, once it has shown it is a live sensor.
+    fn zone_temp(&mut self, c: Option<f32>) -> Option<f32> {
+        let c = c.filter(|c| (5.0..=115.0).contains(c))?;
+        let (lo, hi) = self.zone.map_or((c, c), |(_, lo, hi)| (lo.min(c), hi.max(c)));
+        self.zone = Some((c, lo, hi));
+        (hi - lo >= ZONE_STILL_C).then_some(c)
     }
 
     /// The process list, or nothing when Windows won't give it.
-    fn process_list(&mut self) -> Vec<poni_core::sysmon::ProcSample> {
+    fn process_list(&mut self) -> Vec<ProcSample> {
         for _ in 0..4 {
             let bytes = (self.procs.len() * 8) as u32;
             let mut needed = 0u32;
@@ -336,10 +542,10 @@ impl Sampler {
         apps.into_iter()
             .map(|mut a| {
                 if !self.names.contains_key(&a.image) {
-                    // Only a found path is remembered: a protected process
-                    // may hide it while another of the same app shows it.
                     // The file name must match: the process may have exited and its id been reused.
-                    let path = process_path(a.pid).filter(|p| p.rsplit(['\\', '/']).next().is_some_and(|f| f.eq_ignore_ascii_case(&a.image)));
+                    let path = process_path(a.pid)
+                        .filter(|p| p.rsplit(['\\', '/']).next().is_some_and(|f| f.eq_ignore_ascii_case(&a.image)))
+                        .or_else(|| windows_file(&a.image));
                     if let Some(path) = path {
                         let name = file_description(&path).unwrap_or_else(|| display_name(&a.image));
                         self.names.insert(a.image.clone(), (Some(path), name));
@@ -352,6 +558,19 @@ impl Sampler {
                 a
             })
             .collect()
+    }
+
+    /// The battery now; plugging in or out refreshes its power reading at once
+    /// instead of at the next slow refresh.
+    fn battery_reading(&mut self) -> Option<BatteryReading> {
+        let mut r = battery(self.battery.as_ref())?;
+        let state = (r.on_ac, r.charging);
+        if self.power.is_some_and(|p| p != state) {
+            self.battery = battery_details();
+            r = battery(self.battery.as_ref())?;
+        }
+        self.power = Some(state);
+        Some(r)
     }
 }
 
@@ -378,6 +597,36 @@ fn base_mhz(logical: u32) -> Option<u32> {
     let bytes = (info.len() * std::mem::size_of::<PROCESSOR_POWER_INFORMATION>()) as u32;
     let status = unsafe { CallNtPowerInformation(ProcessorInformation, None, 0, Some(info.as_mut_ptr().cast()), bytes) };
     (status.0 >= 0).then(|| info[0].MaxMhz).filter(|m| *m > 0)
+}
+
+/// Each logical processor's efficiency class (group 0), in index order.
+fn efficiency_classes(logical: u32) -> Vec<u8> {
+    let mut need = 0u32;
+    let _ = unsafe { GetSystemCpuSetInformation(None, 0, &mut need, HANDLE::default(), 0) };
+    if need == 0 {
+        return Vec::new();
+    }
+    let mut buf = vec![0u64; (need as usize).div_ceil(8)];
+    if !unsafe { GetSystemCpuSetInformation(Some(buf.as_mut_ptr().cast()), need, &mut need, HANDLE::default(), 0) }.as_bool() {
+        return Vec::new();
+    }
+    let bytes = unsafe { std::slice::from_raw_parts(buf.as_ptr().cast::<u8>(), need as usize) };
+    let mut classes = vec![0u8; logical as usize];
+    let mut off = 0usize;
+    while off + std::mem::size_of::<u32>() * 2 <= bytes.len() {
+        // SAFETY: each entry starts with its own size; it lies inside `bytes`.
+        let e = unsafe { &*(bytes.as_ptr().add(off) as *const SYSTEM_CPU_SET_INFORMATION) };
+        let size = e.Size as usize;
+        if size == 0 || off + size > bytes.len() {
+            break;
+        }
+        let set = unsafe { e.Anonymous.CpuSet };
+        if set.Group == 0 && (set.LogicalProcessorIndex as usize) < classes.len() {
+            classes[set.LogicalProcessorIndex as usize] = set.EfficiencyClass;
+        }
+        off += size;
+    }
+    classes
 }
 
 fn memory() -> Option<MemoryReading> {
@@ -457,36 +706,97 @@ fn file_description(path: &str) -> Option<String> {
     None
 }
 
-// ---------------------------------------------------------------- PDH counters
+/// Where a Windows component whose process hides its path lives
+/// ("WmiPrvSE.exe" in System32\wbem): for its icon and name.
+fn windows_file(image: &str) -> Option<String> {
+    if !image.to_ascii_lowercase().ends_with(".exe") || image.contains(['\\', '/']) {
+        return None;
+    }
+    let root = std::env::var("SystemRoot").unwrap_or_else(|_| r"C:\Windows".into());
+    [r"System32", r"System32\wbem", r"", r"SysWOW64"]
+        .iter()
+        .map(|dir| if dir.is_empty() { format!(r"{root}\{image}") } else { format!(r"{root}\{dir}\{image}") })
+        .find(|p| std::path::Path::new(p).is_file())
+}
 
-/// The few Performance Data Helper counters Task Manager also shows.
+// ---------------------------------------------------------------- performance counters
+
+/// What one collection of the performance counters gave.
+#[derive(Clone, Debug, Default)]
+struct Counters {
+    perf: Option<f64>,
+    perf_cores: Vec<(String, f64)>,
+    read: Option<f64>,
+    write: Option<f64>,
+    idle: Option<f64>,
+    standby: Option<u64>,
+    modified: Option<u64>,
+    free: Option<u64>,
+    nonpaged: Option<u64>,
+    page_pct: Option<f64>,
+    zone_c: Option<f32>,
+    package_w: Option<f32>,
+}
+
+/// The kernel's performance counters this page reads: one query for every
+/// reading, and one for the sensors, read only while the page is open.
 struct Pdh {
     query: isize,
+    sensors: isize,
     perf: Option<isize>,
+    perf_cores: Option<isize>,
     read: Option<isize>,
     write: Option<isize>,
     idle: Option<isize>,
+    standby: [Option<isize>; 3],
+    modified: Option<isize>,
+    free: Option<isize>,
+    nonpaged: Option<isize>,
+    page_pct: Option<isize>,
+    /// Thermal zones in tenths of a kelvin (High Precision), else whole kelvins.
+    zone: Option<(isize, bool)>,
+    energy: Option<isize>,
 }
 
 impl Pdh {
     fn open() -> Option<Pdh> {
-        let mut query = 0isize;
+        let (mut query, mut sensors) = (0isize, 0isize);
         if unsafe { PdhOpenQueryW(PCWSTR::null(), 0, &mut query) } != 0 {
             warn_once(8, "performance counters unavailable");
             return None;
         }
-        let add = |path: PCWSTR| {
+        if unsafe { PdhOpenQueryW(PCWSTR::null(), 0, &mut sensors) } != 0 {
+            sensors = 0;
+        }
+        let add_to = |q: isize, path: PCWSTR| {
             let mut c = 0isize;
-            (unsafe { PdhAddEnglishCounterW(query, path, 0, &mut c) } == 0).then_some(c)
+            (q != 0 && unsafe { PdhAddEnglishCounterW(q, path, 0, &mut c) } == 0).then_some(c)
         };
+        let add = |path: PCWSTR| add_to(query, path);
+        let zone = add_to(sensors, w!("\\Thermal Zone Information(*)\\High Precision Temperature"))
+            .map(|c| (c, true))
+            .or_else(|| add_to(sensors, w!("\\Thermal Zone Information(*)\\Temperature")).map(|c| (c, false)));
         let pdh = Pdh {
             query,
+            sensors,
             perf: add(w!("\\Processor Information(_Total)\\% Processor Performance")),
+            perf_cores: add(w!("\\Processor Information(*)\\% Processor Performance")),
             read: add(w!("\\PhysicalDisk(_Total)\\Disk Read Bytes/sec")),
             write: add(w!("\\PhysicalDisk(_Total)\\Disk Write Bytes/sec")),
             idle: add(w!("\\PhysicalDisk(_Total)\\% Idle Time")),
+            standby: [
+                add(w!("\\Memory\\Standby Cache Core Bytes")),
+                add(w!("\\Memory\\Standby Cache Normal Priority Bytes")),
+                add(w!("\\Memory\\Standby Cache Reserve Bytes")),
+            ],
+            modified: add(w!("\\Memory\\Modified Page List Bytes")),
+            free: add(w!("\\Memory\\Free & Zero Page List Bytes")),
+            nonpaged: add(w!("\\Memory\\Pool Nonpaged Bytes")),
+            page_pct: add(w!("\\Paging File(_Total)\\% Usage")),
+            zone,
+            energy: add_to(sensors, w!("\\Energy Meter(*)\\Power")),
         };
-        if pdh.perf.is_none() && pdh.read.is_none() {
+        if pdh.perf.is_none() && pdh.read.is_none() && pdh.free.is_none() {
             warn_once(8, "performance counters unavailable");
             return None;
         }
@@ -495,8 +805,40 @@ impl Pdh {
         Some(pdh)
     }
 
-    fn collect(&self) -> bool {
+    fn collect(&self, sensors: bool) -> bool {
+        if sensors && self.sensors != 0 {
+            unsafe { PdhCollectQueryData(self.sensors) };
+        }
         unsafe { PdhCollectQueryData(self.query) == 0 }
+    }
+
+    fn read(&self, sensors: bool) -> Counters {
+        let bytes = |c: Option<isize>| self.value(c).map(|v| v.max(0.0) as u64);
+        let standby: Vec<u64> = self.standby.iter().filter_map(|c| bytes(*c)).collect();
+        let zone_c = self.zone.filter(|_| sensors).and_then(|(c, precise)| {
+            let k = self.array(Some(c)).into_iter().map(|(_, v)| if precise { v / 10.0 } else { v }).fold(f64::NAN, f64::max);
+            k.is_finite().then_some((k - 273.15) as f32)
+        });
+        // The package's power in milliwatts (Intel/AMD RAPL domains); only a sane value counts.
+        let package_w = {
+            let e = if sensors { self.array(self.energy) } else { Vec::new() };
+            let pick = e.iter().find(|(n, _)| n.to_ascii_uppercase().contains("PKG")).or_else(|| e.iter().max_by(|a, b| a.1.total_cmp(&b.1)));
+            pick.map(|(_, mw)| (*mw / 1000.0) as f32).filter(|w| (0.5..=500.0).contains(w))
+        };
+        Counters {
+            perf: self.value(self.perf),
+            perf_cores: self.array(self.perf_cores),
+            read: self.value(self.read),
+            write: self.value(self.write),
+            idle: self.value(self.idle),
+            standby: (!standby.is_empty()).then(|| standby.iter().sum()),
+            modified: bytes(self.modified),
+            free: bytes(self.free),
+            nonpaged: bytes(self.nonpaged),
+            page_pct: self.value(self.page_pct),
+            zone_c,
+            package_w,
+        }
     }
 
     fn value(&self, counter: Option<isize>) -> Option<f64> {
@@ -505,11 +847,208 @@ impl Pdh {
         // CStatus 0 = valid data, 1 = new data (also valid).
         (r == 0 && v.CStatus <= 1).then(|| unsafe { v.Anonymous.doubleValue }).filter(|x| x.is_finite())
     }
+
+    /// Every instance of a wildcard counter, as (instance name, value).
+    fn array(&self, counter: Option<isize>) -> Vec<(String, f64)> {
+        let Some(c) = counter else { return Vec::new() };
+        let fmt = PDH_FMT(PDH_FMT_DOUBLE.0 | PDH_FMT_NOCAP100);
+        for _ in 0..3 {
+            let (mut size, mut count) = (0u32, 0u32);
+            let r = unsafe { PdhGetFormattedCounterArrayW(c, fmt, &mut size, &mut count, None) };
+            if r != PDH_MORE_DATA || size == 0 {
+                return Vec::new();
+            }
+            let mut buf = vec![0u64; (size as usize).div_ceil(8)];
+            let items = buf.as_mut_ptr().cast::<PDH_FMT_COUNTERVALUE_ITEM_W>();
+            let r = unsafe { PdhGetFormattedCounterArrayW(c, fmt, &mut size, &mut count, Some(items)) };
+            if r == PDH_MORE_DATA {
+                // New instances appeared in between: ask again.
+                continue;
+            }
+            if r != 0 {
+                return Vec::new();
+            }
+            return (0..count as usize)
+                .filter_map(|i| {
+                    // SAFETY: Windows wrote `count` items (and their names) into `buf`.
+                    let it = unsafe { &*items.add(i) };
+                    if it.FmtValue.CStatus > 1 {
+                        return None;
+                    }
+                    let name = unsafe { it.szName.to_string() }.ok()?;
+                    let v = unsafe { it.FmtValue.Anonymous.doubleValue };
+                    v.is_finite().then_some((name, v))
+                })
+                .collect();
+        }
+        Vec::new()
+    }
 }
 
 impl Drop for Pdh {
     fn drop(&mut self) {
-        unsafe { PdhCloseQuery(self.query) };
+        unsafe {
+            PdhCloseQuery(self.query);
+            if self.sensors != 0 {
+                PdhCloseQuery(self.sensors);
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------- GPU
+
+/// The graphics card with the most video memory, as DXGI names it, read
+/// through the graphics kernel.
+struct Gpu {
+    name: String,
+    luid: LUID,
+    mem_total: u64,
+    integrated: bool,
+    /// The kernel handle for the driver's readings (temperature, fan, clock).
+    adapter: Option<u32>,
+    /// Each engine's type, by engine (node) number.
+    engines: Vec<Engine>,
+    segments: u32,
+    /// Each engine's running time (100 ns) at the last reading, and when.
+    prev: (Instant, Vec<i64>),
+}
+
+impl Gpu {
+    fn open() -> Option<Gpu> {
+        let factory: IDXGIFactory1 = unsafe { CreateDXGIFactory1() }.ok()?;
+        let mut best: Option<(u64, u64, String, LUID)> = None;
+        for i in 0.. {
+            let Ok(adapter) = (unsafe { factory.EnumAdapters1(i) }) else { break };
+            let Ok(desc) = (unsafe { adapter.GetDesc1() }) else { continue };
+            if desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE.0 as u32 != 0 {
+                continue;
+            }
+            let mem = desc.DedicatedVideoMemory as u64;
+            if best.as_ref().is_none_or(|(m, ..)| mem > *m) {
+                let name = String::from_utf16_lossy(&desc.Description[..desc.Description.iter().position(|c| *c == 0).unwrap_or(desc.Description.len())]);
+                best = Some((mem, desc.SharedSystemMemory as u64, name.trim().to_string(), desc.AdapterLuid));
+            }
+        }
+        let (dedicated, shared, name, luid) = best?;
+        let integrated = dedicated < INTEGRATED_BELOW;
+        let mut gpu = Gpu {
+            name,
+            luid,
+            mem_total: if integrated { shared } else { dedicated },
+            integrated,
+            adapter: None,
+            engines: Vec::new(),
+            segments: 0,
+            prev: (Instant::now(), Vec::new()),
+        };
+        // SAFETY (all unions below): the kernel filled the member the query's type names.
+        let info = gpu.stats(D3DKMT_QUERYSTATISTICS_ADAPTER, |_| {}).map(|r| unsafe { r.AdapterInformation });
+        let Some(info) = info.filter(|i| i.NodeCount > 0) else {
+            warn_once(1 << 10, "GPU engine statistics unavailable");
+            return None;
+        };
+        gpu.segments = info.NbSegments;
+        let mut open = D3DKMT_OPENADAPTERFROMLUID { AdapterLuid: luid, hAdapter: 0 };
+        gpu.adapter = (unsafe { D3DKMTOpenAdapterFromLuid(&mut open) }.0 >= 0).then_some(open.hAdapter);
+        gpu.engines = (0..info.NodeCount)
+            .map(|node| {
+                let mut meta = D3DKMT_NODEMETADATA { NodeOrdinalAndAdapterIndex: node, ..Default::default() };
+                if gpu.adapter_info(KMTQAITYPE_NODEMETADATA, &mut meta) {
+                    let t = meta.NodeData.EngineType;
+                    Engine::from_type(t.0)
+                } else {
+                    Engine::Other
+                }
+            })
+            .collect();
+        gpu.prev = (Instant::now(), gpu.running_times());
+        Some(gpu)
+    }
+
+    fn stats(&self, kind: D3DKMT_QUERYSTATISTICS_TYPE, query: impl FnOnce(&mut D3DKMT_QUERYSTATISTICS)) -> Option<D3DKMT_QUERYSTATISTICS_RESULT> {
+        let mut q = D3DKMT_QUERYSTATISTICS { Type: kind, AdapterLuid: self.luid, ..Default::default() };
+        query(&mut q);
+        // The kernel writes its answer into the same structure (the header calls it const).
+        let p: *mut D3DKMT_QUERYSTATISTICS = &mut q;
+        (unsafe { D3DKMTQueryStatistics(p) }.0 >= 0).then_some(q.QueryResult)
+    }
+
+    /// One of the driver's answers about the adapter (`T` is the structure `kind` fills).
+    fn adapter_info<T>(&self, kind: KMTQUERYADAPTERINFOTYPE, data: &mut T) -> bool {
+        let Some(h) = self.adapter else { return false };
+        let mut q = D3DKMT_QUERYADAPTERINFO {
+            hAdapter: h,
+            Type: kind,
+            pPrivateDriverData: (data as *mut T).cast(),
+            PrivateDriverDataSize: std::mem::size_of::<T>() as u32,
+        };
+        unsafe { D3DKMTQueryAdapterInfo(&mut q) }.0 >= 0
+    }
+
+    fn running_times(&self) -> Vec<i64> {
+        (0..self.engines.len() as u32)
+            .map(|node| {
+                let r = self.stats(D3DKMT_QUERYSTATISTICS_NODE, |q| q.Anonymous.QueryNode.NodeId = node);
+                r.map_or(0, |r| unsafe { r.NodeInformation.GlobalInformation.RunningTime })
+            })
+            .collect()
+    }
+
+    fn reading(&mut self, full: bool) -> Option<GpuReading> {
+        let (at, times) = (Instant::now(), self.running_times());
+        let busy = gpu_busy(&self.engines, &self.prev.1, &times, at.duration_since(self.prev.0).as_secs_f64() * 1e7);
+        self.prev = (at, times);
+        let e = busy?;
+        // Memory in use: the card's own segments, or the shared ones of a GPU built into the processor.
+        let (mut own, mut shared) = (0u64, 0u64);
+        for id in 0..self.segments {
+            if let Some(r) = self.stats(D3DKMT_QUERYSTATISTICS_SEGMENT, |q| q.Anonymous.QuerySegment.SegmentId = id) {
+                let seg = unsafe { r.SegmentInformation };
+                if seg.Aperture != 0 {
+                    shared += seg.BytesResident;
+                } else {
+                    own += seg.BytesResident;
+                }
+            }
+        }
+        let mut r = GpuReading {
+            name: self.name.clone(),
+            util: e.util,
+            engine_3d: e.engine_3d,
+            copy: e.copy,
+            video_decode: e.video_decode,
+            video_encode: e.video_encode,
+            mem_used: if self.integrated { shared } else { own },
+            mem_total: self.mem_total,
+            integrated: self.integrated,
+            ..GpuReading::default()
+        };
+        if full {
+            let mut p = D3DKMT_ADAPTER_PERFDATA::default();
+            if self.adapter_info(KMTQAITYPE_ADAPTERPERFDATA, &mut p) {
+                // Tenths of a degree; drivers without a sensor report 0.
+                r.temp_c = (p.Temperature > 0).then(|| p.Temperature as f32 / 10.0).filter(|c| *c < 130.0);
+                r.fan_rpm = (p.FanRPM > 0).then_some(p.FanRPM);
+            }
+            if let Some(node) = self.engines.iter().position(|e| *e == Engine::ThreeD) {
+                let mut n = D3DKMT_NODE_PERFDATA { NodeOrdinal: node as u32, ..Default::default() };
+                if self.adapter_info(KMTQAITYPE_NODEPERFDATA, &mut n) {
+                    r.mhz = u32::try_from(n.Frequency / 1_000_000).ok().filter(|m| *m > 0);
+                }
+            }
+        }
+        Some(r)
+    }
+}
+
+impl Drop for Gpu {
+    fn drop(&mut self) {
+        if let Some(h) = self.adapter {
+            unsafe {
+                let _ = D3DKMTCloseAdapter(&D3DKMT_CLOSEADAPTER { hAdapter: h });
+            }
+        }
     }
 }
 
@@ -552,7 +1091,7 @@ fn route_index() -> Option<u32> {
 
 /// Totals over every connected hardware adapter, and each one's (LUID,
 /// received, sent) so the caller can measure speeds per adapter; the adapter
-/// shown is the route's, else the busiest.
+/// shown is the route's, else the busiest, with its address and link speed.
 fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)> {
     let mut table: *mut MIB_IF_TABLE2 = std::ptr::null_mut();
     if let Err(e) = unsafe { GetIfTable2(&mut table) }.ok() {
@@ -564,8 +1103,8 @@ fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)
     let rows = unsafe { std::slice::from_raw_parts(std::ptr::addr_of!((*table).Table).cast::<MIB_IF_ROW2>(), (*table).NumEntries as usize) };
     let mut n = NetReading::default();
     let mut adapters = Vec::new();
-    let mut busiest: Option<(u64, String)> = None;
-    let mut routed: Option<String> = None;
+    let mut busiest: Option<(u64, &MIB_IF_ROW2)> = None;
+    let mut routed: Option<&MIB_IF_ROW2> = None;
     for r in rows {
         let flags = r.InterfaceAndOperStatusFlags._bitfield;
         if flags & IF_HARDWARE == 0 || flags & IF_FILTER != 0 || r.OperStatus != IfOperStatusUp || r.Type == IF_TYPE_SOFTWARE_LOOPBACK {
@@ -575,18 +1114,22 @@ fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)
         n.sent = n.sent.saturating_add(r.OutOctets);
         // SAFETY: NET_LUID_LH is a 64-bit value with a bit-field view.
         adapters.push((unsafe { r.InterfaceLuid.Value }, r.InOctets, r.OutOctets));
-        let alias = String::from_utf16_lossy(&r.Alias[..r.Alias.iter().position(|c| *c == 0).unwrap_or(r.Alias.len())]);
         if route == Some(r.InterfaceIndex) {
-            routed = Some(alias.clone());
+            routed = Some(r);
         }
         let traffic = r.InOctets.saturating_add(r.OutOctets);
-        if busiest.as_ref().is_none_or(|(t, _)| traffic > *t) {
-            busiest = Some((traffic, alias));
+        if busiest.is_none_or(|(t, _)| traffic > t) {
+            busiest = Some((traffic, r));
         }
+    }
+    if let Some(r) = routed.or(busiest.map(|(_, r)| r)) {
+        n.adapter = String::from_utf16_lossy(&r.Alias[..r.Alias.iter().position(|c| *c == 0).unwrap_or(r.Alias.len())]);
+        let len = (r.PhysicalAddressLength as usize).min(r.PhysicalAddress.len());
+        n.mac = r.PhysicalAddress[..len].iter().map(|b| format!("{b:02X}")).collect::<Vec<_>>().join(":");
+        n.link_bps = r.ReceiveLinkSpeed.max(r.TransmitLinkSpeed);
     }
     unsafe { FreeMibTable(table as *const core::ffi::c_void) };
     n.online = busiest.is_some();
-    n.adapter = routed.or(busiest.map(|(_, a)| a)).unwrap_or_default();
     Some((n, adapters))
 }
 

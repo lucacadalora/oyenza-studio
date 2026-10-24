@@ -15,7 +15,6 @@
 use std::sync::atomic::{AtomicUsize, Ordering};
 use windows::core::{w, HSTRING};
 use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_APARTMENTTHREADED, COINIT_DISABLE_OLE1DDE};
-use windows::Win32::System::SystemInformation::GetSystemDirectoryW;
 use windows::Win32::UI::Shell::ShellExecuteW;
 use windows::Win32::UI::WindowsAndMessaging::SW_SHOWNORMAL;
 
@@ -61,24 +60,6 @@ pub fn open_startup_settings() {
         let r = unsafe { ShellExecuteW(None, w!("open"), w!("ms-settings:startupapps"), None, None, SW_SHOWNORMAL) };
         if (r.0 as isize) <= 32 {
             crate::pwarn!("open failed ({}): ms-settings:startupapps", r.0 as isize);
-        }
-    });
-}
-
-/// Open Task Manager (asynchronously), by its full path in the system folder:
-/// [`open`] takes only absolute paths and web links.
-pub fn open_task_manager() {
-    run("open", || {
-        let mut dir = [0u16; 260];
-        let n = unsafe { GetSystemDirectoryW(Some(&mut dir)) } as usize;
-        if n == 0 || n >= dir.len() {
-            crate::pwarn!("open failed: no system folder for Task Manager");
-            return;
-        }
-        let exe = HSTRING::from(format!("{}\\Taskmgr.exe", String::from_utf16_lossy(&dir[..n])));
-        let r = unsafe { ShellExecuteW(None, w!("open"), &exe, None, None, SW_SHOWNORMAL) };
-        if (r.0 as isize) <= 32 {
-            crate::pwarn!("open failed ({}): Task Manager", r.0 as isize);
         }
     });
 }

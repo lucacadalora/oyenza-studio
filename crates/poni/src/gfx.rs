@@ -1448,6 +1448,22 @@ impl<'a> Canvas<'a> {
         }
     }
 
+    /// Fill a path with `c` fading from `alpha0` at height `y0` to `alpha1`
+    /// at `y1` (a vertical gradient, as under Stats' charts).
+    pub fn fill_path_fade(&mut self, segs: &[Seg], c: Color, y0: f32, y1: f32, alpha0: f32, alpha1: f32) {
+        let Ok(geo) = self.g.path_geometry(segs, true) else { return };
+        let c = self.g.look.paint(c);
+        let stop = |position: f32, a: f32| D2D1_GRADIENT_STOP { position, color: d2d_color(c.with_alpha(c.a * a)) };
+        let stops = [stop(0.0, alpha0), stop(1.0, alpha1)];
+        unsafe {
+            let Ok(coll) = self.g.rt.CreateGradientStopCollection(&stops, D2D1_GAMMA_2_2, D2D1_EXTEND_MODE_CLAMP) else { return };
+            let props = D2D1_LINEAR_GRADIENT_BRUSH_PROPERTIES { startPoint: pt(0.0, y0), endPoint: pt(0.0, y1) };
+            let Ok(brush) = self.g.rt.CreateLinearGradientBrush(&props, None, &coll) else { return };
+            brush.SetOpacity(self.alpha);
+            self.g.rt.FillGeometry(&geo, &brush, None);
+        }
+    }
+
     /// The island silhouette: flat top flush with the screen edge, concave
     /// "shoulders" flaring into the top edge and rounded bottom corners.
     /// `body` is the main rectangle; shoulders extend `shoulder` DIPs outside it.

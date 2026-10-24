@@ -45,7 +45,7 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-tasks.webp" width="64" alt=""></td><td><b>Tasks</b><br>A tiny to-do list</td></tr>
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-clipboard.webp" width="64" alt=""></td><td><b>Clipboard</b><br>Recent copied text, kept in memory only. It skips anything password managers mark as private.</td></tr>
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-today.webp" width="64" alt=""></td><td><b>Today</b><br>Date and calendar, plus CPU, memory, disk and battery. Click a ring to open it on the System page</td></tr>
-<tr><td width="84" align="center"></td><td><b>System</b><br>CPU, memory, drives, network and battery, each with the last minute of history and the apps using the most. Readings run only while the page is open, without drivers or admin rights, and never leave your PC</td></tr>
+<tr><td width="84" align="center"></td><td><b>System</b><br>CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the processes using the most. Read straight from Windows' own kernel counters, without drivers or admin rights, and never leaves your PC. The minute keeps going while the page is closed (a light reading once a second; switch it off with right-click › Keep System page history)</td></tr>
 </table>
 
 | | |

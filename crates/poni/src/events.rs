@@ -126,8 +126,9 @@ pub enum AppEvent {
     DragHover(bool),
     ShelfThumb { path: String, image: Option<Image> },
     Stats(SysStats),
-    /// A System page reading (`services::sysmon`, only while the page is open).
-    System(Box<poni_core::sysmon::Reading>),
+    /// The System page's latest reading and the minute behind it
+    /// (`services::sysmon`, each second while the page is open).
+    System(Box<poni_core::sysmon::Monitor>),
     ClipboardText(String),
     /// Phone drop's server: a phone opened the page, asked, sent, gave up.
     Phone(poni_core::phonedrop::Event),

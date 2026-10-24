@@ -1,25 +1,26 @@
-//! What the System page shows: CPU, memory, drives, network and battery,
-//! read once a second while the page is open.
+//! What the System page shows: CPU, GPU, memory, drives, network and battery.
 //!
-//! The Windows sampler (`poni::services::sysmon`) hands in raw counters and
-//! everything arithmetic lives here, so it is tested on any machine: CPU load
-//! from two `GetSystemTimes` samples, per-app usage from two process lists
-//! (grouped by executable, the way Task Manager's Processes tab groups them),
-//! the process list's binary layout, the minute of history behind each chart,
-//! and the number formats the page uses.
+//! The Windows sampler (`poni::services::sysmon`) reads the kernel's own
+//! counters, the way Stats reads macOS's (`host_processor_info`,
+//! `host_statistics64`, IOKit), and hands them in raw; everything arithmetic
+//! lives here, so it is tested on any machine: each core's load from two
+//! samples of the processor times, per-app CPU, memory and I/O from two
+//! process lists (grouped by executable), both lists' binary layouts, the
+//! minute of history behind each chart, and the number formats the page uses.
 
 use std::collections::{HashMap, VecDeque};
 
 /// Samples kept per chart: one a second, so a minute.
 pub const HISTORY_LEN: usize = 60;
-/// Apps listed under the CPU and Memory charts.
-pub const TOP_APPS: usize = 3;
+/// Processes listed for CPU, memory and drives (Stats lists eight too).
+pub const TOP_APPS: usize = 8;
 
 /// The page's modules, in list order.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub enum Module {
     #[default]
     Cpu,
+    Gpu,
     Memory,
     Drives,
     Network,
@@ -27,17 +28,35 @@ pub enum Module {
 }
 
 impl Module {
-    pub const ALL: [Module; 5] = [Module::Cpu, Module::Memory, Module::Drives, Module::Network, Module::Battery];
+    pub const ALL: [Module; 6] = [Module::Cpu, Module::Gpu, Module::Memory, Module::Drives, Module::Network, Module::Battery];
 
     pub fn title(self) -> &'static str {
         match self {
             Module::Cpu => "CPU",
+            Module::Gpu => "GPU",
             Module::Memory => "Memory",
             Module::Drives => "Drives",
             Module::Network => "Network",
             Module::Battery => "Battery",
         }
     }
+}
+
+/// What kind of core a logical processor sits on (hybrid CPUs mix two).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum CoreKind {
+    /// Every core is the same kind.
+    #[default]
+    Any,
+    Performance,
+    Efficiency,
+}
+
+/// One logical processor's load and kind.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct CoreLoad {
+    pub load: f32,
+    pub kind: CoreKind,
 }
 
 /// Processor load between the last two samples.
@@ -48,11 +67,38 @@ pub struct CpuReading {
     /// The part of `load` spent in apps (user mode) and in Windows itself (kernel mode).
     pub user: f32,
     pub kernel: f32,
+    /// The part of `kernel` spent answering hardware (interrupts and deferred calls).
+    pub interrupt: f32,
+    /// Each logical processor in Windows' order (empty when only the total is known).
+    pub cores: Vec<CoreLoad>,
     /// Logical processors (threads) across all processor groups.
     pub logical: u32,
-    /// Current speed, when Windows reports it (Task Manager's "Speed").
+    /// The processor's base speed, which turbo speeds pass (MHz).
+    pub base_mhz: Option<u32>,
+    /// Current speed: all cores, and the performance and efficiency cores of a hybrid CPU.
     pub mhz: Option<u32>,
+    pub mhz_p: Option<u32>,
+    pub mhz_e: Option<u32>,
+    /// The warmest ACPI thermal zone, when the firmware reports a real one (°C).
+    pub temp_c: Option<f32>,
+    /// Package power from the processor's energy counters, when Windows exposes them (W).
+    pub power_w: Option<f32>,
     pub uptime_s: u64,
+}
+
+impl CpuReading {
+    /// (performance, efficiency) core counts on a hybrid CPU.
+    pub fn hybrid(&self) -> Option<(usize, usize)> {
+        let p = self.cores.iter().filter(|c| c.kind == CoreKind::Performance).count();
+        let e = self.cores.iter().filter(|c| c.kind == CoreKind::Efficiency).count();
+        (p > 0 && e > 0).then_some((p, e))
+    }
+
+    /// Average load of one kind of core.
+    pub fn kind_load(&self, kind: CoreKind) -> Option<f32> {
+        let v: Vec<f32> = self.cores.iter().filter(|c| c.kind == kind).map(|c| c.load).collect();
+        (!v.is_empty()).then(|| v.iter().sum::<f32>() / v.len() as f32)
+    }
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -63,13 +109,59 @@ pub struct MemoryReading {
     /// page file). Committed close to the limit is Windows' memory pressure.
     pub committed: u64,
     pub commit_limit: u64,
-    /// File cache Windows hands back when apps need the room.
+    /// Files and data kept in memory that Windows hands back at once (standby and modified lists).
     pub cached: u64,
+    /// Kernel memory that can't be paged out (the nonpaged pool): Stats' "wired".
+    pub wired: u64,
+    /// Held in the Memory Compression store.
+    pub compressed: u64,
+    /// Free and zeroed pages.
+    pub free: u64,
+    /// The page file in use and its size.
+    pub page_used: u64,
+    pub page_total: u64,
+}
+
+/// The parts that make up physical memory, in the order the page draws them.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MemPart {
+    App,
+    Wired,
+    Compressed,
+    Cached,
+    Free,
 }
 
 impl MemoryReading {
     pub fn used_frac(&self) -> f32 {
         frac(self.used, self.total)
+    }
+
+    /// Committed against the limit: how hard Windows is pressed for memory.
+    pub fn pressure(&self) -> f32 {
+        frac(self.committed, self.commit_limit)
+    }
+
+    /// Physical memory split into its parts; they add up to `total`. Apps get
+    /// what the kernel, the compression store, the cache and free pages leave.
+    pub fn parts(&self) -> [(MemPart, u64); 5] {
+        let wired = self.wired.min(self.total);
+        let compressed = self.compressed.min(self.total - wired);
+        let cached = self.cached.min(self.total - wired - compressed);
+        let free = self.free.min(self.total - wired - compressed - cached);
+        let app = self.total - wired - compressed - cached - free;
+        [(MemPart::App, app), (MemPart::Wired, wired), (MemPart::Compressed, compressed), (MemPart::Cached, cached), (MemPart::Free, free)]
+    }
+}
+
+/// Memory pressure in words, like Stats' gauge.
+pub fn pressure_word(p: f32) -> &'static str {
+    if p < 0.75 {
+        "Normal"
+    } else if p < 0.9 {
+        "Warning"
+    } else {
+        "Critical"
     }
 }
 
@@ -108,6 +200,9 @@ pub struct NetReading {
     /// The adapter's name in Windows ("Wi-Fi", "Ethernet"), the busiest one when several are up.
     pub adapter: String,
     pub ipv4: Option<String>,
+    /// The adapter's hardware address ("3C:22:FB:0A:11:9E") and link speed (bits/s).
+    pub mac: String,
+    pub link_bps: u64,
     pub down_bps: f64,
     pub up_bps: f64,
     /// Bytes received and sent since the adapters connected.
@@ -142,6 +237,29 @@ impl BatteryReading {
     }
 }
 
+/// The graphics card.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct GpuReading {
+    /// "NVIDIA GeForce RTX 4080".
+    pub name: String,
+    /// The busiest engine's share, 0..=1 (how Windows rates a GPU's load).
+    pub util: f32,
+    pub engine_3d: f32,
+    pub copy: f32,
+    pub video_decode: f32,
+    pub video_encode: f32,
+    /// Video memory in use and in all: the card's own (dedicated), or the
+    /// share of RAM it may use on a GPU built into the processor.
+    pub mem_used: u64,
+    pub mem_total: u64,
+    /// Built into the processor (memory shared with Windows).
+    pub integrated: bool,
+    /// What the driver reports, when it does: temperature, fan and the 3D engine's clock.
+    pub temp_c: Option<f32>,
+    pub fan_rpm: Option<u32>,
+    pub mhz: Option<u32>,
+}
+
 /// The processes of one executable taken together.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct AppUse {
@@ -156,8 +274,10 @@ pub struct AppUse {
     pub pid: u64,
     /// Share of all logical processors, 0..=1.
     pub cpu: f32,
-    /// Private working set in bytes (Task Manager's "Memory" column).
+    /// Private working set in bytes.
     pub memory: u64,
+    /// File and device reads and writes, bytes/s.
+    pub io: f64,
     pub processes: u32,
 }
 
@@ -165,6 +285,7 @@ pub struct AppUse {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Reading {
     pub cpu: Option<CpuReading>,
+    pub gpu: Option<GpuReading>,
     pub memory: Option<MemoryReading>,
     pub drives: Vec<Drive>,
     pub disk: Option<DiskActivity>,
@@ -173,6 +294,7 @@ pub struct Reading {
     pub battery: Option<BatteryReading>,
     pub top_cpu: Vec<AppUse>,
     pub top_memory: Vec<AppUse>,
+    pub top_io: Vec<AppUse>,
 }
 
 impl Reading {
@@ -227,6 +349,7 @@ impl Series {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct History {
     pub cpu: Series,
+    pub gpu: Series,
     pub memory: Series,
     pub disk_read: Series,
     pub disk_write: Series,
@@ -237,6 +360,7 @@ pub struct History {
 impl History {
     pub fn record(&mut self, r: &Reading) {
         self.cpu.push(r.cpu.as_ref().map(|c| c.load));
+        self.gpu.push(r.gpu.as_ref().map(|g| g.util));
         self.memory.push(r.memory.as_ref().map(MemoryReading::used_frac));
         self.disk_read.push(r.disk.map(|d| d.read_bps as f32));
         self.disk_write.push(r.disk.map(|d| d.write_bps as f32));
@@ -291,6 +415,142 @@ pub fn cpu_split(prev: CpuTimes, now: CpuTimes) -> Option<(f32, f32, f32)> {
     Some(((user_f + kernel_f).min(1.0), user_f, kernel_f))
 }
 
+/// One logical processor's cumulative times in 100 ns ticks, as
+/// `NtQuerySystemInformation(SystemProcessorPerformanceInformation)` lists
+/// them (the counterpart of macOS's `host_processor_info`). Kernel time
+/// includes idle, deferred-call (DPC) and interrupt time.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct CoreTimes {
+    pub idle: u64,
+    pub kernel: u64,
+    pub user: u64,
+    pub dpc: u64,
+    pub interrupt: u64,
+}
+
+/// Bytes per entry of that list: five 64-bit times, a 32-bit interrupt count, padding.
+const CORE_RECORD: usize = 48;
+
+/// Read a `SystemProcessorPerformanceInformation` buffer, one entry per logical processor.
+pub fn parse_core_times(buf: &[u8]) -> Vec<CoreTimes> {
+    buf.chunks_exact(CORE_RECORD)
+        .map(|r| CoreTimes { idle: read_u64(r, 0), kernel: read_u64(r, 8), user: read_u64(r, 16), dpc: read_u64(r, 24), interrupt: read_u64(r, 32) })
+        .collect()
+}
+
+/// Loads between two samples of every core.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct CoreSplit {
+    /// Each core's busy share, in order.
+    pub cores: Vec<f32>,
+    /// Shares of the whole machine: busy, apps, Windows, and the hardware part of Windows.
+    pub load: f32,
+    pub user: f32,
+    pub kernel: f32,
+    pub interrupt: f32,
+}
+
+/// Every core's load between two samples. None when the core count changed
+/// or no time passed; a counter that went backwards counts as no time.
+pub fn core_split(prev: &[CoreTimes], now: &[CoreTimes]) -> Option<CoreSplit> {
+    if prev.len() != now.len() || now.is_empty() {
+        return None;
+    }
+    let mut cores = Vec::with_capacity(now.len());
+    let (mut total, mut idle, mut user, mut hw) = (0u64, 0u64, 0u64, 0u64);
+    for (a, b) in prev.iter().zip(now) {
+        let k = b.kernel.saturating_sub(a.kernel);
+        let u = b.user.saturating_sub(a.user);
+        let t = k.saturating_add(u);
+        let i = b.idle.saturating_sub(a.idle).min(t);
+        cores.push(if t == 0 { 0.0 } else { (1.0 - i as f64 / t as f64) as f32 });
+        total += t;
+        idle += i;
+        user += u;
+        hw += b.dpc.saturating_sub(a.dpc).saturating_add(b.interrupt.saturating_sub(a.interrupt));
+    }
+    if total == 0 {
+        return None;
+    }
+    let t = total as f64;
+    let load = (1.0 - idle as f64 / t) as f32;
+    let user = ((user as f64 / t) as f32).min(load);
+    let kernel = (load - user).max(0.0);
+    let interrupt = ((hw as f64 / t) as f32).min(kernel);
+    Some(CoreSplit { cores, load, user, kernel, interrupt })
+}
+
+/// Core kinds from each logical processor's efficiency class
+/// (`GetSystemCpuSetInformation`): on a hybrid CPU the highest class is the
+/// performance cores, the rest efficiency cores; one class means one kind.
+pub fn core_kinds(classes: &[u8]) -> Vec<CoreKind> {
+    let (Some(lo), Some(hi)) = (classes.iter().min(), classes.iter().max()) else { return Vec::new() };
+    if lo == hi {
+        return vec![CoreKind::Any; classes.len()];
+    }
+    classes.iter().map(|c| if c == hi { CoreKind::Performance } else { CoreKind::Efficiency }).collect()
+}
+
+// ---------------------------------------------------------------- GPU engines
+
+/// What a graphics engine does, from the graphics kernel's `DXGK_ENGINE_TYPE`.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum Engine {
+    #[default]
+    Other,
+    ThreeD,
+    VideoDecode,
+    VideoEncode,
+    Copy,
+}
+
+impl Engine {
+    pub fn from_type(t: i32) -> Engine {
+        match t {
+            1 => Engine::ThreeD,
+            2 => Engine::VideoDecode,
+            3 => Engine::VideoEncode,
+            6 => Engine::Copy,
+            _ => Engine::Other,
+        }
+    }
+}
+
+/// Engine loads of one adapter, 0..=1.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct GpuEngines {
+    pub util: f32,
+    pub engine_3d: f32,
+    pub copy: f32,
+    pub video_decode: f32,
+    pub video_encode: f32,
+}
+
+/// Engine loads from two samples of every engine's running time (100 ns
+/// ticks, `D3DKMT_QUERYSTATISTICS_NODE`) taken `elapsed` ticks apart. A
+/// type's load is its busiest engine; the adapter's is its busiest engine of
+/// all, the way Windows rates a GPU. None when the engine count changed or no
+/// time passed.
+pub fn gpu_busy(kinds: &[Engine], prev: &[i64], now: &[i64], elapsed: f64) -> Option<GpuEngines> {
+    if elapsed <= 0.0 || prev.len() != now.len() || now.is_empty() {
+        return None;
+    }
+    let mut e = GpuEngines::default();
+    for (i, (a, b)) in prev.iter().zip(now).enumerate() {
+        let busy = ((b - a).max(0) as f64 / elapsed).clamp(0.0, 1.0) as f32;
+        e.util = e.util.max(busy);
+        let slot = match kinds.get(i).copied().unwrap_or_default() {
+            Engine::ThreeD => &mut e.engine_3d,
+            Engine::Copy => &mut e.copy,
+            Engine::VideoDecode => &mut e.video_decode,
+            Engine::VideoEncode => &mut e.video_encode,
+            Engine::Other => continue,
+        };
+        *slot = slot.max(busy);
+    }
+    Some(e)
+}
+
 // ---------------------------------------------------------------- apps
 
 /// One process from a process list.
@@ -303,6 +563,8 @@ pub struct ProcSample {
     pub cpu_time: u64,
     /// Private working set in bytes.
     pub memory: u64,
+    /// Bytes read and written since the process started (file and device I/O).
+    pub io: u64,
 }
 
 /// Entries of the process list that aren't apps: the idle counter and
@@ -312,28 +574,35 @@ const NOT_APPS: [&str; 6] = ["", "idle", "system idle process", "memory compress
 /// Turns successive process lists into per-app usage.
 #[derive(Debug, Default)]
 pub struct AppTracker {
-    /// pid → (lower-case image, cpu time) at the previous call.
-    prev: HashMap<u64, (String, u64)>,
+    /// pid → (lower-case image, cpu time, I/O bytes) at the previous call.
+    prev: HashMap<u64, (String, u64, u64)>,
     prev_at: Option<f64>,
 }
 
 impl AppTracker {
     /// Usage per executable since the previous call (unsorted). `now` is in
     /// seconds and `logical` is the number of logical processors. A process
-    /// that is new since the last call counts 0 % CPU: its time began before it.
+    /// that is new since the last call counts 0 % CPU and no I/O: its
+    /// counters began before it.
     pub fn update(&mut self, now: f64, logical: u32, procs: &[ProcSample]) -> Vec<AppUse> {
-        let ticks = self.prev_at.map(|t| now - t).filter(|d| *d > 0.0).map(|d| d * 1e7 * f64::from(logical.max(1)));
+        let span = self.prev_at.map(|t| now - t).filter(|d| *d > 0.0);
+        let ticks = span.map(|d| d * 1e7 * f64::from(logical.max(1)));
         let mut groups: HashMap<String, AppUse> = HashMap::new();
         let mut lead: HashMap<String, u64> = HashMap::new();
         let mut next = HashMap::with_capacity(procs.len());
         for p in procs {
             let image = p.image.to_lowercase();
-            next.insert(p.pid, (image.clone(), p.cpu_time));
+            next.insert(p.pid, (image.clone(), p.cpu_time, p.io));
             if p.pid == 0 || NOT_APPS.contains(&image.as_str()) {
                 continue;
             }
-            let cpu = match (ticks, self.prev.get(&p.pid)) {
-                (Some(t), Some((img, before))) if *img == image && p.cpu_time >= *before => ((p.cpu_time - before) as f64 / t) as f32,
+            let before = self.prev.get(&p.pid).filter(|(img, _, _)| *img == image);
+            let cpu = match (ticks, before) {
+                (Some(t), Some((_, c, _))) if p.cpu_time >= *c => ((p.cpu_time - c) as f64 / t) as f32,
+                _ => 0.0,
+            };
+            let io = match (span, before) {
+                (Some(d), Some((_, _, io))) if p.io >= *io => (p.io - io) as f64 / d,
                 _ => 0.0,
             };
             let g = groups
@@ -346,6 +615,7 @@ impl AppTracker {
             }
             g.cpu += cpu;
             g.memory += p.memory;
+            g.io += io;
             g.processes += 1;
         }
         self.prev = next;
@@ -374,6 +644,13 @@ pub fn top_memory(apps: &[AppUse], n: usize) -> Vec<AppUse> {
     v.into_iter().take(n).cloned().collect()
 }
 
+/// The `n` apps reading and writing the most (equal ones by name), only those doing any.
+pub fn top_io(apps: &[AppUse], n: usize) -> Vec<AppUse> {
+    let mut v: Vec<&AppUse> = apps.iter().filter(|a| a.io >= 1.0).collect();
+    v.sort_by(|a, b| b.io.total_cmp(&a.io).then(a.image.cmp(&b.image)));
+    v.into_iter().take(n).cloned().collect()
+}
+
 /// "chrome.exe" → "chrome" (what the page shows until it finds the file's description).
 pub fn display_name(image: &str) -> String {
     let n = image.len();
@@ -395,8 +672,10 @@ const P_KERNEL_TIME: usize = 48; // i64, 100 ns
 const P_NAME_LEN: usize = 56; // u16, image name length in bytes (UNICODE_STRING)
 const P_NAME_PTR: usize = 64; // pointer to the UTF-16 image name, inside the same buffer
 const P_PID: usize = 80; // HANDLE, the process id
+const P_IO_READ: usize = 232; // ReadTransferCount, bytes
+const P_IO_WRITE: usize = 240; // WriteTransferCount, bytes
 /// Bytes an entry needs for every field above.
-const P_MIN: usize = 88;
+const P_MIN: usize = 248;
 
 /// Read a process list buffer. `base` is the address of `buf[0]`: image names
 /// point into the buffer by address. The walk stops at the last entry, or at
@@ -416,7 +695,8 @@ pub fn parse_process_list(buf: &[u8], base: usize) -> Vec<ProcSample> {
             .unwrap_or_default();
         let user = read_u64(e, P_USER_TIME);
         let kernel = read_u64(e, P_KERNEL_TIME);
-        out.push(ProcSample { pid: read_u64(e, P_PID), image, cpu_time: user.saturating_add(kernel), memory: read_u64(e, P_PRIVATE_WS) });
+        let io = read_u64(e, P_IO_READ).saturating_add(read_u64(e, P_IO_WRITE));
+        out.push(ProcSample { pid: read_u64(e, P_PID), image, cpu_time: user.saturating_add(kernel), memory: read_u64(e, P_PRIVATE_WS), io });
         if next < P_MIN {
             break;
         }
@@ -545,6 +825,26 @@ pub fn fmt_watts(mw: i32) -> String {
     }
 }
 
+/// A temperature: "54°".
+pub fn fmt_temp(c: f32) -> String {
+    format!("{}°", c.round() as i32)
+}
+
+/// A link speed in bits per second: "1 Gbps", "866 Mbps", "2.5 Gbps".
+pub fn fmt_link(bps: u64) -> String {
+    let m = bps as f64 / 1e6;
+    if m >= 1000.0 {
+        let g = m / 1000.0;
+        if (g - g.round()).abs() < 0.05 {
+            format!("{:.0} Gbps", g)
+        } else {
+            format!("{g:.1} Gbps")
+        }
+    } else {
+        format!("{m:.0} Mbps")
+    }
+}
+
 /// How busy the processor is, in words (the same words as Today's CPU ring).
 pub fn load_word(f: f32) -> &'static str {
     match f {
@@ -586,7 +886,7 @@ mod tests {
     }
 
     fn proc(pid: u64, image: &str, cpu_time: u64, memory: u64) -> ProcSample {
-        ProcSample { pid, image: image.into(), cpu_time, memory }
+        ProcSample { pid, image: image.into(), cpu_time, memory, io: 0 }
     }
 
     #[test]
@@ -641,6 +941,9 @@ mod tests {
             let next = if i + 1 == entries.len() { 0 } else { entry_size as u32 };
             buf[at..at + 4].copy_from_slice(&next.to_le_bytes());
             buf[at + P_PRIVATE_WS..at + P_PRIVATE_WS + 8].copy_from_slice(&private.to_le_bytes());
+            // Reads of 1 KB per pid, writes of 2 KB per pid.
+            buf[at + P_IO_READ..at + P_IO_READ + 8].copy_from_slice(&(pid * 1024).to_le_bytes());
+            buf[at + P_IO_WRITE..at + P_IO_WRITE + 8].copy_from_slice(&(pid * 2048).to_le_bytes());
             buf[at + P_USER_TIME..at + P_USER_TIME + 8].copy_from_slice(&user.to_le_bytes());
             buf[at + P_KERNEL_TIME..at + P_KERNEL_TIME + 8].copy_from_slice(&kernel.to_le_bytes());
             buf[at + P_PID..at + P_PID + 8].copy_from_slice(&pid.to_le_bytes());
@@ -664,22 +967,22 @@ mod tests {
         let buf = process_buffer(&[(0, "", 0, 0, 0), (4, "System", 10, 20, 4096), (1234, "chrome.exe", 300, 400, 512 << 20)], base, 256);
         let list = parse_process_list(&buf, base);
         assert_eq!(list.len(), 3);
-        assert_eq!(list[0], ProcSample { pid: 0, image: String::new(), cpu_time: 0, memory: 0 });
-        assert_eq!(list[1], ProcSample { pid: 4, image: "System".into(), cpu_time: 30, memory: 4096 });
-        assert_eq!(list[2], ProcSample { pid: 1234, image: "chrome.exe".into(), cpu_time: 700, memory: 512 << 20 });
+        assert_eq!(list[0], ProcSample { pid: 0, image: String::new(), cpu_time: 0, memory: 0, io: 0 });
+        assert_eq!(list[1], ProcSample { pid: 4, image: "System".into(), cpu_time: 30, memory: 4096, io: 4 * 3072 });
+        assert_eq!(list[2], ProcSample { pid: 1234, image: "chrome.exe".into(), cpu_time: 700, memory: 512 << 20, io: 1234 * 3072 });
     }
 
     #[test]
     fn process_list_stops_at_damage() {
         let base = 0x1000;
-        let mut buf = process_buffer(&[(1, "a.exe", 1, 1, 1), (2, "b.exe", 1, 1, 1)], base, 128);
+        let mut buf = process_buffer(&[(1, "a.exe", 1, 1, 1), (2, "b.exe", 1, 1, 1)], base, 256);
         // A name pointing outside the buffer reads as no name.
         buf[P_NAME_PTR..P_NAME_PTR + 8].copy_from_slice(&0xdead_beef_u64.to_le_bytes());
         let list = parse_process_list(&buf, base);
         assert_eq!((list.len(), list[0].image.as_str(), list[1].image.as_str()), (2, "", "b.exe"));
         // A buffer cut short ends the walk.
-        assert_eq!(parse_process_list(&buf[..200], base).len(), 1);
-        assert!(parse_process_list(&buf[..40], base).is_empty());
+        assert_eq!(parse_process_list(&buf[..400], base).len(), 1);
+        assert!(parse_process_list(&buf[..200], base).is_empty());
         // A next offset too small to hold an entry can't loop.
         buf[0..4].copy_from_slice(&8u32.to_le_bytes());
         assert_eq!(parse_process_list(&buf, base).len(), 1);
@@ -732,6 +1035,99 @@ mod tests {
         assert_eq!((fmt_watts(-8_200), fmt_watts(45_000)), ("8.2 W".into(), "45 W".into()));
         assert_eq!((load_word(0.05), load_word(0.23), load_word(0.95)), ("Idle", "Light load", "Very busy"));
         assert_eq!((display_name("chrome.exe"), display_name("Code.EXE"), display_name("System")), ("chrome".into(), "Code".into(), "System".into()));
+    }
+
+    fn core_buffer(cores: &[(u64, u64, u64, u64, u64)]) -> Vec<u8> {
+        let mut b = Vec::new();
+        for (idle, kernel, user, dpc, int) in cores {
+            for v in [idle, kernel, user, dpc, int] {
+                b.extend_from_slice(&v.to_le_bytes());
+            }
+            b.extend_from_slice(&[0u8; 8]); // interrupt count + padding
+        }
+        b
+    }
+
+    #[test]
+    fn core_times_parse_and_split() {
+        let a = parse_core_times(&core_buffer(&[(0, 0, 0, 0, 0), (0, 0, 0, 0, 0)]));
+        // Core 0: 100 of kernel (60 idle, 10 hardware) + 100 user. Core 1: all idle.
+        let b = parse_core_times(&core_buffer(&[(60, 100, 100, 6, 4), (200, 200, 0, 0, 0)]));
+        assert_eq!(b[0], CoreTimes { idle: 60, kernel: 100, user: 100, dpc: 6, interrupt: 4 });
+        let s = core_split(&a, &b).unwrap();
+        assert!((s.cores[0] - 0.7).abs() < 1e-6 && s.cores[1] == 0.0, "{:?}", s.cores);
+        // Machine: 400 ticks, 260 idle -> busy 0.35, apps 0.25, Windows 0.10, of which hardware 0.025.
+        assert!((s.load - 0.35).abs() < 1e-6 && (s.user - 0.25).abs() < 1e-6 && (s.kernel - 0.10).abs() < 1e-6);
+        assert!((s.interrupt - 0.025).abs() < 1e-6);
+        // A partial trailing record is ignored; a changed core count or no time gives nothing.
+        assert_eq!(parse_core_times(&[0u8; 50]).len(), 1);
+        assert_eq!(core_split(&a, &b[..1]), None);
+        assert_eq!(core_split(&a, &a), None);
+    }
+
+    #[test]
+    fn hybrid_cores_by_efficiency_class() {
+        assert_eq!(core_kinds(&[1, 1, 0, 0]), [CoreKind::Performance, CoreKind::Performance, CoreKind::Efficiency, CoreKind::Efficiency]);
+        assert_eq!(core_kinds(&[0, 0]), [CoreKind::Any, CoreKind::Any]);
+        assert!(core_kinds(&[]).is_empty());
+        let cores = [(0.8, CoreKind::Performance), (0.4, CoreKind::Performance), (0.1, CoreKind::Efficiency)]
+            .map(|(load, kind)| CoreLoad { load, kind })
+            .to_vec();
+        let c = CpuReading { cores, ..CpuReading::default() };
+        assert_eq!(c.hybrid(), Some((2, 1)));
+        assert!((c.kind_load(CoreKind::Performance).unwrap() - 0.6).abs() < 1e-6);
+        assert_eq!(CpuReading::default().hybrid(), None);
+    }
+
+    #[test]
+    fn app_io_rate_and_top_io() {
+        let mut t = AppTracker::default();
+        let p = |pid, img: &str, io| ProcSample { pid, image: img.into(), cpu_time: 0, memory: 1, io };
+        t.update(1.0, 1, &[p(1, "a.exe", 1_000), p(2, "b.exe", 5_000)]);
+        let apps = t.update(3.0, 1, &[p(1, "a.exe", 9_000), p(2, "b.exe", 5_000), p(3, "c.exe", 99_999)]);
+        let io = |img: &str| apps.iter().find(|a| a.image == img).unwrap().io;
+        assert_eq!((io("a.exe"), io("b.exe"), io("c.exe")), (4_000.0, 0.0, 0.0));
+        let top = top_io(&apps, 5);
+        assert_eq!(top.iter().map(|a| a.image.as_str()).collect::<Vec<_>>(), ["a.exe"], "idle apps are left out");
+    }
+
+    #[test]
+    fn memory_parts_add_up() {
+        let m = MemoryReading { total: 100, used: 60, wired: 5, compressed: 3, cached: 30, free: 10, committed: 80, commit_limit: 100, ..MemoryReading::default() };
+        let parts = m.parts();
+        assert_eq!(parts.map(|(_, v)| v), [52, 5, 3, 30, 10]);
+        assert_eq!(parts.iter().map(|(_, v)| v).sum::<u64>(), 100);
+        // Parts that overrun the total are cut, never negative.
+        let odd = MemoryReading { total: 10, wired: 8, compressed: 8, cached: 8, free: 8, ..MemoryReading::default() };
+        assert_eq!(odd.parts().map(|(_, v)| v), [0, 8, 2, 0, 0]);
+        assert_eq!((pressure_word(m.pressure()), pressure_word(0.8), pressure_word(0.95)), ("Warning", "Warning", "Critical"));
+        assert_eq!(pressure_word(0.5), "Normal");
+    }
+
+    #[test]
+    fn new_formats() {
+        assert_eq!((fmt_temp(54.4), fmt_temp(-3.6)), ("54°".into(), "-4°".into()));
+        assert_eq!((fmt_link(1_000_000_000), fmt_link(2_500_000_000), fmt_link(866_700_000)), ("1 Gbps".into(), "2.5 Gbps".into(), "867 Mbps".into()));
+    }
+
+    #[test]
+    fn gpu_engine_loads() {
+        let kinds = [Engine::ThreeD, Engine::Copy, Engine::VideoDecode, Engine::ThreeD, Engine::Other];
+        assert_eq!(Engine::from_type(1), Engine::ThreeD);
+        assert_eq!(Engine::from_type(6), Engine::Copy);
+        assert_eq!(Engine::from_type(42), Engine::Other);
+        // One second (10^7 ticks): 3D engines busy 30 % and 55 %, copy 5 %, decode 12 %, the other one 70 %.
+        let prev = [0, 100, 1_000, 0, 0];
+        let now = [3_000_000, 500_100, 1_201_000, 5_500_000, 7_000_000];
+        let e = gpu_busy(&kinds, &prev, &now, 1e7).unwrap();
+        assert!((e.engine_3d - 0.55).abs() < 1e-6 && (e.copy - 0.05).abs() < 1e-6);
+        assert!((e.video_decode - 0.12).abs() < 1e-6 && e.video_encode == 0.0);
+        assert!((e.util - 0.7).abs() < 1e-6, "the busiest engine of all, of any type");
+        // A counter that went backwards is idle; past the clock is full.
+        let e = gpu_busy(&kinds[..2], &[5, 0], &[0, 30_000_000], 1e7).unwrap();
+        assert_eq!((e.engine_3d, e.copy), (0.0, 1.0));
+        assert_eq!(gpu_busy(&kinds, &prev, &now[..4], 1e7), None);
+        assert_eq!(gpu_busy(&kinds, &prev, &now, 0.0), None);
     }
 
     #[test]

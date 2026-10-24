@@ -97,6 +97,7 @@ features = [
     "Win32_UI_Shell_Common",
     "Win32_UI_Shell_PropertiesSystem",
     "Win32_UI_WindowsAndMessaging",
+    "Wdk_Graphics_Direct3D",
     "Wdk_System_SystemInformation",
 ]
 

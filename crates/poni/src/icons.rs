@@ -62,10 +62,10 @@ pub enum Icon {
     Gear,
     /// The System tab: a dial with its needle.
     Gauge,
-    /// Download and upload arrows (network).
-    Network,
     /// An app whose own icon isn't known.
     App,
+    /// The Windows mark, for Windows' own processes in the System page's lists.
+    Windows,
 }
 
 pub struct Part {
@@ -225,11 +225,11 @@ pub fn parts(icon: Icon) -> &'static [Part] {
             s("M4 4l16 16"),
         ],
         Gauge => p![s("M4.6 18.5A8.5 8.5 0 1 1 19.4 18.5"), s("M12 14.5l3.8-4.3"), f("M10.6 14.5a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0")],
-        Network => p![s("M8 4.5v15"), s("M4.5 16l3.5 3.5 3.5-3.5"), s("M16 19.5v-15"), s("M12.5 8L16 4.5 19.5 8")],
         App => p![
             s("M6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-11A2.5 2.5 0 0 1 6.5 4z"),
             s("M4 8.5h16"),
         ],
+        Windows => p![f("M4 4h7.5v7.5H4z"), f("M12.5 4H20v7.5h-7.5z"), f("M4 12.5h7.5V20H4z"), f("M12.5 12.5H20V20h-7.5z")],
         // Eight teeth (tops on r 9.5, valleys on r 7) around a hole. The outline
         // starts at a tooth's corner, not mid-curve, so its closing join can't spike.
         Gear => p![
@@ -250,7 +250,7 @@ mod tests {
         Icon::Battery, Icon::Bolt, Icon::Bluetooth, Icon::Headphones, Icon::Volume, Icon::VolumeLow, Icon::VolumeMute,
         Icon::Pin, Icon::PinFill, Icon::Folder, Icon::File, Icon::Trash, Icon::Undo, Icon::Reset,
         Icon::Sliders, Icon::Open, Icon::Phone, Icon::Eye, Icon::MoneyIn, Icon::Card, Icon::Wallet, Icon::Unlink, Icon::Gear,
-        Icon::Gauge, Icon::Network, Icon::App,
+        Icon::Gauge, Icon::App, Icon::Windows,
     ];
 
     #[test]

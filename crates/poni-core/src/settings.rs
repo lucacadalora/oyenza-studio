@@ -80,6 +80,9 @@ pub struct Settings {
     /// Oyenza (once signed in): show sums and senders on the island straight
     /// away. Off: they wait for a click on Show, so a shared screen shows none.
     pub oyenza_show_amounts: bool,
+    /// Keep the System page's charts going while it's closed (a light reading
+    /// of the kernel counters once a second), so they're full when it opens.
+    pub system_history: bool,
 }
 
 impl Default for Settings {
@@ -107,6 +110,7 @@ impl Default for Settings {
             remember_page: true,
             pomodoro: PomodoroConfig::default(),
             oyenza_show_amounts: false,
+            system_history: true,
         }
     }
 }

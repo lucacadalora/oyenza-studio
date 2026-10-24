@@ -83,7 +83,6 @@ pub enum Command {
     OpenSystem(poni_core::sysmon::Module),
     /// Request an app's icon for the System page (arrives in `AppState::app_icons`).
     LoadAppIcon(String),
-    OpenTaskManager,
     Phone(PhoneCmd),
     Oyenza(OyenzaCmd),
 }
