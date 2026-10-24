@@ -688,8 +688,8 @@ fn draw_games(ui: &mut Ui, st: &mut AppState, cols: &Cols) {
         st.settings.game_stats = !on;
         st.cmd(Command::SaveSettings);
     }
-    let (about, rest) = rest.split_top(32.0);
-    ui.c.text("FPS, GPU and CPU on the island while a game fills the screen.", about.inset(0.0, 3.0), &note);
+    let (about, rest) = rest.split_top(46.0);
+    ui.c.text("FPS, GPU and CPU over a game for a few seconds: when it starts, when FPS drops, and on Alt+Shift+F.", about.inset(0.0, 3.0), &note);
     let (head, rest) = rest.split_top(SEP_H);
     separator(ui, head, "FPS");
     if st.game.access == FpsAccess::Unknown {

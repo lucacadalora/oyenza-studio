@@ -120,6 +120,20 @@ fn window_rate(q: &VecDeque<i64>, window: i64, freq: i64) -> Option<FrameRate> {
     Some(FrameRate { fps: fps as f32, frame_ms: (1000.0 / fps) as f32, worst_ms: (worst as f64 * 1000.0 / freq as f64) as f32 })
 }
 
+/// A sharp drop in the frame rate, worth showing the readout for: this
+/// second's rate is under 70 % of the typical rate before it (the median of
+/// up to the last 30 seconds) and at least 15 fps lower. Needs 10 seconds of
+/// rates first; seconds without one (NaN) don't count.
+pub fn sharp_drop(before: &[f32], now: f32) -> bool {
+    let mut v: Vec<f32> = before.iter().rev().filter(|x| x.is_finite() && **x > 0.0).take(30).copied().collect();
+    if v.len() < 10 || !now.is_finite() {
+        return false;
+    }
+    v.sort_by(f32::total_cmp);
+    let typical = v[v.len() / 2];
+    now < typical * 0.7 && typical - now >= 15.0
+}
+
 /// "144": whole frames per second (the readout writes "fps" beside it).
 pub fn fmt_fps(fps: f32) -> String {
     format!("{}", fps.round().clamp(0.0, 9999.0) as u32)
@@ -249,6 +263,30 @@ mod tests {
         let r = c.rate(99 * step).unwrap();
         assert!((r.fps - 100.0).abs() < 0.5, "{r:?}");
         assert!((r.worst_ms - 10.0).abs() < 0.1, "{r:?}");
+    }
+
+    #[test]
+    fn a_sharp_drop_shows_the_readout() {
+        let steady = vec![144.0f32; 30];
+        assert!(sharp_drop(&steady, 90.0));
+        assert!(!sharp_drop(&steady, 130.0));
+        // A 30 fps game losing 10 fps isn't sharp enough; 60 to 40 is.
+        assert!(!sharp_drop(&[30.0; 20], 20.0));
+        assert!(sharp_drop(&[60.0; 20], 40.0));
+        // Too little history, and seconds without a rate, don't count.
+        assert!(!sharp_drop(&[144.0; 9], 60.0));
+        let mut gaps = vec![f32::NAN; 40];
+        gaps.extend([144.0f32; 12]);
+        assert!(sharp_drop(&gaps, 60.0));
+        assert!(!sharp_drop(&steady, f32::NAN));
+        // The typical rate is the median: one old spike or dip doesn't move it.
+        let mut bumpy = vec![144.0f32; 29];
+        bumpy.push(400.0);
+        assert!(!sharp_drop(&bumpy, 120.0));
+        // Only the last 30 seconds count: a slower minute ago doesn't hide a drop now.
+        let mut older = vec![60.0f32; 30];
+        older.extend([144.0f32; 30]);
+        assert!(sharp_drop(&older, 90.0));
     }
 
     #[test]
