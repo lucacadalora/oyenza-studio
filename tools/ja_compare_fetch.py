@@ -23,15 +23,16 @@ SEARCH = "https://lrclib.net/api/search?"
 HEADERS = {"User-Agent": "Oyen Poni CI (https://github.com/lucacadalora/poni)"}
 
 
-def get_json(url, tries=3):
+def get_json(url, tries=4, timeout=45):
+    """The JSON at `url`, asking again (after 5, 10, 20 s) when it fails."""
     for attempt in range(tries):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=30) as r:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=timeout) as r:
                 return json.load(r)
         except Exception:
             if attempt + 1 == tries:
                 raise
-            time.sleep(2 * (attempt + 1))
+            time.sleep(5 * 2 ** attempt)
 
 
 def main():
@@ -41,14 +42,17 @@ def main():
     out = args[0]
     limit = int(args[args.index("--limit") + 1]) if "--limit" in args else 100
     os.makedirs(out, exist_ok=True)
-    songs = get_json(CHART.format(n=limit))["feed"]["results"]
+    try:
+        songs = get_json(CHART.format(n=limit))["feed"]["results"]
+    except Exception as e:
+        sys.exit(f"Apple Music's chart feed didn't answer ({e}); run the job again later")
     found = 0
     with open(os.path.join(out, "chart.txt"), "w", encoding="utf-8") as chart:
         for rank, song in enumerate(songs, 1):
             name, artist = song["name"], song["artistName"]
             chart.write(f"{rank}\t{name}\t{artist}\n")
             try:
-                hits = get_json(SEARCH + urllib.parse.urlencode({"track_name": name, "artist_name": artist}))
+                hits = get_json(SEARCH + urllib.parse.urlencode({"track_name": name, "artist_name": artist}), tries=2, timeout=30)
             except Exception as e:
                 print(f"{rank}: LRCLIB lookup failed ({e})", file=sys.stderr)
                 continue
