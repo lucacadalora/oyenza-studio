@@ -1456,6 +1456,9 @@ impl App {
                     self.refresh_menu();
                 }
                 Command::Phone(c) => self.phone_cmd(c),
+                // Paired phones come to the Mac in a later slice (its Shelf
+                // shows no Pair a phone yet).
+                Command::Pair(_) => {}
                 // Oyenza sign-in comes to the Mac in a later slice.
                 Command::Oyenza(_) => {}
             }

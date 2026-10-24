@@ -57,6 +57,9 @@ const QR_BOX: f32 = 128.0;
 const QR_MARGIN: f32 = 6.0;
 /// The Phone tile beside the drop zone on an empty shelf.
 const PHONE_TILE_W: f32 = 196.0;
+/// Pairing (`services::pairdrop`) is built only in the Windows app so far;
+/// elsewhere the phone panel has Done alone.
+const PAIRING: bool = cfg!(windows);
 /// How long a phone result ("3 files from iPhone…") stays in the panel.
 pub const PHONE_OUTCOME_S: f64 = 8.0;
 
@@ -852,12 +855,13 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
     // One pill per meaning: pair the first phone, or see the paired ones
     // (that list has its own Pair a phone).
     let (pair_label, pair_icon, pair_cmd) = if st.paired.is_empty() { ("Pair a phone", Some(Icon::Phone), PairCmd::Begin) } else { ("Paired phones", None, PairCmd::List) };
+    let n = if PAIRING { 2 } else { 1 };
     let host = link_host(&pd.url);
     if !host.is_empty() {
-        let cw = caption_w(ui, &[("Done", false), (pair_label, pair_icon.is_some())]);
+        let cw = caption_w(ui, &[("Done", false), (pair_label, pair_icon.is_some())][..n]);
         ui.c.text(&format!("This session's link · {host}"), Rect::new(x, pills_y + 7.0, cw, 16.0), &small);
     }
-    match pills(ui, &[("Done", None, PillStyle::Utility, "shelf.phone.done"), (pair_label, pair_icon, PillStyle::Utility, "shelf.pair.open")]) {
+    match pills(ui, &[("Done", None, PillStyle::Utility, "shelf.phone.done"), (pair_label, pair_icon, PillStyle::Utility, "shelf.pair.open")][..n]) {
         Some(0) => actions.push(Action::PhoneClose),
         Some(1) => actions.push(Action::Pair(pair_cmd)),
         _ => {}
