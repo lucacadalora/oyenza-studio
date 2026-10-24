@@ -339,6 +339,10 @@ pub struct App {
     page_anim: Option<(PageKind, f64, f32)>,
     /// Where the hover (dwell) timer was last armed; None when it isn't.
     hover_arm: Option<Point>,
+    /// The pointer left the open island: close it on the next frame.
+    collapse_due: bool,
+    /// When the pointer last closed the island by leaving it.
+    left_at: f64,
     /// Phone drop's web server while the Shelf's phone panel is open.
     phone: Option<services::phonedrop::PhoneDrop>,
     /// The Shelf paths last handed to it (to notice changes).
@@ -367,6 +371,14 @@ const PAGE_SWITCH: f64 = 0.26;
 /// Pointer travel (DIPs) that restarts the hover dwell: the island opens
 /// only once the pointer rests on it, not when it brushes past.
 const DWELL_SLOP: f32 = 4.0;
+/// The pointer coming back onto the island this soon after leaving it
+/// (while it is still shrinking) opens it again at once, from where the
+/// outline is: overshooting an edge costs no close-and-reopen.
+const REOPEN_S: f64 = 0.3;
+/// A hold that kept the island open (typing, a file drag, Phone drop, the
+/// pin) ended while the pointer is elsewhere: close after this grace, so
+/// the change can be seen.
+const HOLD_GRACE_MS: u32 = 380;
 /// Collapsed pill growth (w, h, radius) while the pointer is on it.
 const HOVER_LIFT: (f32, f32, f32) = (12.0, 4.0, 2.0);
 /// How long the inline notice pill shows its check mark (seconds).
@@ -459,6 +471,8 @@ impl App {
             outgoing: None,
             page_anim: None,
             hover_arm: None,
+            collapse_due: false,
+            left_at: f64::NEG_INFINITY,
             phone: None,
             phone_offer: Vec::new(),
         })
@@ -654,7 +668,7 @@ impl App {
                         self.hovering = false;
                         self.input.mouse = None;
                         self.cancel_hover();
-                        self.maybe_schedule_collapse();
+                        self.pointer_left();
                         self.request_frame();
                     }
                     return Some(LRESULT(0));
@@ -662,12 +676,16 @@ impl App {
                 self.input.mouse = Some(p);
                 if !self.hovering {
                     self.hovering = true;
+                    self.collapse_due = false;
                     unsafe {
                         let mut tme = TRACKMOUSEEVENT { cbSize: std::mem::size_of::<TRACKMOUSEEVENT>() as u32, dwFlags: TME_LEAVE, hwndTrack: self.hwnd, dwHoverTime: 0 };
                         let _ = TrackMouseEvent(&mut tme);
                         let _ = KillTimer(self.hwnd, TIMER_COLLAPSE);
                     }
-                    if !self.expanded {
+                    if !self.expanded && clock::mono() - self.left_at < REOPEN_S {
+                        // Back onto the island while it is still closing.
+                        self.expand();
+                    } else if !self.expanded {
                         self.arm_hover(p);
                     }
                 } else if let Some(p0) = self.hover_arm.filter(|_| !self.expanded) {
@@ -684,7 +702,7 @@ impl App {
                 self.hovering = false;
                 self.input.mouse = None;
                 self.cancel_hover();
-                self.maybe_schedule_collapse();
+                self.pointer_left();
                 self.request_frame();
                 Some(LRESULT(0))
             }
@@ -744,7 +762,8 @@ impl App {
                     self.input.mouse = None;
                 }
                 if !self.hovering {
-                    self.maybe_schedule_collapse();
+                    // Released outside after a press inside (a slider drag).
+                    self.pointer_left();
                 }
                 self.request_frame();
                 Some(LRESULT(0))
@@ -755,7 +774,7 @@ impl App {
                     self.input.down = false;
                     self.input.pressed_id = None;
                     if !self.hovering {
-                        self.maybe_schedule_collapse();
+                        self.pointer_left();
                     }
                     self.request_frame();
                 }
@@ -975,7 +994,7 @@ impl App {
                 unsafe {
                     let _ = KillTimer(self.hwnd, TIMER_COLLAPSE);
                 }
-                if !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && self.input.pressed_id.is_none() && !self.phone_holds() {
+                if self.free_to_collapse() {
                     self.collapse();
                 }
             }
@@ -1585,10 +1604,34 @@ impl App {
         self.request_frame();
     }
 
+    /// Nothing holds the open island: no pointer on it, no pin, typing,
+    /// file drag, press or Phone drop.
+    fn free_to_collapse(&self) -> bool {
+        !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && self.input.pressed_id.is_none() && !self.phone_holds()
+    }
+
+    /// The pointer left the open island: it starts closing on the next frame,
+    /// or after `collapse_delay_ms` when the user set a grace.
+    fn pointer_left(&mut self) {
+        if !self.expanded || !self.free_to_collapse() {
+            return;
+        }
+        match self.st.settings.collapse_delay_ms {
+            0 => {
+                self.collapse_due = true;
+                self.request_frame();
+            }
+            ms => unsafe {
+                SetTimer(self.hwnd, TIMER_COLLAPSE, ms, None);
+            },
+        }
+    }
+
+    /// A hold ended (see [`HOLD_GRACE_MS`]): close soon unless the pointer is on the island.
     fn maybe_schedule_collapse(&mut self) {
         if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.phone_holds() {
             unsafe {
-                SetTimer(self.hwnd, TIMER_COLLAPSE, self.st.settings.collapse_delay_ms.max(50), None);
+                SetTimer(self.hwnd, TIMER_COLLAPSE, HOLD_GRACE_MS.max(self.st.settings.collapse_delay_ms), None);
             }
         }
     }
@@ -1777,6 +1820,13 @@ impl App {
         self.st.now = self.st.now.max(anim_t);
         self.tick();
         let now = self.st.now;
+
+        // The pointer left the open island since the last frame: the close
+        // starts on this frame, no timer in between.
+        if std::mem::take(&mut self.collapse_due) && self.expanded && self.free_to_collapse() {
+            self.collapse();
+            self.left_at = clock::mono();
+        }
 
         let target = self.target_mode();
         let mut retarget = false;

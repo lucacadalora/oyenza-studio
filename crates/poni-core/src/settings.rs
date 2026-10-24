@@ -37,7 +37,7 @@ pub enum MonitorChoice {
 }
 
 /// Bumped when defaults change in a way existing files should pick up.
-pub const SETTINGS_VERSION: u32 = 2;
+pub const SETTINGS_VERSION: u32 = 3;
 
 fn version_zero() -> u32 {
     0
@@ -54,7 +54,8 @@ pub struct Settings {
     pub use_24h: bool,
     /// Delay before hover expands the island.
     pub hover_delay_ms: u32,
-    /// Grace period after the cursor leaves before collapsing.
+    /// Grace period after the cursor leaves before collapsing (0 = the
+    /// island starts closing on the next frame).
     pub collapse_delay_ms: u32,
     /// Width of the expanded island in DIPs (bigger = roomier pages).
     pub expanded_width: f32,
@@ -89,7 +90,7 @@ impl Default for Settings {
             idle_style: IdleStyle::Clock,
             use_24h: true,
             hover_delay_ms: 220,
-            collapse_delay_ms: 380,
+            collapse_delay_ms: 0,
             expanded_width: 620.0,
             hide_in_fullscreen: true,
             monitor: MonitorChoice::Primary,
@@ -113,17 +114,21 @@ impl Default for Settings {
 impl Settings {
     /// Clamp values a user may have hand-edited into nonsense.
     pub fn sanitized(mut self) -> Self {
+        // Only untouched old defaults move.
         // v2: hover opens after a 220 ms dwell (140 ms caught pointers on
-        // their way to browser tabs). Only the untouched old default moves.
-        if self.settings_version < 2 {
-            if self.hover_delay_ms == 140 {
-                self.hover_delay_ms = 220;
-            }
-            self.settings_version = SETTINGS_VERSION;
+        // their way to browser tabs).
+        if self.settings_version < 2 && self.hover_delay_ms == 140 {
+            self.hover_delay_ms = 220;
         }
+        // v3: the island closes as soon as the pointer leaves it (the old
+        // 380 ms grace read as lag; coming back while it closes reopens it).
+        if self.settings_version < 3 && self.collapse_delay_ms == 380 {
+            self.collapse_delay_ms = 0;
+        }
+        self.settings_version = self.settings_version.max(SETTINGS_VERSION);
         self.hover_delay_ms = self.hover_delay_ms.min(2000);
         self.lyrics_offset_ms = self.lyrics_offset_ms.clamp(-5000, 5000);
-        self.collapse_delay_ms = self.collapse_delay_ms.clamp(50, 5000);
+        self.collapse_delay_ms = self.collapse_delay_ms.min(5000);
         if !self.expanded_width.is_finite() {
             self.expanded_width = 620.0;
         }
@@ -176,6 +181,24 @@ mod tests {
         assert_eq!(s.sanitized().hover_delay_ms, 90);
         let s: Settings = serde_json::from_str(r#"{"settings_version":2,"hover_delay_ms":140}"#).unwrap();
         assert_eq!(s.sanitized().hover_delay_ms, 140);
+    }
+
+    #[test]
+    fn migrates_old_collapse_grace_once() {
+        // Files from 0.1.7 and earlier hold the old 380 ms grace.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":2,"collapse_delay_ms":380}"#).unwrap().sanitized();
+        assert_eq!((s.collapse_delay_ms, s.settings_version), (0, SETTINGS_VERSION));
+        let s = serde_json::from_str::<Settings>(r#"{"collapse_delay_ms":380,"hover_delay_ms":140}"#).unwrap().sanitized();
+        assert_eq!((s.collapse_delay_ms, s.hover_delay_ms), (0, 220));
+        // A grace the user chose is kept, a current file isn't touched, and 0 stays 0.
+        let s: Settings = serde_json::from_str(r#"{"settings_version":2,"collapse_delay_ms":600}"#).unwrap();
+        assert_eq!(s.sanitized().collapse_delay_ms, 600);
+        let s: Settings = serde_json::from_str(r#"{"settings_version":3,"collapse_delay_ms":380}"#).unwrap();
+        assert_eq!(s.sanitized().collapse_delay_ms, 380);
+        assert_eq!(Settings::default().sanitized().collapse_delay_ms, 0);
+        // A file from a newer Poni keeps its version.
+        let s: Settings = serde_json::from_str(r#"{"settings_version":9}"#).unwrap();
+        assert_eq!(s.sanitized().settings_version, 9);
     }
 
     #[test]
