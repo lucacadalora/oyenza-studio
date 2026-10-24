@@ -23,7 +23,8 @@
 html, body { margin: 0; background: transparent; }
 body { width: 880px; padding: 24px; font-family: "Outfit", sans-serif; -webkit-font-smoothing: antialiased; color: var(--ink); }
 img { display: block; }
-.card { position: relative; width: 880px; margin: 0 0 48px; border-radius: 22px; overflow: hidden; background: #fff; }
+/* No fill: the gaps between panels show the page, white or dark. */
+.card { position: relative; width: 880px; margin: 0 0 48px; border-radius: 22px; overflow: hidden; }
 .grid { display: grid; gap: 8px; }
 .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 /* One "top of a screen": the sky, the island hanging from its top edge, Oyen
@@ -167,7 +168,7 @@ function layout() {
       p.style[p.dataset.side === "left" ? "left" : "right"] = off + "px";
       h = Math.max(h, p.naturalHeight * w / p.naturalWidth + 18);
     }
-    st.style.height = h + "px";
+    st.style.minHeight = h + "px";  // a grid row stretches every panel to its tallest
   }
   document.body.dataset.ready = "1";
 }
