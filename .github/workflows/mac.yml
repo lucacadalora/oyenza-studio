@@ -1,0 +1,130 @@
+name: mac
+
+# The Mac app: build it for Apple Silicon and Intel, draw every island state
+# offscreen, run the real window through a few states with screenshots, and
+# package an ad-hoc signed test DMG. Its own workflow, so it never holds up
+# the Windows CI or a Windows release.
+on:
+  push:
+    branches: [main, "mac-*"]
+  workflow_dispatch:
+
+concurrency:
+  group: mac-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  mac:
+    name: Build, render, smoke-run and package (macOS)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build (Apple Silicon and Intel)
+        run: |
+          cargo build -p poni --release --target aarch64-apple-darwin
+          cargo build -p poni --release --target x86_64-apple-darwin
+
+      - name: Unit tests (core)
+        run: cargo test -p poni-core --release
+
+      # Every island state with sample data, Classic and Oyen, without and
+      # with a MacBook's notch. The runner has no notch, so this is where the
+      # notch layouts are looked at.
+      - name: Render the island (offscreen)
+        run: |
+          bin=target/aarch64-apple-darwin/release/poni
+          $bin --render mac-renders
+          $bin --render mac-renders --theme oyen
+          $bin --render mac-renders --notch
+          $bin --render mac-renders --theme oyen --notch
+          ls mac-renders | wc -l
+
+      - name: App icon
+        run: |
+          python3 -m venv .icon-venv
+          .icon-venv/bin/pip install --quiet pillow
+          .icon-venv/bin/python tools/make_mac_icon.py build/OyenPoni.iconset
+          iconutil -c icns build/OyenPoni.iconset -o build/OyenPoni.icns
+
+      - name: App bundle and DMG
+        run: |
+          chmod +x tools/make_mac_app.sh
+          tools/make_mac_app.sh target/aarch64-apple-darwin/release/poni target/x86_64-apple-darwin/release/poni build/OyenPoni.icns dist
+
+      # The real app on the runner's screen: idle, hover, open (Focus, then
+      # Today), the timer, a notice. At each state the app writes where its
+      # window is and waits; this script takes the screenshot and answers.
+      - name: Smoke run (the real window, with screenshots)
+        run: |
+          set -u
+          system_profiler SPDisplaysDataType | grep -E "Resolution|Retina|Main Display" || true
+          bin="dist/Oyen Poni.app/Contents/MacOS/poni"
+          mkdir -p smoke
+          "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
+          pid=$!
+          deadline=$((SECONDS + 150))
+          shots=0
+          while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
+            for r in smoke/ready-*.txt; do
+              [ -e "$r" ] || continue
+              base="${r#smoke/ready-}"; base="${base%.txt}"
+              [ -e "smoke/shot-$base.done" ] && continue
+              IFS=, read -r x y w h < "$r"
+              left=$(( x > 40 ? x - 40 : 0 ))
+              screencapture -x -R "$left,0,$(( w + 80 )),$(( y + h + 40 ))" "smoke/shot-$base.png" || true
+              if [ $shots -eq 0 ]; then screencapture -x smoke/screen-full.png || true; fi
+              shots=$(( shots + 1 ))
+              touch "smoke/shot-$base.done"
+            done
+            sleep 0.2
+          done
+          if kill -0 $pid 2>/dev/null; then
+            echo "smoke run did not finish within 150 s"
+            kill $pid
+            code=1
+          else
+            wait $pid
+            code=$?
+          fi
+          echo "smoke exit code: $code ($shots screenshots)"
+          echo "---- report.json"; cat smoke/report.json || echo "(missing)"
+          echo "---- poni.log"; tail -80 smoke/home/poni.log || true
+          exit $code
+
+      - name: Check the DMG
+        run: |
+          dmg=$(ls dist/*.dmg)
+          hdiutil attach "$dmg" -nobrowse -readonly -mountpoint /tmp/poni-dmg
+          ls -la /tmp/poni-dmg
+          plutil -p "/tmp/poni-dmg/Oyen Poni.app/Contents/Info.plist"
+          lipo -info "/tmp/poni-dmg/Oyen Poni.app/Contents/MacOS/poni"
+          codesign --verify --deep --strict "/tmp/poni-dmg/Oyen Poni.app"
+          spctl --assess --type execute -vv "/tmp/poni-dmg/Oyen Poni.app" || echo "(expected: Gatekeeper turns down a build that isn't signed with a Developer ID yet)"
+          hdiutil detach /tmp/poni-dmg
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oyen-poni-mac-dmg
+          path: dist/*.dmg
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mac-renders
+          path: mac-renders/*.png
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mac-smoke
+          path: |
+            smoke/*.png
+            smoke/report.json
+            smoke/stdout.txt
+            smoke/home/poni.log
