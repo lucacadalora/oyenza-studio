@@ -1619,8 +1619,8 @@ impl<'a> Canvas<'a> {
         self.unthemed(|c| c.smoked_glass(p));
     }
 
-    /// Glass without a view of the screen: the look's ground, a soft shadow
-    /// and the rim light, like iOS with Reduce Transparency.
+    /// Glass without a view of the screen: the look's ground, see-through so
+    /// the screen still shows under it, a soft shadow and the rim light.
     fn smoked_glass(&mut self, p: &GlassParams) {
         for i in 1..=3 {
             let grow = i as f32 * p.shadow_reach / 3.0;
@@ -1628,8 +1628,8 @@ impl<'a> Canvas<'a> {
             let shadow = Rect::new(b.x - grow, b.y, b.w + 2.0 * grow, b.h + p.shadow_drop + grow);
             self.path(&notch_segments(shadow, p.radius + grow, p.shoulder), Some(Color::black(p.shadow_alpha / 4.0)), None);
         }
-        let ground = Color::lerp(p.ground_dark, p.ground_light, p.light_mix);
-        self.notch(p.body, p.radius, p.shoulder, ground, Some(Color::white((0.45 * p.rim).clamp(0.0, 1.0))));
+        let ground = Color::lerp(p.ground_dark, p.ground_light, p.light_mix).with_alpha(poni_core::glass::SMOKED_OPACITY);
+        self.notch(p.body, p.radius, p.shoulder, ground, Some(Color::white((0.55 * p.rim).clamp(0.0, 1.0))));
     }
 
     /// Mask subsequent drawing to the island silhouette (anti-aliased) until

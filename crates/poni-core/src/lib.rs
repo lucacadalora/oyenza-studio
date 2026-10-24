@@ -13,6 +13,7 @@ pub mod datetime;
 pub mod frametime;
 pub mod geom;
 pub mod glass;
+pub mod hdr;
 pub mod health;
 pub mod look;
 pub mod lrc;

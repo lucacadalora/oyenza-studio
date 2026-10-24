@@ -16,6 +16,9 @@ pub const RIM_POWER: f32 = 1.6;
 /// `d + offset(d)` keeps moving inward as `d` grows: the rim magnifies what
 /// is under it and never folds it back on itself.
 pub const RIM_FOLD_GUARD: f32 = 0.85;
+/// Smoked glass (no view of the screen) still lets the screen show through
+/// it: this opaque, so ink keeps 4.5:1 over white or black behind.
+pub const SMOKED_OPACITY: f32 = 0.82;
 
 /// Heights (DIPs) where the glass is thinnest (a collapsed pill) and thickest
 /// (an open page).

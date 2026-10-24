@@ -2572,9 +2572,9 @@ impl App {
 
     // ------------------------------------------------------------ phone drop
 
-    /// The QR code waits for a phone, or a phone waits for an answer.
+    /// The QR code waits for a phone, or a phone waits for an answer (Shelf page only).
     fn phone_holds(&self) -> bool {
-        self.st.phone.as_ref().is_some_and(|p| p.holds_island())
+        self.st.phone_holds_island()
     }
 
     fn phone_cmd(&mut self, c: PhoneCmd) {
@@ -2813,6 +2813,10 @@ impl App {
                     pd.view = PhoneView::Lan;
                     pd.outcome = Some((format!("{name} is paired"), true, until));
                     pd.outcome_line = Some("It can now send from any network, even with this panel closed.".into());
+                }
+                if !self.hovering {
+                    // The island closes now that nothing waits: say it on the pill.
+                    self.st.notify(Icon::Phone, palette::GREEN, format!("{name} is paired"), "It can send from any network now", 6.0, Some(NoticeAction::OpenPage(PageKind::Shelf)));
                 }
                 self.st.chime();
                 self.maybe_schedule_collapse();

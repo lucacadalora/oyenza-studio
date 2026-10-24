@@ -218,10 +218,13 @@ pub struct PhoneDrop {
 }
 
 impl PhoneDrop {
-    /// The island stays open while the QR code waits for a phone and while
-    /// a phone waits for an answer.
+    /// The island stays open while a QR code waits for its first phone and
+    /// while a phone waits for an answer. Once the panel has shown a result
+    /// (a phone paired, files arrived), or on the list of paired phones,
+    /// nothing waits: the island closes when the pointer leaves.
     pub fn holds_island(&self) -> bool {
-        self.ask.is_some() || (self.error.is_none() && self.visitor.is_none() && self.transfer.is_none())
+        let waiting = !matches!(self.view, PhoneView::Paired) && self.outcome.is_none();
+        self.ask.is_some() || (waiting && self.error.is_none() && self.visitor.is_none() && self.transfer.is_none())
     }
 }
 
@@ -349,6 +352,12 @@ pub struct AppState {
 }
 
 impl AppState {
+    /// The Shelf's phone panel keeps the open island from closing, only
+    /// while the Shelf is the page on screen.
+    pub fn phone_holds_island(&self) -> bool {
+        self.page == PageKind::Shelf && self.phone.as_ref().is_some_and(|p| p.holds_island())
+    }
+
     pub fn new(settings: Settings, store: Store) -> Self {
         let pomodoro = Pomodoro::new(settings.pomodoro.clone());
         let page = PageKind::from_key(if settings.remember_page && !store.last_page.is_empty() {
@@ -441,5 +450,33 @@ impl AppState {
             return self.accent;
         }
         self.media.as_ref().and_then(|m| m.art_color).unwrap_or(self.accent)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn phone_panel_holds_only_while_a_code_waits_on_the_shelf() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.phone = Some(PhoneDrop::default());
+        st.page = PageKind::Shelf;
+        assert!(st.phone_holds_island(), "a fresh QR code waits for a phone");
+        st.page = PageKind::Media;
+        assert!(!st.phone_holds_island(), "another page: nothing to scan on screen");
+        st.page = PageKind::Shelf;
+        // A phone finished pairing: the panel is back on its Wi-Fi code with a result.
+        st.phone.as_mut().unwrap().outcome = Some(("iPhone is paired".into(), true, 8.0));
+        assert!(!st.phone_holds_island());
+        let pd = st.phone.as_mut().unwrap();
+        pd.outcome = None;
+        pd.view = PhoneView::Paired;
+        assert!(!st.phone_holds_island(), "the paired list has no code to scan");
+        let pd = st.phone.as_mut().unwrap();
+        pd.view = PhoneView::Lan;
+        pd.visitor = Some("iPhone".into());
+        pd.ask = Some(PhoneAsk { id: 1, from: "iPhone".into(), files: vec![], total: 0 });
+        assert!(st.phone_holds_island(), "a phone waits for an answer");
     }
 }
