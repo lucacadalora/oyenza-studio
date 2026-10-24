@@ -60,6 +60,10 @@ const PHONE_TILE_W: f32 = 196.0;
 /// Pairing (`services::pairdrop`) is built only in the Windows app so far;
 /// elsewhere the phone panel has Done alone.
 const PAIRING: bool = cfg!(windows);
+/// What the phone panel calls this computer.
+const THIS_COMPUTER: &str = if cfg!(windows) { "this PC" } else { "this Mac" };
+/// What to allow if the system asks about Phone drop's incoming connections.
+const ALLOW_HINT: &str = if cfg!(windows) { "If Windows asks, allow Oyen Poni on private networks." } else { "If macOS asks, allow incoming connections for Oyen Poni." };
 /// How long a phone result ("3 files from iPhone…") stays in the panel.
 pub const PHONE_OUTCOME_S: f64 = 8.0;
 
@@ -790,7 +794,7 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
                 return;
             }
             ui.c.text("Scan to pair a phone", title_r, &TextStyle::headline());
-            ui.c.text("Then it can send to this PC from any network.", line(0.0), &dim);
+            ui.c.text(&format!("Then it can send to {THIS_COMPUTER} from any network."), line(0.0), &dim);
             let second = if st.pair_server == Some(false) {
                 format!("Can't reach {} right now. Check the internet.", pairing_host())
             } else {
@@ -847,8 +851,8 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
             }
             None => {
                 ui.c.text("Scan with your phone's camera", title_r, &TextStyle::headline());
-                ui.c.text("Your phone needs the same Wi-Fi as this PC.", line(0.0), &dim);
-                ui.c.text("If Windows asks, allow Oyen Poni on private networks.", line(1.0), &dim);
+                ui.c.text(&format!("Your phone needs the same Wi-Fi as {THIS_COMPUTER}."), line(0.0), &dim);
+                ui.c.text(ALLOW_HINT, line(1.0), &dim);
             }
         },
     }
@@ -884,7 +888,7 @@ fn draw_paired_list(ui: &mut Ui, st: &AppState, x: f32, w: f32, r: Rect, pills_y
     let dim = TextStyle::footnote().color(palette::TEXT_DIM);
     if st.paired.is_empty() {
         ui.c.text("No phone is paired", Rect::new(x, r.y + 18.0, w, 20.0), &TextStyle::headline());
-        ui.c.text("Pair a phone, and it can send to this PC from any network.", Rect::new(x, r.y + 44.0, w, 18.0), &dim);
+        ui.c.text(&format!("Pair a phone, and it can send to {THIS_COMPUTER} from any network."), Rect::new(x, r.y + 44.0, w, 18.0), &dim);
         return;
     }
     let unix = st.unix;
