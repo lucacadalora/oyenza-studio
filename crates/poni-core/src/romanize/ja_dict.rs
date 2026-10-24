@@ -19,7 +19,8 @@ use super::{is_han, is_kana, japanese_ruby, JaWord, Ruby};
 use std::io::Read;
 use vibrato::{Dictionary, Tokenizer};
 
-/// The packed dictionary, built into the binary.
+/// The packed dictionary, built into the binary (the Mac app; Windows reads
+/// the Japanese readings add-on's copy with [`JaDict::load`]).
 #[cfg(feature = "ja-dict")]
 static PACKED: &[u8] = include_bytes!("../../data/ja-readings.dic.zst");
 

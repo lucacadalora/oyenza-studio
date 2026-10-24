@@ -229,7 +229,8 @@ jobs:
 
       # The same song the way a PC without Windows' Japanese reading data
       # reads it (most Windows 11 PCs outside Japan): with Oyen Poni's own
-      # dictionary. Every line must read here too.
+      # dictionary from the Japanese readings add-on (the repo's copy, put
+      # where the add-on keeps it). Every line must read here too.
       - name: Self-test, Japanese lyrics with Oyen Poni's own dictionary
         if: matrix.group == 'classic'
         shell: pwsh
@@ -237,6 +238,7 @@ jobs:
           PONI_SELFTEST_THEME: oyen
           PONI_SELFTEST_LYRICS: ja
           PONI_SELFTEST_ANALYZER: "off"
+          PONI_SELFTEST_JA_DICT: crates\poni-core\data\ja-readings.dic.zst
         run: |
           Add-Type -AssemblyName System.Windows.Forms
           Add-Type -Namespace PoniCiOwn -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'

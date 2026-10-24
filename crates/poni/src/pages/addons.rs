@@ -35,6 +35,7 @@ pub fn height(_st: &AppState) -> f32 {
 fn icon(a: &Addon) -> Icon {
     match a.id {
         "sholat" => Icon::Moon,
+        "ja" => Icon::Lyrics,
         _ => Icon::Addons,
     }
 }

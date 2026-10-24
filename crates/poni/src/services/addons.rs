@@ -157,6 +157,12 @@ fn version_dir(dir: &Path, addon: &Addon) -> PathBuf {
     dir.join(addon.id).join(addon.tag)
 }
 
+/// Where one of an add-on's files lives once it's on this PC (it is only
+/// there, checked, while the add-on is on).
+pub fn file_path(addon: &Addon, name: &str) -> PathBuf {
+    version_dir(&crate::paths::addons_dir(), addon).join(name)
+}
+
 /// Is the file on disk exactly the one expected?
 fn present(path: &Path, file: &AddonFile) -> bool {
     match fs::metadata(path) {

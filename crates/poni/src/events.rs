@@ -73,7 +73,9 @@ pub enum AppleMusicStatus {
 #[derive(Clone, Debug)]
 pub enum LyricsResult {
     /// `ruby`: each line's pieces with their readings (empty = none needed).
-    Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>> },
+    /// `wants_ja_readings`: kanji went unread for want of the Japanese
+    /// readings add-on (`services::romanize::Pronounced`).
+    Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>>, wants_ja_readings: bool },
     /// The song is marked instrumental (no words to show).
     Instrumental,
     NotFound,

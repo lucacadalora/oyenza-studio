@@ -69,8 +69,42 @@ pub const PRAYER_TIMES: Addon = Addon {
     ],
 };
 
+/// The Japanese readings add-on's dictionary file (`romanize::JaDict`).
+pub const JA_READINGS_FILE: &str = "ja-readings.dic.zst";
+
+/// Japanese readings: Oyen Poni's own reading dictionary, for romaji under
+/// kanji on PCs where Windows has no Japanese reading data (most PCs outside
+/// Japan). Only people who play Japanese songs need it: the Music page
+/// offers it when a song's kanji go unread. The file is
+/// `crates/poni-core/data/ja-readings.dic.zst` (tools/make_ja_dict.py), its
+/// notice `addons/ja/NOTICE.txt`.
+pub const JAPANESE_READINGS: Addon = Addon {
+    id: "ja",
+    title: "Japanese readings",
+    blurb: "Romaji under kanji in Japanese lyrics, where Windows can't read them.",
+    tag: "addon-ja-1",
+    files: &[
+        AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8" },
+        AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079" },
+    ],
+};
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 1] = [&PRAYER_TIMES];
+pub const ALL: [&Addon; 2] = [&PRAYER_TIMES, &JAPANESE_READINGS];
+
+/// What the Music page says under a Japanese song whose kanji went unread for
+/// want of Japanese readings, by where that add-on stands, and whether a
+/// click gets it (switches it on). None once it's in place.
+pub fn ja_offer(status: Status) -> Option<(String, bool)> {
+    match status {
+        Status::Off => Some((format!("Romaji for kanji: get Japanese readings ({})", fmt_bytes(JAPANESE_READINGS.size())), true)),
+        Status::Checking => Some(("Checking Japanese readings\u{2026}".to_string(), false)),
+        Status::Downloading { done, total } => Some((format!("Getting Japanese readings \u{b7} {} of {}", fmt_bytes(done), fmt_bytes(total)), false)),
+        Status::Waiting => Some(("Japanese readings download once you're online".to_string(), false)),
+        Status::Failed => Some(("Japanese readings didn't download: see Add-ons".to_string(), false)),
+        Status::Ready => None,
+    }
+}
 
 /// Where an add-on stands, as the Add-ons page shows it.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -139,6 +173,36 @@ mod tests {
         broken[0] ^= 1;
         assert!(!PRAYER_TIMES.files[2].matches(&broken));
         assert!(!PRAYER_TIMES.files[2].matches(&repo[2].1[1..]));
+    }
+
+    #[test]
+    fn japanese_readings_files_are_the_ones_in_the_repo() {
+        // The dictionary make_ja_dict.py builds, and the notice that travels with it.
+        let repo: [(&str, &[u8]); 2] = [
+            (JA_READINGS_FILE, include_bytes!("../data/ja-readings.dic.zst")),
+            ("NOTICE.txt", include_bytes!("../../../addons/ja/NOTICE.txt")),
+        ];
+        assert_eq!(JAPANESE_READINGS.files.len(), repo.len());
+        for (f, (name, bytes)) in JAPANESE_READINGS.files.iter().zip(repo) {
+            assert_eq!(f.name, name);
+            assert!(f.matches(bytes), "{name}: size {} sha256 {}", bytes.len(), sha256::hex(&sha256::sha256(bytes)));
+        }
+        let ja = Addon::find("ja").unwrap();
+        assert_eq!(ja.url(&ja.files[0]), "https://github.com/lucacadalora/poni/releases/download/addon-ja-1/ja-readings.dic.zst");
+        assert_eq!(Status::Off.line(ja), ja.blurb);
+        assert_eq!(Status::Ready.line(ja), "On · 3.8 MB on this PC");
+    }
+
+    #[test]
+    fn the_music_page_offers_japanese_readings_until_they_are_here() {
+        assert_eq!(ja_offer(Status::Off), Some(("Romaji for kanji: get Japanese readings (3.8 MB)".to_string(), true)));
+        let (line, click) = ja_offer(Status::Downloading { done: 1_700_000, total: JAPANESE_READINGS.size() }).unwrap();
+        assert_eq!(line, "Getting Japanese readings · 1.7 MB of 3.8 MB");
+        assert!(!click);
+        for s in [Status::Checking, Status::Waiting, Status::Failed] {
+            assert!(ja_offer(s).is_some_and(|(_, click)| !click), "{s:?} says where it stands, nothing to click");
+        }
+        assert_eq!(ja_offer(Status::Ready), None);
     }
 
     #[test]

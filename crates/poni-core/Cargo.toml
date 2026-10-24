@@ -9,7 +9,8 @@ description = "Platform-independent models and logic for the Poni island (pure R
 
 [features]
 # Builds Oyen Poni's own Japanese reading dictionary (data/ja-readings.dic.zst,
-# 3.8 MB) into the binary: romanize::JaDict::embedded().
+# 3.8 MB) into the binary: romanize::JaDict::embedded(). Only the Mac app turns
+# it on; Windows downloads the file as the Japanese readings add-on.
 ja-dict = []
 
 [dependencies]

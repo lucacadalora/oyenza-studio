@@ -37,7 +37,8 @@ struct Stats {
 #[ignore = "needs PONI_JA_COMPARE (songs fetched at run time) and Windows' Japanese reading data"]
 fn compare_readings() {
     let dir = std::env::var("PONI_JA_COMPARE").expect("PONI_JA_COMPARE: a folder of .lrc files");
-    let dict = JaDict::embedded().expect("Oyen Poni's dictionary loads");
+    // The repo's copy of the Japanese readings add-on's dictionary.
+    let dict = JaDict::load(include_bytes!("../../../poni-core/data/ja-readings.dic.zst")).expect("Oyen Poni's dictionary loads");
     let mut files: Vec<_> = std::fs::read_dir(&dir).expect("the folder reads").filter_map(|e| e.ok().map(|e| e.path())).filter(|p| p.extension().is_some_and(|x| x == "lrc")).collect();
     files.sort();
 

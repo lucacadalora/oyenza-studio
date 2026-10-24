@@ -34,7 +34,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, PRAYER_TIMES};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::parse_lrc;
@@ -794,9 +794,13 @@ enum Scene {
     SystemGames,
     /// System page, Games, before the one-time OK.
     SystemGamesAllow,
+    /// Music: a Japanese song whose kanji went unread, offering Japanese readings.
+    JaOffer,
+    /// Music: ...and Japanese readings coming in.
+    JaGetting,
 }
 
-const SCENES: [Scene; 61] = [
+const SCENES: [Scene; 63] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -863,6 +867,8 @@ const SCENES: [Scene; 61] = [
     Scene::GameStatsAllow,
     Scene::SystemGames,
     Scene::SystemGamesAllow,
+    Scene::JaOffer,
+    Scene::JaGetting,
 ];
 
 impl Scene {
@@ -920,6 +926,8 @@ impl Scene {
             Scene::GameStatsAllow => "game-stats-allow".into(),
             Scene::SystemGames => "page-system-games".into(),
             Scene::SystemGamesAllow => "page-system-games-allow".into(),
+            Scene::JaOffer => "page-media-ja-offer".into(),
+            Scene::JaGetting => "page-media-ja-getting".into(),
         }
     }
 
@@ -942,6 +950,7 @@ impl Scene {
             | Scene::SystemGamesAllow => Some(PageKind::System),
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
+            Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
             Scene::PrayerPicker => Some(PageKind::Prayer),
             _ => None,
         }
@@ -1278,23 +1287,42 @@ impl SelfTest {
             let works = crate::services::romanize::analyzer_works();
             self.checks.push(check("japanese-analyzer", works.is_ok(), works.err().unwrap_or_else(|| "Windows' analyzer reads Japanese".into())));
         }
-        let ruby = if japanese && analyzer == "off" {
-            crate::services::romanize::own_song(&texts)
+        // PONI_SELFTEST_JA_DICT=<file> (CI passes the repo's copy): Oyen
+        // Poni's own dictionary, put where the Japanese readings add-on keeps
+        // it, so the run reads Japanese the way a PC with the add-on does.
+        if let Ok(src) = std::env::var("PONI_SELFTEST_JA_DICT") {
+            let file = &JAPANESE_READINGS.files[0];
+            let to = crate::services::addons::file_path(&JAPANESE_READINGS, file.name);
+            let placed = fs::read(src.trim()).map_err(|e| format!("{}: {e}", src.trim())).and_then(|b| {
+                if !file.matches(&b) {
+                    return Err(format!("{} bytes, not the dictionary the add-on pins", b.len()));
+                }
+                to.parent().map(fs::create_dir_all).transpose().map_err(|e| e.to_string())?;
+                fs::write(&to, &b).map_err(|e| e.to_string())
+            });
+            self.checks.push(check("ja-readings-file", placed.is_ok(), placed.map_or_else(|e| e, |_| format!("{} in the add-on's folder", file.name))));
+        }
+        let (ruby, wants_ja_readings) = if japanese && analyzer == "off" {
+            let read = crate::services::romanize::own_song(&texts);
+            (read.ruby, read.wants_ja_readings)
         } else if japanese && analyzer == "kana" {
+            // A PC without Windows' Japanese data or the add-on: kana lines
+            // read, and the Music page offers the add-on.
             let kana = |t: &str| if poni_core::romanize::needs_roman(t) { poni_core::romanize::japanese_kana_ruby(t).unwrap_or_default() } else { Vec::new() };
-            texts.iter().map(|t| kana(t)).collect()
+            (texts.iter().map(|t| kana(t)).collect(), true)
         } else {
             // Read on a thread in the multithreaded apartment, the way the
             // lyrics worker reads a real song (the UI thread here is
             // single-threaded, and Windows' Japanese analyzer only works from one).
-            std::thread::scope(|s| {
+            let read = std::thread::scope(|s| {
                 s.spawn(|| {
                     let _com = crate::services::http::MtaGuard::new();
                     crate::services::romanize::pronounce(&parsed)
                 })
                 .join()
                 .unwrap_or_default()
-            })
+            });
+            (read.ruby, read.wants_ja_readings)
         };
         let lang = self.lyrics_lang.clone().or_else(|| file.as_ref().map(|_| "lrc".to_string()));
         if let Some(lang) = &lang {
@@ -1309,7 +1337,7 @@ impl SelfTest {
             let ok = if matches!(analyzer.as_str(), "required" | "off") { lines_read == needing } else { lines_read > 0 };
             self.checks.push(check("lyrics-pronunciation", ok, format!("{lines_read} of {needing} {lang} lines read in Latin letters")));
         }
-        self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby };
+        self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby, wants_ja_readings };
 
         seed_tasks(st);
         self.health = Some(sample_health(st));
@@ -1325,13 +1353,19 @@ impl SelfTest {
         };
         self.checks.push(check("start-with-windows", ok, detail));
 
-        // PONI_SELFTEST_ADDONS=download (Windows CI): fetch Prayer times' files from
-        // their release and check each against the size and SHA-256 built in.
+        // PONI_SELFTEST_ADDONS=download (Windows CI): fetch every add-on's files
+        // from their releases and check each against the size and SHA-256 built in.
         if std::env::var("PONI_SELFTEST_ADDONS").is_ok_and(|v| v.trim() == "download") {
             let (tx, rx) = std::sync::mpsc::channel();
             let dir = paths::addons_dir().join("selftest-download");
             let _ = std::thread::Builder::new().name("selftest-addon".into()).spawn(move || {
-                let _ = tx.send(crate::services::addons::fetch_for_selftest(&PRAYER_TIMES, &dir));
+                let (mut ok, mut said) = (true, Vec::new());
+                for a in poni_core::addons::ALL {
+                    let (fine, detail) = crate::services::addons::fetch_for_selftest(a, &dir);
+                    ok &= fine;
+                    said.push(format!("{}: {detail}", a.id));
+                }
+                let _ = tx.send((ok, said.join("; ")));
             });
             self.addon_fetch = Some(rx);
         }
@@ -1738,6 +1772,14 @@ impl SelfTest {
             _ => AddonStatus::Off,
         };
         st.addons.insert(PRAYER_TIMES.id, addon);
+        let ja = match scene {
+            Scene::JaGetting => AddonStatus::Downloading { done: 1_700_000, total: JAPANESE_READINGS.size() },
+            _ => AddonStatus::Off,
+        };
+        st.addons.insert(JAPANESE_READINGS.id, ja);
+        if scene.media_playing() {
+            st.lyrics.wants_ja_readings = self.lyrics.wants_ja_readings || matches!(scene, Scene::JaOffer | Scene::JaGetting);
+        }
         seed_prayer(st, scene, until);
         st.system = fake_system(scene);
         st.settings.game_stats = scene.game();

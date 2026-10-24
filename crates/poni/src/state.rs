@@ -72,11 +72,15 @@ pub struct LyricsState {
     /// Each line's pieces with their readings in Latin letters (Japanese,
     /// Korean, Chinese); empty for lines that need none.
     pub ruby: Vec<Vec<Ruby>>,
+    /// The song's kanji went unread because Windows has no Japanese reading
+    /// data and the Japanese readings add-on isn't on this PC: the Music page
+    /// offers the add-on.
+    pub wants_ja_readings: bool,
 }
 
 impl Default for LyricsState {
     fn default() -> Self {
-        Self { track_key: String::new(), status: LyricsStatus::Idle, lyrics: None, source: String::new(), ruby: Vec::new() }
+        Self { track_key: String::new(), status: LyricsStatus::Idle, lyrics: None, source: String::new(), ruby: Vec::new(), wants_ja_readings: false }
     }
 }
 

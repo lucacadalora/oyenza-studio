@@ -1609,11 +1609,12 @@ impl App {
             AppEvent::Lyrics { track_key, result } => {
                 if self.st.lyrics.track_key == track_key {
                     match result {
-                        crate::events::LyricsResult::Found { lyrics, source, ruby } => {
+                        crate::events::LyricsResult::Found { lyrics, source, ruby, wants_ja_readings } => {
                             self.st.lyrics.status = LyricsStatus::Found;
                             self.st.lyrics.lyrics = Some(lyrics);
                             self.st.lyrics.source = source;
                             self.st.lyrics.ruby = ruby;
+                            self.st.lyrics.wants_ja_readings = wants_ja_readings;
                         }
                         crate::events::LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         crate::events::LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
@@ -1755,6 +1756,16 @@ impl App {
                         self.prayer_ready();
                     } else if status == AddonStatus::Off {
                         self.prayer_off();
+                    }
+                }
+                // Japanese readings arrived for the song that asked for them:
+                // read it again (its lyrics come from the cache).
+                if id == poni_core::addons::JAPANESE_READINGS.id && status == AddonStatus::Ready && self.st.lyrics.wants_ja_readings {
+                    if let (Some(svc), Some(m)) = (self.services.as_ref(), self.st.media.as_ref()) {
+                        if m.track_key == self.st.lyrics.track_key {
+                            pinfo!("lyrics: Japanese readings are on this PC; reading the song again");
+                            svc.request_lyrics(m);
+                        }
                     }
                 }
             }

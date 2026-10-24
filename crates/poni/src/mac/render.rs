@@ -236,7 +236,7 @@ fn media(st: &mut AppState) {
         can_seek: true,
         track_key: MediaSession::make_track_key(TITLE, ARTIST, ALBUM),
     });
-    st.lyrics = LyricsState { track_key: MediaSession::make_track_key(TITLE, ARTIST, ALBUM), status: LyricsStatus::Found, lyrics: Some(parse_lrc(LYRICS_LRC)), source: "Sample".into(), ruby: Vec::new() };
+    st.lyrics = LyricsState { track_key: MediaSession::make_track_key(TITLE, ARTIST, ALBUM), status: LyricsStatus::Found, lyrics: Some(parse_lrc(LYRICS_LRC)), source: "Sample".into(), ruby: Vec::new(), wants_ja_readings: false };
 }
 
 fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>, path: &Path) -> Result<(), String> {

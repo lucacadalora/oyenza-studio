@@ -23,6 +23,7 @@ use crate::gfx::{ts, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::state::{AppState, LyricsState, LyricsStatus, MediaSession, PageUiState};
 use crate::ui::{wid, wid_n, Ui, WidgetId};
+use poni_core::addons;
 use poni_core::datetime::fmt_duration;
 use poni_core::geom::{lerp, palette, Color, Point, Rect};
 use poni_core::lrc::Lyrics;
@@ -438,13 +439,17 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
     // Lyrics.
     let mut open_credit = false;
     let mut synced_shown = false;
+    let mut get_ja_readings = false;
     if show_lyrics {
         let pronounce = st.settings.lyrics_pronunciation;
-        let ctx = LyricsCtx { now, pos: lyric_pos, live: playing && has_dur, can_seek: m.can_seek, scale, track_key: &m.track_key, pronounce };
+        // A Japanese song whose kanji went unread: offer the readings add-on.
+        let offer = if pronounce && st.lyrics.wants_ja_readings { addons::ja_offer(st.addon(addons::JAPANESE_READINGS.id)) } else { None };
+        let ctx = LyricsCtx { now, pos: lyric_pos, live: playing && has_dur, can_seek: m.can_seek, scale, track_key: &m.track_key, pronounce, offer };
         let out = draw_lyrics(ui, &st.lyrics, &mut st.ui, col, a, fr, &ctx, &mut acts);
         anim |= out.animating;
         synced_shown = out.synced;
         open_credit = out.open_credit;
+        get_ja_readings = out.get_ja_readings;
     }
 
     // Real transitions (a lyric scroll catching up, a press) get full-rate
@@ -462,6 +467,12 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
     if open_credit {
         let url = source_url(lyrics_source(&st.lyrics)).to_string();
         st.cmd(Command::OpenUrl(url));
+    }
+    // The same switch as the Add-ons tab's row: the app downloads it, then
+    // reads the song again.
+    if get_ja_readings {
+        st.settings.set_addon(addons::JAPANESE_READINGS.id, true);
+        st.cmd(Command::SaveSettings);
     }
 }
 
@@ -574,6 +585,9 @@ struct LyricsCtx<'a> {
     track_key: &'a str,
     /// Show the pronunciation pieces (`LyricsState::ruby`) under lines.
     pronounce: bool,
+    /// In the credit's place, always shown: the Japanese readings add-on's
+    /// line (`poni_core::addons::ja_offer`) and whether a click gets it.
+    offer: Option<(String, bool)>,
 }
 
 #[derive(Default)]
@@ -581,6 +595,8 @@ struct LyricsOut {
     animating: bool,
     synced: bool,
     open_credit: bool,
+    /// The offer was clicked: switch the Japanese readings add-on on.
+    get_ja_readings: bool,
 }
 
 enum View<'a> {
@@ -674,7 +690,9 @@ fn draw_lyrics(
         a.credit_k = if target > a.credit_k { (a.credit_k + step).min(target) } else { (a.credit_k - step).max(target) };
         out.animating = true;
     }
-    if a.credit_k > 0.0 {
+    if let Some((line, click)) = &ctx.offer {
+        out.get_ja_readings = draw_offer(ui, col, line, *click);
+    } else if a.credit_k > 0.0 {
         out.open_credit = draw_credit(ui, col, &credit, smoothstep(a.credit_k));
     }
     out
@@ -698,6 +716,22 @@ fn draw_credit(ui: &mut Ui, col: Rect, label: &str, alpha: f32) -> bool {
     let resp = ui.button(wid("media_lyrics_credit"), r.inset(-6.0, -5.0));
     let color = if resp.hovered { palette::TEXT } else { palette::TEXT_DIM };
     ui.c.with_alpha(alpha, |c| c.text(label, r, &ts.color(color)));
+    resp.clicked
+}
+
+/// The Japanese readings add-on's line where the credit goes, shown while the
+/// song needs it; `click`: it takes a click (returns true when clicked).
+fn draw_offer(ui: &mut Ui, col: Rect, line: &str, click: bool) -> bool {
+    let ts = TextStyle::caption();
+    let (tw, _) = ui.c.measure(line, &ts, col.w);
+    let r = Rect::new(col.x, col.bottom() - CREDIT_H, (tw + 2.0).min(col.w), CREDIT_H);
+    if !click {
+        ui.c.text(line, r, &ts.color(palette::TEXT_DIM));
+        return false;
+    }
+    let resp = ui.button(wid("media_ja_readings"), r.inset(-6.0, -5.0));
+    let color = if resp.hovered { palette::TEXT } else { palette::TEXT_DIM };
+    ui.c.text(line, r, &ts.color(color));
     resp.clicked
 }
 

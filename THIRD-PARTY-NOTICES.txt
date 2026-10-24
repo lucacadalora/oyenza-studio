@@ -7,7 +7,9 @@ from others and keep their own terms.
 mecab-ipadic 2.7.0-20070801
 
 Used for: Oyen Poni's own Japanese reading dictionary,
-crates/poni-core/data/ja-readings.dic.zst. It is a modified copy, made by
+crates/poni-core/data/ja-readings.dic.zst, which Windows downloads as the
+Japanese readings add-on (with this notice in its NOTICE.txt) and the Mac
+app carries built in. It is a modified copy, made by
 tools/make_ja_dict.py: trimmed for lyrics (person and company names and rare
 place names left out, each entry cut to its word class and reading) and
 compiled for vibrato.

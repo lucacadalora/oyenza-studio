@@ -7,6 +7,9 @@ Usage:
     python3 tools/make_ja_dict.py --src FILE   # use a local copy of the source tarball
     python3 tools/make_ja_dict.py --check      # rebuild to a temp file, compare with the committed one
 
+The file ships as the Japanese readings add-on: after a rebuild, publish it
+under a new tag and pin its size and SHA-256 (addons/ja/README.md).
+
 Steps:
 1. Fetch mecab-ipadic (Debian's copy of the original tarball) and check its SHA-256.
 2. Keep what lyrics need: drop person and company names (Noun.name, Noun.org);
