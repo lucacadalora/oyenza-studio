@@ -55,10 +55,12 @@ const MIN_STEPS: u32 = 3;
 const SETTLE_TIMEOUT: f64 = 3.0;
 /// Seconds to wait for a simulated tab click to switch the page.
 const CLICK_TIMEOUT: f64 = 1.5;
-/// Stop visiting scenes after this many seconds (the whole run must stay under 30 s).
-const SCENE_DEADLINE: f64 = 25.0;
+/// Stop visiting scenes after this many seconds. 36 scenes take about 22 s
+/// on CI's slowest run (Oyen theme, Japanese lyrics); the CI and Store test
+/// steps wait 120 s for the whole run, the Wine runner 180 s.
+const SCENE_DEADLINE: f64 = 40.0;
 /// Give up waiting for PNG writers at this point.
-const WRITE_DEADLINE: f64 = 28.5;
+const WRITE_DEADLINE: f64 = 43.5;
 /// One frame (layout + Direct2D render + present + readback) must fit in a 60 Hz frame.
 const FRAME_BUDGET_MS: f64 = 16.0;
 /// Frames re-rendered when the first sample misses the budget (filters scheduler noise).
@@ -707,6 +709,10 @@ impl SelfTest {
 
     /// Seed the app with fake data. Called once before the first frame.
     pub fn begin(&mut self, st: &mut AppState) {
+        // The real readers behind the System page (its scenes show sample
+        // readings); before the scene clock starts, as it takes a moment.
+        let (ok, detail) = system_readings(crate::services::sysmon::probe());
+        self.checks.push(check("system-readings", ok, detail));
         self.t0 = Instant::now();
         crate::pinfo!("selftest: output folder {}", self.dir.display());
         match fs::create_dir_all(&self.dir) {
@@ -770,10 +776,6 @@ impl SelfTest {
             Err(d) => (false, d),
         };
         self.checks.push(check("start-with-windows", ok, detail));
-
-        // The real readers behind the System page (its scenes show sample readings).
-        let (ok, detail) = system_readings(crate::services::sysmon::probe());
-        self.checks.push(check("system-readings", ok, detail));
     }
 
     /// Called every ~50 ms; returns Some(exit code) when finished.

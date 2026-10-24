@@ -1498,11 +1498,13 @@ impl App {
                 }
             }
             AppEvent::ShelfThumb { path, image } => {
-                // An app icon for the System page, unless the Shelf asked for the same file too.
-                let for_shelf = !self.icon_wait.remove(&path) || self.st.shelf_thumbs.contains_key(&path);
-                if let Some(slot) = self.st.app_icons.get_mut(&path) {
+                // The answer to an app icon the System page asked for (only that
+                // answer touches its icons), and to the Shelf when it asked too.
+                let ours = self.icon_wait.remove(&path);
+                let for_shelf = !ours || self.st.shelf_thumbs.contains_key(&path);
+                if ours {
                     let px = pages::system::icon_px(self.gfx.scale());
-                    *slot = image.as_ref().map(|i| pages::system::shrink_icon(i, px));
+                    self.st.app_icons.insert(path.clone(), image.as_ref().map(|i| pages::system::shrink_icon(i, px)));
                 }
                 if for_shelf {
                     self.st.shelf_thumbs.insert(path, image);
@@ -2296,7 +2298,7 @@ impl App {
                         services::imaging::load_thumb_async(path, self.sink.clone());
                     }
                 }
-                Command::OpenTaskManager => shell::open("taskmgr.exe"),
+                Command::OpenTaskManager => shell::open_task_manager(),
                 Command::SetPinned(b) => {
                     self.st.pinned = b;
                     if !b {

@@ -28,7 +28,7 @@ const ROW_MAX: f32 = 34.0;
 const IN_X: f32 = 14.0;
 const IN_Y: f32 = 12.0;
 /// The column beside the chart: top apps, drives or facts, three rows.
-const SIDE_W: f32 = 158.0;
+const SIDE_W: f32 = 168.0;
 const SIDE_GAP: f32 = 14.0;
 /// App icons arrive as shell thumbnails: the icon fills this share of the
 /// image (`services::imaging` centres icons with some air around them).
@@ -306,7 +306,7 @@ fn detail(st: &AppState, m: Module) -> Detail {
                 qualifier: "down".into(),
                 legend: vec![(Some(accent), "Down".into()), (Some(second), format!("Up {}", fmt_rate(n.up_bps)))],
                 chart: Chart::Rates(h.net_down.clone(), accent, h.net_up.clone(), second),
-                side: Side::Facts(vec![format!("Received {}", fmt_bytes(n.received)), format!("Sent {}", fmt_bytes(n.sent)), "since connecting".into()]),
+                side: Side::Facts(vec![format!("Received {}", fmt_bytes(n.received)), format!("Sent {}", fmt_bytes(n.sent)), "since startup".into()]),
             }
         }
         Module::Battery => {

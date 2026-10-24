@@ -36,7 +36,7 @@ use windows::Win32::Devices::DeviceAndDriverInstallation::{
     DIGCF_PRESENT, SP_DEVICE_INTERFACE_DATA, SP_DEVICE_INTERFACE_DETAIL_DATA_W,
 };
 use windows::Win32::Foundation::{CloseHandle, FILETIME, GENERIC_READ, GENERIC_WRITE, HANDLE, HWND};
-use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetBestInterface, GetIfTable2, MIB_IF_TABLE2};
+use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetBestInterface, GetIfTable2, MIB_IF_ROW2, MIB_IF_TABLE2};
 use windows::Win32::NetworkManagement::Ndis::IfOperStatusUp;
 use windows::Win32::Storage::FileSystem::{
     CreateFileW, GetDiskFreeSpaceExW, GetDriveTypeW, GetFileVersionInfoSizeW, GetFileVersionInfoW, GetLogicalDrives, GetVolumeInformationW,
@@ -127,6 +127,18 @@ fn worker(sink: EventSink, rx: Receiver<Msg>) {
                 Err(_) => break,
             }
         };
+        // Only the latest request counts (Quit wins): flipping through the tabs
+        // queues several, and building a sampler for each would hold up exit.
+        let msg = msg.map(|first| {
+            let mut last = first;
+            while !matches!(last, Msg::Quit) {
+                match rx.try_recv() {
+                    Ok(next) => last = next,
+                    Err(_) => break,
+                }
+            }
+            last
+        });
         match msg {
             Some(Msg::Quit) => break,
             Some(Msg::Run(true)) => {
@@ -179,10 +191,13 @@ struct Sampler {
     /// Image name → (path, display name), for apps that made a top list.
     names: HashMap<String, (Option<String>, String)>,
     pdh: Option<Pdh>,
-    net: Option<(Instant, u64, u64)>,
+    /// When the adapters were last read, and each one's (received, sent) bytes by LUID.
+    net: Option<(Instant, HashMap<u64, (u64, u64)>)>,
     drives: Vec<(String, String)>,
     route: (Option<u32>, Option<String>),
     battery: Option<BatteryDetails>,
+    /// (plugged in, charging) at the last reading: a change refreshes the battery details.
+    power: Option<(bool, bool)>,
     slow_at: Option<Instant>,
 }
 
@@ -202,13 +217,16 @@ impl Sampler {
             drives: Vec::new(),
             route: (None, None),
             battery: None,
+            power: None,
             slow_at: None,
         };
-        // Baselines for everything measured between two samples.
+        // Baselines for everything measured between two samples, taken after
+        // the slow setup above so the first interval is the real one.
         s.cpu = cpu_times();
+        s.started = Instant::now();
         let procs = s.process_list();
         s.apps.update(0.0, logical, &procs);
-        s.net = net_counters(None).map(|n| (Instant::now(), n.received, n.sent));
+        s.net = net_counters(None).map(|(_, adapters)| (Instant::now(), adapters.into_iter().map(|(luid, rx, tx)| (luid, (rx, tx))).collect()));
         s
     }
 
@@ -242,16 +260,25 @@ impl Sampler {
             active: idle.map(|idle| (1.0 - idle / 100.0).clamp(0.0, 1.0) as f32),
         });
 
-        let network = net_counters(self.route.0).map(|mut n| {
+        let network = net_counters(self.route.0).map(|(mut n, adapters)| {
             let now = Instant::now();
-            if let Some((at, rx, tx)) = self.net {
-                let dt = now.duration_since(at).as_secs_f64();
+            // Only adapters seen last time count: one that just (re)connected
+            // brings its whole total since startup, which isn't this second's traffic.
+            if let Some((at, before)) = &self.net {
+                let dt = now.duration_since(*at).as_secs_f64();
                 if dt > 0.0 {
-                    n.down_bps = n.received.saturating_sub(rx) as f64 / dt;
-                    n.up_bps = n.sent.saturating_sub(tx) as f64 / dt;
+                    let (mut rx, mut tx) = (0u64, 0u64);
+                    for (luid, r, t) in &adapters {
+                        if let Some((r0, t0)) = before.get(luid) {
+                            rx = rx.saturating_add(r.saturating_sub(*r0));
+                            tx = tx.saturating_add(t.saturating_sub(*t0));
+                        }
+                    }
+                    n.down_bps = rx as f64 / dt;
+                    n.up_bps = tx as f64 / dt;
                 }
             }
-            self.net = Some((now, n.received, n.sent));
+            self.net = Some((now, adapters.into_iter().map(|(luid, r, t)| (luid, (r, t))).collect()));
             n.ipv4 = self.route.1.clone().filter(|_| n.online);
             n
         });
@@ -262,10 +289,23 @@ impl Sampler {
             drives: self.drives.iter().filter_map(|(root, label)| drive(root, label)).collect(),
             disk,
             network,
-            battery: battery(self.battery.as_ref()),
+            battery: self.battery_reading(),
             top_cpu,
             top_memory,
         }
+    }
+
+    /// The battery now; plugging in or out refreshes its power reading at once
+    /// instead of at the next slow refresh.
+    fn battery_reading(&mut self) -> Option<BatteryReading> {
+        let mut r = battery(self.battery.as_ref())?;
+        let state = (r.on_ac, r.charging);
+        if self.power.is_some_and(|p| p != state) {
+            self.battery = battery_details();
+            r = battery(self.battery.as_ref())?;
+        }
+        self.power = Some(state);
+        Some(r)
     }
 
     /// The process list, or nothing when Windows won't give it.
@@ -298,7 +338,9 @@ impl Sampler {
                 if !self.names.contains_key(&a.image) {
                     // Only a found path is remembered: a protected process
                     // may hide it while another of the same app shows it.
-                    if let Some(path) = process_path(a.pid) {
+                    // The file name must match: the process may have exited and its id been reused.
+                    let path = process_path(a.pid).filter(|p| p.rsplit(['\\', '/']).next().is_some_and(|f| f.eq_ignore_ascii_case(&a.image)));
+                    if let Some(path) = path {
                         let name = file_description(&path).unwrap_or_else(|| display_name(&a.image));
                         self.names.insert(a.image.clone(), (Some(path), name));
                     }
@@ -381,22 +423,32 @@ fn file_description(path: &str) -> Option<String> {
     let mut data = vec![0u8; size as usize];
     unsafe { GetFileVersionInfoW(&file, 0, size, data.as_mut_ptr().cast()) }.ok()?;
     let block = data.as_ptr().cast();
+    // The UTF-16 units at `p` that lie inside `data`: a value's length comes
+    // from the file itself, and some tools write it in bytes, not characters.
+    let units = |p: *mut core::ffi::c_void, len: u32| -> &[u16] {
+        let start = (p as usize).wrapping_sub(data.as_ptr() as usize);
+        if p.is_null() || start >= data.len() || start % 2 != 0 {
+            return &[];
+        }
+        let n = (len as usize).min((data.len() - start) / 2);
+        // SAFETY: `n` units starting at `p` lie inside `data`, which outlives this slice.
+        unsafe { std::slice::from_raw_parts(p as *const u16, n) }
+    };
     let mut p: *mut core::ffi::c_void = std::ptr::null_mut();
     let mut len = 0u32;
     // The file's own languages first, then US English and language-neutral.
     let mut keys = Vec::new();
-    if unsafe { VerQueryValueW(block, w!("\\VarFileInfo\\Translation"), &mut p, &mut len) }.as_bool() && !p.is_null() {
-        // SAFETY: `p` points at `len` bytes inside `data`.
-        let t = unsafe { std::slice::from_raw_parts(p as *const u16, len as usize / 2) };
+    if unsafe { VerQueryValueW(block, w!("\\VarFileInfo\\Translation"), &mut p, &mut len) }.as_bool() {
+        let t = units(p, len / 2);
         keys.extend(t.chunks_exact(2).map(|c| format!("{:04x}{:04x}", c[0], c[1])));
     }
     keys.extend(["040904b0", "040904e4", "000004b0"].map(String::from));
     for k in keys {
         let sub = HSTRING::from(format!("\\StringFileInfo\\{k}\\FileDescription"));
-        if unsafe { VerQueryValueW(block, &sub, &mut p, &mut len) }.as_bool() && !p.is_null() && len > 1 {
-            // SAFETY: a string value: `len` UTF-16 units inside `data`.
-            let s = unsafe { std::slice::from_raw_parts(p as *const u16, len as usize) };
-            let text = String::from_utf16_lossy(s).trim_end_matches('\0').trim().to_string();
+        if unsafe { VerQueryValueW(block, &sub, &mut p, &mut len) }.as_bool() {
+            let s = units(p, len);
+            let end = s.iter().position(|c| *c == 0).unwrap_or(s.len());
+            let text = String::from_utf16_lossy(&s[..end]).trim().to_string();
             if !text.is_empty() {
                 return Some(text);
             }
@@ -498,17 +550,20 @@ fn route_index() -> Option<u32> {
     (unsafe { GetBestInterface(u32::from_ne_bytes(ROUTE_PROBE), &mut index) } == 0).then_some(index)
 }
 
-/// Totals over every connected hardware adapter (speeds are filled in by the
-/// caller); the adapter shown is the route's, else the busiest.
-fn net_counters(route: Option<u32>) -> Option<NetReading> {
+/// Totals over every connected hardware adapter, and each one's (LUID,
+/// received, sent) so the caller can measure speeds per adapter; the adapter
+/// shown is the route's, else the busiest.
+fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)> {
     let mut table: *mut MIB_IF_TABLE2 = std::ptr::null_mut();
     if let Err(e) = unsafe { GetIfTable2(&mut table) }.ok() {
         warn_once(16, &format!("network counters unavailable ({e})"));
         return None;
     }
-    // SAFETY: Windows allocated `NumEntries` rows after the header; freed below.
-    let rows = unsafe { std::slice::from_raw_parts((*table).Table.as_ptr(), (*table).NumEntries as usize) };
+    // SAFETY: Windows allocated `NumEntries` rows after the header (the
+    // declared one-row array is only the first of them); freed below.
+    let rows = unsafe { std::slice::from_raw_parts(std::ptr::addr_of!((*table).Table).cast::<MIB_IF_ROW2>(), (*table).NumEntries as usize) };
     let mut n = NetReading::default();
+    let mut adapters = Vec::new();
     let mut busiest: Option<(u64, String)> = None;
     let mut routed: Option<String> = None;
     for r in rows {
@@ -518,6 +573,8 @@ fn net_counters(route: Option<u32>) -> Option<NetReading> {
         }
         n.received = n.received.saturating_add(r.InOctets);
         n.sent = n.sent.saturating_add(r.OutOctets);
+        // SAFETY: NET_LUID_LH is a 64-bit value with a bit-field view.
+        adapters.push((unsafe { r.InterfaceLuid.Value }, r.InOctets, r.OutOctets));
         let alias = String::from_utf16_lossy(&r.Alias[..r.Alias.iter().position(|c| *c == 0).unwrap_or(r.Alias.len())]);
         if route == Some(r.InterfaceIndex) {
             routed = Some(alias.clone());
@@ -530,7 +587,7 @@ fn net_counters(route: Option<u32>) -> Option<NetReading> {
     unsafe { FreeMibTable(table as *const core::ffi::c_void) };
     n.online = busiest.is_some();
     n.adapter = routed.or(busiest.map(|(_, a)| a)).unwrap_or_default();
-    Some(n)
+    Some((n, adapters))
 }
 
 // ---------------------------------------------------------------- battery
@@ -601,7 +658,8 @@ unsafe fn device_path(set: windows::Win32::Devices::DeviceAndDriverInstallation:
     (*detail).cbSize = std::mem::size_of::<SP_DEVICE_INTERFACE_DETAIL_DATA_W>() as u32;
     SetupDiGetDeviceInterfaceDetailW(set, &iface, Some(detail), need, None, None).ok()?;
     let chars = (need as usize - std::mem::offset_of!(SP_DEVICE_INTERFACE_DETAIL_DATA_W, DevicePath)) / 2;
-    let path = std::slice::from_raw_parts((*detail).DevicePath.as_ptr(), chars);
+    // The path runs past the declared one-character array.
+    let path = std::slice::from_raw_parts(std::ptr::addr_of!((*detail).DevicePath).cast::<u16>(), chars);
     Some(String::from_utf16_lossy(&path[..path.iter().position(|c| *c == 0).unwrap_or(path.len())]))
 }
 
