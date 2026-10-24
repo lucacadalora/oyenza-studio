@@ -69,9 +69,9 @@ Open the Shelf, scan the code with your phone's camera, pick photos or files and
 
 [More on Show over games](#show-over-games)
 
-### Your whole PC on one page
+### Your whole computer on one page
 
-CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the apps using the most. Read straight from Windows' own counters, with no drivers and no admin rights, and it never leaves your PC.
+CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the apps using the most. Read straight from Windows' own counters, with no drivers and no admin rights, and it never leaves your PC. On a Mac it reads macOS's own counters, the way Stats does.
 
 <p align="center"><img src="docs/brand/readme/system.webp" width="880" alt="The System page: CPU temperature, load and clock rings, usage history, each core's load and the top processes"></p>
 
@@ -83,7 +83,7 @@ CPU, GPU, memory, drives, network and battery: rings and gauges, each core's loa
 
 ### Black, Oyen, Glass or Pill
 
-The island is black by default, like the one on a phone. **Oyen** turns it warm cream, and Oyen the cat moves in: he peeks over the edge, follows your pointer and sleeps from midnight to five. **Glass** bends and frosts whatever is behind it, after Apple's Liquid Glass. **Pill**, new in 0.1.21, changes the shape: the island floats just below the top of the screen as a black capsule, with the time and battery at rest, the song and the line being sung while music plays, and a rounded card when it opens.
+The island is black by default, like the one on a phone. **Oyen** turns it warm cream, and Oyen the cat moves in: he peeks over the edge, follows your pointer and sleeps from midnight to five. **Glass** bends and frosts whatever is behind it, after Apple's Liquid Glass; on a Mac it's macOS's own glass. **Pill**, new in 0.1.21, changes the shape: the island floats just below the top of the screen as a black capsule, with the time and battery at rest, the song and the line being sung while music plays, and a rounded card when it opens.
 
 <p align="center"><img src="docs/brand/readme/themes.webp" width="880" alt="The Music page in Classic, in the Oyen theme, in the Glass theme over a light and a dark page, and in the Pill theme as a card floating below the top edge, beside Pill's capsule while music plays"></p>
 
@@ -107,7 +107,7 @@ Today's times for your kab/kota as Kemenag RI publishes them, a countdown in the
 
 ### On a Mac, it wraps the notch
 
-On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Music and Spotify with lyrics, the focus timer, the Shelf and Phone drop, tasks, the clipboard and Today are all there.
+On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Music and Spotify with lyrics, the focus timer, the Shelf and Phone drop, tasks, the clipboard, Today and the System page are all there, in the Classic, Oyen, Glass or Pill theme.
 
 <p align="center"><img src="docs/brand/readme/mac.webp" width="880" alt="On a MacBook: music playing and a focus timer either side of the notch, and the Music page opening below it"></p>
 
@@ -187,7 +187,7 @@ Yes, on Windows 10 and 11. Glass needs Windows 10 version 2004 or later to bend 
 <summary><b>What's different on a Mac?</b></summary>
 <br>
 
-The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Clipboard, Today, the Classic, Oyen, Glass and Pill themes and start at login. Not on the Mac yet: paired phones, Oyenza sign-in, Prayer times, Show over games, headphone pop-ups and hiding in full-screen apps. [On a Mac](#on-a-mac) has the details.
+The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Clipboard, Today, the System page, the Classic, Oyen, Glass and Pill themes and start at login. Not on the Mac yet: paired phones, Oyenza sign-in, Prayer times, Show over games, headphone pop-ups and hiding in full-screen apps. [On a Mac](#on-a-mac) has the details.
 
 </details>
 
@@ -224,7 +224,7 @@ On a Mac, every option is in the menu bar, under Oyen's mark.
 
 ### The Oyen theme
 
-The island stays black by default. Switch on the Oyen theme (the gear › **Theme › Oyen**, or right-click › **Theme › Oyen**) and the whole island becomes Oyen's: warm cream with dark brown text, his orange on the play button, the bars and the switches, and Outfit, the Oyenza Studio typeface. Oyen, the Oyenza cat, moves in too: he peeks over the island's edge while it rests, watches your pointer when it comes near, sits beside the clock, peeks up beside the pin when the island is open and bobs along while music plays. He sleeps from midnight to five. He is drawn from the Oyenza logo, not a picture, so he stays sharp at any scaling, and he only moves for a moment now and then, so he costs no CPU at rest.
+The island stays black by default. Switch on the Oyen theme (the gear › **Theme › Oyen**, or right-click › **Theme › Oyen**) and the whole island becomes Oyen's: warm cream with dark brown text, his orange on the play button, the bars and the switches, and Outfit, the Oyenza Studio typeface. Oyen, the Oyenza cat, moves in too: he peeks over the island's edge while it rests, watches your pointer when it comes near, sits beside the clock, peeks up beside the pin when the island is open and bobs along while music plays. He sleeps from midnight to five. Where the island wraps a MacBook's notch, the theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it. He is drawn from the Oyenza logo, not a picture, so he stays sharp at any scaling, and he only moves for a moment now and then, so he costs no CPU at rest.
 
 ![Classic and the Oyen theme side by side: resting, with the clock, and playing music](docs/screenshots/oyen-theme.png)
 
@@ -233,6 +233,8 @@ The island stays black by default. Switch on the Oyen theme (the gear › **Them
 Glass turns the island into liquid glass, after Apple's Liquid Glass. Its rim bends and magnifies what's under it, the middle is frosted, a light runs along the edge, and the shadow under it deepens over busy pages. The collapsed island turns light or dark with what's behind it, and the open island follows Windows' light or dark mode. Its tint goes only as deep as the text needs to stay readable (4.5:1).
 
 To bend what's under it, Glass copies the part of the screen behind its window (the island and the space it opens into) whenever something there changes, and not while the island is hidden, a full-screen app is in front (there it draws smoked glass, so a game's frames aren't copied) or the PC is locked. The copy stays in your PC's memory and on its graphics card, and each new copy replaces the last; it's never saved or sent. While Glass is on, Windows leaves Oyenza Studio out of screenshots, screen recordings and screen sharing. On a display in HDR, Oyenza Studio maps the copy back to ordinary colours itself. Where it can't copy the screen (the software renderer, Windows 10 before version 2004, Remote Desktop, a laptop display that no graphics card lets it copy), Glass draws smoked glass instead: the same shape, light and shadow over a see-through tint, and it stays in screenshots.
+
+On a Mac, Glass is macOS's own glass: Liquid Glass on macOS 26, and a dark blur on macOS 14 and 15. It's the dark kind, so white text stays readable over any wallpaper, and where the island meets the notch it keeps a black strip that fades into the glass. macOS draws the glass itself, so Oyenza Studio doesn't copy your screen for it. If Glass looks flat, turn off **Reduce transparency** in System Settings › Accessibility › Display.
 
 ### The Pill theme
 
@@ -257,9 +259,9 @@ Windows lets only admins and the **Performance Log Users** group read that log. 
 
 ### On a Mac
 
-On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera (the album art on the left and the beat on the right, a timer's ring and its minutes the same way), and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows.
+On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera (the album art on the left and the beat on the right, a timer's ring and its minutes the same way), and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows. Around the notch, the Oyen theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it.
 
-The Mac app has the island, Music and Spotify with synced lyrics (and Apple Music's own with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, clipboard history, Today with your Mac's CPU, memory, disk and battery, pop-ups for volume and charging, the Classic, Oyen, Glass and Pill themes ([Pill](#the-pill-theme) floats just below the notch for pop-ups and the open card), and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: paired phones, Oyenza sign-in, Prayer times, Show over games, headphone pop-ups and hiding in full-screen apps.
+The Mac app has the island, Music and Spotify with synced lyrics (and Apple Music's own with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, clipboard history, Today with your Mac's CPU, memory, disk and battery, the System page with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps, pop-ups for volume and charging, the Classic, Oyen, Glass and Pill themes ([Pill](#the-pill-theme) floats just below the notch for pop-ups and the open card), and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: paired phones, Oyenza sign-in, Prayer times, Show over games, headphone pop-ups and hiding in full-screen apps.
 
 The Mac pictures come from the Mac app itself (`poni --render <dir> --notch`, run by the `mac` workflow on a macOS runner with a MacBook's notch drawn in).
 
