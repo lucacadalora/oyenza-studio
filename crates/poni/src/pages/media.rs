@@ -788,7 +788,7 @@ fn draw_ruby(ui: &mut Ui, a: &Anim, row: usize, size: f32, x: f32, y: f32, alpha
 /// One row of the synced view (a line, or an instrumental/intro gap).
 struct Row<'a> {
     r: usize,
-    /// Distance from the scroll position, in rows.
+    /// Distance from the scroll position, in rows that show.
     d: f32,
     size: f32,
     text: &'a str,
@@ -797,8 +797,54 @@ struct Row<'a> {
     wrap_w: f32,
     w: f32,
     h: f32,
+    /// 1 for a line; how far a gap is open (`gap_open`).
+    open: f32,
     /// Centre relative to the row under the scroll position.
     c: f32,
+}
+
+/// How far a gap row (the intro, an instrumental break) `d` rows from the
+/// scroll position is open: it opens as the scroll reaches it and folds
+/// away, dots and room, once the next line starts, as in Apple Music. Left
+/// open, its dots sat above the sung lines for the rest of the song.
+fn gap_open(d: f32) -> f32 {
+    (1.0 - d).clamp(0.0, 1.0)
+}
+
+/// Space between two neighbouring rows that are `above` and `below` open: a
+/// folded gap gives back its share on both sides, so the lines around it
+/// close up to one `LYRIC_GAP`.
+fn row_gap(above: f32, below: f32) -> f32 {
+    LYRIC_GAP * (above + below) / 2.0
+}
+
+/// Rows `lo..=hi` to lay out around row `k` of `n`: `above` and `below`
+/// rows with text on each side (folded gaps take no room, so they don't count).
+fn row_window(k: usize, n: usize, above: usize, below: usize, is_gap: impl Fn(usize) -> bool) -> (usize, usize) {
+    let (mut lo, mut left) = (k, above);
+    while lo > 0 && left > 0 {
+        lo -= 1;
+        left -= usize::from(!is_gap(lo));
+    }
+    let (mut hi, mut left) = (k, below);
+    while hi + 1 < n && left > 0 {
+        hi += 1;
+        left -= usize::from(!is_gap(hi));
+    }
+    (lo, hi)
+}
+
+/// Each row's distance from the scroll position `p` (rows `rs`, open `open`),
+/// leaving out the folded part of the gaps in between: the line just before
+/// an instrumental break stays the previous line once the break has folded.
+fn shown_distances(rs: &[usize], open: &[f32], p: f32) -> Vec<f32> {
+    rs.iter()
+        .map(|&r| {
+            let r = r as f32;
+            let folded: f32 = rs.iter().zip(open).filter(|(&g, _)| (g as f32 - r) * (g as f32 - p) < 0.0).map(|(_, o)| 1.0 - o).sum();
+            ((r - p).abs() - folded).max(0.0)
+        })
+        .collect()
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -844,29 +890,32 @@ fn draw_synced(
     // Measure the rows around the scroll position. Size follows closeness to
     // the current row; the wrap width scales with it, so a line breaks at the
     // same words whatever its size and heights change smoothly.
-    let lo = k.saturating_sub(ROWS_ABOVE);
-    let hi = (k + ROWS_BELOW).min(n_rows - 1);
-    let mut rows: Vec<Row> = Vec::with_capacity(hi - lo + 1);
-    for r in lo..=hi {
-        let d = (r as f32 - p).abs();
+    let text_of = |r: usize| if r < off { "" } else { lines[r - off].text.trim() };
+    let (lo, hi) = row_window(k, n_rows, ROWS_ABOVE, ROWS_BELOW, |r| text_of(r).is_empty());
+    let rs: Vec<usize> = (lo..=hi).collect();
+    let open: Vec<f32> = rs.iter().map(|&r| if text_of(r).is_empty() { gap_open((r as f32 - p).abs()) } else { 1.0 }).collect();
+    let dist = shown_distances(&rs, &open, p);
+    let mut rows: Vec<Row> = Vec::with_capacity(rs.len());
+    for (i, &r) in rs.iter().enumerate() {
+        let (d, open) = (dist[i], open[i]);
         let e = (1.0 - d).clamp(0.0, 1.0);
         let size = ((LYRIC_MIN + (LYRIC_MAX - LYRIC_MIN) * e) * 4.0).round() / 4.0;
-        let text = if r < off { "" } else { lines[r - off].text.trim() };
+        let text = text_of(r);
         let ruby = if ctx.pronounce && !text.is_empty() { rubies.get(r - off).map(Vec::as_slice).filter(|p| !p.is_empty()) } else { None };
         let wrap_w = vp.w * size / LYRIC_MAX;
         let (w, h) = match ruby {
-            _ if text.is_empty() => (dots_width(size), size * LYRIC_LEADING),
+            _ if text.is_empty() => (dots_width(size), size * LYRIC_LEADING * open),
             Some(p) => measure_ruby(ui, a, r, size * RUBY_SIZE, p, wrap_w),
             None => measure_row(ui, a, r, size, text, wrap_w),
         };
-        rows.push(Row { r, d, size, text, ruby, wrap_w, w, h, c: 0.0 });
+        rows.push(Row { r, d, size, text, ruby, wrap_w, w, h, open, c: 0.0 });
     }
     let ik = k - lo;
     for i in ik + 1..rows.len() {
-        rows[i].c = rows[i - 1].c + rows[i - 1].h / 2.0 + LYRIC_GAP + rows[i].h / 2.0;
+        rows[i].c = rows[i - 1].c + rows[i - 1].h / 2.0 + row_gap(rows[i - 1].open, rows[i].open) + rows[i].h / 2.0;
     }
     for i in (0..ik).rev() {
-        rows[i].c = rows[i + 1].c - rows[i + 1].h / 2.0 - LYRIC_GAP - rows[i].h / 2.0;
+        rows[i].c = rows[i + 1].c - rows[i + 1].h / 2.0 - row_gap(rows[i].open, rows[i + 1].open) - rows[i].h / 2.0;
     }
     let anchor_c = match rows.get(ik + 1) {
         Some(next) => lerp(rows[ik].c, next.c, f),
@@ -877,6 +926,10 @@ fn draw_synced(
     let wide = Rect::new(vp.x - 10.0, vp.y, vp.w + 20.0, vp.h);
     ui.c.clip(wide);
     for row in &rows {
+        if row.open <= 0.01 {
+            // A folded gap.
+            continue;
+        }
         let mut y = anchor_y + row.c - anchor_c - row.h / 2.0;
         if settled {
             y = snap(y, ctx.scale);
@@ -892,7 +945,7 @@ fn draw_synced(
         // Current 1.0 → neighbours 0.40 → outer rows 0.24 (then the edge
         // fade): a clear step, so the sung line stands out from its context.
         let base = if row.d <= 1.0 { lerp(1.0, 0.40, row.d) } else { lerp(0.40, 0.24, (row.d - 1.0).min(1.0)) };
-        let mut alpha = base * fade;
+        let mut alpha = base * fade * row.open;
 
         let is_line = row.r >= off;
         if ctx.can_seek && is_line && fade > 0.4 {
@@ -919,7 +972,8 @@ fn draw_synced(
                 }
             });
             let breathe = if current && ctx.live { 1.0 + 0.12 * (ctx.now * 3.4).sin() as f32 } else { 1.0 };
-            draw_dots(ui, vp.x, cy, row.size, alpha, lit, breathe);
+            // The dots shrink away as the gap folds.
+            draw_dots(ui, vp.x, cy, row.size * row.open, alpha, lit, breathe);
         } else if row.ruby.is_some() {
             draw_ruby(ui, a, row.r, row.size * RUBY_SIZE, vp.x, y, alpha);
         } else {
@@ -1047,6 +1101,48 @@ mod tests {
         let (mut p, mut v) = (10.0f32, 0.0f32);
         follow(&mut p, &mut v, 0.0, LYRIC_OMEGA, 5.0);
         assert!(p.is_finite() && p.abs() < 0.01);
+    }
+
+    #[test]
+    fn gaps_show_only_while_they_play() {
+        assert_eq!(gap_open(0.0), 1.0);
+        assert_eq!(gap_open(0.25), 0.75);
+        assert_eq!(gap_open(1.0), 0.0);
+        assert_eq!(gap_open(3.0), 0.0);
+    }
+
+    #[test]
+    fn a_folded_gap_leaves_one_gap_between_lines() {
+        assert_eq!(row_gap(1.0, 1.0), LYRIC_GAP);
+        // Line, open gap, line: two gaps. Line, folded gap, line: one.
+        assert_eq!(row_gap(1.0, 1.0) + row_gap(1.0, 1.0), 2.0 * LYRIC_GAP);
+        assert_eq!(row_gap(1.0, 0.0) + row_gap(0.0, 1.0), LYRIC_GAP);
+        assert_eq!(row_gap(1.0, 0.0) + row_gap(0.0, 0.0) + row_gap(0.0, 1.0), LYRIC_GAP);
+    }
+
+    #[test]
+    fn window_looks_past_folded_gaps() {
+        let none = |_: usize| false;
+        assert_eq!(row_window(0, 20, ROWS_ABOVE, ROWS_BELOW, none), (0, 4));
+        assert_eq!(row_window(10, 20, ROWS_ABOVE, ROWS_BELOW, none), (7, 14));
+        assert_eq!(row_window(18, 20, ROWS_ABOVE, ROWS_BELOW, none), (15, 19));
+        // Row 0 is the intro, rows 12-13 a break.
+        let gaps = |r: usize| r == 0 || r == 12 || r == 13;
+        assert_eq!(row_window(1, 20, ROWS_ABOVE, ROWS_BELOW, gaps), (0, 5));
+        assert_eq!(row_window(10, 20, ROWS_ABOVE, ROWS_BELOW, gaps), (7, 16));
+        assert_eq!(row_window(15, 20, ROWS_ABOVE, ROWS_BELOW, gaps), (10, 19));
+    }
+
+    #[test]
+    fn lines_around_a_folded_gap_stay_neighbours() {
+        // Line 5, a break at 6, line 7.
+        let rs = [5, 6, 7];
+        // The break plays.
+        assert_eq!(shown_distances(&rs, &[1.0, 1.0, 1.0], 6.0), vec![1.0, 0.0, 1.0]);
+        // Half folded on the way to line 7.
+        assert_eq!(shown_distances(&rs, &[1.0, 0.5, 1.0], 6.5), vec![1.0, 0.5, 0.5]);
+        // Line 7 is sung: line 5 is the line before it, not two rows up.
+        assert_eq!(shown_distances(&rs, &[1.0, 0.0, 1.0], 7.0), vec![1.0, 1.0, 0.0]);
     }
 
     #[test]
