@@ -7,7 +7,7 @@
 //! │   art    │  • Player                     │  CURRENT LINE
 //! │ 104×104  │  ━━━━━━━━━━━━━━━━━──────────  │  next line
 //! └──────────┘  1:23                 −2:10   │  later line
-//!                  ⏮      ( ▶ )      ⏭       │  (Lyrics: LRCLIB, on hover)
+//!                  ⏮      ( ▶ )      ⏭       │  (Lyrics: source, on hover)
 //! ```
 //!
 //! The app lays pages out at the island's final size (and masks them with
@@ -91,9 +91,25 @@ const CREDIT_H: f32 = 14.0;
 const CREDIT_GAP: f32 = 4.0;
 /// The credit fades in while the pointer is over the lyrics column.
 const CREDIT_FADE_S: f32 = 0.15;
-const CREDIT: &str = "Lyrics: LRCLIB";
-const CREDIT_UNSYNCED: &str = "Lyrics: LRCLIB \u{b7} Unsynced";
-const LYRICS_URL: &str = "https://lrclib.net";
+/// Credited when a result doesn't name its source.
+const DEFAULT_SOURCE: &str = "LRCLIB";
+
+/// Where the shown lyrics come from.
+fn lyrics_source(lyr: &LyricsState) -> &str {
+    if lyr.source.is_empty() {
+        DEFAULT_SOURCE
+    } else {
+        &lyr.source
+    }
+}
+
+/// The site the credit opens.
+fn source_url(source: &str) -> &'static str {
+    match source {
+        "Apple Music" => "https://music.apple.com",
+        _ => "https://lrclib.net",
+    }
+}
 
 const PLAIN_SIZE: f32 = ts::BODY;
 const PLAIN_GAP: f32 = 5.0;
@@ -385,7 +401,8 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
         push_media(st, c);
     }
     if open_credit {
-        st.cmd(Command::OpenUrl(LYRICS_URL.to_string()));
+        let url = source_url(lyrics_source(&st.lyrics)).to_string();
+        st.cmd(Command::OpenUrl(url));
     }
 }
 
@@ -558,20 +575,21 @@ fn draw_lyrics(
 
     let vp = Rect::new(col.x, col.y, col.w, col.h - CREDIT_H - CREDIT_GAP);
     let mut out = LyricsOut::default();
+    let source = lyrics_source(lyr);
     let credit = match view {
         View::Status { msg, busy } => {
             let pulse = if busy && ctx.live { Some(ctx.now) } else { None };
             draw_status(ui, vp, msg, pulse);
-            CREDIT
+            format!("Lyrics: {source}")
         }
         View::Synced(l) => {
             out.synced = true;
             out.animating = draw_synced(ui, l, pui, vp, a, fr, fresh, ctx, acts);
-            CREDIT
+            format!("Lyrics: {source}")
         }
         View::Plain(l) => {
             out.animating = draw_plain(ui, l, pui, vp, a, fr, fresh, ctx.scale);
-            CREDIT_UNSYNCED
+            format!("Lyrics: {source} \u{b7} Unsynced")
         }
     };
 
@@ -587,7 +605,7 @@ fn draw_lyrics(
         out.animating = true;
     }
     if a.credit_k > 0.0 {
-        out.open_credit = draw_credit(ui, col, credit, smoothstep(a.credit_k));
+        out.open_credit = draw_credit(ui, col, &credit, smoothstep(a.credit_k));
     }
     out
 }
@@ -602,7 +620,7 @@ fn draw_status(ui: &mut Ui, vp: Rect, msg: &str, pulse: Option<f64>) {
 }
 
 /// Attribution at the bottom of the column, faded in by `alpha`; clicking it
-/// opens LRCLIB.
+/// opens the lyrics' source.
 fn draw_credit(ui: &mut Ui, col: Rect, label: &str, alpha: f32) -> bool {
     let ts = TextStyle::caption();
     let (tw, _) = ui.c.measure(label, &ts, col.w);

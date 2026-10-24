@@ -4,7 +4,7 @@
 use crate::activities::{self, Mode};
 use crate::clock;
 use crate::commands::{Command, MediaCmd};
-use crate::events::{AppEvent, EventSink, SendHwnd, WM_APP_APPBAR, WM_APP_EVENT, WM_APP_FRAME, WM_APP_TRAY};
+use crate::events::{AppEvent, AppleMusicStatus, EventSink, SendHwnd, WM_APP_APPBAR, WM_APP_EVENT, WM_APP_FRAME, WM_APP_TRAY};
 use crate::gfx::Gfx;
 use crate::icons::Icon;
 use crate::island::{Geom, Island, HIT_MARGIN, SHOULDER};
@@ -47,6 +47,9 @@ const WM_CAPTURECHANGED_: u32 = 0x0215;
 const WM_WTSSESSION_CHANGE_: u32 = 0x02B1;
 const WTS_SESSION_LOCK_: usize = 7;
 const WTS_SESSION_UNLOCK_: usize = 8;
+
+/// Steps for copying the Apple Music token (README).
+const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/poni#apple-music-lyrics";
 
 thread_local! {
     static APP: RefCell<Option<App>> = const { RefCell::new(None) };
@@ -896,6 +899,75 @@ impl App {
         self.request_frame();
     }
 
+    /// Save the Apple Music token copied from the browser (sealed with DPAPI)
+    /// and keep it off the clipboard and out of Poni's clipboard history.
+    fn use_apple_music_token(&mut self) {
+        let text = services::clipboard::read_text(self.hwnd).unwrap_or_default();
+        let Some(token) = poni_core::applemusic::clean_user_token(&text) else {
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "No Apple Music token copied", "Copy media-user-token first", 6.0, None);
+            return;
+        };
+        if let Err(e) = services::secret::save(&paths::apple_music_token_path(), &token) {
+            pwarn!("apple music: cannot save the token ({e})");
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "Couldn't save the token", "Details in poni.log", 5.0, None);
+            return;
+        }
+        pinfo!("apple music: token saved");
+        self.forget_clipboard_text(&token);
+        if let Some(s) = self.services.as_ref() {
+            s.apple_music_token_changed();
+        }
+        self.refetch_lyrics();
+        self.st.notify(Icon::Lyrics, palette::BLUE, "Checking the Apple Music token", "One moment", 4.0, None);
+    }
+
+    fn forget_apple_music_token(&mut self) {
+        if let Err(e) = services::secret::delete(&paths::apple_music_token_path()) {
+            pwarn!("apple music: cannot remove the token ({e})");
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "Couldn't remove the token", "Details in poni.log", 5.0, None);
+            return;
+        }
+        pinfo!("apple music: token removed");
+        if let Some(s) = self.services.as_ref() {
+            s.apple_music_token_changed();
+        }
+        self.refetch_lyrics();
+        self.st.notify(Icon::Lyrics, palette::BLUE, "Apple Music lyrics off", "Lyrics from LRCLIB only", 4.0, None);
+    }
+
+    fn on_apple_music(&mut self, status: AppleMusicStatus) {
+        let (color, title, subtitle) = match status {
+            AppleMusicStatus::Accepted => (palette::GREEN, "Apple Music lyrics on", "LRCLIB fills in the rest"),
+            AppleMusicStatus::Rejected => (palette::ORANGE, "Apple Music token not accepted", "Copy a fresh one from music.apple.com"),
+            AppleMusicStatus::Unreachable => (palette::ORANGE, "Can't reach Apple Music", "Token saved; trying again later"),
+            AppleMusicStatus::NoAccess => (palette::ORANGE, "No lyrics from Apple Music", "They need an Apple Music subscription"),
+        };
+        self.st.notify(Icon::Lyrics, color, title, subtitle, 6.0, None);
+    }
+
+    /// Remove history entries holding `secret` and clear the clipboard.
+    fn forget_clipboard_text(&mut self, secret: &str) {
+        let hits: Vec<usize> = self.st.clip.iter().enumerate().filter(|(_, c)| c.text.contains(secret)).map(|(i, _)| i).collect();
+        for i in hits.into_iter().rev() {
+            self.st.clip.remove(i);
+        }
+        self.st.ui.clip_flash = None;
+        self.own_clip = Some(String::new());
+        services::clipboard::set_text(self.helper, "");
+    }
+
+    /// Look up the current track's lyrics again (the sources changed).
+    fn refetch_lyrics(&mut self) {
+        if !self.st.settings.lyrics {
+            return;
+        }
+        let Some(m) = self.st.media.clone().filter(|m| !m.title.is_empty()) else { return };
+        if let Some(svc) = self.services.as_ref() {
+            self.st.lyrics = LyricsState { track_key: m.track_key.clone(), status: LyricsStatus::Loading, ..Default::default() };
+            svc.request_lyrics(&m);
+        }
+    }
+
     /// Apply side effects of a settings change (from the menu, a reload or a page).
     fn settings_changed(&mut self, before: &Settings) {
         let now = &self.st.settings;
@@ -974,6 +1046,9 @@ impl App {
             }
             OpenDataFolder => shell::open(&paths::data_dir().to_string_lossy()),
             About => shell::open("https://lrclib.net"),
+            AppleMusicToken => self.use_apple_music_token(),
+            AppleMusicHelp => shell::open(APPLE_MUSIC_HELP_URL),
+            AppleMusicForget => self.forget_apple_music_token(),
             Quit => {
                 self.quit(0);
                 return;
@@ -1126,6 +1201,7 @@ impl App {
                     self.st.clip.push(&t, self.st.unix);
                 }
             }
+            AppEvent::AppleMusic(status) => self.on_apple_music(status),
             AppEvent::Log(s) => pinfo!("{s}"),
         }
         if let Some(before) = media_before {

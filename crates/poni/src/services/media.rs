@@ -36,9 +36,10 @@ use windows::Media::Control::{
     PlaybackInfoChangedEventArgs, SessionsChangedEventArgs, TimelinePropertiesChangedEventArgs,
 };
 use windows::Storage::Streams::{DataReader, IRandomAccessStreamReference, InputStreamOptions};
-use windows::Win32::Foundation::{E_ABORT, E_FAIL, REGDB_E_CLASSNOTREG};
+use windows::Win32::Foundation::{BOOL, E_ABORT, E_FAIL, FALSE, HWND, LPARAM, REGDB_E_CLASSNOTREG, TRUE};
 use windows::Win32::System::Com::{CoInitializeEx, CoTaskMemFree, CoUninitialize, IBindCtx, COINIT_MULTITHREADED};
 use windows::Win32::UI::Shell::{IShellItem, SHCreateItemFromParsingName, SIGDN_NORMALDISPLAY};
+use windows::Win32::UI::WindowsAndMessaging::{EnumWindows, GetWindowTextLengthW, GetWindowTextW, IsWindowVisible};
 
 /// Wait this long after the first event of a burst before refreshing.
 const COALESCE: Duration = Duration::from_millis(50);
@@ -46,6 +47,9 @@ const COALESCE: Duration = Duration::from_millis(50);
 const MIN_INTERVAL: Duration = Duration::from_millis(100);
 /// Upper bound for one GSMTC async call.
 const OP_TIMEOUT: Duration = Duration::from_secs(2);
+/// A browser's window title can change a moment after the tab's media info:
+/// look for the site once more after this long.
+const SITE_RECHECK: Duration = Duration::from_millis(1500);
 /// Upper bound for creating the session manager (cold start can be slow).
 const CONNECT_TIMEOUT: Duration = Duration::from_secs(5);
 const CONNECT_RETRY_MIN: Duration = Duration::from_secs(2);
@@ -383,6 +387,8 @@ struct Worker {
     shown: Option<Shown>,
     art: ArtState,
     names: HashMap<String, String>,
+    /// The browser track whose site was already looked for a second time.
+    site_recheck: String,
 
     dirty: Dirty,
     force_timeline: bool,
@@ -409,6 +415,7 @@ impl Worker {
             shown: None,
             art: ArtState::default(),
             names: HashMap::new(),
+            site_recheck: String::new(),
             dirty: Dirty::default(),
             force_timeline: false,
             refresh_at: None,
@@ -732,7 +739,17 @@ impl Worker {
             match read_props(&session) {
                 Ok(p) => {
                     let app_id = self.sessions[i].aumid.clone();
-                    let app_name = self.app_name(&app_id);
+                    let mut app_name = self.app_name(&app_id);
+                    if nowplaying::is_browser(&app_id) {
+                        if let Some(site) = browser_site(&p.title) {
+                            app_name = site.to_string();
+                        } else if self.site_recheck != p.title {
+                            self.site_recheck = p.title.clone();
+                            self.dirty.props = true;
+                            self.dirty.any = true;
+                            self.schedule(SITE_RECHECK);
+                        }
+                    }
                     let (artist, album) = nowplaying::artist_album(&app_id, p.artist, p.album);
                     self.meta = Some(Meta { app_id, app_name, title: p.title, artist, album });
                     self.thumb = p.thumb;
@@ -1056,6 +1073,40 @@ fn timeline_differs(a: &Timeline, b: &Timeline, now: f64) -> bool {
         || (a.rate - b.rate).abs() > 0.01
         || (a.duration_s - b.duration_s).abs() > 0.5
         || (a.position_at(now) - b.position_at(now)).abs() > POSITION_TOLERANCE_S
+}
+
+/// The site a browser tab is playing ("YouTube", "YouTube Music"), judged
+/// from the titles of visible windows; `None` when no window shows the
+/// track's title next to a known site (e.g. the tab isn't the front one).
+fn browser_site(media_title: &str) -> Option<&'static str> {
+    struct Search<'a> {
+        media_title: &'a str,
+        found: Option<&'static str>,
+    }
+    unsafe extern "system" fn visit(hwnd: HWND, lp: LPARAM) -> BOOL {
+        let search = &mut *(lp.0 as *mut Search);
+        if !IsWindowVisible(hwnd).as_bool() {
+            return TRUE;
+        }
+        let len = GetWindowTextLengthW(hwnd);
+        if len <= 0 {
+            return TRUE;
+        }
+        let mut buf = vec![0u16; len as usize + 1];
+        let n = GetWindowTextW(hwnd, &mut buf).max(0) as usize;
+        let title = String::from_utf16_lossy(&buf[..n.min(buf.len())]);
+        match nowplaying::site_from_window_title(&title, search.media_title) {
+            Some(site) => {
+                search.found = Some(site);
+                FALSE
+            }
+            None => TRUE,
+        }
+    }
+    let mut search = Search { media_title, found: None };
+    // Stopping early makes EnumWindows report an error; the answer is in `search`.
+    let _ = unsafe { EnumWindows(Some(visit), LPARAM(&mut search as *mut Search as isize)) };
+    search.found
 }
 
 /// YouTube Music installed as a browser web app.

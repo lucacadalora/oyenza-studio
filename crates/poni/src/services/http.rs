@@ -15,7 +15,7 @@ use std::time::{Duration, Instant};
 use windows::core::{h, RuntimeType, HSTRING};
 use windows::Foundation::{AsyncOperationWithProgressCompletedHandler, AsyncStatus, IAsyncOperationWithProgress, Uri};
 use windows::Storage::Streams::{DataReader, IBuffer};
-use windows::Web::Http::{HttpClient, HttpResponseMessage, IHttpContent};
+use windows::Web::Http::{HttpClient, HttpMethod, HttpRequestMessage, HttpResponseMessage, IHttpContent};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_MULTITHREADED};
 
@@ -124,6 +124,26 @@ impl Client {
         let resp = wait(&op, deadline)?;
         let out = read_response(&resp, deadline);
         let _ = resp.Close();
+        out
+    }
+
+    /// GET `url` with extra request headers (`Authorization`, `Origin`, …).
+    pub fn get_with_headers(&self, url: &str, headers: &[(&str, &str)], timeout: Duration) -> Result<Response, FetchError> {
+        let deadline = Instant::now() + timeout;
+        let uri = Uri::CreateUri(&HSTRING::from(url)).map_err(|e| other("invalid URL", &e))?;
+        let method = HttpMethod::Get().map_err(|e| other("could not create a request", &e))?;
+        let request = HttpRequestMessage::Create(&method, &uri).map_err(|e| other("could not create a request", &e))?;
+        let request_headers = request.Headers().map_err(|e| other("could not set request headers", &e))?;
+        for (name, value) in headers {
+            if !request_headers.TryAppendWithoutValidation(&HSTRING::from(*name), &HSTRING::from(*value)).unwrap_or(false) {
+                return Err(FetchError::Other(format!("could not set the {name} header")));
+            }
+        }
+        let op = self.http.SendRequestAsync(&request).map_err(classify)?;
+        let resp = wait(&op, deadline)?;
+        let out = read_response(&resp, deadline);
+        let _ = resp.Close();
+        let _ = request.Close();
         out
     }
 }

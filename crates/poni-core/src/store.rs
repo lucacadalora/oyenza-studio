@@ -227,15 +227,24 @@ pub fn write_json_atomic<T: Serialize>(path: &Path, value: &T) -> io::Result<()>
     write_json(path, value, false)
 }
 
+/// Write raw `bytes` to `path` atomically (temp file + rename), no backup.
+pub fn write_bytes_atomic(path: &Path, bytes: &[u8]) -> io::Result<()> {
+    write_atomic(path, bytes, false)
+}
+
 fn write_json<T: Serialize>(path: &Path, value: &T, backup: bool) -> io::Result<()> {
+    let json = serde_json::to_vec_pretty(value).map_err(io::Error::other)?;
+    write_atomic(path, &json, backup)
+}
+
+fn write_atomic(path: &Path, bytes: &[u8], backup: bool) -> io::Result<()> {
     if let Some(dir) = path.parent() {
         if !dir.as_os_str().is_empty() {
             fs::create_dir_all(dir)?;
         }
     }
-    let json = serde_json::to_vec_pretty(value).map_err(io::Error::other)?;
     let tmp = tmp_path(path);
-    if let Err(e) = write_synced(&tmp, &json) {
+    if let Err(e) = write_synced(&tmp, bytes) {
         let _ = fs::remove_file(&tmp);
         return Err(e);
     }

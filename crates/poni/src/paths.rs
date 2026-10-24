@@ -41,3 +41,14 @@ pub fn log_path() -> PathBuf {
 pub fn lyrics_cache_dir() -> PathBuf {
     cache_dir().join("lyrics")
 }
+
+/// The user's Apple Music token, sealed with DPAPI (never roams; uninstalling
+/// removes it with the cache).
+pub fn apple_music_token_path() -> PathBuf {
+    cache_dir().join("apple-music-token.bin")
+}
+
+/// The Apple Music web player's (public) developer token, cached until it expires.
+pub fn apple_music_web_token_path() -> PathBuf {
+    cache_dir().join("apple-music-web.json")
+}

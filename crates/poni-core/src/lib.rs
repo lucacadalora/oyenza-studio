@@ -4,6 +4,7 @@
 //! any machine. The Windows crate (`poni`) owns all I/O and rendering and
 //! feeds clocks/dates into these types.
 
+pub mod applemusic;
 pub mod cliphist;
 pub mod datetime;
 pub mod geom;
@@ -18,5 +19,6 @@ pub mod store;
 pub mod svgpath;
 pub mod timeline;
 pub mod todo;
+pub mod ttml;
 pub mod urlenc;
 pub mod water;

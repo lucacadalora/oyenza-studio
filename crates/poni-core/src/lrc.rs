@@ -31,6 +31,11 @@ impl Lyrics {
         self.lines.iter().all(|l| l.text.trim().is_empty())
     }
 
+    /// Number of lines with text (blank stanza breaks don't count).
+    pub fn text_lines(&self) -> usize {
+        self.lines.iter().filter(|l| !l.text.trim().is_empty()).count()
+    }
+
     /// Index of the line active at `t` seconds: the last line whose time is
     /// `<= t`. `None` before the first line or for unsynced lyrics.
     pub fn line_index_at(&self, t: f64) -> Option<usize> {

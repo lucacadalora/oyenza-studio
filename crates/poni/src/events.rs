@@ -55,6 +55,19 @@ impl EventSink {
     }
 }
 
+/// What Apple Music said about the user's token.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AppleMusicStatus {
+    /// The token works; Apple's synced lyrics come first from now on.
+    Accepted,
+    /// Apple refuses the token (expired, signed out, copied wrong).
+    Rejected,
+    /// Apple couldn't be reached to check; lookups will try again.
+    Unreachable,
+    /// The token works, but the account gets no lyrics (no subscription?).
+    NoAccess,
+}
+
 #[derive(Clone, Debug)]
 pub enum LyricsResult {
     Found { lyrics: Lyrics, source: String },
@@ -72,6 +85,8 @@ pub enum AppEvent {
     /// Album art finished decoding for a track.
     MediaArt { track_key: String, art: Option<Image> },
     Lyrics { track_key: String, result: LyricsResult },
+    /// The outcome of checking or using the user's Apple Music token.
+    AppleMusic(AppleMusicStatus),
     /// Master volume changed (0..=1).
     Volume { level: f32, muted: bool },
     Power(PowerState),

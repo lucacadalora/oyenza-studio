@@ -28,7 +28,7 @@ Native Rust, no web view, no runtime, around 1.6 MB, and **zero CPU while nothin
 
 | Page | |
 |---|---|
-| **Music** | Controls for whatever is playing (Spotify, browsers, any app in Windows' media controls), with time-synced lyrics from [LRCLIB](https://lrclib.net) |
+| **Music** | Controls for whatever is playing (Spotify, Apple Music, YouTube in your browser, any app in Windows' media controls), with time-synced lyrics from [LRCLIB](https://lrclib.net), or Apple Music's own lyrics if you add [your Apple Music token](#apple-music-lyrics) |
 | **Focus** | A Pomodoro timer that keeps counting in the island |
 | **Water** | A daily goal, one-tap logging, a week of history and gentle reminders |
 | **Shelf** | Drop files on the island to keep them handy; click to open or drag them back out |
@@ -57,6 +57,20 @@ Right-click the island or the tray icon for options:
 Builds aren't code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info → Run anyway**.
 
 Your data lives in `%APPDATA%\Poni\`, and cache plus log in `%LOCALAPPDATA%\Poni\`. Uninstalling removes the app, cache and log, and keeps your data.
+
+## Apple Music lyrics
+
+Lyrics come from LRCLIB by default. With an Apple Music subscription, Oyen Poni can show Apple Music's own synced lyrics instead: the ones the Apple Music app shows. This works whichever app is playing. LRCLIB stays the backup for songs Apple has no synced lyrics for.
+
+It needs your Apple Music token, copied once from the web player:
+
+1. Open [music.apple.com](https://music.apple.com) in Chrome or Edge and sign in.
+2. Press F12, open **Application** → **Cookies** → `https://music.apple.com`, and copy the value of `media-user-token`.
+3. Right-click the island (or the tray icon) → **Apple Music lyrics** → **Use token from clipboard**.
+
+Oyen Poni checks the token with Apple and says whether it worked. It stores the token encrypted for your Windows account (`%LOCALAPPDATA%\Poni\apple-music-token.bin`) and clears it from the clipboard. If Windows clipboard history (Win+V) is on, delete it there too. A token lasts for months; when Apple stops accepting it, Oyen Poni says so and you copy a fresh one. **Remove token** in the same menu turns this off.
+
+With a token saved, Oyen Poni sends each song's title and artist to Apple to find its lyrics. It uses the Apple Music web player's own API, which Apple doesn't publish for other apps, so it can stop working when Apple changes its site. LRCLIB keeps working either way.
 
 ## Build
 
@@ -102,6 +116,7 @@ Early, but in daily use on Windows 11. Most rough edges are in places a test mac
 ## Credits
 
 - Synced lyrics come from [LRCLIB](https://lrclib.net), a free and open lyrics database. Oyen Poni fetches them only while a song plays and caches them on your PC.
+- With your token, lyrics can also come from [Apple Music](https://music.apple.com) (see [Apple Music lyrics](#apple-music-lyrics)).
 - Built with [windows-rs](https://github.com/microsoft/windows-rs) and [serde](https://serde.rs).
 
 ## License

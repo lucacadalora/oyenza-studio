@@ -13,6 +13,37 @@ pub fn is_apple_music(app_id: &str) -> bool {
     app_id.to_ascii_lowercase().contains("applemusic")
 }
 
+/// Whether `app_id` is a web browser (its tabs report video titles with the
+/// channel as artist). Web apps installed from a browser (`…_crx_…`, e.g.
+/// YouTube Music) report proper metadata and don't count.
+pub fn is_browser(app_id: &str) -> bool {
+    let id = app_id.trim().to_ascii_lowercase();
+    if id.contains("_crx_") {
+        return false;
+    }
+    // Firefox registers a 16-hex-digit hash of its install path.
+    let firefox_hash = id.len() == 16 && id.bytes().all(|b| b.is_ascii_hexdigit());
+    firefox_hash || ["chrome", "msedge", "microsoftedge", "brave", "opera", "firefox", "vivaldi"].iter().any(|b| id.contains(b))
+}
+
+/// The site a browser tab is playing, judged from the browser window's title
+/// ("Paper Boats - YouTube - Google Chrome"); Windows' media controls only
+/// name the browser. Only a window that also shows `media_title` counts, so
+/// another window with YouTube open doesn't label unrelated audio.
+pub fn site_from_window_title(window_title: &str, media_title: &str) -> Option<&'static str> {
+    let media_title = media_title.trim();
+    if media_title.is_empty() || !window_title.contains(media_title) {
+        return None;
+    }
+    if window_title.contains(" - YouTube Music") {
+        Some("YouTube Music")
+    } else if window_title.contains(" - YouTube") {
+        Some("YouTube")
+    } else {
+        None
+    }
+}
+
 /// The artist and album to use for a track reported by `app_id`.
 pub fn artist_album(app_id: &str, artist: String, album: String) -> (String, String) {
     if !is_apple_music(app_id) {
@@ -49,6 +80,31 @@ mod tests {
         assert!(is_apple_music("AppleMusic.exe"));
         assert!(!is_apple_music("Spotify.exe"));
         assert!(!is_apple_music("MSEdge"));
+    }
+
+    #[test]
+    fn recognises_browsers() {
+        for id in ["Chrome", "MSEdge", "308046B0AF4A39CB", "Brave", "Opera", "C:\\Apps\\Vivaldi\\vivaldi.exe"] {
+            assert!(is_browser(id), "{id}");
+        }
+        for id in [APPLE, "Spotify.exe", "Chrome._crx_cinhimbnkkaeohfgghhklpknlkffjgod", "Microsoft.ZuneMusic_8wekyb3d8bbwe!Microsoft.ZuneMusic"] {
+            assert!(!is_browser(id), "{id}");
+        }
+    }
+
+    #[test]
+    fn names_the_site_from_the_window_title() {
+        let t = "The Lanterns - Paper Boats (Official Video)";
+        assert_eq!(site_from_window_title(&format!("(2) {t} - YouTube - Google Chrome"), t), Some("YouTube"));
+        assert_eq!(
+            site_from_window_title(&format!("{t} - YouTube and 3 more pages - Personal - Microsoft\u{200b} Edge"), t),
+            Some("YouTube")
+        );
+        assert_eq!(site_from_window_title("Paper Boats - YouTube Music - Google Chrome", "Paper Boats"), Some("YouTube Music"));
+        // Another tab or site in front, or no title to compare.
+        assert_eq!(site_from_window_title("Other Video - YouTube - Google Chrome", t), None);
+        assert_eq!(site_from_window_title(&format!("{t} - Vimeo - Google Chrome"), t), None);
+        assert_eq!(site_from_window_title("Something - YouTube - Google Chrome", " "), None);
     }
 
     #[test]

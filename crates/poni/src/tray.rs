@@ -57,6 +57,9 @@ pub enum MenuCmd {
     ReloadSettings,
     OpenDataFolder,
     About,
+    AppleMusicToken,
+    AppleMusicHelp,
+    AppleMusicForget,
     Quit,
 }
 
@@ -85,6 +88,7 @@ pub fn menu_items(s: &Settings, pinned: bool) -> Vec<MenuItem> {
         },
         MenuItem::Separator,
         item("Synced lyrics", MenuCmd::ToggleLyrics, s.lyrics),
+        apple_music_menu(),
         item("Water reminders", MenuCmd::ToggleWater, s.water.enabled),
         item("Clipboard history", MenuCmd::ToggleClipboard, s.clipboard_history),
         item("Sounds", MenuCmd::ToggleSounds, s.sounds),
@@ -98,6 +102,20 @@ pub fn menu_items(s: &Settings, pinned: bool) -> Vec<MenuItem> {
         MenuItem::Separator,
         item("Quit Poni", MenuCmd::Quit, false),
     ]
+}
+
+/// Opt-in lyrics from Apple Music with the user's own token.
+fn apple_music_menu() -> MenuItem {
+    let on = crate::paths::apple_music_token_path().exists();
+    let mut items = vec![
+        item("Use token from clipboard", MenuCmd::AppleMusicToken, false),
+        item("How to get the token", MenuCmd::AppleMusicHelp, false),
+    ];
+    if on {
+        items.push(MenuItem::Separator);
+        items.push(item("Remove token", MenuCmd::AppleMusicForget, false));
+    }
+    MenuItem::Sub { label: if on { "Apple Music lyrics: on".into() } else { "Apple Music lyrics".into() }, items }
 }
 
 fn build(menu: HMENU, items: &[MenuItem], cmds: &mut Vec<MenuCmd>) {
@@ -141,7 +159,7 @@ pub fn show_menu(owner: HWND, pt: POINT, items: &[MenuItem]) -> Option<MenuCmd> 
         let _ = DestroyMenu(menu);
         let idx = chosen.0 as usize;
         let cmd = if idx == 0 { None } else { cmds.get(idx - 1).copied() };
-        let launches = matches!(cmd, Some(MenuCmd::OpenSettings | MenuCmd::OpenDataFolder | MenuCmd::About));
+        let launches = matches!(cmd, Some(MenuCmd::OpenSettings | MenuCmd::OpenDataFolder | MenuCmd::About | MenuCmd::AppleMusicHelp));
         if !launches && !prev.is_invalid() && prev != owner && IsWindow(prev).as_bool() && GetForegroundWindow() == owner {
             let _ = SetForegroundWindow(prev);
         }

@@ -9,7 +9,7 @@ Water, Shelf, Tasks, Clipboard, Today).
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, player metadata fix-ups, Pomodoro, water log, tasks, shelf, clipboard history, settings, JSON store, SVG path parser. **No OS calls.** | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), player metadata fix-ups, Pomodoro, water log, tasks, shelf, clipboard history, settings, JSON store, SVG path parser. **No OS calls.** | any OS (`cargo test -p poni-core`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 
 ## Threads and data flow
@@ -109,7 +109,9 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 
 * Settings: `%APPDATA%\Poni\settings.json` (created with defaults; tray → "Open settings file").
 * Data (tasks, water log, shelf, focus stats): `%APPDATA%\Poni\data.json`.
-* Cache + log: `%LOCALAPPDATA%\Poni\` (`lyrics\*.json`, `poni.log`).
+* Cache + log: `%LOCALAPPDATA%\Poni\` (`lyrics\*.json`, `poni.log`), plus the Apple Music
+  token sealed with DPAPI (`apple-music-token.bin`) and the web player's public
+  developer token (`apple-music-web.json`).
 * `PONI_HOME` overrides both (the self-test uses it).
 * Clipboard history is memory-only and skips content marked
   `ExcludeClipboardContentFromMonitorProcessing` / `CanIncludeInClipboardHistory=0`

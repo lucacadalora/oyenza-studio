@@ -1,4 +1,5 @@
-//! Synced lyrics from LRCLIB (https://lrclib.net) with a disk cache.
+//! Synced lyrics from LRCLIB (https://lrclib.net), and from Apple Music when
+//! the user saved their Apple Music token, with a disk cache.
 //!
 //! LRCLIB is a free, open lyrics database (no key). One worker thread does
 //! all the work; [`LyricsService::request`] only swaps the queued job and
@@ -8,30 +9,41 @@
 //!
 //! Lookup for a track:
 //! 1. clean the metadata (`lrclib::normalize_query`);
-//! 2. the disk cache `lyrics\<cache_key>.json` (hits, and misses for 3 days);
-//! 3. `/api/get` with title, artist, album and duration;
-//! 4. `/api/get` without the album;
-//! 5. `/api/search` by title + primary artist, then `lrclib::best_match`
-//!    (also after a 5xx from `/api/get`; a miss then is retried, not cached).
+//! 2. with an Apple Music token: the cache `lyrics\am-<cache_key>.json`, then
+//!    Apple's own synced lyrics (`services::applemusic`); anything short of
+//!    synced lyrics from Apple falls through to LRCLIB;
+//! 3. the disk cache `lyrics\<cache_key>.json` (hits, and misses for 3 days);
+//! 4. `/api/get` with title, artist, album and duration;
+//! 5. `/api/get` without the album;
+//! 6. `/api/search` by title + primary artist, then `lrclib::best_match`
+//!    (also after a 5xx from `/api/get`; a miss then is retried, not cached);
+//! 7. for a browser tab, `/api/search` once more reading the title as
+//!    "Artist - Song" (`lrclib::artist_song_guess`).
+//!
+//! Synced lyrics whose recording is much longer or shorter than what plays
+//! (a music video's intro, a radio edit) are shown unsynced.
 //!
 //! Politeness: at least 1 s between requests, `429 Retry-After` honoured for
 //! every later request, a descriptive User-Agent, and at most a couple of
 //! delayed retries after network errors.
 
-use crate::events::{AppEvent, EventSink, LyricsResult};
+use crate::events::{AppEvent, AppleMusicStatus, EventSink, LyricsResult};
+use crate::services::applemusic::{AppleMusic, Check, Miss};
 use crate::services::http::{self, Client, FetchError, MtaGuard};
 use crate::state::MediaSession;
 use poni_core::lrclib::{self, LrclibRecord, TrackQuery};
+use poni_core::nowplaying;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
 
-use pure::{duration_secs, is_fresh, lyrics_from_record, prune_victims, retry_delay, usable, CacheEntry};
+use pure::{duration_secs, is_fresh, lyrics_for, prune_victims, retry_delay, usable, CacheEntry};
 
 const USER_AGENT: &str = "Poni/0.1 (+https://github.com/lucacadalora/poni)";
 const SOURCE: &str = "LRCLIB";
+const APPLE_SOURCE: &str = "Apple Music";
 /// Minimum gap between two requests to LRCLIB.
 const MIN_GAP: Duration = Duration::from_secs(1);
 /// 429 without a usable `Retry-After`.
@@ -76,6 +88,7 @@ impl LyricsService {
                 album: s.album.clone(),
                 duration_s: duration_secs(s.timeline.duration_s),
             },
+            browser: nowplaying::is_browser(&s.app_id),
             attempt: 0,
         };
         {
@@ -84,6 +97,13 @@ impl LyricsService {
             q.pending = Some(job);
             q.retry = None;
         }
+        self.shared.cv.notify_all();
+    }
+
+    /// The Apple Music token on disk was saved or removed: the worker reloads
+    /// it, checks it with Apple and reports `AppEvent::AppleMusic`.
+    pub fn apple_token_changed(&self) {
+        self.shared.lock().apple_changed = true;
         self.shared.cv.notify_all();
     }
 }
@@ -103,8 +123,17 @@ impl Drop for LyricsService {
 struct Job {
     track_key: String,
     query: TrackQuery,
+    /// A browser tab: the title is a video title ("Artist - Song").
+    browser: bool,
     /// 0 for a fresh request, n for the n-th delayed retry.
     attempt: u32,
+}
+
+/// What the worker should do next.
+enum Work {
+    Lookup(Job),
+    /// Reload and check the Apple Music token.
+    AppleToken,
 }
 
 #[derive(Default)]
@@ -115,6 +144,8 @@ struct Queue {
     retry: Option<(Instant, Job)>,
     /// Track key of the newest request; anything else is stale.
     newest_key: String,
+    /// The Apple Music token was saved or removed (handled before any job).
+    apple_changed: bool,
     shutdown: bool,
 }
 
@@ -162,9 +193,13 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink) {
     let _com = MtaGuard::new();
     let cache_dir = crate::paths::lyrics_cache_dir();
     prune_cache(&cache_dir);
-    let mut w = Worker { shared, sink, cache_dir, client: None, last_request: None, blocked_until: None, writes: 0 };
-    while let Some(job) = w.next_job() {
-        w.process(job);
+    let apple = AppleMusic::new();
+    let mut w = Worker { shared, sink, cache_dir, apple, client: None, last_request: None, blocked_until: None, writes: 0 };
+    while let Some(work) = w.next_job() {
+        match work {
+            Work::Lookup(job) => w.process(job),
+            Work::AppleToken => w.apple_token_changed(),
+        }
     }
 }
 
@@ -172,6 +207,7 @@ struct Worker {
     shared: Arc<Shared>,
     sink: EventSink,
     cache_dir: PathBuf,
+    apple: AppleMusic,
     /// Created on first use; reused so connections are pooled.
     client: Option<Client>,
     /// When the last request to LRCLIB finished.
@@ -183,21 +219,25 @@ struct Worker {
 }
 
 impl Worker {
-    /// Sleep until a job is queued or a delayed retry is due; `None` on shutdown.
-    fn next_job(&self) -> Option<Job> {
+    /// Sleep until there is work: a changed Apple Music token first, then a
+    /// queued job or a delayed retry that is due; `None` on shutdown.
+    fn next_job(&self) -> Option<Work> {
         let mut q = self.shared.lock();
         loop {
             if q.shutdown {
                 return None;
             }
+            if std::mem::take(&mut q.apple_changed) {
+                return Some(Work::AppleToken);
+            }
             if let Some(job) = q.pending.take() {
-                return Some(job);
+                return Some(Work::Lookup(job));
             }
             let timeout = match &q.retry {
                 Some((at, _)) => {
                     let now = Instant::now();
                     if *at <= now {
-                        return q.retry.take().map(|(_, job)| job);
+                        return q.retry.take().map(|(_, job)| Work::Lookup(job));
                     }
                     Some(*at - now)
                 }
@@ -244,21 +284,87 @@ impl Worker {
         // now, so no notify is needed.
     }
 
+    /// The user saved or removed their Apple Music token: reload it and tell
+    /// the UI whether Apple accepts it.
+    fn apple_token_changed(&mut self) {
+        self.apple.reload_token();
+        if !self.apple.has_token() {
+            return;
+        }
+        let shared = self.shared.clone();
+        let live = move || !shared.lock().shutdown;
+        let status = match self.apple.check(&live) {
+            Check::Accepted => AppleMusicStatus::Accepted,
+            Check::Rejected => AppleMusicStatus::Rejected,
+            Check::Unreachable => AppleMusicStatus::Unreachable,
+        };
+        self.sink.send(AppEvent::AppleMusic(status));
+    }
+
     fn lookup(&mut self, job: &Job) -> Result<LyricsResult, Halt> {
         let q = lrclib::normalize_query(&job.query);
         if q.title.trim().is_empty() {
             // Nothing to search for; answer so the UI doesn't sit on "loading".
             return Ok(LyricsResult::NotFound);
         }
-        let key = lrclib::cache_key(&q);
+        if self.apple.enabled() {
+            if let Some(result) = self.lookup_apple(job, &q)? {
+                return Ok(result);
+            }
+        }
+        self.lookup_lrclib(job, &q)
+    }
+
+    /// Apple Music's synced lyrics; `Ok(None)` hands the song to LRCLIB.
+    fn lookup_apple(&mut self, job: &Job, q: &TrackQuery) -> Result<Option<LyricsResult>, Halt> {
+        let key = format!("am-{}", lrclib::cache_key(q));
         let path = self.cache_dir.join(format!("{key}.json"));
         let cached = read_cache(&path);
         if let Some(entry) = &cached {
             if is_fresh(entry, crate::clock::unix_now()) {
-                return Ok(to_result(entry.record.as_ref()));
+                return Ok(entry.record.as_ref().map(|r| to_result(Some(r), job, APPLE_SOURCE)));
             }
         }
-        match self.fetch(job, &q) {
+        let (shared, track_key) = (self.shared.clone(), job.track_key.clone());
+        let live = move || {
+            let q = shared.lock();
+            !q.shutdown && q.newest_key == track_key
+        };
+        match self.apple.find(q, &live) {
+            Ok(Some(record)) => {
+                crate::pinfo!("lyrics {key}: synced");
+                self.store(&path, &CacheEntry::new(Some(record.clone()), crate::clock::unix_now()));
+                Ok(Some(to_result(Some(&record), job, APPLE_SOURCE)))
+            }
+            Ok(None) => {
+                crate::pinfo!("lyrics {key}: no synced lyrics on Apple Music");
+                self.store(&path, &CacheEntry::new(None, crate::clock::unix_now()));
+                Ok(None)
+            }
+            Err(Miss::Abandoned) => Err(Halt::Abandoned),
+            Err(miss) => {
+                match miss {
+                    Miss::Rejected => self.sink.send(AppEvent::AppleMusic(AppleMusicStatus::Rejected)),
+                    Miss::NoAccess => self.sink.send(AppEvent::AppleMusic(AppleMusicStatus::NoAccess)),
+                    Miss::Unreachable(why) => crate::pwarn!("lyrics: Apple Music unavailable ({why}); asking LRCLIB"),
+                    Miss::Abandoned => {}
+                }
+                // An expired hit still beats asking LRCLIB.
+                Ok(cached.as_ref().and_then(|e| e.record.as_ref()).map(|r| to_result(Some(r), job, APPLE_SOURCE)))
+            }
+        }
+    }
+
+    fn lookup_lrclib(&mut self, job: &Job, q: &TrackQuery) -> Result<LyricsResult, Halt> {
+        let key = lrclib::cache_key(q);
+        let path = self.cache_dir.join(format!("{key}.json"));
+        let cached = read_cache(&path);
+        if let Some(entry) = &cached {
+            if is_fresh(entry, crate::clock::unix_now()) {
+                return Ok(to_result(entry.record.as_ref(), job, SOURCE));
+            }
+        }
+        match self.fetch(job, q) {
             Ok(Fetched::Found(record)) => {
                 crate::pinfo!(
                     "lyrics {key}: {}",
@@ -271,7 +377,7 @@ impl Worker {
                     }
                 );
                 self.store(&path, &CacheEntry::new(Some(record.clone()), crate::clock::unix_now()));
-                Ok(to_result(Some(&record)))
+                Ok(to_result(Some(&record), job, SOURCE))
             }
             Ok(Fetched::Missing) => {
                 crate::pinfo!("lyrics {key}: not on LRCLIB");
@@ -280,7 +386,7 @@ impl Worker {
             }
             Err(Halt::Failed { msg, retry_at }) => match cached.as_ref().and_then(|e| e.record.as_ref()) {
                 // An expired hit beats an error.
-                Some(record) => Ok(to_result(Some(record))),
+                Some(record) => Ok(to_result(Some(record), job, SOURCE)),
                 None => Err(Halt::Failed { msg, retry_at }),
             },
             Err(Halt::Abandoned) => Err(Halt::Abandoned),
@@ -330,6 +436,23 @@ impl Worker {
                 }
             }
         }
+        if let Some(record) = self.search(job, q)? {
+            return Ok(Fetched::Found(record));
+        }
+        // A browser tab whose channel isn't the artist (a lyric-video
+        // channel): read the title as "Artist - Song" and search again.
+        if job.browser {
+            if let Some(guess) = lrclib::artist_song_guess(q) {
+                if let Some(record) = self.search(job, &guess)? {
+                    return Ok(Fetched::Found(record));
+                }
+            }
+        }
+        get_failed.map_or(Ok(Fetched::Missing), Err)
+    }
+
+    /// `/api/search` by title + primary artist; the best usable match.
+    fn search(&mut self, job: &Job, q: &TrackQuery) -> Result<Option<LrclibRecord>, Halt> {
         let search = TrackQuery {
             title: q.title.clone(),
             artist: lrclib::primary_artist(&q.artist),
@@ -339,13 +462,10 @@ impl Worker {
         let resp = self.call(job, &lrclib::search_url(&search))?;
         match resp.status {
             200 => match lrclib::parse_search(&resp.body) {
-                Ok(records) => match lrclib::best_match(&records, q) {
-                    Some(r) if usable(r) => Ok(Fetched::Found(r.clone())),
-                    _ => get_failed.map_or(Ok(Fetched::Missing), Err),
-                },
+                Ok(records) => Ok(lrclib::best_match(&records, q).filter(|r| usable(r)).cloned()),
                 Err(e) => Err(self.bad_reply(job, "/api/search", &e)),
             },
-            400 | 404 => get_failed.map_or(Ok(Fetched::Missing), Err),
+            400 | 404 => Ok(None),
             s => Err(self.http_error(job, s)),
         }
     }
@@ -436,12 +556,12 @@ impl Worker {
     }
 }
 
-fn to_result(record: Option<&LrclibRecord>) -> LyricsResult {
+fn to_result(record: Option<&LrclibRecord>, job: &Job, source: &str) -> LyricsResult {
     if record.is_some_and(|r| r.instrumental) {
         return LyricsResult::Instrumental;
     }
-    match record.and_then(lyrics_from_record) {
-        Some(lyrics) => LyricsResult::Found { lyrics, source: SOURCE.into() },
+    match record.and_then(|r| lyrics_for(r, job.query.duration_s)) {
+        Some(lyrics) => LyricsResult::Found { lyrics, source: source.into() },
         None => LyricsResult::NotFound,
     }
 }
@@ -507,8 +627,8 @@ fn prune_cache(dir: &Path) {
 
 /// OS-free helpers (unit-tested on any host).
 mod pure {
-    use poni_core::lrc::{parse_lrc, Lyrics};
-    use poni_core::lrclib::LrclibRecord;
+    use poni_core::lrc::{parse_lrc, LyricLine, Lyrics};
+    use poni_core::lrclib::{timing_fits, LrclibRecord, MIN_LINES};
     use serde::{Deserialize, Serialize};
     use std::path::PathBuf;
     use std::time::{Duration, SystemTime};
@@ -562,25 +682,45 @@ mod pure {
     }
 
     /// The lyrics to show for a record: synced when available, else plain.
-    /// `None` for instrumentals and records without any text.
+    /// `None` for instrumentals and records without real text (fewer than
+    /// `MIN_LINES` lines: a title, a lone "♪").
     pub fn lyrics_from_record(r: &LrclibRecord) -> Option<Lyrics> {
         if r.instrumental {
             return None;
         }
         let synced = r.synced_lyrics.as_deref().filter(|s| !s.trim().is_empty()).map(parse_lrc);
         if let Some(l) = &synced {
-            if l.synced && !l.is_empty() {
+            if l.synced && l.text_lines() >= MIN_LINES {
                 return synced;
             }
         }
         if let Some(text) = r.plain_lyrics.as_deref().filter(|s| !s.trim().is_empty()) {
             let l = trim_blank_edges(Lyrics::plain(text));
-            if !l.is_empty() {
+            if l.text_lines() >= MIN_LINES {
                 return Some(l);
             }
         }
         // "Synced" text without usable timestamps still reads as plain lyrics.
-        synced.map(trim_blank_edges).filter(|l| !l.is_empty())
+        synced.map(trim_blank_edges).filter(|l| l.text_lines() >= MIN_LINES)
+    }
+
+    /// The lyrics to show while a `playing_s`-second track plays. Synced
+    /// lyrics stay synced only when the record is about as long; otherwise
+    /// (a music video's intro, a radio edit) they would light up the wrong
+    /// lines, so they're shown unsynced.
+    pub fn lyrics_for(r: &LrclibRecord, playing_s: u32) -> Option<Lyrics> {
+        let l = lyrics_from_record(r)?;
+        if !l.synced || timing_fits(r.duration, playing_s) {
+            return Some(l);
+        }
+        if let Some(text) = r.plain_lyrics.as_deref() {
+            let plain = trim_blank_edges(Lyrics::plain(text));
+            if plain.text_lines() >= MIN_LINES {
+                return Some(plain);
+            }
+        }
+        let lines = l.lines.into_iter().map(|x| LyricLine { time_s: 0.0, text: x.text }).collect();
+        Some(trim_blank_edges(Lyrics { lines, synced: false }))
     }
 
     /// Drop blank rows at the start and end of unsynced lyrics (blank rows
@@ -639,37 +779,62 @@ mod pure {
             }
         }
 
+        const SYNCED: &str = "[00:01.00]first row\n[00:04.50]second row\n[00:08.00]third row\n[00:12.00]fourth row\n";
+        const PLAIN: &str = "first row\nsecond row\nthird row\nfourth row";
+
         #[test]
         fn prefers_synced_then_plain() {
-            let r = rec(Some("[00:01.00]first row\n[00:04.50]second row\n"), Some("first row\nsecond row"), false);
+            let r = rec(Some(SYNCED), Some(PLAIN), false);
             let l = lyrics_from_record(&r).unwrap();
             assert!(l.synced);
-            assert_eq!(l.lines.len(), 2);
+            assert_eq!(l.lines.len(), 4);
             assert!((l.lines[1].time_s - 4.5).abs() < 1e-9);
 
-            let r = rec(None, Some("\n\nfirst row\n\nsecond row\n\n"), false);
+            let r = rec(None, Some("\n\nfirst row\n\nsecond row\nthird row\nfourth row\n\n"), false);
             let l = lyrics_from_record(&r).unwrap();
             assert!(!l.synced);
             let rows: Vec<&str> = l.lines.iter().map(|x| x.text.as_str()).collect();
-            assert_eq!(rows, vec!["first row", "", "second row"]);
+            assert_eq!(rows, vec!["first row", "", "second row", "third row", "fourth row"]);
 
-            // Blank synced text falls back to plain.
-            let r = rec(Some("   "), Some("only row"), false);
+            // Blank or stub synced text falls back to plain.
+            let r = rec(Some("   "), Some(PLAIN), false);
+            assert!(!lyrics_from_record(&r).unwrap().synced);
+            let r = rec(Some("[00:00.00]Paper Boats"), Some(PLAIN), false);
             assert!(!lyrics_from_record(&r).unwrap().synced);
             // "Synced" text without timestamps still shows as plain lyrics.
-            let r = rec(Some("untimed row"), None, false);
+            let r = rec(Some(PLAIN), None, false);
             let l = lyrics_from_record(&r).unwrap();
             assert!(!l.synced);
-            assert_eq!(l.lines[0].text, "untimed row");
+            assert_eq!(l.lines[0].text, "first row");
         }
 
         #[test]
-        fn instrumental_and_empty_records_have_no_lyrics() {
-            assert!(lyrics_from_record(&rec(Some("[00:01.00]x"), None, true)).is_none());
+        fn instrumental_empty_and_stub_records_have_no_lyrics() {
+            assert!(lyrics_from_record(&rec(Some(SYNCED), None, true)).is_none());
             assert!(usable(&rec(None, None, true)));
             assert!(lyrics_from_record(&rec(None, None, false)).is_none());
             assert!(!usable(&rec(None, Some("  \n "), false)));
-            assert!(usable(&rec(None, Some("row"), false)));
+            assert!(usable(&rec(None, Some(PLAIN), false)));
+            // Fewer than MIN_LINES lines of text: a stub, not lyrics.
+            assert!(!usable(&rec(None, Some("only row"), false)));
+            assert!(!usable(&rec(Some("[00:00.00]Paper Boats"), None, false)));
+        }
+
+        #[test]
+        fn synced_only_when_the_lengths_match() {
+            // rec() is 201 s long.
+            let r = rec(Some(SYNCED), Some(PLAIN), false);
+            assert!(lyrics_for(&r, 203).unwrap().synced);
+            assert!(lyrics_for(&r, 0).unwrap().synced);
+            // A music video 40 s longer: the plain text, unsynced.
+            let l = lyrics_for(&r, 241).unwrap();
+            assert!(!l.synced);
+            assert_eq!(l.lines.len(), 4);
+            // Without plain text, the synced rows lose their times.
+            let l = lyrics_for(&rec(Some(SYNCED), None, false), 160).unwrap();
+            assert!(!l.synced);
+            assert!(l.lines.iter().all(|x| x.time_s == 0.0));
+            assert_eq!(l.lines[3].text, "fourth row");
         }
 
         #[test]

@@ -1,6 +1,7 @@
 //! Background services. Each one reports to the UI thread through an
 //! [`EventSink`]; a failing service is logged and skipped, never fatal.
 
+pub mod applemusic;
 pub mod audio;
 pub mod bluetooth;
 pub mod clipboard;
@@ -10,6 +11,7 @@ pub mod imaging;
 pub mod lyrics;
 pub mod media;
 pub mod power;
+pub mod secret;
 pub mod sound;
 pub mod sysstats;
 
@@ -85,6 +87,13 @@ impl Services {
     pub fn request_lyrics(&self, s: &MediaSession) {
         if let Some(l) = &self.lyrics {
             l.request(s);
+        }
+    }
+
+    /// The Apple Music token on disk was saved or removed.
+    pub fn apple_music_token_changed(&self) {
+        if let Some(l) = &self.lyrics {
+            l.apple_token_changed();
         }
     }
 
