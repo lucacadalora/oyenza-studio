@@ -139,14 +139,15 @@ pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
 /// Particles that end in the topic particle は, which analyzers can hand back as one word.
 const TOPIC_PARTICLES: &[&str] = &["には", "では", "とは", "へは", "からは", "までは", "よりは", "のは", "ては"];
 
-/// `words` with a final topic particle は split off where it ends a word: particles like
-/// には and では (Windows' analyzer returns them whole) and words with kanji like 本当は
-/// (one word in the dictionaries). The は then reads "wa" like any other.
+/// `words` with a final topic particle は split off where it ends a word: words that end
+/// in a particle like には or では (Windows' analyzer returns them whole, and それでは too)
+/// and words with kanji like 本当は (one word in the dictionaries). The は then reads "wa"
+/// like any other.
 fn split_topic<'a>(words: &[JaWord<'a>]) -> Vec<JaWord<'a>> {
     let mut out = Vec::with_capacity(words.len());
     for w in words {
         let head = w.display.strip_suffix('は').filter(|h| !h.is_empty());
-        let topic = head.filter(|h| TOPIC_PARTICLES.contains(&w.display) || h.chars().any(is_han));
+        let topic = head.filter(|h| TOPIC_PARTICLES.iter().any(|p| w.display.ends_with(p)) || h.chars().any(is_han));
         // The reading ends with は too (or is empty: the dictionary leaves kana words without one).
         let head_yomi = if w.yomi.is_empty() { Some("") } else { w.yomi.strip_suffix('は') };
         match (topic, head_yomi) {
@@ -517,6 +518,9 @@ mod tests {
         assert_eq!(japanese_ruby(&words), vec![rb("照らすは", "terasu wa"), rb("月", "tsuki")]);
         let words = [w("それ", "それ", true), w("では", "では", false), w("また", "また", true)];
         assert_eq!(joined(&japanese_ruby(&words)).1, "sore de wa mata");
+        // Windows hands back それでは whole (seen on Windows CI).
+        let words = [w("それでは", "それでは", true), w("また", "また", true)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "sorede wa mata");
         let words = [w("して", "して", true), w("は", "は", false), w("いけない", "いけない", true)];
         assert_eq!(joined(&japanese_ruby(&words)).1, "shite wa ikenai");
         // A word ending in the particle (本当は, one word in the dictionaries).
