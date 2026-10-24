@@ -37,6 +37,7 @@ features = [
     "Foundation",
     "Foundation_Collections",
     "Foundation_Numerics",
+    "Globalization",
     "Media",
     "Media_Control",
     "Storage",

@@ -1108,6 +1108,7 @@ impl App {
             SetTheme(theme) => s.theme = theme,
             ToggleClipboard => s.clipboard_history = !s.clipboard_history,
             ToggleLyrics => s.lyrics = !s.lyrics,
+            TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             ToggleHideFullscreen => s.hide_in_fullscreen = !s.hide_in_fullscreen,
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
@@ -1220,10 +1221,11 @@ impl App {
             AppEvent::Lyrics { track_key, result } => {
                 if self.st.lyrics.track_key == track_key {
                     match result {
-                        crate::events::LyricsResult::Found { lyrics, source } => {
+                        crate::events::LyricsResult::Found { lyrics, source, ruby } => {
                             self.st.lyrics.status = LyricsStatus::Found;
                             self.st.lyrics.lyrics = Some(lyrics);
                             self.st.lyrics.source = source;
+                            self.st.lyrics.ruby = ruby;
                         }
                         crate::events::LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         crate::events::LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
