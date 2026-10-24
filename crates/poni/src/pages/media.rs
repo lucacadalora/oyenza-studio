@@ -82,6 +82,9 @@ const LYRIC_LEADING: f32 = 1.2;
 /// "Show Pronunciation" layout): each piece of the line with its reading set
 /// small under it, pieces wrapping as whole units.
 const ROMAN_SCALE: f32 = 0.72;
+/// Pronounced lines are set a little smaller, so a line and its reading
+/// usually fit one row and the lines around it stay in view.
+const RUBY_SIZE: f32 = 0.9;
 const ROMAN_ALPHA: f32 = 0.78;
 const ROMAN_GAP: f32 = 1.0;
 /// Space between pieces, as a fraction of the lyric size.
@@ -843,7 +846,7 @@ fn draw_synced(
         let wrap_w = vp.w * size / LYRIC_MAX;
         let (w, h) = match ruby {
             _ if text.is_empty() => (dots_width(size), size * LYRIC_LEADING),
-            Some(p) => measure_ruby(ui, a, r, size, p, wrap_w),
+            Some(p) => measure_ruby(ui, a, r, size * RUBY_SIZE, p, wrap_w),
             None => measure_row(ui, a, r, size, text, wrap_w),
         };
         rows.push(Row { r, d, size, text, ruby, wrap_w, w, h, c: 0.0 });
@@ -908,7 +911,7 @@ fn draw_synced(
             let breathe = if current && ctx.live { 1.0 + 0.12 * (ctx.now * 3.4).sin() as f32 } else { 1.0 };
             draw_dots(ui, vp.x, cy, row.size, alpha, lit, breathe);
         } else if let Some(p) = row.ruby {
-            draw_ruby(ui, a, row.r, row.size, p, vp.x, y, alpha);
+            draw_ruby(ui, a, row.r, row.size * RUBY_SIZE, p, vp.x, y, alpha);
         } else {
             let ts = lyric_style(row.size).color(Color::white(alpha)).top();
             ui.c.text(row.text, Rect::new(vp.x, y, row.wrap_w, row.h + 2.0), &ts);
