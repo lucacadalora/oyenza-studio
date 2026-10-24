@@ -117,19 +117,19 @@ On a MacBook, the island lives around the camera notch: the album art on one sid
 <tr>
 <td align="center" width="25%"><h3>6.3 MB</h3>download on Windows</td>
 <td align="center" width="25%"><h3>Rust</h3>native code, no web view, no runtime</td>
-<td align="center" width="25%"><h3>240 Hz</h3>drawn on the GPU, in step with your screen</td>
+<td align="center" width="25%"><h3>60–240 Hz</h3>drawn on the GPU, in step with your screen</td>
 <td align="center" width="25%"><h3>0</h3>accounts, ads or analytics</td>
 </tr>
 </table>
 
-On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. The one thing that reads at rest is the System page's last minute of history, a light reading once a second that right-click › **Keep System page history** turns off. Features you don't use don't run: Show over games only counts while a game is in front, and add-ons download only when you switch them on.
+On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. Features you don't use don't run: Show over games counts only while a game is in front, and add-ons download only when you switch them on. The System page keeps its last minute of history with a light reading once a second; right-click › **Keep System page history** turns that off.
 
 ## Your data stays on your computer
 
 - **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
 - **Clipboard in memory.** Copied text is never written to disk, and anything a password manager marks private is skipped.
-- **Files go straight between your devices.** Phone drop asks before it takes anything and uses your own Wi-Fi; paired phones connect directly, encrypted with keys made on the two devices.
-- **Online only when you say so.** Lyrics lookups go to LRCLIB. Apple Music lyrics, Oyenza and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
+- **Your files stay yours.** Phone drop asks before it takes anything and uses your own Wi-Fi. Files from paired phones are encrypted with keys made on the two devices, and the meeting server never sees them.
+- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
 
 ## Install
 
