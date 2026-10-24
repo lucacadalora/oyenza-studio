@@ -68,6 +68,7 @@ Name: "autostart"; Description: "Start with Windows"; GroupDescription: "Startup
 
 [Files]
 Source: "{#ExeSource}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\THIRD-PARTY-NOTICES.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#AppExe}"; Comment: "A living notch for Windows"

@@ -13,7 +13,9 @@ name = "poni"
 path = "src/main.rs"
 
 [dependencies]
-poni-core = { path = "../poni-core" }
+# ja-dict: Oyen Poni's own Japanese reading dictionary (3.8 MB) built into the
+# exe, for PCs where Windows has no Japanese reading data.
+poni-core = { path = "../poni-core", features = ["ja-dict"] }
 serde.workspace = true
 serde_json.workspace = true
 

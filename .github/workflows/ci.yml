@@ -21,6 +21,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo test -p poni-core
+      # THIRD-PARTY-NOTICES.txt ships with every build: it must list every
+      # crate poni.exe links (run the script after changing dependencies).
+      - name: Third-party notices up to date
+        run: |
+          cargo fetch --locked
+          python3 tools/make_notices.py --check
 
   windows:
     name: Build, self-test, smoke-run and package (Windows)
@@ -101,6 +107,37 @@ jobs:
             exit 1
           }
 
+      # The same song the way a PC without Windows' Japanese reading data
+      # reads it (most Windows 11 PCs outside Japan): with Oyen Poni's own
+      # dictionary. Every line must read here too.
+      - name: Self-test, Japanese lyrics with Oyen Poni's own dictionary
+        shell: pwsh
+        env:
+          PONI_SELFTEST_THEME: oyen
+          PONI_SELFTEST_LYRICS: ja
+          PONI_SELFTEST_ANALYZER: "off"
+        run: |
+          Add-Type -AssemblyName System.Windows.Forms
+          Add-Type -Namespace PoniCiOwn -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          [PoniCiOwn.User32]::SetCursorPos([int]($b.Width / 2), [int]($b.Height / 2)) | Out-Null
+
+          New-Item -ItemType Directory -Force -Path selftest-ja-own | Out-Null
+          $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-ja-own" -PassThru
+          $null = $p.Handle
+          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          "own-dictionary self-test exit code: $code"
+          if (Test-Path selftest-ja-own\report.json) {
+            $r = Get-Content selftest-ja-own\report.json -Raw | ConvertFrom-Json
+            "renderer: $($r.renderer); states passed: $($r.states_passed)/$($r.states_total); failed: $($r.failed_checks -join ', ')"
+          }
+          "---- pronunciation (poni.log)"
+          Select-String -Path selftest-ja-own\home\cache\poni.log -Pattern 'selftest: \[ja\]|reading' -ErrorAction SilentlyContinue | ForEach-Object { $_.Line }
+          if ($code -ne 0) {
+            Get-Content selftest-ja-own\home\cache\poni.log -Tail 80 -ErrorAction SilentlyContinue
+            exit 1
+          }
+
       - name: Smoke run (real desktop, hover, idle CPU/RAM)
         shell: pwsh
         run: ./tools/ci-smoke.ps1 -Exe target\release\poni.exe -Out smoke-out
@@ -155,6 +192,7 @@ jobs:
           path: |
             selftest-out
             selftest-oyen-ja
+            selftest-ja-own
             smoke-out
             selftest-soft
             smoke-soft
@@ -191,7 +229,7 @@ jobs:
           sudo apt-get install -y -qq nsis zip > /dev/null
           makensis -V2 -DEXE="$PWD/dist/poni.exe" -DOUTDIR="$PWD/dist" installer/poni.nsi
           # Portable build inside its own folder, as tools/package.sh makes it.
-          ( cd dist && mkdir Poni && cp poni.exe Poni/ && zip -qr "Oyen-Poni-$PONI_VERSION-portable.zip" Poni && rm -rf Poni )
+          ( cd dist && mkdir Poni && cp poni.exe ../THIRD-PARTY-NOTICES.txt Poni/ && zip -qr "Oyen-Poni-$PONI_VERSION-portable.zip" Poni && rm -rf Poni )
           ls -la dist
       - uses: actions/upload-artifact@v4
         with:

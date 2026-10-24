@@ -90,6 +90,8 @@ Section "Oyen Poni" SecMain
   !insertmacro StopPoni
   SetOutPath "$INSTDIR"
   File "/oname=poni.exe" "${EXE}"
+  ; The licenses of what poni.exe is built from (mecab-ipadic asks for its notice in every copy).
+  File "../THIRD-PARTY-NOTICES.txt"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   ; 0.1.x named its shortcut "Poni".
   Delete "$SMPROGRAMS\Poni.lnk"
@@ -104,7 +106,7 @@ Section "Oyen Poni" SecMain
   WriteRegStr HKCU "${UNINST_KEY}" "QuietUninstallString" '"$INSTDIR\Uninstall.exe" /S'
   WriteRegDWORD HKCU "${UNINST_KEY}" "NoModify" 1
   WriteRegDWORD HKCU "${UNINST_KEY}" "NoRepair" 1
-  WriteRegDWORD HKCU "${UNINST_KEY}" "EstimatedSize" 2048
+  WriteRegDWORD HKCU "${UNINST_KEY}" "EstimatedSize" 7680
 SectionEnd
 
 Section "Start Oyen Poni with Windows" SecAutostart
@@ -120,6 +122,7 @@ SectionEnd
 Section "Uninstall"
   !insertmacro StopPoni
   Delete "$INSTDIR\poni.exe"
+  Delete "$INSTDIR\THIRD-PARTY-NOTICES.txt"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir "$INSTDIR"
   Delete "$SMPROGRAMS\${APPNAME}.lnk"

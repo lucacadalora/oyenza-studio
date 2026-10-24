@@ -44,6 +44,7 @@ $layout = Join-Path $OutDir "msix-layout"
 if (Test-Path $layout) { Remove-Item -Recurse -Force $layout }
 New-Item -ItemType Directory -Force -Path (Join-Path $layout "Assets") | Out-Null
 Copy-Item $Exe (Join-Path $layout "poni.exe")
+Copy-Item (Join-Path $root "THIRD-PARTY-NOTICES.txt") (Join-Path $layout "THIRD-PARTY-NOTICES.txt")
 
 # Tile, Start list and taskbar images, drawn from the app icon.
 python (Join-Path $root "tools\make_msix_assets.py") (Join-Path $root "crates\poni\res\poni.ico") (Join-Path $layout "Assets") | Out-Host

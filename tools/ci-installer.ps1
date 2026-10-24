@@ -126,6 +126,8 @@ Check "old Start menu shortcut removed" (-not (Test-Path (Join-Path $programs "P
 $vi = (Get-Item $exe -ErrorAction SilentlyContinue).VersionInfo
 Check "poni.exe product name" ($vi.ProductName -eq "Oyen Poni") "$($vi.ProductName)"
 Check "poni.exe version" ($vi.ProductVersion -eq $Version) "$($vi.ProductVersion)"
+$notices = Join-Path $installDir "THIRD-PARTY-NOTICES.txt"
+Check "license notices installed" (Test-Path $notices) $notices
 if ($Previous) { Check "data kept through the upgrade" (Test-Path $marker) $marker }
 try {
     [System.Drawing.Icon]::ExtractAssociatedIcon($exe).ToBitmap().Save((Join-Path $Out "exe-icon.png"), [System.Drawing.Imaging.ImageFormat]::Png)
@@ -145,6 +147,7 @@ Get-Process poni -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Process -FilePath (Join-Path $installDir "Uninstall.exe") -ArgumentList "/S" -Wait
 $gone = WaitFor { -not (Test-Path $exe) } 30
 Check "uninstall removes the app" $gone
+Check "uninstall removes the license notices" (WaitFor { -not (Test-Path $notices) } 15)
 Check "uninstall removes the Installed apps entry" (-not (Test-Path $uninstKey))
 Check "uninstall removes the shortcut" (-not (Test-Path (Join-Path $programs "Oyen Poni.lnk")))
 if ($Previous) { Check "uninstall keeps settings and data" (Test-Path $marker) }

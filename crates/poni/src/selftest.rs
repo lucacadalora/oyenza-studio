@@ -773,13 +773,23 @@ impl SelfTest {
                 format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
             ));
         }
-        // PONI_SELFTEST_ANALYZER: "required" (Windows CI) = every line must
-        // read, kanji lines included; "off" = read the song the way a PC
-        // without Windows' Japanese reading data does (kana lines only).
-        // Without it, Wine has no analyzer, so only the kana lines read there.
+        // PONI_SELFTEST_ANALYZER: "required" (Windows CI) = Windows' own
+        // analyzer must work and every line must read, kanji lines included;
+        // "off" = read the song the way a PC without Windows' Japanese reading
+        // data does (Oyen Poni's own dictionary), every line too; "kana" = the
+        // way 0.1.11 and older read it there (kana lines only), for
+        // before/after pictures. Without it, Wine has no analyzer, so its
+        // lines come from Oyen Poni's own dictionary.
         let analyzer = std::env::var("PONI_SELFTEST_ANALYZER").map(|v| v.trim().to_ascii_lowercase()).unwrap_or_default();
         let texts: Vec<&str> = parsed.lines.iter().map(|l| l.text.trim()).collect();
-        let ruby = if analyzer == "off" && poni_core::romanize::song_script(&texts) == Some(poni_core::romanize::Script::Japanese) {
+        let japanese = poni_core::romanize::song_script(&texts) == Some(poni_core::romanize::Script::Japanese);
+        if analyzer == "required" {
+            let works = crate::services::romanize::analyzer_works();
+            self.checks.push(check("japanese-analyzer", works.is_ok(), works.err().unwrap_or_else(|| "Windows' analyzer reads Japanese".into())));
+        }
+        let ruby = if japanese && analyzer == "off" {
+            crate::services::romanize::own_song(&texts)
+        } else if japanese && analyzer == "kana" {
             let kana = |t: &str| if poni_core::romanize::needs_roman(t) { poni_core::romanize::japanese_kana_ruby(t).unwrap_or_default() } else { Vec::new() };
             texts.iter().map(|t| kana(t)).collect()
         } else {
@@ -805,7 +815,7 @@ impl SelfTest {
             for (line, p) in parsed.lines.iter().zip(&ruby) {
                 crate::pinfo!("selftest: [{lang}] {} -> {}", line.text, read(p));
             }
-            let ok = if analyzer == "required" { lines_read == needing } else { lines_read > 0 };
+            let ok = if matches!(analyzer.as_str(), "required" | "off") { lines_read == needing } else { lines_read > 0 };
             self.checks.push(check("lyrics-pronunciation", ok, format!("{lines_read} of {needing} {lang} lines read in Latin letters")));
         }
         self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby };

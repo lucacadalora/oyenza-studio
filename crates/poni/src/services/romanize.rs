@@ -2,11 +2,14 @@
 //! read in Latin letters, the way Apple Music's "Show Pronunciation" sets them.
 //!
 //! Japanese kanji have no single reading, so Japanese goes through Windows'
-//! own morphological analyzer (`Windows.Globalization.JapanesePhoneticAnalyzer`,
-//! part of Windows, no download): it splits a line into words with their
-//! readings in kana, which `poni_core::romanize` spells in romaji. Korean and
-//! Chinese need no analyzer (`poni_core::romanize`). Called on the lyrics
-//! worker thread.
+//! own morphological analyzer (`Windows.Globalization.JapanesePhoneticAnalyzer`):
+//! it splits a line into words with their readings in kana, which
+//! `poni_core::romanize` spells in romaji. Where Windows has no Japanese
+//! reading data (Windows 11 keeps it in the Japanese typing feature, which
+//! most PCs outside Japan don't have) or the analyzer fails, the song is read
+//! with Oyen Poni's own dictionary instead (`poni_core::romanize::JaDict`,
+//! built into the exe and loaded only for that song). Korean and Chinese need
+//! no analyzer (`poni_core::romanize`). Called on the lyrics worker thread.
 //!
 //! The analyzer is a single-threaded (STA) class. From the lyrics worker's
 //! multithreaded apartment every call fails with RO_E_UNSUPPORTED_FROM_MTA
@@ -32,8 +35,8 @@ pub fn pronounce(lyrics: &Lyrics) -> Vec<Vec<Ruby>> {
         Some(Script::Korean) => each_line(&texts, romanize::korean_ruby),
         Some(Script::Chinese) => each_line(&texts, |t| split_long(romanize::chinese_ruby(t))),
         Some(Script::Japanese) => on_sta(|| japanese_song(&texts)).unwrap_or_else(|| {
-            crate::pwarn!("lyrics: couldn't start the Japanese reading thread; only kana lines get romaji");
-            each_line(&texts, |t| romanize::japanese_kana_ruby(t).unwrap_or_default())
+            crate::pwarn!("lyrics: couldn't start the Japanese reading thread; reading with Oyen Poni's own dictionary");
+            own_song(&texts)
         }),
     }
 }
@@ -44,10 +47,12 @@ fn each_line(texts: &[&str], mut read: impl FnMut(&str) -> Vec<Ruby>) -> Vec<Vec
 }
 
 /// Every line of a Japanese song through the analyzer. If it fails outright
-/// it isn't asked again for this song and only kana lines get romaji. A word
-/// it can't read costs just that word's reading.
+/// (no Japanese reading data, or an error) it isn't asked again for this
+/// song, and the rest is read with Oyen Poni's own dictionary. A word that
+/// can't be read costs just that word's reading.
 fn japanese_song(texts: &[&str]) -> Vec<Vec<Ruby>> {
     let mut analyzer = true;
+    let mut own = OwnDictionary::default();
     let mut unread = 0;
     let out = each_line(texts, |t| {
         if analyzer {
@@ -58,16 +63,55 @@ fn japanese_song(texts: &[&str]) -> Vec<Vec<Ruby>> {
                 }
                 Err(e) => {
                     analyzer = false;
-                    crate::pwarn!("lyrics: {e}; only kana lines get romaji");
+                    crate::pinfo!("lyrics: {e}; reading with Oyen Poni's own dictionary");
                 }
             }
         }
-        romanize::japanese_kana_ruby(t).unwrap_or_default()
+        let pieces = own.read(t);
+        unread += pieces.iter().filter(|p| p.roman.is_empty() && has_kanji(&p.text)).count();
+        pieces
     });
     if unread > 0 {
         crate::pinfo!("lyrics: {unread} kanji words came back without a reading");
     }
     out
+}
+
+/// Every line of a Japanese song through Oyen Poni's own dictionary (when the
+/// analyzer's thread can't start, and for the self-test).
+pub fn own_song(texts: &[&str]) -> Vec<Vec<Ruby>> {
+    let mut own = OwnDictionary::default();
+    each_line(texts, |t| own.read(t))
+}
+
+/// Oyen Poni's own reading dictionary, loaded on first use (about 0.1 s and
+/// 30 MB) and dropped with the song. If it can't load, kana lines still read.
+#[derive(Default)]
+struct OwnDictionary(Option<Option<romanize::JaDict>>);
+
+impl OwnDictionary {
+    fn read(&mut self, line: &str) -> Vec<Ruby> {
+        let dict = self.0.get_or_insert_with(|| {
+            romanize::JaDict::embedded()
+                .map_err(|e| crate::pwarn!("lyrics: {e}; only kana lines get romaji"))
+                .ok()
+        });
+        match dict {
+            Some(d) => d.ruby(line),
+            None => romanize::japanese_kana_ruby(line).unwrap_or_default(),
+        }
+    }
+}
+
+/// Whether Windows' analyzer reads Japanese on this PC (the self-test's
+/// "required" mode: on Windows CI it must, and not via the fallback).
+pub fn analyzer_works() -> Result<(), String> {
+    on_sta(|| match japanese("今日は晴れ") {
+        Ok((_, 0)) => Ok(()),
+        Ok((_, n)) => Err(format!("Windows' Japanese reading analyzer left {n} kanji words unread")),
+        Err(e) => Err(e),
+    })
+    .unwrap_or_else(|| Err("couldn't start the Japanese reading thread".into()))
 }
 
 /// One Japanese line through the analyzer, and how many of its kanji words
@@ -102,7 +146,6 @@ fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
         words.extend(read);
     }
     // Kanji handed back as their own "reading" (or with none) aren't read.
-    let has_kanji = |s: &str| s.chars().any(|c| ('\u{4E00}'..='\u{9FFF}').contains(&c) || ('\u{3400}'..='\u{4DBF}').contains(&c));
     let mut unread = 0;
     let ja: Vec<JaWord> = words
         .iter()
@@ -113,6 +156,11 @@ fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
         })
         .collect();
     Ok((romanize::japanese_ruby(&ja), unread))
+}
+
+/// The text has CJK ideographs (kanji).
+fn has_kanji(s: &str) -> bool {
+    s.chars().any(|c| ('\u{4E00}'..='\u{9FFF}').contains(&c) || ('\u{3400}'..='\u{4DBF}').contains(&c))
 }
 
 /// `line` cut into the analyzer's `words` (same characters up to width), or
@@ -204,6 +252,32 @@ fn split_long(pieces: Vec<Ruby>) -> Vec<Ruby> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // Test lines are original phrases, not song lyrics.
+
+    fn roman(pieces: &[Ruby]) -> String {
+        pieces.iter().map(|r| r.roman.as_str()).filter(|s| !s.is_empty()).collect::<Vec<_>>().join(" ")
+    }
+
+    #[test]
+    fn own_dictionary_reads_kanji_lines() {
+        let read = own_song(&["君の名前を呼んだ夜", "Oh yeah", "ありがとう"]);
+        assert_eq!(roman(&read[0]), "kimi no namae wo yonda yoru");
+        assert!(read[1].is_empty());
+        assert_eq!(roman(&read[2]), "arigatou");
+    }
+
+    #[test]
+    fn every_japanese_line_reads_with_or_without_windows_data() {
+        // Windows' analyzer where it has its data (Windows CI), Oyen Poni's own
+        // dictionary where it doesn't (Wine, most Windows 11 PCs outside Japan).
+        let lyrics = poni_core::lrc::parse_lrc("[00:01.00]朝の光を浴びて\n[00:02.00]遠くへ行こう\n[00:03.00]la la la\n");
+        let read = pronounce(&lyrics);
+        assert_eq!(read.len(), 3);
+        assert!(read[0].iter().any(|p| p.text.contains('光') && !p.roman.is_empty()), "{:?}", read[0]);
+        assert!(roman(&read[1]).starts_with("tooku e"), "{:?}", read[1]);
+        assert!(read[2].is_empty());
+    }
 
     #[test]
     fn chunks_stay_under_the_limit() {

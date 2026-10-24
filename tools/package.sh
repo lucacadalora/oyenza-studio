@@ -21,7 +21,7 @@ mkdir -p "$ROOT/dist"
 cp "$EXE" "$ROOT/dist/poni.exe"
 # Portable build inside its own folder, so poni.exe never sits loose next to
 # other downloads (Windows looks for some DLLs in the exe's folder first).
-( cd "$ROOT/dist" && rm -rf Poni "Oyen-Poni-$VERSION-portable.zip" && mkdir Poni && cp poni.exe Poni/ && zip -qr "Oyen-Poni-$VERSION-portable.zip" Poni && rm -rf Poni )
+( cd "$ROOT/dist" && rm -rf Poni "Oyen-Poni-$VERSION-portable.zip" && mkdir Poni && cp poni.exe "$ROOT/THIRD-PARTY-NOTICES.txt" Poni/ && zip -qr "Oyen-Poni-$VERSION-portable.zip" Poni && rm -rf Poni )
 
 if [[ -n "${NSIS_HOST:-}" ]]; then
   REMOTE_DIR="poni-pkg"
@@ -29,6 +29,7 @@ if [[ -n "${NSIS_HOST:-}" ]]; then
   scp -q -o BatchMode=yes "$ROOT/installer/poni.nsi" "$NSIS_HOST:$REMOTE_DIR/installer/"
   scp -q -o BatchMode=yes "$ROOT/installer/art/nsis-welcome.bmp" "$ROOT/installer/art/nsis-header.bmp" "$NSIS_HOST:$REMOTE_DIR/installer/art/"
   scp -q -o BatchMode=yes "$ROOT/crates/poni/res/poni.ico" "$NSIS_HOST:$REMOTE_DIR/crates/poni/res/"
+  scp -q -o BatchMode=yes "$ROOT/THIRD-PARTY-NOTICES.txt" "$NSIS_HOST:$REMOTE_DIR/"
   scp -q -o BatchMode=yes "$EXE" "$NSIS_HOST:$REMOTE_DIR/poni.exe"
   ssh -o BatchMode=yes "$NSIS_HOST" "cd ~/$REMOTE_DIR && makensis -V2 -DEXE=\$HOME/$REMOTE_DIR/poni.exe -DOUTDIR=\$HOME/$REMOTE_DIR/dist installer/poni.nsi"
   scp -q -o BatchMode=yes "$NSIS_HOST:$REMOTE_DIR/dist/Oyen-Poni-Setup-$VERSION.exe" "$ROOT/dist/"
