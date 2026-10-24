@@ -9,6 +9,7 @@ pub mod datetime;
 pub mod geom;
 pub mod lrc;
 pub mod lrclib;
+pub mod nowplaying;
 pub mod pomodoro;
 pub mod settings;
 pub mod shelf;

@@ -11,7 +11,8 @@
 //! 2. the disk cache `lyrics\<cache_key>.json` (hits, and misses for 3 days);
 //! 3. `/api/get` with title, artist, album and duration;
 //! 4. `/api/get` without the album;
-//! 5. `/api/search` by title + primary artist, then `lrclib::best_match`.
+//! 5. `/api/search` by title + primary artist, then `lrclib::best_match`
+//!    (also after a 5xx from `/api/get`; a miss then is retried, not cached).
 //!
 //! Politeness: at least 1 s between requests, `429 Retry-After` honoured for
 //! every later request, a descriptive User-Agent, and at most a couple of
@@ -296,6 +297,9 @@ impl Worker {
     }
 
     fn fetch(&mut self, job: &Job, q: &TrackQuery) -> Result<Fetched, Halt> {
+        // Set when /api/get failed on LRCLIB's side. The search still runs,
+        // but a miss there is no longer a sure "no lyrics" and isn't cached.
+        let mut get_failed = None;
         // /api/get needs an artist; try the full signature, then without album.
         if !q.artist.is_empty() {
             let mut urls = vec![lrclib::get_url(q)];
@@ -315,6 +319,13 @@ impl Worker {
                     // LRCLIB rejected the query shape (e.g. no duration); the
                     // album-less /api/get would be rejected too, so search.
                     400 => break,
+                    // A signature LRCLIB doesn't hold sends it to outside
+                    // sources, which can answer 503 while busy; the search
+                    // only reads its own database and usually still works.
+                    s if s >= 500 => {
+                        get_failed = Some(self.http_error(job, s));
+                        break;
+                    }
                     s => return Err(self.http_error(job, s)),
                 }
             }
@@ -328,13 +339,13 @@ impl Worker {
         let resp = self.call(job, &lrclib::search_url(&search))?;
         match resp.status {
             200 => match lrclib::parse_search(&resp.body) {
-                Ok(records) => Ok(match lrclib::best_match(&records, q) {
-                    Some(r) if usable(r) => Fetched::Found(r.clone()),
-                    _ => Fetched::Missing,
-                }),
+                Ok(records) => match lrclib::best_match(&records, q) {
+                    Some(r) if usable(r) => Ok(Fetched::Found(r.clone())),
+                    _ => get_failed.map_or(Ok(Fetched::Missing), Err),
+                },
                 Err(e) => Err(self.bad_reply(job, "/api/search", &e)),
             },
-            400 | 404 => Ok(Fetched::Missing),
+            400 | 404 => get_failed.map_or(Ok(Fetched::Missing), Err),
             s => Err(self.http_error(job, s)),
         }
     }

@@ -9,7 +9,7 @@ Water, Shelf, Tasks, Clipboard, Today).
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Pomodoro, water log, tasks, shelf, clipboard history, settings, JSON store, SVG path parser. **No OS calls.** | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, player metadata fix-ups, Pomodoro, water log, tasks, shelf, clipboard history, settings, JSON store, SVG path parser. **No OS calls.** | any OS (`cargo test -p poni-core`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 
 ## Threads and data flow

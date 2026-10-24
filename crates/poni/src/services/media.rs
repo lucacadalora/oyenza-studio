@@ -20,6 +20,7 @@
 use crate::commands::MediaCmd;
 use crate::events::{AppEvent, EventSink};
 use crate::state::MediaSession;
+use poni_core::nowplaying;
 use poni_core::timeline::Timeline;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
@@ -732,7 +733,8 @@ impl Worker {
                 Ok(p) => {
                     let app_id = self.sessions[i].aumid.clone();
                     let app_name = self.app_name(&app_id);
-                    self.meta = Some(Meta { app_id, app_name, title: p.title, artist: p.artist, album: p.album });
+                    let (artist, album) = nowplaying::artist_album(&app_id, p.artist, p.album);
+                    self.meta = Some(Meta { app_id, app_name, title: p.title, artist, album });
                     self.thumb = p.thumb;
                     self.props_retries = 0;
                     fresh_props = true;
