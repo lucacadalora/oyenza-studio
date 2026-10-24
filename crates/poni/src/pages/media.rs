@@ -695,11 +695,21 @@ fn roman_style(size: f32) -> TextStyle {
     TextStyle::new((size * ROMAN_SCALE).max(ts::CAPTION)).weight(Weight::Medium).top()
 }
 
-/// Where the pieces of a pronounced line go, relative to the row's top left.
+/// One piece of a pronounced line, placed relative to the row's top left.
+#[derive(Clone)]
+struct Placed {
+    text: String,
+    roman: String,
+    x: f32,
+    y: f32,
+    text_w: f32,
+    roman_w: f32,
+}
+
+/// Where the pieces of a pronounced line go.
 #[derive(Clone, Default)]
 struct RubyLay {
-    /// Per piece: x, y, text width, reading width (spaces get zero widths).
-    places: Vec<(f32, f32, f32, f32)>,
+    pieces: Vec<Placed>,
     w: f32,
     h: f32,
 }
@@ -717,28 +727,32 @@ fn layout_ruby(ui: &mut Ui, pieces: &[Ruby], size: f32, wrap_w: f32) -> RubyLay 
     let (ps, rs) = (piece_style(size), roman_style(size));
     let line_h = ruby_line_h(size);
     let gap = (size * PIECE_GAP).round();
-    let mut lay = RubyLay { places: Vec::with_capacity(pieces.len()), ..Default::default() };
+    let space = ui.c.measure("a a", &ps, 10_000.0).0 - ui.c.measure("aa", &ps, 10_000.0).0;
+    let mut lay = RubyLay { pieces: Vec::with_capacity(pieces.len()), ..Default::default() };
     let (mut x, mut y, mut any) = (0.0f32, 0.0f32, false);
     for p in pieces {
-        let text = p.text.trim();
-        if text.is_empty() {
-            lay.places.push((x, y, 0.0, 0.0));
-            continue;
+        // A run with no reading (English inside a Korean line, say) wraps
+        // word by word like ordinary text; a piece with a reading stays whole.
+        let words: Vec<&str> = if p.roman.is_empty() { p.text.split_whitespace().collect() } else { vec![p.text.trim()] };
+        for (i, text) in words.into_iter().enumerate() {
+            if text.is_empty() {
+                continue;
+            }
+            let tw = ui.c.measure(text, &ps, 10_000.0).0;
+            let rw = if p.roman.is_empty() { 0.0 } else { ui.c.measure(&p.roman, &rs, 10_000.0).0 };
+            let w = tw.max(rw);
+            if any {
+                x += if i > 0 { space } else { gap };
+            }
+            if any && x + w > wrap_w {
+                x = 0.0;
+                y += line_h + RUBY_LINE_GAP;
+            }
+            lay.pieces.push(Placed { text: text.to_string(), roman: p.roman.clone(), x, y, text_w: tw, roman_w: rw });
+            x += w;
+            lay.w = lay.w.max(x.min(wrap_w));
+            any = true;
         }
-        let tw = ui.c.measure(text, &ps, 10_000.0).0;
-        let rw = if p.roman.is_empty() { 0.0 } else { ui.c.measure(&p.roman, &rs, 10_000.0).0 };
-        let w = tw.max(rw);
-        if any {
-            x += gap;
-        }
-        if any && x + w > wrap_w {
-            x = 0.0;
-            y += line_h + RUBY_LINE_GAP;
-        }
-        lay.places.push((x, y, tw, rw));
-        x += w;
-        lay.w = lay.w.max(x.min(wrap_w));
-        any = true;
     }
     lay.h = y + line_h;
     lay
@@ -758,19 +772,15 @@ fn measure_ruby(ui: &mut Ui, a: &mut Anim, row: usize, size: f32, pieces: &[Ruby
 
 /// Draw a pronounced line measured by [`measure_ruby`] with its top left at
 /// (`x`, `y`): each piece in lyric type, its reading small under it.
-#[allow(clippy::too_many_arguments)]
-fn draw_ruby(ui: &mut Ui, a: &Anim, row: usize, size: f32, pieces: &[Ruby], x: f32, y: f32, alpha: f32) {
+fn draw_ruby(ui: &mut Ui, a: &Anim, row: usize, size: f32, x: f32, y: f32, alpha: f32) {
     let Some(lay) = a.rubies.get(&(row, (size * 4.0).round() as u16)) else { return };
     let ps = piece_style(size).color(Color::white(alpha));
     let rs = roman_style(size).color(Color::white(alpha * ROMAN_ALPHA));
     let text_h = size * LYRIC_LEADING;
-    for (p, &(px, py, tw, rw)) in pieces.iter().zip(&lay.places) {
-        if tw <= 0.0 {
-            continue;
-        }
-        ui.c.text(p.text.trim(), Rect::new(x + px, y + py, tw + 2.0, text_h + 2.0), &ps);
-        if rw > 0.0 {
-            ui.c.text(&p.roman, Rect::new(x + px, y + py + text_h + ROMAN_GAP, rw + 2.0, rs.size * 1.25 + 2.0), &rs);
+    for p in &lay.pieces {
+        ui.c.text(&p.text, Rect::new(x + p.x, y + p.y, p.text_w + 2.0, text_h + 2.0), &ps);
+        if p.roman_w > 0.0 {
+            ui.c.text(&p.roman, Rect::new(x + p.x, y + p.y + text_h + ROMAN_GAP, p.roman_w + 2.0, rs.size * 1.25 + 2.0), &rs);
         }
     }
 }
@@ -910,8 +920,8 @@ fn draw_synced(
             });
             let breathe = if current && ctx.live { 1.0 + 0.12 * (ctx.now * 3.4).sin() as f32 } else { 1.0 };
             draw_dots(ui, vp.x, cy, row.size, alpha, lit, breathe);
-        } else if let Some(p) = row.ruby {
-            draw_ruby(ui, a, row.r, row.size * RUBY_SIZE, p, vp.x, y, alpha);
+        } else if row.ruby.is_some() {
+            draw_ruby(ui, a, row.r, row.size * RUBY_SIZE, vp.x, y, alpha);
         } else {
             let ts = lyric_style(row.size).color(Color::white(alpha)).top();
             ui.c.text(row.text, Rect::new(vp.x, y, row.wrap_w, row.h + 2.0), &ts);
@@ -1005,7 +1015,7 @@ fn draw_plain(
             let alpha = palette::TEXT_DIM.a * ft * fb;
             if alpha > 0.01 {
                 match pieces(i) {
-                    Some(p) => draw_ruby(ui, a, i, PLAIN_SIZE, p, vp.x, y, alpha),
+                    Some(_) => draw_ruby(ui, a, i, PLAIN_SIZE, vp.x, y, alpha),
                     None => ui.c.text(text, Rect::new(vp.x, y, vp.w, h + 2.0), &ts.color(Color::white(alpha))),
                 }
             }
