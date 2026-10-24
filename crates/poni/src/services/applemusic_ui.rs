@@ -256,8 +256,9 @@ fn condition(uia: &IUIAutomation, c: Control, id: &str) -> windows::core::Result
     }
 }
 
-/// Apple Music's top-level windows: its WinUI windows first (the main window,
-/// the Mini Player), visible ones before hidden ones.
+/// Apple Music's top-level windows: its WinUI windows (the main window, the
+/// Mini Player), visible ones first; any of its windows when it has none (its
+/// hidden helper windows, such as the keyboard's, hold no controls).
 fn apple_music_windows() -> Vec<HWND> {
     struct Found {
         /// Process id → whether it is AppleMusic.exe.
@@ -286,7 +287,10 @@ fn apple_music_windows() -> Vec<HWND> {
     }
     let mut found = Found { pids: Vec::new(), out: Vec::new() };
     let _ = unsafe { EnumWindows(Some(visit), LPARAM(&mut found as *mut Found as isize)) };
-    found.out.sort_by_key(|&(winui, visible, _)| (!winui, !visible));
+    if found.out.iter().any(|&(winui, _, _)| winui) {
+        found.out.retain(|&(winui, _, _)| winui);
+    }
+    found.out.sort_by_key(|&(_, visible, _)| !visible);
     found.out.into_iter().map(|(_, _, h)| h).collect()
 }
 
