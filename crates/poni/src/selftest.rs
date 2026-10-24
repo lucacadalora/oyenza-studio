@@ -248,6 +248,35 @@ impl Scene {
     }
 }
 
+/// GET the phone page from a running Phone drop server: the address must be
+/// reachable and the page must come back whole. The detail never includes
+/// the link's secret.
+pub fn fetch_phone_page(url: &str) -> (bool, String) {
+    use std::io::{Read, Write};
+    use std::net::{SocketAddr, TcpStream};
+    use std::time::Duration;
+    let rest = url.split_once("//").map_or(url, |(_, r)| r);
+    let (host, path) = rest.split_once('/').map_or((rest, ""), |(h, p)| (h, p));
+    let Ok(addr) = host.parse::<SocketAddr>() else {
+        return (false, format!("link has no address: {host}"));
+    };
+    let fetch = || -> std::io::Result<String> {
+        let mut s = TcpStream::connect_timeout(&addr, Duration::from_secs(3))?;
+        s.set_read_timeout(Some(Duration::from_secs(5)))?;
+        write!(s, "GET /{path} HTTP/1.1\r\nHost: {host}\r\nUser-Agent: poni-selftest\r\n\r\n")?;
+        let mut out = String::new();
+        s.read_to_string(&mut out)?;
+        Ok(out)
+    };
+    match fetch() {
+        Ok(resp) if resp.starts_with("HTTP/1.1 200") && resp.contains("<title>Oyen Poni") && resp.trim_end().ends_with("</html>") => {
+            (true, format!("served the page at {addr} ({} bytes)", resp.len()))
+        }
+        Ok(resp) => (false, format!("unexpected answer from {addr}: {}", resp.lines().next().unwrap_or(""))),
+        Err(e) => (false, format!("couldn't fetch the page at {addr}: {e}")),
+    }
+}
+
 // ---------------------------------------------------------------- report
 
 #[derive(Clone, Debug, Serialize)]
@@ -434,6 +463,8 @@ impl SelfTest {
     /// Called every ~50 ms; returns Some(exit code) when finished.
     pub fn step(&mut self, app: &mut App) -> Option<i32> {
         if !self.dpi_applied {
+            let (ok, detail) = app.selftest_phone_drop();
+            self.checks.push(check("phone-drop-server", ok, detail));
             self.dpi_applied = true;
             if let Some(dpi) = self.dpi {
                 crate::pinfo!("selftest: rendering at {dpi} DPI ({:.0} %)", dpi as f32 / 96.0 * 100.0);

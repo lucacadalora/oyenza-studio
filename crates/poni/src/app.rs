@@ -2221,6 +2221,19 @@ impl App {
         }
     }
 
+    /// Self-test only: start the real Phone drop service, fetch its page from
+    /// the network address it picked, and stop it. Returns (ok, detail).
+    pub fn selftest_phone_drop(&mut self) -> (bool, String) {
+        match services::phonedrop::PhoneDrop::start(self.sink.clone(), Vec::new()) {
+            Err(e) => (false, e),
+            Ok((svc, url)) => {
+                let r = selftest::fetch_phone_page(&url);
+                svc.stop();
+                r
+            }
+        }
+    }
+
     /// At rest: outline settled, mode current, no page switch or outgoing fade.
     pub fn selftest_settled(&self) -> bool {
         self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none()
