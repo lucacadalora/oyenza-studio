@@ -879,8 +879,8 @@ fn plot_from(ui: &mut Ui, s: &Series, top: f32, color: Color, r: Rect, fill: Fil
         area.push(Seg::Close);
         match fill {
             Fill::Faint => ui.c.path(&area, Some(color.mul_alpha(0.22)), None),
-            // Strongest at the far edge of the chart, clear at the baseline.
-            Fill::Gradient => ui.c.fill_path_fade(&area, color, base, if down { r.bottom() } else { r.y }, 0.04, 0.4),
+            // Stats' fill: solid enough to read as an area, strongest at the far edge of the chart.
+            Fill::Gradient => ui.c.fill_path_fade(&area, color, base, if down { r.bottom() } else { r.y }, 0.3, 0.7),
         }
         ui.c.path(&line, None, Some((color, 1.5)));
     }
