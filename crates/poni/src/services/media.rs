@@ -69,6 +69,9 @@ const TICKS_PER_S: f64 = 10_000_000.0;
 const MAX_SNAPSHOT_AGE_TICKS: i64 = 3600 * 10_000_000;
 /// Position drift (seconds) tolerated before a timeline update is sent.
 const POSITION_TOLERANCE_S: f64 = 0.35;
+/// Position jumps logged per track (how steady a player's reports are; the
+/// lyrics clock smooths them, the log tells how much it had to).
+const TIMELINE_LOGS_PER_TRACK: u32 = 12;
 
 // ------------------------------------------------------------------ service
 
@@ -392,6 +395,8 @@ struct Worker {
 
     dirty: Dirty,
     force_timeline: bool,
+    /// Position jumps logged for the shown track so far.
+    timeline_logs: u32,
     refresh_at: Option<Instant>,
     last_refresh: Option<Instant>,
     resync_at: Option<Instant>,
@@ -418,6 +423,7 @@ impl Worker {
             site_recheck: String::new(),
             dirty: Dirty::default(),
             force_timeline: false,
+            timeline_logs: 0,
             refresh_at: None,
             last_refresh: None,
             resync_at: None,
@@ -821,7 +827,15 @@ impl Worker {
         }
         match self.shown.as_mut() {
             Some(s) if s.meta == meta && s.caps == caps => {
-                if force || timeline_differs(&s.timeline, &timeline, crate::clock::mono()) {
+                let now = crate::clock::mono();
+                if s.timeline.playing && timeline.playing && self.timeline_logs < TIMELINE_LOGS_PER_TRACK {
+                    let jump = timeline.position_at(now) - s.timeline.position_at(now);
+                    if jump.abs() >= 0.05 {
+                        self.timeline_logs += 1;
+                        crate::pinfo!("media: {} position report moved {:+.0} ms at {:.1} s", meta.app_name, jump * 1000.0, timeline.position_at(now));
+                    }
+                }
+                if force || timeline_differs(&s.timeline, &timeline, now) {
                     s.timeline = timeline;
                     self.sink.send(AppEvent::MediaTimeline { track_key: key.clone(), timeline });
                 }
@@ -843,6 +857,7 @@ impl Worker {
                     track_key: key.clone(),
                 })));
                 self.shown = Some(Shown { meta, caps, timeline });
+                self.timeline_logs = 0;
             }
         }
         if fresh_props {

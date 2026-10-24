@@ -6,6 +6,7 @@
 use crate::gfx::Image;
 use crate::state::{MediaSession, PowerState, SysStats};
 use poni_core::lrc::Lyrics;
+use poni_core::romanize::Ruby;
 use poni_core::timeline::Timeline;
 use std::sync::mpsc::Sender;
 use windows::Win32::Foundation::{HWND, LPARAM, WPARAM};
@@ -70,7 +71,8 @@ pub enum AppleMusicStatus {
 
 #[derive(Clone, Debug)]
 pub enum LyricsResult {
-    Found { lyrics: Lyrics, source: String },
+    /// `ruby`: each line's pieces with their readings (empty = none needed).
+    Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>> },
     /// The song is marked instrumental (no words to show).
     Instrumental,
     NotFound,

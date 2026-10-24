@@ -12,6 +12,7 @@ pub mod lyrics;
 pub mod media;
 pub mod phonedrop;
 pub mod power;
+pub mod romanize;
 pub mod secret;
 pub mod sound;
 pub mod sysstats;

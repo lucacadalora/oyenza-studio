@@ -1122,6 +1122,7 @@ impl App {
             SetTheme(theme) => s.theme = theme,
             ToggleClipboard => s.clipboard_history = !s.clipboard_history,
             ToggleLyrics => s.lyrics = !s.lyrics,
+            TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             ToggleHideFullscreen => s.hide_in_fullscreen = !s.hide_in_fullscreen,
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
@@ -1234,10 +1235,11 @@ impl App {
             AppEvent::Lyrics { track_key, result } => {
                 if self.st.lyrics.track_key == track_key {
                     match result {
-                        crate::events::LyricsResult::Found { lyrics, source } => {
+                        crate::events::LyricsResult::Found { lyrics, source, ruby } => {
                             self.st.lyrics.status = LyricsStatus::Found;
                             self.st.lyrics.lyrics = Some(lyrics);
                             self.st.lyrics.source = source;
+                            self.st.lyrics.ruby = ruby;
                         }
                         crate::events::LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         crate::events::LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
@@ -1673,6 +1675,7 @@ impl App {
         let mut wheel_left = 0.0;
         let draw_from = clock::mono();
         let mut drawn_at = draw_from;
+        self.gfx.set_look(poni_core::look::of(self.st.settings.theme));
         let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
             Ok(mut canvas) => {
                 if self.expanded && !canvas.on_gpu() {
@@ -1682,7 +1685,7 @@ impl App {
                     canvas.fill_rect(canvas_r, Color::black(1.0 / 255.0));
                 }
                 let island_color = if hidden_idle { Color::black(1.0 / 255.0) } else { palette::ISLAND };
-                let border = if hidden_idle { None } else { Some(palette::BORDER) };
+                let border = if hidden_idle { None } else { Some(canvas.look().border) };
                 canvas.notch(body, geom.r, SHOULDER, island_color, border);
 
                 // Content scales about the top centre, where the island hangs.

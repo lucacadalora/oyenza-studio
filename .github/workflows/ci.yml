@@ -10,7 +10,7 @@ concurrency:
 
 env:
   # Keep in sync with Cargo.toml's workspace version, installer/poni.nsi and installer/poni.iss.
-  PONI_VERSION: "0.1.6"
+  PONI_VERSION: "0.1.7"
 
 jobs:
   core:
@@ -68,6 +68,36 @@ jobs:
             exit 1
           }
 
+      # The Oyen theme (cream look, embedded Outfit font) with the sample song in
+      # Japanese: its pronunciation line comes from Windows' own reading
+      # analyzer, which Wine doesn't have, so this is where it gets checked.
+      - name: Self-test, Oyen theme, Japanese lyrics
+        shell: pwsh
+        env:
+          PONI_SELFTEST_THEME: oyen
+          PONI_SELFTEST_LYRICS: ja
+        run: |
+          Add-Type -AssemblyName System.Windows.Forms
+          Add-Type -Namespace PoniCiOyen -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          [PoniCiOyen.User32]::SetCursorPos([int]($b.Width / 2), [int]($b.Height / 2)) | Out-Null
+
+          New-Item -ItemType Directory -Force -Path selftest-oyen-ja | Out-Null
+          $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-oyen-ja" -PassThru
+          $null = $p.Handle
+          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          "oyen + japanese self-test exit code: $code"
+          if (Test-Path selftest-oyen-ja\report.json) {
+            $r = Get-Content selftest-oyen-ja\report.json -Raw | ConvertFrom-Json
+            "renderer: $($r.renderer); states passed: $($r.states_passed)/$($r.states_total); failed: $($r.failed_checks -join ', ')"
+          }
+          "---- pronunciation (poni.log)"
+          Select-String -Path selftest-oyen-ja\home\cache\poni.log -Pattern 'selftest: \[ja\]|fonts:|reading analyzer' -ErrorAction SilentlyContinue | ForEach-Object { $_.Line }
+          if ($code -ne 0) {
+            Get-Content selftest-oyen-ja\home\cache\poni.log -Tail 80 -ErrorAction SilentlyContinue
+            exit 1
+          }
+
       - name: Smoke run (real desktop, hover, idle CPU/RAM)
         shell: pwsh
         run: ./tools/ci-smoke.ps1 -Exe target\release\poni.exe -Out smoke-out
@@ -121,6 +151,7 @@ jobs:
           name: poni-screens
           path: |
             selftest-out
+            selftest-oyen-ja
             smoke-out
             selftest-soft
             smoke-soft

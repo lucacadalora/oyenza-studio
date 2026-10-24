@@ -14,6 +14,7 @@ use poni_core::health::HealthSnapshot;
 use poni_core::lrc::Lyrics;
 use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
+use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
 use poni_core::timeline::Timeline;
@@ -65,11 +66,14 @@ pub struct LyricsState {
     pub status: LyricsStatus,
     pub lyrics: Option<Lyrics>,
     pub source: String,
+    /// Each line's pieces with their readings in Latin letters (Japanese,
+    /// Korean, Chinese); empty for lines that need none.
+    pub ruby: Vec<Vec<Ruby>>,
 }
 
 impl Default for LyricsState {
     fn default() -> Self {
-        Self { track_key: String::new(), status: LyricsStatus::Idle, lyrics: None, source: String::new() }
+        Self { track_key: String::new(), status: LyricsStatus::Idle, lyrics: None, source: String::new(), ruby: Vec::new() }
     }
 }
 
@@ -327,7 +331,11 @@ impl AppState {
     }
 
     /// Accent for media UI: art colour when available, else the system accent.
+    /// The Oyen theme keeps to Oyen's orange.
     pub fn media_accent(&self) -> Color {
+        if self.settings.theme == poni_core::settings::Theme::Oyen {
+            return self.accent;
+        }
         self.media.as_ref().and_then(|m| m.art_color).unwrap_or(self.accent)
     }
 }

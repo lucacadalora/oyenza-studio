@@ -92,6 +92,53 @@ const LYRICS_LRC: &str = "\
 [01:38.50]Paper boats, I'll meet you there someday
 ";
 
+/// The same song in Japanese, Korean and Chinese (written for the test, same
+/// timings), for the pronunciation lines (PONI_SELFTEST_LYRICS=ja|ko|zh).
+const LYRICS_JA: &str = "\
+[00:38.00]朝をたたんで小さな形にした
+[00:43.50]港の壁のそばで水に浮かべた
+[00:49.00]端ににじんだインク、昔の名前
+[00:54.50]流れを見つけて、遠くへ行った
+[01:00.00]紙の舟よ、言えなかった言葉を運んで
+[01:05.50]灰色の海をこえて湾の向こうへ
+[01:11.00]潮がやさしければ光を見つける
+[01:16.50]桟橋のランタンは夜通し灯る
+[01:22.00]小さな帆はどれも出せない手紙
+[01:27.50]小さな波はどれも誰かの想い
+[01:33.00]だから また ひとつ おって ながすよ
+[01:38.50]紙の舟よ、いつかそこで会おう OK
+";
+
+const LYRICS_KO: &str = "\
+[00:38.00]아침을 접어서 작게 만들었어
+[00:43.50]항구 벽 옆에서 물 위에 띄웠어
+[00:49.00]가장자리에 번진 잉크, 옛 이름
+[00:54.50]물길을 찾아서 멀리 떠나갔어
+[01:00.00]종이배야, 못 한 말을 실어 가 줘
+[01:05.50]회색 바다를 건너 만 너머로
+[01:11.00]물결이 다정하면 빛을 찾겠지
+[01:16.50]부두의 등불은 밤새 타올라
+[01:22.00]작은 돛마다 부치지 못한 편지
+[01:27.50]작은 물결마다 누군가의 마음
+[01:33.00]그래서 또 하나 접어 흘려보내
+[01:38.50]종이배야, 언젠가 거기서 만나 Oh
+";
+
+const LYRICS_ZH: &str = "\
+[00:38.00]把清晨折成小小的形状
+[00:43.50]放在港口的墙边水面上
+[00:49.00]边缘晕开的墨水，旧日的名字
+[00:54.50]看它找到水流，看它远去
+[01:00.00]纸船啊，带走我说不出的话
+[01:05.50]越过灰色的海，驶向海湾那边
+[01:11.00]如果潮水温柔，它们会找到光
+[01:16.50]码头的灯笼彻夜燃烧
+[01:22.00]每一片小帆都是没寄出的信
+[01:27.50]每一道涟漪都是谁的心意
+[01:33.00]所以我再折一只，让它漂走
+[01:38.50]纸船啊，总有一天我们在那里相见
+";
+
 const NOTES_TXT: &str = "Weekend trip\n\n- ferry leaves at 9:40\n- pack the blue jacket\n- ask about the lighthouse tour\n";
 
 const CLIPS: [&str; 6] = [
@@ -365,6 +412,8 @@ pub struct SelfTest {
     dpi_applied: bool,
     /// PONI_SELFTEST_THEME=oyen: run every scene in the Oyen theme.
     theme: Theme,
+    /// PONI_SELFTEST_LYRICS=ja|ko|zh: the sample song in that language.
+    lyrics_lang: Option<String>,
     renderer: &'static str,
     /// The seeded shelf and its thumbnails (the empty-shelf scene hides
     /// them, and the page forgets thumbnails of items that left).
@@ -404,6 +453,7 @@ impl SelfTest {
             anim: std::env::var("PONI_SELFTEST_ANIM").is_ok_and(|v| v.trim() == "1"),
             dpi_applied: false,
             theme: if std::env::var("PONI_SELFTEST_THEME").is_ok_and(|v| v.trim() == "oyen") { Theme::Oyen } else { Theme::Classic },
+            lyrics_lang: std::env::var("PONI_SELFTEST_LYRICS").ok().map(|v| v.trim().to_ascii_lowercase()).filter(|v| !v.is_empty()),
             renderer: "software",
             shelf_items: Vec::new(),
             shelf_thumbs: Vec::new(),
@@ -436,14 +486,31 @@ impl SelfTest {
         let art = ImageData::new(ART_PX, ART_PX, make_art(ART_PX));
         self.art_color = Some(art.accent_color());
         self.art = Some(art);
-        let parsed = parse_lrc(LYRICS_LRC);
+        let lrc = match self.lyrics_lang.as_deref() {
+            Some("ja") => LYRICS_JA,
+            Some("ko") => LYRICS_KO,
+            Some("zh") => LYRICS_ZH,
+            _ => LYRICS_LRC,
+        };
+        let parsed = parse_lrc(lrc);
         let lyric_ok = parsed.synced && parsed.lines.len() == 12 && parsed.line_index_at(TRACK_POS_S) == Some(4);
         self.checks.push(check(
             "lyrics-fixture",
             lyric_ok,
             format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
         ));
-        self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into() };
+        let ruby = crate::services::romanize::pronounce(&parsed);
+        if let Some(lang) = &self.lyrics_lang {
+            // The CI log shows how each line reads (on Windows the Japanese
+            // readings come from the system's analyzer).
+            let read = |p: &[poni_core::romanize::Ruby]| p.iter().filter(|r| !r.roman.is_empty()).map(|r| r.roman.as_str()).collect::<Vec<_>>().join(" ");
+            let lines_read = ruby.iter().filter(|p| p.iter().any(|r| !r.roman.is_empty())).count();
+            for (line, p) in parsed.lines.iter().zip(&ruby) {
+                crate::pinfo!("selftest: [{lang}] {} -> {}", line.text, read(p));
+            }
+            self.checks.push(check("lyrics-pronunciation", lines_read > 0, format!("{lines_read} of {} {lang} lines read in Latin letters", parsed.lines.len())));
+        }
+        self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby };
 
         seed_tasks(st);
         self.health = Some(sample_health(st));
@@ -743,10 +810,12 @@ impl SelfTest {
             let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
             let top = (3.0 * scale).round() as i32;
             let [b, g, r, a] = frame.at(cx, top);
+            let ground = rgb8(poni_core::look::of(self.theme).ground);
+            let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
             checks.push(check(
-                "body-opaque-black",
-                a >= 254 && r.max(g).max(b) <= 6,
-                format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a})"),
+                "body-opaque-ground",
+                a >= 254 && off <= 6,
+                format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), ground rgb{ground:?}"),
             ));
 
             let corners = [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)].map(|(x, y)| frame.at(x, y)[3]);
@@ -769,8 +838,8 @@ impl SelfTest {
                 ));
             }
 
-            let lit = frame.bright_pixels(body, scale);
-            checks.push(check("content-drawn", lit >= 20, format!("{lit} bright pixels inside the island")));
+            let lit = frame.content_pixels(body, scale, rgb8(poni_core::look::of(self.theme).ground));
+            checks.push(check("content-drawn", lit >= 20, format!("{lit} content pixels inside the island")));
         }
         checks.push(check(
             "frame-time",
@@ -1086,7 +1155,9 @@ impl Frame<'_> {
     }
 
     /// Opaque, bright pixels inside the island body (text, icons, art).
-    fn bright_pixels(&self, body: Rect, scale: f32) -> usize {
+    /// Opaque pixels inside the island that stand clearly apart from its
+    /// ground colour (text, icons, art).
+    fn content_pixels(&self, body: Rect, scale: f32, ground: [u8; 3]) -> usize {
         let x0 = (body.x * scale).floor().max(0.0) as i32;
         let x1 = ((body.x + body.w) * scale).ceil() as i32;
         let y1 = ((body.y + body.h) * scale).ceil() as i32;
@@ -1094,7 +1165,8 @@ impl Frame<'_> {
         for y in (body.y * scale).floor().max(0.0) as i32..y1.min(self.h) {
             for x in x0..x1.min(self.w) {
                 let [b, g, r, a] = self.at(x, y);
-                if a >= 200 && r.max(g).max(b) >= 140 {
+                let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
+                if a >= 200 && off >= 140 {
                     n += 1;
                 }
             }
@@ -1175,4 +1247,9 @@ fn composite(w: usize, h: usize, pbgra: &[u8], scale: f32) -> (u32, u32, Vec<u8>
         }
     }
     (ow as u32, oh as u32, out)
+}
+
+/// A colour as 8-bit (r, g, b).
+fn rgb8(c: Color) -> [u8; 3] {
+    [c.r, c.g, c.b].map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8)
 }

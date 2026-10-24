@@ -373,9 +373,9 @@ fn valid_date(t: &LocalDateTime) -> bool {
 /// Text colour that stays legible on an accent fill.
 fn ink_on(fill: Color) -> Color {
     if fill.luminance() > 0.6 {
-        Color::black(0.88)
+        palette::ON_ACCENT_DARK
     } else {
-        Color::white(1.0)
+        palette::ON_ACCENT
     }
 }
 

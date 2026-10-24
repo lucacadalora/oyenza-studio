@@ -23,6 +23,7 @@
 
 use crate::icons::{self, Icon};
 use poni_core::geom::{Color, Point, Rect};
+use poni_core::look::{self, Look};
 use poni_core::svgpath::Seg;
 use std::collections::HashMap;
 use std::ffi::c_void;
@@ -646,7 +647,16 @@ pub struct Gfx {
     pub dpi: f32,
     brush: ID2D1SolidColorBrush,
     round_stroke: ID2D1StrokeStyle,
+    /// The system UI font family (Segoe UI Variable / Segoe UI).
+    system_family: Vec<u16>,
+    /// The family text is written in now: the look's font, else the system's.
     family: Vec<u16>,
+    /// The fonts shipped in the exe, once loaded (`None` until a look wants
+    /// them, or when this Windows can't load fonts from memory).
+    embedded: Option<IDWriteFontCollection>,
+    embedded_tried: bool,
+    /// How content is painted (the theme).
+    look: &'static Look,
     formats: HashMap<(u32, Weight, bool), IDWriteTextFormat>,
     /// Text layouts with the frame they were last used in.
     layouts: HashMap<LayoutKey, (IDWriteTextLayout, u64)>,
@@ -694,6 +704,42 @@ fn pick_font_family(dwrite: &IDWriteFactory) -> Vec<u16> {
         }
     }
     wide("Segoe UI").into_iter().chain(Some(0)).collect()
+}
+
+/// Fonts shipped inside the exe: Outfit (SIL Open Font License 1.1, see
+/// `res/fonts/OFL.txt`), the Oyen Poni website's typeface, in the four weights
+/// the island uses.
+const EMBEDDED_FONTS: [&[u8]; 4] = [
+    include_bytes!("../res/fonts/Outfit-Regular.ttf"),
+    include_bytes!("../res/fonts/Outfit-Medium.ttf"),
+    include_bytes!("../res/fonts/Outfit-SemiBold.ttf"),
+    include_bytes!("../res/fonts/Outfit-Bold.ttf"),
+];
+
+/// A font collection of the embedded fonts (needs Windows 10 1703+). Letters
+/// they lack (Japanese, Korean, emoji, ...) still come from the system fonts
+/// through DirectWrite's fallback.
+fn load_embedded_fonts(dwrite: &IDWriteFactory) -> Result<IDWriteFontCollection> {
+    unsafe {
+        let f5: IDWriteFactory5 = dwrite.cast()?;
+        let loader = f5.CreateInMemoryFontFileLoader()?;
+        f5.RegisterFontFileLoader(&loader)?;
+        let builder = f5.CreateFontSetBuilder()?;
+        for data in EMBEDDED_FONTS {
+            // No owner object: DirectWrite keeps its own copy of the bytes.
+            let file = loader.CreateInMemoryFontFileReference(&f5, data.as_ptr() as *const c_void, data.len() as u32, None::<&windows::core::IUnknown>)?;
+            builder.AddFontFile(&file)?;
+        }
+        let set = builder.CreateFontSet()?;
+        f5.CreateFontCollectionFromFontSet(&set)?.cast()
+    }
+}
+
+/// Whether `coll` holds a family called `name`.
+fn has_family(coll: &IDWriteFontCollection, name: &[u16]) -> bool {
+    let mut index = 0u32;
+    let mut exists = BOOL(0);
+    unsafe { coll.FindFamilyName(PCWSTR(name.as_ptr()), &mut index, &mut exists).is_ok() && exists.as_bool() }
 }
 
 /// `PONI_RENDERER=software` forces the software renderer (troubleshooting).
@@ -749,7 +795,11 @@ impl Gfx {
                 dpi,
                 brush,
                 round_stroke,
+                system_family: family.clone(),
                 family,
+                embedded: None,
+                embedded_tried: false,
+                look: &look::CLASSIC,
                 formats: HashMap::new(),
                 layouts: HashMap::new(),
                 bitmaps: HashMap::new(),
@@ -779,6 +829,37 @@ impl Gfx {
         if dpi != self.dpi {
             self.dpi = dpi;
             self.layers.clear();
+        }
+    }
+
+    /// Paint with `look` from the next frame on. A new font throws away the
+    /// cached text formats and layouts.
+    pub fn set_look(&mut self, look: &'static Look) {
+        if std::ptr::eq(self.look, look) {
+            return;
+        }
+        self.look = look;
+        let family = match look.font {
+            Some(name) => {
+                if !self.embedded_tried {
+                    self.embedded_tried = true;
+                    match load_embedded_fonts(&self.dwrite) {
+                        Ok(c) => self.embedded = Some(c),
+                        Err(e) => crate::pwarn!("fonts: embedded fonts unavailable ({e}); using the system font"),
+                    }
+                }
+                let w: Vec<u16> = wide(name).into_iter().chain(Some(0)).collect();
+                match &self.embedded {
+                    Some(c) if has_family(c, &w) => w,
+                    _ => self.system_family.clone(),
+                }
+            }
+            None => self.system_family.clone(),
+        };
+        if family != self.family {
+            self.family = family;
+            self.formats.clear();
+            self.layouts.clear();
         }
     }
 
@@ -1049,10 +1130,11 @@ impl Gfx {
         if let Some(f) = self.formats.get(&key) {
             return Ok(f.clone());
         }
+        let coll = if self.family != self.system_family { self.embedded.clone() } else { None };
         let f = unsafe {
             let f = self.dwrite.CreateTextFormat(
                 PCWSTR(self.family.as_ptr()),
-                None::<&IDWriteFontCollection>,
+                coll.as_ref(),
                 weight.dwrite(),
                 DWRITE_FONT_STYLE_NORMAL,
                 DWRITE_FONT_STRETCH_NORMAL,
@@ -1260,7 +1342,28 @@ impl<'a> Canvas<'a> {
     }
 
     fn set_brush(&self, c: Color) {
+        let c = self.g.look.paint(c);
         unsafe { self.g.brush.SetColor(&d2d_color(c.mul_alpha(self.alpha))) };
+    }
+
+    fn set_text_brush(&self, c: Color) {
+        let c = self.g.look.paint_text(c);
+        unsafe { self.g.brush.SetColor(&d2d_color(c.mul_alpha(self.alpha))) };
+    }
+
+    /// The theme's look (how the canvas paints the colours it is given).
+    pub fn look(&self) -> &'static Look {
+        self.g.look
+    }
+
+    /// Run `f` painting colours exactly as given, outside the theme (Oyen's
+    /// own face).
+    pub fn unthemed<R>(&mut self, f: impl FnOnce(&mut Canvas<'a>) -> R) -> R {
+        let prev = self.g.look;
+        self.g.look = &look::CLASSIC;
+        let r = f(self);
+        self.g.look = prev;
+        r
     }
 
     pub fn scale(&self) -> f32 {
@@ -1404,7 +1507,7 @@ impl<'a> Canvas<'a> {
             return;
         }
         if let Ok(layout) = self.g.layout(s, st, r.w, r.h) {
-            self.set_brush(st.color);
+            self.set_text_brush(st.color);
             unsafe { self.g.rt.DrawTextLayout(pt(r.x, r.y), &layout, &self.g.brush, D2D1_DRAW_TEXT_OPTIONS_NONE) };
         }
     }
@@ -1461,7 +1564,8 @@ impl<'a> Canvas<'a> {
         let s = r.w.min(r.h) / 24.0;
         let ox = r.x + (r.w - 24.0 * s) / 2.0;
         let oy = r.y + (r.h - 24.0 * s) / 2.0;
-        self.set_brush(color);
+        // Icons are glyphs: they take a coloured label's shade, not a fill's.
+        self.set_text_brush(color);
         unsafe {
             let mut prev = Matrix3x2::identity();
             self.g.rt.GetTransform(&mut prev);

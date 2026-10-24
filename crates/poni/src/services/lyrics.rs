@@ -263,6 +263,12 @@ impl Worker {
 
     fn process(&mut self, job: Job) {
         match self.lookup(&job) {
+            Ok(LyricsResult::Found { lyrics, source, .. }) => {
+                // Readings for Japanese / Korean / Chinese lines, worked out
+                // here so the UI thread never waits on the analyzer.
+                let ruby = super::romanize::pronounce(&lyrics);
+                self.deliver(&job, LyricsResult::Found { lyrics, source, ruby })
+            }
             Ok(result) => self.deliver(&job, result),
             Err(Halt::Abandoned) => {}
             Err(Halt::Failed { msg, retry_at }) => {
@@ -582,7 +588,7 @@ fn to_result(record: Option<&LrclibRecord>, job: &Job, source: &str) -> LyricsRe
         return LyricsResult::Instrumental;
     }
     match record.and_then(|r| lyrics_for(r, job.query.duration_s)) {
-        Some(lyrics) => LyricsResult::Found { lyrics, source: source.into() },
+        Some(lyrics) => LyricsResult::Found { lyrics, source: source.into(), ruby: Vec::new() },
         None => LyricsResult::NotFound,
     }
 }

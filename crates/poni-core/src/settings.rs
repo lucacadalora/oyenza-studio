@@ -62,6 +62,10 @@ pub struct Settings {
     pub monitor: MonitorChoice,
     pub show_media_activity: bool,
     pub lyrics: bool,
+    /// Romanized "pronunciation" line under Japanese, Korean and Chinese lyrics.
+    pub lyrics_pronunciation: bool,
+    /// Shift synced lyrics: positive shows each line earlier (ms).
+    pub lyrics_offset_ms: i32,
     pub hud_volume: bool,
     pub hud_power: bool,
     pub hud_bluetooth: bool,
@@ -88,6 +92,8 @@ impl Default for Settings {
             monitor: MonitorChoice::Primary,
             show_media_activity: true,
             lyrics: true,
+            lyrics_pronunciation: true,
+            lyrics_offset_ms: 0,
             hud_volume: true,
             hud_power: true,
             hud_bluetooth: true,
@@ -112,6 +118,7 @@ impl Settings {
             self.settings_version = SETTINGS_VERSION;
         }
         self.hover_delay_ms = self.hover_delay_ms.min(2000);
+        self.lyrics_offset_ms = self.lyrics_offset_ms.clamp(-5000, 5000);
         self.collapse_delay_ms = self.collapse_delay_ms.clamp(50, 5000);
         if !self.expanded_width.is_finite() {
             self.expanded_width = 620.0;
