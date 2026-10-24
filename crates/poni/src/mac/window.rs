@@ -18,6 +18,11 @@ use objc2_foundation::{NSObject, NSObjectProtocol, NSPoint, NSRect, NSRunLoop, N
 use objc2_quartz_core::{CADisplayLink, CAFrameRateRange};
 use poni_core::geom::Rect;
 use std::cell::RefCell;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+/// The panel takes the keyboard only while a text field asks for it; any
+/// other click leaves the keyboard with the app the person is typing in.
+static WANT_KEY: AtomicBool = AtomicBool::new(false);
 
 /// Above the menu bar (24) and its status items, below pop-up menus (101).
 const ISLAND_LEVEL: isize = 24 + 3;
@@ -79,7 +84,7 @@ define_class!(
     impl IslandPanel {
         #[unsafe(method(canBecomeKeyWindow))]
         fn can_become_key(&self) -> bool {
-            true
+            WANT_KEY.load(Ordering::Relaxed)
         }
 
         #[unsafe(method(canBecomeMainWindow))]
@@ -346,6 +351,7 @@ pub fn pointer() -> Option<(f32, f32)> {
 
 /// Take the keyboard (a text field got focus) without activating the app.
 pub fn take_keyboard() {
+    WANT_KEY.store(true, Ordering::Relaxed);
     with_window(|win| {
         win.panel.makeKeyWindow();
         let _ = win.panel.makeFirstResponder(Some(&win.view));
@@ -355,6 +361,7 @@ pub fn take_keyboard() {
 /// Give the keyboard back to the app that had it: ordering the panel out and
 /// in again hands key status back to the frontmost app's window.
 pub fn release_keyboard() {
+    WANT_KEY.store(false, Ordering::Relaxed);
     with_window(|win| {
         if win.panel.isKeyWindow() {
             win.panel.orderOut(None);

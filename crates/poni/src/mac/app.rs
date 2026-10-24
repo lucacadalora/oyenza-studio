@@ -875,6 +875,8 @@ impl App {
     }
 
     fn on_resign_key(&mut self) {
+        // The person clicked elsewhere: the text field let go of the keyboard.
+        self.pending.push(Deferred::ReleaseKeyboard);
         if self.text_focus {
             self.text_focus = false;
             self.input.focused = None;
