@@ -11,6 +11,12 @@
 //! Output per state: `<nn>-<name>.png` (composited over a wallpaper-like
 //! gradient, the way it looks on a desktop) and `<nn>-<name>-alpha.png` (the
 //! raw alpha channel). The exit code is 0 when every check passes, else 1.
+//!
+//! PONI_SELFTEST_THEME=glass runs every scene in the Glass theme over a page
+//! the self-test draws itself (no screen copy): PONI_SELFTEST_GLASS=light (a
+//! light browser page, Windows in light mode), dark (a dark video page, dark
+//! mode) or flip (the dark page in light mode: small glass turns dark, the
+//! open island stays light). Its screenshots are composited over that page.
 
 use crate::app::App;
 use crate::clock;
@@ -38,6 +44,7 @@ use poni_core::sysmon::{
 };
 use poni_core::timeline::Timeline;
 use serde::Serialize;
+use std::cell::Cell;
 use std::fs;
 use std::path::PathBuf;
 use std::thread::JoinHandle;
@@ -790,8 +797,13 @@ pub struct SelfTest {
     /// PONI_SELFTEST_ANIM=1: after the scenes, record transitions frame by frame.
     anim: bool,
     dpi_applied: bool,
-    /// PONI_SELFTEST_THEME=oyen: run every scene in the Oyen theme.
+    /// PONI_SELFTEST_THEME=oyen|glass: run every scene in that theme.
     theme: Theme,
+    /// Glass: which page is under the island (PONI_SELFTEST_GLASS), the
+    /// window size its backdrop was drawn for, and the scene last seeded.
+    glass: Option<GlassRun>,
+    glass_size: Cell<(i32, i32)>,
+    glass_scene: Cell<Option<Scene>>,
     /// PONI_SELFTEST_LYRICS=ja|ko|zh: the sample song in that language.
     lyrics_lang: Option<String>,
     renderer: &'static str,
@@ -832,7 +844,14 @@ impl SelfTest {
             dpi: std::env::var("PONI_SELFTEST_DPI").ok().and_then(|v| v.trim().parse().ok()),
             anim: std::env::var("PONI_SELFTEST_ANIM").is_ok_and(|v| v.trim() == "1"),
             dpi_applied: false,
-            theme: if std::env::var("PONI_SELFTEST_THEME").is_ok_and(|v| v.trim() == "oyen") { Theme::Oyen } else { Theme::Classic },
+            theme: match std::env::var("PONI_SELFTEST_THEME").map(|v| v.trim().to_ascii_lowercase()).as_deref() {
+                Ok("oyen") => Theme::Oyen,
+                Ok("glass") => Theme::Glass,
+                _ => Theme::Classic,
+            },
+            glass: None,
+            glass_size: Cell::new((0, 0)),
+            glass_scene: Cell::new(None),
             lyrics_lang: std::env::var("PONI_SELFTEST_LYRICS").ok().map(|v| v.trim().to_ascii_lowercase()).filter(|v| !v.is_empty()),
             renderer: "software",
             shelf_items: Vec::new(),
@@ -847,6 +866,11 @@ impl SelfTest {
         let (ok, detail) = system_readings(crate::services::sysmon::probe());
         self.checks.push(check("system-readings", ok, detail));
         self.t0 = Instant::now();
+        if self.theme == Theme::Glass {
+            let run = GlassRun::from_env();
+            crate::pinfo!("selftest: Glass theme over the {} page, Windows in {} mode", if run.dark_page() { "dark" } else { "light" }, if run.app_light() { "light" } else { "dark" });
+            self.glass = Some(run);
+        }
         crate::pinfo!("selftest: output folder {}", self.dir.display());
         match fs::create_dir_all(&self.dir) {
             Ok(()) => self.clear_old_outputs(),
@@ -1080,7 +1104,7 @@ impl SelfTest {
             }
             placed.push(format!("{{\"frame\": {k}, \"x\": {}, \"y\": {}, \"w\": {w}, \"h\": {h}}}", at.0, at.1));
             let scale = self.scale;
-            self.queue_write(&format!("anim-{name}-{k:02}"), w, h, px, scale);
+            self.queue_write(&format!("anim-{name}-{k:02}"), w, h, px, scale, None);
             std::thread::sleep(std::time::Duration::from_millis(16));
         }
         let json = format!("{{\"name\": \"{name}\", \"scale\": {}, \"frames\": [\n  {}\n]}}\n", self.scale, placed.join(",\n  "));
@@ -1102,6 +1126,20 @@ impl SelfTest {
             st.settings.theme = self.theme;
             st.accent = if self.theme == Theme::Oyen { crate::oyen::ORANGE } else { palette::BLUE };
         }
+        if let Some(run) = self.glass {
+            // What's under the window: drawn again whenever the window grows.
+            let (_, _, w, h) = app.selftest_surface();
+            if w > 0 && h > 0 && self.glass_size.get() != (w, h) {
+                let px = glass_backdrop(run.dark_page(), w, h, app.scale());
+                app.selftest_glass_backdrop(px, w, h, run.app_light());
+                self.glass_size.set((w, h));
+            }
+            if self.glass_scene.get() != Some(scene) {
+                self.glass_scene.set(Some(scene));
+                app.selftest_glass_reseed();
+            }
+        }
+        let st = &mut app.st;
         st.power = fake_power(scene == Scene::ChargingHud);
         st.stats = fake_stats();
         st.volume = VolumeState { level: 0.64, muted: false, known: true };
@@ -1284,13 +1322,18 @@ impl SelfTest {
             let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
             let top = (3.0 * scale).round() as i32;
             let [b, g, r, a] = frame.at(cx, top);
-            let ground = rgb8(poni_core::look::of(self.theme).ground);
-            let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
-            checks.push(check(
-                "body-opaque-ground",
-                a >= 254 && off <= 6,
-                format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), ground rgb{ground:?}"),
-            ));
+            if self.glass.is_some() {
+                // Glass shows what's under it, so no one ground colour: opaque is the rule.
+                checks.push(check("glass-opaque", a >= 254, format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a})")));
+            } else {
+                let ground = rgb8(poni_core::look::of(self.theme).ground);
+                let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
+                checks.push(check(
+                    "body-opaque-ground",
+                    a >= 254 && off <= 6,
+                    format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), ground rgb{ground:?}"),
+                ));
+            }
 
             let corners = [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)].map(|(x, y)| frame.at(x, y)[3]);
             checks.push(check("corners-transparent", corners.iter().all(|&a| a <= 1), format!("corner alpha {corners:?}")));
@@ -1312,8 +1355,14 @@ impl SelfTest {
                 ));
             }
 
-            let lit = frame.content_pixels(body, scale, rgb8(poni_core::look::of(self.theme).ground));
+            let look = if self.glass.is_some() { app.selftest_glass_state().2 } else { poni_core::look::of(self.theme) };
+            // Glass: away from the bright rim, which isn't content.
+            let area = if self.glass.is_some() { Rect::new(body.x + 10.0, body.y, (body.w - 20.0).max(1.0), (body.h - 10.0).max(1.0)) } else { body };
+            let lit = frame.content_pixels(area, scale, rgb8(look.ground));
             checks.push(check("content-drawn", lit >= 20, format!("{lit} content pixels inside the island")));
+            if let Some(run) = self.glass {
+                self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
+            }
         }
         checks.push(check(
             "frame-time",
@@ -1340,7 +1389,12 @@ impl SelfTest {
         }
 
         if w > 0 && h > 0 && px.len() == (w as usize) * (h as usize) * 4 {
-            self.queue_write(&name, w, h, px, scale);
+            let back = self.glass.map(|run| {
+                let r = app.selftest_capture_rect();
+                let (_, _, sw, _) = app.selftest_surface();
+                Backdrop { dark: run.dark_page(), scale, left: r.left, top: r.top, cx_dip: sw as f32 / 2.0 / scale }
+            });
+            self.queue_write(&name, w, h, px, scale, back);
         }
         self.states.push(StateReport {
             index: i + 1,
@@ -1361,13 +1415,71 @@ impl SelfTest {
         });
     }
 
+    /// The Glass theme's own checks for one scene: the glass is drawn by the
+    /// shader on the GPU, its rim bends the page (lens off changes it), it
+    /// shows the page (smoked glass looks different), text reads at 4.5:1 on
+    /// it, and in the flip run small glass is dark and the open island light.
+    #[allow(clippy::too_many_arguments)]
+    fn glass_checks(&self, app: &mut App, scene: Scene, run: GlassRun, px: &[u8], w: i32, h: i32, body: Rect, scale: f32, checks: &mut Vec<Check>) {
+        let (shader, copy, look) = app.selftest_glass_state();
+        let frame = Frame { w, h, px };
+        let on_gpu = self.renderer != "software";
+        if on_gpu {
+            checks.push(check("glass-shader", shader && copy, format!("shader drew the glass: {shader}, backdrop on the GPU: {copy}")));
+            if shader && copy {
+                let mut again = |lens: f32, use_copy: bool| {
+                    app.selftest_glass_switches(lens, use_copy);
+                    self.apply(app, scene);
+                    let (w2, h2, px2, _) = app.selftest_capture();
+                    app.selftest_glass_switches(1.0, true);
+                    (w2 == w && h2 == h).then_some(px2)
+                };
+                let flat = again(0.0, true);
+                let smoked = again(1.0, false);
+                self.apply(app, scene);
+                let area = (body.w * body.h * scale * scale).max(1.0);
+                match flat {
+                    Some(f) => {
+                        // A pill over flat browser chrome bends only a few pixels;
+                        // a lens that doesn't run moves none.
+                        let n = frame.changed_in(&f, body, scale, 6);
+                        checks.push(check("glass-lens", n >= 10, format!("{n} pixels move when the lens is off")));
+                    }
+                    None => checks.push(check("glass-lens", false, "the frame changed size between captures")),
+                }
+                match smoked {
+                    Some(f) => {
+                        let n = frame.changed_in(&f, body, scale, 4);
+                        let share = n as f32 / area;
+                        checks.push(check("glass-shows-backdrop", share >= 0.2, format!("{:.0} % of the island differs from smoked glass", share * 100.0)));
+                    }
+                    None => checks.push(check("glass-shows-backdrop", false, "the frame changed size between captures")),
+                }
+            }
+        }
+        // Text against the glass: the island's typical colour (its median,
+        // which text doesn't move) must give the ink 4.5:1.
+        let median = frame.median_in(body, scale);
+        let ink = [look.ink.r, look.ink.g, look.ink.b];
+        let c = poni_core::glass::contrast(median, ink);
+        checks.push(check("glass-ink-contrast", c >= 4.5, format!("{c:.2}:1 for ink rgb{:?} on glass rgb{:?}", rgb8(look.ink), median.map(|v| (v * 255.0).round() as u8))));
+        if run == GlassRun::Flip {
+            let want_light = scene.expanded();
+            checks.push(check(
+                "glass-flip",
+                look.light == want_light,
+                format!("{} glass over the dark page in light mode (want {})", if look.light { "light" } else { "dark" }, if want_light { "light: the open island follows the mode" } else { "dark: small glass flips" }),
+            ));
+        }
+    }
+
     /// Composite + alpha PNGs, encoded off the UI thread.
-    fn queue_write(&mut self, name: &str, w: i32, h: i32, px: Vec<u8>, scale: f32) {
+    fn queue_write(&mut self, name: &str, w: i32, h: i32, px: Vec<u8>, scale: f32, back: Option<Backdrop>) {
         let dir = self.dir.clone();
         let base = name.to_string();
         let job = move || {
             let mut errors = Vec::new();
-            let (cw, ch, comp) = composite(w as usize, h as usize, &px, scale);
+            let (cw, ch, comp) = composite(w as usize, h as usize, &px, scale, back);
             if let Err(e) = png::save_rgba(dir.join(format!("{base}.png")), cw, ch, &comp) {
                 errors.push(e);
             }
@@ -1649,6 +1761,51 @@ impl Frame<'_> {
     }
 }
 
+impl Frame<'_> {
+    /// Pixels inside `body` where `other` differs by at least `min` in some channel.
+    fn changed_in(&self, other: &[u8], body: Rect, scale: f32, min: u8) -> usize {
+        let (x0, y0) = ((body.x * scale).floor().max(0.0) as i32, (body.y * scale).floor().max(0.0) as i32);
+        let (x1, y1) = (((body.x + body.w) * scale).ceil() as i32, ((body.y + body.h) * scale).ceil() as i32);
+        let mut n = 0;
+        for y in y0..y1.min(self.h) {
+            for x in x0..x1.min(self.w) {
+                let o = (y as usize * self.w as usize + x as usize) * 4;
+                if let (Some(a), Some(b)) = (self.px.get(o..o + 3), other.get(o..o + 3)) {
+                    if a.iter().zip(b).any(|(p, q)| p.abs_diff(*q) >= min) {
+                        n += 1;
+                    }
+                }
+            }
+        }
+        n
+    }
+
+    /// The median colour (sRGB, 0..=1, per channel) inside `body`, sampled
+    /// every other pixel.
+    fn median_in(&self, body: Rect, scale: f32) -> [f32; 3] {
+        let (x0, y0) = ((body.x * scale).floor().max(0.0) as i32, (body.y * scale).floor().max(0.0) as i32);
+        let (x1, y1) = (((body.x + body.w) * scale).ceil() as i32, ((body.y + body.h) * scale).ceil() as i32);
+        let mut ch: [Vec<u8>; 3] = [Vec::new(), Vec::new(), Vec::new()];
+        for y in (y0..y1.min(self.h)).step_by(2) {
+            for x in (x0..x1.min(self.w)).step_by(2) {
+                let [b, g, r, a] = self.at(x, y);
+                if a >= 250 {
+                    ch[0].push(r);
+                    ch[1].push(g);
+                    ch[2].push(b);
+                }
+            }
+        }
+        ch.map(|mut v| {
+            if v.is_empty() {
+                return 0.0;
+            }
+            v.sort_unstable();
+            v[v.len() / 2] as f32 / 255.0
+        })
+    }
+}
+
 /// The island window must be a visible, top-most, non-activating layered
 /// tool window, laid out where the app placed it, with the frame inside it.
 fn window_check(hwnd: HWND, surface: (i32, i32, i32, i32), present: (i32, i32), w: i32, h: i32) -> Check {
@@ -1690,9 +1847,22 @@ fn round2(v: f64) -> f64 {
     (v * 100.0).round() / 100.0
 }
 
-/// Frame over a soft wallpaper-like gradient, with room around it, the way
-/// the island hangs from the top of a desktop. Returns straight RGBA.
-fn composite(w: usize, h: usize, pbgra: &[u8], scale: f32) -> (u32, u32, Vec<u8>) {
+/// Where a capture sits over the Glass self-test's page: the page's kind,
+/// the scale, the capture's top-left in window pixels and the window's
+/// centre in DIPs.
+#[derive(Clone, Copy, Debug)]
+struct Backdrop {
+    dark: bool,
+    scale: f32,
+    left: i32,
+    top: i32,
+    cx_dip: f32,
+}
+
+/// Frame over a soft wallpaper-like gradient (or, in the Glass theme, the
+/// page under the island), with room around it, the way the island hangs from
+/// the top of a desktop. Returns straight RGBA.
+fn composite(w: usize, h: usize, pbgra: &[u8], scale: f32, back: Option<Backdrop>) -> (u32, u32, Vec<u8>) {
     let pad_x = (48.0 * scale).round().max(0.0) as usize;
     let pad_b = (40.0 * scale).round().max(0.0) as usize;
     let (ow, oh) = (w + 2 * pad_x, h + pad_b);
@@ -1704,7 +1874,14 @@ fn composite(w: usize, h: usize, pbgra: &[u8], scale: f32) -> (u32, u32, Vec<u8>
         let v = y as f32 * fy;
         let (left, right) = (mix(tl, bl, v), mix(tr, br, v));
         for x in 0..ow {
-            let bg = mix(left, right, x as f32 * fx);
+            let bg = match back {
+                Some(b) => {
+                    let wx = (b.left + x as i32 - pad_x as i32) as f32 + 0.5;
+                    let wy = (b.top + y as i32) as f32 + 0.5;
+                    backdrop_dip(b.dark, wx / b.scale - b.cx_dip, wy / b.scale).map(|c| c as f32 / 255.0)
+                }
+                None => mix(left, right, x as f32 * fx),
+            };
             let mut c = [bg[0] * 255.0, bg[1] * 255.0, bg[2] * 255.0];
             if y < h && x >= pad_x && x < pad_x + w {
                 let o = (y * w + (x - pad_x)) * 4;
@@ -1726,4 +1903,206 @@ fn composite(w: usize, h: usize, pbgra: &[u8], scale: f32) -> (u32, u32, Vec<u8>
 /// A colour as 8-bit (r, g, b).
 fn rgb8(c: Color) -> [u8; 3] {
     [c.r, c.g, c.b].map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8)
+}
+
+// ---------------------------------------------------------------- Glass backdrops
+
+/// What the Glass self-test puts under the island (PONI_SELFTEST_GLASS).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum GlassRun {
+    /// A light browser page, Windows in light mode.
+    Light,
+    /// A dark video page, Windows in dark mode.
+    Dark,
+    /// The dark page with Windows in light mode: small glass flips dark, the
+    /// open island stays light.
+    Flip,
+}
+
+impl GlassRun {
+    fn from_env() -> Self {
+        match std::env::var("PONI_SELFTEST_GLASS").map(|v| v.trim().to_ascii_lowercase()).as_deref() {
+            Ok("dark") => GlassRun::Dark,
+            Ok("flip") => GlassRun::Flip,
+            _ => GlassRun::Light,
+        }
+    }
+
+    fn dark_page(self) -> bool {
+        self != GlassRun::Light
+    }
+
+    fn app_light(self) -> bool {
+        self != GlassRun::Dark
+    }
+}
+
+/// The page under a `w`×`h` window at `scale`: BGRA, opaque.
+fn glass_backdrop(dark: bool, w: i32, h: i32, scale: f32) -> Vec<u8> {
+    let cx = w as f32 / 2.0 / scale;
+    let mut px = vec![0u8; (w * h * 4) as usize];
+    for y in 0..h {
+        for x in 0..w {
+            let c = backdrop_dip(dark, (x as f32 + 0.5) / scale - cx, (y as f32 + 0.5) / scale);
+            let o = ((y * w + x) * 4) as usize;
+            px[o..o + 4].copy_from_slice(&[c[2], c[1], c[0], 255]);
+        }
+    }
+    px
+}
+
+fn hash(i: i32) -> u32 {
+    let mut h = (i as u32) ^ 0x9E37_79B9;
+    h = h.wrapping_mul(0x85EB_CA6B);
+    h ^= h >> 13;
+    h = h.wrapping_mul(0xC2B2_AE35);
+    h ^ (h >> 16)
+}
+
+/// Text-like word bars between `x0` and `x1`: is `x` on a word?
+fn on_word(x: f32, x0: f32, x1: f32, seed: i32) -> bool {
+    if x < x0 || x >= x1 {
+        return false;
+    }
+    let mut at = x0;
+    let mut k = 0;
+    while at < x1 {
+        let w = 14.0 + (hash(seed.wrapping_mul(31).wrapping_add(k)) % 33) as f32;
+        if x >= at && x < (at + w).min(x1) {
+            return true;
+        }
+        at += w + 5.0;
+        k += 1;
+    }
+    false
+}
+
+fn mix8(a: [u8; 3], b: [u8; 3], t: f32) -> [u8; 3] {
+    let t = t.clamp(0.0, 1.0);
+    [0, 1, 2].map(|i| (a[i] as f32 + (b[i] as f32 - a[i] as f32) * t).round() as u8)
+}
+
+const FAVICONS: [[u8; 3]; 6] = [[232, 69, 60], [240, 137, 46], [26, 115, 232], [24, 128, 56], [147, 52, 230], [95, 99, 104]];
+
+/// A browser's tab strip and toolbar (light or dark), `y` < 85 DIPs. Tabs
+/// are 228 DIPs wide, the active one just left of the island's centre.
+fn browser_chrome(dark: bool, x: f32, y: f32) -> [u8; 3] {
+    let (strip, active_bg, sep, text, text_dim, bar, pill, url, url_dim) = if dark {
+        ([0x20, 0x21, 0x24], [0x35, 0x36, 0x3A], [0x5F, 0x63, 0x68], [0xE8, 0xEA, 0xED], [0xBD, 0xC1, 0xC6], [0x35, 0x36, 0x3A], [0x20, 0x21, 0x24], [0xE8, 0xEA, 0xED], [0x9A, 0xA0, 0xA6])
+    } else {
+        ([0xDF, 0xE3, 0xE8], [0xFF, 0xFF, 0xFF], [0xA9, 0xAD, 0xB3], [0x20, 0x21, 0x24], [0x3C, 0x40, 0x43], [0xFF, 0xFF, 0xFF], [0xF1, 0xF3, 0xF4], [0x20, 0x21, 0x24], [0x5F, 0x63, 0x68])
+    };
+    if y < 41.0 {
+        let k = ((x + 150.0) / 228.0).floor() as i32;
+        let lx = x - (-150.0 + 228.0 * k as f32);
+        let active = k == 0;
+        let mut c = if active && y >= 7.0 { active_bg } else { strip };
+        if k != 0 && k != 1 && lx < 1.0 && (9.0..25.0).contains(&y) {
+            c = sep;
+        }
+        if (13.0..29.0).contains(&y) && (12.0..28.0).contains(&lx) {
+            c = FAVICONS[k.rem_euclid(6) as usize];
+        }
+        if (17.0..24.0).contains(&y) && on_word(lx, 36.0, 190.0, k + 7) {
+            c = if active { text } else { text_dim };
+        }
+        return c;
+    }
+    if !dark && y >= 84.0 {
+        return [0xE3, 0xE3, 0xE3];
+    }
+    let in_pill = (47.0..79.0).contains(&y) && (x.abs() < 544.0 || (x.abs() - 544.0).powi(2) + (y - 63.0).powi(2) < 256.0);
+    if in_pill {
+        if (59.0..67.0).contains(&y) && on_word(x, -500.0, -60.0, 77) {
+            return url;
+        }
+        if (59.0..67.0).contains(&y) && on_word(x, -52.0, 240.0, 91) {
+            return url_dim;
+        }
+        return pill;
+    }
+    bar
+}
+
+/// One pixel of the Glass self-test's page at (`x`, `y`) DIPs from the
+/// island's top centre. Light: a browser over a warm morning sky with a big
+/// white heading. Dark: a dark browser playing a sunset over a skyline. Text
+/// and edges cross the island's rim so the lens has something to bend.
+fn backdrop_dip(dark: bool, x: f32, y: f32) -> [u8; 3] {
+    if y < 85.0 {
+        return browser_chrome(dark, x, y);
+    }
+    if !dark {
+        if y < 137.0 {
+            let ink = [0x20, 0x21, 0x24];
+            if ((104.0..118.0).contains(&y) && on_word(x, -672.0, -570.0, 5)) || ((107.0..115.0).contains(&y) && on_word(x, -500.0, 120.0, 13)) {
+                return ink;
+            }
+            if (131.0..133.0).contains(&y) && (-500.0..-452.0).contains(&x) {
+                return ink;
+            }
+            return [0xFF, 0xFF, 0xFF];
+        }
+        let t = (y - 137.0) / 300.0;
+        let u = (x + 720.0) / 1440.0;
+        let top = mix8([250, 196, 140], [236, 170, 190], u);
+        let bottom = mix8([246, 150, 120], [200, 140, 175], u);
+        let mut c = mix8(top, bottom, t);
+        let cloud = ((x * 0.013 + y * 0.05).sin() * (x * 0.004 - y * 0.02).cos()).max(0.0) * 0.35;
+        c = mix8(c, [255, 236, 220], cloud);
+        // A heading of chunky letters, its lower half under the open island's rim.
+        if (171.0..209.0).contains(&y) && on_word(x, -364.0, -20.0, 3) {
+            let k = ((x + 364.0) / 9.0) as i32;
+            if !((186.0..193.0).contains(&y) && hash(k) % 3 == 0) {
+                c = [255, 255, 255];
+            }
+        }
+        if (231.0..241.0).contains(&y) && on_word(x, -360.0, 130.0, 21) {
+            c = mix8(c, [255, 255, 255], 0.92);
+        }
+        return c;
+    }
+    if y < 141.0 {
+        let mut c = [0x0F, 0x0F, 0x0F];
+        if (104.0..122.0).contains(&y) && (-696.0..-670.0).contains(&x) {
+            c = [0xE8, 0x45, 0x3C];
+        }
+        if (106.0..120.0).contains(&y) && (-662.0..-616.0).contains(&x) {
+            c = [0xF1, 0xF1, 0xF1];
+        }
+        if (94.0..132.0).contains(&y) && x.abs() < 270.0 {
+            let ring = y < 95.0 || y >= 131.0 || x.abs() >= 269.0;
+            c = if ring { [0x30, 0x30, 0x30] } else { [0x12, 0x12, 0x12] };
+            if (109.0..117.0).contains(&y) && on_word(x, -250.0, -180.0, 41) {
+                c = [0x88, 0x88, 0x88];
+            }
+        }
+        return c;
+    }
+    // The video: a sunset sky, hills, water and a skyline.
+    let t = (y - 141.0) / 90.0;
+    let u = (x + 720.0) / 1440.0;
+    let mut c = mix8(mix8([255, 172, 120], [232, 160, 150], u), [150, 140, 175], t);
+    let hills = 205.0 + 12.0 * (x * 0.011).sin() + 7.0 * (x * 0.027 + 1.3).sin();
+    if y > hills && y < 236.0 {
+        c = mix8([96, 108, 140], [120, 128, 160], (y - hills) / 30.0);
+    }
+    if (236.0..248.0).contains(&y) {
+        c = mix8([196, 170, 176], [228, 196, 186], ((x * 0.09).sin() * 0.5 + 0.5) * 0.6);
+    }
+    let b = ((x + 2000.0) / 14.0).floor() as i32;
+    let bx = (x + 2000.0).rem_euclid(14.0);
+    let top = 262.0 - (18 + hash(b) % 46) as f32;
+    if y > top && y < 262.0 && bx < 10.0 {
+        c = [150, 158, 178];
+        let (wx, wy) = ((x * 2.0) as i32, (y * 1.0) as i32);
+        if wy % 6 < 2 && wx % 4 < 2 && hash(b.wrapping_mul(97).wrapping_add(wy)) % 5 == 0 {
+            c = [255, 214, 150];
+        }
+    }
+    if y >= 262.0 {
+        let n = ((x * 0.21).sin() * (y * 0.33).cos() * 0.5 + 0.5) * 0.5;
+        c = mix8([34, 70, 46], [58, 96, 60], n);
+    }
+    c
 }

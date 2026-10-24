@@ -61,8 +61,14 @@ The island stays black by default. Switch on the Oyen theme (the gear › **Them
 
 ![Classic and the Oyen theme side by side: resting, with the clock, and playing music](docs/screenshots/oyen-theme.png)
 
+### The Glass theme
+
+Glass turns the island into liquid glass, after Apple's Liquid Glass. Its rim bends and magnifies what's under it, the middle is frosted, a light runs along the edge, and the shadow under it deepens over busy pages. The collapsed island turns light or dark with what's behind it, and the open island follows Windows' light or dark mode. Its tint goes only as deep as the text needs to stay readable (4.5:1).
+
+To bend what's under it, Glass copies the part of the screen behind its window (the island and the space it opens into) whenever something there changes, and not while the island is hidden or the PC is locked. The copy stays in your PC's memory and on its graphics card, and each new copy replaces the last; it's never saved or sent. While Glass is on, Windows leaves Oyen Poni out of screenshots, screen recordings and screen sharing. Where Poni can't copy the screen (the software renderer, Windows 10 before version 2004, Remote Desktop, some laptops whose display runs on the other GPU, HDR displays for now), Glass draws smoked glass instead: the same shape, light and shadow over a solid tint, and it stays in screenshots.
+
 The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
-- the theme: Classic or Oyen
+- the theme: Classic, Oyen or Glass
 - the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it)

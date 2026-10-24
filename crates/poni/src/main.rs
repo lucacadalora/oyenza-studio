@@ -36,6 +36,8 @@ mod dragdrop;
 mod events;
 #[cfg(windows)]
 mod gfx;
+#[cfg(windows)]
+mod glass;
 #[cfg(any(windows, target_os = "macos"))]
 mod icons;
 #[cfg(any(windows, target_os = "macos"))]
