@@ -3,10 +3,12 @@ name: mac
 # The Mac app: build it for Apple Silicon and Intel, draw every island state
 # offscreen, run the real window through a few states with screenshots, and
 # package an ad-hoc signed test DMG. Its own workflow, so it never holds up
-# the Windows CI or a Windows release.
+# the Windows CI or a Windows release. A release tag also puts the DMG on the
+# GitHub release, once ci has published it.
 on:
   push:
     branches: [main, "mac-*"]
+    tags: ["v*"]
   # Every pull request into main too: a change to shared code (a new command,
   # event or page) can break the Mac build, and this shows it before it merges.
   pull_request:
@@ -148,3 +150,34 @@ jobs:
             smoke/report.json
             smoke/stdout.txt
             smoke/home/poni.log
+
+  # The Mac app on the release: Oyen-Poni-<version>-mac.dmg, plus
+  # Oyen-Poni-Mac.dmg, the fixed name the README's and the website's Mac
+  # buttons download from releases/latest. ci publishes the release once the
+  # Windows build, installer and install test pass, so this waits for it.
+  release:
+    name: Put the DMG on the GitHub release (tags v*)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: mac
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: oyen-poni-mac-dmg
+          path: dist
+      - name: Wait for the release, then add the DMG
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          tag="$GITHUB_REF_NAME"
+          src=$(ls dist/*.dmg | head -1)
+          [ "$src" = "dist/Oyen-Poni-${tag#v}-mac.dmg" ] || cp "$src" "dist/Oyen-Poni-${tag#v}-mac.dmg"
+          cp "$src" dist/Oyen-Poni-Mac.dmg
+          for i in $(seq 1 90); do
+            gh release view "$tag" > /dev/null 2>&1 && break
+            sleep 30
+          done
+          gh release upload "$tag" "dist/Oyen-Poni-${tag#v}-mac.dmg" dist/Oyen-Poni-Mac.dmg --clobber

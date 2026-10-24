@@ -5,8 +5,12 @@
 <p align="center"><b>A living notch for Windows 10 and 11.</b><br>Music with synced lyrics, a focus timer, your steps, a file shelf, tasks and your clipboard, one hover away.</p>
 
 <p align="center">
-  <a href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe"><b>Download for Windows</b></a>
-  &nbsp;·&nbsp;
+  <a href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe"><img src="https://img.shields.io/badge/Download_for_Windows-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI%2BPHBhdGggZD0iTTIgMmg5LjJ2OS4ySDJ6bTEwLjggMEgyMnY5LjJoLTkuMnpNMiAxMi44aDkuMlYyMkgyem0xMC44IDBIMjJWMjJoLTkuMnoiLz48L3N2Zz4=" height="34" alt="Download for Windows"></a>
+  &nbsp;
+  <a href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg"><img src="https://img.shields.io/badge/Download_for_Mac-333333?style=for-the-badge&logo=apple&logoColor=white" height="34" alt="Download for Mac"></a>
+</p>
+
+<p align="center">
   <a href="https://lucacadalora.github.io/poni/"><b>Website</b></a>
   &nbsp;·&nbsp;
   <a href="#install">Install notes</a>
@@ -83,6 +87,8 @@ The gear at the top right of the open island opens **Settings**: your Oyenza acc
 Builds aren't code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info → Run anyway**.
 
 Your data lives in `%APPDATA%\Poni\`, and cache plus log in `%LOCALAPPDATA%\Poni\`. Uninstalling removes the app, cache and log, and keeps your data.
+
+**On a Mac** (macOS 14 or later, Apple silicon or Intel): **[download Oyen-Poni-Mac.dmg](https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg)**, open it and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click **Done**, then open **System Settings → Privacy & Security** and click **Open Anyway**. On a Mac the music page follows Music and Spotify, and Glass, paired phones and Oyenza sign-in aren't there yet. Your data lives in `~/Library/Application Support/Poni/`, the log in `~/Library/Logs/Poni/`.
 
 ## Apple Music lyrics
 

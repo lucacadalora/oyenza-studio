@@ -214,6 +214,8 @@ section { padding-block: 88px; }
 .steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line); display: grid; place-items: center; font: 600 14px/1 var(--display); }
 .steps b { font-weight: 600; }
 .steps p { color: var(--muted); font-size: 15px; }
+.mac-steps { margin-top: 18px; color: var(--muted); font-size: 15px; }
+.mac-steps b { color: var(--ink); font-weight: 600; }
 .where { margin-top: 20px; background: var(--panel); border-radius: 16px; padding: 16px 18px; font-size: 14px; color: #3a3a3e; display: grid; gap: 6px; }
 .where code { font: 13px/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; background: var(--bg); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; word-break: break-all; }
 
@@ -252,7 +254,7 @@ footer a { color: var(--muted); }
       <a href="#install">Install</a>
       <a href="https://github.com/lucacadalora/poni">GitHub</a>
     </nav>
-    <a class="btn btn-dark btn-small" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">Download</a>
+    <a class="btn btn-dark btn-small" data-download="bar" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">Download</a>
   </div>
 </header>
 
@@ -280,12 +282,16 @@ footer a { color: var(--muted); }
         <p class="lead">Oyen Poni hangs a small island from the top of your screen. It shows what is happening, and opens into quick pages when you point at it: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks, your clipboard, and money in and bills due from Oyenza.</p>
         <div class="ctas">
           <a class="btn btn-dark" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 2h9.2v9.2H2zm10.8 0H22v9.2h-9.2zM2 12.8h9.2V22H2zm10.8 0H22V22h-9.2z"/></svg>
             Download for Windows
+          </a>
+          <a class="btn btn-dark" data-release="mac-link" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+            Download for Mac
           </a>
           <a class="btn btn-line" href="https://github.com/lucacadalora/poni">Source on GitHub</a>
         </div>
-        <p class="small">Free and open source (MIT) · <span data-release="size">6.2 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.16</span></a></p>
+        <p class="small">Free and open source (MIT) · Windows <span data-release="size">6.2&nbsp;MB</span>, Mac <span data-release="mac-size">10.5&nbsp;MB</span> · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.16</span></a></p>
         <div class="look-switch" role="group" aria-label="Island look">
           <button type="button" data-look="classic" aria-pressed="true"><span class="dot"></span>Classic</button>
           <button type="button" data-look="oyen" aria-pressed="false"><span class="dot dot-oyen"></span>Oyen theme</button>
@@ -633,8 +639,16 @@ footer a { color: var(--muted); }
           <li><div><b>Run it</b><p>It installs just for you and needs no admin rights.</p></div></li>
           <li><div><b>If Windows warns you</b><p>Builds aren't code-signed yet, so SmartScreen may say "Windows protected your PC". Choose More info, then Run anyway. If Smart App Control is on, Windows won't run unsigned apps at all; a Microsoft Store version is on the way.</p></div></li>
         </ol>
+        <p class="mac-steps"><b>On a Mac</b> (macOS 14 or later, Apple silicon or Intel): open Oyen-Poni-Mac.dmg and drag Oyen Poni into Applications. It isn't signed with an Apple Developer ID yet, so the first time macOS warns you, click Done, then open System Settings › Privacy &amp; Security and click Open Anyway. On a Mac the music page follows Music and Spotify, and Glass, paired phones and Oyenza sign-in aren't there yet.</p>
         <div class="ctas" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
-          <a class="btn btn-dark" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">Download for Windows</a>
+          <a class="btn btn-dark" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 2h9.2v9.2H2zm10.8 0H22v9.2h-9.2zM2 12.8h9.2V22H2zm10.8 0H22V22h-9.2z"/></svg>
+            Download for Windows
+          </a>
+          <a class="btn btn-dark" data-release="mac-link" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+            Download for Mac
+          </a>
         </div>
       </div>
       <div>
@@ -643,6 +657,8 @@ footer a { color: var(--muted); }
           <span>Your data: <code>%APPDATA%\Poni\</code></span>
           <span>Cache and log: <code>%LOCALAPPDATA%\Poni\</code></span>
           <span>Uninstalling removes the app, cache and log, and keeps your data.</span>
+          <span>On a Mac, your data: <code>~/Library/Application Support/Poni/</code></span>
+          <span>Mac log: <code>~/Library/Logs/Poni/</code></span>
         </div>
       </div>
     </div>
@@ -681,6 +697,15 @@ footer a { color: var(--muted); }
   }
   toggle.addEventListener('click', function () { open(island.dataset.open !== 'true'); });
 
+  // On a Mac (not an iPad, which also says "Mac"), the bar's Download button gets the Mac app.
+  var platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  if (/^Mac/i.test(platform) && !(navigator.maxTouchPoints > 1)) {
+    document.querySelectorAll('[data-download="bar"]').forEach(function (a) {
+      a.href = 'https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Mac.dmg';
+      a.setAttribute('data-release', 'mac-link');
+    });
+  }
+
   // The download line follows the latest release on GitHub, so the page stays
   // current between edits. Its own text is the fallback when the API is out of reach.
   if (window.fetch) {
@@ -690,8 +715,12 @@ footer a { color: var(--muted); }
         if (!rel || !/^v\d/.test(rel.tag_name || '')) return;
         function fill(key, f) { document.querySelectorAll('[data-release="' + key + '"]').forEach(f); }
         var setup = (rel.assets || []).filter(function (a) { return a.name === 'Oyen-Poni-Setup.exe'; })[0];
+        var dmg = (rel.assets || []).filter(function (a) { return a.name === 'Oyen-Poni-Mac.dmg'; })[0];
         fill('version', function (el) { el.textContent = rel.tag_name.slice(1); });
-        if (setup) fill('size', function (el) { el.textContent = (setup.size / 1e6).toFixed(1) + ' MB'; });
+        if (setup) fill('size', function (el) { el.textContent = (setup.size / 1e6).toFixed(1) + ' MB'; });
+        if (dmg) fill('mac-size', function (el) { el.textContent = (dmg.size / 1e6).toFixed(1) + ' MB'; });
+        // A release without the Mac app yet: its buttons open the release instead of a missing file.
+        else if (rel.html_url) fill('mac-link', function (el) { el.href = rel.html_url; });
         if (rel.html_url) fill('notes', function (el) { el.href = rel.html_url; });
       })
       .catch(function () {});
