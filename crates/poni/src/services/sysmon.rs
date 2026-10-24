@@ -38,10 +38,11 @@ use poni_core::sysmon::{
 };
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicU32, Ordering};
+use std::sync::OnceLock;
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
-use windows::core::{w, HSTRING, PCWSTR, PWSTR};
+use windows::core::{s, w, HSTRING, PCWSTR, PWSTR};
 use windows::Wdk::Graphics::Direct3D::{
     D3DKMTCloseAdapter, D3DKMTOpenAdapterFromLuid, D3DKMTQueryAdapterInfo, D3DKMTQueryStatistics, D3DKMT_ADAPTER_PERFDATA, D3DKMT_CLOSEADAPTER,
     D3DKMT_NODEMETADATA, D3DKMT_NODE_PERFDATA, D3DKMT_OPENADAPTERFROMLUID, D3DKMT_QUERYADAPTERINFO, D3DKMT_QUERYSTATISTICS,
@@ -71,9 +72,12 @@ use windows::Win32::System::Power::{
     IOCTL_BATTERY_QUERY_INFORMATION, IOCTL_BATTERY_QUERY_STATUS, IOCTL_BATTERY_QUERY_TAG, PROCESSOR_POWER_INFORMATION, SYSTEM_POWER_STATUS,
 };
 use windows::Win32::System::ProcessStatus::{GetPerformanceInfo, PERFORMANCE_INFORMATION};
-use windows::Win32::System::SystemInformation::{GetSystemCpuSetInformation, GetTickCount64, GlobalMemoryStatusEx, MEMORYSTATUSEX, SYSTEM_CPU_SET_INFORMATION};
+use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress};
+use windows::Win32::System::SystemInformation::{
+    CpuSetInformation, GetSystemCpuSetInformation, GetTickCount64, GlobalMemoryStatusEx, MEMORYSTATUSEX, SYSTEM_CPU_SET_INFORMATION,
+};
 use windows::Win32::System::Threading::{
-    GetActiveProcessorCount, GetCurrentThread, GetSystemTimes, OpenProcess, QueryFullProcessImageNameW, ALL_PROCESSOR_GROUPS, PROCESS_NAME_WIN32,
+    GetActiveProcessorCount, GetActiveProcessorGroupCount, GetCurrentThread, GetSystemTimes, OpenProcess, QueryFullProcessImageNameW, ALL_PROCESSOR_GROUPS, PROCESS_NAME_WIN32,
     PROCESS_QUERY_LIMITED_INFORMATION,
 };
 use windows::Win32::System::WindowsProgramming::QueryThreadCycleTime;
@@ -100,11 +104,16 @@ const PDH_FMT_NOCAP100: u32 = 0x8000;
 const ROUTE_PROBE: [u8; 4] = [192, 0, 2, 1];
 /// A thermal zone that hasn't moved this much since the page first opened is a fixed placeholder, not a sensor.
 const ZONE_STILL_C: f32 = 0.5;
+/// One logical processor's entry in the processor times list.
+const CORE_BYTES: usize = 48;
+/// Readings in a row a GPU may miss before its adapter is opened again (a
+/// driver update or a graphics card switched off changes or ends it).
+const GPU_MISSES: u32 = 3;
 /// The PCI vendor id DXGI gives Microsoft's software and basic adapters.
 const MICROSOFT_VENDOR: u32 = 0x1414;
-/// Less dedicated memory than this is a GPU built into the processor (its
-/// small carve-out of RAM); its real memory is the share of RAM it may use.
-const INTEGRATED_BELOW: u64 = 512 * 1024 * 1024;
+/// This much dedicated memory or less is a GPU built into the processor (its
+/// slice of RAM, often exactly 512 MB), when the segments don't say.
+const INTEGRATED_UP_TO: u64 = 512 * 1024 * 1024;
 
 pub struct SysMon {
     tx: Sender<Msg>,
@@ -209,11 +218,12 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
         }
         if want_open == Some(true) {
             if let Some(s) = sampler.as_mut() {
-                // The kept minute shows at once; the first full reading follows shortly.
-                s.prime_apps();
+                // The kept minute shows at once; the process list to measure
+                // apps from comes after, and the first full reading shortly.
                 if monitor.latest.is_some() {
                     sink.send(AppEvent::System(Box::new(monitor.clone())));
                 }
+                s.prime_apps();
                 due = Instant::now() + FIRST;
             }
         }
@@ -259,7 +269,7 @@ pub fn probe() -> Probe {
     let _ = s.gpu.as_mut().map(|g| g.reading(false));
     parts.push(("GPU statistics", t.elapsed()));
     let t = Instant::now();
-    let _ = memory();
+    let _ = memory(false);
     parts.push(("memory status", t.elapsed()));
     let t = Instant::now();
     let _ = if_rows(&s.ifs).map(|rows| net_reading(&rows, s.route.0));
@@ -299,8 +309,10 @@ fn warn_once(bit: u32, what: &str) {
 struct Sampler {
     started: Instant,
     logical: u32,
+    /// Active logical processors in each processor group (Windows makes groups of up to 64).
+    groups: Vec<u32>,
     base_mhz: Option<u32>,
-    /// Each logical processor's kind (group 0, in Windows' order).
+    /// Each logical processor's kind, group after group in Windows' order.
     kinds: Vec<CoreKind>,
     cores: Option<Vec<CoreTimes>>,
     cores_buf: Vec<u64>,
@@ -336,11 +348,13 @@ struct Sampler {
 impl Sampler {
     fn new() -> Self {
         let logical = unsafe { GetActiveProcessorCount(ALL_PROCESSOR_GROUPS) }.max(1);
+        let groups: Vec<u32> = (0..unsafe { GetActiveProcessorGroupCount() }.max(1)).map(|g| unsafe { GetActiveProcessorCount(g) }).collect();
         let mut s = Sampler {
             started: Instant::now(),
             logical,
             base_mhz: base_mhz(logical),
-            kinds: core_kinds(&efficiency_classes(logical)),
+            kinds: core_kinds(&efficiency_classes(&groups)),
+            groups,
             cores: None,
             cores_buf: Vec::new(),
             cpu: None,
@@ -385,6 +399,10 @@ impl Sampler {
             self.drives = fixed_drives();
             self.route = (route_index(), super::phonedrop::route_ipv4().map(|ip| ip.to_string()));
             self.battery = battery_details();
+            // A graphics card that went away, came back or was added (an external one).
+            if self.gpu.is_none() {
+                self.gpu = Gpu::open();
+            }
         }
         let pdh = self.pdh.as_ref().filter(|p| p.collect(full));
         let counters = pdh.map(|p| p.read(full)).unwrap_or_default();
@@ -396,6 +414,10 @@ impl Sampler {
         }
 
         let gpu = self.gpu.as_mut().and_then(|g| g.reading(full));
+        if self.gpu.as_ref().is_some_and(|g| g.misses >= GPU_MISSES) {
+            warn_once(1 << 11, "GPU stopped answering; opening it again with the page");
+            self.gpu = None;
+        }
 
         let mut top = (Vec::new(), Vec::new(), Vec::new());
         if full {
@@ -407,7 +429,14 @@ impl Sampler {
             top = (self.named(top_cpu(&apps, TOP_APPS)), self.named(top_memory(&apps, TOP_APPS)), self.named(top_io(&apps, TOP_APPS)));
         }
 
-        let memory = memory().map(|mut m| {
+        // The commit charge from the counters; GetPerformanceInfo (which counts
+        // every process and thread on the way) only when they're missing.
+        let commit = counters.committed.zip(counters.commit_limit);
+        let memory = memory(commit.is_none() || (full && counters.standby.is_none())).map(|mut m| {
+            if let Some((committed, limit)) = commit {
+                m.committed = committed;
+                m.commit_limit = limit;
+            }
             if let Some(standby) = counters.standby {
                 m.cached = standby + counters.modified.unwrap_or(0);
             }
@@ -512,33 +541,46 @@ impl Sampler {
         Some(CpuReading { load, user, kernel, logical: self.logical, base_mhz: self.base_mhz, mhz, uptime_s, ..CpuReading::default() })
     }
 
-    /// Each logical processor's times, straight from the kernel.
+    /// Each logical processor's times, straight from the kernel, group after
+    /// group: the plain query answers for the calling thread's group only, so
+    /// a PC with more than one group is asked group by group. None when not
+    /// every processor answered (the totals then come from `GetSystemTimes`).
     fn core_times(&mut self) -> Option<Vec<CoreTimes>> {
-        let bytes = (self.logical as usize * 48).max(48);
+        let bytes = (self.logical as usize * CORE_BYTES).max(CORE_BYTES);
         if self.cores_buf.len() * 8 < bytes {
             self.cores_buf = vec![0u64; bytes.div_ceil(8)];
         }
-        let mut got = 0u32;
-        let status = unsafe {
-            NtQuerySystemInformation(SystemProcessorPerformanceInformation, self.cores_buf.as_mut_ptr().cast(), (self.cores_buf.len() * 8) as u32, &mut got)
-        };
-        if status.0 < 0 || got < 48 {
-            warn_once(1 << 9, &format!("per-core times unavailable (0x{:08X})", status.0 as u32));
-            return None;
+        let len = (self.cores_buf.len() * 8) as u32;
+        let mut cores = Vec::with_capacity(self.logical as usize);
+        for group in 0..self.groups.len() {
+            let mut got = 0u32;
+            let status = if self.groups.len() == 1 {
+                unsafe { NtQuerySystemInformation(SystemProcessorPerformanceInformation, self.cores_buf.as_mut_ptr().cast(), len, &mut got) }.0
+            } else {
+                let query = nt_query_ex()?;
+                let g = group as u16;
+                unsafe { query(SystemProcessorPerformanceInformation.0, (&g as *const u16).cast(), 2, self.cores_buf.as_mut_ptr().cast(), len, &mut got) }
+            };
+            if status < 0 || (got as usize) < CORE_BYTES {
+                warn_once(1 << 9, &format!("per-core times unavailable (0x{:08X})", status as u32));
+                return None;
+            }
+            // SAFETY: Windows filled `got` bytes of the buffer.
+            let buf = unsafe { std::slice::from_raw_parts(self.cores_buf.as_ptr().cast::<u8>(), (got as usize).min(len as usize)) };
+            cores.extend(parse_core_times(buf));
         }
-        // SAFETY: Windows filled `got` bytes of the buffer.
-        let buf = unsafe { std::slice::from_raw_parts(self.cores_buf.as_ptr().cast::<u8>(), (got as usize).min(self.cores_buf.len() * 8)) };
-        Some(parse_core_times(buf))
+        (cores.len() == self.logical as usize).then_some(cores)
     }
 
-    /// Average speed of the performance and efficiency cores ("0,5" = group 0, core 5).
+    /// Average speed of the performance and efficiency cores ("1,5" = group 1, core 5).
     fn kind_speeds(&self, perf: &[(String, f64)]) -> (Option<u32>, Option<u32>) {
         let Some(base) = self.base_mhz else { return (None, None) };
         let mut sums: [(f64, u32); 2] = [(0.0, 0); 2];
         for (name, pct) in perf {
             let Some((group, index)) = name.split_once(',') else { continue };
-            let (Ok(0), Ok(i)) = (group.parse::<u32>(), index.parse::<usize>()) else { continue };
-            let slot = match self.kinds.get(i) {
+            let (Ok(g), Ok(i)) = (group.parse::<usize>(), index.parse::<usize>()) else { continue };
+            let Some(first) = (g < self.groups.len()).then(|| self.groups[..g].iter().sum::<u32>() as usize) else { continue };
+            let slot = match self.kinds.get(first + i) {
                 Some(CoreKind::Performance) => 0,
                 Some(CoreKind::Efficiency) => 1,
                 _ => continue,
@@ -643,8 +685,21 @@ fn base_mhz(logical: u32) -> Option<u32> {
     (status.0 >= 0).then(|| info[0].MaxMhz).filter(|m| *m > 0)
 }
 
-/// Each logical processor's efficiency class (group 0), in index order.
-fn efficiency_classes(logical: u32) -> Vec<u8> {
+/// `NtQuerySystemInformationEx` (not in the bindings): ntdll's, looked up once.
+type QueryEx = unsafe extern "system" fn(i32, *const core::ffi::c_void, u32, *mut core::ffi::c_void, u32, *mut u32) -> i32;
+
+fn nt_query_ex() -> Option<QueryEx> {
+    static ADDR: OnceLock<Option<usize>> = OnceLock::new();
+    let addr = *ADDR.get_or_init(|| unsafe {
+        let ntdll = GetModuleHandleW(w!("ntdll.dll")).ok()?;
+        GetProcAddress(ntdll, s!("NtQuerySystemInformationEx")).map(|f| f as usize)
+    });
+    // SAFETY: the export has this signature on every Windows that has it.
+    addr.map(|a| unsafe { std::mem::transmute::<usize, QueryEx>(a) })
+}
+
+/// Each logical processor's efficiency class, group after group in index order.
+fn efficiency_classes(groups: &[u32]) -> Vec<u8> {
     let mut need = 0u32;
     let _ = unsafe { GetSystemCpuSetInformation(None, 0, &mut need, HANDLE::default(), 0) };
     if need == 0 {
@@ -654,32 +709,44 @@ fn efficiency_classes(logical: u32) -> Vec<u8> {
     if !unsafe { GetSystemCpuSetInformation(Some(buf.as_mut_ptr().cast()), need, &mut need, HANDLE::default(), 0) }.as_bool() {
         return Vec::new();
     }
-    let bytes = unsafe { std::slice::from_raw_parts(buf.as_ptr().cast::<u8>(), need as usize) };
-    let mut classes = vec![0u8; logical as usize];
+    let bytes = unsafe { std::slice::from_raw_parts(buf.as_ptr().cast::<u8>(), (need as usize).min(buf.len() * 8)) };
+    let first: Vec<usize> = groups.iter().scan(0usize, |sum, n| Some(std::mem::replace(sum, *sum + *n as usize))).collect();
+    let mut classes = vec![0u8; groups.iter().sum::<u32>() as usize];
+    let entry = std::mem::size_of::<SYSTEM_CPU_SET_INFORMATION>();
     let mut off = 0usize;
-    while off + std::mem::size_of::<u32>() * 2 <= bytes.len() {
-        // SAFETY: each entry starts with its own size; it lies inside `bytes`.
-        let e = unsafe { &*(bytes.as_ptr().add(off) as *const SYSTEM_CPU_SET_INFORMATION) };
-        let size = e.Size as usize;
-        if size == 0 || off + size > bytes.len() {
+    // Each entry starts with its own size; read only whole entries that lie inside `bytes`.
+    while off + 4 <= bytes.len() {
+        let size = u32::from_ne_bytes([bytes[off], bytes[off + 1], bytes[off + 2], bytes[off + 3]]) as usize;
+        if size < 8 || off + size > bytes.len() {
             break;
         }
-        let set = unsafe { e.Anonymous.CpuSet };
-        if set.Group == 0 && (set.LogicalProcessorIndex as usize) < classes.len() {
-            classes[set.LogicalProcessorIndex as usize] = set.EfficiencyClass;
+        if size >= entry {
+            // SAFETY: `entry` bytes from `off` are inside `bytes`; the read needs no alignment.
+            let e = unsafe { std::ptr::read_unaligned(bytes.as_ptr().add(off).cast::<SYSTEM_CPU_SET_INFORMATION>()) };
+            if e.Type == CpuSetInformation {
+                let set = unsafe { e.Anonymous.CpuSet };
+                if let Some(i) = first.get(set.Group as usize).map(|f| f + set.LogicalProcessorIndex as usize).filter(|i| *i < classes.len()) {
+                    classes[i] = set.EfficiencyClass;
+                }
+            }
         }
         off += size;
     }
     classes
 }
 
-fn memory() -> Option<MemoryReading> {
+/// Physical memory in use, and with `perf_info` the commit charge and the
+/// file cache from `GetPerformanceInfo`.
+fn memory(perf_info: bool) -> Option<MemoryReading> {
     let mut m = MEMORYSTATUSEX { dwLength: std::mem::size_of::<MEMORYSTATUSEX>() as u32, ..Default::default() };
     if let Err(e) = unsafe { GlobalMemoryStatusEx(&mut m) } {
         warn_once(4, &format!("memory status unavailable ({e})"));
         return None;
     }
     let mut r = MemoryReading { total: m.ullTotalPhys, used: m.ullTotalPhys.saturating_sub(m.ullAvailPhys), ..MemoryReading::default() };
+    if !perf_info {
+        return Some(r);
+    }
     let cb = std::mem::size_of::<PERFORMANCE_INFORMATION>() as u32;
     let mut p = PERFORMANCE_INFORMATION { cb, ..Default::default() };
     if unsafe { GetPerformanceInfo(&mut p, cb) }.is_ok() {
@@ -777,6 +844,8 @@ struct Counters {
     modified: Option<u64>,
     free: Option<u64>,
     nonpaged: Option<u64>,
+    committed: Option<u64>,
+    commit_limit: Option<u64>,
     page_pct: Option<f64>,
     zone_c: Option<f32>,
     package_w: Option<f32>,
@@ -796,6 +865,8 @@ struct Pdh {
     modified: Option<isize>,
     free: Option<isize>,
     nonpaged: Option<isize>,
+    committed: Option<isize>,
+    commit_limit: Option<isize>,
     page_pct: Option<isize>,
     /// Thermal zones in tenths of a kelvin (High Precision), else whole kelvins.
     zone: Option<(isize, bool)>,
@@ -836,6 +907,8 @@ impl Pdh {
             modified: add(w!("\\Memory\\Modified Page List Bytes")),
             free: add(w!("\\Memory\\Free & Zero Page List Bytes")),
             nonpaged: add(w!("\\Memory\\Pool Nonpaged Bytes")),
+            committed: add(w!("\\Memory\\Committed Bytes")),
+            commit_limit: add(w!("\\Memory\\Commit Limit")),
             page_pct: add(w!("\\Paging File(_Total)\\% Usage")),
             zone,
             energy: add_to(sensors, w!("\\Energy Meter(*)\\Power")),
@@ -879,6 +952,8 @@ impl Pdh {
             modified: bytes(self.modified),
             free: bytes(self.free),
             nonpaged: bytes(self.nonpaged),
+            committed: bytes(self.committed),
+            commit_limit: bytes(self.commit_limit).filter(|l| *l > 0),
             page_pct: self.value(self.page_pct),
             zone_c,
             package_w,
@@ -956,6 +1031,9 @@ struct Gpu {
     segments: u32,
     /// Each engine's running time (100 ns) at the last reading, and when.
     prev: (Instant, Vec<i64>),
+    /// The last good reading, shown while the kernel misses one, and the misses in a row.
+    last: Option<GpuReading>,
+    misses: u32,
 }
 
 impl Gpu {
@@ -977,16 +1055,17 @@ impl Gpu {
             }
         }
         let (dedicated, shared, name, luid) = best?;
-        let integrated = dedicated < INTEGRATED_BELOW;
         let mut gpu = Gpu {
             name,
             luid,
-            mem_total: if integrated { shared } else { dedicated },
-            integrated,
+            mem_total: dedicated,
+            integrated: false,
             adapter: None,
             engines: Vec::new(),
             segments: 0,
             prev: (Instant::now(), Vec::new()),
+            last: None,
+            misses: 0,
         };
         // SAFETY (all unions below): the kernel filled the member the query's type names.
         let info = gpu.stats(D3DKMT_QUERYSTATISTICS_ADAPTER, |_| {}).map(|r| unsafe { r.AdapterInformation });
@@ -995,6 +1074,14 @@ impl Gpu {
             return None;
         };
         gpu.segments = info.NbSegments;
+        // Built into the processor: its own memory is RAM the firmware set
+        // aside (SegmentProperties: system memory, reserved by firmware), or
+        // too little to be a card's. Its real memory is then the shared RAM too.
+        let ram_backed = (0..gpu.segments).filter_map(|id| gpu.segment(id)).any(|seg| seg.Aperture == 0 && seg.SegmentProperties._bitfield & 0b11 != 0);
+        gpu.integrated = ram_backed || dedicated <= INTEGRATED_UP_TO;
+        if gpu.integrated {
+            gpu.mem_total = dedicated + shared;
+        }
         let mut open = D3DKMT_OPENADAPTERFROMLUID { AdapterLuid: luid, hAdapter: 0 };
         gpu.adapter = (unsafe { D3DKMTOpenAdapterFromLuid(&mut open) }.0 >= 0).then_some(open.hAdapter);
         gpu.engines = (0..info.NodeCount)
@@ -1008,8 +1095,14 @@ impl Gpu {
                 }
             })
             .collect();
-        gpu.prev = (Instant::now(), gpu.running_times());
+        gpu.prev = (Instant::now(), gpu.running_times()?);
         Some(gpu)
+    }
+
+    fn segment(&self, id: u32) -> Option<windows::Wdk::Graphics::Direct3D::D3DKMT_QUERYSTATISTICS_SEGMENT_INFORMATION> {
+        let r = self.stats(D3DKMT_QUERYSTATISTICS_SEGMENT, |q| q.Anonymous.QuerySegment.SegmentId = id)?;
+        // SAFETY: a segment query fills the segment member.
+        Some(unsafe { r.SegmentInformation })
     }
 
     fn stats(&self, kind: D3DKMT_QUERYSTATISTICS_TYPE, query: impl FnOnce(&mut D3DKMT_QUERYSTATISTICS)) -> Option<D3DKMT_QUERYSTATISTICS_RESULT> {
@@ -1032,30 +1125,36 @@ impl Gpu {
         unsafe { D3DKMTQueryAdapterInfo(&mut q) }.0 >= 0
     }
 
-    fn running_times(&self) -> Vec<i64> {
+    /// Each engine's running time, or None when the kernel didn't answer for one.
+    fn running_times(&self) -> Option<Vec<i64>> {
         (0..self.engines.len() as u32)
             .map(|node| {
-                let r = self.stats(D3DKMT_QUERYSTATISTICS_NODE, |q| q.Anonymous.QueryNode.NodeId = node);
-                r.map_or(0, |r| unsafe { r.NodeInformation.GlobalInformation.RunningTime })
+                let r = self.stats(D3DKMT_QUERYSTATISTICS_NODE, |q| q.Anonymous.QueryNode.NodeId = node)?;
+                // SAFETY: a node query fills the node member.
+                Some(unsafe { r.NodeInformation.GlobalInformation.RunningTime })
             })
             .collect()
     }
 
+    /// A missed answer shows the last reading and keeps the last good times
+    /// to measure from, so the next good one isn't the engines' whole life.
     fn reading(&mut self, full: bool) -> Option<GpuReading> {
-        let (at, times) = (Instant::now(), self.running_times());
+        let at = Instant::now();
+        let Some(times) = self.running_times() else {
+            self.misses += 1;
+            return self.last.clone();
+        };
+        self.misses = 0;
         let busy = gpu_busy(&self.engines, &self.prev.1, &times, at.duration_since(self.prev.0).as_secs_f64() * 1e7);
         self.prev = (at, times);
         let e = busy?;
-        // Memory in use: the card's own segments, or the shared ones of a GPU built into the processor.
+        // Memory in use: the card's own segments, or everything a GPU built into the processor holds.
         let (mut own, mut shared) = (0u64, 0u64);
-        for id in 0..self.segments {
-            if let Some(r) = self.stats(D3DKMT_QUERYSTATISTICS_SEGMENT, |q| q.Anonymous.QuerySegment.SegmentId = id) {
-                let seg = unsafe { r.SegmentInformation };
-                if seg.Aperture != 0 {
-                    shared += seg.BytesResident;
-                } else {
-                    own += seg.BytesResident;
-                }
+        for seg in (0..self.segments).filter_map(|id| self.segment(id)) {
+            if seg.Aperture != 0 {
+                shared += seg.BytesResident;
+            } else {
+                own += seg.BytesResident;
             }
         }
         let mut r = GpuReading {
@@ -1065,7 +1164,7 @@ impl Gpu {
             copy: e.copy,
             video_decode: e.video_decode,
             video_encode: e.video_encode,
-            mem_used: if self.integrated { shared } else { own },
+            mem_used: if self.integrated { own + shared } else { own },
             mem_total: self.mem_total,
             integrated: self.integrated,
             ..GpuReading::default()
@@ -1084,6 +1183,7 @@ impl Gpu {
                 }
             }
         }
+        self.last = Some(r.clone());
         Some(r)
     }
 }

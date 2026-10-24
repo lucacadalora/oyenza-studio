@@ -1372,6 +1372,10 @@ impl App {
                 None if history => self.start_sysmon(),
                 None => {}
             }
+            // Off while the page is closed: the kept minute goes, so the next opening starts fresh.
+            if !history && !self.sysmon_on {
+                self.st.system.clear();
+            }
         }
     }
 

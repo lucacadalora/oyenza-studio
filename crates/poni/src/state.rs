@@ -217,8 +217,10 @@ pub struct PageUiState {
     pub peek_until: f64,
     /// Header tab under the pointer and since when (for hover labels).
     pub tab_hover: Option<(usize, f64)>,
-    /// The module the System page shows on the right.
+    /// The module the System page shows under its strip.
     pub system_module: poni_core::sysmon::Module,
+    /// The last System reading had a GPU (keeps its chip while the next one is on its way).
+    pub system_gpu: bool,
     /// The page the Settings button was pressed on (pressing it again goes back).
     pub before_settings: Option<PageKind>,
     /// Start with Windows, as last read off the UI thread (None until Settings first opens).

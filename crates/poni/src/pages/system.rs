@@ -83,11 +83,11 @@ pub fn height(_st: &AppState) -> f32 {
 }
 
 /// The modules this PC has: GPU with a graphics card the kernel reports on,
-/// Battery with a battery.
+/// Battery with a battery. Before the first reading, what the last one said.
 fn modules(st: &AppState) -> Vec<Module> {
     let (battery, gpu) = match &st.system.latest {
         Some(r) => (r.battery.is_some(), r.gpu.is_some()),
-        None => (st.power.has_battery, false),
+        None => (st.power.has_battery, st.ui.system_gpu),
     };
     Module::ALL.into_iter().filter(|m| (*m != Module::Battery || battery) && (*m != Module::Gpu || gpu)).collect()
 }
@@ -95,11 +95,14 @@ fn modules(st: &AppState) -> Vec<Module> {
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     // Fixed layout height: the island's spring may still be opening.
     let area = Rect::new(area.x, area.y, area.w, HEIGHT);
-    let mods = modules(st);
-    if !mods.contains(&st.ui.system_module) {
-        st.ui.system_module = Module::Cpu;
+    if let Some(r) = &st.system.latest {
+        st.ui.system_gpu = r.gpu.is_some();
     }
-    draw_strip(ui, st, &mods, Rect::new(area.x, area.y, area.w, STRIP_H));
+    let mods = modules(st);
+    // CPU stands in while the chosen module isn't there (no reading yet, a
+    // battery that didn't answer once); the choice itself is kept.
+    let module = if mods.contains(&st.ui.system_module) { st.ui.system_module } else { Module::Cpu };
+    draw_strip(ui, st, &mods, module, Rect::new(area.x, area.y, area.w, STRIP_H));
     let body = Rect::new(area.x, area.y + STRIP_H + STRIP_GAP, area.w, HEIGHT - STRIP_H - STRIP_GAP);
     let Some(r) = st.system.latest.clone() else {
         ui.c.text("Reading…", body, &TextStyle::footnote().color(palette::TEXT_FAINT).center());
@@ -107,7 +110,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     };
     let h = st.system.history.clone();
     let cols = Cols::new(body);
-    let shown = match st.ui.system_module {
+    let shown = match module {
         Module::Cpu => r.cpu.as_ref().map(|c| draw_cpu(ui, st, c, &r, &h, &cols)),
         Module::Gpu => r.gpu.as_ref().map(|g| draw_gpu(ui, st, g, &h, &cols)),
         Module::Memory => r.memory.as_ref().map(|m| draw_memory(ui, st, m, &r, &h, &cols)),
@@ -149,14 +152,14 @@ enum Spark {
     Level(f32, Color),
 }
 
-fn draw_strip(ui: &mut Ui, st: &mut AppState, mods: &[Module], r: Rect) {
+fn draw_strip(ui: &mut Ui, st: &mut AppState, mods: &[Module], module: Module, r: Rect) {
     let n = mods.len().max(1) as f32;
     let w = ((r.w - CHIP_GAP * (n - 1.0)) / n).max(0.0);
     let accent = st.accent;
     for (i, &m) in mods.iter().enumerate() {
         let chip = Rect::new(r.x + i as f32 * (w + CHIP_GAP), r.y, w, r.h);
         let resp = ui.button(wid_n("system-module", i as u64), chip);
-        let selected = m == st.ui.system_module;
+        let selected = m == module;
         let fill = if selected {
             Color::white(0.15)
         } else if resp.hovered {
