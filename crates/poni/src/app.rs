@@ -50,7 +50,7 @@ const TIMER_MINUTE: usize = 6;
 pub const TIMER_SELFTEST: usize = 7;
 const TIMER_TRAY: usize = 8;
 const TIMER_RAISE: usize = 9;
-/// Raises that follow a full-screen app taking the foreground, and their spacing.
+/// Raises that follow a new foreground window, and their spacing.
 const RAISE_REPEATS: u8 = 4;
 const RAISE_INTERVAL_MS: u32 = 500;
 
@@ -316,6 +316,8 @@ pub struct App {
     fullscreen_on: bool,
     /// Follow-up raises still due (TIMER_RAISE).
     raises_left: u8,
+    /// Window classes already logged for covering the island (once each).
+    covered_by: HashSet<String>,
     shown: bool,
     stats_on: bool,
     /// The System page's sampler thread (started the first time the page opens).
@@ -474,6 +476,7 @@ impl App {
             fullscreen_hidden: false,
             fullscreen_on: false,
             raises_left: 0,
+            covered_by: HashSet::new(),
             shown: false,
             stats_on: false,
             sysmon: None,
@@ -934,6 +937,8 @@ impl App {
             if let Some(s) = self.services.as_ref() {
                 s.on_taskbar_created();
             }
+            // A restarted Explorer puts its taskbar at the top of the topmost band.
+            self.start_raises();
             return Some(LRESULT(0));
         }
         match msg {
@@ -1019,8 +1024,8 @@ impl App {
             }
             TIMER_RAISE => {
                 self.raises_left = self.raises_left.saturating_sub(1);
-                if self.fullscreen_on && !self.fullscreen_hidden {
-                    self.raise_topmost();
+                if self.shown && !self.fullscreen_hidden {
+                    self.raise_if_covered();
                 } else {
                     self.raises_left = 0;
                 }
@@ -1531,19 +1536,14 @@ impl App {
                     }
                 }
                 self.fullscreen_on = on;
-                if on && !hide && self.shown {
+                if !hide {
                     // A borderless game or a browser in F11 may have taken the
-                    // top of the topmost band: put the island back above it.
-                    // Games often make themselves topmost again just after they
-                    // take the focus, so a few more raises follow over the next
-                    // two seconds. (Exclusive full-screen still covers every window.)
-                    self.raise_topmost();
-                    self.raises_left = RAISE_REPEATS;
-                    unsafe {
-                        SetTimer(self.hwnd, TIMER_RAISE, RAISE_INTERVAL_MS, None);
-                    }
+                    // top of the topmost band, and an island shown again after
+                    // a full-screen app is not raised by showing it.
+                    self.start_raises();
                 }
             }
+            AppEvent::Foreground => self.start_raises(),
             AppEvent::ShelfAdd(paths) => {
                 let n = self.st.store.shelf.add_paths(&paths, self.st.unix);
                 for p in &paths {
@@ -1756,6 +1756,40 @@ impl App {
         if let Some(s) = &self.sysmon {
             s.run(on);
         }
+    }
+
+    /// Puts the island back on top after another window came forward. Apps
+    /// often make themselves topmost just after they take the focus, with no
+    /// event of their own, so a few more checks follow over the next two
+    /// seconds. (Exclusive full-screen still covers every window.)
+    fn start_raises(&mut self) {
+        if !self.shown || self.fullscreen_hidden {
+            return;
+        }
+        self.raise_if_covered();
+        self.raises_left = RAISE_REPEATS;
+        unsafe {
+            SetTimer(self.hwnd, TIMER_RAISE, RAISE_INTERVAL_MS, None);
+        }
+    }
+
+    /// Raises the island when a window sits above it or it lost its topmost
+    /// style, and logs each culprit once.
+    fn raise_if_covered(&mut self) {
+        let topmost = unsafe { GetWindowLongPtrW(self.hwnd, GWL_EXSTYLE) } & WS_EX_TOPMOST.0 as isize != 0;
+        let above = services::fullscreen::window_above(self.hwnd);
+        if topmost && above.is_none() {
+            return;
+        }
+        let key = if topmost { above.clone().unwrap_or_default() } else { String::new() };
+        if self.covered_by.insert(key) {
+            match (&above, topmost) {
+                (_, false) => pinfo!("island lost its topmost style; raised again"),
+                (Some(class), true) => pinfo!("island covered by a {class} window; raised again"),
+                (None, true) => {}
+            }
+        }
+        self.raise_topmost();
     }
 
     /// Top of the topmost band, without taking the focus.
