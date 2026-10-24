@@ -370,6 +370,10 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
         let seekable = m.can_seek;
         let hover = seekable && ui.hovered(Rect::new(bar.x, bar.y - 6.0, bar.w, bar.h + 12.0));
         let scrub = ui.progress_bar(wid("media_seek"), bar, tl.progress_at(now), accent, seekable);
+        if scrub.began {
+            // A drag starts: the player can get ready for the seek meanwhile.
+            acts.push(MediaCmd::Prepare);
+        }
         if let Some(f) = scrub.released {
             acts.push(MediaCmd::Seek(f as f64 * tl.duration_s));
         }

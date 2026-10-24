@@ -9,6 +9,9 @@ pub enum MediaCmd {
     Prev,
     /// Seek to absolute position in seconds.
     Seek(f64),
+    /// The pointer reached the progress bar or the back button: get ready
+    /// (Apple Music's own controls are looked up before the press, not during it).
+    Prepare,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

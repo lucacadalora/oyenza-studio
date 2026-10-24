@@ -296,6 +296,7 @@ impl Worker {
             MediaCmd::Next => "next track".to_string(),
             MediaCmd::Prev => "previous track".to_string(),
             MediaCmd::Seek(s) => format!("set player position to {}", s.max(0.0)),
+            MediaCmd::Prepare => return,
         };
         if let Err(e) = self.script(p, &format!("tell application id \"{}\" to {verb}", p.bundle_id())) {
             pwarn!("media: {} didn't take {c:?} ({e})", p.name());

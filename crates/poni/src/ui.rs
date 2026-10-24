@@ -70,6 +70,8 @@ pub struct Input {
     pub down: bool,
     /// Widget under the cursor when the button went down.
     pub pressed_id: Option<WidgetId>,
+    /// The left button went down since the last frame (valid for one frame).
+    pub just_pressed: bool,
     pub press_pos: Option<Point>,
     /// Click resolved on mouse-up (valid for exactly one frame).
     pub clicked: Option<(WidgetId, MouseButton)>,
@@ -91,6 +93,7 @@ impl Input {
     pub fn end_frame(&mut self) {
         self.clicked = None;
         self.released = None;
+        self.just_pressed = false;
         self.wheel = 0.0;
         self.keys.clear();
     }
@@ -114,6 +117,8 @@ pub struct Scrub {
     pub held: Option<f32>,
     /// Let go: where to seek.
     pub released: Option<f32>,
+    /// The press on the bar began this frame.
+    pub began: bool,
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -444,6 +449,7 @@ impl<'a, 'g> Ui<'a, 'g> {
         let resp = if seekable { self.button(id, hit) } else { Resp::default() };
         let frac = |x: f32| if r.w > 0.0 { ((x - r.x) / r.w).clamp(0.0, 1.0) } else { 0.0 };
         let held = if resp.pressed { self.input.mouse.map(|m| frac(m.x)) } else { None };
+        let began = resp.pressed && self.input.just_pressed;
         let released = self.input.released.filter(|(rid, _)| seekable && *rid == id).map(|(_, p)| frac(p.x));
         let thick = if (resp.hovered || held.is_some()) && seekable { r.h + 2.0 } else { r.h };
         let bar = Rect::new(r.x, r.center().y - thick / 2.0, r.w, thick);
@@ -455,7 +461,7 @@ impl<'a, 'g> Ui<'a, 'g> {
         if released.is_some() {
             self.repaint = true;
         }
-        Scrub { held, released }
+        Scrub { held, released, began }
     }
 
     /// Release keyboard focus (e.g. after submitting).

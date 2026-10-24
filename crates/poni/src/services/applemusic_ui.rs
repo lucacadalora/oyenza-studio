@@ -17,6 +17,7 @@
 //! can't stall now playing for long.
 
 use poni_core::nowplaying;
+use std::time::{Duration, Instant};
 use windows::core::{Interface, PWSTR, VARIANT};
 use windows::Win32::Foundation::{CloseHandle, BOOL, HWND, LPARAM, TRUE};
 use windows::Win32::System::Com::{CoCreateInstance, CLSCTX_INPROC_SERVER};
@@ -35,6 +36,9 @@ const WINDOW_CLASS: &str = "WinUIDesktopWin32WindowClass";
 /// UI Automation gives up on Apple Music after these (milliseconds).
 const CONNECT_MS: u32 = 1000;
 const TRANSACTION_MS: u32 = 1500;
+/// After a look-ahead found nothing, the next one waits this long (each is a
+/// walk through Apple Music's window).
+const MISS_PAUSE: Duration = Duration::from_secs(30);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Control {
@@ -96,6 +100,8 @@ pub struct AppleMusicUi {
     uia: Option<IUIAutomation>,
     slider: Option<IUIAutomationElement>,
     back: Option<IUIAutomationElement>,
+    /// When a look-ahead last found nothing.
+    missed_at: Option<Instant>,
 }
 
 impl AppleMusicUi {
@@ -129,6 +135,31 @@ impl AppleMusicUi {
             }
             Ok(())
         })
+    }
+
+    /// Look the progress slider up while a drag on the island's bar is still
+    /// going, so the seek at its end needn't wait for the search. A slider
+    /// that still answers is kept; after a miss, no new search for a while.
+    pub fn prepare_seek(&mut self) {
+        if self.slider.as_ref().is_some_and(|el| unsafe { el.CurrentProcessId() }.is_ok()) {
+            return;
+        }
+        if self.missed_at.is_some_and(|t| t.elapsed() < MISS_PAUSE) {
+            return;
+        }
+        let t = Instant::now();
+        self.slider = None;
+        match self.find(Control::Slider) {
+            Ok(el) => {
+                self.slider = Some(el);
+                self.missed_at = None;
+                crate::pinfo!("media: found Apple Music's own progress slider in {} ms", t.elapsed().as_millis());
+            }
+            Err(e) => {
+                self.missed_at = Some(Instant::now());
+                crate::pinfo!("media: Apple Music's progress slider: {e}");
+            }
+        }
     }
 
     /// Run `act` on the control: the remembered one first; looked up afresh
@@ -302,19 +333,42 @@ mod tests {
         wait_for(&log, "ready");
         let _ = unsafe { CoInitializeEx(None, COINIT_MULTITHREADED) };
         let mut ui = AppleMusicUi::default();
+        let before = private_bytes();
+        // A drag on the island's bar starts: the slider is looked up meanwhile.
         let t = Instant::now();
-        ui.seek(0.5).expect("first seek");
-        eprintln!("first seek (finds the slider): {} ms", t.elapsed().as_millis());
+        ui.prepare_seek();
+        eprintln!("look-ahead (finds the slider): {} ms", t.elapsed().as_millis());
+        eprintln!("private memory added by UI Automation: {:.1} MB", (private_bytes() - before) as f64 / 1048576.0);
+        assert!(ui.slider.is_some(), "the look-ahead found no slider");
+        let t = Instant::now();
+        ui.seek(0.5).expect("seek after the look-ahead");
+        eprintln!("seek after the look-ahead: {} ms", t.elapsed().as_millis());
         wait_for(&log, "slider 120");
-        let t = Instant::now();
         ui.seek(0.25).expect("second seek");
-        eprintln!("second seek (remembered slider): {} ms", t.elapsed().as_millis());
         wait_for(&log, "slider 60");
+        let t = Instant::now();
         ui.skip_back().expect("back button");
+        eprintln!("first back press (finds the button): {} ms", t.elapsed().as_millis());
         wait_for(&log, "back");
         // The slider counts seconds; the far end is the song's end.
         ui.seek(1.0).expect("seek to the end");
         wait_for(&log, "slider 240");
+        // A remembered slider that went stale is looked up again.
+        ui.slider = Some(ui.back.clone().expect("the back button was remembered"));
+        ui.seek(0.75).expect("seek with a stale slider");
+        wait_for(&log, "slider 180");
+    }
+
+    fn private_bytes() -> i64 {
+        use windows::Win32::System::ProcessStatus::{GetProcessMemoryInfo, PROCESS_MEMORY_COUNTERS, PROCESS_MEMORY_COUNTERS_EX};
+        use windows::Win32::System::Threading::GetCurrentProcess;
+        let mut c = PROCESS_MEMORY_COUNTERS_EX { cb: std::mem::size_of::<PROCESS_MEMORY_COUNTERS_EX>() as u32, ..Default::default() };
+        let ok = unsafe { GetProcessMemoryInfo(GetCurrentProcess(), &mut c as *mut _ as *mut PROCESS_MEMORY_COUNTERS, c.cb) }.is_ok();
+        if ok {
+            c.PrivateUsage as i64
+        } else {
+            0
+        }
     }
 
     fn wait_for(log: &str, line: &str) {

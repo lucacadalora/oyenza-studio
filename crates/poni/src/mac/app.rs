@@ -1159,6 +1159,7 @@ impl App {
                 self.dbl_press = double;
                 self.input.mouse = Some(p);
                 self.input.down = true;
+                self.input.just_pressed = true;
                 self.input.press_pos = Some(p);
                 self.input.pressed_id = self.hit_at(p).map(|h| h.id);
                 if !self.expanded {

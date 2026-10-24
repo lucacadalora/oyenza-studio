@@ -940,11 +940,18 @@ impl Worker {
         let Some(i) = self.chosen.and_then(|sid| self.index_of(sid)) else { return };
         let session = self.sessions[i].session.clone();
         let apple = nowplaying::is_apple_music(&self.sessions[i].aumid);
+        if cmd == MediaCmd::Prepare {
+            if apple {
+                self.apple_ui.prepare_seek();
+            }
+            return;
+        }
         let result = match &cmd {
             MediaCmd::PlayPause => toggle_play_pause(&session),
             MediaCmd::Next => run_bool(session.TrySkipNextAsync()),
             MediaCmd::Prev if apple => self.apple_back(&session),
             MediaCmd::Prev => run_bool(session.TrySkipPreviousAsync()),
+            MediaCmd::Prepare => return,
             MediaCmd::Seek(s) => {
                 if !s.is_finite() {
                     return;
