@@ -7,6 +7,7 @@
 pub mod applemusic;
 pub mod cliphist;
 pub mod datetime;
+pub mod frametime;
 pub mod geom;
 pub mod lrc;
 pub mod lrclib;

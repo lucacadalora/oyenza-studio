@@ -126,15 +126,16 @@ impl Island {
         self.content.value.clamp(0.0, 1.0)
     }
 
-    /// Full canvas size in DIPs (island + shoulders + hit margin).
-    pub fn canvas_size(&self) -> (f32, f32) {
+    /// The island body hanging from the top edge, centred on `cx` (DIPs).
+    pub fn body_rect_at(&self, cx: f32) -> Rect {
         let g = self.current();
-        (g.w + 2.0 * (SHOULDER + HIT_MARGIN), g.h + HIT_MARGIN)
+        Rect::new(cx - g.w / 2.0, 0.0, g.w, g.h)
     }
 
-    /// The island body inside the canvas (DIPs).
-    pub fn body_rect(&self) -> Rect {
+    /// The island plus its shoulders and hit margin, centred on `cx` (DIPs).
+    pub fn canvas_rect_at(&self, cx: f32) -> Rect {
         let g = self.current();
-        Rect::new(SHOULDER + HIT_MARGIN, 0.0, g.w, g.h)
+        let side = SHOULDER + HIT_MARGIN;
+        Rect::new(cx - g.w / 2.0 - side, 0.0, g.w + 2.0 * side, g.h + HIT_MARGIN)
     }
 }

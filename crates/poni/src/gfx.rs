@@ -1,14 +1,25 @@
-//! Rendering: Direct2D (software) into a 32-bit premultiplied DIB that is
-//! pushed to a per-pixel-alpha layered window with `UpdateLayeredWindow`.
+//! Rendering: Direct2D on the GPU, presented through DirectComposition, with
+//! a software fallback that pushes a DIB with `UpdateLayeredWindowIndirect`.
 //!
-//! Why a layered window instead of DirectComposition: transparent pixels are
-//! click-through for free (so only the island itself catches the mouse), the
-//! window can be resized and moved atomically every frame, and it renders
-//! identically on machines without a GPU (CI runners, VMs). Frames are only
-//! produced while something animates, so idle CPU stays at zero.
+//! The island window is a fixed-size, per-pixel-alpha layered window that is
+//! big enough for the largest island (the widest, tallest expanded page plus
+//! spring overshoot). The island is drawn centred in it, so nothing moves or
+//! resizes while it morphs: its centre stays on one pixel and its edges glide
+//! at sub-pixel precision.
+//!
+//! GPU renderer (any Direct3D 11 device, WARP included): frames go to a
+//! premultiplied-alpha flip-model swap chain that DWM composes on the vblank,
+//! with no CPU copies. The layered window's own bitmap then only carries an
+//! invisible hit-test mask (alpha 1/255 where the island takes the mouse, 0
+//! elsewhere), so transparent pixels stay click-through as before.
+//!
+//! Software renderer (no Direct3D or DirectComposition, e.g. under Wine, or
+//! after repeated device loss): the frame itself is the window's bitmap, and
+//! each frame only copies the rectangle the island covers.
 //!
 //! All drawing coordinates are DIPs; the render target's DPI is set to the
-//! monitor DPI so Direct2D does the scaling.
+//! monitor DPI so Direct2D does the scaling. Frames are only produced while
+//! something animates, so idle CPU stays at zero.
 
 use crate::icons::{self, Icon};
 use poni_core::geom::{Color, Point, Rect};
@@ -18,15 +29,20 @@ use std::ffi::c_void;
 use std::mem::ManuallyDrop;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
-use windows::core::{w, Interface, Result, PCWSTR};
+use windows::core::{w, Interface, Result, GUID, HRESULT, PCWSTR};
 use windows::Foundation::Numerics::Matrix3x2;
-use windows::Win32::Foundation::{BOOL, COLORREF, HWND, POINT, RECT, SIZE};
+use windows::Win32::Foundation::{BOOL, COLORREF, E_NOTIMPL, HMODULE, HWND, POINT, RECT, SIZE};
 use windows::Win32::Graphics::Direct2D::Common::*;
 use windows::Win32::Graphics::Direct2D::*;
+use windows::Win32::Graphics::Direct3D::*;
+use windows::Win32::Graphics::Direct3D11::*;
+use windows::Win32::Graphics::DirectComposition::{IDCompositionDevice, IDCompositionTarget, IDCompositionVisual};
 use windows::Win32::Graphics::DirectWrite::*;
-use windows::Win32::Graphics::Dxgi::Common::DXGI_FORMAT_B8G8R8A8_UNORM;
+use windows::Win32::Graphics::Dxgi::Common::*;
+use windows::Win32::Graphics::Dxgi::*;
 use windows::Win32::Graphics::Gdi::*;
-use windows::Win32::UI::WindowsAndMessaging::{UpdateLayeredWindow, ULW_ALPHA};
+use windows::Win32::System::LibraryLoader::{GetProcAddress, LoadLibraryExW, LOAD_LIBRARY_SEARCH_SYSTEM32};
+use windows::Win32::UI::WindowsAndMessaging::{UpdateLayeredWindowIndirect, ULW_ALPHA, UPDATELAYEREDWINDOWINFO};
 
 // ---------------------------------------------------------------- images
 
@@ -226,11 +242,11 @@ fn pt(x: f32, y: f32) -> D2D_POINT_2F {
     D2D_POINT_2F { x, y }
 }
 
-// ---------------------------------------------------------------- Gfx
+// ---------------------------------------------------------------- targets
 
-pub struct Gfx {
-    pub d2d: ID2D1Factory,
-    pub dwrite: IDWriteFactory,
+/// Direct2D (software) into a top-down 32-bit premultiplied DIB that is
+/// pushed to the layered window with `UpdateLayeredWindowIndirect`.
+struct SoftTarget {
     rt: ID2D1DCRenderTarget,
     mem_dc: HDC,
     dib: HBITMAP,
@@ -238,23 +254,11 @@ pub struct Gfx {
     bits: *mut u8,
     cap_w: i32,
     cap_h: i32,
-    /// Size in pixels of the frame being drawn / last presented.
-    frame_w: i32,
-    frame_h: i32,
-    pub dpi: f32,
-    brush: ID2D1SolidColorBrush,
-    round_stroke: ID2D1StrokeStyle,
-    family: Vec<u16>,
-    formats: HashMap<(u32, Weight, bool), IDWriteTextFormat>,
-    bitmaps: HashMap<u64, ID2D1Bitmap>,
-    icon_geoms: HashMap<Icon, Vec<(ID2D1PathGeometry, bool)>>,
-    /// Bitmaps used during the current frame (others are evicted at `end`).
-    used_bitmaps: Vec<u64>,
-    /// Whether each pushed shape mask really pushed a layer (to balance pops).
-    mask_stack: Vec<bool>,
+    /// Position and size last given to the window: (x, y, w, h).
+    shown: Option<(i32, i32, i32, i32)>,
 }
 
-impl Drop for Gfx {
+impl Drop for SoftTarget {
     fn drop(&mut self) {
         unsafe {
             SelectObject(self.mem_dc, self.old_bmp);
@@ -264,34 +268,12 @@ impl Drop for Gfx {
     }
 }
 
-fn pick_font_family(dwrite: &IDWriteFactory) -> Vec<u16> {
-    // Windows 11 ships "Segoe UI Variable"; Windows 10 has "Segoe UI".
-    unsafe {
-        let mut coll: Option<IDWriteFontCollection> = None;
-        if dwrite.GetSystemFontCollection(&mut coll, false).is_ok() {
-            if let Some(coll) = coll {
-                for name in ["Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI"] {
-                    let w: Vec<u16> = wide(name).into_iter().chain(Some(0)).collect();
-                    let mut index = 0u32;
-                    let mut exists = BOOL(0);
-                    if coll.FindFamilyName(PCWSTR(w.as_ptr()), &mut index, &mut exists).is_ok() && exists.as_bool() {
-                        return w;
-                    }
-                }
-            }
-        }
-    }
-    wide("Segoe UI").into_iter().chain(Some(0)).collect()
-}
-
-impl Gfx {
-    pub fn new(dpi: f32) -> Result<Self> {
+impl SoftTarget {
+    fn new(d2d: &ID2D1Factory) -> Result<Self> {
         unsafe {
-            let d2d: ID2D1Factory = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, None)?;
-            let dwrite: IDWriteFactory = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED)?;
             let props = D2D1_RENDER_TARGET_PROPERTIES {
                 r#type: D2D1_RENDER_TARGET_TYPE_SOFTWARE,
-                pixelFormat: D2D1_PIXEL_FORMAT { format: DXGI_FORMAT_B8G8R8A8_UNORM, alphaMode: D2D1_ALPHA_MODE_PREMULTIPLIED },
+                pixelFormat: PREMUL_BGRA,
                 dpiX: 0.0,
                 dpiY: 0.0,
                 usage: D2D1_RENDER_TARGET_USAGE_NONE,
@@ -300,58 +282,15 @@ impl Gfx {
             let rt = d2d.CreateDCRenderTarget(&props)?;
             rt.SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
             rt.SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
-            let brush = rt.CreateSolidColorBrush(&d2d_color(Color::white(1.0)), None)?;
-            let round_stroke = d2d.CreateStrokeStyle(
-                &D2D1_STROKE_STYLE_PROPERTIES {
-                    startCap: D2D1_CAP_STYLE_ROUND,
-                    endCap: D2D1_CAP_STYLE_ROUND,
-                    dashCap: D2D1_CAP_STYLE_ROUND,
-                    lineJoin: D2D1_LINE_JOIN_ROUND,
-                    miterLimit: 10.0,
-                    dashStyle: D2D1_DASH_STYLE_SOLID,
-                    dashOffset: 0.0,
-                },
-                None,
-            )?;
             let mem_dc = CreateCompatibleDC(None);
-            let family = pick_font_family(&dwrite);
-            let mut g = Gfx {
-                d2d,
-                dwrite,
-                rt,
-                mem_dc,
-                dib: HBITMAP::default(),
-                old_bmp: HGDIOBJ::default(),
-                bits: std::ptr::null_mut(),
-                cap_w: 0,
-                cap_h: 0,
-                frame_w: 0,
-                frame_h: 0,
-                dpi,
-                brush,
-                round_stroke,
-                family,
-                formats: HashMap::new(),
-                bitmaps: HashMap::new(),
-                icon_geoms: HashMap::new(),
-                used_bitmaps: Vec::new(),
-                mask_stack: Vec::new(),
-            };
-            g.ensure_capacity(512, 128)?;
-            Ok(g)
+            let mut t = SoftTarget { rt, mem_dc, dib: HBITMAP::default(), old_bmp: HGDIOBJ::default(), bits: std::ptr::null_mut(), cap_w: 0, cap_h: 0, shown: None };
+            t.ensure_capacity(512, 128)?;
+            Ok(t)
         }
     }
 
-    pub fn scale(&self) -> f32 {
-        self.dpi / 96.0
-    }
-
-    pub fn set_dpi(&mut self, dpi: f32) {
-        self.dpi = dpi;
-    }
-
     /// Make sure the DIB can hold a `w`×`h` pixel frame.
-    pub fn ensure_capacity(&mut self, w: i32, h: i32) -> Result<()> {
+    fn ensure_capacity(&mut self, w: i32, h: i32) -> Result<()> {
         if w <= self.cap_w && h <= self.cap_h && !self.bits.is_null() {
             return Ok(());
         }
@@ -382,78 +321,706 @@ impl Gfx {
             self.bits = bits as *mut u8;
             self.cap_w = nw;
             self.cap_h = nh;
+            // A fresh DIB is zeroed (transparent); the window must get all of it.
+            self.shown = None;
         }
         Ok(())
     }
 
-    /// Start a frame of `w`×`h` pixels. Returns a canvas in DIPs.
-    pub fn begin(&mut self, w_px: i32, h_px: i32) -> Result<Canvas<'_>> {
-        let w_px = w_px.max(1);
-        let h_px = h_px.max(1);
-        self.ensure_capacity(w_px, h_px)?;
-        self.frame_w = w_px;
-        self.frame_h = h_px;
-        self.used_bitmaps.clear();
-        unsafe {
-            let rc = RECT { left: 0, top: 0, right: w_px, bottom: h_px };
-            self.rt.BindDC(self.mem_dc, &rc)?;
-            self.rt.SetDpi(self.dpi, self.dpi);
-            self.rt.BeginDraw();
-            self.rt.SetTransform(&Matrix3x2::identity());
-            self.rt.Clear(Some(&D2D1_COLOR_F { r: 0.0, g: 0.0, b: 0.0, a: 0.0 }));
+    unsafe fn begin(&mut self, w: i32, h: i32, dpi: f32) -> Result<()> {
+        let rc = RECT { left: 0, top: 0, right: w, bottom: h };
+        self.rt.BindDC(self.mem_dc, &rc)?;
+        self.rt.SetDpi(dpi, dpi);
+        self.rt.BeginDraw();
+        Ok(())
+    }
+
+    /// Push the DIB to the window at (`x`, `y`), size `w`×`h`. With `dirty`,
+    /// only that rectangle is copied (unless the window moved or resized).
+    unsafe fn push(&mut self, hwnd: HWND, x: i32, y: i32, w: i32, h: i32, dirty: Option<RECT>) -> Result<()> {
+        let same = self.shown == Some((x, y, w, h));
+        let dirty = dirty.filter(|_| same).map(|d| RECT { left: d.left.clamp(0, w), top: d.top.clamp(0, h), right: d.right.clamp(0, w), bottom: d.bottom.clamp(0, h) });
+        if dirty.is_some_and(|d| d.right <= d.left || d.bottom <= d.top) {
+            return Ok(());
         }
+        let blend = BLENDFUNCTION { BlendOp: AC_SRC_OVER as u8, BlendFlags: 0, SourceConstantAlpha: 255, AlphaFormat: AC_SRC_ALPHA as u8 };
+        let (dst, size, src) = (POINT { x, y }, SIZE { cx: w, cy: h }, POINT { x: 0, y: 0 });
+        let info = UPDATELAYEREDWINDOWINFO {
+            cbSize: std::mem::size_of::<UPDATELAYEREDWINDOWINFO>() as u32,
+            hdcDst: HDC::default(),
+            pptDst: &dst,
+            psize: &size,
+            hdcSrc: self.mem_dc,
+            pptSrc: &src,
+            crKey: COLORREF(0),
+            pblend: &blend,
+            dwFlags: ULW_ALPHA,
+            prcDirty: dirty.as_ref().map_or(std::ptr::null(), |d| d as *const RECT),
+        };
+        if UpdateLayeredWindowIndirect(hwnd, &info).as_bool() {
+            self.shown = Some((x, y, w, h));
+            Ok(())
+        } else {
+            self.shown = None;
+            Err(windows::core::Error::from_win32())
+        }
+    }
+
+    /// Copy of the pixels in `r` (premultiplied BGRA, top-down).
+    fn pixels(&self, r: RECT) -> Vec<u8> {
+        let (x0, y0) = (r.left.clamp(0, self.cap_w), r.top.clamp(0, self.cap_h));
+        let (x1, y1) = (r.right.clamp(x0, self.cap_w), r.bottom.clamp(y0, self.cap_h));
+        let mut out = Vec::with_capacity(((x1 - x0) * (y1 - y0) * 4) as usize);
+        unsafe {
+            for y in y0..y1 {
+                let row = self.bits.add(((y * self.cap_w + x0) * 4) as usize);
+                out.extend_from_slice(std::slice::from_raw_parts(row, ((x1 - x0) * 4) as usize));
+            }
+        }
+        out
+    }
+}
+
+/// Direct2D on a Direct3D 11 device, drawing into a flip-model swap chain
+/// that DirectComposition shows on the island window.
+struct GpuTarget {
+    // Declaration order is drop order: the composition target goes first, so
+    // the window falls back to its own bitmap before the device goes away.
+    _target: IDCompositionTarget,
+    _visual: IDCompositionVisual,
+    _dcomp: IDCompositionDevice,
+    target_bmp: Option<ID2D1Bitmap1>,
+    dc: ID2D1DeviceContext,
+    swap: IDXGISwapChain1,
+    staging: Option<(ID3D11Texture2D, i32, i32)>,
+    ctx: ID3D11DeviceContext,
+    d3d: ID3D11Device,
+    w: i32,
+    h: i32,
+    warp: bool,
+}
+
+/// A Direct3D 11 device that Direct2D can draw with: the GPU, else WARP.
+unsafe fn create_d3d_device() -> Result<(ID3D11Device, ID3D11DeviceContext, bool)> {
+    let levels = [
+        D3D_FEATURE_LEVEL_11_1,
+        D3D_FEATURE_LEVEL_11_0,
+        D3D_FEATURE_LEVEL_10_1,
+        D3D_FEATURE_LEVEL_10_0,
+        D3D_FEATURE_LEVEL_9_3,
+        D3D_FEATURE_LEVEL_9_2,
+        D3D_FEATURE_LEVEL_9_1,
+    ];
+    let mut last = None;
+    for (driver, warp) in [(D3D_DRIVER_TYPE_HARDWARE, false), (D3D_DRIVER_TYPE_WARP, true)] {
+        // Runtimes that don't know 11.1 reject the whole list: retry without it.
+        for lv in [&levels[..], &levels[1..]] {
+            let (mut dev, mut ctx) = (None, None);
+            match D3D11CreateDevice(None, driver, HMODULE::default(), D3D11_CREATE_DEVICE_BGRA_SUPPORT, Some(lv), D3D11_SDK_VERSION, Some(&mut dev), None, Some(&mut ctx)) {
+                Ok(()) => {
+                    if let (Some(d), Some(c)) = (dev, ctx) {
+                        return Ok((d, c, warp));
+                    }
+                }
+                Err(e) => last = Some(e),
+            }
+        }
+    }
+    Err(last.unwrap_or_else(|| E_NOTIMPL.into()))
+}
+
+/// `DCompositionCreateDevice`, looked up at run time from System32 (it is
+/// missing or a stub on some systems, and must never load from the app folder).
+unsafe fn dcomp_create_device(dxgi: &IDXGIDevice) -> Result<IDCompositionDevice> {
+    type Create = unsafe extern "system" fn(*mut c_void, *const GUID, *mut *mut c_void) -> HRESULT;
+    let lib = LoadLibraryExW(w!("dcomp.dll"), None, LOAD_LIBRARY_SEARCH_SYSTEM32)?;
+    let Some(f) = GetProcAddress(lib, windows::core::s!("DCompositionCreateDevice")) else {
+        return Err(E_NOTIMPL.into());
+    };
+    let create: Create = std::mem::transmute(f);
+    let mut out = std::ptr::null_mut();
+    create(dxgi.as_raw(), &IDCompositionDevice::IID, &mut out).ok()?;
+    if out.is_null() {
+        return Err(E_NOTIMPL.into());
+    }
+    Ok(IDCompositionDevice::from_raw(out))
+}
+
+impl GpuTarget {
+    unsafe fn new(d2d: &ID2D1Factory1, hwnd: HWND, w: i32, h: i32) -> Result<Self> {
+        let (d3d, ctx, warp) = create_d3d_device()?;
+        let dxgi: IDXGIDevice = d3d.cast()?;
+        let dc = d2d.CreateDevice(&dxgi)?.CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE)?;
+        let factory: IDXGIFactory2 = dxgi.GetAdapter()?.GetParent()?;
+        let desc = DXGI_SWAP_CHAIN_DESC1 {
+            Width: w as u32,
+            Height: h as u32,
+            Format: DXGI_FORMAT_B8G8R8A8_UNORM,
+            Stereo: BOOL(0),
+            SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
+            BufferUsage: DXGI_USAGE_RENDER_TARGET_OUTPUT,
+            BufferCount: 2,
+            Scaling: DXGI_SCALING_STRETCH,
+            SwapEffect: DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL,
+            AlphaMode: DXGI_ALPHA_MODE_PREMULTIPLIED,
+            Flags: 0,
+        };
+        let swap = factory.CreateSwapChainForComposition(&d3d, &desc, None)?;
+        let dcomp = dcomp_create_device(&dxgi)?;
+        let target = dcomp.CreateTargetForHwnd(hwnd, true)?;
+        let visual = dcomp.CreateVisual()?;
+        visual.SetContent(&swap)?;
+        target.SetRoot(&visual)?;
+        dcomp.Commit()?;
+        Ok(Self { _target: target, _visual: visual, _dcomp: dcomp, target_bmp: None, dc, swap, staging: None, ctx, d3d, w, h, warp })
+    }
+
+    unsafe fn resize(&mut self, w: i32, h: i32) -> Result<()> {
+        self.dc.SetTarget(None::<&ID2D1Image>);
+        self.target_bmp = None;
+        self.staging = None;
+        self.swap.ResizeBuffers(2, w as u32, h as u32, DXGI_FORMAT_B8G8R8A8_UNORM, DXGI_SWAP_CHAIN_FLAG(0))?;
+        self.w = w;
+        self.h = h;
+        Ok(())
+    }
+
+    /// Point the device context at the swap chain's back buffer.
+    unsafe fn begin(&mut self, dpi: f32) -> Result<()> {
+        let surface: IDXGISurface = self.swap.GetBuffer(0)?;
+        let props = D2D1_BITMAP_PROPERTIES1 {
+            pixelFormat: PREMUL_BGRA,
+            dpiX: dpi,
+            dpiY: dpi,
+            bitmapOptions: D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+            colorContext: ManuallyDrop::new(None),
+        };
+        let bmp = self.dc.CreateBitmapFromDxgiSurface(&surface, Some(&props))?;
+        self.dc.SetTarget(&bmp);
+        self.dc.SetDpi(dpi, dpi);
+        self.dc.BeginDraw();
+        self.target_bmp = Some(bmp);
+        Ok(())
+    }
+
+    unsafe fn end(&mut self) {
+        self.dc.SetTarget(None::<&ID2D1Image>);
+        self.target_bmp = None;
+    }
+
+    /// Read `r` back from the frame just drawn (self-test only).
+    unsafe fn read(&mut self, r: RECT) -> Result<Vec<u8>> {
+        let back: ID3D11Texture2D = self.swap.GetBuffer(0)?;
+        if !self.staging.as_ref().is_some_and(|s| s.1 == self.w && s.2 == self.h) {
+            let desc = D3D11_TEXTURE2D_DESC {
+                Width: self.w as u32,
+                Height: self.h as u32,
+                MipLevels: 1,
+                ArraySize: 1,
+                Format: DXGI_FORMAT_B8G8R8A8_UNORM,
+                SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
+                Usage: D3D11_USAGE_STAGING,
+                BindFlags: 0,
+                CPUAccessFlags: D3D11_CPU_ACCESS_READ.0 as u32,
+                MiscFlags: 0,
+            };
+            let mut tex = None;
+            self.d3d.CreateTexture2D(&desc, None, Some(&mut tex))?;
+            self.staging = tex.map(|t| (t, self.w, self.h));
+        }
+        let Some((staging, _, _)) = self.staging.as_ref() else { return Err(E_NOTIMPL.into()) };
+        self.ctx.CopyResource(staging, &back);
+        let mut m = D3D11_MAPPED_SUBRESOURCE::default();
+        self.ctx.Map(staging, 0, D3D11_MAP_READ, 0, Some(&mut m))?;
+        let (x0, y0) = (r.left.clamp(0, self.w), r.top.clamp(0, self.h));
+        let (x1, y1) = (r.right.clamp(x0, self.w), r.bottom.clamp(y0, self.h));
+        let mut out = Vec::with_capacity(((x1 - x0) * (y1 - y0) * 4) as usize);
+        for y in y0..y1 {
+            let row = (m.pData as *const u8).add(y as usize * m.RowPitch as usize + x0 as usize * 4);
+            out.extend_from_slice(std::slice::from_raw_parts(row, ((x1 - x0) * 4) as usize));
+        }
+        self.ctx.Unmap(staging, 0);
+        Ok(out)
+    }
+}
+
+// ---------------------------------------------------------------- Gfx
+
+/// Which renderer draws the frames.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Renderer {
+    /// Direct2D on a Direct3D 11 device (`warp` = Microsoft's software
+    /// rasterizer), presented through DirectComposition.
+    Gpu { warp: bool },
+    /// Direct2D in software, pushed with `UpdateLayeredWindowIndirect`.
+    Software,
+}
+
+/// Where the island takes the mouse while the GPU renderer draws (the
+/// layered window's own bitmap: alpha 1/255 inside, 0 elsewhere). DIPs.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct HitMask {
+    /// A plain rectangle (the open island and its forgiving margin).
+    pub rect: Option<Rect>,
+    /// The island silhouette: body, bottom corner radius, shoulder.
+    pub notch: Option<(Rect, f32, f32)>,
+}
+
+impl HitMask {
+    fn bounds(&self) -> Option<Rect> {
+        let a = self.rect;
+        let b = self.notch.map(|(body, _, s)| Rect::new(body.x - s, body.y, body.w + 2.0 * s, body.h));
+        match (a, b) {
+            (Some(a), Some(b)) => Some(union_rect(a, b)),
+            (a, b) => a.or(b),
+        }
+    }
+}
+
+/// Smallest rectangle holding both.
+pub fn union_rect(a: Rect, b: Rect) -> Rect {
+    let (x0, y0) = (a.x.min(b.x), a.y.min(b.y));
+    Rect::new(x0, y0, a.right().max(b.right()) - x0, a.bottom().max(b.bottom()) - y0)
+}
+
+/// `r` (DIPs) as whole pixels, grown outwards by `pad` px and clamped to `w`×`h`.
+pub fn px_rect(r: Rect, scale: f32, pad: i32, w: i32, h: i32) -> RECT {
+    RECT {
+        left: (((r.x * scale).floor() as i32) - pad).clamp(0, w),
+        top: (((r.y * scale).floor() as i32) - pad).clamp(0, h),
+        right: (((r.right() * scale).ceil() as i32) + pad).clamp(0, w),
+        bottom: (((r.bottom() * scale).ceil() as i32) + pad).clamp(0, h),
+    }
+}
+
+/// Smallest pixel rectangle holding both.
+pub fn px_union(a: RECT, b: RECT) -> RECT {
+    if a.right <= a.left || a.bottom <= a.top {
+        return b;
+    }
+    if b.right <= b.left || b.bottom <= b.top {
+        return a;
+    }
+    RECT { left: a.left.min(b.left), top: a.top.min(b.top), right: a.right.max(b.right), bottom: a.bottom.max(b.bottom) }
+}
+
+/// Scale by `s` about `p`.
+pub fn scale_about(p: Point, s: f32) -> Matrix3x2 {
+    Matrix3x2 { M11: s, M12: 0.0, M21: 0.0, M22: s, M31: p.x * (1.0 - s), M32: p.y * (1.0 - s) }
+}
+
+/// Text layouts are cached by everything that shapes them (not colour).
+#[derive(Clone, PartialEq, Eq, Hash)]
+struct LayoutKey {
+    text: String,
+    size: u32,
+    weight: Weight,
+    wrap: bool,
+    align: Align,
+    vcenter: bool,
+    tabular: bool,
+    line: u32,
+    w: u32,
+    h: u32,
+}
+
+const PREMUL_BGRA: D2D1_PIXEL_FORMAT = D2D1_PIXEL_FORMAT { format: DXGI_FORMAT_B8G8R8A8_UNORM, alphaMode: D2D1_ALPHA_MODE_PREMULTIPLIED };
+const CLEAR: D2D1_COLOR_F = D2D1_COLOR_F { r: 0.0, g: 0.0, b: 0.0, a: 0.0 };
+
+pub struct Gfx {
+    pub d2d: ID2D1Factory,
+    pub dwrite: IDWriteFactory,
+    /// Where drawing goes right now: the frame, or an offscreen layer.
+    rt: ID2D1RenderTarget,
+    /// The frame's render target; brushes and bitmaps are created on it.
+    main: ID2D1RenderTarget,
+    gpu: Option<GpuTarget>,
+    soft: SoftTarget,
+    /// Brush for the hit mask, on the software target.
+    mask_brush: ID2D1SolidColorBrush,
+    hwnd: HWND,
+    /// Surface (= window) size in pixels.
+    surf_w: i32,
+    surf_h: i32,
+    pub dpi: f32,
+    brush: ID2D1SolidColorBrush,
+    round_stroke: ID2D1StrokeStyle,
+    family: Vec<u16>,
+    formats: HashMap<(u32, Weight, bool), IDWriteTextFormat>,
+    /// Text layouts with the frame they were last used in.
+    layouts: HashMap<LayoutKey, (IDWriteTextLayout, u64)>,
+    bitmaps: HashMap<u64, ID2D1Bitmap>,
+    icon_geoms: HashMap<Icon, Vec<(ID2D1PathGeometry, bool)>>,
+    /// Bitmaps used during the current frame (others are evicted at `end`).
+    used_bitmaps: Vec<u64>,
+    /// Whether each pushed shape mask really pushed a layer (to balance pops).
+    mask_stack: Vec<bool>,
+    /// Offscreen layers for [`Canvas::layered`], reused frame to frame.
+    layers: Vec<ID2D1BitmapRenderTarget>,
+    layers_used: usize,
+    frame_no: u64,
+    /// Pixels the software present copies this frame.
+    dirty: RECT,
+    /// The next software present must copy the whole surface.
+    soft_full: bool,
+    /// Rectangle to read back after this frame (self-test), and its pixels.
+    capture: Option<RECT>,
+    captured: Vec<u8>,
+    /// GPU renderer allowed (not forced off, not given up after failures).
+    gpu_allowed: bool,
+    gpu_failures: u32,
+}
+
+fn pick_font_family(dwrite: &IDWriteFactory) -> Vec<u16> {
+    // Windows 11 ships "Segoe UI Variable"; Windows 10 has "Segoe UI".
+    unsafe {
+        let mut coll: Option<IDWriteFontCollection> = None;
+        if dwrite.GetSystemFontCollection(&mut coll, false).is_ok() {
+            if let Some(coll) = coll {
+                for name in ["Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI"] {
+                    let w: Vec<u16> = wide(name).into_iter().chain(Some(0)).collect();
+                    let mut index = 0u32;
+                    let mut exists = BOOL(0);
+                    if coll.FindFamilyName(PCWSTR(w.as_ptr()), &mut index, &mut exists).is_ok() && exists.as_bool() {
+                        return w;
+                    }
+                }
+            }
+        }
+    }
+    wide("Segoe UI").into_iter().chain(Some(0)).collect()
+}
+
+/// `PONI_RENDERER=software` forces the software renderer (troubleshooting).
+fn gpu_wanted() -> bool {
+    !std::env::var("PONI_RENDERER").is_ok_and(|v| v.trim().eq_ignore_ascii_case("software"))
+}
+
+fn setup_target(rt: &ID2D1RenderTarget) {
+    unsafe {
+        rt.SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+        rt.SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+    }
+}
+
+impl Gfx {
+    pub fn new(dpi: f32, hwnd: HWND) -> Result<Self> {
+        unsafe {
+            let d2d: ID2D1Factory = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, None)?;
+            let dwrite: IDWriteFactory = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED)?;
+            let soft = SoftTarget::new(&d2d)?;
+            let mask_brush = soft.rt.CreateSolidColorBrush(&d2d_color(Color::black(1.0 / 255.0)), None)?;
+            let main: ID2D1RenderTarget = soft.rt.cast()?;
+            setup_target(&main);
+            let brush = main.CreateSolidColorBrush(&d2d_color(Color::white(1.0)), None)?;
+            let round_stroke = d2d.CreateStrokeStyle(
+                &D2D1_STROKE_STYLE_PROPERTIES {
+                    startCap: D2D1_CAP_STYLE_ROUND,
+                    endCap: D2D1_CAP_STYLE_ROUND,
+                    dashCap: D2D1_CAP_STYLE_ROUND,
+                    lineJoin: D2D1_LINE_JOIN_ROUND,
+                    miterLimit: 10.0,
+                    dashStyle: D2D1_DASH_STYLE_SOLID,
+                    dashOffset: 0.0,
+                },
+                None,
+            )?;
+            let family = pick_font_family(&dwrite);
+            let gpu_allowed = gpu_wanted();
+            if !gpu_allowed {
+                crate::pinfo!("renderer: software (PONI_RENDERER=software)");
+            }
+            Ok(Gfx {
+                d2d,
+                dwrite,
+                rt: main.clone(),
+                main,
+                gpu: None,
+                soft,
+                mask_brush,
+                hwnd,
+                surf_w: 0,
+                surf_h: 0,
+                dpi,
+                brush,
+                round_stroke,
+                family,
+                formats: HashMap::new(),
+                layouts: HashMap::new(),
+                bitmaps: HashMap::new(),
+                icon_geoms: HashMap::new(),
+                used_bitmaps: Vec::new(),
+                mask_stack: Vec::new(),
+                layers: Vec::new(),
+                layers_used: 0,
+                frame_no: 0,
+                dirty: RECT::default(),
+                soft_full: true,
+                capture: None,
+                captured: Vec::new(),
+                gpu_allowed,
+                gpu_failures: 0,
+            })
+        }
+    }
+
+    pub fn scale(&self) -> f32 {
+        self.dpi / 96.0
+    }
+
+    pub fn set_dpi(&mut self, dpi: f32) {
+        if dpi != self.dpi {
+            self.dpi = dpi;
+            self.layers.clear();
+        }
+    }
+
+    pub fn renderer(&self) -> Renderer {
+        match &self.gpu {
+            Some(g) => Renderer::Gpu { warp: g.warp },
+            None => Renderer::Software,
+        }
+    }
+
+    /// The GPU renderer draws: the window's bitmap must carry the hit mask.
+    pub fn needs_hit_mask(&self) -> bool {
+        self.gpu.is_some()
+    }
+
+    /// Size the surface (and so the window) to `w`×`h` pixels.
+    pub fn set_surface(&mut self, w: i32, h: i32) -> Result<()> {
+        let (w, h) = (w.max(1), h.max(1));
+        if (w, h) == (self.surf_w, self.surf_h) {
+            return Ok(());
+        }
+        self.surf_w = w;
+        self.surf_h = h;
+        self.layers.clear();
+        self.soft_full = true;
+        self.soft.ensure_capacity(w, h)?;
+        if let Some(g) = self.gpu.as_mut() {
+            if let Err(e) = unsafe { g.resize(w, h) } {
+                self.gpu_lost("resize", e);
+            }
+        }
+        Ok(())
+    }
+
+    /// Switch drawing to `main` (a new renderer): device resources start over.
+    fn use_main(&mut self, main: ID2D1RenderTarget) -> Result<()> {
+        setup_target(&main);
+        self.brush = unsafe { main.CreateSolidColorBrush(&d2d_color(Color::white(1.0)), None)? };
+        self.rt = main.clone();
+        self.main = main;
+        self.bitmaps.clear();
+        self.layers.clear();
+        Ok(())
+    }
+
+    /// Start (or restart) the GPU renderer when it's allowed and missing.
+    fn ensure_gpu(&mut self) {
+        if self.gpu.is_some() || !self.gpu_allowed || self.surf_w <= 0 {
+            return;
+        }
+        let made = self.d2d.cast::<ID2D1Factory1>().and_then(|f| unsafe { GpuTarget::new(&f, self.hwnd, self.surf_w, self.surf_h) });
+        match made {
+            Ok(g) => {
+                let main = g.dc.cast::<ID2D1RenderTarget>();
+                match main.and_then(|m| self.use_main(m)) {
+                    Ok(()) => {
+                        crate::pinfo!("renderer: GPU ({}), DirectComposition, {}x{} px", if g.warp { "WARP" } else { "hardware" }, self.surf_w, self.surf_h);
+                        self.gpu = Some(g);
+                    }
+                    Err(e) => self.gpu_failed(e),
+                }
+            }
+            Err(e) => self.gpu_failed(e),
+        }
+    }
+
+    fn gpu_failed(&mut self, e: windows::core::Error) {
+        self.gpu_failures += 1;
+        // DirectComposition missing (Wine, very old systems) won't come back.
+        if e.code() == E_NOTIMPL || self.gpu_failures >= 3 {
+            self.gpu_allowed = false;
+            crate::pinfo!("renderer: software (GPU unavailable: {e})");
+        } else {
+            crate::pwarn!("GPU renderer failed to start ({e}); retrying");
+        }
+    }
+
+    /// The device was lost (driver update, GPU reset) or a call failed:
+    /// draw in software until the GPU renderer can be rebuilt.
+    fn gpu_lost(&mut self, what: &str, e: windows::core::Error) {
+        crate::pwarn!("GPU renderer lost at {what} ({e})");
+        self.gpu = None;
+        self.gpu_failures += 1;
+        if self.gpu_failures >= 3 {
+            self.gpu_allowed = false;
+            crate::pwarn!("renderer: staying on software after {} GPU failures", self.gpu_failures);
+        }
+        self.soft_full = true;
+        if let Ok(m) = self.soft.rt.cast::<ID2D1RenderTarget>() {
+            let _ = self.use_main(m);
+        }
+    }
+
+    /// Read back `r` (surface pixels) after the next frame (self-test).
+    pub fn request_capture(&mut self, r: RECT) {
+        self.capture = Some(r);
+        self.captured.clear();
+    }
+
+    /// Premultiplied BGRA pixels of the requested rectangle.
+    pub fn take_capture(&mut self) -> Vec<u8> {
+        std::mem::take(&mut self.captured)
+    }
+
+    /// Start a frame; `dirty` is the part of the surface (pixels) that changes.
+    /// Returns a canvas in DIPs.
+    pub fn begin(&mut self, dirty: RECT) -> Result<Canvas<'_>> {
+        self.ensure_gpu();
+        self.used_bitmaps.clear();
+        self.layers_used = 0;
+        self.frame_no += 1;
+        let full = RECT { left: 0, top: 0, right: self.surf_w, bottom: self.surf_h };
+        self.dirty = if self.soft_full { full } else { px_union(RECT::default(), dirty) };
+        if let Some(g) = self.gpu.as_mut() {
+            if let Err(e) = unsafe { g.begin(self.dpi) } {
+                self.gpu_lost("begin", e);
+                self.dirty = full;
+            }
+        }
+        unsafe {
+            if self.gpu.is_none() {
+                self.soft.begin(self.surf_w, self.surf_h, self.dpi)?;
+            }
+            self.main.SetTransform(&Matrix3x2::identity());
+            if self.gpu.is_some() {
+                self.main.Clear(Some(&CLEAR));
+            } else {
+                // Only the dirty part: the rest of the DIB is already clear.
+                let s = self.scale();
+                let d = self.dirty;
+                let r = D2D_RECT_F { left: d.left as f32 / s, top: d.top as f32 / s, right: d.right as f32 / s, bottom: d.bottom as f32 / s };
+                self.main.PushAxisAlignedClip(&r, D2D1_ANTIALIAS_MODE_ALIASED);
+                self.main.Clear(Some(&CLEAR));
+                self.main.PopAxisAlignedClip();
+            }
+        }
+        self.rt = self.main.clone();
         Ok(Canvas { g: self, alpha: 1.0 })
     }
 
-    /// Finish the frame. Evicts bitmaps that weren't used this frame once the
-    /// cache grows large.
+    /// Finish the frame. Evicts bitmaps and text layouts that weren't used
+    /// recently once the caches grow large.
     pub fn end(&mut self) -> Result<()> {
         // Balance any shape masks a caller forgot to pop.
         while let Some(pushed) = self.mask_stack.pop() {
             if pushed {
-                unsafe { self.rt.PopLayer() };
+                unsafe { self.main.PopLayer() };
             }
         }
-        unsafe { self.rt.EndDraw(None, None)? };
+        self.rt = self.main.clone();
+        let r = unsafe { self.main.EndDraw(None, None) };
+        let capture = self.capture.take();
+        match self.gpu.as_mut() {
+            Some(g) => {
+                if let (Ok(()), Some(c)) = (&r, capture) {
+                    match unsafe { g.read(c) } {
+                        Ok(px) => self.captured = px,
+                        Err(e) => crate::pwarn!("frame read-back failed: {e}"),
+                    }
+                }
+                unsafe { g.end() };
+                if let Err(e) = &r {
+                    self.gpu_lost("draw", e.clone());
+                }
+            }
+            None => {
+                if let Some(c) = capture {
+                    self.captured = self.soft.pixels(c);
+                }
+            }
+        }
         if self.bitmaps.len() > 48 {
             let used = std::mem::take(&mut self.used_bitmaps);
             self.bitmaps.retain(|k, _| used.contains(k));
         }
+        if self.frame_no % 120 == 0 || self.layouts.len() > 1500 {
+            let keep_after = self.frame_no.saturating_sub(if self.layouts.len() > 1500 { 2 } else { 240 });
+            self.layouts.retain(|_, (_, used)| *used >= keep_after);
+        }
+        r
+    }
+
+    /// Show the frame. The window sits at (`x`, `y`) screen pixels.
+    pub fn present(&mut self, x: i32, y: i32) -> Result<()> {
+        if let Some(g) = self.gpu.as_ref() {
+            if let Err(e) = unsafe { g.swap.Present(1, DXGI_PRESENT(0)) }.ok() {
+                self.gpu_lost("present", e.clone());
+                return Err(e);
+            }
+            return Ok(());
+        }
+        let dirty = std::mem::take(&mut self.dirty);
+        let r = unsafe { self.soft.push(self.hwnd, x, y, self.surf_w, self.surf_h, (!self.soft_full).then_some(dirty)) };
+        if r.is_ok() {
+            self.soft_full = false;
+        }
+        r
+    }
+
+    /// GPU renderer: update the window's own bitmap, an invisible mask that
+    /// decides where the island takes the mouse. `prev` is the last mask
+    /// pushed (only the area of either is redrawn).
+    pub fn push_hit_mask(&mut self, x: i32, y: i32, mask: &HitMask, prev: Option<&HitMask>) -> Result<()> {
+        let s = self.scale();
+        let (w, h) = (self.surf_w, self.surf_h);
+        let full = RECT { left: 0, top: 0, right: w, bottom: h };
+        let area = |m: &HitMask| m.bounds().map(|b| px_rect(b, s, 2, w, h)).unwrap_or_default();
+        let dirty = match prev {
+            Some(p) if !self.soft_full => px_union(area(p), area(mask)),
+            _ => full,
+        };
+        unsafe {
+            self.soft.begin(w, h, self.dpi)?;
+            let rt = &self.soft.rt;
+            rt.SetTransform(&Matrix3x2::identity());
+            let r = D2D_RECT_F { left: dirty.left as f32 / s, top: dirty.top as f32 / s, right: dirty.right as f32 / s, bottom: dirty.bottom as f32 / s };
+            rt.PushAxisAlignedClip(&r, D2D1_ANTIALIAS_MODE_ALIASED);
+            rt.Clear(Some(&CLEAR));
+            if let Some(r) = mask.rect {
+                rt.FillRectangle(&rectf(r), &self.mask_brush);
+            }
+            if let Some((body, radius, shoulder)) = mask.notch {
+                if let Ok(geo) = self.path_geometry(&notch_segments(body, radius, shoulder), true) {
+                    rt.FillGeometry(&geo, &self.mask_brush, None);
+                }
+            }
+            rt.PopAxisAlignedClip();
+            rt.EndDraw(None, None)?;
+            let full_push = self.soft_full || prev.is_none();
+            self.soft.push(self.hwnd, x, y, w, h, (!full_push).then_some(dirty))?;
+        }
+        self.soft_full = false;
         Ok(())
     }
 
-    /// Push the last frame to the layered window at (`x`, `y`) screen pixels.
-    pub fn present(&self, hwnd: HWND, x: i32, y: i32) -> Result<()> {
-        unsafe {
-            let blend = BLENDFUNCTION { BlendOp: AC_SRC_OVER as u8, BlendFlags: 0, SourceConstantAlpha: 255, AlphaFormat: AC_SRC_ALPHA as u8 };
-            UpdateLayeredWindow(
-                hwnd,
-                None,
-                Some(&POINT { x, y }),
-                Some(&SIZE { cx: self.frame_w, cy: self.frame_h }),
-                self.mem_dc,
-                Some(&POINT { x: 0, y: 0 }),
-                COLORREF(0),
-                Some(&blend),
-                ULW_ALPHA,
-            )
+    /// An offscreen layer the size of the surface (see [`Canvas::layered`]).
+    fn layer(&mut self) -> Result<ID2D1BitmapRenderTarget> {
+        let i = self.layers_used;
+        self.layers_used += 1;
+        if let Some(l) = self.layers.get(i) {
+            return Ok(l.clone());
         }
-    }
-
-    pub fn frame_size(&self) -> (i32, i32) {
-        (self.frame_w, self.frame_h)
-    }
-
-    /// Copy of the last frame's premultiplied BGRA pixels (for screenshots).
-    pub fn frame_pixels(&self) -> Vec<u8> {
-        let mut out = Vec::with_capacity((self.frame_w * self.frame_h * 4) as usize);
-        unsafe {
-            for y in 0..self.frame_h {
-                let row = self.bits.add((y * self.cap_w * 4) as usize);
-                out.extend_from_slice(std::slice::from_raw_parts(row, (self.frame_w * 4) as usize));
-            }
-        }
-        out
+        let s = self.scale();
+        let px = D2D_SIZE_U { width: self.surf_w.max(1) as u32, height: self.surf_h.max(1) as u32 };
+        let dip = D2D_SIZE_F { width: px.width as f32 / s, height: px.height as f32 / s };
+        let l = unsafe { self.main.CreateCompatibleRenderTarget(Some(&dip), Some(&px), Some(&PREMUL_BGRA), D2D1_COMPATIBLE_RENDER_TARGET_OPTIONS_NONE)? };
+        setup_target(&l.cast()?);
+        self.layers.push(l.clone());
+        Ok(l)
     }
 
     fn format(&mut self, size: f32, weight: Weight, wrap: bool) -> Result<IDWriteTextFormat> {
@@ -483,11 +1050,31 @@ impl Gfx {
         Ok(f)
     }
 
+    /// A text layout, reused across frames: at 144 fps re-shaping every
+    /// string every frame would be most of the frame's CPU time.
     fn layout(&mut self, s: &str, st: &TextStyle, w: f32, h: f32) -> Result<IDWriteTextLayout> {
+        let (w, h) = (w.max(1.0), h.max(1.0));
+        let key = LayoutKey {
+            text: s.to_string(),
+            size: st.size.to_bits(),
+            weight: st.weight,
+            wrap: st.wrap,
+            align: st.align,
+            vcenter: st.vcenter,
+            tabular: st.tabular,
+            line: st.line.to_bits(),
+            w: w.to_bits(),
+            h: h.to_bits(),
+        };
+        let frame = self.frame_no;
+        if let Some((l, used)) = self.layouts.get_mut(&key) {
+            *used = frame;
+            return Ok(l.clone());
+        }
         let fmt = self.format(st.size, st.weight, st.wrap)?;
         let text = wide(s);
-        unsafe {
-            let layout = self.dwrite.CreateTextLayout(&text, &fmt, w.max(1.0), h.max(1.0))?;
+        let layout = unsafe {
+            let layout = self.dwrite.CreateTextLayout(&text, &fmt, w, h)?;
             layout.SetTextAlignment(match st.align {
                 Align::Left => DWRITE_TEXT_ALIGNMENT_LEADING,
                 Align::Center => DWRITE_TEXT_ALIGNMENT_CENTER,
@@ -502,8 +1089,10 @@ impl Gfx {
                 typo.AddFontFeature(DWRITE_FONT_FEATURE { nameTag: DWRITE_FONT_FEATURE_TAG_TABULAR_FIGURES, parameter: 1 })?;
                 layout.SetTypography(&typo, DWRITE_TEXT_RANGE { startPosition: 0, length: text.len() as u32 })?;
             }
-            Ok(layout)
-        }
+            layout
+        };
+        self.layouts.insert(key, (layout.clone(), frame));
+        Ok(layout)
     }
 
     fn bitmap_for(&mut self, img: &Image) -> Result<ID2D1Bitmap> {
@@ -512,7 +1101,7 @@ impl Gfx {
             return Ok(b.clone());
         }
         let bmp = unsafe {
-            self.rt.CreateBitmap(
+            self.main.CreateBitmap(
                 D2D_SIZE_U { width: img.width, height: img.height },
                 Some(img.pixels.as_ptr() as *const c_void),
                 img.width * 4,
@@ -902,6 +1491,62 @@ impl<'a> Canvas<'a> {
         let prev = self.save_transform();
         let m = Matrix3x2 { M11: s, M12: 0.0, M21: 0.0, M22: s, M31: p.x * (1.0 - s), M32: p.y * (1.0 - s) };
         unsafe { self.g.rt.SetTransform(&(m * prev)) };
+    }
+
+    /// Draw `f` into an offscreen layer covering `bounds`, then composite the
+    /// layer at opacity `alpha`, moved by `xf` (on top of the current
+    /// transform). The group fades as one image (overlapping parts don't
+    /// show through each other) and its text is rasterised once at rest
+    /// size, so it glides while it scales instead of re-hinting every frame.
+    /// `f` always runs, even when the layer ends up invisible, so hit regions
+    /// and animation state stay continuous.
+    pub fn layered<R>(&mut self, bounds: Rect, alpha: f32, xf: Matrix3x2, f: impl FnOnce(&mut Canvas<'a>) -> R) -> R {
+        let s = self.scale().max(0.1);
+        // Whole pixels: with an identity `xf` the layer lands 1:1 on the frame.
+        let (x0, y0) = ((bounds.x * s).floor() / s, (bounds.y * s).floor() / s);
+        let (x1, y1) = ((bounds.right() * s).ceil() / s, (bounds.bottom() * s).ceil() / s);
+        let b = rectf(Rect::new(x0, y0, (x1 - x0).max(0.0), (y1 - y0).max(0.0)));
+        let Ok(layer) = self.g.layer() else {
+            // No offscreen target: per-primitive opacity, live transform.
+            let prev = self.save_transform();
+            unsafe { self.g.rt.SetTransform(&(xf * prev)) };
+            let r = self.with_alpha(alpha, f);
+            self.restore_transform(prev);
+            return r;
+        };
+        let Ok(layer_rt) = layer.cast::<ID2D1RenderTarget>() else { return self.with_alpha(alpha, f) };
+        unsafe {
+            layer_rt.BeginDraw();
+            layer_rt.SetTransform(&Matrix3x2::identity());
+            layer_rt.PushAxisAlignedClip(&b, D2D1_ANTIALIAS_MODE_ALIASED);
+            layer_rt.Clear(Some(&CLEAR));
+        }
+        let outer = std::mem::replace(&mut self.g.rt, layer_rt.clone());
+        let outer_alpha = self.alpha;
+        let masks = self.g.mask_stack.len();
+        self.alpha = 1.0;
+        let r = f(self);
+        while self.g.mask_stack.len() > masks {
+            if self.g.mask_stack.pop() == Some(true) {
+                unsafe { layer_rt.PopLayer() };
+            }
+        }
+        self.alpha = outer_alpha;
+        self.g.rt = outer;
+        unsafe {
+            layer_rt.PopAxisAlignedClip();
+            let drawn = layer_rt.EndDraw(None, None).is_ok();
+            let a = (alpha * outer_alpha).clamp(0.0, 1.0);
+            if drawn && a > 0.002 {
+                if let Ok(bmp) = layer.GetBitmap() {
+                    let prev = self.save_transform();
+                    self.g.rt.SetTransform(&(xf * prev));
+                    self.g.rt.DrawBitmap(&bmp, Some(&b), a, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, Some(&b));
+                    self.g.rt.SetTransform(&prev);
+                }
+            }
+        }
+        r
     }
 }
 

@@ -5,7 +5,7 @@ use crate::activities::{self, Mode};
 use crate::clock;
 use crate::commands::{Command, MediaCmd};
 use crate::events::{AppEvent, AppleMusicStatus, EventSink, SendHwnd, WM_APP_APPBAR, WM_APP_EVENT, WM_APP_FRAME, WM_APP_TRAY};
-use crate::gfx::Gfx;
+use crate::gfx::{px_rect, px_union, scale_about, union_rect, Canvas, Gfx, HitMask};
 use crate::icons::Icon;
 use crate::island::{Geom, Island, HIT_MARGIN, SHOULDER};
 use crate::oyen;
@@ -15,8 +15,9 @@ use crate::services::{self, Services};
 use crate::state::{AppState, HudKind, InlineAction, LyricsState, LyricsStatus, NoticeAction};
 use crate::tray::{self, Tray};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
-use crate::window::{self, FrameClock, MonitorInfo};
+use crate::window::{self, FrameClock, FrameTick, MonitorInfo};
 use crate::{dragdrop, selftest, shell};
+use poni_core::frametime::{ambient_divisor, MotionStats};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::settings::MonitorChoice;
@@ -24,6 +25,7 @@ use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Sto
 use std::cell::{Cell, RefCell};
 use std::sync::mpsc::{self, Receiver};
 use windows::core::{w, Result};
+use windows::Foundation::Numerics::Matrix3x2;
 use windows::Win32::Foundation::*;
 use windows::Win32::System::Ole::{OleInitialize, OleUninitialize};
 use windows::Win32::System::Threading::CreateMutexW;
@@ -268,7 +270,25 @@ pub struct App {
     sink: EventSink,
     rx: Receiver<AppEvent>,
     services: Option<Services>,
+    /// Animation time of the last frame (the vblank it was shown on).
     last_frame_t: f64,
+    /// The window: a fixed-size surface the island is drawn centred in.
+    surface: Surface,
+    /// Centre of the surface in DIPs (where the island hangs from).
+    cx: f32,
+    /// Canvas pixels drawn last frame (the next frame clears them).
+    prev_canvas_px: Option<RECT>,
+    /// GPU renderer: the hit mask last pushed to the window, and when.
+    mask: Option<(HitMask, f64)>,
+    /// Smoothness of the morph in progress (logged when it settles).
+    motion: Option<MotionStats>,
+    motion_name: &'static str,
+    /// Motions logged so far, and when a hitchy one was last logged.
+    motions_logged: u32,
+    hitch_logged_at: f64,
+    /// Self-test: read the next frame back, and where it was.
+    capture_next: bool,
+    capture_rect: RECT,
     fullscreen_hidden: bool,
     shown: bool,
     stats_on: bool,
@@ -277,7 +297,6 @@ pub struct App {
     selftest: Option<selftest::SelfTest>,
     /// Text we put on the clipboard ourselves (don't record it again).
     own_clip: Option<String>,
-    last_present: (i32, i32),
     exit_code: i32,
     /// Settings as last written to disk (to diff page-made changes).
     saved_settings: Settings,
@@ -304,6 +323,21 @@ pub struct App {
     /// Where the hover (dwell) timer was last armed; None when it isn't.
     hover_arm: Option<Point>,
 }
+
+/// The island window: position and size in screen pixels.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+struct Surface {
+    x: i32,
+    y: i32,
+    w: i32,
+    h: i32,
+}
+
+/// The grow springs overshoot by about 3 %; the surface leaves 5 %.
+const OVERSHOOT: f32 = 1.05;
+/// Hit-mask updates while the island moves (the mask is invisible, so it
+/// may trail the outline by a frame or two).
+const MASK_INTERVAL: f64 = 1.0 / 30.0;
 
 /// How long outgoing content takes to fade (seconds).
 const OUTGOING_FADE: f64 = 0.14;
@@ -337,7 +371,7 @@ impl App {
         store_writable: bool,
     ) -> Result<Self> {
         let monitor = window::pick_monitor(settings.monitor);
-        let gfx = Gfx::new(monitor.dpi as f32)?;
+        let gfx = Gfx::new(monitor.dpi as f32, hwnd)?;
         let mut st = AppState::new(settings, store);
         st.now = clock::mono();
         st.local = clock::local_now();
@@ -345,7 +379,7 @@ impl App {
         st.accent = theme_accent(st.settings.theme);
         let mode = Mode::Idle;
         let island = Island::new(activities::geom(&mode, &st));
-        let clock = FrameClock::start(SendHwnd::new(hwnd));
+        let clock = FrameClock::start(SendHwnd::new(hwnd), monitor.handle);
         let taskbar_created_msg = unsafe { RegisterWindowMessageW(w!("TaskbarCreated")) };
         let selftest = selftest_dir.map(selftest::SelfTest::new);
         let saved_settings = st.settings.clone();
@@ -368,7 +402,17 @@ impl App {
             sink,
             rx,
             services: None,
-            last_frame_t: clock::mono(),
+            last_frame_t: 0.0,
+            surface: Surface::default(),
+            cx: 0.0,
+            prev_canvas_px: None,
+            mask: None,
+            motion: None,
+            motion_name: "morph",
+            motions_logged: 0,
+            hitch_logged_at: f64::NEG_INFINITY,
+            capture_next: false,
+            capture_rect: RECT::default(),
             fullscreen_hidden: false,
             shown: false,
             stats_on: false,
@@ -376,7 +420,6 @@ impl App {
             taskbar_created_msg,
             selftest,
             own_clip: None,
-            last_present: (i32::MIN, i32::MIN),
             exit_code: 0,
             saved_settings,
             settings_writable,
@@ -396,7 +439,7 @@ impl App {
     }
 
     fn start(&mut self) {
-        self.reserve_frame_capacity();
+        self.layout_surface();
         let fake = self.selftest.is_some();
         self.st.power = services::power::query();
         services::power::register(self.helper);
@@ -451,24 +494,57 @@ impl App {
         self.clock.set_active(true);
     }
 
-    /// Switch the renderer to `dpi` and size its buffer for that scale.
+    /// Switch the renderer to `dpi` and size the window for that scale.
     fn set_dpi(&mut self, dpi: u32) {
         self.gfx.set_dpi(dpi as f32);
-        self.reserve_frame_capacity();
+        self.layout_surface();
     }
 
-    /// Size the frame buffer once for the largest frame (the tallest expanded
-    /// page plus spring overshoot), so a morph never reallocates it in 64 px
-    /// steps mid-animation. Call at start and whenever the scale or the
-    /// expanded width changes.
-    fn reserve_frame_capacity(&mut self) {
+    /// Size and place the window once for the largest island (the widest,
+    /// tallest expanded page plus spring overshoot). The island is drawn
+    /// centred in it, so a morph never moves or resizes the window: the
+    /// centre stays put and both edges glide at sub-pixel precision. Call at
+    /// start and whenever the scale, the monitor or the expanded width changes.
+    fn layout_surface(&mut self) {
         let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
-        // The grow springs overshoot by about 3 %; leave 5 %.
-        const OVERSHOOT: f32 = 1.05;
-        let w = (self.st.settings.expanded_width * OVERSHOOT + 2.0 * (SHOULDER + HIT_MARGIN)) * self.gfx.scale();
-        let h = ((pages::HEADER_H + tallest + pages::PAD) * OVERSHOOT + HIT_MARGIN) * self.gfx.scale();
-        if let Err(e) = self.gfx.ensure_capacity(w.ceil() as i32, h.ceil() as i32) {
-            pwarn!("frame buffer reserve failed: {e}");
+        self.layout_surface_for(self.st.settings.expanded_width, pages::HEADER_H + tallest + pages::PAD);
+    }
+
+    /// Lay the window out for an island body up to `body_w`×`body_h` DIPs.
+    fn layout_surface_for(&mut self, body_w: f32, body_h: f32) {
+        let s = self.gfx.scale();
+        let mon_w = self.monitor.rect.right - self.monitor.rect.left;
+        let mut w = ((body_w * OVERSHOOT + 2.0 * (SHOULDER + HIT_MARGIN)) * s).ceil() as i32;
+        // An even margin on both sides puts the centre on the monitor's centre.
+        if (mon_w - w) % 2 != 0 {
+            w += 1;
+        }
+        let h = ((body_h * OVERSHOOT + HIT_MARGIN) * s).ceil() as i32;
+        let surface = Surface { x: self.monitor.rect.left + (mon_w - w) / 2, y: self.monitor.top(), w, h };
+        if surface != self.surface {
+            self.surface = surface;
+            self.cx = w as f32 / 2.0 / s;
+            self.prev_canvas_px = None;
+            self.mask = None;
+            if let Err(e) = self.gfx.set_surface(w, h) {
+                pwarn!("window surface {w}x{h} failed: {e}");
+            }
+        }
+    }
+
+    /// The island (with overshoot) no longer fits the window: grow it.
+    fn ensure_room(&mut self) {
+        let g = self.island.current();
+        let t = self.island.target();
+        let (bw, bh) = (g.w.max(t.w), g.h.max(t.h));
+        let s = self.gfx.scale();
+        let need_w = ((bw * OVERSHOOT + 2.0 * (SHOULDER + HIT_MARGIN)) * s).ceil() as i32;
+        let need_h = ((bh * OVERSHOOT + HIT_MARGIN) * s).ceil() as i32;
+        if need_w > self.surface.w || need_h > self.surface.h {
+            let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
+            let body_h = (pages::HEADER_H + tallest + pages::PAD).max(bh * 1.1);
+            pinfo!("island outgrew the window; growing it to fit {bw:.0}x{bh:.0} DIP");
+            self.layout_surface_for(self.st.settings.expanded_width.max(bw * 1.1), body_h);
         }
     }
 
@@ -526,7 +602,8 @@ impl App {
             WM_APP_FRAME => {
                 // Clear `pending` after the frame so a slow frame can't keep the
                 // queue permanently non-empty (which starves WM_TIMER).
-                self.frame(deferred);
+                let tick = self.clock.tick();
+                self.frame(deferred, Some(tick));
                 self.clock.frame_handled();
                 Some(LRESULT(0))
             }
@@ -543,6 +620,18 @@ impl App {
             }
             WM_MOUSEMOVE => {
                 let p = self.mouse_dip(lp);
+                if self.over_stale_mask(p) {
+                    // The pointer is over a part of the hit mask the outline
+                    // already left: it isn't on the island.
+                    if self.hovering {
+                        self.hovering = false;
+                        self.input.mouse = None;
+                        self.cancel_hover();
+                        self.maybe_schedule_collapse();
+                        self.request_frame();
+                    }
+                    return Some(LRESULT(0));
+                }
                 self.input.mouse = Some(p);
                 if !self.hovering {
                     self.hovering = true;
@@ -1039,7 +1128,7 @@ impl App {
                             self.set_dpi(self.monitor.dpi);
                         } else {
                             // The expanded width may have changed.
-                            self.reserve_frame_capacity();
+                            self.layout_surface();
                         }
                         self.refresh_monitor();
                     }
@@ -1360,8 +1449,10 @@ impl App {
             pinfo!("monitor: {:?} dpi {}", m.rect, m.dpi);
             self.monitor = m;
             self.set_dpi(m.dpi);
-            self.last_present = (i32::MIN, i32::MIN);
+            self.layout_surface();
         }
+        // The refresh rate may have changed too (60 <-> 144 Hz).
+        self.clock.set_monitor(m.handle);
         self.request_frame();
     }
 
@@ -1380,10 +1471,20 @@ impl App {
     /// whole canvas while expanded (hit margin), only the island collapsed.
     fn hovering_inside(&self, p: Point) -> bool {
         if !self.expanded {
-            return self.island.body_rect().contains(p);
+            return self.island.body_rect_at(self.cx).contains(p);
         }
-        let (w, h) = self.island.canvas_size();
-        p.x >= 0.0 && p.y >= 0.0 && p.x < w && p.y < h
+        self.island.canvas_rect_at(self.cx).contains(p)
+    }
+
+    /// GPU renderer: the invisible hit mask trails a moving outline by up to
+    /// [`MASK_INTERVAL`]. A pointer over the part the island already left
+    /// (well outside its shape and shoulders) gets no hover.
+    fn over_stale_mask(&self, p: Point) -> bool {
+        if !self.gfx.needs_hit_mask() || self.island.settled() || self.input.down {
+            return false;
+        }
+        let r = if self.expanded { self.island.canvas_rect_at(self.cx) } else { self.island.body_rect_at(self.cx).inset(-SHOULDER - 2.0, 0.0) };
+        !Rect::new(r.x, r.y, r.w, r.h + 2.0).contains(p)
     }
 
     fn target_mode(&self) -> Mode {
@@ -1434,23 +1535,37 @@ impl App {
         }
     }
 
-    fn frame(&mut self, deferred: &mut Vec<Deferred>) {
+    /// Draw and show one frame. `tick` is the vblank that triggered it (None
+    /// for self-test captures, which run off the clock).
+    fn frame(&mut self, deferred: &mut Vec<Deferred>, tick: Option<FrameTick>) {
         if self.fullscreen_hidden {
             // Nothing is drawn, but timers, chimes and commands keep working.
             self.refresh_time();
             self.tick();
             self.run_commands(deferred);
             self.clock.set_active(false);
+            self.motion = None;
             self.schedule_wake();
             return;
         }
+        let rendered_at = clock::mono();
         self.refresh_time();
+        // Stamp the frame with the vblank it will be shown after, so every
+        // animation step is a whole number of refresh periods: even motion at
+        // 60, 144 or 240 Hz, whatever the thread's wake-up jitter.
+        let period = tick.map_or_else(|| self.clock.period(), |t| t.period);
+        let anim_t = tick.map_or(rendered_at, |t| t.vblank + t.period).max(self.last_frame_t);
+        let resumed = tick.is_some_and(|t| t.resumed) || self.last_frame_t == 0.0;
+        // Coming out of rest, a motion advances one refresh, not the whole
+        // time the clock was parked.
+        let mut dt = if resumed { period } else { anim_t - self.last_frame_t };
+        self.last_frame_t = anim_t;
+        self.st.now = self.st.now.max(anim_t);
         self.tick();
         let now = self.st.now;
-        let dt = (now - self.last_frame_t).clamp(0.0, 0.05) as f32;
-        self.last_frame_t = now;
 
         let target = self.target_mode();
+        let mut retarget = false;
         if target != self.mode {
             let new_content = activities::content_key(&target) != activities::content_key(&self.mode);
             if new_content {
@@ -1462,47 +1577,88 @@ impl App {
                     self.page_anim = Some((a, now, dir));
                 }
             }
+            self.motion_name = motion_name(&self.mode, &target);
             self.island.set_target(self.geom_for(&target), now, new_content);
             self.mode = target;
+            retarget = true;
         } else {
             // Size can change within a mode (a page's height, the hover lift); follow it.
             let g = self.geom_for(&self.mode);
             if g != self.island.target() {
+                if self.island.settled() {
+                    self.motion_name = "resize";
+                }
                 self.island.set_target(g, now, false);
+                retarget = true;
             }
         }
+        // A motion that starts on this frame moves one refresh's worth, even
+        // when the previous frame was a slower ambient one.
+        if retarget {
+            dt = dt.min(period);
+        }
+        let dt = dt.clamp(0.0, 0.05) as f32;
         self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
         self.island.step(dt, now);
+        self.ensure_room();
+        self.note_motion(retarget, rendered_at, period, dt as f64);
 
         let scale = self.gfx.scale();
-        let (cw, ch) = self.island.canvas_size();
-        let wpx = (cw * scale).ceil() as i32;
-        let hpx = (ch * scale).ceil() as i32;
-        let body = self.island.body_rect();
+        let (sw, sh) = (self.surface.w, self.surface.h);
+        let body = self.island.body_rect_at(self.cx);
+        let canvas_r = self.island.canvas_rect_at(self.cx);
         let geom = self.island.current();
         let content_alpha = self.island.content_alpha();
+        // Clear what the island covered last frame as well as this one.
+        let canvas_px = px_rect(canvas_r, scale, 1, sw, sh);
+        let full = RECT { left: 0, top: 0, right: sw, bottom: sh };
+        let dirty = px_union(self.prev_canvas_px.unwrap_or(full), canvas_px);
+        self.prev_canvas_px = Some(canvas_px);
+        if std::mem::take(&mut self.capture_next) {
+            self.capture_rect = px_rect(canvas_r, scale, 0, sw, sh);
+            self.gfx.request_capture(self.capture_rect);
+        }
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
 
         let hidden_idle = self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden;
+        let gpu = self.gfx.needs_hit_mask();
         // Content is masked to the island silhouette only while the outline
         // or the content moves. At rest every layout fits inside the body,
-        // and skipping the mask layer keeps 30 fps ambient frames cheap.
+        // and skipping the mask layer keeps ambient frames cheap.
         let morphing = !self.island.settled() || self.outgoing.is_some();
+        let mode = self.mode;
+        let transition = self.page_anim.and_then(|(from, t0, dir)| {
+            let t = ((now - t0) / PAGE_SWITCH) as f32;
+            (t < 1.0).then_some(pages::PageTransition { from, t, dir })
+        });
+        if transition.is_none() {
+            self.page_anim = None;
+        }
+        // Pages lay out at their final size, centred on the morphing outline,
+        // so the header and the page body don't slide with the edges; the
+        // outline reveals them.
+        let lay = match mode {
+            Mode::Expanded(_) => {
+                let tgt = self.island.target();
+                Rect::new(body.center().x - tgt.w / 2.0, body.y, tgt.w, tgt.h)
+            }
+            _ => body,
+        };
         let mut wheel_left = 0.0;
-        let (repaint, anim, focus, ui_live) = match self.gfx.begin(wpx, hpx) {
+        let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
             Ok(mut canvas) => {
-                if self.expanded {
+                if self.expanded && !gpu {
                     // Near-invisible hit margin: a forgiving edge for the open
                     // panel. Collapsed, only the visible shape takes the mouse.
-                    canvas.fill_rect(Rect::new(0.0, 0.0, cw, ch), Color::black(1.0 / 255.0));
+                    // (The GPU renderer keeps this in its hit mask instead.)
+                    canvas.fill_rect(canvas_r, Color::black(1.0 / 255.0));
                 }
                 let island_color = if hidden_idle { Color::black(1.0 / 255.0) } else { palette::ISLAND };
                 let border = if hidden_idle { None } else { Some(palette::BORDER) };
                 canvas.notch(body, geom.r, SHOULDER, island_color, border);
 
                 // Content scales about the top centre, where the island hangs.
-                let base = canvas.save_transform();
                 let pivot = Point::new(body.center().x, body.y);
                 if morphing {
                     canvas.clip(body);
@@ -1511,57 +1667,40 @@ impl App {
 
                 // Outgoing content: laid out at its own (old) size, centred,
                 // shrinking with the outline instead of being sliced, and
-                // fading out on a smoothstep (it holds, then leaves). Ghost
-                // input: no clicks.
+                // fading out on a smoothstep (it holds, then leaves). Drawn as
+                // one layer, so it shrinks as a picture. Ghost input: no clicks.
                 if let Some((m, t0, g)) = self.outgoing {
                     let t = ((now - t0) / OUTGOING_FADE) as f32;
                     if t >= 1.0 {
                         self.outgoing = None;
                     } else {
                         let old_body = Rect::new(body.center().x - g.w / 2.0, body.y, g.w, g.h);
-                        canvas.set_alpha(1.0 - t * t * (3.0 - 2.0 * t));
-                        canvas.scale_about(pivot, (geom.w / g.w.max(1.0)).clamp(GHOST_MIN_SCALE, 1.0));
-                        {
+                        let alpha = 1.0 - t * t * (3.0 - 2.0 * t);
+                        let xf = scale_about(pivot, (geom.w / g.w.max(1.0)).clamp(GHOST_MIN_SCALE, 1.0));
+                        let st = &mut self.st;
+                        canvas.layered(old_body, alpha, xf, |c| {
                             let mut ghost_input = Input::default();
                             let mut ghost_hits = Vec::new();
-                            let mut ghost = Ui::new(&mut canvas, &mut ghost_input, &mut ghost_hits, now);
+                            let mut ghost = Ui::new(c, &mut ghost_input, &mut ghost_hits, now);
                             match m {
-                                Mode::Expanded(page) => pages::draw_expanded(&mut ghost, &mut self.st, old_body, page, None),
-                                _ => activities::draw(&mut ghost, &mut self.st, &m, old_body),
+                                Mode::Expanded(page) => pages::draw_expanded(&mut ghost, st, old_body, page, None),
+                                _ => activities::draw(&mut ghost, st, &m, old_body),
                             }
-                        }
-                        canvas.restore_transform(base);
+                        });
                     }
                 }
 
-                // Incoming content settles down from the bezel as it fades in.
-                canvas.set_alpha(content_alpha);
-                if content_alpha < 1.0 {
-                    canvas.translate(0.0, -CONTENT_DROP * (1.0 - content_alpha));
-                    canvas.scale_about(pivot, CONTENT_SCALE_FROM + (1.0 - CONTENT_SCALE_FROM) * content_alpha);
-                }
-                let transition = self.page_anim.and_then(|(from, t0, dir)| {
-                    let t = ((now - t0) / PAGE_SWITCH) as f32;
-                    (t < 1.0).then_some(pages::PageTransition { from, t, dir })
-                });
-                if transition.is_none() {
-                    self.page_anim = None;
-                }
-                let mut ui = Ui::new(&mut canvas, &mut self.input, &mut hits, now);
-                match self.mode {
-                    Mode::Expanded(page) => {
-                        // Pages lay out at their final size, centred on the
-                        // morphing outline, so the header and the page body
-                        // don't slide with the edges; the outline reveals them.
-                        let tgt = self.island.target();
-                        let lay = Rect::new(body.center().x - tgt.w / 2.0, body.y, tgt.w, tgt.h);
-                        pages::draw_expanded(&mut ui, &mut self.st, lay, page, transition)
-                    }
-                    _ => activities::draw(&mut ui, &mut self.st, &self.mode, body),
-                }
-                let out = (ui.repaint_requested(), ui.anim_requested(), ui.focus_request(), ui.live_requested());
+                // Incoming content settles down from the bezel as it fades in,
+                // as one layer, so its text doesn't re-hint every frame.
+                let out = if content_alpha < 1.0 {
+                    let grow = scale_about(pivot, CONTENT_SCALE_FROM + (1.0 - CONTENT_SCALE_FROM) * content_alpha);
+                    let xf = grow * Matrix3x2::translation(0.0, -CONTENT_DROP * (1.0 - content_alpha));
+                    let (input, st) = (&mut self.input, &mut self.st);
+                    canvas.layered(union_rect(lay, body), content_alpha, xf, |c| draw_content(c, input, &mut hits, st, mode, lay, body, transition, now))
+                } else {
+                    draw_content(&mut canvas, &mut self.input, &mut hits, &mut self.st, mode, lay, body, transition, now)
+                };
                 wheel_left = self.input.wheel;
-                canvas.restore_transform(base);
                 if morphing {
                     canvas.pop_shape_mask();
                     canvas.unclip();
@@ -1602,12 +1741,13 @@ impl App {
         self.input.end_frame();
 
         // Present.
-        let x = self.monitor.center_x() - wpx / 2;
-        let y = self.monitor.top();
-        if let Err(e) = self.gfx.present(self.hwnd, x, y) {
+        let (x, y) = (self.surface.x, self.surface.y);
+        if let Err(e) = self.gfx.present(x, y) {
             pwarn!("present failed: {e}");
         }
-        self.last_present = (x, y);
+        if self.gfx.needs_hit_mask() {
+            self.update_hit_mask(body, geom.r, canvas_r, now);
+        }
         if !self.shown {
             self.shown = true;
             unsafe {
@@ -1623,15 +1763,82 @@ impl App {
         }
         self.run_commands(deferred);
 
-        // Decide whether to keep the frame clock running. Ambient motion
-        // (equalizer, a playing progress bar) runs at 30 fps and pauses while
-        // the session is locked or the display is off.
+        // Decide whether to keep the frame clock running. Real motion runs
+        // at the display's full refresh rate; ambient motion runs on every
+        // n-th refresh (the equalizer near 60 fps, a drifting progress bar
+        // near 30) and pauses while the session is locked or the display off.
         let ambient_ok = !self.locked && !self.display_off;
-        let live = ambient_ok && (activities::is_live(&self.mode, &self.st) || ui_live);
+        let eq_live = ambient_ok && activities::is_live(&self.mode, &self.st);
+        let drift_live = ambient_ok && ui_live;
         let moving = !self.island.settled() || anim || repaint || !self.st.cmds.is_empty() || self.outgoing.is_some() || self.page_anim.is_some();
-        self.clock.set_min_interval_ms(if moving { 0 } else if live { 33 } else { 0 });
-        self.clock.set_active(moving || live);
+        let hz = 1.0 / period;
+        self.clock.set_divisor(if moving {
+            1
+        } else if eq_live {
+            ambient_divisor(hz, 60.0)
+        } else {
+            ambient_divisor(hz, 30.0)
+        });
+        self.clock.set_active(moving || eq_live || drift_live);
         self.schedule_wake();
+    }
+
+    /// GPU renderer: keep the window's invisible hit mask on the island.
+    /// While the outline moves it follows at [`MASK_INTERVAL`]; at rest it
+    /// matches exactly.
+    fn update_hit_mask(&mut self, body: Rect, radius: f32, canvas_r: Rect, now: f64) {
+        let mask = if self.expanded { HitMask { rect: Some(canvas_r), notch: None } } else { HitMask { rect: None, notch: Some((body, radius, SHOULDER)) } };
+        let due = match &self.mask {
+            None => true,
+            Some((m, at)) => *m != mask && (self.island.settled() || now - at >= MASK_INTERVAL),
+        };
+        if !due {
+            return;
+        }
+        let prev = self.mask.map(|(m, _)| m);
+        match self.gfx.push_hit_mask(self.surface.x, self.surface.y, &mask, prev.as_ref()) {
+            Ok(()) => self.mask = Some((mask, now)),
+            Err(e) => {
+                pwarn!("hit mask update failed: {e}");
+                self.mask = None;
+            }
+        }
+    }
+
+    /// Track how smoothly the outline moves. The first morphs after start
+    /// are logged (the CI smoke test reads them); after that only morphs
+    /// that dropped frames, at most one a minute.
+    fn note_motion(&mut self, retarget: bool, t: f64, period: f64, dt: f64) {
+        let moving = !self.island.settled();
+        if retarget || !moving {
+            if let Some(mut m) = self.motion.take() {
+                if !moving {
+                    m.frame(t);
+                }
+                let early = self.motions_logged < 20;
+                if m.frames >= 4 && (early || (m.hitches > 0 && t - self.hitch_logged_at > 60.0)) {
+                    pinfo!("{} ({})", m.summary(), self.renderer_name());
+                    self.motions_logged += 1;
+                    if !early {
+                        self.hitch_logged_at = t;
+                    }
+                }
+            }
+        }
+        if moving {
+            match self.motion.as_mut() {
+                Some(m) => m.frame(t),
+                None => self.motion = Some(MotionStats::begin(self.motion_name, t, period, dt)),
+            }
+        }
+    }
+
+    fn renderer_name(&self) -> &'static str {
+        match self.gfx.renderer() {
+            crate::gfx::Renderer::Gpu { warp: false } => "gpu",
+            crate::gfx::Renderer::Gpu { warp: true } => "gpu-warp",
+            crate::gfx::Renderer::Software => "software",
+        }
     }
 
     /// Wake up for the next visible change (HUD expiry, countdown second, …).
@@ -1838,12 +2045,24 @@ impl App {
         self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none()
     }
 
-    /// Render a frame right now (bypassing the clock) and return its pixels.
+    /// Render a frame right now (bypassing the clock) and return the pixels
+    /// of the island's canvas (island, shoulders and hit margin) and where
+    /// that canvas sits on screen.
     pub fn selftest_capture(&mut self) -> (i32, i32, Vec<u8>, (i32, i32)) {
         let mut d = Vec::new();
-        self.frame(&mut d);
-        let (w, h) = self.gfx.frame_size();
-        (w, h, self.gfx.frame_pixels(), self.last_present)
+        self.capture_next = true;
+        self.frame(&mut d, None);
+        let r = self.capture_rect;
+        (r.right - r.left, r.bottom - r.top, self.gfx.take_capture(), (self.surface.x + r.left, self.surface.y + r.top))
+    }
+
+    /// The window's screen rectangle as laid out (left, top, width, height).
+    pub fn selftest_surface(&self) -> (i32, i32, i32, i32) {
+        (self.surface.x, self.surface.y, self.surface.w, self.surface.h)
+    }
+
+    pub fn renderer(&self) -> &'static str {
+        self.renderer_name()
     }
 
     pub fn selftest_hover(&mut self, p: Option<Point>) {
@@ -1858,8 +2077,16 @@ impl App {
         }
     }
 
+    /// The island body in window DIPs (where clicks land).
     pub fn island_body(&self) -> Rect {
-        self.island.body_rect()
+        self.island.body_rect_at(self.cx)
+    }
+
+    /// The island body relative to the last captured frame (DIPs).
+    pub fn island_body_in_capture(&self) -> Rect {
+        let s = self.gfx.scale();
+        let r = self.capture_rect;
+        self.island.body_rect_at(self.cx).offset(-(r.left as f32) / s, -(r.top as f32) / s)
     }
 
     pub fn scale(&self) -> f32 {
@@ -1877,6 +2104,38 @@ fn theme_accent(theme: Theme) -> Color {
         oyen::ORANGE
     } else {
         services::system_accent().unwrap_or(palette::BLUE)
+    }
+}
+
+/// The island's current content: a page (expanded) or the collapsed activity.
+/// Returns (repaint, anim, focus, live) as requested by the drawing code.
+#[allow(clippy::too_many_arguments)]
+fn draw_content(
+    c: &mut Canvas,
+    input: &mut Input,
+    hits: &mut Vec<Hit>,
+    st: &mut AppState,
+    mode: Mode,
+    lay: Rect,
+    body: Rect,
+    transition: Option<pages::PageTransition>,
+    now: f64,
+) -> (bool, bool, Option<bool>, bool) {
+    let mut ui = Ui::new(c, input, hits, now);
+    match mode {
+        Mode::Expanded(page) => pages::draw_expanded(&mut ui, st, lay, page, transition),
+        _ => activities::draw(&mut ui, st, &mode, body),
+    }
+    (ui.repaint_requested(), ui.anim_requested(), ui.focus_request(), ui.live_requested())
+}
+
+/// Name of a morph for the motion log.
+fn motion_name(from: &Mode, to: &Mode) -> &'static str {
+    match (from, to) {
+        (Mode::Expanded(_), Mode::Expanded(_)) => "page",
+        (_, Mode::Expanded(_)) => "expand",
+        (Mode::Expanded(_), _) => "collapse",
+        _ => "pill",
     }
 }
 

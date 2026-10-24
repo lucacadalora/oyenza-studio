@@ -241,6 +241,8 @@ struct Report {
     total_ms: u64,
     scale: f32,
     expanded_width_dip: f32,
+    /// "gpu", "gpu-warp" or "software".
+    renderer: String,
     frame_budget_ms: f64,
     states_passed: usize,
     states_total: usize,
@@ -282,6 +284,7 @@ pub struct SelfTest {
     dpi_applied: bool,
     /// PONI_SELFTEST_THEME=oyen: run every scene in the Oyen theme.
     theme: Theme,
+    renderer: &'static str,
 }
 
 /// Transitions recorded in animation mode: (name, from, to).
@@ -315,6 +318,7 @@ impl SelfTest {
             anim: std::env::var("PONI_SELFTEST_ANIM").is_ok_and(|v| v.trim() == "1"),
             dpi_applied: false,
             theme: if std::env::var("PONI_SELFTEST_THEME").is_ok_and(|v| v.trim() == "oyen") { Theme::Oyen } else { Theme::Classic },
+            renderer: "software",
         }
     }
 
@@ -373,6 +377,7 @@ impl SelfTest {
         }
         self.scale = app.scale();
         self.expanded_width = app.st.settings.expanded_width;
+        self.renderer = app.renderer();
         let now = clock::mono();
         let elapsed = self.t0.elapsed().as_secs_f64();
         if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. }) {
@@ -469,14 +474,21 @@ impl SelfTest {
         }
         self.apply(app, to);
         let mut settle_frame = None;
+        // Where each frame sat on screen, to check that the island's centre holds still.
+        let mut placed = Vec::with_capacity(ANIM_FRAMES);
         for k in 0..ANIM_FRAMES {
-            let (w, h, px, _) = app.selftest_capture();
+            let (w, h, px, at) = app.selftest_capture();
             if settle_frame.is_none() && app.selftest_settled() {
                 settle_frame = Some(k);
             }
+            placed.push(format!("{{\"frame\": {k}, \"x\": {}, \"y\": {}, \"w\": {w}, \"h\": {h}}}", at.0, at.1));
             let scale = self.scale;
             self.queue_write(&format!("anim-{name}-{k:02}"), w, h, px, scale);
             std::thread::sleep(std::time::Duration::from_millis(16));
+        }
+        let json = format!("{{\"name\": \"{name}\", \"scale\": {}, \"frames\": [\n  {}\n]}}\n", self.scale, placed.join(",\n  "));
+        if let Err(e) = fs::write(self.dir.join(format!("anim-{name}.json")), json) {
+            crate::pwarn!("selftest: writing anim-{name}.json failed: {e}");
         }
         crate::pinfo!("selftest: anim '{name}' recorded, settled at frame {settle_frame:?}");
     }
@@ -622,7 +634,7 @@ impl SelfTest {
         }
         let (w, h, px, present) = shot;
         let scale = app.scale();
-        let body = app.island_body();
+        let body = app.island_body_in_capture();
         let frame = Frame { w, h, px: &px };
         let best = samples.iter().copied().fold(f64::INFINITY, f64::min);
 
@@ -668,7 +680,7 @@ impl SelfTest {
             best < FRAME_BUDGET_MS,
             format!("best {best:.2} ms of {samples:?} (budget {FRAME_BUDGET_MS} ms)"),
         ));
-        checks.push(window_check(app.hwnd(), present, w, h));
+        checks.push(window_check(app.hwnd(), app.selftest_surface(), present, w, h));
         if let Some(want) = scene.page() {
             let page = app.st.page;
             checks.push(check("page", page == want, format!("showing '{}', expected '{}'", page.key(), want.key())));
@@ -770,6 +782,7 @@ impl SelfTest {
             total_ms,
             scale: self.scale,
             expanded_width_dip: self.expanded_width,
+            renderer: self.renderer.to_string(),
             frame_budget_ms: FRAME_BUDGET_MS,
             states_passed: self.states.iter().filter(|s| s.ok).count(),
             states_total: SCENES.len(),
@@ -997,8 +1010,8 @@ impl Frame<'_> {
 }
 
 /// The island window must be a visible, top-most, non-activating layered
-/// tool window placed exactly where the frame was presented.
-fn window_check(hwnd: HWND, present: (i32, i32), w: i32, h: i32) -> Check {
+/// tool window, laid out where the app placed it, with the frame inside it.
+fn window_check(hwnd: HWND, surface: (i32, i32, i32, i32), present: (i32, i32), w: i32, h: i32) -> Check {
     let need = WS_EX_LAYERED.0 | WS_EX_TOPMOST.0 | WS_EX_TOOLWINDOW.0 | WS_EX_NOACTIVATE.0;
     let (visible, ex, rect) = unsafe {
         let visible = IsWindowVisible(hwnd).as_bool();
@@ -1008,12 +1021,16 @@ fn window_check(hwnd: HWND, present: (i32, i32), w: i32, h: i32) -> Check {
         (visible, ex, rect)
     };
     let styles_ok = ex & need == need;
-    let rect_ok = rect.is_some_and(|r| r.left == present.0 && r.top == present.1 && r.right - r.left == w && r.bottom - r.top == h);
+    let (sx, sy, sw, sh) = surface;
+    let rect_ok = rect.is_some_and(|r| {
+        r.left == sx && r.top == sy && r.right - r.left == sw && r.bottom - r.top == sh
+            && present.0 >= r.left && present.1 >= r.top && present.0 + w <= r.right && present.1 + h <= r.bottom
+    });
     let rect_s = rect.map(|r| format!("({}, {}) {}x{}", r.left, r.top, r.right - r.left, r.bottom - r.top)).unwrap_or_else(|| "unavailable".into());
     check(
         "window",
         visible && styles_ok && rect_ok,
-        format!("visible {visible}, ex-style {ex:#x} (needs {need:#x}), rect {rect_s}, presented at ({}, {}) {w}x{h}", present.0, present.1),
+        format!("visible {visible}, ex-style {ex:#x} (needs {need:#x}), rect {rect_s} (laid out ({sx}, {sy}) {sw}x{sh}), frame at ({}, {}) {w}x{h}", present.0, present.1),
     )
 }
 
