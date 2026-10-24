@@ -79,6 +79,11 @@ pub enum Command {
     WantStats(bool),
     /// Start with Windows on or off (the Settings page's switch).
     SetAutostart(bool),
+    /// Open the System page on this module (a Today ring was clicked).
+    OpenSystem(poni_core::sysmon::Module),
+    /// Request an app's icon for the System page (arrives in `AppState::app_icons`).
+    LoadAppIcon(String),
+    OpenTaskManager,
     Phone(PhoneCmd),
     Oyenza(OyenzaCmd),
 }

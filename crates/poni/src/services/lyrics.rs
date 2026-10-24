@@ -12,13 +12,15 @@
 //! 2. with an Apple Music token: the cache `lyrics\am-<cache_key>.json`, then
 //!    Apple's own synced lyrics (`services::applemusic`); anything short of
 //!    synced lyrics from Apple falls through to LRCLIB;
-//! 3. the disk cache `lyrics\<cache_key>.json` (hits, and misses for 3 days);
+//! 3. the disk cache `lyrics\<cache_key>.json` (hits, and misses for 3 days
+//!    unless a better lookup has shipped since: `CacheEntry::LOOKUP`);
 //! 4. `/api/get` with title, artist, album and duration;
 //! 5. `/api/get` without the album;
 //! 6. `/api/search` by title + primary artist, then `lrclib::best_match`
 //!    (also after a 5xx from `/api/get`; a miss then is retried, not cached);
-//! 7. for a browser tab, `/api/search` once more reading the title as
-//!    "Artist - Song" (`lrclib::artist_song_guess`).
+//! 7. for a browser tab, `/api/search` again reading the title as
+//!    "Artist - Song", then as "Song - Artist" (`lrclib::title_guesses`).
+//!    A 5xx from one search doesn't stop the next.
 //!
 //! A plain-only answer doesn't end steps 4-7: it is kept while the later
 //! steps look for a synced copy of the song.
@@ -412,9 +414,10 @@ impl Worker {
     }
 
     fn fetch(&mut self, job: &Job, q: &TrackQuery) -> Result<Fetched, Halt> {
-        // Set when /api/get failed on LRCLIB's side. The search still runs,
-        // but a miss there is no longer a sure "no lyrics" and isn't cached.
-        let mut get_failed = None;
+        // Set when /api/get or a search failed on LRCLIB's side. The other
+        // lookups still run, but a miss is then no longer a sure "no lyrics"
+        // and isn't cached.
+        let mut server_failed = None;
         // Plain lyrics found on the way. One signature can hold a plain-only
         // copy while another copy of the song is synced, so the looser
         // lookups still run before settling for these.
@@ -445,7 +448,7 @@ impl Worker {
                     // sources, which can answer 503 while busy; the search
                     // only reads its own database and usually still works.
                     s if s >= 500 => {
-                        get_failed = Some(self.http_error(job, s));
+                        server_failed = Some(self.http_error(job, s));
                         break;
                     }
                     s => return Err(self.http_error(job, s)),
@@ -454,12 +457,13 @@ impl Worker {
         }
         let mut searches = vec![q.clone()];
         // A browser tab whose channel isn't the artist (a lyric-video
-        // channel): read the title as "Artist - Song" and search again.
+        // channel, a record label): read the title as "Artist - Song", then
+        // as "Song - Artist", and search again.
         if job.browser {
-            searches.extend(lrclib::artist_song_guess(q));
+            searches.extend(lrclib::title_guesses(q));
         }
         for sq in &searches {
-            if let Some(record) = self.search(job, sq)? {
+            if let Some(record) = self.search(job, sq, &mut server_failed)? {
                 if complete(&record) {
                     return Ok(Fetched::Found(record));
                 }
@@ -468,12 +472,15 @@ impl Worker {
         }
         match plain {
             Some(record) => Ok(Fetched::Found(record)),
-            None => get_failed.map_or(Ok(Fetched::Missing), Err),
+            None => server_failed.map_or(Ok(Fetched::Missing), Err),
         }
     }
 
-    /// `/api/search` by title + primary artist; the best usable match.
-    fn search(&mut self, job: &Job, q: &TrackQuery) -> Result<Option<LrclibRecord>, Halt> {
+    /// `/api/search` by title + primary artist; the best usable match. A
+    /// 5xx is noted in `server_failed` and counts as no match here: LRCLIB
+    /// can answer 503 to a search it holds nothing for (a video title read
+    /// the wrong way) while the next reading of the title works.
+    fn search(&mut self, job: &Job, q: &TrackQuery, server_failed: &mut Option<Halt>) -> Result<Option<LrclibRecord>, Halt> {
         let search = TrackQuery {
             title: q.title.clone(),
             artist: lrclib::primary_artist(&q.artist),
@@ -487,6 +494,11 @@ impl Worker {
                 Err(e) => Err(self.bad_reply(job, "/api/search", &e)),
             },
             400 | 404 => Ok(None),
+            s if s >= 500 => {
+                let failed = self.http_error(job, s);
+                server_failed.get_or_insert(failed);
+                Ok(None)
+            }
             s => Err(self.http_error(job, s)),
         }
     }
@@ -671,6 +683,10 @@ mod pure {
         /// Format version.
         #[serde(default)]
         pub v: u32,
+        /// The lookup that wrote it ([`CacheEntry::LOOKUP`]); 0 in files from
+        /// before it was recorded.
+        #[serde(default)]
+        pub lookup: u32,
         /// Unix seconds when LRCLIB was asked.
         pub fetched_at: i64,
         /// The matched record; `None` records a miss.
@@ -680,9 +696,13 @@ mod pure {
 
     impl CacheEntry {
         pub const VERSION: u32 = 1;
+        /// Raised whenever the lookup learns to find songs it used to miss
+        /// (2: subtitle tags and "Song - Artist" video titles), so misses
+        /// from an older lookup are asked again instead of kept for 3 days.
+        pub const LOOKUP: u32 = 2;
 
         pub fn new(record: Option<LrclibRecord>, now: i64) -> Self {
-            Self { v: Self::VERSION, fetched_at: now, record }
+            Self { v: Self::VERSION, lookup: Self::LOOKUP, fetched_at: now, record }
         }
     }
 
@@ -693,6 +713,9 @@ mod pure {
             if r.has_synced() || r.instrumental {
                 return true;
             }
+        } else if e.lookup < CacheEntry::LOOKUP {
+            // A miss from a lookup that knew fewer ways to find the song.
+            return false;
         }
         let age = now - e.fetched_at;
         if age < -24 * 3600 {
@@ -883,6 +906,11 @@ mod pure {
             // Timestamps far in the future are distrusted.
             let future = CacheEntry::new(None, now + 2 * day);
             assert!(!is_fresh(&future, now));
+            // Misses from an older lookup are asked again; its hits stay.
+            let old_miss = CacheEntry { lookup: CacheEntry::LOOKUP - 1, ..CacheEntry::new(None, now - day) };
+            assert!(!is_fresh(&old_miss, now));
+            let old_synced = CacheEntry { lookup: 0, ..CacheEntry::new(Some(rec(Some("[00:01.00]x"), None, false)), now - day) };
+            assert!(is_fresh(&old_synced, now));
         }
 
         #[test]
@@ -891,8 +919,9 @@ mod pure {
             let json = serde_json::to_string(&e).unwrap();
             let back: CacheEntry = serde_json::from_str(&json).unwrap();
             assert_eq!(back, e);
+            // Files from before the lookup was recorded read as lookup 0.
             let miss: CacheEntry = serde_json::from_str(r#"{"v":1,"fetched_at":7,"record":null}"#).unwrap();
-            assert_eq!(miss, CacheEntry::new(None, 7));
+            assert_eq!(miss, CacheEntry { lookup: 0, ..CacheEntry::new(None, 7) });
         }
 
         #[test]

@@ -16,6 +16,7 @@ pub mod power;
 pub mod romanize;
 pub mod secret;
 pub mod sound;
+pub mod sysmon;
 pub mod sysstats;
 
 use crate::commands::{MediaCmd, OyenzaCmd};

@@ -3,14 +3,14 @@
 Poni is a "living notch" for Windows 10/11: a black island that hangs from the
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Focus,
-Health, Shelf, Tasks, Clipboard, Today). The Shelf's Phone drop serves a
+Health, Shelf, Tasks, Clipboard, Today, System). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
 ## Crates
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyen Poni's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, clipboard history, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), and Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyen Poni's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, clipboard history, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), and the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 
 ## Threads and data flow
@@ -131,7 +131,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media, lyrics/http, audio, bluetooth, fullscreen, clipboard, imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel) |
+| `services/*.rs` | media, lyrics/http, audio, bluetooth, fullscreen, clipboard, imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: its thread runs only while the page is open) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `selftest.rs` | `poni.exe --selftest <dir>` scripted screenshots for CI |
 

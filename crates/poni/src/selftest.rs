@@ -32,6 +32,9 @@ use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::{Phase as PomoPhase, RunState};
 use poni_core::settings::{IdleStyle, Theme};
 use poni_core::shelf::ShelfItem;
+use poni_core::sysmon::{
+    AppUse, BatteryReading, CpuReading, DiskActivity, Drive, MemoryReading, Module, Monitor, NetReading, Reading, HISTORY_LEN,
+};
 use poni_core::timeline::Timeline;
 use serde::Serialize;
 use std::fs;
@@ -53,10 +56,12 @@ const MIN_STEPS: u32 = 3;
 const SETTLE_TIMEOUT: f64 = 3.0;
 /// Seconds to wait for a simulated tab click to switch the page.
 const CLICK_TIMEOUT: f64 = 1.5;
-/// Stop visiting scenes after this many seconds (the whole run must stay under 30 s).
-const SCENE_DEADLINE: f64 = 25.0;
+/// Stop visiting scenes after this many seconds. 36 scenes take about 22 s
+/// on CI's slowest run (Oyen theme, Japanese lyrics); the CI and Store test
+/// steps wait 120 s for the whole run, the Wine runner 180 s.
+const SCENE_DEADLINE: f64 = 40.0;
 /// Give up waiting for PNG writers at this point.
-const WRITE_DEADLINE: f64 = 28.5;
+const WRITE_DEADLINE: f64 = 43.5;
 /// One frame (layout + Direct2D render + present + readback) must fit in a 60 Hz frame.
 const FRAME_BUDGET_MS: f64 = 16.0;
 /// Frames re-rendered when the first sample misses the budget (filters scheduler noise).
@@ -180,6 +185,133 @@ fn fake_phone(scene: Scene) -> Option<PhoneDrop> {
     }
 }
 
+/// Paths of the sample apps (keys for their icons only; never opened) and their tile colours.
+const SAMPLE_ICONS: [(&str, u32); 4] = [
+    ("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", 0x1A9FD9),
+    ("C:\\Users\\Sample\\AppData\\Roaming\\Spotify\\Spotify.exe", 0x1DB954),
+    ("C:\\Windows\\explorer.exe", 0xF2C14E),
+    ("C:\\Users\\Sample\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe", 0x2F80ED),
+];
+
+/// A plain rounded tile standing in for an app icon, laid out like the
+/// shell's icon pictures (the tile fills the middle 72 %).
+fn sample_icon(rgb: u32) -> Image {
+    const PX: u32 = 48;
+    let (r, g, b) = ((rgb >> 16) as u8, (rgb >> 8) as u8, rgb as u8);
+    let inset = PX as f32 * 0.14;
+    let (lo, hi, radius) = (inset, PX as f32 - inset, PX as f32 * 0.16);
+    let mut px = vec![0u8; (PX * PX * 4) as usize];
+    for y in 0..PX {
+        for x in 0..PX {
+            let (fx, fy) = (x as f32 + 0.5, y as f32 + 0.5);
+            // Distance outside the rounded square, smoothed over one pixel.
+            let dx = (lo + radius - fx).max(fx - (hi - radius)).max(0.0);
+            let dy = (lo + radius - fy).max(fy - (hi - radius)).max(0.0);
+            let a = (radius + 0.5 - (dx * dx + dy * dy).sqrt()).clamp(0.0, 1.0);
+            let i = ((y * PX + x) * 4) as usize;
+            let k = |c: u8| (f32::from(c) * a).round() as u8;
+            px[i..i + 4].copy_from_slice(&[k(b), k(g), k(r), (a * 255.0).round() as u8]);
+        }
+    }
+    ImageData::new(PX, PX, px)
+}
+
+fn sample_app(i: usize, name: &str, cpu: f32, memory: u64) -> AppUse {
+    let path = SAMPLE_ICONS[i].0;
+    let image = path.rsplit('\\').next().unwrap_or(path).to_lowercase();
+    AppUse { image, name: name.into(), path: Some(path.into()), pid: 1000 + i as u64, cpu, memory, processes: 1 }
+}
+
+/// The System page's sample minute (all made up): a laptop, or a desktop
+/// without a battery; nothing yet when the page has just opened.
+fn fake_system(scene: Scene) -> Monitor {
+    let mut m = Monitor::default();
+    if scene == Scene::SystemWaiting {
+        return m;
+    }
+    const MIB: f64 = 1024.0 * 1024.0;
+    for i in 0..HISTORY_LEN {
+        let t = i as f32;
+        let last = i + 1 == HISTORY_LEN;
+        let spike = if (38..45).contains(&i) { 0.22 * ((t - 38.0) / 6.0 * std::f32::consts::PI).sin() } else { 0.0 };
+        let cpu = if last { 0.23 } else { (0.19 + 0.05 * (t / 4.3).sin() + 0.03 * (t / 1.7 + 1.1).sin() + spike).clamp(0.03, 0.95) };
+        let burst = |at: usize, len: usize, peak: f64| if (at..at + len).contains(&i) { peak * (((i - at) as f64 + 0.5) / len as f64 * std::f64::consts::PI).sin() } else { 0.0 };
+        let read = if last { 1.2 * MIB } else { 0.15 * MIB + burst(12, 6, 6.5 * MIB) + burst(41, 4, 2.8 * MIB) };
+        let write = if last { 0.33 * MIB } else { 0.05 * MIB + burst(20, 9, 1.9 * MIB) };
+        let down = if last { 1.2 * MIB } else { 0.08 * MIB + burst(5, 14, 3.4 * MIB) + burst(46, 10, 1.6 * MIB) };
+        let up = if last { 0.082 * MIB } else { 0.02 * MIB + burst(25, 8, 0.6 * MIB) };
+        m.push(sample_reading(scene != Scene::SystemMemory, cpu, 0.6 + 0.004 * (t / 6.0).sin(), read, write, down, up));
+    }
+    m
+}
+
+fn sample_reading(laptop: bool, cpu: f32, mem: f32, read: f64, write: f64, down: f64, up: f64) -> Reading {
+    let total = GIB * 16;
+    Reading {
+        cpu: Some(CpuReading { load: cpu, user: cpu * 0.6, kernel: cpu * 0.4, logical: 12, mhz: Some(2_600), uptime_s: 3 * 86_400 + 4 * 3600 + 12 * 60 }),
+        memory: Some(MemoryReading {
+            total,
+            used: (total as f64 * f64::from(mem)) as u64,
+            committed: GIB * 121 / 10,
+            commit_limit: GIB * 184 / 10,
+            cached: GIB * 42 / 10,
+        }),
+        drives: vec![
+            Drive { root: "C:".into(), label: "Windows".into(), total: GIB * 476, free: GIB * 212, system: true },
+            Drive { root: "D:".into(), label: "Data".into(), total: GIB * 931, free: GIB * 640, system: false },
+        ],
+        disk: Some(DiskActivity { read_bps: read, write_bps: write, active: Some(0.03) }),
+        network: Some(NetReading {
+            online: true,
+            adapter: "Wi-Fi".into(),
+            ipv4: Some("192.168.1.42".into()),
+            down_bps: down,
+            up_bps: up,
+            received: GIB * 34 / 10,
+            sent: 410 * 1024 * 1024,
+        }),
+        battery: laptop.then(|| BatteryReading {
+            percent: 76,
+            secs_left: Some(2 * 3600 + 14 * 60),
+            design_mwh: Some(57_000),
+            full_mwh: Some(51_870),
+            cycles: Some(193),
+            rate_mw: Some(-8_200),
+            ..BatteryReading::default()
+        }),
+        top_cpu: vec![
+            sample_app(0, "Microsoft Edge", 0.091, GIB * 21 / 10),
+            sample_app(1, "Spotify", 0.042, 412 * 1024 * 1024),
+            sample_app(2, "Windows Explorer", 0.013, 96 * 1024 * 1024),
+        ],
+        top_memory: vec![
+            sample_app(0, "Microsoft Edge", 0.091, GIB * 21 / 10),
+            sample_app(3, "Visual Studio Code", 0.008, 940 * 1024 * 1024),
+            sample_app(1, "Spotify", 0.042, 412 * 1024 * 1024),
+        ],
+    }
+}
+
+/// Judge one reading from the real sources: the core readings must be
+/// there; the rest is reported (a build server has no battery or GPU counters).
+fn system_readings(r: Reading) -> (bool, String) {
+    let cpu = r.cpu.as_ref().filter(|c| (0.0..=1.0).contains(&c.load) && c.logical > 0);
+    let mem = r.memory.as_ref().filter(|m| m.total > 0 && m.used <= m.total);
+    let ok = cpu.is_some() && mem.is_some() && !r.drives.is_empty() && !r.top_memory.is_empty();
+    let apps: Vec<String> = r.top_memory.iter().map(|a| format!("{} ({}{})", a.name, poni_core::sysmon::fmt_bytes(a.memory), if a.path.is_some() { ", path" } else { "" })).collect();
+    let detail = format!(
+        "cpu {} · memory {} · drives {} · disk activity {} · network {} · battery {} · top memory {}",
+        cpu.map_or("missing".into(), |c| format!("{:.0}% of {} threads{}", c.load * 100.0, c.logical, c.mhz.map_or(String::new(), |m| format!(" at {m} MHz")))),
+        mem.map_or("missing".into(), |m| format!("{} of {}", poni_core::sysmon::fmt_bytes(m.used), poni_core::sysmon::fmt_bytes(m.total))),
+        if r.drives.is_empty() { "none".into() } else { r.drives.iter().map(|d| d.root.clone()).collect::<Vec<_>>().join(" ") },
+        if r.disk.is_some() { "yes" } else { "no" },
+        r.network.as_ref().map_or("unavailable".into(), |n| if n.online { format!("{} {}", n.adapter, n.ipv4.as_deref().unwrap_or("")) } else { "offline".into() }),
+        r.battery.as_ref().map_or("none".into(), |b| format!("{}%", b.percent)),
+        if apps.is_empty() { "none".into() } else { apps.join(", ") },
+    );
+    (ok, detail)
+}
+
 fn fake_stats() -> SysStats {
     SysStats {
         valid: true,
@@ -290,9 +422,19 @@ enum Scene {
     SettingsSigningIn,
     /// Settings signed in to Oyenza.
     SettingsSignedIn,
+    /// System page on a desktop (no battery): Memory and its apps.
+    SystemMemory,
+    /// System page: the drives and disk activity.
+    SystemDrives,
+    /// System page: the network.
+    SystemNetwork,
+    /// System page: the laptop's battery.
+    SystemBattery,
+    /// System page just opened: no reading yet.
+    SystemWaiting,
 }
 
-const SCENES: [Scene; 33] = [
+const SCENES: [Scene; 39] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -327,6 +469,12 @@ const SCENES: [Scene; 33] = [
     Scene::GearClick,
     Scene::SettingsSigningIn,
     Scene::SettingsSignedIn,
+    Scene::Page(PageKind::System),
+    Scene::SystemMemory,
+    Scene::SystemDrives,
+    Scene::SystemNetwork,
+    Scene::SystemBattery,
+    Scene::SystemWaiting,
 ];
 
 impl Scene {
@@ -359,6 +507,11 @@ impl Scene {
             Scene::GearClick => "page-settings".into(),
             Scene::SettingsSigningIn => "page-settings-signing-in".into(),
             Scene::SettingsSignedIn => "page-settings-signed-in".into(),
+            Scene::SystemMemory => "page-system-memory".into(),
+            Scene::SystemDrives => "page-system-drives".into(),
+            Scene::SystemNetwork => "page-system-network".into(),
+            Scene::SystemBattery => "page-system-battery".into(),
+            Scene::SystemWaiting => "page-system-waiting".into(),
         }
     }
 
@@ -371,6 +524,7 @@ impl Scene {
             Scene::OyenzaSignIn | Scene::OyenzaSaved => Some(PageKind::Oyenza),
             Scene::HealthSignedIn => Some(PageKind::Health),
             Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn => Some(PageKind::Settings),
+            Scene::SystemMemory | Scene::SystemDrives | Scene::SystemNetwork | Scene::SystemBattery | Scene::SystemWaiting => Some(PageKind::System),
             _ => None,
         }
     }
@@ -572,6 +726,10 @@ impl SelfTest {
 
     /// Seed the app with fake data. Called once before the first frame.
     pub fn begin(&mut self, st: &mut AppState) {
+        // The real readers behind the System page (its scenes show sample
+        // readings); before the scene clock starts, as it takes a moment.
+        let (ok, detail) = system_readings(crate::services::sysmon::probe());
+        self.checks.push(check("system-readings", ok, detail));
         self.t0 = Instant::now();
         crate::pinfo!("selftest: output folder {}", self.dir.display());
         match fs::create_dir_all(&self.dir) {
@@ -892,6 +1050,17 @@ impl SelfTest {
             _ => None,
         };
         st.oyenza = if scene.oyenza() { fake_oyenza(st, scene, now) } else { OyenzaState::default() };
+        st.system = fake_system(scene);
+        st.ui.system_module = match scene {
+            Scene::SystemMemory => Module::Memory,
+            Scene::SystemDrives => Module::Drives,
+            Scene::SystemNetwork => Module::Network,
+            Scene::SystemBattery => Module::Battery,
+            _ => Module::Cpu,
+        };
+        for (path, rgb) in SAMPLE_ICONS {
+            st.app_icons.entry(path.to_string()).or_insert_with(|| Some(sample_icon(rgb)));
+        }
         if let Some(p) = scene.page() {
             st.page = p;
         }

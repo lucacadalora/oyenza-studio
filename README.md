@@ -44,7 +44,8 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-shelf.webp" width="64" alt=""></td><td><b>Shelf</b><br>Drop files on the island to keep them handy; click to open or drag them back out. <a href="#phone-drop">Phone drop</a> brings files over from your phone and sends Shelf files to it</td></tr>
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-tasks.webp" width="64" alt=""></td><td><b>Tasks</b><br>A tiny to-do list</td></tr>
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-clipboard.webp" width="64" alt=""></td><td><b>Clipboard</b><br>Recent copied text, kept in memory only. It skips anything password managers mark as private.</td></tr>
-<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-today.webp" width="64" alt=""></td><td><b>Today</b><br>Date and calendar, plus CPU, memory, disk and battery</td></tr>
+<tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-today.webp" width="64" alt=""></td><td><b>Today</b><br>Date and calendar, plus CPU, memory, disk and battery. Click a ring to open it on the System page</td></tr>
+<tr><td width="84" align="center"></td><td><b>System</b><br>CPU, memory, drives, network and battery, each with the last minute of history and the apps using the most. Readings run only while the page is open, without drivers or admin rights, and never leave your PC</td></tr>
 </table>
 
 | | |
@@ -52,6 +53,7 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 | ![Focus](docs/screenshots/11-page-focus.png) | ![Health](docs/screenshots/12-page-health.png) |
 | ![Shelf](docs/screenshots/13-page-shelf.png) | ![Tasks](docs/screenshots/15-page-tasks.png) |
 | ![Clipboard](docs/screenshots/16-page-clipboard.png) | ![Today](docs/screenshots/17-page-today.png) |
+| ![System: CPU and the apps using it](docs/screenshots/page-system.png) | ![System: network](docs/screenshots/page-system-network.png) |
 
 ### The Oyen theme
 
