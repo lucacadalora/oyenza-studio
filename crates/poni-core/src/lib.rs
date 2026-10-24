@@ -16,6 +16,7 @@ pub mod lrclib;
 pub mod nowplaying;
 pub mod oyen;
 pub mod pomodoro;
+pub mod romanize;
 pub mod settings;
 pub mod shelf;
 pub mod spring;
