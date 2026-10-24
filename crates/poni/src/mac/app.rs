@@ -470,9 +470,11 @@ impl App {
         }
         self.schedule_minute_timer();
         services::sysmon::watch_away(self.mtm, self.sink.clone());
+        pinfo!("sysmon crumb: away watch on");
         if self.st.settings.system_history {
             self.start_sysmon();
         }
+        pinfo!("sysmon crumb: started");
         if self.first_run && self.smoke.is_none() {
             let place = if self.screen.notch.is_some() { "Point at the notch to open it" } else { "Point at the island to open it" };
             self.st.notify(Icon::CheckCircle, self.st.accent, "Oyen Poni is on", place, 6.0, None);
