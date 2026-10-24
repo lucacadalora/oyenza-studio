@@ -69,9 +69,10 @@ pub struct JaWord<'a> {
 /// particle or the copula stands apart after a space ("asa wo", "suki da") and every other
 /// word joins the one before it, the way lyric romaji writes verb endings ("hakonde",
 /// "itta"). A word that is exactly は or へ and not a phrase start reads "wa" / "e"; を reads
-/// "wo". Latin/digit words get empty roman.
+/// "wo". Latin/digit words get empty roman, and so do kanji the analyzer gave no kana
+/// reading (an empty `yomi`): the rest of the line still reads.
 ///
-/// Spaces, punctuation and Latin words also end a phrase (Latin words are pieces of their own).
+/// Spaces, punctuation, Latin and unread words also end a phrase (they are pieces of their own).
 pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
     let mut toks: Vec<Tok> = Vec::new();
     // The last token is a Japanese phrase that later words of the same phrase join.
@@ -88,6 +89,11 @@ pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
             continue;
         }
         let kana = if w.yomi.chars().any(|c| class_of(c) == Class::Kana) { w.yomi } else { d };
+        if kana.chars().any(is_han) {
+            toks.push(Tok::Word { text: d.to_string(), roman: String::new(), latin: false });
+            open = false;
+            continue;
+        }
         let fixed = match d {
             "は" if !w.phrase_start => Some("wa"),
             "へ" if !w.phrase_start => Some("e"),
@@ -496,6 +502,14 @@ mod tests {
         // Latin words with spaces between them stay one piece.
         let words = [w("Oh", "Oh", true), w(" ", " ", false), w("baby", "baby", true)];
         assert_eq!(japanese_ruby(&words), vec![rb("Oh baby", "")]);
+    }
+
+    #[test]
+    fn unread_kanji_cost_only_their_own_reading() {
+        // The analyzer knew every word but 魑魅 (empty yomi): it stands alone
+        // without a reading and the rest of the line still reads.
+        let words = [w("夜", "よる", true), w("の", "の", false), w("魑魅", "", true), w("が", "が", false), w("笑う", "わらう", true)];
+        assert_eq!(japanese_ruby(&words), vec![rb("夜の", "yoru no"), rb("魑魅", ""), rb("が", "ga"), rb("笑う", "warau")]);
     }
 
     #[test]

@@ -1,0 +1,67 @@
+# Download stats: every hour, read GitHub's download counter for each release
+# file and keep the history on the `metrics` branch. Its README.md is the stats
+# page; its badge.svg is the badge in main's README. tools/download_metrics.py
+# does the counting, and leaves out the downloads our own CI makes.
+#
+# Page views and clones (optional): add a repository secret METRICS_TOKEN, a
+# fine-grained token for this repository with Administration: Read-only.
+# GitHub keeps those for 14 days only, so they're recorded from then on.
+name: Download stats
+
+on:
+  schedule:
+    - cron: "47 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["tools/download_metrics.py", ".github/workflows/metrics.yml"]
+  # A pull request that changes the counting gets a dry run: the page it would
+  # write is kept as an artifact and nothing is pushed.
+  pull_request:
+    paths: ["tools/download_metrics.py", ".github/workflows/metrics.yml"]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: download-stats-${{ github.event_name == 'pull_request' && github.ref || 'metrics' }}
+  cancel-in-progress: false
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out the metrics branch
+        run: |
+          if git ls-remote --exit-code --heads origin metrics > /dev/null; then
+            git fetch --depth=1 origin metrics
+            git worktree add --detach stats FETCH_HEAD
+          else
+            git worktree add --orphan -b metrics stats
+          fi
+      - name: Count downloads
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: python3 tools/download_metrics.py --out stats
+      - name: Save to the metrics branch
+        if: github.event_name != 'pull_request'
+        working-directory: stats
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No change"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Download stats $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git push origin HEAD:refs/heads/metrics
+      - name: Keep the page this would write
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: download-stats-preview
+          path: stats

@@ -12,6 +12,8 @@
   <a href="#install">Install notes</a>
 </p>
 
+<p align="center"><a href="https://github.com/lucacadalora/poni/blob/metrics/README.md"><img src="https://raw.githubusercontent.com/lucacadalora/poni/metrics/badge.svg" height="20" alt="Downloads so far"></a></p>
+
 <p align="center"><img src="docs/brand/readme-hero.webp" width="880" alt="The open island hanging from the top of the screen, showing the Music page with synced lyrics, next to Oyen peeking over a playing island"></p>
 
 A small black island hangs from the top of your screen. It shows what's happening (music, timers, volume, headphones connecting), and when you point at it, it opens into a set of quick pages.
@@ -51,15 +53,15 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 | ![Focus](docs/screenshots/11-page-focus.png) | ![Health](docs/screenshots/12-page-health.png) |
 | ![Shelf](docs/screenshots/13-page-shelf.png) | ![Tasks](docs/screenshots/15-page-tasks.png) |
 | ![Clipboard](docs/screenshots/16-page-clipboard.png) | ![Today](docs/screenshots/17-page-today.png) |
-| ![System: CPU and the apps using it](docs/screenshots/31-page-system.png) | ![System: network](docs/screenshots/34-page-system-network.png) |
+| ![System: CPU and the apps using it](docs/screenshots/page-system.png) | ![System: network](docs/screenshots/page-system-network.png) |
 
 ### The Oyen theme
 
-The island stays black by default. Switch on the Oyen theme (right-click › **Theme › Oyen**) and Oyen, the Oyenza cat, moves in: he peeks over the island's edge while it rests, watches your pointer when it comes near, sits beside the clock and bobs along while music plays. He sleeps from midnight to five, and his orange becomes the accent colour. He is drawn from the Oyenza logo, not a picture, so he stays sharp at any scaling, and he only moves for a moment now and then, so the app still uses no CPU at rest.
+The island stays black by default. Switch on the Oyen theme (the gear › **Theme › Oyen**, or right-click › **Theme › Oyen**) and Oyen, the Oyenza cat, moves in: he peeks over the island's edge while it rests, watches your pointer when it comes near, sits beside the clock and bobs along while music plays. He sleeps from midnight to five, and his orange becomes the accent colour. He is drawn from the Oyenza logo, not a picture, so he stays sharp at any scaling, and he only moves for a moment now and then, so the app still uses no CPU at rest.
 
 ![Classic and the Oyen theme side by side: resting, with the clock, and playing music](docs/screenshots/oyen-theme.png)
 
-Right-click the island or the tray icon for options:
+The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
 - the theme: Classic or Oyen
 - the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
 - lyrics, clipboard history and sounds
@@ -113,7 +115,7 @@ This isn't AirDrop. An iPhone only AirDrops over Apple's own Wi-Fi link (AWDL), 
 
 If you keep your money in [Oyenza](https://oyenza.app), the island can show it. Signing in is optional and works like a TV: no password is typed into Oyen Poni.
 
-1. Right-click the island (or the tray icon) → **Oyenza** → **Sign in to Oyenza…**. The island shows an 8-letter code.
+1. Open the island, press the gear at the top right, and choose **Sign in with Oyenza** (the Health page has the same button; right-click the island or the tray icon → **Oyenza** → **Sign in to Oyenza…** works too). The island shows an 8-letter code.
 2. Open oyenza.app/connect on your phone or this PC (**Open oyenza.app** fills the code in), check the PC's name, and choose **Connect**.
 
 Then the island shows:
@@ -122,7 +124,7 @@ Then the island shows:
 - **Bills before they're due**: a reminder the day before a subscription renews or a card bill is due.
 - **Note a spend**: type it in the **Oyenza** tab ("kopi 25rb") and press Enter; it goes straight to Oyenza, with Undo for 10 seconds.
 
-This PC gets a key of its own that can do only these things: it can't read your history, change or delete anything else, or touch your account. It is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`). Oyen Poni asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep). **Oyenza › Disconnect** signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
+This PC gets a key of its own that can do only these things: it can't read your history, change or delete anything else, or touch your account. It is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`). Oyen Poni asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep). **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
 
 ## Build
 
@@ -165,6 +167,10 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit: threads, the rend
 ### Website
 
 The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes (`tools/site_shots.py`).
+
+### Download stats
+
+[The stats page](https://github.com/lucacadalora/poni/blob/metrics/README.md) shows downloads per release and per day. Every hour `.github/workflows/metrics.yml` reads GitHub's download counters with `tools/download_metrics.py` and keeps the history on the `metrics` branch. Downloads made by our own CI (the install test fetches the 0.1.1 installer on every push) are left out. The app itself counts nothing.
 
 ## Status
 

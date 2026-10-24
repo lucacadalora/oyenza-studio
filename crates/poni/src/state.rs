@@ -219,6 +219,10 @@ pub struct PageUiState {
     pub tab_hover: Option<(usize, f64)>,
     /// The module the System page shows on the right.
     pub system_module: poni_core::sysmon::Module,
+    /// The page the Settings button was pressed on (pressing it again goes back).
+    pub before_settings: Option<PageKind>,
+    /// Start with Windows, as last read off the UI thread (None until Settings first opens).
+    pub autostart: Option<bool>,
 }
 
 /// Oyenza sign-in, as the island sees it.

@@ -71,11 +71,14 @@ jobs:
       # The Oyen theme (cream look, embedded Outfit font) with the sample song in
       # Japanese: its pronunciation line comes from Windows' own reading
       # analyzer, which Wine doesn't have, so this is where it gets checked.
+      # Every line must read (kanji lines too), from a worker thread like the
+      # real lyrics lookup.
       - name: Self-test, Oyen theme, Japanese lyrics
         shell: pwsh
         env:
           PONI_SELFTEST_THEME: oyen
           PONI_SELFTEST_LYRICS: ja
+          PONI_SELFTEST_ANALYZER: required
         run: |
           Add-Type -AssemblyName System.Windows.Forms
           Add-Type -Namespace PoniCiOyen -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'

@@ -6,10 +6,12 @@
 //! (`AppState::health`). Until then the page says how it will work. Nothing
 //! here animates; the page only redraws when new numbers arrive.
 
+use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{ts, TextStyle, Weight};
 use crate::icons::Icon;
-use crate::state::AppState;
-use crate::ui::Ui;
+use crate::pages::PageKind;
+use crate::state::{AppState, OyenzaLink};
+use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_date_short, LocalDateTime};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{fmt_distance, fmt_steps, HealthSnapshot};
@@ -45,8 +47,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         // No week to chart yet: the explanation takes the middle and right columns.
         draw_ring(ui, ring_c, None);
         let w = (area.right() - mid_x).clamp(0.0, SIGNED_OUT_W);
-        let signed_in = matches!(st.oyenza.link, crate::state::OyenzaLink::Connected { .. });
-        draw_not_connected(ui, Rect::new(mid_x, area.y, w, area.h), ring_c.y, signed_in);
+        draw_not_connected(ui, st, Rect::new(mid_x, area.y, w, area.h), ring_c.y);
         return;
     };
     let today = st.local.day_key();
@@ -141,35 +142,57 @@ fn updated_text(st: &AppState, at: i64) -> String {
     }
 }
 
-/// Title, explanation and the "coming soon" tag, stacked and centred on `center_y`
-/// (the ring's centre). Heights are measured, so a wider font wraps instead of clipping.
-/// Signed in to Oyenza already (`services::oyenza`), it says the steps themselves
-/// are what's still coming: Oyenza on the phone doesn't send them yet.
-fn draw_not_connected(ui: &mut Ui, r: Rect, center_y: f32, signed_in: bool) {
+/// Title, explanation and a button (or the "coming soon" tag), stacked and centred
+/// on `center_y` (the ring's centre). Heights are measured, so a wider font wraps
+/// instead of clipping. Signed out, the button signs in to Oyenza right here
+/// (while a code waits, it shows the code). Signed in already (`services::oyenza`),
+/// the tag says the steps themselves are what's still coming: Oyenza on the
+/// phone doesn't send them yet.
+fn draw_not_connected(ui: &mut Ui, st: &mut AppState, r: Rect, center_y: f32) {
+    let signed_in = matches!(st.oyenza.link, OyenzaLink::Connected { .. });
     let title = "Your steps, from your phone";
     let body = if signed_in {
         "You're signed in to Oyenza. Your steps show here once Oyenza on your iPhone or Android can send them from Apple Health or Health Connect."
     } else {
         "Oyenza on your iPhone or Android reads them from Apple Health or Health Connect. Soon they'll show here when you're signed in to Oyenza."
     };
-    // Not a button yet: Oyenza on the phone doesn't send the steps yet. Signing in itself
-    // already works (tray › Oyenza), so the tag names the steps either way.
-    let label = "Steps from Oyenza · coming soon";
     let title_st = TextStyle::headline().wrap().top();
     let body_st = TextStyle::footnote().color(palette::TEXT_DIM).wrap().top();
-    let tag_st = TextStyle::caption().weight(Weight::Semibold).color(palette::TEXT_DIM);
     let (_, title_h) = ui.c.measure(title, &title_st, r.w);
     let (_, body_h) = ui.c.measure(body, &body_st, r.w);
-    let (tw, _) = ui.c.measure(label, &tag_st, r.w);
-    let (gap, tag_gap, tag_h) = (6.0, 12.0, 24.0);
+    let (gap, tag_gap) = (6.0, 12.0);
+    let tag_h = if signed_in { 24.0 } else { PILL_SMALL };
     let total = title_h + gap + body_h + tag_gap + tag_h;
     let y = (center_y - total / 2.0).clamp(r.y, (r.bottom() - total).max(r.y));
     ui.c.text(title, Rect::new(r.x, y, r.w, title_h + 1.0), &title_st);
     let body_y = y + title_h + gap;
     ui.c.text(body, Rect::new(r.x, body_y, r.w, body_h + 1.0), &body_st);
-    let tag = Rect::new(r.x, body_y + body_h + tag_gap, (tw.ceil() + 20.0).min(r.w), tag_h);
-    ui.c.fill_rrect(tag, tag.h / 2.0, palette::SURFACE);
-    ui.c.text(label, tag.inset(10.0, 0.0), &tag_st.center());
+    let tag_y = body_y + body_h + tag_gap;
+    match st.oyenza.link {
+        OyenzaLink::Off => {
+            let label = "Sign in with Oyenza";
+            let w = ui.pill_width(label, false, true).min(r.w);
+            if ui.pill(wid("health.sign-in"), Rect::new(r.x, tag_y, w, PILL_SMALL), label, None, PillStyle::Primary(palette::ORANGE)).clicked {
+                st.cmd(Command::Oyenza(OyenzaCmd::SignIn));
+            }
+        }
+        OyenzaLink::Connecting { .. } => {
+            let label = "Show the sign-in code";
+            let w = ui.pill_width(label, false, true).min(r.w);
+            if ui.pill(wid("health.show-code"), Rect::new(r.x, tag_y, w, PILL_SMALL), label, None, PillStyle::Primary(palette::ORANGE)).clicked {
+                st.cmd(Command::SetPage(PageKind::Oyenza));
+            }
+        }
+        // Not a button: Oyenza on the phone doesn't send the steps yet.
+        OyenzaLink::Connected { .. } => {
+            let label = "Steps from Oyenza · coming soon";
+            let tag_st = TextStyle::caption().weight(Weight::Semibold).color(palette::TEXT_DIM);
+            let (tw, _) = ui.c.measure(label, &tag_st, r.w);
+            let tag = Rect::new(r.x, tag_y, (tw.ceil() + 20.0).min(r.w), tag_h);
+            ui.c.fill_rrect(tag, tag.h / 2.0, palette::SURFACE);
+            ui.c.text(label, tag.inset(10.0, 0.0), &tag_st.center());
+        }
+    }
 }
 
 /// Draw `s` at `x` inside `line`; returns the x after it.

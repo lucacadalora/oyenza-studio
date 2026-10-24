@@ -6,12 +6,14 @@
 //! the package's startup task instead (installer/msix/AppxManifest.xml), which
 //! people also see under Settings > Apps > Startup.
 
+use crate::events::{AppEvent, EventSink};
 use std::sync::{mpsc, OnceLock};
 use std::time::Duration;
 use windows::core::{w, Error, Result, RuntimeType, HSTRING, PCWSTR};
 use windows::ApplicationModel::{Package, StartupTask, StartupTaskState};
 use windows::Foundation::{AsyncOperationCompletedHandler, IAsyncOperation};
 use windows::Win32::Foundation::{E_FAIL, ERROR_TIMEOUT};
+use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_MULTITHREADED};
 use windows::Win32::System::Registry::*;
 
 const RUN_KEY: PCWSTR = w!("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
@@ -25,6 +27,28 @@ const TASK_TIMEOUT: Duration = Duration::from_secs(2);
 pub fn packaged() -> bool {
     static PACKAGED: OnceLock<bool> = OnceLock::new();
     *PACKAGED.get_or_init(|| Package::Current().is_ok())
+}
+
+/// Set it (when `set` is Some), then read it, on a thread of its own, and
+/// send what it is as `AppEvent::Autostart`. The Settings page uses this: the
+/// Store build's startup task may take a moment to answer, and the island
+/// keeps drawing meanwhile.
+pub fn report(sink: EventSink, set: Option<bool>) {
+    let spawned = std::thread::Builder::new().name("autostart".into()).spawn(move || {
+        let hr = unsafe { CoInitializeEx(None, COINIT_MULTITHREADED) };
+        if let Some(on) = set {
+            if let Err(e) = set_enabled(on) {
+                crate::pwarn!("autostart: turning it {} failed: {e}", if on { "on" } else { "off" });
+            }
+        }
+        sink.send(AppEvent::Autostart(is_enabled()));
+        if hr.is_ok() {
+            unsafe { CoUninitialize() };
+        }
+    });
+    if let Err(e) = spawned {
+        crate::pwarn!("autostart: no thread to read it on: {e}");
+    }
 }
 
 pub fn is_enabled() -> bool {

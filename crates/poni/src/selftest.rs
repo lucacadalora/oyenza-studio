@@ -16,13 +16,14 @@ use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
 use crate::icons::Icon;
-use crate::pages::PageKind;
+use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
 use crate::state::{
     AppState, Hud, HudKind, InlineAction, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink, OyenzaState, PhoneAsk,
     PhoneDrop, PhoneTransfer, PowerState, SysStats, VolumeState,
 };
+use crate::ui::wid;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::parse_lrc;
@@ -343,7 +344,7 @@ fn fake_oyenza(st: &AppState, scene: Scene, now: f64) -> OyenzaState {
     };
     let day = |n: i64| st.local.add_days(n).day_key();
     let link = match scene {
-        Scene::OyenzaSignIn => OyenzaLink::Connecting {
+        Scene::OyenzaSignIn | Scene::SettingsSigningIn => OyenzaLink::Connecting {
             code: "KPJX-TMNQ".into(),
             url: "https://oyenza.app/connect?code=KPJX-TMNQ".into(),
             // Pinned on every step, so the countdown reads 9:41 in the screenshot.
@@ -415,6 +416,12 @@ enum Scene {
     OyenzaSaved,
     /// The Health page signed in to Oyenza, before the phone sends any steps.
     HealthSignedIn,
+    /// Click the gear in the header on the Health page; expect Settings.
+    GearClick,
+    /// Settings while a sign-in code waits for approval.
+    SettingsSigningIn,
+    /// Settings signed in to Oyenza.
+    SettingsSignedIn,
     /// System page on a desktop (no battery): Memory and its apps.
     SystemMemory,
     /// System page: the drives and disk activity.
@@ -427,7 +434,7 @@ enum Scene {
     SystemWaiting,
 }
 
-const SCENES: [Scene; 36] = [
+const SCENES: [Scene; 39] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -459,6 +466,9 @@ const SCENES: [Scene; 36] = [
     Scene::OyenzaSignIn,
     Scene::OyenzaSaved,
     Scene::HealthSignedIn,
+    Scene::GearClick,
+    Scene::SettingsSigningIn,
+    Scene::SettingsSignedIn,
     Scene::Page(PageKind::System),
     Scene::SystemMemory,
     Scene::SystemDrives,
@@ -493,6 +503,10 @@ impl Scene {
             Scene::OyenzaSignIn => "page-oyenza-signin".into(),
             Scene::OyenzaSaved => "page-oyenza-saved".into(),
             Scene::HealthSignedIn => "page-health-signed-in".into(),
+            // Reached by clicking the gear: the signed-out Settings page.
+            Scene::GearClick => "page-settings".into(),
+            Scene::SettingsSigningIn => "page-settings-signing-in".into(),
+            Scene::SettingsSignedIn => "page-settings-signed-in".into(),
             Scene::SystemMemory => "page-system-memory".into(),
             Scene::SystemDrives => "page-system-drives".into(),
             Scene::SystemNetwork => "page-system-network".into(),
@@ -509,6 +523,7 @@ impl Scene {
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved => Some(PageKind::Oyenza),
             Scene::HealthSignedIn => Some(PageKind::Health),
+            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn => Some(PageKind::Settings),
             Scene::SystemMemory | Scene::SystemDrives | Scene::SystemNetwork | Scene::SystemBattery | Scene::SystemWaiting => Some(PageKind::System),
             _ => None,
         }
@@ -526,6 +541,8 @@ impl Scene {
                 | Scene::OyenzaSaved
                 | Scene::Page(PageKind::Oyenza)
                 | Scene::HealthSignedIn
+                | Scene::SettingsSigningIn
+                | Scene::SettingsSignedIn
         )
     }
 
@@ -632,7 +649,7 @@ enum Phase {
     Anim { seq: usize },
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
-    ClickWait { i: usize, since: f64, from: PageKind },
+    ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
     Finish { since: f64 },
     Done(i32),
 }
@@ -737,29 +754,59 @@ impl SelfTest {
         let art = ImageData::new(ART_PX, ART_PX, make_art(ART_PX));
         self.art_color = Some(art.accent_color());
         self.art = Some(art);
-        let lrc = match self.lyrics_lang.as_deref() {
-            Some("ja") => LYRICS_JA,
-            Some("ko") => LYRICS_KO,
-            Some("zh") => LYRICS_ZH,
+        // PONI_SELFTEST_LRC=<file>: a real song for a one-off check on CI
+        // (fetched there at run time; song lyrics never go in the repo).
+        let file = std::env::var("PONI_SELFTEST_LRC").ok().and_then(|p| fs::read_to_string(p.trim()).ok());
+        let lrc = match (file.as_deref(), self.lyrics_lang.as_deref()) {
+            (Some(f), _) => f,
+            (None, Some("ja")) => LYRICS_JA,
+            (None, Some("ko")) => LYRICS_KO,
+            (None, Some("zh")) => LYRICS_ZH,
             _ => LYRICS_LRC,
         };
         let parsed = parse_lrc(lrc);
-        let lyric_ok = parsed.synced && parsed.lines.len() == 12 && parsed.line_index_at(TRACK_POS_S) == Some(4);
-        self.checks.push(check(
-            "lyrics-fixture",
-            lyric_ok,
-            format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
-        ));
-        let ruby = crate::services::romanize::pronounce(&parsed);
-        if let Some(lang) = &self.lyrics_lang {
+        if file.is_none() {
+            let lyric_ok = parsed.synced && parsed.lines.len() == 12 && parsed.line_index_at(TRACK_POS_S) == Some(4);
+            self.checks.push(check(
+                "lyrics-fixture",
+                lyric_ok,
+                format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
+            ));
+        }
+        // PONI_SELFTEST_ANALYZER: "required" (Windows CI) = every line must
+        // read, kanji lines included; "off" = read the song the way a PC
+        // without Windows' Japanese reading data does (kana lines only).
+        // Without it, Wine has no analyzer, so only the kana lines read there.
+        let analyzer = std::env::var("PONI_SELFTEST_ANALYZER").map(|v| v.trim().to_ascii_lowercase()).unwrap_or_default();
+        let texts: Vec<&str> = parsed.lines.iter().map(|l| l.text.trim()).collect();
+        let ruby = if analyzer == "off" && poni_core::romanize::song_script(&texts) == Some(poni_core::romanize::Script::Japanese) {
+            let kana = |t: &str| if poni_core::romanize::needs_roman(t) { poni_core::romanize::japanese_kana_ruby(t).unwrap_or_default() } else { Vec::new() };
+            texts.iter().map(|t| kana(t)).collect()
+        } else {
+            // Read on a thread in the multithreaded apartment, the way the
+            // lyrics worker reads a real song (the UI thread here is
+            // single-threaded, and Windows' Japanese analyzer only works from one).
+            std::thread::scope(|s| {
+                s.spawn(|| {
+                    let _com = crate::services::http::MtaGuard::new();
+                    crate::services::romanize::pronounce(&parsed)
+                })
+                .join()
+                .unwrap_or_default()
+            })
+        };
+        let lang = self.lyrics_lang.clone().or_else(|| file.as_ref().map(|_| "lrc".to_string()));
+        if let Some(lang) = &lang {
             // The CI log shows how each line reads (on Windows the Japanese
             // readings come from the system's analyzer).
             let read = |p: &[poni_core::romanize::Ruby]| p.iter().filter(|r| !r.roman.is_empty()).map(|r| r.roman.as_str()).collect::<Vec<_>>().join(" ");
+            let needing = texts.iter().filter(|t| poni_core::romanize::needs_roman(t)).count();
             let lines_read = ruby.iter().filter(|p| p.iter().any(|r| !r.roman.is_empty())).count();
             for (line, p) in parsed.lines.iter().zip(&ruby) {
                 crate::pinfo!("selftest: [{lang}] {} -> {}", line.text, read(p));
             }
-            self.checks.push(check("lyrics-pronunciation", lines_read > 0, format!("{lines_read} of {} {lang} lines read in Latin letters", parsed.lines.len())));
+            let ok = if analyzer == "required" { lines_read == needing } else { lines_read > 0 };
+            self.checks.push(check("lyrics-pronunciation", ok, format!("{lines_read} of {needing} {lang} lines read in Latin letters")));
         }
         self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby };
 
@@ -828,23 +875,33 @@ impl SelfTest {
             }
             Phase::Click { i } => {
                 let from = app.st.page;
-                let p = first_tab_point(app.island_body());
-                crate::pinfo!("selftest: clicking the first header tab at ({:.0}, {:.0}) DIP on page '{}'", p.x, p.y, from.key());
-                app.selftest_click(p);
-                self.phase = Phase::ClickWait { i, since: now, from };
+                // The first tab, or the gear (found by its widget id: its place
+                // depends on how wide the clock and date are).
+                let (what, at, want) = match SCENES[i] {
+                    Scene::GearClick => ("the gear", app.selftest_hit_center(wid(pages::GEAR_ID)), PageKind::Settings),
+                    _ => ("the first header tab", Some(first_tab_point(app.island_body())), PageKind::ALL[0]),
+                };
+                match at {
+                    Some(p) => {
+                        crate::pinfo!("selftest: clicking {what} at ({:.0}, {:.0}) DIP on page '{}'", p.x, p.y, from.key());
+                        app.selftest_click(p);
+                    }
+                    None => crate::pwarn!("selftest: {what} isn't on page '{}'", from.key()),
+                }
+                self.phase = Phase::ClickWait { i, since: now, from, want };
             }
-            Phase::ClickWait { i, since, from } => {
-                let want = PageKind::ALL[0];
+            Phase::ClickWait { i, since, from, want } => {
                 let page = app.st.page;
                 if page != from || now - since > CLICK_TIMEOUT {
                     let ok = from != want && page == want;
+                    let name = if SCENES[i] == Scene::GearClick { "gear-click" } else { "tab-click" };
                     self.checks.push(check(
-                        "tab-click",
+                        name,
                         ok,
                         format!("page '{}' -> '{}' after {:.0} ms (expected '{}')", from.key(), page.key(), (now - since) * 1000.0, want.key()),
                     ));
                     if !ok {
-                        crate::pwarn!("selftest: tab click did not switch to '{}' (page is '{}')", want.key(), page.key());
+                        crate::pwarn!("selftest: {name} did not switch to '{}' (page is '{}')", want.key(), page.key());
                     }
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
@@ -865,7 +922,7 @@ impl SelfTest {
 
     fn next_phase(&self, i: usize, now: f64) -> Phase {
         match SCENES.get(i) {
-            Some(Scene::TabClick) => Phase::Click { i },
+            Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             None if self.anim => Phase::Anim { seq: 0 },
             None => Phase::Finish { since: now },
@@ -925,6 +982,8 @@ impl SelfTest {
         st.pinned = false;
         st.drag_hover = scene == Scene::ShelfDrop;
         st.health = if matches!(scene, Scene::HealthSignedOut | Scene::HealthSignedIn) { None } else { self.health.clone() };
+        // Start with Windows as Settings shows it once read (it's read off the UI thread).
+        st.ui.autostart = Some(true);
         st.phone = fake_phone(scene);
         st.store.shelf.items = if scene == Scene::ShelfEmpty { Vec::new() } else { self.shelf_items.clone() };
         if scene != Scene::ShelfEmpty {

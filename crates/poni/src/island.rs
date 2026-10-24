@@ -87,6 +87,14 @@ impl Island {
         }
     }
 
+    /// The new content fades in at once from `alpha` (the same content coming
+    /// back mid-fade), instead of from transparent after the usual delay.
+    pub fn resume_content(&mut self, alpha: f32) {
+        self.content.snap(alpha.clamp(0.0, 1.0));
+        self.content.set_target(1.0);
+        self.fade_in_at = None;
+    }
+
     /// Jump straight to `g` without animating.
     pub fn snap(&mut self, g: Geom) {
         self.target = g;

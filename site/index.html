@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Oyen Poni · A living notch for Windows</title>
-<meta name="description" content="Oyen Poni is a free, open-source living notch for Windows 10 and 11: music with synced lyrics, a focus timer, your steps, a file shelf, tasks and your clipboard, one hover away at the top of your screen.">
+<meta name="description" content="Oyen Poni is a free, open-source living notch for Windows 10 and 11: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away at the top of your screen.">
 <link rel="canonical" href="https://lucacadalora.github.io/poni/">
 <!-- Link previews (WhatsApp, X, LinkedIn, Facebook, Slack, Discord...). URLs are
      absolute because the networks read these tags without loading the page. The
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://lucacadalora.github.io/poni/">
 <meta property="og:title" content="Oyen Poni · A living notch for Windows">
-<meta property="og:description" content="A free, open-source island at the top of your Windows screen: music with synced lyrics, a focus timer, your steps, a file shelf, tasks and your clipboard, one hover away.">
+<meta property="og:description" content="A free, open-source island at the top of your Windows screen: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away.">
 <meta property="og:image" content="https://lucacadalora.github.io/poni/assets/share/oyen-poni-share.jpg?v=1">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta property="og:image:alt" content="The Oyen Poni island hanging from the top of the screen, open on the Music page with synced lyrics, and Oyen the cat peeking over the island.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Oyen Poni · A living notch for Windows">
-<meta name="twitter:description" content="A free, open-source island at the top of your Windows screen: music with synced lyrics, a focus timer, your steps, a file shelf, tasks and your clipboard, one hover away.">
+<meta name="twitter:description" content="A free, open-source island at the top of your Windows screen: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks and your clipboard, one hover away.">
 <meta name="twitter:image" content="https://lucacadalora.github.io/poni/assets/share/oyen-poni-share.jpg?v=1">
 <meta name="twitter:image:alt" content="The Oyen Poni island hanging from the top of the screen, open on the Music page with synced lyrics, and Oyen the cat peeking over the island.">
 <link rel="icon" href="brand/oyen-poni-logo.svg" type="image/svg+xml">
@@ -147,8 +147,12 @@ section { padding-block: 88px; }
 .music h3 { font-size: 28px; }
 .music p { margin-top: 10px; color: #3a3a3e; }
 .music .oyen-pose { width: 150px; margin-top: 18px; }
-.music.read { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); }
-.music.read .eyebrow { margin: 0 0 10px; }
+.music.flip { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); }
+.music.flip .eyebrow { margin: 0 0 10px; }
+.cards + .music { margin-top: 16px; }
+/* two open pages side by side, each on its own sky */
+.pages-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; margin-top: 16px; }
+.strip.tall .sky { height: auto; padding-bottom: 20px; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
 .card { border-radius: var(--radius); background: var(--panel); padding: 22px 22px 0; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
 .card-top { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: center; }
@@ -209,7 +213,7 @@ footer .grow { flex: 1 1 auto; }
 footer a { color: var(--muted); }
 
 @media (max-width: 900px) {
-  .hero-copy, .music, .music.read, .theme-notes, .oyenza, .install { grid-template-columns: minmax(0, 1fr); }
+  .hero-copy, .music, .music.flip, .theme-notes, .oyenza, .install { grid-template-columns: minmax(0, 1fr); }
   .compare, .facts { grid-template-columns: minmax(0, 1fr); }
   .hero-oyen { max-width: 320px; }
   .oyenza { padding: 32px 24px; }
@@ -262,7 +266,7 @@ footer a { color: var(--muted); }
       <div>
         <p class="eyebrow">For Windows 10 and 11</p>
         <h1>A living notch <span>for Windows</span></h1>
-        <p class="lead">Oyen Poni hangs a small island from the top of your screen. It shows what is happening, and opens into quick pages when you point at it: music with synced lyrics, a focus timer, your steps, a file shelf, tasks and your clipboard.</p>
+        <p class="lead">Oyen Poni hangs a small island from the top of your screen. It shows what is happening, and opens into quick pages when you point at it: music with synced lyrics, a focus timer, a file shelf your phone can drop into, tasks, your clipboard, and money in and bills due from Oyenza.</p>
         <div class="ctas">
           <a class="btn btn-dark" href="https://github.com/lucacadalora/poni/releases/latest/download/Oyen-Poni-Setup.exe">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
@@ -270,7 +274,7 @@ footer a { color: var(--muted); }
           </a>
           <a class="btn btn-line" href="https://github.com/lucacadalora/poni">Source on GitHub</a>
         </div>
-        <p class="small">Free and open source (MIT) · <span data-release="size">1.1 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.7</span></a></p>
+        <p class="small">Free and open source (MIT) · <span data-release="size">1.2 MB</span> download · No account needed · <a data-release="notes" href="https://github.com/lucacadalora/poni/releases/latest">What's new in <span data-release="version">0.1.9</span></a></p>
         <div class="look-switch" role="group" aria-label="Island look">
           <button type="button" data-look="classic" aria-pressed="true"><span class="dot"></span>Classic</button>
           <button type="button" data-look="oyen" aria-pressed="false"><span class="dot dot-oyen"></span>Oyen theme</button>
@@ -318,10 +322,10 @@ footer a { color: var(--muted); }
         </figure>
         <figure class="strip" style="margin:0">
           <div class="sky"><div class="island">
-            <img class="look-classic" src="assets/shots/classic/health-notice.webp" alt="8,412 steps today: daily step goal reached" width="387" height="52" loading="lazy">
-            <img class="look-oyen" src="assets/shots/oyen/health-notice.webp" alt="8,412 steps today: daily step goal reached" width="387" height="52" loading="lazy">
+            <img class="look-classic" src="assets/shots/classic/oyenza-money.webp" alt="Money in at BCA, amount and sender hidden, with a Show button" width="387" height="52" loading="lazy">
+            <img class="look-oyen" src="assets/shots/oyen/oyenza-money.webp" alt="Money in at BCA, amount and sender hidden, in the Oyen theme" width="387" height="52" loading="lazy">
           </div></div>
-          <figcaption><strong>Step goal reached</strong><span>When the steps from your phone pass your daily goal, the island says so. Needs your Oyenza account (coming soon).</span></figcaption>
+          <figcaption><strong>Money in</strong><span>With Oyenza, the island tells you when money arrives. The amount and sender stay hidden until you click Show.</span></figcaption>
         </figure>
         <figure class="strip" style="margin:0">
           <div class="sky"><div class="island">
@@ -339,7 +343,7 @@ footer a { color: var(--muted); }
       <div class="head">
         <p class="eyebrow">Point at it</p>
         <h2>Seven quick pages, one hover away</h2>
-        <p>Point at the island or click it and it opens. Scroll over the header to switch pages.</p>
+        <p>Point at the island or click it and it opens. Scroll over the header to switch pages. Sign in to Oyenza and an eighth page joins them.</p>
       </div>
       <div class="music">
         <div class="sky"><div class="island">
@@ -352,7 +356,7 @@ footer a { color: var(--muted); }
           <img class="oyen-pose" src="brand/art/poses/oyen-music.webp" alt="Oyen in headphones" width="480" height="560" loading="lazy">
         </div>
       </div>
-      <div class="music read">
+      <div class="music flip">
         <div>
           <p class="eyebrow">New in 0.1.7</p>
           <h3>Read along in Korean, Japanese and Chinese</h3>
@@ -373,7 +377,7 @@ footer a { color: var(--muted); }
           </div></div></div>
         </article>
         <article class="card">
-          <div class="card-top"><img src="brand/art/poses/oyen-health.webp" alt="" width="480" height="572" loading="lazy"><div><h3>Health</h3><p>Today's steps against your goal, and your week, from Apple Health or Health Connect on your phone through your Oyenza account (sign-in coming soon).</p></div></div>
+          <div class="card-top"><img src="brand/art/poses/oyen-health.webp" alt="" width="480" height="572" loading="lazy"><div><h3>Health</h3><p>Today's steps against your goal, and your week, from Apple Health or Health Connect on your phone through Oyenza. Signing in works now; the steps come in a later version.</p></div></div>
           <div></div>
           <div class="shot"><div class="sky"><div class="island">
             <img class="look-classic" src="assets/shots/classic/page-health.webp" alt="The Health page: 8,412 of 8,000 steps today, and the week as bars" width="660" height="223" loading="lazy">
@@ -381,7 +385,7 @@ footer a { color: var(--muted); }
           </div></div></div>
         </article>
         <article class="card">
-          <div class="card-top"><img src="brand/art/poses/oyen-shelf.webp" alt="" width="480" height="660" loading="lazy"><div><h3>Shelf</h3><p>Drop files on the island to keep them handy. Click to open, or drag them back out.</p></div></div>
+          <div class="card-top"><img src="brand/art/poses/oyen-shelf.webp" alt="" width="480" height="660" loading="lazy"><div><h3>Shelf</h3><p>Drop files on the island to keep them handy, or send them from your phone. Click to open, or drag them back out.</p></div></div>
           <div></div>
           <div class="shot"><div class="sky"><div class="island">
             <img class="look-classic" src="assets/shots/classic/page-shelf.webp" alt="The Shelf page" width="660" height="229" loading="lazy">
@@ -412,6 +416,17 @@ footer a { color: var(--muted); }
             <img class="look-oyen" src="assets/shots/oyen/page-today.webp" alt="The Today page in the Oyen theme" width="660" height="243" loading="lazy">
           </div></div></div>
         </article>
+      </div>
+      <div class="music flip" id="phone-drop">
+        <div>
+          <p class="eyebrow">New in 0.1.8</p>
+          <h3>Phone drop: files from your phone, onto the Shelf</h3>
+          <p>Open the Shelf, click Phone and scan the QR code with your phone's camera. Pick photos or files, tap Send, and the island asks before anything arrives. It works with iPhone and Android over your own Wi-Fi: nothing to install on the phone, and nothing goes through the internet. The phone can save what's on your Shelf too.</p>
+        </div>
+        <div class="sky"><div class="island">
+          <img class="look-classic" src="assets/shots/classic/page-shelf-phone-ask.webp" alt="The Shelf with Phone drop open: iPhone wants to send 3 files, with Decline and Accept" width="660" height="393" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-shelf-phone-ask.webp" alt="Phone drop asking to accept 3 files from an iPhone, in the Oyen theme" width="660" height="393" loading="lazy">
+        </div></div>
       </div>
     </div>
   </section>
@@ -462,18 +477,34 @@ footer a { color: var(--muted); }
     <div class="wrap">
       <div class="oyenza">
         <div>
-          <p class="eyebrow">Oyenza account<span class="soon">Coming soon</span></p>
+          <p class="eyebrow">Oyenza account · New in 0.1.9</p>
           <h2>Your Oyenza, at the top of your screen</h2>
-          <p>Sign in with your <a href="https://oyenza.app" style="color:#fff">oyenza.app</a> account and the island can show what Oyenza sees, when you want it to.</p>
+          <p>Sign in with your <a href="https://oyenza.app" style="color:#fff">oyenza.app</a> account the way you sign in on a TV: the island shows a code and you approve this PC at oyenza.app/connect. No password is ever typed into Oyen Poni. An Oyenza page then joins the island.</p>
           <ul>
-            <li><span><b>Money as it arrives.</b> A transfer lands and the island opens with who sent it.</span></li>
-            <li><span><b>Bills before they're due.</b> A quiet reminder the day before a subscription renews.</span></li>
-            <li><span><b>Your steps.</b> Today's steps and your week, from Apple Health or Health Connect on your phone, on the Health page.</span></li>
-            <li><span><b>Note a spend in a second.</b> Type it in the island and it goes straight to Oyenza.</span></li>
+            <li><span><b>Money as it arrives.</b> When Oyenza logs money coming in, the island tells you, with the amount and sender hidden until you click Show.</span></li>
+            <li><span><b>Bills before they're due.</b> Subscriptions and card due dates for the next 7 days, and a reminder the day before each one.</span></li>
+            <li><span><b>Note a spend in a second.</b> Type "kopi 25rb" on the Oyenza page and press Enter: it goes straight to Oyenza, with 10 seconds to undo.</span></li>
+            <li><span><b>Your steps, next.</b> Steps from Apple Health or Health Connect will come through Oyenza in a later version.</span></li>
           </ul>
-          <p class="fine">Signing in will be optional. Oyen Poni keeps working fully without an account, and you can disconnect it from oyenza.app at any time.</p>
+          <p class="fine">Signing in is optional. This PC gets a key of its own, never your password: it sees money coming in and bills due, and saves the spends you type, nothing else. Disconnect it from the island's Oyenza menu, or in oyenza.app under Connected apps.</p>
         </div>
         <img src="brand/art/oyen-poni-sit.webp" alt="Oyen sitting on the island while a song plays" width="893" height="1200" loading="lazy">
+      </div>
+      <div class="pages-2">
+        <figure class="strip tall" style="margin:0">
+          <div class="sky"><div class="island">
+            <img class="look-classic" src="assets/shots/classic/page-oyenza-signin.webp" alt="Sign in to Oyenza: an 8-letter code to enter at oyenza.app/connect" width="660" height="235" loading="lazy">
+            <img class="look-oyen" src="assets/shots/oyen/page-oyenza-signin.webp" alt="The sign-in code in the Oyen theme" width="660" height="235" loading="lazy">
+          </div></div>
+          <figcaption><strong>Sign in with a code</strong><span>The island shows a code. Enter it at oyenza.app/connect on your phone or this PC, check the PC's name, and choose Connect.</span></figcaption>
+        </figure>
+        <figure class="strip tall" style="margin:0">
+          <div class="sky"><div class="island">
+            <img class="look-classic" src="assets/shots/classic/page-oyenza.webp" alt="The Oyenza page: note a spend, money in today and bills due in the next 7 days, amounts hidden" width="660" height="341" loading="lazy">
+            <img class="look-oyen" src="assets/shots/oyen/page-oyenza.webp" alt="The Oyenza page in the Oyen theme" width="660" height="341" loading="lazy">
+          </div></div>
+          <figcaption><strong>The Oyenza page</strong><span>Money in today and bills due this week, with amounts hidden until you choose Show amounts. Note a spend at the top.</span></figcaption>
+        </figure>
       </div>
     </div>
   </section>
