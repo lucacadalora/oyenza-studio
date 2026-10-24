@@ -1,0 +1,25 @@
+# Oyen Poni's fixes to mecab-ipadic for lyrics: words its 2007 list lacks, or
+# reads the way lyrics rarely do. tools/make_ja_dict.py adds them before it
+# compiles the dictionary. This file is Oyen Poni's own data (MIT).
+#
+# like,<stem>,<template stem>,<reading stem>,<template reading stem>,<template base form>,<part of speech>
+#   copies every entry of the template word with that part of speech (all its
+#   conjugated forms), with the stems swapped in the surface and the reading.
+# word,<surface>,<reading>,<template surface>
+#   adds one entry shaped like the template's most common entry.
+#
+# The "Japanese readings compared" CI job lists words Oyen Poni's dictionary
+# and Windows' analyzer read differently: a good place to find new ones.
+like,愛おし,愛し,イトオシ,イトシ,愛しい,形容詞
+like,失く,無く,ナク,ナク,無くす,動詞
+like,揺蕩,漂,タユタ,タダヨ,漂う,動詞
+like,彷徨,迷,サマヨ,マヨ,迷う,動詞
+like,碧,青,アオ,アオ,青い,形容詞
+like,朱,赤,アカ,アカ,赤い,形容詞
+like,怠,薄,ダル,ウス,薄い,形容詞
+like,違,近,チガ,チカ,近い,形容詞
+word,其処,ソコ,此処
+word,貴女,アナタ,貴方
+word,厄災,ヤクサイ,災厄
+word,終い,シマイ,仕舞い
+word,流るる,ナガルル,流れる

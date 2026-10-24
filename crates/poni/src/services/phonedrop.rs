@@ -93,7 +93,7 @@ fn random_token() -> Option<String> {
 }
 
 /// What the page calls this PC: its device name (Settings > System > About).
-fn pc_name() -> String {
+pub(crate) fn pc_name() -> String {
     use windows::core::PWSTR;
     use windows::Win32::System::SystemInformation::{ComputerNameDnsHostname, GetComputerNameExW};
     let mut len: u32 = 0;
@@ -190,6 +190,31 @@ fn adapter_ipv4s() -> Vec<(u32, bool, Ipv4Addr)> {
         return out;
     }
     Vec::new()
+}
+
+/// Every address a phone might reach this PC on, best first (the same
+/// ranking as [`lan_ipv4`]): the direct link of a paired phone offers each
+/// one. Up to three, no loopback, link-local or CGNAT/Tailscale addresses.
+pub(crate) fn lan_addresses() -> Vec<IpAddr> {
+    let mut ranked: Vec<(i32, Ipv4Addr)> = adapter_ipv4s().into_iter().map(|(t, g, ip)| (rank(t, g, ip), ip)).filter(|(s, _)| *s > 0).collect();
+    ranked.sort_by_key(|a| std::cmp::Reverse(a.0));
+    let mut out: Vec<IpAddr> = Vec::new();
+    for (_, ip) in ranked {
+        let o = ip.octets();
+        if (o[0] == 100 && (64..128).contains(&o[1])) || out.contains(&IpAddr::V4(ip)) {
+            continue;
+        }
+        out.push(IpAddr::V4(ip));
+        if out.len() == 3 {
+            break;
+        }
+    }
+    if out.is_empty() {
+        if let Some(ip) = route_ipv4() {
+            out.push(IpAddr::V4(ip));
+        }
+    }
+    out
 }
 
 /// The local address of a route to the internet (no packet is sent).

@@ -18,6 +18,26 @@ a third argument and only that page is cut, as page-media-ko.webp:
 Shoot both themes in the same minute (run them side by side) so the island's
 clock matches when the site switches looks.
 
+In the Oyen theme, music notes float up beside Oyen on the beat, and the
+scene's single frame may fall between notes. Record the media pill frame by
+frame (PONI_SELFTEST_LOOP=1 writes loop-media-NNN.png), pick a frame with
+notes in the air and give its name as the third argument; it becomes
+media-activity.webp:
+
+    PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=oyen PONI_SELFTEST_LOOP=1 tools/run-selftest-wine.sh target/.../poni.exe out-oyen-loop
+    python3 tools/site_shots.py out-oyen-loop oyen loop-media-006
+
+The Glass pictures come from Windows: Wine has no DirectComposition, so under
+Wine Glass only draws its smoked-glass fallback. Run the Glass self-test at
+200 % on Windows (PONI_SELFTEST_THEME=glass, PONI_SELFTEST_DPI=192 and
+PONI_SELFTEST_GLASS=light, dark or flip, which picks the page under the
+island). Its pictures show the island over that page, which is what the
+glass is made of, so they are kept whole, as glass/<run>-<state>.webp:
+
+    python3 tools/site_shots.py selftest-glass-light glass light
+    python3 tools/site_shots.py selftest-glass-dark glass dark
+    python3 tools/site_shots.py selftest-glass-flip glass flip
+
 The self-test writes NAME.png (the island's canvas on a test gradient, with
 margins) and NAME-alpha.png (the canvas's own alpha). This cuts the canvas out,
 takes its alpha from NAME-alpha.png and removes the gradient from the
@@ -36,7 +56,12 @@ KEEP = {
     "idle-clock", "idle-eyes", "media-activity", "timer-activity", "volume-hud", "bluetooth-hud",
     "page-media", "page-focus", "page-health", "page-shelf", "page-tasks", "page-clipboard", "page-today",
     "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin", "page-settings", "page-system",
+    "page-settings-stay-on-top", "page-shelf-pairing",
 }
+# Glass pictures keep the page under the island: the glass is made of it.
+# By run: the open island in light and dark mode, and the resting island
+# over a bright page and over a dark one with Windows still in light mode.
+GLASS_KEEP = {"light": {"page-media", "media-activity"}, "dark": {"page-media"}, "flip": {"media-activity"}}
 
 
 def cut(shot: Path, alpha: Path) -> Image.Image:
@@ -59,7 +84,22 @@ def cut(shot: Path, alpha: Path) -> Image.Image:
     return img.crop(box) if box else img
 
 
+def glass(src: Path, run: str) -> None:
+    dst = ROOT / "site" / "assets" / "shots" / "glass"
+    dst.mkdir(parents=True, exist_ok=True)
+    for shot in sorted(src.glob("[0-9][0-9]-*.png")):
+        name = re.sub(r"^\d\d-", "", shot.stem)
+        if name not in GLASS_KEEP[run]:
+            continue
+        img = Image.open(shot).convert("RGB")
+        img.save(dst / f"{run}-{name}.webp", quality=90, method=6)
+        print(f"glass/{run}-{name}.webp  {img.width}x{img.height}")
+
+
 def main() -> None:
+    if len(sys.argv) == 4 and sys.argv[2] == "glass" and sys.argv[3] in ("light", "dark", "flip"):
+        glass(Path(sys.argv[1]), sys.argv[3])
+        return
     if len(sys.argv) not in (3, 4) or sys.argv[2] not in ("classic", "oyen"):
         sys.exit(__doc__)
     src, theme = Path(sys.argv[1]), sys.argv[2]
@@ -67,6 +107,11 @@ def main() -> None:
     keep = {"page-media"} if lang else KEEP
     dst = ROOT / "site" / "assets" / "shots" / theme
     dst.mkdir(parents=True, exist_ok=True)
+    if lang and lang.startswith("loop-media-"):
+        img = cut(src / f"{lang}.png", src / f"{lang}-alpha.png")
+        img.save(dst / "media-activity.webp", lossless=True, method=6)
+        print(f"{theme}/media-activity.webp  {img.width}x{img.height}  (from {lang})")
+        return
     for shot in sorted(src.glob("[0-9][0-9]-*.png")):
         name = re.sub(r"^\d\d-", "", shot.stem)
         alpha = shot.with_name(shot.stem + "-alpha.png")

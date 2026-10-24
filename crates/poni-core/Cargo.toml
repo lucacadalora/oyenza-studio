@@ -23,3 +23,17 @@ qrcodegen = "1.8"
 vibrato = { version = "=0.5.2", default-features = false }
 # Unpacks that dictionary (zstd decoder in pure Rust, MIT).
 ruzstd = "0.9"
+# Pairing keys and signed messages (RustCrypto, MIT OR Apache-2.0; str0m
+# already pulls both in).
+sha2 = "0.10"
+hmac = "0.12"
+
+# Paired phone drop: the direct link to a phone's browser (WebRTC data
+# channels; MIT OR Apache-2.0). Sans I/O, so the sockets and threads stay
+# ours. On Windows its DTLS runs on the system's own crypto (CNG), so no C
+# library is built into poni.exe; elsewhere (Linux tests) on RustCrypto.
+[target.'cfg(windows)'.dependencies]
+str0m = { version = "0.24.1", default-features = false, features = ["wincrypto"] }
+
+[target.'cfg(not(windows))'.dependencies]
+str0m = { version = "0.24.1", default-features = false, features = ["rust-crypto"] }

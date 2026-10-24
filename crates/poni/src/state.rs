@@ -174,10 +174,36 @@ pub struct PhoneTransfer {
     pub total: u64,
 }
 
+/// What the phone panel shows on its left and right.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub enum PhoneView {
+    /// Today's same-Wi-Fi QR code.
+    #[default]
+    Lan,
+    /// A pairing QR code (`services::pairdrop`): the link, its code and
+    /// until when (app clock) it works.
+    Pairing { url: String, qr: Option<QrMatrix>, until: f64 },
+    /// The paired phones, each with Remove.
+    Paired,
+}
+
+/// A paired phone as the panel lists it.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PairedPhone {
+    /// Its room on the meeting server (what Remove names).
+    pub room: String,
+    pub name: String,
+    /// Unix seconds it last connected (0 = not yet).
+    pub seen: i64,
+}
+
 /// Phone drop while the Shelf's phone panel is open: the link, its QR code
 /// and what the phone is doing (`services::phonedrop` runs the server).
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct PhoneDrop {
+    pub view: PhoneView,
+    /// A second line under `outcome` (None = the usual hint).
+    pub outcome_line: Option<String>,
     /// The link the QR code carries (empty while starting or after an error).
     pub url: String,
     pub qr: Option<QrMatrix>,
@@ -225,6 +251,8 @@ pub struct PageUiState {
     pub before_settings: Option<PageKind>,
     /// Start with Windows, as last read off the UI thread (None until Settings first opens).
     pub autostart: Option<bool>,
+    /// Oyen theme: the music notes floating up in the media pill.
+    pub notes: crate::oyen::Notes,
 }
 
 /// Oyenza sign-in, as the island sees it.
@@ -311,6 +339,10 @@ pub struct AppState {
     pub drag_hover: bool,
     /// Phone drop, while it's open.
     pub phone: Option<PhoneDrop>,
+    /// Paired phones, newest first (`services::pairdrop`).
+    pub paired: Vec<PairedPhone>,
+    /// Whether the meeting server answers (None = not asked yet: no pairs).
+    pub pair_server: Option<bool>,
     pub oyenza: OyenzaState,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
@@ -350,6 +382,8 @@ impl AppState {
             pinned: false,
             drag_hover: false,
             phone: None,
+            paired: Vec::new(),
+            pair_server: None,
             oyenza: OyenzaState::default(),
             cmds: Vec::new(),
         }

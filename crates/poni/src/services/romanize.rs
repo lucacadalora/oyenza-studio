@@ -116,7 +116,7 @@ pub fn analyzer_works() -> Result<(), String> {
 
 /// One Japanese line through the analyzer, and how many of its kanji words
 /// came back without a reading (those pieces get none).
-fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
+pub(super) fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
     let mut words: Vec<(String, String, bool)> = Vec::new();
     for chunk in chunks(line, ANALYZER_MAX) {
         let found = JapanesePhoneticAnalyzer::GetWords(&HSTRING::from(chunk)).map_err(|e| format!("Windows' Japanese reading analyzer failed ({e})"))?;
@@ -213,7 +213,7 @@ fn chunks(s: &str, max: usize) -> Vec<&str> {
 /// Run `f` on a short-lived thread in a single-threaded COM apartment
 /// (synchronous calls only, so it needs no message loop). None when the
 /// thread can't start or `f` panics.
-fn on_sta<R: Send>(f: impl FnOnce() -> R + Send) -> Option<R> {
+pub(super) fn on_sta<R: Send>(f: impl FnOnce() -> R + Send) -> Option<R> {
     struct Sta(bool);
     impl Drop for Sta {
         fn drop(&mut self) {
@@ -257,6 +257,21 @@ mod tests {
 
     fn roman(pieces: &[Ruby]) -> String {
         pieces.iter().map(|r| r.roman.as_str()).filter(|s| !s.is_empty()).collect::<Vec<_>>().join(" ")
+    }
+
+    #[test]
+    fn windows_reads_the_topic_particle_as_wa() {
+        // Only where Windows has its Japanese reading data (Windows CI); without it
+        // there's nothing of Windows' to check.
+        if analyzer_works().is_err() {
+            return;
+        }
+        for (line, want) in [("心には君がいる", "ni wa"), ("光を照らすは月", "terasu wa"), ("本当は好きだよ", "hontou wa"), ("それではまた", "de wa")] {
+            let pieces = on_sta(|| japanese(line)).expect("the analyzer's thread starts").expect("Windows reads the line").0;
+            let read = roman(&pieces);
+            eprintln!("{line} -> {read}");
+            assert!(read.contains(want) && !read.contains("ha"), "{line} read as {read:?}");
+        }
     }
 
     #[test]

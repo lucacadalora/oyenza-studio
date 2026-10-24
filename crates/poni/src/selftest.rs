@@ -27,7 +27,7 @@ use crate::paths;
 use crate::png;
 use crate::state::{
     AppState, Hud, HudKind, InlineAction, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink, OyenzaState, PhoneAsk,
-    PhoneDrop, PhoneTransfer, PowerState, SysStats, VolumeState,
+    PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -172,8 +172,23 @@ const GIB: u64 = 1024 * 1024 * 1024;
 /// The phone-drop link in the screenshots. Made up: no server answers it.
 const PHONE_URL: &str = "HTTP://192.168.1.20:53530/K7Q2M9XWZ4R8T6YB3NPV5HJC2D/";
 
+/// The pairing link in the screenshots: the contract's test secret, so no
+/// real pair can use it.
+const PAIR_URL: &str = "https://drop.oyenza.com/p#k=AAECAwQFBgcICQoLDA0ODw";
+
+/// Paired phones as the pairing scenes show them (made up).
+fn fake_paired(scene: Scene, unix: i64) -> Vec<PairedPhone> {
+    match scene {
+        Scene::ShelfPaired | Scene::ShelfPairedPhones | Scene::PairedNotice => vec![
+            PairedPhone { room: "geDM0jEhk4eiOz_li-FtORW2YlPBbebr7NsHjLkHI_4".into(), name: "Pixel 10".into(), seen: unix - 5 * 60 },
+            PairedPhone { room: "ZmFrZS1yb29tLWZvci10aGUtc2VsZi10ZXN0LWlwaG9u".into(), name: "iPhone".into(), seen: unix - 2 * 86_400 - 3600 },
+        ],
+        _ => Vec::new(),
+    }
+}
+
 /// Phone drop as each phone scene shows it (None = closed).
-fn fake_phone(scene: Scene) -> Option<PhoneDrop> {
+fn fake_phone(scene: Scene, now: f64) -> Option<PhoneDrop> {
     let ready = PhoneDrop { url: PHONE_URL.into(), qr: QrMatrix::encode(PHONE_URL), ..Default::default() };
     let files = vec![("IMG_2041.HEIC".to_string(), 2_480_112u64), ("IMG_2042.HEIC".to_string(), 2_391_870), ("Harbor walk.mov".to_string(), 18_402_331)];
     let total = files.iter().map(|f| f.1).sum();
@@ -189,6 +204,13 @@ fn fake_phone(scene: Scene) -> Option<PhoneDrop> {
             transfer: Some(PhoneTransfer { id: 7, from: "iPhone".into(), file: 2, files: 3, done: 9_100_000, total }),
             ..ready
         }),
+        Scene::ShelfPairing => Some(PhoneDrop { view: PhoneView::Pairing { url: PAIR_URL.into(), qr: QrMatrix::encode(PAIR_URL), until: now + 580.0 }, ..ready }),
+        Scene::ShelfPaired => Some(PhoneDrop {
+            outcome: Some(("Pixel 10 is paired".into(), true, now + 60.0)),
+            outcome_line: Some("It can now send from any network, even with this panel closed.".into()),
+            ..ready
+        }),
+        Scene::ShelfPairedPhones => Some(PhoneDrop { view: PhoneView::Paired, ..ready }),
         _ => None,
     }
 }
@@ -552,11 +574,19 @@ enum Scene {
     SystemWaiting,
     /// Settings with Stay on top chosen for full-screen apps.
     SettingsStayOnTop,
+    /// Phone drop showing a pairing QR code (paired phones).
+    ShelfPairing,
+    /// A phone just finished pairing.
+    ShelfPaired,
+    /// The paired phones, each with Remove.
+    ShelfPairedPhones,
+    /// Files from a paired phone landed while the island was closed.
+    PairedNotice,
     /// System page: the graphics card.
     SystemGpu,
 }
 
-const SCENES: [Scene; 41] = [
+const SCENES: [Scene; 45] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -598,6 +628,12 @@ const SCENES: [Scene; 41] = [
     Scene::SystemBattery,
     Scene::SystemWaiting,
     Scene::SettingsStayOnTop,
+    // Appended so the numbers of the screenshots above stay the same. They
+    // show an empty shelf: items shown again after ShelfEmpty would fade in.
+    Scene::ShelfPairing,
+    Scene::ShelfPaired,
+    Scene::ShelfPairedPhones,
+    Scene::PairedNotice,
     Scene::SystemGpu,
 ];
 
@@ -637,6 +673,10 @@ impl Scene {
             Scene::SystemBattery => "page-system-battery".into(),
             Scene::SystemWaiting => "page-system-waiting".into(),
             Scene::SettingsStayOnTop => "page-settings-stay-on-top".into(),
+            Scene::ShelfPairing => "page-shelf-pairing".into(),
+            Scene::ShelfPaired => "page-shelf-paired".into(),
+            Scene::ShelfPairedPhones => "page-shelf-paired-phones".into(),
+            Scene::PairedNotice => "paired-received-notice".into(),
             Scene::SystemGpu => "page-system-gpu".into(),
         }
     }
@@ -653,6 +693,7 @@ impl Scene {
             Scene::SystemMemory | Scene::SystemDrives | Scene::SystemNetwork | Scene::SystemBattery | Scene::SystemWaiting | Scene::SystemGpu => {
                 Some(PageKind::System)
             }
+            Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             _ => None,
         }
     }
@@ -775,6 +816,8 @@ struct Report {
 enum Phase {
     /// Record one transition frame by frame (PONI_SELFTEST_ANIM=1).
     Anim { seq: usize },
+    /// Record the media pill playing, then paused (PONI_SELFTEST_LOOP=1).
+    Loop,
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
@@ -801,6 +844,9 @@ pub struct SelfTest {
     dpi: Option<u32>,
     /// PONI_SELFTEST_ANIM=1: after the scenes, record transitions frame by frame.
     anim: bool,
+    /// PONI_SELFTEST_LOOP=1: after the scenes, record the media pill on a held
+    /// clock, frame by frame.
+    media_loop: bool,
     dpi_applied: bool,
     /// PONI_SELFTEST_THEME=oyen|glass: run every scene in that theme.
     theme: Theme,
@@ -828,6 +874,13 @@ const ANIMS: [(&str, Scene, Scene); 5] = [
 ];
 /// Frames recorded per transition (~16 ms apart).
 const ANIM_FRAMES: usize = 40;
+/// The media loop recording: seconds playing, seconds paused, frames a
+/// second, and the clock step it starts on.
+const LOOP_PLAY_S: f64 = 4.8;
+const LOOP_PAUSE_S: f64 = 2.4;
+const LOOP_FPS: f64 = 30.0;
+const LOOP_ALIGN_S: f64 = 4.8;
+const LOOP_PREROLL_S: f64 = 2.4;
 
 impl SelfTest {
     pub fn new(dir: String) -> Self {
@@ -848,6 +901,7 @@ impl SelfTest {
             expanded_width: 0.0,
             dpi: std::env::var("PONI_SELFTEST_DPI").ok().and_then(|v| v.trim().parse().ok()),
             anim: std::env::var("PONI_SELFTEST_ANIM").is_ok_and(|v| v.trim() == "1"),
+            media_loop: std::env::var("PONI_SELFTEST_LOOP").is_ok_and(|v| v.trim() == "1"),
             dpi_applied: false,
             theme: match std::env::var("PONI_SELFTEST_THEME").map(|v| v.trim().to_ascii_lowercase()).as_deref() {
                 Ok("oyen") => Theme::Oyen,
@@ -996,7 +1050,7 @@ impl SelfTest {
         self.renderer = app.renderer();
         let now = clock::mono();
         let elapsed = self.t0.elapsed().as_secs_f64();
-        if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. }) {
+        if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop) {
             let at = match &self.phase {
                 Phase::Settle { i, .. } | Phase::Click { i } | Phase::ClickWait { i, .. } => SCENES[*i].name(),
                 _ => String::new(),
@@ -1009,7 +1063,17 @@ impl SelfTest {
         match self.phase {
             Phase::Anim { seq } => {
                 self.record_anim(app, seq);
-                self.phase = if seq + 1 < ANIMS.len() { Phase::Anim { seq: seq + 1 } } else { Phase::Finish { since: now } };
+                self.phase = if seq + 1 < ANIMS.len() {
+                    Phase::Anim { seq: seq + 1 }
+                } else if self.media_loop {
+                    Phase::Loop
+                } else {
+                    Phase::Finish { since: now }
+                };
+            }
+            Phase::Loop => {
+                self.record_loop(app);
+                self.phase = Phase::Finish { since: clock::mono() };
             }
             Phase::Settle { i, since, steps, stable } => {
                 let scene = SCENES[i];
@@ -1063,7 +1127,7 @@ impl SelfTest {
             }
             Phase::Finish { since } => {
                 let all_done = self.writes.iter().all(|(_, h)| h.is_finished());
-                let deadline = if self.anim { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
+                let deadline = if self.anim || self.media_loop { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
                 if all_done || elapsed > deadline {
                     let code = self.finish(all_done, now - since);
                     self.phase = Phase::Done(code);
@@ -1080,6 +1144,7 @@ impl SelfTest {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             None if self.anim => Phase::Anim { seq: 0 },
+            None if self.media_loop => Phase::Loop,
             None => Phase::Finish { since: now },
         }
     }
@@ -1119,6 +1184,53 @@ impl SelfTest {
         crate::pinfo!("selftest: anim '{name}' recorded, settled at frame {settle_frame:?}");
     }
 
+    /// The media pill on a held clock: LOOP_PLAY_S playing, then LOOP_PAUSE_S
+    /// paused, LOOP_FPS frames a second, saved as loop-media-NNN.png. The
+    /// clock starts on a whole LOOP_ALIGN_S, so every build films the same
+    /// phase of the music, after LOOP_PREROLL_S of unsaved frames (whatever
+    /// builds up while music plays is already there on the first frame).
+    fn record_loop(&mut self, app: &mut App) {
+        let t = Instant::now();
+        loop {
+            self.apply(app, Scene::Media);
+            let _ = app.selftest_capture();
+            if (app.selftest_settled() && t.elapsed().as_millis() > 200) || t.elapsed().as_secs_f64() > 2.5 {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(16));
+        }
+        let start = ((clock::mono() + LOOP_PREROLL_S + 1.0) / LOOP_ALIGN_S).ceil() * LOOP_ALIGN_S;
+        let paused_at = start + LOOP_PLAY_S;
+        let frames = ((LOOP_PLAY_S + LOOP_PAUSE_S) * LOOP_FPS).round() as usize;
+        let preroll = (LOOP_PREROLL_S * LOOP_FPS).round() as usize;
+        let mut placed = Vec::with_capacity(frames);
+        for i in 0..preroll + frames {
+            let now = start + (i as f64 - preroll as f64) / LOOP_FPS;
+            clock::hold(Some(now));
+            self.apply(app, Scene::Media);
+            let playing = now < paused_at;
+            if playing {
+                app.st.media_paused_at = None;
+            } else {
+                if let Some(m) = app.st.media.as_mut() {
+                    m.timeline = Timeline::new(TRACK_POS_S, TRACK_LEN_S, now, false);
+                }
+                app.st.media_paused_at = Some(paused_at);
+            }
+            let (w, h, px, at) = app.selftest_capture();
+            let Some(k) = i.checked_sub(preroll) else { continue };
+            placed.push(format!("{{\"frame\": {k}, \"t\": {:.4}, \"playing\": {playing}, \"x\": {}, \"y\": {}, \"w\": {w}, \"h\": {h}}}", now - start, at.0, at.1));
+            let scale = self.scale;
+            self.queue_write(&format!("loop-media-{k:03}"), w, h, px, scale, None);
+        }
+        clock::hold(None);
+        let json = format!("{{\"name\": \"media\", \"fps\": {LOOP_FPS}, \"scale\": {}, \"frames\": [\n  {}\n]}}\n", self.scale, placed.join(",\n  "));
+        if let Err(e) = fs::write(self.dir.join("loop-media.json"), json) {
+            crate::pwarn!("selftest: writing loop-media.json failed: {e}");
+        }
+        crate::pinfo!("selftest: media loop recorded, {frames} frames");
+    }
+
     // ------------------------------------------------------------ scene state
 
     /// Put the app into `scene`. Idempotent: called on every step and right
@@ -1155,9 +1267,12 @@ impl SelfTest {
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
-        st.phone = fake_phone(scene);
-        st.store.shelf.items = if scene == Scene::ShelfEmpty { Vec::new() } else { self.shelf_items.clone() };
-        if scene != Scene::ShelfEmpty {
+        st.phone = fake_phone(scene, now);
+        st.paired = fake_paired(scene, st.unix);
+        st.pair_server = (!st.paired.is_empty() || scene == Scene::ShelfPairing).then_some(true);
+        let empty_shelf = matches!(scene, Scene::ShelfEmpty | Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones);
+        st.store.shelf.items = if empty_shelf { Vec::new() } else { self.shelf_items.clone() };
+        if !empty_shelf {
             for (path, thumb) in &self.shelf_thumbs {
                 st.shelf_thumbs.entry(path.clone()).or_insert_with(|| thumb.clone());
             }
@@ -1208,6 +1323,16 @@ impl SelfTest {
                     reveal: hidden.then(|| "Rp 1.250.000 · Gaji Oktober".into()),
                 })
             }
+            Scene::PairedNotice => Some(Notice {
+                icon: Icon::Phone,
+                color: palette::GREEN,
+                title: "3 files from Pixel 10 are on the Shelf".into(),
+                subtitle: "Open the Shelf to see them".into(),
+                until,
+                action: Some(NoticeAction::OpenPage(PageKind::Shelf)),
+                inline: None,
+                reveal: None,
+            }),
             Scene::OyenzaBill => Some(Notice {
                 icon: Icon::Calendar,
                 color: palette::ORANGE,

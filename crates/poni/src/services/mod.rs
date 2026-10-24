@@ -12,9 +12,12 @@ pub mod imaging;
 pub mod lyrics;
 pub mod media;
 pub mod oyenza;
+pub mod pairdrop;
 pub mod phonedrop;
 pub mod power;
 pub mod romanize;
+#[cfg(test)]
+mod romanize_compare;
 pub mod secret;
 pub mod sound;
 pub mod sysmon;
@@ -35,9 +38,10 @@ pub struct Services {
     fullscreen: Option<fullscreen::FullscreenWatcher>,
     clip: Option<clipboard::ClipboardHistory>,
     oyenza: Option<oyenza::OyenzaService>,
+    pairdrop: Option<pairdrop::PairDropService>,
 }
 
-fn started<T>(name: &str, r: windows::core::Result<T>) -> Option<T> {
+fn started<T, E: std::fmt::Display>(name: &str, r: Result<T, E>) -> Option<T> {
     match r {
         Ok(v) => {
             crate::pinfo!("service {name}: started");
@@ -60,7 +64,9 @@ impl Services {
         let clip = started("clipboard history", clipboard::ClipboardHistory::start(sink.clone(), settings.clipboard_history));
         // Idle (no calls) until the person signs in to Oyenza from the tray.
         let oyenza = started("oyenza", oyenza::OyenzaService::start(sink.clone(), activity));
-        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, clip, oyenza }
+        // Asks nothing until a phone is paired.
+        let pairdrop = started("pair drop", pairdrop::PairDropService::start(sink.clone()));
+        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, clip, oyenza, pairdrop }
     }
 
     pub fn stop(self, _helper: HWND) {
@@ -109,6 +115,37 @@ impl Services {
         if let Some(o) = &self.oyenza {
             o.set_activity(a);
         }
+    }
+
+    /// Show a pairing QR code: the link, or a sentence for the panel.
+    pub fn pair_begin(&self) -> Result<String, String> {
+        match &self.pairdrop {
+            Some(p) => p.begin_pairing(),
+            None => Err("Pairing couldn't start on this PC.".into()),
+        }
+    }
+
+    pub fn pair_cancel(&self) {
+        if let Some(p) = &self.pairdrop {
+            p.cancel_pairing();
+        }
+    }
+
+    pub fn pair_remove(&self, room: &str) {
+        if let Some(p) = &self.pairdrop {
+            p.remove(room);
+        }
+    }
+
+    /// The Shelf's files, which connected paired phones may save.
+    pub fn pair_shelf(&self, paths: Vec<std::path::PathBuf>) {
+        if let Some(p) = &self.pairdrop {
+            p.set_shelf(paths);
+        }
+    }
+
+    pub fn pairs(&self) -> Vec<poni_core::pairdrop::Pair> {
+        self.pairdrop.as_ref().map(|p| p.pairs()).unwrap_or_default()
     }
 
     /// The Apple Music token on disk was saved or removed.

@@ -59,6 +59,7 @@ First release in the Microsoft Store.
 - A tiny to-do list
 - Clipboard history kept in memory only
 - Phone drop: send photos and files from your phone to the Shelf, or Shelf files to your phone, over your Wi-Fi
+- Paired phones: pair a phone once, then send to the Shelf from any network
 - Volume, charging and Bluetooth headset pop-ups with battery level
 - Starts with Windows (you can turn it off from its menu or in Settings)
 
@@ -76,7 +77,7 @@ Category: utility/productivity. No violence, sexual content, gambling or purchas
 
 ## Notes for certification
 
-> Oyen Poni is a desktop app that draws a small "island" at the top centre of the primary screen. No sign-in is needed. Point at the top centre of the screen (or click the island) to open it. Play music in any app that uses Windows media controls (Spotify, Edge) to see the music page and synced lyrics. Lyrics need an internet connection; everything else works offline. Phone drop (Shelf › Phone) serves a page on the local network only while its panel is open, for a phone on the same Wi-Fi. "Start with Windows" is the package's startup task (TaskId PoniStartup); users can turn it off from the tray icon's menu or in Settings > Apps > Startup. The optional Glass theme (Settings in the island, or the tray menu: Theme > Glass) copies the part of the screen behind the island's window with DXGI Desktop Duplication so it can draw it as glass (not while the island is hidden or the PC is locked); the copy stays in memory, each new copy replaces the last, and it is never saved or sent, and while the theme is on the island's window is excluded from screen capture (SetWindowDisplayAffinity with WDA_EXCLUDEFROMCAPTURE).
+> Oyen Poni is a desktop app that draws a small "island" at the top centre of the primary screen. No sign-in is needed. Point at the top centre of the screen (or click the island) to open it. Play music in any app that uses Windows media controls (Spotify, Edge) to see the music page and synced lyrics. Lyrics need an internet connection; everything else works offline. Phone drop (Shelf › Phone) serves a page on the local network only while its panel is open, for a phone on the same Wi-Fi. Pair a phone (same panel) lets a paired phone reach the PC from other networks through drop.oyenza.com; with no paired phone the app makes no such connection. "Start with Windows" is the package's startup task (TaskId PoniStartup); users can turn it off from the tray icon's menu or in Settings > Apps > Startup. The optional Glass theme (Settings in the island, or the tray menu: Theme > Glass) copies the part of the screen behind the island's window with DXGI Desktop Duplication so it can draw it as glass (not while the island is hidden or the PC is locked); the copy stays in memory, each new copy replaces the last, and it is never saved or sent, and while the theme is on the island's window is excluded from screen capture (SetWindowDisplayAffinity with WDA_EXCLUDEFROMCAPTURE).
 
 **runFullTrust justification**
 

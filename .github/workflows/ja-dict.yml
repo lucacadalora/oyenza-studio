@@ -4,7 +4,7 @@ name: Japanese dictionary
 
 on:
   push:
-    paths: ["tools/make_ja_dict.py", "tools/ja-dict/**", "crates/poni-core/data/**", "crates/poni-core/Cargo.toml", ".github/workflows/ja-dict.yml"]
+    paths: ["tools/make_ja_dict.py", "tools/ja_dict_fixes.csv", "tools/ja-dict/**", "crates/poni-core/data/**", "crates/poni-core/Cargo.toml", ".github/workflows/ja-dict.yml"]
   workflow_dispatch:
 
 permissions:

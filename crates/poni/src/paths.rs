@@ -80,6 +80,12 @@ pub fn oyenza_link_path() -> PathBuf {
     cache_dir().join("oyenza-link.bin")
 }
 
+/// Paired phones (their pairing secrets and names), sealed with DPAPI.
+/// Removing every phone deletes the file.
+pub fn paired_phones_path() -> PathBuf {
+    cache_dir().join("paired-phones.bin")
+}
+
 /// A key signed out while Oyenza couldn't be reached, sealed, kept only to
 /// tell the server once it can.
 pub fn oyenza_revoke_path() -> PathBuf {

@@ -11,12 +11,12 @@
 //! sends files to the Shelf after a yes on the island, and can save Shelf
 //! files (`services::phonedrop`, `poni_core::phonedrop`).
 
-use crate::commands::{Command, PhoneCmd};
+use crate::commands::{Command, PairCmd, PhoneCmd};
 use crate::dragdrop;
 use crate::gfx::{Image, ImageData, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::services::imaging::{self, PathKind};
-use crate::state::{AppState, PhoneDrop};
+use crate::state::{AppState, PairedPhone, PhoneDrop, PhoneView};
 use crate::ui::{wid, wid_n, PillStyle, Ui, WidgetId, PILL_GAP, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::phonedrop::{fmt_bytes, QrMatrix};
@@ -57,6 +57,9 @@ const QR_BOX: f32 = 128.0;
 const QR_MARGIN: f32 = 6.0;
 /// The Phone tile beside the drop zone on an empty shelf.
 const PHONE_TILE_W: f32 = 196.0;
+/// Pairing (`services::pairdrop`) is built only in the Windows app so far;
+/// elsewhere the phone panel has Done alone.
+const PAIRING: bool = cfg!(windows);
 /// How long a phone result ("3 files from iPhone…") stays in the panel.
 pub const PHONE_OUTCOME_S: f64 = 8.0;
 
@@ -103,6 +106,7 @@ enum Action {
     PhoneOpen,
     PhoneClose,
     PhoneAnswer(u64, bool),
+    Pair(PairCmd),
     Open(String),
     Reveal(String),
     DragOut(String),
@@ -250,6 +254,7 @@ fn apply(st: &mut AppState, l: &mut Local, items: &[ShelfItem], actions: Vec<Act
             Action::PhoneOpen => st.cmd(Command::Phone(PhoneCmd::Open)),
             Action::PhoneClose => st.cmd(Command::Phone(PhoneCmd::Close)),
             Action::PhoneAnswer(id, accept) => st.cmd(Command::Phone(PhoneCmd::Answer { id, accept })),
+            Action::Pair(c) => st.cmd(Command::Pair(c)),
             Action::Open(p) => st.cmd(Command::OpenPath(p)),
             Action::Reveal(p) => st.cmd(Command::RevealPath(p)),
             Action::DragOut(p) => {
@@ -629,10 +634,12 @@ fn drop_zone(ui: &mut Ui, zone: Rect, radius: f32, fill: Color, stroke: Color) {
 pub fn next_wake(st: &AppState) -> Option<f64> {
     let undo = LOCAL.with(|l| l.borrow().undo.as_ref().map(|(_, t)| t + UNDO_SECS));
     let outcome = st.phone.as_ref().and_then(|p| p.outcome.as_ref()).map(|o| o.2).filter(|t| *t > st.now);
-    match (undo, outcome) {
-        (Some(a), Some(b)) => Some(a.min(b)),
-        (a, b) => a.or(b),
-    }
+    // A pairing code shows its minutes left, then goes away.
+    let pairing = match st.phone.as_ref().map(|p| &p.view) {
+        Some(PhoneView::Pairing { until, .. }) => Some(if *until > st.now { st.now + (until - st.now).rem_euclid(60.0) + 0.05 } else { st.now }),
+        _ => None,
+    };
+    [undo, outcome, pairing].into_iter().flatten().reduce(f64::min)
 }
 
 // ---------------------------------------------------------------- phone drop
@@ -679,19 +686,32 @@ fn link_host(url: &str) -> &str {
     rest.split(['/', ':']).next().unwrap_or("")
 }
 
-/// The panel under the shelf while Phone drop is open: the QR code on the
-/// left, what the phone is doing on the right.
+/// The panel under the shelf while Phone drop is open: a QR code on the
+/// left (the same-Wi-Fi link, or a pairing link), what's happening on the right.
 fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect, actions: &mut Vec<Action>) {
     drop_zone(ui, r, PHONE_R, Color::white(0.03), Color::white(0.12));
     let inset = (r.h - QR_BOX) / 2.0;
     let qr_r = Rect::new(r.x + inset, r.y + inset, QR_BOX, QR_BOX);
-    match &pd.qr {
-        Some(qr) => draw_qr(ui, l, qr, &pd.url, qr_r),
-        None => {
+    // A phone on the same Wi-Fi asking or sending comes first, whatever the view.
+    let busy = pd.error.is_some() || pd.ask.is_some() || pd.transfer.is_some();
+    let view = if busy { &PhoneView::Lan } else { &pd.view };
+    match view {
+        PhoneView::Pairing { url, qr: Some(qr), .. } => draw_qr(ui, l, qr, url, qr_r),
+        PhoneView::Paired => {
             ui.c.fill_rrect(qr_r, 12.0, Color::white(0.06));
-            let icon = if pd.error.is_some() { Icon::Close } else { Icon::Phone };
-            ui.c.icon(icon, Rect::from_center(qr_r.center(), 28.0, 28.0), palette::TEXT_FAINT);
+            let c = qr_r.center();
+            ui.c.icon(Icon::Phone, Rect::from_center(Point::new(c.x, c.y - 14.0), 26.0, 26.0), palette::TEXT_DIM);
+            let n = st.paired.len();
+            ui.c.text(&format!("{n} paired"), Rect::new(qr_r.x, c.y + 10.0, qr_r.w, 20.0), &TextStyle::headline().center());
         }
+        _ => match &pd.qr {
+            Some(qr) => draw_qr(ui, l, qr, &pd.url, qr_r),
+            None => {
+                ui.c.fill_rrect(qr_r, 12.0, Color::white(0.06));
+                let icon = if pd.error.is_some() { Icon::Close } else { Icon::Phone };
+                ui.c.icon(icon, Rect::from_center(qr_r.center(), 28.0, 28.0), palette::TEXT_FAINT);
+            }
+        },
     }
 
     let x = qr_r.right() + 18.0;
@@ -700,6 +720,7 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
     let title_r = Rect::new(x, r.y + 18.0, w, 20.0);
     let line = |i: f32| Rect::new(x, r.y + 44.0 + i * 19.0, w, 18.0);
     let dim = TextStyle::footnote().color(palette::TEXT_DIM);
+    let small = TextStyle::caption().color(palette::TEXT_FAINT);
     let now = st.now;
 
     // Pills from the right edge leftwards; returns the clicked index.
@@ -715,6 +736,11 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
             right = pr.x - PILL_GAP;
         }
         hit
+    };
+    // Room left of a row of pills for a caption (so the two never overlap).
+    let caption_w = |ui: &mut Ui, labels: &[(&str, bool)]| -> f32 {
+        let pills: f32 = labels.iter().map(|(label, icon)| ui.pill_width(label, *icon, true).max(72.0) + PILL_GAP).sum();
+        (r.right() - 16.0 - pills - 12.0 - x).max(0.0)
     };
 
     if let Some(err) = &pd.error {
@@ -757,6 +783,45 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
         return;
     }
 
+    match view {
+        PhoneView::Pairing { until, .. } => {
+            if *until <= now {
+                actions.push(Action::Pair(PairCmd::Back));
+                return;
+            }
+            ui.c.text("Scan to pair a phone", title_r, &TextStyle::headline());
+            ui.c.text("Then it can send to this PC from any network.", line(0.0), &dim);
+            let second = if st.pair_server == Some(false) {
+                format!("Can't reach {} right now. Check the internet.", pairing_host())
+            } else {
+                let mins = ((until - now) / 60.0).ceil().max(1.0) as u32;
+                format!("Use the camera. The code works for {} more {}.", mins, if mins == 1 { "minute" } else { "minutes" })
+            };
+            ui.c.text(&second, line(1.0), &dim);
+            let cw = caption_w(ui, &[("Done", false), ("Back", false)]);
+            ui.c.text(&format!("Pairing link · {}", pairing_host()), Rect::new(x, pills_y + 7.0, cw, 16.0), &small);
+            match pills(ui, &[("Done", None, PillStyle::Utility, "shelf.pair.done"), ("Back", None, PillStyle::Utility, "shelf.pair.back")]) {
+                Some(0) => actions.push(Action::PhoneClose),
+                Some(1) => actions.push(Action::Pair(PairCmd::Back)),
+                _ => {}
+            }
+            return;
+        }
+        PhoneView::Paired => {
+            let list = [("Done", None, PillStyle::Utility, "shelf.pair.done"), ("Back", None, PillStyle::Utility, "shelf.pair.back"), ("Pair a phone", Some(Icon::Phone), PillStyle::Utility, "shelf.pair.another")];
+            let cw = caption_w(ui, &[("Done", false), ("Back", false), ("Pair a phone", true)]);
+            draw_paired_list(ui, st, x, w, r, pills_y, cw, actions);
+            match pills(ui, &list) {
+                Some(0) => actions.push(Action::PhoneClose),
+                Some(1) => actions.push(Action::Pair(PairCmd::Back)),
+                Some(2) => actions.push(Action::Pair(PairCmd::Begin)),
+                _ => {}
+            }
+            return;
+        }
+        PhoneView::Lan => {}
+    }
+
     match pd.outcome.as_ref().filter(|o| o.2 > now) {
         Some((text, good, _)) => {
             let color = if *good { palette::GREEN } else { palette::TEXT };
@@ -767,9 +832,10 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
                 0.0
             };
             ui.c.text(text, Rect::new(x + ix, title_r.y, w - ix, title_r.h), &TextStyle::headline().color(color));
-            let next = match &pd.visitor {
-                Some(v) => format!("{v} can send more from the same page."),
-                None => "Scan the code with your phone's camera.".to_string(),
+            let next = match (&pd.outcome_line, &pd.visitor) {
+                (Some(line), _) => line.clone(),
+                (None, Some(v)) => format!("{v} can send more from the same page."),
+                (None, None) => "Scan the code with your phone's camera.".to_string(),
             };
             ui.c.text(&next, line(0.0), &dim);
         }
@@ -786,13 +852,78 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
             }
         },
     }
+    // One pill per meaning: pair the first phone, or see the paired ones
+    // (that list has its own Pair a phone).
+    let (pair_label, pair_icon, pair_cmd) = if st.paired.is_empty() { ("Pair a phone", Some(Icon::Phone), PairCmd::Begin) } else { ("Paired phones", None, PairCmd::List) };
+    let n = if PAIRING { 2 } else { 1 };
     let host = link_host(&pd.url);
     if !host.is_empty() {
-        let small = TextStyle::caption().color(palette::TEXT_FAINT);
-        ui.c.text(&format!("This session's link · {host}"), Rect::new(x, pills_y + 7.0, (w - 100.0).max(0.0), 16.0), &small);
+        let cw = caption_w(ui, &[("Done", false), (pair_label, pair_icon.is_some())][..n]);
+        ui.c.text(&format!("This session's link · {host}"), Rect::new(x, pills_y + 7.0, cw, 16.0), &small);
     }
-    if pills(ui, &[("Done", None, PillStyle::Utility, "shelf.phone.done")]) == Some(0) {
-        actions.push(Action::PhoneClose);
+    match pills(ui, &[("Done", None, PillStyle::Utility, "shelf.phone.done"), (pair_label, pair_icon, PillStyle::Utility, "shelf.pair.open")][..n]) {
+        Some(0) => actions.push(Action::PhoneClose),
+        Some(1) => actions.push(Action::Pair(pair_cmd)),
+        _ => {}
+    }
+}
+
+/// Where pairing links point (the meeting server's host name).
+fn pairing_host() -> String {
+    let server = std::env::var("PONI_DROP_SERVER").ok().filter(|s| s.starts_with("http")).unwrap_or_else(|| poni_core::pairdrop::DEFAULT_SERVER.to_string());
+    server.split("://").nth(1).unwrap_or(&server).trim_end_matches('/').to_string()
+}
+
+/// Most phones the list shows (the panel is 152 DIP tall).
+const LIST_ROWS: usize = 3;
+const ROW_H: f32 = 30.0;
+
+/// The paired phones, most recently used first, each with Remove.
+#[allow(clippy::too_many_arguments)]
+fn draw_paired_list(ui: &mut Ui, st: &AppState, x: f32, w: f32, r: Rect, pills_y: f32, caption_w: f32, actions: &mut Vec<Action>) {
+    let dim = TextStyle::footnote().color(palette::TEXT_DIM);
+    if st.paired.is_empty() {
+        ui.c.text("No phone is paired", Rect::new(x, r.y + 18.0, w, 20.0), &TextStyle::headline());
+        ui.c.text("Pair a phone, and it can send to this PC from any network.", Rect::new(x, r.y + 44.0, w, 18.0), &dim);
+        return;
+    }
+    let unix = st.unix;
+    for (i, p) in st.paired.iter().take(LIST_ROWS).enumerate() {
+        let y = r.y + 12.0 + i as f32 * ROW_H;
+        let remove_w = ui.pill_width("Remove", false, true).max(72.0);
+        let remove_r = Rect::new(x + w - remove_w, y + (ROW_H - PILL_SMALL) / 2.0 - 2.0, remove_w, PILL_SMALL);
+        if ui.pill(wid(&format!("shelf.pair.remove.{}", short(&p.room))), remove_r, "Remove", None, PillStyle::Utility).clicked {
+            actions.push(Action::Pair(PairCmd::Remove(p.room.clone())));
+        }
+        let seen = last_seen(unix, p);
+        let sw = ui.c.measure(&seen, &dim, 200.0).0 + 4.0;
+        let seen_r = Rect::new(remove_r.x - 12.0 - sw, y + 4.0, sw, 20.0);
+        ui.c.text(&seen, seen_r, &dim);
+        ui.c.text(&p.name, Rect::new(x, y + 3.0, (seen_r.x - 10.0 - x).max(0.0), 20.0), &TextStyle::body().weight(Weight::Semibold));
+    }
+    let more = st.paired.len().saturating_sub(LIST_ROWS);
+    if more > 0 {
+        let small = TextStyle::caption().color(palette::TEXT_FAINT);
+        ui.c.text(&format!("+{more} used less recently"), Rect::new(x, pills_y + 7.0, caption_w, 16.0), &small);
+    }
+}
+
+fn short(room: &str) -> &str {
+    &room[..room.len().min(8)]
+}
+
+/// "Last seen 5 min ago" and the like.
+fn last_seen(unix: i64, p: &PairedPhone) -> String {
+    if p.seen <= 0 {
+        return "Not used yet".into();
+    }
+    let s = (unix - p.seen).max(0);
+    match s {
+        0..=59 => "Seen just now".into(),
+        60..=3599 => format!("Seen {} min ago", s / 60),
+        3600..=86_399 => format!("Seen {} h ago", s / 3600),
+        86_400..=172_799 => "Seen yesterday".into(),
+        _ => format!("Seen {} days ago", s / 86_400),
     }
 }
 

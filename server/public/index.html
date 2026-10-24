@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#fff7ec">
+<meta name="description" content="Send photos and files from your phone to your PC with Oyen Poni.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Oyen Poni">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/outfit-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/app.css">
+<script type="module" src="/app.js"></script>
+<title>Oyen Poni</title>
+</head>
+<body>
+<!-- The island: a small Dynamic Island that says what is happening, like Oyen Poni's on the PC. -->
+<div class="island-wrap" aria-hidden="true">
+  <div class="island" id="island" data-mode="idle">
+    <div class="isl-inner" id="isl-inner">
+      <span class="isl-lead" id="isl-lead"><span class="live"></span></span>
+      <span class="isl-text"><b id="isl-title">Oyen Poni</b><span class="isl-sub" id="isl-sub"></span></span>
+      <span class="isl-trail" id="isl-trail"></span>
+    </div>
+  </div>
+</div>
+<main>
+  <noscript><section class="card"><p>Oyen Poni needs JavaScript to send files.</p></section></noscript>
+
+  <!-- Pairing: /p#k=<secret> -->
+  <section class="view" id="v-pair" hidden>
+    <figure class="stage" id="pair-stage"><img class="oyen" id="pair-oyen" src="/oyen-peek.webp" width="640" height="353" alt=""></figure>
+    <header class="center">
+      <h1 id="pair-title">Pairing with your PC…</h1>
+      <p class="sub" id="pair-sub">This takes a few seconds.</p>
+    </header>
+    <div class="status wait" id="pair-status" role="status" aria-live="polite"><span class="spin" id="pair-spin"></span><span id="pair-status-text">Waiting for your PC to answer.</span></div>
+
+    <section class="card" id="keep" hidden aria-labelledby="keep-h">
+      <h2 id="keep-h">Keep it on this phone</h2>
+      <p class="small">So Oyen Poni is one tap away, like an app.</p>
+      <ul class="steps" id="keep-ios" hidden>
+        <li><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7.5l4-4 4 4"/><path d="M8.5 10.5H7A1.5 1.5 0 0 0 5.5 12v7A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-1.5"/></svg></span><span>Tap Share, then Add to Home Screen.</span></li>
+        <li><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span><span>Open Oyen Poni from your Home Screen from now on.</span></li>
+      </ul>
+      <button class="btn quiet" id="copy-link" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg><span id="copy-link-text">Copy pairing link</span></button>
+      <input class="link-text" id="link-text" type="text" readonly hidden aria-label="Pairing link">
+      <p class="small" id="keep-ios-note" hidden>The link pairs this phone again if Safari forgets it. Keep it to yourself.</p>
+      <button class="btn primary" id="install" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 17.5v1A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-1"/></svg>Install app</button>
+      <ul class="steps" id="keep-menu" hidden>
+        <li><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5.5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="18.5" r="1.2"/></svg></span><span>Menu › Install app</span></li>
+      </ul>
+      <p class="small" id="keep-android-note" hidden>Oyen Poni then also shows up when you share photos.</p>
+      <p class="small" id="keep-installed" hidden>Installed. Open Oyen Poni from your apps.</p>
+    </section>
+
+    <div class="row" id="pair-actions">
+      <button class="btn quiet" id="pair-home" type="button" hidden>Your PCs</button>
+      <button class="btn primary" id="pair-retry" type="button" hidden>Try again</button>
+      <button class="btn primary" id="pair-done" type="button" hidden>Done</button>
+    </div>
+  </section>
+
+  <!-- Home: your PCs -->
+  <section class="view" id="v-home" hidden>
+    <figure class="stage" id="home-stage"><img class="oyen" id="home-oyen" src="/oyen-peek.webp" width="640" height="353" alt=""></figure>
+    <header class="center">
+      <h1 id="home-title">Your PCs</h1>
+      <p class="sub" id="home-sub">Tap one to send photos and files to its Shelf.</p>
+    </header>
+    <div class="status bad" id="home-note" hidden role="status"></div>
+    <section class="card list" id="pcs-card" hidden aria-label="Your PCs">
+      <ul class="pcs" id="pcs"></ul>
+    </section>
+    <section class="card" id="empty" hidden>
+      <h2>No PC paired yet</h2>
+      <ol class="howto">
+        <li><span class="num">1</span><span>On your PC, open Oyen Poni, then Shelf › Phone.</span></li>
+        <li><span class="num">2</span><span>Choose <b>Pair a phone</b>.</span></li>
+        <li><span class="num">3</span><span>Scan the code with this phone's camera.</span></li>
+      </ol>
+    </section>
+    <form class="card" id="paste-card" hidden>
+      <label for="paste"><b>Have a pairing link?</b></label>
+      <div class="field"><input id="paste" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Paste it here"></div>
+      <button class="btn quiet" type="submit">Add PC</button>
+      <p class="small" id="paste-note" hidden></p>
+    </form>
+    <section class="card quiet-card">
+      <label for="phone-name"><b>This phone's name</b></label>
+      <div class="field"><input id="phone-name" type="text" maxlength="60" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done"></div>
+      <p class="small" id="phone-name-note">Your PCs show this name.</p>
+    </section>
+    <p class="foot" id="home-foot" hidden>To add another PC, open Oyen Poni › Shelf › Phone › Pair a phone on it, and scan the code.</p>
+  </section>
+
+  <!-- One PC: send and save -->
+  <section class="view" id="v-pc" hidden>
+    <button class="back" id="pc-back" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>Your PCs</button>
+    <header class="hero">
+      <div class="hero-text">
+        <h1 id="pc-title">Send to your PC</h1>
+        <p class="road" id="road"><span class="road-icon" id="road-icon"></span><span id="road-text">Connecting…</span></p>
+      </div>
+      <img class="oyen hero-oyen" id="pc-oyen" src="/oyen-shelf.webp" width="320" height="440" alt="">
+    </header>
+    <div class="status bad" id="pc-error" hidden role="alert"><span id="pc-error-text"></span></div>
+    <button class="btn quiet" id="pc-retry" type="button" hidden>Try again</button>
+
+    <section class="card send-card" aria-labelledby="send-h">
+      <h2 id="send-h">Send to the Shelf</h2>
+      <p class="small" id="send-hint">Photos, videos, any file. Oyen puts them on the PC's Shelf.</p>
+      <label class="btn primary" for="pick" id="pick-label">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14"/></svg>
+        Choose photos or files
+      </label>
+      <input id="pick" type="file" multiple>
+      <ul class="files" id="chosen" hidden></ul>
+      <div class="total" id="chosen-total" hidden><span id="chosen-count"></span><span id="chosen-size"></span></div>
+      <div class="row" id="send-row" hidden>
+        <button class="btn quiet" id="clear" type="button">Clear</button>
+        <button class="btn primary" id="send" type="button">Send</button>
+      </div>
+      <div class="progress" id="progress" hidden>
+        <div class="bar"><i id="bar"></i></div>
+        <div class="total"><span id="p-file"></span><span id="p-bytes"></span></div>
+      </div>
+      <div class="status" id="send-status" hidden role="status" aria-live="polite"><span class="spin" id="send-spin" hidden></span><span id="send-status-text"></span></div>
+    </section>
+
+    <section class="card" aria-labelledby="shelf-h">
+      <h2 id="shelf-h">On the Shelf</h2>
+      <ul class="files" id="shelf"></ul>
+      <div class="status" id="save-status" hidden role="status" aria-live="polite"><span id="save-status-text"></span></div>
+    </section>
+
+    <button class="link-btn" id="forget" type="button">Forget this PC</button>
+  </section>
+
+  <!-- Android share sheet: /?share=<id> -->
+  <section class="view" id="v-share" hidden>
+    <header class="hero">
+      <div class="hero-text">
+      <h1 id="share-title">Send files</h1>
+      <p class="sub" id="share-sub">Choose the PC to send them to.</p>
+      </div>
+      <img class="oyen hero-oyen" id="share-oyen" src="/oyen-shelf.webp" width="320" height="440" alt="">
+    </header>
+    <section class="card" id="share-files-card">
+      <ul class="files" id="share-files"></ul>
+      <div class="total"><span id="share-count"></span><span id="share-size"></span></div>
+    </section>
+    <section class="card" id="share-pcs-card" aria-labelledby="share-pcs-h">
+      <h2 id="share-pcs-h">Send to</h2>
+      <div class="pc-buttons" id="share-pcs"></div>
+    </section>
+    <div class="progress" id="share-progress" hidden>
+      <div class="bar"><i id="share-bar"></i></div>
+      <div class="total"><span id="share-p-file"></span><span id="share-p-bytes"></span></div>
+    </div>
+    <div class="status" id="share-status" hidden role="status" aria-live="polite"><span class="spin" id="share-spin" hidden></span><span id="share-status-text"></span></div>
+    <button class="btn primary" id="share-done" type="button" hidden>Done</button>
+  </section>
+</main>
+</body>
+</html>

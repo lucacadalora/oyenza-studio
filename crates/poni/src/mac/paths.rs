@@ -49,3 +49,18 @@ pub fn phone_inbox_dir() -> PathBuf {
     }
     std::env::var_os("HOME").map(PathBuf::from).unwrap_or_else(|| PathBuf::from(".")).join("Downloads").join("Oyen Poni")
 }
+
+pub fn lyrics_cache_dir() -> PathBuf {
+    cache_dir().join("lyrics")
+}
+
+/// The person's Apple Music token (owner-only file; uninstalling with the
+/// cache folder removes it).
+pub fn apple_music_token_path() -> PathBuf {
+    cache_dir().join("apple-music-token.bin")
+}
+
+/// The Apple Music web player's (public) developer token, cached until it expires.
+pub fn apple_music_web_token_path() -> PathBuf {
+    cache_dir().join("apple-music-web.json")
+}

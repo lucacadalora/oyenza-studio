@@ -185,10 +185,16 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
 }
 
 /// Needs continuous ambient frames (near 60 fps): animated equalizer while music plays.
-/// A paused (lingering) pill is static.
+/// A paused (lingering) pill is static, once Oyen's notes are gone.
 pub fn is_live(m: &Mode, st: &AppState) -> bool {
-    matches!(m, Mode::Activity(Activity::Media) | Mode::Activity(Activity::MediaTimer))
-        && st.media.as_ref().is_some_and(|s| s.is_playing())
+    let Some(media) = st.media.as_ref() else { return false };
+    match m {
+        Mode::Activity(Activity::Media) if oyen::on(st.settings.theme) => {
+            oyen::music_moving(st.now, media.is_playing(), st.media_paused_at, &st.ui.notes)
+        }
+        Mode::Activity(Activity::Media) | Mode::Activity(Activity::MediaTimer) => media.is_playing(),
+        _ => false,
+    }
 }
 
 /// Next time the collapsed content changes on its own: eye blinks, a paused
@@ -395,14 +401,20 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
         Activity::Media => {
             art_or_icon(ui, st, art, playing);
             let eq = Rect::new(body.right() - 34.0, cy - 8.0, 20.0, 16.0);
+            let alpha = peek_alpha(st, body.w);
             if oyen::on(st.settings.theme) {
-                // Oyen bobs to the music where the equalizer would be.
-                let f = oyen::music(st.now, playing);
-                oyen::peek(ui.c, &f, body.right() - 26.0, body.bottom() - 5.0, OYEN_MEDIA_W, body.y + 1.0);
+                // Oyen bops to the music where the equalizer would be, and a
+                // note floats up beside him on every beat (the ones on his
+                // left make way for a new track's title).
+                let (cx, bar_y) = (body.right() - 26.0, body.bottom() - 5.0);
+                st.ui.notes.step(st.now, playing);
+                let sky = Rect::new(body.x, body.y + 1.0, body.w, body.h - 1.0);
+                oyen::notes(ui.c, &st.ui.notes, st.now, cx, bar_y, sky, 1.0 - alpha);
+                let f = oyen::music(st.now, playing, st.media_paused_at);
+                oyen::peek(ui.c, &f, cx, bar_y, OYEN_MEDIA_W, body.y + 1.0);
             } else {
                 equalizer(ui, eq, st.media_accent(), playing, st.now);
             }
-            let alpha = peek_alpha(st, body.w);
             if alpha > 0.01 {
                 draw_peek(ui, st, art.right() + 10.0, eq.x - 10.0, body, alpha);
             }

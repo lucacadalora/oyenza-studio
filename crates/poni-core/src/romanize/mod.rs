@@ -71,12 +71,15 @@ pub struct JaWord<'a> {
 /// Group analyzer words into phrases (a new Ruby at each phrase_start). Inside a phrase a
 /// particle or the copula stands apart after a space ("asa wo", "suki da") and every other
 /// word joins the one before it, the way lyric romaji writes verb endings ("hakonde",
-/// "itta"). A word that is exactly は or へ and not a phrase start reads "wa" / "e"; を reads
-/// "wo". Latin/digit words get empty roman, and so do kanji the analyzer gave no kana
-/// reading (an empty `yomi`): the rest of the line still reads.
+/// "itta"). へ that isn't a phrase start reads "e"; を reads "wo". は reads "wa" when it
+/// follows a word, also where the analyzer starts a phrase with it (after a verb: "terasu
+/// wa") and where it ends a word (には "ni wa", 本当は "hontou wa", see [`split_topic`]).
+/// Latin/digit words get empty roman, and so do kanji the analyzer gave no kana reading
+/// (an empty `yomi`): the rest of the line still reads.
 ///
 /// Spaces, punctuation, Latin and unread words also end a phrase (they are pieces of their own).
 pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
+    let words = split_topic(words);
     let mut toks: Vec<Tok> = Vec::new();
     // The last token is a Japanese phrase that later words of the same phrase join.
     let mut open = false;
@@ -84,7 +87,7 @@ pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
     // romaji starts in the token's reading: spelled again as one run, so that a っ
     // ending one piece doubles the next one's consonant (なかっ|た -> nakatta).
     let (mut run, mut run_at) = (String::new(), 0usize);
-    for w in words {
+    for w in &words {
         let d = w.display;
         if !d.chars().any(|c| matches!(class_of(c), Class::Kana | Class::Han)) {
             toks.extend(tokens(d, Script::Japanese));
@@ -97,13 +100,16 @@ pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
             open = false;
             continue;
         }
+        // は right after a word is the topic particle, even where the analyzer
+        // starts a phrase with it.
+        let joins = !w.phrase_start || (d == "は" && open);
         let fixed = match d {
-            "は" if !w.phrase_start => Some("wa"),
+            "は" if joins => Some("wa"),
             "へ" if !w.phrase_start => Some("e"),
             _ => None,
         };
         match toks.last_mut() {
-            Some(Tok::Word { text, roman: r, .. }) if open && !w.phrase_start => {
+            Some(Tok::Word { text, roman: r, .. }) if open && joins => {
                 text.push_str(d);
                 if fixed.is_some() || PARTICLES.contains(&d) {
                     if !r.is_empty() {
@@ -128,6 +134,31 @@ pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
         open = true;
     }
     assemble(toks)
+}
+
+/// Particles that end in the topic particle は, which analyzers can hand back as one word.
+const TOPIC_PARTICLES: &[&str] = &["には", "では", "とは", "へは", "からは", "までは", "よりは", "のは", "ては"];
+
+/// `words` with a final topic particle は split off where it ends a word: words that end
+/// in a particle like には or では (Windows' analyzer returns them whole, and それでは too)
+/// and words with kanji like 本当は (one word in the dictionaries). The は then reads "wa"
+/// like any other.
+fn split_topic<'a>(words: &[JaWord<'a>]) -> Vec<JaWord<'a>> {
+    let mut out = Vec::with_capacity(words.len());
+    for w in words {
+        let head = w.display.strip_suffix('は').filter(|h| !h.is_empty());
+        let topic = head.filter(|h| TOPIC_PARTICLES.iter().any(|p| w.display.ends_with(p)) || h.chars().any(is_han));
+        // The reading ends with は too (or is empty: the dictionary leaves kana words without one).
+        let head_yomi = if w.yomi.is_empty() { Some("") } else { w.yomi.strip_suffix('は') };
+        match (topic, head_yomi) {
+            (Some(head), Some(head_yomi)) => {
+                out.push(JaWord { display: head, yomi: head_yomi, phrase_start: w.phrase_start });
+                out.push(JaWord { display: "は", yomi: "は", phrase_start: false });
+            }
+            _ => out.push(*w),
+        }
+    }
+    out
 }
 
 /// Words lyric romaji writes on their own inside a phrase: particles and the copula.
@@ -476,6 +507,30 @@ mod tests {
         // は at a phrase start is not the particle.
         let words = [w("は", "は", true), w("ははは", "ははは", false)];
         assert_eq!(japanese_ruby(&words), vec![rb("はははは", "hahahaha")]);
+    }
+
+    #[test]
+    fn topic_particle_reads_wa() {
+        // Windows' analyzer hands back には whole, and starts a phrase with は after a verb.
+        let words = [w("心", "こころ", true), w("には", "には", false), w("君", "きみ", true), w("が", "が", false)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "kokoro ni wa kimi ga");
+        let words = [w("照らす", "てらす", true), w("は", "は", true), w("月", "つき", true)];
+        assert_eq!(japanese_ruby(&words), vec![rb("照らすは", "terasu wa"), rb("月", "tsuki")]);
+        let words = [w("それ", "それ", true), w("では", "では", false), w("また", "また", true)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "sore de wa mata");
+        // Windows hands back それでは whole (seen on Windows CI).
+        let words = [w("それでは", "それでは", true), w("また", "また", true)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "sorede wa mata");
+        let words = [w("して", "して", true), w("は", "は", false), w("いけない", "いけない", true)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "shite wa ikenai");
+        // A word ending in the particle (本当は, one word in the dictionaries).
+        assert_eq!(japanese_ruby(&[w("本当は", "ほんとうは", true)]), vec![rb("本当は", "hontou wa")]);
+        // Oyen Poni's dictionary gives kana words no reading: the display is the kana.
+        let words = [w("時", "とき", true), w("には", "", false)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "toki ni wa");
+        // は starting a line, and words that only end in は, stay as they are.
+        assert_eq!(japanese_ruby(&[w("は", "は", true), w("ははは", "ははは", false)]), vec![rb("はははは", "hahahaha")]);
+        assert_eq!(japanese_ruby(&[w("はは", "はは", true)]), vec![rb("はは", "haha")]);
     }
 
     #[test]

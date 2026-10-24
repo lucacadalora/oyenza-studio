@@ -3,7 +3,7 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, MediaCmd, OyenzaCmd, PhoneCmd};
+use crate::commands::{Command, MediaCmd, OyenzaCmd, PairCmd, PhoneCmd};
 use crate::events::{AppEvent, AppleMusicStatus, EventSink, OyenzaEvent, SendHwnd, WM_APP_APPBAR, WM_APP_EVENT, WM_APP_FRAME, WM_APP_TRAY};
 use crate::gfx::{px_rect, px_union, scale_about, union_rect, Canvas, Gfx, HitMask};
 use crate::icons::Icon;
@@ -12,7 +12,9 @@ use crate::oyen;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::services::{self, Services};
-use crate::state::{AppState, HudKind, InlineAction, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PhoneAsk, PhoneDrop, PhoneTransfer};
+use crate::state::{
+    AppState, HudKind, InlineAction, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PairedPhone, PhoneAsk, PhoneDrop, PhoneTransfer, PhoneView,
+};
 use crate::tray::{self, Tray};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
 use crate::window::{self, FrameClock, FrameTick, MonitorInfo};
@@ -21,6 +23,7 @@ use poni_core::frametime::{ambient_divisor, MotionStats};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::fmt_steps;
 use poni_core::oyenza;
+use poni_core::pairdrop::{MeetEvent, PeerEvent};
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::settings::MonitorChoice;
@@ -370,6 +373,8 @@ pub struct App {
     phone: Option<services::phonedrop::PhoneDrop>,
     /// The Shelf paths last handed to it (to notice changes).
     phone_offer: Vec<String>,
+    /// The Shelf paths last handed to the paired-phones service.
+    pair_offer: Option<Vec<String>>,
 }
 
 /// The island window: position and size in screen pixels.
@@ -513,6 +518,7 @@ impl App {
             left_at: f64::NEG_INFINITY,
             phone: None,
             phone_offer: Vec::new(),
+            pair_offer: None,
         })
     }
 
@@ -523,6 +529,8 @@ impl App {
         services::power::register(self.helper);
         if !fake {
             self.services = Some(Services::start(&self.sink, self.hwnd, self.helper, &self.st.settings, self.oyenza_activity()));
+            self.st.paired = self.services.as_ref().map(|s| paired_phones(s.pairs())).unwrap_or_default();
+            self.sync_pair_offer();
             if self.st.settings.system_history {
                 self.start_sysmon();
             }
@@ -1630,6 +1638,7 @@ impl App {
             }
             AppEvent::AppleMusic(status) => self.on_apple_music(status),
             AppEvent::Phone(e) => self.on_phone(e),
+            AppEvent::Paired(e) => self.on_paired(e),
             AppEvent::Oyenza(ev) => self.on_oyenza(ev),
             AppEvent::Autostart(on) => self.st.ui.autostart = Some(on),
             AppEvent::Log(s) => pinfo!("{s}"),
@@ -2553,10 +2562,12 @@ impl App {
                     crate::autostart::report(self.sink.clone(), Some(on));
                 }
                 Command::Phone(c) => self.phone_cmd(c),
+                Command::Pair(c) => self.pair_cmd(c),
                 Command::Oyenza(c) => self.oyenza(c),
             }
         }
         self.sync_phone_offer();
+        self.sync_pair_offer();
     }
 
     // ------------------------------------------------------------ phone drop
@@ -2619,6 +2630,11 @@ impl App {
     fn close_phone(&mut self) {
         if let Some(svc) = self.phone.take() {
             svc.stop();
+        }
+        if matches!(self.st.phone.as_ref().map(|p| &p.view), Some(PhoneView::Pairing { .. })) {
+            if let Some(s) = &self.services {
+                s.pair_cancel();
+            }
         }
         self.st.phone = None;
         self.phone_offer.clear();
@@ -2708,6 +2724,140 @@ impl App {
                 self.maybe_schedule_collapse();
             }
         }
+    }
+
+    // ------------------------------------------------------------ paired phones
+
+    fn pair_cmd(&mut self, c: PairCmd) {
+        let now = self.st.now;
+        match c {
+            PairCmd::Begin => {
+                let r = match &self.services {
+                    Some(s) => s.pair_begin(),
+                    None => Err("Pairing is off in the self-test.".into()),
+                };
+                let Some(pd) = self.st.phone.as_mut() else { return };
+                pd.outcome = None;
+                match r {
+                    Ok(url) => {
+                        pinfo!("pair drop: showing a pairing code");
+                        pd.view = PhoneView::Pairing { qr: QrMatrix::encode(&url), url, until: now + poni_core::pairdrop::meet::PAIRING_FOR.as_secs_f64() };
+                    }
+                    Err(e) => {
+                        pwarn!("pair drop: {e}");
+                        pd.outcome = Some((e, false, now + pages::shelf::PHONE_OUTCOME_S));
+                    }
+                }
+            }
+            PairCmd::Back => {
+                if matches!(self.st.phone.as_ref().map(|p| &p.view), Some(PhoneView::Pairing { .. })) {
+                    if let Some(s) = &self.services {
+                        s.pair_cancel();
+                    }
+                }
+                if let Some(pd) = self.st.phone.as_mut() {
+                    pd.view = PhoneView::Lan;
+                }
+            }
+            PairCmd::List => {
+                if matches!(self.st.phone.as_ref().map(|p| &p.view), Some(PhoneView::Pairing { .. })) {
+                    if let Some(s) = &self.services {
+                        s.pair_cancel();
+                    }
+                }
+                if let Some(pd) = self.st.phone.as_mut() {
+                    pd.view = PhoneView::Paired;
+                }
+            }
+            PairCmd::Remove(room) => {
+                if let Some(s) = &self.services {
+                    s.pair_remove(&room);
+                }
+                if let Some(i) = self.st.paired.iter().position(|p| p.room == room) {
+                    let p = self.st.paired.remove(i);
+                    pinfo!("pair drop: removed a paired phone");
+                    if let Some(pd) = self.st.phone.as_mut() {
+                        pd.outcome = Some((format!("{} can't send to this PC any more", p.name), false, now + pages::shelf::PHONE_OUTCOME_S));
+                        pd.outcome_line = Some("Pair it again any time from Pair a phone.".into());
+                    }
+                }
+            }
+        }
+        self.request_frame();
+    }
+
+    /// Keep the files paired phones may save in step with the Shelf.
+    fn sync_pair_offer(&mut self) {
+        let Some(svc) = &self.services else { return };
+        let paths = self.st.store.shelf.paths();
+        if self.pair_offer.as_ref() != Some(&paths) {
+            svc.pair_shelf(paths.iter().map(PathBuf::from).collect());
+            self.pair_offer = Some(paths);
+        }
+    }
+
+    fn on_paired(&mut self, e: MeetEvent) {
+        let now = self.st.now;
+        let until = now + pages::shelf::PHONE_OUTCOME_S;
+        match e {
+            MeetEvent::Pairs(list) => self.st.paired = paired_phones(list),
+            MeetEvent::Server { reachable } => {
+                if self.st.pair_server.is_some() || !reachable {
+                    pinfo!("pair drop: meeting server {}", if reachable { "reachable again" } else { "unreachable" });
+                }
+                self.st.pair_server = Some(reachable);
+            }
+            MeetEvent::Paired { name, .. } => {
+                pinfo!("pair drop: a phone finished pairing");
+                if let Some(pd) = self.st.phone.as_mut() {
+                    pd.view = PhoneView::Lan;
+                    pd.outcome = Some((format!("{name} is paired"), true, until));
+                    pd.outcome_line = Some("It can now send from any network, even with this panel closed.".into());
+                }
+                self.st.chime();
+                self.maybe_schedule_collapse();
+            }
+            MeetEvent::Phone { phone, ev, .. } => match ev {
+                PeerEvent::Hello { .. } => pinfo!("pair drop: a paired phone connected"),
+                PeerEvent::Progress { files, done: 0, .. } => {
+                    if !self.expanded {
+                        self.st.notify(Icon::Phone, palette::GREEN, format!("{phone} is sending {}", files_label(files)), "They go straight onto the Shelf", 4.0, None);
+                    }
+                }
+                PeerEvent::Progress { .. } => {}
+                PeerEvent::Received { paths } => {
+                    let n = paths.len();
+                    let title = format!("{} from {phone} {} on the Shelf", files_label(n), if n == 1 { "is" } else { "are" });
+                    let added: Vec<String> = paths.iter().map(|p| p.to_string_lossy().into_owned()).collect();
+                    self.st.store.shelf.add_paths(&added, self.st.unix);
+                    for p in added {
+                        self.st.cmds.push(Command::LoadThumb(p));
+                    }
+                    self.st.save();
+                    pinfo!("pair drop: {} from a paired phone", files_label(n));
+                    if let Some(pd) = self.st.phone.as_mut() {
+                        pd.outcome = Some((title.clone(), true, until));
+                        pd.outcome_line = None;
+                    }
+                    if !self.expanded {
+                        self.st.notify(Icon::Phone, palette::GREEN, title, "Open the Shelf to see them", 6.0, Some(NoticeAction::OpenPage(PageKind::Shelf)));
+                    }
+                    self.st.chime();
+                    self.maybe_schedule_collapse();
+                }
+                PeerEvent::Failed { reason, detail } => {
+                    pwarn!("pair drop: a send from a paired phone failed: {reason} {detail}");
+                    if !self.expanded {
+                        self.st.notify(Icon::Phone, palette::TEXT, format!("Nothing kept from {phone}"), format!("{reason}."), 6.0, None);
+                    } else if let Some(pd) = self.st.phone.as_mut() {
+                        pd.outcome = Some((format!("Nothing kept from {phone}. {reason}."), false, until));
+                        pd.outcome_line = None;
+                    }
+                }
+                PeerEvent::Ended { .. } => {}
+            },
+        }
+        self.request_frame();
     }
 
     fn save_now(&mut self) {
@@ -2895,6 +3045,13 @@ fn motion_name(from: &Mode, to: &Mode) -> &'static str {
 }
 
 /// "1 file", "3 files".
+/// The panel's list: most recently used first.
+fn paired_phones(pairs: Vec<poni_core::pairdrop::Pair>) -> Vec<PairedPhone> {
+    let mut v: Vec<PairedPhone> = pairs.into_iter().map(|p| PairedPhone { room: p.room(), name: p.name, seen: p.seen.max(p.added) }).collect();
+    v.sort_by_key(|a| std::cmp::Reverse(a.seen));
+    v
+}
+
 fn files_label(n: usize) -> String {
     format!("{n} {}", if n == 1 { "file" } else { "files" })
 }

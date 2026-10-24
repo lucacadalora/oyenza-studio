@@ -137,6 +137,8 @@ pub enum AppEvent {
     ClipboardText(String),
     /// Phone drop's server: a phone opened the page, asked, sent, gave up.
     Phone(poni_core::phonedrop::Event),
+    /// Paired phones: pairing done, the list changed, files from a phone.
+    Paired(poni_core::pairdrop::MeetEvent),
     Oyenza(OyenzaEvent),
     /// Start with Windows is on (true) or off, read for the Settings page.
     Autostart(bool),

@@ -1,0 +1,189 @@
+//! HTTPS requests on the Mac (Apple's URLSession), with the same small API as
+//! the Windows app's `services/http.rs`, so the shared lyrics and Apple Music
+//! code (`services/lyrics.rs`, `services/applemusic.rs`) runs unchanged.
+//!
+//! Every call blocks until the response (headers and body) has arrived or the
+//! timeout has passed, so use it on worker threads only, never on the main
+//! thread. Waiting costs no CPU: the caller sleeps on a channel that the
+//! request's completion handler fills.
+
+use block2::RcBlock;
+use objc2::rc::Retained;
+use objc2::Message;
+use objc2_foundation::{NSData, NSError, NSHTTPURLResponse, NSMutableURLRequest, NSString, NSURLResponse, NSURLSession, NSURL};
+use std::fmt;
+use std::sync::mpsc;
+use std::time::Duration;
+
+/// Budget for one request: connect + headers + body.
+pub const DEFAULT_TIMEOUT: Duration = Duration::from_secs(8);
+
+/// Bodies larger than this are refused (nothing Poni fetches comes close).
+const MAX_BODY_BYTES: usize = 8 * 1024 * 1024;
+
+/// URL loading system errors (NSURLError.h).
+const URL_ERROR_TIMED_OUT: isize = -1001;
+const URL_NETWORK_ERRORS: [isize; 9] = [-1003, -1004, -1005, -1006, -1009, -1018, -1020, -1200, -1206];
+
+/// The methods [`Client::send`] speaks.
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Method {
+    Get,
+    Post,
+    Delete,
+}
+
+/// A complete response.
+#[derive(Clone, Debug)]
+pub struct Response {
+    pub status: u16,
+    /// The body decoded as UTF-8 (BOM stripped, invalid bytes replaced).
+    pub body: String,
+    /// Seconds the server asked us to wait (`Retry-After`, delta seconds).
+    pub retry_after_s: Option<u64>,
+}
+
+/// Why a request produced no response.
+#[allow(dead_code)]
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum FetchError {
+    /// Nothing arrived within the timeout; the request was cancelled.
+    Timeout,
+    /// DNS, connect or TLS failure: no working path to the server.
+    Network(String),
+    /// Anything else (bad URL, oversized or unreadable body, …).
+    Other(String),
+}
+
+impl fmt::Display for FetchError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            FetchError::Timeout => f.write_str("timed out"),
+            FetchError::Network(s) | FetchError::Other(s) => f.write_str(s),
+        }
+    }
+}
+
+/// The Windows app keeps its worker threads in a COM apartment; the Mac
+/// needs nothing of the kind.
+pub struct MtaGuard;
+
+impl MtaGuard {
+    pub fn new() -> Self {
+        MtaGuard
+    }
+}
+
+impl Default for MtaGuard {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+pub struct Client {
+    user_agent: String,
+}
+
+impl Client {
+    pub fn new(user_agent: &str) -> Result<Self, FetchError> {
+        Ok(Client { user_agent: user_agent.to_string() })
+    }
+
+    pub fn get(&self, url: &str, timeout: Duration) -> Result<Response, FetchError> {
+        self.send(Method::Get, url, &[], None, timeout)
+    }
+
+    pub fn get_with_headers(&self, url: &str, headers: &[(&str, &str)], timeout: Duration) -> Result<Response, FetchError> {
+        self.send(Method::Get, url, headers, None, timeout)
+    }
+
+    pub fn send(&self, method: Method, url: &str, headers: &[(&str, &str)], json: Option<&str>, timeout: Duration) -> Result<Response, FetchError> {
+        let nsurl = NSURL::URLWithString(&NSString::from_str(url)).ok_or_else(|| FetchError::Other(format!("not a URL: {url}")))?;
+        let req = NSMutableURLRequest::requestWithURL(&nsurl);
+        req.setTimeoutInterval(timeout.as_secs_f64());
+        req.setHTTPMethod(&NSString::from_str(match method {
+            Method::Get => "GET",
+            Method::Post => "POST",
+            Method::Delete => "DELETE",
+        }));
+        req.setValue_forHTTPHeaderField(Some(&NSString::from_str(&self.user_agent)), &NSString::from_str("User-Agent"));
+        for (k, v) in headers {
+            req.setValue_forHTTPHeaderField(Some(&NSString::from_str(v)), &NSString::from_str(k));
+        }
+        if let Some(body) = json {
+            req.setValue_forHTTPHeaderField(Some(&NSString::from_str("application/json")), &NSString::from_str("Content-Type"));
+            req.setHTTPBody(Some(&NSData::with_bytes(body.as_bytes())));
+        }
+
+        let (tx, rx) = mpsc::channel::<Result<Response, FetchError>>();
+        let done = RcBlock::new(move |data: *mut NSData, resp: *mut NSURLResponse, err: *mut NSError| {
+            let result = unsafe { finish(data.as_ref(), resp.as_ref(), err.as_ref()) };
+            let _ = tx.send(result);
+        });
+        let task = unsafe { NSURLSession::sharedSession().dataTaskWithRequest_completionHandler(&req, &done) };
+        task.resume();
+        // URLSession enforces the timeout itself; the extra second only guards
+        // against a completion handler that never runs.
+        match rx.recv_timeout(timeout + Duration::from_secs(1)) {
+            Ok(r) => r,
+            Err(_) => {
+                task.cancel();
+                Err(FetchError::Timeout)
+            }
+        }
+    }
+}
+
+/// Turn a finished data task into a response or an error.
+fn finish(data: Option<&NSData>, resp: Option<&NSURLResponse>, err: Option<&NSError>) -> Result<Response, FetchError> {
+    if let Some(e) = err {
+        let code = e.code();
+        let what = e.localizedDescription().to_string();
+        return Err(if code == URL_ERROR_TIMED_OUT {
+            FetchError::Timeout
+        } else if URL_NETWORK_ERRORS.contains(&code) {
+            FetchError::Network(what)
+        } else {
+            FetchError::Other(format!("{what} ({code})"))
+        });
+    }
+    let http: Option<Retained<NSHTTPURLResponse>> = resp.and_then(|r| r.retain().downcast::<NSHTTPURLResponse>().ok());
+    let Some(http) = http else { return Err(FetchError::Other("not an HTTP response".into())) };
+    let bytes = data.map(|d| d.to_vec()).unwrap_or_default();
+    if bytes.len() > MAX_BODY_BYTES {
+        return Err(FetchError::Other(format!("response too large ({} bytes)", bytes.len())));
+    }
+    let retry_after_s = http.valueForHTTPHeaderField(&NSString::from_str("Retry-After")).and_then(|v| v.to_string().trim().parse::<u64>().ok());
+    Ok(Response { status: http.statusCode().clamp(0, u16::MAX as isize) as u16, body: decode_body(&bytes), retry_after_s })
+}
+
+/// UTF-8 with a leading BOM dropped; invalid bytes become U+FFFD.
+fn decode_body(bytes: &[u8]) -> String {
+    let b = bytes.strip_prefix(&[0xEF, 0xBB, 0xBF]).unwrap_or(bytes);
+    String::from_utf8_lossy(b).into_owned()
+}
+
+/// Download raw bytes (album art). Blocking, like the rest.
+pub fn get_bytes(url: &str, user_agent: &str, timeout: Duration) -> Result<Vec<u8>, FetchError> {
+    let nsurl = NSURL::URLWithString(&NSString::from_str(url)).ok_or_else(|| FetchError::Other(format!("not a URL: {url}")))?;
+    let req = NSMutableURLRequest::requestWithURL(&nsurl);
+    req.setTimeoutInterval(timeout.as_secs_f64());
+    req.setValue_forHTTPHeaderField(Some(&NSString::from_str(user_agent)), &NSString::from_str("User-Agent"));
+    let (tx, rx) = mpsc::channel::<Result<Vec<u8>, FetchError>>();
+    let done = RcBlock::new(move |data: *mut NSData, resp: *mut NSURLResponse, err: *mut NSError| {
+        let ok = unsafe { resp.as_ref() }.and_then(|r| r.retain().downcast::<NSHTTPURLResponse>().ok()).is_some_and(|h| h.statusCode() == 200);
+        let r = match (unsafe { err.as_ref() }, unsafe { data.as_ref() }) {
+            (Some(e), _) => Err(FetchError::Other(e.localizedDescription().to_string())),
+            (None, Some(d)) if ok && d.len() <= MAX_BODY_BYTES => Ok(d.to_vec()),
+            _ => Err(FetchError::Other("no picture".into())),
+        };
+        let _ = tx.send(r);
+    });
+    let task = unsafe { NSURLSession::sharedSession().dataTaskWithRequest_completionHandler(&req, &done) };
+    task.resume();
+    rx.recv_timeout(timeout + Duration::from_secs(1)).unwrap_or_else(|_| {
+        task.cancel();
+        Err(FetchError::Timeout)
+    })
+}
