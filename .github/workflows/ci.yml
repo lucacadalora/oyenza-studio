@@ -138,9 +138,49 @@ jobs:
             exit 1
           }
 
+      # The Glass theme over pages the self-test draws itself (no screen copy):
+      # a light page in light mode, a dark page in dark mode, and the dark page
+      # in light mode (small glass flips dark, the open island stays light).
+      # The glass shader runs here (WARP); Wine on a dev box draws smoked glass.
+      - name: Self-test, Glass theme
+        shell: pwsh
+        run: |
+          Add-Type -AssemblyName System.Windows.Forms
+          Add-Type -Namespace PoniCiGlass -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          [PoniCiGlass.User32]::SetCursorPos([int]($b.Width / 2), [int]($b.Height / 2)) | Out-Null
+
+          $env:PONI_SELFTEST_THEME = "glass"
+          $failed = 0
+          foreach ($run in "light", "dark", "flip") {
+            $env:PONI_SELFTEST_GLASS = $run
+            $dir = "selftest-glass-$run"
+            New-Item -ItemType Directory -Force -Path $dir | Out-Null
+            $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest",$dir -PassThru
+            $null = $p.Handle
+            if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+            "glass ($run) self-test exit code: $code"
+            if (Test-Path "$dir\report.json") {
+              $r = Get-Content "$dir\report.json" -Raw | ConvertFrom-Json
+              "renderer: $($r.renderer); states passed: $($r.states_passed)/$($r.states_total); failed: $($r.failed_checks -join ', ')"
+            }
+            Select-String -Path "$dir\home\cache\poni.log" -Pattern 'glass:' -ErrorAction SilentlyContinue | Select-Object -First 6 | ForEach-Object { $_.Line }
+            if ($code -ne 0) {
+              Get-Content "$dir\home\cache\poni.log" -Tail 60 -ErrorAction SilentlyContinue
+              $failed = 1
+            }
+          }
+          exit $failed
+
       - name: Smoke run (real desktop, hover, idle CPU/RAM)
         shell: pwsh
         run: ./tools/ci-smoke.ps1 -Exe target\release\poni.exe -Out smoke-out
+
+      # Glass on a real desktop: with its screen copy running, screenshots
+      # show what's under the island instead of the island.
+      - name: Smoke run, Glass theme (left out of screenshots)
+        shell: pwsh
+        run: ./tools/ci-smoke-glass.ps1 -Exe target\release\poni.exe -Out smoke-glass
 
       # The GPU renderer is the default (runners draw with WARP). The software
       # renderer is its fallback (no DirectComposition, device loss): test it too.
@@ -193,6 +233,10 @@ jobs:
             selftest-out
             selftest-oyen-ja
             selftest-ja-own
+            selftest-glass-light
+            selftest-glass-dark
+            selftest-glass-flip
+            smoke-glass
             smoke-out
             selftest-soft
             smoke-soft

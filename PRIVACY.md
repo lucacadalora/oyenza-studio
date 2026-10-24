@@ -16,6 +16,8 @@ To stop lookups, right-click the island or the tray icon and turn off **Synced l
 
 Nothing else is sent anywhere. Music, volume, Bluetooth battery levels, the date and calendar, and the system stats are all read from Windows on your PC.
 
+**The Glass theme reads the screen under the island, only while it's on.** To bend what's under the island, Oyen Poni copies the part of your screen directly beneath it whenever something there changes. The copy stays in your PC's graphics memory and is overwritten each time. It is never saved, never shown anywhere else and never sent anywhere. While Glass is on, Windows leaves Oyen Poni out of screenshots, screen recordings and screen sharing. Switch to Classic or Oyen to stop both.
+
 ## What stays on your PC
 
 | What | Where |
@@ -25,6 +27,7 @@ Nothing else is sent anywhere. Music, volume, Bluetooth battery levels, the date
 | Your Apple Music token, if you added one, sealed so only your Windows account on this PC can read it | `%LOCALAPPDATA%\Poni\` |
 | Your Oyenza sign-in (this PC's key and your account's masked email), if you signed in, sealed the same way. What Oyenza showed is kept in memory only | `%LOCALAPPDATA%\Poni\` |
 | Clipboard history | Memory only, never written to disk. Text that password managers mark as private is skipped. |
+| The Glass theme's copy of the screen under the island, only while Glass is on | Graphics memory only, overwritten each time, never written to disk |
 | Files you accepted from your phone with Phone drop | `Downloads\Oyen Poni\`, kept when you uninstall |
 
 Uninstalling removes the app, its cache, its log, the Apple Music token and the Oyenza sign-in (the key also stops working on Oyenza's side after 90 days unused, or at once if you disconnect it in oyenza.app). If you installed from the Microsoft Store, Windows also removes the files the app created. Data from an earlier copy installed from GitHub stays in `%APPDATA%\Poni\` until you delete it.
