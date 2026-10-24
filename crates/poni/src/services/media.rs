@@ -983,7 +983,7 @@ impl Worker {
         if duration > 0.0 {
             match self.apple_ui.seek(secs / duration) {
                 Ok(()) => {
-                    crate::pinfo!("media: Apple Music moved to {secs:.1} s with its own progress slider");
+                    crate::pinfo!("media: moved Apple Music's own progress slider to {secs:.1} s");
                     return Ok(true);
                 }
                 Err(e) => crate::pinfo!("media: Apple Music's progress slider: {e}; asking its media session"),

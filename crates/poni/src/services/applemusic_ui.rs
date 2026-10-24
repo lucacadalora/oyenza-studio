@@ -25,7 +25,7 @@ use windows::Win32::UI::Accessibility::{
     CUIAutomation, CUIAutomation8, IUIAutomation, IUIAutomation2, IUIAutomationCondition, IUIAutomationElement,
     IUIAutomationInvokePattern, IUIAutomationLegacyIAccessiblePattern, IUIAutomationRangeValuePattern, TreeScope_Descendants,
     UIA_AutomationIdPropertyId, UIA_ControlTypePropertyId, UIA_InvokePatternId, UIA_LegacyIAccessiblePatternId,
-    UIA_RangeValuePatternId, UIA_SliderControlTypeId, UIA_E_TIMEOUT,
+    UIA_RangeValuePatternId, UIA_SliderControlTypeId, UIA_E_TIMEOUT, UIA_PATTERN_ID,
 };
 use windows::Win32::UI::WindowsAndMessaging::{EnumWindows, GetClassNameW, GetWindowThreadProcessId, IsWindowVisible};
 
@@ -105,7 +105,7 @@ impl AppleMusicUi {
             if !el.CurrentIsEnabled()?.as_bool() {
                 return Err(UiErr::Unavailable(Control::Slider.name()));
             }
-            let range: IUIAutomationRangeValuePattern = el.GetCurrentPatternAs(UIA_RangeValuePatternId)?;
+            let range: IUIAutomationRangeValuePattern = pattern(el, UIA_RangeValuePatternId, Control::Slider)?;
             if range.CurrentIsReadOnly()?.as_bool() {
                 return Err(UiErr::Unavailable(Control::Slider.name()));
             }
@@ -122,10 +122,10 @@ impl AppleMusicUi {
             if !el.CurrentIsEnabled()?.as_bool() {
                 return Err(UiErr::Unavailable(Control::Back.name()));
             }
-            match el.GetCurrentPatternAs::<IUIAutomationInvokePattern>(UIA_InvokePatternId) {
+            match pattern::<IUIAutomationInvokePattern>(el, UIA_InvokePatternId, Control::Back) {
                 Ok(button) => button.Invoke()?,
                 // Not exposed as a plain button: its default action is the press.
-                Err(_) => el.GetCurrentPatternAs::<IUIAutomationLegacyIAccessiblePattern>(UIA_LegacyIAccessiblePatternId)?.DoDefaultAction()?,
+                Err(_) => pattern::<IUIAutomationLegacyIAccessiblePattern>(el, UIA_LegacyIAccessiblePatternId, Control::Back)?.DoDefaultAction()?,
             }
             Ok(())
         })
@@ -197,6 +197,16 @@ impl AppleMusicUi {
             }
         }
         greyed.ok_or(UiErr::NotFound(c.name()))
+    }
+}
+
+/// The control's `id` pattern; a control without it is unavailable (windows-rs
+/// reports the missing pattern as an error with code S_OK).
+fn pattern<T: Interface>(el: &IUIAutomationElement, id: UIA_PATTERN_ID, c: Control) -> Result<T, UiErr> {
+    match unsafe { el.GetCurrentPatternAs::<T>(id) } {
+        Ok(p) => Ok(p),
+        Err(e) if e.code().is_ok() => Err(UiErr::Unavailable(c.name())),
+        Err(e) => Err(UiErr::Os(e)),
     }
 }
 
