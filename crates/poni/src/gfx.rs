@@ -400,7 +400,17 @@ struct GpuTarget {
     w: i32,
     h: i32,
     warp: bool,
+    /// The adapter is Microsoft's software rasterizer (WARP, or the Basic
+    /// Render Driver a machine without a GPU driver offers as "hardware").
+    soft_adapter: bool,
+    /// The adapter's name, for the log.
+    adapter: String,
 }
+
+/// Microsoft's PCI vendor id and the Basic Render Driver's device id: a
+/// "hardware" adapter that is really WARP (VMs and CI runners without a GPU).
+const MICROSOFT_VENDOR: u32 = 0x1414;
+const BASIC_RENDER_DEVICE: u32 = 0x8C;
 
 /// A Direct3D 11 device that Direct2D can draw with: the GPU, else WARP.
 unsafe fn create_d3d_device() -> Result<(ID3D11Device, ID3D11DeviceContext, bool)> {
@@ -453,7 +463,15 @@ impl GpuTarget {
         let (d3d, ctx, warp) = create_d3d_device()?;
         let dxgi: IDXGIDevice = d3d.cast()?;
         let dc = d2d.CreateDevice(&dxgi)?.CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE)?;
-        let factory: IDXGIFactory2 = dxgi.GetAdapter()?.GetParent()?;
+        let dxgi_adapter = dxgi.GetAdapter()?;
+        let (soft_adapter, adapter) = match dxgi_adapter.GetDesc() {
+            Ok(d) => {
+                let name = String::from_utf16_lossy(&d.Description).trim_end_matches('\0').to_string();
+                (warp || (d.VendorId == MICROSOFT_VENDOR && d.DeviceId == BASIC_RENDER_DEVICE), name)
+            }
+            Err(_) => (warp, String::new()),
+        };
+        let factory: IDXGIFactory2 = dxgi_adapter.GetParent()?;
         let desc = DXGI_SWAP_CHAIN_DESC1 {
             Width: w as u32,
             Height: h as u32,
@@ -475,7 +493,7 @@ impl GpuTarget {
         visual.SetContent(&swap)?;
         target.SetRoot(&visual)?;
         dcomp.Commit()?;
-        Ok(Self { _target: target, _visual: visual, _dcomp: dcomp, target_bmp: None, dc, swap, staging: None, ctx, d3d, w, h, warp })
+        Ok(Self { _target: target, _visual: visual, _dcomp: dcomp, target_bmp: None, dc, swap, staging: None, ctx, d3d, w, h, warp, soft_adapter, adapter })
     }
 
     unsafe fn resize(&mut self, w: i32, h: i32) -> Result<()> {
@@ -887,6 +905,12 @@ impl Gfx {
         }
     }
 
+    /// Drawing on the GPU path, but with Microsoft's software rasterizer
+    /// (WARP or the Basic Render Driver): fine for correctness, not for timing.
+    pub fn software_gpu(&self) -> bool {
+        self.gpu.as_ref().is_some_and(|g| g.soft_adapter)
+    }
+
     /// The GPU renderer draws: the window's bitmap must carry the hit mask.
     pub fn needs_hit_mask(&self) -> bool {
         self.gpu.is_some()
@@ -941,6 +965,7 @@ impl Gfx {
                 match main.and_then(|m| self.use_main(m)) {
                     Ok(()) => {
                         crate::pinfo!("renderer: GPU ({}), DirectComposition, {}x{} px", if g.warp { "WARP" } else { "hardware" }, self.surf_w, self.surf_h);
+                        crate::pinfo!("renderer: adapter {}{}", g.adapter, if g.soft_adapter { " (software rasterizer)" } else { "" });
                         self.gpu = Some(g);
                         self.renderer_changed = true;
                     }

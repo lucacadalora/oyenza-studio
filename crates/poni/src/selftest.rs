@@ -73,6 +73,13 @@ const WRITE_DEADLINE: f64 = 43.5;
 const FRAME_BUDGET_MS: f64 = 16.0;
 /// Frames re-rendered when the first sample misses the budget (filters scheduler noise).
 const FRAME_SAMPLES: usize = 3;
+/// The Glass theme on Microsoft's software rasterizer (CI runners have no
+/// GPU): the glass shader runs on the CPU there, so a busy runner can push a
+/// tall page past one 60 Hz frame. Two frames, and more tries, before it
+/// counts. On a real GPU the glass pass takes well under a millisecond, and
+/// the 60 Hz budget holds.
+const GLASS_SOFT_GPU_BUDGET_MS: f64 = 32.0;
+const GLASS_FRAME_SAMPLES: usize = 6;
 
 // Eye-blink timing of the idle "eyes" style (activities.rs). Only used to
 // avoid capturing a mid-blink screenshot; harmless if it drifts.
@@ -736,6 +743,8 @@ pub struct SelfTest {
     /// Glass: which page is under the island (PONI_SELFTEST_GLASS), the
     /// window size its backdrop was drawn for, and the scene last seeded.
     glass: Option<GlassRun>,
+    /// The frame budget the scenes were held to (for the report).
+    budget_ms: f64,
     glass_size: Cell<(i32, i32)>,
     glass_scene: Cell<Option<Scene>>,
     /// PONI_SELFTEST_LYRICS=ja|ko|zh: the sample song in that language.
@@ -792,6 +801,7 @@ impl SelfTest {
                 _ => Theme::Classic,
             },
             glass: None,
+            budget_ms: FRAME_BUDGET_MS,
             glass_size: Cell::new((0, 0)),
             glass_scene: Cell::new(None),
             lyrics_lang: std::env::var("PONI_SELFTEST_LYRICS").ok().map(|v| v.trim().to_ascii_lowercase()).filter(|v| !v.is_empty()),
@@ -1305,18 +1315,29 @@ impl SelfTest {
 
     // ------------------------------------------------------------ capture + checks
 
+    /// The frame budget (ms) and how many tries a scene gets to meet it.
+    fn frame_budget(&self, app: &App) -> (f64, usize) {
+        if self.glass.is_some() && app.selftest_software_gpu() {
+            (GLASS_SOFT_GPU_BUDGET_MS, GLASS_FRAME_SAMPLES)
+        } else {
+            (FRAME_BUDGET_MS, FRAME_SAMPLES)
+        }
+    }
+
     fn capture(&mut self, app: &mut App, i: usize, settled: bool, waited: f64) {
         let scene = SCENES[i];
         let name = format!("{:02}-{}", i + 1, scene.name());
-        let mut samples = Vec::with_capacity(FRAME_SAMPLES);
+        let (budget, tries) = self.frame_budget(app);
+        self.budget_ms = budget;
+        let mut samples = Vec::with_capacity(tries);
         let mut shot = (0, 0, Vec::new(), (0, 0));
-        for _ in 0..FRAME_SAMPLES {
+        for _ in 0..tries {
             self.apply(app, scene);
             let t = Instant::now();
             shot = app.selftest_capture();
             let ms = t.elapsed().as_secs_f64() * 1000.0;
             samples.push(round2(ms));
-            if ms < FRAME_BUDGET_MS {
+            if ms < budget {
                 break;
             }
         }
@@ -1376,11 +1397,8 @@ impl SelfTest {
                 self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
             }
         }
-        checks.push(check(
-            "frame-time",
-            best < FRAME_BUDGET_MS,
-            format!("best {best:.2} ms of {samples:?} (budget {FRAME_BUDGET_MS} ms)"),
-        ));
+        let why = if budget > FRAME_BUDGET_MS { ", Glass on a software GPU" } else { "" };
+        checks.push(check("frame-time", best < budget, format!("best {best:.2} ms of {samples:?} (budget {budget} ms{why})")));
         checks.push(window_check(app.hwnd(), app.selftest_surface(), present, w, h));
         if let Some(want) = scene.page() {
             let page = app.st.page;
@@ -1547,7 +1565,7 @@ impl SelfTest {
             scale: self.scale,
             expanded_width_dip: self.expanded_width,
             renderer: self.renderer.to_string(),
-            frame_budget_ms: FRAME_BUDGET_MS,
+            frame_budget_ms: self.budget_ms,
             states_passed: self.states.iter().filter(|s| s.ok).count(),
             states_total: SCENES.len(),
             failed_checks: failed.clone(),

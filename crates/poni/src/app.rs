@@ -2913,6 +2913,11 @@ impl App {
         self.capture_rect
     }
 
+    /// Self-test: frames are drawn by Microsoft's software rasterizer, not a GPU.
+    pub fn selftest_software_gpu(&self) -> bool {
+        self.gfx.software_gpu()
+    }
+
     /// Render a frame right now (bypassing the clock) and return the pixels
     /// of the island's canvas (island, shoulders and hit margin) and where
     /// that canvas sits on screen.
