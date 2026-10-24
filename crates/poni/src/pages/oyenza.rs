@@ -347,6 +347,8 @@ fn draw_list(ui: &mut Ui, st: &mut AppState, list: Rect, rows: &[Line], today: &
     let offset = oyenza::offset_minutes(&st.local, st.unix);
     let wide = Rect::new(list.x - ROW_BLEED, list.y, list.w + 2.0 * ROW_BLEED, list.h);
     ui.c.clip(wide);
+    // While the list glides its rows move between pixels; at rest they sit on whole pixels.
+    let snap_was = ui.c.set_text_snap(scroll == st.oyenza.scroll);
     let first = (scroll / ROW_H).floor().max(0.0) as usize;
     let last = (((scroll + list.h) / ROW_H).ceil().max(0.0) as usize).min(rows.len());
     for (i, line) in rows.iter().enumerate().take(last).skip(first) {
@@ -364,6 +366,7 @@ fn draw_list(ui: &mut Ui, st: &mut AppState, list: Rect, rows: &[Line], today: &
             Line::More(n) => empty_row(ui, r, &format!("and {n} more in oyenza.app")),
         }
     }
+    ui.c.set_text_snap(snap_was);
     fade_edge(ui, Rect::new(wide.x, wide.y, wide.w, FADE_H), true, (scroll / FADE_H).min(1.0));
     fade_edge(ui, Rect::new(wide.x, wide.bottom() - FADE_H, wide.w, FADE_H), false, ((max_scroll - scroll) / FADE_H).min(1.0));
     ui.c.unclip();

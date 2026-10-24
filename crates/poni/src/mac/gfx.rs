@@ -715,6 +715,13 @@ impl<'a> Canvas<'a> {
         r
     }
 
+    /// The Windows canvas snaps text to whole pixels unless told not to
+    /// (moving text). Core Text places glyphs where they are asked, so there
+    /// is nothing to switch here. Returns the previous setting.
+    pub fn set_text_snap(&mut self, _on: bool) -> bool {
+        true
+    }
+
     fn cg(&self) -> Option<&CGContext> {
         Some(self.ctx)
     }

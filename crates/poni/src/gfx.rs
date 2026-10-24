@@ -1149,7 +1149,7 @@ impl Gfx {
             }
         }
         self.rt = self.main.clone();
-        Ok(Canvas { g: self, alpha: 1.0 })
+        Ok(Canvas { g: self, alpha: 1.0, snap_text: true })
     }
 
     /// Finish the frame. Evicts bitmaps and text layouts that weren't used
@@ -1459,6 +1459,9 @@ pub struct Canvas<'a> {
     g: &'a mut Gfx,
     /// Global opacity multiplier applied to everything drawn.
     alpha: f32,
+    /// Text lands on whole pixels vertically (crisp at rest). Off while text
+    /// moves, so it glides instead of ticking a pixel at a time.
+    snap_text: bool,
 }
 
 impl<'a> Canvas<'a> {
@@ -1482,6 +1485,13 @@ impl<'a> Canvas<'a> {
         let r = f(self);
         self.alpha = prev;
         r
+    }
+
+    /// Snap text to whole pixels vertically (`true`, the default: crisp) or
+    /// not (`false`: for text that is moving, which Direct2D would otherwise
+    /// move a whole pixel at a time). Returns the previous setting.
+    pub fn set_text_snap(&mut self, on: bool) -> bool {
+        std::mem::replace(&mut self.snap_text, on)
     }
 
     fn set_brush(&self, c: Color) {
@@ -1693,7 +1703,8 @@ impl<'a> Canvas<'a> {
         }
         if let Ok(layout) = self.g.layout(s, st, r.w, r.h) {
             self.set_text_brush(st.color);
-            unsafe { self.g.rt.DrawTextLayout(pt(r.x, r.y), &layout, &self.g.brush, D2D1_DRAW_TEXT_OPTIONS_NONE) };
+            let opts = if self.snap_text { D2D1_DRAW_TEXT_OPTIONS_NONE } else { D2D1_DRAW_TEXT_OPTIONS_NO_SNAP };
+            unsafe { self.g.rt.DrawTextLayout(pt(r.x, r.y), &layout, &self.g.brush, opts) };
         }
     }
 

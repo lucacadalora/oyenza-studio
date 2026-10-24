@@ -170,6 +170,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         let (scroll, m) = if stale { (st.ui.task_scroll, false) } else { glide(anim.scroll, st.ui.task_scroll, dt) };
         anim.scroll = scroll.clamp(0.0, max_scroll);
         moving |= m;
+        let scrolling = m;
 
         let mut toggle = None;
         let mut delete = None;
@@ -201,7 +202,10 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
             };
             let prev_alpha = ui.c.alpha();
             ui.c.set_alpha(prev_alpha * appear);
+            // A row on the move glides between pixels; at rest it sits on whole pixels.
+            let snap_was = ui.c.set_text_snap(!(scrolling || m || appear < 1.0));
             let action = draw_row(ui, row, hit, view, *id, *done, text, pop);
+            ui.c.set_text_snap(snap_was);
             ui.c.set_alpha(prev_alpha);
             match action {
                 RowAction::Toggle => toggle = Some(*id),

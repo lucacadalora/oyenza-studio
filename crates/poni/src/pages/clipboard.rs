@@ -172,6 +172,8 @@ fn draw_list(ui: &mut Ui, st: &mut AppState, list: Rect) {
     // The clip and the fades include the rows' bleed into the padding.
     let wide = Rect::new(list.x - ROW_BLEED, list.y, list.w + 2.0 * ROW_BLEED, list.h);
     ui.c.clip(wide);
+    // While the list glides its rows move between pixels; at rest they sit on whole pixels.
+    let snap_was = ui.c.set_text_snap(scroll == st.ui.clip_scroll);
     for i in first..last {
         let Some(item) = st.clip.get(i) else { break };
         let row = Rect::new(list.x, list.y + i as f32 * PITCH - scroll, list.w, ROW_H);
@@ -183,6 +185,7 @@ fn draw_list(ui: &mut Ui, st: &mut AppState, list: Rect) {
             action = Some(a);
         }
     }
+    ui.c.set_text_snap(snap_was);
     // Fades where rows are cut off, stronger the more is hidden.
     fade_edge(ui, Rect::new(wide.x, wide.y, wide.w, FADE_H), true, (scroll / FADE_H).min(1.0));
     fade_edge(ui, Rect::new(wide.x, wide.bottom() - FADE_H, wide.w, FADE_H), false, ((max_scroll - scroll) / FADE_H).min(1.0));
