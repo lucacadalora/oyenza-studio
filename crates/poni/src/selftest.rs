@@ -579,44 +579,59 @@ impl SelfTest {
         let art = ImageData::new(ART_PX, ART_PX, make_art(ART_PX));
         self.art_color = Some(art.accent_color());
         self.art = Some(art);
-        let lrc = match self.lyrics_lang.as_deref() {
-            Some("ja") => LYRICS_JA,
-            Some("ko") => LYRICS_KO,
-            Some("zh") => LYRICS_ZH,
+        // PONI_SELFTEST_LRC=<file>: a real song for a one-off check on CI
+        // (fetched there at run time; song lyrics never go in the repo).
+        let file = std::env::var("PONI_SELFTEST_LRC").ok().and_then(|p| fs::read_to_string(p.trim()).ok());
+        let lrc = match (file.as_deref(), self.lyrics_lang.as_deref()) {
+            (Some(f), _) => f,
+            (None, Some("ja")) => LYRICS_JA,
+            (None, Some("ko")) => LYRICS_KO,
+            (None, Some("zh")) => LYRICS_ZH,
             _ => LYRICS_LRC,
         };
         let parsed = parse_lrc(lrc);
-        let lyric_ok = parsed.synced && parsed.lines.len() == 12 && parsed.line_index_at(TRACK_POS_S) == Some(4);
-        self.checks.push(check(
-            "lyrics-fixture",
-            lyric_ok,
-            format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
-        ));
-        // Read on a thread in the multithreaded apartment, the way the lyrics
-        // worker reads a real song (the UI thread here is single-threaded,
-        // and Windows' Japanese analyzer only works from one).
-        let ruby = std::thread::scope(|s| {
-            s.spawn(|| {
-                let _com = crate::services::http::MtaGuard::new();
-                crate::services::romanize::pronounce(&parsed)
+        if file.is_none() {
+            let lyric_ok = parsed.synced && parsed.lines.len() == 12 && parsed.line_index_at(TRACK_POS_S) == Some(4);
+            self.checks.push(check(
+                "lyrics-fixture",
+                lyric_ok,
+                format!("{} lines, synced {}, line at {TRACK_POS_S}s = {:?}", parsed.lines.len(), parsed.synced, parsed.line_index_at(TRACK_POS_S)),
+            ));
+        }
+        // PONI_SELFTEST_ANALYZER: "required" (Windows CI) = every line must
+        // read, kanji lines included; "off" = read the song the way a PC
+        // without Windows' Japanese reading data does (kana lines only).
+        // Without it, Wine has no analyzer, so only the kana lines read there.
+        let analyzer = std::env::var("PONI_SELFTEST_ANALYZER").map(|v| v.trim().to_ascii_lowercase()).unwrap_or_default();
+        let texts: Vec<&str> = parsed.lines.iter().map(|l| l.text.trim()).collect();
+        let ruby = if analyzer == "off" && poni_core::romanize::song_script(&texts) == Some(poni_core::romanize::Script::Japanese) {
+            let kana = |t: &str| if poni_core::romanize::needs_roman(t) { poni_core::romanize::japanese_kana_ruby(t).unwrap_or_default() } else { Vec::new() };
+            texts.iter().map(|t| kana(t)).collect()
+        } else {
+            // Read on a thread in the multithreaded apartment, the way the
+            // lyrics worker reads a real song (the UI thread here is
+            // single-threaded, and Windows' Japanese analyzer only works from one).
+            std::thread::scope(|s| {
+                s.spawn(|| {
+                    let _com = crate::services::http::MtaGuard::new();
+                    crate::services::romanize::pronounce(&parsed)
+                })
+                .join()
+                .unwrap_or_default()
             })
-            .join()
-            .unwrap_or_default()
-        });
-        if let Some(lang) = &self.lyrics_lang {
+        };
+        let lang = self.lyrics_lang.clone().or_else(|| file.as_ref().map(|_| "lrc".to_string()));
+        if let Some(lang) = &lang {
             // The CI log shows how each line reads (on Windows the Japanese
             // readings come from the system's analyzer).
             let read = |p: &[poni_core::romanize::Ruby]| p.iter().filter(|r| !r.roman.is_empty()).map(|r| r.roman.as_str()).collect::<Vec<_>>().join(" ");
+            let needing = texts.iter().filter(|t| poni_core::romanize::needs_roman(t)).count();
             let lines_read = ruby.iter().filter(|p| p.iter().any(|r| !r.roman.is_empty())).count();
             for (line, p) in parsed.lines.iter().zip(&ruby) {
                 crate::pinfo!("selftest: [{lang}] {} -> {}", line.text, read(p));
             }
-            // PONI_SELFTEST_ANALYZER=required (Windows CI): every line must
-            // read, kanji lines included. Wine has no analyzer, so there only
-            // the kana lines can.
-            let all = std::env::var("PONI_SELFTEST_ANALYZER").is_ok_and(|v| v.trim() == "required");
-            let ok = if all { lines_read == parsed.lines.len() } else { lines_read > 0 };
-            self.checks.push(check("lyrics-pronunciation", ok, format!("{lines_read} of {} {lang} lines read in Latin letters", parsed.lines.len())));
+            let ok = if analyzer == "required" { lines_read == needing } else { lines_read > 0 };
+            self.checks.push(check("lyrics-pronunciation", ok, format!("{lines_read} of {needing} {lang} lines read in Latin letters")));
         }
         self.lyrics = LyricsState { track_key: self.track_key.clone(), status: LyricsStatus::Found, lyrics: Some(parsed), source: "Sample".into(), ruby };
 

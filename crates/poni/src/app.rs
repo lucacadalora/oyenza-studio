@@ -333,8 +333,8 @@ pub struct App {
     display_off: bool,
     tray_retries: u32,
     /// Content of the previous mode, fading out while the outline morphs:
-    /// (mode, start time, its geometry).
-    outgoing: Option<(Mode, f64, Geom)>,
+    /// (mode, start time, its geometry, the opacity it fades from).
+    outgoing: Option<(Mode, f64, Geom, f32)>,
     /// A page switch in progress: (from page, start time, slide direction).
     page_anim: Option<(PageKind, f64, f32)>,
     /// Where the hover (dwell) timer was last armed; None when it isn't.
@@ -366,6 +366,13 @@ const MASK_INTERVAL: f64 = 1.0 / 30.0;
 
 /// How long outgoing content takes to fade (seconds).
 const OUTGOING_FADE: f64 = 0.14;
+
+/// How much of the outgoing content still shows `age` seconds into its fade
+/// (a smoothstep: it holds, then leaves).
+fn outgoing_left(age: f64) -> f32 {
+    let t = ((age / OUTGOING_FADE) as f32).clamp(0.0, 1.0);
+    1.0 - t * t * (3.0 - 2.0 * t)
+}
 /// Page switch cross-fade duration (seconds).
 const PAGE_SWITCH: f64 = 0.26;
 /// Pointer travel (DIPs) that restarts the hover dwell: the island opens
@@ -1832,8 +1839,16 @@ impl App {
         let mut retarget = false;
         if target != self.mode {
             let new_content = activities::content_key(&target) != activities::content_key(&self.mode);
+            // A morph turned around mid-fade (the pointer came back while the
+            // island closed): the content coming back is the one still fading
+            // out, and it fades back in from where it is, not from nothing.
+            let back = self
+                .outgoing
+                .filter(|o| new_content && activities::content_key(&o.0) == activities::content_key(&target))
+                .map(|(_, t0, _, from)| from * outgoing_left(now - t0));
             if new_content {
-                self.outgoing = Some((self.mode, now, self.island.target()));
+                // The leaving content fades from how visible it is now.
+                self.outgoing = Some((self.mode, now, self.island.target(), self.island.content_alpha()));
             }
             if let (Mode::Expanded(a), Mode::Expanded(b)) = (self.mode, target) {
                 if a != b {
@@ -1843,6 +1858,9 @@ impl App {
             }
             self.motion_name = motion_name(&self.mode, &target);
             self.island.set_target(self.geom_for(&target), now, new_content);
+            if let Some(a) = back {
+                self.island.resume_content(a);
+            }
             self.mode = target;
             retarget = true;
         } else {
@@ -1935,13 +1953,12 @@ impl App {
                 // shrinking with the outline instead of being sliced, and
                 // fading out on a smoothstep (it holds, then leaves). Drawn as
                 // one layer, so it shrinks as a picture. Ghost input: no clicks.
-                if let Some((m, t0, g)) = self.outgoing {
-                    let t = ((now - t0) / OUTGOING_FADE) as f32;
-                    if t >= 1.0 {
+                if let Some((m, t0, g, from)) = self.outgoing {
+                    if now - t0 >= OUTGOING_FADE {
                         self.outgoing = None;
                     } else {
                         let old_body = Rect::new(body.center().x - g.w / 2.0, body.y, g.w, g.h);
-                        let alpha = 1.0 - t * t * (3.0 - 2.0 * t);
+                        let alpha = from * outgoing_left(now - t0);
                         let xf = scale_about(pivot, (geom.w / g.w.max(1.0)).clamp(GHOST_MIN_SCALE, 1.0));
                         let st = &mut self.st;
                         canvas.layered(old_body, alpha, xf, |c| {
