@@ -52,6 +52,27 @@ fn main_icon(path: String, px: u32, sink: EventSink) {
     });
 }
 
+/// An app's icon for the System page's lists (`px` square, the icon filling
+/// the same share of it as on a tile), drawn on the main thread and sent as
+/// `AppEvent::AppIcon`. `path` is the app's bundle, or a lone executable's file.
+pub fn app_icon_async(path: String, px: u32, sink: EventSink) {
+    dispatch2::DispatchQueue::main().exec_async(move || {
+        let t = std::time::Instant::now();
+        let image = icon(&path, px);
+        // The first few say what an icon costs the main thread.
+        static LOGGED: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(0);
+        if LOGGED.fetch_add(1, std::sync::atomic::Ordering::Relaxed) < 4 {
+            pinfo!("system page: icon for {path} {} in {:.1} ms", if image.is_some() { "drawn" } else { "missing" }, t.elapsed().as_secs_f64() * 1e3);
+        }
+        sink.send(AppEvent::AppIcon { path, image });
+    });
+}
+
+/// An app's icon right now (main thread).
+pub fn app_icon(path: &str, px: u32) -> Option<Image> {
+    icon(path, px)
+}
+
 /// The tile right now, on the calling thread (main thread for icons).
 pub fn make(path: &str, px: u32) -> Option<Image> {
     if is_picture(path) {

@@ -39,6 +39,7 @@ use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::settings::{IdleStyle, Settings, Theme};
+use poni_core::sysmon::{CoreKind, Module};
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
 use std::cell::RefCell;
 use std::path::PathBuf;
@@ -335,6 +336,13 @@ pub struct App {
     first_run: bool,
     /// The Today page's stats are being sampled (once a second).
     stats_on: bool,
+    /// The System page's sampler thread: from the start while its history is
+    /// kept (`Settings::system_history`), else from the first time the page opens.
+    sysmon: Option<services::sysmon::SysMon>,
+    /// The System page is open (its readings come each second).
+    sysmon_on: bool,
+    /// Nobody can see the screen: (the displays sleep, the Mac is locked).
+    away: (bool, bool),
     /// Text we put on the clipboard ourselves (not recorded again).
     own_clip: Option<String>,
     clipboard: Option<services::clipboard::Watcher>,
@@ -420,6 +428,9 @@ impl App {
             store_writable: d_out.writable(),
             first_run: s_out == LoadOutcome::Missing,
             stats_on: false,
+            sysmon: None,
+            sysmon_on: false,
+            away: (false, false),
             own_clip: None,
             clipboard: None,
             drag_hover: false,
@@ -458,6 +469,10 @@ impl App {
             self.st.cmds.push(Command::LoadThumb(p));
         }
         self.schedule_minute_timer();
+        services::sysmon::watch_away(self.mtm, self.sink.clone());
+        if self.st.settings.system_history {
+            self.start_sysmon();
+        }
         if self.first_run && self.smoke.is_none() {
             let place = if self.screen.notch.is_some() { "Point at the notch to open it" } else { "Point at the island to open it" };
             self.st.notify(Icon::CheckCircle, self.st.accent, "Oyen Poni is on", place, 6.0, None);
@@ -653,6 +668,18 @@ impl App {
         if before.expanded_width != self.st.settings.expanded_width {
             self.layout_surface();
         }
+        let history = self.st.settings.system_history;
+        if before.system_history != history {
+            match &self.sysmon {
+                Some(s) => s.background(history),
+                None if history => self.start_sysmon(),
+                None => {}
+            }
+            // Off while the page is closed: the kept minute goes, so the next opening starts fresh.
+            if !history && !self.sysmon_on {
+                self.st.system.clear();
+            }
+        }
     }
 
     fn on_menu(&mut self, cmd: MenuCmd) {
@@ -840,6 +867,55 @@ impl App {
         }
     }
 
+    /// The System page opened or closed. Open, its readings arrive each
+    /// second; with the history kept the minute behind them arrives at once,
+    /// else each opening starts a fresh minute.
+    fn set_sysmon(&mut self, on: bool) {
+        if on == self.sysmon_on {
+            return;
+        }
+        self.sysmon_on = on;
+        if on && self.sysmon.is_none() {
+            self.start_sysmon();
+        }
+        if let Some(s) = &self.sysmon {
+            s.open(on);
+        }
+        if !on && !self.st.settings.system_history {
+            self.st.system.clear();
+        }
+    }
+
+    fn start_sysmon(&mut self) {
+        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history) {
+            Ok(s) => {
+                if self.away.0 || self.away.1 {
+                    s.away(true);
+                }
+                self.sysmon = Some(s);
+            }
+            Err(e) => pwarn!("sysmon: couldn't start ({e})"),
+        }
+    }
+
+    /// The displays slept or woke, or the Mac locked or unlocked. While nobody
+    /// can see the screen the System readings rest, and the minute they kept
+    /// goes, so a minute from before never shows as the last one.
+    fn set_away(&mut self, asleep: Option<bool>, locked: Option<bool>) {
+        let was = self.away.0 || self.away.1;
+        self.away = (asleep.unwrap_or(self.away.0), locked.unwrap_or(self.away.1));
+        let now = self.away.0 || self.away.1;
+        if now == was {
+            return;
+        }
+        if let Some(s) = &self.sysmon {
+            s.away(now);
+        }
+        if now {
+            self.st.system.clear();
+        }
+    }
+
     pub fn on_event(&mut self, ev: AppEvent) {
         let now = clock::mono();
         self.st.now = now;
@@ -952,6 +1028,18 @@ impl App {
                 self.st.shelf_thumbs.insert(path, image);
             }
             AppEvent::Stats(s) => self.st.stats = s,
+            AppEvent::System(m) => {
+                // A reading still on its way when the page closed is dropped.
+                if self.sysmon_on {
+                    self.st.system = *m;
+                }
+            }
+            AppEvent::AppIcon { path, image } => {
+                let px = pages::system::icon_px(self.gfx.scale());
+                self.st.app_icons.insert(path, image.map(|i| pages::system::shrink_icon(&i, px)));
+            }
+            AppEvent::ScreensAsleep(on) => self.set_away(Some(on), None),
+            AppEvent::Locked(on) => self.set_away(None, Some(on)),
             AppEvent::ClipboardText(t) => {
                 if self.own_clip.as_deref() == Some(t.as_str()) {
                     self.own_clip = None;
@@ -1303,6 +1391,7 @@ impl App {
                 self.blur_text();
             }
             self.set_stats(false);
+            self.set_sysmon(false);
             self.st.ui.clip_flash = None;
             // Settings closes with the island: it opens again on the page it was opened from.
             if self.st.page == PageKind::Settings {
@@ -1437,9 +1526,12 @@ impl App {
                     self.st.ui.system_module = m;
                     self.set_page(PageKind::System);
                 }
-                // App icons for the System page come with the stats slice.
+                // The System page's app icons, from Finder (on the main thread).
                 Command::LoadAppIcon(p) => {
-                    self.st.app_icons.entry(p).or_insert(None);
+                    if !self.st.app_icons.contains_key(&p) {
+                        self.st.app_icons.insert(p.clone(), None);
+                        services::thumbs::app_icon_async(p, pages::system::icon_px(self.gfx.scale()), self.sink.clone());
+                    }
                 }
                 // Show over games reads Windows' frame log; the Mac has no Games view.
                 Command::CheckFps | Command::AllowFps => {}
@@ -1692,6 +1784,7 @@ impl App {
         }
         let dt = dt.clamp(0.0, 0.05) as f32;
         self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
+        self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
         self.island.step(dt, now);
         self.ensure_room();
         self.note_motion(retarget, mono, period, dt as f64);
@@ -1920,6 +2013,15 @@ impl App {
                 self.expand();
             }
             "open-today" => self.st.cmds.push(Command::SetPage(PageKind::Today)),
+            // The System page on this Mac's own readings, module by module.
+            "open-system" => {
+                self.st.ui.system_module = Module::Cpu;
+                self.st.cmds.push(Command::SetPage(PageKind::System));
+            }
+            "system-gpu" => self.st.ui.system_module = Module::Gpu,
+            "system-memory" => self.st.ui.system_module = Module::Memory,
+            "system-drives" => self.st.ui.system_module = Module::Drives,
+            "system-network" => self.st.ui.system_module = Module::Network,
             "timer" => {
                 self.leave();
                 self.collapse();
@@ -1971,6 +2073,10 @@ impl App {
         match name {
             // The second stats sample has a real CPU load.
             "open-today" => self.st.stats.valid && waited > 1.3,
+            // Full readings list the apps (their CPU from the second one on);
+            // the apps' icons follow from Finder.
+            "open-system" => (self.st.system.latest.as_ref().is_some_and(|r| !r.top_cpu.is_empty()) && waited > 1.6) || waited > 5.0,
+            "system-gpu" | "system-memory" | "system-drives" | "system-network" => waited > 0.6,
             "clipboard-page" => self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP)) || waited > 3.0,
             "shelf-drop" => self.st.shelf_thumbs.values().filter(|t| t.is_some()).count() >= 3 || waited > 5.0,
             "music-check" => {
@@ -2000,6 +2106,17 @@ impl App {
                 );
                 Some(("system-stats", ok, d))
             }
+            "open-system" => {
+                let (ok, d) = system_report(&self.st);
+                Some(("system-readings", ok, d))
+            }
+            "system-network" => {
+                // What the readings cost the sampler's thread so far.
+                let [(ln, light), (fnum, full)] = services::sysmon::cost();
+                let ms = |d: std::time::Duration| d.as_secs_f64() * 1e3;
+                let d = format!("light reading {:.2} ms of CPU (average of {ln}), full reading {:.2} ms of CPU (average of {fnum})", ms(light), ms(full));
+                Some(("system-cost", ln > 0 && fnum > 0, d))
+            }
             "volume-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Volume { .. }));
                 Some(("volume-hud", ok, format!("output device: {:?}", services::audio::current())))
@@ -2027,6 +2144,70 @@ impl App {
             _ => None,
         }
     }
+}
+
+/// The smoke test's look at the System page's real readings: CPU cores,
+/// memory, a drive and a network interface must be there; the GPU and the
+/// battery are reported (CI's Mac is a virtual one, and has no battery).
+fn system_report(st: &AppState) -> (bool, String) {
+    use poni_core::sysmon::{fmt_app_cpu, fmt_bytes, fmt_link, fmt_rate, pressure_word, AppUse};
+    let Some(r) = st.system.latest.as_ref() else { return (false, "no reading arrived".into()) };
+    let cpu = r.cpu.as_ref().filter(|c| c.logical > 0 && !c.cores.is_empty() && (0.0..=1.0).contains(&c.load));
+    let mem = r.memory.as_ref().filter(|m| m.total > 0 && m.used <= m.total);
+    let net = r.network.as_ref().filter(|n| !n.adapter.is_empty());
+    let ok = cpu.is_some() && mem.is_some() && !r.drives.is_empty() && net.is_some();
+    let cores = cpu.map_or("missing".into(), |c| match c.hybrid() {
+        Some((p, e)) => format!("{:.0}% of {} cores ({p} P {:.0}%, {e} E {:.0}%), system {:.0}%", c.load * 100.0, c.cores.len(), c.kind_load(CoreKind::Performance).unwrap_or(0.0) * 100.0, c.kind_load(CoreKind::Efficiency).unwrap_or(0.0) * 100.0, c.kernel * 100.0),
+        None => format!("{:.0}% of {} cores, system {:.0}%", c.load * 100.0, c.cores.len(), c.kernel * 100.0),
+    });
+    let memory = mem.map_or("missing".into(), |m| {
+        let parts = m.parts().map(|(_, b)| fmt_bytes(b));
+        format!(
+            "{} of {} (app {}, wired {}, compressed {}, cached {}, free {}), pressure {}, swap {} of {}",
+            fmt_bytes(m.used),
+            fmt_bytes(m.total),
+            parts[0],
+            parts[1],
+            parts[2],
+            parts[3],
+            parts[4],
+            if m.commit_limit > 0 { pressure_word(m.pressure()) } else { "not reported" },
+            fmt_bytes(m.page_used),
+            fmt_bytes(m.page_total)
+        )
+    });
+    let drives: Vec<String> = r.drives.iter().map(|d| format!("{}{} {} free of {}", d.root, if d.system { " (startup)" } else { "" }, fmt_bytes(d.free), fmt_bytes(d.total))).collect();
+    let network = r.network.as_ref().map_or("missing".into(), |n| {
+        format!(
+            "{} {} {} MAC {} link {} down {} up {} received {} sent {}",
+            if n.adapter.is_empty() { "(no name)" } else { &n.adapter },
+            if n.online { "connected" } else { "offline" },
+            n.ipv4.as_deref().unwrap_or("no IPv4"),
+            if n.mac.is_empty() { "none" } else { &n.mac },
+            if n.link_bps > 0 { fmt_link(n.link_bps) } else { "not reported".into() },
+            fmt_rate(n.down_bps),
+            fmt_rate(n.up_bps),
+            fmt_bytes(n.received),
+            fmt_bytes(n.sent)
+        )
+    });
+    let gpu = r.gpu.as_ref().map_or("none".into(), |g| format!("{} {:.0}% (renderer {:.0}%, tiler {:.0}%), {} of {}", g.name, g.util * 100.0, g.engine_3d * 100.0, g.tiler * 100.0, fmt_bytes(g.mem_used), fmt_bytes(g.mem_total)));
+    let battery = r.battery.as_ref().map_or("none".into(), |b| format!("{}%", b.percent));
+    let apps = |list: &[AppUse], value: &dyn Fn(&AppUse) -> String| {
+        list.iter().take(4).map(|a| format!("{} {} ({} process{}{})", a.name, value(a), a.processes, if a.processes == 1 { "" } else { "es" }, if a.path.is_some() { ", icon path" } else { "" })).collect::<Vec<_>>().join(", ")
+    };
+    let wanted: Vec<&String> = r.top_cpu.iter().chain(&r.top_memory).filter_map(|a| a.path.as_ref()).collect();
+    let drawn = wanted.iter().filter(|p| st.app_icons.get(p.as_str()).is_some_and(|i| i.is_some())).count();
+    let detail = format!(
+        "CPU {cores}, up {} min · memory {memory} · drives {} · disk {} · network {network} · GPU {gpu} · battery {battery} · top CPU {} · top memory {} · icons {drawn} of {} drawn",
+        cpu.map_or(0, |c| c.uptime_s / 60),
+        if drives.is_empty() { "none".into() } else { drives.join("; ") },
+        r.disk.map_or("not reported".into(), |d| format!("read {} write {}", fmt_rate(d.read_bps), fmt_rate(d.write_bps))),
+        apps(&r.top_cpu, &|a| fmt_app_cpu(a.cpu)),
+        apps(&r.top_memory, &|a| fmt_bytes(a.memory)),
+        wanted.len()
+    );
+    (ok, detail)
 }
 
 /// Oyen's orange in his theme, the Mac's accent colour otherwise.
@@ -2112,11 +2293,16 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 14] = [
+const SMOKE_STEPS: [&str; 19] = [
     "idle",
     "hover",
     "open-focus",
     "open-today",
+    "open-system",
+    "system-gpu",
+    "system-memory",
+    "system-drives",
+    "system-network",
     "timer",
     "notice",
     "volume-hud",

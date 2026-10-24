@@ -18,6 +18,10 @@ extern "C" {
     fn CFNumberGetTypeID() -> usize;
     fn CFBooleanGetTypeID() -> usize;
     fn CFEqual(a: CFTypeRef, b: CFTypeRef) -> u8;
+    fn CFStringGetTypeID() -> usize;
+    fn CFDataGetTypeID() -> usize;
+    fn CFDataGetLength(data: CFTypeRef) -> isize;
+    fn CFDataGetBytePtr(data: CFTypeRef) -> *const u8;
     pub fn CFRunLoopGetMain() -> CFTypeRef;
     pub fn CFRunLoopAddSource(rl: CFTypeRef, source: CFTypeRef, mode: CFTypeRef);
     pub static kCFRunLoopCommonModes: CFTypeRef;
@@ -73,4 +77,41 @@ pub fn dict_str_is(dict: CFTypeRef, k: &str, want: &str) -> bool {
 pub fn str_is(v: CFTypeRef, want: &str) -> bool {
     let want = key(want);
     !v.is_null() && unsafe { CFEqual(v, ptr(&want)) != 0 }
+}
+
+/// A CFNumber as an integer (IOKit's registry values).
+pub fn number_i64(v: CFTypeRef) -> Option<i64> {
+    unsafe {
+        if v.is_null() || CFGetTypeID(v) != CFNumberGetTypeID() {
+            return None;
+        }
+        let mut out: i64 = 0;
+        (CFNumberGetValue(v, SINT64, &mut out as *mut i64 as *mut c_void) != 0).then_some(out)
+    }
+}
+
+/// A CFData's bytes.
+pub fn data_bytes(v: CFTypeRef) -> Option<Vec<u8>> {
+    unsafe {
+        if v.is_null() || CFGetTypeID(v) != CFDataGetTypeID() {
+            return None;
+        }
+        let (p, n) = (CFDataGetBytePtr(v), CFDataGetLength(v));
+        Some(if p.is_null() || n <= 0 { Vec::new() } else { std::slice::from_raw_parts(p, n as usize).to_vec() })
+    }
+}
+
+/// A CFString's text, or a CFData's as a C string (how the registry keeps
+/// some names); None for anything else.
+pub fn text(v: CFTypeRef) -> Option<String> {
+    if v.is_null() {
+        return None;
+    }
+    if unsafe { CFGetTypeID(v) } == unsafe { CFStringGetTypeID() } {
+        // SAFETY: a CFString, borrowed for the call.
+        return Some(unsafe { &*(v as *const CFString) }.to_string());
+    }
+    let b = data_bytes(v)?;
+    let end = b.iter().position(|c| *c == 0).unwrap_or(b.len());
+    Some(String::from_utf8_lossy(&b[..end]).trim().to_string())
 }

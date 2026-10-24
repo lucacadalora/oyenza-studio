@@ -86,11 +86,9 @@ pub fn sample() -> SysStats {
         None => warn_once("CPU load"),
     }
     s.mem_total = sysctl_u64(c"hw.memsize").unwrap_or(0);
-    match vm_stats() {
-        Some(vm) => {
-            let page = sysctl_u64(c"hw.pagesize").unwrap_or(16384);
-            let app = (vm.internal_page_count as u64).saturating_sub(vm.purgeable_count as u64);
-            let used = (app + vm.wire_count as u64 + vm.compressor_page_count as u64) * page;
+    match memory_split() {
+        Some(m) => {
+            let used = m.app + m.wired + m.compressed;
             s.mem_used = if s.mem_total > 0 { used.min(s.mem_total) } else { used };
         }
         None => warn_once("memory"),
@@ -120,6 +118,28 @@ fn cpu_load(prev: [u32; 4], now: [u32; 4]) -> f32 {
     (busy as f64 / total as f64).clamp(0.0, 1.0) as f32
 }
 
+/// Physical memory the way Activity Monitor splits it, in bytes (the System
+/// page shows the parts, Today their sum as "Memory Used").
+pub(super) struct MemSplit {
+    pub app: u64,
+    pub wired: u64,
+    pub compressed: u64,
+    /// Cached files: file-backed and purgeable pages.
+    pub cached: u64,
+}
+
+pub(super) fn memory_split() -> Option<MemSplit> {
+    let vm = vm_stats()?;
+    let page = sysctl_u64(c"hw.pagesize").unwrap_or(16384);
+    let pages = |n: u32| n as u64 * page;
+    Some(MemSplit {
+        app: pages(vm.internal_page_count).saturating_sub(pages(vm.purgeable_count)),
+        wired: pages(vm.wire_count),
+        compressed: pages(vm.compressor_page_count),
+        cached: pages(vm.external_page_count) + pages(vm.purgeable_count),
+    })
+}
+
 fn vm_stats() -> Option<VmStatistics64> {
     let mut vm = VmStatistics64::default();
     let mut count = (std::mem::size_of::<VmStatistics64>() / 4) as u32;
@@ -127,7 +147,7 @@ fn vm_stats() -> Option<VmStatistics64> {
     (r == 0).then_some(vm)
 }
 
-fn sysctl_u64(name: &CStr) -> Option<u64> {
+pub(super) fn sysctl_u64(name: &CStr) -> Option<u64> {
     let mut v: u64 = 0;
     let mut len = std::mem::size_of::<u64>();
     let r = unsafe { sysctlbyname(name.as_ptr(), &mut v as *mut u64 as *mut c_void, &mut len, std::ptr::null_mut(), 0) };
@@ -138,7 +158,7 @@ fn sysctl_u64(name: &CStr) -> Option<u64> {
     }
 }
 
-fn uptime_s() -> Option<u64> {
+pub(super) fn uptime_s() -> Option<u64> {
     let mut tv = Timeval { tv_sec: 0, tv_usec: 0 };
     let mut len = std::mem::size_of::<Timeval>();
     let r = unsafe { sysctlbyname(c"kern.boottime".as_ptr(), &mut tv as *mut Timeval as *mut c_void, &mut len, std::ptr::null_mut(), 0) };

@@ -73,6 +73,15 @@ pub enum AppEvent {
     DragHover(bool),
     ShelfThumb { path: String, image: Option<Image> },
     Stats(SysStats),
+    /// The System page's latest reading and the minute behind it
+    /// (`services::sysmon`, each second while the page is open).
+    System(Box<poni_core::sysmon::Monitor>),
+    /// An app's icon for the System page, by its path (`Command::LoadAppIcon`).
+    AppIcon { path: String, image: Option<Image> },
+    /// The displays went to sleep (true) or woke.
+    ScreensAsleep(bool),
+    /// The Mac was locked (true) or unlocked.
+    Locked(bool),
     ClipboardText(String),
     /// Something happened in Phone drop (a phone visited, asked, sent files).
     Phone(poni_core::phonedrop::Event),

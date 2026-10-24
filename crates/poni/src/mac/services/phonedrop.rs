@@ -175,7 +175,9 @@ fn rank(name: &str, routed: bool, ip: Ipv4Addr) -> i32 {
     s.max(1)
 }
 
-fn interface_ipv4s() -> Vec<(String, Ipv4Addr)> {
+/// Each connected interface's IPv4 address, by name ("en0"); the System
+/// page reads them too.
+pub(super) fn interface_ipv4s() -> Vec<(String, Ipv4Addr)> {
     let mut out = Vec::new();
     let mut head: *mut IfAddrs = std::ptr::null_mut();
     if unsafe { getifaddrs(&mut head) } != 0 {
@@ -200,7 +202,7 @@ fn interface_ipv4s() -> Vec<(String, Ipv4Addr)> {
 
 /// The address macOS would send internet traffic from (no packet is sent:
 /// connecting a UDP socket only picks the route).
-fn route_ipv4() -> Option<Ipv4Addr> {
+pub(super) fn route_ipv4() -> Option<Ipv4Addr> {
     let s = UdpSocket::bind("0.0.0.0:0").ok()?;
     s.connect("192.0.2.1:9").ok()?;
     match s.local_addr().ok()?.ip() {
