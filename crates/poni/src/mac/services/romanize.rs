@@ -13,16 +13,25 @@ use poni_core::romanize::{self, Ruby, Script};
 /// Chinese runs longer than this are cut so a piece always fits the column.
 const HAN_PIECE_MAX: usize = 8;
 
-/// The pieces of every line of `lyrics` with their readings; an empty list
-/// for lines that need none (or that couldn't be read).
-pub fn pronounce(lyrics: &Lyrics) -> Vec<Vec<Ruby>> {
+/// A song's readings, in the shape the lyrics worker (shared with Windows)
+/// takes. The Mac carries the reading dictionary built in, so kanji never go
+/// unread for want of the Japanese readings add-on.
+pub struct Pronounced {
+    /// The pieces of every line with their readings; an empty list for lines
+    /// that need none (or that couldn't be read).
+    pub ruby: Vec<Vec<Ruby>>,
+    pub wants_ja_readings: bool,
+}
+
+pub fn pronounce(lyrics: &Lyrics) -> Pronounced {
     let texts: Vec<&str> = lyrics.lines.iter().map(|l| l.text.trim()).collect();
-    match romanize::song_script(&texts) {
+    let ruby = match romanize::song_script(&texts) {
         None => Vec::new(),
         Some(Script::Korean) => each_line(&texts, romanize::korean_ruby),
         Some(Script::Chinese) => each_line(&texts, |t| split_long(romanize::chinese_ruby(t))),
         Some(Script::Japanese) => own_song(&texts),
-    }
+    };
+    Pronounced { ruby, wants_ja_readings: false }
 }
 
 /// `read` for every line that needs a reading.

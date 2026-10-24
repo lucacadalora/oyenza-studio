@@ -45,7 +45,9 @@ pub enum AppleMusicStatus {
 #[derive(Clone, Debug)]
 pub enum LyricsResult {
     /// `ruby`: each line's pieces with their readings (empty = none needed).
-    Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>> },
+    /// `wants_ja_readings`: always false here (the Mac carries the reading
+    /// dictionary built in); the lyrics worker is shared with Windows.
+    Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>>, wants_ja_readings: bool },
     Instrumental,
     NotFound,
     Error(String),

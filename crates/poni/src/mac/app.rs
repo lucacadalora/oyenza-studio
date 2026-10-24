@@ -972,11 +972,12 @@ impl App {
             AppEvent::Lyrics { track_key, result } => {
                 if self.st.lyrics.track_key == track_key {
                     match result {
-                        LyricsResult::Found { lyrics, source, ruby } => {
+                        LyricsResult::Found { lyrics, source, ruby, wants_ja_readings } => {
                             self.st.lyrics.status = LyricsStatus::Found;
                             self.st.lyrics.lyrics = Some(lyrics);
                             self.st.lyrics.source = source;
                             self.st.lyrics.ruby = ruby;
+                            self.st.lyrics.wants_ja_readings = wants_ja_readings;
                         }
                         LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
