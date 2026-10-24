@@ -14,8 +14,11 @@
 //! display mode change or reconnect, a GPU reset) are waited out. Only what
 //! can't change gives up for good, and the island then draws smoked glass:
 //! a rotated display, or a display this PC never let Poni copy (Remote
-//! Desktop, or no adapter that shows it can copy it). HDR displays are copied
-//! in 8 bits, which Windows converts to. The log says why.
+//! Desktop, or no adapter that shows it can copy it). A display in HDR is
+//! copied in half floats and mapped to 8-bit sRGB here (poni_core::hdr);
+//! any other display is asked for 8 bits, which Windows converts to even
+//! when its colour management composes the desktop in 16 bits. The log
+//! says why.
 
 use crate::events::{AppEvent, EventSink};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
@@ -23,6 +26,8 @@ use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 use windows::core::{Interface, Result};
+use poni_core::hdr::{white_from_level, HalfToSrgb, DEFAULT_WHITE};
+use windows::Win32::Devices::Display::*;
 use windows::Win32::Foundation::{HMODULE, RECT};
 use windows::Win32::Graphics::Direct3D::*;
 use windows::Win32::Graphics::Direct3D11::*;
@@ -171,12 +176,64 @@ unsafe fn device_on(adapter: &IDXGIAdapter1) -> Result<(ID3D11Device, ID3D11Devi
     }
 }
 
-/// Duplicate `output` in 8-bit BGRA, what the glass samples. An HDR display
-/// is converted to it by Windows: a little paler than on screen, which the
-/// frost hides, and far better than no glass at all.
-unsafe fn duplicate(output: &IDXGIOutput, dev: &ID3D11Device) -> std::result::Result<IDXGIOutputDuplication, String> {
+/// The display is in HDR (Windows sends it HDR10).
+unsafe fn is_hdr(output: &IDXGIOutput) -> bool {
+    output.cast::<IDXGIOutput6>().ok().and_then(|o| o.GetDesc1().ok()).is_some_and(|d| d.ColorSpace == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020)
+}
+
+/// Windows' SDR content brightness on the display `gdi` ("\\.\DISPLAY1"), in
+/// scRGB units (1.0 = 80 nits): where white windows sit on an HDR desktop.
+unsafe fn sdr_white(gdi: &str) -> Option<f32> {
+    let (mut np, mut nm) = (0u32, 0u32);
+    if GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &mut np, &mut nm).0 != 0 {
+        return None;
+    }
+    let mut paths = vec![DISPLAYCONFIG_PATH_INFO::default(); np as usize];
+    let mut modes = vec![DISPLAYCONFIG_MODE_INFO::default(); nm as usize];
+    if QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &mut np, paths.as_mut_ptr(), &mut nm, modes.as_mut_ptr(), None).0 != 0 {
+        return None;
+    }
+    for p in paths.iter().take(np as usize) {
+        let mut source = DISPLAYCONFIG_SOURCE_DEVICE_NAME {
+            header: DISPLAYCONFIG_DEVICE_INFO_HEADER {
+                r#type: DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME,
+                size: std::mem::size_of::<DISPLAYCONFIG_SOURCE_DEVICE_NAME>() as u32,
+                adapterId: p.sourceInfo.adapterId,
+                id: p.sourceInfo.id,
+            },
+            ..Default::default()
+        };
+        if DisplayConfigGetDeviceInfo(&mut source.header) != 0 {
+            continue;
+        }
+        if !String::from_utf16_lossy(&source.viewGdiDeviceName).trim_end_matches('\0').eq_ignore_ascii_case(gdi) {
+            continue;
+        }
+        let mut white = DISPLAYCONFIG_SDR_WHITE_LEVEL {
+            header: DISPLAYCONFIG_DEVICE_INFO_HEADER {
+                r#type: DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL,
+                size: std::mem::size_of::<DISPLAYCONFIG_SDR_WHITE_LEVEL>() as u32,
+                adapterId: p.targetInfo.adapterId,
+                id: p.targetInfo.id,
+            },
+            ..Default::default()
+        };
+        if DisplayConfigGetDeviceInfo(&mut white.header) != 0 {
+            return None;
+        }
+        return Some(white_from_level(white.SDRWhiteLevel));
+    }
+    None
+}
+
+/// Duplicate `output`: a display in HDR in half floats (Windows' own 8-bit
+/// version of it comes out pale), any other in the 8-bit BGRA the glass
+/// samples. Windows' colour management can compose an SDR desktop in 16
+/// bits too; asking for 8 bits has Windows convert it.
+unsafe fn duplicate(output: &IDXGIOutput, dev: &ID3D11Device, hdr: bool) -> std::result::Result<IDXGIOutputDuplication, String> {
+    let formats: &[DXGI_FORMAT] = if hdr { &[DXGI_FORMAT_R16G16B16A16_FLOAT, DXGI_FORMAT_B8G8R8A8_UNORM] } else { &[DXGI_FORMAT_B8G8R8A8_UNORM] };
     let dup = match output.cast::<IDXGIOutput5>() {
-        Ok(o5) => o5.DuplicateOutput1(dev, 0, &[DXGI_FORMAT_B8G8R8A8_UNORM]),
+        Ok(o5) => o5.DuplicateOutput1(dev, 0, formats),
         Err(_) => output.cast::<IDXGIOutput1>().map_err(|e| format!("no IDXGIOutput1: {e}"))?.DuplicateOutput(dev),
     };
     dup.map_err(|e| {
@@ -252,7 +309,9 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
         let mut device: Option<(ID3D11Device, ID3D11DeviceContext)> = None;
         // The adapter `device` lives on.
         let mut device_on_luid = None;
-        let mut staging: Option<(ID3D11Texture2D, i32, i32)> = None;
+        let mut staging: Option<(ID3D11Texture2D, i32, i32, DXGI_FORMAT)> = None;
+        // Half floats to 8-bit sRGB, for the SDR white it was made for.
+        let mut to_srgb: Option<HalfToSrgb> = None;
         let (mut moves, mut dirty) = (Vec::new(), Vec::new());
         let mut last: Option<Arc<Frame>> = None;
         let mut announced = false;
@@ -306,9 +365,10 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                     }
                 }
                 let Some((dev, _)) = device.as_ref() else { continue };
-                match duplicate(output, dev) {
+                let hdr = is_hdr(output);
+                match duplicate(output, dev, hdr) {
                     Ok(d) => {
-                        got = Some((d, *odesc));
+                        got = Some((d, *odesc, hdr));
                         break;
                     }
                     Err(e) => {
@@ -320,7 +380,7 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                     }
                 }
             }
-            let Some((dup, odesc)) = got else {
+            let Some((dup, odesc, hdr)) = got else {
                 if !retry(&mut tries, announced, why)? {
                     return Ok(());
                 }
@@ -329,6 +389,12 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
             let Some((dev, ctx)) = device.clone() else { continue };
             let origin = (odesc.DesktopCoordinates.left, odesc.DesktopCoordinates.top);
             let name = String::from_utf16_lossy(&odesc.DeviceName).trim_end_matches('\0').to_string();
+            // SDR windows sit at Windows' SDR brightness on an HDR desktop;
+            // anything else arriving in half floats has white at 1.0.
+            let white = if hdr { sdr_white(&name).unwrap_or(DEFAULT_WHITE) } else { 1.0 };
+            if to_srgb.as_ref().map(|t| t.white()) != Some(white) {
+                to_srgb = Some(HalfToSrgb::new(white));
+            }
             let ddesc = dup.GetDesc();
             let (ow, oh) = (ddesc.ModeDesc.Width as i32, ddesc.ModeDesc.Height as i32);
             let mut fresh = true; // a new duplication starts with the whole screen
@@ -367,11 +433,13 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                     if let Some(tex) = res.as_ref().and_then(|r| r.cast::<ID3D11Texture2D>().ok()) {
                         let mut tdesc = D3D11_TEXTURE2D_DESC::default();
                         tex.GetDesc(&mut tdesc);
-                        if tdesc.Format != DXGI_FORMAT_B8G8R8A8_UNORM {
+                        let half = tdesc.Format == DXGI_FORMAT_R16G16B16A16_FLOAT;
+                        if tdesc.Format != DXGI_FORMAT_B8G8R8A8_UNORM && !half {
                             let _ = dup.ReleaseFrame();
-                            return Err(format!("the display sends {:?} pixels, not 8-bit", tdesc.Format));
+                            return Err(format!("the display sends {:?} pixels", tdesc.Format));
                         }
-                        match copy_area(&dev, &ctx, &tex, &mut staging, area, rect, origin, w, h) {
+                        let convert = if half { to_srgb.as_ref() } else { None };
+                        match copy_area(&dev, &ctx, &tex, tdesc.Format, convert, &mut staging, area, rect, origin, w, h) {
                             Ok(px) => copied = Some(px),
                             Err(e) => crate::pwarn!("glass: copying the screen failed ({e})"),
                         }
@@ -392,7 +460,8 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                         if !announced {
                             announced = true;
                             *s.status.lock().unwrap_or_else(|p| p.into_inner()) = Status::Running;
-                            crate::pinfo!("glass: screen copy on ({name}, {ow}x{oh}, window {w}x{h} px)");
+                            let mode = if hdr { format!(", HDR, SDR white {:.0} nits", white * 80.0) } else { String::new() };
+                            crate::pinfo!("glass: screen copy on ({name}, {ow}x{oh}{mode}, window {w}x{h} px)");
                         }
                         sink.send(AppEvent::Backdrop);
                     }
@@ -402,27 +471,30 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
     }
 }
 
-/// Copy the window's rectangle out of the desktop image into memory. (The
-/// window sits on this display; a part off it would keep an older copy.)
+/// Copy the window's rectangle out of the desktop image (8-bit BGRA, or half
+/// floats mapped through `to_srgb`) into memory as 8-bit BGRA. (The window
+/// sits on this display; a part off it would keep an older copy.)
 #[allow(clippy::too_many_arguments)]
 unsafe fn copy_area(
     dev: &ID3D11Device,
     ctx: &ID3D11DeviceContext,
     desktop: &ID3D11Texture2D,
-    staging: &mut Option<(ID3D11Texture2D, i32, i32)>,
+    format: DXGI_FORMAT,
+    to_srgb: Option<&HalfToSrgb>,
+    staging: &mut Option<(ID3D11Texture2D, i32, i32, DXGI_FORMAT)>,
     area: RECT,
     rect: RECT,
     origin: (i32, i32),
     w: i32,
     h: i32,
 ) -> Result<Vec<u8>> {
-    if !staging.as_ref().is_some_and(|s| s.1 == w && s.2 == h) {
+    if !staging.as_ref().is_some_and(|s| s.1 == w && s.2 == h && s.3 == format) {
         let desc = D3D11_TEXTURE2D_DESC {
             Width: w as u32,
             Height: h as u32,
             MipLevels: 1,
             ArraySize: 1,
-            Format: DXGI_FORMAT_B8G8R8A8_UNORM,
+            Format: format,
             SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
             Usage: D3D11_USAGE_STAGING,
             BindFlags: 0,
@@ -431,9 +503,9 @@ unsafe fn copy_area(
         };
         let mut tex = None;
         dev.CreateTexture2D(&desc, None, Some(&mut tex))?;
-        *staging = tex.map(|t| (t, w, h));
+        *staging = tex.map(|t| (t, w, h, format));
     }
-    let Some((st, _, _)) = staging.as_ref() else { return Err(windows::Win32::Foundation::E_FAIL.into()) };
+    let Some((st, ..)) = staging.as_ref() else { return Err(windows::Win32::Foundation::E_FAIL.into()) };
     // Where the visible part of the window lands inside the window.
     let (dx, dy) = ((area.left + origin.0 - rect.left) as u32, (area.top + origin.1 - rect.top) as u32);
     let src = D3D11_BOX { left: area.left as u32, top: area.top as u32, front: 0, right: area.right as u32, bottom: area.bottom as u32, back: 1 };
@@ -442,9 +514,23 @@ unsafe fn copy_area(
     ctx.Map(st, 0, D3D11_MAP_READ, 0, Some(&mut m))?;
     let row = w as usize * 4;
     let mut out = vec![0u8; row * h as usize];
+    let half = format == DXGI_FORMAT_R16G16B16A16_FLOAT;
+    let built;
+    let to_srgb = match (half, to_srgb) {
+        (true, None) => {
+            built = HalfToSrgb::new(1.0);
+            Some(&built)
+        }
+        (_, t) => t,
+    };
     for y in 0..h as usize {
-        let src = std::slice::from_raw_parts((m.pData as *const u8).add(y * m.RowPitch as usize), row);
-        out[y * row..(y + 1) * row].copy_from_slice(src);
+        let line = (m.pData as *const u8).add(y * m.RowPitch as usize);
+        let dst = &mut out[y * row..(y + 1) * row];
+        if let (true, Some(t)) = (half, to_srgb) {
+            t.convert_row(std::slice::from_raw_parts(line, row * 2), dst);
+        } else {
+            dst.copy_from_slice(std::slice::from_raw_parts(line, row));
+        }
     }
     // The desktop's alpha means nothing; the frosting treats the copy as opaque.
     for a in out.iter_mut().skip(3).step_by(4) {
