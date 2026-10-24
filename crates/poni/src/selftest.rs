@@ -1473,8 +1473,21 @@ impl SelfTest {
             }
         }
         // Text against the glass: the island's typical colour (its median,
-        // which text doesn't move) must give the ink 4.5:1.
-        let median = frame.median_in(body, scale);
+        // which text doesn't move) must give the ink 4.5:1. Smoked glass lets
+        // the page through, so it's judged over the page, as people see it.
+        let r = app.selftest_capture_rect();
+        let cx_dip = app.selftest_surface().2 as f32 / 2.0 / scale;
+        let mut seen = px.to_vec();
+        for (i, p) in seen.chunks_exact_mut(4).enumerate() {
+            let (x, y) = ((i as i32 % w) + r.left, (i as i32 / w) + r.top);
+            let bg = backdrop_dip(run.dark_page(), (x as f32 + 0.5) / scale - cx_dip, (y as f32 + 0.5) / scale);
+            let inv = 1.0 - p[3] as f32 / 255.0;
+            for (k, c) in [2, 1, 0].into_iter().enumerate() {
+                p[k] = (p[k] as f32 + bg[c] as f32 * inv).round().min(255.0) as u8;
+            }
+            p[3] = 255;
+        }
+        let median = Frame { w, h, px: &seen }.median_in(body, scale);
         let ink = [look.ink.r, look.ink.g, look.ink.b];
         let c = poni_core::glass::contrast(median, ink);
         checks.push(check("glass-ink-contrast", c >= 4.5, format!("{c:.2}:1 for ink rgb{:?} on glass rgb{:?}", rgb8(look.ink), median.map(|v| (v * 255.0).round() as u8))));
