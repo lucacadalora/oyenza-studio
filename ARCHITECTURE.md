@@ -22,19 +22,42 @@ Water, Shelf, Tasks, Clipboard, Today).
  audio (volume)     ─┼──► mpsc + PostMessage ───► │      ├─ activities  collapsed pill content
  bluetooth          ─┤     (WM_APP_EVENT)         │      └─ island       spring-animated outline
  imaging (thumbs)   ─┘                            │
- frame clock thread ── WM_APP_FRAME (vsync, only while animating)
+ frame clock thread ── WM_APP_FRAME (display vblank, only while animating)
 ```
 
-* **Rendering**: `gfx.rs`. Direct2D *software* DC render target draws into a 32-bit
-  premultiplied DIB; `UpdateLayeredWindow` pushes it to a per-pixel-alpha
-  layered window that is resized/moved every frame to exactly the island's
-  size. Transparent pixels are click-through. All coordinates are **DIPs**
-  (the render target DPI = monitor DPI).
+* **Rendering**: `gfx.rs`. The island window is a fixed-size, per-pixel-alpha
+  layered window big enough for the largest island (widest, tallest page plus
+  spring overshoot); the island is drawn centred in it, so a morph never moves
+  or resizes the window and the centre stays on one pixel.
+  * GPU renderer (default): Direct2D on a Direct3D 11 device (hardware, else
+    WARP) draws into a premultiplied flip-model swap chain that
+    DirectComposition shows on the window. The layered window's own bitmap is
+    then an invisible hit mask (alpha 1/255 where the island takes the mouse,
+    0 elsewhere), refreshed at ~30 Hz while the island moves and exactly at
+    rest, so transparent pixels stay click-through.
+  * Software renderer (fallback: no DirectComposition, e.g. Wine; repeated
+    device loss; `PONI_RENDERER=software`): Direct2D in software into a DIB
+    pushed with `UpdateLayeredWindowIndirect`, copying only the rectangle the
+    island covered this frame and last.
+  * Content that fades in or out during a morph is drawn into an offscreen
+    layer and composited (`Canvas::layered`): group opacity, and its text is
+    rasterised once instead of re-hinting while it scales.
+  * All coordinates are **DIPs** (the render target DPI = monitor DPI), in
+    window space: the island body is `Island::body_rect_at(cx)`.
+* **Frame clock**: `window.rs`. A thread waits on the island display's vblank
+  (`IDXGIOutput::WaitForVBlank`; DwmFlush or a steady timer as fallbacks) and
+  posts `WM_APP_FRAME`. Timestamps are phase-locked to the display
+  (`poni_core::frametime`), and each frame is stamped with the vblank it will
+  be shown on, so every animation step is a whole number of refresh periods
+  (smooth at 60, 144 or 240 Hz). A morph that starts from rest advances one
+  refresh on its first frame. Morphs log a `motion` line (frames, fps,
+  hitches, worst gap) for the first 20, then only when frames were dropped.
 * **Idle = zero CPU**: frames are produced only while the island animates,
   a page calls `ui.request_anim()`, input arrives, or a live activity is
-  showing (30 fps equalizer while music plays collapsed). Otherwise the frame
-  clock thread is parked and one-shot timers wake the UI for the next visible
-  change (countdown second, HUD expiry, minute tick).
+  showing. Real motion runs on every vblank; ambient motion on every n-th
+  (the equalizer near 60 fps, a drifting progress bar near 30). Otherwise the
+  frame clock thread is parked and one-shot timers wake the UI for the next
+  visible change (countdown second, HUD expiry, minute tick).
 * **Window**: `WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE`.
   It never takes focus on click; text fields temporarily drop NOACTIVATE
   (`Command::FocusText`) and give focus back afterwards.
