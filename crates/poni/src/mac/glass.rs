@@ -39,6 +39,12 @@ const BROW_FADE: f32 = 16.0;
 const TINT: f64 = 0.28;
 /// What offscreen renders paint for the glass: its dark ground, mostly opaque.
 const STAND_IN: Color = Color::rgba(0.110, 0.110, 0.118, 0.82);
+/// The resting pill's glass sits on the menu bar, often near white, where
+/// the tint alone leaves its content pale: a smoke deepens small glass, and
+/// fades out as the island opens (from SMOKE_FULL_H to SMOKE_NONE_H tall).
+const SMALL_SMOKE: f32 = 0.55;
+const SMOKE_FULL_H: f32 = 40.0;
+const SMOKE_NONE_H: f32 = 72.0;
 
 enum Material {
     /// Liquid Glass, macOS 26 and later.
@@ -100,6 +106,11 @@ pub fn draw_body(c: &mut Canvas, body: Rect, radius: f32, shoulder: f32, notch: 
         // The glass view has no shoulders: a plain rounded body.
         if stand_in {
             c.notch(body, radius, 0.0, STAND_IN, None);
+        } else {
+            let smoke = SMALL_SMOKE * ((SMOKE_NONE_H - body.h) / (SMOKE_NONE_H - SMOKE_FULL_H)).clamp(0.0, 1.0);
+            if smoke > 0.0 {
+                c.notch(body, radius, 0.0, Color::black(smoke), None);
+            }
         }
         if brow > 0.0 {
             let top = body.y + brow;
