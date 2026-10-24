@@ -1468,9 +1468,9 @@ impl App {
 
     // ------------------------------------------------------------ phone drop
 
-    /// The QR code waits for a phone, or a phone waits for an answer.
+    /// The QR code waits for a phone, or a phone waits for an answer (Shelf page only).
     fn phone_holds(&self) -> bool {
-        self.st.phone.as_ref().is_some_and(|p| p.holds_island())
+        self.st.phone_holds_island()
     }
 
     fn phone_cmd(&mut self, c: PhoneCmd) {
