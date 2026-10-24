@@ -42,7 +42,7 @@ const KNOB_INSET: f32 = 2.0;
 /// Oyenza's colour, as on the Oyenza page.
 const OYENZA: Color = palette::ORANGE;
 
-const THEMES: [(Theme, &str); 2] = [(Theme::Classic, "Classic"), (Theme::Oyen, "Oyen")];
+const THEMES: [(Theme, &str); 3] = [(Theme::Classic, "Classic"), (Theme::Oyen, "Oyen"), (Theme::Glass, "Glass")];
 const IDLE_STYLES: [IdleStyle; 4] = [IdleStyle::Clock, IdleStyle::Eyes, IdleStyle::Minimal, IdleStyle::Hidden];
 
 /// The five switches, as the tray menu names them.

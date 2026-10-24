@@ -283,6 +283,10 @@ pub struct App {
     sink: EventSink,
     rx: Receiver<AppEvent>,
     services: Option<Services>,
+    /// The Glass theme's screen copy, light/dark choice and glass.
+    glass: crate::glass::Glass,
+    /// The glass was still changing on the last frame (turning light or dark).
+    glass_moving: bool,
     /// Animation time of the last frame (the vblank it was shown on).
     last_frame_t: f64,
     /// The window: a fixed-size surface the island is drawn centred in.
@@ -459,6 +463,8 @@ impl App {
             sink,
             rx,
             services: None,
+            glass: crate::glass::Glass::new(services::apps_use_light_theme()),
+            glass_moving: false,
             last_frame_t: 0.0,
             surface: Surface::default(),
             cx: 0.0,
@@ -535,6 +541,7 @@ impl App {
 
     fn shutdown(&mut self) -> i32 {
         self.save_now();
+        self.glass.stop(self.hwnd, &mut self.gfx);
         if let Some(p) = self.phone.take() {
             p.stop();
         }
@@ -912,7 +919,12 @@ impl App {
             }
             WM_DISPLAYCHANGE | WM_DPICHANGED | WM_SETTINGCHANGE => {
                 self.refresh_monitor();
-                if msg == WM_SETTINGCHANGE && !oyen::on(self.st.settings.theme) {
+                if msg == WM_SETTINGCHANGE {
+                    self.glass.app_light = services::apps_use_light_theme();
+                }
+                if msg == WM_SETTINGCHANGE && self.st.settings.theme == Theme::Glass {
+                    self.st.accent = theme_accent(Theme::Glass);
+                } else if msg == WM_SETTINGCHANGE && !oyen::on(self.st.settings.theme) {
                     if let Some(a) = services::system_accent() {
                         self.st.accent = a;
                     }
@@ -1430,6 +1442,12 @@ impl App {
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
         match ev {
+            AppEvent::Backdrop => {
+                let probe_x = crate::glass::probe_x(Rect::new(self.cx, 0.0, 0.0, 0.0), self.gfx.scale());
+                if self.glass.on_backdrop(self.hwnd, &mut self.gfx, probe_x) {
+                    self.request_frame();
+                }
+            }
             AppEvent::Media(session) => {
                 let prev_key = self.st.media.as_ref().map(|m| m.track_key.clone());
                 match session {
@@ -2071,7 +2089,25 @@ impl App {
         let mut wheel_left = 0.0;
         let draw_from = clock::mono();
         let mut drawn_at = draw_from;
-        self.gfx.set_look(poni_core::look::of(self.st.settings.theme));
+        // Glass: copy the screen under the window while the GPU draws (the
+        // self-test brings its own backdrop), then draw this frame's glass
+        // before the frame starts. The look follows the glass, light or dark.
+        let glass_theme = self.st.settings.theme == Theme::Glass;
+        let window_px = RECT { left: self.surface.x, top: self.surface.y, right: self.surface.x + sw, bottom: self.surface.y + sh };
+        let copy_on = glass_theme && self.selftest.is_none() && matches!(self.gfx.renderer(), crate::gfx::Renderer::Gpu { .. });
+        self.glass.sync(copy_on, self.hwnd, &self.sink, self.monitor.handle, window_px, &mut self.gfx);
+        let mut glass_moving = false;
+        let glass = if glass_theme && !hidden_idle {
+            let small = !matches!(mode, Mode::Expanded(_));
+            let (light, p, moving) = self.glass.frame(body, geom.r, SHOULDER, small, now, dt, scale, &mut self.gfx);
+            glass_moving = moving;
+            self.gfx.set_look(poni_core::look::glass(light));
+            self.gfx.prepare_glass(&p, canvas_px);
+            Some(p)
+        } else {
+            self.gfx.set_look(poni_core::look::of(self.st.settings.theme));
+            None
+        };
         let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
             Ok(mut canvas) => {
                 if self.expanded && !canvas.on_gpu() {
@@ -2080,9 +2116,13 @@ impl App {
                     // (The GPU renderer keeps this in its hit mask instead.)
                     canvas.fill_rect(canvas_r, Color::black(1.0 / 255.0));
                 }
-                let island_color = if hidden_idle { Color::black(1.0 / 255.0) } else { palette::ISLAND };
-                let border = if hidden_idle { None } else { Some(canvas.look().border) };
-                canvas.notch(body, geom.r, SHOULDER, island_color, border);
+                if let Some(p) = glass.as_ref() {
+                    canvas.glass(p, canvas_r);
+                } else {
+                    let island_color = if hidden_idle { Color::black(1.0 / 255.0) } else { palette::ISLAND };
+                    let border = if hidden_idle { None } else { Some(canvas.look().border) };
+                    canvas.notch(body, geom.r, SHOULDER, island_color, border);
+                }
 
                 // Content scales about the top centre, where the island hangs.
                 let pivot = Point::new(body.center().x, body.y);
@@ -2209,7 +2249,15 @@ impl App {
         let ambient_ok = !self.locked && !self.display_off;
         let eq_live = ambient_ok && activities::is_live(&self.mode, &self.st);
         let drift_live = ambient_ok && ui_live;
-        let moving = !self.island.settled() || anim || repaint || renderer_changed || !self.st.cmds.is_empty() || self.outgoing.is_some() || self.page_anim.is_some();
+        self.glass_moving = glass_moving;
+        let moving = !self.island.settled()
+            || anim
+            || repaint
+            || renderer_changed
+            || glass_moving
+            || !self.st.cmds.is_empty()
+            || self.outgoing.is_some()
+            || self.page_anim.is_some();
         // The display mode's rate, not the measured period: a divisor that
         // flips between 1 and 2 would be the uneven cadence it exists to avoid.
         let hz = self.clock.nominal_hz();
@@ -2675,7 +2723,36 @@ impl App {
 
     /// At rest: outline settled, mode current, no page switch or outgoing fade.
     pub fn selftest_settled(&self) -> bool {
-        self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none()
+        self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none() && !self.glass_moving
+    }
+
+    /// Self-test, Glass theme: `px` (BGRA, the window's size) is what's under
+    /// the window, and Windows is in light (`app_light`) or dark mode.
+    pub fn selftest_glass_backdrop(&mut self, px: Vec<u8>, w: i32, h: i32, app_light: bool) {
+        self.glass.app_light = app_light;
+        self.glass.inject(px, w, h, &mut self.gfx);
+    }
+
+    /// Self-test: a new scene starts (the glass takes its side at once).
+    pub fn selftest_glass_reseed(&mut self) {
+        self.glass.reseed();
+    }
+
+    /// Self-test: the lens strength, and whether the glass shows the backdrop.
+    pub fn selftest_glass_switches(&mut self, lens: f32, use_copy: bool) {
+        self.glass.lens = lens;
+        self.glass.use_copy = use_copy;
+    }
+
+    /// Self-test: the last frame's glass came from the shader, the backdrop
+    /// is on the GPU, and the look content was painted in.
+    pub fn selftest_glass_state(&self) -> (bool, bool, &'static poni_core::look::Look) {
+        (self.gfx.glass_drew(), self.gfx.glass_has_copy(), self.gfx.look())
+    }
+
+    /// Self-test: the captured rectangle (surface pixels).
+    pub fn selftest_capture_rect(&self) -> RECT {
+        self.capture_rect
     }
 
     /// Render a frame right now (bypassing the clock) and return the pixels
@@ -2740,6 +2817,8 @@ impl App {
 fn theme_accent(theme: Theme) -> Color {
     if oyen::on(theme) {
         oyen::ORANGE
+    } else if theme == Theme::Glass {
+        services::system_accent_base().unwrap_or(palette::BLUE)
     } else {
         services::system_accent().unwrap_or(palette::BLUE)
     }
