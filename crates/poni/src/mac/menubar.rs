@@ -1,6 +1,6 @@
 //! The menu bar item (Oyen's mark) and its menu, also shown on a right-click
-//! of the island. Slice 1 carries what works on the Mac so far; lyrics,
-//! clipboard history and start-at-login join it in later slices.
+//! of the island. It carries what works on the Mac so far; lyrics and the
+//! Apple Music token join it with the music slice.
 
 use objc2::rc::Retained;
 use objc2::runtime::AnyObject;
@@ -14,12 +14,16 @@ use objc2_foundation::{NSObject, NSObjectProtocol, NSSize, NSString};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use std::cell::RefCell;
 
+pub use crate::services::login::Status as Login;
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MenuCmd {
     TogglePinned,
     SetTheme(Theme),
     SetIdleStyle(IdleStyle),
     ToggleSounds,
+    ToggleClipboard,
+    ToggleLogin,
     OpenSettings,
     ReloadSettings,
     OpenDataFolder,
@@ -37,7 +41,7 @@ fn item(label: &str, cmd: MenuCmd, checked: bool) -> MenuItem {
     MenuItem::Item { label: label.to_string(), cmd, checked, key: "" }
 }
 
-pub fn menu_items(s: &Settings, pinned: bool) -> Vec<MenuItem> {
+pub fn menu_items(s: &Settings, pinned: bool, login: Login) -> Vec<MenuItem> {
     let style = |label: &str, st: IdleStyle| item(label, MenuCmd::SetIdleStyle(st), s.idle_style == st);
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     // In the Oyen theme the eyes are Oyen's own.
@@ -54,7 +58,13 @@ pub fn menu_items(s: &Settings, pinned: bool) -> Vec<MenuItem> {
                 style("Hidden until hover", IdleStyle::Hidden),
             ],
         },
+        item("Clipboard history", MenuCmd::ToggleClipboard, s.clipboard_history),
         item("Sounds", MenuCmd::ToggleSounds, s.sounds),
+        match login {
+            Login::NeedsApproval => item("Start at login (allow in System Settings)", MenuCmd::ToggleLogin, false),
+            Login::On => item("Start at login", MenuCmd::ToggleLogin, true),
+            _ => item("Start at login", MenuCmd::ToggleLogin, false),
+        },
         MenuItem::Separator,
         item("Open settings file", MenuCmd::OpenSettings, false),
         item("Reload settings", MenuCmd::ReloadSettings, false),
@@ -88,6 +98,18 @@ define_class!(
 thread_local! {
     /// The commands behind the current menu's items (index = item tag).
     static CMDS: RefCell<Vec<MenuCmd>> = const { RefCell::new(Vec::new()) };
+    /// The status item, for opening its menu from code (the smoke test).
+    static ITEM: RefCell<Option<Retained<NSStatusItem>>> = const { RefCell::new(None) };
+}
+
+/// Open the menu bar item's menu, as a click on it would. Runs the menu's own
+/// tracking loop, so call it with the app not borrowed.
+pub fn open_menu() {
+    let Some(mtm) = MainThreadMarker::new() else { return };
+    let item = ITEM.with(|i| i.borrow().clone());
+    if let Some(button) = item.and_then(|i| i.button(mtm)) {
+        unsafe { button.performClick(None) };
+    }
 }
 
 pub struct MenuBar {
@@ -97,7 +119,7 @@ pub struct MenuBar {
 }
 
 impl MenuBar {
-    pub fn add(mtm: MainThreadMarker, s: &Settings, pinned: bool) -> MenuBar {
+    pub fn add(mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login) -> MenuBar {
         let item = NSStatusBar::systemStatusBar().statusItemWithLength(NSVariableStatusItemLength);
         if let Some(button) = item.button(mtm) {
             match mark_image(mtm) {
@@ -107,14 +129,15 @@ impl MenuBar {
             button.setToolTip(Some(&NSString::from_str("Oyen Poni")));
         }
         let target: Retained<MenuTarget> = unsafe { objc2::msg_send![MenuTarget::alloc(mtm), init] };
-        let menu = build(mtm, &target, &menu_items(s, pinned));
+        let menu = build(mtm, &target, &menu_items(s, pinned, login));
         item.setMenu(Some(&menu));
+        ITEM.with(|i| *i.borrow_mut() = Some(item.clone()));
         MenuBar { item, target, menu }
     }
 
     /// Rebuild the menu (ticks follow the settings).
-    pub fn refresh(&mut self, mtm: MainThreadMarker, s: &Settings, pinned: bool) {
-        self.menu = build(mtm, &self.target, &menu_items(s, pinned));
+    pub fn refresh(&mut self, mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login) {
+        self.menu = build(mtm, &self.target, &menu_items(s, pinned, login));
         self.item.setMenu(Some(&self.menu));
     }
 }

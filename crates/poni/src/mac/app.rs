@@ -12,18 +12,18 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, Sound};
+use crate::commands::{Command, PhoneCmd, Sound};
 use crate::events::{AppEvent, EventSink};
 use crate::gfx::{scale_about, union_rect, Canvas, Gfx, Matrix3x2};
 use crate::icons::Icon;
 use crate::island::{Geom, Island, HIT_MARGIN, SHOULDER};
-use crate::menubar::{MenuBar, MenuCmd};
+use crate::menubar::{Login, MenuBar, MenuCmd};
 use crate::notch::{self, Fit, Notch};
 use crate::oyen;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::services;
-use crate::state::{AppState, InlineAction, NoticeAction};
+use crate::state::{AppState, HudKind, InlineAction, NoticeAction, PhoneAsk, PhoneDrop, PhoneTransfer, VolumeState};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
 use crate::window::{self, ScreenInfo, ViewInput};
 use block2::RcBlock;
@@ -35,6 +35,7 @@ use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
 use poni_core::frametime::MotionStats;
+use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
@@ -65,6 +66,8 @@ const CONTENT_SCALE_FROM: f32 = 0.94;
 const CONTENT_DROP: f32 = 6.0;
 /// Smallest scale the outgoing content shrinks to as the outline narrows.
 const GHOST_MIN_SCALE: f32 = 0.6;
+/// Phone drop closes itself after this long without a request from a phone.
+const PHONE_IDLE_S: f64 = 600.0;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Timer {
@@ -74,8 +77,9 @@ enum Timer {
     Save,
     Minute,
     Smoke,
+    Stats,
 }
-const TIMERS: [Timer; 6] = [Timer::Hover, Timer::Collapse, Timer::Wake, Timer::Save, Timer::Minute, Timer::Smoke];
+const TIMERS: [Timer; 7] = [Timer::Hover, Timer::Collapse, Timer::Wake, Timer::Save, Timer::Minute, Timer::Smoke, Timer::Stats];
 
 thread_local! {
     static APP: RefCell<Option<App>> = const { RefCell::new(None) };
@@ -88,6 +92,8 @@ enum Deferred {
     TakeKeyboard,
     ReleaseKeyboard,
     Show,
+    /// Open the menu bar item's menu (the smoke test's picture of it).
+    OpenMenu,
 }
 
 /// Run `f` with the app if it isn't already borrowed (re-entrancy safe), then
@@ -103,6 +109,7 @@ fn enter<R>(f: impl FnOnce(&mut App) -> R) -> Option<R> {
             Deferred::TakeKeyboard => window::take_keyboard(),
             Deferred::ReleaseKeyboard => window::release_keyboard(),
             Deferred::Show => window::show(),
+            Deferred::OpenMenu => crate::menubar::open_menu(),
         }
     }
     r
@@ -224,6 +231,30 @@ pub fn draw_into(ctx: &CGContext, dirty: Rect) {
     enter(|a| a.draw(ctx, dirty));
 }
 
+/// An event raised on the main thread (drag and drop): apply it now.
+pub fn post(ev: AppEvent) {
+    enter(|a| a.on_event(ev));
+}
+
+/// A Shelf item was dragged far enough to leave the island: start the
+/// system drag from the press in progress.
+pub fn start_pending_drag() {
+    let paths = enter(|a| {
+        let p = a.pending_drag.take();
+        if p.is_some() {
+            a.input.down = false;
+            a.input.pressed_id = None;
+        }
+        p
+    })
+    .flatten();
+    if let Some(paths) = paths {
+        if !window::begin_drag(&paths) {
+            pwarn!("drag out: no press to start from");
+        }
+    }
+}
+
 pub fn on_resign_key() {
     enter(|a| a.on_resign_key());
 }
@@ -292,12 +323,25 @@ pub struct App {
     page_switch_t: f64,
     /// Deadlines (mono seconds) of the app's timers, and the one NSTimer
     /// set for the earliest.
-    timers: [Option<f64>; 6],
+    timers: [Option<f64>; 7],
     ns_timer: Option<(f64, Retained<NSTimer>)>,
     saved_settings: Settings,
     settings_writable: bool,
     store_writable: bool,
     first_run: bool,
+    /// The Today page's stats are being sampled (once a second).
+    stats_on: bool,
+    /// Text we put on the clipboard ourselves (not recorded again).
+    own_clip: Option<String>,
+    clipboard: Option<services::clipboard::Watcher>,
+    /// Files are being dragged over the island.
+    drag_hover: bool,
+    /// Shelf items waiting to be dragged out (started by the next drag event).
+    pending_drag: Option<Vec<String>>,
+    /// Phone drop's web server while the Shelf's phone panel is open, and the
+    /// shelf files it offers.
+    phone: Option<services::phonedrop::PhoneDrop>,
+    phone_offer: Vec<String>,
     motion: Option<MotionStats>,
     motion_name: &'static str,
     motions_logged: u32,
@@ -362,12 +406,19 @@ impl App {
             wheel_acc: 0.0,
             wheel_t: 0.0,
             page_switch_t: 0.0,
-            timers: [None; 6],
+            timers: [None; 7],
             ns_timer: None,
             saved_settings,
             settings_writable: s_out.writable(),
             store_writable: d_out.writable(),
             first_run: s_out == LoadOutcome::Missing,
+            stats_on: false,
+            own_clip: None,
+            clipboard: None,
+            drag_hover: false,
+            pending_drag: None,
+            phone: None,
+            phone_offer: Vec::new(),
             motion: None,
             motion_name: "morph",
             motions_logged: 0,
@@ -380,7 +431,15 @@ impl App {
         self.layout_surface();
         let g = self.geom_for(&self.mode);
         self.island.snap(g);
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned));
+        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status()));
+        self.st.power = services::power::query();
+        services::power::watch(self.sink.clone());
+        services::audio::start(self.sink.clone());
+        self.sync_clipboard();
+        // Shelf tiles for what was left on the Shelf.
+        for p in self.st.store.shelf.paths() {
+            self.st.cmds.push(Command::LoadThumb(p));
+        }
         self.schedule_minute_timer();
         if self.first_run && self.smoke.is_none() {
             let place = if self.screen.notch.is_some() { "Point at the notch to open it" } else { "Point at the island to open it" };
@@ -463,14 +522,23 @@ impl App {
                 }
             }
             Timer::Collapse => {
-                if !self.hovering && !self.st.pinned && !self.text_focus && self.input.pressed_id.is_none() {
+                if !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && self.input.pressed_id.is_none() && !self.phone_holds() {
                     self.collapse();
                 }
             }
             Timer::Wake => {}
             Timer::Save => self.save_now(),
-            Timer::Minute => self.schedule_minute_timer(),
+            Timer::Minute => {
+                self.schedule_minute_timer();
+                self.close_idle_phone();
+            }
             Timer::Smoke => self.smoke_step(),
+            Timer::Stats => {
+                if self.stats_on {
+                    self.st.stats = services::sysstats::sample();
+                    self.set_timer(Timer::Stats, 1000);
+                }
+            }
         }
     }
 
@@ -546,6 +614,13 @@ impl App {
         if before.theme != self.st.settings.theme {
             self.st.accent = theme_accent(self.st.settings.theme);
         }
+        if before.clipboard_history && !self.st.settings.clipboard_history {
+            // Privacy: turning history off forgets everything, pinned items included.
+            self.st.clip = poni_core::cliphist::ClipHistory::default();
+            self.st.ui.clip_flash = None;
+            self.st.ui.clip_scroll = 0.0;
+        }
+        self.sync_clipboard();
         self.st.pomodoro.cfg = self.st.settings.pomodoro.clone();
         if before.expanded_width != self.st.settings.expanded_width {
             self.layout_surface();
@@ -565,6 +640,8 @@ impl App {
             MenuCmd::SetTheme(t) => s.theme = t,
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
+            MenuCmd::ToggleClipboard => s.clipboard_history = !s.clipboard_history,
+            MenuCmd::ToggleLogin => self.toggle_login(),
             MenuCmd::OpenSettings => {
                 if !paths::settings_path().exists() {
                     let _ = save_json_atomic(&paths::settings_path(), &self.st.settings);
@@ -597,17 +674,128 @@ impl App {
         }
         self.settings_changed(&before);
         self.save_settings();
-        if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned);
-        }
+        self.refresh_menu();
         self.request_frame();
+    }
+
+    fn refresh_menu(&mut self) {
+        let login = services::login::status();
+        if let Some(m) = self.menubar.as_mut() {
+            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login);
+        }
+    }
+
+    /// Start at login on or off. macOS may ask the person to allow it in
+    /// System Settings > General > Login Items first.
+    fn toggle_login(&mut self) {
+        let result = match services::login::status() {
+            Login::On => services::login::set_enabled(false),
+            Login::NeedsApproval => {
+                services::login::open_settings();
+                Ok(())
+            }
+            _ => services::login::set_enabled(true),
+        };
+        match result {
+            Err(e) => {
+                pwarn!("start at login: {e}");
+                self.st.notify(Icon::Sliders, palette::ORANGE, "Couldn't start at login", e, 6.0, None);
+            }
+            Ok(()) => {
+                let now = services::login::status();
+                pinfo!("start at login: {now:?}");
+                if now == Login::NeedsApproval {
+                    services::login::open_settings();
+                    self.st.notify(Icon::Sliders, palette::ORANGE, "Allow Oyen Poni to start at login", "Turn it on in Login Items", 8.0, None);
+                }
+            }
+        }
+    }
+
+    /// Clipboard history runs only while it is switched on.
+    fn sync_clipboard(&mut self) {
+        match (self.st.settings.clipboard_history, self.clipboard.is_some()) {
+            (true, false) => self.clipboard = Some(services::clipboard::Watcher::start(self.sink.clone())),
+            (false, true) => {
+                if let Some(w) = self.clipboard.take() {
+                    w.stop();
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn set_stats(&mut self, on: bool) {
+        if on == self.stats_on {
+            return;
+        }
+        self.stats_on = on;
+        if on {
+            self.st.stats = services::sysstats::sample();
+            self.set_timer(Timer::Stats, 1000);
+        } else {
+            self.kill_timer(Timer::Stats);
+        }
     }
 
     pub fn on_event(&mut self, ev: AppEvent) {
         self.st.now = clock::mono();
         match ev {
+            AppEvent::Volume { level, muted } => {
+                // The first report only sets the level; changes show the pop-up.
+                let first = !self.st.volume.known;
+                self.st.volume = VolumeState { level, muted, known: true };
+                if !first && self.st.settings.hud_volume {
+                    self.st.show_hud(HudKind::Volume { level, muted }, 1.6);
+                }
+            }
+            AppEvent::Power(p) => {
+                let old = self.st.power;
+                self.st.power = p;
+                if self.st.settings.hud_power && p.has_battery {
+                    if p.on_ac != old.on_ac {
+                        self.st.show_hud(HudKind::Charging { percent: p.percent, plugged: p.on_ac }, 2.2);
+                    } else if !p.on_ac && ((old.percent > 20 && p.percent <= 20) || (old.percent > 10 && p.percent <= 10)) {
+                        self.st.show_hud(HudKind::LowBattery { percent: p.percent }, 4.0);
+                    }
+                }
+            }
+            AppEvent::ShelfAdd(paths) => {
+                let n = self.st.store.shelf.add_paths(&paths, self.st.unix);
+                for p in &paths {
+                    self.st.cmds.push(Command::LoadThumb(p.clone()));
+                }
+                self.st.save();
+                self.st.page = PageKind::Shelf;
+                self.drag_hover = false;
+                self.st.drag_hover = false;
+                self.expand();
+                pinfo!("shelf: {n} new item(s)");
+            }
+            AppEvent::DragHover(on) => {
+                self.drag_hover = on;
+                self.st.drag_hover = on;
+                if on {
+                    self.st.page = PageKind::Shelf;
+                    self.expand();
+                } else {
+                    self.maybe_schedule_collapse();
+                }
+            }
+            AppEvent::ShelfThumb { path, image } => {
+                self.st.shelf_thumbs.insert(path, image);
+            }
+            AppEvent::Stats(s) => self.st.stats = s,
+            AppEvent::ClipboardText(t) => {
+                if self.own_clip.as_deref() == Some(t.as_str()) {
+                    self.own_clip = None;
+                } else {
+                    self.st.clip.push(&t, self.st.unix);
+                }
+            }
+            AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Log(s) => pinfo!("{s}"),
-            // Services arrive in later slices; their events are applied there.
+            // Music, Bluetooth and full-screen events come with later slices.
             _ => {}
         }
         self.request_frame();
@@ -816,6 +1004,7 @@ impl App {
                 self.dbl_press = false;
                 self.input.down = false;
                 self.input.pressed_id = None;
+                self.pending_drag = None;
                 if !self.hovering_inside(p) {
                     self.input.mouse = None;
                     self.leave();
@@ -857,7 +1046,7 @@ impl App {
                 } else if command {
                     match text.as_str() {
                         "v" => {
-                            if let Some(t) = services::clipboard_text() {
+                            if let Some(t) = services::clipboard::read_text() {
                                 self.input.keys.extend(t.chars().filter(|c| !c.is_control()).map(KeyInput::Char));
                             }
                         }
@@ -912,6 +1101,7 @@ impl App {
             if self.text_focus {
                 self.blur_text();
             }
+            self.set_stats(false);
             self.st.ui.clip_flash = None;
             // Settings closes with the island: it opens again on the page it was opened from.
             if self.st.page == PageKind::Settings {
@@ -933,6 +1123,8 @@ impl App {
             if p != PageKind::Settings {
                 self.st.store.last_page = p.key().to_string();
                 self.set_timer(Timer::Save, 800);
+            } else {
+                self.st.ui.autostart = Some(services::login::status() == Login::On);
             }
             if self.text_focus {
                 self.blur_text();
@@ -941,7 +1133,7 @@ impl App {
     }
 
     fn maybe_schedule_collapse(&mut self) {
-        if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus {
+        if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.phone_holds() {
             self.set_timer(Timer::Collapse, self.st.settings.collapse_delay_ms.max(50));
         }
     }
@@ -1002,12 +1194,20 @@ impl App {
                 // Music controls arrive with the media slice.
                 Command::Media(_) => {}
                 Command::OpenPath(p) => services::open(&p),
-                Command::RevealPath(p) => services::open(&std::path::Path::new(&p).parent().map(|d| d.to_string_lossy().into_owned()).unwrap_or(p)),
-                Command::DragOut(_) => {}
+                Command::RevealPath(p) => services::reveal(&p),
+                // Starts with the next drag event (AppKit needs one to start from).
+                Command::DragOut(paths) => self.pending_drag = Some(paths),
                 Command::LoadThumb(p) => {
-                    self.st.shelf_thumbs.entry(p).or_insert(None);
+                    if !self.st.shelf_thumbs.contains_key(&p) {
+                        self.st.shelf_thumbs.insert(p.clone(), None);
+                        let px = (crate::services::imaging::THUMB_DIP * self.gfx.scale()).round() as u32;
+                        services::thumbs::load_async(p, px, self.sink.clone());
+                    }
                 }
-                Command::CopyText(t) => services::set_clipboard_text(&t),
+                Command::CopyText(t) => {
+                    self.own_clip = Some(t.clone());
+                    services::clipboard::set_text(&t);
+                }
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::SaveSettings => {
@@ -1035,9 +1235,165 @@ impl App {
                 Command::Collapse => self.collapse(),
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
-                Command::WantStats(_) => {}
-                // Start at login, Phone drop and Oyenza sign-in come to the Mac in later slices.
-                Command::SetAutostart(_) | Command::Phone(_) | Command::Oyenza(_) => {}
+                Command::WantStats(b) => self.set_stats(b),
+                Command::SetAutostart(on) => {
+                    if (services::login::status() == Login::On) != on {
+                        self.toggle_login();
+                    }
+                    self.st.ui.autostart = Some(services::login::status() == Login::On);
+                    self.refresh_menu();
+                }
+                Command::Phone(c) => self.phone_cmd(c),
+                // Oyenza sign-in comes to the Mac in a later slice.
+                Command::Oyenza(_) => {}
+            }
+        }
+        self.sync_phone_offer();
+    }
+
+    // ------------------------------------------------------------ phone drop
+
+    /// The QR code waits for a phone, or a phone waits for an answer.
+    fn phone_holds(&self) -> bool {
+        self.st.phone.as_ref().is_some_and(|p| p.holds_island())
+    }
+
+    fn phone_cmd(&mut self, c: PhoneCmd) {
+        match c {
+            PhoneCmd::Open => self.open_phone(),
+            PhoneCmd::Close => self.close_phone(),
+            PhoneCmd::Answer { id, accept } => {
+                if let Some(svc) = &self.phone {
+                    svc.answer(id, accept);
+                }
+                let until = self.st.now + pages::shelf::PHONE_OUTCOME_S;
+                if let Some(pd) = self.st.phone.as_mut() {
+                    if let Some(a) = pd.ask.take_if(|a| a.id == id) {
+                        if accept {
+                            pd.transfer = Some(PhoneTransfer { id, from: a.from, file: 0, files: a.files.len(), done: 0, total: a.total });
+                        } else {
+                            pd.outcome = Some((format!("Declined {} from {}", files_label(a.files.len()), a.from), false, until));
+                        }
+                    }
+                }
+                self.maybe_schedule_collapse();
+            }
+        }
+    }
+
+    fn open_phone(&mut self) {
+        if let Some(old) = self.phone.take() {
+            old.stop();
+        }
+        let mut pd = PhoneDrop::default();
+        let offer = self.st.store.shelf.paths();
+        match services::phonedrop::PhoneDrop::start(self.sink.clone(), offer.iter().map(PathBuf::from).collect()) {
+            Ok((svc, url)) => {
+                pd.qr = QrMatrix::encode(&url);
+                pd.url = url;
+                self.phone_offer = offer;
+                self.phone = Some(svc);
+            }
+            Err(e) => {
+                pwarn!("phone drop: {e}");
+                pd.error = Some(e);
+            }
+        }
+        self.st.phone = Some(pd);
+        self.st.page = PageKind::Shelf;
+        self.expand();
+    }
+
+    fn close_phone(&mut self) {
+        if let Some(svc) = self.phone.take() {
+            svc.stop();
+        }
+        self.st.phone = None;
+        self.phone_offer.clear();
+        self.maybe_schedule_collapse();
+        self.request_frame();
+    }
+
+    /// Minute tick: nobody has used the link for a while, so close it.
+    fn close_idle_phone(&mut self) {
+        let idle = self.phone.as_ref().is_some_and(|svc| !svc.busy() && svc.idle_secs() >= PHONE_IDLE_S);
+        let quiet = self.st.phone.as_ref().is_some_and(|p| p.ask.is_none() && p.transfer.is_none());
+        if idle && quiet {
+            pinfo!("phone drop: closed after {:.0} minutes without a phone", PHONE_IDLE_S / 60.0);
+            self.close_phone();
+        }
+    }
+
+    /// Keep the files a phone can save in step with the Shelf.
+    fn sync_phone_offer(&mut self) {
+        let Some(svc) = &self.phone else { return };
+        let paths = self.st.store.shelf.paths();
+        if paths != self.phone_offer {
+            svc.set_offer(paths.iter().map(PathBuf::from).collect());
+            self.phone_offer = paths;
+        }
+    }
+
+    fn on_phone(&mut self, e: PhoneEvent) {
+        let now = self.st.now;
+        let until = now + pages::shelf::PHONE_OUTCOME_S;
+        let Some(pd) = self.st.phone.as_mut() else { return };
+        match e {
+            PhoneEvent::Visit { from } => {
+                pd.visitor = Some(from);
+                self.maybe_schedule_collapse();
+            }
+            PhoneEvent::Ask(a) => {
+                pd.outcome = None;
+                pd.visitor.get_or_insert_with(|| a.from.clone());
+                let files: Vec<(String, u64)> = a.files.iter().map(|f| (f.name.clone(), f.size)).collect();
+                pinfo!("phone drop: {} asks to send {}", a.from, files_label(files.len()));
+                pd.ask = Some(PhoneAsk { id: a.id, from: a.from.clone(), total: a.total(), files });
+                self.st.page = PageKind::Shelf;
+                self.expand();
+                self.st.chime();
+            }
+            PhoneEvent::AskEnded { id } => {
+                if let Some(a) = pd.ask.take_if(|a| a.id == id) {
+                    pd.outcome = Some((format!("{} stopped waiting", a.from), false, until));
+                }
+                self.maybe_schedule_collapse();
+            }
+            PhoneEvent::Progress { id, file, files, done, total } => match pd.transfer.as_mut() {
+                Some(t) if t.id == id => {
+                    t.file = file;
+                    t.files = files;
+                    t.done = done;
+                    t.total = total;
+                }
+                _ => {
+                    let from = pd.visitor.clone().unwrap_or_else(|| "Phone".into());
+                    pd.transfer = Some(PhoneTransfer { id, from, file, files, done, total });
+                }
+            },
+            PhoneEvent::Received { from, paths, .. } => {
+                pd.transfer = None;
+                let n = paths.len();
+                let title = format!("{} from {from} {} on the Shelf", files_label(n), if n == 1 { "is" } else { "are" });
+                pd.outcome = Some((title.clone(), true, until));
+                let added: Vec<String> = paths.iter().map(|p| p.to_string_lossy().into_owned()).collect();
+                self.st.store.shelf.add_paths(&added, self.st.unix);
+                for p in added {
+                    self.st.cmds.push(Command::LoadThumb(p));
+                }
+                self.st.save();
+                pinfo!("phone drop: {} from {from}", files_label(n));
+                if !self.expanded {
+                    self.st.notify(Icon::Phone, palette::GREEN, title, "Open the Shelf to see them", 6.0, Some(NoticeAction::OpenPage(PageKind::Shelf)));
+                }
+                self.st.chime();
+                self.maybe_schedule_collapse();
+            }
+            PhoneEvent::Failed { from, reason, detail, .. } => {
+                pd.transfer = None;
+                pd.outcome = Some((format!("Nothing kept from {from}. {reason}."), false, until));
+                pwarn!("phone drop: transfer from {from} failed: {reason} {detail}");
+                self.maybe_schedule_collapse();
             }
         }
     }
@@ -1115,6 +1471,7 @@ impl App {
             dt = dt.min(period);
         }
         let dt = dt.clamp(0.0, 0.05) as f32;
+        self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
         self.island.step(dt, now);
         self.ensure_room();
         self.note_motion(retarget, mono, period, dt as f64);
@@ -1276,6 +1633,8 @@ impl App {
         match sm.phase {
             SmokePhase::Apply => {
                 if sm.step >= SMOKE_STEPS.len() {
+                    let login = services::login::status();
+                    sm.note("start-at-login", login != Login::Unavailable, format!("login item status {login:?}"));
                     sm.finish(self.frames_drawn);
                     let code = if sm.failed { 1 } else { 0 };
                     self.smoke = Some(sm);
@@ -1286,13 +1645,17 @@ impl App {
                 sm.phase = SmokePhase::Settle(now);
             }
             SmokePhase::Settle(t0) => {
-                if settled || now - t0 > 4.0 {
-                    let name = SMOKE_STEPS[sm.step];
+                let name = SMOKE_STEPS[sm.step];
+                let ready = self.smoke_ready(name, now - t0);
+                if (settled && ready) || now - t0 > 6.0 {
                     if !settled {
-                        sm.note(name, false, "the island did not settle within 4 s".into());
+                        sm.note(name, false, "the island did not settle within 6 s".into());
                     } else {
                         let g = self.island.current();
                         sm.note(name, true, format!("{:?}, {:.0}x{:.0} DIP, {} frames drawn", self.mode, g.w, g.h, self.frames_drawn));
+                    }
+                    if let Some((check, ok, detail)) = self.smoke_check(name) {
+                        sm.note(check, ok, detail);
                     }
                     let rect = window::frame_top_left();
                     sm.write_ready(name, rect);
@@ -1334,9 +1697,86 @@ impl App {
             "notice" => {
                 self.st.notify(Icon::CheckCircle, self.st.accent, "Oyen Poni is on", "Point at the island to open it", 30.0, None);
             }
+            "volume-hud" => {
+                self.st.notice = None;
+                if !self.st.volume.known {
+                    self.on_event(AppEvent::Volume { level: 0.5, muted: false });
+                }
+                self.on_event(AppEvent::Volume { level: 0.64, muted: false });
+            }
+            "charging-hud" => {
+                self.st.hud = None;
+                self.st.power = crate::state::PowerState { has_battery: true, percent: 76, charging: false, on_ac: false, saver: false };
+                self.on_event(AppEvent::Power(crate::state::PowerState { has_battery: true, percent: 76, charging: true, on_ac: true, saver: false }));
+            }
+            // CI copies SMOKE_CLIP with pbcopy when this step is ready.
+            "clipboard-copy" => self.st.hud = None,
+            "clipboard-page" => {
+                self.st.page = PageKind::Clipboard;
+                self.expand();
+            }
+            "shelf-drop" => {
+                let paths = smoke_shelf_files();
+                self.on_event(AppEvent::ShelfAdd(paths));
+            }
+            "menu" => {
+                self.collapse();
+                self.pending.push(Deferred::OpenMenu);
+            }
             _ => {}
         }
         self.request_frame();
+    }
+
+    /// A step's own condition to wait for before its picture (data from a
+    /// service arriving), on top of the island resting.
+    fn smoke_ready(&self, name: &str, waited: f64) -> bool {
+        match name {
+            // The second stats sample has a real CPU load.
+            "open-today" => self.st.stats.valid && waited > 1.3,
+            "clipboard-page" => self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP)) || waited > 3.0,
+            "shelf-drop" => self.st.shelf_thumbs.values().filter(|t| t.is_some()).count() >= 3 || waited > 5.0,
+            "menu" => waited > 1.0,
+            _ => true,
+        }
+    }
+
+    /// What each new part of the app did on a real Mac.
+    fn smoke_check(&self, name: &str) -> Option<(&'static str, bool, String)> {
+        let gib = |b: u64| b as f64 / (1u64 << 30) as f64;
+        match name {
+            "open-today" => {
+                let s = &self.st.stats;
+                let ok = s.valid && s.mem_total > 0 && s.disk_total > 0 && s.uptime_s > 0;
+                let d = format!(
+                    "CPU {:.0} %, memory {:.1} of {:.1} GiB, disk {:.0} GiB free of {:.0}, up {} min",
+                    s.cpu * 100.0,
+                    gib(s.mem_used),
+                    gib(s.mem_total),
+                    gib(s.disk_free),
+                    gib(s.disk_total),
+                    s.uptime_s / 60
+                );
+                Some(("system-stats", ok, d))
+            }
+            "volume-hud" => {
+                let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Volume { .. }));
+                Some(("volume-hud", ok, format!("output device: {:?}", services::audio::current())))
+            }
+            "charging-hud" => {
+                let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Charging { .. }));
+                Some(("charging-hud", ok, format!("this Mac's power: {:?}", services::power::query())))
+            }
+            "clipboard-page" => {
+                let ok = self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP));
+                Some(("clipboard-history", ok, format!("{} item(s) recorded", self.st.clip.iter().count())))
+            }
+            "shelf-drop" => {
+                let made = self.st.shelf_thumbs.values().filter(|t| t.is_some()).count();
+                Some(("shelf-thumbnails", made >= 3, format!("{made} of {} tiles drawn", self.st.shelf_thumbs.len())))
+            }
+            _ => None,
+        }
     }
 }
 
@@ -1347,6 +1787,24 @@ fn theme_accent(theme: Theme) -> Color {
     } else {
         services::system_accent().unwrap_or(palette::BLUE)
     }
+}
+
+/// Three things to drop on the Shelf in the smoke test: a picture, a text
+/// file and a folder (made-up content).
+fn smoke_shelf_files() -> Vec<String> {
+    let base = paths::data_dir().join("shelf-demo");
+    let folder = base.join("Project assets");
+    let _ = std::fs::create_dir_all(&folder);
+    let _ = std::fs::write(folder.join("readme.txt"), "Drafts and exports for the harbor poster.\n");
+    let notes = base.join("Trip notes.txt");
+    let _ = std::fs::write(&notes, "Weekend trip\n\n- ferry leaves at 9:40\n- pack the blue jacket\n");
+    let sketch = base.join("Harbor sketch.png");
+    let _ = crate::png::save_pbgra(&sketch, 240, 240, &crate::render::make_art(240));
+    [sketch, notes, folder].iter().map(|p| p.to_string_lossy().into_owned()).collect()
+}
+
+fn files_label(n: usize) -> String {
+    format!("{n} {}", if n == 1 { "file" } else { "files" })
 }
 
 /// Name of a morph for the motion log.
@@ -1405,7 +1863,10 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 6] = ["idle", "hover", "open-focus", "open-today", "timer", "notice"];
+const SMOKE_STEPS: [&str; 12] =
+    ["idle", "hover", "open-focus", "open-today", "timer", "notice", "volume-hud", "charging-hud", "clipboard-copy", "clipboard-page", "shelf-drop", "menu"];
+/// What CI copies with `pbcopy` during the clipboard step.
+const SMOKE_CLIP: &str = "Oyen Poni smoke test";
 
 #[derive(Clone, Copy, Debug)]
 enum SmokePhase {

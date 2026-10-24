@@ -69,11 +69,15 @@ enum Scene {
     Media,
     FocusNotice,
     VolumeHud,
+    ChargingHud,
+    LowBatteryHud,
     Page(PageKind),
     HealthSignedOut,
+    ShelfItems,
+    ShelfPhone,
 }
 
-const SCENES: [Scene; 15] = [
+const SCENES: [Scene; 19] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Hover,
@@ -89,6 +93,11 @@ const SCENES: [Scene; 15] = [
     Scene::Page(PageKind::Media),
     Scene::Page(PageKind::Shelf),
     Scene::Page(PageKind::Clipboard),
+    // Slice 3: the pop-ups and the Shelf with real files.
+    Scene::ChargingHud,
+    Scene::LowBatteryHud,
+    Scene::ShelfItems,
+    Scene::ShelfPhone,
 ];
 
 impl Scene {
@@ -101,6 +110,10 @@ impl Scene {
             Scene::Media => "media-activity".into(),
             Scene::FocusNotice => "focus-notice".into(),
             Scene::VolumeHud => "volume-hud".into(),
+            Scene::ChargingHud => "charging-hud".into(),
+            Scene::LowBatteryHud => "low-battery-hud".into(),
+            Scene::ShelfItems => "page-shelf-items".into(),
+            Scene::ShelfPhone => "page-shelf-phone".into(),
             Scene::Page(p) => format!("page-{}", p.key()),
             Scene::HealthSignedOut => "page-health-signed-out".into(),
         }
@@ -233,6 +246,40 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             st.ui.hud_level = 0.64;
             Mode::Hud(activities::HudTag::Volume)
         }
+        Scene::ChargingHud => {
+            st.hud = Some(Hud { kind: HudKind::Charging { percent: 76, plugged: true }, until: NOW_MONO + 30.0 });
+            Mode::Hud(activities::HudTag::Charging)
+        }
+        Scene::LowBatteryHud => {
+            st.hud = Some(Hud { kind: HudKind::LowBattery { percent: 19 }, until: NOW_MONO + 30.0 });
+            Mode::Hud(activities::HudTag::LowBattery)
+        }
+        Scene::ShelfItems => {
+            // Real files, with tiles from the Mac's own thumbnail code.
+            let dir = std::env::temp_dir().join("poni-render-shelf");
+            let folder = dir.join("Project assets");
+            let _ = std::fs::create_dir_all(&folder);
+            let notes = dir.join("Trip notes.txt");
+            let _ = std::fs::write(&notes, "Weekend trip\n");
+            let sketch = dir.join("Harbor sketch.png");
+            let _ = crate::png::save_pbgra(&sketch, 240, 240, &make_art(240));
+            let px = (crate::services::imaging::THUMB_DIP * SCALE).round() as u32;
+            for (k, p) in [&folder, &notes, &sketch].into_iter().enumerate() {
+                let path = p.to_string_lossy().into_owned();
+                st.store.shelf.add_paths(&[path.as_str()], NOW_UNIX - 3600 + k as i64 * 600);
+                let tile = crate::services::thumbs::make(&path, px);
+                println!("render: shelf tile for {}: {}", p.display(), if tile.is_some() { "drawn" } else { "missing" });
+                st.shelf_thumbs.insert(path, tile);
+            }
+            st.page = PageKind::Shelf;
+            Mode::Expanded(PageKind::Shelf)
+        }
+        Scene::ShelfPhone => {
+            let url = "http://192.168.1.20:53530/QK7WZ3MRN2D4XJ5T".to_string();
+            st.phone = Some(crate::state::PhoneDrop { qr: poni_core::phonedrop::QrMatrix::encode(&url), url, ..Default::default() });
+            st.page = PageKind::Shelf;
+            Mode::Expanded(PageKind::Shelf)
+        }
         Scene::Page(p) => {
             if p == PageKind::Media {
                 media(&mut st);
@@ -316,7 +363,7 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
 
 /// Procedural album art: a harbor sunset with a paper boat (premultiplied
 /// BGRA, opaque). The same picture the Windows self-test uses.
-fn make_art(size: u32) -> Vec<u8> {
+pub(crate) fn make_art(size: u32) -> Vec<u8> {
     const SS: usize = 3;
     let n = size.max(1) as usize;
     let mut px = vec![0u8; n * n * 4];
