@@ -577,8 +577,8 @@ fn draw_hud(ui: &mut Ui, st: &mut AppState, body: Rect) {
             st.ui.hud_level = shown;
             ui.c.fill_rrect(bar, 3.0, palette::TRACK);
             if shown > 0.0 {
-                // Classic fills the level in white; a light look in its accent.
-                let level = match ui.c.look().accent.filter(|_| ui.c.look().light) {
+                // Classic fills the level in white; a look with its own accent (Oyen's) in it.
+                let level = match ui.c.look().accent {
                     Some(a) => a,
                     None => Color::white(0.95),
                 };

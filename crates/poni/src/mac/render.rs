@@ -1,4 +1,4 @@
-//! `poni --render <dir> [--theme classic|oyen] [--notch]`: draw the island's
+//! `poni --render <dir> [--theme classic|oyen|glass] [--notch]`: draw the island's
 //! states with sample data into PNGs, offscreen, through the Mac renderer.
 //! CI runs it on a Mac with no notch and no person at the screen, so this is
 //! how the Mac drawing gets looked at: every page and activity, each theme,
@@ -6,7 +6,9 @@
 //!
 //! Each picture is the island over a desktop: a soft wallpaper gradient and a
 //! light menu bar. With `--notch` the camera notch is painted on top, black,
-//! the way it hides that part of the island on a real MacBook.
+//! the way it hides that part of the island on a real MacBook. Glass is
+//! macOS's own view on the real window, so here a smoked stand-in takes its
+//! place (the smoke run's screenshots show the real one).
 //!
 //! The music scenes use made-up data to test the drawing; the Mac app shows
 //! music once the media slice is built.
@@ -128,10 +130,16 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     }
     let theme = match args.iter().position(|a| a == "--theme").and_then(|i| args.get(i + 1)).map(|s| s.as_str()) {
         Some("oyen") => Theme::Oyen,
+        Some("glass") => Theme::Glass,
         _ => Theme::Classic,
     };
     let notch = args.iter().any(|a| a == "--notch").then_some(Notch::MACBOOK);
-    let suffix = format!("{}{}", if theme == Theme::Oyen { "-oyen" } else { "" }, if notch.is_some() { "-notch" } else { "" });
+    let name = match theme {
+        Theme::Classic => "",
+        Theme::Oyen => "-oyen",
+        Theme::Glass => "-glass",
+    };
+    let suffix = format!("{name}{}", if notch.is_some() { "-notch" } else { "" });
     let mut gfx = Gfx::new(SCALE);
     let mut failed = 0;
     for (i, scene) in SCENES.into_iter().enumerate() {
@@ -331,14 +339,20 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
         c.fill_rect(Rect::new(0.0, 0.0, w_dip, menu_h), Color::rgba(0.96, 0.96, 0.97, 0.78));
     }
 
-    // The island, drawn by the app's own content code.
-    gfx.set_look(poni_core::look::of(theme));
+    // The island, drawn by the app's own content code (around a notch in
+    // the look that meets its black).
+    let look = if notch.is_some() { poni_core::look::around_notch(theme) } else { poni_core::look::of(theme) };
+    gfx.set_look(look);
     {
         let mut c = gfx.canvas(bmp.ctx());
         let shoulder = notch.map_or(SHOULDER, |n| notch::shoulder(n, g.w));
         let inside = notch.is_some_and(|_| notch::fit(&mode, &st) == notch::Fit::Inside);
-        let border = if inside { None } else { Some(c.look().border) };
-        c.notch(body, g.r, shoulder, palette::ISLAND, border);
+        if look.material == poni_core::look::Material::Glass {
+            crate::glass::draw_body(&mut c, body, g.r, shoulder, notch, inside, true);
+        } else {
+            let border = if inside { None } else { Some(c.look().border) };
+            c.notch(body, g.r, shoulder, palette::ISLAND, border);
+        }
         let mut input = Input::default();
         if hovering {
             input.mouse = Some(Point::new(body.center().x + 20.0, body.center().y));

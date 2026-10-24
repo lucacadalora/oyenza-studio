@@ -83,6 +83,9 @@ mod events;
 #[path = "mac/gfx.rs"]
 mod gfx;
 #[cfg(target_os = "macos")]
+#[path = "mac/glass.rs"]
+mod glass;
+#[cfg(target_os = "macos")]
 #[path = "mac/menubar.rs"]
 mod menubar;
 #[cfg(target_os = "macos")]

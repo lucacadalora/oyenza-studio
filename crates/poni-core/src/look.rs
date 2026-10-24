@@ -95,6 +95,26 @@ pub const OYEN: Look = Look {
     ],
 };
 
+/// Oyen around a MacBook's camera notch. The notch is black hardware that no
+/// pixel can colour, so a cream island would wear a black hole in its top
+/// edge: here the island is black like the notch (and Classic), and Oyen
+/// stays in everything on it: cream ink, his orange, Outfit, his face.
+pub const OYEN_NIGHT: Look = Look {
+    ground: Color::black(1.0),
+    ink: Color::hex(0xFFF1DE),
+    accent: Some(OYEN_ORANGE),
+    border: Color::rgba(1.0, 0.945, 0.871, 0.07),
+    light: false,
+    font: Some("Outfit"),
+    material: Material::Solid,
+    // His orange reads on black as it is, in fills and in text alike; the
+    // palette's other accents are made for a dark ground already.
+    swaps: &[
+        Swap { from: OYEN_ORANGE, fill: OYEN_ORANGE, text: OYEN_ORANGE },
+        Swap { from: palette::ORANGE, fill: OYEN_ORANGE, text: OYEN_ORANGE },
+    ],
+};
+
 /// Glass over a dark backdrop (and in Windows dark mode): white ink, the
 /// palette's own accents (made for dark grounds), the system UI font.
 pub const GLASS_DARK: Look = Look {
@@ -136,6 +156,18 @@ pub fn of(theme: Theme) -> &'static Look {
     match theme {
         Theme::Classic => &CLASSIC,
         Theme::Oyen => &OYEN,
+        Theme::Glass => &GLASS_DARK,
+    }
+}
+
+/// The theme's look on a screen where the island wraps a camera notch (the
+/// Mac app on a MacBook): the island meets black hardware there, so Oyen
+/// goes black and Glass is the dark glass (with a black strip where it
+/// touches the notch, drawn by the Mac app).
+pub fn around_notch(theme: Theme) -> &'static Look {
+    match theme {
+        Theme::Classic => &CLASSIC,
+        Theme::Oyen => &OYEN_NIGHT,
         Theme::Glass => &GLASS_DARK,
     }
 }
@@ -222,6 +254,35 @@ mod tests {
         let art = Color::hex(0x7A3EE0);
         assert_eq!(OYEN.paint(art), art);
         assert_eq!(OYEN.paint_text(palette::ON_ACCENT), palette::ON_ACCENT);
+    }
+
+    #[test]
+    fn oyen_around_a_notch_is_black_with_oyen_on_it() {
+        // The island's own black is the notch's black, exactly.
+        assert_eq!(OYEN_NIGHT.paint(palette::ISLAND), palette::ISLAND);
+        assert_eq!(OYEN_NIGHT.ground, CLASSIC.ground);
+        // White content becomes Oyen's cream, at the opacity it asked for.
+        assert_eq!(OYEN_NIGHT.paint(Color::white(1.0)), OYEN.ground);
+        assert_eq!(OYEN_NIGHT.paint(palette::TEXT_DIM), OYEN.ground.with_alpha(0.62));
+        // His orange in fills and text, bright enough on black.
+        assert_eq!(OYEN_NIGHT.paint(palette::ORANGE), OYEN_ORANGE);
+        assert_eq!(OYEN_NIGHT.paint_text(palette::ORANGE), OYEN_ORANGE);
+        assert!(OYEN_ORANGE.luminance() > 0.3);
+        // The palette's dark-ground accents and the content on them stay.
+        assert_eq!(OYEN_NIGHT.paint(palette::GREEN), palette::GREEN);
+        assert_eq!(OYEN_NIGHT.paint_text(palette::ON_ACCENT), palette::ON_ACCENT);
+        assert!(!OYEN_NIGHT.light);
+        assert_eq!(OYEN_NIGHT.font, OYEN.font);
+        assert_eq!(OYEN_NIGHT.material, Material::Solid);
+    }
+
+    #[test]
+    fn around_a_notch_only_oyen_changes() {
+        assert_eq!(*around_notch(Theme::Classic), CLASSIC);
+        assert_eq!(*around_notch(Theme::Oyen), OYEN_NIGHT);
+        assert_eq!(*around_notch(Theme::Glass), GLASS_DARK);
+        // Away from a notch (and on Windows) every theme keeps its look.
+        assert_eq!(*of(Theme::Oyen), OYEN);
     }
 
     #[test]

@@ -15,6 +15,7 @@ use crate::clock;
 use crate::commands::{Command, PhoneCmd, Sound};
 use crate::events::{AppEvent, EventSink};
 use crate::gfx::{scale_about, union_rect, Canvas, Gfx, Matrix3x2};
+use crate::glass;
 use crate::icons::Icon;
 use crate::island::{Geom, Island, HIT_MARGIN, SHOULDER};
 use crate::menubar::{Login, MenuBar, MenuCmd};
@@ -38,6 +39,7 @@ use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoo
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
+use poni_core::look::{Look, Material};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
 use std::cell::RefCell;
@@ -1058,6 +1060,21 @@ impl App {
         activities::collapsed_mode(&self.st)
     }
 
+    /// How the island paints: the theme's look, or around a notch the one
+    /// that meets its black (Oyen goes black there).
+    fn look(&self) -> &'static Look {
+        match self.screen.notch {
+            Some(_) => poni_core::look::around_notch(self.st.settings.theme),
+            None => poni_core::look::of(self.st.settings.theme),
+        }
+    }
+
+    /// The resting island is out of sight: hidden until hover, or inside the notch.
+    fn island_hidden(&self) -> bool {
+        self.mode == Mode::Idle
+            && (self.st.settings.idle_style == IdleStyle::Hidden || self.screen.notch.is_some_and(|_| notch::fit(&self.mode, &self.st) == Fit::Inside))
+    }
+
     /// Island geometry for `m` (around the notch when the screen has one).
     /// The resting pill lifts a little under the pointer: instant feedback
     /// while the hover dwell runs.
@@ -1695,6 +1712,11 @@ impl App {
         self.island.step(dt, now);
         self.ensure_room();
         self.note_motion(retarget, mono, period, dt as f64);
+        // macOS's glass follows the island's outline, set before the repaint.
+        let glass_at = (self.look().material == Material::Glass)
+            .then(|| glass::shape(self.island.body_rect_at(self.cx), self.island.current().r, self.screen.notch, self.island_hidden()))
+            .flatten();
+        glass::show(glass_at);
 
         let canvas_r = self.island.canvas_rect_at(self.cx).inset(-2.0, -2.0);
         let full = Rect::new(0.0, 0.0, self.surface.0, self.surface.1);
@@ -1733,14 +1755,19 @@ impl App {
             _ => body,
         };
         let shoulder = notch.map_or(SHOULDER, |n| notch::shoulder(n, geom.w));
-        let hidden = mode == Mode::Idle && (self.st.settings.idle_style == IdleStyle::Hidden || notch.is_some_and(|_| notch::fit(&mode, &self.st) == Fit::Inside));
-        self.gfx.set_look(poni_core::look::of(self.st.settings.theme));
+        let hidden = self.island_hidden();
+        let look = self.look();
+        self.gfx.set_look(look);
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
         let (repaint, anim, focus, live) = {
             let mut canvas = self.gfx.canvas(ctx);
-            let border = if hidden { None } else { Some(canvas.look().border) };
-            canvas.notch(body, geom.r, shoulder, palette::ISLAND, border);
+            if look.material == Material::Glass {
+                glass::draw_body(&mut canvas, body, geom.r, shoulder, notch, hidden, false);
+            } else {
+                let border = if hidden { None } else { Some(canvas.look().border) };
+                canvas.notch(body, geom.r, shoulder, palette::ISLAND, border);
+            }
             let pivot = Point::new(body.center().x, body.y);
             if morphing {
                 canvas.clip(body);
@@ -1956,7 +1983,31 @@ impl App {
                 self.st.hud = None;
             }
             "music-check" => {}
+            // The themes on the real window: Glass, then Oyen and Glass
+            // around a notch (one the screen pretends to have; CI's Macs
+            // have none), open and resting in the menu bar's line.
+            "glass-open" => {
+                self.on_menu(MenuCmd::SetTheme(Theme::Glass));
+                self.st.page = PageKind::Today;
+                self.expand();
+            }
+            "glass-collapsed" | "notch-oyen-collapsed" => self.collapse(),
+            "notch-oyen-open" => {
+                window::fake_notch(Some(Notch::MACBOOK));
+                self.refresh_screen();
+                self.on_menu(MenuCmd::SetTheme(Theme::Oyen));
+                self.st.page = PageKind::Today;
+                self.expand();
+            }
+            "notch-glass-open" => {
+                self.on_menu(MenuCmd::SetTheme(Theme::Glass));
+                self.st.page = PageKind::Today;
+                self.expand();
+            }
             "menu" => {
+                window::fake_notch(None);
+                self.refresh_screen();
+                self.on_menu(MenuCmd::SetTheme(Theme::Classic));
                 self.collapse();
                 self.pending.push(Deferred::OpenMenu);
             }
@@ -2015,6 +2066,16 @@ impl App {
             "shelf-drop" => {
                 let made = self.st.shelf_thumbs.values().filter(|t| t.is_some()).count();
                 Some(("shelf-thumbnails", made >= 3, format!("{made} of {} tiles drawn", self.st.shelf_thumbs.len())))
+            }
+            "glass-open" | "notch-glass-open" => {
+                let notch = self.screen.notch.map_or("no notch".to_string(), |n| format!("a {:.0}x{:.0} notch with a black brow", n.w, n.h));
+                let what = glass::kind().unwrap_or("no glass view");
+                Some(("glass-theme", glass::shown() && self.look().material == Material::Glass, format!("{what} under the open island, {notch}")))
+            }
+            "notch-oyen-open" | "notch-oyen-collapsed" => {
+                let look = self.look();
+                let ok = self.screen.notch.is_some() && *look == poni_core::look::OYEN_NIGHT && !glass::shown();
+                Some(("oyen-around-notch", ok, format!("ground {:?}, ink {:?}, font {:?}", look.ground, look.ink, look.font)))
             }
             "music-check" => {
                 let playing = self.st.media.as_ref().map_or("nothing".to_string(), |m| format!("{} by {} in {}", m.title, m.artist, m.app_name));
@@ -2112,7 +2173,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 14] = [
+const SMOKE_STEPS: [&str; 19] = [
     "idle",
     "hover",
     "open-focus",
@@ -2126,6 +2187,11 @@ const SMOKE_STEPS: [&str; 14] = [
     "shelf-drop",
     "music-notify",
     "music-check",
+    "glass-open",
+    "glass-collapsed",
+    "notch-oyen-open",
+    "notch-oyen-collapsed",
+    "notch-glass-open",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
