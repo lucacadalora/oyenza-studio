@@ -1306,8 +1306,8 @@ mod tests {
     #[test]
     fn mac_pressure_says_the_kernels_word() {
         use PressureLevel::*;
-        assert_eq!((PressureLevel::from_kernel(1), PressureLevel::from_kernel(2), PressureLevel::from_kernel(4)), (Some(Normal), Some(Warning), Some(Critical)));
-        assert_eq!(PressureLevel::from_kernel(0), None);
+        let from = PressureLevel::from_kernel;
+        assert_eq!((from(1), from(2), from(4), from(0)), (Some(Normal), Some(Warning), Some(Critical), None));
         // The needle follows how full memory is, inside the level's zone.
         assert_eq!(level_pressure(Normal, 0.4), 0.4);
         for (level, word) in [(Normal, "Normal"), (Warning, "Warning"), (Critical, "Critical")] {

@@ -2156,9 +2156,16 @@ fn system_report(st: &AppState) -> (bool, String) {
     let mem = r.memory.as_ref().filter(|m| m.total > 0 && m.used <= m.total);
     let net = r.network.as_ref().filter(|n| !n.adapter.is_empty());
     let ok = cpu.is_some() && mem.is_some() && !r.drives.is_empty() && net.is_some();
-    let cores = cpu.map_or("missing".into(), |c| match c.hybrid() {
-        Some((p, e)) => format!("{:.0}% of {} cores ({p} P {:.0}%, {e} E {:.0}%), system {:.0}%", c.load * 100.0, c.cores.len(), c.kind_load(CoreKind::Performance).unwrap_or(0.0) * 100.0, c.kind_load(CoreKind::Efficiency).unwrap_or(0.0) * 100.0, c.kernel * 100.0),
-        None => format!("{:.0}% of {} cores, system {:.0}%", c.load * 100.0, c.cores.len(), c.kernel * 100.0),
+    let pct = |f: f32| format!("{:.0}%", f * 100.0);
+    let cores = cpu.map_or("missing".into(), |c| {
+        let kinds = match c.hybrid() {
+            Some((p, e)) => {
+                let load = |k: CoreKind| pct(c.kind_load(k).unwrap_or(0.0));
+                format!(" ({p} P at {}, {e} E at {})", load(CoreKind::Performance), load(CoreKind::Efficiency))
+            }
+            None => String::new(),
+        };
+        format!("{} of {} cores{kinds}, system {}", pct(c.load), c.cores.len(), pct(c.kernel))
     });
     let memory = mem.map_or("missing".into(), |m| {
         let parts = m.parts().map(|(_, b)| fmt_bytes(b));
@@ -2176,7 +2183,8 @@ fn system_report(st: &AppState) -> (bool, String) {
             fmt_bytes(m.page_total)
         )
     });
-    let drives: Vec<String> = r.drives.iter().map(|d| format!("{}{} {} free of {}", d.root, if d.system { " (startup)" } else { "" }, fmt_bytes(d.free), fmt_bytes(d.total))).collect();
+    let drives: Vec<String> =
+        r.drives.iter().map(|d| format!("{}{} {} free of {}", d.root, if d.system { " (startup)" } else { "" }, fmt_bytes(d.free), fmt_bytes(d.total))).collect();
     let network = r.network.as_ref().map_or("missing".into(), |n| {
         format!(
             "{} {} {} MAC {} link {} down {} up {} received {} sent {}",
@@ -2191,15 +2199,22 @@ fn system_report(st: &AppState) -> (bool, String) {
             fmt_bytes(n.sent)
         )
     });
-    let gpu = r.gpu.as_ref().map_or("none".into(), |g| format!("{} {:.0}% (renderer {:.0}%, tiler {:.0}%), {} of {}", g.name, g.util * 100.0, g.engine_3d * 100.0, g.tiler * 100.0, fmt_bytes(g.mem_used), fmt_bytes(g.mem_total)));
+    let gpu = r.gpu.as_ref().map_or("none".into(), |g| {
+        format!("{} {} (renderer {}, tiler {}), {} of {}", g.name, pct(g.util), pct(g.engine_3d), pct(g.tiler), fmt_bytes(g.mem_used), fmt_bytes(g.mem_total))
+    });
     let battery = r.battery.as_ref().map_or("none".into(), |b| format!("{}%", b.percent));
     let apps = |list: &[AppUse], value: &dyn Fn(&AppUse) -> String| {
-        list.iter().take(4).map(|a| format!("{} {} ({} process{}{})", a.name, value(a), a.processes, if a.processes == 1 { "" } else { "es" }, if a.path.is_some() { ", icon path" } else { "" })).collect::<Vec<_>>().join(", ")
+        let one = |a: &AppUse| {
+            let count = if a.processes == 1 { "1 process".to_string() } else { format!("{} processes", a.processes) };
+            format!("{} {} ({count}{})", a.name, value(a), if a.path.is_some() { ", icon path" } else { "" })
+        };
+        list.iter().take(4).map(one).collect::<Vec<_>>().join(", ")
     };
     let wanted: Vec<&String> = r.top_cpu.iter().chain(&r.top_memory).filter_map(|a| a.path.as_ref()).collect();
     let drawn = wanted.iter().filter(|p| st.app_icons.get(p.as_str()).is_some_and(|i| i.is_some())).count();
     let detail = format!(
-        "CPU {cores}, up {} min · memory {memory} · drives {} · disk {} · network {network} · GPU {gpu} · battery {battery} · top CPU {} · top memory {} · icons {drawn} of {} drawn",
+        "CPU {cores}, up {} min · memory {memory} · drives {} · disk {} · network {network} · GPU {gpu} · battery {battery} \
+         · top CPU {} · top memory {} · icons {drawn} of {} drawn",
         cpu.map_or(0, |c| c.uptime_s / 60),
         if drives.is_empty() { "none".into() } else { drives.join("; ") },
         r.disk.map_or("not reported".into(), |d| format!("read {} write {}", fmt_rate(d.read_bps), fmt_rate(d.write_bps))),

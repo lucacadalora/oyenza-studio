@@ -792,7 +792,8 @@ impl Sampler {
             }
             let image = self.app_key(pid, ri.proc_start_abstime);
             let cpu_time = self.to_100ns(ri.user_time.saturating_add(ri.system_time));
-            out.push(ProcSample { pid: pid as u64, image, cpu_time, memory: ri.phys_footprint, io: ri.diskio_bytesread.saturating_add(ri.diskio_byteswritten) });
+            let io = ri.diskio_bytesread.saturating_add(ri.diskio_byteswritten);
+            out.push(ProcSample { pid: pid as u64, image, cpu_time, memory: ri.phys_footprint, io });
         }
         out
     }
@@ -1107,8 +1108,8 @@ fn volumes() -> Vec<Drive> {
         let mount = unsafe { CStr::from_ptr(f.mntonname.as_ptr()) }.to_string_lossy().into_owned();
         let root = mount == "/";
         // The startup disk is read-only (its system half); others that are read-only are images.
-        let listed = (root || mount.starts_with("/Volumes/")) && f.flags & MNT_LOCAL != 0 && f.flags & MNT_DONTBROWSE == 0 && (root || f.flags & MNT_RDONLY == 0);
-        if !listed {
+        let place = root || mount.starts_with("/Volumes/");
+        if !place || f.flags & MNT_LOCAL == 0 || f.flags & MNT_DONTBROWSE != 0 || (!root && f.flags & MNT_RDONLY != 0) {
             continue;
         }
         let bsize = u64::from(f.bsize);
@@ -1309,9 +1310,8 @@ pub fn watch_away(mtm: MainThreadMarker, sink: EventSink) {
     }
     let center = NSDistributedNotificationCenter::defaultCenter();
     for (name, sel) in [("com.apple.screenIsLocked", sel!(screenLocked:)), ("com.apple.screenIsUnlocked", sel!(screenUnlocked:))] {
-        unsafe {
-            center.addObserver_selector_name_object_suspensionBehavior(obs, sel, Some(&NSString::from_str(name)), None, NSNotificationSuspensionBehavior::DeliverImmediately)
-        };
+        let name = NSString::from_str(name);
+        unsafe { center.addObserver_selector_name_object_suspensionBehavior(obs, sel, Some(&name), None, NSNotificationSuspensionBehavior::DeliverImmediately) };
     }
     std::mem::forget(observer);
 }
