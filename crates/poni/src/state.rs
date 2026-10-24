@@ -223,6 +223,8 @@ pub struct PageUiState {
     pub before_settings: Option<PageKind>,
     /// Start with Windows, as last read off the UI thread (None until Settings first opens).
     pub autostart: Option<bool>,
+    /// Oyen theme: the music notes floating up in the media pill.
+    pub notes: crate::oyen::Notes,
 }
 
 /// Oyenza sign-in, as the island sees it.

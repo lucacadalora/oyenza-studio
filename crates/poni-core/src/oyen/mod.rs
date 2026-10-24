@@ -274,7 +274,9 @@ pub fn frame(mood: Mood, t: f64, input: Input, eye_scale: f64) -> Frame {
 
 const A: f64 = 52.0;
 const B: f64 = A / 1.35;
-const CHIN: f64 = 38.5;
+/// The chin, below which nothing of the head shows in a peek: the point the
+/// head bounces and tilts about.
+pub const CHIN: f64 = 38.5;
 const EYE_X: f64 = 18.2;
 const EYE_Y: f64 = 6.163;
 const EYE_R: f64 = 6.76;
