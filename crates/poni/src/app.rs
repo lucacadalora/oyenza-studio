@@ -286,6 +286,9 @@ pub struct App {
     /// Motions logged so far, and when a hitchy one was last logged.
     motions_logged: u32,
     hitch_logged_at: f64,
+    /// Per-frame timing of the first few morphs (for the log): vblanks since
+    /// the last frame, ms from vblank to drawing, ms to draw and present.
+    trace: Vec<(u32, f32, f32)>,
     /// Self-test: read the next frame back, and where it was.
     capture_next: bool,
     capture_rect: RECT,
@@ -411,6 +414,7 @@ impl App {
             motion_name: "morph",
             motions_logged: 0,
             hitch_logged_at: f64::NEG_INFINITY,
+            trace: Vec::new(),
             capture_next: false,
             capture_rect: RECT::default(),
             fullscreen_hidden: false,
@@ -532,19 +536,20 @@ impl App {
         }
     }
 
-    /// The island (with overshoot) no longer fits the window: grow it.
+    /// The island no longer fits the window (a target beyond the laid-out
+    /// size, with room for its overshoot, or an outline past it): grow it.
     fn ensure_room(&mut self) {
         let g = self.island.current();
         let t = self.island.target();
-        let (bw, bh) = (g.w.max(t.w), g.h.max(t.h));
+        let (bw, bh) = ((t.w * OVERSHOOT).max(g.w), (t.h * OVERSHOOT).max(g.h));
         let s = self.gfx.scale();
-        let need_w = ((bw * OVERSHOOT + 2.0 * (SHOULDER + HIT_MARGIN)) * s).ceil() as i32;
-        let need_h = ((bh * OVERSHOOT + HIT_MARGIN) * s).ceil() as i32;
+        let need_w = ((bw + 2.0 * (SHOULDER + HIT_MARGIN)) * s).ceil() as i32;
+        let need_h = ((bh + HIT_MARGIN) * s).ceil() as i32;
         if need_w > self.surface.w || need_h > self.surface.h {
             let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
-            let body_h = (pages::HEADER_H + tallest + pages::PAD).max(bh * 1.1);
+            let body_h = (pages::HEADER_H + tallest + pages::PAD).max(bh / OVERSHOOT * 1.1);
             pinfo!("island outgrew the window; growing it to fit {bw:.0}x{bh:.0} DIP");
-            self.layout_surface_for(self.st.settings.expanded_width.max(bw * 1.1), body_h);
+            self.layout_surface_for(self.st.settings.expanded_width.max(bw / OVERSHOOT * 1.1), body_h);
         }
     }
 
@@ -1748,6 +1753,11 @@ impl App {
         if self.gfx.needs_hit_mask() {
             self.update_hit_mask(body, geom.r, canvas_r, now);
         }
+        if let (Some(t), true) = (tick, self.motion.is_some() && self.motions_logged < 6 && self.trace.len() < 200) {
+            let late = ((rendered_at - t.vblank) * 1000.0) as f32;
+            let took = ((clock::mono() - rendered_at) * 1000.0) as f32;
+            self.trace.push((t.periods, late, took));
+        }
         if !self.shown {
             self.shown = true;
             unsafe {
@@ -1818,6 +1828,12 @@ impl App {
                 let early = self.motions_logged < 20;
                 if m.frames >= 4 && (early || (m.hitches > 0 && t - self.hitch_logged_at > 60.0)) {
                     pinfo!("{} ({})", m.summary(), self.renderer_name());
+                    if self.motions_logged < 6 && !self.trace.is_empty() {
+                        let periods: Vec<String> = self.trace.iter().map(|f| f.0.to_string()).collect();
+                        let late: Vec<String> = self.trace.iter().map(|f| format!("{:.1}", f.1)).collect();
+                        let draw: Vec<String> = self.trace.iter().map(|f| format!("{:.1}", f.2)).collect();
+                        pinfo!("  vblanks {}; late ms {}; draw ms {}", periods.join(" "), late.join(" "), draw.join(" "));
+                    }
                     self.motions_logged += 1;
                     if !early {
                         self.hitch_logged_at = t;
@@ -1828,7 +1844,10 @@ impl App {
         if moving {
             match self.motion.as_mut() {
                 Some(m) => m.frame(t),
-                None => self.motion = Some(MotionStats::begin(self.motion_name, t, period, dt)),
+                None => {
+                    self.motion = Some(MotionStats::begin(self.motion_name, t, period, dt));
+                    self.trace.clear();
+                }
             }
         }
     }

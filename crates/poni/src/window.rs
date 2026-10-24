@@ -255,6 +255,8 @@ struct ClockShared {
     monitor: AtomicIsize,
     /// The clock restarted after being parked (cleared by the UI).
     resumed: AtomicBool,
+    /// Vblanks between the previous posted frame and the newest one.
+    periods: AtomicU32,
 }
 
 /// One vblank-driven frame, as the UI thread sees it.
@@ -266,6 +268,8 @@ pub struct FrameTick {
     pub period: f64,
     /// First frame after the clock was parked.
     pub resumed: bool,
+    /// Vblanks since the previous frame was posted (1 = none skipped).
+    pub periods: u32,
 }
 
 /// Posts `WM_APP_FRAME` on the vertical blank of the island's display while
@@ -288,6 +292,7 @@ impl FrameClock {
             period: AtomicU64::new(period_for_hz(hz).to_bits()),
             monitor: AtomicIsize::new(monitor),
             resumed: AtomicBool::new(true),
+            periods: AtomicU32::new(1),
         });
         let s = shared.clone();
         std::thread::Builder::new()
@@ -327,6 +332,7 @@ impl FrameClock {
             vblank: f64_load(&self.shared.latest),
             period: self.period(),
             resumed: self.shared.resumed.swap(false, Ordering::AcqRel),
+            periods: self.shared.periods.load(Ordering::Acquire),
         }
     }
 
@@ -423,6 +429,7 @@ fn clock_thread(s: Arc<ClockShared>, hwnd: SendHwnd) {
             continue;
         }
         if !s.pending.swap(true, Ordering::AcqRel) {
+            s.periods.store(since_post.min(1000), Ordering::Release);
             since_post = 0;
             unsafe {
                 let _ = PostMessageW(hwnd.hwnd(), WM_APP_FRAME, WPARAM(0), LPARAM(0));

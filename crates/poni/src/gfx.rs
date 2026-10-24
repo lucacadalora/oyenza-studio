@@ -459,7 +459,8 @@ impl GpuTarget {
             Stereo: BOOL(0),
             SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
             BufferUsage: DXGI_USAGE_RENDER_TARGET_OUTPUT,
-            BufferCount: 2,
+            // Three: drawing the next frame never waits for DWM to let go of one.
+            BufferCount: 3,
             Scaling: DXGI_SCALING_STRETCH,
             SwapEffect: DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL,
             AlphaMode: DXGI_ALPHA_MODE_PREMULTIPLIED,
@@ -479,7 +480,7 @@ impl GpuTarget {
         self.dc.SetTarget(None::<&ID2D1Image>);
         self.target_bmp = None;
         self.staging = None;
-        self.swap.ResizeBuffers(2, w as u32, h as u32, DXGI_FORMAT_B8G8R8A8_UNORM, DXGI_SWAP_CHAIN_FLAG(0))?;
+        self.swap.ResizeBuffers(3, w as u32, h as u32, DXGI_FORMAT_B8G8R8A8_UNORM, DXGI_SWAP_CHAIN_FLAG(0))?;
         self.w = w;
         self.h = h;
         Ok(())
