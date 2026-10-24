@@ -19,3 +19,30 @@ opt-level = 3
 lto = true
 codegen-units = 1
 strip = true
+
+# Libraries that run for moments and never in a frame, built for size instead
+# of speed (AGENTS.md, Keep it light): paired phone drop's WebRTC (str0m and
+# what it pulls in), the Japanese dictionary's tokenizer and unpacker, JSON
+# and QR codes. Poni's own code keeps opt-level 3.
+[profile.release.package.str0m]
+opt-level = "s"
+[profile.release.package.str0m-proto]
+opt-level = "s"
+[profile.release.package.str0m-wincrypto]
+opt-level = "s"
+[profile.release.package.dimpl]
+opt-level = "s"
+[profile.release.package.sctp-proto]
+opt-level = "s"
+[profile.release.package.combine]
+opt-level = "s"
+[profile.release.package.is]
+opt-level = "s"
+[profile.release.package.vibrato]
+opt-level = "s"
+[profile.release.package.ruzstd]
+opt-level = "s"
+[profile.release.package.serde_json]
+opt-level = "s"
+[profile.release.package.qrcodegen]
+opt-level = "s"
