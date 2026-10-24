@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="referrer" content="no-referrer">
+<title>Oyen Poni · Phone drop</title>
+<style>
+:root {
+  --bg: #ffffff; --panel: #f5f5f7; --panel-2: #ebebef; --ink: #171717; --muted: #6e6e73; --line: #e2e2e7;
+  --island: #000000; --on-island: #ffffff; --ok: #1e8a50; --ok-soft: #e7f5ec; --bad: #b42318; --bad-soft: #fdecea;
+  --wait: #7a5200; --wait-soft: #fff5db;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  padding: 0 max(16px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+}
+.island {
+  margin: 0 auto 22px; width: max-content; background: var(--island); color: var(--on-island);
+  border-radius: 0 0 24px 24px; padding: calc(10px + env(safe-area-inset-top)) 20px 12px;
+  display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 15px; letter-spacing: 0.01em;
+}
+.island svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.island .live { width: 8px; height: 8px; border-radius: 50%; background: #30d158; }
+main { max-width: 560px; margin: 0 auto; display: grid; gap: 16px; }
+h1 { font-size: 26px; line-height: 1.15; letter-spacing: -0.02em; margin: 0; }
+h2 { font-size: 17px; margin: 0; }
+p { margin: 0; }
+.sub { color: var(--muted); font-size: 14.5px; }
+.card { background: var(--panel); border-radius: 20px; padding: 18px; display: grid; gap: 12px; }
+.btn {
+  appearance: none; border: 0; border-radius: 14px; min-height: 50px; padding: 0 18px; font: inherit; font-weight: 600; font-size: 16px; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none;
+  -webkit-tap-highlight-color: transparent; width: 100%;
+}
+.btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.btn.primary { background: var(--island); color: var(--on-island); }
+.btn.quiet { background: var(--panel-2); color: var(--ink); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn:focus-visible { outline: 3px solid #0a84ff; outline-offset: 2px; }
+.row { display: flex; gap: 10px; }
+.row .btn { flex: 1; }
+input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+li.file { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+li.file:first-child { border-top: 0; }
+.kind { width: 36px; height: 36px; border-radius: 10px; background: var(--bg); display: grid; place-items: center; color: var(--muted); }
+.kind svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.name { min-width: 0; }
+.name b { display: block; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.name span { color: var(--muted); font-size: 13px; }
+.save { background: var(--bg); color: var(--ink); border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 14px; text-decoration: none; }
+.empty { color: var(--muted); font-size: 14.5px; padding: 4px 0; }
+.status { border-radius: 14px; padding: 12px 14px; font-size: 15px; display: flex; gap: 10px; align-items: flex-start; }
+.status.wait { background: var(--wait-soft); color: var(--wait); }
+.status.ok { background: var(--ok-soft); color: var(--ok); }
+.status.bad { background: var(--bad-soft); color: var(--bad); }
+.spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; flex: none; margin-top: 3px; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; border-right-color: currentColor; opacity: 0.6; } }
+.bar { height: 8px; border-radius: 999px; background: var(--panel-2); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0%; background: var(--island); border-radius: 999px; transition: width 0.2s linear; }
+.total { display: flex; justify-content: space-between; color: var(--muted); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.foot { color: var(--muted); font-size: 13px; text-align: center; padding: 4px 8px 0; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="island" aria-hidden="true"><span class="live"></span><span>Oyen Poni</span></div>
+<main>
+  <header>
+    <h1 id="title">Send to your PC</h1>
+    <p class="sub" id="where">Straight over your Wi-Fi. Nothing goes through the internet.</p>
+  </header>
+
+  <section class="card" aria-labelledby="send-h">
+    <h2 id="send-h">Send to the Shelf</h2>
+    <label class="btn primary" for="pick" id="pick-label">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14"/></svg>
+      Choose photos or files
+    </label>
+    <input id="pick" type="file" multiple>
+    <ul id="chosen" hidden></ul>
+    <div class="total" id="chosen-total" hidden><span id="chosen-count"></span><span id="chosen-size"></span></div>
+    <div class="row" id="send-row" hidden>
+      <button class="btn quiet" id="clear" type="button">Clear</button>
+      <button class="btn primary" id="send" type="button">Send</button>
+    </div>
+    <div id="progress" hidden>
+      <div class="bar"><i id="bar"></i></div>
+      <div class="total" style="margin-top:8px"><span id="p-file"></span><span id="p-bytes"></span></div>
+    </div>
+    <div class="status" id="status" hidden role="status" aria-live="polite"><span class="spin" id="spin" hidden></span><span id="status-text"></span></div>
+  </section>
+
+  <section class="card" aria-labelledby="shelf-h">
+    <h2 id="shelf-h">On the Shelf</h2>
+    <ul id="offer"><li class="empty">Loading…</li></ul>
+  </section>
+
+  <p class="foot" id="foot">This page works while Phone drop is open on the PC.</p>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var base = location.pathname.replace(/[^\/]*$/, "");
+  var $ = function (id) { return document.getElementById(id); };
+  var pcName = "your PC";
+  var chosen = [];
+  var sending = false;
+  var generation = -1;
+  var failures = 0;
+
+  var ICONS = {
+    photo: '<path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h13A1.5 1.5 0 0 1 20 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 16.5z"/><path d="M4 15l4.5-4.5L13 15l2.5-2.5L20 17"/><circle cx="15.5" cy="9.5" r="1.3"/>',
+    video: '<path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h9A1.5 1.5 0 0 1 16 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 4 16.5z"/><path d="M16 10.5l4-2.5v8l-4-2.5"/>',
+    file: '<path d="M7.5 3H14l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 6 19.5v-15A1.5 1.5 0 0 1 7.5 3z"/><path d="M14 3v5h5"/>'
+  };
+
+  function kindOf(name) {
+    var ext = (name.split(".").pop() || "").toLowerCase();
+    if (/^(jpe?g|png|gif|webp|heic|heif|bmp|tiff?)$/.test(ext)) return "photo";
+    if (/^(mp4|mov|m4v|avi|mkv|webm)$/.test(ext)) return "video";
+    return "file";
+  }
+
+  function fmt(n) {
+    if (n < 1000) return n + (n === 1 ? " byte" : " bytes");
+    if (n < 1e6) return Math.round(n / 1e3) + " KB";
+    if (n < 1e9) { var mb = n / 1e6; return (mb < 10 ? mb.toFixed(1) : Math.round(mb)) + " MB"; }
+    return (n / 1e9).toFixed(1) + " GB";
+  }
+
+  function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
+
+  function icon(kind) {
+    var span = document.createElement("span");
+    span.className = "kind";
+    span.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[kind] + "</svg>";
+    return span;
+  }
+
+  function fileRow(name, size, action) {
+    var li = document.createElement("li");
+    li.className = "file";
+    li.appendChild(icon(kindOf(name)));
+    var text = document.createElement("span");
+    text.className = "name";
+    var b = document.createElement("b");
+    b.textContent = name;
+    var s = document.createElement("span");
+    s.textContent = fmt(size);
+    text.appendChild(b);
+    text.appendChild(s);
+    li.appendChild(text);
+    li.appendChild(action || document.createElement("span"));
+    return li;
+  }
+
+  function setStatus(text, kind) {
+    var el = $("status");
+    if (!text) { el.hidden = true; return; }
+    el.hidden = false;
+    el.className = "status " + kind;
+    $("spin").hidden = kind !== "wait";
+    $("status-text").textContent = text;
+  }
+
+  function renderChosen() {
+    var list = $("chosen");
+    list.textContent = "";
+    var total = 0;
+    chosen.forEach(function (f) { total += f.size; list.appendChild(fileRow(f.name, f.size)); });
+    var any = chosen.length > 0;
+    list.hidden = !any;
+    $("chosen-total").hidden = !any;
+    $("send-row").hidden = !any || sending;
+    $("pick-label").hidden = any || sending;
+    $("chosen-count").textContent = plural(chosen.length, "file", "files");
+    $("chosen-size").textContent = fmt(total);
+  }
+
+  function renderOffer(files) {
+    var list = $("offer");
+    list.textContent = "";
+    if (!files.length) {
+      var li = document.createElement("li");
+      li.className = "empty";
+      li.textContent = "Nothing to save yet. Files you drop on the island show up here.";
+      list.appendChild(li);
+      return;
+    }
+    files.forEach(function (f) {
+      var a = document.createElement("a");
+      a.className = "save";
+      a.href = base + "get/" + generation + "/" + f.n;
+      a.setAttribute("download", f.name);
+      a.textContent = "Save";
+      list.appendChild(fileRow(f.name, f.size, a));
+    });
+  }
+
+  function closed() {
+    $("foot").textContent = "Phone drop is closed on the PC. Open it on the island again and scan the new code.";
+    $("offer").textContent = "";
+    var li = document.createElement("li");
+    li.className = "empty";
+    li.textContent = "Not connected.";
+    $("offer").appendChild(li);
+  }
+
+  function loadInfo() {
+    return fetch(base + "info", { cache: "no-store" }).then(function (r) {
+      if (!r.ok) throw new Error("status " + r.status);
+      return r.json();
+    }).then(function (v) {
+      failures = 0;
+      pcName = v.name || pcName;
+      $("title").textContent = "Send to " + pcName;
+      if (v.generation !== generation) {
+        generation = v.generation;
+        renderOffer(v.files || []);
+      }
+    }).catch(function () {
+      failures += 1;
+      if (failures >= 3) closed();
+    });
+  }
+
+  function reasonText(why) {
+    switch (why) {
+      case "declined": return "Declined on " + pcName + ".";
+      case "timeout": return "No answer from " + pcName + ". Send again to ask once more.";
+      case "busy": return pcName + " is taking files from another phone. Try again in a moment.";
+      case "closed": return "Phone drop was closed on " + pcName + ".";
+      case "too-many": return "That's more than 500 files. Send fewer at once.";
+      case "too-large": return "That's too much for one send. Send fewer files at once.";
+      case "size": return "A file changed while it was sent. Nothing was kept. Try again.";
+      case "pc-error": return pcName + " couldn't save the files. Nothing was kept.";
+      case "network": return "Lost the connection to " + pcName + ". Check that both are on the same Wi-Fi.";
+      default: return "The connection dropped. Nothing was kept. Try again.";
+    }
+  }
+
+  function fail(why) {
+    setStatus(reasonText(why), "bad");
+    sending = false;
+    $("progress").hidden = true;
+    renderChosen();
+  }
+
+  function put(transfer, i, file, before, total) {
+    return new Promise(function (resolve, reject) {
+      var x = new XMLHttpRequest();
+      x.open("PUT", base + "up/" + transfer + "/" + i);
+      x.upload.onprogress = function (e) {
+        var done = before + (e.lengthComputable ? e.loaded : 0);
+        $("bar").style.width = (total ? Math.min(100, done / total * 100) : 100) + "%";
+        $("p-bytes").textContent = fmt(done) + " of " + fmt(total);
+      };
+      x.onload = function () {
+        var v = null;
+        try { v = JSON.parse(x.responseText); } catch (e) { }
+        if (v && v.ok) resolve(v); else reject((v && v.why) || "failed");
+      };
+      x.onerror = function () { reject("network"); };
+      x.ontimeout = function () { reject("network"); };
+      x.send(file);
+    });
+  }
+
+  function send() {
+    if (sending || !chosen.length) return;
+    sending = true;
+    renderChosen();
+    setStatus("Waiting for " + pcName + " to accept. Look at the island on the PC.", "wait");
+    var files = chosen.slice();
+    var body = JSON.stringify({ files: files.map(function (f) { return { name: f.name, size: f.size }; }) });
+    fetch(base + "ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: body, cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (v) {
+        if (!v.ok) throw v.why || "failed";
+        var total = files.reduce(function (s, f) { return s + f.size; }, 0);
+        setStatus("", "");
+        $("progress").hidden = false;
+        $("bar").style.width = "0%";
+        var before = 0;
+        var chain = Promise.resolve();
+        files.forEach(function (f, i) {
+          chain = chain.then(function () {
+            $("p-file").textContent = "Sending " + (i + 1) + " of " + files.length;
+            return put(v.transfer, i, f, before, total).then(function () { before += f.size; });
+          });
+        });
+        return chain;
+      })
+      .then(function () {
+        sending = false;
+        $("progress").hidden = true;
+        var n = chosen.length;
+        chosen = [];
+        $("pick").value = "";
+        renderChosen();
+        setStatus("Sent. " + plural(n, "file is", "files are") + " on the Shelf.", "ok");
+      })
+      .catch(function (why) { fail(typeof why === "string" ? why : "network"); });
+  }
+
+  $("pick").addEventListener("change", function () {
+    chosen = Array.prototype.slice.call($("pick").files || []);
+    setStatus("", "");
+    renderChosen();
+  });
+  $("clear").addEventListener("click", function () {
+    chosen = [];
+    $("pick").value = "";
+    setStatus("", "");
+    renderChosen();
+  });
+  $("send").addEventListener("click", send);
+
+  loadInfo();
+  setInterval(function () {
+    if (document.visibilityState === "visible" && !sending && failures < 3) loadInfo();
+  }, 4000);
+})();
+</script>
+</body>
+</html>

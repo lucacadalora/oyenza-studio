@@ -10,3 +10,5 @@ description = "Platform-independent models and logic for the Poni island (pure R
 [dependencies]
 serde.workspace = true
 serde_json.workspace = true
+# QR codes for the phone-drop link (MIT, no dependencies).
+qrcodegen = "1.8"
