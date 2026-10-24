@@ -55,8 +55,8 @@ use windows::Win32::Devices::DeviceAndDriverInstallation::{
 };
 use windows::Win32::Foundation::{CloseHandle, FILETIME, GENERIC_READ, GENERIC_WRITE, HANDLE, HWND, LUID};
 use windows::Win32::Graphics::Dxgi::{CreateDXGIFactory1, IDXGIFactory1, DXGI_ADAPTER_FLAG_SOFTWARE};
-use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetBestInterface, GetIfTable2, MIB_IF_ROW2, MIB_IF_TABLE2};
-use windows::Win32::NetworkManagement::Ndis::IfOperStatusUp;
+use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetBestInterface, GetIfEntry2, GetIfTable2, MIB_IF_ROW2, MIB_IF_TABLE2};
+use windows::Win32::NetworkManagement::Ndis::{IfOperStatusUp, NET_LUID_LH};
 use windows::Win32::Storage::FileSystem::{
     CreateFileW, GetDiskFreeSpaceExW, GetDriveTypeW, GetFileVersionInfoSizeW, GetFileVersionInfoW, GetLogicalDrives, GetVolumeInformationW,
     VerQueryValueW, FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, FILE_SHARE_WRITE, OPEN_EXISTING,
@@ -99,6 +99,8 @@ const PDH_FMT_NOCAP100: u32 = 0x8000;
 const ROUTE_PROBE: [u8; 4] = [192, 0, 2, 1];
 /// A thermal zone that hasn't moved this much since the page first opened is a fixed placeholder, not a sensor.
 const ZONE_STILL_C: f32 = 0.5;
+/// The PCI vendor id DXGI gives Microsoft's software and basic adapters.
+const MICROSOFT_VENDOR: u32 = 0x1414;
 /// Less dedicated memory than this is a GPU built into the processor (its
 /// small carve-out of RAM); its real memory is the share of RAM it may use.
 const INTEGRATED_BELOW: u64 = 512 * 1024 * 1024;
@@ -256,8 +258,11 @@ pub fn probe() -> Probe {
     let _ = memory();
     parts.push(("memory status", t.elapsed()));
     let t = Instant::now();
-    let _ = net_counters(s.route.0);
+    let _ = if_rows(&s.ifs).map(|rows| net_reading(&rows, s.route.0));
     parts.push(("network adapters", t.elapsed()));
+    let t = Instant::now();
+    let _ = if_table().map(|rows| net_reading(&rows, s.route.0));
+    parts.push(("interface table (every 10 s)", t.elapsed()));
     let t = Instant::now();
     let _ = s.process_list();
     parts.push(("process list (open only)", t.elapsed()));
@@ -292,6 +297,10 @@ struct Sampler {
     gpu: Option<Gpu>,
     /// When the adapters were last read, and each one's (received, sent) bytes by LUID.
     net: Option<(Instant, HashMap<u64, (u64, u64)>)>,
+    /// The connected hardware adapters (LUIDs) at the last read of the whole
+    /// interface table, and when: light readings ask for just these.
+    ifs: Vec<u64>,
+    ifs_at: Option<Instant>,
     drives: Vec<(String, String)>,
     route: (Option<u32>, Option<String>),
     battery: Option<BatteryDetails>,
@@ -325,6 +334,8 @@ impl Sampler {
             gpu: Gpu::open(),
             net: None,
             drives: Vec::new(),
+            ifs: Vec::new(),
+            ifs_at: None,
             route: (None, None),
             battery: None,
             power: None,
@@ -336,7 +347,12 @@ impl Sampler {
         // Baselines for everything measured between two samples.
         s.cores = s.core_times();
         s.cpu = cpu_times();
-        s.net = net_counters(None).map(|(_, adapters)| (Instant::now(), adapters.into_iter().map(|(luid, rx, tx)| (luid, (rx, tx))).collect()));
+        if let Some(rows) = if_table() {
+            let (_, adapters) = net_reading(&rows, None);
+            s.ifs = adapters.iter().map(|a| a.0).collect();
+            s.ifs_at = Some(Instant::now());
+            s.net = Some((Instant::now(), adapters.into_iter().map(|(luid, rx, tx)| (luid, (rx, tx))).collect()));
+        }
         s
     }
 
@@ -392,9 +408,20 @@ impl Sampler {
             active: counters.idle.map(|idle| (1.0 - idle / 100.0).clamp(0.0, 1.0) as f32),
         });
 
+        // The whole interface table (dozens of filters and tunnels) when open
+        // and every ten seconds; in between just the adapters it listed.
         let route = self.route.0;
-        let network = net_counters(route).map(|(mut n, adapters)| {
+        let known = (!full && self.ifs_at.is_some_and(|t| t.elapsed() < SLOW)).then(|| if_rows(&self.ifs)).flatten();
+        let (rows, from_table) = match known {
+            Some(rows) => (Some(rows), false),
+            None => (if_table(), true),
+        };
+        let network = rows.map(|rows| net_reading(&rows, route)).map(|(mut n, adapters)| {
             let now = Instant::now();
+            if from_table {
+                self.ifs = adapters.iter().map(|a| a.0).collect();
+                self.ifs_at = Some(now);
+            }
             // Only adapters seen last time count: one that just (re)connected
             // brings its whole total since startup, which isn't this second's traffic.
             if let Some((at, before)) = &self.net {
@@ -921,7 +948,9 @@ impl Gpu {
         for i in 0.. {
             let Ok(adapter) = (unsafe { factory.EnumAdapters1(i) }) else { break };
             let Ok(desc) = (unsafe { adapter.GetDesc1() }) else { continue };
-            if desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE.0 as u32 != 0 {
+            // Windows' own software renderers (WARP, the basic display and
+            // render drivers, Hyper-V's) aren't graphics cards.
+            if desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE.0 as u32 != 0 || desc.VendorId == MICROSOFT_VENDOR {
                 continue;
             }
             let mem = desc.DedicatedVideoMemory as u64;
@@ -1089,10 +1118,8 @@ fn route_index() -> Option<u32> {
     (unsafe { GetBestInterface(u32::from_ne_bytes(ROUTE_PROBE), &mut index) } == 0).then_some(index)
 }
 
-/// Totals over every connected hardware adapter, and each one's (LUID,
-/// received, sent) so the caller can measure speeds per adapter; the adapter
-/// shown is the route's, else the busiest, with its address and link speed.
-fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)> {
+/// Every interface Windows has: adapters, and dozens of filters and tunnels.
+fn if_table() -> Option<Vec<MIB_IF_ROW2>> {
     let mut table: *mut MIB_IF_TABLE2 = std::ptr::null_mut();
     if let Err(e) = unsafe { GetIfTable2(&mut table) }.ok() {
         warn_once(16, &format!("network counters unavailable ({e})"));
@@ -1100,7 +1127,26 @@ fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)
     }
     // SAFETY: Windows allocated `NumEntries` rows after the header (the
     // declared one-row array is only the first of them); freed below.
-    let rows = unsafe { std::slice::from_raw_parts(std::ptr::addr_of!((*table).Table).cast::<MIB_IF_ROW2>(), (*table).NumEntries as usize) };
+    let rows = unsafe { std::slice::from_raw_parts(std::ptr::addr_of!((*table).Table).cast::<MIB_IF_ROW2>(), (*table).NumEntries as usize) }.to_vec();
+    unsafe { FreeMibTable(table as *const core::ffi::c_void) };
+    Some(rows)
+}
+
+/// Just these interfaces (by LUID); None when one has gone.
+fn if_rows(luids: &[u64]) -> Option<Vec<MIB_IF_ROW2>> {
+    luids
+        .iter()
+        .map(|luid| {
+            let mut row = MIB_IF_ROW2 { InterfaceLuid: NET_LUID_LH { Value: *luid }, ..Default::default() };
+            unsafe { GetIfEntry2(&mut row) }.is_ok().then_some(row)
+        })
+        .collect()
+}
+
+/// Totals over the connected hardware adapters among `rows`, and each one's
+/// (LUID, received, sent) so the caller can measure speeds per adapter; the
+/// adapter shown is the route's, else the busiest, with its address and link speed.
+fn net_reading(rows: &[MIB_IF_ROW2], route: Option<u32>) -> (NetReading, Vec<(u64, u64, u64)>) {
     let mut n = NetReading::default();
     let mut adapters = Vec::new();
     let mut busiest: Option<(u64, &MIB_IF_ROW2)> = None;
@@ -1128,9 +1174,8 @@ fn net_counters(route: Option<u32>) -> Option<(NetReading, Vec<(u64, u64, u64)>)
         n.mac = r.PhysicalAddress[..len].iter().map(|b| format!("{b:02X}")).collect::<Vec<_>>().join(":");
         n.link_bps = r.ReceiveLinkSpeed.max(r.TransmitLinkSpeed);
     }
-    unsafe { FreeMibTable(table as *const core::ffi::c_void) };
     n.online = busiest.is_some();
-    Some((n, adapters))
+    (n, adapters)
 }
 
 // ---------------------------------------------------------------- battery

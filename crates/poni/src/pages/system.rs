@@ -36,7 +36,7 @@ const FULL_W: f32 = 584.0;
 /// gauges, and their arcs.
 const DASH_H: f32 = 86.0;
 const RING: f32 = 70.0;
-const GAUGE: f32 = 46.0;
+const GAUGE: f32 = 50.0;
 const RING_W: f32 = 7.0;
 const GAUGE_W: f32 = 5.0;
 /// Section titles (Stats' separators), detail rows and process rows.
@@ -54,12 +54,14 @@ const ICON_FILL: f32 = 0.72;
 const APP_ICON: f32 = 16.0;
 const PLACEHOLDER: &str = "–";
 
-// Stats' colours: Windows' own time red, apps blue; performance cores blue,
+// Stats' colours: Windows' own time red, apps blue; performance cores indigo,
 // efficiency cores teal; reads and downloads blue, writes and uploads red.
 const SYSTEM_C: Color = palette::RED;
 const USER_C: Color = palette::BLUE;
-const P_CORE_C: Color = palette::BLUE;
+/// Stats' performance cores are indigo; a CPU with one kind of core is blue.
+const P_CORE_C: Color = Color::rgba(0.369, 0.361, 0.902, 1.0);
 const E_CORE_C: Color = palette::CYAN;
+const CORE_C: Color = palette::BLUE;
 const IN_C: Color = palette::BLUE;
 const OUT_C: Color = palette::RED;
 const APP_C: Color = palette::BLUE;
@@ -220,19 +222,14 @@ fn draw_cpu(ui: &mut Ui, st: &mut AppState, c: &CpuReading, r: &Reading, h: &His
     let accent = st.accent;
     // Dashboard: temperature (or package power), the load split, the speed.
     let left = match (c.temp_c, c.power_w) {
-        (Some(t), _) => Gauge { frac: Some((t - 20.0) / 80.0), value: format!("{t:.0}"), unit: "°C", label: "Temperature", color: heat_color(t) },
-        (None, Some(w)) => Gauge { frac: Some(w / 125.0), value: format!("{w:.0}"), unit: "W", label: "Power", color: palette::ORANGE },
+        (Some(t), _) => temperature(t),
+        (None, Some(w)) => Gauge { frac: Some(w / 125.0), value: format!("{w:.0} W"), label: "Power", color: palette::ORANGE },
         (None, None) => Gauge::unknown("Temperature"),
     };
+    // The speed against one and a half times the base speed (where turbo usually tops out).
     let right = match c.mhz {
-        Some(mhz) => Gauge {
-            frac: c.base_mhz.map(|b| mhz as f32 / (b as f32 * 1.5)),
-            value: format!("{:.1}", mhz as f32 / 1000.0),
-            unit: "GHz",
-            label: "Speed",
-            color: accent,
-        },
-        None => Gauge::unknown("Speed"),
+        Some(mhz) => Gauge { frac: c.base_mhz.map(|b| mhz as f32 / (b as f32 * 1.5)), value: ghz(mhz), label: "GHz", color: CORE_C },
+        None => Gauge::unknown("GHz"),
     };
     let ring = Ring { parts: vec![(c.kernel, SYSTEM_C), (c.user, USER_C)], value: fmt_pct(c.load) };
     let (dash, rest) = cols.dash.split_top(DASH_H);
@@ -242,26 +239,33 @@ fn draw_cpu(ui: &mut Ui, st: &mut AppState, c: &CpuReading, r: &Reading, h: &His
         Row::dot(USER_C, "User", fmt_pct(c.user)),
         Row::dot(REST_C, "Idle", fmt_pct(1.0 - c.load)),
     ];
-    rows.push(match c.hybrid() {
-        Some((p, e)) => Row::plain("Threads", format!("{p} P + {e} E")),
-        None => Row::plain("Threads", c.logical.to_string()),
-    });
-    rows.push(Row::plain("Uptime", fmt_uptime(c.uptime_s)));
+    match (c.kind_load(CoreKind::Efficiency), c.kind_load(CoreKind::Performance)) {
+        (Some(e), Some(p)) if c.hybrid().is_some() => {
+            rows.push(Row::dot(E_CORE_C, "Efficiency cores", fmt_pct(e)));
+            rows.push(Row::dot(P_CORE_C, "Performance cores", fmt_pct(p)));
+        }
+        _ => {
+            rows.push(Row::plain("Threads", c.logical.to_string()));
+            rows.push(Row::plain("Uptime", fmt_uptime(c.uptime_s)));
+        }
+    }
     details(ui, rest, "DETAILS", &rows);
 
     // Usage history, and each core's load under it.
     let (chart, sub) = history_column(ui, cols.mid, "USAGE HISTORY", "PER CORE");
     chart_box(ui, chart);
     plot(ui, &h.cpu, 1.0, accent, chart.inset(1.0, 1.0), Fill::Gradient);
-    let bars: Vec<(f32, Color)> = c.cores.iter().map(|k| (k.load, if k.kind == CoreKind::Efficiency { E_CORE_C } else { P_CORE_C })).collect();
+    let kind_c = |k: CoreKind| match k {
+        CoreKind::Efficiency => E_CORE_C,
+        CoreKind::Performance => P_CORE_C,
+        CoreKind::Any => CORE_C,
+    };
+    let bars: Vec<(f32, Color)> = c.cores.iter().map(|k| (k.load, kind_c(k.kind))).collect();
     if bars.is_empty() {
         ui.c.fill_rrect(sub, BOX_R, BOX_C);
         ui.c.text("Not reported", sub, &TextStyle::caption().color(palette::TEXT_FAINT).center());
     } else {
         bar_chart(ui, sub, &bars);
-        if let (Some(p), Some(e)) = (c.kind_load(CoreKind::Performance), c.kind_load(CoreKind::Efficiency)) {
-            key(ui, sub, &[(P_CORE_C, format!("P {}", fmt_pct(p))), (E_CORE_C, format!("E {}", fmt_pct(e)))]);
-        }
     }
 
     processes(ui, st, cols.top, &r.top_cpu, |a| fmt_app_cpu(a.cpu), "");
@@ -273,12 +277,12 @@ fn draw_gpu(ui: &mut Ui, st: &mut AppState, g: &GpuReading, h: &History, cols: &
     let accent = st.accent;
     let mem_frac = (g.mem_total > 0).then(|| g.mem_used as f32 / g.mem_total as f32);
     let left = match (g.temp_c, g.mhz) {
-        (Some(t), _) => Gauge { frac: Some((t - 20.0) / 80.0), value: format!("{t:.0}"), unit: "°C", label: "Temperature", color: heat_color(t) },
-        (None, Some(mhz)) => Gauge { frac: None, value: format!("{:.1}", mhz as f32 / 1000.0), unit: "GHz", label: "Clock", color: accent },
+        (Some(t), _) => temperature(t),
+        (None, Some(mhz)) => Gauge { frac: None, value: ghz(mhz), label: "GHz", color: accent },
         (None, None) => Gauge::unknown("Temperature"),
     };
     let right = match mem_frac {
-        Some(f) => Gauge { frac: Some(f), value: format!("{:.0}", f * 100.0), unit: "%", label: "Memory", color: palette::PURPLE },
+        Some(f) => Gauge { frac: Some(f), value: fmt_pct(f), label: "Memory", color: palette::PURPLE },
         None => Gauge::unknown("Memory"),
     };
     let ring = Ring { parts: vec![(g.util, accent)], value: fmt_pct(g.util) };
@@ -330,23 +334,25 @@ fn draw_memory(ui: &mut Ui, st: &mut AppState, m: &MemoryReading, r: &Reading, h
     let share = |p: MemPart| parts.iter().find(|(k, _)| *k == p).map_or(0, |(_, v)| *v);
     let frac = |b: u64| if m.total == 0 { 0.0 } else { b as f32 / m.total as f32 };
     let pressure = m.pressure();
-    let left = if m.commit_limit > 0 {
-        Gauge { frac: Some(pressure), value: format!("{:.0}", pressure * 100.0), unit: "%", label: "Pressure", color: pressure_color(pressure) }
-    } else {
-        Gauge::unknown("Pressure")
-    };
     let right = if m.page_total > 0 {
-        let (value, unit) = compact_bytes(m.page_used);
-        Gauge { frac: Some(m.page_used as f32 / m.page_total as f32), value, unit, label: "Page file", color: palette::YELLOW }
+        Gauge { frac: Some(m.page_used as f32 / m.page_total as f32), value: compact_bytes(m.page_used), label: "Page file", color: palette::YELLOW }
     } else {
-        Gauge { frac: None, value: PLACEHOLDER.into(), unit: "off", label: "Page file", color: palette::YELLOW }
+        Gauge { frac: None, value: "Off".into(), label: "Page file", color: palette::YELLOW }
     };
     let ring = Ring {
-        parts: vec![(frac(share(MemPart::Wired)), WIRED_C), (frac(share(MemPart::Compressed)), COMPRESSED_C), (frac(share(MemPart::App)), APP_C)],
+        parts: vec![(frac(share(MemPart::App)), APP_C), (frac(share(MemPart::Wired)), WIRED_C), (frac(share(MemPart::Compressed)), COMPRESSED_C)],
         value: fmt_pct(m.used_frac()),
     };
     let (dash, rest) = cols.dash.split_top(DASH_H);
-    dashboard(ui, dash, &left, &ring, &right);
+    let (d, g) = dashboard_sizes(dash);
+    draw_ring(ui, dash.center(), d, &ring);
+    let gy = dash.center().y - 6.0;
+    if m.commit_limit > 0 {
+        pressure_gauge(ui, Point::new(dash.x + g / 2.0 + 2.0, gy + 4.0), g, pressure);
+    } else {
+        draw_gauge(ui, Point::new(dash.x + g / 2.0 + 2.0, gy), g, &Gauge::unknown("Pressure"));
+    }
+    draw_gauge(ui, Point::new(dash.right() - g / 2.0 - 2.0, gy), g, &right);
     let rows = [
         Row::dot(APP_C, "App", fmt_bytes(share(MemPart::App))),
         Row::dot(WIRED_C, "Wired", fmt_bytes(share(MemPart::Wired))),
@@ -356,17 +362,15 @@ fn draw_memory(ui: &mut Ui, st: &mut AppState, m: &MemoryReading, r: &Reading, h
     ];
     details(ui, rest, "DETAILS", &rows);
 
-    let (chart, sub) = history_column(ui, cols.mid, "USAGE HISTORY", "COMMITTED");
+    let (chart, sub) = history_column(ui, cols.mid, "USAGE HISTORY", "USED");
     chart_box(ui, chart);
     plot(ui, &h.memory, 1.0, accent, chart.inset(1.0, 1.0), Fill::Gradient);
-    meter(
-        ui,
-        sub,
-        pressure,
-        pressure_color(pressure),
-        &format!("{} of {}", fmt_bytes(m.committed), fmt_bytes(m.commit_limit)),
-        pressure_word(pressure),
-    );
+    let segments: Vec<(f32, Color)> = [(MemPart::App, APP_C), (MemPart::Wired, WIRED_C), (MemPart::Compressed, COMPRESSED_C), (MemPart::Cached, CACHED_C)]
+        .iter()
+        .map(|(p, c)| (frac(share(*p)), *c))
+        .collect();
+    let committed = if m.commit_limit > 0 { format!("Committed {} of {}", fmt_bytes(m.committed), fmt_bytes(m.commit_limit)) } else { String::new() };
+    stacked_meter(ui, sub, &segments, &fmt_bytes(m.used), &format!("of {}", fmt_bytes(m.total)), &committed);
 
     processes(ui, st, cols.top, &r.top_memory, |a| fmt_bytes(a.memory), "");
 }
@@ -440,17 +444,17 @@ fn drive_row(ui: &mut Ui, d: &Drive, r: Rect) {
 // ------------------------------------------------------------------ network
 
 fn draw_network(ui: &mut Ui, n: &NetReading, h: &History, cols: &Cols) {
-    // Download and upload, big.
+    // Download and upload side by side, big, as Stats shows them.
     let (dash, rest) = cols.dash.split_top(DASH_H);
-    let halves = dash.inset(0.0, 6.0).rows(2, 4.0);
-    for (half, (color, label, rate)) in halves.iter().zip([(IN_C, "Download", n.down_bps), (OUT_C, "Upload", n.up_bps)]) {
-        ui.c.fill_rrect(*half, BOX_R, BOX_C);
-        ui.c.fill_circle(Point::new(half.x + 12.0, half.center().y), 4.0, color);
+    for (half, (color, label, rate)) in dash.inset(0.0, 14.0).columns(2, 8.0).iter().zip([(IN_C, "Download", n.down_bps), (OUT_C, "Upload", n.up_bps)]) {
+        let (value_r, label_r) = half.split_top(half.h * 0.62);
         let value = if n.online { fmt_rate(rate) } else { PLACEHOLDER.into() };
-        let vst = TextStyle::value().tabular().right();
-        let vw = ui.c.measure(&value, &vst, half.w).0;
-        ui.c.text(&value, Rect::new(half.right() - 10.0 - vw - 2.0, half.y, vw + 2.0, half.h), &vst);
-        ui.c.text(label, Rect::new(half.x + 22.0, half.y, (half.w - vw - 36.0).max(0.0), half.h), &TextStyle::footnote().color(palette::TEXT_DIM));
+        ui.c.text(&value, value_r, &TextStyle::value().tabular().center());
+        let lst = TextStyle::caption().color(palette::TEXT_DIM);
+        let lw = ui.c.measure(label, &lst, label_r.w).0 + 11.0;
+        let x = label_r.center().x - lw / 2.0;
+        ui.c.fill_rrect(Rect::new(x, label_r.center().y - 3.5, 7.0, 7.0), 2.0, color);
+        ui.c.text(label, Rect::new(x + 10.0, label_r.y, lw, label_r.h), &lst);
     }
     let mut rows = vec![Row::plain("Interface", if n.adapter.is_empty() { PLACEHOLDER.into() } else { n.adapter.clone() })];
     rows.push(Row::plain("Status", if n.online { "Connected".into() } else { "Offline".into() }));
@@ -504,7 +508,8 @@ fn draw_battery(ui: &mut Ui, b: &BatteryReading, cols: &Cols) {
     let percent = b.percent.min(100);
     let color = battery_color(b);
     let (dash, rest) = cols.dash.split_top(DASH_H);
-    battery_glyph(ui, dash.center(), percent, color);
+    battery_glyph(ui, Point::new(dash.center().x - 26.0, dash.center().y), percent, color, b.on_ac);
+    ui.c.text(&format!("{percent}%"), Rect::new(dash.center().x + 12.0, dash.y, dash.right() - dash.center().x - 12.0, dash.h), &TextStyle::display().tabular());
     let state = if b.charging {
         "Charging"
     } else if b.on_ac {
@@ -560,34 +565,45 @@ fn draw_battery(ui: &mut Ui, b: &BatteryReading, cols: &Cols) {
     }
 }
 
-fn battery_glyph(ui: &mut Ui, center: Point, percent: u8, color: Color) {
-    let body = Rect::from_center(Point::new(center.x - 3.0, center.y), 96.0, 46.0);
-    ui.c.stroke_rrect(body, 10.0, Color::white(0.45), 2.0);
-    ui.c.fill_rrect(Rect::new(body.right() + 3.0, center.y - 7.0, 4.0, 14.0), 2.0, Color::white(0.45));
-    let inner = body.inset(5.0, 5.0);
+/// Stats' battery: an outline with the charge in it, and a bolt while plugged in.
+fn battery_glyph(ui: &mut Ui, center: Point, percent: u8, color: Color, plugged: bool) {
+    let body = Rect::from_center(Point::new(center.x - 3.0, center.y), 78.0, 38.0);
+    ui.c.stroke_rrect(body, 9.0, Color::white(0.45), 2.0);
+    ui.c.fill_rrect(Rect::new(body.right() + 3.0, center.y - 6.0, 4.0, 12.0), 2.0, Color::white(0.45));
+    let inner = body.inset(4.0, 4.0);
     let w = inner.w * f32::from(percent) / 100.0;
     if w > 0.5 {
-        ui.c.fill_rrect(Rect::new(inner.x, inner.y, w.max(8.0), inner.h), 6.0, color.with_alpha(0.85));
+        ui.c.fill_rrect(Rect::new(inner.x, inner.y, w.max(8.0), inner.h), 6.0, color);
     }
-    ui.c.text(&format!("{percent}%"), inner, &TextStyle::headline().tabular().center());
+    if plugged {
+        ui.c.icon(Icon::Bolt, Rect::from_center(inner.center(), 18.0, 18.0), palette::ON_ACCENT);
+    }
 }
 
 // ------------------------------------------------------------------ dashboard
 
-/// Stats' half-circle gauge beside the ring: a three-quarter arc, the value
-/// and its unit inside, a label under it.
+/// One of the smaller rings beside the centre one: how full, the value
+/// inside, what it is under it.
 struct Gauge {
     frac: Option<f32>,
     value: String,
-    unit: &'static str,
     label: &'static str,
     color: Color,
 }
 
 impl Gauge {
     fn unknown(label: &'static str) -> Gauge {
-        Gauge { frac: None, value: PLACEHOLDER.into(), unit: "", label, color: palette::TRACK }
+        Gauge { frac: None, value: PLACEHOLDER.into(), label, color: palette::TRACK }
     }
+}
+
+fn temperature(t: f32) -> Gauge {
+    Gauge { frac: Some((t - 20.0) / 80.0), value: format!("{t:.0}°C"), label: "Temperature", color: heat_color(t) }
+}
+
+/// A speed in GHz as Stats writes it ("2.56").
+fn ghz(mhz: u32) -> String {
+    format!("{:.2}", mhz as f32 / 1000.0)
 }
 
 /// Stats' pie chart: parts in turn from twelve o'clock, the value inside.
@@ -596,9 +612,14 @@ struct Ring {
     value: String,
 }
 
-fn dashboard(ui: &mut Ui, r: Rect, left: &Gauge, ring: &Ring, right: &Gauge) {
+/// The centre ring's and side rings' diameters for a dashboard in `r`.
+fn dashboard_sizes(r: Rect) -> (f32, f32) {
     let d = RING.min(r.h - 10.0).min(r.w * 0.4);
-    let g = (GAUGE * d / RING).min((r.w - d) / 2.0 - 6.0);
+    (d, (GAUGE * d / RING).min((r.w - d) / 2.0 - 6.0))
+}
+
+fn dashboard(ui: &mut Ui, r: Rect, left: &Gauge, ring: &Ring, right: &Gauge) {
+    let (d, g) = dashboard_sizes(r);
     let c = r.center();
     draw_ring(ui, c, d, ring);
     let gy = c.y - 6.0;
@@ -626,21 +647,39 @@ fn draw_gauge(ui: &mut Ui, c: Point, d: f32, g: &Gauge) {
         return;
     }
     let radius = d / 2.0 - GAUGE_W / 2.0;
-    // From half past seven, clockwise over the top to half past four.
-    ui.c.arc(c, radius, 0.625, 0.75, palette::TRACK, GAUGE_W);
+    ui.c.stroke_circle(c, radius, palette::TRACK, GAUGE_W);
     if let Some(f) = g.frac.filter(|f| f.is_finite()) {
-        ui.c.arc(c, radius, 0.625, 0.75 * f.clamp(0.0, 1.0), g.color, GAUGE_W);
+        ui.c.arc(c, radius, 0.0, f.clamp(0.0, 1.0), g.color, GAUGE_W);
     }
     let inner = d - 2.0 * GAUGE_W - 2.0;
-    let vst = TextStyle::new(12.0).weight(Weight::Semibold).tabular().center();
-    if g.unit.is_empty() {
-        ui.c.text(&g.value, Rect::from_center(c, inner, 16.0), &vst);
-    } else {
-        ui.c.text(&g.value, Rect::from_center(Point::new(c.x, c.y - 3.0), inner, 16.0), &vst);
-        ui.c.text(g.unit, Rect::from_center(Point::new(c.x, c.y + 9.0), inner, 11.0), &TextStyle::new(9.0).color(palette::TEXT_FAINT).center());
+    let size = if g.value.chars().count() > 4 { 10.0 } else { 11.0 };
+    ui.c.text(&g.value, Rect::from_center(c, inner, 16.0), &TextStyle::new(size).weight(Weight::Semibold).tabular().center());
+    gauge_label(ui, c, d, g.label, palette::TEXT_DIM);
+}
+
+fn gauge_label(ui: &mut Ui, c: Point, d: f32, label: &str, color: Color) {
+    let r = Rect::new(c.x - d / 2.0 - 14.0, c.y + d / 2.0 + 1.0, d + 28.0, 13.0);
+    ui.c.text(label, r, &TextStyle::new(10.0).color(color).center());
+}
+
+/// Stats' memory pressure gauge: a half circle green, yellow and red where
+/// Windows' commit charge would read normal, warning and critical, a needle
+/// at the pressure, and the word under it.
+fn pressure_gauge(ui: &mut Ui, c: Point, d: f32, p: f32) {
+    if d < 20.0 {
+        return;
     }
-    let label = Rect::new(c.x - d / 2.0 - 12.0, c.y + d / 2.0 + 1.0, d + 24.0, 13.0);
-    ui.c.text(g.label, label, &TextStyle::new(10.0).color(palette::TEXT_DIM).center());
+    let radius = d / 2.0 - GAUGE_W / 2.0;
+    // From nine o'clock over the top to three o'clock.
+    let zones = [(0.0, 0.75, palette::GREEN), (0.75, 0.9, palette::YELLOW), (0.9, 1.0, palette::RED)];
+    for (a, b, color) in zones {
+        ui.c.arc(c, radius, 0.75 + 0.5 * a, 0.5 * (b - a) - 0.012, color, GAUGE_W - 1.0);
+    }
+    let angle = (0.75 + 0.5 * p.clamp(0.0, 1.0)) * std::f32::consts::TAU - std::f32::consts::FRAC_PI_2;
+    let tip = Point::new(c.x + (radius - 4.0) * angle.cos(), c.y + (radius - 4.0) * angle.sin());
+    ui.c.line(c, tip, palette::TEXT, 2.0);
+    ui.c.fill_circle(c, 3.0, palette::TEXT);
+    gauge_label(ui, Point::new(c.x, c.y - 6.0), d, pressure_word(p), pressure_color(p));
 }
 
 // ------------------------------------------------------------------ details
@@ -665,8 +704,8 @@ impl Row {
     fn draw(&self, ui: &mut Ui, r: Rect) {
         let mut x = r.x;
         if let Some(c) = self.dot {
-            ui.c.fill_circle(Point::new(r.x + 4.0, r.center().y), 3.5, c);
-            x += 13.0;
+            ui.c.fill_rrect(Rect::new(r.x, r.center().y - 4.0, 8.0, 8.0), 2.0, c);
+            x += 14.0;
         }
         let vst = TextStyle::footnote().tabular().right();
         let vw = ui.c.measure(&self.value, &vst, r.w).0.min((r.right() - x) * 0.66);
@@ -772,20 +811,6 @@ fn legend_row(ui: &mut Ui, r: Rect, items: &[(Option<Color>, String)]) {
     }
 }
 
-/// A small key in a chart box's top-right corner.
-fn key(ui: &mut Ui, r: Rect, items: &[(Color, String)]) {
-    let st = TextStyle::new(9.5).tabular().color(palette::TEXT_DIM);
-    let mut x = r.right() - 6.0;
-    for (c, text) in items.iter().rev() {
-        let tw = ui.c.measure(text, &st, r.w).0;
-        x -= tw;
-        ui.c.text(text, Rect::new(x - 1.0, r.y + 3.0, tw + 2.0, 12.0), &st);
-        x -= 9.0;
-        ui.c.fill_circle(Point::new(x + 3.0, r.y + 9.0), 2.5, *c);
-        x -= 8.0;
-    }
-}
-
 // ------------------------------------------------------------------ charts
 
 fn chart_box(ui: &mut Ui, r: Rect) {
@@ -828,6 +853,9 @@ fn plot_from(ui: &mut Ui, s: &Series, top: f32, color: Color, r: Rect, fill: Fil
         }
     };
     let values: Vec<f32> = s.values().collect();
+    // Kept to its box: a stroke's cap may otherwise reach past the last point
+    // (Wine's renderer draws a few pixels on along the line).
+    ui.c.clip(Rect::new(r.x - 1.0, r.y - 1.0, r.w + 2.0, r.h + 2.0));
     let mut i = 0;
     while i < values.len() {
         if !values[i].is_finite() {
@@ -852,10 +880,11 @@ fn plot_from(ui: &mut Ui, s: &Series, top: f32, color: Color, r: Rect, fill: Fil
         match fill {
             Fill::Faint => ui.c.path(&area, Some(color.mul_alpha(0.22)), None),
             // Strongest at the far edge of the chart, clear at the baseline.
-            Fill::Gradient => ui.c.fill_path_fade(&area, color, base, if down { r.bottom() } else { r.y }, 0.0, 0.45),
+            Fill::Gradient => ui.c.fill_path_fade(&area, color, base, if down { r.bottom() } else { r.y }, 0.04, 0.4),
         }
         ui.c.path(&line, None, Some((color, 1.5)));
     }
+    ui.c.unclip();
 }
 
 /// Two rate series around the middle of `r`: `up` above it, `down` below,
@@ -882,7 +911,12 @@ fn bar_chart(ui: &mut Ui, r: Rect, bars: &[(f32, Color)]) {
     let inner = r.inset(6.0, 5.0);
     let gap = if n > 24 { 1.0 } else { 2.0 };
     let bw = ((inner.w - gap * (n - 1) as f32) / n as f32).max(1.0);
-    let mut shapes: Vec<(Color, Vec<Seg>)> = Vec::new();
+    // Each bar stands in its own grey track, as in Stats.
+    let mut shapes: Vec<(Color, Vec<Seg>)> = vec![(Color::white(0.10), Vec::new())];
+    for i in 0..n {
+        let x = inner.x + i as f32 * (bw + gap);
+        shapes[0].1.extend([Seg::MoveTo(x, inner.bottom()), Seg::LineTo(x, inner.y), Seg::LineTo(x + bw, inner.y), Seg::LineTo(x + bw, inner.bottom()), Seg::Close]);
+    }
     for (i, &(v, c)) in bars.iter().enumerate() {
         let h = (v.clamp(0.0, 1.0) * inner.h).max(1.5);
         let (x, top, bottom) = (inner.x + i as f32 * (bw + gap), inner.bottom() - h, inner.bottom());
@@ -915,30 +949,41 @@ fn labelled_bars(ui: &mut Ui, r: Rect, bars: &[(f32, Color, &str)]) {
     }
 }
 
-/// A level with a line of text over it (committed memory against its limit).
-fn meter(ui: &mut Ui, r: Rect, frac: f32, color: Color, left: &str, right: &str) {
+/// Stats' "used" bar: memory's parts end to end, with the total in use
+/// over it and a note under it.
+fn stacked_meter(ui: &mut Ui, r: Rect, parts: &[(f32, Color)], left: &str, right: &str, note: &str) {
     ui.c.fill_rrect(r, BOX_R, BOX_C);
-    let inner = r.inset(10.0, 9.0);
-    let (text, rest) = inner.split_top(18.0);
-    let rst = TextStyle::footnote().weight(Weight::Semibold).right().color(color);
+    let inner = r.inset(10.0, 6.0);
+    let (text, rest) = inner.split_top(16.0);
+    let rst = TextStyle::footnote().tabular().right().color(palette::TEXT_DIM);
     let rw = ui.c.measure(right, &rst, text.w).0;
     ui.c.text(right, Rect::new(text.right() - rw - 2.0, text.y, rw + 2.0, text.h), &rst);
-    ui.c.text(left, Rect::new(text.x, text.y, (text.w - rw - 8.0).max(0.0), text.h), &TextStyle::footnote().tabular().color(palette::TEXT_DIM));
-    let bar = Rect::new(rest.x, rest.y + (rest.h - 8.0) / 2.0, rest.w, 8.0);
-    ui.c.fill_rrect(bar, 4.0, palette::TRACK);
-    ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * frac.clamp(0.0, 1.0)).max(bar.h), bar.h), 4.0, color);
+    ui.c.text(left, Rect::new(text.x, text.y, (text.w - rw - 8.0).max(0.0), text.h), &TextStyle::footnote().weight(Weight::Semibold).tabular());
+    let bar = Rect::new(rest.x, rest.y + 3.0, rest.w, 7.0);
+    ui.c.fill_rrect(bar, 3.5, palette::TRACK);
+    let mut x = bar.x;
+    for &(f, c) in parts {
+        let w = bar.w * f.clamp(0.0, 1.0);
+        if w >= 1.0 {
+            ui.c.fill_rect(Rect::new(x, bar.y, w.min(bar.right() - x), bar.h), c);
+            x += w;
+        }
+    }
+    if !note.is_empty() {
+        ui.c.text(note, Rect::new(rest.x, bar.bottom() + 2.0, rest.w, (rest.bottom() - bar.bottom() - 2.0).max(0.0)), &TextStyle::caption().color(palette::TEXT_FAINT));
+    }
 }
 
-/// Bytes as a short number and its unit, for inside a gauge ("340", "MB"; "1.2", "GB").
-fn compact_bytes(b: u64) -> (String, &'static str) {
+/// Bytes short enough for inside a small ring ("340 MB", "1.2 GB").
+fn compact_bytes(b: u64) -> String {
     const MB: f64 = 1024.0 * 1024.0;
     let mb = b as f64 / MB;
     if mb < 1000.0 {
-        (format!("{mb:.0}"), "MB")
+        format!("{mb:.0} MB")
     } else if mb < 10.0 * 1024.0 {
-        (format!("{:.1}", mb / 1024.0), "GB")
+        format!("{:.1} GB", mb / 1024.0)
     } else {
-        (format!("{:.0}", mb / 1024.0), "GB")
+        format!("{:.0} GB", mb / 1024.0)
     }
 }
 
