@@ -76,7 +76,8 @@ $cx = [int]($bounds.Width / 2)
 # Park the cursor away from the island.
 [Native]::SetCursorPos($cx, [int]($bounds.Height / 2)) | Out-Null
 
-$env:PONI_HOME = (Resolve-Path ".").Path + "\smoke-home"
+# A home of its own per run (the CI runs this once per renderer).
+$env:PONI_HOME = Join-Path (Resolve-Path ".").Path "$(Split-Path $Out -Leaf)-home"
 $p = Start-Process -FilePath $Exe -PassThru
 Start-Sleep -Seconds 4
 Shot "1-idle"

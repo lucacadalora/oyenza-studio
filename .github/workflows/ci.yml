@@ -72,6 +72,33 @@ jobs:
         shell: pwsh
         run: ./tools/ci-smoke.ps1 -Exe target\release\poni.exe -Out smoke-out
 
+      # The GPU renderer is the default (runners draw with WARP). The software
+      # renderer is its fallback (no DirectComposition, device loss): test it too.
+      - name: Self-test and smoke run, software renderer
+        shell: pwsh
+        env:
+          PONI_RENDERER: software
+        run: |
+          Add-Type -AssemblyName System.Windows.Forms
+          Add-Type -Namespace PoniCiSoft -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          [PoniCiSoft.User32]::SetCursorPos([int]($b.Width / 2), [int]($b.Height / 2)) | Out-Null
+
+          New-Item -ItemType Directory -Force -Path selftest-soft | Out-Null
+          $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-soft" -PassThru
+          $null = $p.Handle
+          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          "software self-test exit code: $code"
+          if (Test-Path selftest-soft\report.json) {
+            $r = Get-Content selftest-soft\report.json -Raw | ConvertFrom-Json
+            "renderer: $($r.renderer); states passed: $($r.states_passed)/$($r.states_total); failed: $($r.failed_checks -join ', ')"
+          }
+          if ($code -ne 0) {
+            Get-Content selftest-soft\home\cache\poni.log -Tail 80 -ErrorAction SilentlyContinue
+            exit 1
+          }
+          ./tools/ci-smoke.ps1 -Exe target\release\poni.exe -Out smoke-soft
+
       - name: Build installer (Inno Setup)
         shell: pwsh
         run: |
@@ -95,6 +122,8 @@ jobs:
           path: |
             selftest-out
             smoke-out
+            selftest-soft
+            smoke-soft
           if-no-files-found: warn
 
       - name: Upload poni.exe

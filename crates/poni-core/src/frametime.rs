@@ -20,6 +20,9 @@ pub struct VsyncTimeline {
     nominal: f64,
     /// The last vblank we locked onto (seconds, monotonic).
     last: Option<f64>,
+    /// Score of wake-ups that don't fit the rhythm (far off the grid, or
+    /// extra ones inside a period); fitting ones pay it back.
+    off_rhythm: u32,
 }
 
 /// Wake-ups further than this many periods apart restart the lock.
@@ -28,12 +31,17 @@ const RESYNC_PERIODS: f64 = 30.0;
 const PHASE_GAIN: f64 = 0.1;
 /// How strongly one wake-up corrects the period estimate.
 const PERIOD_GAIN: f64 = 0.02;
+/// An [`VsyncTimeline::off_rhythm`] score this high means: re-read the
+/// display's rate. (A steady display with 3 ms of wake-up jitter at 144 Hz
+/// stays near 10; locked at 60 Hz on a 144 Hz display it passes 20 within
+/// about a second.)
+pub const OFF_RHYTHM_LIMIT: u32 = 20;
 
 impl VsyncTimeline {
     /// `period` in seconds (e.g. 1/144). Non-finite or silly values fall back to 60 Hz.
     pub fn new(period: f64) -> Self {
         let p = sane_period(period);
-        Self { period: p, nominal: p, last: None }
+        Self { period: p, nominal: p, last: None, off_rhythm: 0 }
     }
 
     pub fn period(&self) -> f64 {
@@ -48,11 +56,19 @@ impl VsyncTimeline {
             self.period = p;
             self.last = None;
         }
+        self.off_rhythm = 0;
     }
 
     /// Forget the phase (the clock was parked); the next wake-up starts afresh.
     pub fn reset(&mut self) {
         self.last = None;
+        self.off_rhythm = 0;
+    }
+
+    /// How badly recent wake-ups miss the rhythm. A sustained high score
+    /// means the display's rate changed under us (60 <-> 144 Hz).
+    pub fn off_rhythm(&self) -> u32 {
+        self.off_rhythm
     }
 
     /// Feed the time a vblank wait returned. Returns the locked timestamp and
@@ -68,12 +84,17 @@ impl VsyncTimeline {
             self.last = Some(raw);
             return (raw, 1);
         }
-        let n = (elapsed / self.period).round();
+        // Wake-ups only ever come late, never early: one that is up to 3/4
+        // of a period late still belongs to the next vblank (rounding would
+        // count it as two and then drop the next, on-time one as spurious).
+        let n = (elapsed / self.period + 0.25).floor();
         if n < 1.0 {
+            self.off_rhythm += 1;
             return (last, 0);
         }
         let predicted = last + n * self.period;
         let err = raw - predicted;
+        self.off_rhythm = if err.abs() > 0.3 * self.period { self.off_rhythm + 1 } else { self.off_rhythm.saturating_sub(1) };
         // Track slow drift (a 59.94 Hz display reporting 60, clock skew)
         // without passing the per-frame jitter on.
         self.period = (self.period + PERIOD_GAIN * err / n).clamp(self.nominal * 0.97, self.nominal * 1.03);
@@ -102,12 +123,14 @@ pub fn period_for_hz(hz: u32) -> f64 {
 
 /// Present ambient motion (an equalizer, a drifting progress bar) on every
 /// n-th refresh so it runs near `target_fps` without being an uneven
-/// cadence: 144 Hz at 60 fps -> every 2nd frame (72 fps), 60 Hz -> every frame.
+/// cadence: 144 Hz at 60 fps -> every 2nd frame (72 fps), 60 Hz -> every
+/// frame. Pass the display mode's rate, not a measured one: a 59.94 or
+/// 60.0001 Hz estimate must not flip between two divisors.
 pub fn ambient_divisor(refresh_hz: f64, target_fps: f64) -> u32 {
     if !(refresh_hz.is_finite() && target_fps.is_finite()) || target_fps <= 0.0 {
         return 1;
     }
-    ((refresh_hz / target_fps).floor() as u32).max(1)
+    ((refresh_hz / target_fps + 0.05).floor() as u32).max(1)
 }
 
 /// How smoothly one motion (an island morph) was drawn.
@@ -200,6 +223,7 @@ mod tests {
             prev = Some(t);
         }
         assert!((tl.period() - p).abs() < 1e-5, "period drifted to {}", tl.period());
+        assert!(tl.off_rhythm() < 5, "steady display scored {} off rhythm", tl.off_rhythm());
     }
 
     #[test]
@@ -212,6 +236,37 @@ mod tests {
         let (t, n) = tl.lock(1.0 + 3.0 * p + 0.0003);
         assert_eq!(n, 2);
         assert!((t - (1.0 + 3.0 * p)).abs() < 0.0005);
+    }
+
+    #[test]
+    fn a_late_wakeup_counts_once() {
+        let p = 1.0 / 144.0;
+        let mut tl = VsyncTimeline::new(p);
+        tl.lock(1.0);
+        // 0.6 of a period late (a busy scheduler), then the next one on time.
+        let (_, n) = tl.lock(1.0 + 1.6 * p);
+        assert_eq!(n, 1);
+        let (_, n) = tl.lock(1.0 + 2.0 * p + 0.0001);
+        assert_eq!(n, 1);
+        let (_, n) = tl.lock(1.0 + 3.0 * p + 0.0001);
+        assert_eq!(n, 1);
+    }
+
+    #[test]
+    fn a_rate_change_shows_as_off_rhythm() {
+        // Locked at 60 Hz, the display switches to 144 Hz.
+        let mut tl = VsyncTimeline::new(1.0 / 60.0);
+        for i in 0..10 {
+            tl.lock(i as f64 / 60.0);
+        }
+        assert_eq!(tl.off_rhythm(), 0);
+        let t0 = 10.0 / 60.0;
+        for i in 1..=144 {
+            tl.lock(t0 + i as f64 / 144.0);
+        }
+        assert!(tl.off_rhythm() >= OFF_RHYTHM_LIMIT, "off rhythm {}", tl.off_rhythm());
+        tl.set_nominal_period(1.0 / 144.0);
+        assert_eq!(tl.off_rhythm(), 0);
     }
 
     #[test]
@@ -268,6 +323,13 @@ mod tests {
         assert_eq!(ambient_divisor(240.0, 60.0), 4);
         assert_eq!(ambient_divisor(144.0, 30.0), 4);
         assert_eq!(ambient_divisor(f64::NAN, 60.0), 1);
+        // Measured or fractional rates don't flip between two divisors.
+        assert_eq!(ambient_divisor(59.94, 30.0), 2);
+        assert_eq!(ambient_divisor(59.0, 30.0), 1 + 1);
+        assert_eq!(ambient_divisor(60.0001, 30.0), 2);
+        assert_eq!(ambient_divisor(119.88, 60.0), 2);
+        assert_eq!(ambient_divisor(239.76, 60.0), 4);
+        assert_eq!(ambient_divisor(165.0, 60.0), 2);
     }
 
     #[test]

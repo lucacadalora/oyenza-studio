@@ -1635,7 +1635,6 @@ impl App {
         hits.clear();
 
         let hidden_idle = self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden;
-        let gpu = self.gfx.needs_hit_mask();
         // Content is masked to the island silhouette only while the outline
         // or the content moves. At rest every layout fits inside the body,
         // and skipping the mask layer keeps ambient frames cheap.
@@ -1663,7 +1662,7 @@ impl App {
         let mut drawn_at = draw_from;
         let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
             Ok(mut canvas) => {
-                if self.expanded && !gpu {
+                if self.expanded && !canvas.on_gpu() {
                     // Near-invisible hit margin: a forgiving edge for the open
                     // panel. Collapsed, only the visible shape takes the mouse.
                     // (The GPU renderer keeps this in its hit mask instead.)
@@ -1756,10 +1755,18 @@ impl App {
         }
         self.input.end_frame();
 
-        // Present.
+        // Present. A renderer switch (GPU lost, or back) leaves the other
+        // renderer's content in the window's bitmap: push the hit mask in
+        // full, and redraw everything on the next frame too.
+        let mut renderer_changed = self.gfx.take_renderer_changed();
         let (x, y) = (self.surface.x, self.surface.y);
         if let Err(e) = self.gfx.present(x, y) {
             pwarn!("present failed: {e}");
+        }
+        renderer_changed |= self.gfx.take_renderer_changed();
+        if renderer_changed {
+            self.mask = None;
+            self.prev_canvas_px = None;
         }
         let presented_at = clock::mono();
         if self.gfx.needs_hit_mask() {
@@ -1791,8 +1798,10 @@ impl App {
         let ambient_ok = !self.locked && !self.display_off;
         let eq_live = ambient_ok && activities::is_live(&self.mode, &self.st);
         let drift_live = ambient_ok && ui_live;
-        let moving = !self.island.settled() || anim || repaint || !self.st.cmds.is_empty() || self.outgoing.is_some() || self.page_anim.is_some();
-        let hz = 1.0 / period;
+        let moving = !self.island.settled() || anim || repaint || renderer_changed || !self.st.cmds.is_empty() || self.outgoing.is_some() || self.page_anim.is_some();
+        // The display mode's rate, not the measured period: a divisor that
+        // flips between 1 and 2 would be the uneven cadence it exists to avoid.
+        let hz = self.clock.nominal_hz();
         self.clock.set_divisor(if moving {
             1
         } else if eq_live {
@@ -1843,7 +1852,7 @@ impl App {
                 let early = self.motions_logged < 20;
                 if m.frames >= 4 && (early || (m.hitches > 0 && t - self.hitch_logged_at > 60.0)) {
                     let dwm = match (self.dwm_at_start, dwm_counters()) {
-                        (Some(a), Some(b)) => format!(", dwm {} refreshes / {} composed / {} missed", b.0 - a.0, b.1 - a.1, b.2 - a.2),
+                        (Some(a), Some(b)) => format!(", dwm {} refreshes / {} composed / {} missed", b.0.wrapping_sub(a.0), b.1.wrapping_sub(a.1), b.2.wrapping_sub(a.2)),
                         _ => String::new(),
                     };
                     self.log_queue.push(format!("{} ({}{dwm})", m.summary(), self.renderer_name()));

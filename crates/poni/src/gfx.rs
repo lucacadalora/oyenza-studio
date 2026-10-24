@@ -672,6 +672,8 @@ pub struct Gfx {
     /// GPU failures in a row (a long healthy run forgives earlier ones).
     gpu_failures: u32,
     gpu_frames: u32,
+    /// The renderer switched (GPU lost or started) since the app last asked.
+    renderer_changed: bool,
 }
 
 fn pick_font_family(dwrite: &IDWriteFactory) -> Vec<u16> {
@@ -764,6 +766,7 @@ impl Gfx {
                 gpu_allowed,
                 gpu_failures: 0,
                 gpu_frames: 0,
+                renderer_changed: false,
             })
         }
     }
@@ -789,6 +792,13 @@ impl Gfx {
     /// The GPU renderer draws: the window's bitmap must carry the hit mask.
     pub fn needs_hit_mask(&self) -> bool {
         self.gpu.is_some()
+    }
+
+    /// Whether the renderer switched since the last call. The window's own
+    /// bitmap then holds the other renderer's content (a hit mask, or a
+    /// software frame): the app must redraw and push everything again.
+    pub fn take_renderer_changed(&mut self) -> bool {
+        std::mem::take(&mut self.renderer_changed)
     }
 
     /// Size the surface (and so the window) to `w`×`h` pixels.
@@ -834,6 +844,7 @@ impl Gfx {
                     Ok(()) => {
                         crate::pinfo!("renderer: GPU ({}), DirectComposition, {}x{} px", if g.warp { "WARP" } else { "hardware" }, self.surf_w, self.surf_h);
                         self.gpu = Some(g);
+                        self.renderer_changed = true;
                     }
                     Err(e) => self.gpu_failed(e),
                 }
@@ -859,6 +870,7 @@ impl Gfx {
         crate::pwarn!("GPU renderer lost at {what} ({e})");
         self.gpu = None;
         self.gpu_frames = 0;
+        self.renderer_changed = true;
         self.gpu_failures += 1;
         if self.gpu_failures >= 3 {
             self.gpu_allowed = false;
@@ -1225,6 +1237,11 @@ pub struct Canvas<'a> {
 }
 
 impl<'a> Canvas<'a> {
+    /// This frame draws on the GPU (the window's bitmap is then the hit mask).
+    pub fn on_gpu(&self) -> bool {
+        self.g.gpu.is_some()
+    }
+
     pub fn alpha(&self) -> f32 {
         self.alpha
     }

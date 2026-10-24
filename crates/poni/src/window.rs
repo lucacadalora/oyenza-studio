@@ -2,7 +2,7 @@
 
 use crate::clock;
 use crate::events::{SendHwnd, WM_APP_FRAME};
-use poni_core::frametime::{period_for_hz, VsyncTimeline};
+use poni_core::frametime::{period_for_hz, VsyncTimeline, OFF_RHYTHM_LIMIT};
 use poni_core::settings::MonitorChoice;
 use std::sync::atomic::{AtomicBool, AtomicIsize, AtomicU32, AtomicU64, Ordering};
 use std::sync::{Arc, Condvar, Mutex};
@@ -257,6 +257,10 @@ struct ClockShared {
     resumed: AtomicBool,
     /// Vblanks between the previous posted frame and the newest one.
     periods: AtomicU32,
+    /// The display mode's refresh rate (Hz, 0 = unknown).
+    nominal_hz: AtomicU32,
+    /// The display settings changed: re-read the rate and the output.
+    display_changed: AtomicBool,
 }
 
 /// One vblank-driven frame, as the UI thread sees it.
@@ -293,6 +297,8 @@ impl FrameClock {
             monitor: AtomicIsize::new(monitor),
             resumed: AtomicBool::new(true),
             periods: AtomicU32::new(1),
+            nominal_hz: AtomicU32::new(hz),
+            display_changed: AtomicBool::new(false),
         });
         let s = shared.clone();
         std::thread::Builder::new()
@@ -316,9 +322,19 @@ impl FrameClock {
         self.shared.divisor.store(n.max(1), Ordering::Relaxed);
     }
 
-    /// Follow the display the island is on.
+    /// Follow the display the island is on, and re-read its refresh rate
+    /// (it may have switched between 60 and 144 Hz on the same monitor).
     pub fn set_monitor(&self, hmon: isize) {
         self.shared.monitor.store(hmon, Ordering::Relaxed);
+        self.shared.display_changed.store(true, Ordering::Release);
+    }
+
+    /// The display mode's refresh rate in Hz (stable, unlike [`Self::period`]).
+    pub fn nominal_hz(&self) -> f64 {
+        match self.shared.nominal_hz.load(Ordering::Relaxed) {
+            hz if hz >= 20 => hz as f64,
+            _ => 1.0 / self.period(),
+        }
     }
 
     /// Refresh period of the island's display (seconds).
@@ -354,6 +370,10 @@ fn clock_thread(s: Arc<ClockShared>, hwnd: SendHwnd) {
     let hmon = |m: isize| HMONITOR(m as *mut core::ffi::c_void);
     let mut src = Vblank::for_monitor(hmon(monitor));
     let mut timeline = VsyncTimeline::new(f64_load(&s.period));
+    let mut hz = s.nominal_hz.load(Ordering::Relaxed);
+    // When the display mode was last read (it is re-read every second while
+    // running: modes change without telling a background thread).
+    let mut checked_at = clock::mono();
     crate::pinfo!("frame clock: {} at {:.1} Hz", src.name(), 1.0 / timeline.period());
     // Vblanks counted since the last posted frame.
     let mut since_post = u32::MAX;
@@ -377,19 +397,29 @@ fn clock_thread(s: Arc<ClockShared>, hwnd: SendHwnd) {
         if s.stop.load(Ordering::Relaxed) {
             break;
         }
+        let mut recheck = s.display_changed.swap(false, Ordering::AcqRel) || timeline.off_rhythm() >= OFF_RHYTHM_LIMIT || clock::mono() - checked_at > 1.0;
         if parked {
             parked = false;
+            recheck = true;
             timeline.reset();
             since_post = u32::MAX;
             s.resumed.store(true, Ordering::Release);
         }
         let m = s.monitor.load(Ordering::Relaxed);
-        if m != monitor {
-            monitor = m;
-            src = Vblank::for_monitor(hmon(m));
-            bad = 0;
-            timeline.set_nominal_period(period_for_hz(refresh_hz(hmon(m))));
-            crate::pinfo!("frame clock: {} at {:.1} Hz", src.name(), 1.0 / timeline.period());
+        if recheck || m != monitor {
+            checked_at = clock::mono();
+            let now_hz = refresh_hz(hmon(m));
+            if m != monitor || now_hz != hz {
+                monitor = m;
+                hz = now_hz;
+                s.nominal_hz.store(hz, Ordering::Relaxed);
+                src = Vblank::for_monitor(hmon(m));
+                bad = 0;
+                timeline.set_nominal_period(period_for_hz(hz));
+                crate::pinfo!("frame clock: {} at {:.1} Hz", src.name(), 1.0 / timeline.period());
+            } else if timeline.off_rhythm() >= OFF_RHYTHM_LIMIT {
+                timeline.reset();
+            }
         } else if matches!(src, Vblank::Timer) && clock::mono() - timer_since > 5.0 {
             // The display may block properly again (it was off, a mode change).
             src = Vblank::for_monitor(hmon(m));
