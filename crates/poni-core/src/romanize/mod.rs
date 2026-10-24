@@ -65,15 +65,21 @@ pub struct JaWord<'a> {
     pub phrase_start: bool,
 }
 
-/// Group analyzer words into phrases (a new Ruby at each phrase_start; words inside a phrase are
-/// joined by single spaces in `roman`). Particles: a word that is exactly は or へ and not a
-/// phrase start reads "wa" / "e"; を reads "wo". Latin/digit words get empty roman.
+/// Group analyzer words into phrases (a new Ruby at each phrase_start). Inside a phrase a
+/// particle or the copula stands apart after a space ("asa wo", "suki da") and every other
+/// word joins the one before it, the way lyric romaji writes verb endings ("hakonde",
+/// "itta"). A word that is exactly は or へ and not a phrase start reads "wa" / "e"; を reads
+/// "wo". Latin/digit words get empty roman.
 ///
 /// Spaces, punctuation and Latin words also end a phrase (Latin words are pieces of their own).
 pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
     let mut toks: Vec<Tok> = Vec::new();
     // The last token is a Japanese phrase that later words of the same phrase join.
     let mut open = false;
+    // The kana of the phrase's last word with the endings joined to it, and where its
+    // romaji starts in the token's reading: spelled again as one run, so that a っ
+    // ending one piece doubles the next one's consonant (なかっ|た -> nakatta).
+    let (mut run, mut run_at) = (String::new(), 0usize);
     for w in words {
         let d = w.display;
         if !d.chars().any(|c| matches!(class_of(c), Class::Kana | Class::Han)) {
@@ -81,26 +87,46 @@ pub fn japanese_ruby(words: &[JaWord]) -> Vec<Ruby> {
             open = false;
             continue;
         }
-        let roman = match d {
-            "は" if !w.phrase_start => "wa".to_string(),
-            "へ" if !w.phrase_start => "e".to_string(),
-            _ if w.yomi.chars().any(|c| class_of(c) == Class::Kana) => kana_to_romaji(w.yomi),
-            _ => kana_to_romaji(d),
+        let kana = if w.yomi.chars().any(|c| class_of(c) == Class::Kana) { w.yomi } else { d };
+        let fixed = match d {
+            "は" if !w.phrase_start => Some("wa"),
+            "へ" if !w.phrase_start => Some("e"),
+            _ => None,
         };
         match toks.last_mut() {
             Some(Tok::Word { text, roman: r, .. }) if open && !w.phrase_start => {
                 text.push_str(d);
-                if !r.is_empty() && !roman.is_empty() {
-                    r.push(' ');
+                if fixed.is_some() || PARTICLES.contains(&d) {
+                    if !r.is_empty() {
+                        r.push(' ');
+                    }
+                    run_at = r.len();
+                    run = kana.to_string();
+                    r.push_str(fixed.map_or_else(|| kana_to_romaji(kana), str::to_string).as_str());
+                } else {
+                    run.push_str(kana);
+                    r.truncate(run_at);
+                    r.push_str(&kana_to_romaji(&run));
                 }
-                r.push_str(&roman);
             }
-            _ => toks.push(Tok::Word { text: d.to_string(), roman, latin: false }),
+            _ => {
+                run = kana.to_string();
+                run_at = 0;
+                let roman = fixed.map_or_else(|| kana_to_romaji(kana), str::to_string);
+                toks.push(Tok::Word { text: d.to_string(), roman, latin: false });
+            }
         }
         open = true;
     }
     assemble(toks)
 }
+
+/// Words lyric romaji writes on their own inside a phrase: particles and the copula.
+/// Windows' analyzer also splits verb endings off (運|んで, 行|った, 浮かべ|た); those join.
+const PARTICLES: &[&str] = &[
+    "は", "が", "を", "に", "へ", "と", "で", "も", "の", "や", "か", "ね", "よ", "な", "さ", "ぞ", "ぜ", "わ", "から", "まで", "より", "なら", "けど",
+    "けれど", "だけ", "しか", "ほど", "など", "ばかり", "こそ", "でも", "のに", "ので", "とか", "かな", "かも", "よね", "だ", "だっ", "です", "でし",
+];
 
 /// A Japanese line without kanji (kana, Latin, punctuation only), split at spaces and
 /// punctuation; None if the line has any kanji (needs the analyzer).
@@ -418,11 +444,29 @@ mod tests {
             japanese_ruby(&words),
             vec![rb("私は", "watashi wa"), rb("学校へ", "gakkou e"), rb("行く", "iku")]
         );
+        // How Windows' analyzer really splits verbs (seen on a GitHub Windows runner):
+        // endings join their verb, particles stand apart.
+        let words = [
+            w("言え", "いえ", true),
+            w("なかっ", "なかっ", false),
+            w("た", "た", false),
+            w("言葉", "ことば", true),
+            w("を", "を", false),
+            w("運", "はこ", true),
+            w("んで", "んで", false),
+        ];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "ienakatta kotoba wo hakonde");
+        let words = [w("遠く", "とおく", true), w("へ", "へ", false), w("行", "い", true), w("った", "った", false)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "tooku e itta");
+        let words = [w("笑っ", "わらっ", true), w("た", "た", false), w("ん", "ん", false), w("なら", "なら", false)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "warattan nara");
+        let words = [w("好き", "すき", true), w("だっ", "だっ", false), w("た", "た", false)];
+        assert_eq!(joined(&japanese_ruby(&words)).1, "suki datta");
         let words = [w("本", "ほん", true), w("を", "を", false), w("読む", "よむ", true)];
         assert_eq!(japanese_ruby(&words), vec![rb("本を", "hon wo"), rb("読む", "yomu")]);
         // は at a phrase start is not the particle.
         let words = [w("は", "は", true), w("ははは", "ははは", false)];
-        assert_eq!(japanese_ruby(&words), vec![rb("はははは", "ha hahaha")]);
+        assert_eq!(japanese_ruby(&words), vec![rb("はははは", "hahahaha")]);
     }
 
     #[test]
