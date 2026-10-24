@@ -51,6 +51,7 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 | ![Focus](docs/screenshots/11-page-focus.png) | ![Health](docs/screenshots/12-page-health.png) |
 | ![Shelf](docs/screenshots/13-page-shelf.png) | ![Tasks](docs/screenshots/15-page-tasks.png) |
 | ![Clipboard](docs/screenshots/16-page-clipboard.png) | ![Today](docs/screenshots/17-page-today.png) |
+| ![System: CPU and the apps using it](docs/screenshots/31-page-system.png) | ![System: network](docs/screenshots/34-page-system-network.png) |
 
 ### The Oyen theme
 
