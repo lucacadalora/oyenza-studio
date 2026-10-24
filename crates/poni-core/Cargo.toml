@@ -7,8 +7,19 @@ license.workspace = true
 repository.workspace = true
 description = "Platform-independent models and logic for the Poni island (pure Rust, unit-tested on any OS)."
 
+[features]
+# Builds Oyen Poni's own Japanese reading dictionary (data/ja-readings.dic.zst,
+# 3.8 MB) into the binary: romanize::JaDict::embedded().
+ja-dict = []
+
 [dependencies]
 serde.workspace = true
 serde_json.workspace = true
 # QR codes for the phone-drop link (MIT, no dependencies).
 qrcodegen = "1.8"
+# Japanese readings without Windows (romanize/ja_dict.rs): MeCab's method in
+# Rust (MIT OR Apache-2.0). Keep it the same version as tools/ja-dict, which
+# writes the dictionary: the file format is version-tagged.
+vibrato = { version = "=0.5.2", default-features = false }
+# Unpacks that dictionary (zstd decoder in pure Rust, MIT).
+ruzstd = "0.9"

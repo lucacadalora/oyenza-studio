@@ -183,4 +183,4 @@ Early, but in daily use on Windows 11. Most rough edges are in places a test mac
 
 ## License
 
-The code is [MIT](LICENSE). The Oyen Poni name, its logo and the Oyen character (the files in `docs/brand`, `installer/art` and the app icon) are not covered by the MIT license, so please don't reuse them in other projects.
+The code is [MIT](LICENSE). The Oyen Poni name, its logo and the Oyen character (the files in `docs/brand`, `installer/art` and the app icon) are not covered by the MIT license, so please don't reuse them in other projects. The Japanese reading dictionary (`crates/poni-core/data/ja-readings.dic.zst`) is derived from mecab-ipadic and keeps its own license, in [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt).

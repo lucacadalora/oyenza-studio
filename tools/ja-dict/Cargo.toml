@@ -1,0 +1,16 @@
+# Compiles the trimmed mecab-ipadic that tools/make_ja_dict.py writes into
+# crates/poni-core/data/ja-readings.dic.zst. Not part of the app's workspace:
+# only that script builds it.
+[package]
+name = "ja-dict"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+
+[dependencies]
+# Must be the same vibrato as poni-core's: the file format is version-tagged.
+vibrato = { version = "=0.5.2", default-features = false }
+zstd = "=0.13.3"
+
+[workspace]

@@ -5,14 +5,17 @@
 //! gives back the line exactly; joining the non-empty `roman`s with single
 //! spaces gives the pronunciation line. Punctuation rides on the piece before
 //! it (opening brackets on the piece after) and reads as ASCII in `roman`.
-//! Japanese lines with kanji need readings from a morphological analyzer
-//! (Windows' JapanesePhoneticAnalyzer), passed in as [`JaWord`]s.
+//! Japanese lines with kanji need readings from a morphological analyzer:
+//! Windows' JapanesePhoneticAnalyzer, passed in as [`JaWord`]s, or, where
+//! Windows has no Japanese data, Oyen Poni's own dictionary ([`JaDict`]).
 
 mod hangul;
+mod ja_dict;
 mod kana;
 mod pinyin;
 mod pinyin_data;
 
+pub use ja_dict::JaDict;
 pub use kana::kana_to_romaji;
 
 /// One piece of a lyric line and how it reads in Latin letters.

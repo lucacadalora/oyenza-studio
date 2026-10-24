@@ -1,0 +1,25 @@
+# Oyen Poni's own Japanese reading dictionary (crates/poni-core/data/ja-readings.dic.zst)
+# must be exactly what tools/make_ja_dict.py builds from the pinned mecab-ipadic.
+name: Japanese dictionary
+
+on:
+  push:
+    paths: ["tools/make_ja_dict.py", "tools/ja-dict/**", "crates/poni-core/data/**", "crates/poni-core/Cargo.toml", ".github/workflows/ja-dict.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild:
+    name: Rebuild and compare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      # The file format is tagged with vibrato's version: the tool that writes
+      # it and poni-core, which reads it, must use the same one.
+      - name: Same vibrato in the tool and in poni-core
+        run: test "$(grep -h '^vibrato = ' tools/ja-dict/Cargo.toml crates/poni-core/Cargo.toml | sort -u | wc -l)" = 1
+      - name: Rebuild the dictionary and compare
+        run: python3 tools/make_ja_dict.py --check
