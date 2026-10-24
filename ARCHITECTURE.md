@@ -159,7 +159,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 
 ```
 cargo test -p poni-core          # logic tests, any OS
-python3 tools/make_ja_dict.py    # rebuild the Japanese reading dictionary (--check compares)
+python3 tools/make_ja_dict.py    # rebuild the Japanese reading dictionary, fixes in tools/ja_dict_fixes.csv (--check compares)
 cargo wcheck                     # type-check the Windows app from macOS/Linux
 cargo wbuild                     # cross-build target/x86_64-pc-windows-gnu/release/poni.exe (needs mingw-w64)
 cargo build -p poni --release    # on Windows (MSVC)

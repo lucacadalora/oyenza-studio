@@ -11,7 +11,9 @@
 //!
 //! Each entry's feature is a class letter, then its reading in katakana when
 //! the word has kanji ("N,ヨル"): N content word, P particle, A auxiliary verb,
-//! T te/ta ending, J suffix or dependent word, F prefix, S symbol.
+//! T te/ta ending, J suffix or dependent word, F prefix, S symbol, D number,
+//! C counter. A number and its counter read as one word, with the sound
+//! changes the dictionary leaves out (一歩 ippo, 三本 sanbon, 二人 futari).
 
 use super::{is_han, is_kana, japanese_ruby, JaWord, Ruby};
 use std::io::Read;
@@ -54,6 +56,13 @@ impl JaDict {
         Ok(JaDict { tokenizer: Tokenizer::new(dict) })
     }
 
+    /// Each word of `line` and its reading in hiragana (empty for words written
+    /// in kana and for kanji the dictionary doesn't know), after verb endings
+    /// and counters are joined: what [`ruby`](Self::ruby) spells.
+    pub fn readings(&self, line: &str) -> Vec<(String, String)> {
+        self.words(line).into_iter().map(|w| (w.display, w.yomi)).collect()
+    }
+
     /// `line` in pieces with their romaji, as [`japanese_ruby`] gives them for
     /// Windows' analyzer: joining the pieces' text gives back the line.
     pub fn ruby(&self, line: &str) -> Vec<Ruby> {
@@ -64,7 +73,7 @@ impl JaDict {
 
     /// The line's words, with te/ta endings joined to their verb the way
     /// Windows' analyzer splits verbs (呼ん|だ becomes 呼んだ, so it reads
-    /// "yonda", not "yon da").
+    /// "yonda", not "yon da"), and counters joined to their number.
     fn words(&self, line: &str) -> Vec<Word> {
         let mut worker = self.tokenizer.new_worker();
         let mut words: Vec<Word> = Vec::new();
@@ -86,16 +95,105 @@ impl JaDict {
                         continue;
                     }
                 }
+                let yomi = reading.map(hiragana).unwrap_or_default();
+                let after_number = words.last().is_some_and(|w| w.class == 'D');
+                if class == 'C' && after_number {
+                    // A whole number on its own (二人), not the end of a longer one (十二人).
+                    let alone = words.len() < 2 || words[words.len() - 2].class != 'D';
+                    let number = words.last_mut().expect("after a number");
+                    if let Some(both) = counted(&number.display, &number.yomi, surface, &yomi, alone) {
+                        number.display.push_str(surface);
+                        number.yomi = both;
+                        number.class = 'N';
+                        continue;
+                    }
+                }
                 words.push(Word {
                     display: surface.to_string(),
-                    yomi: reading.map(hiragana).unwrap_or_default(),
-                    phrase_start: matches!(class, 'N' | 'F' | 'S') && !after_prefix,
+                    yomi,
+                    // Numbers join the number before them (十一 is one).
+                    phrase_start: matches!(class, 'N' | 'F' | 'S' | 'D') && !after_prefix && !(class == 'D' && after_number),
                     class,
                 });
                 after_prefix = class == 'F';
             }
         }
         words
+    }
+}
+
+/// Counters whose sound changes after a number, and how they read after さん,
+/// なん, せん or まん when that changes too (三本 sanbon, 何階 nangai).
+const COUNTERS: &[(&str, Option<&str>)] = &[
+    ("回", None),
+    ("階", Some("がい")),
+    ("個", None),
+    ("曲", None),
+    ("軒", Some("げん")),
+    ("歳", None),
+    ("冊", None),
+    ("週", None),
+    ("足", Some("ぞく")),
+    ("点", None),
+    ("着", None),
+    ("通", None),
+    ("句", None),
+    ("分", Some("ぷん")),
+    ("本", Some("ぼん")),
+    ("杯", Some("ばい")),
+    ("匹", Some("びき")),
+    ("歩", Some("ぽ")),
+    ("泊", Some("ぱく")),
+    ("発", Some("ぱつ")),
+    ("拍", Some("ぱく")),
+    ("遍", Some("べん")),
+];
+
+/// How a number and the counter after it read together, when that's more
+/// than one reading after the other: 一人 hitori, 二人 futari, 四人 yonin,
+/// and the sound changes of 一歩 ippo, 六回 rokkai, 三本 sanbon, 何分 nanpun.
+/// None when nothing changes. `alone`: the number isn't the end of a longer
+/// one (the 二 of 十二人 reads ni).
+fn counted(number: &str, number_yomi: &str, counter: &str, counter_yomi: &str, alone: bool) -> Option<String> {
+    if counter == "人" {
+        return match number {
+            "一" | "1" | "１" if alone => Some("ひとり".into()),
+            "二" | "2" | "２" if alone => Some("ふたり".into()),
+            "四" | "4" | "４" => Some("よにん".into()),
+            _ => None,
+        };
+    }
+    let (_, after_n) = COUNTERS.iter().find(|(c, _)| *c == counter)?;
+    let first = counter_yomi.chars().next()?;
+    let row = |chars: &str| chars.contains(first);
+    let (k, s, t, h) = (row("かきくけこ"), row("さしすせそ"), row("たちつてと"), row("はひふへほ"));
+    // いち, はち and じゅう end in a double consonant before k, s, t and h; ろく
+    // and ひゃく only before k and h. After it, h becomes p.
+    let doubled = if number_yomi.ends_with("いち") || number_yomi.ends_with("はち") || number_yomi.ends_with("じゅう") {
+        k || s || t || h
+    } else {
+        (number_yomi.ends_with("ろく") || number_yomi.ends_with("ひゃく")) && (k || h)
+    };
+    if doubled {
+        let mut both: String = number_yomi.chars().take(number_yomi.chars().count() - 1).collect();
+        both.push('っ');
+        both.push(if h { pa_row(first) } else { first });
+        both.extend(counter_yomi.chars().skip(1));
+        return Some(both);
+    }
+    let voiced = ["さん", "なん", "せん", "まん"].iter().any(|n| number_yomi.ends_with(n)) || (number_yomi.ends_with("よん") && counter == "分");
+    after_n.filter(|_| voiced).map(|after| format!("{number_yomi}{after}"))
+}
+
+/// は ひ ふ へ ほ as ぱ ぴ ぷ ぺ ぽ.
+fn pa_row(c: char) -> char {
+    match c {
+        'は' => 'ぱ',
+        'ひ' => 'ぴ',
+        'ふ' => 'ぷ',
+        'へ' => 'ぺ',
+        'ほ' => 'ぽ',
+        _ => c,
     }
 }
 
@@ -172,6 +270,39 @@ mod tests {
         assert_eq!(roman("好きだった"), "suki datta");
         assert_eq!(roman("手紙を読んでいる"), "tegami wo yondeiru");
         assert_eq!(roman("笑って泣いた"), "waratte naita");
+    }
+
+    #[test]
+    fn numbers_and_counters_read_together() {
+        assert_eq!(roman("二人で歩いた"), "futari de aruita");
+        assert_eq!(roman("2人だけの秘密"), "futari dake no himitsu");
+        assert_eq!(roman("一人で"), "hitori de");
+        assert_eq!(roman("四人で"), "yonin de");
+        // The 二 of 十二 isn't 二人 (futari).
+        assert_eq!(roman("十二人"), "juuninin");
+        assert_eq!(roman("一歩ずつ"), "ippozutsu");
+        assert_eq!(roman("あと一回だけ"), "ato ikkai dake");
+        assert_eq!(roman("一言一句"), "hitokoto ikku");
+        assert_eq!(roman("三本の"), "sanbon no");
+        assert_eq!(roman("三階"), "sangai");
+        assert_eq!(roman("八杯"), "happai");
+        assert_eq!(roman("何分か"), "nanpun ka");
+        // Nothing changes here.
+        assert_eq!(roman("六歳"), "rokusai");
+        assert_eq!(roman("五分"), "gofun");
+        assert_eq!(dict().readings("2人"), vec![("2人".to_string(), "ふたり".to_string())]);
+    }
+
+    #[test]
+    fn words_from_the_fix_list() {
+        assert_eq!(roman("愛おしい日々"), "itooshii hibi");
+        assert_eq!(roman("失くした鍵"), "nakushita kagi");
+        assert_eq!(roman("夜を彷徨う"), "yoru wo samayou");
+        assert_eq!(roman("揺蕩う"), "tayutau");
+        assert_eq!(roman("其処に"), "soko ni");
+        assert_eq!(roman("貴女の声"), "anata no koe");
+        assert_eq!(roman("違くて"), "chigakute");
+        assert_eq!(roman("碧い海"), "aoi umi");
     }
 
     #[test]
