@@ -91,8 +91,8 @@ struct Local {
     /// Shelf contents before the last removal, for "Undo".
     undo: Option<(Vec<ShelfItem>, f64)>,
     count: usize,
-    /// The phone link's QR code as a bitmap: (link, device pixels per module, image).
-    qr_img: Option<(String, u32, Image)>,
+    /// The phone link's QR code as a bitmap: (link, square and module size in device pixels, image).
+    qr_img: Option<(String, u32, u32, Image)>,
 }
 
 thread_local! {
@@ -797,47 +797,59 @@ fn draw_phone(ui: &mut Ui, st: &AppState, l: &mut Local, pd: &PhoneDrop, r: Rect
 }
 
 /// The QR code on its white square, each module a whole number of device
-/// pixels so the edges stay sharp enough to scan from a screen.
+/// pixels so the edges stay sharp enough to scan from a screen. The square
+/// is part of the bitmap: themes repaint drawn greys (a light theme would turn
+/// a drawn white square dark), but leave images alone, and a code needs its
+/// light border to scan.
 fn draw_qr(ui: &mut Ui, l: &mut Local, qr: &QrMatrix, url: &str, r: Rect) {
-    ui.c.fill_rrect(r, 12.0, Color::white(1.0));
     let scale = ui.c.scale().max(0.5);
+    let box_px = (r.w * scale).round().max(1.0) as u32;
     let n = qr.size.max(1) as f32;
     let module_px = (((r.w - 2.0 * QR_MARGIN) * scale) / n).floor().max(1.0) as u32;
-    let img = qr_image(l, qr, url, module_px);
+    let img = qr_image(l, qr, url, box_px, module_px);
     // One device pixel per bitmap pixel, on the pixel grid.
-    let side = img.width as f32 / scale;
+    let side = box_px as f32 / scale;
     let snap = |v: f32| (v * scale).round() / scale;
     let dst = Rect::new(snap(r.center().x - side / 2.0), snap(r.center().y - side / 2.0), side, side);
-    ui.c.image(&img, dst, 0.0);
+    ui.c.image(&img, dst, 12.0);
 }
 
 /// The QR code as one bitmap (a single draw per frame instead of hundreds
-/// of rectangles), rebuilt when the link or the scaling changes.
-fn qr_image(l: &mut Local, qr: &QrMatrix, url: &str, module_px: u32) -> Image {
-    if let Some((u, m, img)) = &l.qr_img {
-        if u == url && *m == module_px {
+/// of rectangles): `box_px` square of white with the modules centred,
+/// rebuilt when the link or the scaling changes.
+fn qr_image(l: &mut Local, qr: &QrMatrix, url: &str, box_px: u32, module_px: u32) -> Image {
+    if let Some((u, b, m, img)) = &l.qr_img {
+        if u == url && *b == box_px && *m == module_px {
             return img.clone();
         }
     }
     let n = qr.size as u32;
-    let side = n * module_px;
+    let side = (n * module_px).min(box_px);
+    let off = (box_px - side) / 2;
     // Premultiplied BGRA: opaque white, then black modules.
-    let mut px = vec![255u8; (side * side * 4) as usize];
+    let mut px = vec![255u8; (box_px * box_px * 4) as usize];
     for y in 0..n {
         for x in 0..n {
             if !qr.get(x as usize, y as usize) {
                 continue;
             }
             for dy in 0..module_px {
-                let row = (y * module_px + dy) * side;
+                let py = off + y * module_px + dy;
+                if py >= box_px {
+                    continue;
+                }
                 for dx in 0..module_px {
-                    let o = ((row + x * module_px + dx) * 4) as usize;
+                    let pxx = off + x * module_px + dx;
+                    if pxx >= box_px {
+                        continue;
+                    }
+                    let o = ((py * box_px + pxx) * 4) as usize;
                     px[o..o + 3].fill(0);
                 }
             }
         }
     }
-    let img = ImageData::new(side, side, px);
-    l.qr_img = Some((url.to_string(), module_px, img.clone()));
+    let img = ImageData::new(box_px, box_px, px);
+    l.qr_img = Some((url.to_string(), box_px, module_px, img.clone()));
     img
 }
