@@ -185,7 +185,8 @@ pub fn fold(s: &str) -> String {
 
 /// Clean media metadata coming from players and browsers so it matches the
 /// database: strips "(Official Video)", "[4K UPGRADE]", "M/V", "[Lyrics]",
-/// "- Remastered 2011", "VEVO"/" - Topic" channel suffixes, and splits
+/// "[Sub Thai]", "(Lirik dan Terjemahan)", "- Remastered 2011",
+/// "VEVO"/" - Topic" channel suffixes, and splits
 /// "Artist - Title" (or "Title – Artist") titles that browsers report with
 /// the channel as artist.
 pub fn normalize_query(q: &TrackQuery) -> TrackQuery {
@@ -239,15 +240,22 @@ pub fn primary_artist(artist: &str) -> String {
         .to_string()
 }
 
-/// For a browser tab whose channel names neither side of "A - B": the usual
-/// "Artist - Song" reading, to try when the query as reported finds nothing.
-/// Only for browser sessions: player titles like "Song - Live" have no
-/// artist in them.
-pub fn artist_song_guess(q: &TrackQuery) -> Option<TrackQuery> {
-    let (left, right) = split_title(&q.title)?;
-    let artist = strip_decorations(left);
-    let title = clean_title(right);
-    (!artist.is_empty() && !title.is_empty()).then(|| TrackQuery { title, artist, album: String::new(), duration_s: q.duration_s })
+/// For a browser tab whose channel names neither side of "A - B" (a lyric
+/// channel, a record label): the title read as "Artist - Song", the usual
+/// order, then as "Song - Artist", to try in turn when the query as reported
+/// finds nothing. Only for browser sessions: player titles like
+/// "Song - Live" have no artist in them.
+pub fn title_guesses(q: &TrackQuery) -> Vec<TrackQuery> {
+    let Some((left, right)) = split_title(&q.title) else { return Vec::new() };
+    [(left, right), (right, left)]
+        .into_iter()
+        .filter_map(|(artist, song)| {
+            let artist = strip_decorations(artist);
+            let title = clean_title(song);
+            (!artist.is_empty() && !title.is_empty())
+                .then(|| TrackQuery { title, artist, album: String::new(), duration_s: q.duration_s })
+        })
+        .collect()
 }
 
 /// The title split at its first artist/song separator.
@@ -285,10 +293,28 @@ fn is_artist(side: &str, artist: &str) -> bool {
 const NOISE_WORDS: &[&str] = &[
     "official", "oficial", "officiel", "video", "videoclip", "lyric", "lyrics", "lirik", "visualizer", "visualiser",
     "audio", "hd", "hq", "4k", "8k", "mv", "explicit",
+    // Lyrics, subtitles and translations on fan and label uploads: "[Sub Thai]",
+    // "(Lirik dan Terjemahan)", "[Vietsub]", "(Legendado)", "(Letra)".
+    "letra", "paroles", "testo", "romanized", "romaji", "sub", "subs", "subbed", "subtitle", "subtitles", "subtitled",
+    "subtítulos", "engsub", "thaisub", "indosub", "subindo", "vietsub", "terjemahan", "translation", "translated",
+    "legendado", "legendada", "subtitulado", "subtitulada", "traducida", "traducido", "traducción", "tradução",
+    "traduction", "traduzione", "übersetzung",
+];
+
+/// The same tags where words aren't split by spaces, found anywhere in the
+/// bracket: Thai "ซับไทย" (Thai subs), "แปลไทย" / "คำแปล" (translation),
+/// "เนื้อเพลง" (lyrics); Korean "자막" (subtitles), "가사" (lyrics), "해석" /
+/// "번역" (translation); Chinese and Japanese "字幕" / "中字" (subtitles),
+/// "歌詞" / "歌词" (lyrics), "和訳" / "翻譯" / "翻译" (translation). Vietnamese
+/// "lời bài hát" (lyrics) is a phrase.
+const NOISE_PARTS: &[&str] = &[
+    "ซับไทย", "แปลไทย", "คำแปล", "เนื้อเพลง", "자막", "가사", "해석", "번역", "字幕", "中字", "歌詞", "歌词", "和訳", "翻譯", "翻译",
+    "lời bài hát",
 ];
 
 /// Unbracketed tags at the end of a title ("GANGNAM STYLE M/V"). Single words
-/// like "Video" are left alone: "Home Video" is a song.
+/// like "Video" are left alone: "Home Video" is a song. Longer tags come
+/// before the tags they end with.
 const NOISE_TAILS: &[&str] = &[
     " official music video",
     " official lyric video",
@@ -298,11 +324,29 @@ const NOISE_TAILS: &[&str] = &[
     " lyric video",
     " m/v",
     " mv",
+    " lirik dan terjemahan",
+    " lirik terjemahan",
+    " lyrics + vietsub",
+    " sub thai",
+    " thai sub",
+    " sub indo",
+    " indo sub",
+    " eng sub",
+    " engsub",
+    " thaisub",
+    " indosub",
+    " vietsub",
 ];
 
 fn is_noise(inner: &str) -> bool {
     let f = fold(inner);
-    f.contains("remaster") || f == "m v" || f.split(' ').any(|w| NOISE_WORDS.contains(&w))
+    // Thai tone marks aren't alphanumeric, so `fold` would split "เนื้อเพลง":
+    // match the parts against the bracket as written.
+    let lower = inner.to_lowercase();
+    f.contains("remaster")
+        || f == "m v"
+        || f.split(' ').any(|w| NOISE_WORDS.contains(&w))
+        || NOISE_PARTS.iter().any(|p| lower.contains(p))
 }
 
 fn strip_decorations(s: &str) -> String {
@@ -485,14 +529,66 @@ mod tests {
     }
 
     #[test]
-    fn guesses_artist_and_song_for_unknown_channels() {
-        // A lyric-video channel names neither side.
+    fn strips_subtitle_and_translation_tags() {
+        let n = |title: &str, channel: &str| {
+            let n = normalize_query(&q(title, channel, "", 0));
+            (n.artist, n.title)
+        };
+        let pair = |a: &str, t: &str| (a.to_string(), t.to_string());
+        assert_eq!(n("[Sub Thai] The Lanterns - Paper Boats", "The Lanterns"), pair("The Lanterns", "Paper Boats"));
+        assert_eq!(n("[THAISUB] Paper Boats - The Lanterns", "TheLanternsVEVO"), pair("The Lanterns", "Paper Boats"));
+        assert_eq!(n("Paper Boats - The Lanterns (ซับไทย)", "The Lanterns"), pair("The Lanterns", "Paper Boats"));
+        assert_eq!(n("The Lanterns - Paper Boats (Lirik dan Terjemahan)", "The Lanterns"), pair("The Lanterns", "Paper Boats"));
+        assert_eq!(n("The Lanterns - Paper Boats | Lirik Terjemahan Indonesia", "The Lanterns"), pair("The Lanterns", "Paper Boats"));
+        // A record label's channel names neither side: the tag goes, the
+        // title stays whole for `title_guesses`.
+        assert_eq!(
+            n("[Sub Thai] Paper Boats - The Lanterns", "Harbor Music Thailand"),
+            pair("Harbor Music Thailand", "Paper Boats - The Lanterns")
+        );
+        for title in [
+            "Paper Boats (Lyrics + Vietsub)",
+            "Paper Boats [Eng Sub]",
+            "Paper Boats (Sub Español)",
+            "Paper Boats (Legendado)",
+            "Paper Boats (Letra)",
+            "Paper Boats (แปลไทย)",
+            "Paper Boats [เนื้อเพลง]",
+            "Paper Boats [가사/해석]",
+            "Paper Boats [한글자막]",
+            "Paper Boats\u{3010}中字\u{3011}",
+            "Paper Boats\u{3010}和訳\u{3011}",
+            "Paper Boats (Lời bài hát)",
+            // Unbracketed at the end.
+            "Paper Boats Sub Indo",
+            "Paper Boats Lyrics + Vietsub",
+            "Paper Boats Lirik dan Terjemahan",
+        ] {
+            assert_eq!(n(title, "The Lanterns").1, "Paper Boats", "{title}");
+        }
+        // Words that only start like a tag, and tags outside brackets that
+        // could be a song's name, stay.
+        assert_eq!(n("Paper Boats (Submarine Mix)", "The Lanterns").1, "Paper Boats (Submarine Mix)");
+        assert_eq!(n("Sub Rosa", "Someone").1, "Sub Rosa");
+        assert_eq!(n("Vietsub", "Someone").1, "Vietsub");
+    }
+
+    #[test]
+    fn reads_unknown_channel_titles_both_ways() {
+        let read = |g: &TrackQuery| (g.artist.clone(), g.title.clone());
+        let pair = |a: &str, t: &str| (a.to_string(), t.to_string());
+        // A lyric-video channel names neither side: "Artist - Song" first.
         let n = normalize_query(&q("The Lanterns - Paper Boats (Lyrics)", "Lyric Channel", "", 180));
         assert_eq!(n.title, "The Lanterns - Paper Boats");
-        let g = artist_song_guess(&n).unwrap();
-        assert_eq!((g.artist.as_str(), g.title.as_str(), g.duration_s), ("The Lanterns", "Paper Boats", 180));
-        assert!(artist_song_guess(&q("Paper Boats", "The Lanterns", "", 0)).is_none());
-        assert!(artist_song_guess(&q(" - Paper Boats", "", "", 0)).is_none());
+        let g = title_guesses(&n);
+        assert_eq!(g.iter().map(read).collect::<Vec<_>>(), [pair("The Lanterns", "Paper Boats"), pair("Paper Boats", "The Lanterns")]);
+        assert!(g.iter().all(|g| g.duration_s == 180 && g.album.is_empty()));
+        // A record label's upload with the song first: the second reading finds it.
+        let n = normalize_query(&q("[Sub Thai] Paper Boats - The Lanterns", "Harbor Music Thailand", "", 236));
+        assert_eq!(read(&title_guesses(&n)[1]), pair("The Lanterns", "Paper Boats"));
+        // Nothing to read as "A - B".
+        assert!(title_guesses(&q("Paper Boats", "The Lanterns", "", 0)).is_empty());
+        assert!(title_guesses(&q(" - Paper Boats", "", "", 0)).is_empty());
     }
 
     #[test]
