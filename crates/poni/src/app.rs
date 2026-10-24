@@ -366,13 +366,6 @@ const MASK_INTERVAL: f64 = 1.0 / 30.0;
 
 /// How long outgoing content takes to fade (seconds).
 const OUTGOING_FADE: f64 = 0.14;
-
-/// How much of the outgoing content still shows `age` seconds into its fade
-/// (a smoothstep: it holds, then leaves).
-fn outgoing_left(age: f64) -> f32 {
-    let t = ((age / OUTGOING_FADE) as f32).clamp(0.0, 1.0);
-    1.0 - t * t * (3.0 - 2.0 * t)
-}
 /// Page switch cross-fade duration (seconds).
 const PAGE_SWITCH: f64 = 0.26;
 /// Pointer travel (DIPs) that restarts the hover dwell: the island opens
@@ -396,6 +389,13 @@ const CONTENT_SCALE_FROM: f32 = 0.94;
 const CONTENT_DROP: f32 = 6.0;
 /// Smallest scale the outgoing content shrinks to as the outline narrows.
 const GHOST_MIN_SCALE: f32 = 0.6;
+
+/// How much of the outgoing content still shows `age` seconds into its fade
+/// (a smoothstep: it holds, then leaves).
+fn outgoing_left(age: f64) -> f32 {
+    let t = ((age / OUTGOING_FADE) as f32).clamp(0.0, 1.0);
+    1.0 - t * t * (3.0 - 2.0 * t)
+}
 
 impl App {
     #[allow(clippy::too_many_arguments)]

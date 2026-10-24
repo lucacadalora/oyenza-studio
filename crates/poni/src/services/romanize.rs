@@ -44,8 +44,8 @@ fn each_line(texts: &[&str], mut read: impl FnMut(&str) -> Vec<Ruby>) -> Vec<Vec
 }
 
 /// Every line of a Japanese song through the analyzer. If it fails outright
-/// (missing, or no words back) it isn't asked again for this song and only
-/// kana lines get romaji. A word it can't read costs just that word's reading.
+/// it isn't asked again for this song and only kana lines get romaji. A word
+/// it can't read costs just that word's reading.
 fn japanese_song(texts: &[&str]) -> Vec<Vec<Ruby>> {
     let mut analyzer = true;
     let mut unread = 0;
@@ -58,7 +58,7 @@ fn japanese_song(texts: &[&str]) -> Vec<Vec<Ruby>> {
                 }
                 Err(e) => {
                     analyzer = false;
-                    crate::pwarn!("lyrics: Windows' Japanese reading analyzer failed ({e}); only kana lines get romaji");
+                    crate::pwarn!("lyrics: {e}; only kana lines get romaji");
                 }
             }
         }
@@ -75,13 +75,16 @@ fn japanese_song(texts: &[&str]) -> Vec<Vec<Ruby>> {
 fn japanese(line: &str) -> Result<(Vec<Ruby>, usize), String> {
     let mut words: Vec<(String, String, bool)> = Vec::new();
     for chunk in chunks(line, ANALYZER_MAX) {
-        let found = JapanesePhoneticAnalyzer::GetWords(&HSTRING::from(chunk)).map_err(|e| e.to_string())?;
+        let found = JapanesePhoneticAnalyzer::GetWords(&HSTRING::from(chunk)).map_err(|e| format!("Windows' Japanese reading analyzer failed ({e})"))?;
         if found.Size().unwrap_or(0) == 0 && romanize::needs_roman(chunk) {
-            return Err("it returned no words".into());
+            // Windows 11 keeps the analyzer's dictionary (IME\IMEJP\DICTS\
+            // SDDS0411.DIC) in the Japanese typing feature; without it every
+            // line comes back empty.
+            return Err("Windows has no Japanese reading data (add Japanese typing: Settings > Time & language > Language & region)".into());
         }
         let mut read: Vec<(String, String, bool)> = Vec::new();
         for w in &found {
-            let display = w.DisplayText().map_err(|e| e.to_string())?.to_string_lossy();
+            let display = w.DisplayText().map_err(|e| format!("Windows' Japanese reading analyzer failed ({e})"))?.to_string_lossy();
             let yomi = w.YomiText().map(|y| y.to_string_lossy()).unwrap_or_default();
             read.push((display, yomi, w.IsPhraseStart().unwrap_or(true)));
         }
