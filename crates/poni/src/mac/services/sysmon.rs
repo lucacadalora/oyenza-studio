@@ -3,10 +3,10 @@
 //! with no private framework, no helper and no admin rights.
 //!
 //! * CPU: each core's user, system, idle and nice ticks
-//!   (`host_processor_info`), each core's kind on Apple silicon (the device
-//!   tree names each core's cluster; else the performance levels' counts),
-//!   the uptime (`kern.boottime`). macOS gives apps no public speed,
-//!   temperature or power reading, so the page shows those as not reported.
+//!   (`host_processor_info`), each core's kind on Apple silicon (the
+//!   performance levels' counts, `hw.perflevel*`), the uptime
+//!   (`kern.boottime`). macOS gives apps no public speed, temperature or
+//!   power reading, so the page shows those as not reported.
 //! * GPU: the graphics processor's own statistics (IOKit's
 //!   `PerformanceStatistics`): device, renderer and tiler use, memory in use.
 //! * Memory: Activity Monitor's split (`sysstats::memory_split`), the swap in
@@ -193,8 +193,6 @@ extern "C" {
     fn IORegistryEntryGetRegistryEntryID(entry: u32, id: *mut u64) -> i32;
     fn IORegistryEntryCreateCFProperty(entry: u32, key: CFTypeRef, allocator: CFTypeRef, options: u32) -> CFTypeRef;
     fn IORegistryEntryGetParentEntry(entry: u32, plane: *const c_char, parent: *mut u32) -> i32;
-    fn IORegistryEntryFromPath(main_port: u32, path: *const c_char) -> u32;
-    fn IORegistryEntryGetChildIterator(entry: u32, plane: *const c_char, iterator: *mut u32) -> i32;
     fn IOPSCopyPowerSourcesInfo() -> CFTypeRef;
     fn IOPSCopyPowerSourcesList(blob: CFTypeRef) -> CFTypeRef;
     fn IOPSGetPowerSourceDescription(blob: CFTypeRef, ps: CFTypeRef) -> CFTypeRef;
@@ -998,54 +996,19 @@ fn class_name(entry: u32) -> String {
 
 // ---------------------------------------------------------------- CPU kinds
 
-/// Each logical processor's kind, in `host_processor_info`'s order: the
-/// device tree names each core's cluster (E or P) and number; else the
-/// performance levels' counts, efficiency cores first as on every Apple chip
-/// so far; one kind on Intel.
+/// Each logical processor's kind, in `host_processor_info`'s order, from
+/// the performance levels' counts (`hw.perflevel0` is the performance
+/// cores, `hw.perflevel1` the efficiency cores): Apple numbers the
+/// efficiency cores first on its chips (an Ultra, two chips in one, repeats
+/// the pattern per chip, which this reads as one). One kind on Intel.
 fn mac_core_kinds(n: usize) -> Vec<CoreKind> {
-    match tree_classes(n).or_else(|| level_classes(n)) {
+    match level_classes(n) {
         Some(classes) => core_kinds(&classes),
         None => vec![CoreKind::Any; n],
     }
 }
 
-/// Efficiency classes from the device tree's cores (1 performance, 0 efficiency).
-fn tree_classes(n: usize) -> Option<Vec<u8>> {
-    let cpus = unsafe { IORegistryEntryFromPath(0, c"IODeviceTree:/cpus".as_ptr()) };
-    if cpus == 0 {
-        return None;
-    }
-    let cpus = Io(cpus);
-    let mut it = 0u32;
-    if unsafe { IORegistryEntryGetChildIterator(cpus.0, c"IODeviceTree".as_ptr(), &mut it) } != 0 {
-        return None;
-    }
-    let it = Io(it);
-    let mut classes: Vec<Option<u8>> = vec![None; n];
-    let mut k = 0usize;
-    loop {
-        let core = unsafe { IOIteratorNext(it.0) };
-        if core == 0 {
-            break;
-        }
-        let core = Io(core);
-        let cluster = prop(core.0, "cluster-type").and_then(|v| cf::data_bytes(v.0)).and_then(|b| b.first().copied());
-        let id = prop(core.0, "logical-cpu-id")
-            .and_then(|v| cf::data_bytes(v.0))
-            .filter(|b| b.len() >= 4)
-            .map_or(k, |b| u32::from_le_bytes([b[0], b[1], b[2], b[3]]) as usize);
-        k += 1;
-        let class = match cluster {
-            Some(b'P') => 1,
-            Some(b'E') => 0,
-            _ => return None,
-        };
-        *classes.get_mut(id)? = Some(class);
-    }
-    // Only when every processor was named.
-    classes.into_iter().collect()
-}
-
+/// Efficiency classes (1 performance, 0 efficiency), efficiency cores first.
 fn level_classes(n: usize) -> Option<Vec<u8>> {
     if sysstats::sysctl_u64(c"hw.nperflevels")? != 2 {
         return None;

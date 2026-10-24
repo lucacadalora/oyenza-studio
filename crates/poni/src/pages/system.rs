@@ -838,7 +838,14 @@ fn draw_gauge(ui: &mut Ui, c: Point, d: f32, g: &Gauge) {
         ui.c.arc(c, radius, 0.0, f.clamp(0.0, 1.0), g.color, GAUGE_W);
     }
     let inner = d - 2.0 * GAUGE_W - 2.0;
-    let size = if g.value.chars().count() > 4 { 10.0 } else { 11.0 };
+    let mut size = if g.value.chars().count() > 4 { 10.0 } else { 11.0 };
+    // The Mac's font runs wider than Windows': a value too wide for the ring ("307 MB") shrinks to fit it.
+    if MAC {
+        let w = ui.c.measure(&g.value, &TextStyle::new(size).weight(Weight::Semibold).tabular(), 400.0).0;
+        if w > inner - 2.0 {
+            size = (size * (inner - 2.0) / w).max(7.0);
+        }
+    }
     ui.c.text(&g.value, Rect::from_center(c, inner, 16.0), &TextStyle::new(size).weight(Weight::Semibold).tabular().center());
     gauge_label(ui, c, d, g.label, palette::TEXT_DIM);
 }
