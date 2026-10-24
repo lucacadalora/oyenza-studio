@@ -1,7 +1,8 @@
-//! The Mac's side of what the island asks the system for: power, volume,
-//! system stats, the clipboard, Shelf tiles, Phone drop and start at login
-//! (one file each), plus a few direct calls (the accent colour, opening and
-//! revealing files, sounds). Music and Oyenza sign-in come in later slices.
+//! The Mac's side of what the island asks the system for: what Music and
+//! Spotify play, lyrics, power, volume, system stats, the clipboard, Shelf
+//! tiles, Phone drop and start at login (one file each), plus a few direct
+//! calls (the accent colour, opening and revealing files, sounds). Oyenza
+//! sign-in comes in a later slice.
 
 // This file is loaded with #[path], so its modules sit in services/ by path.
 #[path = "services/audio.rs"]
@@ -10,6 +11,21 @@ pub mod audio;
 mod cf;
 #[path = "services/clipboard.rs"]
 pub mod clipboard;
+#[path = "services/http.rs"]
+pub mod http;
+#[path = "services/media.rs"]
+pub mod media;
+#[path = "services/romanize.rs"]
+pub mod romanize;
+#[path = "services/secret.rs"]
+pub mod secret;
+// Lyrics (LRCLIB, and Apple Music's own with the person's token) are the
+// Windows app's code, shared as is: only its HTTP client, token store and
+// romaji readings above are the Mac's.
+#[path = "../services/applemusic.rs"]
+pub mod applemusic;
+#[path = "../services/lyrics.rs"]
+pub mod lyrics;
 #[path = "services/login.rs"]
 pub mod login;
 #[path = "services/phonedrop.rs"]

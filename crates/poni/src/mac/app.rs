@@ -23,7 +23,8 @@ use crate::oyen;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::services;
-use crate::state::{AppState, HudKind, InlineAction, NoticeAction, PhoneAsk, PhoneDrop, PhoneTransfer, VolumeState};
+use crate::events::{AppleMusicStatus, LyricsResult};
+use crate::state::{AppState, HudKind, InlineAction, LyricsState, LyricsStatus, NoticeAction, PhoneAsk, PhoneDrop, PhoneTransfer, VolumeState};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
 use crate::window::{self, ScreenInfo, ViewInput};
 use block2::RcBlock;
@@ -46,6 +47,8 @@ use std::sync::mpsc::{self, Receiver};
 
 /// Where the README explains the project.
 const ABOUT_URL: &str = "https://github.com/lucacadalora/poni";
+/// Steps for copying the Apple Music token (README).
+const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/poni#apple-music-lyrics";
 
 /// The grow springs overshoot by about 3 %; the window leaves 5 %.
 const OVERSHOOT: f32 = 1.05;
@@ -343,6 +346,9 @@ pub struct App {
     /// shelf files it offers.
     phone: Option<services::phonedrop::PhoneDrop>,
     phone_offer: Vec<String>,
+    /// What Music and Spotify play, and the lyrics worker.
+    media: Option<services::media::MediaService>,
+    lyrics: Option<services::lyrics::LyricsService>,
     motion: Option<MotionStats>,
     motion_name: &'static str,
     motions_logged: u32,
@@ -420,6 +426,8 @@ impl App {
             pending_drag: None,
             phone: None,
             phone_offer: Vec::new(),
+            media: None,
+            lyrics: None,
             motion: None,
             motion_name: "morph",
             motions_logged: 0,
@@ -436,6 +444,14 @@ impl App {
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
+        self.media = Some(services::media::MediaService::start(self.mtm, self.sink.clone()));
+        self.lyrics = match services::lyrics::LyricsService::start(self.sink.clone()) {
+            Ok(l) => Some(l),
+            Err(e) => {
+                pwarn!("lyrics: unavailable ({e})");
+                None
+            }
+        };
         self.sync_clipboard();
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
@@ -622,6 +638,17 @@ impl App {
             self.st.ui.clip_scroll = 0.0;
         }
         self.sync_clipboard();
+        if !before.lyrics && self.st.settings.lyrics {
+            if let Some(m) = self.st.media.clone() {
+                let stale = self.st.lyrics.track_key != m.track_key || self.st.lyrics.status == LyricsStatus::Idle;
+                if stale && !m.title.is_empty() {
+                    if let Some(l) = self.lyrics.as_ref() {
+                        self.st.lyrics = LyricsState { track_key: m.track_key.clone(), status: LyricsStatus::Loading, ..Default::default() };
+                        l.request(&m);
+                    }
+                }
+            }
+        }
         self.st.pomodoro.cfg = self.st.settings.pomodoro.clone();
         if before.expanded_width != self.st.settings.expanded_width {
             self.layout_surface();
@@ -642,6 +669,11 @@ impl App {
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
             MenuCmd::ToggleClipboard => s.clipboard_history = !s.clipboard_history,
+            MenuCmd::ToggleLyrics => s.lyrics = !s.lyrics,
+            MenuCmd::TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
+            MenuCmd::AppleMusicToken => self.use_apple_music_token(),
+            MenuCmd::AppleMusicHelp => services::open(APPLE_MUSIC_HELP_URL),
+            MenuCmd::AppleMusicForget => self.forget_apple_music_token(),
             MenuCmd::ToggleLogin => self.toggle_login(),
             MenuCmd::OpenSettings => {
                 if !paths::settings_path().exists() {
@@ -713,6 +745,75 @@ impl App {
         }
     }
 
+    /// Save the Apple Music token copied from the browser, and keep it off
+    /// the clipboard and out of the clipboard history.
+    fn use_apple_music_token(&mut self) {
+        let text = services::clipboard::read_text().unwrap_or_default();
+        let Some(token) = poni_core::applemusic::clean_user_token(&text) else {
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "No Apple Music token copied", "Copy media-user-token first", 6.0, None);
+            return;
+        };
+        if let Err(e) = services::secret::save(&paths::apple_music_token_path(), &token) {
+            pwarn!("apple music: cannot save the token ({e})");
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "Couldn't save the token", "Details in poni.log", 5.0, None);
+            return;
+        }
+        pinfo!("apple music: token saved");
+        self.forget_clipboard_text(&token);
+        if let Some(l) = self.lyrics.as_ref() {
+            l.apple_token_changed();
+        }
+        self.refetch_lyrics();
+        self.st.notify(Icon::Lyrics, palette::BLUE, "Checking the Apple Music token", "One moment", 4.0, None);
+    }
+
+    fn forget_apple_music_token(&mut self) {
+        if let Err(e) = services::secret::delete(&paths::apple_music_token_path()) {
+            pwarn!("apple music: cannot remove the token ({e})");
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "Couldn't remove the token", "Details in poni.log", 5.0, None);
+            return;
+        }
+        pinfo!("apple music: token removed");
+        if let Some(l) = self.lyrics.as_ref() {
+            l.apple_token_changed();
+        }
+        self.refetch_lyrics();
+        self.st.notify(Icon::Lyrics, palette::BLUE, "Apple Music lyrics off", "Lyrics from LRCLIB only", 4.0, None);
+    }
+
+    fn on_apple_music(&mut self, status: AppleMusicStatus) {
+        let (color, title, subtitle) = match status {
+            AppleMusicStatus::Accepted => (palette::GREEN, "Apple Music lyrics on", "LRCLIB fills in the rest"),
+            AppleMusicStatus::Rejected => (palette::ORANGE, "Apple Music token not accepted", "Copy a fresh one from music.apple.com"),
+            AppleMusicStatus::Unreachable => (palette::ORANGE, "Can't reach Apple Music", "Token saved; trying again later"),
+            AppleMusicStatus::NoAccess => (palette::ORANGE, "No lyrics from Apple Music", "They need an Apple Music subscription"),
+        };
+        self.st.notify(Icon::Lyrics, color, title, subtitle, 6.0, None);
+    }
+
+    /// Remove history entries holding `secret` and clear the clipboard.
+    fn forget_clipboard_text(&mut self, secret: &str) {
+        let hits: Vec<usize> = self.st.clip.iter().enumerate().filter(|(_, c)| c.text.contains(secret)).map(|(i, _)| i).collect();
+        for i in hits.into_iter().rev() {
+            self.st.clip.remove(i);
+        }
+        self.st.ui.clip_flash = None;
+        self.own_clip = Some(String::new());
+        services::clipboard::set_text("");
+    }
+
+    /// Look up the current track's lyrics again (the sources changed).
+    fn refetch_lyrics(&mut self) {
+        if !self.st.settings.lyrics {
+            return;
+        }
+        let Some(m) = self.st.media.clone().filter(|m| !m.title.is_empty()) else { return };
+        if let Some(l) = self.lyrics.as_ref() {
+            self.st.lyrics = LyricsState { track_key: m.track_key.clone(), status: LyricsStatus::Loading, ..Default::default() };
+            l.request(&m);
+        }
+    }
+
     /// Clipboard history runs only while it is switched on.
     fn sync_clipboard(&mut self) {
         match (self.st.settings.clipboard_history, self.clipboard.is_some()) {
@@ -740,8 +841,72 @@ impl App {
     }
 
     pub fn on_event(&mut self, ev: AppEvent) {
-        self.st.now = clock::mono();
+        let now = clock::mono();
+        self.st.now = now;
+        let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
         match ev {
+            AppEvent::Media(session) => {
+                let prev_key = self.st.media.as_ref().map(|m| m.track_key.clone());
+                match session {
+                    Some(mut s) => {
+                        // Keep already-decoded art if the track didn't change.
+                        if s.art.is_none() {
+                            if let Some(prev) = &self.st.media {
+                                if prev.track_key == s.track_key {
+                                    s.art = prev.art.clone();
+                                    s.art_color = prev.art_color;
+                                }
+                            }
+                        }
+                        let changed = prev_key.as_deref() != Some(s.track_key.as_str());
+                        if changed {
+                            self.st.lyrics = LyricsState { track_key: s.track_key.clone(), status: LyricsStatus::Idle, ..Default::default() };
+                            if self.st.settings.lyrics && !s.title.is_empty() {
+                                if let Some(l) = self.lyrics.as_ref() {
+                                    self.st.lyrics.status = LyricsStatus::Loading;
+                                    l.request(&s);
+                                }
+                            }
+                        }
+                        self.st.media = Some(s);
+                    }
+                    None => {
+                        self.st.media = None;
+                        self.st.lyrics = LyricsState::default();
+                    }
+                }
+            }
+            AppEvent::MediaTimeline { track_key, timeline } => {
+                if let Some(m) = self.st.media.as_mut() {
+                    if m.track_key == track_key {
+                        m.timeline = timeline;
+                    }
+                }
+            }
+            AppEvent::MediaArt { track_key, art } => {
+                if let Some(m) = self.st.media.as_mut() {
+                    if m.track_key == track_key {
+                        m.art_color = art.as_ref().map(|a| a.accent_color());
+                        m.art = art;
+                    }
+                }
+            }
+            AppEvent::Lyrics { track_key, result } => {
+                if self.st.lyrics.track_key == track_key {
+                    match result {
+                        LyricsResult::Found { lyrics, source, ruby } => {
+                            self.st.lyrics.status = LyricsStatus::Found;
+                            self.st.lyrics.lyrics = Some(lyrics);
+                            self.st.lyrics.source = source;
+                            self.st.lyrics.ruby = ruby;
+                        }
+                        LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
+                        LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
+                        LyricsResult::Error(e) => self.st.lyrics.status = LyricsStatus::Error(e),
+                    }
+                }
+            }
+            AppEvent::AppleMusic(status) => self.on_apple_music(status),
             AppEvent::Volume { level, muted } => {
                 // The first report only sets the level; changes show the pop-up.
                 let first = !self.st.volume.known;
@@ -796,10 +961,42 @@ impl App {
             }
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Log(s) => pinfo!("{s}"),
-            // Music, Bluetooth and full-screen events come with later slices.
+            // Bluetooth and full-screen events come with later slices.
             _ => {}
         }
+        if let Some(before) = media_before {
+            self.after_media_change(before, now);
+        }
         self.request_frame();
+    }
+
+    /// (player, track, playing) of the current media session.
+    fn media_snapshot(&self) -> Option<(String, String, bool)> {
+        self.st.media.as_ref().map(|m| (m.app_id.clone(), m.track_key.clone(), m.is_playing()))
+    }
+
+    /// Track the pause grace period and the title peek after a media update.
+    fn after_media_change(&mut self, before: Option<(String, String, bool)>, now: f64) {
+        let Some(m) = self.st.media.as_ref() else {
+            self.st.media_paused_at = None;
+            return;
+        };
+        let playing = m.is_playing();
+        let same_player = before.as_ref().is_some_and(|b| b.0 == m.app_id);
+        let new_track = before.as_ref().is_none_or(|b| b.1 != m.track_key);
+        if playing {
+            self.st.media_paused_at = None;
+        } else if !same_player {
+            self.st.media_paused_at = None;
+        } else if before.as_ref().is_some_and(|b| b.2) {
+            // Playing -> paused: the pill lingers for a while.
+            self.st.media_paused_at = Some(now);
+        }
+        // A new track starting while collapsed: show its title for a moment.
+        // Not on a notched screen, where the title would land under the camera.
+        if playing && new_track && !self.expanded && self.screen.notch.is_none() {
+            self.st.ui.peek_until = now + 3.0;
+        }
     }
 
     fn refresh_screen(&mut self) {
@@ -1192,8 +1389,22 @@ impl App {
         let cmds = std::mem::take(&mut self.st.cmds);
         for c in cmds {
             match c {
-                // Music controls arrive with the media slice.
-                Command::Media(_) => {}
+                Command::Media(m) => {
+                    if let Some(s) = self.media.as_ref() {
+                        s.command(m.clone());
+                    }
+                    // Optimistic UI for play/pause: the player's confirmation will match.
+                    if m == crate::commands::MediaCmd::PlayPause {
+                        if let Some(ms) = self.st.media.as_mut() {
+                            let now = self.st.now;
+                            let pos = ms.timeline.position_at(now);
+                            ms.timeline.position_s = pos;
+                            ms.timeline.sampled_at = now;
+                            ms.timeline.playing = !ms.timeline.playing;
+                            self.st.media_paused_at = (!ms.timeline.playing).then_some(now);
+                        }
+                    }
+                }
                 Command::OpenPath(p) => services::open(&p),
                 Command::RevealPath(p) => services::reveal(&p),
                 // Starts with the next drag event (AppKit needs one to start from).
@@ -1729,6 +1940,12 @@ impl App {
                 let paths = smoke_shelf_files();
                 self.on_event(AppEvent::ShelfAdd(paths));
             }
+            // CI posts a Spotify "now playing" notification when this is ready.
+            "music-notify" => {
+                self.collapse();
+                self.st.hud = None;
+            }
+            "music-check" => {}
             "menu" => {
                 self.collapse();
                 self.pending.push(Deferred::OpenMenu);
@@ -1746,6 +1963,10 @@ impl App {
             "open-today" => self.st.stats.valid && waited > 1.3,
             "clipboard-page" => self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP)) || waited > 3.0,
             "shelf-drop" => self.st.shelf_thumbs.values().filter(|t| t.is_some()).count() >= 3 || waited > 5.0,
+            "music-check" => {
+                let looked_up = !matches!(self.st.lyrics.status, LyricsStatus::Idle | LyricsStatus::Loading);
+                (self.st.media.is_some() && looked_up) || waited > 20.0
+            }
             "menu" => waited > 1.0,
             _ => true,
         }
@@ -1784,6 +2005,14 @@ impl App {
             "shelf-drop" => {
                 let made = self.st.shelf_thumbs.values().filter(|t| t.is_some()).count();
                 Some(("shelf-thumbnails", made >= 3, format!("{made} of {} tiles drawn", self.st.shelf_thumbs.len())))
+            }
+            "music-check" => {
+                let playing = self.st.media.as_ref().map_or("nothing".to_string(), |m| format!("{} by {} in {}", m.title, m.artist, m.app_name));
+                let l = &self.st.lyrics;
+                let lines = l.lyrics.as_ref().map_or(0, |x| x.lines.len());
+                let synced = l.lyrics.as_ref().is_some_and(|x| x.synced);
+                let ok = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK) && l.status == LyricsStatus::Found && lines > 0;
+                Some(("now-playing-lyrics", ok, format!("{playing}; lyrics {:?} from {}: {lines} lines, synced {synced}", l.status, l.source)))
             }
             _ => None,
         }
@@ -1873,8 +2102,24 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 12] =
-    ["idle", "hover", "open-focus", "open-today", "timer", "notice", "volume-hud", "charging-hud", "clipboard-copy", "clipboard-page", "shelf-drop", "menu"];
+const SMOKE_STEPS: [&str; 14] = [
+    "idle",
+    "hover",
+    "open-focus",
+    "open-today",
+    "timer",
+    "notice",
+    "volume-hud",
+    "charging-hud",
+    "clipboard-copy",
+    "clipboard-page",
+    "shelf-drop",
+    "music-notify",
+    "music-check",
+    "menu",
+];
+/// The track CI announces as Spotify's own notification would.
+const SMOKE_TRACK: &str = "Blinding Lights";
 /// What CI copies with `pbcopy` during the clipboard step.
 const SMOKE_CLIP: &str = "Oyen Poni smoke test";
 

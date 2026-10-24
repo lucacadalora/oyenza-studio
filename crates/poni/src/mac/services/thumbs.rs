@@ -21,6 +21,7 @@ const PICTURES: [&str; 11] = ["png", "jpg", "jpeg", "gif", "heic", "heif", "tif"
 #[allow(non_upper_case_globals)]
 extern "C" {
     fn CGImageSourceCreateWithURL(url: CFTypeRef, options: CFTypeRef) -> CFTypeRef;
+    fn CGImageSourceCreateWithData(data: CFTypeRef, options: CFTypeRef) -> CFTypeRef;
     fn CGImageSourceCreateThumbnailAtIndex(src: CFTypeRef, index: usize, options: CFTypeRef) -> CFTypeRef;
     static kCGImageSourceCreateThumbnailFromImageAlways: CFTypeRef;
     static kCGImageSourceThumbnailMaxPixelSize: CFTypeRef;
@@ -64,8 +65,21 @@ pub fn make(path: &str, px: u32) -> Option<Image> {
 /// A picture's thumbnail, cropped to fill the tile.
 fn picture(path: &str, px: u32) -> Option<Image> {
     let url = NSURL::fileURLWithPath(&NSString::from_str(path));
+    let src = unsafe { CGImageSourceCreateWithURL(Retained::as_ptr(&url) as CFTypeRef, std::ptr::null()) };
+    from_source(src, px)
+}
+
+/// Picture bytes (PNG, JPEG, HEIC, …) as a `px` square, cropped to fill it
+/// (album art).
+pub fn decode(bytes: &[u8], px: u32) -> Option<Image> {
+    let data = objc2_core_foundation::CFData::from_bytes(bytes);
+    let src = unsafe { CGImageSourceCreateWithData(&*data as *const objc2_core_foundation::CFData as CFTypeRef, std::ptr::null()) };
+    from_source(src, px)
+}
+
+/// The first image of an ImageIO source (consumed), cropped to a `px` square.
+fn from_source(src: CFTypeRef, px: u32) -> Option<Image> {
     unsafe {
-        let src = CGImageSourceCreateWithURL(Retained::as_ptr(&url) as CFTypeRef, std::ptr::null());
         if src.is_null() {
             return None;
         }

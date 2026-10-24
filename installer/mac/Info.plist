@@ -33,5 +33,8 @@
 	<true/>
 	<key>NSHighResolutionCapable</key>
 	<true/>
+	<!-- Shown when Oyen Poni first asks Music or Spotify what's playing. -->
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Oyen Poni shows what Music and Spotify are playing, with its lyrics, and its buttons play, pause and skip.</string>
 </dict>
 </plist>
