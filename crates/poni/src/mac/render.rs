@@ -9,7 +9,8 @@
 //! the way it hides that part of the island on a real MacBook.
 //!
 //! The music scenes use made-up data to test the drawing; the Mac app shows
-//! music once the media slice is built.
+//! music once the media slice is built. The System page's scenes show a
+//! made-up minute of a MacBook too, with real app icons from Finder.
 
 use crate::activities::{self, Mode};
 use crate::gfx::{Bitmap, Gfx, ImageData};
@@ -26,6 +27,10 @@ use poni_core::lrc::parse_lrc;
 use poni_core::pomodoro::{Phase, RunState};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::store::Store;
+use poni_core::sysmon::{
+    level_pressure, AppUse, BatteryReading, CoreKind, CoreLoad, CpuReading, DiskActivity, Drive, GpuReading, MemoryReading, Module, Monitor, NetReading,
+    PressureLevel, Reading, HISTORY_LEN,
+};
 use poni_core::timeline::Timeline;
 use std::path::{Path, PathBuf};
 
@@ -75,6 +80,8 @@ enum Scene {
     HealthSignedOut,
     ShelfItems,
     ShelfPhone,
+    /// The System page on one module.
+    System(Module),
 }
 
 const SCENES: [Scene; 19] = [
@@ -100,6 +107,16 @@ const SCENES: [Scene; 19] = [
     Scene::ShelfPhone,
 ];
 
+/// The System page's modules (after the scenes above, so their numbers stay).
+const SYSTEM_SCENES: [Scene; 6] = [
+    Scene::System(Module::Cpu),
+    Scene::System(Module::Gpu),
+    Scene::System(Module::Memory),
+    Scene::System(Module::Drives),
+    Scene::System(Module::Network),
+    Scene::System(Module::Battery),
+];
+
 impl Scene {
     fn name(self) -> String {
         match self {
@@ -116,6 +133,8 @@ impl Scene {
             Scene::ShelfPhone => "page-shelf-phone".into(),
             Scene::Page(p) => format!("page-{}", p.key()),
             Scene::HealthSignedOut => "page-health-signed-out".into(),
+            Scene::System(Module::Cpu) => "page-system".into(),
+            Scene::System(m) => format!("page-system-{}", m.title().to_lowercase()),
         }
     }
 }
@@ -134,7 +153,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     let suffix = format!("{}{}", if theme == Theme::Oyen { "-oyen" } else { "" }, if notch.is_some() { "-notch" } else { "" });
     let mut gfx = Gfx::new(SCALE);
     let mut failed = 0;
-    for (i, scene) in SCENES.into_iter().enumerate() {
+    for (i, scene) in SCENES.into_iter().chain(SYSTEM_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", i + 1, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -296,6 +315,20 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             st.page = PageKind::Health;
             Mode::Expanded(PageKind::Health)
         }
+        Scene::System(m) => {
+            st.system = sample_system();
+            st.ui.system_module = m;
+            if let Some(r) = st.system.latest.clone() {
+                for a in r.top_cpu.iter().chain(&r.top_memory).chain(&r.top_io) {
+                    if let Some(p) = &a.path {
+                        let icon = app_icon(p);
+                        st.app_icons.insert(p.clone(), icon);
+                    }
+                }
+            }
+            st.page = PageKind::System;
+            Mode::Expanded(PageKind::System)
+        }
     };
 
     // The island at rest at its size for this state (as the app sizes it).
@@ -357,6 +390,137 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
     crate::png::save_pbgra(path, w_px as u32, h_px as u32, &px)?;
     let _ = pages::HEADER_H;
     Ok(())
+}
+
+// ---------------------------------------------------------------- the System page's sample minute
+
+thread_local! {
+    /// Each sample app's icon, drawn once a run.
+    static ICONS: std::cell::RefCell<std::collections::HashMap<String, Option<crate::gfx::Image>>> = Default::default();
+}
+
+/// An app's icon the way the app gets it (`Command::LoadAppIcon`).
+fn app_icon(path: &str) -> Option<crate::gfx::Image> {
+    ICONS.with(|c| {
+        c.borrow_mut()
+            .entry(path.to_string())
+            .or_insert_with(|| {
+                let px = pages::system::icon_px(SCALE);
+                let icon = crate::services::thumbs::app_icon(path, px).map(|i| pages::system::shrink_icon(&i, px));
+                println!("render: app icon for {path}: {}", if icon.is_some() { "drawn" } else { "missing" });
+                icon
+            })
+            .clone()
+    })
+}
+
+/// Apps of the sample minute: name, bundle, CPU share, memory, disk bytes/s.
+const SAMPLE_APPS: [(&str, &str, f32, u64, f64); 8] = [
+    ("Safari", "/Applications/Safari.app", 0.091, 2_150 << 20, 1.2e6),
+    ("Music", "/System/Applications/Music.app", 0.042, 412 << 20, 4.1e5),
+    ("Mail", "/System/Applications/Mail.app", 0.018, 280 << 20, 8.2e5),
+    ("Finder", "/System/Library/CoreServices/Finder.app", 0.013, 96 << 20, 4.0e4),
+    ("Messages", "/System/Applications/Messages.app", 0.009, 210 << 20, 1.2e4),
+    ("Xcode", "/Applications/Xcode.app", 0.008, 940 << 20, 9.6e4),
+    ("Photos", "/System/Applications/Photos.app", 0.004, 520 << 20, 3.1e6),
+    ("Terminal", "/System/Applications/Utilities/Terminal.app", 0.002, 88 << 20, 3.0e3),
+];
+
+fn sample_app(i: usize) -> AppUse {
+    let (name, path, cpu, memory, io) = SAMPLE_APPS[i];
+    AppUse { image: path.to_lowercase(), name: name.into(), path: Some(path.into()), pid: 400 + i as u64, cpu, memory, io, processes: if i == 0 { 9 } else { 1 } }
+}
+
+/// The System page's sample minute (all made up): a MacBook Air with an M2,
+/// its four efficiency cores numbered before its four performance cores, as
+/// Apple numbers them.
+fn sample_system() -> Monitor {
+    const MIB: f64 = 1024.0 * 1024.0;
+    let mut m = Monitor::default();
+    for i in 0..HISTORY_LEN {
+        let t = i as f32;
+        let last = i + 1 == HISTORY_LEN;
+        let spike = if (38..45).contains(&i) { 0.22 * ((t - 38.0) / 6.0 * std::f32::consts::PI).sin() } else { 0.0 };
+        let cpu = if last { 0.23 } else { (0.19 + 0.05 * (t / 4.3).sin() + 0.03 * (t / 1.7 + 1.1).sin() + spike).clamp(0.03, 0.95) };
+        let gpu = if last { 0.31 } else { (0.24 + 0.08 * (t / 5.1 + 0.4).sin() + 0.04 * (t / 2.3).sin() + if (18..30).contains(&i) { 0.3 } else { 0.0 }).clamp(0.02, 0.98) };
+        let burst = |at: usize, len: usize, peak: f64| if (at..at + len).contains(&i) { peak * (((i - at) as f64 + 0.5) / len as f64 * std::f64::consts::PI).sin() } else { 0.0 };
+        let read = if last { 1.2 * MIB } else { 0.15 * MIB + burst(12, 6, 6.5 * MIB) + burst(41, 4, 2.8 * MIB) };
+        let write = if last { 0.33 * MIB } else { 0.05 * MIB + burst(20, 9, 1.9 * MIB) };
+        let down = if last { 1.2 * MIB } else { 0.08 * MIB + burst(5, 14, 3.4 * MIB) + burst(46, 10, 1.6 * MIB) };
+        let up = if last { 0.082 * MIB } else { 0.02 * MIB + burst(25, 8, 0.6 * MIB) };
+        m.push(sample_reading(cpu, gpu, (read, write), (down, up), t));
+    }
+    m
+}
+
+fn sample_reading(cpu: f32, gpu: f32, (read, write): (f64, f64), (down, up): (f64, f64), t: f32) -> Reading {
+    const GIB: u64 = 1 << 30;
+    let total = 16 * GIB;
+    let cores = (0..8)
+        .map(|k| {
+            let p = k >= 4;
+            let wave = 0.5 + 0.5 * (t / 3.0 + k as f32 * 1.7).sin();
+            let load = if p { cpu * (0.6 + 1.1 * wave) } else { cpu * (0.3 + 0.5 * wave) };
+            CoreLoad { load: load.clamp(0.02, 1.0), kind: if p { CoreKind::Performance } else { CoreKind::Efficiency } }
+        })
+        .collect();
+    let (app, wired, compressed, cached) = (66 * GIB / 10, 21 * GIB / 10, 9 * GIB / 10, 42 * GIB / 10);
+    let used = app + wired + compressed;
+    let pressure = level_pressure(PressureLevel::Normal, 0.41);
+    let apps = |order: [usize; 8]| order.iter().map(|&i| sample_app(i)).collect::<Vec<_>>();
+    Reading {
+        cpu: Some(CpuReading { load: cpu, user: cpu * 0.62, kernel: cpu * 0.38, cores, logical: 8, uptime_s: 3 * 86_400 + 4 * 3600 + 12 * 60, ..CpuReading::default() }),
+        gpu: Some(GpuReading {
+            name: "Apple M2".into(),
+            util: gpu,
+            engine_3d: gpu * 0.94,
+            tiler: gpu * 0.41,
+            mem_used: 13 * GIB / 10,
+            mem_total: total,
+            integrated: true,
+            ..GpuReading::default()
+        }),
+        memory: Some(MemoryReading {
+            total,
+            used,
+            committed: (f64::from(pressure) * total as f64).round() as u64,
+            commit_limit: total,
+            cached,
+            wired,
+            compressed,
+            free: total - used - cached,
+            page_used: 3 * GIB / 10,
+            page_total: GIB,
+        }),
+        drives: vec![
+            Drive { root: "Macintosh HD".into(), label: String::new(), total: 460 * GIB, free: 212 * GIB, system: true },
+            Drive { root: "Backup".into(), label: String::new(), total: 931 * GIB, free: 640 * GIB, system: false },
+        ],
+        disk: Some(DiskActivity { read_bps: read, write_bps: write, active: None }),
+        network: Some(NetReading {
+            online: true,
+            adapter: "Wi-Fi".into(),
+            ipv4: Some("192.168.1.42".into()),
+            mac: "3C:22:FB:0A:11:9E".into(),
+            link_bps: 866_700_000,
+            down_bps: down,
+            up_bps: up,
+            received: 34 * GIB / 10,
+            sent: 410 << 20,
+        }),
+        battery: Some(BatteryReading {
+            percent: 76,
+            secs_left: Some(2 * 3600 + 14 * 60),
+            design_mwh: Some(52_600),
+            full_mwh: Some(48_390),
+            cycles: Some(193),
+            rate_mw: Some(-8_200),
+            ..BatteryReading::default()
+        }),
+        top_cpu: apps([0, 1, 2, 3, 4, 5, 6, 7]),
+        top_memory: apps([0, 5, 6, 1, 2, 4, 3, 7]),
+        top_io: apps([6, 0, 2, 1, 5, 3, 4, 7]),
+    }
 }
 
 // ---------------------------------------------------------------- sample album art
