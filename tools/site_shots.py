@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 KEEP = {
     "idle-clock", "idle-eyes", "media-activity", "timer-activity", "volume-hud", "bluetooth-hud",
     "page-media", "page-focus", "page-health", "page-shelf", "page-tasks", "page-clipboard", "page-today",
-    "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin",
+    "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin", "page-system",
 }
 
 
