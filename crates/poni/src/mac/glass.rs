@@ -26,7 +26,7 @@ use objc2::runtime::AnyClass;
 use objc2::{sel, MainThreadMarker, MainThreadOnly};
 use objc2_app_kit::{
     NSAppearance, NSAppearanceCustomization, NSAppearanceNameDarkAqua, NSAutoresizingMaskOptions, NSColor, NSGlassEffectView, NSView,
-    NSVisualEffectBlendingMode, NSVisualEffectMaterial, NSVisualEffectState, NSVisualEffectView, NSWindowOrderingMode,
+    NSVisualEffectBlendingMode, NSVisualEffectMaterial, NSVisualEffectState, NSVisualEffectView, NSWindowOrderingMode, NSWorkspace,
 };
 use objc2_foundation::{NSObjectProtocol, NSPoint, NSRect, NSSize};
 use poni_core::geom::{Color, Rect};
@@ -184,7 +184,9 @@ fn make(mtm: MainThreadMarker) -> Option<GlassView> {
     // Pinned to the window's top when the window grows (the island hangs from it).
     g.view().setAutoresizingMask(NSAutoresizingMaskOptions::ViewMinYMargin);
     root.addSubview_positioned_relativeTo(g.view(), NSWindowOrderingMode::Below, Some(&**island));
-    pinfo!("glass: {}", g.name());
+    // Under Reduce Transparency macOS draws glass and blur flat: say so in the log.
+    let flat = NSWorkspace::sharedWorkspace().accessibilityDisplayShouldReduceTransparency();
+    pinfo!("glass: {}{}", g.name(), if flat { ", drawn flat (Reduce Transparency is on)" } else { "" });
     Some(g)
 }
 

@@ -25,6 +25,11 @@ function run(argv) {
 }
 JXA
 osascript -l JavaScript /tmp/poni-wallpaper.js "$(pwd)/site/assets/wall/morning.jpg" || echo "(could not set the wallpaper)"
+# Glass and blur draw flat under Reduce Transparency; say whether it's on,
+# and ask for it off (a runner image may not allow it).
+echo "reduce transparency: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
+defaults write com.apple.universalaccess reduceTransparency -bool false 2>&1 || true
+echo "reduce transparency now: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
