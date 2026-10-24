@@ -287,8 +287,14 @@ pub struct App {
     motions_logged: u32,
     hitch_logged_at: f64,
     /// Per-frame timing of the first few morphs (for the log): vblanks since
-    /// the last frame, ms from vblank to drawing, ms to draw and present.
-    trace: Vec<(u32, f32, f32)>,
+    /// the last frame, then ms from vblank to drawing, to draw, to present
+    /// and to update the hit mask.
+    trace: Vec<(u32, [f32; 4])>,
+    /// DWM's counters when the morph began (refreshes, frames composed,
+    /// frames missed), to tell our dropped frames from the compositor's.
+    dwm_at_start: Option<(u64, u64, u64)>,
+    /// Log lines written off the frame path (file writes can take tens of ms).
+    log_queue: Vec<String>,
     /// Self-test: read the next frame back, and where it was.
     capture_next: bool,
     capture_rect: RECT,
@@ -415,6 +421,8 @@ impl App {
             motions_logged: 0,
             hitch_logged_at: f64::NEG_INFINITY,
             trace: Vec::new(),
+            dwm_at_start: None,
+            log_queue: Vec::new(),
             capture_next: false,
             capture_rect: RECT::default(),
             fullscreen_hidden: false,
@@ -1651,6 +1659,8 @@ impl App {
             _ => body,
         };
         let mut wheel_left = 0.0;
+        let draw_from = clock::mono();
+        let mut drawn_at = draw_from;
         let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
             Ok(mut canvas) => {
                 if self.expanded && !gpu {
@@ -1714,6 +1724,7 @@ impl App {
                 if let Err(e) = self.gfx.end() {
                     pwarn!("EndDraw failed: {e}");
                 }
+                drawn_at = clock::mono();
                 out
             }
             Err(e) => {
@@ -1750,13 +1761,13 @@ impl App {
         if let Err(e) = self.gfx.present(x, y) {
             pwarn!("present failed: {e}");
         }
+        let presented_at = clock::mono();
         if self.gfx.needs_hit_mask() {
             self.update_hit_mask(body, geom.r, canvas_r, now);
         }
         if let (Some(t), true) = (tick, self.motion.is_some() && self.motions_logged < 6 && self.trace.len() < 200) {
-            let late = ((rendered_at - t.vblank) * 1000.0) as f32;
-            let took = ((clock::mono() - rendered_at) * 1000.0) as f32;
-            self.trace.push((t.periods, late, took));
+            let ms = |a: f64, b: f64| ((b - a) * 1000.0) as f32;
+            self.trace.push((t.periods, [ms(t.vblank, draw_from), ms(draw_from, drawn_at), ms(drawn_at, presented_at), ms(presented_at, clock::mono())]));
         }
         if !self.shown {
             self.shown = true;
@@ -1791,6 +1802,10 @@ impl App {
         });
         self.clock.set_active(moving || eq_live || drift_live);
         self.schedule_wake();
+        if !self.log_queue.is_empty() {
+            let lines = std::mem::take(&mut self.log_queue);
+            std::thread::spawn(move || lines.iter().for_each(|l| crate::plog::write("INFO", l)));
+        }
     }
 
     /// GPU renderer: keep the window's invisible hit mask on the island.
@@ -1827,12 +1842,15 @@ impl App {
                 }
                 let early = self.motions_logged < 20;
                 if m.frames >= 4 && (early || (m.hitches > 0 && t - self.hitch_logged_at > 60.0)) {
-                    pinfo!("{} ({})", m.summary(), self.renderer_name());
+                    let dwm = match (self.dwm_at_start, dwm_counters()) {
+                        (Some(a), Some(b)) => format!(", dwm {} refreshes / {} composed / {} missed", b.0 - a.0, b.1 - a.1, b.2 - a.2),
+                        _ => String::new(),
+                    };
+                    self.log_queue.push(format!("{} ({}{dwm})", m.summary(), self.renderer_name()));
                     if self.motions_logged < 6 && !self.trace.is_empty() {
+                        let col = |i: usize| self.trace.iter().map(|f| format!("{:.1}", f.1[i])).collect::<Vec<_>>().join(" ");
                         let periods: Vec<String> = self.trace.iter().map(|f| f.0.to_string()).collect();
-                        let late: Vec<String> = self.trace.iter().map(|f| format!("{:.1}", f.1)).collect();
-                        let draw: Vec<String> = self.trace.iter().map(|f| format!("{:.1}", f.2)).collect();
-                        pinfo!("  vblanks {}; late ms {}; draw ms {}", periods.join(" "), late.join(" "), draw.join(" "));
+                        self.log_queue.push(format!("  vblanks {}; late ms {}; draw ms {}; present ms {}; mask ms {}", periods.join(" "), col(0), col(1), col(2), col(3)));
                     }
                     self.motions_logged += 1;
                     if !early {
@@ -1847,6 +1865,7 @@ impl App {
                 None => {
                     self.motion = Some(MotionStats::begin(self.motion_name, t, period, dt));
                     self.trace.clear();
+                    self.dwm_at_start = dwm_counters();
                 }
             }
         }
@@ -2146,6 +2165,14 @@ fn draw_content(
         _ => activities::draw(&mut ui, st, &mode, body),
     }
     (ui.repaint_requested(), ui.anim_requested(), ui.focus_request(), ui.live_requested())
+}
+
+/// DWM's (refreshes, frames composed, frames missed) counters, if available.
+fn dwm_counters() -> Option<(u64, u64, u64)> {
+    use windows::Win32::Graphics::Dwm::{DwmGetCompositionTimingInfo, DWM_TIMING_INFO};
+    let mut info = DWM_TIMING_INFO { cbSize: std::mem::size_of::<DWM_TIMING_INFO>() as u32, ..Default::default() };
+    unsafe { DwmGetCompositionTimingInfo(HWND::default(), &mut info) }.ok()?;
+    Some((info.cRefresh, info.cFrame, info.cFramesMissed))
 }
 
 /// Name of a morph for the motion log.
