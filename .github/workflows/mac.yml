@@ -87,7 +87,7 @@ jobs:
                 *clipboard-copy) printf 'Oyen Poni smoke test, copied at %s' "$(date +%T)" | pbcopy; sleep 1.5 ;;
                 # What Spotify announces when a track plays (no Spotify on the runner).
                 *music-notify)
-                  osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", null, $({"Name": "Blinding Lights", "Artist": "The Weeknd", "Album": "After Hours", "Duration": 200040, "Playback Position": 42.5, "Player State": "Playing"}), true)' || true
+                  osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Blinding Lights", "Artist": "The Weeknd", "Album": "After Hours", "Duration": 200040, "Playback Position": 42.5, "Player State": "Playing"}), true)' || true
                   sleep 1.5 ;;
               esac
               left=$(( x > 40 ? x - 40 : 0 ))

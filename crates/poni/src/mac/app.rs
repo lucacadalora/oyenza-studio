@@ -1868,9 +1868,11 @@ impl App {
             SmokePhase::Settle(t0) => {
                 let name = SMOKE_STEPS[sm.step];
                 let ready = self.smoke_ready(name, now - t0);
-                if (settled && ready) || now - t0 > 6.0 {
+                // A lyrics lookup waits on LRCLIB (at least a second between requests).
+                let limit = if name == "music-check" { 25.0 } else { 6.0 };
+                if (settled && ready) || now - t0 > limit {
                     if !settled {
-                        sm.note(name, false, "the island did not settle within 6 s".into());
+                        sm.note(name, false, format!("the island did not settle within {limit:.0} s"));
                     } else {
                         let g = self.island.current();
                         sm.note(name, true, format!("{:?}, {:.0}x{:.0} DIP, {} frames drawn", self.mode, g.w, g.h, self.frames_drawn));
