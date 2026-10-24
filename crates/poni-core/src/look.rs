@@ -14,6 +14,10 @@
 //!   text so small coloured labels stay readable on a light ground.
 //! * Anything else (album-art colours, Oyen's own face, `palette::ON_ACCENT`)
 //!   is left alone.
+//!
+//! A look also says what the island is made of: Classic and Oyen paint a
+//! solid ground, Glass draws liquid glass there (gfx and the glass shader)
+//! and paints content in the light or dark Glass look on top.
 
 use crate::geom::{palette, Color};
 use crate::settings::Theme;
@@ -41,14 +45,32 @@ pub struct Look {
     pub light: bool,
     /// Embedded font family the look writes in; `None` = the system UI font.
     pub font: Option<&'static str>,
+    /// What the island's body is made of.
+    pub material: Material,
     swaps: &'static [Swap],
+}
+
+/// The island's body: a solid fill in `ground`, or liquid glass (with
+/// `ground` as its nominal tint, used where the glass can't see the screen).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Material {
+    Solid,
+    Glass,
 }
 
 const OYEN_ORANGE: Color = Color::hex(crate::oyen::ORANGE);
 const OYEN_FOLD: Color = Color::hex(crate::oyen::FOLD_ORANGE);
 
-pub const CLASSIC: Look =
-    Look { ground: Color::black(1.0), ink: Color::white(1.0), accent: None, border: palette::BORDER, light: false, font: None, swaps: &[] };
+pub const CLASSIC: Look = Look {
+    ground: Color::black(1.0),
+    ink: Color::white(1.0),
+    accent: None,
+    border: palette::BORDER,
+    light: false,
+    font: None,
+    material: Material::Solid,
+    swaps: &[],
+};
 
 /// Oyen: warm cream paper, espresso ink, Oyen's orange, and Outfit (the Oyen
 /// Poni website's typeface) for every Latin letter.
@@ -59,6 +81,7 @@ pub const OYEN: Look = Look {
     border: Color::rgba(0.55, 0.30, 0.10, 0.22),
     light: true,
     font: Some("Outfit"),
+    material: Material::Solid,
     swaps: &[
         Swap { from: OYEN_ORANGE, fill: OYEN_ORANGE, text: OYEN_FOLD },
         Swap { from: palette::ORANGE, fill: OYEN_ORANGE, text: OYEN_FOLD },
@@ -72,10 +95,57 @@ pub const OYEN: Look = Look {
     ],
 };
 
+/// Glass over a dark backdrop (and in Windows dark mode): white ink, the
+/// palette's own accents (made for dark grounds), the system UI font.
+pub const GLASS_DARK: Look = Look {
+    ground: Color::hex(0x1C1C1E),
+    ink: Color::white(1.0),
+    accent: None,
+    border: Color::white(0.10),
+    light: false,
+    font: None,
+    material: Material::Glass,
+    swaps: &[],
+};
+
+/// Glass over a light backdrop (and in Windows light mode): near-black ink,
+/// and accents in their light-mode shades, deeper still for text.
+pub const GLASS_LIGHT: Look = Look {
+    ground: Color::hex(0xF2F2F7),
+    ink: Color::hex(0x1D1D1F),
+    accent: None,
+    border: Color::black(0.08),
+    light: true,
+    font: None,
+    material: Material::Glass,
+    swaps: &[
+        Swap { from: palette::GREEN, fill: Color::hex(0x34C759), text: Color::hex(0x248A3D) },
+        Swap { from: palette::ORANGE, fill: Color::hex(0xFF9500), text: Color::hex(0xC93400) },
+        Swap { from: palette::RED, fill: Color::hex(0xFF3B30), text: Color::hex(0xD70015) },
+        Swap { from: palette::BLUE, fill: Color::hex(0x007AFF), text: Color::hex(0x0040DD) },
+        Swap { from: palette::CYAN, fill: Color::hex(0x32ADE6), text: Color::hex(0x0071A4) },
+        Swap { from: palette::PURPLE, fill: Color::hex(0xAF52DE), text: Color::hex(0x8944AB) },
+        Swap { from: palette::YELLOW, fill: Color::hex(0xFFCC00), text: Color::hex(0xA05A00) },
+        Swap { from: palette::PINK, fill: Color::hex(0xFF2D55), text: Color::hex(0xD30F45) },
+    ],
+};
+
+/// The theme's look. Glass starts dark; the app picks [`glass`] light or
+/// dark from what's behind the island and the Windows mode.
 pub fn of(theme: Theme) -> &'static Look {
     match theme {
         Theme::Classic => &CLASSIC,
         Theme::Oyen => &OYEN,
+        Theme::Glass => &GLASS_DARK,
+    }
+}
+
+/// The Glass look for a light (`true`) or dark backdrop.
+pub fn glass(light: bool) -> &'static Look {
+    if light {
+        &GLASS_LIGHT
+    } else {
+        &GLASS_DARK
     }
 }
 
@@ -152,5 +222,31 @@ mod tests {
         let art = Color::hex(0x7A3EE0);
         assert_eq!(OYEN.paint(art), art);
         assert_eq!(OYEN.paint_text(palette::ON_ACCENT), palette::ON_ACCENT);
+    }
+
+    #[test]
+    fn glass_is_glass_and_the_others_are_solid() {
+        assert_eq!(CLASSIC.material, Material::Solid);
+        assert_eq!(OYEN.material, Material::Solid);
+        assert_eq!(GLASS_DARK.material, Material::Glass);
+        assert_eq!(GLASS_LIGHT.material, Material::Glass);
+        assert_eq!(*of(Theme::Glass), GLASS_DARK);
+        assert_eq!(*glass(true), GLASS_LIGHT);
+        assert_eq!(*glass(false), GLASS_DARK);
+    }
+
+    #[test]
+    fn light_glass_writes_dark_ink_and_deepens_accent_text() {
+        assert_eq!(GLASS_LIGHT.paint(Color::white(1.0)), GLASS_LIGHT.ink);
+        assert_eq!(GLASS_LIGHT.paint(palette::TEXT_DIM), GLASS_LIGHT.ink.with_alpha(0.62));
+        // Black content (a glyph cut out of a white disc) takes the glass's ground.
+        assert_eq!(GLASS_LIGHT.paint(Color::black(1.0)), GLASS_LIGHT.ground);
+        let fill = GLASS_LIGHT.paint(palette::BLUE);
+        let text = GLASS_LIGHT.paint_text(palette::BLUE);
+        assert!(text.luminance() < fill.luminance());
+        // Dark glass keeps the palette's accents, made for dark grounds.
+        assert_eq!(GLASS_DARK.paint(palette::GREEN), palette::GREEN);
+        assert_eq!(GLASS_DARK.paint(Color::white(0.5)), Color::white(0.5));
+        assert_eq!(GLASS_DARK.paint_text(palette::ON_ACCENT), palette::ON_ACCENT);
     }
 }
