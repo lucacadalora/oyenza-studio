@@ -67,6 +67,9 @@ pub struct GlassParams {
     /// Where the screen copy's top-left is, in this window's pixels (it was
     /// taken before the window last moved or grew).
     pub copy_origin: (f32, f32),
+    /// The probe's first pixel in the window's top row (the copy is checked
+    /// at the same place).
+    pub probe_x: i32,
 }
 
 /// The probe: four top-row pixels in the colour of the first, nudged by these
@@ -379,7 +382,7 @@ impl GlassPass {
             light: [p.light_dir.0, p.light_dir.1, p.rim, p.glow],
             shadow: [p.shadow_alpha, (p.shadow_reach * scale).max(1.0), p.shadow_drop * scale, p.light_mix.clamp(0.0, 1.0)],
             copy: [cw as f32, ch as f32, p.saturation, p.dispersion],
-            probe: [probe_x(b, scale) as f32, if p.probe { 1.0 } else { 0.0 }, p.lens, 0.0],
+            probe: [p.probe_x as f32, if p.probe { 1.0 } else { 0.0 }, p.lens, 0.0],
             origin: [p.copy_origin.0, p.copy_origin.1, 0.0, 0.0],
         };
         ctx.UpdateSubresource(&self.cb, 0, None, &k as *const Consts as *const c_void, 0, 0);
@@ -456,6 +459,8 @@ pub struct Glass {
     /// Why the copy stopped for good (smoked glass from then on).
     stopped: Option<String>,
     probe_hits: u32,
+    /// Where this window draws its probe (set each frame).
+    probe_px: i32,
     /// Jump straight to light or dark on the next frame (a new self-test scene).
     snap: bool,
     /// The self-test drew the backdrop itself: no screen copy, no exclusion.
@@ -481,6 +486,7 @@ impl Glass {
             light_mix: if app_light { 1.0 } else { 0.0 },
             stopped: None,
             probe_hits: 0,
+            probe_px: 0,
             snap: false,
             injected: false,
             lens: 1.0,
@@ -499,6 +505,10 @@ impl Glass {
             if self.copy.take().is_some() {
                 crate::pinfo!("glass: screen copy off");
             }
+            // Off (theme changed, island hidden, PC locked): the next start
+            // gets a clean slate, even after giving up.
+            self.stopped = None;
+            self.probe_hits = 0;
             if self.excluded {
                 window::set_capture_excluded(hwnd, false);
                 self.excluded = false;
@@ -559,9 +569,10 @@ impl Glass {
         gfx.glass_clear_copy();
     }
 
-    /// A message from the copy thread: take the newest copy. `probe_x` is
-    /// where this window draws its probe. True when the island should redraw.
-    pub fn on_backdrop(&mut self, hwnd: HWND, gfx: &mut Gfx, probe_x: i32) -> bool {
+    /// A message from the copy thread: take the newest copy. True when the
+    /// island should redraw.
+    pub fn on_backdrop(&mut self, hwnd: HWND, gfx: &mut Gfx) -> bool {
+        let probe_x = self.probe_px;
         let Some(c) = self.copy.as_mut() else { return false };
         if let Status::Failed(why) = c.status() {
             self.stop_for(hwnd, gfx, why);
@@ -592,12 +603,6 @@ impl Glass {
         self.frame = Some(Arc::new(Frame { w, h, px, left: self.rect.left, top: self.rect.top, generation: 0 }));
         self.under = None;
         self.flip_seeded = false;
-    }
-
-    /// Whether the self-test's backdrop is in use (it never reaches the GPU
-    /// on the software renderer).
-    pub fn has_frame(&self) -> bool {
-        self.frame.is_some()
     }
 
     /// Start over on the next frame's backdrop (self-test, between scenes).
@@ -654,6 +659,7 @@ impl Glass {
         let step = if std::mem::take(&mut self.snap) { 1.0 } else { dt / FLIP_TIME };
         self.light_mix = if self.light_mix < target { (self.light_mix + step).min(target) } else { (self.light_mix - step).max(target) };
         let th = thickness(body.h);
+        self.probe_px = probe_x(body, scale);
         let ink_dark = [GLASS_LIGHT.ink.r, GLASS_LIGHT.ink.g, GLASS_LIGHT.ink.b];
         let (tint_dark, tint_light, busy) = match under {
             Some(u) => {
@@ -693,6 +699,7 @@ impl Glass {
             use_copy: self.use_copy && has_copy,
             probe: self.copy.is_some(),
             copy_origin: (origin.0 as f32, origin.1 as f32),
+            probe_x: self.probe_px,
         };
         (mix >= 0.5, p, mix != target || pending)
     }

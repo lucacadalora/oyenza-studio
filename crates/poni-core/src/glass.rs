@@ -165,8 +165,14 @@ pub struct Backdrop {
 /// Sample a BGRA picture (`stride` bytes per row) inside `rect` (pixels,
 /// left/top inclusive, right/bottom exclusive), every `step` pixels.
 pub fn sample_backdrop(px: &[u8], stride: usize, rect: (i32, i32, i32, i32), step: usize) -> Option<Backdrop> {
-    let (x0, y0, x1, y1) = rect;
-    if x1 <= x0 || y1 <= y0 || stride == 0 {
+    if stride < 4 {
+        return None;
+    }
+    // Only what's in the picture (a rectangle can reach past it after the
+    // window grew and before the next copy).
+    let (w, h) = ((stride / 4) as i32, (px.len() / stride) as i32);
+    let (x0, y0, x1, y1) = (rect.0.max(0), rect.1.max(0), rect.2.min(w), rect.3.min(h));
+    if x1 <= x0 || y1 <= y0 {
         return None;
     }
     let step = step.max(1);
@@ -322,8 +328,11 @@ mod tests {
         assert!((all.mean[0] - 1.0).abs() < 1e-6 && (all.mean[1] - 0.5).abs() < 1e-6);
         assert!(all.busy > 0.0);
         assert!(sample_backdrop(&px, w * 4, (2, 2, 2, 3), 1).is_none());
-        // Out-of-range rectangles only read what exists.
+        // Out-of-range rectangles only read what exists, never the next row.
         assert!(sample_backdrop(&px, w * 4, (-4, -4, 2, 2), 1).is_some());
+        let right = sample_backdrop(&px, w * 4, (6, 0, 40, 1), 1).unwrap();
+        assert_eq!(right.mean, [1.0, 1.0, 1.0]);
+        assert!(sample_backdrop(&px, w * 4, (9, 0, 12, 4), 1).is_none());
     }
 
     #[test]

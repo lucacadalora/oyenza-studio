@@ -1243,7 +1243,9 @@ impl SelfTest {
             }
 
             let look = if self.glass.is_some() { app.selftest_glass_state().2 } else { poni_core::look::of(self.theme) };
-            let lit = frame.content_pixels(body, scale, rgb8(look.ground));
+            // Glass: away from the bright rim, which isn't content.
+            let area = if self.glass.is_some() { Rect::new(body.x + 10.0, body.y, (body.w - 20.0).max(1.0), (body.h - 10.0).max(1.0)) } else { body };
+            let lit = frame.content_pixels(area, scale, rgb8(look.ground));
             checks.push(check("content-drawn", lit >= 20, format!("{lit} content pixels inside the island")));
             if let Some(run) = self.glass {
                 self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
@@ -1325,8 +1327,10 @@ impl SelfTest {
                 let area = (body.w * body.h * scale * scale).max(1.0);
                 match flat {
                     Some(f) => {
+                        // A pill over flat browser chrome bends only a few pixels;
+                        // a lens that doesn't run moves none.
                         let n = frame.changed_in(&f, body, scale, 6);
-                        checks.push(check("glass-lens", n >= 30, format!("{n} pixels move when the lens is off")));
+                        checks.push(check("glass-lens", n >= 10, format!("{n} pixels move when the lens is off")));
                     }
                     None => checks.push(check("glass-lens", false, "the frame changed size between captures")),
                 }

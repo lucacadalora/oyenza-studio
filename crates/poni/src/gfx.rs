@@ -690,6 +690,7 @@ pub struct Gfx {
     /// The shader can't run here (compile failed, old GPU): smoked glass.
     glass_broken: bool,
     glass_failures: u32,
+    glass_ok: u32,
     /// `prepare_glass` drew this frame's glass.
     glass_drawn: bool,
     /// ...and the last time it was called (the self-test reads this).
@@ -830,6 +831,7 @@ impl Gfx {
                 glass: None,
                 glass_broken: false,
                 glass_failures: 0,
+                glass_ok: 0,
                 glass_drawn: false,
                 glass_drew_last: false,
             })
@@ -1006,7 +1008,6 @@ impl Gfx {
     /// Glass: hand over a screen copy (BGRA, the window's rectangle). False
     /// when it can't be used here (software renderer, no shader).
     pub fn glass_copy(&mut self, px: &[u8], w: i32, h: i32) -> bool {
-        self.ensure_gpu();
         if !self.ensure_glass() {
             return false;
         }
@@ -1048,7 +1049,7 @@ impl Gfx {
     pub fn prepare_glass(&mut self, params: &GlassParams, area: RECT) -> bool {
         self.glass_drawn = false;
         self.glass_drew_last = false;
-        self.ensure_gpu();
+        // (No GPU restart from here: `begin` does that, once per frame.)
         if !self.ensure_glass() {
             return false;
         }
@@ -1058,9 +1059,15 @@ impl Gfx {
             Ok(()) => {
                 self.glass_drawn = true;
                 self.glass_drew_last = true;
+                // A long healthy run forgives earlier failures (driver resets).
+                self.glass_ok = self.glass_ok.saturating_add(1);
+                if self.glass_ok > 600 {
+                    self.glass_failures = 0;
+                }
                 true
             }
             Err(e) => {
+                self.glass_ok = 0;
                 self.glass_failures += 1;
                 crate::pwarn!("glass: drawing failed ({e})");
                 self.glass = None;

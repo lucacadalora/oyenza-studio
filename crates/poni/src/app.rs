@@ -1443,8 +1443,7 @@ impl App {
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
         match ev {
             AppEvent::Backdrop => {
-                let probe_x = crate::glass::probe_x(Rect::new(self.cx, 0.0, 0.0, 0.0), self.gfx.scale());
-                if self.glass.on_backdrop(self.hwnd, &mut self.gfx, probe_x) {
+                if self.glass.on_backdrop(self.hwnd, &mut self.gfx) {
                     self.request_frame();
                 }
             }
@@ -1963,6 +1962,9 @@ impl App {
     fn frame(&mut self, deferred: &mut Vec<Deferred>, tick: Option<FrameTick>) {
         if self.fullscreen_hidden {
             // Nothing is drawn, but timers, chimes and commands keep working.
+            // Glass stops copying the screen: nobody sees the island.
+            let off = RECT::default();
+            self.glass.sync(false, self.hwnd, &self.sink, self.monitor.handle, off, &mut self.gfx);
             self.refresh_time();
             self.tick();
             self.run_commands(deferred);
@@ -2094,7 +2096,13 @@ impl App {
         // before the frame starts. The look follows the glass, light or dark.
         let glass_theme = self.st.settings.theme == Theme::Glass;
         let window_px = RECT { left: self.surface.x, top: self.surface.y, right: self.surface.x + sw, bottom: self.surface.y + sh };
-        let copy_on = glass_theme && self.selftest.is_none() && matches!(self.gfx.renderer(), crate::gfx::Renderer::Gpu { .. });
+        // Only while someone can see it: not while hidden, locked or the display is off.
+        let copy_on = glass_theme
+            && self.selftest.is_none()
+            && !hidden_idle
+            && !self.locked
+            && !self.display_off
+            && matches!(self.gfx.renderer(), crate::gfx::Renderer::Gpu { .. });
         self.glass.sync(copy_on, self.hwnd, &self.sink, self.monitor.handle, window_px, &mut self.gfx);
         let mut glass_moving = false;
         let glass = if glass_theme && !hidden_idle {

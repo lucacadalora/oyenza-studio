@@ -10,14 +10,17 @@
 //! really differ from the last copy, keeps them and wakes the UI thread.
 //!
 //! The copy stays in memory and is overwritten each time: never saved, never
-//! logged, never sent. Anything unexpected (another GPU drives the display,
-//! a rotated or HDR output, Remote Desktop) stops the copy and the island
-//! draws smoked glass instead; the log says why.
+//! logged, never sent. Interruptions (the secure desktop of a UAC prompt, a
+//! display mode change or reconnect, a GPU reset) are waited out. Only what
+//! can't change gives up for good, and the island then draws smoked glass:
+//! a rotated display, HDR pixels, or a display this PC never let Poni copy
+//! (another GPU drives it, Remote Desktop). The log says why.
 
 use crate::events::{AppEvent, EventSink};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
+use std::time::{Duration, Instant};
 use windows::core::{Interface, Result};
 use windows::Win32::Foundation::{HMODULE, RECT};
 use windows::Win32::Graphics::Direct3D::*;
@@ -75,6 +78,7 @@ impl Backdrop {
             stop: AtomicBool::new(false),
         });
         let s = shared.clone();
+        let tell = sink.clone();
         let thread = std::thread::Builder::new()
             .name("poni-backdrop".into())
             .spawn(move || {
@@ -88,7 +92,8 @@ impl Backdrop {
             })
             .ok();
         if thread.is_none() {
-            *shared.status.lock().unwrap_or_else(|p| p.into_inner()) = Status::Failed("no thread".into());
+            *shared.status.lock().unwrap_or_else(|p| p.into_inner()) = Status::Failed("couldn't start the copy thread".into());
+            tell.send(AppEvent::Backdrop);
         }
         Self { shared, thread, taken: 0 }
     }
@@ -156,10 +161,12 @@ unsafe fn device_on(adapter: &IDXGIAdapter1) -> Result<(ID3D11Device, ID3D11Devi
     }
 }
 
-/// Duplicate `output`, asking for 8-bit BGRA (what the glass samples).
+/// Duplicate `output`. 8-bit BGRA is what the glass samples; HDR displays
+/// are asked for half floats too, so they show up as such (and stop the copy)
+/// instead of arriving washed out.
 unsafe fn duplicate(output: &IDXGIOutput, dev: &ID3D11Device) -> std::result::Result<IDXGIOutputDuplication, String> {
     let dup = match output.cast::<IDXGIOutput5>() {
-        Ok(o5) => o5.DuplicateOutput1(dev, 0, &[DXGI_FORMAT_B8G8R8A8_UNORM]),
+        Ok(o5) => o5.DuplicateOutput1(dev, 0, &[DXGI_FORMAT_B8G8R8A8_UNORM, DXGI_FORMAT_R16G16B16A16_FLOAT]),
         Err(_) => output.cast::<IDXGIOutput1>().map_err(|e| format!("no IDXGIOutput1: {e}"))?.DuplicateOutput(dev),
     };
     dup.map_err(|e| {
@@ -188,57 +195,110 @@ fn overlaps(a: &RECT, b: &RECT) -> bool {
 }
 
 /// Whether any dirty or moved rectangle of the current frame touches `area`.
-unsafe fn frame_touches(dup: &IDXGIOutputDuplication, meta: u32, area: &RECT, buf: &mut Vec<u8>) -> bool {
+/// `meta` is the frame's metadata size in bytes, which bounds both lists.
+unsafe fn frame_touches(dup: &IDXGIOutputDuplication, meta: u32, area: &RECT, moves: &mut Vec<DXGI_OUTDUPL_MOVE_RECT>, dirty: &mut Vec<RECT>) -> bool {
     if meta == 0 {
         return true;
     }
-    buf.resize(meta as usize, 0);
+    let move_size = std::mem::size_of::<DXGI_OUTDUPL_MOVE_RECT>();
+    moves.resize(meta as usize / move_size + 1, DXGI_OUTDUPL_MOVE_RECT::default());
     let mut used = 0u32;
-    if dup.GetFrameMoveRects(meta, buf.as_mut_ptr() as *mut DXGI_OUTDUPL_MOVE_RECT, &mut used).is_err() {
+    if dup.GetFrameMoveRects((moves.len() * move_size) as u32, moves.as_mut_ptr(), &mut used).is_err() {
         return true;
     }
-    let moves = std::slice::from_raw_parts(buf.as_ptr() as *const DXGI_OUTDUPL_MOVE_RECT, used as usize / std::mem::size_of::<DXGI_OUTDUPL_MOVE_RECT>());
-    if moves.iter().any(|m| overlaps(&m.DestinationRect, area)) {
+    if moves[..(used as usize / move_size).min(moves.len())].iter().any(|m| overlaps(&m.DestinationRect, area)) {
         return true;
     }
+    let rect_size = std::mem::size_of::<RECT>();
+    dirty.resize(meta as usize / rect_size + 1, RECT::default());
     let mut used = 0u32;
-    if dup.GetFrameDirtyRects(meta, buf.as_mut_ptr() as *mut RECT, &mut used).is_err() {
+    if dup.GetFrameDirtyRects((dirty.len() * rect_size) as u32, dirty.as_mut_ptr(), &mut used).is_err() {
         return true;
     }
-    let dirty = std::slice::from_raw_parts(buf.as_ptr() as *const RECT, used as usize / std::mem::size_of::<RECT>());
-    dirty.iter().any(|d| overlaps(d, area))
+    dirty[..(used as usize / rect_size).min(dirty.len())].iter().any(|d| overlaps(d, area))
+}
+
+/// Interruptions are waited out with a growing pause; a display that never
+/// once let itself be copied gives up after this long.
+const NEVER_WORKED: Duration = Duration::from_secs(10);
+
+/// Pause before trying again after an interruption (`tries` so far).
+fn backoff(s: &Shared, tries: u32) -> bool {
+    let wait = Duration::from_millis((100u64 << tries.min(4)).min(1000));
+    let until = Instant::now() + wait;
+    while Instant::now() < until {
+        if s.stop.load(Ordering::Relaxed) {
+            return false;
+        }
+        std::thread::sleep(Duration::from_millis(50));
+    }
+    true
 }
 
 /// Copy loop. Ok(()) when asked to stop; Err(why) when it can't go on.
 fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), String> {
     unsafe {
-        let (adapter, output, odesc) = find_output(monitor)?;
-        if !matches!(odesc.Rotation, DXGI_MODE_ROTATION_IDENTITY | DXGI_MODE_ROTATION_UNSPECIFIED) {
-            return Err("the display is rotated".into());
-        }
-        let (dev, ctx) = device_on(&adapter).map_err(|e| format!("no Direct3D device on the display's adapter: {e}"))?;
-        let origin = (odesc.DesktopCoordinates.left, odesc.DesktopCoordinates.top);
-        let name = String::from_utf16_lossy(&odesc.DeviceName).trim_end_matches('\0').to_string();
+        let started = Instant::now();
+        let mut device: Option<(ID3D11Device, ID3D11DeviceContext)> = None;
         let mut staging: Option<(ID3D11Texture2D, i32, i32)> = None;
-        let mut meta_buf = Vec::new();
+        let (mut moves, mut dirty) = (Vec::new(), Vec::new());
         let mut last: Option<Arc<Frame>> = None;
         let mut announced = false;
-        let mut lost_in_a_row = 0;
+        let mut tries = 0u32;
+        // Retry after an interruption, unless stopping or this display never
+        // once worked (then `why` is the reason to give up).
+        let retry = |tries: &mut u32, announced: bool, why: String| -> std::result::Result<bool, String> {
+            if !announced && started.elapsed() > NEVER_WORKED {
+                return Err(why);
+            }
+            *tries += 1;
+            Ok(backoff(s, *tries))
+        };
         'dup: loop {
             if s.stop.load(Ordering::Relaxed) {
                 return Ok(());
             }
+            // Displays move, rotate and reconnect: find this one afresh each time.
+            let found = find_output(monitor);
+            let (adapter, output, odesc) = match found {
+                Ok(v) => v,
+                Err(why) => {
+                    if !retry(&mut tries, announced, why)? {
+                        return Ok(());
+                    }
+                    continue;
+                }
+            };
+            if !matches!(odesc.Rotation, DXGI_MODE_ROTATION_IDENTITY | DXGI_MODE_ROTATION_UNSPECIFIED) {
+                return Err("the display is rotated".into());
+            }
+            if device.is_none() {
+                match device_on(&adapter) {
+                    Ok(d) => {
+                        device = Some(d);
+                        staging = None;
+                    }
+                    Err(e) => {
+                        if !retry(&mut tries, announced, format!("no Direct3D device on the display's adapter: {e}"))? {
+                            return Ok(());
+                        }
+                        continue;
+                    }
+                }
+            }
+            let Some((dev, ctx)) = device.clone() else { continue };
+            let origin = (odesc.DesktopCoordinates.left, odesc.DesktopCoordinates.top);
+            let name = String::from_utf16_lossy(&odesc.DeviceName).trim_end_matches('\0').to_string();
             let rect_gen = s.rect_gen.load(Ordering::Relaxed);
             let dup = match duplicate(&output, &dev) {
                 Ok(d) => d,
                 Err(why) => {
-                    // Briefly refused while the secure desktop (UAC, lock
-                    // screen) is up or a mode change runs: wait, then retry.
-                    lost_in_a_row += 1;
-                    if lost_in_a_row > 40 {
-                        return Err(why);
+                    // Refused while a UAC prompt or the lock screen is up, or a
+                    // mode change runs; the device may be from before a reset.
+                    device = None;
+                    if !retry(&mut tries, announced, why)? {
+                        return Ok(());
                     }
-                    std::thread::sleep(std::time::Duration::from_millis(250));
                     continue;
                 }
             };
@@ -257,16 +317,24 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                 match dup.AcquireNextFrame(250, &mut info, &mut res) {
                     Ok(()) => {}
                     Err(e) if e.code() == DXGI_ERROR_WAIT_TIMEOUT => continue,
-                    Err(e) if e.code() == DXGI_ERROR_ACCESS_LOST || e.code() == DXGI_ERROR_INVALID_CALL => continue 'dup,
-                    Err(e) => return Err(format!("frame wait failed: {e}")),
+                    Err(e) => {
+                        // Lost (desktop switch, mode change) or the GPU was reset:
+                        // start over from the display, after a pause.
+                        if e.code() == DXGI_ERROR_DEVICE_REMOVED || e.code() == DXGI_ERROR_DEVICE_RESET {
+                            device = None;
+                        }
+                        if !retry(&mut tries, announced, format!("frame wait failed: {e}"))? {
+                            return Ok(());
+                        }
+                        continue 'dup;
+                    }
                 }
-                lost_in_a_row = 0;
                 let rect = *s.rect.lock().unwrap_or_else(|p| p.into_inner());
                 let area = local(rect, origin, ow, oh);
                 let (w, h) = (rect.right - rect.left, rect.bottom - rect.top);
                 let wanted = w > 0 && h > 0 && area.right > area.left && area.bottom > area.top
                     && info.LastPresentTime != 0
-                    && (fresh || frame_touches(&dup, info.TotalMetadataBufferSize, &area, &mut meta_buf));
+                    && (fresh || frame_touches(&dup, info.TotalMetadataBufferSize, &area, &mut moves, &mut dirty));
                 let mut copied = None;
                 if wanted {
                     if let Some(tex) = res.as_ref().and_then(|r| r.cast::<ID3D11Texture2D>().ok()) {
@@ -274,7 +342,7 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                         tex.GetDesc(&mut tdesc);
                         if tdesc.Format != DXGI_FORMAT_B8G8R8A8_UNORM {
                             let _ = dup.ReleaseFrame();
-                            return Err(format!("the display sends {:?} pixels (HDR?), not 8-bit", tdesc.Format));
+                            return Err(format!("the display sends {:?} pixels (HDR), not 8-bit", tdesc.Format));
                         }
                         match copy_area(&dev, &ctx, &tex, &mut staging, area, rect, origin, w, h) {
                             Ok(px) => copied = Some(px),
@@ -283,10 +351,11 @@ fn run(s: &Shared, sink: &EventSink, monitor: isize) -> std::result::Result<(), 
                     }
                 }
                 let _ = dup.ReleaseFrame();
+                tries = 0;
                 if let Some(px) = copied {
                     fresh = false;
                     // Dirty rectangles also cover redraws that changed nothing.
-                    let same = last.as_ref().is_some_and(|l| l.w == w && l.h == h && l.px == px);
+                    let same = last.as_ref().is_some_and(|l| l.w == w && l.h == h && l.left == rect.left && l.top == rect.top && l.px == px);
                     if !same {
                         let generation = s.generation.load(Ordering::Relaxed) + 1;
                         let f = Arc::new(Frame { w, h, px, left: rect.left, top: rect.top, generation });

@@ -385,7 +385,11 @@ fn draw_row(ui: &mut Ui, row: Rect, hit: Rect, view: Rect, id: u64, done: bool, 
 }
 
 /// Darken `r` toward the island colour; `top` = strongest at the top edge.
+/// Glass has no one island colour to fade into, so the list just ends there.
 fn fade(ui: &mut Ui, r: Rect, top: bool) {
+    if ui.c.look().material == poni_core::look::Material::Glass {
+        return;
+    }
     let step = r.h / FADE_STEPS as f32;
     for k in 0..FADE_STEPS {
         // k = 0 is the strip at the edge.
