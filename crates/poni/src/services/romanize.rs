@@ -260,6 +260,21 @@ mod tests {
     }
 
     #[test]
+    fn windows_reads_the_topic_particle_as_wa() {
+        // Only where Windows has its Japanese reading data (Windows CI); without it
+        // there's nothing of Windows' to check.
+        if analyzer_works().is_err() {
+            return;
+        }
+        for (line, want) in [("心には君がいる", "ni wa"), ("光を照らすは月", "terasu wa"), ("本当は好きだよ", "hontou wa"), ("それではまた", "de wa")] {
+            let pieces = on_sta(|| japanese(line)).expect("the analyzer's thread starts").expect("Windows reads the line").0;
+            let read = roman(&pieces);
+            eprintln!("{line} -> {read}");
+            assert!(read.contains(want) && !read.contains("ha"), "{line} read as {read:?}");
+        }
+    }
+
+    #[test]
     fn own_dictionary_reads_kanji_lines() {
         let read = own_song(&["君の名前を呼んだ夜", "Oh yeah", "ありがとう"]);
         assert_eq!(roman(&read[0]), "kimi no namae wo yonda yoru");

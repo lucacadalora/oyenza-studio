@@ -168,6 +168,14 @@ mod tests {
     }
 
     #[test]
+    fn topic_particle_reads_wa() {
+        // 本当は is one word in the dictionary.
+        assert_eq!(roman("本当は嫌だ"), "hontou wa iya da");
+        assert_eq!(roman("心には君がいる"), "kokoro ni wa kimi ga iru");
+        assert_eq!(roman("光を照らすは月"), "hikari wo terasu wa tsuki");
+    }
+
+    #[test]
     fn verb_endings_join_and_the_copula_stands_apart() {
         assert_eq!(roman("好きだった"), "suki datta");
         assert_eq!(roman("手紙を読んでいる"), "tegami wo yondeiru");
