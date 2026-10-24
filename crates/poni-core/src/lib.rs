@@ -9,6 +9,7 @@ pub mod cliphist;
 pub mod datetime;
 pub mod frametime;
 pub mod geom;
+pub mod look;
 pub mod health;
 pub mod lrc;
 pub mod lrclib;

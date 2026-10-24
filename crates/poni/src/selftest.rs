@@ -652,10 +652,12 @@ impl SelfTest {
             let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
             let top = (3.0 * scale).round() as i32;
             let [b, g, r, a] = frame.at(cx, top);
+            let ground = rgb8(poni_core::look::of(self.theme).ground);
+            let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
             checks.push(check(
-                "body-opaque-black",
-                a >= 254 && r.max(g).max(b) <= 6,
-                format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a})"),
+                "body-opaque-ground",
+                a >= 254 && off <= 6,
+                format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), ground rgb{ground:?}"),
             ));
 
             let corners = [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)].map(|(x, y)| frame.at(x, y)[3]);
@@ -678,8 +680,8 @@ impl SelfTest {
                 ));
             }
 
-            let lit = frame.bright_pixels(body, scale);
-            checks.push(check("content-drawn", lit >= 20, format!("{lit} bright pixels inside the island")));
+            let lit = frame.content_pixels(body, scale, rgb8(poni_core::look::of(self.theme).ground));
+            checks.push(check("content-drawn", lit >= 20, format!("{lit} content pixels inside the island")));
         }
         checks.push(check(
             "frame-time",
@@ -995,7 +997,9 @@ impl Frame<'_> {
     }
 
     /// Opaque, bright pixels inside the island body (text, icons, art).
-    fn bright_pixels(&self, body: Rect, scale: f32) -> usize {
+    /// Opaque pixels inside the island that stand clearly apart from its
+    /// ground colour (text, icons, art).
+    fn content_pixels(&self, body: Rect, scale: f32, ground: [u8; 3]) -> usize {
         let x0 = (body.x * scale).floor().max(0.0) as i32;
         let x1 = ((body.x + body.w) * scale).ceil() as i32;
         let y1 = ((body.y + body.h) * scale).ceil() as i32;
@@ -1003,7 +1007,8 @@ impl Frame<'_> {
         for y in (body.y * scale).floor().max(0.0) as i32..y1.min(self.h) {
             for x in x0..x1.min(self.w) {
                 let [b, g, r, a] = self.at(x, y);
-                if a >= 200 && r.max(g).max(b) >= 140 {
+                let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
+                if a >= 200 && off >= 140 {
                     n += 1;
                 }
             }
@@ -1084,4 +1089,9 @@ fn composite(w: usize, h: usize, pbgra: &[u8], scale: f32) -> (u32, u32, Vec<u8>
         }
     }
     (ow as u32, oh as u32, out)
+}
+
+/// A colour as 8-bit (r, g, b).
+fn rgb8(c: Color) -> [u8; 3] {
+    [c.r, c.g, c.b].map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8)
 }

@@ -26,6 +26,8 @@ use crate::ui::{wid, wid_n, Ui, WidgetId};
 use poni_core::datetime::fmt_duration;
 use poni_core::geom::{lerp, palette, Color, Point, Rect};
 use poni_core::lrc::Lyrics;
+use poni_core::nowplaying::lyrics_lead_s;
+use poni_core::timeline::LyricClock;
 use std::cell::Cell;
 use std::collections::HashMap;
 
@@ -141,6 +143,8 @@ struct Anim {
     scroll_vel: f32,
     /// Lyrics credit opacity (0..1), following the pointer over the column.
     credit_k: f32,
+    /// Steady playback clock for synced lyrics (eases over jumpy reports).
+    clock: LyricClock,
     /// Identity of the lyrics shown last frame (track, synced, shape).
     sig: Option<Sig>,
     /// Column width and DPI scale the measurements below were made at.
@@ -299,6 +303,10 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
     let playing = m.is_playing();
     let tl = m.timeline;
     let pos = tl.position_at(now);
+    // Where the lyrics are: the player's position, plus its known lag and the
+    // user's own shift, on a clock that rides out jumpy reports.
+    let lead = lyrics_lead_s(&m.app_id) + f64::from(st.settings.lyrics_offset_ms) / 1000.0;
+    let lyric_pos = a.clock.tick(now, pos + lead, playing && tl.has_duration(), tl.rate);
     let has_dur = tl.has_duration();
     let mut acts: Vec<MediaCmd> = Vec::new();
     let mut anim = false;
@@ -381,7 +389,7 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
     let mut open_credit = false;
     let mut synced_shown = false;
     if show_lyrics {
-        let ctx = LyricsCtx { now, pos, live: playing && has_dur, can_seek: m.can_seek, scale, track_key: &m.track_key };
+        let ctx = LyricsCtx { now, pos: lyric_pos, live: playing && has_dur, can_seek: m.can_seek, scale, track_key: &m.track_key };
         let out = draw_lyrics(ui, &st.lyrics, &mut st.ui, col, a, fr, &ctx, &mut acts);
         anim |= out.animating;
         synced_shown = out.synced;
@@ -474,7 +482,8 @@ fn side_button(ui: &mut Ui, id: WidgetId, c: Point, icon: Icon, enabled: bool) -
     }
 }
 
-/// The big play/pause: a white disc with a black glyph.
+/// The big play/pause: a white disc with a black glyph (on a light look, its
+/// accent disc with a white glyph).
 fn play_button(ui: &mut Ui, c: Point, playing: bool, enabled: bool) -> bool {
     let icon = if playing { Icon::Pause } else { Icon::Play };
     let icon_r = Rect::from_center(c, CONTROL_ICON, CONTROL_ICON);
@@ -484,15 +493,20 @@ fn play_button(ui: &mut Ui, c: Point, playing: bool, enabled: bool) -> bool {
         return false;
     }
     let resp = ui.button(wid("media_play"), Rect::from_center(c, PLAY_D, PLAY_D));
+    let look = ui.c.look();
+    let (rest, hover, press, glyph) = match look.accent.filter(|_| look.light) {
+        Some(a) => (a, Color::lerp(a, Color::white(1.0), 0.08), Color::lerp(a, Color::black(1.0), 0.15), palette::ON_ACCENT),
+        None => (palette::TEXT, Color::white(1.0), Color::white(0.82), Color::black(1.0)),
+    };
     let (radius, fill) = if resp.pressed {
-        (PLAY_D / 2.0 - 1.5, Color::white(0.82))
+        (PLAY_D / 2.0 - 1.5, press)
     } else if resp.hovered {
-        (PLAY_D / 2.0 + 1.0, Color::white(1.0))
+        (PLAY_D / 2.0 + 1.0, hover)
     } else {
-        (PLAY_D / 2.0, palette::TEXT)
+        (PLAY_D / 2.0, rest)
     };
     ui.c.fill_circle(c, radius, fill);
-    ui.c.icon(icon, icon_r, Color::black(1.0));
+    ui.c.icon(icon, icon_r, glyph);
     resp.clicked
 }
 
@@ -562,6 +576,7 @@ fn draw_lyrics(
     let fresh = !a.sig_matches(ctx.track_key, shown);
     if fresh {
         a.set_sig(ctx.track_key, shown);
+        a.clock.reset();
         a.sizes.clear();
         a.lyric_vel = 0.0;
         a.scroll_target = 0.0;

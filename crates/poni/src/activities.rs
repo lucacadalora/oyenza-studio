@@ -469,7 +469,12 @@ fn draw_hud(ui: &mut Ui, st: &mut AppState, body: Rect) {
             st.ui.hud_level = shown;
             ui.c.fill_rrect(bar, 3.0, palette::TRACK);
             if shown > 0.0 {
-                ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * shown).max(6.0), bar.h), 3.0, Color::white(0.95));
+                // Classic fills the level in white; a light look in its accent.
+                let level = match ui.c.look().accent.filter(|_| ui.c.look().light) {
+                    Some(a) => a,
+                    None => Color::white(0.95),
+                };
+                ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * shown).max(6.0), bar.h), 3.0, level);
             }
             let pct = if muted { "Muted".to_string() } else { format!("{}%", (level * 100.0).round() as i32) };
             ui.c.text(&pct, Rect::new(body.right() - HUD_PAD - 48.0, body.y, 48.0, body.h), &label_st.tabular().right());
@@ -488,7 +493,8 @@ fn draw_hud(ui: &mut Ui, st: &mut AppState, body: Rect) {
         HudKind::Bluetooth { name, connected, battery, audio } => {
             let c = Point::new(body.x + 30.0, cy);
             ui.c.fill_circle(c, 15.0, if connected { palette::BLUE } else { Color::white(0.16) });
-            ui.c.icon(if audio { Icon::Headphones } else { Icon::Bluetooth }, Rect::from_center(c, 17.0, 17.0), Color::white(1.0));
+            let glyph = if connected { palette::ON_ACCENT } else { palette::TEXT };
+            ui.c.icon(if audio { Icon::Headphones } else { Icon::Bluetooth }, Rect::from_center(c, 17.0, 17.0), glyph);
             let text_x = body.x + 54.0;
             let text_right = match battery {
                 Some(b) => battery_badge(ui, body.right() - HUD_PAD, cy, b, if b <= 20 { palette::RED } else { palette::GREEN }) - 12.0,

@@ -7,6 +7,20 @@
 /// ("Artist — Album — Station").
 const APPLE_MUSIC_SEPARATOR: &str = " \u{2014} ";
 
+/// Apple Music for Windows reports its position about half a second behind
+/// what you hear, and unevenly (Lyricify's own docs give -400 to -500 ms for
+/// it). Synced lyrics run this much ahead of its reports.
+pub const APPLE_MUSIC_LYRICS_LEAD_S: f64 = 0.45;
+
+/// How far ahead of the player's reported position synced lyrics should run.
+pub fn lyrics_lead_s(app_id: &str) -> f64 {
+    if is_apple_music(app_id) {
+        APPLE_MUSIC_LYRICS_LEAD_S
+    } else {
+        0.0
+    }
+}
+
 /// Whether `app_id` (the session's AUMID) is Apple Music for Windows: the
 /// Store app (`AppleInc.AppleMusicWin_…!App`) or `AppleMusic.exe`.
 pub fn is_apple_music(app_id: &str) -> bool {
@@ -80,6 +94,12 @@ mod tests {
         assert!(is_apple_music("AppleMusic.exe"));
         assert!(!is_apple_music("Spotify.exe"));
         assert!(!is_apple_music("MSEdge"));
+    }
+
+    #[test]
+    fn lyrics_run_ahead_of_apple_music_only() {
+        assert_eq!(lyrics_lead_s(APPLE), APPLE_MUSIC_LYRICS_LEAD_S);
+        assert_eq!(lyrics_lead_s("Spotify.exe"), 0.0);
     }
 
     #[test]

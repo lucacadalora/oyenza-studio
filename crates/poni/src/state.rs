@@ -275,7 +275,11 @@ impl AppState {
     }
 
     /// Accent for media UI: art colour when available, else the system accent.
+    /// The Oyen theme keeps to Oyen's orange.
     pub fn media_accent(&self) -> Color {
+        if self.settings.theme == poni_core::settings::Theme::Oyen {
+            return self.accent;
+        }
         self.media.as_ref().and_then(|m| m.art_color).unwrap_or(self.accent)
     }
 }

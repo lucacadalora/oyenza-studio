@@ -1658,6 +1658,7 @@ impl App {
         let mut wheel_left = 0.0;
         let draw_from = clock::mono();
         let mut drawn_at = draw_from;
+        self.gfx.set_look(poni_core::look::of(self.st.settings.theme));
         let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
             Ok(mut canvas) => {
                 if self.expanded && !canvas.on_gpu() {
@@ -1667,7 +1668,7 @@ impl App {
                     canvas.fill_rect(canvas_r, Color::black(1.0 / 255.0));
                 }
                 let island_color = if hidden_idle { Color::black(1.0 / 255.0) } else { palette::ISLAND };
-                let border = if hidden_idle { None } else { Some(palette::BORDER) };
+                let border = if hidden_idle { None } else { Some(canvas.look().border) };
                 canvas.notch(body, geom.r, SHOULDER, island_color, border);
 
                 // Content scales about the top centre, where the island hangs.

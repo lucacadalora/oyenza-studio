@@ -190,6 +190,12 @@ pub mod palette {
     pub const PURPLE: Color = Color::hex(0xBF5AF2);
     pub const YELLOW: Color = Color::hex(0xFFD60A);
     pub const PINK: Color = Color::hex(0xFF375F);
+    /// Content sitting on an accent fill (a switch knob, today's date, the
+    /// play glyph on an accent disc): white in every theme. Its blue is a hair
+    /// under 1 so a look can tell it from content white, which it repaints.
+    pub const ON_ACCENT: Color = Color::rgba(1.0, 1.0, 0.998, 1.0);
+    /// Dark content on a very light accent fill, in every theme.
+    pub const ON_ACCENT_DARK: Color = Color::rgba(0.0, 0.0, 0.002, 0.88);
 }
 
 #[cfg(test)]

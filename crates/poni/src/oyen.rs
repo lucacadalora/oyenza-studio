@@ -24,6 +24,7 @@ const GREEN: Color = Color::hex(oyen::GREEN);
 /// Shapes that float around the head (thinking dots, z's) are ink on a light
 /// page; on the black island they need to be light.
 const FLOAT: Color = Color::white(0.85);
+const FLOAT_ON_LIGHT: f32 = 0.85;
 
 /// The mark's head is 104 units wide. The logo's island bar starts at y 23,
 /// just under the eyes.
@@ -95,8 +96,14 @@ pub fn peek(c: &mut Canvas, frame: &Frame, cx: f32, bar_y: f32, w: f32, top: f32
 
 /// One frame of the face, the mark's (0, 0) at `origin`, `k` DIPs per unit.
 /// Same layering as the app: a raised ear tip behind the head, a folded one
-/// on it, then eyes and extras.
+/// on it, then eyes and extras. Oyen keeps his own colours in every theme.
 fn draw(c: &mut Canvas, f: &Frame, origin: Point, k: f32) {
+    let look = c.look();
+    let float = if look.light { look.ink.with_alpha(FLOAT_ON_LIGHT) } else { FLOAT };
+    c.unthemed(|c| draw_face(c, f, origin, k, float));
+}
+
+fn draw_face(c: &mut Canvas, f: &Frame, origin: Point, k: f32, float: Color) {
     let h = f.head;
     let map = |p: oyen::Point| {
         let q = h.apply(p);
@@ -115,7 +122,7 @@ fn draw(c: &mut Canvas, f: &Frame, origin: Point, k: f32) {
     for s in f.eyes.iter().chain(&f.extras) {
         let color = match s.paint {
             Paint::Ink if s.place == Place::Eye => INK,
-            Paint::Ink => FLOAT,
+            Paint::Ink => float,
             Paint::Pink => PINK,
             Paint::Green => GREEN,
             Paint::White => Color::white(1.0),
