@@ -22,7 +22,7 @@ use crate::events::{AppEvent, EventSink, WM_APP_APPBAR};
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::sync::atomic::{AtomicBool, Ordering};
-use windows::core::PCWSTR;
+use windows::core::{w, PCWSTR};
 use windows::Win32::Foundation::{E_UNEXPECTED, HMODULE, HWND, LPARAM, POINT, RECT, WPARAM};
 use windows::Win32::Graphics::Dwm::{DwmGetWindowAttribute, DWMWA_CLOAKED};
 use windows::Win32::Graphics::Gdi::{
@@ -92,6 +92,9 @@ struct Watch {
     /// focus is on another monitor (watching a video on one screen while
     /// working on the other); null otherwise.
     culprit: Cell<Tracked>,
+    /// The window behind the last "full screen" verdict (the game, for
+    /// Show over games); null while the monitor isn't full screen.
+    decided: Cell<HWND>,
     thread_hooks: RefCell<Vec<ThreadHooks>>,
     busy: Cell<bool>,
     dirty: Cell<bool>,
@@ -152,6 +155,7 @@ impl FullscreenWatcher {
             island: Cell::new(HWND::default()),
             fg: Cell::new(Tracked::NONE),
             culprit: Cell::new(Tracked::NONE),
+            decided: Cell::new(HWND::default()),
             thread_hooks: RefCell::new(Vec::new()),
             busy: Cell::new(false),
             dirty: Cell::new(false),
@@ -408,6 +412,7 @@ fn reevaluate(w: &Watch, hint: Option<HMONITOR>) -> Option<bool> {
         }
     }
     w.fullscreen.set(verdict.on);
+    w.decided.set(if verdict.on { verdict.hwnd } else { HWND::default() });
     update_thread_hooks(w);
     w.busy.set(false);
     if verdict.on == before {
@@ -560,11 +565,20 @@ pub fn fullscreen_pid() -> Option<u32> {
     if !w.fullscreen.get() {
         return None;
     }
-    let kept = w.culprit.get().hwnd;
-    let hwnd = if kept.is_invalid() { w.fg.get().hwnd } else { kept };
+    let hwnd = w.decided.get();
     if hwnd.is_invalid() {
         return None;
     }
+    // A Microsoft Store game's frame belongs to Application Frame Host; the
+    // game's own process owns the core window inside it.
+    let hwnd = if class_name(hwnd) == "ApplicationFrameWindow" {
+        match unsafe { FindWindowExW(hwnd, HWND::default(), w!("Windows.UI.Core.CoreWindow"), PCWSTR::null()) } {
+            Ok(core) if !core.is_invalid() => core,
+            _ => hwnd,
+        }
+    } else {
+        hwnd
+    };
     let mut pid = 0u32;
     unsafe { GetWindowThreadProcessId(hwnd, Some(&mut pid)) };
     (pid != 0 && pid != w.pid).then_some(pid)

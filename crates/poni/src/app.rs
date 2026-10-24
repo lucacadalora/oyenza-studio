@@ -1050,6 +1050,11 @@ impl App {
             WM_QUERYENDSESSION => Some(LRESULT(1)),
             WM_ENDSESSION => {
                 self.save_now();
+                // Windows ends Poni without shutdown(): stop the frame count's
+                // trace session now, or it would outlive the sign-in.
+                if wp.0 != 0 {
+                    self.frames = None;
+                }
                 Some(LRESULT(0))
             }
             WM_DISPLAYCHANGE | WM_SETTINGCHANGE => {
@@ -1456,7 +1461,7 @@ impl App {
                 None => {}
             }
             // Off while the page is closed: the kept minute goes, so the next opening starts fresh.
-            if !history && !self.sysmon_on {
+            if !history && !self.sysmon_on && !self.st.game.active {
                 self.st.system.clear();
             }
         }
@@ -1905,7 +1910,8 @@ impl App {
         if let Some(s) = &self.sysmon {
             s.open(on);
         }
-        if !on && !self.st.settings.system_history {
+        // The readout over a game still draws from them.
+        if !on && !self.st.settings.system_history && !self.st.game.active {
             self.st.system.clear();
         }
     }
@@ -1927,6 +1933,10 @@ impl App {
             self.st.game.active = want;
             if want && self.sysmon.is_none() {
                 self.start_sysmon();
+            }
+            // A failure last time is tried again with each new game.
+            if want && matches!(self.st.game.access, FpsAccess::Failed(_)) {
+                self.st.game.access = FpsAccess::Unknown;
             }
             if let Some(s) = &self.sysmon {
                 s.game(want);

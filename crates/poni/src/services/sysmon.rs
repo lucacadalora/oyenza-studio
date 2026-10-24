@@ -417,6 +417,12 @@ impl Sampler {
     /// A reading: `full` while the page is open, else light; `sensors` adds
     /// the driver's GPU readings to a light one (the island over a game).
     fn sample(&mut self, full: bool, sensors: bool) -> Reading {
+        // Under the readout over a game, a graphics card that stopped
+        // answering (a driver reset) is looked for again too.
+        if sensors && !full && self.gpu.is_none() && self.slow_at.is_none_or(|t| t.elapsed() >= SLOW) {
+            self.slow_at = Some(Instant::now());
+            self.gpu = Gpu::open();
+        }
         if full && self.slow_at.is_none_or(|t| t.elapsed() >= SLOW) {
             self.slow_at = Some(Instant::now());
             self.drives = fixed_drives();

@@ -203,6 +203,10 @@ impl Settings {
             self.collapse_delay_ms = 0;
         }
         self.settings_version = self.settings_version.max(SETTINGS_VERSION);
+        // Show over games needs the island on top of full-screen apps.
+        if self.game_stats {
+            self.hide_in_fullscreen = false;
+        }
         self.hover_delay_ms = self.hover_delay_ms.min(2000);
         self.lyrics_offset_ms = self.lyrics_offset_ms.clamp(-5000, 5000);
         self.collapse_delay_ms = self.collapse_delay_ms.min(5000);
@@ -325,9 +329,13 @@ mod tests {
         let mut s = before.clone();
         s.pair_game_stats(&before);
         assert_eq!(s, before);
-        // A hand-edited file with both on keeps the readout.
+        // A hand-edited file with both on keeps the readout, when changed
+        // and when loaded.
         let mut s = Settings { game_stats: true, ..Settings::default() };
         s.pair_game_stats(&Settings::default());
+        assert!(s.game_stats && !s.hide_in_fullscreen);
+        let s: Settings = serde_json::from_str(r#"{"game_stats":true,"hide_in_fullscreen":true}"#).unwrap();
+        let s = s.sanitized();
         assert!(s.game_stats && !s.hide_in_fullscreen);
     }
 

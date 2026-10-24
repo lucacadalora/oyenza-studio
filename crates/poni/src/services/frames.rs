@@ -41,7 +41,7 @@ use windows::Win32::System::Diagnostics::Etw::{
     CloseTrace, ControlTraceW, EnableTraceEx2, OpenTraceW, ProcessTrace, CONTROLTRACE_HANDLE, ENABLE_TRACE_PARAMETERS,
     ENABLE_TRACE_PARAMETERS_VERSION_2, EVENT_CONTROL_CODE_ENABLE_PROVIDER, EVENT_ENABLE_PROPERTY_IGNORE_KEYWORD_0, EVENT_FILTER_DESCRIPTOR,
     EVENT_FILTER_TYPE_EVENT_ID, EVENT_HEADER_FLAG_32_BIT_HEADER, EVENT_RECORD, EVENT_TRACE_CONTROL_STOP, EVENT_TRACE_LOGFILEW,
-    EVENT_TRACE_PROPERTIES, EVENT_TRACE_REAL_TIME_MODE, PROCESS_TRACE_MODE_EVENT_RECORD, PROCESS_TRACE_MODE_RAW_TIMESTAMP,
+    EVENT_TRACE_NO_PER_PROCESSOR_BUFFERING, EVENT_TRACE_PROPERTIES, EVENT_TRACE_REAL_TIME_MODE, PROCESS_TRACE_MODE_EVENT_RECORD, PROCESS_TRACE_MODE_RAW_TIMESTAMP,
     PROCESS_TRACE_MODE_REAL_TIME, StartTraceW, TRACE_LEVEL_INFORMATION, WNODE_FLAG_TRACED_GUID,
 };
 use windows::Win32::System::Performance::{QueryPerformanceCounter, QueryPerformanceFrequency};
@@ -56,11 +56,6 @@ pub const ALLOW_ARG: &str = "--allow-fps";
 const DXGI: GUID = GUID::from_u128(0xCA11C036_0102_4A2D_A6AD_F03CFED5D3C9);
 const D3D9: GUID = GUID::from_u128(0x783ACA0A_790E_4D7F_8451_AA850511C6B9);
 const DXGKRNL: GUID = GUID::from_u128(0x802EC45A_1E99_4B83_9920_87C98277BA9D);
-/// The sessions' own ids (the providers' filters are tied to them): the
-/// frame count, the self-test's, and the short check of access (Windows
-/// picks one for it).
-const SESSION_GUID: GUID = GUID::from_u128(0x6f79656e_706f_6e69_8000_6672616d6573);
-const SELFTEST_GUID: GUID = GUID::from_u128(0x6f79656e_706f_6e69_8001_6672616d6573);
 
 /// DXGI Present::Start and PresentMultiplaneOverlay::Start; Direct3D 9
 /// Present::Start. Both runtimes log them on the game's thread, with the
@@ -112,15 +107,18 @@ struct Props {
 }
 
 impl Props {
-    fn new(guid: GUID) -> Box<Props> {
+    /// No session id: Windows picks a fresh one (two sessions may not share
+    /// one, and every sign-in session runs its own).
+    fn new() -> Box<Props> {
         // SAFETY: plain C data; all zeros is its empty state.
         let mut b: Box<Props> = Box::new(unsafe { std::mem::zeroed() });
         b.p.Wnode.BufferSize = std::mem::size_of::<Props>() as u32;
-        b.p.Wnode.Guid = guid;
         // Timestamps from the performance counter: the frames' clock.
         b.p.Wnode.ClientContext = 1;
         b.p.Wnode.Flags = WNODE_FLAG_TRACED_GUID;
-        b.p.LogFileMode = EVENT_TRACE_REAL_TIME_MODE;
+        // One buffer pool, not one per processor: frames then arrive in the
+        // order they were logged, so a second is whole once its last frame is.
+        b.p.LogFileMode = EVENT_TRACE_REAL_TIME_MODE | EVENT_TRACE_NO_PER_PROCESSOR_BUFFERING;
         // A second's frames are a few kilobytes: small buffers, flushed every second.
         b.p.BufferSize = 16;
         b.p.MinimumBuffers = 4;
@@ -143,26 +141,27 @@ fn session_name(what: &str) -> Vec<u16> {
     v
 }
 
-fn start_session(name: &[u16], guid: GUID) -> Result<CONTROLTRACE_HANDLE, WIN32_ERROR> {
+/// Starts a session; its handle and the id Windows gave it.
+fn start_session(name: &[u16]) -> Result<(CONTROLTRACE_HANDLE, GUID), WIN32_ERROR> {
     let mut handle = CONTROLTRACE_HANDLE::default();
-    let mut props = Props::new(guid);
+    let mut props = Props::new();
     // SAFETY: `name` is NUL-terminated; `props` has room for the name it writes back.
     let mut err = unsafe { StartTraceW(&mut handle, PCWSTR(name.as_ptr()), &mut props.p) };
     // Left running by a Poni that didn't get to stop it (a crash): stop and start again.
     if err == ERROR_ALREADY_EXISTS {
         stop_session(CONTROLTRACE_HANDLE::default(), name);
-        props = Props::new(guid);
+        props = Props::new();
         err = unsafe { StartTraceW(&mut handle, PCWSTR(name.as_ptr()), &mut props.p) };
     }
     if err == ERROR_SUCCESS {
-        Ok(handle)
+        Ok((handle, props.p.Wnode.Guid))
     } else {
         Err(err)
     }
 }
 
 fn stop_session(handle: CONTROLTRACE_HANDLE, name: &[u16]) {
-    let mut props = Props::new(GUID::zeroed());
+    let mut props = Props::new();
     let name = if handle.Value == 0 { PCWSTR(name.as_ptr()) } else { PCWSTR::null() };
     // SAFETY: `props` has room for the name the call writes back.
     let _ = unsafe { ControlTraceW(handle, name, &mut props.p, EVENT_TRACE_CONTROL_STOP) };
@@ -209,16 +208,16 @@ fn qpc_now() -> i64 {
 impl Frames {
     /// Starts counting the frames of process `pid`.
     pub fn start(pid: u32) -> Result<Frames, StartError> {
-        Self::start_named(pid, session_name("frames"), SESSION_GUID)
+        Self::start_named(pid, session_name("frames"))
     }
 
     /// The self-test's own session, so it never stops a running Poni's.
     pub fn start_selftest(pid: u32) -> Result<Frames, StartError> {
-        Self::start_named(pid, session_name("frames self-test"), SELFTEST_GUID)
+        Self::start_named(pid, session_name("frames self-test"))
     }
 
-    fn start_named(pid: u32, name: Vec<u16>, guid: GUID) -> Result<Frames, StartError> {
-        let handle = match start_session(&name, guid) {
+    fn start_named(pid: u32, name: Vec<u16>) -> Result<Frames, StartError> {
+        let (handle, guid) = match start_session(&name) {
             Ok(h) => h,
             Err(e) if e == ERROR_ACCESS_DENIED => return Err(StartError::NoAccess),
             Err(e) => return Err(StartError::Failed(format!("Windows error {}", e.0))),
@@ -353,8 +352,8 @@ pub fn stop_stale() {
 /// OK went through) only waits for the next sign-in.
 pub fn check() -> FpsAccess {
     let name = session_name("frames check");
-    match start_session(&name, GUID::zeroed()) {
-        Ok(h) => {
+    match start_session(&name) {
+        Ok((h, _)) => {
             stop_session(h, &name);
             FpsAccess::Ready
         }
