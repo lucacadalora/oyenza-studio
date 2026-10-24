@@ -12,6 +12,8 @@
   <a href="#install">Install notes</a>
 </p>
 
+<p align="center"><a href="https://github.com/lucacadalora/poni/blob/metrics/README.md"><img src="https://raw.githubusercontent.com/lucacadalora/poni/metrics/badge.svg" height="20" alt="Downloads so far"></a></p>
+
 <p align="center"><img src="docs/brand/readme-hero.webp" width="880" alt="The open island hanging from the top of the screen, showing the Music page with synced lyrics, next to Oyen peeking over a playing island"></p>
 
 A small black island hangs from the top of your screen. It shows what's happening (music, timers, volume, headphones connecting), and when you point at it, it opens into a set of quick pages.
@@ -163,6 +165,10 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit: threads, the rend
 ### Website
 
 The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % in both themes (`tools/site_shots.py`).
+
+### Download stats
+
+[The stats page](https://github.com/lucacadalora/poni/blob/metrics/README.md) shows downloads per release and per day. Every hour `.github/workflows/metrics.yml` reads GitHub's download counters with `tools/download_metrics.py` and keeps the history on the `metrics` branch. Downloads made by our own CI (the install test fetches the 0.1.1 installer on every push) are left out. The app itself counts nothing.
 
 ## Status
 
