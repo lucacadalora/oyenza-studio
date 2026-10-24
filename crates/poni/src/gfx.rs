@@ -668,7 +668,9 @@ pub struct Gfx {
     captured: Vec<u8>,
     /// GPU renderer allowed (not forced off, not given up after failures).
     gpu_allowed: bool,
+    /// GPU failures in a row (a long healthy run forgives earlier ones).
     gpu_failures: u32,
+    gpu_frames: u32,
 }
 
 fn pick_font_family(dwrite: &IDWriteFactory) -> Vec<u16> {
@@ -760,6 +762,7 @@ impl Gfx {
                 captured: Vec::new(),
                 gpu_allowed,
                 gpu_failures: 0,
+                gpu_frames: 0,
             })
         }
     }
@@ -854,6 +857,7 @@ impl Gfx {
     fn gpu_lost(&mut self, what: &str, e: windows::core::Error) {
         crate::pwarn!("GPU renderer lost at {what} ({e})");
         self.gpu = None;
+        self.gpu_frames = 0;
         self.gpu_failures += 1;
         if self.gpu_failures >= 3 {
             self.gpu_allowed = false;
@@ -960,6 +964,10 @@ impl Gfx {
             if let Err(e) = unsafe { g.swap.Present(1, DXGI_PRESENT(0)) }.ok() {
                 self.gpu_lost("present", e.clone());
                 return Err(e);
+            }
+            self.gpu_frames = self.gpu_frames.saturating_add(1);
+            if self.gpu_frames > 600 {
+                self.gpu_failures = 0;
             }
             return Ok(());
         }
