@@ -91,6 +91,10 @@ pub struct Settings {
     pub addons: BTreeMap<String, bool>,
     /// The Prayer times add-on's choices.
     pub prayer: PrayerSettings,
+    /// Show over games: while a full-screen app is in front, the island
+    /// shows its frame rate, the GPU's load and temperature and the CPU's
+    /// load. Turning it on also keeps the island on top of full-screen apps.
+    pub game_stats: bool,
 }
 
 /// What plays when a prayer's time comes.
@@ -155,11 +159,27 @@ impl Default for Settings {
             system_history: true,
             addons: BTreeMap::new(),
             prayer: PrayerSettings::default(),
+            game_stats: false,
         }
     }
 }
 
 impl Settings {
+    /// Show over games needs the island on top of full-screen apps, so the
+    /// two follow each other: turning the readout on picks Stay on top, and
+    /// picking Hide afterwards turns the readout off. `before` is the state
+    /// the change started from.
+    pub fn pair_game_stats(&mut self, before: &Settings) {
+        if !(self.game_stats && self.hide_in_fullscreen) {
+            return;
+        }
+        if before.game_stats && !before.hide_in_fullscreen {
+            self.game_stats = false;
+        } else {
+            self.hide_in_fullscreen = false;
+        }
+    }
+
     /// Is the add-on `id` switched on?
     pub fn addon_on(&self, id: &str) -> bool {
         self.addons.get(id).copied().unwrap_or(false)
@@ -285,6 +305,30 @@ mod tests {
         // A file from a newer Poni keeps its version.
         let s: Settings = serde_json::from_str(r#"{"settings_version":9}"#).unwrap();
         assert_eq!(s.sanitized().settings_version, 9);
+    }
+
+    #[test]
+    fn game_stats_and_full_screen_choice_follow_each_other() {
+        // The default hides the island over full-screen apps; turning the
+        // readout on keeps it on top instead.
+        let before = Settings::default();
+        let mut s = Settings { game_stats: true, ..before.clone() };
+        s.pair_game_stats(&before);
+        assert!(s.game_stats && !s.hide_in_fullscreen);
+        // Picking Hide afterwards turns the readout off.
+        let before = s.clone();
+        let mut s = Settings { hide_in_fullscreen: true, ..before.clone() };
+        s.pair_game_stats(&before);
+        assert!(!s.game_stats && s.hide_in_fullscreen);
+        // Stay on top alone, and the readout off, change nothing.
+        let before = Settings { hide_in_fullscreen: false, ..Settings::default() };
+        let mut s = before.clone();
+        s.pair_game_stats(&before);
+        assert_eq!(s, before);
+        // A hand-edited file with both on keeps the readout.
+        let mut s = Settings { game_stats: true, ..Settings::default() };
+        s.pair_game_stats(&Settings::default());
+        assert!(s.game_stats && !s.hide_in_fullscreen);
     }
 
     #[test]

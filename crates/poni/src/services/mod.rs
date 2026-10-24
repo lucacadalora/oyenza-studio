@@ -8,6 +8,7 @@ pub mod audio;
 pub mod backdrop;
 pub mod bluetooth;
 pub mod clipboard;
+pub mod frames;
 pub mod fullscreen;
 pub mod http;
 pub mod imaging;

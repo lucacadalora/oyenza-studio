@@ -42,12 +42,15 @@ jobs:
       - name: Unit tests
         run: cargo test --workspace --release
 
+      # The runner is an admin, so Show over games' frame count runs on Oyen
+      # Poni's own frames here: Windows' frame log must deliver them.
       - name: Self-test (scripted screenshots)
         shell: pwsh
         env:
           # Also download the Prayer times add-on's files from their release
           # and check each one against the size and SHA-256 built in.
           PONI_SELFTEST_ADDONS: download
+          PONI_SELFTEST_FRAMES: required
         run: |
           # Park the cursor mid-screen so a hover can't change the scripted states.
           Add-Type -AssemblyName System.Windows.Forms

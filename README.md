@@ -51,6 +51,7 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-clipboard.webp" width="64" alt=""></td><td><b>Clipboard</b><br>Recent copied text, kept in memory only. It skips anything password managers mark as private.</td></tr>
 <tr><td width="84" align="center"><img src="docs/brand/art/poses/oyen-today.webp" width="64" alt=""></td><td><b>Today</b><br>Date and calendar, plus CPU, memory, disk and battery. Click a ring to open it on the System page</td></tr>
 <tr><td width="84" align="center"></td><td><b>System</b><br>CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the processes using the most. Read straight from Windows' own kernel counters, without drivers or admin rights, and never leaves your PC. The minute keeps going while the page is closed (a light reading once a second; switch it off with right-click › Keep System page history)</td></tr>
+<tr><td width="84" align="center"></td><td><b>Show over games</b><br>FPS, GPU load and temperature and CPU load on the island while a borderless full-screen game is in front. Switch it on in System › Games or right-click › In full-screen apps. See <a href="#show-over-games">Show over games</a></td></tr>
 <tr><td width="84" align="center"></td><td><b>Prayer</b> (an <a href="#add-ons">add-on</a>)<br>Today's prayer times for your kab/kota from Kemenag RI, the next prayer and how long until it, and the qibla</td></tr>
 </table>
 
@@ -77,8 +78,16 @@ The gear at the top right of the open island opens **Settings**: your Oyenza acc
 - the theme: Classic, Oyen or Glass
 - the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
-- in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it)
+- in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
 - start with Windows, and quit
+
+### Show over games
+
+Switch on **Show over games** (System › Games, or right-click › In full-screen apps) and, while a game fills the screen in borderless full-screen, the island becomes a small readout: frames per second, the GPU's load and temperature and the CPU's load, once a second. Hover it to open the island as usual. Turning it on also keeps the island on top of full-screen apps; picking Hide there turns it off again.
+
+The frame rate is counted the way Intel's PresentMon and Xbox Game Bar count it: Windows logs every frame a game hands to the screen, and Oyen Poni reads that log for the game in front. Nothing is loaded into the game, so there is nothing for anti-cheat to see. DirectX 9 to 12 games are counted from their own Present calls; Vulkan and OpenGL games from the graphics kernel's log of their frames. The GPU and CPU numbers come from the same readers as the System page. Nothing runs while no game is in front or while the readout is off.
+
+Windows lets only admins and the **Performance Log Users** group read that log. The first time, System › Games asks for a one-time OK: an admin prompt adds your Windows account to that group (Xbox Game Bar's FPS counter asks for the same), and Windows applies it the next time you sign in. Until then the FPS slot shows a dash and the rest works. To undo it, remove your account from Performance Log Users in Computer Management, or run `net localgroup "Performance Log Users" <your user name> /delete` as an admin. A game in exclusive full-screen mode still covers the island, as it covers every window.
 
 ## Install
 

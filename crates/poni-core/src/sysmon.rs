@@ -25,10 +25,12 @@ pub enum Module {
     Drives,
     Network,
     Battery,
+    /// Show over games: the frame rate and load while a game is in front.
+    Games,
 }
 
 impl Module {
-    pub const ALL: [Module; 6] = [Module::Cpu, Module::Gpu, Module::Memory, Module::Drives, Module::Network, Module::Battery];
+    pub const ALL: [Module; 7] = [Module::Cpu, Module::Gpu, Module::Memory, Module::Drives, Module::Network, Module::Battery, Module::Games];
 
     pub fn title(self) -> &'static str {
         match self {
@@ -38,6 +40,7 @@ impl Module {
             Module::Drives => "Drives",
             Module::Network => "Network",
             Module::Battery => "Battery",
+            Module::Games => "Games",
         }
     }
 }

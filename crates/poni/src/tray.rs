@@ -60,6 +60,8 @@ pub enum MenuCmd {
     TogglePronunciation,
     /// true: hide in full-screen apps; false: stay on top of them.
     SetHideFullscreen(bool),
+    /// Show over games (frame rate, GPU and CPU on the island over a game).
+    ToggleGameStats,
     ToggleSounds,
     TogglePinned,
     ToggleAutostart,
@@ -116,7 +118,15 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink) -> Vec<MenuIt
         item("Clipboard history", MenuCmd::ToggleClipboard, s.clipboard_history),
         item("Keep System page history", MenuCmd::ToggleSystemHistory, s.system_history),
         item("Sounds", MenuCmd::ToggleSounds, s.sounds),
-        MenuItem::Sub { label: "In full-screen apps".into(), items: vec![fullscreen("Hide", true), fullscreen("Stay on top", false)] },
+        MenuItem::Sub {
+            label: "In full-screen apps".into(),
+            items: vec![
+                fullscreen("Hide", true),
+                fullscreen("Stay on top", false),
+                MenuItem::Separator,
+                item("Show FPS, GPU and CPU over games", MenuCmd::ToggleGameStats, s.game_stats),
+            ],
+        },
         item("Start with Windows", MenuCmd::ToggleAutostart, crate::autostart::is_enabled()),
         MenuItem::Separator,
         item("Open settings file", MenuCmd::OpenSettings, false),
@@ -241,6 +251,7 @@ mod tests {
                 vec![
                     ("Hide".to_string(), MenuCmd::SetHideFullscreen(true), hide),
                     ("Stay on top".to_string(), MenuCmd::SetHideFullscreen(false), !hide),
+                    ("Show FPS, GPU and CPU over games".to_string(), MenuCmd::ToggleGameStats, false),
                 ]
             );
         }

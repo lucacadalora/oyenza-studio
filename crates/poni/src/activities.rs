@@ -1,6 +1,6 @@
 //! What the collapsed island shows: idle pill, live activities (media,
-//! timer, the minutes before a prayer), HUD pop-ups (volume, charging,
-//! Bluetooth) and notices.
+//! timer, the minutes before a prayer, the readout over games), HUD
+//! pop-ups (volume, charging, Bluetooth) and notices.
 //!
 //! Collapsed pills are sized to their content: Windows has no camera
 //! cut-out to work around, so empty black would only cover the browser tabs.
@@ -10,12 +10,14 @@ use crate::icons::Icon;
 use crate::island::Geom;
 use crate::oyen;
 use crate::pages::{self, PageKind};
-use crate::state::{AppState, HudKind, InlineAction};
+use crate::state::{AppState, FpsAccess, HudKind, InlineAction};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_countdown};
+use poni_core::frames::fmt_fps;
 use poni_core::geom::{clamp01, palette, Color, Point, Rect};
 use poni_core::pomodoro::Phase;
 use poni_core::settings::IdleStyle;
+use poni_core::sysmon::fmt_pct;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Activity {
@@ -24,6 +26,8 @@ pub enum Activity {
     MediaTimer,
     /// Prayer times: the minutes before the next prayer.
     Prayer,
+    /// Show over games: frame rate, GPU and CPU while a full-screen app is in front.
+    Game,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -71,6 +75,12 @@ const OYEN_MEDIA_W: f32 = 24.0;
 const OYEN_CLOCK_LEAD: f32 = 12.0 + OYEN_CLOCK_W;
 /// The countdown before a prayer: the moon, then "Maghrib 10 min".
 const PRAYER_W: f32 = 168.0;
+/// The readout over games: room for "999 fps", "GPU 100% · 100°" and
+/// "CPU 100%" with dividers (tabular digits keep it still as numbers
+/// change), and without the temperature when the driver reports none.
+const GAME_W: f32 = 276.0;
+const GAME_NO_TEMP_W: f32 = 236.0;
+const GAME_DIVIDER: Color = Color::white(0.18);
 
 /// Modes with the same key share content (no cross-fade between them).
 pub fn content_key(m: &Mode) -> u32 {
@@ -80,6 +90,7 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Activity(Activity::Timer) => 3,
         Mode::Activity(Activity::MediaTimer) => 4,
         Mode::Activity(Activity::Prayer) => 5,
+        Mode::Activity(Activity::Game) => 6,
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
@@ -118,6 +129,10 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
     // The few minutes before a prayer come first: they don't come back.
     if prayer_countdown(st).is_some() {
         return Some(Activity::Prayer);
+    }
+    // Over a game the readout takes the pill; music and timer wait.
+    if st.game.active {
+        return Some(Activity::Game);
     }
     let media = st.settings.show_media_activity
         && st.media.as_ref().is_some_and(|m| m.is_playing() || media_grace_end(st).is_some_and(|end| st.now < end));
@@ -193,6 +208,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         }
         Mode::Activity(Activity::MediaTimer) => Geom::new(132.0, 32.0, 15.0),
         Mode::Activity(Activity::Prayer) => Geom::new(PRAYER_W, 32.0, 15.0),
+        Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
         Mode::Hud(HudTag::Volume) => Geom::new(316.0, 40.0, 19.0),
         Mode::Hud(HudTag::Charging) | Mode::Hud(HudTag::LowBattery) => Geom::new(300.0, 40.0, 19.0),
         Mode::Hud(HudTag::Bluetooth) => Geom::new(336.0, 46.0, 22.0),
@@ -464,6 +480,7 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(col).right();
             ui.c.text(&text, Rect::new(body.x + 36.0, body.y, body.w - 36.0 - 16.0, body.h), &ts);
         }
+        Activity::Game => draw_game(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
             art_or_icon(ui, st, art, playing);
@@ -477,6 +494,56 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             ui.c.text(&text, Rect::new(right - 64.0, body.y, 64.0, body.h), &ts.right());
             let c = Point::new(right - tw - 6.0 - 7.0, cy);
             ui.c.ring(c, 7.0, 2.2, p.progress(st.now), RING_TRACK, col);
+        }
+    }
+}
+
+/// The GPU's temperature for the readout, when its driver reports one.
+fn game_temp(st: &AppState) -> Option<f32> {
+    st.system.latest.as_ref()?.gpu.as_ref()?.temp_c
+}
+
+/// "144 fps | GPU 97% · 71° | CPU 38%", centred. The frame rate is a dim
+/// dash until Windows lets Poni read frames and while the game isn't
+/// drawing; the rest comes from the System page's readers.
+fn draw_game(ui: &mut Ui, st: &AppState, body: Rect) {
+    let reading = st.system.latest.as_ref();
+    let label = TextStyle::footnote().color(palette::TEXT_DIM);
+    let value = TextStyle::body().weight(Weight::Semibold).tabular();
+    let big = TextStyle::headline().weight(Weight::Bold).tabular();
+    let dash = || "\u{2013}".to_string();
+    let fps = match (st.game.rate, &st.game.access) {
+        (Some(r), _) => [(fmt_fps(r.fps), big), (" fps".into(), label)],
+        (None, FpsAccess::Ready | FpsAccess::Unknown | FpsAccess::Checking) => [(dash(), big), (" fps".into(), label)],
+        // Waiting for the one-time OK: the slot stays, dimmer.
+        (None, _) => [(dash(), big.color(palette::DISABLED)), (" fps".into(), label.color(palette::DISABLED))],
+    };
+    let gpu = match reading.and_then(|r| r.gpu.as_ref()) {
+        Some(g) => match g.temp_c {
+            Some(t) => format!("{} \u{b7} {t:.0}\u{b0}", fmt_pct(g.util)),
+            None => fmt_pct(g.util),
+        },
+        None => dash(),
+    };
+    let cpu = reading.and_then(|r| r.cpu.as_ref()).map_or_else(dash, |c| fmt_pct(c.load));
+    let groups = [fps, [("GPU ".into(), label), (gpu, value)], [("CPU ".into(), label), (cpu, value)]];
+
+    const GAP: f32 = 11.0;
+    let widths: Vec<[f32; 2]> = groups.iter().map(|g| g.each_ref().map(|(t, ts)| ui.c.measure(t, ts, 200.0).0)).collect();
+    let total = widths.iter().flatten().sum::<f32>() + (groups.len() - 1) as f32 * (2.0 * GAP + 1.0);
+    let mut x = (body.center().x - total / 2.0).max(body.x + 12.0);
+    let cy = body.center().y;
+    for (i, (group, ws)) in groups.iter().zip(&widths).enumerate() {
+        if i > 0 {
+            x += GAP;
+            ui.c.fill_rect(Rect::new(snap(ui, x), cy - 8.0, 1.0, 16.0), GAME_DIVIDER);
+            x += 1.0 + GAP;
+        }
+        for ((t, ts), w) in group.iter().zip(ws) {
+            // Smaller words sit a pixel low, nearer the numbers' baseline.
+            let dy = if ts.size < value.size { 1.0 } else { 0.0 };
+            ui.c.text(t, Rect::new(x, body.y + dy, w + 2.0, body.h), ts);
+            x += w;
         }
     }
 }

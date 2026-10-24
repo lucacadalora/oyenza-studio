@@ -553,6 +553,23 @@ fn is_cloaked(hwnd: HWND) -> bool {
     ok.is_ok() && cloaked != 0
 }
 
+/// The process of the window that makes the island's monitor full screen
+/// (the game, under Show over games). UI thread only; None when nothing does.
+pub fn fullscreen_pid() -> Option<u32> {
+    let w = current()?;
+    if !w.fullscreen.get() {
+        return None;
+    }
+    let kept = w.culprit.get().hwnd;
+    let hwnd = if kept.is_invalid() { w.fg.get().hwnd } else { kept };
+    if hwnd.is_invalid() {
+        return None;
+    }
+    let mut pid = 0u32;
+    unsafe { GetWindowThreadProcessId(hwnd, Some(&mut pid)) };
+    (pid != 0 && pid != w.pid).then_some(pid)
+}
+
 /// The class of the first window above the island in the z-order that
 /// overlaps it: visible, not cloaked, not ours, and not a pop-up or a shell
 /// surface (those may cover the island for a moment). `None` when the island

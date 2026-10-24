@@ -1441,6 +1441,8 @@ impl App {
                 Command::LoadAppIcon(p) => {
                     self.st.app_icons.entry(p).or_insert(None);
                 }
+                // Show over games reads Windows' frame log; the Mac has no Games view.
+                Command::CheckFps | Command::AllowFps => {}
                 Command::SetPinned(b) => {
                     self.st.pinned = b;
                     if !b {

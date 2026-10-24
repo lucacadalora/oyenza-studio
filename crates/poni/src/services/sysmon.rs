@@ -27,8 +27,10 @@
 //! keep System history): one light reading a second of the processor times,
 //! memory status, disk and network counters and the GPU's engines, touching
 //! no window and no drive. Open, each second also walks the process list and
-//! reads the sensors, drives, battery and the driver's GPU readings. A source
-//! that fails is left out of the reading and logged once.
+//! reads the sensors, drives, battery and the driver's GPU readings. Under
+//! Show over games, while a game is in front, the light reading adds the
+//! driver's GPU readings (the temperature) and goes to the island too. A
+//! source that fails is left out of the reading and logged once.
 
 use crate::events::{AppEvent, EventSink};
 use poni_core::sysmon::{
@@ -125,6 +127,8 @@ enum Msg {
     Open(bool),
     /// Keep the history while the page is closed.
     Background(bool),
+    /// A game is in front under Show over games: readings for the island.
+    Game(bool),
     Quit,
 }
 
@@ -142,6 +146,10 @@ impl SysMon {
     pub fn background(&self, on: bool) {
         let _ = self.tx.send(Msg::Background(on));
     }
+
+    pub fn game(&self, on: bool) {
+        let _ = self.tx.send(Msg::Game(on));
+    }
 }
 
 impl Drop for SysMon {
@@ -156,6 +164,7 @@ impl Drop for SysMon {
 
 fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
     let mut open = false;
+    let mut game = false;
     let mut sampler: Option<Sampler> = background.then(Sampler::new);
     let mut monitor = Monitor::default();
     let mut due = Instant::now() + FIRST;
@@ -175,8 +184,8 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
         let Some(first) = first else {
             // A reading: light while closed, full while open.
             if let Some(s) = sampler.as_mut() {
-                monitor.push(s.sample(open));
-                if open {
+                monitor.push(s.sample(open, game));
+                if open || game {
                     sink.send(AppEvent::System(Box::new(monitor.clone())));
                 }
             }
@@ -189,12 +198,13 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
         };
         // Everything queued counts, the latest of each kind winning (and Quit
         // above all): flipping tabs queues several, and each would cost a sampler.
-        let (mut quit, mut want_open, mut want_bg) = (false, None, None);
+        let (mut quit, mut want_open, mut want_bg, mut want_game) = (false, None, None, None);
         for m in std::iter::once(first).chain(std::iter::from_fn(|| rx.try_recv().ok())) {
             match m {
                 Msg::Quit => quit = true,
                 Msg::Open(on) => want_open = Some(on),
                 Msg::Background(on) => want_bg = Some(on),
+                Msg::Game(on) => want_game = Some(on),
             }
         }
         if quit {
@@ -206,7 +216,10 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
         if let Some(o) = want_open {
             open = o;
         }
-        if !open && !background {
+        if let Some(g) = want_game {
+            game = g;
+        }
+        if !open && !background && !game {
             sampler = None;
             monitor.clear();
             continue;
@@ -215,6 +228,14 @@ fn worker(sink: EventSink, rx: Receiver<Msg>, mut background: bool) {
             sampler = Some(Sampler::new());
             monitor.clear();
             due = Instant::now() + FIRST;
+        }
+        // A game just came to the front: the kept reading at once, a fresh
+        // one shortly, then each second.
+        if want_game == Some(true) && !open {
+            if monitor.latest.is_some() {
+                sink.send(AppEvent::System(Box::new(monitor.clone())));
+            }
+            due = due.min(Instant::now() + FIRST);
         }
         if want_open == Some(true) {
             if let Some(s) = sampler.as_mut() {
@@ -251,7 +272,7 @@ pub fn probe() -> Probe {
     let mut timed = |full: bool| {
         std::thread::sleep(FIRST);
         let t = Instant::now();
-        let r = s.sample(full);
+        let r = s.sample(full, false);
         (r, t.elapsed())
     };
     let (_, light) = timed(false);
@@ -290,7 +311,7 @@ pub fn probe() -> Probe {
     for _ in 0..RUNS {
         std::thread::sleep(Duration::from_millis(200));
         let c0 = cycles();
-        let _ = s.sample(false);
+        let _ = s.sample(false, false);
         spent = spent.zip(c0.zip(cycles())).map(|(sum, (a, b))| sum + b.saturating_sub(a));
     }
     Probe { reading, light, first_full, full, parts, light_cycles: spent.map(|c| c / RUNS) }
@@ -393,7 +414,9 @@ impl Sampler {
         self.apps.update(self.started.elapsed().as_secs_f64(), self.logical, &procs);
     }
 
-    fn sample(&mut self, full: bool) -> Reading {
+    /// A reading: `full` while the page is open, else light; `sensors` adds
+    /// the driver's GPU readings to a light one (the island over a game).
+    fn sample(&mut self, full: bool, sensors: bool) -> Reading {
         if full && self.slow_at.is_none_or(|t| t.elapsed() >= SLOW) {
             self.slow_at = Some(Instant::now());
             self.drives = fixed_drives();
@@ -413,7 +436,7 @@ impl Sampler {
             c.power_w = counters.package_w;
         }
 
-        let gpu = self.gpu.as_mut().and_then(|g| g.reading(full));
+        let gpu = self.gpu.as_mut().and_then(|g| g.reading(full || sensors));
         if self.gpu.as_ref().is_some_and(|g| g.misses >= GPU_MISSES) {
             warn_once(1 << 11, "GPU stopped answering; opening it again with the page");
             self.gpu = None;
@@ -761,6 +784,15 @@ fn memory(perf_info: bool) -> Option<MemoryReading> {
 }
 
 // ---------------------------------------------------------------- apps
+
+/// A process as the System page names it: its file's description
+/// ("Counter-Strike 2"), else its file name without ".exe". None when
+/// Windows won't open it (a game running as admin can refuse).
+pub fn app_name(pid: u32) -> Option<String> {
+    let path = process_path(u64::from(pid))?;
+    let image = path.rsplit('\\').next().unwrap_or(&path).to_string();
+    Some(file_description(&path).unwrap_or_else(|| display_name(&image)))
+}
 
 fn process_path(pid: u64) -> Option<String> {
     let pid = u32::try_from(pid).ok()?;

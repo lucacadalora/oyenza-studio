@@ -30,8 +30,8 @@ use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
 use crate::state::{
-    AppState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink, OyenzaState, PhoneAsk,
-    PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
+    AppState, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
+    OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
 use poni_core::addons::{Status as AddonStatus, PRAYER_TIMES};
@@ -44,9 +44,10 @@ use poni_core::prayer::PlaceList;
 use poni_core::pomodoro::{Phase as PomoPhase, RunState};
 use poni_core::settings::{IdleStyle, Theme};
 use poni_core::shelf::ShelfItem;
+use poni_core::frames::FrameRate;
 use poni_core::sysmon::{
     AppUse, BatteryReading, CoreKind, CoreLoad, CpuReading, DiskActivity, Drive, GpuReading, MemoryReading, Module, Monitor, NetReading, Reading,
-    HISTORY_LEN,
+    Series, HISTORY_LEN,
 };
 use poni_core::timeline::Timeline;
 use serde::Serialize;
@@ -297,6 +298,45 @@ fn fake_system(scene: Scene) -> Monitor {
         m.push(sample_reading(scene != Scene::SystemMemory, &sample));
     }
     m
+}
+
+/// Show over games, for its scenes: a game at about 144 fps (one hitch in
+/// the minute), the GPU near full and warm. Before the one-time OK the
+/// frame rate is unknown and no game has been counted.
+fn fake_game(scene: Scene, system: &mut Monitor) -> GameState {
+    if !scene.game() {
+        return GameState::default();
+    }
+    let allowed = matches!(scene, Scene::GameStats | Scene::SystemGames);
+    let in_front = scene != Scene::SystemGamesAllow;
+    if in_front {
+        if let Some(r) = system.latest.as_mut() {
+            if let Some(c) = r.cpu.as_mut() {
+                c.load = 0.38;
+            }
+            if let Some(g) = r.gpu.as_mut() {
+                g.util = 0.97;
+                g.engine_3d = 0.97;
+                g.temp_c = Some(71.0);
+                g.mem_used = GIB * 63 / 10;
+            }
+        }
+    }
+    let mut history = Series::default();
+    if allowed {
+        for i in 0..HISTORY_LEN {
+            let t = i as f32;
+            let dip = if (33..36).contains(&i) { 38.0 } else { 0.0 };
+            history.push(Some(141.0 + 3.0 * (t / 3.7).sin() + 1.5 * (t / 1.3 + 0.6).sin() - dip));
+        }
+    }
+    GameState {
+        active: in_front,
+        app: in_front.then(|| "Harbor Racers".to_string()),
+        rate: (allowed && in_front).then_some(FrameRate { fps: 144.2, frame_ms: 6.93, worst_ms: 9.4 }),
+        history,
+        access: if allowed { FpsAccess::Ready } else { FpsAccess::NeedsOk },
+    }
 }
 
 /// One second of the sample minute.
@@ -737,9 +777,17 @@ enum Scene {
     OyenzaTomorrow,
     /// Oyenza: a card charge read from the bank's email, its sum hidden.
     OyenzaMoneyOut,
+    /// Show over games: the readout over a game.
+    GameStats,
+    /// ...before the one-time OK: the frame rate waits, the rest shows.
+    GameStatsAllow,
+    /// System page, Games: a game in front, its frame rate's minute.
+    SystemGames,
+    /// System page, Games, before the one-time OK.
+    SystemGamesAllow,
 }
 
-const SCENES: [Scene; 57] = [
+const SCENES: [Scene; 61] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -802,6 +850,10 @@ const SCENES: [Scene; 57] = [
     Scene::OyenzaYesterday,
     Scene::OyenzaTomorrow,
     Scene::OyenzaMoneyOut,
+    Scene::GameStats,
+    Scene::GameStatsAllow,
+    Scene::SystemGames,
+    Scene::SystemGamesAllow,
 ];
 
 impl Scene {
@@ -855,6 +907,10 @@ impl Scene {
             Scene::OyenzaYesterday => "page-oyenza-yesterday".into(),
             Scene::OyenzaTomorrow => "page-oyenza-tomorrow".into(),
             Scene::OyenzaMoneyOut => "oyenza-money-out".into(),
+            Scene::GameStats => "game-stats".into(),
+            Scene::GameStatsAllow => "game-stats-allow".into(),
+            Scene::SystemGames => "page-system-games".into(),
+            Scene::SystemGamesAllow => "page-system-games-allow".into(),
         }
     }
 
@@ -867,9 +923,14 @@ impl Scene {
             Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
             Scene::HealthSignedIn => Some(PageKind::Health),
             Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop => Some(PageKind::Settings),
-            Scene::SystemMemory | Scene::SystemDrives | Scene::SystemNetwork | Scene::SystemBattery | Scene::SystemWaiting | Scene::SystemGpu => {
-                Some(PageKind::System)
-            }
+            Scene::SystemMemory
+            | Scene::SystemDrives
+            | Scene::SystemNetwork
+            | Scene::SystemBattery
+            | Scene::SystemWaiting
+            | Scene::SystemGpu
+            | Scene::SystemGames
+            | Scene::SystemGamesAllow => Some(PageKind::System),
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
             Scene::PrayerPicker => Some(PageKind::Prayer),
@@ -899,6 +960,11 @@ impl Scene {
 
     fn expanded(self) -> bool {
         self.page().is_some()
+    }
+
+    /// Show over games is on (and a game is in front, or was).
+    fn game(self) -> bool {
+        matches!(self, Scene::GameStats | Scene::GameStatsAllow | Scene::SystemGames | Scene::SystemGamesAllow)
     }
 
     fn media_playing(self) -> bool {
@@ -1048,6 +1114,10 @@ pub struct SelfTest {
     shelf_thumbs: Vec<(String, Option<Image>)>,
     /// The real add-on download (PONI_SELFTEST_ADDONS=download), running beside the scenes.
     addon_fetch: Option<std::sync::mpsc::Receiver<(bool, String)>>,
+    /// Show over games' frame count, run on Poni's own frames: Windows' frame
+    /// log must deliver them (PONI_SELFTEST_FRAMES=required on Windows CI,
+    /// which runs as admin).
+    frames: Option<crate::services::frames::Frames>,
 }
 
 /// Transitions recorded in animation mode: (name, from, to).
@@ -1103,6 +1173,7 @@ impl SelfTest {
             shelf_items: Vec::new(),
             shelf_thumbs: Vec::new(),
             addon_fetch: None,
+            frames: None,
         }
     }
 
@@ -1112,6 +1183,13 @@ impl SelfTest {
         // readings); before the scene clock starts, as it takes a moment.
         let (ok, detail) = system_readings(crate::services::sysmon::probe());
         self.checks.push(check("system-readings", ok, detail));
+        // Show over games: count Poni's own frames through the whole run.
+        let required = std::env::var("PONI_SELFTEST_FRAMES").is_ok_and(|v| v.trim().eq_ignore_ascii_case("required"));
+        match crate::services::frames::Frames::start_selftest(std::process::id()) {
+            Ok(f) => self.frames = Some(f),
+            Err(e) if required => self.checks.push(check("frame-count", false, format!("the frame count didn't start: {e:?}"))),
+            Err(e) => crate::pinfo!("selftest: frame count not started ({e:?})"),
+        }
         self.t0 = Instant::now();
         if self.theme == Theme::Glass {
             let run = GlassRun::from_env();
@@ -1566,12 +1644,15 @@ impl SelfTest {
         st.addons.insert(PRAYER_TIMES.id, addon);
         seed_prayer(st, scene, until);
         st.system = fake_system(scene);
+        st.settings.game_stats = scene.game();
+        st.game = fake_game(scene, &mut st.system);
         st.ui.system_module = match scene {
             Scene::SystemMemory => Module::Memory,
             Scene::SystemDrives => Module::Drives,
             Scene::SystemNetwork => Module::Network,
             Scene::SystemBattery => Module::Battery,
             Scene::SystemGpu => Module::Gpu,
+            Scene::SystemGames | Scene::SystemGamesAllow => Module::Games,
             _ => Module::Cpu,
         };
         for (path, rgb) in SAMPLE_ICONS {
@@ -1888,6 +1969,17 @@ impl SelfTest {
             write_errors.join("; ")
         };
         self.checks.push(check("png-files", writers_done && write_errors.is_empty(), detail));
+        // The GPU renderer presents every frame through DXGI, so the count
+        // must have seen them; the software renderer presents none.
+        if let Some(f) = self.frames.take() {
+            let n = f.total();
+            drop(f);
+            if self.renderer != "software" {
+                self.checks.push(check("frame-count", n > 0, format!("{n} of Oyen Poni's own frames counted from Windows' frame log")));
+            } else {
+                crate::pinfo!("selftest: frame count saw {n} frames (the software renderer presents none)");
+            }
+        }
         if let Some(rx) = self.addon_fetch.take() {
             let (ok, detail) = rx.recv_timeout(std::time::Duration::from_secs(60)).unwrap_or((false, "still downloading 60 s after the scenes".into()));
             self.checks.push(check("addon-download", ok, detail));
