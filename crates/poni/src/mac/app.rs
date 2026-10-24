@@ -2373,7 +2373,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 19] = [
+const SMOKE_STEPS: [&str; 24] = [
     "idle",
     "hover",
     "open-focus",
