@@ -94,8 +94,8 @@ const MNT_LOCAL: u32 = 0x1000;
 const MNT_DONTBROWSE: u32 = 0x10_0000;
 const MNT_NOWAIT: i32 = 2;
 const CLOCK_THREAD_CPUTIME_ID: u32 = 16;
-/// `kIORegistryIterateRecursively | kIORegistryIterateParents`: an entry, then its parents.
-const SEARCH_UP: u32 = 3;
+/// How far up the registry a GPU's name and memory are looked for.
+const PARENT_LEVELS: usize = 3;
 
 #[repr(C)]
 struct MachTimebase {
@@ -192,7 +192,7 @@ extern "C" {
     fn IOObjectGetClass(object: u32, name: *mut c_char) -> i32;
     fn IORegistryEntryGetRegistryEntryID(entry: u32, id: *mut u64) -> i32;
     fn IORegistryEntryCreateCFProperty(entry: u32, key: CFTypeRef, allocator: CFTypeRef, options: u32) -> CFTypeRef;
-    fn IORegistryEntrySearchCFProperty(entry: u32, plane: *const c_char, key: CFTypeRef, allocator: CFTypeRef, options: u32) -> CFTypeRef;
+    fn IORegistryEntryGetParentEntry(entry: u32, plane: *const c_char, parent: *mut u32) -> i32;
     fn IORegistryEntryFromPath(main_port: u32, path: *const c_char) -> u32;
     fn IORegistryEntryGetChildIterator(entry: u32, plane: *const c_char, iterator: *mut u32) -> i32;
     fn IOPSCopyPowerSourcesInfo() -> CFTypeRef;
@@ -910,10 +910,30 @@ fn prop(entry: u32, key: &str) -> Option<Cf> {
     Cf::new(unsafe { IORegistryEntryCreateCFProperty(entry, key_ptr(&k), std::ptr::null(), 0) })
 }
 
-/// A property of the entry or the nearest of its parents that has it.
+/// A property of the entry or of one of its nearest parents (a graphics
+/// card's PCI device names it), never the Mac's own (whose "model" is the
+/// Mac's model number).
 fn search(entry: u32, key: &str) -> Option<Cf> {
-    let k = cf::key(key);
-    Cf::new(unsafe { IORegistryEntrySearchCFProperty(entry, c"IOService".as_ptr(), key_ptr(&k), std::ptr::null(), SEARCH_UP) })
+    if let Some(v) = prop(entry, key) {
+        return Some(v);
+    }
+    let mut at: Option<Io> = None;
+    for _ in 0..PARENT_LEVELS {
+        let mut parent = 0u32;
+        let from = at.as_ref().map_or(entry, |e| e.0);
+        if unsafe { IORegistryEntryGetParentEntry(from, c"IOService".as_ptr(), &mut parent) } != 0 || parent == 0 {
+            return None;
+        }
+        let parent = Io(parent);
+        if class_name(parent.0).contains("PlatformExpert") {
+            return None;
+        }
+        if let Some(v) = prop(parent.0, key) {
+            return Some(v);
+        }
+        at = Some(parent);
+    }
+    None
 }
 
 /// Every registry entry of an IOKit class.
