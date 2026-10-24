@@ -1,15 +1,28 @@
 //! Clocks: monotonic seconds for animation/timers, local wall time for display.
 
 use poni_core::datetime::LocalDateTime;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::OnceLock;
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use windows::Win32::System::SystemInformation::GetLocalTime;
 
 static START: OnceLock<Instant> = OnceLock::new();
+/// Self-test loop recordings hold `mono()` here (f64 bits; `u64::MAX` = not held).
+static HELD: AtomicU64 = AtomicU64::new(u64::MAX);
 
 /// Monotonic seconds since the process started.
 pub fn mono() -> f64 {
+    let held = HELD.load(Ordering::Relaxed);
+    if held != u64::MAX {
+        return f64::from_bits(held);
+    }
     START.get_or_init(Instant::now).elapsed().as_secs_f64()
+}
+
+/// Self-test only: hold `mono()` at `t` (so a recording steps it exactly), or
+/// let it run again with `None`.
+pub fn hold(t: Option<f64>) {
+    HELD.store(t.map_or(u64::MAX, f64::to_bits), Ordering::Relaxed);
 }
 
 pub fn unix_now() -> i64 {
