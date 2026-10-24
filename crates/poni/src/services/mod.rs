@@ -36,7 +36,7 @@ pub struct Services {
     oyenza: Option<oyenza::OyenzaService>,
 }
 
-fn started<T>(name: &str, r: windows::core::Result<T>) -> Option<T> {
+fn started<T, E: std::fmt::Display>(name: &str, r: Result<T, E>) -> Option<T> {
     match r {
         Ok(v) => {
             crate::pinfo!("service {name}: started");

@@ -73,12 +73,13 @@ pub struct LyricsService {
 }
 
 impl LyricsService {
-    pub fn start(sink: EventSink) -> windows::core::Result<Self> {
+    pub fn start(sink: EventSink) -> io::Result<Self> {
         let shared = Arc::new(Shared::default());
         let worker = shared.clone();
-        std::thread::Builder::new().name("poni-lyrics".into()).spawn(move || worker_main(worker, sink)).map_err(|e| {
-            windows::core::Error::new(windows::Win32::Foundation::E_FAIL, format!("could not start the lyrics thread: {e}"))
-        })?;
+        std::thread::Builder::new()
+            .name("poni-lyrics".into())
+            .spawn(move || worker_main(worker, sink))
+            .map_err(|e| io::Error::other(format!("could not start the lyrics thread: {e}")))?;
         Ok(Self { shared })
     }
 
