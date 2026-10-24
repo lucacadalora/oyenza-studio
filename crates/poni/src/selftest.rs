@@ -387,6 +387,7 @@ fn sample_reading(laptop: bool, s: &Sample) -> Reading {
             copy: 0.04,
             video_decode: 0.12,
             video_encode: 0.0,
+            tiler: 0.0,
             mem_used: GIB * 21 / 10,
             mem_total: GIB * 8,
             integrated: false,

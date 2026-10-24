@@ -110,6 +110,8 @@ pub struct MemoryReading {
     pub used: u64,
     /// Memory Windows has promised to programs, and its limit (RAM plus the
     /// page file). Committed close to the limit is Windows' memory pressure.
+    /// macOS rates the pressure itself: there the limit is the RAM and
+    /// committed the share the kernel's level puts the gauge at ([`level_pressure`]).
     pub committed: u64,
     pub commit_limit: u64,
     /// Files and data kept in memory that Windows hands back at once (standby and modified lists).
@@ -247,10 +249,13 @@ pub struct GpuReading {
     pub name: String,
     /// The busiest engine's share, 0..=1 (how Windows rates a GPU's load).
     pub util: f32,
+    /// On a Mac, the renderer's share (Apple GPUs' pixel work).
     pub engine_3d: f32,
     pub copy: f32,
     pub video_decode: f32,
     pub video_encode: f32,
+    /// The tiler's share (Apple GPUs' geometry work; macOS only).
+    pub tiler: f32,
     /// Video memory in use and in all: the card's own (dedicated), or the
     /// share of RAM it may use on a GPU built into the processor.
     pub mem_used: u64,
@@ -859,6 +864,159 @@ pub fn load_word(f: f32) -> &'static str {
     }
 }
 
+// ---------------------------------------------------------------- macOS
+
+/// Memory pressure as a kernel that rates it in levels has it
+/// (`kern.memorystatus_vm_pressure_level` on macOS).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PressureLevel {
+    Normal,
+    Warning,
+    Critical,
+}
+
+impl PressureLevel {
+    /// macOS's numbers: 1 normal, 2 warning, 4 critical.
+    pub fn from_kernel(v: u64) -> Option<PressureLevel> {
+        match v {
+            1 => Some(PressureLevel::Normal),
+            2 => Some(PressureLevel::Warning),
+            4 => Some(PressureLevel::Critical),
+            _ => None,
+        }
+    }
+}
+
+/// The pressure gauge's value for a kernel that rates pressure in levels:
+/// the level picks the zone [`pressure_word`] names, and `used` (how full
+/// memory is by the kernel's own count, 0..=1) places the needle inside it,
+/// a little in from its edges, so the gauge always says what the kernel
+/// (and Activity Monitor) says.
+pub fn level_pressure(level: PressureLevel, used: f32) -> f32 {
+    let (lo, hi) = match level {
+        PressureLevel::Normal => (0.0, 0.72),
+        PressureLevel::Warning => (0.78, 0.86),
+        PressureLevel::Critical => (0.92, 1.0),
+    };
+    if used.is_finite() {
+        used.clamp(lo, hi)
+    } else {
+        lo
+    }
+}
+
+/// The outermost app bundle an executable sits in: "/Applications/Google
+/// Chrome.app" for Chrome's helpers deep inside it, so every process of an
+/// app counts as that app. None outside a bundle.
+pub fn app_bundle(path: &str) -> Option<&str> {
+    let mut from = 0;
+    while let Some(i) = path[from..].find(".app/") {
+        let end = from + i + 4;
+        // ".app" must end a real name ("/Foo.app/"), not be the whole of one.
+        if !path[..from + i].ends_with('/') && from + i > 0 {
+            return Some(&path[..end]);
+        }
+        from = end;
+    }
+    None
+}
+
+/// What an app is called, from its bundle's path: "/Applications/Google
+/// Chrome.app" → "Google Chrome".
+pub fn bundle_name(bundle: &str) -> &str {
+    let file = bundle.trim_end_matches('/').rsplit('/').next().unwrap_or(bundle);
+    file.strip_suffix(".app").filter(|n| !n.is_empty()).unwrap_or(file)
+}
+
+/// Energy (mWh) in a battery holding `mah`, at its pack's nominal voltage:
+/// 3.8 V a cell, the cells in series counted from the present voltage `mv`
+/// (a lithium cell never rises past 4.4 V). For batteries that report their
+/// charge, not their energy (macOS's), so they read in watt-hours as on Windows.
+pub fn pack_mwh(mah: u32, mv: u32) -> Option<u32> {
+    if mah == 0 || mv == 0 {
+        return None;
+    }
+    let cells = (f64::from(mv) / 4400.0).ceil().max(1.0);
+    u32::try_from((f64::from(mah) * cells * 3.8).round() as u64).ok()
+}
+
+/// One network interface as macOS's interface list (`sysctl` `NET_RT_IFLIST2`) has it.
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct IfStats {
+    pub index: u16,
+    /// "en0".
+    pub name: String,
+    /// `IFF_*` flags (up, running, loopback, …).
+    pub flags: u32,
+    /// `IFT_*` type: 6 is Ethernet, Wi-Fi included.
+    pub kind: u8,
+    /// Link speed, bits/s.
+    pub baud: u64,
+    /// Bytes received and sent since the interface came up (64-bit counters).
+    pub received: u64,
+    pub sent: u64,
+    /// The hardware address ("3C:22:FB:0A:11:9E"); empty when it has none.
+    pub mac: String,
+}
+
+/// `RTM_IFINFO2`: an interface's entry in the list (its addresses follow as other messages).
+const RTM_IFINFO2: u8 = 0x12;
+/// `if_msghdr2`: the header, then `if_data64` at 32; the interface's link
+/// address (`sockaddr_dl`) follows it.
+const IFM2_LEN: usize = 160;
+const IFM_FLAGS: usize = 8;
+const IFM_INDEX: usize = 12;
+const IFM_DATA: usize = 32;
+const IFD_TYPE: usize = IFM_DATA;
+const IFD_BAUD: usize = IFM_DATA + 16;
+const IFD_IBYTES: usize = IFM_DATA + 64;
+const IFD_OBYTES: usize = IFM_DATA + 72;
+/// `sockaddr_dl`: name length at 5, address length at 6, name then address from 8.
+const AF_LINK: u8 = 18;
+const SDL_DATA: usize = 8;
+
+/// Read the interface list: one entry per interface, its name and hardware
+/// address from the link address after it. Other messages (addresses) are
+/// skipped; the walk stops at a message that would run past the buffer.
+pub fn parse_if_list(buf: &[u8]) -> Vec<IfStats> {
+    let mut out = Vec::new();
+    let mut off = 0usize;
+    while off + 4 <= buf.len() {
+        let len = usize::from(read_u16(buf, off));
+        if len < 4 || off + len > buf.len() {
+            break;
+        }
+        let m = &buf[off..off + len];
+        off += len;
+        if m[3] != RTM_IFINFO2 || len < IFM2_LEN {
+            continue;
+        }
+        let mut i = IfStats {
+            index: read_u16(m, IFM_INDEX),
+            flags: read_u32(m, IFM_FLAGS),
+            kind: m[IFD_TYPE],
+            baud: read_u64(m, IFD_BAUD),
+            received: read_u64(m, IFD_IBYTES),
+            sent: read_u64(m, IFD_OBYTES),
+            ..IfStats::default()
+        };
+        let sdl = &m[IFM2_LEN..];
+        if sdl.len() > SDL_DATA && sdl[1] == AF_LINK {
+            let (nlen, alen) = (usize::from(sdl[5]), usize::from(sdl[6]));
+            let end = (usize::from(sdl[0]).max(SDL_DATA)).min(sdl.len());
+            let data = &sdl[SDL_DATA..end];
+            if nlen <= data.len() {
+                i.name = String::from_utf8_lossy(&data[..nlen]).into_owned();
+                if alen == 6 && nlen + alen <= data.len() {
+                    i.mac = data[nlen..nlen + alen].iter().map(|b| format!("{b:02X}")).collect::<Vec<_>>().join(":");
+                }
+            }
+        }
+        out.push(i);
+    }
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1143,5 +1301,98 @@ mod tests {
         assert!((b.health().unwrap() - 0.91).abs() < 1e-3);
         assert_eq!(BatteryReading::default().health(), None);
         assert_eq!(MemoryReading { total: 16, used: 4, ..MemoryReading::default() }.used_frac(), 0.25);
+    }
+
+    #[test]
+    fn mac_pressure_says_the_kernels_word() {
+        use PressureLevel::*;
+        assert_eq!((PressureLevel::from_kernel(1), PressureLevel::from_kernel(2), PressureLevel::from_kernel(4)), (Some(Normal), Some(Warning), Some(Critical)));
+        assert_eq!(PressureLevel::from_kernel(0), None);
+        // The needle follows how full memory is, inside the level's zone.
+        assert_eq!(level_pressure(Normal, 0.4), 0.4);
+        for (level, word) in [(Normal, "Normal"), (Warning, "Warning"), (Critical, "Critical")] {
+            for used in [0.0, 0.5, 0.75, 0.8, 0.9, 1.0, f32::NAN] {
+                let p = level_pressure(level, used);
+                assert_eq!(pressure_word(p), word, "{level:?} at {used}");
+                // As the page reads it back: a share of the RAM, in whole bytes.
+                let total = 17_179_869_184u64;
+                let m = MemoryReading { total, commit_limit: total, committed: (f64::from(p) * total as f64).round() as u64, ..MemoryReading::default() };
+                assert_eq!(pressure_word(m.pressure()), word);
+            }
+        }
+    }
+
+    #[test]
+    fn apps_by_bundle() {
+        let helper = "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/130/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer)";
+        assert_eq!(app_bundle(helper), Some("/Applications/Google Chrome.app"));
+        assert_eq!(app_bundle("/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder"), Some("/System/Library/CoreServices/Finder.app"));
+        assert_eq!(app_bundle("/usr/libexec/trustd"), None);
+        assert_eq!(app_bundle("/Users/me/tools.apps/bin/x"), None);
+        assert_eq!(app_bundle("/Users/me/.app/x"), None);
+        assert_eq!(bundle_name("/Applications/Google Chrome.app"), "Google Chrome");
+        assert_eq!(bundle_name("/Applications/Safari.app/"), "Safari");
+        assert_eq!(bundle_name("/Applications/.app"), ".app");
+    }
+
+    #[test]
+    fn battery_energy_at_the_packs_voltage() {
+        // A MacBook Air's 3-cell pack (49.9 Wh, 4382 mAh), full or nearly empty.
+        assert_eq!(pack_mwh(4382, 12_655), Some(49_955));
+        assert_eq!(pack_mwh(4382, 9_400), Some(49_955));
+        // A 2-cell pack.
+        assert_eq!(pack_mwh(5_000, 8_100), Some(38_000));
+        assert_eq!((pack_mwh(0, 12_000), pack_mwh(4_000, 0)), (None, None));
+    }
+
+    /// An interface's entry the way `NET_RT_IFLIST2` lays it out, its link
+    /// address after it, padded to four bytes.
+    #[allow(clippy::too_many_arguments)]
+    fn if_entry(index: u16, name: &str, flags: u32, kind: u8, baud: u64, rx: u64, tx: u64, mac: &[u8]) -> Vec<u8> {
+        let mut sdl = vec![0u8; SDL_DATA];
+        sdl.extend_from_slice(name.as_bytes());
+        sdl.extend_from_slice(mac);
+        sdl.resize(sdl.len().max(20), 0);
+        sdl[0] = sdl.len() as u8;
+        sdl[1] = AF_LINK;
+        sdl[5] = name.len() as u8;
+        sdl[6] = mac.len() as u8;
+        sdl.resize(sdl.len().div_ceil(4) * 4, 0);
+        let mut m = vec![0u8; IFM2_LEN];
+        let len = (IFM2_LEN + sdl.len()) as u16;
+        m[0..2].copy_from_slice(&len.to_le_bytes());
+        m[2] = 5;
+        m[3] = RTM_IFINFO2;
+        m[IFM_FLAGS..IFM_FLAGS + 4].copy_from_slice(&flags.to_le_bytes());
+        m[IFM_INDEX..IFM_INDEX + 2].copy_from_slice(&index.to_le_bytes());
+        m[IFD_TYPE] = kind;
+        m[IFD_BAUD..IFD_BAUD + 8].copy_from_slice(&baud.to_le_bytes());
+        m[IFD_IBYTES..IFD_IBYTES + 8].copy_from_slice(&rx.to_le_bytes());
+        m[IFD_OBYTES..IFD_OBYTES + 8].copy_from_slice(&tx.to_le_bytes());
+        m.extend_from_slice(&sdl);
+        m
+    }
+
+    #[test]
+    fn interface_list_reads_every_interface() {
+        let mut buf = if_entry(1, "lo0", 0x8049, 24, 0, 1_000, 1_000, &[]);
+        // An address message between interfaces is skipped.
+        let mut addr = vec![0u8; 24];
+        addr[0] = 24;
+        addr[3] = 0x0c;
+        buf.extend_from_slice(&addr);
+        buf.extend(if_entry(4, "en0", 0x8863, 6, 1_000_000_000, 5 << 32, 77, &[0x3c, 0x22, 0xfb, 0x0a, 0x11, 0x9e]));
+        let list = parse_if_list(&buf);
+        assert_eq!(list.len(), 2);
+        assert_eq!((list[0].name.as_str(), list[0].kind, list[0].mac.as_str()), ("lo0", 24, ""));
+        let en0 = &list[1];
+        assert_eq!((en0.index, en0.name.as_str(), en0.flags, en0.kind), (4, "en0", 0x8863, 6));
+        assert_eq!((en0.baud, en0.received, en0.sent), (1_000_000_000, 5 << 32, 77));
+        assert_eq!(en0.mac, "3C:22:FB:0A:11:9E");
+        // Cut short, the walk ends at the last whole message.
+        assert_eq!(parse_if_list(&buf[..buf.len() - 1]).len(), 1);
+        assert!(parse_if_list(&buf[..3]).is_empty());
+        // A zero length can't loop.
+        assert!(parse_if_list(&[0u8; 64]).is_empty());
     }
 }
