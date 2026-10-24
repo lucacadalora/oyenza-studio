@@ -14,6 +14,7 @@ pub mod focus;
 pub mod health;
 pub mod media;
 pub mod oyenza;
+pub mod settings;
 pub mod shelf;
 pub mod tasks;
 pub mod today;
@@ -52,10 +53,12 @@ pub enum PageKind {
     Today,
     /// Only while signing in to Oyenza or signed in ([`tabs`]).
     Oyenza,
+    /// Behind the gear on the right of the header, never in the tab row.
+    Settings,
 }
 
 impl PageKind {
-    pub const ALL: [PageKind; 8] = [
+    pub const ALL: [PageKind; 9] = [
         PageKind::Media,
         PageKind::Focus,
         PageKind::Health,
@@ -64,6 +67,7 @@ impl PageKind {
         PageKind::Clipboard,
         PageKind::Today,
         PageKind::Oyenza,
+        PageKind::Settings,
     ];
 
     pub fn key(self) -> &'static str {
@@ -76,6 +80,7 @@ impl PageKind {
             PageKind::Clipboard => "clipboard",
             PageKind::Today => "today",
             PageKind::Oyenza => "oyenza",
+            PageKind::Settings => "settings",
         }
     }
 
@@ -95,6 +100,7 @@ impl PageKind {
             PageKind::Clipboard => "Clipboard",
             PageKind::Today => "Today",
             PageKind::Oyenza => "Oyenza",
+            PageKind::Settings => "Settings",
         }
     }
 
@@ -108,6 +114,7 @@ impl PageKind {
             PageKind::Clipboard => Icon::Clipboard,
             PageKind::Today => Icon::Calendar,
             PageKind::Oyenza => Icon::Wallet,
+            PageKind::Settings => Icon::Gear,
         }
     }
 
@@ -115,16 +122,22 @@ impl PageKind {
         Self::ALL.iter().position(|p| *p == self).unwrap_or(0)
     }
 
-    /// Position in the tab row (for slide direction).
+    /// Position in the tab row (for slide direction). Settings comes last:
+    /// its gear sits right of the tabs.
     pub fn tab_index(self) -> usize {
         self.index()
     }
+
+    /// Has a tab in the header's row (Settings has the gear instead).
+    pub fn tabbed(self) -> bool {
+        self != PageKind::Settings
+    }
 }
 
-/// The tabs in the header: every page, and Oyenza only while signing in or
-/// signed in.
+/// The tabs in the header: every page but Settings, and Oyenza only while
+/// signing in or signed in.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
-    PageKind::ALL.into_iter().filter(|p| *p != PageKind::Oyenza || st.oyenza.tab_visible()).collect()
+    PageKind::ALL.into_iter().filter(|p| p.tabbed() && (*p != PageKind::Oyenza || st.oyenza.tab_visible())).collect()
 }
 
 /// The tab after (or before) `p` among [`tabs`], wrapping around.
@@ -145,6 +158,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Clipboard => clipboard::height(st),
         PageKind::Today => today::height(st),
         PageKind::Oyenza => oyenza::height(st),
+        PageKind::Settings => settings::height(st),
     }
 }
 
@@ -158,6 +172,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Tasks => tasks::next_wake(st),
         PageKind::Shelf => shelf::next_wake(st),
         PageKind::Oyenza => oyenza::next_wake(st),
+        PageKind::Settings => settings::next_wake(st),
         _ => None,
     };
     // Oyen in the header blinks and flicks an ear now and then.
@@ -249,6 +264,7 @@ fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKind) {
         PageKind::Clipboard => clipboard::draw(ui, st, area),
         PageKind::Today => today::draw(ui, st, area),
         PageKind::Oyenza => oyenza::draw(ui, st, area),
+        PageKind::Settings => settings::draw(ui, st, area),
     }
 }
 
@@ -277,10 +293,13 @@ const TAB_ICON: f32 = 16.0;
 /// The active tab's label starts this far in and ends `TAB_LABEL_END` before its edge.
 const TAB_LABEL_X: f32 = 28.0;
 const TAB_LABEL_END: f32 = 12.0;
-/// Clock to date, and date (or clock) to the pin button.
+/// Clock to date, and date (or clock) to the Settings button, which sits
+/// right of the pin.
 const DATE_GAP: f32 = 12.0;
 const PIN_GAP: f32 = 10.0;
 const PIN: f32 = 28.0;
+const GEAR: f32 = 28.0;
+const GEAR_GAP: f32 = 2.0;
 /// His theme: Oyen peeks up beside the pin, as he does beside the clock when
 /// the island is closed.
 const OYEN_W: f32 = 24.0;
@@ -293,8 +312,11 @@ const TIP_PAD: f32 = 8.0;
 const TIP_RADIUS: f32 = 8.0;
 /// White 0.16 over the black island, made opaque so page text can't show through.
 const TIP_FILL: Color = Color::rgba(0.16, 0.16, 0.16, 1.0);
-/// `tab_hover` slot of the pin button (tabs use their place in the row).
+/// `tab_hover` slots of the pin and Settings buttons (tabs use their place in the row).
 const PIN_SLOT: usize = PageKind::ALL.len();
+const GEAR_SLOT: usize = PIN_SLOT + 1;
+/// The Settings button's widget id (the self-test clicks it).
+pub const GEAR_ID: &str = "header.gear";
 
 /// A hover label waiting to be painted above the page.
 struct Tip {
@@ -334,10 +356,17 @@ fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKind, tr: Opti
     let place = |p: PageKind| row.iter().position(|t| *t == p).unwrap_or(0);
     let (fi, pi) = (place(from), place(page));
     let tabs_end = tabs[tabs.len() - 1].right();
+    // How much the selection sits on the gear (Settings) rather than on a tab.
+    let on_gear = |p: PageKind| if p.tabbed() { 0.0 } else { 1.0 };
+    let gear_k = lerp(on_gear(from), on_gear(page), e);
 
-    // Selection pill, gliding from the old tab to the new one.
-    let pill = Rect::new(lerp(lay_from[fi].0, lay_to[pi].0, e), cy - TAB_H / 2.0, lerp(lay_from[fi].1, lay_to[pi].1, e), TAB_H);
-    ui.c.fill_rrect(pill, TAB_H / 2.0, Color::white(0.14));
+    // Selection pill, gliding from the old tab to the new one. To or from
+    // Settings it stays on its tab and fades while the gear takes it.
+    let (a, b) = (if from.tabbed() { fi } else { pi }, if page.tabbed() { pi } else { fi });
+    let pill = Rect::new(lerp(lay_from[a].0, lay_to[b].0, e), cy - TAB_H / 2.0, lerp(lay_from[a].1, lay_to[b].1, e), TAB_H);
+    if gear_k < 1.0 {
+        ui.c.with_alpha(1.0 - gear_k, |c| c.fill_rrect(pill, TAB_H / 2.0, Color::white(0.14)));
+    }
 
     let mut hover: Option<(usize, Rect)> = None;
     for (i, &p) in row.iter().enumerate() {
@@ -348,7 +377,7 @@ fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKind, tr: Opti
             ui.c.fill_rrect(tr, TAB_H / 2.0, palette::SURFACE);
             hover = Some((i, tr));
         }
-        let k = if active { e } else if i == fi { 1.0 - e } else { 0.0 };
+        let k = if active { e } else if from.tabbed() && i == fi { 1.0 - e } else { 0.0 };
         let ic = if resp.hovered { palette::TEXT } else { Color::lerp(palette::TEXT_FAINT, palette::TEXT, k) };
         let ix = snap(tr.x + (TAB_W - TAB_ICON) / 2.0, scale);
         ui.c.icon(p.icon(), Rect::new(ix, snap(cy - TAB_ICON / 2.0, scale), TAB_ICON, TAB_ICON), ic);
@@ -356,10 +385,12 @@ fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKind, tr: Opti
             st.cmd(Command::SetPage(p));
         }
     }
-    if fi != pi {
+    if from.tabbed() && (fi != pi || !page.tabbed()) {
         draw_tab_label(ui, from, tabs[fi], &label_st, 1.0 - e);
     }
-    draw_tab_label(ui, page, tabs[pi], &label_st, e);
+    if page.tabbed() {
+        draw_tab_label(ui, page, tabs[pi], &label_st, e);
+    }
 
     // Right side: the clock ends on the content column's right edge (where
     // every page's trailing control ends). Today already shows the date
@@ -383,7 +414,8 @@ fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKind, tr: Opti
         left = lerp(left, date_left, date_k);
     }
 
-    let pin_r = Rect::new(snap(left - PIN_GAP - PIN, scale), cy - PIN / 2.0, PIN, PIN);
+    let gear_r = Rect::new(snap(left - PIN_GAP - GEAR, scale), cy - GEAR / 2.0, GEAR, GEAR);
+    let pin_r = Rect::new(snap(gear_r.x - GEAR_GAP - PIN, scale), cy - PIN / 2.0, PIN, PIN);
     let oyen_cx = pin_r.x - OYEN_GAP - OYEN_W / 2.0;
     if crate::oyen::on(st.settings.theme) && oyen_cx - OYEN_W / 2.0 > tabs_end + 12.0 {
         // Eyes on the cursor while it is over the island; asleep at night.
@@ -405,8 +437,29 @@ fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKind, tr: Opti
             st.cmd(Command::SetPinned(!pinned));
         }
     }
+    // Settings: the gear is lit like a selected tab while its page shows,
+    // and a second press goes back to the page it was pressed on.
+    if gear_r.x > tabs_end + 8.0 {
+        if gear_k > 0.0 {
+            ui.c.with_alpha(gear_k, |c| c.fill_rrect(gear_r, GEAR / 2.0, Color::white(0.14)));
+        }
+        let color = Color::lerp(palette::TEXT_FAINT, palette::TEXT, gear_k);
+        let resp = ui.icon_button(wid(GEAR_ID), gear_r, Icon::Gear, color, 16.0);
+        if resp.hovered {
+            hover = Some((GEAR_SLOT, gear_r));
+        }
+        if resp.clicked {
+            if page == PageKind::Settings {
+                let back = st.ui.before_settings.take().filter(|p| row.contains(p)).unwrap_or(row[0]);
+                st.cmd(Command::SetPage(back));
+            } else {
+                st.ui.before_settings = Some(page);
+                st.cmd(Command::SetPage(PageKind::Settings));
+            }
+        }
+    }
 
-    // Hover labels: after a short dwell over an inactive tab or the pin.
+    // Hover labels: after a short dwell over an inactive tab, the pin or the gear.
     let now = ui.now;
     st.ui.tab_hover = match (hover, st.ui.tab_hover) {
         (Some((i, _)), Some((j, t0))) if i == j => Some((j, t0)),
@@ -424,6 +477,8 @@ fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKind, tr: Opti
     }
     let text = match row.get(slot) {
         Some(p) => p.title(),
+        None if slot == GEAR_SLOT && page == PageKind::Settings => "Close settings",
+        None if slot == GEAR_SLOT => "Settings",
         None if st.pinned => "Unpin",
         None => "Keep open",
     };
@@ -472,4 +527,45 @@ pub fn empty_state(ui: &mut Ui, area: Rect, icon: Icon, title: &str, hint: &str)
     ui.c.icon(icon, Rect::from_center(Point::new(c.x, c.y - 22.0), 26.0, 26.0), Color::white(0.35));
     ui.c.text(title, Rect::new(area.x, c.y - 4.0, area.w, 20.0), &TextStyle::headline().center());
     ui.c.text(hint, Rect::new(area.x, c.y + 16.0, area.w, 18.0), &TextStyle::footnote().color(palette::TEXT_DIM).center());
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::state::OyenzaLink;
+    use poni_core::settings::Settings;
+    use poni_core::store::Store;
+
+    fn state() -> AppState {
+        AppState::new(Settings::default(), Store::default())
+    }
+
+    #[test]
+    fn settings_has_the_gear_not_a_tab() {
+        let mut st = state();
+        assert!(!tabs(&st).contains(&PageKind::Settings));
+        assert!(!tabs(&st).contains(&PageKind::Oyenza));
+        st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+        let row = tabs(&st);
+        assert!(row.contains(&PageKind::Oyenza) && !row.contains(&PageKind::Settings));
+        // Stepping through the tabs never lands on Settings.
+        let mut p = PageKind::Media;
+        for _ in 0..2 * PageKind::ALL.len() {
+            p = step_tab(p, &st, true);
+            assert!(p.tabbed(), "stepped onto {p:?}");
+        }
+    }
+
+    #[test]
+    fn settings_keeps_its_key_and_slides_in_from_the_right() {
+        assert_eq!(PageKind::from_key("settings"), PageKind::Settings);
+        assert!(PageKind::ALL.iter().all(|p| p.tab_index() <= PageKind::Settings.tab_index()));
+    }
+
+    #[test]
+    fn settings_never_makes_the_window_taller() {
+        // The window fits the tallest page; Tasks is always 200 DIPs.
+        let st = state();
+        assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::Tasks, &st));
+    }
 }

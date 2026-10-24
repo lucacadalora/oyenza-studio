@@ -77,6 +77,8 @@ pub enum Command {
     OpenUrl(String),
     /// Start/stop the 1 Hz system-stats sampler.
     WantStats(bool),
+    /// Start with Windows on or off (the Settings page's switch).
+    SetAutostart(bool),
     Phone(PhoneCmd),
     Oyenza(OyenzaCmd),
 }

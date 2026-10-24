@@ -16,13 +16,14 @@ use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
 use crate::icons::Icon;
-use crate::pages::PageKind;
+use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
 use crate::state::{
     AppState, Hud, HudKind, InlineAction, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink, OyenzaState, PhoneAsk,
     PhoneDrop, PhoneTransfer, PowerState, SysStats, VolumeState,
 };
+use crate::ui::wid;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::parse_lrc;
@@ -211,7 +212,7 @@ fn fake_oyenza(st: &AppState, scene: Scene, now: f64) -> OyenzaState {
     };
     let day = |n: i64| st.local.add_days(n).day_key();
     let link = match scene {
-        Scene::OyenzaSignIn => OyenzaLink::Connecting {
+        Scene::OyenzaSignIn | Scene::SettingsSigningIn => OyenzaLink::Connecting {
             code: "KPJX-TMNQ".into(),
             url: "https://oyenza.app/connect?code=KPJX-TMNQ".into(),
             // Pinned on every step, so the countdown reads 9:41 in the screenshot.
@@ -283,9 +284,15 @@ enum Scene {
     OyenzaSaved,
     /// The Health page signed in to Oyenza, before the phone sends any steps.
     HealthSignedIn,
+    /// Click the gear in the header on the Health page; expect Settings.
+    GearClick,
+    /// Settings while a sign-in code waits for approval.
+    SettingsSigningIn,
+    /// Settings signed in to Oyenza.
+    SettingsSignedIn,
 }
 
-const SCENES: [Scene; 30] = [
+const SCENES: [Scene; 33] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -317,6 +324,9 @@ const SCENES: [Scene; 30] = [
     Scene::OyenzaSignIn,
     Scene::OyenzaSaved,
     Scene::HealthSignedIn,
+    Scene::GearClick,
+    Scene::SettingsSigningIn,
+    Scene::SettingsSignedIn,
 ];
 
 impl Scene {
@@ -345,6 +355,10 @@ impl Scene {
             Scene::OyenzaSignIn => "page-oyenza-signin".into(),
             Scene::OyenzaSaved => "page-oyenza-saved".into(),
             Scene::HealthSignedIn => "page-health-signed-in".into(),
+            // Reached by clicking the gear: the signed-out Settings page.
+            Scene::GearClick => "page-settings".into(),
+            Scene::SettingsSigningIn => "page-settings-signing-in".into(),
+            Scene::SettingsSignedIn => "page-settings-signed-in".into(),
         }
     }
 
@@ -356,6 +370,7 @@ impl Scene {
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved => Some(PageKind::Oyenza),
             Scene::HealthSignedIn => Some(PageKind::Health),
+            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn => Some(PageKind::Settings),
             _ => None,
         }
     }
@@ -372,6 +387,8 @@ impl Scene {
                 | Scene::OyenzaSaved
                 | Scene::Page(PageKind::Oyenza)
                 | Scene::HealthSignedIn
+                | Scene::SettingsSigningIn
+                | Scene::SettingsSignedIn
         )
     }
 
@@ -478,7 +495,7 @@ enum Phase {
     Anim { seq: usize },
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
-    ClickWait { i: usize, since: f64, from: PageKind },
+    ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
     Finish { since: f64 },
     Done(i32),
 }
@@ -670,23 +687,33 @@ impl SelfTest {
             }
             Phase::Click { i } => {
                 let from = app.st.page;
-                let p = first_tab_point(app.island_body());
-                crate::pinfo!("selftest: clicking the first header tab at ({:.0}, {:.0}) DIP on page '{}'", p.x, p.y, from.key());
-                app.selftest_click(p);
-                self.phase = Phase::ClickWait { i, since: now, from };
+                // The first tab, or the gear (found by its widget id: its place
+                // depends on how wide the clock and date are).
+                let (what, at, want) = match SCENES[i] {
+                    Scene::GearClick => ("the gear", app.selftest_hit_center(wid(pages::GEAR_ID)), PageKind::Settings),
+                    _ => ("the first header tab", Some(first_tab_point(app.island_body())), PageKind::ALL[0]),
+                };
+                match at {
+                    Some(p) => {
+                        crate::pinfo!("selftest: clicking {what} at ({:.0}, {:.0}) DIP on page '{}'", p.x, p.y, from.key());
+                        app.selftest_click(p);
+                    }
+                    None => crate::pwarn!("selftest: {what} isn't on page '{}'", from.key()),
+                }
+                self.phase = Phase::ClickWait { i, since: now, from, want };
             }
-            Phase::ClickWait { i, since, from } => {
-                let want = PageKind::ALL[0];
+            Phase::ClickWait { i, since, from, want } => {
                 let page = app.st.page;
                 if page != from || now - since > CLICK_TIMEOUT {
                     let ok = from != want && page == want;
+                    let name = if SCENES[i] == Scene::GearClick { "gear-click" } else { "tab-click" };
                     self.checks.push(check(
-                        "tab-click",
+                        name,
                         ok,
                         format!("page '{}' -> '{}' after {:.0} ms (expected '{}')", from.key(), page.key(), (now - since) * 1000.0, want.key()),
                     ));
                     if !ok {
-                        crate::pwarn!("selftest: tab click did not switch to '{}' (page is '{}')", want.key(), page.key());
+                        crate::pwarn!("selftest: {name} did not switch to '{}' (page is '{}')", want.key(), page.key());
                     }
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
@@ -707,7 +734,7 @@ impl SelfTest {
 
     fn next_phase(&self, i: usize, now: f64) -> Phase {
         match SCENES.get(i) {
-            Some(Scene::TabClick) => Phase::Click { i },
+            Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             None if self.anim => Phase::Anim { seq: 0 },
             None => Phase::Finish { since: now },
@@ -767,6 +794,8 @@ impl SelfTest {
         st.pinned = false;
         st.drag_hover = scene == Scene::ShelfDrop;
         st.health = if matches!(scene, Scene::HealthSignedOut | Scene::HealthSignedIn) { None } else { self.health.clone() };
+        // Start with Windows as Settings shows it once read (it's read off the UI thread).
+        st.ui.autostart = Some(true);
         st.phone = fake_phone(scene);
         st.store.shelf.items = if scene == Scene::ShelfEmpty { Vec::new() } else { self.shelf_items.clone() };
         if scene != Scene::ShelfEmpty {

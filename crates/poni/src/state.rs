@@ -217,6 +217,10 @@ pub struct PageUiState {
     pub peek_until: f64,
     /// Header tab under the pointer and since when (for hover labels).
     pub tab_hover: Option<(usize, f64)>,
+    /// The page the Settings button was pressed on (pressing it again goes back).
+    pub before_settings: Option<PageKind>,
+    /// Start with Windows, as last read off the UI thread (None until Settings first opens).
+    pub autostart: Option<bool>,
 }
 
 /// Oyenza sign-in, as the island sees it.

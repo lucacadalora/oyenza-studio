@@ -21,6 +21,8 @@ const FOLD: Color = Color::hex(oyen::FOLD_ORANGE);
 const INK: Color = Color::hex(oyen::INK);
 const PINK: Color = Color::hex(oyen::PINK);
 const GREEN: Color = Color::hex(oyen::GREEN);
+/// The Oyenza app icon's ground.
+const ICON_TILE: Color = Color::hex(0x171717);
 /// Shapes that float around the head (thinking dots, z's) are ink on a light
 /// page; on the black island they need to be light.
 const FLOAT: Color = Color::white(0.85);
@@ -92,6 +94,26 @@ pub fn peek(c: &mut Canvas, frame: &Frame, cx: f32, bar_y: f32, w: f32, top: f32
     c.clip(Rect::new(cx - w, top, 2.0 * w, (bar_y - top).max(0.0)));
     draw(c, frame, origin, k);
     c.unclip();
+}
+
+/// Oyen whole and still, as on the Oyenza mark: his head `w` DIPs wide, head
+/// and ears centred on `center`. The mark fits a 108-unit square whose
+/// middle is 12 units above its origin.
+fn badge(c: &mut Canvas, center: Point, w: f32) {
+    let k = w / MARK_W;
+    let eyes = if w * c.scale() <= 32.0 { SMALL_EYES } else { 1.0 };
+    let frame = oyen::frame(Mood::Oyen, 0.0, Input::default(), eyes);
+    draw(c, &frame, Point::new(center.x, center.y + 12.0 * k), k);
+}
+
+/// The Oyenza app's icon, `size` DIPs square and centred on `center`: Oyen on
+/// the icon's near-black tile (catat assets/images/icon.png: his head is
+/// 61.7 % of the tile, his middle 1.3 % below its centre), with the rounded
+/// corners phones give it. Its own colours in every theme.
+pub fn app_icon(c: &mut Canvas, center: Point, size: f32) {
+    let tile = Rect::new(center.x - size / 2.0, center.y - size / 2.0, size, size);
+    c.unthemed(|c| c.fill_rrect(tile, size * 0.2237, ICON_TILE));
+    badge(c, Point::new(center.x, center.y + 0.013 * size), 0.617 * size);
 }
 
 /// One frame of the face, the mark's (0, 0) at `origin`, `k` DIPs per unit.

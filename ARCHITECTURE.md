@@ -94,6 +94,10 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   `footnote()`, `body()`, `headline()`, `value()`, `display()`, `hero()`. Nothing below 11.
 * Buttons: `ui.pill(id, rect, label, icon, PillStyle::Utility | Neutral | Primary(c) | UtilityAccent(c))`
   at `PILL_SMALL` (28) or `PILL_REGULAR` (34) height, `PILL_GAP` 8 apart.
+* Settings (`pages/settings.rs`) has no tab (`PageKind::tabbed`): the gear right of
+  the tabs opens it, and pressing it again goes back. It changes what the tray menu
+  changes: settings through `Command::SaveSettings` (applied as a tray change is),
+  Start with Windows through `Command::SetAutostart` (read and set off the UI thread).
 * Timed page changes (an Undo pill lapsing) report their deadline through
   `pages::next_wake` so the app wakes exactly then instead of polling.
   `st.accent` = Windows accent (lightened); `st.media_accent()` = album-art colour.

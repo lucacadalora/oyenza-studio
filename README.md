@@ -53,11 +53,11 @@ Native Rust, no web view, no runtime, around 1.7 MB, and **zero CPU while nothin
 
 ### The Oyen theme
 
-The island stays black by default. Switch on the Oyen theme (right-click › **Theme › Oyen**) and Oyen, the Oyenza cat, moves in: he peeks over the island's edge while it rests, watches your pointer when it comes near, sits beside the clock and bobs along while music plays. He sleeps from midnight to five, and his orange becomes the accent colour. He is drawn from the Oyenza logo, not a picture, so he stays sharp at any scaling, and he only moves for a moment now and then, so the app still uses no CPU at rest.
+The island stays black by default. Switch on the Oyen theme (the gear › **Theme › Oyen**, or right-click › **Theme › Oyen**) and Oyen, the Oyenza cat, moves in: he peeks over the island's edge while it rests, watches your pointer when it comes near, sits beside the clock and bobs along while music plays. He sleeps from midnight to five, and his orange becomes the accent colour. He is drawn from the Oyenza logo, not a picture, so he stays sharp at any scaling, and he only moves for a moment now and then, so the app still uses no CPU at rest.
 
 ![Classic and the Oyen theme side by side: resting, with the clock, and playing music](docs/screenshots/oyen-theme.png)
 
-Right-click the island or the tray icon for options:
+The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
 - the theme: Classic or Oyen
 - the idle look: clock, eyes (Oyen in his theme), minimal, or hidden until you hover
 - lyrics, clipboard history and sounds
@@ -111,7 +111,7 @@ This isn't AirDrop. An iPhone only AirDrops over Apple's own Wi-Fi link (AWDL), 
 
 If you keep your money in [Oyenza](https://oyenza.app), the island can show it. Signing in is optional and works like a TV: no password is typed into Oyen Poni.
 
-1. Right-click the island (or the tray icon) → **Oyenza** → **Sign in to Oyenza…**. The island shows an 8-letter code.
+1. Open the island, press the gear at the top right, and choose **Sign in with Oyenza** (the Health page has the same button; right-click the island or the tray icon → **Oyenza** → **Sign in to Oyenza…** works too). The island shows an 8-letter code.
 2. Open oyenza.app/connect on your phone or this PC (**Open oyenza.app** fills the code in), check the PC's name, and choose **Connect**.
 
 Then the island shows:
@@ -120,7 +120,7 @@ Then the island shows:
 - **Bills before they're due**: a reminder the day before a subscription renews or a card bill is due.
 - **Note a spend**: type it in the **Oyenza** tab ("kopi 25rb") and press Enter; it goes straight to Oyenza, with Undo for 10 seconds.
 
-This PC gets a key of its own that can do only these things: it can't read your history, change or delete anything else, or touch your account. It is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`). Oyen Poni asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep). **Oyenza › Disconnect** signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
+This PC gets a key of its own that can do only these things: it can't read your history, change or delete anything else, or touch your account. It is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`). Oyen Poni asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep). **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
 
 ## Build
 

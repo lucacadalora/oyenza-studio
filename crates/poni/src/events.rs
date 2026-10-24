@@ -130,6 +130,8 @@ pub enum AppEvent {
     /// Phone drop's server: a phone opened the page, asked, sent, gave up.
     Phone(poni_core::phonedrop::Event),
     Oyenza(OyenzaEvent),
+    /// Start with Windows is on (true) or off, read for the Settings page.
+    Autostart(bool),
     /// Free-form log line from a service thread.
     Log(String),
 }
