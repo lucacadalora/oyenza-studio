@@ -7,6 +7,10 @@ name: mac
 on:
   push:
     branches: [main, "mac-*"]
+  # Every pull request into main too: a change to shared code (a new command,
+  # event or page) can break the Mac build, and this shows it before it merges.
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
