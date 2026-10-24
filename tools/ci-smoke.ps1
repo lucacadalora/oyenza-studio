@@ -142,3 +142,10 @@ if (Test-Path $log) {
 }
 if (-not $alive) { Write-Error "Poni exited during the smoke test"; exit 1 }
 if ($failures.Count -gt 0) { Write-Error "smoke checks failed: $($failures -join ', ')"; exit 1 }
+
+# What it costs (size, memory, CPU, wake-ups, at rest and with music playing)
+# against tools/weight-budget.json, on the default renderer only.
+if (-not $env:PONI_RENDERER) {
+    & (Join-Path $PSScriptRoot "ci-weight.ps1") -Exe $Exe -Out (Join-Path $Out "weight")
+    if ($LASTEXITCODE) { exit $LASTEXITCODE }
+}

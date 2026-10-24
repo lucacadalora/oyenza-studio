@@ -315,6 +315,10 @@ jobs:
           # Portable build inside its own folder, as tools/package.sh makes it.
           ( cd dist && mkdir Poni && cp poni.exe ../THIRD-PARTY-NOTICES.txt Poni/ && zip -qr "Oyen-Poni-$PONI_VERSION-portable.zip" Poni && rm -rf Poni )
           ls -la dist
+      # The download against tools/weight-budget.json (the Windows job's smoke
+      # run weighs memory, CPU and wake-ups).
+      - name: Weight check, download size
+        run: tools/ci-weight-download.sh "dist/Oyen-Poni-Setup-$PONI_VERSION.exe"
       - uses: actions/upload-artifact@v4
         with:
           name: oyen-poni-setup
