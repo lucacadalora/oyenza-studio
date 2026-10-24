@@ -6,12 +6,12 @@
     "private_mib": 21.0,
     "working_set_mib": 55.0,
     "mcycles_per_s": 3.0,
-    "wakeups_per_s": 9.0,
+    "wakeups_per_s": 12.0,
     "threads": 28
   },
   "music": {
     "private_mib": 30.0,
-    "mcycles_per_s": 130.0,
+    "mcycles_per_s": 140.0,
     "wakeups_per_s": 1000.0
   }
 }
