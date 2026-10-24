@@ -10,6 +10,22 @@
 set +e -u
 system_profiler SPDisplaysDataType | grep -E "Resolution|Retina|Main Display" || true
 bin="$1"
+# A real wallpaper behind the island (the runner's desktop is plain black),
+# so the pictures show what Glass does over a bright, busy desktop: the
+# website's own picture, set through AppKit (no permission needed).
+cat > /tmp/poni-wallpaper.js <<'JXA'
+function run(argv) {
+  ObjC.import("AppKit");
+  var url = $.NSURL.fileURLWithPath(argv[0]);
+  var screens = $.NSScreen.screens;
+  for (var i = 0; i < screens.count; i++) {
+    $.NSWorkspace.sharedWorkspace.setDesktopImageURLForScreenOptionsError(url, screens.objectAtIndex(i), $({}), null);
+  }
+  return "wallpaper: " + argv[0];
+}
+JXA
+osascript -l JavaScript /tmp/poni-wallpaper.js "$(pwd)/site/assets/wall/morning.jpg" || echo "(could not set the wallpaper)"
+sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
 pid=$!
