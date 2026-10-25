@@ -93,8 +93,9 @@ pub enum AppEvent {
     Lyrics { track_key: String, result: LyricsResult },
     AppleMusic(AppleMusicStatus),
     Oyenza(OyenzaEvent),
-    /// Master volume changed (0..=1).
-    Volume { level: f32, muted: bool },
+    /// Master volume changed (0..=1). `switched`: the output device changed
+    /// (headphones connected, say), not its volume.
+    Volume { level: f32, muted: bool, switched: bool },
     Power(PowerState),
     Bluetooth { name: String, connected: bool, battery: Option<u8>, audio: bool },
     /// A full-screen app took over (or left) the island's screen.

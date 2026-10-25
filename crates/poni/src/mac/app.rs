@@ -55,8 +55,6 @@ use std::path::PathBuf;
 use std::ptr::NonNull;
 use std::sync::mpsc::{self, Receiver};
 
-/// Where the README explains the project.
-const ABOUT_URL: &str = "https://github.com/lucacadalora/oyenza-studio";
 /// Steps for copying the Apple Music token (README).
 const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/oyenza-studio#apple-music-lyrics";
 
@@ -139,6 +137,9 @@ pub fn main_entry() -> i32 {
     let arg_after = |flag: &str| args.iter().position(|a| a == flag).map(|i| args.get(i + 1).cloned().unwrap_or_else(|| "poni-out".into()));
     if let Some(dir) = arg_after("--render") {
         return crate::render::run(&dir, &args);
+    }
+    if let Some(secs) = arg_after("--full-screen-window") {
+        return services::fullscreen::test_window(secs.parse().unwrap_or(30.0));
     }
     let smoke_dir = arg_after("--smoke").map(PathBuf::from);
     if let Some(dir) = &smoke_dir {
@@ -366,6 +367,11 @@ pub struct App {
     sysmon_on: bool,
     /// Nobody can see the screen: (the displays sleep, the Mac is locked).
     away: (bool, bool),
+    /// The app in front is full screen on the island's screen (`services::fullscreen`).
+    front_full_screen: bool,
+    /// A full-screen app is in front and Hide is picked: the island is closed
+    /// and draws nothing until it's back (`apply_fullscreen`).
+    fullscreen_hidden: bool,
     /// Oyenza sign-in's worker: from the start when this Mac is signed in (or
     /// a sign-out still has to reach the server), else from the first sign-in.
     oyenza: Option<services::oyenza::OyenzaService>,
@@ -403,6 +409,11 @@ pub struct App {
     cost: DrawCost,
     smoke_timer: Option<poni_core::pomodoro::Pomodoro>,
     smoke_point: Option<Point>,
+    /// The headphones step: device list changes heard before it, and how
+    /// adding and removing its test device went.
+    smoke_devices: Option<(u32, Result<(), i32>)>,
+    /// The smoke run's full-screen window (a second copy of the app).
+    smoke_full_screen: Option<std::process::Child>,
     /// The Oyenza step's POST through the Mac's HTTP client: (arrived and answered, what happened).
     smoke_post: Option<(bool, String)>,
     /// The island floated on the last frame (Pill letting go of the notch).
@@ -476,6 +487,8 @@ impl App {
             sysmon: None,
             sysmon_on: false,
             away: (false, false),
+            front_full_screen: false,
+            fullscreen_hidden: false,
             oyenza: None,
             oyenza_watch: false,
             own_clip: None,
@@ -498,6 +511,8 @@ impl App {
             cost: DrawCost::default(),
             smoke_timer: None,
             smoke_point: None,
+            smoke_devices: None,
+            smoke_full_screen: None,
             smoke_post: None,
             was_floating: false,
         }
@@ -529,6 +544,7 @@ impl App {
         }
         self.schedule_minute_timer();
         services::sysmon::watch_away(self.mtm, self.sink.clone());
+        services::fullscreen::watch(self.mtm, self.sink.clone());
         // Signed in to Oyenza (or a sign-out still to tell it): the worker says
         // who, then asks at its pace. Never signed in: nothing starts.
         if paths::oyenza_link_path().exists() || paths::oyenza_revoke_path().exists() {
@@ -562,7 +578,25 @@ impl App {
     }
 
     pub fn request_frame(&mut self) {
+        // Hidden for a full-screen app: nothing to draw, but what a frame
+        // ticks (a timer's end, a notice's time, commands) still runs, from
+        // the wake timer (`hidden_tick`).
+        if self.fullscreen_hidden {
+            self.set_timer(Timer::Wake, 1);
+            return;
+        }
         window::set_frames(true);
+    }
+
+    /// What a frame does besides drawing, while a full-screen app hides the island.
+    fn hidden_tick(&mut self) {
+        self.refresh_time();
+        self.tick();
+        self.run_commands();
+        if !self.st.cmds.is_empty() {
+            self.set_timer(Timer::Wake, 1);
+        }
+        self.schedule_wake();
     }
 
     // ------------------------------------------------------------ timers
@@ -607,7 +641,11 @@ impl App {
             }
         }
         self.sync_timer();
-        self.request_frame();
+        if self.fullscreen_hidden {
+            self.hidden_tick();
+        } else {
+            self.request_frame();
+        }
     }
 
     fn on_timer(&mut self, t: Timer) {
@@ -656,6 +694,7 @@ impl App {
     /// Wake up for the next visible change (HUD expiry, countdown second, …).
     fn schedule_wake(&mut self) {
         let now = self.st.now;
+        let hidden = self.fullscreen_hidden;
         let mut next: Option<f64> = None;
         let mut consider = |t: f64| {
             if t > now {
@@ -668,7 +707,8 @@ impl App {
         if let Some(n) = &self.st.notice {
             consider(n.until);
         }
-        if let Some(b) = self.st.pomodoro.next_second_boundary(now) {
+        // While a full-screen app hides the island only the phase end matters.
+        if let Some(b) = self.st.pomodoro.next_second_boundary(now).filter(|_| !hidden) {
             consider(now + b + 0.005);
         }
         if let poni_core::pomodoro::RunState::Running { ends_at } = self.st.pomodoro.run {
@@ -733,6 +773,11 @@ impl App {
             self.st.ui.clip_scroll = 0.0;
         }
         self.sync_clipboard();
+        // Hide or Stay on top of full-screen apps (Settings or the menu bar).
+        if before.hide_in_fullscreen != self.st.settings.hide_in_fullscreen {
+            self.apply_fullscreen();
+            self.refresh_menu();
+        }
         if !before.lyrics && self.st.settings.lyrics {
             if let Some(m) = self.st.media.clone() {
                 let stale = self.st.lyrics.track_key != m.track_key || self.st.lyrics.status == LyricsStatus::Idle;
@@ -819,6 +864,7 @@ impl App {
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
             MenuCmd::ToggleClipboard => s.clipboard_history = !s.clipboard_history,
+            MenuCmd::SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
             MenuCmd::ToggleLyrics => s.lyrics = !s.lyrics,
             MenuCmd::TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             MenuCmd::AppleMusicToken => self.use_apple_music_token(),
@@ -854,7 +900,7 @@ impl App {
                 }
             }
             MenuCmd::OpenDataFolder => services::open(&paths::data_dir().to_string_lossy()),
-            MenuCmd::About => services::open(ABOUT_URL),
+            MenuCmd::About => services::open(&crate::version::notes_url()),
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -1044,6 +1090,39 @@ impl App {
             self.st.system.clear();
         }
         self.tell_oyenza_activity();
+        self.apply_fullscreen();
+    }
+
+    /// A full-screen app is in front on the island's screen and Hide is
+    /// picked: as on Windows, the island leaves the screen and closes, the
+    /// prayer sound stays quiet and nothing is drawn until it's back.
+    fn apply_fullscreen(&mut self) {
+        let away = self.away.0 || self.away.1;
+        let hide = self.front_full_screen && !away && self.st.settings.hide_in_fullscreen;
+        // Money and bill notices held back wait for the full-screen app to leave.
+        if !hide && !self.front_full_screen && self.st.oyenza.held.is_some() {
+            self.show_held_notice(clock::mono());
+            self.request_frame();
+        }
+        if hide == self.fullscreen_hidden {
+            return;
+        }
+        pinfo!("fullscreen app {}: island {}", if hide { "in front" } else { "gone" }, if hide { "hidden" } else { "shown" });
+        if hide {
+            self.collapse();
+            self.leave();
+            // At rest at once, so the island isn't still closing when it's back.
+            self.mode = self.target_mode();
+            self.outgoing = None;
+            self.page_anim = None;
+            self.island.set_floating(self.gap_target(&self.mode));
+            let g = self.geom_for(&self.mode);
+            self.island.snap(g);
+            window::set_frames(false);
+        }
+        window::set_shown(!hide);
+        self.fullscreen_hidden = hide;
+        self.request_frame();
     }
 
     pub fn on_event(&mut self, ev: AppEvent) {
@@ -1122,11 +1201,14 @@ impl App {
                 }
             }
             AppEvent::AppleMusic(status) => self.on_apple_music(status),
-            AppEvent::Volume { level, muted } => {
+            AppEvent::Volume { level, muted, switched } => {
                 // The first report only sets the level; changes show the pop-up.
                 let first = !self.st.volume.known;
                 self.st.volume = VolumeState { level, muted, known: true };
-                if !first && self.st.settings.hud_volume {
+                // A new output device's level isn't news while the headphone
+                // pop-up says why the device changed.
+                let headphones = switched && matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Bluetooth { .. }));
+                if !first && !headphones && self.st.settings.hud_volume {
                     self.st.show_hud(HudKind::Volume { level, muted }, 1.6);
                 }
             }
@@ -1200,9 +1282,16 @@ impl App {
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
+            AppEvent::Bluetooth { name, connected, battery, audio } => {
+                if self.st.settings.hud_bluetooth {
+                    self.st.show_hud(HudKind::Bluetooth { name, connected, battery, audio }, 2.6);
+                }
+            }
+            AppEvent::Fullscreen(on) => {
+                self.front_full_screen = on;
+                self.apply_fullscreen();
+            }
             AppEvent::Oyenza(ev) => self.on_oyenza(ev),
-            // Bluetooth and full-screen events come with later slices.
-            _ => {}
         }
         if let Some(before) = media_before {
             self.after_media_change(before, now);
@@ -1365,10 +1454,11 @@ impl App {
     }
 
     /// A prayer's time came: the island says so and plays the chosen sound.
-    /// Quiet when it's late (after a sleep).
+    /// Quiet when it's late (after a sleep) or a full-screen app hides the island.
     fn prayer_moment(&mut self, m: PrayerMoment, ring: bool) {
         let Some(site) = self.st.prayer.site() else { return };
         let place = self.st.prayer.place.as_ref().map_or(String::new(), |p| p.label.clone());
+        let ring = ring && !self.fullscreen_hidden;
         let sound = if ring { self.st.settings.prayer.sound } else { PrayerSound::Silent };
         let mut adzan = false;
         // The tone plays at once, not as a command: commands run with the
@@ -1458,6 +1548,8 @@ impl App {
             self.screen = s;
             self.gfx.set_scale(s.scale);
             self.layout_surface();
+            // Whether a full-screen app is in front is a question per screen.
+            services::fullscreen::check();
         }
         self.request_frame();
     }
@@ -2175,10 +2267,12 @@ impl App {
 
     /// A money or bill notice. Its sum waits for Show unless the menu's
     /// "Show amounts on the island" is on (`hidden` None: nothing to hide).
+    /// While a full-screen app hides the island it waits, and shows when the
+    /// island is back if it isn't old by then.
     fn oyenza_notice(&mut self, icon: Icon, color: Color, title: String, shown: String, hidden: Option<String>) {
         let now = self.st.now;
         let hide = hidden.is_some() && !self.st.settings.oyenza_show_amounts;
-        self.st.notice = Some(Notice {
+        let notice = Notice {
             icon,
             color,
             title,
@@ -2187,7 +2281,21 @@ impl App {
             action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
             inline: hide.then_some(InlineAction::ShowAmount),
             reveal: hide.then_some(shown),
-        });
+        };
+        if self.fullscreen_hidden {
+            self.st.oyenza.held = Some((notice, now));
+        } else {
+            self.st.notice = Some(notice);
+        }
+    }
+
+    fn show_held_notice(&mut self, now: f64) {
+        if let Some((mut n, at)) = self.st.oyenza.held.take() {
+            if now - at <= oyenza::HELD_MAX_S {
+                n.until = now + oyenza::NOTICE_S;
+                self.st.notice = Some(n);
+            }
+        }
     }
 
     /// One reminder per bill, the day before it (or on the day, if the Mac was
@@ -2718,6 +2826,9 @@ impl App {
                     // macOS answers where the Mac is (or asks the person).
                     "prayer-get" => 75.0,
                     "prayer-adzan" | "prayer-locate" => 10.0,
+                    // A window sliding into its own Space and out again.
+                    "fullscreen-hide" => 15.0,
+                    "fullscreen-stay" | "fullscreen-back" => 10.0,
                     _ => 6.0,
                 };
                 // The ear step: once the card floats, the pointer moves and comes
@@ -2799,9 +2910,18 @@ impl App {
             "volume-hud" => {
                 self.st.notice = None;
                 if !self.st.volume.known {
-                    self.on_event(AppEvent::Volume { level: 0.5, muted: false });
+                    self.on_event(AppEvent::Volume { level: 0.5, muted: false, switched: false });
                 }
-                self.on_event(AppEvent::Volume { level: 0.64, muted: false });
+                self.on_event(AppEvent::Volume { level: 0.64, muted: false, switched: false });
+            }
+            // CI's Macs have no headphones to connect: a device only this app
+            // sees comes and goes (the device list listener must hear it), and
+            // the pop-up a pair of AirPods would bring is shown on the window.
+            "headphones" => {
+                self.st.hud = None;
+                let before = services::audio::list_changes();
+                self.smoke_devices = Some((before, services::audio::smoke_device_change()));
+                self.on_event(AppEvent::Bluetooth { name: "AirPods Pro".into(), connected: true, battery: None, audio: true });
             }
             "charging-hud" => {
                 self.st.hud = None;
@@ -2897,6 +3017,34 @@ impl App {
             "prayer-off" => {
                 self.st.settings.set_addon(PRAYER_TIMES.id, false);
                 self.st.cmds.push(Command::SaveSettings);
+            }
+            // A plain window goes full screen in a Space of its own (a second
+            // copy of the app): with Hide, macOS leaves the island on the
+            // desktop's Space, and the island knows.
+            "fullscreen-hide" => {
+                // From rest, with nothing to say.
+                self.st.notice = None;
+                self.collapse();
+                self.st.settings.hide_in_fullscreen = true;
+                self.st.cmds.push(Command::SaveSettings);
+                match std::env::current_exe().and_then(|exe| std::process::Command::new(exe).args(["--full-screen-window", "90"]).spawn()) {
+                    Ok(child) => self.smoke_full_screen = Some(child),
+                    Err(e) => pwarn!("smoke: no full-screen window ({e})"),
+                }
+            }
+            // Stay on top: the island joins the full-screen app's Space.
+            "fullscreen-stay" => {
+                self.st.settings.hide_in_fullscreen = false;
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            // Hide again, and the full-screen app quits: the island is back.
+            "fullscreen-back" => {
+                self.st.settings.hide_in_fullscreen = true;
+                self.st.cmds.push(Command::SaveSettings);
+                if let Some(mut c) = self.smoke_full_screen.take() {
+                    let _ = c.kill();
+                    let _ = c.wait();
+                }
             }
             // Oyenza sign-in: its worker starts (this home has no key, so it
             // asks nothing), one POST goes through the Mac's HTTP client the
@@ -3057,6 +3205,10 @@ impl App {
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
             "prayer-locate" => self.st.prayer.locate != Locate::Asking || waited > 6.0,
             "prayer-off" => (self.st.addon(PRAYER_TIMES.id) == AddonStatus::Off && !prayer_folder().exists() && self.addons.is_none()) || waited > 10.0,
+            "headphones" => self.smoke_devices.as_ref().is_some_and(|(before, _)| services::audio::list_changes() > *before) || waited > 4.0,
+            "fullscreen-hide" => self.fullscreen_hidden || waited > 12.0,
+            "fullscreen-stay" => (!self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 6.0,
+            "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
             "menu" => waited > 1.0,
@@ -3143,6 +3295,13 @@ impl App {
             "volume-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Volume { .. }));
                 Some(("volume-hud", ok, format!("output device: {:?}", services::audio::current())))
+            }
+            "headphones" => {
+                let popup = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Bluetooth { connected: true, .. }));
+                let (before, made) = self.smoke_devices.clone().unwrap_or((0, Err(0)));
+                let after = services::audio::list_changes();
+                let ok = popup && made.is_ok() && after > before;
+                Some(("headphones", ok, format!("pop-up shown: {popup}; device list changes heard: {before} -> {after} (test device: {made:?})")))
             }
             "charging-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Charging { .. }));
@@ -3283,6 +3442,19 @@ impl App {
                 let tab = pages::tabs(&self.st).contains(&PageKind::Prayer);
                 let ok = status == AddonStatus::Off && gone && self.st.prayer.places.is_none() && !tab && self.addons.is_none();
                 Some(("prayer-off", ok, format!("{status:?}; files {}; Prayer tab: {tab}", if gone { "deleted" } else { "still there" })))
+            }
+            "fullscreen-hide" => {
+                let ok = self.front_full_screen && self.fullscreen_hidden && !window::is_shown();
+                let d = format!("full-screen app in front: {}; island {}", self.front_full_screen, if window::is_shown() { "still on the screen" } else { "off the screen" });
+                Some(("fullscreen-hide", ok, d))
+            }
+            "fullscreen-stay" => {
+                let ok = self.front_full_screen && !self.fullscreen_hidden && window::is_shown();
+                Some(("fullscreen-stay", ok, format!("full-screen app in front: {}; island on the screen: {}", self.front_full_screen, window::is_shown())))
+            }
+            "fullscreen-back" => {
+                let ok = !self.front_full_screen && !self.fullscreen_hidden && window::is_shown();
+                Some(("fullscreen-back", ok, format!("full-screen app in front: {}; island on the screen: {}", self.front_full_screen, window::is_shown())))
             }
             "oyenza-post" => {
                 let (ok, d) = self.smoke_post.clone().unwrap_or((false, "not run".into()));
@@ -3580,7 +3752,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 48] = [
+const SMOKE_STEPS: [&str; 52] = [
     "idle",
     "hover",
     "open-focus",
@@ -3594,6 +3766,7 @@ const SMOKE_STEPS: [&str; 48] = [
     "notice",
     "volume-hud",
     "charging-hud",
+    "headphones",
     "clipboard-copy",
     "clipboard-page",
     "shelf-drop",
@@ -3623,6 +3796,9 @@ const SMOKE_STEPS: [&str; 48] = [
     "prayer-stop",
     "prayer-locate",
     "prayer-off",
+    "fullscreen-hide",
+    "fullscreen-stay",
+    "fullscreen-back",
     "oyenza-post",
     "oyenza-code",
     "oyenza-page",

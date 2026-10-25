@@ -1,0 +1,12 @@
+# The keys Oyenza Studio trusts for its update file, studio.oyenza.com/latest.json
+# (docs/updates.md). The app reads this file when it is built; tools/make_update_feed.py
+# refuses to sign with a key that isn't listed here.
+#
+# One key per line: its id, then the public key as an uncompressed P-256 point in
+# hex (04, X, Y). The id is the first 16 hex digits of the point's SHA-256.
+#
+# The private half of the first key is the UPDATE_FEED_KEY secret in the release
+# environment. The second one's private half is kept offline by the maintainer,
+# for when the first has to be replaced: copies already out there trust both.
+4cb3280eaea65b50 04e34017d3f66e9cffb357e2fd92a832ba6d7f875c59b8da08b4785af5c227e64528b791c3a5acd6e21deafc23cff678df4d9bd9c5d264d8d5d5338ce380261906
+f835f77c60bd2b7f 04726e0f2492fadd216f14d679f3cdebba7434046eed30f8bc7f6f7aea154a97fa9a97010f6cd482a06437bd04b76495119b2306caa42431f7074b786076fa7fc0

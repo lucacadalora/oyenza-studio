@@ -132,6 +132,8 @@ enum Scene {
     PrayerPicker,
     PrayerCountdown,
     PrayerNotice,
+    /// Bluetooth headphones connected (the headphone pop-up).
+    HeadphonesHud,
     /// Oyenza, signed in as a made-up account: its page (today's and
     /// yesterday's transactions, bills due), the sign-in code, a money
     /// notice with the sum held back, and Settings signed in.
@@ -198,7 +200,11 @@ const ADDON_SCENES: [Scene; 3] = [
 /// Prayer times, after the Add-ons tab.
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
 
-/// Oyenza sign-in, after Prayer times.
+/// The Settings page (behind the gear), after Prayer times.
+const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
+/// The headphone pop-up, after Settings.
+const HEADPHONE_SCENES: [Scene; 1] = [Scene::HeadphonesHud];
+/// Oyenza sign-in, after the headphone pop-up.
 const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::OyenzaNotice, Scene::SettingsSignedIn];
 
 impl Scene {
@@ -232,6 +238,7 @@ impl Scene {
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
             Scene::PrayerNotice => "prayer-notice".into(),
+            Scene::HeadphonesHud => "headphones-hud".into(),
             Scene::Oyenza => "page-oyenza".into(),
             Scene::OyenzaCode => "page-oyenza-code".into(),
             Scene::OyenzaNotice => "oyenza-notice".into(),
@@ -299,9 +306,9 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times and Oyenza in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up and Oyenza in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(OYENZA_SCENES).enumerate() {
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -686,6 +693,10 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
         Scene::LowBatteryHud => {
             st.hud = Some(Hud { kind: HudKind::LowBattery { percent: 19 }, until: NOW_MONO + 30.0 });
             Mode::Hud(activities::HudTag::LowBattery)
+        }
+        Scene::HeadphonesHud => {
+            st.hud = Some(Hud { kind: HudKind::Bluetooth { name: "AirPods Pro".into(), connected: true, battery: None, audio: true }, until: NOW_MONO + 30.0 });
+            Mode::Hud(activities::HudTag::Bluetooth)
         }
         Scene::ShelfItems => {
             // Real files, with tiles from the Mac's own thumbnail code.
