@@ -45,6 +45,11 @@ pub enum Mode {
     Hud(HudTag),
     Notice,
     Expanded(PageKind),
+    /// Stepped aside (`AppState::aside`): an app window sits under where
+    /// the island rests (a maximized browser's tabs), so what would rest
+    /// there (the clock, the song) waits as the Hidden look's invisible
+    /// strip until the pointer reaches the top edge.
+    Aside,
 }
 
 /// A paused player keeps its pill this long before the island goes idle, so
@@ -94,6 +99,7 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
+        Mode::Aside => 40,
     }
 }
 
@@ -150,11 +156,24 @@ pub fn collapsed_mode(st: &AppState) -> Mode {
         Mode::Notice
     } else if let Some(h) = &st.hud {
         Mode::Hud(hud_tag(&h.kind))
-    } else if let Some(a) = current_activity(st) {
-        Mode::Activity(a)
+    } else if st.aside && !new_song_peek(st) {
+        // What rests waits out of the way; what just happened (the pop-ups
+        // and notices above, a new song's title) still drops down.
+        Mode::Aside
     } else {
-        Mode::Idle
+        resting_mode(st)
     }
+}
+
+/// What rests on the closed island when nothing pops up: a live activity,
+/// else the idle look. Stepping aside asks where this one would sit.
+pub fn resting_mode(st: &AppState) -> Mode {
+    current_activity(st).map_or(Mode::Idle, Mode::Activity)
+}
+
+/// A new song's title is showing for its few seconds (`st.ui.peek_until`).
+fn new_song_peek(st: &AppState) -> bool {
+    st.now < st.ui.peek_until && matches!(current_activity(st), Some(Activity::Media | Activity::MediaTimer))
 }
 
 /// What sits beside the idle clock: a bolt while charging, the percentage
@@ -199,11 +218,12 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
             // A little taller than the eyes, so his ears clear the top edge.
             IdleStyle::Eyes if oyen::on(st.settings.theme) => Geom::new(104.0, 36.0, 16.0),
             IdleStyle::Eyes => Geom::new(118.0, 30.0, 14.0),
-            IdleStyle::Hidden => Geom::new(150.0, 5.0, 2.5),
+            IdleStyle::Hidden => hidden_strip(),
         },
         Mode::Activity(Activity::Media) => {
             // A song with synced lyrics sings its line here, as in the Pill
-            // theme: the pill is as wide as its words (`pill::media`).
+            // theme: the pill is as wide as its words (`pill::media`), and
+            // two rows tall when they have readings, the line over them.
             let w = if crate::pill::lyric::sings(st) {
                 crate::pill::media::fit_w()
             } else if st.now < st.ui.peek_until {
@@ -211,7 +231,11 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
             } else {
                 MEDIA_W
             };
-            Geom::new(w, 32.0, 15.0)
+            if crate::pill::lyric::reads(st) {
+                Geom::new(w, crate::pill::media::H_READS, 22.0)
+            } else {
+                Geom::new(w, 32.0, 15.0)
+            }
         }
         Mode::Activity(Activity::Timer) => {
             // "MM:SS" until the countdown needs another digit.
@@ -229,7 +253,14 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
             let h = pages::HEADER_H + pages::content_height(*p, st) + pages::PAD;
             Geom::new(st.settings.expanded_width, h.round(), 30.0)
         }
+        Mode::Aside => hidden_strip(),
     }
+}
+
+/// The Hidden idle look's island, which a stepped-aside island takes too: a
+/// strip at the top edge, drawn invisible, that catches the pointer there.
+fn hidden_strip() -> Geom {
+    Geom::new(150.0, 5.0, 2.5)
 }
 
 /// Needs continuous ambient frames (near 60 fps): animated equalizer while music plays.
@@ -318,7 +349,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect) {
         Mode::Activity(a) => draw_activity(ui, st, *a, body),
         Mode::Hud(_) => draw_hud(ui, st, body),
         Mode::Notice => draw_notice(ui, st, body),
-        Mode::Expanded(_) => {}
+        Mode::Expanded(_) | Mode::Aside => {}
     }
 }
 
@@ -458,8 +489,9 @@ fn draw_peek(ui: &mut Ui, st: &AppState, x0: f32, x1: f32, body: Rect, alpha: f3
 /// Music, collapsed: the album art on the left, the equalizer (Oyen, in his
 /// theme) on the right, and between them the line being sung while the song
 /// has synced lyrics, as in the Pill theme (`pill::media::middle`: the line,
-/// or the title in the intro, the breaks and a new track's peek), else a new
-/// track's title for a moment. In the menu bar's line of a MacBook with a
+/// with its reading in Latin letters under it when it has one, or the title
+/// in the intro, the breaks and a new track's peek), else a new track's
+/// title for a moment. In the menu bar's line of a MacBook with a
 /// notch the camera takes the middle, so there it draws no words (`words`
 /// false): a sung line hangs below the notch instead (`mac/notch.rs`).
 pub fn draw_music(ui: &mut Ui, st: &mut AppState, body: Rect, words: bool) {
@@ -783,5 +815,53 @@ mod tests {
         let mut paused = sung;
         paused.media.as_mut().unwrap().timeline = Timeline::new(12.0, 200.0, 0.0, false);
         assert!(crate::pill::lyric::sings(&paused));
+    }
+
+    #[test]
+    fn music_with_readings_is_two_rows_tall_in_every_theme() {
+        use poni_core::romanize::Ruby;
+        use poni_core::settings::Theme;
+        let media = Mode::Activity(Activity::Media);
+        let mut st = playing(Some("[00:10.00]紙の舟よ\n[00:14.00]Paper boats\n"));
+        assert_eq!(geom(&media, &st).h, 32.0, "no readings: one row");
+        st.lyrics.ruby = vec![vec![Ruby { text: "紙の舟よ".into(), roman: "kami no fune yo".into() }], Vec::new()];
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+            st.settings.theme = theme;
+            assert_eq!(geom(&media, &st).h, crate::pill::media::H_READS, "{theme:?}: the line over its reading");
+        }
+        // Readings switched off: one row again, as for a song without them.
+        st.settings.lyrics_pronunciation = false;
+        assert_eq!(geom(&media, &st).h, 32.0);
+    }
+
+    #[test]
+    fn stepped_aside_what_rests_waits_and_what_happens_still_shows() {
+        let media = Mode::Activity(Activity::Media);
+        let mut idle = AppState::new(Settings::default(), Store::default());
+        assert_eq!(collapsed_mode(&idle), Mode::Idle);
+        idle.aside = true;
+        assert_eq!(collapsed_mode(&idle), Mode::Aside);
+        assert_eq!(resting_mode(&idle), Mode::Idle, "where it would rest doesn't change");
+        // The strip is the Hidden look's, whatever the idle look.
+        assert_eq!(geom(&Mode::Aside, &idle), hidden_strip());
+        idle.settings.idle_style = IdleStyle::Hidden;
+        assert_eq!(geom(&Mode::Idle, &idle), geom(&Mode::Aside, &idle));
+
+        let mut song = playing(Some("[00:10.00]Paper lanterns on the line\n"));
+        song.aside = true;
+        assert_eq!(collapsed_mode(&song), Mode::Aside);
+        assert_eq!(resting_mode(&song), media);
+        // A new song's title drops down for its few seconds, then waits again.
+        song.ui.peek_until = song.now + 3.0;
+        assert_eq!(collapsed_mode(&song), media);
+        song.now += 3.0;
+        assert_eq!(collapsed_mode(&song), Mode::Aside);
+        // Pop-ups and notices show over the window as before.
+        song.hud = Some(crate::state::Hud { kind: HudKind::Volume { level: 0.5, muted: false }, until: song.now + 2.0 });
+        assert_eq!(collapsed_mode(&song), Mode::Hud(HudTag::Volume));
+        // Nothing moving on the strip: no frames while it waits.
+        song.hud = None;
+        assert!(!is_live(&Mode::Aside, &song));
+        assert!(is_live(&media, &song));
     }
 }

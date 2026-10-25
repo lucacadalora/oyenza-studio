@@ -340,6 +340,9 @@ pub struct App {
     fullscreen_hidden: bool,
     /// The last full-screen state reported, hidden or not.
     fullscreen_on: bool,
+    /// Step aside: the app windows at the top edge of the island's monitor
+    /// (screen pixels, cut to the band along it), as last reported.
+    top_windows: Vec<[i32; 4]>,
     /// Follow-up raises still due (TIMER_RAISE).
     raises_left: u8,
     /// Window classes already logged for covering the island (once each).
@@ -462,6 +465,11 @@ const REOPEN_S: f64 = 0.3;
 const HOLD_GRACE_MS: u32 = 380;
 /// Collapsed pill growth (w, h, radius) while the pointer is on it.
 const HOVER_LIFT: (f32, f32, f32) = (12.0, 4.0, 2.0);
+/// Step aside: an app window is at the top when its top edge is within this
+/// many DIPs of the edge the island hangs from (a maximized window overhangs
+/// it, a snapped one starts on it). One placed lower keeps its title and
+/// tabs below the island, which covers a sliver of its frame at most.
+const TOP_BAND: f32 = 8.0;
 /// How long the inline notice pill shows its check mark (seconds).
 const INLINE_DONE_S: f64 = 0.6;
 /// Incoming content starts at this scale and this many DIPs up, and
@@ -543,6 +551,7 @@ impl App {
             capture_rect: RECT::default(),
             fullscreen_hidden: false,
             fullscreen_on: false,
+            top_windows: Vec::new(),
             raises_left: 0,
             covered_by: HashSet::new(),
             shown: false,
@@ -599,6 +608,7 @@ impl App {
         services::power::register(self.helper);
         if !fake {
             self.services = Some(Services::start(&self.sink, self.hwnd, self.helper, &self.st.settings, self.oyenza_activity()));
+            self.sync_top_watch();
             self.st.paired = self.services.as_ref().map(|s| paired_phones(s.pairs())).unwrap_or_default();
             self.sync_pair_offer();
             if self.st.settings.system_history {
@@ -679,6 +689,24 @@ impl App {
     fn layout_surface(&mut self) {
         let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
         self.layout_surface_for(self.st.settings.expanded_width, pages::HEADER_H + tallest + pages::PAD);
+        // The band Step aside watches follows the monitor and its scale.
+        self.sync_top_watch();
+    }
+
+    /// Step aside on: have the full-screen watcher report the app windows
+    /// at the top edge of the island's monitor, where the island hangs from
+    /// (below a taskbar at the top). Stay: it looks at nothing, and nothing
+    /// is under the island.
+    fn sync_top_watch(&mut self) {
+        let m = &self.monitor;
+        let px = (TOP_BAND * self.gfx.scale()).ceil() as i32;
+        let band = self.st.settings.step_aside.then(|| RECT { left: m.rect.left, top: m.top(), right: m.rect.right, bottom: m.top() + px });
+        if band.is_none() {
+            self.top_windows.clear();
+        }
+        if let Some(s) = &self.services {
+            s.watch_top(band);
+        }
     }
 
     /// Lay the window out for an island body up to `body_w`×`body_h` DIPs.
@@ -1508,6 +1536,10 @@ impl App {
             // Apply at once: show the island over the full-screen app, or hide it.
             self.on_event(AppEvent::Fullscreen(self.fullscreen_on));
         }
+        if before.step_aside != self.st.settings.step_aside && self.selftest.is_none() {
+            // Step aside starts or stops watching the top of the screen.
+            self.sync_top_watch();
+        }
         let now = &self.st.settings;
         if before.clipboard_history && !now.clipboard_history {
             // Privacy: turning history off forgets everything, pinned items included.
@@ -1597,6 +1629,7 @@ impl App {
             ToggleLyrics => s.lyrics = !s.lyrics,
             TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
+            SetStepAside(aside) => s.step_aside = aside,
             ToggleGameStats => s.game_stats = !s.game_stats,
             ToggleGamePeek => s.game_peek = !s.game_peek,
             ToggleCornerReadout => {
@@ -1652,7 +1685,8 @@ impl App {
                 }
             }
             OpenDataFolder => shell::open(&paths::data_dir().to_string_lossy()),
-            About => shell::open("https://lrclib.net"),
+            About => shell::open(&crate::version::notes_url()),
+            LyricsCredit => shell::open("https://lrclib.net"),
             AppleMusicToken => self.use_apple_music_token(),
             AppleMusicHelp => shell::open(APPLE_MUSIC_HELP_URL),
             AppleMusicForget => self.forget_apple_music_token(),
@@ -1785,6 +1819,13 @@ impl App {
                 self.sync_game();
             }
             AppEvent::Foreground => self.start_raises(),
+            AppEvent::TopWindows(places) => {
+                // The self-test puts its own window under the island.
+                if self.selftest.is_none() {
+                    self.top_windows = places;
+                    self.request_frame();
+                }
+            }
             AppEvent::ShelfAdd(paths) if self.expanded && self.st.page == PageKind::Script && pages::script::take_drop(&mut self.st, &paths) => {
                 // A text file dropped on the Script page becomes the script.
                 self.drag_hover = false;
@@ -2543,8 +2584,45 @@ impl App {
 
     /// Where the window takes the mouse now (see [`hit_mask_for`]).
     fn hit_mask(&self) -> HitMask {
-        let hidden = self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden;
-        hit_mask_for(&self.island, self.cx, self.expanded, hidden)
+        hit_mask_for(&self.island, self.cx, self.expanded, self.rests_hidden())
+    }
+
+    /// The closed island rests invisible, a strip at the top edge that only
+    /// catches the pointer: the Hidden idle look, or stepped aside.
+    fn rests_hidden(&self) -> bool {
+        self.mode == Mode::Aside || (self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden)
+    }
+
+    /// Step aside: where the island rests (what it shows at rest, the clock
+    /// or the song, never the strip it steps aside to), from the edge it
+    /// hangs from to its bottom, in screen pixels. Classic's shoulders and
+    /// the floating Pill's gap count: they cover what is under them too.
+    fn rest_rect(&self) -> RECT {
+        let g = activities::geom(&activities::resting_mode(&self.st), &self.st);
+        let floating = self.island.floating();
+        let w = g.w + if floating { 0.0 } else { 2.0 * SHOULDER };
+        let h = g.h + if floating { pill::TOP_GAP } else { 0.0 };
+        let s = self.gfx.scale();
+        let cx = self.surface.x as f32 + self.cx * s;
+        let left = (cx - w * s / 2.0).floor() as i32;
+        let right = (cx + w * s / 2.0).ceil() as i32;
+        RECT { left, top: self.surface.y, right, bottom: self.surface.y + (h * s).ceil() as i32 }
+    }
+
+    /// Settings › Over maximized windows: Step aside while an app window
+    /// reaches under where the island rests. Over a full-screen app the
+    /// full-screen choice decides instead (Hide, or Stay on top for the
+    /// readout over games). Each frame, before the mode is picked: it only
+    /// compares a few rects.
+    fn sync_aside(&mut self) {
+        let r = self.rest_rect();
+        let under = self.top_windows.iter().any(|t| t[0] < r.right && t[2] > r.left && t[1] < r.bottom && t[3] > r.top);
+        let aside = self.st.settings.step_aside && !self.fullscreen_on && under;
+        if aside != self.st.aside {
+            self.st.aside = aside;
+            let why = if aside { "a window is under the island; it rests out of the way" } else { "nothing under the island; it rests as before" };
+            self.log_queue.push(format!("step aside: {why}"));
+        }
     }
 
     /// Whether `p`, where the window took the mouse, is off the island.
@@ -2684,6 +2762,8 @@ impl App {
             self.left_at = clock::mono();
         }
 
+        // A window under where the island rests: it rests out of the way.
+        self.sync_aside();
         let target = self.target_mode();
         let mut retarget = false;
         if target != self.mode {
@@ -2757,7 +2837,9 @@ impl App {
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
 
-        let hidden_idle = self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden;
+        // Stepping aside, the island flattens into the top edge and goes
+        // invisible once there; coming back, it drops from the edge.
+        let hidden_idle = self.rests_hidden() && (self.mode != Mode::Aside || self.island.settled());
         let floating = self.island.floating();
         // Software renderer: what of the floating island's hit area isn't
         // drawn (the gap above it) is painted at 1/255 (see hit_mask_for).
@@ -3781,6 +3863,19 @@ impl App {
         } else {
             self.collapse();
         }
+    }
+
+    /// Self-test: a maximized window across the top of the island's monitor
+    /// (what the full-screen watcher reports for one), or no window there.
+    pub fn selftest_window_under(&mut self, under: bool) {
+        let m = &self.monitor;
+        let px = (TOP_BAND * self.gfx.scale()).ceil() as i32;
+        self.top_windows = if under { vec![[m.rect.left, m.top(), m.rect.right, m.top() + px]] } else { Vec::new() };
+    }
+
+    /// Self-test: what the closed island shows now, and whether it stepped aside.
+    pub fn selftest_mode(&self) -> (Mode, bool) {
+        (self.mode, self.st.aside)
     }
 
     /// Self-test only: start the real Phone drop service, fetch its page from

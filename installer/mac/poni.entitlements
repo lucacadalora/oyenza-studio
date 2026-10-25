@@ -10,5 +10,9 @@
 	     runtime refuses them without this. People still say yes once (NSAppleEventsUsageDescription). -->
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>
+	<!-- Prayer times asks Location Services for the nearest kab/kota; the hardened runtime
+	     refuses Core Location without this. People still say yes once (NSLocationUsageDescription). -->
+	<key>com.apple.security.personal-information.location</key>
+	<true/>
 </dict>
 </plist>

@@ -12,8 +12,8 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, PhoneCmd, Sound};
-use crate::events::{AppEvent, EventSink};
+use crate::commands::{Command, MediaCmd, OyenzaCmd, PhoneCmd, Sound};
+use crate::events::{AppEvent, EventSink, OyenzaEvent};
 use crate::gfx::{scale_about, union_rect, Canvas, Gfx, Matrix3x2};
 use crate::glass;
 use crate::icons::Icon;
@@ -26,7 +26,10 @@ use crate::paths;
 use crate::pill;
 use crate::services;
 use crate::events::{AppleMusicStatus, LyricsResult};
-use crate::state::{AppState, HudKind, InlineAction, LyricsState, LyricsStatus, NoticeAction, PhoneAsk, PhoneDrop, PhoneTransfer, VolumeState};
+use crate::state::{
+    AppState, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PhoneAsk, PhoneDrop, PhoneTransfer, PrayerState,
+    VolumeState,
+};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
 use crate::window::{self, ScreenInfo, ViewInput};
 use block2::RcBlock;
@@ -37,12 +40,14 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::look::{Look, Material};
-use poni_core::settings::{IdleStyle, Settings, Theme};
+use poni_core::oyenza;
+use poni_core::prayer::{Due, PlaceList, Prayer, PrayerMoment};
+use poni_core::settings::{IdleStyle, PrayerSound, Settings, Theme};
 use poni_core::sysmon::{CoreKind, Module};
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
 use std::cell::RefCell;
@@ -50,8 +55,6 @@ use std::path::PathBuf;
 use std::ptr::NonNull;
 use std::sync::mpsc::{self, Receiver};
 
-/// Where the README explains the project.
-const ABOUT_URL: &str = "https://github.com/lucacadalora/oyenza-studio";
 /// Steps for copying the Apple Music token (README).
 const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/oyenza-studio#apple-music-lyrics";
 
@@ -134,6 +137,12 @@ pub fn main_entry() -> i32 {
     let arg_after = |flag: &str| args.iter().position(|a| a == flag).map(|i| args.get(i + 1).cloned().unwrap_or_else(|| "poni-out".into()));
     if let Some(dir) = arg_after("--render") {
         return crate::render::run(&dir, &args);
+    }
+    if let Some(secs) = arg_after("--full-screen-window") {
+        return services::fullscreen::test_window(secs.parse().unwrap_or(30.0));
+    }
+    if args.iter().any(|a| a == "--smc") {
+        return services::smc::report();
     }
     let smoke_dir = arg_after("--smoke").map(PathBuf::from);
     if let Some(dir) = &smoke_dir {
@@ -361,6 +370,16 @@ pub struct App {
     sysmon_on: bool,
     /// Nobody can see the screen: (the displays sleep, the Mac is locked).
     away: (bool, bool),
+    /// The app in front is full screen on the island's screen (`services::fullscreen`).
+    front_full_screen: bool,
+    /// A full-screen app is in front and Hide is picked: the island is closed
+    /// and draws nothing until it's back (`apply_fullscreen`).
+    fullscreen_hidden: bool,
+    /// Oyenza sign-in's worker: from the start when this Mac is signed in (or
+    /// a sign-out still has to reach the server), else from the first sign-in.
+    oyenza: Option<services::oyenza::OyenzaService>,
+    /// The Oyenza page is on screen: its day list stays live (`services::oyenza`).
+    oyenza_watch: bool,
     /// Text we put on the clipboard ourselves (not recorded again).
     own_clip: Option<String>,
     clipboard: Option<services::clipboard::Watcher>,
@@ -381,6 +400,8 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// Prayer times' adzan, while it plays.
+    adzan: services::adzan::AdzanPlayer,
     motion: Option<MotionStats>,
     motion_name: &'static str,
     motions_logged: u32,
@@ -391,6 +412,13 @@ pub struct App {
     cost: DrawCost,
     smoke_timer: Option<poni_core::pomodoro::Pomodoro>,
     smoke_point: Option<Point>,
+    /// The headphones step: device list changes heard before it, and how
+    /// adding and removing its test device went.
+    smoke_devices: Option<(u32, Result<(), i32>)>,
+    /// The smoke run's full-screen window (a second copy of the app).
+    smoke_full_screen: Option<std::process::Child>,
+    /// The Oyenza step's POST through the Mac's HTTP client: (arrived and answered, what happened).
+    smoke_post: Option<(bool, String)>,
     /// The island floated on the last frame (Pill letting go of the notch).
     was_floating: bool,
 }
@@ -462,6 +490,10 @@ impl App {
             sysmon: None,
             sysmon_on: false,
             away: (false, false),
+            front_full_screen: false,
+            fullscreen_hidden: false,
+            oyenza: None,
+            oyenza_watch: false,
             own_clip: None,
             clipboard: None,
             drag_hover: false,
@@ -473,6 +505,7 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            adzan: Default::default(),
             motion: None,
             motion_name: "morph",
             motions_logged: 0,
@@ -481,6 +514,9 @@ impl App {
             cost: DrawCost::default(),
             smoke_timer: None,
             smoke_point: None,
+            smoke_devices: None,
+            smoke_full_screen: None,
+            smoke_post: None,
             was_floating: false,
         }
     }
@@ -491,7 +527,7 @@ impl App {
         self.island.set_floating(self.gap_target(&self.mode));
         let g = self.geom_for(&self.mode);
         self.island.snap(g);
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status()));
+        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link));
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
@@ -511,6 +547,12 @@ impl App {
         }
         self.schedule_minute_timer();
         services::sysmon::watch_away(self.mtm, self.sink.clone());
+        services::fullscreen::watch(self.mtm, self.sink.clone());
+        // Signed in to Oyenza (or a sign-out still to tell it): the worker says
+        // who, then asks at its pace. Never signed in: nothing starts.
+        if paths::oyenza_link_path().exists() || paths::oyenza_revoke_path().exists() {
+            self.start_oyenza();
+        }
         if self.st.settings.system_history {
             self.start_sysmon();
         }
@@ -539,7 +581,25 @@ impl App {
     }
 
     pub fn request_frame(&mut self) {
+        // Hidden for a full-screen app: nothing to draw, but what a frame
+        // ticks (a timer's end, a notice's time, commands) still runs, from
+        // the wake timer (`hidden_tick`).
+        if self.fullscreen_hidden {
+            self.set_timer(Timer::Wake, 1);
+            return;
+        }
         window::set_frames(true);
+    }
+
+    /// What a frame does besides drawing, while a full-screen app hides the island.
+    fn hidden_tick(&mut self) {
+        self.refresh_time();
+        self.tick();
+        self.run_commands();
+        if !self.st.cmds.is_empty() {
+            self.set_timer(Timer::Wake, 1);
+        }
+        self.schedule_wake();
     }
 
     // ------------------------------------------------------------ timers
@@ -584,7 +644,11 @@ impl App {
             }
         }
         self.sync_timer();
-        self.request_frame();
+        if self.fullscreen_hidden {
+            self.hidden_tick();
+        } else {
+            self.request_frame();
+        }
     }
 
     fn on_timer(&mut self, t: Timer) {
@@ -609,6 +673,10 @@ impl App {
             Timer::Minute => {
                 self.schedule_minute_timer();
                 self.close_idle_phone();
+                // A prayer's time comes on a whole minute, frames or not
+                // (the displays may sleep).
+                self.refresh_time();
+                self.prayer_tick();
             }
             Timer::Smoke => self.smoke_step(),
             Timer::Stats => {
@@ -629,6 +697,7 @@ impl App {
     /// Wake up for the next visible change (HUD expiry, countdown second, …).
     fn schedule_wake(&mut self) {
         let now = self.st.now;
+        let hidden = self.fullscreen_hidden;
         let mut next: Option<f64> = None;
         let mut consider = |t: f64| {
             if t > now {
@@ -641,7 +710,8 @@ impl App {
         if let Some(n) = &self.st.notice {
             consider(n.until);
         }
-        if let Some(b) = self.st.pomodoro.next_second_boundary(now) {
+        // While a full-screen app hides the island only the phase end matters.
+        if let Some(b) = self.st.pomodoro.next_second_boundary(now).filter(|_| !hidden) {
             consider(now + b + 0.005);
         }
         if let poni_core::pomodoro::RunState::Running { ends_at } = self.st.pomodoro.run {
@@ -706,6 +776,11 @@ impl App {
             self.st.ui.clip_scroll = 0.0;
         }
         self.sync_clipboard();
+        // Hide or Stay on top of full-screen apps (Settings or the menu bar).
+        if before.hide_in_fullscreen != self.st.settings.hide_in_fullscreen {
+            self.apply_fullscreen();
+            self.refresh_menu();
+        }
         if !before.lyrics && self.st.settings.lyrics {
             if let Some(m) = self.st.media.clone() {
                 let stale = self.st.lyrics.track_key != m.track_key || self.st.lyrics.status == LyricsStatus::Idle;
@@ -732,6 +807,16 @@ impl App {
             if !history && !self.sysmon_on {
                 self.st.system.clear();
             }
+        }
+        // Prayer times: off stops it at once; a new place, or following the location again.
+        if before.addon_on(PRAYER_TIMES.id) && !self.st.settings.addon_on(PRAYER_TIMES.id) {
+            self.prayer_off();
+        }
+        if before.prayer.place != self.st.settings.prayer.place {
+            self.resolve_prayer_place();
+        }
+        if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
+            self.locate();
         }
         // An add-on switched on downloads its files; off deletes them.
         let mut addons_changed = false;
@@ -782,11 +867,17 @@ impl App {
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
             MenuCmd::ToggleClipboard => s.clipboard_history = !s.clipboard_history,
+            MenuCmd::SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
             MenuCmd::ToggleLyrics => s.lyrics = !s.lyrics,
             MenuCmd::TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             MenuCmd::AppleMusicToken => self.use_apple_music_token(),
             MenuCmd::AppleMusicHelp => services::open(APPLE_MUSIC_HELP_URL),
             MenuCmd::AppleMusicForget => self.forget_apple_music_token(),
+            MenuCmd::OyenzaSignIn => self.oyenza(OyenzaCmd::SignIn),
+            MenuCmd::OyenzaCancel => self.oyenza(OyenzaCmd::Cancel),
+            MenuCmd::OyenzaDisconnect => self.oyenza(OyenzaCmd::Disconnect),
+            MenuCmd::OyenzaOpen => services::open(oyenza::WEB),
+            MenuCmd::ToggleOyenzaAmounts => s.oyenza_show_amounts = !s.oyenza_show_amounts,
             MenuCmd::ToggleLogin => self.toggle_login(),
             MenuCmd::OpenSettings => {
                 if !paths::settings_path().exists() {
@@ -812,7 +903,7 @@ impl App {
                 }
             }
             MenuCmd::OpenDataFolder => services::open(&paths::data_dir().to_string_lossy()),
-            MenuCmd::About => services::open(ABOUT_URL),
+            MenuCmd::About => services::open(&crate::version::notes_url()),
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -828,7 +919,7 @@ impl App {
     fn refresh_menu(&mut self) {
         let login = services::login::status();
         if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login);
+            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link);
         }
     }
 
@@ -1001,6 +1092,40 @@ impl App {
         if now {
             self.st.system.clear();
         }
+        self.tell_oyenza_activity();
+        self.apply_fullscreen();
+    }
+
+    /// A full-screen app is in front on the island's screen and Hide is
+    /// picked: as on Windows, the island leaves the screen and closes, the
+    /// prayer sound stays quiet and nothing is drawn until it's back.
+    fn apply_fullscreen(&mut self) {
+        let away = self.away.0 || self.away.1;
+        let hide = self.front_full_screen && !away && self.st.settings.hide_in_fullscreen;
+        // Money and bill notices held back wait for the full-screen app to leave.
+        if !hide && !self.front_full_screen && self.st.oyenza.held.is_some() {
+            self.show_held_notice(clock::mono());
+            self.request_frame();
+        }
+        if hide == self.fullscreen_hidden {
+            return;
+        }
+        pinfo!("fullscreen app {}: island {}", if hide { "in front" } else { "gone" }, if hide { "hidden" } else { "shown" });
+        if hide {
+            self.collapse();
+            self.leave();
+            // At rest at once, so the island isn't still closing when it's back.
+            self.mode = self.target_mode();
+            self.outgoing = None;
+            self.page_anim = None;
+            self.island.set_floating(self.gap_target(&self.mode));
+            let g = self.geom_for(&self.mode);
+            self.island.snap(g);
+            window::set_frames(false);
+        }
+        window::set_shown(!hide);
+        self.fullscreen_hidden = hide;
+        self.request_frame();
     }
 
     pub fn on_event(&mut self, ev: AppEvent) {
@@ -1079,17 +1204,21 @@ impl App {
                 }
             }
             AppEvent::AppleMusic(status) => self.on_apple_music(status),
-            AppEvent::Volume { level, muted } => {
+            AppEvent::Volume { level, muted, switched } => {
                 // The first report only sets the level; changes show the pop-up.
                 let first = !self.st.volume.known;
                 self.st.volume = VolumeState { level, muted, known: true };
-                if !first && self.st.settings.hud_volume {
+                // A new output device's level isn't news while the headphone
+                // pop-up says why the device changed.
+                let headphones = switched && matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Bluetooth { .. }));
+                if !first && !headphones && self.st.settings.hud_volume {
                     self.st.show_hud(HudKind::Volume { level, muted }, 1.6);
                 }
             }
             AppEvent::Power(p) => {
                 let old = self.st.power;
                 self.st.power = p;
+                self.tell_oyenza_activity();
                 if self.st.settings.hud_power && p.has_battery {
                     if p.on_ac != old.on_ac {
                         self.st.show_hud(HudKind::Charging { percent: p.percent, plugged: p.on_ac }, 2.2);
@@ -1153,9 +1282,19 @@ impl App {
             }
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
+            AppEvent::Located(found) => self.on_located(found),
+            AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
-            // Bluetooth and full-screen events come with later slices.
-            _ => {}
+            AppEvent::Bluetooth { name, connected, battery, audio } => {
+                if self.st.settings.hud_bluetooth {
+                    self.st.show_hud(HudKind::Bluetooth { name, connected, battery, audio }, 2.6);
+                }
+            }
+            AppEvent::Fullscreen(on) => {
+                self.front_full_screen = on;
+                self.apply_fullscreen();
+            }
+            AppEvent::Oyenza(ev) => self.on_oyenza(ev),
         }
         if let Some(before) = media_before {
             self.after_media_change(before, now);
@@ -1168,6 +1307,13 @@ impl App {
         // A late report from before a switch-off doesn't bring it back.
         if self.st.settings.addon_on(id) || status == AddonStatus::Off {
             self.st.addons.insert(id, status);
+        }
+        if id == PRAYER_TIMES.id {
+            if status == AddonStatus::Ready && self.st.settings.addon_on(id) && self.st.prayer.places.is_none() {
+                self.prayer_ready();
+            } else if status == AddonStatus::Off {
+                self.prayer_off();
+            }
         }
         // Japanese readings arrived for the song that asked for them: read it
         // again (its lyrics come from the cache).
@@ -1184,6 +1330,188 @@ impl App {
         let ours = pages::addons::OFFERED.iter().any(|a| a.id == id);
         if ours && status == AddonStatus::Off && !pages::addons::OFFERED.iter().any(|a| a.downloads() && self.st.settings.addon_on(a.id)) {
             self.addons = None;
+        }
+    }
+
+    // ------------------------------------------------------------ prayer times
+    //
+    // As in the Windows app (`../app.rs`); only asking where the computer is
+    // and playing the adzan are the Mac's own (`services::location`, `adzan`).
+
+    /// Prayer times' files are in place: read its places, settle the place,
+    /// and ask where the Mac is when following the location.
+    fn prayer_ready(&mut self) {
+        let path = services::addons::file_path(&PRAYER_TIMES, "places.json");
+        match std::fs::read_to_string(&path).map_err(|e| e.to_string()).and_then(|t| PlaceList::parse(&t)) {
+            Ok(list) => {
+                pinfo!("prayer: {} places", list.places.len());
+                self.st.prayer.places = Some(std::sync::Arc::new(list));
+            }
+            Err(e) => {
+                pwarn!("prayer: can't read the places ({e})");
+                return;
+            }
+        }
+        self.resolve_prayer_place();
+        if self.st.settings.prayer.follow_location {
+            self.locate();
+        }
+    }
+
+    /// Prayer times switched off: nothing plays, nothing is kept.
+    fn prayer_off(&mut self) {
+        self.adzan.stop();
+        services::location::forget();
+        self.st.prayer = PrayerState::default();
+    }
+
+    /// The place the times are for: the chosen one, or until there is one,
+    /// the one the Mac's time zone suggests.
+    fn resolve_prayer_place(&mut self) {
+        let Some(list) = self.st.prayer.places.clone() else { return };
+        let chosen = self.st.settings.prayer.place.as_deref().and_then(|id| list.find(id)).cloned();
+        let suggested = chosen.is_none();
+        let place = chosen.or_else(|| poni_core::prayer::suggested_place_id(self.utc_offset_min()).and_then(|id| list.find(id)).cloned());
+        let changed = place.as_ref().map(|p| &p.id) != self.st.prayer.place.as_ref().map(|p| &p.id);
+        self.st.prayer.place = place;
+        self.st.prayer.suggested = suggested;
+        if changed {
+            pinfo!("prayer: times for {}", self.st.prayer.place.as_ref().map_or("no place", |p| p.id.as_str()));
+            // A new place: prayer times that passed there don't ring now.
+            self.st.prayer.handled_until = Some(self.st.prayer_now());
+        }
+    }
+
+    /// The Mac's UTC offset in minutes, from its clock.
+    fn utc_offset_min(&self) -> i32 {
+        let l = &self.st.local;
+        let local = poni_core::datetime::days_from_civil(l.year, l.month, l.day) * 86_400 + l.hour as i64 * 3600 + l.minute as i64 * 60 + l.second as i64;
+        (((local - self.st.unix) as f64 / 900.0).round() * 15.0) as i32
+    }
+
+    /// Ask macOS where the Mac is (the answer: `AppEvent::Located`).
+    fn locate(&mut self) {
+        if self.st.prayer.locate == Locate::Asking {
+            return;
+        }
+        self.st.prayer.locate = Locate::Asking;
+        self.st.prayer.located_at = Some(self.st.unix);
+        services::location::locate(self.mtm, self.sink.clone());
+    }
+
+    /// The nearest listed place becomes the place, while following the
+    /// location. The point itself is dropped here.
+    fn on_located(&mut self, found: services::location::Located) {
+        use services::location::Located;
+        services::location::forget();
+        // Prayer times went off while macOS was answering.
+        if !self.st.settings.addon_on(PRAYER_TIMES.id) {
+            return;
+        }
+        self.st.prayer.locate = match found {
+            Located::Denied => Locate::Denied,
+            Located::Unknown => Locate::Unknown,
+            Located::At(lat, lng) => {
+                let Some(list) = self.st.prayer.places.clone() else { return };
+                let Some((place, km)) = list.nearest(lat, lng) else { return };
+                if km > poni_core::prayer::NEAREST_MAX_KM {
+                    pinfo!("prayer: the nearest listed place is {km:.0} km away");
+                    Locate::Far { km }
+                } else {
+                    if self.st.settings.prayer.follow_location && self.st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
+                        self.st.settings.prayer.place = Some(place.id.clone());
+                        self.st.cmd(Command::SaveSettings);
+                    }
+                    Locate::Found { km }
+                }
+            }
+        };
+    }
+
+    /// Each frame and each minute: the prayer times that just came, and
+    /// asking where the Mac is again every 3 hours while following it.
+    fn prayer_tick(&mut self) {
+        if !self.st.prayer_on() {
+            return;
+        }
+        if self.st.settings.prayer.follow_location && self.st.prayer.located_at.is_none_or(|t| self.st.unix - t >= 3 * 3600) {
+            self.locate();
+        }
+        let Some(site) = self.st.prayer.site() else { return };
+        let now = self.st.prayer_now();
+        let Some(from) = self.st.prayer.handled_until else {
+            self.st.prayer.handled_until = Some(now);
+            return;
+        };
+        if now <= from {
+            return;
+        }
+        self.st.prayer.handled_until = Some(now);
+        for m in poni_core::prayer::prayers_between(&site, from, now) {
+            match poni_core::prayer::due(m.at, now) {
+                Due::Ring => self.prayer_moment(m, true),
+                Due::Quiet => self.prayer_moment(m, false),
+                Due::Skip => {}
+            }
+        }
+    }
+
+    /// A prayer's time came: the island says so and plays the chosen sound.
+    /// Quiet when it's late (after a sleep) or a full-screen app hides the island.
+    fn prayer_moment(&mut self, m: PrayerMoment, ring: bool) {
+        let Some(site) = self.st.prayer.site() else { return };
+        let place = self.st.prayer.place.as_ref().map_or(String::new(), |p| p.label.clone());
+        let ring = ring && !self.fullscreen_hidden;
+        let sound = if ring { self.st.settings.prayer.sound } else { PrayerSound::Silent };
+        let mut adzan = false;
+        // The tone plays at once, not as a command: commands run with the
+        // next frame, and frames rest while the displays sleep.
+        match sound {
+            // The recording isn't Subuh's adzan (no "ash-shalatu khairum minan naum"): Subuh gets the tone.
+            PrayerSound::Adzan if m.prayer != Prayer::Subuh => {
+                adzan = self.play_adzan();
+                if !adzan {
+                    services::play(true);
+                }
+            }
+            PrayerSound::Adzan | PrayerSound::Tone => services::play(true),
+            PrayerSound::Silent => {}
+        }
+        let title = pages::prayer::moment_title(m.prayer);
+        let subtitle = format!("{} \u{b7} {place}", site.hhmm(m.at));
+        let secs = if adzan { 200.0 } else { 60.0 };
+        self.st.notify(Icon::Moon, self.st.accent, title, subtitle, secs, Some(NoticeAction::OpenPage(PageKind::Prayer)));
+        if adzan {
+            self.st.set_notice_inline(InlineAction::StopAdzan);
+        }
+        pinfo!("prayer: {} at {}{}", m.prayer.name(), site.hhmm(m.at), if ring { "" } else { ", quietly" });
+    }
+
+    /// Start the adzan; music that plays pauses (and stays paused).
+    fn play_adzan(&mut self) -> bool {
+        let path = services::addons::file_path(&PRAYER_TIMES, "adzan.m4a");
+        match self.adzan.play(self.mtm, &path, &self.sink) {
+            Ok(()) => {
+                self.st.prayer.adzan = true;
+                if self.st.settings.prayer.pause_music && self.st.media.as_ref().is_some_and(|m| m.is_playing()) {
+                    self.st.media_cmd(MediaCmd::PlayPause);
+                }
+                true
+            }
+            Err(e) => {
+                pwarn!("prayer: the adzan didn't play ({e}); the tone instead");
+                false
+            }
+        }
+    }
+
+    fn adzan_ended(&mut self) {
+        self.adzan.stop();
+        self.st.prayer.adzan = false;
+        // The notice leaves soon after the adzan.
+        let soon = self.st.now + 4.0;
+        if let Some(n) = self.st.notice.as_mut().filter(|n| n.inline == Some(InlineAction::StopAdzan)) {
+            n.until = n.until.min(soon);
         }
     }
 
@@ -1223,6 +1551,8 @@ impl App {
             self.screen = s;
             self.gfx.set_scale(s.scale);
             self.layout_surface();
+            // Whether a full-screen app is in front is a question per screen.
+            services::fullscreen::check();
         }
         self.request_frame();
     }
@@ -1668,6 +1998,10 @@ impl App {
     /// then show a check mark in the pill briefly before the notice leaves.
     fn run_inline_action(&mut self, a: InlineAction) {
         self.refresh_time();
+        if a == InlineAction::StopAdzan {
+            self.adzan.stop();
+            self.st.prayer.adzan = false;
+        }
         let st = &mut self.st;
         if st.notice.as_ref().is_none_or(|n| n.icon == Icon::Check) {
             return;
@@ -1685,7 +2019,6 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            // The Mac app never plays the adzan (no Prayer times there yet).
             InlineAction::ShowAmount | InlineAction::StopAdzan => {}
         }
         let until = st.now + INLINE_DONE_S;
@@ -1785,11 +2118,203 @@ impl App {
                 // Paired phones come to the Mac in a later slice (its Shelf
                 // shows no Pair a phone yet).
                 Command::Pair(_) => {}
-                // Oyenza sign-in comes to the Mac in a later slice.
-                Command::Oyenza(_) => {}
+                Command::Oyenza(c) => self.oyenza(c),
             }
         }
         self.sync_phone_offer();
+    }
+
+    // ------------------------------------------------------------ Oyenza
+
+    /// How the Oyenza worker should pace itself: in use (unlocked, displays
+    /// awake) and the power source.
+    fn oyenza_activity(&self) -> services::oyenza::Activity {
+        let p = self.st.power;
+        services::oyenza::Activity { in_use: !self.away.0 && !self.away.1, on_ac: p.on_ac || !p.has_battery, saver: p.saver, watching: self.oyenza_watch }
+    }
+
+    /// The Oyenza page came on screen or went: the worker keeps its list live only meanwhile.
+    fn set_oyenza_watch(&mut self, on: bool) {
+        if on != self.oyenza_watch {
+            self.oyenza_watch = on;
+            self.tell_oyenza_activity();
+        }
+    }
+
+    fn tell_oyenza_activity(&self) {
+        if let Some(o) = &self.oyenza {
+            o.set_activity(self.oyenza_activity());
+        }
+    }
+
+    fn start_oyenza(&mut self) {
+        match services::oyenza::OyenzaService::start(self.sink.clone(), self.oyenza_activity()) {
+            Ok(o) => self.oyenza = Some(o),
+            Err(e) => pwarn!("oyenza: unavailable ({e})"),
+        }
+    }
+
+    /// A sign-in, cancel, disconnect, note or undo for the worker (started by the first one).
+    fn oyenza(&mut self, c: OyenzaCmd) {
+        if self.oyenza.is_none() {
+            self.start_oyenza();
+        }
+        if let Some(o) = &self.oyenza {
+            o.send(c);
+        }
+    }
+
+    fn on_oyenza(&mut self, ev: OyenzaEvent) {
+        let now = self.st.now;
+        let link_before = self.st.oyenza.link.clone();
+        match ev {
+            OyenzaEvent::Restored { account } => self.st.oyenza.link = OyenzaLink::Connected { account },
+            OyenzaEvent::Connecting { code, url, expires_in_s } => {
+                self.st.oyenza.link = OyenzaLink::Connecting { code, url, until: now + expires_in_s as f64 };
+                // Keep the code on screen while the person goes to oyenza.app.
+                if self.st.oyenza.pinned_before.is_none() {
+                    self.st.oyenza.pinned_before = Some(self.st.pinned);
+                }
+                self.st.pinned = true;
+                self.set_page(PageKind::Oyenza);
+                self.expand();
+            }
+            OyenzaEvent::Connected { account } => {
+                self.end_sign_in();
+                self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
+                self.st.oyenza.link = OyenzaLink::Connected { account };
+            }
+            OyenzaEvent::ConnectFailed(code) => {
+                self.end_sign_in();
+                self.st.oyenza.link = OyenzaLink::Off;
+                let (title, subtitle) = oyenza::connect_failure_text(&code);
+                self.st.notify(Icon::Unlink, palette::ORANGE, title, subtitle, 6.0, None);
+            }
+            OyenzaEvent::ConnectCancelled => {
+                self.end_sign_in();
+                self.st.oyenza.link = OyenzaLink::Off;
+            }
+            OyenzaEvent::Money { arrived } => {
+                let o = &mut self.st.oyenza;
+                o.updated_unix = Some(self.st.unix);
+                let fresh = oyenza::unseen(&mut o.shown, &arrived);
+                if let Some(n) = oyenza::money_notice(&fresh) {
+                    let (icon, color) = match n.flow {
+                        Some(oyenza::Flow::In) => (Icon::MoneyIn, palette::GREEN),
+                        Some(oyenza::Flow::Out) => (Icon::MoneyOut, palette::BLUE),
+                        _ => (Icon::Wallet, palette::BLUE),
+                    };
+                    self.oyenza_notice(icon, color, n.title, n.shown, Some(n.hidden));
+                }
+            }
+            OyenzaEvent::Activity(a) => {
+                let o = &mut self.st.oyenza;
+                o.seen.note(&a.days, now);
+                o.activity = Some(a);
+                o.updated_unix = Some(self.st.unix);
+            }
+            OyenzaEvent::ActivityChecked => self.st.oyenza.updated_unix = Some(self.st.unix),
+            OyenzaEvent::Bills { today, bills } => {
+                let day = if today.is_empty() { self.st.day_key() } else { today };
+                self.st.oyenza.bills = bills;
+                self.st.oyenza.bills_today = day.clone();
+                self.st.oyenza.updated_unix = Some(self.st.unix);
+                self.remind_bills(&day);
+            }
+            OyenzaEvent::NoteSaved(saved) => {
+                let o = &mut self.st.oyenza;
+                o.saving = false;
+                o.input.clear();
+                o.error = None;
+                o.saved = Some((saved, now + oyenza::UNDO_S));
+            }
+            OyenzaEvent::NoteFailed { text, code } => {
+                let o = &mut self.st.oyenza;
+                o.saving = false;
+                if o.input.trim().is_empty() {
+                    o.input = text;
+                }
+                o.error = Some(oyenza::note_error_text(&code).into());
+            }
+            OyenzaEvent::Undone => self.st.oyenza.flash = Some(("Taken back".into(), now + 3.0)),
+            OyenzaEvent::UndoFailed(code) => {
+                let line = if code == "too_late" { "Too late to undo here. Change it in oyenza.app" } else { "Couldn't undo. Change it in oyenza.app" };
+                self.st.oyenza.flash = Some((line.into(), now + 5.0));
+            }
+            OyenzaEvent::Disconnected { by_server } => {
+                self.end_sign_in();
+                self.st.oyenza = crate::state::OyenzaState::default();
+                let (title, subtitle) =
+                    if by_server { ("Oyenza disconnected", "Sign in again in Settings") } else { ("Disconnected from Oyenza", "Sign in again any time in Settings") };
+                self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
+            }
+        }
+        // The Oyenza tab came or went: the menu changes with it, and the
+        // window makes room for its page (or no longer has to).
+        if self.st.oyenza.link != link_before {
+            self.refresh_menu();
+            self.layout_surface();
+        }
+    }
+
+    /// The code is gone (signed in, refused, cancelled): the island stops
+    /// staying open for it.
+    fn end_sign_in(&mut self) {
+        if let Some(p) = self.st.oyenza.pinned_before.take() {
+            self.st.pinned = p;
+            if !p {
+                self.maybe_schedule_collapse();
+            }
+        }
+    }
+
+    /// A money or bill notice. Its sum waits for Show unless the menu's
+    /// "Show amounts on the island" is on (`hidden` None: nothing to hide).
+    /// While a full-screen app hides the island it waits, and shows when the
+    /// island is back if it isn't old by then.
+    fn oyenza_notice(&mut self, icon: Icon, color: Color, title: String, shown: String, hidden: Option<String>) {
+        let now = self.st.now;
+        let hide = hidden.is_some() && !self.st.settings.oyenza_show_amounts;
+        let notice = Notice {
+            icon,
+            color,
+            title,
+            subtitle: if hide { hidden.unwrap_or_default() } else { shown.clone() },
+            until: now + oyenza::NOTICE_S,
+            action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
+            inline: hide.then_some(InlineAction::ShowAmount),
+            reveal: hide.then_some(shown),
+        };
+        if self.fullscreen_hidden {
+            self.st.oyenza.held = Some((notice, now));
+        } else {
+            self.st.notice = Some(notice);
+        }
+    }
+
+    fn show_held_notice(&mut self, now: f64) {
+        if let Some((mut n, at)) = self.st.oyenza.held.take() {
+            if now - at <= oyenza::HELD_MAX_S {
+                n.until = now + oyenza::NOTICE_S;
+                self.st.notice = Some(n);
+            }
+        }
+    }
+
+    /// One reminder per bill, the day before it (or on the day, if the Mac was
+    /// off), from the morning on; the rest come with the next look.
+    fn remind_bills(&mut self, today: &str) {
+        let st = &mut self.st;
+        oyenza::prune_noticed(&mut st.store.oyenza_noticed, today);
+        if st.local.hour < oyenza::BILL_HOUR {
+            return;
+        }
+        let Some(b) = oyenza::bills_to_remind(&st.oyenza.bills, today, &st.store.oyenza_noticed).first().map(|b| (*b).clone()) else { return };
+        st.store.oyenza_noticed.push(oyenza::notice_key(&b));
+        st.save();
+        let (shown, hidden) = oyenza::bill_subtitles(&b);
+        let icon = if b.is_card() { Icon::Card } else { Icon::Calendar };
+        self.oyenza_notice(icon, palette::ORANGE, oyenza::bill_title(&b, today), shown, hidden);
     }
 
     // ------------------------------------------------------------ phone drop
@@ -1979,6 +2504,11 @@ impl App {
             self.maybe_schedule_collapse();
         }
         self.script_held = held;
+        self.prayer_tick();
+        // Prayer times switched off: its tab is gone.
+        if self.st.page == PageKind::Prayer && !self.st.prayer_on() {
+            self.st.page = PageKind::Addons;
+        }
     }
 
     /// Step the island to the frame the display shows next. Returns the part
@@ -2031,6 +2561,7 @@ impl App {
         let dt = dt.clamp(0.0, 0.05) as f32;
         self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
         self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
+        self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));
@@ -2293,7 +2824,14 @@ impl App {
                 let limit = match name {
                     "music-check" | "ja-auto" => 25.0,
                     "ja-get" => 75.0,
-                    "ja-off" => 15.0,
+                    "ja-off" | "prayer-off" => 15.0,
+                    // Prayer times downloads 1.9 MB; Ashar comes 2 seconds in;
+                    // macOS answers where the Mac is (or asks the person).
+                    "prayer-get" => 75.0,
+                    "prayer-adzan" | "prayer-locate" => 10.0,
+                    // A window sliding into its own Space and out again.
+                    "fullscreen-hide" => 15.0,
+                    "fullscreen-stay" | "fullscreen-back" => 10.0,
                     _ => 6.0,
                 };
                 // The ear step: once the card floats, the pointer moves and comes
@@ -2364,6 +2902,10 @@ impl App {
             "system-memory" => self.st.ui.system_module = Module::Memory,
             "system-drives" => self.st.ui.system_module = Module::Drives,
             "system-network" => self.st.ui.system_module = Module::Network,
+            // Power shows on a Mac without a battery whose SMC reports the
+            // whole Mac's draw (a virtual Mac's may not); the page stays on
+            // Network otherwise.
+            "system-power" => self.st.ui.system_module = Module::Power,
             "timer" => {
                 self.leave();
                 self.collapse();
@@ -2375,9 +2917,18 @@ impl App {
             "volume-hud" => {
                 self.st.notice = None;
                 if !self.st.volume.known {
-                    self.on_event(AppEvent::Volume { level: 0.5, muted: false });
+                    self.on_event(AppEvent::Volume { level: 0.5, muted: false, switched: false });
                 }
-                self.on_event(AppEvent::Volume { level: 0.64, muted: false });
+                self.on_event(AppEvent::Volume { level: 0.64, muted: false, switched: false });
+            }
+            // CI's Macs have no headphones to connect: a device only this app
+            // sees comes and goes (the device list listener must hear it), and
+            // the pop-up a pair of AirPods would bring is shown on the window.
+            "headphones" => {
+                self.st.hud = None;
+                let before = services::audio::list_changes();
+                self.smoke_devices = Some((before, services::audio::smoke_device_change()));
+                self.on_event(AppEvent::Bluetooth { name: "AirPods Pro".into(), connected: true, battery: None, audio: true });
             }
             "charging-hud" => {
                 self.st.hud = None;
@@ -2438,6 +2989,114 @@ impl App {
             "ja-off" => {
                 self.st.settings.set_addon(JAPANESE_READINGS.id, false);
                 self.st.cmds.push(Command::SaveSettings);
+            }
+            // Prayer times from the Add-ons tab: its files download from
+            // GitHub, for a place picked by hand (as the picker does).
+            "prayer-get" => {
+                self.st.settings.prayer.follow_location = false;
+                self.st.settings.prayer.place = Some("jakarta".into());
+                self.st.settings.set_addon(PRAYER_TIMES.id, true);
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            "prayer-page" => self.st.cmds.push(Command::SetPage(PageKind::Prayer)),
+            // Ashar comes 2 seconds from now on the prayer clock, with the adzan chosen.
+            "prayer-adzan" => {
+                self.st.settings.prayer.sound = PrayerSound::Adzan;
+                self.st.cmds.push(Command::SaveSettings);
+                let unix = clock::unix_now();
+                if let Some((site, ashar)) = self.st.prayer.site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| (s, t.ashar))) {
+                    self.st.prayer.clock_shift = ashar - 2 - unix;
+                    self.st.prayer.handled_until = Some(ashar - 2);
+                    pinfo!("smoke: Ashar in {} is {}", site.hhmm(ashar), self.st.prayer.place.as_ref().map_or("", |p| p.label.as_str()));
+                }
+            }
+            // Stop in the notice; the prayer clock goes back to the Mac's.
+            "prayer-stop" => {
+                self.run_inline_action(InlineAction::StopAdzan);
+                self.st.prayer.clock_shift = 0;
+                self.st.prayer.handled_until = Some(clock::unix_now());
+            }
+            // "Use my location" in the place picker: macOS is asked.
+            "prayer-locate" => {
+                self.st.settings.prayer.follow_location = true;
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            "prayer-off" => {
+                self.st.settings.set_addon(PRAYER_TIMES.id, false);
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            // A plain window goes full screen in a Space of its own (a second
+            // copy of the app): with Hide, macOS leaves the island on the
+            // desktop's Space, and the island knows.
+            "fullscreen-hide" => {
+                // From rest, with nothing to say.
+                self.st.notice = None;
+                self.collapse();
+                self.st.settings.hide_in_fullscreen = true;
+                self.st.cmds.push(Command::SaveSettings);
+                match std::env::current_exe().and_then(|exe| std::process::Command::new(exe).args(["--full-screen-window", "90"]).spawn()) {
+                    Ok(child) => self.smoke_full_screen = Some(child),
+                    Err(e) => pwarn!("smoke: no full-screen window ({e})"),
+                }
+            }
+            // Stay on top: the island joins the full-screen app's Space.
+            "fullscreen-stay" => {
+                self.st.settings.hide_in_fullscreen = false;
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            // Hide again, and the full-screen app quits: the island is back.
+            "fullscreen-back" => {
+                self.st.settings.hide_in_fullscreen = true;
+                self.st.cmds.push(Command::SaveSettings);
+                if let Some(mut c) = self.smoke_full_screen.take() {
+                    let _ = c.kill();
+                    let _ = c.wait();
+                }
+            }
+            // Oyenza sign-in: its worker starts (this home has no key, so it
+            // asks nothing), one POST goes through the Mac's HTTP client the
+            // way signing in sends it, then the island follows what the worker
+            // would report: a code, a week on the page, money in, signing out.
+            "oyenza-post" => {
+                self.st.notice = None;
+                self.collapse();
+                self.start_oyenza();
+                self.smoke_post = Some(smoke_post());
+            }
+            "oyenza-code" => {
+                let url = "https://oyenza.app/connect?code=KPJX-TMNQ".to_string();
+                self.on_oyenza(OyenzaEvent::Connecting { code: "KPJX-TMNQ".into(), url, expires_in_s: 600 });
+            }
+            "oyenza-page" => {
+                let fake = crate::render::fake_oyenza(&self.st, false);
+                self.on_oyenza(OyenzaEvent::Connected { account: "a\u{2022}\u{2022}\u{2022}@example.com".into() });
+                if let Some(a) = fake.activity {
+                    self.on_oyenza(OyenzaEvent::Activity(a));
+                }
+                self.on_oyenza(OyenzaEvent::Bills { today: fake.bills_today, bills: fake.bills });
+                self.st.notice = None;
+                self.set_page(PageKind::Oyenza);
+                self.expand();
+            }
+            "oyenza-money" => {
+                self.collapse();
+                let wallet = Some(poni_core::oyenza::WalletRef { name: "BCA".into(), color: "#0060AF".into() });
+                let arrived = vec![poni_core::oyenza::Arrival {
+                    id: "smoke-1".into(),
+                    kind: "income".into(),
+                    amount: 1_250_000.0,
+                    currency: "IDR".into(),
+                    text: "Rp 1.250.000".into(),
+                    title: "Gaji Oktober".into(),
+                    wallet,
+                    at: String::new(),
+                }];
+                self.on_oyenza(OyenzaEvent::Money { arrived });
+            }
+            "oyenza-off" => {
+                self.st.notice = None;
+                self.on_oyenza(OyenzaEvent::Disconnected { by_server: false });
+                self.oyenza = None;
             }
             // The themes on the real window: Glass, then Oyen and Glass
             // around a notch (one the screen pretends to have; CI's Macs
@@ -2525,6 +3184,7 @@ impl App {
             // the apps' icons follow from Finder.
             "open-system" => (self.st.system.latest.as_ref().is_some_and(|r| !r.top_cpu.is_empty()) && waited > 1.6) || waited > 5.0,
             "system-gpu" | "system-memory" | "system-drives" | "system-network" => waited > 0.6,
+            "system-power" => waited > 1.3,
             "clipboard-page" => self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP)) || waited > 3.0,
             "shelf-drop" => self.st.shelf_thumbs.values().filter(|t| t.is_some()).count() >= 3 || waited > 5.0,
             "music-check" => {
@@ -2543,6 +3203,22 @@ impl App {
                 _ => waited > 60.0,
             },
             "ja-off" => (self.st.addon(JAPANESE_READINGS.id) == AddonStatus::Off && !ja_folder().exists() && self.addons.is_none()) || waited > 10.0,
+            "prayer-get" => match self.st.addon(PRAYER_TIMES.id) {
+                AddonStatus::Ready => self.st.prayer_on() || waited > 60.0,
+                AddonStatus::Failed => true,
+                _ => waited > 60.0,
+            },
+            // The countdown ticks at least once.
+            "prayer-page" => waited > 1.5,
+            "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
+            "prayer-locate" => self.st.prayer.locate != Locate::Asking || waited > 6.0,
+            "prayer-off" => (self.st.addon(PRAYER_TIMES.id) == AddonStatus::Off && !prayer_folder().exists() && self.addons.is_none()) || waited > 10.0,
+            "headphones" => self.smoke_devices.as_ref().is_some_and(|(before, _)| services::audio::list_changes() > *before) || waited > 4.0,
+            "fullscreen-hide" => self.fullscreen_hidden || waited > 12.0,
+            "fullscreen-stay" => (!self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 6.0,
+            "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
+            "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
+            "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
             "menu" => waited > 1.0,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
@@ -2624,9 +3300,27 @@ impl App {
                 let d = format!("light reading {:.2} ms of CPU (average of {ln}), full reading {:.2} ms of CPU (average of {fnum})", ms(light), ms(full));
                 Some(("system-cost", ln > 0 && fnum > 0, d))
             }
+            // What this Mac's SMC says, and whether the page has it. Only a
+            // reading that isn't a number of watts fails: a Mac without the
+            // key (virtual, Intel) has no Power module.
+            "system-power" => {
+                let smc = services::smc::Smc::open();
+                let w = smc.as_ref().and_then(|s| s.float(services::smc::SYSTEM_TOTAL));
+                let page = self.st.system.latest.as_ref().and_then(|r| r.power.as_ref()).map(|p| p.total_w);
+                let ok = w.is_none_or(|w| w.is_finite() && w >= 0.0);
+                let d = format!("SMC {}; the whole Mac's draw: {w:?} W; on the page: {page:?} W", if smc.is_some() { "open" } else { "not available" });
+                Some(("system-power", ok, d))
+            }
             "volume-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Volume { .. }));
                 Some(("volume-hud", ok, format!("output device: {:?}", services::audio::current())))
+            }
+            "headphones" => {
+                let popup = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Bluetooth { connected: true, .. }));
+                let (before, made) = self.smoke_devices.clone().unwrap_or((0, Err(0)));
+                let after = services::audio::list_changes();
+                let ok = popup && made.is_ok() && after > before;
+                Some(("headphones", ok, format!("pop-up shown: {popup}; device list changes heard: {before} -> {after} (test device: {made:?})")))
             }
             "charging-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Charging { .. }));
@@ -2729,6 +3423,83 @@ impl App {
                 let d = format!("{} tabs, the last {:?}; Japanese readings: {}", tabs.len(), tabs.last(), status.line(&JAPANESE_READINGS, true));
                 Some(("addons-tab", ok, d))
             }
+            "prayer-get" => {
+                let status = self.st.addon(PRAYER_TIMES.id);
+                let checked =
+                    |f: &poni_core::addons::AddonFile| std::fs::read(services::addons::file_path(&PRAYER_TIMES, f.name)).is_ok_and(|b| f.matches(&b));
+                let files: Vec<String> = PRAYER_TIMES.files.iter().map(|f| format!("{} {}", f.name, if checked(f) { "checked" } else { "missing or different" })).collect();
+                let places = self.st.prayer.places.as_ref().map_or(0, |l| l.places.len());
+                let place = self.st.prayer.place.as_ref().map_or("none", |p| p.id.as_str());
+                let ok = status == AddonStatus::Ready && PRAYER_TIMES.files.iter().all(checked) && places > 500 && place == "jakarta";
+                Some(("prayer-addon", ok, format!("{status:?}: {}; {places} places, times for {place}", files.join(", "))))
+            }
+            "prayer-page" => {
+                let tabs = pages::tabs(&self.st);
+                let now = self.st.prayer_now();
+                let next = self.st.prayer.site().and_then(|s| poni_core::prayer::next_prayer(&s, now).map(|m| format!("{} at {}", m.prayer.name(), s.hhmm(m.at))));
+                let ok = self.st.page == PageKind::Prayer && tabs.contains(&PageKind::Prayer) && next.is_some();
+                Some(("prayer-page", ok, format!("{} tabs; next: {}", tabs.len(), next.unwrap_or_else(|| "none".into()))))
+            }
+            "prayer-adzan" => {
+                let playing = self.adzan.is_playing();
+                let notice = self.st.notice.as_ref().map(|n| format!("{} / {}", n.title, n.subtitle)).unwrap_or_default();
+                let stop = self.st.notice.as_ref().is_some_and(|n| n.inline == Some(InlineAction::StopAdzan));
+                let ok = playing && self.st.prayer.adzan && stop;
+                Some(("prayer-adzan", ok, format!("adzan playing: {playing}; notice \"{notice}\", Stop in it: {stop}")))
+            }
+            "prayer-stop" => {
+                let playing = self.adzan.is_playing();
+                Some(("prayer-stop", !playing && !self.st.prayer.adzan, format!("adzan playing: {playing}")))
+            }
+            "prayer-locate" => {
+                let l = self.st.prayer.locate;
+                Some(("prayer-locate", l != Locate::Idle, format!("location: {l:?}")))
+            }
+            "prayer-off" => {
+                let status = self.st.addon(PRAYER_TIMES.id);
+                let gone = !prayer_folder().exists();
+                let tab = pages::tabs(&self.st).contains(&PageKind::Prayer);
+                let ok = status == AddonStatus::Off && gone && self.st.prayer.places.is_none() && !tab && self.addons.is_none();
+                Some(("prayer-off", ok, format!("{status:?}; files {}; Prayer tab: {tab}", if gone { "deleted" } else { "still there" })))
+            }
+            "fullscreen-hide" => {
+                let ok = self.front_full_screen && self.fullscreen_hidden && !window::is_shown();
+                let d = format!("full-screen app in front: {}; island {}", self.front_full_screen, if window::is_shown() { "still on the screen" } else { "off the screen" });
+                Some(("fullscreen-hide", ok, d))
+            }
+            "fullscreen-stay" => {
+                let ok = self.front_full_screen && !self.fullscreen_hidden && window::is_shown();
+                Some(("fullscreen-stay", ok, format!("full-screen app in front: {}; island on the screen: {}", self.front_full_screen, window::is_shown())))
+            }
+            "fullscreen-back" => {
+                let ok = !self.front_full_screen && !self.fullscreen_hidden && window::is_shown();
+                Some(("fullscreen-back", ok, format!("full-screen app in front: {}; island on the screen: {}", self.front_full_screen, window::is_shown())))
+            }
+            "oyenza-post" => {
+                let (ok, d) = self.smoke_post.clone().unwrap_or((false, "not run".into()));
+                Some(("oyenza-post", ok && self.oyenza.is_some(), format!("worker {}; {d}", if self.oyenza.is_some() { "running" } else { "not started" })))
+            }
+            "oyenza-code" => {
+                let code = matches!(&self.st.oyenza.link, OyenzaLink::Connecting { code, .. } if code == "KPJX-TMNQ");
+                let ok = code && self.st.pinned && self.st.page == PageKind::Oyenza && pages::tabs(&self.st).contains(&PageKind::Oyenza);
+                Some(("oyenza-code", ok, format!("code shown: {code}; island kept open: {}; page {:?}", self.st.pinned, self.st.page)))
+            }
+            "oyenza-page" => {
+                let o = &self.st.oyenza;
+                let rows = o.activity.as_ref().map_or(0, |a| a.days.iter().map(|d| d.rows.len()).sum::<usize>());
+                let ok = matches!(o.link, OyenzaLink::Connected { .. }) && rows > 0 && !o.bills.is_empty() && self.st.oyenza.pinned_before.is_none();
+                Some(("oyenza-page", ok, format!("{:?}; {rows} transactions, {} bills; island no longer held open: {}", o.link, o.bills.len(), o.pinned_before.is_none())))
+            }
+            "oyenza-money" => {
+                let n = self.st.notice.as_ref();
+                let ok = n.is_some_and(|n| n.title == "Money in \u{b7} BCA" && n.inline == Some(InlineAction::ShowAmount) && n.reveal.is_some());
+                Some(("oyenza-money", ok, format!("notice: {:?} / {:?}, sum held back for Show: {}", n.map(|n| &n.title), n.map(|n| &n.subtitle), n.is_some_and(|n| n.reveal.is_some()))))
+            }
+            "oyenza-off" => {
+                let tab = pages::tabs(&self.st).contains(&PageKind::Oyenza);
+                let ok = self.st.oyenza.link == OyenzaLink::Off && !tab;
+                Some(("oyenza-off", ok, format!("{:?}; Oyenza tab: {tab}", self.st.oyenza.link)))
+            }
             "ja-off" => {
                 let status = self.st.addon(JAPANESE_READINGS.id);
                 let gone = !ja_folder().exists();
@@ -2741,6 +3512,63 @@ impl App {
     }
 }
 
+/// The smoke test: one POST with a JSON body and a key through the Mac's
+/// HTTP client (what signing in to Oyenza and saving a spend send), to a
+/// listener of its own on this Mac. Whether it arrived whole and its answer
+/// came back, and what happened.
+fn smoke_post() -> (bool, String) {
+    use std::io::{Read, Write};
+    use std::time::{Duration, Instant};
+    let listener = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(l) => l,
+        Err(e) => return (false, format!("no listener ({e})")),
+    };
+    let port = listener.local_addr().map(|a| a.port()).unwrap_or(0);
+    let _ = listener.set_nonblocking(true);
+    let server = std::thread::spawn(move || -> String {
+        let deadline = Instant::now() + Duration::from_secs(6);
+        let mut conn = None;
+        while conn.is_none() && Instant::now() < deadline {
+            match listener.accept() {
+                Ok((c, _)) => conn = Some(c),
+                Err(_) => std::thread::sleep(Duration::from_millis(20)),
+            }
+        }
+        let Some(mut c) = conn else { return String::new() };
+        let _ = c.set_nonblocking(false);
+        let _ = c.set_read_timeout(Some(Duration::from_secs(5)));
+        let mut buf = Vec::new();
+        let mut chunk = [0u8; 4096];
+        // The headers, then as much body as Content-Length says.
+        loop {
+            match c.read(&mut chunk) {
+                Ok(0) | Err(_) => break,
+                Ok(n) => buf.extend_from_slice(&chunk[..n]),
+            }
+            let text = String::from_utf8_lossy(&buf).into_owned();
+            if let Some(end) = text.find("\r\n\r\n") {
+                let len = text.lines().find_map(|l| l.to_ascii_lowercase().strip_prefix("content-length:").map(|v| v.trim().parse::<usize>().unwrap_or(0))).unwrap_or(0);
+                if buf.len() >= end + 4 + len {
+                    break;
+                }
+            }
+        }
+        let body = "{\"ok\":true}";
+        let _ = c.write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).as_bytes());
+        String::from_utf8_lossy(&buf).into_owned()
+    });
+    let json = "{\"app\":\"poni\",\"name\":\"Smoke Mac\"}";
+    let answer = services::http::Client::new("OyenzaStudio smoke").and_then(|c| {
+        c.send(services::http::Method::Post, &format!("http://127.0.0.1:{port}/connect/start"), &[("Authorization", "Bearer oyzd_smoke")], Some(json), Duration::from_secs(5))
+    });
+    let seen = server.join().unwrap_or_default();
+    let arrived = seen.starts_with("POST /connect/start ") && seen.contains("Bearer oyzd_smoke") && seen.to_ascii_lowercase().contains("content-type: application/json") && seen.ends_with(json);
+    match answer {
+        Ok(r) => (arrived && r.status == 200 && r.body.contains("\"ok\":true"), format!("request arrived whole: {arrived}; answer {} {}", r.status, r.body)),
+        Err(e) => (false, format!("request arrived whole: {arrived}; no answer ({e})")),
+    }
+}
+
 /// Lines of these lyrics that have romaji, and lines that need it.
 fn romaji_lines(l: &LyricsState) -> (usize, usize) {
     let needing = l.lyrics.as_ref().map_or(0, |x| x.lines.iter().filter(|line| poni_core::romanize::needs_roman(line.text.trim())).count());
@@ -2750,6 +3578,10 @@ fn romaji_lines(l: &LyricsState) -> (usize, usize) {
 /// The Japanese readings add-on's folder (every version).
 fn ja_folder() -> PathBuf {
     paths::addons_dir().join(JAPANESE_READINGS.id)
+}
+
+fn prayer_folder() -> PathBuf {
+    paths::addons_dir().join(PRAYER_TIMES.id)
 }
 
 /// The smoke run's Japanese song (`render::LYRICS_JA`) in the lyrics cache,
@@ -2939,7 +3771,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 37] = [
+const SMOKE_STEPS: [&str; 53] = [
     "idle",
     "hover",
     "open-focus",
@@ -2949,10 +3781,12 @@ const SMOKE_STEPS: [&str; 37] = [
     "system-memory",
     "system-drives",
     "system-network",
+    "system-power",
     "timer",
     "notice",
     "volume-hud",
     "charging-hud",
+    "headphones",
     "clipboard-copy",
     "clipboard-page",
     "shelf-drop",
@@ -2976,6 +3810,20 @@ const SMOKE_STEPS: [&str; 37] = [
     "ja-get",
     "addons-tab",
     "ja-off",
+    "prayer-get",
+    "prayer-page",
+    "prayer-adzan",
+    "prayer-stop",
+    "prayer-locate",
+    "prayer-off",
+    "fullscreen-hide",
+    "fullscreen-stay",
+    "fullscreen-back",
+    "oyenza-post",
+    "oyenza-code",
+    "oyenza-page",
+    "oyenza-money",
+    "oyenza-off",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.

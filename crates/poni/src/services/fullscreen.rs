@@ -17,6 +17,13 @@
 //! Every signal runs the same rule ([`evaluate`]) and only changes are
 //! reported. WinEvent callbacks are free functions running on the thread that
 //! installed them (the UI thread), so the shared state lives in a thread-local.
+//!
+//! The same signals keep, for Step aside, the app windows at the top edge of
+//! the island's monitor (a maximized browser, a snapped window): looked at
+//! from scratch when another window comes to the front,
+//! and one window at a time as the watched ones move. The app hears of a
+//! change ([`AppEvent::TopWindows`]) and decides whether one sits under the
+//! island. With Stay picked, nothing is looked at.
 
 use crate::events::{AppEvent, EventSink, WM_APP_APPBAR};
 use std::cell::{Cell, RefCell};
@@ -38,8 +45,8 @@ use windows::Win32::UI::Shell::{
 use windows::Win32::UI::WindowsAndMessaging::{
     FindWindowExW, GetClassNameW, GetForegroundWindow, GetWindow, GetWindowLongW, GetWindowRect, GetWindowThreadProcessId,
     GetDesktopWindow, GetShellWindow, IsIconic, IsWindow, IsWindowVisible, IsZoomed, CHILDID_SELF, EVENT_OBJECT_DESTROY, EVENT_OBJECT_HIDE,
-    EVENT_OBJECT_LOCATIONCHANGE, EVENT_SYSTEM_FOREGROUND, GWL_STYLE, GW_HWNDPREV, OBJID_WINDOW, WINEVENT_OUTOFCONTEXT, WS_CAPTION,
-    WS_THICKFRAME,
+    EVENT_OBJECT_LOCATIONCHANGE, EVENT_SYSTEM_FOREGROUND, GWL_EXSTYLE, GWL_STYLE, GW_CHILD, GW_HWNDNEXT, GW_HWNDPREV, OBJID_WINDOW,
+    WINEVENT_OUTOFCONTEXT, WS_CAPTION, WS_EX_APPWINDOW, WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW, WS_EX_TRANSPARENT, WS_THICKFRAME,
 };
 
 /// Desktop and shell surfaces that cover a whole monitor without being a
@@ -98,6 +105,12 @@ struct Watch {
     thread_hooks: RefCell<Vec<ThreadHooks>>,
     busy: Cell<bool>,
     dirty: Cell<bool>,
+    /// Step aside: the thin band along the top edge of the island's monitor
+    /// that the app asked about (screen pixels); None while Stay is picked.
+    top_band: Cell<Option<RECT>>,
+    /// The app windows reaching into that band (at the top edge) and where,
+    /// clipped to it, as last reported to the app.
+    top: RefCell<Vec<(HWND, [i32; 4])>>,
 }
 
 /// A window and its geometry at the last evaluation, so that the per-move
@@ -159,6 +172,8 @@ impl FullscreenWatcher {
             thread_hooks: RefCell::new(Vec::new()),
             busy: Cell::new(false),
             dirty: Cell::new(false),
+            top_band: Cell::new(None),
+            top: RefCell::new(Vec::new()),
         });
         let me = Self { helper, fg_hook, appbar: Cell::new(appbar) };
         let stored = WATCH.try_with(|w| match w.try_borrow_mut() {
@@ -207,6 +222,17 @@ impl FullscreenWatcher {
             if let Some(on) = reevaluate(&w, None) {
                 w.sink.send(AppEvent::Fullscreen(on));
             }
+            rescan_top(&w);
+        }
+    }
+
+    /// Step aside on, with the band along the top edge of the island's
+    /// monitor in screen pixels, or off (`None`: Stay). Either way every window is
+    /// looked at again: the island's monitor or its scale may have changed.
+    pub fn watch_top(&self, band: Option<RECT>) {
+        if let Some(w) = current() {
+            w.top_band.set(band);
+            rescan_top(&w);
         }
     }
 
@@ -290,6 +316,9 @@ unsafe extern "system" fn on_win_event(
         } else {
             return;
         };
+        // Step aside: maximized, restored, snapped or dragged, the window
+        // may have come to the top of the island's monitor or left it.
+        moved_top(&w, hwnd);
         // Window drags fire this once per mouse move: only a change in what
         // the rule looks at is worth a full evaluation.
         let mon = island_monitor(&w, None);
@@ -301,6 +330,11 @@ unsafe extern "system" fn on_win_event(
         if hwnd.is_invalid() || hwnd != w.culprit.get().hwnd {
             return;
         }
+        moved_top(&w, hwnd);
+    } else {
+        // Another window in front: what reaches the top may have changed
+        // with it (one minimized or closed, another virtual desktop).
+        rescan_top(&w);
     }
     match reevaluate(&w, None) {
         Some(on) => w.sink.send(AppEvent::Fullscreen(on)),
@@ -623,6 +657,110 @@ pub fn window_above(island: HWND) -> Option<String> {
     None
 }
 
+// ------------------------------------------------------------------ step aside
+
+/// Step aside: every app window at the top edge of the island's monitor
+/// (reaching into the band along it), looked at from scratch, reported
+/// when it changed.
+/// With Stay picked, the list empties and nothing is looked at.
+fn rescan_top(w: &Watch) {
+    let found = w.top_band.get().map(|band| scan_top(w, &band)).unwrap_or_default();
+    set_top(w, found);
+}
+
+/// A watched window moved, resized or went away: update its own entry
+/// without looking at every other window (a drag fires once per mouse move).
+fn moved_top(w: &Watch, hwnd: HWND) {
+    let Some(band) = w.top_band.get() else { return };
+    let now = at_top(w, hwnd, &band);
+    let mut list = w.top.borrow().clone();
+    match (list.iter().position(|t| t.0 == hwnd), now) {
+        (Some(i), Some(r)) => list[i].1 = r,
+        (Some(i), None) => {
+            list.remove(i);
+        }
+        (None, Some(r)) => list.push((hwnd, r)),
+        (None, None) => return,
+    }
+    set_top(w, list);
+}
+
+/// Keep `list`, and tell the app when the places in it changed.
+fn set_top(w: &Watch, list: Vec<(HWND, [i32; 4])>) {
+    let places = |l: &[(HWND, [i32; 4])]| {
+        let mut v: Vec<[i32; 4]> = l.iter().map(|t| t.1).collect();
+        v.sort_unstable();
+        v
+    };
+    let (before, now) = (places(&w.top.borrow()), places(&list));
+    w.top.replace(list);
+    if now != before {
+        w.sink.send(AppEvent::TopWindows(now));
+    }
+}
+
+/// The app windows reaching into `band`, topmost first.
+fn scan_top(w: &Watch, band: &RECT) -> Vec<(HWND, [i32; 4])> {
+    let mut found = Vec::new();
+    let mut next = unsafe { GetWindow(GetDesktopWindow(), GW_CHILD) };
+    // Each step is one cheap call; the cap only guards against a z-order
+    // that changes under the walk.
+    for _ in 0..4096 {
+        let Ok(hwnd) = next else { break };
+        if hwnd.is_invalid() {
+            break;
+        }
+        if let Some(r) = at_top(w, hwnd, band) {
+            found.push((hwnd, r));
+        }
+        next = unsafe { GetWindow(hwnd, GW_HWNDNEXT) };
+    }
+    found
+}
+
+/// Where `hwnd` reaches into `band` (clipped to it), when it is an app
+/// window people see and switch to there: visible, not minimized or cloaked,
+/// not ours, not the desktop, a taskbar or a pop-up, and not an overlay (see
+/// [`is_overlay`]).
+fn at_top(w: &Watch, hwnd: HWND, band: &RECT) -> Option<[i32; 4]> {
+    unsafe {
+        if !IsWindowVisible(hwnd).as_bool() || IsIconic(hwnd).as_bool() {
+            return None;
+        }
+        let mut r = RECT::default();
+        GetWindowRect(hwnd, &mut r).ok()?;
+        let place = clip(&r, band)?;
+        if is_overlay(GetWindowLongW(hwnd, GWL_EXSTYLE) as u32) {
+            return None;
+        }
+        let mut pid = 0u32;
+        GetWindowThreadProcessId(hwnd, Some(&mut pid));
+        if pid == w.pid || is_cloaked(hwnd) {
+            return None;
+        }
+        let class = class_name(hwnd);
+        if SHELL_CLASSES.contains(&class.as_str()) || POPUP_CLASSES.contains(&class.as_str()) {
+            return None;
+        }
+        Some(place)
+    }
+}
+
+/// Extended styles of windows drawn over others without being one people
+/// work in: click-through (a graphics driver's overlay, a screen dimmer,
+/// a share's border), never activated (on-screen keyboards, islands like
+/// ours), or a tool window without a taskbar button (floating toolbars,
+/// hover cards). Some stay visible across the whole screen all day.
+fn is_overlay(ex: u32) -> bool {
+    ex & (WS_EX_TRANSPARENT.0 | WS_EX_NOACTIVATE.0) != 0 || (ex & WS_EX_TOOLWINDOW.0 != 0 && ex & WS_EX_APPWINDOW.0 == 0)
+}
+
+/// `r` cut to `band` as (left, top, right, bottom); None when they don't meet.
+fn clip(r: &RECT, band: &RECT) -> Option<[i32; 4]> {
+    let c = [r.left.max(band.left), r.top.max(band.top), r.right.min(band.right), r.bottom.min(band.bottom)];
+    (c[0] < c[2] && c[1] < c[3]).then_some(c)
+}
+
 fn class_name(hwnd: HWND) -> String {
     let mut buf = [0u16; 128];
     let n = unsafe { GetClassNameW(hwnd, &mut buf) };
@@ -693,6 +831,36 @@ mod tests {
         let mon = r(1920, 0, 4480, 1440);
         assert!(contains(&mon, &mon));
         assert!(contains(&r(1912, -8, 4488, 1448), &mon));
+    }
+
+    #[test]
+    fn a_window_is_at_the_top_only_where_it_reaches_into_the_band() {
+        // The app's band: 8 DIPs along the top edge (here at 100 %).
+        let band = r(0, 0, 1920, 8);
+        // Maximized: it overhangs the monitor, cut to the band.
+        assert_eq!(clip(&r(-8, -8, 1928, 1048), &band), Some([0, 0, 1920, 8]));
+        // Snapped to the left half (its resize border reaches past the middle).
+        assert_eq!(clip(&r(-7, 0, 967, 1047), &band), Some([0, 0, 967, 8]));
+        // Dragged up to the edge by hand, its top a few pixels down.
+        assert_eq!(clip(&r(400, 5, 1500, 900), &band), Some([400, 5, 1500, 8]));
+        // Placed lower (a terminal 25 px down), or on the monitor to the
+        // right: not at the top, whatever the island covers of its frame.
+        assert_eq!(clip(&r(200, 25, 900, 700), &band), None);
+        assert_eq!(clip(&r(200, 8, 900, 700), &band), None);
+        assert_eq!(clip(&r(1920, 0, 3840, 1040), &band), None);
+        // A monitor left of the primary one, its band its own.
+        let left = r(-2560, -200, 0, -128);
+        assert_eq!(clip(&r(-2568, -208, 8, 1208), &left), Some([-2560, -200, 0, -128]));
+    }
+
+    #[test]
+    fn overlays_are_not_windows_at_the_top() {
+        // A browser, File Explorer, a Store app's frame.
+        assert!(!is_overlay(0x0000_0100)); // WS_EX_WINDOWEDGE
+        assert!(!is_overlay((WS_EX_TOOLWINDOW | WS_EX_APPWINDOW).0), "a tool window with a taskbar button counts");
+        for ex in [WS_EX_TRANSPARENT, WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW, WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT] {
+            assert!(is_overlay(ex.0), "{:#x}", ex.0);
+        }
     }
 
     #[test]

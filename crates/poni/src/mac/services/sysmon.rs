@@ -7,6 +7,9 @@
 //!   performance levels' counts, `hw.perflevel*`), the uptime
 //!   (`kern.boottime`). macOS gives apps no public speed, temperature or
 //!   power reading, so the page shows those as not reported.
+//! * Power, on a Mac without a battery while the page is open: the whole
+//!   Mac's draw from its own sensor (the SMC's `PSTR`, `smc.rs`), as Stats
+//!   reads it. macOS doesn't split it by part.
 //! * GPU: the graphics processor's own statistics (IOKit's
 //!   `PerformanceStatistics`): device, renderer and tiler use, memory in use.
 //! * Memory: Activity Monitor's split (`sysstats::memory_split`), the swap in
@@ -48,6 +51,7 @@ use objc2_foundation::{
     NSString, NSURLResourceKey, NSURLVolumeAvailableCapacityForImportantUsageKey, NSURLVolumeIsRemovableKey, NSURLVolumeLocalizedNameKey,
     NSURLVolumeTotalCapacityKey, NSURL,
 };
+use poni_core::power::PowerReading;
 use poni_core::sysmon::{
     app_bundle, bundle_name, core_kinds, core_split, level_pressure, pack_mwh, parse_if_list, top_cpu, top_io, top_memory, AppTracker, AppUse,
     BatteryReading, CoreKind, CoreLoad, CoreTimes, CpuReading, DiskActivity, Drive, GpuReading, IfStats, MemoryReading, Monitor, NetReading,
@@ -456,6 +460,9 @@ struct Sampler {
     /// (plugged in, charging) at the last reading: a change refreshes the details.
     power: Option<(bool, bool)>,
     slow_at: Option<Instant>,
+    /// The SMC, open while the page is (a Mac without a battery only).
+    smc: Option<super::smc::Smc>,
+    smc_looked: bool,
 }
 
 impl Sampler {
@@ -495,6 +502,8 @@ impl Sampler {
             details: None,
             power: None,
             slow_at: None,
+            smc: None,
+            smc_looked: false,
         };
         // Baselines for everything measured between two readings.
         s.ticks = s.core_ticks();
@@ -549,8 +558,28 @@ impl Sampler {
             self.battery = self.battery_reading();
             laps.lap("battery");
         }
+        // The whole Mac's draw while the page is open, on a Mac without a
+        // battery (a MacBook's Battery module says what it draws).
+        if !full {
+            self.smc = None;
+            self.smc_looked = false;
+        }
+        let power = (full && self.battery.is_none()).then(|| self.power_reading()).flatten();
         let (top_cpu, top_memory, top_io) = top;
-        Reading { cpu, gpu, memory, drives: self.drive_list.clone(), disk, network, battery: self.battery.clone(), power: None, top_cpu, top_memory, top_io }
+        Reading { cpu, gpu, memory, drives: self.drive_list.clone(), disk, network, battery: self.battery.clone(), power, top_cpu, top_memory, top_io }
+    }
+
+    /// What the SMC says the whole Mac draws, opened with the page's first
+    /// reading. A Mac without the key (Intel, virtual) has none.
+    fn power_reading(&mut self) -> Option<PowerReading> {
+        if !self.smc_looked {
+            self.smc_looked = true;
+            self.smc = super::smc::Smc::open();
+            let w = self.smc.as_ref().and_then(|s| s.float(super::smc::SYSTEM_TOTAL));
+            pinfo!("system: the SMC's whole-Mac power: {}", w.map_or("none".to_string(), |w| format!("{w:.1} W")));
+        }
+        let w = self.smc.as_ref()?.float(super::smc::SYSTEM_TOTAL).filter(|w| w.is_finite() && *w > 0.0)?;
+        Some(PowerReading { total_w: w, cpu_w: None, gpu_w: None, rest_w: w, psu: None })
     }
 
     // ------------------------------------------------------------ CPU
@@ -879,7 +908,7 @@ struct Cf(CFTypeRef);
 
 impl Cf {
     fn new(p: CFTypeRef) -> Option<Cf> {
-        (!p.is_null()).then_some(Cf(p))
+        (!p.is_null()).then(|| Cf(p))
     }
 }
 
@@ -945,7 +974,7 @@ fn services(class: &CStr) -> Vec<Io> {
     let it = Io(it);
     std::iter::from_fn(|| {
         let e = unsafe { IOIteratorNext(it.0) };
-        (e != 0).then_some(Io(e))
+        (e != 0).then(|| Io(e))
     })
     .collect()
 }

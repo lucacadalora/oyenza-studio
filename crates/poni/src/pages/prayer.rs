@@ -12,7 +12,7 @@
 //! and someone is at the PC; nothing runs for it otherwise.
 //!
 //! Times come from `poni_core::prayer`; the place from `settings.prayer`,
-//! found by Windows' location (the app) or picked here.
+//! found by Windows' or macOS's location (the app) or picked here.
 
 use crate::commands::Command;
 use crate::gfx::{TextStyle, Weight};
@@ -84,8 +84,19 @@ const SEARCH_H: f32 = 32.0;
 const RESULT_H: f32 = 26.0;
 const RESULTS: usize = 8;
 const QURAN: &str = "https://quran.oyenza.com";
-/// Windows' location page (Settings › Privacy & security › Location).
-const LOCATION_SETTINGS: &str = "ms-settings:privacy-location";
+/// Where location is allowed for Oyenza Studio: Windows' Settings › Privacy &
+/// security › Location, or the Mac's System Settings › Privacy & Security ›
+/// Location Services.
+const LOCATION_SETTINGS: &str =
+    if cfg!(windows) { "ms-settings:privacy-location" } else { "x-apple.systempreferences:com.apple.preference.security?Privacy_LocationServices" };
+/// The picker's line when location is off, or when the system couldn't say.
+const DENIED_HINT: &str = if cfg!(windows) {
+    "Windows' location is off for Oyenza Studio. Turn it on to find your place, or type it."
+} else {
+    "Location Services is off for Oyenza Studio. Turn it on to find your place, or type it."
+};
+const UNKNOWN_HINT: &str =
+    if cfg!(windows) { "Windows couldn't tell where this PC is. Type your kab/kota." } else { "macOS couldn't tell where this Mac is. Type your kab/kota." };
 const SOUNDS: [(PrayerSound, &str); 3] = [(PrayerSound::Adzan, "Adzan"), (PrayerSound::Tone, "Tone"), (PrayerSound::Silent, "Silent")];
 
 pub fn height(_st: &AppState) -> f32 {
@@ -356,8 +367,8 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let top = area.y + SEARCH_H + 12.0;
     if st.prayer.query.trim().is_empty() {
         let hint = match st.prayer.locate {
-            Locate::Denied => "Windows' location is off for Oyenza Studio. Turn it on to find your place, or type it.",
-            Locate::Unknown => "Windows couldn't tell where this PC is. Type your kab/kota.",
+            Locate::Denied => DENIED_HINT,
+            Locate::Unknown => UNKNOWN_HINT,
             Locate::Far { .. } => "Prayer times know Indonesia's kab/kota and Makkah, Madinah, Jeddah for now.",
             _ => "Every kab/kota in Kemenag's schedule, and Makkah, Madinah, Jeddah.",
         };

@@ -94,6 +94,13 @@ pub struct Settings {
     /// Width of the expanded island in DIPs (bigger = roomier pages).
     pub expanded_width: f32,
     pub hide_in_fullscreen: bool,
+    /// Over maximized windows: Step aside (true) or Stay. While an app window
+    /// reaches the top of the screen under the island (a maximized browser's
+    /// tabs, a snapped window's title bar), the resting island turns into the
+    /// Hidden look's invisible strip until the pointer reaches it; volume,
+    /// notices and a new song's title still show. Windows only: on a Mac the
+    /// menu bar keeps windows below the island.
+    pub step_aside: bool,
     pub monitor: MonitorChoice,
     pub show_media_activity: bool,
     pub lyrics: bool,
@@ -183,6 +190,7 @@ impl Default for Settings {
             collapse_delay_ms: 0,
             expanded_width: 620.0,
             hide_in_fullscreen: true,
+            step_aside: true,
             monitor: MonitorChoice::Primary,
             show_media_activity: true,
             lyrics: true,
@@ -427,6 +435,17 @@ mod tests {
         }
         let s: Settings = serde_json::from_str(r#"{"game_stats":true,"game_peek":true}"#).unwrap();
         assert!(s.game_peek);
+    }
+
+    #[test]
+    fn the_island_steps_aside_unless_stay_is_picked() {
+        // Files from 0.2.2 and before have no choice yet: Step aside.
+        let old: Settings = serde_json::from_str(r#"{"settings_version":3,"hide_in_fullscreen":false}"#).unwrap();
+        assert!(old.step_aside);
+        let stay: Settings = serde_json::from_str(r#"{"step_aside":false}"#).unwrap();
+        assert!(!stay.step_aside);
+        let back: Settings = serde_json::from_str(&serde_json::to_string(&stay).unwrap()).unwrap();
+        assert!(!back.step_aside);
     }
 
     #[test]

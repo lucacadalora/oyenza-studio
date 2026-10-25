@@ -15,7 +15,8 @@
 //! On a desktop, Power is the whole PC's draw: its power supply's own
 //! reading when it reports over USB, else an estimate (`poni_core::power`),
 //! split into the CPU, the graphics card and the rest, with the source on
-//! the right.
+//! the right. On a Mac without a battery it's the whole Mac's draw from its
+//! own sensor, which macOS doesn't split by part.
 //!
 //! The last module, Games (Windows only), holds Show over games: its switch,
 //! whether the readout stays or peeks, whether Windows lets Poni read frames
@@ -706,6 +707,10 @@ fn battery_glyph(ui: &mut Ui, center: Point, percent: u8, color: Color, plugged:
 /// and the rows on the left, the minute in the middle, where the number
 /// comes from on the right.
 fn draw_power(ui: &mut Ui, st: &mut AppState, p: &PowerReading, r: &Reading, h: &History, cols: &Cols) {
+    if MAC {
+        draw_power_mac(ui, st, p, r, h, cols);
+        return;
+    }
     let accent = st.accent;
     let total = p.total_w.max(0.1);
     let share = |w: f32| (w / total).clamp(0.0, 1.0);
@@ -792,6 +797,46 @@ fn draw_power(ui: &mut Ui, st: &mut AppState, p: &PowerReading, r: &Reading, h: 
             ui.c.text(&note, rest.inset(0.0, 1.0), &TextStyle::caption().color(palette::TEXT_DIM).wrap().top().line_spacing(1.25));
         }
     }
+}
+
+/// The Mac's Power: the whole Mac's draw as its own sensor (the SMC) reads
+/// it, with its minute. macOS doesn't split the watts by part, so the CPU's
+/// and the graphics' load stand beside them instead.
+fn draw_power_mac(ui: &mut Ui, st: &mut AppState, p: &PowerReading, r: &Reading, h: &History, cols: &Cols) {
+    let accent = st.accent;
+    let load = |v: Option<f32>, label: &'static str, color: Color| match v {
+        Some(v) => Gauge { frac: Some(v.clamp(0.0, 1.0)), value: fmt_pct(v), label, color },
+        None => Gauge::unknown(label),
+    };
+    let (cpu, gpu) = (r.cpu.as_ref().map(|c| c.load), r.gpu.as_ref().map(|g| g.util));
+    let ring = Ring { parts: vec![(1.0, CPU_W_C)], value: fmt_w(p.total_w) };
+    let (dash, rest) = cols.dash.split_top(DASH_H);
+    dashboard(ui, dash, &load(cpu, "CPU", CPU_W_C), &ring, &load(gpu, "GPU", GPU_W_C));
+    let rows = [
+        Row::dot(CPU_W_C, "Whole Mac", fmt_w(p.total_w)),
+        Row::plain("CPU load", cpu.map_or_else(|| PLACEHOLDER.into(), fmt_pct)),
+        Row::plain("Graphics load", gpu.map_or_else(|| PLACEHOLDER.into(), fmt_pct)),
+    ];
+    details(ui, rest, "THIS MAC", &rows);
+
+    // The minute, and its highest and lowest under it.
+    let (chart, sub) = history_column(ui, cols.mid, "POWER HISTORY", "THIS MINUTE");
+    chart_box(ui, chart);
+    let top = watts_ceiling(h.power.max());
+    plot(ui, &h.power, top, accent, chart.inset(1.0, 1.0), Fill::Gradient);
+    ui.c.text(&fmt_w(top), Rect::new(chart.x + 7.0, chart.y + 3.0, 60.0, 14.0), &TextStyle::caption().tabular().color(palette::TEXT_FAINT));
+    let low = h.power.values().filter(|v| v.is_finite()).fold(f32::INFINITY, f32::min);
+    let line = if low.is_finite() { format!("Highest {} \u{b7} lowest {}", fmt_w(h.power.max()), fmt_w(low)) } else { PLACEHOLDER.into() };
+    ui.c.text(&line, sub.inset(0.0, 3.0), &TextStyle::caption().tabular().color(palette::TEXT_DIM).top());
+
+    // Where the number comes from.
+    let (head, rest) = cols.top.split_top(SEP_H);
+    separator(ui, head, "SOURCE");
+    let name_st = TextStyle::footnote().weight(Weight::Semibold).wrap().top().line_spacing(1.25);
+    let (name_r, rest) = rest.split_top(36.0);
+    ui.c.text("The Mac's own sensor", name_r.inset(0.0, 2.0), &name_st);
+    let note = "What its System Management Controller measures, the number Stats shows as System total. macOS doesn't split it by part.";
+    ui.c.text(note, rest.inset(0.0, 1.0), &TextStyle::caption().color(palette::TEXT_DIM).wrap().top().line_spacing(1.25));
 }
 
 /// "12", "5", "3.3".

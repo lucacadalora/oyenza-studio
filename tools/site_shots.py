@@ -94,7 +94,7 @@ KEEP = {
     "page-media", "page-focus", "page-health", "page-shelf", "page-tasks", "page-clipboard", "page-today",
     "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin", "page-settings", "page-system",
     "page-settings-stay-on-top", "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
-    "game-stats", "page-system-games",
+    "game-stats", "page-system-games", "page-system-power-estimate", "page-script", "page-script-reading", "media-lyric",
 }
 # The Pill section: the island at rest (clock and status bar looks), playing music (the line being
 # sung), a timer, a pop-up and a notice, and open on the Music page.
@@ -113,7 +113,7 @@ MAC_STRIP = (840, 136)
 MAC_PILL_KEEP = {"idle-clock", "media-activity", "volume-hud", "page-media", "page-today"}
 MAC_PILL_STRIP = (840, 216)
 # Resting states the page shows at twice their size, cut from a 400 % run.
-ZOOM_KEEP = {"idle-clock", "media-activity", "timer-activity", "volume-hud", "bluetooth-hud", "prayer-countdown", "oyenza-money", "game-stats"}
+ZOOM_KEEP = {"idle-clock", "media-activity", "media-lyric", "timer-activity", "volume-hud", "bluetooth-hud", "prayer-countdown", "oyenza-money", "game-stats"}
 
 
 def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:

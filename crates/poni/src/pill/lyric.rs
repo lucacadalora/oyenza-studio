@@ -21,19 +21,23 @@
 //! lasted [`PAUSE_HOLD_S`].
 //!
 //! Readings (`LyricsState::ruby`: romaji under Japanese, Korean and Chinese)
-//! stay on the Music page: the pill shows the line as it is written. It has
-//! room for one line, and the reading is a help set small under the line
-//! there, not the line. `lyrics_pronunciation` is on by default, so a reading
-//! in the line's place would hide the words from everyone who reads the
-//! script, and readings run two to three times longer, so more of them would
-//! end in an ellipsis. Whoever needs the reading has it a hover away.
+//! sing along under the line, as on the Music page: the line as it is
+//! written, for everyone who reads the script, and under it, smaller and a
+//! little dimmer, how it sounds in Latin letters, so anyone can sing it
+//! (`romanize::reading`). A song with readings makes the pill two rows tall
+//! for the whole song ([`reads`]), so it doesn't grow and shrink line by
+//! line; a line that needs none (English in a Japanese song) sits in the
+//! middle on its own. Readings run longer than their lines, so the pill
+//! takes the wider of the two. Switching readings off
+//! (`lyrics_pronunciation`) gives the pill back its one row.
 
-use crate::gfx::{TextStyle, Weight};
+use crate::gfx::{Canvas, TextStyle, Weight};
 use crate::state::{AppState, LyricsStatus};
 use crate::ui::Ui;
-use poni_core::geom::{palette, Rect};
+use poni_core::geom::{palette, Point, Rect};
 use poni_core::lrc::{LyricLine, Lyrics};
 use poni_core::nowplaying::lyrics_lead_s;
+use poni_core::romanize;
 use poni_core::timeline::LyricClock;
 use std::cell::RefCell;
 
@@ -70,10 +74,21 @@ const MIN_W: f32 = 20.0;
 /// cut to the line's measured width can come out a hair short once laid out
 /// (rounding to pixels), and the line would end in an ellipsis.
 const SLACK: f32 = 1.0;
+/// A line with its reading: the line's middle sits this far above the
+/// pill's and the reading's this far below, in boxes this tall, so the two
+/// read as one block in the two-row pill (`super::media::H_READS`).
+const LINE_DY: f32 = -7.5;
+const READING_DY: f32 = 8.5;
+const LINE_BOX: f32 = 20.0;
+const READING_BOX: f32 = 16.0;
+/// The reading is this opaque, as under the Music page's lines.
+const READING_ALPHA: f32 = 0.78;
 
 /// The synced line being sung now and when it started (mono seconds), when
 /// the song has synced lyrics and a line is current. The start is the app
 /// clock's (`st.now`) and stays put for as long as the line is current.
+/// (A MacBook's notch asks, to hang the singing pill below the camera.)
+#[cfg(target_os = "macos")]
 pub fn current(st: &AppState) -> Option<(String, f64)> {
     with_state(|s| {
         let p = s.follow.update(st)?;
@@ -82,8 +97,10 @@ pub fn current(st: &AppState) -> Option<(String, f64)> {
     .flatten()
 }
 
-/// Draw the current line centred in `area`, cross-fading when it changes.
-/// `false` = no line to show now (draw the title instead).
+/// Draw the current line centred in `area`, its reading under it when it
+/// has one, cross-fading when it changes. Returns how wide the line is (or
+/// its reading, the wider of the two) for the pill's width; `None` = no line
+/// to show now (draw the title instead).
 ///
 /// `area` is the line's slot at the pill's settled size: a line laid out in
 /// a narrower slot ends in an ellipsis. While the pill still grows or
@@ -92,8 +109,8 @@ pub fn current(st: &AppState) -> Option<(String, f64)> {
 /// that takes over from the title (after a break, a pause, a new track's
 /// title) is drawn at once: the music pill cross-fades that hand-off, and
 /// dims the text while paused.
-pub fn draw(ui: &mut Ui, st: &AppState, area: Rect) -> bool {
-    with_state(|s| s.draw(ui, st, area)).unwrap_or(false)
+pub fn draw(ui: &mut Ui, st: &AppState, area: Rect) -> Option<f32> {
+    with_state(|s| s.draw(ui, st, area)).flatten()
 }
 
 /// When the next line starts, for the app's one-shot wake. Also when an
@@ -112,6 +129,13 @@ pub fn sings(st: &AppState) -> bool {
     followed(st).is_some()
 }
 
+/// Whether the pill sings this song with readings under its lines (two
+/// rows): it sings, readings are on, and some line has one. For the whole
+/// song, as [`sings`] is.
+pub fn reads(st: &AppState) -> bool {
+    sings(st) && st.settings.lyrics_pronunciation && st.lyrics.ruby.iter().any(|p| p.iter().any(|r| !r.roman.is_empty()))
+}
+
 /// The lyrics the pill follows for the song playing now (see [`sings`]).
 fn followed(st: &AppState) -> Option<&Lyrics> {
     let m = st.media.as_ref()?;
@@ -126,6 +150,12 @@ fn followed(st: &AppState) -> Option<&Lyrics> {
 /// How [`draw`] sets the line (its colour aside), for sizing the pill to it.
 pub fn style() -> TextStyle {
     TextStyle::body().weight(Weight::Semibold)
+}
+
+/// How [`draw`] sets a reading (its colour aside): the Music page's, at the
+/// type scale's smallest size.
+fn reading_style() -> TextStyle {
+    TextStyle::caption().weight(Weight::Medium)
 }
 
 // ---------------------------------------------------------------- picking
@@ -288,20 +318,40 @@ fn line_text(st: &AppState, i: usize) -> Option<&str> {
     st.lyrics.lyrics.as_ref()?.lines.get(i).map(|l| l.text.trim())
 }
 
+/// Line `i`'s reading in Latin letters, when readings are on and it has one.
+fn reading_at(st: &AppState, i: usize) -> Option<String> {
+    let pieces = st.lyrics.ruby.get(i).filter(|_| st.settings.lyrics_pronunciation)?;
+    romanize::reading(pieces)
+}
+
+/// Tells line `i`'s readings apart without building them: they change when
+/// readings are switched on or off, or when the Japanese readings add-on
+/// comes in and the song is read again.
+fn reading_sig(st: &AppState, i: usize) -> usize {
+    match st.lyrics.ruby.get(i) {
+        Some(pieces) if st.settings.lyrics_pronunciation => pieces.iter().map(|p| p.roman.len() + 1).sum(),
+        _ => 0,
+    }
+}
+
 // ---------------------------------------------------------------- drawing
 
 /// The line on screen, and the change that brought it.
 struct Shown {
     line: usize,
     text: String,
+    /// Its reading in Latin letters ([`reading_at`]), built once for the
+    /// line, and what it was built from ([`reading_sig`]).
+    reading: Option<String>,
+    sig: usize,
     /// The lyrics it is from ([`Follow::generation`]).
     generation: u32,
     /// The width of the slot it was last drawn in: a line that leaves keeps
     /// its layout while the pill takes the next line's size.
     slot_w: f32,
-    /// The line it replaced (and its slot's width), rising away while this
-    /// one comes in.
-    leaving: Option<(String, f32)>,
+    /// The line it replaced, with its reading (and its slot's width), rising
+    /// away while this one comes in.
+    leaving: Option<(String, Option<String>, f32)>,
     /// When the change began (app clock; long ago for a line that just showed).
     since: f64,
 }
@@ -345,57 +395,89 @@ impl State {
         on
     }
 
-    /// The line on screen once line `i` (`text`) is current at `now`. A
-    /// change from a line that was on screen until now, from the same lyrics,
-    /// starts a fade between the two; any other line just shows (it takes
-    /// over from the title, or from a pill that was away).
-    fn show(&mut self, now: f64, on_screen: bool, i: usize, text: &str) -> &mut Shown {
+    /// The line on screen once line `i` (`text`, its readings told apart by
+    /// `sig`, [`reading_sig`]) is current at `now`. A change from a line that
+    /// was on screen until now, from the same lyrics, starts a fade between
+    /// the two; any other line just shows (it takes over from the title, or
+    /// from a pill that was away). `reading` builds the line's reading, once
+    /// a line, and again when its readings change under it.
+    fn show(&mut self, now: f64, on_screen: bool, i: usize, text: &str, sig: usize, reading: impl FnOnce() -> Option<String>) -> &mut Shown {
         let generation = self.follow.generation;
         let shown = match self.shown.take() {
-            Some(s) if s.line == i && s.text == text => s,
+            Some(mut s) if s.line == i && s.text == text => {
+                // The same line, read again (readings switched, or the
+                // Japanese readings add-on came in): new words under it, no fade.
+                if s.sig != sig {
+                    s.reading = reading();
+                    s.sig = sig;
+                }
+                s
+            }
             old => {
-                let leaving = old.filter(|s| on_screen && s.generation == generation).map(|s| (s.text, s.slot_w));
+                let leaving = old.filter(|s| on_screen && s.generation == generation).map(|s| (s.text, s.reading, s.slot_w));
                 let since = if leaving.is_some() { now } else { f64::NEG_INFINITY };
-                Shown { line: i, text: text.to_string(), generation, slot_w: 0.0, leaving, since }
+                Shown { line: i, text: text.to_string(), reading: reading(), sig, generation, slot_w: 0.0, leaving, since }
             }
         };
         self.shown.insert(shown)
     }
 
-    fn draw(&mut self, ui: &mut Ui, st: &AppState, area: Rect) -> bool {
+    fn draw(&mut self, ui: &mut Ui, st: &AppState, area: Rect) -> Option<f32> {
         let now = st.now;
         let pick = self.follow.update(st);
         let on_screen = self.seen(now, pick.and_then(|p| p.wake));
         let Some((i, text)) = pick.and_then(|p| p.line.and_then(|i| line_text(st, i).map(|t| (i, t)))) else {
             self.shown = None;
-            return false;
+            return None;
         };
-        let shown = self.show(now, on_screen, i, text);
+        let shown = self.show(now, on_screen, i, text, reading_sig(st, i), || reading_at(st, i));
+        let line_w = ui.c.measure(&shown.text, &style(), 10_000.0).0;
+        let reading_w = shown.reading.as_ref().map_or(0.0, |r| ui.c.measure(r, &reading_style(), 10_000.0).0);
+        let w = line_w.max(reading_w);
         if area.w < MIN_W {
-            return true;
+            return Some(w);
         }
         let area = area.inset(-SLACK, 0.0);
         shown.slot_w = area.w;
-        let style = style().center().color(palette::TEXT);
         // On battery saver a change is a plain swap: one frame a line, not a
         // fade's worth (the change repeats all song long).
         let k = if st.power.saver { 1.0 } else { ((now - shown.since) / FADE_S) as f32 };
         if k >= 1.0 {
             shown.leaving = None;
-            ui.c.text(&shown.text, area, &style);
-            return true;
+            words(ui.c, &shown.text, shown.reading.as_deref(), area);
+            return Some(w);
         }
         // Moving lines glide between pixels; at rest they sit on whole pixels.
         ui.request_anim();
         let snap = ui.c.set_text_snap(false);
         let ((come_a, come_dy), (gone_a, gone_dy)) = fade(k);
-        if let Some((old, w)) = shown.leaving.as_ref().filter(|_| gone_a > 0.0) {
+        if let Some((old, old_reading, w)) = shown.leaving.as_ref().filter(|_| gone_a > 0.0) {
             let r = Rect::from_center(area.center(), *w, area.h).offset(0.0, gone_dy);
-            ui.c.with_alpha(gone_a, |c| c.text(old, r, &style));
+            ui.c.with_alpha(gone_a, |c| words(c, old, old_reading.as_deref(), r));
         }
-        ui.c.with_alpha(come_a, |c| c.text(&shown.text, area.offset(0.0, come_dy), &style));
+        ui.c.with_alpha(come_a, |c| words(c, &shown.text, shown.reading.as_deref(), area.offset(0.0, come_dy)));
         ui.c.set_text_snap(snap);
-        true
+        Some(w)
+    }
+}
+
+/// Where a line and its reading go in `area`: a line alone in the middle,
+/// or a line above the middle and its reading under it.
+fn rows(area: Rect, reading: bool) -> (Rect, Option<Rect>) {
+    if !reading {
+        return (area, None);
+    }
+    let c = area.center();
+    let line = Rect::from_center(Point::new(c.x, c.y + LINE_DY), area.w, LINE_BOX);
+    (line, Some(Rect::from_center(Point::new(c.x, c.y + READING_DY), area.w, READING_BOX)))
+}
+
+/// A line centred in `area`, with its reading under it when it has one.
+fn words(c: &mut Canvas, text: &str, reading: Option<&str>, area: Rect) {
+    let (line, under) = rows(area, reading.is_some());
+    c.text(text, line, &style().center().color(palette::TEXT));
+    if let (Some(reading), Some(under)) = (reading, under) {
+        c.text(reading, under, &reading_style().center().color(palette::TEXT.mul_alpha(READING_ALPHA)));
     }
 }
 
@@ -404,6 +486,7 @@ mod tests {
     use super::*;
     use crate::state::{LyricsState, MediaSession};
     use poni_core::lrc::parse_lrc;
+    use poni_core::romanize::Ruby;
     use poni_core::settings::Settings;
     use poni_core::store::Store;
     use poni_core::timeline::Timeline;
@@ -669,29 +752,129 @@ mod tests {
         let mut s = State::default();
         // First draw: nothing was on screen before, so the line just shows.
         assert!(!s.seen(100.0, Some(103.0)));
-        let first = s.show(100.0, false, 0, "First");
+        let first = s.show(100.0, false, 0, "First", 0, || None);
         assert_eq!((first.leaving.clone(), first.since), (None, f64::NEG_INFINITY));
         // The same line a frame later: nothing new.
         assert!(s.seen(100.016, Some(103.0)));
-        assert_eq!(s.show(100.016, true, 0, "First").since, f64::NEG_INFINITY);
+        assert_eq!(s.show(100.016, true, 0, "First", 0, || None).since, f64::NEG_INFINITY);
         // No frames until the wake for the next line (no equalizer): still on screen.
         assert!(s.seen(103.02, Some(106.0)));
         s.shown.as_mut().unwrap().slot_w = 180.0;
-        let next = s.show(103.02, true, 1, "Second");
+        let next = s.show(103.02, true, 1, "Second", 0, || None);
         // It leaves in the slot it had.
-        assert_eq!((next.leaving.clone(), next.since), (Some(("First".to_string(), 180.0)), 103.02));
+        assert_eq!((next.leaving.clone(), next.since), (Some(("First".to_string(), None, 180.0)), 103.02));
         // Back after a while away (the page was open): the old line just goes.
         assert!(!s.seen(120.0, Some(121.0)));
-        let back = s.show(120.0, false, 5, "Sixth");
+        let back = s.show(120.0, false, 5, "Sixth", 0, || None);
         assert_eq!((back.leaving.clone(), back.since), (None, f64::NEG_INFINITY));
         // Other lyrics (another song): never fade a line of the last one out over them.
         assert!(s.seen(120.016, None));
         s.follow.generation += 1;
-        assert_eq!(s.show(120.016, true, 0, "Another song").leaving, None);
+        assert_eq!(s.show(120.016, true, 0, "Another song", 0, || None).leaving, None);
         // After the title (a break, drawn every frame): the line takes over at
         // once, the music pill fades the hand-off.
         s.shown = None;
-        assert_eq!(s.show(130.0, true, 1, "After the break").since, f64::NEG_INFINITY);
+        assert_eq!(s.show(130.0, true, 1, "After the break", 0, || None).since, f64::NEG_INFINITY);
+    }
+
+    /// The pieces of a line of [`SONG_JA`], as a reader gives them.
+    fn pieces(parts: &[(&str, &str)]) -> Vec<Ruby> {
+        parts.iter().map(|(text, roman)| Ruby { text: (*text).into(), roman: (*roman).into() }).collect()
+    }
+
+    // Original placeholder text, not real song lyrics: two Japanese lines
+    // around one in English, which needs no reading.
+    const SONG_JA: &str = "\
+[00:10.00]紙の舟よ
+[00:14.00]Paper boats
+[00:18.00]光を見つける
+";
+
+    fn song_ja() -> AppState {
+        let mut st = song(SONG_JA);
+        st.lyrics.ruby = vec![
+            pieces(&[("紙の", "kami no"), ("舟よ", "fune yo")]),
+            Vec::new(),
+            pieces(&[("光を", "hikari wo"), ("見つける", "mitsukeru")]),
+        ];
+        st
+    }
+
+    #[test]
+    fn a_song_with_readings_sings_them_under_its_lines() {
+        let mut st = song_ja();
+        assert!(reads(&st));
+        assert_eq!(reading_at(&st, 0).as_deref(), Some("kami no fune yo"));
+        // The English line needs none: it sits in the middle on its own.
+        assert_eq!(reading_at(&st, 1), None);
+        assert_eq!(reading_at(&st, 2).as_deref(), Some("hikari wo mitsukeru"));
+        // Readings switched off: one row, the lines as they are written.
+        st.settings.lyrics_pronunciation = false;
+        assert!(!reads(&st));
+        assert_eq!(reading_at(&st, 0), None);
+        assert_ne!(reading_sig(&st, 0), reading_sig(&song_ja(), 0));
+        // A song with nothing to read, or one the pill doesn't sing.
+        assert!(!reads(&song(SONG)));
+        let mut st = song_ja();
+        st.settings.lyrics = false;
+        assert!(!reads(&st));
+    }
+
+    #[test]
+    fn a_line_brings_its_reading_and_takes_it_along_when_it_leaves() {
+        let st = song_ja();
+        let mut s = State::default();
+        assert!(!s.seen(100.0, Some(103.0)));
+        let first = s.show(100.0, false, 0, "紙の舟よ", reading_sig(&st, 0), || reading_at(&st, 0));
+        assert_eq!(first.reading.as_deref(), Some("kami no fune yo"));
+        first.slot_w = 180.0;
+        // The next line rises in while this one rises away, its reading with it.
+        assert!(s.seen(103.0, Some(106.0)));
+        let next = s.show(103.0, true, 2, "光を見つける", reading_sig(&st, 2), || reading_at(&st, 2));
+        assert_eq!(next.reading.as_deref(), Some("hikari wo mitsukeru"));
+        assert_eq!(next.leaving, Some(("紙の舟よ".to_string(), Some("kami no fune yo".to_string()), 180.0)));
+    }
+
+    #[test]
+    fn readings_that_come_in_under_a_line_show_without_a_fade() {
+        // Before the Japanese readings add-on: only the kana read.
+        let mut st = song_ja();
+        st.lyrics.ruby[2] = pieces(&[("光を", "wo"), ("見つける", "")]);
+        let mut s = State::default();
+        let mut built = 0;
+        assert!(!s.seen(100.0, Some(103.0)));
+        s.show(100.0, false, 2, "光を見つける", reading_sig(&st, 2), || {
+            built += 1;
+            reading_at(&st, 2)
+        });
+        assert_eq!(s.shown.as_ref().unwrap().reading.as_deref(), Some("wo 見つける"));
+        // Frame after frame, the same readings: built once.
+        for i in 1..5 {
+            assert!(s.seen(100.0 + f64::from(i) * 0.016, Some(103.0)));
+            s.show(100.0 + f64::from(i) * 0.016, true, 2, "光を見つける", reading_sig(&st, 2), || {
+                built += 1;
+                reading_at(&st, 2)
+            });
+        }
+        assert_eq!(built, 1);
+        // The add-on comes in and the song is read again: the same line, its new reading at once.
+        let read = song_ja();
+        assert!(s.seen(100.1, Some(103.0)));
+        let now = s.show(100.1, true, 2, "光を見つける", reading_sig(&read, 2), || reading_at(&read, 2));
+        assert_eq!((now.reading.as_deref(), now.leaving.clone(), now.since), (Some("hikari wo mitsukeru"), None, f64::NEG_INFINITY));
+    }
+
+    #[test]
+    fn the_reading_sits_under_its_line_and_a_line_alone_in_the_middle() {
+        let area = Rect::new(0.0, 0.0, 300.0, 46.0);
+        assert_eq!(rows(area, false), (area, None));
+        let (line, under) = rows(area, true);
+        let under = under.unwrap();
+        assert!(line.center().y < area.center().y && under.center().y > area.center().y);
+        assert!(line.bottom() <= under.y + 4.0, "the boxes barely overlap: {line:?} over {under:?}");
+        // Both inside the two-row pill, centred across it.
+        assert!(line.y >= area.y && under.bottom() <= area.bottom());
+        assert_eq!((line.center().x, under.center().x), (150.0, 150.0));
     }
 
     #[test]

@@ -66,6 +66,8 @@ mod state;
 mod tray;
 #[cfg(any(windows, target_os = "macos"))]
 mod ui;
+#[cfg(any(windows, target_os = "macos"))]
+mod version;
 #[cfg(windows)]
 mod window;
 

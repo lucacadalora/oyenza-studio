@@ -50,6 +50,8 @@ grep -q "flags=.*runtime" "$work/app-signature.txt" || { echo "the app isn't sig
 grep -q "^Timestamp=" "$work/app-signature.txt" || { echo "the app's signature has no secure timestamp" >&2; exit 1; }
 codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.apple.security.automation.apple-events" \
   || { echo "the app's signature lacks the Apple Events entitlement (installer/mac/poni.entitlements)" >&2; exit 1; }
+codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.apple.security.personal-information.location" \
+  || { echo "the app's signature lacks the location entitlement (installer/mac/poni.entitlements)" >&2; exit 1; }
 
 # 2. The DMG: the app and a link to Applications, signed too.
 ln -s /Applications "$work/stage/Applications"

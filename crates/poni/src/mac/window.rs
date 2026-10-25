@@ -390,6 +390,39 @@ pub fn show() {
     with_window(|win| win.panel.orderFrontRegardless());
 }
 
+/// Take the island off the screen (a full-screen app is in front and Hide
+/// is picked) or put it back. macOS carries a panel that is on every Space
+/// onto a full-screen app's Space as it opens, so hiding is the app's job,
+/// as on Windows.
+pub fn set_shown(shown: bool) {
+    with_window(|win| {
+        if shown {
+            win.panel.orderFrontRegardless();
+        } else {
+            win.panel.orderOut(None);
+        }
+    });
+}
+
+/// The island is on the screen (not taken off it for a full-screen app).
+pub fn is_shown() -> bool {
+    with_window(|win| win.panel.isVisible()).unwrap_or(false)
+}
+
+/// The screen the island sits on, in the window list's coordinates (points,
+/// origin at the top left of the main display, y down).
+pub fn screen_rect_top_left() -> Option<NSRect> {
+    let mtm = MainThreadMarker::new()?;
+    let screens = NSScreen::screens(mtm);
+    let primary_h = screens.iter().next().map(|s| s.frame().size.height)?;
+    let f = with_window(|win| win.frame)?;
+    let centre = NSPoint::new(f.origin.x + f.size.width / 2.0, f.origin.y + f.size.height / 2.0);
+    let s = screens.iter().map(|s| s.frame()).find(|r| {
+        centre.x >= r.origin.x && centre.x < r.origin.x + r.size.width && centre.y >= r.origin.y && centre.y <= r.origin.y + r.size.height
+    })?;
+    Some(NSRect::new(NSPoint::new(s.origin.x, primary_h - (s.origin.y + s.size.height)), s.size))
+}
+
 /// Let clicks through to the apps below (true) or take them (false).
 pub fn set_ignoring(ignore: bool) {
     with_window(|win| {

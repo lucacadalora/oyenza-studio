@@ -6,12 +6,17 @@
 # ci run starts this workflow once the release is published, and opens an issue
 # if the page was never updated. The deploy closes such issues. The checks are
 # in tools/ci-site-check.sh.
+#
+# Every deploy also carries latest.json, the signed file every copy of the app
+# reads to learn about a new version (docs/updates.md). It describes GitHub's
+# latest release, so releases update it: ci starts this workflow once a release
+# is published, and the mac workflow again once its DMG is on it.
 name: Website
 
 on:
   push:
     branches: [main]
-    paths: ["site/**", "docs/brand/**", "tools/build_site.sh", "tools/ci-site-check.sh", ".github/workflows/pages.yml"]
+    paths: ["site/**", "docs/brand/**", "tools/build_site.sh", "tools/ci-site-check.sh", "tools/make_update_feed.py", "crates/poni-core/data/update-keys.txt", ".github/workflows/pages.yml"]
   workflow_dispatch:
     inputs:
       released:
@@ -40,8 +45,32 @@ jobs:
           RELEASED: ${{ inputs.released }}
         run: tools/ci-site-check.sh gate "$RELEASED"
 
-  deploy:
+  # Signed with the release environment's UPDATE_FEED_KEY, so this job shows
+  # as a deployment to "release". A Pages deploy replaces the whole site, so
+  # each one needs a fresh copy; if this job fails, nothing is deployed and
+  # the live site and file stay.
+  feed:
+    name: Update file (latest.json)
     needs: gate
+    if: needs.gate.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Describe the latest release and sign it
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASED: ${{ inputs.released }}
+          UPDATE_FEED_KEY: ${{ secrets.UPDATE_FEED_KEY }}
+        run: python3 tools/make_update_feed.py latest.json ${RELEASED:+--released "$RELEASED"}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: update-feed
+          path: latest.json
+          if-no-files-found: error
+
+  deploy:
+    needs: [gate, feed]
     if: needs.gate.outputs.deploy == 'true'
     runs-on: ubuntu-latest
     permissions:
@@ -55,6 +84,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: tools/build_site.sh
+      - uses: actions/download-artifact@v4
+        with:
+          name: update-feed
+          path: _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

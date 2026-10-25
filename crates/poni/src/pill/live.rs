@@ -226,8 +226,9 @@ fn prayer_w(st: &AppState) -> f32 {
     (GLYPH_INSET + MOON + MOON_GAP + 7.0 * prayer_slot_text(prayer).chars().count() as f32 + TEXT_INSET).ceil()
 }
 
-/// A filled crescent `d` across centred on `c`: Poni's moon icon, filled.
-fn moon(ui: &mut Ui, c: Point, d: f32, col: Color) {
+/// A filled crescent `d` across centred on `c`: Poni's moon icon, filled
+/// (also the Mac's, in the right ear around a notch).
+pub(crate) fn moon(ui: &mut Ui, c: Point, d: f32, col: Color) {
     // The icon's outline on its 24-unit grid: a circle of radius 8 round
     // (12, 12) with a radius-7 bite out of its top right.
     let s = d / 16.0;
