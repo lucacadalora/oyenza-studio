@@ -13,8 +13,8 @@
 //! Mac's page says it its way.
 //!
 //! The last module, Games (Windows only), holds Show over games: its switch,
-//! whether Windows lets Poni read frames (with the one-time OK), the frame
-//! rate's last minute and what's in front.
+//! whether the readout stays or peeks, whether Windows lets Poni read frames
+//! (with the one-time OK), the frame rate's last minute and what's in front.
 
 use crate::commands::Command;
 use crate::gfx::{Image, ImageData, TextStyle, Weight};
@@ -668,6 +668,9 @@ fn battery_glyph(ui: &mut Ui, center: Point, percent: u8, color: Color, plugged:
 /// Frame rate charts top out at the nearest common refresh rate above the peak.
 const FPS_TOPS: [f32; 8] = [30.0, 60.0, 75.0, 120.0, 144.0, 165.0, 240.0, 360.0];
 
+/// The readout's two ways over a game, and the `game_peek` each one sets.
+const GAME_READOUT: [(bool, &str); 2] = [(false, "Stays"), (true, "Peeks")];
+
 fn fps_ceiling(peak: f32) -> f32 {
     FPS_TOPS.into_iter().find(|t| peak <= *t).unwrap_or_else(|| (peak / 120.0).ceil().max(1.0) * 120.0)
 }
@@ -688,8 +691,24 @@ fn draw_games(ui: &mut Ui, st: &mut AppState, cols: &Cols) {
         st.settings.game_stats = !on;
         st.cmd(Command::SaveSettings);
     }
-    let (about, rest) = rest.split_top(46.0);
-    ui.c.text("FPS, GPU and CPU over a game for a few seconds: when it starts, when FPS drops, and on Alt+Shift+F.", about.inset(0.0, 3.0), &note);
+    // The readout stays over the game, or peeks for a few seconds at a time
+    // (between them nothing covers the game: no added delay).
+    let (row, rest) = rest.split_top(28.0);
+    let names = GAME_READOUT.map(|r| r.1);
+    let x = row.right() - crate::pages::settings::picker_width(ui, &names);
+    ui.c.text("Readout", Rect::new(row.x, row.y, (x - 10.0 - row.x).max(0.0), row.h), &TextStyle::body());
+    let sel = GAME_READOUT.iter().position(|r| r.0 == st.settings.game_peek).unwrap_or(0);
+    if let Some(i) = crate::pages::settings::picker(ui, "system.games.readout", x, row.center().y - 12.0, 24.0, &names, sel) {
+        st.settings.game_peek = GAME_READOUT[i].0;
+        st.cmd(Command::SaveSettings);
+    }
+    let (about, rest) = rest.split_top(32.0);
+    let about_text = if st.settings.game_peek {
+        "A few seconds as a game starts, when FPS drops and on Alt+Shift+F."
+    } else {
+        "On the game all along. Alt+Shift+F hides it and brings it back."
+    };
+    ui.c.text(about_text, about.inset(0.0, 3.0), &note);
     let (head, rest) = rest.split_top(SEP_H);
     separator(ui, head, "FPS");
     if st.game.access == FpsAccess::Unknown {

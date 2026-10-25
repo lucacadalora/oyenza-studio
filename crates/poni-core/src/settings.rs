@@ -102,6 +102,13 @@ pub struct Settings {
     /// shows its frame rate, the GPU's load and temperature and the CPU's
     /// load. Turning it on also keeps the island on top of full-screen apps.
     pub game_stats: bool,
+    /// Show over games, readout only for a few seconds (when the game comes
+    /// to the front, when the frame rate drops sharply, on Alt+Shift+F),
+    /// then the island hides and Windows sends the game's frames straight to
+    /// the screen. Off (the default), the readout stays while the game is in
+    /// front. Its own name: the corner test build wrote `game_readout`
+    /// ("peek" as its default) into the files of the people who tried it.
+    pub game_peek: bool,
 }
 
 /// What plays when a prayer's time comes.
@@ -167,6 +174,7 @@ impl Default for Settings {
             addons: BTreeMap::new(),
             prayer: PrayerSettings::default(),
             game_stats: false,
+            game_peek: false,
         }
     }
 }
@@ -367,6 +375,18 @@ mod tests {
         let s: Settings = serde_json::from_str(r#"{"game_stats":true,"hide_in_fullscreen":true}"#).unwrap();
         let s = s.sanitized();
         assert!(s.game_stats && !s.hide_in_fullscreen);
+    }
+
+    #[test]
+    fn the_readout_stays_unless_peeks_are_picked() {
+        // Files from 0.2.0 and before, and from the corner test build (its
+        // "peek" was its default, not a choice), get the readout that stays.
+        for old in [r#"{"game_stats":true}"#, r#"{"game_stats":true,"game_readout":"peek"}"#, r#"{"game_readout":"corner"}"#] {
+            let s: Settings = serde_json::from_str(old).unwrap();
+            assert!(!s.game_peek, "{old}");
+        }
+        let s: Settings = serde_json::from_str(r#"{"game_stats":true,"game_peek":true}"#).unwrap();
+        assert!(s.game_peek);
     }
 
     #[test]
