@@ -12,6 +12,11 @@
 //! differently (swap, Low Power Mode, the GPU's renderer and tiler), the
 //! Mac's page says it its way.
 //!
+//! On a desktop, Power is the whole PC's draw: its power supply's own
+//! reading when it reports over USB, else an estimate (`poni_core::power`),
+//! split into the CPU, the graphics card and the rest, with the source on
+//! the right.
+//!
 //! The last module, Games (Windows only), holds Show over games: its switch,
 //! whether the readout stays or peeks, whether Windows lets Poni read frames
 //! (with the one-time OK), the frame rate's last minute and what's in front.
@@ -23,6 +28,7 @@ use crate::state::{AppState, FpsAccess};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_SMALL};
 use poni_core::frames::{fmt_fps, fmt_frame_ms};
 use poni_core::geom::{palette, Color, Point, Rect};
+use poni_core::power::{fmt_w, watts_ceiling, PowerReading, REST_W};
 use poni_core::svgpath::Seg;
 use poni_core::sysmon::{
     fmt_app_cpu, fmt_bytes, fmt_link, fmt_pct, fmt_rate, fmt_time_left, fmt_uptime, fmt_watts, pressure_word, AppUse, BatteryReading, CoreKind,
@@ -86,6 +92,11 @@ const ENGINE_3D_C: Color = palette::BLUE;
 const COPY_C: Color = palette::ORANGE;
 const DECODE_C: Color = palette::GREEN;
 const ENCODE_C: Color = palette::PURPLE;
+/// Power: the CPU in the orange of its own power gauge, the graphics card
+/// blue, the rest of the PC grey.
+const CPU_W_C: Color = palette::ORANGE;
+const GPU_W_C: Color = palette::BLUE;
+const REST_W_C: Color = Color::white(0.42);
 const TILER_C: Color = palette::ORANGE;
 const BOX_C: Color = Color::white(0.06);
 const GRID_C: Color = Color::white(0.07);
@@ -96,7 +107,8 @@ pub fn height(_st: &AppState) -> f32 {
 }
 
 /// The modules this PC has: GPU with a graphics card the kernel reports on,
-/// Battery with a battery. Before the first reading, what the last one said.
+/// Battery with a battery, Power on a desktop that reads or estimates it.
+/// Before the first reading, what the last one said.
 fn modules(st: &AppState) -> Vec<Module> {
     let (battery, gpu) = match &st.system.latest {
         Some(r) => (r.battery.is_some(), r.gpu.is_some()),
@@ -104,7 +116,11 @@ fn modules(st: &AppState) -> Vec<Module> {
     };
     // Games is Windows' (it reads Windows' frame log).
     let games = cfg!(windows);
-    Module::ALL.into_iter().filter(|m| (*m != Module::Battery || battery) && (*m != Module::Gpu || gpu) && (*m != Module::Games || games)).collect()
+    let power = st.ui.system_power && !battery;
+    Module::ALL
+        .into_iter()
+        .filter(|m| (*m != Module::Battery || battery) && (*m != Module::Gpu || gpu) && (*m != Module::Games || games) && (*m != Module::Power || power))
+        .collect()
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
@@ -112,6 +128,11 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let area = Rect::new(area.x, area.y, area.w, HEIGHT);
     if let Some(r) = &st.system.latest {
         st.ui.system_gpu = r.gpu.is_some();
+        // Only the page's own (full) readings, the ones with app lists, say
+        // whether there's a power reading; the kept minute never has one.
+        if r.power.is_some() || !r.top_memory.is_empty() {
+            st.ui.system_power = r.power.is_some();
+        }
     }
     let mods = modules(st);
     // CPU stands in while the chosen module isn't there (no reading yet, a
@@ -136,6 +157,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         Module::Drives => (!r.drives.is_empty() || r.disk.is_some()).then(|| draw_drives(ui, st, &r, &h, &cols)),
         Module::Network => r.network.as_ref().map(|n| draw_network(ui, n, &h, &cols)),
         Module::Battery => r.battery.as_ref().map(|b| draw_battery(ui, b, &cols)),
+        Module::Power => {
+            match &r.power {
+                Some(p) => draw_power(ui, st, p, &r, &h, &cols),
+                // The page's first reading is the kept minute's: the power comes with the next.
+                None => ui.c.text("Reading…", body, &TextStyle::footnote().color(palette::TEXT_FAINT).center()),
+            }
+            Some(())
+        }
         Module::Games => None,
     };
     if shown.is_none() {
@@ -172,6 +201,8 @@ enum Spark {
     Level(f32, Color),
     /// Frames per second, against the nearest common refresh rate above the minute's peak.
     Fps(Series),
+    /// Watts, against a round top above the minute's peak.
+    Watts(Series),
 }
 
 /// The widest value each chip can show, so its width never changes as
@@ -180,6 +211,7 @@ fn widest_value(m: Module) -> &'static str {
     match m {
         Module::Drives | Module::Network => "999 MB/s",
         Module::Games => "999 fps",
+        Module::Power => "1888 W",
         _ => "100%",
     }
 }
@@ -233,6 +265,7 @@ fn draw_strip(ui: &mut Ui, st: &mut AppState, mods: &[Module], module: Module, r
             Some(Spark::Share(s)) => plot(ui, &s, 1.0, accent.with_alpha(if selected { 0.9 } else { 0.55 }), band, Fill::Faint),
             Some(Spark::Rate(s)) => plot(ui, &s, nice_ceiling(s.max()), accent.with_alpha(if selected { 0.9 } else { 0.55 }), band, Fill::Faint),
             Some(Spark::Fps(s)) => plot(ui, &s, fps_ceiling(s.max()), accent.with_alpha(if selected { 0.9 } else { 0.55 }), band, Fill::Faint),
+            Some(Spark::Watts(s)) => plot(ui, &s, watts_ceiling(s.max()), accent.with_alpha(if selected { 0.9 } else { 0.55 }), band, Fill::Faint),
             Some(Spark::Level(f, c)) => {
                 let bar = Rect::new(chip.x + 10.0, chip.bottom() - 9.0, chip.w - 20.0, 3.0);
                 ui.c.fill_rrect(bar, 1.5, palette::TRACK);
@@ -269,6 +302,7 @@ fn chip_value(st: &AppState, m: Module) -> (String, Option<Spark>) {
             }
         }),
         Module::Battery => r.battery.as_ref().map(|b| (format!("{}%", b.percent.min(100)), Some(Spark::Level(f32::from(b.percent.min(100)) / 100.0, battery_color(b))))),
+        Module::Power => r.power.as_ref().map(|p| (fmt_w(p.total_w), Some(Spark::Watts(h.power.clone())))),
         Module::Games => None,
     };
     v.unwrap_or_else(|| (PLACEHOLDER.into(), None))
@@ -387,6 +421,9 @@ fn draw_gpu(ui: &mut Ui, st: &mut AppState, g: &GpuReading, h: &History, cols: &
     ui.c.text(&g.name, name_r.inset(0.0, 2.0), &name_st);
     let built_in = if MAC { "Built into the chip" } else { "Built into the CPU" };
     let mut rows = vec![Row::plain("Type", if g.integrated { built_in.into() } else { "Dedicated".into() })];
+    if let Some(w) = g.power_w {
+        rows.push(Row::plain("Power", fmt_w(w)));
+    }
     if let Some(rpm) = g.fan_rpm {
         rows.push(Row::plain("Fan", format!("{rpm} RPM")));
     }
@@ -660,6 +697,109 @@ fn battery_glyph(ui: &mut Ui, center: Point, percent: u8, color: Color, plugged:
     }
     if plugged {
         ui.c.icon(Icon::Bolt, Rect::from_center(inner.center(), 18.0, 18.0), palette::ON_ACCENT);
+    }
+}
+
+// ------------------------------------------------------------------ power
+
+/// The whole PC's draw: the CPU, the graphics card and the rest in the ring
+/// and the rows on the left, the minute in the middle, where the number
+/// comes from on the right.
+fn draw_power(ui: &mut Ui, st: &mut AppState, p: &PowerReading, r: &Reading, h: &History, cols: &Cols) {
+    let accent = st.accent;
+    let total = p.total_w.max(0.1);
+    let share = |w: f32| (w / total).clamp(0.0, 1.0);
+    let gauge = |w: Option<f32>, label: &'static str, color: Color| match w {
+        Some(w) => Gauge { frac: Some(share(w)), value: fmt_w(w), label, color },
+        None => Gauge::unknown(label),
+    };
+    let ring = Ring {
+        parts: vec![(share(p.cpu_w.unwrap_or(0.0)), CPU_W_C), (share(p.gpu_w.unwrap_or(0.0)), GPU_W_C), (share(p.rest_w), REST_W_C)],
+        value: fmt_w(p.total_w),
+    };
+    let (dash, rest) = cols.dash.split_top(DASH_H);
+    dashboard(ui, dash, &gauge(p.cpu_w, "CPU", CPU_W_C), &ring, &gauge(p.gpu_w, "GPU", GPU_W_C));
+    let in_cpu = r.gpu.as_ref().is_none_or(|g| g.integrated);
+    let gpu = match p.gpu_w {
+        Some(w) => fmt_w(w),
+        None if in_cpu => "In the CPU".into(),
+        None => PLACEHOLDER.into(),
+    };
+    let rest_w = if p.estimated() { format!("about {}", fmt_w(p.rest_w)) } else { fmt_w(p.rest_w) };
+    let rows = [
+        Row::dot(CPU_W_C, "CPU", p.cpu_w.map_or_else(|| PLACEHOLDER.into(), fmt_w)),
+        Row::dot(GPU_W_C, "Graphics card", gpu),
+        Row::dot(REST_W_C, "Rest of the PC", rest_w),
+        Row::plain(if p.estimated() { "Whole PC, estimated" } else { "Whole PC" }, fmt_w(p.total_w)),
+    ];
+    details(ui, rest, "WHERE IT GOES", &rows);
+
+    // The minute, and the power supply's outputs (or the shares) under it.
+    let rails = p.psu.as_ref().map(|s| s.rails.as_slice()).filter(|r| !r.is_empty());
+    let (chart, sub) = history_column(ui, cols.mid, "POWER HISTORY", if rails.is_some() { "OUTPUTS" } else { "SHARE" });
+    chart_box(ui, chart);
+    let top = watts_ceiling(h.power.max());
+    plot(ui, &h.power, top, accent, chart.inset(1.0, 1.0), Fill::Gradient);
+    ui.c.text(&fmt_w(top), Rect::new(chart.x + 7.0, chart.y + 3.0, 60.0, 14.0), &TextStyle::caption().tabular().color(palette::TEXT_FAINT));
+    match rails {
+        Some(rails) => {
+            let sum: f32 = rails.iter().map(|r| r.watts()).sum::<f32>().max(0.1);
+            let names: Vec<String> = rails.iter().map(|r| format!("{} V", fmt_volts(r.nominal))).collect();
+            let bars: Vec<(f32, Color, &str)> = rails.iter().zip(&names).map(|(r, n)| (r.watts() / sum, accent, n.as_str())).collect();
+            labelled_bars(ui, sub, &bars);
+        }
+        None => labelled_bars(
+            ui,
+            sub,
+            &[(share(p.cpu_w.unwrap_or(0.0)), CPU_W_C, "CPU"), (share(p.gpu_w.unwrap_or(0.0)), GPU_W_C, "Graphics"), (share(p.rest_w), REST_W_C, "Rest")],
+        ),
+    }
+
+    // Where the number comes from.
+    let (head, rest) = cols.top.split_top(SEP_H);
+    separator(ui, head, "POWER SUPPLY");
+    let name_st = TextStyle::footnote().weight(Weight::Semibold).wrap().top().line_spacing(1.25);
+    let (name_r, rest) = rest.split_top(36.0);
+    match &p.psu {
+        Some(s) => {
+            ui.c.text(&s.name, name_r.inset(0.0, 2.0), &name_st);
+            let mut rows = Vec::new();
+            if let Some(w) = s.in_w {
+                rows.push(Row::plain("From the wall", fmt_w(w)));
+            }
+            if let Some(e) = s.efficiency {
+                rows.push(Row::plain("Efficiency", fmt_pct(e)));
+            }
+            if let Some(v) = s.mains_v {
+                rows.push(Row::plain("Mains", format!("{v:.0} V")));
+            }
+            if let Some(t) = s.temp_c {
+                rows.push(Row::plain("Temperature", format!("{t:.0}\u{b0}C")));
+            }
+            if let Some(rpm) = s.fan_rpm {
+                rows.push(Row::plain("Fan", if rpm == 0 { "Stopped".into() } else { format!("{rpm} RPM") }));
+            }
+            for (row, rect) in rows.iter().zip(stack(rest, DETAIL_H)) {
+                row.draw(ui, rect);
+            }
+        }
+        None => {
+            ui.c.text("Doesn't report", name_r.inset(0.0, 2.0), &name_st.color(palette::TEXT_DIM));
+            let note = format!(
+                "So this adds about {:.0} W for the board, memory, drives and fans to what the CPU and the graphics card report. Corsair HXi and RMi, and MSI's Ai power supplies, report the real number over USB.",
+                REST_W
+            );
+            ui.c.text(&note, rest.inset(0.0, 1.0), &TextStyle::caption().color(palette::TEXT_DIM).wrap().top().line_spacing(1.25));
+        }
+    }
+}
+
+/// "12", "5", "3.3".
+fn fmt_volts(v: f32) -> String {
+    if v.fract().abs() < 0.05 {
+        format!("{v:.0}")
+    } else {
+        format!("{v:.1}")
     }
 }
 

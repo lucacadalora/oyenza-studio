@@ -550,7 +550,7 @@ impl Sampler {
             laps.lap("battery");
         }
         let (top_cpu, top_memory, top_io) = top;
-        Reading { cpu, gpu, memory, drives: self.drive_list.clone(), disk, network, battery: self.battery.clone(), top_cpu, top_memory, top_io }
+        Reading { cpu, gpu, memory, drives: self.drive_list.clone(), disk, network, battery: self.battery.clone(), power: None, top_cpu, top_memory, top_io }
     }
 
     // ------------------------------------------------------------ CPU

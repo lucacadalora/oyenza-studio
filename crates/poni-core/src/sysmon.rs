@@ -24,13 +24,16 @@ pub enum Module {
     Memory,
     Drives,
     Network,
+    /// A desktop's whole draw (`crate::power`): its power supply's reading,
+    /// or an estimate from the parts that report their own.
+    Power,
     Battery,
     /// Show over games: the frame rate and load while a game is in front.
     Games,
 }
 
 impl Module {
-    pub const ALL: [Module; 7] = [Module::Cpu, Module::Gpu, Module::Memory, Module::Drives, Module::Network, Module::Battery, Module::Games];
+    pub const ALL: [Module; 8] = [Module::Cpu, Module::Gpu, Module::Memory, Module::Drives, Module::Network, Module::Power, Module::Battery, Module::Games];
 
     pub fn title(self) -> &'static str {
         match self {
@@ -39,6 +42,7 @@ impl Module {
             Module::Memory => "Memory",
             Module::Drives => "Drives",
             Module::Network => "Network",
+            Module::Power => "Power",
             Module::Battery => "Battery",
             Module::Games => "Games",
         }
@@ -266,6 +270,8 @@ pub struct GpuReading {
     pub temp_c: Option<f32>,
     pub fan_rpm: Option<u32>,
     pub mhz: Option<u32>,
+    /// The whole card's draw, when its maker's library reports it (W).
+    pub power_w: Option<f32>,
 }
 
 /// The processes of one executable taken together.
@@ -300,6 +306,8 @@ pub struct Reading {
     pub network: Option<NetReading>,
     /// None on a PC without a battery.
     pub battery: Option<BatteryReading>,
+    /// The whole PC's draw, on a desktop while the page is open.
+    pub power: Option<crate::power::PowerReading>,
     pub top_cpu: Vec<AppUse>,
     pub top_memory: Vec<AppUse>,
     pub top_io: Vec<AppUse>,
@@ -363,6 +371,8 @@ pub struct History {
     pub disk_write: Series,
     pub net_down: Series,
     pub net_up: Series,
+    /// The whole PC's draw (W).
+    pub power: Series,
 }
 
 impl History {
@@ -375,6 +385,7 @@ impl History {
         let net = r.network.as_ref().filter(|n| n.online);
         self.net_down.push(net.map(|n| n.down_bps as f32));
         self.net_up.push(net.map(|n| n.up_bps as f32));
+        self.power.push(r.power.as_ref().map(|p| p.total_w));
     }
 }
 

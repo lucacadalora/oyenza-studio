@@ -873,6 +873,7 @@ fn sample_reading(cpu: f32, gpu: f32, (read, write): (f64, f64), (down, up): (f6
         top_cpu: apps([0, 1, 2, 3, 4, 5, 6, 7]),
         top_memory: apps([0, 5, 6, 1, 2, 4, 3, 7]),
         top_io: apps([6, 0, 2, 1, 5, 3, 4, 7]),
+        power: None,
     }
 }
 

@@ -259,6 +259,9 @@ pub struct PageUiState {
     pub system_module: poni_core::sysmon::Module,
     /// The last System reading had a GPU (keeps its chip while the next one is on its way).
     pub system_gpu: bool,
+    /// The last full System reading had the whole PC's power (keeps its chip
+    /// while the page's first, light reading shows).
+    pub system_power: bool,
     /// The page the Settings button was pressed on (pressing it again goes back).
     pub before_settings: Option<PageKind>,
     /// Start with Windows, as last read off the UI thread (None until Settings first opens).

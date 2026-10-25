@@ -22,6 +22,11 @@
 //! * Drives, network and battery: fixed drives' space and the physical
 //!   disks' counters; `GetIfTable2` per adapter plus the route's adapter,
 //!   address and link speed; `GetSystemPowerStatus` and the battery driver.
+//! * Power, on a desktop while the page is open: a power supply that
+//!   reports over USB (`services::psu`), else an estimate from the CPU
+//!   package's energy counter and the graphics card's own reading (NVML,
+//!   the NVIDIA driver's library), as `poni_core::power` adds them up. Both
+//!   readers open with the page and close with it.
 //!
 //! The thread keeps the charts' minute while the page is closed (Settings ›
 //! keep System history): one light reading a second of the processor times,
@@ -33,6 +38,7 @@
 //! source that fails is left out of the reading and logged once.
 
 use crate::events::{AppEvent, EventSink};
+use poni_core::power::PowerReading;
 use poni_core::sysmon::{
     core_kinds, core_split, cpu_split, display_name, gpu_busy, parse_core_times, parse_process_list, reads, top_cpu, top_io, top_memory, AppTracker,
     AppUse, BatteryReading, CoreKind, CoreLoad, CoreTimes, CpuReading, CpuTimes, DiskActivity, Drive, Engine, GpuReading, MemoryReading, Monitor,
@@ -56,7 +62,7 @@ use windows::Win32::Devices::DeviceAndDriverInstallation::{
     SetupDiDestroyDeviceInfoList, SetupDiEnumDeviceInterfaces, SetupDiGetClassDevsW, SetupDiGetDeviceInterfaceDetailW, DIGCF_DEVICEINTERFACE,
     DIGCF_PRESENT, SP_DEVICE_INTERFACE_DATA, SP_DEVICE_INTERFACE_DETAIL_DATA_W,
 };
-use windows::Win32::Foundation::{CloseHandle, FILETIME, GENERIC_READ, GENERIC_WRITE, HANDLE, HWND, LUID};
+use windows::Win32::Foundation::{CloseHandle, FreeLibrary, FILETIME, GENERIC_READ, GENERIC_WRITE, HANDLE, HMODULE, HWND, LUID};
 use windows::Win32::Graphics::Dxgi::{CreateDXGIFactory1, IDXGIFactory1, DXGI_ADAPTER_FLAG_SOFTWARE};
 use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetBestInterface, GetIfEntry2, GetIfTable2, MIB_IF_ROW2, MIB_IF_TABLE2};
 use windows::Win32::NetworkManagement::Ndis::{IfOperStatusUp, NET_LUID_LH};
@@ -74,7 +80,7 @@ use windows::Win32::System::Power::{
     IOCTL_BATTERY_QUERY_INFORMATION, IOCTL_BATTERY_QUERY_STATUS, IOCTL_BATTERY_QUERY_TAG, PROCESSOR_POWER_INFORMATION, SYSTEM_POWER_STATUS,
 };
 use windows::Win32::System::ProcessStatus::{GetPerformanceInfo, PERFORMANCE_INFORMATION};
-use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress};
+use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress, LoadLibraryExW, LOAD_LIBRARY_SEARCH_SYSTEM32};
 use windows::Win32::System::SystemInformation::{
     CpuSetInformation, GetSystemCpuSetInformation, GetTickCount64, GlobalMemoryStatusEx, MEMORYSTATUSEX, SYSTEM_CPU_SET_INFORMATION,
 };
@@ -113,6 +119,9 @@ const CORE_BYTES: usize = 48;
 const GPU_MISSES: u32 = 3;
 /// The PCI vendor id DXGI gives Microsoft's software and basic adapters.
 const MICROSOFT_VENDOR: u32 = 0x1414;
+const NVIDIA_VENDOR: u32 = 0x10de;
+/// Unanswered PSU readings in a row before the page stops asking it.
+const PSU_MISSES: u32 = 3;
 /// This much dedicated memory or less is a GPU built into the processor (its
 /// slice of RAM, often exactly 512 MB), when the segments don't say.
 const INTEGRATED_UP_TO: u64 = 512 * 1024 * 1024;
@@ -381,6 +390,11 @@ struct Sampler {
     /// The thermal zone reading, its lowest and highest so far (placeholders never move).
     zone: Option<(f32, f32, f32)>,
     slow_at: Option<Instant>,
+    /// A power supply that reports over USB, open while the page is, and
+    /// whether this opening looked for one (once per opening).
+    psu: Option<super::psu::Psu>,
+    psu_looked: bool,
+    psu_misses: u32,
 }
 
 impl Sampler {
@@ -412,6 +426,9 @@ impl Sampler {
             compressed: 0,
             zone: None,
             slow_at: None,
+            psu: None,
+            psu_looked: false,
+            psu_misses: 0,
         };
         // Baselines for everything measured between two samples.
         s.cores = s.core_times();
@@ -449,6 +466,14 @@ impl Sampler {
             if self.gpu.is_none() {
                 self.gpu = Gpu::open();
             }
+        }
+        // The power readers live while the page is open.
+        if let Some(g) = self.gpu.as_mut() {
+            g.page_open(full);
+        }
+        if !full {
+            self.psu = None;
+            self.psu_looked = false;
         }
         let pdh = self.pdh.as_ref().filter(|p| p.collect(full));
         let counters = pdh.map(|p| p.read(full)).unwrap_or_default();
@@ -538,20 +563,40 @@ impl Sampler {
         if full {
             self.drive_list = self.drives.iter().filter_map(|(root, label)| drive(root, label)).collect();
         }
+        // The power status is one cheap call; the battery's details come from the last slow refresh.
+        let battery = if full { self.battery_reading() } else { battery(self.battery.as_ref()) };
+        // A laptop's battery page already says what it draws.
+        let power = (full && battery.is_none()).then(|| self.power_reading(cpu.as_ref(), gpu.as_ref())).flatten();
         let (top_cpu, top_memory, top_io) = top;
-        Reading {
-            cpu,
-            gpu,
-            memory,
-            drives: self.drive_list.clone(),
-            disk,
-            network,
-            // The power status is one cheap call; the battery's details come from the last slow refresh.
-            battery: if full { self.battery_reading() } else { battery(self.battery.as_ref()) },
-            top_cpu,
-            top_memory,
-            top_io,
+        Reading { cpu, gpu, memory, drives: self.drive_list.clone(), disk, network, battery, power, top_cpu, top_memory, top_io }
+    }
+
+    /// The whole PC's draw: what a power supply that reports over USB says,
+    /// else the estimate from the CPU package and the graphics card.
+    fn power_reading(&mut self, cpu: Option<&CpuReading>, gpu: Option<&GpuReading>) -> Option<PowerReading> {
+        let cpu_w = cpu.and_then(|c| c.power_w);
+        let gpu_w = gpu.and_then(|g| g.power_w);
+        if !self.psu_looked {
+            self.psu_looked = true;
+            self.psu_misses = 0;
+            self.psu = super::psu::Psu::find();
         }
+        if let Some(psu) = self.psu.as_mut() {
+            match psu.read() {
+                Some(r) => {
+                    self.psu_misses = 0;
+                    return Some(PowerReading::from_psu(r, cpu_w, gpu_w));
+                }
+                None => {
+                    self.psu_misses += 1;
+                    if self.psu_misses >= PSU_MISSES {
+                        warn_once(1 << 12, "power supply stopped answering; estimating until the page opens again");
+                        self.psu = None;
+                    }
+                }
+            }
+        }
+        PowerReading::estimate(cpu_w, gpu_w, gpu.is_some_and(|g| !g.integrated))
     }
 
     /// Every core's load since the last reading (the processor times by
@@ -1091,12 +1136,19 @@ struct Gpu {
     /// The last good reading, shown while the kernel misses one, and the misses in a row.
     last: Option<GpuReading>,
     misses: u32,
+    /// (vendor, device, subsystem) PCI ids, as DXGI gives them.
+    pci: (u32, u32, u32),
+    /// The card's own power reading (NVIDIA's library), while the page is
+    /// open, and whether this opening tried to load it.
+    nvml: Option<Nvml>,
+    nvml_tried: bool,
 }
 
 impl Gpu {
     fn open() -> Option<Gpu> {
         let factory: IDXGIFactory1 = unsafe { CreateDXGIFactory1() }.ok()?;
         let mut best: Option<(u64, u64, String, LUID)> = None;
+        let mut pci = (0, 0, 0);
         for i in 0.. {
             let Ok(adapter) = (unsafe { factory.EnumAdapters1(i) }) else { break };
             let Ok(desc) = (unsafe { adapter.GetDesc1() }) else { continue };
@@ -1109,6 +1161,7 @@ impl Gpu {
             if best.as_ref().is_none_or(|(m, ..)| mem > *m) {
                 let name = String::from_utf16_lossy(&desc.Description[..desc.Description.iter().position(|c| *c == 0).unwrap_or(desc.Description.len())]);
                 best = Some((mem, desc.SharedSystemMemory as u64, name.trim().to_string(), desc.AdapterLuid));
+                pci = (desc.VendorId, desc.DeviceId, desc.SubSysId);
             }
         }
         let (dedicated, shared, name, luid) = best?;
@@ -1123,6 +1176,9 @@ impl Gpu {
             prev: (Instant::now(), Vec::new()),
             last: None,
             misses: 0,
+            pci,
+            nvml: None,
+            nvml_tried: false,
         };
         // SAFETY (all unions below): the kernel filled the member the query's type names.
         let info = gpu.stats(D3DKMT_QUERYSTATISTICS_ADAPTER, |_| {}).map(|r| unsafe { r.AdapterInformation });
@@ -1154,6 +1210,18 @@ impl Gpu {
             .collect();
         gpu.prev = (Instant::now(), gpu.running_times()?);
         Some(gpu)
+    }
+
+    /// The card's power reader opens with the page (once per opening) and
+    /// goes when it closes.
+    fn page_open(&mut self, open: bool) {
+        if !open {
+            self.nvml = None;
+            self.nvml_tried = false;
+        } else if !self.nvml_tried {
+            self.nvml_tried = true;
+            self.nvml = Nvml::open(self.pci);
+        }
     }
 
     fn segment(&self, id: u32) -> Option<windows::Wdk::Graphics::Direct3D::D3DKMT_QUERYSTATISTICS_SEGMENT_INFORMATION> {
@@ -1239,6 +1307,7 @@ impl Gpu {
                     r.mhz = u32::try_from(n.Frequency / 1_000_000).ok().filter(|m| *m > 0);
                 }
             }
+            r.power_w = self.nvml.as_ref().and_then(Nvml::watts);
         }
         self.last = Some(r.clone());
         Some(r)
@@ -1251,6 +1320,105 @@ impl Drop for Gpu {
             unsafe {
                 let _ = D3DKMTCloseAdapter(&D3DKMT_CLOSEADAPTER { hAdapter: h });
             }
+        }
+    }
+}
+
+/// `nvmlPciInfo_t`, as NVML's v3 query fills it.
+#[repr(C)]
+struct NvmlPci {
+    bus_id_legacy: [u8; 16],
+    domain: u32,
+    bus: u32,
+    device: u32,
+    /// Device id in the high half, vendor id in the low.
+    pci_device_id: u32,
+    pci_subsystem_id: u32,
+    bus_id: [u8; 32],
+}
+
+type NvmlCall = unsafe extern "C" fn() -> i32;
+type NvmlCount = unsafe extern "C" fn(*mut u32) -> i32;
+type NvmlByIndex = unsafe extern "C" fn(u32, *mut usize) -> i32;
+type NvmlPciInfo = unsafe extern "C" fn(usize, *mut NvmlPci) -> i32;
+type NvmlPower = unsafe extern "C" fn(usize, *mut u32) -> i32;
+
+/// An NVIDIA card's own power reading, from NVML: the library the NVIDIA
+/// driver puts in System32 (what nvidia-smi reads). Windows' graphics kernel
+/// gives no watts. Loaded while the page is open, released when it closes.
+struct Nvml {
+    lib: HMODULE,
+    device: usize,
+    power: NvmlPower,
+    shutdown: NvmlCall,
+}
+
+impl Nvml {
+    /// The NVML device for the card DXGI picked (matched by its PCI ids; the
+    /// only one when there's just one).
+    fn open((vendor, device, subsys): (u32, u32, u32)) -> Option<Nvml> {
+        if vendor != NVIDIA_VENDOR {
+            return None;
+        }
+        unsafe {
+            let lib = LoadLibraryExW(w!("nvml.dll"), None, LOAD_LIBRARY_SEARCH_SYSTEM32).ok()?;
+            let found = Nvml::device(lib, (device << 16) | vendor, subsys);
+            if found.is_none() {
+                warn_once(1 << 13, "the NVIDIA card's power reading is unavailable");
+                let _ = FreeLibrary(lib);
+            }
+            found
+        }
+    }
+
+    unsafe fn device(lib: HMODULE, pci_id: u32, subsys: u32) -> Option<Nvml> {
+        let init: NvmlCall = std::mem::transmute(GetProcAddress(lib, s!("nvmlInit_v2"))?);
+        let shutdown: NvmlCall = std::mem::transmute(GetProcAddress(lib, s!("nvmlShutdown"))?);
+        let count: NvmlCount = std::mem::transmute(GetProcAddress(lib, s!("nvmlDeviceGetCount_v2"))?);
+        let by_index: NvmlByIndex = std::mem::transmute(GetProcAddress(lib, s!("nvmlDeviceGetHandleByIndex_v2"))?);
+        let pci_info: NvmlPciInfo = std::mem::transmute(GetProcAddress(lib, s!("nvmlDeviceGetPciInfo_v3"))?);
+        let power: NvmlPower = std::mem::transmute(GetProcAddress(lib, s!("nvmlDeviceGetPowerUsage"))?);
+        if init() != 0 {
+            return None;
+        }
+        let mut n = 0u32;
+        let mut pick = None;
+        if count(&mut n) == 0 {
+            for i in 0..n {
+                let mut d = 0usize;
+                if by_index(i, &mut d) != 0 {
+                    continue;
+                }
+                let mut info: NvmlPci = std::mem::zeroed();
+                let matches = pci_info(d, &mut info) == 0 && info.pci_device_id == pci_id && info.pci_subsystem_id == subsys;
+                if matches || n == 1 {
+                    pick = Some(d);
+                    break;
+                }
+            }
+        }
+        match pick {
+            Some(device) => Some(Nvml { lib, device, power, shutdown }),
+            None => {
+                shutdown();
+                None
+            }
+        }
+    }
+
+    /// The whole board's draw (W): NVML averages it over a second on cards
+    /// from Ampere on.
+    fn watts(&self) -> Option<f32> {
+        let mut mw = 0u32;
+        (unsafe { (self.power)(self.device, &mut mw) } == 0).then(|| mw as f32 / 1000.0).filter(|w| (0.5..=3000.0).contains(w))
+    }
+}
+
+impl Drop for Nvml {
+    fn drop(&mut self) {
+        unsafe {
+            (self.shutdown)();
+            let _ = FreeLibrary(self.lib);
         }
     }
 }
