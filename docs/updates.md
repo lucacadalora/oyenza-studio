@@ -50,7 +50,7 @@ The file follows GitHub's latest release. If a release turns out bad, mark the p
 
 ## What the app does with it
 
-Copies from 0.2.5 on read the file; 0.2.4 and older don't, so they need one last update by hand. Settings has **Tell me about new versions**, on by default.
+Copies from 0.2.6 on read the file; 0.2.5 and older don't, so they need one last update by hand. Settings has **Tell me about new versions**, on by default.
 
 - **When it looks:** about two minutes after start, then every 12 hours (`poni_core::update::CHECK_EVERY_S`), remembered across starts in `update.json` in the data folder, so starting the app often costs nothing. A look that comes due while nobody is at the computer (locked, display off) or on battery saver waits until someone is back. A failed look tries again in an hour.
 - **How:** one request for the file, about 1 KB, on the add-on downloader's thread (`services/update.rs`), which sleeps the rest of the time. The signature is checked with the system's own crypto (CNG on Windows; on a Mac the P-256 code phone drop already builds in), then `poni_core::update::parse_payload` refuses anything that isn't this repository's own release of that version.
