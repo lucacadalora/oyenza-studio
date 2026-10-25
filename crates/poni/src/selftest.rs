@@ -91,8 +91,12 @@ const CLICK_TIMEOUT: f64 = 1.5;
 /// slow end); a CI step takes under 30 s for the whole run. The CI and Store
 /// test steps wait 120 s for the whole run, the Wine runner 180 s.
 const SCENE_DEADLINE: f64 = 50.0;
-/// Give up waiting for PNG writers at this point.
-const WRITE_DEADLINE: f64 = 43.5;
+/// Give up waiting for PNG writers at this point: 3.5 s after the scene
+/// deadline, so the last scenes' pictures get their time however long the
+/// run took. (It was a fixed 43.5 s, left behind when SCENE_DEADLINE went
+/// from 40 to 50; once the Glass runs took over 43.5 s, the last picture was
+/// still encoding and png-files failed.)
+const WRITE_DEADLINE: f64 = SCENE_DEADLINE + 3.5;
 /// One frame (layout + Direct2D render + present + readback) must fit in a 60 Hz frame.
 /// On a software rasterizer (CI runners) frame times are reported, not
 /// counted: they land on whole screen refreshes (about 16 or 31 ms) on a CPU
