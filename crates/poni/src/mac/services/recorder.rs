@@ -73,7 +73,8 @@ fn app_name() -> String {
 }
 
 /// The add-on's switch-on: download the disk image, copy the app out of it
-/// into Applications, and answer `Ready`, or `Failed`.
+/// into Applications, open it (its first start asks for its permissions),
+/// and answer `Ready`, or `Failed`.
 pub fn install_job(sink: EventSink) -> Job {
     Box::new(move |client: Result<&Client, &str>| {
         let status = match install(client, &sink) {
@@ -127,6 +128,9 @@ fn copy_app(mount: &Path) -> Result<PathBuf, String> {
         match run("ditto", &[source.as_os_str(), target.as_os_str()]) {
             Ok(()) => {
                 let _ = run(LSREGISTER, &["-f".as_ref(), target.as_os_str()]);
+                if let Err(e) = run("open", &[target.as_os_str()]) {
+                    crate::pwarn!("recorder: installed, but couldn't open it ({e})");
+                }
                 return Ok(target);
             }
             Err(e) => why = e,

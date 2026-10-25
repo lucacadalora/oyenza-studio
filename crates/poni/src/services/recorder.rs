@@ -70,8 +70,9 @@ fn screen_name(hwnd: HWND) -> Option<String> {
 }
 
 /// The add-on's switch-on: download the installer, run it silently (per
-/// user, no administrator), and answer `Ready` once the recorder's link is
-/// registered, or `Failed`.
+/// user, no administrator) and open the recorder, whose first start asks for
+/// its permissions; answer `Ready` once the recorder's link is registered,
+/// or `Failed`.
 pub fn install_job(sink: EventSink) -> Job {
     Box::new(move |client: Result<&Client, &str>| {
         let status = match install(client, &sink) {
@@ -95,7 +96,8 @@ fn install(client: Result<&Client, &str>, sink: &EventSink) -> Result<(), String
     let setup = dir.join(file.name);
     addons::fetch_installer(client?, sink, RECORDER.id, file, &recorder::installer_url(file), &setup)?;
     sink.send(AppEvent::Addon { id: RECORDER.id, status: Status::Installing });
-    let ran = std::process::Command::new(&setup).arg("/S").status();
+    // `/R`: the Setup opens the recorder once it's installed.
+    let ran = std::process::Command::new(&setup).args(["/S", "/R"]).status();
     let _ = std::fs::remove_dir_all(&dir);
     let code = ran.map_err(|e| format!("could not run the installer ({e})"))?;
     if !code.success() {
