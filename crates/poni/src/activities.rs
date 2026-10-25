@@ -203,7 +203,8 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         },
         Mode::Activity(Activity::Media) => {
             // A song with synced lyrics sings its line here, as in the Pill
-            // theme: the pill is as wide as its words (`pill::media`).
+            // theme: the pill is as wide as its words (`pill::media`), and
+            // two rows tall when they have readings, the line over them.
             let w = if crate::pill::lyric::sings(st) {
                 crate::pill::media::fit_w()
             } else if st.now < st.ui.peek_until {
@@ -211,7 +212,11 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
             } else {
                 MEDIA_W
             };
-            Geom::new(w, 32.0, 15.0)
+            if crate::pill::lyric::reads(st) {
+                Geom::new(w, crate::pill::media::H_READS, 22.0)
+            } else {
+                Geom::new(w, 32.0, 15.0)
+            }
         }
         Mode::Activity(Activity::Timer) => {
             // "MM:SS" until the countdown needs another digit.
@@ -458,8 +463,9 @@ fn draw_peek(ui: &mut Ui, st: &AppState, x0: f32, x1: f32, body: Rect, alpha: f3
 /// Music, collapsed: the album art on the left, the equalizer (Oyen, in his
 /// theme) on the right, and between them the line being sung while the song
 /// has synced lyrics, as in the Pill theme (`pill::media::middle`: the line,
-/// or the title in the intro, the breaks and a new track's peek), else a new
-/// track's title for a moment. In the menu bar's line of a MacBook with a
+/// with its reading in Latin letters under it when it has one, or the title
+/// in the intro, the breaks and a new track's peek), else a new track's
+/// title for a moment. In the menu bar's line of a MacBook with a
 /// notch the camera takes the middle, so there it draws no words (`words`
 /// false): a sung line hangs below the notch instead (`mac/notch.rs`).
 pub fn draw_music(ui: &mut Ui, st: &mut AppState, body: Rect, words: bool) {
@@ -783,5 +789,22 @@ mod tests {
         let mut paused = sung;
         paused.media.as_mut().unwrap().timeline = Timeline::new(12.0, 200.0, 0.0, false);
         assert!(crate::pill::lyric::sings(&paused));
+    }
+
+    #[test]
+    fn music_with_readings_is_two_rows_tall_in_every_theme() {
+        use poni_core::romanize::Ruby;
+        use poni_core::settings::Theme;
+        let media = Mode::Activity(Activity::Media);
+        let mut st = playing(Some("[00:10.00]紙の舟よ\n[00:14.00]Paper boats\n"));
+        assert_eq!(geom(&media, &st).h, 32.0, "no readings: one row");
+        st.lyrics.ruby = vec![vec![Ruby { text: "紙の舟よ".into(), roman: "kami no fune yo".into() }], Vec::new()];
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+            st.settings.theme = theme;
+            assert_eq!(geom(&media, &st).h, crate::pill::media::H_READS, "{theme:?}: the line over its reading");
+        }
+        // Readings switched off: one row again, as for a song without them.
+        st.settings.lyrics_pronunciation = false;
+        assert_eq!(geom(&media, &st).h, 32.0);
     }
 }

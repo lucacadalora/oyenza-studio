@@ -59,6 +59,27 @@ pub fn needs_roman(line: &str) -> bool {
     line.chars().any(|c| matches!(class_of(c), Class::Kana | Class::Hangul | Class::Han))
 }
 
+/// A line's pieces as one line of Latin letters, the way it is sung: each
+/// piece's reading, and the words that need none (Latin words, numbers, a
+/// kanji left unread) as they are written, one space apart. `None` when no
+/// piece has a reading: the line reads as it is.
+pub fn reading(pieces: &[Ruby]) -> Option<String> {
+    if pieces.iter().all(|p| p.roman.is_empty()) {
+        return None;
+    }
+    let mut out = String::new();
+    for p in pieces {
+        let said = if p.roman.is_empty() { &p.text } else { &p.roman };
+        for word in said.split_whitespace() {
+            if !out.is_empty() {
+                out.push(' ');
+            }
+            out.push_str(word);
+        }
+    }
+    Some(out)
+}
+
 /// A word from a Japanese morphological analyzer (Windows' JapanesePhoneticAnalyzer gives
 /// DisplayText, YomiText in hiragana, IsPhraseStart).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -446,6 +467,21 @@ mod tests {
         assert!(needs_roman("月"));
         assert!(!needs_roman("Oh, oh 2024!"));
         assert!(!needs_roman("・…♪"));
+    }
+
+    #[test]
+    fn a_line_reads_as_one_line_of_latin_letters() {
+        // The pieces of 今日はOKだよ、 フィルム2024 (as the analyzer test below reads them).
+        let line = [rb("今日は", "kyou wa"), rb("OK", ""), rb("だよ、", "da yo,"), rb(" ", ""), rb("フィルム", "firumu"), rb("2024", "")];
+        assert_eq!(reading(&line).as_deref(), Some("kyou wa OK da yo, firumu 2024"));
+        // Latin runs keep their own spacing, ideographic spaces fold into one.
+        let line = [rb("Oh  baby", ""), rb("\u{3000}", ""), rb("사랑해", "saranghae")];
+        assert_eq!(reading(&line).as_deref(), Some("Oh baby saranghae"));
+        // A kanji the reader couldn't read stays as it is written.
+        assert_eq!(reading(&[rb("㐂", ""), rb("びの", "bino")]).as_deref(), Some("㐂 bino"));
+        // Nothing to read: the line is its own reading.
+        assert_eq!(reading(&[rb("OK", ""), rb(" ", "")]), None);
+        assert_eq!(reading(&[]), None);
     }
 
     #[test]

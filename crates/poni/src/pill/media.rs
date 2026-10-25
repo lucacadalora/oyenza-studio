@@ -32,6 +32,9 @@ use std::hash::{DefaultHasher, Hash, Hasher};
 
 /// Every collapsed pill is this tall, a capsule (spec 6.1).
 const H: f32 = 32.0;
+/// A song sung with its readings is two rows tall, the line over its
+/// reading in Latin letters (`super::lyric::reads`), in every theme.
+pub(crate) const H_READS: f32 = 46.0;
 /// The pill is its text plus this much: the art and the equalizer with
 /// their gaps, the same on both sides so the text centres (spec 6.5).
 const SIDES: f32 = 88.0;
@@ -99,8 +102,19 @@ thread_local! {
     static SONG: Cell<(u64, f64)> = const { Cell::new((0, f64::NEG_INFINITY)) };
 }
 
-pub fn geom(_st: &AppState) -> Option<Geom> {
-    Some(Geom::new(fit_w(), H, H / 2.0))
+pub fn geom(st: &AppState) -> Option<Geom> {
+    let h = height(st);
+    Some(Geom::new(fit_w(), h, h / 2.0))
+}
+
+/// How tall the music pill is: two rows while the song sings with its
+/// readings, else one.
+pub(crate) fn height(st: &AppState) -> f32 {
+    if super::lyric::reads(st) {
+        H_READS
+    } else {
+        H
+    }
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
@@ -135,7 +149,8 @@ pub(crate) fn middle(ui: &mut Ui, st: &AppState, body: Rect, x0: f32, x1: f32, a
     // The text centres on the pill in a box as wide as the widest pill's
     // text, so its layout doesn't change with the pill's width on each
     // frame of a morph, cut where the art and the bars are.
-    let area = Rect::new(body.center().x - (MAX_W - SIDES) / 2.0, body.center().y - H / 2.0, MAX_W - SIDES, H);
+    let h = height(st);
+    let area = Rect::new(body.center().x - (MAX_W - SIDES) / 2.0, body.center().y - h / 2.0, MAX_W - SIDES, h);
     ui.c.clip(Rect::new(x0, body.y, (x1 - x0).max(0.0), body.h));
     let want = draw_text(ui, st, area, alpha, st.now);
     ui.c.unclip();
@@ -218,7 +233,8 @@ fn draw_text(ui: &mut Ui, st: &AppState, area: Rect, paused_a: f32, now: f64) ->
     let (was_sung, since) = SUNG.get();
     let k = smooth(clamp01(((now - since) / HANDOFF) as f32));
     let line_a = if was_sung && !peeking { k * paused_a } else { 0.0 };
-    let sung = faded(ui, line_a, |ui| super::lyric::draw(ui, st, area)) && !peeking;
+    let line_w = faded(ui, line_a, |ui| super::lyric::draw(ui, st, area));
+    let sung = line_w.is_some() && !peeking;
     let since = if sung == was_sung {
         since
     } else {
@@ -238,11 +254,8 @@ fn draw_text(ui: &mut Ui, st: &AppState, area: Rect, paused_a: f32, now: f64) ->
     if k < 1.0 {
         draw_song(ui, st, song, paused_a * (1.0 - k));
     }
-    match super::lyric::current(st) {
-        Some((line, _)) => fit(widest_line(st, ui.c.measure(&line, &super::lyric::style(), 10_000.0).0), MAX_W),
-        // The last line is still fading out: it keeps its width until it's gone.
-        None => FIT_W.get(),
-    }
+    // The line's width, or its reading's when that is wider.
+    line_w.map_or(FIT_W.get(), |w| fit(widest_line(st, w), MAX_W))
 }
 
 /// The widest line sung so far in this track, with one `w` wide now. The

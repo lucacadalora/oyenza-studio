@@ -2755,7 +2755,12 @@ fn lyric_line_check(st: &AppState) -> Check {
     let pos = m.timeline.position_at(st.now);
     let lyrics = st.lyrics.lyrics.as_ref().filter(|_| st.lyrics.track_key == m.track_key);
     match lyrics.and_then(|l| l.line_index_at(pos).map(|k| (k, l.lines[k].text.trim()))) {
-        Some((k, text)) if !text.is_empty() => check("lyric-line", true, format!("line {} \"{text}\" sung at {pos:.1} s", k + 1)),
+        Some((k, text)) if !text.is_empty() => {
+            // The reading the pill sings under it, when the song has them.
+            let reading = st.lyrics.ruby.get(k).filter(|_| st.settings.lyrics_pronunciation).and_then(|p| poni_core::romanize::reading(p));
+            let under = reading.map(|r| format!(", read \"{r}\"")).unwrap_or_default();
+            check("lyric-line", true, format!("line {} \"{text}\"{under} sung at {pos:.1} s", k + 1))
+        }
         Some((k, _)) => check("lyric-line", false, format!("line {} at {pos:.1} s has no words", k + 1)),
         None => check("lyric-line", false, format!("no synced line at {pos:.1} s")),
     }
