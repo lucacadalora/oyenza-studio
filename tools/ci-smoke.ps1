@@ -5,6 +5,11 @@
 # surroundings stay click-through, and how smoothly it morphs (the "motion"
 # lines Poni logs for its first morphs).
 #
+# Step aside: with a maximized window (Notepad) in front, the resting island
+# gets out of the way: a click just below the top edge reaches the window,
+# the top edge itself still opens the island, and closing the window brings
+# the island back.
+#
 # -Theme pill runs the same in the Pill theme, where the island floats a gap
 # below the top edge: the gap above the pill must take the mouse (a pointer
 # thrown at the top edge opens it, as on Classic), while beside and below the
@@ -31,6 +36,7 @@ public static class Native {
     [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(POINT p);
     [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr h, uint flags);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern int GetClassName(IntPtr h, StringBuilder s, int n);
+    [DllImport("user32.dll")] public static extern void mouse_event(uint flags, uint dx, uint dy, uint data, UIntPtr extra);
 }
 "@
 [Native]::SetProcessDPIAware() | Out-Null
@@ -232,6 +238,45 @@ for ($i = 0; $i -lt 3; $i++) {
     Start-Sleep -Milliseconds 1500
 }
 
+# Step aside (the default): a maximized window under the island. A click
+# brings it to the front (a window CI starts may not be), which is when the
+# island looks at the top of the screen again.
+$g = [System.Drawing.Graphics]::FromHwnd([IntPtr]::Zero)
+$dpi = $g.DpiY / 96.0
+$g.Dispose()
+$np = Start-Process -FilePath notepad.exe -WindowStyle Maximized -PassThru
+try {
+    Start-Sleep -Seconds 2
+    $mx = $cx; $my = [int]($bounds.Height / 2)
+    [Native]::SetCursorPos($mx, $my) | Out-Null
+    [Native]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)  # left down
+    [Native]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)  # left up
+    Start-Sleep -Seconds 2
+    Shot "4-step-aside"
+    # 20 DIPs down: inside the resting island, below the strip it steps
+    # aside to (8 DIPs at the top edge).
+    $tab = [int](20 * $dpi)
+    $under = ClassAt $cx $tab
+    Expect "aside-window-takes-click" ($under -ne "Poni.Island" -and $under -ne "") "window at ($cx, $tab) = '$under'"
+    $strip = ClassAt $cx 1
+    Expect "aside-edge-takes-mouse" ($strip -eq "Poni.Island") "window at ($cx, 1) = '$strip'"
+    # Pointing at the top edge still opens the island, over the window.
+    [Native]::SetCursorPos($cx, $hoverY[0]) | Out-Null
+    Start-Sleep -Milliseconds 120
+    [Native]::SetCursorPos($cx, $hoverY[1]) | Out-Null
+    Start-Sleep -Seconds 2
+    $open = ClassAt ($cx + 200) 100
+    Expect "aside-opens-from-edge" ($open -eq "Poni.Island") "window at ($($cx + 200), 100) = '$open'"
+    [Native]::SetCursorPos($cx, [int]($bounds.Height / 2)) | Out-Null
+    Start-Sleep -Seconds 2
+} finally {
+    if (-not $np.HasExited) { Stop-Process -Id $np.Id -Force; $np.WaitForExit(10000) | Out-Null }
+}
+# The window gone, the island rests where it was.
+Start-Sleep -Seconds 2
+$back = ClassAt $cx $tab
+Expect "back-after-window" ($back -eq "Poni.Island") "window at ($cx, $tab) = '$back'"
+
 $alive = -not $p.HasExited
 "still running: $alive" | Tee-Object -FilePath $metrics -Append
 if ($alive) { Stop-Process -Id $p.Id -Force; $p.WaitForExit(10000) | Out-Null }
@@ -240,7 +285,7 @@ $log = Join-Path $env:PONI_HOME "cache\poni.log"
 Copy-Item -Path $log -Destination (Join-Path $Out "poni.log") -ErrorAction SilentlyContinue
 if (Test-Path $log) {
     "---- renderer and motion (from poni.log)" | Tee-Object -FilePath $metrics -Append
-    Get-Content $log | Where-Object { $_ -match "renderer:|frame clock:|motion |GPU|island (floats|hangs)" } | Tee-Object -FilePath $metrics -Append
+    Get-Content $log | Where-Object { $_ -match "renderer:|frame clock:|motion |GPU|island (floats|hangs)|step aside:" } | Tee-Object -FilePath $metrics -Append
 }
 if (-not $alive) { Write-Error "Poni exited during the smoke test"; exit 1 }
 if ($failures.Count -gt 0) { Write-Error "smoke checks failed: $($failures -join ', ')"; exit 1 }

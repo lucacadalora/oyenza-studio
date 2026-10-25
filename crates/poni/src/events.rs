@@ -135,6 +135,11 @@ pub enum AppEvent {
     /// Another window came to the foreground on a monitor that isn't
     /// full-screen. It may have made itself topmost and now cover the island.
     Foreground,
+    /// Step aside: the app windows at the top edge of the island's monitor
+    /// changed (a browser maximized or restored, a window snapped or dragged
+    /// to the top). Screen pixels (left, top, right, bottom), each clipped
+    /// to the thin band along the edge.
+    TopWindows(Vec<[i32; 4]>),
     /// Files dropped on the island.
     ShelfAdd(Vec<String>),
     /// Files are being dragged over the island (true) or left (false).

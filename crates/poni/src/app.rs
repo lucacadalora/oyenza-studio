@@ -24,7 +24,6 @@ use crate::{dragdrop, selftest, shell};
 use poni_core::addons::Status as AddonStatus;
 use poni_core::frametime::{ambient_divisor, MotionStats};
 use poni_core::geom::{palette, Color, Point, Rect};
-use poni_core::health::fmt_steps;
 use poni_core::oyenza;
 use poni_core::pairdrop::{MeetEvent, PeerEvent};
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
@@ -276,7 +275,7 @@ fn run_deferred(d: Deferred) {
             with_app(|app| app.request_frame());
         }
         Deferred::Menu(pt) => {
-            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link))) else { return };
+            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed()))) else { return };
             if let Some(cmd) = tray::show_menu(helper, pt, &items) {
                 with_app(|app| app.on_menu(cmd));
             }
@@ -340,6 +339,9 @@ pub struct App {
     fullscreen_hidden: bool,
     /// The last full-screen state reported, hidden or not.
     fullscreen_on: bool,
+    /// Step aside: the app windows at the top edge of the island's monitor
+    /// (screen pixels, cut to the band along it), as last reported.
+    top_windows: Vec<[i32; 4]>,
     /// Follow-up raises still due (TIMER_RAISE).
     raises_left: u8,
     /// Window classes already logged for covering the island (once each).
@@ -359,11 +361,15 @@ pub struct App {
     frames: Option<services::frames::Frames>,
     /// The process whose frames count (the full-screen app).
     game_pid: Option<u32>,
-    /// Show over games: the readout shows over the game until this mono time
-    /// (a peek), else the island hides so the game goes straight to the screen.
+    /// Show over games, peeks only: the readout shows over the game until this
+    /// mono time (a peek), else the island hides so the game goes straight to
+    /// the screen.
     game_peek_until: f64,
     /// When a frame-rate drop last made it peek.
     game_drop_at: f64,
+    /// Show over games, the readout that stays: Alt+Shift+F hid it until the
+    /// next game (or until pressed again).
+    game_hidden: bool,
     /// Alt+Shift+F is registered (only while a game is in front).
     peek_hotkey: bool,
     /// Alt+Shift+S is registered (only while the Script page can read).
@@ -372,6 +378,8 @@ pub struct App {
     script_excluded: bool,
     /// A reading held the island open at the last tick.
     script_held: bool,
+    /// The Script page was on screen at the last tick.
+    script_shown: bool,
     /// App icons the System page asked for and hasn't got yet (the Shelf's
     /// thumbnail worker answers both pages with the same event).
     icon_wait: HashSet<String>,
@@ -452,6 +460,11 @@ const REOPEN_S: f64 = 0.3;
 const HOLD_GRACE_MS: u32 = 380;
 /// Collapsed pill growth (w, h, radius) while the pointer is on it.
 const HOVER_LIFT: (f32, f32, f32) = (12.0, 4.0, 2.0);
+/// Step aside: an app window is at the top when its top edge is within this
+/// many DIPs of the edge the island hangs from (a maximized window overhangs
+/// it, a snapped one starts on it). One placed lower keeps its title and
+/// tabs below the island, which covers a sliver of its frame at most.
+const TOP_BAND: f32 = 8.0;
 /// How long the inline notice pill shows its check mark (seconds).
 const INLINE_DONE_S: f64 = 0.6;
 /// Incoming content starts at this scale and this many DIPs up, and
@@ -533,6 +546,7 @@ impl App {
             capture_rect: RECT::default(),
             fullscreen_hidden: false,
             fullscreen_on: false,
+            top_windows: Vec::new(),
             raises_left: 0,
             covered_by: HashSet::new(),
             shown: false,
@@ -545,10 +559,12 @@ impl App {
             game_pid: None,
             game_peek_until: 0.0,
             game_drop_at: f64::NEG_INFINITY,
+            game_hidden: false,
             peek_hotkey: false,
             script_hotkey: false,
             script_excluded: false,
             script_held: false,
+            script_shown: false,
             icon_wait: HashSet::new(),
             tray: None,
             taskbar_created_msg,
@@ -585,6 +601,7 @@ impl App {
         services::power::register(self.helper);
         if !fake {
             self.services = Some(Services::start(&self.sink, self.hwnd, self.helper, &self.st.settings, self.oyenza_activity()));
+            self.sync_top_watch();
             self.st.paired = self.services.as_ref().map(|s| paired_phones(s.pairs())).unwrap_or_default();
             self.sync_pair_offer();
             if self.st.settings.system_history {
@@ -664,6 +681,24 @@ impl App {
     fn layout_surface(&mut self) {
         let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
         self.layout_surface_for(self.st.settings.expanded_width, pages::HEADER_H + tallest + pages::PAD);
+        // The band Step aside watches follows the monitor and its scale.
+        self.sync_top_watch();
+    }
+
+    /// Step aside on: have the full-screen watcher report the app windows
+    /// at the top edge of the island's monitor, where the island hangs from
+    /// (below a taskbar at the top). Stay: it looks at nothing, and nothing
+    /// is under the island.
+    fn sync_top_watch(&mut self) {
+        let m = &self.monitor;
+        let px = (TOP_BAND * self.gfx.scale()).ceil() as i32;
+        let band = self.st.settings.step_aside.then(|| RECT { left: m.rect.left, top: m.top(), right: m.rect.right, bottom: m.top() + px });
+        if band.is_none() {
+            self.top_windows.clear();
+        }
+        if let Some(s) = &self.services {
+            s.watch_top(band);
+        }
     }
 
     /// Lay the window out for an island body up to `body_w`×`body_h` DIPs.
@@ -1111,7 +1146,7 @@ impl App {
                 Some(LRESULT(0))
             }
             WM_HOTKEY if wp.0 == HOTKEY_PEEK as usize => {
-                self.toggle_peek();
+                self.toggle_readout();
                 self.request_frame();
                 Some(LRESULT(0))
             }
@@ -1443,7 +1478,7 @@ impl App {
     /// like a money notice (`AppState::show_or_hold`), and shows when the island
     /// is back if it isn't old by then.
     fn steps_notice(&mut self, steps: u32) {
-        let notice = steps_goal_notice(steps, self.st.now + oyenza::NOTICE_S);
+        let notice = pages::health::goal_notice(steps, self.st.now + oyenza::NOTICE_S);
         self.st.show_or_hold(notice, self.fullscreen_hidden);
     }
 
@@ -1507,6 +1542,10 @@ impl App {
             // Apply at once: show the island over the full-screen app, or hide it.
             self.on_event(AppEvent::Fullscreen(self.fullscreen_on));
         }
+        if before.step_aside != self.st.settings.step_aside && self.selftest.is_none() {
+            // Step aside starts or stops watching the top of the screen.
+            self.sync_top_watch();
+        }
         let now = &self.st.settings;
         if before.clipboard_history && !now.clipboard_history {
             // Privacy: turning history off forgets everything, pinned items included.
@@ -1545,7 +1584,7 @@ impl App {
             let on = self.st.settings.addon_on(a.id);
             if before.addon_on(a.id) != on {
                 pinfo!("add-ons: {} switched {}", a.id, if on { "on" } else { "off" });
-                self.st.addons.insert(a.id, if on { AddonStatus::Checking } else { AddonStatus::Off });
+                self.st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
                 if let Some(s) = self.services.as_ref() {
                     s.set_addon(a.id, on);
                 }
@@ -1556,6 +1595,15 @@ impl App {
                 self.check_fps();
             }
             self.sync_game();
+        }
+        if before.game_peek != self.st.settings.game_peek && self.st.game.active {
+            // Over a game: peeks start with one (it hides after its few
+            // seconds), and the readout that stays shows at once.
+            self.game_peek_until = 0.0;
+            unsafe {
+                let _ = KillTimer(self.hwnd, TIMER_PEEK);
+            }
+            self.peek_game(if self.st.settings.game_peek { "peeks picked" } else { "picked to stay" });
         }
         let history = self.st.settings.system_history;
         if before.system_history != history && self.selftest.is_none() {
@@ -1583,9 +1631,12 @@ impl App {
             ToggleLyrics => s.lyrics = !s.lyrics,
             TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
+            SetStepAside(aside) => s.step_aside = aside,
             ToggleGameStats => s.game_stats = !s.game_stats,
+            ToggleGamePeek => s.game_peek = !s.game_peek,
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
+            RecordScreen => crate::services::recorder::record_screen(self.hwnd),
             ToggleAutostart => {
                 let on = crate::autostart::is_enabled();
                 if let Err(e) = crate::autostart::set_enabled(!on) {
@@ -1627,7 +1678,8 @@ impl App {
                 }
             }
             OpenDataFolder => shell::open(&paths::data_dir().to_string_lossy()),
-            About => shell::open("https://lrclib.net"),
+            About => shell::open(&crate::version::notes_url()),
+            LyricsCredit => shell::open("https://lrclib.net"),
             AppleMusicToken => self.use_apple_music_token(),
             AppleMusicHelp => shell::open(APPLE_MUSIC_HELP_URL),
             AppleMusicForget => self.forget_apple_music_token(),
@@ -1713,6 +1765,17 @@ impl App {
                             self.st.lyrics.source = source;
                             self.st.lyrics.ruby = ruby;
                             self.st.lyrics.wants_ja_readings = wants_ja_readings;
+                            // The first Japanese song whose kanji went unread
+                            // switches Japanese readings on, as its switch in
+                            // Add-ons would: it downloads once (3.8 MB) and
+                            // the song is read again with romaji. Only people
+                            // who play Japanese songs get it; switched off by
+                            // hand, it stays off (the Music page still offers it).
+                            if poni_core::addons::ja_switches_on(&self.st.settings, wants_ja_readings) {
+                                pinfo!("lyrics: a Japanese song's kanji went unread; switching Japanese readings on");
+                                self.st.settings.set_addon(poni_core::addons::JAPANESE_READINGS.id, true);
+                                self.st.cmd(Command::SaveSettings);
+                            }
                         }
                         crate::events::LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         crate::events::LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
@@ -1749,6 +1812,13 @@ impl App {
                 self.sync_game();
             }
             AppEvent::Foreground => self.start_raises(),
+            AppEvent::TopWindows(places) => {
+                // The self-test puts its own window under the island.
+                if self.selftest.is_none() {
+                    self.top_windows = places;
+                    self.request_frame();
+                }
+            }
             AppEvent::ShelfAdd(paths) if self.expanded && self.st.page == PageKind::Script && pages::script::take_drop(&mut self.st, &paths) => {
                 // A text file dropped on the Script page becomes the script.
                 self.drag_hover = false;
@@ -1805,9 +1875,9 @@ impl App {
                     let fps = self.st.game.rate.map(|r| r.fps);
                     let before: Vec<f32> = self.st.game.history.values().collect();
                     self.st.game.history.push(fps);
-                    // A sharp drop shows the readout (at most every half minute).
+                    // Peeks only: a sharp drop shows the readout (at most every half minute).
                     let now = clock::mono();
-                    if let Some(fps) = fps {
+                    if let Some(fps) = fps.filter(|_| self.st.settings.game_peek) {
                         if now >= self.game_peek_until && now - self.game_drop_at >= DROP_PEEK_EVERY_S && poni_core::frames::sharp_drop(&before, fps) {
                             self.game_drop_at = now;
                             self.peek_game("the frame rate dropped");
@@ -2057,10 +2127,21 @@ impl App {
     }
 
     /// Over a full-screen app the island hides when the setting says Hide, and
-    /// under Show over games between the readout's peeks: then nothing covers
-    /// the game, and Windows sends its frames straight to the screen.
+    /// under Show over games while the readout is away: between its peeks
+    /// (peeks only), or once Alt+Shift+F hid it. Then nothing covers the game,
+    /// and Windows sends its frames straight to the screen.
     fn fullscreen_hides(&self, now: f64) -> bool {
-        self.fullscreen_on && (self.st.settings.hide_in_fullscreen || (self.st.game.active && now >= self.game_peek_until))
+        self.fullscreen_on && (self.st.settings.hide_in_fullscreen || (self.st.game.active && self.readout_away(now)))
+    }
+
+    /// Show over games: the readout is off the screen. It stays unless the
+    /// person picked peeks (`Settings::game_peek`) or hid it.
+    fn readout_away(&self, now: f64) -> bool {
+        if self.st.settings.game_peek {
+            now >= self.game_peek_until
+        } else {
+            self.game_hidden
+        }
     }
 
     /// Shows or hides the island for what is in front now.
@@ -2095,9 +2176,16 @@ impl App {
         }
     }
 
-    /// Show over games: the readout shows over the game for a few seconds.
+    /// Show over games: the readout shows over the game, and stays (peeks
+    /// only: for a few seconds).
     fn peek_game(&mut self, why: &str) {
         let now = clock::mono();
+        if !self.st.settings.game_peek {
+            self.game_hidden = false;
+            pinfo!("show over games: readout shows and stays ({why})");
+            self.apply_fullscreen(now);
+            return;
+        }
         self.game_peek_until = now + PEEK_S;
         unsafe {
             SetTimer(self.hwnd, TIMER_PEEK, (PEEK_S * 1000.0) as u32, None);
@@ -2106,12 +2194,19 @@ impl App {
         self.apply_fullscreen(now);
     }
 
-    /// Alt+Shift+F: show the readout, or hide it again before its time.
-    fn toggle_peek(&mut self) {
+    /// Alt+Shift+F: hide the readout, or show it again (peeks only: show it
+    /// for a few seconds, or hide it again before its time).
+    fn toggle_readout(&mut self) {
         if !self.st.game.active {
             return;
         }
         let now = clock::mono();
+        if !self.st.settings.game_peek {
+            self.game_hidden = !self.game_hidden;
+            pinfo!("show over games: readout {} (Alt+Shift+F)", if self.game_hidden { "hidden until the next game" } else { "shows again" });
+            self.apply_fullscreen(now);
+            return;
+        }
         if now < self.game_peek_until {
             self.game_peek_until = 0.0;
             unsafe {
@@ -2161,9 +2256,14 @@ impl App {
 
     /// The Script page: a reading pauses while its page isn't on screen, the
     /// island may close once nothing holds it, and the shortcut is Poni's
-    /// only while there's a script to read on the page.
+    /// only while there's a script to read on the page. Whether Record shows
+    /// is asked as the page comes on screen.
     fn script_tick(&mut self) {
         let shown = self.expanded && self.st.page == PageKind::Script && !self.locked && !self.display_off && !self.fullscreen_hidden;
+        if shown && !self.script_shown && self.selftest.is_none() {
+            self.st.recorder = services::recorder::installed();
+        }
+        self.script_shown = shown;
         if !shown && self.st.script.playing() {
             self.st.script.pause(self.st.now);
         }
@@ -2206,6 +2306,7 @@ impl App {
             self.set_peek_hotkey(want);
             if !want {
                 self.game_peek_until = 0.0;
+                self.game_hidden = false;
                 unsafe {
                     let _ = KillTimer(self.hwnd, TIMER_PEEK);
                 }
@@ -2405,8 +2506,45 @@ impl App {
 
     /// Where the window takes the mouse now (see [`hit_mask_for`]).
     fn hit_mask(&self) -> HitMask {
-        let hidden = self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden;
-        hit_mask_for(&self.island, self.cx, self.expanded, hidden)
+        hit_mask_for(&self.island, self.cx, self.expanded, self.rests_hidden())
+    }
+
+    /// The closed island rests invisible, a strip at the top edge that only
+    /// catches the pointer: the Hidden idle look, or stepped aside.
+    fn rests_hidden(&self) -> bool {
+        self.mode == Mode::Aside || (self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden)
+    }
+
+    /// Step aside: where the island rests (what it shows at rest, the clock
+    /// or the song, never the strip it steps aside to), from the edge it
+    /// hangs from to its bottom, in screen pixels. Classic's shoulders and
+    /// the floating Pill's gap count: they cover what is under them too.
+    fn rest_rect(&self) -> RECT {
+        let g = activities::geom(&activities::resting_mode(&self.st), &self.st);
+        let floating = self.island.floating();
+        let w = g.w + if floating { 0.0 } else { 2.0 * SHOULDER };
+        let h = g.h + if floating { pill::TOP_GAP } else { 0.0 };
+        let s = self.gfx.scale();
+        let cx = self.surface.x as f32 + self.cx * s;
+        let left = (cx - w * s / 2.0).floor() as i32;
+        let right = (cx + w * s / 2.0).ceil() as i32;
+        RECT { left, top: self.surface.y, right, bottom: self.surface.y + (h * s).ceil() as i32 }
+    }
+
+    /// Settings › Over maximized windows: Step aside while an app window
+    /// reaches under where the island rests. Over a full-screen app the
+    /// full-screen choice decides instead (Hide, or Stay on top for the
+    /// readout over games). Each frame, before the mode is picked: it only
+    /// compares a few rects.
+    fn sync_aside(&mut self) {
+        let r = self.rest_rect();
+        let under = self.top_windows.iter().any(|t| t[0] < r.right && t[2] > r.left && t[1] < r.bottom && t[3] > r.top);
+        let aside = self.st.settings.step_aside && !self.fullscreen_on && under;
+        if aside != self.st.aside {
+            self.st.aside = aside;
+            let why = if aside { "a window is under the island; it rests out of the way" } else { "nothing under the island; it rests as before" };
+            self.log_queue.push(format!("step aside: {why}"));
+        }
     }
 
     /// Whether `p`, where the window took the mouse, is off the island.
@@ -2546,6 +2684,8 @@ impl App {
             self.left_at = clock::mono();
         }
 
+        // A window under where the island rests: it rests out of the way.
+        self.sync_aside();
         let target = self.target_mode();
         let mut retarget = false;
         if target != self.mode {
@@ -2619,7 +2759,9 @@ impl App {
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
 
-        let hidden_idle = self.mode == Mode::Idle && self.st.settings.idle_style == IdleStyle::Hidden;
+        // Stepping aside, the island flattens into the top edge and goes
+        // invisible once there; coming back, it drops from the edge.
+        let hidden_idle = self.rests_hidden() && (self.mode != Mode::Aside || self.island.settled());
         let floating = self.island.floating();
         // Software renderer: what of the floating island's hit area isn't
         // drawn (the gap above it) is painted at 1/255 (see hit_mask_for).
@@ -2968,7 +3110,11 @@ impl App {
             consider(t);
         }
         if let Mode::Expanded(p) = self.mode {
-            if let Some(t) = pages::next_wake(p, &self.st).filter(|_| visible) {
+            // A page's own changes rest while nobody is at the PC (the Prayer
+            // page's countdown ticks every second); the lock and display
+            // events ask for a frame, which picks them up again.
+            let away = self.locked || self.display_off;
+            if let Some(t) = pages::next_wake(p, &self.st).filter(|_| visible && !away) {
                 consider(t + 0.005);
             }
         }
@@ -3260,6 +3406,7 @@ impl App {
                 }
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
+                Command::RecordScreen => services::recorder::record_screen(self.hwnd),
                 Command::ScriptPaste => {
                     // Read here, not through the text field path: that one drops line breaks.
                     let text = services::clipboard::read_text(self.hwnd).map(|t| poni_core::script::clean(&t)).filter(|t| !t.is_empty());
@@ -3642,6 +3789,19 @@ impl App {
         }
     }
 
+    /// Self-test: a maximized window across the top of the island's monitor
+    /// (what the full-screen watcher reports for one), or no window there.
+    pub fn selftest_window_under(&mut self, under: bool) {
+        let m = &self.monitor;
+        let px = (TOP_BAND * self.gfx.scale()).ceil() as i32;
+        self.top_windows = if under { vec![[m.rect.left, m.top(), m.rect.right, m.top() + px]] } else { Vec::new() };
+    }
+
+    /// Self-test: what the closed island shows now, and whether it stepped aside.
+    pub fn selftest_mode(&self) -> (Mode, bool) {
+        (self.mode, self.st.aside)
+    }
+
     /// Self-test only: start the real Phone drop service, fetch its page from
     /// the network address it picked, and stop it. Returns (ok, detail).
     pub fn selftest_phone_drop(&mut self) -> (bool, String) {
@@ -3856,21 +4016,6 @@ fn paired_phones(pairs: Vec<poni_core::pairdrop::Pair>) -> Vec<PairedPhone> {
 
 fn files_label(n: usize) -> String {
     format!("{n} {}", if n == 1 { "file" } else { "files" })
-}
-
-/// The island's notice for the moment new numbers from the phone put today
-/// over the step goal (see `poni_core::health::goal_reached`).
-pub(crate) fn steps_goal_notice(steps: u32, until: f64) -> Notice {
-    Notice {
-        icon: Icon::Steps,
-        color: palette::GREEN,
-        title: format!("{} steps today", fmt_steps(steps)),
-        subtitle: "Daily step goal reached".into(),
-        until,
-        action: Some(NoticeAction::OpenPage(PageKind::Health)),
-        inline: None,
-        reveal: None,
-    }
 }
 
 #[cfg(test)]

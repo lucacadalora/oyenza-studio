@@ -61,6 +61,20 @@ theme's pictures:
 
     python3 tools/site_shots.py mac-renders mac pill
 
+The page shows the small resting states at twice their size (the hero, the
+"While it rests" stage, the games readout). Screens with two or more pixels
+per point get pictures from a 400 % run there, cut into
+site/assets/shots/zoom/<theme>/ (ZOOM_KEEP). A 400 % island needs a bigger
+virtual screen than Wine's default:
+
+    PONI_SELFTEST_DPI=384 PONI_SELFTEST_SCREEN=4096x2400x24 tools/run-selftest-wine.sh target/.../poni.exe out-classic-4x
+    PONI_SELFTEST_DPI=384 PONI_SELFTEST_SCREEN=4096x2400x24 PONI_SELFTEST_THEME=oyen tools/run-selftest-wine.sh target/.../poni.exe out-oyen-4x
+    python3 tools/site_shots.py out-classic-4x classic zoom
+    python3 tools/site_shots.py out-oyen-4x oyen zoom
+
+At 400 % the frame-time checks fail under Wine (drawing is slower); the
+pictures are still right.
+
 The self-test writes NAME.png (the island's canvas on a test gradient, with
 margins) and NAME-alpha.png (the canvas's own alpha). This cuts the canvas out,
 takes its alpha from NAME-alpha.png and removes the gradient from the
@@ -80,7 +94,7 @@ KEEP = {
     "page-media", "page-focus", "page-health", "page-shelf", "page-tasks", "page-clipboard", "page-today",
     "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin", "page-settings", "page-system",
     "page-settings-stay-on-top", "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
-    "game-stats", "page-system-games",
+    "game-stats", "page-system-games", "page-system-power-estimate", "page-script", "page-script-reading", "media-lyric",
 }
 # The Pill section: the island at rest (clock and status bar looks), playing music (the line being
 # sung), a timer, a pop-up and a notice, and open on the Music page.
@@ -98,6 +112,8 @@ MAC_STRIP = (840, 136)
 # strips are cut taller to keep the pill and its shadow; the resting island stays in the ears.
 MAC_PILL_KEEP = {"idle-clock", "media-activity", "volume-hud", "page-media", "page-today"}
 MAC_PILL_STRIP = (840, 216)
+# Resting states the page shows at twice their size, cut from a 400 % run.
+ZOOM_KEEP = {"idle-clock", "media-activity", "media-lyric", "timer-activity", "volume-hud", "bluetooth-hud", "prayer-countdown", "oyenza-money", "game-stats"}
 
 
 def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:
@@ -175,6 +191,9 @@ def main() -> None:
     floating = theme == "pill"
     keep = {"page-media"} if lang else PILL_KEEP if floating else KEEP
     dst = ROOT / "site" / "assets" / "shots" / theme
+    if lang == "zoom":
+        keep, lang = ZOOM_KEEP, None
+        dst = dst.parent / "zoom" / theme
     dst.mkdir(parents=True, exist_ok=True)
     if lang and lang.startswith("loop-media-"):
         img = cut(src / f"{lang}.png", src / f"{lang}-alpha.png", floating)

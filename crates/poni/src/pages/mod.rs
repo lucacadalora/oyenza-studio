@@ -163,14 +163,16 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, Oyenza only while
-/// signing in or signed in, and Prayer only while that add-on is on. Add-ons
-/// is last, in both apps (the Mac app's lists only what it has).
+/// signing in or signed in, and Prayer and Script only while their add-ons
+/// are on. Add-ons is last, in both apps (the Mac app's lists only what it
+/// has).
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
         .into_iter()
         .filter(|p| match p {
             PageKind::Oyenza => st.oyenza.tab_visible(),
             PageKind::Prayer => st.prayer_on(),
+            PageKind::Script => st.script_on(),
             p => p.tabbed(),
         })
         .collect()
@@ -214,6 +216,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Oyenza => oyenza::next_wake(st),
         PageKind::Settings => settings::next_wake(st),
         PageKind::Script => script::next_wake(st),
+        PageKind::Prayer => prayer::next_wake(st),
         _ => None,
     };
     // Oyen in the header blinks and flicks an ear now and then.
@@ -651,9 +654,28 @@ mod tests {
     }
 
     #[test]
+    fn script_has_a_tab_only_while_its_add_on_is_on() {
+        let mut st = state();
+        assert!(!tabs(&st).contains(&PageKind::Script), "off for everyone until switched on");
+        st.addons.insert("script", poni_core::addons::Status::Ready);
+        assert!(tabs(&st).contains(&PageKind::Script));
+        assert_eq!(tabs(&st).last(), Some(&PageKind::Addons));
+    }
+
+    #[test]
+    fn an_island_last_on_the_script_page_opens_on_the_first_tab_once_it_is_off() {
+        let store = Store { last_page: "script".into(), ..Store::default() };
+        let mut settings = Settings { remember_page: true, ..Settings::default() };
+        assert_eq!(AppState::new(settings.clone(), store.clone()).page, PageKind::ALL[0]);
+        settings.set_addon("script", true);
+        assert_eq!(AppState::new(settings, store).page, PageKind::Script);
+    }
+
+    #[test]
     fn settings_never_makes_the_window_taller() {
-        // The window fits the tallest page; Tasks is always 200 DIPs.
+        // The window fits the tallest page; System is always 256 DIPs (Settings
+        // grew past Tasks' 200 with its Over maximized windows row).
         let st = state();
-        assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::Tasks, &st));
+        assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::System, &st));
     }
 }

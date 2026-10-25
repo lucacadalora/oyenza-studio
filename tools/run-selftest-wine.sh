@@ -3,7 +3,7 @@
 #
 # Fallback for when GitHub Actions' Windows runners are unavailable: the real
 # Win32 / Direct2D / DirectWrite code paths run (as implemented by Wine) on a
-# virtual 1920x1080 screen, every state is rendered and checked, and the
+# virtual 1920x1080 screen (PONI_SELFTEST_SCREEN), every state is rendered and checked, and the
 # screenshots plus report.json land in <out-dir>.
 #
 # Usage:   tools/run-selftest-wine.sh [poni.exe] [out-dir]
@@ -12,6 +12,8 @@
 #          out-dir defaults to selftest-out
 # Needs:   wine (wine64), xvfb-run (Debian/Ubuntu: apt install wine64 xvfb)
 # Env:     PONI_SELFTEST_TIMEOUT  seconds before the run is killed (default 180)
+#          PONI_SELFTEST_SCREEN   Xvfb's screen (default 1920x1080x24; a 400 % run
+#                                 needs a bigger one, e.g. 4096x2400x24)
 #
 # Exit code: 0 when the self-test passes, 1 when a check fails or the run
 # breaks, 2 for a usage/setup problem. Wine's rendering is close to Windows but
@@ -21,6 +23,7 @@ set -euo pipefail
 EXE=${1:-target/x86_64-pc-windows-gnu/release/poni.exe}
 OUT=${2:-selftest-out}
 TIMEOUT_S=${PONI_SELFTEST_TIMEOUT:-180}
+SCREEN=${PONI_SELFTEST_SCREEN:-1920x1080x24}
 
 die() {
     echo "error: $*" >&2
@@ -59,7 +62,7 @@ echo "   out:    $OUT_ABS"
 echo "   prefix: $PREFIX"
 
 set +e
-xvfb-run -a -s "-screen 0 1920x1080x24" bash -c '
+xvfb-run -a -s "-screen 0 $SCREEN" bash -c '
     "$WINE" wineboot --init >/dev/null 2>&1
     if command -v wineserver >/dev/null 2>&1; then wineserver -w; fi
     win_out="$("$WINE" winepath -w "$OUT_ABS" 2>/dev/null | tr -d "\r")"

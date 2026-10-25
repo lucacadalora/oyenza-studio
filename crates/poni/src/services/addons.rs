@@ -109,6 +109,10 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
         }
         let mut next_wake: Option<Instant> = None;
         for addon in addons::ALL {
+            // Already in the app (Script reader): nothing to fetch or delete.
+            if !addon.downloads() {
+                continue;
+            }
             let on = want.get(addon.id).copied().unwrap_or(false);
             let h = have.get(addon.id).copied().unwrap_or(Have::Unknown);
             // Switched on again after a failure: a fresh start.

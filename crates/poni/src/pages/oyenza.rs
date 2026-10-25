@@ -116,7 +116,11 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
 fn draw_code(ui: &mut Ui, st: &mut AppState, area: Rect, code: &str, url: &str, until: f64) {
     ui.c.text("Sign in to Oyenza", Rect::new(area.x, area.y, area.w, 20.0), &TextStyle::headline());
     ui.c.text(
-        "On your phone or this PC, open oyenza.app/connect and enter this code.",
+        if cfg!(windows) {
+            "On your phone or this PC, open oyenza.app/connect and enter this code."
+        } else {
+            "On your phone or this Mac, open oyenza.app/connect and enter this code."
+        },
         Rect::new(area.x, area.y + 22.0, area.w, 18.0),
         &TextStyle::footnote().color(palette::TEXT_DIM),
     );

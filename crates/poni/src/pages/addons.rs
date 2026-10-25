@@ -1,12 +1,14 @@
-//! Add-ons page, the "+" at the end of the tab row: features that download
-//! only for the people who switch them on (`poni_core::addons`).
+//! Add-ons page, the "+" at the end of the tab row: features only the people
+//! who switch them on get (`poni_core::addons`). Most download then; Script
+//! reader is already in the app and only shows its page.
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
-//! and a switch. The whole row toggles, as in Settings: on downloads the
-//! add-on and starts it, off stops it and deletes its files
+//! ("Built in" for one with nothing to download), and a switch. The whole
+//! row toggles, as in Settings: on downloads the add-on and starts it, off
+//! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
-//! The Mac app lists only the add-ons it has ([`OFFERED`]).
+//! Both apps list every add-on ([`OFFERED`]).
 
 use crate::commands::Command;
 use crate::gfx::TextStyle;
@@ -28,10 +30,9 @@ const SWITCH_W: f32 = 30.0;
 const SWITCH_H: f32 = 18.0;
 const BAR_H: f32 = 3.0;
 
-/// The add-ons this app has, in the page's order: all of them on Windows;
-/// Japanese readings on the Mac (Prayer times needs Windows' location and
-/// sound services).
-pub const OFFERED: &[&Addon] = if cfg!(windows) { &addons::ALL } else { &[&addons::JAPANESE_READINGS] };
+/// The add-ons this app has, in the page's order: all of them, on Windows
+/// and on the Mac (whose Prayer times use macOS's location and sounds).
+pub const OFFERED: &[&Addon] = &addons::ALL;
 /// The lines name the Mac ("on this Mac") and leave out Windows' reasons.
 const MAC: bool = cfg!(target_os = "macos");
 
@@ -44,12 +45,13 @@ fn icon(a: &Addon) -> Icon {
     match a.id {
         "sholat" => Icon::Moon,
         "ja" => Icon::Lyrics,
+        "script" => Icon::Script,
         _ => Icon::Addons,
     }
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
-    let intro = "Each one downloads only when you switch it on. Switching it off deletes its files.";
+    let intro = "Each one stays off until you switch it on, and switching off deletes any download.";
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
     let card = super::clipboard::pill_card(st, area);
@@ -81,7 +83,7 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     // The size, while there is a choice to make.
     let mut text_right = sw.x - 16.0;
     if status == Status::Off {
-        let size = fmt_bytes(a.size());
+        let size = if a.downloads() { fmt_bytes(a.size()) } else { "Built in".to_string() };
         let style = TextStyle::footnote().color(palette::TEXT_DIM).right();
         let w = ui.c.measure(&size, &style, 200.0).0.ceil();
         ui.c.text(&size, Rect::new(sw.x - 10.0 - w, r.y, w, r.h), &style);

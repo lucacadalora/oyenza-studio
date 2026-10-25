@@ -63,7 +63,8 @@ pub const NOTE_MAX_CHARS: usize = 300;
 // ---------------------------------------------------------------- the link
 
 /// What the PC keeps after signing in, sealed with Windows (DPAPI) under
-/// `%LOCALAPPDATA%\Poni\`. The key is never logged or shown.
+/// `%LOCALAPPDATA%\Poni\` (on a Mac, a file only its account can read, in
+/// `~/Library/Application Support/Poni/`). The key is never logged or shown.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Link {
     pub key: String,
@@ -136,13 +137,16 @@ pub fn note_body(text: &str, tz: &str) -> String {
     serde_json::json!({ "text": text, "tz": tz }).to_string()
 }
 
+/// What oyenza.app lists a computer as when the system gives no name.
+const UNNAMED: &str = if cfg!(target_os = "macos") { "Mac" } else { "Windows PC" };
+
 /// The PC's name as oyenza.app will list it: one printable line, 40 characters
-/// at most ("Windows PC" when Windows gives none).
+/// at most ([`UNNAMED`] when the system gives none).
 pub fn pc_name(raw: &str) -> String {
     let clean: String = raw.chars().filter(|c| !c.is_control()).collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ");
     let cut: String = clean.chars().take(40).collect();
     if cut.trim().is_empty() {
-        "Windows PC".into()
+        UNNAMED.into()
     } else {
         cut.trim().to_string()
     }
@@ -917,7 +921,7 @@ mod tests {
         let n: serde_json::Value = serde_json::from_str(&note_body("kopi \"25rb\"", "+07:00")).unwrap();
         assert_eq!(n["text"], "kopi \"25rb\"");
         assert_eq!(pc_name("  DESKTOP-7Q2K\u{0}\n "), "DESKTOP-7Q2K");
-        assert_eq!(pc_name(""), "Windows PC");
+        assert_eq!(pc_name(""), UNNAMED);
         assert_eq!(pc_name(&"x".repeat(60)).len(), 40);
     }
 

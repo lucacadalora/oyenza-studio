@@ -70,6 +70,13 @@ pub struct Settings {
     /// Width of the expanded island in DIPs (bigger = roomier pages).
     pub expanded_width: f32,
     pub hide_in_fullscreen: bool,
+    /// Over maximized windows: Step aside (true) or Stay. While an app window
+    /// reaches the top of the screen under the island (a maximized browser's
+    /// tabs, a snapped window's title bar), the resting island turns into the
+    /// Hidden look's invisible strip until the pointer reaches it; volume,
+    /// notices and a new song's title still show. Windows only: on a Mac the
+    /// menu bar keeps windows below the island.
+    pub step_aside: bool,
     pub monitor: MonitorChoice,
     pub show_media_activity: bool,
     pub lyrics: bool,
@@ -102,6 +109,13 @@ pub struct Settings {
     /// shows its frame rate, the GPU's load and temperature and the CPU's
     /// load. Turning it on also keeps the island on top of full-screen apps.
     pub game_stats: bool,
+    /// Show over games, readout only for a few seconds (when the game comes
+    /// to the front, when the frame rate drops sharply, on Alt+Shift+F),
+    /// then the island hides and Windows sends the game's frames straight to
+    /// the screen. Off (the default), the readout stays while the game is in
+    /// front. Its own name: the corner test build wrote `game_readout`
+    /// ("peek" as its default) into the files of the people who tried it.
+    pub game_peek: bool,
 }
 
 /// What plays when a prayer's time comes.
@@ -149,6 +163,7 @@ impl Default for Settings {
             collapse_delay_ms: 0,
             expanded_width: 620.0,
             hide_in_fullscreen: true,
+            step_aside: true,
             monitor: MonitorChoice::Primary,
             show_media_activity: true,
             lyrics: true,
@@ -167,6 +182,7 @@ impl Default for Settings {
             addons: BTreeMap::new(),
             prayer: PrayerSettings::default(),
             game_stats: false,
+            game_peek: false,
         }
     }
 }
@@ -194,6 +210,13 @@ impl Settings {
 
     pub fn set_addon(&mut self, id: &str, on: bool) {
         self.addons.insert(id.to_string(), on);
+    }
+
+    /// Has the person never switched the add-on `id` on or off? An add-on
+    /// that switches itself on when first needed (Japanese readings) does so
+    /// only then: one switched off by hand stays off.
+    pub fn addon_unset(&self, id: &str) -> bool {
+        !self.addons.contains_key(id)
     }
 
     /// Clamp values a user may have hand-edited into nonsense.
@@ -257,6 +280,20 @@ mod tests {
         // Files from before add-ons have none on.
         let old: Settings = serde_json::from_str(r#"{"settings_version":3}"#).unwrap();
         assert!(old.addons.is_empty());
+    }
+
+    #[test]
+    fn an_addon_switched_off_by_hand_is_no_longer_unset() {
+        let mut s = Settings::default();
+        assert!(s.addon_unset("ja"));
+        s.set_addon("ja", true);
+        assert!(!s.addon_unset("ja"));
+        s.set_addon("ja", false);
+        assert!(!s.addon_unset("ja"), "off by hand: the person's word, kept");
+        assert!(!s.addon_on("ja"));
+        // It survives a save and a load.
+        let back: Settings = serde_json::from_str(&serde_json::to_string(&s).unwrap()).unwrap();
+        assert!(!back.addon_unset("ja"));
     }
 
     #[test]
@@ -346,6 +383,29 @@ mod tests {
         let s: Settings = serde_json::from_str(r#"{"game_stats":true,"hide_in_fullscreen":true}"#).unwrap();
         let s = s.sanitized();
         assert!(s.game_stats && !s.hide_in_fullscreen);
+    }
+
+    #[test]
+    fn the_readout_stays_unless_peeks_are_picked() {
+        // Files from 0.2.0 and before, and from the corner test build (its
+        // "peek" was its default, not a choice), get the readout that stays.
+        for old in [r#"{"game_stats":true}"#, r#"{"game_stats":true,"game_readout":"peek"}"#, r#"{"game_readout":"corner"}"#] {
+            let s: Settings = serde_json::from_str(old).unwrap();
+            assert!(!s.game_peek, "{old}");
+        }
+        let s: Settings = serde_json::from_str(r#"{"game_stats":true,"game_peek":true}"#).unwrap();
+        assert!(s.game_peek);
+    }
+
+    #[test]
+    fn the_island_steps_aside_unless_stay_is_picked() {
+        // Files from 0.2.2 and before have no choice yet: Step aside.
+        let old: Settings = serde_json::from_str(r#"{"settings_version":3,"hide_in_fullscreen":false}"#).unwrap();
+        assert!(old.step_aside);
+        let stay: Settings = serde_json::from_str(r#"{"step_aside":false}"#).unwrap();
+        assert!(!stay.step_aside);
+        let back: Settings = serde_json::from_str(&serde_json::to_string(&stay).unwrap()).unwrap();
+        assert!(!back.step_aside);
     }
 
     #[test]

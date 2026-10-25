@@ -23,10 +23,14 @@
 //! and its own checks say the gap above the body shows the screen and the
 //! shadow fades out inside the window (see `pill_checks`).
 //!
+//! PONI_SELFTEST_PRAYER_AT=HH:MM shows the Prayer page at that time of the
+//! day (the other Prayer scenes stay 8 minutes before Ashar).
+//!
 //! PONI_SELFTEST_ADDONS=download also downloads the Prayer times add-on's
 //! files from their release while the scenes run and checks each one
 //! (`addon-download`; Windows CI only, it needs github.com).
 
+use crate::activities::{HudTag, Mode};
 use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
@@ -39,7 +43,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -47,6 +51,7 @@ use poni_core::oyenza::{Activity, Bill, Day, DayPick, Saved, Seen, Txn, WalletRe
 use poni_core::phonedrop::QrMatrix;
 use poni_core::prayer::PlaceList;
 use poni_core::pomodoro::{Phase as PomoPhase, RunState};
+use poni_core::power::{PowerReading, PsuReading, Rail};
 use poni_core::settings::{IdleStyle, Theme};
 use poni_core::shelf::ShelfItem;
 use poni_core::frames::FrameRate;
@@ -292,7 +297,8 @@ fn sample_system(cpu: f32, memory: u64, io: f64) -> AppUse {
 }
 
 /// The System page's sample minute (all made up): a laptop with a hybrid
-/// CPU, or a desktop without a battery; nothing yet when the page has just opened.
+/// CPU, or a desktop without a battery (with its power: from the power
+/// supply, or estimated); nothing yet when the page has just opened.
 fn fake_system(scene: Scene) -> Monitor {
     let mut m = Monitor::default();
     if scene == Scene::SystemWaiting {
@@ -311,9 +317,38 @@ fn fake_system(scene: Scene) -> Monitor {
         let down = if last { 1.2 * MIB } else { 0.08 * MIB + burst(5, 14, 3.4 * MIB) + burst(46, 10, 1.6 * MIB) };
         let up = if last { 0.082 * MIB } else { 0.02 * MIB + burst(25, 8, 0.6 * MIB) };
         let sample = Sample { cpu, gpu, mem: 0.6 + 0.004 * (t / 6.0).sin(), read, write, down, up, t };
-        m.push(sample_reading(scene != Scene::SystemMemory, &sample));
+        let desktop = matches!(scene, Scene::SystemMemory | Scene::SystemPower | Scene::SystemPowerEstimate);
+        let mut r = sample_reading(!desktop, &sample);
+        if matches!(scene, Scene::SystemPower | Scene::SystemPowerEstimate) {
+            r.power = sample_power(&r, scene == Scene::SystemPower, t);
+        }
+        m.push(r);
     }
     m
+}
+
+/// The desktop's power that second: what the power supply reports (its
+/// output a little above the parts' sum, as the board, memory and fans add
+/// theirs), or the estimate.
+fn sample_power(r: &Reading, psu: bool, t: f32) -> Option<PowerReading> {
+    let cpu_w = r.cpu.as_ref().and_then(|c| c.power_w);
+    let gpu_w = r.gpu.as_ref().and_then(|g| g.power_w);
+    if !psu {
+        return PowerReading::estimate(cpu_w, gpu_w, true);
+    }
+    let out_w = cpu_w? + gpu_w? + 46.0 + 2.0 * (t / 2.9).sin();
+    let rail = |nominal: f32, volts: f32, amps: f32| Rail { nominal, volts, amps };
+    let reading = PsuReading {
+        name: "MSI MEG Ai1600T".into(),
+        out_w,
+        in_w: Some(out_w / 0.93),
+        efficiency: Some(0.93),
+        mains_v: Some(229.6),
+        temp_c: Some(38.5),
+        fan_rpm: Some(0),
+        rails: vec![rail(12.0, 12.06, (out_w - 14.0) / 12.06), rail(5.0, 5.02, 1.9), rail(3.3, 3.31, 1.4)],
+    };
+    Some(PowerReading::from_psu(reading, cpu_w, gpu_w))
 }
 
 /// Show over games, for its scenes: a game at about 144 fps (one hitch in
@@ -393,7 +428,8 @@ fn sample_reading(laptop: bool, s: &Sample) -> Reading {
             mhz_p: Some(3_900),
             mhz_e: Some(2_800),
             temp_c: laptop.then_some(54.0),
-            power_w: Some(18.5),
+            // Package power follows the load (a laptop's chip is a smaller one).
+            power_w: Some(if laptop { 18.5 } else { 34.0 + 165.0 * s.cpu }),
             uptime_s: 3 * 86_400 + 4 * 3600 + 12 * 60,
         }),
         gpu: Some(GpuReading {
@@ -410,6 +446,7 @@ fn sample_reading(laptop: bool, s: &Sample) -> Reading {
             temp_c: Some(61.0),
             fan_rpm: Some(2_150),
             mhz: Some(1_890),
+            power_w: Some(12.0 + 95.0 * s.gpu),
         }),
         memory: Some(MemoryReading {
             total,
@@ -448,6 +485,7 @@ fn sample_reading(laptop: bool, s: &Sample) -> Reading {
             rate_mw: Some(-8_200),
             ..BatteryReading::default()
         }),
+        power: None,
         top_cpu: vec![
             sample_app(0, "Microsoft Edge", 0.091, GIB * 21 / 10, 1.2e6),
             sample_app(1, "Spotify", 0.042, 412 * MIB, 4.1e5),
@@ -673,8 +711,18 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
         st.prayer.query.clear();
     }
     let site = st.prayer.site().expect("Jakarta's site");
-    let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).expect("today's times").ashar;
-    st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
+    let today = site.local_day(st.unix);
+    let ashar = poni_core::prayer::day_times(&site, today).expect("today's times").ashar;
+    // PONI_SELFTEST_PRAYER_AT=HH:MM: the Prayer page at that time of
+    // Jakarta's day instead (pictures of the night side: the moon on the arc).
+    let at = std::env::var("PONI_SELFTEST_PRAYER_AT").ok().filter(|_| scene == Scene::Page(PageKind::Prayer)).and_then(|v| {
+        let (h, m) = v.trim().split_once(':')?;
+        Some(h.parse::<i64>().ok()? * 3600 + m.parse::<i64>().ok()? * 60)
+    });
+    st.prayer.clock_shift = match at {
+        Some(secs) => today * 86_400 - i64::from(site.offset_min) * 60 + secs - st.unix,
+        None => ashar - 8 * 60 - st.unix,
+    };
     st.prayer.handled_until = Some(st.prayer_now());
     st.prayer.adzan = scene == Scene::PrayerNotice;
     if scene == Scene::PrayerNotice {
@@ -818,6 +866,23 @@ enum Scene {
     ScriptReading,
     /// The Health page with steps the phone last sent three days ago.
     HealthStale,
+    /// The same reading with Oyenza Studio Recorder installed: Record shows.
+    ScriptRecorder,
+    /// System page on a desktop, Power: its power supply reports over USB.
+    SystemPower,
+    /// ...and a desktop whose power supply doesn't: the estimate.
+    SystemPowerEstimate,
+    /// A maximized window under the island (Step aside, the default): the
+    /// clock waits out of the way, an invisible strip at the top edge.
+    AsideIdle,
+    /// ...and while a song sings its lines.
+    AsideLyric,
+    /// ...a new song's title still drops down for its few seconds.
+    AsidePeek,
+    /// ...and so does the volume pop-up.
+    AsideHud,
+    /// Settings with Stay picked over maximized windows.
+    SettingsAsideStay,
 }
 
 /// Running under Wine: its ntdll exports `wine_get_version`.
@@ -832,7 +897,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 69] = [
+const SCENES: [Scene; 77] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -910,6 +975,18 @@ const SCENES: [Scene; 69] = [
     Scene::Page(PageKind::Script),
     Scene::ScriptReading,
     Scene::HealthStale,
+    // ...and with the recorder installed (Record by Paste).
+    Scene::ScriptRecorder,
+    // The whole PC's power: read from the power supply, then estimated.
+    Scene::SystemPower,
+    Scene::SystemPowerEstimate,
+    // A maximized window under the island: what rests steps aside, what
+    // happens still shows. Then the Settings page with Stay picked.
+    Scene::AsideIdle,
+    Scene::AsideLyric,
+    Scene::AsidePeek,
+    Scene::AsideHud,
+    Scene::SettingsAsideStay,
 ];
 
 impl Scene {
@@ -974,6 +1051,14 @@ impl Scene {
             Scene::LowBatteryHud => "low-battery-hud".into(),
             Scene::ScriptReading => "page-script-reading".into(),
             Scene::HealthStale => "page-health-stale".into(),
+            Scene::ScriptRecorder => "page-script-recorder".into(),
+            Scene::SystemPower => "page-system-power".into(),
+            Scene::SystemPowerEstimate => "page-system-power-estimate".into(),
+            Scene::AsideIdle => "aside-idle".into(),
+            Scene::AsideLyric => "aside-media-lyric".into(),
+            Scene::AsidePeek => "aside-new-song".into(),
+            Scene::AsideHud => "aside-volume-hud".into(),
+            Scene::SettingsAsideStay => "page-settings-maximized-stay".into(),
         }
     }
 
@@ -985,7 +1070,9 @@ impl Scene {
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
             Scene::HealthSignedIn | Scene::HealthStale => Some(PageKind::Health),
-            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop => Some(PageKind::Settings),
+            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop | Scene::SettingsAsideStay => {
+                Some(PageKind::Settings)
+            }
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -993,12 +1080,14 @@ impl Scene {
             | Scene::SystemWaiting
             | Scene::SystemGpu
             | Scene::SystemGames
-            | Scene::SystemGamesAllow => Some(PageKind::System),
+            | Scene::SystemGamesAllow
+            | Scene::SystemPower
+            | Scene::SystemPowerEstimate => Some(PageKind::System),
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
             Scene::PrayerPicker => Some(PageKind::Prayer),
-            Scene::ScriptReading => Some(PageKind::Script),
+            Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             _ => None,
         }
     }
@@ -1034,7 +1123,17 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek) || self.expanded()
+    }
+
+    /// A maximized window is under the island.
+    fn window_under(self) -> bool {
+        matches!(self, Scene::AsideIdle | Scene::AsideLyric | Scene::AsidePeek | Scene::AsideHud)
+    }
+
+    /// The island rests stepped aside: nothing to see, a strip to point at.
+    fn rests_aside(self) -> bool {
+        matches!(self, Scene::AsideIdle | Scene::AsideLyric)
     }
 
     fn timer_running(self) -> bool {
@@ -1740,6 +1839,10 @@ impl SelfTest {
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
+        // Step aside over maximized windows (the default), except where Stay is picked.
+        st.settings.step_aside = scene != Scene::SettingsAsideStay;
+        // A new song's title shows for its few seconds (held here).
+        st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };
         st.phone = fake_phone(scene, now);
         st.paired = fake_paired(scene, st.unix);
         st.pair_server = (!st.paired.is_empty() || scene == Scene::ShelfPairing).then_some(true);
@@ -1752,7 +1855,7 @@ impl SelfTest {
         }
 
         if scene.media_playing() {
-            let pos = if scene == Scene::MediaLyric { self.lyric_pos } else { TRACK_POS_S };
+            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric) { self.lyric_pos } else { TRACK_POS_S };
             let timeline = Timeline::new(pos, TRACK_LEN_S, now, true);
             match st.media.as_mut() {
                 Some(m) if m.track_key == self.track_key => m.timeline = timeline,
@@ -1772,7 +1875,7 @@ impl SelfTest {
 
         let until = now + 30.0;
         st.hud = match scene {
-            Scene::VolumeHud => Some(Hud { kind: HudKind::Volume { level: 0.64, muted: false }, until }),
+            Scene::VolumeHud | Scene::AsideHud => Some(Hud { kind: HudKind::Volume { level: 0.64, muted: false }, until }),
             Scene::ChargingHud => Some(Hud { kind: HudKind::Charging { percent: 76, plugged: true }, until }),
             Scene::BluetoothHud => {
                 Some(Hud { kind: HudKind::Bluetooth { name: "Sound Buds".into(), connected: true, battery: Some(80), audio: true }, until })
@@ -1783,7 +1886,7 @@ impl SelfTest {
         st.notice = match scene {
             Scene::HealthNotice => {
                 let steps = st.health.as_ref().map_or(0, |h| h.steps_on(&st.local.day_key()));
-                Some(crate::app::steps_goal_notice(steps, until))
+                Some(crate::pages::health::goal_notice(steps, until))
             }
             Scene::OyenzaMoney | Scene::OyenzaMoneyShown => {
                 let hidden = scene == Scene::OyenzaMoney;
@@ -1845,19 +1948,23 @@ impl SelfTest {
             _ => AddonStatus::Off,
         };
         st.addons.insert(JAPANESE_READINGS.id, ja);
+        // Script reader: on for the Script page's scenes, off (no tab) elsewhere.
+        let script = scene.page() == Some(PageKind::Script);
+        st.addons.insert(SCRIPT_READER.id, if script { AddonStatus::Ready } else { AddonStatus::Off });
         if scene.media_playing() {
             st.lyrics.wants_ja_readings = self.lyrics.wants_ja_readings || matches!(scene, Scene::JaOffer | Scene::JaGetting);
         }
         seed_prayer(st, scene, until);
         // The Script page: empty, or partway through the sample script.
         st.script = poni_core::script::Reader::default();
-        if scene == Scene::ScriptReading {
+        if matches!(scene, Scene::ScriptReading | Scene::ScriptRecorder) {
             st.store.script.text = SAMPLE_SCRIPT.into();
             st.script.word = 22;
             st.script.active = true;
         } else {
             st.store.script.text.clear();
         }
+        st.recorder = scene == Scene::ScriptRecorder;
         st.system = fake_system(scene);
         st.settings.game_stats = scene.game();
         st.game = fake_game(scene, &mut st.system);
@@ -1868,6 +1975,7 @@ impl SelfTest {
             Scene::SystemBattery => Module::Battery,
             Scene::SystemGpu => Module::Gpu,
             Scene::SystemGames | Scene::SystemGamesAllow => Module::Games,
+            Scene::SystemPower | Scene::SystemPowerEstimate => Module::Power,
             _ => Module::Cpu,
         };
         for (path, rgb) in SAMPLE_ICONS {
@@ -1876,6 +1984,7 @@ impl SelfTest {
         if let Some(p) = scene.page() {
             st.page = p;
         }
+        app.selftest_window_under(scene.window_under());
         app.selftest_hover(None);
         app.selftest_set_expanded(scene.expanded());
     }
@@ -1983,6 +2092,18 @@ impl SelfTest {
         let mut measured = 0;
         if w <= 0 || h <= 0 || px.len() != (w as usize) * (h as usize) * 4 {
             checks.push(check("pixels", false, format!("{w}x{h} frame with {} bytes", px.len())));
+        } else if scene.rests_aside() {
+            // Nothing drawn over the window under the island: the strip it
+            // rests as is there only for the pointer (alpha 1/255 at most).
+            let seen = px.chunks_exact(4).filter(|p| p[3] > 1).count();
+            checks.push(check("aside-invisible", seen == 0, format!("{seen} pixels drawn with alpha above 1/255")));
+            let (mode, aside) = app.selftest_mode();
+            // The Hidden look's strip: 150 wide, as short as the island gets (8).
+            checks.push(check(
+                "aside-strip",
+                mode == Mode::Aside && aside && (body.w - 150.0).abs() < 0.5 && body.h <= 8.5,
+                format!("{mode:?} (stepped aside: {aside}), body {:.1}x{:.1} DIP, want the Hidden look's 150x8 strip", body.w, body.h),
+            ));
         } else {
             let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
             // 3 DIPs inside the body's top edge: the window's top rows where
@@ -2055,6 +2176,12 @@ impl SelfTest {
         }
         if scene == Scene::MediaLyric {
             checks.push(lyric_line_check(&app.st));
+        }
+        if matches!(scene, Scene::AsidePeek | Scene::AsideHud) {
+            // Stepped aside, and still what just happened shows over the window.
+            let (mode, aside) = app.selftest_mode();
+            let want = if scene == Scene::AsideHud { Mode::Hud(HudTag::Volume) } else { Mode::Activity(crate::activities::Activity::Media) };
+            checks.push(check("aside-still-shows", aside && mode == want, format!("{mode:?} (stepped aside: {aside}), want {want:?}")));
         }
         if scene.page() == Some(PageKind::Script) {
             // The script stays out of screen shares and recordings: ask Windows.
@@ -2701,7 +2828,12 @@ fn lyric_line_check(st: &AppState) -> Check {
     let pos = m.timeline.position_at(st.now);
     let lyrics = st.lyrics.lyrics.as_ref().filter(|_| st.lyrics.track_key == m.track_key);
     match lyrics.and_then(|l| l.line_index_at(pos).map(|k| (k, l.lines[k].text.trim()))) {
-        Some((k, text)) if !text.is_empty() => check("lyric-line", true, format!("line {} \"{text}\" sung at {pos:.1} s", k + 1)),
+        Some((k, text)) if !text.is_empty() => {
+            // The reading the pill sings under it, when the song has them.
+            let reading = st.lyrics.ruby.get(k).filter(|_| st.settings.lyrics_pronunciation).and_then(|p| poni_core::romanize::reading(p));
+            let under = reading.map(|r| format!(", read \"{r}\"")).unwrap_or_default();
+            check("lyric-line", true, format!("line {} \"{text}\"{under} sung at {pos:.1} s", k + 1))
+        }
         Some((k, _)) => check("lyric-line", false, format!("line {} at {pos:.1} s has no words", k + 1)),
         None => check("lyric-line", false, format!("no synced line at {pos:.1} s")),
     }

@@ -12,6 +12,9 @@
 //! change the pace, Esc lets go), or press Alt+Shift+S in any app on Windows.
 //! The Windows island is left out of screen shares and recordings while this
 //! page shows (`window::exclude_from_capture`).
+//!
+//! Once Oyenza Studio Recorder is installed, Record (by Paste) has it record
+//! the island's screen; pausing and stopping stay on the recorder's own bar.
 
 use crate::commands::Command;
 use crate::gfx::{ts, TextStyle, Weight};
@@ -42,6 +45,8 @@ const BAR_GAP: f32 = 10.0;
 const READ_MIN_W: f32 = 108.0;
 const ICON_BTN: f32 = 30.0;
 const PACE_LABEL_W: f32 = 64.0;
+/// Record's dot and ring, a little bigger than the bar's other icons.
+const RECORD_ICON: f32 = 18.0;
 /// A message from the app ("Nothing to paste") shows this long.
 const NOTE_S: f64 = 4.0;
 /// Wheel notches per line.
@@ -305,8 +310,8 @@ fn set_pace(st: &mut AppState, lines: &[Line], wpm: u32) {
     }
 }
 
-/// Read/Pause, back to the start, the pace, then what's going on; Paste and
-/// Clear on the right.
+/// Read/Pause, back to the start, the pace, then what's going on; Record
+/// (with the recorder installed), Paste and Clear on the right.
 fn draw_bar(ui: &mut Ui, st: &mut AppState, area: Rect, y: f32, lines: &[Line], focused: bool) {
     let now = ui.now;
     let wpm = st.store.script.pace();
@@ -350,7 +355,7 @@ fn draw_bar(ui: &mut Ui, st: &mut AppState, area: Rect, y: f32, lines: &[Line], 
     }
     x += ICON_BTN + PILL_GAP + 4.0;
 
-    // Right: Clear, then Paste (a new script replaces this one).
+    // Right: Clear, then Paste (a new script replaces this one), then Record.
     let clear_r = btn(area.right() - ICON_BTN);
     if ui.icon_button(wid("script.clear"), clear_r, Icon::Trash, palette::TEXT_DIM, 14.0).clicked {
         set_text(st, String::new());
@@ -362,11 +367,31 @@ fn draw_bar(ui: &mut Ui, st: &mut AppState, area: Rect, y: f32, lines: &[Line], 
         st.cmd(Command::ScriptPaste);
     }
 
+    let mut right = paste_r.x;
+    let mut hint = None;
+    if st.recorder {
+        let record_r = btn(paste_r.x - PILL_GAP - ICON_BTN);
+        let resp = ui.icon_button(wid("script.record"), record_r, Icon::Record, palette::RED, RECORD_ICON);
+        ui.c.icon(Icon::Circle, Rect::from_center(record_r.center(), RECORD_ICON, RECORD_ICON), palette::TEXT_DIM);
+        if resp.clicked {
+            st.cmd(Command::RecordScreen);
+            note(st, "Opening the recorder");
+        }
+        // The island has no tooltips: the status line says what the dot does.
+        if resp.hovered {
+            hint = Some("Record this screen");
+        }
+        right = record_r.x;
+    }
+
     // What's going on, in the room left between the two groups.
-    let room = Rect::new(x, y, (paste_r.x - PILL_GAP - x).max(0.0), PILL_REGULAR);
-    let status = status_line(ui, st, now, lines, wpm, focused);
+    let room = Rect::new(x, y, (right - PILL_GAP - x).max(0.0), PILL_REGULAR);
+    let style = TextStyle::new(ts::FOOTNOTE).color(palette::TEXT_DIM);
+    let status = match hint {
+        Some(text) if live_note(ui, st).is_none() => text.into(),
+        _ => status_line(ui, st, now, lines, wpm, focused, room.w, &style),
+    };
     if room.w > 40.0 {
-        let style = TextStyle::new(ts::FOOTNOTE).color(palette::TEXT_DIM);
         ui.c.clip(room);
         ui.c.text(&status, room, &style);
         ui.c.unclip();
@@ -374,8 +399,10 @@ fn draw_bar(ui: &mut Ui, st: &mut AppState, area: Rect, y: f32, lines: &[Line], 
 }
 
 /// The time left while reading; how to steer while the keyboard is on the
-/// script; otherwise whether screen shares can see it.
-fn status_line(ui: &mut Ui, st: &AppState, now: f64, lines: &[Line], wpm: u32, focused: bool) -> String {
+/// script; otherwise whether screen shares can see it, in fewer words when
+/// that doesn't fit in `room` (Record takes some of it).
+#[allow(clippy::too_many_arguments)]
+fn status_line(ui: &mut Ui, st: &AppState, now: f64, lines: &[Line], wpm: u32, focused: bool, room: f32, style: &TextStyle) -> String {
     if let Some(text) = live_note(ui, st) {
         return text.into();
     }
@@ -386,11 +413,12 @@ fn status_line(ui: &mut Ui, st: &AppState, now: f64, lines: &[Line], wpm: u32, f
         let left = st.script.remaining(now, lines, wpm);
         return if left < 60.0 { "Under a minute left".into() } else { format!("About {} min left", (left / 60.0).round() as u32) };
     }
-    match st.script_hidden {
-        Some(true) => "Hidden from screen shares".into(),
-        _ if cfg!(target_os = "macos") => "Shows in full-screen shares".into(),
-        _ => "Shows in screen shares".into(),
-    }
+    let (full, short) = match st.script_hidden {
+        Some(true) => ("Hidden from screen shares", "Hidden from shares"),
+        _ if cfg!(target_os = "macos") => ("Shows in full-screen shares", "Shows in shares"),
+        _ => ("Shows in screen shares", "Shows in shares"),
+    };
+    if ui.c.measure(full, style, f32::MAX).0 <= room { full } else { short }.into()
 }
 
 /// A message from the app while it lasts ([`next_wake`] brings the frame

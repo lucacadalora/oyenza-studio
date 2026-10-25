@@ -10,8 +10,10 @@
 //! with Oyenza Studio's own dictionary instead (`poni_core::romanize::JaDict`),
 //! which the Japanese readings add-on brings (`poni_core::addons::
 //! JAPANESE_READINGS`, loaded only for that song). Without the add-on, kana
-//! lines still read and the Music page offers it. Korean and Chinese need no
-//! analyzer (`poni_core::romanize`). Called on the lyrics worker thread.
+//! lines still read, and the song says so (`wants_ja_readings`): the app
+//! switches the add-on on the first time, or the Music page offers it once
+//! it was switched off by hand. Korean and Chinese need no analyzer
+//! (`poni_core::romanize`). Called on the lyrics worker thread.
 //!
 //! The analyzer is a single-threaded (STA) class. From the lyrics worker's
 //! multithreaded apartment every call fails with RO_E_UNSUPPORTED_FROM_MTA
@@ -36,7 +38,8 @@ pub struct Pronounced {
     /// that need none (or that couldn't be read).
     pub ruby: Vec<Vec<Ruby>>,
     /// Kanji went unread because Windows has no Japanese reading data and the
-    /// Japanese readings add-on isn't on this PC: the Music page offers it.
+    /// Japanese readings add-on isn't on this PC: the app switches it on the
+    /// first time, and the Music page offers it after a switch-off by hand.
     pub wants_ja_readings: bool,
 }
 

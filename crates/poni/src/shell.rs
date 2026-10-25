@@ -9,8 +9,10 @@
 //! only two kinds are handed to the shell: existing absolute local or UNC
 //! file-system paths, and `http`/`https` URLs. Anything else (`ms-settings:`,
 //! `javascript:`, `shell:`, relative names that would be searched on `PATH`)
-//! is logged and refused. The one fixed exception is Settings > Apps >
-//! Startup ([`open_startup_settings`]), a constant URI.
+//! is logged and refused. Two fixed exceptions: Settings > Apps > Startup
+//! ([`open_startup_settings`]), a constant URI, and Oyenza Studio Recorder's
+//! own action links ([`open_recorder_link`]): its fixed scheme and one
+//! percent-encoded value, as `poni_core::recorder` builds them.
 
 use std::sync::atomic::{AtomicUsize, Ordering};
 use windows::core::{w, HSTRING};
@@ -48,6 +50,23 @@ pub fn open(target: &str) {
         let r = unsafe { ShellExecuteW(None, w!("open"), &t, None, None, SW_SHOWNORMAL) };
         if (r.0 as isize) <= 32 {
             crate::pwarn!("open failed ({}): {}", r.0 as isize, for_log(&target));
+        }
+    });
+}
+
+/// Open one of Oyenza Studio Recorder's action links (asynchronously). Only
+/// the shape `poni_core::recorder` builds reaches the shell.
+pub fn open_recorder_link(link: &str) {
+    if !poni_core::recorder::is_action_link(link) {
+        crate::pwarn!("recorder link refused: {}", for_log(link));
+        return;
+    }
+    let link = link.to_string();
+    run("recorder", move || {
+        let t = HSTRING::from(link.as_str());
+        let r = unsafe { ShellExecuteW(None, w!("open"), &t, None, None, SW_SHOWNORMAL) };
+        if (r.0 as isize) <= 32 {
+            crate::pwarn!("recorder link failed ({})", r.0 as isize);
         }
     });
 }

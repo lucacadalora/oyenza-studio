@@ -7,7 +7,9 @@
 
 use crate::gfx::Image;
 use crate::state::{MediaSession, PowerState, SysStats};
+use poni_core::health::HealthSnapshot;
 use poni_core::lrc::Lyrics;
+use poni_core::oyenza::{Activity, Arrival, Bill, Saved};
 use poni_core::romanize::Ruby;
 use poni_core::timeline::Timeline;
 use std::sync::mpsc::Sender;
@@ -53,6 +55,37 @@ pub enum LyricsResult {
     Error(String),
 }
 
+/// What the Oyenza worker reports (`services::oyenza`, shared with Windows).
+#[derive(Clone, Debug)]
+pub enum OyenzaEvent {
+    /// The sign-in saved on this Mac was found at start (no notice).
+    Restored { account: String },
+    /// A sign-in code to show, the oyenza.app address that takes it, and how long it lasts.
+    Connecting { code: String, url: String, expires_in_s: u64 },
+    Connected { account: String },
+    /// Signing in stopped without a key: `expired`, `denied`, `offline` or `other`.
+    ConnectFailed(String),
+    ConnectCancelled,
+    /// Money that just arrived or went out by itself (oldest first).
+    Money { arrived: Vec<Arrival> },
+    /// The last 7 days of transactions, for the Oyenza page (while it's open).
+    Activity(Activity),
+    /// Asked again while the page is open: nothing changed.
+    ActivityChecked,
+    /// Bills due in the next 30 days, and the server's today (YYYY-MM-DD).
+    Bills { today: String, bills: Vec<Bill> },
+    /// The steps the phone sent, for the Health page; None: none to show (off in
+    /// Oyenza on the phone, or a server from before steps).
+    Health(Option<HealthSnapshot>),
+    NoteSaved(Vec<Saved>),
+    /// The note wasn't saved; the island puts `text` back and says why (`code`).
+    NoteFailed { text: String, code: String },
+    Undone,
+    UndoFailed(String),
+    /// Signed out: from the menu or Settings, or by the server (disconnected in oyenza.app).
+    Disconnected { by_server: bool },
+}
+
 #[allow(dead_code)]
 pub enum AppEvent {
     /// The current media session changed (None = nothing playing / no session).
@@ -63,8 +96,10 @@ pub enum AppEvent {
     MediaArt { track_key: String, art: Option<Image> },
     Lyrics { track_key: String, result: LyricsResult },
     AppleMusic(AppleMusicStatus),
-    /// Master volume changed (0..=1).
-    Volume { level: f32, muted: bool },
+    Oyenza(OyenzaEvent),
+    /// Master volume changed (0..=1). `switched`: the output device changed
+    /// (headphones connected, say), not its volume.
+    Volume { level: f32, muted: bool, switched: bool },
     Power(PowerState),
     Bluetooth { name: String, connected: bool, battery: Option<u8>, audio: bool },
     /// A full-screen app took over (or left) the island's screen.
@@ -89,6 +124,10 @@ pub enum AppEvent {
     Phone(poni_core::phonedrop::Event),
     /// Where an add-on's files stand (`services::addons`).
     Addon { id: &'static str, status: poni_core::addons::Status },
+    /// Where the Mac is, for Prayer times (`services::location`).
+    Located(crate::services::location::Located),
+    /// Prayer times' adzan played to its end (`services::adzan`).
+    AdzanEnded,
     /// Free-form log line from a service thread.
     Log(String),
 }

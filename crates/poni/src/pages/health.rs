@@ -12,7 +12,7 @@ use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{ts, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::pages::PageKind;
-use crate::state::{AppState, OyenzaLink};
+use crate::state::{AppState, Notice, NoticeAction, OyenzaLink};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_date_short, LocalDateTime};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -287,5 +287,20 @@ fn fmt_short(n: u32) -> String {
         format!("{}k", n / 1000)
     } else {
         format!("{:.1}k", n as f32 / 1000.0)
+    }
+}
+
+/// The island's notice for the moment new numbers from the phone put today
+/// over the step goal (see `poni_core::health::goal_reached`).
+pub fn goal_notice(steps: u32, until: f64) -> Notice {
+    Notice {
+        icon: Icon::Steps,
+        color: palette::GREEN,
+        title: format!("{} steps today", fmt_steps(steps)),
+        subtitle: "Daily step goal reached".into(),
+        until,
+        action: Some(NoticeAction::OpenPage(PageKind::Health)),
+        inline: None,
+        reveal: None,
     }
 }

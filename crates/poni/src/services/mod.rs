@@ -20,6 +20,8 @@ pub mod oyenza;
 pub mod pairdrop;
 pub mod phonedrop;
 pub mod power;
+pub mod psu;
+pub mod recorder;
 pub mod romanize;
 #[cfg(test)]
 mod romanize_compare;
@@ -33,7 +35,7 @@ use crate::events::EventSink;
 use crate::state::MediaSession;
 use poni_core::geom::Color;
 use poni_core::settings::Settings;
-use windows::Win32::Foundation::{HWND, LPARAM, WPARAM};
+use windows::Win32::Foundation::{HWND, LPARAM, RECT, WPARAM};
 
 pub struct Services {
     media: Option<media::MediaService>,
@@ -98,6 +100,14 @@ impl Services {
     pub fn set_clipboard_history(&self, on: bool) {
         if let Some(c) = &self.clip {
             c.set_enabled(on);
+        }
+    }
+
+    /// Step aside on (the band along the top edge of the island's monitor,
+    /// screen pixels) or off: the full-screen watcher reports what reaches it.
+    pub fn watch_top(&self, band: Option<RECT>) {
+        if let Some(f) = &self.fullscreen {
+            f.watch_top(band);
         }
     }
 

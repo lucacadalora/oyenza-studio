@@ -89,13 +89,16 @@ extern "C" {
     fn SCDynamicStoreCopyComputerName(store: *const c_void, encoding: *mut u32) -> *const CFString;
 }
 
-/// What the page calls this Mac: its name in System Settings > General > About.
-fn mac_name() -> String {
+/// The Mac's name in System Settings > General > About (also what
+/// oyenza.app lists it as, `services::oyenza`).
+pub(crate) fn computer_name() -> Option<String> {
     let raw = unsafe { SCDynamicStoreCopyComputerName(std::ptr::null(), std::ptr::null_mut()) };
-    std::ptr::NonNull::new(raw as *mut CFString)
-        .map(|p| unsafe { CFRetained::from_raw(p) }.to_string())
-        .filter(|n| !n.trim().is_empty())
-        .unwrap_or_else(|| "your Mac".into())
+    std::ptr::NonNull::new(raw as *mut CFString).map(|p| unsafe { CFRetained::from_raw(p) }.to_string()).filter(|n| !n.trim().is_empty())
+}
+
+/// What the page calls this Mac.
+fn mac_name() -> String {
+    computer_name().unwrap_or_else(|| "your Mac".into())
 }
 
 // ---------------------------------------------------------------- the address

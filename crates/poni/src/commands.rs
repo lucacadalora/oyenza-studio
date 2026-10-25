@@ -83,6 +83,9 @@ pub enum Command {
     /// The Script page's Paste: the clipboard's text, line breaks kept,
     /// becomes the script.
     ScriptPaste,
+    /// The Script page's Record: Oyenza Studio Recorder records the screen
+    /// the island is on (`services::recorder`).
+    RecordScreen,
     /// Drop keyboard focus.
     BlurText,
     /// Persist `AppState::store` soon.

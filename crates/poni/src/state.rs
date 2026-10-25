@@ -73,8 +73,9 @@ pub struct LyricsState {
     /// Korean, Chinese); empty for lines that need none.
     pub ruby: Vec<Vec<Ruby>>,
     /// The song's kanji went unread because Windows has no Japanese reading
-    /// data and the Japanese readings add-on isn't on this PC: the Music page
-    /// offers the add-on.
+    /// data and the Japanese readings add-on isn't on this PC: the app
+    /// switches the add-on on the first time, and the Music page shows how
+    /// it comes in (or offers it, after a switch-off by hand).
     pub wants_ja_readings: bool,
 }
 
@@ -258,6 +259,9 @@ pub struct PageUiState {
     pub system_module: poni_core::sysmon::Module,
     /// The last System reading had a GPU (keeps its chip while the next one is on its way).
     pub system_gpu: bool,
+    /// The last full System reading had the whole PC's power (keeps its chip
+    /// while the page's first, light reading shows).
+    pub system_power: bool,
     /// The page the Settings button was pressed on (pressing it again goes back).
     pub before_settings: Option<PageKind>,
     /// Start with Windows, as last read off the UI thread (None until Settings first opens).
@@ -439,6 +443,11 @@ pub struct AppState {
     /// When playback went from playing to paused (the pill lingers 30 s).
     pub media_paused_at: Option<f64>,
     pub pinned: bool,
+    /// Stepped aside (Settings › Over maximized windows): an app window sits
+    /// under where the island rests, so the closed island rests as an
+    /// invisible strip at the top edge (`activities::Mode::Aside`). Windows
+    /// sets it; the Mac never does.
+    pub aside: bool,
     /// Files are being dragged over the island right now.
     pub drag_hover: bool,
     /// Phone drop, while it's open.
@@ -459,6 +468,9 @@ pub struct AppState {
     /// Whether Windows leaves the island out of screen capture while the
     /// Script page shows (None = not asked yet, or not on Windows).
     pub script_hidden: Option<bool>,
+    /// Oyenza Studio Recorder is installed, so the Script page shows Record.
+    /// Asked each time the page comes on screen, never at rest.
+    pub recorder: bool,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -513,6 +525,7 @@ impl AppState {
             page,
             media_paused_at: None,
             pinned: false,
+            aside: false,
             drag_hover: false,
             phone: None,
             paired: Vec::new(),
@@ -523,12 +536,19 @@ impl AppState {
             script: poni_core::script::Reader::default(),
             script_note: None,
             script_hidden: None,
+            recorder: false,
             cmds: Vec::new(),
         };
-        // On ones start by checking their files (the worker reports back).
+        // On ones start by checking their files (the worker reports back);
+        // one without files is ready at once.
         for a in poni_core::addons::ALL {
             let on = st.settings.addon_on(a.id);
-            st.addons.insert(a.id, if on { AddonStatus::Checking } else { AddonStatus::Off });
+            st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
+        }
+        // Last open on the Script page, since switched off: open where a new
+        // island does.
+        if st.page == PageKind::Script && !st.script_on() {
+            st.page = PageKind::ALL[0];
         }
         st
     }
@@ -536,6 +556,11 @@ impl AppState {
     /// Where the add-on `id` stands (`Off` for one this version doesn't know).
     pub fn addon(&self, id: &str) -> AddonStatus {
         self.addons.get(id).copied().unwrap_or(AddonStatus::Off)
+    }
+
+    /// The Script reader add-on is on: the Script tab shows.
+    pub fn script_on(&self) -> bool {
+        self.addon(poni_core::addons::SCRIPT_READER.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.
