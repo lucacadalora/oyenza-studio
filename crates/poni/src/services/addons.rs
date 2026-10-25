@@ -37,8 +37,9 @@ pub struct AddonService {
     shared: Arc<Shared>,
 }
 
-/// One-off work for the worker's HTTP client, run once, in order.
-pub type Job = Box<dyn FnOnce(&Client) + Send>;
+/// One-off work for the worker's HTTP client, run once, in order. It gets
+/// the client, or why there is none, so it can always answer its owner.
+pub type Job = Box<dyn FnOnce(Result<&Client, &str>) + Send>;
 
 impl AddonService {
     /// `on`: the add-ons switched on in settings.
@@ -161,16 +162,17 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
             have.insert(addon.id, now_have);
         }
         for job in jobs {
+            let mut why = String::new();
             if client.is_none() {
                 match Client::new(USER_AGENT) {
                     Ok(c) => client = Some(c),
-                    Err(e) => crate::pwarn!("add-ons: no HTTP client for a job ({e})"),
+                    Err(e) => {
+                        crate::pwarn!("add-ons: no HTTP client for a job ({e})");
+                        why = e.to_string();
+                    }
                 }
             }
-            // Without a client the job is dropped; its owner tries again later.
-            if let Some(c) = &client {
-                job(c);
-            }
+            job(client.as_ref().ok_or(why.as_str()));
         }
         // Sleep until something changes or a retry is due.
         let q = shared.lock();

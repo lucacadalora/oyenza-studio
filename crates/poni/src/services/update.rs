@@ -26,8 +26,8 @@ pub enum UpdateEvent {
 
 /// A job for the add-on thread: read the file, answer with `AppEvent::Update`.
 pub fn check_job(sink: EventSink) -> Job {
-    Box::new(move |client: &Client| {
-        let r = check(client);
+    Box::new(move |client: Result<&Client, &str>| {
+        let r = client.map_err(str::to_string).and_then(check);
         match &r {
             Ok(rel) => crate::pinfo!("updates: the latest release is {} ({})", rel.version, rel.date),
             Err(e) => crate::pinfo!("updates: couldn't read the update file ({e})"),
