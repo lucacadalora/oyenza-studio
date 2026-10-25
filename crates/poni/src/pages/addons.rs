@@ -8,7 +8,7 @@
 //! row toggles, as in Settings: on downloads the add-on and starts it, off
 //! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
-//! The Mac app lists only the add-ons it has ([`OFFERED`]).
+//! Both apps list every add-on ([`OFFERED`]).
 
 use crate::commands::Command;
 use crate::gfx::TextStyle;
@@ -30,10 +30,9 @@ const SWITCH_W: f32 = 30.0;
 const SWITCH_H: f32 = 18.0;
 const BAR_H: f32 = 3.0;
 
-/// The add-ons this app has, in the page's order: all of them on Windows;
-/// Japanese readings and Script reader on the Mac (Prayer times needs
-/// Windows' location and sound services).
-pub const OFFERED: &[&Addon] = if cfg!(windows) { &addons::ALL } else { &[&addons::JAPANESE_READINGS, &addons::SCRIPT_READER] };
+/// The add-ons this app has, in the page's order: all of them, on Windows
+/// and on the Mac (whose Prayer times use macOS's location and sounds).
+pub const OFFERED: &[&Addon] = &addons::ALL;
 /// The lines name the Mac ("on this Mac") and leave out Windows' reasons.
 const MAC: bool = cfg!(target_os = "macos");
 

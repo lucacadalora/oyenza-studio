@@ -26,14 +26,15 @@ use crate::island::{Island, SHOULDER};
 use crate::notch::{self, Notch};
 use crate::pages::{self, PageKind};
 use crate::services::romanize::{self, Pronounced};
-use crate::state::{AppState, Hud, HudKind, LyricsState, LyricsStatus, MediaSession, PowerState, SysStats, VolumeState};
+use crate::state::{AppState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, NoticeAction, PowerState, SysStats, VolumeState};
 use crate::ui::{Hit, Input};
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
 use poni_core::datetime::LocalDateTime;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::parse_lrc;
 use poni_core::pomodoro::{Phase, RunState};
+use poni_core::prayer::{PlaceList, Prayer};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::store::Store;
 use poni_core::sysmon::{
@@ -121,6 +122,13 @@ enum Scene {
     Japanese(AddonStatus),
     /// The Add-ons tab, Japanese readings at this status.
     Addons(AddonStatus),
+    /// Prayer times on, in Kota Jakarta, 8 minutes before Ashar: the page,
+    /// its place picker, the resting island's countdown, and the notice at
+    /// the time with the adzan playing.
+    Prayer,
+    PrayerPicker,
+    PrayerCountdown,
+    PrayerNotice,
 }
 
 const SCENES: [Scene; 19] = [
@@ -177,6 +185,9 @@ const ADDON_SCENES: [Scene; 3] = [
     Scene::Addons(AddonStatus::Ready),
 ];
 
+/// Prayer times, after the Add-ons tab.
+const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
+
 impl Scene {
     fn name(self) -> String {
         match self {
@@ -204,6 +215,10 @@ impl Scene {
             Scene::Addons(AddonStatus::Off) => "page-addons".into(),
             Scene::Addons(AddonStatus::Downloading { .. }) => "page-addons-getting".into(),
             Scene::Addons(s) => format!("page-addons-{}", format!("{s:?}").to_lowercase()),
+            Scene::Prayer => "page-prayer".into(),
+            Scene::PrayerPicker => "page-prayer-picker".into(),
+            Scene::PrayerCountdown => "prayer-countdown".into(),
+            Scene::PrayerNotice => "prayer-notice".into(),
         }
     }
 }
@@ -267,9 +282,9 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song and the Add-ons tab in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab and Prayer times in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).enumerate() {
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -411,6 +426,38 @@ fn read_japanese() -> Result<[Pronounced; 2], String> {
     }
     Ok([with, without])
 }
+
+/// Prayer times on, in Kota Jakarta (found by the location), its clock 8
+/// minutes before today's Ashar; `picking`: the place picker with "band"
+/// typed. Returns Jakarta's site and today's Ashar (UTC seconds).
+fn seed_prayer(st: &mut AppState, picking: bool) -> Result<(poni_core::prayer::Site, i64), String> {
+    st.settings.set_addon(PRAYER_TIMES.id, true);
+    st.addons.insert(PRAYER_TIMES.id, AddonStatus::Ready);
+    let list = PlaceList::parse(SAMPLE_PLACES)?;
+    st.prayer.place = list.find("jakarta").cloned();
+    st.prayer.places = Some(std::sync::Arc::new(list));
+    st.prayer.suggested = false;
+    st.prayer.locate = Locate::Found { km: 2.0 };
+    st.prayer.located_at = Some(st.unix);
+    st.prayer.picking = picking;
+    st.prayer.query = if picking { "band".into() } else { String::new() };
+    let site = st.prayer.site().ok_or("no site for Kota Jakarta")?;
+    let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).ok_or("no times today")?.ashar;
+    st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
+    st.prayer.handled_until = Some(st.prayer_now());
+    Ok((site, ashar))
+}
+
+/// A few places from the add-on's list (as the Windows self-test has them).
+const SAMPLE_PLACES: &str = r#"{"places":[
+    {"id":"jakarta","label":"Kota Jakarta","kind":"kota","prov":"DKI Jakarta","lat":-6.1833,"lng":106.8333,"tz":"Asia/Jakarta"},
+    {"id":"banda-aceh","label":"Kota Banda Aceh","kind":"kota","prov":"Aceh","lat":5.55,"lng":95.3167,"tz":"Asia/Jakarta"},
+    {"id":"bandar-lampung","label":"Kota Bandar Lampung","kind":"kota","prov":"Lampung","lat":-5.4167,"lng":105.2667,"tz":"Asia/Jakarta"},
+    {"id":"kab-bandung","label":"Kab. Bandung","kind":"kab","prov":"Jawa Barat","lat":-7.0167,"lng":107.5333,"tz":"Asia/Jakarta","h0":-2},
+    {"id":"bandung","label":"Kota Bandung","kind":"kota","prov":"Jawa Barat","lat":-6.9,"lng":107.6167,"tz":"Asia/Jakarta","h0":-2},
+    {"id":"kab-bandung-barat","label":"Kab. Bandung Barat","kind":"kab","prov":"Jawa Barat","lat":-6.85,"lng":107.5167,"tz":"Asia/Jakarta","h0":-2},
+    {"id":"makkah","label":"Makkah","kind":"abroad","prov":"Arab Saudi","lat":21.4225,"lng":39.8261,"tz":"Asia/Riyadh","method":"ummalqura"}
+]}"#;
 
 fn base_state(theme: Theme) -> AppState {
     let settings = Settings { theme, sounds: false, show_media_activity: true, lyrics: true, ..Default::default() };
@@ -628,6 +675,24 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             ja_status(&mut st, status);
             st.page = PageKind::Addons;
             Mode::Expanded(PageKind::Addons)
+        }
+        Scene::Prayer | Scene::PrayerPicker => {
+            seed_prayer(&mut st, scene == Scene::PrayerPicker)?;
+            st.page = PageKind::Prayer;
+            Mode::Expanded(PageKind::Prayer)
+        }
+        Scene::PrayerCountdown => {
+            seed_prayer(&mut st, false)?;
+            Mode::Activity(activities::Activity::Prayer)
+        }
+        Scene::PrayerNotice => {
+            let (site, ashar) = seed_prayer(&mut st, false)?;
+            st.prayer.adzan = true;
+            let place = st.prayer.place.as_ref().map_or(String::new(), |p| p.label.clone());
+            let title = crate::pages::prayer::moment_title(Prayer::Ashar);
+            st.notify(Icon::Moon, st.accent, title, format!("{} \u{b7} {place}", site.hhmm(ashar)), 30.0, Some(NoticeAction::OpenPage(PageKind::Prayer)));
+            st.set_notice_inline(InlineAction::StopAdzan);
+            Mode::Notice
         }
     };
 

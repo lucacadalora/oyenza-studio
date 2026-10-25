@@ -36,5 +36,10 @@
 	<!-- Shown when Oyenza Studio first asks Music or Spotify what's playing. -->
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Oyenza Studio shows what Music and Spotify are playing, with its lyrics, and its buttons play, pause and skip.</string>
+	<!-- Shown when Prayer times first asks where the Mac is (only while it follows the location). -->
+	<key>NSLocationUsageDescription</key>
+	<string>Prayer times uses your location to pick the nearest kab/kota. Your location stays on this Mac.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Prayer times uses your location to pick the nearest kab/kota. Your location stays on this Mac.</string>
 </dict>
 </plist>

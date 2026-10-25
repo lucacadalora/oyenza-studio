@@ -1,11 +1,13 @@
 //! The Mac's side of what the island asks the system for: what Music and
-//! Spotify play, lyrics, the Japanese readings add-on, power, volume, system
-//! stats, the System page's readings, the clipboard, Shelf tiles, Phone drop
-//! and start at login (one file each), plus a few direct calls (the accent
-//! colour, opening and revealing files, sounds). Oyenza sign-in comes in a
-//! later slice.
+//! Spotify play, lyrics, the add-ons (Japanese readings, and Prayer times'
+//! location and adzan), power, volume, system stats, the System page's
+//! readings, the clipboard, Shelf tiles, Phone drop and start at login (one
+//! file each), plus a few direct calls (the accent colour, opening and
+//! revealing files, sounds). Oyenza sign-in comes in a later slice.
 
 // This file is loaded with #[path], so its modules sit in services/ by path.
+#[path = "services/adzan.rs"]
+pub mod adzan;
 #[path = "services/audio.rs"]
 pub mod audio;
 #[path = "services/cf.rs"]
@@ -27,9 +29,11 @@ pub mod secret;
 pub mod applemusic;
 #[path = "../services/lyrics.rs"]
 pub mod lyrics;
-// So is the add-ons' downloader: the Mac offers Japanese readings with it.
+// So is the add-ons' downloader: the Mac offers every add-on with it.
 #[path = "../services/addons.rs"]
 pub mod addons;
+#[path = "services/location.rs"]
+pub mod location;
 #[path = "services/login.rs"]
 pub mod login;
 #[path = "services/phonedrop.rs"]
@@ -118,10 +122,12 @@ pub fn trash_app_from_before_rename() -> Option<String> {
     None
 }
 
-/// Open a URL (or a file path) with its default app.
+/// Open a URL (or a file path) with its default app. System Settings'
+/// panes have URLs without "//" (`x-apple.systempreferences:…`).
 pub fn open(target: &str) {
     let s = NSString::from_str(target);
-    let url = if target.contains("://") { NSURL::URLWithString(&s) } else { Some(NSURL::fileURLWithPath(&s)) };
+    let is_url = target.contains("://") || target.starts_with("x-apple.systempreferences:");
+    let url = if is_url { NSURL::URLWithString(&s) } else { Some(NSURL::fileURLWithPath(&s)) };
     match url {
         Some(u) => {
             if !NSWorkspace::sharedWorkspace().openURL(&u) {
