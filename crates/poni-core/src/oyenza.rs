@@ -8,9 +8,10 @@
 //! api.oyenza.app (catat-server `routes/island.ts`): money in and out that
 //! arrived by itself in the last 2 hours (the notices), the last 7 days of
 //! transactions by day (the Oyenza page's live view), bills due in the next
-//! 30 days, and saving a spend typed here (with a short Undo). It can't read
-//! balances, account numbers, notes or receipts, change or delete anything
-//! else, or touch the account.
+//! 30 days, saving a spend typed here (with a short Undo), and the daily step
+//! totals the phone sent for the Health page, once the person turned that on
+//! in Oyenza's Health (Sehat). It can't read balances, account numbers, notes
+//! or receipts, change or delete anything else, or touch the account.
 //!
 //! Everything here is pure: request bodies and URLs, parsing the answers, the
 //! words of notices and rows, how sums hide on screen, and how often to ask.
@@ -18,6 +19,7 @@
 //! (`services/oyenza.rs`).
 
 use crate::datetime::{days_from_civil, civil_from_days, weekday_from_days, LocalDateTime, MONTH_SHORT, WEEKDAY_SHORT};
+use crate::health::HealthSnapshot;
 use crate::urlenc::with_query;
 use serde::{Deserialize, Serialize};
 
@@ -34,6 +36,10 @@ pub const BILLS_EVERY_S: u64 = 30 * 60;
 /// While the Oyenza page is open, its day list is checked this often (an
 /// answer with nothing new is a few bytes).
 pub const ACTIVITY_EVERY_S: u64 = 15;
+/// The steps from the phone are asked for this often while the PC is in use,
+/// and when the Health page opens: the phone sends them only while Oyenza is
+/// open on it.
+pub const HEALTH_EVERY_S: u64 = 15 * 60;
 /// Bills are asked for this many days ahead: Tomorrow, then Later.
 pub const BILLS_DAYS: u32 = 31;
 /// A transaction that lands while the page is open glows this long.
@@ -104,6 +110,11 @@ pub fn activity_url(tz: &str, since: Option<&str>) -> String {
 
 pub fn bills_url(tz: &str) -> String {
     with_query(&format!("{API}/island/bills"), &[("tz", tz), ("days", &BILLS_DAYS.to_string())])
+}
+
+/// The daily step totals the person's phone sent.
+pub fn health_url() -> String {
+    format!("{API}/island/health")
 }
 
 pub fn note_url() -> String {
@@ -425,6 +436,18 @@ pub struct BillsFeed {
 
 pub fn parse_bills(body: &str) -> Option<BillsFeed> {
     serde_json::from_str(body).ok()
+}
+
+/// The steps answer, `{"health": {…} | null}`: `Some(None)` when there are none
+/// to show (the switch is off in Oyenza, the server paused it, or nothing is
+/// kept), `None` when the body doesn't read. Keys this version doesn't know are
+/// left out.
+pub fn parse_health(body: &str) -> Option<Option<HealthSnapshot>> {
+    let mut v: serde_json::Value = serde_json::from_str(body).ok()?;
+    match v.get_mut("health")?.take() {
+        serde_json::Value::Null => Some(None),
+        h => serde_json::from_value(h).ok().map(Some),
+    }
 }
 
 /// A spend the server saved from the island's text.
@@ -1118,6 +1141,44 @@ mod tests {
         );
         assert_eq!(parse_activity(r#"{"cursor":"77"}"#), None);
         assert_eq!(parse_activity("<html>"), None);
+    }
+
+    #[test]
+    fn health_parses_the_server_shapes() {
+        use crate::health::HealthSource;
+        assert_eq!(health_url(), "https://api.oyenza.app/island/health");
+        assert_eq!(HEALTH_EVERY_S, 900);
+        // Off in Oyenza, paused, or nothing kept.
+        assert_eq!(parse_health(r#"{"health":null}"#), Some(None));
+        // The contract's example: the second day has no distance or energy.
+        let full = parse_health(
+            r#"{"health":{"goal":8000,"source":"apple_health","updated_at":1761293520,"days":[
+              {"date":"2026-10-23","steps":9120,"distance_m":6400,"active_kcal":388},{"date":"2026-10-24","steps":8412}]}}"#,
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!((full.goal, full.source, full.updated_at, full.days.len()), (8000, HealthSource::AppleHealth, 1_761_293_520, 2));
+        let first = full.day("2026-10-23").unwrap();
+        assert_eq!((first.steps, first.distance_m, first.active_kcal), (9120, Some(6400), Some(388)));
+        let last = full.day("2026-10-24").unwrap();
+        assert_eq!((last.steps, last.distance_m, last.active_kcal), (8412, None, None));
+        // Keys a newer server adds are left out, and so is a health app this version doesn't know.
+        let newer = parse_health(r#"{"v":2,"health":{"goal":6000,"source":"health_connect","updated_at":1,"phone":"x","days":[{"date":"2026-10-24","steps":5,"floors":3}]}}"#);
+        assert_eq!(newer.unwrap().unwrap().source, HealthSource::HealthConnect);
+        let other = parse_health(r#"{"health":{"goal":8000,"source":"garmin","updated_at":1,"days":[]}}"#).unwrap().unwrap();
+        assert_eq!(other.source, HealthSource::Other);
+        // What doesn't read is an error, never "off".
+        let bad = [
+            "<html>",
+            "{}",
+            "[]",
+            r#"{"error":"rate_limited"}"#,
+            r#"{"health":{"goal":8000}}"#,
+            r#"{"health":{"goal":8000,"source":"apple_health","updated_at":1,"days":[{"date":"2026-10-24","steps":-1}]}}"#,
+        ];
+        for body in bad {
+            assert_eq!(parse_health(body), None, "{body}");
+        }
     }
 
     #[test]

@@ -10,7 +10,7 @@ use crate::icons::Icon;
 use crate::island::Geom;
 use crate::oyen;
 use crate::pages::{self, PageKind};
-use crate::state::{AppState, FpsAccess, HudKind, InlineAction};
+use crate::state::{AppState, FpsAccess, HudKind, InlineAction, Notice};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_countdown};
 use poni_core::frames::fmt_fps;
@@ -721,6 +721,10 @@ fn inline_done(st: &AppState, a: InlineAction) -> bool {
         // Oyenza: the sum is in place once Show took it.
         InlineAction::ShowAmount => st.notice.as_ref().is_some_and(|n| n.reveal.is_none()),
         InlineAction::StopAdzan => !st.prayer.adzan,
+        // Done once clicked: the app puts the check in the notice's icon.
+        InlineAction::WhatsNew => st.notice.as_ref().is_some_and(|n| n.icon == Icon::Check),
+        // Hide takes the notice away at once.
+        InlineAction::Hide => false,
     }
 }
 
@@ -733,13 +737,8 @@ fn draw_notice(ui: &mut Ui, st: &mut AppState, body: Rect) {
     ui.c.icon(n.icon, Rect::from_center(c, 18.0, 18.0), n.color);
 
     let inline = n.inline.map(|a| {
-        let (label, icon, color) = match a {
-            // Orange for focus; a break starts in its own green.
-            InlineAction::StartFocus => ("Start".to_string(), Icon::Play, phase_color(st.pomodoro.phase)),
-            InlineAction::ShowAmount => ("Show".to_string(), Icon::Eye, n.color),
-            InlineAction::StopAdzan => ("Stop".to_string(), Icon::Stop, n.color),
-        };
-        let w = ui.pill_width(&label, true, true).max(76.0);
+        let (label, icon, color) = inline_look(st, &n, a);
+        let w = ui.pill_width(label, icon.is_some(), true).max(if icon.is_some() { 76.0 } else { 0.0 });
         let r = Rect::new(body.right() - 16.0 - w, cy - PILL_SMALL / 2.0, w, PILL_SMALL);
         (a, label, icon, color, r)
     });
@@ -747,7 +746,7 @@ fn draw_notice(ui: &mut Ui, st: &mut AppState, body: Rect) {
     let tx = c.x + 16.0 + 10.0;
     let text_right = inline.as_ref().map_or(body.right() - 22.0, |(.., r)| r.x - 12.0);
     let tw = (text_right - tx).max(0.0);
-    ui.c.text(&n.title, Rect::new(tx, cy - 18.0, tw, 20.0), &TextStyle::headline());
+    notice_title(ui, &n, Rect::new(tx, cy - 18.0, tw, 20.0), TextStyle::headline());
     ui.c.text(&n.subtitle, Rect::new(tx, cy + 1.0, tw, 16.0), &TextStyle::footnote().color(palette::TEXT_DIM));
 
     // The whole notice is a button (handled on mouse-down by the app); the
@@ -758,8 +757,61 @@ fn draw_notice(ui: &mut Ui, st: &mut AppState, body: Rect) {
             ui.c.fill_rrect(r, r.h / 2.0, color.with_alpha(0.20));
             ui.c.icon(Icon::Check, Rect::from_center(r.center(), 14.0, 14.0), color);
         } else {
-            ui.pill(wid("notice.act"), r, &label, Some(icon), PillStyle::Primary(color));
+            let style = if icon.is_some() { PillStyle::Primary(color) } else { PillStyle::Utility };
+            ui.pill(wid("notice.act"), r, label, icon, style);
         }
+    }
+}
+
+/// An inline action's label, icon and colour. Hide is a plain grey pill
+/// beside the notice's own words (no icon, no colour), as in Screen Studio.
+pub(crate) fn inline_look(st: &AppState, n: &Notice, a: InlineAction) -> (&'static str, Option<Icon>, Color) {
+    match a {
+        // Orange for focus; a break starts in its own green.
+        InlineAction::StartFocus => ("Start", Some(Icon::Play), phase_color(st.pomodoro.phase)),
+        InlineAction::ShowAmount => ("Show", Some(Icon::Eye), n.color),
+        InlineAction::StopAdzan => ("Stop", Some(Icon::Stop), n.color),
+        InlineAction::WhatsNew => ("What's new", Some(Icon::Open), n.color),
+        InlineAction::Hide => ("Hide", None, palette::TEXT_DIM),
+    }
+}
+
+/// Space between a notice's title and its dimmer words.
+const TITLE_DIM_GAP: f32 = 5.0;
+
+/// A notice's title in `r`, then its dimmer words after it on the line
+/// (`title_dim`: the version after "Update available") while they fit.
+pub(crate) fn notice_title(ui: &mut Ui, n: &Notice, r: Rect, style: TextStyle) {
+    text_with_dim(ui, &n.title, &n.title_dim, r, style);
+}
+
+/// `text` in `r`, then `dim` after it on the line in a dimmer colour while
+/// it fits (also the Update sheet's title in Settings).
+pub(crate) fn text_with_dim(ui: &mut Ui, text: &str, dim: &str, r: Rect, style: TextStyle) {
+    if dim.is_empty() {
+        ui.c.text(text, r, &style);
+        return;
+    }
+    let w = ui.c.measure(text, &style, r.w.max(1.0)).0.ceil().min(r.w);
+    ui.c.text(text, Rect::new(r.x, r.y, w + 1.0, r.h), &style);
+    let x = r.x + w + TITLE_DIM_GAP;
+    if r.right() > x {
+        ui.c.text(dim, Rect::new(x, r.y, r.right() - x, r.h), &style.color(palette::TEXT_DIM));
+    }
+}
+
+/// How wide [`notice_title`] draws the title and its dimmer words.
+pub(crate) fn notice_title_width(ui: &mut Ui, n: &Notice, style: &TextStyle) -> f32 {
+    text_with_dim_width(ui, &n.title, &n.title_dim, style)
+}
+
+/// How wide [`text_with_dim`] draws `text` and `dim` with room to spare.
+pub(crate) fn text_with_dim_width(ui: &mut Ui, text: &str, dim: &str, style: &TextStyle) -> f32 {
+    let w = ui.c.measure(text, style, 2000.0).0;
+    if dim.is_empty() {
+        w
+    } else {
+        w.ceil() + TITLE_DIM_GAP + ui.c.measure(dim, style, 2000.0).0
     }
 }
 

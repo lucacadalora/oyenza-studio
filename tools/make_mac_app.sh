@@ -4,8 +4,8 @@
 #   tools/make_mac_app.sh <arm64 binary> <x86_64 binary | -> <OyenzaStudio.icns | -> <out dir>
 #
 # The app is ad-hoc signed (no Developer ID yet), so the DMG is a test build: macOS asks once, in
-# System Settings > Privacy & Security > Open Anyway, before it first opens. The DMG says so in
-# "How to open.txt". Signing and notarizing with the Developer ID comes later and needs Luca's secrets.
+# System Settings > Privacy & Security > Open Anyway, before it first opens. The DMG's window says so
+# (tools/make_mac_dmg.sh). tools/sign_mac_dmg.sh makes the signed, notarized DMG from this one.
 set -euo pipefail
 
 arm="$1"; intel="$2"; icns="$3"; out="$4"
@@ -38,29 +38,8 @@ fi
 codesign --force --deep --sign - "$app"
 codesign --verify --deep --strict --verbose=2 "$app"
 
-# The DMG: the app, a link to Applications, and how to open a test build.
-staging="$(mktemp -d)"
-cp -R "$app" "$staging/"
-ln -s /Applications "$staging/Applications"
-cat > "$staging/How to open.txt" <<EOF
-Oyenza Studio $version for Mac (test build)
-
-Had Oyen Poni (its name before 0.2.0)? Quit it first: menu bar icon > Quit
-Oyen Poni. Oyenza Studio moves the old app to the Trash when it first opens.
-
-1. Drag Oyenza Studio into Applications.
-2. Open it. macOS says it can't check the app: this build isn't signed with
-   Apple yet. Click Done.
-3. Open System Settings > Privacy & Security, scroll down and click
-   "Open Anyway" next to Oyenza Studio. Confirm once.
-
-Oyenza Studio lives in the menu bar (Oyen's head) and around the camera notch.
-Point at the notch (or the top middle of the screen) to open the island.
-Quit from the menu bar icon.
-EOF
+# The DMG: the installer window, with the test build's note on Open Anyway.
 dmg="$out/Oyenza-Studio-$version-mac-unsigned.dmg"
-rm -f "$dmg"
-hdiutil create -volname "Oyenza Studio" -srcfolder "$staging" -ov -format UDZO "$dmg"
-rm -rf "$staging"
+bash "$root/tools/make_mac_dmg.sh" "$app" "$dmg" test
 shasum -a 256 "$dmg"
 echo "built $dmg"

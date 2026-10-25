@@ -1130,7 +1130,7 @@ dependencies = [
 
 [[package]]
 name = "poni"
-version = "0.2.4"
+version = "0.2.6"
 dependencies = [
  "block2",
  "dispatch2",
@@ -1143,6 +1143,7 @@ dependencies = [
  "objc2-core-text",
  "objc2-foundation",
  "objc2-quartz-core",
+ "p256",
  "poni-core",
  "serde",
  "serde_json",
@@ -1152,7 +1153,7 @@ dependencies = [
 
 [[package]]
 name = "poni-core"
-version = "0.2.4"
+version = "0.2.6"
 dependencies = [
  "hmac",
  "qrcodegen",

@@ -3,26 +3,34 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, five switches, Hide or Stay on top in
-//! full-screen apps, and (Windows) Step aside or Stay over maximized windows.
+//! the idle look as pickers, six switches, and Hide or Stay on top in
+//! full-screen apps.
 //! A change saves at once and applies the way the tray's does
-//! (`Command::SaveSettings`).
+//! (`Command::SaveSettings`). While a later version is out, a last row
+//! across the page says so, with Update: that opens the Update sheet, which
+//! takes the rows' place (as the island's notice and the menu's "Update to"
+//! line do) until the island closes or Settings does.
 
+use crate::activities::{text_with_dim, text_with_dim_width};
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{TextStyle, Weight};
+use crate::icons::Icon;
 use crate::pages::PageKind;
 use crate::pill::status;
 use crate::state::{AppState, OyenzaLink};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::oyenza;
+use poni_core::phonedrop::fmt_bytes;
 use poni_core::settings::{IdleStyle, Theme};
+use poni_core::update::Release;
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), then the switches and choices: four rows on Windows,
-/// three on a Mac. Shorter than the System page (256), so the window keeps
-/// its size.
+/// narrow island), then the switches and choices (four rows), and the new
+/// version's row while there is one. Shorter than the System page (256),
+/// so the window keeps its size.
 const HEIGHT: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
+const HEIGHT_OFFER: f32 = HEIGHT + ROW_H;
 const ACCOUNT_H: f32 = 44.0;
 /// The Oyenza app's icon, and the text column right of it.
 const ICON: f32 = 36.0;
@@ -69,7 +77,7 @@ fn idle_name(s: IdleStyle, eyes: &'static str) -> &'static str {
     }
 }
 
-/// The five switches, as the tray menu names them.
+/// The switches, as the tray menu names them (new versions: Settings only).
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Switch {
     Lyrics,
@@ -77,25 +85,23 @@ enum Switch {
     Sounds,
     Clipboard,
     Autostart,
+    Updates,
 }
 
-/// What a row of the two columns holds: a switch, the full-screen choice
-/// (the tray menu's "In full-screen apps" submenu) or the maximized-window
-/// one (its "Over maximized windows" submenu).
+/// What a row of the two columns holds: a switch, or the full-screen choice
+/// (the tray menu's "In full-screen apps" submenu).
 #[derive(Clone, Copy)]
 enum Row {
     Switch(Switch, &'static str),
     Fullscreen,
-    #[cfg_attr(not(windows), allow(dead_code))]
-    Aside,
 }
 
-const LEFT: &[Row] = &[Row::Switch(Switch::Lyrics, "Synced lyrics"), Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"), Row::Switch(Switch::Sounds, "Sounds")];
-/// The maximized-window choice sits under the full-screen one. A Mac has
-/// none: its menu bar keeps windows below the island.
-#[cfg(windows)]
-const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Aside, Row::Switch(Switch::Autostart, "Start with Windows")];
-#[cfg(not(windows))]
+const LEFT: &[Row] = &[
+    Row::Switch(Switch::Lyrics, "Synced lyrics"),
+    Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"),
+    Row::Switch(Switch::Sounds, "Sounds"),
+    Row::Switch(Switch::Updates, "Tell me about new versions"),
+];
 const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
 const COLUMNS: [&[Row]; 2] = [LEFT, RIGHT];
 /// Rows in the taller column.
@@ -104,12 +110,13 @@ const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len(
 /// The full-screen choices as the tray menu names them, and the
 /// `hide_in_fullscreen` each one sets.
 const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
-/// The maximized-window choices as the tray menu names them, and the
-/// `step_aside` each one sets.
-const ASIDE: [(bool, &str); 2] = [(true, "Step aside"), (false, "Stay")];
 
-pub fn height(_st: &AppState) -> f32 {
-    HEIGHT
+pub fn height(st: &AppState) -> f32 {
+    match st.update.offer {
+        Some(_) if st.update.sheet => SHEET_H,
+        Some(_) => HEIGHT_OFFER,
+        None => HEIGHT,
+    }
 }
 
 /// While a sign-in code waits, its time left counts down each second.
@@ -118,6 +125,10 @@ pub fn next_wake(st: &AppState) -> Option<f64> {
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
+    if let Some(rel) = st.update.offer.clone().filter(|_| st.update.sheet) {
+        draw_sheet(ui, st, area, &rel);
+        return;
+    }
     draw_account(ui, st, Rect::new(area.x, area.y, area.w, ACCOUNT_H));
     let px = 1.0 / ui.c.scale().max(0.5);
     ui.c.fill_rect(Rect::new(area.x, area.y + RULE_Y, area.w, px), Color::white(0.10));
@@ -196,17 +207,147 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                         st.cmd(Command::SaveSettings);
                     }
                 }
-                Row::Aside => {
-                    let sel = ASIDE.iter().position(|a| a.0 == st.settings.step_aside).unwrap_or(0);
-                    // The tray's "Over maximized windows", short enough for its column.
-                    if let Some(i) = choice_row(ui, row, "Maximized windows", "settings.aside", &ASIDE.map(|a| a.1), sel) {
-                        st.settings.step_aside = ASIDE[i].0;
-                        st.cmd(Command::SaveSettings);
-                    }
-                }
             }
         }
     }
+    if let Some(rel) = st.update.offer.clone() {
+        draw_offer(ui, st, Rect::new(area.x, area.y + HEIGHT, area.w, ROW_H), &rel);
+    }
+}
+
+/// The last row while a later version is out, across the page: "Update
+/// available 0.2.5", its headline, and Update (the sheet).
+fn draw_offer(ui: &mut Ui, st: &mut AppState, r: Rect, rel: &Release) {
+    let cy = r.center().y;
+    let w = ui.pill_width("Update", false, true);
+    let b = Rect::new(r.right() - w, cy - PILL_SMALL / 2.0, w, PILL_SMALL);
+    if ui.pill(wid("settings.update"), b, "Update", None, PillStyle::Primary(st.accent)).clicked {
+        st.update.sheet = true;
+    }
+    let right = b.x - 12.0;
+    let body = TextStyle::body();
+    let title = "Update available";
+    let tw = text_with_dim_width(ui, title, &rel.version, &body).ceil().min((right - r.x).max(0.0));
+    text_with_dim(ui, title, &rel.version, Rect::new(r.x, r.y, tw + 1.0, r.h), body);
+    let x = r.x + tw + 12.0;
+    if right > x {
+        ui.c.text(&rel.headline, Rect::new(x, r.y, right - x, r.h), &TextStyle::footnote().color(palette::TEXT_DIM));
+    }
+}
+
+// ---------------------------------------------------------------- the Update sheet
+
+/// The Update sheet: a disc, "Update available 0.2.5" over what the
+/// download is, Not now; a line; the release's headline under What's new;
+/// a card that gets it; and its notes. Once Windows has the Setup it reads
+/// "Update ready to install", with Install now and Install on next start,
+/// as Screen Studio's does. Shorter than the rows it replaces.
+const SHEET_CAPTION_Y: f32 = 66.0;
+const SHEET_HEADLINE_Y: f32 = 82.0;
+const CARDS_Y: f32 = 114.0;
+const CARD_H: f32 = 58.0;
+const CARD_GAP: f32 = 10.0;
+const CARD_DISC: f32 = 30.0;
+const NOTES_Y: f32 = CARDS_Y + CARD_H + 12.0;
+const SHEET_H: f32 = NOTES_Y + PILL_SMALL;
+
+/// What a card of the sheet does when clicked.
+#[derive(Clone, Copy)]
+enum Get {
+    /// The release page (Windows, until the Setup is in) or the DMG (Mac).
+    Download,
+    /// Run the downloaded Setup now (Windows).
+    InstallNow,
+    /// Run it before the app opens next time (Windows).
+    NextStart,
+}
+
+fn draw_sheet(ui: &mut Ui, st: &mut AppState, area: Rect, rel: &Release) {
+    let head = Rect::new(area.x, area.y, area.w, ACCOUNT_H);
+    let cy = head.center().y;
+    let accent = st.accent;
+    let c = Point::new(head.x + ICON / 2.0, cy);
+    ui.c.fill_circle(c, ICON / 2.0, accent.with_alpha(0.22));
+    ui.c.icon(Icon::Download, Rect::from_center(c, 20.0, 20.0), accent);
+    let later_w = ui.pill_width("Not now", false, true);
+    let later = Rect::new(head.right() - later_w, cy - PILL_SMALL / 2.0, later_w, PILL_SMALL);
+    if ui.pill(wid("update.later"), later, "Not now", None, PillStyle::Utility).clicked {
+        st.cmd(Command::Collapse);
+    }
+    let x = head.x + TEXT_X;
+    let w = (later.x - 16.0 - x).max(0.0);
+    let ready = st.update.ready;
+    let title = if ready { "Update ready to install" } else { "Update available" };
+    text_with_dim(ui, title, &rel.version, Rect::new(x, cy - 19.0, w, 20.0), TextStyle::headline());
+    let size = rel.download(cfg!(target_os = "macos")).map(|d| fmt_bytes(d.size)).unwrap_or_default();
+    let line = if ready {
+        "A new version of Oyenza Studio is ready to be installed.".to_string()
+    } else {
+        format!("A new version of Oyenza Studio is ready to download ({size}).")
+    };
+    ui.c.text(&line, Rect::new(x, cy + 1.0, w, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+
+    let px = 1.0 / ui.c.scale().max(0.5);
+    ui.c.fill_rect(Rect::new(area.x, area.y + RULE_Y, area.w, px), Color::white(0.10));
+    let label_st = TextStyle::caption().weight(Weight::Semibold).color(palette::TEXT_FAINT);
+    ui.c.text("WHAT'S NEW", Rect::new(area.x, area.y + SHEET_CAPTION_Y, area.w, 14.0), &label_st);
+    ui.c.text(&rel.headline, Rect::new(area.x, area.y + SHEET_HEADLINE_Y, area.w, 20.0), &TextStyle::body());
+
+    // Windows with the Setup in: now or next start. Otherwise the DMG on a
+    // Mac, and the release page on Windows (the Setup couldn't download).
+    let cards: Vec<(Get, Icon, String, &str)> = if ready {
+        let next = if st.update.next_start {
+            (Get::NextStart, Icon::Check, "Installs on next start".to_string(), "Set: before it next opens")
+        } else {
+            (Get::NextStart, Icon::Reset, "Install on next start".to_string(), "Before it next opens")
+        };
+        vec![(Get::InstallNow, Icon::Download, "Install now".to_string(), "Closes, updates and opens again"), next]
+    } else if cfg!(target_os = "macos") {
+        vec![(Get::Download, Icon::Download, format!("Download {}", rel.version), "Downloads the DMG: open it and drag Oyenza Studio to Applications.")]
+    } else {
+        vec![(Get::Download, Icon::Download, format!("Download {}", rel.version), "Opens its release page: run the Setup there, your settings stay.")]
+    };
+    let n = cards.len() as f32;
+    let card_w = ((area.w - (n - 1.0) * CARD_GAP) / n).max(0.0);
+    for (i, (get, icon, title, line)) in cards.iter().enumerate() {
+        let r = Rect::new(area.x + i as f32 * (card_w + CARD_GAP), area.y + CARDS_Y, card_w, CARD_H);
+        if card(ui, wid_n("update.card", i as u64), r, *icon, title, line, accent) {
+            match get {
+                Get::Download | Get::InstallNow => st.cmd(Command::Update),
+                Get::NextStart => st.cmd(Command::InstallOnNextStart),
+            }
+        }
+    }
+
+    let notes = format!("See what's new in Oyenza Studio {}", rel.version);
+    let nw = ui.pill_width(&notes, true, true).min(area.w);
+    let nr = Rect::new(area.x, area.y + NOTES_Y, nw, PILL_SMALL);
+    if ui.pill(wid("update.notes"), nr, &notes, Some(Icon::Open), PillStyle::Utility).clicked {
+        st.cmd(Command::OpenUrl(rel.notes.clone()));
+    }
+}
+
+/// One of the sheet's choices: a card with an icon, what it does in bold
+/// and how under it. True when clicked.
+fn card(ui: &mut Ui, id: u64, r: Rect, icon: Icon, title: &str, line: &str, accent: Color) -> bool {
+    let resp = ui.button(id, r);
+    let fill = if resp.pressed {
+        Color::white(0.14)
+    } else if resp.hovered {
+        Color::white(0.10)
+    } else {
+        Color::white(0.06)
+    };
+    ui.c.fill_rrect(r, 12.0, fill);
+    let c = Point::new(r.x + 14.0 + CARD_DISC / 2.0, r.center().y);
+    ui.c.fill_circle(c, CARD_DISC / 2.0, accent.with_alpha(0.22));
+    ui.c.icon(icon, Rect::from_center(c, 16.0, 16.0), accent);
+    let x = c.x + CARD_DISC / 2.0 + 12.0;
+    let w = (r.right() - 14.0 - x).max(0.0);
+    let cy = r.center().y;
+    ui.c.text(title, Rect::new(x, cy - 18.0, w, 20.0), &TextStyle::body().weight(Weight::Semibold));
+    ui.c.text(line, Rect::new(x, cy + 1.0, w, 16.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+    resp.clicked
 }
 
 /// A choice's label with its picker where the other rows have their
@@ -227,6 +368,7 @@ fn switch_on(st: &AppState, sw: Switch) -> Option<bool> {
         Switch::Sounds => Some(s.sounds),
         Switch::Clipboard => Some(s.clipboard_history),
         Switch::Autostart => st.ui.autostart,
+        Switch::Updates => Some(s.update_check),
     }
 }
 
@@ -238,6 +380,7 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
         Switch::Sounds => s.sounds = !s.sounds,
         // Off forgets the history, pinned items included (as from the tray).
         Switch::Clipboard => s.clipboard_history = !s.clipboard_history,
+        Switch::Updates => s.update_check = !s.update_check,
         Switch::Autostart => {
             if let Some(on) = on {
                 st.cmd(Command::SetAutostart(!on));

@@ -134,6 +134,8 @@ pub enum NoticeAction {
     OpenPage(PageKind),
     /// Open Focus and start the (idle) timer.
     StartFocus,
+    /// Open the Update sheet in Settings (a new version's notice).
+    OpenUpdate,
 }
 
 /// A one-click action shown as a small pill inside a notice (doesn't expand).
@@ -145,6 +147,11 @@ pub enum InlineAction {
     ShowAmount,
     /// Stop the adzan (Prayer times).
     StopAdzan,
+    /// Put the notice away now (a new version's: the menu and Settings
+    /// keep offering it).
+    Hide,
+    /// Open this version's release notes ("Updated to").
+    WhatsNew,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -152,12 +159,31 @@ pub struct Notice {
     pub icon: Icon,
     pub color: Color,
     pub title: String,
+    /// Dimmer words after the title, on its line ("0.2.5" after "Update
+    /// available"); empty for most notices.
+    pub title_dim: String,
     pub subtitle: String,
     pub until: f64,
     pub action: Option<NoticeAction>,
     pub inline: Option<InlineAction>,
     /// The subtitle Show puts in place of `subtitle` ([`InlineAction::ShowAmount`]).
     pub reveal: Option<String>,
+}
+
+/// What the app knows about new versions.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct UpdateView {
+    /// A later release than this copy, with a download for this system
+    /// (only while the checks are on).
+    pub offer: Option<poni_core::update::Release>,
+    /// Settings shows the Update sheet in place of its rows (until the
+    /// island closes or the page changes).
+    pub sheet: bool,
+    /// Its Setup is downloaded and checked (Windows): the sheet offers
+    /// Install now and Install on next start.
+    pub ready: bool,
+    /// Install on next start was picked for it.
+    pub next_start: bool,
 }
 
 /// A phone wants to send these files; the Shelf asks the person at the PC.
@@ -459,6 +485,9 @@ pub struct AppState {
     pub oyenza: OyenzaState,
     /// Where each add-on stands, by id (every one in `poni_core::addons::ALL`).
     pub addons: BTreeMap<&'static str, AddonStatus>,
+    /// New versions (`crate::updates`): what Settings, the menu and the
+    /// island's notice show.
+    pub update: UpdateView,
     /// The Prayer times add-on, while it is on (its choices: `settings.prayer`).
     pub prayer: PrayerState,
     /// The Script page's reading (its script and pace are in `store.script`).
@@ -532,6 +561,7 @@ impl AppState {
             pair_server: None,
             oyenza: OyenzaState::default(),
             addons: BTreeMap::new(),
+            update: UpdateView::default(),
             prayer: PrayerState::default(),
             script: poni_core::script::Reader::default(),
             script_note: None,
@@ -573,6 +603,29 @@ impl AppState {
         self.unix + self.prayer.clock_shift
     }
 
+    /// New steps from the phone (`None`: none to show), kept in memory only,
+    /// never in data.json. Returns today's steps when they just passed the
+    /// goal; the first numbers after start or sign-in only set the baseline
+    /// (`poni_core::health::goal_notice`).
+    pub fn take_health(&mut self, next: Option<HealthSnapshot>) -> Option<u32> {
+        let today = self.local.day_key();
+        let reached = next.as_ref().filter(|n| poni_core::health::goal_notice(self.health.as_ref(), n, &today)).map(|n| n.steps_on(&today));
+        self.health = next;
+        reached
+    }
+
+    /// Show `n` now or, while a full-screen app hides the island (`hidden`), keep
+    /// it for when the island is back, the way money notices wait
+    /// (`OyenzaState::held`, shown then if no older than `HELD_MAX_S`). One
+    /// notice waits at a time, and a money or bill notice already waiting stays.
+    pub fn show_or_hold(&mut self, n: Notice, hidden: bool) {
+        if !hidden {
+            self.notice = Some(n);
+        } else if self.oyenza.held.as_ref().is_none_or(|(_, at)| self.now - at > poni_core::oyenza::HELD_MAX_S) {
+            self.oyenza.held = Some((n, self.now));
+        }
+    }
+
     pub fn cmd(&mut self, c: Command) {
         self.cmds.push(c);
     }
@@ -596,7 +649,17 @@ impl AppState {
 
     /// Show a notice pill for `secs` seconds.
     pub fn notify(&mut self, icon: Icon, color: Color, title: impl Into<String>, subtitle: impl Into<String>, secs: f64, action: Option<NoticeAction>) {
-        self.notice = Some(Notice { icon, color, title: title.into(), subtitle: subtitle.into(), until: self.now + secs, action, inline: None, reveal: None });
+        self.notice = Some(Notice { icon, color, title: title.into(), title_dim: String::new(), subtitle: subtitle.into(), until: self.now + secs, action, inline: None, reveal: None });
+    }
+
+    /// The Update sheet: Settings, with the sheet in place of its rows (the
+    /// gear goes back to the page it was opened from).
+    pub fn open_update(&mut self) {
+        if self.page != PageKind::Settings {
+            self.ui.before_settings = Some(self.page);
+        }
+        self.page = PageKind::Settings;
+        self.update.sheet = true;
     }
 
     /// Give the current notice a one-click inline action pill.
@@ -653,5 +716,60 @@ mod tests {
         pd.visitor = Some("iPhone".into());
         pd.ask = Some(PhoneAsk { id: 1, from: "iPhone".into(), files: vec![], total: 0 });
         assert!(st.phone_holds_island(), "a phone waits for an answer");
+    }
+
+    #[test]
+    fn the_goal_notice_is_only_for_steps_seen_passing_it() {
+        use poni_core::health::{HealthDay, HealthSource};
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.local = LocalDateTime { year: 2026, month: 10, day: 24, hour: 15, minute: 20, second: 0 };
+        let snap = |steps: u32| HealthSnapshot {
+            goal: 8000,
+            source: HealthSource::AppleHealth,
+            updated_at: 0,
+            days: vec![HealthDay { date: "2026-10-24".into(), steps, distance_m: None, active_kcal: None }],
+        };
+        // Over the goal in the first numbers after start: a baseline, no notice (a restart never repeats it).
+        assert_eq!(st.take_health(Some(snap(9000))), None);
+        assert_eq!(st.health.as_ref().map(|h| h.steps_on("2026-10-24")), Some(9000));
+        // Off in Oyenza: nothing kept; the numbers after it are a baseline again.
+        assert_eq!(st.take_health(None), None);
+        assert!(st.health.is_none());
+        assert_eq!(st.take_health(Some(snap(7900))), None);
+        assert_eq!(st.take_health(Some(snap(8010))), Some(8010));
+        assert_eq!(st.take_health(Some(snap(8500))), None);
+    }
+
+    #[test]
+    fn the_goal_notice_waits_while_a_full_screen_app_hides_the_island() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.now = 100.0;
+        let notice = |title: &str| Notice {
+            icon: Icon::Steps,
+            color: palette::GREEN,
+            title: title.into(),
+            title_dim: String::new(),
+            subtitle: String::new(),
+            until: 0.0,
+            action: None,
+            inline: None,
+            reveal: None,
+        };
+        let held = |st: &AppState| st.oyenza.held.as_ref().map(|(n, at)| (n.title.clone(), *at));
+        // Hidden: it waits for the island instead of expiring unseen.
+        st.show_or_hold(notice("goal"), true);
+        assert!(st.notice.is_none());
+        assert_eq!(held(&st), Some(("goal".into(), 100.0)));
+        // A money notice already waiting stays...
+        st.oyenza.held = Some((notice("money"), 100.0));
+        st.show_or_hold(notice("goal"), true);
+        assert_eq!(held(&st), Some(("money".into(), 100.0)));
+        // ...unless it's too old to show any more.
+        st.now = 100.0 + poni_core::oyenza::HELD_MAX_S + 1.0;
+        st.show_or_hold(notice("goal"), true);
+        assert_eq!(held(&st).map(|h| h.0), Some("goal".into()));
+        // The island on screen: it shows at once.
+        st.show_or_hold(notice("now"), false);
+        assert_eq!(st.notice.as_ref().map(|n| n.title.as_str()), Some("now"));
     }
 }

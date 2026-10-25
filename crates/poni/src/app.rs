@@ -24,7 +24,6 @@ use crate::{dragdrop, selftest, shell};
 use poni_core::addons::Status as AddonStatus;
 use poni_core::frametime::{ambient_divisor, MotionStats};
 use poni_core::geom::{palette, Color, Point, Rect};
-use poni_core::health::fmt_steps;
 use poni_core::oyenza;
 use poni_core::pairdrop::{MeetEvent, PeerEvent};
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
@@ -59,6 +58,8 @@ const TIMER_TRAY: usize = 8;
 const TIMER_RAISE: usize = 9;
 /// Show over games: the readout's peek ends.
 const TIMER_PEEK: usize = 10;
+/// The next read of the update file (`crate::updates`).
+const TIMER_UPDATE: usize = 11;
 /// Show over games: how long the readout shows over a game, the least time
 /// between two peeks for a frame-rate drop, and Alt+Shift+F's id.
 const PEEK_S: f64 = 5.0;
@@ -129,6 +130,12 @@ pub fn main_entry() -> i32 {
     }
     if crate::autostart::packaged() {
         pinfo!("running as the Microsoft Store package");
+    }
+    // Install on next start: the new version's Setup, downloaded and checked
+    // earlier, runs now, before any window, and opens the new version.
+    if selftest_dir.is_none() && !crate::autostart::packaged() && crate::updates::pending_install() {
+        unsafe { OleUninitialize() };
+        return 0;
     }
     let code = match run(selftest_dir) {
         Ok(code) => code,
@@ -276,7 +283,7 @@ fn run_deferred(d: Deferred) {
             with_app(|app| app.request_frame());
         }
         Deferred::Menu(pt) => {
-            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed()))) else { return };
+            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), app.st.update.offer.as_ref().map(|r| r.version.as_str())))) else { return };
             if let Some(cmd) = tray::show_menu(helper, pt, &items) {
                 with_app(|app| app.on_menu(cmd));
             }
@@ -431,6 +438,9 @@ pub struct App {
     /// Whether the island floated when the window was last laid out (its
     /// room differs: see `sync_room`).
     laid_floating: bool,
+    /// New versions (`crate::updates`); None in the self-test and in a
+    /// Store copy, which the Store updates.
+    updater: Option<crate::updates::Updater>,
 }
 
 /// The island window: position and size in screen pixels.
@@ -598,6 +608,7 @@ impl App {
             phone_offer: Vec::new(),
             pair_offer: None,
             laid_floating: false,
+            updater: None,
         })
     }
 
@@ -622,6 +633,11 @@ impl App {
             }
             self.try_add_tray();
             services::power::register_session(self.helper);
+            if !crate::autostart::packaged() {
+                self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
+                self.schedule_update();
+                self.fetch_setup();
+            }
         }
         if let Err(e) = dragdrop::register(self.hwnd, self.sink.clone()) {
             pwarn!("drop target registration failed: {e}");
@@ -695,8 +711,8 @@ impl App {
 
     /// Step aside on: have the full-screen watcher report the app windows
     /// at the top edge of the island's monitor, where the island hangs from
-    /// (below a taskbar at the top). Stay: it looks at nothing, and nothing
-    /// is under the island.
+    /// (below a taskbar at the top). Off (always, since 0.2.6; the self-test
+    /// still draws it): it looks at nothing, and nothing is under the island.
     fn sync_top_watch(&mut self) {
         let m = &self.monitor;
         let px = (TOP_BAND * self.gfx.scale()).ceil() as i32;
@@ -903,6 +919,7 @@ impl App {
                         if let Some(n) = self.st.notice.take() {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
                                 Some(NoticeAction::StartFocus) => {
                                     self.st.page = PageKind::Focus;
                                     if !self.st.pomodoro.is_active() {
@@ -1139,6 +1156,7 @@ impl App {
                 self.on_event(AppEvent::Power(p));
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.update_due();
                 self.request_frame();
                 Some(LRESULT(1))
             }
@@ -1150,6 +1168,7 @@ impl App {
                 }
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.update_due();
                 self.request_frame();
                 Some(LRESULT(0))
             }
@@ -1257,6 +1276,12 @@ impl App {
                     let _ = KillTimer(self.hwnd, TIMER_TRAY);
                 }
                 self.try_add_tray();
+            }
+            TIMER_UPDATE => {
+                unsafe {
+                    let _ = KillTimer(self.hwnd, TIMER_UPDATE);
+                }
+                self.update_due();
             }
             TIMER_SELFTEST => {
                 if let Some(mut t) = self.selftest.take() {
@@ -1407,6 +1432,11 @@ impl App {
                 self.st.oyenza.updated_unix = Some(self.st.unix);
                 self.remind_bills(&day);
             }
+            OyenzaEvent::Health(next) => {
+                if let Some(steps) = self.st.take_health(next) {
+                    self.steps_notice(steps);
+                }
+            }
             OyenzaEvent::NoteSaved(saved) => {
                 let o = &mut self.st.oyenza;
                 o.saving = false;
@@ -1430,6 +1460,7 @@ impl App {
             OyenzaEvent::Disconnected { by_server } => {
                 self.end_sign_in();
                 self.st.oyenza = crate::state::OyenzaState::default();
+                self.st.health = None;
                 let (title, subtitle) =
                     if by_server { ("Oyenza disconnected", "Sign in again in Settings") } else { ("Disconnected from Oyenza", "Sign in again any time in Settings") };
                 self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
@@ -1463,6 +1494,7 @@ impl App {
             icon,
             color,
             title,
+            title_dim: String::new(),
             subtitle: if hide { hidden.unwrap_or_default() } else { shown.clone() },
             until: now + oyenza::NOTICE_S,
             action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -1474,6 +1506,14 @@ impl App {
         } else {
             self.st.notice = Some(notice);
         }
+    }
+
+    /// The step goal notice. While a full-screen app hides the island it waits
+    /// like a money notice (`AppState::show_or_hold`), and shows when the island
+    /// is back if it isn't old by then.
+    fn steps_notice(&mut self, steps: u32) {
+        let notice = pages::health::goal_notice(steps, self.st.now + oyenza::NOTICE_S);
+        self.st.show_or_hold(notice, self.fullscreen_hidden);
     }
 
     fn show_held_notice(&mut self, now: f64) {
@@ -1528,6 +1568,12 @@ impl App {
     fn settings_changed(&mut self, before: &Settings) {
         // Show over games and Hide in full-screen apps follow each other.
         self.st.settings.pair_game_stats(before);
+        if before.update_check != self.st.settings.update_check {
+            if let Some(u) = self.updater.as_mut() {
+                u.switched(&mut self.st, crate::updates::unix_now());
+            }
+            self.schedule_update();
+        }
         let now = &self.st.settings;
         if before.theme != now.theme {
             self.st.accent = theme_accent(now.theme);
@@ -1629,7 +1675,6 @@ impl App {
             ToggleLyrics => s.lyrics = !s.lyrics,
             TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
-            SetStepAside(aside) => s.step_aside = aside,
             ToggleGameStats => s.game_stats = !s.game_stats,
             ToggleGamePeek => s.game_peek = !s.game_peek,
             ToggleCornerReadout => {
@@ -1694,6 +1739,11 @@ impl App {
             OyenzaCancel => self.oyenza(OyenzaCmd::Cancel),
             OyenzaDisconnect => self.oyenza(OyenzaCmd::Disconnect),
             OyenzaOpen => shell::open(oyenza::WEB),
+            // "Update to x…": the island opens on the Update sheet.
+            Update => {
+                self.st.open_update();
+                self.expand();
+            }
             ToggleOyenzaAmounts => s.oyenza_show_amounts = !s.oyenza_show_amounts,
             Quit => {
                 self.quit(0);
@@ -1940,6 +1990,21 @@ impl App {
                     }
                 }
             }
+            AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
+                if let Some(u) = self.updater.as_mut() {
+                    u.checked(&mut self.st, r, crate::updates::unix_now());
+                }
+                self.schedule_update();
+                self.fetch_setup();
+                // A frame, so a new version's notice goes up now, not with the next redraw.
+                self.request_frame();
+            }
+            AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
+                if let Some(u) = self.updater.as_mut() {
+                    u.fetched(&mut self.st, r);
+                }
+                self.request_frame();
+            }
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
@@ -1987,6 +2052,8 @@ impl App {
             self.cancel_hover();
             if self.st.page == PageKind::Oyenza {
                 self.oyenza(OyenzaCmd::Refresh);
+            } else if self.st.page == PageKind::Health {
+                self.oyenza(OyenzaCmd::RefreshHealth);
             }
         }
         self.request_frame();
@@ -2024,6 +2091,7 @@ impl App {
             if self.st.page == PageKind::Settings {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
+            self.st.update.sheet = false;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -2609,7 +2677,7 @@ impl App {
         RECT { left, top: self.surface.y, right, bottom: self.surface.y + (h * s).ceil() as i32 }
     }
 
-    /// Settings › Over maximized windows: Step aside while an app window
+    /// Step aside (off since 0.2.6, see `Settings::step_aside`) while an app window
     /// reaches under where the island rests. Over a full-screen app the
     /// full-screen choice decides instead (Hide, or Stay on top for the
     /// readout over games). Each frame, before the mode is picked: it only
@@ -2707,6 +2775,12 @@ impl App {
             if !self.expanded && now >= n.until {
                 self.st.notice = None;
             }
+        }
+        // A new version's notice (or "Updated to") waits for the island to be
+        // free. The first frame counts (the window shows at its end).
+        let free = !self.fullscreen_hidden && !self.locked && !self.display_off && !self.expanded && self.st.notice.is_none();
+        if self.updater.as_mut().is_some_and(|u| u.announce(&mut self.st, free)) {
+            self.request_frame();
         }
         if let Some(ended) = self.st.pomodoro.tick(now) {
             pages::focus::on_phase_ended(&mut self.st, ended);
@@ -3212,6 +3286,80 @@ impl App {
         }
     }
 
+    // ------------------------------------------------------------ new versions
+
+    /// Arm the update file's timer for the next read, or stop it while the
+    /// checks are off or a read runs.
+    fn schedule_update(&mut self) {
+        let secs = self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now()));
+        unsafe {
+            match secs {
+                // SetTimer waits at most about 24 days; reads are 12 hours apart.
+                Some(s) => {
+                    SetTimer(self.hwnd, TIMER_UPDATE, s.saturating_mul(1000).clamp(1000, 0x7FFF_FFFF) as u32, None);
+                }
+                None => {
+                    let _ = KillTimer(self.hwnd, TIMER_UPDATE);
+                }
+            }
+        }
+    }
+
+    /// The timer fired, or someone came back to the PC: read the update file
+    /// if a read is due and someone is here, not on battery saver. Otherwise
+    /// it waits; the lock, display and power events call this again.
+    fn update_due(&mut self) {
+        let now = crate::updates::unix_now();
+        let away = self.locked || self.display_off || self.st.power.saver;
+        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
+            Some(0) if away => {}
+            Some(0) => {
+                let job = services::update::check_job(self.sink.clone());
+                let started = self.services.as_ref().is_some_and(|s| s.run_job(job));
+                if let Some(u) = self.updater.as_mut() {
+                    u.begin();
+                    if !started {
+                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                        self.schedule_update();
+                    }
+                }
+            }
+            _ => self.schedule_update(),
+        }
+    }
+
+    /// The offered version's Setup, once per release, on the add-on thread
+    /// (after a look at the file, and at start for one already offered).
+    fn fetch_setup(&mut self) {
+        let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
+        let job = services::update::download_job(self.sink.clone(), d, path);
+        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) {
+            if let Some(u) = self.updater.as_mut() {
+                u.fetched(&mut self.st, Err("the add-on thread isn't running".into()));
+            }
+        }
+    }
+
+    /// Install now (the Update sheet): run the downloaded Setup, which
+    /// closes this copy and opens the new version, and quit (saving, as on
+    /// any quit). Without one it opens the release's page.
+    fn update_now(&mut self) {
+        if let Some((setup, d)) = self.updater.as_ref().and_then(|u| u.ready_setup(&self.st)) {
+            match services::update::install(&setup, &d) {
+                Ok(()) => {
+                    pinfo!("updates: installing {}", d.file_name());
+                    self.quit(0);
+                    return;
+                }
+                Err(e) => pwarn!("updates: couldn't run the Setup ({e}); opening the release page"),
+            }
+        }
+        if let Some(url) = self.updater.as_ref().and_then(|u| u.download_page(&self.st)) {
+            pinfo!("updates: opening {url}");
+            shell::open(&url);
+        }
+    }
+
     /// Run a notice's inline action in place (the island stays collapsed),
     /// then show a check mark in the pill briefly before the notice leaves.
     fn run_inline_action(&mut self, a: InlineAction) {
@@ -3219,6 +3367,16 @@ impl App {
         if a == InlineAction::StopAdzan {
             self.adzan.stop();
             self.st.prayer.adzan = false;
+        }
+        if a == InlineAction::Hide {
+            // Gone at once, the way a notice leaves when its time is up.
+            if let Some(n) = self.st.notice.as_mut() {
+                n.until = self.st.now;
+            }
+            return;
+        }
+        if a == InlineAction::WhatsNew && self.st.notice.as_ref().is_some_and(|n| n.icon != Icon::Check) {
+            shell::open(&crate::version::notes_url());
         }
         let st = &mut self.st;
         // Already done: the check mark is showing.
@@ -3239,7 +3397,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -3427,6 +3585,7 @@ impl App {
             self.st.page = p;
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
+                self.st.update.sheet = false;
                 self.st.store.last_page = p.key().to_string();
                 unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
@@ -3441,6 +3600,8 @@ impl App {
             }
             if p == PageKind::Oyenza {
                 self.oyenza(OyenzaCmd::Refresh);
+            } else if p == PageKind::Health {
+                self.oyenza(OyenzaCmd::RefreshHealth);
             }
         }
     }
@@ -3528,6 +3689,12 @@ impl App {
                 Command::Collapse => self.collapse(),
                 Command::Play(s) => services::sound::play(s),
                 Command::OpenUrl(u) => shell::open(&u),
+                Command::Update => self.update_now(),
+                Command::InstallOnNextStart => {
+                    if let Some(u) = self.updater.as_mut() {
+                        u.install_on_next_start(&mut self.st);
+                    }
+                }
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     self.st.ui.autostart = Some(on);
@@ -4092,21 +4259,6 @@ fn paired_phones(pairs: Vec<poni_core::pairdrop::Pair>) -> Vec<PairedPhone> {
 
 fn files_label(n: usize) -> String {
     format!("{n} {}", if n == 1 { "file" } else { "files" })
-}
-
-/// The island's notice for the moment new numbers from the phone put today
-/// over the step goal (see `poni_core::health::goal_reached`).
-pub(crate) fn steps_goal_notice(steps: u32, until: f64) -> Notice {
-    Notice {
-        icon: Icon::Steps,
-        color: palette::GREEN,
-        title: format!("{} steps today", fmt_steps(steps)),
-        subtitle: "Daily step goal reached".into(),
-        until,
-        action: Some(NoticeAction::OpenPage(PageKind::Health)),
-        inline: None,
-        reveal: None,
-    }
 }
 
 #[cfg(test)]

@@ -5,6 +5,7 @@
 
 use crate::gfx::Image;
 use crate::state::{MediaSession, PowerState, SysStats};
+use poni_core::health::HealthSnapshot;
 use poni_core::lrc::Lyrics;
 use poni_core::oyenza::{Activity, Arrival, Bill, Saved};
 use poni_core::romanize::Ruby;
@@ -101,6 +102,9 @@ pub enum OyenzaEvent {
     ActivityChecked,
     /// Bills due in the next 30 days, and the server's today (YYYY-MM-DD).
     Bills { today: String, bills: Vec<Bill> },
+    /// The steps the phone sent, for the Health page; None: none to show (off in
+    /// Oyenza on the phone, or a server from before steps).
+    Health(Option<HealthSnapshot>),
     NoteSaved(Vec<Saved>),
     /// The note wasn't saved; the island puts `text` back and says why (`code`).
     NoteFailed { text: String, code: String },
@@ -156,6 +160,8 @@ pub enum AppEvent {
     Oyenza(OyenzaEvent),
     /// Where an add-on's files stand (`services::addons`).
     Addon { id: &'static str, status: poni_core::addons::Status },
+    /// What the update file said (`services::update`).
+    Update(crate::services::update::UpdateEvent),
     /// Where Windows says the PC is (`services::location`), for prayer times.
     Located(crate::services::location::Located),
     /// The adzan finished playing, or couldn't play on.

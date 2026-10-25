@@ -41,4 +41,5 @@ pub mod sysmon;
 pub mod timeline;
 pub mod todo;
 pub mod ttml;
+pub mod update;
 pub mod urlenc;

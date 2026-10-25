@@ -91,8 +91,12 @@ const CLICK_TIMEOUT: f64 = 1.5;
 /// slow end); a CI step takes under 30 s for the whole run. The CI and Store
 /// test steps wait 120 s for the whole run, the Wine runner 180 s.
 const SCENE_DEADLINE: f64 = 50.0;
-/// Give up waiting for PNG writers at this point.
-const WRITE_DEADLINE: f64 = 43.5;
+/// Give up waiting for PNG writers at this point: 3.5 s after the scene
+/// deadline, so the last scenes' pictures get their time however long the
+/// run took. (It was a fixed 43.5 s, left behind when SCENE_DEADLINE went
+/// from 40 to 50; once the Glass runs took over 43.5 s, the last picture was
+/// still encoding and png-files failed.)
+const WRITE_DEADLINE: f64 = SCENE_DEADLINE + 3.5;
 /// One frame (layout + Direct2D render + present + readback) must fit in a 60 Hz frame.
 /// On a software rasterizer (CI runners) frame times are reported, not
 /// counted: they land on whole screen refreshes (about 16 or 31 ms) on a CPU
@@ -731,6 +735,7 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
             icon: Icon::Moon,
             color: st.accent,
             title: crate::pages::prayer::moment_title(poni_core::prayer::Prayer::Ashar),
+            title_dim: String::new(),
             subtitle: format!("{} \u{b7} {place}", site.hhmm(ashar)),
             until,
             action: Some(NoticeAction::OpenPage(PageKind::Prayer)),
@@ -792,7 +797,7 @@ enum Scene {
     OyenzaSignIn,
     /// The Oyenza tab right after a spend was saved (Undo showing).
     OyenzaSaved,
-    /// The Health page signed in to Oyenza, before the phone sends any steps.
+    /// The Health page signed in to Oyenza, no steps from the phone (its switch is off).
     HealthSignedIn,
     /// Click the gear in the header on the Health page; expect Settings.
     GearClick,
@@ -864,13 +869,15 @@ enum Scene {
     LowBatteryHud,
     /// The Script page partway through a reading (paused, so the shot holds still).
     ScriptReading,
+    /// The Health page with steps the phone last sent three days ago.
+    HealthStale,
     /// The same reading with Oyenza Studio Recorder installed: Record shows.
     ScriptRecorder,
     /// System page on a desktop, Power: its power supply reports over USB.
     SystemPower,
     /// ...and a desktop whose power supply doesn't: the estimate.
     SystemPowerEstimate,
-    /// A maximized window under the island (Step aside, the default): the
+    /// A maximized window under the island, Step aside on (no longer offered): the
     /// clock waits out of the way, an invisible strip at the top edge.
     AsideIdle,
     /// ...and while a song sings its lines.
@@ -879,8 +886,36 @@ enum Scene {
     AsidePeek,
     /// ...and so does the volume pop-up.
     AsideHud,
-    /// Settings with Stay picked over maximized windows.
+    /// Settings with Step aside off (no row for it since 0.2.6).
     SettingsAsideStay,
+    /// A new version is out: the island tells once, with Update.
+    UpdateNotice,
+    /// The first start after an update: "Updated to", with What's new.
+    UpdatedNotice,
+    /// Settings while a new version is offered: Update on its last row.
+    SettingsUpdate,
+    /// The Update sheet (the notice or the menu's "Update to" line opens it).
+    UpdateSheet,
+    /// The Update sheet once Windows has the Setup: Install now, or on next start.
+    UpdateReady,
+}
+
+/// A later release than this build, as the update file describes one.
+fn fake_release() -> poni_core::update::Release {
+    let mut parts: Vec<u64> = crate::version::VERSION.split('.').filter_map(|p| p.parse().ok()).collect();
+    if let Some(last) = parts.last_mut() {
+        *last += 1;
+    }
+    let version = parts.iter().map(u64::to_string).collect::<Vec<_>>().join(".");
+    let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+    poni_core::update::Release {
+        date: "2026-10-26".into(),
+        headline: "A smoother island, and fixes".into(),
+        notes: format!("{repo}/tag/v{version}"),
+        windows: Some(poni_core::update::Download { url: format!("{repo}/download/v{version}/Oyenza-Studio-Setup-{version}.exe"), size: 2_500_000, sha256: "0".repeat(64) }),
+        mac: None,
+        version,
+    }
 }
 
 /// Running under Wine: its ntdll exports `wine_get_version`.
@@ -895,7 +930,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 76] = [
+const SCENES: [Scene; 82] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -972,6 +1007,7 @@ const SCENES: [Scene; 76] = [
     // The Script page: empty, then partway through a reading.
     Scene::Page(PageKind::Script),
     Scene::ScriptReading,
+    Scene::HealthStale,
     // ...and with the recorder installed (Record by Paste).
     Scene::ScriptRecorder,
     // The whole PC's power: read from the power supply, then estimated.
@@ -984,6 +1020,13 @@ const SCENES: [Scene; 76] = [
     Scene::AsidePeek,
     Scene::AsideHud,
     Scene::SettingsAsideStay,
+    // New versions: the island's notice, "Updated to", Settings offering
+    // one, and the Update sheet before and after the Setup is in.
+    Scene::UpdateNotice,
+    Scene::UpdatedNotice,
+    Scene::SettingsUpdate,
+    Scene::UpdateSheet,
+    Scene::UpdateReady,
 ];
 
 impl Scene {
@@ -1047,6 +1090,7 @@ impl Scene {
             Scene::MediaLyric => "media-lyric".into(),
             Scene::LowBatteryHud => "low-battery-hud".into(),
             Scene::ScriptReading => "page-script-reading".into(),
+            Scene::HealthStale => "page-health-stale".into(),
             Scene::ScriptRecorder => "page-script-recorder".into(),
             Scene::SystemPower => "page-system-power".into(),
             Scene::SystemPowerEstimate => "page-system-power-estimate".into(),
@@ -1055,6 +1099,11 @@ impl Scene {
             Scene::AsidePeek => "aside-new-song".into(),
             Scene::AsideHud => "aside-volume-hud".into(),
             Scene::SettingsAsideStay => "page-settings-maximized-stay".into(),
+            Scene::UpdateNotice => "update-notice".into(),
+            Scene::UpdatedNotice => "updated-notice".into(),
+            Scene::SettingsUpdate => "page-settings-update".into(),
+            Scene::UpdateSheet => "page-update-sheet".into(),
+            Scene::UpdateReady => "page-update-ready".into(),
         }
     }
 
@@ -1065,10 +1114,15 @@ impl Scene {
             Scene::TabClick => Some(PageKind::ALL[0]),
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
-            Scene::HealthSignedIn => Some(PageKind::Health),
-            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop | Scene::SettingsAsideStay => {
-                Some(PageKind::Settings)
-            }
+            Scene::HealthSignedIn | Scene::HealthStale => Some(PageKind::Health),
+            Scene::GearClick
+            | Scene::SettingsSigningIn
+            | Scene::SettingsSignedIn
+            | Scene::SettingsStayOnTop
+            | Scene::SettingsAsideStay
+            | Scene::SettingsUpdate
+            | Scene::UpdateSheet
+            | Scene::UpdateReady => Some(PageKind::Settings),
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -1103,6 +1157,7 @@ impl Scene {
                 | Scene::OyenzaMoneyOut
                 | Scene::Page(PageKind::Oyenza)
                 | Scene::HealthSignedIn
+                | Scene::HealthStale
                 | Scene::SettingsSigningIn
                 | Scene::SettingsSignedIn
         )
@@ -1825,13 +1880,27 @@ impl SelfTest {
         st.volume = VolumeState { level: 0.64, muted: false, known: true };
         st.pinned = false;
         st.drag_hover = scene == Scene::ShelfDrop;
-        st.health = if matches!(scene, Scene::HealthSignedOut | Scene::HealthSignedIn) { None } else { self.health.clone() };
+        st.health = match scene {
+            Scene::HealthSignedOut | Scene::HealthSignedIn => None,
+            Scene::HealthStale => Some(sample_week(st, 3)),
+            _ => self.health.clone(),
+        };
         // Start with Windows as Settings shows it once read (it's read off the UI thread).
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
-        // Step aside over maximized windows (the default), except where Stay is picked.
+        // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
+        // A later version offered, only where Settings shows it.
+        st.update = match scene {
+            Scene::SettingsUpdate | Scene::UpdateSheet | Scene::UpdateReady => crate::state::UpdateView {
+                offer: Some(fake_release()),
+                sheet: scene != Scene::SettingsUpdate,
+                ready: scene == Scene::UpdateReady,
+                next_start: false,
+            },
+            _ => crate::state::UpdateView::default(),
+        };
         // A new song's title shows for its few seconds (held here).
         st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };
         st.phone = fake_phone(scene, now);
@@ -1875,9 +1944,11 @@ impl SelfTest {
             _ => None,
         };
         st.notice = match scene {
+            Scene::UpdateNotice => Some(crate::updates::new_version_notice(&fake_release(), st.accent, until)),
+            Scene::UpdatedNotice => Some(crate::updates::updated_notice(Some(fake_release().headline), until)),
             Scene::HealthNotice => {
                 let steps = st.health.as_ref().map_or(0, |h| h.steps_on(&st.local.day_key()));
-                Some(crate::app::steps_goal_notice(steps, until))
+                Some(crate::pages::health::goal_notice(steps, until))
             }
             Scene::OyenzaMoney | Scene::OyenzaMoneyShown => {
                 let hidden = scene == Scene::OyenzaMoney;
@@ -1885,6 +1956,7 @@ impl SelfTest {
                     icon: Icon::MoneyIn,
                     color: palette::GREEN,
                     title: "Money in · BCA".into(),
+                    title_dim: String::new(),
                     subtitle: if hidden { "Amount and sender hidden".into() } else { "Rp 1.250.000 · Gaji Oktober".into() },
                     until,
                     action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -1896,6 +1968,7 @@ impl SelfTest {
                 icon: Icon::Phone,
                 color: palette::GREEN,
                 title: "3 files from Pixel 10 are on the Shelf".into(),
+                title_dim: String::new(),
                 subtitle: "Open the Shelf to see them".into(),
                 until,
                 action: Some(NoticeAction::OpenPage(PageKind::Shelf)),
@@ -1906,6 +1979,7 @@ impl SelfTest {
                 icon: Icon::MoneyOut,
                 color: palette::BLUE,
                 title: "Money out · BCA".into(),
+                title_dim: String::new(),
                 subtitle: "Amount and payee hidden".into(),
                 until,
                 action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -1916,6 +1990,7 @@ impl SelfTest {
                 icon: Icon::Calendar,
                 color: palette::ORANGE,
                 title: "Spotify renews tomorrow".into(),
+                title_dim: String::new(),
                 subtitle: "Amount hidden".into(),
                 until,
                 action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -2448,7 +2523,12 @@ fn seed_tasks(st: &mut AppState) {
 
 /// A week of steps as Oyenza would send it: today just over the goal.
 fn sample_health(st: &AppState) -> HealthSnapshot {
-    let today = st.local;
+    sample_week(st, 0)
+}
+
+/// The sample week as the phone read it `days_ago` days back, its last day then.
+fn sample_week(st: &AppState, days_ago: i64) -> HealthSnapshot {
+    let today = st.local.add_days(-days_ago);
     let week = [5210u32, 9120, 7480, 3960, 10230, 6840, 8412];
     let days = week
         .iter()
@@ -2463,7 +2543,7 @@ fn sample_health(st: &AppState) -> HealthSnapshot {
             }
         })
         .collect();
-    HealthSnapshot { goal: 8000, source: HealthSource::AppleHealth, updated_at: st.unix - 8 * 60, days }
+    HealthSnapshot { goal: 8000, source: HealthSource::AppleHealth, updated_at: st.unix - days_ago * 86_400 - 8 * 60, days }
 }
 
 fn seed_clipboard(st: &mut AppState) {

@@ -42,6 +42,8 @@ pub enum MenuCmd {
     OpenDataFolder,
     About,
     RecordScreen,
+    /// "Update to Oyenza Studio 0.2.5…" (`crate::updates`).
+    Update,
     Quit,
 }
 
@@ -57,7 +59,8 @@ fn item(label: &str, cmd: MenuCmd, checked: bool) -> MenuItem {
     MenuItem::Item { label: label.to_string(), cmd, checked, key: "" }
 }
 
-pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyenza: &OyenzaLink) -> Vec<MenuItem> {
+/// `update`: a later version the update file offers, if any.
+pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyenza: &OyenzaLink, update: Option<&str>) -> Vec<MenuItem> {
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
     // The theme's own idle looks (the status bar is Pill's), the one it
@@ -106,6 +109,10 @@ pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyen
     // island doesn't mention recording at all.
     if recorder {
         items.splice(0..0, [item("Record this screen", MenuCmd::RecordScreen, false), MenuItem::Separator]);
+    }
+    // A new version first, until it is installed.
+    if let Some(v) = update {
+        items.splice(0..0, [item(&format!("Update to Oyenza Studio {v}…"), MenuCmd::Update, false), MenuItem::Separator]);
     }
     items
 }
@@ -182,7 +189,7 @@ pub struct MenuBar {
 }
 
 impl MenuBar {
-    pub fn add(mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink) -> MenuBar {
+    pub fn add(mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink, update: Option<&str>) -> MenuBar {
         let item = NSStatusBar::systemStatusBar().statusItemWithLength(NSVariableStatusItemLength);
         if let Some(button) = item.button(mtm) {
             match mark_image(mtm) {
@@ -192,15 +199,15 @@ impl MenuBar {
             button.setToolTip(Some(&NSString::from_str(&format!("Oyenza Studio {}", crate::version::VERSION))));
         }
         let target: Retained<MenuTarget> = unsafe { objc2::msg_send![MenuTarget::alloc(mtm), init] };
-        let menu = build(mtm, &target, &menu_items(s, pinned, login, crate::services::recorder::installed(), oyenza));
+        let menu = build(mtm, &target, &menu_items(s, pinned, login, crate::services::recorder::installed(), oyenza, update));
         item.setMenu(Some(&menu));
         ITEM.with(|i| *i.borrow_mut() = Some(item.clone()));
         MenuBar { item, target, menu }
     }
 
     /// Rebuild the menu (ticks follow the settings).
-    pub fn refresh(&mut self, mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink) {
-        self.menu = build(mtm, &self.target, &menu_items(s, pinned, login, crate::services::recorder::installed(), oyenza));
+    pub fn refresh(&mut self, mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink, update: Option<&str>) {
+        self.menu = build(mtm, &self.target, &menu_items(s, pinned, login, crate::services::recorder::installed(), oyenza, update));
         self.item.setMenu(Some(&self.menu));
     }
 }

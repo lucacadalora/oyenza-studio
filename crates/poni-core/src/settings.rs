@@ -94,12 +94,12 @@ pub struct Settings {
     /// Width of the expanded island in DIPs (bigger = roomier pages).
     pub expanded_width: f32,
     pub hide_in_fullscreen: bool,
-    /// Over maximized windows: Step aside (true) or Stay. While an app window
-    /// reaches the top of the screen under the island (a maximized browser's
-    /// tabs, a snapped window's title bar), the resting island turns into the
-    /// Hidden look's invisible strip until the pointer reaches it; volume,
-    /// notices and a new song's title still show. Windows only: on a Mac the
-    /// menu bar keeps windows below the island.
+    /// Step aside over maximized windows: the resting island turned into the
+    /// Hidden look's invisible strip while an app window reached the top of
+    /// the screen under it. 0.2.4 and 0.2.5 did it by default and it read as
+    /// the island vanishing, so it's gone from the menu and Settings and
+    /// always off (`sanitized`); the Hidden idle look is the way to keep the
+    /// top edge clear. The key stays so files from those versions still load.
     pub step_aside: bool,
     pub monitor: MonitorChoice,
     pub show_media_activity: bool,
@@ -143,6 +143,10 @@ pub struct Settings {
     /// Where the readout shows over a game: on the island (staying or
     /// peeking, `game_peek`), or a test of its own window in the corner.
     pub game_readout: GameReadout,
+    /// Tell me about new versions: read the update file a couple of minutes
+    /// after start and then twice a day (docs/updates.md), and say on the
+    /// island once when a new version is out.
+    pub update_check: bool,
 }
 
 /// What plays when a prayer's time comes.
@@ -190,7 +194,7 @@ impl Default for Settings {
             collapse_delay_ms: 0,
             expanded_width: 620.0,
             hide_in_fullscreen: true,
-            step_aside: true,
+            step_aside: false,
             monitor: MonitorChoice::Primary,
             show_media_activity: true,
             lyrics: true,
@@ -211,6 +215,7 @@ impl Default for Settings {
             game_stats: false,
             game_peek: false,
             game_readout: GameReadout::Island,
+            update_check: true,
         }
     }
 }
@@ -261,6 +266,8 @@ impl Settings {
             self.collapse_delay_ms = 0;
         }
         self.settings_version = self.settings_version.max(SETTINGS_VERSION);
+        // Step aside is no longer offered: the island stays over maximized windows.
+        self.step_aside = false;
         // Show over games needs the island on top of full-screen apps.
         if self.game_stats {
             self.hide_in_fullscreen = false;
@@ -438,14 +445,11 @@ mod tests {
     }
 
     #[test]
-    fn the_island_steps_aside_unless_stay_is_picked() {
-        // Files from 0.2.2 and before have no choice yet: Step aside.
-        let old: Settings = serde_json::from_str(r#"{"settings_version":3,"hide_in_fullscreen":false}"#).unwrap();
-        assert!(old.step_aside);
-        let stay: Settings = serde_json::from_str(r#"{"step_aside":false}"#).unwrap();
-        assert!(!stay.step_aside);
-        let back: Settings = serde_json::from_str(&serde_json::to_string(&stay).unwrap()).unwrap();
-        assert!(!back.step_aside);
+    fn the_island_never_steps_aside() {
+        assert!(!Settings::default().step_aside);
+        // 0.2.4 and 0.2.5 saved Step aside, their default: the island stays now.
+        let old: Settings = serde_json::from_str(r#"{"settings_version":3,"step_aside":true}"#).unwrap();
+        assert!(!old.sanitized().step_aside);
     }
 
     #[test]

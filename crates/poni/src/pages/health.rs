@@ -2,19 +2,21 @@
 //! the numbers came from.
 //!
 //! The numbers come from the person's phone: Oyenza reads daily totals from
-//! Apple Health or Health Connect and a signed-in Oyenza Studio receives them
-//! (`AppState::health`). Until then the page says how it will work. Nothing
-//! here animates; the page only redraws when new numbers arrive.
+//! Apple Health or Health Connect and, with Show on Oyenza Studio turned on
+//! there, a signed-in Oyenza Studio receives them (`AppState::health`, in
+//! memory only). Without numbers the page says how to get them; numbers more
+//! than a day old stay, with a line asking to open Oyenza on the phone.
+//! Nothing here animates; the page only redraws when new numbers arrive.
 
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{ts, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::pages::PageKind;
-use crate::state::{AppState, OyenzaLink};
+use crate::state::{AppState, Notice, NoticeAction, OyenzaLink};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_date_short, LocalDateTime};
 use poni_core::geom::{palette, Color, Point, Rect};
-use poni_core::health::{fmt_distance, fmt_steps, HealthSnapshot};
+use poni_core::health::{fmt_distance, fmt_steps, is_stale, HealthSnapshot};
 
 const HEIGHT: f32 = 144.0;
 /// The ring on the left, and the gap to the middle column.
@@ -54,7 +56,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let steps = h.steps_on(&today);
     let goal = h.goal();
     draw_ring(ui, ring_c, Some(steps as f32 / goal as f32));
-    draw_today(ui, st, &h, steps, goal, mid);
+    draw_today(ui, st, &h, steps, goal, mid, area.right());
     draw_week_title(ui, st, &h, Rect::new(right_x, area.y + 4.0, right_w, 18.0));
     draw_chart(ui, st, &h, chart);
 }
@@ -81,7 +83,9 @@ fn draw_ring(ui: &mut Ui, c: Point, progress: Option<f32>) {
 
 // ------------------------------------------------------------ middle column
 
-fn draw_today(ui: &mut Ui, st: &AppState, h: &HealthSnapshot, steps: u32, goal: u32, r: Rect) {
+/// The middle column; `right` is the page's right edge, which the bottom line
+/// may run to (below the chart's weekday letters).
+fn draw_today(ui: &mut Ui, st: &AppState, h: &HealthSnapshot, steps: u32, goal: u32, r: Rect, right: f32) {
     // "6,420  / 8,000 steps", sharing a baseline like the other pages' amounts.
     let big = fmt_steps(steps);
     let big_st = TextStyle::display().tabular().top();
@@ -120,8 +124,15 @@ fn draw_today(ui: &mut Ui, st: &AppState, h: &HealthSnapshot, steps: u32, goal: 
     }
 
     let faint = TextStyle::caption().color(palette::TEXT_FAINT);
-    ui.c.text(&format!("From {} via Oyenza", h.source.name()), Rect::new(r.x, y + 92.0, r.w, 15.0), &faint);
-    ui.c.text(&updated_text(st, h.updated_at), Rect::new(r.x, y + 107.0, r.w, 15.0), &faint);
+    if is_stale(h.updated_at, st.unix) {
+        // Not updated for a day: the phone sends only while Oyenza is open on it.
+        ui.c.text(&updated_text(st, h.updated_at), Rect::new(r.x, y + 92.0, r.w, 15.0), &faint);
+        let hint = TextStyle::caption().color(palette::TEXT_DIM);
+        ui.c.text("Open Oyenza on your phone to update", Rect::new(r.x, y + 107.0, (right - r.x).max(r.w), 15.0), &hint);
+    } else {
+        ui.c.text(&format!("From {} via Oyenza", h.source.name()), Rect::new(r.x, y + 92.0, r.w, 15.0), &faint);
+        ui.c.text(&updated_text(st, h.updated_at), Rect::new(r.x, y + 107.0, r.w, 15.0), &faint);
+    }
 }
 
 /// "Updated 08:12" today, "Updated yesterday", or "Updated 21 Oct".
@@ -142,19 +153,19 @@ fn updated_text(st: &AppState, at: i64) -> String {
     }
 }
 
-/// Title, explanation and a button (or the "coming soon" tag), stacked and centred
-/// on `center_y` (the ring's centre). Heights are measured, so a wider font wraps
-/// instead of clipping. Signed out, the button signs in to Oyenza right here
-/// (while a code waits, it shows the code). Signed in already (`services::oyenza`),
-/// the tag says the steps themselves are what's still coming: Oyenza on the
-/// phone doesn't send them yet.
+/// Title, explanation and a button (or the "Off in Oyenza" tag), stacked and
+/// centred on `center_y` (the ring's centre). Heights are measured, so a wider
+/// font wraps instead of clipping. Signed out, the button signs in to Oyenza
+/// right here (while a code waits, it shows the code). Signed in already
+/// (`services::oyenza`) with no steps, the switch is off on the phone (or its
+/// Oyenza can't send them yet): the text says where to turn it on.
 fn draw_not_connected(ui: &mut Ui, st: &mut AppState, r: Rect, center_y: f32) {
     let signed_in = matches!(st.oyenza.link, OyenzaLink::Connected { .. });
     let title = "Your steps, from your phone";
     let body = if signed_in {
-        "You're signed in to Oyenza. Your steps show here once Oyenza on your iPhone or Android can send them from Apple Health or Health Connect."
+        "Open Oyenza on your iPhone or Android and, under your steps in Health (Sehat), turn on Show on Oyenza Studio. Your daily steps then show here."
     } else {
-        "Oyenza on your iPhone or Android reads them from Apple Health or Health Connect. Soon they'll show here when you're signed in to Oyenza."
+        "Oyenza on your iPhone or Android reads them from Apple Health or Health Connect. Sign in to Oyenza to see them here."
     };
     let title_st = TextStyle::headline().wrap().top();
     let body_st = TextStyle::footnote().color(palette::TEXT_DIM).wrap().top();
@@ -183,9 +194,9 @@ fn draw_not_connected(ui: &mut Ui, st: &mut AppState, r: Rect, center_y: f32) {
                 st.cmd(Command::SetPage(PageKind::Oyenza));
             }
         }
-        // Not a button: Oyenza on the phone doesn't send the steps yet.
+        // Not a button: the switch is on the phone.
         OyenzaLink::Connected { .. } => {
-            let label = "Steps from Oyenza · coming soon";
+            let label = "Off in Oyenza";
             let tag_st = TextStyle::caption().weight(Weight::Semibold).color(palette::TEXT_DIM);
             let (tw, _) = ui.c.measure(label, &tag_st, r.w);
             let tag = Rect::new(r.x, tag_y, (tw.ceil() + 20.0).min(r.w), tag_h);
@@ -276,5 +287,21 @@ fn fmt_short(n: u32) -> String {
         format!("{}k", n / 1000)
     } else {
         format!("{:.1}k", n as f32 / 1000.0)
+    }
+}
+
+/// The island's notice for the moment new numbers from the phone put today
+/// over the step goal (see `poni_core::health::goal_reached`).
+pub fn goal_notice(steps: u32, until: f64) -> Notice {
+    Notice {
+        icon: Icon::Steps,
+        color: palette::GREEN,
+        title: format!("{} steps today", fmt_steps(steps)),
+        title_dim: String::new(),
+        subtitle: "Daily step goal reached".into(),
+        until,
+        action: Some(NoticeAction::OpenPage(PageKind::Health)),
+        inline: None,
+        reveal: None,
     }
 }

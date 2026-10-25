@@ -1,9 +1,11 @@
 //! Steps from the person's phone, as Oyenza sends them.
 //!
 //! Poni has no health data of its own: Oyenza on the person's iPhone or
-//! Android phone reads daily totals from Apple Health or Health Connect, and
-//! a signed-in Oyenza Studio receives them. Only daily totals travel, never
-//! samples, places or heart data.
+//! Android phone reads daily totals from Apple Health or Health Connect and,
+//! once the person turns on Show on Oyenza Studio there, sends the last 7
+//! days to their account, where a signed-in Oyenza Studio reads them
+//! (`/island/health`). Only daily totals travel, never samples, places,
+//! sleep, heart rate or weight, and the PC keeps them in memory only.
 
 use crate::datetime::LocalDateTime;
 use serde::{Deserialize, Serialize};
@@ -14,6 +16,9 @@ use serde::{Deserialize, Serialize};
 pub enum HealthSource {
     AppleHealth,
     HealthConnect,
+    /// A health app this version doesn't know (a newer Oyenza): the numbers still show.
+    #[serde(other)]
+    Other,
 }
 
 impl HealthSource {
@@ -21,8 +26,18 @@ impl HealthSource {
         match self {
             HealthSource::AppleHealth => "Apple Health",
             HealthSource::HealthConnect => "Health Connect",
+            HealthSource::Other => "your phone",
         }
     }
+}
+
+/// Numbers the phone read longer ago than this are old: Oyenza sends them only
+/// while it's open on the phone, so the page asks the person to open it.
+pub const STALE_AFTER_S: i64 = 24 * 3600;
+
+/// The phone read the numbers more than a day before `now` (unix seconds).
+pub fn is_stale(updated_at: i64, now: i64) -> bool {
+    now.saturating_sub(updated_at) > STALE_AFTER_S
 }
 
 /// One day's totals.
@@ -79,6 +94,13 @@ pub fn goal_reached(prev: Option<&HealthSnapshot>, next: &HealthSnapshot, today:
     let goal = next.goal();
     let before = prev.map_or(0, |p| p.steps_on(today));
     before < goal && next.steps_on(today) >= goal
+}
+
+/// [`goal_reached`] for numbers that arrive while Poni runs: the first ones
+/// after start, sign-in or a pause (`prev` None) only set the baseline, as
+/// today may have passed the goal hours before. A restart never repeats the notice.
+pub fn goal_notice(prev: Option<&HealthSnapshot>, next: &HealthSnapshot, today: &str) -> bool {
+    prev.is_some() && goal_reached(prev, next, today)
 }
 
 /// "6,420": thousands with commas.
@@ -151,6 +173,39 @@ mod tests {
         assert!(!goal_reached(Some(&below), &below, day));
         // A goal of 0 is treated as 1, so a day with no steps never counts.
         assert!(!goal_reached(None, &snap(0, &[(day, 0)]), day));
+    }
+
+    #[test]
+    fn the_first_numbers_are_only_a_baseline() {
+        let day = "2026-10-24";
+        let below = snap(8000, &[(day, 7900)]);
+        let above = snap(8000, &[(day, 8010)]);
+        // Over the goal already when Poni starts or signs in: no notice.
+        assert!(!goal_notice(None, &above, day));
+        assert!(goal_notice(Some(&below), &above, day));
+        assert!(!goal_notice(Some(&above), &above, day));
+        // A new day: yesterday's numbers count as none for today.
+        assert!(goal_notice(Some(&snap(8000, &[("2026-10-23", 9000)])), &above, day));
+    }
+
+    #[test]
+    fn stale_after_a_day() {
+        let now = 1_793_000_000;
+        assert!(!is_stale(now - 8 * 60, now));
+        assert!(!is_stale(now - STALE_AFTER_S, now));
+        assert!(is_stale(now - STALE_AFTER_S - 1, now));
+        assert!(is_stale(now - 3 * 86_400, now));
+        // A phone clock a little ahead is not old.
+        assert!(!is_stale(now + 120, now));
+        assert!(is_stale(i64::MIN, now));
+    }
+
+    #[test]
+    fn an_unknown_health_app_still_reads() {
+        let s: HealthSnapshot = serde_json::from_str(r#"{"goal":8000,"source":"samsung_health","updated_at":1,"days":[{"date":"2026-10-24","steps":12}]}"#).unwrap();
+        assert_eq!(s.source, HealthSource::Other);
+        assert_eq!(s.source.name(), "your phone");
+        assert_eq!(s.steps_on("2026-10-24"), 12);
     }
 
     #[test]

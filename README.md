@@ -49,7 +49,7 @@ Lyrics come free from [LRCLIB](https://lrclib.net), or from Apple Music itself w
 
 ### What's happening, at a glance
 
-While it rests, the island is a small black pill that tells you what's going on, then gets out of the way: album art, the line being sung and a beat while music plays, your focus timer, volume and charging, headphones connecting with their battery, money coming in, the next prayer.
+While it rests, the island is a small black pill that tells you what's going on, then gets out of the way: album art, the line being sung and a beat while music plays, your focus timer, volume and charging, headphones connecting with their battery, money coming in, your daily step goal, the next prayer.
 
 <p align="center"><img src="docs/brand/readme/glance.webp" width="880" alt="Six resting islands: music playing, a focus timer, volume, headphones connected, money in, and minutes to the next prayer"></p>
 
@@ -93,7 +93,7 @@ The island is black by default, like the one on a phone. **Oyen** turns it warm 
 
 ### Your money, as it moves
 
-If you keep your money in [Oyenza](https://oyenza.app), sign in (optional) and the island tells you when money comes in or goes out, reminds you the day before a bill is due, and lists your week by day. Sums stay hidden until you click **Show**, so a shared screen shows only that much. On Windows.
+If you keep your money in [Oyenza](https://oyenza.app), sign in (optional) and the island tells you when money comes in or goes out, reminds you the day before a bill is due, and lists your week by day. Sums stay hidden until you click **Show**, so a shared screen shows only that much. Turn on **Show on Oyenza Studio** under your steps in Oyenza's Health (Sehat) on your phone, and the **Health** page shows your daily steps too, with a notice when you reach your goal. On Windows.
 
 <p align="center"><img src="docs/brand/readme/oyenza.webp" width="880" alt="A Money in notice from BCA with the amount hidden, and the Oyenza tab listing today's transactions with hidden sums"></p>
 
@@ -133,7 +133,7 @@ On Windows it draws on your graphics card in step with your display's refresh ra
 - **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
 - **Clipboard in memory.** Copied text is never written to disk, and anything a password manager marks private is skipped.
 - **Your files stay yours.** Phone drop asks before it takes anything and uses your own Wi-Fi. Files from paired phones are encrypted with keys made on the two devices, and the meeting server never sees them.
-- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
+- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and twice a day the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
 
 ## Install
 
@@ -205,7 +205,7 @@ Yes: right-click the island › **In full-screen apps** › **Hide**. Pick **Sta
 <summary><b>Does it cover my browser tabs?</b></summary>
 <br>
 
-No. When a maximized window sits under the island (a browser's tabs, the title bar of a window snapped to half the screen), the island steps aside: the clock or the song waits out of the way, and only an invisible strip stays along the middle of the top edge, so the tabs show and take clicks. Point at the top edge to open the island. The volume, notices and a new song's title still show for a few seconds. To keep the island over those windows, right-click it › **Over maximized windows** › **Stay**.
+It sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. To keep that spot clear, right-click the island › **Idle look** › **Hidden until hover**: while nothing plays, only an invisible strip stays at the top edge until you point at it.
 
 </details>
 
@@ -228,8 +228,8 @@ The gear at the top right of the open island opens **Settings**: your Oyenza acc
 - the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock)
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
-- over maximized windows: step aside so a browser's tabs stay visible (point at the top edge to open the island), or stay over them
 - start with Windows, which version you have (**About Oyenza Studio**, with the build's day; it opens that version's release notes), and quit
+- in Settings only: **Tell me about new versions** ([New versions](#new-versions))
 
 On a Mac, every option is in the menu bar, under Oyen's mark.
 
@@ -338,8 +338,13 @@ Then the island shows:
 - **Money in and out as it happens**: a notice when Oyenza logs money by itself from your bank's emails or notifications, "Money in · BCA" or "Money out · BCA". Sums and who stay hidden until you click **Show**, there and in the tab, so a shared screen shows only that much.
 - **Bills before they're due**: a reminder the day before a subscription renews or a card bill is due.
 - **Note a spend**: type it in the **Oyenza** tab ("kopi 25rb") and press Enter; it goes straight to Oyenza, with Undo for 10 seconds.
+- **Your steps**: in Oyenza on your iPhone or Android, turn on **Show on Oyenza Studio** under your steps in Health (Sehat), and the **Health** tab shows today's steps against your goal, the distance, active energy and your week, with a notice when you reach the goal. Oyenza on the phone sends them while it's open there; numbers more than a day old stay, with a reminder to open Oyenza on your phone.
 
-This PC gets a key of its own that can do only these things: it reads the last 7 days of transactions in the space where Oyenza logs your bank's emails and notifications, never balances, account numbers, notes or receipts, and it can't change or delete anything else or touch your account. It is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`); on a Mac, in a file only your Mac account can read (`~/Library/Application Support/Poni/oyenza-link.bin`). Oyenza Studio asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep), and every 15 seconds while the Oyenza tab is open. **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
+This PC gets a key of its own that can do only these things: it reads the last 7 days of transactions in the space where Oyenza logs your bank's emails and notifications, never balances, account numbers, notes or receipts, and it can't change or delete anything else or touch your account. With **Show on Oyenza Studio** on, it also receives the daily totals of steps, distance and active energy for the last 7 days and your step goal, and keeps them in memory only, never on disk; sleep, heart rate and weight never reach the PC. The key is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`); on a Mac, in a file only your Mac account can read (`~/Library/Application Support/Poni/oyenza-link.bin`). Oyenza Studio asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep), every 15 seconds while the Oyenza tab is open, and for your steps every 15 minutes and when the Health tab opens. **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
+
+### New versions
+
+Oyenza Studio looks for a new version a couple of minutes after it starts and then twice a day, by reading one small signed file from studio.oyenza.com. It doesn't look while your PC is locked, the screen is off or battery saver is on. When there is a new version, the island says **Update available** with the version, once, and **Hide** puts it away. On Windows the new version is already downloaded by then, and checked: click the notice for the Update sheet, then **Install now** (Oyenza Studio closes, updates and opens again in a few seconds, your settings and data stay) or **Install on next start**. On a Mac the sheet downloads the DMG. Until you update, the right-click menu starts with **Update to Oyenza Studio x…** and Settings has a last row with **Update**. After you update, the island says **Updated to x** once, with **What's new**. **Tell me about new versions** in Settings turns the checks off. Versions 0.2.4 and older don't look: update them by hand once. How the file is made and signed: [docs/updates.md](docs/updates.md).
 
 ### Add-ons
 

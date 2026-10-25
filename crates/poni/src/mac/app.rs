@@ -93,8 +93,10 @@ enum Timer {
     Minute,
     Smoke,
     Stats,
+    /// The next read of the update file (`crate::updates`).
+    Update,
 }
-const TIMERS: [Timer; 7] = [Timer::Hover, Timer::Collapse, Timer::Wake, Timer::Save, Timer::Minute, Timer::Smoke, Timer::Stats];
+const TIMERS: [Timer; 8] = [Timer::Hover, Timer::Collapse, Timer::Wake, Timer::Save, Timer::Minute, Timer::Smoke, Timer::Stats, Timer::Update];
 
 thread_local! {
     static APP: RefCell<Option<App>> = const { RefCell::new(None) };
@@ -355,7 +357,7 @@ pub struct App {
     page_switch_t: f64,
     /// Deadlines (mono seconds) of the app's timers, and the one NSTimer
     /// set for the earliest.
-    timers: [Option<f64>; 7],
+    timers: [Option<f64>; 8],
     ns_timer: Option<(f64, Retained<NSTimer>)>,
     saved_settings: Settings,
     settings_writable: bool,
@@ -380,6 +382,8 @@ pub struct App {
     oyenza: Option<services::oyenza::OyenzaService>,
     /// The Oyenza page is on screen: its day list stays live (`services::oyenza`).
     oyenza_watch: bool,
+    /// The Health page is on screen (it asks for the phone's steps as it opens).
+    health_shown: bool,
     /// Text we put on the clipboard ourselves (not recorded again).
     own_clip: Option<String>,
     clipboard: Option<services::clipboard::Watcher>,
@@ -400,6 +404,8 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// New versions (`crate::updates`); None in the smoke test.
+    updater: Option<crate::updates::Updater>,
     /// Prayer times' adzan, while it plays.
     adzan: services::adzan::AdzanPlayer,
     motion: Option<MotionStats>,
@@ -480,7 +486,7 @@ impl App {
             wheel_acc: 0.0,
             wheel_t: 0.0,
             page_switch_t: 0.0,
-            timers: [None; 7],
+            timers: [None; 8],
             ns_timer: None,
             saved_settings,
             settings_writable: s_out.writable(),
@@ -494,6 +500,7 @@ impl App {
             fullscreen_hidden: false,
             oyenza: None,
             oyenza_watch: false,
+            health_shown: false,
             own_clip: None,
             clipboard: None,
             drag_hover: false,
@@ -505,6 +512,7 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            updater: None,
             adzan: Default::default(),
             motion: None,
             motion_name: "morph",
@@ -527,7 +535,11 @@ impl App {
         self.island.set_floating(self.gap_target(&self.mode));
         let g = self.geom_for(&self.mode);
         self.island.snap(g);
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link));
+        if self.smoke.is_none() {
+            self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
+        }
+        let offer = self.st.update.offer.as_ref().map(|r| r.version.clone());
+        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, offer.as_deref()));
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
@@ -541,6 +553,7 @@ impl App {
         };
         self.sync_addons();
         self.sync_clipboard();
+        self.schedule_update();
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
             self.st.cmds.push(Command::LoadThumb(p));
@@ -679,6 +692,7 @@ impl App {
                 self.prayer_tick();
             }
             Timer::Smoke => self.smoke_step(),
+            Timer::Update => self.update_due(),
             Timer::Stats => {
                 if self.stats_on {
                     self.st.stats = services::sysstats::sample();
@@ -764,6 +778,13 @@ impl App {
     fn settings_changed(&mut self, before: &Settings) {
         if before.theme != self.st.settings.theme {
             self.st.accent = theme_accent(self.st.settings.theme);
+        }
+        if before.update_check != self.st.settings.update_check {
+            if let Some(u) = self.updater.as_mut() {
+                u.switched(&mut self.st, crate::updates::unix_now());
+            }
+            self.schedule_update();
+            self.refresh_menu();
         }
         // The Pill theme's window keeps room for the gap above the island.
         if pill::on(before.theme) != pill::on(self.st.settings.theme) {
@@ -904,6 +925,11 @@ impl App {
             }
             MenuCmd::OpenDataFolder => services::open(&paths::data_dir().to_string_lossy()),
             MenuCmd::About => services::open(&crate::version::notes_url()),
+            // "Update to x…": the island opens on the Update sheet.
+            MenuCmd::Update => {
+                self.st.open_update();
+                self.expand();
+            }
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -918,8 +944,9 @@ impl App {
 
     fn refresh_menu(&mut self) {
         let login = services::login::status();
+        let offer = self.st.update.offer.as_ref().map(|r| r.version.clone());
         if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link);
+            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, offer.as_deref());
         }
     }
 
@@ -1076,6 +1103,54 @@ impl App {
         }
     }
 
+    // ------------------------------------------------------------ new versions
+
+    /// Arm the update file's timer for the next read, or stop it while the
+    /// checks are off or a read runs.
+    fn schedule_update(&mut self) {
+        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now())) {
+            Some(s) => self.set_timer(Timer::Update, s.saturating_mul(1000).clamp(1000, u32::MAX as u64) as u32),
+            None => self.kill_timer(Timer::Update),
+        }
+    }
+
+    /// The timer fired, or someone came back: read the update file if a read
+    /// is due and someone is at the Mac, not in Low Power Mode. Otherwise it
+    /// waits; waking, unlocking and power changes call this again.
+    fn update_due(&mut self) {
+        let now = crate::updates::unix_now();
+        let away = self.away.0 || self.away.1 || self.st.power.saver;
+        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
+            Some(0) if away => {}
+            Some(0) => {
+                // The add-on downloader's thread reads it; it starts here when no add-on is on.
+                if self.addons.is_none() {
+                    match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
+                        Ok(svc) => self.addons = Some(svc),
+                        Err(e) => pwarn!("add-ons: unavailable ({e})"),
+                    }
+                }
+                let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
+                if let Some(u) = self.updater.as_mut() {
+                    u.begin();
+                    if !started {
+                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                        self.schedule_update();
+                    }
+                }
+            }
+            _ => self.schedule_update(),
+        }
+    }
+
+    /// Update (the menu, the notice, Settings): download the DMG for now.
+    fn update_now(&mut self) {
+        if let Some(url) = self.updater.as_ref().and_then(|u| u.download_page(&self.st)) {
+            pinfo!("updates: opening {url}");
+            services::open(&url);
+        }
+    }
+
     /// The displays slept or woke, or the Mac locked or unlocked. While nobody
     /// can see the screen the System readings rest, and the minute they kept
     /// goes, so a minute from before never shows as the last one.
@@ -1091,6 +1166,9 @@ impl App {
         }
         if now {
             self.st.system.clear();
+        } else {
+            // Back: a read of the update file that came due meanwhile.
+            self.update_due();
         }
         self.tell_oyenza_activity();
         self.apply_fullscreen();
@@ -1219,6 +1297,9 @@ impl App {
                 let old = self.st.power;
                 self.st.power = p;
                 self.tell_oyenza_activity();
+                if old.saver && !p.saver {
+                    self.update_due();
+                }
                 if self.st.settings.hud_power && p.has_battery {
                     if p.on_ac != old.on_ac {
                         self.st.show_hud(HudKind::Charging { percent: p.percent, plugged: p.on_ac }, 2.2);
@@ -1282,6 +1363,15 @@ impl App {
             }
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
+            AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
+                if let Some(u) = self.updater.as_mut() {
+                    u.checked(&mut self.st, r, crate::updates::unix_now());
+                }
+                self.schedule_update();
+                self.refresh_menu();
+                // A frame, so a new version's notice goes up now, not with the next redraw.
+                self.request_frame();
+            }
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
@@ -1328,7 +1418,9 @@ impl App {
         // Switched off and its files deleted: with no add-on on, the
         // downloader's thread ends (it starts again with the next switch-on).
         let ours = pages::addons::OFFERED.iter().any(|a| a.id == id);
-        if ours && status == AddonStatus::Off && !pages::addons::OFFERED.iter().any(|a| a.downloads() && self.st.settings.addon_on(a.id)) {
+        // The update file is read on the same thread: it stays while the checks are on.
+        let in_use = self.updater.is_some() && self.st.settings.update_check;
+        if ours && status == AddonStatus::Off && !in_use && !pages::addons::OFFERED.iter().any(|a| a.downloads() && self.st.settings.addon_on(a.id)) {
             self.addons = None;
         }
     }
@@ -1806,6 +1898,7 @@ impl App {
                         if let Some(n) = self.st.notice.take() {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
                                 Some(NoticeAction::StartFocus) => {
                                     self.st.page = PageKind::Focus;
                                     if !self.st.pomodoro.is_active() {
@@ -1945,6 +2038,7 @@ impl App {
             if self.st.page == PageKind::Settings {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
+            self.st.update.sheet = false;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -1959,6 +2053,7 @@ impl App {
             self.st.page = p;
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
+                self.st.update.sheet = false;
                 self.st.store.last_page = p.key().to_string();
                 self.set_timer(Timer::Save, 800);
             } else {
@@ -2002,6 +2097,16 @@ impl App {
             self.adzan.stop();
             self.st.prayer.adzan = false;
         }
+        if a == InlineAction::Hide {
+            // Gone at once, the way a notice leaves when its time is up.
+            if let Some(n) = self.st.notice.as_mut() {
+                n.until = self.st.now;
+            }
+            return;
+        }
+        if a == InlineAction::WhatsNew && self.st.notice.as_ref().is_some_and(|n| n.icon != Icon::Check) {
+            services::open(&crate::version::notes_url());
+        }
         let st = &mut self.st;
         if st.notice.as_ref().is_none_or(|n| n.icon == Icon::Check) {
             return;
@@ -2019,7 +2124,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -2106,6 +2211,9 @@ impl App {
                 Command::Collapse => self.collapse(),
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
+                Command::Update => self.update_now(),
+                // The Mac downloads the DMG; its sheet has no such card.
+                Command::InstallOnNextStart => {}
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     if (services::login::status() == Login::On) != on {
@@ -2138,6 +2246,17 @@ impl App {
         if on != self.oyenza_watch {
             self.oyenza_watch = on;
             self.tell_oyenza_activity();
+        }
+    }
+
+    /// The Health page came on screen: the steps from the phone, now (unless
+    /// just asked for). Never signed in: nothing starts.
+    fn set_health_shown(&mut self, on: bool) {
+        if on != self.health_shown {
+            self.health_shown = on;
+            if let (true, Some(o)) = (on, &self.oyenza) {
+                o.send(OyenzaCmd::RefreshHealth);
+            }
         }
     }
 
@@ -2221,6 +2340,12 @@ impl App {
                 self.st.oyenza.updated_unix = Some(self.st.unix);
                 self.remind_bills(&day);
             }
+            OyenzaEvent::Health(next) => {
+                if let Some(steps) = self.st.take_health(next) {
+                    let notice = pages::health::goal_notice(steps, now + oyenza::NOTICE_S);
+                    self.st.show_or_hold(notice, self.fullscreen_hidden);
+                }
+            }
             OyenzaEvent::NoteSaved(saved) => {
                 let o = &mut self.st.oyenza;
                 o.saving = false;
@@ -2244,6 +2369,7 @@ impl App {
             OyenzaEvent::Disconnected { by_server } => {
                 self.end_sign_in();
                 self.st.oyenza = crate::state::OyenzaState::default();
+                self.st.health = None;
                 let (title, subtitle) =
                     if by_server { ("Oyenza disconnected", "Sign in again in Settings") } else { ("Disconnected from Oyenza", "Sign in again any time in Settings") };
                 self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
@@ -2279,6 +2405,7 @@ impl App {
             icon,
             color,
             title,
+            title_dim: String::new(),
             subtitle: if hide { hidden.unwrap_or_default() } else { shown.clone() },
             until: now + oyenza::NOTICE_S,
             action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -2485,6 +2612,11 @@ impl App {
                 self.st.notice = None;
             }
         }
+        // A new version's notice (or "Updated to") waits for the island to be free.
+        let free = !(self.away.0 || self.away.1) && !self.expanded && self.st.notice.is_none();
+        if self.updater.as_mut().is_some_and(|u| u.announce(&mut self.st, free)) {
+            self.request_frame();
+        }
         if let Some(ended) = self.st.pomodoro.tick(now) {
             pages::focus::on_phase_ended(&mut self.st, ended);
         }
@@ -2562,6 +2694,7 @@ impl App {
         self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
         self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
+        self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));

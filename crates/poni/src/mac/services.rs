@@ -40,6 +40,9 @@ pub mod addons;
 // And Oyenza sign-in: its key goes through secret.rs above.
 #[path = "../services/oyenza.rs"]
 pub mod oyenza;
+// And the update file's reader, which runs on the add-ons' thread.
+#[path = "../services/update.rs"]
+pub mod update;
 #[path = "services/location.rs"]
 pub mod location;
 #[path = "services/login.rs"]

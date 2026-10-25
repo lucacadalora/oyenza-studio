@@ -29,6 +29,7 @@ pub mod secret;
 pub mod sound;
 pub mod sysmon;
 pub mod sysstats;
+pub mod update;
 
 use crate::commands::{MediaCmd, OyenzaCmd};
 use crate::events::EventSink;
@@ -87,6 +88,12 @@ impl Services {
         if let Some(f) = self.fullscreen {
             f.stop();
         }
+    }
+
+    /// Run a one-off download on the add-on thread (the update file).
+    /// False when that thread couldn't start.
+    pub fn run_job(&self, job: addons::Job) -> bool {
+        self.addons.as_ref().map(|a| a.run(job)).is_some()
     }
 
     /// An add-on was switched on (download its files) or off (delete them).

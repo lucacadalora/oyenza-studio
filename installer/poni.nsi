@@ -12,7 +12,7 @@ Target amd64-unicode
 SetCompressor /SOLID lzma
 
 !define APPNAME "Oyenza Studio"
-!define VERSION "0.2.4"
+!define VERSION "0.2.6"
 !define PUBLISHER "Jatevo Labs"
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\Poni"
 !define RUN_KEY "Software\Microsoft\Windows\CurrentVersion\Run"
@@ -31,7 +31,7 @@ InstallDir "$LOCALAPPDATA\Programs\Poni"
 InstallDirRegKey HKCU "Software\Poni" "InstallDir"
 BrandingText "${APPNAME} ${VERSION}"
 
-VIProductVersion "0.2.4.0"
+VIProductVersion "0.2.6.0"
 VIAddVersionKey "ProductName" "${APPNAME}"
 VIAddVersionKey "CompanyName" "${PUBLISHER}"
 VIAddVersionKey "FileDescription" "Oyenza Studio installer"
@@ -42,6 +42,8 @@ VIAddVersionKey "LegalCopyright" "Copyright (C) 2026 ${PUBLISHER}"
 !include "MUI2.nsh"
 !include "LogicLib.nsh"
 !include "WinMessages.nsh"
+!include "FileFunc.nsh"
+!include "Sections.nsh"
 
 ; Ask a running Poni to quit (it saves its data on WM_CLOSE), wait up to 3 s,
 ; then force-close with the fully qualified system taskkill.
@@ -114,6 +116,26 @@ Section "Start Oyenza Studio with Windows" SecAutostart
   ; Same value the app's own "Start with Windows" toggle writes.
   WriteRegStr HKCU "${RUN_KEY}" "Poni" '"$INSTDIR\poni.exe"'
 SectionEnd
+
+; The app's own update runs this Setup silently: `/S /reopen` (crates/poni/src/services/update.rs).
+Function .onInit
+  ; Silent: Start with Windows stays as the person set it (the Run value already points here).
+  ${If} ${Silent}
+    !insertmacro UnselectSection ${SecAutostart}
+  ${EndIf}
+FunctionEnd
+
+Function .onInstSuccess
+  ; The finish page's "Launch Oyenza Studio now" never shows in silent mode: /reopen starts it.
+  ${If} ${Silent}
+    ${GetParameters} $R0
+    ClearErrors
+    ${GetOptions} $R0 "/reopen" $R1
+    ${IfNot} ${Errors}
+      Exec '"$INSTDIR\poni.exe"'
+    ${EndIf}
+  ${EndIf}
+FunctionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} "The Oyenza Studio app and a Start Menu shortcut."
