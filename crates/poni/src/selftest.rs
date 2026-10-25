@@ -896,6 +896,8 @@ enum Scene {
     SettingsUpdate,
     /// The Update sheet (the notice or the menu's "Update to" line opens it).
     UpdateSheet,
+    /// The Update sheet once Windows has the Setup: Install now, or on next start.
+    UpdateReady,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -928,7 +930,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 81] = [
+const SCENES: [Scene; 82] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1019,11 +1021,12 @@ const SCENES: [Scene; 81] = [
     Scene::AsideHud,
     Scene::SettingsAsideStay,
     // New versions: the island's notice, "Updated to", Settings offering
-    // one, and the Update sheet.
+    // one, and the Update sheet before and after the Setup is in.
     Scene::UpdateNotice,
     Scene::UpdatedNotice,
     Scene::SettingsUpdate,
     Scene::UpdateSheet,
+    Scene::UpdateReady,
 ];
 
 impl Scene {
@@ -1100,6 +1103,7 @@ impl Scene {
             Scene::UpdatedNotice => "updated-notice".into(),
             Scene::SettingsUpdate => "page-settings-update".into(),
             Scene::UpdateSheet => "page-update-sheet".into(),
+            Scene::UpdateReady => "page-update-ready".into(),
         }
     }
 
@@ -1117,7 +1121,8 @@ impl Scene {
             | Scene::SettingsStayOnTop
             | Scene::SettingsAsideStay
             | Scene::SettingsUpdate
-            | Scene::UpdateSheet => Some(PageKind::Settings),
+            | Scene::UpdateSheet
+            | Scene::UpdateReady => Some(PageKind::Settings),
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -1888,7 +1893,12 @@ impl SelfTest {
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
         // A later version offered, only where Settings shows it.
         st.update = match scene {
-            Scene::SettingsUpdate | Scene::UpdateSheet => crate::state::UpdateView { offer: Some(fake_release()), sheet: scene == Scene::UpdateSheet },
+            Scene::SettingsUpdate | Scene::UpdateSheet | Scene::UpdateReady => crate::state::UpdateView {
+                offer: Some(fake_release()),
+                sheet: scene != Scene::SettingsUpdate,
+                ready: scene == Scene::UpdateReady,
+                next_start: false,
+            },
             _ => crate::state::UpdateView::default(),
         };
         // A new song's title shows for its few seconds (held here).

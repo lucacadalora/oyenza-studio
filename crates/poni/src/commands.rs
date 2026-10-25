@@ -99,8 +99,11 @@ pub enum Command {
     Play(Sound),
     /// Open a URL in the default browser.
     OpenUrl(String),
-    /// Update to the version the update file offers (Settings' Update).
+    /// Update to the version the update file offers: install it (Windows,
+    /// once its Setup is downloaded), or its release page or DMG.
     Update,
+    /// Install it the next time the app starts (Windows).
+    InstallOnNextStart,
     /// Start/stop the 1 Hz system-stats sampler.
     WantStats(bool),
     /// Start with Windows on or off (the Settings page's switch).

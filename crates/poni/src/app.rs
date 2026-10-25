@@ -131,6 +131,12 @@ pub fn main_entry() -> i32 {
     if crate::autostart::packaged() {
         pinfo!("running as the Microsoft Store package");
     }
+    // Install on next start: the new version's Setup, downloaded and checked
+    // earlier, runs now, before any window, and opens the new version.
+    if selftest_dir.is_none() && !crate::autostart::packaged() && crate::updates::pending_install() {
+        unsafe { OleUninitialize() };
+        return 0;
+    }
     let code = match run(selftest_dir) {
         Ok(code) => code,
         Err(e) => {
@@ -624,6 +630,7 @@ impl App {
             if !crate::autostart::packaged() {
                 self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
                 self.schedule_update();
+                self.fetch_setup();
             }
         }
         if let Err(e) = dragdrop::register(self.hwnd, self.sink.clone()) {
@@ -1966,7 +1973,14 @@ impl App {
                     u.checked(&mut self.st, r, crate::updates::unix_now());
                 }
                 self.schedule_update();
+                self.fetch_setup();
                 // A frame, so a new version's notice goes up now, not with the next redraw.
+                self.request_frame();
+            }
+            AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
+                if let Some(u) = self.updater.as_mut() {
+                    u.fetched(&mut self.st, r);
+                }
                 self.request_frame();
             }
             AppEvent::Located(found) => self.on_located(found),
@@ -3222,8 +3236,32 @@ impl App {
         }
     }
 
-    /// Update (the menu, the notice, Settings): the release's page for now.
+    /// The offered version's Setup, once per release, on the add-on thread
+    /// (after a look at the file, and at start for one already offered).
+    fn fetch_setup(&mut self) {
+        let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
+        let job = services::update::download_job(self.sink.clone(), d, path);
+        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) {
+            if let Some(u) = self.updater.as_mut() {
+                u.fetched(&mut self.st, Err("the add-on thread isn't running".into()));
+            }
+        }
+    }
+
+    /// Install now (the Update sheet): run the downloaded Setup, which
+    /// closes this copy and opens the new version, and quit (saving, as on
+    /// any quit). Without one it opens the release's page.
     fn update_now(&mut self) {
+        if let Some((setup, d)) = self.updater.as_ref().and_then(|u| u.ready_setup(&self.st)) {
+            match services::update::install(&setup, &d) {
+                Ok(()) => {
+                    pinfo!("updates: installing {}", d.file_name());
+                    self.quit(0);
+                    return;
+                }
+                Err(e) => pwarn!("updates: couldn't run the Setup ({e}); opening the release page"),
+            }
+        }
         if let Some(url) = self.updater.as_ref().and_then(|u| u.download_page(&self.st)) {
             pinfo!("updates: opening {url}");
             shell::open(&url);
@@ -3560,6 +3598,11 @@ impl App {
                 Command::Play(s) => services::sound::play(s),
                 Command::OpenUrl(u) => shell::open(&u),
                 Command::Update => self.update_now(),
+                Command::InstallOnNextStart => {
+                    if let Some(u) = self.updater.as_mut() {
+                        u.install_on_next_start(&mut self.st);
+                    }
+                }
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     self.st.ui.autostart = Some(on);
