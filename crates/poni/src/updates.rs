@@ -10,8 +10,7 @@
 //! until it is back; the app asks [`Updater::due_in`] again then.
 
 use crate::icons::Icon;
-use crate::pages::PageKind;
-use crate::state::{AppState, InlineAction, Notice, NoticeAction, UpdateStatus};
+use crate::state::{AppState, InlineAction, Notice, NoticeAction};
 use crate::version::VERSION;
 use poni_core::geom::{palette, Color};
 use poni_core::store::{load_json, save_json_atomic};
@@ -20,8 +19,9 @@ use std::path::PathBuf;
 
 /// Which download is this system's.
 const MAC: bool = cfg!(target_os = "macos");
-/// How long the island shows "a new version is out" and "Updated to".
-const ANNOUNCE_S: f64 = 12.0;
+/// How long the island shows "Update available" (Hide puts it away sooner)
+/// and "Updated to".
+const ANNOUNCE_S: f64 = 15.0;
 const UPDATED_S: f64 = 10.0;
 
 pub struct Updater {
@@ -45,8 +45,9 @@ impl Updater {
         }
         let due = Some(memory.next_check(now));
         let u = Updater { path, memory, due, updated };
-        st.update.status = if st.settings.update_check && u.memory.checked > 0 { UpdateStatus::UpToDate } else { UpdateStatus::Unknown };
         u.show(st);
+        let latest = u.memory.latest.as_ref().map_or("none", |r| r.version.as_str());
+        crate::pinfo!("updates: latest known {latest}, offering {:?}, next look in {} s", st.update.offer.as_ref().map(|r| &r.version), due.unwrap_or(now).saturating_sub(now));
         u
     }
 
@@ -58,9 +59,8 @@ impl Updater {
     }
 
     /// The read starts now (on the add-on thread).
-    pub fn begin(&mut self, st: &mut AppState) {
+    pub fn begin(&mut self) {
         self.due = None;
-        st.update.status = UpdateStatus::Checking;
     }
 
     /// The file's answer, at `now` (Unix seconds).
@@ -68,13 +68,10 @@ impl Updater {
         match r {
             Ok(rel) => {
                 self.memory.read(rel, now);
-                st.update.status = UpdateStatus::UpToDate;
                 self.due = Some(now + update::CHECK_EVERY_S);
             }
-            Err(_) => {
-                st.update.status = UpdateStatus::Failed;
-                self.due = Some(now + update::RETRY_S);
-            }
+            // The file is kept as last read; the next look is in an hour.
+            Err(_) => self.due = Some(now + update::RETRY_S),
         }
         save(&self.path, &self.memory);
         self.show(st);
@@ -85,8 +82,6 @@ impl Updater {
     pub fn switched(&mut self, st: &mut AppState, now: u64) {
         if st.settings.update_check {
             self.due = Some(now + update::SWITCHED_ON_S);
-        } else {
-            st.update.status = UpdateStatus::Unknown;
         }
         self.show(st);
     }
@@ -123,22 +118,25 @@ impl Updater {
     }
 
     /// The offer Settings and the menu show, from what is remembered (none
-    /// while the checks are off).
+    /// while the checks are off, and then no sheet either).
     fn show(&self, st: &mut AppState) {
         st.update.offer = self.memory.offer(VERSION, MAC).filter(|_| st.settings.update_check).cloned();
+        st.update.sheet &= st.update.offer.is_some();
     }
 }
 
-/// "Oyenza Studio 0.2.5 is out", the release's headline, and Update.
+/// "Update available 0.2.5" (the version dimmer) over the release's
+/// headline, and Hide. Clicked, it opens the Update sheet.
 pub fn new_version_notice(rel: &Release, accent: Color, until: f64) -> Notice {
     Notice {
         icon: Icon::Download,
         color: accent,
-        title: format!("Oyenza Studio {} is out", rel.version),
+        title: "Update available".into(),
+        title_dim: rel.version.clone(),
         subtitle: rel.headline.clone(),
         until,
-        action: Some(NoticeAction::OpenPage(PageKind::Settings)),
-        inline: Some(InlineAction::Update),
+        action: Some(NoticeAction::OpenUpdate),
+        inline: Some(InlineAction::Hide),
         reveal: None,
     }
 }
@@ -149,6 +147,7 @@ pub fn updated_notice(headline: Option<String>, until: f64) -> Notice {
         icon: Icon::CheckCircle,
         color: palette::GREEN,
         title: format!("Updated to {VERSION}"),
+        title_dim: String::new(),
         subtitle: headline.unwrap_or_else(|| "See what's new in this version".into()),
         until,
         action: None,

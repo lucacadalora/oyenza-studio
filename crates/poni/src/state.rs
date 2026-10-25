@@ -134,6 +134,8 @@ pub enum NoticeAction {
     OpenPage(PageKind),
     /// Open Focus and start the (idle) timer.
     StartFocus,
+    /// Open the Update sheet in Settings (a new version's notice).
+    OpenUpdate,
 }
 
 /// A one-click action shown as a small pill inside a notice (doesn't expand).
@@ -145,8 +147,9 @@ pub enum InlineAction {
     ShowAmount,
     /// Stop the adzan (Prayer times).
     StopAdzan,
-    /// Update to the version the notice tells about (`crate::updates`).
-    Update,
+    /// Put the notice away now (a new version's: the menu and Settings
+    /// keep offering it).
+    Hide,
     /// Open this version's release notes ("Updated to").
     WhatsNew,
 }
@@ -156,6 +159,9 @@ pub struct Notice {
     pub icon: Icon,
     pub color: Color,
     pub title: String,
+    /// Dimmer words after the title, on its line ("0.2.5" after "Update
+    /// available"); empty for most notices.
+    pub title_dim: String,
     pub subtitle: String,
     pub until: f64,
     pub action: Option<NoticeAction>,
@@ -170,20 +176,9 @@ pub struct UpdateView {
     /// A later release than this copy, with a download for this system
     /// (only while the checks are on).
     pub offer: Option<poni_core::update::Release>,
-    pub status: UpdateStatus,
-}
-
-/// The last look at the update file.
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
-pub enum UpdateStatus {
-    /// Not looked yet (or the checks are off).
-    #[default]
-    Unknown,
-    Checking,
-    /// The file names this version or an older one.
-    UpToDate,
-    /// The look failed; the next one is in an hour.
-    Failed,
+    /// Settings shows the Update sheet in place of its rows (until the
+    /// island closes or the page changes).
+    pub sheet: bool,
 }
 
 /// A phone wants to send these files; the Shelf asks the person at the PC.
@@ -649,7 +644,17 @@ impl AppState {
 
     /// Show a notice pill for `secs` seconds.
     pub fn notify(&mut self, icon: Icon, color: Color, title: impl Into<String>, subtitle: impl Into<String>, secs: f64, action: Option<NoticeAction>) {
-        self.notice = Some(Notice { icon, color, title: title.into(), subtitle: subtitle.into(), until: self.now + secs, action, inline: None, reveal: None });
+        self.notice = Some(Notice { icon, color, title: title.into(), title_dim: String::new(), subtitle: subtitle.into(), until: self.now + secs, action, inline: None, reveal: None });
+    }
+
+    /// The Update sheet: Settings, with the sheet in place of its rows (the
+    /// gear goes back to the page it was opened from).
+    pub fn open_update(&mut self) {
+        if self.page != PageKind::Settings {
+            self.ui.before_settings = Some(self.page);
+        }
+        self.page = PageKind::Settings;
+        self.update.sheet = true;
     }
 
     /// Give the current notice a one-click inline action pill.
@@ -738,6 +743,7 @@ mod tests {
             icon: Icon::Steps,
             color: palette::GREEN,
             title: title.into(),
+            title_dim: String::new(),
             subtitle: String::new(),
             until: 0.0,
             action: None,

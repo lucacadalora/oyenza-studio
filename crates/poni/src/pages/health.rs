@@ -297,6 +297,7 @@ pub fn goal_notice(steps: u32, until: f64) -> Notice {
         icon: Icon::Steps,
         color: palette::GREEN,
         title: format!("{} steps today", fmt_steps(steps)),
+        title_dim: String::new(),
         subtitle: "Daily step goal reached".into(),
         until,
         action: Some(NoticeAction::OpenPage(PageKind::Health)),

@@ -731,6 +731,7 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
             icon: Icon::Moon,
             color: st.accent,
             title: crate::pages::prayer::moment_title(poni_core::prayer::Prayer::Ashar),
+            title_dim: String::new(),
             subtitle: format!("{} \u{b7} {place}", site.hhmm(ashar)),
             until,
             action: Some(NoticeAction::OpenPage(PageKind::Prayer)),
@@ -887,8 +888,10 @@ enum Scene {
     UpdateNotice,
     /// The first start after an update: "Updated to", with What's new.
     UpdatedNotice,
-    /// Settings while a new version is offered: Update on the version's row.
+    /// Settings while a new version is offered: Update on its last row.
     SettingsUpdate,
+    /// The Update sheet (the notice or the menu's "Update to" line opens it).
+    UpdateSheet,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -921,7 +924,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 80] = [
+const SCENES: [Scene; 81] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1011,10 +1014,12 @@ const SCENES: [Scene; 80] = [
     Scene::AsidePeek,
     Scene::AsideHud,
     Scene::SettingsAsideStay,
-    // New versions: the island's notice, "Updated to", and Settings offering one.
+    // New versions: the island's notice, "Updated to", Settings offering
+    // one, and the Update sheet.
     Scene::UpdateNotice,
     Scene::UpdatedNotice,
     Scene::SettingsUpdate,
+    Scene::UpdateSheet,
 ];
 
 impl Scene {
@@ -1090,6 +1095,7 @@ impl Scene {
             Scene::UpdateNotice => "update-notice".into(),
             Scene::UpdatedNotice => "updated-notice".into(),
             Scene::SettingsUpdate => "page-settings-update".into(),
+            Scene::UpdateSheet => "page-update-sheet".into(),
         }
     }
 
@@ -1106,7 +1112,8 @@ impl Scene {
             | Scene::SettingsSignedIn
             | Scene::SettingsStayOnTop
             | Scene::SettingsAsideStay
-            | Scene::SettingsUpdate => Some(PageKind::Settings),
+            | Scene::SettingsUpdate
+            | Scene::UpdateSheet => Some(PageKind::Settings),
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -1876,10 +1883,9 @@ impl SelfTest {
         // Step aside over maximized windows (the default), except where Stay is picked.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
         // A later version offered, only where Settings shows it.
-        st.update = if scene == Scene::SettingsUpdate {
-            crate::state::UpdateView { offer: Some(fake_release()), status: crate::state::UpdateStatus::UpToDate }
-        } else {
-            crate::state::UpdateView::default()
+        st.update = match scene {
+            Scene::SettingsUpdate | Scene::UpdateSheet => crate::state::UpdateView { offer: Some(fake_release()), sheet: scene == Scene::UpdateSheet },
+            _ => crate::state::UpdateView::default(),
         };
         // A new song's title shows for its few seconds (held here).
         st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };
@@ -1936,6 +1942,7 @@ impl SelfTest {
                     icon: Icon::MoneyIn,
                     color: palette::GREEN,
                     title: "Money in · BCA".into(),
+                    title_dim: String::new(),
                     subtitle: if hidden { "Amount and sender hidden".into() } else { "Rp 1.250.000 · Gaji Oktober".into() },
                     until,
                     action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -1947,6 +1954,7 @@ impl SelfTest {
                 icon: Icon::Phone,
                 color: palette::GREEN,
                 title: "3 files from Pixel 10 are on the Shelf".into(),
+                title_dim: String::new(),
                 subtitle: "Open the Shelf to see them".into(),
                 until,
                 action: Some(NoticeAction::OpenPage(PageKind::Shelf)),
@@ -1957,6 +1965,7 @@ impl SelfTest {
                 icon: Icon::MoneyOut,
                 color: palette::BLUE,
                 title: "Money out · BCA".into(),
+                title_dim: String::new(),
                 subtitle: "Amount and payee hidden".into(),
                 until,
                 action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),
@@ -1967,6 +1976,7 @@ impl SelfTest {
                 icon: Icon::Calendar,
                 color: palette::ORANGE,
                 title: "Spotify renews tomorrow".into(),
+                title_dim: String::new(),
                 subtitle: "Amount hidden".into(),
                 until,
                 action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),

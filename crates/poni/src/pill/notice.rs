@@ -12,7 +12,6 @@
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::island::Geom;
-use crate::pages::focus::phase_color;
 use crate::state::{AppState, InlineAction, Notice};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -61,7 +60,7 @@ fn subtitle_style() -> TextStyle {
 /// beside them. Never the hidden sum (`reveal`), so the pill's size gives
 /// nothing away before Show.
 fn key(n: &Notice) -> u64 {
-    wid(&n.title) ^ wid(&n.subtitle).rotate_left(21) ^ n.inline.map_or(0, |a| a as u64 + 1)
+    wid(&n.title) ^ wid(&n.title_dim).rotate_left(42) ^ wid(&n.subtitle).rotate_left(21) ^ n.inline.map_or(0, |a| a as u64 + 1)
 }
 
 /// Whole even DIPs, so the centred body's edges stay on whole DIPs.
@@ -87,7 +86,7 @@ pub fn geom(st: &AppState) -> Option<Geom> {
 /// The width before the words have been measured (a new notice's first
 /// frame; the next frame has the measured one while the morph runs).
 fn guess_width(n: &Notice) -> f32 {
-    let words = guess(&n.title, 13.0 * 1.05).max(guess(&n.subtitle, 12.0));
+    let words = guess(&format!("{} {}", n.title, n.title_dim), 13.0 * 1.05).max(guess(&n.subtitle, 12.0));
     let tail = if n.inline.is_some() { ACT_GAP + ACT_MIN_W + ACT_INSET } else { TEXT_END };
     fit(TEXT_X + words + tail)
 }
@@ -118,7 +117,9 @@ fn inline_done(st: &AppState, n: &Notice, a: InlineAction) -> bool {
         InlineAction::ShowAmount => n.reveal.is_none(),
         InlineAction::StopAdzan => !st.prayer.adzan,
         // Done once clicked: the app puts the check in the notice's icon.
-        InlineAction::Update | InlineAction::WhatsNew => n.icon == Icon::Check,
+        InlineAction::WhatsNew => n.icon == Icon::Check,
+        // Hide takes the notice away at once.
+        InlineAction::Hide => false,
     }
 }
 
@@ -155,15 +156,8 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
 
 fn draw_notice(ui: &mut Ui, st: &AppState, n: &Notice, body: Rect) {
     let act = n.inline.map(|a| {
-        let (label, icon, color) = match a {
-            // Orange for focus; a break starts in its own green.
-            InlineAction::StartFocus => ("Start", Icon::Play, phase_color(st.pomodoro.phase)),
-            InlineAction::ShowAmount => ("Show", Icon::Eye, n.color),
-            InlineAction::StopAdzan => ("Stop", Icon::Stop, n.color),
-            InlineAction::Update => ("Update", Icon::Download, n.color),
-            InlineAction::WhatsNew => ("What's new", Icon::Open, n.color),
-        };
-        (a, label, icon, color, ui.pill_width(label, true, true).max(ACT_MIN_W))
+        let (label, icon, color) = crate::activities::inline_look(st, n, a);
+        (a, label, icon, color, ui.pill_width(label, icon.is_some(), true).max(if icon.is_some() { ACT_MIN_W } else { 0.0 }))
     });
 
     // New words: measure them once for `geom` (a DIP of slack so they never
@@ -173,7 +167,7 @@ fn draw_notice(ui: &mut Ui, st: &AppState, n: &Notice, body: Rect) {
     let k = key(n);
     let (fk, mut fw) = FIT.with(|f| f.get());
     if fk != k {
-        let words = ui.c.measure(&n.title, &title_st, 2000.0).0.max(ui.c.measure(&n.subtitle, &sub_st, 2000.0).0);
+        let words = crate::activities::notice_title_width(ui, n, &title_st).max(ui.c.measure(&n.subtitle, &sub_st, 2000.0).0);
         let tail = act.as_ref().map_or(TEXT_END, |&(.., w)| ACT_GAP + w + ACT_INSET);
         fw = fit(TEXT_X + words.ceil() + 1.0 + tail);
         FIT.with(|f| f.set((k, fw)));
@@ -198,7 +192,7 @@ fn draw_notice(ui: &mut Ui, st: &AppState, n: &Notice, body: Rect) {
     let text_right = act.as_ref().map_or(lay.right() - TEXT_END, |(.., r)| r.x - ACT_GAP);
     let tw = (text_right - tx).max(0.0);
     // Baselines about 22 and 37 DIP down the 48, as the spec has them.
-    ui.c.text(&n.title, Rect::new(tx, cy - 17.0, tw, 20.0), &title_st);
+    crate::activities::notice_title(ui, n, Rect::new(tx, cy - 17.0, tw, 20.0), title_st);
     ui.c.text(&n.subtitle, Rect::new(tx, cy, tw, 16.0), &sub_st);
 
     // The whole notice is a button (handled on mouse-down by the app); the
@@ -209,7 +203,8 @@ fn draw_notice(ui: &mut Ui, st: &AppState, n: &Notice, body: Rect) {
             ui.c.fill_rrect(r, r.h / 2.0, color.with_alpha(0.20));
             ui.c.icon(Icon::Check, Rect::from_center(r.center(), 14.0, 14.0), color);
         } else {
-            ui.pill(wid("notice.act"), r, label, Some(icon), PillStyle::Primary(color));
+            let style = if icon.is_some() { PillStyle::Primary(color) } else { PillStyle::Utility };
+            ui.pill(wid("notice.act"), r, label, icon, style);
         }
     }
 }
@@ -223,6 +218,7 @@ mod tests {
             icon: Icon::MoneyIn,
             color: palette::GREEN,
             title: "Money in \u{b7} BCA".into(),
+            title_dim: String::new(),
             subtitle: subtitle.into(),
             until: 0.0,
             action: None,

@@ -345,7 +345,7 @@ This PC gets a key of its own that can do only these things: it reads the last 7
 
 ### New versions
 
-Oyenza Studio looks for a new version a couple of minutes after it starts and then twice a day, by reading one small signed file from studio.oyenza.com. It doesn't look while your PC is locked, the screen is off or battery saver is on. When there is a new version, the island says so once, with **Update**. Until you update, the right-click menu starts with **Update to Oyenza Studio x** and Settings shows it on its last row. **Update** opens the release's page on Windows and downloads the DMG on a Mac. After you update, the island says **Updated to x** once, with **What's new**. **Tell me about new versions** in Settings turns the checks off. How the file is made and signed: [docs/updates.md](docs/updates.md).
+Oyenza Studio looks for a new version a couple of minutes after it starts and then twice a day, by reading one small signed file from studio.oyenza.com. It doesn't look while your PC is locked, the screen is off or battery saver is on. When there is a new version, the island says **Update available** with the version, once, and **Hide** puts it away. Click it for the Update sheet: what's new, and the new version a click away (on Windows the card opens the release page with the Setup; on a Mac it downloads the DMG). Until you update, the right-click menu starts with **Update to Oyenza Studio x…** and Settings has a last row with **Update**. After you update, the island says **Updated to x** once, with **What's new**. **Tell me about new versions** in Settings turns the checks off. Versions 0.2.4 and older don't look: update them by hand once. How the file is made and signed: [docs/updates.md](docs/updates.md).
 
 ### Add-ons
 

@@ -925,7 +925,11 @@ impl App {
             }
             MenuCmd::OpenDataFolder => services::open(&paths::data_dir().to_string_lossy()),
             MenuCmd::About => services::open(&crate::version::notes_url()),
-            MenuCmd::Update => self.update_now(),
+            // "Update to x…": the island opens on the Update sheet.
+            MenuCmd::Update => {
+                self.st.open_update();
+                self.expand();
+            }
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -1128,7 +1132,7 @@ impl App {
                 }
                 let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
                 if let Some(u) = self.updater.as_mut() {
-                    u.begin(&mut self.st);
+                    u.begin();
                     if !started {
                         u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
                         self.schedule_update();
@@ -1365,6 +1369,8 @@ impl App {
                 }
                 self.schedule_update();
                 self.refresh_menu();
+                // A frame, so a new version's notice goes up now, not with the next redraw.
+                self.request_frame();
             }
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::AdzanEnded => self.adzan_ended(),
@@ -1892,6 +1898,7 @@ impl App {
                         if let Some(n) = self.st.notice.take() {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
                                 Some(NoticeAction::StartFocus) => {
                                     self.st.page = PageKind::Focus;
                                     if !self.st.pomodoro.is_active() {
@@ -2031,6 +2038,7 @@ impl App {
             if self.st.page == PageKind::Settings {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
+            self.st.update.sheet = false;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -2045,6 +2053,7 @@ impl App {
             self.st.page = p;
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
+                self.st.update.sheet = false;
                 self.st.store.last_page = p.key().to_string();
                 self.set_timer(Timer::Save, 800);
             } else {
@@ -2088,12 +2097,15 @@ impl App {
             self.adzan.stop();
             self.st.prayer.adzan = false;
         }
-        if self.st.notice.as_ref().is_some_and(|n| n.icon != Icon::Check) {
-            match a {
-                InlineAction::Update => self.update_now(),
-                InlineAction::WhatsNew => services::open(&crate::version::notes_url()),
-                _ => {}
+        if a == InlineAction::Hide {
+            // Gone at once, the way a notice leaves when its time is up.
+            if let Some(n) = self.st.notice.as_mut() {
+                n.until = self.st.now;
             }
+            return;
+        }
+        if a == InlineAction::WhatsNew && self.st.notice.as_ref().is_some_and(|n| n.icon != Icon::Check) {
+            services::open(&crate::version::notes_url());
         }
         let st = &mut self.st;
         if st.notice.as_ref().is_none_or(|n| n.icon == Icon::Check) {
@@ -2112,7 +2124,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Update | InlineAction::WhatsNew => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -2391,6 +2403,7 @@ impl App {
             icon,
             color,
             title,
+            title_dim: String::new(),
             subtitle: if hide { hidden.unwrap_or_default() } else { shown.clone() },
             until: now + oyenza::NOTICE_S,
             action: Some(NoticeAction::OpenPage(PageKind::Oyenza)),

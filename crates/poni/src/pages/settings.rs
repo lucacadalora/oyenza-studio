@@ -6,24 +6,31 @@
 //! the idle look as pickers, six switches, Hide or Stay on top in
 //! full-screen apps, and (Windows) Step aside or Stay over maximized windows.
 //! A change saves at once and applies the way the tray's does
-//! (`Command::SaveSettings`). Last, across the page, this version and what
-//! the update file said, with Update when a later version is out.
+//! (`Command::SaveSettings`). While a later version is out, a last row
+//! across the page says so, with Update: that opens the Update sheet, which
+//! takes the rows' place (as the island's notice and the menu's "Update to"
+//! line do) until the island closes or Settings does.
 
+use crate::activities::{text_with_dim, text_with_dim_width};
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{TextStyle, Weight};
+use crate::icons::Icon;
 use crate::pages::PageKind;
 use crate::pill::status;
-use crate::state::{AppState, OyenzaLink, UpdateStatus};
+use crate::state::{AppState, OyenzaLink};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::oyenza;
+use poni_core::phonedrop::fmt_bytes;
 use poni_core::settings::{IdleStyle, Theme};
+use poni_core::update::Release;
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), then the switches and choices (four rows) and the
-/// version's row. Shorter than the System page (256), so the window keeps
-/// its size.
-const HEIGHT: f32 = SWITCHES_Y + (ROWS + 1) as f32 * ROW_H;
+/// narrow island), then the switches and choices (four rows), and the new
+/// version's row while there is one. Shorter than the System page (256),
+/// so the window keeps its size.
+const HEIGHT: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
+const HEIGHT_OFFER: f32 = HEIGHT + ROW_H;
 const ACCOUNT_H: f32 = 44.0;
 /// The Oyenza app's icon, and the text column right of it.
 const ICON: f32 = 36.0;
@@ -115,8 +122,12 @@ const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
 /// `step_aside` each one sets.
 const ASIDE: [(bool, &str); 2] = [(true, "Step aside"), (false, "Stay")];
 
-pub fn height(_st: &AppState) -> f32 {
-    HEIGHT
+pub fn height(st: &AppState) -> f32 {
+    match st.update.offer {
+        Some(_) if st.update.sheet => SHEET_H,
+        Some(_) => HEIGHT_OFFER,
+        None => HEIGHT,
+    }
 }
 
 /// While a sign-in code waits, its time left counts down each second.
@@ -125,6 +136,10 @@ pub fn next_wake(st: &AppState) -> Option<f64> {
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
+    if let Some(rel) = st.update.offer.clone().filter(|_| st.update.sheet) {
+        draw_sheet(ui, st, area, &rel);
+        return;
+    }
     draw_account(ui, st, Rect::new(area.x, area.y, area.w, ACCOUNT_H));
     let px = 1.0 / ui.c.scale().max(0.5);
     ui.c.fill_rect(Rect::new(area.x, area.y + RULE_Y, area.w, px), Color::white(0.10));
@@ -214,37 +229,125 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
             }
         }
     }
-    draw_version(ui, st, Rect::new(area.x, area.y + SWITCHES_Y + ROWS as f32 * ROW_H, area.w, ROW_H));
+    if let Some(rel) = st.update.offer.clone() {
+        draw_offer(ui, st, Rect::new(area.x, area.y + HEIGHT, area.w, ROW_H), &rel);
+    }
 }
 
-/// The last row, across the page: this version and what the update file
-/// said, with Update when a later version is out (else What's new).
-fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect) {
+/// The last row while a later version is out, across the page: "Update
+/// available 0.2.5", its headline, and Update (the sheet).
+fn draw_offer(ui: &mut Ui, st: &mut AppState, r: Rect, rel: &Release) {
     let cy = r.center().y;
-    let offer = st.update.offer.as_ref().map(|o| o.version.clone());
-    let label = if offer.is_some() { "Update" } else { "What's new" };
-    let w = ui.pill_width(label, false, true);
+    let w = ui.pill_width("Update", false, true);
     let b = Rect::new(r.right() - w, cy - PILL_SMALL / 2.0, w, PILL_SMALL);
-    let style = if offer.is_some() { PillStyle::Primary(st.accent) } else { PillStyle::Utility };
-    if ui.pill(wid("settings.update"), b, label, None, style).clicked {
-        st.cmd(if offer.is_some() { Command::Update } else { Command::OpenUrl(crate::version::notes_url()) });
+    if ui.pill(wid("settings.update"), b, "Update", None, PillStyle::Primary(st.accent)).clicked {
+        st.update.sheet = true;
     }
-    let title = format!("Oyenza Studio {}", crate::version::VERSION);
-    let body = TextStyle::body();
     let right = b.x - 12.0;
-    let tw = ui.c.measure(&title, &body, 400.0).0.ceil().min((right - r.x).max(0.0));
-    ui.c.text(&title, Rect::new(r.x, r.y, tw + 1.0, r.h), &body);
-    let line = match (offer, st.update.status) {
-        (Some(v), _) => format!("Version {v} is ready"),
-        (None, UpdateStatus::Checking) => "Looking for a new version…".into(),
-        (None, UpdateStatus::UpToDate) => "Up to date".into(),
-        (None, UpdateStatus::Failed) => "Couldn't check; trying again later".into(),
-        (None, UpdateStatus::Unknown) => String::new(),
-    };
-    let x = r.x + tw + 10.0;
-    if !line.is_empty() && right > x {
-        ui.c.text(&line, Rect::new(x, r.y, right - x, r.h), &TextStyle::footnote().color(palette::TEXT_DIM));
+    let body = TextStyle::body();
+    let title = "Update available";
+    let tw = text_with_dim_width(ui, title, &rel.version, &body).ceil().min((right - r.x).max(0.0));
+    text_with_dim(ui, title, &rel.version, Rect::new(r.x, r.y, tw + 1.0, r.h), body);
+    let x = r.x + tw + 12.0;
+    if right > x {
+        ui.c.text(&rel.headline, Rect::new(x, r.y, right - x, r.h), &TextStyle::footnote().color(palette::TEXT_DIM));
     }
+}
+
+// ---------------------------------------------------------------- the Update sheet
+
+/// The Update sheet: a disc, "Update available 0.2.5" over what the
+/// download is, Not now; a line; the release's headline under What's new;
+/// a card that gets it; and its notes. Shorter than the rows it replaces.
+const SHEET_CAPTION_Y: f32 = 66.0;
+const SHEET_HEADLINE_Y: f32 = 82.0;
+const CARDS_Y: f32 = 114.0;
+const CARD_H: f32 = 58.0;
+const CARD_GAP: f32 = 10.0;
+const CARD_DISC: f32 = 30.0;
+const NOTES_Y: f32 = CARDS_Y + CARD_H + 12.0;
+const SHEET_H: f32 = NOTES_Y + PILL_SMALL;
+
+/// What a card of the sheet does when clicked.
+#[derive(Clone, Copy)]
+enum Get {
+    /// The release page (Windows) or the DMG (Mac): `crate::updates`.
+    Download,
+}
+
+fn draw_sheet(ui: &mut Ui, st: &mut AppState, area: Rect, rel: &Release) {
+    let head = Rect::new(area.x, area.y, area.w, ACCOUNT_H);
+    let cy = head.center().y;
+    let accent = st.accent;
+    let c = Point::new(head.x + ICON / 2.0, cy);
+    ui.c.fill_circle(c, ICON / 2.0, accent.with_alpha(0.22));
+    ui.c.icon(Icon::Download, Rect::from_center(c, 20.0, 20.0), accent);
+    let later_w = ui.pill_width("Not now", false, true);
+    let later = Rect::new(head.right() - later_w, cy - PILL_SMALL / 2.0, later_w, PILL_SMALL);
+    if ui.pill(wid("update.later"), later, "Not now", None, PillStyle::Utility).clicked {
+        st.cmd(Command::Collapse);
+    }
+    let x = head.x + TEXT_X;
+    let w = (later.x - 16.0 - x).max(0.0);
+    text_with_dim(ui, "Update available", &rel.version, Rect::new(x, cy - 19.0, w, 20.0), TextStyle::headline());
+    let size = rel.download(cfg!(target_os = "macos")).map(|d| fmt_bytes(d.size)).unwrap_or_default();
+    let line = format!("A new version of Oyenza Studio is ready to download ({size}).");
+    ui.c.text(&line, Rect::new(x, cy + 1.0, w, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+
+    let px = 1.0 / ui.c.scale().max(0.5);
+    ui.c.fill_rect(Rect::new(area.x, area.y + RULE_Y, area.w, px), Color::white(0.10));
+    let label_st = TextStyle::caption().weight(Weight::Semibold).color(palette::TEXT_FAINT);
+    ui.c.text("WHAT'S NEW", Rect::new(area.x, area.y + SHEET_CAPTION_Y, area.w, 14.0), &label_st);
+    ui.c.text(&rel.headline, Rect::new(area.x, area.y + SHEET_HEADLINE_Y, area.w, 20.0), &TextStyle::body());
+
+    // Until the app installs it itself: the release page on Windows, where
+    // the Setup is, and the DMG on a Mac.
+    let how = if cfg!(target_os = "macos") {
+        "Downloads the DMG: open it and drag Oyenza Studio to Applications."
+    } else {
+        "Opens its release page: run the Setup there, your settings stay."
+    };
+    let cards = [(Get::Download, Icon::Download, format!("Download {}", rel.version), how)];
+    let n = cards.len() as f32;
+    let card_w = ((area.w - (n - 1.0) * CARD_GAP) / n).max(0.0);
+    for (i, (get, icon, title, line)) in cards.iter().enumerate() {
+        let r = Rect::new(area.x + i as f32 * (card_w + CARD_GAP), area.y + CARDS_Y, card_w, CARD_H);
+        if card(ui, wid_n("update.card", i as u64), r, *icon, title, line, accent) {
+            match get {
+                Get::Download => st.cmd(Command::Update),
+            }
+        }
+    }
+
+    let notes = format!("See what's new in Oyenza Studio {}", rel.version);
+    let nw = ui.pill_width(&notes, true, true).min(area.w);
+    let nr = Rect::new(area.x, area.y + NOTES_Y, nw, PILL_SMALL);
+    if ui.pill(wid("update.notes"), nr, &notes, Some(Icon::Open), PillStyle::Utility).clicked {
+        st.cmd(Command::OpenUrl(rel.notes.clone()));
+    }
+}
+
+/// One of the sheet's choices: a card with an icon, what it does in bold
+/// and how under it. True when clicked.
+fn card(ui: &mut Ui, id: u64, r: Rect, icon: Icon, title: &str, line: &str, accent: Color) -> bool {
+    let resp = ui.button(id, r);
+    let fill = if resp.pressed {
+        Color::white(0.14)
+    } else if resp.hovered {
+        Color::white(0.10)
+    } else {
+        Color::white(0.06)
+    };
+    ui.c.fill_rrect(r, 12.0, fill);
+    let c = Point::new(r.x + 14.0 + CARD_DISC / 2.0, r.center().y);
+    ui.c.fill_circle(c, CARD_DISC / 2.0, accent.with_alpha(0.22));
+    ui.c.icon(icon, Rect::from_center(c, 16.0, 16.0), accent);
+    let x = c.x + CARD_DISC / 2.0 + 12.0;
+    let w = (r.right() - 14.0 - x).max(0.0);
+    let cy = r.center().y;
+    ui.c.text(title, Rect::new(x, cy - 18.0, w, 20.0), &TextStyle::body().weight(Weight::Semibold));
+    ui.c.text(line, Rect::new(x, cy + 1.0, w, 16.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+    resp.clicked
 }
 
 /// A choice's label with its picker where the other rows have their

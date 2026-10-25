@@ -675,7 +675,21 @@ mod tests {
     fn settings_never_makes_the_window_taller() {
         // The window fits the tallest page; System is always 256 DIPs (Settings
         // grew past Tasks' 200 with its Over maximized windows row).
-        let st = state();
+        let mut st = state();
         assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::System, &st));
+        // Nor its new version's row, nor the Update sheet in its place.
+        let rel = poni_core::update::Release {
+            version: "9.9.9".into(),
+            date: String::new(),
+            headline: "Something new".into(),
+            notes: String::new(),
+            windows: None,
+            mac: None,
+        };
+        st.update.offer = Some(rel);
+        let row = content_height(PageKind::Settings, &st);
+        st.update.sheet = true;
+        let sheet = content_height(PageKind::Settings, &st);
+        assert!(row <= content_height(PageKind::System, &st) && sheet <= row, "{row} {sheet}");
     }
 }
