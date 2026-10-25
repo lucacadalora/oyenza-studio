@@ -1,12 +1,12 @@
 # Signing the Mac app
 
-Without a Developer ID signature, macOS says "Apple could not verify "Oyen Poni" is free of malware" and sends people to System Settings > Privacy & Security > Open Anyway. A DMG signed with a Developer ID, checked by Apple (notarized) and stapled opens with one ordinary question, "downloaded from the Internet... Open".
+Without a Developer ID signature, macOS says "Apple could not verify "Oyenza Studio" is free of malware" and sends people to System Settings > Privacy & Security > Open Anyway. A DMG signed with a Developer ID, checked by Apple (notarized) and stapled opens with one ordinary question, "downloaded from the Internet... Open".
 
 The `mac` workflow does this by itself on every release tag once five secrets exist in this repository's `release` environment. Until then nothing changes: releases keep the ad-hoc signed test DMG. Only the Apple Developer account's Account Holder can make the certificate. Never paste any of these values into a chat, an issue or a commit.
 
 What the workflow does, in `.github/workflows/mac.yml` and `tools/sign_mac_dmg.sh`:
 
-- **`sign` (release tags, or by hand with `sign` on):** re-signs the app with the hardened runtime, a secure timestamp and `installer/mac/poni.entitlements`, builds and signs the DMG, sends it to Apple's notary service, staples the ticket, checks it the way Gatekeeper will, and runs the smoke test on the signed app. The release job then uploads that DMG. If signing fails, the release still gets the ad-hoc DMG, with a warning in the run.
+- **`sign` (release tags, or by hand with `sign` on):** re-signs the app with the hardened runtime, a secure timestamp and `installer/mac/poni.entitlements`, builds and signs the DMG, sends it to Apple's notary service, staples the ticket, checks it the way Gatekeeper will, and runs the smoke test on the signed app. The release job then uploads that DMG under all its names, the old `Oyen-Poni-Mac.dmg` included. If signing fails, the release still gets the ad-hoc DMG, with a warning in the run.
 - **`sign-check` (everything else, pull requests included):** the same signing with a throwaway certificate and no notarization, plus the smoke run under the hardened runtime, so the path is tested before a release needs it.
 
 ## 1. The Developer ID Application certificate (about 10 minutes, on your Mac)
@@ -15,7 +15,7 @@ What the workflow does, in `.github/workflows/mac.yml` and `tools/sign_mac_dmg.s
 
 1. Open **Keychain Access** (Applications > Utilities).
 2. In the menu bar: **Keychain Access > Certificate Assistant > Request a Certificate From a Certificate Authority…**
-3. User Email Address: your Apple Account's email. Common Name: `Oyen Poni Developer ID`. Leave CA Email empty. Choose **Saved to disk**, click **Continue** and save `CertificateSigningRequest.certSigningRequest`. Keychain Access makes the private key now, on this Mac.
+3. User Email Address: your Apple Account's email. Common Name: `Oyenza Studio Developer ID`. Leave CA Email empty. Choose **Saved to disk**, click **Continue** and save `CertificateSigningRequest.certSigningRequest`. Keychain Access makes the private key now, on this Mac.
 
 **The certificate**
 
@@ -27,7 +27,7 @@ What the workflow does, in `.github/workflows/mac.yml` and `tools/sign_mac_dmg.s
 **Export it with its key**
 
 8. In Keychain Access, open **login > My Certificates** and find **Developer ID Application: <name> (<team ID>)**. The triangle beside it shows the private key. No key there means the request was made on another Mac: export from that one.
-9. Right-click the certificate > **Export "Developer ID Application: …"**. File Format: **Personal Information Exchange (.p12)**. Save it to the Desktop as `poni-developer-id.p12`.
+9. Right-click the certificate > **Export "Developer ID Application: …"**. File Format: **Personal Information Exchange (.p12)**. Save it to the Desktop as `oyenza-studio-developer-id.p12`.
 10. Give it a strong password from your password manager; it becomes the secret `MACOS_CERTIFICATE_PASSWORD`. If macOS asks for your login password to allow the export, allow it.
 
 Xcode can do steps 1 to 7 in one go: **Xcode > Settings > Accounts**, select your team, **Manage Certificates… > + > Developer ID Application**, then continue at step 8.
@@ -39,7 +39,7 @@ Developer ID certificates made since 1 October 2026 last one year. Put a reminde
 notarytool signs in to Apple with this key, so no password or two-factor code sits in CI.
 
 1. Open https://appstoreconnect.apple.com > **Users and Access > Integrations > App Store Connect API**, tab **Team Keys**. A Team key is needed: Apple's notary service doesn't take Individual keys.
-2. Click **+** (Generate API Key). Name: `Oyen Poni notarization`. Access: **Developer**. Click **Generate**.
+2. Click **+** (Generate API Key). Name: `Oyenza Studio notarization`. Access: **Developer**. Click **Generate**.
 3. Click **Download** next to the new key. You get `AuthKey_XXXXXXXXXX.p8`, and Apple offers the download only once.
 4. Note the **Key ID** (in the list) and the **Issuer ID** (above the list).
 
@@ -54,7 +54,7 @@ Make a new key for this rather than reusing one that can manage the iPhone app: 
 
 | Secret | Value |
 | --- | --- |
-| `MACOS_CERTIFICATE_P12_BASE64` | In Terminal: `base64 -i ~/Desktop/poni-developer-id.p12 \| pbcopy`, then paste |
+| `MACOS_CERTIFICATE_P12_BASE64` | In Terminal: `base64 -i ~/Desktop/oyenza-studio-developer-id.p12 \| pbcopy`, then paste |
 | `MACOS_CERTIFICATE_PASSWORD` | The password from step 1.10 |
 | `APP_STORE_CONNECT_API_KEY_P8` | In Terminal: `pbcopy < ~/Downloads/AuthKey_XXXXXXXXXX.p8`, then paste (the whole file, BEGIN and END lines included) |
 | `APP_STORE_CONNECT_KEY_ID` | The Key ID |
@@ -63,14 +63,14 @@ Make a new key for this rather than reusing one that can manage the iPhone app: 
 With the GitHub CLI on your Mac, once the environment exists (each command without `<` asks for the value):
 
 ```bash
-base64 -i ~/Desktop/poni-developer-id.p12 | gh secret set MACOS_CERTIFICATE_P12_BASE64 --env release -R lucacadalora/oyenza-studio
+base64 -i ~/Desktop/oyenza-studio-developer-id.p12 | gh secret set MACOS_CERTIFICATE_P12_BASE64 --env release -R lucacadalora/oyenza-studio
 gh secret set MACOS_CERTIFICATE_PASSWORD --env release -R lucacadalora/oyenza-studio
 gh secret set APP_STORE_CONNECT_API_KEY_P8 --env release -R lucacadalora/oyenza-studio < ~/Downloads/AuthKey_XXXXXXXXXX.p8
 gh secret set APP_STORE_CONNECT_KEY_ID --env release -R lucacadalora/oyenza-studio
 gh secret set APP_STORE_CONNECT_ISSUER_ID --env release -R lucacadalora/oyenza-studio
 ```
 
-5. Then delete `poni-developer-id.p12` and the `.p8` from the Desktop and Downloads, and empty the Trash. Keep copies in your password manager only if you want to reuse them for another app.
+5. Then delete `oyenza-studio-developer-id.p12` and the `.p8` from the Desktop and Downloads, and empty the Trash. Keep copies in your password manager only if you want to reuse them for another app.
 
 These are the same five names Oyenza Bar uses, and one certificate can sign both apps, but each repository needs its own copy of the secrets.
 
@@ -82,13 +82,13 @@ On main, run the workflow by hand with signing on: **Actions > mac > Run workflo
 gh workflow run mac.yml -R lucacadalora/oyenza-studio --ref main -f sign=true
 ```
 
-The **Sign, notarize and staple the DMG** job usually takes a few minutes. Apple sometimes holds a new team's first uploads for much longer; the job waits up to 45 minutes. Its artifact `oyen-poni-mac-dmg-signed` holds the DMG. Download it on your MacBook, open the DMG, drag the app to Applications and open it. It should ask only "downloaded from the Internet", with no trip to Privacy & Security.
+The **Sign, notarize and staple the DMG** job usually takes a few minutes. Apple sometimes holds a new team's first uploads for much longer; the job waits up to 45 minutes. Its artifact `oyenza-studio-mac-dmg-signed` holds the DMG. Download it on your MacBook, open the DMG, drag the app to Applications and open it. It should ask only "downloaded from the Internet", with no trip to Privacy & Security.
 
 To check a DMG in Terminal:
 
 ```bash
-xcrun stapler validate Oyen-Poni-*-mac.dmg
-spctl --assess --type open --context context:primary-signature -vvv Oyen-Poni-*-mac.dmg
+xcrun stapler validate Oyenza-Studio-*-mac.dmg
+spctl --assess --type open --context context:primary-signature -vvv Oyenza-Studio-*-mac.dmg
 ```
 
 The second command should say `accepted` and `source=Notarized Developer ID`.
