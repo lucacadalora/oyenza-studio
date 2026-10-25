@@ -142,6 +142,13 @@ enum Scene {
     OyenzaCode,
     OyenzaNotice,
     SettingsSignedIn,
+    /// The Today page signed in to Oyenza: the day from Google Calendar and
+    /// Gmail (`agenda::sample`), no app switched on, and a server without the
+    /// day (the stat tiles, as before). Signed out, `Page(Today)` above shows
+    /// the sign-in card.
+    TodayDay,
+    TodayNoApps,
+    TodayTiles,
 }
 
 const SCENES: [Scene; 19] = [
@@ -209,6 +216,8 @@ const HEADPHONE_SCENES: [Scene; 1] = [Scene::HeadphonesHud];
 const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::OyenzaNotice, Scene::SettingsSignedIn];
 /// The System page's Power module on a Mac without a battery, after Oyenza.
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
+/// The Today page signed in, after Power.
+const TODAY_SCENES: [Scene; 3] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles];
 
 impl Scene {
     fn name(self) -> String {
@@ -246,6 +255,9 @@ impl Scene {
             Scene::OyenzaCode => "page-oyenza-code".into(),
             Scene::OyenzaNotice => "oyenza-notice".into(),
             Scene::SettingsSignedIn => "page-settings-signed-in".into(),
+            Scene::TodayDay => "page-today-day".into(),
+            Scene::TodayNoApps => "page-today-no-apps".into(),
+            Scene::TodayTiles => "page-today-tiles".into(),
         }
     }
 }
@@ -309,9 +321,9 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza and Power in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power and Today signed in in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).enumerate() {
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -735,8 +747,30 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
                 st.pomodoro.phase = Phase::Focus;
                 st.pomodoro.run = RunState::Running { ends_at: NOW_MONO + 1104.5 };
             }
+            // Clipboard history is an add-on, off by default: on for its own page.
+            st.settings.clipboard_history = p == PageKind::Clipboard;
             st.page = p;
             Mode::Expanded(p)
+        }
+        Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => {
+            use poni_core::agenda::{sample, Answer, Sources};
+            st.oyenza = fake_oyenza(&st, false);
+            let today = st.day_key();
+            let o = &mut st.oyenza;
+            o.agenda_unix = Some(st.unix - 120);
+            match scene {
+                Scene::TodayDay => {
+                    o.agenda = Some(sample(&today, st.local.hour as i32 * 60 + st.local.minute as i32));
+                    o.agenda_state = crate::state::AgendaState::Ready;
+                }
+                Scene::TodayNoApps => {
+                    o.agenda = Some(Answer { day: today, apps: Sources::default(), events: Vec::new(), flights: Vec::new() });
+                    o.agenda_state = crate::state::AgendaState::Ready;
+                }
+                _ => o.agenda_state = crate::state::AgendaState::Unavailable,
+            }
+            st.page = PageKind::Today;
+            Mode::Expanded(PageKind::Today)
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);

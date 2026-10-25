@@ -8,6 +8,7 @@
 //! phone), so the tests can drive them over real sockets.
 
 pub mod addons;
+pub mod agenda;
 pub mod applemusic;
 pub mod cliphist;
 pub mod datetime;

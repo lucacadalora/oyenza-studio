@@ -382,6 +382,8 @@ pub struct App {
     oyenza: Option<services::oyenza::OyenzaService>,
     /// The Oyenza page is on screen: its day list stays live (`services::oyenza`).
     oyenza_watch: bool,
+    /// The Today page is on screen: the worker asks for the day (`services::oyenza`).
+    today_watch: bool,
     /// The Health page is on screen (it asks for the phone's steps as it opens).
     health_shown: bool,
     /// Text we put on the clipboard ourselves (not recorded again).
@@ -500,6 +502,7 @@ impl App {
             fullscreen_hidden: false,
             oyenza: None,
             oyenza_watch: false,
+            today_watch: false,
             health_shown: false,
             own_clip: None,
             clipboard: None,
@@ -2238,13 +2241,27 @@ impl App {
     /// awake) and the power source.
     fn oyenza_activity(&self) -> services::oyenza::Activity {
         let p = self.st.power;
-        services::oyenza::Activity { in_use: !self.away.0 && !self.away.1, on_ac: p.on_ac || !p.has_battery, saver: p.saver, watching: self.oyenza_watch }
+        services::oyenza::Activity {
+            in_use: !self.away.0 && !self.away.1,
+            on_ac: p.on_ac || !p.has_battery,
+            saver: p.saver,
+            watching: self.oyenza_watch,
+            today: self.today_watch,
+        }
     }
 
     /// The Oyenza page came on screen or went: the worker keeps its list live only meanwhile.
     fn set_oyenza_watch(&mut self, on: bool) {
         if on != self.oyenza_watch {
             self.oyenza_watch = on;
+            self.tell_oyenza_activity();
+        }
+    }
+
+    /// The Today page came on screen or went: the worker asks for the day only meanwhile.
+    fn set_today_watch(&mut self, on: bool) {
+        if on != self.today_watch {
+            self.today_watch = on;
             self.tell_oyenza_activity();
         }
     }
@@ -2302,14 +2319,21 @@ impl App {
                 self.end_sign_in();
                 self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
                 self.st.oyenza.link = OyenzaLink::Connected { account };
+                // Signed in from the Today page: back to it, where the day comes in.
+                if std::mem::take(&mut self.st.oyenza.from_today) {
+                    self.st.page = PageKind::Today;
+                    self.expand();
+                }
             }
             OyenzaEvent::ConnectFailed(code) => {
+                self.st.oyenza.from_today = false;
                 self.end_sign_in();
                 self.st.oyenza.link = OyenzaLink::Off;
                 let (title, subtitle) = oyenza::connect_failure_text(&code);
                 self.st.notify(Icon::Unlink, palette::ORANGE, title, subtitle, 6.0, None);
             }
             OyenzaEvent::ConnectCancelled => {
+                self.st.oyenza.from_today = false;
                 self.end_sign_in();
                 self.st.oyenza.link = OyenzaLink::Off;
             }
@@ -2340,6 +2364,17 @@ impl App {
                 self.st.oyenza.updated_unix = Some(self.st.unix);
                 self.remind_bills(&day);
             }
+            OyenzaEvent::Day(day) => {
+                let o = &mut self.st.oyenza;
+                o.agenda = Some(day);
+                o.agenda_unix = Some(self.st.unix);
+                o.agenda_state = crate::state::AgendaState::Ready;
+            }
+            OyenzaEvent::DayUnavailable => {
+                self.st.oyenza.agenda = None;
+                self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
+            }
+            OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
             OyenzaEvent::Health(next) => {
                 if let Some(steps) = self.st.take_health(next) {
                     let notice = pages::health::goal_notice(steps, now + oyenza::NOTICE_S);
@@ -2691,9 +2726,11 @@ impl App {
             dt = dt.min(period);
         }
         let dt = dt.clamp(0.0, 0.05) as f32;
-        self.set_stats(self.mode == Mode::Expanded(PageKind::Today));
+        // Today's tiles need the readings only while they show (signed out it has the sign-in card, signed in the day).
+        self.set_stats(self.mode == Mode::Expanded(PageKind::Today) && pages::today::shows_tiles(&self.st));
         self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
+        self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).

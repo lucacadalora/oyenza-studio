@@ -63,6 +63,8 @@ pub enum OyenzaCmd {
     Refresh,
     /// The Health tab opened: the steps from the phone, now (unless just asked for).
     RefreshHealth,
+    /// Today's Try again: the day, now (unless just asked for).
+    RefreshDay,
 }
 
 #[derive(Clone, Debug, PartialEq)]

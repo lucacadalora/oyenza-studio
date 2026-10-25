@@ -117,8 +117,23 @@ pub const SCRIPT_READER: Addon = Addon {
     files: &[],
 };
 
+/// Clipboard history: the Clipboard page, text you copy kept in memory to
+/// paste again. In the app since 0.1.0 and on for everyone until 0.2.7, which
+/// made it an add-on, off (settings v4 switched it off once). Its switch is
+/// `Settings::clipboard_history`, which the tray's item also flips; off, there
+/// is no Clipboard tab and nothing watches the clipboard (on the Mac, that
+/// means no twice-a-second check: macOS has no "clipboard changed" signal).
+pub const CLIPBOARD_HISTORY: Addon = Addon {
+    id: "clipboard",
+    title: "Clipboard history",
+    blurb: "Text you copy, kept in memory to paste again. Never written to disk.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 3] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER];
+pub const ALL: [&Addon; 4] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &CLIPBOARD_HISTORY];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads

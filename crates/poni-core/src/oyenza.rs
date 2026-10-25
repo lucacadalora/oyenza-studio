@@ -125,9 +125,14 @@ pub fn undo_url(id: &str) -> String {
     format!("{API}/island/note/{}", crate::urlenc::encode(id))
 }
 
-pub fn start_body(pc_name: &str, version: &str) -> String {
-    serde_json::json!({ "app": APP, "name": pc_name, "version": version }).to_string()
+/// `platform`: [`PLATFORM`], so oyenza.app shows a Mac as one (a server from
+/// before 0.2.7's leaves it out and stores every PC as Windows).
+pub fn start_body(pc_name: &str, version: &str, platform: &str) -> String {
+    serde_json::json!({ "app": APP, "name": pc_name, "version": version, "platform": platform }).to_string()
 }
+
+/// The system this app runs on, as the sign-in names it.
+pub const PLATFORM: &str = if cfg!(target_os = "macos") { "macos" } else { "windows" };
 
 pub fn token_body(device_code: &str) -> String {
     serde_json::json!({ "deviceCode": device_code }).to_string()
@@ -916,8 +921,9 @@ mod tests {
         assert_eq!(activity_url("+07:00", Some("9")), "https://api.oyenza.app/island/activity?tz=%2B07%3A00&days=7&since=9");
         assert_eq!(bills_url("-03:30"), "https://api.oyenza.app/island/bills?tz=-03%3A30&days=31");
         assert_eq!(undo_url("abc 1/2"), "https://api.oyenza.app/island/note/abc%201%2F2");
-        let b: serde_json::Value = serde_json::from_str(&start_body("DESKTOP-7Q2K", "0.1.5")).unwrap();
-        assert_eq!(b, serde_json::json!({ "app": "poni", "name": "DESKTOP-7Q2K", "version": "0.1.5" }));
+        let b: serde_json::Value = serde_json::from_str(&start_body("DESKTOP-7Q2K", "0.1.5", "windows")).unwrap();
+        assert_eq!(b, serde_json::json!({ "app": "poni", "name": "DESKTOP-7Q2K", "version": "0.1.5", "platform": "windows" }));
+        assert_eq!(PLATFORM, if cfg!(target_os = "macos") { "macos" } else { "windows" });
         let n: serde_json::Value = serde_json::from_str(&note_body("kopi \"25rb\"", "+07:00")).unwrap();
         assert_eq!(n["text"], "kopi \"25rb\"");
         assert_eq!(pc_name("  DESKTOP-7Q2K\u{0}\n "), "DESKTOP-7Q2K");

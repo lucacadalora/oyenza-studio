@@ -7,6 +7,7 @@ use crate::gfx::Image;
 use crate::state::{MediaSession, PowerState, SysStats};
 use poni_core::health::HealthSnapshot;
 use poni_core::lrc::Lyrics;
+use poni_core::agenda;
 use poni_core::oyenza::{Activity, Arrival, Bill, Saved};
 use poni_core::romanize::Ruby;
 use poni_core::timeline::Timeline;
@@ -105,6 +106,14 @@ pub enum OyenzaEvent {
     /// The steps the phone sent, for the Health page; None: none to show (off in
     /// Oyenza on the phone, or a server from before steps).
     Health(Option<HealthSnapshot>),
+    /// The day for the Today page, from the apps switched on in oyenza.app (asked
+    /// while the page is on screen).
+    Day(agenda::Answer),
+    /// The server has no day for the Today page (a server from before it, or
+    /// switched off there): the page stays as it was before signing in mattered.
+    DayUnavailable,
+    /// The day couldn't be read just now (offline, a server error).
+    DayFailed,
     NoteSaved(Vec<Saved>),
     /// The note wasn't saved; the island puts `text` back and says why (`code`).
     NoteFailed { text: String, code: String },

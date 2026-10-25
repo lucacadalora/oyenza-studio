@@ -135,8 +135,8 @@ fn draw_today(ui: &mut Ui, st: &AppState, h: &HealthSnapshot, steps: u32, goal: 
     }
 }
 
-/// "Updated 08:12" today, "Updated yesterday", or "Updated 21 Oct".
-fn updated_text(st: &AppState, at: i64) -> String {
+/// "Updated 08:12" today, "Updated yesterday", or "Updated 21 Oct" (the Today page's day too).
+pub(crate) fn updated_text(st: &AppState, at: i64) -> String {
     let local = st.local;
     let since_midnight = local.hour as i64 * 3600 + local.minute as i64 * 60 + local.second as i64;
     let ago = (st.unix - at).max(0);

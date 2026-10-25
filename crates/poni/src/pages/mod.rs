@@ -53,6 +53,7 @@ pub enum PageKind {
     Health,
     Shelf,
     Tasks,
+    /// Only while Clipboard history is on (an add-on since 0.2.7, [`tabs`]).
     Clipboard,
     Today,
     System,
@@ -163,9 +164,9 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, Oyenza only while
-/// signing in or signed in, and Prayer and Script only while their add-ons
-/// are on. Add-ons is last, in both apps (the Mac app's lists only what it
-/// has).
+/// signing in or signed in, and Prayer, Script and Clipboard only while their
+/// add-ons are on. Add-ons is last, in both apps (the Mac app's lists only
+/// what it has).
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
         .into_iter()
@@ -173,6 +174,7 @@ pub fn tabs(st: &AppState) -> Vec<PageKind> {
             PageKind::Oyenza => st.oyenza.tab_visible(),
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
+            PageKind::Clipboard => st.settings.clipboard_history,
             p => p.tabbed(),
         })
         .collect()
@@ -217,6 +219,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Settings => settings::next_wake(st),
         PageKind::Script => script::next_wake(st),
         PageKind::Prayer => prayer::next_wake(st),
+        PageKind::Today => today::next_wake(st),
         _ => None,
     };
     // Oyen in the header blinks and flicks an ear now and then.

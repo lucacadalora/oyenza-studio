@@ -47,7 +47,7 @@ pub enum MonitorChoice {
 }
 
 /// Bumped when defaults change in a way existing files should pick up.
-pub const SETTINGS_VERSION: u32 = 3;
+pub const SETTINGS_VERSION: u32 = 4;
 
 fn version_zero() -> u32 {
     0
@@ -176,7 +176,7 @@ impl Default for Settings {
             hud_volume: true,
             hud_power: true,
             hud_bluetooth: true,
-            clipboard_history: true,
+            clipboard_history: false,
             sounds: true,
             start_page: "media".into(),
             remember_page: true,
@@ -209,11 +209,19 @@ impl Settings {
     }
 
     /// Is the add-on `id` switched on?
+    /// Clipboard history's switch is `clipboard_history`, which the tray flips too.
     pub fn addon_on(&self, id: &str) -> bool {
+        if id == crate::addons::CLIPBOARD_HISTORY.id {
+            return self.clipboard_history;
+        }
         self.addons.get(id).copied().unwrap_or(false)
     }
 
     pub fn set_addon(&mut self, id: &str, on: bool) {
+        if id == crate::addons::CLIPBOARD_HISTORY.id {
+            self.clipboard_history = on;
+            return;
+        }
         self.addons.insert(id.to_string(), on);
     }
 
@@ -236,6 +244,15 @@ impl Settings {
         // 380 ms grace read as lag; coming back while it closes reopens it).
         if self.settings_version < 3 && self.collapse_delay_ms == 380 {
             self.collapse_delay_ms = 0;
+        }
+        // v4: Clipboard history became an add-on, off by default, and is
+        // switched off once for everyone (it had been on by default); Add-ons
+        // or the tray bring it back. A Clipboard start page opens Music.
+        if self.settings_version < 4 {
+            self.clipboard_history = false;
+            if self.start_page == "clipboard" {
+                self.start_page = "media".into();
+            }
         }
         self.settings_version = self.settings_version.max(SETTINGS_VERSION);
         // Step aside is no longer offered: the island stays over maximized windows.
@@ -344,6 +361,23 @@ mod tests {
         assert_eq!(s.sanitized().hover_delay_ms, 90);
         let s: Settings = serde_json::from_str(r#"{"settings_version":2,"hover_delay_ms":140}"#).unwrap();
         assert_eq!(s.sanitized().hover_delay_ms, 140);
+    }
+
+    #[test]
+    fn clipboard_history_goes_off_once_and_lives_in_add_ons() {
+        assert!(!Settings::default().clipboard_history);
+        // Every file from before 0.2.7 had it on: off once, and a Clipboard start page opens Music.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":3,"clipboard_history":true,"start_page":"clipboard"}"#).unwrap().sanitized();
+        assert_eq!((s.clipboard_history, s.start_page.as_str(), s.settings_version), (false, "media", SETTINGS_VERSION));
+        // Switched back on afterwards, it stays on.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":4,"clipboard_history":true}"#).unwrap().sanitized();
+        assert!(s.clipboard_history);
+        // The Add-ons switch and the tray's item are the same switch.
+        let mut s = Settings::default();
+        s.set_addon(crate::addons::CLIPBOARD_HISTORY.id, true);
+        assert!(s.clipboard_history && s.addon_on("clipboard") && !s.addons.contains_key("clipboard"));
+        s.clipboard_history = false;
+        assert!(!s.addon_on("clipboard"));
     }
 
     #[test]

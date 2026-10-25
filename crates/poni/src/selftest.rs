@@ -39,11 +39,11 @@ use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
 use crate::state::{
-    AppState, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
+    AgendaState, AppState, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER};
+use poni_core::addons::{Status as AddonStatus, CLIPBOARD_HISTORY, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -673,7 +673,8 @@ fn fake_oyenza(st: &AppState, scene: Scene, now: f64) -> OyenzaState {
             _ => DayPick::Today,
         },
         bills: vec![
-            bill("subscription", "Spotify", day(1), Some("Rp 54.990")),
+            // Today's page lists a bill due today; the Oyenza tab's scenes keep it tomorrow.
+            bill("subscription", "Spotify", day(if scene == Scene::TodayDay { 0 } else { 1 }), Some("Rp 54.990")),
             bill("card", "Kartu Kredit BCA", day(1), None),
             bill("subscription", "Netflix", day(5), Some("Rp 54.000")),
             bill("subscription", "Google One", day(8), Some("Rp 26.900")),
@@ -685,7 +686,26 @@ fn fake_oyenza(st: &AppState, scene: Scene, now: f64) -> OyenzaState {
             let kopi = Saved { id: "s1".into(), title: "Kopi".into(), amount: 25_000.0, text: "Rp 25.000".into(), category: Some("Makan & Minum".into()), wallet: "GoPay".into() };
             (vec![kopi], now + 9.5)
         }),
+        agenda: fake_agenda(st, scene),
+        agenda_unix: Some(st.unix - 120),
+        agenda_state: match scene {
+            Scene::TodayTiles => AgendaState::Unavailable,
+            Scene::TodayDay | Scene::TodayNoApps => AgendaState::Ready,
+            _ => AgendaState::Waiting,
+        },
         ..OyenzaState::default()
+    }
+}
+
+/// The Today page's day for its scenes, around the clock it runs at
+/// (`agenda::sample`); none switched on for `TodayNoApps`.
+fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer> {
+    use poni_core::agenda::{sample, Answer, Sources};
+    let today = st.day_key();
+    match scene {
+        Scene::TodayDay => Some(sample(&today, st.local.hour as i32 * 60 + st.local.minute as i32)),
+        Scene::TodayNoApps => Some(Answer { day: today, apps: Sources::default(), events: Vec::new(), flights: Vec::new() }),
+        _ => None,
     }
 }
 
@@ -898,6 +918,13 @@ enum Scene {
     UpdateSheet,
     /// The Update sheet once Windows has the Setup: Install now, or on next start.
     UpdateReady,
+    /// Today signed in, Google Calendar and Gmail switched on: the meeting on
+    /// now with Join, then the rest of the day (an event, a flight, bills due).
+    TodayDay,
+    /// Today signed in with no app switched on for it in oyenza.app.
+    TodayNoApps,
+    /// Today signed in to a server without the day: the stat tiles, as before.
+    TodayTiles,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -930,7 +957,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 82] = [
+const SCENES: [Scene; 85] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1027,6 +1054,11 @@ const SCENES: [Scene; 82] = [
     Scene::SettingsUpdate,
     Scene::UpdateSheet,
     Scene::UpdateReady,
+    // The Today page signed in: the day, no app switched on, and a server
+    // without the day (signed out, `Page(Today)` above shows the sign-in card).
+    Scene::TodayDay,
+    Scene::TodayNoApps,
+    Scene::TodayTiles,
 ];
 
 impl Scene {
@@ -1104,6 +1136,9 @@ impl Scene {
             Scene::SettingsUpdate => "page-settings-update".into(),
             Scene::UpdateSheet => "page-update-sheet".into(),
             Scene::UpdateReady => "page-update-ready".into(),
+            Scene::TodayDay => "page-today-day".into(),
+            Scene::TodayNoApps => "page-today-no-apps".into(),
+            Scene::TodayTiles => "page-today-tiles".into(),
         }
     }
 
@@ -1138,6 +1173,7 @@ impl Scene {
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
             Scene::PrayerPicker => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
+            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => Some(PageKind::Today),
             _ => None,
         }
     }
@@ -1160,6 +1196,9 @@ impl Scene {
                 | Scene::HealthStale
                 | Scene::SettingsSigningIn
                 | Scene::SettingsSignedIn
+                | Scene::TodayDay
+                | Scene::TodayNoApps
+                | Scene::TodayTiles
         )
     }
 
@@ -2017,6 +2056,10 @@ impl SelfTest {
         // Script reader: on for the Script page's scenes, off (no tab) elsewhere.
         let script = scene.page() == Some(PageKind::Script);
         st.addons.insert(SCRIPT_READER.id, if script { AddonStatus::Ready } else { AddonStatus::Off });
+        // Clipboard history (an add-on, off by default): on for its own page only.
+        let clip = scene.page() == Some(PageKind::Clipboard);
+        st.settings.clipboard_history = clip;
+        st.addons.insert(CLIPBOARD_HISTORY.id, if clip { AddonStatus::Ready } else { AddonStatus::Off });
         if scene.media_playing() {
             st.lyrics.wants_ja_readings = self.lyrics.wants_ja_readings || matches!(scene, Scene::JaOffer | Scene::JaGetting);
         }

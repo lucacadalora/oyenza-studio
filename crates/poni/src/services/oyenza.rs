@@ -18,6 +18,10 @@
 //!   off, and when the Health tab opens (at most once in 30 seconds, battery
 //!   saver or not); a server from before steps (404) counts as none to show.
 //!   They go to the island only, never to disk or the log;
+//! - the day for the Today page (`poni_core::agenda`) when it opens (at most
+//!   once in 30 seconds) and every 5 minutes while it stays on screen, and
+//!   never otherwise; a server without it (404) or with it paused (503) is
+//!   asked again only after half an hour. It goes to the island only;
 //! - failures back off to 1, 2, 4 … 15 minutes, honouring `Retry-After`;
 //! - a 401 means the key was disconnected in oyenza.app (or ran out): the key
 //!   is deleted and the island says so once.
@@ -29,6 +33,7 @@
 use crate::commands::OyenzaCmd;
 use crate::events::{AppEvent, EventSink, OyenzaEvent};
 use crate::services::http::{Client, FetchError, Method, MtaGuard, Response};
+use poni_core::agenda;
 use poni_core::health::HealthSnapshot;
 use poni_core::oyenza::{self, Claim, Link};
 use std::collections::VecDeque;
@@ -105,6 +110,8 @@ pub struct Activity {
     pub saver: bool,
     /// The Oyenza page is on screen: its day list stays live.
     pub watching: bool,
+    /// The Today page is on screen: the day is asked for.
+    pub today: bool,
 }
 
 #[derive(Default)]
@@ -168,6 +175,12 @@ struct Worker {
     health_page: bool,
     /// What the steps check last answered, so the log says each change once (never the numbers).
     health_said: Option<&'static str>,
+    /// The Today page's day: next ask while it's open, when it was last asked
+    /// (opening asks again only after `agenda::OPEN_GAP_S`), and whether it
+    /// was open at the last look.
+    next_day: Instant,
+    day_asked: Option<Instant>,
+    was_today: bool,
     fails: u32,
     /// A key whose disconnect couldn't reach the server yet.
     revoke: Option<String>,
@@ -195,6 +208,9 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink) {
         health_asked: None,
         health_page: false,
         health_said: None,
+        next_day: now,
+        day_asked: None,
+        was_today: false,
         fails: 0,
         revoke: None,
         next_revoke: now,
@@ -268,6 +284,12 @@ impl Worker {
             self.next_activity = now;
         }
         self.was_watching = a.watching;
+        if a.today && !self.was_today {
+            // The page just opened: the day now, unless it was just asked for.
+            let gap = Duration::from_secs(agenda::OPEN_GAP_S);
+            self.next_day = self.next_day.min(self.day_asked.map_or(now, |t| (t + gap).max(now)));
+        }
+        self.was_today = a.today;
         let mut next: Option<Instant> = None;
         let mut consider = |t: Instant| next = Some(next.map_or(t, |n| n.min(t)));
         if let Some(p) = &self.pending {
@@ -283,6 +305,9 @@ impl Worker {
             }
             if a.watching {
                 consider(self.next_activity);
+            }
+            if a.today {
+                consider(self.next_day);
             }
         }
         if self.revoke.is_some() && a.in_use {
@@ -311,6 +336,12 @@ impl Worker {
                     self.next_bills = now;
                 }
                 self.next_activity = now;
+            }
+            OyenzaCmd::RefreshDay => {
+                let now = Instant::now();
+                if self.link.is_some() && self.day_asked.is_none_or(|t| now - t >= REFRESH_GAP) {
+                    self.next_day = now;
+                }
             }
             OyenzaCmd::RefreshHealth => {
                 let now = Instant::now();
@@ -343,6 +374,9 @@ impl Worker {
             if self.link.is_some() && (!a.saver || self.health_page) && Instant::now() >= self.next_health {
                 self.poll_health();
             }
+            if self.link.is_some() && a.today && Instant::now() >= self.next_day {
+                self.poll_day();
+            }
         }
         if self.revoke.is_some() && a.in_use && Instant::now() >= self.next_revoke {
             self.retry_revoke();
@@ -358,7 +392,7 @@ impl Worker {
             return;
         }
         let name = oyenza::pc_name(&computer_name());
-        let body = oyenza::start_body(&name, env!("CARGO_PKG_VERSION"));
+        let body = oyenza::start_body(&name, env!("CARGO_PKG_VERSION"), oyenza::PLATFORM);
         match self.call(Method::Post, &oyenza::start_url(), None, Some(&body), TIMEOUT) {
             Ok(r) if r.status == 200 => match oyenza::parse_started(&r.body) {
                 Some(s) => {
@@ -407,6 +441,8 @@ impl Worker {
                 self.next_bills = now;
                 self.next_activity = now;
                 self.next_health = now;
+                self.next_day = now;
+                self.day_asked = None;
             }
             Some(Claim::Waiting) => self.ask_again(now, false),
             Some(Claim::SlowDown) => self.ask_again(now, true),
@@ -473,6 +509,7 @@ impl Worker {
         self.health_asked = None;
         self.health_page = false;
         self.health_said = None;
+        self.day_asked = None;
         self.fails = 0;
         if let Err(e) = crate::services::secret::delete(&crate::paths::oyenza_link_path()) {
             crate::pwarn!("oyenza: cannot remove the saved sign-in ({e})");
@@ -599,6 +636,40 @@ impl Worker {
             crate::pinfo!("oyenza: {said}");
         }
         self.send(OyenzaEvent::Health(health));
+    }
+
+    /// The Today page's day, from the apps switched on in oyenza.app.
+    fn poll_day(&mut self) {
+        let Some(key) = self.link.as_ref().map(|l| l.key.clone()) else { return };
+        self.day_asked = Some(Instant::now());
+        match self.call(Method::Get, &agenda::url(&tz_now(), &local_day_now()), Some(&key), None, TIMEOUT) {
+            Ok(r) if r.status == 200 => match agenda::parse(&r.body) {
+                Some(day) => {
+                    self.fails = 0;
+                    self.next_day = Instant::now() + Duration::from_secs(agenda::EVERY_S);
+                    self.send(OyenzaEvent::Day(day));
+                }
+                None => {
+                    self.next_day = self.failed("day for Today", "unreadable answer".into(), None);
+                    self.send(OyenzaEvent::DayFailed);
+                }
+            },
+            // A server from before the Today page, or with it switched off: the page
+            // stays as it was, and asks again later rather than every 5 minutes.
+            Ok(r) if r.status == 404 || r.status == 503 => {
+                self.next_day = Instant::now() + Duration::from_secs(agenda::UNAVAILABLE_S);
+                self.send(OyenzaEvent::DayUnavailable);
+            }
+            Ok(r) if r.status == 401 => self.signed_out_by_server(),
+            Ok(r) => {
+                self.next_day = self.failed("day for Today", format!("HTTP {}", r.status), r.retry_after_s);
+                self.send(OyenzaEvent::DayFailed);
+            }
+            Err(e) => {
+                self.next_day = self.failed("day for Today", e.to_string(), None);
+                self.send(OyenzaEvent::DayFailed);
+            }
+        }
     }
 
     // ------------------------------------------------------------ writing

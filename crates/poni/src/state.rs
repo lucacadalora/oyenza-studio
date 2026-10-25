@@ -344,8 +344,23 @@ pub enum OyenzaLink {
     Connected { account: String },
 }
 
-/// What the Oyenza tab and its notices show (`pages::oyenza`). Oyen's moods
-/// never read any of it: money never makes him happier or a bill sadder.
+/// Where the Today page's day stands (`OyenzaState::agenda`).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum AgendaState {
+    /// Not asked yet since signing in or opening.
+    #[default]
+    Waiting,
+    /// `agenda` holds the latest answer.
+    Ready,
+    /// The last ask failed; `agenda` may still hold an older answer.
+    Failed,
+    /// The server has no day for Today (from before it, or switched off there).
+    Unavailable,
+}
+
+/// What the Oyenza tab and its notices show (`pages::oyenza`), and the Today
+/// page's day (`pages::today`). Oyen's moods never read any of it: money
+/// never makes him happier or a bill sadder.
 #[derive(Clone, Debug, Default)]
 pub struct OyenzaState {
     pub link: OyenzaLink,
@@ -380,6 +395,13 @@ pub struct OyenzaState {
     pub shown: Vec<String>,
     /// Pinned before a sign-in code pinned the island open.
     pub pinned_before: Option<bool>,
+    /// The Today page's day (`poni_core::agenda`), kept in memory only, and
+    /// the unix time it came.
+    pub agenda: Option<poni_core::agenda::Answer>,
+    pub agenda_unix: Option<i64>,
+    pub agenda_state: AgendaState,
+    /// Signing in started from the Today page: back to it once connected.
+    pub from_today: bool,
 }
 
 impl OyenzaState {
@@ -575,9 +597,9 @@ impl AppState {
             let on = st.settings.addon_on(a.id);
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
-        // Last open on the Script page, since switched off: open where a new
-        // island does.
-        if st.page == PageKind::Script && !st.script_on() {
+        // Last open on the Script or Clipboard page, since switched off: open
+        // where a new island does.
+        if (st.page == PageKind::Script && !st.script_on()) || (st.page == PageKind::Clipboard && !st.settings.clipboard_history) {
             st.page = PageKind::ALL[0];
         }
         st
