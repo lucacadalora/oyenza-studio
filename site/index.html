@@ -288,6 +288,7 @@ main { container-type: inline-size; }
 
 /* ---------- new in this release: one tile per change */
 .news { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.news.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .news-tile { display: grid; gap: 8px; align-content: start; padding: 30px 32px 32px; border-radius: var(--r); background: var(--bg); text-decoration: none; color: inherit; transition: transform 0.4s var(--ease-out); }
 .news-tile:hover { transform: scale(0.99); }
 .news-tile .t-card { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
@@ -501,7 +502,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .t-avail { font-size: 14px; line-height: 1.28577; letter-spacing: -0.016em; }
   .sec { --sp: 88px; }
   .head { margin-bottom: 36px; }
-  .bento, .duo, .stats, .stats.two, .facts, .os-cards, .cards3, .mac-strips, .news { grid-template-columns: minmax(0, 1fr); }
+  .bento, .duo, .stats, .stats.two, .facts, .os-cards, .cards3, .mac-strips, .news, .news.two { grid-template-columns: minmax(0, 1fr); }
   .news-tile { padding: 24px 24px 26px; border-radius: 18px; }
   .stats { gap: 28px; margin-top: 44px; }
   .stat > b { font-size: 32px; }
@@ -631,7 +632,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Overview</p>
       <a class="side-item" href="#top" data-k="home start download hero notch island"><i class="ic" style="--c:#1d1d1f"><svg class="ico"><use href="#i-screen"/></svg></i><span>A living notch</span></a>
-      <a class="side-item" href="#new" data-k="new release 0.2.1 latest changes"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.1</span></a>
+      <a class="side-item" href="#new" data-k="new release 0.2.3 latest changes sing along romaji mac prayer"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.3</span></a>
       <a class="side-item" href="#highlights" data-k="best gallery overview"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-spark"/></svg></i><span>Highlights</span></a>
       <a class="side-item" href="#features" data-k="rest idle music timer volume charging headphones bluetooth money clock eyes prayer countdown"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-island"/></svg></i><span>While it rests</span></a>
     </div>
@@ -727,9 +728,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <div class="hero-copy">
             <h1 class="t-hero-eyebrow">Oyenza Studio</h1>
             <p class="t-hero">A living notch.</p>
-            <a class="t-avail" href="#new">New in 0.2.1: Script reader, a teleprompter under your webcam.</a>
+            <a class="t-avail" href="#new">New in 0.2.3: sing along to Japanese, Korean and Chinese songs, right on the island.</a>
             <div class="buybox">
-              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">2.5&nbsp;MB</span> · Mac <span data-release="mac-size">3.6&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.2</span></a></span></div>
+              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">2.5&nbsp;MB</span> · Mac <span data-release="mac-size">3.7&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.3</span></a></span></div>
               <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
             </div>
             <a class="link hero-other dl-other" data-release="mac-link" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Mac.dmg">Download for Mac</a>
@@ -748,7 +749,15 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   </section>
 
   <section class="sec band" id="new" aria-labelledby="new-title">
-    <div class="content head rv"><h2 class="t-l" id="new-title">New in 0.2.1.</h2></div>
+    <div class="content head rv"><h2 class="t-l" id="new-title">New in 0.2.3.</h2></div>
+    <div class="content news two">
+      <a class="news-tile rv" href="#read-along"><p class="t-card">Sing along</p><p class="t-tile">Japanese, Korean and Chinese lines show their reading in Latin letters on the closed island, right under the line.</p></a>
+      <a class="news-tile rv" href="#prayer"><p class="t-card">Prayer times on the Mac</p><p class="t-tile">Your kab/kota from Location Services, the adzan, and the countdown beside the notch.</p></a>
+    </div>
+  </section>
+
+  <section class="sec band" aria-labelledby="new-021-title">
+    <div class="content head rv"><h2 class="t-l" id="new-021-title">New in 0.2.1.</h2></div>
     <div class="content news">
       <a class="news-tile rv" href="#script"><p class="t-card">Script reader</p><p class="t-tile">A teleprompter under your webcam. An add-on that's built in, off until you switch it on.</p></a>
       <a class="news-tile rv" href="#features"><p class="t-card">Lyrics on the island</p><p class="t-tile">The line being sung shows on the closed island in every look, as it does in Pill.</p></a>
@@ -832,7 +841,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="rest-pin content">
         <ol class="rest-list">
           <li aria-current="true"><button type="button" data-i="0">Music playing</button><p><span>Album art and a beat. The title peeks in when the song changes.</span></p></li>
-          <li><button type="button" data-i="1">The line being sung</button><p><span>New in 0.2.1: the island sings along, in every look.</span></p></li>
+          <li><button type="button" data-i="1">The line being sung</button><p><span>The island sings along in every look, with the reading under Japanese, Korean and Chinese lines.</span></p></li>
           <li><button type="button" data-i="2">Focus timer</button><p><span>The countdown keeps going while you work.</span></p></li>
           <li><button type="button" data-i="3">Volume and charging</button><p><span>A clean pop-up when you change the volume or plug in.</span></p></li>
           <li><button type="button" data-i="4">Headphones</button><p><span>Bluetooth headsets say hello, with their battery level.</span></p></li>
@@ -909,7 +918,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content head rv">
       <p class="t-label">Read along</p>
       <h3 class="t-l" id="read-title">Every word, with its reading.</h3>
-      <p class="t-intro">Korean, Japanese and Chinese lines get <b>syllables, romaji or pinyin</b>, set small under each word.</p>
+      <p class="t-intro">Korean, Japanese and Chinese lines get <b>syllables, romaji or pinyin</b>, set small under each word. New in 0.2.3: on the closed island too.</p>
       <button class="more" type="button" data-more="m-read">More about readings<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content">
@@ -1077,7 +1086,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content head rv">
       <p class="t-label">Prayer times</p>
       <h3 class="t-l" id="prayer-title">Prayer times, for your kab/kota.</h3>
-      <p class="t-intro">As <b>Kemenag RI</b> publishes them, with a live countdown, today on one arc, the qibla and the adzan.</p>
+      <p class="t-intro">As <b>Kemenag RI</b> publishes them, with a live countdown, today on one arc, the qibla and the adzan. New in 0.2.3: on the Mac too.</p>
       <button class="more" type="button" data-more="m-prayer">More about prayer times<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content">
@@ -1360,7 +1369,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <tr><th scope="row">Paired phones, from any network</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
           <tr><th scope="row">Oyenza sign-in</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
           <tr><th scope="row">Script reader</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
-          <tr><th scope="row">Prayer times</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
+          <tr><th scope="row">Prayer times</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Show over games</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
           <tr><th scope="row">Headphone pop-ups</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
           <tr><th scope="row">Hiding in full-screen apps</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
@@ -1412,7 +1421,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       </div>
       <div class="specs rv">
         <div class="spec"><b data-release-copy="size">2.5&nbsp;MB</b><span class="t-small">Windows installer</span></div>
-        <div class="spec"><b data-release-copy="mac-size">3.6&nbsp;MB</b><span class="t-small">Mac app</span></div>
+        <div class="spec"><b data-release-copy="mac-size">3.7&nbsp;MB</b><span class="t-small">Mac app</span></div>
         <div class="spec"><b>240&nbsp;Hz</b><span class="t-small">In step with your screen, on Windows</span></div>
         <div class="spec"><b>MIT</b><span class="t-small">Free and open source</span></div>
       </div>
@@ -1463,7 +1472,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>Controls for whatever is playing: <b>Spotify, Apple Music, YouTube in your browser, or any app that shows up in Windows' media controls.</b> Lyrics scroll in time with the song, from the free LRCLIB library, or Apple Music's own synced lyrics if you have a subscription.</p>
     <p>YouTube videos find theirs too, even when the title carries subtitle tags or puts the song name first. After an intro or a break, the waiting dots fold away the moment the next line starts.</p>
     <p>Drag the time bar to jump anywhere in a song: the times follow as you slide, and it jumps when you let go. Since 0.1.20 that works with Apple Music too, and so does Back: the island uses Apple Music's own slider and back button. Lyrics glide into place instead of stepping a pixel at a time.</p>
-    <p><b>New in 0.2.1: the closed island sings along.</b> The line being sung shows on it in Classic, Oyen and Glass, as it does in Pill.</p>
+    <p><b>New in 0.2.1: the closed island sings along.</b> The line being sung shows on it in Classic, Oyen and Glass, as it does in Pill. Since 0.2.3, Japanese, Korean and Chinese lines bring their reading in Latin letters along, under the line.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-read" aria-labelledby="m-read-t">
@@ -1472,6 +1481,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p class="t-label">Read along</p>
     <h2 class="t-m" id="m-read-t">Read along in Korean, Japanese and Chinese.</h2>
     <p>Like Apple Music's Show Pronunciation, each word of a lyric line gets its reading in Latin letters, set small underneath: <b>the syllables for Korean, romaji for Japanese and pinyin with tone marks for Chinese.</b></p>
+    <p><b>New in 0.2.3: on the closed island too.</b> While a song with readings plays, the closed island is two rows tall in every look: the line as it's written, and its reading right under it, so you can sing along without opening it. A line that needs no reading sits on its own, and songs without readings keep the one-row island. Switch off Lyrics pronunciation in Settings and the readings go, on the island and on the Music page.</p>
     <p>Japanese kanji are read with Windows' own reading analyzer. On PCs without Windows' Japanese data, kana lines read right away, and Japanese readings, a 3.8 MB add-on that reads every kanji line, <b>switch themselves on for the first Japanese song whose kanji go unread</b> (new in 0.2.1). That happens only while readings are on and if you never switched the add-on yourself: switched off by hand, it stays off. On a Mac, Japanese readings are an add-on in the Add-ons tab too.</p>
     <p>Since 0.1.15 it reads closer to how the words are sung: numbers with their counters (<span lang="ja">二人</span> futari, <span lang="ja">一歩</span> ippo), <span lang="ja">は</span> as "wa" after every word (<span lang="ja">心には</span> kokoro ni wa), and words like <span lang="ja">愛おしい</span> and <span lang="ja">失くす</span>. Turn it off in Settings or the tray menu.</p>
   </div>
@@ -1502,8 +1512,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <div class="sheet-body">
     <p class="t-label">Prayer times · An add-on</p>
     <h2 class="t-m" id="m-prayer-t">Prayer times, for your kab/kota.</h2>
-    <p>Today's times as Kemenag RI publishes them for your kab/kota, the next prayer and how long until it, and the qibla. <b>New in 0.2.1:</b> the page counts down to the next prayer in hours, minutes and seconds, and shows today's five prayers on one arc, with the sun or the moon. <b>Windows' location finds the nearest of Kemenag's 517 places</b> and checks again when your laptop travels, or you type your city. The point stays on your PC: it only picks the place.</p>
+    <p>Today's times as Kemenag RI publishes them for your kab/kota, the next prayer and how long until it, and the qibla. <b>New in 0.2.1:</b> the page counts down to the next prayer in hours, minutes and seconds, and shows today's five prayers on one arc, with the sun or the moon. <b>Your computer's location finds the nearest of Kemenag's 517 places</b>, from Windows' location or the Mac's Location Services, and checks again when your laptop travels, or you type your city. The point stays on your computer: it only picks the place.</p>
     <p>In the ten minutes before each prayer the island counts down, and when it's time it says so, with a short tone, the adzan recorded at Masjidil Haram, or nothing. Checked against Kemenag's 2026 schedule: 98.2% of 227,367 times to the minute, none more than a minute off. Makkah, Madinah and Jeddah use Umm al-Qura.</p>
+    <p><b>New in 0.2.3: on the Mac.</b> Prayer times is in the Mac's Add-ons tab too, with the adzan. Around a MacBook's notch the countdown sits beside the camera: the moon on the left, the minutes on the right.</p>
     <p>Prayer times is an add-on: open the + at the end of the tabs and switch it on. It downloads then, 1.9 MB, checked against the fingerprint built into the app, and switching it off deletes its files.</p>
   </div>
 </dialog>
@@ -1586,14 +1597,15 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <h2 class="t-m" id="m-mac-t">On a Mac, it wraps the notch.</h2>
     <p>On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera, and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows. Around the notch, the Oyen theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it.</p>
     <ul>
-      <li>Music and Spotify, with synced lyrics from LRCLIB, or Apple Music's own with your token, and the reading under Japanese, Korean and Chinese lines.</li>
+      <li>Music and Spotify, with synced lyrics from LRCLIB, or Apple Music's own with your token, and the reading under Japanese, Korean and Chinese lines, on the closed island too.</li>
       <li>The focus timer, the Shelf with Phone drop over the same Wi-Fi, tasks, clipboard history, and the System page with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps.</li>
       <li>Pop-ups for volume and charging, the Classic, Oyen, Glass and Pill themes, and start at login. Every option is in the menu bar, under Oyen's mark.</li>
       <li>Glass is macOS's own glass, Liquid Glass on macOS 26 and a dark blur before it, with a black strip where it meets the notch.</li>
       <li>Pill: on a MacBook with a notch, the resting island, the timer and music between lines stay beside the camera; the line being sung, pop-ups, notices and the open island float just below the notch. Without a notch it floats below the top of the screen, as on Windows.</li>
     </ul>
     <p><b>New in 0.2.1:</b> Japanese readings and Script reader are add-ons in the Mac's Add-ons tab, so the download is about a third of what it was.</p>
-    <p>macOS 14 or later, on Apple silicon or Intel. One app for both, <span data-release-copy="mac-size">3.6&nbsp;MB</span>. It isn't signed with an Apple Developer ID yet, so the first time, macOS holds it back until you allow it in Privacy &amp; Security.</p>
+    <p><b>New in 0.2.3:</b> Prayer times, in the Mac's Add-ons tab: Location Services finds your kab/kota, or you type it, the adzan plays when it's time, and around the notch the countdown sits beside the camera.</p>
+    <p>macOS 14 or later, on Apple silicon or Intel. One app for both, <span data-release-copy="mac-size">3.7&nbsp;MB</span>. It isn't signed with an Apple Developer ID yet, so the first time, macOS holds it back until you allow it in Privacy &amp; Security.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-oyenza" aria-labelledby="m-oyenza-t">
