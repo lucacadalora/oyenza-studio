@@ -23,6 +23,9 @@
 //! and its own checks say the gap above the body shows the screen and the
 //! shadow fades out inside the window (see `pill_checks`).
 //!
+//! PONI_SELFTEST_PRAYER_AT=HH:MM shows the Prayer page at that time of the
+//! day (the other Prayer scenes stay 8 minutes before Ashar).
+//!
 //! PONI_SELFTEST_ADDONS=download also downloads the Prayer times add-on's
 //! files from their release while the scenes run and checks each one
 //! (`addon-download`; Windows CI only, it needs github.com).
@@ -673,8 +676,18 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
         st.prayer.query.clear();
     }
     let site = st.prayer.site().expect("Jakarta's site");
-    let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).expect("today's times").ashar;
-    st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
+    let today = site.local_day(st.unix);
+    let ashar = poni_core::prayer::day_times(&site, today).expect("today's times").ashar;
+    // PONI_SELFTEST_PRAYER_AT=HH:MM: the Prayer page at that time of
+    // Jakarta's day instead (pictures of the night side: the moon on the arc).
+    let at = std::env::var("PONI_SELFTEST_PRAYER_AT").ok().filter(|_| scene == Scene::Page(PageKind::Prayer)).and_then(|v| {
+        let (h, m) = v.trim().split_once(':')?;
+        Some(h.parse::<i64>().ok()? * 3600 + m.parse::<i64>().ok()? * 60)
+    });
+    st.prayer.clock_shift = match at {
+        Some(secs) => today * 86_400 - i64::from(site.offset_min) * 60 + secs - st.unix,
+        None => ashar - 8 * 60 - st.unix,
+    };
     st.prayer.handled_until = Some(st.prayer_now());
     st.prayer.adzan = scene == Scene::PrayerNotice;
     if scene == Scene::PrayerNotice {

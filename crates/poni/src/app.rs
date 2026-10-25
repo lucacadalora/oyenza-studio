@@ -2963,7 +2963,11 @@ impl App {
             consider(t);
         }
         if let Mode::Expanded(p) = self.mode {
-            if let Some(t) = pages::next_wake(p, &self.st).filter(|_| visible) {
+            // A page's own changes rest while nobody is at the PC (the Prayer
+            // page's countdown ticks every second); the lock and display
+            // events ask for a frame, which picks them up again.
+            let away = self.locked || self.display_off;
+            if let Some(t) = pages::next_wake(p, &self.st).filter(|_| visible && !away) {
                 consider(t + 0.005);
             }
         }
