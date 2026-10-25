@@ -1143,6 +1143,7 @@ dependencies = [
  "objc2-core-text",
  "objc2-foundation",
  "objc2-quartz-core",
+ "p256",
  "poni-core",
  "serde",
  "serde_json",

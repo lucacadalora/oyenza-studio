@@ -86,6 +86,8 @@ pub enum MenuCmd {
     OyenzaOpen,
     ToggleOyenzaAmounts,
     RecordScreen,
+    /// "Update to Oyenza Studio 0.2.5…" (`crate::updates`).
+    Update,
     Quit,
 }
 
@@ -113,7 +115,8 @@ fn idle_label(s: IdleStyle, theme: Theme) -> &'static str {
     }
 }
 
-pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: bool) -> Vec<MenuItem> {
+/// `update`: a later version the update file offers, if any.
+pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: bool, update: Option<&str>) -> Vec<MenuItem> {
     // The look the theme draws is the one checked: outside Pill, Status shows the clock.
     let shown = crate::pill::status::shown(s.theme, s.idle_style);
     let style = |st: IdleStyle| item(idle_label(st, s.theme), MenuCmd::ToggleIdleStyle(st), shown == st);
@@ -161,6 +164,10 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
     // island doesn't mention recording at all.
     if recorder {
         items.splice(0..0, [item("Record this screen", MenuCmd::RecordScreen, false), MenuItem::Separator]);
+    }
+    // A new version first, until it is installed.
+    if let Some(v) = update {
+        items.splice(0..0, [item(&format!("Update to Oyenza Studio {v}…"), MenuCmd::Update, false), MenuItem::Separator]);
     }
     items
 }
@@ -257,7 +264,7 @@ mod tests {
     use super::*;
 
     fn fullscreen_choices(s: &Settings) -> Vec<(String, MenuCmd, bool)> {
-        let items = menu_items(s, false, &OyenzaLink::Off, false);
+        let items = menu_items(s, false, &OyenzaLink::Off, false, None);
         let Some(MenuItem::Sub { items, .. }) = items.into_iter().find(|i| matches!(i, MenuItem::Sub { label, .. } if label == "In full-screen apps")) else {
             panic!("no full-screen submenu");
         };
@@ -272,7 +279,7 @@ mod tests {
 
     #[test]
     fn the_menu_says_which_version_this_is() {
-        let items = menu_items(&Settings::default(), false, &OyenzaLink::Off, false);
+        let items = menu_items(&Settings::default(), false, &OyenzaLink::Off, false, None);
         let labels: Vec<(String, MenuCmd)> = items
             .into_iter()
             .filter_map(|i| match i {
@@ -289,9 +296,20 @@ mod tests {
     }
 
     #[test]
+    fn a_new_version_comes_first_until_it_is_installed() {
+        let s = Settings::default();
+        let first = |update: Option<&str>| match menu_items(&s, false, &OyenzaLink::Off, true, update).into_iter().next() {
+            Some(MenuItem::Item { label, cmd, .. }) => Some((label, cmd)),
+            _ => None,
+        };
+        assert_eq!(first(Some("0.2.5")), Some(("Update to Oyenza Studio 0.2.5…".to_string(), MenuCmd::Update)));
+        assert_eq!(first(None).map(|(_, cmd)| cmd), Some(MenuCmd::RecordScreen));
+    }
+
+    #[test]
     fn record_this_screen_shows_only_with_the_recorder() {
         let s = Settings::default();
-        let first = |recorder: bool| match menu_items(&s, false, &OyenzaLink::Off, recorder).into_iter().next() {
+        let first = |recorder: bool| match menu_items(&s, false, &OyenzaLink::Off, recorder, None).into_iter().next() {
             Some(MenuItem::Item { label, cmd, .. }) => Some((label, cmd)),
             _ => None,
         };
@@ -300,7 +318,7 @@ mod tests {
     }
 
     fn idle_choices(s: &Settings) -> Vec<(String, bool)> {
-        let items = menu_items(s, false, &OyenzaLink::Off, false);
+        let items = menu_items(s, false, &OyenzaLink::Off, false, None);
         let Some(MenuItem::Sub { items, .. }) = items.into_iter().find(|i| matches!(i, MenuItem::Sub { label, .. } if label == "Idle look")) else {
             panic!("no idle look submenu");
         };
@@ -335,7 +353,7 @@ mod tests {
         let mut s = Settings::default();
         for on in [true, false] {
             s.step_aside = on;
-            let items = menu_items(&s, false, &OyenzaLink::Off, false);
+            let items = menu_items(&s, false, &OyenzaLink::Off, false, None);
             let at = |name: &str| items.iter().position(|i| matches!(i, MenuItem::Sub { label, .. } if label == name));
             let (Some(fs), Some(i)) = (at("In full-screen apps"), at("Over maximized windows")) else {
                 panic!("no maximized windows submenu");

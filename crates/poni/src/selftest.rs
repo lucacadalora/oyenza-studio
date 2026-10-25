@@ -883,6 +883,30 @@ enum Scene {
     AsideHud,
     /// Settings with Stay picked over maximized windows.
     SettingsAsideStay,
+    /// A new version is out: the island tells once, with Update.
+    UpdateNotice,
+    /// The first start after an update: "Updated to", with What's new.
+    UpdatedNotice,
+    /// Settings while a new version is offered: Update on the version's row.
+    SettingsUpdate,
+}
+
+/// A later release than this build, as the update file describes one.
+fn fake_release() -> poni_core::update::Release {
+    let mut parts: Vec<u64> = crate::version::VERSION.split('.').filter_map(|p| p.parse().ok()).collect();
+    if let Some(last) = parts.last_mut() {
+        *last += 1;
+    }
+    let version = parts.iter().map(u64::to_string).collect::<Vec<_>>().join(".");
+    let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+    poni_core::update::Release {
+        date: "2026-10-26".into(),
+        headline: "Update from the island in one click".into(),
+        notes: format!("{repo}/tag/v{version}"),
+        windows: Some(poni_core::update::Download { url: format!("{repo}/download/v{version}/Oyenza-Studio-Setup-{version}.exe"), size: 2_500_000, sha256: "0".repeat(64) }),
+        mac: None,
+        version,
+    }
 }
 
 /// Running under Wine: its ntdll exports `wine_get_version`.
@@ -897,7 +921,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 77] = [
+const SCENES: [Scene; 80] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -987,6 +1011,10 @@ const SCENES: [Scene; 77] = [
     Scene::AsidePeek,
     Scene::AsideHud,
     Scene::SettingsAsideStay,
+    // New versions: the island's notice, "Updated to", and Settings offering one.
+    Scene::UpdateNotice,
+    Scene::UpdatedNotice,
+    Scene::SettingsUpdate,
 ];
 
 impl Scene {
@@ -1059,6 +1087,9 @@ impl Scene {
             Scene::AsidePeek => "aside-new-song".into(),
             Scene::AsideHud => "aside-volume-hud".into(),
             Scene::SettingsAsideStay => "page-settings-maximized-stay".into(),
+            Scene::UpdateNotice => "update-notice".into(),
+            Scene::UpdatedNotice => "updated-notice".into(),
+            Scene::SettingsUpdate => "page-settings-update".into(),
         }
     }
 
@@ -1070,9 +1101,12 @@ impl Scene {
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
             Scene::HealthSignedIn | Scene::HealthStale => Some(PageKind::Health),
-            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop | Scene::SettingsAsideStay => {
-                Some(PageKind::Settings)
-            }
+            Scene::GearClick
+            | Scene::SettingsSigningIn
+            | Scene::SettingsSignedIn
+            | Scene::SettingsStayOnTop
+            | Scene::SettingsAsideStay
+            | Scene::SettingsUpdate => Some(PageKind::Settings),
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -1841,6 +1875,12 @@ impl SelfTest {
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
         // Step aside over maximized windows (the default), except where Stay is picked.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
+        // A later version offered, only where Settings shows it.
+        st.update = if scene == Scene::SettingsUpdate {
+            crate::state::UpdateView { offer: Some(fake_release()), status: crate::state::UpdateStatus::UpToDate }
+        } else {
+            crate::state::UpdateView::default()
+        };
         // A new song's title shows for its few seconds (held here).
         st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };
         st.phone = fake_phone(scene, now);
@@ -1884,6 +1924,8 @@ impl SelfTest {
             _ => None,
         };
         st.notice = match scene {
+            Scene::UpdateNotice => Some(crate::updates::new_version_notice(&fake_release(), st.accent, until)),
+            Scene::UpdatedNotice => Some(crate::updates::updated_notice(Some(fake_release().headline), until)),
             Scene::HealthNotice => {
                 let steps = st.health.as_ref().map_or(0, |h| h.steps_on(&st.local.day_key()));
                 Some(crate::pages::health::goal_notice(steps, until))

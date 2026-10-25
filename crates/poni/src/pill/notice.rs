@@ -117,6 +117,8 @@ fn inline_done(st: &AppState, n: &Notice, a: InlineAction) -> bool {
         // Oyenza: the sum is in place once Show took it.
         InlineAction::ShowAmount => n.reveal.is_none(),
         InlineAction::StopAdzan => !st.prayer.adzan,
+        // Done once clicked: the app puts the check in the notice's icon.
+        InlineAction::Update | InlineAction::WhatsNew => n.icon == Icon::Check,
     }
 }
 
@@ -158,6 +160,8 @@ fn draw_notice(ui: &mut Ui, st: &AppState, n: &Notice, body: Rect) {
             InlineAction::StartFocus => ("Start", Icon::Play, phase_color(st.pomodoro.phase)),
             InlineAction::ShowAmount => ("Show", Icon::Eye, n.color),
             InlineAction::StopAdzan => ("Stop", Icon::Stop, n.color),
+            InlineAction::Update => ("Update", Icon::Download, n.color),
+            InlineAction::WhatsNew => ("What's new", Icon::Open, n.color),
         };
         (a, label, icon, color, ui.pill_width(label, true, true).max(ACT_MIN_W))
     });

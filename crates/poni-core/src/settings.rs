@@ -116,6 +116,10 @@ pub struct Settings {
     /// front. Its own name: the corner test build wrote `game_readout`
     /// ("peek" as its default) into the files of the people who tried it.
     pub game_peek: bool,
+    /// Tell me about new versions: read the update file a couple of minutes
+    /// after start and then twice a day (docs/updates.md), and say on the
+    /// island once when a new version is out.
+    pub update_check: bool,
 }
 
 /// What plays when a prayer's time comes.
@@ -183,6 +187,7 @@ impl Default for Settings {
             prayer: PrayerSettings::default(),
             game_stats: false,
             game_peek: false,
+            update_check: true,
         }
     }
 }

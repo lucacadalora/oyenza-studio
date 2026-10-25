@@ -99,6 +99,8 @@ pub enum Command {
     Play(Sound),
     /// Open a URL in the default browser.
     OpenUrl(String),
+    /// Update to the version the update file offers (Settings' Update).
+    Update,
     /// Start/stop the 1 Hz system-stats sampler.
     WantStats(bool),
     /// Start with Windows on or off (the Settings page's switch).

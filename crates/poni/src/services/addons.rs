@@ -10,8 +10,10 @@
 //! not retried until the add-on is switched off and on again.
 //!
 //! One worker thread, asleep on a condition variable whenever nothing is
-//! wanted, with its own HTTP client. The Mac app runs this file as is, on
-//! its own HTTP client (`mac/services/http.rs`), for the add-ons it offers.
+//! wanted, with its own HTTP client. Other one-off downloads ride on it as
+//! jobs ([`AddonService::run`]: the update file), so they need no thread of
+//! their own. The Mac app runs this file as is, on its own HTTP client
+//! (`mac/services/http.rs`), for the add-ons it offers.
 
 use crate::events::{AppEvent, EventSink};
 use crate::services::http::{Client, FetchError, MtaGuard};
@@ -35,11 +37,14 @@ pub struct AddonService {
     shared: Arc<Shared>,
 }
 
+/// One-off work for the worker's HTTP client, run once, in order.
+pub type Job = Box<dyn FnOnce(&Client) + Send>;
+
 impl AddonService {
     /// `on`: the add-ons switched on in settings.
     pub fn start(sink: EventSink, on: Vec<&'static str>) -> io::Result<Self> {
         let want = addons::ALL.iter().map(|a| (a.id, on.contains(&a.id))).collect();
-        let shared = Arc::new(Shared { q: Mutex::new(Queue { want, shutdown: false }), cv: Condvar::new() });
+        let shared = Arc::new(Shared { q: Mutex::new(Queue { want, jobs: Vec::new(), shutdown: false }), cv: Condvar::new() });
         let worker = shared.clone();
         std::thread::Builder::new()
             .name("poni-addons".into())
@@ -51,6 +56,12 @@ impl AddonService {
     /// Switch an add-on on or off; returns at once (UI thread safe).
     pub fn set(&self, id: &'static str, on: bool) {
         self.shared.lock().want.insert(id, on);
+        self.shared.cv.notify_all();
+    }
+
+    /// Run `job` on the worker after what it is doing now; returns at once.
+    pub fn run(&self, job: Job) {
+        self.shared.lock().jobs.push(job);
         self.shared.cv.notify_all();
     }
 }
@@ -66,6 +77,7 @@ impl Drop for AddonService {
 
 struct Queue {
     want: BTreeMap<&'static str, bool>,
+    jobs: Vec<Job>,
     shutdown: bool,
 }
 
@@ -100,9 +112,9 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
     let mut have: BTreeMap<&'static str, Have> = addons::ALL.iter().map(|a| (a.id, Have::Unknown)).collect();
     let mut was_on: BTreeMap<&'static str, bool> = BTreeMap::new();
     loop {
-        let (want, shutdown) = {
-            let q = shared.lock();
-            (q.want.clone(), q.shutdown)
+        let (want, jobs, shutdown) = {
+            let mut q = shared.lock();
+            (q.want.clone(), std::mem::take(&mut q.jobs), q.shutdown)
         };
         if shutdown {
             return;
@@ -148,9 +160,21 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
             }
             have.insert(addon.id, now_have);
         }
+        for job in jobs {
+            if client.is_none() {
+                match Client::new(USER_AGENT) {
+                    Ok(c) => client = Some(c),
+                    Err(e) => crate::pwarn!("add-ons: no HTTP client for a job ({e})"),
+                }
+            }
+            // Without a client the job is dropped; its owner tries again later.
+            if let Some(c) = &client {
+                job(c);
+            }
+        }
         // Sleep until something changes or a retry is due.
         let q = shared.lock();
-        if q.want == want && !q.shutdown {
+        if q.want == want && q.jobs.is_empty() && !q.shutdown {
             let _q = match next_wake {
                 Some(at) => shared.cv.wait_timeout(q, at.saturating_duration_since(Instant::now())).map(|r| r.0).unwrap_or_else(|p| p.into_inner().0),
                 None => shared.cv.wait(q).unwrap_or_else(|p| p.into_inner()),

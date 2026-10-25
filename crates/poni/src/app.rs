@@ -58,6 +58,8 @@ const TIMER_TRAY: usize = 8;
 const TIMER_RAISE: usize = 9;
 /// Show over games: the readout's peek ends.
 const TIMER_PEEK: usize = 10;
+/// The next read of the update file (`crate::updates`).
+const TIMER_UPDATE: usize = 11;
 /// Show over games: how long the readout shows over a game, the least time
 /// between two peeks for a frame-rate drop, and Alt+Shift+F's id.
 const PEEK_S: f64 = 5.0;
@@ -275,7 +277,7 @@ fn run_deferred(d: Deferred) {
             with_app(|app| app.request_frame());
         }
         Deferred::Menu(pt) => {
-            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed()))) else { return };
+            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), app.st.update.offer.as_ref().map(|r| r.version.as_str())))) else { return };
             if let Some(cmd) = tray::show_menu(helper, pt, &items) {
                 with_app(|app| app.on_menu(cmd));
             }
@@ -426,6 +428,9 @@ pub struct App {
     /// Whether the island floated when the window was last laid out (its
     /// room differs: see `sync_room`).
     laid_floating: bool,
+    /// New versions (`crate::updates`); None in the self-test and in a
+    /// Store copy, which the Store updates.
+    updater: Option<crate::updates::Updater>,
 }
 
 /// The island window: position and size in screen pixels.
@@ -591,6 +596,7 @@ impl App {
             phone_offer: Vec::new(),
             pair_offer: None,
             laid_floating: false,
+            updater: None,
         })
     }
 
@@ -615,6 +621,10 @@ impl App {
             }
             self.try_add_tray();
             services::power::register_session(self.helper);
+            if !crate::autostart::packaged() {
+                self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
+                self.schedule_update();
+            }
         }
         if let Err(e) = dragdrop::register(self.hwnd, self.sink.clone()) {
             pwarn!("drop target registration failed: {e}");
@@ -1131,6 +1141,7 @@ impl App {
                 self.on_event(AppEvent::Power(p));
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.update_due();
                 self.request_frame();
                 Some(LRESULT(1))
             }
@@ -1142,6 +1153,7 @@ impl App {
                 }
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.update_due();
                 self.request_frame();
                 Some(LRESULT(0))
             }
@@ -1249,6 +1261,12 @@ impl App {
                     let _ = KillTimer(self.hwnd, TIMER_TRAY);
                 }
                 self.try_add_tray();
+            }
+            TIMER_UPDATE => {
+                unsafe {
+                    let _ = KillTimer(self.hwnd, TIMER_UPDATE);
+                }
+                self.update_due();
             }
             TIMER_SELFTEST => {
                 if let Some(mut t) = self.selftest.take() {
@@ -1534,6 +1552,12 @@ impl App {
     fn settings_changed(&mut self, before: &Settings) {
         // Show over games and Hide in full-screen apps follow each other.
         self.st.settings.pair_game_stats(before);
+        if before.update_check != self.st.settings.update_check {
+            if let Some(u) = self.updater.as_mut() {
+                u.switched(&mut self.st, crate::updates::unix_now());
+            }
+            self.schedule_update();
+        }
         let now = &self.st.settings;
         if before.theme != now.theme {
             self.st.accent = theme_accent(now.theme);
@@ -1687,6 +1711,7 @@ impl App {
             OyenzaCancel => self.oyenza(OyenzaCmd::Cancel),
             OyenzaDisconnect => self.oyenza(OyenzaCmd::Disconnect),
             OyenzaOpen => shell::open(oyenza::WEB),
+            Update => self.update_now(),
             ToggleOyenzaAmounts => s.oyenza_show_amounts = !s.oyenza_show_amounts,
             Quit => {
                 self.quit(0);
@@ -1929,6 +1954,12 @@ impl App {
                         }
                     }
                 }
+            }
+            AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
+                if let Some(u) = self.updater.as_mut() {
+                    u.checked(&mut self.st, r, crate::updates::unix_now());
+                }
+                self.schedule_update();
             }
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::AdzanEnded => self.adzan_ended(),
@@ -2630,6 +2661,11 @@ impl App {
                 self.st.notice = None;
             }
         }
+        // A new version's notice (or "Updated to") waits for the island to be free.
+        let free = self.shown && !self.fullscreen_hidden && !self.locked && !self.display_off && !self.expanded && self.st.notice.is_none();
+        if self.updater.as_mut().is_some_and(|u| u.announce(&mut self.st, free)) {
+            self.request_frame();
+        }
         if let Some(ended) = self.st.pomodoro.tick(now) {
             pages::focus::on_phase_ended(&mut self.st, ended);
         }
@@ -3134,6 +3170,56 @@ impl App {
         }
     }
 
+    // ------------------------------------------------------------ new versions
+
+    /// Arm the update file's timer for the next read, or stop it while the
+    /// checks are off or a read runs.
+    fn schedule_update(&mut self) {
+        let secs = self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now()));
+        unsafe {
+            match secs {
+                // SetTimer waits at most about 24 days; reads are 12 hours apart.
+                Some(s) => {
+                    SetTimer(self.hwnd, TIMER_UPDATE, s.saturating_mul(1000).clamp(1000, 0x7FFF_FFFF) as u32, None);
+                }
+                None => {
+                    let _ = KillTimer(self.hwnd, TIMER_UPDATE);
+                }
+            }
+        }
+    }
+
+    /// The timer fired, or someone came back to the PC: read the update file
+    /// if a read is due and someone is here, not on battery saver. Otherwise
+    /// it waits; the lock, display and power events call this again.
+    fn update_due(&mut self) {
+        let now = crate::updates::unix_now();
+        let away = self.locked || self.display_off || self.st.power.saver;
+        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
+            Some(0) if away => {}
+            Some(0) => {
+                let job = services::update::check_job(self.sink.clone());
+                let started = self.services.as_ref().is_some_and(|s| s.run_job(job));
+                if let Some(u) = self.updater.as_mut() {
+                    u.begin(&mut self.st);
+                    if !started {
+                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                        self.schedule_update();
+                    }
+                }
+            }
+            _ => self.schedule_update(),
+        }
+    }
+
+    /// Update (the menu, the notice, Settings): the release's page for now.
+    fn update_now(&mut self) {
+        if let Some(url) = self.updater.as_ref().and_then(|u| u.download_page(&self.st)) {
+            pinfo!("updates: opening {url}");
+            shell::open(&url);
+        }
+    }
+
     /// Run a notice's inline action in place (the island stays collapsed),
     /// then show a check mark in the pill briefly before the notice leaves.
     fn run_inline_action(&mut self, a: InlineAction) {
@@ -3141,6 +3227,13 @@ impl App {
         if a == InlineAction::StopAdzan {
             self.adzan.stop();
             self.st.prayer.adzan = false;
+        }
+        if self.st.notice.as_ref().is_some_and(|n| n.icon != Icon::Check) {
+            match a {
+                InlineAction::Update => self.update_now(),
+                InlineAction::WhatsNew => shell::open(&crate::version::notes_url()),
+                _ => {}
+            }
         }
         let st = &mut self.st;
         // Already done: the check mark is showing.
@@ -3161,7 +3254,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Update | InlineAction::WhatsNew => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -3452,6 +3545,7 @@ impl App {
                 Command::Collapse => self.collapse(),
                 Command::Play(s) => services::sound::play(s),
                 Command::OpenUrl(u) => shell::open(&u),
+                Command::Update => self.update_now(),
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     self.st.ui.autostart = Some(on);

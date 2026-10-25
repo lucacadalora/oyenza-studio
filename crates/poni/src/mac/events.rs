@@ -124,6 +124,8 @@ pub enum AppEvent {
     Phone(poni_core::phonedrop::Event),
     /// Where an add-on's files stand (`services::addons`).
     Addon { id: &'static str, status: poni_core::addons::Status },
+    /// What the update file said (`services::update`).
+    Update(crate::services::update::UpdateEvent),
     /// Where the Mac is, for Prayer times (`services::location`).
     Located(crate::services::location::Located),
     /// Prayer times' adzan played to its end (`services::adzan`).

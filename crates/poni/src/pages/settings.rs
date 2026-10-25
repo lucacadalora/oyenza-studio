@@ -3,26 +3,27 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, five switches, Hide or Stay on top in
+//! the idle look as pickers, six switches, Hide or Stay on top in
 //! full-screen apps, and (Windows) Step aside or Stay over maximized windows.
 //! A change saves at once and applies the way the tray's does
-//! (`Command::SaveSettings`).
+//! (`Command::SaveSettings`). Last, across the page, this version and what
+//! the update file said, with Update when a later version is out.
 
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{TextStyle, Weight};
 use crate::pages::PageKind;
 use crate::pill::status;
-use crate::state::{AppState, OyenzaLink};
+use crate::state::{AppState, OyenzaLink, UpdateStatus};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::oyenza;
 use poni_core::settings::{IdleStyle, Theme};
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), then the switches and choices: four rows on Windows,
-/// three on a Mac. Shorter than the System page (256), so the window keeps
+/// narrow island), then the switches and choices (four rows) and the
+/// version's row. Shorter than the System page (256), so the window keeps
 /// its size.
-const HEIGHT: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
+const HEIGHT: f32 = SWITCHES_Y + (ROWS + 1) as f32 * ROW_H;
 const ACCOUNT_H: f32 = 44.0;
 /// The Oyenza app's icon, and the text column right of it.
 const ICON: f32 = 36.0;
@@ -69,7 +70,7 @@ fn idle_name(s: IdleStyle, eyes: &'static str) -> &'static str {
     }
 }
 
-/// The five switches, as the tray menu names them.
+/// The switches, as the tray menu names them (new versions: Settings only).
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Switch {
     Lyrics,
@@ -77,6 +78,7 @@ enum Switch {
     Sounds,
     Clipboard,
     Autostart,
+    Updates,
 }
 
 /// What a row of the two columns holds: a switch, the full-screen choice
@@ -90,7 +92,12 @@ enum Row {
     Aside,
 }
 
-const LEFT: &[Row] = &[Row::Switch(Switch::Lyrics, "Synced lyrics"), Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"), Row::Switch(Switch::Sounds, "Sounds")];
+const LEFT: &[Row] = &[
+    Row::Switch(Switch::Lyrics, "Synced lyrics"),
+    Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"),
+    Row::Switch(Switch::Sounds, "Sounds"),
+    Row::Switch(Switch::Updates, "Tell me about new versions"),
+];
 /// The maximized-window choice sits under the full-screen one. A Mac has
 /// none: its menu bar keeps windows below the island.
 #[cfg(windows)]
@@ -207,6 +214,37 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
             }
         }
     }
+    draw_version(ui, st, Rect::new(area.x, area.y + SWITCHES_Y + ROWS as f32 * ROW_H, area.w, ROW_H));
+}
+
+/// The last row, across the page: this version and what the update file
+/// said, with Update when a later version is out (else What's new).
+fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect) {
+    let cy = r.center().y;
+    let offer = st.update.offer.as_ref().map(|o| o.version.clone());
+    let label = if offer.is_some() { "Update" } else { "What's new" };
+    let w = ui.pill_width(label, false, true);
+    let b = Rect::new(r.right() - w, cy - PILL_SMALL / 2.0, w, PILL_SMALL);
+    let style = if offer.is_some() { PillStyle::Primary(st.accent) } else { PillStyle::Utility };
+    if ui.pill(wid("settings.update"), b, label, None, style).clicked {
+        st.cmd(if offer.is_some() { Command::Update } else { Command::OpenUrl(crate::version::notes_url()) });
+    }
+    let title = format!("Oyenza Studio {}", crate::version::VERSION);
+    let body = TextStyle::body();
+    let right = b.x - 12.0;
+    let tw = ui.c.measure(&title, &body, 400.0).0.ceil().min((right - r.x).max(0.0));
+    ui.c.text(&title, Rect::new(r.x, r.y, tw + 1.0, r.h), &body);
+    let line = match (offer, st.update.status) {
+        (Some(v), _) => format!("Version {v} is ready"),
+        (None, UpdateStatus::Checking) => "Looking for a new version…".into(),
+        (None, UpdateStatus::UpToDate) => "Up to date".into(),
+        (None, UpdateStatus::Failed) => "Couldn't check; trying again later".into(),
+        (None, UpdateStatus::Unknown) => String::new(),
+    };
+    let x = r.x + tw + 10.0;
+    if !line.is_empty() && right > x {
+        ui.c.text(&line, Rect::new(x, r.y, right - x, r.h), &TextStyle::footnote().color(palette::TEXT_DIM));
+    }
 }
 
 /// A choice's label with its picker where the other rows have their
@@ -227,6 +265,7 @@ fn switch_on(st: &AppState, sw: Switch) -> Option<bool> {
         Switch::Sounds => Some(s.sounds),
         Switch::Clipboard => Some(s.clipboard_history),
         Switch::Autostart => st.ui.autostart,
+        Switch::Updates => Some(s.update_check),
     }
 }
 
@@ -238,6 +277,7 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
         Switch::Sounds => s.sounds = !s.sounds,
         // Off forgets the history, pinned items included (as from the tray).
         Switch::Clipboard => s.clipboard_history = !s.clipboard_history,
+        Switch::Updates => s.update_check = !s.update_check,
         Switch::Autostart => {
             if let Some(on) = on {
                 st.cmd(Command::SetAutostart(!on));

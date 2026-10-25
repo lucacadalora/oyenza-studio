@@ -145,6 +145,10 @@ pub enum InlineAction {
     ShowAmount,
     /// Stop the adzan (Prayer times).
     StopAdzan,
+    /// Update to the version the notice tells about (`crate::updates`).
+    Update,
+    /// Open this version's release notes ("Updated to").
+    WhatsNew,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -158,6 +162,28 @@ pub struct Notice {
     pub inline: Option<InlineAction>,
     /// The subtitle Show puts in place of `subtitle` ([`InlineAction::ShowAmount`]).
     pub reveal: Option<String>,
+}
+
+/// What the app knows about new versions.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct UpdateView {
+    /// A later release than this copy, with a download for this system
+    /// (only while the checks are on).
+    pub offer: Option<poni_core::update::Release>,
+    pub status: UpdateStatus,
+}
+
+/// The last look at the update file.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum UpdateStatus {
+    /// Not looked yet (or the checks are off).
+    #[default]
+    Unknown,
+    Checking,
+    /// The file names this version or an older one.
+    UpToDate,
+    /// The look failed; the next one is in an hour.
+    Failed,
 }
 
 /// A phone wants to send these files; the Shelf asks the person at the PC.
@@ -459,6 +485,9 @@ pub struct AppState {
     pub oyenza: OyenzaState,
     /// Where each add-on stands, by id (every one in `poni_core::addons::ALL`).
     pub addons: BTreeMap<&'static str, AddonStatus>,
+    /// New versions (`crate::updates`): what Settings, the menu and the
+    /// island's notice show.
+    pub update: UpdateView,
     /// The Prayer times add-on, while it is on (its choices: `settings.prayer`).
     pub prayer: PrayerState,
     /// The Script page's reading (its script and pace are in `store.script`).
@@ -532,6 +561,7 @@ impl AppState {
             pair_server: None,
             oyenza: OyenzaState::default(),
             addons: BTreeMap::new(),
+            update: UpdateView::default(),
             prayer: PrayerState::default(),
             script: poni_core::script::Reader::default(),
             script_note: None,

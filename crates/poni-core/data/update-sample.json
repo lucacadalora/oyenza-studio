@@ -1,0 +1,6 @@
+{
+  "about": "Oyenza Studio's update file. payload is signed (ECDSA P-256, SHA-256) with the key named by key; see docs/updates.md.",
+  "payload": "{\"schema\":1,\"version\":\"0.2.3\",\"date\":\"2026-10-25\",\"headline\":\"Sing along from the closed island\",\"notes\":\"https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.3\",\"windows\":{\"url\":\"https://github.com/lucacadalora/oyenza-studio/releases/download/v0.2.3/Oyenza-Studio-Setup-0.2.3.exe\",\"size\":2457657,\"sha256\":\"8f30919c3c13e7074ae0381d9b478e1ef5fb802476b637f5febefe949d26e26b\"},\"mac\":{\"url\":\"https://github.com/lucacadalora/oyenza-studio/releases/download/v0.2.3/Oyenza-Studio-0.2.3-mac.dmg\",\"size\":3667341,\"sha256\":\"fabc80efc387be83d7f82702bede7c3d2470f7aa6ef62cc2a8cd095a425f3fb9\"}}",
+  "signature": "8WbQ7v79gpZ+iKYcnHbVL0F4Os9lVZaNaNq7HZLljHQi5ojErlhtGz8ZGV2lvz/3ER2stsr8s/RaLnNCHUwkNA==",
+  "key": "4cb3280eaea65b50"
+}

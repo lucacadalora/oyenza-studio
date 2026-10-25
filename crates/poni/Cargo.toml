@@ -122,6 +122,9 @@ objc2-core-graphics = "=0.3.2"
 objc2-core-location = { version = "=0.3.2", default-features = false, features = ["std", "CLError", "CLLocation", "CLLocationManager", "CLLocationManagerDelegate"] }
 objc2-core-text = "=0.3.2"
 objc2-quartz-core = "=0.3.2"
+# The update file's signature (services/update.rs): the P-256 code phone
+# drop's WebRTC already builds into the Mac app (same version, nothing new).
+p256 = { version = "=0.13.2", default-features = false, features = ["ecdsa"] }
 
 [build-dependencies]
 embed-resource = "2.5"
