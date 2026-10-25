@@ -4,7 +4,9 @@ name: mac
 # offscreen, run the real window through a few states with screenshots, and
 # package an ad-hoc signed test DMG. Its own workflow, so it never holds up
 # the Windows CI or a Windows release. A release tag also puts the DMG on the
-# GitHub release, once ci has published it.
+# GitHub release, once ci has published it: signed with the Developer ID and
+# notarized by Apple when the release environment holds the secrets
+# (docs/mac-signing.md), the ad-hoc one until then.
 on:
   push:
     branches: [main, "mac-*"]
@@ -14,6 +16,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      sign:
+        description: "Also sign and notarize the DMG with the Developer ID (an artifact only; nothing is published)"
+        type: boolean
+        default: false
 
 concurrency:
   group: mac-${{ github.ref }}
@@ -142,16 +149,176 @@ jobs:
             smoke/stdout.txt
             smoke/home/poni.log
 
+  # The signing path on every run that isn't a release, with a throwaway
+  # certificate: the app gets the hardened runtime and its entitlements, the
+  # DMG is signed, and the signed app goes through the smoke run, so a change
+  # that breaks under the hardened runtime shows before a release needs it.
+  # Apple's notarization is the one step only the sign job below does.
+  sign-check:
+    name: Signing path check (throwaway certificate)
+    if: "!startsWith(github.ref, 'refs/tags/v')"
+    needs: mac
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: oyenza-studio-mac-dmg
+          path: dmg
+      - name: A throwaway signing certificate in a temporary keychain
+        run: |
+          kc="$RUNNER_TEMP/sign-check.keychain-db"
+          pw="$(openssl rand -hex 16)"
+          cd "$RUNNER_TEMP"
+          printf '%s\n' '[req]' 'distinguished_name = dn' 'prompt = no' 'x509_extensions = ext' \
+            '[dn]' 'CN = Oyenza Studio CI throwaway signing' \
+            '[ext]' 'basicConstraints = critical, CA:false' 'keyUsage = critical, digitalSignature' \
+            'extendedKeyUsage = critical, codeSigning' > sign.cnf
+          /usr/bin/openssl req -x509 -newkey rsa:2048 -nodes -days 2 -config sign.cnf -keyout sign.key -out sign.crt
+          /usr/bin/openssl pkcs12 -export -inkey sign.key -in sign.crt -out sign.p12 -passout "pass:$pw"
+          security create-keychain -p "$pw" "$kc"
+          security set-keychain-settings -lut 3600 "$kc"
+          security unlock-keychain -p "$pw" "$kc"
+          security import sign.p12 -k "$kc" -P "$pw" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$pw" "$kc" > /dev/null
+          security list-keychains -d user -s "$kc"
+          # Trusted for code signing on this runner only, as a Developer ID is everywhere.
+          sudo security add-trusted-cert -d -r trustRoot -p codeSign -k /Library/Keychains/System.keychain sign.crt \
+            || echo "(could not mark the throwaway certificate trusted)"
+          rm -f sign.key sign.p12
+          security find-identity -p codesigning "$kc"
+          id=$(security find-identity -p codesigning "$kc" | awk '/Oyenza Studio CI throwaway signing/ {print $2; exit}')
+          [ -n "$id" ] || exit 1
+          echo "KEYCHAIN=$kc" >> "$GITHUB_ENV"
+          echo "IDENTITY=$id" >> "$GITHUB_ENV"
+      - name: Sign the app and the DMG (no notarization)
+        run: NOTARIZE=0 SIGN_KEYCHAIN="$KEYCHAIN" bash tools/sign_mac_dmg.sh dmg/*.dmg signed "$IDENTITY"
+      - name: Smoke run, the app under the hardened runtime
+        run: |
+          hdiutil attach signed/*.dmg -nobrowse -readonly -mountpoint /tmp/poni-signed
+          mkdir -p dist
+          cp -R /tmp/poni-signed/*.app dist/
+          hdiutil detach /tmp/poni-signed
+          apps=(dist/*.app)
+          app="${apps[0]}"
+          codesign --display --verbose=2 "$app" 2>&1 | grep -E "^(Authority|Timestamp|CodeDirectory)"
+          bash tools/mac-smoke.sh "$app/Contents/MacOS/poni"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mac-smoke-hardened
+          path: |
+            smoke/*.png
+            smoke/report.json
+            smoke/stdout.txt
+            smoke/home/poni.log
+
+  # The release DMG, signed with the Developer ID, notarized by Apple and
+  # stapled, so it opens with a plain "Open". Runs on release tags, and by hand
+  # with "sign" on (gh workflow run mac.yml --ref main -f sign=true) to try a
+  # signed DMG without releasing: it is then only an artifact. The secrets live
+  # in the release environment (docs/mac-signing.md). Without them this job
+  # says so and the release keeps the ad-hoc DMG.
+  sign:
+    name: Sign, notarize and staple the DMG (Developer ID)
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.sign)
+    needs: mac
+    runs-on: macos-15
+    environment: release
+    outputs:
+      signed: ${{ steps.dmg.outputs.signed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Developer ID secrets in the release environment?
+        id: secrets
+        env:
+          P12: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+          P8: ${{ secrets.APP_STORE_CONNECT_API_KEY_P8 }}
+        run: |
+          if [ -n "$P12" ] && [ -n "$P8" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No Developer ID secrets in the release environment yet, so the DMG stays ad-hoc signed (docs/mac-signing.md)."
+          fi
+      - uses: actions/download-artifact@v4
+        if: steps.secrets.outputs.present == 'true'
+        with:
+          name: oyenza-studio-mac-dmg
+          path: dmg
+      - name: The Developer ID certificate in a temporary keychain
+        if: steps.secrets.outputs.present == 'true'
+        env:
+          P12: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+        run: |
+          kc="$RUNNER_TEMP/release.keychain-db"
+          pw="$(openssl rand -hex 16)"
+          printf '%s' "$P12" | base64 --decode > "$RUNNER_TEMP/developer-id.p12"
+          security create-keychain -p "$pw" "$kc"
+          security set-keychain-settings -lut 21600 "$kc"
+          security unlock-keychain -p "$pw" "$kc"
+          security import "$RUNNER_TEMP/developer-id.p12" -k "$kc" -P "$P12_PASSWORD" -T /usr/bin/codesign
+          rm -f "$RUNNER_TEMP/developer-id.p12"
+          # Apple's Developer ID G2 intermediate, so codesign can build the
+          # chain even on a runner image that lacks it.
+          curl -fsSL https://www.apple.com/certificateauthority/DeveloperIDG2CA.cer -o "$RUNNER_TEMP/DeveloperIDG2CA.cer" \
+            && security import "$RUNNER_TEMP/DeveloperIDG2CA.cer" -k "$kc" || true
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$pw" "$kc" > /dev/null
+          security list-keychains -d user -s "$kc"
+          security find-identity -v -p codesigning "$kc"
+          id=$(security find-identity -v -p codesigning "$kc" | awk '/Developer ID Application/ {print $2; exit}')
+          if [ -z "$id" ]; then
+            echo "::error::No valid Developer ID Application certificate in MACOS_CERTIFICATE_P12_BASE64 (docs/mac-signing.md)."
+            exit 1
+          fi
+          echo "KEYCHAIN=$kc" >> "$GITHUB_ENV"
+          echo "IDENTITY=$id" >> "$GITHUB_ENV"
+      - name: Sign, notarize and staple
+        id: dmg
+        if: steps.secrets.outputs.present == 'true'
+        env:
+          P8: ${{ secrets.APP_STORE_CONNECT_API_KEY_P8 }}
+          NOTARY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          NOTARY_ISSUER: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        run: |
+          export NOTARY_KEY="$RUNNER_TEMP/notary-key.p8"
+          ( umask 077 && printf '%s\n' "$P8" > "$NOTARY_KEY" )
+          SIGN_KEYCHAIN="$KEYCHAIN" bash tools/sign_mac_dmg.sh dmg/*.dmg signed "$IDENTITY"
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+      - name: Smoke run, the signed app
+        if: steps.dmg.outputs.signed == 'true'
+        run: |
+          hdiutil attach signed/*.dmg -nobrowse -readonly -mountpoint /tmp/poni-signed
+          mkdir -p dist
+          cp -R /tmp/poni-signed/*.app dist/
+          hdiutil detach /tmp/poni-signed
+          apps=(dist/*.app)
+          app="${apps[0]}"
+          bash tools/mac-smoke.sh "$app/Contents/MacOS/poni"
+      - uses: actions/upload-artifact@v4
+        if: steps.dmg.outputs.signed == 'true'
+        with:
+          name: oyenza-studio-mac-dmg-signed
+          path: signed/*.dmg
+      - name: Remove the keychain and the key
+        if: always()
+        run: |
+          if [ -n "${KEYCHAIN:-}" ]; then security delete-keychain "$KEYCHAIN" || true; fi
+          rm -f "$RUNNER_TEMP/notary-key.p8"
+
   # The Mac app on the release: Oyenza-Studio-<version>-mac.dmg, plus
   # Oyenza-Studio-Mac.dmg, the fixed name the README's and the website's Mac
   # buttons download from releases/latest, and Oyen-Poni-Mac.dmg, the fixed
   # name from before the rename (0.1.17 to the last 0.1.x), which links out there still
   # use. ci publishes the release once the Windows build, installer and install
-  # test pass, so this waits for it.
+  # test pass, so this waits for it. It
+  # takes the sign job's DMG when there is one; when signing failed it still
+  # adds the ad-hoc DMG, so the Mac buttons never break, and warns.
   release:
     name: Put the DMG on the GitHub release (tags v*)
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: mac
+    if: ${{ !cancelled() && startsWith(github.ref, 'refs/tags/v') && needs.mac.result == 'success' }}
+    needs: [mac, sign]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -160,6 +327,24 @@ jobs:
         with:
           name: oyenza-studio-mac-dmg
           path: dist
+      - uses: actions/download-artifact@v4
+        if: needs.sign.result == 'success' && needs.sign.outputs.signed == 'true'
+        with:
+          name: oyenza-studio-mac-dmg-signed
+          path: signed
+      - name: Use the signed DMG when there is one
+        env:
+          SIGN_RESULT: ${{ needs.sign.result }}
+        run: |
+          if ls signed/*.dmg > /dev/null 2>&1; then
+            rm -f dist/*.dmg
+            cp signed/*.dmg dist/
+            echo "This release ships the signed, notarized DMG." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$SIGN_RESULT" = failure ]; then
+            echo "::warning::Signing failed, so this release ships the ad-hoc DMG. Fix it, then re-run the sign job and this one."
+          else
+            echo "This release ships the ad-hoc DMG (no Developer ID secrets yet)." >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Wait for the release, then add the DMG
         env:
           GH_TOKEN: ${{ github.token }}

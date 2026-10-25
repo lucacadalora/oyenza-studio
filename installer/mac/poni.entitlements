@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- What Oyen Poni.app may do under the hardened runtime, which a Developer ID signature for
+     notarization needs (tools/sign_mac_dmg.sh). Nothing else is asked for: no JIT, no unsigned
+     libraries, no sandbox (outside the Mac App Store). -->
+<plist version="1.0">
+<dict>
+	<!-- The music page runs osascript to ask Music and Spotify what's playing and to press play,
+	     pause and skip. macOS counts those Apple Events as Oyen Poni's own, and the hardened
+	     runtime refuses them without this. People still say yes once (NSAppleEventsUsageDescription). -->
+	<key>com.apple.security.automation.apple-events</key>
+	<true/>
+</dict>
+</plist>
