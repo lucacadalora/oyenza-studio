@@ -1,6 +1,7 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader is already in the app and only shows its page.
+//! reader and Clipboard history are already in the app and only show their
+//! pages (Clipboard history also starts watching the clipboard).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -46,6 +47,7 @@ fn icon(a: &Addon) -> Icon {
         "sholat" => Icon::Moon,
         "ja" => Icon::Lyrics,
         "script" => Icon::Script,
+        "clipboard" => Icon::Clipboard,
         _ => Icon::Addons,
     }
 }
