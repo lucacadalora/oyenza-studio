@@ -8,6 +8,10 @@ on:
         description: Also go through the release jobs as checks only (no tag, release, issue or website deploy)
         type: boolean
         default: false
+      recorder_install:
+        description: Also install and uninstall the pinned Oyenza Studio Recorder for real (the Screen recorder add-on)
+        type: boolean
+        default: false
 
 # A newer push cancels an older run of the same branch. A manual run (such as
 # a release dry run) has its own group, so it never cancels a push run, least
@@ -72,6 +76,12 @@ jobs:
 
       - name: Unit tests
         run: cargo test --workspace --release
+
+      # The Screen recorder add-on for real: downloads the pinned recorder
+      # (about 120 MB), installs it, then uninstalls it. Only when asked.
+      - name: Screen recorder add-on, a real install and uninstall
+        if: github.event_name == 'workflow_dispatch' && inputs.recorder_install
+        run: cargo test -p poni --release recorder_add_on_installs_and_uninstalls -- --ignored --nocapture
 
       # Runs one more test from the build above, so it stays on this machine.
       - name: Apple Music's own slider and back button (a stand-in window)

@@ -144,21 +144,27 @@ fn copy_app(mount: &Path) -> Result<PathBuf, String> {
 pub fn remove_job(sink: EventSink) -> Job {
     Box::new(move |_client: Result<&Client, &str>| {
         let _ = std::fs::remove_dir_all(crate::paths::addons_dir().join(RECORDER.id));
-        let mut status = Status::Off;
-        for target in destinations().into_iter().map(|d| d.join(app_name())).filter(|t| t.exists()) {
-            match trash(&target) {
-                Ok(trashed) => {
-                    crate::pinfo!("recorder: {} moved to the Trash", target.display());
-                    let _ = run(LSREGISTER, &["-u".as_ref(), trashed.as_os_str()]);
-                }
-                Err(e) => {
-                    crate::pwarn!("recorder: couldn't move {} to the Trash ({e})", target.display());
-                    status = Status::Ready;
-                }
+        sink.send(AppEvent::Addon { id: RECORDER.id, status: remove() });
+    })
+}
+
+/// Every copy in the Applications folders to the Trash, forgotten by Launch
+/// Services: `Off`, or `Ready` when one stays.
+fn remove() -> Status {
+    let mut status = Status::Off;
+    for target in destinations().into_iter().map(|d| d.join(app_name())).filter(|t| t.exists()) {
+        match trash(&target) {
+            Ok(trashed) => {
+                crate::pinfo!("recorder: {} moved to the Trash", target.display());
+                let _ = run(LSREGISTER, &["-u".as_ref(), trashed.as_os_str()]);
+            }
+            Err(e) => {
+                crate::pwarn!("recorder: couldn't move {} to the Trash ({e})", target.display());
+                status = Status::Ready;
             }
         }
-        sink.send(AppEvent::Addon { id: RECORDER.id, status });
-    })
+    }
+    status
 }
 
 /// Move `path` to the Trash; returns where it went.
@@ -176,5 +182,34 @@ fn run(program: &str, args: &[&std::ffi::OsStr]) -> Result<(), String> {
         Ok(())
     } else {
         Err(format!("{program} ended with {}: {}", out.status, String::from_utf8_lossy(&out.stderr).trim()))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The real thing, run by hand on CI's Mac (`mac.yml`, input
+    /// `recorder_install`): the pinned disk image downloads and checks out,
+    /// the app lands in Applications and opens, and moving it to the Trash
+    /// takes it away again while it runs.
+    #[test]
+    #[ignore]
+    fn recorder_add_on_installs_and_uninstalls() {
+        assert!(recorder::pinned(), "pin a published recorder release first (tools/pin_recorder.py)");
+        let client = Client::new("OyenzaStudio-test (+https://github.com/lucacadalora/oyenza-studio)").expect("an HTTP client");
+        let (tx, rx) = std::sync::mpsc::channel();
+        let sink = EventSink::new(tx);
+        let started = std::time::Instant::now();
+        let at = install(Ok(&client), &sink).expect("the install");
+        println!("installed at {} in {} s", at.display(), started.elapsed().as_secs());
+        assert!(at.join("Contents/Info.plist").exists());
+        let said: Vec<String> = rx.try_iter().filter_map(|e| if let AppEvent::Addon { status, .. } = e { Some(format!("{status:?}")) } else { None }).collect();
+        println!("statuses: {said:?}");
+        assert!(said.iter().any(|s| s.starts_with("Downloading")) && said.iter().any(|s| s == "Installing"));
+        assert!(!crate::paths::addons_dir().join(RECORDER.id).exists(), "the disk image is deleted once it has run");
+        std::thread::sleep(std::time::Duration::from_secs(8));
+        assert_eq!(remove(), Status::Off);
+        assert!(!at.exists(), "the app went to the Trash");
     }
 }

@@ -21,6 +21,10 @@ on:
         description: "Also sign and notarize the DMG with the Developer ID (an artifact only; nothing is published)"
         type: boolean
         default: false
+      recorder_install:
+        description: "Also install and uninstall the pinned Oyenza Studio Recorder for real (the Screen recorder add-on)"
+        type: boolean
+        default: false
 
 concurrency:
   group: mac-${{ github.ref }}
@@ -47,6 +51,13 @@ jobs:
 
       - name: Unit tests (core)
         run: cargo test -p poni-core --release
+
+      # The Screen recorder add-on for real: downloads the pinned recorder
+      # (about 90 MB), copies it into Applications, then moves it to the
+      # Trash. Only when asked.
+      - name: Screen recorder add-on, a real install and uninstall
+        if: github.event_name == 'workflow_dispatch' && inputs.recorder_install
+        run: cargo test -p poni --release --target aarch64-apple-darwin recorder_add_on_installs_and_uninstalls -- --ignored --nocapture
 
       # Every island state with sample data, Classic, Oyen, Glass (a
       # smoked stand-in for macOS's glass) and Pill, without and with a

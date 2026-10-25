@@ -203,3 +203,34 @@ fn program(command: &str) -> Option<PathBuf> {
     };
     (!path.is_empty()).then(|| PathBuf::from(path))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The real thing, run by hand on CI's Windows machine (`ci.yml`, input
+    /// `recorder_install`): the pinned installer downloads and checks out,
+    /// installs silently and opens the recorder, its link works, and the
+    /// uninstall takes it away again while it runs.
+    #[test]
+    #[ignore]
+    fn recorder_add_on_installs_and_uninstalls() {
+        assert!(recorder::pinned(), "pin a published recorder release first (tools/pin_recorder.py)");
+        let _com = crate::services::http::MtaGuard::new();
+        let client = Client::new("OyenzaStudio-test (+https://github.com/lucacadalora/oyenza-studio)").expect("an HTTP client");
+        let (tx, rx) = std::sync::mpsc::channel();
+        let sink = EventSink::new(tx, crate::events::SendHwnd(0));
+        assert!(!installed(), "the machine must start without the recorder");
+        let started = std::time::Instant::now();
+        install(Ok(&client), &sink).expect("the install");
+        println!("installed in {} s", started.elapsed().as_secs());
+        assert!(installed(), "its link is registered");
+        let said: Vec<String> = rx.try_iter().filter_map(|e| if let AppEvent::Addon { status, .. } = e { Some(format!("{status:?}")) } else { None }).collect();
+        println!("statuses: {said:?}");
+        assert!(said.iter().any(|s| s.starts_with("Downloading")) && said.iter().any(|s| s == "Installing"));
+        assert!(!crate::paths::addons_dir().join(RECORDER.id).exists(), "the installer is deleted once it has run");
+        std::thread::sleep(Duration::from_secs(8));
+        remove().expect("the uninstall");
+        assert!(!installed(), "its link is gone");
+    }
+}
