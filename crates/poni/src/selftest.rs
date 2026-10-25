@@ -877,7 +877,7 @@ enum Scene {
     SystemPower,
     /// ...and a desktop whose power supply doesn't: the estimate.
     SystemPowerEstimate,
-    /// A maximized window under the island (Step aside, the default): the
+    /// A maximized window under the island, Step aside on (no longer offered): the
     /// clock waits out of the way, an invisible strip at the top edge.
     AsideIdle,
     /// ...and while a song sings its lines.
@@ -886,7 +886,7 @@ enum Scene {
     AsidePeek,
     /// ...and so does the volume pop-up.
     AsideHud,
-    /// Settings with Stay picked over maximized windows.
+    /// Settings with Step aside off (no row for it since 0.2.6).
     SettingsAsideStay,
     /// A new version is out: the island tells once, with Update.
     UpdateNotice,
@@ -1889,7 +1889,7 @@ impl SelfTest {
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
-        // Step aside over maximized windows (the default), except where Stay is picked.
+        // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
         // A later version offered, only where Settings shows it.
         st.update = match scene {

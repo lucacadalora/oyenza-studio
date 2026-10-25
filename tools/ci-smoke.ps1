@@ -5,10 +5,9 @@
 # surroundings stay click-through, and how smoothly it morphs (the "motion"
 # lines Poni logs for its first morphs).
 #
-# Step aside: with a maximized window (Notepad) in front, the resting island
-# gets out of the way: a click just below the top edge reaches the window,
-# the top edge itself still opens the island, and closing the window brings
-# the island back.
+# Maximized windows: with a maximized window (Notepad) in front, the resting
+# island stays on screen over it (0.2.4 and 0.2.5 stepped aside by default,
+# which read as the island vanishing), and still does once it's closed.
 #
 # -Theme pill runs the same in the Pill theme, where the island floats a gap
 # below the top edge: the gap above the pill must take the mouse (a pointer
@@ -238,9 +237,8 @@ for ($i = 0; $i -lt 3; $i++) {
     Start-Sleep -Milliseconds 1500
 }
 
-# Step aside (the default): a maximized window under the island. A click
-# brings it to the front (a window CI starts may not be), which is when the
-# island looks at the top of the screen again.
+# A maximized window under the island: it stays there. A click brings the
+# window to the front (a window CI starts may not be).
 $g = [System.Drawing.Graphics]::FromHwnd([IntPtr]::Zero)
 $dpi = $g.DpiY / 96.0
 $g.Dispose()
@@ -252,23 +250,12 @@ try {
     [Native]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)  # left down
     [Native]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)  # left up
     Start-Sleep -Seconds 2
-    Shot "4-step-aside"
-    # 20 DIPs down: inside the resting island, below the strip it steps
-    # aside to (8 DIPs at the top edge).
+    Shot "4-maximized-window"
+    # 20 DIPs down: inside the resting island, below the 8 DIP strip a
+    # stepped-aside island kept.
     $tab = [int](20 * $dpi)
-    $under = ClassAt $cx $tab
-    Expect "aside-window-takes-click" ($under -ne "Poni.Island" -and $under -ne "") "window at ($cx, $tab) = '$under'"
-    $strip = ClassAt $cx 1
-    Expect "aside-edge-takes-mouse" ($strip -eq "Poni.Island") "window at ($cx, 1) = '$strip'"
-    # Pointing at the top edge still opens the island, over the window.
-    [Native]::SetCursorPos($cx, $hoverY[0]) | Out-Null
-    Start-Sleep -Milliseconds 120
-    [Native]::SetCursorPos($cx, $hoverY[1]) | Out-Null
-    Start-Sleep -Seconds 2
-    $open = ClassAt ($cx + 200) 100
-    Expect "aside-opens-from-edge" ($open -eq "Poni.Island") "window at ($($cx + 200), 100) = '$open'"
-    [Native]::SetCursorPos($cx, [int]($bounds.Height / 2)) | Out-Null
-    Start-Sleep -Seconds 2
+    $over = ClassAt $cx $tab
+    Expect "stays-over-maximized" ($over -eq "Poni.Island") "window at ($cx, $tab) = '$over'"
 } finally {
     if (-not $np.HasExited) { Stop-Process -Id $np.Id -Force; $np.WaitForExit(10000) | Out-Null }
 }
