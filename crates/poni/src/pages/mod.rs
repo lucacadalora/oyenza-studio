@@ -638,7 +638,35 @@ mod tests {
         st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
         assert_eq!(tabs(&st).last(), Some(&PageKind::Addons));
         assert_eq!(PageKind::from_key("addons"), PageKind::Addons);
-        assert!(content_height(PageKind::Addons, &st) <= content_height(PageKind::Tasks, &st));
+        // The window is as tall as the tallest page (System); four add-ons
+        // (Clipboard history joined in 0.2.7) stay under it.
+        assert!(content_height(PageKind::Addons, &st) <= content_height(PageKind::System, &st));
+    }
+
+    #[test]
+    fn clipboard_has_a_tab_only_while_its_add_on_is_on() {
+        let mut st = state();
+        assert!(!tabs(&st).contains(&PageKind::Clipboard), "off by default since 0.2.7");
+        st.settings.set_addon(poni_core::addons::CLIPBOARD_HISTORY.id, true);
+        assert!(tabs(&st).contains(&PageKind::Clipboard));
+    }
+
+    #[test]
+    fn today_keeps_its_tiles_only_for_a_server_without_the_day() {
+        use crate::state::AgendaState;
+        let mut st = state();
+        // Signed out: the sign-in card, so no stats are read for tiles.
+        assert!(!today::shows_tiles(&st));
+        st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+        assert!(!today::shows_tiles(&st), "getting the day");
+        st.oyenza.agenda_state = AgendaState::Unavailable;
+        assert!(today::shows_tiles(&st));
+        // The day for today, Calendar switched on: the day, and a look at the next minute.
+        let today = st.day_key();
+        st.oyenza.agenda = Some(poni_core::agenda::sample(&today, 600));
+        st.oyenza.agenda_state = AgendaState::Ready;
+        assert!(!today::shows_tiles(&st));
+        assert!(today::next_wake(&st).is_some_and(|t| t > st.now && t <= st.now + 60.0));
     }
 
     #[test]
