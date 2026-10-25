@@ -1362,12 +1362,12 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <tr><th scope="row">Volume and charging pop-ups</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Classic, Oyen, Glass and Pill</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Paired phones, from any network</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
-          <tr><th scope="row">Oyenza sign-in</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
+          <tr><th scope="row">Oyenza sign-in</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Script reader</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Prayer times</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Show over games</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
-          <tr><th scope="row">Headphone pop-ups</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
-          <tr><th scope="row">Hiding in full-screen apps</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
+          <tr><th scope="row">Headphone pop-ups</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
+          <tr><th scope="row">Hiding in full-screen apps</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
         </tbody>
       </table>
     </div>
@@ -1377,7 +1377,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content">
       <div class="dark oyenza rv">
         <div class="head" style="margin:0">
-          <p class="t-label">Oyenza account · Windows</p>
+          <p class="t-label">Oyenza account · Windows and Mac</p>
           <h2 class="t-l" id="oyenza-title" style="color:#f5f5f7">Your Oyenza, at the top of your screen.</h2>
           <p class="t-intro">Sign in with a code, like on a TV. <b>Money in, bills due and your last 7 days</b>, with amounts hidden until you choose.</p>
           <button class="more" type="button" data-more="m-oyenza">More about Oyenza<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
@@ -1489,7 +1489,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>CPU, GPU, memory, drives, network and battery in rings and charts: <b>each core's load with performance and efficiency cores apart</b>, the graphics card's engines and memory, memory pressure and what fills memory, read, write, download and upload speeds, and the processes using the most.</p>
     <p>It reads Windows' own kernel counters and keeps the last minute while the page is closed, so the charts are full the moment it opens. That minute rests while your PC is locked, the screen is off or battery saver is on. Keeping it takes about a third of a millisecond each second, and the tray menu turns it off. No driver, no admin rights, and nothing leaves your PC.</p>
     <p><b>New in 0.2.1, on a desktop: Power.</b> What the whole PC draws, split into the CPU, the graphics card and the rest. It comes from the power supply itself when it reports over USB (Corsair HXi and RMi, and MSI MEG and MPG Ai models), and is estimated otherwise: the CPU's and the graphics card's own readings plus about 40 W for the board, memory, drives and fans, labelled as an estimate. The graphics card's watts come from NVIDIA's driver; AMD and Intel cards aren't read yet, and without a card reading there's no estimate. It reads only while the System page is open. Laptops keep their Battery module.</p>
-    <p>On a Mac it reads macOS's own counters the way Stats does, and rests while the screen is asleep or the Mac is locked. Power is Windows only for now.</p>
+    <p>On a Mac it reads macOS's own counters the way Stats does, and rests while the screen is asleep or the Mac is locked. On a Mac without a battery (a Mac mini, Studio, iMac or Mac Pro with Apple silicon), Power shows what the whole Mac draws, from its own sensor, the number Stats shows as System total; macOS doesn't split it by part. A MacBook keeps its Battery module.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-phone" aria-labelledby="m-phone-t">
@@ -1533,7 +1533,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>Staying adds about a frame of delay: any window over a borderless game makes Windows combine the two before they reach the screen. If you'd rather have no added delay, pick Peeks: System › Games › Readout › Peeks, or right-click the island › In full-screen apps › Only for a few seconds. The readout then shows for a few seconds when the game comes to the front, when the frame rate drops sharply, and when you press Alt+Shift+F.</p>
     <p>Switch it on in System › Games, or right-click the island › In full-screen apps › Show FPS, GPU and CPU over games.</p>
     <p>Frames are counted the way Intel's PresentMon and Xbox Game Bar count them, from Windows' own log of each frame a game shows. Nothing is loaded into the game, so anti-cheat has nothing to see. DirectX 9 to 12, Vulkan and OpenGL. The first time, Windows asks once for an admin OK, as Game Bar's FPS counter does, and FPS shows from your next sign-in. Over a full-screen app, Glass draws smoked glass instead of copying the screen.</p>
-    <p><b>Stays on top:</b> when another window covers the island, such as a browser left on top after full screen or an app set to stay on top, the island goes back on top. In full-screen games and videos you choose: right-click the island or open Settings, then In full-screen apps › Hide or Stay on top. Hide is the default. A game in exclusive full-screen mode still covers every window.</p>
+    <p><b>Stays on top:</b> when another window covers the island, such as a browser left on top after full screen or an app set to stay on top, the island goes back on top. In full-screen games and videos you choose: right-click the island or open Settings, then In full-screen apps › Hide or Stay on top (on a Mac, the menu bar under Oyen's mark). Hide is the default. A game in exclusive full-screen mode still covers every window.</p>
     <p><b>New in 0.2.4: it steps aside for your tabs.</b> Over a maximized browser, or any window whose top edge is at the top of the screen, such as one snapped to half of it, the island steps aside. The clock or the song waits out of the way, and only an invisible strip stays along the middle of the top edge, so the tabs show and take clicks. Point at the top edge to open the island; pop-ups, notices and a new song's title still show for a few seconds. To keep it over those windows, right-click it › Over maximized windows › Stay, or pick Stay next to Maximized windows in Settings. On a Mac the menu bar already keeps windows below the island.</p>
   </div>
 </dialog>
@@ -1595,7 +1595,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <ul>
       <li>Music and Spotify, with synced lyrics from LRCLIB, or Apple Music's own with your token, and the reading under Japanese, Korean and Chinese lines, on the closed island too.</li>
       <li>The focus timer, the Shelf with Phone drop over the same Wi-Fi, tasks, clipboard history, and the System page with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps.</li>
-      <li>Pop-ups for volume and charging, the Classic, Oyen, Glass and Pill themes, and start at login. Every option is in the menu bar, under Oyen's mark.</li>
+      <li>Pop-ups for volume, charging and Bluetooth headphones (without the battery level; macOS shows AirPods' own when they connect), the Classic, Oyen, Glass and Pill themes, and start at login. Every option is in the menu bar, under Oyen's mark.</li>
+      <li>Full-screen apps: while a video, a game or a slideshow is full screen, the island stays out of its way and comes back after, as on Windows. Or it stays on top: the menu bar's In full-screen apps, or Settings.</li>
+      <li>Oyenza sign-in: money in and out, bills due and your last 7 days on the island, as on Windows. The Mac's key stays in a file only your Mac account can read.</li>
       <li>Glass is macOS's own glass, Liquid Glass on macOS 26 and a dark blur before it, with a black strip where it meets the notch.</li>
       <li>Pill: on a MacBook with a notch, the resting island, the timer and music between lines stay beside the camera; the line being sung, pop-ups, notices and the open island float just below the notch. Without a notch it floats below the top of the screen, as on Windows.</li>
     </ul>
@@ -1607,7 +1609,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 <dialog class="more-sheet" id="m-oyenza" aria-labelledby="m-oyenza-t">
   <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
   <div class="sheet-body">
-    <p class="t-label">Oyenza account · On Windows</p>
+    <p class="t-label">Oyenza account · On Windows and Mac</p>
     <h2 class="t-m" id="m-oyenza-t">Your Oyenza, at the top of your screen.</h2>
     <p>Sign in with your <a class="link" href="https://oyenza.app">oyenza.app</a> account the way you sign in on a TV: press the gear, choose Sign in with Oyenza, and approve the code the island shows at oyenza.app/connect. No password is ever typed into Oyenza Studio. An Oyenza page then joins the island.</p>
     <ul>
@@ -1617,7 +1619,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <li><b>Note a spend in a second.</b> Type "kopi 25rb" on the Oyenza page and press Enter: it goes straight to Oyenza, with 10 seconds to undo.</li>
       <li><b>Your steps, next.</b> Steps from Apple Health or Health Connect will come through Oyenza in a later version.</li>
     </ul>
-    <p>Signing in is optional. This PC gets a key of its own, never your password: it sees your last 7 days of transactions and the bills due, and saves the spends you type: never balances, account numbers, notes or receipts. Disconnect it in the island's Settings, or in oyenza.app under Connected apps.</p>
+    <p>Signing in is optional. This computer gets a key of its own, never your password: it sees your last 7 days of transactions and the bills due, and saves the spends you type: never balances, account numbers, notes or receipts. Disconnect it in the island's Settings, or in oyenza.app under Connected apps.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-install-win" aria-labelledby="m-install-win-t">
