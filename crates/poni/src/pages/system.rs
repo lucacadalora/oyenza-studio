@@ -702,11 +702,11 @@ fn draw_games(ui: &mut Ui, st: &mut AppState, cols: &Cols) {
         st.settings.game_peek = GAME_READOUT[i].0;
         st.cmd(Command::SaveSettings);
     }
-    let (about, rest) = rest.split_top(32.0);
+    let (about, rest) = rest.split_top(40.0);
     let about_text = if st.settings.game_peek {
-        "A few seconds as a game starts, when FPS drops and on Alt+Shift+F."
+        "A few seconds as a game starts, when FPS drops and on Alt+Shift+F. No added delay in between."
     } else {
-        "On the game all along. Alt+Shift+F hides it and brings it back."
+        "Stays over the game, which adds about a frame of delay. Alt+Shift+F hides it."
     };
     ui.c.text(about_text, about.inset(0.0, 3.0), &note);
     let (head, rest) = rest.split_top(SEP_H);
