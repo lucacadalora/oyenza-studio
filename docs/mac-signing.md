@@ -47,7 +47,7 @@ Make a new key for this rather than reusing one that can manage the iPhone app: 
 
 ## 3. The secrets, in the `release` environment (about 5 minutes)
 
-1. Open https://github.com/lucacadalora/poni > **Settings > Environments > New environment**. Name it `release` and click **Configure environment**.
+1. Open https://github.com/lucacadalora/oyenza-studio (this repository; GitHub forwards the old lucacadalora/poni address) > **Settings > Environments > New environment**. Name it `release` and click **Configure environment**.
 2. **Deployment branches and tags:** choose **Selected branches and tags**. Add a tag rule `v*`, and a branch rule `main` for the test in step 4. Other branches and pull requests then can't reach these secrets.
 3. **Required reviewers** (optional): add yourself if every signed release should wait for your click on the run. Releases often come several times a day, so leaving it off is reasonable: only you, or a session you told to tag, push tags.
 4. Under **Environment secrets**, click **Add secret** five times:
@@ -63,11 +63,11 @@ Make a new key for this rather than reusing one that can manage the iPhone app: 
 With the GitHub CLI on your Mac, once the environment exists (each command without `<` asks for the value):
 
 ```bash
-base64 -i ~/Desktop/poni-developer-id.p12 | gh secret set MACOS_CERTIFICATE_P12_BASE64 --env release -R lucacadalora/poni
-gh secret set MACOS_CERTIFICATE_PASSWORD --env release -R lucacadalora/poni
-gh secret set APP_STORE_CONNECT_API_KEY_P8 --env release -R lucacadalora/poni < ~/Downloads/AuthKey_XXXXXXXXXX.p8
-gh secret set APP_STORE_CONNECT_KEY_ID --env release -R lucacadalora/poni
-gh secret set APP_STORE_CONNECT_ISSUER_ID --env release -R lucacadalora/poni
+base64 -i ~/Desktop/poni-developer-id.p12 | gh secret set MACOS_CERTIFICATE_P12_BASE64 --env release -R lucacadalora/oyenza-studio
+gh secret set MACOS_CERTIFICATE_PASSWORD --env release -R lucacadalora/oyenza-studio
+gh secret set APP_STORE_CONNECT_API_KEY_P8 --env release -R lucacadalora/oyenza-studio < ~/Downloads/AuthKey_XXXXXXXXXX.p8
+gh secret set APP_STORE_CONNECT_KEY_ID --env release -R lucacadalora/oyenza-studio
+gh secret set APP_STORE_CONNECT_ISSUER_ID --env release -R lucacadalora/oyenza-studio
 ```
 
 5. Then delete `poni-developer-id.p12` and the `.p8` from the Desktop and Downloads, and empty the Trash. Keep copies in your password manager only if you want to reuse them for another app.
@@ -79,7 +79,7 @@ These are the same five names Oyenza Bar uses, and one certificate can sign both
 On main, run the workflow by hand with signing on: **Actions > mac > Run workflow**, tick **sign**, and run it. Or:
 
 ```bash
-gh workflow run mac.yml -R lucacadalora/poni --ref main -f sign=true
+gh workflow run mac.yml -R lucacadalora/oyenza-studio --ref main -f sign=true
 ```
 
 The **Sign, notarize and staple the DMG** job usually takes a few minutes. Apple sometimes holds a new team's first uploads for much longer; the job waits up to 45 minutes. Its artifact `oyen-poni-mac-dmg-signed` holds the DMG. Download it on your MacBook, open the DMG, drag the app to Applications and open it. It should ask only "downloaded from the Internet", with no trip to Privacy & Security.
