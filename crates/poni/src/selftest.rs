@@ -904,7 +904,7 @@ fn fake_release() -> poni_core::update::Release {
     let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
     poni_core::update::Release {
         date: "2026-10-26".into(),
-        headline: "Update from the island in one click".into(),
+        headline: "A smoother island, and fixes".into(),
         notes: format!("{repo}/tag/v{version}"),
         windows: Some(poni_core::update::Download { url: format!("{repo}/download/v{version}/Oyenza-Studio-Setup-{version}.exe"), size: 2_500_000, sha256: "0".repeat(64) }),
         mac: None,
