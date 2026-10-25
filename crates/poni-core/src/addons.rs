@@ -44,6 +44,10 @@ pub struct Addon {
     /// The release that holds this version of the files.
     pub tag: &'static str,
     pub files: &'static [AddonFile],
+    /// A separate app the add-on installs (Screen recorder): the switch runs
+    /// its installer or uninstaller (`services::recorder`), not the file
+    /// downloader, and the app on disk is where it stands.
+    pub app: bool,
 }
 
 impl Addon {
@@ -66,6 +70,15 @@ impl Addon {
     pub fn downloads(&self) -> bool {
         !self.files.is_empty()
     }
+
+    /// What switching it on downloads, in bytes (`mac`: in the Mac app).
+    pub fn download_size(&self, mac: bool) -> u64 {
+        if self.app {
+            crate::recorder::installer(mac).size
+        } else {
+            self.size()
+        }
+    }
 }
 
 /// Prayer times: the place list and the adzan (`addons/sholat/` in the repo).
@@ -80,6 +93,7 @@ pub const PRAYER_TIMES: Addon = Addon {
         AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59" },
         AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a" },
     ],
+    app: false,
 };
 
 /// The Japanese readings add-on's dictionary file (`romanize::JaDict`).
@@ -103,6 +117,7 @@ pub const JAPANESE_READINGS: Addon = Addon {
         AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8" },
         AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079" },
     ],
+    app: false,
 };
 
 /// Script reader: the Script page, a teleprompter under the webcam. Its
@@ -115,10 +130,26 @@ pub const SCRIPT_READER: Addon = Addon {
     mac_blurb: Some("A teleprompter under your webcam."),
     tag: "",
     files: &[],
+    app: false,
+};
+
+/// Screen recorder: Oyenza Studio Recorder, the separate recorder app
+/// (`crate::recorder`). On, the island downloads the recorder's installer for
+/// this system, checked against the size and SHA-256 built in like any
+/// add-on file, and installs it; off, it uninstalls the app and leaves the
+/// recordings. The recorder updates itself from then on.
+pub const RECORDER: Addon = Addon {
+    id: "recorder",
+    title: "Screen recorder",
+    blurb: "Records your screen, with zooms that follow your clicks. Installs a separate app.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+    app: true,
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 3] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER];
+pub const ALL: [&Addon; 4] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &RECORDER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -138,7 +169,7 @@ pub fn ja_offer(status: Status) -> Option<(String, bool)> {
         Status::Downloading { done, total } => Some((format!("Getting Japanese readings \u{b7} {} of {}", fmt_bytes(done), fmt_bytes(total)), false)),
         Status::Waiting => Some(("Japanese readings download once you're online".to_string(), false)),
         Status::Failed => Some(("Japanese readings didn't download: see Add-ons".to_string(), false)),
-        Status::Ready => None,
+        Status::Ready | Status::Installing | Status::Removing => None,
     }
 }
 
@@ -158,6 +189,10 @@ pub enum Status {
     /// A file came back different from the one the app expects, so it was
     /// thrown away. Trying again is the person's call (off, then on).
     Failed,
+    /// A separate app's installer is running (`Addon::app`).
+    Installing,
+    /// A separate app is being uninstalled.
+    Removing,
 }
 
 impl Status {
@@ -174,9 +209,13 @@ impl Status {
             Status::Checking => format!("Checking its files on {here}"),
             Status::Downloading { done, total } => format!("Downloading · {} of {}", fmt_bytes(done), fmt_bytes(total)),
             Status::Waiting => "No internet. It downloads by itself once you're back online.".to_string(),
+            Status::Ready if addon.app => "On · Record this screen is in the menu".to_string(),
             Status::Ready if !addon.downloads() => "On".to_string(),
             Status::Ready => format!("On · {} on {here}", fmt_bytes(addon.size())),
+            Status::Failed if addon.app => "It didn't download or install. Switch it off and on to try again.".to_string(),
             Status::Failed => "The download didn't come through right. Switch it off and on to try again.".to_string(),
+            Status::Installing => format!("Installing it on {here}\u{2026}"),
+            Status::Removing => "Uninstalling it. Your recordings stay.".to_string(),
         }
     }
 
@@ -272,6 +311,26 @@ mod tests {
             assert!(ja_offer(s).is_some_and(|(_, click)| !click), "{s:?} says where it stands, nothing to click");
         }
         assert_eq!(ja_offer(Status::Ready), None);
+    }
+
+    #[test]
+    fn the_screen_recorder_installs_an_app() {
+        let r = Addon::find("recorder").unwrap();
+        assert!(r.app && !r.downloads(), "the file downloader leaves it alone");
+        assert!(!PRAYER_TIMES.app && !JAPANESE_READINGS.app && !SCRIPT_READER.app);
+        assert_eq!(r.download_size(false), crate::recorder::WINDOWS_SETUP.size);
+        assert_eq!(r.download_size(true), crate::recorder::MAC_DMG.size);
+        assert_eq!(PRAYER_TIMES.download_size(true), PRAYER_TIMES.size());
+        assert_eq!(Status::Off.line(r, false), r.blurb);
+        assert_eq!(Status::Downloading { done: 40_000_000, total: 121_000_000 }.line(r, false), "Downloading · 40 MB of 121 MB");
+        assert_eq!(Status::Installing.line(r, false), "Installing it on this PC\u{2026}");
+        assert_eq!(Status::Installing.line(r, true), "Installing it on this Mac\u{2026}");
+        assert_eq!(Status::Ready.line(r, true), "On · Record this screen is in the menu");
+        assert_eq!(Status::Removing.line(r, false), "Uninstalling it. Your recordings stay.");
+        assert!(Status::Failed.line(r, false).starts_with("It didn't download or install"));
+        assert!(Status::Installing.is_on() && Status::Removing.is_on());
+        assert_eq!(Status::Installing.progress(), None);
+        assert_eq!(ja_offer(Status::Installing), None);
     }
 
     #[test]

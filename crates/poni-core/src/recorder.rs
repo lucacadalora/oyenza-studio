@@ -3,10 +3,48 @@
 //! through the recorder's own `oyenza-recorder:` links; this builds them, the
 //! same way on Windows and the Mac.
 
+use crate::addons::AddonFile;
 use crate::urlenc;
 
 /// The link scheme the recorder's installer registers.
 pub const SCHEME: &str = "oyenza-recorder";
+
+/// The app's name: its folder on Windows, `<APP_NAME>.app` on the Mac, and
+/// the name its entry in Windows' installed apps shows.
+pub const APP_NAME: &str = "Oyenza Studio Recorder";
+
+/// The recorder release the Screen recorder add-on installs
+/// (`addons::RECORDER`). The recorder updates itself after that, from its
+/// own releases, so a new island release only moves this when new installs
+/// should start from a newer recorder. `tools/pin_recorder.py` writes this
+/// block from the release.
+pub const VERSION: &str = "1.0.0";
+/// Where the recorder's releases live: `<RELEASES>/v<VERSION>/<name>`.
+pub const RELEASES: &str = "https://github.com/lucacadalora/oyen-rekam/releases/download";
+/// The Windows installer (NSIS, per user: no administrator needed).
+pub const WINDOWS_SETUP: AddonFile = AddonFile { name: "Oyenza-Studio-Recorder-1.0.0-setup.exe", size: 0, sha256: "" };
+/// The Mac disk image (Apple silicon).
+pub const MAC_DMG: AddonFile = AddonFile { name: "Oyenza-Studio-Recorder-1.0.0-mac.dmg", size: 0, sha256: "" };
+
+/// This system's installer (`mac`: the Mac app's).
+pub fn installer(mac: bool) -> &'static AddonFile {
+    if mac {
+        &MAC_DMG
+    } else {
+        &WINDOWS_SETUP
+    }
+}
+
+pub fn installer_url(file: &AddonFile) -> String {
+    format!("{RELEASES}/v{VERSION}/{}", file.name)
+}
+
+/// Whether the installers are pinned yet (sizes and SHA-256 written in by
+/// `tools/pin_recorder.py`). Until then the Add-ons page leaves the Screen
+/// recorder out, so nothing can download an installer it can't check.
+pub const fn pinned() -> bool {
+    WINDOWS_SETUP.size > 0 && MAC_DMG.size > 0 && WINDOWS_SETUP.sha256.len() == 64 && MAC_DMG.sha256.len() == 64
+}
 
 /// A Studio recording of the named screen, with the camera, microphone and
 /// system sound the recorder used last time. `screen` is the name the system
@@ -65,6 +103,22 @@ mod tests {
         assert!(is_action_link(&link), "{link}");
         let value: serde_json::Value = serde_json::from_str(&decode(link.split_once("value=").unwrap().1)).unwrap();
         assert_eq!(value["record_screen"]["screen"], name);
+    }
+
+    #[test]
+    fn installers_come_from_the_recorder_release() {
+        assert_eq!(installer(false).name, WINDOWS_SETUP.name);
+        assert_eq!(installer(true).name, MAC_DMG.name);
+        assert_eq!(
+            installer_url(&WINDOWS_SETUP),
+            format!("https://github.com/lucacadalora/oyen-rekam/releases/download/v{VERSION}/{}", WINDOWS_SETUP.name)
+        );
+        for f in [WINDOWS_SETUP, MAC_DMG] {
+            assert!(f.name.contains(VERSION), "{} names the pinned version", f.name);
+            let hex = f.sha256.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b));
+            assert!(hex, "{}: the SHA-256 is lowercase hex", f.name);
+            assert_eq!(f.size > 0, f.sha256.len() == 64, "{}: pinned with both a size and a SHA-256, or neither", f.name);
+        }
     }
 
     #[test]

@@ -1,6 +1,8 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader is already in the app and only shows its page.
+//! reader is already in the app and only shows its page; Screen recorder
+//! installs a separate app (`services::recorder`) and uninstalls it when
+//! switched off.
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -36,8 +38,14 @@ pub const OFFERED: &[&Addon] = &addons::ALL;
 /// The lines name the Mac ("on this Mac") and leave out Windows' reasons.
 const MAC: bool = cfg!(target_os = "macos");
 
-pub fn height(_st: &AppState) -> f32 {
-    ROWS_Y + OFFERED.len() as f32 * ROW_H
+/// The rows this page shows: every add-on offered, the Screen recorder once
+/// its installers are pinned (`AppState::recorder_offered`).
+fn shown(st: &AppState) -> impl Iterator<Item = &'static Addon> + '_ {
+    OFFERED.iter().copied().filter(|a| !a.app || st.recorder_offered)
+}
+
+pub fn height(st: &AppState) -> f32 {
+    ROWS_Y + shown(st).count() as f32 * ROW_H
 }
 
 /// Each add-on's icon on its badge.
@@ -46,6 +54,7 @@ fn icon(a: &Addon) -> Icon {
         "sholat" => Icon::Moon,
         "ja" => Icon::Lyrics,
         "script" => Icon::Script,
+        "recorder" => Icon::Record,
         _ => Icon::Addons,
     }
 }
@@ -55,9 +64,21 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
     let card = super::clipboard::pill_card(st, area);
-    for (i, a) in OFFERED.iter().enumerate() {
+    let rows: Vec<&Addon> = shown(st).collect();
+    for (i, a) in rows.into_iter().enumerate() {
         let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * ROW_H, area.w, ROW_H);
-        if addon_row(ui, st, row, i, a, card) {
+        if !addon_row(ui, st, row, i, a, card) {
+            continue;
+        }
+        if a.app {
+            // Its switch installs or uninstalls the app; a click while that
+            // runs waits for it.
+            match st.addon(a.id) {
+                Status::Off => st.cmd(Command::Recorder(true)),
+                Status::Ready | Status::Failed => st.cmd(Command::Recorder(false)),
+                _ => {}
+            }
+        } else {
             let on = st.settings.addon_on(a.id);
             st.settings.set_addon(a.id, !on);
             st.cmd(Command::SaveSettings);
@@ -83,7 +104,7 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     // The size, while there is a choice to make.
     let mut text_right = sw.x - 16.0;
     if status == Status::Off {
-        let size = if a.downloads() { fmt_bytes(a.size()) } else { "Built in".to_string() };
+        let size = if a.downloads() || a.app { fmt_bytes(a.download_size(MAC)) } else { "Built in".to_string() };
         let style = TextStyle::footnote().color(palette::TEXT_DIM).right();
         let w = ui.c.measure(&size, &style, 200.0).0.ceil();
         ui.c.text(&size, Rect::new(sw.x - 10.0 - w, r.y, w, r.h), &style);

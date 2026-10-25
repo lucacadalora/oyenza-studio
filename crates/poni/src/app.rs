@@ -388,6 +388,8 @@ pub struct App {
     script_held: bool,
     /// The Script page was on screen at the last tick.
     script_shown: bool,
+    /// The Add-ons page was on screen at the last tick.
+    addons_shown: bool,
     /// App icons the System page asked for and hasn't got yet (the Shelf's
     /// thumbnail worker answers both pages with the same event).
     icon_wait: HashSet<String>,
@@ -576,6 +578,7 @@ impl App {
             script_excluded: false,
             script_held: false,
             script_shown: false,
+            addons_shown: false,
             icon_wait: HashSet::new(),
             tray: None,
             taskbar_created_msg,
@@ -1945,9 +1948,15 @@ impl App {
             AppEvent::Oyenza(ev) => self.on_oyenza(ev),
             AppEvent::Autostart(on) => self.st.ui.autostart = Some(on),
             AppEvent::Addon { id, status } => {
-                // A late report from before a switch-off doesn't bring it back.
-                if self.st.settings.addon_on(id) || status == AddonStatus::Off {
+                // A late report from before a switch-off doesn't bring it
+                // back. The Screen recorder has no setting: its install or
+                // uninstall reports where it stands.
+                let recorder = id == poni_core::addons::RECORDER.id;
+                if self.st.settings.addon_on(id) || status == AddonStatus::Off || recorder {
                     self.st.addons.insert(id, status);
+                }
+                if recorder && matches!(status, AddonStatus::Ready | AddonStatus::Off) {
+                    self.st.recorder = status == AddonStatus::Ready;
                 }
                 if id == poni_core::addons::PRAYER_TIMES.id {
                     if status == AddonStatus::Ready && self.st.settings.addon_on(id) && self.st.prayer.places.is_none() {
@@ -2314,7 +2323,7 @@ impl App {
     fn script_tick(&mut self) {
         let shown = self.expanded && self.st.page == PageKind::Script && !self.locked && !self.display_off && !self.fullscreen_hidden;
         if shown && !self.script_shown && self.selftest.is_none() {
-            self.st.recorder = services::recorder::installed();
+            self.st.recorder_seen(services::recorder::installed());
         }
         self.script_shown = shown;
         if !shown && self.st.script.playing() {
@@ -2698,6 +2707,12 @@ impl App {
         }
         self.prayer_tick();
         self.script_tick();
+        // Whether the recorder is installed, asked as the Add-ons page comes on screen.
+        let addons_shown = self.expanded && self.st.page == PageKind::Addons && !self.locked && !self.display_off;
+        if addons_shown && !self.addons_shown && self.selftest.is_none() {
+            self.st.recorder_seen(services::recorder::installed());
+        }
+        self.addons_shown = addons_shown;
         // Prayer times switched off: its tab is gone.
         if self.st.page == PageKind::Prayer && !self.st.prayer_on() {
             self.st.page = PageKind::Addons;
@@ -3237,6 +3252,27 @@ impl App {
 
     /// The offered version's Setup, once per release, on the add-on thread
     /// (after a look at the file, and at start for one already offered).
+    /// The Screen recorder add-on's switch: the install (download, check,
+    /// silent Setup) or the uninstall runs on the add-on thread and reports
+    /// through `AppEvent::Addon`.
+    fn recorder_addon(&mut self, on: bool) {
+        let id = poni_core::addons::RECORDER.id;
+        if self.st.recorder_busy() {
+            return;
+        }
+        pinfo!("add-ons: {id} switched {}", if on { "on" } else { "off" });
+        let (job, status) = if on {
+            (services::recorder::install_job(self.sink.clone()), AddonStatus::Downloading { done: 0, total: poni_core::recorder::WINDOWS_SETUP.size })
+        } else {
+            (services::recorder::remove_job(self.sink.clone()), AddonStatus::Removing)
+        };
+        self.st.addons.insert(id, status);
+        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) {
+            pwarn!("add-ons: {id}: the add-on thread isn't running");
+            self.st.addons.insert(id, AddonStatus::Failed);
+        }
+    }
+
     fn fetch_setup(&mut self) {
         let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
         let job = services::update::download_job(self.sink.clone(), d, path);
@@ -3551,6 +3587,7 @@ impl App {
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::RecordScreen => services::recorder::record_screen(self.hwnd),
+                Command::Recorder(on) => self.recorder_addon(on),
                 Command::ScriptPaste => {
                     // Read here, not through the text field path: that one drops line breaks.
                     let text = services::clipboard::read_text(self.hwnd).map(|t| poni_core::script::clean(&t)).filter(|t| !t.is_empty());

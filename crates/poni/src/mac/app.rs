@@ -40,7 +40,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, RECORDER};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -393,6 +393,8 @@ pub struct App {
     script_held: bool,
     /// The Script page was on screen at the last tick.
     script_shown: bool,
+    /// The Add-ons page was on screen at the last tick.
+    addons_shown: bool,
     /// Shelf items waiting to be dragged out (started by the next drag event).
     pending_drag: Option<Vec<String>>,
     /// Phone drop's web server while the Shelf's phone panel is open, and the
@@ -506,6 +508,7 @@ impl App {
             drag_hover: false,
             script_held: false,
             script_shown: false,
+            addons_shown: false,
             pending_drag: None,
             phone: None,
             phone_offer: Vec::new(),
@@ -1394,9 +1397,14 @@ impl App {
 
     /// Where an add-on's files stand, from the downloader.
     fn on_addon(&mut self, id: &'static str, status: AddonStatus) {
-        // A late report from before a switch-off doesn't bring it back.
-        if self.st.settings.addon_on(id) || status == AddonStatus::Off {
+        // A late report from before a switch-off doesn't bring it back. The
+        // Screen recorder has no setting: its install or uninstall reports
+        // where it stands.
+        if self.st.settings.addon_on(id) || status == AddonStatus::Off || id == RECORDER.id {
             self.st.addons.insert(id, status);
+        }
+        if id == RECORDER.id && matches!(status, AddonStatus::Ready | AddonStatus::Off) {
+            self.st.recorder = status == AddonStatus::Ready;
         }
         if id == PRAYER_TIMES.id {
             if status == AddonStatus::Ready && self.st.settings.addon_on(id) && self.st.prayer.places.is_none() {
@@ -1420,8 +1428,34 @@ impl App {
         let ours = pages::addons::OFFERED.iter().any(|a| a.id == id);
         // The update file is read on the same thread: it stays while the checks are on.
         let in_use = self.updater.is_some() && self.st.settings.update_check;
-        if ours && status == AddonStatus::Off && !in_use && !pages::addons::OFFERED.iter().any(|a| a.downloads() && self.st.settings.addon_on(a.id)) {
+        if ours && status == AddonStatus::Off && !in_use && !self.st.recorder_busy() && !pages::addons::OFFERED.iter().any(|a| a.downloads() && self.st.settings.addon_on(a.id)) {
             self.addons = None;
+        }
+    }
+
+    /// The Screen recorder add-on's switch: the install (download, check,
+    /// copy from the disk image) or the uninstall (to the Trash) runs on the
+    /// add-on thread, started here when it isn't running, and reports
+    /// through `AppEvent::Addon`.
+    fn recorder_addon(&mut self, on: bool) {
+        if self.st.recorder_busy() {
+            return;
+        }
+        pinfo!("add-ons: {} switched {}", RECORDER.id, if on { "on" } else { "off" });
+        if self.addons.is_none() {
+            match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
+                Ok(svc) => self.addons = Some(svc),
+                Err(e) => pwarn!("add-ons: unavailable ({e})"),
+            }
+        }
+        let (job, status) = if on {
+            (services::recorder::install_job(self.sink.clone()), AddonStatus::Downloading { done: 0, total: poni_core::recorder::MAC_DMG.size })
+        } else {
+            (services::recorder::remove_job(self.sink.clone()), AddonStatus::Removing)
+        };
+        self.st.addons.insert(RECORDER.id, status);
+        if self.addons.as_ref().map(|a| a.run(job)).is_none() {
+            self.st.addons.insert(RECORDER.id, AddonStatus::Failed);
         }
     }
 
@@ -2172,6 +2206,7 @@ impl App {
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::RecordScreen => services::recorder::record_screen(self.mtm),
+                Command::Recorder(on) => self.recorder_addon(on),
                 Command::ScriptPaste => {
                     let text = services::clipboard::read_text().map(|t| poni_core::script::clean(&t)).filter(|t| !t.is_empty());
                     match text {
@@ -2625,9 +2660,15 @@ impl App {
         // shows is asked as the page comes on screen.
         let shown = self.expanded && self.st.page == PageKind::Script && !self.away.0 && !self.away.1;
         if shown && !self.script_shown {
-            self.st.recorder = services::recorder::installed();
+            self.st.recorder_seen(services::recorder::installed());
         }
         self.script_shown = shown;
+        // Whether the recorder is installed, asked as the Add-ons page comes on screen.
+        let addons_shown = self.expanded && self.st.page == PageKind::Addons && !self.away.0 && !self.away.1;
+        if addons_shown && !self.addons_shown {
+            self.st.recorder_seen(services::recorder::installed());
+        }
+        self.addons_shown = addons_shown;
         if !shown && self.st.script.playing() {
             self.st.script.pause(now);
         }

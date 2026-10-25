@@ -13,6 +13,8 @@ use objc2::rc::Retained;
 use objc2::Message;
 use objc2_foundation::{NSData, NSError, NSHTTPURLResponse, NSMutableURLRequest, NSString, NSURLRequestCachePolicy, NSURLResponse, NSURLSession, NSURL};
 use std::fmt;
+use std::io::Read;
+use std::path::{Path, PathBuf};
 use std::sync::mpsc::{self, RecvTimeoutError};
 use std::time::{Duration, Instant};
 
@@ -178,6 +180,101 @@ impl Client {
             }
         }
     }
+}
+
+impl Client {
+    /// GET `url` into the file at `path` (URLSession writes it to disk as it
+    /// comes, so a large file, an app's installer, never sits in memory
+    /// whole). `stall` is how long the connection may go quiet; a slow
+    /// download that keeps moving runs to the end. `progress` hears the bytes
+    /// received so far. Returns the status and, for a 200, the size and
+    /// SHA-256 of the file; any other status leaves no file.
+    pub fn get_to_file(&self, url: &str, path: &Path, stall: Duration, max_bytes: u64, mut progress: impl FnMut(u64)) -> Result<(u16, u64, [u8; 32]), FetchError> {
+        let nsurl = NSURL::URLWithString(&NSString::from_str(url)).ok_or_else(|| FetchError::Other(format!("not a URL: {url}")))?;
+        let req = NSMutableURLRequest::requestWithURL(&nsurl);
+        req.setTimeoutInterval(stall.as_secs_f64());
+        req.setCachePolicy(NSURLRequestCachePolicy::ReloadIgnoringLocalCacheData);
+        req.setValue_forHTTPHeaderField(Some(&NSString::from_str(&self.user_agent)), &NSString::from_str("User-Agent"));
+        let (tx, rx) = mpsc::channel::<Result<u16, FetchError>>();
+        let target: PathBuf = path.to_path_buf();
+        // URLSession deletes its temporary file when this returns, so the
+        // file moves to `target` in here.
+        let done = RcBlock::new(move |location: *mut NSURL, resp: *mut NSURLResponse, err: *mut NSError| {
+            let result = unsafe { finish_file(location.as_ref(), resp.as_ref(), err.as_ref(), &target) };
+            let _ = tx.send(result);
+        });
+        let task = unsafe { NSURLSession::sharedSession().downloadTaskWithRequest_completionHandler(&req, &done) };
+        task.resume();
+        let status = loop {
+            match rx.recv_timeout(PROGRESS_EVERY) {
+                Ok(r) => break r?,
+                Err(RecvTimeoutError::Timeout) => {
+                    let got = task.countOfBytesReceived().max(0) as u64;
+                    if got > max_bytes {
+                        task.cancel();
+                        return Err(FetchError::Other(format!("response too large ({got} bytes)")));
+                    }
+                    progress(got);
+                }
+                Err(RecvTimeoutError::Disconnected) => return Err(FetchError::Other("the download ended without an answer".into())),
+            }
+        };
+        if status != 200 {
+            let _ = std::fs::remove_file(path);
+            return Ok((status, 0, [0; 32]));
+        }
+        let read = (|| -> std::io::Result<(u64, [u8; 32])> {
+            let mut file = std::fs::File::open(path)?;
+            let mut sha = poni_core::sha256::Sha256::new();
+            let mut piece = vec![0u8; 256 * 1024];
+            let mut size = 0u64;
+            loop {
+                let n = file.read(&mut piece)?;
+                if n == 0 {
+                    break;
+                }
+                size += n as u64;
+                sha.update(&piece[..n]);
+            }
+            Ok((size, sha.finish()))
+        })();
+        match read {
+            Ok((size, _)) if size > max_bytes => {
+                let _ = std::fs::remove_file(path);
+                Err(FetchError::Other(format!("response too large ({size} bytes)")))
+            }
+            Ok((size, sha)) => {
+                progress(size);
+                Ok((status, size, sha))
+            }
+            Err(e) => {
+                let _ = std::fs::remove_file(path);
+                Err(FetchError::Other(format!("could not read {}: {e}", path.display())))
+            }
+        }
+    }
+}
+
+/// A finished download task ([`Client::get_to_file`]): its status, with the
+/// file moved from URLSession's temporary place to `target`.
+fn finish_file(location: Option<&NSURL>, resp: Option<&NSURLResponse>, err: Option<&NSError>, target: &Path) -> Result<u16, FetchError> {
+    if let Some(e) = err {
+        return Err(classify(e));
+    }
+    let http: Option<Retained<NSHTTPURLResponse>> = resp.and_then(|r| r.retain().downcast::<NSHTTPURLResponse>().ok());
+    let Some(http) = http else { return Err(FetchError::Other("not an HTTP response".into())) };
+    let status = http.statusCode().clamp(0, u16::MAX as isize) as u16;
+    if status != 200 {
+        return Ok(status);
+    }
+    let Some(from) = location.and_then(|l| l.path()).map(|p| PathBuf::from(p.to_string())) else {
+        return Err(FetchError::Other("the download left no file".into()));
+    };
+    let _ = std::fs::remove_file(target);
+    std::fs::rename(&from, target)
+        .or_else(|_| std::fs::copy(&from, target).map(drop))
+        .map_err(|e| FetchError::Other(format!("could not keep the download at {}: {e}", target.display())))?;
+    Ok(status)
 }
 
 /// A URLSession error as a [`FetchError`].

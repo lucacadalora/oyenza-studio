@@ -500,6 +500,9 @@ pub struct AppState {
     /// Oyenza Studio Recorder is installed, so the Script page shows Record.
     /// Asked each time the page comes on screen, never at rest.
     pub recorder: bool,
+    /// The Add-ons page lists the Screen recorder: its installers are pinned
+    /// (`poni_core::recorder::pinned`). The self-test shows it either way.
+    pub recorder_offered: bool,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -567,6 +570,7 @@ impl AppState {
             script_note: None,
             script_hidden: None,
             recorder: false,
+            recorder_offered: poni_core::recorder::pinned(),
             cmds: Vec::new(),
         };
         // On ones start by checking their files (the worker reports back);
@@ -586,6 +590,25 @@ impl AppState {
     /// Where the add-on `id` stands (`Off` for one this version doesn't know).
     pub fn addon(&self, id: &str) -> AddonStatus {
         self.addons.get(id).copied().unwrap_or(AddonStatus::Off)
+    }
+
+    /// What the island found out about the recorder app, as a page that
+    /// offers Record or the Add-ons page comes on screen. The Screen
+    /// recorder's row follows it, unless its install or uninstall is running
+    /// or a failed install is still there to be seen.
+    pub fn recorder_seen(&mut self, installed: bool) {
+        self.recorder = installed;
+        let id = poni_core::addons::RECORDER.id;
+        let status = self.addon(id);
+        let busy = matches!(status, AddonStatus::Downloading { .. } | AddonStatus::Installing | AddonStatus::Removing);
+        if !busy && !(status == AddonStatus::Failed && !installed) {
+            self.addons.insert(id, if installed { AddonStatus::Ready } else { AddonStatus::Off });
+        }
+    }
+
+    /// The Screen recorder add-on is downloading, installing or uninstalling.
+    pub fn recorder_busy(&self) -> bool {
+        matches!(self.addon(poni_core::addons::RECORDER.id), AddonStatus::Downloading { .. } | AddonStatus::Installing | AddonStatus::Removing)
     }
 
     /// The Script reader add-on is on: the Script tab shows.

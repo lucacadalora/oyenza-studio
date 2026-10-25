@@ -43,7 +43,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, RECORDER, SCRIPT_READER};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -835,6 +835,12 @@ enum Scene {
     AddonsOffline,
     /// Add-ons: a file came back wrong.
     AddonsFailed,
+    /// Add-ons: the Screen recorder's installer downloading.
+    RecorderGetting,
+    /// Add-ons: the Screen recorder's installer running.
+    RecorderInstalling,
+    /// Add-ons: the Screen recorder installed.
+    RecorderOn,
     /// Prayer times: the place picker, "band" typed.
     PrayerPicker,
     /// Prayer times: the collapsed countdown, 8 minutes before Ashar.
@@ -930,7 +936,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 82] = [
+const SCENES: [Scene; 85] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -985,6 +991,10 @@ const SCENES: [Scene; 82] = [
     Scene::AddonsOn,
     Scene::AddonsOffline,
     Scene::AddonsFailed,
+    // The Screen recorder: downloading, installing, installed.
+    Scene::RecorderGetting,
+    Scene::RecorderInstalling,
+    Scene::RecorderOn,
     // Prayer times on, its clock 8 minutes before today's Ashar in Jakarta.
     Scene::Page(PageKind::Prayer),
     Scene::PrayerPicker,
@@ -1074,6 +1084,9 @@ impl Scene {
             Scene::AddonsOn => "page-addons-on".into(),
             Scene::AddonsOffline => "page-addons-offline".into(),
             Scene::AddonsFailed => "page-addons-failed".into(),
+            Scene::RecorderGetting => "page-addons-recorder-getting".into(),
+            Scene::RecorderInstalling => "page-addons-recorder-installing".into(),
+            Scene::RecorderOn => "page-addons-recorder-on".into(),
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
             Scene::PrayerNotice => "prayer-notice".into(),
@@ -1135,6 +1148,7 @@ impl Scene {
             | Scene::SystemPowerEstimate => Some(PageKind::System),
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
+            Scene::RecorderGetting | Scene::RecorderInstalling | Scene::RecorderOn => Some(PageKind::Addons),
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
             Scene::PrayerPicker => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
@@ -2014,6 +2028,15 @@ impl SelfTest {
             _ => AddonStatus::Off,
         };
         st.addons.insert(JAPANESE_READINGS.id, ja);
+        // The Screen recorder: listed (pinned or not), and where its install stands.
+        st.recorder_offered = true;
+        let recorder = match scene {
+            Scene::RecorderGetting => AddonStatus::Downloading { done: 48_000_000, total: 121_000_000 },
+            Scene::RecorderInstalling => AddonStatus::Installing,
+            Scene::RecorderOn => AddonStatus::Ready,
+            _ => AddonStatus::Off,
+        };
+        st.addons.insert(RECORDER.id, recorder);
         // Script reader: on for the Script page's scenes, off (no tab) elsewhere.
         let script = scene.page() == Some(PageKind::Script);
         st.addons.insert(SCRIPT_READER.id, if script { AddonStatus::Ready } else { AddonStatus::Off });

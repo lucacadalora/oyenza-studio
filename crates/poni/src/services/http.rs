@@ -10,12 +10,14 @@
 //! lifetime; the free function [`get`] is a one-shot convenience.
 
 use std::fmt;
+use std::io::Write;
+use std::path::Path;
 use std::sync::mpsc::{self, RecvTimeoutError};
 use std::time::{Duration, Instant};
 use windows::core::{h, RuntimeType, HSTRING};
 use windows::Foundation::{AsyncOperationProgressHandler, AsyncOperationWithProgressCompletedHandler, AsyncStatus, IAsyncOperationWithProgress, Uri};
-use windows::Storage::Streams::{DataReader, IBuffer, UnicodeEncoding};
-use windows::Web::Http::{HttpClient, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
+use windows::Storage::Streams::{Buffer, DataReader, IBuffer, InputStreamOptions, UnicodeEncoding};
+use windows::Web::Http::{HttpClient, HttpCompletionOption, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_MULTITHREADED};
 
@@ -209,6 +211,67 @@ impl Client {
             Ok((status, buffer_bytes(&buf)?))
         })();
         let _ = resp.Close();
+        out
+    }
+}
+
+impl Client {
+    /// GET `url` into the file at `path`, a piece at a time, so a large file
+    /// (an app's installer) never sits in memory whole. `stall` is how long
+    /// the connection may go quiet; a slow download that keeps moving runs
+    /// to the end. `progress` hears the bytes written so far. Returns the
+    /// status and, for a 200, the size and SHA-256 of what was written; any
+    /// other status leaves no file.
+    pub fn get_to_file(&self, url: &str, path: &Path, stall: Duration, max_bytes: u64, mut progress: impl FnMut(u64)) -> Result<(u16, u64, [u8; 32]), FetchError> {
+        /// Bytes asked for per read.
+        const PIECE: u32 = 256 * 1024;
+        let uri = Uri::CreateUri(&HSTRING::from(url)).map_err(|e| other("invalid URL", &e))?;
+        let resp = wait(&self.http.GetWithOptionAsync(&uri, HttpCompletionOption::ResponseHeadersRead).map_err(classify)?, Instant::now() + stall)?;
+        let out = (|| {
+            let status = resp.StatusCode().map_err(|e| other("response without a status", &e))?.0.clamp(0, u16::MAX as i32) as u16;
+            if status != 200 {
+                return Ok((status, 0, [0; 32]));
+            }
+            let content = resp.Content().map_err(|e| other("response without a body", &e))?;
+            if let Ok(len) = content.Headers().and_then(|h| h.ContentLength()).and_then(|r| r.Value()) {
+                if len > max_bytes {
+                    let _ = content.Close();
+                    return Err(FetchError::Other(format!("response too large ({len} bytes)")));
+                }
+            }
+            let stream = wait(&content.ReadAsInputStreamAsync().map_err(classify)?, Instant::now() + stall)?;
+            let mut file = std::fs::File::create(path).map_err(|e| FetchError::Other(format!("could not write {}: {e}", path.display())))?;
+            let mut sha = poni_core::sha256::Sha256::new();
+            let mut got = 0u64;
+            let buffer = Buffer::Create(PIECE).map_err(|e| other("could not make a buffer", &e))?;
+            let read = loop {
+                let piece = match wait(&stream.ReadAsync(&buffer, PIECE, InputStreamOptions::Partial).map_err(classify)?, Instant::now() + stall) {
+                    Ok(piece) => piece,
+                    Err(e) => break Err(e),
+                };
+                let bytes = buffer_bytes(&piece)?;
+                if bytes.is_empty() {
+                    break Ok(());
+                }
+                got += bytes.len() as u64;
+                if got > max_bytes {
+                    break Err(FetchError::Other("response too large".into()));
+                }
+                sha.update(&bytes);
+                if let Err(e) = file.write_all(&bytes) {
+                    break Err(FetchError::Other(format!("could not write {}: {e}", path.display())));
+                }
+                progress(got);
+            };
+            let _ = stream.Close();
+            let _ = content.Close();
+            read.and_then(|()| file.sync_all().map_err(|e| FetchError::Other(format!("could not write {}: {e}", path.display()))))?;
+            Ok((status, got, sha.finish()))
+        })();
+        let _ = resp.Close();
+        if !matches!(out, Ok((200, ..))) {
+            let _ = std::fs::remove_file(path);
+        }
         out
     }
 }

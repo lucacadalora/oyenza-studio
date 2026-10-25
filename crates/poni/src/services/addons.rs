@@ -305,6 +305,67 @@ fn remove(dir: &Path, addon: &Addon) {
     }
 }
 
+/// How long an app's installer download may go quiet before it gives up.
+const INSTALLER_STALL: Duration = Duration::from_secs(60);
+
+/// Bring an app add-on's installer `file` (from `url`) to `path`, checked
+/// against its size and SHA-256 as it arrives, and report the bytes as
+/// `Downloading` for `id`. One already there and right is kept. The file is
+/// written as it comes, never held in memory whole.
+pub fn fetch_installer(client: &Client, sink: &EventSink, id: &'static str, file: &AddonFile, url: &str, path: &Path) -> Result<(), String> {
+    if file_matches(path, file) {
+        return Ok(());
+    }
+    let total = file.size;
+    sink.send(AppEvent::Addon { id, status: Status::Downloading { done: 0, total } });
+    let part = path.with_extension("part");
+    let progress_sink = sink.clone();
+    let mut last = Instant::now();
+    let started = Instant::now();
+    let (status, size, sha) = client
+        .get_to_file(url, &part, INSTALLER_STALL, total + 64 * 1024, move |n| {
+            if last.elapsed() >= PROGRESS_EVERY {
+                last = Instant::now();
+                progress_sink.send(AppEvent::Addon { id, status: Status::Downloading { done: n.min(total), total } });
+            }
+        })
+        .map_err(|e| e.to_string())?;
+    if status != 200 {
+        return Err(format!("HTTP {status}"));
+    }
+    if size != file.size || poni_core::sha256::hex(&sha) != file.sha256 {
+        let _ = fs::remove_file(&part);
+        return Err(format!("{} came back different ({size} bytes, expected {})", file.name, file.size));
+    }
+    fs::rename(&part, path).map_err(|e| {
+        let _ = fs::remove_file(&part);
+        format!("could not keep {} ({e})", file.name)
+    })?;
+    crate::pinfo!("add-ons: {id}: {} downloaded ({size} bytes, {} s)", file.name, started.elapsed().as_secs());
+    sink.send(AppEvent::Addon { id, status: Status::Downloading { done: total, total } });
+    Ok(())
+}
+
+/// Is the file at `path` exactly `file`? Read a piece at a time (an
+/// installer is too big to read whole).
+fn file_matches(path: &Path, file: &AddonFile) -> bool {
+    use std::io::Read;
+    let Ok(mut f) = fs::File::open(path) else { return false };
+    if f.metadata().map(|m| m.len()).ok() != Some(file.size) {
+        return false;
+    }
+    let mut sha = poni_core::sha256::Sha256::new();
+    let mut piece = vec![0u8; 256 * 1024];
+    loop {
+        match f.read(&mut piece) {
+            Ok(0) => break,
+            Ok(n) => sha.update(&piece[..n]),
+            Err(_) => return false,
+        }
+    }
+    poni_core::sha256::hex(&sha.finish()) == file.sha256
+}
+
 /// The self-test's real download (Windows CI): every file of `addon` into
 /// `dir`, checked. Returns a line for the report.
 pub fn fetch_for_selftest(addon: &'static Addon, dir: &Path) -> (bool, String) {

@@ -126,6 +126,8 @@ enum Scene {
     Japanese(AddonStatus),
     /// The Add-ons tab, Japanese readings at this status.
     Addons(AddonStatus),
+    /// The Add-ons tab, the Screen recorder at this status.
+    Recorder(AddonStatus),
     /// Prayer times on, in Kota Jakarta, 8 minutes before Ashar: the page,
     /// its place picker, the resting island's countdown, and the notice at
     /// the time with the adzan playing.
@@ -192,10 +194,12 @@ const JA_SCENES: [Scene; 4] = [
 ];
 
 /// The Add-ons tab, after the Japanese song.
-const ADDON_SCENES: [Scene; 3] = [
+const ADDON_SCENES: [Scene; 5] = [
     Scene::Addons(AddonStatus::Off),
     Scene::Addons(AddonStatus::Downloading { done: 1_700_000, total: 0 }),
     Scene::Addons(AddonStatus::Ready),
+    Scene::Recorder(AddonStatus::Downloading { done: 48_000_000, total: 93_000_000 }),
+    Scene::Recorder(AddonStatus::Ready),
 ];
 
 /// Prayer times, after the Add-ons tab.
@@ -237,6 +241,8 @@ impl Scene {
             Scene::Addons(AddonStatus::Off) => "page-addons".into(),
             Scene::Addons(AddonStatus::Downloading { .. }) => "page-addons-getting".into(),
             Scene::Addons(s) => format!("page-addons-{}", format!("{s:?}").to_lowercase()),
+            Scene::Recorder(AddonStatus::Downloading { .. }) => "page-addons-recorder-getting".into(),
+            Scene::Recorder(s) => format!("page-addons-recorder-{}", format!("{s:?}").to_lowercase()),
             Scene::Prayer => "page-prayer".into(),
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
@@ -797,6 +803,13 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
         }
         Scene::Addons(status) => {
             ja_status(&mut st, status);
+            st.recorder_offered = true;
+            st.page = PageKind::Addons;
+            Mode::Expanded(PageKind::Addons)
+        }
+        Scene::Recorder(status) => {
+            st.recorder_offered = true;
+            st.addons.insert(poni_core::addons::RECORDER.id, status);
             st.page = PageKind::Addons;
             Mode::Expanded(PageKind::Addons)
         }

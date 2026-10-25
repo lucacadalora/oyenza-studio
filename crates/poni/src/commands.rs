@@ -86,6 +86,10 @@ pub enum Command {
     /// The Script page's Record: Oyenza Studio Recorder records the screen
     /// the island is on (`services::recorder`).
     RecordScreen,
+    /// The Screen recorder add-on's switch: install (true) or uninstall
+    /// (false) Oyenza Studio Recorder, on the add-on thread
+    /// (`services::recorder`).
+    Recorder(bool),
     /// Drop keyboard focus.
     BlurText,
     /// Persist `AppState::store` soon.
