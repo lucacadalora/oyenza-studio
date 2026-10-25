@@ -879,7 +879,7 @@ struct Cf(CFTypeRef);
 
 impl Cf {
     fn new(p: CFTypeRef) -> Option<Cf> {
-        (!p.is_null()).then_some(Cf(p))
+        (!p.is_null()).then(|| Cf(p))
     }
 }
 
@@ -945,7 +945,7 @@ fn services(class: &CStr) -> Vec<Io> {
     let it = Io(it);
     std::iter::from_fn(|| {
         let e = unsafe { IOIteratorNext(it.0) };
-        (e != 0).then_some(Io(e))
+        (e != 0).then(|| Io(e))
     })
     .collect()
 }
