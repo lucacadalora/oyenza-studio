@@ -704,8 +704,8 @@ impl App {
 
     /// Step aside on: have the full-screen watcher report the app windows
     /// at the top edge of the island's monitor, where the island hangs from
-    /// (below a taskbar at the top). Stay: it looks at nothing, and nothing
-    /// is under the island.
+    /// (below a taskbar at the top). Off (always, since 0.2.6; the self-test
+    /// still draws it): it looks at nothing, and nothing is under the island.
     fn sync_top_watch(&mut self) {
         let m = &self.monitor;
         let px = (TOP_BAND * self.gfx.scale()).ceil() as i32;
@@ -1664,7 +1664,6 @@ impl App {
             ToggleLyrics => s.lyrics = !s.lyrics,
             TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
             SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
-            SetStepAside(aside) => s.step_aside = aside,
             ToggleGameStats => s.game_stats = !s.game_stats,
             ToggleGamePeek => s.game_peek = !s.game_peek,
             ToggleSounds => s.sounds = !s.sounds,
@@ -2585,7 +2584,7 @@ impl App {
         RECT { left, top: self.surface.y, right, bottom: self.surface.y + (h * s).ceil() as i32 }
     }
 
-    /// Settings › Over maximized windows: Step aside while an app window
+    /// Step aside (off since 0.2.6, see `Settings::step_aside`) while an app window
     /// reaches under where the island rests. Over a full-screen app the
     /// full-screen choice decides instead (Hide, or Stay on top for the
     /// readout over games). Each frame, before the mode is picked: it only

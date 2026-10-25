@@ -3,8 +3,8 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, six switches, Hide or Stay on top in
-//! full-screen apps, and (Windows) Step aside or Stay over maximized windows.
+//! the idle look as pickers, six switches, and Hide or Stay on top in
+//! full-screen apps.
 //! A change saves at once and applies the way the tray's does
 //! (`Command::SaveSettings`). While a later version is out, a last row
 //! across the page says so, with Update: that opens the Update sheet, which
@@ -88,15 +88,12 @@ enum Switch {
     Updates,
 }
 
-/// What a row of the two columns holds: a switch, the full-screen choice
-/// (the tray menu's "In full-screen apps" submenu) or the maximized-window
-/// one (its "Over maximized windows" submenu).
+/// What a row of the two columns holds: a switch, or the full-screen choice
+/// (the tray menu's "In full-screen apps" submenu).
 #[derive(Clone, Copy)]
 enum Row {
     Switch(Switch, &'static str),
     Fullscreen,
-    #[cfg_attr(not(windows), allow(dead_code))]
-    Aside,
 }
 
 const LEFT: &[Row] = &[
@@ -105,11 +102,6 @@ const LEFT: &[Row] = &[
     Row::Switch(Switch::Sounds, "Sounds"),
     Row::Switch(Switch::Updates, "Tell me about new versions"),
 ];
-/// The maximized-window choice sits under the full-screen one. A Mac has
-/// none: its menu bar keeps windows below the island.
-#[cfg(windows)]
-const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Aside, Row::Switch(Switch::Autostart, "Start with Windows")];
-#[cfg(not(windows))]
 const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
 const COLUMNS: [&[Row]; 2] = [LEFT, RIGHT];
 /// Rows in the taller column.
@@ -118,9 +110,6 @@ const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len(
 /// The full-screen choices as the tray menu names them, and the
 /// `hide_in_fullscreen` each one sets.
 const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
-/// The maximized-window choices as the tray menu names them, and the
-/// `step_aside` each one sets.
-const ASIDE: [(bool, &str); 2] = [(true, "Step aside"), (false, "Stay")];
 
 pub fn height(st: &AppState) -> f32 {
     match st.update.offer {
@@ -215,14 +204,6 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                     let sel = FULLSCREEN.iter().position(|f| f.0 == st.settings.hide_in_fullscreen).unwrap_or(0);
                     if let Some(i) = choice_row(ui, row, "In full-screen apps", "settings.fullscreen", &FULLSCREEN.map(|f| f.1), sel) {
                         st.settings.hide_in_fullscreen = FULLSCREEN[i].0;
-                        st.cmd(Command::SaveSettings);
-                    }
-                }
-                Row::Aside => {
-                    let sel = ASIDE.iter().position(|a| a.0 == st.settings.step_aside).unwrap_or(0);
-                    // The tray's "Over maximized windows", short enough for its column.
-                    if let Some(i) = choice_row(ui, row, "Maximized windows", "settings.aside", &ASIDE.map(|a| a.1), sel) {
-                        st.settings.step_aside = ASIDE[i].0;
                         st.cmd(Command::SaveSettings);
                     }
                 }

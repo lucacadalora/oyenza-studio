@@ -674,7 +674,7 @@ mod tests {
     #[test]
     fn settings_never_makes_the_window_taller() {
         // The window fits the tallest page; System is always 256 DIPs (Settings
-        // grew past Tasks' 200 with its Over maximized windows row).
+        // grew past Tasks' 200 with its fourth row of switches).
         let mut st = state();
         assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::System, &st));
         // Nor its new version's row, nor the Update sheet in its place.

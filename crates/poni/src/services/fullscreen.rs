@@ -23,7 +23,7 @@
 //! from scratch when another window comes to the front,
 //! and one window at a time as the watched ones move. The app hears of a
 //! change ([`AppEvent::TopWindows`]) and decides whether one sits under the
-//! island. With Stay picked, nothing is looked at.
+//! island. With it off (always, since 0.2.6), nothing is looked at.
 
 use crate::events::{AppEvent, EventSink, WM_APP_APPBAR};
 use std::cell::{Cell, RefCell};

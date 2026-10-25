@@ -60,9 +60,6 @@ pub enum MenuCmd {
     TogglePronunciation,
     /// true: hide in full-screen apps; false: stay on top of them.
     SetHideFullscreen(bool),
-    /// true: step aside while a maximized window is under the island;
-    /// false: stay over it.
-    SetStepAside(bool),
     /// Show over games (frame rate, GPU and CPU on the island over a game).
     ToggleGameStats,
     /// Show over games for a few seconds at a time instead of all along.
@@ -122,7 +119,6 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
     let style = |st: IdleStyle| item(idle_label(st, s.theme), MenuCmd::ToggleIdleStyle(st), shown == st);
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
-    let aside = |label: &str, on: bool| item(label, MenuCmd::SetStepAside(on), s.step_aside == on);
     let mut items = vec![
         item("Keep island open", MenuCmd::TogglePinned, pinned),
         MenuItem::Sub { label: "Theme".into(), items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen), theme("Glass", Theme::Glass), theme("Pill", Theme::Pill)] },
@@ -147,8 +143,6 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
                 item("Only for a few seconds (no added delay)", MenuCmd::ToggleGamePeek, s.game_peek),
             ],
         },
-        // A browser's tabs under the island: out of their way until pointed at.
-        MenuItem::Sub { label: "Over maximized windows".into(), items: vec![aside("Step aside", true), aside("Stay", false)] },
         item("Start with Windows", MenuCmd::ToggleAutostart, crate::autostart::is_enabled()),
         MenuItem::Separator,
         item("Open settings file", MenuCmd::OpenSettings, false),
@@ -349,26 +343,11 @@ mod tests {
     }
 
     #[test]
-    fn maximized_windows_submenu_follows_the_full_screen_one_and_checks_the_choice() {
-        let mut s = Settings::default();
-        for on in [true, false] {
-            s.step_aside = on;
-            let items = menu_items(&s, false, &OyenzaLink::Off, false, None);
-            let at = |name: &str| items.iter().position(|i| matches!(i, MenuItem::Sub { label, .. } if label == name));
-            let (Some(fs), Some(i)) = (at("In full-screen apps"), at("Over maximized windows")) else {
-                panic!("no maximized windows submenu");
-            };
-            assert_eq!(i, fs + 1, "right after In full-screen apps");
-            let MenuItem::Sub { items, .. } = &items[i] else { unreachable!() };
-            let choices: Vec<(&str, MenuCmd, bool)> = items
-                .iter()
-                .filter_map(|i| match i {
-                    MenuItem::Item { label, cmd, checked } => Some((label.as_str(), *cmd, *checked)),
-                    _ => None,
-                })
-                .collect();
-            assert_eq!(choices, [("Step aside", MenuCmd::SetStepAside(true), on), ("Stay", MenuCmd::SetStepAside(false), !on)]);
-        }
+    fn start_with_windows_follows_the_full_screen_submenu() {
+        // Over maximized windows (Step aside) is gone: nothing sits between them.
+        let items = menu_items(&Settings::default(), false, &OyenzaLink::Off, false, None);
+        let fs = items.iter().position(|i| matches!(i, MenuItem::Sub { label, .. } if label == "In full-screen apps")).expect("full-screen submenu");
+        assert!(matches!(items.get(fs + 1), Some(MenuItem::Item { cmd: MenuCmd::ToggleAutostart, .. })));
     }
 
     #[test]

@@ -205,7 +205,7 @@ Yes: right-click the island › **In full-screen apps** › **Hide**. Pick **Sta
 <summary><b>Does it cover my browser tabs?</b></summary>
 <br>
 
-No. When a maximized window sits under the island (a browser's tabs, the title bar of a window snapped to half the screen), the island steps aside: the clock or the song waits out of the way, and only an invisible strip stays along the middle of the top edge, so the tabs show and take clicks. Point at the top edge to open the island. The volume, notices and a new song's title still show for a few seconds. To keep the island over those windows, right-click it › **Over maximized windows** › **Stay**.
+It sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. To keep that spot clear, right-click the island › **Idle look** › **Hidden until hover**: while nothing plays, only an invisible strip stays at the top edge until you point at it.
 
 </details>
 
@@ -228,7 +228,6 @@ The gear at the top right of the open island opens **Settings**: your Oyenza acc
 - the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock)
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
-- over maximized windows: step aside so a browser's tabs stay visible (point at the top edge to open the island), or stay over them
 - start with Windows, which version you have (**About Oyenza Studio**, with the build's day; it opens that version's release notes), and quit
 - in Settings only: **Tell me about new versions** ([New versions](#new-versions))
 
