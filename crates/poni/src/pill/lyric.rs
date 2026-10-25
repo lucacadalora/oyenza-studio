@@ -2,7 +2,9 @@
 //! line is current, when the next one starts (a one-shot wake, never a
 //! poll), and drawing it with a short cross-fade when it changes.
 //! [`super::media`] calls [`draw`] where the title would go and falls back
-//! to the title when it returns `false`.
+//! to the title when it returns `false`. Classic, Oyen and Glass sing the
+//! line the same way while a song has synced lyrics ([`sings`],
+//! `activities::draw_music`); their pill stays compact otherwise.
 //!
 //! The line is the Music page's (`pages/media.rs`): the player's position,
 //! plus its known lag (`lyrics_lead_s`) and the person's own shift
@@ -100,6 +102,25 @@ pub fn draw(ui: &mut Ui, st: &AppState, area: Rect) -> bool {
 /// change.
 pub fn next_wake(st: &AppState) -> Option<f64> {
     with_state(|s| s.follow.update(st).and_then(|p| p.wake)).flatten()
+}
+
+/// Whether the music pill sings this song: lyrics on, synced lyrics found
+/// for this track, and a player that says how long it is. Playing or not,
+/// and in the intro and the breaks too (the title shows then), so a pill
+/// that sings keeps its size for the whole song.
+pub fn sings(st: &AppState) -> bool {
+    followed(st).is_some()
+}
+
+/// The lyrics the pill follows for the song playing now (see [`sings`]).
+fn followed(st: &AppState) -> Option<&Lyrics> {
+    let m = st.media.as_ref()?;
+    let lyr = &st.lyrics;
+    // A song without a known length has no position to follow.
+    if !st.settings.lyrics || lyr.status != LyricsStatus::Found || lyr.track_key != m.track_key || !m.timeline.has_duration() {
+        return None;
+    }
+    lyr.lyrics.as_ref().filter(|l| l.synced)
 }
 
 /// How [`draw`] sets the line (its colour aside), for sizing the pill to it.
@@ -218,13 +239,8 @@ fn line_bits(l: Option<&LyricLine>) -> u64 {
 
 impl Follow {
     fn update(&mut self, st: &AppState) -> Option<Pick> {
-        let m = st.media.as_ref()?;
-        let lyr = &st.lyrics;
-        // A song without a known length has no position to follow.
-        if !st.settings.lyrics || lyr.status != LyricsStatus::Found || lyr.track_key != m.track_key || !m.timeline.has_duration() {
-            return None;
-        }
-        let l = lyr.lyrics.as_ref().filter(|l| l.synced)?;
+        let l = followed(st)?;
+        let (m, lyr) = (st.media.as_ref()?, &st.lyrics);
         let now = st.now;
         let playing = m.is_playing();
         let hold_end = if playing { None } else { Some(st.media_paused_at? + PAUSE_HOLD_S) };

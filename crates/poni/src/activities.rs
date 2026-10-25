@@ -202,7 +202,15 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
             IdleStyle::Hidden => Geom::new(150.0, 5.0, 2.5),
         },
         Mode::Activity(Activity::Media) => {
-            let w = if st.now < st.ui.peek_until { MEDIA_PEEK_W } else { MEDIA_W };
+            // A song with synced lyrics sings its line here, as in the Pill
+            // theme: the pill is as wide as its words (`pill::media`).
+            let w = if crate::pill::lyric::sings(st) {
+                crate::pill::media::fit_w()
+            } else if st.now < st.ui.peek_until {
+                MEDIA_PEEK_W
+            } else {
+                MEDIA_W
+            };
             Geom::new(w, 32.0, 15.0)
         }
         Mode::Activity(Activity::Timer) => {
@@ -266,6 +274,11 @@ pub fn next_wake(m: &Mode, st: &AppState) -> Option<f64> {
     }
     if *m == Mode::Activity(Activity::Media) {
         consider(st.ui.peek_until);
+        // The next sung line: the equalizer's frames stop while paused or
+        // on battery saver, and Oyen's when his notes are gone.
+        if let Some(t) = crate::pill::lyric::next_wake(st) {
+            consider(t);
+        }
     }
     if let Some(t) = crate::pill::next_wake(m, st) {
         consider(t);
@@ -442,32 +455,48 @@ fn draw_peek(ui: &mut Ui, st: &AppState, x0: f32, x1: f32, body: Rect, alpha: f3
     });
 }
 
+/// Music, collapsed: the album art on the left, the equalizer (Oyen, in his
+/// theme) on the right, and between them the line being sung while the song
+/// has synced lyrics, as in the Pill theme (`pill::media::middle`: the line,
+/// or the title in the intro, the breaks and a new track's peek), else a new
+/// track's title for a moment. In the menu bar's line of a MacBook with a
+/// notch the camera takes the middle, so there it draws no words (`words`
+/// false): a sung line hangs below the notch instead (`mac/notch.rs`).
+pub fn draw_music(ui: &mut Ui, st: &mut AppState, body: Rect, words: bool) {
+    let cy = body.center().y;
+    let art = Rect::new(body.x + 12.0, cy - 11.0, 22.0, 22.0);
+    let playing = st.media.as_ref().is_some_and(|m| m.is_playing());
+    art_or_icon(ui, st, art, playing);
+    let eq = Rect::new(body.right() - 34.0, cy - 8.0, 20.0, 16.0);
+    let sings = words && crate::pill::lyric::sings(st);
+    let alpha = if sings { 1.0 } else { peek_alpha(st, body.w) };
+    if oyen::on(st.settings.theme) {
+        // Oyen bops to the music where the equalizer would be, and a
+        // note floats up beside him on every beat (the ones on his
+        // left make way for the words: the sung line or the title).
+        let (cx, bar_y) = (body.right() - 26.0, body.bottom() - 5.0);
+        st.ui.notes.step(st.now, playing);
+        let sky = Rect::new(body.x, body.y + 1.0, body.w, body.h - 1.0);
+        oyen::notes(ui.c, &st.ui.notes, st.now, cx, bar_y, sky, 1.0 - alpha);
+        let f = oyen::music(st.now, playing, st.media_paused_at);
+        oyen::peek(ui.c, &f, cx, bar_y, OYEN_MEDIA_W, body.y + 1.0);
+    } else {
+        equalizer(ui, eq, st.media_accent(), playing, st.now);
+    }
+    if sings {
+        use crate::pill::media::{middle, PAUSED_TEXT, TEXT_CLEAR};
+        middle(ui, st, body, art.right() + TEXT_CLEAR, eq.x - TEXT_CLEAR, if playing { 1.0 } else { PAUSED_TEXT });
+    } else if alpha > 0.01 {
+        draw_peek(ui, st, art.right() + 10.0, eq.x - 10.0, body, alpha);
+    }
+}
+
 fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
     let cy = body.center().y;
     let art = Rect::new(body.x + 12.0, cy - 11.0, 22.0, 22.0);
     let playing = st.media.as_ref().is_some_and(|m| m.is_playing());
     match a {
-        Activity::Media => {
-            art_or_icon(ui, st, art, playing);
-            let eq = Rect::new(body.right() - 34.0, cy - 8.0, 20.0, 16.0);
-            let alpha = peek_alpha(st, body.w);
-            if oyen::on(st.settings.theme) {
-                // Oyen bops to the music where the equalizer would be, and a
-                // note floats up beside him on every beat (the ones on his
-                // left make way for a new track's title).
-                let (cx, bar_y) = (body.right() - 26.0, body.bottom() - 5.0);
-                st.ui.notes.step(st.now, playing);
-                let sky = Rect::new(body.x, body.y + 1.0, body.w, body.h - 1.0);
-                oyen::notes(ui.c, &st.ui.notes, st.now, cx, bar_y, sky, 1.0 - alpha);
-                let f = oyen::music(st.now, playing, st.media_paused_at);
-                oyen::peek(ui.c, &f, cx, bar_y, OYEN_MEDIA_W, body.y + 1.0);
-            } else {
-                equalizer(ui, eq, st.media_accent(), playing, st.now);
-            }
-            if alpha > 0.01 {
-                draw_peek(ui, st, art.right() + 10.0, eq.x - 10.0, body, alpha);
-            }
-        }
+        Activity::Media => draw_music(ui, st, body, true),
         Activity::Timer => {
             // Ring (with the phase glyph) on the left, digits right after it.
             let p = &st.pomodoro;
@@ -699,5 +728,60 @@ fn draw_notice(ui: &mut Ui, st: &mut AppState, body: Rect) {
         } else {
             ui.pill(wid("notice.act"), r, &label, Some(icon), PillStyle::Primary(color));
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::state::{LyricsState, LyricsStatus, MediaSession};
+    use poni_core::lrc::parse_lrc;
+    use poni_core::settings::Settings;
+    use poni_core::store::Store;
+    use poni_core::timeline::Timeline;
+
+    /// Music playing 12 s into a song, with these lyrics found for it.
+    fn playing(lrc: Option<&str>) -> AppState {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let key = MediaSession::make_track_key("Paper Boats", "The Lanterns", "");
+        st.media = Some(MediaSession {
+            app_id: "Spotify.exe".into(),
+            app_name: "Spotify".into(),
+            title: "Paper Boats".into(),
+            artist: "The Lanterns".into(),
+            album: String::new(),
+            art: None,
+            art_color: None,
+            timeline: Timeline::new(12.0, 200.0, 0.0, true),
+            can_prev: true,
+            can_next: true,
+            can_play_pause: true,
+            can_seek: true,
+            track_key: key.clone(),
+        });
+        if let Some(l) = lrc {
+            st.lyrics = LyricsState { track_key: key, status: LyricsStatus::Found, lyrics: Some(parse_lrc(l)), source: "Sample".into(), ruby: Vec::new(), wants_ja_readings: false };
+        }
+        st
+    }
+
+    #[test]
+    fn music_sings_its_line_in_every_theme_while_the_song_has_synced_lyrics() {
+        let media = Mode::Activity(Activity::Media);
+        // No lyrics: Classic's compact pill, art and bars.
+        assert_eq!(geom(&media, &playing(None)).w, MEDIA_W);
+        // Synced lyrics: as wide as its words (what `pill::media` measured).
+        let sung = playing(Some("[00:10.00]Paper lanterns on the line\n[00:14.00]Count the windows\n"));
+        assert!(crate::pill::lyric::sings(&sung));
+        assert_eq!(geom(&media, &sung).w, crate::pill::media::fit_w());
+        // Lyrics switched off, or words without timings: compact again.
+        let mut off = playing(Some("[00:10.00]Paper lanterns on the line\n"));
+        off.settings.lyrics = false;
+        assert_eq!(geom(&media, &off).w, MEDIA_W);
+        assert_eq!(geom(&media, &playing(Some("plain words\nno stamps\n"))).w, MEDIA_W);
+        // Paused, a singing pill keeps its size (the title shows after a while).
+        let mut paused = sung;
+        paused.media.as_mut().unwrap().timeline = Timeline::new(12.0, 200.0, 0.0, false);
+        assert!(crate::pill::lyric::sings(&paused));
     }
 }

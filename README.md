@@ -41,7 +41,7 @@
 
 ### Music, word by word
 
-Controls for whatever is playing: Spotify, Apple Music, YouTube in your browser, or any app in Windows' media controls. The lyrics scroll in time with the song, and Korean, Japanese and Chinese lines get their reading underneath, the way Apple Music shows pronunciation. Drag the bar to jump anywhere in a song.
+Controls for whatever is playing: Spotify, Apple Music, YouTube in your browser, or any app in Windows' media controls. The lyrics scroll in time with the song, and Korean, Japanese and Chinese lines get their reading underneath, the way Apple Music shows pronunciation. The line being sung also shows on the closed island, in every theme, so you can sing along without opening it. Drag the bar to jump anywhere in a song.
 
 <p align="center"><img src="docs/brand/readme/music.webp" width="880" alt="The open island on the Music page: the song, its controls and a Korean lyric line with its reading underneath"></p>
 
@@ -49,7 +49,7 @@ Lyrics come free from [LRCLIB](https://lrclib.net), or from Apple Music itself w
 
 ### What's happening, at a glance
 
-While it rests, the island is a small black pill that tells you what's going on, then gets out of the way: album art and a beat while music plays, your focus timer, volume and charging, headphones connecting with their battery, money coming in, the next prayer.
+While it rests, the island is a small black pill that tells you what's going on, then gets out of the way: album art, the line being sung and a beat while music plays, your focus timer, volume and charging, headphones connecting with their battery, money coming in, the next prayer.
 
 <p align="center"><img src="docs/brand/readme/glance.webp" width="880" alt="Six resting islands: music playing, a focus timer, volume, headphones connected, money in, and minutes to the next prayer"></p>
 

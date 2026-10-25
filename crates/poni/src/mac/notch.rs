@@ -34,7 +34,7 @@ use crate::ui::Ui;
 use poni_core::datetime::{fmt_clock, fmt_countdown};
 use poni_core::geom::{clamp01, palette, Color, Point, Rect};
 use poni_core::pomodoro::Phase;
-use poni_core::settings::{IdleStyle, Theme};
+use poni_core::settings::IdleStyle;
 use poni_core::svgpath::Seg;
 
 /// The notch as macOS reports it, in DIPs (points).
@@ -84,9 +84,10 @@ pub fn fit(m: &Mode, st: &AppState) -> Fit {
         // The status bar look is the Pill theme's; the other themes show the clock for it.
         Mode::Idle if matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status) => Fit::Ears,
         Mode::Idle => Fit::Inside,
-        // Pill's music pill sings the current line, which needs the width the
-        // camera takes: it hangs below the notch while there is a line.
-        Mode::Activity(Activity::Media) if pill::on(st.settings.theme) && pill::lyric::current(st).is_some() => Fit::Below,
+        // The music pill sings the current line (every theme), which needs
+        // the width the camera takes: it hangs below the notch while there
+        // is a line (Pill floats there).
+        Mode::Activity(Activity::Media) if pill::lyric::current(st).is_some() => Fit::Below,
         Mode::Activity(_) => Fit::Ears,
         Mode::Hud(_) | Mode::Notice | Mode::Expanded(_) => Fit::Below,
     }
@@ -301,6 +302,12 @@ pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch)
             ui.c.text(&text, Rect::new(right.x, body.y, right.w - 6.0, body.h), &ts);
             true
         }
+        // Art left and bars (or Oyen) right, no words under the camera: the
+        // sung line hangs below the notch instead (`fit`).
+        Mode::Activity(Activity::Media) => {
+            activities::draw_music(ui, st, body, false);
+            true
+        }
         _ => false,
     }
 }
@@ -324,11 +331,9 @@ fn draw_pill_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, left: Re
         // Art left and bars right, nothing under the camera, as the other
         // themes draw music around a notch: Pill's music pill fills its middle
         // with words, which the camera would cut (its sung line floats below
-        // the notch instead). Classic's own drawing, for this one call.
+        // the notch instead). Classic's drawing, without the words.
         Mode::Activity(Activity::Media) => {
-            let theme = std::mem::replace(&mut st.settings.theme, Theme::Classic);
-            activities::draw(ui, st, m, body);
-            st.settings.theme = theme;
+            activities::draw_music(ui, st, body, false);
             true
         }
         Mode::Activity(Activity::Timer) => {

@@ -2857,10 +2857,12 @@ impl App {
         if let poni_core::pomodoro::RunState::Running { ends_at } = self.st.pomodoro.run {
             consider(ends_at + 0.005);
         }
-        // Pill's music pill wakes for every sung line; nobody sees those while
-        // the session is locked or the display is off, so they rest then (the
-        // lock and display events ask for a frame, which picks them up again).
-        let watched = visible && !(pill::on(self.st.settings.theme) && (self.locked || self.display_off));
+        // The music pill wakes for every sung line (in every theme), and Pill's
+        // pills for their own changes; nobody sees those while the session is
+        // locked or the display is off, so they rest then (the lock and
+        // display events ask for a frame, which picks them up again).
+        let singing = self.mode == Mode::Activity(activities::Activity::Media);
+        let watched = visible && !((pill::on(self.st.settings.theme) || singing) && (self.locked || self.display_off));
         if let Some(t) = activities::next_wake(&self.mode, &self.st).filter(|_| watched) {
             consider(t);
         }

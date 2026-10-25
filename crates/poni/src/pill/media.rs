@@ -16,6 +16,10 @@
 //!
 //! Paused, the art and the text dim and the bars sink low and still; the
 //! lingering paused pill comes and goes as in Classic (`activities`).
+//!
+//! The middle ([`middle`]: the line, or the song, and the width it asks
+//! for) is shared: Classic, Oyen and Glass draw it between their own art
+//! and bars while a song has synced lyrics (`activities::draw_music`).
 
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
@@ -47,8 +51,9 @@ const W_STEP: f32 = 8.0;
 const ART: f32 = 20.0;
 const ART_INSET: f32 = 6.0;
 const ART_R: f32 = 6.0;
-/// Text is cut this far from the art and the bars while the pill morphs.
-const TEXT_CLEAR: f32 = 4.0;
+/// Text is cut this far from the art and the bars while the pill morphs
+/// (in every theme's singing pill).
+pub(crate) const TEXT_CLEAR: f32 = 4.0;
 /// The equalizer: 4 bars 3 wide and 2 apart, the last one 13 in from the
 /// end, 4 to 14 tall (spec 6.4).
 const BARS: usize = 4;
@@ -68,9 +73,10 @@ const GLOW_ALPHA: f32 = 0.55;
 const GLOW_ROWS: usize = 30;
 /// Play and pause ease over this long: the glow, the bars, the dimming.
 const PLAY_FADE: f64 = 0.2;
-/// Paused, the art and the text are this opaque.
+/// Paused, the art and the text are this opaque (the text in every
+/// theme's singing pill).
 const PAUSED_ART: f32 = 0.55;
-const PAUSED_TEXT: f32 = 0.65;
+pub(crate) const PAUSED_TEXT: f32 = 0.65;
 /// The title and the sung line cross-fade over this long when one takes
 /// over from the other (the peek ending, the first line after an intro).
 const HANDOFF: f64 = 0.15;
@@ -94,7 +100,7 @@ thread_local! {
 }
 
 pub fn geom(_st: &AppState) -> Option<Geom> {
-    Some(Geom::new(FIT_W.get(), H, H / 2.0))
+    Some(Geom::new(fit_w(), H, H / 2.0))
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
@@ -116,20 +122,33 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
     let eq_x = body.right() - EQ_RIGHT - EQ_W;
     // The open card's equalizer colour, so the bars keep it through a morph.
     equalizer(ui, eq_x, cy, super::music::eq_color(accent), level, moving, now);
+    middle(ui, st, body, art.right() + TEXT_CLEAR, eq_x - TEXT_CLEAR, lerp(PAUSED_TEXT, 1.0, level));
+    true
+}
 
+/// The middle of a music pill, in this theme and in the others while a song
+/// sings (`activities::draw_music`): the line being sung, or the song,
+/// centred on `body` and cut to `x0..x1`, where the art and the bars (or
+/// Oyen) are. `alpha` dims it while paused. The width the text asks for is
+/// kept for [`fit_w`].
+pub(crate) fn middle(ui: &mut Ui, st: &AppState, body: Rect, x0: f32, x1: f32, alpha: f32) {
     // The text centres on the pill in a box as wide as the widest pill's
     // text, so its layout doesn't change with the pill's width on each
     // frame of a morph, cut where the art and the bars are.
-    let area = Rect::new(body.center().x - (MAX_W - SIDES) / 2.0, cy - H / 2.0, MAX_W - SIDES, H);
-    let x0 = art.right() + TEXT_CLEAR;
-    ui.c.clip(Rect::new(x0, body.y, (eq_x - TEXT_CLEAR - x0).max(0.0), body.h));
-    let want = draw_text(ui, st, area, lerp(PAUSED_TEXT, 1.0, level), now);
+    let area = Rect::new(body.center().x - (MAX_W - SIDES) / 2.0, body.center().y - H / 2.0, MAX_W - SIDES, H);
+    ui.c.clip(Rect::new(x0, body.y, (x1 - x0).max(0.0), body.h));
+    let want = draw_text(ui, st, area, alpha, st.now);
     ui.c.unclip();
     if want != FIT_W.get() {
         FIT_W.set(want);
         ui.request_repaint();
     }
-    true
+}
+
+/// The music pill's width for its text, as [`middle`] last measured it
+/// (between [`MIN_W`] and [`MAX_W`]; the pill follows a frame late).
+pub(crate) fn fit_w() -> f32 {
+    FIT_W.get()
 }
 
 /// The bars move at the equalizer's ambient rate (near 60 fps, as in
