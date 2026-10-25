@@ -157,6 +157,14 @@ fn ear(m: &Mode, st: &AppState) -> f32 {
             }
         }
         Mode::Activity(Activity::MediaTimer) => 96.0,
+        // "10 min" in the right ear (Pill's digits are bigger).
+        Mode::Activity(Activity::Prayer) => {
+            if pill::on(st.settings.theme) {
+                80.0
+            } else {
+                66.0
+            }
+        }
         _ => 56.0,
     }
 }
@@ -302,6 +310,16 @@ pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch)
             ui.c.text(&text, Rect::new(right.x, body.y, right.w - 6.0, body.h), &ts);
             true
         }
+        // The moon left and the minutes right: the prayer's name would sit
+        // under the camera (the open island and the notice at the time say it).
+        Mode::Activity(Activity::Prayer) => {
+            let Some((_, mins)) = activities::prayer_countdown(st) else { return true };
+            let col = st.accent;
+            ui.c.icon(Icon::Moon, Rect::from_center(Point::new(left.center().x + 6.0, body.center().y), 16.0, 16.0), col);
+            let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(col).center();
+            ui.c.text(&format!("{mins} min"), Rect::new(right.x, body.y, right.w - 6.0, body.h), &ts);
+            true
+        }
         // Art left and bars (or Oyen) right, no words under the camera: the
         // sung line hangs below the notch instead (`fit`).
         Mode::Activity(Activity::Media) => {
@@ -352,6 +370,15 @@ fn draw_pill_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, left: Re
             let text = fmt_countdown(p.remaining(st.now));
             let ts = TextStyle::headline().tabular().color(if paused { palette::TEXT_DIM } else { Color::white(1.0) }).right();
             ui.c.text(&text, Rect::new(right.x + PILL_CAMERA, body.y, (right.w - PILL_CAMERA - 14.0).max(0.0), body.h), &ts);
+            true
+        }
+        // Pill's moon at one end and the minutes at the other, as the timer:
+        // its line, with the prayer's name, would sit under the camera.
+        Mode::Activity(Activity::Prayer) => {
+            let Some((_, mins)) = activities::prayer_countdown(st) else { return true };
+            pill::live::moon(ui, Point::new(left.x + 12.0 + 7.0, cy), 14.0, st.accent);
+            let ts = TextStyle::headline().tabular().color(Color::white(1.0)).right();
+            ui.c.text(&format!("{mins} min"), Rect::new(right.x + PILL_CAMERA, body.y, (right.w - PILL_CAMERA - 14.0).max(0.0), body.h), &ts);
             true
         }
         _ => false,
