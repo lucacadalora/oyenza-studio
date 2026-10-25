@@ -76,6 +76,16 @@ variables. Changing those would break upgrades and settings, so they stay.
   (`Command::FocusText`) and give focus back afterwards.
 * **Helper window** (hidden): tray icon, AppBar registration (full-screen
   notifications), `WM_POWERBROADCAST`, `WM_CLIPBOARDUPDATE`.
+* **Step aside** (Settings › Over maximized windows, on by default): the
+  full-screen watcher also keeps the app windows whose top edge is at the
+  top of the island's monitor, within 8 DIPs (maximized, snapped or dragged
+  up; one placed lower keeps its title below the island), as
+  `AppEvent::TopWindows`, from the foreground and location WinEvents it
+  already listens to (no polling). Each frame the app checks whether one is
+  under where the island rests (`activities::resting_mode`'s geometry) and,
+  if so, rests as `Mode::Aside`: the Hidden look's invisible strip until the
+  pointer reaches it. Pop-ups, notices and a new song's title still drop
+  down; over a full-screen app the full-screen choice decides.
 
 ## Contracts
 
@@ -158,6 +168,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `pages/*.rs` | expanded pages |
 | `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard, imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
+| `version.rs` | which build this is for the menu's About line: the version, and from `build.rs` release, test build (commit) or local build, and the day CI built it |
 | `selftest.rs` | `poni.exe --selftest <dir>` scripted screenshots for CI |
 
 ## Data

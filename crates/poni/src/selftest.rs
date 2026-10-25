@@ -30,6 +30,7 @@
 //! files from their release while the scenes run and checks each one
 //! (`addon-download`; Windows CI only, it needs github.com).
 
+use crate::activities::{HudTag, Mode};
 use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
@@ -869,6 +870,17 @@ enum Scene {
     SystemPower,
     /// ...and a desktop whose power supply doesn't: the estimate.
     SystemPowerEstimate,
+    /// A maximized window under the island (Step aside, the default): the
+    /// clock waits out of the way, an invisible strip at the top edge.
+    AsideIdle,
+    /// ...and while a song sings its lines.
+    AsideLyric,
+    /// ...a new song's title still drops down for its few seconds.
+    AsidePeek,
+    /// ...and so does the volume pop-up.
+    AsideHud,
+    /// Settings with Stay picked over maximized windows.
+    SettingsAsideStay,
 }
 
 /// Running under Wine: its ntdll exports `wine_get_version`.
@@ -883,7 +895,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 71] = [
+const SCENES: [Scene; 76] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -965,6 +977,13 @@ const SCENES: [Scene; 71] = [
     // The whole PC's power: read from the power supply, then estimated.
     Scene::SystemPower,
     Scene::SystemPowerEstimate,
+    // A maximized window under the island: what rests steps aside, what
+    // happens still shows. Then the Settings page with Stay picked.
+    Scene::AsideIdle,
+    Scene::AsideLyric,
+    Scene::AsidePeek,
+    Scene::AsideHud,
+    Scene::SettingsAsideStay,
 ];
 
 impl Scene {
@@ -1031,6 +1050,11 @@ impl Scene {
             Scene::ScriptRecorder => "page-script-recorder".into(),
             Scene::SystemPower => "page-system-power".into(),
             Scene::SystemPowerEstimate => "page-system-power-estimate".into(),
+            Scene::AsideIdle => "aside-idle".into(),
+            Scene::AsideLyric => "aside-media-lyric".into(),
+            Scene::AsidePeek => "aside-new-song".into(),
+            Scene::AsideHud => "aside-volume-hud".into(),
+            Scene::SettingsAsideStay => "page-settings-maximized-stay".into(),
         }
     }
 
@@ -1042,7 +1066,9 @@ impl Scene {
             Scene::HealthSignedOut => Some(PageKind::Health),
             Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
             Scene::HealthSignedIn => Some(PageKind::Health),
-            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop => Some(PageKind::Settings),
+            Scene::GearClick | Scene::SettingsSigningIn | Scene::SettingsSignedIn | Scene::SettingsStayOnTop | Scene::SettingsAsideStay => {
+                Some(PageKind::Settings)
+            }
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -1092,7 +1118,17 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek) || self.expanded()
+    }
+
+    /// A maximized window is under the island.
+    fn window_under(self) -> bool {
+        matches!(self, Scene::AsideIdle | Scene::AsideLyric | Scene::AsidePeek | Scene::AsideHud)
+    }
+
+    /// The island rests stepped aside: nothing to see, a strip to point at.
+    fn rests_aside(self) -> bool {
+        matches!(self, Scene::AsideIdle | Scene::AsideLyric)
     }
 
     fn timer_running(self) -> bool {
@@ -1794,6 +1830,10 @@ impl SelfTest {
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
+        // Step aside over maximized windows (the default), except where Stay is picked.
+        st.settings.step_aside = scene != Scene::SettingsAsideStay;
+        // A new song's title shows for its few seconds (held here).
+        st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };
         st.phone = fake_phone(scene, now);
         st.paired = fake_paired(scene, st.unix);
         st.pair_server = (!st.paired.is_empty() || scene == Scene::ShelfPairing).then_some(true);
@@ -1806,7 +1846,7 @@ impl SelfTest {
         }
 
         if scene.media_playing() {
-            let pos = if scene == Scene::MediaLyric { self.lyric_pos } else { TRACK_POS_S };
+            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric) { self.lyric_pos } else { TRACK_POS_S };
             let timeline = Timeline::new(pos, TRACK_LEN_S, now, true);
             match st.media.as_mut() {
                 Some(m) if m.track_key == self.track_key => m.timeline = timeline,
@@ -1826,7 +1866,7 @@ impl SelfTest {
 
         let until = now + 30.0;
         st.hud = match scene {
-            Scene::VolumeHud => Some(Hud { kind: HudKind::Volume { level: 0.64, muted: false }, until }),
+            Scene::VolumeHud | Scene::AsideHud => Some(Hud { kind: HudKind::Volume { level: 0.64, muted: false }, until }),
             Scene::ChargingHud => Some(Hud { kind: HudKind::Charging { percent: 76, plugged: true }, until }),
             Scene::BluetoothHud => {
                 Some(Hud { kind: HudKind::Bluetooth { name: "Sound Buds".into(), connected: true, battery: Some(80), audio: true }, until })
@@ -1935,6 +1975,7 @@ impl SelfTest {
         if let Some(p) = scene.page() {
             st.page = p;
         }
+        app.selftest_window_under(scene.window_under());
         app.selftest_hover(None);
         app.selftest_set_expanded(scene.expanded());
     }
@@ -2042,6 +2083,18 @@ impl SelfTest {
         let mut measured = 0;
         if w <= 0 || h <= 0 || px.len() != (w as usize) * (h as usize) * 4 {
             checks.push(check("pixels", false, format!("{w}x{h} frame with {} bytes", px.len())));
+        } else if scene.rests_aside() {
+            // Nothing drawn over the window under the island: the strip it
+            // rests as is there only for the pointer (alpha 1/255 at most).
+            let seen = px.chunks_exact(4).filter(|p| p[3] > 1).count();
+            checks.push(check("aside-invisible", seen == 0, format!("{seen} pixels drawn with alpha above 1/255")));
+            let (mode, aside) = app.selftest_mode();
+            // The Hidden look's strip: 150 wide, as short as the island gets (8).
+            checks.push(check(
+                "aside-strip",
+                mode == Mode::Aside && aside && (body.w - 150.0).abs() < 0.5 && body.h <= 8.5,
+                format!("{mode:?} (stepped aside: {aside}), body {:.1}x{:.1} DIP, want the Hidden look's 150x8 strip", body.w, body.h),
+            ));
         } else {
             let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
             // 3 DIPs inside the body's top edge: the window's top rows where
@@ -2114,6 +2167,12 @@ impl SelfTest {
         }
         if scene == Scene::MediaLyric {
             checks.push(lyric_line_check(&app.st));
+        }
+        if matches!(scene, Scene::AsidePeek | Scene::AsideHud) {
+            // Stepped aside, and still what just happened shows over the window.
+            let (mode, aside) = app.selftest_mode();
+            let want = if scene == Scene::AsideHud { Mode::Hud(HudTag::Volume) } else { Mode::Activity(crate::activities::Activity::Media) };
+            checks.push(check("aside-still-shows", aside && mode == want, format!("{mode:?} (stepped aside: {aside}), want {want:?}")));
         }
         if scene.page() == Some(PageKind::Script) {
             // The script stays out of screen shares and recordings: ask Windows.
