@@ -258,7 +258,9 @@ fn draw_offer(ui: &mut Ui, st: &mut AppState, r: Rect, rel: &Release) {
 
 /// The Update sheet: a disc, "Update available 0.2.5" over what the
 /// download is, Not now; a line; the release's headline under What's new;
-/// a card that gets it; and its notes. Shorter than the rows it replaces.
+/// a card that gets it; and its notes. Once Windows has the Setup it reads
+/// "Update ready to install", with Install now and Install on next start,
+/// as Screen Studio's does. Shorter than the rows it replaces.
 const SHEET_CAPTION_Y: f32 = 66.0;
 const SHEET_HEADLINE_Y: f32 = 82.0;
 const CARDS_Y: f32 = 114.0;
@@ -271,8 +273,12 @@ const SHEET_H: f32 = NOTES_Y + PILL_SMALL;
 /// What a card of the sheet does when clicked.
 #[derive(Clone, Copy)]
 enum Get {
-    /// The release page (Windows) or the DMG (Mac): `crate::updates`.
+    /// The release page (Windows, until the Setup is in) or the DMG (Mac).
     Download,
+    /// Run the downloaded Setup now (Windows).
+    InstallNow,
+    /// Run it before the app opens next time (Windows).
+    NextStart,
 }
 
 fn draw_sheet(ui: &mut Ui, st: &mut AppState, area: Rect, rel: &Release) {
@@ -289,9 +295,15 @@ fn draw_sheet(ui: &mut Ui, st: &mut AppState, area: Rect, rel: &Release) {
     }
     let x = head.x + TEXT_X;
     let w = (later.x - 16.0 - x).max(0.0);
-    text_with_dim(ui, "Update available", &rel.version, Rect::new(x, cy - 19.0, w, 20.0), TextStyle::headline());
+    let ready = st.update.ready;
+    let title = if ready { "Update ready to install" } else { "Update available" };
+    text_with_dim(ui, title, &rel.version, Rect::new(x, cy - 19.0, w, 20.0), TextStyle::headline());
     let size = rel.download(cfg!(target_os = "macos")).map(|d| fmt_bytes(d.size)).unwrap_or_default();
-    let line = format!("A new version of Oyenza Studio is ready to download ({size}).");
+    let line = if ready {
+        "A new version of Oyenza Studio is ready to be installed.".to_string()
+    } else {
+        format!("A new version of Oyenza Studio is ready to download ({size}).")
+    };
     ui.c.text(&line, Rect::new(x, cy + 1.0, w, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
 
     let px = 1.0 / ui.c.scale().max(0.5);
@@ -300,21 +312,28 @@ fn draw_sheet(ui: &mut Ui, st: &mut AppState, area: Rect, rel: &Release) {
     ui.c.text("WHAT'S NEW", Rect::new(area.x, area.y + SHEET_CAPTION_Y, area.w, 14.0), &label_st);
     ui.c.text(&rel.headline, Rect::new(area.x, area.y + SHEET_HEADLINE_Y, area.w, 20.0), &TextStyle::body());
 
-    // Until the app installs it itself: the release page on Windows, where
-    // the Setup is, and the DMG on a Mac.
-    let how = if cfg!(target_os = "macos") {
-        "Downloads the DMG: open it and drag Oyenza Studio to Applications."
+    // Windows with the Setup in: now or next start. Otherwise the DMG on a
+    // Mac, and the release page on Windows (the Setup couldn't download).
+    let cards: Vec<(Get, Icon, String, &str)> = if ready {
+        let next = if st.update.next_start {
+            (Get::NextStart, Icon::Check, "Installs on next start".to_string(), "Set: before it next opens")
+        } else {
+            (Get::NextStart, Icon::Reset, "Install on next start".to_string(), "Before it next opens")
+        };
+        vec![(Get::InstallNow, Icon::Download, "Install now".to_string(), "Closes, updates and opens again"), next]
+    } else if cfg!(target_os = "macos") {
+        vec![(Get::Download, Icon::Download, format!("Download {}", rel.version), "Downloads the DMG: open it and drag Oyenza Studio to Applications.")]
     } else {
-        "Opens its release page: run the Setup there, your settings stay."
+        vec![(Get::Download, Icon::Download, format!("Download {}", rel.version), "Opens its release page: run the Setup there, your settings stay.")]
     };
-    let cards = [(Get::Download, Icon::Download, format!("Download {}", rel.version), how)];
     let n = cards.len() as f32;
     let card_w = ((area.w - (n - 1.0) * CARD_GAP) / n).max(0.0);
     for (i, (get, icon, title, line)) in cards.iter().enumerate() {
         let r = Rect::new(area.x + i as f32 * (card_w + CARD_GAP), area.y + CARDS_Y, card_w, CARD_H);
         if card(ui, wid_n("update.card", i as u64), r, *icon, title, line, accent) {
             match get {
-                Get::Download => st.cmd(Command::Update),
+                Get::Download | Get::InstallNow => st.cmd(Command::Update),
+                Get::NextStart => st.cmd(Command::InstallOnNextStart),
             }
         }
     }

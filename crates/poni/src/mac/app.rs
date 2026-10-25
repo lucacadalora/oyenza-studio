@@ -2212,6 +2212,8 @@ impl App {
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
                 Command::Update => self.update_now(),
+                // The Mac downloads the DMG; its sheet has no such card.
+                Command::InstallOnNextStart => {}
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     if (services::login::status() == Login::On) != on {

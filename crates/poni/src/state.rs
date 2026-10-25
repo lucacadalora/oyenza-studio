@@ -179,6 +179,11 @@ pub struct UpdateView {
     /// Settings shows the Update sheet in place of its rows (until the
     /// island closes or the page changes).
     pub sheet: bool,
+    /// Its Setup is downloaded and checked (Windows): the sheet offers
+    /// Install now and Install on next start.
+    pub ready: bool,
+    /// Install on next start was picked for it.
+    pub next_start: bool,
 }
 
 /// A phone wants to send these files; the Shelf asks the person at the PC.
