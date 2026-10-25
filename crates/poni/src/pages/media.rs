@@ -451,7 +451,8 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
     let mut get_ja_readings = false;
     if show_lyrics {
         let pronounce = st.settings.lyrics_pronunciation;
-        // A Japanese song whose kanji went unread: offer the readings add-on.
+        // A Japanese song whose kanji went unread: the readings add-on coming
+        // in (the app switched it on), or offered after a switch-off by hand.
         let offer = if pronounce && st.lyrics.wants_ja_readings { addons::ja_offer(st.addon(addons::JAPANESE_READINGS.id)) } else { None };
         let ctx = LyricsCtx { now, pos: lyric_pos, live: playing && has_dur, can_seek: m.can_seek, scale, track_key: &m.track_key, pronounce, offer };
         let out = draw_lyrics(ui, &st.lyrics, &mut st.ui, col, a, fr, &ctx, &mut acts);

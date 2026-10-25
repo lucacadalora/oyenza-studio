@@ -1679,6 +1679,17 @@ impl App {
                             self.st.lyrics.source = source;
                             self.st.lyrics.ruby = ruby;
                             self.st.lyrics.wants_ja_readings = wants_ja_readings;
+                            // The first Japanese song whose kanji went unread
+                            // switches Japanese readings on, as its switch in
+                            // Add-ons would: it downloads once (3.8 MB) and
+                            // the song is read again with romaji. Only people
+                            // who play Japanese songs get it; switched off by
+                            // hand, it stays off (the Music page still offers it).
+                            if poni_core::addons::ja_switches_on(&self.st.settings, wants_ja_readings) {
+                                pinfo!("lyrics: a Japanese song's kanji went unread; switching Japanese readings on");
+                                self.st.settings.set_addon(poni_core::addons::JAPANESE_READINGS.id, true);
+                                self.st.cmd(Command::SaveSettings);
+                            }
                         }
                         crate::events::LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         crate::events::LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,

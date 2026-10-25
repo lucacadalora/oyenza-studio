@@ -1053,6 +1053,14 @@ impl App {
                             self.st.lyrics.source = source;
                             self.st.lyrics.ruby = ruby;
                             self.st.lyrics.wants_ja_readings = wants_ja_readings;
+                            // The first Japanese song whose kanji went unread
+                            // switches Japanese readings on, as on Windows
+                            // (app.rs): switched off by hand, they stay off.
+                            if poni_core::addons::ja_switches_on(&self.st.settings, wants_ja_readings) {
+                                pinfo!("lyrics: a Japanese song's kanji went unread; switching Japanese readings on");
+                                self.st.settings.set_addon(JAPANESE_READINGS.id, true);
+                                self.st.cmds.push(Command::SaveSettings);
+                            }
                         }
                         LyricsResult::Instrumental => self.st.lyrics.status = LyricsStatus::Instrumental,
                         LyricsResult::NotFound => self.st.lyrics.status = LyricsStatus::NotFound,
@@ -2238,7 +2246,7 @@ impl App {
                 // A lyrics lookup waits on LRCLIB (at least a second between
                 // requests); the Japanese readings add-on downloads 3.8 MB.
                 let limit = match name {
-                    "music-check" | "ja-offer" => 25.0,
+                    "music-check" | "ja-auto" => 25.0,
                     "ja-get" => 75.0,
                     "ja-off" => 15.0,
                     _ => 6.0,
@@ -2371,17 +2379,14 @@ impl App {
                 self.st.hud = None;
                 seed_japanese_lyrics();
             }
-            // Read without the Japanese readings add-on, it offers it.
-            "ja-offer" => {
+            // Read without the Japanese readings add-on, the song switches it
+            // on by itself (the lyrics handler); the Music page shows it coming.
+            "ja-auto" => {
                 self.st.page = PageKind::Media;
                 self.expand();
             }
-            // What a click on the offer does (pages/media.rs): the add-on
-            // downloads from GitHub, then the song is read again.
-            "ja-get" => {
-                self.st.settings.set_addon(JAPANESE_READINGS.id, true);
-                self.st.cmds.push(Command::SaveSettings);
-            }
+            // The add-on downloads from GitHub, then the song is read again.
+            "ja-get" => {}
             // The Add-ons tab, the "+" at the end of the row, with it on.
             "addons-tab" => self.st.cmds.push(Command::SetPage(PageKind::Addons)),
             // What a click on its row there does (pages/addons.rs).
@@ -2481,7 +2486,7 @@ impl App {
                 let looked_up = !matches!(self.st.lyrics.status, LyricsStatus::Idle | LyricsStatus::Loading);
                 (self.st.media.is_some() && looked_up) || waited > 20.0
             }
-            "ja-offer" => {
+            "ja-auto" => {
                 let l = &self.st.lyrics;
                 let playing = self.st.media.as_ref().is_some_and(|m| m.track_key == l.track_key && m.title == SMOKE_JA_TRACK.0);
                 (playing && l.status == LyricsStatus::Found && waited > 0.5) || waited > 20.0
@@ -2653,13 +2658,14 @@ impl App {
                 let ok = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK) && l.status == LyricsStatus::Found && lines > 0;
                 Some(("now-playing-lyrics", ok, format!("{playing}; lyrics {:?} from {}: {lines} lines, synced {synced}", l.status, l.source)))
             }
-            "ja-offer" => {
+            "ja-auto" => {
                 let l = &self.st.lyrics;
                 let (read, needing) = romaji_lines(l);
-                let offer = poni_core::addons::ja_offer(self.st.addon(JAPANESE_READINGS.id));
-                let ok = l.status == LyricsStatus::Found && l.wants_ja_readings && offer.as_ref().is_some_and(|o| o.1);
-                let d = format!("lyrics {:?} from {}: {read} of {needing} lines with romaji; offer {:?}", l.status, l.source, offer.map(|o| o.0));
-                Some(("ja-offer", ok, d))
+                let status = self.st.addon(JAPANESE_READINGS.id);
+                let on = self.st.settings.addon_on(JAPANESE_READINGS.id);
+                let ok = l.status == LyricsStatus::Found && on && status != AddonStatus::Off;
+                let d = format!("lyrics {:?} from {}: {read} of {needing} lines with romaji; Japanese readings switched on by the song: {on} ({status:?})", l.status, l.source);
+                Some(("ja-auto", ok, d))
             }
             "ja-get" => {
                 let status = self.st.addon(JAPANESE_READINGS.id);
@@ -2704,7 +2710,7 @@ fn ja_folder() -> PathBuf {
 /// The smoke run's Japanese song (`render::LYRICS_JA`) in the lyrics cache,
 /// as LRCLIB's answer: the lyrics worker finds it there as it would a song
 /// it looked up before. The entry is `services/lyrics.rs`'s `CacheEntry`
-/// (format 1); a new format makes the ja-offer check fail.
+/// (format 1); a new format makes the ja-auto check fail.
 fn seed_japanese_lyrics() {
     use poni_core::lrclib::{self, LrclibRecord, TrackQuery};
     let (title, artist, album, duration_s) = SMOKE_JA_TRACK;
@@ -2921,7 +2927,7 @@ const SMOKE_STEPS: [&str; 37] = [
     "notch-pill-collapsed",
     "notch-pill-ear",
     "ja-notify",
-    "ja-offer",
+    "ja-auto",
     "ja-get",
     "addons-tab",
     "ja-off",

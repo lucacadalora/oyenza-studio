@@ -196,6 +196,13 @@ impl Settings {
         self.addons.insert(id.to_string(), on);
     }
 
+    /// Has the person never switched the add-on `id` on or off? An add-on
+    /// that switches itself on when first needed (Japanese readings) does so
+    /// only then: one switched off by hand stays off.
+    pub fn addon_unset(&self, id: &str) -> bool {
+        !self.addons.contains_key(id)
+    }
+
     /// Clamp values a user may have hand-edited into nonsense.
     pub fn sanitized(mut self) -> Self {
         // Only untouched old defaults move.
@@ -257,6 +264,20 @@ mod tests {
         // Files from before add-ons have none on.
         let old: Settings = serde_json::from_str(r#"{"settings_version":3}"#).unwrap();
         assert!(old.addons.is_empty());
+    }
+
+    #[test]
+    fn an_addon_switched_off_by_hand_is_no_longer_unset() {
+        let mut s = Settings::default();
+        assert!(s.addon_unset("ja"));
+        s.set_addon("ja", true);
+        assert!(!s.addon_unset("ja"));
+        s.set_addon("ja", false);
+        assert!(!s.addon_unset("ja"), "off by hand: the person's word, kept");
+        assert!(!s.addon_on("ja"));
+        // It survives a save and a load.
+        let back: Settings = serde_json::from_str(&serde_json::to_string(&s).unwrap()).unwrap();
+        assert!(!back.addon_unset("ja"));
     }
 
     #[test]

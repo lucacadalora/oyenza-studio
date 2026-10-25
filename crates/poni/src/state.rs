@@ -73,8 +73,9 @@ pub struct LyricsState {
     /// Korean, Chinese); empty for lines that need none.
     pub ruby: Vec<Vec<Ruby>>,
     /// The song's kanji went unread because Windows has no Japanese reading
-    /// data and the Japanese readings add-on isn't on this PC: the Music page
-    /// offers the add-on.
+    /// data and the Japanese readings add-on isn't on this PC: the app
+    /// switches the add-on on the first time, and the Music page shows how
+    /// it comes in (or offers it, after a switch-off by hand).
     pub wants_ja_readings: bool,
 }
 
