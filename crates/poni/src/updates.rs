@@ -8,6 +8,11 @@
 //! and then every 12 hours, while the checks are on. A read that comes due
 //! while nobody is at the PC (locked, display off) or on battery saver waits
 //! until it is back; the app asks [`Updater::due_in`] again then.
+//!
+//! On Windows a new version's Setup (about 2.5 MB) downloads once per
+//! release, before the island tells about it, as Screen Studio does: the
+//! Update sheet then offers Install now and Install on next start. It waits
+//! in `update` in the cache folder and goes once that version runs.
 
 use crate::icons::Icon;
 use crate::state::{AppState, InlineAction, Notice, NoticeAction};
@@ -16,6 +21,8 @@ use poni_core::geom::{palette, Color};
 use poni_core::store::{load_json, save_json_atomic};
 use poni_core::update::{self, Memory, Release};
 use std::path::PathBuf;
+#[cfg(windows)]
+use poni_core::update::Download;
 
 /// Which download is this system's.
 const MAC: bool = cfg!(target_os = "macos");
@@ -31,12 +38,39 @@ pub struct Updater {
     due: Option<u64>,
     /// "Updated to" waits for the island to be free.
     updated: bool,
+    /// The offered version's Setup, and the folder it downloads to.
+    #[cfg(windows)]
+    setup: Setup,
+    #[cfg_attr(not(windows), allow(dead_code))]
+    setups: PathBuf,
+}
+
+/// Where the offered version's Setup stands (Windows).
+#[cfg(windows)]
+#[derive(Clone, Debug, PartialEq)]
+enum Setup {
+    /// Not asked for yet.
+    None,
+    Fetching,
+    /// On disk at this path, its size and SHA-256 checked.
+    Ready(PathBuf),
+    /// The download failed: the sheet offers the release page, and the
+    /// next look at the file tries again.
+    Failed,
 }
 
 impl Updater {
     /// At start: what was remembered, the offer it still holds (shown at
     /// once, before any read), and whether to say "Updated to".
     pub fn start(path: PathBuf, st: &mut AppState, now: u64) -> Self {
+        #[cfg(windows)]
+        let setups = setup_dir();
+        #[cfg(not(windows))]
+        let setups = PathBuf::new();
+        Self::open(path, setups, st, now)
+    }
+
+    fn open(path: PathBuf, setups: PathBuf, st: &mut AppState, now: u64) -> Self {
         let (mut memory, _) = load_json::<Memory>(&path);
         let updated = memory.updated(VERSION);
         if memory.ran != VERSION {
@@ -44,8 +78,18 @@ impl Updater {
             save(&path, &memory);
         }
         let due = Some(memory.next_check(now));
-        let u = Updater { path, memory, due, updated };
+        let u = Updater {
+            path,
+            memory,
+            due,
+            updated,
+            #[cfg(windows)]
+            setup: Setup::None,
+            setups,
+        };
         u.show(st);
+        #[cfg(windows)]
+        u.clear_old_setups(st);
         let latest = u.memory.latest.as_ref().map_or("none", |r| r.version.as_str());
         crate::pinfo!("updates: latest known {latest}, offering {:?}, next look in {} s", st.update.offer.as_ref().map(|r| &r.version), due.unwrap_or(now).saturating_sub(now));
         u
@@ -86,8 +130,67 @@ impl Updater {
         self.show(st);
     }
 
-    /// The page to open for Update until the app can install it itself: the
-    /// DMG on a Mac, the release page on Windows.
+    /// The offered version's Setup to download, if it isn't on disk yet or
+    /// on its way (Windows). The app runs it on the add-on thread and passes
+    /// the answer to [`Updater::fetched`].
+    #[cfg(windows)]
+    pub fn want_setup(&mut self, st: &mut AppState) -> Option<(Download, PathBuf)> {
+        let d = st.update.offer.as_ref()?.download(false)?.clone();
+        let path = self.setups.join(d.file_name());
+        match &self.setup {
+            Setup::Fetching => return None,
+            Setup::Ready(p) if *p == path => return None,
+            _ => {}
+        }
+        self.setup = Setup::Fetching;
+        self.show(st);
+        Some((d, path))
+    }
+
+    /// The Setup's download ended.
+    #[cfg(windows)]
+    pub fn fetched(&mut self, st: &mut AppState, r: Result<PathBuf, String>) {
+        self.setup = r.map_or(Setup::Failed, Setup::Ready);
+        self.show(st);
+        self.clear_old_setups(st);
+    }
+
+    /// The checked Setup and what it must match, while Install can run it.
+    #[cfg(windows)]
+    pub fn ready_setup(&self, st: &AppState) -> Option<(PathBuf, Download)> {
+        let d = st.update.offer.as_ref()?.download(false)?;
+        match &self.setup {
+            Setup::Ready(p) if p.file_name().is_some_and(|n| n == d.file_name()) => Some((p.clone(), d.clone())),
+            _ => None,
+        }
+    }
+
+    /// Install on next start: the next start runs the Setup first
+    /// ([`pending_install`]).
+    #[cfg(windows)]
+    pub fn install_on_next_start(&mut self, st: &mut AppState) {
+        let Some(v) = st.update.offer.as_ref().map(|r| r.version.clone()) else { return };
+        crate::pinfo!("updates: {v} installs on the next start");
+        self.memory.install_on_start = v;
+        save(&self.path, &self.memory);
+        self.show(st);
+    }
+
+    /// Setups in the cache folder but the offered one's: an older version's,
+    /// or every one once nothing is offered (this version is the latest).
+    #[cfg(windows)]
+    fn clear_old_setups(&self, st: &AppState) {
+        let keep = st.update.offer.as_ref().and_then(|r| r.download(false)).map(|d| d.file_name().to_string());
+        let Ok(entries) = std::fs::read_dir(&self.setups) else { return };
+        for e in entries.flatten() {
+            if keep.as_deref() != e.file_name().to_str() {
+                let _ = std::fs::remove_file(e.path());
+            }
+        }
+    }
+
+    /// The page to open for Update while the app can't install it itself:
+    /// the DMG on a Mac, the release page on Windows.
     pub fn download_page(&self, st: &AppState) -> Option<String> {
         let rel = st.update.offer.as_ref()?;
         Some(if MAC { rel.download(true)?.url.clone() } else { rel.notes.clone() })
@@ -109,6 +212,12 @@ impl Updater {
         if !st.settings.update_check || !self.memory.should_announce(VERSION, MAC) {
             return false;
         }
+        // Windows downloads first, then tells (a failed download tells too,
+        // with the release page).
+        #[cfg(windows)]
+        if matches!(self.setup, Setup::None | Setup::Fetching) {
+            return false;
+        }
         let Some(rel) = st.update.offer.clone() else { return false };
         crate::pinfo!("updates: telling about {}", rel.version);
         st.notice = Some(new_version_notice(&rel, st.accent, st.now + ANNOUNCE_S));
@@ -122,6 +231,41 @@ impl Updater {
     fn show(&self, st: &mut AppState) {
         st.update.offer = self.memory.offer(VERSION, MAC).filter(|_| st.settings.update_check).cloned();
         st.update.sheet &= st.update.offer.is_some();
+        st.update.next_start = st.update.offer.as_ref().is_some_and(|r| r.version == self.memory.install_on_start);
+        #[cfg(windows)]
+        {
+            st.update.ready = self.ready_setup(st).is_some();
+        }
+    }
+}
+
+/// Where a new version's Setup waits (Windows): `update` in the cache
+/// folder, which the uninstaller removes.
+#[cfg(windows)]
+fn setup_dir() -> PathBuf {
+    crate::paths::cache_dir().join("update")
+}
+
+/// At the very start, before any window: run the Setup that Install on next
+/// start asked for, if it is still the latest and still checks out. True
+/// when it started (the app then exits; the Setup opens the new version).
+/// Asked once: a Setup that fails doesn't keep the app from opening.
+#[cfg(windows)]
+pub fn pending_install() -> bool {
+    let path = crate::paths::data_dir().join("update.json");
+    let (mut memory, _) = load_json::<Memory>(&path);
+    let Some(d) = memory.pending_install(VERSION).and_then(|r| r.download(false)).cloned() else { return false };
+    memory.install_on_start.clear();
+    save(&path, &memory);
+    match crate::services::update::install(&setup_dir().join(d.file_name()), &d) {
+        Ok(()) => {
+            crate::pinfo!("updates: installing {} before opening", d.file_name());
+            true
+        }
+        Err(e) => {
+            crate::pwarn!("updates: couldn't install on start ({e})");
+            false
+        }
     }
 }
 
@@ -165,4 +309,87 @@ fn save(path: &PathBuf, memory: &Memory) {
 /// Unix seconds now.
 pub fn unix_now() -> u64 {
     std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_or(0, |d| d.as_secs())
+}
+
+#[cfg(all(test, windows))]
+mod tests {
+    use super::*;
+    use poni_core::settings::Settings;
+    use poni_core::store::Store;
+
+    /// A temporary folder for `update.json` and the Setups.
+    fn folder(name: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("poni-updates-test-{name}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(dir.join("setups")).unwrap();
+        dir
+    }
+
+    /// A later release than this build, remembered from an earlier look.
+    fn remembered(dir: &std::path::Path, setup: &[u8]) -> PathBuf {
+        let next = format!("{}.99", VERSION);
+        let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+        let d = Download {
+            url: format!("{repo}/download/v{next}/Oyenza-Studio-Setup-{next}.exe"),
+            size: setup.len() as u64,
+            sha256: poni_core::sha256::hex(&poni_core::sha256::sha256(setup)),
+        };
+        let rel = Release { version: next.clone(), date: String::new(), headline: "Next".into(), notes: format!("{repo}/tag/v{next}"), windows: Some(d), mac: None };
+        let memory = Memory { checked: 1, latest: Some(rel), ran: VERSION.into(), ..Memory::default() };
+        let path = dir.join("update.json");
+        save(&path, &memory);
+        path
+    }
+
+    #[test]
+    fn windows_downloads_first_then_tells() {
+        let dir = folder("first");
+        let path = remembered(&dir, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
+        assert!(st.update.offer.is_some() && !st.update.ready);
+        // Nothing on the island before the Setup is asked for, or while it comes.
+        assert!(!u.announce(&mut st, true));
+        let (d, setup) = u.want_setup(&mut st).expect("the Setup to download");
+        assert!(u.want_setup(&mut st).is_none(), "once");
+        assert!(!u.announce(&mut st, true));
+        std::fs::write(&setup, b"setup bytes").unwrap();
+        u.fetched(&mut st, Ok(setup.clone()));
+        assert!(st.update.ready);
+        assert_eq!(u.ready_setup(&st).map(|(p, _)| p), Some(setup.clone()));
+        assert!(u.announce(&mut st, true), "now it tells");
+        // Install refuses a Setup that changed after the download.
+        std::fs::write(&setup, b"setup bytez").unwrap();
+        assert!(crate::services::update::install(&setup, &d).is_err());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn a_failed_download_tells_with_the_release_page_and_tries_again() {
+        let dir = folder("failed");
+        let path = remembered(&dir, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
+        assert!(u.want_setup(&mut st).is_some());
+        u.fetched(&mut st, Err("offline".into()));
+        assert!(!st.update.ready && u.ready_setup(&st).is_none());
+        assert!(u.announce(&mut st, true));
+        assert!(u.want_setup(&mut st).is_some(), "the next look tries again");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn install_on_next_start_is_remembered_and_old_setups_go() {
+        let dir = folder("next");
+        let path = remembered(&dir, b"setup bytes");
+        std::fs::write(dir.join("setups/Oyenza-Studio-Setup-0.0.1.exe"), b"old").unwrap();
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path.clone(), dir.join("setups"), &mut st, 10);
+        assert!(!dir.join("setups/Oyenza-Studio-Setup-0.0.1.exe").exists(), "an older version's Setup goes at start");
+        u.install_on_next_start(&mut st);
+        assert!(st.update.next_start);
+        let (memory, _) = load_json::<Memory>(&path);
+        assert_eq!(memory.pending_install(VERSION).map(|r| r.version.clone()), st.update.offer.as_ref().map(|r| r.version.clone()));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 }

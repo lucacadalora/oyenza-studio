@@ -1,6 +1,6 @@
 # Installer check on a real Windows desktop (used by CI): install the previous release, upgrade it with the new
 # NSIS installer through its pages (a screenshot of each), check what landed on disk and in the registry, start
-# the app, then uninstall. Screenshots are best effort; the checks decide the exit code.
+# the app, update it silently the way the app's own Install now does, then uninstall. Screenshots are best effort; the checks decide the exit code.
 param(
     [Parameter(Mandatory = $true)][string]$Setup,
     [Parameter(Mandatory = $true)][string]$Version,
@@ -148,7 +148,25 @@ Shot "5-tray" ([System.Drawing.Rectangle]::new($screen.Right - 520, $screen.Bott
 Check "app running after install" (@(Get-Process poni -ErrorAction SilentlyContinue).Count -gt 0)
 Get-Process poni -ErrorAction SilentlyContinue | Stop-Process -Force
 
-# 5. Uninstall: the app and shortcuts go, settings and data stay.
+# 5. The app's own update (crates/poni/src/services/update.rs): this Setup again with /S /reopen over a running
+#    copy. It closes that copy, leaves Start with Windows as it was (off here), and opens the app again: the
+#    finish page's "Launch Oyenza Studio now" never shows in silent mode.
+$runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+Remove-ItemProperty -Path $runKey -Name "Poni" -ErrorAction SilentlyContinue
+Start-Process -FilePath $exe
+$up = WaitFor { @(Get-Process poni -ErrorAction SilentlyContinue).Count -gt 0 } 8
+Start-Sleep -Seconds 2
+$before = @(Get-Process poni -ErrorAction SilentlyContinue | ForEach-Object { $_.Id })
+# WaitForExit waits for the Setup alone; Start-Process -Wait would also wait for the app it reopens.
+$u = Start-Process -FilePath $Setup -ArgumentList "/S", "/reopen" -PassThru
+$u.WaitForExit()
+$reopened = WaitFor { $ids = @(Get-Process poni -ErrorAction SilentlyContinue | ForEach-Object { $_.Id }); $ids.Count -gt 0 -and -not ($ids | Where-Object { $before -contains $_ }) } 15
+Check "silent update closes the app and opens it again" ($up -and $reopened) "before: $($before -join ', ')"
+Check "silent update leaves Start with Windows off" ($null -eq (Get-ItemProperty -Path $runKey -Name "Poni" -ErrorAction SilentlyContinue))
+if ($Previous) { Check "data kept through the silent update" (Test-Path $marker) $marker }
+Get-Process poni -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# 6. Uninstall: the app and shortcuts go, settings and data stay.
 Start-Process -FilePath (Join-Path $installDir "Uninstall.exe") -ArgumentList "/S" -Wait
 $gone = WaitFor { -not (Test-Path $exe) } 30
 Check "uninstall removes the app" $gone

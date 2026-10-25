@@ -5,6 +5,10 @@
 //! the add-on downloader's thread (`AddonService::run`), which sleeps the
 //! rest of the time; the app decides when (`crate::updates`).
 //!
+//! On Windows the same thread then downloads the new version's Setup, once
+//! per release, and keeps it only if its size and SHA-256 match the signed
+//! file's; [`install`] runs it silently.
+//!
 //! The Mac app runs this file as is, on its own HTTP client.
 
 use crate::events::{AppEvent, EventSink};
@@ -15,6 +19,9 @@ use std::time::Duration;
 
 /// Budget for the file: it is small, but a slow line still gets it.
 const TIMEOUT: Duration = Duration::from_secs(20);
+/// Budget for the Setup (about 2.5 MB): a slow line's few minutes.
+#[cfg(windows)]
+const SETUP_TIMEOUT: Duration = Duration::from_secs(300);
 
 /// What the update file said.
 #[derive(Clone, Debug, PartialEq)]
@@ -22,6 +29,9 @@ pub enum UpdateEvent {
     /// The latest release (signature checked), or why the file couldn't be
     /// read or believed.
     Checked(Result<Release, String>),
+    /// The new version's Setup is on disk and checked, or why not.
+    #[cfg(windows)]
+    Downloaded(Result<std::path::PathBuf, String>),
 }
 
 /// A job for the add-on thread: read the file, answer with `AppEvent::Update`.
@@ -51,6 +61,55 @@ pub fn believe(text: &str) -> Result<Release, String> {
         return Err("its signature doesn't match, so it was ignored".into());
     }
     update::parse_payload(&signed.payload)
+}
+
+/// A job for the add-on thread: put the Setup `d` at `path`, unless it is
+/// there already, and answer with `UpdateEvent::Downloaded`.
+#[cfg(windows)]
+pub fn download_job(sink: EventSink, d: update::Download, path: std::path::PathBuf) -> Job {
+    Box::new(move |client: Result<&Client, &str>| {
+        let r = download(client, &d, &path);
+        match &r {
+            Ok(()) => crate::pinfo!("updates: {} is ready", d.file_name()),
+            Err(e) => crate::pinfo!("updates: couldn't download {} ({e})", d.file_name()),
+        }
+        sink.send(AppEvent::Update(UpdateEvent::Downloaded(r.map(|()| path))));
+    })
+}
+
+#[cfg(windows)]
+fn download(client: Result<&Client, &str>, d: &update::Download, path: &std::path::Path) -> Result<(), String> {
+    use std::fs;
+    // Downloaded on an earlier run: checked again, no request.
+    if fs::read(path).is_ok_and(|b| d.matches(&b)) {
+        return Ok(());
+    }
+    let (status, bytes) = client?.get_bytes(&d.url, SETUP_TIMEOUT, d.size + 64 * 1024, |_| {}).map_err(|e| e.to_string())?;
+    if status != 200 {
+        return Err(format!("HTTP {status}"));
+    }
+    if !d.matches(&bytes) {
+        return Err(format!("it came back different ({} bytes, expected {})", bytes.len(), d.size));
+    }
+    let dir = path.parent().ok_or("no folder")?;
+    fs::create_dir_all(dir).map_err(|e| e.to_string())?;
+    let part = path.with_extension("part");
+    fs::write(&part, &bytes).and_then(|()| fs::rename(&part, path)).map_err(|e| {
+        let _ = fs::remove_file(&part);
+        e.to_string()
+    })
+}
+
+/// Run the Setup at `setup` silently, once it still matches `d`. Like any
+/// install it closes this copy (it saves first); it keeps Start with
+/// Windows as it is and opens the new version when done (`/reopen`,
+/// installer/poni.nsi).
+#[cfg(windows)]
+pub fn install(setup: &std::path::Path, d: &update::Download) -> Result<(), String> {
+    if !std::fs::read(setup).is_ok_and(|b| d.matches(&b)) {
+        return Err("the downloaded Setup is gone or changed".into());
+    }
+    std::process::Command::new(setup).args(["/S", "/reopen"]).spawn().map(drop).map_err(|e| e.to_string())
 }
 
 /// ECDSA P-256 over SHA-256: `signature` is r and s, `key` an uncompressed point.

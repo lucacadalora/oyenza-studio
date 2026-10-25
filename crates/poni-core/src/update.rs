@@ -98,6 +98,19 @@ impl Release {
     }
 }
 
+impl Download {
+    /// Its file's name ("Oyenza-Studio-Setup-0.2.5.exe"): plain letters,
+    /// digits and `-_.`, as [`parse_payload`] made sure.
+    pub fn file_name(&self) -> &str {
+        self.url.rsplit('/').next().unwrap_or_default()
+    }
+
+    /// `bytes` are this file: its size and SHA-256 from the signed file.
+    pub fn matches(&self, bytes: &[u8]) -> bool {
+        bytes.len() as u64 == self.size && crate::sha256::hex(&crate::sha256::sha256(bytes)) == self.sha256
+    }
+}
+
 /// Read the payload, once its signature checked out. Refuses a newer
 /// layout, and downloads or a notes page outside this repository's own
 /// release of that version.
@@ -178,6 +191,10 @@ pub struct Memory {
     pub announced: String,
     /// The version that ran before this one.
     pub ran: String,
+    /// Install on next start (Windows): the version whose Setup runs before
+    /// the app opens next time. Cleared as it runs, so a Setup that fails
+    /// doesn't keep the app from opening.
+    pub install_on_start: String,
 }
 
 impl Memory {
@@ -203,6 +220,12 @@ impl Memory {
     /// island says "Updated to" once. A first run (nothing remembered) doesn't.
     pub fn updated(&self, running: &str) -> bool {
         !self.ran.is_empty() && newer(running, &self.ran)
+    }
+
+    /// The release Install on next start asked for, while it is still the
+    /// latest and later than `running`.
+    pub fn pending_install(&self, running: &str) -> Option<&Release> {
+        self.latest.as_ref().filter(|r| !self.install_on_start.is_empty() && r.version == self.install_on_start && newer(&r.version, running))
     }
 
     /// What the file just said, read at `now` (Unix seconds).
@@ -356,8 +379,32 @@ mod tests {
     }
 
     #[test]
+    fn install_on_next_start_only_for_the_latest_later_version() {
+        let mut m = Memory::default();
+        m.read(parse_payload(&payload("0.2.5", "")).unwrap(), 5);
+        assert!(m.pending_install("0.2.4").is_none(), "not asked for");
+        m.install_on_start = "0.2.5".into();
+        assert_eq!(m.pending_install("0.2.4").map(|r| r.version.as_str()), Some("0.2.5"));
+        assert!(m.pending_install("0.2.5").is_none(), "already on it");
+        m.read(parse_payload(&payload("0.2.6", "")).unwrap(), 6);
+        assert!(m.pending_install("0.2.4").is_none(), "a later one came out meanwhile: it asks again");
+    }
+
+    #[test]
+    fn a_download_knows_its_file() {
+        let r = parse_payload(&payload(V, "")).unwrap();
+        let d = r.download(false).unwrap();
+        assert_eq!(d.file_name(), "Oyenza-Studio-Setup-0.2.3.exe");
+        let bytes = b"not the installer";
+        let real = Download { url: d.url.clone(), size: bytes.len() as u64, sha256: crate::sha256::hex(&crate::sha256::sha256(bytes)) };
+        assert!(real.matches(bytes));
+        assert!(!real.matches(b"not the installeR"), "one byte changed");
+        assert!(!d.matches(bytes), "another size and hash");
+    }
+
+    #[test]
     fn memory_survives_a_save() {
-        let mut m = Memory { announced: "0.2.5".into(), ran: "0.2.4".into(), ..Memory::default() };
+        let mut m = Memory { announced: "0.2.5".into(), ran: "0.2.4".into(), install_on_start: "0.2.5".into(), ..Memory::default() };
         m.read(parse_payload(&payload("0.2.5", "")).unwrap(), 42);
         let back: Memory = serde_json::from_str(&serde_json::to_string(&m).unwrap()).unwrap();
         assert_eq!(back, m);
