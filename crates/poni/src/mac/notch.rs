@@ -83,7 +83,8 @@ pub fn fit(m: &Mode, st: &AppState) -> Fit {
     match m {
         // The status bar look is the Pill theme's; the other themes show the clock for it.
         Mode::Idle if matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status) => Fit::Ears,
-        Mode::Idle => Fit::Inside,
+        // Windows only (`AppState::aside`): a Mac never steps aside.
+        Mode::Idle | Mode::Aside => Fit::Inside,
         // The music pill sings the current line (every theme), which needs
         // the width the camera takes: it hangs below the notch while there
         // is a line (Pill floats there).

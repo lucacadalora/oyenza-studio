@@ -443,6 +443,11 @@ pub struct AppState {
     /// When playback went from playing to paused (the pill lingers 30 s).
     pub media_paused_at: Option<f64>,
     pub pinned: bool,
+    /// Stepped aside (Settings › Over maximized windows): an app window sits
+    /// under where the island rests, so the closed island rests as an
+    /// invisible strip at the top edge (`activities::Mode::Aside`). Windows
+    /// sets it; the Mac never does.
+    pub aside: bool,
     /// Files are being dragged over the island right now.
     pub drag_hover: bool,
     /// Phone drop, while it's open.
@@ -520,6 +525,7 @@ impl AppState {
             page,
             media_paused_at: None,
             pinned: false,
+            aside: false,
             drag_hover: false,
             phone: None,
             paired: Vec::new(),

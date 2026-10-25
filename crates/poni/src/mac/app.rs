@@ -53,8 +53,6 @@ use std::path::PathBuf;
 use std::ptr::NonNull;
 use std::sync::mpsc::{self, Receiver};
 
-/// Where the README explains the project.
-const ABOUT_URL: &str = "https://github.com/lucacadalora/oyenza-studio";
 /// Steps for copying the Apple Music token (README).
 const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/oyenza-studio#apple-music-lyrics";
 
@@ -832,7 +830,7 @@ impl App {
                 }
             }
             MenuCmd::OpenDataFolder => services::open(&paths::data_dir().to_string_lossy()),
-            MenuCmd::About => services::open(ABOUT_URL),
+            MenuCmd::About => services::open(&crate::version::notes_url()),
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);

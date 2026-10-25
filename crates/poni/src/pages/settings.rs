@@ -3,9 +3,10 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, five switches, and Hide or Stay on top in
-//! full-screen apps. A change saves at once and applies the way the tray's
-//! does (`Command::SaveSettings`).
+//! the idle look as pickers, five switches, Hide or Stay on top in
+//! full-screen apps, and (Windows) Step aside or Stay over maximized windows.
+//! A change saves at once and applies the way the tray's does
+//! (`Command::SaveSettings`).
 
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{TextStyle, Weight};
@@ -18,9 +19,10 @@ use poni_core::oyenza;
 use poni_core::settings::{IdleStyle, Theme};
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), three rows of switches.
-/// No taller than the Tasks page (200), so the window keeps its size.
-const HEIGHT: f32 = 198.0;
+/// narrow island), then the switches and choices: four rows on Windows,
+/// three on a Mac. Shorter than the System page (256), so the window keeps
+/// its size.
+const HEIGHT: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
 const ACCOUNT_H: f32 = 44.0;
 /// The Oyenza app's icon, and the text column right of it.
 const ICON: f32 = 36.0;
@@ -77,22 +79,34 @@ enum Switch {
     Autostart,
 }
 
-/// What a row of the two columns holds: a switch, or the full-screen choice
-/// (the tray menu's "In full-screen apps" submenu).
+/// What a row of the two columns holds: a switch, the full-screen choice
+/// (the tray menu's "In full-screen apps" submenu) or the maximized-window
+/// one (its "Over maximized windows" submenu).
 #[derive(Clone, Copy)]
 enum Row {
     Switch(Switch, &'static str),
     Fullscreen,
+    #[cfg_attr(not(windows), allow(dead_code))]
+    Aside,
 }
 
-const COLUMNS: [[Row; 3]; 2] = [
-    [Row::Switch(Switch::Lyrics, "Synced lyrics"), Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"), Row::Switch(Switch::Sounds, "Sounds")],
-    [Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")],
-];
+const LEFT: &[Row] = &[Row::Switch(Switch::Lyrics, "Synced lyrics"), Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"), Row::Switch(Switch::Sounds, "Sounds")];
+/// The maximized-window choice sits under the full-screen one. A Mac has
+/// none: its menu bar keeps windows below the island.
+#[cfg(windows)]
+const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Aside, Row::Switch(Switch::Autostart, "Start with Windows")];
+#[cfg(not(windows))]
+const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
+const COLUMNS: [&[Row]; 2] = [LEFT, RIGHT];
+/// Rows in the taller column.
+const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len() };
 
 /// The full-screen choices as the tray menu names them, and the
 /// `hide_in_fullscreen` each one sets.
 const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
+/// The maximized-window choices as the tray menu names them, and the
+/// `step_aside` each one sets.
+const ASIDE: [(bool, &str); 2] = [(true, "Step aside"), (false, "Stay")];
 
 pub fn height(_st: &AppState) -> f32 {
     HEIGHT
@@ -159,7 +173,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         st.cmd(Command::SaveSettings);
     }
 
-    // Switches, two columns of three; one row is the full-screen choice.
+    // Switches and the two choices, in two columns.
     let accent = st.accent;
     let card = super::clipboard::pill_card(st, area);
     for (c, column) in COLUMNS.iter().enumerate() {
@@ -170,28 +184,37 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                     // A Mac starts apps at login, as its menu bar says.
                     let label = if cfg!(target_os = "macos") && sw == Switch::Autostart { "Start at login" } else { label };
                     let on = switch_on(st, sw);
-                    let id = wid_n("settings.switch", (c * 3 + r) as u64);
+                    let id = wid_n("settings.switch", (c * ROWS + r) as u64);
                     if switch_row_on(ui, id, row, label, on, accent, card) {
                         flip(st, sw, on);
                     }
                 }
-                Row::Fullscreen => fullscreen_row(ui, st, row),
+                Row::Fullscreen => {
+                    let sel = FULLSCREEN.iter().position(|f| f.0 == st.settings.hide_in_fullscreen).unwrap_or(0);
+                    if let Some(i) = choice_row(ui, row, "In full-screen apps", "settings.fullscreen", &FULLSCREEN.map(|f| f.1), sel) {
+                        st.settings.hide_in_fullscreen = FULLSCREEN[i].0;
+                        st.cmd(Command::SaveSettings);
+                    }
+                }
+                Row::Aside => {
+                    let sel = ASIDE.iter().position(|a| a.0 == st.settings.step_aside).unwrap_or(0);
+                    // The tray's "Over maximized windows", short enough for its column.
+                    if let Some(i) = choice_row(ui, row, "Maximized windows", "settings.aside", &ASIDE.map(|a| a.1), sel) {
+                        st.settings.step_aside = ASIDE[i].0;
+                        st.cmd(Command::SaveSettings);
+                    }
+                }
             }
         }
     }
 }
 
-/// "In full-screen apps" with Hide and Stay on top where the other rows
-/// have their switch.
-fn fullscreen_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
-    let names = FULLSCREEN.map(|f| f.1);
-    let x = r.right() - picker_width(ui, &names);
-    ui.c.text("In full-screen apps", Rect::new(r.x, r.y, (x - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
-    let sel = FULLSCREEN.iter().position(|f| f.0 == st.settings.hide_in_fullscreen).unwrap_or(0);
-    if let Some(i) = picker(ui, "settings.fullscreen", x, r.center().y - ROW_PICKER_H / 2.0, ROW_PICKER_H, &names, sel) {
-        st.settings.hide_in_fullscreen = FULLSCREEN[i].0;
-        st.cmd(Command::SaveSettings);
-    }
+/// A choice's label with its picker where the other rows have their
+/// switch. Returns the choice clicked, if any.
+fn choice_row(ui: &mut Ui, r: Rect, label: &str, id: &str, names: &[&str], sel: usize) -> Option<usize> {
+    let x = r.right() - picker_width(ui, names);
+    ui.c.text(label, Rect::new(r.x, r.y, (x - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
+    picker(ui, id, x, r.center().y - ROW_PICKER_H / 2.0, ROW_PICKER_H, names, sel)
 }
 
 /// Where a switch reads from. Start with Windows is read off the UI thread

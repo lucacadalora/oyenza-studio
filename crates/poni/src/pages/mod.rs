@@ -673,8 +673,9 @@ mod tests {
 
     #[test]
     fn settings_never_makes_the_window_taller() {
-        // The window fits the tallest page; Tasks is always 200 DIPs.
+        // The window fits the tallest page; System is always 256 DIPs (Settings
+        // grew past Tasks' 200 with its Over maximized windows row).
         let st = state();
-        assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::Tasks, &st));
+        assert!(content_height(PageKind::Settings, &st) <= content_height(PageKind::System, &st));
     }
 }
