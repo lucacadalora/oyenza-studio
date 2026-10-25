@@ -111,9 +111,6 @@ features = [
 
 # The Mac app (slice 1: island, drawing, clock, timer, menu bar icon).
 [target.'cfg(target_os = "macos")'.dependencies]
-# The Mac app has no Add-ons yet, so its reading dictionary stays built in
-# (ja-dict: romanize::JaDict::embedded()).
-poni-core = { path = "../poni-core", features = ["ja-dict"] }
 objc2 = "=0.6.5"
 block2 = "=0.6.2"
 dispatch2 = "=0.3.1"

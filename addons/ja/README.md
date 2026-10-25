@@ -1,10 +1,10 @@
 # Japanese readings add-on
 
 Japanese readings is off by default and most people never need it. It gives
-romaji under the kanji in Japanese lyrics on PCs where Windows can't read
-them: Windows keeps its Japanese reading data in the Japanese typing
-feature, which most PCs outside Japan don't have. Kana, Korean and Chinese
-read without it.
+romaji under the kanji in Japanese lyrics on a Mac, and on PCs where Windows
+can't read them: Windows keeps its Japanese reading data in the Japanese
+typing feature, which most PCs outside Japan don't have. Kana, Korean and
+Chinese read without it.
 
 When a Japanese song's kanji go unread, the Music page offers it under the
 lyrics ("Romaji for kanji: get Japanese readings"). One click switches it on,
@@ -33,5 +33,10 @@ SHA-256 in `poni_core::addons`, and an app release. PCs with the old file
 download the new one when that release starts; the old tag's folder is
 deleted.
 
-The Mac app has no Add-ons yet, so it still carries the dictionary built in
-(the `ja-dict` feature of poni-core, macOS only).
+The Mac app gets the same files the same way: the offer under the lyrics
+or its switch in the Mac's Add-ons tab (where it's the only add-on) turns it
+on, the shared downloader (`crates/poni/src/services/addons.rs`, on the Mac's
+URLSession client) puts them in `~/Library/Caches/Poni/addons/`, and
+`crates/poni/src/mac/services/romanize.rs` reads every Japanese song with
+the dictionary. Switching it off there deletes them. Nothing in either app's
+download carries it.

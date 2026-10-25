@@ -6,6 +6,7 @@
 //! and a switch. The whole row toggles, as in Settings: on downloads the
 //! add-on and starts it, off stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
+//! The Mac app lists only the add-ons it has ([`OFFERED`]).
 
 use crate::commands::Command;
 use crate::gfx::TextStyle;
@@ -27,8 +28,15 @@ const SWITCH_W: f32 = 30.0;
 const SWITCH_H: f32 = 18.0;
 const BAR_H: f32 = 3.0;
 
+/// The add-ons this app has, in the page's order: all of them on Windows;
+/// Japanese readings on the Mac (Prayer times needs Windows' location and
+/// sound services).
+pub const OFFERED: &[&Addon] = if cfg!(windows) { &addons::ALL } else { &[&addons::JAPANESE_READINGS] };
+/// The lines name the Mac ("on this Mac") and leave out Windows' reasons.
+const MAC: bool = cfg!(target_os = "macos");
+
 pub fn height(_st: &AppState) -> f32 {
-    ROWS_Y + addons::ALL.len() as f32 * ROW_H
+    ROWS_Y + OFFERED.len() as f32 * ROW_H
 }
 
 /// Each add-on's icon on its badge.
@@ -45,7 +53,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
     let card = super::clipboard::pill_card(st, area);
-    for (i, a) in addons::ALL.iter().enumerate() {
+    for (i, a) in OFFERED.iter().enumerate() {
         let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * ROW_H, area.w, ROW_H);
         if addon_row(ui, st, row, i, a, card) {
             let on = st.settings.addon_on(a.id);
@@ -84,7 +92,7 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     let w = (text_right - x).max(0.0);
     ui.c.text(a.title, Rect::new(x, r.y + 6.0, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
-    ui.c.text(&status.line(a), Rect::new(x, r.y + 27.0, w, 17.0), &TextStyle::footnote().color(line_color));
+    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 27.0, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = status.progress() {
         let bar = Rect::new(x, r.y + 46.0, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);

@@ -86,6 +86,8 @@ jobs:
           dmg=$(ls dist/*.dmg)
           hdiutil attach "$dmg" -nobrowse -readonly -mountpoint /tmp/poni-dmg
           ls -la /tmp/poni-dmg
+          # What a PR costs on the Mac: the DMG, and the app's binary in it.
+          ls -l "$dmg" "/tmp/poni-dmg/Oyenza Studio.app/Contents/MacOS/poni"
           plutil -p "/tmp/poni-dmg/Oyenza Studio.app/Contents/Info.plist"
           lipo -info "/tmp/poni-dmg/Oyenza Studio.app/Contents/MacOS/poni"
           codesign --verify --deep --strict "/tmp/poni-dmg/Oyenza Studio.app"

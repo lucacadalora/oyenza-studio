@@ -14,7 +14,10 @@
 //!
 //! The music scenes use made-up data to test the drawing; the Mac app shows
 //! music once the media slice is built. The System page's scenes show a
-//! made-up minute of a MacBook too, with real app icons from Finder.
+//! made-up minute of a MacBook too, with real app icons from Finder. The
+//! Japanese song is read by the Mac's own reading code, without the Japanese
+//! readings add-on and then with the repo's copy of its dictionary in the
+//! add-on's place (so run it from the repo).
 
 use crate::activities::{self, Mode};
 use crate::gfx::{Bitmap, Gfx, ImageData};
@@ -22,8 +25,10 @@ use crate::icons::Icon;
 use crate::island::{Island, SHOULDER};
 use crate::notch::{self, Notch};
 use crate::pages::{self, PageKind};
+use crate::services::romanize::{self, Pronounced};
 use crate::state::{AppState, Hud, HudKind, LyricsState, LyricsStatus, MediaSession, PowerState, SysStats, VolumeState};
 use crate::ui::{Hit, Input};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS};
 use poni_core::datetime::LocalDateTime;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
@@ -61,6 +66,25 @@ const LYRICS_LRC: &str = "\
 [01:05.50]Over the grey and out across the bay
 [01:11.00]If the tide is gentle they will find the light
 ";
+/// The same song in Japanese (the Windows self-test's, written for the test;
+/// the smoke run plays it too).
+pub const LYRICS_JA: &str = "\
+[00:38.00]朝をたたんで小さな形にした
+[00:43.50]港の壁のそばで水に浮かべた
+[00:49.00]端ににじんだインク、昔の名前
+[00:54.50]流れを見つけて、遠くへ行った
+[01:00.00]紙の舟よ、言えなかった言葉を運んで
+[01:05.50]灰色の海をこえて湾の向こうへ
+[01:11.00]潮がやさしければ光を見つける
+[01:16.50]桟橋のランタンは夜通し灯る
+[01:22.00]小さな帆はどれも出せない手紙
+[01:27.50]小さな波はどれも誰かの想い
+[01:33.00]だから また ひとつ おって ながすよ
+[01:38.50]紙の舟よ、いつかそこで会おう OK
+";
+/// The Japanese readings add-on's dictionary in the repo (what the add-on's
+/// release holds), relative to the repo's root.
+const JA_DICT: &str = "crates/poni-core/data/ja-readings.dic.zst";
 const CLIPS: [&str; 5] = [
     "Lunch: noodles from the corner place, then a walk by the river",
     "Tracking number PX-2048-7731",
@@ -91,6 +115,12 @@ enum Scene {
     /// Music with no line to sing (lyrics off): the song in Pill's pill,
     /// art and bars beside the camera around a notch.
     MediaNoLine,
+    /// Music with the Japanese song, the Japanese readings add-on at this
+    /// status: Ready reads every line; otherwise its line shows under the
+    /// lyrics (Off offers it).
+    Japanese(AddonStatus),
+    /// The Add-ons tab, Japanese readings at this status.
+    Addons(AddonStatus),
 }
 
 const SCENES: [Scene; 19] = [
@@ -130,6 +160,23 @@ const SYSTEM_SCENES: [Scene; 6] = [
 /// picture keeps its number.
 const PILL_SCENES: [Scene; 2] = [Scene::IdleStatus, Scene::MediaNoLine];
 
+/// The Japanese song, after Pill's pictures (numbers 26-28, in that theme
+/// only), so every picture keeps its number.
+const JA_SCENES: [Scene; 4] = [
+    Scene::Japanese(AddonStatus::Ready),
+    Scene::Japanese(AddonStatus::Off),
+    // Of the add-on's size (filled in when drawn).
+    Scene::Japanese(AddonStatus::Downloading { done: 1_700_000, total: 0 }),
+    Scene::Japanese(AddonStatus::Failed),
+];
+
+/// The Add-ons tab, after the Japanese song.
+const ADDON_SCENES: [Scene; 3] = [
+    Scene::Addons(AddonStatus::Off),
+    Scene::Addons(AddonStatus::Downloading { done: 1_700_000, total: 0 }),
+    Scene::Addons(AddonStatus::Ready),
+];
+
 impl Scene {
     fn name(self) -> String {
         match self {
@@ -150,6 +197,13 @@ impl Scene {
             Scene::System(m) => format!("page-system-{}", m.title().to_lowercase()),
             Scene::IdleStatus => "idle-status".into(),
             Scene::MediaNoLine => "media-no-line".into(),
+            Scene::Japanese(AddonStatus::Ready) => "page-media-japanese".into(),
+            Scene::Japanese(AddonStatus::Off) => "page-media-japanese-offer".into(),
+            Scene::Japanese(AddonStatus::Downloading { .. }) => "page-media-japanese-getting".into(),
+            Scene::Japanese(s) => format!("page-media-japanese-{}", format!("{s:?}").to_lowercase()),
+            Scene::Addons(AddonStatus::Off) => "page-addons".into(),
+            Scene::Addons(AddonStatus::Downloading { .. }) => "page-addons-getting".into(),
+            Scene::Addons(s) => format!("page-addons-{}", format!("{s:?}").to_lowercase()),
         }
     }
 }
@@ -174,11 +228,16 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         Theme::Pill => "-pill",
     };
     let suffix = format!("{name}{}", if notch.is_some() { "-notch" } else { "" });
-    let mut gfx = Gfx::new(SCALE);
+    // A home of its own, so add-ons on this Mac don't change the pictures.
+    let home = std::env::temp_dir().join("poni-render-home");
+    let _ = std::fs::remove_dir_all(&home);
+    std::env::set_var("PONI_HOME", &home);
     let mut failed = 0;
+    let ja = read_japanese().map_err(|e| eprintln!("render: the Japanese song: {e}")).ok();
+    let mut gfx = Gfx::new(SCALE);
     for (i, scene) in SCENES.into_iter().chain(SYSTEM_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", i + 1, scene.name()));
-        match render_scene(&mut gfx, scene, theme, notch, &path) {
+        match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
             Err(e) => {
                 eprintln!("render: {}: {e}", path.display());
@@ -199,7 +258,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         }
         for (k, scene) in PILL_SCENES.into_iter().enumerate() {
             let path = out.join(format!("{:02}-{}{suffix}.png", n + 1 + k, scene.name()));
-            match render_scene(&mut gfx, scene, theme, notch, &path) {
+            match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
                 Ok(()) => println!("render: {}", path.display()),
                 Err(e) => {
                     eprintln!("render: {}: {e}", path.display());
@@ -208,6 +267,19 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
+    // The Japanese song and the Add-ons tab in every theme, after Pill's.
+    let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).enumerate() {
+        let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
+        match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+            Ok(()) => println!("render: {}", path.display()),
+            Err(e) => {
+                eprintln!("render: {}: {e}", path.display());
+                failed += 1;
+            }
+        }
+    }
+    let _ = std::fs::remove_dir_all(&home);
     if failed > 0 {
         1
     } else {
@@ -315,6 +387,31 @@ fn render_morph(gfx: &mut Gfx, theme: Theme, notch: Option<Notch>, path: &Path) 
     crate::png::save_pbgra(path, w_px as u32, h_px as u32, &px)
 }
 
+/// The Japanese song read the way the Mac reads it: without the Japanese
+/// readings add-on (kana lines only, and the offer), then with the repo's
+/// copy of its dictionary where the add-on keeps it (every line).
+fn read_japanese() -> Result<[Pronounced; 2], String> {
+    let lyrics = parse_lrc(LYRICS_JA);
+    let needing = lyrics.lines.iter().filter(|l| poni_core::romanize::needs_roman(l.text.trim())).count();
+    let read = |p: &Pronounced| p.ruby.iter().filter(|r| r.iter().any(|piece| !piece.roman.is_empty())).count();
+    let without = romanize::pronounce(&lyrics);
+    let file = &JAPANESE_READINGS.files[0];
+    let bytes = std::fs::read(JA_DICT).map_err(|e| format!("{JA_DICT}: {e} (render from the repo's root)"))?;
+    if !file.matches(&bytes) {
+        return Err(format!("{JA_DICT}: {} bytes, not the dictionary the add-on pins", bytes.len()));
+    }
+    let to = crate::services::addons::file_path(&JAPANESE_READINGS, file.name);
+    to.parent().map(std::fs::create_dir_all).transpose().and_then(|_| std::fs::write(&to, &bytes)).map_err(|e| format!("{}: {e}", to.display()))?;
+    let with = romanize::pronounce(&lyrics);
+    println!("render: Japanese song without the add-on: {} of {needing} lines with romaji, offer {}", read(&without), without.wants_ja_readings);
+    println!("render: Japanese song with the add-on: {} of {needing} lines with romaji, offer {}", read(&with), with.wants_ja_readings);
+    // Without it every kanji line is missing a reading, and the page offers it.
+    if !without.wants_ja_readings || read(&with) != needing || with.wants_ja_readings {
+        return Err("the Mac's readings aren't what the add-on should make them".into());
+    }
+    Ok([with, without])
+}
+
 fn base_state(theme: Theme) -> AppState {
     let settings = Settings { theme, sounds: false, show_media_activity: true, lyrics: true, ..Default::default() };
     let mut st = AppState::new(settings, Store::default());
@@ -376,7 +473,39 @@ fn media(st: &mut AppState) {
     st.lyrics = LyricsState { track_key: MediaSession::make_track_key(TITLE, ARTIST, ALBUM), status: LyricsStatus::Found, lyrics: Some(parse_lrc(LYRICS_LRC)), source: "Sample".into(), ruby: Vec::new(), wants_ja_readings: false };
 }
 
-fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>, path: &Path) -> Result<(), String> {
+/// Music playing the Japanese song with its `readings`, the Japanese
+/// readings add-on at `status`. Each status is a song of its own (an album
+/// the page doesn't show): the page keeps a song's lyric scroll from one
+/// frame to the next, and these pictures follow each other.
+fn media_japanese(st: &mut AppState, readings: &Pronounced, status: AddonStatus) {
+    let status = ja_status(st, status);
+    media(st);
+    let key = match status {
+        AddonStatus::Ready => MediaSession::make_track_key(TITLE, ARTIST, ALBUM),
+        s => MediaSession::make_track_key(TITLE, ARTIST, &format!("{ALBUM} ({s:?})")),
+    };
+    if let Some(m) = st.media.as_mut() {
+        m.track_key = key.clone();
+    }
+    st.lyrics.track_key = key;
+    st.lyrics.lyrics = Some(parse_lrc(LYRICS_JA));
+    st.lyrics.ruby = readings.ruby.clone();
+    st.lyrics.wants_ja_readings = readings.wants_ja_readings;
+}
+
+/// The Japanese readings add-on at `status` (a download's total filled in),
+/// switched on for every status but Off.
+fn ja_status(st: &mut AppState, status: AddonStatus) -> AddonStatus {
+    let status = match status {
+        AddonStatus::Downloading { done, .. } => AddonStatus::Downloading { done, total: JAPANESE_READINGS.size() },
+        s => s,
+    };
+    st.settings.set_addon(JAPANESE_READINGS.id, status.is_on());
+    st.addons.insert(JAPANESE_READINGS.id, status);
+    status
+}
+
+fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>, ja: Option<&[Pronounced; 2]>, path: &Path) -> Result<(), String> {
     let mut st = base_state(theme);
     let mut hovering = false;
     let mode = match scene {
@@ -488,6 +617,17 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = PageKind::System;
             Mode::Expanded(PageKind::System)
+        }
+        Scene::Japanese(status) => {
+            let ja = ja.ok_or("the Japanese song wasn't read")?;
+            media_japanese(&mut st, &ja[if status == AddonStatus::Ready { 0 } else { 1 }], status);
+            st.page = PageKind::Media;
+            Mode::Expanded(PageKind::Media)
+        }
+        Scene::Addons(status) => {
+            ja_status(&mut st, status);
+            st.page = PageKind::Addons;
+            Mode::Expanded(PageKind::Addons)
         }
     };
 

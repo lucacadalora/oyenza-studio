@@ -1,6 +1,7 @@
 //! HTTPS requests on the Mac (Apple's URLSession), with the same small API as
-//! the Windows app's `services/http.rs`, so the shared lyrics and Apple Music
-//! code (`services/lyrics.rs`, `services/applemusic.rs`) runs unchanged.
+//! the Windows app's `services/http.rs`, so the shared lyrics, Apple Music
+//! and add-on code (`services/lyrics.rs`, `services/applemusic.rs`,
+//! `services/addons.rs`) runs unchanged.
 //!
 //! Every call blocks until the response (headers and body) has arrived or the
 //! timeout has passed, so use it on worker threads only, never on the main
@@ -10,16 +11,20 @@
 use block2::RcBlock;
 use objc2::rc::Retained;
 use objc2::Message;
-use objc2_foundation::{NSData, NSError, NSHTTPURLResponse, NSMutableURLRequest, NSString, NSURLResponse, NSURLSession, NSURL};
+use objc2_foundation::{NSData, NSError, NSHTTPURLResponse, NSMutableURLRequest, NSString, NSURLRequestCachePolicy, NSURLResponse, NSURLSession, NSURL};
 use std::fmt;
-use std::sync::mpsc;
-use std::time::Duration;
+use std::sync::mpsc::{self, RecvTimeoutError};
+use std::time::{Duration, Instant};
 
 /// Budget for one request: connect + headers + body.
 pub const DEFAULT_TIMEOUT: Duration = Duration::from_secs(8);
 
 /// Bodies larger than this are refused (nothing Poni fetches comes close).
 const MAX_BODY_BYTES: usize = 8 * 1024 * 1024;
+
+/// How often a download in progress ([`Client::get_bytes`]) says how far it
+/// got: only while it runs, for the add-on's progress line.
+const PROGRESS_EVERY: Duration = Duration::from_millis(100);
 
 /// URL loading system errors (NSURLError.h).
 const URL_ERROR_TIMED_OUT: isize = -1001;
@@ -133,20 +138,65 @@ impl Client {
             }
         }
     }
+
+    /// GET `url` as raw bytes with its status (an add-on's file): at most
+    /// `max_bytes`, all of it within `timeout`. `progress` hears the bytes
+    /// received so far while they come in.
+    pub fn get_bytes(&self, url: &str, timeout: Duration, max_bytes: u64, mut progress: impl FnMut(u64) + Send + 'static) -> Result<(u16, Vec<u8>), FetchError> {
+        let nsurl = NSURL::URLWithString(&NSString::from_str(url)).ok_or_else(|| FetchError::Other(format!("not a URL: {url}")))?;
+        let req = NSMutableURLRequest::requestWithURL(&nsurl);
+        req.setTimeoutInterval(timeout.as_secs_f64());
+        // From the server every time: a file that came back wrong is asked for again.
+        req.setCachePolicy(NSURLRequestCachePolicy::ReloadIgnoringLocalCacheData);
+        req.setValue_forHTTPHeaderField(Some(&NSString::from_str(&self.user_agent)), &NSString::from_str("User-Agent"));
+        let (tx, rx) = mpsc::channel::<Result<(u16, Vec<u8>), FetchError>>();
+        let done = RcBlock::new(move |data: *mut NSData, resp: *mut NSURLResponse, err: *mut NSError| {
+            let result = unsafe { finish_bytes(data.as_ref(), resp.as_ref(), err.as_ref(), max_bytes) };
+            let _ = tx.send(result);
+        });
+        let task = unsafe { NSURLSession::sharedSession().dataTaskWithRequest_completionHandler(&req, &done) };
+        task.resume();
+        // URLSession's timeout counts a pause in the data, not the whole
+        // download, so the budget for all of it is kept here.
+        let deadline = Instant::now() + timeout;
+        loop {
+            let left = deadline.saturating_duration_since(Instant::now());
+            match rx.recv_timeout(left.min(PROGRESS_EVERY)) {
+                Ok(r) => return r,
+                Err(RecvTimeoutError::Timeout) if !left.is_zero() => {
+                    let got = task.countOfBytesReceived().max(0) as u64;
+                    if got > max_bytes {
+                        task.cancel();
+                        return Err(FetchError::Other(format!("response too large ({got} bytes)")));
+                    }
+                    progress(got);
+                }
+                Err(_) => {
+                    task.cancel();
+                    return Err(FetchError::Timeout);
+                }
+            }
+        }
+    }
+}
+
+/// A URLSession error as a [`FetchError`].
+fn classify(e: &NSError) -> FetchError {
+    let code = e.code();
+    let what = e.localizedDescription().to_string();
+    if code == URL_ERROR_TIMED_OUT {
+        FetchError::Timeout
+    } else if URL_NETWORK_ERRORS.contains(&code) {
+        FetchError::Network(what)
+    } else {
+        FetchError::Other(format!("{what} ({code})"))
+    }
 }
 
 /// Turn a finished data task into a response or an error.
 fn finish(data: Option<&NSData>, resp: Option<&NSURLResponse>, err: Option<&NSError>) -> Result<Response, FetchError> {
     if let Some(e) = err {
-        let code = e.code();
-        let what = e.localizedDescription().to_string();
-        return Err(if code == URL_ERROR_TIMED_OUT {
-            FetchError::Timeout
-        } else if URL_NETWORK_ERRORS.contains(&code) {
-            FetchError::Network(what)
-        } else {
-            FetchError::Other(format!("{what} ({code})"))
-        });
+        return Err(classify(e));
     }
     let http: Option<Retained<NSHTTPURLResponse>> = resp.and_then(|r| r.retain().downcast::<NSHTTPURLResponse>().ok());
     let Some(http) = http else { return Err(FetchError::Other("not an HTTP response".into())) };
@@ -156,6 +206,20 @@ fn finish(data: Option<&NSData>, resp: Option<&NSURLResponse>, err: Option<&NSEr
     }
     let retry_after_s = http.valueForHTTPHeaderField(&NSString::from_str("Retry-After")).and_then(|v| v.to_string().trim().parse::<u64>().ok());
     Ok(Response { status: http.statusCode().clamp(0, u16::MAX as isize) as u16, body: decode_body(&bytes), retry_after_s })
+}
+
+/// A finished download ([`Client::get_bytes`]): its status and bytes.
+fn finish_bytes(data: Option<&NSData>, resp: Option<&NSURLResponse>, err: Option<&NSError>, max_bytes: u64) -> Result<(u16, Vec<u8>), FetchError> {
+    if let Some(e) = err {
+        return Err(classify(e));
+    }
+    let http: Option<Retained<NSHTTPURLResponse>> = resp.and_then(|r| r.retain().downcast::<NSHTTPURLResponse>().ok());
+    let Some(http) = http else { return Err(FetchError::Other("not an HTTP response".into())) };
+    let len = data.map_or(0, |d| d.len());
+    if len as u64 > max_bytes {
+        return Err(FetchError::Other(format!("response too large ({len} bytes)")));
+    }
+    Ok((http.statusCode().clamp(0, u16::MAX as isize) as u16, data.map(|d| d.to_vec()).unwrap_or_default()))
 }
 
 /// UTF-8 with a leading BOM dropped; invalid bytes become U+FFFD.

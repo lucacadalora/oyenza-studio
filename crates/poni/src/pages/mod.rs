@@ -156,15 +156,14 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, Oyenza only while
-/// signing in or signed in, Prayer only while that add-on is on, and Add-ons
-/// only in the Windows app (the Mac app has no add-on downloader yet).
+/// signing in or signed in, and Prayer only while that add-on is on. Add-ons
+/// is last, in both apps (the Mac app's lists only what it has).
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
         .into_iter()
         .filter(|p| match p {
             PageKind::Oyenza => st.oyenza.tab_visible(),
             PageKind::Prayer => st.prayer_on(),
-            PageKind::Addons => cfg!(windows),
             p => p.tabbed(),
         })
         .collect()

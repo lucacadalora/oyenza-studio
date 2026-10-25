@@ -57,6 +57,11 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
       *music-notify)
         osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Blinding Lights", "Artist": "The Weeknd", "Album": "After Hours", "Duration": 200040, "Playback Position": 42.5, "Player State": "Playing"}), true)' || true
         sleep 1.5 ;;
+      # Then a made-up song with Japanese lyrics (written for the test; the
+      # app put them in its lyrics cache), for the Japanese readings add-on.
+      *ja-notify)
+        osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Paper Boats", "Artist": "The Lanterns", "Album": "Harbor Lights", "Duration": 201000, "Playback Position": 61.0, "Player State": "Playing"}), true)' || true
+        sleep 1.5 ;;
     esac
     left=$(( x > 40 ? x - 40 : 0 ))
     case "$base" in

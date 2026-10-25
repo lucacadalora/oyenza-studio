@@ -37,6 +37,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
+use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -374,6 +375,8 @@ pub struct App {
     /// What Music and Spotify play, and the lyrics worker.
     media: Option<services::media::MediaService>,
     lyrics: Option<services::lyrics::LyricsService>,
+    /// The add-ons' downloader: only while an add-on is switched on.
+    addons: Option<services::addons::AddonService>,
     motion: Option<MotionStats>,
     motion_name: &'static str,
     motions_logged: u32,
@@ -463,6 +466,7 @@ impl App {
             phone_offer: Vec::new(),
             media: None,
             lyrics: None,
+            addons: None,
             motion: None,
             motion_name: "morph",
             motions_logged: 0,
@@ -493,6 +497,7 @@ impl App {
                 None
             }
         };
+        self.sync_addons();
         self.sync_clipboard();
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
@@ -718,6 +723,39 @@ impl App {
             if !history && !self.sysmon_on {
                 self.st.system.clear();
             }
+        }
+        // An add-on switched on downloads its files; off deletes them.
+        let mut addons_changed = false;
+        for a in pages::addons::OFFERED {
+            let on = self.st.settings.addon_on(a.id);
+            if before.addon_on(a.id) != on {
+                pinfo!("add-ons: {} switched {}", a.id, if on { "on" } else { "off" });
+                self.st.addons.insert(a.id, if on { AddonStatus::Checking } else { AddonStatus::Off });
+                addons_changed = true;
+            }
+        }
+        if addons_changed {
+            self.sync_addons();
+        }
+    }
+
+    /// Hand the add-on switches to the downloader, starting it when one is
+    /// on. It checks the files of the ones on (downloading what's missing),
+    /// deletes those of one switched off, and sleeps in between; with none
+    /// on, it isn't started (see `AppEvent::Addon` for its end).
+    fn sync_addons(&mut self) {
+        let on: Vec<&'static str> = pages::addons::OFFERED.iter().filter(|a| self.st.settings.addon_on(a.id)).map(|a| a.id).collect();
+        match &self.addons {
+            Some(svc) => {
+                for a in pages::addons::OFFERED {
+                    svc.set(a.id, on.contains(&a.id));
+                }
+            }
+            None if !on.is_empty() => match services::addons::AddonService::start(self.sink.clone(), on) {
+                Ok(svc) => self.addons = Some(svc),
+                Err(e) => pwarn!("add-ons: unavailable ({e})"),
+            },
+            None => {}
         }
     }
 
@@ -1088,6 +1126,7 @@ impl App {
                 }
             }
             AppEvent::Phone(e) => self.on_phone(e),
+            AppEvent::Addon { id, status } => self.on_addon(id, status),
             AppEvent::Log(s) => pinfo!("{s}"),
             // Bluetooth and full-screen events come with later slices.
             _ => {}
@@ -1096,6 +1135,30 @@ impl App {
             self.after_media_change(before, now);
         }
         self.request_frame();
+    }
+
+    /// Where an add-on's files stand, from the downloader.
+    fn on_addon(&mut self, id: &'static str, status: AddonStatus) {
+        // A late report from before a switch-off doesn't bring it back.
+        if self.st.settings.addon_on(id) || status == AddonStatus::Off {
+            self.st.addons.insert(id, status);
+        }
+        // Japanese readings arrived for the song that asked for them: read it
+        // again (its lyrics come from the cache).
+        if id == JAPANESE_READINGS.id && status == AddonStatus::Ready && self.st.lyrics.wants_ja_readings {
+            if let (Some(l), Some(m)) = (self.lyrics.as_ref(), self.st.media.as_ref()) {
+                if m.track_key == self.st.lyrics.track_key {
+                    pinfo!("lyrics: Japanese readings are on this Mac; reading the song again");
+                    l.request(m);
+                }
+            }
+        }
+        // Switched off and its files deleted: with no add-on on, the
+        // downloader's thread ends (it starts again with the next switch-on).
+        let ours = pages::addons::OFFERED.iter().any(|a| a.id == id);
+        if ours && status == AddonStatus::Off && !pages::addons::OFFERED.iter().any(|a| self.st.settings.addon_on(a.id)) {
+            self.addons = None;
+        }
     }
 
     /// (player, track, playing) of the current media session.
@@ -2172,8 +2235,14 @@ impl App {
             SmokePhase::Settle(t0) => {
                 let name = SMOKE_STEPS[sm.step];
                 let ready = self.smoke_ready(name, now - t0);
-                // A lyrics lookup waits on LRCLIB (at least a second between requests).
-                let limit = if name == "music-check" { 25.0 } else { 6.0 };
+                // A lyrics lookup waits on LRCLIB (at least a second between
+                // requests); the Japanese readings add-on downloads 3.8 MB.
+                let limit = match name {
+                    "music-check" | "ja-offer" => 25.0,
+                    "ja-get" => 75.0,
+                    "ja-off" => 15.0,
+                    _ => 6.0,
+                };
                 // The ear step: once the card floats, the pointer moves and comes
                 // up on the ear, and the card must still be open a moment later
                 // (a collapse would have run by then).
@@ -2289,6 +2358,37 @@ impl App {
                 self.st.pomodoro.reset();
                 self.cost = DrawCost::default();
             }
+            // A made-up Japanese song: its lyrics go in the lyrics cache, as
+            // if LRCLIB had answered before, and CI announces it as Spotify
+            // would. Back in Classic first, as the menu step is, without the
+            // pretend notch and with the pointer from notch-pill-ear gone.
+            "ja-notify" => {
+                self.leave();
+                window::fake_notch(None);
+                self.refresh_screen();
+                self.on_menu(MenuCmd::SetTheme(Theme::Classic));
+                self.collapse();
+                self.st.hud = None;
+                seed_japanese_lyrics();
+            }
+            // Read without the Japanese readings add-on, it offers it.
+            "ja-offer" => {
+                self.st.page = PageKind::Media;
+                self.expand();
+            }
+            // What a click on the offer does (pages/media.rs): the add-on
+            // downloads from GitHub, then the song is read again.
+            "ja-get" => {
+                self.st.settings.set_addon(JAPANESE_READINGS.id, true);
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            // The Add-ons tab, the "+" at the end of the row, with it on.
+            "addons-tab" => self.st.cmds.push(Command::SetPage(PageKind::Addons)),
+            // What a click on its row there does (pages/addons.rs).
+            "ja-off" => {
+                self.st.settings.set_addon(JAPANESE_READINGS.id, false);
+                self.st.cmds.push(Command::SaveSettings);
+            }
             // The themes on the real window: Glass, then Oyen and Glass
             // around a notch (one the screen pretends to have; CI's Macs
             // have none), open and resting in the menu bar's line.
@@ -2381,6 +2481,18 @@ impl App {
                 let looked_up = !matches!(self.st.lyrics.status, LyricsStatus::Idle | LyricsStatus::Loading);
                 (self.st.media.is_some() && looked_up) || waited > 20.0
             }
+            "ja-offer" => {
+                let l = &self.st.lyrics;
+                let playing = self.st.media.as_ref().is_some_and(|m| m.track_key == l.track_key && m.title == SMOKE_JA_TRACK.0);
+                (playing && l.status == LyricsStatus::Found && waited > 0.5) || waited > 20.0
+            }
+            // The files in place and the song read again with them.
+            "ja-get" => match self.st.addon(JAPANESE_READINGS.id) {
+                AddonStatus::Ready => (!self.st.lyrics.wants_ja_readings && self.st.lyrics.status == LyricsStatus::Found) || waited > 60.0,
+                AddonStatus::Failed => true,
+                _ => waited > 60.0,
+            },
+            "ja-off" => (self.st.addon(JAPANESE_READINGS.id) == AddonStatus::Off && !ja_folder().exists() && self.addons.is_none()) || waited > 10.0,
             "menu" => waited > 1.0,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
@@ -2541,8 +2653,75 @@ impl App {
                 let ok = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK) && l.status == LyricsStatus::Found && lines > 0;
                 Some(("now-playing-lyrics", ok, format!("{playing}; lyrics {:?} from {}: {lines} lines, synced {synced}", l.status, l.source)))
             }
+            "ja-offer" => {
+                let l = &self.st.lyrics;
+                let (read, needing) = romaji_lines(l);
+                let offer = poni_core::addons::ja_offer(self.st.addon(JAPANESE_READINGS.id));
+                let ok = l.status == LyricsStatus::Found && l.wants_ja_readings && offer.as_ref().is_some_and(|o| o.1);
+                let d = format!("lyrics {:?} from {}: {read} of {needing} lines with romaji; offer {:?}", l.status, l.source, offer.map(|o| o.0));
+                Some(("ja-offer", ok, d))
+            }
+            "ja-get" => {
+                let status = self.st.addon(JAPANESE_READINGS.id);
+                let checked = |f: &poni_core::addons::AddonFile| {
+                    std::fs::read(services::addons::file_path(&JAPANESE_READINGS, f.name)).is_ok_and(|b| f.matches(&b))
+                };
+                let files: Vec<String> = JAPANESE_READINGS.files.iter().map(|f| format!("{} {}", f.name, if checked(f) { "checked" } else { "missing or different" })).collect();
+                let (read, needing) = romaji_lines(&self.st.lyrics);
+                let ok = status == AddonStatus::Ready && JAPANESE_READINGS.files.iter().all(checked) && read == needing && !self.st.lyrics.wants_ja_readings;
+                Some(("ja-readings-addon", ok, format!("{status:?}: {}; read again: {read} of {needing} lines with romaji", files.join(", "))))
+            }
+            "addons-tab" => {
+                let tabs = pages::tabs(&self.st);
+                let status = self.st.addon(JAPANESE_READINGS.id);
+                let ok = self.st.page == PageKind::Addons && tabs.last() == Some(&PageKind::Addons) && status == AddonStatus::Ready;
+                let d = format!("{} tabs, the last {:?}; Japanese readings: {}", tabs.len(), tabs.last(), status.line(&JAPANESE_READINGS, true));
+                Some(("addons-tab", ok, d))
+            }
+            "ja-off" => {
+                let status = self.st.addon(JAPANESE_READINGS.id);
+                let gone = !ja_folder().exists();
+                let ok = status == AddonStatus::Off && gone && self.addons.is_none();
+                let d = format!("{status:?}; files {}; downloader {}", if gone { "deleted" } else { "still there" }, if self.addons.is_none() { "stopped" } else { "still running" });
+                Some(("ja-readings-off", ok, d))
+            }
             _ => None,
         }
+    }
+}
+
+/// Lines of these lyrics that have romaji, and lines that need it.
+fn romaji_lines(l: &LyricsState) -> (usize, usize) {
+    let needing = l.lyrics.as_ref().map_or(0, |x| x.lines.iter().filter(|line| poni_core::romanize::needs_roman(line.text.trim())).count());
+    (l.ruby.iter().filter(|p| p.iter().any(|r| !r.roman.is_empty())).count(), needing)
+}
+
+/// The Japanese readings add-on's folder (every version).
+fn ja_folder() -> PathBuf {
+    paths::addons_dir().join(JAPANESE_READINGS.id)
+}
+
+/// The smoke run's Japanese song (`render::LYRICS_JA`) in the lyrics cache,
+/// as LRCLIB's answer: the lyrics worker finds it there as it would a song
+/// it looked up before. The entry is `services/lyrics.rs`'s `CacheEntry`
+/// (format 1); a new format makes the ja-offer check fail.
+fn seed_japanese_lyrics() {
+    use poni_core::lrclib::{self, LrclibRecord, TrackQuery};
+    let (title, artist, album, duration_s) = SMOKE_JA_TRACK;
+    let q = lrclib::normalize_query(&TrackQuery { title: title.into(), artist: artist.into(), album: album.into(), duration_s });
+    let record = LrclibRecord {
+        track_name: title.into(),
+        artist_name: artist.into(),
+        album_name: Some(album.into()),
+        duration: Some(duration_s as f64),
+        synced_lyrics: Some(crate::render::LYRICS_JA.into()),
+        ..Default::default()
+    };
+    let entry = serde_json::json!({ "v": 1, "lookup": 2, "fetched_at": clock::unix_now(), "record": record });
+    let path = paths::lyrics_cache_dir().join(format!("{}.json", lrclib::cache_key(&q)));
+    let saved = std::fs::create_dir_all(paths::lyrics_cache_dir()).and_then(|_| std::fs::write(&path, entry.to_string()));
+    if let Err(e) = saved {
+        pwarn!("smoke: couldn't put the Japanese song's lyrics in {} ({e})", path.display());
     }
 }
 
@@ -2709,7 +2888,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 32] = [
+const SMOKE_STEPS: [&str; 37] = [
     "idle",
     "hover",
     "open-focus",
@@ -2741,10 +2920,18 @@ const SMOKE_STEPS: [&str; 32] = [
     "notch-pill-open",
     "notch-pill-collapsed",
     "notch-pill-ear",
+    "ja-notify",
+    "ja-offer",
+    "ja-get",
+    "addons-tab",
+    "ja-off",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
 const SMOKE_TRACK: &str = "Blinding Lights";
+/// The made-up song with Japanese lyrics CI announces after it: title,
+/// artist, album and length (tools/mac-smoke.sh sends the same).
+const SMOKE_JA_TRACK: (&str, &str, &str, u32) = ("Paper Boats", "The Lanterns", "Harbor Lights", 201);
 /// What CI copies with `pbcopy` during the clipboard step.
 const SMOKE_CLIP: &str = "Oyenza Studio smoke test";
 

@@ -45,8 +45,8 @@ pub enum AppleMusicStatus {
 #[derive(Clone, Debug)]
 pub enum LyricsResult {
     /// `ruby`: each line's pieces with their readings (empty = none needed).
-    /// `wants_ja_readings`: always false here (the Mac carries the reading
-    /// dictionary built in); the lyrics worker is shared with Windows.
+    /// `wants_ja_readings`: kanji went unread for want of the Japanese
+    /// readings add-on (the Music page offers it).
     Found { lyrics: Lyrics, source: String, ruby: Vec<Vec<Ruby>>, wants_ja_readings: bool },
     Instrumental,
     NotFound,
@@ -87,6 +87,8 @@ pub enum AppEvent {
     ClipboardText(String),
     /// Something happened in Phone drop (a phone visited, asked, sent files).
     Phone(poni_core::phonedrop::Event),
+    /// Where an add-on's files stand (`services::addons`).
+    Addon { id: &'static str, status: poni_core::addons::Status },
     /// Free-form log line from a service thread.
     Log(String),
 }

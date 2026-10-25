@@ -1,10 +1,11 @@
-//! Japanese readings from Oyenza Studio's own dictionary, for PCs where Windows'
-//! reading analyzer has no data (Windows 11 keeps it in the Japanese typing
-//! feature, which most PCs outside Japan don't have).
+//! Japanese readings from Oyenza Studio's own dictionary, for Macs and for PCs
+//! where Windows' reading analyzer has no data (Windows 11 keeps it in the
+//! Japanese typing feature, which most PCs outside Japan don't have).
 //!
 //! The dictionary is mecab-ipadic 2.7.0-20070801 trimmed for lyrics and
 //! compiled for vibrato, a Rust port of MeCab's method: `data/ja-readings.dic.zst`
-//! (3.8 MB packed, 14 MB loaded), built by `tools/make_ja_dict.py`. Every copy
+//! (3.8 MB packed, 14 MB loaded), built by `tools/make_ja_dict.py` and
+//! downloaded as the Japanese readings add-on (`crate::addons`). Every copy
 //! must carry mecab-ipadic's notice (THIRD-PARTY-NOTICES.txt). A line is split
 //! into the cheapest chain of dictionary words, and the words go through the
 //! same [`japanese_ruby`] as the analyzer's.
@@ -18,11 +19,6 @@
 use super::{is_han, is_kana, japanese_ruby, JaWord, Ruby};
 use std::io::Read;
 use vibrato::{Dictionary, Tokenizer};
-
-/// The packed dictionary, built into the binary (the Mac app; Windows reads
-/// the Japanese readings add-on's copy with [`JaDict::load`]).
-#[cfg(feature = "ja-dict")]
-static PACKED: &[u8] = include_bytes!("../../data/ja-readings.dic.zst");
 
 /// Lines longer than this are read in chunks, cut after a space when there is one.
 const CHUNK_MAX: usize = 400;
@@ -42,13 +38,8 @@ struct Word {
 }
 
 impl JaDict {
-    /// The dictionary built into the binary (about 0.1 s in a release build).
-    #[cfg(feature = "ja-dict")]
-    pub fn embedded() -> Result<JaDict, String> {
-        JaDict::load(PACKED)
-    }
-
-    /// Load a dictionary packed by `tools/make_ja_dict.py`.
+    /// Load a dictionary packed by `tools/make_ja_dict.py` (the Japanese
+    /// readings add-on's file; about 0.1 s in a release build).
     pub fn load(packed: &[u8]) -> Result<JaDict, String> {
         let fail = |e: &dyn std::fmt::Display| format!("couldn't load Oyenza Studio's Japanese reading dictionary ({e})");
         let mut raw = Vec::new();

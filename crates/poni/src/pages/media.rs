@@ -108,6 +108,9 @@ const CREDIT_H: f32 = 14.0;
 const CREDIT_GAP: f32 = 4.0;
 /// The credit fades in while the pointer is over the lyrics column.
 const CREDIT_FADE_S: f32 = 0.15;
+/// The Japanese readings offer shrinks to fit the column, to no less than this
+/// of the caption size (beyond that it's cut).
+const OFFER_MIN_SCALE: f32 = 0.85;
 /// Credited when a result doesn't name its source.
 const DEFAULT_SOURCE: &str = "LRCLIB";
 
@@ -727,8 +730,14 @@ fn draw_credit(ui: &mut Ui, col: Rect, label: &str, alpha: f32) -> bool {
 
 /// The Japanese readings add-on's line where the credit goes, shown while the
 /// song needs it; `click`: it takes a click (returns true when clicked).
+/// Where it's wider than the column (the Mac's font is wider, or the island
+/// narrower) it's set a little smaller, so its end, the size, still shows.
 fn draw_offer(ui: &mut Ui, col: Rect, line: &str, click: bool) -> bool {
-    let ts = TextStyle::caption();
+    let mut ts = TextStyle::caption();
+    let full = ui.c.measure(line, &ts, 10_000.0).0;
+    if full > col.w - 2.0 {
+        ts.size *= ((col.w - 2.0) / full).max(OFFER_MIN_SCALE);
+    }
     let (tw, _) = ui.c.measure(line, &ts, col.w);
     let r = Rect::new(col.x, col.bottom() - CREDIT_H, (tw + 2.0).min(col.w), CREDIT_H);
     if !click {

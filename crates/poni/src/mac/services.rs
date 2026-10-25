@@ -1,8 +1,9 @@
 //! The Mac's side of what the island asks the system for: what Music and
-//! Spotify play, lyrics, power, volume, system stats, the System page's
-//! readings, the clipboard, Shelf tiles, Phone drop and start at login (one
-//! file each), plus a few direct calls (the accent colour, opening and
-//! revealing files, sounds). Oyenza sign-in comes in a later slice.
+//! Spotify play, lyrics, the Japanese readings add-on, power, volume, system
+//! stats, the System page's readings, the clipboard, Shelf tiles, Phone drop
+//! and start at login (one file each), plus a few direct calls (the accent
+//! colour, opening and revealing files, sounds). Oyenza sign-in comes in a
+//! later slice.
 
 // This file is loaded with #[path], so its modules sit in services/ by path.
 #[path = "services/audio.rs"]
@@ -26,6 +27,9 @@ pub mod secret;
 pub mod applemusic;
 #[path = "../services/lyrics.rs"]
 pub mod lyrics;
+// So is the add-ons' downloader: the Mac offers Japanese readings with it.
+#[path = "../services/addons.rs"]
+pub mod addons;
 #[path = "services/login.rs"]
 pub mod login;
 #[path = "services/phonedrop.rs"]

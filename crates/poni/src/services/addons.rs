@@ -10,13 +10,15 @@
 //! not retried until the add-on is switched off and on again.
 //!
 //! One worker thread, asleep on a condition variable whenever nothing is
-//! wanted, with its own HTTP client.
+//! wanted, with its own HTTP client. The Mac app runs this file as is, on
+//! its own HTTP client (`mac/services/http.rs`), for the add-ons it offers.
 
 use crate::events::{AppEvent, EventSink};
 use crate::services::http::{Client, FetchError, MtaGuard};
 use poni_core::addons::{self, Addon, AddonFile, Status};
 use std::collections::BTreeMap;
 use std::fs;
+use std::io;
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
@@ -35,13 +37,14 @@ pub struct AddonService {
 
 impl AddonService {
     /// `on`: the add-ons switched on in settings.
-    pub fn start(sink: EventSink, on: Vec<&'static str>) -> windows::core::Result<Self> {
+    pub fn start(sink: EventSink, on: Vec<&'static str>) -> io::Result<Self> {
         let want = addons::ALL.iter().map(|a| (a.id, on.contains(&a.id))).collect();
         let shared = Arc::new(Shared { q: Mutex::new(Queue { want, shutdown: false }), cv: Condvar::new() });
         let worker = shared.clone();
-        std::thread::Builder::new().name("poni-addons".into()).spawn(move || worker_main(worker, sink, crate::paths::addons_dir())).map_err(|e| {
-            windows::core::Error::new(windows::Win32::Foundation::E_FAIL, format!("could not start the add-ons thread: {e}"))
-        })?;
+        std::thread::Builder::new()
+            .name("poni-addons".into())
+            .spawn(move || worker_main(worker, sink, crate::paths::addons_dir()))
+            .map_err(|e| io::Error::other(format!("could not start the add-ons thread: {e}")))?;
         Ok(Self { shared })
     }
 

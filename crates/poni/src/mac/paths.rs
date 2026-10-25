@@ -58,6 +58,13 @@ pub fn lyrics_cache_dir() -> PathBuf {
     cache_dir().join("lyrics")
 }
 
+/// Add-on files, one folder per add-on (`services::addons`), only there
+/// while the add-on is switched on. A Mac that clears its caches downloads
+/// them again.
+pub fn addons_dir() -> PathBuf {
+    cache_dir().join("addons")
+}
+
 /// The person's Apple Music token (owner-only file; uninstalling with the
 /// cache folder removes it).
 pub fn apple_music_token_path() -> PathBuf {
