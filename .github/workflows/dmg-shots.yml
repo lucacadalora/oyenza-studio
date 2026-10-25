@@ -1,0 +1,41 @@
+name: dmg-shots
+# Throwaway (qa branch only): Finder screenshots of the 0.2.4 DMG and the new installer-window DMGs.
+on:
+  push:
+    branches: ["qa/dmg-window-shots"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  shots:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: The 0.2.4 DMG (before) and new DMGs around its app (after)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sw_vers; system_profiler SPDisplaysDataType | grep -E "Resolution|Retina" || true
+          mkdir -p before after app
+          gh release download v0.2.4 -R lucacadalora/oyenza-studio -p 'Oyenza-Studio-0.2.4-mac.dmg' -D before
+          hdiutil attach before/*.dmg -nobrowse -readonly -mountpoint /tmp/old
+          ditto "/tmp/old/Oyenza Studio.app" "app/Oyenza Studio.app"
+          hdiutil detach /tmp/old
+          bash tools/make_mac_dmg.sh "app/Oyenza Studio.app" after/test.dmg test
+          bash tools/make_mac_dmg.sh "app/Oyenza Studio.app" after/signed.dmg signed
+          ls -l before after
+      - name: Screenshots
+        run: |
+          bash qa/dmg-shot.sh before/*.dmg before light
+          bash qa/dmg-shot.sh after/test.dmg after-test light
+          bash qa/dmg-shot.sh after/signed.dmg after-signed light
+          bash qa/dmg-shot.sh after/test.dmg after-test dark
+          bash qa/dmg-shot.sh after/signed.dmg after-signed dark
+          bash qa/dmg-shot.sh before/*.dmg before dark
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dmg-shots
+          path: |
+            shots/*.png
+            after/*.dmg
