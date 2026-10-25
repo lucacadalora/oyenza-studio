@@ -33,7 +33,7 @@ impl Tray {
                 hIcon: icon,
                 ..Default::default()
             };
-            let tip: Vec<u16> = "Oyenza Studio".encode_utf16().collect();
+            let tip: Vec<u16> = format!("Oyenza Studio {}", crate::version::VERSION).encode_utf16().collect();
             nid.szTip[..tip.len()].copy_from_slice(&tip);
             if !Shell_NotifyIconW(NIM_ADD, &nid).as_bool() {
                 return Err(windows::core::Error::from_win32());
@@ -73,7 +73,10 @@ pub enum MenuCmd {
     OpenSettings,
     ReloadSettings,
     OpenDataFolder,
+    /// "About Oyenza Studio 0.2.3 (…)": opens this version's release notes.
     About,
+    /// "Lyrics by LRCLIB": opens lrclib.net.
+    LyricsCredit,
     AppleMusicToken,
     AppleMusicHelp,
     AppleMusicForget,
@@ -148,7 +151,9 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
         item("Open settings file", MenuCmd::OpenSettings, false),
         item("Reload settings", MenuCmd::ReloadSettings, false),
         item("Open data folder", MenuCmd::OpenDataFolder, false),
-        item("Lyrics by LRCLIB", MenuCmd::About, false),
+        item("Lyrics by LRCLIB", MenuCmd::LyricsCredit, false),
+        // Which version and build this is, as the Mac menu says it.
+        item(&crate::version::about_label(), MenuCmd::About, false),
         MenuItem::Separator,
         item("Quit Oyenza Studio", MenuCmd::Quit, false),
     ];
@@ -236,7 +241,10 @@ pub fn show_menu(owner: HWND, pt: POINT, items: &[MenuItem]) -> Option<MenuCmd> 
         let _ = DestroyMenu(menu);
         let idx = chosen.0 as usize;
         let cmd = if idx == 0 { None } else { cmds.get(idx - 1).copied() };
-        let launches = matches!(cmd, Some(MenuCmd::OpenSettings | MenuCmd::OpenDataFolder | MenuCmd::About | MenuCmd::AppleMusicHelp | MenuCmd::OyenzaOpen));
+        let launches = matches!(
+            cmd,
+            Some(MenuCmd::OpenSettings | MenuCmd::OpenDataFolder | MenuCmd::About | MenuCmd::LyricsCredit | MenuCmd::AppleMusicHelp | MenuCmd::OyenzaOpen)
+        );
         if !launches && !prev.is_invalid() && prev != owner && IsWindow(prev).as_bool() && GetForegroundWindow() == owner {
             let _ = SetForegroundWindow(prev);
         }
@@ -260,6 +268,24 @@ mod tests {
                 _ => None,
             })
             .collect()
+    }
+
+    #[test]
+    fn the_menu_says_which_version_this_is() {
+        let items = menu_items(&Settings::default(), false, &OyenzaLink::Off, false);
+        let labels: Vec<(String, MenuCmd)> = items
+            .into_iter()
+            .filter_map(|i| match i {
+                MenuItem::Item { label, cmd, .. } => Some((label, cmd)),
+                _ => None,
+            })
+            .collect();
+        let at = |cmd: MenuCmd| labels.iter().position(|l| l.1 == cmd);
+        let about = at(MenuCmd::About).expect("no About line");
+        assert!(labels[about].0.starts_with(&format!("About Oyenza Studio {}", env!("CARGO_PKG_VERSION"))), "{}", labels[about].0);
+        // Right above Quit, with the lyrics credit kept above it.
+        assert_eq!(at(MenuCmd::Quit), Some(about + 1));
+        assert_eq!(at(MenuCmd::LyricsCredit), Some(about - 1));
     }
 
     #[test]

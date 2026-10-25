@@ -2,10 +2,11 @@
 //! money that arrived or went out by itself, the last 7 days of transactions
 //! while the Oyenza page is open, and bills due soon, and saving the spends
 //! typed in the island. Words, URLs and parsing live in `poni_core::oyenza`; this file
-//! does the HTTP on one worker thread and keeps the key sealed with DPAPI
-//! (`services::secret`) at `paths::oyenza_link_path()`.
+//! does the HTTP on one worker thread and keeps the key with `services::secret`
+//! at `paths::oyenza_link_path()`: sealed with DPAPI on Windows, a file only
+//! the Mac account can read on a Mac (which shares this file as is).
 //!
-//! Nothing runs until the person signs in from the tray. Then:
+//! Nothing runs until the person signs in (Settings or the tray). Then:
 //! - money every minute while the PC is in use on mains power, every 3
 //!   minutes on battery or battery saver, and not at all while the session is
 //!   locked or the display is off (one call as soon as it's back);
@@ -36,17 +37,30 @@ const REFRESH_GAP: Duration = Duration::from_secs(30);
 /// A disconnect that couldn't reach the server is retried this often.
 const REVOKE_EVERY: Duration = Duration::from_secs(3600);
 
+/// What oyenza.app lists this computer as: the PC's name, or the Mac's as
+/// System Settings › General › About shows it.
+#[cfg(windows)]
+fn computer_name() -> String {
+    std::env::var("COMPUTERNAME").unwrap_or_default()
+}
+
+#[cfg(not(windows))]
+fn computer_name() -> String {
+    crate::services::phonedrop::computer_name().unwrap_or_default()
+}
+
 pub struct OyenzaService {
     shared: Arc<Shared>,
 }
 
 impl OyenzaService {
-    pub fn start(sink: EventSink, activity: Activity) -> windows::core::Result<Self> {
+    pub fn start(sink: EventSink, activity: Activity) -> std::io::Result<Self> {
         let shared = Arc::new(Shared { q: Mutex::new(Queue { activity, ..Default::default() }), cv: Condvar::new() });
         let worker = shared.clone();
-        std::thread::Builder::new().name("poni-oyenza".into()).spawn(move || worker_main(worker, sink)).map_err(|e| {
-            windows::core::Error::new(windows::Win32::Foundation::E_FAIL, format!("could not start the Oyenza thread: {e}"))
-        })?;
+        std::thread::Builder::new()
+            .name("poni-oyenza".into())
+            .spawn(move || worker_main(worker, sink))
+            .map_err(|e| std::io::Error::other(format!("could not start the Oyenza thread: {e}")))?;
         Ok(Self { shared })
     }
 
@@ -311,7 +325,7 @@ impl Worker {
             self.send(OyenzaEvent::Restored { account: l.account.clone() });
             return;
         }
-        let name = oyenza::pc_name(&std::env::var("COMPUTERNAME").unwrap_or_default());
+        let name = oyenza::pc_name(&computer_name());
         let body = oyenza::start_body(&name, env!("CARGO_PKG_VERSION"));
         match self.call(Method::Post, &oyenza::start_url(), None, Some(&body), TIMEOUT) {
             Ok(r) if r.status == 200 => match oyenza::parse_started(&r.body) {

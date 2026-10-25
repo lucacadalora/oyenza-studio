@@ -26,13 +26,16 @@ use crate::island::{Island, SHOULDER};
 use crate::notch::{self, Notch};
 use crate::pages::{self, PageKind};
 use crate::services::romanize::{self, Pronounced};
-use crate::state::{AppState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, NoticeAction, PowerState, SysStats, VolumeState};
+use crate::state::{
+    AppState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, NoticeAction, OyenzaLink, OyenzaState, PowerState, SysStats, VolumeState,
+};
 use crate::ui::{Hit, Input};
 use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
 use poni_core::datetime::LocalDateTime;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::parse_lrc;
+use poni_core::oyenza::{Activity, Bill, Day, Seen, Txn, WalletRef};
 use poni_core::pomodoro::{Phase, RunState};
 use poni_core::power::PowerReading;
 use poni_core::prayer::{PlaceList, Prayer};
@@ -130,6 +133,15 @@ enum Scene {
     PrayerPicker,
     PrayerCountdown,
     PrayerNotice,
+    /// Bluetooth headphones connected (the headphone pop-up).
+    HeadphonesHud,
+    /// Oyenza, signed in as a made-up account: its page (today's and
+    /// yesterday's transactions, bills due), the sign-in code, a money
+    /// notice with the sum held back, and Settings signed in.
+    Oyenza,
+    OyenzaCode,
+    OyenzaNotice,
+    SettingsSignedIn,
 }
 
 const SCENES: [Scene; 19] = [
@@ -189,7 +201,13 @@ const ADDON_SCENES: [Scene; 3] = [
 /// Prayer times, after the Add-ons tab.
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
 
-/// The System page's Power module on a Mac without a battery, after Prayer times.
+/// The Settings page (behind the gear), after Prayer times.
+const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
+/// The headphone pop-up, after Settings.
+const HEADPHONE_SCENES: [Scene; 1] = [Scene::HeadphonesHud];
+/// Oyenza sign-in, after the headphone pop-up.
+const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::OyenzaNotice, Scene::SettingsSignedIn];
+/// The System page's Power module on a Mac without a battery, after Oyenza.
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 
 impl Scene {
@@ -223,6 +241,11 @@ impl Scene {
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
             Scene::PrayerNotice => "prayer-notice".into(),
+            Scene::HeadphonesHud => "headphones-hud".into(),
+            Scene::Oyenza => "page-oyenza".into(),
+            Scene::OyenzaCode => "page-oyenza-code".into(),
+            Scene::OyenzaNotice => "oyenza-notice".into(),
+            Scene::SettingsSignedIn => "page-settings-signed-in".into(),
         }
     }
 }
@@ -286,9 +309,9 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times and Power in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza and Power in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(POWER_SCENES).enumerate() {
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -477,6 +500,82 @@ fn base_state(theme: Theme) -> AppState {
     st
 }
 
+/// Oyenza for its scenes, all made up: today's and yesterday's
+/// transactions (today's newest just landed, so it glows), bills due
+/// tomorrow and later; or, signing in, the code to type in oyenza.app.
+pub(crate) fn fake_oyenza(st: &AppState, connecting: bool) -> OyenzaState {
+    let iso = |t: i64| {
+        let (y, m, d) = poni_core::datetime::civil_from_days(t.div_euclid(86_400));
+        let s = t.rem_euclid(86_400);
+        format!("{y:04}-{m:02}-{d:02}T{:02}:{:02}:{:02}Z", s / 3600, s % 3600 / 60, s % 60)
+    };
+    let midnight = st.unix - (st.local.hour as i64 * 3600 + st.local.minute as i64 * 60 + st.local.second as i64);
+    let at = |days_ago: i64, h: i64, m: i64| iso(midnight - days_ago * 86_400 + h * 3600 + m * 60);
+    let txn = |id: &str, kind: &str, title: &str, text: &str, wallet: (&str, &str), at: String, auto: bool| Txn {
+        id: id.into(),
+        kind: kind.into(),
+        title: title.into(),
+        amount: 1.0,
+        text: text.into(),
+        category: None,
+        wallet: Some(WalletRef { name: wallet.0.into(), color: wallet.1.into() }),
+        to_wallet: None,
+        at,
+        auto,
+    };
+    let (bca, gopay, ovo) = (("BCA", "#0060AF"), ("GoPay", "#00AED6"), ("OVO", "#4C3494"));
+    let day = |n: i64| st.local.add_days(n).day_key();
+    let today = Day {
+        date: day(0),
+        count: 3,
+        in_sum: 1_250_000.0,
+        out: 63_000.0,
+        in_text: "Rp 1.250.000".into(),
+        out_text: "Rp 63.000".into(),
+        rows: vec![
+            txn("t3", "income", "Gaji Oktober", "Rp 1.250.000", bca, at(0, 9, 38), true),
+            txn("t2", "expense", "Kopi susu", "Rp 25.000", gopay, at(0, 8, 51), false),
+            txn("t1", "expense", "Grab ke kantor", "Rp 38.000", ovo, at(0, 8, 2), false),
+        ],
+    };
+    let yesterday = Day {
+        date: day(-1),
+        count: 2,
+        in_sum: 0.0,
+        out: 390_000.0,
+        in_text: "Rp 0".into(),
+        out_text: "Rp 390.000".into(),
+        rows: vec![txn("y2", "expense", "Makan siang", "Rp 40.000", gopay, at(1, 12, 40), false), txn("y1", "expense", "Listrik PLN", "Rp 350.000", bca, at(1, 10, 2), true)],
+    };
+    let empty = |n: i64| Day { date: day(-n), count: 0, in_sum: 0.0, out: 0.0, in_text: "Rp 0".into(), out_text: "Rp 0".into(), rows: Vec::new() };
+    let days = vec![today, yesterday, empty(2), empty(3), empty(4), empty(5), empty(6)];
+    // Everything was on the page a while ago except today's newest, which just landed.
+    let mut seen = Seen::default();
+    let mut before = days.clone();
+    before[0].rows.remove(0);
+    seen.note(&before, st.now - 120.0);
+    seen.note(&days, st.now - 12.0);
+    let link = if connecting {
+        OyenzaLink::Connecting { code: "KPJX-TMNQ".into(), url: "https://oyenza.app/connect?code=KPJX-TMNQ".into(), until: st.now + 581.0 }
+    } else {
+        OyenzaLink::Connected { account: "a\u{2022}\u{2022}\u{2022}@example.com".into() }
+    };
+    let bill = |kind: &str, name: &str, due: String, text: Option<&str>| Bill { kind: kind.into(), name: name.into(), due, amount: text.map(|_| 1.0), text: text.map(Into::into) };
+    OyenzaState {
+        link,
+        activity: Some(Activity { cursor: "42".into(), today: day(0), days }),
+        seen,
+        bills: vec![
+            bill("subscription", "Spotify", day(1), Some("Rp 54.990")),
+            bill("card", "Kartu Kredit BCA", day(1), None),
+            bill("subscription", "Netflix", day(5), Some("Rp 54.000")),
+        ],
+        bills_today: st.day_key(),
+        updated_unix: Some(st.unix - 8),
+        ..OyenzaState::default()
+    }
+}
+
 fn seed(st: &mut AppState) {
     let unix = st.unix;
     let day_start = st.day_start_unix();
@@ -598,6 +697,10 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             st.hud = Some(Hud { kind: HudKind::LowBattery { percent: 19 }, until: NOW_MONO + 30.0 });
             Mode::Hud(activities::HudTag::LowBattery)
         }
+        Scene::HeadphonesHud => {
+            st.hud = Some(Hud { kind: HudKind::Bluetooth { name: "AirPods Pro".into(), connected: true, battery: None, audio: true }, until: NOW_MONO + 30.0 });
+            Mode::Hud(activities::HudTag::Bluetooth)
+        }
         Scene::ShelfItems => {
             // Real files, with tiles from the Mac's own thumbnail code.
             let dir = std::env::temp_dir().join("poni-render-shelf");
@@ -634,6 +737,22 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = p;
             Mode::Expanded(p)
+        }
+        Scene::Oyenza | Scene::OyenzaCode => {
+            st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);
+            st.page = PageKind::Oyenza;
+            Mode::Expanded(PageKind::Oyenza)
+        }
+        Scene::OyenzaNotice => {
+            st.oyenza = fake_oyenza(&st, false);
+            st.notify(Icon::MoneyIn, palette::GREEN, "Money in \u{b7} BCA", "Amount and sender hidden", 30.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
+            st.set_notice_inline(InlineAction::ShowAmount);
+            Mode::Notice
+        }
+        Scene::SettingsSignedIn => {
+            st.oyenza = fake_oyenza(&st, false);
+            st.page = PageKind::Settings;
+            Mode::Expanded(PageKind::Settings)
         }
         Scene::HealthSignedOut => {
             st.health = None;
