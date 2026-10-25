@@ -63,8 +63,9 @@ pub enum AppEvent {
     MediaArt { track_key: String, art: Option<Image> },
     Lyrics { track_key: String, result: LyricsResult },
     AppleMusic(AppleMusicStatus),
-    /// Master volume changed (0..=1).
-    Volume { level: f32, muted: bool },
+    /// Master volume changed (0..=1). `switched`: the output device changed
+    /// (headphones connected, say), not its volume.
+    Volume { level: f32, muted: bool, switched: bool },
     Power(PowerState),
     Bluetooth { name: String, connected: bool, battery: Option<u8>, audio: bool },
     /// A full-screen app took over (or left) the island's screen.

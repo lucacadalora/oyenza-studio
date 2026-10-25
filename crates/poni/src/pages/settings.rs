@@ -181,6 +181,8 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
             let row = Rect::new(cols[c], area.y + SWITCHES_Y + r as f32 * ROW_H, col_w, ROW_H);
             match kind {
                 Row::Switch(sw, label) => {
+                    // A Mac starts apps at login, as its menu bar says.
+                    let label = if cfg!(target_os = "macos") && sw == Switch::Autostart { "Start at login" } else { label };
                     let on = switch_on(st, sw);
                     let id = wid_n("settings.switch", (c * ROWS + r) as u64);
                     if switch_row_on(ui, id, row, label, on, accent, card) {

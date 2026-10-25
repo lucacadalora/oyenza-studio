@@ -324,6 +324,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -362,3 +363,10 @@ jobs:
             sleep 30
           done
           gh release upload "$tag" "dist/Oyenza-Studio-${tag#v}-mac.dmg" dist/Oyenza-Studio-Mac.dmg dist/Oyen-Poni-Mac.dmg --clobber
+      # latest.json tells Macs about a release only once its DMG is there
+      # (docs/updates.md): have the Website workflow write it again now.
+      - name: Let the update file name the DMG
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run pages.yml --ref main -f released="${GITHUB_REF_NAME#v}"

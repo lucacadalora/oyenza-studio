@@ -53,8 +53,6 @@ use std::path::PathBuf;
 use std::ptr::NonNull;
 use std::sync::mpsc::{self, Receiver};
 
-/// Where the README explains the project.
-const ABOUT_URL: &str = "https://github.com/lucacadalora/oyenza-studio";
 /// Steps for copying the Apple Music token (README).
 const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/oyenza-studio#apple-music-lyrics";
 
@@ -404,6 +402,9 @@ pub struct App {
     cost: DrawCost,
     smoke_timer: Option<poni_core::pomodoro::Pomodoro>,
     smoke_point: Option<Point>,
+    /// The headphones step: device list changes heard before it, and how
+    /// adding and removing its test device went.
+    smoke_devices: Option<(u32, Result<(), i32>)>,
     /// The smoke run's full-screen window (a second copy of the app).
     smoke_full_screen: Option<std::process::Child>,
     /// The island floated on the last frame (Pill letting go of the notch).
@@ -499,6 +500,7 @@ impl App {
             cost: DrawCost::default(),
             smoke_timer: None,
             smoke_point: None,
+            smoke_devices: None,
             smoke_full_screen: None,
             was_floating: false,
         }
@@ -876,7 +878,7 @@ impl App {
                 }
             }
             MenuCmd::OpenDataFolder => services::open(&paths::data_dir().to_string_lossy()),
-            MenuCmd::About => services::open(ABOUT_URL),
+            MenuCmd::About => services::open(&crate::version::notes_url()),
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -1171,11 +1173,14 @@ impl App {
                 }
             }
             AppEvent::AppleMusic(status) => self.on_apple_music(status),
-            AppEvent::Volume { level, muted } => {
+            AppEvent::Volume { level, muted, switched } => {
                 // The first report only sets the level; changes show the pop-up.
                 let first = !self.st.volume.known;
                 self.st.volume = VolumeState { level, muted, known: true };
-                if !first && self.st.settings.hud_volume {
+                // A new output device's level isn't news while the headphone
+                // pop-up says why the device changed.
+                let headphones = switched && matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Bluetooth { .. }));
+                if !first && !headphones && self.st.settings.hud_volume {
                     self.st.show_hud(HudKind::Volume { level, muted }, 1.6);
                 }
             }
@@ -1248,11 +1253,15 @@ impl App {
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
+            AppEvent::Bluetooth { name, connected, battery, audio } => {
+                if self.st.settings.hud_bluetooth {
+                    self.st.show_hud(HudKind::Bluetooth { name, connected, battery, audio }, 2.6);
+                }
+            }
             AppEvent::Fullscreen(on) => {
                 self.front_full_screen = on;
                 self.apply_fullscreen();
             }
-            // Bluetooth events come with a later slice.
             _ => {}
         }
         if let Some(before) = media_before {
@@ -2679,9 +2688,18 @@ impl App {
             "volume-hud" => {
                 self.st.notice = None;
                 if !self.st.volume.known {
-                    self.on_event(AppEvent::Volume { level: 0.5, muted: false });
+                    self.on_event(AppEvent::Volume { level: 0.5, muted: false, switched: false });
                 }
-                self.on_event(AppEvent::Volume { level: 0.64, muted: false });
+                self.on_event(AppEvent::Volume { level: 0.64, muted: false, switched: false });
+            }
+            // CI's Macs have no headphones to connect: a device only this app
+            // sees comes and goes (the device list listener must hear it), and
+            // the pop-up a pair of AirPods would bring is shown on the window.
+            "headphones" => {
+                self.st.hud = None;
+                let before = services::audio::list_changes();
+                self.smoke_devices = Some((before, services::audio::smoke_device_change()));
+                self.on_event(AppEvent::Bluetooth { name: "AirPods Pro".into(), connected: true, battery: None, audio: true });
             }
             "charging-hud" => {
                 self.st.hud = None;
@@ -2920,6 +2938,7 @@ impl App {
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
             "prayer-locate" => self.st.prayer.locate != Locate::Asking || waited > 6.0,
             "prayer-off" => (self.st.addon(PRAYER_TIMES.id) == AddonStatus::Off && !prayer_folder().exists() && self.addons.is_none()) || waited > 10.0,
+            "headphones" => self.smoke_devices.as_ref().is_some_and(|(before, _)| services::audio::list_changes() > *before) || waited > 4.0,
             "fullscreen-hide" => self.fullscreen_hidden || waited > 12.0,
             "fullscreen-stay" => (!self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 6.0,
             "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
@@ -3007,6 +3026,13 @@ impl App {
             "volume-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Volume { .. }));
                 Some(("volume-hud", ok, format!("output device: {:?}", services::audio::current())))
+            }
+            "headphones" => {
+                let popup = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Bluetooth { connected: true, .. }));
+                let (before, made) = self.smoke_devices.clone().unwrap_or((0, Err(0)));
+                let after = services::audio::list_changes();
+                let ok = popup && made.is_ok() && after > before;
+                Some(("headphones", ok, format!("pop-up shown: {popup}; device list changes heard: {before} -> {after} (test device: {made:?})")))
             }
             "charging-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Charging { .. }));
@@ -3375,7 +3401,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 46] = [
+const SMOKE_STEPS: [&str; 47] = [
     "idle",
     "hover",
     "open-focus",
@@ -3389,6 +3415,7 @@ const SMOKE_STEPS: [&str; 46] = [
     "notice",
     "volume-hud",
     "charging-hud",
+    "headphones",
     "clipboard-copy",
     "clipboard-page",
     "shelf-drop",

@@ -1665,7 +1665,8 @@ impl App {
                 }
             }
             OpenDataFolder => shell::open(&paths::data_dir().to_string_lossy()),
-            About => shell::open("https://lrclib.net"),
+            About => shell::open(&crate::version::notes_url()),
+            LyricsCredit => shell::open("https://lrclib.net"),
             AppleMusicToken => self.use_apple_music_token(),
             AppleMusicHelp => shell::open(APPLE_MUSIC_HELP_URL),
             AppleMusicForget => self.forget_apple_music_token(),
