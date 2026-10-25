@@ -7,8 +7,8 @@
 #
 # The input is the test DMG tools/make_mac_app.sh builds (<name>-<version>-mac-unsigned.dmg). Its app is re-signed
 # with the hardened runtime, a secure timestamp and installer/mac/poni.entitlements, and goes into a new DMG with
-# the same name minus "-unsigned", without the "How to open" note a signed build doesn't need. The app is found
-# as the DMG's only .app, so a renamed app needs no change here.
+# the same name minus "-unsigned" and the same installer window (tools/make_mac_dmg.sh), without the test build's
+# note on Open Anyway. The app is found as the DMG's only .app, so a renamed app needs no change here.
 #
 # <signing identity> is what `codesign --sign` takes; CI passes the certificate's SHA-1 from its keychain, and
 # SIGN_KEYCHAIN names that keychain. Notarizing needs NOTARY_KEY (the App Store Connect key's .p8 file),
@@ -53,12 +53,10 @@ codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.app
 codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.apple.security.personal-information.location" \
   || { echo "the app's signature lacks the location entitlement (installer/mac/poni.entitlements)" >&2; exit 1; }
 
-# 2. The DMG: the app and a link to Applications, signed too.
-ln -s /Applications "$work/stage/Applications"
+# 2. The DMG: the installer window with the signed app, signed too.
 base="$(basename "$src" .dmg)"
 dmg="$out/${base%-unsigned}.dmg"
-rm -f "$dmg"
-hdiutil create -volname "${name%.app}" -srcfolder "$work/stage" -ov -format UDZO "$dmg" -quiet
+bash "$root/tools/make_mac_dmg.sh" "$app" "$dmg" signed
 codesign --force --timestamp --sign "$identity" ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} "$dmg"
 codesign --verify --verbose=2 "$dmg"
 

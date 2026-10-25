@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Oyenza Studio DMG window</title>
+<!-- The picture behind the Mac DMG's window, drawn by tools/make_dmg_art.py at
+     1x and 2x. Finder lays the icons on top: the app at (180, 224) and the
+     Applications link at (480, 224), 128 pt, with their names under them
+     (tools/mac_dmg_settings.py). Nothing here may sit where Finder draws an
+     icon or its name. #test draws the test build's note (the ad-hoc DMG
+     needs Open Anyway once), #signed the line a notarized DMG needs.
+     Outfit comes from the app's own font files, so no network is needed. -->
+<style>
+@font-face { font-family: "Outfit"; font-weight: 500; src: url("../crates/poni/res/fonts/Outfit-Medium.ttf"); }
+@font-face { font-family: "Outfit"; font-weight: 600; src: url("../crates/poni/res/fonts/Outfit-SemiBold.ttf"); }
+:root {
+  --ink: #171717;
+  --muted: #6e6e73;
+  --ground: #f7f4f0;
+  --cream: #fdebd6;
+}
+html, body { margin: 0; }
+body { width: 660px; height: 420px; overflow: hidden; font-family: "Outfit", sans-serif; -webkit-font-smoothing: antialiased; color: var(--ink); background: var(--ground); position: relative; }
+img, svg { display: block; position: absolute; }
+/* A cream band under the icons: flat colour, so the picture stays small in the DMG. */
+.band { left: 0; top: 0; }
+.brand { position: absolute; left: 26px; top: 22px; display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+.brand img { position: static; width: 26px; height: 26px; }
+h1 { position: absolute; left: 0; right: 0; top: 58px; margin: 0; text-align: center; font-weight: 600; font-size: 27px; letter-spacing: -0.015em; }
+p { position: absolute; left: 0; right: 0; margin: 0; text-align: center; font-weight: 500; font-size: 14px; color: var(--muted); }
+.next { top: 100px; }
+.arrow { left: 0; top: 0; }
+.oyen { left: 245px; top: 322px; width: 170px; }
+body:not(.test) .test, body.test .signed { display: none; }
+</style>
+</head>
+<body>
+<svg class="band" width="660" height="420" viewBox="0 0 660 420" aria-hidden="true">
+  <path d="M0 196 C 150 168, 300 214, 450 190 S 620 166, 660 178 L 660 420 L 0 420 Z" fill="var(--cream)" opacity="0.55"/>
+  <path d="M0 262 C 170 236, 330 286, 480 262 S 630 240, 660 250 L 660 420 L 0 420 Z" fill="var(--cream)"/>
+</svg>
+<div class="brand"><img src="../docs/brand/oyen-poni-logo.svg" alt="">Oyenza Studio</div>
+<h1>Drag Oyenza Studio into Applications.</h1>
+<p class="next signed">Once copied, open it from Applications.</p>
+<p class="next test">Test build: the first time, open System Settings › Privacy &amp; Security<br>and click Open Anyway.</p>
+<svg class="arrow" width="660" height="420" viewBox="0 0 660 420" aria-hidden="true">
+  <g fill="none" stroke="#3a3a3c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M276 236 C 310 206, 352 204, 384 224"/>
+    <path d="M370 214 L 386 225 L 371 235"/>
+  </g>
+</svg>
+<img class="oyen" src="../docs/brand/art/oyen-poni-peek.webp" alt="">
+<script>
+document.body.classList.toggle("test", location.hash === "#test");
+</script>
+</body>
+</html>
