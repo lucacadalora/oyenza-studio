@@ -56,7 +56,7 @@ impl Provider for Codex {
 
     fn wants(&self, dirs: &Dirs) -> Vec<Want> {
         let home = home(dirs);
-        vec![Want::file(home.join("auth.json")), Want::Newest { dir: home.join("sessions"), suffix: ".jsonl", depth: 3, count: LOGS, tail: LOG_TAIL }]
+        vec![Want::file(dirs.join(&home, &["auth.json"])), Want::Newest { dir: dirs.join(&home, &["sessions"]), suffix: ".jsonl", depth: 3, count: LOGS, tail: LOG_TAIL }]
     }
 
     fn next(&self, cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Step {
@@ -399,16 +399,14 @@ mod tests {
             ]
         );
         let win = Dirs::sample(Os::Windows);
-        let home = win.home.join(".codex");
-        assert!(home.starts_with(r"C:\Users\u"));
-        assert_eq!(Codex.wants(&win), vec![Want::file(home.join("auth.json")), Want::Newest { dir: home.join("sessions"), suffix: ".jsonl", depth: 3, count: 4, tail: 128 * 1024 }]);
+        assert_eq!(Codex.wants(&win), vec![Want::file(PathBuf::from(r"C:\Users\u\.codex\auth.json")), Want::Newest { dir: PathBuf::from(r"C:\Users\u\.codex\sessions"), suffix: ".jsonl", depth: 3, count: 4, tail: 128 * 1024 }]);
         // CODEX_HOME moves all of it.
         assert_eq!(Codex.env(), &["CODEX_HOME"]);
         for (mut dirs, home) in [(Dirs::sample(Os::Windows), r"D:\tools\codex"), (Dirs::sample(Os::Mac), "/Users/u/work/.codex")] {
             dirs.env.push(("CODEX_HOME".into(), home.into()));
             let home = PathBuf::from(home);
-            assert_eq!(Codex.wants(&dirs)[0], Want::file(home.join("auth.json")));
-            assert!(matches!(&Codex.wants(&dirs)[1], Want::Newest { dir, .. } if *dir == home.join("sessions")));
+            assert_eq!(Codex.wants(&dirs)[0], Want::file(dirs.join(&home, &["auth.json"])));
+            assert!(matches!(&Codex.wants(&dirs)[1], Want::Newest { dir, .. } if *dir == dirs.join(&home, &["sessions"])));
         }
     }
 

@@ -597,11 +597,10 @@ impl Window {
                 let mut w = self.clone();
                 w.used = 0.0;
                 w.count = w.count.map(|(_, of)| (0, of));
-                // The next reset after now, however many periods passed.
-                w.resets_at = w.length_s.filter(|len| *len > 0).map(|len| {
-                    let len = len as i64;
-                    t + len * ((now - t) / len + 1)
-                });
+                // One window later, if that's still ahead. Past that it isn't
+                // known: Codex's and Claude's 5 hours start again only with
+                // the next use, so a later reset would be made up.
+                w.resets_at = w.length_s.map(|len| t + len as i64).filter(|next| *next > now);
                 w
             }
             _ => self.clone(),
@@ -962,8 +961,9 @@ mod tests {
         assert_eq!(after.used, 0.0);
         assert_eq!(after.count, Some((0, 100)));
         assert_eq!(after.resets_at, Some(19_000));
-        // Two days later: the next reset after now, not one long past.
-        assert_eq!(w.at(1000 + 2 * 86_400 + 5).resets_at, Some(1000 + 10 * 18_000));
+        // Two days later: when it resets next isn't known (never a reset
+        // long past, never a made-up one).
+        assert_eq!(w.at(1000 + 2 * 86_400 + 5).resets_at, None);
     }
 
     #[test]
