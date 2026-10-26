@@ -9,8 +9,12 @@
 //! through IOBluetooth's private calls and a Bluetooth permission, so the
 //! Mac's has none (macOS shows AirPods' own battery when they connect).
 //!
+//! And whether sound plays at all: Core Audio says when some app starts or
+//! stops playing through the default output, which wakes the now-playing
+//! reader (media.rs) only while there is something to hear.
+//!
 //! Core Audio calls the listeners on its own thread; they only read what
-//! changed and send it to the main thread. Nothing polls.
+//! changed and send it on. Nothing polls.
 
 use super::cf;
 use crate::events::{AppEvent, EventSink};
@@ -49,6 +53,9 @@ const BLUETOOTH: [u32; 2] = [fourcc(b"blue"), fourcc(b"blea")];
 const FALLBACK_NAME: &str = "Bluetooth headphones";
 /// The main element, then the left and right channels.
 const ELEMENTS: [u32; 3] = [0, 1, 2];
+/// `kAudioDevicePropertyDeviceIsRunningSomewhere`: some app plays through
+/// the device (music, a video, a call).
+const RUNNING: u32 = fourcc(b"gone");
 
 type Listener = extern "C" fn(u32, u32, *const Addr, *mut c_void) -> i32;
 
@@ -119,6 +126,27 @@ fn device_addrs() -> Vec<Addr> {
     let mut v: Vec<Addr> = ELEMENTS.iter().map(|&e| Addr { selector: VOLUME, scope: SCOPE_OUTPUT, element: e }).collect();
     v.push(Addr { selector: MUTE, scope: SCOPE_OUTPUT, element: 0 });
     v
+}
+
+fn running_addr() -> Addr {
+    Addr { selector: RUNNING, scope: SCOPE_GLOBAL, element: 0 }
+}
+
+fn running(device: u32) -> bool {
+    device != 0 && get(device, running_addr(), 0u32).unwrap_or(0) != 0
+}
+
+/// Whether some app plays sound through the default output now.
+pub fn sound_running() -> bool {
+    default_device().is_some_and(running)
+}
+
+extern "C" fn on_running(id: u32, _n: u32, _addrs: *const Addr, _client: *mut c_void) -> i32 {
+    let watched = WATCH.lock().ok().is_some_and(|g| g.as_ref().is_some_and(|w| w.device == id));
+    if watched {
+        super::media::sound(running(id));
+    }
+    0
 }
 
 extern "C" fn on_volume(id: u32, _n: u32, _addrs: *const Addr, _client: *mut c_void) -> i32 {
@@ -260,6 +288,16 @@ fn follow_default() {
             }
         }
     }
+    let a = running_addr();
+    unsafe {
+        if old != 0 {
+            AudioObjectRemovePropertyListener(old, &a, on_running, std::ptr::null_mut());
+        }
+        if new != 0 && has(new, a) {
+            AudioObjectAddPropertyListener(new, &a, on_running, std::ptr::null_mut());
+        }
+    }
+    super::media::sound(running(new));
     if let Some((level, muted)) = (new != 0).then(|| read(new)).flatten() {
         sink.send(AppEvent::Volume { level, muted, switched: true });
     }

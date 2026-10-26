@@ -1,5 +1,5 @@
-//! The Mac's side of what the island asks the system for: what Music and
-//! Spotify play, lyrics, the add-ons (Japanese readings, and Prayer times'
+//! The Mac's side of what the island asks the system for: what plays (from
+//! macOS's own now playing, or Music and Spotify themselves), lyrics, the add-ons (Japanese readings, and Prayer times'
 //! location and adzan), power, volume, system stats, the System page's
 //! readings, the clipboard, Shelf tiles, Phone drop, full-screen apps and
 //! start at login (one file each), plus a few direct calls (the accent
@@ -21,6 +21,8 @@ pub mod fullscreen;
 pub mod http;
 #[path = "services/media.rs"]
 pub mod media;
+#[path = "services/mediaremote.rs"]
+mod mediaremote;
 #[path = "services/romanize.rs"]
 pub mod romanize;
 #[path = "services/secret.rs"]

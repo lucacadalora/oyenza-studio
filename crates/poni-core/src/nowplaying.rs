@@ -58,15 +58,19 @@ pub fn slider_value(fraction: f64, min: f64, max: f64) -> Option<f64> {
 
 /// Whether `app_id` is a web browser (its tabs report video titles with the
 /// channel as artist). Web apps installed from a browser (`…_crx_…`, e.g.
-/// YouTube Music) report proper metadata and don't count.
+/// YouTube Music) report proper metadata and don't count. On a Mac `app_id`
+/// is the browser's bundle id (`com.apple.Safari`, `company.thebrowser.dia`).
 pub fn is_browser(app_id: &str) -> bool {
     let id = app_id.trim().to_ascii_lowercase();
-    if id.contains("_crx_") {
+    if id.contains("_crx_") || id.contains(".app.") {
         return false;
     }
     // Firefox registers a 16-hex-digit hash of its install path.
     let firefox_hash = id.len() == 16 && id.bytes().all(|b| b.is_ascii_hexdigit());
-    firefox_hash || ["chrome", "msedge", "microsoftedge", "brave", "opera", "firefox", "vivaldi"].iter().any(|b| id.contains(b))
+    firefox_hash
+        || ["chrome", "msedge", "microsoftedge", "brave", "opera", "firefox", "vivaldi"].iter().any(|b| id.contains(b))
+        // Safari, Edge, Arc and Dia, Orion, Zen on a Mac.
+        || ["com.apple.safari", "com.microsoft.edgemac", "company.thebrowser.", "com.kagi.kagimacos", "app.zen-browser."].iter().any(|b| id.starts_with(b))
 }
 
 /// The site a browser tab is playing, judged from the browser window's title
@@ -163,7 +167,15 @@ mod tests {
         for id in ["Chrome", "MSEdge", "308046B0AF4A39CB", "Brave", "Opera", "C:\\Apps\\Vivaldi\\vivaldi.exe"] {
             assert!(is_browser(id), "{id}");
         }
+        // The Mac's bundle ids.
+        for id in ["com.google.Chrome", "com.apple.Safari", "com.microsoft.edgemac", "company.thebrowser.Browser", "company.thebrowser.dia", "org.mozilla.firefox", "com.brave.Browser"] {
+            assert!(is_browser(id), "{id}");
+        }
         for id in [APPLE, "Spotify.exe", "Chrome._crx_cinhimbnkkaeohfgghhklpknlkffjgod", "Microsoft.ZuneMusic_8wekyb3d8bbwe!Microsoft.ZuneMusic"] {
+            assert!(!is_browser(id), "{id}");
+        }
+        // A web app Chrome installed on a Mac (YouTube Music) is no browser tab.
+        for id in ["com.spotify.client", "com.apple.Music", "com.google.Chrome.app.cinhimbnkkaeohfgghhklpknlkffjgod"] {
             assert!(!is_browser(id), "{id}");
         }
     }

@@ -39,8 +39,13 @@ cp -R "${apps[0]}" "$work/stage/"
 hdiutil detach "$work/mnt" -quiet
 app="$work/stage/$name"
 
-# 1. The app: hardened runtime, secure timestamp, the entitlements. It holds one binary, so no --deep (Apple
-#    advises against it for signing). --force replaces the ad-hoc signature.
+# 1. The app: hardened runtime, secure timestamp, the entitlements. Its one nested piece of code, the MediaRemote
+#    adapter's framework (which /usr/bin/perl loads, not the app), is signed first, so no --deep (Apple advises
+#    against it for signing). --force replaces the ad-hoc signatures.
+for framework in "$app/Contents/Frameworks/"*.framework; do
+  [ -d "$framework" ] || continue
+  codesign --force --options runtime --timestamp --sign "$identity" ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} "$framework"
+done
 codesign --force --options runtime --timestamp --entitlements "$entitlements" \
   --sign "$identity" ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} "$app"
 codesign --verify --strict --verbose=2 "$app"

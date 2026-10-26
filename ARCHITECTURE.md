@@ -228,10 +228,12 @@ the Windows files are untouched.
 | `mac/menubar.rs` | The menu bar item (Oyen's mark as a template image) and its menu, also on a right-click of the island |
 | `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |
 | `mac/clock.rs`, `paths.rs`, `events.rs`, `services.rs`, `dragdrop.rs` | Local time, `~/Library` folders, the event channel (drained on the main queue), the accent colour, links, clipboard, sounds |
+| `mac/services/media.rs`, `mediaremote.rs` | What plays: macOS's own now playing (browsers, Spotify, Music, any player), read through the MediaRemote adapter (`third_party/mediaremote-adapter`, BSD-3), which `/usr/bin/perl` runs since macOS 15.4 answers Apple's own programs only; its stream runs while there is sound (Core Audio, `audio.rs`) or a track to show, `poni_core::mediaremote` reads it. Until it answers, Music and Spotify's own notifications and AppleScript |
 
 CI (`.github/workflows/mac.yml`, on `main` and `mac-*` branches) builds for
 Apple Silicon and Intel, renders every state, runs the real window through a
 few states with screenshots (`poni --smoke <dir>` writes where its window is
-and waits for each screenshot), and packages `Oyenza-Studio-<version>-mac-unsigned.dmg`
-(ad-hoc signed; Developer ID signing and notarization need the Apple secrets).
+and waits for each screenshot), and packages `Oyenza-Studio-<version>-mac-unsigned.dmg` with the MediaRemote
+adapter's framework built by CMake (ad-hoc signed; Developer ID signing and
+notarization need the Apple secrets).
 

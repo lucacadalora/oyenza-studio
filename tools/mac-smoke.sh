@@ -38,6 +38,16 @@ osascript -l JavaScript /tmp/poni-wallpaper.js "$(pwd)/site/assets/wall/morning.
 echo "reduce transparency: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
 defaults write com.apple.universalaccess reduceTransparency -bool false 2>&1 || true
 echo "reduce transparency now: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
+# macOS's own now playing: the MediaRemote adapter's test player (mac.yml builds it) reports a track
+# there from the now-playing-start step on. The app's adapter leaves that player out unless
+# ADAPTER_TEST_MODE is set, and the app checks for its track only with PONI_SMOKE_NOW_PLAYING.
+client="${MEDIAREMOTE_TEST_CLIENT:-}"
+client_pid=""
+if [ -n "$client" ] && [ -x "$client" ]; then
+  export ADAPTER_TEST_MODE=1 PONI_SMOKE_NOW_PLAYING=1
+else
+  echo "(no MediaRemote test player: the now-playing check is skipped)"
+fi
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
@@ -62,6 +72,14 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
       *ja-notify)
         osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Paper Boats", "Artist": "The Lanterns", "Album": "Harbor Lights", "Duration": 201000, "Playback Position": 61.0, "Player State": "Playing"}), true)' || true
         sleep 1.5 ;;
+      # A player that only macOS's own now playing knows (as a browser tab is).
+      *now-playing-start)
+        if [ -n "${PONI_SMOKE_NOW_PLAYING:-}" ]; then
+          "$client" > smoke/test-player.txt 2>&1 &
+          client_pid=$!
+          echo "the MediaRemote adapter's test player: pid $client_pid"
+          sleep 1
+        fi ;;
     esac
     left=$(( x > 40 ? x - 40 : 0 ))
     case "$base" in
@@ -83,6 +101,7 @@ else
   wait $pid
   code=$?
 fi
+if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null || true; fi
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true

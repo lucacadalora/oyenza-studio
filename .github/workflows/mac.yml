@@ -65,6 +65,20 @@ jobs:
           $bin --render mac-renders --theme pill --notch
           ls mac-renders | wc -l
 
+      # What plays, from macOS's own now playing (browsers, Spotify, Music):
+      # the MediaRemote adapter (third_party/mediaremote-adapter), its
+      # framework for the app and its test player for the smoke runs. Its own
+      # test says whether macOS's now playing answers on this runner.
+      - name: MediaRemote adapter
+        run: |
+          cmake -S third_party/mediaremote-adapter -B build/mediaremote -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0
+          cmake --build build/mediaremote --config Release -j 4
+          lipo -info build/mediaremote/MediaRemoteAdapter.framework/MediaRemoteAdapter
+          du -sk build/mediaremote/MediaRemoteAdapter.framework
+          set +e
+          /usr/bin/perl third_party/mediaremote-adapter/bin/mediaremote-adapter.pl "$PWD/build/mediaremote/MediaRemoteAdapter.framework" "$PWD/build/mediaremote/MediaRemoteAdapterTestClient" test
+          echo "adapter test: exit $? (0 = macOS's now playing answers here)"
+
       - name: App icon
         run: |
           python3 -m venv .icon-venv
@@ -75,7 +89,7 @@ jobs:
       - name: App bundle and DMG
         run: |
           chmod +x tools/make_mac_app.sh
-          tools/make_mac_app.sh target/aarch64-apple-darwin/release/poni target/x86_64-apple-darwin/release/poni build/OyenzaStudio.icns dist
+          MEDIAREMOTE_BUILD=build/mediaremote tools/make_mac_app.sh target/aarch64-apple-darwin/release/poni target/x86_64-apple-darwin/release/poni build/OyenzaStudio.icns dist
 
       # The real app on the runner's screen: idle, hover, open (Focus, then
       # Today with live stats), the timer, a notice, the volume and charging
@@ -83,9 +97,12 @@ jobs:
       # the Shelf, a Spotify "now playing" notification with its lyrics
       # looked up on LRCLIB, the Glass theme, Pill floating below the top
       # edge, Oyen, Glass and Pill around a notch the app pretends the screen
-      # has, and the menu. At each state the app writes where its window is
-      # and waits; tools/mac-smoke.sh takes the screenshot and answers.
+      # has, the adapter's test player in macOS's own now playing, and the
+      # menu. At each state the app writes where its window is and waits;
+      # tools/mac-smoke.sh takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
+        env:
+          MEDIAREMOTE_TEST_CLIENT: build/mediaremote/MediaRemoteAdapterTestClient
         run: bash tools/mac-smoke.sh "dist/Oyenza Studio.app/Contents/MacOS/poni"
 
       - name: Check the DMG
@@ -105,6 +122,10 @@ jobs:
         with:
           name: oyenza-studio-mac-dmg
           path: dist/*.dmg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mediaremote-test-client
+          path: build/mediaremote/MediaRemoteAdapterTestClient
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -133,8 +154,15 @@ jobs:
         with:
           name: oyenza-studio-mac-dmg
           path: dmg
+      - uses: actions/download-artifact@v4
+        with:
+          name: mediaremote-test-client
+          path: build/mediaremote
       - name: Smoke run (the real window, with screenshots)
+        env:
+          MEDIAREMOTE_TEST_CLIENT: build/mediaremote/MediaRemoteAdapterTestClient
         run: |
+          chmod +x "$MEDIAREMOTE_TEST_CLIENT"
           sw_vers
           hdiutil attach dmg/*.dmg -nobrowse -readonly -mountpoint /tmp/poni-dmg
           mkdir -p dist
@@ -195,8 +223,15 @@ jobs:
           echo "IDENTITY=$id" >> "$GITHUB_ENV"
       - name: Sign the app and the DMG (no notarization)
         run: NOTARIZE=0 SIGN_KEYCHAIN="$KEYCHAIN" bash tools/sign_mac_dmg.sh dmg/*.dmg signed "$IDENTITY"
+      - uses: actions/download-artifact@v4
+        with:
+          name: mediaremote-test-client
+          path: build/mediaremote
       - name: Smoke run, the app under the hardened runtime
+        env:
+          MEDIAREMOTE_TEST_CLIENT: build/mediaremote/MediaRemoteAdapterTestClient
         run: |
+          chmod +x "$MEDIAREMOTE_TEST_CLIENT"
           hdiutil attach signed/*.dmg -nobrowse -readonly -mountpoint /tmp/poni-signed
           mkdir -p dist
           cp -R /tmp/poni-signed/*.app dist/

@@ -3014,6 +3014,8 @@ impl App {
                     // macOS answers where the Mac is (or asks the person).
                     "prayer-get" => 75.0,
                     "prayer-adzan" | "prayer-locate" => 10.0,
+                    // The test player starts, then perl and the adapter.
+                    "now-playing" => 20.0,
                     // A window sliding into its own Space and out again.
                     "fullscreen-hide" => 15.0,
                     "fullscreen-stay" | "fullscreen-back" => 10.0,
@@ -3291,6 +3293,14 @@ impl App {
                 self.on_oyenza(OyenzaEvent::Disconnected { by_server: false });
                 self.oyenza = None;
             }
+            // macOS's own now playing, as a browser tab reaches it: sound
+            // starts (CI's Macs play none) and tools/mac-smoke.sh starts the
+            // MediaRemote adapter's test player. Last of the music steps:
+            // once it answers, it speaks for Spotify too.
+            "now-playing-start" => {
+                self.collapse();
+                services::media::smoke_sound();
+            }
             // The themes on the real window: Glass, then Oyen and Glass
             // around a notch (one the screen pretends to have; CI's Macs
             // have none), open and resting in the menu bar's line.
@@ -3434,6 +3444,7 @@ impl App {
             "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
+            "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "menu" => waited > 1.0,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
@@ -3604,6 +3615,15 @@ impl App {
                     per(c.draw) * 120.0 / 1000.0
                 );
                 Some(("draw-cost", c.frames > 0, d))
+            }
+            "now-playing" => {
+                if std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() {
+                    return Some(("now-playing-service", true, "skipped: no test player on this run".into()));
+                }
+                let m = self.st.media.as_ref();
+                let ok = m.is_some_and(|m| m.title == SMOKE_SERVICE_TRACK);
+                let d = m.map_or("nothing".to_string(), |m| format!("{} by {} from {:?} ({})", m.title, m.artist, m.app_id, if m.is_playing() { "playing" } else { "paused" }));
+                Some(("now-playing-service", ok, format!("macOS's now playing through the adapter: {d}")))
             }
             "notch-pill-ear" => {
                 let armed = self.timers[Timer::Collapse as usize].is_some();
@@ -4017,7 +4037,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 55] = [
+const SMOKE_STEPS: [&str; 57] = [
     "idle",
     "hover",
     "open-focus",
@@ -4072,6 +4092,8 @@ const SMOKE_STEPS: [&str; 55] = [
     "oyenza-page",
     "oyenza-money",
     "oyenza-off",
+    "now-playing-start",
+    "now-playing",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
@@ -4079,6 +4101,9 @@ const SMOKE_TRACK: &str = "Blinding Lights";
 /// The made-up song with Japanese lyrics CI announces after it: title,
 /// artist, album and length (tools/mac-smoke.sh sends the same).
 const SMOKE_JA_TRACK: (&str, &str, &str, u32) = ("Paper Boats", "The Lanterns", "Harbor Lights", 201);
+/// The track the MediaRemote adapter's test player reports in macOS's own
+/// now playing (third_party/mediaremote-adapter/src/test/NowPlayingTest.m).
+const SMOKE_SERVICE_TRACK: &str = "Is It Broken Yet?";
 /// What CI copies with `pbcopy` during the clipboard step.
 const SMOKE_CLIP: &str = "Oyenza Studio smoke test";
 

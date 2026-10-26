@@ -34,7 +34,18 @@ if [ "$icns" != "-" ]; then
   cp "$icns" "$app/Contents/Resources/OyenzaStudio.icns"
 fi
 
-# Ad-hoc signature: seals the bundle (Apple Silicon refuses unsigned code outright).
+# What plays, from macOS's own now playing (browsers, Spotify, Music): the MediaRemote adapter's framework
+# and script (third_party/mediaremote-adapter), which /usr/bin/perl runs for the app
+# (crates/poni/src/mac/services/mediaremote.rs). MEDIAREMOTE_BUILD is its CMake build (mac.yml); without
+# it the app reads Music and Spotify only.
+if [ -n "${MEDIAREMOTE_BUILD:-}" ]; then
+  mkdir -p "$app/Contents/Frameworks"
+  cp -R "$MEDIAREMOTE_BUILD/MediaRemoteAdapter.framework" "$app/Contents/Frameworks/"
+  cp "$root/third_party/mediaremote-adapter/bin/mediaremote-adapter.pl" "$app/Contents/Resources/"
+  lipo -info "$app/Contents/Frameworks/MediaRemoteAdapter.framework/MediaRemoteAdapter"
+fi
+
+# Ad-hoc signature: seals the bundle, the adapter's framework too (Apple Silicon refuses unsigned code outright).
 codesign --force --deep --sign - "$app"
 codesign --verify --deep --strict --verbose=2 "$app"
 
