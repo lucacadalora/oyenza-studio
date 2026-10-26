@@ -17,8 +17,8 @@
 //!   [`Trouble::NotFound`].
 //! - Since 18 June 2026 Google no longer serves Gemini CLI to personal
 //!   accounts (individuals, AI Pro, AI Ultra); such an account reads as
-//!   [`Trouble::Refused`]. Standard, Enterprise and Workspace accounts still
-//!   have their quota.
+//!   [`Trouble::Refused`]. Standard and Enterprise plans (on a schedule of
+//!   their own) and, CodexBar finds, Workspace accounts are still served.
 
 use super::{jwt_claims, mask_email, num, reply_json, time, Ctx, Dirs, Got, NetFail, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, Window, WindowKind};
 use serde_json::{json, Value};
