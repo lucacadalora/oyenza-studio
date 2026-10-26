@@ -578,7 +578,7 @@ pub fn usage_notice(a: &Alert, accent: Color, until: f64) -> Notice {
         AlertKind::Out | AlertKind::Low => palette::ORANGE,
     };
     Notice {
-        icon: service_mark(a.provider),
+        icon: crate::icons::service(a.provider),
         color,
         title: a.title.clone(),
         title_dim: String::new(),
@@ -612,12 +612,6 @@ fn usage_line(subtitle: &str, nudge: Option<&str>) -> String {
             }
         }
     }
-}
-
-/// A service's mark on its notice: the AI tab's own until the services'
-/// marks land (then `crate::icons::service(id)`, one line).
-fn service_mark(_id: ProviderId) -> Icon {
-    PageKind::Ai.icon()
 }
 
 pub struct AppState {
@@ -1129,6 +1123,8 @@ mod tests {
     #[test]
     fn an_ai_notice_says_what_ran_out_and_where_to_keep_going() {
         let accent = palette::PURPLE;
+        // The service's own mark.
+        assert_eq!(usage_notice(&alert(ProviderId::Claude, AlertKind::Out, "t"), accent, 0.0).icon, Icon::Claude);
         let color = |kind| usage_notice(&alert(ProviderId::Claude, kind, "t"), accent, 0.0).color;
         assert_eq!(
             [color(AlertKind::Near(90)), color(AlertKind::Out), color(AlertKind::Low), color(AlertKind::Back)],
