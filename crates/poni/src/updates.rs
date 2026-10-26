@@ -5,9 +5,11 @@
 //! [`Updater`] and drive it from their own timers.
 //!
 //! Costs at rest: one read of a ~1 KB file a couple of minutes after start
-//! and then every 12 hours, while the checks are on. A read that comes due
+//! and then every hour, while the checks are on. A read that comes due
 //! while nobody is at the PC (locked, display off) or on battery saver waits
-//! until it is back; the app asks [`Updater::due_in`] again then.
+//! until it is back; the app asks [`Updater::due_in`] again then. Check for
+//! updates… in the menu reads it at once ([`Updater::ask`]) and says on the
+//! island what it found.
 //!
 //! On Windows a new version's Setup (about 2.5 MB) downloads once per
 //! release, before the island tells about it, as Screen Studio does: the
@@ -30,6 +32,12 @@ const MAC: bool = cfg!(target_os = "macos");
 /// and "Updated to".
 const ANNOUNCE_S: f64 = 15.0;
 const UPDATED_S: f64 = 10.0;
+/// How long the answer to Check for updates… shows.
+const ANSWER_S: f64 = 6.0;
+/// After Check for updates… finds a new version, the Update sheet opens by
+/// itself once its download is in, if that takes no longer than this; a
+/// slow line leaves it to the island's notice.
+const ASK_OPEN_S: u64 = 120;
 
 pub struct Updater {
     path: PathBuf,
@@ -38,6 +46,12 @@ pub struct Updater {
     due: Option<u64>,
     /// "Updated to" waits for the island to be free.
     updated: bool,
+    /// Check for updates… was picked at this time (Unix seconds), and its
+    /// answer is still to come.
+    asked: Option<u64>,
+    /// The title of the notice the answer put up while a download runs, so
+    /// the sheet can take it down when it opens.
+    told: Option<String>,
     /// The offered version's Setup, and the folder it downloads to.
     #[cfg(windows)]
     setup: Setup,
@@ -83,6 +97,8 @@ impl Updater {
             memory,
             due,
             updated,
+            asked: None,
+            told: None,
             #[cfg(windows)]
             setup: Setup::None,
             setups,
@@ -107,8 +123,21 @@ impl Updater {
         self.due = None;
     }
 
-    /// The file's answer, at `now` (Unix seconds).
-    pub fn checked(&mut self, st: &mut AppState, r: Result<Release, String>, now: u64) {
+    /// Check for updates… (the menu), at `now`: its answer goes on the
+    /// island. True when the app should start a read now, whatever the time
+    /// and even on battery saver (someone asked); false while one already
+    /// runs, whose answer is told instead.
+    pub fn ask(&mut self, now: u64) -> bool {
+        crate::pinfo!("updates: Check for updates… picked");
+        self.asked = Some(now);
+        self.due.is_some()
+    }
+
+    /// The file's answer, at `now` (Unix seconds). True when the app should
+    /// open the island, which now shows the Update sheet: Check for updates…
+    /// found a new version that can be installed.
+    pub fn checked(&mut self, st: &mut AppState, r: Result<Release, String>, now: u64) -> bool {
+        let read = r.is_ok();
         match r {
             Ok(rel) => {
                 self.memory.read(rel, now);
@@ -119,6 +148,60 @@ impl Updater {
         }
         save(&self.path, &self.memory);
         self.show(st);
+        if self.asked.is_some() { self.answer(st, read) } else { false }
+    }
+
+    /// The answer to Check for updates…, once the file is read: up to date,
+    /// or couldn't look, on the island; a new version opens the Update sheet
+    /// (true), on Windows once its Setup is in ([`Updater::fetched`]).
+    fn answer(&mut self, st: &mut AppState, read: bool) -> bool {
+        if !read {
+            self.asked = None;
+            st.notify(Icon::Unlink, palette::ORANGE, "Couldn't check for updates", "Check the connection and try again.", ANSWER_S, None);
+            return false;
+        }
+        let Some(rel) = st.update.offer.clone() else {
+            self.asked = None;
+            st.notify(Icon::CheckCircle, palette::GREEN, "Oyenza Studio is up to date", format!("{VERSION} is the latest version."), ANSWER_S, None);
+            return false;
+        };
+        // Windows: the sheet waits for the Setup, downloading now (or
+        // tried again after a failed download).
+        #[cfg(windows)]
+        if !st.update.ready {
+            let notice = Notice {
+                icon: Icon::Download,
+                color: st.accent,
+                title: "Downloading".into(),
+                title_dim: rel.version.clone(),
+                subtitle: "Ready to install in a moment".into(),
+                until: st.now + ASK_OPEN_S as f64,
+                action: None,
+                inline: None,
+                reveal: None,
+            };
+            self.told = Some(notice.title.clone());
+            st.notice = Some(notice);
+            return false;
+        }
+        self.asked = None;
+        self.open_sheet(st, &rel.version)
+    }
+
+    /// Open the Update sheet for `version` in answer to Check for updates…:
+    /// its notice won't come up for it afterwards.
+    fn open_sheet(&mut self, st: &mut AppState, version: &str) -> bool {
+        if let Some(title) = self.told.take() {
+            if st.notice.as_ref().is_some_and(|n| n.title == title) {
+                st.notice = None;
+            }
+        }
+        st.open_update();
+        if self.memory.announced != version {
+            self.memory.announced = version.to_string();
+            save(&self.path, &self.memory);
+        }
+        true
     }
 
     /// The checks were switched on (read in a moment) or off (no more reads,
@@ -147,12 +230,22 @@ impl Updater {
         Some((d, path))
     }
 
-    /// The Setup's download ended.
+    /// The Setup's download ended. True when the app should open the
+    /// island: Check for updates… was waiting for it (the sheet then offers
+    /// Install now, or the release page if the download failed).
     #[cfg(windows)]
-    pub fn fetched(&mut self, st: &mut AppState, r: Result<PathBuf, String>) {
+    pub fn fetched(&mut self, st: &mut AppState, r: Result<PathBuf, String>) -> bool {
         self.setup = r.map_or(Setup::Failed, Setup::Ready);
         self.show(st);
         self.clear_old_setups(st);
+        let Some(at) = self.asked.take() else { return false };
+        let Some(version) = st.update.offer.as_ref().map(|r| r.version.clone()) else { return false };
+        if unix_now().saturating_sub(at) > ASK_OPEN_S {
+            // Too slow to open by itself now: the notice tells as usual.
+            self.told = None;
+            return false;
+        }
+        self.open_sheet(st, &version)
     }
 
     /// The checked Setup and what it must match, while Install can run it.
@@ -236,6 +329,28 @@ impl Updater {
         {
             st.update.ready = self.ready_setup(st).is_some();
         }
+    }
+}
+
+/// The menu's line about new versions.
+#[derive(Clone, Debug, PartialEq)]
+pub enum UpdateLine {
+    /// None: the checks are off, or the Microsoft Store updates this copy.
+    None,
+    /// "Check for updates…", under About.
+    Check,
+    /// "Update to Oyenza Studio x…", first, until it is installed.
+    Offer(String),
+}
+
+/// What the menu says about new versions: the version on offer, or Check for
+/// updates… while this copy looks for them itself (`looks`: it has an
+/// [`Updater`]) and the checks are on.
+pub fn menu_line(st: &AppState, looks: bool) -> UpdateLine {
+    match &st.update.offer {
+        Some(r) => UpdateLine::Offer(r.version.clone()),
+        None if looks && st.settings.update_check => UpdateLine::Check,
+        None => UpdateLine::None,
     }
 }
 
@@ -375,6 +490,53 @@ mod tests {
         assert!(!st.update.ready && u.ready_setup(&st).is_none());
         assert!(u.announce(&mut st, true));
         assert!(u.want_setup(&mut st).is_some(), "the next look tries again");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn check_for_updates_says_up_to_date_or_that_it_couldnt_look() {
+        let dir = folder("ask");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(dir.join("update.json"), dir.join("setups"), &mut st, 10);
+        let now = unix_now();
+        assert!(u.ask(now), "a read starts at once");
+        u.begin();
+        assert!(!u.ask(now), "not a second one while it runs");
+        let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+        let this = Release { version: VERSION.into(), date: String::new(), headline: "This".into(), notes: format!("{repo}/tag/v{VERSION}"), windows: None, mac: None };
+        assert!(!u.checked(&mut st, Ok(this), now));
+        assert_eq!(st.notice.as_ref().map(|n| n.title.as_str()), Some("Oyenza Studio is up to date"));
+        assert!(st.notice.as_ref().is_some_and(|n| n.subtitle.contains(VERSION)));
+        st.notice = None;
+        assert!(u.ask(now));
+        u.begin();
+        assert!(!u.checked(&mut st, Err("offline".into()), now));
+        assert_eq!(st.notice.as_ref().map(|n| n.title.as_str()), Some("Couldn't check for updates"));
+        // The hourly looks say nothing.
+        st.notice = None;
+        u.begin();
+        assert!(!u.checked(&mut st, Err("offline".into()), now));
+        assert!(st.notice.is_none());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn check_for_updates_opens_the_sheet_once_the_setup_is_in() {
+        let dir = folder("ask-new");
+        let path = remembered(&dir, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
+        let rel = st.update.offer.clone().expect("a later version");
+        let now = unix_now();
+        assert!(u.ask(now));
+        u.begin();
+        assert!(!u.checked(&mut st, Ok(rel.clone()), now), "the Setup comes first");
+        assert_eq!(st.notice.as_ref().map(|n| (n.title.as_str(), n.title_dim.as_str())), Some(("Downloading", rel.version.as_str())));
+        let (_, setup) = u.want_setup(&mut st).expect("the Setup to download");
+        std::fs::write(&setup, b"setup bytes").unwrap();
+        assert!(u.fetched(&mut st, Ok(setup)), "now the sheet opens");
+        assert!(st.update.sheet && st.update.ready && st.notice.is_none());
+        assert!(!u.announce(&mut st, true), "and no notice for that version afterwards");
         let _ = std::fs::remove_dir_all(&dir);
     }
 

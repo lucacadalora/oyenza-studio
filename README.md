@@ -132,7 +132,7 @@ On Windows it draws on your graphics card in step with your display's refresh ra
 
 - **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
 - **Your files stay yours.** Phone drop asks before it takes anything and uses your own Wi-Fi. Files from paired phones are encrypted with keys made on the two devices, and the meeting server never sees them.
-- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and twice a day the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
+- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and once an hour the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
 
 ## Install
 
@@ -344,7 +344,7 @@ This PC gets a key of its own that can do only these things: it reads the last 7
 
 ### New versions
 
-Oyenza Studio looks for a new version a couple of minutes after it starts and then twice a day, by reading one small signed file from studio.oyenza.com. It doesn't look while your PC is locked, the screen is off or battery saver is on. When there is a new version, the island says **Update available** with the version, once, and **Hide** puts it away. On Windows the new version is already downloaded by then, and checked: click the notice for the Update sheet, then **Install now** (Oyenza Studio closes, updates and opens again in a few seconds, your settings and data stay) or **Install on next start**. On a Mac the sheet downloads the DMG. Until you update, the right-click menu starts with **Update to Oyenza Studio x…** and Settings has a last row with **Update**. After you update, the island says **Updated to x** once, with **What's new**. **Tell me about new versions** in Settings turns the checks off. Versions 0.2.5 and older don't look: update them by hand once. How the file is made and signed: [docs/updates.md](docs/updates.md).
+Oyenza Studio looks for a new version a couple of minutes after it starts and then every hour, by reading one small signed file from studio.oyenza.com. It doesn't look while your PC is locked, the screen is off or battery saver is on. **Check for updates…** in the menu looks right away and says on the island what it found. When there is a new version, the island says **Update available** with the version, once, and **Hide** puts it away. On Windows the new version is already downloaded by then, and checked: click the notice for the Update sheet, then **Install now** (Oyenza Studio closes, updates and opens again in a few seconds, your settings and data stay) or **Install on next start**. On a Mac the sheet downloads the DMG. Until you update, the right-click menu starts with **Update to Oyenza Studio x…** and Settings has a last row with **Update**. After you update, the island says **Updated to x** once, with **What's new**. **Tell me about new versions** in Settings turns the checks off. Versions 0.2.5 and older don't look: update them by hand once. How the file is made and signed: [docs/updates.md](docs/updates.md).
 
 ### Add-ons
 

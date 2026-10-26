@@ -117,7 +117,7 @@ pub struct Settings {
     /// ("peek" as its default) into the files of the people who tried it.
     pub game_peek: bool,
     /// Tell me about new versions: read the update file a couple of minutes
-    /// after start and then twice a day (docs/updates.md), and say on the
+    /// after start and then every hour (docs/updates.md), and say on the
     /// island once when a new version is out.
     pub update_check: bool,
 }

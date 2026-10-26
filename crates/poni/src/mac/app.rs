@@ -537,8 +537,8 @@ impl App {
         if self.smoke.is_none() {
             self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
         }
-        let offer = self.st.update.offer.as_ref().map(|r| r.version.clone());
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, offer.as_deref()));
+        let line = crate::updates::menu_line(&self.st, self.updater.is_some());
+        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, line));
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
@@ -929,6 +929,7 @@ impl App {
                 self.st.open_update();
                 self.expand();
             }
+            MenuCmd::CheckForUpdates => self.check_for_updates(),
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -943,9 +944,9 @@ impl App {
 
     fn refresh_menu(&mut self) {
         let login = services::login::status();
-        let offer = self.st.update.offer.as_ref().map(|r| r.version.clone());
+        let line = crate::updates::menu_line(&self.st, self.updater.is_some());
         if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, offer.as_deref());
+            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, line);
         }
     }
 
@@ -1097,24 +1098,38 @@ impl App {
         let away = self.away.0 || self.away.1 || self.st.power.saver;
         match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
             Some(0) if away => {}
-            Some(0) => {
-                // The add-on downloader's thread reads it; it starts here when no add-on is on.
-                if self.addons.is_none() {
-                    match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
-                        Ok(svc) => self.addons = Some(svc),
-                        Err(e) => pwarn!("add-ons: unavailable ({e})"),
-                    }
-                }
-                let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
-                if let Some(u) = self.updater.as_mut() {
-                    u.begin();
-                    if !started {
-                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
-                        self.schedule_update();
-                    }
-                }
-            }
+            Some(0) => self.read_update_file(now),
             _ => self.schedule_update(),
+        }
+    }
+
+    /// Check for updates… (the menu): read the update file now, even in Low
+    /// Power Mode (someone asked); the answer goes on the island.
+    fn check_for_updates(&mut self) {
+        let now = crate::updates::unix_now();
+        if self.updater.as_mut().is_some_and(|u| u.ask(now)) {
+            self.read_update_file(now);
+        }
+        self.request_frame();
+    }
+
+    /// Read the update file on the add-on downloader's thread, which starts
+    /// here when no add-on is on; the answer comes back as
+    /// `UpdateEvent::Checked`.
+    fn read_update_file(&mut self, now: u64) {
+        if self.addons.is_none() {
+            match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
+                Ok(svc) => self.addons = Some(svc),
+                Err(e) => pwarn!("add-ons: unavailable ({e})"),
+            }
+        }
+        let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
+        if let Some(u) = self.updater.as_mut() {
+            u.begin();
+            if !started {
+                u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                self.schedule_update();
+            }
         }
     }
 
@@ -1332,11 +1347,13 @@ impl App {
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.checked(&mut self.st, r, crate::updates::unix_now());
-                }
+                let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
                 self.refresh_menu();
+                // Check for updates… found a new version: the Update sheet.
+                if open {
+                    self.expand();
+                }
                 // A frame, so a new version's notice goes up now, not with the next redraw.
                 self.request_frame();
             }

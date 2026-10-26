@@ -283,7 +283,7 @@ fn run_deferred(d: Deferred) {
             with_app(|app| app.request_frame());
         }
         Deferred::Menu(pt) => {
-            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), app.st.update.offer.as_ref().map(|r| r.version.as_str())))) else { return };
+            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), crate::updates::menu_line(&app.st, app.updater.is_some())))) else { return };
             if let Some(cmd) = tray::show_menu(helper, pt, &items) {
                 with_app(|app| app.on_menu(cmd));
             }
@@ -1749,6 +1749,7 @@ impl App {
                 self.st.open_update();
                 self.expand();
             }
+            CheckForUpdates => self.check_for_updates(),
             ToggleOyenzaAmounts => s.oyenza_show_amounts = !s.oyenza_show_amounts,
             Quit => {
                 self.quit(0);
@@ -1986,17 +1987,19 @@ impl App {
                 }
             }
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.checked(&mut self.st, r, crate::updates::unix_now());
-                }
+                let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
                 self.fetch_setup();
+                // Check for updates… found one to install: the Update sheet.
+                if open {
+                    self.expand();
+                }
                 // A frame, so a new version's notice goes up now, not with the next redraw.
                 self.request_frame();
             }
             AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.fetched(&mut self.st, r);
+                if self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, r)) {
+                    self.expand();
                 }
                 self.request_frame();
             }
@@ -3226,7 +3229,7 @@ impl App {
         let secs = self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now()));
         unsafe {
             match secs {
-                // SetTimer waits at most about 24 days; reads are 12 hours apart.
+                // SetTimer waits at most about 24 days; reads are an hour apart.
                 Some(s) => {
                     SetTimer(self.hwnd, TIMER_UPDATE, s.saturating_mul(1000).clamp(1000, 0x7FFF_FFFF) as u32, None);
                 }
@@ -3245,18 +3248,32 @@ impl App {
         let away = self.locked || self.display_off || self.st.power.saver;
         match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
             Some(0) if away => {}
-            Some(0) => {
-                let job = services::update::check_job(self.sink.clone());
-                let started = self.services.as_ref().is_some_and(|s| s.run_job(job));
-                if let Some(u) = self.updater.as_mut() {
-                    u.begin();
-                    if !started {
-                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
-                        self.schedule_update();
-                    }
-                }
-            }
+            Some(0) => self.read_update_file(now),
             _ => self.schedule_update(),
+        }
+    }
+
+    /// Check for updates… (the menu): read the update file now, even on
+    /// battery saver (someone asked); the answer goes on the island.
+    fn check_for_updates(&mut self) {
+        let now = crate::updates::unix_now();
+        if self.updater.as_mut().is_some_and(|u| u.ask(now)) {
+            self.read_update_file(now);
+        }
+        self.request_frame();
+    }
+
+    /// Read the update file on the add-on thread; the answer comes back as
+    /// `UpdateEvent::Checked`.
+    fn read_update_file(&mut self, now: u64) {
+        let job = services::update::check_job(self.sink.clone());
+        let started = self.services.as_ref().is_some_and(|s| s.run_job(job));
+        if let Some(u) = self.updater.as_mut() {
+            u.begin();
+            if !started {
+                u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                self.schedule_update();
+            }
         }
     }
 
@@ -3265,10 +3282,8 @@ impl App {
     fn fetch_setup(&mut self) {
         let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
         let job = services::update::download_job(self.sink.clone(), d, path);
-        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) {
-            if let Some(u) = self.updater.as_mut() {
-                u.fetched(&mut self.st, Err("the add-on thread isn't running".into()));
-            }
+        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) && self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, Err("the add-on thread isn't running".into()))) {
+            self.expand();
         }
     }
 
