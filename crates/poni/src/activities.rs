@@ -601,15 +601,16 @@ fn recording_w(st: &AppState) -> f32 {
     }
 }
 
-/// The red dot (a pause mark while paused, a ring while starting or saving),
-/// then the time right-aligned as the timer's countdown.
+/// The red dot (a solid pause mark while paused, so the dimmed time still
+/// reads on the light Oyen ground; a ring while starting or saving), then
+/// the time right-aligned as the timer's countdown.
 fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
     let cy = body.center().y;
     let dot = Point::new(body.x + 12.0 + 6.0, cy);
     let phase = st.rec.phase;
     match phase {
         Some(poni_core::recorder::Phase::Recording) => ui.c.fill_circle(dot, 5.0, palette::RED),
-        Some(poni_core::recorder::Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(dot, 11.0, 11.0), palette::TEXT_DIM),
+        Some(poni_core::recorder::Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(dot, 11.0, 11.0), palette::TEXT),
         _ => ui.c.stroke_circle(dot, 4.4, palette::TEXT_DIM, 1.4),
     }
     let recording = phase == Some(poni_core::recorder::Phase::Recording);

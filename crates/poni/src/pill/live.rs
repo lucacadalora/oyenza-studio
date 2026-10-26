@@ -187,7 +187,7 @@ fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
     let phase = st.rec.phase;
     match phase {
         Some(Phase::Recording) => ui.c.fill_circle(c, 5.0, palette::RED),
-        Some(Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(c, 11.0, 11.0), palette::TEXT_DIM),
+        Some(Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(c, 11.0, 11.0), palette::TEXT),
         _ => ui.c.stroke_circle(c, 4.4, palette::TEXT_DIM, 1.4),
     }
     let text = poni_core::recorder::fmt_length(st.rec_elapsed());
