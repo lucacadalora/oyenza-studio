@@ -16,8 +16,8 @@
 //! server is asked at that service's pace (every 2 minutes for most while
 //! the tab is open, every 10 for the notices alone), and failures wait
 //! longer. A code on screen is asked about every few seconds until it is
-//! approved, refused or runs out (10 minutes at most). In between, the
-//! thread sleeps on a condition variable at zero CPU.
+//! approved, refused or runs out (the server gives it 10 minutes). In
+//! between, the thread sleeps on a condition variable at zero CPU.
 //!
 //! Nothing is written but the typed keys, and the log gets one line per
 //! change of a service's state: never a token, a key, an answer or an email.
