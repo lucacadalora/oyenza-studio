@@ -11,6 +11,12 @@
 //! * **Below**: notices, pop-ups and the open island hang under the notch:
 //!   a strip the notch's height on top, the usual content under it.
 //!
+//! The Eyes look rests in the ears too, and plays hide and seek with the
+//! camera ([`draw_peek`]): the eyes (Oyen, in his theme) peek out beside it
+//! on the side the pointer is on and look at the pointer wherever it is on
+//! the screen; when it crosses over they duck behind the camera and come out
+//! on the other side. Minimal and Hidden rest inside the notch.
+//!
 //! The Pill theme keeps the first two: in the menu bar's line the camera is
 //! in the way of a floating pill, and a resting pill below the menu bar would
 //! sit on every window's toolbar all day. What hangs below the notch floats
@@ -33,6 +39,7 @@ use crate::state::AppState;
 use crate::ui::Ui;
 use poni_core::datetime::{fmt_clock, fmt_countdown};
 use poni_core::geom::{clamp01, palette, Color, Point, Rect};
+use poni_core::peek;
 use poni_core::pomodoro::Phase;
 use poni_core::settings::IdleStyle;
 use poni_core::svgpath::Seg;
@@ -78,11 +85,26 @@ const NUB_W: f32 = 0.75 + 1.75;
 const PCT_GAP: f32 = 6.0;
 /// Pill's secondary text on black.
 const PILL_DIM: Color = Color::white(0.55);
+/// The Eyes look's ears: room for the eyes (or Oyen) to peek out on either
+/// side of the camera, this far from its edge.
+const PEEK_EAR: f32 = 46.0;
+const PEEK_GAP: f32 = 6.0;
+/// The pair of eyes from one's outer edge to the other's (activities.rs
+/// draws them 6.5 DIPs wide, 22 apart).
+const EYES_W: f32 = 22.0 + 6.5;
+/// How far the eyes turn toward the pointer (DIPs, across and down).
+const LOOK: (f32, f32) = (2.5, 2.0);
+/// Oyen's head in an ear, as beside the clock.
+const PEEK_OYEN_W: f32 = 22.0;
+/// Oyen watches the pointer this long after it moves, then rests again (he
+/// has his blinks and ear flicks to do).
+const OYEN_WATCH: f64 = 2.5;
 
 pub fn fit(m: &Mode, st: &AppState) -> Fit {
     match m {
-        // The status bar look is the Pill theme's; the other themes show the clock for it.
-        Mode::Idle if matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status) => Fit::Ears,
+        // The status bar look is the Pill theme's; the other themes show the
+        // clock for it. The eyes peek out beside the camera (`draw_peek`).
+        Mode::Idle if matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status | IdleStyle::Eyes) => Fit::Ears,
         // Windows only (`AppState::aside`): a Mac never steps aside.
         Mode::Idle | Mode::Aside => Fit::Inside,
         // The music pill sings the current line (every theme), which needs
@@ -128,6 +150,7 @@ pub fn strip(m: &Mode, st: &AppState, n: Notch) -> f32 {
 /// Width of each ear in an ears fit.
 fn ear(m: &Mode, st: &AppState) -> f32 {
     match m {
+        Mode::Idle if st.settings.idle_style == IdleStyle::Eyes => PEEK_EAR,
         Mode::Idle if pill::on(st.settings.theme) => {
             if st.power.has_battery {
                 if st.settings.use_24h {
@@ -269,6 +292,10 @@ pub fn draw_pill_body(c: &mut Canvas, body: Rect, radius: f32, shoulder: f32, de
 /// Draw `m`'s ears content. Returns false when the shared activity drawing
 /// already fits (album art and equalizer sit at the island's two ends).
 pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch) -> bool {
+    if *m == Mode::Idle && st.settings.idle_style == IdleStyle::Eyes {
+        draw_peek(ui, st, body, n);
+        return true;
+    }
     let ear_w = ((body.w - n.w) / 2.0).max(0.0);
     let left = Rect::new(body.x, body.y, ear_w, body.h);
     let right = Rect::new(body.right() - ear_w, body.y, ear_w, body.h);
@@ -329,6 +356,57 @@ pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch)
         }
         _ => false,
     }
+}
+
+/// The Eyes look around a notch: the eyes (Oyen, in his theme) peek out
+/// beside the camera on the pointer's side and look at it, wherever it is
+/// on the screen. When it crosses over, they duck behind the camera, which
+/// hides their way across, and come out on the other side. The same in
+/// every theme: Pill and Glass rest in the menu bar's line in black here.
+fn draw_peek(ui: &mut Ui, st: &mut AppState, body: Rect, n: Notch) {
+    let now = st.now;
+    let (spot, moving) = peek_spot(st, n, now);
+    if moving {
+        ui.request_anim();
+    }
+    let look = peek_look(st, spot, now);
+    let x = body.center().x + spot.x;
+    if oyen::on(st.settings.theme) {
+        let (frame, moving) = oyen::rest(now, st.local.hour < 5, look.map(|l| l.0));
+        if moving {
+            ui.request_anim();
+        }
+        oyen::peek(ui.c, &frame, x, body.bottom() - 5.0, PEEK_OYEN_W, body.y + 1.0);
+    } else {
+        let (gx, gy) = look.unwrap_or((0.0, 0.0));
+        activities::draw_eyes(ui, st, x, body.center().y + gy * LOOK.1, gx * LOOK.0);
+    }
+}
+
+/// Where the peeking eyes (Oyen, in his theme) are at `now`, from the
+/// island's top centre, and whether they are on their way across.
+fn peek_spot(st: &AppState, n: Notch, now: f64) -> (Point, bool) {
+    let w = if oyen::on(st.settings.theme) { PEEK_OYEN_W } else { EYES_W };
+    let (along, moving) = st.ui.peek.along(now);
+    (Point::new(along * (n.w / 2.0 + PEEK_GAP + w / 2.0), n.h / 2.0), moving)
+}
+
+/// Where the eyes at `spot` look at `now` (-1 to 1 each way): at the
+/// pointer, wherever it is. Oyen only watches it for a moment after it
+/// moves, and not while he sleeps.
+fn peek_look(st: &AppState, spot: Point, now: f64) -> Option<(f32, f32)> {
+    let p = &st.ui.peek;
+    if oyen::on(st.settings.theme) && (st.local.hour < 5 || !p.moved_within(now, OYEN_WATCH)) {
+        return None;
+    }
+    p.pointer.map(|at| peek::gaze(spot, at))
+}
+
+/// What the peeking eyes show at `now` for the pointer they have: their
+/// side and where they look. The app redraws them when it changes.
+pub fn peek_key(st: &AppState, n: Notch, now: f64) -> (bool, Option<(f32, f32)>) {
+    let (spot, _) = peek_spot(st, n, now);
+    (st.ui.peek.left, peek_look(st, spot, now))
 }
 
 /// The Pill theme in the menu bar's line: its resting pill split by the

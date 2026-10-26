@@ -24,6 +24,7 @@ pub mod nowplaying;
 pub mod oyen;
 pub mod oyenza;
 pub mod pairdrop;
+pub mod peek;
 pub mod phonedrop;
 pub mod pomodoro;
 pub mod power;

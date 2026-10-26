@@ -401,16 +401,23 @@ fn draw_idle(ui: &mut Ui, st: &mut AppState, body: Rect) {
             draw_oyen_rest(ui, st, body, body.center().x, OYEN_IDLE_W, body.bottom() - 7.0);
         }
         IdleStyle::Eyes => {
-            let blink = (st.now % BLINK_PERIOD) < BLINK_LEN;
             // Eyes glance toward the cursor while hovering.
             let look = ui.input.mouse.map(|p| ((p.x - body.center().x) / body.w).clamp(-0.5, 0.5) * 6.0).unwrap_or(0.0);
-            for dx in [-11.0f32, 11.0] {
-                let c = Point::new(body.center().x + dx + look, cy);
-                let h = if blink { 2.5 } else { 11.0 };
-                ui.c.fill_rrect(Rect::from_center(c, 6.5, h), 3.25, Color::white(0.95));
-            }
+            draw_eyes(ui, st, body.center().x, cy, look);
         }
         IdleStyle::Minimal | IdleStyle::Hidden => {}
+    }
+}
+
+/// The Eyes look's pair of eyes, centred on (`cx`, `cy`) and turned `look`
+/// DIPs sideways, blinking on their own wake ([`next_wake`]). A Mac's notch
+/// draws them beside the camera (`mac/notch.rs`).
+pub fn draw_eyes(ui: &mut Ui, st: &AppState, cx: f32, cy: f32, look: f32) {
+    let blink = (st.now % BLINK_PERIOD) < BLINK_LEN;
+    for dx in [-11.0f32, 11.0] {
+        let c = Point::new(cx + dx + look, cy);
+        let h = if blink { 2.5 } else { 11.0 };
+        ui.c.fill_rrect(Rect::from_center(c, 6.5, h), 3.25, Color::white(0.95));
     }
 }
 

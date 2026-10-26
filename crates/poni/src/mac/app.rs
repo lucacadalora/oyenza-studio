@@ -1820,6 +1820,7 @@ impl App {
     // ------------------------------------------------------------ input
 
     fn on_pointer(&mut self, p: Point) {
+        self.peek_at(p);
         let inside = self.hovering_inside(p) || self.input.down;
         if !inside {
             if self.hovering {
@@ -1845,6 +1846,20 @@ impl App {
             }
         }
         self.request_frame();
+    }
+
+    /// The Eyes look around a notch follows the pointer anywhere on the
+    /// screen (`notch::draw_peek`). The global monitor already brings every
+    /// move here, so the eyes cost a redraw only when their side or where
+    /// they look changes.
+    fn peek_at(&mut self, p: Point) {
+        let Some(n) = self.screen.notch.filter(|_| self.st.settings.idle_style == IdleStyle::Eyes) else { return };
+        let now = clock::mono().max(self.st.now);
+        let before = notch::peek_key(&self.st, n, now);
+        self.st.ui.peek.point(Point::new(p.x - self.cx, p.y), now, n.w / 2.0);
+        if self.mode == Mode::Idle && !self.fullscreen_hidden && notch::peek_key(&self.st, n, now) != before {
+            self.request_frame();
+        }
     }
 
     fn leave(&mut self) {
@@ -3098,9 +3113,11 @@ impl App {
             // A made-up Japanese song: its lyrics go in the lyrics cache, as
             // if LRCLIB had answered before, and CI announces it as Spotify
             // would. Back in Classic first, as the menu step is, without the
-            // pretend notch and with the pointer from notch-pill-ear gone.
+            // pretend notch, with the pointer from notch-eyes gone and the
+            // clock at rest again.
             "ja-notify" => {
                 self.leave();
+                self.st.settings.idle_style = IdleStyle::Clock;
                 window::fake_notch(None);
                 self.refresh_screen();
                 self.on_menu(MenuCmd::SetTheme(Theme::Classic));
@@ -3262,6 +3279,18 @@ impl App {
                     self.expand();
                 }
             }
+            // The Eyes look around the notch: the pointer goes off far left of
+            // the camera, and the eyes cross over behind it and peek out there.
+            "notch-eyes" => {
+                self.leave();
+                self.st.settings.idle_style = IdleStyle::Eyes;
+                self.collapse();
+                if let Some(n) = self.screen.notch {
+                    let p = Point::new(self.cx - n.w / 2.0 - 260.0, 140.0);
+                    self.smoke_point = Some(p);
+                    self.on_pointer(p);
+                }
+            }
             // Pill floats below the top edge, open and resting; around the
             // notch it rests in the menu bar's line and opens below it.
             "pill-open" | "notch-pill-open" => {
@@ -3341,6 +3370,8 @@ impl App {
                 AddonStatus::Failed => true,
                 _ => waited > 60.0,
             },
+            // The eyes are out on the camera's other side.
+            "notch-eyes" => !self.st.ui.peek.along(clock::mono()).1 || waited > 3.0,
             // The countdown ticks at least once.
             "prayer-page" => waited > 1.5,
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
@@ -3478,6 +3509,26 @@ impl App {
                 Some(("oyen-around-notch", ok, format!("ground {:?}, ink {:?}, font {:?}", look.ground, look.ink, look.font)))
             }
             "pill-open" | "pill-collapsed" | "notch-pill-open" | "notch-pill-collapsed" => Some(self.pill_report()),
+            "notch-eyes" => {
+                let Some(n) = self.screen.notch else { return Some(("eyes-around-notch", false, "no notch".into())) };
+                let g = self.island.current();
+                let fit = notch::fit(&self.mode, &self.st);
+                let peek = self.st.ui.peek;
+                let (along, moving) = peek.along(clock::mono());
+                let ok = self.mode == Mode::Idle && fit == Fit::Ears && g.w > n.w + 40.0 && peek.left && along == -1.0 && !moving;
+                let d = format!(
+                    "{:?} {fit:?}, {:.0}x{:.0} DIP around a {:.0}x{:.0} notch; pointer at {:?} from its middle: the eyes peek out {} of the camera ({along:.2} of the way), looking {:?}",
+                    self.mode,
+                    g.w,
+                    g.h,
+                    n.w,
+                    n.h,
+                    peek.pointer.map(|p| (p.x.round(), p.y.round())),
+                    if peek.left { "left" } else { "right" },
+                    notch::peek_key(&self.st, n, clock::mono()).1
+                );
+                Some(("eyes-around-notch", ok, d))
+            }
             "music-cost" | "pill-music-cost" => {
                 let c = self.cost;
                 let per = |s: f64| if c.frames > 0 { s / c.frames as f64 * 1e6 } else { 0.0 };
@@ -3904,7 +3955,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 53] = [
+const SMOKE_STEPS: [&str; 54] = [
     "idle",
     "hover",
     "open-focus",
@@ -3938,6 +3989,7 @@ const SMOKE_STEPS: [&str; 53] = [
     "notch-pill-open",
     "notch-pill-collapsed",
     "notch-pill-ear",
+    "notch-eyes",
     "ja-notify",
     "ja-auto",
     "ja-get",
