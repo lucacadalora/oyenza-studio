@@ -627,7 +627,7 @@ impl Money {
         let neg = self.micros < 0;
         let v = self.micros.unsigned_abs() as f64 / 1e6;
         let (lt, v) = if v != 0.0 && v < 0.001 { ("<", 0.001) } else { ("", v) };
-        let digits = if v < 0.01 { 3 } else { 2 };
+        let digits = if v != 0.0 && v < 0.01 { 3 } else { 2 };
         let n = format!("{v:.digits$}");
         let s = if self.currency == "USD" { format!("{lt}${n}") } else { format!("{lt}{n} {}", self.currency) };
         if neg {
@@ -948,6 +948,7 @@ mod tests {
         assert_eq!(Money::usd(0.0031).fmt(), "$0.003");
         assert_eq!(Money::usd(-1.5).fmt(), "-$1.50");
         assert_eq!(Money::usd(0.0002).fmt(), "<$0.001");
+        assert_eq!(Money::usd(0.0).fmt(), "$0.00");
         assert_eq!(micros(f64::NAN), 0);
         assert_eq!(mask_email("luca@example.com"), "l•••@example.com");
         assert_eq!(mask_email("org-123"), "o•••");
