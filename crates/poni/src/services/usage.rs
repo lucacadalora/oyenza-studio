@@ -260,9 +260,11 @@ impl Worker {
         self.epoch.elapsed().as_secs() as i64
     }
 
-    /// The keys kept from earlier runs, and so inference.oyenza.com's link.
+    /// The keys kept from earlier runs, and so inference.oyenza.com's link. A
+    /// key counts once it unseals (a file brought from another computer
+    /// doesn't).
     fn restore(&mut self) {
-        self.keys = self.names.iter().copied().filter(|n| crate::paths::usage_key_path(n).is_file()).collect();
+        self.keys = self.names.iter().copied().filter(|n| load_key(n).is_some()).collect();
         self.send(UsageEvent::Keys(self.keys.clone()));
         if self.keys.contains(oyenza::SECRET) {
             self.set_link(InferenceLink::On { account: String::new() });
@@ -441,6 +443,10 @@ impl Worker {
                 if matches!(t, Trouble::Expired | Trouble::Refused | Trouble::SignedOut) {
                     // Its app may have put a fresh sign-in in the keychain.
                     self.keychain.forget(wants);
+                }
+                if id == ProviderId::Oyenza && t == Trouble::NeedsKey && self.pending.is_none() {
+                    // Its key went (or no longer unseals): not connected.
+                    self.set_link(InferenceLink::Off);
                 }
                 self.note(i, &trouble_words(&t));
                 self.send(UsageEvent::Reading { id, outcome: Err(t), at: now });
@@ -946,6 +952,12 @@ mod tests {
         heard(&mut w, ProviderId::Oyenza, Reach::Online, ran(Ok(s), 1));
         assert!(!told(&rx).iter().any(|e| matches!(e, UsageEvent::Link(_))));
         assert_eq!(w.link, InferenceLink::On { account: "a•••@example.com".into() });
+        // A refused key keeps the link (the card says "Connect again"); a key
+        // that's gone ends it.
+        heard(&mut w, ProviderId::Oyenza, Reach::Online, ran(Err(Trouble::Refused), 1));
+        assert!(!told(&rx).iter().any(|e| matches!(e, UsageEvent::Link(_))));
+        heard(&mut w, ProviderId::Oyenza, Reach::Local, ran(Err(Trouble::NeedsKey), 0));
+        assert!(told(&rx).contains(&UsageEvent::Link(InferenceLink::Off)));
     }
 
     #[test]

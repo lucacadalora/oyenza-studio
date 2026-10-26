@@ -16,7 +16,7 @@
 //!   request on a look that reads files only, at most [`MAX_FETCHES`]
 //!   requests and [`MAX_READS`] reads, and no request with a line break in a
 //!   header ([`run`]).
-//! - Files are read the way the services ask ([`read_file`],
+//! - Files are read the way the services ask ([`read_file`], [`read_range`],
 //!   [`read_newest`]): never past a size, never a whole folder tree.
 
 use super::{all, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS};
