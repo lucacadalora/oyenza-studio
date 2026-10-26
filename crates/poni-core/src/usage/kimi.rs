@@ -411,6 +411,9 @@ mod tests {
             let (asked, out) = run(&got(Some(&creds), None, None, true), Reach::Online, &[]);
             assert!(asked.is_empty(), "no ask, and never the token endpoint");
             assert_eq!(out, Err(Trouble::Expired));
+            // Signed in to both servers: the newer sign-in is the one asked with.
+            let (asked, _) = run(&got(Some(&creds), Some(SIGNED_IN), None, true), Reach::Online, &[answer(200, WEEKLY), answer(200, ME)]);
+            assert_eq!(urls(&asked)[0], "https://api.kimi.ai/coding/v1/usages");
         }
     }
 
