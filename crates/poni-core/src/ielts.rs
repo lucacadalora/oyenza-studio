@@ -532,6 +532,8 @@ pub enum Problem {
     Paused,
     /// 429 `daily_cap`: today's sessions are used.
     DailyCap,
+    /// 429 `rate_limited`: too many calls this hour (the server's guard).
+    TooFast,
     /// 403 `level_locked`.
     LevelLocked,
     /// 404 `no_session`: it ended after 30 minutes without an answer.
@@ -566,7 +568,8 @@ pub fn problem(status: u16, body: &str, retry_after: Option<u64>) -> Problem {
     match (status, e["error"].as_str().unwrap_or_default()) {
         (401, _) => Problem::SignedOut,
         (_, "paused") => Problem::Paused,
-        (_, "daily_cap") | (429, _) => Problem::DailyCap,
+        (_, "daily_cap") => Problem::DailyCap,
+        (_, "rate_limited") | (429, _) => Problem::TooFast,
         (_, "level_locked") => Problem::LevelLocked,
         (_, "no_session") => Problem::NoSession,
         (_, "too_big") | (413, _) => Problem::TooBig,
@@ -585,6 +588,7 @@ impl Problem {
         match self {
             Problem::Paused => "Latihan IELTS lagi libur",
             Problem::DailyCap => "Jatah hari ini udah habis",
+            Problem::TooFast => "Pelan-pelan dulu",
             Problem::LevelLocked => "Level ini masih kekunci",
             Problem::NoSession => "Sesinya udah berhenti",
             Problem::TooBig => "Jawabannya kepanjangan",
@@ -607,6 +611,7 @@ impl Problem {
         match self {
             Problem::Paused => "Oyen istirahat dulu. Coba lagi nanti ya.".into(),
             Problem::DailyCap => "Sesi latihan hari ini udah kepakai semua. Lanjut besok ya.".into(),
+            Problem::TooFast => "Kebanyakan permintaan dalam sejam ini. Tunggu sebentar, terus coba lagi.".into(),
             Problem::LevelLocked => "Capai target band di level sebelumnya dulu.".into(),
             Problem::NoSession => "Sesi berhenti kalau 30 menit nggak ada jawaban. Mulai lagi yuk.".into(),
             Problem::TooBig => "Rekaman maksimal sekitar 4 menit. Coba jawab lebih singkat.".into(),
@@ -629,7 +634,10 @@ impl Problem {
     /// Try again can help (the answer is kept for it; a recording that
     /// couldn't be read is made again).
     pub fn retryable(self) -> bool {
-        matches!(self, Problem::Busy(_) | Problem::AiFailed | Problem::Offline | Problem::Server | Problem::StillThinking | Problem::BadAudio | Problem::Mic(_))
+        matches!(
+            self,
+            Problem::Busy(_) | Problem::TooFast | Problem::AiFailed | Problem::Offline | Problem::Server | Problem::StillThinking | Problem::BadAudio | Problem::Mic(_)
+        )
     }
 }
 
@@ -1876,6 +1884,9 @@ mod tests {
     fn problems_read_plainly() {
         assert_eq!(problem(503, r#"{"error":"paused"}"#, None), Problem::Paused);
         assert_eq!(problem(429, r#"{"error":"daily_cap"}"#, None), Problem::DailyCap);
+        // The server's hourly guard is not the day's cap.
+        assert_eq!(problem(429, r#"{"error":"rate_limited"}"#, None), Problem::TooFast);
+        assert_eq!(problem(429, "", None), Problem::TooFast);
         assert_eq!(problem(403, r#"{"error":"level_locked"}"#, None), Problem::LevelLocked);
         assert_eq!(problem(404, r#"{"error":"no_session"}"#, None), Problem::NoSession);
         assert_eq!(problem(413, "", None), Problem::TooBig);
@@ -1891,6 +1902,7 @@ mod tests {
         let every = [
             Problem::Paused,
             Problem::DailyCap,
+            Problem::TooFast,
             Problem::LevelLocked,
             Problem::NoSession,
             Problem::TooBig,

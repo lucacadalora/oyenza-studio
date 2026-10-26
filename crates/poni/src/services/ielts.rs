@@ -227,8 +227,9 @@ impl Worker {
         let spawned = std::thread::Builder::new().name("poni-ielts".into()).spawn(move || {
             let _com = MtaGuard::new();
             let base = api.as_ref().map_or(ielts::BASE.to_string(), |a| a.0.clone());
+            let fixed = api.is_some();
             let mut w = Client::new(USER_AGENT)
-                .map(|client| Calls { client, base, key: api.map(|a| a.1), turns: 0 })
+                .map(|client| Calls { client, base, key: api.map(|a| a.1), fixed, turns: 0 })
                 .map_err(|e| crate::pwarn!("ielts: no HTTP client ({e})"));
             // Ends once the page lets the worker go (its sender drops). Every
             // call gets an answer, even without a client.
@@ -253,6 +254,8 @@ struct Calls {
     client: Client,
     base: String,
     key: Option<String>,
+    /// The key is the self-test's, not this PC's sign-in.
+    fixed: bool,
     /// Turns saved so far (their clips' names).
     turns: u32,
 }
@@ -363,6 +366,10 @@ impl Calls {
         match self.client.send(method, url, &[("Authorization", &auth)], json, timeout) {
             Ok(r) if r.status == 200 => Ok(r.body),
             Ok(r) => {
+                if r.status == 401 && !self.fixed {
+                    // Refused: the next call reads the sign-in again (signed in anew, say).
+                    self.key = None;
+                }
                 let mut say = ielts::problem_say(&r.body);
                 let dir = crate::paths::ielts_dir();
                 let _ = std::fs::create_dir_all(&dir);

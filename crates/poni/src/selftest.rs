@@ -1979,12 +1979,6 @@ impl SelfTest {
         }
     }
 
-    /// Whether the app runs the IELTS coach now: only in the self-test's own
-    /// one-turn run (the scenes picture made-up states).
-    pub fn ielts_live(&self) -> bool {
-        matches!(self.phase, Phase::Ielts { .. })
-    }
-
     /// Called every ~50 ms; returns Some(exit code) when finished.
     pub fn step(&mut self, app: &mut App) -> Option<i32> {
         if !self.dpi_applied {

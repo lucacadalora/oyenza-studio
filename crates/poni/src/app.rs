@@ -322,6 +322,10 @@ pub struct App {
     ielts_shown: bool,
     /// An IELTS session held the island open at the last tick.
     ielts_held: bool,
+    /// The self-test runs (for the whole run: `selftest` itself is taken out
+    /// while a step runs), and its IELTS turn is under way.
+    in_selftest: bool,
+    ielts_turn: bool,
     /// The glass was still changing on the last frame (turning light or dark).
     glass_moving: bool,
     /// Animation time of the last frame (the vblank it was shown on).
@@ -555,6 +559,8 @@ impl App {
             ielts_music: false,
             ielts_shown: false,
             ielts_held: false,
+            in_selftest: selftest.is_some(),
+            ielts_turn: false,
             glass_moving: false,
             last_frame_t: 0.0,
             surface: Surface::default(),
@@ -3598,7 +3604,7 @@ impl App {
     /// The self-test pictures the IELTS page from made-up states: the coach
     /// runs only in the app, and in the self-test's own one-turn run.
     fn ielts_live(&self) -> bool {
-        self.selftest.as_ref().is_none_or(|t| t.ielts_live())
+        !self.in_selftest || self.ielts_turn
     }
 
     /// A press on the IELTS page.
@@ -3625,6 +3631,10 @@ impl App {
     /// stopped) runs before the rest.
     fn ielts_do(&mut self, fx: Vec<poni_core::ielts::Effect>) {
         use poni_core::ielts::Effect;
+        if !self.ielts_live() {
+            // The self-test's made-up states ask for nothing.
+            return;
+        }
         let mut todo: std::collections::VecDeque<Effect> = fx.into();
         while let Some(e) = todo.pop_front() {
             let now = self.st.now;
@@ -4188,6 +4198,9 @@ impl App {
     /// Self-test, the IELTS turn: calls go to `base` with `key`, the
     /// recording is `stand_in`, and the IELTS page is open, signed in.
     pub fn selftest_ielts_begin(&mut self, base: String, key: String, stand_in: PathBuf) {
+        // A kit of its own: no worker from before, and calls go to the run's server.
+        self.ielts = Default::default();
+        self.ielts_turn = true;
         self.ielts.api = Some((base, key));
         self.ielts.stand_in = Some(stand_in);
         self.st.ielts = Default::default();
@@ -4219,8 +4232,8 @@ impl App {
     /// Self-test, the IELTS turn is over: nothing of it stays.
     pub fn selftest_ielts_end(&mut self) {
         self.ielts_off();
-        self.ielts.api = None;
-        self.ielts.stand_in = None;
+        self.ielts_turn = false;
+        self.ielts = Default::default();
         self.st.settings.set_addon(poni_core::addons::IELTS.id, false);
         self.st.addons.insert(poni_core::addons::IELTS.id, AddonStatus::Off);
         self.st.oyenza = Default::default();
