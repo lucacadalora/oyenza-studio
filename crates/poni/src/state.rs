@@ -8,7 +8,6 @@ use crate::gfx::Image;
 use crate::icons::Icon;
 use crate::pages::PageKind;
 use poni_core::addons::Status as AddonStatus;
-use poni_core::cliphist::ClipHistory;
 use poni_core::datetime::LocalDateTime;
 use poni_core::geom::{palette, Color};
 use poni_core::health::HealthSnapshot;
@@ -268,19 +267,20 @@ impl PhoneDrop {
 pub struct PageUiState {
     pub task_input: String,
     pub task_scroll: f32,
-    pub clip_scroll: f32,
     pub shelf_scroll: f32,
     /// Smoothly animated lyric scroll position (line index as float).
     pub lyric_pos: f32,
     pub lyric_track: String,
-    /// Clipboard row that just got copied (index, mono time) for a "Copied" flash.
-    pub clip_flash: Option<(usize, f64)>,
     /// Volume HUD bar position, gliding toward the real level.
     pub hud_level: f32,
     /// Collapsed media pill shows the track title until this mono time.
     pub peek_until: f64,
     /// Header tab under the pointer and since when (for hover labels).
     pub tab_hover: Option<(usize, f64)>,
+    /// Oyen in the Oyenza tab: his last move of his own and when it started
+    /// (`oyen::tab`). None while the island is closed: the next opening is
+    /// his arrival.
+    pub oyen_tab: Option<(crate::oyen::TabMove, f64)>,
     /// The module the System page shows under its strip.
     pub system_module: poni_core::sysmon::Module,
     /// The last System reading had a GPU (keeps its chip while the next one is on its way).
@@ -408,12 +408,6 @@ pub struct OyenzaState {
     pub from_today: bool,
 }
 
-impl OyenzaState {
-    /// The Oyenza tab shows while signing in and once signed in.
-    pub fn tab_visible(&self) -> bool {
-        self.link != OyenzaLink::Off
-    }
-}
 
 /// Where finding the PC's place stands.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -476,7 +470,6 @@ pub struct AppState {
     pub power: PowerState,
     pub hud: Option<Hud>,
     pub notice: Option<Notice>,
-    pub clip: ClipHistory,
     pub stats: SysStats,
     /// The System page's readings and their last minute (empty while it's closed).
     pub system: poni_core::sysmon::Monitor,
@@ -568,7 +561,6 @@ impl AppState {
             power: PowerState::default(),
             hud: None,
             notice: None,
-            clip: ClipHistory::default(),
             stats: SysStats::default(),
             system: poni_core::sysmon::Monitor::default(),
             game: GameState::default(),
@@ -601,9 +593,9 @@ impl AppState {
             let on = st.settings.addon_on(a.id);
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
-        // Last open on the Script or Clipboard page, since switched off: open
+        // Last open on the Script or System page, since switched off: open
         // where a new island does.
-        if (st.page == PageKind::Script && !st.script_on()) || (st.page == PageKind::Clipboard && !st.settings.clipboard_history) {
+        if (st.page == PageKind::Script && !st.script_on()) || (st.page == PageKind::System && !st.system_on()) {
             st.page = PageKind::ALL[0];
         }
         st
@@ -617,6 +609,11 @@ impl AppState {
     /// The Script reader add-on is on: the Script tab shows.
     pub fn script_on(&self) -> bool {
         self.addon(poni_core::addons::SCRIPT_READER.id) == AddonStatus::Ready
+    }
+
+    /// The System add-on is on: the System tab shows.
+    pub fn system_on(&self) -> bool {
+        self.addon(poni_core::addons::SYSTEM.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.

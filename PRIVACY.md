@@ -36,7 +36,6 @@ Nothing else is sent anywhere. Music, volume, Bluetooth battery levels, the date
 | Lyrics cache and a log file (the log names songs that were looked up, to help fix problems) | `%LOCALAPPDATA%\Poni\` |
 | Your Apple Music token, if you added one, sealed so only your Windows account on this PC can read it | `%LOCALAPPDATA%\Poni\` |
 | Your Oyenza sign-in (this PC's key and your account's masked email), if you signed in, sealed the same way (on a Mac, a file only your Mac account can read, in `~/Library/Application Support/Poni/`). What Oyenza showed, your steps and your day too, is kept in memory only | `%LOCALAPPDATA%\Poni\` |
-| Clipboard history, only while that add-on is on (it's off unless you switch it on) | Memory only, never written to disk. Text that password managers mark as private is skipped. |
 | The Glass theme's copy of the screen behind the island, only while Glass is on | Memory only (the PC's and its graphics card's), replaced by each new copy, never written to disk |
 | Paired phones (their pairing secrets and names), sealed so only your Windows account on this PC can read them | `%LOCALAPPDATA%\Poni\` |
 | Files of the add-ons you switched on (Prayer times: the place list and the adzan recording; Japanese readings: the reading dictionary), deleted when you switch the add-on off | `%LOCALAPPDATA%\Poni\addons\` |

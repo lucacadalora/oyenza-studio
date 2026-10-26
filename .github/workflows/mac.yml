@@ -79,11 +79,10 @@ jobs:
 
       # The real app on the runner's screen: idle, hover, open (Focus, then
       # Today with live stats), the timer, a notice, the volume and charging
-      # pop-ups, a real copy landing in clipboard history, files dropped on
-      # the Shelf, a Spotify "now playing" notification with its lyrics
-      # looked up on LRCLIB, the Glass theme, Pill floating below the top
-      # edge, Oyen, Glass and Pill around a notch the app pretends the screen
-      # has, and the menu. At each state the app writes where its window is
+      # pop-ups, files dropped on the Shelf, a Spotify "now playing"
+      # notification with its lyrics looked up on LRCLIB, the Glass theme,
+      # Pill floating below the top edge, Oyen, Glass and Pill around a notch
+      # the app pretends the screen has, and the menu. At each state the app writes where its window is
       # and waits; tools/mac-smoke.sh takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
         run: bash tools/mac-smoke.sh "dist/Oyenza Studio.app/Contents/MacOS/poni"

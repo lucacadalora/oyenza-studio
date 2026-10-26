@@ -51,8 +51,6 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
     [ -e "smoke/shot-$base.done" ] && continue
     IFS=, read -r x y w h < "$r"
     case "$base" in
-      # A real copy: the app's clipboard history should pick it up.
-      *clipboard-copy) printf 'Oyenza Studio smoke test, copied at %s' "$(date +%T)" | pbcopy; sleep 1.5 ;;
       # What Spotify announces when a track plays (no Spotify on the runner).
       *music-notify)
         osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Blinding Lights", "Artist": "The Weeknd", "Album": "After Hours", "Duration": 200040, "Playback Position": 42.5, "Player State": "Playing"}), true)' || true

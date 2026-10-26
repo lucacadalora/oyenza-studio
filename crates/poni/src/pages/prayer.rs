@@ -388,12 +388,12 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
     }
     let col_w = (area.w - 16.0) / 2.0;
     // The bottom row's hover wash meets the Pill card's rounded corners.
-    let card = super::clipboard::pill_card(st, area);
+    let card = super::card::pill_card(st, area);
     for (i, (id, label, prov)) in results.iter().enumerate() {
         let r = Rect::new(area.x + (i / 4) as f32 * (col_w + 16.0), top + (i % 4) as f32 * RESULT_H, col_w, RESULT_H);
         let b = ui.button(wid_n("prayer.result", i as u64), Rect::new(r.x - 8.0, r.y, r.w + 8.0, r.h));
         if b.hovered || b.pressed {
-            super::clipboard::fill_box(ui, card, Rect::new(r.x - 8.0, r.y, r.w + 8.0, r.h), 8.0, Color::white(if b.pressed { 0.10 } else { 0.06 }));
+            super::card::fill_box(ui, card, Rect::new(r.x - 8.0, r.y, r.w + 8.0, r.h), 8.0, Color::white(if b.pressed { 0.10 } else { 0.06 }));
         }
         let lw = ui.c.measure(label, &TextStyle::body(), 400.0).0.ceil();
         ui.c.text(label, Rect::new(r.x, r.y, lw.min(r.w) + 2.0, r.h), &TextStyle::body());

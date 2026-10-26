@@ -76,7 +76,7 @@ VIAddVersionKey "LegalCopyright" "Copyright (C) 2026 ${PUBLISHER}"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\poni.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "Launch Oyenza Studio now"
 !define MUI_WELCOMEPAGE_TITLE "Welcome to Oyenza Studio"
-!define MUI_WELCOMEPAGE_TEXT "Oyenza Studio puts a living notch at the top of your screen: music with synced lyrics, a focus timer, your steps, a file shelf, tasks, clipboard history and more.$\r$\n$\r$\nIt installs just for you and doesn't need administrator rights."
+!define MUI_WELCOMEPAGE_TEXT "Oyenza Studio puts a living notch at the top of your screen: music with synced lyrics, your day, a focus timer, your steps, a file shelf, tasks and more.$\r$\n$\r$\nIt installs just for you and doesn't need administrator rights."
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_COMPONENTS

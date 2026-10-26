@@ -36,7 +36,7 @@
     <Application Id="Poni" Executable="poni.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
         DisplayName="Oyenza Studio"
-        Description="A living notch for Windows: music with synced lyrics, a focus timer, your steps, a file shelf, tasks and clipboard history."
+        Description="A living notch for Windows: music with synced lyrics, your day, a focus timer, your steps, a file shelf and tasks."
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png" />

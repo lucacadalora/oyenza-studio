@@ -78,8 +78,6 @@ pub enum Command {
     DragOut(Vec<String>),
     /// Request a thumbnail for a shelf item (async; arrives as `AppEvent::ShelfThumb`).
     LoadThumb(String),
-    /// Put text on the clipboard (not re-recorded into history).
-    CopyText(String),
     /// Give the island keyboard focus for a text field.
     FocusText,
     /// The Script page's Paste: the clipboard's text, line breaks kept,

@@ -326,7 +326,7 @@ fn oyen_idle(st: &AppState) -> bool {
 }
 
 /// Oyen sleeps from midnight to five.
-fn night(st: &AppState) -> bool {
+pub(crate) fn night(st: &AppState) -> bool {
     st.local.hour < 5
 }
 

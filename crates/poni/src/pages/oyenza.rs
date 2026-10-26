@@ -1,4 +1,6 @@
-//! Oyenza page (only while signing in or signed in, see `OyenzaState`).
+//! Oyenza page, always in the tab row with Oyen himself as its tab.
+//!
+//! Signed out: what signing in brings, with Sign in with Oyenza.
 //!
 //! Signing in: the 8-letter code to approve in oyenza.app, "Open
 //! oyenza.app" (the browser opens oyenza.app/connect with the code filled
@@ -65,12 +67,11 @@ thread_local! {
     static SCROLL_ANIM: Cell<(f32, f64)> = const { Cell::new((0.0, 0.0)) };
 }
 
-/// Signed out there is no tab, so nothing to make room for: the window stays
-/// the size it was before Oyenza (the app lays it out again on signing in).
+/// Signed out the page is as tall as the code that follows, so starting to
+/// sign in doesn't move the island.
 pub fn height(st: &AppState) -> f32 {
     match st.oyenza.link {
-        OyenzaLink::Off => 0.0,
-        OyenzaLink::Connecting { .. } => CODE_HEIGHT,
+        OyenzaLink::Off | OyenzaLink::Connecting { .. } => CODE_HEIGHT,
         OyenzaLink::Connected { .. } => HEIGHT,
     }
 }
@@ -107,7 +108,36 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     match st.oyenza.link.clone() {
         OyenzaLink::Connecting { code, url, until } => draw_code(ui, st, area, &code, &url, until),
         OyenzaLink::Connected { .. } => draw_connected(ui, st, area),
-        OyenzaLink::Off => {}
+        OyenzaLink::Off => draw_signed_out(ui, st, area),
+    }
+}
+
+// ---------------------------------------------------------------- signed out
+
+/// The Oyenza app's icon beside what signing in brings, and the button.
+fn draw_signed_out(ui: &mut Ui, st: &mut AppState, area: Rect) {
+    const ICON: f32 = 64.0;
+    const GAP: f32 = 20.0;
+    let title = "Your money, on the island";
+    let body = "Money in, bills due and a quick way to note a spend. Amounts stay hidden until you show them.";
+    let x = area.x + ICON + GAP;
+    let w = (area.w - ICON - GAP).clamp(0.0, 420.0);
+    let title_st = TextStyle::headline().wrap().top();
+    let body_st = TextStyle::footnote().color(palette::TEXT_DIM).wrap().top();
+    let (_, title_h) = ui.c.measure(title, &title_st, w);
+    let (_, body_h) = ui.c.measure(body, &body_st, w);
+    // Text and button as one block, centred on the page like the icon.
+    let block = title_h + 3.0 + body_h + 14.0 + PILL_SMALL;
+    let mut y = area.y + ((area.h - block) / 2.0).max(0.0);
+    crate::oyen::app_icon(ui.c, Point::new(area.x + ICON / 2.0, area.y + area.h / 2.0), ICON);
+    ui.c.text(title, Rect::new(x, y, w, title_h + 1.0), &title_st);
+    y += title_h + 3.0;
+    ui.c.text(body, Rect::new(x, y, w, body_h + 1.0), &body_st);
+    y += body_h + 14.0;
+    let label = "Sign in with Oyenza";
+    let bw = ui.pill_width(label, false, true).min(w);
+    if ui.pill(wid("oyenza.sign-in"), Rect::new(x, y, bw, PILL_SMALL), label, None, PillStyle::Primary(ACCENT)).clicked {
+        st.cmd(Command::Oyenza(OyenzaCmd::SignIn));
     }
 }
 
@@ -534,7 +564,7 @@ fn smooth_scroll(ui: &mut Ui, target: f32, max_scroll: f32) -> f32 {
 }
 
 /// The island's ground over `r`, from solid at the outer edge to clear: rows
-/// fade out where the list is cut off (the Clipboard page's fade).
+/// fade out where the list is cut off.
 fn fade_edge(ui: &mut Ui, r: Rect, outer_is_top: bool, strength: f32) {
     if strength <= 0.01 || r.h <= 0.0 {
         return;

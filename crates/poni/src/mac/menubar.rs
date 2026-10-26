@@ -23,7 +23,6 @@ pub enum MenuCmd {
     SetTheme(Theme),
     SetIdleStyle(IdleStyle),
     ToggleSounds,
-    ToggleClipboard,
     /// true: hide in full-screen apps; false: stay on top of them.
     SetHideFullscreen(bool),
     ToggleLogin,
@@ -89,7 +88,6 @@ pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyen
         item("Lyrics pronunciation (romaji, pinyin, Korean)", MenuCmd::TogglePronunciation, s.lyrics_pronunciation),
         apple_music_menu(),
         oyenza_menu(s, oyenza),
-        item("Clipboard history", MenuCmd::ToggleClipboard, s.clipboard_history),
         item("Sounds", MenuCmd::ToggleSounds, s.sounds),
         MenuItem::Sub { label: "In full-screen apps".into(), items: vec![fullscreen("Hide", true), fullscreen("Stay on top", false)] },
         match login {

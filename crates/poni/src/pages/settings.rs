@@ -3,7 +3,7 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, six switches, and Hide or Stay on top in
+//! the idle look as pickers, five switches, and Hide or Stay on top in
 //! full-screen apps.
 //! A change saves at once and applies the way the tray's does
 //! (`Command::SaveSettings`). While a later version is out, a last row
@@ -26,7 +26,7 @@ use poni_core::settings::{IdleStyle, Theme};
 use poni_core::update::Release;
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), then the switches and choices (four rows), and the new
+/// narrow island), then the switches and choices (three rows), and the new
 /// version's row while there is one. Shorter than the System page (256),
 /// so the window keeps its size.
 const HEIGHT: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
@@ -83,7 +83,6 @@ enum Switch {
     Lyrics,
     Pronunciation,
     Sounds,
-    Clipboard,
     Autostart,
     Updates,
 }
@@ -100,9 +99,9 @@ const LEFT: &[Row] = &[
     Row::Switch(Switch::Lyrics, "Synced lyrics"),
     Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"),
     Row::Switch(Switch::Sounds, "Sounds"),
-    Row::Switch(Switch::Updates, "Tell me about new versions"),
 ];
-const RIGHT: &[Row] = &[Row::Switch(Switch::Clipboard, "Clipboard history"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
+// New versions took the row Clipboard history left, so the columns stay even.
+const RIGHT: &[Row] = &[Row::Switch(Switch::Updates, "Tell me about new versions"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
 const COLUMNS: [&[Row]; 2] = [LEFT, RIGHT];
 /// Rows in the taller column.
 const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len() };
@@ -186,7 +185,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
 
     // Switches and the two choices, in two columns.
     let accent = st.accent;
-    let card = super::clipboard::pill_card(st, area);
+    let card = super::card::pill_card(st, area);
     for (c, column) in COLUMNS.iter().enumerate() {
         for (r, &kind) in column.iter().enumerate() {
             let row = Rect::new(cols[c], area.y + SWITCHES_Y + r as f32 * ROW_H, col_w, ROW_H);
@@ -366,7 +365,6 @@ fn switch_on(st: &AppState, sw: Switch) -> Option<bool> {
         Switch::Lyrics => Some(s.lyrics),
         Switch::Pronunciation => Some(s.lyrics_pronunciation),
         Switch::Sounds => Some(s.sounds),
-        Switch::Clipboard => Some(s.clipboard_history),
         Switch::Autostart => st.ui.autostart,
         Switch::Updates => Some(s.update_check),
     }
@@ -378,8 +376,6 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
         Switch::Lyrics => s.lyrics = !s.lyrics,
         Switch::Pronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
         Switch::Sounds => s.sounds = !s.sounds,
-        // Off forgets the history, pinned items included (as from the tray).
-        Switch::Clipboard => s.clipboard_history = !s.clipboard_history,
         Switch::Updates => s.update_check = !s.update_check,
         Switch::Autostart => {
             if let Some(on) = on {
@@ -525,13 +521,13 @@ pub(crate) fn switch_row(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<
     switch_row_on(ui, id, r, label, on, accent, None)
 }
 
-/// [`switch_row`] on the open card (`card` from `clipboard::pill_card`): in
+/// [`switch_row`] on the open card (`card` from `card::pill_card`): in
 /// Pill, a bottom row's hover wash follows the card's rounder corners.
 fn switch_row_on(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color, card: Option<(Rect, f32)>) -> bool {
     let hit = Rect::new(r.x - ROW_BLEED, r.y, r.w + 2.0 * ROW_BLEED, r.h);
     let resp = if on.is_some() { ui.button(id, hit) } else { Default::default() };
     if resp.hovered || resp.pressed {
-        super::clipboard::fill_box(ui, card, hit.inset(0.0, 1.0), 8.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
+        super::card::fill_box(ui, card, hit.inset(0.0, 1.0), 8.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let sw = Rect::new(r.right() - SWITCH_W, r.center().y - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
     ui.c.text(label, Rect::new(r.x, r.y, (sw.x - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());

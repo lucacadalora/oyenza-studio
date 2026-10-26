@@ -148,7 +148,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     x += cal_w + BLOCK_GAP;
     let right = Rect::new(x, area.y, (area.right() - x).max(0.0), area.h);
     // The bottom-right tile (or the card) shares the Pill card's corner.
-    let card = super::clipboard::pill_card(st, area);
+    let card = super::card::pill_card(st, area);
     match side {
         Side::Card(ask) => draw_ask(ui, st, right, card, ask),
         _ => draw_tiles(ui, st, right, card),
@@ -163,7 +163,7 @@ fn draw_ask(ui: &mut Ui, st: &mut AppState, r: Rect, card: Option<(Rect, f32)>, 
     if r.w < 120.0 {
         return;
     }
-    super::clipboard::fill_box(ui, card, r, TILE_RADIUS, palette::SURFACE);
+    super::card::fill_box(ui, card, r, TILE_RADIUS, palette::SURFACE);
     let inner = r.inset(16.0, 16.0);
     let (title, body) = match ask {
         Ask::SignIn => ("Your day, right here", "Your meetings from Google Calendar and flights from Gmail, through your Oyenza account."),
@@ -477,22 +477,24 @@ fn draw_tiles(ui: &mut Ui, st: &mut AppState, r: Rect, card: Option<(Rect, f32)>
     let s = &st.stats;
     let battery = st.power.has_battery;
     let tiles = [cpu_tile(s), memory_tile(s), disk_tile(s), if battery { battery_tile(&st.power) } else { uptime_tile(st) }];
-    // Each ring opens its module on the System page (uptime lives under CPU there).
+    // With System on, each ring opens its module on the System page (uptime
+    // lives under CPU there); without it the tiles are only to read.
     let modules = [Module::Cpu, Module::Memory, Module::Drives, if battery { Module::Battery } else { Module::Cpu }];
+    let system = st.system_on();
     let rows = r.rows(2, TILE_GAP);
     for (i, tile) in tiles.iter().enumerate() {
         let row = rows[i / 2];
         let cell = row.columns(2, TILE_GAP)[i % 2];
-        let resp = ui.button(wid_n("today-tile", i as u64), cell);
-        draw_tile(ui, cell, tile, resp.hovered, card);
-        if resp.clicked {
+        let resp = system.then(|| ui.button(wid_n("today-tile", i as u64), cell));
+        draw_tile(ui, cell, tile, resp.is_some_and(|r| r.hovered), card);
+        if resp.is_some_and(|r| r.clicked) {
             st.cmd(Command::OpenSystem(modules[i]));
         }
     }
 }
 
 fn draw_tile(ui: &mut Ui, r: Rect, t: &Tile, hovered: bool, card: Option<(Rect, f32)>) {
-    super::clipboard::fill_box(ui, card, r, TILE_RADIUS, if hovered { palette::SURFACE_HOVER } else { palette::SURFACE });
+    super::card::fill_box(ui, card, r, TILE_RADIUS, if hovered { palette::SURFACE_HOVER } else { palette::SURFACE });
     let cy = r.center().y;
     let c = Point::new(r.x + 12.0 + RING_R, cy);
     match t.frac {

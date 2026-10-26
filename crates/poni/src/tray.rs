@@ -54,7 +54,6 @@ impl Tray {
 pub enum MenuCmd {
     ToggleIdleStyle(IdleStyle),
     SetTheme(Theme),
-    ToggleClipboard,
     ToggleSystemHistory,
     ToggleLyrics,
     TogglePronunciation,
@@ -130,8 +129,6 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
         item("Lyrics pronunciation (romaji, pinyin, Korean)", MenuCmd::TogglePronunciation, s.lyrics_pronunciation),
         apple_music_menu(),
         oyenza_menu(s, oyenza),
-        item("Clipboard history", MenuCmd::ToggleClipboard, s.clipboard_history),
-        item("Keep System page history", MenuCmd::ToggleSystemHistory, s.system_history),
         item("Sounds", MenuCmd::ToggleSounds, s.sounds),
         MenuItem::Sub {
             label: "In full-screen apps".into(),
@@ -154,6 +151,11 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
         MenuItem::Separator,
         item("Quit Oyenza Studio", MenuCmd::Quit, false),
     ];
+    // Only while the System add-on is on: its page's history, under Sounds.
+    if s.system_on() {
+        let at = items.iter().position(|i| matches!(i, MenuItem::Item { cmd: MenuCmd::ToggleSounds, .. })).unwrap_or(items.len());
+        items.insert(at, item("Keep System page history", MenuCmd::ToggleSystemHistory, s.system_history));
+    }
     // Only once the separate recorder app is installed: until then the
     // island doesn't mention recording at all.
     if recorder {
@@ -298,6 +300,18 @@ mod tests {
         };
         assert_eq!(first(Some("0.2.5")), Some(("Update to Oyenza Studio 0.2.5…".to_string(), MenuCmd::Update)));
         assert_eq!(first(None).map(|(_, cmd)| cmd), Some(MenuCmd::RecordScreen));
+    }
+
+    #[test]
+    fn system_history_is_in_the_menu_only_while_system_is_on() {
+        let has = |s: &Settings| menu_items(s, false, &OyenzaLink::Off, false, None).iter().position(|i| matches!(i, MenuItem::Item { cmd: MenuCmd::ToggleSystemHistory, .. }));
+        let mut s = Settings::default();
+        assert_eq!(has(&s), None, "System is off by default");
+        s.set_addon(poni_core::addons::SYSTEM.id, true);
+        let at = has(&s).expect("no System history item");
+        // Right above Sounds, where it always was.
+        let items = menu_items(&s, false, &OyenzaLink::Off, false, None);
+        assert!(matches!(&items[at + 1], MenuItem::Item { cmd: MenuCmd::ToggleSounds, .. }));
     }
 
     #[test]

@@ -10,7 +10,6 @@
 pub mod addons;
 pub mod agenda;
 pub mod applemusic;
-pub mod cliphist;
 pub mod datetime;
 pub mod frames;
 pub mod frametime;

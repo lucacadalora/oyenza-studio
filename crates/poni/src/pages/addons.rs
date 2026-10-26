@@ -1,7 +1,7 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader and Clipboard history are already in the app and only show their
-//! pages (Clipboard history also starts watching the clipboard).
+//! reader and System are already in the app and only show their pages
+//! (System's readings also run only while it is on).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -47,7 +47,7 @@ fn icon(a: &Addon) -> Icon {
         "sholat" => Icon::Moon,
         "ja" => Icon::Lyrics,
         "script" => Icon::Script,
-        "clipboard" => Icon::Clipboard,
+        "system" => Icon::Gauge,
         _ => Icon::Addons,
     }
 }
@@ -56,7 +56,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let intro = "Each one stays off until you switch it on, and switching off deletes any download.";
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
-    let card = super::clipboard::pill_card(st, area);
+    let card = super::card::pill_card(st, area);
     for (i, a) in OFFERED.iter().enumerate() {
         let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * ROW_H, area.w, ROW_H);
         if addon_row(ui, st, row, i, a, card) {
@@ -67,14 +67,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     }
 }
 
-/// Returns true when the row was clicked. `card`: the Pill card (`clipboard::pill_card`).
+/// Returns true when the row was clicked. `card`: the Pill card (`card::pill_card`).
 fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Option<(Rect, f32)>) -> bool {
     let status = st.addon(a.id);
     let accent = st.accent;
     let hit = Rect::new(r.x - ROW_BLEED, r.y + 2.0, r.w + 2.0 * ROW_BLEED, r.h - 4.0);
     let resp = ui.button(wid_n("addons.row", i as u64), hit);
     if resp.hovered || resp.pressed {
-        super::clipboard::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
+        super::card::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let cy = r.center().y;
     ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), BADGE / 2.0, accent.with_alpha(0.18));

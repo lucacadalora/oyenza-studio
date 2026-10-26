@@ -92,13 +92,6 @@ pub const LYRICS_JA: &str = "\
 /// The Japanese readings add-on's dictionary in the repo (what the add-on's
 /// release holds), relative to the repo's root.
 const JA_DICT: &str = "crates/poni-core/data/ja-readings.dic.zst";
-const CLIPS: [&str; 5] = [
-    "Lunch: noodles from the corner place, then a walk by the river",
-    "Tracking number PX-2048-7731",
-    "#5AC8FA",
-    "https://example.com/projects/poni/notes",
-    "Meet at the north entrance at 6:15",
-];
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum Scene {
@@ -142,6 +135,8 @@ enum Scene {
     /// notice with the sum held back, and Settings signed in.
     Oyenza,
     OyenzaCode,
+    /// The Oyenza tab signed out: what signing in brings, and Sign in.
+    OyenzaSignedOut,
     OyenzaNotice,
     SettingsSignedIn,
     /// The Today page signed in to Oyenza: the day from Google Calendar and
@@ -168,7 +163,8 @@ const SCENES: [Scene; 19] = [
     Scene::HealthSignedOut,
     Scene::Page(PageKind::Media),
     Scene::Page(PageKind::Shelf),
-    Scene::Page(PageKind::Clipboard),
+    // In the Clipboard page's place (it left the app), so the numbers stay.
+    Scene::OyenzaSignedOut,
     // Slice 3: the pop-ups and the Shelf with real files.
     Scene::ChargingHud,
     Scene::LowBatteryHud,
@@ -254,6 +250,7 @@ impl Scene {
             Scene::PrayerNotice => "prayer-notice".into(),
             Scene::HeadphonesHud => "headphones-hud".into(),
             Scene::Oyenza => "page-oyenza".into(),
+            Scene::OyenzaSignedOut => "page-oyenza-signed-out".into(),
             Scene::OyenzaCode => "page-oyenza-code".into(),
             Scene::OyenzaNotice => "oyenza-notice".into(),
             Scene::SettingsSignedIn => "page-settings-signed-in".into(),
@@ -622,6 +619,8 @@ fn base_state(theme: Theme) -> AppState {
     st.volume = VolumeState { level: 0.64, muted: false, known: true };
     st.power = PowerState { has_battery: true, percent: 76, charging: false, on_ac: false, saver: false };
     st.stats = SysStats { valid: true, cpu: 0.23, mem_used: 9 << 30, mem_total: 16 << 30, disk_free: 212 << 30, disk_total: 476 << 30, uptime_s: 3 * 86_400 + 4 * 3600 };
+    // Oyen in the Oyenza tab long since arrived: at rest in every picture.
+    st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
     seed(&mut st);
     st
 }
@@ -710,9 +709,6 @@ fn seed(st: &mut AppState) {
     st.store.tasks.add("Book the ferry for Saturday", unix - 2 * 3600);
     if let Some(id) = done {
         st.store.tasks.toggle(id, (unix - 1800).max(day_start + 60));
-    }
-    for (k, text) in CLIPS.iter().enumerate() {
-        st.clip.push(text, unix - (CLIPS.len() - k) as i64 * 420);
     }
     let today = st.local;
     let week = [5210u32, 9120, 7480, 3960, 10230, 6840, 8412];
@@ -870,8 +866,6 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
                 st.pomodoro.phase = Phase::Focus;
                 st.pomodoro.run = RunState::Running { ends_at: NOW_MONO + 1104.5 };
             }
-            // Clipboard history is an add-on, off by default: on for its own page.
-            st.settings.clipboard_history = p == PageKind::Clipboard;
             st.page = p;
             Mode::Expanded(p)
         }
@@ -897,6 +891,10 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);
+            st.page = PageKind::Oyenza;
+            Mode::Expanded(PageKind::Oyenza)
+        }
+        Scene::OyenzaSignedOut => {
             st.page = PageKind::Oyenza;
             Mode::Expanded(PageKind::Oyenza)
         }
@@ -932,6 +930,9 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             Mode::Activity(activities::Activity::Media)
         }
         Scene::System(m) => {
+            // System is an add-on, off by default: on for its own scenes.
+            st.settings.set_addon(poni_core::addons::SYSTEM.id, true);
+            st.addons.insert(poni_core::addons::SYSTEM.id, AddonStatus::Ready);
             // Power is a desktop Mac's: no battery, the SMC's whole-Mac watts.
             st.system = sample_system(m == Module::Power);
             st.ui.system_module = m;
