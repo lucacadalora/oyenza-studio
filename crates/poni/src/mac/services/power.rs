@@ -1,12 +1,15 @@
-//! Battery and charging state (IOKit power sources), and a notification when
-//! either changes. Macs without a battery report `has_battery: false`, so the
-//! island shows no battery pop-ups there (and Today shows the uptime).
+//! Battery and charging state (IOKit power sources) and Low Power Mode, and
+//! a notification when any of them changes. Macs without a battery report
+//! `has_battery: false`, so the island shows no battery pop-ups there (and
+//! Today shows the uptime).
 
 use super::cf::{self, CFTypeRef};
 use crate::events::{AppEvent, EventSink};
 use crate::state::PowerState;
-use objc2_foundation::NSProcessInfo;
+use block2::RcBlock;
+use objc2_foundation::{NSNotification, NSNotificationCenter, NSProcessInfo, NSProcessInfoPowerStateDidChangeNotification};
 use std::ffi::c_void;
+use std::ptr::NonNull;
 use std::sync::Mutex;
 
 #[link(name = "IOKit", kind = "framework")]
@@ -56,11 +59,18 @@ extern "C" fn changed(_ctx: *mut c_void) {
     }
 }
 
-/// Send `AppEvent::Power` whenever the power source or the charge changes.
+/// Send `AppEvent::Power` whenever the power source, the charge or Low
+/// Power Mode changes.
 pub fn watch(sink: EventSink) {
     if let Ok(mut g) = SINK.lock() {
         *g = Some(sink);
     }
+    // Low Power Mode switching on or off changes no power source, so the
+    // source below doesn't hear it (a Mac without a battery never would):
+    // macOS's own notification does, on any thread. Lives as long as the app.
+    let block = RcBlock::new(|_n: NonNull<NSNotification>| changed(std::ptr::null_mut()));
+    let observer = unsafe { NSNotificationCenter::defaultCenter().addObserverForName_object_queue_usingBlock(Some(NSProcessInfoPowerStateDidChangeNotification), None, None, &block) };
+    std::mem::forget(observer);
     unsafe {
         let source = IOPSNotificationCreateRunLoopSource(changed, std::ptr::null_mut());
         if source.is_null() {

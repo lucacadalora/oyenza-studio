@@ -3533,6 +3533,8 @@ impl App {
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
             "ai-page" => (self.expanded && self.st.page == PageKind::Ai && waited > 0.6) || waited > 4.0,
+            // tools/mac-smoke.sh switched Low Power Mode on after the step before.
+            "ai-saver" => self.st.power.saver || waited > 5.0,
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
@@ -3873,6 +3875,14 @@ impl App {
                 let (ok, d) = smoke_keychain();
                 Some(("keychain", ok, d))
             }
+            // What the AI tab's notices rest on (and the update check, the
+            // System page's kept minute): Low Power Mode switched on by CI,
+            // with no power source change. Information only: a runner may not
+            // have Low Power Mode (tools/mac-smoke.sh prints what pmset says).
+            "ai-saver" => {
+                let heard = if self.st.power.saver { "heard" } else { "not heard" };
+                Some(("low-power-mode", true, format!("Low Power Mode switched on: {heard}")))
+            }
             "oyenza-off" => {
                 // Signed out, the tab stays: it is where to sign in again.
                 let tab = pages::tabs(&self.st).contains(&PageKind::Oyenza);
@@ -4198,7 +4208,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 60] = [
+const SMOKE_STEPS: [&str; 61] = [
     "idle",
     "hover",
     "open-focus",
@@ -4254,6 +4264,7 @@ const SMOKE_STEPS: [&str; 60] = [
     "oyenza-off",
     "ai-page",
     "ai-keychain",
+    "ai-saver",
     "now-playing-start",
     "now-playing",
     "now-playing-browser-start",
