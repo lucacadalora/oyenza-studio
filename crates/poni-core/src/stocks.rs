@@ -8,7 +8,7 @@
 //!
 //! * `watch?s=BBCA,TLKM`: the IHSG and the stocks asked for, each with its
 //!   last price, the previous close, the day's open, high and low, volume and
-//!   value, the year's range, market cap and P/E, and the day's line, a point
+//!   value, the year's range, market cap, and the day's line, a point
 //!   every 5 minutes. A few KB, asked again when the answer says a fresher
 //!   one is due (`every`: 15 s while IDX trades), with `If-None-Match`, so an
 //!   unchanged answer is a 304 without a body.
@@ -245,9 +245,10 @@ pub struct Quote {
     pub value: Option<f64>,
     /// The last 52 weeks' low and high.
     pub w52: Option<(f64, f64)>,
-    /// Market cap in rupiah and P/E, both at today's price (stocks only).
+    /// Market cap in rupiah at today's price (stocks only). The answers
+    /// carry no P/E: they need no sign-in, and oyenza.trade keeps what it
+    /// reads from companies' statements behind it.
     pub mcap: Option<f64>,
-    pub pe: Option<f64>,
     /// The day's line: (minute of the exchange's day, WIB; price), oldest
     /// first, a point every 5 minutes and the last at the price's own time.
     pub spark: Vec<(u16, f64)>,
@@ -369,7 +370,6 @@ impl Quote {
             value: num(&v["val"]),
             w52: pair(&v["w52"]),
             mcap: num(&v["mcap"]),
-            pe: num(&v["pe"]),
             spark,
             code,
         })
@@ -653,17 +653,6 @@ pub fn fmt_cap(v: f64) -> String {
     format!("Rp{}", fmt_big(v))
 }
 
-/// A P/E: "10.5×"; loss-making companies have none worth showing.
-pub fn fmt_pe(pe: f64) -> String {
-    if pe <= 0.0 || !pe.is_finite() {
-        "\u{2014}".to_string()
-    } else if pe >= 100.0 {
-        format!("{pe:.0}\u{d7}")
-    } else {
-        format!("{pe:.1}\u{d7}")
-    }
-}
-
 // ---------------------------------------------------------------- pacing
 
 /// Seconds until the watch is asked again: when the last answer said a
@@ -745,19 +734,19 @@ pub fn resample(pts: &[(f32, f32)], n: usize) -> Vec<(f32, f32)> {
 /// late October 2026.
 pub fn sample(day: &str, now_min: u16) -> Board {
     let now_min = now_min.clamp(545, 960);
-    let rows: [(&str, &str, f64, f64, f64, f64); 6] = [
-        // code, name, previous close, close now, market cap at that close, P/E
-        (INDEX, "IDX Composite", 5_439.25, 5_473.09, 0.0, 0.0),
-        ("BBCA", "Bank BCA", 4_900.0, 4_940.0, 606.8e12, 10.45),
-        ("BBRI", "Bank BRI", 2_910.0, 2_950.0, 438.5e12, 7.16),
-        ("BMRI", "Bank Mandiri", 3_900.0, 3_870.0, 364.0e12, 6.85),
-        ("TLKM", "Telkom", 2_240.0, 2_250.0, 221.8e12, 12.95),
-        ("ASII", "Astra", 4_550.0, 4_490.0, 181.8e12, 6.40),
+    let rows: [(&str, &str, f64, f64, f64); 6] = [
+        // code, name, previous close, close now, market cap at that close
+        (INDEX, "IDX Composite", 5_439.25, 5_473.09, 0.0),
+        ("BBCA", "Bank BCA", 4_900.0, 4_940.0, 606.8e12),
+        ("BBRI", "Bank BRI", 2_910.0, 2_950.0, 438.5e12),
+        ("BMRI", "Bank Mandiri", 3_900.0, 3_870.0, 364.0e12),
+        ("TLKM", "Telkom", 2_240.0, 2_250.0, 221.8e12),
+        ("ASII", "Astra", 4_550.0, 4_490.0, 181.8e12),
     ];
     let rows = rows
         .iter()
         .enumerate()
-        .map(|(i, &(code, name, prev, last, mcap, pe))| {
+        .map(|(i, &(code, name, prev, last, mcap))| {
             let index = code == INDEX;
             let tick = if index { 0.01 } else if prev < 5_000.0 { 10.0 } else { 25.0 };
             // From the previous close to `last`, wandering as a day's line
@@ -790,7 +779,6 @@ pub fn sample(day: &str, now_min: u16) -> Board {
                 value: (!index).then_some(48_200_000.0 * (i as f64 + 1.0) * last),
                 w52: Some(if index { (4_907.37, 9_174.47) } else { (prev * 0.78, prev * 1.31) }),
                 mcap: (!index).then_some(mcap),
-                pe: (!index).then_some(pe),
                 spark,
             }
         })
@@ -867,7 +855,7 @@ mod tests {
     const WATCH: &str = r#"{"v":1,"tag":"9f2c","at":1793045721,"t":1793045121,"day":"2026-10-26","state":"open","delay":600,"every":15,"stale":false,"span":[540,969],
         "rows":[
           {"s":"IHSG","n":"IDX Composite","p":5373.09,"pc":5439.25,"o":5442.3,"h":5453.65,"l":5349.75,"w52":[4907.37,9174.47],"spark":[[540,5440.59],[545,5432.8],[600,5373.09]]},
-          {"s":"BBCA","n":"Bank BCA","p":4940,"pc":4900,"o":5025,"h":5075,"l":4940,"v":353641200,"val":1740086927264,"w52":[4380,6550],"mcap":606838278062080,"pe":10.45,"spark":[[545,5000],[540,5025]]},
+          {"s":"BBCA","n":"Bank BCA","p":4940,"pc":4900,"o":5025,"h":5075,"l":4940,"v":353641200,"val":1740086927264,"w52":[4380,6550],"mcap":606838278062080,"spark":[[545,5000],[540,5025]]},
           {"s":"GOTO","p":25,"pc":25,"spark":[]},
           {"n":"no code","p":1}
         ],"missing":["ZZZZ"]}"#;
@@ -939,9 +927,6 @@ mod tests {
         assert_eq!(fmt_big(8_200.0), "8.2K");
         assert_eq!(fmt_big(512.0), "512");
         assert_eq!(fmt_cap(221.8e12), "Rp222T");
-        assert_eq!(fmt_pe(10.4528), "10.5\u{d7}");
-        assert_eq!(fmt_pe(14_406.7), "14407\u{d7}");
-        assert_eq!(fmt_pe(-3.0), "\u{2014}");
         assert_eq!(group(1_000), "1,000");
         assert_eq!(group(999), "999");
     }

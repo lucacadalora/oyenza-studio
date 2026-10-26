@@ -854,14 +854,16 @@ fn stats(ui: &mut Ui, q: &Quote, r: Rect) {
             ("52W low", p(q.w52.map(|w| w.0))),
         ]
     } else {
-        // Stocks' own set: the previous close is the dotted line and the change.
+        // Stocks' own set (the previous close is the dotted line and the
+        // change), with the rupiah traded where Stocks has the P/E: the
+        // answers carry no P/E, as they need no sign-in on oyenza.trade.
         vec![
             ("Open", p(q.open)),
             ("High", p(q.high)),
             ("Low", p(q.low)),
             ("Volume", q.volume.map_or_else(dash, stocks::fmt_big)),
             ("Mkt cap", q.mcap.map_or_else(dash, stocks::fmt_cap)),
-            ("P/E", q.pe.map_or_else(dash, stocks::fmt_pe)),
+            ("Value", q.value.map_or_else(dash, stocks::fmt_cap)),
             ("52W high", p(q.w52.map(|w| w.1))),
             ("52W low", p(q.w52.map(|w| w.0))),
         ]
