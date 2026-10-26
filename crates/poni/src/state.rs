@@ -169,6 +169,14 @@ pub struct Notice {
     pub reveal: Option<String>,
 }
 
+impl Notice {
+    /// No time limit (a new version's): it stays until clicked or put away,
+    /// and lets a volume change or a game's readout show over it meanwhile.
+    pub fn stays(&self) -> bool {
+        self.until.is_infinite()
+    }
+}
+
 /// What the app knows about new versions.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct UpdateView {

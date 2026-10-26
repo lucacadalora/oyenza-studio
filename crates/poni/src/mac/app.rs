@@ -667,7 +667,7 @@ impl App {
             Timer::Hover => {
                 if !self.hovering || self.expanded {
                     self.hover_arm = None;
-                } else if self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
+                } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
                     // pointer so the pill can be clicked.
                 } else {
@@ -1894,8 +1894,10 @@ impl App {
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
                     } else {
-                        // Clicking a notice jumps to its page.
-                        if let Some(n) = self.st.notice.take() {
+                        // Clicking a notice jumps to its page (a new version's
+                        // may be waiting under a volume change or a game's readout).
+                        let shown = self.mode == Mode::Notice;
+                        if let Some(n) = self.st.notice.take_if(|_| shown) {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
                                 Some(NoticeAction::OpenUpdate) => self.st.open_update(),
