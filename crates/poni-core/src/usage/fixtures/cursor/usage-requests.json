@@ -1,0 +1,6 @@
+{
+  "gpt-4": { "numRequests": 120, "numRequestsTotal": 130, "numTokens": 2104331, "maxRequestUsage": 500, "maxTokenUsage": null },
+  "gpt-3.5-turbo": { "numRequests": 4, "numRequestsTotal": 4, "numTokens": 10233, "maxRequestUsage": null, "maxTokenUsage": null },
+  "gpt-4-32k": { "numRequests": 0, "numRequestsTotal": 0, "numTokens": 0, "maxRequestUsage": 50, "maxTokenUsage": null },
+  "startOfMonth": "2026-10-18T10:27:04.000Z"
+}
