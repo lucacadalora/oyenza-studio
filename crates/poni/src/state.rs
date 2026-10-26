@@ -1174,6 +1174,10 @@ mod tests {
         let n = usage_notice(&said[0], st.accent, 0.0);
         assert_eq!((n.title.as_str(), n.color), ("Claude Code: 5-hour used up", palette::ORANGE));
         assert!(n.subtitle.starts_with("Resets 2:20 PM \u{b7} "), "{}", n.subtitle);
+        // ...and one getting close (the self-test's `ai-notice` reads the same way).
+        let said = alerts::changes(Some(&read(0.7)), &read(0.9), st.unix, &st.usage_alert_cfg());
+        let n = usage_notice(&said[0], st.accent, 0.0);
+        assert_eq!((n.title.as_str(), n.subtitle.as_str(), n.color), ("Claude Code: 90% of 5-hour", "Resets 2:20 PM", st.accent));
         // A refused or switched-off inference key: no nudge to a dead end.
         for t in [Trouble::Refused, Trouble::Disabled] {
             st.usage.readings.insert(ProviderId::Oyenza, Reading { snapshot: None, trouble: Some(t), checked_at: st.unix });
