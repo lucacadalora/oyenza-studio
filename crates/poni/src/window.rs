@@ -21,8 +21,23 @@ use windows::Win32::UI::WindowsAndMessaging::*;
 
 pub const ISLAND_CLASS: PCWSTR = w!("Poni.Island");
 pub const HELPER_CLASS: PCWSTR = w!("Poni.Helper");
+pub const VISUAL_CLASS: PCWSTR = w!("Poni.Visual");
 
 pub type WndProc = unsafe extern "system" fn(HWND, u32, WPARAM, LPARAM) -> windows::Win32::Foundation::LRESULT;
+
+/// The visual window takes no input and has next to nothing to handle.
+unsafe extern "system" fn visual_wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM) -> windows::Win32::Foundation::LRESULT {
+    use windows::Win32::Foundation::LRESULT;
+    match msg {
+        // WS_EX_TRANSPARENT already keeps hit tests off it; should one land
+        // here anyway, it goes on to the island underneath (same thread).
+        WM_NCHITTEST => LRESULT(HTTRANSPARENT as isize),
+        // The renderer places and sizes it; moving to another display must
+        // not resize it.
+        WM_DPICHANGED => LRESULT(0),
+        _ => DefWindowProcW(hwnd, msg, wp, lp),
+    }
+}
 
 pub fn register_classes(island_proc: WndProc, helper_proc: WndProc) -> Result<()> {
     unsafe {
@@ -53,6 +68,16 @@ pub fn register_classes(island_proc: WndProc, helper_proc: WndProc) -> Result<()
         if RegisterClassExW(&wc2) == 0 {
             return Err(windows::core::Error::from_win32());
         }
+        let wc3 = WNDCLASSEXW {
+            cbSize: std::mem::size_of::<WNDCLASSEXW>() as u32,
+            lpfnWndProc: Some(visual_wndproc),
+            hInstance: hinst.into(),
+            lpszClassName: VISUAL_CLASS,
+            ..Default::default()
+        };
+        if RegisterClassExW(&wc3) == 0 {
+            return Err(windows::core::Error::from_win32());
+        }
         Ok(())
     }
 }
@@ -79,6 +104,41 @@ pub fn create_island_window() -> Result<HWND> {
     }
 }
 
+/// The GPU renderer's window, made with its first frame: it shows what the
+/// renderer draws (DirectComposition) and never takes input. The island
+/// window then only carries the hit mask, a layered bitmap, and there mouse,
+/// pen and touch all follow its alpha. On one window with DirectComposition
+/// content, touch ignores that alpha: the window's whole rectangle (the room
+/// for the largest page, far wider and taller than the closed island)
+/// swallowed taps meant for the windows under it. Owned by the island, so
+/// it stays just above it whenever the island is raised.
+pub fn create_visual_window(island: HWND) -> Result<HWND> {
+    let visual = unsafe {
+        CreateWindowExW(
+            WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
+            VISUAL_CLASS,
+            w!("Poni"),
+            WS_POPUP,
+            0,
+            0,
+            1,
+            1,
+            island,
+            None,
+            GetModuleHandleW(None)?,
+            None,
+        )?
+    };
+    VISUAL.with(|v| v.set(visual.0 as isize));
+    // It holds the pixels: out of capture too while an owner wants the island out.
+    if CAPTURE.with(|c| c.get().1) {
+        unsafe {
+            let _ = SetWindowDisplayAffinity(visual, WDA_EXCLUDEFROMCAPTURE);
+        }
+    }
+    Ok(visual)
+}
+
 /// Who wants the island left out of screen capture. The Glass theme does
 /// while it copies the screen under the island, so the copy never contains
 /// the island itself; the Script page does while it shows, so the script
@@ -92,6 +152,14 @@ pub enum CaptureOwner {
 thread_local! {
     // (owners that want it, what Windows was last told). UI thread only.
     static CAPTURE: std::cell::Cell<(u8, bool)> = const { std::cell::Cell::new((0, false)) };
+    // The visual window, once the GPU renderer made it (0 before).
+    static VISUAL: std::cell::Cell<isize> = const { std::cell::Cell::new(0) };
+}
+
+/// The visual window, if the GPU renderer made one.
+fn visual() -> Option<HWND> {
+    let v = VISUAL.with(|v| v.get());
+    (v != 0).then(|| HWND(v as *mut core::ffi::c_void))
 }
 
 /// Leave the island out of screenshots, screen recordings and screen sharing
@@ -113,22 +181,30 @@ pub fn exclude_from_capture(hwnd: HWND, who: CaptureOwner, on: bool) -> bool {
     })
 }
 
-/// Whether Windows leaves the island out of screen capture right now.
+/// Whether Windows leaves the island out of screen capture right now (its
+/// visual window too, where the GPU renderer draws).
 pub fn capture_excluded(hwnd: HWND) -> bool {
-    let mut got = 0u32;
-    unsafe { GetWindowDisplayAffinity(hwnd, &mut got).is_ok() && got == WDA_EXCLUDEFROMCAPTURE.0 }
+    let excluded = |h: HWND| {
+        let mut got = 0u32;
+        unsafe { GetWindowDisplayAffinity(h, &mut got).is_ok() && got == WDA_EXCLUDEFROMCAPTURE.0 }
+    };
+    excluded(hwnd) && visual().map_or(true, excluded)
 }
 
-/// Tell Windows (see [`exclude_from_capture`]). True when it took the setting.
+/// Tell Windows (see [`exclude_from_capture`]), for the island and its visual
+/// window. True when it took the setting for both.
 fn set_capture_excluded(hwnd: HWND, on: bool) -> bool {
     let want = if on { WDA_EXCLUDEFROMCAPTURE } else { WDA_NONE };
-    unsafe {
-        if SetWindowDisplayAffinity(hwnd, want).is_err() {
+    let set = |h: HWND| unsafe {
+        if SetWindowDisplayAffinity(h, want).is_err() {
             return false;
         }
         let mut got = 0u32;
-        GetWindowDisplayAffinity(hwnd, &mut got).is_ok() && got == want.0
-    }
+        GetWindowDisplayAffinity(h, &mut got).is_ok() && got == want.0
+    };
+    // Both, even when the first refuses.
+    let island = set(hwnd);
+    visual().map_or(true, set) && island
 }
 
 /// Windows' build number (19041 = Windows 10 version 2004, the first that can

@@ -9,9 +9,11 @@
 //!
 //! GPU renderer (any Direct3D 11 device, WARP included): frames go to a
 //! premultiplied-alpha flip-model swap chain that DWM composes on the vblank,
-//! with no CPU copies. The layered window's own bitmap then only carries an
-//! invisible hit-test mask (alpha 1/255 where the island takes the mouse, 0
-//! elsewhere), so transparent pixels stay click-through as before.
+//! with no CPU copies. DWM shows them in a window of their own that takes
+//! no input (`window::create_visual_window`); the layered island window's
+//! own bitmap then only carries an invisible hit-test mask (alpha 1/255
+//! where the island takes the mouse, pen and touch, 0 elsewhere), so
+//! transparent pixels stay click-through and tap-through as before.
 //!
 //! Software renderer (no Direct3D or DirectComposition, e.g. under Wine, or
 //! after repeated device loss): the frame itself is the window's bitmap, and
@@ -44,7 +46,7 @@ use windows::Win32::Graphics::Dxgi::Common::*;
 use windows::Win32::Graphics::Dxgi::*;
 use windows::Win32::Graphics::Gdi::*;
 use windows::Win32::System::LibraryLoader::{GetProcAddress, LoadLibraryExW, LOAD_LIBRARY_SEARCH_SYSTEM32};
-use windows::Win32::UI::WindowsAndMessaging::{UpdateLayeredWindowIndirect, ULW_ALPHA, UPDATELAYEREDWINDOWINFO};
+use windows::Win32::UI::WindowsAndMessaging::{ShowWindow, UpdateLayeredWindowIndirect, SW_HIDE, SW_SHOWNOACTIVATE, ULW_ALPHA, UPDATELAYEREDWINDOWINFO};
 
 // ---------------------------------------------------------------- images
 
@@ -364,6 +366,36 @@ impl SoftTarget {
             Ok(())
         } else {
             self.shown = None;
+            Err(windows::core::Error::from_win32())
+        }
+    }
+
+    /// Give `hwnd`, another layered window, a fully transparent `w`×`h`
+    /// bitmap at (`x`, `y`): it places and sizes that window and shows
+    /// nothing of its own. Clears the DIB on the way; what the island's
+    /// window shows stays, and its next push redraws what it copies.
+    unsafe fn push_clear(&mut self, hwnd: HWND, x: i32, y: i32, w: i32, h: i32) -> Result<()> {
+        self.ensure_capacity(w, h)?;
+        for row in 0..h {
+            std::ptr::write_bytes(self.bits.add((row * self.cap_w * 4) as usize), 0, (w * 4) as usize);
+        }
+        let blend = BLENDFUNCTION { BlendOp: AC_SRC_OVER as u8, BlendFlags: 0, SourceConstantAlpha: 255, AlphaFormat: AC_SRC_ALPHA as u8 };
+        let (dst, size, src) = (POINT { x, y }, SIZE { cx: w, cy: h }, POINT { x: 0, y: 0 });
+        let info = UPDATELAYEREDWINDOWINFO {
+            cbSize: std::mem::size_of::<UPDATELAYEREDWINDOWINFO>() as u32,
+            hdcDst: HDC::default(),
+            pptDst: &dst,
+            psize: &size,
+            hdcSrc: self.mem_dc,
+            pptSrc: &src,
+            crKey: COLORREF(0),
+            pblend: &blend,
+            dwFlags: ULW_ALPHA,
+            prcDirty: std::ptr::null(),
+        };
+        if UpdateLayeredWindowIndirect(hwnd, &info).as_bool() {
+            Ok(())
+        } else {
             Err(windows::core::Error::from_win32())
         }
     }
@@ -710,6 +742,12 @@ pub struct Gfx {
     /// Brush for the hit mask, on the software target.
     mask_brush: ID2D1SolidColorBrush,
     hwnd: HWND,
+    /// The window the GPU renderer's frames show in (made with the first GPU
+    /// target), and where it was last put: (x, y, w, h) in screen pixels.
+    visual: Option<HWND>,
+    visual_at: Option<(i32, i32, i32, i32)>,
+    /// The app shows the island; the visual window goes with it.
+    shown: bool,
     /// Surface (= window) size in pixels.
     surf_w: i32,
     surf_h: i32,
@@ -872,6 +910,9 @@ impl Gfx {
                 soft,
                 mask_brush,
                 hwnd,
+                visual: None,
+                visual_at: None,
+                shown: false,
                 surf_w: 0,
                 surf_h: 0,
                 dpi,
@@ -1013,7 +1054,14 @@ impl Gfx {
         if self.gpu.is_some() || !self.gpu_allowed || self.surf_w <= 0 {
             return;
         }
-        let made = self.d2d.cast::<ID2D1Factory1>().and_then(|f| unsafe { GpuTarget::new(&f, self.hwnd, self.surf_w, self.surf_h) });
+        let visual = match self.visual {
+            Some(v) => v,
+            None => match crate::window::create_visual_window(self.hwnd) {
+                Ok(v) => *self.visual.insert(v),
+                Err(e) => return self.gpu_failed(e),
+            },
+        };
+        let made = self.d2d.cast::<ID2D1Factory1>().and_then(|f| unsafe { GpuTarget::new(&f, visual, self.surf_w, self.surf_h) });
         match made {
             Ok(g) => {
                 let main = g.dc.cast::<ID2D1RenderTarget>();
@@ -1022,6 +1070,7 @@ impl Gfx {
                         crate::pinfo!("renderer: GPU ({}), DirectComposition, {}x{} px", if g.warp { "WARP" } else { "hardware" }, self.surf_w, self.surf_h);
                         crate::pinfo!("renderer: adapter {}{}", g.adapter, if g.soft_adapter { " (software rasterizer)" } else { "" });
                         self.gpu = Some(g);
+                        self.visual_at = None;
                         self.renderer_changed = true;
                     }
                     Err(e) => self.gpu_failed(e),
@@ -1048,6 +1097,13 @@ impl Gfx {
         crate::pwarn!("GPU renderer lost at {what} ({e})");
         self.glass = None;
         self.gpu = None;
+        // The software renderer draws in the island's own window.
+        if let Some(v) = self.visual {
+            unsafe {
+                let _ = ShowWindow(v, SW_HIDE);
+            }
+        }
+        self.visual_at = None;
         self.gpu_frames = 0;
         self.renderer_changed = true;
         self.gpu_failures += 1;
@@ -1252,6 +1308,9 @@ impl Gfx {
 
     /// Show the frame. The window sits at (`x`, `y`) screen pixels.
     pub fn present(&mut self, x: i32, y: i32) -> Result<()> {
+        if self.gpu.is_some() {
+            self.place_visual(x, y);
+        }
         if let Some(g) = self.gpu.as_ref() {
             if let Err(e) = unsafe { g.swap.Present(1, DXGI_PRESENT(0)) }.ok() {
                 self.gpu_lost("present", e.clone());
@@ -1269,6 +1328,38 @@ impl Gfx {
             self.soft_full = false;
         }
         r
+    }
+
+    /// GPU renderer: put the visual window where the island's window is,
+    /// (`x`, `y`) at the surface's size, before a frame shows in it.
+    fn place_visual(&mut self, x: i32, y: i32) {
+        let Some(v) = self.visual else { return };
+        let at = (x, y, self.surf_w, self.surf_h);
+        if self.visual_at == Some(at) {
+            return;
+        }
+        match unsafe { self.soft.push_clear(v, x, y, self.surf_w, self.surf_h) } {
+            Ok(()) => {
+                self.visual_at = Some(at);
+                if self.shown {
+                    unsafe {
+                        let _ = ShowWindow(v, SW_SHOWNOACTIVATE);
+                    }
+                }
+            }
+            Err(e) => crate::pwarn!("visual window: placing it failed ({e})"),
+        }
+    }
+
+    /// The app shows or hides the island: the visual window follows while
+    /// the GPU renderer draws in it.
+    pub fn set_shown(&mut self, on: bool) {
+        self.shown = on;
+        if let Some(v) = self.visual.filter(|_| self.gpu.is_some() && self.visual_at.is_some()) {
+            unsafe {
+                let _ = ShowWindow(v, if on { SW_SHOWNOACTIVATE } else { SW_HIDE });
+            }
+        }
     }
 
     /// GPU renderer: update the window's own bitmap, an invisible mask that

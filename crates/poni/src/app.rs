@@ -2205,6 +2205,7 @@ impl App {
             unsafe {
                 let _ = ShowWindow(self.hwnd, if hide { SW_HIDE } else { SW_SHOWNOACTIVATE });
             }
+            self.gfx.set_shown(!hide);
             if hide {
                 self.collapse();
                 self.cancel_hover();
@@ -3022,6 +3023,7 @@ impl App {
                 let _ = ShowWindow(self.hwnd, SW_SHOWNOACTIVATE);
                 let _ = SetWindowPos(self.hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
             }
+            self.gfx.set_shown(true);
         }
 
         match focus {
