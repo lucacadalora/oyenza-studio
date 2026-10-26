@@ -10,7 +10,9 @@
 //! macOS's own view on the real window, so here a smoked stand-in takes its
 //! place (the smoke run's screenshots show the real one). Pill floats below
 //! the top edge, or around a notch rests attached in the menu bar's line and
-//! floats below the menu bar for what hangs under it (notch.rs).
+//! floats below the menu bar for what hangs under it (notch.rs). Around a
+//! notch, the last picture is the Eyes look's hide and seek with the camera
+//! as it moves, a frame a row (`render_peek`).
 //!
 //! The music scenes use made-up data to test the drawing; the Mac app shows
 //! music once the media slice is built. The System page's scenes show a
@@ -323,9 +325,22 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     }
     // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power and Today signed in in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
+    let mut next = first;
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+            Ok(()) => println!("render: {}", path.display()),
+            Err(e) => {
+                eprintln!("render: {}: {e}", path.display());
+                failed += 1;
+            }
+        }
+        next = first + k + 1;
+    }
+    // Around a notch, last: the Eyes look's hide and seek with the camera.
+    if let Some(n) = notch {
+        let path = out.join(format!("{next:02}-peek-frames{suffix}.png"));
+        match render_peek(&mut gfx, theme, n, &path) {
             Ok(()) => println!("render: {}", path.display()),
             Err(e) => {
                 eprintln!("render: {}: {e}", path.display());
@@ -439,6 +454,105 @@ fn render_morph(gfx: &mut Gfx, theme: Theme, notch: Option<Notch>, path: &Path) 
     }
     let px = bmp.pixels();
     crate::png::save_pbgra(path, w_px as u32, h_px as u32, &px)
+}
+
+/// The Eyes look around notch `n` as it moves (stills can't show it), a
+/// frame a row, a fifteenth of a second apart: the pointer (drawn, so each
+/// frame says what the eyes follow) wanders right of the camera and crosses
+/// over; the eyes (Oyen, in his theme) duck behind the camera and come out
+/// on its left, follow it up into the menu bar and back under the camera.
+fn render_peek(gfx: &mut Gfx, theme: Theme, n: Notch, path: &Path) -> Result<(), String> {
+    /// The pointer from the island's top centre (DIPs) at each time
+    /// (seconds), in a straight line from one to the next.
+    const WAY: [(f64, f32, f32); 7] = [
+        (0.0, 250.0, 118.0),
+        (0.6, 170.0, 70.0),
+        (1.2, -60.0, 95.0),
+        (1.5, -130.0, 105.0),
+        (2.4, -235.0, 80.0),
+        (3.0, -215.0, 14.0),
+        (3.6, -40.0, 118.0),
+    ];
+    const FPS: f64 = 15.0;
+    const CELL: (f32, f32) = (560.0, 140.0);
+    let mut st = base_state(theme);
+    st.settings.idle_style = IdleStyle::Eyes;
+    let mode = Mode::Idle;
+    let g = notch::geom(&mode, &st, n, activities::geom(&mode, &st));
+    let frames = (WAY[WAY.len() - 1].0 * FPS).round() as usize + 1;
+    let (w_px, h_px) = ((CELL.0 * SCALE).ceil() as usize, (frames as f32 * CELL.1 * SCALE).ceil() as usize);
+    let bmp = Bitmap::new(w_px, h_px, SCALE).ok_or("no bitmap context")?;
+    let look = poni_core::look::around_notch(theme);
+    let at = |t: f64| {
+        let i = WAY.iter().rposition(|w| w.0 <= t).unwrap_or(0).min(WAY.len() - 2);
+        let (a, b) = (WAY[i], WAY[i + 1]);
+        let k = ((t - a.0) / (b.0 - a.0)).clamp(0.0, 1.0) as f32;
+        Point::new(a.1 + (b.1 - a.1) * k, a.2 + (b.2 - a.2) * k)
+    };
+    for f in 0..frames {
+        let t = f as f64 / FPS;
+        st.now = NOW_MONO + t;
+        let p = at(t);
+        st.ui.peek.point(p, st.now, n.w / 2.0);
+        let (x, y) = (0.0, f as f32 * CELL.1);
+        let cx = CELL.0 / 2.0;
+        let mut island = Island::new(g);
+        island.snap(g);
+        let body = island.body_rect_at(cx);
+        gfx.set_look(&poni_core::look::CLASSIC);
+        {
+            let mut c = gfx.canvas(bmp.ctx());
+            c.translate(x, y);
+            c.clip(Rect::new(0.0, 0.0, CELL.0, CELL.1));
+            let steps = 24;
+            for i in 0..steps {
+                let k = i as f32 / (steps - 1) as f32;
+                let shade = Color::lerp(Color::hex(0x2B4F86), Color::hex(0xF0708A), k);
+                c.fill_rect(Rect::new(0.0, CELL.1 * i as f32 / steps as f32, CELL.0, CELL.1 / steps as f32 + 0.5), shade);
+            }
+            c.fill_rect(Rect::new(0.0, 0.0, CELL.0, n.h), Color::rgba(0.96, 0.96, 0.97, 0.78));
+            c.unclip();
+            c.reset_transform();
+        }
+        gfx.set_look(look);
+        {
+            let mut c = gfx.canvas(bmp.ctx());
+            c.translate(x, y);
+            c.clip(Rect::new(0.0, 0.0, CELL.0, CELL.1));
+            let shoulder = notch::shoulder(n, g.w);
+            if look.material == poni_core::look::Material::Glass {
+                crate::glass::draw_body(&mut c, body, g.r, shoulder, Some(n), false, true);
+            } else {
+                let border = Some(c.look().border);
+                c.notch(body, g.r, shoulder, palette::ISLAND, border);
+            }
+            let (mut input, mut hits) = (Input::default(), Vec::<Hit>::new());
+            let now = st.now;
+            crate::app::draw_content(&mut c, &mut input, &mut hits, &mut st, mode, body, body, None, now, Some(n));
+            c.unthemed(|c| {
+                c.fill_rrect(Rect::new(cx - n.w / 2.0, -12.0, n.w, n.h + 12.0), 10.0, Color::black(1.0));
+                pointer_arrow(c, Point::new(cx + p.x, p.y));
+            });
+            c.unclip();
+            c.reset_transform();
+        }
+    }
+    let px = bmp.pixels();
+    crate::png::save_pbgra(path, w_px as u32, h_px as u32, &px)
+}
+
+/// The Mac's arrow pointer, its tip at `tip`: black, outlined in white.
+fn pointer_arrow(c: &mut crate::gfx::Canvas, tip: Point) {
+    use poni_core::svgpath::Seg;
+    const ARROW: [(f32, f32); 7] = [(0.0, 0.0), (0.0, 16.0), (4.0, 12.3), (6.9, 18.6), (9.6, 17.4), (6.8, 11.3), (12.0, 11.3)];
+    let mut segs: Vec<Seg> = ARROW
+        .iter()
+        .enumerate()
+        .map(|(i, (dx, dy))| if i == 0 { Seg::MoveTo(tip.x + dx, tip.y + dy) } else { Seg::LineTo(tip.x + dx, tip.y + dy) })
+        .collect();
+    segs.push(Seg::Close);
+    c.path(&segs, Some(Color::white(1.0)), Some((Color::white(1.0), 2.4)));
+    c.path(&segs, Some(Color::black(1.0)), None);
 }
 
 /// The Japanese song read the way the Mac reads it: without the Japanese
@@ -672,13 +786,22 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
     let mut hovering = false;
     let mode = match scene {
         Scene::IdleClock => Mode::Idle,
+        // Around a notch the eyes look at the pointer: down at it in the
+        // window under the menu bar (Oyen rests again a while after it
+        // moved), and over the notch while it hovers there.
         Scene::IdleEyes => {
             st.settings.idle_style = IdleStyle::Eyes;
+            if let Some(n) = notch {
+                st.ui.peek.point(Point::new(240.0, 320.0), NOW_MONO - 10.0, n.w / 2.0);
+            }
             Mode::Idle
         }
         Scene::Hover => {
             st.settings.idle_style = IdleStyle::Eyes;
             hovering = true;
+            if let Some(n) = notch {
+                st.ui.peek.point(Point::new(20.0, n.h / 2.0), NOW_MONO - 0.5, n.w / 2.0);
+            }
             Mode::Idle
         }
         Scene::Timer => {

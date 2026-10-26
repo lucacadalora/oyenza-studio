@@ -294,6 +294,10 @@ pub struct PageUiState {
     pub autostart: Option<bool>,
     /// Oyen theme: the music notes floating up in the media pill.
     pub notes: crate::oyen::Notes,
+    /// The Eyes look on a MacBook's notch: the pointer the eyes follow and
+    /// the side of the camera they peek out from (`mac/notch.rs`).
+    #[cfg(target_os = "macos")]
+    pub peek: poni_core::peek::Peek,
 }
 
 /// Whether Windows lets Oyenza Studio read a game's frames. Its event tracing
