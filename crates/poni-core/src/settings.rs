@@ -1,5 +1,6 @@
 //! User settings, stored as JSON next to the data store.
 
+use crate::ielts::Spice;
 use crate::pomodoro::PomodoroConfig;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -120,6 +121,8 @@ pub struct Settings {
     /// after start and then twice a day (docs/updates.md), and say on the
     /// island once when a new version is out.
     pub update_check: bool,
+    /// How Oyen talks on the IELTS page (Sopan, Gaul or Ngegas, the default).
+    pub ielts_spice: Spice,
 }
 
 /// What plays when a prayer's time comes.
@@ -190,6 +193,7 @@ impl Default for Settings {
             game_stats: false,
             game_peek: false,
             update_check: true,
+            ielts_spice: Spice::default(),
         }
     }
 }
@@ -455,6 +459,17 @@ mod tests {
         // 0.2.4 and 0.2.5 saved Step aside, their default: the island stays now.
         let old: Settings = serde_json::from_str(r#"{"settings_version":3,"step_aside":true}"#).unwrap();
         assert!(!old.sanitized().step_aside);
+    }
+
+    #[test]
+    fn ielts_talks_ngegas_until_told_otherwise() {
+        assert_eq!(Settings::default().ielts_spice, Spice::Ngegas);
+        let s: Settings = serde_json::from_str(r#"{"ielts_spice":"gaul"}"#).unwrap();
+        assert_eq!(s.ielts_spice, Spice::Gaul);
+        // A spice from a newer version is the default.
+        let s: Settings = serde_json::from_str(r#"{"ielts_spice":"pedas"}"#).unwrap();
+        assert_eq!(s.ielts_spice, Spice::Ngegas);
+        assert!(serde_json::to_string(&Settings::default()).unwrap().contains(r#""ielts_spice":"ngegas""#));
     }
 
     #[test]

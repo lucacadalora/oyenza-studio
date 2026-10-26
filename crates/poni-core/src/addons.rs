@@ -162,8 +162,22 @@ pub const STOCKS: Addon = Addon {
     files: &[],
 };
 
+/// IELTS: Oyen's IELTS Speaking coach, the IELTS page (`crate::ielts`):
+/// Oyen asks the questions out loud, listens to the answers through the
+/// microphone and gives a band score, through the Oyenza account. Its code
+/// is in the app, so there is nothing to download. Off, there is no IELTS
+/// tab, and nothing of it runs: no microphone, no player, no calls.
+pub const IELTS: Addon = Addon {
+    id: "ielts",
+    title: "IELTS",
+    blurb: "Practise IELTS Speaking out loud: Oyen asks, listens and gives you a band.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 6] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS];
+pub const ALL: [&Addon; 7] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &IELTS];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -267,8 +281,8 @@ mod tests {
     }
 
     #[test]
-    fn system_and_health_are_built_in_add_ons_off_until_switched_on() {
-        for a in [&SYSTEM, &HEALTH, &STOCKS] {
+    fn built_in_add_ons_are_off_until_switched_on() {
+        for a in [&SYSTEM, &HEALTH, &STOCKS, &IELTS] {
             assert!(!a.downloads() && a.size() == 0, "{}", a.id);
             assert_eq!(Addon::find(a.id), Some(a));
             assert_eq!(Status::Ready.line(a, false), "On");

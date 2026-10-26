@@ -65,6 +65,12 @@ pub fn addons_dir() -> PathBuf {
     cache_dir().join("addons")
 }
 
+/// The IELTS page's audio: Oyen's clips and the answer being recorded, each
+/// deleted once used.
+pub fn ielts_dir() -> PathBuf {
+    cache_dir().join("ielts")
+}
+
 /// The Oyenza sign-in (this Mac's key and the masked account), in a file
 /// only this Mac account can read (`services::secret`). Signing out removes
 /// it. With the settings, not the cache: macOS may empty caches by itself.

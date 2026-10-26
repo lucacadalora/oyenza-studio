@@ -184,4 +184,10 @@ pub enum AppEvent {
     Log(String),
     /// The Glass theme's screen copy has new pixels (or stopped).
     Backdrop,
+    /// The IELTS worker's answer (`services::ielts`).
+    Ielts(Box<poni_core::ielts::Reply>),
+    /// Oyen's clip finished playing, or couldn't play on (`services::voice`).
+    VoiceEnded,
+    /// The microphone stopped mid-answer (`services::mic`): why, for the log.
+    MicFailed(String),
 }

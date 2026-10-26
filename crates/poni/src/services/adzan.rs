@@ -57,8 +57,8 @@ impl AdzanPlayer {
     }
 }
 
-/// `C:\Users\A B\x.m4a` -> `file:///C:/Users/A%20B/x.m4a`.
-fn file_uri(path: &Path) -> String {
+/// `C:\Users\A B\x.m4a` -> `file:///C:/Users/A%20B/x.m4a` (Oyen's voice too).
+pub(crate) fn file_uri(path: &Path) -> String {
     let text = path.to_string_lossy();
     let parts: Vec<String> = text
         .split(['\\', '/'])

@@ -86,6 +86,10 @@ pub enum Icon {
     Stocks,
     /// A magnifying glass: the Stocks page's search.
     Search,
+    /// A microphone on its stand: the IELTS tab, and the answer button.
+    Mic,
+    /// A padlock: an IELTS level not open yet.
+    Lock,
 }
 
 pub struct Part {
@@ -273,6 +277,11 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Download => p![s("M12 4v10.5"), s("M7.5 10L12 14.5 16.5 10"), s("M4.5 16v2.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V16")],
         Stocks => p![s("M3.5 17.5l5.5-5.5 4 4 7.5-7.5"), s("M15 8.5h5.5V14")],
         Search => p![s("M4.5 10.5a6 6 0 1 0 12 0a6 6 0 1 0-12 0"), s("M15 15l4.5 4.5")],
+        Mic => p![s("M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"), s("M6 11a6 6 0 0 0 12 0"), s("M12 17v3.5"), s("M9 20.5h6")],
+        Lock => p![
+            s("M6.5 11h11A1.5 1.5 0 0 1 19 12.5v6a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 18.5v-6A1.5 1.5 0 0 1 6.5 11z"),
+            s("M8 11V8a4 4 0 0 1 8 0v3"),
+        ],
     }
 }
 
@@ -290,6 +299,7 @@ mod tests {
         Icon::Unlink, Icon::Gear,
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
         Icon::Stocks, Icon::Search,
+        Icon::Mic, Icon::Lock,
     ];
 
     #[test]

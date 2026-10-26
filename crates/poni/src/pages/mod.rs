@@ -13,6 +13,7 @@ pub mod addons;
 pub mod card;
 pub mod focus;
 pub mod health;
+pub mod ielts;
 pub mod media;
 pub mod oyenza;
 pub mod prayer;
@@ -60,6 +61,10 @@ pub enum PageKind {
     /// The Health add-on's page, while it is on ([`tabs`]): the steps
     /// Oyenza sends, so its tab sits beside Oyenza's.
     Health,
+    /// The IELTS add-on's page, while it is on ([`tabs`]): Oyen as an IELTS
+    /// Speaking examiner, through the Oyenza account, so its tab follows
+    /// Oyenza's and Health's.
+    Ielts,
     /// The System add-on's page, while it is on ([`tabs`]).
     System,
     /// The teleprompter: a script read under the webcam.
@@ -78,7 +83,7 @@ pub enum PageKind {
 impl PageKind {
     /// The tab row's order: the island's own pages, Oyenza, then the
     /// add-ons' pages and the "+".
-    pub const ALL: [PageKind; 13] = [
+    pub const ALL: [PageKind; 14] = [
         PageKind::Media,
         PageKind::Today,
         PageKind::Shelf,
@@ -86,6 +91,7 @@ impl PageKind {
         PageKind::Focus,
         PageKind::Oyenza,
         PageKind::Health,
+        PageKind::Ielts,
         PageKind::System,
         PageKind::Script,
         PageKind::Prayer,
@@ -99,6 +105,7 @@ impl PageKind {
             PageKind::Media => "media",
             PageKind::Focus => "focus",
             PageKind::Health => "health",
+            PageKind::Ielts => "ielts",
             PageKind::Shelf => "shelf",
             PageKind::Tasks => "tasks",
             PageKind::Today => "today",
@@ -123,6 +130,7 @@ impl PageKind {
             PageKind::Media => "Music",
             PageKind::Focus => "Focus",
             PageKind::Health => "Health",
+            PageKind::Ielts => "IELTS",
             PageKind::Shelf => "Shelf",
             PageKind::Tasks => "Tasks",
             PageKind::Today => "Today",
@@ -141,6 +149,7 @@ impl PageKind {
             PageKind::Media => Icon::Music,
             PageKind::Focus => Icon::Timer,
             PageKind::Health => Icon::Steps,
+            PageKind::Ielts => Icon::Mic,
             PageKind::Shelf => Icon::Tray,
             PageKind::Tasks => Icon::ListChecks,
             PageKind::Today => Icon::Calendar,
@@ -170,14 +179,16 @@ impl PageKind {
     }
 }
 
-/// The tabs in the header: every page but Settings, and Health, System,
-/// Script, Prayer and Stocks only while their add-ons are on. Oyenza is always there
-/// (signed out it is where to sign in). Add-ons is last, in both apps.
+/// The tabs in the header: every page but Settings, and Health, IELTS,
+/// System, Script, Prayer and Stocks only while their add-ons are on. Oyenza
+/// is always there (signed out it is where to sign in). Add-ons is last, in
+/// both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
         .into_iter()
         .filter(|p| match p {
             PageKind::Health => st.health_on(),
+            PageKind::Ielts => st.ielts_on(),
             PageKind::System => st.system_on(),
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
@@ -200,6 +211,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Media => media::height(st),
         PageKind::Focus => focus::height(st),
         PageKind::Health => health::height(st),
+        PageKind::Ielts => ielts::height(st),
         PageKind::Shelf => shelf::height(st),
         PageKind::Tasks => tasks::height(st),
         PageKind::Today => today::height(st),
@@ -226,6 +238,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Script => script::next_wake(st),
         PageKind::Prayer => prayer::next_wake(st),
         PageKind::Today => today::next_wake(st),
+        PageKind::Ielts => ielts::next_wake(st),
         _ => None,
     };
     // Oyen in the Oyenza tab (and beside the pin in his theme) blinks and
@@ -331,6 +344,7 @@ pub(crate) fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKi
         PageKind::Media => media::draw(ui, st, area),
         PageKind::Focus => focus::draw(ui, st, area),
         PageKind::Health => health::draw(ui, st, area),
+        PageKind::Ielts => ielts::draw(ui, st, area),
         PageKind::Shelf => shelf::draw(ui, st, area),
         PageKind::Tasks => tasks::draw(ui, st, area),
         PageKind::Today => today::draw(ui, st, area),
@@ -752,6 +766,32 @@ mod tests {
         assert!(content_height(PageKind::Prayer, &st) <= content_height(PageKind::Tasks, &st));
         st.addons.insert("sholat", poni_core::addons::Status::Downloading { done: 1, total: 2 });
         assert!(!tabs(&st).contains(&PageKind::Prayer));
+    }
+
+    #[test]
+    fn ielts_has_a_tab_only_while_its_add_on_is_on_after_health() {
+        use PageKind::{Addons, Health, Ielts, Oyenza};
+        let mut st = state();
+        assert!(!tabs(&st).contains(&Ielts), "off for everyone until switched on");
+        st.addons.insert("ielts", poni_core::addons::Status::Ready);
+        st.addons.insert("health", poni_core::addons::Status::Ready);
+        assert_eq!(&tabs(&st)[5..], [Oyenza, Health, Ielts, Addons]);
+        // Signed out it shows the sign-in card; signed in, every state is as
+        // tall, and never taller than System: the window keeps its size.
+        let signed_out = content_height(Ielts, &st);
+        st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+        let h = content_height(Ielts, &st);
+        assert!(signed_out < h && h <= content_height(PageKind::System, &st), "{signed_out} {h}");
+        for s in [poni_core::ielts::Sample::Talking, poni_core::ielts::Sample::Result, poni_core::ielts::Sample::MicDenied] {
+            st.ielts = poni_core::ielts::Coach::sample(s, 10.0);
+            assert_eq!(content_height(Ielts, &st), h);
+        }
+        // An island last open on it opens on the first tab once it's off.
+        let store = Store { last_page: "ielts".into(), ..Store::default() };
+        let mut settings = Settings { remember_page: true, ..Settings::default() };
+        assert_eq!(AppState::new(settings.clone(), store.clone()).page, PageKind::Media);
+        settings.set_addon("ielts", true);
+        assert_eq!(AppState::new(settings, store).page, Ielts);
     }
 
     #[test]

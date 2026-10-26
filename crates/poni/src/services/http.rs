@@ -14,8 +14,9 @@ use std::sync::mpsc::{self, RecvTimeoutError};
 use std::time::{Duration, Instant};
 use windows::core::{h, RuntimeType, HSTRING};
 use windows::Foundation::{AsyncOperationProgressHandler, AsyncOperationWithProgressCompletedHandler, AsyncStatus, IAsyncOperationWithProgress, Uri};
-use windows::Storage::Streams::{DataReader, IBuffer, UnicodeEncoding};
-use windows::Web::Http::{HttpClient, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
+use windows::Storage::Streams::{DataReader, DataWriter, IBuffer, UnicodeEncoding};
+use windows::Web::Http::Headers::HttpMediaTypeHeaderValue;
+use windows::Web::Http::{HttpBufferContent, HttpClient, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_MULTITHREADED};
 
@@ -27,6 +28,10 @@ pub const DEFAULT_TIMEOUT: Duration = Duration::from_secs(8);
 
 /// Bodies larger than this are refused (nothing Poni fetches comes close).
 const MAX_BODY_BYTES: u64 = 8 * 1024 * 1024;
+
+/// A request body past this size (an IELTS answer's audio) goes as UTF-8
+/// bytes: a string body is copied to UTF-16 first, then encoded again.
+const BIG_BODY_BYTES: usize = 256 * 1024;
 
 /// The methods [`Client::send`] speaks.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -158,7 +163,16 @@ impl Client {
                 return Err(FetchError::Other(format!("could not set the {name} header")));
             }
         }
-        if let Some(body) = json {
+        if let Some(body) = json.filter(|b| b.len() > BIG_BODY_BYTES) {
+            let content = (|| {
+                let writer = DataWriter::new()?;
+                writer.WriteBytes(body.as_bytes())?;
+                let content = HttpBufferContent::CreateFromBuffer(&writer.DetachBuffer()?)?;
+                content.Headers()?.SetContentType(&HttpMediaTypeHeaderValue::Create(h!("application/json"))?)?;
+                request.SetContent(&content)
+            })();
+            content.map_err(|e| other("could not set the request body", &e))?;
+        } else if let Some(body) = json {
             let content = HttpStringContent::CreateFromStringWithEncodingAndMediaType(&HSTRING::from(body), UnicodeEncoding::Utf8, h!("application/json"))
                 .map_err(|e| other("could not set the request body", &e))?;
             request.SetContent(&content).map_err(|e| other("could not set the request body", &e))?;

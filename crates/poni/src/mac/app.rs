@@ -2206,6 +2206,9 @@ impl App {
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
+                // The IELTS coach's microphone and voice come to the Mac with
+                // branch ielts-coach-mac; until then its page says so.
+                Command::Ielts(_) => {}
             }
         }
         self.sync_phone_offer();
@@ -2674,12 +2677,13 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
-        // Prayer times, System, Health or Stocks switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks or IELTS switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Ielts => !self.st.ielts_on(),
             _ => false,
         };
         if gone {

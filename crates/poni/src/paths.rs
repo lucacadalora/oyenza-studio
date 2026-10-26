@@ -91,6 +91,12 @@ pub fn addons_dir() -> PathBuf {
     cache_dir().join("addons")
 }
 
+/// The IELTS page's audio: Oyen's clips and the answer being recorded, each
+/// deleted once used (local, never roaming).
+pub fn ielts_dir() -> PathBuf {
+    cache_dir().join("ielts")
+}
+
 /// Paired phones (their pairing secrets and names), sealed with DPAPI.
 /// Removing every phone deletes the file.
 pub fn paired_phones_path() -> PathBuf {

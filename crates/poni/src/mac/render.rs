@@ -157,6 +157,9 @@ enum Scene {
     /// The Stocks add-on on a made-up market (`pages::stocks::picture`):
     /// the IHSG's day, Bank BCA's year, the search and edit mode.
     Stocks(crate::pages::stocks::Picture),
+    /// The IELTS add-on signed in: on the Mac, for now, the coach is on its
+    /// way (its microphone and voice come with branch ielts-coach-mac).
+    Ielts,
 }
 
 const SCENES: [Scene; 19] = [
@@ -236,6 +239,8 @@ const STOCKS_SCENES: [Scene; 4] = [
     Scene::Stocks(crate::pages::stocks::Picture::Search),
     Scene::Stocks(crate::pages::stocks::Picture::Edit),
 ];
+/// The IELTS page, after Stocks.
+const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
 
 impl Scene {
     fn name(self) -> String {
@@ -283,6 +288,7 @@ impl Scene {
             Scene::TodayPicked => "page-today-picked".into(),
             Scene::Stocks(crate::pages::stocks::Picture::Day) => "page-stocks".into(),
             Scene::Stocks(p) => format!("page-stocks-{}", format!("{p:?}").to_lowercase()),
+            Scene::Ielts => "page-ielts".into(),
         }
     }
 }
@@ -346,10 +352,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and Stocks in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Stocks and IELTS in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(IELTS_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -961,6 +967,15 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = PageKind::Today;
             Mode::Expanded(PageKind::Today)
+        }
+        Scene::Ielts => {
+            // IELTS is an add-on, off by default: on for its own scene, signed in.
+            st.settings.set_addon(poni_core::addons::IELTS.id, true);
+            st.addons.insert(poni_core::addons::IELTS.id, AddonStatus::Ready);
+            st.oyenza = fake_oyenza(&st, false);
+            st.ielts = poni_core::ielts::Coach::sample(poni_core::ielts::Sample::Home, st.now);
+            st.page = PageKind::Ielts;
+            Mode::Expanded(PageKind::Ielts)
         }
         Scene::Stocks(shows) => {
             // Stocks is an add-on, off by default: on for its own scenes.

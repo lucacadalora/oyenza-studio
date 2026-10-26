@@ -114,12 +114,18 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
 
 // ---------------------------------------------------------------- signed out
 
-/// The Oyenza app's icon beside what signing in brings, and the button.
 fn draw_signed_out(ui: &mut Ui, st: &mut AppState, area: Rect) {
-    const ICON: f32 = 64.0;
-    const GAP: f32 = 20.0;
     let title = "Your money, on the island";
     let body = "Money in, bills due and a quick way to note a spend. Amounts stay hidden until you show them.";
+    sign_in_card(ui, st, area, title, body, "oyenza.sign-in");
+}
+
+/// The Oyenza app's icon beside what signing in brings, and the button (the
+/// IELTS page's too, with its own words). While a code waits, the button
+/// shows it on this tab.
+pub(crate) fn sign_in_card(ui: &mut Ui, st: &mut AppState, area: Rect, title: &str, body: &str, id: &str) {
+    const ICON: f32 = 64.0;
+    const GAP: f32 = 20.0;
     let x = area.x + ICON + GAP;
     let w = (area.w - ICON - GAP).clamp(0.0, 420.0);
     let title_st = TextStyle::headline().wrap().top();
@@ -134,10 +140,11 @@ fn draw_signed_out(ui: &mut Ui, st: &mut AppState, area: Rect) {
     y += title_h + 3.0;
     ui.c.text(body, Rect::new(x, y, w, body_h + 1.0), &body_st);
     y += body_h + 14.0;
-    let label = "Sign in with Oyenza";
+    let connecting = matches!(st.oyenza.link, OyenzaLink::Connecting { .. });
+    let label = if connecting { "Show the sign-in code" } else { "Sign in with Oyenza" };
     let bw = ui.pill_width(label, false, true).min(w);
-    if ui.pill(wid("oyenza.sign-in"), Rect::new(x, y, bw, PILL_SMALL), label, None, PillStyle::Primary(ACCENT)).clicked {
-        st.cmd(Command::Oyenza(OyenzaCmd::SignIn));
+    if ui.pill(wid(id), Rect::new(x, y, bw, PILL_SMALL), label, None, PillStyle::Primary(ACCENT)).clicked {
+        st.cmd(if connecting { Command::SetPage(crate::pages::PageKind::Oyenza) } else { Command::Oyenza(OyenzaCmd::SignIn) });
     }
 }
 

@@ -67,6 +67,22 @@ pub enum OyenzaCmd {
     RefreshDay,
 }
 
+/// The IELTS page's buttons; `poni_core::ielts::Coach` decides what each
+/// does in the moment.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IeltsCmd {
+    /// Mulai (and Lagi on the result): a session at the picked level.
+    Start,
+    /// The mic button: answer now, or stop the answer.
+    Mic,
+    /// Lewati: the next question, this one unscored.
+    Skip,
+    /// Udahan or Selesai: end the session.
+    Quit,
+    /// Coba lagi.
+    Retry,
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum Command {
     Media(MediaCmd),
@@ -120,6 +136,7 @@ pub enum Command {
     Phone(PhoneCmd),
     Pair(PairCmd),
     Oyenza(OyenzaCmd),
+    Ielts(IeltsCmd),
     /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
     /// answer: `AppEvent::Cities`).
     GetCities(String),

@@ -43,7 +43,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -63,6 +63,8 @@ use poni_core::timeline::Timeline;
 use serde::Serialize;
 use std::cell::Cell;
 use std::fs;
+use std::sync::atomic::AtomicBool;
+use std::sync::{Arc, Mutex};
 use std::path::PathBuf;
 use std::thread::JoinHandle;
 use std::time::Instant;
@@ -730,6 +732,25 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
     picture(st, shows, now);
 }
 
+/// The IELTS page's scenes in made-up states (`ielts::Coach::sample`); every
+/// other scene: the coach as it starts.
+fn seed_ielts(st: &mut AppState, scene: Scene, now: f64) {
+    use poni_core::ielts::{Coach, Sample};
+    let shows = match scene {
+        Scene::Page(PageKind::Ielts) | Scene::IeltsSignedOut => Sample::Home,
+        Scene::IeltsTalking => Sample::Talking,
+        Scene::IeltsRecording => Sample::Recording,
+        Scene::IeltsCueCard => Sample::CueCard,
+        Scene::IeltsResult => Sample::Result,
+        Scene::IeltsMicDenied => Sample::MicDenied,
+        _ => {
+            st.ielts = Coach::default();
+            return;
+        }
+    };
+    st.ielts = Coach::sample(shows, now);
+}
+
 /// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
 /// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
 /// real lists arrive with the add-on's download; these few places are
@@ -973,6 +994,18 @@ enum Scene {
     StocksSearch,
     /// Stocks in edit mode: remove buttons and handles.
     StocksEdit,
+    /// IELTS signed out: the Oyenza sign-in card, saying what the coach does.
+    IeltsSignedOut,
+    /// IELTS: Oyen reacting to an answer, in gaul (`ielts::Sample::Talking`).
+    IeltsTalking,
+    /// IELTS: a Part 1 answer recording, the voice's level round the mic.
+    IeltsRecording,
+    /// IELTS: Part 2's card, during the minute to prepare.
+    IeltsCueCard,
+    /// IELTS: the band, the criteria with Oyen's notes, the roast and the tips.
+    IeltsResult,
+    /// IELTS: Windows' privacy switch keeps the microphone from desktop apps.
+    IeltsMicDenied,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1005,7 +1038,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 93] = [
+const SCENES: [Scene; 100] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1118,6 +1151,16 @@ const SCENES: [Scene; 93] = [
     Scene::StocksPicked,
     Scene::StocksSearch,
     Scene::StocksEdit,
+    // The IELTS add-on: signed out, the ladder, Oyen talking, an answer
+    // recording, Part 2's card, the result and a blocked microphone, all
+    // made up (`ielts::Coach::sample`).
+    Scene::IeltsSignedOut,
+    Scene::Page(PageKind::Ielts),
+    Scene::IeltsTalking,
+    Scene::IeltsRecording,
+    Scene::IeltsCueCard,
+    Scene::IeltsResult,
+    Scene::IeltsMicDenied,
 ];
 
 impl Scene {
@@ -1206,6 +1249,12 @@ impl Scene {
             Scene::StocksPicked => "page-stocks-picked".into(),
             Scene::StocksSearch => "page-stocks-search".into(),
             Scene::StocksEdit => "page-stocks-edit".into(),
+            Scene::IeltsSignedOut => "page-ielts-signed-out".into(),
+            Scene::IeltsTalking => "page-ielts-talking".into(),
+            Scene::IeltsRecording => "page-ielts-recording".into(),
+            Scene::IeltsCueCard => "page-ielts-cue-card".into(),
+            Scene::IeltsResult => "page-ielts-result".into(),
+            Scene::IeltsMicDenied => "page-ielts-mic-denied".into(),
         }
     }
 
@@ -1242,6 +1291,9 @@ impl Scene {
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
+            Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
+                Some(PageKind::Ielts)
+            }
             _ => None,
         }
     }
@@ -1269,6 +1321,12 @@ impl Scene {
                 | Scene::TodayTiles
                 | Scene::TodayOff
                 | Scene::TodayPicked
+                | Scene::Page(PageKind::Ielts)
+                | Scene::IeltsTalking
+                | Scene::IeltsRecording
+                | Scene::IeltsCueCard
+                | Scene::IeltsResult
+                | Scene::IeltsMicDenied
         )
     }
 
@@ -1326,6 +1384,238 @@ pub fn fetch_phone_page(url: &str) -> (bool, String) {
         }
         Ok(resp) => (false, format!("unexpected answer from {addr}: {}", resp.lines().next().unwrap_or(""))),
         Err(e) => (false, format!("couldn't fetch the page at {addr}: {e}")),
+    }
+}
+
+// ---------------------------------------------------------------- the IELTS turn
+
+/// The key the run's calls carry (never a real one).
+const IELTS_KEY: &str = "oyzd_selftest_not_a_real_key_0000000000000000000";
+/// A step's budget: the ladder, Oyen's intro, the verdict, Udahan.
+const IELTS_STEP_S: f64 = 20.0;
+const IELTS_SESSION: &str = "smoke-1";
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum IeltsStep {
+    /// Waiting for the ladder (GET /me).
+    Ladder,
+    /// Mulai pressed: waiting for Oyen's intro to end on the person's turn.
+    Intro,
+    /// The answer sent: waiting for the verdict to be said.
+    Verdict,
+    /// Udahan pressed: waiting for the session's end (DELETE).
+    Ended,
+}
+
+/// `ielts-turn`: after the scenes, the IELTS coach plays one turn end to end
+/// with no microphone and no network. A server of the run's own on
+/// 127.0.0.1 answers `/island/ielts/*` the way catat-server's do, a tone in
+/// a 16 kHz WAV stands in for the microphone, and the app's own coach,
+/// worker, voice (a 0.4 s clip) and files do the rest: the ladder, Mulai,
+/// Oyen's intro, the answer's upload, the verdict and the roast, Udahan.
+/// The check reads what the server saw, the band shown, and the files left.
+struct IeltsRun {
+    seen: Arc<Mutex<Vec<String>>>,
+    stop: Arc<AtomicBool>,
+    server: Option<JoinHandle<()>>,
+    step: IeltsStep,
+    /// When the step began (seconds into the run).
+    since: f64,
+    band: Option<f32>,
+    started: Instant,
+}
+
+impl IeltsRun {
+    fn begin(app: &mut App) -> IeltsRun {
+        let seen = Arc::new(Mutex::new(Vec::new()));
+        let stop = Arc::new(AtomicBool::new(false));
+        let mut run = IeltsRun { seen: seen.clone(), stop: stop.clone(), server: None, step: IeltsStep::Ladder, since: 0.0, band: None, started: Instant::now() };
+        let listener = match std::net::TcpListener::bind("127.0.0.1:0") {
+            Ok(l) => l,
+            Err(e) => {
+                run.note(format!("no listener ({e})"));
+                return run;
+            }
+        };
+        let port = listener.local_addr().map(|a| a.port()).unwrap_or(0);
+        let _ = listener.set_nonblocking(true);
+        run.server = Some(std::thread::spawn(move || ielts_server(listener, &seen, &stop)));
+        let stand_in = paths::cache_dir().join("ielts-stand-in.wav");
+        let _ = fs::create_dir_all(paths::cache_dir());
+        if let Err(e) = fs::write(&stand_in, poni_core::ielts::tone_wav(2.0, 220.0, poni_core::ielts::RATE)) {
+            run.note(format!("can't write the stand-in answer ({e})"));
+        }
+        crate::pinfo!("selftest: IELTS turn against 127.0.0.1:{port}");
+        app.selftest_ielts_begin(format!("http://127.0.0.1:{port}"), IELTS_KEY.into(), stand_in);
+        run
+    }
+
+    fn note(&self, line: String) {
+        if let Ok(mut s) = self.seen.lock() {
+            s.push(line);
+        }
+    }
+
+    /// One self-test step, `t` seconds into the run: the check once it's over.
+    fn step(&mut self, app: &mut App, t: f64) -> Option<Check> {
+        use crate::commands::IeltsCmd;
+        use poni_core::ielts::Phase as P;
+        let c = &app.st.ielts;
+        let next = match self.step {
+            IeltsStep::Ladder if c.me.is_some() => {
+                app.selftest_ielts(IeltsCmd::Start);
+                Some(IeltsStep::Intro)
+            }
+            IeltsStep::Intro if c.phase == P::Ready => {
+                // Tap to answer, tap to stop: the stand-in is the answer.
+                app.selftest_ielts(IeltsCmd::Mic);
+                app.selftest_ielts(IeltsCmd::Mic);
+                Some(IeltsStep::Verdict)
+            }
+            IeltsStep::Verdict if c.phase == P::Result && !c.talking() => {
+                self.band = c.result.as_ref().map(|v| v.band);
+                app.selftest_ielts(IeltsCmd::Quit);
+                Some(IeltsStep::Ended)
+            }
+            IeltsStep::Ended if self.saw("DELETE ") || t - self.since > 3.0 => return Some(self.finish(app, None)),
+            _ => None,
+        };
+        if let Some(n) = next {
+            self.step = n;
+            self.since = t;
+            return None;
+        }
+        let c = &app.st.ielts;
+        let stuck = c.phase == P::Stuck || c.me_problem.is_some() || (self.step == IeltsStep::Intro && c.phase == P::Home && c.problem.is_some());
+        if stuck || t - self.since > IELTS_STEP_S {
+            let why = c.problem.or(c.me_problem).map_or_else(|| format!("{:?}", c.phase), |p| format!("{p:?}"));
+            return Some(self.finish(app, Some(format!("stopped at {:?} ({why})", self.step))));
+        }
+        None
+    }
+
+    fn saw(&self, prefix: &str) -> bool {
+        self.seen.lock().is_ok_and(|s| s.iter().any(|l| l.starts_with(prefix)))
+    }
+
+    fn finish(&mut self, app: &mut App, stopped: Option<String>) -> Check {
+        let ms = self.started.elapsed().as_millis();
+        // Counted before the add-on goes off (which deletes whatever is left).
+        let left = app.selftest_ielts_files();
+        app.selftest_ielts_end();
+        self.stop.store(true, std::sync::atomic::Ordering::SeqCst);
+        if let Some(h) = self.server.take() {
+            let _ = h.join();
+        }
+        let _ = fs::remove_file(paths::cache_dir().join("ielts-stand-in.wav"));
+        let seen = self.seen.lock().map(|s| s.clone()).unwrap_or_default();
+        let has = |want: &str| seen.iter().any(|l| l == want);
+        // Wine has no WinRT HttpClient (Windows.Web.Http): nothing reaches the
+        // server there, and the run is Windows CI's to judge.
+        let wine = under_wine() && seen.is_empty() && self.step == IeltsStep::Ladder;
+        let turned = stopped.is_none()
+            && has("GET /island/ielts/me key tz")
+            && has("POST /island/ielts/session key level=1 spice=2 tz")
+            && has("POST /island/ielts/session/smoke-1/answer key wav=16000/1/16 2.0s")
+            && has("DELETE /island/ielts/session/smoke-1 key")
+            && self.band == Some(6.5)
+            && left == 0;
+        let ok = turned || wine;
+        let band = self.band.map_or("none".into(), poni_core::ielts::fmt_band);
+        let note = if wine { "Wine has no WinRT HttpClient, so this runs on Windows only; " } else { "" };
+        let detail = format!("{note}{}server saw [{}]; band shown {band}; files left in ielts/: {left}; {ms} ms", stopped.map_or(String::new(), |s| format!("{s}; ")), seen.join(" | "));
+        crate::pinfo!("selftest: ielts-turn {}: {detail}", if ok { "ok" } else { "FAILED" });
+        check("ielts-turn", ok, detail)
+    }
+}
+
+/// What `GET /me` answers in the run: level 1 open, none played today.
+const IELTS_ME: &str = r#"{"levels":[{"n":1,"name":"Pemanasan","blurb":"Part 1.","target":5.0,"parts":[1],"unlocked":true,"best":null},
+{"n":2,"name":"Lumayan","blurb":"Part 1 + 2.","target":5.5,"parts":[1,2],"unlocked":false,"best":null}],"level":1,"voice":true,"today":{"used":0,"cap":5}}"#;
+
+/// The IELTS routes as catat-server answers them, for one session, until
+/// `stop`. What each request carried goes into `seen`, one line each. The
+/// answers are written as text (this ships in poni.exe: no `json!` code).
+fn ielts_server(listener: std::net::TcpListener, seen: &Mutex<Vec<String>>, stop: &AtomicBool) {
+    use std::io::{Read, Write};
+    let voice = poni_core::ielts::b64_encode(&poni_core::ielts::tone_wav(0.4, 440.0, poni_core::ielts::RATE));
+    let clip = |text: &str| format!(r#"{{"text":"{text}","lang":"en","audio":{{"mime":"audio/wav","b64":"{voice}"}}}}"#);
+    let session = format!("/island/ielts/session/{IELTS_SESSION}");
+    while !stop.load(std::sync::atomic::Ordering::SeqCst) {
+        let Ok((mut c, _)) = listener.accept() else {
+            std::thread::sleep(std::time::Duration::from_millis(20));
+            continue;
+        };
+        let _ = c.set_nonblocking(false);
+        let _ = c.set_read_timeout(Some(std::time::Duration::from_secs(5)));
+        // The headers, then as much body as Content-Length says.
+        let (mut buf, mut chunk, mut continued) = (Vec::new(), [0u8; 16 * 1024], false);
+        let (head, body) = loop {
+            match c.read(&mut chunk) {
+                Ok(0) | Err(_) => break (String::new(), Vec::new()),
+                Ok(n) => buf.extend_from_slice(&chunk[..n]),
+            }
+            let Some(end) = buf.windows(4).position(|w| w == b"\r\n\r\n") else { continue };
+            let head = String::from_utf8_lossy(&buf[..end]).to_ascii_lowercase();
+            let len = head.lines().find_map(|l| l.strip_prefix("content-length:").map(|v| v.trim().parse::<usize>().unwrap_or(0))).unwrap_or(0);
+            if head.contains("expect: 100-continue") && !continued {
+                continued = true;
+                let _ = c.write_all(b"HTTP/1.1 100 Continue\r\n\r\n");
+            }
+            if buf.len() >= end + 4 + len {
+                break (String::from_utf8_lossy(&buf[..end]).into_owned(), buf[end + 4..end + 4 + len].to_vec());
+            }
+        };
+        let mut first = head.lines().next().unwrap_or("").split_whitespace();
+        let (method, full) = (first.next().unwrap_or("").to_string(), first.next().unwrap_or("").to_string());
+        let (path, query) = full.split_once('?').map_or((full.clone(), String::new()), |(p, q)| (p.to_string(), q.to_string()));
+        let key = head.lines().any(|l| l.split_once(':').is_some_and(|(k, v)| k.eq_ignore_ascii_case("authorization") && v.trim() == format!("Bearer {IELTS_KEY}")));
+        let json: serde_json::Value = serde_json::from_slice(&body).unwrap_or_default();
+        let mut line = format!("{method} {path} {}", if key { "key" } else { "no key" });
+        let (status, answer) = match (method.as_str(), path.as_str()) {
+            ("GET", "/island/ielts/me") => {
+                if query.contains("tz=") {
+                    line.push_str(" tz");
+                }
+                (200, IELTS_ME.to_string())
+            }
+            ("POST", "/island/ielts/session") => {
+                let tz = json["tz"].as_str().is_some_and(|t| !t.is_empty());
+                line.push_str(&format!(" level={} spice={}{}", json["level"], json["spice"], if tz { " tz" } else { "" }));
+                let turn = format!(
+                    r#"{{"part":1,"kind":"intro","expect":"answer","max_secs":30,"prep_secs":0,"cue_card":null,"say":[{},{{"text":"Where are you from?","lang":"en","audio":null}}]}}"#,
+                    clip("Hi, I'm Oyen. Let's begin.")
+                );
+                (200, format!(r#"{{"id":"{IELTS_SESSION}","turn":{turn},"fillers":[{}]}}"#, clip("Hmm, bentar ya.")))
+            }
+            ("POST", p) if p == format!("{session}/answer") => {
+                let wav = json["audio"]["b64"].as_str().and_then(poni_core::ielts::b64_decode).and_then(|b| poni_core::ielts::wav_info(&b));
+                let mime = json["audio"]["mime"].as_str() == Some("audio/wav");
+                match wav.filter(|_| mime) {
+                    Some(w) => line.push_str(&format!(" wav={}/{}/{} {:.1}s", w.rate, w.channels, w.bits, w.secs)),
+                    None => line.push_str(" no wav"),
+                }
+                // The verdict turn says closing, roast and the level; the result repeats the roast.
+                let turn = format!(
+                    r#"{{"part":0,"kind":"verdict","expect":"none","max_secs":0,"prep_secs":0,"cue_card":null,"say":[{},{},{}]}}"#,
+                    clip("That's the end of the test."),
+                    clip("Not bad at all."),
+                    clip("Level 2 is open.")
+                );
+                let criteria = r#"{"fc":{"band":6.5,"note":"Lancar."},"lr":{"band":6.0,"note":"Lumayan."},"gra":{"band":6.5,"note":"Aman."},"p":{"band":7.0,"note":"Jelas."}}"#;
+                let result = format!(
+                    r#"{{"band":6.5,"criteria":{criteria},"roast":{},"tips":["Satu.","Dua.","Tiga."],"level":{{"before":1,"after":2,"unlocked":true}},"best":6.5}}"#,
+                    clip("Not bad at all.")
+                );
+                (200, format!(r#"{{"heard":"I'm from Bandung.","done":true,"turn":{turn},"result":{result}}}"#))
+            }
+            ("DELETE", p) if p == session => (200, r#"{"ok":true}"#.to_string()),
+            _ => (404, r#"{"error":"not_found"}"#.to_string()),
+        };
+        if let Ok(mut s) = seen.lock() {
+            s.push(line);
+        }
+        let _ = c.write_all(format!("HTTP/1.1 {status} OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{answer}", answer.len()).as_bytes());
     }
 }
 
@@ -1398,6 +1688,9 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
+    /// The IELTS coach's one turn against a server of the self-test's own
+    /// (Classic runs only; see [`IeltsRun`]).
+    Ielts { since: f64 },
     Finish { since: f64 },
     Done(i32),
 }
@@ -1454,6 +1747,8 @@ pub struct SelfTest {
     /// log must deliver them (PONI_SELFTEST_FRAMES=required on Windows CI,
     /// which runs as admin).
     frames: Option<crate::services::frames::Frames>,
+    /// The IELTS one-turn run, while it goes.
+    ielts: Option<IeltsRun>,
 }
 
 /// Transitions recorded in animation mode: (name, from, to).
@@ -1519,6 +1814,7 @@ impl SelfTest {
             shelf_thumbs: Vec::new(),
             addon_fetch: None,
             frames: None,
+            ielts: None,
         }
     }
 
@@ -1683,6 +1979,12 @@ impl SelfTest {
         }
     }
 
+    /// Whether the app runs the IELTS coach now: only in the self-test's own
+    /// one-turn run (the scenes picture made-up states).
+    pub fn ielts_live(&self) -> bool {
+        matches!(self.phase, Phase::Ielts { .. })
+    }
+
     /// Called every ~50 ms; returns Some(exit code) when finished.
     pub fn step(&mut self, app: &mut App) -> Option<i32> {
         if !self.dpi_applied {
@@ -1699,7 +2001,10 @@ impl SelfTest {
         self.renderer = app.renderer();
         let now = clock::mono();
         let elapsed = self.t0.elapsed().as_secs_f64();
-        if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll) {
+        // The IELTS run keeps its own time (each of its steps has a budget).
+        if elapsed > SCENE_DEADLINE
+            && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll | Phase::Ielts { .. })
+        {
             let at = match &self.phase {
                 Phase::Settle { i, .. } | Phase::Click { i } | Phase::ClickWait { i, .. } => SCENES[*i].name(),
                 _ => String::new(),
@@ -1784,6 +2089,14 @@ impl SelfTest {
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
+            Phase::Ielts { since } => {
+                let run = self.ielts.get_or_insert_with(|| IeltsRun::begin(app));
+                if let Some(c) = run.step(app, now - since) {
+                    self.ielts = None;
+                    self.checks.push(c);
+                    self.phase = self.after_scenes(clock::mono());
+                }
+            }
             Phase::Finish { since } => {
                 let all_done = self.writes.iter().all(|(_, h)| h.is_finished());
                 let deadline = if self.anim || self.media_loop || self.scroll_hz.is_some() { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
@@ -1802,10 +2115,21 @@ impl SelfTest {
         match SCENES.get(i) {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
-            None if self.anim => Phase::Anim { seq: 0 },
-            None if self.media_loop => Phase::Loop,
-            None if self.scroll_hz.is_some() => Phase::Scroll,
-            None => Phase::Finish { since: now },
+            // One IELTS turn end to end, in the plain Classic runs.
+            None if self.theme == Theme::Classic && self.glass.is_none() => Phase::Ielts { since: now },
+            None => self.after_scenes(now),
+        }
+    }
+
+    fn after_scenes(&self, now: f64) -> Phase {
+        if self.anim {
+            Phase::Anim { seq: 0 }
+        } else if self.media_loop {
+            Phase::Loop
+        } else if self.scroll_hz.is_some() {
+            Phase::Scroll
+        } else {
+            Phase::Finish { since: now }
         }
     }
 
@@ -2137,11 +2461,13 @@ impl SelfTest {
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
         let stocks = scene.page() == Some(PageKind::Stocks);
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks)] {
+        let ielts = scene.page() == Some(PageKind::Ielts);
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (IELTS.id, ielts)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
+        seed_ielts(st, scene, now);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {

@@ -605,6 +605,8 @@ pub struct AppState {
     pub recorder: bool,
     /// The Stocks add-on's prices (its list: `store.stocks`).
     pub stocks: StocksState,
+    /// The IELTS page's session with Oyen (the IELTS add-on).
+    pub ielts: poni_core::ielts::Coach,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -622,9 +624,16 @@ impl AppState {
         self.page == PageKind::Script && self.script.active
     }
 
+    /// An IELTS session under way keeps the open island from closing (a
+    /// question, an answer being recorded or on its way), while that page is
+    /// on screen.
+    pub fn ielts_holds_island(&self) -> bool {
+        self.page == PageKind::Ielts && self.ielts.holds()
+    }
+
     /// Something on the page on screen keeps the open island from closing.
     pub fn page_holds_island(&self) -> bool {
-        self.phone_holds_island() || self.script_holds_island()
+        self.phone_holds_island() || self.script_holds_island() || self.ielts_holds_island()
     }
 
     pub fn new(settings: Settings, store: Store) -> Self {
@@ -672,6 +681,7 @@ impl AppState {
             script_hidden: None,
             recorder: false,
             stocks: StocksState::default(),
+            ielts: Default::default(),
             cmds: Vec::new(),
         };
         // A list from a hand-edited file keeps to codes, each once, ten at most.
@@ -682,13 +692,14 @@ impl AppState {
             let on = st.settings.addon_on(a.id);
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
-        // Last open on the Script, System, Health or Stocks page, since
+        // Last open on the Script, System, Health, Stocks or IELTS page, since
         // switched off: open where a new island does.
         let off = match st.page {
             PageKind::Script => !st.script_on(),
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
             PageKind::Stocks => !st.stocks_on(),
+            PageKind::Ielts => !st.ielts_on(),
             _ => false,
         };
         if off {
@@ -721,6 +732,11 @@ impl AppState {
     /// for only while the page is on screen).
     pub fn stocks_on(&self) -> bool {
         self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
+    }
+
+    /// The IELTS add-on is on: the IELTS tab shows.
+    pub fn ielts_on(&self) -> bool {
+        self.addon(poni_core::addons::IELTS.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.
