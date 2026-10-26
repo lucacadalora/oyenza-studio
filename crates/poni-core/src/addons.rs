@@ -156,7 +156,7 @@ pub const HEALTH: Addon = Addon {
 pub const STOCKS: Addon = Addon {
     id: "stocks",
     title: "Stocks",
-    blurb: "The IHSG and up to 10 IDX stocks, 10 minutes behind the market, from oyenza.trade.",
+    blurb: "The IHSG and up to 10 IDX stocks from oyenza.trade, 10 minutes behind IDX.",
     mac_blurb: None,
     tag: "",
     files: &[],

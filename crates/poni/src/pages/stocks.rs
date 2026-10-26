@@ -956,14 +956,31 @@ fn chart_line(st: &AppState, q: &Quote, span: (u16, u16), range: Range) -> Line 
         }
         _ => {
             let year = st.stocks.years.get(&q.code);
-            line.key = format!("{}/{}/{}", q.code, range.label(), year.map_or(0, |h| h.days.len()));
+            // A new answer moves its last point: the key moves with it.
+            line.key = format!("{}/{}/{}/{tag}", q.code, range.label(), year.map_or(0, |h| h.days.len()));
             if let Some(h) = year {
                 let (days, closes) = h.window(range);
                 line.days = days.to_vec();
                 line.values = closes.to_vec();
-                if let (Some((lo, hi)), Some(first), Some(last)) = (stocks::bounds(closes.iter().copied(), None), closes.first(), closes.last()) {
-                    let n = (closes.len() - 1).max(1) as f32;
-                    line.pts = closes.iter().enumerate().map(|(i, c)| (i as f32 / n, ((c - lo) / (hi - lo)) as f32)).collect();
+                // The year ends at the build's last close: today's price takes
+                // that day's place, or comes after it.
+                let today = st.stocks.board.as_ref().and_then(|b| stocks::day_of(&b.day));
+                match (today, line.days.last().copied()) {
+                    (Some(t), Some(last)) if t == last => {
+                        if let Some(v) = line.values.last_mut() {
+                            *v = q.price;
+                        }
+                    }
+                    (Some(t), Some(last)) if t > last => {
+                        line.days.push(t);
+                        line.values.push(q.price);
+                    }
+                    _ => {}
+                }
+                let vals = &line.values;
+                if let (Some((lo, hi)), Some(first), Some(last)) = (stocks::bounds(vals.iter().copied(), None), vals.first(), vals.last()) {
+                    let n = (vals.len() - 1).max(1) as f32;
+                    line.pts = vals.iter().enumerate().map(|(i, c)| (i as f32 / n, ((c - lo) / (hi - lo)) as f32)).collect();
                     line.color = trend_color(stocks::trend_of(*last, *first));
                 }
             }

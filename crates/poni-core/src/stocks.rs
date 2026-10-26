@@ -430,6 +430,11 @@ impl Board {
     }
 }
 
+/// "2026-10-27" as days since 1970-01-01 (an answer's `day`).
+pub fn day_of(s: &str) -> Option<i64> {
+    day_num(s)
+}
+
 /// "2026-10-27" as days since 1970-01-01.
 fn day_num(s: &str) -> Option<i64> {
     let mut it = s.split('-');
