@@ -70,8 +70,6 @@ pub enum OyenzaCmd {
 
 /// What the AI tab asks for. Hide and Show change `settings.usage`; the rest
 /// go to its worker (`services::usage`).
-// Until the AI tab's page lands, nothing sends these.
-#[allow(dead_code)]
 #[derive(Clone, PartialEq)]
 pub enum UsageCmd {
     /// Read every service now.
@@ -166,6 +164,5 @@ pub enum Command {
     /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
     /// answer: `AppEvent::Cities`).
     GetCities(String),
-    #[allow(dead_code)] // until the AI tab's page lands: nothing sends it yet
     Usage(UsageCmd),
 }
