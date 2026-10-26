@@ -163,9 +163,10 @@ fn step(before: Option<&Snapshot>, after: &Snapshot, now: i64, cfg: &AlertCfg) -
     }
     if let Some(b) = before {
         // Windows this reading left out keep their place, so one that comes
-        // and goes starts nothing over.
+        // and goes starts nothing over, and one whose reset passes is back.
         for w in &b.windows {
             if !seen.windows.iter().any(|s| s.kind == w.kind && s.label == w.label) {
+                turns.push(Turn { i: seen.windows.len(), was: pct(w.used), reset: w.resets_at.is_some_and(|t| t <= now) });
                 seen.windows.push(w.at(now));
             }
         }
@@ -267,9 +268,9 @@ fn local(t: i64, offset_min: i32) -> (i64, LocalDateTime) {
 }
 
 /// Whole percent used, as the notice says it: a hair under a whole number
-/// counts as it (0.8 is 80, whatever the float did).
+/// counts as it (0.8 is 80, whatever the float did). NaN casts to 0.
 fn pct(used: f32) -> u32 {
-    (used.max(0.0).min(10.0) * 100.0 + 0.01) as u32
+    (used.clamp(0.0, 10.0) * 100.0 + 0.01) as u32
 }
 
 #[cfg(test)]
@@ -528,6 +529,13 @@ mod tests {
         let mut m = Memory::default();
         let said = feed(&mut m, &[snap(Claude, vec![five(0.5), weekly(0.7)]), snap(Claude, vec![five(0.5), weekly(0.85)]), snap(Claude, vec![five(0.5)]), snap(Claude, vec![five(0.5), weekly(0.79)]), snap(Claude, vec![five(0.5), weekly(0.86)])], &cfg());
         assert_eq!(said.iter().map(Vec::len).collect::<Vec<_>>(), [0, 1, 0, 0, 0]);
+        // Out when it left, and its reset passed meanwhile: back all the same, once.
+        let mut m = Memory::default();
+        m.changes(&snap(Codex, vec![five(0.5), weekly(1.0)]), NOW, &cfg());
+        assert!(m.changes(&snap(Codex, vec![five(0.5)]), WEEK_RESET - 60, &cfg()).is_empty());
+        assert_eq!(words(&m.changes(&snap(Codex, vec![five(0.5)]), WEEK_RESET + 60, &cfg())), [(AlertKind::Back, "Codex is back", "Weekly reset")]);
+        let week_fresh = Window::new(WindowKind::Weekly, "Weekly", 0.01).resets(Some(WEEK_RESET + 7 * 24 * H));
+        assert!(m.changes(&snap(Codex, vec![five(0.5), week_fresh]), WEEK_RESET + 120, &cfg()).is_empty());
     }
 
     #[test]
