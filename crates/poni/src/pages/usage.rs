@@ -66,7 +66,7 @@ const DAYS_H: f32 = 26.0;
 const CODE_BOX_H: f32 = 48.0;
 /// The Services list: its privacy line, a row per service, the key field
 /// under the row it's open for.
-const INTRO_H: f32 = 34.0;
+const INTRO_GAP: f32 = 4.0;
 const ROW_H: f32 = 36.0;
 const EDIT_H: f32 = 62.0;
 const FIELD_H: f32 = 32.0;
@@ -420,17 +420,16 @@ fn words(id: ProviderId, t: &Trouble) -> Words {
     let w = |title: String, line: String, short: String, act: Option<Act>| Words { title, line, short, act };
     let again = || Act::new("Try again", Does::Refresh);
     if id == ProviderId::Oyenza {
-        let refused = |why| oyenza::refused_text(why);
         match t {
             Trouble::NeedsKey | Trouble::NotFound => {
                 return w("Not connected".into(), oyenza::CONNECT_LINE.into(), "Not connected".into(), Act::new(oyenza::CONNECT, Does::Connect))
             }
             Trouble::Refused => {
-                let (title, line) = refused(oyenza::Refusal::Key);
+                let (title, line) = oyenza::refused_text(oyenza::Refusal::Key);
                 return w(title.into(), line.into(), title.into(), Act::new(oyenza::CONNECT_AGAIN, Does::Connect));
             }
             Trouble::Disabled => {
-                let (title, line) = refused(oyenza::Refusal::Disabled);
+                let (title, line) = oyenza::refused_text(oyenza::Refusal::Disabled);
                 return w(title.into(), line.into(), title.into(), None);
             }
             _ => {}
@@ -499,7 +498,10 @@ fn part_h(ui: &mut Ui, p: &Part, w: f32) -> f32 {
             let (_, lh) = ui.c.measure(line, &trouble_line(), w);
             19.0 + lh.ceil() + if act.is_some() { 8.0 + PILL_SMALL } else { 2.0 }
         }
-        Part::Code { .. } => 18.0 + CODE_BOX_H + 8.0 + PILL_SMALL,
+        Part::Code { code, url, .. } => {
+            let (_, ah) = ui.c.measure(&oyenza::approve_text(code, url), &trouble_line(), w);
+            ah.ceil() + 4.0 + CODE_BOX_H + 8.0 + PILL_SMALL
+        }
     }
 }
 
@@ -674,7 +676,7 @@ fn draw_part(ui: &mut Ui, st: &AppState, p: &Part, r: Rect, view: Rect, n: u64) 
             let mut end = line.right();
             let mut out = None;
             if let Some(a) = act {
-                let (clicked, x) = text_link(ui, wid_n("usage.warn", n), line, view, &a.label, st.accent);
+                let (clicked, x) = link(ui, wid_n("usage.warn", n), line, view, &a.label, st.accent, true);
                 if clicked {
                     out = Some(a.does.clone());
                 }
@@ -734,12 +736,10 @@ fn limit(ui: &mut Ui, st: &AppState, r: Rect, label: &str, when: Option<(String,
     ui.c.text(label, Rect::new(r.x, r.y, lw + 1.0, WORDS_H), &label_st);
     if let Some((long, short)) = when {
         let dim = TextStyle::footnote().color(palette::TEXT_DIM);
-        let x = r.x + lw + 5.0;
+        let x = r.x + lw + 8.0;
         let avail = r.x + room - x;
-        let long = format!("· {long}");
-        let fits = ui.c.measure(&long, &dim, 1000.0).0 <= avail;
         let text = match short {
-            Some(s) if !fits => format!("· {s}"),
+            Some(s) if ui.c.measure(&long, &dim, 1000.0).0 > avail => s,
             _ => long,
         };
         if avail > 24.0 {
@@ -783,8 +783,11 @@ fn day_bars(ui: &mut Ui, days: &[DayUse], r: Rect) {
 /// Oyenza Inference's code on its card: where to approve it, the code, the
 /// approve page, Cancel, and until when it works.
 fn connect_code(ui: &mut Ui, st: &AppState, r: Rect, view: Rect, code: &str, url: &str, expires_at: i64) -> Option<Does> {
-    ui.c.text(&oyenza::approve_text(code, url), Rect::new(r.x, r.y, r.w, 15.0), &TextStyle::footnote().color(palette::TEXT_DIM));
-    let code_r = Rect::new(r.x, r.y + 18.0, r.w, CODE_BOX_H);
+    // "Approve KPJX-TMNQ on inference.oyenza.com", on two lines on a narrow card.
+    let approve = oyenza::approve_text(code, url);
+    let (_, ah) = ui.c.measure(&approve, &trouble_line(), r.w);
+    ui.c.text(&approve, Rect::new(r.x, r.y, r.w, ah.ceil() + 1.0), &trouble_line());
+    let code_r = Rect::new(r.x, r.y + ah.ceil() + 4.0, r.w, CODE_BOX_H);
     ui.c.fill_rrect(code_r, 10.0, Color::white(0.07));
     ui.c.text(code, code_r, &TextStyle::display().tabular().center());
     let y = code_r.bottom() + 8.0;
@@ -874,9 +877,12 @@ fn names(ids: &[ProviderId], last_word: &str) -> String {
 /// Every service, in order: shown or hidden, its key (typed into a masked
 /// field that opens under its row), and Oyenza Inference's connection.
 fn list(ui: &mut Ui, st: &mut AppState, view: Rect, dt: f32, moving: &mut bool) {
+    let intro = "Each sign-in is read on this computer and goes only to its own service. Oyenza never sees your other plans.";
+    let intro_st = TextStyle::caption().color(palette::TEXT_DIM).wrap().top();
+    let intro_h = ui.c.measure(intro, &intro_st, view.w).1.ceil();
     let editing = st.ui.usage.editing.filter(|id| usage::provider(*id).takes_key().is_some());
     let mut rows = Vec::with_capacity(ProviderId::ALL.len());
-    let mut y = INTRO_H;
+    let mut y = intro_h + INTRO_GAP;
     for id in ProviderId::ALL {
         rows.push((id, y));
         y += ROW_H + if editing == Some(id) { EDIT_H } else { 0.0 };
@@ -888,10 +894,9 @@ fn list(ui: &mut Ui, st: &mut AppState, view: Rect, dt: f32, moving: &mut bool) 
 
     let wide = Rect::new(view.x - 8.0, view.y, view.w + 16.0, view.h);
     ui.c.clip(wide);
-    let intro = "Each sign-in is read on this computer and goes only to its own service. Nothing about your use goes to Oyenza.";
-    let intro_r = Rect::new(view.x, view.y - scroll, view.w, INTRO_H - 6.0);
+    let intro_r = Rect::new(view.x, view.y - scroll, view.w, intro_h + 1.0);
     if intro_r.bottom() > view.y {
-        ui.c.text(intro, intro_r, &TextStyle::caption().color(palette::TEXT_DIM).wrap().top());
+        ui.c.text(intro, intro_r, &intro_st);
     }
     let mut acts = Vec::new();
     for (i, &(id, y)) in rows.iter().enumerate() {
@@ -1037,8 +1042,13 @@ fn key_editor(ui: &mut Ui, st: &mut AppState, id: ProviderId, ask: KeyAsk, r: Re
     let fid = wid("usage.key-field");
     let accent = st.accent;
     let s = &mut st.ui.usage;
-    let focus_now = std::mem::take(&mut s.focus);
-    let (submitted, cancelled) = if inside(view, field) { key_field(ui, fid, field, &mut s.key, ask.hint, accent, focus_now) } else { (false, false) };
+    // The keyboard goes to the field once it's wholly in view (it may still be gliding in).
+    let (submitted, cancelled) = if inside(view, field) {
+        let focus_now = std::mem::take(&mut s.focus);
+        key_field(ui, fid, field, &mut s.key, ask.hint, accent, focus_now)
+    } else {
+        (false, false)
+    };
     let empty = s.key.trim().is_empty();
     let py = field.center().y - PILL_SMALL / 2.0;
     let save = Rect::new(field.right() + PILL_GAP, py, save_w, PILL_SMALL);
@@ -1049,10 +1059,9 @@ fn key_editor(ui: &mut Ui, st: &mut AppState, id: ProviderId, ask: KeyAsk, r: Re
     let removed = kept && pill_in(ui, view, wid("usage.key-remove"), remove, "Remove", None, PillStyle::Utility);
 
     // Where to make one: the service's own page.
-    let link = format!("Make one at {}", host(ask.url));
+    let make = format!("Make one at {}", host(ask.url));
     let lr = Rect::new(x, field.bottom() + 6.0, r.right() - x, 16.0);
-    let (clicked, _) = text_link_left(ui, wid("usage.key-link"), lr, view, &link, accent);
-    if clicked {
+    if link(ui, wid("usage.key-link"), lr, view, &make, accent, false).0 {
         st.cmd(Command::OpenUrl(ask.url.to_string()));
     }
 
@@ -1185,30 +1194,17 @@ fn pill_in(ui: &mut Ui, view: Rect, id: WidgetId, r: Rect, label: &str, icon: Op
     false
 }
 
-/// A short link at the right end of `line` (in `color`, brighter under the
-/// pointer). Returns whether it was clicked and where its text starts.
-fn text_link(ui: &mut Ui, id: WidgetId, line: Rect, view: Rect, label: &str, color: Color) -> (bool, f32) {
-    let st = TextStyle::footnote().weight(Weight::Semibold);
-    let w = ui.c.measure(label, &st, line.w).0.ceil();
-    let r = Rect::new(line.right() - w, line.y, w, line.h);
-    let clicked = link_at(ui, id, r, view, label, &st.right(), color);
-    (clicked, r.x)
-}
-
-/// [`text_link`] at the left of `line`.
-fn text_link_left(ui: &mut Ui, id: WidgetId, line: Rect, view: Rect, label: &str, color: Color) -> (bool, f32) {
+/// A short link at the left or right end of `line`, in `color` (brighter
+/// under the pointer), taking clicks only while it's in `view`. Returns
+/// whether it was clicked, and where its text starts.
+fn link(ui: &mut Ui, id: WidgetId, line: Rect, view: Rect, label: &str, color: Color, at_right: bool) -> (bool, f32) {
     let st = TextStyle::footnote().weight(Weight::Semibold);
     let w = ui.c.measure(label, &st, line.w).0.ceil().min(line.w);
-    let r = Rect::new(line.x, line.y, w, line.h);
-    let clicked = link_at(ui, id, r, view, label, &st, color);
-    (clicked, r.right())
-}
-
-fn link_at(ui: &mut Ui, id: WidgetId, r: Rect, view: Rect, label: &str, st: &TextStyle, color: Color) -> bool {
+    let r = Rect::new(if at_right { line.right() - w } else { line.x }, line.y, w, line.h);
     let hit = r.inset(-5.0, -4.0);
     let resp = if inside(view, hit) { ui.button(id, hit) } else { Default::default() };
     ui.c.text(label, Rect::new(r.x, r.y, r.w + 1.0, r.h), &st.color(if resp.hovered { palette::TEXT } else { color }));
-    resp.clicked
+    (resp.clicked, r.x)
 }
 
 /// `r` lies wholly in `view` (half a DIP of slack).
@@ -1419,13 +1415,16 @@ pub enum Picture {
     /// Oyenza Inference connected: its balance, spend and last 14 days,
     /// beside Codex.
     Inference,
-    /// The Services list, an OpenRouter key being typed (as dots).
+    /// The Services list from its top: the privacy line, each service
+    /// shown or hidden.
     Services,
+    /// The Services list at OpenRouter's key, being typed (as dots).
+    Key,
 }
 
 #[cfg_attr(target_os = "macos", allow(dead_code))]
 impl Picture {
-    pub const ALL: [Picture; 7] = [Picture::Plans, Picture::Troubles, Picture::Empty, Picture::Looking, Picture::Connect, Picture::Inference, Picture::Services];
+    pub const ALL: [Picture; 8] = [Picture::Plans, Picture::Troubles, Picture::Empty, Picture::Looking, Picture::Connect, Picture::Inference, Picture::Services, Picture::Key];
 
     /// The picture's file name: "page-ai", "page-ai-troubles", ...
     pub fn name(self) -> &'static str {
@@ -1437,6 +1436,7 @@ impl Picture {
             Picture::Connect => "page-ai-connect",
             Picture::Inference => "page-ai-inference",
             Picture::Services => "page-ai-services",
+            Picture::Key => "page-ai-key",
         }
     }
 }
@@ -1513,7 +1513,7 @@ pub fn picture(st: &mut AppState, shows: Picture, now: f64) {
         }
     };
     match shows {
-        Picture::Plans | Picture::Services => {
+        Picture::Plans | Picture::Services | Picture::Key => {
             let inf = inference(st);
             readings(st, vec![(Codex, Ok(codex())), (Claude, Ok(claude())), (OpenCode, Ok(opencode())), (Oyenza, Ok(inf))]);
             st.usage.inference = InferenceLink::On { account: "a•••@example.com".into() };
@@ -1551,9 +1551,11 @@ pub fn picture(st: &mut AppState, shows: Picture, now: f64) {
             st.usage.keys.insert(oyenza::SECRET);
         }
     }
-    if shows == Picture::Services {
+    if matches!(shows, Picture::Services | Picture::Key) {
+        st.ui.usage.services = true;
+    }
+    if shows == Picture::Key {
         let s = &mut st.ui.usage;
-        s.services = true;
         s.editing = Some(OpenRouter);
         s.key = "sk-or-v1-0000000000000000".into();
         s.reveal = Some(OpenRouter);
@@ -1737,7 +1739,7 @@ mod tests {
             let ids: Vec<ProviderId> = ProviderId::ALL.into_iter().filter(|id| shown(&st, *id)).collect();
             use ProviderId::*;
             let want: &[ProviderId] = match p {
-                Picture::Plans | Picture::Services => &[Codex, Claude, OpenCode, Oyenza],
+                Picture::Plans | Picture::Services | Picture::Key => &[Codex, Claude, OpenCode, Oyenza],
                 Picture::Troubles => &[Codex, Claude, Gemini, Copilot, OpenRouter],
                 Picture::Empty | Picture::Looking => &[],
                 Picture::Connect | Picture::Inference => &[Codex, Oyenza],
@@ -1750,7 +1752,7 @@ mod tests {
         }
         // Each picture starts clean: none carries another's state.
         let mut st = state();
-        picture(&mut st, Picture::Services, 1.0);
+        picture(&mut st, Picture::Key, 1.0);
         picture(&mut st, Picture::Empty, 1.0);
         assert!(!st.ui.usage.services && st.ui.usage.key.is_empty() && !st.settings.usage.notices);
     }
