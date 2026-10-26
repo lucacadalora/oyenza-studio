@@ -228,11 +228,14 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   `Provider` contract in `usage/mod.rs`, all pure, so each is tested on any
   OS against hand-made answers in `usage/fixtures/<service>/` (loaded only in
   tests). `wants(dirs)` names what to read first: a file (`Want::File`,
-  refused past its `max`), a log's last lines (`Want::Newest`), a Mac
+  refused past its `max`), a log's last lines (`Want::Newest`), a piece of a
+  file too big to read whole (`Want::Range`: Cursor's SQLite store, walked a
+  page at a time, shared for writing, nothing kept between refreshes), a Mac
   keychain item (`Want::Keychain`) or a key typed into the tab
   (`Want::Secret`). `next(cx, replies)` gets what was read and the answers so
-  far, and returns a request (`Step::Fetch`, at most `MAX_FETCHES` a refresh,
-  none under `Reach::Local`) or the result (`Step::Done`): a `Snapshot` (plan,
+  far, and returns more to read (`Step::Read`, at most `MAX_READS` wants a
+  refresh), a request (`Step::Fetch`, at most `MAX_FETCHES` a refresh, none
+  under `Reach::Local`) or the result (`Step::Done`): a `Snapshot` (plan,
   masked account, `Window`s with their resets, balance, spend, days) or a
   `Trouble` the tab says in plain words. The rules at the top of `mod.rs` bind
   every reader: read only, never refresh another app's sign-in, a sign-in
