@@ -86,11 +86,11 @@ const SETTLE_TIMEOUT: f64 = 3.0;
 const SOFT_GPU_SETTLE_TIMEOUT: f64 = 8.0;
 /// Seconds to wait for a simulated tab click to switch the page.
 const CLICK_TIMEOUT: f64 = 1.5;
-/// Stop visiting scenes after this many seconds. The 87 scenes take about
-/// 43 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
+/// Stop visiting scenes after this many seconds. The 89 scenes take about
+/// 45 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
 /// theme with Japanese lyrics is the slowest run, about 63 s with 85 (it
 /// reached the old 50 s at scene 80 once the Today scenes came in, and 65 s
-/// was tight for two more). The CI and Store test steps wait 120 s for the
+/// was tight for four more). The CI and Store test steps wait 120 s for the
 /// whole run (this plus the writers' 3.5 s, and 40 s more for the animation
 /// runs, stays under it), the Wine runner 180 s.
 const SCENE_DEADLINE: f64 = 70.0;
@@ -980,7 +980,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 87] = [
+const SCENES: [Scene; 89] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
