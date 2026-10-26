@@ -14,7 +14,7 @@
 //! them in, and `model_remains`, whose `*_usage_count` is what is left, not
 //! what was used.
 
-use super::zai::clean_key;
+use super::zai::find_key;
 use super::{
     num, reply_json, time, Ctx, Dirs, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want,
     Window, WindowKind,
@@ -46,8 +46,11 @@ impl Provider for MiniMax {
     }
 
     fn next(&self, cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Step {
-        let Some(key) = key(cx) else {
-            return Step::Done(Err(Trouble::NeedsKey));
+        // A pay-as-you-go key in `MINIMAX_API_KEY` is the API's, not a
+        // plan's, so it doesn't count as finding one.
+        let key = match find_key(cx, &VARS, |k| !standard(k)) {
+            Ok(key) => key,
+            Err(t) => return Step::Done(Err(t)),
         };
         // A pay-as-you-go key can't read a plan: CodexBar never sends one to
         // these endpoints, and neither do we.
@@ -84,13 +87,6 @@ impl Provider for MiniMax {
     fn takes_key(&self) -> Option<KeyAsk> {
         Some(KeyAsk { secret: SECRET, url: "https://platform.minimax.io/user-center/payment/coding-plan", hint: "sk-cp-…" })
     }
-}
-
-/// The typed key, else the first variable holding one that can read a plan:
-/// a pay-as-you-go key in `MINIMAX_API_KEY` is the API's, not a plan's, so
-/// it doesn't count as finding one.
-fn key(cx: &Ctx) -> Option<String> {
-    cx.got(0).text().and_then(clean_key).or_else(|| VARS.iter().filter_map(|v| cx.dirs.var(v).and_then(clean_key)).find(|k| !standard(k)))
 }
 
 /// A standard pay-as-you-go key (`sk-api-…`); a plan's key is `sk-cp-…`.
@@ -178,8 +174,8 @@ fn read(r: &Result<Reply, NetFail>, now: i64) -> Result<Snapshot, (Trouble, bool
         }
         s.windows.push(w);
     }
-    let titles = [data.get("current_subscribe_title"), data.get("plan_name"), data.get("combo_title"), data.get("current_plan_title"), data.pointer("/current_combo_card/title")];
-    s.plan = titles.into_iter().flatten().filter_map(Value::as_str).map(str::trim).find(|t| !t.is_empty()).map(plan_name);
+    let titles = ["/current_subscribe_title", "/plan_name", "/combo_title", "/current_plan_title", "/current_combo_card/title"];
+    s.plan = titles.iter().filter_map(|t| data.pointer(t)?.as_str()).map(str::trim).find(|t| !t.is_empty()).map(plan_name);
     Ok(s)
 }
 
@@ -211,7 +207,11 @@ fn lane(m: &Value, model: &str, weekly: bool, now: i64) -> Option<Window> {
     // The window's end, or what's left of it (milliseconds) once the end has
     // passed.
     let reset = end.filter(|&e| e > now).or_else(|| n(format!("{t}remains_time")).filter(|&ms| ms > 0.0).map(|ms| now + (ms / 1000.0) as i64));
-    let (kind, when, len) = if weekly { (WindowKind::Weekly, Some("Weekly".to_string()), Some(604_800)) } else { interval(start.zip(end).map(|(s, e)| e - s)) };
+    let (kind, when, len) = if weekly {
+        (WindowKind::Weekly, Some("Weekly".to_string()), Some(604_800))
+    } else {
+        interval(start.zip(end).map(|(s, e)| e - s))
+    };
     let label = match (is_text(model), when) {
         (true, Some(w)) => w,
         (true, None) => "Usage".into(),
@@ -328,9 +328,9 @@ mod tests {
     fn no_key_needs_one() {
         let dirs = Dirs::sample(Os::Windows);
         assert_eq!(MiniMax.wants(&dirs), vec![Want::Secret("minimax")]);
-        for got in [Got::Missing, Got::Text(" ".into())] {
+        for (got, trouble) in [(Got::Missing, Trouble::NeedsKey), (Got::Text(" ".into()), Trouble::NeedsKey), (Got::Denied, Trouble::Denied)] {
             let (outcome, asked) = refresh(&dirs, &[got], Reach::Online, |_| unreachable!());
-            assert_eq!(outcome, Err(Trouble::NeedsKey));
+            assert_eq!(outcome, Err(trouble));
             assert!(asked.is_empty());
         }
         let ask = MiniMax.takes_key().unwrap();
@@ -380,15 +380,18 @@ mod tests {
         assert_eq!((s.provider, s.source, s.as_of, s.plan.as_deref()), (ProviderId::MiniMax, Source::Online, NOW, None));
         // The video lane a Plus plan doesn't have is left out.
         let [five, week] = &s.windows[..] else { panic!("{:?}", s.windows) };
-        assert_eq!((five.label.as_str(), five.kind, five.resets_at, five.length_s, five.count), ("5-hour", WindowKind::Session, Some(NOW + 7200), Some(18_000), None));
+        let five_at = Some(NOW + 7200);
+        assert_eq!((five.label.as_str(), five.kind, five.resets_at, five.length_s, five.count), ("5-hour", WindowKind::Session, five_at, Some(18_000), None));
         assert!((five.used - 0.62).abs() < 1e-6);
-        assert_eq!((week.label.as_str(), week.kind, week.resets_at, week.length_s, week.count), ("Weekly", WindowKind::Weekly, Some(NOW + 3 * 86_400), Some(604_800), None));
+        let week_at = Some(NOW + 3 * 86_400);
+        assert_eq!((week.label.as_str(), week.kind, week.resets_at, week.length_s, week.count), ("Weekly", WindowKind::Weekly, week_at, Some(604_800), None));
         assert!((week.used - 0.31).abs() < 1e-6);
     }
 
     #[test]
     fn reads_the_older_coding_plan_from_its_endpoint() {
-        let (outcome, asked) = refresh(&Dirs::sample(Os::Mac), &typed(), Reach::Online, |r| if r.url == G1 { reply(404, "") } else { reply(200, CODING_PLAN) });
+        let older = |r: &Request| if r.url == G1 { reply(404, "") } else { reply(200, CODING_PLAN) };
+        let (outcome, asked) = refresh(&Dirs::sample(Os::Mac), &typed(), Reach::Online, older);
         assert_eq!(urls(&asked), [G1, G2]);
         let s = outcome.unwrap();
         assert_eq!(s.plan.as_deref(), Some("Max"));
@@ -409,7 +412,8 @@ mod tests {
     #[test]
     fn a_refused_key_tries_both_endpoints_on_both_hosts() {
         // HTTP 401, or HTTP 200 whose base_resp says 1004.
-        let login = r#"{"base_resp":{"status_code":1004,"status_msg":"login fail: Please carry the API secret key in the 'Authorization' field of the request header"}}"#;
+        let login = r#"{"base_resp":{"status_code":1004,
+            "status_msg":"login fail: Please carry the API secret key in the 'Authorization' field of the request header"}}"#;
         for no in [reply(401, "{}"), reply(200, login)] {
             let (outcome, asked) = refresh(&Dirs::sample(Os::Windows), &typed(), Reach::Online, |_| no.clone());
             assert_eq!(outcome, Err(Trouble::Refused));

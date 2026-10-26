@@ -11,8 +11,8 @@
 //! against impossible 5-hour resets.
 
 use super::{
-    num, reply_json, time, Ctx, Dirs, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want,
-    Window, WindowKind,
+    num, reply_json, time, Ctx, Dirs, Got, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble,
+    Want, Window, WindowKind,
 };
 use serde_json::Value;
 
@@ -39,8 +39,9 @@ impl Provider for Zai {
     }
 
     fn next(&self, cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Step {
-        let Some(key) = cx.got(0).text().and_then(clean_key).or_else(|| cx.dirs.var(VAR).and_then(clean_key)) else {
-            return Step::Done(Err(Trouble::NeedsKey));
+        let key = match find_key(cx, &[VAR], |_| true) {
+            Ok(key) => key,
+            Err(t) => return Step::Done(Err(t)),
         };
         if cx.reach == Reach::Local {
             return Step::Done(Err(Trouble::NeedsOnline));
@@ -167,7 +168,8 @@ fn span(minutes: Option<i64>, credits: bool) -> (WindowKind, String) {
 
 /// The plan's name ("pro" becomes "Pro"), from whichever field carries it.
 fn plan_name(data: &Value) -> Option<String> {
-    let raw = ["planName", "plan", "plan_type", "packageName", "level"].iter().find_map(|k| data.get(*k)?.as_str().map(str::trim).filter(|s| !s.is_empty()))?;
+    let fields = ["planName", "plan", "plan_type", "packageName", "level"];
+    let raw = fields.iter().find_map(|k| data.get(*k)?.as_str().map(str::trim).filter(|s| !s.is_empty()))?;
     Some(if raw.bytes().all(|b| b.is_ascii_lowercase()) { raw[..1].to_ascii_uppercase() + &raw[1..] } else { raw.to_string() })
 }
 
@@ -176,19 +178,33 @@ fn int(v: &Value) -> Option<i64> {
     num(v).map(|f| f as i64)
 }
 
+/// The key typed into Studio (want 0), else the first of `vars` holding one
+/// that `fits`. The keychain refusing the typed key is `Denied`, not a
+/// missing key. (MiniMax uses this too.)
+pub(super) fn find_key(cx: &Ctx, vars: &[&str], fits: fn(&str) -> bool) -> Result<String, Trouble> {
+    match cx.got(0) {
+        Got::Denied => Err(Trouble::Denied),
+        got => {
+            let set = || vars.iter().filter_map(|v| cx.dirs.var(v).and_then(clean_key)).find(|k| fits(k));
+            got.text().and_then(clean_key).or_else(set).ok_or(Trouble::NeedsKey)
+        }
+    }
+}
+
 /// A typed or set key without the spaces or quotes around it (a `.env` line
 /// keeps its quotes), or `None` when nothing usable is left: a key with a
 /// control character in it never goes into a header.
-pub(super) fn clean_key(s: &str) -> Option<String> {
+fn clean_key(s: &str) -> Option<String> {
     let s = s.trim();
-    let s = s.strip_prefix('"').and_then(|t| t.strip_suffix('"')).or_else(|| s.strip_prefix('\'').and_then(|t| t.strip_suffix('\''))).unwrap_or(s).trim();
+    let quoted = |q: char| s.strip_prefix(q).and_then(|t| t.strip_suffix(q));
+    let s = quoted('"').or_else(|| quoted('\'')).unwrap_or(s).trim();
     (!s.is_empty() && !s.chars().any(char::is_control)).then(|| s.to_string())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{Got, Method, Os, MAX_FETCHES};
+    use crate::usage::{Method, Os, MAX_FETCHES};
 
     const QUOTA_JSON: &str = include_str!("fixtures/zai/quota.json");
     const CREDITS_JSON: &str = include_str!("fixtures/zai/quota-credits.json");
@@ -233,6 +249,10 @@ mod tests {
             assert_eq!(outcome, Err(Trouble::NeedsKey));
             assert!(asked.is_empty());
         }
+        // The keychain refusing the typed key says so, and asks nothing.
+        let (outcome, asked) = refresh(&dirs, &[Got::Denied], Reach::Online, |_| unreachable!());
+        assert_eq!(outcome, Err(Trouble::Denied));
+        assert!(asked.is_empty());
         let ask = Zai.takes_key().unwrap();
         assert_eq!((ask.secret, ask.url), ("zai", "https://z.ai/manage-apikey/apikey-list"));
         assert_eq!(Zai.min_gap_s(), 300);
@@ -274,7 +294,8 @@ mod tests {
         let labels: Vec<&str> = s.windows.iter().map(|w| w.label.as_str()).collect();
         assert_eq!(labels, ["5-hour", "Weekly", "Tool calls"]);
         let [five, week, tools] = &s.windows[..] else { unreachable!() };
-        assert_eq!((five.kind, five.resets_at, five.length_s, five.count), (WindowKind::Session, Some(NOW + 7200), Some(18_000), Some((496_000_000, 800_000_000))));
+        let counts = Some((496_000_000, 800_000_000));
+        assert_eq!((five.kind, five.resets_at, five.length_s, five.count), (WindowKind::Session, Some(NOW + 7200), Some(18_000), counts));
         assert!((five.used - 0.62).abs() < 1e-6);
         assert_eq!((week.kind, week.resets_at, week.length_s, week.count), (WindowKind::Weekly, Some(NOW + 3 * 86_400), Some(604_800), None));
         assert!((week.used - 0.31).abs() < 1e-6);
