@@ -2225,6 +2225,11 @@ impl App {
     /// while nobody can see the screen, the notices also on Low Power Mode.
     /// Its thread starts the first time either wants it.
     fn set_usage_watch(&mut self) {
+        // The smoke run shows made-up readings (and checks the keychain on
+        // its own): nothing is read.
+        if self.smoke.is_some() {
+            return;
+        }
         let here = !(self.away.0 || self.away.1);
         let w = services::usage::Watch {
             open: here && self.mode == Mode::Expanded(PageKind::Ai),
@@ -2235,6 +2240,9 @@ impl App {
             return;
         }
         self.usage_watch = w;
+        // A keychain read may bring up macOS's prompt only while the tab is
+        // on screen (services::keychain): told before the worker.
+        services::keychain::set_watch(w.open, w.notices);
         if self.usage.is_none() && (w.open || w.notices) {
             self.start_usage();
         }
@@ -2265,6 +2273,10 @@ impl App {
                 self.save_settings();
             }
             c => {
+                // The person asked: the keychain may ask macOS again, even after a no.
+                if matches!(c, UsageCmd::Refresh) {
+                    services::keychain::ask_again();
+                }
                 if self.usage.is_none() {
                     self.start_usage();
                 }
@@ -3842,6 +3854,10 @@ impl App {
                 let ok = n.is_some_and(|n| n.title == "Money in \u{b7} BCA" && n.inline == Some(InlineAction::ShowAmount) && n.reveal.is_some());
                 Some(("oyenza-money", ok, format!("notice: {:?} / {:?}, sum held back for Show: {}", n.map(|n| &n.title), n.map(|n| &n.subtitle), n.is_some_and(|n| n.reveal.is_some()))))
             }
+            "ai-keychain" => {
+                let (ok, d) = smoke_keychain();
+                Some(("keychain", ok, d))
+            }
             "oyenza-off" => {
                 // Signed out, the tab stays: it is where to sign in again.
                 let tab = pages::tabs(&self.st).contains(&PageKind::Oyenza);
@@ -3858,6 +3874,54 @@ impl App {
             _ => None,
         }
     }
+}
+
+/// The keychain items tools/mac-smoke.sh adds for the AI tab's reader: their
+/// service, and the passwords of the accounts "plain" and "accent" (an accent
+/// and a line break, which `security` prints as hex). "absent" is never added.
+const SMOKE_KEYCHAIN: (&str, &str, &str) = ("Oyenza Studio smoke", "{\"claudeAiOauth\":{\"accessToken\":\"test-token\"}}", "caf\u{e9}\nnext");
+
+/// The smoke test of the AI tab's keychain reader (`services::keychain`) on
+/// the items above, with the tab closed, open, then closed with the notices
+/// on and with nothing watching: whether each read gave what it should and
+/// how often macOS was asked. The worker never runs in the smoke run, so the
+/// reader's gate is this test's alone.
+fn smoke_keychain() -> (bool, String) {
+    use poni_core::usage::Got;
+    use services::keychain as k;
+    if std::env::var_os("PONI_SMOKE_KEYCHAIN").is_none() {
+        return (true, "skipped: no test items in the keychain".into());
+    }
+    let (svc, plain, accent) = SMOKE_KEYCHAIN;
+    let text = |s: &str| Got::Text(s.to_string());
+    k::set_watch(false, false);
+    k::ask_again();
+    let before = k::asked();
+    let asked = || k::asked() - before;
+    // Closed and never read: nothing, and macOS isn't asked.
+    let closed = k::read(svc, Some("plain"));
+    let closed_ok = closed == Got::Missing && asked() == 0;
+    k::set_watch(true, false);
+    let t = std::time::Instant::now();
+    let open = [k::read(svc, Some("plain")), k::read(svc, Some("accent")), k::read(svc, Some("absent"))];
+    let ms = t.elapsed().as_millis();
+    let open_ok = open == [text(plain), text(accent), Got::Missing] && asked() == 3;
+    // Once an opening: the next read is the one kept.
+    let again = k::read(svc, Some("plain"));
+    let again_ok = again == text(plain) && asked() == 3;
+    // Closed with the notices on: what was read while it was open.
+    k::set_watch(false, true);
+    let notices = k::read(svc, Some("plain"));
+    let notices_ok = notices == text(plain) && asked() == 3;
+    // Nobody watching: forgotten.
+    k::set_watch(false, false);
+    let gone = k::read(svc, Some("plain"));
+    let gone_ok = gone == Got::Missing && asked() == 3;
+    k::ask_again();
+    let ok = closed_ok && open_ok && again_ok && notices_ok && gone_ok;
+    // Got's Debug shows a text's length, never the text.
+    let d = format!("tab closed: {closed:?}; open: {open:?} in {ms} ms; again: {again:?}; notices only: {notices:?}; nobody watching: {gone:?}; macOS asked {} times", asked());
+    (ok, d)
 }
 
 /// The smoke test: one POST with a JSON body and a key through the Mac's
@@ -4119,7 +4183,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 58] = [
+const SMOKE_STEPS: [&str; 59] = [
     "idle",
     "hover",
     "open-focus",
@@ -4173,6 +4237,7 @@ const SMOKE_STEPS: [&str; 58] = [
     "oyenza-page",
     "oyenza-money",
     "oyenza-off",
+    "ai-keychain",
     "now-playing-start",
     "now-playing",
     "now-playing-browser-start",
