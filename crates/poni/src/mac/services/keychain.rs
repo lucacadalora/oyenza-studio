@@ -180,10 +180,9 @@ fn ask(service: &str, account: Option<&str>) -> Got {
 }
 
 /// What `security -w` printed, as the password. It prints the bytes as they
-/// are, or as hex when one isn't printable (a line break, an accent), where
-/// a byte from 0x80 up may come out as `ffffffXX` (a signed char). So hex is
-/// read only when it decodes to such a byte: a password of plain hex digits
-/// prints as is.
+/// are, or all as hex when one isn't printable (a line break, an accent:
+/// "café" comes out as 636166c3a9, macOS 15 and 26). So hex is read only when
+/// it decodes to such a byte: a password of plain hex digits prints as is.
 fn password(out: &[u8]) -> String {
     let out = out.strip_suffix(b"\n").unwrap_or(out);
     match unhex(out) {
@@ -197,20 +196,5 @@ fn unhex(s: &[u8]) -> Option<Vec<u8>> {
         return None;
     }
     let digit = |c: u8| (c as char).to_digit(16).map(|d| d as u8);
-    let mut out = Vec::with_capacity(s.len() / 2);
-    let mut i = 0;
-    while i < s.len() {
-        if i + 8 <= s.len() && s[i..i + 6].eq_ignore_ascii_case(b"ffffff") {
-            if let (Some(hi), Some(lo)) = (digit(s[i + 6]), digit(s[i + 7])) {
-                if hi >= 8 {
-                    out.push(hi << 4 | lo);
-                    i += 8;
-                    continue;
-                }
-            }
-        }
-        out.push(digit(s[i])? << 4 | digit(s[i + 1])?);
-        i += 2;
-    }
-    Some(out)
+    s.chunks(2).map(|p| Some(digit(p[0])? << 4 | digit(p[1])?)).collect()
 }

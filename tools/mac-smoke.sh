@@ -109,16 +109,6 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
           echo "the MediaRemote adapter's test player: pid $client_pid"
           sleep 1
         fi ;;
-      # Low Power Mode on for the next step (ai-saver: does the island hear it
-      # with no power source change?), and off again after it. A runner may
-      # not have it: pmset's own answer goes into the output.
-      *ai-keychain)
-        sudo -n pmset -a lowpowermode 1 > smoke/pmset.txt 2>&1
-        echo "low power mode on: $(pmset -g 2>&1 | grep -i lowpower || echo "(not listed)") $(cat smoke/pmset.txt)"
-        sleep 1 ;;
-      *ai-saver)
-        sudo -n pmset -a lowpowermode 0 >> smoke/pmset.txt 2>&1
-        echo "low power mode off again: $(pmset -g 2>&1 | grep -i lowpower || echo "(not listed)")" ;;
       # A browser tab instead: the test player stops, the browser plays the page (autoplay
       # allowed, a profile of its own with no first-run screens or keychain prompt).
       *now-playing-browser-start)
@@ -162,7 +152,6 @@ fi
 if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null || true; fi
 if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null || true; fi
 for a in plain accent; do security delete-generic-password -s "$kc_service" -a "$a" > /dev/null 2>&1; done
-sudo -n pmset -a lowpowermode 0 > /dev/null 2>&1
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true
