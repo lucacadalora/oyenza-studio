@@ -29,7 +29,7 @@ use crate::state::InferenceLink;
 use poni_core::usage::alerts::{Alert, AlertCfg, Memory};
 use poni_core::usage::pace::{self, Look, Looks, Pace};
 use poni_core::usage::{self, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
-use std::collections::{BTreeSet, HashMap};
+use std::collections::BTreeSet;
 use std::path::PathBuf;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
@@ -39,9 +39,6 @@ const USER_AGENT: &str = concat!("OyenzaStudio/", env!("CARGO_PKG_VERSION"), " (
 const TIMEOUT: Duration = Duration::from_secs(8);
 /// A typed key longer than this is a paste gone wrong.
 const KEY_MAX: usize = 4096;
-/// A keychain sign-in that stopped working is read again after this at the
-/// soonest (or at Refresh): each read can bring the keychain's prompt back.
-const KEYCHAIN_GAP_S: i64 = 600;
 
 /// What the island wants from the worker (`App::set_usage_watch`).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -188,7 +185,6 @@ struct Worker {
     keys: BTreeSet<&'static str>,
     /// One per service, in `ProviderId::ALL` order.
     svcs: Vec<Svc>,
-    keychain: Keychain,
     looks: Looks,
     /// What the island wanted when the worker last looked at its queue.
     watch: Watch,
@@ -241,7 +237,6 @@ impl Worker {
             names,
             keys: BTreeSet::new(),
             svcs: ProviderId::ALL.iter().map(|_| Svc::default()).collect(),
-            keychain: Keychain::default(),
             looks: Looks::default(),
             watch: Watch::default(),
             cfg: AlertCfg::default(),
@@ -377,13 +372,22 @@ impl Worker {
     /// kept and told. Returns its notices.
     fn refresh(&mut self, i: usize, p: &dyn Provider, wants: &[Want], look: Look) -> Vec<Alert> {
         let Some(reach) = self.svcs[i].pace.reach(self.tick(), p.min_gap_s(), look) else { return Vec::new() };
-        let (now, tick) = (crate::clock::unix_now(), self.tick());
-        let Worker { dirs, names, keychain, client, .. } = self;
+        let now = crate::clock::unix_now();
+        let Worker { dirs, names, client, .. } = self;
         // A reader reads other apps' files and servers' answers: should one
         // of them trip it up, the rest of the tab carries on without it.
-        let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| pace::run(p, dirs, wants, now, reach, |w| read(w, names, keychain, tick), |req| fetch(client, req))));
+        let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| pace::run(p, dirs, wants, now, reach, |w| read(w, names), |req| fetch(client, req))));
         match run {
-            Ok(run) => self.heard(i, p, wants, reach, run),
+            Ok(mut run) => {
+                // The Mac's keychain is never asked from the background (its
+                // prompt would come out of nowhere): a sign-in kept only there
+                // reads as missing on a notices-only look, which means "not
+                // asked yet", not "signed out". What the tab had stays.
+                if look == Look::Notices && wants.iter().any(|w| matches!(w, Want::Keychain { .. })) && matches!(run.outcome, Some(Err(Trouble::NotFound | Trouble::SignedOut))) {
+                    run.outcome = None;
+                }
+                self.heard(i, p, reach, run)
+            }
             Err(_) => {
                 self.svcs[i].failed = true;
                 crate::pwarn!("usage: {}: its reader failed; left alone until the app starts again", p.id().key());
@@ -397,7 +401,7 @@ impl Worker {
     /// off (nothing old to say once they come on, and "back" still comes
     /// after a break, when nothing was read); what it says goes to the
     /// island only while they're on.
-    fn heard(&mut self, i: usize, p: &dyn Provider, wants: &[Want], reach: Reach, run: pace::Run) -> Vec<Alert> {
+    fn heard(&mut self, i: usize, p: &dyn Provider, reach: Reach, run: pace::Run) -> Vec<Alert> {
         let (id, now, tick) = (p.id(), crate::clock::unix_now(), self.tick());
         let svc = &mut self.svcs[i];
         svc.pace.heard(tick, reach, run.asked > 0, run.outcome.as_ref());
@@ -408,7 +412,8 @@ impl Worker {
                 None => crate::pwarn!("usage: {}: a sign-in or key with a line break in it, not sent", id.key()),
             }
         }
-        // Stopped for breaking the rules: the tab keeps what it had.
+        // Stopped for breaking the rules, or an answer set aside: the tab
+        // keeps what it had.
         let Some(outcome) = run.outcome else { return Vec::new() };
         match outcome {
             Ok(snap) => {
@@ -440,10 +445,6 @@ impl Worker {
                     svc.memory = Memory::default();
                 }
                 svc.trouble = Some(t.clone());
-                if matches!(t, Trouble::Expired | Trouble::Refused | Trouble::SignedOut) {
-                    // Its app may have put a fresh sign-in in the keychain.
-                    self.keychain.forget(wants);
-                }
                 if id == ProviderId::Oyenza && t == Trouble::NeedsKey && self.pending.is_none() {
                     // Its key went (or no longer unseals): not connected.
                     self.set_link(InferenceLink::Off);
@@ -476,12 +477,8 @@ impl Worker {
 
     fn run(&mut self, c: UsageCmd) {
         match c {
-            UsageCmd::Refresh => {
-                // A Deny may have been a slip, and an expired sign-in may be
-                // renewed by now: Refresh asks the keychain again.
-                self.keychain.refresh();
-                self.looks.ask(self.tick());
-            }
+            // (The Mac app tells its keychain reader to ask again first.)
+            UsageCmd::Refresh => self.looks.ask(self.tick()),
             UsageCmd::SetKey { secret, key } => self.set_key(secret, &key),
             UsageCmd::ClearKey(secret) => self.clear_key(secret),
             UsageCmd::Connect => self.connect(),
@@ -682,13 +679,12 @@ fn at(id: ProviderId) -> usize {
 }
 
 /// What one want gave: files (whole, the newest of a folder, a piece) as
-/// `pace` reads them, a Mac keychain item, a kept key. `tick`: the pacing's
-/// clock.
-fn read(w: &Want, names: &[&'static str], keychain: &mut Keychain, tick: i64) -> Got {
+/// `pace` reads them, a Mac keychain item, a kept key.
+fn read(w: &Want, names: &[&'static str]) -> Got {
     match w {
         Want::File { path, max } => pace::read_file(path, *max),
         Want::Newest { dir, suffix, depth, count, tail } => pace::read_newest(dir, suffix, *depth, *count, *tail),
-        Want::Keychain { service, account } => keychain.read(service, account.as_deref(), tick, keychain_item),
+        Want::Keychain { service, account } => keychain_item(service, account.as_deref()),
         Want::Secret(name) if names.contains(name) => load_key(name).map_or(Got::Missing, Got::Text),
         Want::Secret(_) => Got::Missing,
         Want::Range { path, offset, len } => pace::read_range(path, *offset, *len),
@@ -773,63 +769,15 @@ fn computer_name() -> String {
     crate::services::phonedrop::computer_name().unwrap_or_default()
 }
 
-/// Mac keychain answers, kept for the run so its prompt doesn't come back at
-/// every look: a password until its service says the sign-in stopped working
-/// (then read again at most every [`KEYCHAIN_GAP_S`], or at Refresh), a Deny
-/// until Refresh. A missing item is asked about each time (no prompt comes
-/// with that). Windows has no keychain: always Missing.
-#[derive(Default)]
-struct Keychain {
-    kept: HashMap<(String, Option<String>), Kept>,
-}
-
-struct Kept {
-    got: Got,
-    /// When it was read, on the pacing's clock.
-    at: i64,
-    /// Its service said the sign-in in it stopped working.
-    stale: bool,
-}
-
-impl Keychain {
-    fn read(&mut self, service: &str, account: Option<&str>, now: i64, item: impl FnOnce(&str, Option<&str>) -> Got) -> Got {
-        let k = (service.to_string(), account.map(str::to_string));
-        if let Some(e) = self.kept.get(&k).filter(|e| !e.stale || now - e.at < KEYCHAIN_GAP_S) {
-            return e.got.clone();
-        }
-        let got = item(service, account);
-        if matches!(got, Got::Text(_) | Got::Denied) {
-            self.kept.insert(k, Kept { got: got.clone(), at: now, stale: false });
-        } else {
-            self.kept.remove(&k);
-        }
-        got
-    }
-
-    /// The sign-in from these items stopped working (expired, refused,
-    /// signed out): read them again, though not at every look.
-    fn forget(&mut self, wants: &[Want]) {
-        for w in wants {
-            if let Want::Keychain { service, account } = w {
-                if let Some(e) = self.kept.get_mut(&(service.clone(), account.clone())) {
-                    e.stale = matches!(e.got, Got::Text(_));
-                }
-            }
-        }
-    }
-
-    /// Refresh: whatever was refused or stopped working is asked about again.
-    fn refresh(&mut self) {
-        self.kept.retain(|_, e| matches!(e.got, Got::Text(_)) && !e.stale);
-    }
-}
-
-/// One keychain item, through the Mac's reader (`services::keychain`).
+/// One keychain item, through the Mac's reader (`services::keychain`), which
+/// keeps macOS's prompt in hand itself: at most once per opening of the tab,
+/// never from the background, a Deny kept until Refresh.
 #[cfg(target_os = "macos")]
 fn keychain_item(service: &str, account: Option<&str>) -> Got {
     crate::services::keychain::read(service, account)
 }
 
+/// Windows has no keychain.
 #[cfg(not(target_os = "macos"))]
 fn keychain_item(_service: &str, _account: Option<&str>) -> Got {
     Got::Missing
@@ -869,9 +817,7 @@ mod tests {
     }
 
     fn heard(w: &mut Worker, id: ProviderId, reach: Reach, run: pace::Run) -> Vec<Alert> {
-        let p = usage::provider(id);
-        let wants = p.wants(&w.dirs);
-        w.heard(at(id), p, &wants, reach, run)
+        w.heard(at(id), usage::provider(id), reach, run)
     }
 
     fn reading(ev: &UsageEvent) -> &Outcome {
@@ -987,47 +933,23 @@ mod tests {
     }
 
     #[test]
-    fn the_keychain_prompt_doesnt_come_back_at_every_look() {
-        let mut k = Keychain::default();
-        let asked = std::cell::Cell::new(0);
-        let item = |answer: Got| {
-            let asked = &asked;
-            move |_: &str, _: Option<&str>| {
-                asked.set(asked.get() + 1);
-                answer
-            }
-        };
-        let token = || Got::Text("test-token".into());
-        let wants = [Want::Keychain { service: "Claude Code-credentials".into(), account: None }];
-        assert_eq!(k.read("Claude Code-credentials", None, 0, item(token())), token());
-        assert_eq!(k.read("Claude Code-credentials", None, 60, item(token())), token());
-        assert_eq!(asked.get(), 1);
-        // Expired hours after it was read: read again at once...
-        k.forget(&wants);
-        k.read("Claude Code-credentials", None, 5 * 3600, item(token()));
-        assert_eq!(asked.get(), 2);
-        // ...and while it stays expired, every 10 minutes at most.
-        k.forget(&wants);
-        k.read("Claude Code-credentials", None, 5 * 3600 + 100, item(token()));
-        assert_eq!(asked.get(), 2);
-        k.read("Claude Code-credentials", None, 5 * 3600 + 600, item(token()));
-        assert_eq!(asked.get(), 3);
-        // Refresh reads a stale one at once, not a working one.
-        k.forget(&wants);
-        k.refresh();
-        k.read("Claude Code-credentials", None, 5 * 3600 + 610, item(token()));
-        k.refresh();
-        k.read("Claude Code-credentials", None, 5 * 3600 + 620, item(token()));
-        assert_eq!(asked.get(), 4);
-        // A Deny stays until Refresh; a missing item is asked about each time.
-        assert_eq!(k.read("other", None, 0, item(Got::Denied)), Got::Denied);
-        assert_eq!(k.read("other", None, 5000, item(token())), Got::Denied);
-        k.refresh();
-        assert_eq!(k.read("other", None, 5001, item(Got::Missing)), Got::Missing);
-        assert_eq!(k.read("other", None, 5002, item(Got::Missing)), Got::Missing);
-        assert_eq!(asked.get(), 7);
-        // Windows has no keychain.
-        assert_eq!(keychain_item("Claude Code-credentials", None), Got::Missing);
+    fn a_keychain_sign_in_isnt_gone_when_the_background_cant_ask() {
+        let (mut w, rx) = worker();
+        // A Mac's Claude Code: its sign-in in the keychain, nothing found here.
+        w.dirs = Dirs::sample(Os::Mac);
+        let (i, p) = (at(ProviderId::Claude), usage::provider(ProviderId::Claude));
+        let wants = p.wants(&w.dirs);
+        assert!(wants.iter().any(|x| matches!(x, Want::Keychain { .. })));
+        let kept = Snapshot::new(ProviderId::Claude, NOW, Source::Online);
+        w.svcs[i].kept = Some(kept.clone());
+        // The notices alone never ask the keychain: "missing" is "not asked yet".
+        w.refresh(i, p, &wants, Look::Notices);
+        assert!(told(&rx).is_empty());
+        assert_eq!(w.svcs[i].kept, Some(kept));
+        // With the tab open the keychain is asked, and its answer counts.
+        w.refresh(i, p, &wants, Look::Open);
+        assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Err(Trouble::NotFound)]);
+        assert_eq!(w.svcs[i].kept, None);
     }
 
     #[test]

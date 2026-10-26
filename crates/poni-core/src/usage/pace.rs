@@ -223,8 +223,8 @@ impl Pace {
 /// What one refresh of one service came to ([`run`]).
 #[derive(Debug)]
 pub struct Run {
-    /// None when the service broke the rules and was stopped: the tab keeps
-    /// what it had.
+    /// None when the service broke the rules and was stopped (or the worker
+    /// set its answer aside): the tab keeps what it had.
     pub outcome: Option<Outcome>,
     /// Requests sent.
     pub asked: usize,
@@ -343,10 +343,10 @@ pub fn bits(keys: &[String]) -> u32 {
 }
 
 /// The notices' line ([`super::alerts::AlertCfg::near`]) from
-/// `settings.usage.near_pct`: 80 when unset (0), at most 100.
+/// `settings.usage.near_pct`, kept to 50..=95 % as the app's own notice
+/// settings keep it (a hand-edited 0 or 200 can't make every look speak).
 pub fn near(pct: u8) -> f32 {
-    let pct = if pct == 0 { 80 } else { pct.min(100) };
-    pct as f32 / 100.0
+    pct.clamp(50, 95) as f32 / 100.0
 }
 
 /// Every variable some service reads ([`Provider::env`]), once each: what
@@ -841,9 +841,9 @@ mod tests {
         let all: u32 = ProviderId::ALL.iter().map(|id| bit(*id)).sum();
         assert_eq!(all, (1 << ProviderId::ALL.len()) - 1);
         assert_eq!(near(80), 0.8);
-        assert_eq!(near(0), 0.8);
         assert_eq!(near(95), 0.95);
-        assert_eq!(near(250), 1.0);
+        assert_eq!(near(0), 0.5);
+        assert_eq!(near(250), 0.95);
     }
 
     #[test]
