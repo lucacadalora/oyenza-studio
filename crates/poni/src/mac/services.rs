@@ -47,6 +47,9 @@ pub mod oyenza;
 // And the update file's reader, which runs on the add-ons' thread.
 #[path = "../services/update.rs"]
 pub mod update;
+// And the Stocks page's prices from oyenza.trade.
+#[path = "../services/stocks.rs"]
+pub mod stocks;
 #[path = "services/location.rs"]
 pub mod location;
 #[path = "services/login.rs"]

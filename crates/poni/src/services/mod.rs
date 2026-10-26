@@ -28,6 +28,7 @@ pub mod romanize;
 mod romanize_compare;
 pub mod secret;
 pub mod sound;
+pub mod stocks;
 pub mod sysmon;
 pub mod sysstats;
 pub mod update;
@@ -48,6 +49,9 @@ pub struct Services {
     oyenza: Option<oyenza::OyenzaService>,
     pairdrop: Option<pairdrop::PairDropService>,
     addons: Option<addons::AddonService>,
+    /// Started the first time the Stocks page opens ([`Services::stocks_watch`]).
+    stocks: std::cell::OnceCell<Option<stocks::StocksService>>,
+    sink: EventSink,
 }
 
 fn started<T, E: std::fmt::Display>(name: &str, r: Result<T, E>) -> Option<T> {
@@ -77,7 +81,7 @@ impl Services {
         // Asleep unless an add-on is on; then it only checks the files it has.
         let on = poni_core::addons::ALL.iter().filter(|a| settings.addon_on(a.id)).map(|a| a.id).collect();
         let addons = started("add-ons", addons::AddonService::start(sink.clone(), on));
-        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons }
+        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), sink: sink.clone() }
     }
 
     pub fn stop(self, _helper: HWND) {
@@ -90,6 +94,17 @@ impl Services {
     /// False when that thread couldn't start.
     pub fn run_job(&self, job: addons::Job) -> bool {
         self.addons.as_ref().map(|a| a.run(job)).is_some()
+    }
+
+    /// What the Stocks page wants (`pages::stocks::watch`). Its thread starts
+    /// the first time the page opens and sleeps whenever it is closed.
+    pub fn stocks_watch(&self, w: stocks::Watch) {
+        if !w.open && self.stocks.get().is_none() {
+            return;
+        }
+        if let Some(s) = self.stocks.get_or_init(|| started("stocks", stocks::StocksService::start(self.sink.clone()))) {
+            s.set_watch(w);
+        }
     }
 
     /// An add-on was switched on (download its files) or off (delete them).

@@ -82,6 +82,10 @@ pub enum Icon {
     Download,
     /// Record (Oyenza Studio Recorder): a dot that fits inside `Circle`.
     Record,
+    /// The Stocks tab: a line climbing to the right, its arrowhead at the end.
+    Stocks,
+    /// A magnifying glass: the Stocks page's search.
+    Search,
 }
 
 pub struct Part {
@@ -267,6 +271,8 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Stop => p![f("M8.2 6.5h7.6a1.7 1.7 0 0 1 1.7 1.7v7.6a1.7 1.7 0 0 1-1.7 1.7H8.2a1.7 1.7 0 0 1-1.7-1.7V8.2a1.7 1.7 0 0 1 1.7-1.7z")],
         Record => p![f("M6.5 12a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0z")],
         Download => p![s("M12 4v10.5"), s("M7.5 10L12 14.5 16.5 10"), s("M4.5 16v2.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V16")],
+        Stocks => p![s("M3.5 17.5l5.5-5.5 4 4 7.5-7.5"), s("M15 8.5h5.5V14")],
+        Search => p![s("M4.5 10.5a6 6 0 1 0 12 0a6 6 0 1 0-12 0"), s("M15 15l4.5 4.5")],
     }
 }
 
@@ -283,6 +289,7 @@ mod tests {
         Icon::Sliders, Icon::Open, Icon::Phone, Icon::Eye, Icon::MoneyIn, Icon::MoneyOut, Icon::Transfer, Icon::Card, Icon::Wallet,
         Icon::Unlink, Icon::Gear,
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
+        Icon::Stocks, Icon::Search,
     ];
 
     #[test]
