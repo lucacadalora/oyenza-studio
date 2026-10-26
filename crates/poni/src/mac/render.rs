@@ -219,19 +219,10 @@ const ADDON_SCENES: [Scene; 3] = [
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
 /// Prayer times abroad, after Today signed in (so every other picture keeps its number).
 const PRAYER_WORLD_SCENES: [Scene; 2] = [Scene::PrayerPickerWorld, Scene::PrayerWorld];
-/// The AI tab in each of its sample states, last of all.
-const AI_SCENES: [Scene; 7] = {
-    use crate::pages::usage::Picture;
-    [
-        Scene::Ai(Picture::Plans),
-        Scene::Ai(Picture::Troubles),
-        Scene::Ai(Picture::Empty),
-        Scene::Ai(Picture::Looking),
-        Scene::Ai(Picture::Connect),
-        Scene::Ai(Picture::Inference),
-        Scene::Ai(Picture::Services),
-    ]
-};
+/// The AI tab in each of its sample states (the page's own list), last of all.
+fn ai_scenes() -> impl Iterator<Item = Scene> {
+    crate::pages::usage::Picture::ALL.into_iter().map(Scene::Ai)
+}
 
 /// The Settings page (behind the gear), after Prayer times.
 const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
@@ -355,7 +346,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and the AI tab in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(AI_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(ai_scenes());
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
