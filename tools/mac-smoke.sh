@@ -65,14 +65,19 @@ fi
 # The AI tab's keychain reader reads test items of its own (the ai-keychain
 # step): plain text, and an accent with a line break (which macOS's security
 # tool prints as hex); "absent" is never there. Made with that same tool, so
-# reading them asks nobody. The app checks them only with PONI_SMOKE_KEYCHAIN.
+# reading them asks nobody, in the first keychain of the search list (the
+# signing check puts its own there alone), where the reader's search finds
+# them. The app checks them only with PONI_SMOKE_KEYCHAIN.
 kc_service="Oyenza Studio smoke"
+kc_file=$(security list-keychains -d user | head -1 | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//')
 security delete-generic-password -s "$kc_service" -a absent > /dev/null 2>&1
-if security add-generic-password -U -s "$kc_service" -a plain -w '{"claudeAiOauth":{"accessToken":"test-token"}}' \
-  && security add-generic-password -U -s "$kc_service" -a accent -X 636166c3a90a6e657874; then
+if security add-generic-password -U -s "$kc_service" -a plain -w '{"claudeAiOauth":{"accessToken":"test-token"}}' "$kc_file" \
+  && security add-generic-password -U -s "$kc_service" -a accent -X 636166c3a90a6e657874 "$kc_file" \
+  && security find-generic-password -s "$kc_service" -a accent > /dev/null 2>&1; then
   export PONI_SMOKE_KEYCHAIN=1
+  echo "keychain test items in $kc_file; security prints the accented one as: $(security find-generic-password -s "$kc_service" -a accent -w)"
 else
-  echo "(could not add the keychain test items: the keychain check is skipped)"
+  echo "(could not add the keychain test items to $kc_file: the keychain check is skipped)"
 fi
 sleep 1
 mkdir -p smoke
