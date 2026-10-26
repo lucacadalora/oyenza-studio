@@ -92,10 +92,15 @@ pub fn summary_request(base: &str, key: &str) -> Request {
 }
 
 /// The summary as the card's snapshot, or why not. A 401 (the key was removed
-/// in the dashboard, by a password change or by an 11th computer) and a 403
-/// (the account was switched off) are both [`Trouble::Refused`]; [`refusal`]
-/// tells them apart.
+/// in the dashboard, by a password change or by an 11th computer) is
+/// [`Trouble::Refused`] ("Connect again"); a 403 `account_disabled` is
+/// [`Trouble::Disabled`], where connecting again wouldn't help.
 pub fn read_summary(r: &Result<Reply, NetFail>, now: i64) -> Outcome {
+    if let Ok(reply) = r {
+        if refusal(reply) == Some(Refusal::Disabled) {
+            return Err(Trouble::Disabled);
+        }
+    }
     let v = reply_json(r)?;
     parse_summary(&v, now).ok_or_else(|| Trouble::Unreadable("summary without a balance or spend".into()))
 }
@@ -553,7 +558,7 @@ mod tests {
         let bad = r#"{"error":"invalid_key"}"#;
         let off = r#"{"error":"account_disabled"}"#;
         assert_eq!(answered(401, bad), Err(Trouble::Refused));
-        assert_eq!(answered(403, off), Err(Trouble::Refused));
+        assert_eq!(answered(403, off), Err(Trouble::Disabled));
         let r = |status, body: &str| Reply { status, body: body.into(), retry_after_s: None };
         assert_eq!(refusal(&r(401, bad)), Some(Refusal::Key));
         assert_eq!(refusal(&r(403, off)), Some(Refusal::Disabled));
