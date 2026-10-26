@@ -2,12 +2,16 @@
 // "Smoke Player.app"; the runner has no Spotify and no browser playing). It reports a song to macOS's
 // Now Playing the way Safari, Chrome and Spotify do (MPNowPlayingInfoCenter), and takes play/pause,
 // next, previous and seek from there (MPRemoteCommandCenter, where the island's buttons arrive through
-// MediaRemote Adapter), writing each one as a line to the file named by its first argument. It plays
-// no sound.
+// MediaRemote Adapter), writing each one as a line to the file named by its first argument. While it
+// plays it sends silence to the Mac's output, as a playing tab sends its sound: the island reads Now
+// Playing only while something plays through the output.
+#import <AVFoundation/AVFoundation.h>
 #import <AppKit/AppKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
 static NSString *gLog;
+static AVAudioEngine *gEngine;
+static AVAudioPlayerNode *gNode;
 static BOOL gPlaying = YES;
 static double gElapsed = 30.0;
 static NSDate *gSince;
@@ -42,10 +46,26 @@ static void publish(void) {
     center.playbackState = gPlaying ? MPNowPlayingPlaybackStatePlaying : MPNowPlayingPlaybackStatePaused;
 }
 
+// Silence through the output while playing; the output rests while paused.
+static void sound(BOOL on) {
+    if (on) {
+        NSError *error = nil;
+        if (![gEngine isRunning] && ![gEngine startAndReturnError:&error]) {
+            note([NSString stringWithFormat:@"no sound: %@", error.localizedDescription]);
+            return;
+        }
+        [gNode play];
+    } else {
+        [gNode pause];
+        [gEngine pause];
+    }
+}
+
 static void setPlaying(BOOL playing) {
     gElapsed = elapsed();
     gSince = [NSDate date];
     gPlaying = playing;
+    sound(playing);
     publish();
 }
 
@@ -87,6 +107,18 @@ int main(int argc, const char *argv[]) {
           publish();
           return MPRemoteCommandHandlerStatusSuccess;
         }];
+        gEngine = [[AVAudioEngine alloc] init];
+        gNode = [[AVAudioPlayerNode alloc] init];
+        AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100 channels:2];
+        AVAudioPCMBuffer *silence = [[AVAudioPCMBuffer alloc] initWithPCMFormat:format frameCapacity:44100];
+        silence.frameLength = 44100;
+        for (AVAudioChannelCount c = 0; c < format.channelCount; c++) {
+            memset(silence.floatChannelData[c], 0, sizeof(float) * silence.frameLength);
+        }
+        [gEngine attachNode:gNode];
+        [gEngine connect:gNode to:gEngine.mainMixerNode format:format];
+        [gNode scheduleBuffer:silence atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+        sound(YES);
         publish();
         note(@"ready");
         [NSApp run];

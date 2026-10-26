@@ -44,7 +44,7 @@ mkdir -p smoke
 # nowplaying-* steps: it reports a song to macOS's Now Playing.
 player="$(pwd)/smoke/Smoke Player.app"
 mkdir -p "$player/Contents/MacOS"
-clang -fobjc-arc -O1 -mmacosx-version-min=14.0 -framework AppKit -framework MediaPlayer \
+clang -fobjc-arc -O1 -mmacosx-version-min=14.0 -framework AppKit -framework AVFoundation -framework MediaPlayer \
   tools/mac-fake-player.m -o "$player/Contents/MacOS/smoke-player" || echo "(could not build the stand-in player)"
 cat > "$player/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>

@@ -7,8 +7,10 @@
 //!   Adapter (`third_party/mediaremote-adapter`, BSD-3-Clause): macOS's own
 //!   `/usr/bin/perl` runs the adapter's script, which loads the adapter's
 //!   small framework from this app's bundle and prints each change as a line
-//!   of JSON (`poni_core::mediaremote`). That one process runs while the app
-//!   does, asleep until macOS announces a change (it doesn't poll), and
+//!   of JSON (`poni_core::mediaremote`). That one process runs only while
+//!   something plays through the Mac's output and for `ADAPTER_IDLE` after
+//!   (Core Audio says when sound starts and stops: `audio::on_running`),
+//!   asleep until macOS announces a change (it doesn't poll), and
 //!   `now-playing.pl` stops it when the app quits or crashes. The island's
 //!   buttons go the same way, one short run of the script per press. None of
 //!   it asks for permission.
@@ -57,11 +59,16 @@ const SCRIPT_TIMEOUT: Duration = Duration::from_secs(4);
 /// again only this often.
 const DENIED_RETRY: Duration = Duration::from_secs(60);
 /// How long Now Playing gets to report a track before a script asks Music or
-/// Spotify itself (the adapter answers well within it).
-const NOW_PLAYING_FIRST: Duration = Duration::from_millis(1500);
+/// Spotify itself: the adapter's stream answers well within it, even when it
+/// has just started with the sound.
+const NOW_PLAYING_FIRST: Duration = Duration::from_secs(3);
 /// A burst of changes (a new track's title, then its artist and art) comes
 /// from the adapter as one line after this much quiet.
 const ADAPTER_DEBOUNCE_MS: u32 = 100;
+/// Once nothing plays through the Mac's output, the adapter's stream keeps
+/// running this long (a paused song keeps its buttons), then rests until
+/// sound starts again.
+const ADAPTER_IDLE: Duration = Duration::from_secs(180);
 /// The adapter's stream ended by itself (not with an error): start it again
 /// after this, at most `ADAPTER_RESTARTS` times.
 const ADAPTER_RETRY: Duration = Duration::from_secs(10);
@@ -157,6 +164,8 @@ enum Msg {
     Line(u64, String),
     /// The adapter's output closed (it stopped).
     Ended(u64),
+    /// Sound started (true) or stopped on the Mac's output.
+    Output(bool),
     Stop,
 }
 
@@ -196,6 +205,14 @@ impl MediaService {
 impl Drop for MediaService {
     fn drop(&mut self) {
         let _ = self.tx.send(Msg::Stop);
+    }
+}
+
+/// Sound started or stopped on the Mac's output (`audio::on_running`, on
+/// Core Audio's thread).
+pub fn output_running_changed(running: bool) {
+    if let Some(tx) = TX.lock().ok().and_then(|g| g.clone()) {
+        let _ = tx.send(Msg::Output(running));
     }
 }
 
@@ -321,6 +338,13 @@ struct Worker {
     adapter_runs: u64,
     adapter_restarts: u32,
     adapter_restart_at: Option<Instant>,
+    /// The adapter can't work here (it said so, or kept stopping): the scripts
+    /// carry on alone.
+    adapter_gave_up: bool,
+    /// Something plays through the Mac's output.
+    output_running: bool,
+    /// When the adapter's stream rests, nothing having played since.
+    adapter_idle_at: Option<Instant>,
     now_playing: NowPlayingStream,
     /// Now Playing has reported a track since the adapter started, so the
     /// scripts rest.
@@ -361,6 +385,9 @@ impl Worker {
             adapter_runs: 0,
             adapter_restarts: 0,
             adapter_restart_at: None,
+            adapter_gave_up: false,
+            output_running: false,
+            adapter_idle_at: None,
             now_playing: NowPlayingStream::default(),
             now_playing_works: false,
             sent_now_playing: None,
@@ -383,8 +410,11 @@ impl Worker {
         if self.files.is_none() {
             pinfo!("media: this build has no Now Playing adapter: Music and Spotify only");
         }
-        self.start_adapter();
-        if self.adapter.is_none() {
+        self.output_running = super::audio::output_running();
+        if self.output_running {
+            self.start_adapter();
+        }
+        if !self.now_playing_possible() {
             self.first_look();
         }
         self.publish();
@@ -395,6 +425,7 @@ impl Worker {
                 Ok(Msg::Command(c)) => self.on_command(c),
                 Ok(Msg::Line(run, line)) => self.on_line(run, &line),
                 Ok(Msg::Ended(run)) => self.on_adapter_ended(run),
+                Ok(Msg::Output(running)) => self.on_output(running),
                 Ok(Msg::Stop) | Err(RecvTimeoutError::Disconnected) => break,
                 Err(RecvTimeoutError::Timeout) => {}
             }
@@ -412,6 +443,7 @@ impl Worker {
             due.push(self.started + NOW_PLAYING_FIRST);
         }
         due.extend(self.adapter_restart_at);
+        due.extend(self.adapter_idle_at);
         due.extend(self.art_due.as_ref().map(|a| a.2));
         if let Some(p) = self.resync_player() {
             due.push(self.resync_at(p));
@@ -434,7 +466,17 @@ impl Worker {
         }
         if self.adapter_restart_at.is_some_and(|t| now >= t) {
             self.adapter_restart_at = None;
-            self.start_adapter();
+            if self.output_running {
+                self.start_adapter();
+            }
+        }
+        if self.adapter_idle_at.is_some_and(|t| now >= t) {
+            self.adapter_idle_at = None;
+            if !self.output_running && self.adapter.is_some() {
+                pinfo!("media: nothing has played for {} min: Now Playing rests until something does", ADAPTER_IDLE.as_secs() / 60);
+                self.stop_adapter();
+                self.now_playing.clear();
+            }
         }
         if let Some((key, p, _)) = self.art_due.take_if(|a| now >= a.2) {
             if self.shown == Some(Source::Script(p)) && self.sent_key.as_deref() == Some(key.as_str()) {
@@ -466,10 +508,11 @@ impl Worker {
 
     /// The scripts' first look at whatever Music or Spotify already plays:
     /// not when Now Playing has answered, nor when nothing plays through the
-    /// speakers (a script would only bring up macOS's permission prompt).
+    /// speakers (a paused player isn't shown, and a script would only bring up
+    /// macOS's permission prompt).
     fn first_look(&mut self) {
         self.first_look_done = true;
-        if self.now_playing_works || (self.adapter.is_some() && !super::audio::output_running()) {
+        if self.now_playing_works || !super::audio::output_running() {
             return;
         }
         for p in Player::ALL {
@@ -480,6 +523,26 @@ impl Worker {
     }
 
     // ------------------------------------------------------------ Now Playing
+
+    /// Whether Now Playing can report what plays, now or as soon as sound
+    /// starts (the scripts give it a moment first).
+    fn now_playing_possible(&self) -> bool {
+        self.files.is_some() && !self.adapter_gave_up
+    }
+
+    /// Sound started or stopped on the Mac's output: the adapter's stream
+    /// starts with it, and rests `ADAPTER_IDLE` after it stops.
+    fn on_output(&mut self, running: bool) {
+        self.output_running = running;
+        if running {
+            self.adapter_idle_at = None;
+            if self.adapter.is_none() && self.adapter_restart_at.is_none() && self.now_playing_possible() {
+                self.start_adapter();
+            }
+        } else if self.adapter.is_some() && self.adapter_idle_at.is_none() {
+            self.adapter_idle_at = Some(Instant::now() + ADAPTER_IDLE);
+        }
+    }
 
     fn start_adapter(&mut self) {
         let Some(f) = self.files.clone() else { return };
@@ -559,13 +622,19 @@ impl Worker {
         // (its README: don't start it again). Anything else (a crash, a stray
         // signal) gets a few more tries.
         match status.and_then(|s| s.code()) {
-            Some(code) if code != 0 => pwarn!("media: the Now Playing adapter stopped (exit code {code}): Music and Spotify only"),
+            Some(code) if code != 0 => {
+                pwarn!("media: the Now Playing adapter stopped (exit code {code}): Music and Spotify only");
+                self.adapter_gave_up = true;
+            }
             _ if self.adapter_restarts < ADAPTER_RESTARTS => {
                 self.adapter_restarts += 1;
                 pwarn!("media: the Now Playing adapter stopped ({status:?}); starting it again in {} s", ADAPTER_RETRY.as_secs());
                 self.adapter_restart_at = Some(Instant::now() + ADAPTER_RETRY);
             }
-            _ => pwarn!("media: the Now Playing adapter keeps stopping ({status:?}): Music and Spotify only"),
+            _ => {
+                pwarn!("media: the Now Playing adapter keeps stopping ({status:?}): Music and Spotify only");
+                self.adapter_gave_up = true;
+            }
         }
     }
 
@@ -610,7 +679,7 @@ impl Worker {
         // Music's notification has no position: ask for the exact one, unless
         // Now Playing has it (or will in a moment).
         if n.player == Player::Music && n.state != State::Stopped && n.position_s.is_none() && !self.now_playing_works {
-            if self.adapter.is_some() {
+            if self.now_playing_possible() {
                 self.read_due[i].get_or_insert(Instant::now() + NOW_PLAYING_FIRST);
             } else {
                 self.read(Player::Music);
@@ -790,7 +859,7 @@ impl Worker {
                 Source::NowPlaying => self.now_playing.artwork().and_then(|b| super::thumbs::decode(&b, ART_PX)),
                 // Now Playing may answer in a moment, with the art: the script,
                 // which macOS may ask permission for, waits until then.
-                Source::Script(p) if self.adapter.is_some() && !self.now_playing_works => {
+                Source::Script(p) if self.now_playing_possible() && !self.now_playing_works => {
                     self.art_due = Some((key.clone(), p, Instant::now() + NOW_PLAYING_FIRST));
                     None
                 }

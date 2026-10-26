@@ -9,8 +9,12 @@
 //! through IOBluetooth's private calls and a Bluetooth permission, so the
 //! Mac's has none (macOS shows AirPods' own battery when they connect).
 //!
+//! And whether any app is playing through the default output, for the media
+//! service (it reads macOS's Now Playing only while something plays).
+//!
 //! Core Audio calls the listeners on its own thread; they only read what
-//! changed and send it to the main thread. Nothing polls.
+//! changed and send it to the main thread (or the media service's). Nothing
+//! polls.
 
 use super::cf;
 use crate::events::{AppEvent, EventSink};
@@ -117,12 +121,27 @@ pub fn current() -> Option<(f32, bool)> {
 
 /// `kAudioDevicePropertyDeviceIsRunningSomewhere`: some app plays through it.
 const RUNNING_SOMEWHERE: u32 = fourcc(b"gone");
+const RUNNING_ADDR: Addr = Addr { selector: RUNNING_SOMEWHERE, scope: SCOPE_GLOBAL, element: 0 };
 
-/// Whether any app is playing through the default output right now (one
-/// read, nothing kept): the media service asks before it reads Music or
-/// Spotify by script, since a script brings up macOS's permission prompt.
+fn running(device: u32) -> bool {
+    get(device, RUNNING_ADDR, 0u32).is_some_and(|v| v != 0)
+}
+
+/// Whether any app is playing through the default output right now. The
+/// media service reads macOS's Now Playing only while one is (and a while
+/// after), and asks before it reads Music or Spotify by script, since a
+/// script brings up macOS's permission prompt.
 pub fn output_running() -> bool {
-    default_device().and_then(|d| get(d, Addr { selector: RUNNING_SOMEWHERE, scope: SCOPE_GLOBAL, element: 0 }, 0u32)).is_some_and(|v| v != 0)
+    default_device().is_some_and(running)
+}
+
+/// Sound started or stopped on the default output: the media service hears it.
+extern "C" fn on_running(id: u32, _n: u32, _addrs: *const Addr, _client: *mut c_void) -> i32 {
+    let current = WATCH.lock().ok().and_then(|g| g.as_ref().map(|w| w.device)) == Some(id);
+    if current {
+        super::media::output_running_changed(running(id));
+    }
+    0
 }
 
 fn device_addrs() -> Vec<Addr> {
@@ -270,6 +289,15 @@ fn follow_default() {
             }
         }
     }
+    unsafe {
+        if old != 0 {
+            AudioObjectRemovePropertyListener(old, &RUNNING_ADDR, on_running, std::ptr::null_mut());
+        }
+        if new != 0 && has(new, RUNNING_ADDR) {
+            AudioObjectAddPropertyListener(new, &RUNNING_ADDR, on_running, std::ptr::null_mut());
+        }
+    }
+    super::media::output_running_changed(new != 0 && running(new));
     if let Some((level, muted)) = (new != 0).then(|| read(new)).flatten() {
         sink.send(AppEvent::Volume { level, muted, switched: true });
     }
