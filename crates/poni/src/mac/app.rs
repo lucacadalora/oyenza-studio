@@ -2985,6 +2985,10 @@ impl App {
                     // macOS answers where the Mac is (or asks the person).
                     "prayer-get" => 75.0,
                     "prayer-adzan" | "prayer-locate" => 10.0,
+                    // The test player starts, then perl and the adapter.
+                    "now-playing" => 20.0,
+                    // The browser starts and its tab plays first.
+                    "now-playing-browser" => 30.0,
                     // A window sliding into its own Space and out again.
                     "fullscreen-hide" => 15.0,
                     "fullscreen-stay" | "fullscreen-back" => 10.0,
@@ -3257,6 +3261,26 @@ impl App {
                 self.on_oyenza(OyenzaEvent::Disconnected { by_server: false });
                 self.oyenza = None;
             }
+            // macOS's own now playing, as a browser tab reaches it: the
+            // stream stops, tools/mac-smoke.sh starts the MediaRemote
+            // adapter's test player, and sound (CI's Macs play none) starts
+            // a fresh stream, which reads it. Last of the music steps: once
+            // the service answers, it speaks for Spotify too.
+            "now-playing-start" => {
+                self.collapse();
+                services::media::smoke_rest();
+            }
+            "now-playing" => services::media::smoke_sound(),
+            // A real browser tab, as YouTube in Edge reaches macOS's own now
+            // playing: the stream stops, tools/mac-smoke.sh stops the test
+            // player and opens the runner's Edge (or Chrome) on a page that
+            // plays a tone with a title and an artist, the way YouTube names
+            // its video, and sound starts a fresh stream, which reads it.
+            "now-playing-browser-start" => {
+                self.collapse();
+                services::media::smoke_rest();
+            }
+            "now-playing-browser" => services::media::smoke_sound(),
             // The themes on the real window: Glass, then Oyen and Glass
             // around a notch (one the screen pretends to have; CI's Macs
             // have none), open and resting in the menu bar's line.
@@ -3266,8 +3290,16 @@ impl App {
                 self.expand();
             }
             "glass-collapsed" | "notch-oyen-collapsed" | "pill-collapsed" => self.collapse(),
-            // Around the notch Pill rests in the menu bar's line: with nothing
-            // playing and no timer, its resting ears (the time and the battery).
+            // Around the notch Pill's music floats below the menu bar even with
+            // no line to sing (as in an intro, a break or a pause): the song
+            // plays on with its lyrics dropped, and no timer.
+            "notch-pill-music" => {
+                self.st.pomodoro.reset();
+                self.st.lyrics = LyricsState::default();
+                self.collapse();
+            }
+            // Around the notch Pill rests inside it: with nothing playing and
+            // no timer, only the notch shows.
             "notch-pill-collapsed" => {
                 self.st.pomodoro.reset();
                 self.st.media = None;
@@ -3275,13 +3307,13 @@ impl App {
                 self.st.lyrics = LyricsState::default();
                 self.collapse();
             }
-            // The pointer rests on an ear and the card opens below the menu bar
-            // (as after the dwell); once it floats, the pointer moves and comes
-            // up on the ear again, and the card must stay open (smoke_step).
+            // The pointer rests on the notch and the card opens below the menu
+            // bar (as after the dwell); once it floats, the pointer moves and
+            // comes up on the notch again, and the card must stay open
+            // (smoke_step).
             "notch-pill-ear" => {
                 if let Some(n) = self.screen.notch {
-                    let g = self.island.current();
-                    let p = Point::new(self.cx - (n.w / 2.0 + (g.w - n.w) / 4.0), n.h / 2.0);
+                    let p = Point::new(self.cx - n.w / 4.0, n.h / 2.0);
                     self.smoke_point = Some(p);
                     self.on_pointer(p);
                     self.cancel_hover();
@@ -3301,7 +3333,7 @@ impl App {
                 }
             }
             // Pill floats below the top edge, open and resting; around the
-            // notch it rests in the menu bar's line and opens below it.
+            // notch it rests inside it and opens below it.
             "pill-open" | "notch-pill-open" => {
                 self.on_menu(MenuCmd::SetTheme(Theme::Pill));
                 self.st.page = PageKind::Today;
@@ -3392,6 +3424,8 @@ impl App {
             "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
+            "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
+            "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
@@ -3402,9 +3436,9 @@ impl App {
     /// The Pill theme on the real window: where the island sits, and which
     /// points take the mouse. Without a notch it floats `TOP_GAP` below the
     /// top edge and the gap above it takes the mouse; around a notch it rests
-    /// attached in the menu bar's line and opens floating below it, where the
-    /// gap and the notch take the mouse and the menu bar beside the notch
-    /// doesn't.
+    /// inside the notch (the eyes peek out beside it) and the music pill and
+    /// the open card float below it, where the gap and the notch take the
+    /// mouse and the menu bar beside the notch doesn't.
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
         let look = *self.look() == poni_core::look::PILL && !glass::shown();
@@ -3415,7 +3449,7 @@ impl App {
                 let ok = self.island.floating() && (self.island.top() - pill::TOP_GAP).abs() < 0.01 && gap_takes;
                 (ok, format!("floating {:.0} DIP below the top edge, the gap above it takes the mouse: {gap_takes}", self.island.top()))
             }
-            Some(n) if self.expanded => {
+            Some(n) if self.expanded || notch::floats(&self.mode, &self.st) => {
                 let gap_takes = at(self.cx, n.h + pill::TOP_GAP / 2.0);
                 let notch_takes = at(self.cx, n.h / 2.0);
                 let bar_free = !at(self.cx - n.w / 2.0 - 24.0, n.h / 2.0);
@@ -3430,10 +3464,12 @@ impl App {
                 );
                 (ok, place)
             }
+            // At rest: back inside the notch, or the eyes beside it.
             Some(n) => {
                 let fit = notch::fit(&self.mode, &self.st);
-                let ok = !self.island.floating() && body.y == 0.0 && fit != Fit::Below;
-                (ok, format!("attached in the menu bar's line ({fit:?} around a {:.0}x{:.0} notch)", n.w, n.h))
+                let want = if self.st.settings.idle_style == IdleStyle::Eyes { Fit::Ears } else { Fit::Inside };
+                let ok = self.mode == Mode::Idle && !self.island.floating() && body.y == 0.0 && fit == want;
+                (ok, format!("resting in the menu bar's line ({fit:?} around a {:.0}x{:.0} notch)", n.w, n.h))
             }
         };
         let g = self.island.current();
@@ -3523,6 +3559,12 @@ impl App {
                 Some(("oyen-around-notch", ok, format!("ground {:?}, ink {:?}, font {:?}", look.ground, look.ink, look.font)))
             }
             "pill-open" | "pill-collapsed" | "notch-pill-open" | "notch-pill-collapsed" => Some(self.pill_report()),
+            "notch-pill-music" => {
+                let (_, placed, d) = self.pill_report();
+                let line = pill::lyric::current(&self.st).is_some();
+                let ok = placed && self.mode == Mode::Activity(activities::Activity::Media) && !line;
+                Some(("pill-music-floats", ok, format!("{d}; a line to sing: {line}")))
+            }
             "notch-eyes" => {
                 let Some(n) = self.screen.notch else { return Some(("eyes-around-notch", false, "no notch".into())) };
                 let g = self.island.current();
@@ -3557,11 +3599,29 @@ impl App {
                 );
                 Some(("draw-cost", c.frames > 0, d))
             }
+            "now-playing" => {
+                if std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() {
+                    return Some(("now-playing-service", true, "skipped: no test player on this run".into()));
+                }
+                let m = self.st.media.as_ref();
+                let ok = m.is_some_and(|m| m.title == SMOKE_SERVICE_TRACK);
+                let d = m.map_or("nothing".to_string(), |m| format!("{} by {} from {:?} ({})", m.title, m.artist, m.app_id, if m.is_playing() { "playing" } else { "paused" }));
+                Some(("now-playing-service", ok, format!("macOS's now playing through the adapter: {d}")))
+            }
+            "now-playing-browser" => {
+                if std::env::var_os("PONI_SMOKE_BROWSER").is_none() {
+                    return Some(("now-playing-browser", true, "skipped: no Edge or Chrome on this run".into()));
+                }
+                let m = self.st.media.as_ref();
+                let ok = m.is_some_and(|m| m.title == SMOKE_BROWSER_TRACK && poni_core::nowplaying::is_browser(&m.app_id));
+                let d = m.map_or("nothing".to_string(), |m| format!("{} by {} in {} ({:?}, {})", m.title, m.artist, m.app_name, m.app_id, if m.is_playing() { "playing" } else { "paused" }));
+                Some(("now-playing-browser", ok, format!("a browser tab in macOS's now playing: {d}")))
+            }
             "notch-pill-ear" => {
                 let armed = self.timers[Timer::Collapse as usize].is_some();
                 let ok = self.expanded && self.hovering && !armed && self.island.floating();
                 let d = format!(
-                    "{:?} {:.0} DIP below the top, pointer on the ear at {:?}: hovering {}, collapse armed {armed}",
+                    "{:?} {:.0} DIP below the top, pointer on the notch at {:?}: hovering {}, collapse armed {armed}",
                     self.mode,
                     self.island.top(),
                     self.smoke_point.map(|p| (p.x.round(), p.y.round())),
@@ -3970,7 +4030,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 53] = [
+const SMOKE_STEPS: [&str; 58] = [
     "idle",
     "hover",
     "open-focus",
@@ -4001,6 +4061,7 @@ const SMOKE_STEPS: [&str; 53] = [
     "notch-oyen-collapsed",
     "notch-glass-open",
     "notch-pill-open",
+    "notch-pill-music",
     "notch-pill-collapsed",
     "notch-pill-ear",
     "notch-eyes",
@@ -4023,6 +4084,10 @@ const SMOKE_STEPS: [&str; 53] = [
     "oyenza-page",
     "oyenza-money",
     "oyenza-off",
+    "now-playing-start",
+    "now-playing",
+    "now-playing-browser-start",
+    "now-playing-browser",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
@@ -4030,6 +4095,12 @@ const SMOKE_TRACK: &str = "Blinding Lights";
 /// The made-up song with Japanese lyrics CI announces after it: title,
 /// artist, album and length (tools/mac-smoke.sh sends the same).
 const SMOKE_JA_TRACK: (&str, &str, &str, u32) = ("Paper Boats", "The Lanterns", "Harbor Lights", 201);
+/// The track the MediaRemote adapter's test player reports in macOS's own
+/// now playing (third_party/mediaremote-adapter/src/test/NowPlayingTest.m).
+const SMOKE_SERVICE_TRACK: &str = "Is It Broken Yet?";
+/// The title the browser's page gives its tab, as YouTube names a video
+/// (tools/mac-browser-player.html).
+const SMOKE_BROWSER_TRACK: &str = "Robbers";
 
 #[derive(Clone, Copy, Debug)]
 enum SmokePhase {

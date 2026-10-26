@@ -9,8 +9,8 @@
 //! the way it hides that part of the island on a real MacBook. Glass is
 //! macOS's own view on the real window, so here a smoked stand-in takes its
 //! place (the smoke run's screenshots show the real one). Pill floats below
-//! the top edge, or around a notch rests attached in the menu bar's line and
-//! floats below the menu bar for what hangs under it (notch.rs). Around a
+//! the top edge, or around a notch rests inside it and floats below the menu
+//! bar for everything else (notch.rs). Around a
 //! notch, the last picture is the Eyes look's hide and seek with the camera
 //! as it moves, a frame a row (`render_peek`).
 //!
@@ -113,7 +113,7 @@ enum Scene {
     /// Pill's status bar look at rest.
     IdleStatus,
     /// Music with no line to sing (lyrics off): the song in Pill's pill,
-    /// art and bars beside the camera around a notch.
+    /// floating below a notch too.
     MediaNoLine,
     /// Music with the Japanese song, the Japanese readings add-on at this
     /// status: Ready reads every line; otherwise its line shows under the
@@ -930,8 +930,8 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             Mode::Idle
         }
         Scene::MediaNoLine => {
-            // A long title: around a notch, words in the middle would show
-            // beside the camera.
+            // A long title: Pill floats it below a notch (the other themes
+            // keep words out from under the camera).
             media(&mut st);
             if let Some(m) = st.media.as_mut() {
                 m.title = "Paper Boats (Harbor Lights Session)".into();

@@ -17,14 +17,15 @@
 //! the screen; when it crosses over they duck behind the camera and come out
 //! on the other side. Minimal and Hidden rest inside the notch.
 //!
-//! The Pill theme keeps the first two: in the menu bar's line the camera is
-//! in the way of a floating pill, and a resting pill below the menu bar would
-//! sit on every window's toolbar all day. What hangs below the notch floats
-//! there instead ([`floats`]): the capsule or card `pill::TOP_GAP` under the
-//! menu bar, every corner rounded, no strip behind the camera. On its way
-//! between the two the island's gap moves on its own spring (island.rs,
-//! `pill::motion::TOP`) and the outline lets go of the edge smoothly
-//! ([`detached_segments`]).
+//! The Pill theme is the pill or the notch, never both ([`pill_fit`]): at
+//! rest it goes back into the notch (the menu bar beside it already shows
+//! the time and the battery), and whatever shows (music, from the first note
+//! to the end of a pause, timers, pop-ups, the open card) floats as the pill
+//! `pill::TOP_GAP` under the menu bar ([`floats`]), every corner rounded, no
+//! strip behind the camera and no ears beside it. Only the Eyes look still
+//! peeks out beside the camera. On its way between the two the island's gap
+//! moves on its own spring (island.rs, `pill::motion::TOP`) and the outline
+//! lets go of the edge smoothly ([`detached_segments`]).
 //!
 //! Screens without a notch (older Macs, external displays) show the island
 //! exactly as Windows does.
@@ -69,22 +70,6 @@ const BELOW_EAR: f32 = 24.0;
 const EARS_R: f32 = 14.0;
 /// The one neutral track under every progress ring (as in activities.rs).
 const RING_TRACK: Color = Color::white(0.14);
-/// Pill's ears: content keeps this far from the island's outer ends (as the
-/// floating pill keeps clear of its round ends) and this far from the camera.
-const PILL_END: f32 = 16.0;
-const PILL_CAMERA: f32 = 8.0;
-/// Pill's resting ears: the time on the left, the battery and its
-/// percentage on the right ("100%" and the battery need the most room).
-const PILL_EAR_24H: f32 = 88.0;
-const PILL_EAR_12H: f32 = 96.0;
-const PILL_EAR_TIME_ONLY: f32 = 66.0;
-/// The status bar's battery (`pill::status::battery`): its body, how far
-/// its nub reaches past it, and the gap to the percentage.
-const BATTERY: (f32, f32) = (20.0, 10.0);
-const NUB_W: f32 = 0.75 + 1.75;
-const PCT_GAP: f32 = 6.0;
-/// Pill's secondary text on black.
-const PILL_DIM: Color = Color::white(0.55);
 /// The Eyes look's ears: room for the eyes (or Oyen) to peek out on either
 /// side of the camera, this far from its edge.
 const PEEK_EAR: f32 = 46.0;
@@ -101,6 +86,9 @@ const PEEK_OYEN_W: f32 = 22.0;
 const OYEN_WATCH: f64 = 2.5;
 
 pub fn fit(m: &Mode, st: &AppState) -> Fit {
+    if pill::on(st.settings.theme) {
+        return pill_fit(m, st);
+    }
     match m {
         // The status bar look is the Pill theme's; the other themes show the
         // clock for it. The eyes peek out beside the camera (`draw_peek`).
@@ -109,10 +97,23 @@ pub fn fit(m: &Mode, st: &AppState) -> Fit {
         Mode::Idle | Mode::Aside => Fit::Inside,
         // The music pill sings the current line (every theme), which needs
         // the width the camera takes: it hangs below the notch while there
-        // is a line (Pill floats there).
+        // is a line.
         Mode::Activity(Activity::Media) if pill::lyric::current(st).is_some() => Fit::Below,
         Mode::Activity(_) => Fit::Ears,
         Mode::Hud(_) | Mode::Notice | Mode::Expanded(_) => Fit::Below,
+    }
+}
+
+/// The Pill theme around a notch: at rest the real notch alone (the eyes
+/// still peek out beside it), everything else the floating pill. The music
+/// pill floats for as long as it shows, so it never jumps up into the
+/// menu bar's line when a song has no line to sing (the intro, a break, a
+/// pause, a song without synced lyrics) and back down at the next one.
+fn pill_fit(m: &Mode, st: &AppState) -> Fit {
+    match m {
+        Mode::Idle if st.settings.idle_style == IdleStyle::Eyes => Fit::Ears,
+        Mode::Idle | Mode::Aside => Fit::Inside,
+        Mode::Activity(_) | Mode::Hud(_) | Mode::Notice | Mode::Expanded(_) => Fit::Below,
     }
 }
 
@@ -151,19 +152,6 @@ pub fn strip(m: &Mode, st: &AppState, n: Notch) -> f32 {
 fn ear(m: &Mode, st: &AppState) -> f32 {
     match m {
         Mode::Idle if st.settings.idle_style == IdleStyle::Eyes => PEEK_EAR,
-        Mode::Idle if pill::on(st.settings.theme) => {
-            if st.power.has_battery {
-                if st.settings.use_24h {
-                    PILL_EAR_24H
-                } else {
-                    PILL_EAR_12H
-                }
-            } else if st.settings.use_24h {
-                PILL_EAR_TIME_ONLY
-            } else {
-                PILL_EAR_12H
-            }
-        }
         Mode::Idle => {
             let clock = if st.settings.use_24h { 64.0 } else { 84.0 };
             if oyen::on(st.settings.theme) {
@@ -181,14 +169,8 @@ fn ear(m: &Mode, st: &AppState) -> f32 {
             }
         }
         Mode::Activity(Activity::MediaTimer) => 96.0,
-        // "10 min" in the right ear (Pill's digits are bigger).
-        Mode::Activity(Activity::Prayer) => {
-            if pill::on(st.settings.theme) {
-                80.0
-            } else {
-                66.0
-            }
-        }
+        // "10 min" in the right ear.
+        Mode::Activity(Activity::Prayer) => 66.0,
         _ => 56.0,
     }
 }
@@ -299,9 +281,6 @@ pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch)
     let ear_w = ((body.w - n.w) / 2.0).max(0.0);
     let left = Rect::new(body.x, body.y, ear_w, body.h);
     let right = Rect::new(body.right() - ear_w, body.y, ear_w, body.h);
-    if pill::on(st.settings.theme) {
-        return draw_pill_ears(ui, st, m, body, left, right);
-    }
     match m {
         Mode::Idle => {
             if oyen::on(st.settings.theme) {
@@ -407,84 +386,4 @@ fn peek_look(st: &AppState, spot: Point, now: f64) -> Option<(f32, f32)> {
 pub fn peek_key(st: &AppState, n: Notch, now: f64) -> (bool, Option<(f32, f32)>) {
     let (spot, _) = peek_spot(st, n, now);
     (st.ui.peek.left, peek_look(st, spot, now))
-}
-
-/// The Pill theme in the menu bar's line: its resting pill split by the
-/// camera (the time hard left, the battery hard right, as at rest without a
-/// notch) and the timer the same way (ring left, digits right). Music falls
-/// to the shared drawing: its art and equalizer sit at the two ends.
-fn draw_pill_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, left: Rect, right: Rect) -> bool {
-    let cy = body.center().y;
-    match m {
-        Mode::Idle => {
-            let time = fmt_clock(&st.local, st.settings.use_24h);
-            let ts = TextStyle::headline().tabular().color(Color::white(1.0));
-            ui.c.text(&time, Rect::new(left.x + PILL_END, body.y, (left.w - PILL_END - PILL_CAMERA).max(0.0), body.h), &ts);
-            if st.power.has_battery {
-                pill_battery(ui, st, right.right() - PILL_END, cy);
-            }
-            true
-        }
-        // Art left and bars right, nothing under the camera, as the other
-        // themes draw music around a notch: Pill's music pill fills its middle
-        // with words, which the camera would cut (its sung line floats below
-        // the notch instead). Classic's drawing, without the words.
-        Mode::Activity(Activity::Media) => {
-            activities::draw_music(ui, st, body, false);
-            true
-        }
-        Mode::Activity(Activity::Timer) => {
-            let p = &st.pomodoro;
-            let col = match p.phase {
-                Phase::Focus => st.accent,
-                Phase::ShortBreak | Phase::LongBreak => palette::GREEN,
-            };
-            let paused = !p.is_running();
-            // A 14 DIP ring (2.5 stroke) 12 in from the end, the digits 14 in from the other.
-            let c = Point::new(left.x + 12.0 + 7.0, cy);
-            ui.c.ring(c, 7.0 - 1.25, 2.5, p.progress(st.now), Color::white(0.22), col);
-            if paused {
-                ui.c.icon(Icon::Pause, Rect::from_center(c, 7.0, 7.0), palette::TEXT_DIM);
-            }
-            let text = fmt_countdown(p.remaining(st.now));
-            let ts = TextStyle::headline().tabular().color(if paused { palette::TEXT_DIM } else { Color::white(1.0) }).right();
-            ui.c.text(&text, Rect::new(right.x + PILL_CAMERA, body.y, (right.w - PILL_CAMERA - 14.0).max(0.0), body.h), &ts);
-            true
-        }
-        // Pill's moon at one end and the minutes at the other, as the timer:
-        // its line, with the prayer's name, would sit under the camera.
-        Mode::Activity(Activity::Prayer) => {
-            let Some((_, mins)) = activities::prayer_countdown(st) else { return true };
-            pill::live::moon(ui, Point::new(left.x + 12.0 + 7.0, cy), 14.0, st.accent);
-            let ts = TextStyle::headline().tabular().color(Color::white(1.0)).right();
-            ui.c.text(&format!("{mins} min"), Rect::new(right.x + PILL_CAMERA, body.y, (right.w - PILL_CAMERA - 14.0).max(0.0), body.h), &ts);
-            true
-        }
-        _ => false,
-    }
-}
-
-/// Snap a DIP coordinate to the device-pixel grid (crisp small outlines).
-fn snap(ui: &Ui, v: f32) -> f32 {
-    let s = ui.c.scale().max(0.1);
-    (v * s).round() / s
-}
-
-/// Pill's battery, right-aligned to `right` and centred on `cy`, as the
-/// status bar draws it (`pill::status::battery`): the percentage in grey
-/// (red when low), then the battery, green (red when low), with a bolt while
-/// it charges or is plugged in.
-fn pill_battery(ui: &mut Ui, st: &AppState, right: f32, cy: f32) {
-    let p = st.power;
-    // Plugged in counts as charging, as the status bar and the Charging
-    // pop-up have it: a full battery on its charger keeps the bolt.
-    let charging = p.charging || p.on_ac;
-    let x = snap(ui, right - NUB_W - BATTERY.0);
-    let y = snap(ui, cy - BATTERY.1 / 2.0);
-    pill::status::battery(ui, Rect::new(x, y, BATTERY.0, BATTERY.1), p.percent, charging);
-    let label = format!("{}%", p.percent.min(100));
-    let color = if pill::status::low(p.percent, charging) { palette::RED } else { PILL_DIM };
-    let ts = TextStyle::body().weight(Weight::Medium).tabular().color(color).right();
-    let w = 40.0;
-    ui.c.text(&label, Rect::new(x - PCT_GAP - w, cy - 10.0, w, 20.0), &ts);
 }

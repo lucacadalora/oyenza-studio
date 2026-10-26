@@ -243,7 +243,7 @@ fn hex(s: &str) -> Option<Vec<u8>> {
 }
 
 /// Standard base64 (with or without padding).
-fn base64(s: &str) -> Option<Vec<u8>> {
+pub(crate) fn base64(s: &str) -> Option<Vec<u8>> {
     let mut out = Vec::with_capacity(s.len() * 3 / 4);
     let (mut acc, mut bits) = (0u32, 0u32);
     for c in s.trim_end_matches('=').bytes() {

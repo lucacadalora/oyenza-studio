@@ -9,7 +9,7 @@
 # notch-* steps pretend the screen has a MacBook's notch and the app paints
 # it black where the camera would be, so the pictures show what a MacBook
 # shows. Pill floats below the top edge (pill-*), and around the notch rests
-# in the menu bar's line and opens below it (notch-pill-*); its pill-theme
+# inside it while its music and open card float below it (notch-pill-*); its pill-theme
 # check in the report says where the island sat and which points took the
 # mouse.
 #
@@ -38,6 +38,30 @@ osascript -l JavaScript /tmp/poni-wallpaper.js "$(pwd)/site/assets/wall/morning.
 echo "reduce transparency: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
 defaults write com.apple.universalaccess reduceTransparency -bool false 2>&1 || true
 echo "reduce transparency now: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
+# macOS's own now playing: the MediaRemote adapter's test player (mac.yml builds it) reports a track
+# there from the now-playing-start step on. The app's adapter leaves that player out unless
+# ADAPTER_TEST_MODE is set, and the app checks for its track only with PONI_SMOKE_NOW_PLAYING.
+client="${MEDIAREMOTE_TEST_CLIENT:-}"
+client_pid=""
+if [ -n "$client" ] && [ -x "$client" ]; then
+  export ADAPTER_TEST_MODE=1 PONI_SMOKE_NOW_PLAYING=1
+else
+  echo "(no MediaRemote test player: the now-playing check is skipped)"
+fi
+# A real browser tab in macOS's own now playing, as YouTube in Edge reaches it: the runner's Edge
+# (else Chrome) plays tools/mac-browser-player.html from the now-playing-browser-start step on.
+# The app checks for its track only with PONI_SMOKE_BROWSER.
+browser=""
+for b in "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"; do
+  if [ -x "$b" ]; then browser="$b"; break; fi
+done
+browser_pid=""
+if [ -n "$browser" ]; then
+  export PONI_SMOKE_BROWSER=1
+  echo "browser for the now-playing-browser step: $("$browser" --version 2>/dev/null || basename "$browser")"
+else
+  echo "(no Edge or Chrome: the browser check is skipped)"
+fi
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
@@ -60,6 +84,26 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
       *ja-notify)
         osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Paper Boats", "Artist": "The Lanterns", "Album": "Harbor Lights", "Duration": 201000, "Playback Position": 61.0, "Player State": "Playing"}), true)' || true
         sleep 1.5 ;;
+      # A player that only macOS's own now playing knows (as a browser tab is).
+      *now-playing-start)
+        if [ -n "${PONI_SMOKE_NOW_PLAYING:-}" ]; then
+          "$client" > smoke/test-player.txt 2>&1 &
+          client_pid=$!
+          echo "the MediaRemote adapter's test player: pid $client_pid"
+          sleep 1
+        fi ;;
+      # A browser tab instead: the test player stops, the browser plays the page (autoplay
+      # allowed, a profile of its own with no first-run screens or keychain prompt).
+      *now-playing-browser-start)
+        if [ -n "$browser" ]; then
+          if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null; client_pid=""; fi
+          "$browser" --user-data-dir="${RUNNER_TEMP:-/tmp}/poni-smoke-browser" --no-first-run --no-default-browser-check \
+            --use-mock-keychain --password-store=basic --autoplay-policy=no-user-gesture-required \
+            "file://$(pwd)/tools/mac-browser-player.html" > smoke/browser.txt 2>&1 &
+          browser_pid=$!
+          echo "the browser: pid $browser_pid"
+          sleep 1
+        fi ;;
     esac
     left=$(( x > 40 ? x - 40 : 0 ))
     case "$base" in
@@ -69,6 +113,13 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
     esac
     if [ $shots -eq 0 ]; then screencapture -x smoke/screen-full.png || true; fi
     shots=$(( shots + 1 ))
+    # The browser's step, pictured with the whole screen (the island over the
+    # playing tab); then the browser closes before the menu.
+    case "$base" in
+      *now-playing-browser)
+        screencapture -x smoke/screen-browser.png || true
+        if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null; browser_pid=""; fi ;;
+    esac
     touch "smoke/shot-$base.done"
   done
   sleep 0.2
@@ -81,6 +132,8 @@ else
   wait $pid
   code=$?
 fi
+if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null || true; fi
+if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null || true; fi
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true
