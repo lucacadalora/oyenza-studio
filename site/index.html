@@ -293,6 +293,11 @@ main { container-type: inline-size; }
 .news-tile:hover { transform: scale(0.99); }
 .news-tile .t-card { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .news-tile .t-card::after { content: ""; flex: none; width: 0.32em; height: 0.32em; border: solid var(--link); border-width: 2px 2px 0 0; transform: translateY(-0.12em) rotate(45deg); }
+/* The release's main change spans the row, so the tiles under it stay three
+   to a row. The next release gives the class to its own first tile instead. */
+.news-tile.lead { grid-column: 1 / -1; }
+.news-tile.lead .t-card { justify-content: flex-start; }
+.news-tile.lead .t-tile { max-width: 36em; }
 
 /* ---------- highlights: a gallery that scrolls sideways */
 .gal {
@@ -437,6 +442,7 @@ main { container-type: inline-size; }
 /* ---------- privacy and specs */
 .privacy-mark { width: 64px; height: 64px; margin: 0 auto 26px; color: var(--ink); stroke-width: 1.4; }
 .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 64px; }
+.facts.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .fact { border-radius: var(--r); background: var(--alt); padding: 32px; display: grid; gap: 8px; align-content: start; }
 .fact .ico { width: 32px; height: 32px; color: var(--ink); stroke-width: 1.6; margin-bottom: 8px; }
 .specs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
@@ -473,6 +479,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 .sheet-body ul, .sheet-body ol { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
 .sheet-body h4 { font: 600 21px/1.381 var(--font-display); letter-spacing: 0.011em; margin-top: 10px; }
 .sheet-body code { font: 13px/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace; background: var(--alt); padding: 1px 6px; border-radius: 6px; word-break: break-all; }
+/* A list of names (the AI services), set as pills: names only, no logos. */
+.sheet-body ul.names { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+.sheet-body .names li { padding: 6px 14px; border-radius: 999px; background: var(--alt); color: var(--ink); font-size: 15px; line-height: 1.4; white-space: nowrap; }
 
 /* ---------- narrower columns (the docked sidebar narrows the page too) */
 @container (max-width: 1000px) {
@@ -503,7 +512,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .t-avail { font-size: 14px; line-height: 1.28577; letter-spacing: -0.016em; }
   .sec { --sp: 88px; }
   .head { margin-bottom: 36px; }
-  .bento, .duo, .stats, .stats.two, .facts, .os-cards, .cards3, .mac-strips, .news, .news.two { grid-template-columns: minmax(0, 1fr); }
+  .bento, .duo, .stats, .stats.two, .facts, .facts.two, .os-cards, .cards3, .mac-strips, .news, .news.two { grid-template-columns: minmax(0, 1fr); }
   .news-tile { padding: 24px 24px 26px; border-radius: 18px; }
   .stats { gap: 28px; margin-top: 44px; }
   .stat > b { font-size: 32px; }
@@ -607,6 +616,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
   <symbol id="i-user-off" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 11.6-6.3M15.5 17.5l5 5M20.5 17.5l-5 5"/></symbol>
   <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 9.5h5v5h-5zM9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3"/></symbol>
+  <symbol id="i-meter" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" opacity=".4"/><path d="M4 7h10M4 12h14M4 17h6"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
@@ -633,7 +643,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Overview</p>
       <a class="side-item" href="#top" data-k="home start download hero notch island"><i class="ic" style="--c:#1d1d1f"><svg class="ico"><use href="#i-screen"/></svg></i><span>A living notch</span></a>
-      <a class="side-item" href="#new" data-k="new release 0.2.10 latest changes today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.10</span></a>
+      <a class="side-item" href="#new" data-k="new release 0.2.11 0.2.10 latest changes ai usage codex claude code opencode go gemini cursor copilot kimi glm minimax openrouter oyenza inference limits plans today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.11</span></a>
       <a class="side-item" href="#highlights" data-k="best gallery overview"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-spark"/></svg></i><span>Highlights</span></a>
       <a class="side-item" href="#features" data-k="rest idle music timer volume charging headphones bluetooth money clock eyes prayer countdown"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-island"/></svg></i><span>While it rests</span></a>
     </div>
@@ -642,6 +652,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#music" data-k="music lyrics spotify apple youtube lrclib songs"><i class="ic" style="--c:#ff2d55"><svg class="ico"><use href="#i-music"/></svg></i><span>Music and lyrics</span></a>
       <a class="side-item" href="#read-along" data-k="korean japanese chinese romaji pinyin pronunciation reading kanji"><i class="ic" style="--c:#af52de"><svg class="ico"><use href="#i-lang"/></svg></i><span>Read along</span></a>
       <a class="side-item" href="#focus" data-k="pomodoro timer focus"><i class="ic" style="--c:#5856d6"><svg class="ico"><use href="#i-timer"/></svg></i><span>Focus</span></a>
+      <a class="side-item" href="#ai" data-k="ai usage codex claude code opencode go gemini cli cursor github copilot kimi code z.ai zai glm minimax openrouter oyenza inference limits plan quota credits balance spend resets heads-up notices new"><i class="ic" style="--c:#00c7be"><svg class="ico"><use href="#i-meter"/></svg></i><span>AI usage</span><span class="tag">New</span></a>
       <a class="side-item" href="#health" data-k="steps health apple health connect add-on"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-steps"/></svg></i><span>Health</span></a>
       <a class="side-item" href="#shelf" data-k="files shelf drag drop"><i class="ic" style="--c:#007aff"><svg class="ico"><use href="#i-tray"/></svg></i><span>Shelf</span></a>
       <a class="side-item" href="#tasks" data-k="todo to-do tasks list"><i class="ic" style="--c:#ff9500"><svg class="ico"><use href="#i-list"/></svg></i><span>Tasks</span></a>
@@ -655,7 +666,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#paired-phones" data-k="paired phones pair any network mobile data share sheet"><i class="ic" style="--c:#30b0c7"><svg class="ico"><use href="#i-waves"/></svg></i><span>Paired phones</span></a>
       <a class="side-item" href="#prayer" data-k="prayer sholat salat adzan kemenag qibla kiblat jadwal islam"><i class="ic" style="--c:#5e5ce6"><svg class="ico"><use href="#i-moon"/></svg></i><span>Prayer times</span></a>
       <a class="side-item" href="#addons" data-k="add-ons addons download extras plugins"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-addons"/></svg></i><span>Add-ons</span></a>
-      <a class="side-item" href="#script" data-k="script reader teleprompter prompter webcam camera read talk video new"><i class="ic" style="--c:#a2845e"><svg class="ico"><use href="#i-script"/></svg></i><span>Script reader</span><span class="tag">New</span></a>
+      <a class="side-item" href="#script" data-k="script reader teleprompter prompter webcam camera read talk video new"><i class="ic" style="--c:#a2845e"><svg class="ico"><use href="#i-script"/></svg></i><span>Script reader</span></a>
       <a class="side-item" href="#games" data-k="games fps gpu cpu overlay gaming frames readout peeks"><i class="ic" style="--c:#ff375f"><svg class="ico"><use href="#i-game"/></svg></i><span>Show over games</span></a>
       <a class="side-item" href="#on-top" data-k="full screen always on top stay hide maximized windows browser tabs chrome"><i class="ic" style="--c:#32ade6"><svg class="ico"><use href="#i-layers"/></svg></i><span>Stays on top</span></a>
     </div>
@@ -728,7 +739,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <div class="hero-copy">
             <h1 class="t-hero-eyebrow">Oyenza Studio</h1>
             <p class="t-hero">A living notch.</p>
-            <a class="t-avail" href="#new">New in 0.2.10: Today shows the next five weeks, and Prayer times work anywhere in the world.</a>
+            <a class="t-avail" href="#new">New in 0.2.11: how much of Codex, Claude Code and OpenCode Go you have left, right on the island.</a>
             <div class="buybox">
               <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">2.6&nbsp;MB</span> · Mac <span data-release="mac-size">4.4&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.10</span></a></span></div>
               <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
@@ -749,8 +760,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   </section>
 
   <section class="sec band" id="new" aria-labelledby="new-title">
-    <div class="content head rv"><h2 class="t-l" id="new-title">New in 0.2.10.</h2></div>
+    <div class="content head rv"><h2 class="t-l" id="new-title">New in 0.2.11.</h2></div>
     <div class="content news">
+      <a class="news-tile lead rv" href="#ai"><p class="t-card">A tab for your AI plans</p><p class="t-tile">What's left of Codex, Claude Code, OpenCode Go and more, and when each one resets. Switch on a heads-up before you run out.</p></a>
       <a class="news-tile rv" href="#today"><p class="t-card">Today shows the weeks ahead</p><p class="t-tile">Five weeks at a glance beside your schedule: the meeting on now with Join, then every day that has something. Click a date to jump there.</p></a>
       <a class="news-tile rv" href="#prayer"><p class="t-card">Prayer times anywhere</p><p class="t-tile">Type any city in the world, or let your location find it.</p></a>
       <a class="news-tile rv" href="#mac"><p class="t-card">YouTube and Spotify on the Mac</p><p class="t-tile">Music from your browser (YouTube, YouTube Music, Spotify on the web) and every other player on your Mac shows on the island, with lyrics.</p></a>
@@ -898,7 +910,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 
   <section class="sec" id="pages" aria-labelledby="pages-title">
     <div class="content head center rv">
-      <h2 class="t-xl" id="pages-title">Eight quick pages.<br>One hover away.</h2>
+      <h2 class="t-xl" id="pages-title">Nine quick pages.<br>One hover away.</h2>
       <p class="t-intro">Point at the island and it opens. Move away and it closes.</p>
     </div>
   </section>
@@ -985,6 +997,29 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <img class="look-oyen" src="assets/shots/oyen/page-health.webp" alt="The Health page in the Oyen theme" width="660" height="223" loading="lazy">
         </div></div>
       </article>
+    </div>
+  </section>
+
+  <!-- The AI tab, right after Focus in the island's row of tabs. -->
+  <section class="sec" id="ai" aria-labelledby="ai-title">
+    <div class="content head rv">
+      <p class="t-label new">New in 0.2.11</p>
+      <h3 class="t-l" id="ai-title">Your AI limits, before you hit them.</h3>
+      <p class="t-intro"><b>Codex, Claude Code, OpenCode Go</b> and more: what's left of each plan, and when it resets.</p>
+      <button class="more" type="button" data-more="m-ai">More about AI usage<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
+    </div>
+    <div class="content">
+      <div class="panel rv-zoom" data-scene="par" style="--band:28px">
+        <div class="sky-layer"></div>
+        <div class="isl">
+          <img class="look-classic" src="assets/shots/classic/page-ai.webp" alt="The AI page: a card for each AI service on the computer, such as Codex, Claude Code and OpenCode Go, each limit as a bar with when it resets" width="660" height="335" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-ai.webp" alt="The AI page in the Oyen theme" width="660" height="335" loading="lazy">
+        </div>
+      </div>
+      <div class="facts two">
+        <div class="fact rv"><svg class="ico"><use href="#i-shield"/></svg><h4 class="t-card" style="font-size:21px;line-height:1.19">Sign-ins stay on your computer.</h4><p class="t-tile">Each one goes only to its own service. Nothing about your usage goes to Oyenza.</p></div>
+        <div class="fact rv"><svg class="ico"><use href="#i-wallet"/></svg><h4 class="t-card" style="font-size:21px;line-height:1.19">Oyenza Inference, too.</h4><p class="t-tile">Connect inference.oyenza.com with a code, and your balance and spend show beside your plans.</p></div>
+      </div>
     </div>
   </section>
 
@@ -1363,6 +1398,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <tr><th scope="row">Music, with synced lyrics</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Readings under Korean, Japanese and Chinese lines</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Focus timer and tasks</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
+          <tr><th scope="row">AI usage, with heads-up notices</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Shelf, with Phone drop over the same Wi-Fi</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">System page, an add-on</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Volume and charging pop-ups</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
@@ -1485,6 +1521,34 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p><b>New in 0.2.3: on the closed island too.</b> While a song with readings plays, the closed island is two rows tall in every look: the line as it's written, and its reading right under it, so you can sing along without opening it. A line that needs no reading sits on its own, and songs without readings keep the one-row island. Switch off Lyrics pronunciation in Settings and the readings go, on the island and on the Music page.</p>
     <p>Japanese kanji are read with Windows' own reading analyzer. On PCs without Windows' Japanese data, kana lines read right away, and Japanese readings, a 3.8 MB add-on that reads every kanji line, <b>switch themselves on for the first Japanese song whose kanji go unread</b> (new in 0.2.1). That happens only while readings are on and if you never switched the add-on yourself: switched off by hand, it stays off. On a Mac, Japanese readings are an add-on in the Add-ons tab too.</p>
     <p>Since 0.1.15 it reads closer to how the words are sung: numbers with their counters (<span lang="ja">二人</span> futari, <span lang="ja">一歩</span> ippo), <span lang="ja">は</span> as "wa" after every word (<span lang="ja">心には</span> kokoro ni wa), and words like <span lang="ja">愛おしい</span> and <span lang="ja">失くす</span>. Turn it off in Settings or the tray menu.</p>
+  </div>
+</dialog>
+<dialog class="more-sheet" id="m-ai" aria-labelledby="m-ai-t">
+  <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
+  <div class="sheet-body">
+    <p class="t-label new">New in 0.2.11 · Windows and Mac</p>
+    <h2 class="t-m" id="m-ai-t">Your AI limits, before you hit them.</h2>
+    <p>The AI tab sits right after Focus. <b>Each AI service on your computer gets a card:</b> your plan, each limit as a bar with when it resets, credits or balance left, and today's spend where the service tells it. Services it doesn't find stay off the list. Under Services, hide any of them, or add one with its key.</p>
+    <h4>The services</h4>
+    <ul class="names" aria-label="Services the AI tab reads">
+      <li>Codex</li>
+      <li>Claude Code</li>
+      <li>OpenCode Go</li>
+      <li>Gemini CLI</li>
+      <li>Cursor</li>
+      <li>GitHub Copilot</li>
+      <li>Kimi Code</li>
+      <li>Z.ai GLM</li>
+      <li>MiniMax</li>
+      <li>OpenRouter</li>
+      <li>Oyenza Inference</li>
+    </ul>
+    <h4>Heads-up notices</h4>
+    <p>Switch them on and the island tells you <b>when a limit is nearly used up, when it runs out, and when it's back</b> after it resets. For that it reads the files on your computer every few minutes and asks the services at most every 10 minutes, and it rests while your computer is locked, the screen is off or battery saver is on. With notices off, nothing runs while the tab is closed: it reads when you open it.</p>
+    <h4>Your sign-ins stay yours</h4>
+    <p>Each service's sign-in is read on your computer and goes only to that service's own server. <b>Nothing about your usage goes to Oyenza.</b> Oyenza Studio only reads: it never changes another app's files or renews its sign-in, so it can't sign you out of that app. When a sign-in has run out, the card says so: open that app once and it's back.</p>
+    <h4>Oyenza Inference</h4>
+    <p>Connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab or in the dashboard.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-system" aria-labelledby="m-system-t">
