@@ -15,7 +15,7 @@ use poni_core::lrc::Lyrics;
 use poni_core::oyenza::{Activity, Bill, DayPick, Saved, Seen};
 use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
-use poni_core::prayer::{Place, PlaceList, Site};
+use poni_core::prayer::{Place, PlaceList, Site, World};
 use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
@@ -418,7 +418,7 @@ pub enum Locate {
     Asking,
     /// Picked the nearest place, this far from the PC (km).
     Found { km: f64 },
-    /// The nearest listed place is too far away to use (km).
+    /// The nearest place in either list is too far away to use (km).
     Far { km: f64 },
     /// Windows' location is off, or not allowed for Oyenza Studio.
     Denied,
@@ -431,6 +431,14 @@ pub enum Locate {
 pub struct PrayerState {
     /// The add-on's place list, read once its files are in place.
     pub places: Option<std::sync::Arc<PlaceList>>,
+    /// The world list (places outside Indonesia), only while the picker is
+    /// open: 2 MB in memory, so it's dropped when the picker closes.
+    pub world: Option<std::sync::Arc<World>>,
+    /// Reading the world list failed this time the picker opened (the add-on
+    /// is still getting it, or the file is damaged): Kemenag's places only.
+    pub world_failed: bool,
+    /// The picker's last search: what was typed, and what it found.
+    pub found: Option<(String, Vec<Place>)>,
     /// The place the times are for: the chosen one, or the time zone's
     /// suggestion while none is chosen.
     pub place: Option<Place>,

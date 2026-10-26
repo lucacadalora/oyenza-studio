@@ -3369,10 +3369,18 @@ impl App {
     }
 
     /// The place the times are for: the chosen one, or until there is one,
-    /// the one the PC's time zone suggests.
+    /// the one the PC's time zone suggests. A place from the world list is
+    /// kept as it is once settled; at start the list is read once to find it.
     fn resolve_prayer_place(&mut self) {
         let Some(list) = self.st.prayer.places.clone() else { return };
-        let chosen = self.st.settings.prayer.place.as_deref().and_then(|id| list.find(id)).cloned();
+        let chosen = match self.st.settings.prayer.place.as_deref() {
+            Some(id) if self.st.prayer.place.as_ref().is_some_and(|p| p.id == id) => self.st.prayer.place.clone(),
+            Some(id) if id.starts_with(poni_core::prayer::world::ID_PREFIX) => {
+                poni_core::prayer::find(&list, pages::prayer::world_list(&self.st).as_deref(), id)
+            }
+            Some(id) => list.find(id).cloned(),
+            None => None,
+        };
         let suggested = chosen.is_none();
         let place = chosen.or_else(|| poni_core::prayer::suggested_place_id(self.utc_offset_min()).and_then(|id| list.find(id)).cloned());
         let changed = place.as_ref().map(|p| &p.id) != self.st.prayer.place.as_ref().map(|p| &p.id);
@@ -3411,14 +3419,15 @@ impl App {
             Located::Unknown => Locate::Unknown,
             Located::At(lat, lng) => {
                 let Some(list) = self.st.prayer.places.clone() else { return };
-                let Some((place, km)) = list.nearest(lat, lng) else { return };
+                // Kemenag's places and the world's cities; the list is read for this and dropped.
+                let world = pages::prayer::world_list(&self.st);
+                let Some((place, km)) = poni_core::prayer::nearest(&list, world.as_deref(), lat, lng) else { return };
                 if km > poni_core::prayer::NEAREST_MAX_KM {
                     pinfo!("prayer: the nearest listed place is {km:.0} km away");
                     Locate::Far { km }
                 } else {
                     if self.st.settings.prayer.follow_location && self.st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
-                        self.st.settings.prayer.place = Some(place.id.clone());
-                        self.st.cmd(Command::SaveSettings);
+                        pages::prayer::set_place(&mut self.st, place);
                     }
                     Locate::Found { km }
                 }

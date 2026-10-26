@@ -49,7 +49,7 @@ use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
 use poni_core::oyenza::{Activity, Bill, Day, DayPick, Saved, Seen, Txn, WalletRef};
 use poni_core::phonedrop::QrMatrix;
-use poni_core::prayer::PlaceList;
+use poni_core::prayer::{PlaceList, World};
 use poni_core::pomodoro::{Phase as PomoPhase, RunState};
 use poni_core::power::{PowerReading, PsuReading, Rail};
 use poni_core::settings::{IdleStyle, Theme};
@@ -702,11 +702,15 @@ fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer>
     }
 }
 
-/// Prayer times for its scenes: on, in Kota Jakarta, its clock 8 minutes
-/// before today's Ashar (the real list arrives with the add-on's download;
-/// these few places are copied from it).
+/// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
+/// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
+/// real lists arrive with the add-on's download; these few places are
+/// copied from them).
 fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
-    let on = matches!(scene, Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice);
+    let on = matches!(
+        scene,
+        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld
+    );
     if !on {
         st.prayer = PrayerState::default();
         return;
@@ -716,18 +720,22 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
         let list = PlaceList::parse(SAMPLE_PLACES).expect("sample places");
         st.prayer.places = Some(std::sync::Arc::new(list));
     }
+    let world = World::parse(poni_core::prayer::world::SAMPLE.into()).expect("sample world places");
     let list = st.prayer.places.clone().expect("places");
-    st.prayer.place = list.find("jakarta").cloned();
+    st.prayer.place = if scene == Scene::PrayerWorld { world.place(0) } else { list.find("jakarta").cloned() };
+    st.prayer.world = Some(std::sync::Arc::new(world));
+    st.prayer.found = None;
+    st.settings.prayer.follow_location = scene != Scene::PrayerWorld;
     st.prayer.suggested = false;
     st.prayer.locate = Locate::Found { km: 2.0 };
     st.prayer.located_at = Some(st.unix);
-    st.prayer.picking = scene == Scene::PrayerPicker;
-    if st.prayer.picking {
-        st.prayer.query = "band".into();
-    } else {
-        st.prayer.query.clear();
-    }
-    let site = st.prayer.site().expect("Jakarta's site");
+    st.prayer.picking = matches!(scene, Scene::PrayerPicker | Scene::PrayerPickerWorld);
+    st.prayer.query = match scene {
+        Scene::PrayerPicker => "band".into(),
+        Scene::PrayerPickerWorld => "edin".into(),
+        _ => String::new(),
+    };
+    let site = st.prayer.site().expect("the place's site");
     let today = site.local_day(st.unix);
     let ashar = poni_core::prayer::day_times(&site, today).expect("today's times").ashar;
     // PONI_SELFTEST_PRAYER_AT=HH:MM: the Prayer page at that time of
@@ -737,7 +745,7 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
         Some(h.parse::<i64>().ok()? * 3600 + m.parse::<i64>().ok()? * 60)
     });
     st.prayer.clock_shift = match at {
-        Some(secs) => today * 86_400 - i64::from(site.offset_min) * 60 + secs - st.unix,
+        Some(secs) => site.midnight(today) + secs - st.unix,
         None => ashar - 8 * 60 - st.unix,
     };
     st.prayer.handled_until = Some(st.prayer_now());
@@ -856,6 +864,10 @@ enum Scene {
     PrayerCountdown,
     /// Prayer times: Ashar's time came, the adzan playing.
     PrayerNotice,
+    /// Prayer times: the place picker, "edin" typed (cities abroad).
+    PrayerPickerWorld,
+    /// Prayer times in Edinburgh, picked by hand (a city abroad, its method beside its name).
+    PrayerWorld,
     /// The Oyenza page on yesterday (a dot on Today: something new there).
     OyenzaYesterday,
     /// The Oyenza page on tomorrow's bills.
@@ -952,7 +964,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 85] = [
+const SCENES: [Scene; 87] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1013,6 +1025,8 @@ const SCENES: [Scene; 85] = [
     Scene::PrayerPicker,
     Scene::PrayerCountdown,
     Scene::PrayerNotice,
+    Scene::PrayerPickerWorld,
+    Scene::PrayerWorld,
     Scene::OyenzaYesterday,
     Scene::OyenzaTomorrow,
     Scene::OyenzaMoneyOut,
@@ -1106,6 +1120,8 @@ impl Scene {
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
             Scene::PrayerNotice => "prayer-notice".into(),
+            Scene::PrayerPickerWorld => "page-prayer-picker-world".into(),
+            Scene::PrayerWorld => "page-prayer-world".into(),
             Scene::OyenzaYesterday => "page-oyenza-yesterday".into(),
             Scene::OyenzaTomorrow => "page-oyenza-tomorrow".into(),
             Scene::OyenzaMoneyOut => "oyenza-money-out".into(),
@@ -1168,7 +1184,7 @@ impl Scene {
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
-            Scene::PrayerPicker => Some(PageKind::Prayer),
+            Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerWorld => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => Some(PageKind::Today),
             _ => None,

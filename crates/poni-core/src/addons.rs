@@ -68,17 +68,24 @@ impl Addon {
     }
 }
 
-/// Prayer times: the place list and the adzan (`addons/sholat/` in the repo).
+/// The Prayer times add-on's places outside Indonesia (`prayer::World`).
+pub const WORLD_PLACES_FILE: &str = "world.tsv.zst";
+
+/// Prayer times: the place lists and the adzan (`addons/sholat/` in the
+/// repo). `addon-sholat-1` (0.1.17 to 0.2.8) had no world list; files that
+/// didn't change move over from its folder instead of downloading again
+/// (the apps' `services::addons`).
 pub const PRAYER_TIMES: Addon = Addon {
     id: "sholat",
     title: "Prayer times",
     blurb: "Today's times for your city and a reminder in the island.",
     mac_blurb: None,
-    tag: "addon-sholat-1",
+    tag: "addon-sholat-2",
     files: &[
         AddonFile { name: "places.json", size: 79_687, sha256: "4d2e1cd6c277b97273f415cf0460579db143fe92ac88f6e4bddb79cdf8cbf69b" },
         AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59" },
-        AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a" },
+        AddonFile { name: "NOTICE.txt", size: 1_461, sha256: "f4eed1ccb4616d65ada9d6306a8da8be57f46e6fbf688a209a7e946e272899cb" },
+        AddonFile { name: WORLD_PLACES_FILE, size: 500_774, sha256: "402582c0413f90c5c0cbdd2347140c53e6e4edae38e48034ecf146207dbff55e" },
     ],
 };
 
@@ -268,10 +275,11 @@ mod tests {
     #[test]
     fn prayer_times_files_are_the_ones_in_the_repo() {
         // The pinned fingerprints must match addons/sholat/, which is what the release holds.
-        let repo: [(&str, &[u8]); 3] = [
+        let repo: [(&str, &[u8]); 4] = [
             ("places.json", include_bytes!("../../../addons/sholat/places.json")),
             ("adzan.m4a", include_bytes!("../../../addons/sholat/adzan.m4a")),
             ("NOTICE.txt", include_bytes!("../../../addons/sholat/NOTICE.txt")),
+            (WORLD_PLACES_FILE, include_bytes!("../../../addons/sholat/world.tsv.zst")),
         ];
         assert_eq!(PRAYER_TIMES.files.len(), repo.len());
         for (f, (name, bytes)) in PRAYER_TIMES.files.iter().zip(repo) {
@@ -321,8 +329,8 @@ mod tests {
     #[test]
     fn files_come_from_the_release() {
         let a = Addon::find("sholat").unwrap();
-        assert_eq!(a.url(&a.files[1]), "https://github.com/lucacadalora/oyenza-studio/releases/download/addon-sholat-1/adzan.m4a");
-        assert_eq!(a.size(), 1_903_069);
+        assert_eq!(a.url(&a.files[1]), "https://github.com/lucacadalora/oyenza-studio/releases/download/addon-sholat-2/adzan.m4a");
+        assert_eq!(a.size(), 2_404_435);
         assert!(Addon::find("nope").is_none());
     }
 
@@ -331,8 +339,8 @@ mod tests {
         let a = &PRAYER_TIMES;
         assert_eq!(Status::Off.line(a, false), a.blurb);
         assert_eq!(Status::Off.line(a, true), a.blurb, "no Mac line of its own: the same");
-        assert_eq!(Status::Downloading { done: 1_300_000, total: a.size() }.line(a, false), "Downloading · 1.3 MB of 1.9 MB");
-        assert_eq!(Status::Ready.line(a, false), "On · 1.9 MB on this PC");
+        assert_eq!(Status::Downloading { done: 1_300_000, total: a.size() }.line(a, false), "Downloading · 1.3 MB of 2.4 MB");
+        assert_eq!(Status::Ready.line(a, false), "On · 2.4 MB on this PC");
         assert!(!Status::Off.is_on() && Status::Waiting.is_on() && Status::Failed.is_on());
         assert_eq!(Status::Downloading { done: 1, total: 4 }.progress(), Some(0.25));
         assert_eq!(Status::Downloading { done: 0, total: 0 }.progress(), Some(0.0));

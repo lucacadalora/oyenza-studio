@@ -29,7 +29,7 @@ fn minute_of_day(hhmm: &str) -> i64 {
 /// Minutes after the place's midnight of `day` (negative or past 1440 if the
 /// moment falls on another date).
 fn local_minutes(site: &Site, day: i64, utc: i64) -> i64 {
-    (utc + site.offset_min as i64 * 60 - day * 86_400).div_euclid(60)
+    (utc + site.offset_min(utc) as i64 * 60 - day * 86_400).div_euclid(60)
 }
 
 fn parse_day(s: &str) -> i64 {
@@ -129,7 +129,7 @@ fn papua_highland_regencies_use_kemenags_wider_twilight_angles() {
     for p in own {
         assert_eq!((p.subuh_angle, p.isya_angle), (21.0, 19.0), "{}", p.id);
         let site = p.site().unwrap();
-        let usual = Site { subuh_angle: KEMENAG_SUBUH_ANGLE, isya_angle: KEMENAG_ISYA_ANGLE, ..site };
+        let usual = Site { subuh_angle: KEMENAG_SUBUH_ANGLE, isya_angle: KEMENAG_ISYA_ANGLE, ..site.clone() };
         let (t, u) = (day_times(&site, day).unwrap(), day_times(&usual, day).unwrap());
         assert!((240..=360).contains(&(u.subuh - t.subuh)), "{} subuh {}", p.id, u.subuh - t.subuh);
         assert!((240..=360).contains(&(t.isya - u.isya)), "{} isya {}", p.id, t.isya - u.isya);
@@ -202,7 +202,7 @@ fn jakarta() -> Site {
 
 /// UTC seconds for a wall-clock time at a site.
 fn at(site: &Site, date: &str, hhmm: &str) -> i64 {
-    parse_day(date) * 86_400 + minute_of_day(hhmm) * 60 - site.offset_min as i64 * 60
+    parse_day(date) * 86_400 + minute_of_day(hhmm) * 60 - site.offset_min(0) as i64 * 60
 }
 
 #[test]
@@ -337,3 +337,156 @@ fn a_passed_time_rings_only_when_on_time() {
     assert_eq!(due(1000, 1000 + 1801), Due::Skip);
     assert_eq!(due(1000, 999), Due::Skip);
 }
+
+// ---------------------------------------------------------------- the world list
+
+/// The add-on's world list (tools/make_world_places.py).
+const WORLD: &[u8] = include_bytes!("../../../../addons/sholat/world.tsv.zst");
+/// adhan-js 4.4.6 itself on 47 places of that list, every 9 days of 2026 and
+/// 2027 plus the solstices, equinoxes and 2026's summer-time changes: each
+/// country's method, Hanafi Ashar where the list says so,
+/// `HighLatitudeRule.recommended`, `PolarCircleResolution.AqrabBalad`, and
+/// Isya +30 minutes in Ramadan for Umm al-Qura. UTC minutes since 1970.
+const WORLD_GOLDEN: &[u8] = include_bytes!("../../tests/fixtures/prayer/world-golden.txt.zst");
+
+fn world() -> World {
+    World::unpack(WORLD).unwrap()
+}
+
+#[test]
+fn world_list_is_complete_and_leaves_indonesia_to_kemenag() {
+    let w = world();
+    assert!(w.len() > 33_000, "{}", w.len());
+    let list = places();
+    // Indonesia comes from Kemenag's list only: no world place sits on a kab/kota point.
+    let jakarta = w.nearest(-6.1833, 106.8333).unwrap();
+    assert!(jakarta.1 > 50.0, "{} {}", jakarta.0.label, jakarta.1);
+    // Nor on Makkah, Madinah or Jeddah.
+    for id in ["makkah", "madinah", "jeddah"] {
+        let p = list.find(id).unwrap();
+        assert!(w.nearest(p.lat, p.lng).unwrap().1 > 15.0, "{id}");
+    }
+    let e = w.find("w:55.952,-3.196").unwrap();
+    assert_eq!((e.label.as_str(), e.prov.as_str(), e.method, e.hanafi), ("Edinburgh", "Scotland, United Kingdom", Method::MoonsightingCommittee, false));
+    assert!(e.is_world() && e.site().is_some());
+}
+
+#[test]
+fn world_places_match_adhan_js_to_the_minute() {
+    let w = world();
+    let (mut exact, mut polar) = (0, 0);
+    for line in unpack(WORLD_GOLDEN).lines().filter(|l| !l.starts_with('#')) {
+        let f: Vec<&str> = line.split(' ').collect();
+        let place = w.find(f[0]).unwrap_or_else(|| panic!("{line}"));
+        assert_eq!(place.id, f[0]);
+        let t = day_times(&place.site().unwrap(), parse_day(f[1])).unwrap();
+        let ours = [t.subuh, t.terbit, t.dzuhur, t.ashar, t.maghrib, t.isya].map(|s| s.div_euclid(60));
+        let theirs: Vec<i64> = f[2..].iter().map(|x| x.parse().unwrap()).collect();
+        assert_eq!(t.imsak, t.subuh - 600);
+        if theirs.windows(2).all(|p| p[0] <= p[1]) {
+            assert_eq!(ours.to_vec(), theirs, "{} {line}", place.label);
+            exact += 1;
+        } else {
+            // Adhan's polar winter days with Asr out of place: ours keep the order.
+            assert!(ours.windows(2).all(|p| p[0] <= p[1]), "{} {line}: {ours:?}", place.label);
+            assert!(place.lat.abs() > 66.0, "{}", place.label);
+            polar += 1;
+        }
+    }
+    assert!(exact > 4_200 && polar < 60, "{exact} exact, {polar} polar");
+}
+
+#[test]
+fn world_clocks_follow_summer_time() {
+    let w = world();
+    let utc = |date: &str, hhmm: &str| parse_day(date) * 86_400 + minute_of_day(hhmm) * 60;
+    let edinburgh = w.find("w:55.952,-3.196").unwrap().site().unwrap();
+    // British Summer Time: 29 Mar 2026 01:00 UTC to 25 Oct 2026 01:00 UTC.
+    assert_eq!(edinburgh.offset_min(utc("2026-03-29", "00:59")), 0);
+    assert_eq!(edinburgh.offset_min(utc("2026-03-29", "01:00")), 60);
+    assert_eq!(edinburgh.offset_min(utc("2026-10-25", "00:59")), 60);
+    assert_eq!(edinburgh.offset_min(utc("2026-10-25", "01:00")), 0);
+    assert_eq!(edinburgh.hhmm(utc("2026-10-26", "16:21")), "16:21");
+    assert_eq!(edinburgh.hhmm(utc("2026-07-01", "16:21")), "17:21");
+    assert_eq!(edinburgh.midnight(parse_day("2026-07-01")), utc("2026-06-30", "23:00"));
+    let ny = w.search(&world::fold("New York"), 1)[0];
+    let ny = w.place(ny.order).unwrap().site().unwrap();
+    assert_eq!(ny.offset_min(utc("2026-03-08", "06:59")), -300);
+    assert_eq!(ny.offset_min(utc("2026-03-08", "07:00")), -240);
+    // Sydney's summer is the other half of the year.
+    let sydney = w.place(w.search("sydney", 1)[0].order).unwrap().site().unwrap();
+    assert_eq!(sydney.offset_min(utc("2026-01-15", "00:00")), 660);
+    assert_eq!(sydney.offset_min(utc("2026-07-15", "00:00")), 600);
+    // Edinburgh, 26 Oct 2026 (Moonsighting Committee, past 55° north).
+    let t = day_times(&edinburgh, parse_day("2026-10-26")).unwrap();
+    let times: Vec<String> = Time::ALL.iter().map(|&x| edinburgh.hhmm(t.get(x))).collect();
+    assert_eq!(times, ["05:18", "05:28", "07:07", "12:02", "14:12", "16:49", "18:12"]);
+}
+
+#[test]
+fn world_search_finds_any_city_and_keeps_kemenag_first_at_home() {
+    let (list, w) = (places(), world());
+    let labels = |q: &str| search(&list, Some(&w), q, 8).into_iter().map(|p| format!("{} | {}", p.label, p.prov)).collect::<Vec<_>>();
+    let edin = labels("edin");
+    assert_eq!(edin[0], "Edinburgh | Scotland, United Kingdom");
+    assert!(edin.contains(&"Edinburg | Texas, United States".to_string()), "{edin:?}");
+    let london = labels("london");
+    assert_eq!(&london[..2], ["London | England, United Kingdom", "London | Ontario, Canada"]);
+    assert_eq!(labels("mecca")[0], "Makkah | Arab Saudi");
+    assert_eq!(labels("Madina")[0], "Madinah | Arab Saudi");
+    // Typed with its accent or without.
+    assert_eq!(labels("Düsseldorf")[0], labels("dusseldorf")[0]);
+    assert!(labels("dusseldorf")[0].starts_with("Düsseldorf | "));
+    // Kemenag's kab/kota before smaller cities abroad; big cities first.
+    assert_eq!(&labels("bandung")[..3], ["Kab. Bandung | Jawa Barat", "Kota Bandung | Jawa Barat", "Kab. Bandung Barat | Jawa Barat"]);
+    assert_eq!(labels("kuala")[0], "Kuala Lumpur | Malaysia");
+    // Without the world list (not read yet) the picker still finds Kemenag's places.
+    assert_eq!(search(&list, None, "bandung", 8).len(), 3);
+    assert!(search(&list, None, "edin", 8).is_empty());
+}
+
+#[test]
+fn location_picks_the_nearest_place_in_either_list() {
+    let (list, w) = (places(), world());
+    // Edinburgh Castle.
+    let (p, km) = nearest(&list, Some(&w), 55.9486, -3.1999).unwrap();
+    assert_eq!((p.label.as_str(), km < 2.0), ("Edinburgh", true));
+    // Gedung Sate still finds Kota Bandung.
+    assert_eq!(nearest(&list, Some(&w), -6.9025, 107.6188).unwrap().0.id, "bandung");
+    // Johor Bahru, across the strait from Batam: Malaysia's own times.
+    let (p, _) = nearest(&list, Some(&w), 1.4655, 103.7578).unwrap();
+    assert_eq!((p.method, p.is_world()), (Method::Singapore, true));
+    // A saved world place comes back by its id, from either list helper.
+    assert_eq!(find(&list, Some(&w), "w:55.952,-3.196").unwrap().label, "Edinburgh");
+    assert_eq!(find(&list, None, "w:55.952,-3.196"), None);
+    assert_eq!(find(&list, Some(&w), "bandung").unwrap().label, "Kota Bandung");
+    // A point the list moved a little still finds its place.
+    assert_eq!(w.find("w:55.950,-3.190").unwrap().label, "Edinburgh");
+}
+
+#[test]
+fn hanafi_ashar_comes_later() {
+    let w = world();
+    let karachi = w.place(w.search("karachi", 1)[0].order).unwrap();
+    assert!(karachi.hanafi);
+    let site = karachi.site().unwrap();
+    let shafii = Site { hanafi: false, ..site.clone() };
+    let day = parse_day("2026-06-01");
+    let (h, s) = (day_times(&site, day).unwrap(), day_times(&shafii, day).unwrap());
+    assert!((40 * 60..=90 * 60).contains(&(h.ashar - s.ashar)), "{}", h.ashar - s.ashar);
+}
+
+
+#[test]
+fn the_self_tests_sample_is_a_piece_of_the_list() {
+    let (sample, w) = (World::parse(world::SAMPLE.to_string()).unwrap(), world());
+    assert_eq!(sample.len(), 4);
+    for i in 0..sample.len() {
+        let p = sample.place(i).unwrap();
+        let real = w.find(&p.id).unwrap();
+        assert_eq!((&p.label, &p.prov, p.method), (&real.label, &real.prov, real.method));
+        let at = parse_day("2026-07-01") * 86_400;
+        assert_eq!(p.site().unwrap().offset_min(at), real.site().unwrap().offset_min(at), "{}", p.label);
+    }
+}
+
