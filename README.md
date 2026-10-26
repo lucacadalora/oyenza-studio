@@ -79,9 +79,15 @@ On a desktop, **Power** shows what the whole PC draws: split into the CPU, the g
 
 ### The small things, one hover away
 
-**Focus** is a Pomodoro timer that keeps counting in the island. **Tasks** is a tiny to-do list. **Today** has the date and the next five weeks, and once you [sign in to Oyenza](#oyenza-optional), your schedule: the meeting on now with **Join**, the rest of today, then the weeks ahead from Google Calendar, with your flights from Gmail and the bills due. Click a date to start the list there. **Shelf** keeps the files you drop on the island. The tabs run Music, Today, Shelf, Tasks, Focus, then Oyenza, with Oyen himself as its tab; Health and System are [add-ons](#add-ons). Scroll over the top of the island to switch pages.
+**Focus** is a Pomodoro timer that keeps counting in the island. **Tasks** is a tiny to-do list. **Today** has the date and the next five weeks, and once you [sign in to Oyenza](#oyenza-optional), your schedule: the meeting on now with **Join**, the rest of today, then the weeks ahead from Google Calendar, with your flights from Gmail and the bills due. Click a date to start the list there. **Shelf** keeps the files you drop on the island. The tabs run Music, Today, Shelf, Tasks, Focus, AI, then Oyenza, with Oyen himself as its tab; Health and System are [add-ons](#add-ons). Scroll over the top of the island to switch pages.
 
 <p align="center"><img src="docs/brand/readme/pages.webp" width="880" alt="Four open pages, in the order of the tabs: Today, the Shelf, Tasks and the Focus timer"></p>
+
+### Your AI plans, before you run out
+
+**New in 0.2.11.** The **AI** tab, right after Focus, shows what's left of the AI coding plans on your computer: Codex, Claude Code, OpenCode Go and more. Each one gets a card with your plan, each limit as a bar with when it resets, and credits or balance left. Switch on **Tell me before I run out** and the island tells you when a limit is nearly used up, and when it's back. Each sign-in is read on your computer and goes only to its own service; nothing about your usage goes to Oyenza. Connect [Oyenza Inference](https://inference.oyenza.com) with a code, and its balance and spend show beside your plans.
+
+[What it reads, service by service](docs/ai-usage.md)
 
 ### Black, Oyen, Glass or Pill
 
@@ -132,7 +138,7 @@ On Windows it draws on your graphics card in step with your display's refresh ra
 
 - **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
 - **Your files stay yours.** Phone drop asks before it takes anything and uses your own Wi-Fi. Files from paired phones are encrypted with keys made on the two devices, and the meeting server never sees them.
-- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and twice a day the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
+- **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and twice a day the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on, and the AI tab asks your AI services only while it's open or its notices are on. [PRIVACY.md](PRIVACY.md) lists every request.
 
 ## Install
 
@@ -433,6 +439,7 @@ Early, but in daily use on Windows 11. The Mac app is newer: it runs on GitHub's
 - Romaji under Japanese lyrics comes from Windows' own reading analyzer or, on PCs without Windows' Japanese data, from [mecab-ipadic](https://taku910.github.io/mecab/) read with [vibrato](https://github.com/daac-tools/vibrato) (MIT/Apache-2.0).
 - Paired phones follow the idea of [PairDrop](https://github.com/schlagmichdoch/PairDrop)'s paired devices (no code taken). The WebRTC link is [str0m](https://github.com/algesten/str0m) (MIT or Apache-2.0).
 - Prayer times use the sun's position and calculation methods from [Adhan](https://github.com/batoulapps/adhan-js) (MIT), Kemenag RI's rules, and reference points fitted to Kemenag's published schedule. Cities outside Indonesia come from [GeoNames](https://www.geonames.org) ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)), their time zones from the IANA time zone database. The adzan is "Maghrib Adhan at the Masjid al Haram, Mecca - 25 Feb, 2012" by 3omar Faruq, from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Maghrib_Adhan_at_the_Masjid_al_Haram,_Mecca_-_25_Feb,_2012.webm), [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) (cut to the adzan, mono, levelled).
+- The AI tab's readers port logic from [CodexBar](https://github.com/steipete/CodexBar) by Peter Steinberger (MIT), and follow the services' own open-source tools for file names and requests (no code taken).
 - Built with [windows-rs](https://github.com/microsoft/windows-rs) and [serde](https://serde.rs).
 
 ## License
