@@ -3366,6 +3366,8 @@ impl App {
             // of this Mac is read), then its keychain reader on test items.
             "ai-page" => {
                 self.st.notice = None;
+                let now = self.st.now;
+                pages::usage::picture(&mut self.st, pages::usage::Picture::Plans, now);
                 self.set_page(PageKind::Ai);
                 self.expand();
             }

@@ -154,6 +154,10 @@ enum Scene {
     /// days on clicked in the grid.
     TodayOff,
     TodayPicked,
+    /// The AI tab with made-up readings (`pages::usage::picture`): plans
+    /// and limits, a trouble mix, nothing found, the first look, connecting
+    /// and connected Oyenza Inference, the Services list.
+    Ai(crate::pages::usage::Picture),
 }
 
 const SCENES: [Scene; 19] = [
@@ -215,8 +219,19 @@ const ADDON_SCENES: [Scene; 3] = [
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
 /// Prayer times abroad, after Today signed in (so every other picture keeps its number).
 const PRAYER_WORLD_SCENES: [Scene; 2] = [Scene::PrayerPickerWorld, Scene::PrayerWorld];
-/// The AI tab, last of all.
-const AI_SCENES: [Scene; 1] = [Scene::Page(PageKind::Ai)];
+/// The AI tab in each of its sample states, last of all.
+const AI_SCENES: [Scene; 7] = {
+    use crate::pages::usage::Picture;
+    [
+        Scene::Ai(Picture::Plans),
+        Scene::Ai(Picture::Troubles),
+        Scene::Ai(Picture::Empty),
+        Scene::Ai(Picture::Looking),
+        Scene::Ai(Picture::Connect),
+        Scene::Ai(Picture::Inference),
+        Scene::Ai(Picture::Services),
+    ]
+};
 
 /// The Settings page (behind the gear), after Prayer times.
 const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
@@ -273,6 +288,7 @@ impl Scene {
             Scene::TodayTiles => "page-today-tiles".into(),
             Scene::TodayOff => "page-today-off".into(),
             Scene::TodayPicked => "page-today-picked".into(),
+            Scene::Ai(p) => p.name().into(),
         }
     }
 }
@@ -951,6 +967,12 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = PageKind::Today;
             Mode::Expanded(PageKind::Today)
+        }
+        Scene::Ai(shows) => {
+            let now = st.now;
+            crate::pages::usage::picture(&mut st, shows, now);
+            st.page = PageKind::Ai;
+            Mode::Expanded(PageKind::Ai)
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);
