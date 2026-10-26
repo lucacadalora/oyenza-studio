@@ -40,7 +40,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
+use poni_core::addons::{Status as AddonStatus, CLIPBOARD_HISTORY, JAPANESE_READINGS, PRAYER_TIMES};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -3106,7 +3106,13 @@ impl App {
                 self.on_event(AppEvent::Power(crate::state::PowerState { has_battery: true, percent: 76, charging: true, on_ac: true, saver: false }));
             }
             // CI copies SMOKE_CLIP with pbcopy when this step is ready.
-            "clipboard-copy" => self.st.hud = None,
+            // Clipboard history is an add-on, off by default: on, as its row in
+            // Add-ons does, before CI copies.
+            "clipboard-copy" => {
+                self.st.hud = None;
+                self.st.settings.set_addon(CLIPBOARD_HISTORY.id, true);
+                self.st.cmds.push(Command::SaveSettings);
+            }
             "clipboard-page" => {
                 self.st.page = PageKind::Clipboard;
                 self.expand();
@@ -3348,8 +3354,8 @@ impl App {
     /// service arriving), on top of the island resting.
     fn smoke_ready(&self, name: &str, waited: f64) -> bool {
         match name {
-            // The second stats sample has a real CPU load.
-            "open-today" => self.st.stats.valid && waited > 1.3,
+            // Signed out, Today shows its sign-in card (no stat tiles, no readings).
+            "open-today" => waited > 0.5,
             // Full readings list the apps (their CPU from the second one on);
             // the apps' icons follow from Finder.
             "open-system" => (self.st.system.latest.as_ref().is_some_and(|r| !r.top_cpu.is_empty()) && waited > 1.6) || waited > 5.0,
@@ -3445,17 +3451,20 @@ impl App {
     fn smoke_check(&self, name: &str) -> Option<(&'static str, bool, String)> {
         let gib = |b: u64| b as f64 / (1u64 << 30) as f64;
         match name {
+            // Signed out, Today shows the sign-in card, so its tiles' once-a-second
+            // readings stay off; the readings still work for when the tiles show
+            // (a server without the day): one taken here.
             "open-today" => {
-                let s = &self.st.stats;
-                let ok = s.valid && s.mem_total > 0 && s.disk_total > 0 && s.uptime_s > 0;
+                let s = services::sysstats::sample();
+                let ok = s.valid && s.mem_total > 0 && s.disk_total > 0 && s.uptime_s > 0 && !self.stats_on && !pages::today::shows_tiles(&self.st);
                 let d = format!(
-                    "CPU {:.0} %, memory {:.1} of {:.1} GiB, disk {:.0} GiB free of {:.0}, up {} min",
-                    s.cpu * 100.0,
+                    "one reading: memory {:.1} of {:.1} GiB, disk {:.0} GiB free of {:.0}, up {} min; Today's readings {} (sign-in card)",
                     gib(s.mem_used),
                     gib(s.mem_total),
                     gib(s.disk_free),
                     gib(s.disk_total),
-                    s.uptime_s / 60
+                    s.uptime_s / 60,
+                    if self.stats_on { "on" } else { "off" },
                 );
                 Some(("system-stats", ok, d))
             }
