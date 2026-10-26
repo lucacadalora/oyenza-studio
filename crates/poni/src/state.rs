@@ -639,10 +639,9 @@ impl AppState {
 
     /// Screen recorder is on (`Settings::recorder_on`): the Record tab shows
     /// and the island answers the recorder, which then shows no bar or
-    /// controls of its own. Windows only for now: the Mac recorder doesn't
-    /// tell the island about its recordings yet.
+    /// controls of its own (`WM_COPYDATA` on Windows, a message port on the Mac).
     pub fn record_on(&self) -> bool {
-        !cfg!(target_os = "macos") && self.settings.recorder_on(self.recorder_ready())
+        self.settings.recorder_on(self.recorder_ready())
     }
 
     /// The recorder is installed and has written to the island before

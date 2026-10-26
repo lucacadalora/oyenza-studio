@@ -11,7 +11,7 @@
 //! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
 //! Both apps list every add-on ([`OFFERED`]) but Screen recorder, which shows
-//! once Oyenza Studio Recorder is installed, on Windows ([`rows`]).
+//! once Oyenza Studio Recorder is installed ([`rows`]).
 
 use crate::commands::Command;
 use crate::gfx::TextStyle;
@@ -50,9 +50,9 @@ pub fn height(st: &AppState) -> f32 {
 
 /// The page's rows: every add-on offered, Screen recorder only once Oyenza
 /// Studio Recorder is installed and has spoken to the island
-/// (`AppState::recorder_ready`), and not on the Mac yet.
+/// (`AppState::recorder_ready`).
 fn rows(st: &AppState) -> Vec<&'static Addon> {
-    OFFERED.iter().copied().filter(|a| a.id != addons::SCREEN_RECORDER.id || (st.recorder_ready() && !MAC)).collect()
+    OFFERED.iter().copied().filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready()).collect()
 }
 
 fn row_h(n: usize) -> f32 {

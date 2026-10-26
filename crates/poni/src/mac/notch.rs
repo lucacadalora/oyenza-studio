@@ -7,7 +7,8 @@
 //!   pointing at the notch still lifts and opens it).
 //! * **Ears**: a live activity stays in the menu bar's line, its content
 //!   left and right of the camera (the timer's ring on the left, its digits
-//!   on the right; album art and the equalizer the same way).
+//!   on the right; a recording's dot and time, album art and the equalizer
+//!   the same way).
 //! * **Below**: notices, pop-ups and the open island hang under the notch:
 //!   a strip the notch's height on top, the usual content under it.
 //!
@@ -169,6 +170,14 @@ fn ear(m: &Mode, st: &AppState) -> f32 {
             }
         }
         Mode::Activity(Activity::MediaTimer) => 96.0,
+        // "12:34" in the right ear, as the timer's; "1:02:03" past an hour.
+        Mode::Activity(Activity::Recording) => {
+            if st.rec_elapsed() >= 3600.0 {
+                80.0
+            } else {
+                66.0
+            }
+        }
         // "10 min" in the right ear.
         Mode::Activity(Activity::Prayer) => 66.0,
         _ => 56.0,
@@ -325,6 +334,13 @@ pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch)
             ui.c.icon(Icon::Moon, Rect::from_center(Point::new(left.center().x + 6.0, body.center().y), 16.0, 16.0), col);
             let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(col).center();
             ui.c.text(&format!("{mins} min"), Rect::new(right.x, body.y, right.w - 6.0, body.h), &ts);
+            true
+        }
+        // A screen recording: its dot left of the camera, its time right.
+        Mode::Activity(Activity::Recording) => {
+            activities::recording_mark(ui, st, Point::new(left.center().x + 6.0, body.center().y));
+            let (text, ts) = activities::recording_time(st);
+            ui.c.text(&text, Rect::new(right.x, body.y, right.w - 6.0, body.h), &ts.center());
             true
         }
         // Art left and bars (or Oyen) right, no words under the camera: the

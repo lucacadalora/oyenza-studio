@@ -146,6 +146,15 @@ enum Scene {
     TodayDay,
     TodayNoApps,
     TodayTiles,
+    /// Oyenza Studio Recorder installed and heard from: the Record page's
+    /// choices, the page while it records (0:42), the closed island's
+    /// recording (12:34; around a notch its dot and time sit in the ears),
+    /// paused, and the Add-ons tab with Screen recorder's row.
+    Record,
+    RecordLive,
+    RecordActivity,
+    RecordPaused,
+    AddonsRecorder,
 }
 
 const SCENES: [Scene; 19] = [
@@ -216,6 +225,8 @@ const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::Oyen
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 /// The Today page signed in, after Power.
 const TODAY_SCENES: [Scene; 3] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles];
+/// The Record page and the recording on the closed island, every theme.
+const RECORD_SCENES: [Scene; 5] = [Scene::Record, Scene::RecordLive, Scene::RecordActivity, Scene::RecordPaused, Scene::AddonsRecorder];
 
 impl Scene {
     fn name(self) -> String {
@@ -257,6 +268,11 @@ impl Scene {
             Scene::TodayDay => "page-today-day".into(),
             Scene::TodayNoApps => "page-today-no-apps".into(),
             Scene::TodayTiles => "page-today-tiles".into(),
+            Scene::Record => "page-record".into(),
+            Scene::RecordLive => "page-record-live".into(),
+            Scene::RecordActivity => "record-activity".into(),
+            Scene::RecordPaused => "record-paused-activity".into(),
+            Scene::AddonsRecorder => "page-addons-recorder".into(),
         }
     }
 }
@@ -320,10 +336,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power and Today signed in in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and Record in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).enumerate() {
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(RECORD_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -898,6 +914,30 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = PageKind::Today;
             Mode::Expanded(PageKind::Today)
+        }
+        Scene::Record | Scene::RecordLive | Scene::RecordActivity | Scene::RecordPaused | Scene::AddonsRecorder => {
+            use poni_core::recorder::Phase as RecPhase;
+            st.recorder = true;
+            st.store.recorder_island = true;
+            let (phase, elapsed_ms) = match scene {
+                Scene::RecordLive => (Some(RecPhase::Recording), 42_000),
+                Scene::RecordActivity => (Some(RecPhase::Recording), 754_000),
+                Scene::RecordPaused => (Some(RecPhase::Paused), 754_000),
+                _ => (None, 0),
+            };
+            // Heard at the picture's moment, so the time shows as sent.
+            st.rec = crate::state::RecView { phase, elapsed_ms, at: NOW_MONO, ..Default::default() };
+            match scene {
+                Scene::RecordActivity | Scene::RecordPaused => Mode::Activity(activities::Activity::Recording),
+                Scene::AddonsRecorder => {
+                    st.page = PageKind::Addons;
+                    Mode::Expanded(PageKind::Addons)
+                }
+                _ => {
+                    st.page = PageKind::Record;
+                    Mode::Expanded(PageKind::Record)
+                }
+            }
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);

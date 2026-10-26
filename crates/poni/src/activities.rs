@@ -601,22 +601,30 @@ fn recording_w(st: &AppState) -> f32 {
     }
 }
 
-/// The red dot (a solid pause mark while paused, so the dimmed time still
-/// reads on the light Oyen ground; a ring while starting or saving), then
-/// the time right-aligned as the timer's countdown.
+/// The red dot, then the time right-aligned as the timer's countdown.
 fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
-    let cy = body.center().y;
-    let dot = Point::new(body.x + 12.0 + 6.0, cy);
-    let phase = st.rec.phase;
-    match phase {
-        Some(poni_core::recorder::Phase::Recording) => ui.c.fill_circle(dot, 5.0, palette::RED),
-        Some(poni_core::recorder::Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(dot, 11.0, 11.0), palette::TEXT),
-        _ => ui.c.stroke_circle(dot, 4.4, palette::TEXT_DIM, 1.4),
+    recording_mark(ui, st, Point::new(body.x + 12.0 + 6.0, body.center().y));
+    let (text, ts) = recording_time(st);
+    ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts.right());
+}
+
+/// The recording's mark at `c`: the red dot; a solid pause mark while
+/// paused, so the dimmed time still reads on the light Oyen ground; a ring
+/// while it starts or saves. Shared with the notch's left ear.
+pub(crate) fn recording_mark(ui: &mut Ui, st: &AppState, c: Point) {
+    match st.rec.phase {
+        Some(poni_core::recorder::Phase::Recording) => ui.c.fill_circle(c, 5.0, palette::RED),
+        Some(poni_core::recorder::Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(c, 11.0, 11.0), palette::TEXT),
+        _ => ui.c.stroke_circle(c, 4.4, palette::TEXT_DIM, 1.4),
     }
-    let recording = phase == Some(poni_core::recorder::Phase::Recording);
-    let text = poni_core::recorder::fmt_length(st.rec_elapsed());
-    let ts = TextStyle::body().weight(Weight::Semibold).tabular().right().color(if recording { palette::TEXT } else { palette::TEXT_DIM });
-    ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts);
+}
+
+/// The recording's time and its style (dimmed unless it records), for the
+/// caller to align. Shared with the notch's right ear.
+pub(crate) fn recording_time(st: &AppState) -> (String, TextStyle) {
+    let recording = st.rec.phase == Some(poni_core::recorder::Phase::Recording);
+    let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(if recording { palette::TEXT } else { palette::TEXT_DIM });
+    (poni_core::recorder::fmt_length(st.rec_elapsed()), ts)
 }
 
 /// The GPU's temperature for the readout, when its driver reports one.

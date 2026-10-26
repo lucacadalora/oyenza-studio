@@ -2424,6 +2424,9 @@ impl App {
         let taken = match m {
             // Hidden for a full-screen app, the island can't be the recorder's face.
             Message::Show if self.fullscreen_hidden => false,
+            // A show while Record is still opening the recorder comes from
+            // the launch Record caused: taken, and the island stays as it is.
+            Message::Show if self.st.rec.opening_until > clock::mono() => true,
             Message::Show => {
                 self.st.page = PageKind::Record;
                 self.expand();

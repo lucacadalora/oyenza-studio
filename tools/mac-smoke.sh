@@ -62,6 +62,45 @@ if [ -n "$browser" ]; then
 else
   echo "(no Edge or Chrome: the browser check is skipped)"
 fi
+# Oyenza Studio Recorder's side of the island's message port: a message sent
+# from another process the way the recorder sends it (CoreFoundation's
+# CFMessagePortSendRequest, through Python's ctypes). The island's reply 1
+# means it took it; anything else fails the run.
+recorder_failed=""
+recorder_say() {
+  local said
+  said=$(python3 - "$1" 2>&1 <<'PY'
+import ctypes, ctypes.util, sys
+cf = ctypes.CDLL(ctypes.util.find_library("CoreFoundation"))
+vp = ctypes.c_void_p
+cf.CFStringCreateWithCString.restype = vp
+cf.CFStringCreateWithCString.argtypes = [vp, ctypes.c_char_p, ctypes.c_uint32]
+cf.CFMessagePortCreateRemote.restype = vp
+cf.CFMessagePortCreateRemote.argtypes = [vp, vp]
+cf.CFDataCreate.restype = vp
+cf.CFDataCreate.argtypes = [vp, ctypes.c_char_p, ctypes.c_long]
+cf.CFMessagePortSendRequest.restype = ctypes.c_int32
+cf.CFMessagePortSendRequest.argtypes = [vp, ctypes.c_int32, vp, ctypes.c_double, ctypes.c_double, vp, ctypes.POINTER(vp)]
+cf.CFDataGetLength.restype = ctypes.c_long
+cf.CFDataGetLength.argtypes = [vp]
+cf.CFDataGetBytePtr.restype = vp
+cf.CFDataGetBytePtr.argtypes = [vp]
+utf8 = 0x08000100
+port = cf.CFMessagePortCreateRemote(None, cf.CFStringCreateWithCString(None, b"com.oyenza.poni.recorder", utf8))
+if not port:
+    sys.exit("no island port")
+body = sys.argv[1].encode()
+reply = vp()
+status = cf.CFMessagePortSendRequest(port, 0x4F59524D, cf.CFDataCreate(None, body, len(body)), 1.0, 1.0,
+                                     cf.CFStringCreateWithCString(None, b"com.oyenza.recorder.reply", utf8), ctypes.byref(reply))
+text = ctypes.string_at(cf.CFDataGetBytePtr(reply), cf.CFDataGetLength(reply)).decode() if status == 0 and reply.value else ""
+print(f"status {status} reply {text!r}")
+PY
+)
+  echo "recorder -> island: $1: $said"
+  case "$said" in *"reply '1'"*) ;; *) recorder_failed=1 ;; esac
+  sleep 1
+}
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
@@ -104,6 +143,9 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
           echo "the browser: pid $browser_pid"
           sleep 1
         fi ;;
+      # A recording, then its end, as Oyenza Studio Recorder tells the island.
+      *record-port) recorder_say '{"v":1,"event":"state","state":"recording","elapsed_ms":754000}' ;;
+      *record-stop) recorder_say '{"v":1,"event":"state","state":"idle","elapsed_ms":0}' ;;
     esac
     left=$(( x > 40 ? x - 40 : 0 ))
     case "$base" in
@@ -134,6 +176,10 @@ else
 fi
 if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null || true; fi
 if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null || true; fi
+if [ -n "$recorder_failed" ]; then
+  echo "the island didn't take a message from the recorder's side of its port"
+  code=1
+fi
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true
