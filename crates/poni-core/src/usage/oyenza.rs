@@ -367,10 +367,11 @@ pub const OFFLINE: &str = "offline";
 pub const BUSY: &str = "busy";
 pub const OTHER: &str = "other";
 
-/// "Approve KPJX-TMNQ on inference.oyenza.com".
-pub fn approve_text(code: &str, base: &str) -> String {
-    let host = base.split_once("://").map_or(base, |(_, h)| h);
-    format!("Approve {code} on {}", host.split('/').next().unwrap_or(host))
+/// "Approve KPJX-TMNQ on inference.oyenza.com". `at` is the server or the
+/// approve link: only its host shows.
+pub fn approve_text(code: &str, at: &str) -> String {
+    let host = at.split_once("://").map_or(at, |(_, h)| h);
+    format!("Approve {code} on {}", host.split(|c| matches!(c, '/' | '?' | '#')).next().unwrap_or(host))
 }
 
 /// "9:41" left on the code.
@@ -722,6 +723,8 @@ mod tests {
         assert_eq!(CONNECT, "Connect");
         assert_eq!(approve_text("KPJX-TMNQ", BASE), "Approve KPJX-TMNQ on inference.oyenza.com");
         assert_eq!(approve_text("KPJX-TMNQ", "http://127.0.0.1:8090"), "Approve KPJX-TMNQ on 127.0.0.1:8090");
+        let p = started(&reply(200, START), BASE, NOW).unwrap();
+        assert_eq!(approve_text(&p.code, &p.url), "Approve KPJX-TMNQ on inference.oyenza.com");
         assert_eq!(time_left(NOW + 581, NOW), "9:41");
         assert_eq!(time_left(NOW, NOW + 3), "0:00");
         assert_eq!(connected_text("l•••@example.com"), "Connected as l•••@example.com");
