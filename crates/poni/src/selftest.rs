@@ -43,7 +43,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, SYSTEM};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -2054,10 +2054,14 @@ impl SelfTest {
         // Script reader: on for the Script page's scenes, off (no tab) elsewhere.
         let script = scene.page() == Some(PageKind::Script);
         st.addons.insert(SCRIPT_READER.id, if script { AddonStatus::Ready } else { AddonStatus::Off });
-        // System (an add-on, off by default): on for its own page's scenes only.
+        // System and Health (add-ons, off by default): on for their own
+        // pages' scenes only (and Health for its goal notice).
         let system = scene.page() == Some(PageKind::System);
-        st.settings.set_addon(SYSTEM.id, system);
-        st.addons.insert(SYSTEM.id, if system { AddonStatus::Ready } else { AddonStatus::Off });
+        let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health)] {
+            st.settings.set_addon(id, on);
+            st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
+        }
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {

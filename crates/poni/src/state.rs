@@ -593,9 +593,15 @@ impl AppState {
             let on = st.settings.addon_on(a.id);
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
-        // Last open on the Script or System page, since switched off: open
-        // where a new island does.
-        if (st.page == PageKind::Script && !st.script_on()) || (st.page == PageKind::System && !st.system_on()) {
+        // Last open on the Script, System or Health page, since switched off:
+        // open where a new island does.
+        let off = match st.page {
+            PageKind::Script => !st.script_on(),
+            PageKind::System => !st.system_on(),
+            PageKind::Health => !st.health_on(),
+            _ => false,
+        };
+        if off {
             st.page = PageKind::ALL[0];
         }
         st
@@ -614,6 +620,11 @@ impl AppState {
     /// The System add-on is on: the System tab shows.
     pub fn system_on(&self) -> bool {
         self.addon(poni_core::addons::SYSTEM.id) == AddonStatus::Ready
+    }
+
+    /// The Health add-on is on: the Health tab shows and the steps are asked for.
+    pub fn health_on(&self) -> bool {
+        self.addon(poni_core::addons::HEALTH.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.

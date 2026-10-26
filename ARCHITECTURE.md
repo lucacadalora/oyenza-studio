@@ -3,7 +3,7 @@
 Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs from the
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Today,
-Health, Shelf, Tasks, Focus and Oyenza, plus the add-ons' System, Script and
+Shelf, Tasks, Focus and Oyenza, plus the add-ons' Health, System, Script and
 Prayer pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 

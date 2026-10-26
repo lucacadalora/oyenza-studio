@@ -40,7 +40,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -843,6 +843,14 @@ impl App {
         }
         if addons_changed {
             self.sync_addons();
+        }
+        // Health on or off: the Oyenza worker asks for the steps only while
+        // it's on, and off forgets the ones it had.
+        if before.addon_on(HEALTH.id) != self.st.settings.addon_on(HEALTH.id) {
+            if !self.st.settings.addon_on(HEALTH.id) {
+                self.st.health = None;
+            }
+            self.tell_oyenza_activity();
         }
     }
 
@@ -2216,6 +2224,7 @@ impl App {
             saver: p.saver,
             watching: self.oyenza_watch,
             today: self.today_watch,
+            health: self.st.health_on(),
         }
     }
 
@@ -2344,12 +2353,14 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
-            OyenzaEvent::Health(next) => {
+            // Steps asked for before Health was switched off stay out.
+            OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
                     let notice = pages::health::goal_notice(steps, now + oyenza::NOTICE_S);
                     self.st.show_or_hold(notice, self.fullscreen_hidden);
                 }
             }
+            OyenzaEvent::Health(_) => {}
             OyenzaEvent::NoteSaved(saved) => {
                 let o = &mut self.st.oyenza;
                 o.saving = false;
@@ -2641,8 +2652,14 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
-        // Prayer times or System switched off: its tab is gone.
-        if (self.st.page == PageKind::Prayer && !self.st.prayer_on()) || (self.st.page == PageKind::System && !self.st.system_on()) {
+        // Prayer times, System or Health switched off: its tab is gone.
+        let gone = match self.st.page {
+            PageKind::Prayer => !self.st.prayer_on(),
+            PageKind::System => !self.st.system_on(),
+            PageKind::Health => !self.st.health_on(),
+            _ => false,
+        };
+        if gone {
             self.st.page = PageKind::Addons;
         }
     }
@@ -3032,12 +3049,15 @@ impl App {
                 self.expand();
             }
             "open-today" => self.st.cmds.push(Command::SetPage(PageKind::Today)),
-            // The System page on this Mac's own readings, module by module.
-            // System is an add-on, off by default: on first, as its row in
-            // Add-ons does.
-            "open-system" => {
+            // System is an add-on, off by default: on, as its row in Add-ons
+            // does. Its tab comes, and the reader starts its light readings
+            // for the kept minute while the page is still closed.
+            "system-on" => {
                 self.st.settings.set_addon(SYSTEM.id, true);
                 self.st.cmds.push(Command::SaveSettings);
+            }
+            // The System page on this Mac's own readings, module by module.
+            "open-system" => {
                 self.st.ui.system_module = Module::Cpu;
                 self.st.cmds.push(Command::SetPage(PageKind::System));
             }
@@ -3333,6 +3353,7 @@ impl App {
             "open-today" => waited > 0.5,
             // Full readings list the apps (their CPU from the second one on);
             // the apps' icons follow from Finder.
+            "system-on" => services::sysmon::cost()[0].0 > 0 || waited > 5.0,
             "open-system" => (self.st.system.latest.as_ref().is_some_and(|r| !r.top_cpu.is_empty()) && waited > 1.6) || waited > 5.0,
             "system-gpu" | "system-memory" | "system-drives" | "system-network" => waited > 0.6,
             "system-power" => waited > 1.3,
@@ -3443,6 +3464,12 @@ impl App {
                     if self.stats_on { "on" } else { "off" },
                 );
                 Some(("system-stats", ok, d))
+            }
+            "system-on" => {
+                let tab = pages::tabs(&self.st).contains(&PageKind::System);
+                let [(light, _), _] = services::sysmon::cost();
+                let ok = tab && light > 0 && self.sysmon.is_some();
+                Some(("system-addon", ok, format!("System tab: {tab}; light readings with the page closed: {light}")))
             }
             "open-system" => {
                 let (ok, d) = system_report(&self.st);
@@ -3943,11 +3970,12 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 52] = [
+const SMOKE_STEPS: [&str; 53] = [
     "idle",
     "hover",
     "open-focus",
     "open-today",
+    "system-on",
     "open-system",
     "system-gpu",
     "system-memory",

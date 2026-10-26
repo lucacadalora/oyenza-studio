@@ -1,7 +1,8 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader and System are already in the app and only show their pages
-//! (System's readings also run only while it is on).
+//! reader, System and Health are already in the app and only show their
+//! pages (System's readings and Health's steps also run only while they are
+//! on).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -22,7 +23,9 @@ use poni_core::phonedrop::fmt_bytes;
 
 const INTRO_H: f32 = 18.0;
 const ROWS_Y: f32 = 28.0;
-const ROW_H: f32 = 52.0;
+/// Five rows fit the island's height (the System page's 256 DIPs), so the
+/// window never grows for this page.
+const ROW_H: f32 = 45.0;
 const BADGE: f32 = 36.0;
 const TEXT_X: f32 = 48.0;
 /// A row's hover wash reaches this far past its contents (as in Settings).
@@ -48,6 +51,7 @@ fn icon(a: &Addon) -> Icon {
         "ja" => Icon::Lyrics,
         "script" => Icon::Script,
         "system" => Icon::Gauge,
+        "health" => Icon::Steps,
         _ => Icon::Addons,
     }
 }
@@ -94,11 +98,11 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
 
     let x = r.x + TEXT_X;
     let w = (text_right - x).max(0.0);
-    ui.c.text(a.title, Rect::new(x, r.y + 6.0, w, 20.0), &TextStyle::headline());
+    ui.c.text(a.title, Rect::new(x, r.y + 3.0, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
-    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 27.0, w, 17.0), &TextStyle::footnote().color(line_color));
+    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = status.progress() {
-        let bar = Rect::new(x, r.y + 46.0, w, BAR_H);
+        let bar = Rect::new(x, r.y + 40.0, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);
         if p > 0.0 {
             ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * p).max(BAR_H), BAR_H), BAR_H / 2.0, accent);

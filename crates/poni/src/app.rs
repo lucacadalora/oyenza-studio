@@ -1352,6 +1352,7 @@ impl App {
             saver: p.saver,
             watching: self.oyenza_watch,
             today: self.today_watch,
+            health: self.st.health_on(),
         }
     }
 
@@ -1458,11 +1459,13 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
-            OyenzaEvent::Health(next) => {
+            // Steps asked for before Health was switched off stay out.
+            OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
                     self.steps_notice(steps);
                 }
             }
+            OyenzaEvent::Health(_) => {}
             OyenzaEvent::NoteSaved(saved) => {
                 let o = &mut self.st.oyenza;
                 o.saving = false;
@@ -1492,7 +1495,7 @@ impl App {
                 self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
             }
         }
-        // The Oyenza tab came or went: the window makes room for its page (or no longer has to).
+        // Signed in or out, the Oyenza page's height changes: the window fits the tallest page again.
         if self.st.oyenza.link != link_before {
             self.layout_surface();
         }
@@ -1635,6 +1638,15 @@ impl App {
                     s.set_addon(a.id, on);
                 }
             }
+        }
+        // Health on or off: the Oyenza worker asks for the steps only while
+        // it's on, and off forgets the ones it had.
+        let health_id = poni_core::addons::HEALTH.id;
+        if before.addon_on(health_id) != self.st.settings.addon_on(health_id) {
+            if !self.st.settings.addon_on(health_id) {
+                self.st.health = None;
+            }
+            self.tell_oyenza_activity();
         }
         if before.game_stats != self.st.settings.game_stats {
             if self.st.settings.game_stats && self.st.game.access == FpsAccess::Unknown {
@@ -2702,8 +2714,14 @@ impl App {
         }
         self.prayer_tick();
         self.script_tick();
-        // Prayer times or System switched off: its tab is gone.
-        if (self.st.page == PageKind::Prayer && !self.st.prayer_on()) || (self.st.page == PageKind::System && !self.st.system_on()) {
+        // Prayer times, System or Health switched off: its tab is gone.
+        let gone = match self.st.page {
+            PageKind::Prayer => !self.st.prayer_on(),
+            PageKind::System => !self.st.system_on(),
+            PageKind::Health => !self.st.health_on(),
+            _ => false,
+        };
+        if gone {
             self.st.page = PageKind::Addons;
         }
     }

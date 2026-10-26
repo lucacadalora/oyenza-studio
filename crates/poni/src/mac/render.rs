@@ -609,6 +609,12 @@ const SAMPLE_PLACES: &str = r#"{"places":[
     {"id":"makkah","label":"Makkah","kind":"abroad","prov":"Arab Saudi","lat":21.4225,"lng":39.8261,"tz":"Asia/Riyadh","method":"ummalqura"}
 ]}"#;
 
+/// The Health add-on switched on, as its row in Add-ons does.
+fn health_on(st: &mut AppState) {
+    st.settings.set_addon(poni_core::addons::HEALTH.id, true);
+    st.addons.insert(poni_core::addons::HEALTH.id, AddonStatus::Ready);
+}
+
 fn base_state(theme: Theme) -> AppState {
     let settings = Settings { theme, sounds: false, show_media_activity: true, lyrics: true, ..Default::default() };
     let mut st = AppState::new(settings, Store::default());
@@ -862,6 +868,10 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             if p == PageKind::Media {
                 media(&mut st);
             }
+            // Health is an add-on, off by default: on for its own page.
+            if p == PageKind::Health {
+                health_on(&mut st);
+            }
             if p == PageKind::Focus {
                 st.pomodoro.phase = Phase::Focus;
                 st.pomodoro.run = RunState::Running { ends_at: NOW_MONO + 1104.5 };
@@ -910,6 +920,7 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             Mode::Expanded(PageKind::Settings)
         }
         Scene::HealthSignedOut => {
+            health_on(&mut st);
             st.health = None;
             st.page = PageKind::Health;
             Mode::Expanded(PageKind::Health)

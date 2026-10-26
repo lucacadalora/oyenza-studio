@@ -134,8 +134,23 @@ pub const SYSTEM: Addon = Addon {
     files: &[],
 };
 
+/// Health: the Health page, today's steps against the goal and the week,
+/// which Oyenza on the phone sends once signed in (Apple Health or Health
+/// Connect). A tab for everyone up to 0.2.8; an add-on, off, in the versions
+/// after it, like System. Its code is in the app, so there is nothing to
+/// download. Off, there is no Health tab and the Oyenza worker never asks
+/// for the steps.
+pub const HEALTH: Addon = Addon {
+    id: "health",
+    title: "Health",
+    blurb: "Your steps from Oyenza on your phone: today against your goal, and your week.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 4] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM];
+pub const ALL: [&Addon; 5] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -239,11 +254,13 @@ mod tests {
     }
 
     #[test]
-    fn system_is_a_built_in_add_on_off_until_switched_on() {
-        assert!(!SYSTEM.downloads() && SYSTEM.size() == 0);
-        assert_eq!(Addon::find("system"), Some(&SYSTEM));
-        assert_eq!(Status::Ready.line(&SYSTEM, false), "On");
-        assert!(!Settings::default().addon_on(SYSTEM.id), "off for everyone until they switch it on");
+    fn system_and_health_are_built_in_add_ons_off_until_switched_on() {
+        for a in [&SYSTEM, &HEALTH] {
+            assert!(!a.downloads() && a.size() == 0, "{}", a.id);
+            assert_eq!(Addon::find(a.id), Some(a));
+            assert_eq!(Status::Ready.line(a, false), "On");
+            assert!(!Settings::default().addon_on(a.id), "{} is off for everyone until they switch it on", a.id);
+        }
         // Clipboard history left the app after 0.2.8: no add-on by that id.
         assert_eq!(Addon::find("clipboard"), None);
     }

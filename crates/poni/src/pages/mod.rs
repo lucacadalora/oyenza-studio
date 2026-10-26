@@ -50,13 +50,15 @@ pub fn header_rect(body: Rect) -> Rect {
 pub enum PageKind {
     Media,
     Today,
-    Health,
     Shelf,
     Tasks,
     Focus,
     /// Oyenza, with Oyen himself as its tab (`oyen::tab`): signed out, the
     /// way to sign in; signed in, the money by day.
     Oyenza,
+    /// The Health add-on's page, while it is on ([`tabs`]): the steps
+    /// Oyenza sends, so its tab sits beside Oyenza's.
+    Health,
     /// The System add-on's page, while it is on ([`tabs`]).
     System,
     /// The teleprompter: a script read under the webcam.
@@ -76,11 +78,11 @@ impl PageKind {
     pub const ALL: [PageKind; 12] = [
         PageKind::Media,
         PageKind::Today,
-        PageKind::Health,
         PageKind::Shelf,
         PageKind::Tasks,
         PageKind::Focus,
         PageKind::Oyenza,
+        PageKind::Health,
         PageKind::System,
         PageKind::Script,
         PageKind::Prayer,
@@ -161,13 +163,14 @@ impl PageKind {
     }
 }
 
-/// The tabs in the header: every page but Settings, and System, Script and
-/// Prayer only while their add-ons are on. Oyenza is always there (signed
-/// out it is where to sign in). Add-ons is last, in both apps.
+/// The tabs in the header: every page but Settings, and Health, System,
+/// Script and Prayer only while their add-ons are on. Oyenza is always there
+/// (signed out it is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
         .into_iter()
         .filter(|p| match p {
+            PageKind::Health => st.health_on(),
             PageKind::System => st.system_on(),
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
@@ -634,13 +637,14 @@ mod tests {
         // Music, then Today beside it; Focus where Today was; Oyenza last, signed in or not.
         use PageKind::*;
         let mut st = state();
-        assert_eq!(tabs(&st), [Media, Today, Health, Shelf, Tasks, Focus, Oyenza, Addons]);
+        assert_eq!(tabs(&st), [Media, Today, Shelf, Tasks, Focus, Oyenza, Addons]);
         st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
-        assert_eq!(tabs(&st), [Media, Today, Health, Shelf, Tasks, Focus, Oyenza, Addons]);
-        // The add-ons' pages come after Oyenza, before the "+".
-        st.addons.insert("system", poni_core::addons::Status::Ready);
-        st.addons.insert("script", poni_core::addons::Status::Ready);
-        assert_eq!(&tabs(&st)[6..], [Oyenza, System, Script, Addons]);
+        assert_eq!(tabs(&st), [Media, Today, Shelf, Tasks, Focus, Oyenza, Addons]);
+        // The add-ons' pages come after Oyenza (Health, Oyenza's steps, first), before the "+".
+        for id in ["system", "script", "health"] {
+            st.addons.insert(id, poni_core::addons::Status::Ready);
+        }
+        assert_eq!(&tabs(&st)[5..], [Oyenza, Health, System, Script, Addons]);
         // Clipboard left the app: an island last open there opens on Music.
         assert_eq!(PageKind::from_key("clipboard"), Media);
     }
@@ -675,7 +679,7 @@ mod tests {
         assert_eq!(tabs(&st).last(), Some(&PageKind::Addons));
         assert_eq!(PageKind::from_key("addons"), PageKind::Addons);
         // The window is as tall as the tallest page (System, laid out for
-        // whether it shows or not); the four add-ons stay under it.
+        // whether it shows or not); the five add-ons stay under it.
         assert!(content_height(PageKind::Addons, &st) <= content_height(PageKind::System, &st));
         // Signed out, Oyenza's sign-in is as tall as its code, so starting to
         // sign in doesn't move the island.
@@ -686,18 +690,20 @@ mod tests {
     }
 
     #[test]
-    fn system_has_a_tab_only_while_its_add_on_is_on() {
-        let mut st = state();
-        assert!(!tabs(&st).contains(&PageKind::System), "off for everyone until switched on");
-        st.settings.set_addon(poni_core::addons::SYSTEM.id, true);
-        st.addons.insert("system", poni_core::addons::Status::Ready);
-        assert!(tabs(&st).contains(&PageKind::System));
-        // An island last open on System opens on the first tab while it's off.
-        let store = Store { last_page: "system".into(), ..Store::default() };
-        let mut settings = Settings { remember_page: true, ..Settings::default() };
-        assert_eq!(AppState::new(settings.clone(), store.clone()).page, PageKind::ALL[0]);
-        settings.set_addon(poni_core::addons::SYSTEM.id, true);
-        assert_eq!(AppState::new(settings, store).page, PageKind::System);
+    fn system_and_health_have_a_tab_only_while_their_add_ons_are_on() {
+        for (page, addon) in [(PageKind::System, poni_core::addons::SYSTEM), (PageKind::Health, poni_core::addons::HEALTH)] {
+            let mut st = state();
+            assert!(!tabs(&st).contains(&page), "{} is off for everyone until switched on", addon.id);
+            st.settings.set_addon(addon.id, true);
+            st.addons.insert(addon.id, poni_core::addons::Status::Ready);
+            assert!(tabs(&st).contains(&page));
+            // An island last open on its page opens on the first tab while it's off.
+            let store = Store { last_page: page.key().into(), ..Store::default() };
+            let mut settings = Settings { remember_page: true, ..Settings::default() };
+            assert_eq!(AppState::new(settings.clone(), store.clone()).page, PageKind::ALL[0]);
+            settings.set_addon(addon.id, true);
+            assert_eq!(AppState::new(settings, store).page, page);
+        }
     }
 
     #[test]
