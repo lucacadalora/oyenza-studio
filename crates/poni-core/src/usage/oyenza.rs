@@ -69,10 +69,23 @@ impl Provider for Oyenza {
     }
 }
 
-/// The server to ask: [`BASE`], or the http(s) address in [`URL_VAR`]
-/// (without its trailing slash).
+/// The server to ask: [`BASE`], or the address in [`URL_VAR`] (without its
+/// trailing slash). The key goes wherever this points, so the variable takes
+/// `https://` anywhere but plain `http://` only on this computer (a test
+/// server); anything else is ignored.
 pub fn base(var: Option<&str>) -> String {
-    let ok = |u: &str| matches!(u.split_once("://"), Some(("http" | "https", host)) if !host.trim_end_matches('/').is_empty() && !host.contains(char::is_whitespace));
+    let ok = |u: &str| match u.split_once("://") {
+        Some((scheme, rest)) if !rest.contains(char::is_whitespace) => {
+            let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
+            // The host without its port: "[::1]:9000" -> "[::1]", "localhost:8080" -> "localhost".
+            let host = match authority.find(']') {
+                Some(end) if authority.starts_with('[') => &authority[..=end],
+                _ => authority.split(':').next().unwrap_or(""),
+            };
+            !host.is_empty() && (scheme == "https" || (scheme == "http" && matches!(host, "127.0.0.1" | "localhost" | "[::1]")))
+        }
+        _ => false,
+    };
     match var.map(str::trim) {
         Some(u) if ok(u) => u.trim_end_matches('/').to_string(),
         _ => BASE.to_string(),
@@ -599,7 +612,11 @@ mod tests {
         }
         assert_eq!(base(None), BASE);
         assert_eq!(base(Some("https://staging.example.com")), "https://staging.example.com");
-        for bad in ["", "ftp://example.com", "inference.example.com", "https://", "https:///", "http://a b"] {
+        for good in ["https://staging.example.com:8443", "http://localhost:8080", "http://[::1]:9000"] {
+            assert_eq!(base(Some(good)), good);
+        }
+        // Plain http anywhere but this computer would send the key in the clear.
+        for bad in ["", "ftp://example.com", "inference.example.com", "https://", "https:///", "http://a b", "http://example.com", "http://192.168.1.5:8090", "http://localhost.example.com"] {
             assert_eq!(base(Some(bad)), BASE, "{bad}");
         }
     }
