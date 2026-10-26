@@ -122,6 +122,7 @@ impl Provider for OpenCode {
 /// Where the key came from.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Origin {
+    /// Typed into Oyenza Studio for this service.
     Typed,
     /// The Go entry of OpenCode 1's `auth.json`.
     File,
