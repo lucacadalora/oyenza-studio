@@ -146,6 +146,12 @@ enum Scene {
     TodayDay,
     TodayNoApps,
     TodayTiles,
+    /// The Update sheet for a later version: while it downloads (or where
+    /// this copy can't replace itself), with the DMG to download, and once
+    /// its app is out of the DMG and checked, Install now and Install on
+    /// next start.
+    UpdateSheet,
+    UpdateReady,
 }
 
 const SCENES: [Scene; 19] = [
@@ -216,6 +222,8 @@ const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::Oyen
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 /// The Today page signed in, after Power.
 const TODAY_SCENES: [Scene; 3] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles];
+/// The Update sheet, after Today.
+const UPDATE_SCENES: [Scene; 2] = [Scene::UpdateSheet, Scene::UpdateReady];
 
 impl Scene {
     fn name(self) -> String {
@@ -257,6 +265,8 @@ impl Scene {
             Scene::TodayDay => "page-today-day".into(),
             Scene::TodayNoApps => "page-today-no-apps".into(),
             Scene::TodayTiles => "page-today-tiles".into(),
+            Scene::UpdateSheet => "page-update-sheet".into(),
+            Scene::UpdateReady => "page-update-ready".into(),
         }
     }
 }
@@ -320,10 +330,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power and Today signed in in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and the Update sheet in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).enumerate() {
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(UPDATE_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -631,6 +641,24 @@ fn base_state(theme: Theme) -> AppState {
     st
 }
 
+/// A later version than this build, with its DMG, for the Update sheet.
+fn fake_release() -> poni_core::update::Release {
+    let mut parts: Vec<u64> = crate::version::VERSION.split('.').filter_map(|p| p.parse().ok()).collect();
+    if let Some(last) = parts.last_mut() {
+        *last += 1;
+    }
+    let version = parts.iter().map(u64::to_string).collect::<Vec<_>>().join(".");
+    let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+    poni_core::update::Release {
+        date: "2026-10-27".into(),
+        headline: "Updates install themselves on a Mac".into(),
+        notes: format!("{repo}/tag/v{version}"),
+        windows: None,
+        mac: Some(poni_core::update::Download { url: format!("{repo}/download/v{version}/Oyenza-Studio-{version}-mac.dmg"), size: 4_300_000, sha256: "0".repeat(64) }),
+        version,
+    }
+}
+
 /// Oyenza for its scenes, all made up: today's and yesterday's
 /// transactions (today's newest just landed, so it glows), bills due
 /// tomorrow and later; or, signing in, the code to type in oyenza.app.
@@ -878,6 +906,11 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = p;
             Mode::Expanded(p)
+        }
+        Scene::UpdateSheet | Scene::UpdateReady => {
+            st.update = crate::state::UpdateView { offer: Some(fake_release()), sheet: true, ready: scene == Scene::UpdateReady, next_start: false };
+            st.page = PageKind::Settings;
+            Mode::Expanded(PageKind::Settings)
         }
         Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => {
             use poni_core::agenda::{sample, Answer, Sources};
