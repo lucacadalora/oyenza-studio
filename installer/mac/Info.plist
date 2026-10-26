@@ -41,5 +41,8 @@
 	<string>Prayer times uses your location to pick the nearest kab/kota. Your location stays on this Mac.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Prayer times uses your location to pick the nearest kab/kota. Your location stays on this Mac.</string>
+	<!-- Shown when the IELTS coach first records an answer (the microphone runs only while it records). -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Oyen listens to your spoken IELTS answers and scores them.</string>
 </dict>
 </plist>

@@ -142,4 +142,8 @@ pub enum AppEvent {
     AdzanEnded,
     /// Free-form log line from a service thread.
     Log(String),
+    /// The IELTS coach's voice played a line to its end, or couldn't play on (`services::voice`).
+    VoiceEnded,
+    /// The IELTS coach's microphone stopped by itself, or the person said no to macOS's question (`services::mic`).
+    MicFailed(String),
 }

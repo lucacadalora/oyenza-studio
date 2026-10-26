@@ -62,6 +62,11 @@ if [ -n "$browser" ]; then
 else
   echo "(no Edge or Chrome: the browser check is skipped)"
 fi
+# The IELTS coach's voice: a short mp3 like the ones its server sends (44.1 kHz mono, 128 kbps), for the
+# ielts-voice-mp3 step (the ielts-voice step writes its own WAV).
+if [ -f tools/mac-smoke-voice.mp3 ]; then
+  export PONI_SMOKE_MP3="$(pwd)/tools/mac-smoke-voice.mp3"
+fi
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &

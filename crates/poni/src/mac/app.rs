@@ -425,6 +425,12 @@ pub struct App {
     smoke_full_screen: Option<std::process::Child>,
     /// The Oyenza step's POST through the Mac's HTTP client: (arrived and answered, what happened).
     smoke_post: Option<(bool, String)>,
+    /// The IELTS coach's voice steps: the line playing and how it went.
+    smoke_voice: Option<SmokeVoice>,
+    /// Its microphone steps: what `Mic::start` gave, then what `stop` gave
+    /// (whether that's right, and what happened).
+    smoke_mic: Option<Result<services::mic::Mic, services::mic::MicError>>,
+    smoke_mic_stop: Option<(bool, String)>,
     /// The island floated on the last frame (Pill letting go of the notch).
     was_floating: bool,
 }
@@ -524,6 +530,9 @@ impl App {
             smoke_devices: None,
             smoke_full_screen: None,
             smoke_post: None,
+            smoke_voice: None,
+            smoke_mic: None,
+            smoke_mic_stop: None,
             was_floating: false,
         }
     }
@@ -1354,6 +1363,14 @@ impl App {
                 self.apply_fullscreen();
             }
             AppEvent::Oyenza(ev) => self.on_oyenza(ev),
+            // The IELTS coach's page takes these once it's wired in; until
+            // then only the smoke run's voice steps listen.
+            AppEvent::VoiceEnded => {
+                if let Some(v) = self.smoke_voice.as_mut() {
+                    v.ended.get_or_insert(now);
+                }
+            }
+            AppEvent::MicFailed(why) => pwarn!("mic: {why}"),
         }
         if let Some(before) = media_before {
             self.after_media_change(before, now);
@@ -3354,6 +3371,36 @@ impl App {
                 self.st.page = PageKind::Today;
                 self.expand();
             }
+            // The IELTS coach's voice (services::voice): a short tone as a
+            // 16 kHz WAV, then, when CI passes one, a short mp3 like the
+            // server's, each to its end. No page yet: the island stays as is.
+            "ielts-voice" | "ielts-voice-mp3" => {
+                let file = if name == "ielts-voice" {
+                    let p = paths::data_dir().join("ielts").join("smoke-voice.wav");
+                    smoke_tone_wav(&p, 0.5).map(|()| Some(p)).map_err(|e| e.to_string())
+                } else {
+                    Ok(std::env::var_os("PONI_SMOKE_MP3").map(PathBuf::from))
+                };
+                let started = clock::mono();
+                self.smoke_voice = match file {
+                    Ok(Some(file)) => {
+                        let mut player = services::voice::VoicePlayer::default();
+                        let played = player.play(&file, &self.sink);
+                        Some(SmokeVoice { player, file, started, played, ended: None })
+                    }
+                    Ok(None) => None,
+                    Err(e) => Some(SmokeVoice { player: Default::default(), file: PathBuf::new(), started, played: Err(e), ended: None }),
+                };
+            }
+            // Its microphone (services::mic): whatever this Mac allows (a
+            // microphone or none; macOS's yes, no or a question nobody
+            // answers), start answers at once. The stop step comes after.
+            "ielts-mic" => {
+                self.smoke_voice = None;
+                let out = paths::data_dir().join("ielts").join("smoke-answer.wav");
+                self.smoke_mic = Some(services::mic::Mic::start(&out, &self.sink));
+            }
+            "ielts-mic-stop" => self.smoke_mic_stop = Some(self.smoke_mic_stopped()),
             "menu" => {
                 // The pointer from notch-pill-ear leaves.
                 self.leave();
@@ -3418,6 +3465,10 @@ impl App {
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
+            // The line plays to its end (half a second).
+            "ielts-voice" | "ielts-voice-mp3" => self.smoke_voice.as_ref().is_none_or(|v| v.ended.is_some() || v.played.is_err()) || waited > 5.0,
+            // A second and a half of whatever the microphone hears.
+            "ielts-mic" => waited > 1.5,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
             _ => true,
@@ -3757,7 +3808,55 @@ impl App {
                 let d = format!("{status:?}; files {}; downloader {}", if gone { "deleted" } else { "still there" }, if self.addons.is_none() { "stopped" } else { "still running" });
                 Some(("ja-readings-off", ok, d))
             }
+            "ielts-voice" | "ielts-voice-mp3" => {
+                let check = if name == "ielts-voice" { "ielts-voice-wav" } else { "ielts-voice-mp3" };
+                let Some(v) = &self.smoke_voice else { return Some((check, true, "skipped: no mp3 on this run".into())) };
+                let ended = v.ended.map_or("never".to_string(), |t| format!("after {:.2} s", t - v.started));
+                let ok = v.played.is_ok() && v.ended.is_some() && !v.player.playing();
+                let mp3 = objc2_app_kit::NSSound::soundUnfilteredTypes().iter().any(|t| t.to_string() == "public.mp3");
+                Some((check, ok, format!("{}: play {:?}, VoiceEnded {ended}; NSSound lists mp3: {mp3}", v.file.display(), v.played)))
+            }
+            "ielts-mic" => {
+                use services::mic::MicError;
+                let (ok, gave) = match &self.smoke_mic {
+                    Some(Ok(mic)) => (true, format!("Ok ({mic:?}, level {:.3})", mic.level())),
+                    Some(Err(MicError::NoDevice)) => (true, "NoDevice (no microphone on this Mac)".to_string()),
+                    Some(Err(MicError::Denied)) => (true, "Denied (macOS says no)".to_string()),
+                    Some(Err(MicError::Failed(e))) => (false, format!("Failed: {e}")),
+                    None => (false, "nothing".to_string()),
+                };
+                Some(("ielts-mic-start", ok, format!("Mic::start gave {gave}")))
+            }
+            "ielts-mic-stop" => {
+                let (ok, d) = self.smoke_mic_stop.clone().unwrap_or((false, "not run".into()));
+                Some(("ielts-mic-stop", ok, d))
+            }
             _ => None,
+        }
+    }
+
+    /// The microphone's stop step: what `Mic::stop` gave, and whether that's
+    /// right for what `start` gave.
+    fn smoke_mic_stopped(&mut self) -> (bool, String) {
+        match self.smoke_mic.take() {
+            Some(Ok(mic)) => {
+                let was = format!("{mic:?}");
+                match mic.stop() {
+                    Ok((path, secs)) => match smoke_wav_format(&path) {
+                        Some((rate, channels, bits, at, bytes)) => {
+                            let ok = rate == 16_000 && channels == 1 && bits == 16 && secs > 1.0 && bytes >= 32_000;
+                            (ok, format!("{secs:.2} s in {}: {rate} Hz, {channels} channel(s), {bits}-bit, {bytes} bytes of samples from byte {at}", path.display()))
+                        }
+                        None => (false, format!("{secs:.2} s, but {} isn't a WAV file", path.display())),
+                    },
+                    // macOS's question still up (nobody answers it on CI), or
+                    // the person said no meanwhile: nothing was recorded.
+                    Err(e) if was == "asking macOS" || was == "turned down" => (true, format!("{e:?} (it was {was})")),
+                    Err(e) => (false, format!("{e:?} (it was {was})")),
+                }
+            }
+            Some(Err(e)) => (true, format!("nothing to stop: start gave {e:?}")),
+            None => (false, "Mic::start didn't run".into()),
         }
     }
 }
@@ -4021,7 +4120,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 58] = [
+const SMOKE_STEPS: [&str; 62] = [
     "idle",
     "hover",
     "open-focus",
@@ -4079,6 +4178,10 @@ const SMOKE_STEPS: [&str; 58] = [
     "now-playing",
     "now-playing-browser-start",
     "now-playing-browser",
+    "ielts-voice",
+    "ielts-voice-mp3",
+    "ielts-mic",
+    "ielts-mic-stop",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
@@ -4092,6 +4195,66 @@ const SMOKE_SERVICE_TRACK: &str = "Is It Broken Yet?";
 /// The title the browser's page gives its tab, as YouTube names a video
 /// (tools/mac-browser-player.html).
 const SMOKE_BROWSER_TRACK: &str = "Robbers";
+
+/// The IELTS coach's voice step: the player, its file, when the line
+/// started, what `play` said and when `AppEvent::VoiceEnded` came.
+struct SmokeVoice {
+    player: services::voice::VoicePlayer,
+    file: PathBuf,
+    started: f64,
+    played: Result<(), String>,
+    ended: Option<f64>,
+}
+
+/// The voice step's line: a quiet 440 Hz tone, `secs` long, as a 16 kHz mono
+/// 16-bit WAV (the microphone's format too).
+fn smoke_tone_wav(path: &std::path::Path, secs: f32) -> std::io::Result<()> {
+    let n = (16_000.0 * secs) as u32;
+    let mut b = Vec::with_capacity(44 + 2 * n as usize);
+    b.extend_from_slice(b"RIFF");
+    b.extend_from_slice(&(36 + 2 * n).to_le_bytes());
+    b.extend_from_slice(b"WAVEfmt ");
+    b.extend_from_slice(&16u32.to_le_bytes());
+    b.extend_from_slice(&1u16.to_le_bytes()); // PCM
+    b.extend_from_slice(&1u16.to_le_bytes()); // mono
+    b.extend_from_slice(&16_000u32.to_le_bytes());
+    b.extend_from_slice(&32_000u32.to_le_bytes()); // bytes a second
+    b.extend_from_slice(&2u16.to_le_bytes()); // bytes a frame
+    b.extend_from_slice(&16u16.to_le_bytes()); // bits
+    b.extend_from_slice(b"data");
+    b.extend_from_slice(&(2 * n).to_le_bytes());
+    for i in 0..n {
+        let s = (i as f32 / 16_000.0 * 440.0 * std::f32::consts::TAU).sin() * 0.1 * i16::MAX as f32;
+        b.extend_from_slice(&(s as i16).to_le_bytes());
+    }
+    if let Some(dir) = path.parent() {
+        std::fs::create_dir_all(dir)?;
+    }
+    std::fs::write(path, b)
+}
+
+/// A WAV file's rate, channels, bits, and where its samples start and how
+/// many bytes they take (chunks such as Apple's FLLR padding skipped).
+fn smoke_wav_format(path: &std::path::Path) -> Option<(u32, u16, u16, usize, usize)> {
+    let b = std::fs::read(path).ok()?;
+    if b.get(0..4)? != b"RIFF" || b.get(8..12)? != b"WAVE" {
+        return None;
+    }
+    let u16_at = |i: usize| Some(u16::from_le_bytes(b.get(i..i + 2)?.try_into().ok()?));
+    let u32_at = |i: usize| Some(u32::from_le_bytes(b.get(i..i + 4)?.try_into().ok()?));
+    let (mut at, mut fmt) = (12, None);
+    while at + 8 <= b.len() {
+        let (id, len) = (&b[at..at + 4], u32_at(at + 4)? as usize);
+        if id == b"fmt " {
+            fmt = Some((u32_at(at + 12)?, u16_at(at + 10)?, u16_at(at + 22)?));
+        } else if id == b"data" {
+            let (rate, channels, bits) = fmt?;
+            return Some((rate, channels, bits, at + 8, len.min(b.len() - at - 8)));
+        }
+        at += 8 + len + (len & 1);
+    }
+    None
+}
 
 #[derive(Clone, Copy, Debug)]
 enum SmokePhase {

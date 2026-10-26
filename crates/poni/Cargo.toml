@@ -120,6 +120,9 @@ objc2-core-foundation = "=0.3.2"
 objc2-core-graphics = "=0.3.2"
 # Prayer times: where the Mac is (Location Services), only when asked.
 objc2-core-location = { version = "=0.3.2", default-features = false, features = ["std", "CLError", "CLLocation", "CLLocationManager", "CLLocationManagerDelegate"] }
+# The IELTS coach: recording a spoken answer (AVAudioRecorder) and macOS's
+# microphone question (AVAudioApplication), only while a session records.
+objc2-avf-audio = { version = "=0.3.2", default-features = false, features = ["std", "block2", "AVAudioApplication", "AVAudioRecorder", "AVAudioSettings"] }
 objc2-core-text = "=0.3.2"
 objc2-quartz-core = "=0.3.2"
 # The update file's signature (services/update.rs): the P-256 code phone

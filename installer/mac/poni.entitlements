@@ -14,5 +14,9 @@
 	     refuses Core Location without this. People still say yes once (NSLocationUsageDescription). -->
 	<key>com.apple.security.personal-information.location</key>
 	<true/>
+	<!-- The IELTS coach records spoken answers; the hardened runtime refuses the microphone
+	     without this. People still say yes once (NSMicrophoneUsageDescription). -->
+	<key>com.apple.security.device.audio-input</key>
+	<true/>
 </dict>
 </plist>

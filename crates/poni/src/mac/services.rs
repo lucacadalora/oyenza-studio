@@ -23,6 +23,8 @@ pub mod http;
 pub mod media;
 #[path = "services/mediaremote.rs"]
 mod mediaremote;
+#[path = "services/mic.rs"]
+pub mod mic;
 #[path = "services/romanize.rs"]
 pub mod romanize;
 #[path = "services/secret.rs"]
@@ -63,6 +65,8 @@ pub mod sysmon;
 pub mod sysstats;
 #[path = "services/thumbs.rs"]
 pub mod thumbs;
+#[path = "services/voice.rs"]
+pub mod voice;
 
 use objc2_app_kit::{NSColor, NSColorSpace, NSSound, NSWorkspace};
 use objc2_foundation::{NSArray, NSFileManager, NSString, NSURL};
