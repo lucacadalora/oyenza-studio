@@ -3293,14 +3293,16 @@ impl App {
                 self.on_oyenza(OyenzaEvent::Disconnected { by_server: false });
                 self.oyenza = None;
             }
-            // macOS's own now playing, as a browser tab reaches it: sound
-            // starts (CI's Macs play none) and tools/mac-smoke.sh starts the
-            // MediaRemote adapter's test player. Last of the music steps:
-            // once it answers, it speaks for Spotify too.
+            // macOS's own now playing, as a browser tab reaches it: the
+            // stream stops, tools/mac-smoke.sh starts the MediaRemote
+            // adapter's test player, and sound (CI's Macs play none) starts
+            // a fresh stream, which reads it. Last of the music steps: once
+            // the service answers, it speaks for Spotify too.
             "now-playing-start" => {
                 self.collapse();
-                services::media::smoke_sound();
+                services::media::smoke_rest();
             }
+            "now-playing" => services::media::smoke_sound(),
             // The themes on the real window: Glass, then Oyen and Glass
             // around a notch (one the screen pretends to have; CI's Macs
             // have none), open and resting in the menu bar's line.

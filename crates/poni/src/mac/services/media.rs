@@ -154,6 +154,8 @@ enum Msg {
     Ended(u32, String),
     /// Sound started or stopped on the default output (audio.rs).
     Sound(bool),
+    /// Stop the stream now (the smoke run's fresh start).
+    Rest,
     Stop,
 }
 
@@ -207,6 +209,17 @@ pub fn sound(on: bool) {
 /// player (the adapter's own) reports a track without any.
 pub fn smoke_sound() {
     sound(true);
+}
+
+/// The smoke run stops the stream before its test player starts, so the
+/// sound that follows starts a fresh one: the adapter follows a player
+/// that has no app bundle (that test player, a command-line program) only
+/// in what it reads as it starts, while an app's player comes in through
+/// macOS's notifications at any time.
+pub fn smoke_rest() {
+    if let Some(tx) = TX.lock().ok().and_then(|g| g.clone()) {
+        let _ = tx.send(Msg::Rest);
+    }
 }
 
 define_class!(
@@ -364,6 +377,7 @@ impl Worker {
                 Ok(Msg::Said(id, line)) => self.on_said(id, &line),
                 Ok(Msg::Ended(id, why)) => self.on_ended(id, why),
                 Ok(Msg::Sound(on)) => self.on_sound(on),
+                Ok(Msg::Rest) => self.rest(),
                 Ok(Msg::Stop) | Err(RecvTimeoutError::Disconnected) => break,
                 Err(RecvTimeoutError::Timeout) => self.on_wake(),
             }
