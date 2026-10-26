@@ -765,6 +765,8 @@ mod tests {
         let mut st = state();
         assert!(!tabs(&st).contains(&PageKind::Record), "no recorder: no tab");
         st.recorder = true;
+        assert!(!tabs(&st).contains(&PageKind::Record), "a recorder that never wrote (1.0.0) can't read Record's links");
+        st.store.recorder_island = true;
         let row = tabs(&st);
         if cfg!(target_os = "macos") {
             assert!(!row.contains(&PageKind::Record), "Windows only for now");
@@ -785,6 +787,7 @@ mod tests {
     fn neither_the_record_page_nor_six_add_ons_make_the_window_taller() {
         let mut st = state();
         st.recorder = true;
+        st.store.recorder_island = true;
         let tallest = content_height(PageKind::System, &st);
         assert!(content_height(PageKind::Record, &st) <= tallest);
         assert!(content_height(PageKind::Addons, &st) <= tallest, "{} > {tallest}", content_height(PageKind::Addons, &st));

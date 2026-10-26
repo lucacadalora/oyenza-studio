@@ -2124,6 +2124,7 @@ impl SelfTest {
             st.store.script.text.clear();
         }
         st.recorder = scene.recorder();
+        st.store.recorder_island = scene.recorder() && scene != Scene::ScriptRecorder;
         st.rec = scene.recording(now);
         st.settings.record = poni_core::settings::RecordSettings::default();
         st.system = fake_system(scene);

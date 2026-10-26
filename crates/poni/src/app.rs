@@ -2411,8 +2411,13 @@ impl App {
     /// recording, or opened on its Record page.
     fn on_recorder_message(&mut self, m: poni_core::recorder::Message, sender: isize) -> bool {
         use poni_core::recorder::{Message, Phase};
-        // Only an installed recorder writes: the Record tab can show from now.
+        // Only an installed recorder that reads the Record page's links
+        // writes: the Record tab can show from now on (remembered).
         self.st.recorder = true;
+        if !self.st.store.recorder_island {
+            self.st.store.recorder_island = true;
+            self.st.cmd(Command::SaveStore);
+        }
         if !self.st.record_on() {
             return false;
         }

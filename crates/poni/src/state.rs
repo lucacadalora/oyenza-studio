@@ -642,7 +642,13 @@ impl AppState {
     /// controls of its own. Windows only for now: the Mac recorder doesn't
     /// tell the island about its recordings yet.
     pub fn record_on(&self) -> bool {
-        !cfg!(target_os = "macos") && self.settings.recorder_on(self.recorder)
+        !cfg!(target_os = "macos") && self.settings.recorder_on(self.recorder_ready())
+    }
+
+    /// The recorder is installed and has written to the island before
+    /// (`Store::recorder_island`): it understands the Record page.
+    pub fn recorder_ready(&self) -> bool {
+        self.recorder && self.store.recorder_island
     }
 
     /// A recording is under way: starting, recording, paused or being saved.

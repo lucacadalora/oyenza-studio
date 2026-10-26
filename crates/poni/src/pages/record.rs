@@ -278,7 +278,7 @@ mod tests {
     use poni_core::store::Store;
 
     fn state() -> AppState {
-        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut st = AppState::new(Settings::default(), Store { recorder_island: true, ..Store::default() });
         st.recorder = true;
         st.now = 100.0;
         st
