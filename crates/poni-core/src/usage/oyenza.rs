@@ -245,12 +245,29 @@ pub fn started(r: &Result<Reply, NetFail>, base: &str, now: i64) -> Result<Pendi
     Ok(Pending { code, url, expires_at: now + lasts_s as i64, next_at: now + every_s as i64, every_s, poll: poll.to_string() })
 }
 
+/// The key, on its way from an approval to the worker's sealed store.
+/// Printed (`{:?}`), it shows only its kind, so it can't reach a log.
+#[derive(Clone, PartialEq, Eq)]
+pub struct Key(String);
+
+impl Key {
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+
+impl std::fmt::Debug for Key {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("oyis_…")
+    }
+}
+
 /// What asking about a code answered.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Claim {
     Pending,
     /// Approved: the key (given exactly once) and the account, masked.
-    Approved { key: String, account: String },
+    Approved { key: Key, account: String },
     Denied,
     /// Ran out, already used, or unknown to the server.
     Expired,
@@ -274,7 +291,7 @@ pub fn parse_claim(r: &Result<Reply, NetFail>) -> Option<Claim> {
         "pending" => Some(Claim::Pending),
         "approved" => {
             let key = text("key").filter(|k| key_ok(k))?;
-            Some(Claim::Approved { key: key.to_string(), account: mask_email(text("account").unwrap_or("")) })
+            Some(Claim::Approved { key: Key(key.to_string()), account: mask_email(text("account").unwrap_or("")) })
         }
         "denied" => Some(Claim::Denied),
         "expired" => Some(Claim::Expired),
@@ -288,7 +305,7 @@ pub enum Poll {
     /// Keep the code on screen and ask again after [`Pending::wait_s`].
     Wait,
     /// Keep `key` sealed under [`SECRET`] and say [`connected_text`].
-    Approved { key: String, account: String },
+    Approved { key: Key, account: String },
     /// It ended without a key: say [`connect_failure_text`] of this.
     Failed(&'static str),
 }
@@ -376,7 +393,7 @@ pub fn connect_failure_text(code: &str) -> (&'static str, &'static str) {
         EXPIRED => ("Code expired", "Connect again for a new one"),
         DENIED => ("Not connected", "The code was refused on inference.oyenza.com"),
         OFFLINE => ("Can't reach Oyenza Inference", "Check the connection and try again"),
-        BUSY => ("Too many codes asked for", "Try again in a few minutes"),
+        BUSY => ("Too many tries", "Wait a few minutes, then connect again"),
         _ => ("Couldn't connect", "Try again in a minute"),
     }
 }
@@ -641,7 +658,10 @@ mod tests {
     fn every_connect_state() {
         let claim = |body: &str| parse_claim(&reply(200, body));
         assert_eq!(claim(r#"{"status":"pending"}"#), Some(Claim::Pending));
-        assert_eq!(claim(APPROVED), Some(Claim::Approved { key: KEY.into(), account: "a•••@example.com".into() }));
+        let approved = claim(APPROVED);
+        assert_eq!(approved, Some(Claim::Approved { key: Key(KEY.into()), account: "a•••@example.com".into() }));
+        // Printed, the key shows only its kind.
+        assert_eq!(format!("{approved:?}"), r#"Some(Approved { key: oyis_…, account: "a•••@example.com" })"#);
         assert_eq!(claim(r#"{"status":"denied"}"#), Some(Claim::Denied));
         // Ran out, already claimed, or a poll token the server doesn't know.
         assert_eq!(claim(r#"{"status":"expired"}"#), Some(Claim::Expired));
@@ -659,7 +679,8 @@ mod tests {
         assert_eq!(p.heard(&Err(NetFail::Network("reset".into())), NOW + 10), Poll::Wait);
         assert_eq!(p.heard(&reply(502, "<html>"), NOW + 15), Poll::Wait);
         assert_eq!(p.next_at, NOW + 20);
-        assert_eq!(p.heard(&reply(200, APPROVED), NOW + 20), Poll::Approved { key: KEY.into(), account: "a•••@example.com".into() });
+        let Poll::Approved { key, account } = p.heard(&reply(200, APPROVED), NOW + 20) else { panic!("approved") };
+        assert_eq!((key.as_str(), account.as_str()), (KEY, "a•••@example.com"));
         assert_eq!(p.heard(&reply(200, r#"{"status":"denied"}"#), NOW + 25), Poll::Failed(DENIED));
         assert_eq!(p.heard(&reply(200, r#"{"status":"expired"}"#), NOW + 25), Poll::Failed(EXPIRED));
         // A request the server won't take.
@@ -709,7 +730,7 @@ mod tests {
         assert_eq!(CONNECT_AGAIN, "Connect again");
         assert_eq!(connect_failure_text(DENIED).0, "Not connected");
         assert_eq!(connect_failure_text(OFFLINE).0, "Can't reach Oyenza Inference");
-        assert_eq!(connect_failure_text(BUSY).0, "Too many codes asked for");
+        assert_eq!(connect_failure_text(BUSY).0, "Too many tries");
         assert_eq!(connect_failure_text("whatever").0, "Couldn't connect");
         assert_eq!(nudge(ProviderId::Claude, Some("14:20")).as_deref(), Some("Out of Claude Code until 14:20? Keep going on Oyenza Inference."));
         assert_eq!(nudge(ProviderId::Codex, Some(" ")).as_deref(), Some("Out of Codex? Keep going on Oyenza Inference."));
