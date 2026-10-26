@@ -60,10 +60,10 @@ impl Provider for Claude {
         // version's copy is there, else `.claude.json` in the home folder (in
         // CLAUDE_CONFIG_DIR when that is set).
         let settings = match dirs.var("CLAUDE_CONFIG_DIR") {
-            Some(_) => root.join(".claude.json"),
-            None => dirs.home.join(".claude.json"),
+            Some(_) => dirs.join(&root, &[".claude.json"]),
+            None => dirs.home_join(&[".claude.json"]),
         };
-        let mut wants = vec![Want::file(root.join(".credentials.json")), Want::file(root.join(".config.json")), Want::file(settings)];
+        let mut wants = vec![Want::file(dirs.join(&root, &[".credentials.json"])), Want::file(dirs.join(&root, &[".config.json"])), Want::file(settings)];
         if dirs.os == Os::Mac {
             wants.push(Want::Keychain { service: keychain_service(dirs), account: None });
         }
@@ -296,6 +296,7 @@ mod tests {
         let (mut asked, mut replies) = (Vec::new(), Vec::new());
         loop {
             match Claude.next(&cx, &replies) {
+                Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
                 Step::Done(out) => return (asked, out),
                 Step::Fetch(r) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");
@@ -313,8 +314,7 @@ mod tests {
     #[test]
     fn windows_reads_the_file_in_its_home() {
         let d = Dirs::sample(Os::Windows);
-        let claude = d.home.join(".claude");
-        let want = vec![Want::file(claude.join(".credentials.json")), Want::file(claude.join(".config.json")), Want::file(d.home.join(".claude.json"))];
+        let want = vec![Want::file(PathBuf::from(r"C:\Users\u\.claude\.credentials.json")), Want::file(PathBuf::from(r"C:\Users\u\.claude\.config.json")), Want::file(PathBuf::from(r"C:\Users\u\.claude.json"))];
         assert_eq!(Claude.wants(&d), want);
         let (asked, out) = run(Os::Windows, &windows(file(CREDENTIALS_JSON)), Reach::Online, &[reply(200, USAGE)]);
         assert_eq!(asked.len(), 1);
@@ -357,8 +357,7 @@ mod tests {
         assert_eq!(Claude.wants(&d), want);
         let mut w = Dirs::sample(Os::Windows);
         w.env.push(("CLAUDE_CONFIG_DIR".into(), r"D:\claude".into()));
-        let root = PathBuf::from(r"D:\claude");
-        assert_eq!(Claude.wants(&w), vec![Want::file(root.join(".credentials.json")), Want::file(root.join(".config.json")), Want::file(root.join(".claude.json"))]);
+        assert_eq!(Claude.wants(&w), vec![Want::file(PathBuf::from(r"D:\claude\.credentials.json")), Want::file(PathBuf::from(r"D:\claude\.config.json")), Want::file(PathBuf::from(r"D:\claude\.claude.json"))]);
         // A blank variable is no override.
         let mut blank = Dirs::sample(Os::Mac);
         blank.env.push(("CLAUDE_CONFIG_DIR".into(), " ".into()));

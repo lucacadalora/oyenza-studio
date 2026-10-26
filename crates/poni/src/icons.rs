@@ -93,7 +93,6 @@ pub enum Icon {
     /// A magnifying glass: the Stocks page's search.
     Search,
     /// The AI tab: a spark with a small one beside it.
-    #[allow(dead_code)] // the AI tab draws it once the tab lands; drop the allow then
     Ai,
     /// OpenAI's mark: the Codex card. The marks from here on are the
     /// services' own, one per service ([`service`]).
