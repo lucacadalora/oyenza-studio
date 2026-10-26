@@ -40,6 +40,7 @@ Nothing else is sent anywhere. Music, volume, Bluetooth battery levels, the date
 | Paired phones (their pairing secrets and names), sealed so only your Windows account on this PC can read them | `%LOCALAPPDATA%\Poni\` |
 | Files of the add-ons you switched on (Prayer times: the place list and the adzan recording; Japanese readings: the reading dictionary), deleted when you switch the add-on off | `%LOCALAPPDATA%\Poni\addons\` |
 | Files you accepted from your phone with Phone drop, and files your paired phones sent | `Downloads\Oyenza Studio\`, kept when you uninstall |
+| What Oyenza Studio Recorder tells the island about its recording (starting, recording, paused, saving and its length) and that it has spoken to the island once. The messages go from one app to the other on this PC, and the videos stay the recorder's | Memory only, and one flag in `%APPDATA%\Poni\` |
 
 Uninstalling removes the app, its cache, its log, the add-ons' files, the Apple Music token, the paired phones and the Oyenza sign-in (the key also stops working on Oyenza's side after 90 days unused, or at once if you disconnect it in oyenza.app). If you installed from the Microsoft Store, Windows also removes the files the app created. Data from an earlier copy installed from GitHub stays in `%APPDATA%\Poni\` until you delete it.
 
