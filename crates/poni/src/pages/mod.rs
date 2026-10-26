@@ -142,7 +142,7 @@ impl PageKind {
             PageKind::Media => Icon::Music,
             PageKind::Focus => Icon::Timer,
             // A stand-in until the AI tab's own mark is drawn.
-            PageKind::Ai => Icon::Cpu,
+            PageKind::Ai => Icon::Ai,
             PageKind::Health => Icon::Steps,
             PageKind::Shelf => Icon::Tray,
             PageKind::Tasks => Icon::ListChecks,
