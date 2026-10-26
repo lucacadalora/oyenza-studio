@@ -48,6 +48,20 @@ if [ -n "$client" ] && [ -x "$client" ]; then
 else
   echo "(no MediaRemote test player: the now-playing check is skipped)"
 fi
+# A real browser tab in macOS's own now playing, as YouTube in Edge reaches it: the runner's Edge
+# (else Chrome) plays tools/mac-browser-player.html from the now-playing-browser-start step on.
+# The app checks for its track only with PONI_SMOKE_BROWSER.
+browser=""
+for b in "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"; do
+  if [ -x "$b" ]; then browser="$b"; break; fi
+done
+browser_pid=""
+if [ -n "$browser" ]; then
+  export PONI_SMOKE_BROWSER=1
+  echo "browser for the now-playing-browser step: $("$browser" --version 2>/dev/null || basename "$browser")"
+else
+  echo "(no Edge or Chrome: the browser check is skipped)"
+fi
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
@@ -80,6 +94,18 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
           echo "the MediaRemote adapter's test player: pid $client_pid"
           sleep 1
         fi ;;
+      # A browser tab instead: the test player stops, the browser plays the page (autoplay
+      # allowed, a profile of its own with no first-run screens or keychain prompt).
+      *now-playing-browser-start)
+        if [ -n "$browser" ]; then
+          if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null; client_pid=""; fi
+          "$browser" --user-data-dir="${RUNNER_TEMP:-/tmp}/poni-smoke-browser" --no-first-run --no-default-browser-check \
+            --use-mock-keychain --password-store=basic --autoplay-policy=no-user-gesture-required \
+            "file://$(pwd)/tools/mac-browser-player.html" > smoke/browser.txt 2>&1 &
+          browser_pid=$!
+          echo "the browser: pid $browser_pid"
+          sleep 1
+        fi ;;
     esac
     left=$(( x > 40 ? x - 40 : 0 ))
     case "$base" in
@@ -89,6 +115,13 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
     esac
     if [ $shots -eq 0 ]; then screencapture -x smoke/screen-full.png || true; fi
     shots=$(( shots + 1 ))
+    # The browser's step, pictured with the whole screen (the island over the
+    # playing tab); then the browser closes before the menu.
+    case "$base" in
+      *now-playing-browser)
+        screencapture -x smoke/screen-browser.png || true
+        if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null; browser_pid=""; fi ;;
+    esac
     touch "smoke/shot-$base.done"
   done
   sleep 0.2
@@ -102,6 +135,7 @@ else
   code=$?
 fi
 if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null || true; fi
+if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null || true; fi
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true

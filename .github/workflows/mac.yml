@@ -97,7 +97,8 @@ jobs:
       # the Shelf, a Spotify "now playing" notification with its lyrics
       # looked up on LRCLIB, the Glass theme, Pill floating below the top
       # edge, Oyen, Glass and Pill around a notch the app pretends the screen
-      # has, the adapter's test player in macOS's own now playing, and the
+      # has, the adapter's test player in macOS's own now playing, a tab
+      # playing in the runner's Edge (YouTube's way of naming a song), and the
       # menu. At each state the app writes where its window is and waits;
       # tools/mac-smoke.sh takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)

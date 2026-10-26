@@ -3016,6 +3016,8 @@ impl App {
                     "prayer-adzan" | "prayer-locate" => 10.0,
                     // The test player starts, then perl and the adapter.
                     "now-playing" => 20.0,
+                    // The browser starts and its tab plays first.
+                    "now-playing-browser" => 30.0,
                     // A window sliding into its own Space and out again.
                     "fullscreen-hide" => 15.0,
                     "fullscreen-stay" | "fullscreen-back" => 10.0,
@@ -3303,6 +3305,16 @@ impl App {
                 services::media::smoke_rest();
             }
             "now-playing" => services::media::smoke_sound(),
+            // A real browser tab, as YouTube in Edge reaches macOS's own now
+            // playing: the stream stops, tools/mac-smoke.sh stops the test
+            // player and opens the runner's Edge (or Chrome) on a page that
+            // plays a tone with a title and an artist, the way YouTube names
+            // its video, and sound starts a fresh stream, which reads it.
+            "now-playing-browser-start" => {
+                self.collapse();
+                services::media::smoke_rest();
+            }
+            "now-playing-browser" => services::media::smoke_sound(),
             // The themes on the real window: Glass, then Oyen and Glass
             // around a notch (one the screen pretends to have; CI's Macs
             // have none), open and resting in the menu bar's line.
@@ -3447,6 +3459,7 @@ impl App {
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
+            "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
@@ -3626,6 +3639,15 @@ impl App {
                 let ok = m.is_some_and(|m| m.title == SMOKE_SERVICE_TRACK);
                 let d = m.map_or("nothing".to_string(), |m| format!("{} by {} from {:?} ({})", m.title, m.artist, m.app_id, if m.is_playing() { "playing" } else { "paused" }));
                 Some(("now-playing-service", ok, format!("macOS's now playing through the adapter: {d}")))
+            }
+            "now-playing-browser" => {
+                if std::env::var_os("PONI_SMOKE_BROWSER").is_none() {
+                    return Some(("now-playing-browser", true, "skipped: no Edge or Chrome on this run".into()));
+                }
+                let m = self.st.media.as_ref();
+                let ok = m.is_some_and(|m| m.title == SMOKE_BROWSER_TRACK && poni_core::nowplaying::is_browser(&m.app_id));
+                let d = m.map_or("nothing".to_string(), |m| format!("{} by {} in {} ({:?}, {})", m.title, m.artist, m.app_name, m.app_id, if m.is_playing() { "playing" } else { "paused" }));
+                Some(("now-playing-browser", ok, format!("a browser tab in macOS's now playing: {d}")))
             }
             "notch-pill-ear" => {
                 let armed = self.timers[Timer::Collapse as usize].is_some();
@@ -4039,7 +4061,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 57] = [
+const SMOKE_STEPS: [&str; 59] = [
     "idle",
     "hover",
     "open-focus",
@@ -4096,6 +4118,8 @@ const SMOKE_STEPS: [&str; 57] = [
     "oyenza-off",
     "now-playing-start",
     "now-playing",
+    "now-playing-browser-start",
+    "now-playing-browser",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
@@ -4106,6 +4130,9 @@ const SMOKE_JA_TRACK: (&str, &str, &str, u32) = ("Paper Boats", "The Lanterns", 
 /// The track the MediaRemote adapter's test player reports in macOS's own
 /// now playing (third_party/mediaremote-adapter/src/test/NowPlayingTest.m).
 const SMOKE_SERVICE_TRACK: &str = "Is It Broken Yet?";
+/// The title the browser's page gives its tab, as YouTube names a video
+/// (tools/mac-browser-player.html).
+const SMOKE_BROWSER_TRACK: &str = "Robbers";
 /// What CI copies with `pbcopy` during the clipboard step.
 const SMOKE_CLIP: &str = "Oyenza Studio smoke test";
 
