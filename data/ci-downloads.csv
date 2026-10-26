@@ -336,3 +336,10 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 121316099078,Fetch the release to upgrade from,40241867416,1,2026-10-25T22:52:17Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 121420382237,Fetch the release to upgrade from,40276195190,1,2026-10-26T05:52:07Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 121422728639,Fetch the release to upgrade from,40276980054,1,2026-10-26T06:00:33Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121428636009,Fetch the release to upgrade from,40278867740,1,2026-10-26T06:20:43Z,mac-notch-eyes,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121433148653,Fetch the release to upgrade from,40280410712,1,2026-10-26T06:35:33Z,touch-friendly,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121436184052,Fetch the release to upgrade from,40281329239,1,2026-10-26T06:45:41Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121438062248,Fetch the release to upgrade from,40281934923,1,2026-10-26T06:51:52Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121439878833,Fetch the release to upgrade from,40281934923,2,2026-10-26T06:51:52Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121438237926,Fetch the release to upgrade from,40282001445,1,2026-10-26T06:52:25Z,touch-friendly,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121457334411,Fetch the release to upgrade from,40287974788,1,2026-10-26T07:51:40Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
