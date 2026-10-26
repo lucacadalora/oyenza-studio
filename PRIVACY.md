@@ -1,6 +1,6 @@
 # Oyenza Studio privacy
 
-Oyenza Studio is made by Jatevo Labs. It needs no account, and has no ads, no analytics and no tracking. Unless you sign in to Oyenza or connect Oyenza Inference, it never sends us anything about you: its only request to our website reads one public file, to see whether a new version is out.
+Oyenza Studio is made by Jatevo Labs. It needs no account, and has no ads, no analytics and no tracking. Unless you sign in to Oyenza or connect Oyenza Inference, it never sends us anything about you. On its own it reads one public file from our website, to see whether a new version is out; the Stocks add-on, once you switch it on, also reads public prices from oyenza.trade.
 
 ## What leaves your PC
 
