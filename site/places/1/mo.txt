@@ -1,0 +1,733 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Luanda	60	
+Z	2	Africa/Maputo	120	
+Z	3	Africa/Monrovia	0	
+Z	4	America/Bogota	-300	
+Z	5	America/Caracas	-240	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Mazatlan	-420	
+Z	11	America/Mexico_City	-360	
+Z	12	America/Moncton	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	13	America/Montevideo	-180	
+Z	14	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	15	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	16	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Dubai	240	
+Z	20	Asia/Ho_Chi_Minh	420	
+Z	21	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	22	Asia/Karachi	300	
+Z	23	Asia/Kolkata	330	
+Z	24	Asia/Manila	480	
+Z	25	Asia/Tehran	210	
+Z	26	Asia/Tokyo	540	
+Z	27	Asia/Yangon	390	
+Z	28	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	29	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	30	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	31	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	32	Europe/Moscow	180	
+Z	33	Europe/Sofia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	34	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	35	Pacific/Honolulu	-600	
+Z	36	Pacific/Noumea	660	
+Z	37	Pacific/Port_Moresby	600	
+C	AE	United Arab Emirates	dubai	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CY	Cyprus	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GA	Gabon	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	GF	French Guiana	mwl	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KM	Comoros	egyptian	s
+C	KR	South Korea	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LR	Liberia	egyptian	s
+C	LS	Lesotho	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MC	Monaco	mwl	s
+C	MG	Madagascar	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MT	Malta	mwl	s
+C	MW	Malawi	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NC	New Caledonia	mwl	s
+C	NG	Nigeria	egyptian	s
+C	NO	Norway	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PE	Peru	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SO	Somalia	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TT	Trinidad and Tobago	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	YE	Yemen	ummalqura	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	9
+P	Moscow		RU		55.752	37.618	32
+P	Mogadishu		SO		2.037	45.344	32
+P	Montréal	montreal	CA	Quebec	45.509	-73.588	16
+P	Mosul		IQ		36.335	43.119	32
+P	Ecatepec de Morelos		MX		19.605	-99.061	11
+P	Monrovia		LR		6.301	-10.797	3
+P	Montevideo		UY		-34.903	-56.188	13
+P	Mombasa		KE		-4.055	39.664	32
+P	Monterrey		MX		25.684	-100.317	11
+P	Morelia		MX		19.701	-101.184	11
+P	Morādābād	moradabad	IN		28.839	78.777	23
+P	Mirpur Model Thana		BD		23.809	90.361	18
+P	Mohammadpur		BD		24.898	88.528	18
+P	Montería	monteria	CO		8.751	-75.878	4
+P	Morogoro		TZ		-6.821	37.661	32
+P	Montes Claros		BR		-16.735	-43.862	13
+P	Thủ Dầu Một	thu dau mot	VN		10.980	106.652	20
+P	San Jose del Monte		PH		14.814	121.045	24
+P	Quận Mười Một	quan muoi mot	VN		10.764	106.644	20
+P	Mogi das Cruzes		BR		-23.523	-46.188	13
+P	Morioka		JP		39.700	141.150	26
+P	Port Moresby		PG		-9.477	147.151	37
+P	Mokpo		KR		34.813	126.392	26
+P	Mossoró	mossoro	BR		-5.188	-37.344	13
+P	Mönchengladbach	monchengladbach	DE		51.185	6.442	30
+P	Los Mochis		MX		25.791	-108.998	10
+P	Mossamedes		AO		-15.196	12.152	1
+P	Montpellier		FR		43.611	3.876	30
+P	Puerto Montt		CL		-41.469	-72.942	14
+P	Mohammedia		MA		33.686	-7.383	0
+P	Moshi		TZ		-3.350	37.333	32
+P	Dehiwala-Mount Lavinia	dehiwala mount lavinia	LK		6.840	79.871	23
+P	Mokotów	mokotow	PL		52.193	21.035	30
+P	Monclova		MX		26.907	-101.421	11
+P	Des Moines		US	Iowa	41.601	-93.609	6
+P	Modesto		US	California	37.639	-120.997	9
+P	Morvi		IN		22.817	70.838	23
+P	Móstoles	mostoles	ES		40.322	-3.865	30
+P	Moreno Valley		US	California	33.938	-117.231	9
+P	Motijheel		BD		23.728	90.419	18
+P	Morena		IN		26.499	77.995	23
+P	Moundou		TD		8.574	16.077	1
+P	Mocuba		MZ		-16.837	36.986	2
+P	Montgomery		US	Alabama	32.367	-86.300	6
+P	Mopti		ML		14.484	-4.183	3
+P	Modena		IT		44.648	10.925	30
+P	Mobile		US	Alabama	30.694	-88.043	6
+P	Paris 18 Buttes-Montmartre	paris 18 buttes montmartre	FR		48.892	2.344	30
+P	Sants-Montjuïc	sants montjuic	ES		41.373	2.155	30
+P	Monywa		MM		22.109	95.136	27
+P	Moratuwa		LK		6.773	79.882	23
+P	Mohali		IN		30.680	76.722	23
+P	Francisco Morato		BR		-23.282	-46.745	13
+P	Moga		IN		30.814	75.169	23
+P	Mostaganem		DZ		35.931	0.089	1
+P	San Juan de los Morros		VE		9.912	-67.354	5
+P	Delegación Cuajimalpa de Morelos	delegacion cuajimalpa de morelos	MX		19.369	-99.291	11
+P	Ang Mo Kio New Town		SG		1.380	103.840	24
+P	Paris 17 Batignolles-Monceau	paris 17 batignolles monceau	FR		48.883	2.322	30
+P	Mogi Guaçu	mogi guacu	BR		-22.368	-46.946	13
+P	Moreno		AR		-34.634	-58.791	13
+P	Moriguchi		JP		34.733	135.567	26
+P	Moro		PK		26.663	68.000	22
+P	Ô Môn	o mon	VN		10.110	105.623	20
+P	Moanda		CD		-5.928	12.371	1
+P	Mosquera		CO		4.706	-74.230	4
+P	Mothīhāri	mothihari	IN		26.649	84.917	23
+P	Monza		IT		45.580	9.272	30
+P	El Mourouj		TN		36.714	10.210	1
+P	Fernando de la Mora		PY		-25.339	-57.522	13
+P	Modakeke		NG		7.383	4.260	1
+P	Moḩammad Shahr	mohammad shahr	IR		35.763	50.917	25
+P	Möng Yang	mong yang	MM		21.848	99.677	27
+P	El Monte		US	California	34.069	-118.028	9
+P	Moncloa-Aravaca	moncloa aravaca	ES		40.435	-3.732	30
+P	Mongu		ZM		-15.248	23.127	2
+P	Montreuil		FR		48.864	2.443	30
+P	Móng Cái	mong cai	VN		21.525	107.966	20
+P	Le Plateau-Mont-Royal	le plateau mont royal	CA	Quebec	45.528	-73.581	16
+P	Texcoco de Mora		MX		19.512	-98.883	11
+P	Moratalaz		ES		40.407	-3.649	30
+P	Mostar		BA		43.343	17.808	30
+P	Moers		DE		51.453	6.633	30
+P	Mormugao		IN		15.389	73.815	23
+P	Mokopane		ZA		-24.194	29.010	2
+P	Model Town		PK		31.481	74.326	22
+P	Campo Mourão	campo mourao	BR		-24.043	-52.379	13
+P	Morón	moron	AR		-34.651	-58.622	13
+P	Lagos de Moreno		MX		21.359	-101.933	11
+P	Molenbeek-Saint-Jean	molenbeek saint jean	BE		50.850	4.312	30
+P	Monkayo		PH		7.815	126.054	24
+P	Amozoc de Mota		MX		19.046	-98.045	11
+P	Mons		BE		50.454	3.952	30
+P	Monastir		TN		35.778	10.826	1
+P	Modi‘in Makkabbim Re‘ut	modiin makkabbim reut	IL		31.894	35.015	21
+P	Santa Monica		US	California	34.019	-118.491	9
+P	Moa		CU		20.658	-74.951	8
+P	Tepatitlán de Morelos	tepatitlan de morelos	MX		20.817	-102.763	11
+P	Molārband	molarband	IN		28.503	77.314	23
+P	Moḩammadīyeh	mohammadiyeh	IR		36.224	50.182	25
+P	Montelíbano	montelibano	CO		7.979	-75.420	4
+P	Mogok		MM		22.918	96.510	27
+P	Guidonia Montecelio		IT		41.994	12.722	30
+P	Montero		BO		-17.339	-63.251	5
+P	Montepuez		MZ		-13.126	39.000	2
+P	Mobara		JP		35.426	140.296	26
+P	Mogoditshane		BW		-24.627	25.866	2
+P	Montréal-Nord	montreal nord	CA	Quebec	45.602	-73.631	16
+P	Moncton		CA	New Brunswick	46.095	-64.796	12
+P	Moriyama		JP		35.067	135.983	26
+P	Monte Chingolo		AR		-34.730	-58.354	13
+P	Mohammed Bin Zayed City		AE		24.348	54.554	19
+P	Moju		BR		-1.884	-48.769	13
+P	Montego Bay		JM		18.471	-77.919	4
+P	Moema		BR		-23.595	-46.664	13
+P	Mount Pleasant		US	South Carolina	32.794	-79.863	16
+P	Moabit		DE		52.526	13.339	30
+P	Mooca		BR		-23.561	-46.596	13
+P	Mountain View		US	California	37.386	-122.084	9
+P	João Monlevade	joao monlevade	BR		-19.810	-43.174	13
+P	Mossel Bay		ZA		-34.183	22.146	2
+P	Mooka		JP		36.433	140.017	26
+P	Mogi Mirim		BR		-22.432	-46.958	13
+P	Blue Mountains		AU	New South Wales	-33.713	150.331	29
+P	Modiin Ilit		IL		31.932	35.044	21
+P	Molepolole		BW		-24.407	25.495	2
+P	Moroni		KM		-11.702	43.255	32
+P	Flower Mound		US	Texas	33.015	-97.097	6
+P	Moanda		GA		-1.567	13.199	1
+P	Moquegua		PE		-17.197	-70.936	4
+P	Mobārakeh	mobarakeh	IR		32.346	51.502	25
+P	Moriya		JP		35.933	140.000	26
+P	Mount Vernon		US	New York	40.913	-73.837	16
+P	Morón	moron	VE		10.487	-68.201	5
+P	Mococa		BR		-21.468	-47.005	13
+P	Modāsa	modasa	IN		23.463	73.299	23
+P	Montemorelos		MX		25.189	-99.829	11
+P	La Mohammedia		TN		36.674	10.156	1
+P	Morón	moron	CU		22.109	-78.627	8
+P	Montenegro		BR		-29.689	-51.461	13
+P	Monte Mor		BR		-22.947	-47.316	13
+P	Sahuayo de Morelos		MX		20.057	-102.716	11
+P	West Des Moines		US	Iowa	41.577	-93.711	6
+P	Molina de Segura		ES		38.055	-1.208	30
+P	Montebello		US	California	34.009	-118.105	9
+P	Most		CZ		50.503	13.636	30
+P	Mong Kok		HK		22.319	114.171	24
+P	Moknine		TN		35.633	10.900	1
+P	Mohammadia		DZ		35.589	0.069	1
+P	Moca		DO		19.393	-70.523	5
+P	Mora		CM		11.046	14.140	1
+P	Monterey Park		US	California	34.063	-118.123	9
+P	Issy-les-Moulineaux	issy les moulineaux	FR		48.821	2.277	30
+P	Morada Nova		BR		-5.107	-38.373	13
+P	Mojo		ET		8.587	39.121	32
+P	Mokameh		IN		25.397	85.922	23
+P	Motril		ES		36.751	-3.518	30
+P	Moramanga		MG		-18.949	48.230	32
+P	Moore		US	Oklahoma	35.340	-97.487	6
+P	Monze		ZM		-16.271	27.477	2
+P	Monte Alegre		BR		-2.001	-54.081	13
+P	Dại Mỗ	dai mo	VN		20.983	105.767	20
+P	Molfetta		IT		41.200	16.599	30
+P	Mölndal	molndal	SE		57.655	12.014	30
+P	Mot’a	mota	ET		11.083	37.867	32
+P	Mongaguá	mongagua	BR		-24.093	-46.621	13
+P	Morley		GB	England	53.740	-1.599	31
+P	Morondava		MG		-20.289	44.318	32
+P	Rolim de Moura		BR		-11.804	-61.803	5
+P	Mocoa		CO		1.153	-76.652	4
+P	Mon Repos		TT		10.280	-61.446	5
+P	Moncalieri		IT		44.999	7.682	30
+P	Morningside Heights		US	New York	40.810	-73.963	16
+P	Mozambique		MZ		-15.035	40.734	2
+P	Rocky Mount		US	North Carolina	35.938	-77.791	16
+P	Moonniyur		IN		11.060	75.903	23
+P	Moreno		BR		-8.119	-35.092	13
+P	Mount Prospect		US	Illinois	42.066	-87.937	6
+P	Rio de Mouro		PT		38.766	-9.328	31
+P	Modica		IT		36.859	14.760	30
+P	Mondlo		ZA		-27.983	30.718	2
+P	Mongo		TD		12.185	18.688	1
+P	Montesilvano		IT		42.511	14.145	30
+P	Boadilla del Monte		ES		40.405	-3.878	30
+P	Mollet del Vallès	mollet del valles	ES		41.540	2.213	30
+P	Montauban		FR		44.018	1.354	30
+P	Mouscron		BE		50.745	3.206	30
+P	Mokolo		CM		10.742	13.802	1
+P	Morumbi		BR		-23.596	-46.708	13
+P	Morecambe		GB	England	54.068	-2.861	31
+P	Mott Haven		US	New York	40.809	-73.923	16
+P	Morrinhos		BR		-17.731	-49.099	13
+P	Mochudi		BW		-24.417	26.150	2
+P	Modimolle		ZA		-24.700	28.400	2
+P	Monapo		MZ		-14.917	40.302	2
+P	Moyobamba		PE		-6.034	-76.974	4
+P	Monsanto		PT		39.462	-8.712	31
+P	Monchegorsk		RU		67.940	32.874	32
+P	Moss		NO		59.434	10.658	30
+P	Monroe		US	Louisiana	32.509	-92.119	6
+P	Morong		PH		14.518	121.238	24
+P	Alto Molocue		MZ		-15.636	37.688	2
+P	Morār	morar	IN		26.226	78.225	23
+P	Molo		KE		-0.248	35.732	32
+P	Morden		GB	England	51.398	-0.198	31
+P	Moyale		KE		3.527	39.056	32
+P	Monte Santo		BR		-10.438	-39.333	13
+P	Monte Carmelo		BR		-18.725	-47.499	13
+P	Monte Alto		BR		-21.261	-48.496	13
+P	Montana		BG		43.413	23.222	33
+P	Mozhga		RU		56.446	52.216	19
+P	Mohale's Hoek	mohales hoek	LS		-30.151	27.477	2
+P	Tây Mỗ	tay mo	VN		21.002	105.746	20
+P	Cologno Monzese		IT		45.530	9.278	30
+P	Mocímboa da Praia	mocimboa da praia	MZ		-11.352	40.352	2
+P	Moatize		MZ		-16.115	33.729	2
+P	Monte Rosello		IT		40.735	8.568	30
+P	Montluçon	montlucon	FR		46.340	2.603	30
+P	Molodizhne		UA		49.150	33.431	33
+P	Morowa		JP		35.100	137.067	26
+P	Saint Thomas Mount		IN		13.003	80.196	23
+P	Mouila		GA		-1.868	11.056	1
+P	Morshansk		RU		53.443	41.811	32
+P	Qiryat Motsqin		IL		32.837	35.078	21
+P	Moroleón	moroleon	MX		20.130	-101.191	11
+P	Monheim am Rhein		DE		51.092	6.892	30
+P	Möng La	mong la	MM		21.671	100.013	27
+P	Morgan Hill		US	California	37.130	-121.654	9
+P	Ấp Một	ap mot	VN		9.842	105.536	20
+P	Moline		US	Illinois	41.507	-90.515	6
+P	Moorhead		US	Minnesota	46.874	-96.770	6
+P	Montenegro		CO		4.566	-75.751	4
+P	Mount Laurel		US	New Jersey	39.934	-74.891	16
+P	Hisai-motomachi	hisai motomachi	JP		34.667	136.467	26
+P	Morris Heights		US	New York	40.850	-73.920	16
+P	Mozdok		RU		43.740	44.652	32
+P	Ouled Moussa		DZ		36.684	3.367	1
+P	Porto de Moz		BR		-1.748	-52.238	13
+P	Molina		CL		-35.114	-71.282	14
+P	Montclair		US	New Jersey	40.826	-74.209	16
+P	Morohongō	morohongo	JP		35.936	139.304	26
+P	Mörön	moron	MN		49.634	100.162	24
+P	Möng Yawng	mong yawng	MM		21.179	100.358	27
+P	Montigny-le-Bretonneux	montigny le bretonneux	FR		48.766	2.034	30
+P	Montrouge		FR		48.816	2.314	30
+P	Montclair		US	California	34.078	-117.690	9
+P	Rolim de Moura do Guaporé	rolim de moura do guapore	BR		-13.083	-62.277	5
+P	Monopoli		IT		40.949	17.297	30
+P	Mombaça	mombaca	BR		-5.743	-39.627	13
+P	Monrovia		US	California	34.148	-117.999	9
+P	Morsi		IN		21.340	78.013	23
+P	Monterotondo		IT		42.052	12.620	30
+P	Modugno		IT		41.084	16.783	30
+P	Mont-de-Marsan	mont de marsan	FR		43.890	-0.497	30
+P	Moorpark		US	California	34.286	-118.882	9
+P	Mooresville		US	North Carolina	35.585	-80.810	16
+P	Mokokchūng	mokokchung	IN		26.325	94.518	23
+P	Mount Pleasant		US	District of Columbia	38.931	-77.041	16
+P	Montélimar	montelimar	FR		44.555	4.755	30
+P	Mount Waverley		AU	Victoria	-37.877	145.129	29
+P	Moussoro		TD		13.644	16.490	1
+P	Mokambo		CD		-12.428	28.347	2
+P	Monroe		US	North Carolina	34.985	-80.550	16
+P	Mount Vernon		US	Washington	48.421	-122.334	9
+P	Moose Jaw		CA	Saskatchewan	50.400	-105.534	11
+P	São Luís de Montes Belos	sao luis de montes belos	BR		-16.525	-50.372	13
+P	Mount Hagen		PG		-5.857	144.231	37
+P	Morro do Chapéu	morro do chapeu	BR		-11.549	-41.158	13
+P	Modřany	modrany	CZ		50.011	14.410	30
+P	Montcada i Reixac		ES		41.483	2.183	30
+P	La Sebala du Mornag		TN		36.679	10.292	1
+P	Mohnyin		MM		24.778	96.369	27
+P	Casale Monferrato		IT		45.133	8.453	30
+P	Mount Pleasant		CA	British Columbia	49.267	-123.100	17
+P	Monaco		MC		43.737	7.421	30
+P	Mount Olive-Silverstone-Jamestown	mount olive silverstone jamestown	CA	Ontario	43.747	-79.587	16
+P	Motosu		JP		35.484	136.674	26
+P	Moninnpébougou	moninnpebougou	ML		14.151	-5.521	3
+P	Motherwell		GB	Scotland	55.789	-3.992	31
+P	Jáltipan de Morelos	jaltipan de morelos	MX		17.965	-94.714	11
+P	Mörfelden-Walldorf	morfelden walldorf	DE		49.995	8.584	30
+P	Mount Lebanon		US	Pennsylvania	40.355	-80.049	16
+P	Mol		BE		51.192	5.117	30
+P	Monteiro		BR		-7.889	-37.120	13
+P	Montgomery Village		US	Maryland	39.177	-77.195	16
+P	Momostenango		GT		15.044	-91.409	11
+P	Uekimachi-mōno	uekimachi mono	JP		32.900	130.689	26
+P	Morrelgonj		BD		22.456	89.856	18
+P	Mozhaysk		RU		55.502	36.027	32
+P	Mount Juliet		US	Tennessee	36.200	-86.519	6
+P	Athis-Mons	athis mons	FR		48.705	2.391	30
+P	Des Moines		US	Washington	47.402	-122.324	9
+P	Motala		SE		58.537	15.036	30
+P	Sidi Moussa		DZ		36.606	3.088	1
+P	Mompós	mompos	CO		9.242	-74.427	4
+P	Morgantown		US	West Virginia	39.630	-79.956	16
+P	Mont Kiara		MY		3.169	101.651	24
+P	Mohyliv-Podilskyy	mohyliv podilskyy	UA		48.443	27.800	33
+P	Mosonmagyaróvár	mosonmagyarovar	HU		47.868	17.270	30
+P	Motomiya		JP		37.514	140.401	26
+P	Montijo		PT		38.707	-8.974	31
+P	Mount Hampden		ZW		-17.742	30.939	2
+P	Mookgophong		ZA		-24.517	28.717	2
+P	Morales		CO		2.754	-76.628	4
+P	Mount Pleasant West		CA	Ontario	43.704	-79.393	16
+P	Morristown		US	Tennessee	36.214	-83.295	16
+P	Montalbán	montalban	VE		10.213	-68.327	5
+P	Cândido Mota	candido mota	BR		-22.746	-50.387	13
+P	Yehud-Monosson	yehud monosson	IL		32.028	34.880	21
+P	Morozovsk		RU		48.351	41.829	32
+P	Morigaon		IN		26.249	92.348	23
+P	Monterusciello		IT		40.869	14.083	30
+P	Mollendo		PE		-17.023	-72.015	4
+P	Montbéliard	montbeliard	FR		47.510	6.798	30
+P	Moriki		NG		12.874	6.488	1
+P	Mondragone		IT		41.114	13.892	30
+P	Motipur		IN		26.253	85.161	23
+P	Mouzaïa	mouzaia	DZ		36.467	2.690	1
+P	Monterey		US	California	36.600	-121.895	9
+P	McCully - Moiliili	mccully moiliili	US	Hawaii	21.295	-157.831	35
+P	Monroeville		US	Pennsylvania	40.421	-79.788	16
+P	Morro Agudo		BR		-20.731	-48.058	13
+P	Mocímboa	mocimboa	MZ		-11.317	40.350	2
+P	Mosman		AU	New South Wales	-33.839	151.240	29
+P	Morón de la Frontera	moron de la frontera	ES		37.121	-5.454	30
+P	Monção	moncao	BR		-3.492	-45.251	13
+P	Melton Mowbray		GB	England	52.766	-0.887	31
+P	Ammi Moussa		DZ		35.868	1.111	1
+P	Port Moody		CA	British Columbia	49.281	-122.825	17
+P	Moothakunnam		IN		10.190	76.201	23
+P	Eagle Mountain		US	Utah	40.314	-112.007	7
+P	Santo Antônio do Monte	santo antonio do monte	BR		-20.087	-45.294	13
+P	Mocajuba		BR		-2.584	-49.507	13
+P	Moyotzingo		MX		19.248	-98.405	11
+P	Back Mountain		US	Pennsylvania	41.336	-75.996	16
+P	Monfalcone		IT		45.805	13.533	30
+P	Montebelluna		IT		45.775	12.049	30
+P	Moscardó	moscardo	ES		40.389	-3.707	30
+P	El Monte		CL		-33.680	-70.985	14
+P	Montigny-lès-Metz	montigny les metz	FR		49.096	6.153	30
+P	Mon		IN		26.736	95.058	23
+P	Moutsamoudou		KM		-12.167	44.399	32
+P	Mount Pleasant		US	Wisconsin	42.697	-87.856	6
+P	Mount Pleasant		US	Michigan	43.598	-84.768	16
+P	Montreux		CH		46.433	6.911	30
+P	Didouche Mourad		DZ		36.453	6.636	1
+P	Mornington		AU	Victoria	-38.218	145.039	29
+P	Cangas do Morrazo		ES		42.264	-8.785	30
+P	Monsefú	monsefu	PE		-6.874	-79.869	4
+P	Mogtédo	mogtedo	BF		12.284	-0.837	3
+P	Khajuraho Group of Monuments		IN		24.848	79.934	23
+P	Mount Gambier		AU	South Australia	-37.832	140.779	28
+P	Mochibaru		JP		31.755	131.130	26
+P	Moskháton	moskhaton	GR		37.948	23.679	33
+P	Motatán	motatan	VE		9.392	-70.591	5
+P	Mostovskoy		RU		44.411	40.793	32
+P	Mosbach		DE		49.354	9.151	30
+P	Palos de Moguer		ES		40.404	-3.695	30
+P	Moscow		US	Idaho	46.732	-117.000	9
+P	Santa Perpètua de Mogoda	santa perpetua de mogoda	ES		41.533	2.183	30
+P	Mogaung		MM		25.305	96.935	27
+P	Mostytskyi Masyv		UA		50.502	30.441	33
+P	South Morang		AU	Victoria	-37.650	145.100	29
+P	Mō‘ili‘ili	moiliili	US	Hawaii	21.295	-157.830	35
+P	Mola di Bari		IT		41.060	17.090	30
+P	Mont-Dore	mont dore	NC		-22.263	166.566	36
+P	Monte Caseros		AR		-30.252	-57.635	13
+P	Mortsel		BE		51.167	4.451	30
+P	Saint-Bruno-de-Montarville	saint bruno de montarville	CA	Quebec	45.533	-73.349	16
+P	Moulay Ali Cherif		MA		31.282	-4.265	0
+P	Monte Sião	monte siao	BR		-22.433	-46.572	13
+P	Moribabougou		ML		12.687	-7.864	3
+P	Mossuril		MZ		-14.968	40.664	2
+P	Morrumbala		MZ		-17.327	35.584	2
+P	Mórfou	morfou	CY		35.199	32.993	33
+P	Molins de Rei		ES		41.417	2.017	30
+P	Morinda		IN		30.790	76.499	23
+P	Morphett Vale		AU	South Australia	-35.133	138.517	28
+P	Moineşti	moinesti	RO		46.475	26.489	33
+P	Morombe		MG		-21.745	43.361	32
+P	Mosopa		BW		-24.772	25.422	2
+P	Montfermeil		FR		48.898	2.579	30
+P	Morrisville		US	North Carolina	35.823	-78.826	16
+P	Monteros		AR		-27.168	-65.499	13
+P	Motozintla		MX		15.366	-92.247	11
+P	Porto de Mós	porto de mos	PT		37.085	-8.684	31
+P	Mojuí dos Campos	mojui dos campos	BR		-2.683	-54.643	13
+P	Mosta		MT		35.909	14.426	30
+P	Morton Grove		US	Illinois	42.041	-87.783	6
+P	Monte Estoril		PT		38.706	-9.406	31
+P	Monoharpur		IN		22.108	88.079	23
+P	Olesa de Montserrat		ES		41.544	1.894	30
+P	Motul		MX		21.096	-89.283	11
+P	Jesús del Monte	jesus del monte	MX		19.375	-99.294	11
+P	Morrisania		US	New York	40.829	-73.907	16
+P	La Mornaghia		TN		36.759	10.017	1
+P	Moulins		FR		46.565	3.332	30
+P	Mont-Saint-Aignan	mont saint aignan	FR		49.463	1.094	30
+P	Mooroolbark		AU	Victoria	-37.782	145.317	29
+P	Montecalvario		IT		40.844	14.246	30
+P	Montilla		ES		37.586	-4.638	30
+P	Monte Alegre		BR		-6.068	-35.332	13
+P	Mons-en-Barœul	mons en baroeul	FR		50.633	3.117	30
+P	Mojtame‘-e Maskūnī-ye Nāmjū	mojtame e maskuni ye namju	IR		35.472	51.724	25
+P	Mombetsu		JP		44.352	143.352	26
+P	Motomachi		JP		43.826	144.096	26
+P	Morgan Park		US	Illinois	41.690	-87.667	6
+P	Montgeron		FR		48.705	2.450	30
+P	Morrinhos		BR		-3.229	-40.125	13
+P	Le Moule		GP		16.332	-61.347	5
+P	Palma di Montechiaro		IT		37.191	13.766	30
+P	Qīr Moāv	qir moav	JO		31.182	35.700	32
+P	Moche		PE		-8.171	-79.009	4
+P	Morley		AU	Western Australia	-31.888	115.910	24
+P	Moscavide e Portela		PT		38.779	-9.102	31
+P	Mount Pearl		CA	Newfoundland and Labrador	47.517	-52.781	15
+P	Černý Most	cerny most	CZ		50.105	14.580	30
+P	Molde		NO		62.738	7.159	30
+P	Motru		RO		44.803	22.972	33
+P	Monte Aprazível	monte aprazivel	BR		-20.773	-49.714	13
+P	Montecarlo		AR		-26.568	-54.758	13
+P	Moskovskiy		TJ		37.609	68.581	22
+P	Moses Lake		US	Washington	47.130	-119.278	9
+P	Moloto South		ZA		-25.463	28.650	2
+P	Arrasate / Mondragón	arrasate mondragon	ES		43.064	-2.490	30
+P	Mogliano Veneto		IT		45.556	12.243	30
+P	Monreale		IT		38.081	13.289	30
+P	Moncada		ES		39.546	-0.396	30
+P	Mount Vernon Triangle		US	District of Columbia	38.902	-77.017	16
+P	Mondovì	mondovi	IT		44.396	7.818	30
+P	Mossaka		CG		-1.220	16.799	1
+P	San Miguel del Monte		AR		-35.439	-58.807	13
+P	Mooi River		ZA		-29.208	29.995	2
+P	Monor		HU		47.351	19.447	30
+P	Mogán	mogan	ES		27.884	-15.725	31
+P	Mount Barker		AU	South Australia	-35.067	138.867	28
+P	Moularès	moulares	TN		34.489	8.269	1
+P	East Moline		US	Illinois	41.501	-90.444	6
+P	Morayfield		AU	Queensland	-27.109	152.949	37
+P	Santa Cruz de Mora		VE		8.399	-71.641	5
+P	Moussadougou		CI		6.154	-5.693	3
+P	Montmorency		FR		48.988	2.343	30
+P	Mokwa		NG		9.295	5.054	1
+P	Molave		PH		8.084	123.491	24
+P	Mountlake Terrace		US	Washington	47.788	-122.309	9
+P	Rosedale-Moore Park	rosedale moore park	CA	Ontario	43.683	-79.380	16
+P	Monte Santo de Minas		BR		-21.190	-46.980	13
+P	South El Monte		US	California	34.052	-118.047	9
+P	Moniquirá	moniquira	CO		5.876	-73.573	4
+P	Montecchio Maggiore-Alte Ceccato	montecchio maggiore alte ceccato	IT		45.504	11.412	30
+P	Mountain Brook		US	Alabama	33.501	-86.752	6
+P	Moreni		RO		44.983	25.644	33
+P	Morteros		AR		-30.711	-62.007	13
+P	Mödling	modling	AT		48.086	16.289	30
+P	Moss Park		CA	Ontario	43.655	-79.372	16
+P	Karia Ba Mohamed		MA		34.371	-5.214	0
+P	Monte Azul		BR		-15.155	-42.875	13
+P	Monguno		NG		12.671	13.612	1
+P	Montceau-les-Mines	montceau les mines	FR		46.667	4.367	30
+P	Monserrato		IT		39.256	9.144	30
+P	Montville Center		US	Connecticut	41.479	-72.151	16
+P	Monte Alegre de Minas		BR		-18.871	-48.881	13
+P	Morwa		IN		22.905	73.839	23
+P	Monroe		US	Michigan	41.916	-83.398	16
+P	Palmas de Monte Alto		BR		-14.267	-43.162	13
+P	São Joaquim do Monte	sao joaquim do monte	BR		-8.432	-35.804	13
+P	Mössingen	mossingen	DE		48.406	9.054	30
+P	Montecanal		ES		41.630	-0.939	30
+P	Mokena		US	Illinois	41.526	-87.889	6
+P	Morsang-sur-Orge	morsang sur orge	FR		48.662	2.353	30
+P	Moirāng	moirang	IN		24.497	93.778	23
+P	Monino		RU		55.842	38.194	32
+P	Mount Martha		AU	Victoria	-38.267	145.017	29
+P	General Mosconi		AR		-22.596	-63.811	13
+P	Câmpulung Moldovenesc	campulung moldovenesc	RO		47.533	25.567	33
+P	Monção	moncao	PT		42.079	-8.481	31
+P	Mokēri	mokeri	IN		11.778	75.573	23
+P	La Crescenta-Montrose	la crescenta montrose	US	California	34.232	-118.235	9
+P	Montclair		US	Virginia	38.611	-77.340	16
+P	Moguer		ES		37.276	-6.839	30
+P	Monforte de Lemos		ES		42.522	-7.514	30
+P	Montgomery		US	Illinois	41.731	-88.346	6
+P	Mossendjo		CG		-2.950	12.704	1
+P	Jouy-le-Moutier	jouy le moutier	FR		49.011	2.040	30
+P	Montrose		US	Colorado	38.478	-107.876	7
+P	Rémire-Montjoly	remire montjoly	GF		4.917	-52.267	13
+P	Monte Llano		DO		19.735	-70.599	5
+P	Moaña	moana	ES		42.278	-8.739	30
+P	Morales		GT		15.472	-88.841	11
+P	Mougins		FR		43.601	6.995	30
+P	Ala Moana - Kakaʻako	ala moana kakaako	US	Hawaii	21.296	-157.857	35
+P	Mont-Royal	mont royal	CA	Quebec	45.517	-73.649	16
+P	Montanha		BR		-18.127	-40.363	13
+P	Mo i Rana		NO		66.313	14.143	30
+P	Moyo		UG		3.661	31.725	32
+P	Mount Greenwood		US	Illinois	41.698	-87.709	6
+P	Montignies-sur-Sambre	montignies sur sambre	BE		50.411	4.491	30
+P	Casa de Oro-Mount Helix	casa de oro mount helix	US	California	32.764	-116.969	9
+P	Mount Eliza		AU	Victoria	-38.183	145.083	29
+P	Mohács	mohacs	HU		45.990	18.686	30
+P	Montevarchi		IT		43.525	11.572	30
+P	Monselice		IT		45.239	11.750	30
+P	Morales		CO		8.276	-73.868	4
+P	Morristown		US	New Jersey	40.797	-74.482	16
+P	West Molesey		GB	England	51.400	-0.380	31
+P	East Molesey		GB	England	51.399	-0.349	31
+P	Mitry-Mory	mitry mory	FR		48.983	2.617	30
+P	Morros		BR		-2.864	-44.039	13
+P	Morro da Fumaça	morro da fumaca	BR		-28.651	-49.210	13
+P	East Mount Airy		US	Pennsylvania	40.065	-75.188	16
+P	Mölln	molln	DE		53.621	10.687	30
+P	Monsey		US	New York	41.111	-74.068	16
+P	Moram		IN		17.788	76.471	23
+P	Montecristi		EC		-1.046	-80.659	4
+P	Mouyondzi		CG		-3.994	13.927	1
+P	Mount Isa		AU	Queensland	-20.725	139.497	37
+P	Morretes		BR		-25.477	-48.834	13
+P	Mori		JP		34.833	137.933	26
+P	Morlanwelz-Mariemont	morlanwelz mariemont	BE		50.455	4.245	30
+P	Montagu		ZA		-33.787	20.121	2
+P	Monte Azul Paulista		BR		-20.907	-48.641	13
+P	Moonak		IN		29.825	75.891	23
+P	Monroe		US	Washington	47.855	-121.971	9
+P	Montecatini-Terme	montecatini terme	IT		43.882	10.772	30
+P	Montigny-lès-Cormeilles	montigny les cormeilles	FR		48.982	2.200	30
+P	Moita		PT		38.651	-8.990	31
+P	Monthey		CH		46.255	6.954	30
+P	Moreton		GB	England	53.400	-3.117	31
+P	Santiago Momoxpan		MX		19.074	-98.267	11
+P	Mölnlycke	molnlycke	SE		57.659	12.118	30
+P	Morlaix		FR		48.578	-3.828	30
+P	Montemurlo		IT		43.927	11.037	30
+P	Montargis		FR		47.997	2.733	30
+P	Morningside		CA	Ontario	43.787	-79.206	16
+P	Soisy-sous-Montmorency	soisy sous montmorency	FR		48.988	2.302	30
+P	Deux-Montagnes	deux montagnes	CA	Quebec	45.535	-73.902	16
+P	Moosburg		DE		48.471	11.938	30
+P	Mountsorrel		GB	England	52.717	-1.150	31
+P	Moïssala	moissala	TD		8.340	17.766	1
+P	Moraga		US	California	37.835	-122.130	9
+P	Morocelí	moroceli	HN		14.117	-86.867	11
+P	Monsenhor Tabosa		BR		-4.789	-40.063	13
+P	Monzón	monzon	ES		41.911	0.194	30
+P	San Fernando de Monte Cristi		DO		19.848	-71.646	5
+P	Montereau-Fault-Yonne	montereau fault yonne	FR		48.383	2.950	30
+P	Mostyska		UA		49.795	23.151	33
+P	Caldes de Montbui		ES		41.633	2.167	30
+P	Monkey Bay		MW		-14.082	34.917	2
+P	Moreh		IN		24.251	94.301	23
+P	Mocha		YE		13.318	43.250	32
+P	Mount Pleasant East		CA	Ontario	43.705	-79.385	16
+P	Mount Vernon		US	Ohio	40.393	-82.486	16
+P	Moussadou		GN		8.767	-8.617	3
+P	Montivilliers		FR		49.545	0.188	30
+P	Morganton		US	North Carolina	35.745	-81.685	16
+P	Mount Druitt		AU	New South Wales	-33.767	150.817	29
+P	Arfa Moussaïa	arfa moussaia	GN		10.767	-11.367	3
+P	Lower Moyamensing		US	Pennsylvania	39.920	-75.165	16
+P	Mount Clemens		US	Michigan	42.597	-82.878	16
+P	Moi‘s Bridge	mois bridge	KE		0.872	35.122	32
+P	Lutes Mountain		CA	New Brunswick	46.135	-64.905	12
+P	Morton		US	Illinois	40.613	-89.459	6
+P	Moroto		UG		2.535	34.667	32
+P	Momil		CO		9.238	-75.675	4
+P	Moissy-Cramayel	moissy cramayel	FR		48.626	2.601	30
+P	Montijo		ES		38.908	-6.618	30
+P	Moonee Ponds		AU	Victoria	-37.767	144.917	29
+P	Montbrison		FR		45.608	4.065	30
+P	Morong		PH		14.679	120.266	24
+P	Shahrak-e Mohandesī-ye Zerā‘ī	shahrak e mohandesi ye zerai	IR		35.772	50.956	25
+P	Mount Pleasant		US	Texas	33.157	-94.968	6
+P	Mount Davis		HK		22.279	114.118	24
+P	Monte-Carlo	monte carlo	MC		43.740	7.427	30
+P	Ban Mo		TH		14.616	100.726	20
+P	Baguim do Monte		PT		41.192	-8.541	31
+P	Adams Morgan		US	District of Columbia	38.922	-77.042	16
+P	Molakālumuru	molakalumuru	IN		14.718	76.747	23
+P	Mont-Saint-Hilaire	mont saint hilaire	CA	Quebec	45.565	-73.187	16
+P	Morges		CH		46.511	6.499	30
+P	Mount Eden		NZ		-36.882	174.762	34
+P	Montalvo		EC		-1.790	-79.288	4
+P	Monte Plata		DO		18.807	-69.784	5
+P	Montornès del Vallès	montornes del valles	ES		41.542	2.267	30
+P	Morteẕá Gerd	morteza gerd	IR		35.602	51.350	25
+P	Kampung Ayer Molek		MY		2.214	102.328	24
+P	Les Moulins		FR		43.675	7.205	30
+P	Moskovskiy		RU		55.599	37.355	32
+P	Moorreesburg		ZA		-33.154	18.660	2
+P	Pont-à-Mousson	pont a mousson	FR		48.907	6.056	30
+P	Morampudi		IN		16.980	81.837	23
+P	Montesson		FR		48.909	2.138	30
+P	Moritake		JP		40.097	140.077	26
+P	Mount Vernon		US	Illinois	38.317	-88.903	6
+P	Montichiari		IT		45.413	10.398	30
+P	Ocotlán de Morelos	ocotlan de morelos	MX		16.792	-96.675	11

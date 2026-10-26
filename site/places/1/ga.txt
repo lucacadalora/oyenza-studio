@@ -1,0 +1,439 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Gaborone	120	
+Z	3	Africa/Lagos	60	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Cuiaba	-240	
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Lima	-300	
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/Mazatlan	-420	
+Z	10	America/Monterrey	-360	
+Z	11	America/Recife	-180	
+Z	12	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	Asia/Baku	240	
+Z	14	Asia/Dhaka	360	
+Z	15	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	16	Asia/Ho_Chi_Minh	420	
+Z	17	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	18	Asia/Kabul	270	
+Z	19	Asia/Karachi	300	
+Z	20	Asia/Kathmandu	345	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Seoul	540	
+Z	23	Asia/Shanghai	480	
+Z	24	Asia/Tehran	210	
+Z	25	Asia/Vladivostok	600	
+Z	26	Asia/Yangon	390	
+Z	27	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	28	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	29	Europe/Dublin	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	30	Europe/Istanbul	180	
+Z	31	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AF	Afghanistan	karachi	h
+C	AM	Armenia	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BI	Burundi	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	DE	Germany	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GR	Greece	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KR	South Korea	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LR	Liberia	egyptian	s
+C	LT	Lithuania	mwl	s
+C	MA	Morocco	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NP	Nepal	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	TD	Chad	egyptian	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Gazipur		BD		23.998	90.422	14
+P	Gaziantep		TR		37.059	37.383	30
+P	Ganzhou		CN		25.847	114.933	23
+P	Gaya		IN		24.797	85.004	21
+P	San Nicolás de los Garza	san nicolas de los garza	MX		25.742	-100.302	10
+P	Gaza		PS		31.502	34.467	15
+P	Gaomi		CN		36.383	119.753	23
+P	Ganja		AZ		40.682	46.361	13
+P	Gatineau		CA	Quebec	45.477	-75.702	12
+P	Gandhinagar		IN		23.217	72.683	21
+P	Gaozhou		CN		21.920	110.857	23
+P	Gagnoa		CI		6.132	-5.951	0
+P	Gajuwaka		IN		17.700	83.217	21
+P	Gasteiz / Vitoria	gasteiz vitoria	ES		42.850	-2.673	31
+P	Gāndhīdhām	gandhidham	IN		23.083	70.133	21
+P	Gaborone		BW		-24.655	25.909	2
+P	Sri Ganganagar		IN		29.920	73.875	21
+P	Garland		US	Texas	32.913	-96.639	4
+P	Galaţi	galati	RO		45.437	28.050	28
+P	Gangneung		KR		37.753	128.872	22
+P	Gandajika		CD		-6.745	23.953	2
+P	Gaoping		CN		30.776	106.103	23
+P	Garhi Khairo		PK		28.057	67.979	19
+P	Garden Grove		US	California	33.774	-117.941	8
+P	Gadag-Betageri	gadag betageri	IN		15.417	75.617	21
+P	Gadag		IN		15.430	75.630	21
+P	Ramat Gan		IL		32.082	34.811	17
+P	Garissa		KE		-0.453	39.646	30
+P	Garanhuns		BR		-8.882	-36.502	11
+P	Gainesville		US	Florida	29.652	-82.325	12
+P	Gama		BR		-16.025	-48.071	11
+P	Gao		ML		16.272	-0.045	0
+P	San Pedro Garza García	san pedro garza garcia	MX		25.662	-100.403	10
+P	Gapan		PH		15.307	120.946	23
+P	Gaojing		CN		31.322	121.475	23
+P	Gashua		NG		12.874	11.041	3
+P	Gangāpur	gangapur	IN		26.472	76.717	21
+P	Gabela		AO		-10.851	14.380	3
+P	Gangavati		IN		15.431	76.529	21
+P	Miami Gardens		US	Florida	25.942	-80.246	12
+P	Gabès	gabes	TN		33.881	10.098	3
+P	Ressano Garcia		MZ		-25.443	31.995	2
+P	Novo Gama		BR		-16.059	-48.039	11
+P	Gardez		AF		33.597	69.226	18
+P	Gangu Chengguanzhen		CN		34.736	105.326	23
+P	Vasco da Gama		IN		15.396	73.816	21
+P	Gangtok		IN		27.326	88.612	21
+P	Gambēla	gambela	ET		8.250	34.583	30
+P	South Gate		US	California	33.955	-118.212	8
+P	Río Gallegos	rio gallegos	AR		-51.625	-69.252	11
+P	Gafsa		TN		34.425	8.784	3
+P	La Gazelle		TN		36.895	10.186	3
+P	Gambat		PK		27.352	68.522	19
+P	García	garcia	MX		25.801	-100.586	10
+P	Galle		LK		6.046	80.210	21
+P	Ga-Rankuwa	ga rankuwa	ZA		-25.617	27.995	2
+P	Gaoyou		CN		32.789	119.442	23
+P	Gantang		CN		27.438	111.973	23
+P	Gatchina		RU		59.576	30.128	30
+P	Ben Gardane		TN		33.138	11.220	3
+P	Galway		IE		53.272	-9.051	29
+P	Parādīp Garh	paradip garh	IN		20.316	86.609	21
+P	Gamboru		NG		12.373	14.207	3
+P	Gamagōri	gamagori	JP		34.833	137.233	22
+P	Gateshead		GB	England	54.962	-1.602	29
+P	Gary		US	Indiana	41.593	-87.346	4
+P	Sankt Gallen		CH		47.424	9.375	31
+P	Gare		FR		48.833	2.375	31
+P	Gävle	gavle	SE		60.675	17.142	31
+P	Gobernador Gálvez	gobernador galvez	AR		-33.030	-60.640	11
+P	Gastonia		US	North Carolina	35.262	-81.187	12
+P	Gandia		ES		38.967	-0.183	31
+P	Barra do Garças	barra do garcas	BR		-15.890	-52.257	5
+P	Gaspar		BR		-26.931	-48.959	11
+P	Vila Nova de Gaia		PT		41.124	-8.612	29
+P	Gaithersburg		US	Maryland	39.143	-77.201	12
+P	Gaoliu		CN		36.800	118.500	23
+P	Gama		AO		-8.568	13.476	3
+P	Ganshui		CN		28.742	106.711	23
+P	Fort Garry South		CA	Manitoba	49.792	-97.164	4
+P	Gangārāmpur	gangarampur	IN		25.401	88.530	21
+P	Ganda		AO		-13.016	14.635	3
+P	Ganta		LR		7.235	-8.984	0
+P	Garbsen		DE		52.414	9.590	31
+P	Gadwāl	gadwal	IN		16.235	77.796	21
+P	Kiryat Gat		IL		31.610	34.764	17
+P	Gaya		NE		11.884	3.449	3
+P	Gaalkacyo		SO		6.770	47.431	30
+P	Villa Poeta José Gálvez Barrenechea	villa poeta jose galvez barrenechea	PE		-12.213	-76.905	7
+P	Gardena		US	California	33.888	-118.309	8
+P	Gamonal		ES		42.357	-3.673	31
+P	Gangoh		IN		29.780	77.263	21
+P	Galátsi	galatsi	GR		38.017	23.750	28
+P	Gannan		CN		47.920	123.500	23
+P	São Gabriel	sao gabriel	BR		-30.336	-54.320	11
+P	Garoowe		SO		8.402	48.483	30
+P	São Gabriel da Cachoeira	sao gabriel da cachoeira	BR		-0.118	-67.085	5
+P	Gaogou		CN		34.017	119.189	23
+P	Gapyeong		KR		37.831	127.511	22
+P	Garhchiroli		IN		20.181	80.005	21
+P	Gaddi Annaram		IN		17.367	78.524	21
+P	Brive-la-Gaillarde	brive la gaillarde	FR		45.159	1.533	31
+P	Palm Beach Gardens		US	Florida	26.823	-80.139	12
+P	Welwyn Garden City		GB	England	51.802	-0.207	29
+P	Coral Gables		US	Florida	25.721	-80.268	12
+P	Gangshang		CN		34.521	118.118	23
+P	Naya Gaon		IN		30.775	76.793	21
+P	Gallarate		IT		45.660	8.792	31
+P	Gajraula		IN		28.846	78.240	21
+P	Galveston		US	Texas	29.301	-94.798	4
+P	Gangākher	gangakher	IN		18.970	76.749	21
+P	Īstgāh-e Rāh Āhan-e Garmsār	istgah e rah ahan e garmsar	IR		35.235	52.309	24
+P	Gabú	gabu	GW		12.280	-14.222	0
+P	Gaoliang		CN		30.824	108.302	23
+P	Gao’an	gaoan	CN		30.290	107.462	23
+P	Teluk Panglima Garang		MY		2.908	101.469	23
+P	Garmsār	garmsar	IR		35.218	52.341	24
+P	Gaoliu		CN		34.317	118.517	23
+P	Gabrovo		BG		42.874	25.318	28
+P	Gādarwāra	gadarwara	IN		22.924	78.785	21
+P	Sant Gervasi - Galvany	sant gervasi galvany	ES		41.398	2.143	31
+P	Garoua Boulaï	garoua boulai	CM		5.883	14.550	3
+P	Ganj Dundwāra	ganj dundwara	IN		27.733	78.941	21
+P	Batu Gajah		MY		4.469	101.041	23
+P	Garhwa		IN		24.160	83.808	21
+P	Gavà	gava	ES		41.306	2.001	31
+P	Gaoua		BF		10.331	-3.182	0
+P	Gaojia		CN		30.020	107.860	23
+P	Lashkar Gāh	lashkar gah	AF		31.594	64.372	18
+P	Gaozuo		CN		33.903	118.040	23
+P	Bell Gardens		US	California	33.965	-118.151	8
+P	Jerez de García Salinas	jerez de garcia salinas	MX		22.650	-102.990	10
+P	Gap		FR		44.559	6.079	31
+P	Thin Gan Kyun Gyi		MM		16.957	96.155	26
+P	Garça	garca	BR		-22.211	-49.656	11
+P	Gallus		DE		50.100	8.630	31
+P	Gay		RU		51.473	58.452	19
+P	Gage Park		US	Illinois	41.795	-87.696	4
+P	Gaurnadi		BD		22.974	90.224	14
+P	San Gabriel		US	California	34.096	-118.106	8
+P	Garango		BF		11.800	-0.551	0
+P	Winter Garden		US	Florida	28.565	-81.586	12
+P	Bukit Gambir		MY		2.211	102.655	23
+P	Gangtou		CN		34.317	118.207	23
+P	Garges-lès-Gonesse	garges les gonesse	FR		48.968	2.398	31
+P	Livry-Gargan	livry gargan	FR		48.919	2.543	31
+P	Gainesville		US	Georgia	34.298	-83.824	12
+P	Bodh Gaya		IN		24.698	84.987	21
+P	Gagny		FR		48.883	2.533	31
+P	Gauribidanur		IN		13.611	77.517	21
+P	Kew Gardens Hills		US	New York	40.730	-73.823	12
+P	Garhmuktesar		IN		28.787	78.102	21
+P	Gadsden		US	Alabama	34.014	-86.006	4
+P	Serangoon Garden		SG		1.364	103.858	23
+P	Gariadhar		IN		21.539	71.577	21
+P	Ganaur		IN		29.130	77.018	21
+P	Garoua		CM		9.301	13.398	3
+P	Gahanna		US	Ohio	40.019	-82.879	12
+P	Ōizumi-gakuenchō	oizumi gakuencho	JP		35.765	139.589	22
+P	Garibaldi		BR		-29.256	-51.534	11
+P	Gallatin		US	Tennessee	36.388	-86.447	4
+P	Gafargaon		BD		24.432	90.558	14
+P	Letchworth Garden City		GB	England	51.979	-0.227	29
+P	Garhākota	garhakota	IN		23.779	79.143	21
+P	Gajendragarh		IN		15.736	75.970	21
+P	São Gabriel da Palha	sao gabriel da palha	BR		-19.018	-40.537	11
+P	Gandu		BR		-13.744	-39.487	11
+P	Galapagar		ES		40.578	-4.004	31
+P	Garfield		US	New Jersey	40.881	-74.113	12
+P	Gành Hào	ganh hao	VN		9.028	105.421	16
+P	Galesburg		US	Illinois	40.948	-90.371	4
+P	Ganderkesee		DE		53.036	8.545	31
+P	Ganning		CN		30.669	108.281	23
+P	Los Gatos		US	California	37.227	-121.975	8
+P	Springfield Gardens		US	New York	40.663	-73.762	12
+P	Whampoa Garden		HK		22.305	114.189	23
+P	Vila Galvão	vila galvao	BR		-23.472	-46.579	11
+P	Garopaba		BR		-28.023	-48.613	11
+P	Gadhada		IN		21.970	71.578	21
+P	Gounou Gaya		TD		9.629	15.513	3
+P	Sovetskaya Gavan’	sovetskaya gavan	RU		48.972	140.289	25
+P	South Gate		US	Maryland	39.129	-76.626	12
+P	São Gabriel do Oeste	sao gabriel do oeste	BR		-19.395	-54.566	5
+P	Gaggenau		DE		48.800	8.333	31
+P	Garzón	garzon	CO		2.196	-75.628	7
+P	Galdakao		ES		43.231	-2.843	31
+P	Garh Maharaja		PK		30.834	71.905	19
+P	Gagarin		RU		55.553	34.997	30
+P	Garupá	garupa	AR		-27.483	-55.829	11
+P	Gangxia		CN		22.540	114.061	23
+P	La Garde		FR		43.125	6.010	31
+P	Ganderbal		IN		34.226	74.775	21
+P	Garfield Heights		US	Ohio	41.417	-81.606	12
+P	Garner		US	North Carolina	35.711	-78.614	12
+P	Gasuba		ET		6.717	37.567	30
+P	Gangāpur	gangapur	IN		19.697	75.010	21
+P	Gabriel Leyva Solano		MX		25.662	-108.637	9
+P	Gaur		NP		26.764	85.277	20
+P	Gadhinglaj		IN		16.223	74.350	21
+P	Garden City		US	Kansas	37.972	-100.873	4
+P	Garden City		US	Michigan	42.326	-83.331	12
+P	Gamboma		CG		-1.876	15.864	3
+P	Gao		BF		11.650	-2.178	0
+P	La Garenne-Colombes	la garenne colombes	FR		48.905	2.247	31
+P	Garmisch-Partenkirchen	garmisch partenkirchen	DE		47.492	11.096	31
+P	Garbagnate Milanese		IT		45.574	9.075	31
+P	Ganguwa		IN		29.113	75.696	21
+P	Mount Gambier		AU	South Australia	-37.832	140.779	27
+P	Ganghwa-gun	ganghwa gun	KR		37.747	126.486	22
+P	Gadkhol		IN		21.644	73.012	21
+P	Galt		US	California	38.255	-121.300	8
+P	Gauripur		IN		26.083	89.961	21
+P	Ganei Tikva		IL		32.060	34.873	17
+P	Souza Gare		CM		4.234	9.616	3
+P	Gajwel		IN		17.848	78.683	21
+P	Gar		CN		32.501	80.098	23
+P	Ganshoren		BE		50.871	4.315	31
+P	Gagarin Shahri		UZ		40.665	68.168	19
+P	Garrafão do Norte	garrafao do norte	BR		-1.934	-47.053	11
+P	G’allaorol Shahri	gallaorol shahri	UZ		40.027	67.588	19
+P	Gądów-Popowice Południowe	gadow popowice poludniowe	PL		51.127	16.970	31
+P	Gaz-e Borkhar	gaz e borkhar	IR		32.805	51.621	24
+P	Gampola		LK		7.164	80.570	21
+P	Gáldar	galdar	ES		28.147	-15.650	29
+P	Gantang		CN		26.716	109.769	23
+P	Golden Gate		US	Florida	26.188	-81.695	12
+P	Hialeah Gardens		US	Florida	25.865	-80.325	12
+P	South Portland Gardens		US	Maine	43.639	-70.315	12
+P	Gan Yavne		IL		31.787	34.707	17
+P	Fetești-Gară	fetesti gara	RO		44.420	27.825	28
+P	Gaigeturi		KR		33.464	126.318	22
+P	Gaoqiao		CN		31.369	108.242	23
+P	Min Ga Lar Don Zay		MM		16.923	96.116	26
+P	Gālīkesh	galikesh	IR		37.273	55.434	24
+P	Gallup		US	New Mexico	35.528	-108.743	6
+P	Gaztambide		ES		40.435	-3.715	31
+P	El Gara		MA		33.277	-7.232	1
+P	Garmdarreh		IR		35.748	51.069	24
+P	Desenzano del Garda		IT		45.471	10.536	31
+P	Gabiadji		CI		5.023	-6.562	0
+P	Garden City		US	New York	40.727	-73.634	12
+P	Villeneuve-la-Garenne	villeneuve la garenne	FR		48.939	2.315	31
+P	Loma de Gato		PH		14.789	120.999	23
+P	Gajowice		PL		51.096	17.002	31
+P	G‘azalkent	gazalkent	UZ		41.558	69.771	19
+P	Garston		GB	England	53.333	-2.900	29
+P	Galūgāh	galugah	IR		36.727	53.809	24
+P	Galūgāh	galugah	IR		36.310	52.626	24
+P	Galébré	galebre	CI		6.006	-6.294	0
+P	Garko		NG		10.175	11.165	3
+P	Gardanne		FR		43.455	5.469	31
+P	Gazojak		TM		41.187	61.404	19
+P	Gaya		NG		11.861	9.003	3
+P	Gardner		US	Kansas	38.811	-94.927	4
+P	Gazakh		AZ		41.092	45.366	13
+P	Gaofeng		CN		30.220	107.408	23
+P	Bandar-e Gaz	bandar e gaz	IR		36.774	53.948	24
+P	East Garfield Park		US	Illinois	41.881	-87.703	4
+P	Winter Gardens		US	California	32.831	-116.933	8
+P	Gainsborough		GB	England	53.383	-0.767	29
+P	Gardner		US	Massachusetts	42.575	-71.998	12
+P	Galeras		CO		9.161	-75.048	7
+P	Alor Gajah		MY		2.380	102.209	23
+P	Gabane		BW		-24.667	25.782	2
+P	Gawler		AU	South Australia	-34.603	138.749	27
+P	Ganvié	ganvie	BJ		6.464	2.393	3
+P	Gaeta		IT		41.214	13.571	31
+P	Gazaoua		NE		13.526	7.914	3
+P	Galapa		CO		10.897	-74.886	7
+P	Galatina		IT		40.174	18.170	31
+P	Gaofeng		CN		30.713	108.342	23
+P	Birnin Gaouré	birnin gaoure	NE		13.082	2.911	3
+P	Gannavaram		IN		16.541	80.802	21
+P	Gauting		DE		48.069	11.377	31
+P	Gallipoli		IT		40.056	17.991	31
+P	Gaj		PL		51.080	17.040	31
+P	Khai Gala		PK		33.846	73.827	19
+P	Gangjia		CN		30.221	107.504	23
+P	Kew Gardens		US	New York	40.714	-73.831	12
+P	Garches		FR		48.842	2.182	31
+P	Gavar		AM		40.354	45.124	13
+P	Gadhra		IN		22.747	86.245	21
+P	Gangāpur	gangapur	IN		25.220	74.260	21
+P	São Gabriel	sao gabriel	BR		-11.229	-41.876	11
+P	Galich		RU		58.379	42.346	30
+P	Gautier		US	Mississippi	30.386	-88.612	4
+P	Garuva		BR		-26.027	-48.855	11
+P	Galappo		TZ		-4.267	35.850	30
+P	Gálvez	galvez	AR		-32.030	-61.221	11
+P	Gazipaşa	gazipasa	TR		36.269	32.318	30
+P	Gandiaye		SN		14.244	-16.272	0
+P	Galaat el Andeless		TN		37.063	10.118	3
+P	Gairtganj		IN		23.410	78.221	21
+P	Gaolou		CN		34.761	104.677	23
+P	Gaurela		IN		22.754	81.901	21
+P	Gatumba		BI		-3.333	29.250	2
+P	Gamla Uppsala		SE		59.898	17.634	31
+P	Gameleira		BR		-8.584	-35.387	11
+P	Gartenstadt		DE		49.459	8.404	31
+P	West Garfield Park		US	Illinois	41.881	-87.729	4
+P	Garching		DE		48.249	11.651	31
+P	Gadani		PK		25.119	66.732	19
+P	Garba Tula		KE		0.534	38.519	30
+P	Gavrilov-Yam	gavrilov yam	RU		57.303	39.853	30
+P	Riva del Garda		IT		45.886	10.841	31
+P	Garhshankar		IN		31.215	76.141	21
+P	Ga-Malakhe	ga malakhe	ZA		-30.806	30.335	2
+P	Parafield Gardens		AU	South Australia	-34.783	138.611	27
+P	Gandevi		IN		20.812	72.998	21
+P	Gadouan		CI		6.656	-6.166	0
+P	Gargždai	gargzdai	LT		55.710	21.394	28
+P	The Gap		AU	Queensland	-27.442	152.939	25
+P	Las Gabias		ES		37.135	-3.670	31
+P	Bayshore Gardens		US	Florida	27.425	-82.590	12
+P	Gainesville		US	Texas	33.626	-97.133	4
+P	Gansbaai		ZA		-34.583	19.350	2
+P	Garwolin		PL		51.897	21.615	31
+P	Gagny		CI		5.049	-6.745	0
+P	San Nicandro Garganico		IT		41.838	15.565	31
+P	Gaoulou		CI		5.033	-6.151	0
+P	Gatesville		US	Texas	31.435	-97.744	4
+P	Galliate		IT		45.479	8.698	31
+P	Balneário Gaivota	balneario gaivota	BR		-29.157	-49.579	11
+P	Gaogu		CN		29.396	108.066	23
+P	Galanta		SK		48.190	17.727	31
+P	City Garden		HK		22.290	114.193	23
+P	Gangolli		IN		13.650	74.671	21
+P	Ganye		NG		8.435	12.051	3
+P	Gayéri	gayeri	BF		12.648	0.493	0
+P	Gates-North Gates	gates north gates	US	New York	43.165	-77.701	12
+P	Garot		IN		24.323	75.652	21
+P	Técpan de Galeana	tecpan de galeana	MX		17.220	-100.630	10
+P	Găeşti	gaesti	RO		44.717	25.317	28

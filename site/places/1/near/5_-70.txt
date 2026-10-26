@@ -1,0 +1,41 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+Z	1	America/Caracas	-240	
+C	CO	Colombia	mwl	s
+C	VE	Venezuela	mwl	s
+B	0
+P	San Fernando de Apure		VE		7.890	-67.472	1
+P	Acarigua		VE		9.555	-69.196	1
+P	Araure		VE		9.581	-69.239	1
+P	Calabozo		VE		8.924	-67.429	1
+P	San Juan de los Morros		VE		9.912	-67.354	1
+P	Valle de La Pascua		VE		9.216	-66.007	1
+P	Puerto Ayacucho		VE		5.660	-67.583	1
+P	San Carlos		VE		9.664	-68.587	1
+P	Tinaquillo		VE		9.919	-68.305	1
+P	Guanare		VE		9.039	-69.734	1
+P	Biruaca		VE		7.845	-67.517	1
+P	El Tocuyo		VE		9.787	-69.793	1
+P	Zaraza		VE		9.350	-65.325	1
+P	Altagracia de Orituco		VE		9.860	-66.381	1
+P	Caicara del Orinoco		VE		7.635	-66.168	1
+P	Villa Bruzual		VE		9.332	-69.120	1
+P	Quíbor	quibor	VE		9.929	-69.620	1
+P	Achaguas		VE		7.779	-68.224	1
+P	Píritu	piritu	VE		9.371	-69.210	1
+P	Tucupido		VE		9.273	-65.772	1
+P	Sabaneta		VE		8.752	-69.934	1
+P	Tinaco		VE		9.699	-68.433	1
+P	Guanarito		VE		8.696	-69.208	1
+P	Sanare		VE		9.752	-69.652	1
+P	Ospino		VE		9.296	-69.454	1
+P	El Sombrero		VE		9.386	-67.058	1
+P	Elorza		VE		7.061	-69.498	1
+P	Clarines		VE		9.940	-65.165	1
+P	Puerto Carreño	puerto carreno	CO		6.190	-67.484	0
+P	Camaguán	camaguan	VE		8.107	-67.607	1
+P	Las Vegas		VE		9.537	-68.630	1
+P	El Pao		VE		9.639	-68.129	1
+P	Boconoito		VE		8.847	-69.980	1
+P	Chaguaramas		VE		9.338	-66.253	1
+P	San Rafael de Onoto		VE		9.678	-68.973	1

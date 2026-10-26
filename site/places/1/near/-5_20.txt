@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kinshasa	60	
+Z	1	Africa/Lubumbashi	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+B	0
+P	Ilebo		CD		-4.331	20.586	1
+P	Lodja		CD		-3.521	23.601	1
+P	Mweka		CD		-4.852	21.559	1
+P	Boende		CD		-0.282	20.881	0
+P	Lusambo		CD		-4.975	23.444	1
+P	Lukula		CD		-3.869	23.883	1

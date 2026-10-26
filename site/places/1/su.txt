@@ -1,0 +1,510 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Khartoum	120	
+Z	3	Africa/Luanda	60	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	7	America/La_Paz	-240	
+Z	8	America/Lima	-300	
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Phoenix	-420	
+Z	11	America/Sao_Paulo	-180	
+Z	12	America/Tegucigalpa	-360	
+Z	13	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Baghdad	180	
+Z	16	Asia/Baku	240	
+Z	17	Asia/Bangkok	420	
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	20	Asia/Karachi	300	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Seoul	540	
+Z	23	Asia/Shanghai	480	
+Z	24	Asia/Tehran	210	
+Z	25	Australia/Brisbane	600	
+Z	26	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	27	Europe/Belgrade	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	28	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	29	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	30	Pacific/Fiji	720	
+C	AE	United Arab Emirates	dubai	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FJ	Fiji	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	LU	Luxembourg	mwl	s
+C	LY	Libya	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	MN	Mongolia	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	OM	Oman	ummalqura	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	QA	Qatar	qatar	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SY	Syria	egyptian	s
+C	TH	Thailand	mwl	s
+C	TL	Timor Leste	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	XK	Kosovo	mwl	s
+C	YE	Yemen	ummalqura	s
+C	ZW	Zimbabwe	egyptian	s
+B	5
+P	Suzhou		CN		31.304	120.595	23
+P	Surat		IN		21.196	72.830	21
+P	Suzhou		CN		33.636	116.979	23
+P	Suqian		CN		33.949	118.296	23
+P	Suwon		KR		37.291	127.009	22
+P	Sulaymaniyah		IQ		35.565	45.433	15
+P	Kampung Baru Subang		MY		3.150	101.533	23
+P	San Pedro Sula		HN		15.506	-88.026	12
+P	Subang Jaya		MY		3.044	101.581	23
+P	Suez		EG		29.974	32.526	1
+P	Suining		CN		30.508	105.573	23
+P	Suizhou		CN		31.711	113.363	23
+P	Suginami		JP		36.201	140.284	22
+P	Surrey		CA	British Columbia	49.106	-122.825	14
+P	Sukkur		PK		27.703	68.859	20
+P	Sungai Petani		MY		5.647	100.488	23
+P	Port Sudan		SD		19.617	37.216	2
+P	Sunch’ŏn	sunchon	KP		39.432	125.933	22
+P	Sultangazi		TR		41.107	28.868	15
+P	Sumgayit		AZ		40.590	49.669	16
+P	Sunshine Coast		AU	Queensland	-26.657	153.080	25
+P	Suita		JP		34.761	135.516	22
+P	Caxias do Sul		BR		-29.168	-51.179	11
+P	Sultanbeyli		TR		40.961	29.271	15
+P	Suzano		BR		-23.543	-46.311	11
+P	Sumbawanga		TZ		-7.967	31.617	15
+P	Surgut		RU		61.258	73.418	20
+P	Sumida		JP		35.733	139.821	22
+P	Kirāri Sulemānnagar	kirari sulemannagar	IN		28.697	77.065	21
+P	Sumaré	sumare	BR		-22.822	-47.267	11
+P	Suncheon		KR		34.950	127.488	22
+P	Banī Suwayf	bani suwayf	EG		29.074	31.098	1
+P	Suicheng		CN		33.896	117.933	23
+P	Sumy		UA		50.917	34.799	28
+P	Suihua		CN		46.648	126.967	23
+P	Santiago de Surco		PE		-12.136	-77.007	8
+P	Sucre		BO		-19.033	-65.263	7
+P	Sungai Buloh		MY		3.210	101.561	23
+P	Sumbe		AO		-11.206	13.844	3
+P	Bandar Sunway		MY		3.069	101.607	23
+P	Suzuka		JP		34.883	136.583	22
+P	Surulere		NG		6.502	3.358	3
+P	Sunrise Manor		US	Nevada	36.211	-115.073	9
+P	Sutton		GB	England	51.350	-0.200	29
+P	Khuraybat as Sūq	khuraybat as suq	JO		31.879	35.921	15
+P	Sūjāngarh	sujangarh	IN		27.700	74.467	21
+P	Jaraguá do Sul	jaragua do sul	BR		-26.486	-49.067	11
+P	Sultan Pur Majra		IN		28.690	77.076	21
+P	Surendranagar		IN		22.727	71.649	21
+P	Sunderland		GB	England	54.905	-1.382	29
+P	Greater Sudbury		CA	Ontario	46.490	-80.990	13
+P	São Caetano do Sul	sao caetano do sul	BR		-23.623	-46.551	11
+P	Suleja		NG		9.181	7.179	3
+P	Sullana		PE		-4.904	-80.685	8
+P	Sukrah		TN		36.877	10.247	3
+P	Sunnyvale		US	California	37.369	-122.036	9
+P	Sumayl		IQ		36.858	42.848	15
+P	Ṣuwayliḥ	suwaylih	JO		32.022	35.844	15
+P	Sujiatun		CN		41.659	123.339	23
+P	Kampung Sungai Glugur		MY		5.370	100.314	23
+P	Surprise		US	Arizona	33.631	-112.333	10
+P	Kampung Sungai Ara		MY		5.327	100.273	23
+P	Santa Cruz do Sul		BR		-29.718	-52.426	11
+P	Sapucaia do Sul		BR		-29.818	-51.146	11
+P	Surat Thani		TH		9.140	99.333	17
+P	Sunset Park		US	New York	40.645	-74.012	13
+P	Bang Sue		TH		13.811	100.531	17
+P	Sultan Kudarat		PH		7.229	124.258	23
+P	Suan Luang		TH		13.730	100.651	17
+P	Suriāpet	suriapet	IN		17.141	79.620	21
+P	Sultānpur	sultanpur	IN		26.258	82.073	21
+P	Qal‘at Sukkar	qalat sukkar	IQ		31.863	46.073	15
+P	Sutton Coldfield		GB	England	52.567	-1.817	29
+P	As Suwayq		OM		23.849	57.439	16
+P	Suruç	suruc	TR		36.976	38.425	15
+P	Subotica		RS		46.100	19.667	27
+P	Suifenhe		CN		44.400	131.148	23
+P	Saint-Jean-sur-Richelieu	saint jean sur richelieu	CA	Quebec	45.307	-73.263	13
+P	Lee's Summit	lees summit	US	Missouri	38.911	-94.382	4
+P	Sunyani		GH		7.340	-2.327	0
+P	Cruzeiro do Sul		BR		-7.628	-72.678	8
+P	Surallah		PH		6.375	124.745	23
+P	Saphan Sung		TH		13.770	100.685	17
+P	Suffolk		US	Virginia	36.728	-76.585	13
+P	Sugar Land		US	Texas	29.620	-95.635	4
+P	Surigao		PH		9.789	125.495	23
+P	Asnières-sur-Seine	asnieres sur seine	FR		48.917	2.283	27
+P	Le Sud-Ouest	le sud ouest	CA	Quebec	45.472	-73.590	13
+P	Sunrise		US	Florida	26.134	-80.113	13
+P	Suceava		RO		47.633	26.250	28
+P	Kampung Sungai Kajang		MY		3.416	101.173	23
+P	São Bento do Sul	sao bento do sul	BR		-26.250	-49.379	11
+P	Weston-super-Mare	weston super mare	GB	England	51.346	-2.977	29
+P	Anzhero-Sudzhensk	anzhero sudzhensk	RU		56.076	86.024	17
+P	Parit Sulung		MY		1.976	102.883	23
+P	Vitry-sur-Seine	vitry sur seine	FR		48.787	2.403	27
+P	South Suffolk		US	Virginia	36.717	-76.590	13
+P	Cachoeira do Sul		BR		-30.039	-52.894	11
+P	Bang Sue subdistrict		TH		13.806	100.531	17
+P	Suva		FJ		-18.137	178.425	30
+P	Aş Şuwayrah	as suwayrah	IQ		32.926	44.776	15
+P	South Surrey		CA	British Columbia	49.050	-122.792	14
+P	Şurmān	surman	LY		32.757	12.572	2
+P	Champigny-sur-Marne	champigny sur marne	FR		48.816	2.494	27
+P	Mashtūl as Sūq	mashtul as suq	EG		30.361	31.378	1
+P	Sukagawa		JP		37.283	140.383	22
+P	Sunāmganj	sunamganj	BD		25.069	91.402	18
+P	Suixi		CN		33.891	116.775	23
+P	Rio do Sul		BR		-27.214	-49.643	11
+P	Suva Reka		XK		42.359	20.825	27
+P	Sunzha		RU		43.321	45.049	15
+P	Sur		OM		22.567	59.529	16
+P	Suratgarh		IN		29.322	73.900	21
+P	Consolación del Sur	consolacion del sur	CU		22.505	-83.513	6
+P	Suwałki	suwalki	PL		54.112	22.931	27
+P	Sunām	sunam	IN		30.129	75.799	21
+P	Subic		PH		14.879	120.232	23
+P	Supaul		IN		26.115	86.595	21
+P	Suyangshan		CN		34.393	117.756	23
+P	Sumusţā al Waqf	sumusta al waqf	EG		28.921	30.854	1
+P	Surubim		BR		-7.833	-35.755	11
+P	La Seyne-sur-Mer	la seyne sur mer	FR		43.103	5.878	27
+P	Neuilly-sur-Seine	neuilly sur seine	FR		48.885	2.270	27
+P	La Roche-sur-Yon	la roche sur yon	FR		46.670	-1.428	27
+P	As-Suwayda	as suwayda	SY		32.709	36.570	15
+P	Suozhen		CN		36.954	118.105	23
+P	Ivry-sur-Seine	ivry sur seine	FR		48.816	2.385	27
+P	Sundsvall		SE		62.391	17.306	27
+P	Suiling		CN		47.235	127.108	23
+P	Sukuta		GM		13.410	-16.708	0
+P	Suzaka		JP		36.650	138.317	22
+P	Suphan Buri		TH		14.474	100.122	17
+P	Sultānganj	sultanganj	IN		25.238	86.736	21
+P	São Francisco do Sul	sao francisco do sul	BR		-26.243	-48.638	11
+P	Sūsangerd	susangerd	IR		31.564	48.190	24
+P	Susono		JP		35.174	138.907	22
+P	Suhum		GH		6.041	-0.450	0
+P	Sunabeda		IN		18.728	82.829	21
+P	Sunnyside		US	New York	40.740	-73.935	13
+P	Sungai Siput		MY		4.394	101.195	23
+P	Suwa		JP		36.038	138.113	22
+P	Summerville		US	South Carolina	33.019	-80.176	13
+P	Campina Grande do Sul		BR		-25.306	-49.055	11
+P	Sufālat Samā’il	sufalat samail	OM		23.317	58.017	16
+P	Suluova		TR		40.831	35.648	15
+P	Chalon-sur-Saône	chalon sur saone	FR		46.781	4.854	27
+P	Boulogne-sur-Mer	boulogne sur mer	FR		50.725	1.614	27
+P	Sunlou		CN		34.667	116.583	23
+P	Cagnes-sur-Mer	cagnes sur mer	FR		43.664	7.148	27
+P	Surin		TH		14.882	103.494	17
+P	Épinay-sur-Seine	epinay sur seine	FR		48.953	2.315	27
+P	Al ‘Ayn as Sukhnah	al ayn as sukhnah	EG		29.589	32.336	1
+P	Ain Sukhna		EG		29.600	32.317	1
+P	Sundergarh		IN		22.117	84.033	21
+P	Suresnes		FR		48.871	2.229	27
+P	Paraíba do Sul	paraiba do sul	BR		-22.158	-43.293	11
+P	Sugito		JP		36.031	139.726	22
+P	Sudoeste/Octagonal	sudoeste octagonal	BR		-15.802	-47.927	11
+P	Krasnyy Sulin		RU		47.892	40.072	15
+P	Suhl		DE		50.609	10.694	27
+P	Palomeras Sureste		ES		40.385	-3.637	27
+P	Su-ngai Kolok	su ngai kolok	TH		6.030	101.966	17
+P	Sukheke Mandi		PK		31.865	73.509	20
+P	Suakin		SD		19.106	37.332	2
+P	São Mateus do Sul	sao mateus do sul	BR		-25.874	-50.383	11
+P	Sumoto		JP		34.343	134.889	22
+P	São Lourenço do Sul	sao lourenco do sul	BR		-31.365	-51.978	11
+P	Sūrampatti	surampatti	IN		11.327	77.711	21
+P	Sumter		US	South Carolina	33.920	-80.341	13
+P	Südstadt	sudstadt	DE		52.360	9.751	27
+P	Vargem Grande do Sul		BR		-21.832	-46.894	11
+P	Sŭngho 1-tong	sungho 1 tong	KP		38.991	125.978	22
+P	Savigny-sur-Orge	savigny sur orge	FR		48.677	2.348	27
+P	Eldorado do Sul		BR		-30.084	-51.616	11
+P	Sultan sa Barongis		PH		6.800	124.637	23
+P	Sumerpur		IN		25.154	73.082	21
+P	Sunbury		AU	Victoria	-37.577	144.726	26
+P	Surbiton		GB	England	51.391	-0.298	29
+P	Sūlūru	suluru	IN		13.700	80.017	21
+P	Dhī as Sufāl	dhi as sufal	YE		13.834	44.115	15
+P	Neustadt/Süd	neustadt sud	DE		50.925	6.948	27
+P	Rio Branco do Sul		BR		-25.190	-49.314	11
+P	Sungurlu		TR		40.167	34.374	15
+P	Sun City		US	Arizona	33.598	-112.272	10
+P	Mei Foo Sun Chuen		HK		22.336	114.140	23
+P	Sumusţā as Sulţānī	sumusta as sultani	EG		28.917	30.850	1
+P	Sukhothai		TH		17.008	99.823	17
+P	Sunan		KP		39.203	125.693	22
+P	Rosário do Sul	rosario do sul	BR		-30.258	-54.914	11
+P	Esch-sur-Alzette	esch sur alzette	LU		49.496	5.981	27
+P	Sunset		CA	British Columbia	49.221	-123.095	14
+P	Sutton in Ashfield		GB	England	53.125	-1.261	29
+P	Sukhoy Log		RU		56.908	62.034	20
+P	Sugai		JP		34.755	135.797	22
+P	Barmbek-Süd	barmbek sud	DE		53.580	10.041	27
+P	Sūrandai	surandai	IN		8.976	77.419	21
+P	Romans-sur-Isère	romans sur isere	FR		45.050	5.066	27
+P	Sungai Lalang		MY		5.700	100.514	23
+P	Santa Fé do Sul	santa fe do sul	BR		-20.211	-50.926	11
+P	Santa Cruz del Sur		CU		20.715	-77.996	6
+P	Hastings-Sunrise	hastings sunrise	CA	British Columbia	49.283	-123.033	14
+P	Sundbyberg		SE		59.361	17.971	27
+P	Neuilly-sur-Marne	neuilly sur marne	FR		48.854	2.549	27
+P	Mirafiori Sud		IT		45.021	7.623	27
+P	As Sūkī	as suki	SD		13.317	33.883	2
+P	Surrey City Centre		CA	British Columbia	49.185	-122.847	14
+P	Suitland-Silver Hill	suitland silver hill	US	Maryland	38.847	-76.926	13
+P	Villefranche-sur-Saône	villefranche sur saone	FR		45.990	4.720	27
+P	Abu Suweir-el-Mahatta	abu suweir el mahatta	EG		30.570	32.115	1
+P	Sungkai		MY		4.000	101.317	23
+P	Coronel Suárez	coronel suarez	AR		-37.459	-61.933	11
+P	Caçapava do Sul	cacapava do sul	BR		-30.514	-53.485	11
+P	Sun Prairie		US	Wisconsin	43.184	-89.214	4
+P	Banī Suwayf al Jadīdah	bani suwayf al jadidah	EG		29.033	31.114	1
+P	Laranjeiras do Sul		BR		-25.408	-52.416	11
+P	Kawasan Penempatan Ulu Sungai Benut		MY		1.754	103.280	23
+P	Le Perreux-sur-Marne	le perreux sur marne	FR		48.850	2.500	27
+P	Banī Suhaylā	bani suhayla	PS		31.343	34.323	19
+P	Nogent-sur-Marne	nogent sur marne	FR		48.837	2.483	27
+P	Surfers Paradise		AU	Queensland	-28.003	153.430	25
+P	Chapadão do Sul	chapadao do sul	BR		-18.794	-52.623	7
+P	Şūrān	suran	SY		35.292	36.748	15
+P	Suzak		KG		40.898	72.905	18
+P	Villiers-sur-Marne	villiers sur marne	FR		48.831	2.548	27
+P	Suong		KH		11.912	105.658	17
+P	San Rafael del Sur		NI		11.849	-86.438	12
+P	Saint-Sébastien-sur-Loire	saint sebastien sur loire	FR		47.208	-1.503	27
+P	Cernusco sul Naviglio		IT		45.525	9.333	27
+P	Suār	suar	IN		29.028	79.057	21
+P	Sumiyoshi		JP		34.750	138.250	22
+P	Pallanza-Intra-Suna	pallanza intra suna	IT		45.938	8.571	27
+P	Sueca		ES		39.203	-0.311	27
+P	Šumperk	sumperk	CZ		49.965	16.971	27
+P	Santo Antônio do Sudoeste	santo antonio do sudoeste	BR		-26.074	-53.725	11
+P	Sue		JP		33.591	130.504	22
+P	Sūryampālaiyam	suryampalaiyam	IN		11.404	77.712	21
+P	Sumpango		GT		14.646	-90.734	12
+P	Sujānpur	sujanpur	IN		32.316	75.607	21
+P	Suisun		US	California	38.238	-122.040	9
+P	Sungai Dua		MY		5.443	100.430	23
+P	Pierrefitte-sur-Seine	pierrefitte sur seine	FR		48.967	2.361	27
+P	Sulur		IN		11.024	77.126	21
+P	Sunbury-on-Thames	sunbury on thames	GB	England	51.404	-0.418	29
+P	Champs-sur-Marne	champs sur marne	FR		48.850	2.600	27
+P	Tristán Suárez	tristan suarez	AR		-34.890	-58.568	11
+P	Sundern		DE		51.328	8.004	27
+P	Pilar do Sul		BR		-23.813	-47.716	11
+P	Altstadt Sud		DE		50.933	6.960	27
+P	Tam O'Shanter-Sullivan	tam oshanter sullivan	CA	Ontario	43.780	-79.295	13
+P	As Sulţah al Jadīdah	as sultah al jadidah	QA		25.260	51.514	15
+P	Sungai Besar		MY		3.675	100.987	23
+P	Vigneux-sur-Seine	vigneux sur seine	FR		48.703	2.414	27
+P	Kara Suu		KG		40.705	72.867	18
+P	Superior		US	Wisconsin	46.721	-92.104	4
+P	Supía	supia	CO		5.453	-75.651	8
+P	Lago Sul		BR		-15.846	-47.884	11
+P	Susaki		JP		33.395	133.291	22
+P	Sutrāpāra	sutrapara	IN		20.844	70.483	21
+P	Sungai Udang		MY		2.269	102.143	23
+P	Villeneuve-sur-Lot	villeneuve sur lot	FR		44.409	0.704	27
+P	Suitland		US	Maryland	38.849	-76.924	13
+P	Suşehri	susehri	TR		40.160	38.084	15
+P	Kelīshād va Sūdarjān	kelishad va sudarjan	IR		32.551	51.528	24
+P	Subaykhān	subaykhan	SY		34.853	40.600	15
+P	Sundarnagar		IN		31.535	76.905	21
+P	Surif City		PS		31.651	35.064	19
+P	Herblay-sur-Seine	herblay sur seine	FR		48.990	2.170	27
+P	Sucy-en-Brie	sucy en brie	FR		48.769	2.535	27
+P	Susurluk		TR		39.914	28.158	15
+P	Sun City West		US	Arizona	33.662	-112.341	10
+P	Mimoso do Sul		BR		-21.064	-41.366	11
+P	Brétigny-sur-Orge	bretigny sur orge	FR		48.611	2.306	27
+P	Sainte-Suzanne	sainte suzanne	RE		-20.906	55.608	16
+P	Suryaraopeta		IN		17.000	82.223	21
+P	As Sulayyil		SA		20.461	45.578	15
+P	Summerlin South		US	Nevada	36.117	-115.330	9
+P	Sudbury		GB	England	52.039	0.731	29
+P	Belo sur Tsiribihina		MG		-19.698	44.546	15
+P	Encruzilhada do Sul		BR		-30.544	-52.522	11
+P	Piraí do Sul	pirai do sul	BR		-24.526	-49.949	11
+P	Saint-Pol-sur-Mer	saint pol sur mer	FR		51.031	2.340	27
+P	Gif-sur-Yvette	gif sur yvette	FR		48.683	2.133	27
+P	Nocera Superiore		IT		40.742	14.674	27
+P	Sucre		CO		8.811	-74.721	8
+P	Sühbaatar	suhbaatar	MN		50.231	106.208	23
+P	Bang Kho Laem subdistrict		TH		13.693	100.502	17
+P	Suket		IN		24.646	76.042	21
+P	Sunny Isles Beach		US	Florida	25.951	-80.123	13
+P	Summit		US	New Jersey	40.716	-74.365	13
+P	Le Mée-sur-Seine	le mee sur seine	FR		48.532	2.628	27
+P	Chatuchak subdistrict		TH		13.827	100.555	17
+P	Nova Alvorada do Sul		BR		-21.466	-54.384	7
+P	Sugar Hill		US	Georgia	34.106	-84.034	13
+P	Sūrajgarh	surajgarh	IN		28.310	75.733	21
+P	Suai		TL		-9.313	125.256	22
+P	Jandaia do Sul		BR		-23.603	-51.643	11
+P	Sugita		JP		35.376	139.617	22
+P	Dupax del Sur		PH		16.284	121.090	23
+P	Sulmona		IT		42.049	13.926	27
+P	Suvorov		RU		54.122	36.497	15
+P	Saint-Michel-sur-Orge	saint michel sur orge	FR		48.635	2.308	27
+P	Šuto Orizare	suto orizare	MK		42.040	21.425	27
+P	Suntu		ET		8.100	36.950	15
+P	Surovikino		RU		48.610	42.857	15
+P	Lagny-sur-Marne	lagny sur marne	FR		48.867	2.717	27
+P	Fátima do Sul	fatima do sul	BR		-22.374	-54.514	7
+P	Suibara		JP		37.846	139.230	22
+P	Sukhodilsk		UA		48.351	39.726	28
+P	Boca Suno		EC		-0.698	-77.141	8
+P	Surajpur		IN		23.213	82.868	21
+P	Sulphur		US	Louisiana	30.237	-93.377	4
+P	Sūleswaranpatti	suleswaranpatti	IN		10.639	77.008	21
+P	Sunagawa		JP		43.486	141.906	22
+P	Sürmene	surmene	TR		40.906	40.128	15
+P	Trezzano sul Naviglio		IT		45.422	9.063	27
+P	Surian		IR		30.455	53.651	24
+P	Surkhpur		PK		32.718	74.448	20
+P	Sultonobod		UZ		40.765	72.976	20
+P	Sungai Simpang		SG		1.438	103.827	23
+P	Sueyoshichō-ninokata	sueyoshicho ninokata	JP		31.650	131.017	22
+P	Sullya		IN		12.561	75.387	21
+P	Qaryat Sulūq	qaryat suluq	LY		31.668	20.252	2
+P	Morsang-sur-Orge	morsang sur orge	FR		48.662	2.353	27
+P	Suutarila		FI		60.280	25.018	28
+P	Nogent-sur-Oise	nogent sur oise	FR		49.272	2.471	27
+P	Suárez	suarez	CO		2.954	-76.696	8
+P	Suay		PH		10.053	122.842	23
+P	Bagnols-sur-Cèze	bagnols sur ceze	FR		44.163	4.620	27
+P	Sungai Jawi		MY		5.198	100.492	23
+P	Sun City		US	California	33.709	-117.197	9
+P	Lomas del Sur		MX		20.492	-103.418	12
+P	Sulzbach-Rosenberg	sulzbach rosenberg	DE		49.501	11.746	27
+P	Sun Valley		US	Nevada	39.596	-119.776	9
+P	Sukumo		JP		32.933	132.733	22
+P	Sun City Center		US	Florida	27.718	-82.352	13
+P	Sanary-sur-Mer	sanary sur mer	FR		43.120	5.802	27
+P	Suriānwān	surianwan	IN		25.464	82.419	21
+P	Sung Wong Toi		HK		22.325	114.191	23
+P	Suhe		CN		34.062	105.222	23
+P	Montignies-sur-Sambre	montignies sur sambre	BE		50.411	4.491	27
+P	Sunchales		AR		-30.945	-61.560	11
+P	Sumag		PH		10.601	122.919	23
+P	Bonneuil-sur-Marne	bonneuil sur marne	FR		48.770	2.479	27
+P	Suwanee		US	Georgia	34.051	-84.071	13
+P	Sugamo		JP		35.735	139.733	22
+P	Sunshine West		AU	Victoria	-37.791	144.816	26
+P	Janūb as Surrah	janub as surrah	KW		29.269	47.978	15
+P	La Chapelle-sur-Erdre	la chapelle sur erdre	FR		47.300	-1.552	27
+P	Sulejówek	sulejowek	PL		52.252	21.269	27
+P	Non Sung		TH		15.180	102.257	17
+P	Chennevières-sur-Marne	chennevieres sur marne	FR		48.797	2.540	27
+P	Umm as Summāq	umm as summaq	JO		31.885	35.854	15
+P	Sulaco		HN		14.917	-87.267	12
+P	Sulechów	sulechow	PL		52.084	15.625	27
+P	Palazzolo sull'Oglio	palazzolo sulloglio	IT		45.597	9.887	27
+P	Sunnybank Hills		AU	Queensland	-27.610	153.054	25
+P	Tijucas do Sul		BR		-25.928	-49.180	11
+P	Sudbury		US	Massachusetts	42.383	-71.416	13
+P	Saint-Cyr-sur-Loire	saint cyr sur loire	FR		47.400	0.667	27
+P	Fos-sur-Mer	fos sur mer	FR		43.438	4.945	27
+P	Suvorovskaya		RU		44.190	42.660	15
+P	Cocal do Sul		BR		-28.599	-49.323	11
+P	Sumé	sume	BR		-7.672	-36.880	11
+P	Bom Sucesso		BR		-21.033	-44.758	11
+P	L'Isle-sur-la-Sorgue	lisle sur la sorgue	FR		43.920	5.051	27
+P	Tibau do Sul		BR		-6.187	-35.092	11
+P	Sultanpur		IN		31.215	75.196	21
+P	Verneuil-sur-Seine	verneuil sur seine	FR		48.974	1.965	27
+P	Suchiapa		MX		16.625	-93.099	12
+P	Sun Tin Wai		HK		22.371	114.187	23
+P	Sudak		UA		44.849	34.975	15
+P	Suzzara		IT		44.992	10.744	27
+P	Umm Suqaym		AE		25.155	55.210	16
+P	Sundakkāmpālaiyam	sundakkampalaiyam	IN		10.567	77.214	21
+P	Suurmetsä	suurmetsa	FI		60.270	25.054	28
+P	Susner		IN		23.947	76.088	21
+P	Sunset		US	Florida	25.706	-80.352	13
+P	Sulzbach		DE		49.299	7.057	27
+P	Sunnyside		US	Washington	46.324	-120.009	9
+P	Bry-sur-Marne	bry sur marne	FR		48.838	2.525	27
+P	Surkhakhi		RU		43.188	44.902	15
+P	Sudley		US	Virginia	38.793	-77.497	13
+P	Shahr Sultan		PK		29.575	71.022	20
+P	Lang Suan		TH		9.946	99.078	17
+P	Yeni Suraxanı	yeni suraxani	AZ		40.430	50.036	16
+P	Sukhinichi		RU		54.100	35.343	15
+P	Sulphur Springs		US	Texas	33.138	-95.601	4
+P	Sunland Park		US	New Mexico	31.797	-106.580	5
+P	Sunel		IN		24.371	75.957	21
+P	Surry Hills		AU	New South Wales	-33.884	151.213	26
+P	Sumidouro		BR		-22.050	-42.675	11
+P	São Pedro do Sul	sao pedro do sul	BR		-29.621	-54.179	11
+P	Harare Western Suburbs		ZW		-17.841	30.877	2
+P	Suzun		RU		53.785	82.316	17
+P	Vişeu de Sus	viseu de sus	RO		47.708	24.430	28
+P	Sunland		US	California	34.267	-118.302	9
+P	Sucre		EC		-1.280	-80.418	8
+P	Susanville		US	California	40.416	-120.653	9
+P	Sultan Pur		IN		28.496	77.161	21
+P	Kyzyl-Suu	kyzyl suu	KG		42.342	78.006	18
+P	Sumbal		IN		34.231	74.647	21
+P	Suluktu		KG		39.937	69.568	18

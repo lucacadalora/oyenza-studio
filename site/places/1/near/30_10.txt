@@ -1,0 +1,62 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Tripoli	120	
+Z	1	Africa/Tunis	60	
+C	LY	Libya	egyptian	s
+C	TN	Tunisia	egyptian	s
+B	1
+P	Tripoli		LY		32.887	13.187	0
+P	Sfax		TN		34.741	10.760	1
+P	Zliten		LY		32.467	14.569	0
+P	Al Khums		LY		32.649	14.262	0
+P	Az Zāwīyah	az zawiyah	LY		32.757	12.728	0
+P	Zawiya		LY		32.752	12.728	0
+P	Janzūr	janzur	LY		32.819	13.017	0
+P	Al Ajaylat		LY		32.757	12.376	0
+P	Sakiet ed Daier		TN		34.794	10.806	1
+P	Gabès	gabes	TN		33.881	10.098	1
+P	Al Jumayl		LY		32.853	12.061	0
+P	Qaşr Bin Ghashīr	qasr bin ghashir	LY		32.683	13.183	0
+P	Tājūrā’	tajura	LY		32.882	13.351	0
+P	Sakiet ez Zit		TN		34.802	10.764	1
+P	Houmt Souk		TN		33.876	10.857	1
+P	Ben Gardane		TN		33.138	11.220	1
+P	Şabrātah	sabratah	LY		32.793	12.488	0
+P	Al Ḩurshah	al hurshah	LY		32.765	12.674	0
+P	Zarzis		TN		33.504	11.112	1
+P	Şurmān	surman	LY		32.757	12.572	0
+P	Msalātah	msalatah	LY		32.583	14.036	0
+P	Medenine		TN		33.355	10.505	1
+P	Tataouine		TN		32.930	10.452	1
+P	El Mgarsa		TN		33.817	10.992	1
+P	As Sawānī	as sawani	LY		32.717	13.067	0
+P	Tarhuna		LY		32.435	13.633	0
+P	Al ‘Azīzīyah	al aziziyah	LY		32.532	13.018	0
+P	Qaşr al Qarabūllī	qasr al qarabulli	LY		32.745	13.715	0
+P	Bani Walid		LY		31.746	13.984	0
+P	El Ain		TN		34.800	10.783	1
+P	Gremda		TN		34.791	10.721	1
+P	Gharyan		LY		32.172	13.020	0
+P	Zuwarah		LY		32.931	12.082	0
+P	Sidi Abid		TN		34.700	10.695	1
+P	Zintan		LY		31.932	12.253	0
+P	Midoun		TN		33.808	10.992	1
+P	Sīdī Bin Zīnah	sidi bin zinah	LY		32.887	11.987	0
+P	Nālūt	nalut	LY		31.868	10.981	0
+P	Rhennouch		TN		33.941	10.064	1
+P	Al Aşābi‘ah	al asabiah	LY		32.033	12.867	0
+P	Dar el Haj Taïeb	dar el haj taieb	TN		34.784	10.744	1
+P	Az Zahrā’	az zahra	LY		32.679	12.873	0
+P	Ajim		TN		33.726	10.757	1
+P	Yafran		LY		32.063	12.529	0
+P	An Nāşirīyah	an nasiriyah	LY		32.633	12.874	0
+P	Mareth		TN		33.618	10.285	1
+P	Qarqūzah	qarquzah	LY		32.746	12.842	0
+P	Chenini Nahal		TN		33.872	10.055	1
+P	Al-'Alūaṣ	al aluas	LY		32.710	13.967	0
+P	Teboulbou		TN		33.846	10.114	1
+P	Mizdah		LY		31.449	12.985	0
+P	Qaşr Khiyār	qasr khiyar	LY		32.697	13.846	0
+P	Mahires		TN		34.528	10.501	1
+P	Kellabine		TN		34.709	11.215	1
+P	Al Qawāsim	al qawasim	LY		32.184	13.060	0
+P	Ar Rayāyinah	ar rayayinah	LY		32.027	12.356	0

@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lubumbashi	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Kalemie		CD		-5.947	29.195	0
+P	Bukama		CD		-9.204	25.855	0
+P	Mulongo		CD		-7.835	26.999	0
+P	Kongolo		CD		-5.385	27.000	0
+P	Manono		CD		-7.299	27.399	0
+P	Kabalo		CD		-6.053	26.914	0
+P	Baudhuinville		CD		-7.084	29.737	0
+P	Nchelenge		ZM		-9.345	28.734	0
+P	Kalima		CD		-5.485	28.216	0
+P	Nyunzu		CD		-5.956	28.016	0
+P	Kipamba		CD		-8.206	26.420	0
+P	Pweto		CD		-8.466	28.901	0
+P	Lubao		CD		-5.388	25.749	0
+P	Kaputa		ZM		-8.469	29.662	0
+P	Kawambwa		ZM		-9.791	29.079	0
+P	Malemba-Nkulu	malemba nkulu	CD		-8.045	26.796	0
+P	Pepa		CD		-7.698	29.777	0
+P	Mwansabombwe		ZM		-9.822	28.760	0
+P	Chiengi		ZM		-8.660	29.161	0

@@ -1,0 +1,132 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Sarajevo	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AL	Albania	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	HR	Croatia	mwl	s
+C	IT	Italy	mwl	s
+C	ME	Montenegro	mwl	s
+C	RS	Serbia	mwl	s
+B	0
+P	Sarajevo		BA		43.849	18.356	0
+P	Tirana		AL		41.327	19.819	0
+P	Bari		IT		41.121	16.870	0
+P	Podgorica		ME		42.441	19.263	0
+P	Banja Luka		BA		44.779	17.206	0
+P	Taranto		IT		40.464	17.247	0
+P	Durrës	durres	AL		41.324	19.455	0
+P	Zenica		BA		44.202	17.904	0
+P	Split		HR		43.509	16.439	0
+P	Tuzla		BA		44.538	18.667	0
+P	Foggia		IT		41.458	15.552	0
+P	Vlorë	vlore	AL		40.470	19.484	0
+P	Mostar		BA		43.343	17.808	0
+P	Andria		IT		41.231	16.298	0
+P	Shkodër	shkoder	AL		42.068	19.513	0
+P	Barletta		IT		41.314	16.282	0
+P	Brindisi		IT		40.632	17.936	0
+P	Lecce		IT		40.355	18.172	0
+P	Bihać	bihac	BA		44.817	15.871	0
+P	Ilidža	ilidza	BA		43.831	18.307	0
+P	Altamura		IT		40.827	16.550	0
+P	Zadar		HR		44.116	15.225	0
+P	Užice	uzice	RS		43.859	19.849	0
+P	Lushnjë	lushnje	AL		40.942	19.705	0
+P	Berat		AL		40.706	19.952	0
+P	Valjevo		RS		44.275	19.898	0
+P	Fier-Çifçi	fier cifci	AL		40.717	19.567	0
+P	Matera		IT		40.666	16.605	0
+P	Molfetta		IT		41.200	16.599	0
+P	Nikšić	niksic	ME		42.773	18.944	0
+P	Manfredonia		IT		41.631	15.919	0
+P	Potenza		IT		40.642	15.808	0
+P	Fier		AL		40.725	19.558	0
+P	Bisceglie		IT		41.243	16.501	0
+P	Šabac	sabac	RS		44.747	19.690	0
+P	Cerignola		IT		41.265	15.896	0
+P	Trani		IT		41.277	16.410	0
+P	San Severo		IT		41.686	15.381	0
+P	Bitonto		IT		41.110	16.691	0
+P	Krujë	kruje	AL		41.509	19.793	0
+P	Corato		IT		41.152	16.411	0
+P	Lukavac		BA		44.542	18.526	0
+P	Gravina in Puglia		IT		40.817	16.419	0
+P	Bugojno		BA		44.057	17.451	0
+P	Sremska Mitrovica		RS		44.976	19.612	0
+P	Brčko	brcko	BA		44.872	18.816	0
+P	Monopoli		IT		40.949	17.297	0
+P	Bijeljina		BA		44.759	19.214	0
+P	Martina Franca		IT		40.704	17.338	0
+P	Modugno		IT		41.084	16.783	0
+P	Prijedor		BA		44.980	16.714	0
+P	Francavilla Fontana		IT		40.531	17.585	0
+P	Trebinje		BA		42.712	18.344	0
+P	Lucera		IT		41.505	15.339	0
+P	Grottaglie		IT		40.537	17.437	0
+P	Travnik		BA		44.226	17.666	0
+P	Šibenik	sibenik	HR		43.734	15.894	0
+P	Kuçovë	kucove	AL		40.800	19.917	0
+P	Massafra		IT		40.586	17.116	0
+P	Kavajë	kavaje	AL		41.186	19.557	0
+P	Canosa di Puglia		IT		41.220	16.068	0
+P	San Paolo		IT		41.125	16.793	0
+P	Nardò	nardo	IT		40.180	18.032	0
+P	Manduria		IT		40.399	17.637	0
+P	Doboj		BA		44.732	18.087	0
+P	San Giovanni Rotondo		IT		41.706	15.728	0
+P	Dubrovnik		HR		42.641	18.109	0
+P	Triggiano		IT		41.065	16.925	0
+P	Mesagne		IT		40.559	17.808	0
+P	Eboli		IT		40.617	15.057	0
+P	Terlizzi		IT		41.129	16.545	0
+P	Santeramo in Colle		IT		40.792	16.759	0
+P	Mola di Bari		IT		41.060	17.090	0
+P	Gioia del Colle		IT		40.800	16.923	0
+P	Ostuni		IT		40.729	17.577	0
+P	Ruvo di Puglia		IT		41.118	16.484	0
+P	Putignano		IT		40.851	17.122	0
+P	Copertino		IT		40.268	18.054	0
+P	Patos Fshat		AL		40.643	19.651	0
+P	Conversano		IT		40.968	17.113	0
+P	Carbonara di Bari		IT		41.067	16.867	0
+P	Fasano		IT		40.836	17.360	0
+P	Noicattaro		IT		41.034	16.990	0
+P	Cazin		BA		44.967	15.943	0
+P	Solin		HR		43.543	16.493	0
+P	Palo del Colle		IT		41.056	16.703	0
+P	Acquaviva delle Fonti		IT		40.897	16.843	0
+P	Rrashbull		AL		41.323	19.510	0
+P	Galatina		IT		40.174	18.170	0
+P	Herceg Novi		ME		42.453	18.538	0
+P	Loznica		RS		44.531	19.243	0
+P	Pljevlja		ME		43.357	19.358	0
+P	Casarano		IT		40.011	18.162	0
+P	Giovinazzo		IT		41.185	16.671	0
+P	Gallipoli		IT		40.056	17.991	0
+P	Lezhë	lezhe	AL		41.784	19.644	0
+P	Casamassima		IT		40.957	16.921	0
+P	Budva		ME		42.287	18.839	0
+P	Visoko		BA		43.989	18.178	0
+P	Fushë-Krujë	fushe kruje	AL		41.478	19.718	0
+P	Bar		ME		42.094	19.098	0
+P	Rutigliano		IT		41.010	17.006	0
+P	Goražde	gorazde	BA		43.668	18.976	0
+P	San Vito dei Normanni		IT		40.656	17.708	0
+P	Paolo VI		IT		40.522	17.274	0
+P	Torremaggiore		IT		41.689	15.294	0
+P	Adelfia		IT		41.003	16.872	0
+P	Orta Nova		IT		41.329	15.710	0
+P	Peqin		AL		41.046	19.751	0
+P	Ceglie Messapica		IT		40.646	17.517	0
+P	Ginosa		IT		40.577	16.757	0
+P	Valenzano		IT		41.044	16.885	0
+P	Patos		AL		40.683	19.619	0
+P	Konjic		BA		43.651	17.961	0
+P	Sava		IT		40.402	17.553	0
+P	San Nicandro Garganico		IT		41.838	15.565	0
+P	Gračanica	gracanica	BA		44.703	18.310	0
+P	Gradačac	gradacac	BA		44.879	18.428	0
+P	Bijelo Polje		ME		43.038	19.748	0
+P	Palagiano		IT		40.578	17.038	0
+P	Noci		IT		40.794	17.127	0
+P	Bosanska Krupa		BA		44.883	16.151	0
+P	Cetinje		ME		42.391	18.914	0

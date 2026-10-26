@@ -1,0 +1,30 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bangui	60	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CM	Cameroon	egyptian	s
+B	0
+P	Bangui		CF		4.361	18.555	0
+P	Mbandaka		CD		0.049	18.260	0
+P	Bimbo		CF		4.257	18.416	0
+P	Bégoua	begoua	CF		4.454	18.535	0
+P	Gemena		CD		3.257	19.772	0
+P	Carnot		CF		4.943	15.877	0
+P	Berbérati	berberati	CF		4.261	15.792	0
+P	Bolenge		CD		0.000	18.217	0
+P	Impfondo		CG		1.618	18.060	0
+P	Zongo		CD		4.343	18.594	0
+P	Basankusu		CD		1.221	19.802	0
+P	Ouesso		CG		1.614	16.052	0
+P	Libenge		CD		3.653	18.636	0
+P	Kouango		CF		4.993	19.962	0
+P	Yokadouma		CM		3.517	15.050	0
+P	Nola		CF		3.525	16.046	0
+P	Mbaïki	mbaiki	CF		3.868	17.989	0
+P	Mindouli		CG		3.103	18.511	0
+P	Makoua		CG		0.007	15.633	0
+P	Boali		CF		4.800	18.127	0
+P	Bobangui		CF		4.050	18.117	0
+P	Bétou	betou	CG		3.055	18.517	0
+P	Pokola		CG		1.405	16.318	0

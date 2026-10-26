@@ -1,0 +1,50 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+C	CM	Cameroon	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	TD	Chad	egyptian	s
+B	1
+P	Maiduguri		NG		11.847	13.157	0
+P	Gombe		NG		10.290	11.167	0
+P	Maroua		CM		10.591	14.316	0
+P	Mubi		NG		10.269	13.267	0
+P	Gashua		NG		12.874	11.041	0
+P	Bama		NG		11.521	13.690	0
+P	Nguru		NG		12.877	10.455	0
+P	Hadejia		NG		12.453	10.041	0
+P	Azare		NG		11.675	10.191	0
+P	Biu		NG		10.613	12.195	0
+P	Potiskum		NG		11.714	11.081	0
+P	Gamboru		NG		12.373	14.207	0
+P	Daura		NG		11.554	11.406	0
+P	Mora		CM		11.046	14.140	0
+P	Diffa		NE		13.315	12.611	0
+P	Mokolo		CM		10.742	13.802	0
+P	Bol		TD		13.467	14.714	0
+P	Damaturu		NG		11.747	11.961	0
+P	Geidam		NG		12.894	11.926	0
+P	Kumo		NG		10.048	11.211	0
+P	Kaélé	kaele	CM		10.109	14.451	0
+P	Bogo		CM		10.734	14.609	0
+P	Nguigmi		NE		14.250	13.109	0
+P	Dikwa		NG		12.036	13.918	0
+P	Blangwa		CM		12.775	14.553	0
+P	Gouré	goure	NE		13.983	10.270	0
+P	Guidiguis		CM		10.134	14.707	0
+P	Maga		CM		10.843	14.940	0
+P	Nafada		NG		11.096	11.333	0
+P	Damboa		NG		11.155	12.756	0
+P	Garko		NG		10.175	11.165	0
+P	Monguno		NG		12.671	13.612	0
+P	Gombi		NG		10.168	12.737	0
+P	Magumeri		NG		12.115	12.826	0
+P	Kari		NG		11.247	10.561	0
+P	Darazo		NG		10.999	10.411	0
+P	Maïné Soroa	maine soroa	NE		13.211	12.024	0
+P	Deba		NG		10.212	11.387	0
+P	Dukku		NG		10.824	10.772	0
+P	Kumagunnam		NG		13.155	10.635	0
+P	Kukawa		NG		12.925	13.566	0
+P	Marte		NG		12.365	13.829	0
+P	Gwoza		NG		11.083	13.696	0

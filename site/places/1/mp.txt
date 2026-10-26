@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Johannesburg	120	
+C	BI	Burundi	egyptian	s
+C	MW	Malawi	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Mpanda		TZ		-6.344	31.070	0
+P	Mpumalanga		ZA		-29.813	30.636	1
+P	Kapiri Mposhi		ZM		-13.971	28.670	1
+P	Mpika		ZM		-11.834	31.453	1
+P	Mpanda		BI		-3.170	29.403	1
+P	Mpondwe		UG		0.040	29.725	0
+P	Mpulungu		ZM		-8.762	31.114	1
+P	Mpigi		UG		0.225	32.314	0
+P	Mpophomeni		ZA		-29.568	30.186	1
+P	Mporokoso		ZM		-9.373	30.125	1
+P	Mpwapwa		TZ		-6.350	36.483	0
+P	Mponela		MW		-13.531	33.739	1
+P	Mpongwe		ZM		-13.509	28.155	1

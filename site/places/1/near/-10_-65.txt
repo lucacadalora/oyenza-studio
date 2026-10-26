@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Porto_Velho	-240	
+C	BR	Brazil	mwl	s
+B	0
+P	Porto Velho		BR		-8.762	-63.904	0
+P	Ariquemes		BR		-9.913	-63.041	0
+P	Humaitá	humaita	BR		-7.517	-63.031	0
+P	Manicoré	manicore	BR		-5.809	-61.300	0
+P	Lábrea	labrea	BR		-7.264	-64.796	0
+P	Machadinho d'Oeste	machadinho doeste	BR		-9.444	-61.981	0
+P	Novo Aripuanã	novo aripuana	BR		-5.121	-60.380	0
+P	Candeias do Jamari		BR		-8.810	-63.696	0
+P	Tapauá	tapaua	BR		-5.628	-63.183	0
+P	Canutama		BR		-6.534	-64.383	0
+P	Alto Paraíso	alto paraiso	BR		-9.723	-63.310	0

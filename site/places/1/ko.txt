@@ -1,0 +1,532 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Luanda	60	
+Z	3	Africa/Lubumbashi	120	
+Z	4	America/Cayenne	-180	
+Z	5	America/Indiana/Indianapolis	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	6	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	7	Asia/Dushanbe	300	
+Z	8	Asia/Ho_Chi_Minh	420	
+Z	9	Asia/Hong_Kong	480	
+Z	10	Asia/Kolkata	330	
+Z	11	Asia/Sakhalin	660	
+Z	12	Asia/Tbilisi	240	
+Z	13	Asia/Tehran	210	
+Z	14	Asia/Tokyo	540	
+Z	15	Asia/Urumqi	360	
+Z	16	Asia/Vladivostok	600	
+Z	17	Asia/Yangon	390	
+Z	18	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	19	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	20	Europe/Istanbul	180	
+Z	21	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	22	Pacific/Honolulu	-600	
+C	AL	Albania	mwl	s
+C	AO	Angola	egyptian	s
+C	AU	Australia	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BY	Belarus	mwl	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	GA	Gabon	egyptian	s
+C	GE	Georgia	mwl	s
+C	GF	French Guiana	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IS	Iceland	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LK	Sri Lanka	mwl	s
+C	MK	North Macedonia	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+C	RW	Rwanda	egyptian	s
+C	SB	Solomon Islands	mwl	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SI	Slovenia	mwl	s
+C	SK	Slovakia	mwl	s
+C	SL	Sierra Leone	egyptian	s
+C	SN	Senegal	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	XK	Kosovo	mwl	s
+C	YT	Mayotte	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	8
+P	Hong Kong		HK		22.278	114.175	9
+P	Kolkata		IN		22.563	88.363	10
+P	Kowloon		HK		22.317	114.183	9
+P	Kobe		JP		34.691	135.183	14
+P	Konya		TR		37.871	32.485	20
+P	Hong Kong Island		HK		22.263	114.184	9
+P	Köln	koln	DE		50.933	6.950	19
+P	Kota		IN		25.183	75.839	10
+P	Kolwezi		CD		-10.715	25.467	3
+P	Kochi		IN		9.940	76.260	10
+P	Kota Bharu		MY		6.124	102.243	9
+P	Kozhikode		IN		11.248	75.780	10
+P	Korla		CN		41.761	86.152	15
+P	Kolhāpur	kolhapur	IN		16.696	74.232	10
+P	Kota Kuala Muda		MY		5.588	100.371	9
+P	Kotō	koto	JP		32.779	130.745	14
+P	Kota Kinabalu		MY		5.975	116.072	9
+P	Kota Damansara		MY		3.155	101.580	9
+P	Korhogo		CI		9.458	-5.630	0
+P	Korba		IN		22.346	82.696	10
+P	Kowloon City		HK		22.330	114.192	9
+P	Koumassi		CI		5.297	-3.968	0
+P	Kom Ombo		EG		24.477	32.946	1
+P	Kollam		IN		8.881	76.585	10
+P	Koshigaya		JP		35.890	139.789	14
+P	Kosti		SD		13.163	32.663	3
+P	Konak		TR		38.400	27.100	20
+P	Kochi		JP		33.550	133.533	14
+P	Kōriyama	koriyama	JP		37.400	140.383	14
+P	Kostroma		RU		57.766	40.928	20
+P	Komsomolsk-on-Amur	komsomolsk on amur	RU		50.550	137.010	16
+P	Košice	kosice	SK		48.714	21.258	19
+P	Koutiala		ML		12.387	-5.465	0
+P	Konibodom		TJ		40.294	70.431	7
+P	Kostanay		KZ		53.214	63.625	7
+P	Kon Tum		VN		14.355	108.008	8
+P	Koronadal		PH		6.503	124.847	9
+P	Kodaira		JP		35.726	139.485	14
+P	Kowloon City Centre		HK		22.330	114.189	9
+P	Kofu		JP		35.667	138.567	14
+P	Koudougou		BF		12.252	-2.367	0
+P	Kovrov		RU		56.358	41.319	20
+P	Kohat		PK		33.582	71.449	7
+P	Koforidua		GH		6.094	-0.259	0
+P	Kokshetau		KZ		53.284	69.394	7
+P	Komaki		JP		35.283	136.917	14
+P	Kalaban Koro		ML		12.573	-8.029	0
+P	Mbanza Kongo		AO		-6.267	14.238	2
+P	Kolomna		RU		55.071	38.784	20
+P	Kovpakivskyi		UA		50.925	34.795	21
+P	Korolev		RU		55.914	37.826	20
+P	Koga		JP		36.183	139.717	14
+P	Kousséri	kousseri	CM		12.077	15.031	2
+P	Kolpino		RU		59.751	30.589	20
+P	Kolār	kolar	IN		13.138	78.130	10
+P	Māler Kotla	maler kotla	IN		30.531	75.879	10
+P	Kombolcha		ET		11.082	39.743	20
+P	Kokubunji		JP		35.702	139.476	14
+P	Shahr-e Kord	shahr e kord	IR		32.326	50.857	13
+P	Koidu		SL		8.644	-10.971	0
+P	Koganei		JP		35.700	139.511	14
+P	Koreatown		US	California	34.058	-118.301	6
+P	Shahdad Kot		PK		27.847	67.907	7
+P	Pita Kotte		LK		6.891	79.901	10
+P	Kōnosu	konosu	JP		36.069	139.517	14
+P	Sri Jayewardenepura Kotte		LK		6.883	79.907	10
+P	Korolyov		UA		50.245	28.700	21
+P	Komatsu		JP		36.403	136.451	14
+P	Koszalin		PL		54.194	16.172	19
+P	Koblenz		DE		50.354	7.579	19
+P	Kotri		PK		25.366	68.308	7
+P	Kot Addu		PK		30.469	70.967	7
+P	Kolda		SN		12.894	-14.941	0
+P	Kot Radha Kishan		PK		31.171	74.101	7
+P	Kohima		IN		25.675	94.111	10
+P	Kontagora		NG		10.403	5.471	2
+P	Kōnan	konan	JP		35.332	136.870	14
+P	Kovilpatti		IN		9.172	77.870	10
+P	Kot Kapūra	kot kapura	IN		30.581	74.826	10
+P	Körfez	korfez	TR		40.767	29.783	20
+P	Kōka	koka	JP		34.980	136.158	14
+P	Kozan		TR		37.455	35.816	20
+P	Kolar		IN		23.165	77.419	10
+P	Kongolo		CD		-5.385	27.000	3
+P	Birni N Konni		NE		13.796	5.250	2
+P	Konotop		UA		51.233	33.200	21
+P	Komae		JP		35.634	139.575	14
+P	Komendantsky aerodrom		RU		60.004	30.275	20
+P	Konstanz		DE		47.660	9.176	19
+P	Konin		PL		52.223	18.251	19
+P	Kotkapura		IN		30.582	74.833	10
+P	Kōtari	kotari	JP		34.921	135.705	14
+P	Kondoa		TZ		-4.900	35.783	20
+P	Kottagūdem	kottagudem	IN		17.551	80.618	10
+P	Koch Bihār	koch bihar	IN		26.325	89.445	10
+P	Kőbánya	kobanya	HU		47.484	19.139	19
+P	Kouvola		FI		60.867	26.700	21
+P	Konnagar		IN		22.705	88.344	10
+P	Kotido		UG		2.981	34.133	20
+P	Kowloon West End		HK		22.328	114.185	9
+P	Kortrijk		BE		50.828	3.265	19
+P	Koch'ang	kochang	KR		35.433	126.700	14
+P	K’olīto	kolito	ET		7.317	38.083	20
+P	Koyilandy		IN		11.438	75.693	10
+P	Ban Ko Sire		TH		7.887	98.426	8
+P	Kopeysk		RU		55.117	61.618	7
+P	Koppal		IN		15.345	76.155	10
+P	Kot Malik Barkhurdar		PK		30.204	66.987	7
+P	Koson		UZ		39.038	65.585	7
+P	Kovel		UA		51.215	24.701	21
+P	Kostyantynivka		UA		48.527	37.706	21
+P	Köpenick	kopenick	DE		52.446	13.575	19
+P	Koratla		IN		18.822	78.712	10
+P	Kędzierzyn-Koźle	kedzierzyn kozle	PL		50.350	18.226	19
+P	Wadgaon Kolhati		IN		19.843	75.236	10
+P	Korba		TN		36.579	10.859	2
+P	Kopargaon		IN		19.882	74.476	10
+P	Kolonnawa		LK		6.933	79.885	10
+P	Kotikawatta		LK		6.927	79.909	10
+P	Koboko		UG		3.414	30.960	20
+P	Kodār	kodar	IN		16.998	79.966	10
+P	Koulikoro		ML		12.863	-7.560	0
+P	Kotlovka		RU		55.659	37.604	20
+P	Korydallós	korydallos	GR		37.985	23.647	21
+P	Mong Kok		HK		22.319	114.171	9
+P	Kosong		KR		38.379	128.468	14
+P	Kogon Shahri		UZ		39.727	64.555	7
+P	Korogwe		TZ		-5.150	38.483	20
+P	Kōshi	koshi	JP		32.893	130.776	14
+P	Kokstad		ZA		-30.547	29.424	3
+P	Kolea		DZ		36.639	2.768	2
+P	Kolding		DK		55.490	9.472	19
+P	Korosten		UA		50.951	28.639	21
+P	Kolomyia		UA		48.525	25.037	21
+P	Kodungallūr	kodungallur	IN		10.233	76.195	10
+P	Kosai		JP		34.701	137.523	14
+P	Berlin Köpenick	berlin kopenick	DE		52.443	13.582	19
+P	Kotlas		RU		61.257	46.654	20
+P	Koga		JP		33.733	130.467	14
+P	Korçë	korce	AL		40.619	20.781	19
+P	Kokomo		US	Indiana	40.486	-86.134	5
+P	Imarichō-kō	imaricho ko	JP		33.274	129.879	14
+P	Kokubu-matsuki	kokubu matsuki	JP		31.733	130.767	14
+P	Kogalym		RU		62.265	74.479	7
+P	Kolaboui		GN		10.796	-14.400	0
+P	Kollegāl	kollegal	IN		12.154	77.111	10
+P	Kobo		ET		10.028	39.853	20
+P	Kottayam		IN		9.587	76.521	10
+P	Konan		JP		34.999	136.097	14
+P	Koumra		TD		8.916	17.550	2
+P	Kotharia		IN		22.234	70.819	10
+P	Kongoussi		BF		13.326	-1.535	0
+P	Konch		IN		25.995	79.151	10
+P	Kota Tinggi		MY		1.738	103.900	9
+P	Kosi		IN		27.794	77.437	10
+P	Kobryn		BY		52.212	24.356	20
+P	Kot Mumin		PK		32.188	73.030	7
+P	Kosonsoy		UZ		41.249	71.547	7
+P	Kotka		FI		60.466	26.946	21
+P	Kozhukhovo		RU		55.706	37.676	20
+P	Kozeyevo		RU		55.867	37.617	20
+P	Ko Samui		TH		9.536	99.936	8
+P	Koupéla	koupela	BF		12.179	-0.351	0
+P	Kotputli		IN		27.702	76.199	10
+P	Kolokani		ML		13.574	-8.033	0
+P	Kokkola		FI		63.838	23.131	21
+P	Koraput		IN		18.812	82.710	10
+P	Komalapuram		IN		9.542	76.342	10
+P	Kongtan		CN		29.144	104.675	9
+P	Kotli		PK		33.518	73.902	7
+P	Komoro		JP		36.317	138.433	14
+P	Koumbia		GN		11.800	-13.500	0
+P	Kol’chugino	kolchugino	RU		56.304	39.377	20
+P	Komotiní	komotini	GR		41.118	25.406	21
+P	Kodur		IN		11.015	76.070	10
+P	Koysinceq		IQ		36.083	44.629	20
+P	Koesan		KR		36.811	127.795	14
+P	Kottangara		IN		8.924	76.647	10
+P	Kōttakkal	kottakkal	IN		11.001	76.006	10
+P	Kołobrzeg	kolobrzeg	PL		54.176	15.583	19
+P	Kobayashi		JP		31.983	130.983	14
+P	Konongo		GH		6.617	-1.217	0
+P	Konārak	konarak	IR		25.360	60.400	13
+P	Kopali		IN		22.837	86.192	10
+P	Kottuvalli		IN		10.111	76.246	10
+P	Su-ngai Kolok	su ngai kolok	TH		6.030	101.966	8
+P	Koryazhma		RU		61.312	47.148	20
+P	Kōta	kota	JP		34.875	137.171	14
+P	Konakovo		RU		56.702	36.773	20
+P	Konayev		KZ		43.867	77.063	7
+P	Köniz	koniz	CH		46.924	7.415	19
+P	Korenovsk		RU		45.467	39.449	20
+P	Komono		JP		35.000	136.517	14
+P	Kodīnar	kodinar	IN		20.794	70.702	10
+P	Königswinter	konigswinter	DE		50.677	7.192	19
+P	Bazar-Korgon	bazar korgon	KG		41.038	72.746	15
+P	Kovvūr	kovvur	IN		17.016	81.729	10
+P	Korkino		RU		54.892	61.392	7
+P	Kópavogur	kopavogur	IS		64.112	-21.913	0
+P	Kolomyagi		RU		60.024	30.285	20
+P	Kord Kūy	kord kuy	IR		36.793	54.112	13
+P	Kotamangalam		IN		10.064	76.628	10
+P	Kondapalle		IN		16.620	80.542	10
+P	Kollancode		IN		8.289	77.108	10
+P	Køge	koge	DK		55.458	12.182	19
+P	Kondli		IN		28.612	77.327	10
+P	Köneürgenç	koneurgenc	TM		42.328	59.154	7
+P	Kouango		CF		4.993	19.962	2
+P	Kodaikānāl	kodaikanal	IN		10.239	77.489	10
+P	Kozáni	kozani	GR		40.299	21.790	21
+P	Kouroussa		GN		10.650	-9.883	0
+P	Komatsushimachō	komatsushimacho	JP		34.000	134.583	14
+P	Korem		ET		12.506	39.523	20
+P	Kovūr	kovur	IN		14.501	79.985	10
+P	Kohtla-Järve	kohtla jarve	EE		59.399	27.273	21
+P	Tai Koo		HK		22.284	114.216	9
+P	Korsakov		RU		46.634	142.783	11
+P	Kondopoga		RU		62.204	34.269	20
+P	Kochani		MK		41.916	22.413	19
+P	Kokrajhar		IN		26.401	90.273	10
+P	Középső-Ferencváros	kozepso ferencvaros	HU		47.473	19.080	19
+P	Kornwestheim		DE		48.862	9.186	19
+P	Tai Kok Tsui		HK		22.321	114.163	9
+P	Kopāganj	kopaganj	IN		26.019	83.566	10
+P	Kolín	kolin	CZ		50.028	15.200	19
+P	Korschenbroich		DE		51.191	6.514	19
+P	Kosamba		IN		21.462	72.958	10
+P	Koh Kong		KH		11.615	102.984	8
+P	Kotovsk		RU		52.590	41.503	20
+P	Königs Wusterhausen	konigs wusterhausen	DE		52.301	13.633	19
+P	Komárno	komarno	SK		48.117	18.317	19
+P	Komárno	komarno	SK		47.764	18.123	19
+P	Komagane		JP		35.717	137.937	14
+P	Kotma		IN		23.204	81.979	10
+P	Kottaikuppam		IN		11.961	79.839	10
+P	Youri Kourtéré	youri kourtere	NE		13.334	2.248	2
+P	Kop’ung	kopung	KP		40.604	125.947	14
+P	Kōshū	koshu	JP		35.724	138.771	14
+P	Pilczyce-Kozanów-Popowice Północne	pilczyce kozanow popowice polnocne	PL		51.131	16.977	19
+P	Kolenté	kolente	GN		10.286	-12.437	0
+P	Koungheul		SN		13.983	-14.800	0
+P	Kondagaon		IN		19.591	81.664	10
+P	Kostopil		UA		50.877	26.448	21
+P	Koulamoutou		GA		-1.137	12.464	2
+P	Kizhuvalam-Koonthalloor	kizhuvalam koonthalloor	IN		8.663	76.810	10
+P	Amīr Kolā	amir kola	IR		36.597	52.666	13
+P	Konéfla	konefla	CI		6.652	-5.605	0
+P	Kórinthos	korinthos	GR		37.940	22.951	21
+P	Kostomuksha		RU		64.571	30.577	20
+P	Kolomenskoye		RU		55.667	37.683	20
+P	Pauk Kone		MM		16.946	96.146	17
+P	Kottārakara	kottarakara	IN		9.004	76.774	10
+P	Kalur Kot		PK		32.155	71.266	7
+P	Kozluk		TR		38.191	41.478	20
+P	Komtikas		ET		6.958	35.557	20
+P	Koovappady		IN		10.155	76.485	10
+P	Kokhma		RU		56.932	41.095	20
+P	Kotagiri		IN		11.421	76.860	10
+P	Kondotty		IN		11.142	75.966	10
+P	Köthen	kothen	DE		51.752	11.971	19
+P	Kombissiri		BF		12.069	-1.336	0
+P	Kopargo		BJ		9.841	1.542	2
+P	Kochubeyevskoye		RU		44.644	41.845	20
+P	Kottaikādu	kottaikadu	IN		12.256	79.982	10
+P	Koynanagar		IN		17.400	73.767	10
+P	Kofelē	kofele	ET		7.067	38.783	20
+P	Königsbrunn	konigsbrunn	DE		48.275	10.892	19
+P	Kolpashevo		RU		58.320	82.903	8
+P	Kotel’nich	kotelnich	RU		58.303	48.337	20
+P	K’ola Diba	kola diba	ET		12.424	37.325	20
+P	Kouandé	kouande	BJ		6.400	2.067	2
+P	Elefthério - Kordelió	eleftherio kordelio	GR		40.664	22.897	21
+P	Kobylisy		CZ		50.124	14.452	19
+P	Kotdwāra	kotdwara	IN		29.746	78.522	10
+P	Kotovo		RU		50.316	44.810	20
+P	Komló	komlo	HU		46.193	18.265	19
+P	Kottur		IN		10.536	76.980	10
+P	Kottūru	kotturu	IN		14.824	76.220	10
+P	Kokopo		PG		-4.343	152.269	16
+P	Kodoli		IN		17.670	74.035	10
+P	Kokologo		BF		12.194	-1.877	0
+P	Koregaon		IN		18.646	74.059	10
+P	Koper		SI		45.548	13.730	19
+P	Kot Diji		PK		27.342	68.708	7
+P	Koelwār	koelwar	IN		25.581	84.798	10
+P	Koothanallur		IN		10.720	79.516	10
+P	Kolasib		IN		24.224	92.679	10
+P	Zee Kone		MM		16.950	96.102	17
+P	Kosan		KP		38.856	127.418	14
+P	Koro		ML		14.064	-3.075	0
+P	Koregaon		IN		17.699	74.163	10
+P	Kodarma		IN		24.468	85.594	10
+P	Korbach		DE		51.276	8.873	19
+P	Korostyshiv		UA		50.317	29.058	21
+P	Kościan	koscian	PL		52.088	16.649	19
+P	Kourou		GF		5.163	-52.643	4
+P	Kogota-ekimae	kogota ekimae	JP		38.533	141.067	14
+P	Malakpur Kohi Rangpur		IN		28.540	77.121	10
+P	Koło	kolo	PL		52.200	18.639	19
+P	Kopřivnice	koprivnice	CZ		49.599	18.145	19
+P	Koster		ZA		-25.863	26.898	3
+P	Kościerzyna	koscierzyna	PL		54.122	17.981	19
+P	Kozyatyn		UA		49.716	28.839	21
+P	Kouri		ML		12.184	-4.803	0
+P	Kovancılar	kovancilar	TR		38.719	39.863	20
+P	Kot Samaba		PK		28.552	70.468	7
+P	Koz’modem’yansk	kozmodemyansk	RU		56.332	46.561	20
+P	Da Nyin Kone		MM		16.933	96.093	17
+P	Kone Ta La Paung		MM		17.008	96.150	17
+P	Koundara		GN		12.483	-13.300	0
+P	Koprivnica		HR		46.164	16.830	19
+P	Kozakai-chō	kozakai cho	JP		34.800	137.359	14
+P	Koekelberg		BE		50.861	4.331	19
+P	Koksijde		BE		51.116	2.638	19
+P	Kollivāyal	kollivayal	IN		11.500	76.482	10
+P	Kopawor		IN		34.529	74.264	10
+P	Kodamachō-kodamaminami	kodamacho kodamaminami	JP		36.185	139.132	14
+P	Kowŏn-ŭp	kowon up	KP		39.438	127.243	14
+P	Kotli Loharan		PK		32.589	74.495	7
+P	Kovylkino		RU		54.037	43.919	20
+P	Kondasamudram		IN		12.946	78.879	10
+P	Kodamthuruth		IN		9.801	76.302	10
+P	Kottappally		IN		11.613	75.661	10
+P	Koungneul Sossé	koungneul sosse	SN		13.967	-14.817	0
+P	Kot Ghulam Muhammad		PK		32.333	74.547	7
+P	Saw Bwar Gyi Kone		MM		16.886	96.128	17
+P	Kola'a	kolaa	SB		-9.441	159.970	11
+P	Końskie	konskie	PL		51.192	20.406	19
+P	Koduvayur		IN		10.687	76.659	10
+P	koppana Agrahara		IN		12.855	77.667	10
+P	Komatipoort		ZA		-25.433	31.955	3
+P	Korkuteli		TR		37.065	30.196	20
+P	Korochi		IN		16.719	74.445	10
+P	Kondalampatti		IN		11.635	78.124	10
+P	Kontich		BE		51.132	4.447	19
+P	Kotivakkam		IN		12.970	80.258	10
+P	Kollo		NE		13.304	2.339	2
+P	Kolavallúr	kolavallur	IN		11.751	75.620	10
+P	Kolāras	kolaras	IN		25.219	77.612	10
+P	Kogota		JP		38.550	141.050	14
+P	Kotu		GM		13.459	-16.705	0
+P	Kotel’nikovo	kotelnikovo	RU		47.630	43.142	20
+P	Kovdor		RU		67.566	30.478	20
+P	Kozel’sk	kozelsk	RU		54.037	35.771	20
+P	Konnūr	konnur	IN		16.201	74.749	10
+P	Ahigbé Koffikro	ahigbe koffikro	CI		5.408	-3.380	0
+P	Taung Thu Kone		MM		16.898	96.110	17
+P	Kos		GR		36.893	27.288	21
+P	Bandar-e Kong	bandar e kong	IR		26.598	54.937	13
+P	Kōttayam	kottayam	IN		11.825	75.548	10
+P	Koropí	koropi	GR		37.899	23.872	21
+P	Osiedle Kosmonautów	osiedle kosmonautow	PL		51.128	16.962	19
+P	Kothakota		IN		16.380	77.940	10
+P	Koāth	koath	IN		25.326	84.260	10
+P	Konstantinovsk		RU		47.581	41.093	20
+P	Korsimoro		BF		12.825	-1.067	0
+P	Kowloon Tong		HK		22.333	114.180	9
+P	Komárom	komarom	HU		47.743	18.119	19
+P	Koga		JP		33.864	130.687	14
+P	Kokyar		CN		36.819	81.633	15
+P	Konz		DE		49.700	6.577	19
+P	Kolkhozobod		TJ		37.588	68.659	7
+P	Kotā	kota	IN		22.295	82.024	10
+P	Köping	koping	SE		59.514	15.993	19
+P	Konstantynów Łódzki	konstantynow lodzki	PL		51.748	19.326	19
+P	Kotel’niki	kotelniki	RU		55.654	37.862	20
+P	San Po Kong		HK		22.335	114.197	9
+P	Koipādi	koipadi	IN		12.593	74.963	10
+P	Koungou		YT		-12.734	45.204	20
+P	Korntal		DE		48.832	9.121	19
+P	Koersel		BE		51.059	5.271	19
+P	Konaklı	konakli	TR		36.593	31.895	20
+P	Kolbermoor		DE		47.850	12.067	19
+P	Kosaya Gora		RU		54.119	37.545	20
+P	Kostrzyn nad Odrą	kostrzyn nad odra	PL		52.587	14.650	19
+P	Kortenberg		BE		50.890	4.544	19
+P	Korsun-Shevchenkivskyi	korsun shevchenkivskyi	UA		49.418	31.252	21
+P	Kongsberg		NO		59.669	9.650	19
+P	Kothanallur		IN		8.279	77.310	10
+P	Kobyłka	kobylka	PL		52.340	21.196	19
+P	Kotsyubynske		UA		50.488	30.330	21
+P	Koratti		IN		10.266	76.348	10
+P	Kobuleti		GE		41.833	41.778	12
+P	Kodoli		IN		16.876	74.191	10
+P	Komagome		JP		35.739	139.741	14
+P	Kommunar		RU		59.621	30.390	20
+P	Kouka		BF		13.434	-1.614	0
+P	Kochkor-Ata	kochkor ata	KG		41.037	72.483	15
+P	Korsholm		FI		63.114	21.682	21
+P	Kolaccheri		IN		11.976	75.417	10
+P	Kozienice		PL		51.583	21.548	19
+P	Kokōtamangalam South	kokotamangalam south	IN		9.679	76.359	10
+P	Konārka	konarka	IN		19.890	86.098	10
+P	Korgan		TR		40.825	37.347	20
+P	Korrewegwijk		NL		53.232	6.568	19
+P	Konstancin-Jeziorna	konstancin jeziorna	PL		52.094	21.118	19
+P	Koppies		ZA		-27.242	27.574	3
+P	Kōtekāra	kotekara	IN		12.793	74.872	10
+P	Kochenëvo	kochenevo	RU		55.014	82.208	8
+P	Königslutter am Elm	konigslutter am elm	DE		52.251	10.817	19
+P	Kogarah		AU	New South Wales	-33.968	151.136	18
+P	Kotapārh	kotaparh	IN		19.143	82.325	10
+P	Kyo Kone East		MM		16.886	96.115	17
+P	Kosovo Polje		XK		42.664	21.096	19
+P	Košíře	kosire	CZ		50.067	14.363	19
+P	Kombai		IN		9.847	77.296	10
+P	Konjic		BA		43.651	17.961	19
+P	Koothappar		IN		10.797	78.792	10
+P	Kōge	koge	JP		35.410	134.255	14
+P	Kozanów	kozanow	PL		51.144	16.969	19
+P	Koumpentoum		SN		13.983	-14.567	0
+P	Kolia		CI		9.765	-6.464	0
+P	Koolauloa		US	Hawaii	21.606	-157.927	22
+P	Kodinsk		RU		58.606	99.174	8
+P	Königstein im Taunus	konigstein im taunus	DE		50.179	8.471	19
+P	Kompalli		IN		17.545	78.488	10
+P	Kosigi		IN		15.855	77.245	10
+P	Kouibly		CI		7.256	-7.235	0
+P	Borotou-Koro	borotou koro	CI		8.491	-7.179	0
+P	Lauda-Königshofen	lauda konigshofen	DE		49.565	9.708	19
+P	Koratagere		IN		13.522	77.237	10
+P	Kong		CI		9.149	-4.610	0
+P	Korwai		IN		24.118	78.040	10
+P	Kora		RW		-1.610	29.445	3
+P	Kōzan	kozan	JP		34.583	133.050	14
+P	Kontiolahti		FI		62.760	29.847	21
+P	Kocaali		TR		41.053	30.853	20
+P	Kompienga		BF		11.082	0.724	0

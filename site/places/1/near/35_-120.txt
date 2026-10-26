@@ -1,0 +1,42 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+C	US	United States	moonsighting	s
+B	0
+P	Las Vegas		US	Nevada	36.175	-115.137	0
+P	Fresno		US	California	36.748	-119.772	0
+P	Bakersfield		US	California	35.373	-119.019	0
+P	Reno		US	Nevada	39.530	-119.814	0
+P	North Las Vegas		US	Nevada	36.199	-115.118	0
+P	Paradise		US	Nevada	36.097	-115.147	0
+P	Sunrise Manor		US	Nevada	36.211	-115.073	0
+P	Spring Valley		US	Nevada	36.108	-115.245	0
+P	Visalia		US	California	36.330	-119.292	0
+P	Enterprise		US	Nevada	36.025	-115.242	0
+P	Clovis		US	California	36.825	-119.703	0
+P	Sparks		US	Nevada	39.535	-119.753	0
+P	Tulare		US	California	36.208	-119.347	0
+P	Carson City		US	Nevada	39.164	-119.767	0
+P	Porterville		US	California	36.065	-119.017	0
+P	Hanford		US	California	36.327	-119.646	0
+P	Delano		US	California	35.769	-119.247	0
+P	Whitney		US	Nevada	36.098	-115.036	0
+P	Pahrump		US	Nevada	36.208	-115.984	0
+P	Oildale		US	California	35.420	-119.020	0
+P	Ridgecrest		US	California	35.622	-117.671	0
+P	Winchester		US	Nevada	36.130	-115.119	0
+P	Wasco		US	California	35.594	-119.341	0
+P	Lemoore		US	California	36.301	-119.783	0
+P	Reedley		US	California	36.596	-119.450	0
+P	Sanger		US	California	36.708	-119.556	0
+P	Selma		US	California	36.571	-119.612	0
+P	Summerlin South		US	Nevada	36.117	-115.330	0
+P	Dinuba		US	California	36.543	-119.387	0
+P	Corcoran		US	California	36.098	-119.560	0
+P	South Lake Tahoe		US	California	38.933	-119.984	0
+P	Arvin		US	California	35.209	-118.828	0
+P	Fernley		US	Nevada	39.608	-119.252	0
+P	Sun Valley		US	Nevada	39.596	-119.776	0
+P	Shafter		US	California	35.501	-119.272	0
+P	Parlier		US	California	36.612	-119.527	0
+P	Lamont		US	California	35.260	-118.914	0
+P	Spanish Springs		US	Nevada	39.649	-119.707	0

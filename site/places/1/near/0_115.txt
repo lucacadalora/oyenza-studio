@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kuching	480	
+C	BN	Brunei	singapore	s
+C	MY	Malaysia	singapore	s
+C	PH	Philippines	mwl	s
+B	0
+P	Tawau		MY		4.245	117.891	0
+P	Semporna		MY		4.482	118.611	0
+P	Mentiri		BN		4.971	115.021	0
+P	Limbang		MY		4.755	115.010	0
+P	Lawas		MY		4.860	115.409	0
+P	Sitangkai		PH		4.661	119.396	0

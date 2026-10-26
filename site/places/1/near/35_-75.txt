@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	0
+P	Toms River		US	New Jersey	39.954	-74.198	0
+P	Jackson		US	New Jersey	39.776	-74.862	0
+P	Sicklerville		US	New Jersey	39.717	-74.969	0
+P	Mount Laurel		US	New Jersey	39.934	-74.891	0
+P	Atlantic City		US	New Jersey	39.364	-74.423	0
+P	Vincentown		US	New Jersey	39.934	-74.748	0
+P	Pleasantville		US	New Jersey	39.390	-74.524	0
+P	Bayville		US	New Jersey	39.909	-74.155	0
+P	Maple Shade		US	New Jersey	39.953	-74.992	0
+P	Lindenwold		US	New Jersey	39.824	-74.998	0
+P	Ocean Acres		US	New Jersey	39.743	-74.281	0
+P	Williamstown		US	New Jersey	39.686	-74.995	0

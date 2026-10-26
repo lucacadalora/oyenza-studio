@@ -1,0 +1,1088 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dakar	0	
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Porto-Novo	60	
+Z	3	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	4	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	5	America/Edmonton	-420	29549340=-360
+Z	6	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	7	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	8	America/La_Paz	-240	
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Mazatlan	-420	
+Z	11	America/Monterrey	-360	
+Z	12	America/Panama	-300	
+Z	13	America/Port-au-Prince	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	14	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	15	America/Sao_Paulo	-180	
+Z	16	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Almaty	300	
+Z	19	Asia/Bangkok	420	
+Z	20	Asia/Dhaka	360	
+Z	21	Asia/Dubai	240	
+Z	22	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	23	Asia/Kabul	270	
+Z	24	Asia/Kathmandu	345	
+Z	25	Asia/Kolkata	330	
+Z	26	Asia/Pyongyang	540	
+Z	27	Asia/Shanghai	480	
+Z	28	Asia/Tehran	210	
+Z	29	Asia/Vladivostok	600	
+Z	30	Asia/Yangon	390	
+Z	31	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	32	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	33	Australia/Darwin	570	
+Z	34	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	35	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	36	Europe/Istanbul	180	
+Z	37	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	38	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	39	Pacific/Guadalcanal	660	
+Z	40	Pacific/Honolulu	-600	
+Z	41	Pacific/Pago_Pago	-660	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AL	Albania	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AS	American Samoa	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CF	Central African Republic	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CY	Cyprus	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	EC	Ecuador	mwl	s
+C	EE	Estonia	mwl	s
+C	ES	Spain	mwl	s
+C	FM	Micronesia	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GQ	Equatorial Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LA	Laos	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LT	Lithuania	mwl	s
+C	MK	North Macedonia	mwl	s
+C	MM	Myanmar	mwl	s
+C	MT	Malta	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PF	French Polynesia	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SB	Solomon Islands	mwl	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SR	Suriname	mwl	s
+C	SS	South Sudan	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TR	Turkey	turkey	s
+C	TT	Trinidad and Tobago	mwl	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	5
+P	São Paulo	sao paulo	BR		-23.547	-46.636	15
+P	Paris		FR		48.853	2.349	37
+P	La Paz		BO		-16.500	-68.150	8
+P	Patna		IN		25.594	85.136	25
+P	Panjin		CN		41.121	122.074	27
+P	Pasig City		PH		14.587	121.061	27
+P	Panzhihua		CN		26.585	101.713	27
+P	Paranaque City		PH		14.482	121.017	27
+P	El Paso		US	Texas	31.759	-106.487	4
+P	Palermo		IT		38.117	13.364	37
+P	Panshan		CN		41.188	122.049	27
+P	Pallabi		BD		23.825	90.370	20
+P	Pasir Gudang		MY		1.462	103.905	27
+P	Patiāla	patiala	IN		30.336	76.392	25
+P	Palma		ES		39.569	2.650	37
+P	Pasay		PH		14.537	121.001	27
+P	Panama City		PA		8.994	-79.520	12
+P	Pasto		CO		1.215	-77.278	12
+P	Las Palmas de Gran Canaria		ES		28.102	-15.416	31
+P	Pānihāti	panihati	IN		22.691	88.374	25
+P	Paulista		BR		-7.941	-34.873	15
+P	Pavlodar		KZ		52.276	76.969	18
+P	Palmira		CO		3.539	-76.304	12
+P	Parbhani		IN		19.269	76.771	25
+P	Palmas		BR		-10.167	-48.328	15
+P	Port-de-Paix	port de paix	HT		19.940	-72.830	13
+P	Saint Paul		US	Minnesota	44.944	-93.093	3
+P	San Pablo		PH		14.068	121.326	27
+P	Pātan	patan	NP		27.677	85.314	24
+P	Panipat		IN		29.387	76.968	25
+P	Parnamirim		BR		-5.916	-35.263	15
+P	Parauapebas		BR		-6.067	-49.902	15
+P	Gómez Palacio	gomez palacio	MX		25.569	-103.500	11
+P	Pachuca de Soto		MX		20.117	-98.733	11
+P	Parakou		BJ		9.337	2.630	2
+P	La Paz		MX		24.142	-110.313	10
+P	Paraná	parana	AR		-31.733	-60.529	15
+P	Pathein		MM		16.779	94.732	30
+P	Paarl		ZA		-33.734	18.975	1
+P	Pākdasht	pakdasht	IR		35.479	51.683	28
+P	Pallāvaram	pallavaram	IN		12.968	80.150	25
+P	Pasir Mas		MY		6.049	102.140	27
+P	José C. Paz	jose c paz	AR		-34.515	-58.768	15
+P	Pāli	pali	IN		25.773	73.323	25
+P	Paris 15 Vaugirard		FR		48.841	2.300	37
+P	Paya Terubong		MY		5.373	100.280	27
+P	Paramaribo		SR		5.866	-55.167	15
+P	Paradise		US	Nevada	36.097	-115.147	9
+P	Fuencarral-El Pardo	fuencarral el pardo	ES		40.498	-3.731	37
+P	Panchkula		IN		30.695	76.850	25
+P	Panabo		PH		7.308	125.684	27
+P	Pamplona		ES		42.817	-1.643	37
+P	Pagadian		PH		7.826	123.437	27
+P	Itaim Paulista		BR		-23.503	-46.386	15
+P	Padua		IT		45.408	11.886	37
+P	Parma		IT		44.799	10.326	37
+P	Panvel		IN		18.989	73.110	25
+P	Pār Naogaon	par naogaon	BD		24.804	88.949	20
+P	Pak Kret		TH		13.912	100.498	19
+P	Panalanoy		PH		11.251	125.006	27
+P	Pābna	pabna	BD		24.006	89.237	20
+P	Overland Park		US	Kansas	38.982	-94.671	3
+P	Paris 20 Ménilmontant	paris 20 menilmontant	FR		48.865	2.398	37
+P	Paltan		BD		23.736	90.414	20
+P	Ivory Park		ZA		-25.996	28.197	1
+P	Paris 18 Buttes-Montmartre	paris 18 buttes montmartre	FR		48.892	2.344	37
+P	Paris 13 Gobelins		FR		48.832	2.356	37
+P	Passo Fundo		BR		-28.263	-52.407	15
+P	Paris 19 Buttes-Chaumont	paris 19 buttes chaumont	FR		48.882	2.382	37
+P	Paris 13e Arrondissement		FR		48.826	2.360	37
+P	Bragança Paulista	braganca paulista	BR		-22.953	-46.544	15
+P	Palhoça	palhoca	BR		-27.645	-48.668	15
+P	Pathānkot	pathankot	IN		32.275	75.653	25
+P	Pátra	patra	GR		38.246	21.735	35
+P	Pandi		PH		14.865	120.957	27
+P	Dubai Investments Park		AE		25.008	55.157	21
+P	Paech’ŏn-ŭp	paechon up	KP		37.993	126.301	26
+P	Paris 16 Passy		FR		48.864	2.277	37
+P	San Miguel del Padrón	san miguel del padron	CU		23.095	-82.327	7
+P	Patos de Minas		BR		-18.579	-46.518	15
+P	Paris 17 Batignolles-Monceau	paris 17 batignolles monceau	FR		48.883	2.322	37
+P	Palmdale		US	California	34.579	-118.116	9
+P	Panguíla	panguila	AO		-8.693	13.449	2
+P	Batu Pahat		MY		1.855	102.933	27
+P	San Pablo de las Salinas		MX		19.667	-99.095	11
+P	Santana de Parnaíba	santana de parnaiba	BR		-23.444	-46.918	15
+P	Pasadena		US	Texas	29.691	-95.209	3
+P	Parelheiros		BR		-23.828	-46.727	15
+P	Valle de La Pascua		VE		9.216	-66.007	8
+P	Borough Park		US	New York	40.634	-73.997	13
+P	Paterson		US	New Jersey	40.917	-74.172	13
+P	Rosemont–La Petite-Patrie	rosemont la petite patrie	CA	Quebec	45.537	-73.607	13
+P	Paço do Lumiar	paco do lumiar	BR		-2.532	-44.108	15
+P	Kampung Pasir Gudang Baru		MY		1.473	103.878	27
+P	Villeray–Saint-Michel–Parc-Extension	villeray saint michel parc extension	CA	Quebec	45.559	-73.605	13
+P	Paris 11e Arrondissement		FR		48.858	2.380	37
+P	Kampong Pasir Ris		SG		1.378	103.932	27
+P	Pasadena		US	California	34.148	-118.145	9
+P	Paderborn		DE		51.719	8.754	37
+P	Pālanpur	palanpur	IN		24.171	72.438	25
+P	Paranaguá	paranagua	BR		-25.516	-48.525	15
+P	Paris 12e Arrondissement		FR		48.835	2.435	37
+P	Paris 11 Popincourt		FR		48.857	2.380	37
+P	Bukit Panjang New Town		SG		1.380	103.765	27
+P	Paris 12 Reuilly		FR		48.841	2.388	37
+P	Parnaíba	parnaiba	BR		-2.905	-41.777	15
+P	Pasir Puteh		MY		5.833	102.400	27
+P	Paris 14 Observatoire		FR		48.833	2.326	37
+P	Pātan	patan	IN		23.851	72.130	25
+P	Palakkad		IN		10.773	76.654	25
+P	Palwal		IN		28.145	77.325	25
+P	Palo Negro		VE		10.174	-67.542	8
+P	Pakokku		MM		21.335	95.084	30
+P	Pakpattan		PK		30.343	73.389	18
+P	Sunset Park		US	New York	40.645	-74.012	13
+P	Paek'ak	paekak	KP		39.463	125.606	26
+P	Ji Paraná	ji parana	BR		-10.885	-61.952	8
+P	San Pedro de la Paz		CL		-36.839	-73.100	14
+P	West Palm Beach		US	Florida	26.715	-80.053	13
+P	Toa Payoh New Town		SG		1.336	103.850	27
+P	Palm Bay		US	Florida	28.034	-80.589	13
+P	Nakhon Pathom		TH		13.820	100.044	19
+P	Pattaya		TH		12.933	100.883	19
+P	Várzea Paulista	varzea paulista	BR		-23.211	-46.828	15
+P	Parla		ES		40.236	-3.768	37
+P	Pardīs	pardis	IR		35.747	51.812	28
+P	Pattoki		PK		31.020	73.853	18
+P	Paulo Afonso		BR		-9.406	-38.215	15
+P	Passos		BR		-20.719	-46.610	15
+P	Paulínia	paulinia	BR		-22.761	-47.154	15
+P	Pandit Deen Dayal Upadhyaya Nagar		IN		25.283	83.120	25
+P	Paniqui		PH		15.669	120.581	27
+P	Paragominas		BR		-2.996	-47.355	15
+P	Saint-Paul	saint paul	RE		-21.010	55.271	21
+P	Hidalgo del Parral		MX		26.930	-105.666	11
+P	Pailou		CN		30.796	108.386	27
+P	Pārsābād	parsabad	IR		39.648	47.917	28
+P	Palma Soriano		CU		20.211	-75.994	7
+P	Pasrur		PK		32.263	74.663	18
+P	Pano Aqil		PK		27.856	69.111	18
+P	Parintins		BR		-2.628	-56.736	8
+P	Pavlohrad		UA		48.532	35.869	35
+P	Shahrak-e Pardīsān	shahrak e pardisan	IR		34.557	50.802	28
+P	Paoy Paet		KH		13.658	102.564	19
+P	Pandharpur		IN		17.679	75.331	25
+P	Parand		IR		35.472	50.975	28
+P	Pará de Minas	para de minas	BR		-19.860	-44.608	15
+P	Paramagudi		IN		9.546	78.591	25
+P	Pagoh		MY		2.150	102.770	27
+P	Parli Vaijnāth	parli vaijnath	IN		18.851	76.532	25
+P	Paracatu		BR		-17.222	-46.875	15
+P	Patos		BR		-7.024	-37.280	15
+P	Paranavaí	paranavai	BR		-23.073	-52.465	15
+P	Pato Branco		BR		-26.229	-52.671	15
+P	Palmerston North		NZ		-40.356	175.611	38
+P	Patrocínio	patrocinio	BR		-18.944	-46.992	15
+P	Pardubice		CZ		50.041	15.777	37
+P	Patnos		TR		39.225	42.857	36
+P	Paralakhemundi		IN		18.776	84.095	25
+P	Paraiso		MX		18.401	-93.214	11
+P	Novi Pazar		RS		43.137	20.512	37
+P	Panevėžys	panevezys	LT		55.732	24.360	35
+P	Parādīp Garh	paradip garh	IN		20.316	86.609	25
+P	Paris 10 Entrepôt	paris 10 entrepot	FR		48.871	2.356	37
+P	Jardim Paulista		BR		-23.567	-46.664	15
+P	Paris 10e Arrondissement		FR		48.877	2.359	37
+P	Buena Park		US	California	33.868	-117.998	9
+P	Palm Coast		US	Florida	29.585	-81.208	13
+P	Pau		FR		43.311	-0.356	37
+P	Parit Sulung		MY		1.976	102.883	27
+P	Pagbilao		PH		13.967	121.698	27
+P	Paysandú	paysandu	UY		-32.317	-58.081	15
+P	Pacatuba		BR		-3.984	-38.620	15
+P	Palakollu		IN		16.517	81.730	25
+P	Panshi		CN		42.937	126.057	27
+P	Palwancha		IN		17.582	80.677	25
+P	Parma		US	Ohio	41.405	-81.723	13
+P	Paco		PH		14.588	120.993	27
+P	Brooklyn Park		US	Minnesota	45.094	-93.356	3
+P	Palencia		ES		42.010	-4.524	37
+P	Pakse		LA		15.120	105.799	19
+P	Shap Pat Heung		HK		22.425	114.036	27
+P	Campo Limpo Paulista		BR		-23.206	-46.784	15
+P	Paisley		GB	Scotland	55.832	-4.433	31
+P	Baldwin Park		US	California	34.085	-117.961	9
+P	Puerto Padre		CU		21.196	-76.604	7
+P	Pančevo	pancevo	RS		44.872	20.642	37
+P	Paharpur		PK		32.105	70.971	18
+P	South Ozone Park		US	New York	40.670	-73.819	13
+P	Pammal		IN		12.975	80.135	25
+P	Pāloncha	paloncha	IN		17.602	80.705	25
+P	Parque Do Carmo		BR		-23.576	-46.463	15
+P	Pattukkottai		IN		10.424	79.319	25
+P	Santa Isabel do Pará	santa isabel do para	BR		-1.299	-48.161	15
+P	Padre Las Casas		CL		-38.761	-72.598	14
+P	Paine		CL		-33.808	-70.741	14
+P	Pālghar	palghar	IN		19.697	72.765	25
+P	Payyanur		IN		12.094	75.202	25
+P	La Paz		PH		15.441	120.729	27
+P	Panzos		GT		15.399	-89.641	11
+P	São Sebastião do Paraíso	sao sebastiao do paraiso	BR		-20.917	-46.991	15
+P	Pawtucket		US	Rhode Island	41.879	-71.383	13
+P	Parys		ZA		-26.903	27.457	1
+P	Passaic		US	New Jersey	40.857	-74.128	13
+P	Panjim		IN		15.496	73.826	25
+P	Pacajus		BR		-4.173	-38.461	15
+P	Pala		TD		9.365	14.907	2
+P	Sherwood Park		CA	Alberta	53.517	-113.319	5
+P	Pabianice		PL		51.664	19.355	37
+P	Palani		IN		10.450	77.521	25
+P	Pan’an	panan	CN		34.755	105.112	27
+P	Kahror Pakka		PK		29.624	71.914	18
+P	Bairro Parque Nossa Senhora do Carmo		BR		-23.406	-46.316	15
+P	Villa Carlos Paz		AR		-31.418	-64.490	15
+P	Pasco		US	Washington	46.240	-119.101	9
+P	Palatine		US	Illinois	42.110	-88.034	3
+P	Panipat Taraf Makhdum Zadgan		IN		29.416	76.988	25
+P	Pālang	palang	BD		23.218	90.351	20
+P	Paignton		GB	England	50.436	-3.568	31
+P	Lincoln Park		US	Illinois	41.922	-87.648	3
+P	Palo Alto		US	California	37.442	-122.143	9
+P	Parnas		RU		60.070	30.349	36
+P	Lençóis Paulista	lencois paulista	BR		-22.599	-48.800	15
+P	Cedar Park		US	Texas	30.505	-97.820	3
+P	Parkchester		US	New York	40.839	-73.860	13
+P	Palín	palin	GT		14.404	-90.697	11
+P	Palāsa	palasa	IN		18.773	84.410	25
+P	Pavia		IT		45.192	9.159	37
+P	Pankow		DE		52.569	13.402	37
+P	Park Slope		US	New York	40.670	-73.986	13
+P	Patuakhali		BD		22.368	90.346	20
+P	Pampatar		VE		11.001	-63.793	8
+P	Portage Park		US	Illinois	41.958	-87.765	3
+P	Pālitāna	palitana	IN		21.525	71.823	25
+P	Gelang Patah		MY		1.448	103.587	27
+P	Paterna		ES		39.503	-0.441	37
+P	Palaió Fáliro	palaio faliro	GR		37.928	23.701	35
+P	Paranoá	paranoa	BR		-15.776	-47.781	15
+P	Pateros		PH		14.539	121.073	27
+P	Pavlovo		RU		55.969	43.091	36
+P	Padre Hurtado		CL		-33.568	-70.806	14
+P	Monterey Park		US	California	34.063	-118.123	9
+P	Parit		MY		4.483	100.917	27
+P	União dos Palmares	uniao dos palmares	BR		-9.163	-36.032	15
+P	Canoga Park		US	California	34.201	-118.598	9
+P	Panruti		IN		11.777	79.553	25
+P	Parkent		UZ		41.294	69.676	18
+P	Pavlovskiy Posad		RU		55.782	38.650	36
+P	Vinhomes Ocean Park		VN		20.995	105.947	19
+P	Agía Paraskeví	agia paraskevi	GR		38.017	23.833	35
+P	Pampán	pampan	VE		9.445	-70.476	8
+P	Pāchora	pachora	IN		20.667	75.353	25
+P	Huntington Park		US	California	33.982	-118.225	9
+P	Pánlóngchéng Jīngjì Kāifāqū	panlongcheng jingji kaifaqu	CN		30.693	114.271	27
+P	Panna		IN		24.721	80.188	25
+P	El Palomar		AR		-34.618	-58.602	15
+P	Cerro de Pasco		PE		-10.666	-76.253	12
+P	Los Patios		CO		7.838	-72.504	12
+P	Orland Park		US	Illinois	41.630	-87.854	3
+P	Paombong		PH		14.831	120.789	27
+P	Patzún	patzun	GT		14.682	-91.014	11
+P	Palm Harbor		US	Florida	28.078	-82.764	13
+P	Paris 09 Opéra	paris 09 opera	FR		48.872	2.340	37
+P	Tinley Park		US	Illinois	41.573	-87.784	3
+P	Paudalho		BR		-7.897	-35.180	15
+P	Irving Park		US	Illinois	41.953	-87.736	3
+P	Paita		PE		-5.089	-81.114	12
+P	Papatoetoe		NZ		-36.968	174.840	38
+P	Paramount		US	California	33.889	-118.160	9
+P	Pátzcuaro	patzcuaro	MX		19.513	-101.610	11
+P	Paris 05 Panthéon	paris 05 pantheon	FR		48.845	2.347	37
+P	Pazardzhik		BG		42.199	24.333	35
+P	Paraíso do Tocantins	paraiso do tocantins	BR		-10.176	-48.867	15
+P	Palmares		BR		-8.683	-35.592	15
+P	Pasir Ris New Town		SG		1.372	103.948	27
+P	Rogers Park		US	Illinois	42.009	-87.667	3
+P	Pakenham		AU	Victoria	-38.070	145.474	34
+P	Palmaner		IN		13.200	78.747	25
+P	Ozone Park		US	New York	40.677	-73.844	13
+P	Pandamaran		MY		3.011	101.421	27
+P	Pallichal		IN		8.450	77.026	25
+P	Pārvatipuram	parvatipuram	IN		18.784	83.426	25
+P	Pamplona		CO		7.376	-72.648	12
+P	Papantla de Olarte		MX		20.447	-97.325	11
+P	Pathum Wan		TH		13.737	100.523	19
+P	Rondon do Pará	rondon do para	BR		-4.776	-48.067	15
+P	Palm Beach Gardens		US	Florida	26.823	-80.139	13
+P	Pantin		FR		48.894	2.409	37
+P	Patuto		PH		14.117	120.967	27
+P	Pabbi		PK		34.010	71.794	18
+P	Palapye		BW		-22.546	27.125	1
+P	Oak Park		US	Illinois	41.885	-87.784	3
+P	São José do Rio Pardo	sao jose do rio pardo	BR		-21.596	-46.889	15
+P	Albany Park		US	Illinois	41.968	-87.723	3
+P	Parobé	parobe	BR		-29.629	-50.835	15
+P	Palm Desert		US	California	33.723	-116.377	9
+P	Pinellas Park		US	Florida	27.843	-82.700	13
+P	Patiya		BD		22.295	91.979	20
+P	Panlong		CN		29.500	105.371	27
+P	Parsippany		US	New Jersey	40.858	-74.426	13
+P	Padang Serai		MY		5.513	100.554	27
+P	Passau		DE		48.566	13.431	37
+P	Vargem Grande Paulista		BR		-23.603	-47.026	15
+P	Campo Novo do Parecis		BR		-13.675	-57.892	8
+P	LOHAS Park		HK		22.293	114.272	27
+P	San Luis de la Paz		MX		21.298	-100.515	11
+P	Parker		US	Colorado	39.519	-104.761	4
+P	Paghmān	paghman	AF		34.588	68.951	23
+P	Teluk Panglima Garang		MY		2.908	101.469	27
+P	Pajok		SS		3.865	32.482	1
+P	Pak Chong		TH		14.708	101.416	19
+P	Panchagarh		BD		26.333	88.558	20
+P	Palmas		BR		-26.484	-51.991	15
+P	Palpalá	palpala	AR		-24.258	-65.214	15
+P	Palmira		VE		7.838	-72.228	8
+P	Parbatipur		BD		25.664	88.931	20
+P	Paris 07 Palais-Bourbon	paris 07 palais bourbon	FR		48.856	2.321	37
+P	Takua Pa		TH		8.870	98.344	19
+P	Paoua		CF		7.243	16.441	2
+P	Waiau-Pacific Palisades	waiau pacific palisades	US	Hawaii	21.400	-157.954	40
+P	Palm Springs		US	California	33.830	-116.545	9
+P	Padrauna		IN		26.904	83.981	25
+P	Marine Parade		SG		1.303	103.908	27
+P	Pallikal		IN		11.137	75.926	25
+P	Patancheru		IN		17.533	78.264	25
+P	Parella		IT		45.080	7.626	37
+P	Padra		IN		22.240	73.085	25
+P	Panauti		NP		27.585	85.521	24
+P	Santa Cruz do Rio Pardo		BR		-22.899	-49.633	15
+P	Paderno Dugnano		IT		45.569	9.165	37
+P	Paternò	paterno	IT		37.567	14.903	37
+P	Paiçandu	paicandu	BR		-23.457	-52.049	15
+P	Paotana Hat		BD		25.665	89.503	20
+P	Paranhos		PT		41.173	-8.599	31
+P	Pakur		IN		24.639	87.842	25
+P	Pāndhurnā	pandhurna	IN		21.596	78.526	25
+P	Pāthardih	pathardih	IN		23.666	86.432	25
+P	Saint Louis Park		US	Minnesota	44.948	-93.348	3
+P	Paşcani	pascani	RO		47.247	26.723	35
+P	Parang		PH		7.370	124.270	27
+P	Pasaje		EC		-3.326	-79.807	12
+P	Pardés H̱anna Karkur	pardes hanna karkur	IL		32.474	34.978	22
+P	Santana do Paraíso	santana do paraiso	BR		-19.364	-42.569	15
+P	Paraíba do Sul	paraiba do sul	BR		-22.158	-43.293	15
+P	Oakland Park		US	Florida	26.172	-80.132	13
+P	Brighton Park		US	Illinois	41.819	-87.699	3
+P	Rego Park		US	New York	40.726	-73.853	13
+P	Echo Park		US	California	34.078	-118.261	9
+P	Paso de los Libres		AR		-29.713	-57.088	15
+P	Kalihi-Palama	kalihi palama	US	Hawaii	21.326	-157.876	40
+P	Pattani		TH		6.868	101.250	19
+P	Santo Antônio de Pádua	santo antonio de padua	BR		-21.539	-42.180	15
+P	Paracambi		BR		-22.608	-43.709	15
+P	Pashkovskiy		RU		45.024	39.104	36
+P	Panachikkad		IN		9.530	76.541	25
+P	Panambi		BR		-28.293	-53.502	15
+P	Pasni		PK		25.263	63.469	18
+P	Pallikaranai		IN		12.938	80.215	25
+P	General Pacheco		AR		-34.453	-58.643	15
+P	Palomeras Sureste		ES		40.385	-3.637	37
+P	Santo Antônio da Patrulha	santo antonio da patrulha	BR		-29.817	-50.520	15
+P	Palenque		MX		17.509	-91.981	11
+P	Panipat Taraf Ansar		IN		29.412	76.955	25
+P	Passi		PH		11.108	122.642	27
+P	Parāsia	parasia	IN		22.191	78.759	25
+P	Rancho Palos Verdes		US	California	33.744	-118.387	9
+P	Partizansk		RU		43.120	133.123	29
+P	Rohnert Park		US	California	38.340	-122.701	9
+P	Pallisa		UG		1.145	33.709	36
+P	Palladam		IN		10.992	77.286	25
+P	Jaxaay Parcelle Niakoul Rap		SN		14.775	-17.280	0
+P	Paithan		IN		19.475	75.386	25
+P	Gage Park		US	Illinois	41.795	-87.696	3
+P	Paraguaçu Paulista	paraguacu paulista	BR		-22.413	-50.576	15
+P	Pacajá	pacaja	BR		-3.838	-50.638	15
+P	Patti		IN		31.281	74.858	25
+P	São Sebastião do Passé	sao sebastiao do passe	BR		-12.512	-38.495	15
+P	Paranaíba	paranaiba	BR		-19.677	-51.191	8
+P	Pánuco	panuco	MX		22.054	-98.182	11
+P	Pariaguán	pariaguan	VE		8.844	-64.711	8
+P	Pazundaung		MM		16.796	96.175	30
+P	Patulul		GT		14.423	-91.160	11
+P	Palomeras Bajas		ES		40.385	-3.659	37
+P	Paris 06 Luxembourg		FR		48.849	2.330	37
+P	Pat Heung		HK		22.446	114.092	27
+P	Pärnu	parnu	EE		58.386	24.497	35
+P	Pallipalayam		IN		11.365	77.762	25
+P	Kampong Pangkal Kalong		MY		5.917	102.217	27
+P	Paraíso	paraiso	CR		9.838	-83.867	11
+P	San Pascual		PH		13.810	121.022	27
+P	Pantubig		PH		14.968	120.955	27
+P	Pacifica		US	California	37.614	-122.487	9
+P	Paracuru		BR		-3.410	-39.031	15
+P	Paravūr Tekkumbhāgam	paravur tekkumbhagam	IN		8.795	76.668	25
+P	Papaya		PH		15.320	120.836	27
+P	Paliā Kalān	palia kalan	IN		28.432	80.581	25
+P	Ingeniero Pablo Nogués	ingeniero pablo nogues	AR		-34.478	-58.707	15
+P	Hanover Park		US	Illinois	41.999	-88.145	3
+P	Padang Rengas		MY		4.767	100.850	27
+P	Panama City		US	Florida	30.159	-85.660	3
+P	Pathanāmthitta	pathanamthitta	IN		9.267	76.783	25
+P	Patía	patia	CO		2.069	-77.053	12
+P	Park Ridge		US	Illinois	42.011	-87.841	3
+P	San Antonio de Padua		AR		-34.663	-58.698	15
+P	Papakura		NZ		-37.065	174.942	38
+P	Parola		IN		20.881	75.119	25
+P	Pāthri	pathri	IN		19.259	76.434	25
+P	Severna Park		US	Maryland	39.070	-76.545	13
+P	Royal Palm Beach		US	Florida	26.708	-80.231	13
+P	Paidha		UG		2.417	30.986	36
+P	Payandé	payande	CO		4.298	-75.097	12
+P	Paracho de Verduzco		MX		19.648	-102.048	11
+P	Pandan		PH		11.745	122.100	27
+P	San Pablo		CO		10.052	-75.268	12
+P	Grants Pass		US	Oregon	42.439	-123.331	9
+P	Lincoln Park		US	Michigan	42.251	-83.179	13
+P	Parque Lefevre		PA		9.023	-79.479	12
+P	Paungde		MM		18.492	95.506	30
+P	Los Palacios y Villafranca		ES		37.162	-5.924	37
+P	Clifton Park		US	New York	42.866	-73.771	13
+P	Patāmundai	patamundai	IN		20.578	86.561	25
+P	Pahrump		US	Nevada	36.208	-115.984	9
+P	Parappur		IN		11.012	75.995	25
+P	Paphos		CY		34.777	32.425	35
+P	Partūr	partur	IN		19.599	76.215	25
+P	Pampanito		VE		9.410	-70.501	8
+P	Parkland		US	Washington	47.155	-122.434	9
+P	Pasing		DE		48.141	11.456	37
+P	Torre-Pacheco	torre pacheco	ES		37.743	-0.954	37
+P	Paris 08 Élysée	paris 08 elysee	FR		48.876	2.318	37
+P	São Paulo de Olivença	sao paulo de olivenca	BR		-3.378	-68.873	8
+P	San Pablo Autopan		MX		19.356	-99.657	11
+P	Pāppinisshēri	pappinissheri	IN		11.957	75.340	25
+P	Panjakent		TJ		39.495	67.609	18
+P	A Yun Pa		VN		13.400	108.435	19
+P	Palotina		BR		-24.284	-53.840	15
+P	Padre Bernardo		BR		-15.165	-48.284	15
+P	Parkwoods-Donalda	parkwoods donalda	CA	Ontario	43.755	-79.330	13
+P	Ti Port-de-Paix	ti port de paix	HT		19.933	-72.833	13
+P	Rio Pardo		BR		-29.990	-52.378	15
+P	Fraccionamiento Real Palmas		MX		25.904	-100.160	11
+P	Paz de Ariporo		CO		5.881	-71.892	12
+P	Paxtaobod		UZ		40.929	72.497	18
+P	Papenburg		DE		53.078	7.415	37
+P	Pārassāla	parassala	IN		8.339	77.154	25
+P	Palmeira		BR		-25.429	-50.006	15
+P	Oeiras do Pará	oeiras do para	BR		-2.003	-49.854	15
+P	Parras de la Fuente		MX		25.442	-102.178	11
+P	Deer Park		US	Texas	29.705	-95.124	3
+P	Parc-Extension	parc extension	CA	Quebec	45.530	-73.632	13
+P	Várzea da Palma	varzea da palma	BR		-17.598	-44.734	15
+P	Panadura		LK		6.713	79.903	25
+P	Palmerston		AU	Northern Territory	-12.486	130.983	33
+P	Menlo Park		US	California	37.454	-122.182	9
+P	Borgo San Paolo		IT		45.060	7.645	37
+P	Palmeira das Missões	palmeira das missoes	BR		-27.899	-53.314	15
+P	Pašilaičiai	pasilaiciai	LT		54.734	25.219	35
+P	Pacífico	pacifico	ES		40.404	-3.679	37
+P	Pápa	papa	HU		47.330	17.467	37
+P	Patrātu	patratu	IN		23.665	85.304	25
+P	Pagani		IT		40.742	14.614	37
+P	Panatina		SB		-9.432	160.006	39
+P	Casal Palocco		IT		41.748	12.347	37
+P	Panguipulli		CL		-39.644	-72.333	14
+P	College Park		US	Maryland	38.981	-76.937	13
+P	São Gabriel da Palha	sao gabriel da palha	BR		-19.018	-40.537	15
+P	Paraipaba		BR		-3.439	-39.148	15
+P	La Paz		ES		40.481	-3.697	37
+P	Paris 03 Temple		FR		48.864	2.361	37
+P	Bethel Park		US	Pennsylvania	40.328	-80.040	13
+P	Pāvugada	pavugada	IN		14.100	77.280	25
+P	San Pawl il-Baħar	san pawl il bahar	MT		35.951	14.416	37
+P	Palaiseau		FR		48.718	2.250	37
+P	Palmeiras de Goiás	palmeiras de goias	BR		-16.805	-49.926	15
+P	Hyde Park		US	Massachusetts	42.256	-71.124	13
+P	Papendrecht		NL		51.832	4.688	37
+P	Cachoeira Paulista		BR		-22.665	-45.009	15
+P	Pankshin		NG		9.325	9.435	2
+P	Parūr	parur	IN		10.148	76.230	25
+P	Parambu		BR		-6.211	-40.694	15
+P	Parnarama		BR		-5.682	-43.093	15
+P	Pavlovskaya		RU		46.139	39.786	36
+P	Pāndharkawada	pandharkawada	IN		20.021	78.546	25
+P	Surfers Paradise		AU	Queensland	-28.003	153.430	29
+P	Pagaluñgan	pagalungan	PH		7.142	124.381	27
+P	Parkersburg		US	West Virginia	39.267	-81.562	13
+P	Santa Vitória do Palmar	santa vitoria do palmar	BR		-33.519	-53.368	15
+P	Pasān	pasan	IN		22.844	82.198	25
+P	Pāmban	pamban	IN		9.279	79.211	25
+P	Noble Park		AU	Victoria	-37.967	145.167	34
+P	Parkville		US	Maryland	39.377	-76.540	13
+P	Além Paraíba	alem paraiba	BR		-21.888	-42.704	15
+P	Pallappatti		IN		10.721	77.880	25
+P	Santa Paula		US	California	34.354	-119.059	9
+P	Paraiso		PH		10.885	123.363	27
+P	Pau dos Ferros		BR		-6.109	-38.204	15
+P	Pontal do Paraná	pontal do parana	BR		-25.674	-48.511	15
+P	San Pablo		US	California	37.962	-122.346	9
+P	Ipixuna do Pará	ipixuna do para	BR		-2.558	-47.495	15
+P	Parramatta		AU	New South Wales	-33.818	151.003	34
+P	Parkland		US	Florida	26.310	-80.237	13
+P	Winter Park		US	Florida	28.600	-81.339	13
+P	Paraparaumu		NZ		-40.917	175.017	38
+P	Pānakkudi	panakkudi	IN		8.322	77.577	25
+P	Pauk Kone		MM		16.946	96.146	30
+P	Pāsārgād	pasargad	IR		30.202	53.180	28
+P	San Paolo		IT		41.125	16.793	37
+P	Oak Park		US	Michigan	42.459	-83.183	13
+P	Highland Park		US	Illinois	42.182	-87.800	3
+P	East Palo Alto		US	California	37.469	-122.141	9
+P	Paty do Alferes		BR		-22.429	-43.419	15
+P	Pakridayal		IN		26.563	85.045	25
+P	Bačka Palanka	backa palanka	RS		45.250	19.397	37
+P	Paung		MM		16.618	97.459	30
+P	Bagong Pagasa		PH		14.663	121.033	27
+P	Pālkonda	palkonda	IN		18.604	83.756	25
+P	Paratinga		BR		-12.691	-43.184	15
+P	la Verneda i la Pau		ES		41.424	2.203	37
+P	Pacasmayo		PE		-7.401	-79.571	12
+P	Carmo do Paranaíba	carmo do paranaiba	BR		-19.001	-46.316	15
+P	Ferry Pass		US	Florida	30.510	-87.212	3
+P	Pallanza-Intra-Suna	pallanza intra suna	IT		45.938	8.571	37
+P	Santa Cruz das Palmeiras		BR		-21.827	-47.249	15
+P	Panipat Taraf Rajputan		IN		29.361	76.943	25
+P	Eagle Pass		US	Texas	28.709	-100.500	3
+P	Mill Park		AU	Victoria	-37.667	145.067	34
+P	Partinico		IT		38.047	13.118	37
+P	Pakwach		UG		2.463	31.498	36
+P	Partille		SE		57.739	12.106	37
+P	Pabellón de Arteaga	pabellon de arteaga	MX		22.148	-102.279	11
+P	Pattāmbi	pattambi	IN		10.800	76.184	25
+P	Pandacaqui		PH		15.172	120.655	27
+P	Pārdi	pardi	IN		20.509	72.946	25
+P	Pasan		IN		23.165	81.929	25
+P	Passira		BR		-7.995	-35.581	15
+P	Patigi		NG		8.729	5.756	2
+P	Pallipuram		IN		9.755	76.357	25
+P	Rio Pardo de Minas		BR		-15.610	-42.540	15
+P	Paranatinga		BR		-14.432	-54.051	8
+P	Pandua		IN		23.075	88.286	25
+P	Rillieux-la-Pape	rillieux la pape	FR		45.817	4.900	37
+P	Gramercy Park		US	New York	40.737	-73.986	13
+P	Patran		IN		29.958	76.049	25
+P	Panāgar	panagar	IN		23.285	79.995	25
+P	Paragould		US	Arkansas	36.058	-90.497	3
+P	Pallikunnu		IN		11.890	75.357	25
+P	Deer Park		US	New York	40.762	-73.329	13
+P	Paramonga		PE		-10.667	-77.833	12
+P	Panauti̇̄	panauti	NP		27.584	85.515	24
+P	Pathirappally		IN		9.535	76.322	25
+P	Allen Park		US	Michigan	42.258	-83.211	13
+P	Pachor		IN		23.710	76.734	25
+P	Paris 04 Hôtel-de-Ville	paris 04 hotel de ville	FR		48.860	2.351	37
+P	Parit Buntar		MY		5.127	100.493	27
+P	Payathonzu		MM		15.318	98.388	30
+P	Pāthardi	pathardi	IN		19.173	75.174	25
+P	Casal de' Pazzi	casal de pazzi	IT		41.929	12.566	37
+P	Paso Robles		US	California	35.627	-120.691	9
+P	Panglong		MM		24.101	98.313	30
+P	Palmar de Varela		CO		10.741	-74.754	12
+P	Payakaraopeta		IN		17.368	82.568	25
+P	Smederevska Palanka		RS		44.365	20.959	37
+P	University Park		US	Florida	25.746	-80.368	13
+P	Paramus		US	New Jersey	40.945	-74.075	13
+P	Parral		CL		-36.143	-71.826	14
+P	Hyde Park		US	Illinois	41.794	-87.594	3
+P	Concórdia do Pará	concordia do para	BR		-2.002	-47.950	15
+P	Paete		PH		14.365	121.483	27
+P	Palavakkam		IN		12.954	80.257	25
+P	Paripiranga		BR		-10.688	-37.862	15
+P	Pavlovsk		RU		50.454	40.124	36
+P	Pauri		IN		30.153	78.777	25
+P	Pallippatti		IN		11.940	78.402	25
+P	Paradise		US	California	39.760	-121.622	9
+P	Parabiago		IT		45.560	8.945	37
+P	Goianésia do Pará	goianesia do para	BR		-3.842	-49.097	15
+P	Papeete		PF		-17.535	-149.568	40
+P	Laranjal Paulista		BR		-23.050	-47.837	15
+P	South Pasadena		US	California	34.116	-118.150	9
+P	Santiago Papasquiaro		MX		25.044	-105.419	11
+P	Hampton Park		AU	Victoria	-38.033	145.250	34
+P	Twentynine Palms		US	California	34.136	-116.054	9
+P	Garmisch-Partenkirchen	garmisch partenkirchen	DE		47.492	11.096	37
+P	Carmen de Patagones		AR		-40.803	-62.983	15
+P	Paço de Arcos	paco de arcos	PT		38.696	-9.291	31
+P	Pleasure Ridge Park		US	Kentucky	38.145	-85.858	13
+P	Pāveh	paveh	IR		35.043	46.356	28
+P	Pawāyan	pawayan	IN		28.066	80.103	25
+P	Los Palacios		CU		22.588	-83.248	7
+P	Bang Pakong		TH		13.543	100.993	19
+P	Panayāttur Vadakkumbhāgam	panayattur vadakkumbhagam	IN		8.955	76.618	25
+P	Pāsighāt	pasighat	IN		28.066	95.327	25
+P	Übach-Palenberg	ubach palenberg	DE		50.918	6.123	37
+P	Parangipettai		IN		11.491	79.761	25
+P	Panorama Hills		CA	Alberta	51.153	-114.081	5
+P	The Palm Jumeirah		AE		25.116	55.135	21
+P	Três Passos	tres passos	BR		-27.456	-53.932	15
+P	Melrose Park		US	Illinois	41.901	-87.857	3
+P	Pangil		PH		14.403	121.465	27
+P	Panjim		CN		44.008	81.425	20
+P	Pāonta Sāhib	paonta sahib	IN		30.437	77.625	25
+P	Palos de Moguer		ES		40.404	-3.695	37
+P	São João dos Patos	sao joao dos patos	BR		-6.495	-43.702	15
+P	Pak Phanang		TH		8.351	100.202	19
+P	Paramathi Velur		IN		11.192	77.956	25
+P	Dorset Park		CA	Ontario	43.754	-79.282	13
+P	Padam		IN		33.467	76.885	25
+P	Paducah		US	Kentucky	37.083	-88.600	3
+P	Cliffside Park		US	New Jersey	40.821	-73.988	13
+P	Elmwood Park		US	Illinois	41.921	-87.809	3
+P	Santa Rita do Passa Quatro		BR		-21.710	-47.478	15
+P	Paris		US	Texas	33.661	-95.556	3
+P	Payshamba Shahri		UZ		40.011	66.231	18
+P	University Park		US	Texas	32.850	-96.800	3
+P	La Paz		AR		-30.742	-59.645	15
+P	Pākāla	pakala	IN		13.449	79.115	25
+P	Keshorai Pātan	keshorai patan	IN		25.293	75.939	25
+P	Santa Maria do Pará	santa maria do para	BR		-1.350	-47.576	15
+P	Manibaug Pasig		PH		15.096	120.564	27
+P	Pasinler		TR		39.980	41.670	36
+P	Pathum Thani		TH		14.013	100.530	19
+P	Pantheeramkavu		IN		11.231	75.852	25
+P	Palmetto Bay		US	Florida	25.622	-80.325	13
+P	Santa Luzia do Paruá	santa luzia do parua	BR		-2.544	-45.775	15
+P	Pão de Açúcar	pao de acucar	BR		-9.748	-37.437	15
+P	Pasadena		US	Maryland	39.119	-76.571	13
+P	Sabana de Parra		VE		10.121	-69.036	8
+P	Citrus Park		US	Florida	28.078	-82.570	13
+P	Roxburgh Park		AU	Victoria	-37.626	144.926	34
+P	Paraopeba		BR		-19.274	-44.404	15
+P	Pacode		IN		8.335	77.214	25
+P	Pando		UY		-34.717	-55.958	15
+P	Pāppākurichchi	pappakurichchi	IN		10.814	78.748	25
+P	Pawgan		MM		16.908	96.098	30
+P	Patarrá	patarra	CR		9.881	-84.036	11
+P	High Park-Swansea	high park swansea	CA	Ontario	43.645	-79.468	13
+P	São João do Paraíso	sao joao do paraiso	BR		-15.314	-42.014	15
+P	Pazarcık	pazarcik	TR		37.487	37.300	36
+P	Pādiyanallūr	padiyanallur	IN		13.200	80.176	25
+P	Aurora do Pará	aurora do para	BR		-2.134	-47.559	15
+P	Palayan City		PH		15.541	121.085	27
+P	Painkulam		IN		8.260	77.174	25
+P	Aguada de Pasajeros		CU		22.385	-80.848	7
+P	Pānchla	panchla	IN		22.537	88.138	25
+P	Paiporta		ES		39.428	-0.418	37
+P	Palacio		ES		40.415	-3.714	37
+P	La Paz Centro		NI		12.340	-86.675	11
+P	Pattiyūrgrāmam	pattiyurgramam	IN		9.177	76.501	25
+P	Loves Park		US	Illinois	42.320	-89.058	3
+P	Pawni		IN		20.792	79.636	25
+P	Pallandri		PK		33.715	73.684	18
+P	Bedford Park-Nortown	bedford park nortown	CA	Ontario	43.731	-79.420	13
+P	Ribas do Rio Pardo		BR		-20.443	-53.759	8
+P	Pacific Palisades		US	California	34.048	-118.526	9
+P	Palm City		US	Florida	27.168	-80.266	13
+P	Palmira		CU		22.242	-80.392	7
+P	Palwal Rural		IN		28.146	77.351	25
+P	Pallikonda		IN		12.905	78.943	25
+P	Víbora Park	vibora park	CU		23.081	-82.354	7
+P	Panelas		BR		-8.664	-36.006	15
+P	Papalotla		MX		19.169	-98.204	11
+P	Paradise		CA	Newfoundland and Labrador	47.529	-52.881	16
+P	Machesney Park		US	Illinois	42.347	-89.039	3
+P	Morgan Park		US	Illinois	41.690	-87.667	3
+P	Glenmore Park		AU	New South Wales	-33.791	150.669	34
+P	Para		CI		5.520	-7.328	0
+P	Pariyāpuram	pariyapuram	IN		11.017	75.867	25
+P	East Lake-Orient Park	east lake orient park	US	Florida	27.983	-82.379	13
+P	Patos Fshat		AL		40.643	19.651	37
+P	Kone Ta La Paung		MM		17.008	96.150	30
+P	Palma di Montechiaro		IT		37.191	13.766	37
+P	Riley Park		CA	British Columbia	49.243	-123.093	17
+P	East Patchogue		US	New York	40.767	-72.996	13
+P	Parque das Nações	parque das nacoes	PT		38.769	-9.096	31
+P	Palafrugell		ES		41.917	3.163	37
+P	Pachgaon		IN		16.660	74.227	25
+P	Palm Springs		US	Florida	26.636	-80.096	13
+P	Pāli	pali	IN		23.365	81.044	25
+P	Panniyannūr	panniyannur	IN		11.749	75.576	25
+P	Panghai		CN		26.727	108.064	27
+P	Park Way		BR		-15.909	-47.941	15
+P	Palavansathu		IN		12.893	79.134	25
+P	High Park North		CA	Ontario	43.656	-79.475	13
+P	Pascagoula		US	Mississippi	30.366	-88.556	3
+P	Palai		IN		9.713	76.683	25
+P	Cormeilles-en-Parisis	cormeilles en parisis	FR		48.971	2.205	37
+P	Villa Park		US	Illinois	41.890	-87.989	3
+P	Pakxan		LA		18.394	103.661	19
+P	Park Forest		US	Illinois	41.491	-87.674	3
+P	Flemingdon Park		CA	Ontario	43.718	-79.332	13
+P	Paosha		CN		33.724	105.676	27
+P	St. Pauli	st pauli	DE		53.557	9.964	37
+P	São Francisco de Paula	sao francisco de paula	BR		-29.448	-50.584	15
+P	South Parkdale		CA	Ontario	43.637	-79.439	13
+P	Pātūr	patur	IN		20.461	76.937	25
+P	Paraguaçu	paraguacu	BR		-21.547	-45.737	15
+P	Pampierstad		ZA		-27.783	24.688	1
+P	Pāmpur	pampur	IN		34.015	74.919	25
+P	San Pablo		CR		9.996	-84.097	11
+P	Allison Park		US	Pennsylvania	40.560	-79.959	13
+P	Murādābād Pahāri	muradabad pahari	IN		28.565	77.151	25
+P	Parelhas		BR		-6.688	-36.657	15
+P	Patterson		US	California	37.472	-121.130	9
+P	Paxtakor Shahri		UZ		40.312	67.957	18
+P	Padmanābhapuram	padmanabhapuram	IN		8.245	77.326	25
+P	Paippad		IN		9.425	76.585	25
+P	Patzicía	patzicia	GT		14.632	-90.927	11
+P	Jose Pañganiban	jose panganiban	PH		14.291	122.692	27
+P	Krzyki-Partynice	krzyki partynice	PL		51.064	17.002	37
+P	Palma del Río	palma del rio	ES		37.700	-5.281	37
+P	Paiján	paijan	PE		-7.733	-79.302	12
+P	Thorncliffe Park		CA	Ontario	43.708	-79.350	13
+P	Santa Bárbara do Pará	santa barbara do para	BR		-1.224	-48.294	15
+P	Palmeirândia	palmeirandia	BR		-2.645	-44.895	15
+P	Paulistana		BR		-8.144	-41.150	15
+P	Paka		MY		4.637	103.437	27
+P	Patharia		IN		23.899	79.194	25
+P	Patnāgarh	patnagarh	IN		20.708	83.133	25
+P	Palm River-Clair Mel	palm river clair mel	US	Florida	27.924	-82.379	13
+P	Pālakkodu	palakkodu	IN		12.307	78.070	25
+P	Rosedale-Moore Park	rosedale moore park	CA	Ontario	43.683	-79.380	13
+P	Pad Idan		PK		26.775	68.301	18
+P	Pájara	pajara	ES		28.350	-14.108	31
+P	Kriva Palanka		MK		42.202	22.334	37
+P	Palisades Park		US	New Jersey	40.848	-73.998	13
+P	Partizánske	partizanske	SK		48.629	18.385	37
+P	Palo del Colle		IT		41.056	16.703	37
+P	East Garfield Park		US	Illinois	41.881	-87.703	3
+P	Paks		HU		46.622	18.856	37
+P	Patuvilāyi	patuvilayi	IN		11.866	75.523	25
+P	Moss Park		CA	Ontario	43.655	-79.372	13
+P	Pachino		IT		36.715	15.090	37
+P	Bang Pa-in	bang pa in	TH		14.228	100.576	19
+P	Paraisópolis	paraisopolis	BR		-22.554	-45.780	15
+P	San Pablo Jocopilas		GT		14.589	-91.452	11
+P	Pataudi		IN		28.325	76.779	25
+P	Pariyāram	pariyaram	IN		12.059	75.325	25
+P	Santa Luzia do Pará	santa luzia do para	BR		-1.524	-46.898	15
+P	Paramirim		BR		-13.443	-42.239	15
+P	Paulo Ramos		BR		-4.448	-45.241	15
+P	Saint-Vincent de Paul	saint vincent de paul	FR		48.881	2.355	37
+P	Elmwood Park		US	New Jersey	40.904	-74.118	13
+P	Fairview Park		HK		22.467	114.048	27
+P	Parma Heights		US	Ohio	41.390	-81.760	13
+P	Pauini		BR		-7.714	-66.976	8
+P	Pāttyam	pattyam	IN		11.793	75.564	25
+P	South Saint Paul		US	Minnesota	44.893	-93.035	3
+P	Palmas de Monte Alto		BR		-14.267	-43.162	15
+P	Paravai		IN		9.965	78.067	25
+P	Pace		US	Florida	30.599	-87.161	3
+P	Palm Valley		US	Florida	30.177	-81.388	13
+P	Pāmūru	pamuru	IN		15.096	79.412	25
+P	La Paz		UY		-34.760	-56.226	15
+P	Paris 02 Bourse		FR		48.865	2.343	37
+P	Evergreen Park		US	Illinois	41.721	-87.702	3
+P	Pacol		PH		10.450	122.817	27
+P	Paredes		PT		41.205	-8.331	31
+P	Paikeqi		CN		38.550	77.208	20
+P	Ayla Patakata		BD		22.217	90.210	20
+P	Painesville		US	Ohio	41.724	-81.246	13
+P	Palabana		ZM		-15.446	28.534	1
+P	Les Pavillons-sous-Bois	les pavillons sous bois	FR		48.907	2.506	37
+P	Palmital		BR		-22.789	-50.218	15
+P	Payson		US	Utah	40.044	-111.732	4
+P	West Saint Paul		US	Minnesota	44.916	-93.102	3
+P	Pattan		IN		34.161	74.556	25
+P	Papillion		US	Nebraska	41.154	-96.042	3
+P	Pakistan Employees Cooperative Housing Society		PK		24.874	67.064	18
+P	Paranapanema		BR		-23.386	-48.724	15
+P	Panagyurishte		BG		42.495	24.190	35
+P	Forest Park		US	Georgia	33.622	-84.369	13
+P	Padua		CO		5.134	-75.140	12
+P	Pacaraima		BR		4.431	-61.146	8
+P	Papar		MY		5.733	115.933	27
+P	Pariquera-Açu	pariquera acu	BR		-24.715	-47.881	15
+P	Parchim		DE		53.426	11.849	37
+P	Papanduva		BR		-26.370	-50.144	15
+P	Villa Paula de Sarmiento		AR		-31.493	-68.538	15
+P	Paillaco		CL		-40.068	-72.879	14
+P	Porta Palazzo		IT		45.077	7.684	37
+P	Parīchhatgarh	parichhatgarh	IN		28.978	77.934	25
+P	Āb Pakhsh	ab pakhsh	IR		29.359	51.074	28
+P	Pancas		BR		-19.225	-40.851	15
+P	Pahāsu	pahasu	IN		28.172	78.064	25
+P	Brook Park		US	Ohio	41.398	-81.805	13
+P	Pastos Bons		BR		-6.602	-44.077	15
+P	Park View		US	District of Columbia	38.932	-77.024	13
+P	El Paraíso	el paraiso	HN		13.867	-86.550	11
+P	Paranda		IN		18.263	75.463	25
+P	Langley Park		US	Maryland	38.989	-76.981	13
+P	Pālda	palda	IN		22.680	75.894	25
+P	Forest Park		US	Ohio	39.290	-84.504	13
+P	O'Connor-Parkview	oconnor parkview	CA	Ontario	43.707	-79.312	13
+P	Parnamirim		BR		-8.091	-39.578	15
+P	Panlong		CN		30.635	107.850	27
+P	La Paragua		VE		6.833	-63.333	8
+P	Palappallam		IN		8.209	77.248	25
+P	Pālaiyampatti	palaiyampatti	IN		9.539	78.098	25
+P	Palencia		GT		14.667	-90.357	11
+P	Palmi		IT		38.359	15.852	37
+P	El Pao		VE		9.639	-68.129	8
+P	Padampur		IN		29.709	73.625	25
+P	Pastavy		BY		55.117	26.833	36
+P	Outram Park		SG		1.282	103.838	27
+P	San Pascual		ES		40.443	-3.653	37
+P	Franklin Park		US	Illinois	41.935	-87.866	3
+P	Parque Industrial Ciudad Mitras		MX		25.789	-100.448	11
+P	Palestine		US	Texas	31.762	-95.631	3
+P	Palugal		IN		8.354	77.186	25
+P	Paraibano		BR		-6.433	-43.984	15
+P	Palmer		US	Massachusetts	42.158	-72.329	13
+P	Fond Parisien		HT		18.505	-71.981	13
+P	Cameron Park		US	California	38.669	-120.987	9
+P	Nazaré Paulista	nazare paulista	BR		-23.181	-46.395	15
+P	Palanga		LT		55.917	21.069	35
+P	Pasthal		IN		19.820	72.730	25
+P	Pampa		US	Texas	35.536	-100.960	3
+P	Pascoe Vale		AU	Victoria	-37.733	144.933	34
+P	Coalcomán de Vázquez Pallares	coalcoman de vazquez pallares	MX		18.777	-103.160	11
+P	Monte Azul Paulista		BR		-20.907	-48.641	15
+P	Deer Park		AU	Victoria	-37.767	144.767	34
+P	Palayad		IN		11.551	75.629	25
+P	Pārsiān	parsian	IR		27.208	53.036	28
+P	Patiriyat		IN		11.849	75.515	25
+P	Leça da Palmeira	leca da palmeira	PT		41.191	-8.700	31
+P	Palazzolo sull'Oglio	palazzolo sulloglio	IT		45.597	9.887	37
+P	Palamós	palamos	ES		41.848	3.129	37
+P	Pailin		KH		12.849	102.609	19
+P	San Pa Tong		TH		18.628	98.896	19
+P	West Garfield Park		US	Illinois	41.881	-87.729	3
+P	Patdi		IN		23.196	71.792	25
+P	Takoma Park		US	Maryland	38.978	-77.007	13
+P	Hunting Park		US	Pennsylvania	40.017	-75.144	13
+P	Paraibuna		BR		-23.386	-45.662	15
+P	Juniata Park		US	Pennsylvania	40.008	-75.109	13
+P	Parets del Vallès	parets del valles	ES		41.575	2.233	37
+P	Padmapur		IN		21.000	83.067	25
+P	Paipu		CN		19.640	109.159	27
+P	Palos Hills		US	Illinois	41.697	-87.817	3
+P	La Paz		HN		14.321	-87.676	11
+P	Papanasam		IN		10.927	79.271	25
+P	Palo		PH		11.158	124.991	27
+P	Palera		IN		25.020	79.228	25
+P	Panórama	panorama	GR		40.588	23.032	35
+P	Parit Raja		MY		1.868	103.112	27
+P	Panoor		IN		11.759	75.578	25
+P	Pādegān-e Manjīl	padegan e manjil	IR		36.742	49.416	28
+P	Pari		BR		-23.527	-46.618	15
+P	Padre Paraíso	padre paraiso	BR		-17.074	-41.484	15
+P	Paolo VI		IT		40.522	17.274	37
+P	Discovery Park		HK		22.376	114.111	27
+P	San Pietro a Patierno		IT		40.886	14.290	37
+P	Kings Park		US	New York	40.886	-73.257	13
+P	Palangarai		IN		11.198	77.306	25
+P	Massapequa Park		US	New York	40.680	-73.455	13
+P	Passagem Franca		BR		-6.180	-43.784	15
+P	Palmarito Tochapan		MX		18.901	-97.638	11
+P	Parede		PT		38.693	-9.354	31
+P	Glen Parva		GB	England	52.585	-1.171	31
+P	São Paulo de Frades	sao paulo de frades	PT		40.247	-8.394	31
+P	Pallasovka		RU		50.049	46.886	36
+P	Kennedy Park		CA	Ontario	43.723	-79.261	13
+P	Paulino Neves		BR		-2.719	-42.533	15
+P	Parvomay		BG		42.100	25.217	35
+P	Pamiers		FR		43.117	1.611	37
+P	Palaú	palau	MX		27.892	-101.423	11
+P	Palmela		PT		38.569	-8.901	31
+P	Paya Lebar		SG		1.354	103.891	27
+P	Parkside		US	California	37.742	-122.486	9
+P	Parafield Gardens		AU	South Australia	-34.783	138.611	32
+P	Pak Tin Estate		HK		22.337	114.167	27
+P	San Carlos Park		US	Florida	26.467	-81.801	13
+P	Pailitas		CO		8.957	-73.624	12
+P	Pāchchal	pachchal	IN		12.511	78.555	25
+P	Parkwood Manor		US	Pennsylvania	40.093	-74.968	13
+P	São Paulo do Potengi	sao paulo do potengi	BR		-5.895	-35.763	15
+P	Greenfield Park		CA	Quebec	45.486	-73.462	13
+P	Pacho		CO		5.133	-74.160	12
+P	Pattamadai		IN		8.673	77.584	25
+P	Pathalgaon		IN		22.557	83.464	25
+P	Pacific Pines		AU	Queensland	-27.940	153.314	29
+P	Hazel Park		US	Michigan	42.463	-83.104	13
+P	Cabaceiras do Paraguaçu	cabaceiras do paraguacu	BR		-12.536	-39.191	15
+P	Clayton Park West		CA	Nova Scotia	44.658	-63.669	6
+P	Paralowie		AU	South Australia	-34.757	138.608	32
+P	Desa Parkcity		MY		3.186	101.629	27
+P	Clanton Park		CA	Ontario	43.742	-79.446	13
+P	Fairview Park		US	Ohio	41.441	-81.864	13
+P	Padampur		IN		20.999	83.063	25
+P	Alto Paraíso	alto paraiso	BR		-9.723	-63.310	8
+P	Pantai Remis		MY		4.456	100.629	27
+P	San Martín de Pangoa	san martin de pangoa	PE		-11.429	-74.488	12
+P	Padang Besar		MY		6.383	100.300	27
+P	Palagonia		IT		37.330	14.745	37
+P	Stara Pazova		RS		44.985	20.161	37
+P	Pantelimon		RO		44.450	26.200	35
+P	Pandaria		IN		22.225	81.410	25
+P	Pavlovsk		RU		59.683	30.435	36
+P	Pango Aluquém	pango aluquem	AO		-8.713	14.463	2
+P	Worcester Park		GB	England	51.380	-0.244	31
+P	Patos		AL		40.683	19.619	37
+P	Pasaia		ES		43.325	-1.927	37
+P	Floral Park		US	New York	40.724	-73.705	13
+P	Walnut Park		US	California	33.968	-118.225	9
+P	Sunland Park		US	New Mexico	31.797	-106.580	4
+P	Pangkham		MM		22.179	99.167	30
+P	Parole		US	Maryland	38.981	-76.545	13
+P	Mirante do Paranapanema		BR		-22.292	-51.906	15
+P	La Palma		US	California	33.846	-118.047	9
+P	Tupi Paulista		BR		-21.381	-51.571	15
+P	Asbury Park		US	New Jersey	40.220	-74.012	13
+P	Manassas Park		US	Virginia	38.784	-77.470	13
+P	Santa Cruz de la Palma		ES		28.684	-17.764	31
+P	Pacific Grove		US	California	36.618	-121.917	9
+P	Panangad		IN		10.273	76.175	25
+P	Palmitos		BR		-27.067	-53.161	15
+P	McKinley Park		US	Illinois	41.832	-87.674	3
+P	Pa Sang		TH		18.526	98.939	19
+P	Passa Quatro		BR		-22.390	-44.967	15
+P	San Pablo Oztotepec		MX		19.187	-99.074	11
+P	Nova Pazova		RS		44.944	20.219	37
+P	Pakan		MY		1.883	111.683	27
+P	Parvatsar		IN		26.886	74.766	25
+P	Paso de Carrasco		UY		-34.860	-56.052	15
+P	Palagiano		IT		40.578	17.038	37
+P	San Luis del Palmar		AR		-27.508	-58.556	15
+P	Payson		US	Arizona	34.231	-111.325	10
+P	Pālaiyam	palaiyam	IN		10.726	78.135	25
+P	Pappinivattom		IN		10.294	76.158	25
+P	Manor Park		GB	England	51.549	0.049	31
+P	Pátapo	patapo	PE		-6.733	-79.636	12
+P	Pataskala		US	Ohio	39.996	-82.674	13
+P	Palm Beach		AU	Queensland	-28.117	153.466	29
+P	Saint-Vincent-de-Paul	saint vincent de paul	CA	Quebec	45.617	-73.649	13
+P	Lawrence Park South		CA	Ontario	43.717	-79.406	13
+P	Pa		BF		12.667	-3.950	0
+P	El Palmar		GT		14.651	-91.578	11
+P	Palmers Green		GB	England	51.618	-0.110	31
+P	Belvedere Park		US	Georgia	33.755	-84.267	13
+P	Parlier		US	California	36.612	-119.527	9
+P	Paraty		BR		-23.218	-44.713	15
+P	Paris 01 Louvre		FR		48.859	2.342	37
+P	West Park		US	Florida	25.985	-80.199	13
+P	Villanueva del Pardillo		ES		40.490	-3.964	37
+P	Panth Pīplia	panth piplia	IN		24.195	75.006	25
+P	Newport Pagnell		GB	England	52.087	-0.722	31
+P	Paradise		TT		10.653	-61.363	8
+P	Babo-Pangulo	babo pangulo	PH		15.083	120.517	27
+P	Pachperwa		IN		27.512	82.643	25
+P	Rocca di Papa		IT		41.766	12.702	37
+P	Pago Pago		AS		-14.278	-170.702	41
+P	Palikir		FM		6.925	158.161	39
+P	Ciudad de la Paz		GQ		1.593	10.824	2

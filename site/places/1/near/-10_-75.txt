@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Lima	-300	
+C	BR	Brazil	mwl	s
+C	PE	Peru	mwl	s
+B	0
+P	Pucallpa		PE		-8.379	-74.554	0
+P	Cruzeiro do Sul		BR		-7.628	-72.678	0
+P	San Fernando		PE		-8.398	-74.538	0
+P	Tarauacá	tarauaca	BR		-8.161	-70.766	0
+P	Feijó	feijo	BR		-8.165	-70.355	0
+P	Ipixuna		BR		-7.051	-71.695	0
+P	Requena		PE		-5.061	-73.850	0
+P	Mâncio Lima	mancio lima	BR		-7.614	-72.896	0
+P	Marechal Thaumaturgo		BR		-8.941	-72.792	0

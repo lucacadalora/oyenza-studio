@@ -1,0 +1,343 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Douala	60	
+Z	3	Africa/Johannesburg	120	
+Z	4	America/Boise	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	5	Asia/Bangkok	420	
+Z	6	Asia/Dhaka	360	
+Z	7	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	8	Asia/Kabul	270	
+Z	9	Asia/Kolkata	330	
+Z	10	Asia/Shanghai	480	
+Z	11	Asia/Tbilisi	240	
+Z	12	Asia/Tehran	210	
+Z	13	Asia/Tokyo	540	
+Z	14	Asia/Yangon	390	
+Z	15	Asia/Yekaterinburg	300	
+Z	16	Europe/Helsinki	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	17	Europe/Istanbul	180	
+Z	18	Europe/Skopje	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	19	Pacific/Honolulu	-600	
+C	AF	Afghanistan	karachi	h
+C	AL	Albania	mwl	s
+C	AO	Angola	egyptian	s
+C	BD	Bangladesh	karachi	h
+C	BH	Bahrain	ummalqura	s
+C	BN	Brunei	singapore	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	GE	Georgia	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	LK	Sri Lanka	mwl	s
+C	MK	North Macedonia	mwl	s
+C	MM	Myanmar	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	QA	Qatar	qatar	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	SS	South Sudan	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	ZA	South Africa	egyptian	s
+B	4
+P	Kunming		CN		25.039	102.718	10
+P	Kumasi		GH		6.688	-1.624	0
+P	Kunshan		CN		31.378	120.954	10
+P	Kuala Lumpur		MY		3.141	101.687	10
+P	Küçükçekmece	kucukcekmece	TR		40.991	28.771	17
+P	Kumamoto		JP		32.806	130.692	13
+P	Al Maḩallah al Kubrá	al mahallah al kubra	EG		30.971	31.167	1
+P	Kuantan		MY		3.808	103.326	10
+P	Kota Kuala Muda		MY		5.588	100.371	10
+P	Kurashiki		JP		34.583	133.767	13
+P	Kurnool		IN		15.829	78.036	9
+P	Kursk		RU		51.727	36.185	17
+P	Kuala Terengganu		MY		5.330	103.141	10
+P	Kuching		MY		1.550	110.333	10
+P	Kukatpally		IN		17.485	78.414	9
+P	Al-Kut	al kut	IQ		32.513	45.818	17
+P	Kurgan		RU		55.449	65.343	15
+P	Kulti		IN		23.732	86.844	9
+P	Kurume		JP		33.317	130.517	13
+P	Kushinagar		IN		26.741	83.887	9
+P	Kunri		PK		25.179	69.566	15
+P	Kumba		CM		4.636	9.447	2
+P	Kŭlob	kulob	TJ		37.915	69.785	15
+P	Kure		JP		34.232	132.567	13
+P	Kumagaya		JP		36.135	139.390	13
+P	Kumarapalayam		IN		11.445	77.711	9
+P	Kuala Kubu Baharu		MY		3.564	101.658	10
+P	Kütahya	kutahya	TR		39.424	29.983	17
+P	Kulim		MY		5.365	100.562	10
+P	Kushiro		JP		42.975	144.375	13
+P	Kumbakonam		IN		10.962	79.391	9
+P	Kunduz		AF		36.729	68.857	8
+P	Kukichūō	kukichuo	JP		36.067	139.675	13
+P	Kuntsevo		RU		55.742	37.402	17
+P	Bueng Kum		TH		13.785	100.670	5
+P	Kusatsu		JP		35.017	135.967	13
+P	Novyye Kuz’minki	novyye kuzminki	RU		55.700	37.750	17
+P	Kuz’minki	kuzminki	RU		55.700	37.800	17
+P	Kuwana		JP		35.052	136.670	13
+P	Kushtia		BD		23.903	89.119	6
+P	Kutaisi		GE		42.268	42.695	11
+P	Kuopio		FI		62.892	27.677	16
+P	Kumbo		CM		6.200	10.667	2
+P	Sultan Kudarat		PH		7.229	124.258	10
+P	Kurichchi		IN		10.961	76.974	9
+P	Kufa		IQ		32.051	44.440	17
+P	Leninsk-Kuznetsky	leninsk kuznetsky	RU		54.657	86.174	5
+P	Kuala Krai		MY		5.531	102.199	10
+P	Kuje		NG		8.880	7.228	2
+P	Kuniyamuttūr	kuniyamuttur	IN		10.964	76.953	9
+P	Kutloanong		ZA		-27.833	26.750	3
+P	Kuala Nerus		MY		5.373	103.021	10
+P	Kunjah		PK		32.530	73.975	15
+P	Kuznetsk		RU		53.117	46.600	17
+P	Kūhdasht	kuhdasht	IR		33.533	47.610	12
+P	Kamigyō-ku	kamigyo ku	JP		35.030	135.757	13
+P	Kuacjok		SS		8.303	27.980	3
+P	Kunitachi		JP		35.683	139.438	13
+P	Kundla		IN		21.342	71.306	9
+P	Kumanovo		MK		42.133	21.716	18
+P	Kuandian		CN		40.729	124.785	10
+P	Kurortnyy		RU		60.166	29.908	17
+P	Kungsholmen		SE		59.332	18.041	18
+P	Khlong Kum		TH		13.788	100.680	5
+P	Kurihara		JP		38.750	141.000	13
+P	Bununka Kunda		GM		13.427	-16.685	0
+P	Kungur		RU		57.414	56.972	15
+P	Dār Kulayb	dar kulayb	BH		26.069	50.504	17
+P	Kumertau		RU		52.765	55.788	15
+P	Slavyansk-na-Kubani	slavyansk na kubani	RU		45.251	38.121	17
+P	Kunyang		CN		27.666	120.566	10
+P	Kunnamkulam		IN		10.647	76.067	9
+P	Kulai		MY		1.656	103.603	10
+P	Kuşadası	kusadasi	TR		37.860	27.257	17
+P	Kuchāman	kuchaman	IN		27.147	74.857	9
+P	Kuroiso		JP		36.967	140.050	13
+P	Kuwait City		KW		29.367	47.974	17
+P	Kūt-e ‘Abdollāh	kut e abdollah	IR		31.239	48.656	12
+P	Kutu		CD		-2.725	18.148	2
+P	Kuala Selangor		MY		3.350	101.250	10
+P	Kudamatsu		JP		34.010	131.866	13
+P	Kupchino		RU		59.859	30.388	17
+P	Kurihama		JP		35.228	139.702	13
+P	Kuchai Lama		MY		3.085	101.691	10
+P	Kurayoshi		JP		35.433	133.817	13
+P	Kutno		PL		52.231	19.364	18
+P	Kuybyshev		RU		55.448	78.319	5
+P	Ust’-Kut	ust kut	RU		56.798	105.787	10
+P	Kurganinsk		RU		44.884	40.589	17
+P	Kunnamangalam		IN		11.305	75.878	9
+P	Kulu		TR		39.095	33.080	17
+P	Kuils River		ZA		-33.942	18.707	3
+P	Kurchatov		RU		51.654	35.687	17
+P	Kurseong		IN		26.883	88.277	9
+P	Faji Kunda		GM		13.418	-16.667	0
+P	Kafr al Kurdī	kafr al kurdi	EG		31.168	31.765	1
+P	Kumi		UG		1.461	33.936	17
+P	Kuiya		CN		37.296	79.636	6
+P	Kundian		PK		32.458	71.479	15
+P	Kumbalangy		IN		9.880	76.284	9
+P	Kudappanakkunnu		IN		8.551	76.961	9
+P	Kurobe-shi	kurobe shi	JP		36.901	137.450	13
+P	Kulathummal		IN		8.507	77.081	9
+P	Kord Kūy	kord kuy	IR		36.793	54.112	12
+P	Kurinjippādi	kurinjippadi	IN		11.550	79.591	9
+P	Kuala Kangsar		MY		4.767	100.933	10
+P	Kuroishi		JP		40.646	140.584	13
+P	Kumhāri	kumhari	IN		21.267	81.517	9
+P	Kulebaki		RU		55.413	42.532	17
+P	Kumta		IN		14.429	74.419	9
+P	Kukës	kukes	AL		42.077	20.422	18
+P	Sai Kung		HK		22.383	114.267	10
+P	Kumo		NG		10.048	11.211	2
+P	Kutum		SD		14.200	24.667	3
+P	Kuji		JP		40.188	141.769	13
+P	Nema Kunku		GM		13.250	-15.883	0
+P	Kunwi		KR		36.235	128.573	13
+P	Kuruvattūr	kuruvattur	IN		11.336	75.835	9
+P	Kunigal		IN		13.023	77.025	9
+P	Kushva		RU		58.287	59.748	15
+P	Farīj Kulayb	farij kulayb	QA		25.313	51.493	17
+P	Kurumbapet		IN		11.940	79.771	9
+P	Kuroda		JP		35.350	136.783	13
+P	Kudat		MY		6.887	116.824	10
+P	Kumru		TR		40.874	37.264	17
+P	Kurtalan		TR		37.925	41.685	17
+P	Kudymkar		RU		59.015	54.653	15
+P	Kuala Belait		BN		4.584	114.231	10
+P	Kula		TR		38.547	28.650	17
+P	Kuçovë	kucove	AL		40.800	19.917	18
+P	Kuala Kurau		MY		5.018	100.428	10
+P	Kūrāli	kurali	IN		30.834	76.577	9
+P	Kusŏng-si	kusong si	KP		39.980	125.253	13
+P	Nok Kundi		PK		28.827	62.750	15
+P	Kundapura		IN		13.631	74.690	9
+P	Kuah		MY		6.326	99.843	10
+P	Kuskovo		RU		55.738	37.795	17
+P	Kur’yanovo	kuryanovo	RU		55.656	37.701	17
+P	Kudrovo		RU		59.903	30.511	17
+P	Kurye		KR		35.209	127.464	13
+P	Kushchyovskaya		RU		46.560	39.632	17
+P	Kuttuparamba		IN		11.828	75.566	9
+P	Kumbalam		IN		9.906	76.311	9
+P	Kuvandyk		RU		51.485	57.358	15
+P	Kurunegala		LK		7.484	80.368	9
+P	Kungyangon		MM		16.443	96.019	14
+P	Kukshi		IN		22.207	74.758	9
+P	Kulittalai		IN		10.935	78.413	9
+P	Kuangshi		CN		38.072	114.046	10
+P	Kurihashi		JP		36.133	139.700	13
+P	Kulmbach		DE		50.101	11.450	18
+P	Kuanchuan		CN		34.166	105.541	10
+P	Kullattūr	kullattur	IN		12.942	80.195	9
+P	Kundarkhi		IN		28.683	78.786	9
+P	Kubang Semang		MY		5.404	100.457	10
+P	Permatang Kuching		MY		5.463	100.381	10
+P	Kupyansk		UA		49.710	37.616	16
+P	Kumārapuram	kumarapuram	IN		9.271	76.433	9
+P	Kulasēkarapuram	kulasekarapuram	IN		9.091	76.530	9
+P	Kara-Kul’	kara kul	KG		41.628	72.670	6
+P	Kūdligi	kudligi	IN		14.905	76.385	9
+P	Kulp		TR		38.498	41.007	17
+P	Birnin Kudu		NG		11.452	9.479	2
+P	Kuoyiqi		CN		37.355	79.721	6
+P	Kūdlu	kudlu	IN		12.530	74.979	9
+P	Kunisaki		JP		33.555	131.728	13
+P	Kubinka		RU		55.580	36.704	17
+P	Kuttikkāttūr	kuttikkattur	IN		11.263	75.880	9
+P	Kuttippuram		IN		10.842	76.031	9
+P	Kushikino		JP		31.717	130.267	13
+P	Kuttampuzha		IN		10.150	76.735	9
+P	Kutkai		MM		23.458	97.938	14
+P	Kunda		IN		25.717	81.514	9
+P	Kushtagi		IN		15.756	76.191	9
+P	Kut Chap		TH		17.426	102.567	5
+P	Kulachi		PK		31.931	70.460	15
+P	Kuala Penyu		MY		5.571	115.598	10
+P	Kungälv	kungalv	SE		57.871	11.981	18
+P	Latri Kunda		GM		13.449	-16.685	0
+P	Kurenivka		UA		50.494	30.471	16
+P	Kutiatodu		IN		9.800	76.333	9
+P	Tash-Kumyr	tash kumyr	KG		41.346	72.217	6
+P	Kulgam		IN		33.645	75.019	9
+P	Kūmher	kumher	IN		27.317	77.371	9
+P	Kuchera		IN		26.987	73.971	9
+P	Ladang Seri Kundang		MY		3.286	101.519	10
+P	Kudachi		IN		16.628	74.854	9
+P	Kurduvādi	kurduvadi	IN		18.093	75.416	9
+P	Kunnatnād	kunnatnad	IN		10.043	76.424	9
+P	Kumano		JP		34.333	132.570	13
+P	Kurikuppi		IN		15.218	76.649	9
+P	Kurandvād	kurandvad	IN		16.683	74.589	9
+P	Manjai Kunda		GM		13.445	-16.703	0
+P	Batu Kurau		MY		4.967	100.800	10
+P	Kushima		JP		31.486	131.242	13
+P	Staraya Kupavna		RU		55.808	38.181	17
+P	Kurono		JP		35.467	136.633	13
+P	Kuri Dulal		PK		33.384	73.264	15
+P	Kuppam		IN		12.749	78.342	9
+P	Küçükçiğli	kucukcigli	TR		38.508	27.055	17
+P	Kutná Hora	kutna hora	CZ		49.948	15.268	18
+P	Kundli		IN		28.869	77.121	9
+P	Kampung Teluk Kumbar		MY		5.289	100.247	10
+P	Kuju		IN		23.725	85.510	9
+P	Kuzhithurai		IN		8.318	77.192	9
+P	Dippa Kunda		GM		13.440	-16.687	0
+P	Kuang		MY		3.259	101.554	10
+P	Kuyera		ET		7.300	38.650	17
+P	Kuseifa		IL		31.245	35.093	7
+P	Makakilo-Makaīwa Hills-Kunia	makakilo makaiwa hills kunia	US	Hawaii	21.367	-158.073	19
+P	Kurchaloy		RU		43.205	46.088	17
+P	Kumakura		JP		37.153	140.168	13
+P	Kuchinarai		TH		16.541	104.050	5
+P	Kürten	kurten	DE		51.050	7.267	18
+P	Kunkujang		GM		13.390	-16.673	0
+P	Kulu		IN		31.958	77.108	9
+P	Kusa		RU		55.345	59.440	15
+P	Bandar Putra Kulai		MY		1.650	103.627	10
+P	Kumbhrāj	kumbhraj	IN		24.373	77.048	9
+P	Kuraymah		SD		18.550	31.850	3
+P	Kujang-ŭp	kujang up	KP		39.867	126.030	13
+P	Kuala Pilah		MY		2.739	102.249	10
+P	Kurikka		FI		62.617	22.417	16
+P	Kuala Kedah		MY		6.100	100.300	10
+P	Kuala Ketil		MY		5.600	100.650	10
+P	Kurovskoye		RU		55.582	38.920	17
+P	Kui Buri		TH		12.083	99.854	5
+P	Kulpahār	kulpahar	IN		25.320	79.639	9
+P	Kunnimangalam		IN		12.074	75.241	9
+P	Kampung Kupang		MY		5.636	100.845	10
+P	Kundgol		IN		15.256	75.247	9
+P	Kungsbacka		SE		57.487	12.076	18
+P	Kurumathur		IN		12.040	75.411	9
+P	Kurakhove		UA		47.985	37.281	16
+P	Kunnummal		IN		11.683	75.711	9
+P	Kurtamysh		RU		54.910	64.432	15
+P	Kurayyimah		JO		32.276	35.599	17
+P	Kulattuppālaiyam	kulattuppalaiyam	IN		10.761	77.584	9
+P	Dolný Kubín	dolny kubin	SK		49.210	19.303	18
+P	Kulasegaram		IN		8.363	77.298	9
+P	Kuna		US	Idaho	43.492	-116.420	4
+P	Kusum Pur		IN		28.555	77.157	9
+P	Nong Kung Si		TH		16.650	103.300	5
+P	Kudepsta		RU		43.495	39.893	17
+P	Kushk		AF		33.296	61.952	8
+P	Kutiyāna	kutiyana	IN		21.624	69.985	9
+P	Kukmor		RU		56.186	50.894	17
+P	Kumla		SE		59.128	15.143	18
+P	Kumagunnam		NG		13.155	10.635	2
+P	Kuoshi'airike	kuoshiairike	CN		38.623	77.279	6
+P	Kupino		RU		54.367	77.307	5
+P	Kushimoto		JP		33.468	135.779	13
+P	Kumano		JP		33.904	136.122	13
+P	Kuliouou - Kalani Iki	kuliouou kalani iki	US	Hawaii	21.297	-157.745	19
+P	Kuthalam		IN		11.074	79.562	9
+P	Künzell	kunzell	DE		50.544	9.718	18
+P	Kuda		IN		25.891	93.739	9
+P	Kukawa		NG		12.925	13.566	2
+P	Kudāl	kudal	IN		16.011	73.689	9
+P	Kunda dya Baze		AO		-8.908	17.053	2
+P	Kutchan		JP		42.901	140.741	13
+P	Kumārapālaiyam	kumarapalaiyam	IN		11.502	77.256	9
+P	Kara-Kulja	kara kulja	KG		40.632	73.592	6
+P	Kuchinda		IN		21.744	84.348	9
+P	Kurwai		IN		24.117	78.038	9
+P	Majd el Kurūm	majd el kurum	IL		32.921	35.254	7
+P	Kuala Lipis		MY		4.184	102.047	10
+P	Kulunda		RU		52.565	78.939	5
+P	Kushālnagar	kushalnagar	IN		12.458	75.959	9
+P	Kudali		IN		11.920	75.472	9
+P	Solec Kujawski		PL		53.084	18.226	18
+P	Künzelsau	kunzelsau	DE		49.282	9.684	18

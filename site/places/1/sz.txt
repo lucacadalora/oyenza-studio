@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	HU	Hungary	mwl	s
+C	PL	Poland	mwl	s
+B	0
+P	Szczecin		PL		53.429	14.553	0
+P	Szeged		HU		46.253	20.148	0
+P	Székesfehérvár	szekesfehervar	HU		47.190	18.410	0
+P	Szombathely		HU		47.231	16.622	0
+P	Szolnok		HU		47.181	20.198	0
+P	Szczecinek		PL		53.708	16.699	0
+P	Szekszárd	szekszard	HU		46.347	18.712	0
+P	Szentes		HU		46.658	20.261	0
+P	Szczytno		PL		53.563	20.987	0
+P	Szigetszentmiklós	szigetszentmiklos	HU		47.344	19.043	0
+P	Szentendre		HU		47.669	19.076	0
+P	Szamotuły	szamotuly	PL		52.612	16.578	0
+P	Szczepin		PL		51.116	17.010	0
+P	Szarvas		HU		46.867	20.550	0
+P	Százhalombatta	szazhalombatta	HU		47.329	18.939	0

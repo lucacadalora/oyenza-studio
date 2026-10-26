@@ -1,0 +1,605 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Conakry	0	
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Porto-Novo	60	
+Z	3	America/Argentina/Cordoba	-180	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Guayaquil	-300	
+Z	8	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	9	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	10	America/Hermosillo	-420	
+Z	11	America/La_Paz	-240	
+Z	12	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	13	America/Mexico_City	-360	
+Z	14	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	15	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	16	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Ho_Chi_Minh	420	
+Z	20	Asia/Karachi	300	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Manila	480	
+Z	23	Australia/Brisbane	600	
+Z	24	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	25	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/Copenhagen	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	27	Europe/Istanbul	180	
+Z	28	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CX	Christmas Island	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HN	Honduras	mwl	s
+C	IE	Ireland	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	MD	Moldova	mwl	s
+C	ML	Mali	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NI	Nicaragua	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	SV	El Salvador	mwl	s
+C	TC	Turks and Caicos Islands	mwl	s
+C	TR	Turkey	turkey	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	4
+P	Coimbatore		IN		11.006	76.966	21
+P	Córdoba	cordoba	AR		-31.406	-64.189	3
+P	Conakry		GN		9.538	-13.677	0
+P	Copenhagen		DK		55.676	12.566	26
+P	Columbus		US	Ohio	39.961	-82.999	14
+P	Cochabamba		BO		-17.382	-66.160	11
+P	Cotonou		BJ		6.365	2.418	2
+P	Colombo		LK		6.935	79.849	21
+P	Gold Coast		AU	Queensland	-28.000	153.431	23
+P	Comilla		BD		23.462	91.185	18
+P	Contagem		BR		-19.932	-44.054	3
+P	Coyoacán	coyoacan	MX		19.347	-99.162	13
+P	Santo Domingo de los Colorados		EC		-0.254	-79.176	7
+P	Colorado Springs		US	Colorado	38.834	-104.821	5
+P	Constantine		DZ		36.365	6.615	2
+P	Sunshine Coast		AU	Queensland	-26.657	153.080	23
+P	Cotabato		PH		7.224	124.246	22
+P	Central Coast		AU	New South Wales	-33.430	151.371	24
+P	Corrientes		AR		-27.468	-58.834	3
+P	Coventry		GB	England	52.407	-1.512	28
+P	Córdoba	cordoba	ES		37.892	-4.773	26
+P	Constanţa	constanta	RO		44.181	28.634	25
+P	Corpus Christi		US	Texas	27.801	-97.396	4
+P	Coatzacoalcos		MX		18.149	-94.445	13
+P	Coacalco		MX		19.629	-99.107	13
+P	Longling County		CN		24.587	98.689	22
+P	Çorum	corum	TR		40.549	34.953	27
+P	Cox’s Bāzār	coxs bazar	BD		21.440	92.010	18
+P	Cotia		BR		-23.604	-46.919	3
+P	Vitória da Conquista	vitoria da conquista	BR		-14.866	-40.839	3
+P	A Coruña	a coruna	ES		43.371	-8.396	26
+P	Colonia del Valle		MX		19.386	-99.162	13
+P	Coro		VE		11.408	-69.678	11
+P	Magdalena Contreras		MX		19.332	-99.211	13
+P	Colombo		BR		-25.292	-49.224	3
+P	Cork		IE		51.898	-8.471	28
+P	Concepción	concepcion	CL		-36.827	-73.050	15
+P	Commonwealth		PH		14.697	121.080	22
+P	Cape Coast		GH		5.105	-1.247	0
+P	Cobán	coban	GT		15.470	-90.375	13
+P	Columbus		US	Georgia	32.461	-84.988	14
+P	Córdoba	cordoba	MX		18.884	-96.926	13
+P	Çorlu	corlu	TR		41.161	27.801	27
+P	Pingwu County		CN		32.407	104.527	22
+P	Concepcion		PH		15.325	120.657	22
+P	San Luis Río Colorado	san luis rio colorado	MX		32.456	-114.770	10
+P	Cape Coral		US	Florida	26.563	-81.950	14
+P	Fort Collins		US	Colorado	40.585	-105.084	5
+P	Comitán	comitan	MX		16.240	-92.137	13
+P	Corona		US	California	33.875	-117.566	12
+P	Coquimbo		CL		-29.953	-71.339	15
+P	Coquitlam		CA	British Columbia	49.285	-122.782	17
+P	Colima		MX		19.245	-103.713	13
+P	Colina		CL		-33.204	-70.675	15
+P	Concordia		AR		-31.392	-58.017	3
+P	Columbia		US	South Carolina	34.001	-81.035	14
+P	Puerto Cortez		HN		15.826	-87.930	13
+P	Comodoro Rivadavia		AR		-45.863	-67.494	3
+P	Coimbra		PT		40.207	-8.420	28
+P	Colchester		GB	England	51.889	0.904	28
+P	Coral Springs		US	Florida	26.271	-80.271	14
+P	Columbia		US	Missouri	38.952	-92.334	4
+P	Copiapó	copiapo	CL		-27.367	-70.332	15
+P	Copacabana		BR		-22.969	-43.186	3
+P	Concord		US	California	37.978	-122.031	12
+P	Thành phố Sông Công	thanh pho song cong	VN		21.477	105.841	19
+P	La Concepción	la concepcion	VE		10.619	-71.838	11
+P	Santa Coloma de Gramenet		ES		41.452	2.208	26
+P	Cờ Đỏ	co do	VN		10.094	105.429	19
+P	Codó	codo	BR		-4.455	-43.886	3
+P	Costa Mesa		US	California	33.641	-117.919	12
+P	Santa Lucía Cotzumalguapa	santa lucia cotzumalguapa	GT		14.335	-91.023	13
+P	Conselheiro Lafaiete		BR		-20.660	-43.786	3
+P	Sutton Coldfield		GB	England	52.567	-1.817	28
+P	Corona		US	New York	40.747	-73.860	14
+P	West Covina		US	California	34.069	-117.939	12
+P	College Station		US	Texas	30.628	-96.334	4
+P	Coronel		CL		-37.034	-73.140	15
+P	Coatepeque		GT		14.704	-91.864	13
+P	Coronel Fabriciano		BR		-19.519	-42.629	3
+P	Colatina		BR		-19.539	-40.631	3
+P	Colonia Lindavista		MX		19.492	-99.125	13
+P	Columbia		US	Maryland	39.240	-76.839	14
+P	Santiago de Compostela		ES		42.881	-8.546	26
+P	Compton		US	California	33.896	-118.220	12
+P	Gò Công	go cong	VN		10.367	106.667	19
+P	Corumbá	corumba	BR		-19.009	-57.653	11
+P	Concepción	concepcion	VE		10.412	-71.689	11
+P	Contai		IN		21.780	87.749	21
+P	Concord		US	North Carolina	35.409	-80.582	14
+P	Cornellà de Llobregat	cornella de llobregat	ES		41.350	2.083	26
+P	Londonderry County Borough		GB	Northern Ireland	54.997	-7.309	28
+P	Barra do Corda		BR		-5.506	-45.243	3
+P	Courbevoie		FR		48.897	2.257	26
+P	Como		IT		45.808	9.083	26
+P	Cottbus		DE		51.758	14.329	26
+P	Palm Coast		US	Florida	29.585	-81.208	14
+P	Colombes		FR		48.919	2.254	26
+P	Les Corts		ES		41.387	2.130	26
+P	Coslada		ES		40.424	-3.561	26
+P	Concórdia	concordia	BR		-27.234	-52.028	3
+P	Coffs Harbour		AU	New South Wales	-30.296	153.114	24
+P	Town 'n' Country	town n country	US	Florida	28.011	-82.577	14
+P	Colón	colon	PA		9.360	-79.900	7
+P	Cozumel		MX		20.500	-86.943	7
+P	Coyah		GN		9.706	-13.385	0
+P	Três Corações	tres coracoes	BR		-21.697	-45.253	3
+P	Vedado del Cotorro		CU		23.050	-82.250	9
+P	Coari		BR		-4.085	-63.141	11
+P	Rancho Cordova		US	California	38.589	-121.303	12
+P	Cổ Đô	co do	VN		21.280	105.364	19
+P	Contramaestre		CU		20.299	-76.245	9
+P	Confederation		CA	Saskatchewan	52.139	-106.704	13
+P	Consolación del Sur	consolacion del sur	CU		22.505	-83.513	9
+P	Cordova		US	Tennessee	35.156	-89.776	4
+P	Conroe		US	Texas	30.312	-95.456	4
+P	Corby		GB	England	52.496	-0.689	28
+P	Concepción del Uruguay	concepcion del uruguay	AR		-32.485	-58.232	3
+P	Conceição do Coité	conceicao do coite	BR		-11.564	-39.283	3
+P	Point Cook		AU	Victoria	-37.915	144.751	24
+P	Waterfront Communities-The Island	waterfront communities the island	CA	Ontario	43.634	-79.377	14
+P	Colmar		FR		48.081	7.356	26
+P	Conway		US	Arkansas	35.089	-92.442	4
+P	La Línea de la Concepción	la linea de la concepcion	ES		36.168	-5.348	26
+P	Colón	colon	CU		22.721	-80.904	9
+P	Cosenza		IT		39.299	16.253	26
+P	San Pedro de Copán	san pedro de copan	HN		14.617	-88.867	13
+P	Collado-Villalba	collado villalba	ES		40.635	-4.005	26
+P	Council Bluffs		US	Iowa	41.262	-95.861	4
+P	West Coon Rapids		US	Minnesota	45.160	-93.350	4
+P	Colón	colon	VE		8.031	-72.261	11
+P	Coon Rapids		US	Minnesota	45.120	-93.288	4
+P	Cortazar		MX		20.483	-100.964	13
+P	Coroatá	coroata	BR		-4.130	-44.124	3
+P	Norfolk County		CA	Ontario	42.833	-80.383	14
+P	Cogan		PH		10.593	124.018	22
+P	Coney Island		US	New York	40.578	-73.994	14
+P	Colonia Nativitas		MX		19.381	-99.137	13
+P	Maqin County		CN		34.474	100.245	22
+P	Cosmópolis	cosmopolis	BR		-22.646	-47.196	3
+P	Canyon Country		US	California	34.423	-118.472	12
+P	Comitancillo		GT		15.089	-91.750	13
+P	Coconut Creek		US	Florida	26.252	-80.179	14
+P	Comayagua		HN		14.456	-87.640	13
+P	Colón	colon	AR		-32.223	-58.144	3
+P	Port Coquitlam		CA	British Columbia	49.266	-122.769	17
+P	Colegiales		AR		-34.574	-58.449	3
+P	Corvallis		US	Oregon	44.565	-123.262	12
+P	Colton		US	California	34.074	-117.314	12
+P	Commerce City		US	Colorado	39.808	-104.934	5
+P	Coatepec		MX		19.452	-96.961	13
+P	Consolação	consolacao	BR		-23.552	-46.657	3
+P	Congonhas		BR		-20.505	-43.859	3
+P	Cocorote		VE		10.320	-68.783	11
+P	Colcapirhua		BO		-17.386	-66.238	11
+P	Corroios		PT		38.640	-9.151	28
+P	Corralillo		CU		22.982	-80.585	9
+P	Coruripe		BR		-10.126	-36.176	3
+P	Renfrew-Collingwood	renfrew collingwood	CA	British Columbia	49.245	-123.038	17
+P	Agustín Codazzi	agustin codazzi	CO		10.037	-73.236	7
+P	Coronel Oviedo		PY		-25.446	-56.439	3
+P	Coral Gables		US	Florida	25.721	-80.268	14
+P	Kensington-Cedar Cottage	kensington cedar cottage	CA	British Columbia	49.250	-123.067	17
+P	Copacabana		CO		6.346	-75.509	7
+P	Coeur d'Alene	coeur dalene	US	Idaho	47.678	-116.780	12
+P	Covina		US	California	34.090	-117.890	12
+P	Collierville		US	Tennessee	35.042	-89.665	4
+P	Cornwall		CA	Ontario	45.018	-74.728	14
+P	Consolacion		PH		10.377	123.957	22
+P	Cojutepeque		SV		13.720	-88.933	13
+P	Concepción	concepcion	PY		-23.400	-57.432	3
+P	Colonia del Sol		MX		22.913	-109.927	10
+P	Colomba		GT		14.707	-91.732	13
+P	Cutral-Có	cutral co	AR		-38.934	-69.231	3
+P	Cono Norte		PE		-16.324	-71.582	7
+P	Country Club		US	Florida	25.948	-80.317	14
+P	Tlapa de Comonfort		MX		17.545	-98.576	13
+P	Columbus		US	Indiana	39.201	-85.921	14
+P	Collegno		IT		45.079	7.567	26
+P	Corato		IT		41.152	16.411	26
+P	Barri de les Corts		ES		41.387	2.135	26
+P	Bom Conselho		BR		-9.170	-36.680	3
+P	Coyhaique		CL		-45.575	-72.066	3
+P	Cologno Monzese		IT		45.530	9.278	26
+P	Coonoor		IN		11.350	76.794	21
+P	Contumo		GW		11.850	-15.617	0
+P	Cornélio Procópio	cornelio procopio	BR		-23.181	-50.647	3
+P	Chiapa de Corzo		MX		16.707	-93.012	13
+P	Coachella		US	California	33.680	-116.174	12
+P	Conceição do Araguaia	conceicao do araguaia	BR		-8.264	-49.270	3
+P	Augusto Corrêa	augusto correa	BR		-1.022	-46.635	3
+P	Villa Constitución	villa constitucion	AR		-33.228	-60.330	3
+P	Compiègne	compiegne	FR		49.418	2.826	26
+P	Concord		US	New Hampshire	43.208	-71.538	14
+P	Coatbridge		GB	Scotland	55.862	-4.025	28
+P	Colmenar Viejo		ES		40.659	-3.768	26
+P	Cové	cove	BJ		7.221	2.340	2
+P	East Concord		US	New Hampshire	43.242	-71.538	14
+P	Comé	come	BJ		6.408	1.882	2
+P	Compostela		PH		7.673	126.089	22
+P	State College		US	Pennsylvania	40.793	-77.860	14
+P	Concón	concon	CL		-32.922	-71.516	15
+P	Coburg		DE		50.259	10.964	26
+P	The Colony		US	Texas	33.089	-96.886	4
+P	Coelho Neto		BR		-4.257	-43.013	3
+P	Cotuí	cotui	DO		19.054	-70.151	11
+P	Barra dos Coqueiros		BR		-10.909	-37.039	3
+P	Comalcalco		MX		18.265	-93.224	13
+P	Coity		GB	Wales	51.522	-3.555	28
+P	Constitución	constitucion	CL		-35.333	-72.412	15
+P	Coppell		US	Texas	32.955	-97.015	4
+P	Karachi University Employees Co-operative Housing Society	karachi university employees co operative housing society	PK		24.963	67.119	20
+P	Covington		US	Kentucky	39.084	-84.509	14
+P	Peachtree Corners		US	Georgia	33.970	-84.222	14
+P	Ciudad Constitución	ciudad constitucion	MX		25.032	-111.663	10
+P	Corbeil-Essonnes	corbeil essonnes	FR		48.606	2.488	26
+P	Benjamin Constant		BR		-4.376	-70.032	7
+P	Beverly Cove		US	Massachusetts	42.553	-70.854	14
+P	Colinas		BR		-6.026	-44.249	3
+P	Corfu		GR		39.624	19.920	25
+P	Corozal		CO		9.318	-75.293	7
+P	Coram		US	New York	40.869	-73.001	14
+P	Bandar Country Homes		MY		3.328	101.531	22
+P	São Francisco do Conde	sao francisco do conde	BR		-12.627	-38.680	3
+P	Condado		CU		21.876	-79.840	9
+P	Columbia Heights		US	District of Columbia	38.926	-77.029	14
+P	Coalville		GB	England	52.722	-1.370	28
+P	Confresa		BR		-10.644	-51.569	11
+P	La Courneuve		FR		48.928	2.396	26
+P	Columbia		US	Tennessee	35.615	-87.035	4
+P	Coesfeld		DE		51.943	7.168	26
+P	Conflans-Sainte-Honorine	conflans sainte honorine	FR		49.002	2.097	26
+P	Commack		US	New York	40.843	-73.293	14
+P	Core Neighbourhoods		CA	Saskatchewan	52.130	-106.672	13
+P	Setor Complementar de Indústria e Abastecimento	setor complementar de industria e abastecimento	BR		-15.782	-47.988	3
+P	Colinas do Tocantins		BR		-8.059	-48.475	3
+P	Cottage Grove		US	Minnesota	44.828	-92.944	4
+P	Coyotepec		MX		19.777	-99.213	13
+P	Coventry		US	Rhode Island	41.700	-71.683	14
+P	Cooper City		US	Florida	26.057	-80.272	14
+P	Conceição do Jacuípe	conceicao do jacuipe	BR		-12.317	-38.767	3
+P	Pontault-Combault	pontault combault	FR		48.798	2.607	26
+P	La Vela de Coro		VE		11.461	-69.566	11
+P	Cottonwood Heights		US	Utah	40.620	-111.810	5
+P	Collinwood		US	Ohio	41.558	-81.569	14
+P	Coatzintla		MX		20.487	-97.468	13
+P	Corinto		CO		3.173	-76.263	7
+P	Colgong		IN		25.263	87.233	21
+P	Corsico		IT		45.431	9.111	26
+P	Cobbs Creek		US	Pennsylvania	39.948	-75.240	14
+P	Copperas Cove		US	Texas	31.124	-97.903	4
+P	Coronel Suárez	coronel suarez	AR		-37.459	-61.933	3
+P	Correntina		BR		-13.343	-44.637	3
+P	Comalapa		GT		14.741	-90.888	13
+P	College Park		US	Maryland	38.981	-76.937	14
+P	Cochrane		CA	Alberta	51.183	-114.469	6
+P	Colonia del Sacramento		UY		-34.463	-57.840	3
+P	Coxim		BR		-18.507	-54.760	11
+P	Cookeville		US	Tennessee	36.163	-85.502	4
+P	Colíder	colider	BR		-10.818	-55.451	11
+P	Côte-Saint-Luc	cote saint luc	CA	Quebec	45.465	-73.666	14
+P	Colomiers		FR		43.611	1.335	26
+P	Lumding Railway Colony		IN		25.749	93.170	21
+P	Church-Yonge Corridor	church yonge corridor	CA	Ontario	43.660	-79.379	14
+P	Cô Tô	co to	VN		10.350	105.017	19
+P	Barão de Cocais	barao de cocais	BR		-19.946	-43.487	3
+P	Conegliano		IT		45.888	12.302	26
+P	Coria del Río	coria del rio	ES		37.288	-6.054	26
+P	Luís Correia	luis correia	BR		-2.879	-41.667	3
+P	Cosamaloapan		MX		18.368	-95.799	13
+P	North Cowichan		CA	British Columbia	48.841	-123.686	17
+P	Coyula		MX		20.661	-103.228	13
+P	Constanza		DO		18.909	-70.745	11
+P	Courcelles		BE		50.464	4.375	26
+P	Fruit Cove		US	Florida	30.111	-81.642	14
+P	Collo		DZ		37.006	6.560	2
+P	Longfellow Community		US	Minnesota	44.943	-93.226	4
+P	Cordova		PH		10.244	123.942	22
+P	Colwyn Bay		GB	Wales	53.295	-3.727	28
+P	Cocula		MX		20.365	-103.822	13
+P	Consett		GB	England	54.854	-1.832	28
+P	Coromandel		BR		-18.473	-47.200	3
+P	Socorro Mission Number 1 Colonia		US	Texas	31.636	-106.291	5
+P	Villa Consuelo		DO		18.483	-69.900	11
+P	El Copey		CO		10.150	-73.961	7
+P	Courtenay		CA	British Columbia	49.687	-124.994	17
+P	Conceição das Alagoas	conceicao das alagoas	BR		-19.915	-48.388	3
+P	Cocal		BR		-3.472	-41.557	3
+P	Conchal		BR		-22.330	-47.172	3
+P	Cornelius		US	North Carolina	35.487	-80.860	14
+P	Santa Rosa de Copán	santa rosa de copan	HN		14.774	-88.776	13
+P	Vila do Conde		PT		41.353	-8.745	28
+P	Contla		MX		19.329	-98.166	13
+P	Conde		BR		-7.260	-34.907	3
+P	Conceição da Barra	conceicao da barra	BR		-18.593	-39.732	3
+P	Glen Cove		US	New York	40.862	-73.634	14
+P	Saint-Constant	saint constant	CA	Quebec	45.367	-73.566	14
+P	College Point		US	New York	40.788	-73.846	14
+P	Corrente		BR		-10.443	-45.162	3
+P	Conception Bay South		CA	Newfoundland and Labrador	47.500	-52.998	16
+P	Concórdia do Pará	concordia do para	BR		-2.002	-47.950	3
+P	Coração de Maria	coracao de maria	BR		-12.233	-38.750	3
+P	Cobija		BO		-11.027	-68.769	11
+P	Coburg		AU	Victoria	-37.750	144.967	24
+P	La Garenne-Colombes	la garenne colombes	FR		48.905	2.247	26
+P	Comiso		IT		36.949	14.607	26
+P	Puerto Colombia		CO		10.988	-74.955	7
+P	Congleton		GB	England	53.163	-2.213	28
+P	Four Corners		US	Florida	28.333	-81.647	14
+P	Colniza		BR		-9.409	-59.025	11
+P	Colón	colon	AR		-33.897	-61.099	3
+P	Costa Rica		BR		-18.544	-53.129	11
+P	Bay Street Corridor		CA	Ontario	43.658	-79.386	14
+P	Coleraine		GB	Northern Ireland	55.133	-6.667	28
+P	Tacámbaro de Codallos	tacambaro de codallos	MX		19.236	-101.458	13
+P	Coquitlam West		CA	British Columbia	49.257	-122.879	17
+P	Concepcion Ibaba		PH		13.923	121.461	22
+P	Quinta Do Conde		PT		38.565	-9.043	28
+P	Coulsdon		GB	England	51.320	-0.141	28
+P	Colonelganj		IN		27.134	81.699	21
+P	Colleyville		US	Texas	32.881	-97.155	4
+P	Condado		BR		-7.586	-35.106	3
+P	Coração de Jesus	coracao de jesus	BR		-16.685	-44.365	3
+P	Coloncito		VE		8.326	-72.087	11
+P	Coudekerque-Branche	coudekerque branche	FR		51.023	2.394	26
+P	Coihueco		CL		-36.628	-71.831	15
+P	Cocalzinho de Goiás	cocalzinho de goias	BR		-15.794	-48.776	3
+P	Upper Coomera		AU	Queensland	-27.877	153.286	23
+P	Santeramo in Colle		IT		40.792	16.759	26
+P	Cobly		BJ		10.492	1.000	2
+P	Costa Rica		MX		24.591	-107.390	10
+P	Coronado		US	California	32.686	-117.183	12
+P	Collinsville		US	Illinois	38.670	-89.985	4
+P	Cordeirópolis	cordeiropolis	BR		-22.482	-47.457	3
+P	Dois Córregos	dois corregos	BR		-22.366	-48.380	3
+P	Coronel Brandsen		AR		-35.168	-58.237	3
+P	Codajás	codajas	BR		-3.837	-62.057	11
+P	Três Coroas	tres coroas	BR		-29.517	-50.778	3
+P	Coral Terrace		US	Florida	25.746	-80.305	14
+P	Siribala Coro		ML		14.043	-6.107	0
+P	Bois-Colombes	bois colombes	FR		48.919	2.275	26
+P	Coquitlam Town Centre		CA	British Columbia	49.277	-122.797	17
+P	Columbine		US	Colorado	39.588	-105.069	5
+P	Colonia Caroya		AR		-31.022	-64.062	3
+P	Gioia del Colle		IT		40.800	16.923	26
+P	Corsicana		US	Texas	32.095	-96.469	4
+P	Comăneşti	comanesti	RO		46.421	26.436	25
+P	Comonfort		MX		20.720	-100.761	13
+P	Conde		BR		-11.814	-37.611	3
+P	Corinto		BR		-18.381	-44.456	3
+P	Copertino		IT		40.268	18.054	26
+P	Coronel Vivida		BR		-25.980	-52.568	3
+P	Collipulli		CL		-37.955	-72.434	15
+P	Colachel		IN		8.179	77.258	21
+P	Columbus		US	Mississippi	33.496	-88.427	4
+P	Conceição do Mato Dentro	conceicao do mato dentro	BR		-19.037	-43.425	3
+P	Copiague		US	New York	40.681	-73.400	14
+P	Comrat		MD		46.295	28.657	25
+P	Colorado		BR		-22.837	-51.973	3
+P	San Antonio de Cortés	san antonio de cortes	HN		15.116	-88.041	13
+P	Columbus		US	Nebraska	41.430	-97.368	4
+P	Comillas		ES		40.394	-3.712	26
+P	Conversano		IT		40.968	17.113	26
+P	Mariano Comense		IT		45.697	9.182	26
+P	San Miguel Coatlinchán	san miguel coatlinchan	MX		19.450	-98.873	13
+P	Priego de Córdoba	priego de cordoba	ES		37.438	-4.195	26
+P	Cottage Lake		US	Washington	47.744	-122.077	12
+P	Corcoran		US	California	36.098	-119.560	12
+P	Cosoleacaque		MX		17.999	-94.636	13
+P	Conil de la Frontera		ES		36.277	-6.088	26
+P	Combs-la-Ville	combs la ville	FR		48.665	2.570	26
+P	Coswig		DE		51.132	13.583	26
+P	Converse		US	Texas	29.518	-98.316	4
+P	Cormeilles-en-Parisis	cormeilles en parisis	FR		48.971	2.205	26
+P	Costillares		ES		40.477	-3.669	26
+P	Coín	coin	ES		36.659	-4.756	26
+P	Collingwood		CA	Ontario	44.483	-80.216	14
+P	Conceição de Macabu	conceicao de macabu	BR		-22.085	-41.868	3
+P	Coronel Pringles		AR		-37.986	-61.350	3
+P	Baie-Comeau	baie comeau	CA	Quebec	49.217	-68.149	14
+P	Cordeiro		BR		-22.029	-42.361	3
+P	Concarneau		FR		47.875	-3.919	26
+P	Conda		AO		-11.109	14.336	2
+P	Conda		US	Idaho	42.728	-111.532	5
+P	Cowes		GB	England	50.763	-1.298	28
+P	Las Torres de Cotillas		ES		38.028	-1.242	26
+P	Conway		US	South Carolina	33.836	-79.048	14
+P	Corinth		US	Texas	33.154	-97.065	4
+P	Coreaú	coreau	BR		-3.551	-40.657	3
+P	Concepción	concepcion	ES		40.439	-3.649	26
+P	Contamana		PE		-7.333	-75.017	7
+P	Cognac		FR		45.696	-0.329	26
+P	Conselheiro Pena		BR		-19.172	-41.472	3
+P	Conceição da Feira	conceicao da feira	BR		-12.506	-38.999	3
+P	Cockeysville		US	Maryland	39.481	-76.644	14
+P	Colleferro		IT		41.727	13.005	26
+P	Coligny		ZA		-26.332	26.321	1
+P	Palo del Colle		IT		41.056	16.703	26
+P	Aboisso Comoé	aboisso comoe	CI		5.735	-3.403	0
+P	Lake Worth Corridor		US	Florida	26.616	-80.101	14
+P	Coralville		US	Iowa	41.676	-91.580	4
+P	New Corella		PH		7.587	125.824	22
+P	Codlea		RO		45.700	25.450	25
+P	Cota		CO		4.809	-74.098	7
+P	Cojímar	cojimar	CU		23.165	-82.301	9
+P	Cofradía	cofradia	HN		15.400	-88.150	13
+P	Porto Real do Colégio	porto real do colegio	BR		-10.186	-36.840	3
+P	Braine-le-Comte	braine le comte	BE		50.610	4.147	26
+P	Colne		GB	England	53.857	-2.169	28
+P	Cornaredo		IT		45.501	9.027	26
+P	Colombia		CU		20.986	-77.426	9
+P	Coconut Grove		US	Florida	25.713	-80.257	14
+P	Corabia		RO		43.775	24.501	25
+P	Cormano		IT		45.549	9.160	26
+P	Colfontaine		BE		50.414	3.856	26
+P	Cortlandt Manor		US	New York	41.280	-73.872	14
+P	Columbia Heights		US	Minnesota	45.041	-93.263	4
+P	Engenheiro Coelho		BR		-22.491	-47.212	3
+P	Pakistan Employees Cooperative Housing Society		PK		24.874	67.064	20
+P	Couëron	coueron	FR		47.215	-1.725	26
+P	Corner Brook		CA	Newfoundland and Labrador	48.950	-57.952	16
+P	Covington		US	Washington	47.358	-122.122	12
+P	Corinto		NI		12.482	-87.173	13
+P	Cocos		BR		-14.184	-44.534	3
+P	Corquín	corquin	HN		14.567	-88.867	13
+P	Contenda		BR		-25.679	-49.537	3
+P	Cole Harbour		CA	Nova Scotia	44.672	-63.475	8
+P	Cosquín	cosquin	AR		-31.245	-64.466	3
+P	Columbia City		US	Washington	47.564	-122.275	12
+P	Cortland		US	New York	42.601	-76.180	14
+P	Cournon-d'Auvergne	cournon dauvergne	FR		45.741	3.196	26
+P	São José da Coroa Grande	sao jose da coroa grande	BR		-8.898	-35.148	3
+P	San José de Colinas	san jose de colinas	HN		15.041	-88.302	13
+P	Compostela		PH		10.455	124.011	22
+P	Comalapa		MX		15.660	-92.141	13
+P	Colina		BR		-20.713	-48.541	3
+P	Colomoncagua		HN		13.950	-88.283	13
+P	Comodoro		BR		-13.663	-59.786	11
+P	Cotoca		BO		-17.817	-63.050	11
+P	Port Colborne		CA	Ontario	42.900	-79.233	14
+P	Creve Coeur		US	Missouri	38.661	-90.423	4
+P	Conceição	conceicao	BR		-7.562	-38.509	3
+P	Five Corners		US	Washington	45.685	-122.575	12
+P	Coalcomán de Vázquez Pallares	coalcoman de vazquez pallares	MX		18.777	-103.160	13
+P	Cobourg		CA	Ontario	43.960	-78.165	14
+P	Montigny-lès-Cormeilles	montigny les cormeilles	FR		48.982	2.200	26
+P	Colonial Heights		US	Virginia	37.268	-77.407	14
+P	Colonia		US	New Jersey	40.575	-74.302	14
+P	Cocoa		US	Florida	28.386	-80.742	14
+P	La Concepción	la concepcion	PA		8.517	-82.624	7
+P	Correntes		BR		-9.129	-36.330	3
+P	Colbún	colbun	CL		-35.695	-71.406	15
+P	Covilhã	covilha	PT		40.281	-7.505	28
+P	Compostela		MX		21.237	-104.901	10
+P	Corbélia	corbelia	BR		-24.799	-53.307	3
+P	Tillmans Corner		US	Alabama	30.590	-88.171	4
+P	Les Coteaux		CA	Quebec	45.283	-74.233	14
+P	Coventry Hills		CA	Alberta	51.169	-114.059	6
+P	Coaraci		BR		-14.641	-39.551	3
+P	Otacílio Costa	otacilio costa	BR		-27.483	-50.122	3
+P	Cocal do Sul		BR		-28.599	-49.323	3
+P	Condeixa-a-Nova	condeixa a nova	PT		40.113	-8.498	28
+P	Coronel João Sá	coronel joao sa	BR		-10.284	-37.926	3
+P	Conglin		CN		29.030	106.970	22
+P	Condeúba	condeuba	BR		-14.895	-41.969	3
+P	São Pedro da Cova	sao pedro da cova	PT		41.143	-8.500	28
+P	Colchester		US	Vermont	44.544	-73.148	14
+P	Coronda		AR		-31.974	-60.919	3
+P	Serafina Corrêa	serafina correa	BR		-28.712	-51.935	3
+P	Colwood		CA	British Columbia	48.433	-123.486	17
+P	Concord		US	Massachusetts	42.460	-71.349	14
+P	Country Club Hills		US	Illinois	41.568	-87.720	4
+P	Cobham		GB	England	51.330	-0.411	28
+P	Colle di Val d'Elsa	colle di val delsa	IT		43.421	11.127	26
+P	Sandalfoot Cove		US	Florida	26.339	-80.187	14
+P	Coalinga		US	California	36.140	-120.360	12
+P	Cohoes		US	New York	42.774	-73.700	14
+P	Cổ Lóa	co loa	VN		21.117	105.867	19
+P	Cowley		GB	England	51.732	-1.206	28
+P	Concord		US	Missouri	38.525	-90.357	4
+P	Fontenay-le-Comte	fontenay le comte	FR		46.467	-0.806	26
+P	Lagoa da Confusão	lagoa da confusao	BR		-10.794	-49.624	3
+P	Cotorra		CO		9.039	-75.790	7
+P	Coos Bay		US	Oregon	43.367	-124.218	12
+P	Río Colorado	rio colorado	AR		-38.991	-64.096	3
+P	Concordia		CO		6.046	-75.907	7
+P	West Columbia		US	South Carolina	33.993	-81.074	14
+P	Country Walk		US	Florida	25.634	-80.432	14
+P	Coorparoo		AU	Queensland	-27.493	153.058	23
+P	Cordenons		IT		45.984	12.700	26
+P	Corvera de Asturias		ES		43.536	-5.889	26
+P	Colônia Leopoldina	colonia leopoldina	BR		-8.909	-35.725	3
+P	Four Corners		US	Oregon	44.928	-122.984	12
+P	Ealing Common		GB	England	51.507	-0.295	28
+P	Codru		MD		46.976	28.819	25
+P	Conisbrough		GB	England	53.482	-1.232	28
+P	Brie-Comte-Robert	brie comte robert	FR		48.692	2.611	26
+P	Colima		CR		9.955	-84.082	13
+P	Conyers		US	Georgia	33.668	-84.018	14
+P	Lake Country		CA	British Columbia	50.009	-119.397	17
+P	Conceição do Almeida	conceicao do almeida	BR		-12.779	-39.170	3
+P	Dera Colliery Township		IN		20.953	85.172	21
+P	Correia Pinto		BR		-27.585	-50.361	3
+P	Coelemu		CL		-36.487	-72.703	15
+P	Colorado do Oeste		BR		-13.117	-60.542	11
+P	Correggio		IT		44.767	10.783	26
+P	Colonia Wanda		AR		-25.973	-54.563	3
+P	Central Coquitlam		CA	British Columbia	49.260	-122.838	17
+P	Coogee		AU	New South Wales	-33.920	151.255	24
+P	Saint-Pierre-des-Corps	saint pierre des corps	FR		47.386	0.748	26
+P	Coulommiers		FR		48.815	3.085	26
+P	Corupá	corupa	BR		-26.425	-49.243	3
+P	Coscomatepec de Bravo		MX		19.073	-97.047	13
+P	Conchas		BR		-23.015	-48.011	3
+P	Corio		AU	Victoria	-38.083	144.383	24
+P	São Félix do Coribe	sao felix do coribe	BR		-13.401	-44.195	3
+P	Corigliano Scalo		IT		39.627	16.514	26
+P	Coishco		PE		-9.023	-78.616	7
+P	Cockburn Town		TC		21.461	-71.142	14
+P	Flying Fish Cove		CX		-10.422	105.679	19

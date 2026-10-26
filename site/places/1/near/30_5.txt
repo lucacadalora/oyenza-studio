@@ -1,0 +1,39 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+C	DZ	Algeria	egyptian	s
+C	TN	Tunisia	egyptian	s
+B	0
+P	Biskra		DZ		34.850	5.728	0
+P	El Oued		DZ		33.356	6.863	0
+P	Ouargla		DZ		31.949	5.325	0
+P	Touggourt		DZ		33.111	6.070	0
+P	Gafsa		TN		34.425	8.784	0
+P	Rouissat		DZ		31.924	5.350	0
+P	Feriana		TN		34.945	8.568	0
+P	Bir el Ater		DZ		34.745	8.060	0
+P	Ouled Djellal		DZ		34.430	5.061	0
+P	Tolga		DZ		34.722	5.378	0
+P	Guemar		DZ		33.485	6.797	0
+P	El Hamma		TN		33.892	9.796	0
+P	Hassi Messaoud		DZ		31.680	6.073	0
+P	Tebesbest		DZ		33.117	6.083	0
+P	El Hadjira		DZ		32.613	5.513	0
+P	El Meghaïer	el meghaier	DZ		33.951	5.922	0
+P	Metlaoui		TN		34.321	8.402	0
+P	Tozeur		TN		33.920	8.134	0
+P	Debila		DZ		33.517	6.950	0
+P	Djamaa		DZ		33.534	5.993	0
+P	Douz		TN		33.466	9.020	0
+P	El Ksar		TN		34.399	8.804	0
+P	Megarine		DZ		33.192	6.087	0
+P	Robbah		DZ		33.280	6.910	0
+P	Sidi Amrane		DZ		33.499	6.008	0
+P	Sidi Okba		DZ		34.745	5.898	0
+P	Ar Rudayyif		TN		34.383	8.155	0
+P	Kebili		TN		33.704	8.969	0
+P	Reguiba		DZ		33.564	6.703	0
+P	Zeribet el Oued		DZ		34.683	6.511	0
+P	Nefta		TN		33.873	7.878	0
+P	Moularès	moulares	TN		34.489	8.269	0
+P	Taïbet	taibet	DZ		33.085	6.389	0
+P	Métouia	metouia	TN		33.959	9.996	0

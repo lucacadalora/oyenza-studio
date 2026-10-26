@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Pacific/Apia	780	
+Z	1	Pacific/Pago_Pago	-660	
+C	AS	American Samoa	mwl	s
+C	WS	Samoa	mwl	s
+B	0
+P	Apia		WS		-13.833	-171.767	0
+P	Pago Pago		AS		-14.278	-170.702	1

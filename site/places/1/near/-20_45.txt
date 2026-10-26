@@ -1,0 +1,55 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Indian/Antananarivo	180	
+C	MG	Madagascar	egyptian	s
+B	1
+P	Antananarivo		MG		-18.914	47.536	0
+P	Toamasina		MG		-18.149	49.402	0
+P	Antsirabe		MG		-19.866	47.033	0
+P	Mahajanga		MG		-15.717	46.317	0
+P	Imerintsiatosika		MG		-18.983	47.317	0
+P	Antanifotsy		MG		-19.650	47.317	0
+P	Moramanga		MG		-18.949	48.230	0
+P	Ivato		MG		-18.800	47.483	0
+P	Ambatondrazaka		MG		-17.833	48.417	0
+P	Tsiroanomandidy		MG		-18.770	46.047	0
+P	Maroantsetra		MG		-15.435	49.738	0
+P	Fenoarivo Atsinanana		MG		-17.381	49.408	0
+P	Soavinandriana		MG		-19.167	46.733	0
+P	Marovoay		MG		-16.111	46.644	0
+P	Mahanoro		MG		-19.900	48.800	0
+P	Andilamena		MG		-17.010	48.573	0
+P	Soanierana Ivongo		MG		-16.917	49.583	0
+P	Vavatenina		MG		-17.467	49.200	0
+P	Faratsiho		MG		-19.400	46.950	0
+P	Mananara		MG		-16.169	49.766	0
+P	Betafo		MG		-19.833	46.850	0
+P	Ambato Boeny		MG		-16.467	46.717	0
+P	Amparafaravola		MG		-17.588	48.224	0
+P	Ambatolampy		MG		-19.383	47.417	0
+P	Didy		MG		-18.117	48.533	0
+P	Ambodimanga II		MG		-17.267	49.167	0
+P	Mampikony		MG		-16.092	47.647	0
+P	Arivonimamo		MG		-19.017	47.183	0
+P	Ankazobe		MG		-18.317	47.117	0
+P	Ambodifotatra		MG		-16.983	49.850	0
+P	Maevatanana		MG		-16.950	46.833	0
+P	Miandrarivo		MG		-19.433	46.750	0
+P	Tsaratanana		MG		-16.797	47.652	0
+P	Anjozorobe		MG		-18.400	47.867	0
+P	Vohibinany		MG		-17.350	49.033	0
+P	Ambohidratrimo		MG		-18.818	47.434	0
+P	Boriziny		MG		-15.550	47.667	0
+P	Manjakandriana		MG		-18.917	47.800	0
+P	Miandrivazo		MG		-19.529	45.456	0
+P	Soanindrariny		MG		-19.900	47.233	0
+P	Sitampiky		MG		-16.667	46.100	0
+P	Ampasimanolotra		MG		-18.817	49.067	0
+P	Fenoarivo Be		MG		-18.433	46.567	0
+P	Befandriana		MG		-15.257	48.542	0
+P	Sadabe		MG		-18.633	47.700	0
+P	Ambohitrolomahitsy		MG		-18.700	47.683	0
+P	Vatomandry		MG		-19.330	48.978	0
+P	Ankazondandy		MG		-18.700	47.783	0
+P	Alarobia		MG		-18.967	47.733	0
+P	Soalala		MG		-16.100	45.317	0
+P	Imerimandroso		MG		-17.433	48.583	0

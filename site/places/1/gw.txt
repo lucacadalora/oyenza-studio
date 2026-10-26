@@ -1,0 +1,33 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Harare	120	
+Z	1	Africa/Lagos	60	
+Z	2	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	3	Asia/Karachi	300	
+Z	4	Asia/Kolkata	330	
+Z	5	Asia/Seoul	540	
+Z	6	Asia/Yangon	390	
+C	CA	Canada	moonsighting	s
+C	IN	India	karachi	h
+C	KR	South Korea	mwl	s
+C	MM	Myanmar	mwl	s
+C	NG	Nigeria	egyptian	s
+C	PK	Pakistan	karachi	h
+C	US	United States	moonsighting	s
+C	ZW	Zimbabwe	egyptian	s
+B	2
+P	Gwangju		KR		35.155	126.916	5
+P	Gwalior		IN		26.230	78.173	4
+P	Gwangmyeong		KR		37.477	126.866	5
+P	Gweru		ZW		-19.450	29.817	0
+P	Gwangyang		KR		34.941	127.696	5
+P	Gwangju		KR		37.410	127.257	5
+P	Gwadar		PK		25.122	62.325	3
+P	Gwa		MM		17.594	94.580	6
+P	Gwynn Oak		US	Maryland	39.333	-76.693	2
+P	Gwanda		ZW		-20.936	29.007	0
+P	East Gwillimbury		CA	Ontario	44.101	-79.438	2
+P	Sofo-Birnin-Gwari	sofo birnin gwari	NG		11.015	6.780	1
+P	Gwadabawa		NG		13.358	5.238	1
+P	Gwarzo		NG		11.916	7.934	1
+P	Gwaram		NG		11.277	9.884	1
+P	Gwoza		NG		11.083	13.696	1

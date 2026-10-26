@@ -1,0 +1,56 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+C	US	United States	moonsighting	s
+B	0
+P	Salt Lake City		US	Utah	40.761	-111.891	0
+P	West Valley City		US	Utah	40.692	-112.001	0
+P	Provo		US	Utah	40.234	-111.659	0
+P	West Jordan		US	Utah	40.610	-111.939	0
+P	Orem		US	Utah	40.297	-111.695	0
+P	Sandy Hills		US	Utah	40.581	-111.851	0
+P	Sandy		US	Utah	40.592	-111.884	0
+P	Ogden		US	Utah	41.223	-111.974	0
+P	Layton		US	Utah	41.060	-111.971	0
+P	South Jordan		US	Utah	40.562	-111.930	0
+P	Millcreek		US	Utah	40.687	-111.875	0
+P	Taylorsville		US	Utah	40.668	-111.939	0
+P	Idaho Falls		US	Idaho	43.467	-112.034	0
+P	Lehi		US	Utah	40.392	-111.851	0
+P	Pocatello		US	Idaho	42.871	-112.446	0
+P	Logan		US	Utah	41.735	-111.834	0
+P	Murray		US	Utah	40.667	-111.888	0
+P	Twin Falls		US	Idaho	42.563	-114.461	0
+P	Draper		US	Utah	40.525	-111.864	0
+P	Bountiful		US	Utah	40.889	-111.881	0
+P	Riverton		US	Utah	40.522	-111.939	0
+P	Pleasant Grove		US	Utah	40.364	-111.739	0
+P	Roy		US	Utah	41.162	-112.026	0
+P	Spanish Fork		US	Utah	40.115	-111.655	0
+P	South Jordan Heights		US	Utah	40.564	-111.949	0
+P	Kearns		US	Utah	40.660	-111.996	0
+P	Cottonwood Heights		US	Utah	40.620	-111.810	0
+P	Tooele		US	Utah	40.531	-112.298	0
+P	Midvale		US	Utah	40.611	-111.900	0
+P	Springville		US	Utah	40.165	-111.611	0
+P	Holladay		US	Utah	40.669	-111.825	0
+P	Herriman		US	Utah	40.514	-112.033	0
+P	Clearfield		US	Utah	41.111	-112.026	0
+P	Kaysville		US	Utah	41.035	-111.939	0
+P	American Fork		US	Utah	40.377	-111.796	0
+P	Rexburg		US	Idaho	43.826	-111.790	0
+P	Syracuse		US	Utah	41.089	-112.065	0
+P	Eagle Mountain		US	Utah	40.314	-112.007	0
+P	Magna		US	Utah	40.709	-112.102	0
+P	Saratoga Springs		US	Utah	40.349	-111.905	0
+P	South Salt Lake		US	Utah	40.719	-111.888	0
+P	Farmington		US	Utah	40.980	-111.887	0
+P	Clinton		US	Utah	41.140	-112.050	0
+P	Conda		US	Idaho	42.728	-111.532	0
+P	East Millcreek		US	Utah	40.700	-111.810	0
+P	North Salt Lake		US	Utah	40.849	-111.907	0
+P	Payson		US	Utah	40.044	-111.732	0
+P	Brigham City		US	Utah	41.510	-112.016	0
+P	North Ogden		US	Utah	41.307	-111.960	0
+P	Highland		US	Utah	40.425	-111.794	0
+P	South Ogden		US	Utah	41.192	-111.971	0
+P	Centerville		US	Utah	40.918	-111.872	0

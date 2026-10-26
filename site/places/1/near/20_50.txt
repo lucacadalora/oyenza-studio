@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dubai	240	
+C	AE	United Arab Emirates	dubai	s
+B	1
+P	Abu Dhabi		AE		24.451	54.397	0
+P	Musaffah		AE		24.359	54.483	0
+P	Khalifah A City		AE		24.426	54.605	0
+P	Mohammed Bin Zayed City		AE		24.348	54.554	0
+P	Bani Yas City		AE		24.310	54.629	0
+P	Zayed City		AE		23.654	53.705	0
+P	Al Shamkhah City		AE		24.393	54.708	0
+P	Ar Ruways		AE		24.110	52.731	0

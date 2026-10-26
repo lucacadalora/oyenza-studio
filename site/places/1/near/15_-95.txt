@@ -1,0 +1,71 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Merida	-360	
+C	GT	Guatemala	mwl	s
+C	MX	Mexico	mwl	s
+B	0
+P	Tuxtla		MX		16.754	-93.116	0
+P	Villahermosa		MX		17.986	-92.939	0
+P	Coatzacoalcos		MX		18.149	-94.445	0
+P	Campeche		MX		19.841	-90.517	0
+P	San Cristóbal de las Casas	san cristobal de las casas	MX		16.730	-92.638	0
+P	Cobán	coban	GT		15.470	-90.375	0
+P	Ciudad del Carmen		MX		18.646	-91.830	0
+P	Comitán	comitan	MX		16.240	-92.137	0
+P	Minatitlán	minatitlan	MX		18.000	-94.557	0
+P	Cárdenas	cardenas	MX		18.001	-93.376	0
+P	Paraiso		MX		18.401	-93.214	0
+P	Huehuetenango		GT		15.321	-91.470	0
+P	Santa Cruz del Quiché	santa cruz del quiche	GT		15.030	-91.149	0
+P	Salamá	salama	GT		15.102	-90.319	0
+P	Comitancillo		GT		15.089	-91.750	0
+P	Acayucan		MX		17.950	-94.914	0
+P	Pijijiapan		MX		15.686	-93.209	0
+P	Soloma		GT		15.658	-91.430	0
+P	Chiapa de Corzo		MX		16.707	-93.012	0
+P	Palenque		MX		17.509	-91.981	0
+P	Las Choapas		MX		17.912	-94.096	0
+P	Cintalapa de Figueroa		MX		16.684	-93.718	0
+P	Ocosingo		MX		16.906	-92.093	0
+P	Comalcalco		MX		18.265	-93.224	0
+P	Ocozocoautla de Espinosa		MX		16.761	-93.374	0
+P	Villaflores		MX		16.234	-93.270	0
+P	Jacaltenango		GT		15.667	-91.712	0
+P	Agua Dulce		MX		18.139	-94.145	0
+P	Tonalá	tonala	MX		16.090	-93.755	0
+P	Jáltipan de Morelos	jaltipan de morelos	MX		17.965	-94.714	0
+P	Tenosique		MX		17.473	-91.424	0
+P	Macuspana		MX		17.761	-92.595	0
+P	Huixtla		MX		15.139	-92.463	0
+P	Momostenango		GT		15.044	-91.409	0
+P	Champotón	champoton	MX		19.342	-90.723	0
+P	Escárcega	escarcega	MX		18.609	-90.745	0
+P	Berriozábal	berriozabal	MX		16.799	-93.272	0
+P	Huimanguillo		MX		17.835	-93.389	0
+P	Teapa		MX		17.556	-92.948	0
+P	Río de Teapa	rio de teapa	MX		17.775	-92.902	0
+P	Reforma		MX		17.859	-93.154	0
+P	Nanchital de Lázaro Cárdenas del Río	nanchital de lazaro cardenas del rio	MX		18.071	-94.408	0
+P	Arriaga		MX		16.236	-93.900	0
+P	Motozintla		MX		15.366	-92.247	0
+P	Allende		MX		18.154	-94.394	0
+P	Nebaj		GT		15.406	-91.147	0
+P	Cabricán	cabrican	GT		15.075	-91.648	0
+P	Frontera		MX		18.543	-92.645	0
+P	Cosoleacaque		MX		17.999	-94.636	0
+P	Playas del Rosario		MX		17.853	-92.932	0
+P	Las Margaritas		MX		16.313	-91.982	0
+P	Emiliano Zapata		MX		17.741	-91.766	0
+P	Cunduacán	cunduacan	MX		18.066	-93.173	0
+P	San Cristóbal Verapaz	san cristobal verapaz	GT		15.367	-90.478	0
+P	Las Rosas		MX		16.366	-92.371	0
+P	Comalapa		MX		15.660	-92.141	0
+P	Mapastepec		MX		15.434	-92.900	0
+P	Chisec		GT		15.813	-90.289	0
+P	Suchiapa		MX		16.625	-93.099	0
+P	Yajalón	yajalon	MX		17.173	-92.334	0
+P	San Pedro Carchá	san pedro carcha	GT		15.477	-90.311	0
+P	Teopisca		MX		16.541	-92.473	0
+P	Fraccionamiento Ciudad Olmeca		MX		18.151	-94.552	0
+P	Jalpa de Méndez	jalpa de mendez	MX		18.177	-93.064	0
+P	Venustiano Carranza		MX		16.339	-92.563	0
+P	Rabinal		GT		15.085	-90.493	0

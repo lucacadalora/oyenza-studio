@@ -1,0 +1,54 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Pyongyang	540	
+Z	1	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	KP	North Korea	mwl	s
+B	4
+P	Shenyang		CN		41.792	123.433	1
+P	Anshan		CN		41.124	122.990	1
+P	Fushun		CN		41.887	123.944	1
+P	Panjin		CN		41.121	122.074	1
+P	Benxi		CN		41.289	123.765	1
+P	Huludao		CN		40.752	120.836	1
+P	Fuxin		CN		42.016	121.659	1
+P	Liaoyang		CN		41.272	123.173	1
+P	Dandong		CN		40.129	124.395	1
+P	Panshan		CN		41.188	122.049	1
+P	Jinzhou		CN		41.108	121.142	1
+P	Yingkou		CN		40.665	122.232	1
+P	Siping		CN		43.161	124.378	1
+P	Chaoyang		CN		41.570	120.459	1
+P	Tieling		CN		42.293	123.841	1
+P	Lianshan		CN		40.764	120.853	1
+P	Sinŭiju	sinuiju	KP		40.101	124.398	0
+P	Tongliao		CN		43.612	122.265	1
+P	Haicheng		CN		40.852	122.748	1
+P	Beipiao		CN		41.792	120.779	1
+P	Dongling		CN		41.814	123.576	1
+P	Nanpiao		CN		41.098	120.748	1
+P	Beining		CN		41.596	121.793	1
+P	Sujiatun		CN		41.659	123.339	1
+P	Gongzhuling		CN		43.501	124.820	1
+P	Jiupu		CN		41.067	122.950	1
+P	Fengcheng		CN		40.454	124.072	1
+P	Kaiyuan		CN		42.533	124.040	1
+P	Xingcheng		CN		40.617	120.717	1
+P	Shuangliao		CN		43.511	123.501	1
+P	Dashiqiao		CN		40.637	122.503	1
+P	Xinmin		CN		41.991	122.825	1
+P	Xiuyan		CN		40.293	123.274	1
+P	Changtu		CN		42.779	124.095	1
+P	Kuandian		CN		40.729	124.785	1
+P	Gongchangling		CN		41.117	123.450	1
+P	Xiaoshi		CN		41.297	124.121	1
+P	Heishan		CN		41.689	122.113	1
+P	Kaitong		CN		44.809	123.081	1
+P	Hushitai		CN		41.942	123.503	1
+P	Lishu		CN		43.307	124.334	1
+P	Xifeng		CN		42.737	124.722	1
+P	Langtoucun		CN		40.041	124.335	1
+P	Nantai		CN		40.924	122.804	1
+P	Linghai		CN		41.165	121.367	1
+P	Changling		CN		44.273	123.976	1
+P	Liaozhong		CN		41.506	122.724	1
+P	Uiju		KP		40.199	124.532	0

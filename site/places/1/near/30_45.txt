@@ -1,0 +1,97 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baghdad	180	
+Z	1	Asia/Tehran	210	
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+B	2
+P	Al Başrah al Qadīmah	al basrah al qadimah	IQ		30.503	47.815	0
+P	Basrah		IQ		30.509	47.780	0
+P	Ahvaz		IR		31.319	48.684	1
+P	Kermanshah		IR		34.314	47.065	1
+P	Nasiriyah		IQ		31.058	46.257	0
+P	Hamadān	hamadan	IR		34.799	48.515	1
+P	Arāk	arak	IR		34.095	49.698	1
+P	Abū al-Kahṣīb	abu al kahsib	IQ		30.443	47.878	0
+P	Khorramshahr		IR		30.441	48.184	1
+P	Khorramabad		IR		33.488	48.356	1
+P	Al ‘Amārah	al amarah	IQ		31.836	47.145	0
+P	Al-Kut	al kut	IQ		32.513	45.818	0
+P	Dezful		IR		32.381	48.406	1
+P	Al Madīnah	al madinah	IQ		30.963	47.270	0
+P	Borūjerd	borujerd	IR		33.897	48.752	1
+P	Kelar		IQ		34.628	45.319	0
+P	Abadan		IR		30.339	48.304	1
+P	Ash Shaţrah	ash shatrah	IQ		31.409	46.173	0
+P	Khānaqīn	khanaqin	IQ		34.348	45.391	0
+P	Malāyer	malayer	IR		34.302	48.822	1
+P	Bandar-e Māhshahr	bandar e mahshahr	IR		30.557	49.189	1
+P	As Samawah		IQ		31.332	45.294	0
+P	Īlām	ilam	IR		33.637	46.423	1
+P	Andīmeshk	andimeshk	IR		32.462	48.354	1
+P	Al Qurnah		IQ		31.015	47.434	0
+P	Az Zubayr		IQ		30.392	47.702	0
+P	Dorūd	dorud	IR		33.492	49.062	1
+P	Īz̄eh	izeh	IR		31.830	49.868	1
+P	Qal‘at Sukkar	qalat sukkar	IQ		31.863	46.073	0
+P	An Nu‘mānīyah	an numaniyah	IQ		32.556	45.413	0
+P	Umm Qaşr	umm qasr	IQ		30.036	47.920	0
+P	Shūshtar	shushtar	IR		32.050	48.848	1
+P	Masjed Soleymān	masjed soleyman	IR		31.936	49.304	1
+P	Al Hārithah	al harithah	IQ		30.585	47.761	0
+P	Eslāmābād-e Gharb	eslamabad e gharb	IR		34.109	46.530	1
+P	Alīgūdarz	aligudarz	IR		33.404	49.692	1
+P	Kūhdasht	kuhdasht	IR		33.533	47.610	1
+P	Bandar-e Emam Khomeyni	bandar e emam khomeyni	IR		30.437	49.103	1
+P	Al Ḩayy	al hayy	IQ		32.174	46.043	0
+P	Shūsh	shush	IR		32.194	48.244	1
+P	Nahāvand	nahavand	IR		34.191	48.374	1
+P	Rāmhormoz	ramhormoz	IR		31.280	49.604	1
+P	Omīdīyeh	omidiyeh	IR		30.763	49.702	1
+P	Nūrābād	nurabad	IR		34.073	47.972	1
+P	Harsīn	harsin	IR		34.272	47.586	1
+P	Kāmyārān	kamyaran	IR		34.795	46.937	1
+P	Kūt-e ‘Abdollāh	kut e abdollah	IR		31.239	48.656	1
+P	Asadābād	asadabad	IR		34.782	48.120	1
+P	Javānrūd	javanrud	IR		34.807	46.491	1
+P	Sūsangerd	susangerd	IR		31.564	48.190	1
+P	Kangāvar	kangavar	IR		34.504	47.965	1
+P	Tūyserkān	tuyserkan	IR		34.551	48.444	1
+P	Aznā	azna	IR		33.456	49.456	1
+P	Aznā	azna	IR		33.609	48.931	1
+P	Ar Rumaythah		IQ		31.528	45.204	0
+P	Dehlorān	dehloran	IR		32.694	47.268	1
+P	Sarpol-e Z̄ahāb	sarpol e zahab	IR		34.461	45.863	1
+P	Al ‘Azīzīyah	al aziziyah	IQ		32.909	45.064	0
+P	Sonqor		IR		34.782	47.599	1
+P	Shādegān	shadegan	IR		30.649	48.665	1
+P	Qal‘at Şāliḩ	qalat salih	IQ		31.528	47.294	0
+P	Sheybān	sheyban	IR		31.408	48.795	1
+P	‘Afak	afak	IQ		32.064	45.247	0
+P	Şaḩneh	sahneh	IR		34.481	47.691	1
+P	Chamrān	chamran	IR		30.708	49.163	1
+P	Eyvān	eyvan	IR		33.827	46.310	1
+P	Mandalī	mandali	IQ		33.748	45.555	0
+P	Karahrūd	karahrud	IR		34.061	49.645	1
+P	Hendījān	hendijan	IR		30.236	49.712	1
+P	Bahār	bahar	IR		34.907	48.441	1
+P	Aleshtar		IR		33.864	48.263	1
+P	Poldokhtar		IR		33.152	47.710	1
+P	Bāgh-e Malek	bagh e malek	IR		31.524	49.886	1
+P	Rāmshīr	ramshir	IR		30.893	49.408	1
+P	Darreh Shahr		IR		33.144	47.380	1
+P	Ravānsar	ravansar	IR		34.715	46.653	1
+P	Gotvand		IR		32.246	48.813	1
+P	Ābdānān	abdanan	IR		32.993	47.420	1
+P	Şafwān	safwan	IQ		30.116	47.716	0
+P	Ḥamīdiyeh	hamidiyeh	IR		31.483	48.433	1
+P	Aghajari		IR		30.701	49.831	1
+P	Nāḩiyat al Fuhūd	nahiyat al fuhud	IQ		30.970	46.723	0
+P	Shāzand	shazand	IR		33.931	49.406	1
+P	Mahājerān	mahajeran	IR		34.050	49.435	1
+P	‘Alī al Gharbī	ali al gharbi	IQ		32.462	46.688	0
+P	Hoveyzeh		IR		31.462	48.074	1
+P	Qaşr-e Shīrīn	qasr e shirin	IR		34.516	45.579	1
+P	Lālī	lali	IR		32.330	49.093	1
+P	‘Eyn-e Do	eyn e do	IR		31.346	48.601	1
+P	Haftkel		IR		31.447	49.530	1
+P	Veys		IR		31.486	48.875	1

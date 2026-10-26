@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Krasnoyarsk	420	
+C	RU	Russia	mwl	s
+B	1
+P	Krasnoyarsk		RU		56.037	92.931	0
+P	Achinsk		RU		56.268	90.501	0
+P	Zheleznogorsk		RU		56.251	93.531	0
+P	Zelenogorsk		RU		56.109	94.587	0
+P	Lesosibirsk		RU		58.235	92.484	0
+P	Nazarovo		RU		56.011	90.417	0
+P	Sosnovoborsk		RU		56.122	93.338	0
+P	Divnogorsk		RU		55.957	92.378	0
+P	Berëzovka	berezovka	RU		56.037	93.127	0
+P	Yeniseysk		RU		58.451	92.172	0
+P	Borodino		RU		55.908	94.912	0

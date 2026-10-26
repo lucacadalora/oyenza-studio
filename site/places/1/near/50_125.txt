@@ -1,0 +1,13 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+Z	1	Asia/Yakutsk	540	
+C	CN	China	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Blagoveshchensk		RU		50.276	127.526	1
+P	Heihe		CN		50.244	127.490	0
+P	Belogorsk		RU		50.912	128.512	1
+P	Svobodnyy		RU		51.375	128.140	1
+P	Zeya		RU		53.736	127.256	1
+P	Shimanovsk		RU		52.003	127.676	1
+P	Chigiri		RU		50.336	127.512	1

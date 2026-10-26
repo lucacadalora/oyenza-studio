@@ -1,0 +1,78 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Minsk	180	
+Z	1	Europe/Vilnius	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	BY	Belarus	mwl	s
+C	LT	Lithuania	mwl	s
+C	UA	Ukraine	mwl	s
+B	1
+P	Minsk		BY		53.900	27.567	0
+P	Vilnius		LT		54.689	25.280	1
+P	Zhytomyr		UA		50.262	28.679	1
+P	Rivne		UA		50.620	26.237	1
+P	Lutsk		UA		50.758	25.350	1
+P	Bobruysk		BY		53.147	29.205	0
+P	Baranovichi		BY		53.133	26.008	0
+P	Bohuniya		UA		50.277	28.610	1
+P	Barysaw		BY		54.228	28.505	0
+P	Pinsk		BY		52.122	26.067	0
+P	Korolyov		UA		50.245	28.700	1
+P	Mazyr		BY		52.042	29.216	0
+P	Lida		BY		53.883	25.300	0
+P	Soligorsk		BY		52.790	27.536	0
+P	Maladziečna	maladziecna	BY		54.317	26.854	0
+P	Horad Zhodzina		BY		54.099	28.333	0
+P	Svetlogorsk		BY		52.633	29.739	0
+P	Korosten		UA		50.951	28.639	1
+P	Slutsk		BY		53.015	27.542	0
+P	Zvyahel		UA		50.591	27.609	1
+P	Slonim		BY		53.088	25.317	0
+P	Fastiv		UA		50.078	29.920	1
+P	Varash		UA		51.340	25.855	1
+P	Shepetivka		UA		50.181	27.065	1
+P	Antakalnis		LT		54.708	25.317	1
+P	Dubno		UA		50.408	25.762	1
+P	Fabijoniškės	fabijoniskes	LT		54.733	25.242	1
+P	Naujoji Vilnia		LT		54.695	25.420	1
+P	Kalinkovichi		BY		52.132	29.326	0
+P	Netishyn		UA		50.329	26.649	1
+P	Šeškinė	seskine	LT		54.710	25.251	1
+P	Smarhoń	smarhon	BY		54.480	26.396	0
+P	Slavuta		UA		50.296	26.866	1
+P	Naujininkai		LT		54.664	25.284	1
+P	Pašilaičiai	pasilaiciai	LT		54.734	25.219	1
+P	Karoliniškės	karoliniskes	LT		54.690	25.219	1
+P	Lazdynai		LT		54.668	25.207	1
+P	Justiniškės	justiniskes	LT		54.717	25.217	1
+P	Kostopil		UA		50.877	26.448	1
+P	Dzyarzhynsk		BY		53.685	27.132	0
+P	Sarny		UA		51.339	26.607	1
+P	Osipovichi		BY		53.306	28.629	0
+P	Naujamiestis		LT		54.680	25.269	1
+P	Novogrudok		BY		53.594	25.819	0
+P	Vileyka		BY		54.491	26.911	0
+P	Malyn		UA		50.768	29.242	1
+P	Zdolbuniv		UA		50.522	26.248	1
+P	Smaliavičy	smaliavicy	BY		54.025	28.089	0
+P	Korostyshiv		UA		50.317	29.058	1
+P	Luninyets		BY		52.249	26.801	0
+P	Brody		UA		50.089	25.146	1
+P	Ivatsevichi		BY		52.708	25.335	0
+P	Vilkpėdė	vilkpede	LT		54.670	25.248	1
+P	Kremenets		UA		50.099	25.728	1
+P	Polonne		UA		50.119	27.509	1
+P	Pilaitė	pilaite	LT		54.700	25.184	1
+P	Mar’ina Gorka	marina gorka	BY		53.509	28.147	0
+P	Fanipol		BY		53.750	27.333	0
+P	Stowbtsy		BY		53.480	26.735	0
+P	Lyepyel’	lyepyel	BY		54.881	28.699	0
+P	Zaslawye		BY		54.011	27.270	0
+P	Kalodzishchy		BY		53.944	27.782	0
+P	Oshmyany		BY		54.418	25.937	0
+P	Iziaslav		UA		50.120	26.825	1
+P	Nesvizh		BY		53.222	26.677	0
+P	Ivanovo		BY		52.147	25.532	0
+P	Žytkavičy	zytkavicy	BY		52.217	27.856	0
+P	Logoysk		BY		54.206	27.851	0
+P	Ovruch		UA		51.327	28.802	1
+P	Astraviec		BY		54.614	25.955	0
+P	Radomyshl		UA		50.496	29.230	1

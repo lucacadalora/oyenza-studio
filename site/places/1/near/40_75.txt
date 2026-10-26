@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+Z	1	Asia/Bishkek	360	
+C	KG	Kyrgyzstan	mwl	h
+C	KZ	Kazakhstan	mwl	h
+B	1
+P	Almaty		KZ		43.252	76.912	0
+P	Karakol		KG		42.490	78.392	1
+P	Tokmok		KG		42.842	75.301	1
+P	Balykchy		KG		42.460	76.187	1
+P	Talghar		KZ		43.302	77.238	0
+P	Konayev		KZ		43.867	77.063	0
+P	Naryn		KG		41.428	75.996	1
+P	Esik		KZ		43.355	77.452	0
+P	Shelek		KZ		43.596	78.257	0
+P	Tekeli		KZ		44.868	78.728	0
+P	Burunday		KZ		43.356	76.855	0
+P	Otegen Batyra		KZ		43.418	77.022	0
+P	Ivanovka		KG		42.888	75.085	1
+P	Kyzyl-Suu	kyzyl suu	KG		42.342	78.006	1

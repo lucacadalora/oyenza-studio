@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Araguaina	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Palmas		BR		-10.167	-48.328	0
+P	Luis Eduardo Magalhães	luis eduardo magalhaes	BR		-12.091	-45.785	0
+P	Gurupi		BR		-11.729	-49.069	0
+P	Porto Nacional		BR		-10.708	-48.417	0
+P	Paraíso do Tocantins	paraiso do tocantins	BR		-10.176	-48.867	0
+P	Porangatu		BR		-13.441	-49.149	0
+P	Uruaçu	uruacu	BR		-14.525	-49.141	0
+P	Niquelândia	niquelandia	BR		-14.474	-48.460	0
+P	Posse		BR		-14.093	-46.369	0
+P	Corrente		BR		-10.443	-45.162	0
+P	Minaçu	minacu	BR		-13.533	-48.220	0
+P	Formosa do Rio Preto		BR		-11.048	-45.193	0
+P	Itapaci		BR		-14.951	-49.549	0
+P	Formoso do Araguaia		BR		-11.797	-49.529	0
+P	Campos Belos		BR		-13.037	-46.772	0
+P	Dianópolis	dianopolis	BR		-11.628	-46.821	0
+P	Crixás	crixas	BR		-14.549	-49.969	0
+P	Lagoa da Confusão	lagoa da confusao	BR		-10.794	-49.624	0

@@ -1,0 +1,230 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	CA	Canada	moonsighting	s
+C	US	United States	moonsighting	s
+B	1
+P	Toronto		CA	Ontario	43.706	-79.399	0
+P	Mississauga		CA	Ontario	43.579	-79.658	0
+P	Brampton		CA	Ontario	43.683	-79.766	0
+P	Hamilton		CA	Ontario	43.250	-79.850	0
+P	Etobicoke		CA	Ontario	43.644	-79.570	0
+P	Markham		CA	Ontario	43.867	-79.266	0
+P	Vaughan		CA	Ontario	43.836	-79.498	0
+P	Pittsburgh		US	Pennsylvania	40.441	-79.996	0
+P	Buffalo		US	New York	42.886	-78.878	0
+P	Oakville		CA	Ontario	43.450	-79.683	0
+P	Rochester		US	New York	43.155	-77.616	0
+P	Richmond Hill		CA	Ontario	43.871	-79.437	0
+P	Burlington		CA	Ontario	43.386	-79.837	0
+P	Oshawa		CA	Ontario	43.900	-78.850	0
+P	Barrie		CA	Ontario	44.400	-79.666	0
+P	Syracuse		US	New York	43.048	-76.147	0
+P	Whitby		CA	Ontario	43.883	-78.933	0
+P	St. Catharines	st catharines	CA	Ontario	43.171	-79.243	0
+P	Milton		CA	Ontario	43.517	-79.883	0
+P	Kingston		CA	Ontario	44.230	-76.481	0
+P	Amherst		US	New York	42.978	-78.800	0
+P	Allentown		US	Pennsylvania	40.608	-75.490	0
+P	Ajax		CA	Ontario	43.850	-79.033	0
+P	Niagara Falls		CA	Ontario	43.100	-79.066	0
+P	Pickering		CA	Ontario	43.900	-79.133	0
+P	Newmarket		CA	Ontario	44.050	-79.466	0
+P	Reading		US	Pennsylvania	40.336	-75.927	0
+P	Peterborough		CA	Ontario	44.300	-78.316	0
+P	Willowdale		CA	Ontario	43.767	-79.399	0
+P	Scranton		US	Pennsylvania	41.409	-75.665	0
+P	Caledon		CA	Ontario	43.865	-79.993	0
+P	Stoney Creek		CA	Ontario	43.217	-79.766	0
+P	Cheektowaga		US	New York	42.903	-78.755	0
+P	Bethlehem		US	Pennsylvania	40.626	-75.370	0
+P	Waterfront Communities-The Island	waterfront communities the island	CA	Ontario	43.634	-79.377	0
+P	Halton Hills		CA	Ontario	43.640	-79.931	0
+P	Utica		US	New York	43.101	-75.233	0
+P	Lancaster		US	Pennsylvania	40.038	-76.306	0
+P	Clay		US	New York	43.186	-76.172	0
+P	Aurora		CA	Ontario	44.000	-79.466	0
+P	Abington		US	Pennsylvania	40.121	-75.118	0
+P	Woburn		CA	Ontario	43.767	-79.228	0
+P	Welland		CA	Ontario	42.983	-79.250	0
+P	Irondequoit		US	New York	43.213	-77.580	0
+P	Belleville		CA	Ontario	44.167	-77.383	0
+P	Willowdale East		CA	Ontario	43.771	-79.401	0
+P	Harrisburg		US	Pennsylvania	40.274	-76.884	0
+P	Whitchurch-Stouffville	whitchurch stouffville	CA	Ontario	44.000	-79.316	0
+P	Niagara Falls		US	New York	43.094	-79.057	0
+P	Oxford Circle		US	Pennsylvania	40.050	-75.072	0
+P	Rouge		CA	Ontario	43.804	-79.166	0
+P	Binghamton		US	New York	42.099	-75.918	0
+P	Altoona		US	Pennsylvania	40.519	-78.395	0
+P	West Seneca		US	New York	42.850	-78.800	0
+P	Penn Hills		US	Pennsylvania	40.501	-79.839	0
+P	Georgetown		CA	Ontario	43.650	-79.916	0
+P	L'Amoreaux	lamoreaux	CA	Ontario	43.796	-79.314	0
+P	Islington-City Centre West	islington city centre west	CA	Ontario	43.633	-79.543	0
+P	Malvern		CA	Ontario	43.809	-79.223	0
+P	Quinte West		CA	Ontario	44.183	-77.566	0
+P	Innisfil		CA	Ontario	44.300	-79.650	0
+P	Henrietta		US	New York	43.059	-77.612	0
+P	State College		US	Pennsylvania	40.793	-77.860	0
+P	Wilkes-Barre	wilkes barre	US	Pennsylvania	41.246	-75.881	0
+P	Ancaster		CA	Ontario	43.218	-79.987	0
+P	Bowmanville		CA	Ontario	43.917	-78.683	0
+P	Olney		US	Pennsylvania	40.041	-75.124	0
+P	West Oak Lane		US	Pennsylvania	40.069	-75.166	0
+P	Stouffville		CA	Ontario	43.967	-79.250	0
+P	Dovercourt-Wallace Emerson-Junction	dovercourt wallace emerson junction	CA	Ontario	43.666	-79.439	0
+P	Brighton		US	New York	43.148	-77.551	0
+P	Downsview-Roding-CFB	downsview roding cfb	CA	Ontario	43.733	-79.490	0
+P	Parkwoods-Donalda	parkwoods donalda	CA	Ontario	43.755	-79.330	0
+P	Norristown		US	Pennsylvania	40.121	-75.340	0
+P	Mimico		CA	Ontario	43.616	-79.513	0
+P	West Humber-Clairville	west humber clairville	CA	Ontario	43.716	-79.596	0
+P	Somerton		US	Pennsylvania	40.123	-75.015	0
+P	Mount Olive-Silverstone-Jamestown	mount olive silverstone jamestown	CA	Ontario	43.747	-79.587	0
+P	Bustleton		US	Pennsylvania	40.083	-75.032	0
+P	Rome		US	New York	43.213	-75.456	0
+P	Cicero		US	New York	43.176	-76.119	0
+P	Church-Yonge Corridor	church yonge corridor	CA	Ontario	43.660	-79.379	0
+P	Niagara		CA	Ontario	43.645	-79.407	0
+P	Orillia		CA	Ontario	44.609	-79.421	0
+P	Wayne		US	Pennsylvania	40.044	-75.388	0
+P	Radnor		US	Pennsylvania	40.046	-75.360	0
+P	Ithaca		US	New York	42.441	-76.497	0
+P	North Tonawanda		US	New York	43.039	-78.864	0
+P	Fort Erie		CA	Ontario	42.900	-78.933	0
+P	Annex		CA	Ontario	43.672	-79.404	0
+P	Glenfield-Jane Heights	glenfield jane heights	CA	Ontario	43.746	-79.513	0
+P	Jamestown		US	New York	42.097	-79.235	0
+P	Bendale		CA	Ontario	43.767	-79.253	0
+P	Mount Pleasant West		CA	Ontario	43.704	-79.393	0
+P	Williamsport		US	Pennsylvania	41.241	-77.001	0
+P	Agincourt North		CA	Ontario	43.804	-79.275	0
+P	Elmira		US	New York	42.090	-76.808	0
+P	Monroeville		US	Pennsylvania	40.421	-79.788	0
+P	Holmesburg		US	Pennsylvania	40.041	-75.028	0
+P	Vestal		US	New York	42.085	-76.054	0
+P	Wexford/Maryvale	wexford maryvale	CA	Ontario	43.749	-79.299	0
+P	South Riverdale		CA	Ontario	43.649	-79.336	0
+P	Banbury-Don Mills	banbury don mills	CA	Ontario	43.738	-79.350	0
+P	York University Heights		CA	Ontario	43.766	-79.489	0
+P	Plum		US	Pennsylvania	40.500	-79.749	0
+P	Tam O'Shanter-Sullivan	tam oshanter sullivan	CA	Ontario	43.780	-79.295	0
+P	West Hill		CA	Ontario	43.767	-79.180	0
+P	Grimsby		CA	Ontario	43.200	-79.566	0
+P	Don Valley Village		CA	Ontario	43.783	-79.354	0
+P	Auburn		US	New York	42.932	-76.566	0
+P	Clairlea-Birchmount	clairlea birchmount	CA	Ontario	43.714	-79.281	0
+P	Back Mountain		US	Pennsylvania	41.336	-75.996	0
+P	Easton		US	Pennsylvania	40.688	-75.221	0
+P	Bolton		CA	Ontario	43.880	-79.738	0
+P	Watertown		US	New York	43.975	-75.911	0
+P	Milliken		CA	Ontario	43.825	-79.299	0
+P	Westminster-Branson	westminster branson	CA	Ontario	43.779	-79.452	0
+P	Bay Street Corridor		CA	Ontario	43.658	-79.386	0
+P	Rhawnhurst		US	Pennsylvania	40.062	-75.056	0
+P	Lebanon		US	Pennsylvania	40.341	-76.411	0
+P	Prince Edward		CA	Ontario	44.000	-77.249	0
+P	Stonegate-Queensway	stonegate queensway	CA	Ontario	43.636	-79.501	0
+P	Dorset Park		CA	Ontario	43.754	-79.282	0
+P	Brooklin		CA	Ontario	43.958	-78.960	0
+P	East Amherst		US	New York	43.018	-78.697	0
+P	Whitehall Township		US	Pennsylvania	40.667	-75.500	0
+P	Hazleton		US	Pennsylvania	40.958	-75.975	0
+P	Steeles		CA	Ontario	43.812	-79.331	0
+P	Waterdown		CA	Ontario	43.333	-79.883	0
+P	Midland		CA	Ontario	44.750	-79.883	0
+P	Lawndale		US	Pennsylvania	40.050	-75.092	0
+P	East Gwillimbury		CA	Ontario	44.101	-79.438	0
+P	High Park-Swansea	high park swansea	CA	Ontario	43.645	-79.468	0
+P	Brockville		CA	Ontario	44.591	-75.687	0
+P	Newtonbrook West		CA	Ontario	43.786	-79.431	0
+P	Agincourt South-Malvern West	agincourt south malvern west	CA	Ontario	43.789	-79.266	0
+P	Frankford		US	Pennsylvania	40.014	-75.079	0
+P	Bedford Park-Nortown	bedford park nortown	CA	Ontario	43.731	-79.420	0
+P	Eglinton East		CA	Ontario	43.739	-79.246	0
+P	Pottstown		US	Pennsylvania	40.245	-75.650	0
+P	Englemount-Lawrence	englemount lawrence	CA	Ontario	43.720	-79.437	0
+P	Birchcliffe-Cliffside	birchcliffe cliffside	CA	Ontario	43.695	-79.265	0
+P	Rockcliffe-Smythe	rockcliffe smythe	CA	Ontario	43.675	-79.494	0
+P	High Park North		CA	Ontario	43.656	-79.475	0
+P	Willowridge-Martingrove-Richview	willowridge martingrove richview	CA	Ontario	43.684	-79.554	0
+P	Kingsview Village-The Westway	kingsview village the westway	CA	Ontario	43.699	-79.548	0
+P	Flemingdon Park		CA	Ontario	43.718	-79.332	0
+P	Logan		US	Pennsylvania	40.028	-75.152	0
+P	South Parkdale		CA	Ontario	43.637	-79.439	0
+P	Black Creek		CA	Ontario	43.765	-79.522	0
+P	The Beaches		CA	Ontario	43.674	-79.295	0
+P	Allison Park		US	Pennsylvania	40.560	-79.959	0
+P	Wissinoming		US	Pennsylvania	40.022	-75.063	0
+P	Bayview Village		CA	Ontario	43.776	-79.380	0
+P	East End-Danforth	east end danforth	CA	Ontario	43.684	-79.299	0
+P	Oakwood Village		CA	Ontario	43.683	-79.438	0
+P	Uxbridge		CA	Ontario	44.100	-79.116	0
+P	Thorncliffe Park		CA	Ontario	43.708	-79.350	0
+P	Keswick		CA	Ontario	44.250	-79.466	0
+P	Rosedale-Moore Park	rosedale moore park	CA	Ontario	43.683	-79.380	0
+P	Grand Island		US	New York	43.033	-78.963	0
+P	Lockport		US	New York	43.171	-78.690	0
+P	Moss Park		CA	Ontario	43.655	-79.372	0
+P	Lindsay		CA	Ontario	44.350	-78.733	0
+P	Murrysville		US	Pennsylvania	40.428	-79.698	0
+P	West Mifflin		US	Pennsylvania	40.363	-79.866	0
+P	Johnstown		US	Pennsylvania	40.327	-78.922	0
+P	King of Prussia		US	Pennsylvania	40.089	-75.396	0
+P	Baldwin		US	Pennsylvania	40.338	-79.979	0
+P	Fox Chase		US	Pennsylvania	40.081	-75.080	0
+P	McKeesport		US	Pennsylvania	40.348	-79.864	0
+P	Carlisle		US	Pennsylvania	40.201	-77.189	0
+P	Cortland		US	New York	42.601	-76.180	0
+P	Alliston		CA	Ontario	44.150	-79.866	0
+P	Thorold		CA	Ontario	43.117	-79.200	0
+P	O'Connor-Parkview	oconnor parkview	CA	Ontario	43.707	-79.312	0
+P	North St.James Town	north st james town	CA	Ontario	43.670	-79.375	0
+P	Eringate-Centennial-West Deane	eringate centennial west deane	CA	Ontario	43.658	-79.580	0
+P	East Mount Airy		US	Pennsylvania	40.065	-75.188	0
+P	Port Colborne		CA	Ontario	42.900	-79.233	0
+P	Cobourg		CA	Ontario	43.960	-78.165	0
+P	Limerick		US	Pennsylvania	40.231	-75.522	0
+P	Weston		CA	Ontario	43.704	-79.515	0
+P	Lackawanna		US	New York	42.826	-78.823	0
+P	Kensington-Chinatown	kensington chinatown	CA	Ontario	43.654	-79.397	0
+P	Tacony		US	Pennsylvania	40.031	-75.044	0
+P	St. Andrew-Windfields	st andrew windfields	CA	Ontario	43.756	-79.379	0
+P	Oswego		US	New York	43.455	-76.510	0
+P	Brookhaven-Amesbury	brookhaven amesbury	CA	Ontario	43.701	-79.486	0
+P	Hunting Park		US	Pennsylvania	40.017	-75.144	0
+P	Juniata Park		US	Pennsylvania	40.008	-75.109	0
+P	Niagara-on-the-Lake	niagara on the lake	CA	Ontario	43.257	-79.085	0
+P	Victoria Village		CA	Ontario	43.728	-79.315	0
+P	Morningside		CA	Ontario	43.787	-79.206	0
+P	Nicetown-Tioga	nicetown tioga	US	Pennsylvania	40.010	-75.164	0
+P	Danforth East York		CA	Ontario	43.689	-79.331	0
+P	Kennedy Park		CA	Ontario	43.723	-79.261	0
+P	Willowdale West		CA	Ontario	43.771	-79.428	0
+P	Hillcrest Village		CA	Ontario	43.805	-79.354	0
+P	Leaside-Bennington	leaside bennington	CA	Ontario	43.704	-79.366	0
+P	Mount Pleasant East		CA	Ontario	43.705	-79.385	0
+P	Scarborough Village		CA	Ontario	43.739	-79.221	0
+P	Phoenixville		US	Pennsylvania	40.130	-75.515	0
+P	Trinity-Bellwoods	trinity bellwoods	CA	Ontario	43.648	-79.408	0
+P	Lansdale		US	Pennsylvania	40.242	-75.284	0
+P	Clanton Park		CA	Ontario	43.742	-79.446	0
+P	Lansing-Westgate	lansing westgate	CA	Ontario	43.754	-79.425	0
+P	Newtonbrook East		CA	Ontario	43.792	-79.406	0
+P	Cliffcrest		CA	Ontario	43.722	-79.231	0
+P	Greater Napanee		CA	Ontario	44.250	-76.949	0
+P	Bathurst Manor		CA	Ontario	43.765	-79.456	0
+P	Pleasant View		CA	Ontario	43.786	-79.335	0
+P	Wilkinsburg		US	Pennsylvania	40.442	-79.882	0
+P	Willow Grove		US	Pennsylvania	40.144	-75.116	0
+P	Henry Farm		CA	Ontario	43.770	-79.352	0
+P	Taylor-Massey	taylor massey	CA	Ontario	43.695	-79.296	0
+P	Little Portugal		CA	Ontario	43.647	-79.430	0
+P	Humbermede		CA	Ontario	43.752	-79.544	0
+P	Edenbridge-Humber Valley	edenbridge humber valley	CA	Ontario	43.671	-79.522	0
+P	Lawrence Park South		CA	Ontario	43.717	-79.406	0
+P	Kenmore		US	New York	42.966	-78.870	0
+P	Depew		US	New York	42.904	-78.692	0
+P	Gates-North Gates	gates north gates	US	New York	43.165	-77.701	0
+P	Eggertsville		US	New York	42.963	-78.804	0
+P	Batavia		US	New York	42.998	-78.188	0

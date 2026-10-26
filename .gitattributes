@@ -1,3 +1,6 @@
 # Add-on files are published byte for byte, and their size and SHA-256 are
 # built into the app (poni_core::addons): no line-ending conversion on checkout.
 addons/** -text
+# The prayer picker's city files (tools/make_world_places.py): the website
+# serves them as built, and the tests read the same bytes on every system.
+site/places/** -text

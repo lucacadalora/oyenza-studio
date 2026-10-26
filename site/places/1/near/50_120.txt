@@ -1,0 +1,13 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	0
+P	Daxing’anling	daxinganling	CN		52.334	124.712	0
+P	Jiagedaqi		CN		50.417	124.117	0
+P	Genhe		CN		50.783	121.517	0
+P	Oroqen Zizhiqi		CN		50.567	123.717	0
+P	Tahe		CN		52.321	124.698	0
+P	E’erguna	eerguna	CN		50.224	120.171	0
+P	Xilinji		CN		52.991	123.235	0
+P	Xinlin		CN		51.667	124.400	0
+P	Tuqiang		CN		52.900	122.767	0

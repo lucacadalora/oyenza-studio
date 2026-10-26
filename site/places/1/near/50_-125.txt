@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Vancouver	-480	29549400=-420
+C	CA	Canada	moonsighting	s
+B	0
+P	Kamloops		CA	British Columbia	50.666	-120.319	0
+P	Prince George		CA	British Columbia	53.917	-122.753	0
+P	Brocklehurst		CA	British Columbia	50.708	-120.413	0

@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	3
+P	Lanzhou		CN		36.057	103.840	0
+P	Xining		CN		36.626	101.757	0
+P	Wuwei		CN		37.927	102.632	0
+P	Zhangye		CN		38.934	100.452	0
+P	Dingxi		CN		35.571	104.623	0
+P	Baiyin		CN		36.547	104.170	0
+P	Linxia Chengguanzhen		CN		35.600	103.206	0
+P	Nianbo		CN		36.480	102.416	0
+P	Jinchang		CN		38.501	102.194	0
+P	Qiaotou		CN		36.935	101.674	0
+P	Tongren		CN		35.515	102.016	0
+P	Lushar		CN		36.484	101.563	0
+P	Duoba		CN		36.658	101.534	0
+P	Qabqa		CN		36.281	100.613	0
+P	Haomen		CN		37.376	101.622	0
+P	Qingshizui		CN		37.467	101.433	0
+P	Qilian		CN		38.181	100.240	0
+P	Labuleng		CN		35.201	102.521	0
+P	Quankou		CN		37.352	101.739	0
+P	Dongchuan		CN		37.368	101.836	0
+P	Ehen Hudag		CN		39.211	101.669	0

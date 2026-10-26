@@ -1,0 +1,79 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kampala	180	
+Z	1	Africa/Ndjamena	60	
+Z	2	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	3	Asia/Baku	240	
+Z	4	Asia/Bishkek	360	
+Z	5	Asia/Ho_Chi_Minh	420	
+Z	6	Asia/Irkutsk	480	
+Z	7	Asia/Kolkata	330	
+Z	8	Asia/Qyzylorda	300	
+Z	9	Asia/Tokyo	540	
+Z	10	Asia/Yangon	390	
+Z	11	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	AZ	Azerbaijan	mwl	s
+C	BG	Bulgaria	mwl	s
+C	CY	Cyprus	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	MM	Myanmar	mwl	s
+C	RU	Russia	mwl	s
+C	TD	Chad	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	VN	Vietnam	mwl	s
+B	2
+P	Kyiv		UA		50.455	30.524	11
+P	Kyoto		JP		35.021	135.754	9
+P	Kyzylorda		KZ		44.853	65.509	8
+P	Kyengera		UG		0.295	32.502	0
+P	Kyaukpyu		MM		19.428	93.551	10
+P	Tam Kỳ	tam ky	VN		15.574	108.474	5
+P	Kỳ Anh	ky anh	VN		18.062	106.298	5
+P	Kyivskyi		UA		48.046	37.776	11
+P	Kyauktan		MM		16.637	96.325	10
+P	Kyzyl		RU		51.711	94.438	5
+P	Kyimyindine		MM		16.809	96.124	10
+P	Kyivskyi		UA		49.609	34.529	11
+P	Kyōtanabe	kyotanabe	JP		34.804	135.767	9
+P	Kyosai		KR		34.850	128.589	9
+P	Kyaiklat		MM		16.445	95.724	10
+P	Kyōtango	kyotango	JP		35.606	135.044	9
+P	Kyaukse		MM		21.606	96.135	10
+P	Kyaikto		MM		17.309	97.011	10
+P	Kyaikkami		MM		16.077	97.564	10
+P	Kyela		TZ		-9.583	33.850	0
+P	Kyustendil		BG		42.283	22.692	11
+P	Kyaukpadaung		MM		20.842	95.127	10
+P	Kyauktan		MM		24.278	95.895	10
+P	Thin Gan Kyun Gyi		MM		16.957	96.155	10
+P	Kyathampalle		IN		19.668	78.529	7
+P	Kyshtym		RU		55.716	60.551	8
+P	Kyaukme		MM		22.539	97.034	10
+P	Kyle		US	Texas	29.989	-97.877	2
+P	Kyŏngsŏng	kyongsong	KP		41.588	129.606	9
+P	Kyzyl-Kyya	kyzyl kyya	KG		40.257	72.128	4
+P	Kyauktaga		MM		17.495	96.978	10
+P	Kyegegwa		UG		0.502	31.041	0
+P	Kyenjojo		UG		0.633	30.621	0
+P	Kyaka II Refugee Camp		UG		0.367	31.108	0
+P	Kyrenia		CY		35.336	33.317	11
+P	Kyonpyaw		MM		17.301	95.198	10
+P	Kyangwali Refugee Camp		UG		1.188	30.783	0
+P	Kyeintali		MM		18.006	94.490	10
+P	Kyabé	kyabe	TD		9.451	18.945	1
+P	Kyauktaw		MM		20.845	92.975	10
+P	Kyurdarmir		AZ		40.343	48.156	3
+P	Kyakhta		RU		50.350	106.451	6
+P	Kyarusozi		UG		0.784	30.531	0
+P	Kyo Kone East		MM		16.886	96.115	10
+P	Kybalchych		UA		50.493	30.598	11
+P	Kyazanga		UG		-0.383	31.350	0
+P	Kyamahungu		UG		-0.451	30.113	0
+P	Kyzyl-Suu	kyzyl suu	KG		42.342	78.006	4

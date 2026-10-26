@@ -1,0 +1,66 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	1	America/Phoenix	-420	
+C	MX	Mexico	mwl	s
+C	US	United States	moonsighting	s
+B	1
+P	Phoenix		US	Arizona	33.448	-112.074	1
+P	Tucson		US	Arizona	32.222	-110.926	1
+P	Mesa		US	Arizona	33.422	-111.823	1
+P	Nogales		MX		31.309	-110.942	1
+P	Chandler		US	Arizona	33.306	-111.841	1
+P	Gilbert		US	Arizona	33.353	-111.789	1
+P	Glendale		US	Arizona	33.539	-112.186	1
+P	Scottsdale		US	Arizona	33.509	-111.899	1
+P	Maryvale		US	Arizona	33.502	-112.178	1
+P	Peoria		US	Arizona	33.581	-112.237	1
+P	San Luis Río Colorado	san luis rio colorado	MX		32.456	-114.770	1
+P	Tempe		US	Arizona	33.415	-111.909	1
+P	Deer Valley		US	Arizona	33.684	-112.135	1
+P	Tempe Junction		US	Arizona	33.414	-111.943	1
+P	Surprise		US	Arizona	33.631	-112.333	1
+P	Alhambra		US	Arizona	33.498	-112.134	1
+P	Yuma		US	Arizona	32.725	-114.624	1
+P	Ahwatukee Foothills		US	Arizona	33.342	-111.984	1
+P	San Tan Valley		US	Arizona	33.191	-111.528	1
+P	Avondale		US	Arizona	33.436	-112.350	1
+P	Goodyear		US	Arizona	33.435	-112.358	1
+P	Casas Adobes		US	Arizona	32.323	-110.995	1
+P	Puerto Peñasco	puerto penasco	MX		31.317	-113.538	1
+P	Heroica Caborca		MX		30.718	-112.158	1
+P	Central City		US	Arizona	33.440	-112.058	1
+P	Encanto		US	Arizona	33.479	-112.078	1
+P	Lake Havasu City		US	Arizona	34.484	-114.322	1
+P	Casa Grande		US	Arizona	32.880	-111.757	1
+P	Buckeye		US	Arizona	33.370	-112.584	1
+P	Catalina Foothills		US	Arizona	32.298	-110.919	1
+P	Maricopa		US	Arizona	33.058	-112.048	1
+P	Oro Valley		US	Arizona	32.391	-110.966	1
+P	Sierra Vista		US	Arizona	31.555	-110.304	1
+P	Prescott Valley		US	Arizona	34.610	-112.316	1
+P	Prescott		US	Arizona	34.540	-112.469	1
+P	Marana		US	Arizona	32.437	-111.225	1
+P	Apache Junction		US	Arizona	33.415	-111.550	1
+P	Sun City		US	Arizona	33.598	-112.272	1
+P	Queen Creek		US	Arizona	33.249	-111.634	1
+P	El Mirage		US	Arizona	33.613	-112.325	1
+P	Cananea		MX		30.984	-110.298	1
+P	San Luis		US	Arizona	32.487	-114.782	1
+P	Florence		US	Arizona	33.031	-111.387	1
+P	Drexel Heights		US	Arizona	32.141	-111.028	1
+P	Magdalena de Kino		MX		30.627	-110.962	1
+P	Fortuna Foothills		US	Arizona	32.658	-114.412	1
+P	Sahuarita		US	Arizona	31.958	-110.956	1
+P	Sun City West		US	Arizona	33.662	-112.341	1
+P	Fountain Hills		US	Arizona	33.612	-111.717	1
+P	Anthem		US	Arizona	33.867	-112.147	1
+P	Green Valley		US	Arizona	31.854	-110.994	1
+P	Nogales		US	Arizona	31.340	-110.934	1
+P	Blythe		US	California	33.610	-114.596	0
+P	Rio Rico		US	Arizona	31.471	-110.976	1
+P	Eloy		US	Arizona	32.756	-111.555	1
+P	Tanque Verde		US	Arizona	32.252	-110.737	1
+P	San Felipe		MX		31.025	-114.842	0
+P	Flowing Wells		US	Arizona	32.294	-111.010	1
+P	Payson		US	Arizona	34.231	-111.325	1
+P	Somerton		US	Arizona	32.596	-114.710	1

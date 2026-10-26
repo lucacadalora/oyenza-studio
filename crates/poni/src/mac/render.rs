@@ -29,7 +29,7 @@ use crate::notch::{self, Notch};
 use crate::pages::{self, PageKind};
 use crate::services::romanize::{self, Pronounced};
 use crate::state::{
-    AppState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, NoticeAction, OyenzaLink, OyenzaState, PowerState, SysStats, VolumeState,
+    AppState, CityFile, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, NoticeAction, OyenzaLink, OyenzaState, PowerState, SysStats, VolumeState,
 };
 use crate::ui::{Hit, Input};
 use poni_core::addons::{Status as AddonStatus, JAPANESE_READINGS, PRAYER_TIMES};
@@ -40,7 +40,7 @@ use poni_core::lrc::parse_lrc;
 use poni_core::oyenza::{Activity, Bill, Day, Seen, Txn, WalletRef};
 use poni_core::pomodoro::{Phase, RunState};
 use poni_core::power::PowerReading;
-use poni_core::prayer::{PlaceList, Prayer};
+use poni_core::prayer::{PlaceList, Prayer, World};
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use poni_core::store::Store;
 use poni_core::sysmon::{
@@ -128,6 +128,10 @@ enum Scene {
     PrayerPicker,
     PrayerCountdown,
     PrayerNotice,
+    /// Prayer times abroad: the place picker with "edin" typed, and the page
+    /// for Edinburgh picked by hand (its method beside its name).
+    PrayerPickerWorld,
+    PrayerWorld,
     /// Bluetooth headphones connected (the headphone pop-up).
     HeadphonesHud,
     /// Oyenza, signed in as a made-up account: its page (today's and
@@ -215,6 +219,8 @@ const ADDON_SCENES: [Scene; 3] = [
 
 /// Prayer times, after the Add-ons tab.
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
+/// Prayer times abroad, after Today (so every other picture keeps its number).
+const PRAYER_WORLD_SCENES: [Scene; 2] = [Scene::PrayerPickerWorld, Scene::PrayerWorld];
 
 /// The Settings page (behind the gear), after Prayer times.
 const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
@@ -226,7 +232,7 @@ const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::Oyen
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 /// The Today page signed in, after Power.
 const TODAY_SCENES: [Scene; 5] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles, Scene::TodayOff, Scene::TodayPicked];
-/// The Update sheet, after Today.
+/// The Update sheet, after Prayer times abroad (so every other picture keeps its number).
 const UPDATE_SCENES: [Scene; 2] = [Scene::UpdateSheet, Scene::UpdateReady];
 
 impl Scene {
@@ -260,6 +266,8 @@ impl Scene {
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
             Scene::PrayerNotice => "prayer-notice".into(),
+            Scene::PrayerPickerWorld => "page-prayer-picker-world".into(),
+            Scene::PrayerWorld => "page-prayer-world".into(),
             Scene::HeadphonesHud => "headphones-hud".into(),
             Scene::Oyenza => "page-oyenza".into(),
             Scene::OyenzaSignedOut => "page-oyenza-signed-out".into(),
@@ -336,10 +344,11 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and the Update sheet in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad and the Update sheet in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(SETTINGS_SCENES).chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(UPDATE_SCENES).enumerate() {
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(UPDATE_SCENES);
+    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -607,11 +616,35 @@ fn seed_prayer(st: &mut AppState, picking: bool) -> Result<(poni_core::prayer::S
     st.prayer.located_at = Some(st.unix);
     st.prayer.picking = picking;
     st.prayer.query = if picking { "band".into() } else { String::new() };
+    // The website's "ed" file, as if it had come.
+    let ed = World::parse(poni_core::prayer::world::SAMPLE.into())?;
+    st.prayer.cities = [("ed".to_string(), CityFile::Here(std::sync::Arc::new(ed)))].into();
     let site = st.prayer.site().ok_or("no site for Kota Jakarta")?;
     let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).ok_or("no times today")?.ashar;
     st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
     st.prayer.handled_until = Some(st.prayer_now());
     Ok((site, ashar))
+}
+
+/// Prayer times abroad: the place picker with "edin" typed (`picking`), or
+/// the page for Edinburgh, picked by hand, 8 minutes before its Ashar.
+fn seed_prayer_world(st: &mut AppState, picking: bool) -> Result<(), String> {
+    seed_prayer(st, picking)?;
+    if picking {
+        st.prayer.query = "edin".into();
+        return Ok(());
+    }
+    st.prayer.place = match st.prayer.cities.get("ed") {
+        Some(CityFile::Here(w)) => w.place(0),
+        _ => None,
+    };
+    st.settings.prayer.world_place = st.prayer.place.as_ref().and_then(|p| p.world_lines.clone());
+    st.settings.prayer.follow_location = false;
+    let site = st.prayer.site().ok_or("no site for Edinburgh")?;
+    let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).ok_or("no times in Edinburgh today")?.ashar;
+    st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
+    st.prayer.handled_until = Some(st.prayer_now());
+    Ok(())
 }
 
 /// A few places from the add-on's list (as the Windows self-test has them).
@@ -1028,6 +1061,11 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
         Scene::PrayerCountdown => {
             seed_prayer(&mut st, false)?;
             Mode::Activity(activities::Activity::Prayer)
+        }
+        Scene::PrayerPickerWorld | Scene::PrayerWorld => {
+            seed_prayer_world(&mut st, scene == Scene::PrayerPickerWorld)?;
+            st.page = PageKind::Prayer;
+            Mode::Expanded(PageKind::Prayer)
         }
         Scene::PrayerNotice => {
             let (site, ashar) = seed_prayer(&mut st, false)?;

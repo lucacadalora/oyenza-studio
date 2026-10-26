@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Pacific/Port_Moresby	600	
+C	PG	Papua New Guinea	mwl	s
+B	0
+P	Port Moresby		PG		-9.477	147.151	0
+P	Lae		PG		-6.723	146.996	0
+P	Popondetta		PG		-8.765	148.233	0
+P	Madang		PG		-5.222	145.787	0
+P	Goroka		PG		-6.085	145.387	0
+P	Bulolo		PG		-7.204	146.640	0

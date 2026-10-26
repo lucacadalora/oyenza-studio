@@ -1,0 +1,46 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Santo_Domingo	-240	
+C	DO	Dominican Republic	mwl	s
+C	PR	Puerto Rico	mwl	s
+B	1
+P	Santo Domingo		DO		18.472	-69.892	0
+P	Santo Domingo Oeste		DO		18.500	-70.000	0
+P	Santo Domingo Este		DO		18.485	-69.848	0
+P	San Juan		PR		18.466	-66.106	0
+P	San Pedro de Macorís	san pedro de macoris	DO		18.454	-69.309	0
+P	La Romana		DO		18.423	-68.966	0
+P	Bayamón	bayamon	PR		18.399	-66.156	0
+P	Bella Vista		DO		18.455	-69.945	0
+P	Carolina		PR		18.381	-65.957	0
+P	Ponce		PR		18.010	-66.624	0
+P	Salvaleón de Higüey	salvaleon de higuey	DO		18.615	-68.708	0
+P	Punta Cana		DO		18.582	-68.404	0
+P	Arecibo		PR		18.472	-66.716	0
+P	Caguas		PR		18.234	-66.049	0
+P	Guaynabo		PR		18.357	-66.111	0
+P	Trujillo Alto		PR		18.355	-66.007	0
+P	Mayagüez	mayaguez	PR		18.201	-67.140	0
+P	Cristo Rey		DO		18.500	-69.933	0
+P	Villa Francisca		DO		18.483	-69.889	0
+P	Boca Chica		DO		18.450	-69.600	0
+P	Hato Mayor del Rey		DO		18.766	-69.256	0
+P	Nagua		DO		19.383	-69.847	0
+P	Fajardo		PR		18.326	-65.652	0
+P	Levittown		PR		18.450	-66.182	0
+P	Vega Baja		PR		18.444	-66.388	0
+P	Villa Consuelo		DO		18.483	-69.900	0
+P	Cataño	catano	PR		18.441	-66.118	0
+P	Santa Cruz de El Seibo		DO		18.765	-69.040	0
+P	Barceloneta		PR		18.451	-66.539	0
+P	Guayama		PR		17.984	-66.114	0
+P	Bayaguana		DO		18.750	-69.635	0
+P	Humacao		PR		18.150	-65.827	0
+P	Yauco		PR		18.035	-66.850	0
+P	Ciudad Nueva		DO		18.467	-69.893	0
+P	Cayey		PR		18.112	-66.166	0
+P	Quisqueya		DO		18.555	-69.408	0
+P	Candelaria		PR		18.404	-66.209	0
+P	Sabana Grande de Boyá	sabana grande de boya	DO		18.945	-69.793	0
+P	Manatí	manati	PR		18.427	-66.492	0
+P	Aguadilla		PR		18.427	-67.154	0
+P	Monte Plata		DO		18.807	-69.784	0

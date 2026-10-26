@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kabul	270	
+Z	1	Asia/Tehran	210	
+C	AF	Afghanistan	karachi	h
+C	IR	Iran	tehran	s
+B	0
+P	Herāt	herat	AF		34.348	62.200	0
+P	Zābol	zabol	IR		31.031	61.495	1
+P	Zaranj		AF		30.960	61.860	0
+P	Lashkar Gāh	lashkar gah	AF		31.594	64.372	0
+P	Gereshk		AF		31.821	64.570	0
+P	Farah		AF		32.375	62.116	0
+P	Tāybād	taybad	IR		34.740	60.776	1
+P	Khvāf	khvaf	IR		34.576	60.141	1
+P	Shīnḏanḏ	shindand	AF		33.303	62.147	0
+P	Khān Neshīn	khan neshin	AF		30.549	63.789	0
+P	Nehbandān	nehbandan	IR		31.542	60.036	1
+P	Eslam Qaleh		AF		34.667	61.067	0
+P	Karukh		AF		34.481	62.586	0
+P	Kushk		AF		33.296	61.952	0
+P	Shahrak		AF		34.107	64.305	0
+P	Khāsh	khash	AF		31.529	62.791	0

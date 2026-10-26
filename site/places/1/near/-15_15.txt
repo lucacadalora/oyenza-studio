@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+C	AO	Angola	egyptian	s
+B	0
+P	Huambo		AO		-12.776	15.739	0
+P	Cuíto	cuito	AO		-12.383	16.933	0
+P	Luena		AO		-11.783	19.917	0
+P	Menongue		AO		-14.659	17.691	0
+P	Caála	caala	AO		-12.852	15.561	0
+P	Catchiungo		AO		-12.566	16.226	0
+P	Longonjo		AO		-12.908	15.248	0
+P	Cela		AO		-11.422	15.123	0
+P	Quissecula		AO		-11.392	15.092	0
+P	Ecunna		AO		-12.679	15.506	0
+P	Matala		AO		-14.733	15.035	0
+P	Luquembo		AO		-10.739	17.718	0
+P	Camacupa		AO		-12.017	17.483	0
+P	Andulo		AO		-11.487	16.697	0
+P	Alto Hama		AO		-12.233	15.550	0
+P	Mussende		AO		-10.514	16.020	0
+P	Santa Clara		AO		-10.192	15.434	0
+P	Catabola		AO		-12.150	17.283	0
+P	Chinguar		AO		-12.557	16.338	0
+P	Chitembo		AO		-13.550	16.633	0
+P	Ucuma		AO		-12.961	15.060	0
+P	Mungo		AO		-11.833	16.236	0
+P	Cuemba		AO		-12.150	18.083	0
+P	Nharêa	nharea	AO		-11.475	16.965	0
+P	Cambundi Catembo		AO		-10.075	17.551	0
+P	Cambundi		AO		-10.895	17.764	0
+P	Londuimbali		AO		-12.237	15.317	0

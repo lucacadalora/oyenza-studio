@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	0
+P	Chengde		CN		40.952	117.959	0
+P	Xuanhua		CN		40.612	115.065	0
+P	Xilinhot		CN		43.939	116.070	0
+P	Chifeng		CN		42.268	118.964	0
+P	Shanhaiguan		CN		40.001	119.754	0
+P	Xilin Hot		CN		43.967	116.033	0
+P	Shunyi		CN		40.122	116.648	0
+P	Changping		CN		40.216	116.235	0
+P	Lingyuan		CN		41.240	119.401	0
+P	Pingzhuang		CN		42.037	119.289	0
+P	Yebaishou		CN		41.398	119.641	0
+P	Mujiayingzi		CN		42.117	118.783	0
+P	Songlingcun		CN		40.294	118.271	0

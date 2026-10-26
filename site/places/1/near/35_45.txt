@@ -1,0 +1,98 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baghdad	180	
+Z	1	Asia/Baku	240	
+Z	2	Asia/Tehran	210	
+C	AM	Armenia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+B	1
+P	Tabriz		IR		38.080	46.292	2
+P	Sulaymaniyah		IQ		35.565	45.433	0
+P	Rasht		IR		37.276	49.589	2
+P	Orūmīyeh	orumiyeh	IR		37.553	45.076	2
+P	Ardabīl	ardabil	IR		38.250	48.293	2
+P	Zanjan		IR		36.676	48.496	2
+P	Sanandaj		IR		35.315	46.999	2
+P	Marāgheh	maragheh	IR		37.392	46.239	2
+P	Būkān	bukan	IR		36.521	46.209	2
+P	Piranshahr		IR		36.701	45.141	2
+P	Mahābād	mahabad	IR		36.763	45.722	2
+P	Saqqez		IR		36.250	46.273	2
+P	Qeładizê	qeladize	IQ		36.183	45.130	0
+P	Marīvān	marivan	IR		35.518	46.183	2
+P	Mīāndoāb	miandoab	IR		36.967	46.110	2
+P	Marand		IR		38.433	45.775	2
+P	Bandar-e Anzalī	bandar e anzali	IR		37.473	49.458	2
+P	Bāneh	baneh	IR		35.998	45.885	2
+P	Mīāneh	mianeh	IR		37.421	47.715	2
+P	Pārsābād	parsabad	IR		39.648	47.917	2
+P	Ahar		IR		38.477	47.070	2
+P	Naxçıvan	naxcivan	AZ		39.209	45.412	1
+P	Lankaran		AZ		38.754	48.851	1
+P	Qorveh		IR		35.166	47.806	2
+P	Lerik		AZ		38.774	48.415	1
+P	Sahand		IR		37.951	46.110	2
+P	Naqadeh		IR		36.955	45.388	2
+P	Bonāb	bonab	IR		37.340	46.056	2
+P	Meshgīn Shahr	meshgin shahr	IR		38.399	47.682	2
+P	Tākestān	takestan	IR		36.071	49.696	2
+P	Şirvan	sirvan	AZ		39.938	48.929	1
+P	Abhar		IR		36.147	49.218	2
+P	Halabja		IQ		35.178	45.986	0
+P	Eqbālīyeh	eqbaliyeh	IR		36.231	49.925	2
+P	Takāb	takab	IR		36.401	47.113	2
+P	Khalkhāl	khalkhal	IR		37.618	48.529	2
+P	Oshnavīyeh	oshnaviyeh	IR		37.040	45.098	2
+P	Khorramdarreh		IR		36.208	49.195	2
+P	Bījār	bijar	IR		35.867	47.605	2
+P	Şowme‘eh Sarā	sowmeeh sara	IR		37.301	49.315	2
+P	Sardasht		IR		36.155	45.479	2
+P	Hashtpar		IR		37.797	48.905	2
+P	Sarāb	sarab	IR		37.941	47.537	2
+P	Āstāneh-ye Ashrafīyeh	astaneh ye ashrafiyeh	IR		37.263	49.943	2
+P	Āz̄arshahr	azarshahr	IR		37.759	45.978	2
+P	Poldasht		IR		39.348	45.071	2
+P	Shāhīn Dezh	shahin dezh	IR		36.679	46.567	2
+P	Āstārā	astara	IR		38.431	48.870	2
+P	Aghdam		AZ		39.991	46.927	1
+P	Salyan		AZ		39.596	48.985	1
+P	Jalilabad		AZ		39.210	48.492	1
+P	Fūman	fuman	IR		37.224	49.312	2
+P	Qīdar	qidar	IR		36.115	48.591	2
+P	Hādīshahr	hadishahr	IR		38.848	45.662	2
+P	Imishli		AZ		39.871	48.060	1
+P	Dīvāndarreh	divandarreh	IR		35.914	47.024	2
+P	Kapan		AM		39.208	46.407	1
+P	Sardrūd	sardrud	IR		38.026	46.148	2
+P	Ajab Shīr	ajab shir	IR		37.478	45.894	2
+P	Germī	germi	IR		39.022	48.080	2
+P	Malekān	malekan	IR		37.143	46.103	2
+P	Baynjiwayn		IQ		35.621	45.949	0
+P	Qarah Ẕīā’ od Dīn	qarah zia od din	IR		38.892	45.026	2
+P	Pāveh	paveh	IR		35.043	46.356	2
+P	Fuzuli		AZ		39.601	47.145	1
+P	Shabestar		IR		38.180	45.703	2
+P	Maḩmūdābād Nemūneh	mahmudabad nemuneh	IR		36.290	49.901	2
+P	Khosrowshahr		IR		37.950	46.053	2
+P	Bostānābād	bostanabad	IR		37.846	46.835	2
+P	Khomām	khomam	IR		37.390	49.658	2
+P	Hashtrūd	hashtrud	IR		37.478	47.051	2
+P	Saatlı	saatli	AZ		39.932	48.369	1
+P	Sīāhkal	siahkal	IR		37.153	49.871	2
+P	Reẕvānshahr	rezvanshahr	IR		37.549	49.137	2
+P	Shusha		AZ		39.760	46.750	1
+P	Kabūdarāhang	kabudarahang	IR		35.209	48.723	2
+P	Neftçala	neftcala	AZ		39.377	49.247	1
+P	Oskū	osku	IR		37.915	46.123	2
+P	Pushkino		AZ		39.458	48.545	1
+P	Māsāl	masal	IR		37.363	49.133	2
+P	Goris		AM		39.511	46.342	1
+P	Pādegān-e Manjīl	padegan e manjil	IR		36.742	49.416	2
+P	Əhmədbəyli	hm db yli	AZ		39.881	48.392	1
+P	Nehram		AZ		39.116	45.462	1
+P	Īlkhchī	ilkhchi	IR		37.937	45.979	2
+P	Manjīl	manjil	IR		36.744	49.401	2
+P	Beylagan		AZ		39.776	47.619	1
+P	Shāl	shal	IR		35.898	49.769	2
+P	Astara		AZ		38.456	48.875	1

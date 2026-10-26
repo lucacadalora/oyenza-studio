@@ -1,0 +1,134 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+C	BF	Burkina Faso	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	GH	Ghana	egyptian	s
+B	4
+P	Abidjan		CI		5.354	-4.002	0
+P	Kumasi		GH		6.688	-1.624	0
+P	Accra		GH		5.556	-0.197	0
+P	Abobo		CI		5.416	-4.016	0
+P	Tamale		GH		9.401	-0.839	0
+P	Koumassi		CI		5.297	-3.968	0
+P	Marcory		CI		5.312	-3.994	0
+P	Cape Coast		GH		5.105	-1.247	0
+P	Atsiaman		GH		5.698	-0.328	0
+P	Ashaiman		GH		5.700	-0.035	0
+P	Obuase		GH		6.202	-1.668	0
+P	Tema		GH		5.670	-0.017	0
+P	Koforidua		GH		6.094	-0.259	0
+P	Teshi Old Town		GH		5.584	-0.107	0
+P	Bondoukou		CI		8.040	-2.800	0
+P	Dabou		CI		5.326	-4.377	0
+P	Anyama		CI		5.495	-4.052	0
+P	Abengourou		CI		6.730	-3.496	0
+P	Amanfrom		GH		5.535	-0.398	0
+P	Medina Estates		GH		5.666	-0.163	0
+P	Daoukro		CI		7.059	-3.963	0
+P	Twifu Praso		GH		5.614	-1.550	0
+P	Grand-Bassam	grand bassam	CI		5.212	-3.739	0
+P	Japekrom		GH		7.576	-2.785	0
+P	Sunyani		GH		7.340	-2.327	0
+P	Kasoa		GH		5.534	-0.417	0
+P	Gbawe		GH		5.577	-0.310	0
+P	Techiman		GH		7.591	-1.939	0
+P	Bingerville		CI		5.356	-3.885	0
+P	Agboville		CI		5.928	-4.213	0
+P	Mandela		GH		5.552	-0.339	0
+P	Adzopé	adzope	CI		6.107	-3.862	0
+P	Winneba		GH		5.351	-0.623	0
+P	Ejura		GH		7.386	-1.356	0
+P	Berekum		GH		7.453	-2.584	0
+P	Nungua		GH		5.601	-0.077	0
+P	Dimbokro		CI		6.647	-4.705	0
+P	Yendi		GH		9.443	-0.010	0
+P	Buduburam		GH		5.523	-0.477	0
+P	Agnibilékrou	agnibilekrou	CI		7.131	-3.204	0
+P	Akim Oda		GH		5.927	-0.986	0
+P	Aboisso		CI		5.468	-3.207	0
+P	Swedru		GH		5.537	-0.700	0
+P	Kintampo		GH		8.056	-1.731	0
+P	Mampong		GH		7.063	-1.400	0
+P	Adenta		GH		5.714	-0.154	0
+P	Suhum		GH		6.041	-0.450	0
+P	Tafo		GH		6.732	-1.614	0
+P	Tarkwa		GH		5.304	-1.990	0
+P	Bonoua		CI		5.272	-3.596	0
+P	Lashibi		GH		5.685	-0.040	0
+P	Nsawam		GH		5.809	-0.350	0
+P	Dome		GH		5.650	-0.236	0
+P	Doropo		CI		9.810	-3.346	0
+P	Nkawkaw		GH		6.546	-0.763	0
+P	Affery		CI		6.320	-3.952	0
+P	Agogo		GH		6.800	-1.082	0
+P	Asamankese		GH		5.860	-0.663	0
+P	Wankyi		GH		7.739	-2.104	0
+P	Osu		GH		5.557	-0.186	0
+P	Konongo		GH		6.617	-1.217	0
+P	Dunkwa		GH		5.960	-1.778	0
+P	Taifa		GH		5.658	-0.252	0
+P	Mankesim		GH		5.272	-1.015	0
+P	Savelugu		GH		9.624	-0.827	0
+P	Arrah		CI		6.673	-3.969	0
+P	Domaa-Ahenkro	domaa ahenkro	GH		7.274	-2.873	0
+P	Assin Foso		GH		5.700	-1.650	0
+P	New Achimota		GH		5.627	-0.258	0
+P	Bibiani		GH		6.452	-2.316	0
+P	Bongouanou		CI		6.652	-4.204	0
+P	Mim		GH		6.904	-2.561	0
+P	Akoupé	akoupe	CI		6.384	-3.888	0
+P	Tanda		CI		7.803	-3.168	0
+P	Prestea		GH		5.434	-2.143	0
+P	Nkoranza		GH		7.571	-1.709	0
+P	Ndouci		CI		5.864	-4.761	0
+P	Tiassalé	tiassale	CI		5.898	-4.823	0
+P	Elmina		GH		5.085	-1.351	0
+P	Ahouanou		CI		5.506	-4.859	0
+P	Akwatia		GH		6.040	-0.809	0
+P	Sakumona		GH		5.621	-0.052	0
+P	Atebubu		GH		7.755	-0.981	0
+P	Awoshi		GH		5.584	-0.278	0
+P	Ahwiaa		GH		6.761	-1.594	0
+P	Bekwai		GH		6.452	-1.579	0
+P	Nsoatre		GH		7.404	-2.466	0
+P	Effiduase		GH		6.847	-1.396	0
+P	New Tafo		GH		6.719	-1.612	0
+P	Yegyi		GH		8.225	-0.649	0
+P	Kade		GH		6.094	-0.836	0
+P	Atronie		GH		7.153	-2.405	0
+P	Anyinam		GH		6.382	-0.549	0
+P	Begoro		GH		6.387	-0.377	0
+P	Salaga		GH		8.551	-0.519	0
+P	Adiaké	adiake	CI		5.286	-3.304	0
+P	Saltpond		GH		5.209	-1.061	0
+P	Bouna		CI		9.269	-2.995	0
+P	Elubo		GH		5.285	-2.767	0
+P	M’Batto	mbatto	CI		6.472	-4.358	0
+P	Damongo		GH		9.083	-1.819	0
+P	Goaso		GH		6.804	-2.517	0
+P	Biéby	bieby	CI		6.079	-3.635	0
+P	Shama Junction		GH		5.018	-1.664	0
+P	Aboisso Comoé	aboisso comoe	CI		5.735	-3.403	0
+P	Niablé	niable	CI		6.661	-3.270	0
+P	Bécédi-Brignan	becedi brignan	CI		5.909	-4.013	0
+P	Apam		GH		5.285	-0.746	0
+P	Foso		GH		5.701	-1.287	0
+P	Ahwiaa		GH		6.903	-1.652	0
+P	Ahigbé Koffikro	ahigbe koffikro	CI		5.408	-3.380	0
+P	M’Bahiakro	mbahiakro	CI		7.457	-4.340	0
+P	Ebilassokro		CI		6.379	-3.347	0
+P	Aburi		GH		5.848	-0.174	0
+P	Dabakala		CI		8.363	-4.429	0
+P	Rubino		CI		6.070	-4.311	0
+P	Tepa		GH		7.006	-2.166	0
+P	Batié	batie	BF		9.883	-2.917	0
+P	Azaguié	azaguie	CI		5.630	-4.082	0
+P	Bianouan		CI		6.012	-3.190	0
+P	Maféré	mafere	CI		5.415	-3.030	0
+P	Duayaw-Nkwanta	duayaw nkwanta	GH		7.175	-2.100	0
+P	Bechem		GH		7.090	-2.025	0
+P	Andé	ande	CI		6.782	-4.085	0
+P	Nzianouan		CI		6.012	-4.821	0
+P	Gbolouville		CI		5.794	-4.661	0
+P	Flakièdougou	flakiedougou	CI		8.483	-3.127	0
+P	Kong		CI		9.149	-4.610	0

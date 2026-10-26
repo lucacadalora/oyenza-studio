@@ -1,0 +1,565 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Dakar	0	
+Z	3	Africa/Dar_es_Salaam	180	
+Z	4	Africa/Khartoum	120	
+Z	5	Africa/Tunis	60	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Cuiaba	-240	
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/Guayaquil	-300	
+Z	10	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	11	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	12	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	America/Sao_Paulo	-180	
+Z	14	America/Tegucigalpa	-360	
+Z	15	Asia/Ashgabat	300	
+Z	16	Asia/Dubai	240	
+Z	17	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	18	Asia/Ho_Chi_Minh	420	
+Z	19	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	20	Asia/Kathmandu	345	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Seoul	540	
+Z	23	Asia/Shanghai	480	
+Z	24	Asia/Tehran	210	
+Z	25	Asia/Urumqi	360	
+Z	26	Asia/Vladivostok	600	
+Z	27	Asia/Yangon	390	
+Z	28	Australia/Darwin	570	
+Z	29	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	30	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	31	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	32	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	33	Pacific/Majuro	720	
+C	AE	United Arab Emirates	dubai	s
+C	AM	Armenia	mwl	s
+C	AO	Angola	egyptian	s
+C	AU	Australia	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BH	Bahrain	ummalqura	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	EH	Western Sahara	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KH	Cambodia	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	LK	Sri Lanka	mwl	s
+C	LT	Lithuania	mwl	s
+C	LV	Latvia	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MH	Marshall Islands	mwl	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	PA	Panama	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SN	Senegal	egyptian	s
+C	SY	Syria	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	13
+P	Dar es Salaam		TZ		-6.823	39.270	3
+P	Dalian		CN		38.912	121.602	23
+P	Dakar		SN		14.694	-17.444	2
+P	Daegu		KR		35.870	128.591	22
+P	Datong		CN		40.094	113.291	23
+P	Davao		PH		7.073	125.613	23
+P	Daqing		CN		46.583	125.000	23
+P	Dazhou		CN		31.211	107.463	23
+P	Damascus		SY		33.510	36.291	3
+P	Daejeon		KR		36.349	127.385	22
+P	Dallas		US	Texas	32.783	-96.807	6
+P	Da Nang		VN		16.068	108.221	18
+P	Dammam		SA		26.434	50.103	3
+P	Dandong		CN		40.129	124.395	23
+P	Daxing’anling	daxinganling	CN		52.334	124.712	23
+P	Kota Damansara		MY		3.155	101.580	23
+P	Dasmariñas	dasmarinas	PH		14.329	120.937	23
+P	Davangere		IN		14.467	75.927	21
+P	Daloa		CI		6.877	-6.450	2
+P	Dayrah		AE		25.271	55.302	16
+P	Thủ Dầu Một	thu dau mot	VN		10.980	106.652	18
+P	Dachang		CN		31.309	121.415	23
+P	Đống Đa	dong da	VN		21.013	105.825	18
+P	Bahir Dar		ET		11.594	37.391	3
+P	Daye		CN		30.083	114.950	23
+P	Darnytsya		UA		50.416	30.695	31
+P	Dire Dawa		ET		9.593	41.866	3
+P	Ribeirão das Neves	ribeirao das neves	BR		-19.767	-44.087	13
+P	Mogi das Cruzes		BR		-23.523	-46.188	13
+P	Damanhur		EG		31.034	30.468	0
+P	Damietta		EG		31.416	31.813	0
+P	Darbhanga		IN		26.152	85.897	21
+P	Taboão da Serra	taboao da serra	BR		-23.626	-46.792	13
+P	El Daein		SD		11.462	26.126	4
+P	Ðà Lạt	da lat	VN		11.946	108.442	18
+P	Vitória da Conquista	vitoria da conquista	BR		-14.866	-40.839	13
+P	Embu das Artes		BR		-23.649	-46.852	13
+P	Dali		CN		25.585	100.212	23
+P	Danlí	danli	HN		14.033	-86.583	14
+P	Daliang		CN		22.841	113.250	23
+P	Daşoguz	dasoguz	TM		41.836	59.967	15
+P	Dadu		PK		26.730	67.777	15
+P	Dajal		PK		29.558	70.376	15
+P	Danshui		TW		25.172	121.443	23
+P	Ad-Damazin	ad damazin	SD		11.789	34.359	4
+P	Thị Trấn Đại Từ	thi tran dai tu	VN		21.634	105.638	18
+P	Daule		EC		-1.860	-79.977	9
+P	Dagupan		PH		16.043	120.333	23
+P	Rio das Ostras		BR		-22.527	-41.945	13
+P	Darmstadt		DE		49.872	8.650	30
+P	Dar Bouazza		MA		33.515	-7.817	1
+P	Itapecerica da Serra		BR		-23.717	-46.849	13
+P	Dalūpura	dalupura	IN		28.606	77.319	21
+P	Franco da Rocha		BR		-23.322	-46.727	13
+P	Darwin		AU	Northern Territory	-12.461	130.842	28
+P	Damoh		IN		23.833	79.442	21
+P	Dabou		CI		5.326	-4.377	2
+P	Dawei		MM		14.082	98.192	27
+P	Dayton		US	Ohio	39.759	-84.192	12
+P	Dawukou		CN		39.042	106.396	23
+P	Din Daeng		TH		13.790	100.570	18
+P	Daur		PK		26.455	68.318	15
+P	Kafr ad Dawwār	kafr ad dawwar	EG		31.134	30.130	0
+P	Daska Kalan		PK		32.324	74.350	15
+P	Danshui		CN		22.798	114.467	23
+P	Sakiet ed Daier		TN		34.794	10.806	5
+P	Ban Samae Dam		TH		13.590	100.387	18
+P	Dārjiling	darjiling	IN		27.033	88.267	21
+P	Dam Dam		IN		22.633	88.423	21
+P	Daitō	daito	JP		34.714	135.620	22
+P	Bairro da Penha		BR		-23.368	-46.311	13
+P	Dąbrowa Górnicza	dabrowa gornicza	PL		50.334	19.205	30
+P	Dasha		CN		23.110	113.442	23
+P	Recanto das Emas		BR		-15.909	-48.064	13
+P	Tangará da Serra	tangara da serra	BR		-14.619	-57.486	7
+P	São Lourenço da Mata	sao lourenco da mata	BR		-8.002	-35.018	13
+P	São Pedro da Aldeia	sao pedro da aldeia	BR		-22.839	-42.103	13
+P	Datun		CN		34.809	116.902	23
+P	Pandit Deen Dayal Upadhyaya Nagar		IN		25.283	83.120	21
+P	Dagenham		GB	England	51.550	0.167	32
+P	Daly City		US	California	37.706	-122.462	11
+P	Dakhla		EH		23.685	-15.958	1
+P	Lahad Datu		MY		5.023	118.329	23
+P	Daxing		CN		39.740	116.327	23
+P	Ad-Damir	ad damir	SD		17.599	33.972	4
+P	Davenport		US	Iowa	41.524	-90.578	6
+P	Darnah		LY		32.767	22.637	4
+P	Dayrūţ	dayrut	EG		27.556	30.811	0
+P	Dartmouth		CA	Nova Scotia	44.671	-63.577	10
+P	Daoukro		CI		7.059	-3.963	2
+P	Davie		US	Florida	26.063	-80.233	12
+P	Vasco da Gama		IN		15.396	73.816	21
+P	Datia		IN		25.673	78.459	21
+P	Dar‘ā	dara	SY		32.619	36.102	3
+P	Daanbantayan		PH		11.247	124.015	23
+P	Daxi		TW		24.884	121.290	23
+P	Daotian		CN		36.834	118.898	23
+P	Dalai		CN		45.500	124.300	23
+P	São João da Boa Vista	sao joao da boa vista	BR		-21.969	-46.798	13
+P	Darlington		GB	England	54.524	-1.550	32
+P	Danjiangkou		CN		32.543	111.509	23
+P	Daisen		JP		39.441	140.490	22
+P	Daharki		PK		28.054	69.702	15
+P	Dapitan		PH		8.656	123.423	23
+P	Ad Dawādimī	ad dawadimi	SA		24.508	44.392	3
+P	Dausa		IN		26.890	76.336	21
+P	Damansara Damai		MY		3.199	101.592	23
+P	Danbury		US	Connecticut	41.395	-73.454	12
+P	Dacheng		CN		19.509	109.393	23
+P	Dazhong		CN		33.200	120.458	23
+P	Darhan		MN		49.487	105.923	23
+P	David		PA		8.427	-82.431	9
+P	Dali Old Town		CN		25.689	100.159	23
+P	Dashiqiao		CN		40.637	122.503	23
+P	Danané	danane	CI		7.260	-8.155	2
+P	Daura		NG		11.554	11.406	5
+P	Daet		PH		14.112	122.955	23
+P	Daugavpils		LV		55.883	26.533	31
+P	Damiao		CN		34.264	117.364	23
+P	Dangkao		KH		11.509	104.891	18
+P	Dawbon		MM		16.516	95.603	27
+P	Barra do Dande		AO		-8.472	13.370	5
+P	Dazaifu		JP		33.513	130.524	22
+P	Dachnoye		RU		59.842	30.256	3
+P	Daytona Beach		US	Florida	29.211	-81.023	12
+P	Dārayyā	darayya	SY		33.458	36.233	3
+P	Dias d'Ávila	dias davila	BR		-12.613	-38.297	13
+P	Dādri	dadri	IN		28.553	77.554	21
+P	Danao		PH		10.521	124.027	23
+P	Dārāb	darab	IR		28.752	54.541	24
+P	Dainava (Kaunas)	dainava kaunas	LT		54.915	23.968	31
+P	Linh Đàm	linh dam	VN		20.964	105.831	18
+P	Darnytskyi Masyv		UA		50.443	30.628	31
+P	Darya Khan		PK		31.784	71.102	15
+P	Notre-Dame-de-Grâce	notre dame de grace	CA	Quebec	45.477	-73.614	12
+P	Dāmghān	damghan	IR		36.168	54.343	24
+P	Davis		US	California	38.545	-121.741	11
+P	Dambulla		LK		7.860	80.652	21
+P	Daxu		CN		34.282	117.553	23
+P	Dale City		US	Virginia	38.637	-77.311	12
+P	Dashitou		CN		43.307	128.511	23
+P	Bom Jesus da Lapa		BR		-13.255	-43.418	13
+P	Dār Kulayb	dar kulayb	BH		26.069	50.504	3
+P	Capão da Canoa	capao da canoa	BR		-29.746	-50.010	13
+P	Villeneuve-d'Ascq	villeneuve dascq	FR		50.617	3.167	30
+P	Dabwāli	dabwali	IN		29.949	74.738	21
+P	Meshkīn Dasht	meshkin dasht	IR		35.750	50.944	24
+P	Nani Daman		IN		20.414	72.832	21
+P	Darāw	daraw	EG		24.408	32.923	0
+P	Euclides da Cunha		BR		-10.508	-39.016	13
+P	Dashi		CN		30.094	106.222	23
+P	Dabra		IN		25.886	78.332	21
+P	Dar Naim		MR		18.108	-15.927	2
+P	Datong		CN		32.621	117.063	23
+P	Dayr Mawās	dayr mawas	EG		27.641	30.850	0
+P	Cruz das Almas		BR		-12.670	-39.102	13
+P	Dazeshan		CN		36.989	119.922	23
+P	Ara Damansara		MY		3.119	101.587	23
+P	Dại Mỗ	dai mo	VN		20.983	105.767	18
+P	Date		JP		37.817	140.500	22
+P	Dayr al Balaḩ	dayr al balah	PS		31.418	34.349	17
+P	Dapaong		TG		10.862	0.208	2
+P	Daokou		CN		35.569	114.516	23
+P	Talegaon Dābhāde	talegaon dabhade	IN		18.735	73.676	21
+P	São Gabriel da Cachoeira	sao gabriel da cachoeira	BR		-0.118	-67.085	7
+P	Charkhi Dādri	charkhi dadri	IN		28.592	76.272	21
+P	Dabhoi		IN		22.183	73.433	21
+P	Dangila		ET		11.267	36.833	3
+P	Dalianwan		CN		39.029	121.695	23
+P	Dakhla		MA		30.411	-9.553	1
+P	União da Vitória	uniao da vitoria	BR		-26.230	-51.086	13
+P	Sāhibābād Daulotpur	sahibabad daulotpur	IN		28.747	77.115	21
+P	Mandi Dabwāli	mandi dabwali	IN		29.966	74.700	21
+P	Imara Daima Estate		KE		-1.323	36.880	3
+P	Dabhel		IN		20.410	72.883	21
+P	Daxing		CN		27.264	100.864	23
+P	Daudnagar		IN		25.035	84.401	21
+P	Dandeli		IN		15.267	74.617	21
+P	Dapeng		CN		34.284	117.075	23
+P	Ad Darwa		MA		33.375	-7.536	1
+P	Davtashen		AM		40.216	44.481	16
+P	Dashahe		CN		34.538	116.625	23
+P	Lagoa da Prata		BR		-20.023	-45.544	13
+P	Dartford		GB	England	51.447	0.214	32
+P	Brejo da Madre de Deus		BR		-8.146	-36.371	13
+P	Datong		CN		28.596	106.667	23
+P	Dāhānu	dahanu	IN		19.968	72.713	21
+P	Chahār Dangeh	chahar dangeh	IR		35.603	51.310	24
+P	Daund		IN		18.465	74.584	21
+P	Coeur d'Alene	coeur dalene	US	Idaho	47.678	-116.780	11
+P	São Joaquim da Barra	sao joaquim da barra	BR		-20.581	-47.855	13
+P	Bandar Sri Damansara		MY		3.190	101.611	23
+P	Da’an	daan	CN		29.383	106.015	23
+P	Dalu		CN		29.730	106.218	23
+P	Damxung		CN		30.478	91.106	23
+P	Damoujia		CN		36.544	119.813	23
+P	Thị Trấn Đầm Hà	thi tran dam ha	VN		21.353	107.597	18
+P	Figueira da Foz		PT		40.151	-8.862	32
+P	Damaturu		NG		11.747	11.961	5
+P	Kebri Dahar		ET		6.740	44.278	3
+P	Nova Darnytsya		UA		50.424	30.656	31
+P	Dara		SN		15.348	-15.480	2
+P	Dangjiang		CN		21.650	109.117	23
+P	Mocímboa da Praia	mocimboa da praia	MZ		-11.352	40.352	4
+P	Spassk-Dal’niy	spassk dalniy	RU		44.601	132.820	26
+P	Damyang		KR		35.319	126.984	22
+P	Dahuangshan		CN		34.293	117.344	23
+P	Lago da Pedra		BR		-4.560	-45.132	13
+P	Danville		US	California	37.822	-122.000	11
+P	Santo Antônio da Platina	santo antonio da platina	BR		-23.295	-50.077	13
+P	Dalli Rājhara	dalli rajhara	IN		20.586	81.075	21
+P	Rio Grande da Serra		BR		-23.744	-46.398	13
+P	Santo Antônio da Patrulha	santo antonio da patrulha	BR		-29.817	-50.520	13
+P	Dahegām	dahegam	IN		23.169	72.822	21
+P	Daizhuang		CN		34.514	117.853	23
+P	Afogados da Ingazeira		BR		-7.751	-37.639	13
+P	Dar Chabanne		TN		36.468	10.752	5
+P	Danville		US	Virginia	36.586	-79.395	12
+P	Nossa Senhora da Glória	nossa senhora da gloria	BR		-10.218	-37.420	13
+P	Santa Maria da Boa Vista		BR		-8.808	-39.826	13
+P	Daxing		CN		29.556	106.160	23
+P	Đan Phượng	dan phuong	VN		21.089	105.662	18
+P	Dachau		DE		48.260	11.434	30
+P	Dakoro		NE		14.511	6.765	5
+P	Barra da Tijuca		BR		-22.998	-43.365	13
+P	Pomigliano d'Arco	pomigliano darco	IT		40.910	14.383	30
+P	São João da Barra	sao joao da barra	BR		-21.640	-41.051	13
+P	Santa Maria da Vitória	santa maria da vitoria	BR		-13.388	-44.199	13
+P	Daik-u	daik u	MM		17.795	96.670	27
+P	Dalnegorsk		RU		44.557	135.621	26
+P	Dār as Salām	dar as salam	EG		26.278	32.056	0
+P	Damaia		PT		38.751	-9.212	32
+P	Dar el Beïda	dar el beida	DZ		36.713	3.212	5
+P	Dargaz		IR		37.444	59.108	24
+P	Dadamtu		CN		43.980	81.314	25
+P	Dashtobod		UZ		40.127	68.494	15
+P	Daryāpur	daryapur	IN		20.925	77.326	21
+P	Datteln		DE		51.656	7.345	30
+P	Dachang		CN		31.269	109.802	23
+P	Karavayevi Dachi		UA		50.430	30.437	31
+P	Alam Damai		MY		3.060	101.741	23
+P	Date		JP		42.468	140.868	22
+P	Itaporanga d'Ajuda	itaporanga dajuda	BR		-10.998	-37.311	13
+P	Dana Point		US	California	33.467	-117.698	11
+P	Dakota Ridge		US	Colorado	39.616	-105.139	8
+P	Dalton		US	Georgia	34.770	-84.970	12
+P	Várzea da Palma	varzea da palma	BR		-17.598	-44.734	13
+P	Araçoiaba da Serra	aracoiaba da serra	BR		-23.505	-47.614	13
+P	Darsi		IN		15.770	79.679	21
+P	Palmeira das Missões	palmeira das missoes	BR		-27.899	-53.314	13
+P	Ndibène Dahra	ndibene dahra	SN		15.334	-15.477	2
+P	Darwen		GB	England	53.698	-2.465	32
+P	Danderyd		SE		59.404	18.024	30
+P	Dagzê	dagze	CN		29.673	91.345	23
+P	São Gabriel da Palha	sao gabriel da palha	BR		-19.018	-40.537	13
+P	Dajin		CN		31.510	108.446	23
+P	Danville		US	Illinois	40.124	-87.630	6
+P	Danai		MM		26.359	96.720	27
+P	Maḩallat Damanah	mahallat damanah	EG		31.073	31.495	0
+P	Dasheng		CN		36.320	118.855	23
+P	São José da Tapera	sao jose da tapera	BR		-9.558	-37.381	13
+P	Dade		CN		31.213	108.340	23
+P	Dania Beach		US	Florida	26.052	-80.144	12
+P	Mehdia daira de meghila		DZ		35.431	1.757	5
+P	Rio das Pedras		BR		-22.843	-47.606	13
+P	Daocheng		CN		29.038	100.297	23
+P	Dayē	daye	ET		9.883	38.267	3
+P	Cícero Dantas	cicero dantas	BR		-10.600	-38.383	13
+P	Flores da Cunha		BR		-29.029	-51.182	13
+P	Lavras da Mangabeira		BR		-6.753	-38.964	13
+P	Dahmani		TN		35.944	8.828	5
+P	Nazaré da Mata	nazare da mata	BR		-7.742	-35.228	13
+P	Dandenong		AU	Victoria	-37.983	145.200	29
+P	Davydkovo		RU		55.718	37.473	3
+P	Pind Dadan Khan		PK		32.587	73.045	15
+P	Dachang Shandao		CN		39.276	122.600	23
+P	Dassa-Zoumè	dassa zoume	BJ		7.750	2.183	5
+P	Dabola		GN		10.743	-11.108	2
+P	Dā‘il	dail	SY		32.754	36.131	3
+P	Damāvand	damavand	IR		35.718	52.070	24
+P	Senhora da Hora		PT		41.186	-8.652	32
+P	Dayr Ḩāfir	dayr hafir	SY		36.157	37.708	3
+P	Santa Cruz das Palmeiras		BR		-21.827	-47.249	13
+P	Bom Jesus das Selvas		BR		-4.484	-46.853	13
+P	Conceição das Alagoas	conceicao das alagoas	BR		-19.915	-48.388	13
+P	Dabat		ET		12.984	37.765	3
+P	Dalnerechensk		RU		45.931	133.739	26
+P	Daventry		GB	England	52.257	-1.161	32
+P	Dabajuro		VE		11.023	-70.678	7
+P	Dāsna	dasna	IN		28.677	77.523	21
+P	Dagestanskiye Ogni		RU		42.116	48.192	3
+P	El Dabaa		EG		31.028	28.445	0
+P	Dashi		CN		34.898	105.186	23
+P	Conceição da Barra	conceicao da barra	BR		-18.593	-39.732	13
+P	Caldas da Rainha		PT		39.403	-9.138	32
+P	Santo Amaro da Imperatriz		BR		-27.688	-48.779	13
+P	Dar Chioukh		DZ		34.896	3.485	5
+P	Porto da Folha		BR		-9.917	-37.278	13
+P	Dalfsen		NL		52.512	6.257	30
+P	Danvers		US	Massachusetts	42.575	-70.930	12
+P	Dafengdong		CN		26.712	107.811	23
+P	Daud Khel		PK		32.875	71.571	15
+P	Dar el Haj Taïeb	dar el haj taieb	TN		34.784	10.744	5
+P	São José da Lapa	sao jose da lapa	BR		-19.700	-43.960	13
+P	Ḑamad	damad	SA		17.104	42.782	3
+P	Dardoq		UZ		40.816	72.832	15
+P	Barra da Estiva		BR		-13.626	-41.327	13
+P	Dano		BF		11.146	-3.058	2
+P	Stara Darnytsya		UA		50.433	30.633	31
+P	Dārwha	darwha	IN		20.310	77.773	21
+P	Rio Preto da Eva		BR		-2.698	-59.702	7
+P	Dākor	dakor	IN		22.753	73.150	21
+P	São Sebastião da Boa Vista	sao sebastiao da boa vista	BR		-1.715	-49.532	13
+P	Daura		NG		13.033	8.324	5
+P	Dasūya	dasuya	IN		31.817	75.653	21
+P	Daliyat al Karmel		IL		32.694	35.047	19
+P	Nossa Senhora das Dores		BR		-10.492	-37.193	13
+P	Darreh Shahr		IR		33.144	47.380	24
+P	Daphne		US	Alabama	30.604	-87.904	6
+P	Dalandzadgad		MN		43.571	104.425	23
+P	Ar Rām wa Ḑāḩiyat al Barīd	ar ram wa dahiyat al barid	PS		31.849	35.234	17
+P	Damua		IN		22.193	78.467	21
+P	Dātāganj	dataganj	IN		28.025	79.408	21
+P	Davlekanovo		RU		54.218	55.031	15
+P	São João da Ponte	sao joao da ponte	BR		-15.929	-44.008	13
+P	Dalsingh Sarai		IN		25.668	85.836	21
+P	Dalyoni Bolo		TJ		39.749	68.996	15
+P	Damongo		GH		9.083	-1.819	2
+P	Damnoen Saduak		TH		13.518	99.955	18
+P	Dankov		RU		53.250	39.144	3
+P	Dar		KH		11.789	106.093	18
+P	Dalmine		IT		45.649	9.606	30
+P	Danghara		TJ		38.096	69.340	15
+P	Dabeiba		CO		7.000	-76.269	9
+P	Da Nyin Kone		MM		16.933	96.093	27
+P	Dandenong North		AU	Victoria	-37.966	145.208	29
+P	Dawan		CN		30.020	106.820	23
+P	Dambai		GH		8.066	0.179	2
+P	Parque das Nações	parque das nacoes	PT		38.769	-9.096	32
+P	Dax		FR		43.710	-1.054	30
+P	Darien		US	Illinois	41.752	-87.974	6
+P	Dasnapur		IN		19.654	78.512	21
+P	Posto da Mata		BR		-17.886	-39.859	13
+P	São João da Madeira	sao joao da madeira	PT		40.901	-8.490	32
+P	Dagbao I		CI		5.560	-6.021	2
+P	Ad Dānā	ad dana	SY		36.213	36.770	3
+P	Sant Joan d'Alacant	sant joan dalacant	ES		38.401	-0.436	30
+P	Dasheng		CN		29.890	106.897	23
+P	Dayang		CN		34.990	106.072	23
+P	Damboya		ET		7.348	37.951	3
+P	Dashu		CN		31.211	109.322	23
+P	Dattāpur	dattapur	IN		20.781	78.141	21
+P	Dagana		SN		16.477	-15.600	2
+P	Riachão das Neves	riachao das neves	BR		-11.746	-44.910	13
+P	Damboa		NG		11.155	12.756	5
+P	Boca da Mata		BR		-9.641	-36.220	13
+P	Ad Darbāsīyah	ad darbasiyah	SY		37.073	40.652	3
+P	East End-Danforth	east end danforth	CA	Ontario	43.684	-79.299	12
+P	Darton		GB	England	53.587	-1.527	32
+P	Dagadji		CI		5.126	-6.815	2
+P	São José da Laje	sao jose da laje	BR		-9.010	-36.058	13
+P	Dalat		MY		2.667	112.083	23
+P	Olho d'Água das Flores	olho dagua das flores	BR		-9.536	-37.294	13
+P	Dammarie-les-Lys	dammarie les lys	FR		48.517	2.650	30
+P	Ribeirão da Ilha	ribeirao da ilha	BR		-27.699	-48.532	13
+P	Freguesia do Ribeirao da Ilha		BR		-27.718	-48.563	13
+P	Dailekh		NP		28.844	81.710	20
+P	Conceição da Feira	conceicao da feira	BR		-12.506	-38.999	13
+P	Dargeçit	dargecit	TR		37.546	41.717	3
+P	Darien		US	Connecticut	41.079	-73.469	12
+P	Riacho das Almas		BR		-8.134	-35.856	13
+P	Dayal Pur		IN		28.718	77.265	21
+P	Daguan		CN		29.255	106.977	23
+P	Darende		TR		38.546	37.506	3
+P	Dalap-Uliga-Dorrit	dalap uliga dorrit	MH		7.087	171.377	33
+P	Danao		PH		9.554	123.756	23
+P	Thị Trấn Đất Đỏ	thi tran dat do	VN		10.491	107.270	18
+P	Dārān	daran	IR		32.987	50.411	24
+P	Dagomys		RU		43.670	39.669	3
+P	Biskupin-Sępolno-Dąbie-Bartoszowice	biskupin sepolno dabie bartoszowice	PL		51.108	17.091	30
+P	Dareda		TZ		-4.217	35.550	3
+P	Careiro da Várzea	careiro da varzea	BR		-3.197	-59.827	7
+P	Daro		MY		2.517	111.430	23
+P	Dalaman		TR		36.766	28.803	3
+P	Dayal		PK		33.312	73.703	15
+P	São João da Talha	sao joao da talha	PT		38.824	-9.097	32
+P	Cournon-d'Auvergne	cournon dauvergne	FR		45.741	3.196	30
+P	Dashun		CN		29.570	107.045	23
+P	Lagoa da Canoa		BR		-9.830	-36.738	13
+P	São José da Coroa Grande	sao jose da coroa grande	BR		-8.898	-35.148	13
+P	São Raimundo das Mangabeiras	sao raimundo das mangabeiras	BR		-7.022	-45.481	13
+P	Santa Iria da Azóia	santa iria da azoia	PT		38.841	-9.099	32
+P	Morro da Fumaça	morro da fumaca	BR		-28.651	-49.210	13
+P	Daimiel		ES		39.070	-3.615	30
+P	Darazo		NG		10.999	10.411	5
+P	Dabakala		CI		8.363	-4.429	2
+P	Danzi		CN		30.857	108.006	23
+P	Dārchulā	darchula	NP		29.830	80.550	20
+P	Riachão do Dantas	riachao do dantas	BR		-11.069	-37.725	13
+P	Daboh		IN		26.002	78.877	21
+P	Leça da Palmeira	leca da palmeira	PT		41.191	-8.700	32
+P	Dalserf		GB	Scotland	55.733	-3.917	32
+P	Olho d’Água das Cunhãs	olho dagua das cunhas	BR		-4.139	-45.119	13
+P	Dastgerd		IR		32.802	51.664	24
+P	Dāmnagar	damnagar	IN		21.692	71.517	21
+P	Formosa da Serra Negra		BR		-6.445	-46.189	13
+P	Darnytsya Car Repair Plant Microdistrict		UA		50.450	30.676	31
+P	Dārzciems	darzciems	LV		56.946	24.175	31
+P	Ad Dasmah		KW		29.365	48.001	3
+P	Chon Daen		TH		16.190	100.860	18
+P	Borda da Mata		BR		-22.274	-46.165	13
+P	Vila Bela da Santíssima Trindade	vila bela da santissima trindade	BR		-15.008	-59.951	7
+P	Dadhar		PK		29.475	67.652	15
+P	Cassano d'Adda	cassano dadda	IT		45.526	9.515	30
+P	Danforth East York		CA	Ontario	43.689	-79.331	12
+P	São Pedro da Cova	sao pedro da cova	PT		41.143	-8.500	32
+P	Dalain Hob		CN		41.965	101.064	23
+P	Dahlem		DE		52.458	13.287	30
+P	Đakovo	dakovo	HR		45.308	18.411	30
+P	Sawang Daen Din		TH		17.475	103.458	18
+P	Danilov		RU		58.191	40.171	3
+P	Danville		US	Kentucky	37.646	-84.772	12
+P	Dabas		HU		47.186	19.311	30
+P	Beaver Dam		US	Wisconsin	43.458	-88.837	6
+P	Santa Maria das Barreiras		BR		-8.872	-49.713	13
+P	Dajabón	dajabon	DO		19.548	-71.708	7
+P	Lagoa da Confusão	lagoa da confusao	BR		-10.794	-49.624	13
+P	Damiao		CN		29.644	106.070	23
+P	Đại Lộc	dai loc	VN		15.882	108.121	18
+P	Dazhuang		CN		34.959	105.336	23
+P	São Lourenço da Serra	sao lourenco da serra	BR		-23.852	-46.943	13
+P	Mount Davis		HK		22.279	114.118	23
+P	Damme		DE		52.521	8.198	30
+P	Dashan		CN		23.002	100.115	23
+P	Daggakraal		ZA		-27.132	29.976	4
+P	Darien		CO		3.931	-76.485	9
+P	Daigo		JP		36.767	140.350	22
+P	Campina da Lagoa		BR		-24.592	-52.799	13
+P	Dāpoli	dapoli	IN		17.759	73.188	21
+P	Danta		IN		27.296	75.187	21
+P	Dan Khun Thot		TH		15.209	101.771	18
+P	Daxie		CN		30.073	108.110	23
+P	Davorlim		IN		15.272	73.992	21
+P	The Dalles		US	Oregon	45.595	-121.179	11
+P	Ribnitz-Damgarten	ribnitz damgarten	DE		54.242	12.457	30
+P	Dārāsuram	darasuram	IN		10.950	79.356	21
+P	Dalkola		IN		25.876	87.840	21
+P	Dallas		US	Oregon	44.919	-123.317	11
+P	Damascus		US	Maryland	39.288	-77.204	12
+P	Daru		PG		-9.078	143.209	26

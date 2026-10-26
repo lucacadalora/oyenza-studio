@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+Z	1	Europe/Moscow	180	
+Z	2	Europe/Samara	240	
+C	RU	Russia	mwl	s
+B	0
+P	Izhevsk		RU		56.852	53.199	2
+P	Naberezhnyye Chelny		RU		55.737	52.420	1
+P	Nizhnekamsk		RU		55.638	51.815	1
+P	Neftekamsk		RU		56.089	54.264	0
+P	Glazov		RU		58.140	52.656	2
+P	Sarapul		RU		56.476	53.798	2
+P	Votkinsk		RU		57.049	53.987	2
+P	Kirovo-Chepetsk	kirovo chepetsk	RU		58.551	50.031	1
+P	Chaykovskiy		RU		56.763	54.113	0
+P	Yelabuga		RU		55.762	52.044	1
+P	Chistopol’	chistopol	RU		55.366	50.644	1
+P	Mozhga		RU		56.446	52.216	2
+P	Zainsk		RU		55.319	52.069	1
+P	Vyatskiye Polyany		RU		56.229	51.061	1
+P	Slobodskoy		RU		58.731	50.171	1
+P	Kudymkar		RU		59.015	54.653	0
+P	Dyurtyuli		RU		55.487	54.862	0
+P	Yanaul		RU		56.272	54.930	0
+P	Omutninsk		RU		58.670	52.193	1
+P	Mendeleyevsk		RU		55.897	52.311	1
+P	Vereshchagino		RU		58.078	54.656	0
+P	Igra		RU		57.555	53.054	2
+P	Agidel’	agidel	RU		55.909	53.934	0
+P	Uva		RU		56.991	52.185	2
+P	Agryz		RU		56.523	52.994	1
+P	Menzelinsk		RU		55.728	53.102	1
+P	Kukmor		RU		56.186	50.894	1
+P	Balezino		RU		57.979	53.014	2
+P	Ochër	ocher	RU		57.882	54.718	0

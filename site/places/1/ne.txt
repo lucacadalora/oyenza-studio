@@ -1,0 +1,416 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Addis_Ababa	180	
+Z	2	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	3	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	4	Africa/Johannesburg	120	
+Z	5	Africa/Luanda	60	
+Z	6	America/Caracas	-240	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	9	America/Jamaica	-300	
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Mexico_City	-360	
+Z	12	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	America/Sao_Paulo	-180	
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Dhaka	360	
+Z	16	Asia/Ho_Chi_Minh	420	
+Z	17	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	18	Asia/Kabul	270	
+Z	19	Asia/Kathmandu	345	
+Z	20	Asia/Kolkata	330	
+Z	21	Asia/Sakhalin	660	
+Z	22	Asia/Taipei	480	
+Z	23	Asia/Tehran	210	
+Z	24	Asia/Tokyo	540	
+Z	25	Asia/Yekaterinburg	300	
+Z	26	Australia/Brisbane	600	
+Z	27	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	28	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	29	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	30	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	31	Europe/Samara	240	
+Z	32	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AF	Afghanistan	karachi	h
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	GY	Guyana	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	JP	Japan	mwl	s
+C	KR	South Korea	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LR	Liberia	egyptian	s
+C	LS	Lesotho	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NO	Norway	mwl	s
+C	NP	Nepal	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	5
+P	New York City		US	New York	40.714	-74.006	12
+P	New Taipei City		TW		25.062	121.457	22
+P	New Territories		HK		22.424	114.111	22
+P	Neijiang		CN		29.584	105.062	22
+P	Ciudad Nezahualcoyotl		MX		19.401	-99.015	11
+P	New South Memphis		US	Tennessee	35.087	-90.057	7
+P	New Kingston		JM		18.007	-76.783	9
+P	Nellore		IN		14.450	79.987	20
+P	Newcastle		AU	New South Wales	-32.930	151.780	27
+P	Newcastle		ZA		-27.758	29.932	4
+P	New Orleans		US	Louisiana	29.955	-90.075	7
+P	Neiva		CO		2.930	-75.280	9
+P	Ribeirão das Neves	ribeirao das neves	BR		-19.767	-44.087	13
+P	New Delhi		IN		28.621	77.215	20
+P	New Cairo		EG		30.030	31.470	2
+P	Newcastle upon Tyne		GB	England	54.973	-1.614	30
+P	Newark		US	New Jersey	40.736	-74.172	12
+P	Bedok New Town		SG		1.326	103.942	22
+P	Neihu		TW		25.081	121.588	22
+P	Sengkang New Town		SG		1.392	103.894	22
+P	Tampines New Town		SG		1.349	103.950	22
+P	Neyagawa		JP		34.766	135.628	24
+P	Neuquén	neuquen	AR		-38.951	-68.059	13
+P	Yishun New Town		SG		1.433	103.831	22
+P	Netanya		IL		32.333	34.860	17
+P	Hougang New Town		SG		1.357	103.891	22
+P	Neue Neustadt		DE		52.150	11.633	28
+P	Neyshābūr	neyshabur	IR		36.213	58.796	23
+P	Choa Chu Kang New Town		SG		1.383	103.750	22
+P	Newport News		US	Virginia	36.980	-76.430	12
+P	Nepean		CA	Ontario	45.336	-75.722	12
+P	Neyveli		IN		11.609	79.499	20
+P	East New York		US	New York	40.667	-73.882	12
+P	Reggio nell'Emilia	reggio nellemilia	IT		44.698	10.631	28
+P	Nepalgunj		NP		28.050	81.617	19
+P	Neukölln	neukolln	DE		52.477	13.431	28
+P	Newport		GB	Wales	51.588	-2.998	30
+P	Newton		CA	British Columbia	49.133	-122.850	14
+P	Ang Mo Kio New Town		SG		1.380	103.840	22
+P	Bukit Batok New Town		SG		1.359	103.764	22
+P	Nek’emtē	nekemte	ET		9.083	36.550	1
+P	Neuss		DE		51.198	6.685	28
+P	Piedras Negras		MX		28.700	-100.524	7
+P	Bukit Panjang New Town		SG		1.380	103.765	22
+P	Negombo		LK		7.208	79.836	20
+P	Nevinnomyssk		RU		44.633	41.944	1
+P	New Haven		US	Connecticut	41.308	-72.928	12
+P	Palo Negro		VE		10.174	-67.542	6
+P	Newcastle under Lyme		GB	England	53.000	-2.233	30
+P	Neftekamsk		RU		56.089	54.264	25
+P	New Mirpur City		PK		33.148	73.752	25
+P	Toa Payoh New Town		SG		1.336	103.850	22
+P	Serangoon New Town		SG		1.351	103.871	22
+P	Neili		TW		24.973	121.261	22
+P	Nefteyugansk		RU		61.100	72.603	25
+P	Nehe		CN		48.479	124.870	22
+P	Piatra Neamţ	piatra neamt	RO		46.917	26.333	29
+P	New Bedford		US	Massachusetts	41.635	-70.927	12
+P	Arsi Negele		ET		7.355	38.675	1
+P	Tema New Town		GH		5.654	0.026	0
+P	Nemby		PY		-25.395	-57.536	13
+P	Kuala Nerus		MY		5.373	103.021	22
+P	Negage		AO		-7.759	15.272	5
+P	Newmarket		CA	Ontario	44.050	-79.466	12
+P	New Plymouth		NZ		-39.067	174.083	32
+P	Newton		US	Massachusetts	42.337	-71.209	12
+P	Neyyāttinkara	neyyattinkara	IN		8.399	77.086	20
+P	Bishan New Town		SG		1.350	103.849	22
+P	Nenjiang		CN		49.174	125.220	22
+P	Newport Beach		US	California	33.619	-117.929	10
+P	Near North Side		US	Illinois	41.900	-87.635	7
+P	Neumünster	neumunster	DE		54.074	9.985	28
+P	New Rochelle		US	New York	40.911	-73.782	12
+P	Netrakona		BD		24.884	90.729	15
+P	New Westminster		CA	British Columbia	49.207	-122.911	14
+P	Neelankarai		IN		12.950	80.259	20
+P	Nevşehir	nevsehir	TR		38.625	34.712	1
+P	Necochea		AR		-38.554	-58.740	13
+P	Negēlē	negele	ET		5.317	39.583	1
+P	Néa Smýrni	nea smyrni	GR		37.945	23.714	29
+P	New Britain		US	Connecticut	41.661	-72.780	12
+P	New Braunfels		US	Texas	29.703	-98.124	7
+P	Neubrandenburg		DE		53.557	13.261	28
+P	Néa Ionía	nea ionia	GR		38.036	23.757	29
+P	Wacheng Neighborhood		CN		33.783	114.517	22
+P	Neuwied		DE		50.434	7.471	28
+P	Neryungri		RU		56.658	124.725	24
+P	Souq Sebt Oulad Nemma		MA		32.297	-6.703	3
+P	Newtownabbey		GB	Northern Ireland	54.660	-5.909	30
+P	New Halfa		SD		15.330	35.599	4
+P	Neuilly-sur-Seine	neuilly sur seine	FR		48.885	2.270	28
+P	Felege Neway		ET		6.300	36.883	1
+P	Nekā	neka	IR		36.651	53.299	23
+P	Nedumangād	nedumangad	IN		8.603	77.001	20
+P	Néma	nema	MR		16.617	-7.256	0
+P	Nerkunram		IN		13.062	80.209	20
+P	New Brunswick		US	New Jersey	40.486	-74.452	12
+P	Neu-Hohenschönhausen	neu hohenschonhausen	DE		52.567	13.513	28
+P	Pasir Ris New Town		SG		1.372	103.948	22
+P	Nelson		NZ		-41.271	173.284	32
+P	Neustadt an der Weinstraße	neustadt an der weinstrasse	DE		49.350	8.139	28
+P	Nerupperichchal		IN		11.161	77.374	20
+P	West New York		US	New Jersey	40.788	-74.014	12
+P	En Nedjma		DZ		35.648	-0.570	5
+P	Neu-Ulm	neu ulm	DE		48.393	10.011	28
+P	Neubrück	neubruck	DE		51.134	6.639	28
+P	El Negrito		HN		15.317	-87.700	11
+P	Ness Ziona		IL		31.929	34.799	17
+P	Mui Ne		VN		10.933	108.283	16
+P	Nettuno		IT		41.458	12.664	28
+P	Neunkirchen		DE		49.344	7.180	28
+P	Newark		US	Ohio	40.058	-82.401	12
+P	Nellikkuppam		IN		11.776	79.670	20
+P	Neath		GB	Wales	51.663	-3.804	30
+P	Neyrīz	neyriz	IR		29.199	54.328	23
+P	Newark		US	California	37.530	-122.040	10
+P	Wiener Neustadt		AT		47.805	16.232	28
+P	Neustadt am Rübenberge	neustadt am rubenberge	DE		52.505	9.459	28
+P	Halle-Neustadt	halle neustadt	DE		51.479	11.916	28
+P	Nefas Mewch’a	nefas mewcha	ET		11.733	38.467	1
+P	Nevers		FR		46.990	3.159	28
+P	Netivot		IL		31.423	34.589	17
+P	Newark on Trent		GB	England	53.067	-0.817	30
+P	Nettetal		DE		51.317	6.283	28
+P	Coelho Neto		BR		-4.257	-43.013	13
+P	Nebbi		UG		2.478	31.089	1
+P	Newburn		GB	England	54.988	-1.744	30
+P	New City		US	Illinois	41.808	-87.656	7
+P	New Berlin		US	Wisconsin	42.976	-88.108	7
+P	Neumarkt in der Oberpfalz		DE		49.280	11.463	28
+P	Simei New Town		SG		1.341	103.956	22
+P	Nejo		ET		9.500	35.500	1
+P	Rio Negrinho		BR		-26.254	-49.518	13
+P	New Badah		PK		27.342	68.032	25
+P	Newala Kisimani		TZ		-10.950	39.283	1
+P	Neustadt/Süd	neustadt sud	DE		50.925	6.948	28
+P	Gharonda Neemka Bangar		IN		28.616	77.288	20
+P	Neufchâtel-Est–Lebourgneuf	neufchatel est lebourgneuf	CA	Quebec	46.854	-71.342	12
+P	Newnan		US	Georgia	33.381	-84.800	12
+P	Nelamangala		IN		13.100	77.394	20
+P	New Achimota		GH		5.627	-0.258	0
+P	New Albany		US	Indiana	38.286	-85.824	12
+P	Tilda Newra		IN		21.553	81.802	20
+P	Netishyn		UA		50.329	26.649	29
+P	Newton Abbot		GB	England	50.529	-3.612	30
+P	Neem ka Thana		IN		27.740	75.787	20
+P	Core Neighbourhoods		CA	Saskatchewan	52.130	-106.672	11
+P	Neduva		IN		11.057	75.867	20
+P	Nesttun		NO		60.318	5.353	28
+P	Neu-Isenburg	neu isenburg	DE		50.048	8.694	28
+P	New Amsterdam		GY		6.249	-57.516	6
+P	Newala		TZ		-10.933	39.300	1
+P	Neuilly-sur-Marne	neuilly sur marne	FR		48.854	2.549	28
+P	Nema Kunku		GM		13.250	-15.883	0
+P	San Juan Nepomuceno		CO		9.952	-75.082	9
+P	Neefkuceliye		ET		6.555	45.390	1
+P	Newark		US	Delaware	39.684	-75.750	12
+P	Throgs Neck		US	New York	40.823	-73.820	12
+P	New City		US	New York	41.148	-73.989	12
+P	Neuchâtel	neuchatel	CH		46.992	6.931	28
+P	Newbury		GB	England	51.401	-1.325	30
+P	Nepānagar	nepanagar	IN		21.454	76.393	20
+P	Neugraben-Fischbek	neugraben fischbek	DE		53.466	9.843	28
+P	Nerópolis	neropolis	BR		-16.406	-49.219	13
+P	Neuruppin		DE		52.928	12.803	28
+P	Néa Ionía	nea ionia	GR		39.379	22.928	29
+P	Neubau		AT		48.202	16.347	28
+P	Rio Negro		BR		-26.106	-49.797	13
+P	Nemuro		JP		43.324	145.575	24
+P	Saint Neots		GB	England	52.217	-0.267	30
+P	New Iberia		US	Louisiana	30.004	-91.819	7
+P	Newington		US	Connecticut	41.698	-72.724	12
+P	New Tafo		GH		6.719	-1.612	0
+P	Bakau New Town		GM		13.473	-16.685	0
+P	New Bern		US	North Carolina	35.108	-77.044	12
+P	Serra Negra		BR		-22.612	-46.701	13
+P	Nedumbassery		IN		10.156	76.402	20
+P	Louvain-la-Neuve	louvain la neuve	BE		50.668	4.614	28
+P	Nedumpana		IN		8.908	76.693	20
+P	Newtownards		GB	Northern Ireland	54.592	-5.691	30
+P	Nelson		GB	England	53.833	-2.200	30
+P	Ner		IN		20.490	77.866	20
+P	New Bani Sewif City		EG		29.036	31.118	2
+P	Needham		US	Massachusetts	42.283	-71.233	12
+P	Neuburg an der Donau		DE		48.732	11.187	28
+P	Newburgh		US	New York	41.503	-74.010	12
+P	Newton Mearns		GB	Scotland	55.773	-4.333	30
+P	Neustadt/Nord	neustadt nord	DE		50.949	6.948	28
+P	Neukirchen-Vluyn	neukirchen vluyn	DE		51.447	6.552	28
+P	Bad Neuenahr-Ahrweiler	bad neuenahr ahrweiler	DE		50.543	7.111	28
+P	Newry		GB	Northern Ireland	54.178	-6.337	30
+P	Nedroma		DZ		35.014	-1.748	5
+P	Presidente Tancredo Neves		BR		-13.453	-39.421	13
+P	Neftekumsk		RU		44.756	44.992	1
+P	New London		US	Connecticut	41.356	-72.100	12
+P	Remseck am Neckar		DE		48.872	9.273	28
+P	Neckarsulm		DE		49.189	9.225	28
+P	Newton Aycliffe		GB	England	54.618	-1.572	30
+P	Nev’yansk	nevyansk	RU		57.492	60.214	25
+P	Neapoli		GR		40.653	22.942	29
+P	New Lenox		US	Illinois	41.512	-87.966	7
+P	Neenah		US	Wisconsin	44.186	-88.463	7
+P	Néa Filadélfeia	nea filadelfeia	GR		38.035	23.738	29
+P	Horb am Neckar		DE		48.444	8.691	28
+P	Khān Neshīn	khan neshin	AF		30.549	63.789	18
+P	Qacha’s Nek	qachas nek	LS		-30.115	28.689	4
+P	São João Nepomuceno	sao joao nepomuceno	BR		-21.540	-43.011	13
+P	Zhongxing New Village		TW		23.959	120.685	22
+P	New Milton		GB	England	50.756	-1.666	30
+P	Neietsu		KR		37.184	128.468	24
+P	Nerekhta		RU		57.458	40.572	1
+P	Nelidovo		RU		56.228	32.775	1
+P	Netphen		DE		50.917	8.100	28
+P	Nepomuceno		BR		-21.233	-45.235	13
+P	Newport		GB	England	50.701	-1.291	30
+P	New Yekepa		LR		7.579	-8.538	0
+P	Newton-le-Willows	newton le willows	GB	England	53.450	-2.600	30
+P	New Smyrna Beach		US	Florida	29.026	-80.927	12
+P	Newport		US	Rhode Island	41.490	-71.313	12
+P	Nesher		IL		32.766	35.044	17
+P	Nechí	nechi	CO		8.094	-74.776	9
+P	Newtonbrook West		CA	Ontario	43.786	-79.431	12
+P	New Malden		GB	England	51.401	-0.262	30
+P	New Lynn		NZ		-36.907	174.687	32
+P	Van Nest		US	New York	40.848	-73.864	12
+P	Neuehrenfeld		DE		50.958	6.936	28
+P	Nebaj		GT		15.406	-91.147	11
+P	Pekan Nenas		MY		1.510	103.514	22
+P	Neheim		DE		51.450	7.970	28
+P	Neusäß	neusass	DE		48.392	10.833	28
+P	Newberg		US	Oregon	45.300	-122.973	10
+P	Nefta		TN		33.873	7.878	5
+P	New Fes		MA		34.055	-5.007	3
+P	Near South Side		US	Illinois	41.857	-87.625	7
+P	New Castle		US	Pennsylvania	41.004	-80.347	12
+P	New Brighton		US	Minnesota	45.066	-93.202	7
+P	Neustrelitz		DE		53.360	13.073	28
+P	Medeiros Neto		BR		-17.374	-40.221	13
+P	Maḩmūdābād Nemūneh	mahmudabad nemuneh	IR		36.290	49.901	23
+P	Hohen Neuendorf		DE		52.677	13.279	28
+P	Nerja		ES		36.753	-3.874	28
+P	Riachão das Neves	riachao das neves	BR		-11.746	-44.910	13
+P	H Street NE		US	District of Columbia	38.900	-76.996	12
+P	Sintra-Nema	sintra nema	GW		11.862	-15.597	0
+P	New Hope		US	Minnesota	45.038	-93.387	7
+P	New Jeshwang		GM		13.447	-16.665	0
+P	New Springville		US	New York	40.593	-74.163	12
+P	New Corella		PH		7.587	125.824	22
+P	Nellimarla		IN		18.156	83.447	20
+P	Neira		CO		5.167	-75.520	9
+P	Târgu Neamţ	targu neamt	RO		47.200	26.367	29
+P	Newmarket		GB	England	52.245	0.404	30
+P	Newquay		GB	England	50.416	-5.073	30
+P	Neu Wulmstorf		DE		53.466	9.792	28
+P	New Caney		US	Texas	30.155	-95.211	7
+P	Newburg		US	Kentucky	38.160	-85.660	12
+P	New Canaan		US	Connecticut	41.147	-73.495	12
+P	Neftegorsk		RU		52.801	51.166	31
+P	Negotino		MK		41.485	22.091	28
+P	Newton		US	Kansas	38.047	-97.345	7
+P	Nesterovskaya		RU		43.239	45.050	1
+P	Nether Edge		GB	England	53.359	-1.488	30
+P	Neuilly-Plaisance	neuilly plaisance	FR		48.863	2.506	28
+P	Neiba		DO		18.490	-71.419	6
+P	New Glasgow		CA	Nova Scotia	45.583	-62.649	8
+P	Neftçala	neftcala	AZ		39.377	49.247	31
+P	Néa Erythraía	nea erythraia	GR		38.093	23.822	29
+P	Neral		IN		19.025	73.317	20
+P	Nezlobnaya		RU		44.118	43.403	1
+P	Nehbandān	nehbandan	IR		31.542	60.036	23
+P	Neufahrn bei Freising		DE		48.316	11.663	28
+P	Néa Mákri	nea makri	GR		38.087	23.976	29
+P	Äußere Neustadt	aussere neustadt	DE		51.069	13.756	28
+P	Newburyport		US	Massachusetts	42.813	-70.877	12
+P	New Mills		GB	England	53.366	-2.000	30
+P	Grumo Nevano		IT		40.936	14.260	28
+P	Nevel’	nevel	RU		56.020	29.928	1
+P	Formosa da Serra Negra		BR		-6.445	-46.189	13
+P	New Castle		US	Indiana	39.929	-85.370	12
+P	Negotin		RS		44.226	22.531	28
+P	Negotino		MK		41.878	20.884	28
+P	New Philadelphia		US	Ohio	40.490	-81.446	12
+P	Nehram		AZ		39.116	45.462	31
+P	Nederland		US	Texas	29.974	-93.992	7
+P	Paulino Neves		BR		-2.719	-42.533	13
+P	Nerviano		IT		45.553	8.979	28
+P	Nevel’sk	nevelsk	RU		46.680	141.856	21
+P	New Milford		US	New Jersey	40.935	-74.019	12
+P	Nerang		AU	Queensland	-27.989	153.336	26
+P	Neratovice		CZ		50.259	14.518	28
+P	Neópolis	neopolis	BR		-10.320	-36.579	13
+P	Neelagiri		IN		10.759	79.093	20
+P	Neuenhagen		DE		52.530	13.689	28
+P	Neerpelt		BE		51.228	5.443	28
+P	Newtonbrook East		CA	Ontario	43.792	-79.406	12
+P	Neustadt in Holstein		DE		54.107	10.815	28
+P	Nesvizh		BY		53.222	26.677	1
+P	Hoyland Nether		GB	England	53.500	-1.450	30
+P	New Port Richey		US	Florida	28.244	-82.719	12
+P	New Cross		GB	England	51.475	-0.038	30
+P	Wendlingen am Neckar		DE		48.671	9.376	28
+P	New Haven		US	Indiana	41.071	-85.014	12
+P	Neb Sarai		IN		28.508	77.201	20
+P	Marbach am Neckar		DE		48.940	9.260	28
+P	Bad Neustadt an der Saale		DE		50.322	10.207	28
+P	Nerchinsk		RU		51.980	116.587	24
+P	Newport		US	Kentucky	39.091	-84.496	12
+P	Neston		GB	England	51.412	-2.201	30
+P	Neu-Anspach	neu anspach	DE		50.317	8.500	28
+P	Freiberg am Neckar		DE		48.932	9.202	28
+P	New Territory		US	Texas	29.594	-95.681	7
+P	Newton		US	Iowa	41.700	-93.048	7
+P	Newport Pagnell		GB	England	52.087	-0.722	30
+P	Neston		GB	England	53.283	-3.050	30

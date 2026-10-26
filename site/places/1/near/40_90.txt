@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+Z	1	Asia/Urumqi	360	
+C	CN	China	mwl	s
+B	0
+P	Hami		CN		42.834	93.506	1
+P	Dunhuang		CN		40.167	94.683	0
+P	Sandaoling Lutiankuang Wuqi Nongchang		CN		43.015	92.883	1

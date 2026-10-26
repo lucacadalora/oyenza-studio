@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cuiaba	-240	
+Z	1	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Confresa		BR		-10.644	-51.569	0
+P	Peixoto de Azevedo		BR		-10.223	-54.980	0
+P	Água Boa	agua boa	BR		-14.050	-52.159	0
+P	Querência	querencia	BR		-12.597	-52.200	0
+P	Paranatinga		BR		-14.432	-54.051	0
+P	Canarana		BR		-13.552	-52.268	0
+P	Nova Xavantina		BR		-14.664	-52.359	0
+P	São Miguel do Araguaia	sao miguel do araguaia	BR		-13.275	-50.163	1
+P	Matupá	matupa	BR		-10.169	-54.934	0
+P	Vila Rica		BR		-10.012	-51.116	0
+P	Campinápolis	campinapolis	BR		-14.541	-52.795	0

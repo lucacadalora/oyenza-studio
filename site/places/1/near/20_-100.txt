@@ -1,0 +1,46 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Monterrey	-360	
+C	MX	Mexico	mwl	s
+B	0
+P	Ciudad Victoria		MX		23.741	-99.144	0
+P	Tampico		MX		22.285	-97.878	0
+P	Pachuca de Soto		MX		20.117	-98.733	0
+P	Ciudad Madero		MX		22.247	-97.837	0
+P	Poza Rica de Hidalgo		MX		20.533	-97.459	0
+P	San Juan del Río	san juan del rio	MX		20.389	-99.996	0
+P	Ciudad Valles		MX		21.996	-99.011	0
+P	Miramar		MX		22.361	-97.900	0
+P	Tulancingo		MX		20.084	-98.363	0
+P	Ciudad Mante		MX		22.743	-98.972	0
+P	Túxpam de Rodríguez Cano	tuxpam de rodriguez cano	MX		20.958	-97.408	0
+P	Linares		MX		24.858	-99.568	0
+P	Martínez de la Torre	martinez de la torre	MX		20.071	-97.061	0
+P	Altamira		MX		22.393	-97.939	0
+P	Huauchinango		MX		20.174	-98.055	0
+P	Papantla de Olarte		MX		20.447	-97.325	0
+P	Rioverde		MX		21.931	-99.995	0
+P	Pánuco	panuco	MX		22.054	-98.182	0
+P	Huejutla de Reyes		MX		21.140	-98.419	0
+P	Xicotepec de Juárez	xicotepec de juarez	MX		20.276	-97.961	0
+P	Ixmiquilpan		MX		20.478	-99.217	0
+P	Coatzintla		MX		20.487	-97.468	0
+P	Actopan		MX		20.270	-98.944	0
+P	Tantoyuca		MX		21.351	-98.226	0
+P	Tequisquiapan		MX		20.523	-99.892	0
+P	San Fernando		MX		24.847	-98.149	0
+P	Tula de Allende		MX		20.052	-99.344	0
+P	Mixquiahuala de Juarez		MX		20.230	-99.214	0
+P	Álamo	alamo	MX		20.912	-97.676	0
+P	Tamazunchale		MX		21.260	-98.789	0
+P	Ébano	ebano	MX		22.218	-98.377	0
+P	Zacualtipán	zacualtipan	MX		20.650	-98.656	0
+P	Cerro Azul		MX		21.192	-97.741	0
+P	Naranjos		MX		21.351	-97.687	0
+P	Cuautepec de Hinojosa		MX		20.036	-98.310	0
+P	Progreso de Alvaro Obregon		MX		20.249	-99.190	0
+P	La Providencia Siglo XXI		MX		20.064	-98.717	0
+P	Tamuín	tamuin	MX		22.006	-98.780	0
+P	Santiago Tulantepec		MX		20.036	-98.356	0
+P	Cárdenas	cardenas	MX		22.001	-99.642	0
+P	Villa Independencia		MX		20.055	-97.052	0
+P	Alto Lucero		MX		20.954	-97.442	0

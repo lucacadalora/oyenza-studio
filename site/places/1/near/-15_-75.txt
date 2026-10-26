@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Lima	-300	
+C	PE	Peru	mwl	s
+B	0
+P	Cusco		PE		-13.532	-71.967	0
+P	Ayacucho		PE		-13.164	-74.223	0
+P	Abancay		PE		-13.634	-72.884	0
+P	Santiago		PE		-13.527	-71.984	0
+P	Wanchaq		PE		-13.525	-71.965	0
+P	Huancavelica		PE		-12.787	-74.973	0
+P	Sicuani		PE		-14.269	-71.226	0
+P	Quillabamba		PE		-12.863	-72.693	0
+P	Santa Ana		PE		-12.867	-72.717	0
+P	Yauri		PE		-14.791	-71.410	0
+P	Nazca		PE		-14.831	-74.939	0
+P	Ayaviri		PE		-14.886	-70.589	0
+P	Huanta		PE		-12.933	-74.250	0
+P	Santa Rosa		PE		-10.919	-74.885	0
+P	Andahuaylas		PE		-13.656	-73.387	0
+P	Atalaya		PE		-10.731	-73.759	0
+P	San Martín de Pangoa	san martin de pangoa	PE		-11.429	-74.488	0
+P	Satipo		PE		-11.252	-74.639	0

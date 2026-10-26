@@ -1,0 +1,276 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Johannesburg	120	
+Z	3	Africa/Lagos	60	
+Z	4	America/Campo_Grande	-240	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Guayaquil	-300	
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Mexico_City	-360	
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Sao_Paulo	-180	
+Z	13	Asia/Amman	180	
+Z	14	Asia/Baku	240	
+Z	15	Asia/Bangkok	420	
+Z	16	Asia/Karachi	300	
+Z	17	Asia/Kathmandu	345	
+Z	18	Asia/Kolkata	330	
+Z	19	Asia/Kuala_Lumpur	480	
+Z	20	Asia/Tehran	210	
+Z	21	Asia/Tokyo	540	
+Z	22	Asia/Vladivostok	600	
+Z	23	Asia/Yangon	390	
+Z	24	Europe/Amsterdam	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	25	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/Lisbon	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CM	Cameroon	egyptian	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	GY	Guyana	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KH	Cambodia	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PT	Portugal	mwl	s
+C	QA	Qatar	qatar	s
+C	RU	Russia	mwl	s
+C	SY	Syria	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VI	U.S. Virgin Islands	mwl	s
+C	YE	Yemen	ummalqura	s
+C	ZA	South Africa	egyptian	s
+B	2
+P	Amman		JO		31.955	35.945	13
+P	Amritsar		IN		31.622	74.875	18
+P	Amsterdam		NL		52.374	4.890	24
+P	Frankfurt am Main		DE		50.116	8.684	24
+P	Amravati		IN		20.933	77.750	18
+P	Ambattur		IN		13.098	80.162	18
+P	Amagasaki		JP		34.717	135.417	21
+P	Ambato		EC		-1.249	-78.617	7
+P	Al ‘Amārah	al amarah	IQ		31.836	47.145	13
+P	Komsomolsk-on-Amur	komsomolsk on amur	RU		50.550	137.010	22
+P	Ambarnath		IN		19.200	73.167	18
+P	Americana		BR		-22.739	-47.331	12
+P	Amarapura		MM		21.907	96.049	23
+P	Āmol	amol	IR		36.470	52.351	20
+P	Amarillo		US	Texas	35.222	-101.831	5
+P	Ambāla	ambala	IN		30.361	76.798	18
+P	Amadora		PT		38.754	-9.231	26
+P	Amroha		IN		28.903	78.470	18
+P	Ludwigshafen am Rhein		DE		49.481	8.446	24
+P	Amiens		FR		49.900	2.300	24
+P	Amersfoort		NL		52.155	5.388	24
+P	Amaigbo		NG		5.789	7.838	3
+P	Ampang		MY		3.150	101.767	19
+P	Amherst		US	New York	42.978	-78.800	11
+P	Ambikāpur	ambikapur	IN		23.119	83.195	18
+P	Amanfrom		GH		5.535	-0.398	0
+P	Amreli		IN		21.600	71.212	18
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-5.793	-35.329	12
+P	Amasya		TR		40.653	35.833	13
+P	Ambur		IN		12.792	78.716	18
+P	Porz am Rhein		DE		50.886	7.058	24
+P	Ambala Sadar		IN		30.335	76.863	18
+P	Amaravati		IN		16.514	80.516	18
+P	Klagenfurt am Wörthersee	klagenfurt am worthersee	AT		46.625	14.305	24
+P	Amalner		IN		21.040	75.059	18
+P	Amozoc de Mota		MX		19.046	-98.045	10
+P	Porto Amboim		AO		-10.733	13.768	3
+P	‘Amrān	amran	YE		15.659	43.944	13
+P	Hanau am Main		DE		50.134	8.914	24
+P	Ama		JP		35.183	136.800	21
+P	Santo Amaro		BR		-23.645	-46.704	12
+P	Amsterdam-Zuidoost	amsterdam zuidoost	NL		52.307	4.972	24
+P	Amakusa		JP		32.459	130.193	21
+P	Ambalantota		LK		6.120	81.021	18
+P	Amstelveen		NL		52.301	4.864	24
+P	Am Timan		TD		11.043	20.283	3
+P	Ambājogāi	ambajogai	IN		18.733	76.386	18
+P	Amparo		BR		-22.701	-46.764	12
+P	Amatitlán	amatitlan	GT		14.477	-90.635	10
+P	Eha Amufu		NG		6.659	7.760	3
+P	Ambovombe		MG		-25.178	46.087	13
+P	Ambilobe		MG		-13.200	49.050	13
+P	Ames		US	Iowa	42.035	-93.620	5
+P	Āmūr	amur	IN		18.793	78.277	18
+P	Ambanja		MG		-13.669	48.453	13
+P	Rüsselsheim am Main	russelsheim am main	DE		49.990	8.423	24
+P	Ambalangoda		LK		6.236	80.054	18
+P	Santo Amaro		BR		-12.547	-38.712	12
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-3.607	-38.968	12
+P	Amalāpuram	amalapuram	IN		16.579	82.006	18
+P	Perth Amboy		US	New Jersey	40.507	-74.265	11
+P	Amora		PT		38.630	-9.116	26
+P	Ambatondrazaka		MG		-17.833	48.417	13
+P	Cha-am	cha am	TH		12.800	99.967	15
+P	Amboasary		MG		-25.033	46.383	13
+P	Ami		JP		36.033	140.200	21
+P	Sri Aman		MY		1.247	111.453	19
+P	Ambāh	ambah	IN		26.704	78.227	18
+P	Amursk		RU		50.232	136.897	22
+P	Ambalavao		MG		-21.833	46.933	13
+P	Sidi Amar		DZ		36.820	7.716	3
+P	Amberg		DE		49.443	11.863	24
+P	Neustadt am Rübenberge	neustadt am rubenberge	DE		52.505	9.459	24
+P	Amadeo		PH		14.171	120.924	19
+P	Ampara		LK		7.298	81.682	18
+P	Ambositra		MG		-20.530	47.243	13
+P	Monheim am Rhein		DE		51.092	6.892	24
+P	Amagi		JP		33.418	130.654	21
+P	Amontada		BR		-3.362	-39.832	12
+P	Amangarh		PK		34.006	71.930	16
+P	Amancio		CU		20.829	-77.579	8
+P	Amami		JP		28.377	129.494	21
+P	Ampanihy		MG		-24.694	44.746	13
+P	Amherst		US	Massachusetts	42.367	-72.519	11
+P	Amudālavalasa	amudalavalasa	IN		18.410	83.903	18
+P	Ambatofinandrahana		MG		-20.553	46.804	13
+P	Amambai		BR		-23.104	-55.226	4
+P	Haltern am See		DE		51.743	7.182	24
+P	Hofheim am Taunus		DE		50.090	8.449	24
+P	Amarante do Maranhão	amarante do maranhao	BR		-5.567	-46.742	12
+P	Amargosa		BR		-13.030	-39.605	12
+P	Amīnpur	aminpur	IN		17.524	78.323	18
+P	Ameca		MX		20.548	-104.046	10
+P	Ambasamudram		IN		8.711	77.452	18
+P	Ambato Boeny		MG		-16.467	46.717	13
+P	Amparafaravola		MG		-17.588	48.224	13
+P	New Amsterdam		GY		6.249	-57.516	4
+P	Amnat Charoen		TH		15.859	104.629	15
+P	Ambatolampy		MG		-19.383	47.417	13
+P	Américo Brasiliense	americo brasiliense	BR		-21.724	-48.102	12
+P	Āmli	amli	IN		20.283	73.017	18
+P	Farīj al Amīr	farij al amir	QA		25.287	51.471	13
+P	Ambodimanga II		MG		-17.267	49.167	13
+P	Weil am Rhein		DE		47.593	7.621	24
+P	Sint-Amandsberg	sint amandsberg	BE		51.059	3.749	24
+P	Amecameca		MX		19.124	-98.766	10
+P	Ambad		IN		19.613	75.789	18
+P	Saint-Ambroise	saint ambroise	FR		48.862	2.375	24
+P	Amīr Kolā	amir kola	IR		36.597	52.666	20
+P	Amlai		IN		23.198	81.581	18
+P	Amla		IN		21.925	78.128	18
+P	Amin’yevo	aminyevo	RU		55.700	37.467	13
+P	Amdjarass		TD		16.067	22.835	3
+P	Sidi Amrane		DZ		33.499	6.008	3
+P	Amballūr	amballur	IN		10.434	76.263	18
+P	Amphoe Sikhiu		TH		14.899	101.708	15
+P	Ambikāpuram	ambikapuram	IN		10.794	76.653	18
+P	Mühlheim am Main	muhlheim am main	DE		50.117	8.833	24
+P	Ambodifotatra		MG		-16.983	49.850	13
+P	American Fork		US	Utah	40.377	-111.796	6
+P	Amirdzhan		AZ		40.426	49.984	14
+P	Ammi Moussa		DZ		35.868	1.111	3
+P	Amba Giorgis		ET		12.769	37.624	13
+P	Santo Amaro da Imperatriz		BR		-27.688	-48.779	12
+P	Nikolayevsk-on-Amure	nikolayevsk on amure	RU		53.147	140.723	22
+P	Landsberg am Lech		DE		48.048	10.883	24
+P	‘Āmūdā	amuda	SY		37.104	40.930	13
+P	Remseck am Neckar		DE		48.872	9.273	24
+P	El Amria		DZ		35.524	-1.016	3
+P	Bingen am Rhein		DE		49.967	7.899	24
+P	Amizour		DZ		36.640	4.901	3
+P	Horb am Neckar		DE		48.444	8.691	24
+P	Amandelbult		ZA		-24.818	27.297	2
+P	Amarpur		IN		25.040	86.902	18
+P	Ambohidratrimo		MG		-18.818	47.434	13
+P	Ambam		CM		2.383	11.283	3
+P	Ampahana		MG		-14.750	50.217	13
+P	Ingelheim am Rhein		DE		49.971	8.059	24
+P	East Amherst		US	New York	43.018	-78.697	11
+P	Jardín América	jardin america	AR		-27.043	-55.227	12
+P	Amélia Rodrigues	amelia rodrigues	BR		-12.399	-38.755	12
+P	Ammanford		GB	Wales	51.793	-3.988	26
+P	Bad Soden am Taunus		DE		50.141	8.504	24
+P	Amersham		GB	England	51.667	-0.617	26
+P	Amposta		ES		40.710	0.579	24
+P	Hendrik-Ido-Ambacht	hendrik ido ambacht	NL		51.844	4.639	24
+P	Ampasimanolotra		MG		-18.817	49.067	13
+P	American Canyon		US	California	38.175	-122.261	9
+P	Ampthill		GB	England	52.027	-0.496	26
+P	Charlotte Amalie		VI		18.342	-64.931	4
+P	Arun Amarin		TH		13.767	100.483	15
+P	Ampére	ampere	BR		-25.915	-53.473	12
+P	Chabet el Ameur		DZ		36.637	3.695	3
+P	Amarpātan	amarpatan	IN		24.314	80.977	18
+P	Ammainaickanur		IN		10.167	77.913	18
+P	Amherst Center		US	Massachusetts	42.375	-72.519	11
+P	Āmlāgora	amlagora	IN		22.846	87.336	18
+P	Amargaḍhi̇̄	amargadhi	NP		29.299	80.583	17
+P	Amod		IN		21.993	72.870	18
+P	Bad Münder am Deister	bad munder am deister	DE		52.196	9.464	24
+P	Amaraji		BR		-8.383	-35.453	12
+P	Beni Amrane		DZ		36.668	3.591	3
+P	Amesbury		US	Massachusetts	42.858	-70.930	11
+P	Amsterdam		US	New York	42.939	-74.188	11
+P	Amvrosiivka		UA		47.791	38.479	25
+P	Amos		CA	Quebec	48.567	-78.116	11
+P	North Amityville		US	New York	40.698	-73.425	11
+P	Amorebieta		ES		43.217	-2.733	24
+P	Saint-Amand-les-Eaux	saint amand les eaux	FR		50.447	3.431	24
+P	Brookhaven-Amesbury	brookhaven amesbury	CA	Ontario	43.701	-79.486	11
+P	Ambaji		IN		24.332	72.846	18
+P	Amersham on the Hill		GB	England	51.675	-0.607	26
+P	Amet		IN		25.306	73.926	18
+P	Santo Antônio do Amparo	santo antonio do amparo	BR		-20.946	-44.919	12
+P	Wörth am Rhein	worth am rhein	DE		49.049	8.260	24
+P	Amarante		BR		-6.243	-42.845	12
+P	Amroli		IN		21.251	72.839	18
+P	Hochheim am Main		DE		50.014	8.352	24
+P	Ambohitrolomahitsy		MG		-18.700	47.683	13
+P	Amboanjo		MG		-22.000	47.850	13
+P	Saalfelden am Steinernen Meer		AT		47.427	12.848	24
+P	Amaliáda	amaliada	GR		37.798	21.351	25
+P	Āmta	amta	IN		22.583	88.010	18
+P	Königslutter am Elm	konigslutter am elm	DE		52.251	10.817	24
+P	Āmbāsa	ambasa	IN		23.936	91.854	18
+P	Ampliación San Mateo	ampliacion san mateo	MX		19.616	-99.147	10
+P	Lohr am Main		DE		49.989	9.572	24
+P	Ambarakaraka		MG		-13.500	48.867	13
+P	Phumĭ Âmpĭl Leu	phumi ampil leu	KH		12.009	105.434	15
+P	Americus		US	Georgia	32.072	-84.233	11
+P	Wendlingen am Neckar		DE		48.671	9.376	24
+P	Amizmiz		MA		31.217	-8.232	1
+P	Marbach am Neckar		DE		48.940	9.260	24
+P	Amstetten		AT		48.123	14.872	24
+P	Amlash		IR		37.097	50.187	20
+P	Freiberg am Neckar		DE		48.932	9.202	24
+P	América Dourada	america dourada	BR		-11.455	-41.436	12
+P	Amīngarh	amingarh	IN		16.057	75.948	18

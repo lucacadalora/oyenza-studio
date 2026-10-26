@@ -1,0 +1,125 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Belo Horizonte		BR		-19.921	-43.938	0
+P	Contagem		BR		-19.932	-44.054	0
+P	Montes Claros		BR		-16.735	-43.862	0
+P	Betim		BR		-19.968	-44.198	0
+P	Ribeirão das Neves	ribeirao das neves	BR		-19.767	-44.087	0
+P	Governador Valadares		BR		-18.851	-41.949	0
+P	Ipatinga		BR		-19.468	-42.537	0
+P	Sete Lagoas		BR		-19.466	-44.247	0
+P	Santa Luzia		BR		-19.770	-43.851	0
+P	Linhares		BR		-19.391	-40.072	0
+P	Sabará	sabara	BR		-19.886	-43.807	0
+P	Vespasiano		BR		-19.692	-43.923	0
+P	Itabira		BR		-19.619	-43.227	0
+P	Nova Lima		BR		-19.986	-43.847	0
+P	Nova Serrana		BR		-19.876	-44.984	0
+P	Coronel Fabriciano		BR		-19.519	-42.629	0
+P	Colatina		BR		-19.539	-40.631	0
+P	Teófilo Otoni	teofilo otoni	BR		-17.858	-41.505	0
+P	Pará de Minas	para de minas	BR		-19.860	-44.608	0
+P	Aracruz		BR		-19.820	-40.273	0
+P	Caratinga		BR		-19.790	-42.139	0
+P	Esmeraldas		BR		-19.762	-44.314	0
+P	Timóteo	timoteo	BR		-19.581	-42.650	0
+P	Curvelo		BR		-18.756	-44.431	0
+P	João Monlevade	joao monlevade	BR		-19.810	-43.174	0
+P	Lagoa Santa		BR		-19.630	-43.901	0
+P	Janaúba	janauba	BR		-15.803	-43.309	0
+P	Itapetinga		BR		-15.249	-40.248	0
+P	Januária	januaria	BR		-15.479	-44.365	0
+P	Pedro Leopoldo		BR		-19.618	-44.043	0
+P	Pirapora		BR		-17.345	-44.942	0
+P	São Francisco	sao francisco	BR		-15.949	-44.864	0
+P	Nova Venécia	nova venecia	BR		-18.711	-40.401	0
+P	Bocaiúva	bocaiuva	BR		-17.108	-43.815	0
+P	Diamantina		BR		-18.247	-43.603	0
+P	Santana do Paraíso	santana do paraiso	BR		-19.364	-42.569	0
+P	Barra de São Francisco	barra de sao francisco	BR		-18.755	-40.891	0
+P	Almenara		BR		-16.184	-40.694	0
+P	Salinas		BR		-16.170	-42.290	0
+P	Capelinha		BR		-17.691	-42.516	0
+P	Caeté	caete	BR		-19.880	-43.670	0
+P	Mateus Leme		BR		-19.986	-44.428	0
+P	Jaíba	jaiba	BR		-15.338	-43.674	0
+P	Matozinhos		BR		-19.558	-44.081	0
+P	Porteirinha		BR		-15.743	-43.028	0
+P	Nanuque		BR		-17.839	-40.354	0
+P	Araçuaí	aracuai	BR		-16.850	-42.070	0
+P	Várzea da Palma	varzea da palma	BR		-17.598	-44.734	0
+P	Taiobeiras		BR		-15.808	-42.233	0
+P	Itamarandiba		BR		-17.857	-42.859	0
+P	São Gabriel da Palha	sao gabriel da palha	BR		-19.018	-40.537	0
+P	Guanhães	guanhaes	BR		-18.775	-42.932	0
+P	Brasília de Minas	brasilia de minas	BR		-16.206	-44.433	0
+P	Pompéu	pompeu	BR		-19.224	-44.935	0
+P	Barão de Cocais	barao de cocais	BR		-19.946	-43.487	0
+P	Juatuba		BR		-19.952	-44.343	0
+P	Baixo Guandu		BR		-19.519	-41.016	0
+P	Santa Bárbara	santa barbara	BR		-19.959	-43.415	0
+P	Jaguaré	jaguare	BR		-18.906	-40.076	0
+P	Rio Pardo de Minas		BR		-15.610	-42.540	0
+P	Mutum		BR		-19.800	-41.438	0
+P	Novo Cruzeiro		BR		-17.468	-41.875	0
+P	Pitangui		BR		-19.683	-44.890	0
+P	Mantena		BR		-18.782	-40.980	0
+P	Sooretama		BR		-19.197	-40.098	0
+P	São José da Lapa	sao jose da lapa	BR		-19.700	-43.960	0
+P	Coração de Jesus	coracao de jesus	BR		-16.685	-44.365	0
+P	Aimorés	aimores	BR		-19.496	-41.064	0
+P	Cândido Sales	candido sales	BR		-15.505	-41.239	0
+P	Pedra Azul		BR		-16.005	-41.297	0
+P	Minas Novas		BR		-17.219	-42.590	0
+P	Itambé	itambe	BR		-15.245	-40.624	0
+P	Paraopeba		BR		-19.274	-44.404	0
+P	Jequitinhonha		BR		-16.434	-41.003	0
+P	São João da Ponte	sao joao da ponte	BR		-15.929	-44.008	0
+P	Belo Oriente		BR		-19.220	-42.484	0
+P	Pinheiros		BR		-18.370	-40.213	0
+P	São João do Paraíso	sao joao do paraiso	BR		-15.314	-42.014	0
+P	Buritizeiro		BR		-17.351	-44.962	0
+P	Corinto		BR		-18.381	-44.456	0
+P	Francisco Sá	francisco sa	BR		-16.476	-43.488	0
+P	Conceição do Mato Dentro	conceicao do mato dentro	BR		-19.037	-43.425	0
+P	Santa Teresa		BR		-19.936	-40.600	0
+P	Inhapim		BR		-19.549	-42.120	0
+P	Medeiros Neto		BR		-17.374	-40.221	0
+P	Ecoporanga		BR		-18.373	-40.831	0
+P	Serro		BR		-18.605	-43.379	0
+P	Macarani		BR		-15.568	-40.423	0
+P	Pedro Canário	pedro canario	BR		-18.030	-40.151	0
+P	Itambacuri		BR		-18.031	-41.685	0
+P	Conselheiro Pena		BR		-19.172	-41.472	0
+P	Jaboticatubas		BR		-19.514	-43.745	0
+P	Monte Azul		BR		-15.155	-42.875	0
+P	Medina		BR		-16.223	-41.477	0
+P	Turmalina		BR		-17.286	-42.730	0
+P	Caraí	carai	BR		-17.189	-41.695	0
+P	Ipanema		BR		-19.801	-41.713	0
+P	Rio Bananal		BR		-19.265	-40.333	0
+P	Itaobim		BR		-16.562	-41.503	0
+P	Encruzilhada		BR		-15.531	-40.909	0
+P	Montanha		BR		-18.127	-40.363	0
+P	Pancas		BR		-19.225	-40.851	0
+P	Varzelândia	varzelandia	BR		-15.701	-44.028	0
+P	Carlos Chagas		BR		-17.703	-40.766	0
+P	Águas Formosas	aguas formosas	BR		-17.082	-40.936	0
+P	Belo Campo		BR		-15.038	-41.260	0
+P	Barreiro do Jaíba	barreiro do jaiba	BR		-15.615	-43.592	0
+P	Fundão	fundao	BR		-19.934	-40.405	0
+P	Itanhém	itanhem	BR		-17.166	-40.330	0
+P	Malacacheta		BR		-17.842	-42.077	0
+P	Peçanha	pecanha	BR		-18.549	-42.557	0
+P	Nova Era		BR		-19.750	-43.038	0
+P	São Domingos do Prata	sao domingos do prata	BR		-19.865	-42.968	0
+P	Padre Paraíso	padre paraiso	BR		-17.074	-41.484	0
+P	Resplendor		BR		-19.326	-41.255	0
+P	Itacarambi		BR		-15.102	-44.092	0
+P	Ipaba		BR		-19.414	-42.419	0
+P	Itarantim		BR		-15.660	-40.066	0
+P	Itororó	itororo	BR		-15.117	-40.070	0
+P	Raposos		BR		-19.967	-43.804	0
+P	São João Evangelista	sao joao evangelista	BR		-18.548	-42.763	0

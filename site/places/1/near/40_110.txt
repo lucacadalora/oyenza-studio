@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	MN	Mongolia	mwl	s
+B	2
+P	Hohhot		CN		40.811	111.652	0
+P	Datong		CN		40.094	113.291	0
+P	Zhangjiakou		CN		40.783	114.871	0
+P	Ulanqab		CN		40.993	113.133	0
+P	Jining		CN		41.028	113.106	0
+P	Salaqi		CN		40.541	110.511	0
+P	Beichengqu		CN		40.439	113.154	0
+P	Shiguai		CN		40.706	110.286	0
+P	Saynshand		MN		44.882	110.116	0
+P	Erenhot		CN		43.648	111.977	0

@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Pacific/Guadalcanal	660	
+C	PG	Papua New Guinea	mwl	s
+C	SB	Solomon Islands	mwl	s
+B	0
+P	Honiara		SB		-9.433	159.950	0
+P	Arawa		PG		-6.230	155.566	0
+P	Nggosi		SB		-9.431	159.921	0
+P	Tandai		SB		-9.447	159.945	0
+P	Kola'a	kolaa	SB		-9.441	159.970	0
+P	Vura		SB		-9.442	159.989	0

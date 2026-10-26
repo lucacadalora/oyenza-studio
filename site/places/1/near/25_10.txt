@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Tripoli	120	
+C	LY	Libya	egyptian	s
+B	0
+P	Sabha		LY		27.038	14.428	0
+P	Al Jadīd	al jadid	LY		27.050	14.400	0
+P	Ubari		LY		26.590	12.775	0
+P	Murzuk		LY		25.916	13.918	0
+P	Al Ghurayfah		LY		26.522	13.011	0
+P	Wādī 'Utbah	wadi utbah	LY		26.095	13.557	0
+P	Brak		LY		27.550	14.271	0

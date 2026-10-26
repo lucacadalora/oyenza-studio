@@ -1,0 +1,28 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Blantyre	120	
+C	MW	Malawi	egyptian	s
+C	MZ	Mozambique	egyptian	s
+B	0
+P	Blantyre		MW		-15.785	35.009	0
+P	Nampula		MZ		-15.116	39.267	0
+P	Quelimane		MZ		-17.879	36.888	0
+P	Mocuba		MZ		-16.837	36.986	0
+P	Gurúè	gurue	MZ		-15.467	36.978	0
+P	Zomba		MW		-15.386	35.319	0
+P	Angoche		MZ		-16.233	39.909	0
+P	Nametil		MZ		-15.720	39.343	0
+P	Alto Molocue		MZ		-15.636	37.688	0
+P	Marromeu		MZ		-18.291	35.945	0
+P	Liwonde		MW		-15.067	35.225	0
+P	Milange		MZ		-16.099	35.770	0
+P	Nsanje		MW		-16.920	35.262	0
+P	Micolene		MZ		-16.733	39.233	0
+P	Morrumbala		MZ		-17.327	35.584	0
+P	Namacurra		MZ		-17.492	37.029	0
+P	Caia		MZ		-17.820	35.344	0
+P	Iapala		MZ		-15.025	38.042	0
+P	Murrupula		MZ		-15.457	38.677	0
+P	Maganja		MZ		-17.312	37.508	0
+P	Chinde		MZ		-18.581	36.459	0
+P	Pebane		MZ		-17.264	38.135	0
+P	Mulanje		MW		-16.032	35.500	0

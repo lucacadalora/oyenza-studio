@@ -1,0 +1,88 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Nicosia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Istanbul	180	
+C	CY	Cyprus	mwl	s
+C	TR	Turkey	turkey	s
+B	3
+P	Ankara		TR		39.920	32.854	1
+P	Konya		TR		37.871	32.485	1
+P	Antalya		TR		36.908	30.696	1
+P	Eskişehir	eskisehir	TR		39.777	30.521	1
+P	Çankaya	cankaya	TR		39.918	32.863	1
+P	Mersin		TR		36.812	34.639	1
+P	Muratpaşa	muratpasa	TR		36.892	30.765	1
+P	Alanya		TR		36.544	32.000	1
+P	Tarsus		TR		36.918	34.893	1
+P	Aksaray		TR		38.373	34.025	1
+P	Batikent		TR		39.968	32.731	1
+P	Afyonkarahisar		TR		38.757	30.543	1
+P	Nicosia		CY		35.173	33.354	0
+P	Kırıkkale	kirikkale	TR		39.845	33.506	1
+P	Karaman		TR		37.181	33.215	1
+P	Isparta		TR		37.764	30.552	1
+P	Gölbaşı	golbasi	TR		39.790	32.809	1
+P	Ereğli	eregli	TR		37.513	34.047	1
+P	Kırşehir	kirsehir	TR		39.146	34.164	1
+P	Silifke		TR		36.378	33.934	1
+P	Manavgat		TR		36.787	31.441	1
+P	Burdur		TR		37.720	30.291	1
+P	Polatlı	polatli	TR		39.577	32.141	1
+P	Niğde	nigde	TR		37.966	34.679	1
+P	Yozgat		TR		39.820	34.804	1
+P	Nevşehir	nevsehir	TR		38.625	34.712	1
+P	Belek		TR		36.863	31.065	1
+P	Stróvolos	strovolos	CY		35.149	33.334	0
+P	Akşehir	aksehir	TR		38.358	31.416	1
+P	Anamur		TR		36.075	32.837	1
+P	Bolvadin		TR		38.711	31.049	1
+P	Bozüyük	bozuyuk	TR		39.908	30.037	1
+P	Seydişehir	seydisehir	TR		37.419	31.845	1
+P	Keskin		TR		39.673	33.614	1
+P	Karapınar	karapinar	TR		37.716	33.551	1
+P	Mut		TR		36.644	33.439	1
+P	Kulu		TR		39.095	33.080	1
+P	Erdemli		TR		36.605	34.308	1
+P	Çumra	cumra	TR		37.573	32.774	1
+P	Beyşehir	beysehir	TR		37.677	31.725	1
+P	Şereflikoçhisar	sereflikochisar	TR		38.939	33.539	1
+P	Sandıklı	sandikli	TR		38.465	30.269	1
+P	Famagusta		CY		35.125	33.941	0
+P	Káto Lakatámeia	kato lakatameia	CY		35.118	33.325	0
+P	Yalvaç	yalvac	TR		38.296	31.178	1
+P	Serik		TR		36.917	31.105	1
+P	Dinar		TR		38.065	30.166	1
+P	Yerköy	yerkoy	TR		39.638	34.467	1
+P	Çay	cay	TR		38.592	31.029	1
+P	Şarkîkaraağaç	sarkikaraagac	TR		38.079	31.366	1
+P	Bor		TR		37.891	34.559	1
+P	Etlik		TR		39.982	32.825	1
+P	Ortaköy	ortakoy	TR		38.737	34.039	1
+P	İncirli	incirli	TR		39.984	32.843	1
+P	Beykonak		TR		36.326	30.303	1
+P	Bucak		TR		37.459	30.595	1
+P	Oba		TR		36.550	32.060	1
+P	Kaman		TR		39.358	33.724	1
+P	Bozyazı	bozyazi	TR		36.108	32.961	1
+P	Ilgın	ilgin	TR		38.279	31.914	1
+P	Kyrenia		CY		35.336	33.317	0
+P	Elmadağ	elmadag	TR		39.921	33.231	1
+P	Mahmutlar		TR		36.495	32.091	1
+P	Mórfou	morfou	CY		35.199	32.993	0
+P	Aglantziá	aglantzia	CY		35.154	33.396	0
+P	Cikcilli		TR		36.554	32.030	1
+P	Égkomi	egkomi	CY		35.163	33.883	0
+P	Korkuteli		TR		37.065	30.196	1
+P	Protaras		CY		35.013	34.058	0
+P	Hadim		TR		36.988	32.457	1
+P	Emirdağ	emirdag	TR		39.020	31.150	1
+P	Gazipaşa	gazipasa	TR		36.269	32.318	1
+P	Konaklı	konakli	TR		36.593	31.895	1
+P	Kemer		TR		36.598	30.561	1
+P	Ermenek		TR		36.640	32.892	1
+P	Eğirdir	egirdir	TR		37.875	30.850	1
+P	Ürgüp	urgup	TR		38.630	34.912	1
+P	Mucur		TR		39.061	34.383	1
+P	Senirkent		TR		38.104	30.549	1
+P	Kestel		TR		36.509	32.083	1
+P	Kadınhanı	kadinhani	TR		38.240	32.211	1
+P	Taşucu	tasucu	TR		36.321	33.882	1

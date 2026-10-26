@@ -1,0 +1,95 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bahia	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Vitória da Conquista	vitoria da conquista	BR		-14.866	-40.839	0
+P	Barreiras		BR		-12.153	-44.990	0
+P	Jequié	jequie	BR		-13.859	-40.085	0
+P	Guanambi		BR		-14.223	-42.781	0
+P	Jacobina		BR		-11.181	-40.514	0
+P	Senhor do Bonfim		BR		-10.461	-40.189	0
+P	Irecê	irece	BR		-11.304	-41.856	0
+P	Campo Formoso		BR		-10.508	-40.321	0
+P	Brumado		BR		-14.204	-41.665	0
+P	Bom Jesus da Lapa		BR		-13.255	-43.418	0
+P	Itaberaba		BR		-12.527	-40.307	0
+P	Caetité	caetite	BR		-14.069	-42.475	0
+P	Barra		BR		-11.089	-43.142	0
+P	Poções	pocoes	BR		-14.530	-40.365	0
+P	Seabra		BR		-12.417	-41.770	0
+P	Xique-Xique	xique xique	BR		-10.823	-42.728	0
+P	Livramento de Nossa Senhora		BR		-13.641	-41.843	0
+P	Macaúbas	macaubas	BR		-13.019	-42.699	0
+P	Santa Maria da Vitória	santa maria da vitoria	BR		-13.388	-44.199	0
+P	Barra do Choça	barra do choca	BR		-14.881	-40.579	0
+P	Pilão Arcado	pilao arcado	BR		-10.001	-42.480	0
+P	Serra do Ramalho		BR		-13.542	-43.580	0
+P	Morro do Chapéu	morro do chapeu	BR		-11.549	-41.158	0
+P	Capim Grosso		BR		-11.381	-40.013	0
+P	São Desidério	sao desiderio	BR		-12.363	-44.973	0
+P	Jaguarari		BR		-10.264	-40.196	0
+P	Correntina		BR		-13.343	-44.637	0
+P	Riacho de Santana		BR		-13.609	-42.939	0
+P	Vera Cruz		BR		-12.633	-41.033	0
+P	Espinosa		BR		-14.926	-42.819	0
+P	Paratinga		BR		-12.691	-43.184	0
+P	Carinhanha		BR		-14.305	-43.765	0
+P	Ruy Barbosa		BR		-12.284	-40.494	0
+P	Maracás	maracas	BR		-13.441	-40.431	0
+P	Santa Rita de Cássia	santa rita de cassia	BR		-11.009	-44.519	0
+P	Ibotirama		BR		-12.185	-43.221	0
+P	Barra da Estiva		BR		-13.626	-41.327	0
+P	Lapão	lapao	BR		-11.383	-41.832	0
+P	Anagé	anage	BR		-14.612	-41.136	0
+P	João Dourado	joao dourado	BR		-11.345	-41.663	0
+P	Santana		BR		-12.983	-44.051	0
+P	Miguel Calmon		BR		-11.429	-40.595	0
+P	Iaçu	iacu	BR		-12.767	-40.212	0
+P	Canarana		BR		-11.685	-41.769	0
+P	Iraquara		BR		-12.249	-41.619	0
+P	Planalto		BR		-14.670	-40.471	0
+P	Caculé	cacule	BR		-14.503	-42.222	0
+P	Riachão das Neves	riachao das neves	BR		-11.746	-44.910	0
+P	Iguaí	iguai	BR		-14.756	-40.089	0
+P	Tanhaçu	tanhacu	BR		-14.021	-41.248	0
+P	Ibicoara		BR		-13.413	-41.286	0
+P	Oliveira dos Brejinhos		BR		-12.317	-42.896	0
+P	Paramirim		BR		-13.443	-42.239	0
+P	Piatã	piata	BR		-13.152	-41.773	0
+P	Palmas de Monte Alto		BR		-14.267	-43.162	0
+P	Ponto Novo		BR		-10.863	-40.134	0
+P	Livramento do Brumado		BR		-13.651	-41.846	0
+P	Buritirama		BR		-10.708	-43.631	0
+P	Boquira		BR		-12.823	-42.731	0
+P	Ourolândia	ourolandia	BR		-10.971	-41.080	0
+P	Cocos		BR		-14.184	-44.534	0
+P	Pindobaçu	pindobacu	BR		-10.742	-40.361	0
+P	Manga		BR		-14.756	-43.932	0
+P	São Gabriel	sao gabriel	BR		-11.229	-41.876	0
+P	Baixa Grande		BR		-11.960	-40.168	0
+P	Ituaçu	ituacu	BR		-13.813	-41.297	0
+P	Filadélfia	filadelfia	BR		-10.743	-40.132	0
+P	Mairi		BR		-11.711	-40.149	0
+P	Piritiba		BR		-11.730	-40.555	0
+P	Cafarnaum		BR		-11.694	-41.468	0
+P	Mundo Novo		BR		-11.859	-40.472	0
+P	Tanque Novo		BR		-13.546	-42.491	0
+P	Serra Dourada		BR		-12.761	-43.950	0
+P	Souto Soares		BR		-12.089	-41.638	0
+P	Condeúba	condeuba	BR		-14.895	-41.969	0
+P	Ibititá	ibitita	BR		-11.547	-41.977	0
+P	Boa Vista do Tupim		BR		-12.662	-40.607	0
+P	Ibipeba		BR		-11.641	-42.011	0
+P	Jussara		BR		-11.044	-41.971	0
+P	Central		BR		-11.136	-42.113	0
+P	Tremedal		BR		-14.976	-41.411	0
+P	Utinga		BR		-12.082	-41.094	0
+P	Bonito		BR		-11.969	-41.266	0
+P	Tapiramutá	tapiramuta	BR		-11.847	-40.791	0
+P	Mirangaba		BR		-10.954	-40.576	0
+P	Igaporã	igapora	BR		-13.773	-42.714	0
+P	Malhada		BR		-14.336	-43.774	0
+P	Urandi		BR		-14.771	-42.655	0
+P	São Félix do Coribe	sao felix do coribe	BR		-13.401	-44.195	0
+P	América Dourada	america dourada	BR		-11.455	-41.436	0
+P	Presidente Dutra		BR		-11.295	-41.986	0

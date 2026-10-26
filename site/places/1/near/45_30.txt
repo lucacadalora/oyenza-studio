@@ -1,0 +1,70 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Simferopol	180	
+C	UA	Ukraine	mwl	s
+B	1
+P	Odesa		UA		46.486	30.744	0
+P	Kryvyy Rih		UA		47.906	33.394	0
+P	Mykolayiv		UA		46.976	31.993	0
+P	Poltava		UA		49.589	34.554	0
+P	Cherkasy		UA		49.445	32.057	0
+P	Kamyanske		UA		48.517	34.606	0
+P	Kremenchuk		UA		49.063	33.405	0
+P	Kropyvnytskyi		UA		48.508	32.266	0
+P	Bila Tserkva		UA		49.799	30.116	0
+P	Fortechnyi		UA		48.499	32.254	0
+P	Avtozavodskyi		UA		49.098	33.432	0
+P	Shevchenko		UA		49.565	34.539	0
+P	Cheremushky		UA		46.433	30.712	0
+P	Kyivskyi		UA		49.609	34.529	0
+P	Yevpatoriya		UA		45.201	33.367	1
+P	Nikopol		UA		47.568	34.391	0
+P	Podilskyi		UA		48.504	32.280	0
+P	Uman		UA		48.750	30.219	0
+P	Oleksandriya		UA		48.675	33.118	0
+P	Kryukiv		UA		49.029	33.438	0
+P	Smila		UA		49.233	31.884	0
+P	Kherson		UA		46.637	32.615	0
+P	Pervomaysk		UA		48.045	30.848	0
+P	Inhulets		UA		47.730	33.252	0
+P	Chornomors’k	chornomorsk	UA		46.299	30.655	0
+P	Enerhodar		UA		47.490	34.662	0
+P	Horishni Plavni		UA		49.008	33.629	0
+P	Bilhorod-Dnistrovskyi	bilhorod dnistrovskyi	UA		46.195	30.348	0
+P	Marhanets		UA		47.631	34.624	0
+P	Nova Kakhovka		UA		46.760	33.356	0
+P	Molodizhne		UA		49.150	33.431	0
+P	Svitlovodsk		UA		49.063	33.246	0
+P	Zhovti Vody		UA		48.345	33.497	0
+P	Dzhankoy		UA		45.713	34.393	1
+P	Myrhorod		UA		49.965	33.609	0
+P	Pivdennoukrainsk		UA		47.829	31.175	0
+P	Pokrov		UA		47.654	34.115	0
+P	Kakhovka		UA		46.816	33.479	0
+P	Voznesensk		UA		47.562	31.336	0
+P	Pivdenne		UA		46.625	31.102	0
+P	Podil		UA		49.604	34.594	0
+P	Yany Kapu		UA		45.955	33.793	1
+P	Saki		UA		45.134	33.600	1
+P	Terny		UA		48.145	33.558	0
+P	Zolotonosha		UA		49.669	32.036	0
+P	Dolynska		UA		48.117	32.777	0
+P	Oleshky		UA		46.626	32.724	0
+P	Armyansk		UA		46.109	33.692	1
+P	Kaniv		UA		49.752	31.470	0
+P	Znamyanka		UA		48.721	32.658	0
+P	Vilnohirsk		UA		48.484	34.017	0
+P	Henichesk		UA		46.168	34.809	0
+P	Pyatykhatky		UA		48.408	33.709	0
+P	Skadovsk		UA		46.113	32.910	0
+P	Rozdilna		UA		46.855	30.071	0
+P	Korsun-Shevchenkivskyi	korsun shevchenkivskyi	UA		49.418	31.252	0
+P	Rakivka		UA		49.024	33.464	0
+P	Shpola		UA		49.013	31.393	0
+P	Zvenyhorodka		UA		49.078	30.961	0
+P	Novoukrayinka		UA		48.317	31.524	0
+P	Bilohirsk		UA		45.057	34.604	1
+P	Apostolove		UA		47.660	33.720	0
+P	Bohuslav		UA		49.546	30.874	0
+P	Bahacheve		UA		49.012	31.047	0
+P	Verkhnodniprovsk		UA		48.656	34.326	0

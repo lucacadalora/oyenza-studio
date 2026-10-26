@@ -1,0 +1,82 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+C	AU	Australia	mwl	s
+B	1
+P	Sydney		AU	New South Wales	-33.868	151.207	0
+P	Newcastle		AU	New South Wales	-32.930	151.780	0
+P	Central Coast		AU	New South Wales	-33.430	151.371	0
+P	Wollongong		AU	New South Wales	-34.424	150.893	0
+P	Maitland		AU	New South Wales	-32.733	151.557	0
+P	Coffs Harbour		AU	New South Wales	-30.296	153.114	0
+P	Blue Mountains		AU	New South Wales	-33.713	150.331	0
+P	Pittwater		AU	New South Wales	-33.666	151.302	0
+P	Port Macquarie		AU	New South Wales	-31.431	152.909	0
+P	Blacktown		AU	New South Wales	-33.767	150.917	0
+P	Tamworth		AU	New South Wales	-31.090	150.929	0
+P	Castle Hill		AU	New South Wales	-33.733	151.000	0
+P	Auburn		AU	New South Wales	-33.850	151.033	0
+P	Baulkham Hills		AU	New South Wales	-33.759	150.993	0
+P	Bankstown		AU	New South Wales	-33.917	151.033	0
+P	Liverpool		AU	New South Wales	-33.919	150.926	0
+P	Maroubra		AU	New South Wales	-33.950	151.233	0
+P	Parramatta		AU	New South Wales	-33.818	151.003	0
+P	Hurstville		AU	New South Wales	-33.968	151.101	0
+P	Merrylands		AU	New South Wales	-33.833	150.983	0
+P	Randwick		AU	New South Wales	-33.914	151.249	0
+P	Mosman		AU	New South Wales	-33.839	151.240	0
+P	Kellyville		AU	New South Wales	-33.710	150.951	0
+P	Quakers Hill		AU	New South Wales	-33.733	150.883	0
+P	Ryde		AU	New South Wales	-33.819	151.106	0
+P	Marrickville		AU	New South Wales	-33.907	151.155	0
+P	Strathfield		AU	New South Wales	-33.881	151.080	0
+P	Sydney Central Business District		AU	New South Wales	-33.865	151.208	0
+P	Chatswood		AU	New South Wales	-33.800	151.183	0
+P	Campsie		AU	New South Wales	-33.913	151.103	0
+P	Greenacre		AU	New South Wales	-33.900	151.056	0
+P	Carlingford		AU	New South Wales	-33.783	151.049	0
+P	Ashfield		AU	New South Wales	-33.888	151.123	0
+P	Greystanes		AU	New South Wales	-33.823	150.946	0
+P	Epping		AU	New South Wales	-33.773	151.082	0
+P	Cessnock		AU	New South Wales	-32.832	151.356	0
+P	Glenmore Park		AU	New South Wales	-33.791	150.669	0
+P	Hornsby		AU	New South Wales	-33.702	151.099	0
+P	Cabramatta		AU	New South Wales	-33.897	150.934	0
+P	Armidale		AU	New South Wales	-30.501	151.666	0
+P	Dee Why		AU	New South Wales	-33.751	151.289	0
+P	Punchbowl		AU	New South Wales	-33.929	151.051	0
+P	St Clair		AU	New South Wales	-33.797	150.785	0
+P	Lidcombe		AU	New South Wales	-33.864	151.040	0
+P	Bexley		AU	New South Wales	-33.950	151.117	0
+P	Seven Hills		AU	New South Wales	-33.783	150.933	0
+P	Wollongong city centre		AU	New South Wales	-34.428	150.893	0
+P	Cherrybrook		AU	New South Wales	-33.722	151.046	0
+P	Saint Ives		AU	New South Wales	-33.730	151.160	0
+P	Burwood		AU	New South Wales	-33.883	151.100	0
+P	Fairfield		AU	New South Wales	-33.867	150.950	0
+P	Yagoona		AU	New South Wales	-33.905	151.020	0
+P	Westmead		AU	New South Wales	-33.804	150.988	0
+P	Eastwood		AU	New South Wales	-33.792	151.081	0
+P	Cronulla		AU	New South Wales	-34.063	151.150	0
+P	Wahroonga		AU	New South Wales	-33.718	151.116	0
+P	Earlwood		AU	New South Wales	-33.921	151.125	0
+P	Engadine		AU	New South Wales	-34.066	151.013	0
+P	Lakemba		AU	New South Wales	-33.920	151.076	0
+P	Granville		AU	New South Wales	-33.841	151.007	0
+P	Mount Druitt		AU	New South Wales	-33.767	150.817	0
+P	Kogarah		AU	New South Wales	-33.968	151.136	0
+P	Umina Beach		AU	New South Wales	-33.523	151.313	0
+P	Taree		AU	New South Wales	-31.911	152.454	0
+P	Manly		AU	New South Wales	-33.798	151.288	0
+P	West Pennant Hills		AU	New South Wales	-33.746	151.048	0
+P	Glenwood		AU	New South Wales	-33.733	150.933	0
+P	Muswellbrook		AU	New South Wales	-32.261	150.890	0
+P	Mascot		AU	New South Wales	-33.926	151.193	0
+P	Surry Hills		AU	New South Wales	-33.884	151.213	0
+P	Casula		AU	New South Wales	-33.952	150.899	0
+P	Cranebrook		AU	New South Wales	-33.706	150.709	0
+P	Rockdale		AU	New South Wales	-33.950	151.133	0
+P	Kingsford		AU	New South Wales	-33.924	151.227	0
+P	Coogee		AU	New South Wales	-33.920	151.255	0
+P	Prestons		AU	New South Wales	-33.942	150.872	0
+P	Miranda		AU	New South Wales	-34.039	151.100	0
+P	Kensington		AU	New South Wales	-33.920	151.222	0

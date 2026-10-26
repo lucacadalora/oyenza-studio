@@ -1,0 +1,57 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Manila	480	
+C	PH	Philippines	mwl	s
+B	1
+P	Davao		PH		7.073	125.613	0
+P	General Santos		PH		6.113	125.172	0
+P	Butuan		PH		8.949	125.544	0
+P	Libertad		PH		8.944	125.502	0
+P	Magugpo Poblacion		PH		7.447	125.805	0
+P	NIA Valencia		PH		7.906	125.094	0
+P	Panabo		PH		7.308	125.684	0
+P	Gingoog		PH		8.828	125.100	0
+P	Malita		PH		6.415	125.612	0
+P	Digos		PH		6.750	125.357	0
+P	Quezon		PH		7.730	125.099	0
+P	Bayugan		PH		8.756	125.767	0
+P	Maramag		PH		7.763	125.005	0
+P	Mati		PH		6.955	126.217	0
+P	Bislig		PH		8.215	126.316	0
+P	Monkayo		PH		7.815	126.054	0
+P	Prosperidad		PH		8.580	125.896	0
+P	Alabel		PH		6.102	125.290	0
+P	Surigao		PH		9.789	125.495	0
+P	Maco		PH		7.362	125.855	0
+P	Malapatan		PH		5.969	125.289	0
+P	Lambayong		PH		6.519	125.044	0
+P	San Francisco		PH		8.536	125.950	0
+P	Kidapawan		PH		7.008	125.089	0
+P	Don Carlos		PH		7.680	125.005	0
+P	Buenavista		PH		8.977	125.409	0
+P	Mariano		PH		8.833	125.117	0
+P	Lupon		PH		6.898	126.010	0
+P	Polomolok		PH		6.222	125.064	0
+P	Malaybalay		PH		8.158	125.128	0
+P	Magsaysay		PH		6.767	125.183	0
+P	Impasugong		PH		8.310	125.002	0
+P	Maluñgun	malungun	PH		6.279	125.282	0
+P	Bunawan		PH		8.167	125.991	0
+P	Hinatuan		PH		8.372	126.334	0
+P	Samal		PH		7.074	125.708	0
+P	Compostela		PH		7.673	126.089	0
+P	Tagbina		PH		8.452	126.171	0
+P	Cabadbaran		PH		9.123	125.535	0
+P	Tandag		PH		9.078	126.199	0
+P	Bah-Bah	bah bah	PH		8.607	125.914	0
+P	Glan		PH		5.824	125.203	0
+P	Bansalan		PH		6.786	125.213	0
+P	New Corella		PH		7.587	125.824	0
+P	Manay		PH		7.215	126.540	0
+P	San Mariano		PH		7.500	126.000	0
+P	Veruela		PH		8.073	125.956	0
+P	Santa Maria		PH		6.554	125.471	0
+P	Nabunturan		PH		7.608	125.966	0
+P	Cabayangan		PH		7.407	125.733	0
+P	Trento		PH		8.046	126.064	0
+P	Talacogon		PH		8.456	125.784	0
+P	Dologon		PH		7.841	125.044	0

@@ -1,0 +1,76 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	America/La_Paz	-240	
+Z	2	America/Mexico_City	-360	
+Z	3	America/Sao_Paulo	-180	
+Z	4	Asia/Kolkata	330	
+Z	5	Asia/Tokyo	540	
+Z	6	Europe/Istanbul	180	
+Z	7	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	8	Europe/Samara	240	
+C	AR	Argentina	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BZ	Belize	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	ES	Spain	mwl	s
+C	HN	Honduras	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	MX	Mexico	mwl	s
+C	NG	Nigeria	egyptian	s
+C	RU	Russia	mwl	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+B	0
+P	Nova Iguaçu	nova iguacu	BR		-22.759	-43.451	3
+P	Foz do Iguaçu	foz do iguacu	BR		-25.548	-54.588	3
+P	Iguatemi		BR		-23.613	-46.427	3
+P	Igboho		NG		8.838	3.756	0
+P	Igarassu		BR		-7.834	-34.906	3
+P	Iguala de la Independencia		MX		18.345	-99.541	2
+P	Ijebu-Igbo	ijebu igbo	NG		6.972	3.999	0
+P	Iğdır	igdir	TR		39.924	44.045	6
+P	Iguatu		BR		-6.359	-39.299	3
+P	Igbo-Ora	igbo ora	NG		7.434	3.288	0
+P	Iga		JP		34.758	136.135	5
+P	Igede-Ekiti	igede ekiti	NG		7.668	5.126	0
+P	Igbo-Ukwu	igbo ukwu	NG		6.018	7.020	0
+P	Igbara-Odo	igbara odo	NG		7.503	5.063	0
+P	Iganga		UG		0.609	33.469	6
+P	Igarapé Miri	igarape miri	BR		-1.975	-48.960	3
+P	Igarapé	igarape	BR		-20.070	-44.302	3
+P	Igunga		TZ		-4.283	33.883	6
+P	Igualada		ES		41.581	1.617	7
+P	Igangan		NG		7.681	3.184	0
+P	Igarapé-Açu	igarape acu	BR		-1.129	-47.620	3
+P	Igatpuri		IN		19.695	73.563	4
+P	Igrejinha		BR		-29.574	-50.790	3
+P	Puerto Iguazú	puerto iguazu	AR		-25.599	-54.574	3
+P	Quedas do Iguaçu	quedas do iguacu	BR		-25.453	-52.905	3
+P	Iguaba Grande		BR		-22.839	-42.229	3
+P	São Miguel do Iguaçu	sao miguel do iguacu	BR		-25.348	-54.238	3
+P	Iguape		BR		-24.708	-47.555	3
+P	La Iguala		HN		14.617	-88.467	2
+P	Igarapava		BR		-20.038	-47.747	3
+P	Igurusi		TZ		-8.850	33.850	6
+P	Igbeti		NG		8.749	4.131	0
+P	Igaci		BR		-9.537	-36.634	3
+P	San Ignacio de Velasco		BO		-16.378	-60.965	1
+P	Igaraçu do Tietê	igaracu do tiete	BR		-22.509	-48.558	3
+P	Igugunu		TZ		-4.567	34.633	6
+P	Iglesias		IT		39.309	8.537	7
+P	Igreja Nova		BR		-10.125	-36.662	3
+P	Igra		RU		57.555	53.054	8
+P	Iguaí	iguai	BR		-14.756	-40.089	3
+P	San Ignacio		BZ		17.159	-89.070	2
+P	Igusa		JP		35.967	139.467	5
+P	Igbor		NG		7.451	8.608	0
+P	Bellaria-Igea Marina	bellaria igea marina	IT		44.143	12.472	7
+P	Igusa		JP		35.727	139.618	5
+P	San Ignacio de Sabaneta		DO		19.478	-71.339	1
+P	Igaporã	igapora	BR		-13.773	-42.714	3
+P	Ighram		DZ		36.463	4.505	0

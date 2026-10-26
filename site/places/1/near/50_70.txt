@@ -1,0 +1,13 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+Z	1	Asia/Omsk	360	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	2
+P	Astana		KZ		51.180	71.446	0
+P	Omsk		RU		54.992	73.369	1
+P	Temirtau		KZ		50.052	72.955	0
+P	Shchuchinsk		KZ		52.936	70.189	0
+P	Stepnogorsk		KZ		52.351	71.882	0
+P	Isil’kul’	isilkul	RU		54.912	71.272	1
+P	Makinsk		KZ		52.633	70.419	0

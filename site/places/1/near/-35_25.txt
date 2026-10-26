@@ -1,0 +1,40 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	LS	Lesotho	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	1
+P	Gqeberha		ZA		-33.961	25.615	0
+P	East London		ZA		-33.015	27.912	0
+P	Kariega		ZA		-33.756	25.401	0
+P	Mdantsane		ZA		-32.933	27.777	0
+P	Mthatha		ZA		-31.589	28.784	0
+P	Bhisho		ZA		-32.847	27.442	0
+P	Queenstown		ZA		-31.898	26.875	0
+P	Qonce		ZA		-32.881	27.394	0
+P	Grahamstown		ZA		-33.304	26.533	0
+P	Kokstad		ZA		-30.547	29.424	0
+P	Fort Beaufort		ZA		-32.775	26.634	0
+P	Butterworth		ZA		-32.331	28.150	0
+P	Mohale's Hoek	mohales hoek	LS		-30.151	27.477	0
+P	Aliwal North		ZA		-30.694	26.711	0
+P	Cradock		ZA		-32.164	25.619	0
+P	Stutterheim		ZA		-32.571	27.424	0
+P	Quthing		LS		-30.400	27.700	0
+P	Whittlesea		ZA		-32.176	26.824	0
+P	Port Alfred		ZA		-33.586	26.883	0
+P	Dimbaza		ZA		-32.835	27.217	0
+P	Qacha’s Nek	qachas nek	LS		-30.115	28.689	0
+P	Lady Frere		ZA		-31.703	27.233	0
+P	Gonubie		ZA		-32.944	28.015	0
+P	Somerset East		ZA		-32.722	25.588	0
+P	Middelburg		ZA		-31.493	25.006	0
+P	Queensdale		ZA		-31.871	26.979	0
+P	Burgersdorp		ZA		-30.998	26.329	0
+P	Zastron		ZA		-30.302	27.084	0
+P	Clydesdale		ZA		-30.298	29.938	0
+P	Ndevana		ZA		-32.908	27.510	0
+P	Alice		ZA		-32.787	26.834	0
+P	Khowa		ZA		-31.333	27.850	0
+P	Ugie		ZA		-31.198	28.234	0
+P	Tlokoeng		ZA		-30.693	28.506	0
+P	Cala		ZA		-31.524	27.695	0

@@ -1,0 +1,113 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	2
+P	Brasília	brasilia	BR		-15.780	-47.930	0
+P	Goiânia	goiania	BR		-16.679	-49.254	0
+P	Uberlândia	uberlandia	BR		-18.919	-48.277	0
+P	Aparecida de Goiânia	aparecida de goiania	BR		-16.823	-49.244	0
+P	Uberaba		BR		-19.748	-47.932	0
+P	Anápolis	anapolis	BR		-16.327	-48.953	0
+P	Ceilândia	ceilandia	BR		-15.809	-48.131	0
+P	Águas Lindas de Goiás	aguas lindas de goias	BR		-15.762	-48.282	0
+P	Samambaia		BR		-15.882	-48.104	0
+P	Luziânia	luziania	BR		-16.253	-47.950	0
+P	Valparaíso de Goiás	valparaiso de goias	BR		-16.066	-47.979	0
+P	Plano Piloto		BR		-15.794	-47.883	0
+P	Taguatinga		BR		-15.833	-48.055	0
+P	Planaltina		BR		-15.618	-47.649	0
+P	Patos de Minas		BR		-18.579	-46.518	0
+P	Trindade		BR		-16.649	-49.489	0
+P	Gama		BR		-16.025	-48.071	0
+P	Águas Claras	aguas claras	BR		-15.840	-48.027	0
+P	Guará	guara	BR		-15.810	-47.972	0
+P	Senador Canedo		BR		-16.708	-49.093	0
+P	Araguari		BR		-18.647	-48.187	0
+P	Santa Maria		BR		-16.031	-48.029	0
+P	Formosa		BR		-15.537	-47.334	0
+P	Recanto das Emas		BR		-15.909	-48.064	0
+P	Catalão	catalao	BR		-18.166	-47.946	0
+P	Araxá	araxa	BR		-19.593	-46.941	0
+P	Riacho Fundo II		BR		-15.898	-48.047	0
+P	Planaltina		BR		-15.453	-47.614	0
+P	Novo Gama		BR		-16.059	-48.039	0
+P	Ituiutaba		BR		-18.974	-49.462	0
+P	Pôr do Sol	por do sol	BR		-15.855	-48.124	0
+P	Caldas Novas		BR		-17.744	-48.628	0
+P	São Sebastião	sao sebastiao	BR		-15.903	-47.776	0
+P	Vicente Pires		BR		-15.810	-48.031	0
+P	Paracatu		BR		-17.222	-46.875	0
+P	Cidade Ocidental		BR		-16.110	-47.933	0
+P	Patrocínio	patrocinio	BR		-18.944	-46.992	0
+P	Unaí	unai	BR		-16.358	-46.906	0
+P	Sobradinho II		BR		-15.634	-47.835	0
+P	Itumbiara		BR		-18.419	-49.215	0
+P	Jardim Botânico	jardim botanico	BR		-15.865	-47.815	0
+P	Goianésia	goianesia	BR		-15.318	-49.117	0
+P	Sobradinho		BR		-15.647	-47.793	0
+P	Santo Antônio do Descoberto	santo antonio do descoberto	BR		-15.940	-48.255	0
+P	Goianira		BR		-16.496	-49.426	0
+P	Itapoã	itapoa	BR		-15.749	-47.769	0
+P	Paranoá	paranoa	BR		-15.776	-47.781	0
+P	Cristalina		BR		-16.768	-47.615	0
+P	Brazlândia	brazlandia	BR		-15.679	-48.197	0
+P	Inhumas		BR		-16.358	-49.496	0
+P	Bom Despacho		BR		-19.736	-45.252	0
+P	Morrinhos		BR		-17.731	-49.099	0
+P	Monte Carmelo		BR		-18.725	-47.499	0
+P	João Pinheiro	joao pinheiro	BR		-17.742	-46.172	0
+P	Jaraguá	jaragua	BR		-15.757	-49.334	0
+P	Itaberaí	itaberai	BR		-16.020	-49.810	0
+P	Sudoeste/Octagonal	sudoeste octagonal	BR		-15.802	-47.927	0
+P	Lago Norte		BR		-15.739	-47.857	0
+P	São Gotardo	sao gotardo	BR		-19.311	-46.049	0
+P	Riacho Fundo		BR		-15.884	-48.016	0
+P	Setor Complementar de Indústria e Abastecimento	setor complementar de industria e abastecimento	BR		-15.782	-47.988	0
+P	Goiatuba		BR		-18.012	-49.355	0
+P	Padre Bernardo		BR		-15.165	-48.284	0
+P	Bela Vista de Goiás	bela vista de goias	BR		-16.973	-48.953	0
+P	Pires do Rio		BR		-17.300	-48.279	0
+P	Nerópolis	neropolis	BR		-16.406	-49.219	0
+P	Palmeiras de Goiás	palmeiras de goias	BR		-16.805	-49.926	0
+P	Carmo do Paranaíba	carmo do paranaiba	BR		-19.001	-46.316	0
+P	Três Marias	tres marias	BR		-18.206	-45.242	0
+P	Coromandel		BR		-18.473	-47.200	0
+P	Conceição das Alagoas	conceicao das alagoas	BR		-19.915	-48.388	0
+P	Prata		BR		-19.307	-48.924	0
+P	Hidrolândia	hidrolandia	BR		-16.962	-49.228	0
+P	Alexânia	alexania	BR		-16.082	-48.507	0
+P	Pirenópolis	pirenopolis	BR		-15.851	-48.961	0
+P	Sacramento		BR		-19.865	-47.440	0
+P	Lago Sul		BR		-15.846	-47.884	0
+P	Itapuranga		BR		-15.562	-49.949	0
+P	Cruzeiro		BR		-15.791	-47.937	0
+P	Ipameri		BR		-17.722	-48.160	0
+P	Tupaciguara		BR		-18.592	-48.705	0
+P	Cocalzinho de Goiás	cocalzinho de goias	BR		-15.794	-48.776	0
+P	Piracanjuba		BR		-17.303	-49.017	0
+P	Buritis		BR		-15.618	-46.423	0
+P	Bom Jesus de Goiás	bom jesus de goias	BR		-18.220	-49.730	0
+P	Abaeté	abaete	BR		-19.160	-45.446	0
+P	Park Way		BR		-15.909	-47.941	0
+P	Silvânia	silvania	BR		-16.667	-48.613	0
+P	Ibiá	ibia	BR		-19.478	-46.539	0
+P	Ceres		BR		-15.308	-49.598	0
+P	Núcleo Bandeirante	nucleo bandeirante	BR		-15.871	-47.969	0
+P	Monte Alegre de Minas		BR		-18.871	-48.881	0
+P	Vazante		BR		-17.987	-46.908	0
+P	Rubiataba		BR		-15.164	-49.803	0
+P	Guapó	guapo	BR		-16.831	-49.532	0
+P	Abadia de Goiás	abadia de goias	BR		-16.757	-49.438	0
+P	Lagoa Formosa		BR		-18.779	-46.407	0
+P	Presidente Olegário	presidente olegario	BR		-18.418	-46.418	0
+P	Anicuns		BR		-16.461	-49.962	0
+P	Pontalina		BR		-17.525	-49.447	0
+P	Campina Verde		BR		-19.538	-49.488	0
+P	Luz		BR		-19.801	-45.686	0
+P	Urucuia		BR		-16.133	-45.742	0
+P	Arinos		BR		-15.917	-46.106	0
+P	Perdizes		BR		-19.353	-47.293	0
+P	Indiara		BR		-17.138	-49.988	0
+P	Orizona		BR		-17.031	-48.296	0
+P	Santa Juliana		BR		-19.309	-47.525	0
+P	Brasilândia de Minas	brasilandia de minas	BR		-17.010	-46.009	0

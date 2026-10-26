@@ -1,0 +1,58 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	1	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+C	AU	Australia	mwl	s
+B	1
+P	Melbourne		AU	Victoria	-37.814	144.963	1
+P	Geelong		AU	Victoria	-38.147	144.361	1
+P	City of Port Phillip		AU	Victoria	-37.834	144.938	1
+P	Ballarat		AU	Victoria	-37.566	143.850	1
+P	Bendigo		AU	Victoria	-36.758	144.280	1
+P	Point Cook		AU	Victoria	-37.915	144.751	1
+P	Craigieburn		AU	Victoria	-37.600	144.950	1
+P	Melbourne City Centre		AU	Victoria	-37.815	144.967	1
+P	Tarneit		AU	Victoria	-37.836	144.660	1
+P	Werribee		AU	Victoria	-37.900	144.667	1
+P	Sunbury		AU	Victoria	-37.577	144.726	1
+P	St Albans		AU	Victoria	-37.745	144.800	1
+P	Hoppers Crossing		AU	Victoria	-37.883	144.700	1
+P	Truganina		AU	Victoria	-37.817	144.750	1
+P	Saint Albans		AU	Victoria	-37.733	144.800	1
+P	Warrnambool		AU	Victoria	-38.382	142.488	1
+P	Coburg		AU	Victoria	-37.750	144.967	1
+P	Mount Gambier		AU	South Australia	-37.832	140.779	0
+P	South Yarra		AU	Victoria	-37.838	144.991	1
+P	Brunswick		AU	Victoria	-37.767	144.967	1
+P	Bacchus Marsh		AU	Victoria	-37.673	144.438	1
+P	Caroline Springs		AU	Victoria	-37.741	144.736	1
+P	Roxburgh Park		AU	Victoria	-37.626	144.926	1
+P	Glenroy		AU	Victoria	-37.700	144.933	1
+P	Southbank		AU	Victoria	-37.823	144.964	1
+P	Greenvale		AU	Victoria	-37.633	144.867	1
+P	Essendon		AU	Victoria	-37.750	144.911	1
+P	Wyndham Vale		AU	Victoria	-37.891	144.624	1
+P	Saint Kilda		AU	Victoria	-37.868	144.981	1
+P	Sunshine West		AU	Victoria	-37.791	144.816	1
+P	Torquay		AU	Victoria	-38.331	144.326	1
+P	Altona Meadows		AU	Victoria	-37.884	144.784	1
+P	Highton		AU	Victoria	-38.171	144.311	1
+P	Pascoe Vale		AU	Victoria	-37.733	144.933	1
+P	Deer Park		AU	Victoria	-37.767	144.767	1
+P	Port Melbourne		AU	Victoria	-37.840	144.942	1
+P	Hillside		AU	Victoria	-37.690	144.742	1
+P	Footscray		AU	Victoria	-37.800	144.900	1
+P	Horsham		AU	Victoria	-36.711	142.200	1
+P	Moonee Ponds		AU	Victoria	-37.767	144.917	1
+P	Carlton		AU	Victoria	-37.800	144.967	1
+P	Lara		AU	Victoria	-38.024	144.406	1
+P	Yarraville		AU	Victoria	-37.817	144.900	1
+P	Docklands		AU	Victoria	-37.815	144.951	1
+P	Taylors Hill		AU	Victoria	-37.710	144.755	1
+P	North Melbourne		AU	Victoria	-37.798	144.945	1
+P	Corio		AU	Victoria	-38.083	144.383	1
+P	Ascot Vale		AU	Victoria	-37.780	144.923	1
+P	Taylors Lakes		AU	Victoria	-37.699	144.786	1
+P	Elwood		AU	Victoria	-37.882	144.982	1
+P	Keilor East		AU	Victoria	-37.733	144.865	1
+P	Echuca		AU	Victoria	-36.141	144.752	1
+P	Wallan		AU	Victoria	-37.416	144.979	1

@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+C	KP	North Korea	mwl	s
+C	NG	Nigeria	egyptian	s
+B	0
+P	Iwaki		JP		37.050	140.883	1
+P	Iwo		NG		7.635	4.182	0
+P	Iwata		JP		34.700	137.850	1
+P	Iwakuni		JP		34.163	132.220	1
+P	Iwatsuki		JP		35.965	139.696	1
+P	Iwamizawa		JP		43.200	141.760	1
+P	Iwade		JP		34.250	135.317	1
+P	Iwakura		JP		35.283	136.867	1
+P	Iwanuma		JP		38.105	140.859	1
+P	Iwai		JP		36.050	139.900	1
+P	Iwase		JP		36.350	140.100	1
+P	Iwŏn-ŭp	iwon up	KP		40.323	128.655	1
+P	Iwai		JP		35.750	139.233	1

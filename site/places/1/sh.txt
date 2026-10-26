@@ -1,0 +1,646 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Khartoum	120	
+Z	3	Africa/Lagos	60	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	8	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	9	Asia/Almaty	300	
+Z	10	Asia/Dubai	240	
+Z	11	Asia/Hebron	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	12	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	13	Asia/Kabul	270	
+Z	14	Asia/Kolkata	330	
+Z	15	Asia/Krasnoyarsk	420	
+Z	16	Asia/Shanghai	480	
+Z	17	Asia/Tehran	210	
+Z	18	Asia/Tokyo	540	
+Z	19	Asia/Urumqi	360	
+Z	20	Asia/Yangon	390	
+Z	21	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	22	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	23	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	24	Europe/Moscow	180	
+Z	25	Europe/Tirane	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	26	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AL	Albania	mwl	s
+C	AM	Armenia	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BG	Bulgaria	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CN	China	mwl	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JP	Japan	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LY	Libya	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	MM	Myanmar	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NZ	New Zealand	mwl	s
+C	OM	Oman	ummalqura	s
+C	PK	Pakistan	karachi	h
+C	PS	Palestinian Territory	mwl	s
+C	QA	Qatar	qatar	s
+C	RU	Russia	mwl	s
+C	RW	Rwanda	egyptian	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SY	Syria	egyptian	s
+C	TJ	Tajikistan	mwl	h
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	XK	Kosovo	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	15
+P	Shanghai		CN		31.222	121.458	16
+P	Shenzhen		CN		22.546	114.068	16
+P	Shenyang		CN		41.792	123.433	16
+P	Shijiazhuang		CN		38.041	114.479	16
+P	Shantou		CN		23.355	116.679	16
+P	Shiyan		CN		32.648	110.778	16
+P	Shaoxing		CN		30.002	120.579	16
+P	Shangqiu		CN		34.414	115.656	16
+P	Sharjah		AE		25.334	55.412	10
+P	Shiraz		IR		29.610	52.531	17
+P	Shubrā al Khaymah	shubra al khaymah	EG		30.125	31.251	1
+P	Shymkent		KZ		42.310	69.600	9
+P	Shangrao		CN		28.452	117.943	16
+P	Shaoguan		CN		24.800	113.583	16
+P	Shivaji Nagar		IN		18.530	73.853	14
+P	Sholapur		IN		17.672	75.910	14
+P	Shangyu		CN		30.016	120.871	16
+P	Shaoyang		CN		27.238	111.462	16
+P	Shah Alam		MY		3.085	101.533	16
+P	Shizuishan		CN		38.981	106.389	16
+P	Shizuoka		JP		34.983	138.383	18
+P	Shuangyashan		CN		46.677	131.133	16
+P	Shekhupura		PK		31.713	73.986	9
+P	Shihezi		CN		44.302	86.037	19
+P	Sheffield		GB	England	53.383	-1.466	23
+P	Shangluo		CN		33.867	109.931	16
+P	Mazār-e Sharīf	mazar e sharif	AF		36.709	67.111	13
+P	Sha Tin		HK		22.383	114.183	16
+P	Shanwei		CN		22.782	115.347	16
+P	Shouguang		CN		36.880	118.737	16
+P	Shyamnagar		IN		22.833	88.367	14
+P	Shuozhou		CN		39.316	112.422	16
+P	Sham Shui Po		HK		22.330	114.159	16
+P	Shinagawa		JP		33.636	133.006	18
+P	Shibganj		BD		25.001	89.323	19
+P	Nara-shi	nara shi	JP		34.685	135.805	18
+P	Shinjuku		JP		35.691	139.709	18
+P	Shiqi		CN		22.517	113.385	16
+P	Shivamogga		IN		13.932	75.568	14
+P	Shāhjānpur	shahjanpur	IN		27.882	79.909	14
+P	Shahrīār	shahriar	IR		35.659	51.058	17
+P	Bihār Sharīf	bihar sharif	IN		25.201	85.524	14
+P	Tin Shui Wai		HK		22.457	114.002	16
+P	Khomeynī Shahr	khomeyni shahr	IR		32.686	51.536	17
+P	Shibīn al Kawm	shibin al kawm	EG		30.553	31.009	1
+P	Shimonoseki		JP		33.955	130.937	18
+P	Fukui-shi	fukui shi	JP		36.064	136.223	18
+P	North Shore		NZ		-36.800	174.750	26
+P	Shijie		CN		23.095	113.792	16
+P	Shahkot		PK		31.571	73.485	9
+P	Shibuya		JP		35.659	139.707	18
+P	Shrīrāmpur	shrirampur	IN		22.753	88.342	14
+P	Shakhty		RU		47.719	40.216	24
+P	Shevchenkivskyi		UA		50.464	30.466	22
+P	Ma On Shan		HK		22.406	114.241	16
+P	Shagamu		NG		6.848	3.646	3
+P	Shashamane		ET		7.200	38.600	24
+P	Nishi-Tokyo-shi	nishi tokyo shi	JP		35.725	139.538	18
+P	Qā’em Shahr	qaem shahr	IR		36.467	52.868	17
+P	Shikarpur		PK		27.956	68.638	9
+P	Nasīm Shahr	nasim shahr	IR		35.565	51.163	17
+P	Kafr ash Shaykh		EG		31.112	30.940	1
+P	Tottori-shi	tottori shi	JP		35.500	134.233	18
+P	Shreveport		US	Louisiana	32.525	-93.750	4
+P	Shangri-La	shangri la	CN		27.825	99.708	16
+P	Ash Shaţrah	ash shatrah	IQ		31.409	46.173	24
+P	Shahuwadi		IN		16.910	73.947	14
+P	Shulin		TW		24.991	121.422	16
+P	Shivpuri		IN		25.424	77.662	14
+P	Shimla		IN		31.104	77.167	14
+P	Shāhīn Shahr	shahin shahr	IR		32.858	51.553	17
+P	Shahrud		IR		36.418	54.976	17
+P	Ash Sharqāt	ash sharqat	IQ		35.517	43.228	24
+P	Shomolu		NG		6.539	3.374	3
+P	Shujaabad		PK		29.881	71.293	9
+P	Shāntipur	shantipur	IN		23.247	88.433	14
+P	Shūnan	shunan	JP		34.081	131.826	18
+P	Shevchenko		UA		49.565	34.539	22
+P	Shillong		IN		25.569	91.883	14
+P	Shahrisabz		UZ		39.058	66.834	9
+P	Shimotoda		JP		35.815	139.685	18
+P	Shengavit		AM		40.156	44.478	10
+P	Shuizhai		CN		23.930	115.765	16
+P	Shanhaiguan		CN		40.001	119.754	16
+P	Shinyanga		TZ		-3.664	33.421	24
+P	Shiqiao		CN		22.946	113.358	16
+P	Shahreẕā	shahreza	IR		32.009	51.864	17
+P	Shenglilu		CN		29.350	105.877	16
+P	Shangzhi		CN		45.206	128.002	16
+P	Shuangcheng		CN		45.380	126.307	16
+P	Sherbrooke		CA	Quebec	45.400	-71.899	8
+P	Shahr-e Kord	shahr e kord	IR		32.326	50.857	17
+P	Shuanglonghu		CN		29.716	106.607	16
+P	Shache		CN		38.417	77.241	19
+P	Shajing		CN		22.746	113.819	16
+P	Shakargarh		PK		32.264	75.160	9
+P	Shahecheng		CN		36.938	114.506	16
+P	Bet Shemesh		IL		31.731	34.993	12
+P	Kashihara-shi	kashihara shi	JP		34.509	135.793	18
+P	Sheepshead Bay		US	New York	40.591	-73.945	8
+P	Shahr-e Ṣadrā	shahr e sadra	IR		29.800	52.502	17
+P	Shahdad Kot		PK		27.847	67.907	9
+P	Moḩammad Shahr	mohammad shahr	IR		35.763	50.917	17
+P	Shaoshan		CN		27.917	112.517	16
+P	Shunyi		CN		40.122	116.648	16
+P	Shahre Jadide Andisheh		IR		35.680	51.019	17
+P	Shahdadpur		PK		25.925	68.623	9
+P	Shchyolkovo		RU		55.925	37.972	24
+P	Shaowu		CN		27.341	117.483	16
+P	Shilong		CN		23.114	113.847	16
+P	Shaping		CN		22.770	112.958	16
+P	Sherpur		BD		25.019	90.018	19
+P	Chikushino-shi	chikushino shi	JP		33.496	130.516	18
+P	Shāhzādpur	shahzadpur	BD		24.177	89.599	19
+P	Shabqadar		PK		34.216	71.555	9
+P	Shuifu		CN		28.632	104.408	16
+P	Shchukino		RU		55.800	37.450	24
+P	Shūshtar	shushtar	IR		32.050	48.848	17
+P	Shahrak-e Pardīsān	shahrak e pardisan	IR		34.557	50.802	17
+P	Shikohābād	shikohabad	IN		27.108	78.587	14
+P	Shāmli	shamli	IN		29.450	77.310	14
+P	Shibata		JP		37.950	139.333	18
+P	Ash-Shaykh Zāyid	ash shaykh zayid	EG		30.020	31.000	1
+P	Shimada		JP		34.817	138.183	18
+P	Shkodër	shkoder	AL		42.068	19.513	25
+P	Shenjiamen		CN		29.958	122.298	16
+P	Shuangliao		CN		43.511	123.501	16
+P	El Shorouk		EG		30.138	31.616	1
+P	Kattaqo’rg’on Shahri	kattaqorgon shahri	UZ		39.905	66.266	9
+P	Shahdol		IN		23.294	81.362	14
+P	Shrirampur		IN		19.622	74.657	14
+P	Shwebo		MM		22.569	95.698	20
+P	Fūlād Shahr	fulad shahr	IR		32.487	51.397	17
+P	Shevchenkivskyi		UA		48.563	39.332	22
+P	Shizilu		CN		35.171	118.829	16
+P	South Shields		GB	England	54.999	-1.432	23
+P	Shīrvān	shirvan	IR		37.397	57.930	17
+P	Shikokuchūō	shikokuchuo	JP		33.975	133.549	18
+P	Shiwan		CN		23.001	113.077	16
+P	Phulwari Sharif		IN		25.578	85.072	14
+P	Shanting		CN		35.075	117.458	16
+P	Sha Tin Wai		HK		22.378	114.198	16
+P	Shadrinsk		RU		56.086	63.638	9
+P	Shitanjing		CN		39.234	106.344	16
+P	Natori-shi	natori shi	JP		38.167	140.883	18
+P	Shap Pat Heung		HK		22.425	114.036	16
+P	Shulan		CN		44.411	126.948	16
+P	Shūsh	shush	IR		32.194	48.244	17
+P	Shirpur		IN		21.348	74.880	14
+P	Shrewsbury		GB	England	52.710	-2.752	23
+P	Hujra Shah Muqim		PK		30.742	73.823	9
+P	Shiki		JP		35.833	139.583	18
+P	Shibukawa		JP		36.483	139.000	18
+P	Shirbīn	shirbin	EG		31.197	31.524	1
+P	Ash Shuhadā’	ash shuhada	EG		30.597	30.899	1
+P	Shouxian		CN		34.846	116.459	16
+P	Kamensk-Shakhtinsky	kamensk shakhtinsky	RU		48.318	40.259	24
+P	Shangmei		CN		27.743	111.296	16
+P	Katori-shi	katori shi	JP		35.898	140.499	18
+P	Shancheng		CN		34.795	116.082	16
+P	Meshgīn Shahr	meshgin shahr	IR		38.399	47.682	17
+P	Shelby		US	Michigan	42.671	-83.033	8
+P	Shibīn al Qanāţir	shibin al qanatir	EG		30.313	31.320	1
+P	Shāhābād	shahabad	IN		27.643	79.940	14
+P	Shostka		UA		51.864	33.473	22
+P	Shixing		CN		24.948	114.066	16
+P	Shumen		BG		43.271	26.923	22
+P	Ash Shafā	ash shafa	SA		21.073	40.318	24
+P	Sheopur		IN		25.665	76.696	14
+P	Shakhtarsk		UA		48.057	38.438	22
+P	Shangsi		CN		22.156	107.980	16
+P	Shahrixon		UZ		40.713	72.057	9
+P	Shenzhen City Centre		CN		22.536	114.077	16
+P	Sherwood Park		CA	Alberta	53.517	-113.319	6
+P	Shiguai		CN		40.706	110.286	16
+P	Shankou		CN		21.600	109.717	16
+P	Shima		CN		28.988	105.924	16
+P	Shājāpur	shajapur	IN		23.426	76.278	14
+P	Sheki		AZ		41.192	47.171	10
+P	Shima		CN		24.446	117.812	16
+P	Xo‘jayli Shahri	xojayli shahri	UZ		42.409	59.445	9
+P	Shuangfengqiao		CN		29.719	106.627	16
+P	Shorkot		PK		31.910	70.878	9
+P	Shiojiri		JP		36.100	137.967	18
+P	Shajing Town		CN		22.738	113.808	16
+P	Kashima-shi	kashima shi	JP		35.965	140.645	18
+P	Shaozhuang		CN		36.747	118.317	16
+P	Shangkou		CN		36.966	118.883	16
+P	Urgut Shahri		UZ		39.419	67.261	9
+P	Shawnee		US	Kansas	39.042	-94.720	4
+P	Shikang		CN		21.767	109.317	16
+P	Sheptytskyi		UA		50.394	24.239	22
+P	Shendi		SD		16.692	33.434	2
+P	Shimodate		JP		36.300	139.983	18
+P	Shanwang		CN		36.545	118.711	16
+P	Shizhai		CN		34.806	116.639	16
+P	Sheikhpura		IN		25.140	85.841	14
+P	Tagajō-shi	tagajo shi	JP		38.300	141.000	18
+P	Shiroi		JP		35.800	140.067	18
+P	Shuikou		CN		23.984	115.896	16
+P	Kogon Shahri		UZ		39.727	64.555	9
+P	Shulyavka		UA		50.454	30.453	22
+P	Shuangyang		CN		43.523	125.659	16
+P	Al Shamkhah City		AE		24.393	54.708	10
+P	Shāhāda	shahada	IN		21.545	74.471	14
+P	Shuya		RU		56.849	41.387	24
+P	Shchëkino	shchekino	RU		54.007	37.506	24
+P	Shimotsuke		JP		36.413	139.866	18
+P	Saint Clair Shores		US	Michigan	42.497	-82.889	8
+P	Shegaon		IN		20.793	76.699	14
+P	Shirakawa		JP		37.120	140.262	18
+P	Shwegu		MM		24.227	96.791	20
+P	Shiqiaozi		CN		36.162	119.263	16
+P	Shibuzi		CN		36.124	119.103	16
+P	Shenliu		CN		29.414	112.164	16
+P	Ash Shāmīyah	ash shamiyah	IQ		31.963	44.601	24
+P	Shanhecun		CN		45.711	128.580	16
+P	Sherkot		IN		29.327	78.574	14
+P	Zarrīn Shahr	zarrin shahr	IR		32.391	51.377	17
+P	Shibirghān	shibirghan	AF		36.668	65.753	13
+P	Shoreline		US	Washington	47.756	-122.342	7
+P	Shijōnawate	shijonawate	JP		34.733	135.683	18
+P	Sharifabad		PK		33.434	73.363	9
+P	Shilin		CN		24.819	103.332	16
+P	Shella		IN		25.179	91.640	14
+P	Shiquan		CN		33.041	108.236	16
+P	Shāhpur	shahpur	IN		16.696	76.842	14
+P	Shāhābād	shahabad	IN		17.131	76.944	14
+P	Port Shepstone		ZA		-30.741	30.455	2
+P	Sherman Oaks		US	California	34.151	-118.449	7
+P	Shiogama		JP		38.317	141.033	18
+P	Shiraoka		JP		36.018	139.660	18
+P	Shahr-e Bābak	shahr e babak	IR		30.116	55.119	17
+P	South Shore		US	Illinois	41.762	-87.578	4
+P	Shorāpur	shorapur	IN		16.521	76.757	14
+P	Shujālpur	shujalpur	IN		23.407	76.710	14
+P	Shuijiang		CN		29.248	107.284	16
+P	Shanji		CN		34.205	117.596	16
+P	Shuanghe		CN		29.321	105.569	16
+P	Khān Shaykhūn	khan shaykhun	SY		35.442	36.651	24
+P	Sh'īarīah	shiariah	SD		12.439	25.581	2
+P	Sheboygan		US	Wisconsin	43.751	-87.715	4
+P	Shtip		MK		41.746	22.196	25
+P	Shiyan		CN		30.083	107.172	16
+P	Shināş	shinas	OM		24.743	56.467	10
+P	Nanto-shi	nanto shi	JP		36.569	136.912	18
+P	Shuangfu		CN		29.414	106.270	16
+P	Shima		JP		34.333	136.833	18
+P	Shakiso		ET		5.765	38.910	24
+P	Shelekhov		RU		52.216	104.099	16
+P	Shunhe		CN		34.842	116.557	16
+P	Shchuchinsk		KZ		52.936	70.189	9
+P	Jatoi Shimali		PK		29.518	70.845	9
+P	Shido		JP		34.323	134.173	18
+P	Shaji		CN		33.900	118.133	16
+P	Shime		JP		33.587	130.487	18
+P	Shijiao		CN		28.924	106.756	16
+P	Shuanggou		CN		34.035	117.578	16
+P	Shertallai		IN		9.686	76.340	14
+P	Ping Shan		HK		22.441	114.006	16
+P	Shebekino		RU		50.413	36.925	24
+P	Shangyun		CN		23.052	99.828	16
+P	Shinden		JP		36.000	139.625	18
+P	Shuitu		CN		29.782	106.497	16
+P	Shinshiro		JP		34.900	137.500	18
+P	Shuanglong		CN		28.452	104.345	16
+P	Shyorongi		RW		-1.854	29.962	2
+P	Shihao		CN		28.541	106.681	16
+P	Shōranūr	shoranur	IN		10.762	76.271	14
+P	G’ijduvon Shahri	gijduvon shahri	UZ		40.102	64.682	9
+P	Shimabara		JP		32.783	130.367	18
+P	Sharypovo		RU		55.540	89.201	15
+P	Shāhābād	shahabad	IN		30.168	76.870	14
+P	Shimo-tsuma	shimo tsuma	JP		36.183	139.967	18
+P	Shefar‘am	shefaram	IL		32.806	35.169	12
+P	Shonē	shone	ET		7.133	37.950	24
+P	Shādegān	shadegan	IR		30.649	48.665	17
+P	Shiji		CN		34.200	118.483	16
+P	Shakhtinsk		KZ		49.707	72.593	9
+P	Kurobe-shi	kurobe shi	JP		36.901	137.450	18
+P	Shāhīn Dezh	shahin dezh	IR		36.679	46.567	17
+P	Shirone		JP		37.764	139.022	18
+P	Shamkhir		AZ		40.830	46.018	10
+P	Shelton		US	Connecticut	41.316	-73.093	8
+P	Shubrākhīt	shubrakhit	EG		31.028	30.715	1
+P	Shinjō	shinjo	JP		38.759	140.301	18
+P	Shepetivka		UA		50.181	27.065	22
+P	Sherman		US	Texas	33.636	-96.609	4
+P	Sherghāti	sherghati	IN		24.559	84.792	14
+P	Shiwan		CN		21.750	109.200	16
+P	Shamakhi		AZ		40.631	48.641	10
+P	Choa Saidan Shah		PK		32.720	72.986	9
+P	Uchqŭrghon Shahri	uchqurghon shahri	UZ		41.114	72.079	9
+P	Shwenatha		MM		16.988	96.162	20
+P	Shakopee		US	Minnesota	44.798	-93.527	4
+P	Shuanghuai		CN		30.184	106.556	16
+P	Shu		KZ		43.605	73.762	9
+P	North Shields		GB	England	55.016	-1.449	23
+P	Shepherds Bush		GB	England	51.505	-0.221	23
+P	Gorod Shebekino		RU		50.417	36.917	24
+P	Shichuan		CN		29.766	106.823	16
+P	Jisr ash Shughūr	jisr ash shughur	SY		35.814	36.320	24
+P	Kaseda-shirakame	kaseda shirakame	JP		31.417	130.317	18
+P	Shili		CN		33.952	105.292	16
+P	Sharm el-Sheikh	sharm el sheikh	EG		27.916	34.330	1
+P	Shinshicho		ET		7.206	37.778	24
+P	Shawinigan		CA	Quebec	46.567	-72.749	8
+P	Shahbazpur		IN		26.305	87.289	14
+P	Shahe		CN		22.552	113.979	16
+P	Tsz Wan Shan		HK		22.352	114.200	16
+P	Shetou		TW		23.898	120.588	16
+P	Sheybān	sheyban	IR		31.408	48.795	17
+P	Sheraro		ET		14.401	37.934	24
+P	Shikaripura		IN		14.270	75.356	14
+P	Shirdi		IN		19.766	74.477	14
+P	Shibganj		BD		24.685	88.156	19
+P	Shimen		CN		29.100	106.033	16
+P	Shisō	shiso	JP		34.981	134.564	18
+P	Sholinganallur		IN		12.890	80.231	14
+P	Shidui		CN		36.393	119.309	16
+P	Shumerlya		RU		55.501	46.413	24
+P	Shu‘fāţ	shufat	PS		31.817	35.227	11
+P	Shtime		XK		42.433	21.040	25
+P	Shāhābād	shahabad	IN		28.567	79.010	14
+P	Taikoo Shing		HK		22.286	114.219	16
+P	Shikārpūr	shikarpur	IN		28.281	78.014	14
+P	Shāhpura	shahpura	IN		27.391	75.960	14
+P	Shrewsbury		US	Massachusetts	42.296	-71.713	8
+P	Shuangjiang		CN		30.218	105.745	16
+P	Shuanghekou		CN		30.754	108.370	16
+P	Shōbara	shobara	JP		34.850	133.017	18
+P	Shetan		CN		29.989	107.615	16
+P	Shiroishi		JP		38.003	140.618	18
+P	Shuangfeng		CN		30.023	106.430	16
+P	Shawei		CN		22.520	114.034	16
+P	Shingū	shingu	JP		33.714	130.431	18
+P	Shimoda		JP		32.946	132.986	18
+P	Shaqlāwah	shaqlawah	IQ		36.404	44.326	24
+P	Shamshabad		IN		17.252	78.418	14
+P	Shimada		JP		32.757	130.790	18
+P	Shaodian		CN		34.133	118.433	16
+P	Farrokh Shahr		IR		32.272	50.980	17
+P	Shaqra		SA		25.240	45.251	24
+P	Shunzhou		CN		26.621	100.554	16
+P	Shepparton		AU	Victoria	-36.380	145.399	21
+P	Shirley		GB	England	52.411	-1.820	23
+P	Shafi Pur Ranhola		IN		28.657	77.040	14
+P	Sharqpur Sharif		PK		31.461	74.101	9
+P	Shek Lei		HK		22.366	114.140	16
+P	Shawnee		US	Oklahoma	35.327	-96.925	4
+P	Shrīgonda	shrigonda	IN		18.615	74.699	14
+P	Shambu		ET		9.567	37.100	24
+P	Shamsābād	shamsabad	IN		27.017	78.124	14
+P	Shuangtang		CN		34.365	118.475	16
+P	Kafr Shukr		EG		30.550	31.244	1
+P	Shaping		CN		30.475	107.436	16
+P	Sholinghur		IN		13.118	79.420	14
+P	Shagang		CN		21.667	109.033	16
+P	Sherwood		US	Arkansas	34.815	-92.224	4
+P	Khairpur Nathan Shah		PK		27.091	67.735	9
+P	Shibushi		JP		31.476	131.101	18
+P	Shangpa		CN		26.919	98.952	16
+P	Shatura		RU		55.573	39.534	24
+P	Shūrash	shurash	IQ		35.516	44.843	24
+P	Shiyeli		KZ		44.171	66.734	9
+P	Shar’ya	sharya	RU		58.368	45.516	24
+P	Shahrak-e Qods	shahrak e qods	IR		35.759	51.376	17
+P	Shāhbāzpur Town	shahbazpur town	BD		24.053	91.172	19
+P	Dachang Shandao		CN		39.276	122.600	16
+P	Ajab Shīr	ajab shir	IR		37.478	45.894	17
+P	Shīnḏanḏ	shindand	AF		33.303	62.147	13
+P	Shāhpura	shahpura	IN		25.621	74.925	14
+P	Shuanglong		CN		29.960	107.204	16
+P	Shahhat		LY		32.804	21.866	2
+P	Bulung’ur Shahri	bulungur shahri	UZ		39.760	67.274	9
+P	Jahanian Shah		PK		31.805	72.277	9
+P	Shizhi		CN		30.053	107.794	16
+P	Shiqiao		CN		34.154	105.130	16
+P	Shelek		KZ		43.596	78.257	9
+P	Shwe Lin Ban		MM		16.897	96.068	20
+P	Giv'at Shmuel	givat shmuel	IL		32.078	34.849	12
+P	Shipley		GB	England	53.833	-1.767	23
+P	Shiggaon		IN		14.991	75.225	14
+P	Sheohar		IN		26.514	85.293	14
+P	Shcherbinka		RU		55.498	37.558	24
+P	Shangi		RW		-2.404	29.006	2
+P	Sheoganj		IN		25.139	73.068	14
+P	Shanwa		TZ		-3.167	33.767	24
+P	Shirley		US	New York	40.801	-72.868	8
+P	Shaker Heights		US	Ohio	41.474	-81.537	8
+P	Shakhtarske		UA		48.348	36.396	22
+P	Shingū	shingu	JP		33.733	135.983	18
+P	Shalqar		KZ		47.832	59.619	9
+P	Shakaskraal		ZA		-29.449	31.215	2
+P	Zomin Shaharchasi		UZ		39.961	68.396	9
+P	Shalkar		KZ		48.033	48.900	9
+P	Shovot		UZ		41.658	60.295	9
+P	Shuikou		CN		25.913	109.314	16
+P	Shenkottai		IN		8.977	77.246	14
+P	Ash Shaykh Zuwayd		EG		31.216	34.111	1
+P	Shuanglu		CN		29.485	105.763	16
+P	Shofirkon Shahri		UZ		40.120	64.501	9
+P	Shāhganj	shahganj	IN		26.050	82.684	14
+P	Shoreview		US	Minnesota	45.079	-93.147	4
+P	Bay Shore		US	New York	40.725	-73.245	8
+P	Shituo		CN		29.716	107.136	16
+P	Shaykh Miskīn	shaykh miskin	SY		32.827	36.161	24
+P	Sham Tseng		HK		22.367	114.050	16
+P	Shimo-furano	shimo furano	JP		43.350	142.383	18
+P	Ureshinomachi-shimojuku	ureshinomachi shimojuku	JP		33.114	130.003	18
+P	Shahrak-e Ţāleqānī	shahrak e taleqani	IR		30.835	50.199	17
+P	Shanghuang		CN		31.320	109.484	16
+P	Shek Kip Mei Estate		HK		22.334	114.165	16
+P	Shāhedshahr	shahedshahr	IR		35.573	51.085	17
+P	Showţ	showt	IR		39.219	44.770	17
+P	Shardara		KZ		41.258	67.970	9
+P	Shamsābād	shamsabad	IN		27.537	79.438	14
+P	Shrīrangapattana	shrirangapattana	IN		12.423	76.684	14
+P	Shali		RU		43.148	45.902	24
+P	Sho‘rchi	shorchi	UZ		37.999	67.787	9
+P	Shiraguppi		IN		16.619	74.709	14
+P	Darreh Shahr		IR		33.144	47.380	17
+P	Shahe		CN		30.828	108.350	16
+P	Gagarin Shahri		UZ		40.665	68.168	9
+P	Shelui		TZ		-4.367	34.200	24
+P	Payshamba Shahri		UZ		40.011	66.231	9
+P	Short Pump		US	Virginia	37.650	-77.612	8
+P	G’allaorol Shahri	gallaorol shahri	UZ		40.027	67.588	9
+P	Shāmgarh	shamgarh	IN		24.188	75.639	14
+P	Shwegyin		MM		17.921	96.877	20
+P	Tsim Sha Tsui		HK		22.300	114.167	16
+P	Shuangshi		CN		29.400	105.838	16
+P	Shandan		CN		34.751	104.831	16
+P	Norton Shores		US	Michigan	43.169	-86.264	8
+P	Shendi		ET		10.641	36.947	24
+P	Old Shinyanga		TZ		-3.550	33.400	24
+P	Ogōri-shimogō	ogori shimogo	JP		34.100	131.400	18
+P	Shivpur Charcha		IN		23.329	82.528	14
+P	Wu Kai Sha		HK		22.430	114.242	16
+P	Shīshgarh	shishgarh	IN		28.729	79.315	14
+P	Shirahama		JP		33.683	135.350	18
+P	Shurugwi		ZW		-19.670	30.006	2
+P	Shirahamachō-usazakiminami	shirahamacho usazakiminami	JP		34.783	134.717	18
+P	‘Ālī Shahr	ali shahr	IR		28.931	51.066	17
+P	Bungo-Takada-shi	bungo takada shi	JP		33.557	131.445	18
+P	Shahriston		TJ		39.774	68.809	9
+P	Sheno		ET		9.329	39.293	24
+P	Shima		CN		29.631	105.831	16
+P	Nāḩiyat ash Shināfīyah	nahiyat ash shinafiyah	IQ		31.584	44.647	24
+P	Shibao		CN		34.108	105.316	16
+P	Sholavandan		IN		10.022	77.961	14
+P	Qiryat Shmona		IL		33.212	35.570	12
+P	Shuen Wan		HK		22.468	114.208	16
+P	Shizunai-furukawachō	shizunai furukawacho	JP		42.334	142.367	18
+P	Ōkuchi-shinohara	okuchi shinohara	JP		32.068	130.624	18
+P	Shakhun’ya	shakhunya	RU		57.676	46.612	24
+P	Shabestar		IR		38.180	45.703	17
+P	Shōbu	shobu	JP		36.067	139.600	18
+P	Shigang		CN		31.136	109.364	16
+P	Shendurjana		IN		21.525	78.284	14
+P	Shibetsu		JP		43.659	145.132	18
+P	Shahrak-e ‘Alā’īn	shahrak e alain	IR		35.582	51.456	17
+P	Shawan		CN		33.627	104.564	16
+P	Juma Shahri		UZ		39.716	66.664	9
+P	Shimanovsk		RU		52.003	127.676	18
+P	Shahpur Chakar		PK		26.154	68.650	9
+P	Shangchong		CN		26.253	108.658	16
+P	Shimoda		JP		34.677	138.945	18
+P	Paxtakor Shahri		UZ		40.312	67.957	9
+P	Shelbyville		US	Tennessee	35.483	-86.460	4
+P	Sheksna		RU		59.210	38.511	24
+P	Shāzand	shazand	IR		33.931	49.406	17
+P	Shin’ichi	shinichi	JP		34.555	133.273	18
+P	Shuren		CN		29.987	107.739	16
+P	Shigu		CN		26.869	99.956	16
+P	Shama Junction		GH		5.018	-1.664	0
+P	Shonai		JP		38.848	139.903	18
+P	Shōwa	showa	JP		35.628	138.535	18
+P	Shisui		JP		35.717	140.267	18
+P	Shoham		IL		31.999	34.946	12
+P	Katālem va Sādāt Shahr	katalem va sadat shahr	IR		36.889	50.696	17
+P	Shek O		HK		22.233	114.251	16
+P	Shanghe		CN		30.160	105.934	16
+P	Sheung Shui		HK		22.517	114.117	16
+P	Shilong		CN		29.282	106.898	16
+P	Sharīfābād	sharifabad	IR		36.212	50.150	17
+P	Umm Shawkah		SD		13.317	33.767	2
+P	Tel Sheva‘	tel sheva	IL		31.249	34.860	12
+P	Shelby		US	North Carolina	35.292	-81.536	8
+P	Shiozawa		JP		37.038	138.849	18
+P	Shemonaikha		KZ		50.629	81.911	9
+P	Shilongba		CN		26.579	101.363	16
+P	Shimosuwa		JP		36.071	138.082	18
+P	Shāhpur	shahpur	IN		21.237	76.226	14
+P	Shui Chuen O		HK		22.372	114.198	16
+P	Earl Shilton		GB	England	52.577	-1.315	23
+P	Lake Shore		US	Maryland	39.107	-76.485	8
+P	Shusha		AZ		39.760	46.750	10
+P	Shitan		CN		30.069	106.503	16
+P	Bhit Shah		PK		25.806	68.491	9
+P	Sherwood		US	Oregon	45.357	-122.840	7
+P	Shchigry		RU		51.876	36.905	24
+P	Shehera		IN		22.951	73.631	14
+P	Shoreham-by-Sea	shoreham by sea	GB	England	50.834	-0.274	23
+P	Shaoyun		CN		29.985	105.984	16
+P	Shelbyville		US	Indiana	39.521	-85.777	8
+P	Maple Shade		US	New Jersey	39.953	-74.992	8
+P	North Bay Shore		US	New York	40.753	-73.260	8
+P	Shimokizukuri		JP		40.816	140.375	18
+P	Shirati		TZ		-1.133	33.983	24
+P	Shāhpur	shahpur	IN		29.350	77.552	14
+P	Shushenskoye		RU		53.324	91.936	15
+P	Shādīpur Julāna	shadipur julana	IN		29.124	76.405	14
+P	Shekou		CN		22.494	113.916	16
+P	Shuanglong		CN		31.195	109.881	16
+P	Shumikha		RU		55.229	63.286	9
+P	Qaşr-e Shīrīn	qasr e shirin	IR		34.516	45.579	17
+P	Shenandoah		US	Louisiana	30.401	-91.001	4
+P	Shafter		US	California	35.501	-119.272	7
+P	Shaoyu		CN		34.064	105.365	16
+P	Do’stlik Shahri	dostlik shahri	UZ		40.529	68.032	9
+P	Sherrelwood		US	Colorado	39.838	-105.001	5
+P	Shimoigusa		JP		35.721	139.622	18
+P	Shōbudahama	shobudahama	JP		38.284	141.062	18
+P	Shek Kip Mei		HK		22.331	114.168	16
+P	Sheridan		US	Wyoming	44.797	-106.956	5
+P	Shibetsu		JP		44.171	142.395	18
+P	Vobkent Shahri		UZ		40.000	64.502	9
+P	Shāhpur	shahpur	IN		25.603	84.404	14
+P	Korsun-Shevchenkivskyi	korsun shevchenkivskyi	UA		49.418	31.252	22
+P	Shiraoi		JP		42.550	141.350	18
+P	Tharu Shah		PK		26.942	68.118	9
+P	Tai Shui Hang		HK		22.406	114.224	16
+P	Shaw		US	District of Columbia	38.912	-77.021	8
+P	Shirhatti		IN		15.234	75.580	14
+P	Shioiri		JP		34.156	133.851	18
+P	Detroit-Shoreway	detroit shoreway	US	Ohio	41.478	-81.730	8
+P	Sīmīn Shahr	simin shahr	IR		37.014	54.230	17
+P	Sa‘ādat Shahr	saadat shahr	IR		30.079	53.135	17
+P	Shajing Residential District		CN		22.732	113.812	16
+P	Shaktinagar		IN		16.365	77.359	14
+P	Shenzhenwan		CN		22.487	113.940	16
+P	Bet She’an	bet shean	IL		32.497	35.496	12
+P	Shuangjiang		CN		25.967	108.924	16
+P	Shorewood		US	Illinois	41.520	-88.202	4
+P	Shimobuchi		JP		34.386	135.787	18
+P	Shpola		UA		49.013	31.393	22
+P	Shintomi		JP		32.063	131.487	18
+P	Sam Shing		HK		22.381	113.979	16
+P	Shopian		IN		33.717	74.834	14
+P	Shuzenji		JP		34.970	138.922	18
+P	Shāhgarh	shahgarh	IN		24.314	79.118	14
+P	Shizukuishi		JP		39.694	140.984	18
+P	Shahr Sultan		PK		29.575	71.022	9
+P	Shilovo		RU		54.320	40.880	24
+P	Shahrak-e Mohandesī-ye Zerā‘ī	shahrak e mohandesi ye zerai	IR		35.772	50.956	17
+P	Shiwan		CN		29.615	105.895	16
+P	Shāhi	shahi	IN		28.550	79.318	14
+P	Shahrak		AF		34.107	64.305	13
+P	Shan Chaung		MM		16.860	96.090	20
+P	Shively		US	Kentucky	38.200	-85.823	8
+P	Shimo’ochiai	shimoochiai	JP		35.720	139.702	18
+P	Shushary		RU		59.809	30.382	24
+P	Al Hilāl ash Sharqīyah	al hilal ash sharqiyah	QA		25.260	51.546	24
+P	Shāl	shal	IR		35.898	49.769	17
+P	Shelbyville		US	Kentucky	38.212	-85.224	8
+P	Shihui		CN		29.572	108.610	16
+P	Shchuchyn		BY		53.601	24.747	24
+P	Shrivardhan		IN		18.053	73.001	14
+P	Shadwell		GB	England	51.511	-0.057	23
+P	Shanto		ET		7.024	37.861	24

@@ -1,0 +1,59 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tashkent	300	
+C	KZ	Kazakhstan	mwl	h
+C	TJ	Tajikistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	2
+P	Tashkent		UZ		41.265	69.216	0
+P	Shymkent		KZ		42.310	69.600	0
+P	Kyzylorda		KZ		44.853	65.509	0
+P	Yunusobod		UZ		41.371	69.279	0
+P	Chilanzar		UZ		41.282	69.181	0
+P	Turkistan		KZ		43.295	68.257	0
+P	Khujand		TJ		40.283	69.622	0
+P	Jizzax		UZ		40.134	67.830	0
+P	Chirchiq		UZ		41.469	69.582	0
+P	Navoiy		UZ		40.084	65.379	0
+P	Olmaliq		UZ		40.845	69.598	0
+P	Sergeli		UZ		41.198	69.222	0
+P	Bekobod		UZ		40.221	69.270	0
+P	Guliston		UZ		40.495	68.775	0
+P	Yangiyŭl	yangiyul	UZ		41.112	69.047	0
+P	Parkent		UZ		41.294	69.676	0
+P	Kentau		KZ		43.517	68.505	0
+P	Tŭytepa	tuytepa	UZ		41.032	69.363	0
+P	Qayroqqum		TJ		40.266	69.796	0
+P	Yangiyer		UZ		40.275	68.823	0
+P	Ohangaron		UZ		40.906	69.638	0
+P	Buston		TJ		40.234	69.695	0
+P	Dashtobod		UZ		40.127	68.494	0
+P	Zhetysay		KZ		40.776	68.328	0
+P	Arys		KZ		42.430	68.809	0
+P	Piskent		UZ		40.897	69.351	0
+P	Zhangatas		KZ		43.563	69.732	0
+P	Nurota		UZ		40.561	65.689	0
+P	Bektemir		UZ		41.210	69.334	0
+P	Shiyeli		KZ		44.171	66.734	0
+P	Sirdaryo		UZ		40.844	68.662	0
+P	Qibray		UZ		41.390	69.465	0
+P	Iskandar		UZ		41.554	69.701	0
+P	Salor		UZ		41.375	69.352	0
+P	Aksu		KZ		42.422	69.827	0
+P	Shardara		KZ		41.258	67.970	0
+P	Saryaghash		KZ		41.460	69.168	0
+P	Gagarin Shahri		UZ		40.665	68.168	0
+P	Zafar		UZ		40.983	68.900	0
+P	Payshamba Shahri		UZ		40.011	66.231	0
+P	G’allaorol Shahri	gallaorol shahri	UZ		40.027	67.588	0
+P	Abay		KZ		41.347	68.950	0
+P	Chinoz		UZ		40.936	68.761	0
+P	G‘azalkent	gazalkent	UZ		41.558	69.771	0
+P	Paxtakor Shahri		UZ		40.312	67.957	0
+P	Zhangaqorghan		KZ		43.907	67.246	0
+P	Lenger		KZ		42.182	69.886	0
+P	Bo‘ka	boka	UZ		40.811	69.194	0
+P	Do’stlik Shahri	dostlik shahri	UZ		40.529	68.032	0
+P	Istiqlol		TJ		40.570	69.642	0
+P	Yangirabot		UZ		40.025	65.961	0
+P	Tasbuget		KZ		44.770	65.555	0
+P	Proletar		TJ		40.167	69.502	0

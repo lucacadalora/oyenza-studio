@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+Z	1	Africa/Windhoek	120	
+C	AO	Angola	egyptian	s
+C	NA	Namibia	egyptian	s
+B	0
+P	Ondjiva		AO		-17.067	15.733	0
+P	Rundu		NA		-17.918	19.773	1
+P	Oshakati		NA		-17.788	15.704	1
+P	Ondangwa		NA		-17.908	15.980	1
+P	Grootfontein		NA		-19.573	18.100	1
+P	Ongwediva		NA		-17.772	15.766	1
+P	Helao Nafidi		NA		-17.393	15.891	1
+P	Tsumeb		NA		-19.248	17.713	1

@@ -1,0 +1,158 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+C	US	United States	moonsighting	s
+B	0
+P	San Jose		US	California	37.339	-121.895	0
+P	San Francisco		US	California	37.775	-122.419	0
+P	Sacramento		US	California	38.582	-121.494	0
+P	Oakland		US	California	37.804	-122.271	0
+P	Stockton		US	California	37.958	-121.291	0
+P	Fremont		US	California	37.548	-121.989	0
+P	Modesto		US	California	37.639	-120.997	0
+P	Santa Rosa		US	California	38.440	-122.714	0
+P	Elk Grove		US	California	38.409	-121.372	0
+P	Hayward		US	California	37.669	-122.081	0
+P	Salinas		US	California	36.678	-121.656	0
+P	Sunnyvale		US	California	37.369	-122.036	0
+P	Roseville		US	California	38.752	-121.288	0
+P	Concord		US	California	37.978	-122.031	0
+P	Santa Clara		US	California	37.354	-121.955	0
+P	Vallejo		US	California	38.104	-122.257	0
+P	Chico		US	California	39.728	-121.837	0
+P	Berkeley		US	California	37.872	-122.273	0
+P	Fairfield		US	California	38.249	-122.040	0
+P	Antioch		US	California	38.005	-121.806	0
+P	Richmond		US	California	37.936	-122.348	0
+P	Daly City		US	California	37.706	-122.462	0
+P	San Mateo		US	California	37.563	-122.326	0
+P	Chinatown		US	California	37.797	-122.409	0
+P	Vacaville		US	California	38.357	-121.988	0
+P	Arden-Arcade	arden arcade	US	California	38.602	-121.379	0
+P	San Leandro		US	California	37.725	-122.156	0
+P	Livermore		US	California	37.682	-121.768	0
+P	Tracy		US	California	37.740	-121.426	0
+P	Citrus Heights		US	California	38.707	-121.281	0
+P	Redwood City		US	California	37.485	-122.236	0
+P	Merced		US	California	37.302	-120.483	0
+P	Mountain View		US	California	37.386	-122.084	0
+P	Napa		US	California	38.297	-122.286	0
+P	Pleasanton		US	California	37.662	-121.875	0
+P	Alameda		US	California	37.771	-122.261	0
+P	Milpitas		US	California	37.428	-121.907	0
+P	Folsom		US	California	38.678	-121.176	0
+P	San Ramon		US	California	37.780	-121.978	0
+P	Manteca		US	California	37.797	-121.216	0
+P	Union City		US	California	37.596	-122.019	0
+P	Turlock		US	California	37.495	-120.847	0
+P	Rancho Cordova		US	California	38.589	-121.303	0
+P	Pittsburg		US	California	38.028	-121.885	0
+P	Walnut Creek		US	California	37.906	-122.065	0
+P	Davis		US	California	38.545	-121.741	0
+P	South San Francisco		US	California	37.655	-122.408	0
+P	Yuba City		US	California	39.140	-121.617	0
+P	Palo Alto		US	California	37.442	-122.143	0
+P	Lodi		US	California	38.130	-121.272	0
+P	Santa Cruz		US	California	36.974	-122.031	0
+P	Madera		US	California	36.961	-120.061	0
+P	Carmichael		US	California	38.617	-121.328	0
+P	Castro Valley		US	California	37.694	-122.086	0
+P	Rocklin		US	California	38.791	-121.236	0
+P	Cupertino		US	California	37.323	-122.032	0
+P	Petaluma		US	California	38.232	-122.637	0
+P	San Rafael		US	California	37.974	-122.531	0
+P	Brentwood		US	California	37.932	-121.696	0
+P	Woodland		US	California	38.679	-121.773	0
+P	Dublin		US	California	37.702	-121.936	0
+P	Novato		US	California	38.107	-122.570	0
+P	Watsonville		US	California	36.910	-121.757	0
+P	Gilroy		US	California	37.006	-121.568	0
+P	West Sacramento		US	California	38.580	-121.530	0
+P	Lincoln		US	California	38.892	-121.293	0
+P	Ceres		US	California	37.595	-120.958	0
+P	Florin		US	California	38.496	-121.409	0
+P	San Luis Obispo		US	California	35.283	-120.660	0
+P	Mission District		US	California	37.760	-122.419	0
+P	Laguna		US	California	38.421	-121.424	0
+P	Antelope		US	California	38.708	-121.330	0
+P	Newark		US	California	37.530	-122.040	0
+P	Danville		US	California	37.822	-122.000	0
+P	San Bruno		US	California	37.630	-122.411	0
+P	Morgan Hill		US	California	37.130	-121.654	0
+P	North Highlands		US	California	38.686	-121.372	0
+P	Rohnert Park		US	California	38.340	-122.701	0
+P	El Dorado Hills		US	California	38.686	-121.082	0
+P	Campbell		US	California	37.287	-121.950	0
+P	Oakley		US	California	37.997	-121.712	0
+P	Pacifica		US	California	37.614	-122.487	0
+P	Martinez		US	California	38.019	-122.134	0
+P	Hollister		US	California	36.852	-121.402	0
+P	Los Banos		US	California	37.058	-120.850	0
+P	Bayview-Hunters Point	bayview hunters point	US	California	37.729	-122.381	0
+P	Pleasant Hill		US	California	37.948	-122.061	0
+P	Orangevale		US	California	38.679	-121.226	0
+P	Foster City		US	California	37.559	-122.271	0
+P	Menlo Park		US	California	37.454	-122.182	0
+P	Foothill Farms		US	California	38.679	-121.351	0
+P	Seaside		US	California	36.611	-121.852	0
+P	Saratoga		US	California	37.264	-122.023	0
+P	Fair Oaks		US	California	38.645	-121.272	0
+P	Los Gatos		US	California	37.227	-121.975	0
+P	Los Altos		US	California	37.385	-122.114	0
+P	Burlingame		US	California	37.584	-122.366	0
+P	San Pablo		US	California	37.962	-122.346	0
+P	San Carlos		US	California	37.507	-122.261	0
+P	Atascadero		US	California	35.489	-120.671	0
+P	East Palo Alto		US	California	37.469	-122.141	0
+P	Atwater		US	California	37.348	-120.609	0
+P	Monterey		US	California	36.600	-121.895	0
+P	Benicia		US	California	38.049	-122.159	0
+P	Suisun		US	California	38.238	-122.040	0
+P	Windsor		US	California	38.547	-122.816	0
+P	Belmont		US	California	37.520	-122.276	0
+P	Paso Robles		US	California	35.627	-120.691	0
+P	Agua Caliente		US	California	38.324	-122.488	0
+P	Paradise		US	California	39.760	-121.622	0
+P	Lafayette		US	California	37.886	-122.118	0
+P	Hercules		US	California	38.017	-122.289	0
+P	Galt		US	California	38.255	-121.300	0
+P	Soledad		US	California	36.425	-121.326	0
+P	Vineyard		US	California	38.464	-121.347	0
+P	Riverbank		US	California	37.736	-120.935	0
+P	El Cerrito		US	California	37.916	-122.312	0
+P	San Lorenzo		US	California	37.674	-122.133	0
+P	Noe Valley		US	California	37.750	-122.434	0
+P	Millbrae		US	California	37.599	-122.387	0
+P	Rosemont		US	California	38.552	-121.365	0
+P	Visitacion Valley		US	California	37.717	-122.404	0
+P	Oakdale		US	California	37.767	-120.847	0
+P	Ashland		US	California	37.695	-122.114	0
+P	Bay Point		US	California	38.029	-121.962	0
+P	Patterson		US	California	37.472	-121.130	0
+P	Marina		US	California	36.684	-121.802	0
+P	Lathrop		US	California	37.823	-121.277	0
+P	American Canyon		US	California	38.175	-122.261	0
+P	Granite Bay		US	California	38.763	-121.164	0
+P	Albany		US	California	37.887	-122.298	0
+P	Dixon		US	California	38.445	-121.823	0
+P	Orinda		US	California	37.877	-122.180	0
+P	Pinole		US	California	38.004	-122.299	0
+P	Chowchilla		US	California	37.123	-120.260	0
+P	Cameron Park		US	California	38.669	-120.987	0
+P	Arroyo Grande		US	California	35.119	-120.591	0
+P	Linda		US	California	39.128	-121.551	0
+P	Prunedale		US	California	36.776	-121.670	0
+P	Moraga		US	California	37.835	-122.130	0
+P	Greenfield		US	California	36.321	-121.244	0
+P	Live Oak		US	California	36.984	-121.981	0
+P	Parkside		US	California	37.742	-122.486	0
+P	Nipomo		US	California	35.043	-120.476	0
+P	Coalinga		US	California	36.140	-120.360	0
+P	Truckee		US	California	39.328	-120.183	0
+P	Oroville		US	California	39.514	-121.558	0
+P	Ukiah		US	California	39.150	-123.208	0
+P	Pacific Grove		US	California	36.618	-121.917	0
+P	Alum Rock		US	California	37.366	-121.827	0
+P	South Yuba City		US	California	39.117	-121.639	0
+P	Clearlake		US	California	38.958	-122.626	0
+P	Ripon		US	California	37.742	-121.124	0
+P	Rio Linda		US	California	38.691	-121.449	0

@@ -1,0 +1,703 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Luanda	60	
+Z	3	Africa/Maputo	120	
+Z	4	Africa/Nairobi	180	
+Z	5	Africa/Nouakchott	0	
+Z	6	America/Boise	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Campo_Grande	-240	
+Z	8	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	9	America/Fortaleza	-180	
+Z	10	America/Guayaquil	-300	
+Z	11	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	12	America/Hermosillo	-420	
+Z	13	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	14	America/Mexico_City	-360	
+Z	15	America/Nassau	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	16	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Baku	240	
+Z	19	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	20	Asia/Dhaka	360	
+Z	21	Asia/Hebron	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	22	Asia/Ho_Chi_Minh	420	
+Z	23	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	24	Asia/Kabul	270	
+Z	25	Asia/Kolkata	330	
+Z	26	Asia/Shanghai	480	
+Z	27	Asia/Tashkent	300	
+Z	28	Asia/Tehran	210	
+Z	29	Asia/Tokyo	540	
+Z	30	Asia/Vladivostok	600	
+Z	31	Asia/Yangon	390	
+Z	32	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	33	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	34	Europe/Dublin	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	35	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	36	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	37	Pacific/Fiji	720	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	BS	Bahamas	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FJ	Fiji	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KG	Kyrgyzstan	mwl	h
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	LB	Lebanon	egyptian	s
+C	LT	Lithuania	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NA	Namibia	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	QA	Qatar	qatar	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	SR	Suriname	mwl	s
+C	SY	Syria	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	ZM	Zambia	egyptian	s
+B	14
+P	Nanjing		CN		32.062	118.778	26
+P	Nairobi		KE		-1.283	36.817	4
+P	Nanning		CN		22.817	108.317	26
+P	Navi Mumbai		IN		19.037	73.016	25
+P	Nagpur		IN		21.146	79.085	25
+P	Nanchang		CN		28.684	115.853	26
+P	Nagoya		JP		35.181	136.906	29
+P	Nantong		CN		32.030	120.875	26
+P	Nanchong		CN		30.795	106.085	26
+P	Nanyang		CN		33.005	112.547	26
+P	Nashik		IN		19.997	73.791	25
+P	Najafgarh		IN		28.609	76.980	25
+P	Da Nang		VN		16.068	108.221	22
+P	Shivaji Nagar		IN		18.530	73.853	25
+P	Nay Pyi Taw		MM		19.745	96.130	31
+P	Naples		IT		40.852	14.268	35
+P	Natal		BR		-5.795	-35.209	9
+P	Naucalpan de Juárez	naucalpan de juarez	MX		19.479	-99.240	14
+P	Narela		IN		28.853	77.093	25
+P	Nampula		MZ		-15.116	39.267	3
+P	Namangan		UZ		40.998	71.673	27
+P	Nashville		US	Tennessee	36.166	-86.784	8
+P	Madīnat an Naşr	madinat an nasr	EG		30.067	31.300	0
+P	Nakuru		KE		-0.307	36.072	4
+P	Nasiriyah		IQ		31.058	46.257	4
+P	Nanded		IN		19.160	77.315	25
+P	Nansana		UG		0.364	32.529	4
+P	Naberezhnyye Chelny		RU		55.737	52.420	4
+P	Najrān	najran	SA		17.493	44.128	4
+P	Najaf		IQ		32.026	44.346	4
+P	Nanping		CN		26.645	118.174	26
+P	Nazrēt	nazret	ET		8.550	39.267	4
+P	Namp’o	nampo	KP		38.737	125.408	29
+P	Nam Định	nam dinh	VN		20.434	106.177	22
+P	Nagasaki		JP		32.750	129.883	29
+P	Nagano		JP		36.650	138.183	29
+P	Natore		BD		24.411	88.987	20
+P	Nara-shi	nara shi	JP		34.685	135.805	29
+P	Nawabshah		PK		26.239	68.404	27
+P	Nanqiao		CN		30.916	121.449	26
+P	Nakano		JP		35.704	139.669	29
+P	Nantes		FR		47.217	-1.553	35
+P	Naha		JP		26.213	127.679	29
+P	Cluj-Napoca	cluj napoca	RO		46.767	23.600	33
+P	Narsingdi		BD		23.923	90.718	20
+P	Nagar Naluākot	nagar naluakot	BD		24.156	90.773	20
+P	Nagaoka		JP		37.450	138.850	29
+P	Lal Bahadur Nagar		IN		17.348	78.558	25
+P	Nada		CN		19.521	109.579	26
+P	Naihāti	naihati	IN		22.894	88.415	25
+P	Navotas		PH		14.667	120.950	26
+P	Navegantes		AO		-12.590	13.391	2
+P	Nacala		MZ		-14.563	40.685	3
+P	Nalchik		RU		43.498	43.619	4
+P	Nāgarpur	nagarpur	BD		24.058	89.877	20
+P	Najafābād	najafabad	IR		32.635	51.365	28
+P	Nassau		BS		25.058	-77.343	15
+P	Nadiād	nadiad	IN		22.694	72.862	25
+P	Nāgercoil	nagercoil	IN		8.179	77.432	25
+P	Narayanganj		BD		23.614	90.503	20
+P	Yamuna Nagar		IN		30.128	77.284	25
+P	Naz̧arābād	nazarabad	IR		35.954	50.606	28
+P	Nandyāl	nandyal	IN		15.478	78.484	25
+P	Arroyo Naranjo		CU		23.038	-82.377	11
+P	Nāngloi Jāt	nangloi jat	IN		28.680	77.068	25
+P	Nanchuan		CN		29.152	107.103	26
+P	Nasīm Shahr	nasim shahr	IR		35.565	51.163	28
+P	Nasimshahr		IR		35.565	51.158	28
+P	Nagareyama		JP		35.856	139.903	29
+P	Naivasha		KE		-0.714	36.433	4
+P	Pār Naogaon	par naogaon	BD		24.804	88.949	20
+P	Quận Năm	quan nam	VN		10.756	106.667	22
+P	Nador		MA		35.168	-2.934	1
+P	Narashino		JP		35.682	140.042	29
+P	Naga		PH		13.619	123.181	26
+P	Navsari		IN		20.942	72.925	25
+P	Nazran		RU		43.226	44.773	4
+P	Rāj-Nāndgaon	raj nandgaon	IN		21.097	81.029	25
+P	Nanpiao		CN		41.098	120.748	26
+P	Hitachi-Naka	hitachi naka	JP		36.397	140.535	29
+P	Nalgonda		IN		17.054	79.267	25
+P	Naperville		US	Illinois	41.786	-88.147	8
+P	Nakhodka		RU		42.844	132.918	30
+P	Navoiy		UZ		40.084	65.379	27
+P	Nanjin		CN		29.985	106.265	26
+P	Nawābganj	nawabganj	BD		24.590	88.274	20
+P	Naga		PH		10.209	123.758	26
+P	Narita		JP		35.783	140.317	29
+P	Narowal		PK		32.102	74.873	27
+P	Nantou		CN		22.722	113.293	26
+P	Nablus		PS		32.221	35.254	21
+P	Nankana Sahib		PK		31.450	73.707	27
+P	Nakhon Ratchasima		TH		14.971	102.102	22
+P	Nancun		CN		36.533	120.134	26
+P	Nagaon		IN		26.350	92.667	25
+P	Nabatîyé et Tahta	nabatiye et tahta	LB		33.379	35.484	19
+P	Nazilli		TR		37.916	28.322	4
+P	Nanbin		CN		29.999	108.109	26
+P	Narmadapuram		IN		22.747	77.727	25
+P	Nakhon Pathom		TH		13.820	100.044	22
+P	Narasaraopet		IN		16.235	80.049	25
+P	Nasushiobara		JP		36.977	140.066	29
+P	Phool Nagar		PK		31.202	73.949	27
+P	Navojoa		MX		27.071	-109.443	12
+P	Nagahama		JP		35.383	136.267	29
+P	Navadwīp	navadwip	IN		23.407	88.369	25
+P	Nandurbar		IN		21.367	74.241	25
+P	Namur		BE		50.467	4.867	35
+P	Pandit Deen Dayal Upadhyaya Nagar		IN		25.283	83.120	25
+P	Nantou		TW		23.916	120.664	26
+P	Nāgaur	nagaur	IN		27.202	73.734	25
+P	Nancy		FR		48.684	6.185	35
+P	Nagda		IN		23.458	75.418	25
+P	Nagapattinam		IN		10.764	79.843	25
+P	Nakhon Si Thammarat		TH		8.433	99.967	22
+P	Kawachi-Nagano	kawachi nagano	JP		34.441	135.583	29
+P	Nāḩiyat al Iskandarīyah	nahiyat al iskandariyah	IQ		32.887	44.346	4
+P	Nawāda	nawada	IN		24.887	85.544	25
+P	Namalombwe		ZM		-15.391	28.190	3
+P	Naxçıvan	naxcivan	AZ		39.209	45.412	18
+P	Nanxi		CN		28.842	104.980	26
+P	Bang Na		TH		13.667	100.642	22
+P	Nasinu		FJ		-18.071	178.513	37
+P	Nakonde		ZM		-9.342	32.745	3
+P	Namyangju		KR		37.637	127.214	29
+P	Nanaimo		CA	British Columbia	49.166	-123.940	17
+P	Ústí nad Labem	usti nad labem	CZ		50.661	14.032	35
+P	Nampa		US	Idaho	43.541	-116.563	6
+P	Nandajie		CN		29.338	105.892	26
+P	Khan Na Yao		TH		13.826	100.677	22
+P	Nashua		US	New Hampshire	42.765	-71.468	15
+P	Nanterre		FR		48.892	2.207	35
+P	Navegantes		BR		-26.899	-48.654	9
+P	Nanfeng		CN		23.727	111.797	26
+P	Nanding		CN		36.748	118.056	26
+P	Nakatsu		JP		33.598	131.188	29
+P	Najībābād	najibabad	IN		29.612	78.343	25
+P	Nanzhang Chengguanzhen		CN		31.784	111.828	26
+P	Minyat an Naşr	minyat an nasr	EG		31.126	31.643	0
+P	Nangong		CN		37.355	115.389	26
+P	Nakhon Sawan		TH		15.705	100.137	22
+P	Naqadeh		IR		36.955	45.388	28
+P	Yan Nawa		TH		13.696	100.542	22
+P	Nangen		KR		35.410	127.386	29
+P	Naesŏ	naeso	KR		35.250	128.520	29
+P	Diyarb Najm		EG		30.754	31.440	0
+P	Napa		US	California	38.297	-122.286	13
+P	Kahna Nau		PK		31.367	74.369	27
+P	Nawābganj	nawabganj	IN		26.931	81.198	25
+P	Nakatsugawa		JP		35.483	137.500	29
+P	Natori-shi	natori shi	JP		38.167	140.883	29
+P	Nazareth		IL		32.701	35.297	23
+P	Nabari		JP		34.617	136.083	29
+P	Nagīna	nagina	IN		29.444	78.436	25
+P	Nahāvand	nahavand	IR		34.191	48.374	28
+P	Sakon Nakhon		TH		17.161	104.147	22
+P	Nagornyy		RU		55.650	37.617	4
+P	Nam Cheong		HK		22.328	114.154	26
+P	Narnaul		IN		28.044	76.108	25
+P	Nanma		CN		36.185	118.155	26
+P	Nanyuki		KE		0.006	37.074	4
+P	Naro-Fominsk	naro fominsk	RU		55.388	36.733	4
+P	Nabeul		TN		36.456	10.738	2
+P	Nallūr	nallur	IN		11.100	77.391	25
+P	Kaura Namoda		NG		12.594	6.586	2
+P	Porto Nacional		BR		-10.708	-48.417	9
+P	Nakivale Refugee Camp		UG		-0.741	30.996	4
+P	Nābha	nabha	IN		30.376	76.153	25
+P	Saint-Nazaire	saint nazaire	FR		47.275	-2.218	35
+P	Napier		NZ		-39.493	176.912	36
+P	Namyang-nodongjagu	namyang nodongjagu	KP		42.954	129.857	29
+P	Narok		KE		-1.081	35.871	4
+P	Slavyansk-na-Kubani	slavyansk na kubani	RU		45.251	38.121	4
+P	Narutochō-mitsuishi	narutocho mitsuishi	JP		34.199	134.609	29
+P	Nawalgarh		IN		27.852	75.274	25
+P	Nago		JP		26.615	127.985	29
+P	Nanlong		CN		31.353	106.063	26
+P	Nasugbu		PH		14.067	120.632	26
+P	Nagari		IN		13.321	79.586	25
+P	Narwāna	narwana	IN		29.599	76.119	25
+P	Nani Daman		IN		20.414	72.832	25
+P	Nandu		CN		22.852	110.823	26
+P	Dar Naim		MR		18.108	-15.927	5
+P	National City		US	California	32.678	-117.099	13
+P	Nanhu		CN		35.488	119.346	26
+P	Nagakute		JP		35.173	137.057	29
+P	Colonia Nativitas		MX		19.381	-99.137	14
+P	Narsimhapur		IN		22.949	79.184	25
+P	Nag Hammâdi	nag hammadi	EG		26.049	32.241	0
+P	Narasapur		IN		16.434	81.698	25
+P	Nabarūh	nabaruh	EG		31.098	31.303	0
+P	Ngã Năm	nga nam	VN		9.565	105.599	22
+P	Nahariyya		IL		33.009	35.098	23
+P	Na Di		TH		14.116	101.782	22
+P	Naksalbāri	naksalbari	IN		26.683	88.220	25
+P	Nantai		CN		40.924	122.804	26
+P	Nāmakkal	namakkal	IN		11.221	78.165	25
+P	Nazarovo		RU		56.011	90.417	22
+P	Naic		PH		14.318	120.766	26
+P	Narail		BD		23.155	89.495	20
+P	Nanzhou		CN		29.364	112.407	26
+P	Narva		EE		59.377	28.190	33
+P	Natitingou		BJ		10.304	1.380	2
+P	Naka		JP		36.050	140.167	29
+P	Nāyf	nayf	AE		25.271	55.303	18
+P	Cửa Nam	cua nam	VN		21.021	105.852	22
+P	Nametil		MZ		-15.720	39.343	3
+P	Nasīrābād	nasirabad	IN		26.305	74.734	25
+P	Phra Nakhon		TH		13.765	100.499	22
+P	Naya Gaon		IN		30.775	76.793	25
+P	Phra Nakhon Si Ayutthaya		TH		14.352	100.577	22
+P	Narbonne		FR		43.184	3.001	35
+P	Nanjangūd	nanjangud	IN		12.118	76.684	25
+P	Naviraí	navirai	BR		-23.065	-54.191	7
+P	Nanao		JP		37.048	136.968	29
+P	Nanjian		CN		25.045	100.514	26
+P	Naxi		CN		28.774	105.365	26
+P	Marano di Napoli		IT		40.897	14.188	35
+P	Narkatiāganj	narkatiaganj	IN		27.104	84.462	25
+P	Nageswari		BD		25.968	89.692	20
+P	An Nabk		SY		34.024	36.728	4
+P	Naugachhia		IN		25.388	87.099	25
+P	Nangal		IN		31.390	76.376	25
+P	Nanto-shi	nanto shi	JP		36.569	136.912	29
+P	Nanto		JP		36.513	136.894	29
+P	Narathiwat		TH		6.426	101.823	22
+P	Nagykanizsa		HU		46.453	16.991	35
+P	Nawá	nawa	SY		32.886	36.039	4
+P	Nanpeng		CN		29.335	106.652	26
+P	Nakama		JP		33.817	130.710	29
+P	Nantong		CN		28.944	106.882	26
+P	Nankoku		JP		33.569	133.649	29
+P	Nadym		RU		65.533	72.517	27
+P	Nānpāra	nanpara	IN		27.865	81.500	25
+P	Jablonec nad Nisou		CZ		50.724	15.171	35
+P	Nawanshahr		IN		31.125	76.116	25
+P	Casalnuovo di Napoli		IT		40.910	14.342	35
+P	Nāyudupet	nayudupet	IN		13.907	79.895	25
+P	Autlán de Navarro	autlan de navarro	MX		19.772	-104.366	14
+P	Nandikotkūr	nandikotkur	IN		15.857	78.266	25
+P	Kamen’-na-Obi	kamen na obi	RU		53.789	81.332	22
+P	Nāndūra	nandura	IN		20.834	76.459	25
+P	Næstved	naestved	DK		55.230	11.761	35
+P	Nanjō	nanjo	JP		26.144	127.767	29
+P	Nansio		TZ		-2.133	33.050	4
+P	Naţanz	natanz	IR		33.511	51.918	28
+P	Ōkubo-naka	okubo naka	JP		34.404	135.341	29
+P	An Najmah		QA		25.267	51.543	4
+P	Naẕerat ‘Illit	nazerat illit	IL		32.708	35.325	23
+P	Nakatogari		JP		35.135	138.903	29
+P	Nakano		JP		36.750	138.367	29
+P	Naju		KR		35.029	126.718	29
+P	Naini Tāl	naini tal	IN		29.397	79.447	25
+P	Nadi		FJ		-17.803	177.416	37
+P	Nāthdwāra	nathdwara	IN		24.938	73.824	25
+P	Abdu Rahiman Nagar		IN		11.070	75.939	25
+P	Nārāyanpet	narayanpet	IN		16.748	77.495	25
+P	Naliang		CN		21.667	107.867	26
+P	Naze		JP		28.367	129.483	29
+P	Madīnat Wādī an Naţrūn	madinat wadi an natrun	EG		30.377	30.350	0
+P	Naryn		KG		41.428	75.996	20
+P	Nanmen		CN		30.962	108.243	26
+P	Naushahra Virkan		PK		31.963	73.971	27
+P	Nailā	naila	IN		22.021	82.567	25
+P	Nannambra		IN		10.992	75.908	25
+P	Nādāpuram	nadapuram	IN		11.685	75.655	25
+P	Nanshu		CN		37.020	120.337	26
+P	Ban Na		TH		17.017	99.733	22
+P	Namanyere		TZ		-7.517	31.050	4
+P	Nalayh		MN		47.767	107.283	26
+P	Nālchiti	nalchiti	BD		22.637	90.272	20
+P	Nattakam		IN		9.545	76.514	25
+P	Nandigāma	nandigama	IN		16.772	80.286	25
+P	Narón	naron	ES		43.502	-8.191	35
+P	Nangli Sakrawat		IN		28.622	76.992	25
+P	Namialo		MZ		-14.921	39.984	3
+P	Nakodar		IN		31.126	75.475	25
+P	Melito di Napoli		IT		40.919	14.231	35
+P	Naujoji Vilnia		LT		54.695	25.420	33
+P	Nargund		IN		15.723	75.387	25
+P	Naharlagun		IN		27.105	93.695	25
+P	Nanuque		BR		-17.839	-40.354	9
+P	Narang Mandi		PK		31.904	74.516	27
+P	Namerikawa		JP		36.760	137.362	29
+P	Nakhon Phanom		TH		17.411	104.779	22
+P	Nakamura		JP		32.983	132.933	29
+P	Mugnano di Napoli		IT		40.909	14.210	35
+P	Navāpur	navapur	IN		21.162	73.794	25
+P	Naranjito		EC		-2.171	-79.465	10
+P	Nawābganj	nawabganj	IN		28.541	79.635	25
+P	Nagalapuram		IN		13.388	79.796	25
+P	Nacogdoches		US	Texas	31.604	-94.655	8
+P	Navan		IE		53.653	-6.681	34
+P	Nagua		DO		19.383	-69.847	7
+P	Narsīpatnam	narsipatnam	IN		17.667	82.612	25
+P	Nakaloke		UG		1.150	34.150	4
+P	Naujininkai		LT		54.664	25.284	33
+P	Naudero		PK		27.667	68.361	27
+P	Nartkala		RU		43.554	43.855	4
+P	Namhkam		MM		23.833	97.680	31
+P	Aya Nagar		IN		28.472	77.133	25
+P	Năvodari	navodari	RO		44.317	28.600	33
+P	Nanping		CN		29.086	106.987	26
+P	Nānjikkottai	nanjikkottai	IN		10.729	79.142	25
+P	Nautanwa		IN		27.428	83.418	25
+P	Nagato		JP		34.383	131.200	29
+P	Narsinghgarh		IN		23.708	77.093	25
+P	Natick		US	Massachusetts	42.283	-71.350	15
+P	Namegata		JP		36.007	140.496	29
+P	San Narciso		PH		15.014	120.080	26
+P	Naranjal		EC		-2.676	-79.617	10
+P	Bandar Nabawan		MY		5.039	116.427	26
+P	Vandœuvre-lès-Nancy	vandoeuvre les nancy	FR		48.661	6.171	35
+P	Nakhabino		RU		55.849	37.178	4
+P	Nabīnagar	nabinagar	BD		23.888	90.968	20
+P	Nantan		JP		35.110	135.492	29
+P	Naugatuck		US	Connecticut	41.486	-73.051	15
+P	Navarre		US	Florida	30.402	-86.864	8
+P	Sakai-nakajima	sakai nakajima	JP		36.267	139.250	29
+P	Nāspur	naspur	IN		18.846	79.462	25
+P	Nagai		JP		38.104	140.035	29
+P	Na Klang		TH		17.307	102.189	22
+P	Narsampet		IN		17.928	79.892	25
+P	Nasarawa		NG		8.539	7.708	2
+P	Nahiyat Ghammas		IQ		31.743	44.620	4
+P	Narre Warren South		AU	Victoria	-38.044	145.292	32
+P	Nazaré da Mata	nazare da mata	BR		-7.742	-35.228	9
+P	L’Arbaa Naït Irathen	larbaa nait irathen	DZ		36.631	4.199	2
+P	Nāgāvaram	nagavaram	IN		17.489	78.602	25
+P	Sam Sen Nai		TH		13.777	100.551	22
+P	Nanyō	nanyo	JP		38.043	140.113	29
+P	Bad Nauheim		DE		50.365	8.739	35
+P	Khairpur Nathan Shah		PK		27.091	67.735	27
+P	Narimasu		JP		35.784	139.632	29
+P	Năm Căn	nam can	VN		8.759	104.993	22
+P	Nagqu		CN		31.477	92.057	26
+P	Naumburg		DE		51.150	11.810	35
+P	Nardò	nardo	IT		40.180	18.032	35
+P	Pinotepa Nacional		MX		16.340	-98.053	14
+P	Nāgar Karnūl	nagar karnul	IN		16.482	78.325	25
+P	Nawāpāra	nawapara	IN		20.972	81.859	25
+P	Navolato		MX		24.767	-107.698	12
+P	Nakrekal		IN		17.163	79.428	25
+P	Cernusco sul Naviglio		IT		45.525	9.333	35
+P	Nāhan	nahan	IN		30.560	77.294	25
+P	Nasirshahr		IR		35.492	51.138	28
+P	Nanga Eboko		CM		4.683	12.367	2
+P	Nālūt	nalut	LY		31.868	10.981	3
+P	Nanya		CN		31.084	108.087	26
+P	Narra		PH		9.269	118.404	26
+P	Jashpur Nagar		IN		22.888	84.139	25
+P	Naujamiestis		LT		54.680	25.269	33
+P	Nalbāri	nalbari	IN		26.439	91.440	25
+P	Nasirabad		PK		27.381	67.916	27
+P	Nahualá	nahuala	GT		14.843	-91.318	14
+P	Narre Warren		AU	Victoria	-38.033	145.300	32
+P	Kalach-na-Donu	kalach na donu	RU		48.691	43.526	4
+P	Nā’īn	nain	IR		32.860	53.087	28
+P	Nanminda		IN		11.423	75.823	25
+P	Nayoro		JP		44.351	142.458	29
+P	Naranjito		CU		23.079	-82.377	11
+P	Nazaré	nazare	BR		-13.035	-39.014	9
+P	Naqādah	naqadah	EG		25.901	32.724	0
+P	Nacimiento		CL		-37.503	-72.673	16
+P	Tosayamadachō-nakano	tosayamadacho nakano	JP		33.600	133.683	29
+P	Nantuo		CN		29.855	107.528	26
+P	Nādbai	nadbai	IN		27.223	77.196	25
+P	Namapa-erati	namapa erati	MZ		-13.713	39.832	3
+P	Narasannapeta		IN		18.414	84.045	25
+P	Nagarote		NI		12.266	-86.565	14
+P	Pyan Lel Nay Yar Cha Htar Ye		MM		16.972	96.127	31
+P	Naduvannūr	naduvannur	IN		11.488	75.775	25
+P	Nalhāti	nalhati	IN		24.297	87.829	25
+P	Narutō	naruto	JP		35.600	140.417	29
+P	Nabua		PH		13.408	123.372	26
+P	Nagar		IN		27.424	77.099	25
+P	Nakatsukuma		JP		33.324	130.442	29
+P	Navrongo		GH		10.895	-1.091	5
+P	Nantou		CN		22.536	113.916	26
+P	Nanchital de Lázaro Cárdenas del Río	nanchital de lazaro cardenas del rio	MX		18.071	-94.408	14
+P	Nacka		SE		59.311	18.164	35
+P	Pottaneri Nallakavundanpatti		IN		11.804	77.857	25
+P	Yamazakichō-nakabirose	yamazakicho nakabirose	JP		35.000	134.550	29
+P	Naubatpur		IN		25.499	84.961	25
+P	Nainpur		IN		22.430	80.106	25
+P	En Nâqoûra	en naqoura	LB		33.118	35.140	19
+P	Nasukarasuyama		JP		36.652	140.161	29
+P	Naphegy		HU		47.488	19.025	35
+P	Nan		TH		18.784	100.779	22
+P	Navalgund		IN		15.559	75.353	25
+P	Nagcarlan		PH		14.136	121.416	26
+P	Thị Trấn Na Dương	thi tran na duong	VN		21.703	106.956	22
+P	Nāndgaon	nandgaon	IN		20.307	74.655	25
+P	Nanling		CN		22.711	99.996	26
+P	Nakashibetsu		JP		43.548	144.972	29
+P	Nabīnagar	nabinagar	IN		24.607	84.126	25
+P	Nasu		JP		37.042	140.094	29
+P	Nāsriganj	nasriganj	IN		25.051	84.328	25
+P	Nansang		MM		20.892	97.717	31
+P	Nasrullāhganj	nasrullahganj	IN		22.684	77.271	25
+P	Narakal		IN		10.038	76.222	25
+P	Nanfeng		CN		19.410	109.550	26
+P	Natham		IN		10.228	78.230	25
+P	Nara		ML		15.169	-7.290	5
+P	Namsa		KR		35.933	127.050	29
+P	Nazca		PE		-14.831	-74.939	10
+P	Nagykőrös	nagykoros	HU		47.034	19.779	35
+P	Nāyanakulam	nayanakulam	IN		9.961	78.137	25
+P	Nadodrze		PL		51.125	17.031	35
+P	Nakūr	nakur	IN		29.920	77.304	25
+P	Narasingapuram		IN		11.604	78.578	25
+P	Nangomba		TZ		-10.900	38.500	4
+P	Mojtame‘-e Maskūnī-ye Nāmjū	mojtame e maskuni ye namju	IR		35.472	51.724	28
+P	Helao Nafidi		NA		-17.393	15.891	3
+P	East Naples		US	Florida	26.138	-81.766	15
+P	Nafada		NG		11.096	11.333	2
+P	Nagold		DE		48.550	8.724	35
+P	Narian-Mar	narian mar	RU		67.668	53.098	4
+P	Naraingarh		IN		30.478	77.128	25
+P	Namacurra		MZ		-17.492	37.029	3
+P	Nāḩiyat ash Shināfīyah	nahiyat ash shinafiyah	IQ		31.584	44.647	4
+P	Namutumba		UG		0.836	33.686	4
+P	Nāgod	nagod	IN		24.569	80.588	25
+P	Nambol		IN		24.696	93.820	25
+P	Namasuba		UG		0.689	32.421	4
+P	Nadvirna		UA		48.637	24.571	33
+P	Natagaima		CO		3.621	-75.094	10
+P	An Nāşirīyah	an nasiriyah	EG		27.206	31.196	0
+P	Naraura		IN		28.201	78.387	25
+P	Parque das Nações	parque das nacoes	PT		38.769	-9.096	34
+P	Nahrīn	nahrin	AF		36.065	69.133	24
+P	Namyang		KP		42.950	129.856	29
+P	Nava		MX		28.421	-100.766	14
+P	Nakagusuku		JP		26.250	127.783	29
+P	Nārāinpur	narainpur	IN		19.718	81.244	25
+P	Namayumba		UG		0.529	32.249	4
+P	Nāmagiripettai	namagiripettai	IN		11.455	78.268	25
+P	Nāwa	nawa	IN		27.020	75.002	25
+P	Naukot		PK		24.858	69.402	27
+P	Navas		ES		41.418	2.186	35
+P	Nalambūr	nalambur	IN		13.087	80.170	25
+P	Nang Rong		TH		14.638	102.791	22
+P	Naka-niida	naka niida	JP		38.569	140.854	29
+P	Dubnica nad Váhom	dubnica nad vahom	SK		48.960	18.166	35
+P	Ban Na San		TH		8.800	99.364	22
+P	Namie		JP		37.483	141.000	29
+P	Napāsar	napasar	IN		27.961	73.559	25
+P	Navalcarnero		ES		40.289	-4.012	35
+P	Nāḩiyat al Fuhūd	nahiyat al fuhud	IQ		30.970	46.723	4
+P	Naples		US	Florida	26.142	-81.796	15
+P	Nakhon Nayok		TH		14.205	101.213	22
+P	Naduvattam		IN		10.880	76.002	25
+P	Náchod	nachod	CZ		50.417	16.163	35
+P	Narkher		IN		21.472	78.534	25
+P	Nachingwea		TZ		-10.373	38.763	4
+P	Nāravārikuppam	naravarikuppam	IN		13.191	80.185	25
+P	Narangba		AU	Queensland	-27.203	152.959	30
+P	Nandri		IN		26.312	73.101	25
+P	Nandaime		NI		11.757	-86.053	14
+P	Naas		IE		53.216	-6.667	34
+P	An Nāşirīyah	an nasiriyah	LY		32.633	12.874	3
+P	Namioka		JP		40.711	140.590	29
+P	Vranov nad Topľou	vranov nad toplou	SK		48.888	21.685	35
+P	Nailsea		GB	England	51.432	-2.758	34
+P	Nangli		IN		31.686	74.887	25
+P	Žďár nad Sázavou	zdar nad sazavou	CZ		49.563	15.939	35
+P	Brandýs nad Labem-Stará Boleslav	brandys nad labem stara boleslav	CZ		50.187	14.663	35
+P	Naantali		FI		60.467	22.024	33
+P	Najafshahr		IR		29.386	55.718	28
+P	Naranjos		MX		21.351	-97.687	14
+P	Trezzano sul Naviglio		IT		45.422	9.063	35
+P	Natahoyo		ES		43.540	-5.682	35
+P	Thambon Na Mueang		TH		14.056	101.372	22
+P	Dhoro Naro		PK		25.505	69.571	27
+P	Náousa	naousa	GR		40.629	22.068	33
+P	Nattappettai		IN		12.819	79.749	25
+P	Banī Na‘īm	bani naim	PS		31.516	35.164	21
+P	An-Najaylah	an najaylah	EG		31.407	26.583	0
+P	Natona		BD		22.051	90.032	20
+P	Sarai Naurang		PK		32.826	70.781	27
+P	Nalco		IN		20.865	85.183	25
+P	Nakło nad Notecią	naklo nad notecia	PL		53.142	17.602	35
+P	Nanyamba		TZ		-10.683	39.833	4
+P	Nainwa		IN		25.771	75.850	25
+P	Narwar		IN		25.644	77.913	25
+P	Nové Mesto nad Váhom	nove mesto nad vahom	SK		48.758	17.831	35
+P	Nam Som		TH		17.770	102.189	22
+P	Mandelieu-la-Napoule	mandelieu la napoule	FR		43.546	6.937	35
+P	Nallıhan	nallihan	TR		40.186	31.352	4
+P	Nahorkatiya		IN		27.286	95.328	25
+P	Nakhl-e Taqī	nakhl e taqi	IR		27.498	52.587	28
+P	Nanauta		IN		29.712	77.417	25
+P	Nangwa		TZ		-4.467	35.450	4
+P	Nadim Tiruvuru		IN		17.112	80.609	25
+P	Puerto Natales		CL		-51.730	-72.506	9
+P	Narlıca	narlica	TR		36.235	36.215	4
+P	Nāmrup	namrup	IN		27.194	95.319	25
+P	General Mamerto Natividad		PH		15.602	121.052	26
+P	Natchitoches		US	Louisiana	31.761	-93.086	8
+P	Naldurg		IN		17.817	76.282	25
+P	Nagasaki		JP		35.730	139.689	29
+P	Nazaré Paulista	nazare paulista	BR		-23.181	-46.395	9
+P	Kheri Nāngal	kheri nangal	IN		29.354	76.977	25
+P	Namminikara		IN		10.432	76.254	25
+P	Nar'yan-Mar	naryan mar	RU		67.639	53.004	4
+P	Nalloor		IN		8.306	77.224	25
+P	Narauli		IN		28.485	78.715	25
+P	Nāteputa	nateputa	IN		17.899	74.752	25
+P	Não-Me-Toque	nao me toque	BR		-28.459	-52.821	9
+P	Nanuet		US	New York	41.089	-74.013	15
+P	Narasimhanaickenpalayam		IN		11.117	76.936	25
+P	Kostrzyn nad Odrą	kostrzyn nad odra	PL		52.587	14.650	35
+P	Nāgamangala	nagamangala	IN		12.819	76.755	25
+P	Naaldwijk		NL		51.994	4.210	35
+P	Nässjö	nassjo	SE		57.653	14.697	35
+P	Naushahro Firoz		PK		26.840	68.123	27
+P	Nangavaram		IN		10.869	78.539	25
+P	Nanganga		TZ		-10.383	39.150	4
+P	Walton-on-the-Naze	walton on the naze	GB	England	51.848	1.267	34
+P	Nalerigu		GH		10.527	-0.370	5
+P	Naregal		IN		15.573	75.808	25
+P	Kralupy nad Vltavou		CZ		50.241	14.311	35
+P	Nārsala	narsala	IN		21.090	79.136	25
+P	Namavundu		UG		0.364	33.818	4
+P	Chenini Nahal		TN		33.872	10.055	2
+P	Nārnaund	narnaund	IN		29.220	76.143	25
+P	Navalmoral de la Mata		ES		39.892	-5.541	35
+P	Nantwich		GB	England	53.069	-2.521	34
+P	Naarden		NL		52.296	5.162	35
+P	Nāranammālpuram	naranammalpuram	IN		8.760	77.740	25
+P	Naraina		IN		26.791	75.206	25
+P	Nayāgarh	nayagarh	IN		20.129	85.096	25
+P	Nawābganj	nawabganj	IN		26.864	82.141	25
+P	Žiar nad Hronom	ziar nad hronom	SK		48.592	18.850	35
+P	Nanaku		JP		40.401	141.273	29
+P	Navalpattu		IN		10.751	78.776	25
+P	Bản Na Hỷ	ban na hy	VN		19.564	104.535	22
+P	Nal Khera		IN		23.836	76.243	25
+P	Nambingué	nambingue	CI		10.050	-5.338	5
+P	Nabunturan		PH		7.608	125.966	26
+P	Navarro		AR		-35.006	-59.278	9
+P	Natiaboani		BF		11.699	0.506	5
+P	Nauen		DE		52.607	12.874	35
+P	Nazareth		IN		8.561	77.972	25
+P	Bánovce nad Bebravou	banovce nad bebravou	SK		48.721	18.258	35
+P	Namponkoré	namponkore	BF		11.737	1.777	5
+P	Nampundwe		ZM		-15.508	27.924	3
+P	Nambiyūr	nambiyur	IN		11.358	77.321	25
+P	Namysłów	namyslow	PL		51.076	17.723	35
+P	Wang Nam Yen		TH		13.505	102.181	22
+P	Naroli		IN		20.274	72.942	25
+P	Dvůr Králové nad Labem	dvur kralove nad labem	CZ		50.432	15.814	35
+P	Nallavila		IN		8.205	77.344	25
+P	Nagasu		JP		32.933	130.443	29
+P	Weg naar Zee		SR		5.871	-55.215	9
+P	Nakaiburi		JP		34.303	135.533	29
+P	Nakanobu		JP		35.605	139.710	29
+P	Villers-lès-Nancy	villers les nancy	FR		48.673	6.153	35
+P	Greater Napanee		CA	Ontario	44.250	-76.949	15
+P	Narragansett		US	Rhode Island	41.450	-71.450	15
+P	Bang Mun Nak		TH		16.028	100.379	22
+P	Namwala		ZM		-15.750	26.438	3
+P	Nārāyankher	narayankher	IN		18.034	77.773	25
+P	Nakanojō	nakanojo	JP		36.587	138.841	29
+P	Natividade		BR		-21.042	-41.973	9
+P	Chai Nat		TH		15.186	100.124	22
+P	Kan Nar Middle		MM		16.881	96.097	31
+P	Naciria		DZ		36.746	3.832	2
+P	Bà Nà	ba na	VN		15.983	107.983	22
+P	Ústí nad Orlicí	usti nad orlici	CZ		49.974	16.394	35
+P	Natchez		US	Mississippi	31.560	-91.403	8
+P	Naraini		IN		25.190	80.475	25
+P	Nakhon Luang		TH		14.463	100.609	22

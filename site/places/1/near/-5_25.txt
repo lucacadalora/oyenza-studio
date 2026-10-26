@@ -1,0 +1,77 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Lubumbashi	120	
+C	BI	Burundi	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	RW	Rwanda	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+B	0
+P	Bukavu		CD		-2.491	28.843	1
+P	Bujumbura		BI		-3.382	29.361	1
+P	Goma		CD		-1.674	29.228	1
+P	Uvira		CD		-3.395	29.138	1
+P	Kindu		CD		-2.944	25.922	1
+P	Kigoma		TZ		-4.877	29.627	0
+P	Gisenyi		RW		-1.703	29.256	1
+P	Musanze		RW		-1.500	29.635	1
+P	Gitarama		RW		-2.074	29.757	1
+P	Muhanga		RW		-2.023	29.707	1
+P	Rutshuru		CD		-1.187	29.447	1
+P	Kasongo		CD		-4.427	26.667	1
+P	Gitega		BI		-3.427	29.925	1
+P	Butare		RW		-2.597	29.739	1
+P	Ngozi		BI		-2.908	29.831	1
+P	Mpanda		BI		-3.170	29.403	1
+P	Rumonge		BI		-3.974	29.439	1
+P	Kabale		UG		-1.249	29.990	0
+P	Kirumba		CD		-1.091	29.293	1
+P	Kayna		CD		-0.609	29.172	1
+P	Kibuye		RW		-2.060	29.348	1
+P	Kanyobagonga		CD		-0.700	29.172	1
+P	Cyangugu		RW		-2.485	28.907	1
+P	Shyorongi		RW		-1.854	29.962	1
+P	Katanda		CD		-0.825	29.365	1
+P	Lubero		CD		-0.158	29.239	1
+P	Kirambo		RW		-2.316	29.142	1
+P	Kagano		RW		-2.343	29.091	1
+P	Ngororero		RW		-1.863	29.625	1
+P	Rukungiri		UG		-0.841	29.942	0
+P	Kampene		CD		-3.597	26.667	1
+P	Kabare		CD		-2.497	28.791	1
+P	Cibitoke		BI		-2.887	29.125	1
+P	Nzega		RW		-2.479	29.556	1
+P	Kayanza		BI		-2.922	29.629	1
+P	Macuba		RW		-2.293	29.188	1
+P	Karengera		RW		-2.517	29.033	1
+P	Nyanza		RW		-2.352	29.751	1
+P	Bugarama		RW		-2.692	29.008	1
+P	Bubanza		BI		-3.080	29.391	1
+P	Gihombo		RW		-2.219	29.234	1
+P	Karambi		RW		-2.317	29.244	1
+P	Vyanda		BI		-4.102	29.606	1
+P	Bushekeri		RW		-2.420	29.091	1
+P	Nyabitekeli		RW		-2.354	29.030	1
+P	Busogo		RW		-1.558	29.543	1
+P	Shangi		RW		-2.404	29.006	1
+P	Cyato		RW		-2.387	29.193	1
+P	Kirimbi		RW		-2.265	29.196	1
+P	Gitesi		RW		-2.114	29.402	1
+P	Rubanda		UG		-1.188	29.846	0
+P	Bushenge		RW		-2.442	28.982	1
+P	Kihihi		UG		-0.750	29.700	0
+P	Ruhango		RW		-2.225	29.791	1
+P	Gikongoro		RW		-2.464	29.574	1
+P	Mahembe		RW		-2.239	29.293	1
+P	Mukamira		RW		-1.611	29.497	1
+P	Mugina		RW		-2.106	29.942	1
+P	Gatumba		BI		-3.333	29.250	1
+P	Rangiro		RW		-2.405	29.161	1
+P	Kisoro		UG		-1.285	29.685	0
+P	Sake		CD		-1.574	29.043	1
+P	Ntungamo		UG		-0.883	29.650	0
+P	Mwandiga		TZ		-4.830	29.658	0
+P	Kanungu		UG		-0.958	29.790	0
+P	Kamuhanda / Ruyenzi	kamuhanda ruyenzi	RW		-1.966	29.985	1
+P	Mukingo		RW		-1.539	29.556	1
+P	Kora		RW		-1.610	29.445	1

@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Nairobi	180	
+C	ET	Ethiopia	egyptian	s
+C	KE	Kenya	egyptian	s
+B	0
+P	Eldoret		KE		0.520	35.270	0
+P	Kitale		KE		1.016	35.006	0
+P	Lodwar		KE		3.120	35.596	0
+P	Meru		KE		0.046	37.656	0
+P	Isiolo		KE		0.355	37.582	0
+P	Nanyuki		KE		0.006	37.074	0
+P	Kapenguria		KE		1.239	35.112	0
+P	Habaswein		KE		1.017	39.491	0
+P	Moyale		KE		3.527	39.056	0
+P	Iten		KE		0.670	35.508	0
+P	Kapsabet		KE		0.204	35.105	0
+P	Nyahururu		KE		0.038	36.363	0
+P	Yabēlo	yabelo	ET		4.883	38.083	0
+P	Marsabit		KE		2.335	37.991	0
+P	Maralal		KE		1.097	36.698	0
+P	Mairo Inya		KE		0.025	36.409	0
+P	Makutano		KE		1.259	35.096	0
+P	Kabarnet		KE		0.492	35.743	0
+P	Maua		KE		0.233	37.941	0
+P	Eldama Ravine		KE		0.052	35.727	0
+P	Garba Tula		KE		0.534	38.519	0
+P	Moi‘s Bridge	mois bridge	KE		0.872	35.122	0

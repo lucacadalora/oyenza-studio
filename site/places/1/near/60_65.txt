@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	0
+P	Khanty-Mansiysk	khanty mansiysk	RU		61.002	69.027	0
+P	Nyagan		RU		62.141	65.394	0
+P	Beloyarskiy		RU		63.712	66.672	0

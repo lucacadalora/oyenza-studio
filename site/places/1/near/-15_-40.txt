@@ -1,0 +1,148 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bahia	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Salvador		BR		-12.976	-38.491	0
+P	Aracaju		BR		-10.911	-37.072	0
+P	Feira de Santana		BR		-12.267	-38.967	0
+P	Itabuna		BR		-14.786	-39.280	0
+P	Lauro de Freitas		BR		-12.894	-38.327	0
+P	Nossa Senhora do Socorro		BR		-10.855	-37.126	0
+P	Camaçari	camacari	BR		-12.697	-38.324	0
+P	Ilhéus	ilheus	BR		-14.799	-39.032	0
+P	Alagoinhas		BR		-12.136	-38.419	0
+P	Simões Filho	simoes filho	BR		-12.784	-38.404	0
+P	Itabaiana		BR		-10.685	-37.425	0
+P	Santo Antônio de Jesus	santo antonio de jesus	BR		-12.969	-39.261	0
+P	Lagarto		BR		-10.917	-37.650	0
+P	São Cristóvão	sao cristovao	BR		-11.015	-37.206	0
+P	Valença	valenca	BR		-13.370	-39.073	0
+P	Serrinha		BR		-11.664	-39.008	0
+P	Candeias		BR		-12.668	-38.551	0
+P	Dias d'Ávila	dias davila	BR		-12.613	-38.297	0
+P	Conceição do Coité	conceicao do coite	BR		-11.564	-39.283	0
+P	Estância	estancia	BR		-11.268	-37.438	0
+P	Euclides da Cunha		BR		-10.508	-39.016	0
+P	Cruz das Almas		BR		-12.670	-39.102	0
+P	Penedo		BR		-10.290	-36.586	0
+P	Ipirá	ipira	BR		-12.158	-39.737	0
+P	Santo Amaro		BR		-12.547	-38.712	0
+P	Ribeira do Pombal		BR		-10.834	-38.536	0
+P	Santo Estêvão	santo estevao	BR		-12.430	-39.251	0
+P	Coruripe		BR		-10.126	-36.176	0
+P	Tobias Barreto		BR		-11.184	-37.998	0
+P	Tucano		BR		-10.958	-38.791	0
+P	Araci		BR		-11.333	-38.967	0
+P	Catu		BR		-12.353	-38.379	0
+P	Monte Santo		BR		-10.438	-39.333	0
+P	Jaguaquara		BR		-13.531	-39.971	0
+P	Simão Dias	simao dias	BR		-10.738	-37.811	0
+P	Mata de São João	mata de sao joao	BR		-12.530	-38.299	0
+P	Vera Cruz		BR		-12.960	-38.609	0
+P	Barra dos Coqueiros		BR		-10.909	-37.039	0
+P	Nossa Senhora da Glória	nossa senhora da gloria	BR		-10.218	-37.420	0
+P	São Sebastião do Passé	sao sebastiao do passe	BR		-12.512	-38.495	0
+P	Ipiaú	ipiau	BR		-14.134	-39.739	0
+P	Itabaianinha		BR		-11.274	-37.790	0
+P	São Gonçalo dos Campos	sao goncalo dos campos	BR		-12.434	-38.951	0
+P	São Francisco do Conde	sao francisco do conde	BR		-12.627	-38.680	0
+P	Entre Rios		BR		-11.942	-38.084	0
+P	Santaluz		BR		-11.256	-39.375	0
+P	Jeremoabo		BR		-10.076	-38.347	0
+P	Cansanção	cansancao	BR		-10.667	-39.499	0
+P	Amargosa		BR		-13.030	-39.605	0
+P	Maragogipe		BR		-12.778	-38.919	0
+P	Rio Real		BR		-11.485	-37.933	0
+P	Conceição do Jacuípe	conceicao do jacuipe	BR		-12.317	-38.767	0
+P	Itaporanga d'Ajuda	itaporanga dajuda	BR		-10.998	-37.311	0
+P	Itiúba	itiuba	BR		-10.692	-39.854	0
+P	Inhambupe		BR		-11.784	-38.353	0
+P	Cachoeira		BR		-12.601	-38.966	0
+P	Riachão do Jacuípe	riachao do jacuipe	BR		-11.807	-39.386	0
+P	Esplanada		BR		-11.796	-37.945	0
+P	Gandu		BR		-13.744	-39.487	0
+P	Pojuca		BR		-12.431	-38.328	0
+P	Itapicuru		BR		-11.317	-38.233	0
+P	Capela		BR		-10.503	-37.053	0
+P	Cícero Dantas	cicero dantas	BR		-10.600	-38.383	0
+P	Camamu		BR		-13.947	-39.103	0
+P	Muritiba		BR		-12.626	-38.990	0
+P	Irará	irara	BR		-12.050	-38.767	0
+P	Presidente Tancredo Neves		BR		-13.453	-39.421	0
+P	Itacaré	itacare	BR		-14.279	-38.996	0
+P	Nazaré	nazare	BR		-13.035	-39.014	0
+P	Coração de Maria	coracao de maria	BR		-12.233	-38.750	0
+P	Propriá	propria	BR		-10.211	-36.840	0
+P	Paripiranga		BR		-10.688	-37.862	0
+P	Queimadas		BR		-10.978	-39.626	0
+P	Ibirapitanga		BR		-14.164	-39.374	0
+P	Quijingue		BR		-10.752	-39.209	0
+P	Nossa Senhora das Dores		BR		-10.492	-37.193	0
+P	Castro Alves		BR		-12.766	-39.428	0
+P	Boquim		BR		-11.147	-37.621	0
+P	Maraú	marau	BR		-14.104	-39.015	0
+P	Wenceslau Guimarães	wenceslau guimaraes	BR		-13.686	-39.478	0
+P	Valente		BR		-11.412	-39.462	0
+P	Nova Soure		BR		-11.233	-38.483	0
+P	Amélia Rodrigues	amelia rodrigues	BR		-12.399	-38.755	0
+P	Laranjeiras		BR		-10.806	-37.170	0
+P	Umbaúba	umbauba	BR		-11.383	-37.658	0
+P	Conde		BR		-11.814	-37.611	0
+P	Olindina		BR		-11.367	-38.333	0
+P	Muritiba		BR		-12.917	-39.250	0
+P	Igreja Nova		BR		-10.125	-36.662	0
+P	Ituberá	itubera	BR		-13.735	-39.148	0
+P	Poço Verde	poco verde	BR		-10.708	-38.183	0
+P	Ibicaraí	ibicarai	BR		-14.865	-39.587	0
+P	Uruçuca	urucuca	BR		-14.593	-39.284	0
+P	Teofilândia	teofilandia	BR		-11.483	-38.997	0
+P	Laje		BR		-13.182	-39.425	0
+P	Santa Bárbara	santa barbara	BR		-11.958	-38.975	0
+P	Conceição da Feira	conceicao da feira	BR		-12.506	-38.999	0
+P	Governador Mangabeira		BR		-12.600	-39.042	0
+P	São Felipe	sao felipe	BR		-12.847	-39.089	0
+P	Salgado		BR		-11.032	-37.475	0
+P	Porto Real do Colégio	porto real do colegio	BR		-10.186	-36.840	0
+P	Aquidabã	aquidaba	BR		-10.281	-37.019	0
+P	Mutuípe	mutuipe	BR		-13.229	-39.505	0
+P	Carira		BR		-10.361	-37.701	0
+P	Itaparica		BR		-12.888	-38.679	0
+P	Crisópolis	crisopolis	BR		-11.511	-38.150	0
+P	Rafael Jambeiro		BR		-12.408	-39.501	0
+P	Sobradinho		BR		-12.833	-39.100	0
+P	Ibirataia		BR		-14.067	-39.641	0
+P	Itajuípe	itajuipe	BR		-14.678	-39.375	0
+P	Ubaíra	ubaira	BR		-13.268	-39.663	0
+P	Nordestina		BR		-10.822	-39.427	0
+P	Madre de Deus		BR		-12.741	-38.621	0
+P	Riachão do Dantas	riachao do dantas	BR		-11.069	-37.725	0
+P	Campo do Brito		BR		-10.733	-37.493	0
+P	Areia Branca		BR		-10.758	-37.315	0
+P	Taperoá	taperoa	BR		-13.538	-39.099	0
+P	Serra Preta		BR		-12.160	-39.332	0
+P	Sapeaçu	sapeacu	BR		-12.727	-39.182	0
+P	Fátima	fatima	BR		-10.600	-38.217	0
+P	Cairu		BR		-13.487	-39.044	0
+P	Jaguaripe		BR		-13.113	-38.896	0
+P	Ubaitaba		BR		-14.312	-39.323	0
+P	Coaraci		BR		-14.641	-39.551	0
+P	Cipó	cipo	BR		-11.100	-38.514	0
+P	Cristinápolis	cristinapolis	BR		-11.476	-37.755	0
+P	Coronel João Sá	coronel joao sa	BR		-10.284	-37.926	0
+P	Ribeirópolis	ribeiropolis	BR		-10.539	-37.417	0
+P	Cabaceiras do Paraguaçu	cabaceiras do paraguacu	BR		-12.536	-39.191	0
+P	Indiaroba		BR		-11.519	-37.512	0
+P	Neópolis	neopolis	BR		-10.320	-36.579	0
+P	Japaratuba		BR		-10.593	-36.940	0
+P	Piaçabuçu	piacabucu	BR		-10.406	-36.434	0
+P	Ubatã	ubata	BR		-14.209	-39.526	0
+P	Sátiro Dias	satiro dias	BR		-11.604	-38.583	0
+P	Aporá	apora	BR		-11.660	-38.081	0
+P	Conceição do Almeida	conceicao do almeida	BR		-12.779	-39.170	0
+P	Itatim		BR		-12.712	-39.698	0
+P	Maruim		BR		-10.738	-37.082	0
+P	Teolândia	teolandia	BR		-13.602	-39.492	0
+P	Itagibá	itagiba	BR		-14.284	-39.843	0
+P	Barrocas		BR		-11.528	-39.076	0
+P	Biritinga		BR		-11.617	-38.800	0
+P	Andorinha		BR		-10.345	-39.836	0

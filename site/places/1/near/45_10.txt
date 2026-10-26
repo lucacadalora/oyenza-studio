@@ -1,0 +1,208 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AT	Austria	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	HR	Croatia	mwl	s
+C	IT	Italy	mwl	s
+C	SI	Slovenia	mwl	s
+B	1
+P	Munich		DE		48.137	11.575	0
+P	Nuremberg		DE		49.454	11.078	0
+P	Augsburg		DE		48.372	10.899	0
+P	Ljubljana		SI		46.051	14.505	0
+P	Verona		IT		45.439	10.994	0
+P	Linz		AT		48.306	14.286	0
+P	Trieste		IT		45.650	13.777	0
+P	Padua		IT		45.408	11.886	0
+P	Brescia		IT		45.536	10.215	0
+P	Pilsen		CZ		49.747	13.378	0
+P	Salzburg		AT		47.799	13.044	0
+P	Regensburg		DE		49.015	12.102	0
+P	Mestre		IT		45.492	12.245	0
+P	Innsbruck		AT		47.263	11.395	0
+P	Fürth	furth	DE		49.476	10.989	0
+P	Trento		IT		46.068	11.121	0
+P	Ingolstadt		DE		48.765	11.424	0
+P	Vicenza		IT		45.547	11.547	0
+P	Rijeka		HR		45.327	14.442	0
+P	Bolzano		IT		46.491	11.340	0
+P	Erlangen		DE		49.591	11.008	0
+P	Klagenfurt am Wörthersee	klagenfurt am worthersee	AT		46.625	14.305	0
+P	Udine		IT		46.069	13.237	0
+P	České Budějovice	ceske budejovice	CZ		48.974	14.474	0
+P	Treviso		IT		45.667	12.242	0
+P	Bogenhausen		DE		48.152	11.616	0
+P	Bayreuth		DE		49.948	11.579	0
+P	Landshut		DE		48.530	12.162	0
+P	Cremona		IT		45.133	10.021	0
+P	Bamberg		DE		49.899	10.901	0
+P	Aalen		DE		48.838	10.093	0
+P	Kempten (Allgäu)	kempten allgau	DE		47.727	10.314	0
+P	Rosenheim		DE		47.856	12.122	0
+P	Villach		AT		46.610	13.856	0
+P	Neu-Ulm	neu ulm	DE		48.393	10.011	0
+P	Venice		IT		45.437	12.333	0
+P	Passau		DE		48.566	13.431	0
+P	Rovigo		IT		45.070	11.790	0
+P	Heidenheim an der Brenz		DE		48.678	10.152	0
+P	Pordenone		IT		45.957	12.661	0
+P	Chioggia		IT		45.219	12.278	0
+P	Amberg		DE		49.443	11.863	0
+P	Straubing		DE		48.881	12.574	0
+P	Memmingen		DE		47.984	10.185	0
+P	Arcella		IT		45.422	11.888	0
+P	Freising		DE		48.404	11.749	0
+P	Weiden		DE		49.677	12.156	0
+P	Kaufbeuren		DE		47.882	10.622	0
+P	San Donà di Piave	san dona di piave	IT		45.630	12.568	0
+P	Merano		IT		46.668	11.160	0
+P	Germering		DE		48.134	11.377	0
+P	Dachau		DE		48.260	11.434	0
+P	Neumarkt in der Oberpfalz		DE		49.280	11.463	0
+P	Mantua		IT		45.160	10.798	0
+P	Schwabach		DE		49.330	11.023	0
+P	Steyr		AT		48.043	14.421	0
+P	Bassano del Grappa		IT		45.767	11.727	0
+P	Kranj		SI		46.239	14.356	0
+P	Tábor	tabor	CZ		49.414	14.658	0
+P	Crailsheim		DE		49.134	10.072	0
+P	Pasing		DE		48.141	11.456	0
+P	Hötting	hotting	AT		47.268	11.369	0
+P	Gorizia		IT		45.941	13.622	0
+P	Rovereto		IT		45.890	11.041	0
+P	Schio		IT		45.713	11.357	0
+P	Fürstenfeldbruck	furstenfeldbruck	DE		48.179	11.255	0
+P	Erding		DE		48.306	11.907	0
+P	Mira Taglio		IT		45.435	12.129	0
+P	Příbram	pribram	CZ		49.690	14.010	0
+P	Pradl		AT		47.265	11.415	0
+P	Ansbach		DE		49.305	10.593	0
+P	Deggendorf		DE		48.841	12.961	0
+P	Conegliano		IT		45.888	12.302	0
+P	Forchheim		DE		49.718	11.059	0
+P	Friedberg		DE		48.357	10.985	0
+P	Písek	pisek	CZ		49.309	14.148	0
+P	Marghera		IT		45.451	12.224	0
+P	Unterschleißheim	unterschleissheim	DE		48.280	11.577	0
+P	Neuburg an der Donau		DE		48.732	11.187	0
+P	Schwandorf in Bayern		DE		49.325	12.110	0
+P	Königsbrunn	konigsbrunn	DE		48.275	10.892	0
+P	Landsberg am Lech		DE		48.048	10.883	0
+P	Monfalcone		IT		45.805	13.533	0
+P	Montebelluna		IT		45.775	12.049	0
+P	Lauf an der Pegnitz		DE		49.514	11.282	0
+P	Garmisch-Partenkirchen	garmisch partenkirchen	DE		47.492	11.096	0
+P	Koper		SI		45.548	13.730	0
+P	Zirndorf		DE		49.442	10.954	0
+P	Castelfranco Veneto		IT		45.671	11.928	0
+P	Traun		AT		48.221	14.238	0
+P	Roth		DE		49.248	11.091	0
+P	Belluno		IT		46.143	12.216	0
+P	Wolfsberg		AT		46.841	14.844	0
+P	Ellwangen		DE		48.962	10.132	0
+P	Vittorio Veneto		IT		45.980	12.301	0
+P	Waldkraiburg		DE		48.209	12.399	0
+P	Herzogenaurach		DE		49.568	10.886	0
+P	Olching		DE		48.200	11.333	0
+P	Starnberg		DE		48.002	11.344	0
+P	Lumezzane		IT		45.648	10.265	0
+P	Spinea-Orgnano	spinea orgnano	IT		45.491	12.155	0
+P	Weilheim		DE		47.841	11.155	0
+P	Geretsried		DE		47.858	11.481	0
+P	San Sebastiano		IT		45.652	10.257	0
+P	Pfaffenhofen an der Ilm		DE		48.531	11.505	0
+P	Neusäß	neusass	DE		48.392	10.833	0
+P	Klatovy		CZ		49.396	13.295	0
+P	Desenzano del Garda		IT		45.471	10.536	0
+P	Valdagno		IT		45.645	11.299	0
+P	Leutkirch		DE		47.827	10.021	0
+P	Strakonice		CZ		49.261	13.902	0
+P	Senden		DE		48.324	10.044	0
+P	Mogliano Veneto		IT		45.556	12.243	0
+P	Legnago		IT		45.194	11.302	0
+P	Beroun		CZ		49.964	14.072	0
+P	Kitzingen		DE		49.740	10.151	0
+P	Sonthofen		DE		47.518	10.283	0
+P	Arzignano		IT		45.520	11.334	0
+P	Traunreut		DE		47.963	12.592	0
+P	Thiene		IT		45.709	11.480	0
+P	Aichach		DE		48.458	11.134	0
+P	Vaterstetten		DE		48.105	11.768	0
+P	Unterhaching		DE		48.066	11.616	0
+P	Montecchio Maggiore-Alte Ceccato	montecchio maggiore alte ceccato	IT		45.504	11.412	0
+P	Nördlingen	nordlingen	DE		48.851	10.489	0
+P	Sankt Peter		AT		46.630	14.340	0
+P	Gersthofen		DE		48.424	10.873	0
+P	Giengen an der Brenz		DE		48.622	10.243	0
+P	San Giovanni Lupatoto		IT		45.382	11.045	0
+P	Sankt Martin		AT		46.617	14.283	0
+P	Günzburg	gunzburg	DE		48.456	10.277	0
+P	Sulzbach-Rosenberg	sulzbach rosenberg	DE		49.501	11.746	0
+P	Puchheim		DE		48.150	11.350	0
+P	Gauting		DE		48.069	11.377	0
+P	Ottobrunn bei München	ottobrunn bei munchen	DE		48.065	11.663	0
+P	Gröbenzell	grobenzell	DE		48.200	11.367	0
+P	Dingolfing		DE		48.642	12.493	0
+P	Dillingen an der Donau		DE		48.582	10.495	0
+P	Monselice		IT		45.239	11.750	0
+P	Castiglione delle Stiviere		IT		45.390	10.486	0
+P	Marktoberdorf		DE		47.780	10.617	0
+P	Traunstein		DE		47.868	12.643	0
+P	Donauwörth	donauworth	DE		48.718	10.779	0
+P	Weißenburg in Bayern	weissenburg in bayern	DE		49.031	10.972	0
+P	Burghausen		DE		48.169	12.831	0
+P	Neufahrn bei Freising		DE		48.316	11.663	0
+P	Ansfelden		AT		48.210	14.290	0
+P	Abano Terme		IT		45.358	11.787	0
+P	Wilten		AT		47.258	11.388	0
+P	Kolbermoor		DE		47.850	12.067	0
+P	Karlsfeld		DE		48.227	11.476	0
+P	Taufkirchen		DE		48.049	11.617	0
+P	Bad Aibling		DE		47.864	12.011	0
+P	Garching		DE		48.249	11.651	0
+P	Mühldorf	muhldorf	DE		48.247	12.522	0
+P	Haar		DE		48.109	11.727	0
+P	Portogruaro		IT		45.781	12.841	0
+P	Bad Tölz	bad tolz	DE		47.761	11.559	0
+P	Moosburg		DE		48.471	11.938	0
+P	San Bonifacio		IT		45.396	11.274	0
+P	Riva del Garda		IT		45.886	10.841	0
+P	Cham		DE		49.226	12.655	0
+P	Oberasbach		DE		49.423	10.958	0
+P	Wolfratshausen		DE		47.913	11.422	0
+P	Říčany	ricany	CZ		49.992	14.654	0
+P	Benešov	benesov	CZ		49.782	14.687	0
+P	Este		IT		45.223	11.664	0
+P	Bad Reichenhall		DE		47.729	12.878	0
+P	Gilching		DE		48.108	11.294	0
+P	Wels		AT		48.167	14.033	0
+P	Saalfelden am Steinernen Meer		AT		47.427	12.848	0
+P	Holzkirchen		DE		47.877	11.702	0
+P	Vilshofen		DE		48.627	13.192	0
+P	Bobingen		DE		48.271	10.834	0
+P	Sacile		IT		45.954	12.503	0
+P	Illertissen		DE		48.223	10.103	0
+P	Gunzenhausen		DE		49.117	10.760	0
+P	Albignasego		IT		45.347	11.868	0
+P	Wendelstein		DE		49.352	11.151	0
+P	Ghedi		IT		45.402	10.277	0
+P	Schrobenhausen		DE		48.561	11.261	0
+P	Penzberg		DE		47.753	11.377	0
+P	Cordenons		IT		45.984	12.700	0
+P	Freilassing		DE		47.841	12.981	0
+P	Villafranca di Verona		IT		45.354	10.845	0
+P	Bressanone		IT		46.715	11.656	0
+P	Bruckmühl	bruckmuhl	DE		47.879	11.911	0
+P	Oderzo		IT		45.781	12.494	0
+P	Kelheim		DE		48.917	11.886	0
+P	Lido		IT		45.410	12.366	0
+P	Füssen	fussen	DE		47.571	10.702	0
+P	Amstetten		AT		48.123	14.872	0
+P	Altdorf bei Nürnberg	altdorf bei nurnberg	DE		49.386	11.357	0
+P	Lancenigo-Villorba	lancenigo villorba	IT		45.713	12.257	0
+P	Telfs		AT		47.307	11.068	0
+P	Bussolengo		IT		45.469	10.854	0
+P	Mirano		IT		45.495	12.108	0
+P	Eppan		IT		46.459	11.257	0
+P	Montichiari		IT		45.413	10.398	0

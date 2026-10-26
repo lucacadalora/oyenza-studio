@@ -1,0 +1,491 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Khartoum	120	
+Z	3	Africa/Luanda	60	
+Z	4	America/Bogota	-300	
+Z	5	America/Boise	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Caracas	-240	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Edmonton	-420	29549340=-360
+Z	9	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	10	America/Mexico_City	-360	
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Phoenix	-420	
+Z	13	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	14	America/Sao_Paulo	-180	
+Z	15	America/Tijuana	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	16	America/Vancouver	-480	29549400=-420
+Z	17	Asia/Baku	240	
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	20	Asia/Kabul	270	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Novokuznetsk	420	
+Z	23	Asia/Shanghai	480	
+Z	24	Asia/Tehran	210	
+Z	25	Asia/Tokyo	540	
+Z	26	Asia/Yangon	390	
+Z	27	Asia/Yekaterinburg	300	
+Z	28	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	29	Europe/Istanbul	180	
+Z	30	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	31	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	32	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	33	Pacific/Port_Moresby	600	
+C	AF	Afghanistan	karachi	h
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BN	Brunei	singapore	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	ER	Eritrea	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GR	Greece	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KH	Cambodia	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	MA	Morocco	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	SI	Slovenia	mwl	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SV	El Salvador	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+A	mecca	makkah
+A	medina	madinah
+A	mekah	makkah
+A	mekkah	makkah
+B	7
+P	Mexico City		MX		19.428	-99.128	10
+P	Melbourne		AU	Victoria	-37.814	144.963	28
+P	Medellín	medellin	CO		6.245	-75.572	4
+P	Meerut		IN		28.980	77.706	21
+P	Mérida	merida	MX		20.967	-89.623	10
+P	Meishan		CN		30.044	103.837	23
+P	Mexicali		MX		32.628	-115.454	15
+P	Meizhou		CN		24.289	116.118	23
+P	New South Memphis		US	Tennessee	35.087	-90.057	7
+P	Memphis		US	Tennessee	35.150	-90.049	7
+P	Mengzi		CN		23.368	103.382	23
+P	Meknes		MA		33.894	-5.547	1
+P	Mersin		TR		36.812	34.639	29
+P	Mesa		US	Arizona	33.422	-111.823	12
+P	São João de Meriti	sao joao de meriti	BR		-22.804	-43.372	14
+P	Mek'ele	mekele	ET		13.497	39.475	29
+P	Wad Medani		SD		14.401	33.520	2
+P	Mérida	merida	VE		8.579	-71.169	6
+P	Meads		US	Kentucky	38.413	-82.709	11
+P	Meguro		JP		35.632	139.702	25
+P	Merkezefendi		TR		37.805	29.042	29
+P	Merlo		AR		-34.665	-58.727	14
+P	Menongue		AO		-14.659	17.691	3
+P	Meycauayan		PH		14.737	120.961	23
+P	Messina		IT		38.194	15.553	32
+P	Bukit Mertajam		MY		5.363	100.467	23
+P	Beni Mellal		MA		32.337	-6.350	1
+P	Mentougou		CN		39.938	116.093	23
+P	Ait Melloul		MA		30.342	-9.504	1
+P	Paris 20 Ménilmontant	paris 20 menilmontant	FR		48.865	2.398	32
+P	Meiktila		MM		20.878	95.858	26
+P	Mejicanos		SV		13.724	-89.188	10
+P	Medinīpur	medinipur	IN		22.421	87.323	21
+P	Bukit Merah Estate		SG		1.284	103.823	23
+P	Melitopol		UA		46.847	35.382	30
+P	Mestre		IT		45.492	12.245	32
+P	Médéa	medea	DZ		36.264	2.754	3
+P	Mesquite		US	Texas	32.767	-96.599	7
+P	Mercier–Hochelaga-Maisonneuve	mercier hochelaga maisonneuve	CA	Quebec	45.572	-73.546	11
+P	Metairie Terrace		US	Louisiana	29.979	-90.164	7
+P	Metairie		US	Louisiana	29.984	-90.153	7
+P	Villa Mercedes		CL		-37.404	-71.979	13
+P	Metz		FR		49.119	6.173	32
+P	Mendoza		AR		-32.889	-68.846	14
+P	Vila Medeiros		BR		-23.489	-46.578	14
+P	Costa Mesa		US	California	33.641	-117.919	15
+P	Mengmao		CN		24.001	97.865	23
+P	Mendip		GB	England	51.237	-2.627	31
+P	Medina Estates		GH		5.666	-0.163	0
+P	Mezhdurechensk		RU		53.690	88.062	22
+P	Menghuan		CN		24.435	98.584	23
+P	Meihekou		CN		42.529	125.679	23
+P	Taman Melawati		MY		3.211	101.748	23
+P	Meidling		AT		48.167	16.333	32
+P	Messaad		DZ		34.154	3.503	3
+P	Villa Mercedes		AR		-33.676	-65.458	14
+P	Beni Mered		DZ		36.524	2.861	3
+P	Meridian		US	Idaho	43.612	-116.392	5
+P	Menifee		US	California	33.728	-117.146	15
+P	Menglang		CN		22.562	99.910	23
+P	Melilla		ES		35.294	-2.938	32
+P	Mehestan		IR		35.989	50.745	24
+P	Melbourne		US	Florida	28.084	-80.608	11
+P	Merced		US	California	37.302	-120.483	15
+P	Meru		KE		0.046	37.656	29
+P	Medford		US	Oregon	42.327	-122.876	15
+P	Oke Mesi		NG		7.817	4.917	3
+P	Medininagar		IN		24.040	84.066	21
+P	Mechelen		BE		51.026	4.478	32
+P	Keur Médoune	keur medoune	SN		14.758	-15.904	0
+P	Melong		CM		5.122	9.961	3
+P	Mek’ī	meki	ET		8.150	38.817	29
+P	Méagui	meagui	CI		5.412	-6.560	0
+P	Meshgīn Shahr	meshgin shahr	IR		38.399	47.682	24
+P	Medenine		TN		33.355	10.505	3
+P	Mira Mesa		US	California	32.916	-117.144	15
+P	Mengcheng Chengguanzhen		CN		33.266	116.566	23
+P	Güira de Melena	guira de melena	CU		22.797	-82.507	9
+P	Mérignac	merignac	FR		44.842	-0.645	32
+P	Mettupalayam		IN		11.300	76.935	21
+P	Mengyin		CN		35.707	117.926	23
+P	Meleuz		RU		52.965	55.933	27
+P	Mecheria		DZ		33.545	-0.281	3
+P	Ali Mendjeli		DZ		36.246	6.567	3
+P	Mercedes		AR		-34.651	-59.431	14
+P	Medicine Hat		CA	Alberta	50.039	-110.677	8
+P	Melipilla		CL		-33.689	-71.215	13
+P	La Seyne-sur-Mer	la seyne sur mer	FR		43.103	5.878	32
+P	Meshkīn Dasht	meshkin dasht	IR		35.750	50.944	24
+P	Mene Grande		VE		9.846	-70.927	6
+P	La Mesa		US	California	32.768	-117.023	15
+P	Melbourne City Centre		AU	Victoria	-37.815	144.967	28
+P	Meriden		US	Connecticut	41.538	-72.807	11
+P	Mérida	merida	ES		38.918	-6.343	32
+P	Metu		ET		8.300	35.583	29
+P	Meïganga	meiganga	CM		6.517	14.300	3
+P	Menzel Bourguiba		TN		37.154	9.786	3
+P	Medford		US	Massachusetts	42.418	-71.106	11
+P	El Menia		DZ		30.576	2.884	3
+P	Mettur		IN		11.788	77.801	21
+P	Melo		UY		-32.368	-54.164	14
+P	Meerbusch		DE		51.253	6.688	32
+P	Meikle Earnock		GB	Scotland	55.750	-4.033	31
+P	Medianeira		BR		-25.295	-54.094	14
+P	Meaux		FR		48.960	2.879	32
+P	Mercedes		PH		14.109	123.011	23
+P	Menemen		TR		38.608	27.069	29
+P	Mediaş	medias	RO		46.167	24.350	30
+P	Menden		DE		51.443	7.778	32
+P	Charleville-Mézières	charleville mezieres	FR		49.769	4.725	32
+P	Metrotown		CA	British Columbia	49.225	-123.000	16
+P	Methuen		US	Massachusetts	42.726	-71.191	11
+P	Meybod		IR		32.250	54.017	24
+P	Jesús Menéndez	jesus menendez	CU		21.162	-76.478	9
+P	Metpalle		IN		18.847	78.626	21
+P	Merzifon		TR		40.873	35.463	29
+P	Mellit		SD		14.133	25.550	2
+P	Merter Keresteciler		TR		41.013	28.886	29
+P	Güngören Merter	gungoren merter	TR		41.007	28.888	29
+P	Metrogorodok		RU		55.810	37.787	29
+P	Merelani		TZ		-3.562	36.979	29
+P	Taman Melati		MY		3.221	101.723	23
+P	Megion		RU		61.034	76.107	27
+P	Le Blanc-Mesnil	le blanc mesnil	FR		48.939	2.461	32
+P	Merouana		DZ		35.631	5.912	3
+P	Kibre Mengist		ET		5.883	38.983	29
+P	Boulogne-sur-Mer	boulogne sur mer	FR		50.725	1.614	32
+P	Cagnes-sur-Mer	cagnes sur mer	FR		43.664	7.148	32
+P	Mentor		US	Ohio	41.666	-81.340	11
+P	Medak		IN		18.045	78.261	21
+P	Melle		DE		52.202	8.338	32
+P	Staré Mesto	stare mesto	SK		48.150	17.090	32
+P	Merta		IN		26.649	74.034	21
+P	Mei Foo		HK		22.337	114.139	23
+P	Meddappakkam		IN		12.917	80.194	21
+P	Meiderich		DE		51.467	6.767	32
+P	Mehkar		IN		20.151	76.568	21
+P	Meudon		FR		48.814	2.235	32
+P	Bordj Menaïel	bordj menaiel	DZ		36.743	3.717	3
+P	Hassi Messaoud		DZ		31.680	6.073	3
+P	Memāri	memari	IN		23.176	88.097	21
+P	Merksem		BE		51.246	4.449	32
+P	Nefas Mewch’a	nefas mewcha	ET		11.733	38.467	29
+P	Memmingen		DE		47.984	10.185	32
+P	Merthyr Tydfil		GB	Wales	51.748	-3.378	31
+P	Melmadai		IN		9.926	78.150	21
+P	Mexico		PH		15.065	120.720	23
+P	Mercedes		UY		-33.252	-58.030	14
+P	Medgidia		RO		44.250	28.283	30
+P	Mer’āwī	merawi	ET		11.417	37.167	29
+P	Mentakab		MY		3.485	102.348	23
+P	Medemblik		NL		52.772	5.106	32
+P	Merano		IT		46.668	11.160	32
+P	Meftah		DZ		36.620	3.222	3
+P	Méhana	mehana	NE		14.394	1.134	3
+P	Melur		IN		10.032	78.339	21
+P	Meridian		US	Mississippi	32.364	-88.704	7
+P	Metlili Chaamba		DZ		32.267	3.633	3
+P	Mettmann		DE		51.250	6.975	32
+P	Mehendiganj		BD		22.823	90.529	18
+P	Mentiri		BN		4.971	115.021	23
+P	El Meghaïer	el meghaier	DZ		33.951	5.922	3
+P	Metlaoui		TN		34.321	8.402	3
+P	Melun		FR		48.546	2.654	32
+P	Menzel Temime		TN		36.782	10.988	3
+P	Melchor Ocampo		MX		19.702	-99.145	10
+P	Kampung Alor Mengkudu		MY		6.088	100.392	23
+P	East Meadow		US	New York	40.714	-73.559	11
+P	Mei Foo Sun Chuen		HK		22.336	114.140	23
+P	Melito di Napoli		IT		40.919	14.231	32
+P	Médina Gounas	medina gounas	SN		13.136	-13.756	0
+P	Mendez-Nuñez	mendez nunez	PH		14.129	120.906	23
+P	Mellunkylä	mellunkyla	FI		60.234	25.099	30
+P	Mechanicsville		US	Virginia	37.609	-77.373	11
+P	Mersa		ET		11.667	39.650	29
+P	Menomonee Falls		US	Wisconsin	43.179	-88.117	7
+P	Tit Mellil		MA		33.558	-7.486	1
+P	Ciudad Mendoza		MX		18.806	-97.179	10
+P	Medchal		IN		17.630	78.481	21
+P	Mehrabpur		PK		28.108	68.026	27
+P	Merrillville		US	Indiana	41.483	-87.333	7
+P	Ciudad Melchor Múzquiz	ciudad melchor muzquiz	MX		27.879	-101.516	10
+P	Sabana de Mendoza		VE		9.435	-70.775	6
+P	Merseburg		DE		51.355	11.989	32
+P	Merritt Island		US	Florida	28.359	-80.690	11
+P	San José de Metán	san jose de metan	AR		-25.497	-64.971	14
+P	’Aïn Merane	ain merane	DZ		36.163	0.970	3
+P	Mechraa Bel Ksiri		MA		34.574	-5.956	1
+P	Mehidpur		IN		23.489	75.658	21
+P	Meppen		DE		52.691	7.291	32
+P	Menlo Park		US	California	37.454	-122.182	15
+P	’Aïn el Melh	ain el melh	DZ		34.841	4.164	3
+P	Meschede		DE		51.350	8.283	32
+P	Meerpet		IN		17.321	78.530	21
+P	Menen		BE		50.797	3.122	32
+P	Megarine		DZ		33.192	6.087	3
+P	Mehdia daira de meghila		DZ		35.431	1.757	3
+P	Souk et Tnine Jorf el Mellah		MA		34.492	-5.508	1
+P	Folie Méricourt	folie mericourt	FR		48.866	2.371	32
+P	Mehdya		MA		34.256	-6.673	1
+P	Merzig		DE		49.443	6.639	32
+P	Vitória do Mearim	vitoria do mearim	BR		-3.462	-44.871	14
+P	Meppel		NL		52.696	6.194	32
+P	Mednogorsk		RU		51.406	57.588	27
+P	Mercedes		AR		-29.184	-58.075	14
+P	Mehar		PK		27.180	67.821	27
+P	Mengla		CN		21.462	101.564	23
+P	Meskiana		DZ		35.631	7.666	3
+P	Metamórfosi	metamorfosi	GR		38.066	23.764	30
+P	East Hill-Meridian	east hill meridian	US	Washington	47.411	-122.174	15
+P	Saint-Médard-en-Jalles	saint medard en jalles	FR		44.895	-0.718	32
+P	Meijiang		CN		28.264	109.027	23
+P	Menton		FR		43.776	7.504	32
+P	Mekla		DZ		36.682	4.264	3
+P	Merrylands		AU	New South Wales	-33.833	150.983	28
+P	Smach Mean Chey		KH		11.547	103.036	22
+P	Mehoni		ET		12.799	39.644	29
+P	Tanah Merah		MY		5.800	102.150	23
+P	Mendī	mendi	ET		9.800	35.100	29
+P	Meyzieu		FR		45.766	5.003	32
+P	Meissen		DE		51.162	13.474	32
+P	Ben Mehidi		DZ		36.770	7.906	3
+P	Fresh Meadows		US	New York	40.735	-73.793	11
+P	Mehlville		US	Missouri	38.508	-90.323	7
+P	Hutan Melintang		MY		3.877	100.933	23
+P	Newton Mearns		GB	Scotland	55.773	-4.333	31
+P	Metepec		MX		19.259	-99.602	10
+P	Nuevo México	nuevo mexico	MX		20.756	-103.443	10
+P	Melrose		US	Massachusetts	42.458	-71.066	11
+P	Melgaço	melgaco	BR		-1.804	-50.712	14
+P	Melton Mowbray		GB	England	52.766	-0.887	31
+P	Menuma		JP		36.222	139.382	25
+P	Mertule Maryam		ET		10.833	38.267	29
+P	Mékhé	mekhe	SN		15.110	-16.622	0
+P	Mechernich		DE		50.593	6.652	32
+P	Valašské Meziříčí	valasske mezirici	CZ		49.472	17.971	32
+P	Nové Město	nove mesto	CZ		50.078	14.421	32
+P	Medicilândia	medicilandia	BR		-3.446	-52.889	14
+P	Merrimack		US	New Hampshire	42.865	-71.493	11
+P	La Mesa		CO		5.267	-73.917	4
+P	Mesagne		IT		40.559	17.808	32
+P	Mercerville-Hamilton Square	mercerville hamilton square	US	New Jersey	40.231	-74.672	11
+P	Montigny-lès-Metz	montigny les metz	FR		49.096	6.153	32
+P	Metallostroy		RU		59.801	30.548	29
+P	Medina		US	Ohio	41.138	-81.864	11
+P	Elói Mendes	eloi mendes	BR		-21.610	-45.565	14
+P	Mendi		PG		-6.148	143.656	33
+P	Mercedes Norte		CR		10.006	-84.130	10
+P	Mehsi		IN		26.356	85.093	21
+P	Melgar		CO		4.205	-74.641	4
+P	Mégrine	megrine	TN		36.769	10.236	3
+P	Melouza		DZ		35.980	4.187	3
+P	Mechcheri		IN		11.834	77.944	21
+P	Metemma		ET		12.955	36.155	29
+P	Shek Kip Mei Estate		HK		22.334	114.165	23
+P	Meadow Woods		US	Florida	28.386	-81.366	11
+P	Meckenheim		DE		50.624	7.029	32
+P	Mehndāwal	mehndawal	IN		26.976	83.110	21
+P	Melrose Park		US	Illinois	41.901	-87.857	7
+P	Sidi Mérouane	sidi merouane	DZ		36.521	6.261	3
+P	West Memphis		US	Arkansas	35.146	-90.185	7
+P	Mercer Island		US	Washington	47.571	-122.222	15
+P	Mehal Mēda	mehal meda	ET		10.312	39.659	29
+P	Mediouna		MA		33.452	-7.520	1
+P	Novo Mesto		SI		45.804	15.169	32
+P	Tbeng Meanchey		KH		13.807	104.980	22
+P	Meenambakkam		IN		12.985	80.175	21
+P	Rolling Meadows		US	Illinois	42.084	-88.013	7
+P	Medford		US	New York	40.818	-73.000	11
+P	Medjez el Bab		TN		36.650	9.612	3
+P	Mevasseret Tsiyyon		IL		31.802	35.151	19
+P	Saint-Pol-sur-Mer	saint pol sur mer	FR		51.031	2.340	32
+P	Mégara	megara	GR		37.995	23.343	30
+P	Metahāra	metahara	ET		8.900	39.917	29
+P	Mernda		AU	Victoria	-37.601	145.096	28
+P	Mequon		US	Wisconsin	43.216	-88.030	7
+P	Mendeleyevsk		RU		55.897	52.311	29
+P	Melíssia	melissia	GR		38.050	23.833	30
+P	Meda		IT		45.661	9.153	32
+P	Pedro Meoqui		MX		28.268	-105.481	10
+P	Medvedevo		RU		56.634	47.803	29
+P	Meng’a	menga	CN		22.199	100.417	23
+P	Sirakoro Méguétana	sirakoro meguetana	ML		12.564	-7.916	0
+P	Mejorada del Campo		ES		40.393	-3.482	32
+P	Bad Mergentheim		DE		49.492	9.774	32
+P	Melrose		US	New York	40.825	-73.910	11
+P	Menzel Jemil		TN		37.236	9.914	3
+P	Medeiros Neto		BR		-17.374	-40.221	14
+P	De Meern		NL		52.082	5.036	32
+P	Metzingen		DE		48.537	9.283	32
+P	Mena		ET		6.417	39.850	29
+P	Merrick		US	New York	40.663	-73.552	11
+P	Le Mée-sur-Seine	le mee sur seine	FR		48.532	2.628	32
+P	Mersing		MY		2.431	103.841	23
+P	Meinerzhagen		DE		51.107	7.648	32
+P	Menderes		TR		38.250	27.134	29
+P	Arroio do Meio		BR		-29.401	-51.945	14
+P	Meiningen		DE		50.568	10.415	32
+P	Medina del Campo		ES		41.312	-4.914	32
+P	Merefa		UA		49.821	36.057	30
+P	Palm River-Clair Mel	palm river clair mel	US	Florida	27.924	-82.379	11
+P	West Melbourne		US	Florida	28.072	-80.653	11
+P	Métouia	metouia	TN		33.959	9.996	3
+P	Mehdiabad		AZ		40.497	49.852	17
+P	Meylan		FR		45.210	5.778	32
+P	Mers el Kebir		DZ		35.728	-0.708	3
+P	Medina		BR		-16.223	-41.477	14
+P	Mezcales		MX		20.730	-105.283	10
+P	Cândido Mendes	candido mendes	BR		-1.453	-45.728	14
+P	Beni Mester		DZ		34.870	-1.423	3
+P	Meyrin		CH		46.234	6.080	32
+P	Methukummal		IN		8.307	77.152	21
+P	Melksham		GB	England	51.373	-2.140	31
+P	Presidente Médici	presidente medici	BR		-11.175	-61.901	6
+P	Nové Mesto nad Váhom	nove mesto nad vahom	SK		48.758	17.831	32
+P	Mělník	melnik	CZ		50.350	14.474	32
+P	Gujan-Mestras	gujan mestras	FR		44.636	-1.068	32
+P	Mene de Mauroa		VE		10.681	-71.036	6
+P	Mezőtúr	mezotur	HU		47.000	20.633	32
+P	Sanary-sur-Mer	sanary sur mer	FR		43.120	5.802	32
+P	Metapán	metapan	SV		14.333	-89.450	10
+P	Menzel Abderhaman		TN		37.237	9.863	3
+P	Melville		US	New York	40.793	-73.415	11
+P	Mengman		CN		22.322	100.888	23
+P	Kampung Baru Ulu Melaka		MY		6.352	99.788	23
+P	Merlimau		MY		2.145	102.425	23
+P	Rodeo del Medio		AR		-32.995	-68.686	14
+P	Pitt Meadows		CA	British Columbia	49.221	-122.690	16
+P	Mennzel Bou Zelfa		TN		36.683	10.584	3
+P	Mead Valley		US	California	33.833	-117.296	15
+P	Meise		BE		50.939	4.327	32
+P	Altona Meadows		AU	Victoria	-37.884	144.784	28
+P	Méchouar-Kasba	mechouar kasba	MA		31.601	-7.987	1
+P	Cluain Meala		IE		52.355	-7.704	31
+P	Meadowbrook		US	Virginia	37.449	-77.474	11
+P	Shek Kip Mei		HK		22.331	114.168	23
+P	Mendes		BR		-22.527	-43.733	14
+P	Memuro-minami	memuro minami	JP		42.907	143.036	25
+P	Melzo		IT		45.498	9.420	32
+P	Não-Me-Toque	nao me toque	BR		-28.459	-52.821	14
+P	Mendefera		ER		14.887	38.815	29
+P	Mezőkövesd	mezokovesd	HU		47.817	20.583	32
+P	Port Melbourne		AU	Victoria	-37.840	144.942	28
+P	Menasha		US	Wisconsin	44.202	-88.447	7
+P	Tai Mei Tuk		HK		22.474	114.235	23
+P	Mesquite		US	Nevada	36.806	-114.067	15
+P	Mers El Kheir		MA		33.863	-6.930	1
+P	Mehtar Lām	mehtar lam	AF		34.671	70.209	20
+P	Meerane		DE		50.847	12.465	32
+P	Media Legua		ES		40.412	-3.657	32
+P	Fos-sur-Mer	fos sur mer	FR		43.438	4.945	32
+P	Mendarda		IN		21.321	70.441	21
+P	Mēppādam	meppadam	IN		9.324	76.493	21
+P	Mémót	memot	KH		11.829	106.182	22
+P	Mentana		IT		42.035	12.644	32
+P	Medvedovskaya		RU		45.452	39.025	29
+P	Merta Road		IN		26.723	73.918	21
+P	Menzelinsk		RU		55.728	53.102	29
+P	Saalfelden am Steinernen Meer		AT		47.427	12.848	32
+P	Media Luna		CU		20.142	-77.436	9
+P	Melegnano		IT		45.358	9.324	32
+P	Merelbeke		BE		50.994	3.746	32
+P	Mercedes		US	Texas	26.150	-97.914	7
+P	Nochistlán de Mejía	nochistlan de mejia	MX		21.364	-102.848	10
+P	Medvezh’yegorsk	medvezhyegorsk	RU		62.914	34.459	29
+P	Ceglie Messapica		IT		40.646	17.517	32
+P	Merenwijk		NL		52.177	4.509	32
+P	Menomonie		US	Wisconsin	44.876	-91.919	7
+P	Medina		MX		21.150	-101.623	10
+P	Merke		KZ		42.872	73.196	27
+P	Messica		MZ		-18.992	33.082	2
+P	Melenki		RU		55.336	41.627	29
+P	Mezgor'e	mezgore	RU		54.050	57.817	27
+P	Mennānyam	mennanyam	IN		11.558	75.760	21
+P	Messias		BR		-9.383	-35.842	14
+P	Jalpa de Méndez	jalpa de mendez	MX		18.177	-93.064	10
+P	Ahualulco de Mercado		MX		20.701	-103.975	10
+P	North Melbourne		AU	Victoria	-37.798	144.945	28
+P	Mechelen-aan-de-Maas	mechelen aan de maas	BE		50.966	5.691	32
+P	Horní Měcholupy	horni mecholupy	CZ		50.050	14.567	32
+P	Merrifield		US	Virginia	38.874	-77.227	11
+P	Meruoca		BR		-3.542	-40.455	14
+P	Mexborough		GB	England	53.494	-1.292	31

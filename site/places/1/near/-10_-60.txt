@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cuiaba	-240	
+Z	1	America/Santarem	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Novo Progresso		BR		-7.148	-55.381	1
+P	Colniza		BR		-9.409	-59.025	0
+P	Jacareacanga		BR		-6.222	-57.753	1
+P	Apuí	apui	BR		-7.197	-59.891	0

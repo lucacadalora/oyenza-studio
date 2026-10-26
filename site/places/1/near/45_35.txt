@@ -1,0 +1,159 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+C	UA	Ukraine	mwl	s
+B	2
+P	Kharkiv		UA		49.982	36.255	0
+P	Rostov-on-Don	rostov on don	RU		47.220	39.708	1
+P	Dnipro		UA		48.467	35.041	0
+P	Donetsk		UA		48.023	37.802	0
+P	Krasnodar		RU		45.045	38.982	1
+P	Zaporizhzhya		UA		47.852	35.117	0
+P	Luhansk		UA		48.568	39.306	0
+P	Pravyi Bereh		UA		47.115	37.585	0
+P	Makiyivka		UA		48.048	37.926	0
+P	Taganrog		RU		47.236	38.905	1
+P	Horlivka		UA		48.300	38.017	0
+P	Mariupol		UA		47.095	37.541	0
+P	Rayon KTZ		UA		49.943	36.370	0
+P	Verhunskyi		UA		48.586	39.372	0
+P	Tsentralnyi		UA		47.098	37.548	0
+P	Rutchenkivskyi		UA		47.976	37.697	0
+P	Nyzhnodniprovsk		UA		48.475	35.117	0
+P	Kerch		UA		45.357	36.475	1
+P	Melitopol		UA		46.847	35.382	0
+P	Kramatorsk		UA		48.731	37.568	0
+P	Kyivskyi		UA		48.046	37.776	0
+P	Vilkhivskyi		UA		48.543	39.282	0
+P	Livoberezhnyi		UA		47.109	37.643	0
+P	Tsentralno-Miskyi	tsentralno miskyi	UA		48.302	38.032	0
+P	Smolyanskyi		UA		48.014	37.736	0
+P	Bataysk		RU		47.137	39.757	1
+P	Hirnytskyi		UA		48.021	37.969	0
+P	Berdyansk		UA		46.756	36.788	0
+P	Alchevsk		UA		48.469	38.797	0
+P	Slovyansk		UA		48.850	37.597	0
+P	Kalynivskyi		UA		48.007	37.854	0
+P	Chumakivskyi		UA		47.957	37.942	0
+P	Skhidni Kvartaly		UA		48.566	39.383	0
+P	Kindrativskyi		UA		48.303	38.055	0
+P	Kalmiuskyi		UA		47.110	37.544	0
+P	Pavlohrad		UA		48.532	35.869	0
+P	Oleksandrivskyi		UA		47.968	37.803	0
+P	Novoshakhtinsk		RU		47.760	39.933	1
+P	Siverskodonetsk		UA		48.944	38.488	0
+P	Tsentralno-Miskyi	tsentralno miskyi	UA		48.062	37.972	0
+P	Yuzivskyi		UA		48.000	37.800	0
+P	Lysychansk		UA		48.912	38.421	0
+P	Bohodukhivskyi		UA		47.967	37.863	0
+P	Yeysk		RU		46.693	38.279	1
+P	Shevchenkivskyi		UA		48.563	39.332	0
+P	Voznesenskyi		UA		47.932	37.630	0
+P	Azov		RU		47.107	39.415	1
+P	Berestovskyi		UA		48.044	37.877	0
+P	Bakhmut		UA		48.594	37.999	0
+P	Khrustalnyi		UA		48.142	38.924	0
+P	Yenakiyeve		UA		48.239	38.204	0
+P	Tekstylnyk		UA		47.946	37.698	0
+P	Kadiyivka		UA		48.568	38.644	0
+P	Shakhtarsk		UA		48.057	38.438	0
+P	Prymorskyi		UA		47.071	37.500	0
+P	Samar		UA		48.629	35.259	0
+P	Mykytivskyi		UA		48.314	38.004	0
+P	Feodosiya		UA		45.032	35.382	1
+P	Kostyantynivka		UA		48.527	37.706	0
+P	Gukovo		RU		48.051	39.930	1
+P	Slavyansk-na-Kubani	slavyansk na kubani	RU		45.251	38.121	1
+P	Dovzhansk		UA		48.076	39.647	0
+P	Pokrovsk		UA		48.280	37.177	0
+P	Khartsyzk		UA		48.043	38.140	0
+P	Snizhne		UA		48.023	38.762	0
+P	Rubizhne		UA		49.008	38.380	0
+P	Lozova		UA		48.891	36.314	0
+P	Druzhkivka		UA		48.620	37.525	0
+P	Timashyovsk		RU		45.617	38.945	1
+P	Chystyakove		UA		48.039	38.597	0
+P	Sotsmisto		UA		48.737	37.591	0
+P	Khanzhonkivskyi		UA		48.095	38.042	0
+P	Hruzkyi		UA		48.065	37.936	0
+P	Antratsyt		UA		48.116	39.089	0
+P	Donetsk		RU		48.337	39.952	1
+P	Bosse		UA		47.955	37.800	0
+P	Sorokyne		UA		48.293	39.733	0
+P	Myrnohrad		UA		48.310	37.265	0
+P	Izyum		UA		49.207	37.277	0
+P	Rovenky		UA		48.083	39.377	0
+P	Kanevskaya		RU		46.095	38.977	1
+P	Bryanka		UA		48.511	38.672	0
+P	Ust’-Labinsk	ust labinsk	RU		45.214	39.688	1
+P	Pashkovskiy		RU		45.024	39.104	1
+P	Kamyanobridskyi		UA		48.587	39.281	0
+P	Korenovsk		RU		45.467	39.449	1
+P	Hladkivka		UA		48.036	37.810	0
+P	Sonyachnyi		UA		48.723	37.598	0
+P	Khanzhonkove		UA		48.094	38.076	0
+P	Aksay		RU		47.263	39.869	1
+P	Leningradskaya		RU		46.321	39.386	1
+P	Yasynuvata		UA		48.127	37.859	0
+P	Temryuk		RU		45.269	37.398	1
+P	Chuhuyiv		UA		49.835	36.687	0
+P	Sokolohirsk		UA		48.628	38.524	0
+P	Avdiyivka		UA		48.140	37.750	0
+P	Dinskaya		RU		45.217	39.226	1
+P	Arshyntseve		UA		45.301	36.427	1
+P	Primorsko-Akhtarsk	primorsko akhtarsk	RU		46.048	38.179	1
+P	Pavlovskaya		RU		46.139	39.786	1
+P	Toretsk		UA		48.395	37.848	0
+P	Synelnykove		UA		48.324	35.526	0
+P	Starominskaya		RU		46.531	39.052	1
+P	Kushchyovskaya		RU		46.560	39.632	1
+P	Tokmak		UA		47.256	35.708	0
+P	Krasnoarmeyskaya		RU		45.366	38.212	1
+P	Zlatopil		UA		49.376	36.218	0
+P	Dobropillia		UA		48.467	37.086	0
+P	Shakhtarske		UA		48.348	36.396	0
+P	Khrestivka		UA		48.150	38.359	0
+P	Kupyansk		UA		49.710	37.616	0
+P	Ternivka		UA		48.527	36.071	0
+P	Holubivka		UA		48.638	38.643	0
+P	Balakliya		UA		49.456	36.844	0
+P	Perevalsk		UA		48.439	38.828	0
+P	Debaltseve		UA		48.336	38.403	0
+P	Pisochyn		UA		49.952	36.103	0
+P	Dokuchayevsk		UA		47.752	37.678	0
+P	Novotitarovskaya		RU		45.238	38.981	1
+P	Otamanivka		UA		48.346	39.652	0
+P	Bryukhovetskaya		RU		45.800	38.997	1
+P	Ihren		UA		48.476	35.158	0
+P	Selydove		UA		48.147	37.302	0
+P	Berestyn		UA		49.378	35.445	0
+P	Merefa		UA		49.821	36.057	0
+P	Volnovakha		UA		47.601	37.494	0
+P	Sukhodilsk		UA		48.351	39.726	0
+P	Lyman		UA		48.990	37.808	0
+P	Liubotyn		UA		49.947	35.929	0
+P	Kivsharivka		UA		49.630	37.678	0
+P	Yelizavetinskaya		RU		45.046	38.795	1
+P	Popasna		UA		48.632	38.371	0
+P	Pidhorodnye		UA		48.574	35.097	0
+P	Staroshcherbinovskaya		RU		46.630	38.664	1
+P	Vyselki		RU		45.581	39.657	1
+P	Kurakhove		UA		47.985	37.281	0
+P	Kreminna		UA		49.048	38.216	0
+P	Polohy		UA		47.479	36.255	0
+P	Amvrosiivka		UA		47.791	38.479	0
+P	Pelahiivka		UA		48.108	38.613	0
+P	Zuhres		UA		48.014	38.266	0
+P	Dniprorudne		UA		47.390	35.001	0
+P	Lutuhyne		UA		48.404	39.213	0
+P	Katerynivka		UA		48.556	39.183	0
+P	Medvedovskaya		RU		45.452	39.025	1
+P	Svatove		UA		49.409	38.155	0
+P	Trudivskyi		UA		47.947	37.558	0
+P	Starobilsk		UA		49.279	38.907	0
+P	Slobozhanske		UA		49.591	36.522	0
+P	Persianovka		RU		47.527	39.419	1
+P	Ilovays’k	ilovaysk	UA		47.925	38.202	0
+P	Voznesenivka		UA		48.076	39.796	0
+P	Vilnyansk		UA		47.948	35.440	0

@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+C	CO	Colombia	mwl	s
+B	0
+P	Cartagena		CO		10.398	-75.493	0
+P	Turbaco		CO		10.329	-75.411	0
+P	Arjona		CO		10.254	-75.344	0
+P	San Pablo		CO		10.052	-75.268	0
+P	Luruaco		CO		10.617	-75.151	0
+P	Mahates		CO		10.233	-75.190	0
+P	Repelón	repelon	CO		10.495	-75.124	0
+P	Juan de Acosta		CO		10.829	-75.033	0
+P	Santa Rosa		CO		10.445	-75.370	0
+P	San Estanislao		CO		10.398	-75.151	0

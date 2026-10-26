@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kinshasa	60	
+C	AO	Angola	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+B	0
+P	Kikwit		CD		-5.041	18.816	0
+P	Malanje		AO		-9.540	16.341	0
+P	Uíge	uige	AO		-7.609	15.061	0
+P	Inkisi		CD		-5.131	15.054	0
+P	Negage		AO		-7.759	15.272	0
+P	Cafunfo		AO		-8.767	17.996	0
+P	Bailundo		AO		-9.575	15.994	0
+P	Dondo		AO		-9.050	15.317	0
+P	Nzagi		AO		-8.385	15.301	0
+P	Cuango-Luzamba	cuango luzamba	AO		-9.146	18.045	0
+P	Cangandala		AO		-9.783	16.433	0
+P	Maquela do Zombo		AO		-6.057	15.110	0
+P	Cacuso		AO		-9.421	15.747	0
+P	Cazombo		AO		-8.732	15.371	0
+P	Cuilo		AO		-8.236	19.526	0
+P	Lubalo		AO		-9.154	19.281	0
+P	Sanza Pombo		AO		-7.315	16.002	0
+P	Camabatela		AO		-8.188	15.375	0
+P	Kasongo-Lunda	kasongo lunda	CD		-6.478	16.817	0
+P	Lucala		AO		-9.273	15.252	0
+P	Cambundi		AO		-7.469	17.038	0
+P	Kunda dya Baze		AO		-8.908	17.053	0

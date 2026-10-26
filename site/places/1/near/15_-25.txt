@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Atlantic/Cape_Verde	-60	
+C	CV	Cabo Verde	egyptian	s
+B	0
+P	Mindelo		CV		16.890	-24.980	0
+P	Espargos		CV		16.755	-22.945	0
+P	Assomada		CV		15.100	-23.683	0

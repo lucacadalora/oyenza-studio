@@ -1,0 +1,115 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yerevan	240	
+Z	1	Europe/Moscow	180	
+C	AM	Armenia	mwl	s
+C	GE	Georgia	mwl	s
+C	RU	Russia	mwl	s
+C	TR	Turkey	turkey	s
+B	2
+P	Yerevan		AM		40.178	44.513	0
+P	Tbilisi		GE		41.691	44.834	0
+P	Vladikavkaz		RU		43.041	44.670	1
+P	Nalchik		RU		43.498	43.619	1
+P	Armavir		RU		44.998	41.115	1
+P	Batumi		GE		41.641	41.631	0
+P	Nazran		RU		43.226	44.773	1
+P	Malatia-Sebastia	malatia sebastia	AM		40.174	44.446	0
+P	Pyatigorsk		RU		44.050	43.050	1
+P	Maykop		RU		44.608	40.102	1
+P	Shengavit		AM		40.156	44.478	0
+P	Nor Nork		AM		40.197	44.567	0
+P	Kutaisi		GE		42.268	42.695	0
+P	Nevinnomyssk		RU		44.633	41.944	1
+P	Kislovodsk		RU		43.913	42.721	1
+P	Erebuni		AM		40.133	44.530	0
+P	Rustavi		GE		41.563	44.979	0
+P	Ajapnyak		AM		40.199	44.471	0
+P	Cherkessk		RU		44.224	42.046	1
+P	Rize		TR		41.021	40.522	1
+P	Arabkir		AM		40.206	44.504	0
+P	Gyumri		AM		40.793	43.846	0
+P	Kars		TR		40.598	43.085	1
+P	Yessentuki		RU		44.048	42.856	1
+P	Vanadzor		AM		40.807	44.497	0
+P	Mineralnye Vody		RU		44.210	43.135	1
+P	Kanaker-Zeytun	kanaker zeytun	AM		40.220	44.538	0
+P	Georgiyevsk		RU		44.149	43.470	1
+P	Ardeşen	ardesen	TR		41.191	40.979	1
+P	Budyonnovsk		RU		44.784	44.166	1
+P	Sokhumi		GE		43.007	40.989	1
+P	Labinsk		RU		44.636	40.736	1
+P	Prokhladnyy		RU		43.757	44.030	1
+P	Avan		AM		40.214	44.578	0
+P	Davtashen		AM		40.216	44.481	0
+P	Abovyan		AM		40.272	44.633	0
+P	Hrazdan		AM		40.517	44.756	0
+P	Bayburt		TR		40.256	40.223	1
+P	Vagharshapat		AM		40.166	44.295	0
+P	Kurganinsk		RU		44.884	40.589	1
+P	Staryy Malgobek		RU		43.544	44.596	1
+P	Malgobek		RU		43.511	44.591	1
+P	Gori		GE		41.985	44.113	0
+P	Zelenokumsk		RU		44.410	43.880	1
+P	Poti		GE		42.143	41.674	0
+P	Mozdok		RU		43.740	44.652	1
+P	Zugdidi		GE		42.508	41.868	0
+P	Baksan		RU		43.684	43.535	1
+P	Beslan		RU		43.193	44.533	1
+P	Goryachevodskiy		RU		44.024	43.092	1
+P	Karabulak		RU		43.305	44.899	1
+P	Ust’-Dzheguta	ust dzheguta	RU		44.083	41.976	1
+P	Nartkala		RU		43.554	43.855	1
+P	Ts’khinvali	tskhinvali	GE		42.228	43.969	0
+P	Of		TR		40.941	40.259	1
+P	Araklı	arakli	TR		40.939	40.058	1
+P	Armavir		AM		40.156	44.039	0
+P	Inozemtsevo		RU		44.093	43.091	1
+P	Kochubeyevskoye		RU		44.644	41.845	1
+P	Aleksandrovskoye		RU		44.714	43.001	1
+P	Neftekumsk		RU		44.756	44.992	1
+P	Stantsiya Novyy Afon		GE		43.081	40.838	0
+P	Marneuli		GE		41.488	44.798	0
+P	Artvin		TR		41.182	41.822	1
+P	Ekazhevo		RU		43.212	44.823	1
+P	Mostovskoy		RU		44.411	40.793	1
+P	Kağızman	kagizman	TR		40.157	43.134	1
+P	Zheleznovodsk		RU		44.143	43.005	1
+P	Çayeli	cayeli	TR		41.086	40.722	1
+P	Novopavlovsk		RU		43.959	43.632	1
+P	Khashuri		GE		41.997	43.599	0
+P	Troitskaya		RU		43.307	44.984	1
+P	Sarıkamış	sarikamis	TR		40.328	42.587	1
+P	Oltu		TR		40.539	41.987	1
+P	Lermontov		RU		44.107	42.978	1
+P	Masis		AM		40.066	44.437	0
+P	Otradnaya		RU		44.393	41.519	1
+P	Ardahan		TR		41.109	42.702	1
+P	Charentsavan		AM		40.403	44.644	0
+P	Terek		RU		43.483	44.138	1
+P	Zelenchukskaya		RU		43.855	41.590	1
+P	Dugulubgey		RU		43.663	43.537	1
+P	Samtredia		GE		42.154	42.335	0
+P	Karachayevsk		RU		43.772	41.914	1
+P	Zestaponi		GE		42.108	43.033	0
+P	Tyrnyauz		RU		43.383	42.918	1
+P	Sürmene	surmene	TR		40.906	40.128	1
+P	Yessentukskaya		RU		44.026	42.875	1
+P	Alagir		RU		43.043	44.220	1
+P	Sevan		AM		40.548	44.953	0
+P	Nezlobnaya		RU		44.118	43.403	1
+P	Ardon		RU		43.179	44.295	1
+P	Artik		AM		40.619	43.972	0
+P	Chegem		RU		43.567	43.585	1
+P	Svobody		RU		44.026	43.050	1
+P	Ashtarak		AM		40.298	44.362	0
+P	Kobuleti		GE		41.833	41.778	0
+P	Hopa		TR		41.390	41.420	1
+P	Akhaltsikhe		GE		41.640	42.986	0
+P	Kantyshevo		RU		43.228	44.633	1
+P	Suvorovskaya		RU		44.190	42.660	1
+P	Horasan		TR		40.039	42.164	1
+P	Arhavi		TR		41.351	41.305	1
+P	Surkhakhi		RU		43.188	44.902	1
+P	Dilijan		AM		40.740	44.863	0
+P	Giaginskaya		RU		44.862	40.072	1
+P	Uchkeken		RU		43.945	42.517	1

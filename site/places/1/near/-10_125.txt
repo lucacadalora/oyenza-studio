@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dili	540	
+C	TL	Timor Leste	mwl	s
+B	0
+P	Dili		TL		-8.559	125.574	0
+P	Maliana		TL		-8.992	125.220	0
+P	Suai		TL		-9.313	125.256	0
+P	Likisá	likisa	TL		-8.588	125.342	0
+P	Aileu		TL		-8.728	125.566	0
+P	Lospalos		TL		-8.522	126.998	0
+P	Atsabe		TL		-8.925	125.398	0
+P	Maubara		TL		-8.612	125.206	0
+P	Baukau		TL		-8.476	126.456	0
+P	Venilale		TL		-8.643	126.378	0

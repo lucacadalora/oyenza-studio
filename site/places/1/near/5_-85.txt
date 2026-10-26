@@ -1,0 +1,43 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Costa_Rica	-360	
+Z	1	America/Panama	-300	
+C	CR	Costa Rica	mwl	s
+C	PA	Panama	mwl	s
+B	0
+P	San José	san jose	CR		9.934	-84.085	0
+P	David		PA		8.427	-82.431	1
+P	Limón	limon	CR		9.991	-83.036	0
+P	San Francisco		CR		9.994	-84.127	0
+P	Santiago de Veraguas		PA		8.100	-80.983	1
+P	Paraíso	paraiso	CR		9.838	-83.867	0
+P	Puntarenas		CR		9.977	-84.838	0
+P	San Isidro		CR		9.367	-83.697	0
+P	Curridabat		CR		9.914	-84.036	0
+P	San Vicente		CR		9.962	-84.049	0
+P	Purral		CR		9.957	-84.032	0
+P	Turrialba		CR		9.904	-83.684	0
+P	San Miguel		CR		9.871	-84.061	0
+P	San Pedro		CR		9.928	-84.051	0
+P	San Rafael Abajo		CR		9.831	-84.290	0
+P	Ipís	ipis	CR		9.965	-84.018	0
+P	Cartago		CR		9.864	-83.919	0
+P	Chacarita		CR		9.984	-84.779	0
+P	San Juan		CR		9.962	-84.079	0
+P	Guadalupe		CR		9.948	-84.057	0
+P	Aserrí	aserri	CR		9.861	-84.093	0
+P	San Rafael		CR		9.928	-84.135	0
+P	San Felipe		CR		9.904	-84.106	0
+P	Patarrá	patarra	CR		9.881	-84.036	0
+P	Tejar		CR		9.743	-84.232	0
+P	Heredia		CR		9.999	-84.116	0
+P	San Pablo		CR		9.996	-84.097	0
+P	Calle Blancos		CR		9.945	-84.067	0
+P	Changuinola		PA		9.430	-82.520	1
+P	La Concepción	la concepcion	PA		8.517	-82.624	1
+P	Pedregal		PA		8.377	-82.429	1
+P	San Diego		CR		9.900	-84.002	0
+P	Penonomé	penonome	PA		8.519	-80.357	1
+P	Colima		CR		9.955	-84.082	0
+P	Esparza		CR		9.992	-84.666	0
+P	San Juan de Dios		CR		9.878	-84.084	0
+P	San Rafael Arriba		CR		9.876	-84.075	0

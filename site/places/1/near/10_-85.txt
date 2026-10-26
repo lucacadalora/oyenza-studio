@@ -1,0 +1,18 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+Z	1	America/Managua	-360	
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	NI	Nicaragua	mwl	s
+B	0
+P	San Andrés	san andres	CO		12.579	-81.700	0
+P	Nueva Guinea		NI		11.688	-84.456	1
+P	Alajuela		CR		10.017	-84.213	1
+P	Bluefields		NI		12.013	-83.764	1
+P	Puerto Cabezas		NI		14.035	-83.389	1
+P	Quesada		CR		10.327	-84.432	1
+P	Mercedes Norte		CR		10.006	-84.130	1
+P	Rama		NI		12.160	-84.220	1
+P	Guápiles	guapiles	CR		10.217	-83.785	1
+P	Siquirres		CR		10.097	-83.507	1
+P	Siuna		NI		13.733	-84.777	1

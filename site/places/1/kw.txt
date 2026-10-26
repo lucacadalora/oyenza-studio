@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Africa/Lagos	60	
+Z	2	Asia/Hong_Kong	480	
+Z	3	Asia/Pyongyang	540	
+Z	4	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AU	Australia	mwl	s
+C	HK	Hong Kong	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	NG	Nigeria	egyptian	s
+C	PL	Poland	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	0
+P	Tseung Kwan O		HK		22.328	114.250	2
+P	Kwai Chung		HK		22.368	114.139	2
+P	KwaDukuza		ZA		-29.328	31.290	0
+P	Kwekwe		ZW		-18.928	29.815	0
+P	Kwail-ŭp	kwail up	KP		38.446	125.019	3
+P	Kwangyang		KR		34.975	127.589	3
+P	Kwaggafontein		ZA		-25.327	28.942	0
+P	Kwidzyn		PL		53.725	18.931	4
+P	Kwinana		AU	Western Australia	-32.230	115.781	2
+P	Kwale		NG		5.708	6.434	1
+P	Kwun Tong		HK		22.312	114.222	2
+P	To Kwa Wan		HK		22.317	114.191	2

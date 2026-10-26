@@ -1,0 +1,767 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Luanda	60	
+Z	4	Africa/Tripoli	120	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Edmonton	-420	29549340=-360
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/La_Paz	-240	
+Z	10	America/Lima	-300	
+Z	11	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	12	America/Merida	-360	
+Z	13	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	14	America/Phoenix	-420	
+Z	15	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	16	America/Sao_Paulo	-180	
+Z	17	Asia/Aden	180	
+Z	18	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	19	Asia/Dhaka	360	
+Z	20	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	21	Asia/Kabul	270	
+Z	22	Asia/Kathmandu	345	
+Z	23	Asia/Kolkata	330	
+Z	24	Asia/Phnom_Penh	420	
+Z	25	Asia/Taipei	480	
+Z	26	Asia/Tashkent	300	
+Z	27	Asia/Tehran	210	
+Z	28	Asia/Tokyo	540	
+Z	29	Asia/Yangon	390	
+Z	30	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	31	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	32	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	33	Europe/Tallinn	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	34	Indian/Reunion	240	
+Z	35	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	36	Pacific/Guadalcanal	660	
+Z	37	Pacific/Guam	600	
+Z	38	Pacific/Honolulu	-600	
+Z	39	Pacific/Tarawa	720	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AW	Aruba	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DJ	Djibouti	egyptian	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GU	Guam	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KI	Kiribati	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LB	Lebanon	egyptian	s
+C	LT	Lithuania	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MO	Macao	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NP	Nepal	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SB	Solomon Islands	mwl	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SN	Senegal	egyptian	s
+C	SR	Suriname	mwl	s
+C	SY	Syria	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	YE	Yemen	ummalqura	s
+B	13
+P	Taipei		TW		25.053	121.526	25
+P	Taiyuan		CN		37.869	112.560	25
+P	New Taipei City		TW		25.062	121.457	25
+P	Tangshan		CN		39.644	118.183	25
+P	Taichung		TW		24.147	120.684	25
+P	Tashkent		UZ		41.265	69.216	26
+P	Tainan		TW		22.991	120.213	25
+P	Tai’an	taian	CN		36.185	117.120	25
+P	Taizhou		CN		32.491	119.908	25
+P	Taizhou		CN		28.663	121.433	25
+P	Tabriz		IR		38.080	46.292	27
+P	Taguig		PH		14.524	121.079	25
+P	Tangier		MA		35.767	-5.800	2
+P	Taiz		YE		13.580	44.021	17
+P	Nay Pyi Taw		MM		19.745	96.130	29
+P	Takeo		KH		10.991	104.785	24
+P	Taicang		CN		31.448	121.094	25
+P	Ta’if	taif	SA		21.270	40.416	17
+P	Tabuk		SA		28.400	36.572	17
+P	Tanta		EG		30.788	31.002	1
+P	Tanggu		CN		39.021	117.647	25
+P	Talatona		AO		-8.918	13.186	3
+P	Taoyuan		TW		24.994	121.297	25
+P	Vũng Tàu	vung tau	VN		10.346	107.084	24
+P	Tamale		GH		9.401	-0.839	0
+P	Ţarţūs	tartus	SY		34.889	35.887	17
+P	Tando Bago		PK		24.789	68.965	26
+P	Wong Tai Sin		HK		22.350	114.183	25
+P	Taman Petaling		MY		3.199	101.650	25
+P	Tando Allahyar		PK		25.460	68.717	26
+P	Takamatsu		JP		34.333	134.050	28
+P	Tampa		US	Florida	27.948	-82.458	13
+P	Tarlac City		PH		15.480	120.598	25
+P	Tallinn		EE		59.437	24.754	33
+P	Tanga		TZ		-5.069	39.099	17
+P	Takoradi		GH		4.898	-1.760	0
+P	Tanzhou		CN		22.255	113.467	25
+P	Nizhny Tagil		RU		57.919	59.965	26
+P	Takasaki		JP		36.333	139.017	28
+P	Tawau		MY		4.245	117.891	25
+P	Taraz		KZ		42.898	71.373	26
+P	Takatsuki		JP		34.848	135.617	28
+P	Tapachula		MX		14.905	-92.259	12
+P	Tarsus		TR		36.918	34.893	17
+P	Taubaté	taubate	BR		-23.026	-45.555	16
+P	Tantou		CN		22.751	113.835	25
+P	Tampico		MX		22.285	-97.878	12
+P	Tabora		TZ		-5.016	32.827	17
+P	Tambov		RU		52.736	41.441	17
+P	Tacna		PE		-18.015	-70.254	10
+P	Taganrog		RU		47.236	38.905	17
+P	Tanghe		CN		32.685	112.832	25
+P	Tai Po		HK		22.450	114.169	25
+P	Taboão da Serra	taboao da serra	BR		-23.626	-46.792	16
+P	Tampines Estate		SG		1.358	103.940	25
+P	Tampere		FI		61.499	23.787	33
+P	Tampines New Town		SG		1.349	103.950	25
+P	Tacloban		PH		11.243	125.005	25
+P	Taytay		PH		14.559	121.133	25
+P	Sơn Tây	son tay	VN		21.141	105.507	24
+P	Takarazuka		JP		34.799	135.357	28
+P	Tacoma		US	Washington	47.253	-122.444	11
+P	Taiping		MY		4.850	100.733	25
+P	Tân An	tan an	VN		10.536	106.414	24
+P	Târgu Mureş	targu mures	RO		46.542	24.557	33
+P	Taito		JP		35.707	139.779	28
+P	Tallahassee		US	Florida	30.438	-84.281	13
+P	Talhar		PK		24.885	68.814	26
+P	Taranto		IT		40.464	17.247	32
+P	Talca		CL		-35.423	-71.650	15
+P	Taguatinga		BR		-15.833	-48.055	16
+P	Tachikawa		JP		35.709	139.419	28
+P	Tangail		BD		24.250	89.917	19
+P	Tân Châu	tan chau	VN		10.798	105.239	24
+P	Tambaram		IN		12.925	80.127	23
+P	Tando Adam		PK		25.768	68.662	26
+P	Takaoka		JP		36.750	137.017	28
+P	Tây Hồ	tay ho	VN		21.069	105.811	24
+P	Tam Kỳ	tam ky	VN		15.574	108.474	24
+P	Taza		MA		34.210	-4.010	2
+P	Tacheng		CN		46.745	82.958	19
+P	Tauranga		NZ		-37.686	176.167	35
+P	Taunggyi		MM		20.789	97.038	29
+P	Tahoua		NE		14.889	5.269	3
+P	Tarija		BO		-21.535	-64.730	9
+P	Talcahuano		CL		-36.725	-73.117	15
+P	Bandar Tasik Puteri		MY		3.285	101.474	25
+P	Tambacounda		SN		13.771	-13.667	0
+P	Tama		JP		35.644	139.468	28
+P	Taozhou		CN		30.906	119.409	25
+P	Taishan		CN		22.251	112.780	25
+P	Tarragona		ES		41.119	1.245	32
+P	Sekondi-Takoradi	sekondi takoradi	GH		4.927	-1.758	0
+P	Táriba	tariba	VE		7.821	-72.223	9
+P	Tasek Glugor		MY		5.480	100.498	25
+P	Tây Ninh	tay ninh	VN		11.310	106.098	24
+P	Ţahţā	tahta	EG		26.769	31.502	1
+P	Talisay		PH		10.245	123.849	25
+P	Tarime		TZ		-1.350	34.367	17
+P	Mingala Tangnyunt		MM		16.789	96.172	29
+P	Tatuí	tatui	BR		-23.356	-47.857	16
+P	Debre Tabor		ET		11.850	38.017	17
+P	Targówek	targowek	PL		52.292	21.048	32
+P	Tabuk		PH		17.474	121.468	25
+P	Tabuk		PH		17.408	121.278	25
+P	Nabatîyé et Tahta	nabatiye et tahta	LB		33.379	35.484	18
+P	Almirante Tamandaré	almirante tamandare	BR		-25.325	-49.310	16
+P	Tarnów	tarnow	PL		50.014	20.987	32
+P	Raposo Tavares		BR		-23.592	-46.786	16
+P	Tacurong		PH		6.692	124.676	25
+P	Taldykorgan		KZ		45.016	78.374	26
+P	Taganskiy		RU		55.733	37.667	17
+P	Tandil		AR		-37.329	-59.137	16
+P	Taunsa		PK		30.704	70.651	26
+P	Tayabas		PH		14.026	121.593	25
+P	Tando Muhammad Khan		PK		25.124	68.537	26
+P	Taourirt		MA		34.407	-2.897	2
+P	Ţalkhā	talkha	EG		31.054	31.378	1
+P	Taonan		CN		45.333	122.785	25
+P	Tadepalligudem		IN		16.815	81.527	23
+P	Tangará da Serra	tangara da serra	BR		-14.619	-57.486	9
+P	Taipa		MO		22.156	113.557	25
+P	Talisay		PH		10.738	122.967	25
+P	Taibai		CN		30.825	108.358	25
+P	Tadpatri		IN		14.908	78.010	23
+P	Tajimi		JP		35.317	137.133	28
+P	Taungoo		MM		18.943	96.434	29
+P	Tanza		PH		14.675	120.939	25
+P	Taling Chan		TH		13.777	100.457	24
+P	Taitung		TW		22.760	121.145	25
+P	Tājūrā’	tajura	LY		32.882	13.351	4
+P	Taman Melawati		MY		3.211	101.748	25
+P	Talara		PE		-4.577	-81.272	10
+P	Tatuapé	tatuape	BR		-23.537	-46.567	16
+P	Tangwu		CN		36.447	118.860	25
+P	Tanfang		CN		36.700	118.671	25
+P	Tartu		EE		58.381	26.725	33
+P	Tân Bình	tan binh	VN		10.803	106.660	24
+P	Talavera de la Reina		ES		39.963	-4.831	32
+P	Takayama		JP		36.133	137.250	28
+P	Tāndā	tanda	IN		26.550	82.658	23
+P	Taikkyi		MM		17.314	95.963	29
+P	Al-Tabqa	al tabqa	SY		35.838	38.548	17
+P	Tagaytay		PH		14.095	120.934	25
+P	Takasago		JP		34.763	134.792	28
+P	Taroudant		MA		30.470	-8.877	2
+P	Serra Talhada		BR		-7.992	-38.298	16
+P	Tagbilaran City		PH		9.656	123.852	25
+P	Tajrīsh	tajrish	IR		35.804	51.426	27
+P	Tārūt	tarut	SA		26.573	50.040	17
+P	Tanjay		PH		9.516	123.158	25
+P	Tanashichō	tanashicho	JP		35.729	139.538	28
+P	Tamworth		GB	England	52.634	-1.696	31
+P	Le Tampon		RE		-21.277	55.518	34
+P	Tamanghasset		DZ		22.785	5.523	3
+P	Tangping		CN		22.032	111.935	25
+P	San Tan Valley		US	Arizona	33.191	-111.528	14
+P	Tatebayashi		JP		36.250	139.533	28
+P	Tallaght		IE		53.286	-6.373	31
+P	Tan-Tan	tan tan	MA		28.438	-11.103	2
+P	Taixing		CN		32.167	120.014	25
+P	Tangjiazhuang		CN		39.743	118.451	25
+P	Talagang		PK		32.928	72.416	26
+P	Tanuku		IN		16.754	81.681	23
+P	Takefu		JP		35.904	136.167	28
+P	Tatsuno		JP		34.832	134.543	28
+P	Târgu Jiu	targu jiu	RO		45.050	23.283	33
+P	Tatvan		TR		38.492	42.283	17
+P	Taman Senai		MY		1.601	103.642	25
+P	Ţāmiyah	tamiyah	EG		29.476	30.961	1
+P	Talā	tala	EG		30.680	30.944	1
+P	Tailândia	tailandia	BR		-2.947	-48.953	16
+P	Taliparamba		IN		12.042	75.359	23
+P	Tabatinga		BR		-4.231	-69.939	9
+P	Tando Jam		PK		25.428	68.529	26
+P	Tākestān	takestan	IR		36.071	49.696	27
+P	Tanabe		JP		33.733	135.367	28
+P	Taungdwingyi		MM		20.006	95.545	29
+P	Tacarigua		VE		10.086	-67.920	9
+P	Tantou		CN		26.030	119.597	25
+P	Taj Pul		IN		28.495	77.306	23
+P	Tanauan		PH		14.086	121.150	25
+P	Panipat Taraf Makhdum Zadgan		IN		29.416	76.988	23
+P	Tangzhai		CN		34.433	116.591	25
+P	Tamano		JP		34.517	133.946	28
+P	Târgovişte	targoviste	RO		44.925	25.457	33
+P	Tataouine		TN		32.930	10.452	3
+P	Tarn Taran		IN		31.452	74.928	23
+P	Tailai		CN		46.390	123.408	25
+P	Taihe		CN		30.099	106.049	25
+P	San Antonio del Táchira	san antonio del tachira	VE		7.811	-72.444	9
+P	Tangxiang		CN		29.702	105.724	25
+P	Tanjong Malim		MY		3.681	101.520	25
+P	Tanabe		JP		34.822	135.766	28
+P	Tatabánya	tatabanya	HU		47.592	18.381	32
+P	Tandur		IN		17.248	77.577	23
+P	Tamarac		US	Florida	26.213	-80.250	13
+P	Taunton		GB	England	51.015	-3.103	31
+P	Talavera		PH		15.588	120.919	25
+P	Taman Senawang Indah		MY		2.691	101.989	25
+P	Tamana		JP		32.947	130.574	28
+P	T’aet’an-ŭp	taetan up	KP		38.088	125.298	28
+P	Taloqan		AF		36.736	69.535	21
+P	Tādepalle	tadepalle	IN		16.483	80.600	23
+P	Põhja-Tallinn	pohja tallinn	EE		59.449	24.698	33
+P	Tagajō-shi	tagajo shi	JP		38.300	141.000	28
+P	Ras Tanura		SA		26.707	50.067	17
+P	Tanba		JP		35.160	135.039	28
+P	Taoluo		CN		35.274	119.370	25
+P	Yamato-Takada	yamato takada	JP		34.517	135.750	28
+P	Taylor		US	Michigan	42.241	-83.270	13
+P	Tamba		JP		35.175	135.031	28
+P	Tauá	taua	BR		-6.003	-40.293	16
+P	Tarnowskie Góry	tarnowskie gory	PL		50.445	18.861	32
+P	Tahe		CN		52.321	124.698	25
+P	Tartagal		AR		-22.517	-63.806	16
+P	Tacuarembó	tacuarembo	UY		-31.719	-55.979	16
+P	Taylorsville		US	Utah	40.668	-111.939	6
+P	Takaishi		JP		34.517	135.433	28
+P	District of Taher		DZ		36.772	5.898	3
+P	Taitou		CN		37.027	118.634	25
+P	Tahara		JP		34.668	137.267	28
+P	Taozhuang		CN		34.850	117.333	25
+P	Tanay		PH		14.497	121.285	25
+P	Tashan		CN		34.336	117.567	25
+P	Talnakh		RU		69.487	88.397	24
+P	Taifu		CN		28.982	105.637	25
+P	Täby	taby	SE		59.444	18.069	32
+P	Tabaco		PH		13.359	123.734	25
+P	Talagante		CL		-33.664	-70.927	15
+P	Taunton		US	Massachusetts	41.900	-71.090	13
+P	Talegaon Dābhāde	talegaon dabhade	IN		18.735	73.676	23
+P	Tarneit		AU	Victoria	-37.836	144.660	30
+P	Takizawa		JP		39.803	141.135	28
+P	At Tall		SY		33.610	36.311	17
+P	Tamiami		US	Florida	25.759	-80.398	13
+P	Tallang-dong	tallang dong	KR		33.490	126.475	28
+P	Tāndoni	tandoni	IN		10.926	78.094	23
+P	Taquara		BR		-29.651	-50.781	16
+P	Tangzhang		CN		34.148	117.254	25
+P	Tân Uyên	tan uyen	VN		11.084	106.788	24
+P	Taoyuan		CN		33.853	117.770	25
+P	Tarhuna		LY		32.435	13.633	4
+P	Taquaritinga		BR		-21.406	-48.505	16
+P	Ban Talat Yai		TH		7.885	98.400	24
+P	Tavşanlı	tavsanli	TR		39.542	29.499	17
+P	Tarbes		FR		43.234	0.071	32
+P	Ta Khmau		KH		11.483	104.950	24
+P	Kasba Tadla		MA		32.598	-6.268	2
+P	Tagawa		JP		33.633	130.800	28
+P	Tachilek		MM		20.448	99.881	29
+P	Takāb	takab	IR		36.401	47.113	27
+P	Tarma		PE		-11.419	-75.690	10
+P	Sidi Taibi		MA		34.187	-6.682	2
+P	Tadmur		SY		34.562	38.284	17
+P	Ţarīf Kalbā	tarif kalba	AE		25.070	56.331	34
+P	Tarnobrzeg		PL		50.573	21.679	32
+P	Tafo		GH		6.732	-1.614	0
+P	Taxco de Alarcón	taxco de alarcon	MX		18.555	-99.606	12
+P	Tateyama		JP		34.983	139.867	28
+P	Taman Melati		MY		3.221	101.723	25
+P	Tabas		IR		33.596	56.924	27
+P	Tarkwa		GH		5.304	-1.990	0
+P	Takashimadaira		JP		35.786	139.661	28
+P	T’aebaek	taebaek	KR		37.176	128.989	28
+P	Takahama		JP		34.917	136.983	28
+P	Talinding		GM		13.426	-16.673	0
+P	Tamlūk	tamluk	IN		22.301	87.926	23
+P	Tafí Viejo	tafi viejo	AR		-26.733	-65.261	16
+P	Takua Pa		TH		8.870	98.344	24
+P	Tānālūr	tanalur	IN		10.952	75.910	23
+P	Takeo		JP		33.190	130.021	28
+P	Takashima		JP		35.413	136.016	28
+P	At Tall al Kabīr	at tall al kabir	EG		30.543	31.785	1
+P	Tây Mỗ	tay mo	VN		21.002	105.746	24
+P	At Tāj	at taj	LY		24.205	23.286	4
+P	Tangba		CN		30.017	105.797	25
+P	Takikawa		JP		43.553	141.906	28
+P	Taman Permas Jaya		MY		1.511	103.820	25
+P	Tānda	tanda	IN		28.976	78.942	23
+P	San Vicente de Tagua Tagua		CL		-34.439	-71.078	15
+P	Eṭ Ṭaiyiba	et taiyiba	IL		32.266	35.009	20
+P	Tamworth		AU	New South Wales	-31.090	150.929	30
+P	Tamu		MM		24.217	94.312	29
+P	Taketoyo		JP		34.850	136.917	28
+P	Tarauacá	tarauaca	BR		-8.161	-70.766	10
+P	Panipat Taraf Ansar		IN		29.412	76.955	23
+P	Taifa		GH		5.658	-0.252	0
+P	Talence		FR		44.808	-0.589	32
+P	Kai Tak		HK		22.324	114.197	25
+P	Naini Tāl	naini tal	IN		29.397	79.447	23
+P	Talghar		KZ		43.302	77.238	26
+P	Tadjenanet		DZ		36.121	5.987	3
+P	Taman Greenwood		MY		3.232	101.705	25
+P	Tatkon		MM		24.679	95.074	29
+P	Tazoult-Lambese	tazoult lambese	DZ		35.482	6.261	3
+P	Tagbina		PH		8.452	126.171	25
+P	Taounate		MA		34.537	-4.640	2
+P	Tālcher	talcher	IN		20.949	85.234	23
+P	Tarawa		KI		1.328	172.977	39
+P	Talas		KG		42.523	72.242	19
+P	Tāki	taki	IN		22.589	88.933	23
+P	Tatsunochō-tominaga	tatsunocho tominaga	JP		34.864	134.552	28
+P	Taman Sri Sinar		MY		3.187	101.651	25
+P	Taal		PH		13.880	120.923	25
+P	Tamba-Sasayama	tamba sasayama	JP		35.073	135.218	28
+P	Tavda		RU		58.042	65.272	26
+P	Talipapa		PH		14.686	121.027	25
+P	Talata Mafara		NG		12.568	6.062	3
+P	Tambopata		PE		-12.672	-69.355	10
+P	Aţ Ţārif	at tarif	EG		25.738	32.637	1
+P	Taibao		TW		23.459	120.332	25
+P	Tallbīsah	tallbisah	SY		34.841	36.731	17
+P	Tank		PK		32.217	70.383	26
+P	Tandlianwala		PK		31.034	73.133	26
+P	Tāsgaon	tasgaon	IN		17.037	74.602	23
+P	Tarikere		IN		13.710	75.814	23
+P	Tayshet		RU		55.933	97.990	25
+P	Hofheim am Taunus		DE		50.090	8.449	32
+P	Taymā’	tayma	SA		27.622	38.539	17
+P	Talattala		IN		8.874	76.672	23
+P	Tāybād	taybad	IR		34.740	60.776	27
+P	Taman Tun Dr Ismail		MY		3.145	101.626	25
+P	Tange		CN		34.628	104.841	25
+P	Talas		TR		38.691	35.554	17
+P	Tamamura		JP		36.300	139.117	28
+P	Tábor	tabor	CZ		49.414	14.658	32
+P	Tanda		CI		7.803	-3.168	0
+P	Talakkād	talakkad	IN		10.885	75.931	23
+P	Tagudin		PH		16.936	120.444	25
+P	Tangi		PK		34.301	71.652	26
+P	Tala		MX		20.653	-103.701	12
+P	Tai Koo		HK		22.284	114.216	25
+P	Taastrup		DK		55.650	12.302	32
+P	Tamura		JP		37.431	140.603	28
+P	Tangkak		MY		2.267	102.545	25
+P	Taikoo Shing		HK		22.286	114.219	25
+P	Targovishte		BG		43.251	26.572	33
+P	Tādif	tadif	SY		36.348	37.531	17
+P	Taoyuan		CN		26.228	100.560	25
+P	Tage'erqi	tageerqi	CN		38.545	77.257	19
+P	Tabount		MA		30.903	-6.916	2
+P	Beni Tamou		DZ		36.538	2.822	3
+P	Tai Kok Tsui		HK		22.321	114.163	25
+P	Nowy Targ		PL		49.478	20.032	32
+P	Tangyan		MM		22.494	98.393	29
+P	Aïn Taya	ain taya	DZ		36.793	3.287	3
+P	Taiobeiras		BR		-15.808	-42.233	16
+P	Mira Taglio		IT		45.435	12.129	32
+P	Tanguá	tangua	BR		-22.730	-42.714	16
+P	Tangjin		KR		36.894	126.630	28
+P	Tārānagar	taranagar	IN		28.669	75.032	23
+P	Tamalous		DZ		36.838	6.640	3
+P	Aki-takata	aki takata	JP		34.674	132.682	28
+P	Tawaramoto		JP		34.554	135.793	28
+P	Taman Pelangi		MY		2.428	102.680	25
+P	Tatau		MY		2.883	112.850	25
+P	Tanchang Chengguanzhen		CN		34.045	104.395	25
+P	Taolin		CN		35.800	119.534	25
+P	Tālīkota	talikota	IN		16.473	76.311	23
+P	São José da Tapera	sao jose da tapera	BR		-9.558	-37.381	16
+P	Takahashi		JP		34.783	133.617	28
+P	Makiki / Lower Punchbowl / Tantalus	makiki lower punchbowl tantalus	US	Hawaii	21.318	-157.831	38
+P	Tandaltī	tandalti	SD		13.017	31.867	4
+P	Ţafas	tafas	SY		32.737	36.067	17
+P	Taman Seremban Jaya		MY		2.683	101.970	25
+P	Khairpur Tamewah		PK		29.581	72.238	26
+P	Aïn Taoujdat	ain taoujdat	MA		33.936	-5.213	2
+P	Ḥawṭah Banī Tamīm	hawtah bani tamim	SA		23.496	46.878	17
+P	Tamesna		MA		33.818	-6.917	2
+P	Tabuleiro do Norte		BR		-5.247	-38.131	16
+P	Tantoyuca		MX		21.351	-98.226	12
+P	Takehara		JP		34.338	132.917	28
+P	Tarakeswar		IN		22.886	88.014	23
+P	Tagoloan		PH		8.540	124.754	25
+P	New Tafo		GH		6.719	-1.612	0
+P	Tahla		MA		34.050	-4.422	2
+P	Tāramangalam	taramangalam	IN		11.694	77.970	23
+P	Taunusstein		DE		50.150	8.152	32
+P	Tambo Grande		PE		-4.927	-80.345	10
+P	Taiping		CN		24.661	97.853	25
+P	Taman Universiti		MY		1.533	103.615	25
+P	Taman Scientex		MY		1.512	103.917	25
+P	Talāja	talaja	IN		21.353	72.035	23
+P	Tallkalakh		SY		34.668	36.260	17
+P	Tangub		PH		8.062	123.748	25
+P	Lower Wong Tai Sin Estate (I & II)	lower wong tai sin estate i ii	HK		22.339	114.194	25
+P	Tabou		CI		4.423	-7.353	0
+P	Talakkolattur		IN		11.354	75.758	23
+P	Tarsadi		IN		21.470	72.952	23
+P	Tambunan		MY		5.717	116.400	25
+P	Ţayyibat al Imām	tayyibat al imam	SY		35.266	36.712	17
+P	Kampong Masjid Tanah		MY		2.350	102.117	25
+P	Tanah Merah		MY		5.800	102.150	25
+P	Tame		CO		6.461	-71.736	10
+P	Tandag		PH		9.078	126.199	25
+P	Panipat Taraf Rajputan		IN		29.361	76.943	23
+P	Tanuma		JP		36.367	139.583	28
+P	Târnăveni	tarnaveni	RO		46.332	24.297	33
+P	Tainai		JP		38.065	139.406	28
+P	Tampin		MY		2.470	102.230	25
+P	Talamba		PK		30.527	72.241	26
+P	Tapah Road		MY		4.167	101.200	25
+P	Presidente Tancredo Neves		BR		-13.453	-39.421	16
+P	Takahagi		JP		36.717	140.717	28
+P	Tabira		BR		-7.591	-37.539	16
+P	Aparecida do Taboado		BR		-20.087	-51.094	9
+P	Tanout		NE		14.971	8.888	3
+P	Santo Antônio do Tauá	santo antonio do taua	BR		-1.152	-48.129	16
+P	Tam O'Shanter-Sullivan	tam oshanter sullivan	CA	Ontario	43.780	-79.295	13
+P	Tarui		JP		35.367	136.533	28
+P	Tamansourt		MA		31.755	-8.110	2
+P	Taverny		FR		49.025	2.217	32
+P	Tanguiéta	tanguieta	BJ		10.621	1.267	3
+P	Taupo		NZ		-38.683	176.083	35
+P	Tara		RU		56.896	74.369	19
+P	Tawakule		CN		37.759	80.217	19
+P	Takada		JP		35.300	136.567	28
+P	Taungup		MM		18.856	94.241	29
+P	Taloda		IN		21.561	74.212	23
+P	Dar el Haj Taïeb	dar el haj taieb	TN		34.784	10.744	3
+P	Ban Talat Bueng		TH		13.071	101.003	24
+P	Taman OUG		MY		3.073	101.676	25
+P	Tamra		IL		32.853	35.199	20
+P	Shahrak-e Ţāleqānī	shahrak e taleqani	IR		30.835	50.199	27
+P	Tatarka		UA		50.469	30.486	33
+P	Tacámbaro de Codallos	tacambaro de codallos	MX		19.236	-101.458	12
+P	Tall Rif‘at	tall rifat	SY		36.472	37.095	17
+P	Talikkulam		IN		10.440	76.095	23
+P	Aţ Ţafīlah	at tafilah	JO		30.838	35.604	17
+P	Tanabi		BR		-20.626	-49.649	16
+P	Taquari		BR		-29.800	-51.864	16
+P	Tatarsk		RU		55.221	75.982	24
+P	Santa Cruz de los Taques		VE		11.823	-70.256	9
+P	Taman Desa		MY		3.106	101.687	25
+P	Talisay		PH		14.092	121.022	25
+P	Tarāna	tarana	IN		23.334	76.043	23
+P	Takum		NG		7.267	9.983	3
+P	Tamboril		BR		-4.832	-40.321	16
+P	Talwāra	talwara	IN		31.938	75.887	23
+P	Taquaritinga do Norte		BR		-7.903	-36.044	16
+P	Tattānkuttai	tattankuttai	IN		11.435	77.724	23
+P	Tarpon Springs		US	Florida	28.146	-82.757	13
+P	Tandai		SB		-9.447	159.945	36
+P	Taluker Char Doani		BD		22.140	89.941	19
+P	Tamazunchale		MX		21.260	-98.789	12
+P	Tapejara		BR		-28.068	-52.014	16
+P	Taiping		CN		30.262	107.293	25
+P	Taquarituba		BR		-23.533	-49.244	16
+P	Tayga		RU		56.065	85.622	24
+P	Tarch’a Sodo	tarcha sodo	ET		7.151	37.172	17
+P	Tai’an	taian	CN		30.066	105.809	25
+P	Tak		TH		16.870	99.129	24
+P	Takelsa		TN		36.783	10.633	3
+P	Setakamachi-takayanagi	setakamachi takayanagi	JP		33.149	130.465	28
+P	Tacaratu		BR		-9.105	-38.149	16
+P	Dok Kham Tai		TH		19.162	99.993	24
+P	Tānsen	tansen	NP		27.867	83.546	22
+P	Tadotsu		JP		34.275	133.750	28
+P	Tash-Kumyr	tash kumyr	KG		41.346	72.217	19
+P	Tacoronte		ES		28.477	-16.410	31
+P	Tamandaré	tamandare	BR		-8.756	-35.100	16
+P	Tabay		VE		8.632	-71.078	9
+P	Tallkayf		IQ		36.491	43.121	17
+P	Bangolo Tahouake		CI		7.041	-7.168	0
+P	Ban Talat Nua		TH		7.885	98.386	24
+P	Takahata		JP		38.002	140.191	28
+P	Tamboril		DO		19.485	-70.611	9
+P	Tam Giang		VN		8.800	105.183	24
+P	Tapa		IN		30.298	75.369	23
+P	Tatsuno-kita	tatsuno kita	JP		34.597	135.693	28
+P	Tata		HU		47.653	18.318	32
+P	Taesal-li	taesal li	KR		36.971	126.454	28
+P	Bad Soden am Taunus		DE		50.141	8.504	32
+P	Kampung Tanjung Minyak		MY		2.267	102.200	25
+P	Bungo-Takada-shi	bungo takada shi	JP		33.557	131.445	28
+P	Rodolfo Sánchez Taboada	rodolfo sanchez taboada	MX		31.723	-116.572	11
+P	Bukit Tambun		MY		5.272	100.460	25
+P	Tashtagol		RU		52.768	87.888	24
+P	Imi-n-Tanout	imi n tanout	MA		31.172	-8.847	2
+P	Takabō	takabo	JP		34.128	134.534	28
+P	Takanawa		JP		35.632	139.734	28
+P	Takinomiya		JP		34.246	133.923	28
+P	Kone Ta La Paung		MM		17.008	96.150	29
+P	Tāoru	taoru	IN		28.212	76.950	23
+P	Kafr Takhārīm	kafr takharim	SY		36.117	36.515	17
+P	Tanjung Sepat		MY		2.658	101.563	25
+P	Tabligbo		TG		6.583	1.500	0
+P	Tafiré	tafire	CI		9.069	-5.164	0
+P	Fo Tan		HK		22.398	114.193	25
+P	Taveta		KE		-3.399	37.683	17
+P	Taphan Hin		TH		16.221	100.420	24
+P	maalot Tarshīhā	maalot tarshiha	IL		33.017	35.267	20
+P	Tanglin		SG		1.317	103.817	25
+P	Tāzah Khūrmātū	tazah khurmatu	IQ		35.302	44.326	17
+P	Tauramena		CO		5.018	-72.747	10
+P	South Lake Tahoe		US	California	38.933	-119.984	11
+P	Taylors		US	South Carolina	34.920	-82.296	13
+P	Takaba		KE		3.355	40.223	17
+P	Tammampatti		IN		11.441	78.489	23
+P	Tanki Leendert		AW		12.539	-70.020	9
+P	Tambaú	tambau	BR		-21.705	-47.274	16
+P	Aţ Ţaraf	at taraf	SA		25.362	49.728	17
+P	Taurage		LT		55.252	22.290	33
+P	Tanushimarumachi-toyoki	tanushimarumachi toyoki	JP		33.350	130.683	28
+P	Talala		IN		21.055	70.529	23
+P	Tabursuq		TN		36.457	9.248	3
+P	Tanhaçu	tanhacu	BR		-14.021	-41.248	16
+P	Taïbet	taibet	DZ		33.085	6.389	3
+P	Tadmaït	tadmait	DZ		36.744	3.900	3
+P	Tambuwal		NG		12.406	4.646	3
+P	Tai Wo Hau		HK		22.367	114.123	25
+P	Tchin Tabaradèn	tchin tabaraden	NE		15.897	5.798	3
+P	Talwandi Sābo	talwandi sabo	IN		29.984	75.082	23
+P	Takanosu		JP		40.223	140.366	28
+P	Tapauá	tapaua	BR		-5.628	-63.183	9
+P	Târgu Neamţ	targu neamt	RO		47.200	26.367	33
+P	Taloc		PH		10.575	122.895	25
+P	Tartar		AZ		40.342	46.932	34
+P	Takedamachi		JP		32.967	131.400	28
+P	Tata		MA		29.744	-7.973	2
+P	Ma Tau Wai		HK		22.321	114.187	25
+P	Takanabe		JP		32.133	131.500	28
+P	Târgu Secuiesc	targu secuiesc	RO		46.000	26.133	33
+P	Tandahimba		TZ		-10.750	39.633	17
+P	Takhatpur		IN		22.129	81.870	23
+P	Tai Wai		HK		22.373	114.179	25
+P	Tabarka		TN		36.954	8.758	3
+P	Talitay		PH		7.033	124.700	25
+P	Tamuning-Tumon-Harmon Village	tamuning tumon harmon village	GU		13.488	144.781	37
+P	Tai’an	taian	CN		30.796	108.659	25
+P	Tadjoura		DJ		11.788	42.882	17
+P	Taquarana		BR		-9.645	-36.497	16
+P	Kampung Teluk Air Tawar		MY		5.483	100.383	25
+P	Tamenglong		IN		25.016	93.485	23
+P	Tajerouine		TN		35.892	8.553	3
+P	Taung Thu Kone		MM		16.898	96.110	29
+P	Taşova	tasova	TR		40.760	36.322	17
+P	Tarumizu		JP		31.483	130.700	28
+P	Talitsa		RU		56.880	60.021	26
+P	Tatsuno		JP		35.984	137.997	28
+P	São João da Talha	sao joao da talha	PT		38.824	-9.097	31
+P	Tal’menka	talmenka	RU		53.821	83.571	24
+P	Tādikombu	tadikombu	IN		10.439	77.955	23
+P	Nakhl-e Taqī	nakhl e taqi	IR		27.498	52.587	27
+P	Tamazula de Gordiano		MX		19.680	-103.251	12
+P	Gioia Tauro		IT		38.425	15.898	32
+P	Takenotsuka		JP		35.794	139.796	28
+P	Tak Long Estate		HK		22.330	114.203	25
+P	Talitsa		RU		57.011	63.733	26
+P	Tarko-Sale	tarko sale	RU		64.916	77.775	26
+P	Taftan		PK		28.947	61.587	26
+P	Taft		IR		31.744	54.203	27
+P	Ban Tak		TH		17.043	99.081	24
+P	Taió	taio	BR		-27.116	-49.998	16
+P	Talod		IN		23.351	72.950	23
+P	Taku		JP		33.277	130.109	28
+P	Sagua de Tánamo	sagua de tanamo	CU		20.583	-75.241	8
+P	Rikuzen-Takata	rikuzen takata	JP		39.020	141.654	28
+P	Tavernes de la Valldigna		ES		39.072	-0.266	32
+P	Tarifa		ES		36.014	-5.607	32
+P	Tamallalt		MA		31.819	-7.514	2
+P	Taperoá	taperoa	BR		-13.538	-39.099	16
+P	Tarakea		TZ		-3.001	37.564	17
+P	Taiping		CN		29.904	106.039	25
+P	Tarabya		TR		41.134	29.046	17
+P	Tacony		US	Pennsylvania	40.031	-75.044	13
+P	Taufkirchen		DE		48.049	11.617	32
+P	Takoma Park		US	Maryland	38.978	-77.007	13
+P	Tai Shui Hang		HK		22.406	114.224	25
+P	Taradale		CA	Alberta	51.118	-113.937	7
+P	Tapolca		HU		46.882	17.441	32
+P	São Miguel do Tapuio	sao miguel do tapuio	BR		-5.504	-41.323	16
+P	Kronberg Tal		DE		50.179	8.504	32
+P	Tai Mei Tuk		HK		22.474	114.235	25
+P	Tājpur	tajpur	IN		29.162	78.485	23
+P	Tallmadge		US	Ohio	41.101	-81.442	13
+P	Taşköprü	taskopru	TR		41.510	34.214	17
+P	Tādigadapa	tadigadapa	IN		16.471	80.697	23
+P	Tanji		GM		13.349	-16.791	0
+P	Talwandi Bhai		IN		30.856	74.930	23
+P	Takhatgarh		IN		25.322	73.005	23
+P	Tak Bai		TH		6.259	102.055	24
+P	Tangla		IN		26.657	91.914	23
+P	Tanque Novo		BR		-13.546	-42.491	16
+P	Monsenhor Tabosa		BR		-4.789	-40.063	16
+P	Taleigao		IN		15.469	73.833	23
+P	Tangfang		CN		31.393	109.309	25
+P	Takanini		NZ		-37.039	174.928	35
+P	Takatsukadai		JP		34.583	135.726	28
+P	Taxkowrük	taxkowruk	CN		43.893	81.306	19
+P	Tadó	tado	CO		5.266	-76.565	10
+P	Wang Tau Hom		HK		22.340	114.187	25
+P	Tassin-la-Demi-Lune	tassin la demi lune	FR		45.755	4.788	32
+P	Tanakpur		IN		29.074	80.111	23
+P	Tanque Verde		US	Arizona	32.252	-110.737	14
+P	Taylor		US	Texas	30.571	-97.409	5
+P	Tahlequah		US	Oklahoma	35.915	-94.970	5
+P	Tanauan		PH		11.109	125.016	25
+P	Tadaoka-higashi	tadaoka higashi	JP		34.487	135.399	28
+P	Tàrrega	tarrega	ES		41.647	1.140	32
+P	Tafresh		IR		34.693	50.016	27
+P	Tasbuget		KZ		44.770	65.555	26
+P	Kampung Tanjung Karang		MY		3.424	101.185	25
+P	Taree		AU	New South Wales	-31.911	152.454	30
+P	Tamuín	tamuin	MX		22.006	-98.780	12
+P	Tarqui		CO		2.112	-75.824	10
+P	Ângk Tasaôm	angk tasaom	KH		11.013	104.673	24
+P	Tapejara		BR		-23.733	-52.873	16
+P	Tadley		GB	England	51.350	-1.129	31
+P	Tammenga		SR		5.829	-55.202	16
+P	Tapiramutá	tapiramuta	BR		-11.847	-40.791	16
+P	Talladega		US	Alabama	33.436	-86.106	5
+P	Taylor-Massey	taylor massey	CA	Ontario	43.695	-79.296	13
+P	Königstein im Taunus	konigstein im taunus	DE		50.179	8.471	32
+P	Tarancón	tarancon	ES		40.009	-3.007	32
+P	Talacogon		PH		8.456	125.784	25
+P	Ben Taieb		MA		35.044	-3.454	2
+P	Tachiarai		JP		33.400	130.617	28
+P	Oulad Tayeb		MA		33.946	-4.995	2
+P	Taranagar		IN		23.969	91.371	23
+P	Tung Tau Estate		HK		22.332	114.193	25
+P	Tavares		US	Florida	28.804	-81.726	13
+P	Taylors Hill		AU	Victoria	-37.710	144.755	30
+P	Taka-Töölö	taka toolo	FI		60.184	24.919	33
+P	Tagas		PH		13.167	123.717	25
+P	Tapurah		BR		-12.737	-56.514	9
+P	Tanjia		CN		31.456	108.499	25
+P	Taşucu	tasucu	TR		36.321	33.882	17
+P	Taylors Lakes		AU	Victoria	-37.699	144.786	30
+P	Tavira		PT		37.127	-7.649	31
+P	Tangancícuaro de Arista	tangancicuaro de arista	MX		19.887	-102.207	12
+P	Tamaru		JP		34.483	136.633	28

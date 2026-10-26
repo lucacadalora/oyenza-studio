@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+Z	1	Africa/Khartoum	120	
+C	ET	Ethiopia	egyptian	s
+C	SD	Sudan	egyptian	s
+B	0
+P	El Obeid		SD		13.184	30.217	1
+P	Kosti		SD		13.163	32.663	1
+P	Wad Medani		SD		14.401	33.520	1
+P	Singa		SD		13.148	33.931	1
+P	Ad-Damazin	ad damazin	SD		11.789	34.359	1
+P	Rabak		SD		13.181	32.740	1
+P	Sennar		SD		13.569	33.567	1
+P	Al Manāqil	al manaqil	SD		14.246	32.989	1
+P	Ad Douiem		SD		14.001	32.312	1
+P	Āsosa	asosa	ET		10.067	34.533	0
+P	Er Roseires		SD		11.866	34.387	1
+P	Umm Ruwaba		SD		12.906	31.216	1
+P	Al Hasaheisa		SD		14.753	33.298	1
+P	Abu Jibeha		SD		11.456	31.229	1
+P	Ar Rahad		SD		12.717	30.650	1
+P	As Sūkī	as suki	SD		13.317	33.883	1
+P	Tandaltī	tandalti	SD		13.017	31.867	1
+P	Al-Fāw	al faw	SD		14.108	34.092	1
+P	Al Ḩawātah	al hawatah	SD		13.417	34.633	1
+P	Maiurno		SD		13.417	33.667	1
+P	Rufā‘a	rufaa	SD		14.760	33.368	1
+P	Al-Quṭaynah	al qutaynah	SD		14.728	32.269	1
+P	Kināna	kinana	SD		14.036	33.171	1
+P	Ad-Dindar	ad dindar	SD		13.334	34.093	1
+P	Al Jazeera Aba		SD		13.319	32.613	1
+P	Umm Shawkah		SD		13.317	33.767	1
+P	Al Qiţena	al qitena	SD		14.865	32.367	1
+P	Al Hilāliyya	al hilaliyya	SD		14.940	33.234	1
+P	Bārah	barah	SD		13.700	30.367	1
+P	Ad Dindar		SD		13.200	34.167	1

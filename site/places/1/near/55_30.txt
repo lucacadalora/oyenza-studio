@@ -1,0 +1,61 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	BY	Belarus	mwl	s
+C	RU	Russia	mwl	s
+B	1
+P	Saint Petersburg		RU		59.939	30.314	0
+P	Kalininskiy		RU		59.997	30.390	0
+P	Vitebsk		BY		55.190	30.205	0
+P	Krasnogvargeisky		RU		59.973	30.476	0
+P	Velikiy Novgorod		RU		58.521	31.271	0
+P	Centralniy		RU		59.931	30.361	0
+P	Vasyl'evsky Ostrov	vasylevsky ostrov	RU		59.941	30.254	0
+P	Admiralteisky		RU		59.923	30.300	0
+P	Kolpino		RU		59.751	30.589	0
+P	Petrogradka		RU		59.966	30.312	0
+P	Velikiye Luki		RU		56.341	30.544	0
+P	Pushkin		RU		59.714	30.396	0
+P	Gatchina		RU		59.576	30.128	0
+P	Dachnoye		RU		59.842	30.256	0
+P	Finlyandskiy		RU		59.968	30.364	0
+P	Rzhev		RU		56.263	34.329	0
+P	Tikhvin		RU		59.639	33.526	0
+P	Borovichi		RU		58.394	33.919	0
+P	Chernaya Rechka		RU		59.986	30.303	0
+P	Kirishi		RU		59.474	32.040	0
+P	Vyaz’ma	vyazma	RU		55.210	34.297	0
+P	Rybatskoye		RU		59.839	30.499	0
+P	Uritsk		RU		59.839	30.175	0
+P	Kupchino		RU		59.859	30.388	0
+P	Vyshniy Volochëk	vyshniy volochek	RU		57.589	34.569	0
+P	Yartsevo		RU		55.065	32.697	0
+P	Torzhok		RU		57.044	34.962	0
+P	Sosnovaya Polyana		RU		59.835	30.147	0
+P	Safonovo		RU		55.111	33.237	0
+P	Volkhov		RU		59.923	32.340	0
+P	Obukhovo		RU		59.844	30.451	0
+P	Avtovo		RU		59.872	30.266	0
+P	Krasnoye Selo		RU		59.738	30.089	0
+P	Tosno		RU		59.540	30.878	0
+P	Sampsonievskiy		RU		59.985	30.343	0
+P	Staraya Derevnya		RU		59.988	30.243	0
+P	Staraya Russa		RU		57.996	31.360	0
+P	Kudrovo		RU		59.903	30.511	0
+P	Gagarin		RU		55.553	34.997	0
+P	Metallostroy		RU		59.801	30.548	0
+P	Nelidovo		RU		56.228	32.775	0
+P	Bologoye		RU		57.886	34.053	0
+P	Kirovsk		RU		59.880	30.995	0
+P	Gorelovo		RU		59.772	30.135	0
+P	Pikalëvo	pikalevo	RU		59.518	34.166	0
+P	Otradnoye		RU		59.778	30.818	0
+P	Novaya Derevnya		RU		59.987	30.287	0
+P	Krestovskiy ostrov		RU		59.971	30.258	0
+P	Ostashkov		RU		57.147	33.107	0
+P	Nikol’skoye	nikolskoye	RU		59.701	30.785	0
+P	Valday		RU		57.977	33.252	0
+P	Chudovo		RU		59.122	31.681	0
+P	Boksitogorsk		RU		59.478	33.850	0
+P	Kommunar		RU		59.621	30.390	0
+P	Pavlovsk		RU		59.683	30.435	0
+P	Shushary		RU		59.809	30.382	0

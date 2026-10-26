@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Catamarca	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	Trelew		AR		-43.249	-65.305	0
+P	Puerto Madryn		AR		-42.768	-65.038	0
+P	Rawson		AR		-43.300	-65.106	0

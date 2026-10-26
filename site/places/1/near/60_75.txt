@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tomsk	420	
+Z	1	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	0
+P	Nizhnevartovsk		RU		60.934	76.553	1
+P	Noyabrsk		RU		63.193	75.437	1
+P	Megion		RU		61.034	76.107	1
+P	Raduzhny		RU		62.096	77.475	1
+P	Strezhevoy		RU		60.733	77.589	0
+P	Langepas		RU		61.254	75.212	1
+P	Gubkinskiy		RU		64.434	76.503	1
+P	Tarko-Sale	tarko sale	RU		64.916	77.775	1
+P	Izluchinsk		RU		60.979	76.924	1
+P	Pokachi		RU		61.720	75.368	1

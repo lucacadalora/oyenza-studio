@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+Z	1	Asia/Shanghai	480	
+Z	2	Asia/Urumqi	360	
+C	CN	China	mwl	s
+C	KZ	Kazakhstan	mwl	h
+B	0
+P	Aqsu		CN		41.184	80.279	2
+P	Huocheng		CN		44.053	80.872	2
+P	Xinyuan		CN		43.426	83.250	2
+P	Ghulja		CN		43.915	81.322	2
+P	Bole		CN		44.893	82.070	1
+P	Ālā'ĕr	alaer	CN		40.542	81.266	2
+P	Xincheng		CN		41.715	82.932	2
+P	Wensu		CN		41.275	80.236	2
+P	Wusu		CN		44.431	84.676	2
+P	Qarasu		CN		44.203	80.416	2
+P	Xininglu		CN		44.340	84.904	2
+P	Yuqunweng		CN		43.874	81.621	2
+P	Jelilyüzi	jelilyuzi	CN		43.975	81.536	2
+P	Dadamtu		CN		43.980	81.314	2
+P	Zharkent		KZ		44.166	80.007	0
+P	Bayandai		CN		43.966	81.249	2
+P	Huyanghe		CN		44.698	84.834	2
+P	Onyar		CN		43.850	81.783	2
+P	Panjim		CN		44.008	81.425	2
+P	Yengitam		CN		43.746	81.657	2
+P	Kax		CN		43.641	81.870	2
+P	Chapchal		CN		43.836	81.148	2
+P	Arewusitang		CN		43.798	81.524	2
+P	Samuyuzi		CN		43.719	81.864	2
+P	Baytokay		CN		43.682	81.789	2
+P	Weiwu'eryuqiwen	weiwueryuqiwen	CN		43.756	81.861	2
+P	Hudiyuzi		CN		43.926	81.412	2
+P	Taxkowrük	taxkowruk	CN		43.893	81.306	2
+P	Awuliya		CN		43.930	81.693	2

@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Africa/Kampala	180	
+Z	2	Africa/Libreville	60	
+C	GA	Gabon	egyptian	s
+C	MW	Malawi	egyptian	s
+C	UG	Uganda	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Ntuzuma		ZA		-29.739	30.949	0
+P	Ntoum		GA		0.391	9.761	2
+P	Ntcheu		MW		-14.820	34.636	0
+P	Ntungamo		UG		-0.879	30.264	1
+P	Ntandabale		ZM		-15.390	28.422	0
+P	Ntungamo		UG		-0.883	29.650	1

@@ -1,0 +1,557 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Kinshasa	60	
+Z	3	Africa/Mogadishu	180	
+Z	4	Africa/Ouagadougou	0	
+Z	5	America/Boa_Vista	-240	
+Z	6	America/Bogota	-300	
+Z	7	America/Boise	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	8	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	9	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Mexico_City	-360	
+Z	12	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	America/Sao_Paulo	-180	
+Z	14	Asia/Dhaka	360	
+Z	15	Asia/Dushanbe	300	
+Z	16	Asia/Ho_Chi_Minh	420	
+Z	17	Asia/Kolkata	330	
+Z	18	Asia/Seoul	540	
+Z	19	Asia/Shanghai	480	
+Z	20	Asia/Tehran	210	
+Z	21	Asia/Vladivostok	600	
+Z	22	Asia/Yangon	390	
+Z	23	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	24	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	25	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	26	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	27	Indian/Mauritius	240	
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EH	Western Sahara	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	HT	Haiti	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	KE	Kenya	egyptian	s
+C	KH	Cambodia	mwl	s
+C	KR	South Korea	mwl	s
+C	LA	Laos	mwl	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MZ	Mozambique	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SL	Sierra Leone	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SS	South Sudan	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	2
+P	Bogotá	bogota	CO		4.610	-74.082	6
+P	Bozhou		CN		33.877	115.770	19
+P	Bobo-Dioulasso	bobo dioulasso	BF		11.181	-4.295	4
+P	Bouaké	bouake	CI		7.694	-5.030	4
+P	Boston		US	Massachusetts	42.358	-71.060	12
+P	Borivli		IN		19.235	72.860	17
+P	Borama		SO		9.936	43.183	3
+P	South Boston		US	Massachusetts	42.333	-71.049	12
+P	Bokāro	bokaro	IN		23.669	86.152	17
+P	Boksburg		ZA		-26.212	28.260	1
+P	Boa Vista		BR		2.820	-60.673	5
+P	Ciudad Bolívar	ciudad bolivar	VE		8.124	-63.547	5
+P	Bologna		IT		44.494	11.339	26
+P	Bochum		DE		51.482	7.216	26
+P	Bonn		DE		50.734	7.095	26
+P	Botshabelo		ZA		-29.267	26.726	1
+P	Boma		CD		-5.851	13.054	2
+P	Bordeaux		FR		44.841	-0.580	26
+P	Borūjerd	borujerd	IR		33.897	48.752	20
+P	Boise		US	Idaho	43.614	-116.203	7
+P	Bole		CN		44.893	82.070	19
+P	Bo		SL		7.965	-11.738	4
+P	Croix-des-Bouquets	croix des bouquets	HT		18.577	-72.226	12
+P	Bogra		BD		24.851	89.371	14
+P	Bobruysk		BY		53.147	29.205	3
+P	Quận Bốn	quan bon	VN		10.767	106.706	16
+P	Bojnūrd	bojnurd	IR		37.475	57.329	20
+P	Boyeros		CU		23.007	-82.402	9
+P	Bolu		TR		40.736	31.606	3
+P	Borshchahivka		UA		50.432	30.390	24
+P	Dar Bouazza		MA		33.515	-7.817	0
+P	Bocoio		AO		-12.470	14.137	2
+P	Bournemouth		GB	England	50.720	-1.879	25
+P	Bordj Bou Arreridj		DZ		36.074	4.761	2
+P	Boshan		CN		36.483	117.833	19
+P	Borough Park		US	New York	40.634	-73.997	12
+P	Botucatu		BR		-22.886	-48.445	13
+P	Bohuniya		UA		50.277	28.610	24
+P	Orekhovo-Borisovo	orekhovo borisovo	RU		55.613	37.726	3
+P	Bondoukou		CI		8.040	-2.800	4
+P	Bolton		GB	England	53.583	-2.433	25
+P	Botad		IN		22.169	71.667	17
+P	Bosque Saúde	bosque saude	BR		-23.609	-46.623	13
+P	Jose Bonifacio		BR		-23.567	-46.433	13
+P	Orekhovo-Borisovo Severnoye	orekhovo borisovo severnoye	RU		55.617	37.683	3
+P	Mykilska Borshchahivka		UA		50.426	30.374	24
+P	Bordj el Kiffan		DZ		36.749	3.192	2
+P	Bồ Đề	bo de	VN		21.056	105.867	16
+P	Bonon		CI		6.927	-6.049	4
+P	Bottrop		DE		51.524	6.928	26
+P	Bouskoura		MA		33.450	-7.652	0
+P	Bou Saâda	bou saada	DZ		35.209	4.174	2
+P	Bokhtar		TJ		37.837	68.778	15
+P	Borāzjān	borazjan	IR		29.270	51.219	20
+P	Boulogne-Billancourt	boulogne billancourt	FR		48.835	2.241	26
+P	Bolzano		IT		46.491	11.340	26
+P	Boulder		US	Colorado	40.015	-105.271	7
+P	Bang Bon		TH		13.662	100.396	16
+P	San Francisco De Borja		PE		-12.089	-76.999	6
+P	Bouaflé	bouafle	CI		6.990	-5.744	4
+P	Bogorodskoye		RU		55.814	37.721	3
+P	Bocaue		PH		14.798	120.926	19
+P	Boli		CN		45.753	130.585	19
+P	Boryeong		KR		36.349	126.598	18
+P	Bohicon		BJ		7.178	2.067	2
+P	Boca Raton		US	Florida	26.359	-80.083	12
+P	Boyle Heights		US	California	34.034	-118.205	10
+P	São João da Boa Vista	sao joao da boa vista	BR		-21.969	-46.798	13
+P	Bohodukhivskyi		UA		47.967	37.863	24
+P	Bougouni		ML		11.418	-7.483	4
+P	Botoşani	botosani	RO		47.750	26.667	24
+P	Londonderry County Borough		GB	Northern Ireland	54.997	-7.309	25
+P	Hamma Bouziane		DZ		36.412	6.596	2
+P	Sant Boi de Llobregat		ES		41.344	2.037	26
+P	Bolgatanga		GH		10.786	-0.851	4
+P	Aulnay-sous-Bois	aulnay sous bois	FR		48.938	2.494	26
+P	Bonāb	bonab	IR		37.340	46.056	20
+P	Bolenge		CD		0.000	18.217	2
+P	Jardim Botânico	jardim botanico	BR		-15.865	-47.815	13
+P	Bodhan		IN		18.662	77.886	17
+P	Bogenhausen		DE		48.152	11.616	26
+P	Quatre Bornes		MU		-20.264	57.479	27
+P	Bodināyakkanūr	bodinayakkanur	IN		10.012	77.350	17
+P	Telêmaco Borba	telemaco borba	BR		-24.324	-50.616	13
+P	Senhor do Bonfim		BR		-10.461	-40.189	13
+P	Bolingbrook		US	Illinois	41.699	-88.068	8
+P	Bosaso		SO		11.284	49.182	3
+P	Boynton Beach		US	Florida	26.525	-80.066	12
+P	Bocholt		DE		51.839	6.615	26
+P	Bonao		DO		18.942	-70.411	5
+P	Bothaville		ZA		-27.389	26.617	1
+P	Borås	boras	SE		57.721	12.940	26
+P	Bouar		CF		5.934	15.596	2
+P	Borongan		PH		11.608	125.432	19
+P	Bolpur		IN		23.663	87.697	17
+P	Bongabon		PH		15.632	121.145	19
+P	Boconó	bocono	VE		9.254	-70.251	5
+P	Bogale		MM		16.294	95.397	22
+P	Borisoglebsk		RU		51.369	42.098	3
+P	Sosnovyy Bor		RU		59.900	29.086	3
+P	Bouïra	bouira	DZ		36.375	3.902	2
+P	Bossier City		US	Louisiana	32.516	-93.732	8
+P	Bourges		FR		47.083	2.400	26
+P	Bongaigaon		IN		26.477	90.558	17
+P	Oum el Bouaghi		DZ		35.875	7.114	2
+P	Bom Jesus da Lapa		BR		-13.255	-43.418	13
+P	Bodītī	boditi	ET		6.967	37.867	3
+P	Boryspil		UA		50.351	30.953	24
+P	Bognor Regis		GB	England	50.782	-0.680	25
+P	Boké	boke	GN		10.932	-14.291	4
+P	Bongor		TD		10.281	15.374	2
+P	Bowling Green		US	Kentucky	36.990	-86.444	8
+P	Borsad		IN		22.408	72.898	17
+P	Botou		CN		38.074	116.567	19
+P	Campo Bom		BR		-29.679	-51.053	13
+P	Boituva		BR		-23.283	-47.672	13
+P	Bor		RU		56.359	44.073	3
+P	São Borja	sao borja	BR		-28.661	-56.004	13
+P	Ksar el Boukhari		DZ		35.889	2.749	2
+P	Rio Bonito		BR		-22.709	-42.610	13
+P	Menzel Bourguiba		TN		37.154	9.786	2
+P	Bowie		US	Maryland	38.943	-76.730	12
+P	Bootle		GB	England	53.467	-3.017	25
+P	Trảng Bom	trang bom	VN		10.954	107.006	16
+P	Boufarik		DZ		36.574	2.912	2
+P	Borūjen	borujen	IR		31.965	51.287	20
+P	Bobbili		IN		18.574	83.359	17
+P	Borovichi		RU		58.394	33.919	3
+P	Boudouaou		DZ		36.727	3.410	2
+P	Bonga		ET		7.289	36.242	3
+P	Bolvadin		TR		38.711	31.049	3
+P	Bonan		CN		25.463	99.528	19
+P	Bozüyük	bozuyuk	TR		39.908	30.037	3
+P	Bossangoa		CF		6.493	17.455	2
+P	Boghni		DZ		36.542	3.953	2
+P	Assi Bou Nif		DZ		35.692	-0.499	2
+P	Bordj el Bahri		DZ		36.791	3.250	2
+P	Boadilla del Monte		ES		40.405	-3.878	26
+P	Ciudad Bolivia		VE		8.353	-70.571	5
+P	Fontenay-sous-Bois	fontenay sous bois	FR		48.854	2.483	26
+P	Boundiali		CI		9.522	-6.487	4
+P	Bom Despacho		BR		-19.736	-45.252	13
+P	Bonita Springs		US	Florida	26.340	-81.779	12
+P	Bol		TD		13.467	14.714	2
+P	Boende		CD		-0.282	20.881	2
+P	Pivdenna Borshchahivka		UA		50.411	30.404	24
+P	Boa Viagem		BR		-5.128	-39.732	13
+P	Bosse		UA		47.955	37.800	24
+P	Bonoua		CI		5.272	-3.596	4
+P	Bornheim		DE		50.763	6.991	26
+P	Bondy		FR		48.902	2.489	26
+P	Boedo		AR		-34.633	-58.417	13
+P	Bocaiúva	bocaiuva	BR		-17.108	-43.815	13
+P	Paris 07 Palais-Bourbon	paris 07 palais bourbon	FR		48.856	2.321	26
+P	El Carmen de Bolívar	el carmen de bolivar	CO		9.717	-75.120	6
+P	Sidi Bouzid		TN		35.038	9.485	2
+P	Bolobo		CD		-2.158	16.232	2
+P	Boulogne-sur-Mer	boulogne sur mer	FR		50.725	1.614	26
+P	Garoua Boulaï	garoua boulai	CM		5.883	14.550	2
+P	Capão Bonito	capao bonito	BR		-24.006	-48.349	13
+P	Boca Chica		DO		18.450	-69.600	5
+P	Böblingen	boblingen	DE		48.682	9.012	26
+P	Bom Conselho		BR		-9.170	-36.680	13
+P	Borgerhout		BE		51.210	4.435	26
+P	Bourg-en-Bresse	bourg en bresse	FR		46.206	5.226	26
+P	Boston		GB	England	52.976	-0.027	25
+P	Bobigny		FR		48.910	2.450	26
+P	Bordj Menaïel	bordj menaiel	DZ		36.743	3.717	2
+P	Boû Arfa	bou arfa	DZ		36.463	2.815	2
+P	Bountiful		US	Utah	40.889	-111.881	7
+P	Bodupāl	bodupal	IN		17.419	78.584	17
+P	Mladá Boleslav	mlada boleslav	CZ		50.411	14.903	26
+P	Bozeman		US	Montana	45.680	-111.039	7
+P	Bowangshan		CN		28.308	105.052	19
+P	East Boston		US	Massachusetts	42.375	-71.039	12
+P	Bothell		US	Washington	47.762	-122.205	10
+P	Boujdour		EH		26.131	-14.485	0
+P	Bourem		ML		16.955	-0.349	4
+P	Borlänge	borlange	SE		60.486	15.437	26
+P	Rosny-sous-Bois	rosny sous bois	FR		48.870	2.499	26
+P	Bou Ismaïl	bou ismail	DZ		36.643	2.690	2
+P	Loma Bonita		MX		18.108	-95.881	11
+P	Borken		DE		51.844	6.858	26
+P	Bolesławiec	boleslawiec	PL		51.264	15.570	26
+P	Bouznika		MA		33.789	-7.160	0
+P	Santa Maria da Boa Vista		BR		-8.808	-39.826	13
+P	Bosconia		CO		9.971	-73.888	6
+P	Boyampālaiyam	boyampalaiyam	IN		11.149	77.354	17
+P	Bol'šoj Kamen'	bolsoj kamen	RU		43.111	132.350	21
+P	Bougadoum		MR		15.867	-7.369	4
+P	Boumhel El Bassatine		TN		36.725	10.235	2
+P	Boa Esperança	boa esperanca	BR		-21.090	-45.566	13
+P	Boldumsaz		TM		42.128	59.671	15
+P	Bor		RS		44.075	22.096	26
+P	Bowmanville		CA	Ontario	43.917	-78.683	12
+P	Bodrum		TR		37.038	27.429	3
+P	Bom Jardim		BR		-7.796	-35.587	13
+P	Bonito		BR		-8.470	-35.729	13
+P	Boucherville		CA	Quebec	45.591	-73.436	12
+P	Bodh Gaya		IN		24.698	84.987	17
+P	Bougara		DZ		36.542	3.081	2
+P	Boca do Acre		BR		-8.752	-67.398	5
+P	Bosconia		CO		4.856	-73.982	6
+P	Bopal		IN		23.033	72.467	17
+P	Boma la Ngombe		TZ		-3.333	37.150	3
+P	Bom Jesus do Itabapoana		BR		-21.134	-41.680	13
+P	Boseong		KR		34.771	127.080	18
+P	Puerta Bonita		ES		40.380	-3.739	26
+P	Bogorodsk		RU		56.101	43.510	3
+P	Botataung		MM		16.772	96.173	22
+P	José Bonifácio	jose bonifacio	BR		-21.053	-49.688	13
+P	Bocaranga		CF		6.985	15.641	2
+P	Bongouanou		CI		6.652	-4.204	4
+P	Borehamwood		GB	England	51.655	-0.278	25
+P	Boisar		IN		19.804	72.756	17
+P	Bodocó	bodoco	BR		-7.778	-39.941	13
+P	Ambato Boeny		MG		-16.467	46.717	3
+P	Boardman		US	Ohio	41.024	-80.663	12
+P	Tha Bo		TH		17.850	102.581	16
+P	Bollate		IT		45.546	9.121	26
+P	Bonn Hardtberg		DE		50.704	7.054	26
+P	Borba		BR		-4.391	-59.589	5
+P	Bolārum	bolarum	IN		17.556	78.348	17
+P	Boyarka		UA		50.319	30.297	24
+P	Barra Bonita		BR		-22.495	-48.558	13
+P	Bordj Ghdir		DZ		35.901	4.898	2
+P	Bodø	bodo	NO		67.283	14.375	26
+P	Sainte-Geneviève-des-Bois	sainte genevieve des bois	FR		48.647	2.320	26
+P	Bom Retiro		BR		-23.525	-46.639	13
+P	Borgo San Paolo		IT		45.060	7.645	26
+P	Bom Jardim		BR		-3.543	-45.609	13
+P	Bogo		CM		10.734	14.609	2
+P	Boryslav		UA		49.290	23.429	24
+P	Bor		TR		37.891	34.559	3
+P	Bogdanovich		RU		56.777	62.051	15
+P	Bougaa		DZ		36.333	5.088	2
+P	Borj Cedria		TN		36.697	10.387	2
+P	San Carlos de Bolívar	san carlos de bolivar	AR		-36.231	-61.116	13
+P	Bouarfa		MA		32.534	-1.962	0
+P	Água Boa	agua boa	BR		-14.050	-52.159	5
+P	Bowling Green		US	Ohio	41.375	-83.651	12
+P	Borzya		RU		50.391	116.534	18
+P	Bonoufla		CI		7.129	-6.474	4
+P	Bouinan		DZ		36.532	2.992	2
+P	Bogoroditsk		RU		53.772	38.123	3
+P	Tulu Bolo		ET		8.667	38.217	3
+P	Bostanlı	bostanli	TR		38.459	27.097	3
+P	Tu Bông	tu bong	VN		12.767	109.300	16
+P	Bom Jardim		BR		-22.152	-42.419	13
+P	Bombo		UG		0.574	32.515	3
+P	Boxtel		NL		51.591	5.329	26
+P	Boon Lay		SG		1.311	103.694	19
+P	Bochnia		PL		49.969	20.430	26
+P	Clichy-sous-Bois	clichy sous bois	FR		48.910	2.553	26
+P	Boaco		NI		12.473	-85.660	11
+P	Boumerdas		DZ		36.766	3.477	2
+P	Bom Jesus		BR		-9.074	-44.359	13
+P	Boukadir		DZ		36.066	1.126	2
+P	Bom Jesus das Selvas		BR		-4.484	-46.853	13
+P	Bozyazı	bozyazi	TR		36.108	32.961	3
+P	Bang Bo District		TH		13.583	100.817	16
+P	Bogd		MN		44.670	102.175	19
+P	Bow		GB	England	51.526	-0.017	25
+P	Boyabat		TR		41.469	34.767	3
+P	Bouknadel		MA		34.118	-6.739	0
+P	Bou Hanifia el Hamamat		DZ		35.315	-0.050	2
+P	Boboniessoko		CI		6.966	-6.657	4
+P	Bouansa		CG		-4.219	13.762	2
+P	Boane		MZ		-26.042	32.330	1
+P	Puerto Boyacá	puerto boyaca	CO		5.976	-74.585	6
+P	Bourzanga		BF		13.678	-1.546	4
+P	Boutilimitt		MR		17.546	-14.698	4
+P	Borşa	borsa	RO		47.655	24.663	24
+P	Boysun		UZ		38.208	67.207	15
+P	Boscoreale		IT		40.773	14.481	26
+P	Feidh el Botma		DZ		34.500	3.767	2
+P	Bolton		CA	Ontario	43.880	-79.738	12
+P	Bor		SS		6.209	31.559	1
+P	Bongao		PH		5.029	119.773	19
+P	Boisbriand		CA	Quebec	45.617	-73.832	12
+P	Bou Tlelis		DZ		35.573	-0.900	2
+P	Bokoro		TD		12.378	17.059	2
+P	Hammam Bou Hadjar		DZ		35.379	-0.968	2
+P	Sofiivska Borschahivka		UA		50.409	30.359	24
+P	La Bonanova		ES		41.406	2.132	26
+P	São Sebastião da Boa Vista	sao sebastiao da boa vista	BR		-1.715	-49.532	13
+P	Watermael-Boitsfort	watermael boitsfort	BE		50.802	4.414	26
+P	Wendou Borou		GN		11.433	-13.883	4
+P	Bologoye		RU		57.886	34.053	3
+P	Bombinhas		BR		-27.152	-48.489	13
+P	Boussé	bousse	BF		12.661	-1.895	4
+P	Bojia		CN		26.467	111.968	19
+P	Petit-Bourg	petit bourg	GP		16.192	-61.591	5
+P	Borāwar	borawar	IN		27.024	74.676	17
+P	Boeng Kak Pir		KH		11.573	104.890	16
+P	Boquim		BR		-11.147	-37.621	13
+P	San Borja		BO		-14.852	-66.750	5
+P	Gaz-e Borkhar	gaz e borkhar	IR		32.805	51.621	20
+P	Bouna		CI		9.269	-2.995	4
+P	Bois-Colombes	bois colombes	FR		48.919	2.275	26
+P	Boca Del Mar		US	Florida	26.345	-80.147	12
+P	Le Bouscat		FR		44.865	-0.599	26
+P	Boulsa		BF		12.667	-0.575	4
+P	Boo		SE		59.333	18.283	26
+P	Ban Khlong Bang Bon		TH		13.636	100.377	16
+P	Bom Jesus de Goiás	bom jesus de goias	BR		-18.220	-49.730	13
+P	Boriziny		MG		-15.550	47.667	3
+P	Borne		NL		52.301	6.748	26
+P	Boshkengash		TJ		38.466	68.805	15
+P	Dalyoni Bolo		TJ		39.749	68.996	15
+P	Bonito		BR		-21.121	-56.482	5
+P	Bogotol		RU		56.204	89.533	16
+P	Boronia		AU	Victoria	-37.867	145.283	23
+P	Bogo		PH		11.052	124.005	19
+P	Bontoc		PH		17.087	120.977	19
+P	Cesano Boscone		IT		45.442	9.094	26
+P	Ciudad Bolívar	ciudad bolivar	CO		5.854	-76.025	6
+P	Starý Bohumín	stary bohumin	CZ		49.917	18.336	26
+P	Boumahra Ahmed		DZ		36.458	7.514	2
+P	Botolan		PH		15.290	120.025	19
+P	Bomfim		PT		41.154	-8.587	25
+P	Bondo		KE		-0.096	34.273	3
+P	Bang Bon Nuea		TH		13.653	100.359	16
+P	Boukoumbé	boukoumbe	BJ		10.177	1.106	2
+P	Grand Boulevard		US	Illinois	41.814	-87.617	8
+P	Borssele		NL		51.423	3.735	26
+P	Foggy Bottom		US	District of Columbia	38.901	-77.062	12
+P	Bom Jesus dos Perdões	bom jesus dos perdoes	BR		-23.135	-46.465	13
+P	Bostānābād	bostanabad	IR		37.846	46.835	20
+P	Bougado		PT		41.340	-8.552	25
+P	Boraure		VE		10.248	-68.770	5
+P	Boca da Mata		BR		-9.641	-36.220	13
+P	Bozova		TR		37.362	38.527	3
+P	Bogandé	bogande	BF		12.977	-0.147	4
+P	El Bolsón	el bolson	AR		-41.961	-71.533	13
+P	Bobonong		BW		-21.966	28.436	1
+P	Bordon		GB	England	51.114	-0.862	25
+P	Botevgrad		BG		42.908	23.793	24
+P	Bothfeld		DE		52.417	9.796	26
+P	Makueni Boma		KE		-1.804	37.624	3
+P	Bozoum		CF		6.319	16.380	2
+P	Bockum		DE		51.347	6.616	26
+P	Bobrov		RU		51.098	40.030	3
+P	Boudjima		DZ		36.802	4.152	2
+P	Borgomanero		IT		45.699	8.462	26
+P	Bohumín	bohumin	CZ		49.904	18.358	26
+P	Brandýs nad Labem-Stará Boleslav	brandys nad labem stara boleslav	CZ		50.187	14.663	26
+P	Boca Suno		EC		-0.698	-77.141	6
+P	Bogué	bogue	MR		16.592	-14.263	4
+P	Boromo		BF		11.745	-2.930	4
+P	Boussu		BE		50.434	3.794	26
+P	Bowthorpe		GB	England	52.639	1.219	25
+P	Bornem		BE		51.097	4.244	26
+P	Bni Bouayach		MA		35.105	-3.840	0
+P	Bonney Lake		US	Washington	47.177	-122.187	10
+P	Nueva Bolivia		VE		9.140	-71.091	5
+P	Bokajān	bokajan	IN		26.021	93.779	17
+P	Boriavi		IN		22.611	72.933	17
+P	Paris 02 Bourse		FR		48.865	2.343	26
+P	Bordj Zemoura		DZ		36.275	4.857	2
+P	Bourg-lès-Valence	bourg les valence	FR		44.947	4.895	26
+P	Borgaon		IN		20.723	78.604	17
+P	Les Pavillons-sous-Bois	les pavillons sous bois	FR		48.907	2.506	26
+P	Bo‘ka	boka	UZ		40.811	69.194	15
+P	Borodino		RU		55.908	94.912	16
+P	Bodegraven		NL		52.083	4.750	26
+P	Bönen	bonen	DE		51.600	7.767	26
+P	Boquira		BR		-12.823	-42.731	13
+P	Bouca		CF		6.507	18.277	2
+P	Boiro		ES		42.647	-8.885	26
+P	Bourg-la-Reine	bourg la reine	FR		48.779	2.318	26
+P	Borna		DE		51.124	12.496	26
+P	Pastos Bons		BR		-6.602	-44.077	13
+P	Bonneuil-sur-Marne	bonneuil sur marne	FR		48.770	2.479	26
+P	Bormujos		ES		37.374	-6.072	26
+P	Bourbonnais		US	Illinois	41.154	-87.888	8
+P	Mennzel Bou Zelfa		TN		36.683	10.584	2
+P	La Bordeta		ES		41.374	2.144	26
+P	Pirapora do Bom Jesus		BR		-23.397	-47.002	13
+P	Borikhan		LA		18.563	103.727	16
+P	Bonnyrigg		GB	Scotland	55.873	-3.105	25
+P	Boone		US	North Carolina	36.217	-81.675	12
+P	Boali		CF		4.800	18.127	2
+P	Boconoito		VE		8.847	-69.980	5
+P	Bom Jesus do Tocantins		BR		-5.051	-48.609	13
+P	Bondo		CD		3.815	23.687	1
+P	Bohodukhiv		UA		50.161	35.524	24
+P	Les Clayes-sous-Bois	les clayes sous bois	FR		48.822	1.987	26
+P	Bolotnoye		RU		55.673	84.395	16
+P	Boqueirão	boqueirao	BR		-7.482	-36.132	13
+P	Terra Boa		BR		-23.768	-52.444	13
+P	Boujniba		MA		32.900	-6.775	0
+P	Bodrī	bodri	IN		22.023	82.114	17
+P	Borda da Mata		BR		-22.274	-46.165	13
+P	Boksitogorsk		RU		59.478	33.850	3
+P	San Bonifacio		IT		45.396	11.274	26
+P	Bossembélé	bossembele	CF		5.267	17.650	2
+P	Bom Sucesso		BR		-21.033	-44.758	13
+P	Boumia		MA		32.724	-5.103	0
+P	Bodmin		GB	England	50.472	-4.724	25
+P	Boa Vista do Tupim		BR		-12.662	-40.607	13
+P	Bonny		NG		4.452	7.171	2
+P	Sabana Grande de Boyá	sabana grande de boya	DO		18.945	-69.793	5
+P	Boden		SE		65.825	21.689	26
+P	Bouguenais		FR		47.179	-1.625	26
+P	Bo Phloi		TH		14.325	99.515	16
+P	Bousso		TD		10.485	16.711	2
+P	Boguszów-Gorce	boguszow gorce	PL		50.755	16.205	26
+P	Bobingen		DE		48.271	10.834	26
+P	Bode Saadu		NG		8.939	4.782	2
+P	Bothell West		US	Washington	47.805	-122.241	10
+P	Bovisio-Masciago	bovisio masciago	IT		45.610	9.153	26
+P	Bobangui		CF		4.050	18.117	2
+P	Bogatynia		PL		50.907	14.956	26
+P	Bohnice		CZ		50.133	14.417	26
+P	Bon Air		US	Virginia	37.525	-77.558	12
+P	Bocşa	bocsa	RO		45.373	21.709	24
+P	Boppard		DE		50.231	7.590	26
+P	Fonte Boa		BR		-2.514	-66.092	5
+P	Port-de-Bouc	port de bouc	FR		43.407	4.981	26
+P	Bodaybo		RU		57.853	114.204	19
+P	Boothapandi		IN		8.266	77.446	17
+P	Boissy-Saint-Léger	boissy saint leger	FR		48.751	2.512	26
+P	Bonito		BR		-11.969	-41.266	13
+P	Boom		BE		51.092	4.372	26
+P	Bohuslav		UA		49.546	30.874	24
+P	Boulder City		US	Nevada	35.979	-114.832	10
+P	Bou Izakarn		MA		29.177	-9.712	0
+P	Bortnychi		UA		50.385	30.695	24
+P	Boroon		PH		8.183	124.177	19
+P	Bo		VN		20.673	105.536	16
+P	Borovskiy		RU		57.041	65.720	15
+P	Bostonia		US	California	32.808	-116.936	10
+P	Bochum-Werne	bochum werne	DE		51.488	7.312	26
+P	Boshrūyeh	boshruyeh	IR		33.868	57.429	20
+P	Borotou-Koro	borotou koro	CI		8.491	-7.179	4
+P	Saint-Charles-Borromée	saint charles borromee	CA	Quebec	46.050	-73.466	12
+P	Bognonzra		CI		6.943	-5.967	4
+P	Bommasandra Industrial Area		IN		12.818	77.684	17
+P	Boskoop		NL		52.075	4.656	26
+P	Bosanska Krupa		BA		44.883	16.151	26
+P	Bogovinje		MK		41.922	20.915	26
+P	Boguchar		RU		49.935	40.554	3
+P	Bolhrad		UA		45.678	28.618	24

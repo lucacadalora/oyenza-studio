@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	MZ	Mozambique	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	0
+P	Phalaborwa		ZA		-23.943	31.141	0
+P	Thohoyandou		ZA		-22.946	30.485	0
+P	Masvingo		ZW		-20.064	30.828	0
+P	Chibuto		MZ		-24.687	33.531	0
+P	Chokwé	chokwe	MZ		-24.533	32.983	0
+P	Zvishavane		ZW		-20.327	30.066	0
+P	Beitbridge		ZW		-22.217	30.000	0
+P	Nkowakowa		ZA		-23.888	30.287	0
+P	Musina		ZA		-22.349	30.041	0
+P	Mkhuhlu		ZA		-24.988	31.238	0
+P	Chiredzi		ZW		-21.050	31.667	0
+P	Giyani		ZA		-23.302	30.719	0
+P	Calcutta		ZA		-24.983	31.235	0
+P	Dwarsloop		ZA		-24.795	31.103	0
+P	Chipinge		ZW		-20.188	32.624	0
+P	Acornhoek		ZA		-24.588	31.095	0
+P	Praktiseer		ZA		-24.584	30.317	0
+P	Duiwelskloof		ZA		-23.693	30.140	0
+P	Xilembene		MZ		-24.689	33.258	0
+P	Hlanganani		ZA		-24.959	31.170	0
+P	Mafemani		ZA		-24.789	31.079	0
+P	Tshitereke		ZA		-22.884	30.494	0
+P	Tzaneen		ZA		-23.833	30.164	0
+P	Thulamahashi		ZA		-24.725	31.199	0
+P	Malamulele		ZA		-22.971	30.674	0

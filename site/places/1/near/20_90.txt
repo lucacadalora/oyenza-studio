@@ -1,0 +1,138 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dhaka	360	
+Z	1	Asia/Kolkata	330	
+Z	2	Asia/Yangon	390	
+C	BD	Bangladesh	karachi	h
+C	IN	India	karachi	h
+C	MM	Myanmar	mwl	s
+B	3
+P	Dhaka		BD		23.710	90.407	0
+P	Chattogram		BD		22.338	91.832	0
+P	Gazipur		BD		23.998	90.422	0
+P	Comilla		BD		23.462	91.185	0
+P	Pallabi		BD		23.825	90.370	0
+P	Mirpur Model Thana		BD		23.809	90.361	0
+P	Hāthazāri	hathazari	BD		22.505	91.813	0
+P	Bāndarban	bandarban	BD		22.195	92.219	0
+P	Agartala		IN		23.836	91.279	1
+P	Kalemyo		MM		23.190	94.064	2
+P	Kafrul		BD		23.788	90.374	0
+P	Tungi		BD		23.892	90.402	0
+P	Bhatara		BD		23.800	90.450	0
+P	Aizawl		IN		23.729	92.718	1
+P	Savar		BD		23.849	90.250	0
+P	Narsingdi		BD		23.923	90.718	0
+P	Imphal		IN		24.808	93.944	1
+P	Nagar Naluākot	nagar naluakot	BD		24.156	90.773	0
+P	Brāhmanbāria	brahmanbaria	BD		23.975	91.112	0
+P	Cox’s Bāzār	coxs bazar	BD		21.440	92.010	0
+P	Sylhet		BD		24.899	91.872	0
+P	Mymensingh		BD		24.756	90.406	0
+P	Narayanganj		BD		23.614	90.503	0
+P	Ashuganj City		BD		24.040	91.012	0
+P	Karnaphuli		BD		22.691	92.235	0
+P	Chāndpur	chandpur	BD		23.227	90.654	0
+P	Motijheel		BD		23.728	90.419	0
+P	Barishal		BD		22.705	90.370	0
+P	Paltan		BD		23.736	90.414	0
+P	Silchar		IN		24.827	92.798	1
+P	Sittwe		MM		20.146	92.898	2
+P	Ramna Maidan		BD		23.733	90.400	0
+P	Maijdi		BD		22.867	91.100	0
+P	Sonārgaon	sonargaon	BD		23.650	90.617	0
+P	Yenangyaung		MM		20.465	94.871	2
+P	Rangamati		BD		22.643	92.192	0
+P	Bhairab Bāzār	bhairab bazar	BD		24.052	90.976	0
+P	Bhola		BD		22.688	90.644	0
+P	Magway		MM		20.150	94.932	2
+P	Azimpur		BD		23.730	90.385	0
+P	Chauk		MM		20.899	94.818	2
+P	Kishorganj		BD		24.439	90.783	0
+P	Bibir Hat		BD		22.683	91.791	0
+P	Habiganj		BD		24.380	91.413	0
+P	Madaripur		BD		23.171	90.209	0
+P	Feni		BD		23.014	91.397	0
+P	Lākshām	laksham	BD		23.240	91.121	0
+P	Netrakona		BD		24.884	90.729	0
+P	Mānikganj	manikganj	BD		23.858	90.010	0
+P	Pālang	palang	BD		23.218	90.351	0
+P	Patuakhali		BD		22.368	90.346	0
+P	Rāipur	raipur	BD		23.039	90.768	0
+P	Lakshmīpur	lakshmipur	BD		22.944	90.830	0
+P	Maulavi Bāzār	maulavi bazar	BD		24.489	91.771	0
+P	Minbu		MM		20.181	94.876	2
+P	Lunglei		IN		22.892	92.742	1
+P	Karīmganj	karimganj	IN		24.869	92.355	1
+P	Buthidaung Town		MM		20.875	92.530	2
+P	Rāmganj	ramganj	BD		23.101	90.850	0
+P	Dhanmondi		BD		23.740	90.385	0
+P	Sandwīp	sandwip	BD		22.514	91.455	0
+P	Sātkania	satkania	BD		22.076	92.050	0
+P	Patiya		BD		22.295	91.979	0
+P	Gopālganj	gopalganj	BD		23.223	90.060	0
+P	Khagrachhari		BD		23.108	91.970	0
+P	Nyaung-U	nyaung u	MM		21.201	94.908	2
+P	Uttar Char Fasson		BD		22.226	90.713	0
+P	Churāchāndpur	churachandpur	IN		24.334	93.670	1
+P	Thoubāl	thoubal	IN		24.639	93.996	1
+P	Burhānuddin	burhanuddin	BD		22.495	90.724	0
+P	Dohār	dohar	BD		23.593	90.143	0
+P	Mawlaik		MM		23.643	94.405	2
+P	Hājīganj	hajiganj	BD		23.252	90.855	0
+P	Tamu		MM		24.217	94.312	2
+P	Lālmohan	lalmohan	BD		22.338	90.737	0
+P	Mirzāpur	mirzapur	BD		24.103	90.098	0
+P	Sakhipur		BD		24.320	90.169	0
+P	Dharmanagar		IN		24.367	92.167	1
+P	Teknāf	teknaf	BD		20.858	92.298	0
+P	Gaurnadi		BD		22.974	90.224	0
+P	Dohazāri	dohazari	BD		22.164	92.073	0
+P	Mehendiganj		BD		22.823	90.529	0
+P	Chhāgalnāiya	chhagalnaiya	BD		23.025	91.511	0
+P	Nālchiti	nalchiti	BD		22.637	90.272	0
+P	Dukuria		BD		23.711	90.374	0
+P	Baniachang		BD		24.519	91.358	0
+P	Mrauk U		MM		20.590	93.191	2
+P	Bājitpur	bajitpur	BD		24.216	90.950	0
+P	Char Bhadrāsan	char bhadrasan	BD		23.309	90.227	0
+P	Mātuail	matuail	BD		23.712	90.460	0
+P	Gafargaon		BD		24.432	90.558	0
+P	Hailākāndi	hailakandi	IN		24.684	92.561	1
+P	Udaipur		IN		23.533	91.483	1
+P	Ngūr	ngur	IN		23.538	93.373	1
+P	Kakching		IN		24.498	93.981	1
+P	Nabīnagar	nabinagar	BD		23.888	90.968	0
+P	Bhāndāria	bhandaria	BD		22.489	90.063	0
+P	Shāhbāzpur Town	shahbazpur town	BD		24.053	91.172	0
+P	Burirchar		BD		22.140	90.206	0
+P	Raojān	raojan	BD		22.535	91.919	0
+P	Saiha		IN		22.492	92.981	1
+P	Kolasib		IN		24.224	92.679	1
+P	Hakha		MM		22.645	93.611	2
+P	Keirao Bitra		IN		24.711	93.975	1
+P	Manikchari		BD		22.840	91.841	0
+P	Muktāgācha	muktagacha	BD		24.765	90.257	0
+P	Mayāng Imphāl	mayang imphal	IN		24.610	93.889	1
+P	Srimangal		BD		24.307	91.730	0
+P	Nambol		IN		24.696	93.820	1
+P	Kailāshahar	kailashahar	IN		24.332	92.004	1
+P	Serchhīp	serchhip	IN		23.293	92.847	1
+P	Bisālgarh	bisalgarh	IN		23.676	91.283	1
+P	Teliamura		IN		23.842	91.630	1
+P	Lawngtlai		IN		22.533	92.899	1
+P	Khowai		IN		24.080	91.600	1
+P	Belonia		IN		23.252	91.454	1
+P	Moirāng	moirang	IN		24.497	93.778	1
+P	Ayla Patakata		BD		22.217	90.210	0
+P	Natona		BD		22.051	90.032	0
+P	Charipara		IN		23.809	91.248	1
+P	Kyauktaw		MM		20.845	92.975	2
+P	Charāmaddi	charamaddi	BD		22.642	90.426	0
+P	Barjala		IN		23.618	91.356	1
+P	Dukli		IN		23.798	91.296	1
+P	Moreh		IN		24.251	94.301	1
+P	Samurou		IN		24.701	93.903	1
+P	Madhuban		IN		23.782	91.286	1
+P	Āmbāsa	ambasa	IN		23.936	91.854	1
+P	Taranagar		IN		23.969	91.371	1
+P	Kanchanpur		IN		24.036	92.200	1

@@ -1,0 +1,333 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Dakar	0	
+Z	4	Africa/Khartoum	120	
+Z	5	Asia/Dhaka	360	
+Z	6	Asia/Dubai	240	
+Z	7	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	8	Asia/Ho_Chi_Minh	420	
+Z	9	Asia/Kabul	270	
+Z	10	Asia/Karachi	300	
+Z	11	Asia/Kathmandu	345	
+Z	12	Asia/Kolkata	330	
+Z	13	Asia/Riyadh	180	
+Z	14	Asia/Sakhalin	660	
+Z	15	Asia/Tehran	210	
+Z	16	Asia/Vladivostok	600	
+Z	17	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	GE	Georgia	mwl	s
+C	GR	Greece	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JO	Jordan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KH	Cambodia	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LA	Laos	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MN	Mongolia	mwl	s
+C	NP	Nepal	mwl	s
+C	OM	Oman	ummalqura	s
+C	PK	Pakistan	karachi	h
+C	PS	Palestinian Territory	mwl	s
+C	QA	Qatar	qatar	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SN	Senegal	egyptian	s
+C	SY	Syria	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	UA	Ukraine	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	5
+P	Khartoum		SD		15.552	32.532	4
+P	Khulna		BD		22.810	89.564	5
+P	Kharkiv		UA		49.982	36.255	17
+P	Shubrā al Khaymah	shubra al khaymah	EG		30.125	31.251	1
+P	Khartoum North		SD		15.649	32.535	4
+P	Dera Ismail Khan		PK		31.831	70.902	10
+P	Khabarovsk		RU		48.462	135.097	16
+P	Rahim Yar Khan		PK		28.420	70.303	10
+P	Dera Ghazi Khan		PK		30.046	70.640	10
+P	Al Khuşūş	al khusus	EG		30.153	31.315	1
+P	Al Kharj		SA		24.155	47.335	13
+P	Khamis Mushait		SA		18.300	42.733	13
+P	Ras Al Khaimah		AE		25.790	55.943	6
+P	Khorramshahr		IR		30.441	48.184	15
+P	Khorramabad		IR		33.488	48.356	15
+P	Khomeynī Shahr	khomeyni shahr	IR		32.686	51.536	15
+P	Khmelnytskyi		UA		49.418	26.979	17
+P	Mirpur Khas		PK		25.528	69.013	10
+P	Ḩayy Khildā	hayy khilda	JO		31.992	35.840	13
+P	Khimki		RU		55.900	37.428	13
+P	Kharagpur		IN		22.340	87.325	12
+P	Khuzdar		PK		27.812	66.611	10
+P	Khouribga		MA		32.881	-6.906	2
+P	Al Khums		LY		32.649	14.262	4
+P	Thanh Khê	thanh khe	VN		16.071	108.191	8
+P	Khandwa		IN		21.824	76.351	12
+P	Khūy	khuy	IR		38.550	44.952	15
+P	Khammam		IN		17.248	80.144	12
+P	Khirdalan		AZ		40.448	49.755	6
+P	Garhi Khairo		PK		28.057	67.979	10
+P	Bang Khae		TH		13.693	100.408	8
+P	Khairpur Mir’s	khairpur mirs	PK		27.529	68.759	10
+P	Khujand		TJ		40.283	69.622	10
+P	Khuraybat as Sūq	khuraybat as suq	JO		31.879	35.921	13
+P	Khānaqīn	khanaqin	IQ		34.348	45.391	13
+P	Khān Yūnis	khan yunis	PS		31.340	34.306	7
+P	Long Khánh	long khanh	VN		10.927	107.248	8
+P	Khlong Sam Wa		TH		13.871	100.737	8
+P	Khobar		SA		26.279	50.208	13
+P	Bang Khun Thian		TH		13.663	100.434	8
+P	Ban Khlong Prawet		TH		13.719	100.681	8
+P	Khoroshëvo-Mnevniki	khoroshevo mnevniki	RU		55.784	37.471	13
+P	Nong Khaem		TH		13.706	100.349	8
+P	Khasnahzān	khasnahzan	IQ		36.201	44.142	13
+P	Khemisset		MA		33.824	-6.066	2
+P	Khanpur		PK		28.647	70.657	10
+P	Khardah		IN		22.719	88.378	12
+P	Khenifra		MA		32.935	-5.662	2
+P	Khanna		IN		30.705	76.222	12
+P	Khasavyurt		RU		43.249	46.586	13
+P	Ţūz Khūrmātū	tuz khurmatu	IQ		34.888	44.633	13
+P	Khlong Luang		TH		14.065	100.646	8
+P	Thung Khru		TH		13.628	100.510	8
+P	Khargone		IN		21.823	75.614	12
+P	Khenchela		DZ		35.436	7.143	0
+P	Khon Kaen		TH		16.447	102.833	8
+P	Tando Muhammad Khan		PK		25.124	68.537	10
+P	Khwisero		KE		0.171	34.595	13
+P	Khlong Toei		TH		13.710	100.582	8
+P	Khurja		IN		28.254	77.855	12
+P	Kharian		PK		32.816	73.887	10
+P	Khushāb	khushab	PK		32.297	72.353	10
+P	Khanty-Mansiysk	khanty mansiysk	RU		61.002	69.027	10
+P	Renala Khurd		PK		30.879	73.599	10
+P	Qubo Saeed Khan		PK		27.874	67.709	10
+P	Khambhāt	khambhat	IN		22.317	72.619	12
+P	Khurarianwala		PK		31.499	73.268	10
+P	Khōst	khost	AF		33.340	69.920	9
+P	Khāmgaon	khamgaon	IN		20.707	76.568	12
+P	Kharkivskyi Masyv		UA		50.408	30.660	17
+P	Phra Khanong		TH		13.702	100.602	8
+P	El Khroub		DZ		36.263	6.694	0
+P	Khan Na Yao		TH		13.826	100.677	8
+P	Khalifah A City		AE		24.426	54.605	6
+P	Al Qanāţir al Khayrīyah	al qanatir al khayriyah	EG		30.193	31.137	1
+P	Al Khārjah	al kharjah	EG		25.451	30.547	1
+P	Al-Khārijah	al kharijah	EG		25.250	30.550	1
+P	Al Khānkah	al khankah	EG		30.210	31.368	1
+P	An Khê	an khe	VN		13.950	108.650	8
+P	Kharghar		IN		19.050	73.070	12
+P	Khemis Miliana		DZ		36.261	2.220	0
+P	Khewra		PK		32.649	73.011	10
+P	Khrustalnyi		UA		48.142	38.924	17
+P	Kharakvasla		IN		18.440	73.775	12
+P	Bandar-e Emam Khomeyni	bandar e emam khomeyni	IR		30.437	49.103	15
+P	Huai Khwang		TH		13.777	100.579	8
+P	Khomeyn		IR		33.639	50.080	15
+P	Khlong Chan		TH		13.781	100.645	8
+P	Khajoori Khas		IN		28.710	77.259	12
+P	Khadki		IN		18.564	73.852	12
+P	Kharar		IN		30.746	76.647	12
+P	Khalándrion	khalandrion	GR		38.024	23.801	17
+P	Bat Khela		PK		34.618	71.972	10
+P	Khlong San		TH		13.730	100.509	8
+P	Thị Trấn Mạo Khê	thi tran mao khe	VN		21.059	106.593	8
+P	Khanabad		AF		36.683	69.113	9
+P	Khopoli		IN		18.786	73.346	12
+P	Khāliş	khalis	IQ		33.808	44.533	13
+P	Khāsh	khash	IR		28.221	61.216	15
+P	Gujar Khan		PK		33.254	73.304	10
+P	Khlong Kum		TH		13.788	100.680	8
+P	Darya Khan		PK		31.784	71.102	10
+P	Kherson		UA		46.637	32.615	17
+P	Ban Khoan		LA		20.350	100.090	8
+P	Khulm		AF		36.697	67.698	9
+P	Khatauli		IN		29.278	77.733	12
+P	Nong Khai		TH		17.878	102.742	8
+P	Gus’-Khrustal’nyy	gus khrustalnyy	RU		55.612	40.650	13
+P	Ban Tha Kham		TH		13.637	100.441	8
+P	Bang Khae Nuea		TH		13.706	100.389	8
+P	Pul-e Khumrī	pul e khumri	AF		35.945	68.715	9
+P	Khartsyzk		UA		48.043	38.140	17
+P	Al Khafjī	al khafji	SA		28.439	48.491	13
+P	Khanapuram Haveli		IN		17.262	80.168	12
+P	Khanzhonkivskyi		UA		48.095	38.042	17
+P	Ta Khmau		KH		11.483	104.950	8
+P	Khagaul		IN		25.579	85.046	12
+P	Khurai		IN		24.044	78.330	12
+P	Khalkhāl	khalkhal	IR		37.618	48.529	15
+P	Khorramdarreh		IR		36.208	49.195	15
+P	Khagrachhari		BD		23.108	91.970	5
+P	Al Khābūrah	al khaburah	OM		23.971	57.093	6
+P	Khagaria		IN		25.502	86.467	12
+P	Khān Shaykhūn	khan shaykhun	SY		35.442	36.651	13
+P	Phú Khương	phu khuong	VN		11.283	106.133	8
+P	Khemis el Khechna		DZ		36.650	3.331	0
+P	Khordha		IN		20.183	85.616	12
+P	Khalīlābād	khalilabad	IN		26.773	83.072	12
+P	Madīnat Khalīfah	madinat khalifah	QA		25.320	51.478	13
+P	Khashm al Qirbah		SD		14.967	35.917	4
+P	Khekra		IN		28.866	77.284	12
+P	Khairābād	khairabad	IN		27.527	80.755	12
+P	Khambhāliya	khambhaliya	IN		22.207	69.650	12
+P	Nong Khae		TH		14.340	100.867	8
+P	Khūrmūj	khurmuj	IR		28.654	51.380	15
+P	Khawr Fakkān	khawr fakkan	AE		25.331	56.342	6
+P	Khairpur		PK		28.064	69.704	10
+P	Khanzhonkove		UA		48.094	38.076	17
+P	Khalabat		PK		34.060	72.890	10
+P	Sidi Khaled		DZ		34.387	4.988	0
+P	Khao Saming		TH		12.354	102.434	8
+P	Khwaeng Bang Khae		TH		13.692	100.404	8
+P	Khairtal		IN		27.804	76.639	12
+P	Khetsamsenok		TH		13.793	100.583	8
+P	Khlong Yai		TH		11.777	102.887	8
+P	Khunti		IN		23.076	85.278	12
+P	Bang Khlo		TH		13.699	100.512	8
+P	Khangah Dogran		PK		31.833	73.622	10
+P	Khāchrod	khachrod	IN		23.423	75.282	12
+P	Prachuap Khiri Khan		TH		11.821	99.784	8
+P	Khvāf	khvaf	IR		34.576	60.141	15
+P	Kholmsk		RU		47.046	142.049	14
+P	Ban Khlong Bang Phran		TH		13.663	100.388	8
+P	Jora Khurd		IN		26.489	77.976	12
+P	Dursh Khela		PK		35.000	72.452	10
+P	Khaira		IN		19.787	72.762	12
+P	Bang Khun Si		TH		13.751	100.470	8
+P	Kharagpur		IN		25.124	86.556	12
+P	Ban Khlong Bang Sao Thong		TH		13.642	100.833	8
+P	Khairpur Tamewah		PK		29.581	72.238	10
+P	Kharan		PK		28.585	65.415	10
+P	Khorugh		TJ		37.490	71.553	10
+P	Kaeng Khoi		TH		14.586	100.998	8
+P	Khairpur Nathan Shah		PK		27.091	67.735	10
+P	Khair		IN		27.942	77.842	12
+P	Pind Dadan Khan		PK		32.587	73.045	10
+P	Khovd		MN		48.006	91.642	8
+P	Akora Khattak		PK		34.003	72.126	10
+P	Draa Ben Khedda		DZ		36.734	3.962	0
+P	Khedbrahma		IN		24.030	73.046	12
+P	Khowrzūq	khowrzuq	IR		32.778	51.647	15
+P	Kaeng Khro		TH		16.109	102.258	8
+P	Khandela		IN		27.605	75.502	12
+P	Al Khurmah		SA		21.911	42.031	13
+P	Khust		UA		48.172	23.298	17
+P	Khmilnyk		UA		49.558	27.957	17
+P	Khrestivka		UA		48.150	38.359	17
+P	Daud Khel		PK		32.875	71.571	10
+P	Kheri		IN		27.904	80.798	12
+P	Khoni		IN		19.317	73.060	12
+P	Inner Huai Khwang		TH		13.782	100.584	8
+P	Tha Kham		TH		9.111	99.232	8
+P	Khajuraho Group of Monuments		IN		24.848	79.934	12
+P	Deori Khās	deori khas	IN		23.390	79.016	12
+P	Khān Neshīn	khan neshin	AF		30.549	63.789	9
+P	Riyāḑ al Khabrā’	riyad al khabra	SA		26.067	43.553	13
+P	Kheda		IN		22.752	72.685	12
+P	Khātegaon	khategaon	IN		22.596	76.913	12
+P	King Khalid Military City		SA		27.905	45.553	13
+P	Khánh Hòa	khanh hoa	VN		10.683	105.167	8
+P	Kharkhauda		IN		28.879	76.911	12
+P	Bang Yi Khan		TH		13.763	100.490	8
+P	Ban Khlong Bang Bon		TH		13.636	100.377	8
+P	Mỹ Khê	my khe	VN		15.150	108.900	8
+P	Khashuri		GE		41.997	43.599	6
+P	Dok Kham Tai		TH		19.162	99.993	8
+P	Khromtau		KZ		50.252	58.436	10
+P	Khā̃dbāri̇̄	khadbari	NP		27.376	87.208	11
+P	Khirkiya		IN		22.167	76.861	12
+P	Bang Kho Laem		TH		13.693	100.501	8
+P	Bang Kho Laem subdistrict		TH		13.693	100.502	8
+P	Khairāgarh	khairagarh	IN		21.419	80.979	12
+P	Ath Thumāmah Khamsūn	ath thumamah khamsun	QA		25.220	51.553	13
+P	Khanpur Mahar		PK		27.841	69.413	10
+P	Khosrowshahr		IR		37.950	46.053	15
+P	Khwaeng Bang Plat		TH		13.788	100.495	8
+P	Khanu Woralaksaburi		TH		16.062	99.861	8
+P	Khānsār	khansar	IR		33.221	50.315	15
+P	Kherālu	kheralu	IN		23.885	72.619	12
+P	Tāzah Khūrmātū	tazah khurmatu	IQ		35.302	44.326	13
+P	Khadyzhensk		RU		44.426	39.536	13
+P	Beni Khiar		TN		36.469	10.782	0
+P	Khomām	khomam	IR		37.390	49.658	15
+P	Khot'kovo	khotkovo	RU		56.257	37.995	13
+P	Khombole		SN		14.764	-16.692	3
+P	Bawāni Khera	bawani khera	IN		28.949	76.031	12
+P	Thị Trấn Thất Khê	thi tran that khe	VN		22.255	106.474	8
+P	Khulayş	khulays	SA		22.156	39.320	13
+P	Khairāgarh	khairagarh	IN		26.944	77.818	12
+P	Khowai		IN		24.080	91.600	12
+P	Khalāri	khalari	IN		23.651	85.007	12
+P	Khosta		RU		43.515	39.868	13
+P	Khalīfān	khalifan	IQ		36.609	44.405	13
+P	Ban Khlong Bang Ramat		TH		13.767	100.433	8
+P	Khangarh		PK		29.914	71.161	10
+P	Lāwar Khās	lawar khas	IN		29.111	77.778	12
+P	Raja Pur Khurd		IN		28.635	77.033	12
+P	Khānāpur	khanapur	IN		15.640	74.508	12
+P	Khonj		IR		27.891	53.434	15
+P	Khai Gala		PK		33.846	73.827	10
+P	Khariar Road		IN		20.899	82.509	12
+P	Kharsia		IN		21.990	83.105	12
+P	Khilchipur		IN		24.039	76.578	12
+P	Al Khawr		QA		25.684	51.506	13
+P	Ārt Khwājah	art khwajah	AF		37.086	69.480	9
+P	Khārupatia	kharupatia	IN		26.518	92.147	12
+P	Khon Buri		TH		14.525	102.246	8
+P	Khao Yoi		TH		13.240	99.824	8
+P	Khali Kachigam		IN		20.383	72.867	12
+P	Ribat Al Khayr		MA		33.815	-4.407	2
+P	Kharabali		RU		47.408	47.254	6
+P	Khetri		IN		28.001	75.786	12
+P	Kheri Nāngal	kheri nangal	IN		29.354	76.977	12
+P	Musa Banda/Musa khan kallay	musa banda musa khan kallay	PK		34.034	72.482	10
+P	Khasab		OM		26.180	56.248	6
+P	Thị Trấn Trùng Khánh	thi tran trung khanh	VN		22.835	106.525	8
+P	Kherli		IN		27.274	76.986	12
+P	Kholmskiy		RU		44.847	38.385	13
+P	Khongapani		IN		23.191	82.163	12
+P	Mers El Kheir		MA		33.863	-6.930	2
+P	Khabarābād	khabarabad	IR		35.543	51.148	15
+P	Khowa		ZA		-31.333	27.850	4
+P	Phu Khiao		TH		16.377	102.129	8
+P	Al Khabrā’	al khabra	SA		26.072	43.625	13
+P	Khed		IN		17.719	73.397	12
+P	Khapat		IN		21.654	69.613	12
+P	Beri Khās	beri khas	IN		28.701	76.577	12
+P	Qaşr Khiyār	qasr khiyar	LY		32.697	13.846	4
+P	Nal Khera		IN		23.836	76.243	12
+P	Khātra	khatra	IN		22.976	86.855	12
+P	Rāni Khera	rani khera	IN		28.706	77.026	12
+P	Khada		IN		27.183	83.883	12
+P	Khaniādhāna	khaniadhana	IN		25.030	78.127	12
+P	Khuldābād	khuldabad	IN		20.007	75.192	12
+P	Khetia		IN		21.671	74.585	12
+P	Khusropur		IN		25.482	85.385	12
+P	Khatīma	khatima	IN		28.921	79.971	12
+P	Khūtār	khutar	IN		28.203	80.270	12
+P	Khánh Hải	khanh hai	VN		11.591	109.041	8
+P	Dan Khun Thot		TH		15.209	101.771	8
+P	Thap Khlo		TH		16.160	100.597	8
+P	Beni Khalled		TN		36.650	10.590	0
+P	Bandar-e Khamīr	bandar e khamir	IR		26.952	55.585	15
+P	Khao Wong		TH		16.700	104.090	8
+P	Khāpa	khapa	IN		21.422	78.982	12
+P	Khāsh	khash	AF		31.529	62.791	9
+P	Kharhiāl	kharhial	IN		20.288	82.761	12
+P	Khamaria		IN		23.226	79.880	12

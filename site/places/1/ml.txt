@@ -1,0 +1,19 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Nairobi	180	
+Z	2	Europe/Prague	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CZ	Czechia	mwl	s
+C	DZ	Algeria	egyptian	s
+C	KE	Kenya	egyptian	s
+C	PL	Poland	mwl	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Mlolongo		KE		-1.396	36.940	1
+P	Aïn M’Lila	ain mlila	DZ		36.037	6.572	0
+P	Mladá Boleslav	mlada boleslav	CZ		50.411	14.903	2
+P	Mlowo		TZ		-9.000	32.983	1
+P	Mlimba		TZ		-8.800	35.817	1
+P	Mława	mlawa	PL		53.113	20.384	2
+P	Mlandizi		TZ		-6.700	38.733	1
+P	Mlalo		TZ		-4.933	38.933	1
+P	Mlangali		TZ		-9.783	34.517	1

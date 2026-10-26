@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Krasnoyarsk	420	
+C	RU	Russia	mwl	s
+B	0
+P	Norilsk		RU		69.353	88.203	0
+P	Talnakh		RU		69.487	88.397	0
+P	Kayyerkan		RU		69.379	87.744	0
+P	Dudinka		RU		69.406	86.178	0

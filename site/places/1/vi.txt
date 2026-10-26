@@ -1,0 +1,567 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dakar	0	
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Luanda	60	
+Z	3	America/Boa_Vista	-240	
+Z	4	America/Bogota	-300	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Guatemala	-360	
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	11	America/Phoenix	-420	
+Z	12	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	13	America/Sao_Paulo	-180	
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Hong_Kong	480	
+Z	16	Asia/Kamchatka	720	
+Z	17	Asia/Karachi	300	
+Z	18	Asia/Kolkata	330	
+Z	19	Asia/Vientiane	420	
+Z	20	Europe/Lisbon	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	21	Europe/Minsk	180	
+Z	22	Europe/Vienna	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	23	Europe/Vilnius	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	24	Indian/Mahe	240	
+Z	25	Pacific/Efate	660	
+Z	26	Pacific/Guam	600	
+Z	27	Pacific/Honolulu	-600	
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BE	Belgium	mwl	s
+C	BG	Bulgaria	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CL	Chile	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	EC	Ecuador	mwl	s
+C	EE	Estonia	mwl	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GT	Guatemala	mwl	s
+C	GU	Guam	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	KH	Cambodia	mwl	s
+C	LA	Laos	mwl	s
+C	LT	Lithuania	mwl	s
+C	MG	Madagascar	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	MX	Mexico	mwl	s
+C	MZ	Mozambique	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SC	Seychelles	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SN	Senegal	egyptian	s
+C	SV	El Salvador	mwl	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	VU	Vanuatu	mwl	s
+C	XK	Kosovo	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	4
+P	Vienna		AT		48.208	16.372	22
+P	Virār	virar	IN		19.456	72.811	18
+P	Vijayawada		IN		16.507	80.647	18
+P	Visakhapatnam		IN		17.680	83.202	18
+P	Victoria		HK		22.288	114.144	15
+P	Viana		AO		-8.906	13.375	2
+P	Vientiane		LA		17.967	102.600	19
+P	Vinh		VN		18.673	105.692	19
+P	Villa Nueva		GT		14.525	-90.585	7
+P	Vilnius		LT		54.689	25.280	23
+P	Victoria de Durango		MX		24.020	-104.658	7
+P	Nova Vida		AO		-8.906	13.222	2
+P	Virginia Beach		US	Virginia	36.853	-75.978	10
+P	Vinnytsya		UA		49.232	28.469	23
+P	Boa Vista		BR		2.820	-60.673	3
+P	Việt Trì	viet tri	VN		21.323	105.402	19
+P	Vila Velha		BR		-20.330	-40.292	13
+P	Vitebsk		BY		55.190	30.205	21
+P	Villahermosa		MX		17.986	-92.939	7
+P	Viña del Mar	vina del mar	CL		-33.025	-71.552	12
+P	Ciudad Victoria		MX		23.741	-99.144	7
+P	São Vicente	sao vicente	BR		-23.963	-46.392	13
+P	Vijayapura		IN		16.824	75.715	18
+P	Villavicencio		CO		4.132	-73.626	4
+P	Vitória	vitoria	BR		-20.319	-40.338	13
+P	Vigo		ES		42.233	-8.723	22
+P	Victoria		CA	British Columbia	48.436	-123.352	14
+P	Viamão	viamao	BR		-30.081	-51.023	13
+P	Ba Vì	ba vi	VN		21.083	105.383	19
+P	Chula Vista		US	California	32.640	-117.084	9
+P	Gasteiz / Vitoria	gasteiz vitoria	ES		42.850	-2.673	22
+P	Vila Flor		AO		-8.980	13.308	2
+P	Vitória da Conquista	vitoria da conquista	BR		-14.866	-40.839	13
+P	Vizianagaram		IN		18.117	83.411	18
+P	Việt Yên	viet yen	VN		21.267	106.133	19
+P	Vĩnh Châu	vinh chau	VN		9.324	105.980	19
+P	Bella Vista		DO		18.455	-69.945	3
+P	Vila Andrade		BR		-23.626	-46.728	13
+P	El Vigía	el vigia	VE		8.614	-71.657	3
+P	Trà Vinh	tra vinh	VN		9.947	106.342	19
+P	Vidisha		IN		23.526	77.811	18
+P	Villa Canales		GT		14.483	-90.534	7
+P	Tetuán de las Victorias	tetuan de las victorias	ES		40.460	-3.697	22
+P	Viranşehir	viransehir	TR		37.223	39.755	21
+P	Villeray–Saint-Michel–Parc-Extension	villeray saint michel parc extension	CA	Quebec	45.559	-73.605	10
+P	Vila Curuca		BR		-23.510	-46.416	13
+P	Vĩnh Long	vinh long	VN		10.254	105.972	19
+P	Le Vieux-Longueuil	le vieux longueuil	CA	Quebec	45.537	-73.508	10
+P	Vila Jacui		BR		-23.503	-46.462	13
+P	Vitória de Santo Antão	vitoria de santo antao	BR		-8.118	-35.291	13
+P	Circoiscrizione VIII		IT		45.038	7.672	22
+P	Villa Mercedes		CL		-37.404	-71.979	12
+P	Villeurbanne		FR		45.766	4.880	22
+P	Visalia		US	California	36.330	-119.292	9
+P	Vila Mariana		BR		-23.588	-46.635	13
+P	Villaverde		ES		40.350	-3.700	22
+P	La Victoria		VE		10.227	-67.331	3
+P	Vilkhivskyi		UA		48.543	39.282	23
+P	Virginia		ZA		-28.104	26.866	1
+P	Victorville		US	California	34.536	-117.291	9
+P	Vĩnh Yên	vinh yen	VN		21.309	105.605	19
+P	Ciudad de Villa de Álvarez	ciudad de villa de alvarez	MX		19.267	-103.738	7
+P	Vila Medeiros		BR		-23.489	-46.578	13
+P	Villa Lugano		AR		-34.679	-58.473	13
+P	Vihari		PK		30.044	72.356	17
+P	Vicenza		IT		45.547	11.547	22
+P	Vila Maria		BR		-23.514	-46.586	13
+P	Circoiscrizione VI		IT		45.102	7.700	22
+P	Yên Vinh	yen vinh	VN		18.667	105.667	19
+P	Vila Prudente		BR		-23.593	-46.573	13
+P	Ville-Marie	ville marie	CA	Quebec	45.499	-73.570	10
+P	Vila Matilde		BR		-23.539	-46.518	13
+P	Viseu		PT		40.662	-7.909	20
+P	Vista		US	California	33.200	-117.243	9
+P	Villa de Cura		VE		10.039	-67.489	3
+P	Vĩnh Thạnh	vinh thanh	VN		10.223	105.398	19
+P	Villupuram		IN		11.940	79.492	18
+P	Villa Alemana		CL		-33.048	-71.373	12
+P	Mission Viejo		US	California	33.600	-117.672	9
+P	Vicente Pires		BR		-15.810	-48.031	13
+P	Villa Mercedes		AR		-33.676	-65.458	13
+P	Vilhena		BR		-12.741	-60.146	3
+P	La Habana Vieja		CU		23.130	-82.353	8
+P	São João da Boa Vista	sao joao da boa vista	BR		-21.969	-46.798	13
+P	Villa María	villa maria	AR		-32.408	-63.240	13
+P	Vila Formosa		BR		-23.568	-46.546	13
+P	San Vicente		AR		-35.025	-58.424	13
+P	Circoiscrizione VII		IT		45.078	7.697	22
+P	Vĩnh Tuy	vinh tuy	VN		21.000	105.883	19
+P	Victorias		PH		10.902	123.070	15
+P	Viacha		BO		-16.650	-68.300	3
+P	Vīrappanchathiram	virappanchathiram	IN		11.353	77.713	18
+P	La Villa del Rosario		VE		10.326	-72.313	3
+P	Budapest VIII. kerület	budapest viii kerulet	HU		47.489	19.070	22
+P	Villingen-Schwenningen	villingen schwenningen	DE		48.062	8.494	22
+P	Vijalpor		IN		20.922	72.909	18
+P	Vitry-sur-Seine	vitry sur seine	FR		48.787	2.403	22
+P	Mountain View		US	California	37.386	-122.084	9
+P	Vinhedo		BR		-23.030	-46.975	13
+P	Bella Vista		AR		-34.565	-58.690	13
+P	Visnagar		IN		23.699	72.552	18
+P	Viçosa	vicosa	BR		-20.754	-42.882	13
+P	Viersen		DE		51.254	6.394	22
+P	Virac		PH		13.585	124.237	15
+P	Silao de la Victoria		MX		20.944	-101.427	7
+P	Virudhachalam		IN		11.515	79.328	18
+P	Viana		BR		-20.390	-40.496	13
+P	Virudunagar		IN		9.585	77.958	18
+P	Vila Nova de Gaia		PT		41.124	-8.612	20
+P	Vikindu		TZ		-7.007	39.298	21
+P	Vidradnyi		UA		50.432	30.422	23
+P	Villa Carlos Paz		AR		-31.418	-64.490	13
+P	Victoria		US	Texas	28.805	-97.004	5
+P	Vicálvaro	vicalvaro	ES		40.400	-3.600	22
+P	Viladecans		ES		41.314	2.014	22
+P	Vilanova i la Geltrú	vilanova i la geltru	ES		41.224	1.725	22
+P	Villa de Vallecas		ES		40.367	-3.601	22
+P	Villasis		PH		15.902	120.588	15
+P	Villa del Rosario		CO		7.834	-72.474	4
+P	Vīrarāghavapuram	viraraghavapuram	IN		13.073	80.108	18
+P	Villa Elisa		PY		-25.368	-57.593	13
+P	Collado-Villalba	collado villalba	ES		40.635	-4.005	22
+P	East Village		US	New York	40.729	-73.987	10
+P	Vinukonda		IN		16.053	79.740	18
+P	Villeneuve-d'Ascq	villeneuve dascq	FR		50.617	3.167	22
+P	Viareggio		IT		43.867	10.250	22
+P	Villa Poeta José Gálvez Barrenechea	villa poeta jose galvez barrenechea	PE		-12.213	-76.905	4
+P	Vineland		US	New Jersey	39.486	-75.026	10
+P	Bela Vista		BR		-23.561	-46.648	13
+P	Villa Vicente Guerrero		MX		19.121	-98.166	7
+P	Vinhomes Ocean Park		VN		20.995	105.947	19
+P	Viçosa do Ceará	vicosa do ceara	BR		-3.562	-41.092	13
+P	Villach		AT		46.610	13.856	22
+P	Vinto		BO		-17.391	-66.317	3
+P	Viseu		BR		-1.197	-46.140	13
+P	South Vineland		US	New Jersey	39.446	-75.029	10
+P	Vigevano		IT		45.314	8.854	22
+P	Villa Hayes		PY		-25.093	-57.527	13
+P	San Vicent del Raspeig		ES		38.396	-0.525	22
+P	Viramgām	viramgam	IN		23.126	72.050	18
+P	Videira		BR		-27.008	-51.152	13
+P	Villa Bruzual		VE		9.332	-69.120	3
+P	União da Vitória	uniao da vitoria	BR		-26.230	-51.086	13
+P	Viljoenskroon		ZA		-27.208	26.949	1
+P	El Viejo		NI		12.663	-87.167	7
+P	Hell-Ville	hell ville	MG		-13.397	48.267	21
+P	Vikārābād	vikarabad	IN		17.338	77.904	18
+P	Vila Guilherme		BR		-23.509	-46.606	13
+P	Victoria		PH		13.177	121.278	15
+P	Queens Village		US	New York	40.727	-73.742	10
+P	Vidnoye		RU		55.552	37.709	21
+P	Viana		BR		-3.220	-45.004	13
+P	The Villages		US	Florida	28.934	-81.960	10
+P	la Vila de Gràcia	la vila de gracia	ES		41.403	2.157	22
+P	Vittoria		IT		36.952	14.528	22
+P	Vigia		BR		-0.858	-48.142	13
+P	Vila-real	vila real	ES		39.938	-0.101	22
+P	Boa Viagem		BR		-5.128	-39.732	13
+P	Vīrapāndi	virapandi	IN		11.062	77.351	18
+P	Aliso Viejo		US	California	33.565	-117.727	9
+P	Villa Francisca		DO		18.483	-69.889	3
+P	Vinhomes Smart City		VN		21.005	105.740	19
+P	Vinhomes Times City		VN		20.994	105.868	19
+P	Carmen de Viboral		CO		6.082	-75.335	4
+P	Villarrica		CL		-39.286	-72.228	12
+P	Viedma		AR		-40.815	-63.000	13
+P	Královské Vinohrady	kralovske vinohrady	CZ		50.074	14.444	22
+P	Vigan		PH		17.575	120.387	15
+P	Tafí Viejo	tafi viejo	AR		-26.733	-65.261	13
+P	Vite		IN		17.273	74.538	18
+P	Villejuif		FR		48.794	2.360	22
+P	Vista Alegre		ES		40.384	-3.746	22
+P	Vikramasingapuram		IN		8.715	77.390	18
+P	Viterbo		IT		42.419	12.106	22
+P	Vitina		XK		42.321	21.358	22
+P	Vila Leopoldina		BR		-23.529	-46.734	13
+P	Victoria-Downtown	victoria downtown	CA	British Columbia	48.428	-123.361	14
+P	Vincennes		FR		48.849	2.438	22
+P	Vinzons		PH		14.174	122.907	15
+P	Dededo Village		GU		13.518	144.839	26
+P	Dois Vizinhos		BR		-25.734	-53.057	13
+P	Vishāram	visharam	IN		12.918	79.278	18
+P	Villa Constitución	villa constitucion	AR		-33.228	-60.330	13
+P	San Vicente de Tagua Tagua		CL		-34.439	-71.078	12
+P	Colmenar Viejo		ES		40.659	-3.768	22
+P	Villa Ángela	villa angela	AR		-27.577	-60.711	13
+P	Villa de Mayo		AR		-34.511	-58.681	13
+P	Sierra Vista		US	Arizona	31.555	-110.304	11
+P	Vilankulo		MZ		-22.000	35.317	1
+P	Virei		AO		-15.727	12.950	2
+P	Budapest VI. kerület	budapest vi kerulet	HU		47.504	19.066	22
+P	San Vicente		SV		13.641	-88.785	7
+P	Viborg		DK		56.453	9.402	22
+P	Villarrica		PY		-25.749	-56.435	13
+P	Carrollwood Village		US	Florida	28.068	-82.521	10
+P	Naushahra Virkan		PK		31.963	73.971	17
+P	Santa Maria da Boa Vista		BR		-8.808	-39.826	13
+P	Märkisches Viertel	markisches viertel	DE		52.598	13.358	22
+P	Villa Altagracia		DO		18.673	-70.171	3
+P	Vic		ES		41.930	2.255	22
+P	Villamontes		BO		-21.262	-63.469	3
+P	Nova Viçosa	nova vicosa	BR		-17.892	-39.372	13
+P	Keat Hong Village		SG		1.378	103.744	15
+P	Teotônio Vilela	teotonio vilela	BR		-9.910	-36.356	13
+P	Visconde do Rio Branco		BR		-21.010	-42.841	13
+P	Vichuga		RU		57.215	41.926	21
+P	Aliamanu / Salt Lakes / Foster Village	aliamanu salt lakes foster village	US	Hawaii	21.360	-157.918	27
+P	Rincón de la Victoria	rincon de la victoria	ES		36.717	-4.276	22
+P	Santa Maria da Vitória	santa maria da vitoria	BR		-13.388	-44.199	13
+P	Vitrolles		FR		43.460	5.249	22
+P	Vilafranca del Penedès	vilafranca del penedes	ES		41.346	1.697	22
+P	San Vicente		AR		-26.617	-54.133	13
+P	Vilagarcía de Arousa	vilagarcia de arousa	ES		42.596	-8.764	22
+P	Villaflores		MX		16.234	-93.270	7
+P	Villepinte		FR		48.962	2.533	22
+P	Vilvoorde		BE		50.928	4.429	22
+P	Los Palacios y Villafranca		ES		37.162	-5.924	22
+P	Naujoji Vilnia		LT		54.695	25.420	23
+P	San Jerónimo Cuatro Vientos	san jeronimo cuatro vientos	MX		19.293	-98.842	7
+P	Vilappil		IN		8.522	77.040	18
+P	Viana do Castelo		PT		41.693	-8.833	20
+P	Bad Vilbel		DE		50.179	8.738	22
+P	Port-Vila	port vila	VU		-17.736	168.314	25
+P	Casco Histórico de Vicálvaro	casco historico de vicalvaro	ES		40.392	-3.570	22
+P	Villamaría	villamaria	CO		5.046	-75.515	4
+P	Villena		ES		38.637	-0.866	22
+P	Victoria Falls		ZW		-17.933	25.831	1
+P	Vijāpur	vijapur	IN		23.562	72.748	18
+P	Bell Ville		AR		-32.630	-62.689	13
+P	Vijayapura		IN		13.297	77.802	18
+P	Vidin		BG		43.992	22.882	23
+P	Derry Village		US	New Hampshire	42.892	-71.312	10
+P	Villiappally		IN		11.625	75.629	18
+P	San Vicente		CR		9.962	-84.049	7
+P	Bela Vista de Goiás	bela vista de goias	BR		-16.973	-48.953	13
+P	Victoriaville		CA	Quebec	46.050	-71.966	10
+P	Villianur		IN		11.914	79.756	18
+P	Victoria		HN		14.938	-87.394	7
+P	Villa Santa Rita		AR		-34.611	-58.481	13
+P	Villajoyosa		ES		38.508	-0.233	22
+P	Ciudad Vieja		GT		14.524	-90.763	7
+P	Elk Grove Village		US	Illinois	42.004	-87.970	5
+P	Villa Bisonó	villa bisono	DO		19.564	-70.876	3
+P	Villefranche-sur-Saône	villefranche sur saone	FR		45.990	4.720	22
+P	Víctor Rosales	victor rosales	MX		22.949	-102.702	7
+P	Viernheim		DE		49.540	8.578	22
+P	Vallabh Vidyanagar		IN		22.533	72.900	18
+P	West Village		US	New York	40.734	-74.009	10
+P	Vinces		EC		-1.556	-79.752	4
+P	Victoria		CL		-38.233	-72.333	12
+P	Villa de San Antonio		HN		14.326	-87.614	7
+P	Vienne		FR		45.526	4.875	22
+P	Montgomery Village		US	Maryland	39.177	-77.195	10
+P	Villaguay		AR		-31.868	-59.027	13
+P	Vilavoorkkal		IN		8.481	77.022	18
+P	Viby		DK		56.123	10.151	22
+P	Villanueva		CO		5.283	-71.967	4
+P	Villanueva		HN		15.315	-87.994	7
+P	Villa Regina		AR		-39.096	-67.084	13
+P	Viry-Châtillon	viry chatillon	FR		48.672	2.393	22
+P	Victoria-Fraserview	victoria fraserview	CA	British Columbia	49.217	-123.067	14
+P	Santa Vitória do Palmar	santa vitoria do palmar	BR		-33.519	-53.368	13
+P	Vilāngudi	vilangudi	IN		9.946	78.094	18
+P	Villeneuve-Saint-Georges	villeneuve saint georges	FR		48.732	2.449	22
+P	Vitorino Freire		BR		-4.288	-45.246	13
+P	Vitória do Mearim	vitoria do mearim	BR		-3.462	-44.871	13
+P	Ville-Émard	ville emard	CA	Quebec	45.450	-73.602	10
+P	Villenave-d'Ornon	villenave dornon	FR		44.779	-0.567	22
+P	Villazón	villazon	BO		-22.087	-65.594	3
+P	Villiers-sur-Marne	villiers sur marne	FR		48.831	2.548	22
+P	Vila Galvão	vila galvao	BR		-23.472	-46.579	13
+P	Vierzon		FR		47.222	2.068	22
+P	Villa General San Martín	villa general san martin	AR		-31.440	-68.520	13
+P	Middle Village		US	New York	40.716	-73.881	10
+P	Bellas Vistas		ES		40.452	-3.708	22
+P	Vijayapuram		IN		9.591	76.561	18
+P	San Vicente		AR		-26.996	-54.477	13
+P	Vihti		FI		60.417	24.320	23
+P	Gobernador Virasora		AR		-28.050	-56.033	13
+P	Chillán Viejo	chillan viejo	CL		-36.623	-72.132	12
+P	Villa Consuelo		DO		18.483	-69.900	3
+P	Vinaròs	vinaros	ES		40.470	0.476	22
+P	Vinkovci		HR		45.288	18.805	22
+P	Villa Dolores		AR		-31.945	-65.190	13
+P	Villemomble		FR		48.883	2.500	22
+P	Bella Vista		US	Arkansas	36.481	-94.271	5
+P	Sant Vicenç dels Horts	sant vicenc dels horts	ES		41.393	2.007	22
+P	Vicuña	vicuna	CL		-30.035	-70.713	12
+P	Vila do Conde		PT		41.353	-8.745	20
+P	Villaviciosa de Odón	villaviciosa de odon	ES		40.358	-3.904	22
+P	Paris 04 Hôtel-de-Ville	paris 04 hotel de ville	FR		48.860	2.351	22
+P	El Viso		ES		40.446	-3.684	22
+P	Viñales	vinales	CU		22.619	-83.707	8
+P	Villagrán	villagran	MX		20.514	-100.996	7
+P	Don Valley Village		CA	Ontario	43.783	-79.354	10
+P	Villiers-le-Bel	villiers le bel	FR		49.009	2.398	22
+P	Vichy		FR		46.127	3.426	22
+P	Vigneux-sur-Seine	vigneux sur seine	FR		48.703	2.414	22
+P	Villarrobledo		ES		39.270	-2.601	22
+P	Vicência	vicencia	BR		-7.657	-35.327	13
+P	Quinze-Vingts	quinze vingts	FR		48.847	2.374	22
+P	Vileyka		BY		54.491	26.911	21
+P	Villa Nueva		AR		-32.433	-63.248	13
+P	La Virginia		CO		4.900	-75.882	4
+P	Villeneuve-sur-Lot	villeneuve sur lot	FR		44.409	0.704	22
+P	Villanueva de la Serena		ES		38.977	-5.797	22
+P	São Sebastião da Boa Vista	sao sebastiao da boa vista	BR		-1.715	-49.532	13
+P	Viswanatham		IN		9.430	77.800	18
+P	Zhongxing New Village		TW		23.959	120.685	15
+P	Vilapicina i la Torre Llobeta		ES		41.429	2.174	22
+P	San Vicente de Cañete	san vicente de canete	PE		-13.076	-76.385	4
+P	Vilyuchinsk		RU		52.932	158.406	16
+P	Victoria		AR		-32.618	-60.155	13
+P	Villaricca		IT		40.920	14.193	22
+P	Vang Vieng		LA		18.924	102.448	19
+P	Vineyard		US	California	38.464	-121.347	9
+P	Vittorio Veneto		IT		45.980	12.301	22
+P	Alta Vista		CA	Ontario	45.386	-75.658	10
+P	Vincentown		US	New Jersey	39.934	-74.748	10
+P	Vị Thanh	vi thanh	VN		9.784	105.470	19
+P	Victoria		PH		14.228	121.329	15
+P	Viçosa	vicosa	BR		-9.371	-36.241	13
+P	Vilankurichi		IN		11.071	77.017	18
+P	Icod de los Vinos		ES		28.372	-16.712	20
+P	Villeparisis		FR		48.942	2.615	22
+P	Vīrakeralam	virakeralam	IN		11.008	76.913	18
+P	Santa Rosa de Viterbo		BR		-21.473	-47.363	13
+P	Visby		SE		57.641	18.296	22
+P	Coronel Vivida		BR		-25.980	-52.568	13
+P	Villa Gesell		AR		-37.264	-56.973	13
+P	Vicksburg		US	Mississippi	32.353	-90.878	5
+P	Víbora	vibora	CU		23.094	-82.372	8
+P	Isla Vista		US	California	34.413	-119.861	9
+P	Víbora Park	vibora park	CU		23.081	-82.354	8
+P	Victoria		SC		-4.620	55.455	24
+P	Vícar	vicar	ES		36.832	-2.643	22
+P	Vimercate		IT		45.615	9.368	22
+P	Lerma de Villada		MX		19.289	-99.512	7
+P	San Vicente		CL		-34.433	-71.083	12
+P	Visitacion Valley		US	California	37.717	-122.404	9
+P	Vikhorevka		RU		56.121	101.178	15
+P	Villa Ortúzar	villa ortuzar	AR		-34.580	-58.468	13
+P	Vilcún	vilcun	CL		-38.669	-72.226	12
+P	General Villegas		AR		-35.033	-63.015	13
+P	Vignola		IT		44.484	11.011	22
+P	Combs-la-Ville	combs la ville	FR		48.665	2.570	22
+P	Vilnohirsk		UA		48.484	34.017	23
+P	Villeneuve-la-Garenne	villeneuve la garenne	FR		48.939	2.315	22
+P	Kingsview Village-The Westway	kingsview village the westway	CA	Ontario	43.699	-79.548	10
+P	Villa Park		US	Illinois	41.890	-87.989	5
+P	Prairie Village		US	Kansas	38.992	-94.634	5
+P	Vélizy-Villacoublay	velizy villacoublay	FR		48.782	2.194	22
+P	Villa Allende		AR		-31.294	-64.298	13
+P	Bela Vista		BR		-22.108	-56.533	3
+P	Annecy-le-Vieux	annecy le vieux	FR		45.920	6.144	22
+P	Bayview Village		CA	Ontario	43.776	-79.380	10
+P	Virugambakkam		IN		13.046	80.191	18
+P	Vilkpėdė	vilkpede	LT		54.670	25.248	23
+P	Vilar		PT		40.627	-8.632	20
+P	Oakwood Village		CA	Ontario	43.683	-79.438	10
+P	Santa Vitória	santa vitoria	BR		-18.839	-50.121	13
+P	Vinnamāla	vinnamala	IN		13.907	79.909	18
+P	Vila-seca	vila seca	ES		41.111	1.148	22
+P	Virú	viru	PE		-8.416	-78.752	4
+P	Vilassar de Mar		ES		41.505	2.392	22
+P	Villiers		ZA		-27.030	28.601	1
+P	Villeta		CO		5.009	-74.472	4
+P	Viratnagar		IN		27.435	76.183	18
+P	Yigo Village		GU		13.536	144.889	26
+P	Villa de San Diego de Ubaté	villa de san diego de ubate	CO		5.309	-73.816	4
+P	Saint-Vincent de Paul	saint vincent de paul	FR		48.881	2.355	22
+P	Tolú Viejo	tolu viejo	CO		9.451	-75.439	4
+P	Viadana		IT		44.936	10.519	22
+P	Vinhomes Royal City		VN		21.003	105.815	19
+P	Mantes-la-Ville	mantes la ville	FR		48.974	1.703	22
+P	Vianen		NL		51.992	5.092	22
+P	Vila Rica		BR		-10.012	-51.116	3
+P	Villefontaine		FR		45.613	5.151	22
+P	Vadakku Viravanallur		IN		8.698	77.519	18
+P	Tamuning-Tumon-Harmon Village	tamuning tumon harmon village	GU		13.488	144.781	26
+P	Vīsāvadar	visavadar	IN		21.340	70.750	18
+P	São Vicente Ferrer	sao vicente ferrer	BR		-2.894	-44.880	13
+P	Vibo Valentia		IT		38.676	16.101	22
+P	El Viso del Alcor		ES		37.391	-5.720	22
+P	Villa Ocampo		AR		-28.487	-59.354	13
+P	Villa Paula de Sarmiento		AR		-31.493	-68.538	13
+P	Villabate		IT		38.078	13.443	22
+P	Hässelby Villastad	hasselby villastad	SE		59.380	17.809	22
+P	Vilar de Andorinho		PT		41.106	-8.586	20
+P	Park View		US	District of Columbia	38.932	-77.024	10
+P	Villa Rica		CO		2.514	-76.849	4
+P	Villanueva		CO		10.608	-72.979	4
+P	Vila Franca de Xira		PT		38.955	-8.990	20
+P	Martigny-Ville	martigny ville	CH		46.103	7.072	22
+P	Los Vilos		CL		-31.913	-71.500	12
+P	Villa del Prado 2da Sección	villa del prado 2da seccion	MX		32.424	-116.972	9
+P	Vinica		MK		41.881	22.511	22
+P	Vitryani Hory		UA		50.511	30.437	23
+P	Villa Yapacaní	villa yapacani	BO		-17.400	-63.833	3
+P	San Vicente		CO		6.285	-75.334	4
+P	Visaginas		LT		55.597	26.440	23
+P	Vincennes		US	Indiana	38.677	-87.529	5
+P	Visoko		BA		43.989	18.178	22
+P	Vittal		IN		12.763	75.099	18
+P	San Vito dei Normanni		IT		40.656	17.708	22
+P	Villeneuve-le-Roi	villeneuve le roi	FR		48.737	2.401	22
+P	Victoria Village		CA	Ontario	43.728	-79.315	10
+P	Villa del Rosario		AR		-31.554	-63.536	13
+P	Villa Sarmiento		AR		-34.634	-58.570	13
+P	Viradouro		BR		-20.873	-48.297	13
+P	Viljandi		EE		58.363	25.592	23
+P	Vila Bela da Santíssima Trindade	vila bela da santissima trindade	BR		-15.008	-59.951	3
+P	Paolo VI		IT		40.522	17.274	22
+P	Vilaseca		ES		42.062	2.255	22
+P	Vitré	vitre	FR		48.123	-1.210	22
+P	Vitry-le-François	vitry le francois	FR		48.725	4.584	22
+P	Virajpet		IN		12.196	75.805	18
+P	Ciudad Guadalupe Victoria		MX		32.289	-115.103	9
+P	Jenipapo dos Vieiras		BR		-5.371	-45.636	13
+P	Vimodrone		IT		45.515	9.288	22
+P	Visé	vise	BE		50.738	5.699	22
+P	Villaquilambre		ES		42.647	-5.558	22
+P	Vila Real		PT		41.300	-7.743	20
+P	Hillcrest Village		CA	Ontario	43.805	-79.354	10
+P	La Vista		US	Nebraska	41.184	-96.031	5
+P	Vinateros		ES		40.405	-3.642	22
+P	Boa Vista do Tupim		BR		-12.662	-40.607	13
+P	Villanueva de la Cañada	villanueva de la canada	ES		40.447	-4.004	22
+P	Scarborough Village		CA	Ontario	43.739	-79.221	10
+P	Vilshofen		DE		48.627	13.192	22
+P	São Vicente Férrer	sao vicente ferrer	BR		-7.591	-35.491	13
+P	Vīrnūr	virnur	IN		11.844	77.847	18
+P	Vienna		US	Virginia	38.901	-77.265	10
+P	Guadalupe Victoria		MX		24.447	-104.123	7
+P	Phum Ânlŭng Vĭl	phum anlung vil	KH		13.083	103.235	19
+P	Viveiro		ES		43.662	-7.593	22
+P	Highland Village		US	Texas	33.092	-97.047	5
+P	Viroflay		FR		48.801	2.162	22
+P	San Vicente		PH		15.292	120.655	15
+P	Vialonga		PT		38.872	-9.078	20
+P	Thị Trấn Việt Quang	thi tran viet quang	VN		22.415	104.807	19
+P	Viewpark		GB	Scotland	55.827	-4.057	20
+P	Vicente Guerrero		MX		23.733	-103.982	7
+P	Vincent		US	California	34.501	-118.116	9
+P	Vincent		US	California	34.098	-117.924	9
+P	Tecámac de Felipe Villanueva	tecamac de felipe villanueva	MX		19.713	-98.968	7
+P	Villers-lès-Nancy	villers les nancy	FR		48.673	6.153	22
+P	Villafranca di Verona		IT		45.354	10.845	22
+P	Vijayapuri North		IN		16.585	79.320	18
+P	Pleasant View		CA	Ontario	43.786	-79.335	10
+P	Greenwood Village		US	Colorado	39.617	-104.951	6
+P	Vidyavihar		IN		28.368	75.584	18
+P	Gossas Village		SN		14.484	-16.114	0
+P	Vitória do Xingu	vitoria do xingu	BR		-2.880	-52.010	13
+P	Atwater Village		US	California	34.116	-118.256	9
+P	Kapolei Villages		US	Hawaii	21.336	-158.067	27
+P	Bay Village		US	Ohio	41.485	-81.922	10
+P	Vişeu de Sus	viseu de sus	RO		47.708	24.430	23
+P	Villukuri		IN		8.223	77.373	18
+P	Villa Independencia		MX		20.055	-97.052	7
+P	Vilattikulam		IN		9.132	78.166	18
+P	Lancenigo-Villorba	lancenigo villorba	IT		45.713	12.257	22
+P	Saint-Vincent-de-Paul	saint vincent de paul	CA	Quebec	45.617	-73.649	10
+P	Mangilao Village		GU		13.448	144.801	26
+P	Villa Hidalgo		MX		21.676	-102.588	7
+P	Viikki		FI		60.222	25.024	23
+P	Bella Vista		AR		-27.034	-65.302	13
+P	Villanova		IT		41.964	12.756	22
+P	Vidigal		BR		-22.995	-43.240	13
+P	Villanueva del Pardillo		ES		40.490	-3.964	22
+P	Vicaria		IT		40.862	14.273	22
+P	Vilnyansk		UA		47.948	35.440	23

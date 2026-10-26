@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Khartoum	120	
+C	SD	Sudan	egyptian	s
+B	3
+P	Khartoum		SD		15.552	32.532	0
+P	Omdurman		SD		15.645	32.478	0
+P	Khartoum North		SD		15.649	32.535	0
+P	Atbara		SD		17.702	33.986	0
+P	Ad-Damir	ad damir	SD		17.599	33.972	0
+P	Shendi		SD		16.692	33.434	0
+P	Dongola		SD		19.182	30.477	0
+P	Berber		SD		18.022	33.983	0
+P	Kuraymah		SD		18.550	31.850	0
+P	El Bauga		SD		18.262	33.908	0

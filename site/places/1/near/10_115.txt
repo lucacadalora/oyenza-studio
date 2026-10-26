@@ -1,0 +1,6 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Manila	480	
+C	PH	Philippines	mwl	s
+B	0
+P	El Nido		PH		11.186	119.396	0
+P	Roxas		PH		10.322	119.345	0

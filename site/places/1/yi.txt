@@ -1,0 +1,64 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+Z	1	Asia/Bangkok	420	
+Z	2	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	3	Asia/Shanghai	480	
+Z	4	Asia/Urumqi	360	
+Z	5	Pacific/Guam	600	
+C	CN	China	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	GU	Guam	mwl	s
+C	HK	Hong Kong	mwl	s
+C	IL	Israel	mwl	s
+C	SG	Singapore	singapore	s
+C	TH	Thailand	mwl	s
+C	TW	Taiwan	mwl	s
+B	5
+P	Yinchuan		CN		38.468	106.273	3
+P	Yiwu		CN		29.315	120.077	3
+P	Yichang		CN		30.714	111.285	3
+P	Yixing		CN		31.361	119.820	3
+P	Yichun		CN		27.833	114.400	3
+P	Yibin		CN		28.759	104.640	3
+P	Yingkou		CN		40.665	122.232	3
+P	Yishun New Town		SG		1.433	103.831	3
+P	Yintai		CN		35.115	109.097	3
+P	Yingtan		CN		28.233	117.000	3
+P	Tsing Yi Town		HK		22.350	114.100	3
+P	Yizhou		CN		24.500	108.667	3
+P	Yichun		CN		47.721	128.875	3
+P	Yidu		CN		36.771	118.425	3
+P	Yilan		TW		24.757	121.753	3
+P	Yishui		CN		35.785	118.628	3
+P	Yingqiu		CN		36.527	118.993	3
+P	Yingge		TW		24.956	121.351	3
+P	Yinma		CN		36.661	119.463	3
+P	Yima		CN		34.738	111.884	3
+P	Yirga ‘Alem	yirga alem	ET		6.750	38.417	0
+P	Yingjiang		CN		24.710	97.937	3
+P	Yishan		CN		36.221	118.697	3
+P	Yinzhu		CN		35.879	119.975	3
+P	Yilan		CN		46.322	129.561	3
+P	Yingshang Chengguanzhen		CN		32.629	116.270	3
+P	Yicheng		CN		31.705	112.256	3
+P	Yigou		CN		35.811	114.317	3
+P	Yingli		CN		37.065	118.810	3
+P	Yinggen		CN		19.038	109.840	3
+P	Yirga Ch’efē	yirga chefe	ET		6.167	38.200	0
+P	Yingpan		CN		26.450	99.150	3
+P	Yihe		CN		29.737	107.219	3
+P	Yizhuang		CN		34.157	117.594	3
+P	Yishikuli		CN		38.489	77.201	4
+P	Yio Chu Kang		SG		1.391	103.851	3
+P	Yitang		CN		34.258	117.889	3
+P	Yinqiao Zhen		CN		25.754	100.123	3
+P	Yigai'erqi	yigaierqi	CN		38.341	77.469	4
+P	Yihe		CN		31.157	108.083	3
+P	Bang Yi Khan		TH		13.763	100.490	1
+P	Ying’awati	yingawati	CN		37.299	79.830	4
+P	Yigo Village		GU		13.536	144.889	5
+P	Yisilamu'awati	yisilamuawati	CN		37.585	80.184	4
+P	Yinping		CN		30.542	107.575	3
+P	Yirkā	yirka	IL		32.954	35.212	2
+P	Kam Ying		HK		22.423	114.237	3
+P	Yiu Tung Estate		HK		22.278	114.223	3

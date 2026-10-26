@@ -1,0 +1,1721 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Lubumbashi	120	
+Z	5	America/Bogota	-300	
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/Maceio	-180	
+Z	10	America/Manaus	-240	
+Z	11	America/Matamoros	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	12	America/Mazatlan	-420	
+Z	13	America/Mexico_City	-360	
+Z	14	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	15	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	16	America/Vancouver	-480	29549400=-420
+Z	17	Asia/Baghdad	180	
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Ho_Chi_Minh	420	
+Z	20	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	21	Asia/Kabul	270	
+Z	22	Asia/Kathmandu	345	
+Z	23	Asia/Kolkata	330	
+Z	24	Asia/Magadan	660	
+Z	25	Asia/Manila	480	
+Z	26	Asia/Tehran	210	
+Z	27	Asia/Tokyo	540	
+Z	28	Asia/Yangon	390	
+Z	29	Asia/Yekaterinburg	300	
+Z	30	Asia/Yerevan	240	
+Z	31	Australia/Brisbane	600	
+Z	32	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	33	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	34	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	35	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	36	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	37	Pacific/Honolulu	-600	
+Z	38	Pacific/Majuro	720	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AM	Armenia	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	AX	Aland Islands	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BH	Bahrain	ummalqura	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	EH	Western Sahara	egyptian	s
+C	ER	Eritrea	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GA	Gabon	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	GE	Georgia	mwl	s
+C	GF	French Guiana	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GQ	Equatorial Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	GU	Guam	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KG	Kyrgyzstan	mwl	h
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	KZ	Kazakhstan	mwl	h
+C	LK	Sri Lanka	mwl	s
+C	LS	Lesotho	egyptian	s
+C	LT	Lithuania	mwl	s
+C	LV	Latvia	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MF	Saint Martin	mwl	s
+C	MG	Madagascar	egyptian	s
+C	MH	Marshall Islands	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MO	Macao	mwl	s
+C	MQ	Martinique	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MU	Mauritius	egyptian	s
+C	MV	Maldives	mwl	s
+C	MW	Malawi	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PE	Peru	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PR	Puerto Rico	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	QA	Qatar	qatar	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	RW	Rwanda	egyptian	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SB	Solomon Islands	mwl	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SI	Slovenia	mwl	s
+C	SK	Slovakia	mwl	s
+C	SL	Sierra Leone	egyptian	s
+C	SM	San Marino	mwl	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SS	South Sudan	egyptian	s
+C	SV	El Salvador	mwl	s
+C	SY	Syria	egyptian	s
+C	SZ	Eswatini	egyptian	s
+C	TD	Chad	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TL	Timor Leste	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TT	Trinidad and Tobago	mwl	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	WF	Wallis and Futuna	mwl	s
+C	YE	Yemen	ummalqura	s
+C	YT	Mayotte	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+A	madina	madinah
+A	madinah al munawwarah	madinah
+A	makka	makkah
+B	17
+P	Madrid		ES		40.416	-3.703	35
+P	Mashhad		IR		36.298	59.606	26
+P	Manaus		BR		-3.102	-60.025	10
+P	Mbuji-Mayi	mbuji mayi	CD		-6.136	23.590	4
+P	Al Mawşil al Jadīdah	al mawsil al jadidah	IQ		36.333	43.106	17
+P	Maracaibo		VE		10.642	-71.611	10
+P	Manila		PH		14.604	120.982	25
+P	Manhattan		US	New York	40.783	-73.966	14
+P	Madurai		IN		9.919	78.120	23
+P	Maoming		CN		21.666	110.914	25
+P	Maputo		MZ		-25.966	32.583	4
+P	Mandalay		MM		21.975	96.084	28
+P	Matola		MZ		-25.962	32.459	4
+P	Gustavo Adolfo Madero		MX		19.494	-99.111	13
+P	Malingao		PH		7.161	124.475	25
+P	Maiduguri		NG		11.847	13.157	3
+P	Maceió	maceio	BR		-9.666	-35.735	9
+P	Marrakesh		MA		31.634	-8.000	2
+P	Managua		NI		12.133	-86.250	13
+P	Marseille		FR		43.297	5.381	35
+P	Malatya		TR		38.350	38.317	17
+P	Ma’anshan	maanshan	CN		31.686	118.510	25
+P	Maianga		AO		-8.847	13.237	3
+P	Madīnat an Naşr	madinat an nasr	EG		30.067	31.300	1
+P	Frankfurt am Main		DE		50.116	8.684	35
+P	Macau		MO		22.201	113.546	25
+P	Maturín	maturin	VE		9.746	-63.183	10
+P	Al Mansurah		EG		31.036	31.381	1
+P	Makhachkala		RU		42.978	47.500	17
+P	Mar del Plata		AR		-38.000	-57.556	9
+P	Al Maḩallah al Kubrá	al mahallah al kubra	EG		30.971	31.167	1
+P	Málaga	malaga	ES		36.720	-4.420	35
+P	Malacca		MY		2.196	102.240	25
+P	Manchester		GB	England	53.481	-2.237	34
+P	Mazār-e Sharīf	mazar e sharif	AF		36.709	67.111	21
+P	Macapá	macapa	BR		0.039	-51.066	9
+P	Matsuyama		JP		33.839	132.766	27
+P	Heroica Matamoros		MX		25.880	-97.504	11
+P	Makati City		PH		14.550	121.033	25
+P	Maipú	maipu	CL		-33.514	-70.765	15
+P	Mangaluru		IN		12.917	74.856	23
+P	Santa Marta		CO		11.239	-74.194	5
+P	Matsudo		JP		35.780	139.901	27
+P	Ciudad López Mateos	ciudad lopez mateos	MX		19.558	-99.257	13
+P	Masina		CD		-4.384	15.391	3
+P	Malegaon		IN		20.550	74.535	23
+P	Marikina City		PH		14.648	121.113	25
+P	Mandaluyong City		PH		14.583	121.041	25
+P	Maracay		VE		10.250	-67.595	10
+P	Malanje		AO		-9.540	16.341	3
+P	Mansilingan		PH		10.631	122.979	25
+P	Maheshtala		IN		22.509	88.253	23
+P	Mawlamyine		MM		16.491	97.628	28
+P	Manizales		CO		5.067	-75.507	5
+P	Masan		KR		35.127	126.831	27
+P	Buôn Ma Thuột	buon ma thuot	VN		12.667	108.038	19
+P	Machida		JP		35.540	139.451	27
+P	Maltepe		TR		40.936	29.155	17
+P	Matadi		CD		-5.839	13.463	3
+P	Mandaluyong		PH		14.578	121.035	25
+P	Mauá	maua	BR		-23.668	-46.461	9
+P	Magnitogorsk		RU		53.398	59.007	29
+P	Maringá	maringa	BR		-23.425	-51.939	9
+P	Makurdi		NG		7.734	8.521	3
+P	Mazatlán	mazatlan	MX		23.222	-106.419	12
+P	Malabon		PH		14.673	120.940	25
+P	Malmö	malmo	SE		55.606	13.001	35
+P	Manukau City		NZ		-36.993	174.880	36
+P	Maradi		NE		13.500	7.102	3
+P	Maseru		LS		-29.317	27.483	4
+P	Mahilyow		BY		53.909	30.340	17
+P	Al Maḩmūdīyah	al mahmudiyah	IQ		33.062	44.366	17
+P	Makiyivka		UA		48.048	37.926	33
+P	Markham		CA	Ontario	43.867	-79.266	14
+P	Viña del Mar	vina del mar	CL		-33.025	-71.552	15
+P	Maebashi		JP		36.400	139.083	27
+P	Mandaue City		PH		10.324	123.922	25
+P	Mathura		IN		27.503	77.672	23
+P	Man’gyŏngdae-ri	mangyongdae ri	KP		38.992	125.659	27
+P	Marne La Vallée	marne la vallee	FR		48.836	2.642	35
+P	Maroua		CM		10.591	14.316	3
+P	Mannheim		DE		49.489	8.467	35
+P	Mardan		PK		34.198	72.050	29
+P	Malir Cantonment		PK		24.943	67.206	29
+P	Machala		EC		-3.259	-79.959	5
+P	Marienthal		DE		53.567	10.083	35
+P	Madison		US	Wisconsin	43.073	-89.401	11
+P	Santa Maria		BR		-29.684	-53.807	9
+P	Malolos		PH		14.844	120.810	25
+P	Saint-Marc	saint marc	HT		19.111	-72.701	14
+P	Mantampay		PH		8.167	124.217	25
+P	Manta		EC		-0.949	-80.731	5
+P	Marāgheh	maragheh	IR		37.392	46.239	26
+P	Marāgheh	maragheh	IR		35.829	59.633	26
+P	Mahajanga		MG		-15.717	46.317	17
+P	Marawi City		PH		8.003	124.284	25
+P	Al Madīnah	al madinah	IQ		30.963	47.270	17
+P	Marg‘ilon	margilon	UZ		40.472	71.725	29
+P	Mau		IN		25.942	83.561	23
+P	Magdeburg		DE		52.131	11.632	35
+P	Magé	mage	BR		-22.653	-43.041	9
+P	Manisa		TR		38.612	27.426	17
+P	Mar’ino	marino	RU		55.650	37.717	17
+P	Man		CI		7.413	-7.554	0
+P	Matsumoto		JP		36.233	137.967	27
+P	Marília	marilia	BR		-22.214	-49.946	9
+P	Magdalena Contreras		MX		19.332	-99.211	13
+P	Sant Martí	sant marti	ES		41.418	2.199	35
+P	Maracanaú	maracanau	BR		-3.877	-38.626	9
+P	Magugpo Poblacion		PH		7.447	125.805	25
+P	Pasir Mas		MY		6.049	102.140	25
+P	Marka		SO		1.716	44.772	17
+P	Mariupol		UA		47.095	37.541	33
+P	Cà Mau	ca mau	VN		9.177	105.152	19
+P	Mango		IN		22.828	86.216	23
+P	Mainz		DE		49.982	8.280	35
+P	San Pedro de Macorís	san pedro de macoris	DO		18.454	-69.309	10
+P	Wangsa Maju		MY		3.201	101.740	25
+P	Ma On Shan		HK		22.406	114.241	25
+P	Marcory		CI		5.312	-3.994	0
+P	Mallawī	mallawi	EG		27.733	30.841	1
+P	Maricá	marica	BR		-22.919	-42.819	9
+P	Maryvale		US	Arizona	33.502	-112.178	12
+P	Mantilla		CU		23.068	-82.341	7
+P	Matsue		JP		35.483	133.050	27
+P	Ciudad Madero		MX		22.247	-97.837	13
+P	Maharagama		LK		6.848	79.927	23
+P	Manéah	maneah	GN		9.733	-13.417	0
+P	Matuga		KE		-4.168	39.571	17
+P	Machilīpatnam	machilipatnam	IN		16.187	81.139	23
+P	Mahesāna	mahesana	IN		23.599	72.385	23
+P	Mahbūbnagar	mahbubnagar	IN		16.744	77.986	23
+P	Sunrise Manor		US	Nevada	36.211	-115.073	8
+P	Sai Mai		TH		13.921	100.646	19
+P	Mabalacat City		PH		15.223	120.571	25
+P	Sultan Pur Majra		IN		28.690	77.076	23
+P	Madanapalle		IN		13.550	78.503	23
+P	Marsá Maţrūḩ	marsa matruh	EG		31.353	27.237	1
+P	Mansfield		GB	England	53.133	-1.200	34
+P	Mansa		ZM		-11.200	28.894	4
+P	Malāyer	malayer	IR		34.302	48.822	26
+P	Malda		IN		25.004	88.146	23
+P	Mahābād	mahabad	IR		36.763	45.722	26
+P	Mary		TM		37.594	61.830	29
+P	Maicao		CO		11.378	-72.240	5
+P	Barra Mansa		BR		-22.544	-44.171	9
+P	Bandar-e Māhshahr	bandar e mahshahr	IR		30.557	49.189	26
+P	Al Maţarīyah	al matariyah	EG		31.183	32.031	1
+P	Madhyamgram		IN		22.689	88.446	23
+P	Malakal		SS		9.533	31.660	4
+P	Manzanillo		MX		19.117	-104.342	13
+P	Matsusaka		JP		34.579	136.537	27
+P	Marbella		ES		36.515	-4.886	35
+P	Mariveles		PH		14.434	120.486	25
+P	Malabo		GQ		3.756	8.782	3
+P	San Martin Texmelucan de Labastida		MX		19.284	-98.439	13
+P	São Mateus	sao mateus	BR		-23.606	-46.479	9
+P	Malatia-Sebastia	malatia sebastia	AM		40.174	44.446	30
+P	Malkajgiri		IN		17.448	78.526	23
+P	Madrid Centro		ES		40.418	-3.703	35
+P	Marvdasht		IR		29.874	52.803	26
+P	Manama		BH		26.228	50.586	17
+P	Matanzas		CU		23.044	-81.583	7
+P	Marabá	maraba	BR		-5.381	-49.132	9
+P	Le Mans		FR		48.002	0.203	35
+P	Ramna Maidan		BD		23.733	90.400	18
+P	Macaé	macae	BR		-22.385	-41.783	9
+P	Mercier–Hochelaga-Maisonneuve	mercier hochelaga maisonneuve	CA	Quebec	45.572	-73.546	14
+P	Maykop		RU		44.608	40.102	17
+P	Masai		MY		1.491	103.879	25
+P	Mandsaur		IN		24.072	75.070	23
+P	Manjhand		PK		25.908	68.237	29
+P	Debre Mark’os	debre markos	ET		10.350	37.733	17
+P	Mandya		IN		12.522	76.897	23
+P	Madhurampur Dehri		IN		24.969	84.196	23
+P	Marīvān	marivan	IR		35.518	46.183	26
+P	Māler Kotla	maler kotla	IN		30.531	75.879	23
+P	Madrid		CO		4.732	-74.264	5
+P	San Mateo		PH		14.698	121.124	25
+P	Marianao		CU		23.074	-82.430	7
+P	Madīnat Ḩamad	madinat hamad	BH		26.115	50.507	17
+P	Machiques		VE		10.061	-72.552	10
+P	Maijdi		BD		22.867	91.100	18
+P	Majie		CN		25.032	102.638	25
+P	Matsubara		JP		34.567	135.550	27
+P	Masaya		NI		11.973	-86.096	13
+P	San Martin		PE		-5.186	-80.669	5
+P	Mardin		TR		37.313	40.744	17
+P	Mandi Bahauddin		PK		32.587	73.491	29
+P	Malambo		CO		10.860	-74.774	5
+P	Al Manāqil	al manaqil	SD		14.246	32.989	4
+P	Manzanillo		CU		20.342	-77.119	7
+P	Al Manzalah		EG		31.158	31.936	1
+P	Vila Mariana		BR		-23.588	-46.635	9
+P	Chiang Mai		TH		18.790	98.985	19
+P	Mataró	mataro	ES		41.542	2.445	35
+P	Maxixe		MZ		-23.860	35.347	4
+P	Macheng		CN		31.180	115.022	25
+P	Mailsi		PK		29.801	72.174	29
+P	San Francisco de Macorís	san francisco de macoris	DO		19.294	-70.253	10
+P	Marand		IR		38.433	45.775	26
+P	Magangué	magangue	CO		9.242	-74.755	5
+P	São Mateus	sao mateus	BR		-18.720	-39.859	9
+P	Manas		KG		40.945	72.993	18
+P	Maastricht		NL		50.848	5.689	35
+P	Sawai Madhopur		IN		26.023	76.344	23
+P	Mandoli		IN		28.703	77.310	23
+P	Dubai Marina		AE		25.085	55.146	30
+P	Madhyapur Thimi		NP		27.681	85.388	22
+P	Malindi		KE		-3.218	40.117	17
+P	Madhavaram		IN		13.148	80.231	23
+P	Mandimba		MZ		-14.352	35.651	4
+P	Malita		PH		6.415	125.612	25
+P	Maghāghah	maghaghah	EG		28.648	30.841	1
+P	Manolo Fortich		PH		8.370	124.864	25
+P	Manfalūţ	manfalut	EG		27.313	30.970	1
+P	Manp’o	manpo	KP		41.155	126.289	27
+P	Santa Maria		BR		-16.031	-48.029	9
+P	Masaka		UG		-0.334	31.734	17
+P	Al Majaz		AE		25.324	55.388	30
+P	Makumbako		TZ		-8.850	34.833	17
+P	Mariara		VE		10.295	-67.718	10
+P	Banī Mazār	bani mazar	EG		28.495	30.805	1
+P	Mandera		KE		3.937	41.857	17
+P	Ochakovo-Matveyevskoye	ochakovo matveyevskoye	RU		55.684	37.447	17
+P	Maba		CN		24.684	113.598	25
+P	Hoàng Mai	hoang mai	VN		19.268	105.716	19
+P	Satu Mare		RO		47.799	22.863	33
+P	Ermelino Matarazzo		BR		-23.495	-46.474	9
+P	Marituba		BR		-1.355	-48.342	9
+P	Marzahn		DE		52.545	13.570	35
+P	São Lourenço da Mata	sao lourenco da mata	BR		-8.002	-35.018	9
+P	Maran		MY		3.586	102.773	25
+P	Mabopane		ZA		-25.509	28.064	4
+P	Manacapuru		BR		-3.300	-60.621	10
+P	Manzini		SZ		-26.499	31.380	4
+P	Masindi		UG		1.674	31.715	17
+P	Matsutō	matsuto	JP		36.517	136.567	27
+P	Manchester		US	New Hampshire	42.996	-71.455	14
+P	Maramag		PH		7.763	125.005	25
+P	Marugame		JP		34.283	133.783	27
+P	Matagalpa		NI		12.928	-85.919	13
+P	Baia Mare		RO		47.657	23.568	33
+P	Mascara		DZ		35.397	0.140	3
+P	Vila Maria		BR		-23.514	-46.586	9
+P	Luis Eduardo Magalhães	luis eduardo magalhaes	BR		-12.091	-45.785	9
+P	Mandurah		AU	Western Australia	-32.527	115.722	25
+P	Maidstone		GB	England	51.267	0.517	34
+P	Mangalagiri		IN		16.431	80.568	23
+P	Catia La Mar		VE		10.605	-67.032	10
+P	Mati		PH		6.955	126.217	25
+P	Maranguape		BR		-3.891	-38.686	9
+P	Santa Maria		US	California	34.953	-120.436	8
+P	Ville-Marie	ville marie	CA	Quebec	45.499	-73.570	14
+P	Mazyr		BY		52.042	29.216	17
+P	Mazabuka		ZM		-15.856	27.748	4
+P	Male		MV		4.175	73.509	29
+P	Mandaqui		BR		-23.459	-46.641	9
+P	Vila Matilde		BR		-23.539	-46.518	9
+P	San Mateo		US	California	37.563	-122.326	8
+P	Maldonado		UY		-34.898	-54.950	9
+P	Mairiporã	mairipora	BR		-23.319	-46.587	9
+P	Khanty-Mansiysk	khanty mansiysk	RU		61.002	69.027	29
+P	Malappuram		IN		11.042	76.082	23
+P	Si Maha Phot		TH		13.966	101.514	19
+P	Masjed Soleymān	masjed soleyman	IR		31.936	49.304	26
+P	Seri Manjung		MY		4.199	100.670	25
+P	Bandar Mahkota Cheras		MY		3.054	101.798	25
+P	Manbij		SY		36.528	37.955	17
+P	Mafinga		TZ		-8.300	35.294	17
+P	Manavgat		TR		36.787	31.441	17
+P	Mahuva		IN		21.090	71.769	23
+P	Manjeri		IN		11.120	76.120	23
+P	Magway		MM		20.150	94.932	28
+P	Maribor		SI		46.556	15.646	35
+P	Las Rozas de Madrid		ES		40.493	-3.874	35
+P	Roquetas de Mar		ES		36.764	-2.615	35
+P	Mainpuri		IN		27.229	79.029	23
+P	Makrāna	makrana	IN		27.044	74.724	23
+P	Kharkivskyi Masyv		UA		50.408	30.660	33
+P	Modi‘in Makkabbim Re‘ut	modiin makkabbim reut	IL		31.894	35.015	20
+P	La Marsa		TN		36.878	10.325	3
+P	San Marcos		US	California	33.143	-117.166	8
+P	Malacatán	malacatan	GT		14.911	-92.058	13
+P	Magadan		RU		59.563	150.802	24
+P	Maizuru		JP		35.450	135.333	27
+P	Villa María	villa maria	AR		-32.408	-63.240	9
+P	Manhuaçu	manhuacu	BR		-20.258	-42.034	9
+P	Higashi-Matsuyama	higashi matsuyama	JP		36.033	139.417	27
+P	Marl		DE		51.657	7.090	35
+P	Macon		US	Georgia	32.841	-83.632	14
+P	Bạch Mai	bach mai	VN		20.983	105.833	19
+P	Masvingo		ZW		-20.064	30.828	4
+P	Marudi		MY		4.183	114.317	25
+P	Mancherial		IN		18.871	79.429	23
+P	Masasi		TZ		-10.717	38.800	17
+P	Maitland		AU	New South Wales	-32.733	151.557	32
+P	Marseille 13		FR		43.319	5.408	35
+P	Mahobā	mahoba	IN		25.291	79.875	23
+P	Mangaldan		PH		16.070	120.403	25
+P	Hanau am Main		DE		50.134	8.914	35
+P	Campo di Marte		IT		43.777	11.277	35
+P	El Puerto de Santa María	el puerto de santa maria	ES		36.594	-6.233	35
+P	Maco		PH		7.362	125.855	25
+P	Madgaon		IN		15.275	73.958	23
+P	Maghnia		DZ		34.850	-1.728	3
+P	Maladziečna	maladziecna	BY		54.317	26.854	17
+P	Lisovyi Masyv		UA		50.472	30.631	33
+P	Ban Mai		TH		7.204	100.545	19
+P	Mayiladuthurai		IN		11.104	79.655	23
+P	Kampung Manjoi		MY		4.619	101.069	25
+P	Maduravoyal		IN		13.068	80.163	23
+P	Makoko		NG		6.496	3.388	3
+P	Maun		BW		-19.983	23.417	4
+P	Al Marj		LY		32.493	20.829	4
+P	Makeni		SL		8.886	-12.044	0
+P	Puerto Maldonado		PE		-12.589	-69.199	5
+P	Madaripur		BD		23.171	90.209	18
+P	Ciudad Mante		MX		22.743	-98.972	13
+P	Mackay		AU	Queensland	-21.153	149.166	31
+P	Marilao		PH		14.758	120.948	25
+P	Mar del Tuyú	mar del tuyu	AR		-36.574	-56.694	9
+P	Mānsa	mansa	IN		29.988	75.402	23
+P	Weston-super-Mare	weston super mare	GB	England	51.346	-2.977	34
+P	Marj Al Hamam		JO		31.903	35.846	17
+P	Malapatan		PH		5.969	125.289	25
+P	San Martín	san martin	AR		-33.083	-68.473	9
+P	Manono		CD		-7.299	27.399	4
+P	Mādabā	madaba	JO		31.716	35.794	17
+P	Maţāy	matay	EG		28.419	30.779	1
+P	Maple Ridge		CA	British Columbia	49.219	-122.602	16
+P	Macaíba	macaiba	BR		-5.858	-35.354	9
+P	Maraimalainagar		IN		12.798	80.025	23
+P	Remedios de Escalada de San Martín	remedios de escalada de san martin	AR		-34.726	-58.397	9
+P	Malout		IN		30.211	74.482	23
+P	Madido		ZM		-15.355	28.374	4
+P	Manmād	manmad	IN		20.253	74.438	23
+P	Mamou		GN		10.375	-12.091	0
+P	Matão	matao	BR		-21.603	-48.366	9
+P	Marburg an der Lahn		DE		50.809	8.771	35
+P	Marseille 08		FR		43.271	5.382	35
+P	Matala		AO		-14.733	15.035	3
+P	Marsala		IT		37.799	12.437	35
+P	Marseille 15		FR		43.372	5.354	35
+P	Mazatenango		GT		14.534	-91.503	13
+P	Mandela		GH		5.552	-0.339	0
+P	Matehuala		MX		23.648	-100.643	13
+P	Mafikeng		ZA		-25.865	25.644	4
+P	Mawāna	mawana	IN		29.103	77.922	23
+P	Marseille 09		FR		43.254	5.406	35
+P	Al Maţār al ‘Atīq	al matar al atiq	QA		25.251	51.556	17
+P	Champigny-sur-Marne	champigny sur marne	FR		48.816	2.494	35
+P	Rueil-Malmaison	rueil malmaison	FR		48.877	2.190	35
+P	Matara		LK		5.949	80.535	23
+P	Manresa		ES		41.728	1.824	35
+P	Maymana		AF		35.921	64.784	21
+P	Mashtūl as Sūq	mashtul as suq	EG		30.361	31.378	1
+P	Madhubani		IN		26.354	86.072	23
+P	Manteca		US	California	37.797	-121.216	8
+P	Saint-Maur-des-Fossés	saint maur des fosses	FR		48.794	2.493	35
+P	Maozhou		CN		22.764	113.813	25
+P	Mirpur Mathelo		PK		28.021	69.549	29
+P	Vélez-Málaga	velez malaga	ES		36.781	-4.103	35
+P	Mayagüez	mayaguez	PR		18.201	-67.140	10
+P	San Juan de la Maguana		DO		18.806	-71.226	10
+P	Maroúsi	marousi	GR		38.050	23.800	33
+P	Sault Ste. Marie	sault ste marie	CA	Ontario	46.517	-84.333	14
+P	Thị Trấn Mạo Khê	thi tran mao khe	VN		21.059	106.593	19
+P	Mariano Roque Alonso		PY		-25.208	-57.532	9
+P	Mānikganj	manikganj	BD		23.858	90.010	18
+P	Madīnat as Sādāt	madinat as sadat	EG		30.367	30.509	1
+P	Mārkāpur	markapur	IN		15.735	79.268	23
+P	Malumfashi		NG		11.789	7.621	3
+P	Santa María Chimalhuacán	santa maria chimalhuacan	MX		19.422	-98.950	13
+P	Mariano		PH		8.833	125.117	25
+P	Maidenhead		GB	England	51.523	-0.720	34
+P	Maebaru-chūō	maebaru chuo	JP		33.559	130.201	27
+P	Martil		MA		35.617	-5.275	2
+P	Mauban		PH		14.191	121.731	25
+P	Santa Cruz de Mara		VE		10.793	-71.685	10
+P	Māngrol	mangrol	IN		21.123	70.115	23
+P	Kot Malik Barkhurdar		PK		30.204	66.987	29
+P	Magalang		PH		15.215	120.660	25
+P	Ihnāsyā al Madīnah	ihnasya al madinah	EG		29.090	30.943	1
+P	Darnytskyi Masyv		UA		50.443	30.628	33
+P	Maple Grove		US	Minnesota	45.072	-93.456	11
+P	Majadahonda		ES		40.474	-3.872	35
+P	Macenta		GN		8.544	-9.471	0
+P	Panipat Taraf Makhdum Zadgan		IN		29.416	76.988	23
+P	San Mateo Atenco		MX		19.268	-99.532	13
+P	Malkāpur	malkapur	IN		20.886	76.199	23
+P	Tomaszów Mazowiecki	tomaszow mazowiecki	PL		51.531	20.009	35
+P	Mannargudi		IN		10.666	79.451	23
+P	Abū al Maţāmīr	abu al matamir	EG		30.910	30.174	1
+P	Marysville		US	Washington	48.052	-122.177	8
+P	Mansehra		PK		34.330	73.197	29
+P	Marondera		ZW		-18.185	31.552	4
+P	Mandamarri		IN		18.965	79.475	23
+P	Jesus Maria		PE		-12.070	-77.045	5
+P	Tanjong Malim		MY		3.681	101.520	25
+P	Maués	maues	BR		-3.384	-57.719	10
+P	Al Manşūrah	al mansurah	QA		25.268	51.532	17
+P	Manhiça	manhica	MZ		-25.402	32.807	4
+P	Massa		IT		44.035	10.139	35
+P	Malanville		BJ		11.868	3.383	3
+P	Puerto Madryn		AR		-42.768	-65.038	9
+P	Maison Blanche		FR		48.826	2.351	35
+P	Enrique B. Magalona	enrique b magalona	PH		10.879	122.977	25
+P	Mansfield		US	Texas	32.563	-97.142	11
+P	Madera		US	California	36.961	-120.061	8
+P	Machakos		KE		-1.522	37.265	17
+P	Magong		TW		23.565	119.586	25
+P	Mangai		CD		-4.023	19.534	3
+P	Mabai		CN		23.013	104.451	25
+P	Margate		GB	England	51.381	1.386	34
+P	Māhdāsht	mahdasht	IR		35.728	50.813	26
+P	Marechal Deodoro		BR		-9.710	-35.895	9
+P	Marseille 14		FR		43.344	5.380	35
+P	Maputsoe		LS		-28.887	27.899	4
+P	Malaybalay		PH		8.158	125.128	25
+P	Mariana		BR		-20.378	-43.416	9
+P	Mateare		NI		12.235	-86.428	13
+P	Punta de Mata		VE		9.691	-63.609	10
+P	Malden		US	Massachusetts	42.425	-71.066	14
+P	Dayr Mawās	dayr mawas	EG		27.641	30.850	1
+P	San Marcos		CO		8.660	-75.128	5
+P	San Marcos		US	Texas	29.883	-97.941	11
+P	Matera		IT		40.666	16.605	35
+P	Mangochi		MW		-14.478	35.264	4
+P	Martínez de la Torre	martinez de la torre	MX		20.071	-97.061	13
+P	Maqin County		CN		34.474	100.245	25
+P	Cachoeiras de Macacu		BR		-22.462	-42.653	9
+P	Masaurhi Buzurg		IN		25.354	85.032	23
+P	Rüsselsheim am Main	russelsheim am main	DE		49.990	8.423	35
+P	Mandideep		IN		23.082	77.533	23
+P	Manaoag		PH		16.044	120.486	25
+P	Marietta		US	Georgia	33.953	-84.550	14
+P	Marseille 12		FR		43.296	5.436	35
+P	Magsaysay		PH		6.767	125.183	25
+P	Kokubu-matsuki	kokubu matsuki	JP		31.733	130.767	27
+P	Manicoré	manicore	BR		-5.809	-61.300	10
+P	Hagere Maryam		ET		5.634	38.236	17
+P	Maocun		CN		34.377	117.251	25
+P	Maulavi Bāzār	maulavi bazar	BD		24.489	91.771	18
+P	Marinilla		CO		6.174	-75.336	5
+P	Mācherla	macherla	IN		16.476	79.435	23
+P	Margate		US	Florida	26.245	-80.206	14
+P	Mafraq		JO		32.343	36.208	17
+P	Manfredonia		IT		41.631	15.919	35
+P	Marseille 11		FR		43.291	5.438	35
+P	Malārd	malard	IR		35.666	50.977	26
+P	Masinloc		PH		15.536	119.950	25
+P	Manhattan		US	Kansas	39.184	-96.572	11
+P	Mandapeta		IN		16.863	81.929	23
+P	Marechal Cândido Rondon	marechal candido rondon	BR		-24.556	-54.057	9
+P	Mangina		CD		0.604	29.310	4
+P	Mafra		BR		-26.111	-49.805	9
+P	Madhupur		IN		24.274	86.639	23
+P	Mandlā	mandla	IN		22.599	80.371	23
+P	Mawlai-Mawïong	mawlai mawiong	IN		25.623	91.882	23
+P	Mamoudzou		YT		-12.782	45.229	17
+P	Manzhouli		CN		49.600	117.433	25
+P	San Marcos		SV		13.661	-89.183	13
+P	Al Mayādīn	al mayadin	SY		35.020	40.452	17
+P	Madhepura		IN		25.921	86.793	23
+P	Mahāsamund	mahasamund	IN		21.107	82.095	23
+P	Margareten		AT		48.185	16.354	35
+P	Macclesfield		GB	England	53.260	-2.126	34
+P	Sau Mau Ping		HK		22.320	114.235	25
+P	Maisons-Alfort	maisons alfort	FR		48.812	2.439	35
+P	Markala		ML		13.684	-6.074	0
+P	Al Marāghah	al maraghah	EG		26.700	31.605	1
+P	Tingo María	tingo maria	PE		-9.295	-75.996	5
+P	Bartolomé Masó	bartolome maso	CU		20.167	-76.944	7
+P	Tha Maka		TH		13.900	99.767	19
+P	Mandi Dabwāli	mandi dabwali	IN		29.966	74.700	23
+P	Mariendorf		DE		52.438	13.381	35
+P	Malingshan		CN		34.204	118.356	25
+P	Maiquetía	maiquetia	VE		10.595	-66.956	10
+P	Pir Mahal		PK		30.767	72.435	29
+P	Mansoûra	mansoura	DZ		34.862	-1.339	3
+P	Maluñgun	malungun	PH		6.279	125.282	25
+P	Matamoros		MX		25.527	-103.228	13
+P	Matilda Estate		SG		1.399	103.903	25
+P	Port Macquarie		AU	New South Wales	-31.431	152.909	32
+P	Mahdia		TN		35.505	11.062	3
+P	Mampong		GH		7.063	-1.400	0
+P	Maha Sarakham		TH		16.185	103.301	19
+P	Mazara del Vallo		IT		37.655	12.590	35
+P	Māndvi	mandvi	IN		22.833	69.352	23
+P	Marseille 10		FR		43.279	5.415	35
+P	Martin		SK		49.067	18.924	35
+P	Brejo da Madre de Deus		BR		-8.146	-36.371	9
+P	Mannārakkāt	mannarakkat	IN		10.992	76.464	23
+P	Mao		TD		14.123	15.312	3
+P	Manaung		MM		18.855	93.729	28
+P	Saint-Malo	saint malo	FR		48.647	-2.009	35
+P	San Mateo		VE		10.213	-67.424	10
+P	Matli		PK		25.043	68.656	29
+P	Ma'an	maan	JO		30.196	35.734	17
+P	Mairinque		BR		-23.546	-47.183	9
+P	Masumbwe		TZ		-3.633	32.183	17
+P	Marano di Napoli		IT		40.897	14.188	35
+P	Maych’ew	maychew	ET		12.787	39.542	17
+P	Maizhokunggar		CN		29.838	91.729	25
+P	Mankweng		ZA		-23.884	29.706	4
+P	Majalgaon		IN		19.155	76.210	23
+P	Rancho Santa Margarita		US	California	33.641	-117.603	8
+P	Libertador General San Martín	libertador general san martin	AR		-23.813	-64.794	9
+P	Martaban		MM		16.528	97.616	28
+P	Maricopa		US	Arizona	33.058	-112.048	12
+P	Mahalapye		BW		-23.104	26.814	4
+P	Maspeth		US	New York	40.723	-73.913	14
+P	Mao		DO		19.549	-71.078	10
+P	Mahnar Bazar		IN		25.610	85.481	23
+P	Masbate		PH		12.372	123.625	25
+P	Matsulu		ZA		-25.523	31.357	4
+P	Marseille 04		FR		43.302	5.401	35
+P	Marine Parade		SG		1.303	103.908	25
+P	Mandeville		JM		18.042	-77.507	5
+P	Mattanur		IN		11.930	75.572	23
+P	San Marcos		GT		14.964	-91.795	13
+P	Madison		US	Alabama	34.699	-86.748	11
+P	Manakara		MG		-22.149	48.011	17
+P	Mansfield		US	Ohio	40.758	-82.515	14
+P	Maku		IR		39.290	44.460	26
+P	Makū	maku	IR		27.849	52.423	26
+P	Mānvi	manvi	IN		15.991	77.050	23
+P	Manglaur		IN		29.791	77.878	23
+P	Makakilo / Kapolei / Honokai Hale	makakilo kapolei honokai hale	US	Hawaii	21.337	-158.097	37
+P	Mangshi		CN		24.453	98.570	25
+P	Staryy Malgobek		RU		43.544	44.596	17
+P	Mahmudābād	mahmudabad	IN		27.292	81.118	23
+P	Mairena del Aljarafe		ES		37.345	-6.064	35
+P	Campo Maior		BR		-4.828	-42.169	9
+P	Marromeu		MZ		-18.291	35.945	4
+P	Masi-Manimba	masi manimba	CD		-4.775	17.891	3
+P	Martigues		FR		43.407	5.055	35
+P	Mauriti		BR		-7.389	-38.774	9
+P	Marseille 03		FR		43.303	5.376	35
+P	Masagua		GT		14.203	-90.848	13
+P	Mangbwalu		CD		1.945	30.039	4
+P	Mafeteng		LS		-29.823	27.237	4
+P	Marau		BR		-28.449	-52.200	9
+P	Maracaju		BR		-21.614	-55.168	10
+P	Maroantsetra		MG		-15.435	49.738	17
+P	Masuda		JP		34.667	131.850	27
+P	Marhanets		UA		47.631	34.624	33
+P	May Pen		JM		17.965	-77.245	5
+P	Maradu		IN		9.937	76.324	23
+P	Mamanguape		BR		-6.839	-35.126	9
+P	Marseille 05		FR		43.296	5.401	35
+P	Mae Sot		TH		16.717	98.567	19
+P	Mach		PK		29.864	67.330	29
+P	Mawlaik		MM		23.643	94.405	28
+P	Magdanly		TM		37.812	66.047	29
+P	Madīnat Khalīfah	madinat khalifah	QA		25.320	51.478	17
+P	Mantes-la-Jolie	mantes la jolie	FR		48.990	1.717	35
+P	Marino		IT		41.770	12.659	35
+P	Rejon placu Świętego Macieja	rejon placu swietego macieja	PL		51.121	17.038	35
+P	Malemba		CD		-10.378	24.545	4
+P	Malvern		CA	Ontario	43.809	-79.223	14
+P	Masalani		KE		-1.694	40.170	17
+P	Mangaratiba		BR		-22.960	-44.041	9
+P	Maruobara		JP		34.739	138.143	27
+P	Barajas de Madrid		ES		40.474	-3.578	35
+P	Villa de Mayo		AR		-34.511	-58.681	9
+P	Malgobek		RU		43.511	44.591	17
+P	Marseille 06		FR		43.288	5.379	35
+P	Maḩallāt	mahallat	IR		33.911	50.453	26
+P	Mariinsk		RU		56.210	87.732	19
+P	Kamal Pur Majra Burari		IN		28.747	77.193	23
+P	Jesús María	jesus maria	MX		21.961	-102.343	13
+P	Malmesbury		ZA		-33.461	18.727	4
+P	Izúcar de Matamoros	izucar de matamoros	MX		18.602	-98.462	13
+P	Mahbūbābād	mahbubabad	IN		17.597	80.002	23
+P	Maniwa		JP		35.106	133.720	27
+P	Manacor		ES		39.570	3.210	35
+P	Sukheke Mandi		PK		31.865	73.509	29
+P	Machalí	machali	CL		-34.181	-70.649	15
+P	Mata de São João	mata de sao joao	BR		-12.530	-38.299	9
+P	Maubin		MM		16.731	95.654	28
+P	São Mateus do Sul	sao mateus do sul	BR		-25.874	-50.383	9
+P	Bhawāni Mandi	bhawani mandi	IN		24.416	75.836	23
+P	Mali		CN		34.665	104.698	25
+P	Civitanova Marche		IT		43.305	13.721	35
+P	Malianzhuang		CN		37.075	120.463	25
+P	Maquela do Zombo		AO		-6.057	15.110	3
+P	Maragondon		PH		14.273	120.738	25
+P	Manica		MZ		-18.934	32.876	4
+P	Marataizes		BR		-21.043	-40.824	9
+P	Macaúbas	macaubas	BR		-13.019	-42.699	9
+P	Marialva		BR		-23.485	-51.792	9
+P	Mahē	mahe	IN		11.702	75.535	23
+P	Manassas		US	Virginia	38.751	-77.475	14
+P	Manjo		CM		4.843	9.822	3
+P	Santa Maria de Jetibá	santa maria de jetiba	BR		-20.027	-40.743	9
+P	Marovoay		MG		-16.111	46.644	17
+P	Mankesim		GH		5.272	-1.015	0
+P	Manicaragua		CU		22.150	-79.979	7
+P	Urus-Martan	urus martan	RU		43.131	45.538	17
+P	Sena Madureira		BR		-9.063	-68.672	5
+P	Rāmganj Mandi	ramganj mandi	IN		24.646	75.943	23
+P	Massiogo		ML		10.306	-6.110	0
+P	Marana		US	Arizona	32.437	-111.225	12
+P	Masantol		PH		14.896	120.709	25
+P	Mankhūl	mankhul	AE		25.246	55.292	30
+P	Madīnat Wādī an Naţrūn	madinat wadi an natrun	EG		30.377	30.350	1
+P	Malilipot		PH		13.319	123.739	25
+P	Mankato		US	Minnesota	44.159	-94.009	11
+P	Marseille 01		FR		43.298	5.384	35
+P	Manurewa		NZ		-37.018	174.880	36
+P	Sighetu Marmaţiei	sighetu marmatiei	RO		47.932	23.886	33
+P	Santa Maria da Boa Vista		BR		-8.808	-39.826	9
+P	Maplewood		US	Minnesota	44.953	-92.995	11
+P	Mai Dịch	mai dich	VN		21.033	105.783	19
+P	Manapparai		IN		10.608	78.426	23
+P	Mamatid		PH		14.235	121.159	25
+P	Marcianise		IT		41.031	14.299	35
+P	Maihar		IN		24.266	80.761	23
+P	Marlboro		US	New Jersey	40.315	-74.246	14
+P	Mapusa		IN		15.592	73.809	23
+P	Märkisches Viertel	markisches viertel	DE		52.598	13.358	35
+P	Maştağa	mastaga	AZ		40.530	50.006	30
+P	Maner		IN		25.646	84.873	23
+P	Mālūr	malur	IN		13.003	77.938	23
+P	Mayyanād	mayyanad	IN		8.837	76.645	23
+P	Mappilaiurani		IN		8.836	78.135	23
+P	Mahanoro		MG		-19.900	48.800	17
+P	Mapinga		TZ		-6.600	39.067	17
+P	Massakory		TD		12.998	15.732	3
+P	Marlborough		US	Massachusetts	42.346	-71.552	14
+P	Maarssen		NL		52.139	5.042	35
+P	Mangalia		RO		43.816	28.577	33
+P	Manakunnam		IN		9.886	76.373	23
+P	Karasu Mahallesi		TR		41.071	30.785	17
+P	San Martín	san martin	SV		13.783	-88.917	13
+P	Mangbang		CN		24.932	98.670	25
+P	Mantua		IT		45.160	10.798	35
+P	Matinhos		BR		-25.832	-48.540	9
+P	Talata Mafara		NG		12.568	6.062	3
+P	Al Manqaf		KW		29.096	48.133	17
+P	Maintal		DE		50.150	8.833	35
+P	Minakuchichō-matoba	minakuchicho matoba	JP		34.967	136.167	27
+P	São Mateus do Maranhão	sao mateus do maranhao	BR		-4.042	-44.475	9
+P	Massy		FR		48.727	2.283	35
+P	Marcq-en-Barœul	marcq en baroeul	FR		50.667	3.083	35
+P	Santa Maria da Vitória	santa maria da vitoria	BR		-13.388	-44.199	9
+P	Manhattan Valley		US	New York	40.794	-73.965	14
+P	Maibara		JP		35.317	136.283	27
+P	Ma‘ale Adummim	maale adummim	PS		31.777	35.299	20
+P	Martinez		US	California	38.019	-122.134	8
+P	Malavalli		IN		12.386	77.060	23
+P	Madīnat ‘Īsá	madinat isa	BH		26.174	50.548	17
+P	Mabote		LS		-29.279	27.524	4
+P	Madaoua		NE		14.073	5.960	3
+P	Maudaha		IN		25.683	80.114	23
+P	Mateus Leme		BR		-19.986	-44.428	9
+P	Mango		TG		10.359	0.471	0
+P	Massapê	massape	BR		-3.523	-40.343	9
+P	Martina Franca		IT		40.704	17.338	35
+P	Machado		BR		-21.675	-45.920	9
+P	Mae Chan		TH		20.147	99.853	19
+P	Matozinhos		BR		-19.558	-44.081	9
+P	Pivnichno-Brovarskyi Masyv	pivnichno brovarskyi masyv	UA		50.463	30.617	33
+P	Mandeni		ZA		-29.147	31.414	4
+P	Matamey		NE		13.423	8.475	3
+P	Lloret de Mar		ES		41.700	2.846	35
+P	Malayinkeezhu		IN		8.490	77.037	23
+P	Marion		US	Iowa	42.034	-91.598	11
+P	São Manuel	sao manuel	BR		-22.731	-48.571	9
+P	Wigston Magna		GB	England	52.581	-1.092	34
+P	Mananara		MG		-16.169	49.766	17
+P	Mableton		US	Georgia	33.819	-84.582	14
+P	Amarante do Maranhão	amarante do maranhao	BR		-5.567	-46.742	9
+P	Mińsk Mazowiecki	minsk mazowiecki	PL		52.179	21.573	35
+P	Cesano Maderno		IT		45.629	9.152	35
+P	Great Malvern		GB	England	52.112	-2.325	34
+P	Marratxí	marratxi	ES		39.621	2.725	35
+P	Mandaguari		BR		-23.521	-51.682	9
+P	Malbork		PL		54.036	19.027	35
+P	Matale		LK		7.470	80.622	23
+P	Mangotsfield		GB	England	51.488	-2.504	34
+P	Maia		PT		41.236	-8.620	34
+P	Marion		US	Ohio	40.589	-83.129	14
+P	Sainte-Marguerite	sainte marguerite	FR		48.852	2.389	35
+P	Jesús María	jesus maria	AR		-30.982	-64.094	9
+P	Mattapan		US	Massachusetts	42.272	-71.087	14
+P	Marsabit		KE		2.335	37.991	17
+P	Maasmechelen		BE		50.965	5.695	35
+P	Mont-de-Marsan	mont de marsan	FR		43.890	-0.497	35
+P	Maspalomas		ES		27.761	-15.586	34
+P	Mahālingpur	mahalingpur	IN		16.389	75.109	23
+P	Mālpura	malpura	IN		26.284	75.365	23
+P	Hato Mayor del Rey		DO		18.766	-69.256	10
+P	Marseille 07		FR		43.283	5.360	35
+P	Mādāyi	madayi	IN		12.034	75.238	23
+P	San José de Mayo	san jose de mayo	UY		-34.339	-56.713	9
+P	Marignane		FR		43.417	5.215	35
+P	Maragogipe		BR		-12.778	-38.919	9
+P	Manhattan Beach		US	California	33.885	-118.411	8
+P	Mannar		LK		8.989	79.878	23
+P	Martinez		US	Georgia	33.517	-82.076	14
+P	Madipakkam		IN		12.962	80.199	23
+P	Saint-Martin-d'Hères	saint martin dheres	FR		45.179	5.763	35
+P	Mâcon	macon	FR		46.314	4.828	35
+P	Marvila		PT		38.740	-9.102	34
+P	Domingos Martins		BR		-20.363	-40.659	9
+P	San Martín Azcatepec	san martin azcatepec	MX		19.687	-98.973	13
+P	Mahemdāvād	mahemdavad	IN		22.824	72.756	23
+P	Mapo		CN		34.517	117.067	25
+P	Manali		IN		13.167	80.267	23
+P	Mazarrón	mazarron	ES		37.599	-1.315	35
+P	Vyshhorodskyi Masyv		UA		50.510	30.454	33
+P	Magaria		NE		12.998	8.910	3
+P	Māranchēri	marancheri	IN		10.741	75.971	23
+P	Malakwal City		PK		32.555	73.212	29
+P	Magu		TZ		-2.591	33.446	17
+P	Marijampolė	marijampole	LT		54.558	23.350	33
+P	Mafinga		TZ		-7.250	35.067	17
+P	Narang Mandi		PK		31.904	74.516	29
+P	Al Maḩmūdīyah	al mahmudiyah	EG		31.184	30.524	1
+P	Mascouche		CA	Quebec	45.750	-73.600	14
+P	Malakwal		PK		32.554	73.213	29
+P	Maddaloni		IT		41.036	14.382	35
+P	Makouda		DZ		36.786	4.063	3
+P	Neuilly-sur-Marne	neuilly sur marne	FR		48.854	2.549	35
+P	Minas de Matahambre		CU		22.587	-83.946	7
+P	Margate		ZA		-30.864	30.371	4
+P	Macuelizo		HN		15.313	-88.541	13
+P	Maravatío de Ocampo	maravatio de ocampo	MX		19.892	-100.442	13
+P	Manipal		IN		13.350	74.783	23
+P	Mãe do Rio	mae do rio	BR		-2.046	-47.551	9
+P	Sainte-Marie	sainte marie	RE		-20.897	55.551	30
+P	Manapla		PH		10.958	123.123	25
+P	Mātuail	matuail	BD		23.712	90.460	18
+P	José Mariano Jiménez	jose mariano jimenez	MX		27.131	-104.924	13
+P	Mahrīz	mahriz	IR		31.584	54.443	26
+P	Malajkhand		IN		22.052	80.716	23
+P	Mawlamyinegyunn		MM		16.377	95.265	28
+P	São Domingos do Maranhão	sao domingos do maranhao	BR		-5.576	-44.385	9
+P	Madruga		CU		22.910	-81.857	7
+P	Marmaris		TR		36.855	28.274	17
+P	Maubeuge		FR		50.279	3.973	35
+P	Maromandia		MG		-14.217	48.083	17
+P	Maruoka		JP		36.153	136.270	27
+P	Madikeri		IN		12.426	75.738	23
+P	Mawang		CN		28.893	108.951	25
+P	San Sebastián de Mariquita	san sebastian de mariquita	CO		5.199	-74.893	5
+P	Macuba		RW		-2.293	29.188	4
+P	Maragogi		BR		-9.012	-35.222	9
+P	Manghit		UZ		42.116	60.060	29
+P	Marrero		US	Louisiana	29.899	-90.100	11
+P	Manendragarh		IN		23.213	82.202	23
+P	Manitowoc		US	Wisconsin	44.089	-87.658	11
+P	Minskyi Masyv		UA		50.518	30.462	33
+P	Marks		RU		51.710	46.746	30
+P	Maassluis		NL		51.923	4.250	35
+P	Abu Suweir-el-Mahatta	abu suweir el mahatta	EG		30.570	32.115	1
+P	Châtenay-Malabry	chatenay malabry	FR		48.765	2.267	35
+P	Mamun		IN		32.282	75.698	23
+P	Maloyaroslavets		RU		55.015	36.472	17
+P	Mason		US	Ohio	39.360	-84.310	14
+P	Manuguru		IN		17.930	80.827	23
+P	Mateur		TN		37.040	9.666	3
+P	Manwath		IN		19.301	76.497	23
+P	Mazeikiai		LT		56.317	22.333	33
+P	Mawu		CN		29.593	107.313	25
+P	Madhapar		IN		23.238	69.699	23
+P	Macia		MZ		-25.027	33.099	4
+P	Marienfelde		DE		52.419	13.367	35
+P	Maşyāf	masyaf	SY		35.065	36.341	17
+P	Manamadurai		IN		9.673	78.471	23
+P	Massillon		US	Ohio	40.797	-81.522	14
+P	Macuspana		MX		17.761	-92.595	13
+P	Mascalucia		IT		37.575	15.050	35
+P	Matões	matoes	BR		-5.519	-43.199	9
+P	Ma‘arratmişrīn	maarratmisrin	SY		36.012	36.672	17
+P	Mannanchōri	mannanchori	IN		9.572	76.352	23
+P	Le Perreux-sur-Marne	le perreux sur marne	FR		48.850	2.500	35
+P	Manouba		TN		36.810	10.096	3
+P	Malkapur		IN		17.262	74.176	23
+P	Makhdumpur		IN		25.066	84.972	23
+P	Maḩallat Damanah	mahallat damanah	EG		31.073	31.495	1
+P	Mamu Kanjan		PK		30.830	72.799	29
+P	Maur		IN		30.083	75.250	23
+P	Maḩmūdābād	mahmudabad	IR		36.632	52.263	26
+P	General José de San Martín	general jose de san martin	AR		-26.536	-59.341	9
+P	Santa Maria Capua Vetere		IT		41.082	14.253	35
+P	Mariakani		KE		-3.863	39.475	17
+P	Mandaguaçu	mandaguacu	BR		-23.347	-52.095	9
+P	Makiki / Lower Punchbowl / Tantalus	makiki lower punchbowl tantalus	US	Hawaii	21.318	-157.831	37
+P	Marapong		ZA		-23.655	27.625	4
+P	Mariahilf		AT		48.196	16.352	35
+P	Maluso		PH		6.543	121.875	25
+P	Mangistau		KZ		43.691	51.322	29
+P	Sri Mādhopur	sri madhopur	IN		27.466	75.597	23
+P	Maralal		KE		1.097	36.698	17
+P	Nogent-sur-Marne	nogent sur marne	FR		48.837	2.483	35
+P	Al Maḩāwīl	al mahawil	IQ		32.661	44.409	17
+P	Mankāchar	mankachar	IN		25.533	89.864	23
+P	Malakanagiri		IN		18.364	81.888	23
+P	Mangrūl Pīr	mangrul pir	IN		20.314	77.342	23
+P	Magba		CM		5.950	11.217	3
+P	Mamporal		VE		10.366	-66.134	10
+P	Massafra		IT		40.586	17.116	35
+P	Mānāvadar	manavadar	IN		21.498	70.138	23
+P	Macerata		IT		43.298	13.453	35
+P	Baie-Mahault	baie mahault	GP		16.267	-61.585	10
+P	Lavras da Mangabeira		BR		-6.753	-38.964	9
+P	Madurāntakam	madurantakam	IN		12.512	79.885	23
+P	Machadinho d'Oeste	machadinho doeste	BR		-9.444	-61.981	10
+P	Ywar Ma West		MM		16.897	96.092	28
+P	Matthews		US	North Carolina	35.117	-80.724	14
+P	Nazaré da Mata	nazare da mata	BR		-7.742	-35.228	9
+P	Manchester		US	Connecticut	41.776	-72.521	14
+P	Mahārāganj	maharaganj	IN		27.145	83.562	23
+P	Masaki-chō	masaki cho	JP		33.788	132.711	27
+P	Mairo Inya		KE		0.025	36.409	17
+P	Manises		ES		39.491	-0.463	35
+P	la Marina de Port		ES		41.360	2.140	35
+P	Manāwar	manawar	IN		22.236	75.089	23
+P	Madukkarai		IN		10.906	76.963	23
+P	Mānsa	mansa	IN		23.426	72.657	23
+P	Mampikony		MG		-16.092	47.647	17
+P	Villiers-sur-Marne	villiers sur marne	FR		48.831	2.548	35
+P	Maroubra		AU	New South Wales	-33.950	151.233	32
+P	Madison Heights		US	Michigan	42.486	-83.105	14
+P	Campo Magro		BR		-25.369	-49.451	9
+P	Seoni Mālwa	seoni malwa	IN		22.450	77.466	23
+P	Matveyevskoye		RU		55.711	37.475	17
+P	Masany		UA		51.533	31.231	33
+P	Marhaura		IN		25.973	84.868	23
+P	Marigliano		IT		40.925	14.456	35
+P	Malvar		PH		14.045	121.159	25
+P	Villa General San Martín	villa general san martin	AR		-31.440	-68.520	9
+P	Mandalī	mandali	IQ		33.748	45.555	17
+P	Mavoor		IN		11.267	75.917	23
+P	Mathba		BD		22.286	89.959	18
+P	Mahlsdorf		DE		52.509	13.614	35
+P	Yau Ma Tei		HK		22.314	114.169	25
+P	Maināguri	mainaguri	IN		26.563	88.820	23
+P	Malakoff		FR		48.820	2.300	35
+P	Marfil		MX		20.998	-101.285	13
+P	Machiya		JP		35.748	139.781	27
+P	Majorna		SE		57.692	11.916	35
+P	Mapun		PH		6.975	118.514	25
+P	Kampong Masjid Tanah		MY		2.350	102.117	25
+P	Madhugiri		IN		13.660	77.212	23
+P	Garh Maharaja		PK		30.834	71.905	29
+P	Makak		CM		3.550	11.033	3
+P	Blankenfelde-Mahlow	blankenfelde mahlow	DE		52.336	13.413	35
+P	Mahendragarh		IN		28.269	76.153	23
+P	Maó	mao	ES		39.889	4.266	35
+P	Mastung		PK		29.800	66.846	29
+P	Marion		US	Indiana	40.558	-85.659	14
+P	Maki		JP		37.750	138.883	27
+P	Manhala		PK		31.533	74.550	29
+P	Mariel		CU		22.990	-82.754	7
+P	Manoharpur		IN		27.298	75.950	23
+P	Marinha Grande		PT		39.748	-8.932	34
+P	Masterton		NZ		-40.960	175.657	36
+P	Três Marias	tres marias	BR		-18.206	-45.242	9
+P	El Marsa		EH		27.096	-13.416	2
+P	Manyama		ZM		-12.315	25.849	4
+P	Matsubushi		JP		35.919	139.811	27
+P	Turnu Măgurele	turnu magurele	RO		43.747	24.868	33
+P	Maddūr	maddur	IN		12.583	77.043	23
+P	Makuhari		JP		35.650	140.050	27
+P	Maiurno		SD		13.417	33.667	4
+P	Marghera		IT		45.451	12.224	35
+P	Manga		BF		11.665	-1.070	0
+P	Mangere East		NZ		-36.966	174.824	36
+P	Mühlheim am Main	muhlheim am main	DE		50.117	8.833	35
+P	Lake Magdalene		US	Florida	28.074	-82.472	14
+P	Majayjay		PH		14.146	121.473	25
+P	Makutano		KE		1.259	35.096	17
+P	Maryville		US	Tennessee	35.756	-83.970	14
+P	Mananwala		PK		31.588	73.689	29
+P	Massaguet		TD		12.476	15.436	3
+P	Majie		CN		33.459	104.958	25
+P	Māvelikara	mavelikara	IN		9.259	76.556	23
+P	Maisí	maisi	CU		20.247	-74.152	7
+P	Maravilha		BR		-26.761	-53.172	9
+P	Álvares Machado	alvares machado	BR		-22.079	-51.472	9
+P	Mandi		IN		31.712	76.933	23
+P	Massamá	massama	PT		38.753	-9.281	34
+P	Matosinhos		PT		41.182	-8.689	34
+P	Machagai		AR		-26.926	-60.049	9
+P	Tultitlán de Mariano Escobedo	tultitlan de mariano escobedo	MX		19.647	-99.168	13
+P	Santa Maria		PH		16.952	120.445	25
+P	Wexford/Maryvale	wexford maryvale	CA	Ontario	43.749	-79.299	14
+P	Maywood		US	California	33.987	-118.185	8
+P	Martorell		ES		41.474	1.931	35
+P	Marpole		CA	British Columbia	49.214	-123.130	16
+P	Champs-sur-Marne	champs sur marne	FR		48.850	2.600	35
+P	Mahna		IN		30.228	74.994	23
+P	Matam		SN		15.656	-13.255	0
+P	Mathur		IN		13.171	80.248	23
+P	Nowy Dwór Mazowiecki	nowy dwor mazowiecki	PL		52.430	20.717	35
+P	Maracás	maracas	BR		-13.441	-40.431	9
+P	Marshalltown		US	Iowa	42.049	-92.908	11
+P	Māgadi	magadi	IN		12.957	77.224	23
+P	Mertule Maryam		ET		10.833	38.267	17
+P	Mahād	mahad	IN		18.083	73.417	23
+P	Mae Sai		TH		20.434	99.876	19
+P	Maryborough		AU	Queensland	-25.541	152.705	31
+P	Maevatanana		MG		-16.950	46.833	17
+P	Mandirituba		BR		-25.779	-49.326	9
+P	Malekān	malekan	IR		37.143	46.103	26
+P	Malkara		TR		40.891	26.902	17
+P	Madang		PG		-5.222	145.787	31
+P	Manduria		IT		40.399	17.637	35
+P	Premià de Mar	premia de mar	ES		41.492	2.365	35
+P	Maryland Heights		US	Missouri	38.713	-90.430	11
+P	Mazhan		CN		25.211	98.484	25
+P	Macau		BR		-5.115	-36.634	9
+P	Mason City		US	Iowa	43.154	-93.201	11
+P	Malargüe	malargue	AR		-35.478	-69.585	9
+P	May Cadera		ET		14.073	36.568	17
+P	Malinyi		TZ		-8.933	36.133	17
+P	Märsta	marsta	SE		59.622	17.855	35
+P	Maghull		GB	England	53.516	-2.941	34
+P	Mapalo		ZM		-12.937	28.672	4
+P	Margherita		IN		27.285	95.668	23
+P	MacPherson		SG		1.327	103.884	25
+P	Mahina		ML		13.904	-10.099	0
+P	Mananjary		MG		-21.230	48.342	17
+P	Marabella		TT		10.306	-61.447	10
+P	Māmidālapādu	mamidalapadu	IN		15.854	78.015	23
+P	Coração de Maria	coracao de maria	BR		-12.233	-38.750	9
+P	Grodzisk Mazowiecki		PL		52.104	20.634	35
+P	Pineda de Mar		ES		41.628	2.689	35
+P	Francisco I. Madero	francisco i madero	MX		25.773	-103.271	13
+P	Manihāri	manihari	IN		25.339	87.620	23
+P	Makubetsu		JP		45.371	141.821	27
+P	Magdalena de Kino		MX		30.627	-110.962	12
+P	Rayduzhnyi Masyv		UA		50.486	30.586	33
+P	Marapanim		BR		-0.718	-47.700	9
+P	Manāsa	manasa	IN		24.478	75.141	23
+P	Mantena		BR		-18.782	-40.980	9
+P	Maramba		TZ		-5.050	38.617	17
+P	Magna		US	Utah	40.709	-112.102	6
+P	São Martinho	sao martinho	PT		32.645	-16.938	34
+P	Mansfield City		US	Connecticut	41.766	-72.234	14
+P	Magdalena Atlicpac		MX		19.369	-98.949	13
+P	Mauganj		IN		24.667	81.873	23
+P	Marneuli		GE		41.488	44.798	30
+P	Ashton in Makerfield		GB	England	53.483	-2.650	34
+P	Matoury		GF		4.849	-52.324	9
+P	Bāgh-e Malek	bagh e malek	IR		31.524	49.886	26
+P	Al Mālikīyah	al malikiyah	SY		37.177	42.140	17
+P	Livoberezhnyi Masyv		UA		50.455	30.590	33
+P	Sant Martí de Provençals	sant marti de provencals	ES		41.420	2.196	35
+P	Matsubase		JP		32.650	130.667	27
+P	Marolambo		MG		-20.050	48.117	17
+P	Maâtkas	maatkas	DZ		36.605	3.984	3
+P	Marrickville		AU	New South Wales	-33.907	151.155	32
+P	Magugu		TZ		-4.017	35.767	17
+P	Marroquina		ES		40.411	-3.641	35
+P	Malazgirt		TR		39.147	42.535	17
+P	Mahates		CO		10.233	-75.190	5
+P	Matundasi		TZ		-8.450	33.283	17
+P	Mashiko		JP		36.467	140.100	27
+P	Mangaldai		IN		26.442	92.030	23
+P	Maracanã	maracana	BR		-0.771	-47.452	9
+P	Marín	marin	ES		42.391	-8.701	35
+P	Falconara Marittima		IT		43.626	13.400	35
+P	São Mamede de Infesta	sao mamede de infesta	PT		41.192	-8.611	34
+P	Mannachanallur		IN		10.910	78.699	23
+P	Jaynagar Majilpur		IN		22.175	88.420	23
+P	Maao		PH		10.490	122.991	25
+P	Maksenyit		ET		12.383	37.550	17
+P	Marco		BR		-3.124	-40.147	9
+P	Madison		US	Mississippi	32.462	-90.115	11
+P	Marseille 02		FR		43.297	5.370	35
+P	Machachi		EC		-0.513	-78.571	5
+P	Maple Valley		US	Washington	47.393	-122.046	8
+P	Marcavelica		PE		-4.878	-80.705	5
+P	Mar de Ajó	mar de ajo	AR		-36.729	-56.683	9
+P	Nova Mamoré	nova mamore	BR		-10.402	-65.327	10
+P	Malemba-Nkulu	malemba nkulu	CD		-8.045	26.796	4
+P	Majuro		MH		7.090	171.380	38
+P	Diego Martin		TT		10.721	-61.566	10
+P	Qiryat Mal’akhi	qiryat malakhi	IL		31.729	34.746	20
+P	Markkleeberg		DE		51.276	12.369	35
+P	Profesor Salvador Mazza		AR		-22.049	-63.691	9
+P	Machhlīshahr	machhlishahr	IN		25.686	82.411	23
+P	Maaseik		BE		51.098	5.784	35
+P	Malyn		UA		50.768	29.242	33
+P	Makó	mako	HU		46.217	20.483	35
+P	Mauldin		US	South Carolina	34.779	-82.310	14
+P	Xuân Mai	xuan mai	VN		20.900	105.583	19
+P	Māngrol	mangrol	IN		25.331	76.510	23
+P	Maplewood		US	New Jersey	40.731	-74.273	14
+P	Manyoni		TZ		-5.750	34.833	17
+P	Marayur		IN		10.276	77.162	23
+P	Marina di Carrara		IT		44.038	10.041	35
+P	Mostytskyi Masyv		UA		50.502	30.441	33
+P	Marutharōd	marutharod	IN		10.775	76.699	23
+P	Burg bei Magdeburg		DE		52.272	11.855	35
+P	Māchhīwāra	machhiwara	IN		30.916	76.200	23
+P	Três de Maio	tres de maio	BR		-27.773	-54.240	9
+P	Martinópolis	martinopolis	BR		-22.146	-51.171	9
+P	Mahwa		IN		27.046	76.932	23
+P	Makokou		GA		0.574	12.864	3
+P	Manikchari		BD		22.840	91.841	18
+P	Gimja Bēt Maryam	gimja bet maryam	ET		10.850	36.883	17
+P	Market Harborough		GB	England	52.478	-0.921	34
+P	Bacchus Marsh		AU	Victoria	-37.673	144.438	32
+P	Martos		ES		37.721	-3.973	35
+P	Marcovia		HN		13.288	-87.310	13
+P	Santa Maria do Pará	santa maria do para	BR		-1.350	-47.576	9
+P	Manibaug Pasig		PH		15.096	120.564	25
+P	Maraú	marau	BR		-14.104	-39.015	9
+P	Maga		CM		10.843	14.940	3
+P	Matéri	materi	BJ		10.696	1.063	3
+P	Maheshwar		IN		22.176	75.587	23
+P	Matriz de Camaragibe		BR		-9.152	-35.533	9
+P	Massinga		MZ		-23.329	35.381	4
+P	Saint-Laurent-du-Maroni	saint laurent du maroni	GF		5.502	-54.029	9
+P	Mahārājgani	maharajgani	IN		26.110	84.504	23
+P	Boca Del Mar		US	Florida	26.345	-80.147	14
+P	Mayāng Imphāl	mayang imphal	IN		24.610	93.889	23
+P	Madaya		MM		22.211	96.104	28
+P	Mahmutlar		TR		36.495	32.091	17
+P	Marcos Juárez	marcos juarez	AR		-32.698	-62.107	9
+P	Margaret Drive		SG		1.297	103.808	25
+P	Mambuk		ET		11.283	36.217	17
+P	Matai		TZ		-8.300	31.517	17
+P	Mahwah		US	New Jersey	41.089	-74.144	14
+P	la Maternitat i Sant Ramon		ES		41.381	2.117	35
+P	Alto Alegre do Maranhão	alto alegre do maranhao	BR		-4.213	-44.446	9
+P	Maywood		US	Illinois	41.879	-87.843	11
+P	Māyābandar	mayabandar	IN		12.910	92.903	23
+P	Mamburao		PH		13.223	120.596	25
+P	Macaparana		BR		-7.555	-35.453	9
+P	Makronia		IN		23.848	78.799	23
+P	Marshall		US	Texas	32.545	-94.367	11
+P	New Malden		GB	England	51.401	-0.262	34
+P	Veinticinco de Mayo		AR		-35.432	-60.172	9
+P	Makongolosi		TZ		-8.400	33.150	17
+P	Manari		BR		-8.964	-37.628	9
+P	Agincourt South-Malvern West	agincourt south malvern west	CA	Ontario	43.789	-79.266	14
+P	Malakpur Kohi Rangpur		IN		28.540	77.121	23
+P	Marcinelle		BE		50.392	4.444	35
+P	Macas		EC		-2.307	-78.120	5
+P	Santa Quitéria do Maranhão	santa quiteria do maranhao	BR		-3.496	-42.562	9
+P	Mariāni	mariani	IN		26.657	94.315	23
+P	Maintirano		MG		-18.064	44.030	17
+P	La Madeleine		FR		50.646	3.076	35
+P	Matsuura		JP		33.341	129.695	27
+P	Mairwa		IN		26.232	84.163	23
+P	Malema		MZ		-14.947	37.416	4
+P	San Martín de los Andes	san martin de los andes	AR		-40.158	-71.353	9
+P	San Martín Cuautlalpan	san martin cuautlalpan	MX		19.276	-98.832	13
+P	Manjakandriana		MG		-18.917	47.800	17
+P	Malpe		IN		13.350	74.704	23
+P	Māndal	mandal	IN		25.441	74.570	23
+P	Mānesar	manesar	IN		28.353	76.940	23
+P	Manglai		CN		37.275	79.678	18
+P	María la Baja	maria la baja	CO		9.983	-75.302	5
+P	Marikana		ZA		-25.699	27.475	4
+P	Maldon		GB	England	51.731	0.675	34
+P	Mansfield		US	Massachusetts	42.033	-71.219	14
+P	San Marcos		NI		11.909	-86.204	13
+P	Manoa		US	Hawaii	21.316	-157.804	37
+P	El Masnou		ES		41.480	2.319	35
+P	Mandāwa	mandawa	IN		28.055	75.148	23
+P	Mahārājpur	maharajpur	IN		25.019	79.732	23
+P	Mangere		NZ		-36.968	174.799	36
+P	Marampilly		IN		10.114	76.442	23
+P	el Besòs i el Maresme	el besos i el maresme	ES		41.413	2.217	35
+P	Al Mash‘ilīyah	al mashiliyah	SA		17.756	44.468	17
+P	Macomia		MZ		-12.247	40.121	4
+P	Mabéhiri	mabehiri	CI		5.667	-6.417	0
+P	Marki		PL		52.321	21.105	35
+P	Conceição do Mato Dentro	conceicao do mato dentro	BR		-19.037	-43.425	9
+P	Masis		AM		40.066	44.437	30
+P	Mattigiri		IN		12.698	77.808	23
+P	Massawa		ER		15.608	39.475	17
+P	Mansalay		PH		12.520	121.439	25
+P	Mojtame‘-e Maskūnī-ye Nāmjū	mojtame e maskuni ye namju	IR		35.472	51.724	26
+P	Maghār	maghar	IL		32.889	35.408	20
+P	Machesney Park		US	Illinois	42.347	-89.039	11
+P	Narian-Mar	narian mar	RU		67.668	53.098	17
+P	Jharoda Mazra Burāri	jharoda mazra burari	IN		28.730	77.209	23
+P	Marysville		US	Ohio	40.236	-83.367	14
+P	Maisons-Laffitte	maisons laffitte	FR		48.953	2.145	35
+P	Manuel Ojinaga		MX		29.564	-104.416	11
+P	Madhira		IN		16.923	80.363	23
+P	Matinkylä	matinkyla	FI		60.159	24.742	33
+P	San Mateo Otzacatipan		MX		19.333	-99.603	13
+P	Ostrów Mazowiecka	ostrow mazowiecka	PL		52.802	21.895	35
+P	Mariano Comense		IT		45.697	9.182	35
+P	Mātābhānga	matabhanga	IN		26.342	89.216	23
+P	Maple Heights		US	Ohio	41.415	-81.566	14
+P	Magenta		IT		45.465	8.885	35
+P	Itinga do Maranhão	itinga do maranhao	BR		-4.450	-47.526	9
+P	Tha Mai		TH		12.622	102.005	19
+P	Massarosa		IT		43.866	10.345	35
+P	Mazouna		DZ		36.122	0.899	3
+P	Ras el Ma		MA		33.974	-5.096	2
+P	Manjai Kunda		GM		13.445	-16.703	0
+P	Malvern East		AU	Victoria	-37.874	145.043	32
+P	San Martín	san martin	CO		3.696	-73.700	5
+P	Khanpur Mahar		PK		27.841	69.413	29
+P	Mariāhu	mariahu	IN		25.604	82.604	23
+P	Massey East		NZ		-36.828	174.620	36
+P	Massey		NZ		-36.838	174.610	36
+P	Manage		BE		50.503	4.236	35
+P	Mayahi		NE		13.955	7.671	3
+P	Posto da Mata		BR		-17.886	-39.859	9
+P	Willowridge-Martingrove-Richview	willowridge martingrove richview	CA	Ontario	43.684	-79.554	14
+P	Mata Grande		BR		-9.117	-37.732	9
+P	Maua		KE		0.233	37.941	17
+P	Mansourah		DZ		36.087	4.452	3
+P	Maldegem		BE		51.207	3.445	35
+P	São João da Madeira	sao joao da madeira	PT		40.901	-8.490	34
+P	Marakkanam		IN		12.192	79.942	23
+P	Matinha		BR		-3.101	-45.034	9
+P	Maguan		CN		35.066	106.033	25
+P	Maswa		TZ		-2.683	33.983	17
+P	Maliana		TL		-8.992	125.220	27
+P	Marsiling		SG		1.433	103.774	25
+P	Maḩmūdābād Nemūneh	mahmudabad nemuneh	IR		36.290	49.901	26
+P	Torre del Mar		ES		36.742	-4.093	35
+P	Makurazaki		JP		31.267	130.317	27
+P	Mazagão	mazagao	BR		-0.115	-51.289	9
+P	Marsberg		DE		51.462	8.849	35
+P	Malanday		PH		14.707	121.131	25
+P	maalot Tarshīhā	maalot tarshiha	IL		33.017	35.267	20
+P	Mangalvedha		IN		17.510	75.447	23
+P	Māniyūr	maniyur	IN		11.552	75.650	23
+P	Māmūnīyeh	mamuniyeh	IR		35.305	50.499	26
+P	Las Matas de Farfán	las matas de farfan	DO		18.873	-71.517	10
+P	Santa María de Jesús	santa maria de jesus	GT		14.495	-90.710	13
+P	Santa María Atzompa	santa maria atzompa	MX		17.102	-96.777	13
+P	Conceição de Macabu	conceicao de macabu	BR		-22.085	-41.868	9
+P	Massapequa		US	New York	40.681	-73.474	14
+P	El Mansouria		MA		33.746	-7.302	2
+P	Maamba		ZM		-17.367	27.150	4
+P	Macarani		BR		-15.568	-40.423	9
+P	Māndalgarh	mandalgarh	IN		25.194	75.072	23
+P	Kilwa Masoko		TZ		-8.925	39.513	17
+P	Boca da Mata		BR		-9.641	-36.220	9
+P	Mari		BR		-7.060	-35.319	9
+P	Mahādula	mahadula	IN		21.253	79.081	23
+P	General Juan Madariaga		AR		-37.002	-57.136	9
+P	Masatepe		NI		11.914	-86.145	13
+P	Matupá	matupa	BR		-10.169	-54.934	10
+P	Marang		MY		5.206	103.206	25
+P	Mandan		US	North Dakota	46.827	-100.890	11
+P	Madonna di Campagna		IT		45.103	7.664	35
+P	Manosque		FR		43.829	5.787	35
+P	Mandāwar	mandawar	IN		29.487	78.127	23
+P	Mahgawān	mahgawan	IN		26.495	78.616	23
+P	Marquette		US	Michigan	46.544	-87.395	14
+P	Maro		TD		9.223	17.710	3
+P	Saint-Mandé	saint mande	FR		48.839	2.416	35
+P	Marina		US	California	36.684	-121.802	8
+P	Cassano Magnago		IT		45.672	8.827	35
+P	Judeida Makr		IL		32.928	35.157	20
+P	Porte Saint-Martin	porte saint martin	FR		48.872	2.360	35
+P	Maracaçumé	maracacume	BR		-2.043	-45.959	9
+P	Francavilla al Mare		IT		42.422	14.282	35
+P	São Marcos	sao marcos	BR		-28.971	-51.068	9
+P	Mililani Mauka		US	Hawaii	21.478	-157.995	37
+P	March		GB	England	52.551	0.088	34
+P	Maesteg		GB	Wales	51.609	-3.658	34
+P	Mahdishahr		IR		35.711	53.354	26
+P	Makakilo-Makaīwa Hills-Kunia	makakilo makaiwa hills kunia	US	Hawaii	21.367	-158.073	37
+P	Mäntsälä	mantsala	FI		60.633	25.317	33
+P	Marthandam		IN		8.308	77.221	23
+P	Heli Mandi		IN		28.345	76.757	23
+P	Maai Mahiu		KE		-0.989	36.585	17
+P	Mai		KE		-0.982	36.586	17
+P	Maracena		ES		37.208	-3.635	35
+P	Montecchio Maggiore-Alte Ceccato	montecchio maggiore alte ceccato	IT		45.504	11.412	35
+P	Mayuge		UG		0.460	33.480	17
+P	Malaba		UG		0.644	34.261	17
+P	Las Margaritas		MX		16.313	-91.982	13
+P	Vilassar de Mar		ES		41.505	2.392	35
+P	Makueni Boma		KE		-1.804	37.624	17
+P	Lagny-sur-Marne	lagny sur marne	FR		48.867	2.717	35
+P	Manlleu		ES		42.002	2.285	35
+P	Madattukkulam		IN		10.559	77.366	23
+P	Manhumirim		BR		-20.358	-41.958	9
+P	Governador Mangabeira		BR		-12.600	-39.042	9
+P	Makoua		CG		0.007	15.633	3
+P	Mazinde		TZ		-4.800	38.217	17
+P	Mairena del Alcor		ES		37.373	-5.750	35
+P	Maham		IN		28.969	76.295	23
+P	Maniar		IN		25.985	84.172	23
+P	San Martín	san martin	CO		8.002	-73.511	5
+P	Mafemani		ZA		-24.789	31.079	4
+P	Sainte-Marie	sainte marie	MQ		14.784	-60.992	10
+P	Mamfe		CM		5.751	9.314	3
+P	Mahājerān	mahajeran	IR		34.050	49.435	26
+P	Manay		PH		7.215	126.540	25
+P	Maradong		MY		2.083	111.617	25
+P	Malaṅgawā	malangawa	NP		26.856	85.560	22
+P	Mahd adh Dhahab		SA		23.500	40.884	17
+P	Matui		TZ		-4.800	38.250	17
+P	Marina di Ardea-Tor San Lorenzo	marina di ardea tor san lorenzo	IT		41.554	12.541	35
+P	Kafr Mandā	kafr manda	IL		32.811	35.261	20
+P	Ma Tau Wai		HK		22.321	114.187	25
+P	Mau		IN		26.266	78.671	23
+P	Mau Aimma		IN		25.695	81.923	23
+P	Mabare		UG		-0.967	30.450	17
+P	Maksi		IN		23.260	76.146	23
+P	Mahembe		RW		-2.239	29.293	4
+P	Makuyuni		TZ		-3.550	36.100	17
+P	Sankt Martin		AT		46.617	14.283	35
+P	Matongo		TZ		-1.468	34.523	17
+P	Sainte-Marguerite	sainte marguerite	FR		43.262	5.401	35
+P	Mantes-la-Ville	mantes la ville	FR		48.974	1.703	35
+P	Cortlandt Manor		US	New York	41.280	-73.872	14
+P	Mariners Harbor		US	New York	40.637	-74.159	14
+P	Mar’ina Gorka	marina gorka	BY		53.509	28.147	17
+P	Málaga	malaga	CO		6.699	-72.732	5
+P	Phibun Mangsahan		TH		15.245	105.229	19
+P	Mátyásföld	matyasfold	HU		47.509	19.211	35
+P	Mount Martha		AU	Victoria	-38.267	145.017	32
+P	Ho Man Tin		HK		22.316	114.182	25
+P	Rio Verde de Mato Grosso		BR		-18.918	-54.844	10
+P	Marblehead		US	Massachusetts	42.500	-70.858	14
+P	Massy		KG		41.060	72.633	18
+P	Marchena		ES		37.329	-5.417	35
+P	Maywood		CA	British Columbia	49.222	-123.006	16
+P	Mankono		CI		8.059	-6.190	0
+P	Madisonville		US	Kentucky	37.328	-87.499	11
+P	Magamaga		UG		0.520	33.347	17
+P	Maposeni		TZ		-10.583	35.400	17
+P	Malabanban Norte		PH		13.945	121.431	25
+P	Māhān	mahan	IR		30.059	57.292	26
+P	El Malah		DZ		35.391	-1.092	3
+P	Mayen		DE		50.328	7.223	35
+P	Mamaroneck		US	New York	40.949	-73.733	14
+P	Mandelia		TD		11.730	15.245	3
+P	Magumeri		NG		12.115	12.826	3
+P	Maholi		IN		27.664	80.474	23
+P	Mahapleu		CI		7.225	-7.931	0
+P	Mangalam		IN		13.658	79.463	23
+P	Manyinga		ZM		-13.416	24.335	4
+P	Mâncio Lima	mancio lima	BR		-7.614	-72.896	5
+P	Makabe		JP		36.267	140.100	27
+P	Mandelieu-la-Napoule	mandelieu la napoule	FR		43.546	6.937	35
+P	Manatí	manati	CO		10.446	-74.959	5
+P	Maduraivayal		IN		13.063	80.172	23
+P	Matteson		US	Illinois	41.504	-87.713	11
+P	Manzanares		ES		38.999	-3.370	35
+P	Manshīyat al Qanāţir	manshiyat al qanatir	EG		30.185	31.106	1
+P	Mene de Mauroa		VE		10.681	-71.036	10
+P	Mandiana		GN		10.626	-8.694	0
+P	Madison		US	Connecticut	41.280	-72.598	14
+P	Mārupe	marupe	LV		56.905	24.051	33
+P	Marina di Massa		IT		44.004	10.107	35
+P	Magomeni		TZ		-6.800	39.250	17
+P	Maple Shade		US	New Jersey	39.953	-74.992	14
+P	Marmande		FR		44.504	0.165	35
+P	East Massapequa		US	New York	40.673	-73.437	14
+P	Malanday		PH		14.717	120.958	25
+P	Marion Oaks		US	Florida	29.009	-82.183	14
+P	Aizu-misato Machi	aizu misato machi	JP		37.409	139.813	27
+P	Maurepas		FR		48.765	1.929	35
+P	Maatmeur		TN		35.752	10.691	3
+P	Matías Romero Avendaño	matias romero avendano	MX		16.877	-95.038	13
+P	Matiari		PK		25.597	68.447	29
+P	Si Mahosot		TH		13.888	101.405	19
+P	Martūru	marturu	IN		10.172	76.426	23
+P	Manga		BR		-14.756	-43.932	9
+P	Manchar		IN		19.004	73.943	23
+P	Mārahra	marahra	IN		27.737	78.569	23
+P	Chilly-Mazarin	chilly mazarin	FR		48.715	2.316	35
+P	Mālvan	malvan	IN		16.060	73.463	23
+P	Mangnai Zhen		CN		38.386	90.156	25
+P	Maliuzui		CN		29.693	106.944	25
+P	Mayfield Heights		US	Ohio	41.519	-81.458	14
+P	Matiri		TZ		-10.750	34.900	17
+P	Maithon		IN		23.780	86.810	23
+P	Mallasamudram		IN		11.493	78.031	23
+P	Manturovo		RU		58.326	44.759	17
+P	Malacky		SK		48.436	17.022	35
+P	Santa María Totoltepec	santa maria totoltepec	MX		19.307	-99.593	13
+P	Maqanshy		KZ		46.782	82.023	29
+P	Magole		TZ		-6.377	37.374	17
+P	Marechal Floriano		BR		-20.413	-40.683	9
+P	Bonneuil-sur-Marne	bonneuil sur marne	FR		48.770	2.479	35
+P	San Marcelino		PH		14.974	120.157	25
+P	Greater Upper Marlboro		US	Maryland	38.831	-76.748	14
+P	Mátészalka	mateszalka	HU		47.955	22.323	35
+P	São Raimundo das Mangabeiras	sao raimundo das mangabeiras	BR		-7.022	-45.481	9
+P	Māndvi	mandvi	IN		21.255	73.304	23
+P	San Mariano		PH		7.500	126.000	25
+P	Mamsapuram		IN		9.500	77.588	23
+P	Mangattidam		IN		11.843	75.544	23
+P	Marshfield		US	Wisconsin	44.669	-90.172	11
+P	Marquard		ZA		-28.664	27.430	4
+P	Matipó	matipo	BR		-20.284	-42.341	9
+P	Macomb		US	Illinois	40.459	-90.672	11
+P	San Mauro Torinese		IT		45.104	7.768	35
+P	Marktoberdorf		DE		47.780	10.617	35
+P	Madre de Deus		BR		-12.741	-38.621	9
+P	Malgrat de Mar		ES		41.647	2.741	35
+P	Matelândia	matelandia	BR		-25.240	-53.982	9
+P	Mandapam		IN		9.276	79.124	23
+P	Malakhovka		RU		55.648	38.025	17
+P	General Mamerto Natividad		PH		15.602	121.052	25
+P	Rio Maria		BR		-7.311	-50.048	9
+P	Majhiāon Kalān	majhiaon kalan	IN		24.324	83.816	23
+P	Maroochydore		AU	Queensland	-26.660	153.100	31
+P	Bada Malhera		IN		24.564	79.307	23
+P	Mansfield Woodhouse		GB	England	53.165	-1.194	34
+P	Mauguio		FR		43.617	4.007	35
+P	Chennevières-sur-Marne	chennevieres sur marne	FR		48.797	2.540	35
+P	Maasin		PH		10.133	124.841	25
+P	Martigny-Ville	martigny ville	CH		46.103	7.072	35
+P	Marlow		GB	England	51.569	-0.774	34
+P	Inam Maniyachi		IN		9.171	77.851	23
+P	San Martín de la Vega	san martin de la vega	ES		40.207	-3.571	35
+P	Makakilo		US	Hawaii	21.352	-158.087	37
+P	Morlanwelz-Mariemont	morlanwelz mariemont	BE		50.455	4.245	35
+P	Manchester		US	Missouri	38.597	-90.509	11
+P	Marktredwitz		DE		50.004	12.086	35
+P	Al Mahbūlah	al mahbulah	KW		29.145	48.130	17
+P	São Luís Gonzaga do Maranhão	sao luis gonzaga do maranhao	BR		-4.379	-44.671	9
+P	Néa Mákri	nea makri	GR		38.087	23.976	33
+P	Mattoon		US	Illinois	39.483	-88.373	11
+P	Humanes de Madrid		ES		40.250	-3.831	35
+P	Mādavān	madavan	IR		30.715	51.541	26
+P	Māchai	machai	IN		15.793	74.484	23
+P	Mililani Mauka / Launani Valley	mililani mauka launani valley	US	Hawaii	21.479	-157.988	37
+P	Nar'yan-Mar	naryan mar	RU		67.639	53.004	17
+P	Madizini		TZ		-6.141	37.636	17
+P	Mahīshādal	mahishadal	IN		22.186	87.981	23
+P	St. Marys	st marys	US	Georgia	30.731	-81.546	14
+P	Tres de Mayo		MX		18.869	-99.208	13
+P	Mapastepec		MX		15.434	-92.900	13
+P	Maumelle		US	Arkansas	34.867	-92.404	11
+P	Māsāl	masal	IR		37.363	49.133	26
+P	Maganja		MZ		-17.312	37.508	4
+P	North Massapequa		US	New York	40.701	-73.462	14
+P	Manchester City Centre		GB	England	53.481	-2.246	34
+P	Major Isidoro		BR		-9.532	-36.985	9
+P	São José dos Quatro Marcos	sao jose dos quatro marcos	BR		-15.621	-58.176	10
+P	Marion		US	Illinois	37.731	-88.933	11
+P	Aïn Beni Mathar	ain beni mathar	MA		34.010	-2.032	2
+P	Santa María Ajoloapan	santa maria ajoloapan	MX		19.764	-98.959	13
+P	Maïné Soroa	maine soroa	NE		13.211	12.024	3
+P	Rawa Mazowiecka		PL		51.764	20.255	35
+P	Manalur		IN		10.493	76.103	23
+P	Markova		RU		52.207	104.218	25
+P	Māḩiş	mahis	JO		31.986	35.770	17
+P	Mahudha		IN		22.821	72.940	23
+P	Makinsk		KZ		52.633	70.419	29
+P	Martinsburg		US	West Virginia	39.456	-77.964	14
+P	Mangalam		IN		11.101	77.271	23
+P	Marco Island		US	Florida	25.941	-81.718	14
+P	Mairi		BR		-11.711	-40.149	9
+P	Bellaria-Igea Marina	bellaria igea marina	IT		44.143	12.472	35
+P	Marseille 16		FR		43.360	5.334	35
+P	Maharda		SY		35.248	36.572	17
+P	Mazargues		FR		43.246	5.398	35
+P	Malacacheta		BR		-17.842	-42.077	9
+P	Maltby		GB	England	53.417	-1.200	34
+P	Madhuban		IN		26.439	85.136	23
+P	Saint Matthews		US	Kentucky	38.253	-85.656	14
+P	Maitland		US	Florida	28.628	-81.363	14
+P	Auhammadpur Mājri	auhammadpur majri	IN		28.729	77.038	23
+P	Maliu		CN		31.434	108.245	25
+P	Matões do Norte	matoes do norte	BR		-3.632	-44.556	9
+P	Oi Man Estate		HK		22.312	114.179	25
+P	Marly-le-Roi	marly le roi	FR		48.867	2.083	35
+P	Borda da Mata		BR		-22.274	-46.165	9
+P	Pādegān-e Manjīl	padegan e manjil	IR		36.742	49.416	26
+P	Maganoy		PH		6.865	124.442	25
+P	Mareth		TN		33.618	10.285	3
+P	Mae Ramat		TH		16.984	98.517	19
+P	Mannarai		IN		11.117	77.373	23
+P	Mala		PE		-12.658	-76.631	5
+P	Maynooth		IE		53.385	-6.594	34
+P	Massapequa Park		US	New York	40.680	-73.455	14
+P	Navalmoral de la Mata		ES		39.892	-5.541	35
+P	Massaranduba		BR		-26.611	-49.008	9
+P	Mahayag		PH		8.118	123.445	25
+P	Marechal Thaumaturgo		BR		-8.941	-72.792	5
+P	Mata Roma		BR		-3.625	-43.111	9
+P	Mariakerke		BE		51.075	3.683	35
+P	Madambakkam		IN		12.852	80.047	23
+P	Mahiari		IN		22.588	88.235	23
+P	Mahébourg	mahebourg	MU		-20.408	57.700	30
+P	Hochheim am Main		DE		50.014	8.352	35
+P	Maghar		IN		26.756	83.128	23
+P	Manaquiri		BR		-3.428	-60.459	10
+P	Maféré	mafere	CI		5.415	-3.030	0
+P	Mabubas		AO		-8.524	13.686	3
+P	Manjhanpur		IN		25.530	81.376	23
+P	Mākum	makum	IN		27.487	95.436	23
+P	Malampaka		TZ		-3.133	33.533	17
+P	Madalena		BR		-4.857	-39.577	9
+P	Ga-Malakhe	ga malakhe	ZA		-30.806	30.335	4
+P	Marche-en-Famenne	marche en famenne	BE		50.227	5.344	35
+P	Malafede		IT		41.775	12.377	35
+P	La Magdalena Tlaltelulco		MX		19.283	-98.196	13
+P	Macatuba		BR		-22.502	-48.711	9
+P	Ma'rib	marib	YE		15.463	45.326	17
+P	Parkwood Manor		US	Pennsylvania	40.093	-74.968	14
+P	Achkhoy-Martan	achkhoy martan	RU		43.192	45.283	17
+P	Santa Maria		PH		6.554	125.471	25
+P	Dera Māndi	dera mandi	IN		28.436	77.176	23
+P	Marienberg		DE		50.651	13.161	35
+P	Malīhābād	malihabad	IN		26.922	80.711	23
+P	Maardu		EE		59.465	24.982	33
+P	Santa Clara del Mar		AR		-37.834	-57.507	9
+P	Mangueirinha		BR		-25.941	-52.176	9
+P	Madhuban		IN		23.782	91.286	23
+P	Savanna-la-Mar	savanna la mar	JM		18.219	-78.133	5
+P	Malahide		IE		53.451	-6.154	34
+P	Santa Maria das Barreiras		BR		-8.872	-49.713	9
+P	Santa María	santa maria	AR		-26.695	-66.048	9
+P	Bovisio-Masciago	bovisio masciago	IT		45.610	9.153	35
+P	Madarounfa		NE		13.309	7.156	3
+P	Manzanares		CO		5.254	-75.154	5
+P	La Maná	la mana	EC		-0.941	-79.227	5
+P	Santa Margarida		BR		-20.384	-42.251	9
+P	Ywar Ma East		MM		16.899	96.103	28
+P	Matsushima		JP		38.374	141.061	27
+P	Kaleke Mandi		PK		31.976	73.600	29
+P	Maubara		TL		-8.612	125.206	27
+P	Centro Novo do Maranhão	centro novo do maranhao	BR		-2.141	-46.124	9
+P	Madukkūr	madukkur	IN		10.481	79.399	23
+P	Mangla		PK		31.893	72.382	29
+P	San Martín de Pangoa	san martin de pangoa	PE		-11.429	-74.488	5
+P	Mazeras		KE		-3.964	39.550	17
+P	Ampliación San Mateo	ampliacion san mateo	MX		19.616	-99.147	13
+P	San Mateo		PH		16.882	121.587	25
+P	Bry-sur-Marne	bry sur marne	FR		48.838	2.525	35
+P	Magdalena		MX		20.907	-103.977	13
+P	Manly		AU	New South Wales	-33.798	151.288	32
+P	Maaspoort		NL		51.726	5.302	35
+P	Lohr am Main		DE		49.989	9.572	35
+P	Madison		US	New Jersey	40.760	-74.417	14
+P	Mariestad		SE		58.710	13.824	35
+P	Maying		CN		33.596	104.846	25
+P	Cage Mazumbo		AO		-8.300	14.345	3
+P	Maryland City		US	Maryland	39.092	-76.818	14
+P	Manatí	manati	PR		18.427	-66.492	10
+P	Castel Maggiore		IT		44.577	11.361	35
+P	Matsuzaki		JP		35.467	133.900	27
+P	Lake Mary		US	Florida	28.759	-81.318	14
+P	Kampung Machap Baru		MY		2.383	102.331	25
+P	Manafwa		UG		0.952	34.270	17
+P	Makwassie		ZA		-27.316	25.995	4
+P	Mascot		AU	New South Wales	-33.926	151.193	32
+P	Cruz Machado		BR		-26.017	-51.347	9
+P	Māliya	maliya	IN		23.093	70.759	23
+P	Machipanda		MZ		-18.986	32.736	4
+P	Mangalmé	mangalme	TD		12.355	19.614	3
+P	La Marque		US	Texas	29.369	-94.971	11
+P	Marmeleiro		BR		-26.149	-53.026	9
+P	Mário Campos	mario campos	BR		-20.056	-44.188	9
+P	Mankayan		PH		16.863	120.783	25
+P	Mahires		TN		34.528	10.501	3
+P	Bathurst Manor		CA	Ontario	43.765	-79.456	14
+P	Maraã	maraa	BR		-1.853	-65.574	10
+P	Maillardville		CA	British Columbia	49.238	-122.867	16
+P	Marattakara		IN		10.473	76.256	23
+P	Makkasan		TH		13.752	100.543	19
+P	Strawberry Mansion		US	Pennsylvania	39.983	-75.183	14
+P	Ké-Macina	ke macina	ML		13.964	-5.358	0
+P	Manassas Park		US	Virginia	38.784	-77.470	14
+P	Maruim		BR		-10.738	-37.082	9
+P	Marte		NG		12.365	13.829	3
+P	Taylor-Massey	taylor massey	CA	Ontario	43.695	-79.296	14
+P	Manaveli		IN		11.891	79.810	23
+P	Manthani		IN		18.651	79.665	23
+P	Malamulele		ZA		-22.971	30.674	4
+P	Bryn Mawr-Skyway	bryn mawr skyway	US	Washington	47.494	-122.241	8
+P	Manūjān	manujan	IR		27.399	57.497	26
+P	Manjīl	manjil	IR		36.744	49.401	26
+P	Maval		IN		18.755	73.444	23
+P	Marbach am Neckar		DE		48.940	9.260	35
+P	Mayenne		FR		48.303	-0.614	35
+P	Malaba		KE		0.635	34.282	17
+P	Maullín	maullin	CL		-41.618	-73.598	15
+P	Malango		SB		-9.425	160.053	24
+P	Magog		CA	Quebec	45.267	-72.149	14
+P	Makuyuni		TZ		-4.733	38.100	17
+P	Mani Mājra	mani majra	IN		30.714	76.838	23
+P	Mastic		US	New York	40.802	-72.841	14
+P	Minas de Marcona		PE		-15.212	-75.110	5
+P	Martha Lake		US	Washington	47.851	-122.239	8
+P	Malnate		IT		45.794	8.881	35
+P	Majd el Kurūm	majd el kurum	IL		32.921	35.254	20
+P	Marsella		CO		4.937	-75.738	5
+P	Winnie Mandela		ZA		-28.700	26.458	4
+P	Mamafubedu		ZA		-27.666	28.131	4
+P	Madera		MX		29.193	-108.143	13
+P	Magṭa‘ Laḥjar	magta lahjar	MR		17.506	-13.093	0
+P	Mayma		RU		52.003	85.897	19
+P	Malhada		BR		-14.336	-43.774	9
+P	San Mateo Huitzilzingo		MX		19.229	-98.925	13
+P	Magtymguly		TM		38.437	56.281	29
+P	Makakilo City		US	Hawaii	21.347	-158.086	37
+P	Mechelen-aan-de-Maas	mechelen aan de maas	BE		50.966	5.691	35
+P	Magdalena		AR		-35.080	-57.514	9
+P	Mabama		TZ		-5.133	32.533	17
+P	Manor Park		GB	England	51.549	0.049	34
+P	São Martinho do Bispo	sao martinho do bispo	PT		40.210	-8.457	34
+P	Arenys de Mar		ES		41.582	2.549	35
+P	Mardakan		AZ		40.492	50.143	30
+P	Saint-Maximin-la-Sainte-Baume	saint maximin la sainte baume	FR		43.448	5.861	35
+P	Massamagrell		ES		39.567	-0.333	35
+P	Goniāna Mandi	goniana mandi	IN		30.317	74.913	23
+P	Magarao		PH		13.660	123.187	25
+P	Mangilao Village		GU		13.448	144.801	31
+P	Mahabalipuram		IN		12.621	80.193	23
+P	Marchienne-au-Pont	marchienne au pont	BE		50.406	4.395	35
+P	Markaz-e Woluswalī-ye Āchīn	markaz e woluswali ye achin	AF		34.126	70.708	21
+P	Mani		BF		13.258	-0.213	0
+P	Makindu		KE		-2.278	37.819	17
+P	Santiago de María	santiago de maria	SV		13.483	-88.467	13
+P	Mahanje		TZ		-9.933	35.333	17
+P	Mariehamn		AX		60.097	19.935	33
+P	Marigot		MF		18.068	-63.083	10
+P	San Marino		SM		43.937	12.446	35
+P	Mata-Utu	mata utu	WF		-13.282	-176.175	38
+P	Thomas Magena home		KE		-0.770	34.751	17

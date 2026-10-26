@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cuiaba	-240	
+C	BR	Brazil	mwl	s
+B	0
+P	Sinop		BR		-11.864	-55.502	0
+P	Sorriso		BR		-12.545	-55.711	0
+P	Tangará da Serra	tangara da serra	BR		-14.619	-57.486	0
+P	Lucas do Rio Verde		BR		-13.071	-55.915	0
+P	Nova Mutum		BR		-13.829	-56.082	0
+P	Campo Novo do Parecis		BR		-13.675	-57.892	0
+P	Juína	juina	BR		-11.420	-58.755	0
+P	Juara		BR		-11.255	-57.520	0
+P	Colíder	colider	BR		-10.818	-55.451	0
+P	Sapezal		BR		-13.542	-58.820	0
+P	Aripuanã	aripuana	BR		-10.176	-59.449	0
+P	Diamantino		BR		-14.409	-56.446	0
+P	Comodoro		BR		-13.663	-59.786	0
+P	Brasnorte		BR		-12.120	-58.003	0
+P	Nova Olímpia	nova olimpia	BR		-14.797	-57.288	0
+P	Nobres		BR		-14.720	-56.328	0
+P	Tapurah		BR		-12.737	-56.514	0
+P	Rosário Oeste	rosario oeste	BR		-14.836	-56.428	0

@@ -1,0 +1,213 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Addis_Ababa	180	
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Khartoum	120	
+Z	4	Africa/Lagos	60	
+Z	5	America/Fortaleza	-180	
+Z	6	America/Guayaquil	-300	
+Z	7	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	8	America/Mexico_City	-360	
+Z	9	America/Porto_Velho	-240	
+Z	10	Asia/Kolkata	330	
+Z	11	Asia/Samarkand	300	
+Z	12	Asia/Seoul	540	
+Z	13	Asia/Shanghai	480	
+Z	14	Asia/Tehran	210	
+Z	15	Asia/Urumqi	360	
+Z	16	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	17	Europe/Prague	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BH	Bahrain	ummalqura	s
+C	BR	Brazil	mwl	s
+C	CN	China	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	GH	Ghana	egyptian	s
+C	GT	Guatemala	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	KR	South Korea	mwl	s
+C	MA	Morocco	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	PK	Pakistan	karachi	h
+C	RO	Romania	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SY	Syria	egyptian	s
+C	TW	Taiwan	mwl	s
+C	UG	Uganda	egyptian	s
+C	UZ	Uzbekistan	mwl	h
+A	jidda	jeddah
+A	jiddah	jeddah
+B	13
+P	Jinan		CN		36.668	116.997	13
+P	Jieyang		CN		23.542	116.366	13
+P	Jilin		CN		43.847	126.561	13
+P	Jiading		CN		31.386	121.245	13
+P	Jiangmen		CN		22.583	113.083	13
+P	Jiangyin		CN		31.911	120.263	13
+P	Jinhua		CN		29.107	119.644	13
+P	Jinjiang		CN		24.820	118.574	13
+P	Jining		CN		35.405	116.581	13
+P	Jinzhong		CN		37.684	112.755	13
+P	Jiaxing		CN		30.752	120.750	13
+P	Jiujiang		CN		29.705	116.002	13
+P	Jingzhou		CN		30.350	112.190	13
+P	Jing’an	jingan	CN		31.220	121.416	13
+P	Jiaozuo		CN		35.239	113.239	13
+P	Jinshan		CN		30.836	121.294	13
+P	Jingmen		CN		31.034	112.205	13
+P	Jiaozhou		CN		36.284	120.003	13
+P	Jinzhou		CN		41.108	121.142	13
+P	Jiamusi		CN		46.797	130.311	13
+P	Ji’an	jian	CN		27.117	114.979	13
+P	Jianshui		CN		24.277	101.224	13
+P	Jijiga		ET		9.350	42.800	1
+P	Jincheng		CN		35.502	112.833	13
+P	Jingdezhen		CN		29.295	117.208	13
+P	Jiaojiang		CN		28.698	121.473	13
+P	Jiuquan		CN		39.743	98.517	13
+P	Jixi		CN		45.293	130.962	13
+P	Jizhou		CN		37.551	115.569	13
+P	Jining		CN		41.028	113.106	13
+P	Jimma		ET		7.673	36.834	1
+P	Jimeta		NG		9.279	12.458	4
+P	Jiyuan		CN		35.089	112.588	13
+P	Jiayuguan		CN		39.811	98.286	13
+P	Jinchang		CN		38.501	102.194	13
+P	Jingling		CN		30.650	113.100	13
+P	Jinzhou		CN		39.100	121.717	13
+P	Jiutepec		MX		18.881	-99.178	8
+P	Jinghong		CN		22.003	100.770	13
+P	Jijiang		CN		29.290	106.250	13
+P	Jinshanlu		CN		47.850	88.133	15
+P	Jing’an	jingan	CN		22.211	113.292	13
+P	Jizzax		UZ		40.134	67.830	11
+P	Jiutai		CN		44.151	125.830	13
+P	Jīnd	jind	IN		29.316	76.315	10
+P	Jieshou		CN		33.263	115.361	13
+P	Jieshi		CN		22.810	115.831	13
+P	Jiashan		CN		30.849	120.926	13
+P	Jiagedaqi		CN		50.417	124.117	13
+P	Jiawang		CN		34.433	117.442	13
+P	Jijel		DZ		36.821	5.764	4
+P	Jīroft	jiroft	IR		28.678	57.741	14
+P	Jiazi		CN		22.879	116.073	13
+P	Jiangyou		CN		31.767	104.717	13
+P	Jinfeng		CN		28.238	116.601	13
+P	Jingzhi		CN		36.310	119.388	13
+P	Ji Paraná	ji parana	BR		-10.885	-61.952	9
+P	Jiupu		CN		41.067	122.950	13
+P	Jiaohe		CN		43.721	127.335	13
+P	Dchira El Jihadia		MA		30.373	-9.548	2
+P	Jianchang		CN		27.558	116.640	13
+P	Jizan		SA		16.889	42.551	1
+P	Jishu		CN		44.317	126.800	13
+P	Jishou		CN		28.319	109.733	13
+P	Jiudian		CN		36.992	120.204	13
+P	Jinniu		CN		25.801	100.574	13
+P	Jinsha		CN		32.090	121.074	13
+P	Jiayue		CN		36.024	119.176	13
+P	Jinja		UG		0.439	33.203	1
+P	Jirapa		GH		10.537	-2.702	0
+P	Jiangshan		CN		36.678	120.529	13
+P	Jinxiang		CN		27.433	120.606	13
+P	Jinshi		CN		29.605	111.870	13
+P	Jishui		CN		33.733	115.400	13
+P	Jiexiu		CN		37.024	111.912	13
+P	Târgu Jiu	targu jiu	RO		45.050	23.283	16
+P	Jiangzhuang		CN		36.494	119.794	13
+P	Jimo		CN		36.390	120.462	13
+P	Jiangyan		CN		32.506	120.143	13
+P	Jiehu		CN		35.543	118.455	13
+P	Jinjiang		CN		19.729	110.009	13
+P	Cadereyta Jiménez	cadereyta jimenez	MX		25.591	-100.001	8
+P	Jiang’an	jiangan	CN		28.733	105.068	13
+P	Jidd Ḩafş	jidd hafs	BH		26.219	50.548	1
+P	Jietou		CN		25.427	98.653	13
+P	Jitra		MY		6.268	100.422	13
+P	Jinggou		CN		36.282	119.552	13
+P	Jianguang		CN		28.194	115.784	13
+P	Jiangbei		CN		29.728	106.635	13
+P	Jiangkou		CN		25.487	119.198	13
+P	Pánlóngchéng Jīngjì Kāifāqū	panlongcheng jingji kaifaqu	CN		30.693	114.271	13
+P	Jian’ou	jianou	CN		27.041	118.319	13
+P	Jixian		CN		46.726	131.133	13
+P	Jidong		CN		45.256	131.116	13
+P	Jing'an	jingan	CN		34.496	116.922	13
+P	Jinji		CN		23.228	110.826	13
+P	Jinotega		NI		13.091	-86.002	8
+P	Jinka		ET		5.650	36.650	1
+P	Jinding		CN		26.439	99.441	13
+P	Jinhua		CN		26.538	99.917	13
+P	Jitai		CN		36.757	118.739	13
+P	Jihlava		CZ		49.396	15.591	17
+P	Jinjiang		CN		28.401	116.900	13
+P	Jiawang Zhen		CN		34.422	117.468	13
+P	Jielong		CN		29.249	106.777	13
+P	Jieshi		CN		29.390	106.608	13
+P	Abu Jibeha		SD		11.456	31.229	3
+P	Jiushan		CN		36.196	118.465	13
+P	Jintūr	jintur	IN		19.612	76.687	10
+P	Jilib		SO		0.488	42.785	1
+P	Jingguan		CN		29.895	106.564	13
+P	Jīwanpur	jiwanpur	IN		28.714	77.285	10
+P	Jiangping		CN		21.600	108.150	13
+P	Jiguaní	jiguani	CU		20.368	-76.429	7
+P	Jisr ash Shughūr	jisr ash shughur	SY		35.814	36.320	1
+P	Jinzhongzi		CN		36.335	119.258	13
+P	Jiachuan		CN		32.209	106.215	13
+P	Jinshan		CN		34.811	105.434	13
+P	Jincheng		TW		24.434	118.317	13
+P	Jipijapa		EC		-1.348	-80.579	6
+P	José Mariano Jiménez	jose mariano jimenez	MX		27.131	-104.924	8
+P	Jiulongshan		CN		31.194	108.251	13
+P	Jiangzhuang		CN		34.492	117.397	13
+P	Jiuxian		CN		29.862	106.203	13
+P	Jinan-gun	jinan gun	KR		35.792	127.425	12
+P	Jinhu		TW		24.439	118.421	13
+P	Jingui		CN		38.500	106.417	13
+P	Jinotepe		NI		11.848	-86.199	8
+P	Jinqiao		CN		31.271	121.593	13
+P	Jilādiguda	jiladiguda	IN		17.332	78.526	10
+P	Jiasi		CN		29.116	106.447	13
+P	Jiangxi		CN		33.999	105.200	13
+P	Nový Jičín	novy jicin	CZ		49.594	18.010	17
+P	Báigōng Jiēdào	baigong jiedao	CN		30.295	108.034	13
+P	Jijoca de Jericoacoara		BR		-2.895	-40.449	5
+P	Jiwani		PK		25.049	61.746	11
+P	San Luis Jilotepeque		GT		14.647	-89.725	8
+P	Jiahanbage		CN		37.197	79.706	15
+P	Jiagao		CN		30.889	109.176	13
+P	Jiquilpan de Juárez	jiquilpan de juarez	MX		19.992	-102.718	8
+P	Jiuhe		CN		26.763	99.992	13
+P	Jiaoshi		CN		29.716	107.598	13
+P	Jindřichův Hradec	jindrichuv hradec	CZ		49.144	15.003	17
+P	Jirapur		IN		24.021	76.376	10
+P	Jinlong		CN		29.514	106.061	13
+P	Jiangnan		CN		29.793	107.037	13
+P	Jimaguayú	jimaguayu	CU		21.242	-77.826	7
+P	Ji’an	jian	CN		29.159	105.747	13
+P	Jiangkou		CN		29.240	107.879	13
+P	Jining		IN		28.216	94.854	10
+P	Jirkov		CZ		50.500	13.448	17
+P	Jiangluo		CN		33.901	105.822	13
+P	Jiaogong		CN		33.565	104.646	13
+P	Jiaping		CN		28.992	106.348	13
+P	Jiuchao		CN		26.091	108.765	13
+P	Jianlong		CN		29.359	106.185	13
+P	Jiuchi		CN		30.798	108.371	13
+P	Jiayi		CN		36.855	81.635	15
+P	Jianshan		CN		31.434	108.895	13
+P	Jigani		IN		12.786	77.639	10
+P	Jiangjia		CN		29.393	106.819	13
+P	Jičín	jicin	CZ		50.437	15.352	17
+P	Jifeng		CN		33.655	105.658	13
+P	‘Uyūn al Jiwā’	uyun al jiwa	SA		26.498	43.631	1

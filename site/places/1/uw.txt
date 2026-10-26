@@ -1,0 +1,6 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+B	0
+P	Uwajima		JP		33.224	132.560	0
+P	Uwa		JP		33.365	132.513	0

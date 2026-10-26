@@ -1,0 +1,276 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	2	America/Dawson_Creek	-420	
+Z	3	America/Edmonton	-420	29549340=-360
+Z	4	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	5	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	6	America/Regina	-360	
+Z	7	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	8	America/Vancouver	-480	29549400=-420
+Z	9	Asia/Tbilisi	240	
+Z	10	Asia/Tomsk	420	
+Z	11	Asia/Yekaterinburg	300	
+Z	12	Atlantic/Stanley	-180	
+Z	13	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	14	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	15	Europe/Moscow	180	
+Z	16	Europe/Sofia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	17	Europe/Stockholm	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	18	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BE	Belgium	mwl	s
+C	BG	Bulgaria	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CY	Cyprus	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	FK	Falkland Islands	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GE	Georgia	mwl	s
+C	GR	Greece	mwl	s
+C	IT	Italy	mwl	s
+C	KH	Cambodia	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	MD	Moldova	mwl	s
+C	MK	North Macedonia	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PL	Poland	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	ZA	South Africa	egyptian	s
+B	1
+P	Stockholm		SE		59.329	18.069	17
+P	Stuttgart		DE		48.782	9.177	17
+P	Staten Island		US	New York	40.562	-74.140	5
+P	Stavropol		RU		45.034	41.964	15
+P	Stockton		US	California	37.958	-121.291	4
+P	St. Louis	st louis	US	Missouri	38.627	-90.198	1
+P	Strasbourg		FR		48.584	7.746	17
+P	Sterlitamak		RU		53.638	55.953	11
+P	Stoke-on-Trent	stoke on trent	GB	England	53.004	-2.185	14
+P	St. Petersburg	st petersburg	US	Florida	27.771	-82.679	5
+P	Staryy Oskol		RU		51.303	37.846	15
+P	St Helens		GB	England	53.450	-2.733	14
+P	Almere Stad		NL		52.370	5.214	17
+P	Strogino		RU		55.818	37.412	15
+P	Stavanger		NO		58.970	5.733	17
+P	Stockport		GB	England	53.410	-2.158	14
+P	St. Catharines	st catharines	CA	Ontario	43.171	-79.243	5
+P	Sterling Heights		US	Michigan	42.580	-83.030	5
+P	Stamford		US	Connecticut	41.053	-73.539	5
+P	Tyoply Stan		RU		55.620	37.493	15
+P	Stara Zagora		BG		42.432	25.643	16
+P	North Stamford		US	Connecticut	41.138	-73.543	5
+P	St. John's	st johns	CA	Newfoundland and Labrador	47.565	-52.709	7
+P	College Station		US	Texas	30.628	-96.334	1
+P	Standerton		ZA		-26.934	29.242	0
+P	Stellenbosch		ZA		-33.935	18.867	0
+P	Stilfontein		ZA		-26.845	26.768	0
+P	Stevenage		GB	England	51.902	-0.203	14
+P	Brno střed	brno stred	CZ		49.193	16.607	17
+P	St Albans		GB	England	51.750	-0.333	14
+P	Stockton-on-Tees	stockton on tees	GB	England	54.568	-1.319	14
+P	Stoney Creek		CA	Ontario	43.217	-79.766	5
+P	Steglitz		DE		52.456	13.332	17
+P	Sault Ste. Marie	sault ste marie	CA	Ontario	46.517	-84.333	5
+P	Stargard		PL		53.337	15.050	17
+P	Stafford		GB	England	52.805	-2.116	14
+P	Stamford Hill		GB	England	51.569	-0.073	14
+P	Stróvolos	strovolos	CY		35.149	33.334	16
+P	Stalowa Wola		PL		50.583	22.053	17
+P	Castellammare di Stabia		IT		40.702	14.487	17
+P	Stryi		UA		49.261	23.848	16
+P	Stupino		RU		54.897	38.068	15
+P	Stodůlky	stodulky	CZ		50.050	14.317	17
+P	Stroud		GB	England	51.750	-2.200	14
+P	Stralsund		DE		54.309	13.082	17
+P	Streatham		GB	England	51.429	-0.132	14
+P	St. Albert	st albert	CA	Alberta	53.633	-113.635	3
+P	Stolberg		DE		50.774	6.226	17
+P	Stourbridge		GB	England	52.456	-2.143	14
+P	Pokrovskoye-Streshnëvo	pokrovskoye streshnevo	RU		55.808	37.458	15
+P	Pozzo Strada		IT		45.068	7.625	17
+P	Starachowice		PL		51.037	21.071	17
+P	Stratford		US	Connecticut	41.185	-73.133	5
+P	Staines		GB	England	51.431	-0.506	14
+P	Stonecrest		US	Georgia	33.708	-84.135	5
+P	Whitchurch-Stouffville	whitchurch stouffville	CA	Ontario	44.000	-79.316	5
+P	Stillwater		US	Oklahoma	36.116	-97.058	1
+P	Stuttgart-Ost	stuttgart ost	DE		48.784	9.210	17
+P	Starogard Gdański	starogard gdanski	PL		53.964	18.526	17
+P	Stepnogorsk		KZ		52.351	71.882	11
+P	Staaken		DE		52.537	13.151	17
+P	Staryy Malgobek		RU		43.544	44.596	15
+P	Staré Mesto	stare mesto	SK		48.150	17.090	17
+P	Stavroúpoli	stavroupoli	GR		40.669	22.938	16
+P	Hansestadt Stade		DE		53.594	9.473	17
+P	Strezhevoy		RU		60.733	77.589	10
+P	Strongsville		US	Ohio	41.315	-81.836	5
+P	Straubing		DE		48.881	12.574	17
+P	Lytham St Annes		GB	England	53.743	-2.997	14
+P	State College		US	Pennsylvania	40.793	-77.860	5
+P	Stretford		GB	England	53.450	-2.317	14
+P	Stare Misto		UA		50.448	30.526	16
+P	Bury St Edmunds		GB	England	52.246	0.711	14
+P	Strawberry Hill		CA	British Columbia	49.133	-122.883	8
+P	Bishops Stortford		GB	England	51.871	0.159	14
+P	Stittsville		CA	Ontario	45.250	-75.916	5
+P	Streamwood		US	Illinois	42.026	-88.178	1
+P	Carol Stream		US	Illinois	41.913	-88.135	1
+P	St. Johns	st johns	US	Florida	30.081	-81.548	5
+P	St. Thomas	st thomas	CA	Ontario	42.774	-81.180	5
+P	Stanton		US	California	33.803	-117.993	4
+P	Steyr		AT		48.043	14.421	17
+P	Valley Stream		US	New York	40.664	-73.708	5
+P	Stirling		GB	Scotland	56.119	-3.937	14
+P	Stendal		DE		52.606	11.861	17
+P	Staré Strašnice	stare strasnice	CZ		50.076	14.510	17
+P	St Albans		AU	Victoria	-37.745	144.800	13
+P	Struga		MK		41.178	20.679	17
+P	Chester-le-Street	chester le street	GB	England	54.859	-1.574	14
+P	Stouffville		CA	Ontario	43.967	-79.250	5
+P	Stratford		GB	England	51.533	0.000	14
+P	Stutterheim		ZA		-32.571	27.424	0
+P	Staraya Derevnya		RU		59.988	30.243	15
+P	Stow		US	Ohio	41.160	-81.440	5
+P	Steinfurt		DE		52.150	7.337	17
+P	Staraya Russa		RU		57.996	31.360	15
+P	Starokostyantyniv		UA		49.755	27.212	16
+P	Studio City		US	California	34.149	-118.396	4
+P	Strumica		MK		41.438	22.643	17
+P	Strood		GB	England	51.393	0.477	14
+P	St. Charles	st charles	US	Maryland	38.607	-76.925	5
+P	Huntington Station		US	New York	40.853	-73.412	5
+P	St. Charles	st charles	US	Illinois	41.914	-88.309	1
+P	Stains		FR		48.950	2.383	17
+P	Stuhr		DE		53.033	8.750	17
+P	Stratford		CA	Ontario	43.367	-80.950	5
+P	Stanley		GB	England	54.868	-1.698	14
+P	Lake Stevens		US	Washington	48.015	-122.064	4
+P	Statesboro		US	Georgia	32.449	-81.783	5
+P	Stratford-upon-Avon	stratford upon avon	GB	England	52.192	-1.707	14
+P	Stella		IT		40.860	14.252	17
+P	Starominskaya		RU		46.531	39.052	15
+P	Stanford-le-Hope	stanford le hope	GB	England	51.523	0.434	14
+P	Geislingen an der Steige		DE		48.624	9.827	17
+P	Stockbridge		US	Georgia	33.544	-84.234	5
+P	Stuttgart Feuerbach		DE		48.809	9.157	17
+P	Sterling		US	Virginia	39.006	-77.429	5
+P	St. James-Assiniboia East	st james assiniboia east	CA	Manitoba	49.890	-97.227	1
+P	Stoughton		US	Massachusetts	42.125	-71.102	5
+P	Stalybridge		GB	England	53.484	-2.059	14
+P	Strausberg		DE		52.579	13.887	17
+P	Stantsiya Novyy Afon		GE		43.081	40.838	9
+P	Stevens Point		US	Wisconsin	44.524	-89.575	1
+P	Statesville		US	North Carolina	35.783	-80.887	5
+P	Stuttgart Mühlhausen	stuttgart muhlhausen	DE		48.842	9.230	17
+P	Stara Darnytsya		UA		50.433	30.633	16
+P	Central 14th Street / Spring Road	central 14th street spring road	US	District of Columbia	38.937	-77.033	5
+P	Bay Street Corridor		CA	Ontario	43.658	-79.386	5
+P	Strathfield		AU	New South Wales	-33.881	151.080	13
+P	Staveley		GB	England	53.267	-1.350	14
+P	Starkville		US	Mississippi	33.450	-88.820	1
+P	Steveston		CA	British Columbia	49.127	-123.181	8
+P	Stonegate-Queensway	stonegate queensway	CA	Ontario	43.636	-79.501	5
+P	Stung Treng		KH		13.526	105.968	10
+P	Steeles		CA	Ontario	43.812	-79.331	5
+P	Staunton		US	Virginia	38.150	-79.073	5
+P	St Austell		GB	England	50.343	-4.774	14
+P	Starnberg		DE		48.002	11.344	17
+P	Strathroy		CA	Ontario	42.955	-81.622	5
+P	Rossano Stazione		IT		39.599	16.635	17
+P	Steenbergen		NL		51.584	4.319	17
+P	Stellingen		DE		53.592	9.929	17
+P	Staßfurt	stassfurt	DE		51.852	11.585	17
+P	Stadthagen		DE		52.323	9.203	17
+P	Starý Bohumín	stary bohumin	CZ		49.917	18.336	17
+P	Valley Station		US	Kentucky	38.111	-85.870	5
+P	Dunajská Streda	dunajska streda	SK		47.993	17.612	17
+P	Strakonice		CZ		49.261	13.902	17
+P	Staraya Kupavna		RU		55.808	38.181	15
+P	St. Pauli	st pauli	DE		53.557	9.964	17
+P	H Street NE		US	District of Columbia	38.900	-76.996	5
+P	Fort St. John	fort st john	CA	British Columbia	56.250	-120.853	2
+P	Stoneham		US	Massachusetts	42.480	-71.100	5
+P	Stadtallendorf		DE		50.823	9.013	17
+P	San Nicola la Strada		IT		41.052	14.333	17
+P	West Lake Stevens		US	Washington	47.993	-122.102	4
+P	Stowmarket		GB	England	52.189	0.998	14
+P	Stadtlohn		DE		51.994	6.919	17
+P	Stamford		GB	England	52.650	-0.483	14
+P	Stourport-on-Severn	stourport on severn	GB	England	52.340	-2.280	14
+P	Brandýs nad Labem-Stará Boleslav	brandys nad labem stara boleslav	CZ		50.187	14.663	17
+P	Stoke		NZ		-41.317	173.233	18
+P	Strzelce Opolskie		PL		50.511	18.301	17
+P	Stebnyk		UA		49.301	23.552	16
+P	Stephenville		US	Texas	32.221	-98.202	1
+P	Stadskanaal		NL		52.989	6.950	17
+P	Stenløse	stenlose	DK		55.768	12.197	17
+P	Steinhagen		DE		52.000	8.400	17
+P	St Clair		AU	New South Wales	-33.797	150.785	13
+P	Adwick le Street		GB	England	53.571	-1.185	14
+P	Steilshoop		DE		53.610	10.059	17
+P	Weil der Stadt		DE		48.750	8.872	17
+P	Strășeni	straseni	MD		47.142	28.608	16
+P	Stonegate		US	California	33.705	-117.740	4
+P	Stillwater		US	Minnesota	45.056	-92.806	1
+P	Staroshcherbinovskaya		RU		46.630	38.664	15
+P	Stroitel		RU		50.788	36.478	15
+P	North St.James Town	north st james town	CA	Ontario	43.670	-79.375	5
+P	Starodub		RU		52.585	32.763	15
+P	Castiglione delle Stiviere		IT		45.390	10.486	17
+P	Stafford		US	Texas	29.616	-95.558	1
+P	Studeničani	studenicani	MK		41.922	21.535	17
+P	Steubenville		US	Ohio	40.370	-80.634	5
+P	Stony Plain		CA	Alberta	53.533	-114.002	3
+P	St. Marys	st marys	US	Georgia	30.731	-81.546	5
+P	St. Andrew-Windfields	st andrew windfields	CA	Ontario	43.756	-79.379	5
+P	Stowbtsy		BY		53.480	26.735	15
+P	Stevenson Ranch		US	California	34.390	-118.574	4
+P	Solrød Strand	solrod strand	DK		55.533	12.222	17
+P	Stabroek		BE		51.332	4.371	17
+P	Steenwijk		NL		52.788	6.121	17
+P	Stekene		BE		51.210	4.037	17
+P	Stockach		DE		47.851	9.009	17
+P	Saalfelden am Steinernen Meer		AT		47.427	12.848	17
+P	North Valley Stream		US	New York	40.685	-73.702	5
+P	Stockelsdorf		DE		53.892	10.647	17
+P	Stuart		US	Florida	27.198	-80.253	5
+P	Innere Stadt		AT		48.209	16.371	17
+P	Stonebridge		CA	Saskatchewan	52.085	-106.623	6
+P	Streetsboro		US	Ohio	41.239	-81.346	5
+P	Stockerau		AT		48.383	16.217	17
+P	Straßgang	strassgang	AT		47.033	15.400	17
+P	Stepney		GB	England	51.517	-0.043	14
+P	Stara Pazova		RS		44.985	20.161	17
+P	Stadt Winterthur (Kreis 1)	stadt winterthur kreis 1	CH		47.495	8.720	17
+P	Staszów	staszow	PL		50.563	21.166	17
+P	Strzegom		PL		50.963	16.350	17
+P	Starobilsk		UA		49.279	38.907	16
+P	Steinbach		CA	Manitoba	49.526	-96.685	1
+P	Strawberry Mansion		US	Pennsylvania	39.983	-75.183	5
+P	Staphorst		NL		52.645	6.211	17
+P	Steffisburg		CH		46.778	7.632	17
+P	Střížkov	strizkov	CZ		50.127	14.494	17
+P	Stjørdalshalsen	stjordalshalsen	NO		63.468	10.926	17
+P	Stará Ľubovňa	stara lubovna	SK		49.299	20.686	17
+P	Strunino		RU		56.373	38.583	15
+P	Staffanstorp		SE		55.643	13.206	17
+P	Storrs		US	Connecticut	41.808	-72.250	5
+P	Straelen		DE		51.442	6.266	17
+P	Stallings		US	North Carolina	35.091	-80.686	5
+P	Kennedy Street		US	District of Columbia	38.956	-77.018	5
+P	Sterling		US	Illinois	41.789	-89.696	1
+P	Stanley		FK		-51.694	-57.857	12

@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Douala	60	
+Z	2	Africa/Johannesburg	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	GH	Ghana	egyptian	s
+C	MW	Malawi	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Nkongsamba		CM		4.955	9.940	1
+P	Nkpor		NG		6.150	6.830	1
+P	Nkayi		CG		-4.184	13.286	1
+P	Nkwerre		NG		5.759	7.104	1
+P	Nkowakowa		ZA		-23.888	30.287	2
+P	Nkawkaw		GH		6.546	-0.763	0
+P	Nkoranza		GH		7.571	-1.709	0
+P	Nkhotakota		MW		-12.927	34.296	2
+P	Nkoteng		CM		4.517	12.033	1
+P	Nkambe		CM		6.633	10.667	1
+P	Malemba-Nkulu	malemba nkulu	CD		-8.045	26.796	2
+P	Duayaw-Nkwanta	duayaw nkwanta	GH		7.175	-2.100	0
+P	Nkhata Bay		MW		-11.607	34.291	2

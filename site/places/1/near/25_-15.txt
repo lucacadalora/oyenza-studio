@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/El_Aaiun	60	29518680=0 29569080=60 29831100=0
+Z	1	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	EH	Western Sahara	egyptian	s
+C	ES	Spain	mwl	s
+C	MA	Morocco	egyptian	s
+B	0
+P	Laayoune		EH		27.142	-13.188	0
+P	Guelmim		MA		28.987	-10.057	0
+P	Tan-Tan	tan tan	MA		28.438	-11.103	0
+P	Arrecife		ES		28.963	-13.548	1
+P	Boujdour		EH		26.131	-14.485	0
+P	Smara		MA		26.738	-11.672	0
+P	Puerto del Rosario		ES		28.500	-13.863	1
+P	Puerto del Carmen		ES		28.923	-13.666	1
+P	El Marsa		EH		27.096	-13.416	0
+P	La Oliva		ES		28.611	-13.929	1
+P	Sidi Ifni		MA		29.380	-10.173	0
+P	Pájara	pajara	ES		28.350	-14.108	1
+P	Tías	tias	ES		28.961	-13.645	1
+P	Teguise		ES		29.060	-13.564	1
+P	San Bartolomé	san bartolome	ES		29.001	-13.613	1
+P	Yaiza		ES		28.957	-13.765	1

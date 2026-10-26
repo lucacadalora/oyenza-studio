@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	0
+P	Qiqihar		CN		47.339	123.962	0
+P	Baicheng		CN		45.618	122.833	0
+P	Hulan Ergi		CN		47.204	123.633	0
+P	Fendou		CN		46.641	124.863	0
+P	Ulanhot		CN		46.083	122.083	0
+P	Honggang		CN		46.397	124.884	0
+P	Fuyu		CN		45.183	124.817	0
+P	Zhalantun		CN		48.009	122.737	0
+P	Yakeshi		CN		49.283	120.733	0
+P	Songyuan		CN		45.129	124.828	0
+P	Taonan		CN		45.333	122.785	0
+P	Nehe		CN		48.479	124.870	0
+P	Longjiang		CN		47.336	123.196	0
+P	Dalai		CN		45.500	124.300	0
+P	Fuyu		CN		47.795	124.458	0
+P	Zhenlai		CN		45.850	123.198	0
+P	Tailai		CN		46.390	123.408	0
+P	Nianzishan		CN		47.513	122.888	0
+P	Gannan		CN		47.920	123.500	0
+P	Dorbod		CN		46.861	124.442	0

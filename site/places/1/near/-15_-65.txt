@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Porto_Velho	-240	
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+B	0
+P	Ji Paraná	ji parana	BR		-10.885	-61.952	0
+P	Vilhena		BR		-12.741	-60.146	0
+P	Cacoal		BR		-11.439	-61.447	0
+P	Trinidad		BO		-14.832	-64.903	0
+P	Rolim de Moura		BR		-11.804	-61.803	0
+P	Jaru		BR		-10.439	-62.466	0
+P	Rolim de Moura do Guaporé	rolim de moura do guapore	BR		-13.083	-62.277	0
+P	Pimenta Bueno		BR		-11.672	-61.194	0
+P	Ouro Preto do Oeste		BR		-10.748	-62.216	0
+P	Espigão dOeste	espigao doeste	BR		-11.525	-61.013	0
+P	Buritis		BR		-10.212	-63.829	0
+P	São Miguel do Guaporé	sao miguel do guapore	BR		-11.694	-62.711	0
+P	Alta Floresta d'Oeste	alta floresta doeste	BR		-11.968	-61.954	0
+P	Presidente Médici	presidente medici	BR		-11.175	-61.901	0
+P	São Francisco do Guaporé	sao francisco do guapore	BR		-12.052	-63.568	0
+P	Cerejeiras		BR		-13.189	-60.812	0
+P	Colorado do Oeste		BR		-13.117	-60.542	0

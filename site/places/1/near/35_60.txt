@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kabul	270	
+Z	1	Asia/Samarkand	300	
+Z	2	Asia/Tehran	210	
+C	AF	Afghanistan	karachi	h
+C	IR	Iran	tehran	s
+C	TM	Turkmenistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	0
+P	Bukhara		UZ		39.770	64.431	1
+P	Türkmenabat	turkmenabat	TM		39.073	63.579	1
+P	Mary		TM		37.594	61.830	1
+P	Maymana		AF		35.921	64.784	0
+P	Bayramaly		TM		37.619	62.167	1
+P	Tejen		TM		37.383	60.505	1
+P	Kogon Shahri		UZ		39.727	64.555	1
+P	Torbat-e Jām	torbat e jam	IR		35.244	60.623	2
+P	Sarakhs		IR		36.545	61.158	2
+P	Yolöten	yoloten	TM		37.299	62.360	1
+P	Sarahs		TM		36.524	61.215	1
+P	Ghormach		AF		35.731	63.783	0
+P	Karakul’	karakul	UZ		39.533	63.833	1
+P	Halaç	halac	TM		38.072	64.879	1
+P	Seydi		TM		39.482	62.914	1
+P	Saýat	sayat	TM		38.784	63.880	1
+P	Türkmengala	turkmengala	TM		37.425	62.338	1
+P	Çaşgyn	casgyn	TM		37.797	61.549	1

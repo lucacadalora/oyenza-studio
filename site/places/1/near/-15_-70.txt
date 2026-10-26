@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/La_Paz	-240	
+Z	1	America/Lima	-300	
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	PE	Peru	mwl	s
+B	0
+P	Riberalta		BO		-11.010	-66.053	0
+P	Puerto Maldonado		PE		-12.589	-69.199	1
+P	Guajará Mirim	guajara mirim	BR		-10.784	-65.336	0
+P	Tambopata		PE		-12.672	-69.355	1
+P	Guayaramerín	guayaramerin	BO		-10.826	-65.358	0
+P	La Rinconada		PE		-14.631	-69.446	1
+P	Cobija		BO		-11.027	-68.769	0
+P	Brasiléia	brasileia	BR		-11.016	-68.748	1
+P	Nova Mamoré	nova mamore	BR		-10.402	-65.327	0
+P	San Borja		BO		-14.852	-66.750	0
+P	Senador Guiomard		BR		-10.150	-67.737	1
+P	Epitaciolândia	epitaciolandia	BR		-11.029	-68.741	1
+P	Xapuri		BR		-10.652	-68.504	1
+P	Plácido de Castro	placido de castro	BR		-10.335	-67.186	1

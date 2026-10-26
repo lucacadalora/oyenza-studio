@@ -1,0 +1,525 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Brazzaville	60	
+Z	1	Africa/Khartoum	120	
+Z	2	Africa/Nouakchott	0	
+Z	3	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	4	America/Cuiaba	-240	
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	7	America/Hermosillo	-420	
+Z	8	America/Lima	-300	
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Moncton	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Sao_Paulo	-180	
+Z	13	America/Tegucigalpa	-360	
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Kolkata	330	
+Z	16	Asia/Manila	480	
+Z	17	Asia/Novosibirsk	420	
+Z	18	Asia/Tehran	210	
+Z	19	Asia/Tokyo	540	
+Z	20	Asia/Urumqi	360	
+Z	21	Asia/Yekaterinburg	300	
+Z	22	Asia/Yerevan	240	
+Z	23	Australia/Brisbane	600	
+Z	24	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	25	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	26	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	27	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	28	Europe/Moscow	180	
+Z	29	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	30	Pacific/Noumea	660	
+C	AM	Armenia	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AW	Aruba	mwl	s
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CF	Central African Republic	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CN	China	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	EE	Estonia	mwl	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GE	Georgia	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	ME	Montenegro	mwl	s
+C	MG	Madagascar	egyptian	s
+C	MR	Mauritania	egyptian	s
+C	MX	Mexico	mwl	s
+C	NC	New Caledonia	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SI	Slovenia	mwl	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	6
+P	Novosibirsk		RU		55.023	82.932	17
+P	Nizhniy Novgorod		RU		56.329	44.002	28
+P	Nowrangapur		IN		19.231	82.548	15
+P	Nouakchott		MR		18.086	-15.979	2
+P	Pointe-Noire	pointe noire	CG		-4.776	11.864	0
+P	Khartoum North		SD		15.649	32.535	1
+P	Nova Iguaçu	nova iguacu	BR		-22.759	-43.451	12
+P	Novokuznetsk		RU		53.758	87.136	17
+P	Nova Vida		AO		-8.906	13.222	0
+P	Nottingham		GB	England	52.954	-1.150	27
+P	Hamburg-Nord	hamburg nord	DE		53.589	9.984	25
+P	Greater Noida		IN		28.496	77.536	15
+P	Noida		IN		28.580	77.330	15
+P	Nogales		MX		31.309	-110.942	7
+P	Porto-Novo	porto novo	BJ		6.496	2.604	0
+P	North Shore		NZ		-36.800	174.750	29
+P	Mueang Nonthaburi		TH		13.861	100.515	17
+P	Novo Hamburgo		BR		-29.678	-51.131	12
+P	Thiès Nones	thies nones	SN		14.783	-16.967	2
+P	Northampton		GB	England	52.250	-0.883	27
+P	Novorossiysk		RU		44.732	37.762	28
+P	Norfolk		US	Virginia	36.847	-76.285	11
+P	North Las Vegas		US	Nevada	36.199	-115.118	9
+P	Juazeiro do Norte		BR		-7.213	-39.315	12
+P	Velikiy Novgorod		RU		58.521	31.271	28
+P	Novi Sad		RS		45.252	19.837	25
+P	Nossa Senhora do Socorro		BR		-10.855	-37.126	12
+P	Nova Friburgo		BR		-22.282	-42.531	12
+P	Novozavodskyi		UA		51.489	31.256	26
+P	Novocherkassk		RU		47.422	40.094	28
+P	Nou Barris		ES		41.442	2.177	25
+P	Thốt Nốt	thot not	VN		10.272	105.534	17
+P	Nong Chok		TH		13.856	100.862	17
+P	Noda		JP		35.949	139.868	19
+P	Nong Khaem		TH		13.706	100.349	17
+P	Nouadhibou		MR		20.942	-17.038	2
+P	Norwich		GB	England	52.628	1.298	27
+P	Novyye Kuz’minki	novyye kuzminki	RU		55.700	37.750	28
+P	Norilsk		RU		69.353	88.203	17
+P	Norzagaray		PH		14.911	121.049	16
+P	Nor Nork		AM		40.197	44.567	22
+P	Novomoskovsk		RU		54.011	38.291	28
+P	Novocheboksarsk		RU		56.111	47.478	28
+P	Norman		US	Oklahoma	35.223	-97.439	3
+P	Nossa Senhora de Fátima	nossa senhora de fatima	CN		22.208	113.548	16
+P	North Stamford		US	Connecticut	41.138	-73.543	11
+P	Nobeoka		JP		32.583	131.667	19
+P	Bangkok Noi		TH		13.763	100.478	17
+P	Noginsk		RU		55.865	38.449	28
+P	Novo-Peredelkino	novo peredelkino	RU		55.645	37.336	28
+P	North Peoria		US	Illinois	40.718	-89.584	3
+P	Novokuybyshevsk		RU		53.097	49.940	22
+P	Nova Lima		BR		-19.986	-43.847	12
+P	Noyabrsk		RU		63.193	75.437	21
+P	North Charleston		US	South Carolina	32.855	-79.975	11
+P	Norwalk		US	California	33.902	-118.082	9
+P	Novotroitsk		RU		51.201	58.313	21
+P	Nova Serrana		BR		-19.876	-44.984	12
+P	Novo Gama		BR		-16.059	-48.039	12
+P	Novara		IT		45.447	8.621	25
+P	Novyye Cherëmushki	novyye cheremushki	RU		55.700	37.583	28
+P	Novoshakhtinsk		RU		47.760	39.933	28
+P	Caldas Novas		BR		-17.744	-48.628	12
+P	Novopolotsk		BY		55.526	28.593	28
+P	Novogireyevo		RU		55.755	37.818	28
+P	Novyy Urengoy		RU		66.083	76.633	21
+P	Novoural’sk	novouralsk	RU		57.255	60.091	21
+P	Norrköping	norrkoping	SE		58.594	16.183	25
+P	Nouméa	noumea	NC		-22.274	166.449	30
+P	Palmerston North		NZ		-40.356	175.611	29
+P	Norwalk		US	Connecticut	41.118	-73.408	11
+P	North Vancouver		CA	British Columbia	49.316	-123.069	14
+P	Nowshera Kalan		PK		34.019	71.974	21
+P	Norton		ZW		-17.883	30.700	1
+P	Montréal-Nord	montreal nord	CA	Quebec	45.602	-73.631	11
+P	Novi Pazar		RS		43.137	20.512	25
+P	Near North Side		US	Illinois	41.900	-87.635	3
+P	East Norwalk		US	Connecticut	41.106	-73.398	11
+P	Nowy Sącz	nowy sacz	PL		49.622	20.697	25
+P	Norderstedt		DE		53.702	9.993	25
+P	Casa Nova		BR		-9.174	-40.975	12
+P	Vila Nova de Gaia		PT		41.124	-8.612	27
+P	Bairro Parque Nossa Senhora do Carmo		BR		-23.406	-46.316	12
+P	North Richland Hills		US	Texas	32.834	-97.229	3
+P	Northridge		US	California	34.228	-118.537	9
+P	Notre-Dame-de-Grâce	notre dame de grace	CA	Quebec	45.477	-73.614	11
+P	North Little Rock		US	Arkansas	34.770	-92.267	3
+P	Namyang-nodongjagu	namyang nodongjagu	KP		42.954	129.857	19
+P	North Hollywood		US	California	34.172	-118.379	9
+P	Nong Khai		TH		17.878	102.742	17
+P	North Bergen		US	New Jersey	40.804	-74.012	11
+P	Novaya Balakhna		RU		56.490	43.601	28
+P	Nokha		IN		27.562	73.471	15
+P	North Miami		US	Florida	25.890	-80.187	11
+P	Noisy-le-Grand	noisy le grand	FR		48.850	2.563	25
+P	North Port		US	Florida	27.044	-82.236	11
+P	Nova Odessa		BR		-22.777	-47.296	12
+P	Morada Nova		BR		-5.107	-38.373	12
+P	Nova Mutum		BR		-13.829	-56.082	4
+P	Novoaltaysk		RU		53.414	83.941	17
+P	Norfolk County		CA	Ontario	42.833	-80.383	11
+P	North Delta		CA	British Columbia	49.167	-122.917	14
+P	Novo Repartimento		BR		-4.331	-49.796	12
+P	North Lakhimpur		IN		27.235	94.104	15
+P	Limoeiro do Norte		BR		-5.146	-38.098	12
+P	Noblesville		US	Indiana	40.046	-86.009	11
+P	Novi		US	Michigan	42.481	-83.475	11
+P	Ponte Nova		BR		-20.416	-42.909	12
+P	la Nova Esquerra de l'Eixample	la nova esquerra de leixample	ES		41.383	2.149	25
+P	Nonoichi		JP		36.533	136.617	19
+P	North Hills		US	California	34.236	-118.485	9
+P	Nōgata	nogata	JP		33.741	130.723	19
+P	Novato		US	California	38.107	-122.570	9
+P	North Chicopee		US	Massachusetts	42.183	-72.600	11
+P	Normal		US	Illinois	40.514	-88.991	3
+P	Novena		SG		1.317	103.844	16
+P	Artur Nogueira		BR		-22.573	-47.172	12
+P	Nordhorn		DE		52.431	7.068	25
+P	Noshiro		JP		40.208	140.027	19
+P	North La Crosse		US	Wisconsin	43.846	-91.248	3
+P	North Bay		CA	Ontario	46.317	-79.466	11
+P	Campo Novo do Parecis		BR		-13.675	-57.892	4
+P	Novovladykino		RU		55.850	37.583	28
+P	Novokuz’minki	novokuzminki	RU		55.717	37.783	28
+P	Novokhovrino		RU		55.867	37.500	28
+P	Nohar		IN		29.183	74.771	15
+P	Novovolynsk		UA		50.729	24.160	26
+P	Nova Venécia	nova venecia	BR		-18.711	-40.401	12
+P	Nova Zabudova		UA		50.428	30.515	26
+P	Novyy Turtkul’	novyy turtkul	UZ		41.550	61.017	21
+P	Nova Andradina		BR		-22.233	-53.343	4
+P	Nomimachi		JP		36.410	136.485	19
+P	Norala		PH		6.522	124.659	16
+P	Chong Nonsi		TH		13.693	100.549	17
+P	Northwich		GB	England	53.259	-2.520	27
+P	Cono Norte		PE		-16.324	-71.582	8
+P	Noboribetsu		JP		42.452	141.179	19
+P	Noveleta		PH		14.429	120.880	16
+P	Nova Darnytsya		UA		50.424	30.656	26
+P	Nocera Inferiore		IT		40.745	14.645	25
+P	Nongzhang		CN		24.616	97.882	16
+P	Aliwal North		ZA		-30.694	26.711	1
+P	Nova Kakhovka		UA		46.760	33.356	26
+P	North Miami Beach		US	Florida	25.933	-80.163	11
+P	Nordhausen		DE		51.502	10.796	25
+P	North Brunswick		US	New Jersey	40.454	-74.482	11
+P	Livramento de Nossa Senhora		BR		-13.641	-41.843	12
+P	Nonsan		KR		36.204	127.085	19
+P	North Bethesda		US	Maryland	39.045	-77.119	11
+P	North Lauderdale		US	Florida	26.217	-80.226	11
+P	Nogoyá	nogoya	AR		-32.394	-59.790	12
+P	Novodvinsk		RU		64.416	40.817	28
+P	North Highlands		US	California	38.686	-121.372	9
+P	Novozybkov		RU		52.537	31.937	28
+P	Guaraciaba do Norte		BR		-4.167	-40.748	12
+P	Lago Norte		BR		-15.739	-47.857	12
+P	Mirafiori Nord		IT		45.042	7.628	25
+P	Currais Novos		BR		-6.261	-36.518	12
+P	Nossa Senhora da Glória	nossa senhora da gloria	BR		-10.218	-37.420	12
+P	Nong Khae		TH		14.340	100.867	17
+P	Buchholz in der Nordheide		DE		53.330	9.866	25
+P	Nowgong		IN		25.061	79.441	15
+P	Nowa Sól	nowa sol	PL		51.803	15.717	25
+P	Barmbek-Nord	barmbek nord	DE		53.605	10.040	25
+P	Nowshahr		IR		36.649	51.496	18
+P	Novyi Lviv		UA		49.815	24.032	26
+P	Norwich		US	Connecticut	41.524	-72.076	11
+P	North Shields		GB	England	55.016	-1.449	27
+P	Nova Viçosa	nova vicosa	BR		-17.892	-39.372	12
+P	Nõmme	nomme	EE		59.378	24.686	26
+P	North Fort Myers		US	Florida	26.667	-81.880	11
+P	Northglenn		US	Colorado	39.886	-104.987	5
+P	Noisy-le-Sec	noisy le sec	FR		48.891	2.465	25
+P	São Raimundo Nonato	sao raimundo nonato	BR		-9.015	-42.699	12
+P	Ingeniero Pablo Nogués	ingeniero pablo nogues	AR		-34.478	-58.707	12
+P	Novo Horizonte		BR		-21.468	-49.221	12
+P	Nongthymmai		IN		25.564	91.906	15
+P	Novovoronezh		RU		51.315	39.219	28
+P	Nosy Varika		MG		-20.583	48.533	28
+P	Campos Novos		BR		-27.402	-51.225	12
+P	Nové Zámky	nove zamky	SK		47.985	18.162	25
+P	Nokia		FI		61.467	23.500	26
+P	Novokubansk		RU		45.113	41.036	28
+P	Novokazalinsk		KZ		45.848	62.153	21
+P	North Lawndale		US	Illinois	41.860	-87.718	3
+P	Notsé	notse	TG		6.950	1.167	2
+P	Spišská Nová Ves	spisska nova ves	SK		48.945	20.562	25
+P	North Center		US	Illinois	41.954	-87.679	3
+P	Norristown		US	Pennsylvania	40.121	-75.340	11
+P	Nong Bua Lamphu		TH		17.204	102.441	17
+P	el Camp d'en Grassot i Gràcia Nova	el camp den grassot i gracia nova	ES		41.406	2.165	25
+P	Nova Cruz		BR		-6.478	-35.434	12
+P	North Bel Air		US	Maryland	39.540	-76.355	11
+P	North Providence		US	Rhode Island	41.850	-71.466	11
+P	Braço do Norte	braco do norte	BR		-28.275	-49.166	12
+P	Nowy Targ		PL		49.478	20.032	25
+P	Northbrook		US	Illinois	42.128	-87.829	3
+P	Novo Progresso		BR		-7.148	-55.381	12
+P	Dupax Del Norte		PH		16.308	121.106	16
+P	North Watford		GB	England	51.681	-0.394	27
+P	Bairro Novo		PT		41.543	-8.407	27
+P	North Ridgeville		US	Ohio	41.389	-82.019	11
+P	Ourilândia do Norte	ourilandia do norte	BR		-6.755	-51.084	12
+P	Nouna		BF		12.729	-3.863	2
+P	North Olmsted		US	Ohio	41.416	-81.923	11
+P	Nola		CF		3.525	16.046	0
+P	Novoyavorivs'k	novoyavorivsk	UA		49.930	23.574	26
+P	Guarantã do Norte	guaranta do norte	BR		-9.951	-54.908	4
+P	Nogent-sur-Marne	nogent sur marne	FR		48.837	2.483	25
+P	Noble Park		AU	Victoria	-37.967	145.167	24
+P	Northeim		DE		51.707	10.000	25
+P	North Tonawanda		US	New York	43.039	-78.864	11
+P	Nova Russas		BR		-4.707	-40.563	12
+P	Tabuleiro do Norte		BR		-5.247	-38.131	12
+P	Nok Kundi		PK		28.827	62.750	21
+P	Nowshera Cantonment		PK		33.998	71.998	21
+P	Bel Air North		US	Maryland	39.554	-76.373	11
+P	Dulce Nombre de Culmí	dulce nombre de culmi	HN		15.100	-85.533	13
+P	Sandaoling Lutiankuang Wuqi Nongchang		CN		43.015	92.883	20
+P	North Royalton		US	Ohio	41.314	-81.725	11
+P	North Cowichan		CA	British Columbia	48.841	-123.686	14
+P	North Chicago		US	Illinois	42.326	-87.841	3
+P	Agincourt North		CA	Ontario	43.804	-79.275	11
+P	Nova Santa Rita		BR		-29.852	-51.277	12
+P	Nongstoin		IN		25.517	91.265	15
+P	Norwood		US	Massachusetts	42.195	-71.200	11
+P	Northampton		US	Massachusetts	42.325	-72.641	11
+P	Novobilychi		UA		50.476	30.347	26
+P	Novyi Rozdil		UA		49.471	24.134	26
+P	Nova Olinda do Norte		BR		-3.892	-59.095	4
+P	North Andover		US	Massachusetts	42.699	-71.135	11
+P	Fredericton Northside		CA	New Brunswick	45.976	-66.641	10
+P	Neustadt/Nord	neustadt nord	DE		50.949	6.948	25
+P	North Kingstown		US	Rhode Island	41.550	-71.466	11
+P	Nong Phai		TH		15.990	101.062	17
+P	Nowy Dwór Mazowiecki	nowy dwor mazowiecki	PL		52.430	20.717	25
+P	Novogrudok		BY		53.594	25.819	28
+P	Novoaleksandrovsk		RU		45.497	41.225	28
+P	Novo Oriente		BR		-5.534	-40.774	12
+P	Saint-Josse-ten-Noode	saint josse ten noode	BE		50.854	4.373	25
+P	Nokha		IN		25.105	84.116	15
+P	Novelda		ES		38.385	-0.768	25
+P	Nové Město	nove mesto	CZ		50.078	14.421	25
+P	Novo Cruzeiro		BR		-17.468	-41.875	12
+P	Stantsiya Novyy Afon		GE		43.081	40.838	22
+P	Nova Esperança	nova esperanca	BR		-23.184	-52.205	12
+P	Nový Jičín	novy jicin	CZ		49.594	18.010	25
+P	North Creek		US	Washington	47.820	-122.176	9
+P	Norco		US	California	33.931	-117.549	9
+P	Mercedes Norte		CR		10.006	-84.130	13
+P	Northolt		GB	England	51.549	-0.368	27
+P	Novi Ligure		IT		44.762	8.787	25
+P	Nordenham		DE		53.501	8.490	25
+P	Altona-Nord	altona nord	DE		53.563	9.943	25
+P	Nova Prata		BR		-28.784	-51.610	12
+P	Noborito		JP		35.622	139.561	19
+P	Nova Xavantina		BR		-14.664	-52.359	4
+P	Nova Mamoré	nova mamore	BR		-10.402	-65.327	4
+P	São José do Norte	sao jose do norte	BR		-32.015	-52.042	12
+P	Northcote		AU	Victoria	-37.767	145.000	24
+P	Nossa Senhora das Dores		BR		-10.492	-37.193	12
+P	Saginaw Township North		US	Michigan	43.460	-84.007	11
+P	Novo Aripuanã	novo aripuana	BR		-5.121	-60.380	4
+P	North Tustin		US	California	33.764	-117.794	9
+P	Nogi		JP		36.228	139.734	19
+P	Northport		US	Alabama	33.229	-87.577	3
+P	Norden		DE		53.595	7.206	25
+P	Nowa Ruda		PL		50.580	16.502	25
+P	Taquaritinga do Norte		BR		-7.903	-36.044	12
+P	Brasil Novo		BR		-3.307	-52.539	12
+P	Garrafão do Norte	garrafao do norte	BR		-1.934	-47.053	12
+P	Cranbourne North		AU	Victoria	-38.078	145.299	24
+P	Ōyanomachi-noboritate	oyanomachi noboritate	JP		32.596	130.434	19
+P	Novo Mesto		SI		45.804	15.169	25
+P	North Potomac		US	Maryland	39.083	-77.265	11
+P	Novopavlovsk		RU		43.959	43.632	28
+P	Minas Novas		BR		-17.219	-42.590	12
+P	Norfolk		US	Nebraska	42.028	-97.417	3
+P	Noordwijk-Binnen	noordwijk binnen	NL		52.234	4.445	25
+P	Nova Soure		BR		-11.233	-38.483	12
+P	Norton Shores		US	Michigan	43.169	-86.264	11
+P	North Platte		US	Nebraska	41.124	-100.765	3
+P	Noord		AW		12.566	-70.032	4
+P	Nola		IT		40.926	14.528	25
+P	North Haven		US	Connecticut	41.391	-72.860	11
+P	Miranda do Norte		BR		-3.565	-44.580	12
+P	Nørresundby	norresundby	DK		57.059	9.923	25
+P	Nova Zagora		BG		42.483	26.017	26
+P	Norland		US	Florida	25.949	-80.212	11
+P	Pinhal Novo		PT		38.631	-8.914	27
+P	Rouyn-Noranda	rouyn noranda	CA	Quebec	48.237	-79.023	11
+P	Nocera Superiore		IT		40.742	14.674	25
+P	Northwest One		US	District of Columbia	38.904	-77.012	11
+P	Misburg-Nord	misburg nord	DE		52.397	9.860	25
+P	Nova Petrópolis	nova petropolis	BR		-29.376	-51.114	12
+P	Bedford Park-Nortown	bedford park nortown	CA	Ontario	43.731	-79.420	11
+P	Picnic Point-North Lynnwood	picnic point north lynnwood	US	Washington	47.863	-122.295	9
+P	Noe Valley		US	California	37.750	-122.434	9
+P	Novotitarovskaya		RU		45.238	38.981	28
+P	Dandenong North		AU	Victoria	-37.966	145.208	24
+P	North Augusta		US	South Carolina	33.502	-81.965	11
+P	Nova Milanese		IT		45.589	9.198	25
+P	Northwood		US	California	33.714	-117.761	9
+P	Feira Nova		BR		-7.951	-35.389	12
+P	Novaya Usman’	novaya usman	RU		51.644	39.411	28
+P	High Park North		CA	Ontario	43.656	-79.475	11
+P	North Plainfield		US	New Jersey	40.630	-74.427	11
+P	Igreja Nova		BR		-10.125	-36.662	12
+P	Nogales		MX		18.828	-97.163	13
+P	Greater Northdale		US	Florida	28.105	-82.526	11
+P	Northdale		US	Florida	28.094	-82.506	11
+P	Noicattaro		IT		41.034	16.990	25
+P	Nowrozabad		IN		23.352	80.981	15
+P	Nova Alvorada do Sul		BR		-21.466	-54.384	4
+P	Ban Nong Wua So		TH		17.267	103.225	17
+P	Balwyn North		AU	Victoria	-37.791	145.094	24
+P	North Lakes		AU	Queensland	-27.224	153.021	23
+P	Novy Oskol		RU		50.763	37.864	28
+P	Alagoa Nova		BR		-7.071	-35.758	12
+P	Notting Hill		GB	England	51.511	-0.206	27
+P	Novomichurinsk		RU		54.038	39.748	28
+P	NoMa		US	District of Columbia	38.904	-77.006	11
+P	Nova Esperança do Piriá	nova esperanca do piria	BR		-2.268	-46.968	12
+P	Nottuln		DE		51.933	7.350	25
+P	Northfield		US	Minnesota	44.458	-93.162	3
+P	Nördlingen	nordlingen	DE		48.851	10.489	25
+P	Nogales		US	Arizona	31.340	-110.934	7
+P	East Northport		US	New York	40.877	-73.325	11
+P	Nova Hartz		BR		-29.584	-50.903	12
+P	Novaya Derevnya		RU		59.987	30.287	28
+P	North Bellmore		US	New York	40.691	-73.533	11
+P	Ponto Novo		BR		-10.863	-40.134	12
+P	Norwood		US	Ohio	39.156	-84.460	11
+P	Norton		US	Massachusetts	41.967	-71.187	11
+P	North Salt Lake		US	Utah	40.849	-111.907	5
+P	Novate Milanese		IT		45.531	9.140	25
+P	Nogent-sur-Oise	nogent sur oise	FR		49.272	2.471	25
+P	Norris Green		GB	England	53.445	-2.921	27
+P	Nakło nad Notecią	naklo nad notecia	PL		53.142	17.602	25
+P	Herceg Novi		ME		42.453	18.538	25
+P	Malabanban Norte		PH		13.945	121.431	16
+P	North Battleford		CA	Saskatchewan	52.780	-108.297	13
+P	Charlottenburg-Nord	charlottenburg nord	DE		52.530	13.294	25
+P	Nova Granada		BR		-20.534	-49.314	12
+P	Norrtälje	norrtalje	SE		59.758	18.705	25
+P	Novopokrovskaya		RU		45.958	40.698	28
+P	Nové Mesto nad Váhom	nove mesto nad vahom	SK		48.758	17.831	25
+P	Novoanninskiy		RU		50.528	42.675	28
+P	Nootdorp		NL		52.045	4.396	25
+P	North Druid Hills		US	Georgia	33.817	-84.313	11
+P	North Bay Shore		US	New York	40.753	-73.260	11
+P	Union Hill-Novelty Hill	union hill novelty hill	US	Washington	47.679	-122.028	9
+P	North St.James Town	north st james town	CA	Ontario	43.670	-79.375	11
+P	Nordestina		BR		-10.822	-39.427	12
+P	North Ogden		US	Utah	41.307	-111.960	5
+P	Noto		IT		36.892	15.070	25
+P	Santa Cruz del Norte		CU		23.154	-81.923	6
+P	Non Sung		TH		15.180	102.257	17
+P	Nookat		KG		40.266	72.618	20
+P	Trikarpūr North	trikarpur north	IN		12.146	75.175	15
+P	Norak		TJ		38.389	69.323	21
+P	Água Azul do Norte	agua azul do norte	BR		-6.791	-50.467	12
+P	Noāmundi	noamundi	IN		22.161	85.504	15
+P	Altstadt Nord		DE		50.939	6.958	25
+P	North Massapequa		US	New York	40.701	-73.462	11
+P	North Amityville		US	New York	40.698	-73.425	11
+P	Sin-le-Noble	sin le noble	FR		50.362	3.131	25
+P	San Vito dei Normanni		IT		40.656	17.708	25
+P	North Guwāhāti	north guwahati	IN		26.197	91.720	15
+P	North Babylon		US	New York	40.716	-73.322	11
+P	North Aurora		US	Illinois	41.806	-88.327	3
+P	North Canton		US	Ohio	40.876	-81.402	11
+P	Nova Era		BR		-19.750	-43.038	12
+P	Matões do Norte	matoes do norte	BR		-3.632	-44.556	12
+P	Nordstadt		DE		52.386	9.716	25
+P	Mundo Novo		BR		-11.859	-40.472	12
+P	Tanque Novo		BR		-13.546	-42.491	12
+P	Devínska Nová Ves	devinska nova ves	SK		48.207	16.979	25
+P	Novoul’yanovsk	novoulyanovsk	RU		54.148	48.386	22
+P	Condeixa-a-Nova	condeixa a nova	PT		40.113	-8.498	27
+P	Sítio Novo	sitio novo	BR		-5.878	-46.699	12
+P	Nongpoh		IN		25.902	91.877	15
+P	Nong Kung Si		TH		16.650	103.300	17
+P	Chuk Yuen North Estate		HK		22.346	114.192	16
+P	Polo Nord		IT		45.055	7.649	25
+P	Novouzensk		RU		50.463	48.142	22
+P	Caulfield North		AU	Victoria	-37.874	145.025	24
+P	Northallerton		GB	England	54.339	-1.432	27
+P	Norwalk		US	Ohio	41.243	-82.616	11
+P	North Attleborough Center		US	Massachusetts	41.973	-71.325	11
+P	Nowogard		PL		53.674	15.116	25
+P	North Decatur		US	Georgia	33.790	-84.306	11
+P	Nohsa		IN		25.565	85.056	15
+P	Orta Nova		IT		41.329	15.710	25
+P	Norcross		US	Georgia	33.941	-84.214	11
+P	North Valley Stream		US	New York	40.685	-73.702	11
+P	Nochistlán de Mejía	nochistlan de mejia	MX		21.364	-102.848	13
+P	South Norwood		GB	England	51.399	-0.075	27
+P	Novoukrayinka		UA		48.317	31.524	26
+P	Norbury		GB	England	51.417	-0.117	27
+P	Novo Airão	novo airao	BR		-2.621	-60.944	4
+P	Nova Resende		BR		-21.126	-46.420	12
+P	Nova Olímpia	nova olimpia	BR		-14.797	-57.288	4
+P	Centro Novo do Maranhão	centro novo do maranhao	BR		-2.141	-46.124	12
+P	Linden-Nord	linden nord	DE		52.372	9.707	25
+P	Novaliches Proper		PH		14.723	121.046	16
+P	Upper Norwood		GB	England	51.415	-0.093	27
+P	North Liberty		US	Iowa	41.749	-91.598	3
+P	North Arlington		US	New Jersey	40.788	-74.133	11
+P	Atalaia do Norte		BR		-4.367	-70.192	8
+P	Vijayapuri North		IN		16.585	79.320	15
+P	Wang Noi		TH		14.227	100.716	17
+P	Nobres		BR		-14.720	-56.328	4
+P	Northam		ZA		-24.958	27.265	1
+P	North Myrtle Beach		US	South Carolina	33.816	-78.680	11
+P	Lagoa Nova		BR		-6.094	-36.472	12
+P	Nova Pazova		RS		44.944	20.219	25
+P	Nova Olinda		BR		-7.092	-39.681	12
+P	North Melbourne		AU	Victoria	-37.798	144.945	24
+P	Noci		IT		40.794	17.127	25
+P	Noisiel		FR		48.849	2.624	25
+P	Novosilikatnyy		RU		53.310	83.624	17
+P	Nowy Tomyśl	nowy tomysl	PL		52.319	16.128	25
+P	Novhorod-Siverskyi	novhorod siverskyi	UA		52.007	33.263	26
+P	Noyon		FR		49.583	3.000	25
+P	Gates-North Gates	gates north gates	US	New York	43.165	-77.701	11
+P	Torres Novas		PT		39.476	-8.543	27

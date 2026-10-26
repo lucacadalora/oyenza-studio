@@ -1,0 +1,618 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Dakar	0	
+Z	2	Africa/Douala	60	
+Z	3	Africa/Khartoum	120	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Guayaquil	-300	
+Z	6	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	7	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	8	America/Hermosillo	-420	
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Mexico_City	-360	
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Santo_Domingo	-240	
+Z	13	America/Sao_Paulo	-180	
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Bangkok	420	
+Z	16	Asia/Dhaka	360	
+Z	17	Asia/Karachi	300	
+Z	18	Asia/Kolkata	330	
+Z	19	Asia/Seoul	540	
+Z	20	Asia/Shanghai	480	
+Z	21	Asia/Tehran	210	
+Z	22	Asia/Yangon	390	
+Z	23	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	24	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	25	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	27	Europe/Moscow	180	
+Z	28	Pacific/Majuro	720	
+Z	29	Pacific/Noumea	660	
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CG	Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IM	Isle of Man	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	MA	Morocco	egyptian	s
+C	MH	Marshall Islands	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NC	New Caledonia	mwl	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	QA	Qatar	qatar	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+B	5
+P	Dongguan		CN		23.018	113.749	20
+P	Santo Domingo		DO		18.472	-69.892	12
+P	Douala		CM		4.048	9.704	2
+P	Dombivali		IN		19.217	73.083	18
+P	Rostov-on-Don	rostov on don	RU		47.220	39.708	27
+P	Dongying		CN		37.463	118.492	20
+P	Donetsk		UA		48.023	37.802	25
+P	Dodoma		TZ		-6.172	35.739	27
+P	São Bernardo do Campo	sao bernardo do campo	BR		-23.694	-46.565	13
+P	São José dos Campos	sao jose dos campos	BR		-23.179	-45.887	13
+P	Santo Domingo Oeste		DO		18.500	-70.000	12
+P	Santo Domingo Este		DO		18.485	-69.848	12
+P	Jaboatão dos Guararapes	jaboatao dos guararapes	BR		-8.113	-35.015	13
+P	Dortmund		DE		51.515	7.466	24
+P	Campos dos Goytacazes		BR		-21.752	-41.330	13
+P	São José do Rio Preto	sao jose do rio preto	BR		-20.820	-49.379	13
+P	Santo Domingo de los Colorados		EC		-0.254	-79.176	5
+P	Caxias do Sul		BR		-29.168	-51.179	13
+P	Đống Đa	dong da	VN		21.013	105.825	15
+P	Doha		QA		25.285	51.531	27
+P	São José dos Pinhais	sao jose dos pinhais	BR		-25.530	-49.208	13
+P	Foz do Iguaçu	foz do iguacu	BR		-25.548	-54.588	13
+P	Donghai		CN		22.946	115.642	20
+P	Dongtai		CN		32.852	120.309	20
+P	Thị Trấn Đông Triều	thi tran dong trieu	VN		21.082	106.514	15
+P	Juazeiro do Norte		BR		-7.213	-39.315	13
+P	Dosquebradas		CO		4.839	-75.667	5
+P	Nossa Senhora do Socorro		BR		-10.855	-37.126	13
+P	Santa Bárbara d'Oeste	santa barbara doeste	BR		-22.754	-47.414	13
+P	Donaustadt		AT		48.233	16.460	24
+P	Donostia / San Sebastián	donostia san sebastian	ES		43.313	-1.975	24
+P	Jaraguá do Sul	jaragua do sul	BR		-26.486	-49.067	13
+P	Angra dos Reis		BR		-23.007	-44.318	13
+P	Dongling		CN		41.814	123.576	20
+P	Đồng Xoài	dong xoai	VN		11.535	106.883	15
+P	São Caetano do Sul	sao caetano do sul	BR		-23.623	-46.551	13
+P	Ðông Hà	dong ha	VN		16.816	107.100	15
+P	Dourados		BR		-22.221	-54.806	12
+P	Paço do Lumiar	paco do lumiar	BR		-2.532	-44.108	13
+P	Doilungdêqên	doilungdeqen	CN		29.655	90.992	20
+P	Freguesia do Ó	freguesia do o	BR		-23.499	-46.700	13
+P	Đồng Hới	dong hoi	VN		17.469	106.622	15
+P	Santa Cruz do Sul		BR		-29.718	-52.426	13
+P	Sapucaia do Sul		BR		-29.818	-51.146	13
+P	Dongyang		CN		29.268	120.225	20
+P	Dokri		PK		27.374	68.097	17
+P	Dos Hermanas		ES		37.283	-5.921	24
+P	Dorūd	dorud	IR		33.492	49.062	21
+P	Dolisie		CG		-4.198	12.667	2
+P	Dordrecht		NL		51.810	4.674	24
+P	Dohad		IN		22.833	74.260	18
+P	Cờ Đỏ	co do	VN		10.094	105.429	15
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-5.793	-35.329	13
+P	Downey		US	California	33.940	-118.133	9
+P	Doncaster		GB	England	53.523	-1.131	26
+P	Douliu		TW		23.709	120.543	20
+P	Ba Đồn	ba don	VN		17.754	106.424	15
+P	Pôr do Sol	por do sol	BR		-15.855	-48.124	13
+P	Donghae City		KR		37.544	129.107	19
+P	Dongsheng		CN		39.816	109.978	20
+P	Myŏnggan-dong	myonggan dong	KP		41.137	129.495	19
+P	Barra do Piraí	barra do pirai	BR		-22.470	-43.826	13
+P	Santa Cruz do Capibaribe		BR		-7.957	-36.205	13
+P	Dorchester		US	Massachusetts	42.297	-71.075	11
+P	Hyesan-dong	hyesan dong	KP		41.395	128.187	19
+P	Dogonbadan		IR		30.359	50.798	21
+P	Nghĩa Đô	nghia do	VN		21.050	105.800	15
+P	Doddaballapura		IN		13.295	77.538	18
+P	Dongcun		CN		36.777	121.160	20
+P	Lucas do Rio Verde		BR		-13.071	-55.915	12
+P	Cruzeiro do Sul		BR		-7.628	-72.678	5
+P	Sao Domingos		BR		-23.493	-46.748	13
+P	Dongxing		CN		21.550	107.967	20
+P	Val Dor		MY		5.252	100.490	20
+P	Ad Douiem		SD		14.001	32.312	3
+P	Barra do Corda		BR		-5.506	-45.243	13
+P	Sant'Ana do Livramento	santana do livramento	BR		-30.891	-55.533	13
+P	Dongxia		CN		36.749	118.583	20
+P	São Bento do Sul	sao bento do sul	BR		-26.250	-49.379	13
+P	Douar Hicher		TN		36.827	10.090	2
+P	Dondo		MZ		-19.609	34.743	3
+P	Donghe		CN		32.233	106.301	20
+P	La Dorada		CO		5.448	-74.663	5
+P	Cachoeira do Sul		BR		-30.039	-52.894	13
+P	Dorsten		DE		51.662	6.965	24
+P	Dosso		NE		13.049	3.194	2
+P	Donggongon		MY		5.907	116.101	20
+P	Canaã dos Carajás	canaa dos carajas	BR		-6.524	-49.852	13
+P	Yuktae-dong	yuktae dong	KP		40.025	128.160	19
+P	Doral		US	Florida	25.820	-80.355	11
+P	Döbling	dobling	AT		48.250	16.333	24
+P	Barra do Dande		AO		-8.472	13.370	2
+P	Parque Do Carmo		BR		-23.576	-46.463	13
+P	Senhor do Bonfim		BR		-10.461	-40.189	13
+P	Don Carlos		PH		7.680	125.005	20
+P	Santa Isabel do Pará	santa isabel do para	BR		-1.299	-48.161	13
+P	Dongdu		CN		35.850	117.700	20
+P	Dongkan		CN		34.000	119.831	20
+P	Barra do Garças	barra do garcas	BR		-15.890	-52.257	12
+P	Rio do Sul		BR		-27.214	-49.643	13
+P	Santo Antônio do Descoberto	santo antonio do descoberto	BR		-15.940	-48.255	13
+P	São Sebastião do Paraíso	sao sebastiao do paraiso	BR		-20.917	-46.991	13
+P	Don Torcuato		AR		-34.495	-58.627	13
+P	Doba		TD		8.664	16.853	2
+P	Cổ Đô	co do	VN		21.280	105.364	15
+P	Châu Đốc	chau doc	VN		10.700	105.117	15
+P	Doğubayazıt	dogubayazit	TR		39.547	44.084	27
+P	Bairro Parque Nossa Senhora do Carmo		BR		-23.406	-46.316	13
+P	Dougnane		SN		14.959	-16.870	1
+P	Dobrich		BG		43.565	27.831	25
+P	Dothan		US	Alabama	31.223	-85.390	4
+P	Dolgoprudnyy		RU		55.950	37.502	27
+P	Dorogomilovo		RU		55.742	37.547	27
+P	Conceição do Coité	conceicao do coite	BR		-11.564	-39.283	13
+P	Dongfeng		CN		42.674	125.529	20
+P	Santo Domingo Tehuantepec		MX		16.325	-95.241	10
+P	Dolores Hidalgo		MX		21.156	-100.933	10
+P	São Félix do Xingu	sao felix do xingu	BR		-6.645	-51.995	13
+P	Dondo		AO		-9.685	14.428	2
+P	Dondo		AO		-9.050	15.317	2
+P	Dormagen		DE		51.097	6.832	24
+P	Dovzhansk		UA		48.076	39.647	25
+P	Downtown Vancouver		CA	British Columbia	49.283	-123.119	14
+P	Dongning		CN		44.084	131.118	20
+P	Dembī Dolo	dembi dolo	ET		8.533	34.800	27
+P	União dos Palmares	uniao dos palmares	BR		-9.163	-36.032	13
+P	Douane		TN		36.448	10.756	2
+P	Viçosa do Ceará	vicosa do ceara	BR		-3.562	-41.092	13
+P	Limoeiro do Norte		BR		-5.146	-38.098	13
+P	Dom Eliseu		BR		-4.285	-47.505	13
+P	Dongxi		CN		28.761	106.661	20
+P	Los Dos Caminos		VE		10.494	-66.829	12
+P	La Dolorita		VE		10.488	-66.786	12
+P	Dörtyol	dortyol	TR		36.839	36.230	27
+P	Dongola		SD		19.182	30.477	3
+P	Dorbod		CN		46.861	124.442	20
+P	Paraíso do Tocantins	paraiso do tocantins	BR		-10.176	-48.867	13
+P	Tallang-dong	tallang dong	KR		33.490	126.475	19
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-3.607	-38.968	13
+P	Ribeira do Pombal		BR		-10.834	-38.536	13
+P	Domodedovo		RU		55.442	37.754	27
+P	São Miguel dos Campos	sao miguel dos campos	BR		-9.781	-36.094	13
+P	Rondon do Pará	rondon do para	BR		-4.776	-48.067	13
+P	São Miguel do Guamá	sao miguel do guama	BR		-1.627	-47.483	13
+P	São Francisco do Sul	sao francisco do sul	BR		-26.243	-48.638	13
+P	Downtown DC		US	District of Columbia	38.894	-77.020	11
+P	Campos do Jordão	campos do jordao	BR		-22.739	-45.591	13
+P	São José do Rio Pardo	sao jose do rio pardo	BR		-21.596	-46.889	13
+P	Đố Sơn	do son	VN		20.714	106.789	15
+P	Hà Đông	ha dong	VN		20.971	105.779	15
+P	Donetsk		RU		48.337	39.952	27
+P	Dogondoutchi		NE		13.640	4.026	2
+P	Campo Novo do Parecis		BR		-13.675	-57.892	12
+P	Doetinchem		NL		51.965	6.289	24
+P	Downers Grove		US	Illinois	41.809	-88.011	4
+P	São Bento do Una	sao bento do una	BR		-8.523	-36.444	13
+P	Dornbirn		AT		47.414	9.742	24
+P	Dongcheng		CN		19.709	109.456	20
+P	Dollard-Des Ormeaux	dollard des ormeaux	CA	Quebec	45.495	-73.824	11
+P	Ido-dong	ido dong	KR		33.498	126.527	19
+P	Dome		GH		5.650	-0.236	1
+P	Doropo		CI		9.810	-3.346	1
+P	Campina Grande do Sul		BR		-25.306	-49.055	13
+P	Donggang		TW		22.465	120.449	20
+P	Yŏch’im-dong	yochim dong	KP		40.362	126.659	19
+P	Santana do Ipanema		BR		-9.378	-37.245	13
+P	Dondaicha		IN		21.324	74.568	18
+P	São Domingos de Rana	sao domingos de rana	PT		38.702	-9.341	26
+P	Douai		FR		50.371	3.079	24
+P	Dori		BF		14.033	-0.033	1
+P	Santa Cruz do Rio Pardo		BR		-22.899	-49.633	13
+P	Victoria-Downtown	victoria downtown	CA	British Columbia	48.428	-123.361	14
+P	Douéra	douera	DZ		36.670	2.944	2
+P	Dohār	dohar	BD		23.593	90.143	16
+P	Santo Domingo		CU		22.587	-80.243	7
+P	Dois Vizinhos		BR		-25.734	-53.057	13
+P	Santana do Paraíso	santana do paraiso	BR		-19.364	-42.569	13
+P	Dowleswaram		IN		16.948	81.780	18
+P	Conceição do Araguaia	conceicao do araguaia	BR		-8.264	-49.270	13
+P	Paraíba do Sul	paraiba do sul	BR		-22.158	-43.293	13
+P	São Miguel d'Oeste	sao miguel doeste	BR		-26.725	-53.518	13
+P	Dodola		ET		6.983	39.183	27
+P	Armação dos Búzios	armacao dos buzios	BR		-22.747	-41.882	13
+P	São Mateus do Sul	sao mateus do sul	BR		-25.874	-50.383	13
+P	El Dorado Hills		US	California	38.686	-121.082	9
+P	Guaraciaba do Norte		BR		-4.167	-40.748	13
+P	Maquela do Zombo		AO		-6.057	15.110	2
+P	São Lourenço do Sul	sao lourenco do sul	BR		-31.365	-51.978	13
+P	San Donà di Piave	san dona di piave	IT		45.630	12.568	24
+P	Dover		GB	England	51.126	1.313	26
+P	Barra dos Coqueiros		BR		-10.909	-37.039	13
+P	Dolo		ET		13.499	39.637	27
+P	Dogbo		BJ		6.799	1.781	2
+P	Santo António dos Olivais	santo antonio dos olivais	PT		40.218	-8.405	26
+P	São Sebastião do Passé	sao sebastiao do passe	BR		-12.512	-38.495	13
+P	Zé Doca	ze doca	BR		-3.275	-45.658	13
+P	Santa Rita do Sapucaí	santa rita do sapucai	BR		-22.252	-45.703	13
+P	Ara-dong	ara dong	KR		33.469	126.528	19
+P	Dohazāri	dohazari	BD		22.164	92.073	16
+P	Dongyang		CN		29.833	106.451	20
+P	Vargem Grande do Sul		BR		-21.832	-46.894	13
+P	Espírito Santo do Pinhal	espirito santo do pinhal	BR		-22.196	-46.749	13
+P	Eldorado do Sul		BR		-30.084	-51.616	13
+P	São Gonçalo dos Campos	sao goncalo dos campos	BR		-12.434	-38.951	13
+P	Dover		US	Delaware	39.158	-75.524	11
+P	Visconde do Rio Branco		BR		-21.010	-42.841	13
+P	São Mateus do Maranhão	sao mateus do maranhao	BR		-4.042	-44.475	13
+P	São Francisco do Conde	sao francisco do conde	BR		-12.627	-38.680	13
+P	Boca do Acre		BR		-8.752	-67.398	12
+P	Rolim de Moura do Guaporé	rolim de moura do guapore	BR		-13.083	-62.277	12
+P	Rio Branco do Sul		BR		-25.190	-49.314	13
+P	Dorcheh Pīāz	dorcheh piaz	IR		32.615	51.556	21
+P	Dongargarh		IN		21.189	80.755	18
+P	Domaa-Ahenkro	domaa ahenkro	GH		7.274	-2.873	1
+P	Girau do Ponciano		BR		-9.884	-36.829	13
+P	Bom Jesus do Itabapoana		BR		-21.134	-41.680	13
+P	Amarante do Maranhão	amarante do maranhao	BR		-5.567	-46.742	13
+P	Don Benito		ES		38.956	-5.862	24
+P	Douentza		ML		15.006	-2.952	1
+P	Dom Pedrito		BR		-30.983	-54.673	13
+P	Rosário do Sul	rosario do sul	BR		-30.258	-54.914	13
+P	Dovercourt-Wallace Emerson-Junction	dovercourt wallace emerson junction	CA	Ontario	43.666	-79.439	11
+P	Barra do Choça	barra do choca	BR		-14.881	-40.579	13
+P	Cái Đôi Vàm	cai doi vam	VN		8.857	104.812	15
+P	Viana do Castelo		PT		41.693	-8.833	26
+P	Colinas do Tocantins		BR		-8.059	-48.475	13
+P	Domingos Martins		BR		-20.363	-40.659	13
+P	Conceição do Jacuípe	conceicao do jacuipe	BR		-12.317	-38.767	13
+P	Laranjal do Jari		BR		-0.826	-52.506	13
+P	Downsview-Roding-CFB	downsview roding cfb	CA	Ontario	43.733	-79.490	11
+P	Ouro Preto do Oeste		BR		-10.748	-62.216	12
+P	Khangah Dogran		PK		31.833	73.622	17
+P	São José do Belmonte	sao jose do belmonte	BR		-7.861	-38.760	13
+P	Parkwoods-Donalda	parkwoods donalda	CA	Ontario	43.755	-79.330	11
+P	Santa Fé do Sul	santa fe do sul	BR		-20.211	-50.926	13
+P	Mãe do Rio	mae do rio	BR		-2.046	-47.551	13
+P	Serra do Ramalho		BR		-13.542	-43.580	13
+P	Douz		TN		33.466	9.020	2
+P	Đông Phú	dong phu	VN		15.674	108.220	15
+P	São Domingos do Maranhão	sao domingos do maranhao	BR		-5.576	-44.385	13
+P	Oeiras do Pará	oeiras do para	BR		-2.003	-49.854	13
+P	Braço do Norte	braco do norte	BR		-28.275	-49.166	13
+P	Beni Douala		DZ		36.620	4.083	2
+P	Dowlatābād	dowlatabad	IR		32.800	51.696	21
+P	Morro do Chapéu	morro do chapeu	BR		-11.549	-41.158	13
+P	Riachão do Jacuípe	riachao do jacuipe	BR		-11.807	-39.386	13
+P	Dobryanka		RU		58.465	56.413	17
+P	Douglasville		US	Georgia	33.752	-84.748	11
+P	Arraial do Cabo		BR		-22.966	-42.028	13
+P	San Donato		IT		45.082	7.665	24
+P	Caçapava do Sul	cacapava do sul	BR		-30.514	-53.485	13
+P	Ourilândia do Norte	ourilandia do norte	BR		-6.755	-51.084	13
+P	Santana do Araguaia		BR		-9.335	-50.350	13
+P	Pires do Rio		BR		-17.300	-48.279	13
+P	Laranjeiras do Sul		BR		-25.408	-52.416	13
+P	Donskoy		RU		53.968	38.332	27
+P	São Luís do Quitunde	sao luis do quitunde	BR		-9.318	-35.561	13
+P	Chilliwack-Downtown	chilliwack downtown	CA	British Columbia	49.164	-121.959	14
+P	Guarantã do Norte	guaranta do norte	BR		-9.951	-54.908	12
+P	São José do Egito	sao jose do egito	BR		-7.479	-37.274	13
+P	Chapadão do Sul	chapadao do sul	BR		-18.794	-52.623	12
+P	Santa Vitória do Palmar	santa vitoria do palmar	BR		-33.519	-53.368	13
+P	Doncaster East		AU	Victoria	-37.788	145.149	23
+P	Dover		US	New Hampshire	43.198	-70.874	11
+P	Miguel Alemán (La Doce)	miguel aleman la doce	MX		28.840	-111.478	8
+P	Vitória do Mearim	vitoria do mearim	BR		-3.462	-44.871	13
+P	Dorohoi		RO		47.950	26.400	25
+P	Quedas do Iguaçu	quedas do iguacu	BR		-25.453	-52.905	13
+P	Dois Irmãos	dois irmaos	BR		-29.580	-51.085	13
+P	Machadinho d'Oeste	machadinho doeste	BR		-9.444	-61.981	12
+P	Catolé do Rocha	catole do rocha	BR		-6.344	-37.747	13
+P	Tabuleiro do Norte		BR		-5.247	-38.131	13
+P	Santana do Acaraú	santana do acarau	BR		-3.461	-40.212	13
+P	São Domingos do Capim	sao domingos do capim	BR		-1.674	-47.771	13
+P	Pau dos Ferros		BR		-6.109	-38.204	13
+P	Santo Antônio do Içá	santo antonio do ica	BR		-3.102	-67.940	12
+P	Pontal do Paraná	pontal do parana	BR		-25.674	-48.511	13
+P	Dolores		AR		-36.315	-57.675	13
+P	Glória do Goitá	gloria do goita	BR		-8.002	-35.293	13
+P	Villenave-d'Ornon	villenave dornon	FR		44.779	-0.567	24
+P	Ipixuna do Pará	ipixuna do para	BR		-2.558	-47.495	13
+P	Paty do Alferes		BR		-22.429	-43.419	13
+P	São Gabriel do Oeste	sao gabriel do oeste	BR		-19.395	-54.566	12
+P	Barra do Bugres		BR		-15.072	-57.181	12
+P	Limoeiro do Ajuru		BR		-1.895	-49.381	13
+P	Espigão dOeste	espigao doeste	BR		-11.525	-61.013	12
+P	Ban Phan Don		TH		17.143	102.973	15
+P	São João dos Inhamuns	sao joao dos inhamuns	BR		-6.000	-40.283	13
+P	Dongwenquan		CN		29.456	106.858	20
+P	São Miguel do Iguaçu	sao miguel do iguacu	BR		-25.348	-54.238	13
+P	Carmo do Paranaíba	carmo do paranaiba	BR		-19.001	-46.316	13
+P	Santo Antônio do Sudoeste	santo antonio do sudoeste	BR		-26.074	-53.725	13
+P	Neuburg an der Donau		DE		48.732	11.187	24
+P	San Donato Milanese		IT		45.410	9.268	24
+P	Nova Olinda do Norte		BR		-3.892	-59.095	12
+P	Eldorado dos Carajás	eldorado dos carajas	BR		-6.104	-49.355	13
+P	Dobropillia		UA		48.467	37.086	25
+P	Villa Dolores		AR		-31.945	-65.190	13
+P	Dodge City		US	Kansas	37.753	-100.017	4
+P	Dogomet		GN		10.589	-11.178	1
+P	Banbury-Don Mills	banbury don mills	CA	Ontario	43.738	-79.350	11
+P	Aparecida do Taboado		BR		-20.087	-51.094	12
+P	Dorstfeld		DE		51.501	7.411	24
+P	Vila do Conde		PT		41.353	-8.745	26
+P	Pilar do Sul		BR		-23.813	-47.716	13
+P	Dotzheim		DE		50.074	8.195	24
+P	Kalach-na-Donu	kalach na donu	RU		48.691	43.526	27
+P	Lambari d'Oeste	lambari doeste	BR		-15.323	-58.004	12
+P	Mirassol d'Oeste	mirassol doeste	BR		-15.676	-58.090	12
+P	Santo Antônio do Tauá	santo antonio do taua	BR		-1.152	-48.129	13
+P	Santo Antônio do Monte	santo antonio do monte	BR		-20.087	-45.294	13
+P	Doboj		BA		44.732	18.087	24
+P	Doreen		AU	Victoria	-37.600	145.150	23
+P	Don Valley Village		CA	Ontario	43.783	-79.354	11
+P	Douglas		IE		51.874	-8.435	26
+P	Concórdia do Pará	concordia do para	BR		-2.002	-47.950	13
+P	Capão do Leão	capao do leao	BR		-31.763	-52.484	13
+P	Dougabougou		ML		13.820	-6.121	1
+P	Goianésia do Pará	goianesia do para	BR		-3.842	-49.097	13
+P	Douglas		IM		54.150	-4.483	26
+P	Formosa do Rio Preto		BR		-11.048	-45.193	13
+P	Dole		FR		47.092	5.490	24
+P	Vaudreuil-Dorion	vaudreuil dorion	CA	Quebec	45.400	-74.033	11
+P	Cangas do Morrazo		ES		42.264	-8.785	24
+P	Alto Alegre do Pindaré	alto alegre do pindare	BR		-3.671	-45.847	13
+P	Quinta Do Conde		PT		38.565	-9.043	26
+P	Downtown Halifax		CA	Nova Scotia	44.648	-63.578	6
+P	Val-d'Or	val dor	CA	Quebec	48.097	-77.797	11
+P	Dongen		NL		51.627	4.939	24
+P	São José do Norte	sao jose do norte	BR		-32.015	-52.042	13
+P	Dorāha	doraha	IN		30.800	76.024	18
+P	Dolynska		UA		48.117	32.777	25
+P	Donghol-Sigon	donghol sigon	GN		11.800	-12.217	1
+P	Doncaster		AU	Victoria	-37.788	145.124	23
+P	São João dos Patos	sao joao dos patos	BR		-6.495	-43.702	13
+P	Dorset Park		CA	Ontario	43.754	-79.282	11
+P	Dombe Grande		AO		-12.952	13.102	2
+P	Nossa Senhora das Dores		BR		-10.492	-37.193	13
+P	João Dourado	joao dourado	BR		-11.345	-41.663	13
+P	Santa Rita do Passa Quatro		BR		-21.710	-47.478	13
+P	São Lourenço do Oeste	sao lourenco do oeste	BR		-26.359	-52.851	13
+P	Taquaritinga do Norte		BR		-7.903	-36.044	13
+P	Garrafão do Norte	garrafao do norte	BR		-1.934	-47.053	13
+P	Mont-Dore	mont dore	NC		-22.263	166.566	29
+P	Fort Dodge		US	Iowa	42.497	-94.168	4
+P	Santa Maria do Pará	santa maria do para	BR		-1.350	-47.576	13
+P	Taluker Char Doani		BD		22.140	89.941	16
+P	Dois Córregos	dois corregos	BR		-22.366	-48.380	13
+P	Mimoso do Sul		BR		-21.064	-41.366	13
+P	São Sebastião do Caí	sao sebastiao do cai	BR		-29.587	-51.376	13
+P	Oliveira do Douro		PT		41.125	-8.585	26
+P	Pedro do Rosário	pedro do rosario	BR		-2.972	-45.351	13
+P	Santa Luzia do Paruá	santa luzia do parua	BR		-2.544	-45.775	13
+P	São Geraldo do Araguaia	sao geraldo do araguaia	BR		-6.401	-48.555	13
+P	Alto Alegre do Maranhão	alto alegre do maranhao	BR		-4.213	-44.446	13
+P	Cachoeira do Arari		BR		-1.011	-48.963	13
+P	São Gonçalo do Sapucaí	sao goncalo do sapucai	BR		-21.892	-45.595	13
+P	São João do Paraíso	sao joao do paraiso	BR		-15.314	-42.014	13
+P	Miranda do Norte		BR		-3.565	-44.580	13
+P	Cruzeiro do Oeste		BR		-23.785	-53.073	13
+P	Dok Kham Tai		TH		19.162	99.993	15
+P	Döbeln	dobeln	DE		51.122	13.110	24
+P	Encruzilhada do Sul		BR		-30.544	-52.522	13
+P	Aurora do Pará	aurora do para	BR		-2.134	-47.559	13
+P	Dokolo		UG		1.898	33.178	27
+P	Santa Quitéria do Maranhão	santa quiteria do maranhao	BR		-3.496	-42.562	13
+P	Piraí do Sul	pirai do sul	BR		-24.526	-49.949	13
+P	Min Ga Lar Don Zay		MM		16.923	96.116	22
+P	Mojuí dos Campos	mojui dos campos	BR		-2.683	-54.643	13
+P	Carmo do Cajuru		BR		-20.184	-44.771	13
+P	Douako		GN		9.733	-10.183	1
+P	Dolton		US	Illinois	41.639	-87.607	4
+P	Conceição do Mato Dentro	conceicao do mato dentro	BR		-19.037	-43.425	13
+P	Ribas do Rio Pardo		BR		-20.443	-53.759	12
+P	Igaraçu do Tietê	igaracu do tiete	BR		-22.509	-48.558	13
+P	Dom Pedro		BR		-5.038	-44.437	13
+P	Dooru Verinag		IN		33.559	75.232	18
+P	Capela do Alto		BR		-23.471	-47.735	13
+P	Dokuchayevsk		UA		47.752	37.678	25
+P	São José do Vale do Rio Preto	sao jose do vale do rio preto	BR		-22.152	-42.923	13
+P	Itinga do Maranhão	itinga do maranhao	BR		-4.450	-47.526	13
+P	Trizidela do Vale		BR		-4.572	-44.621	13
+P	Candeias do Jamari		BR		-8.810	-63.696	12
+P	Valença do Piauí	valenca do piaui	BR		-6.407	-41.746	13
+P	Lordelo do Ouro		PT		41.151	-8.648	26
+P	Dongta		CN		38.081	106.344	20
+P	Bom Jesus dos Perdões	bom jesus dos perdoes	BR		-23.135	-46.465	13
+P	Carrum Downs		AU	Victoria	-38.100	145.172	23
+P	Arroio do Meio		BR		-29.401	-51.945	13
+P	São Miguel do Araguaia	sao miguel do araguaia	BR		-13.275	-50.163	13
+P	Nova Alvorada do Sul		BR		-21.466	-54.384	12
+P	Herval dOeste		BR		-27.194	-51.495	13
+P	Wrzeszcz Dolny		PL		54.385	18.613	24
+P	São Miguel do Guaporé	sao miguel do guapore	BR		-11.694	-62.711	12
+P	Doda		IN		33.149	75.547	18
+P	Donaueschingen		DE		47.955	8.497	24
+P	Alta Floresta d'Oeste	alta floresta doeste	BR		-11.968	-61.954	12
+P	São João do Piauí	sao joao do piaui	BR		-8.358	-42.247	13
+P	Jandaia do Sul		BR		-23.603	-51.643	13
+P	São Domingos do Araguaia	sao domingos do araguaia	BR		-5.538	-48.733	13
+P	Santa Bárbara do Pará	santa barbara do para	BR		-1.224	-48.294	13
+P	Freguesia do Ribeirao da Ilha		BR		-27.718	-48.563	13
+P	Carmo do Rio Claro		BR		-20.972	-46.119	13
+P	Douar Toulal		MA		33.885	-5.597	0
+P	Dombóvár	dombovar	HU		46.377	18.137	24
+P	Oliveira dos Brejinhos		BR		-12.317	-42.896	13
+P	Fátima do Sul	fatima do sul	BR		-22.374	-54.514	12
+P	Nova Esperança do Piriá	nova esperanca do piria	BR		-2.268	-46.968	13
+P	Dolyna		UA		48.972	23.966	25
+P	Santa Luzia do Pará	santa luzia do para	BR		-1.524	-46.898	13
+P	Douglas		US	Illinois	41.835	-87.618	4
+P	Dalap-Uliga-Dorrit	dalap uliga dorrit	MH		7.087	171.377	28
+P	Porto Real do Colégio	porto real do colegio	BR		-10.186	-36.840	13
+P	Raipur Domana		IN		32.798	74.783	18
+P	Thị Trấn Đất Đỏ	thi tran dat do	VN		10.491	107.270	15
+P	São Joaquim do Monte	sao joaquim do monte	BR		-8.432	-35.804	13
+P	Livramento do Brumado		BR		-13.651	-41.846	13
+P	Doka		SD		13.517	35.767	3
+P	Buriti dos Lopes		BR		-3.175	-41.867	13
+P	Cachoeira do Piriá	cachoeira do piria	BR		-1.760	-46.545	13
+P	Formoso do Araguaia		BR		-11.797	-49.529	13
+P	Chapada dos Guimarães	chapada dos guimaraes	BR		-15.461	-55.750	12
+P	Canto do Buriti		BR		-8.110	-42.944	13
+P	Doukouya		CI		6.426	-5.559	1
+P	Castelo do Piauí	castelo do piaui	BR		-5.322	-41.553	13
+P	Lagoa do Itaenga		BR		-7.936	-35.290	13
+P	Dorval		CA	Quebec	45.447	-73.753	11
+P	Dongobesh		TZ		-4.067	35.383	27
+P	Miracema do Tocantins		BR		-9.567	-48.392	13
+P	Dillingen an der Donau		DE		48.582	10.495	24
+P	Dongjia		CN		30.224	107.706	20
+P	Dourbali		TD		11.806	15.867	2
+P	Douar Tindja		TN		37.167	9.750	2
+P	Downtown Eastside		CA	British Columbia	49.282	-123.094	14
+P	Cubal do Lumbo		AO		-12.313	14.127	2
+P	El Dorado		US	Arkansas	33.208	-92.666	4
+P	Pirapora do Bom Jesus		BR		-23.397	-47.002	13
+P	Donauwörth	donauworth	DE		48.718	10.779	24
+P	São Benedito do Rio Preto	sao benedito do rio preto	BR		-3.334	-43.528	13
+P	Dover		US	New Jersey	40.884	-74.562	11
+P	Riachão do Dantas	riachao do dantas	BR		-11.069	-37.725	13
+P	Do’stlik Shahri	dostlik shahri	UZ		40.529	68.032	17
+P	Barreiro do Jaíba	barreiro do jaiba	BR		-15.615	-43.592	13
+P	São Luís Gonzaga do Maranhão	sao luis gonzaga do maranhao	BR		-4.379	-44.671	13
+P	Campo do Brito		BR		-10.733	-37.493	13
+P	Água Azul do Norte	agua azul do norte	BR		-6.791	-50.467	13
+P	Bom Jesus do Tocantins		BR		-5.051	-48.609	13
+P	Dongchuan		CN		37.368	101.836	20
+P	Lagoa do Carro		BR		-7.845	-35.320	13
+P	São João do Rio do Peixe	sao joao do rio do peixe	BR		-6.729	-38.449	13
+P	Hang Dong		TH		18.687	98.919	15
+P	Dobrush		BY		52.415	31.314	27
+P	Floresta do Araguaia		BR		-7.554	-49.712	13
+P	São José dos Quatro Marcos	sao jose dos quatro marcos	BR		-15.621	-58.176	12
+P	Domodossola		IT		46.117	8.293	24
+P	El Doncello		CO		1.678	-75.285	5
+P	Dormentes		BR		-8.447	-40.771	13
+P	Dorking		GB	England	51.232	-0.334	26
+P	Don Antonio		MX		19.874	-98.935	10
+P	Dolný Kubín	dolny kubin	SK		49.210	19.303	24
+P	‘Eyn-e Do	eyn e do	IR		31.346	48.601	21
+P	Tijucas do Sul		BR		-25.928	-49.180	13
+P	São Miguel do Tapuio	sao miguel do tapuio	BR		-5.504	-41.323	13
+P	Matões do Norte	matoes do norte	BR		-3.632	-44.556	13
+P	São Domingos do Prata	sao domingos do prata	BR		-19.865	-42.968	13
+P	Santo Antônio do Amparo	santo antonio do amparo	BR		-20.946	-44.919	13
+P	Cocal do Sul		BR		-28.599	-49.323	13
+P	Dolores		UY		-33.530	-58.217	13
+P	Cruz do Espírito Santo	cruz do espirito santo	BR		-7.140	-35.086	13
+P	Jenipapo dos Vieiras		BR		-5.371	-45.636	13
+P	Serra Dourada		BR		-12.761	-43.950	13
+P	Santana do Cariri		BR		-7.188	-39.737	13
+P	Tibau do Sul		BR		-6.187	-35.092	13
+P	São João do Soter	sao joao do soter	BR		-5.114	-43.810	13
+P	Dorchester		GB	England	50.717	-2.433	26
+P	Boa Vista do Tupim		BR		-12.662	-40.607	13
+P	Dour		BE		50.396	3.778	24
+P	Dongjiang		CN		33.379	104.951	20
+P	Santo Antônio do Leverger	santo antonio do leverger	BR		-15.866	-56.077	12
+P	São Paulo do Potengi	sao paulo do potengi	BR		-5.895	-35.763	13
+P	Domont		FR		49.028	2.326	24
+P	Douglas		US	Arizona	31.345	-109.545	8
+P	Douarnenez		FR		48.095	-4.329	24
+P	Cabaceiras do Paraguaçu	cabaceiras do paraguacu	BR		-12.536	-39.191	13
+P	Donna		US	Texas	26.170	-98.052	4
+P	São Francisco do Guaporé	sao francisco do guapore	BR		-12.052	-63.568	12
+P	Centro Novo do Maranhão	centro novo do maranhao	BR		-2.141	-46.124	13
+P	Les Sables-d'Olonne	les sables dolonne	FR		46.497	-1.785	24
+P	Leça do Bailio	leca do bailio	PT		41.212	-8.634	26
+P	El Dorado		VE		6.716	-61.637	12
+P	Vatra Dornei		RO		47.350	25.367	25
+P	Ora-dong	ora dong	KR		33.482	126.506	19
+P	Phú Đô	phu do	VN		21.017	105.767	15
+P	Mirante do Paranapanema		BR		-22.292	-51.906	13
+P	Atalaia do Norte		BR		-4.367	-70.192	5
+P	Baguim do Monte		PT		41.192	-8.541	26
+P	Balneário Arroio do Silva	balneario arroio do silva	BR		-28.987	-49.417	13
+P	Domchānch	domchanch	IN		24.475	85.692	18
+P	Conceição do Almeida	conceicao do almeida	BR		-12.779	-39.170	13
+P	Colorado do Oeste		BR		-13.117	-60.542	12
+P	Vitória do Xingu	vitoria do xingu	BR		-2.880	-52.010	13
+P	São Pedro do Sul	sao pedro do sul	BR		-29.621	-54.179	13
+P	Docklands		AU	Victoria	-37.815	144.951	23
+P	Donskoye		RU		45.453	41.972	27
+P	Donghui		CN		22.441	99.800	20
+P	Dornakal		IN		17.445	80.149	18
+P	São Martinho do Bispo	sao martinho do bispo	PT		40.210	-8.457	26
+P	Donaghmede		IE		53.398	-6.162	26
+P	Salto do Lontra		BR		-25.784	-53.309	13
+P	São Félix do Coribe	sao felix do coribe	BR		-13.401	-44.195	13
+P	América Dourada	america dourada	BR		-11.455	-41.436	13
+P	East Rancho Dominguez		US	California	33.898	-118.195	9
+P	Dologon		PH		7.841	125.044	20
+P	Domalanoan		PH		16.003	120.212	20
+P	Doma		NG		8.393	8.355	2

@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Campo_Grande	-240	
+Z	1	America/Fortaleza	-180	
+Z	2	Asia/Amman	180	
+Z	3	Asia/Karachi	300	
+Z	4	Asia/Tehran	210	
+Z	5	Asia/Urumqi	360	
+C	BR	Brazil	mwl	s
+C	CN	China	mwl	s
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JO	Jordan	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	PK	Pakistan	karachi	h
+C	SA	Saudi Arabia	ummalqura	s
+B	0
+P	Aqsu		CN		41.184	80.279	5
+P	Pano Aqil		PK		27.856	69.111	3
+P	Aqaba		JO		29.527	35.008	2
+P	Aquiraz		BR		-3.901	-38.391	1
+P	Aquidauana		BR		-20.471	-55.787	0
+P	Āq Qalā	aq qala	IR		37.014	54.455	4
+P	Aqsay		KZ		51.168	52.998	3
+P	‘Aqrah	aqrah	IQ		36.760	43.894	2
+P	Aquidabã	aquidaba	BR		-10.281	-37.019	1
+P	Al ‘Aqīq	al aqiq	SA		20.650	41.417	2
+P	Al ‘Aqīq	al aqiq	SA		20.274	41.664	2

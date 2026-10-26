@@ -1,0 +1,5 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baku	240	
+C	AZ	Azerbaijan	mwl	s
+B	0
+P	Əhmədbəyli	hm db yli	AZ		39.881	48.392	0

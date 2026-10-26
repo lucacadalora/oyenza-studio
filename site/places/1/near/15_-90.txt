@@ -1,0 +1,54 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cancun	-300	
+Z	1	America/Tegucigalpa	-360	
+C	BZ	Belize	mwl	s
+C	GT	Guatemala	mwl	s
+C	HN	Honduras	mwl	s
+C	MX	Mexico	mwl	s
+B	0
+P	San Pedro Sula		HN		15.506	-88.026	1
+P	La Ceiba		HN		15.760	-86.782	1
+P	La Ceiba		HN		15.767	-86.833	1
+P	Chetumal		MX		18.520	-88.304	0
+P	Puerto Cortez		HN		15.826	-87.930	1
+P	Choloma		HN		15.614	-87.953	1
+P	Olanchito		HN		15.481	-86.574	1
+P	Tocoa		HN		15.683	-86.000	1
+P	El Progreso		HN		15.400	-87.800	1
+P	Puerto Barrios		GT		15.727	-88.598	1
+P	Panzos		GT		15.399	-89.641	1
+P	Belize City		BZ		17.500	-88.198	1
+P	Omoa		HN		15.776	-88.038	1
+P	El Negrito		HN		15.317	-87.700	1
+P	Sonaguera		HN		15.633	-86.333	1
+P	Quimistán	quimistan	HN		15.348	-88.405	1
+P	La Lima		HN		15.433	-87.917	1
+P	Macuelizo		HN		15.313	-88.541	1
+P	Sabá	saba	HN		15.467	-86.250	1
+P	Villanueva		HN		15.315	-87.994	1
+P	San Benito		GT		16.917	-89.919	1
+P	Dulce Nombre de Culmí	dulce nombre de culmi	HN		15.100	-85.533	1
+P	Tela		HN		15.774	-87.467	1
+P	Potrerillos		HN		15.230	-87.964	1
+P	Felipe Carrillo Puerto		MX		19.578	-88.045	0
+P	Arizona		HN		15.633	-87.317	1
+P	San Francisco de Yojoa		HN		15.014	-87.972	1
+P	San Luis		HN		15.127	-88.439	1
+P	San Antonio de Cortés	san antonio de cortes	HN		15.116	-88.041	1
+P	Gualaco		HN		15.025	-86.071	1
+P	Santa Rita		HN		15.200	-87.883	1
+P	San Ignacio		BZ		17.159	-89.070	1
+P	Iriona		HN		15.968	-85.093	1
+P	El Estor		GT		15.532	-89.331	1
+P	Flores		GT		16.923	-89.899	1
+P	Cofradía	cofradia	HN		15.400	-88.150	1
+P	Yorito		HN		15.067	-87.283	1
+P	Gualán	gualan	GT		15.120	-89.357	1
+P	Morales		GT		15.472	-88.841	1
+P	San José de Colinas	san jose de colinas	HN		15.041	-88.302	1
+P	Lívingston	livingston	GT		15.828	-88.750	1
+P	San Pedro		BZ		17.916	-87.966	1
+P	Poptún	poptun	GT		16.331	-89.417	1
+P	Yoro		HN		15.138	-87.128	1
+P	Orange Walk		BZ		18.081	-88.563	1
+P	Belmopan		BZ		17.254	-88.764	1

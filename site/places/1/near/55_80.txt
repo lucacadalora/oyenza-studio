@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Novosibirsk	420	
+C	RU	Russia	mwl	s
+B	1
+P	Novosibirsk		RU		55.023	82.932	0
+P	Tomsk		RU		56.500	84.982	0
+P	Seversk		RU		56.601	84.886	0
+P	Yurga		RU		55.723	84.886	0
+P	Kolpashevo		RU		58.320	82.903	0
+P	Toguchin		RU		55.238	84.403	0
+P	Bolotnoye		RU		55.673	84.395	0
+P	Kochenëvo	kochenevo	RU		55.014	82.208	0

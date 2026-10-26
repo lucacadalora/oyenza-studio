@@ -1,0 +1,33 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cuiaba	-240	
+Z	1	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Rondonópolis	rondonopolis	BR		-16.471	-54.636	0
+P	Rio Verde		BR		-17.798	-50.928	1
+P	Jataí	jatai	BR		-17.879	-51.722	1
+P	Barra do Garças	barra do garcas	BR		-15.890	-52.257	0
+P	Mineiros		BR		-17.569	-52.551	1
+P	Quirinópolis	quirinopolis	BR		-18.448	-50.452	1
+P	Paranaíba	paranaiba	BR		-19.677	-51.191	0
+P	Santa Helena de Goiás	santa helena de goias	BR		-17.814	-50.597	1
+P	Iturama		BR		-19.728	-50.196	1
+P	Iporá	ipora	BR		-16.442	-51.118	1
+P	São Luís de Montes Belos	sao luis de montes belos	BR		-16.525	-50.372	1
+P	Coxim		BR		-18.507	-54.760	0
+P	Chapadão do Sul	chapadao do sul	BR		-18.794	-52.623	0
+P	São Gabriel do Oeste	sao gabriel do oeste	BR		-19.395	-54.566	0
+P	Jaciara		BR		-15.965	-54.968	0
+P	Costa Rica		BR		-18.544	-53.129	0
+P	Poxoréu	poxoreu	BR		-15.837	-54.389	0
+P	Goiás	goias	BR		-15.934	-50.140	1
+P	Acreúna	acreuna	BR		-17.396	-50.377	1
+P	Cassilândia	cassilandia	BR		-19.113	-51.734	0
+P	Santa Vitória	santa vitoria	BR		-18.839	-50.121	1
+P	Rio Verde de Mato Grosso		BR		-18.918	-54.844	0
+P	Jussara		BR		-15.865	-50.868	1
+P	Pedra Preta		BR		-16.623	-54.474	0
+P	Aragarças	aragarcas	BR		-15.898	-52.251	1
+P	Alto Araguaia		BR		-17.315	-53.215	0
+P	São Simão	sao simao	BR		-18.991	-50.544	1
+P	Caiapônia	caiaponia	BR		-16.957	-51.810	1

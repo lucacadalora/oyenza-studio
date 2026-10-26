@@ -1,0 +1,1421 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bamako	0	
+Z	1	Africa/Bangui	60	
+Z	2	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	3	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	4	Africa/Johannesburg	120	
+Z	5	America/Anchorage	-540	29549460=-480 29892120=-540 30083700=-480 30426360=-540 30607860=-480 30950520=-540 31132020=-480 31474680=-540 31656180=-480 31998840=-540 32180340=-480 32523000=-540 32714580=-480 33057240=-540 33238740=-480 33581400=-540 33762900=-480 34105560=-540 34287060=-480 34629720=-540 34811220=-480 35153880=-540 35335380=-480 35678040=-540 35869620=-480 36212280=-540 36393780=-480 36736440=-540 36917940=-480 37260600=-540 37442100=-480 37784760=-540 37966260=-480 38308920=-540 38490420=-480 38833080=-540 39024660=-480 39367320=-540 39548820=-480 39891480=-540
+Z	6	America/Bogota	-300	
+Z	7	America/Caracas	-240	
+Z	8	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	9	America/Edmonton	-420	29549340=-360
+Z	10	America/Glace_Bay	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	11	America/Guatemala	-360	
+Z	12	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	13	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	14	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	15	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	16	America/Sao_Paulo	-180	
+Z	17	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	18	America/Vancouver	-480	29549400=-420
+Z	19	Asia/Baghdad	180	
+Z	20	Asia/Baku	240	
+Z	21	Asia/Bangkok	420	
+Z	22	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	23	Asia/Dhaka	360	
+Z	24	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	25	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	26	Asia/Kabul	270	
+Z	27	Asia/Karachi	300	
+Z	28	Asia/Kathmandu	345	
+Z	29	Asia/Kolkata	330	
+Z	30	Asia/Shanghai	480	
+Z	31	Asia/Tehran	210	
+Z	32	Asia/Tokyo	540	
+Z	33	Asia/Yangon	390	
+Z	34	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	35	Australia/Brisbane	600	
+Z	36	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	37	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	38	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	39	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	40	Pacific/Honolulu	-600	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BN	Brunei	singapore	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CW	Curacao	mwl	s
+C	DE	Germany	mwl	s
+C	DJ	Djibouti	egyptian	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	ER	Eritrea	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GE	Georgia	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GQ	Equatorial Guinea	egyptian	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KN	Saint Kitts and Nevis	mwl	s
+C	KW	Kuwait	kuwait	s
+C	KY	Cayman Islands	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LA	Laos	mwl	s
+C	LB	Lebanon	egyptian	s
+C	LK	Sri Lanka	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MD	Moldova	mwl	s
+C	ME	Montenegro	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MT	Malta	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MW	Malawi	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NA	Namibia	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	OM	Oman	ummalqura	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PR	Puerto Rico	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SY	Syria	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TL	Timor Leste	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	YE	Yemen	ummalqura	s
+C	ZA	South Africa	egyptian	s
+B	18
+P	Baghdad		IQ		33.341	44.401	19
+P	Bangkok		TH		13.754	100.501	21
+P	Bao'an	baoan	CN		22.552	113.883	30
+P	Bamako		ML		12.609	-7.975	0
+P	Baoding		CN		38.873	115.462	30
+P	Bazhong		CN		31.869	106.744	30
+P	Baku		AZ		40.378	49.892	20
+P	Baoshan		CN		31.408	121.490	30
+P	Baotou		CN		40.652	109.844	30
+P	Al Başrah al Qadīmah	al basrah al qadimah	IQ		30.503	47.815	19
+P	Bayan Nur		CN		40.741	107.386	30
+P	Barcelona		ES		41.389	2.159	39
+P	Baoji		CN		34.368	107.237	30
+P	Bannu		PK		32.985	70.604	27
+P	Basrah		IQ		30.509	47.780	19
+P	Ra’s Bayrūt	ras bayrut	LB		33.900	35.483	22
+P	Barquisimeto		VE		10.065	-69.357	7
+P	Barranquilla		CO		10.969	-74.781	6
+P	Baoshan		CN		25.116	99.164	30
+P	Bahawalpur		PK		29.398	71.675	27
+P	Johor Bahru		MY		1.466	103.758	30
+P	Ulan Bator		MN		47.908	106.883	30
+P	Kampung Baru Subang		MY		3.150	101.533	30
+P	Barcelona		VE		10.138	-64.688	7
+P	Bangui		CF		4.361	18.555	1
+P	Bareilly		IN		28.367	79.432	29
+P	Bağcılar	bagcilar	TR		41.039	28.857	19
+P	Battagram		PK		34.677	73.023	27
+P	Bauchi		NG		10.310	9.844	1
+P	Baise		CN		23.890	106.627	30
+P	Barnaul		RU		53.362	83.728	21
+P	Baltimore		US	Maryland	39.290	-76.612	14
+P	Bahçelievler	bahcelievler	TR		41.002	28.860	19
+P	Balbala		DJ		11.562	43.107	19
+P	Banqiao		TW		25.014	121.467	30
+P	Selayang Baru Utara		MY		3.255	101.667	30
+P	Banan		CN		29.379	106.540	30
+P	Karol Bāgh	karol bagh	IN		28.651	77.191	29
+P	Bāndarban	bandarban	BD		22.195	92.219	23
+P	Bacolod City		PH		10.667	122.950	30
+P	Batman		TR		37.887	41.132	19
+P	Bắc Giang	bac giang	VN		21.273	106.195	21
+P	Basuo		CN		19.103	108.666	30
+P	Tando Bago		PK		24.789	68.965	27
+P	Bamenda		CM		5.960	10.146	1
+P	Ballari		IN		15.142	76.924	29
+P	Barinas		VE		8.621	-70.231	7
+P	Bawshar		OM		23.578	58.400	20
+P	Bauru		BR		-22.315	-49.061	16
+P	Bakersfield		US	California	35.373	-119.019	13
+P	Bafoussam		CM		5.478	10.418	1
+P	Bacoor		PH		14.459	120.939	30
+P	Bandar Abbas		IR		27.186	56.281	31
+P	Bahir Dar		ET		11.594	37.391	19
+P	Bắc Từ Liêm	bac tu liem	VN		21.065	105.747	21
+P	Baicheng		CN		45.618	122.833	30
+P	Bari		IT		41.121	16.870	39
+P	Barueri		BR		-23.511	-46.876	16
+P	Hai Bà Trưng	hai ba trung	VN		21.013	105.848	21
+P	Barddhamān	barddhaman	IN		23.256	87.857	29
+P	Batikent		TR		39.968	32.731	19
+P	Bahía Blanca	bahia blanca	AR		-38.718	-62.265	16
+P	Bārāsat	barasat	IN		22.722	88.482	29
+P	Bāli	bali	IN		22.649	88.341	29
+P	Baiyin		CN		36.547	104.170	30
+P	Batna		DZ		35.556	6.174	1
+P	Bắc Ninh	bac ninh	VN		21.186	106.076	21
+P	Bathinda		IN		30.207	74.939	29
+P	Alto Barinas		VE		8.593	-70.226	7
+P	Ba Vì	ba vi	VN		21.083	105.383	21
+P	Bab Ezzouar		DZ		36.726	3.183	1
+P	Banī Suwayf	bani suwayf	EG		29.074	31.098	2
+P	Baguio		PH		16.416	120.593	30
+P	Hafar Al-Batin	hafar al batin	SA		28.433	45.971	19
+P	Bagerhat		BD		22.657	89.791	23
+P	Lal Bahadur Nagar		IN		17.348	78.558	29
+P	Bagong Silang		PH		14.778	121.045	30
+P	Bariadi		TZ		-2.800	33.983	19
+P	Baranagar		IN		22.641	88.377	29
+P	Batu Caves		MY		3.238	101.682	30
+P	Cox’s Bāzār	coxs bazar	BD		21.440	92.010	23
+P	Richards Bay		ZA		-28.783	32.038	4
+P	Bago		MM		17.335	96.481	33
+P	Baruta		VE		10.434	-66.876	7
+P	Bahawalnagar		PK		29.998	73.253	27
+P	Bahawalnagar		PK		30.551	73.391	27
+P	Balıkesir	balikesir	TR		39.649	27.886	19
+P	Batangas		PH		13.757	121.058	30
+P	Thành Phố Bà Rịa	thanh pho ba ria	VN		10.496	107.168	21
+P	Kampong Baharu Cheras Batu Sebelas		MY		3.050	101.767	30
+P	Baton Rouge		US	Louisiana	30.443	-91.187	8
+P	Điện Bàn	dien ban	VN		15.889	108.254	21
+P	Ba Dinh		VN		21.037	105.827	21
+P	Banja Luka		BA		44.779	17.206	39
+P	Quận Ba	quan ba	VN		10.775	106.686	21
+P	Bandar Seri Alam		MY		1.504	103.875	30
+P	Barking		GB	England	51.533	0.083	38
+P	Badalona		ES		41.450	2.247	39
+P	Bade		TW		24.930	121.284	30
+P	Bachuan		CN		29.849	106.050	30
+P	Bayamón	bayamon	PR		18.399	-66.156	7
+P	Bandundu Province		CD		-3.317	17.381	1
+P	Bābol	babol	IR		36.551	52.679	31
+P	Barishal		BD		22.705	90.370	23
+P	Bandar Sunway		MY		3.069	101.607	30
+P	Bandar Utama		MY		3.148	101.614	30
+P	Balakovo		RU		52.026	47.797	20
+P	Kuala Kubu Baharu		MY		3.564	101.658	30
+P	Başakşehir	basaksehir	TR		41.106	28.791	19
+P	Bang Khae		TH		13.693	100.408	21
+P	Bago City		PH		10.533	122.833	30
+P	Bayamo		CU		20.374	-76.643	12
+P	Barrancabermeja		CO		7.065	-73.855	6
+P	Business Bay		AE		25.185	55.270	20
+P	Santa Bárbara d'Oeste	santa barbara doeste	BR		-22.754	-47.414	16
+P	Batumi		GE		41.641	41.631	20
+P	Baishan		CN		41.939	126.420	30
+P	Banhā	banha	EG		30.460	31.184	2
+P	Bahraigh		IN		27.574	81.595	29
+P	Baharampur		IN		24.105	88.252	29
+P	Basel		CH		47.558	7.573	39
+P	Badlapur		IN		19.155	73.266	29
+P	Bayjī	bayji	IQ		34.929	43.489	19
+P	Bata		GQ		1.864	9.766	1
+P	Bảo Lộc	bao loc	VN		11.548	107.808	21
+P	Bahadurgarh		IN		28.693	76.936	29
+P	Baranovichi		BY		53.133	26.008	19
+P	Nou Barris		ES		41.442	2.177	39
+P	Bang Khun Thian		TH		13.663	100.434	21
+P	Barra Mansa		BR		-22.544	-44.171	16
+P	Bandar-e Māhshahr	bandar e mahshahr	IR		30.557	49.189	31
+P	Trảng Bàng	trang bang	VN		11.030	106.358	21
+P	Ban Khlong Prawet		TH		13.719	100.681	21
+P	Barreiras		BR		-12.153	-44.990	16
+P	Paris 17 Batignolles-Monceau	paris 17 batignolles monceau	FR		48.883	2.322	39
+P	Batāla	batala	IN		31.809	75.203	29
+P	Bukit Batok New Town		SG		1.359	103.764	30
+P	Batu Pahat		MY		1.855	102.933	30
+P	Bạc Liêu	bac lieu	VN		9.294	105.728	21
+P	Fès al Bali	fes al bali	MA		34.070	-4.955	3
+P	Bālurghāt	balurghat	IN		25.221	88.777	29
+P	Baqubah		IQ		33.754	44.605	19
+P	Bānda	banda	IN		25.478	80.335	29
+P	Balvanera		AR		-34.610	-58.398	16
+P	Badajoz		ES		38.878	-6.971	39
+P	Balashikha		RU		55.795	37.948	19
+P	Bandar Tasik Puteri		MY		3.285	101.474	30
+P	Bārākpur	barakpur	IN		22.766	88.363	29
+P	Barrie		CA	Ontario	44.400	-79.666	14
+P	Bang Kapi		TH		13.765	100.647	21
+P	Balcón de la Lisa	balcon de la lisa	CU		23.053	-82.448	12
+P	Bandar Bukit Raja		MY		3.087	101.433	30
+P	Kampung Pasir Gudang Baru		MY		1.473	103.878	30
+P	Basildon		GB	England	51.568	0.458	38
+P	Balasore		IN		21.493	86.933	29
+P	Basirhat City		IN		22.661	88.855	29
+P	Balneário Camboriú	balneario camboriu	BR		-26.991	-48.635	16
+P	Bacău	bacau	RO		46.567	26.914	37
+P	Baliuag		PH		14.955	120.897	30
+P	Bānkura	bankura	IN		23.232	87.072	29
+P	Barysaw		BY		54.228	28.505	19
+P	Al Bāb	al bab	SY		36.371	37.516	19
+P	Baḥarkah	baharkah	IQ		36.316	44.035	19
+P	Bayan Lepas		MY		5.300	100.261	30
+P	Baidoa		SO		3.114	43.650	19
+P	Mandi Bahauddin		PK		32.587	73.491	27
+P	Bayambang		PH		15.813	120.456	30
+P	Al Bayḑā’	al bayda	LY		32.763	21.755	4
+P	Bat Yam		IL		32.024	34.752	25
+P	Bayawan		PH		9.365	122.804	30
+P	Barcarena		BR		-1.506	-48.626	16
+P	Bang Sue		TH		13.811	100.531	21
+P	Barbacena		BR		-21.226	-43.774	16
+P	Ban Samae Dam		TH		13.590	100.387	21
+P	Bălţi	balti	MD		47.763	27.929	37
+P	Baoshan		CN		46.575	131.393	30
+P	Sheepshead Bay		US	New York	40.591	-73.945	14
+P	Barretos		BR		-20.557	-48.568	16
+P	Bao'an Centre	baoan centre	CN		22.580	113.916	30
+P	Ban I Chang		TH		13.711	99.896	21
+P	Palm Bay		US	Florida	28.034	-80.589	14
+P	Battambang		KH		13.103	103.198	21
+P	Barshi		IN		18.235	75.693	29
+P	Bắc Quang	bac quang	VN		22.483	104.867	21
+P	Bandar-e Anzalī	bandar e anzali	IR		37.473	49.458	31
+P	Bama		NG		11.521	13.690	1
+P	Bārān	baran	IN		25.100	76.517	29
+P	Bangkok Noi		TH		13.763	100.478	21
+P	Bairro da Penha		BR		-23.368	-46.311	16
+P	Badin		PK		24.656	68.837	27
+P	Banfora		BF		10.641	-4.753	0
+P	Los Baños	los banos	PH		14.170	121.242	30
+P	Baripāda	baripada	IN		21.935	86.729	29
+P	Barnāla	barnala	IN		30.375	75.549	29
+P	Baisha		CN		29.062	106.119	30
+P	Banī Mazār	bani mazar	EG		28.495	30.805	2
+P	Baidyabāti	baidyabati	IN		22.785	88.326	29
+P	Bastī	basti	IN		26.788	82.716	29
+P	Balkh		AF		36.756	66.897	26
+P	Bagaha		IN		27.099	84.090	29
+P	Ballarat		AU	Victoria	-37.566	143.850	36
+P	Bagalkot		IN		16.187	75.696	29
+P	Bangaon		IN		23.046	88.831	29
+P	Beau Bassin-Rose Hill	beau bassin rose hill	MU		-20.233	57.466	20
+P	Bayugan		PH		8.756	125.767	30
+P	Bāneh	baneh	IR		35.998	45.885	31
+P	Bataysk		RU		47.137	39.757	19
+P	Balombo		AO		-12.354	14.772	1
+P	Thunder Bay		CA	Ontario	48.382	-89.250	14
+P	Baia Mare		RO		47.657	23.568	37
+P	Bānsbāria	bansbaria	IN		22.954	88.401	29
+P	Baghlān	baghlan	AF		36.131	68.708	26
+P	Baía Farta	baia farta	AO		-12.604	13.197	1
+P	Basingstoke		GB	England	51.262	-1.087	38
+P	Bandırma	bandirma	TR		40.352	27.977	19
+P	Bagong Silangan		PH		14.706	121.108	30
+P	Bahārestān	baharestan	IR		32.488	51.773	31
+P	Ba Đồn	ba don	VN		17.754	106.424	21
+P	Bhairab Bāzār	bhairab bazar	BD		24.052	90.976	23
+P	Baraki		DZ		36.667	3.096	1
+P	Green Bay		US	Wisconsin	44.519	-88.020	8
+P	Bang Bon		TH		13.662	100.396	21
+P	Bashan		CN		27.768	116.050	30
+P	Bacabal		BR		-4.232	-44.782	16
+P	Balsas		BR		-7.532	-46.036	16
+P	Bath		GB	England	51.375	-2.362	38
+P	Ngã Bảy	nga bay	VN		9.814	105.821	21
+P	Bānswāra	banswara	IN		23.541	74.442	29
+P	Yên Bái	yen bai	VN		21.723	104.911	21
+P	Puerto Barrios		GT		15.727	-88.598	11
+P	Bakwa		CD		4.126	27.395	4
+P	Barakaldo		ES		43.296	-2.988	39
+P	Bandar Mahkota Cheras		MY		3.054	101.798	30
+P	Bang Rak		TH		13.731	100.524	21
+P	Bam		IR		29.106	58.357	31
+P	Bagé	bage	BR		-31.331	-54.107	16
+P	Barra do Piraí	barra do pirai	BR		-22.470	-43.826	16
+P	Balāngīr	balangir	IN		20.704	83.490	29
+P	Barika		DZ		35.389	5.366	1
+P	Balashov		RU		51.551	43.171	20
+P	Grand-Bassam	grand bassam	CI		5.212	-3.739	0
+P	Bārmer	barmer	IN		25.746	71.392	29
+P	Bang Na		TH		13.667	100.642	21
+P	San Carlos de Bariloche		AR		-41.146	-71.308	16
+P	Bayan Hot		CN		38.839	105.669	30
+P	Bandar Kinrara		MY		3.049	101.642	30
+P	Baijiantan		CN		45.693	85.139	23
+P	Baraut		IN		29.102	77.263	29
+P	Barletta		IT		41.314	16.282	39
+P	Bafra		TR		41.568	35.903	19
+P	Banco Filipino Homes		PH		14.434	121.022	30
+P	Bang Phlat		TH		13.794	100.504	21
+P	Ballarpur		IN		19.847	79.346	29
+P	Bai’anba	baianba	CN		30.763	108.437	30
+P	Santa Barbara		US	California	34.421	-119.698	13
+P	Banga		PH		6.424	124.776	30
+P	Bagaha		IN		24.529	85.060	29
+P	Bạch Mai	bach mai	VN		20.983	105.833	21
+P	Al Badrashayn		EG		29.850	31.267	2
+P	San Juan Bautista		VE		11.012	-63.944	7
+P	Baisha		CN		21.717	109.683	30
+P	Al Bahah		SA		20.013	41.468	19
+P	Baixi		CN		28.700	104.549	30
+P	Bais		PH		9.591	123.123	30
+P	Balkanabat		TM		39.511	54.367	27
+P	Bantayan		PH		11.168	123.722	30
+P	Ban Mai		TH		7.204	100.545	21
+P	Batticaloa		LK		7.710	81.692	29
+P	Barra do Corda		BR		-5.506	-45.243	16
+P	Babushkin		RU		55.869	37.730	19
+P	El Bayadh		DZ		33.683	1.019	1
+P	Bāruni	baruni	IN		25.475	85.968	29
+P	Bālāghāt	balaghat	IN		21.816	80.188	29
+P	Bāghestān	baghestan	IR		35.647	51.134	31
+P	Chilla Soroda Bāngar	chilla soroda bangar	IN		28.596	77.302	29
+P	Bambari		CF		5.768	20.676	1
+P	Montego Bay		JM		18.471	-77.919	6
+P	Bayeux		BR		-7.125	-34.932	16
+P	Bagamoyo		TZ		-6.442	38.904	19
+P	Babamba		CD		0.183	27.483	4
+P	Bartın	bartin	TR		41.636	32.337	19
+P	Barkā’	barka	OM		23.679	57.886	20
+P	Balqash		KZ		46.845	74.982	27
+P	Baudhuinville		CD		-7.084	29.737	4
+P	Bargarh		IN		21.333	83.619	29
+P	Bakhmut		UA		48.594	37.999	37
+P	Bani Yas City		AE		24.310	54.629	20
+P	Baoying		CN		33.229	119.309	30
+P	Bang Sue subdistrict		TH		13.806	100.531	21
+P	Mossel Bay		ZA		-34.183	22.146	4
+P	Bagbera		IN		22.759	86.190	29
+P	Bandar-e Emam Khomeyni	bandar e emam khomeyni	IR		30.437	49.103	31
+P	Bang Kruai		TH		13.805	100.473	21
+P	Basoda		IN		23.852	77.937	29
+P	Bamban		PH		15.274	120.567	30
+P	Bauang		PH		16.531	120.333	30
+P	Ītāy al Bārūd	itay al barud	EG		30.887	30.667	2
+P	Bagong Barrio		PH		14.666	120.993	30
+P	Barracas		AR		-34.650	-58.383	16
+P	Balrāmpur	balrampur	IN		27.429	82.185	29
+P	Bāramūla	baramula	IN		34.209	74.343	29
+P	Baicheng		CN		36.327	119.779	30
+P	Santa Cruz de Barahona		DO		18.209	-71.101	7
+P	Baldwin Park		US	California	34.085	-117.961	13
+P	Rabkavi-Banhatti	rabkavi banhatti	IN		16.470	75.120	29
+P	Hassi Bahbah		DZ		35.071	3.030	1
+P	Badagara		IN		11.598	75.581	29
+P	Bawku		GH		11.059	-0.242	0
+P	Basoko		CD		1.239	23.616	4
+P	Baytown		US	Texas	29.735	-94.977	8
+P	Babahoyo		EC		-1.805	-79.525	6
+P	Cinisello Balsamo		IT		45.558	9.215	39
+P	Battersea		GB	England	51.475	-0.155	38
+P	Battaramulla South		LK		6.896	79.918	29
+P	Bariq		SA		18.930	41.930	19
+P	Basyūn	basyun	EG		30.940	30.813	2
+P	Barbalha		BR		-7.311	-39.304	16
+P	Barra do Dande		AO		-8.472	13.370	1
+P	Banská Bystrica	banska bystrica	SK		48.739	19.149	39
+P	Balotra		IN		25.832	72.240	29
+P	Bafia		CM		4.750	11.233	1
+P	Bawāna	bawana	IN		28.798	77.034	29
+P	Walvis Bay		NA		-22.957	14.505	4
+P	Cao Bằng	cao bang	VN		22.666	106.258	21
+P	Bat Khela		PK		34.618	71.972	27
+P	Balanga		PH		14.676	120.536	30
+P	Bayreuth		DE		49.948	11.579	39
+P	Krathum Baen		TH		13.653	100.260	21
+P	Barra do Garças	barra do garcas	BR		-15.890	-52.257	7
+P	Bangkok Yai		TH		13.723	100.476	21
+P	Bandar Saujana Utama		MY		3.207	101.477	30
+P	Le Bardo		TN		36.811	10.135	1
+P	Barauni		IN		25.471	85.976	29
+P	Barnsley		GB	England	53.550	-1.483	38
+P	Ban Ko Sire		TH		7.887	98.426	21
+P	Bāpatla	bapatla	IN		15.904	80.467	29
+P	Badvel		IN		14.745	79.063	29
+P	Bailundo		AO		-9.575	15.994	1
+P	Baiquan		CN		47.607	126.082	30
+P	Bayramaly		TM		37.619	62.167	27
+P	Bamberg		DE		49.899	10.901	39
+P	Baikonur		KZ		45.617	63.317	27
+P	Basavakalyan		IN		17.874	76.950	29
+P	Bairro Parque Nossa Senhora do Carmo		BR		-23.406	-46.316	16
+P	Kot Malik Barkhurdar		PK		30.204	66.987	27
+P	Kampung Baru Balakong		MY		3.029	101.747	30
+P	Bargny		SN		14.697	-17.230	0
+P	Basmat		IN		19.329	77.157	29
+P	Al Balyanā	al balyana	EG		26.236	32.004	2
+P	Baranoa		CO		10.794	-74.916	6
+P	Sanlúcar de Barrameda	sanlucar de barrameda	ES		36.778	-6.351	39
+P	Balanbale		SO		5.769	45.763	19
+P	Barberton		ZA		-25.788	31.053	4
+P	Bârlad	barlad	RO		46.232	27.669	37
+P	Banepā	banepa	NP		27.633	85.522	28
+P	Babati		TZ		-4.217	35.750	19
+P	Bajos de Haina		DO		18.415	-70.033	7
+P	Baní	bani	DO		18.280	-70.332	7
+P	Bakıxanov	bakixanov	AZ		40.419	49.967	20
+P	Barbil		IN		22.102	85.378	29
+P	Bayside		US	New York	40.768	-73.777	14
+P	Bayonne		US	New Jersey	40.669	-74.114	14
+P	Bayiji		CN		34.267	117.683	30
+P	Babu		CN		24.417	111.517	30
+P	Barreirinhas		BR		-2.756	-42.826	16
+P	Basirpur		PK		30.578	73.839	27
+P	Bāqershahr	baqershahr	IR		35.532	51.405	31
+P	Ban Khoan		LA		20.350	100.090	21
+P	Bairro Militar		GW		11.875	-15.616	0
+P	Bāzār-e Yakāwlang	bazar e yakawlang	AF		34.735	66.974	26
+P	Bāzārak	bazarak	AF		35.313	69.515	26
+P	Bandar Seri Begawan		BN		4.890	114.940	30
+P	Bāngarda Chhota	bangarda chhota	IN		22.744	75.814	29
+P	Baheri		IN		28.774	79.497	29
+P	Chik Ballāpur	chik ballapur	IN		13.435	77.728	29
+P	Baihecun		CN		22.113	107.236	30
+P	Novaya Balakhna		RU		56.490	43.601	19
+P	Baoqing		CN		46.325	132.190	30
+P	Al Bājūr	al bajur	EG		30.430	31.037	2
+P	Bāri	bari	IN		26.647	77.616	29
+P	Bāmyān	bamyan	AF		34.822	67.827	26
+P	Bassar		TG		9.250	0.782	0
+P	Bārh	barh	IN		25.483	85.709	29
+P	Banfield		AR		-34.746	-58.394	16
+P	Ban Tha Kham		TH		13.637	100.441	21
+P	Bangor		GB	Northern Ireland	54.661	-5.668	38
+P	Villa Poeta José Gálvez Barrenechea	villa poeta jose galvez barrenechea	PE		-12.213	-76.905	6
+P	Bārdoli	bardoli	IN		21.123	73.112	29
+P	Ban Lam Luk Ka		TH		13.977	100.778	21
+P	Bandar-e Kangān	bandar e kangan	IR		27.834	52.063	31
+P	Bambang		PH		16.387	121.107	30
+P	Bangaon		IN		25.867	86.512	29
+P	Balagtas		PH		14.817	120.867	30
+P	Bang Khae Nuea		TH		13.706	100.389	21
+P	Baimajing		CN		19.712	109.218	30
+P	Dayr al Balaḩ	dayr al balah	PS		31.418	34.349	24
+P	Bañga	banga	PH		6.424	124.778	30
+P	Bartlett		US	Tennessee	35.205	-89.874	8
+P	Batatais		BR		-20.891	-47.585	16
+P	Barkam		CN		31.901	102.221	30
+P	Ban Pong		TH		13.816	99.877	21
+P	Maulavi Bāzār	maulavi bazar	BD		24.489	91.771	23
+P	Bageqi		CN		37.141	79.835	23
+P	Bandō	bando	JP		36.070	139.867	32
+P	Baishishan		CN		43.583	127.567	30
+P	Bayt Lāhyā	bayt lahya	PS		31.546	34.495	24
+P	Diamond Bar		US	California	34.029	-117.810	13
+P	Baden-Baden	baden baden	DE		48.761	8.240	39
+P	Bada Barabīl	bada barabil	IN		22.112	85.387	29
+P	Barri de Sant Andreu		ES		41.437	2.190	39
+P	Batac City		PH		18.055	120.565	30
+P	Battir		PS		31.700	35.117	25
+P	Bankra		IN		22.603	88.278	29
+P	Baidi		CN		31.058	109.591	30
+P	Al Badārī	al badari	EG		26.993	31.416	2
+P	Kampung Bukit Baharu		MY		2.215	102.285	30
+P	Barwāni	barwani	IN		22.032	74.900	29
+P	Barrow in Furness		GB	England	54.111	-3.228	38
+P	Bayan		CN		46.076	127.394	30
+P	Kaga-Bandoro	kaga bandoro	CF		6.990	19.187	1
+P	Bad Salzuflen		DE		52.086	8.744	39
+P	Bandar Labuan		MY		5.283	115.254	30
+P	Barry		GB	Wales	51.400	-3.284	38
+P	El Banco		CO		9.001	-73.976	6
+P	Bafang		CM		5.157	10.177	1
+P	Bārāmati	baramati	IN		18.152	74.578	29
+P	Bahlā’	bahla	OM		22.979	57.305	20
+P	Bangassou		CF		4.741	22.818	1
+P	Bandar-e Torkaman	bandar e torkaman	IR		36.901	54.072	31
+P	Barbosa		CO		6.438	-75.331	6
+P	San Bartolomé de Tirajana	san bartolome de tirajana	ES		27.925	-15.573	38
+P	Bagheria		IT		38.079	13.512	39
+P	Baruipur		IN		22.365	88.433	29
+P	Banes		CU		20.961	-75.723	12
+P	Bartolomé Masó	bartolome maso	CU		20.167	-76.944	12
+P	Bordj el Bahri		DZ		36.791	3.250	1
+P	Bandar-e Genāveh	bandar e genaveh	IR		29.579	50.517	31
+P	Bāprola	baprola	IN		28.641	77.014	29
+P	Bau		MY		1.417	110.150	30
+P	Hervey Bay		AU	Queensland	-25.288	152.769	35
+P	Ban Talat Yai		TH		7.885	98.400	21
+P	Ban Lak Song		TH		13.689	100.398	21
+P	Bad Homburg vor der Höhe	bad homburg vor der hohe	DE		50.227	8.618	39
+P	Baljurashi		SA		19.859	41.557	19
+P	Baião	baiao	BR		-2.791	-49.672	16
+P	Shahr-e Bābak	shahr e babak	IR		30.116	55.119	31
+P	Battle Creek		US	Michigan	42.317	-85.178	14
+P	Barinitas		VE		8.762	-70.412	7
+P	Balţīm	baltim	EG		31.556	31.089	2
+P	Barreiro		PT		38.663	-9.072	38
+P	City of Milford (balance)	city of milford balance	US	Connecticut	41.224	-73.062	14
+P	Bargny Guèdj	bargny guedj	SN		14.687	-17.228	0
+P	Bargny Ngoude		SN		14.694	-17.235	0
+P	El Bagre		CO		7.603	-74.810	6
+P	Barra		BR		-11.089	-43.142	16
+P	Tobias Barreto		BR		-11.184	-37.998	16
+P	Babīlā	babila	SY		33.471	36.331	19
+P	Barranqueras		AR		-27.481	-58.939	16
+P	North Bay		CA	Ontario	46.317	-79.466	14
+P	Barriera di Milano		IT		45.092	7.694	39
+P	Balayan		PH		13.937	120.732	30
+P	Barriera di Lanzo		IT		45.110	7.651	39
+P	Badūria	baduria	IN		22.744	88.787	29
+P	Bad Oeynhausen		DE		52.207	8.804	39
+P	Batouri		CM		4.433	14.367	1
+P	Bail-Hongal	bail hongal	IN		15.814	74.859	29
+P	Barpeta		IN		26.323	91.006	29
+P	Banbury		GB	England	52.063	-1.342	38
+P	São Joaquim da Barra	sao joaquim da barra	BR		-20.581	-47.855	16
+P	Bandar Sri Damansara		MY		3.190	101.611	30
+P	Al Badā’i‘ al Wusţá	al badai al wusta	SA		25.985	43.737	19
+P	Baracoa		CU		20.348	-74.497	12
+P	Bangued		PH		17.608	120.638	30
+P	Mahnar Bazar		IN		25.610	85.481	29
+P	Kara-Balta	kara balta	KG		42.814	73.848	23
+P	Banting		MY		2.814	101.502	30
+P	Bangkok Riverside		TH		13.755	100.517	21
+P	Bājil	bajil	YE		15.059	43.287	19
+P	Bayombong		PH		16.481	121.150	30
+P	Bābolsar	babolsar	IR		36.699	52.650	31
+P	Bayburt		TR		40.256	40.223	19
+P	Barras		BR		-4.244	-42.294	16
+P	Banyo		CM		6.750	11.817	1
+P	Bakhtiarpur		IN		25.456	85.533	29
+P	Baizi		CN		30.094	105.713	30
+P	Barnstable		US	Massachusetts	41.700	-70.299	14
+P	Badulla		LK		6.980	81.058	29
+P	Ballia		IN		25.421	86.314	29
+P	Kafr al Baţţīkh	kafr al battikh	EG		31.404	31.738	2
+P	Battipaglia		IT		40.609	14.982	39
+P	Barberena		GT		14.307	-90.362	11
+P	Bassila		BJ		9.008	1.665	1
+P	Barri de les Corts		ES		41.387	2.135	39
+P	Barranca		PE		-10.750	-77.767	6
+P	Banstead		GB	England	51.322	-0.207	38
+P	Batu Gajah		MY		4.469	101.041	30
+P	Baitao		CN		29.551	107.487	30
+P	Barbigha		IN		25.217	85.733	29
+P	Banī ‘Ubayd	bani ubayd	EG		27.952	30.781	2
+P	Balfour		ZA		-26.663	28.590	4
+P	Bānka	banka	IN		24.881	86.923	29
+P	Santa Bárbara	santa barbara	VE		7.813	-71.178	7
+P	Bauta		CU		22.982	-82.548	12
+P	Bani Walid		LY		31.746	13.984	4
+P	Bāfq	bafq	IR		31.604	55.402	31
+P	Cutler Bay		US	Florida	25.578	-80.338	14
+P	Barra Velha		BR		-26.632	-48.685	16
+P	Bangi		MY		2.900	101.783	30
+P	Bắc Kạn	bac kan	VN		22.147	105.835	21
+P	Homa Bay		KE		-0.527	34.457	19
+P	Bangarapet		IN		12.991	78.178	29
+P	Reino de Bandim		GW		11.850	-15.600	0
+P	Bāndīkūi	bandikui	IN		27.051	76.573	29
+P	Bālāpur	balapur	IN		20.666	76.774	29
+P	Bandar Baharu		MY		5.134	100.495	30
+P	Balcarce		AR		-37.846	-58.255	16
+P	Bayonne		FR		43.493	-1.473	39
+P	Bavet		KH		11.063	106.136	21
+P	Bangangté	bangangte	CM		5.141	10.525	1
+P	Barajas de Madrid		ES		40.474	-3.578	39
+P	Barwāla	barwala	IN		29.367	75.908	29
+P	Bad Kreuznach		DE		49.841	7.867	39
+P	West Babylon		US	New York	40.718	-73.354	14
+P	Bakau		GM		13.478	-16.682	0
+P	Barhiya		IN		25.288	86.021	29
+P	Baichihe		CN		36.116	119.533	30
+P	Bairāgnia	bairagnia	IN		26.741	85.273	29
+P	Balykchy		KG		42.460	76.187	23
+P	San Antonio de los Baños	san antonio de los banos	CU		22.889	-82.506	12
+P	Basauri		ES		43.240	-2.886	39
+P	Barra de São Francisco	barra de sao francisco	BR		-18.755	-40.891	16
+P	Bāola	baola	IN		22.828	72.364	29
+P	Baardheere		SO		2.345	42.276	19
+P	Balulang		PH		8.445	124.631	30
+P	Joint Base Pearl Harbor Hickam		US	Hawaii	21.349	-157.947	40
+P	Balad		IQ		34.015	44.146	19
+P	Barreiros		BR		-8.818	-35.186	16
+P	Bautzen		DE		51.180	14.435	39
+P	Ban Phaeo		TH		13.591	100.107	21
+P	Barauli		IN		26.381	84.586	29
+P	Bāghpat	baghpat	IN		28.945	77.219	29
+P	Bar Bigha		IN		25.219	85.733	29
+P	Barda		AZ		40.376	47.126	20
+P	Baihua		CN		29.094	104.609	30
+P	Bang Bua Thong		TH		13.918	100.424	21
+P	Bartlett		US	Illinois	41.995	-88.186	8
+P	Barra dos Coqueiros		BR		-10.909	-37.039	16
+P	Basankusu		CD		1.221	19.802	1
+P	Baisheng		CN		29.814	107.393	30
+P	Bazar-Korgon	bazar korgon	KG		41.038	72.746	23
+P	Bastia		FR		42.702	9.451	39
+P	Balaka		MW		-14.979	34.956	4
+P	Baihe		CN		31.263	108.464	30
+P	Wilkes-Barre	wilkes barre	US	Pennsylvania	41.246	-75.881	14
+P	Palomeras Bajas		ES		40.385	-3.659	39
+P	Bang Phai		TH		13.707	100.387	21
+P	Barmbek-Nord	barmbek nord	DE		53.605	10.040	39
+P	Ban Na		TH		17.017	99.733	21
+P	Bantvāl	bantval	IN		12.890	75.035	29
+P	Balzar		EC		-1.366	-79.905	6
+P	Boumhel El Bassatine		TN		36.725	10.235	1
+P	Bakhri		IN		25.599	86.261	29
+P	Ballerup		DK		55.732	12.363	39
+P	Bangsar		MY		3.129	101.670	30
+P	Bandar Tun Hussein Onn		MY		3.055	101.759	30
+P	Bānsi	bansi	IN		27.177	82.934	29
+P	Baojia		CN		29.439	108.313	30
+P	Bang Lamung		TH		13.047	100.929	21
+P	Lương Bằng	luong bang	VN		20.740	106.060	21
+P	Barra da Tijuca		BR		-22.998	-43.365	16
+P	Baishikante		CN		38.460	77.479	23
+P	Sultan sa Barongis		PH		6.800	124.637	30
+P	Bāniyās	baniyas	SY		35.182	35.949	19
+P	Batley		GB	England	53.703	-1.634	38
+P	Bandar Country Homes		MY		3.328	101.531	30
+P	Khwaeng Bang Khae		TH		13.692	100.404	21
+P	Bagneux		FR		48.796	2.308	39
+P	Balu		CN		34.189	117.913	30
+P	New Badah		PK		27.342	68.032	27
+P	Backnang		DE		48.947	9.437	39
+P	São João da Barra	sao joao da barra	BR		-21.640	-41.051	16
+P	Barendrecht		NL		51.857	4.535	39
+P	Marcq-en-Barœul	marcq en baroeul	FR		50.667	3.083	39
+P	Kampung Baharu Nilai		MY		2.803	101.797	30
+P	Bailin		CN		28.736	106.460	30
+P	Bayāna	bayana	IN		26.908	77.290	29
+P	Bayanan		PH		14.408	121.050	30
+P	Sīdī Barānī	sidi barani	EG		31.612	25.925	2
+P	Ban Sang		TH		13.996	101.221	21
+P	Barrancas		CO		10.957	-72.795	6
+P	Bassano del Grappa		IT		45.767	11.727	39
+P	Plettenberg Bay		ZA		-34.053	23.372	4
+P	Whitley Bay		GB	England	55.040	-1.447	38
+P	Gharonda Neemka Bangar		IN		28.616	77.288	29
+P	Al Bayda		YE		13.985	45.573	19
+P	Baniachang		BD		24.519	91.358	23
+P	Baja		HU		46.183	18.953	39
+P	Baldivis		AU	Western Australia	-32.329	115.830	30
+P	Batī	bati	ET		11.192	40.017	19
+P	Bäherden	baherden	TM		38.436	57.432	27
+P	Banikoara		BJ		11.298	2.439	1
+P	Barranco		PE		-12.143	-77.019	6
+P	Baksan		RU		43.684	43.535	19
+P	Los Banos		US	California	37.058	-120.850	13
+P	Bāngarmau	bangarmau	IN		26.891	80.211	29
+P	Bayt Ḩānūn	bayt hanun	PS		31.535	34.536	24
+P	Bambey		SN		14.701	-16.459	0
+P	Banjul		GM		13.453	-16.578	0
+P	Bantay		PH		17.585	120.389	30
+P	Bandipura		IN		34.417	74.643	29
+P	Bābarpur	babarpur	IN		28.687	77.286	29
+P	Bahía de Caráquez	bahia de caraquez	EC		-0.600	-80.424	6
+P	Bahādurganj	bahadurganj	IN		26.262	87.824	29
+P	Baulkham Hills		AU	New South Wales	-33.759	150.993	36
+P	Babīlē	babile	ET		9.226	42.332	19
+P	Bake		CN		29.901	107.023	30
+P	Barra		IT		40.843	14.318	39
+P	Bartlesville		US	Oklahoma	36.747	-95.981	8
+P	Barra do Choça	barra do choca	BR		-14.881	-40.579	16
+P	Barnagar		IN		23.049	75.378	29
+P	Bathurst		AU	New South Wales	-33.417	149.581	36
+P	Ban Ang Sila		TH		13.340	100.930	21
+P	Bad Vilbel		DE		50.179	8.738	39
+P	Barmbek-Süd	barmbek sud	DE		53.580	10.041	39
+P	Bang Khlo		TH		13.699	100.512	21
+P	Ban Phai		TH		16.060	102.731	21
+P	Barpeta Road		IN		26.503	90.969	29
+P	Babīna	babina	IN		25.239	78.470	29
+P	Baradero		AR		-33.812	-59.505	16
+P	Badessa		ET		6.877	37.936	19
+P	La Barca		MX		20.290	-102.542	11
+P	Baturité	baturite	BR		-4.329	-38.885	16
+P	Barneveld		NL		52.140	5.585	39
+P	Baiyang		CN		30.816	108.611	30
+P	Bankstown		AU	New South Wales	-33.917	151.033	36
+P	Bayview-Hunters Point	bayview hunters point	US	California	37.729	-122.381	13
+P	Bareli		IN		23.004	78.230	29
+P	Barcellona Pozzo di Gotto		IT		38.148	15.215	39
+P	Bājitpur	bajitpur	BD		24.216	90.950	23
+P	Baltiysk		RU		54.655	19.909	4
+P	Bakhtiyārpur	bakhtiyarpur	IN		25.462	85.532	29
+P	Bagasra		IN		21.487	70.955	29
+P	Bāft	baft	IR		29.233	56.602	31
+P	Balingen		DE		48.275	8.855	39
+P	Barra Bonita		BR		-22.495	-48.558	16
+P	Afurada de Baixo		PT		41.144	-8.646	38
+P	Bayt al Faqīh	bayt al faqih	YE		14.516	43.324	19
+P	Bako		ET		5.783	36.567	19
+P	Aragua de Barcelona		VE		9.456	-64.829	7
+P	Bay City		US	Michigan	43.594	-83.889	14
+P	Baclaran		PH		14.532	120.994	30
+P	Bahjoi		IN		28.395	78.627	29
+P	Baboua		CF		5.796	14.828	1
+P	Bāsudebpur	basudebpur	IN		21.120	86.729	29
+P	Bauan		PH		13.792	121.008	30
+P	Bāgh	bagh	PK		33.981	73.776	27
+P	Bay		PH		14.184	121.286	30
+P	Ban Ratsada		TH		7.910	98.402	21
+P	Bagnolet		FR		48.867	2.417	39
+P	Bafatá	bafata	GW		12.166	-14.662	0
+P	Barreirinha		BR		-2.793	-57.070	7
+P	Barra Funda		BR		-23.521	-46.674	16
+P	Basavana Bāgevādi	basavana bagevadi	IN		16.573	75.973	29
+P	Balakouya		CI		5.208	-6.352	0
+P	Baocheng		CN		18.640	109.699	30
+P	Bayandai		CN		43.966	81.249	23
+P	Bath Beach		US	New York	40.605	-74.004	14
+P	Badr		EG		30.136	31.715	2
+P	Al Başalīyah Baḩrī	al basaliyah bahri	EG		25.150	32.717	2
+P	Bairro Novo		PT		41.543	-8.407	38
+P	Bāmaur	bamaur	IN		26.339	78.101	29
+P	Babanūsah	babanusah	SD		11.333	27.800	4
+P	São João Batista	sao joao batista	BR		-27.276	-48.849	16
+P	Badarganj		BD		25.674	89.054	23
+P	Bādepalli	badepalli	IN		16.755	78.144	29
+P	Bahārak	baharak	AF		37.003	70.907	26
+P	Jeffreys Bay		ZA		-34.045	24.921	4
+P	Granadero Baigorria		AR		-32.857	-60.718	16
+P	Bangor		US	Maine	44.799	-68.773	14
+P	Ban Khlong Bang Phran		TH		13.663	100.388	21
+P	Banī Suwayf al Jadīdah	bani suwayf al jadidah	EG		29.033	31.114	2
+P	Barrinha		BR		-21.194	-48.164	16
+P	San Pawl il-Baħar	san pawl il bahar	MT		35.951	14.416	39
+P	Banigbé	banigbe	BJ		6.648	2.707	1
+P	Barbacha		DZ		36.567	4.967	1
+P	Bagre		BR		-1.900	-50.208	16
+P	Baliwan		CN		34.848	105.370	30
+P	Bandar Nabawan		MY		5.039	116.427	30
+P	Bale Hawassa		ET		6.919	37.529	19
+P	Bandjoun		CM		5.376	10.413	1
+P	Bang Khun Si		TH		13.751	100.470	21
+P	Thonon-les-Bains	thonon les bains	FR		46.370	6.480	39
+P	Barros Blancos		UY		-34.752	-56.003	16
+P	Barnstaple		GB	England	51.080	-4.058	38
+P	Bariri		BR		-22.074	-48.740	16
+P	Barabinsk		RU		55.351	78.359	21
+P	Bale Robe		ET		7.123	40.004	19
+P	Bahau		MY		2.808	102.405	30
+P	Bandeirantes		BR		-23.110	-50.367	16
+P	Banī Suhaylā	bani suhayla	PS		31.343	34.323	24
+P	Bagru		IN		26.811	75.547	29
+P	Bama		BF		12.036	-4.399	0
+P	Ban Khlong Bang Sao Thong		TH		13.642	100.833	21
+P	Barberà del Vallès	barbera del valles	ES		41.516	2.125	39
+P	Banning		US	California	33.926	-116.876	13
+P	Bādāmi	badami	IN		15.915	75.677	29
+P	Bayanhongor		MN		46.194	100.718	30
+P	Banda		IN		24.045	78.961	29
+P	Baalbek		LB		34.006	36.218	22
+P	Baie-Mahault	baie mahault	GP		16.267	-61.585	7
+P	Barão de Cocais	barao de cocais	BR		-19.946	-43.487	16
+P	Bad Hersfeld		DE		50.872	9.709	39
+P	Ḥawṭah Banī Tamīm	hawtah bani tamim	SA		23.496	46.878	19
+P	Baixo Guandu		BR		-19.519	-41.016	16
+P	Bayān	bayan	KW		29.303	48.049	19
+P	Banamba		ML		13.548	-7.448	0
+P	Ballwin		US	Missouri	38.595	-90.546	8
+P	Ban Aranyik		TH		16.826	100.285	21
+P	Santa Bárbara	santa barbara	BR		-19.959	-43.415	16
+P	Bandar-e Lengeh	bandar e lengeh	IR		26.562	54.884	31
+P	Carlos Barbosa		BR		-29.297	-51.504	16
+P	Banmankhi Bazar		IN		25.888	87.194	29
+P	Bakau New Town		GM		13.473	-16.685	0
+P	Bad Nauheim		DE		50.365	8.739	39
+P	Bakri		MY		2.044	102.653	30
+P	Bardejov		SK		49.292	21.273	39
+P	Balabanovo		RU		55.182	36.661	19
+P	Bankass		ML		14.078	-3.516	0
+P	Yverdon-les-Bains	yverdon les bains	CH		46.779	6.641	39
+P	Cát Bà	cat ba	VN		20.728	107.048	21
+P	Barnet		GB	England	51.650	-0.200	38
+P	Bāqa el Gharbīya	baqa el gharbiya	IL		32.418	35.043	25
+P	Baddi		IN		30.958	76.791	29
+P	Barra do Bugres		BR		-15.072	-57.181	7
+P	Bang Phae		TH		13.692	99.930	21
+P	Bačka Palanka	backa palanka	RS		45.250	19.397	39
+P	Bagong Pagasa		PH		14.663	121.033	30
+P	Vega Baja		PR		18.444	-66.388	7
+P	Colwyn Bay		GB	Wales	53.295	-3.727	38
+P	Bachhraon		IN		28.927	78.235	29
+P	Ban Phan Don		TH		17.143	102.973	21
+P	Basni		IN		27.172	73.645	29
+P	Ban Chang Lo		TH		13.751	100.477	21
+P	New Bani Sewif City		EG		29.036	31.118	2
+P	Ballymena		GB	Northern Ireland	54.864	-6.276	38
+P	Shwe Lin Ban		MM		16.897	96.068	33
+P	Bahār	bahar	IR		34.907	48.441	31
+P	Bah-Bah	bah bah	PH		8.607	125.914	30
+P	Bamba		ML		10.383	-7.150	0
+P	Baikunthpur		IN		23.262	82.561	29
+P	Bānswāda	banswada	IN		18.377	77.880	29
+P	Bang Bo District		TH		13.583	100.817	21
+P	Ruy Barbosa		BR		-12.284	-40.494	16
+P	Schwandorf in Bayern		DE		49.325	12.110	39
+P	Bardaskan		IR		35.262	57.971	31
+P	Ban Chang		TH		12.725	101.055	21
+P	Badr		EG		30.575	30.711	2
+P	Batifa		IQ		37.175	43.012	19
+P	Baunatal		DE		51.252	9.407	39
+P	Ban Bang Kadi		TH		13.999	100.550	21
+P	Bāmor Kalān	bamor kalan	IN		24.893	78.151	29
+P	Baesweiler		DE		50.910	6.189	39
+P	Bad Neuenahr-Ahrweiler	bad neuenahr ahrweiler	DE		50.543	7.111	39
+P	Batken		KG		40.060	70.819	23
+P	Ballitoville		ZA		-29.539	31.214	4
+P	Banbury-Don Mills	banbury don mills	CA	Ontario	43.738	-79.350	14
+P	Aix-les-Bains	aix les bains	FR		45.692	5.909	39
+P	Bāspalli	baspalli	IN		17.539	78.364	29
+P	Bad Zwischenahn		DE		53.185	8.003	39
+P	Bali		CM		5.887	10.012	1
+P	Conceição da Barra	conceicao da barra	BR		-18.593	-39.732	16
+P	Bakhchysaray		UA		44.755	33.858	19
+P	Balussheri		IN		11.447	75.829	29
+P	Bady Bassitt		BR		-20.918	-49.445	16
+P	Badr Ḩunayn	badr hunayn	SA		23.783	38.790	19
+P	Conception Bay South		CA	Newfoundland and Labrador	47.500	-52.998	17
+P	Balneário Piçarras	balneario picarras	BR		-26.764	-48.672	16
+P	Baynjiwayn		IQ		35.621	45.949	19
+P	Bāgepalli	bagepalli	IN		13.783	77.797	29
+P	Bayt Ḩanīnā	bayt hanina	PS		31.830	35.225	24
+P	Back Mountain		US	Pennsylvania	41.336	-75.996	14
+P	Baraúna	barauna	BR		-5.080	-37.617	16
+P	Bafoulabé	bafoulabe	ML		13.808	-10.833	0
+P	Baro		NG		8.616	6.418	1
+P	Banmankhi		IN		25.889	87.194	29
+P	Babaeski		TR		41.428	27.097	19
+P	Baloda Bāzār	baloda bazar	IN		21.657	82.161	29
+P	Barogo		BF		12.550	-0.967	0
+P	Oulad Barhil		MA		30.640	-8.469	3
+P	Batavia		US	Illinois	41.850	-88.313	8
+P	Bandiagara		ML		14.350	-3.610	0
+P	Barwāh	barwah	IN		22.254	76.039	29
+P	Bablāi	bablai	IN		30.357	76.879	29
+P	Sant Andreu de la Barca		ES		41.447	1.972	39
+P	Badagry		NG		6.415	2.881	1
+P	San Miniato Basso		IT		43.693	10.841	39
+P	Bāgh-e Malek	bagh e malek	IR		31.524	49.886	31
+P	Báigōng Jiēdào	baigong jiedao	CN		30.295	108.034	30
+P	Bay Shore		US	New York	40.725	-73.245	14
+P	Balakliya		UA		49.456	36.844	37
+P	Bambesi		ET		9.750	34.733	19
+P	Batalha		BR		-4.025	-42.075	16
+P	Basi		IN		30.588	76.845	29
+P	Baden		AT		48.005	16.233	39
+P	Barberton		US	Ohio	41.013	-81.605	14
+P	Romano Banco		IT		45.423	9.107	39
+P	Bandar Sri Sendayan		MY		2.674	101.872	30
+P	Ban Talat Bueng		TH		13.071	101.003	21
+P	Basi		IN		26.831	76.049	29
+P	Barra da Estiva		BR		-13.626	-41.327	16
+P	Bay Street Corridor		CA	Ontario	43.658	-79.386	14
+P	Bandar-e Deylam	bandar e deylam	IR		30.054	50.159	31
+P	Baima		CN		29.396	107.539	30
+P	Balakrishnapuram		IN		10.359	78.003	29
+P	Bang Pakong		TH		13.543	100.993	21
+P	Bacoli		IT		40.797	14.073	39
+P	Bafut		CM		6.083	10.100	1
+P	el Baix Guinardó	el baix guinardo	ES		41.412	2.168	39
+P	Batabo		SY		36.134	36.740	19
+P	Bannūr	bannur	IN		12.333	76.862	29
+P	Bad Honnef		DE		50.643	7.228	39
+P	Banganapalle		IN		15.318	78.227	29
+P	Bābra	babra	IN		21.846	71.305	29
+P	Balch Springs		US	Texas	32.729	-96.623	8
+P	Bagha Purana		IN		30.688	75.098	29
+P	Chai Badan		TH		15.200	101.133	21
+P	Bardsīr	bardsir	IR		29.923	56.574	31
+P	Ban Xénô	ban xeno	LA		16.676	104.988	21
+P	Batu Berendam		MY		2.249	102.246	30
+P	Bandar Puncak Alam		MY		3.239	101.428	30
+P	Baggabag B		PH		16.506	121.190	30
+P	La Banda		PE		-6.493	-76.342	6
+P	Herne Bay		GB	England	51.373	1.129	38
+P	Bangbontai		TH		13.647	100.371	21
+P	Ar Rām wa Ḑāḩiyat al Barīd	ar ram wa dahiyat al barid	PS		31.849	35.234	24
+P	Rahad al Bardi		SD		11.300	23.883	4
+P	Bang Yi Khan		TH		13.763	100.490	21
+P	Bamusso		CM		4.459	8.903	1
+P	Bacchus Marsh		AU	Victoria	-37.673	144.438	36
+P	Mola di Bari		IT		41.060	17.090	39
+P	Baarn		NL		52.212	5.287	39
+P	Barri Gòtic	barri gotic	ES		41.384	2.176	39
+P	Palmetto Bay		US	Florida	25.622	-80.325	14
+P	Barrancas		VE		8.770	-70.111	7
+P	Sants - Badal	sants badal	ES		41.375	2.128	39
+P	Bad Oldesloe		DE		53.812	10.374	39
+P	Bang O		TH		13.836	100.460	21
+P	Barstow Heights		US	California	34.870	-117.056	13
+P	Quatro Barras		BR		-25.366	-49.077	16
+P	Barki Saria		IN		24.176	85.889	29
+P	Batangafo		CF		7.301	18.283	1
+P	Medjez el Bab		TN		36.650	9.612	1
+P	Pereira Barreto		BR		-20.638	-51.109	16
+P	Bandar-e Deyr	bandar e deyr	IR		27.840	51.938	31
+P	Baldwin		US	New York	40.656	-73.609	14
+P	Ban Khlong Bang Bon		TH		13.636	100.377	21
+P	Badou		TG		7.583	0.600	0
+P	Capivari de Baixo		BR		-28.445	-48.958	16
+P	Bāzpur	bazpur	IN		29.153	79.108	29
+P	Batang		CN		29.835	106.293	30
+P	Bainbridge Island		US	Washington	47.626	-122.521	13
+P	Al-Barka	al barka	PH		6.486	122.176	30
+P	Barstow		US	California	34.899	-117.023	13
+P	Balod		IN		20.731	81.206	29
+P	Baileys Crossroads		US	Virginia	38.850	-77.130	14
+P	Banko		GN		10.717	-10.717	0
+P	Bathgate		GB	Scotland	55.902	-3.644	38
+P	Balik Pulau		MY		5.349	100.239	30
+P	Al Bayāḑīyah	al bayadiyah	EG		25.665	32.635	2
+P	Bambuí	bambui	BR		-20.006	-45.977	16
+P	Los Barrios		ES		36.185	-5.492	39
+P	Ban Bueng		TH		13.312	101.113	21
+P	Bartoszyce		PL		54.254	20.808	39
+P	Bayonet Point		US	Florida	28.327	-82.683	14
+P	Báishí Zhèn	baishi zhen	CN		30.317	107.882	30
+P	Bangolo Tahouake		CI		7.041	-7.168	0
+P	María la Baja	maria la baja	CO		9.983	-75.302	6
+P	Ban Talat Nua		TH		7.885	98.386	21
+P	Baza		ES		37.491	-2.773	39
+P	Bagnoli		IT		40.813	14.168	39
+P	Bāgluṅ	baglun	NP		28.267	83.600	28
+P	Bandar Tun Razak		MY		2.903	102.888	30
+P	Bananeiras		BR		-6.750	-35.633	16
+P	Bad Soden am Taunus		DE		50.141	8.504	39
+P	Bataguassu		BR		-21.714	-52.422	7
+P	Mons-en-Barœul	mons en baroeul	FR		50.633	3.117	39
+P	El Bahay		ET		6.347	45.478	19
+P	Bavly		RU		54.398	53.251	19
+P	Pehlādpur Bāngar	pehladpur bangar	IN		28.751	77.081	29
+P	Bad Harzburg		DE		51.883	10.562	39
+P	Balarāmpur	balarampur	IN		23.097	86.223	29
+P	Baravāt	baravat	IR		29.066	58.405	31
+P	Banqiao		CN		29.513	105.953	30
+P	Bang Kho Laem		TH		13.693	100.501	21
+P	Bang Kho Laem subdistrict		TH		13.693	100.502	21
+P	Bartley Green		GB	England	52.435	-1.997	38
+P	Potters Bar		GB	England	51.694	-0.178	38
+P	Carbonara di Bari		IT		41.067	16.867	39
+P	Bang Bon Nuea		TH		13.653	100.359	21
+P	Isernhagen Farster Bauerschaft		DE		52.471	9.842	39
+P	Batu Arang		MY		3.317	101.467	30
+P	Barbate		ES		36.192	-5.922	39
+P	Bafilo		TG		9.350	1.267	0
+P	Bankāpur	bankapur	IN		14.923	75.262	29
+P	Baswa		IN		27.150	76.583	29
+P	Bad Mergentheim		DE		49.492	9.774	39
+P	Barreira		BR		-4.287	-38.643	16
+P	San José de Barlovento	san jose de barlovento	VE		10.301	-65.991	7
+P	Barceloneta		PR		18.451	-66.539	7
+P	Batu Kurau		MY		4.967	100.800	30
+P	Baraki Barak		AF		33.967	68.949	26
+P	Ban Kamala		TH		7.955	98.283	21
+P	Balamban		PH		10.504	123.716	30
+P	Badāmibāgh	badamibagh	IN		34.074	74.853	29
+P	Khwaeng Bang Plat		TH		13.788	100.495	21
+P	Batu Anam		MY		2.583	102.711	30
+P	Ban Na San		TH		8.800	99.364	21
+P	Kampung Batu Empat		MY		1.776	103.874	30
+P	Bangolo		CI		7.012	-7.486	0
+P	Bakal		RU		54.942	58.808	27
+P	Baléyara	baleyara	NE		13.784	2.952	1
+P	Ban Nong Wua So		TH		17.267	103.225	21
+P	Balbriggan		IE		53.608	-6.183	38
+P	Núcleo Bandeirante	nucleo bandeirante	BR		-15.871	-47.969	16
+P	Bālāchor	balachor	IN		31.061	76.302	29
+P	Bad Pyrmont		DE		51.986	9.252	39
+P	Banat		IN		29.464	77.355	29
+P	Deuil-la-Barre	deuil la barre	FR		48.977	2.327	39
+P	Mount Barker		AU	South Australia	-35.067	138.867	34
+P	Barāra	barara	IN		30.215	77.040	29
+P	Baie-Comeau	baie comeau	CA	Quebec	49.217	-68.149	14
+P	Bay Point		US	California	38.029	-121.962	13
+P	Bandar Baru Salak Tinggi		MY		2.812	101.736	30
+P	Bastos		BR		-21.922	-50.734	16
+P	Bānsdīh	bansdih	IN		25.884	84.218	29
+P	Bacheli		IN		18.684	81.269	29
+P	Basking Ridge		US	New Jersey	40.706	-74.549	14
+P	Baoluan		CN		29.764	107.678	30
+P	Bayi		CN		29.658	94.359	30
+P	Bayview Village		CA	Ontario	43.776	-79.380	14
+P	Bansalan		PH		6.786	125.213	30
+P	Bad Kissingen		DE		50.202	10.078	39
+P	Ban Laongam		LA		15.465	106.167	21
+P	Balwyn North		AU	Victoria	-37.791	145.094	36
+P	Ghayl Bā Wazīr	ghayl ba wazir	YE		14.776	49.366	19
+P	Barnes		GB	England	51.474	-0.248	38
+P	Santa Bárbara do Pará	santa barbara do para	BR		-1.224	-48.294	16
+P	Bayaguana		DO		18.750	-69.635	7
+P	Devgadh Bāriya	devgadh bariya	IN		22.705	73.909	29
+P	Bangkit		SG		1.380	103.773	30
+P	Bagulā	bagula	IN		23.337	88.641	29
+P	Santa Bárbara	santa barbara	BR		-11.958	-38.975	16
+P	Basotu		TZ		-4.367	35.083	19
+P	Badnāwar	badnawar	IN		23.022	75.233	29
+P	Baena		ES		37.617	-4.322	39
+P	Banga		IN		31.189	75.995	29
+P	Bangawan		IN		23.193	82.127	29
+P	Barpāli	barpali	IN		21.190	83.587	29
+P	Bandariba		CW		12.093	-68.831	7
+P	Bad Berleburg		DE		51.052	8.392	39
+P	Bandar-e Gaz	bandar e gaz	IR		36.774	53.948	31
+P	Balş	bals	RO		44.350	24.100	37
+P	Bad Rappenau		DE		49.238	9.102	39
+P	Baar		CH		47.196	8.530	39
+P	Baião	baiao	PT		41.163	-8.035	38
+P	Bayville		US	New Jersey	39.909	-74.155	14
+P	Karia Ba Mohamed		MA		34.371	-5.214	3
+P	Baijiawan		CN		34.696	105.289	30
+P	Bang Pa-in	bang pa in	TH		14.228	100.576	21
+P	Bagan Serai		MY		5.011	100.541	30
+P	Baud		IN		20.838	84.326	29
+P	Granite Bay		US	California	38.763	-121.164	13
+P	Bagua Grande		PE		-5.756	-78.441	6
+P	Barbosa		CO		5.932	-73.615	6
+P	Bāda	bada	IN		26.065	75.022	29
+P	Bakoti		GM		13.430	-16.698	0
+P	Bawāni Khera	bawani khera	IN		28.949	76.031	29
+P	Basi		IN		30.689	76.401	29
+P	Baras		PH		14.517	121.266	30
+P	Bailadores		VE		8.253	-71.828	7
+P	Barroso		BR		-21.187	-43.976	16
+P	Barañáin	baranain	ES		42.806	-1.677	39
+P	Batang Berjuntai		MY		3.383	101.417	30
+P	Batu Feringgi		MY		5.471	100.245	30
+P	Baki		SO		9.892	43.385	19
+P	Balen		BE		51.168	5.170	39
+P	Biskupin-Sępolno-Dąbie-Bartoszowice	biskupin sepolno dabie bartoszowice	PL		51.108	17.091	39
+P	Siswā Bāzār	siswa bazar	IN		27.147	83.758	29
+P	Bāli	bali	IN		25.197	73.291	29
+P	Băicoi	baicoi	RO		45.033	25.850	37
+P	Bad Waldsee		DE		47.920	9.755	39
+P	Bahía Honda	bahia honda	CU		22.903	-83.160	12
+P	Baldwin		US	Pennsylvania	40.338	-79.979	14
+P	Bandar Putra Kulai		MY		1.650	103.627	30
+P	Banī Na‘īm	bani naim	PS		31.516	35.164	24
+P	Ban Khlong Bang Ramat		TH		13.767	100.433	21
+P	Três Barras	tres barras	BR		-26.106	-50.322	16
+P	Bad Schwartau		DE		53.919	10.697	39
+P	Bareja		IN		22.849	72.591	29
+P	Baq‘ā’	baqa	SA		27.906	42.389	19
+P	Banderilla		MX		19.589	-96.937	11
+P	Bagnols-sur-Cèze	bagnols sur ceze	FR		44.163	4.620	39
+P	Banyoles		ES		42.117	2.767	39
+P	Baao		PH		13.455	123.365	30
+P	Badi		IN		23.037	78.084	29
+P	Băileşti	bailesti	RO		44.017	23.350	37
+P	Bad Driburg		DE		51.733	9.020	39
+P	Deception Bay		AU	Queensland	-27.194	153.026	35
+P	Bāgbahra	bagbahra	IN		21.046	82.386	29
+P	Badger		US	Alaska	64.800	-147.533	5
+P	Ban Dung		TH		17.699	103.260	21
+P	Barrancas		VE		8.699	-62.197	7
+P	Baolong		CN		30.942	110.006	30
+P	North Battleford		CA	Saskatchewan	52.780	-108.297	11
+P	Battle Ground		US	Washington	45.781	-122.533	13
+P	Barro		BR		-7.178	-38.780	16
+P	Bayou Cane		US	Louisiana	29.624	-90.751	8
+P	Baddomalhi		PK		31.990	74.664	27
+P	Baden		CH		47.473	8.306	39
+P	Discovery Bay		HK		22.300	114.017	30
+P	Rio Bananal		BR		-19.265	-40.333	16
+P	Balykshi		KZ		47.067	51.867	27
+P	Baytokay		CN		43.682	81.789	23
+P	Bandar-e Kong	bandar e kong	IR		26.598	54.937	31
+P	El Bauga		SD		18.262	33.908	4
+P	Baijia		CN		30.017	107.326	30
+P	Bashanet		TZ		-4.233	35.417	19
+P	Barcelos		PT		41.532	-8.618	38
+P	Balatçık	balatcik	TR		38.516	27.048	19
+P	Digne-les-Bains	digne les bains	FR		44.093	6.232	39
+P	Barão de Grajaú	barao de grajau	BR		-6.756	-43.024	16
+P	Bartow		US	Florida	27.896	-81.843	14
+P	Baoxing		CN		29.622	105.693	30
+P	North Bay Shore		US	New York	40.753	-73.260	14
+P	Balboa		CO		2.042	-77.216	6
+P	Kampung Baru Ulu Melaka		MY		6.352	99.788	30
+P	Baumschulenweg		DE		52.466	13.485	39
+P	Bang Krathum		TH		16.578	100.300	21
+P	Otegen Batyra		KZ		43.418	77.022	27
+P	Chhipa Barod		IN		24.624	76.708	29
+P	Al Bada'a	al badaa	AE		25.225	55.269	20
+P	Bailén	bailen	ES		38.096	-3.778	39
+P	Chāndūr Bāzār	chandur bazar	IN		21.239	77.747	29
+P	Banūr	banur	IN		30.554	76.719	29
+P	Bad Münder am Deister	bad munder am deister	DE		52.196	9.464	39
+P	Bad Dürkheim	bad durkheim	DE		49.462	8.172	39
+P	Saint-Barthélémy	saint barthelemy	FR		43.331	5.402	39
+P	Balaklava		UA		44.511	33.599	19
+P	Barcelos		BR		-0.974	-62.927	7
+P	Ballincollig		IE		51.883	-8.583	38
+P	Bar-le-Duc	bar le duc	FR		48.773	5.161	39
+P	Barysh		RU		53.650	47.127	20
+P	São João Batista	sao joao batista	BR		-2.955	-44.807	16
+P	Bānk	bank	IN		22.703	75.804	29
+P	San Bartolomé	san bartolome	ES		29.001	-13.613	38
+P	Ban Bang Bamru		TH		13.783	100.483	21
+P	Balta		UA		47.936	29.622	37
+P	Badīyah	badiyah	OM		22.450	58.800	20
+P	Barkā Kānā	barka kana	IN		23.621	85.467	29
+P	Ballajura		AU	Western Australia	-31.841	115.895	30
+P	Babor		DZ		36.490	5.539	1
+P	Baroda		IN		25.500	76.650	29
+P	Ban Tak		TH		17.043	99.081	21
+P	Baependi		BR		-21.959	-44.890	16
+P	Weißenburg in Bayern	weissenburg in bayern	DE		49.031	10.972	39
+P	Bada Malhera		IN		24.564	79.307	29
+P	Bangor		GB	Wales	53.228	-4.129	38
+P	Ballenger Creek		US	Maryland	39.373	-77.435	14
+P	Baixa Grande		BR		-11.960	-40.168	16
+P	Baruun-Urt	baruun urt	MN		46.681	113.279	30
+P	Barreiro do Jaíba	barreiro do jaiba	BR		-15.615	-43.592	16
+P	Baiguan		CN		33.966	104.914	30
+P	Bakarwāla	bakarwala	IN		28.668	77.020	29
+P	Baohe		CN		30.061	107.702	30
+P	East Barnet		GB	England	51.647	-0.161	38
+P	Auburn Bay		CA	Alberta	50.888	-113.959	9
+P	Baoro		CF		5.667	15.967	1
+P	Baihe		CN		33.870	104.852	30
+P	Ban Chalong		TH		7.845	98.339	21
+P	Bad Wildungen		DE		51.120	9.125	39
+P	Oak Bay		CA	British Columbia	48.450	-123.303	18
+P	Balmazújváros	balmazujvaros	HU		47.617	21.350	39
+P	Musa Banda/Musa khan kallay	musa banda musa khan kallay	PK		34.034	72.482	27
+P	Barjala		IN		23.618	91.356	29
+P	Batié	batie	BF		9.883	-2.917	0
+P	Barwala		IN		22.220	72.068	29
+P	Aldrich Bay		HK		22.282	114.225	30
+P	Bang Len		TH		14.022	100.172	21
+P	Bad Saulgau		DE		48.017	9.501	39
+P	Barrhead		GB	Scotland	55.799	-4.393	38
+P	Bayad		IN		23.223	73.215	29
+P	Bastia umbra		IT		43.064	12.546	39
+P	Bambous		MU		-20.257	57.406	20
+P	La Baule-Escoublac	la baule escoublac	FR		47.292	-2.364	39
+P	Bar		ME		42.094	19.098	39
+P	Baoutifla		CI		7.234	-6.475	0
+P	Babenhausen		DE		49.965	8.951	39
+P	Banté	bante	BJ		8.412	1.890	1
+P	Bad Aibling		DE		47.864	12.011	39
+P	Baybay		PH		10.678	124.801	30
+P	Bairnsdale		AU	Victoria	-37.823	147.610	36
+P	Bālugān	balugan	IN		19.733	85.217	29
+P	‘Ar‘ara BaNegev	arara banegev	IL		31.160	35.023	25
+P	Babana		NG		10.429	3.815	1
+P	Bay City		US	Texas	28.983	-95.969	8
+P	Baoding		CN		29.749	105.758	30
+P	Bargi		IN		22.991	79.876	29
+P	Back Bay		US	Massachusetts	42.350	-71.087	14
+P	Baffa		PK		34.438	73.224	27
+P	Bānki	banki	IN		20.379	85.530	29
+P	Batemans Bay		AU	New South Wales	-35.707	150.175	36
+P	North Babylon		US	New York	40.716	-73.322	14
+P	Thị Trấn Ba Chẽ	thi tran ba che	VN		21.272	107.284	21
+P	Bayswater		GB	England	51.511	-0.184	38
+P	Bānapur	banapur	IN		19.779	85.170	29
+P	Baymak		RU		52.592	58.311	27
+P	Bad Tölz	bad tolz	DE		47.761	11.559	39
+P	Bareta		IN		29.864	75.696	29
+P	Ban Phe		TH		12.628	101.438	21
+P	Ban Selaphum		TH		16.017	103.950	21
+P	Bagdogra		IN		26.699	88.312	29
+P	Sidi Allal El Bahraoui		MA		34.008	-6.531	3
+P	Friern Barnet		GB	England	51.613	-0.159	38
+P	Tak Bai		TH		6.259	102.055	21
+P	Bālugaon	balugaon	IN		20.178	85.113	29
+P	Bahé-Blaon	bahe blaon	CI		6.671	-7.343	0
+P	Banabuiú	banabuiu	BR		-5.310	-38.921	16
+P	Santa Bárbara	santa barbara	GT		14.436	-91.227	11
+P	Barrett Town		JM		18.515	-77.802	6
+P	Balāţah	balatah	PS		32.212	35.286	24
+P	Bayside		US	California	40.842	-124.064	13
+P	Kepala Batas		MY		5.517	100.427	30
+P	Basukinath		IN		24.394	87.086	29
+P	Batalha		BR		-9.678	-37.125	16
+P	Banaz		TR		38.737	29.752	19
+P	Wakaf Baharu		MY		6.117	102.200	30
+P	Banlung		KH		13.739	106.987	21
+P	Bārah	barah	SD		13.700	30.367	4
+P	Bacabeira		BR		-2.971	-44.316	16
+P	Bage'awati	bageawati	CN		38.489	77.540	23
+P	Bato		PH		13.353	123.368	30
+P	Barbastro		ES		42.036	0.127	39
+P	Glace Bay		CA	Nova Scotia	46.197	-59.957	10
+P	Bad Reichenhall		DE		47.729	12.878	39
+P	Monkey Bay		MW		-14.082	34.917	4
+P	Bakhmach		UA		51.181	32.835	37
+P	Bad Arolsen		DE		51.380	9.014	39
+P	Bayındır	bayindir	TR		38.217	27.647	19
+P	Bang Rakam		TH		16.758	100.117	21
+P	Balaguer		ES		41.791	0.811	39
+P	Bara Uchāna	bara uchana	IN		29.467	76.178	29
+P	Baitu		CN		30.597	108.811	30
+P	Batuco		CL		-33.233	-70.809	15
+P	Bāwal	bawal	IN		28.072	76.583	29
+P	Baia Sprie		RO		47.662	23.692	37
+P	Bābai	babai	IN		22.703	77.935	29
+P	Barra de Santo Antônio	barra de santo antonio	BR		-9.405	-35.507	16
+P	Bad Langensalza		DE		51.108	10.646	39
+P	Cabeceiras de Basto		PT		41.514	-7.989	38
+P	Bản Na Hỷ	ban na hy	VN		19.564	104.535	21
+P	Babrāla	babrala	IN		28.264	78.406	29
+P	Barrington		US	Rhode Island	41.741	-71.309	14
+P	Baihar		IN		22.101	80.550	29
+P	Balezino		RU		57.979	53.014	20
+P	Baliguda		IN		20.200	83.909	29
+P	Al Baţţālīyah	al battaliyah	SA		25.433	49.633	19
+P	San Juan Bautista		PY		-26.670	-57.141	16
+P	Bang Ban		TH		14.374	100.485	21
+P	Bad Säckingen	bad sackingen	DE		47.554	7.946	39
+P	Santa Maria das Barreiras		BR		-8.872	-49.713	16
+P	Bareggio		IT		45.479	8.998	39
+P	Bánovce nad Bebravou	banovce nad bebravou	SK		48.721	18.258	39
+P	Bad Salzungen		DE		50.813	10.236	39
+P	Schofield Barracks		US	Hawaii	21.498	-158.065	40
+P	Bargūr	bargur	IN		12.543	78.357	29
+P	Bayshore Gardens		US	Florida	27.425	-82.590	14
+P	Bayota		CI		6.465	-5.954	0
+P	Bacuri		BR		-1.728	-45.142	16
+P	Baychester		US	New York	40.869	-73.836	14
+P	Bahula		IN		23.652	87.165	29
+P	Baeza		ES		37.994	-3.471	39
+P	Baiersbronn		DE		48.503	8.377	39
+P	Bassum		DE		52.851	8.728	39
+P	Bayt Jālā	bayt jala	PS		31.715	35.188	24
+P	Coos Bay		US	Oregon	43.367	-124.218	13
+P	Banbridge		GB	Northern Ireland	54.350	-6.283	38
+P	Bačka Topola	backa topola	RS		45.815	19.632	39
+P	Leça do Bailio	leca do bailio	PT		41.212	-8.634	38
+P	Nkhata Bay		MW		-11.607	34.291	4
+P	Bagale		ZA		-26.066	27.648	4
+P	Bad Segeberg		DE		53.938	10.307	39
+P	Baibli		CI		7.176	-7.297	0
+P	Baukau		TL		-8.476	126.456	32
+P	Kampung Machap Baru		MY		2.383	102.331	30
+P	Basford		GB	England	52.967	-1.183	38
+P	Balaungi		IN		30.731	76.694	29
+P	Balneário Rincão	balneario rincao	BR		-28.832	-49.237	16
+P	Kunda dya Baze		AO		-8.908	17.053	1
+P	Bayeux		FR		49.277	-0.704	39
+P	Ban Mo		TH		14.616	100.726	21
+P	Barrio de Peral		ES		37.625	-0.988	39
+P	Baskil		TR		38.569	38.816	19
+P	Barentu		ER		15.106	37.591	19
+P	Bathurst Manor		CA	Ontario	43.765	-79.456	14
+P	Banora Point		AU	New South Wales	-28.213	153.536	36
+P	Baguim do Monte		PT		41.192	-8.541	38
+P	Balneário Arroio do Silva	balneario arroio do silva	BR		-28.987	-49.417	16
+P	Jodiya Bandar		IN		22.717	70.283	29
+P	Bahacheve		UA		49.012	31.047	37
+P	Bāngarda	bangarda	IN		22.759	75.795	29
+P	Bad Essen		DE		52.317	8.333	39
+P	Bari Sādri	bari sadri	IN		24.413	74.473	29
+P	Baildon		GB	England	53.847	-1.788	38
+P	Bagar		IN		28.188	75.500	29
+P	Balneário Gaivota	balneario gaivota	BR		-29.157	-49.579	16
+P	Ban Kèngkok	ban kengkok	LA		16.444	105.198	21
+P	Al Bawīţī	al bawiti	EG		28.348	28.869	2
+P	Bang Mun Nak		TH		16.028	100.379	21
+P	Baben		IN		21.137	73.096	29
+P	Baberu		IN		25.547	80.704	29
+P	Saint-Basile-le-Grand	saint basile le grand	CA	Quebec	45.533	-73.282	14
+P	Baykal’sk	baykalsk	RU		51.515	104.140	30
+P	Bādshāhpur	badshahpur	IN		28.393	77.049	29
+P	Baituo		CN		34.851	106.002	30
+P	Balma		FR		43.611	1.499	39
+P	Bad Bentheim		DE		52.301	7.158	39
+P	Ban Houakhoua		LA		20.247	100.454	21
+P	Brāhmanān di Bāri	brahmanan di bari	IN		32.644	74.911	29
+P	Santa Barbara		PH		16.001	120.402	30
+P	Bad Neustadt an der Saale		DE		50.322	10.207	39
+P	Bay Village		US	Ohio	41.485	-81.922	14
+P	Ban Phra		TH		14.095	101.389	21
+P	Bāh	bah	IN		26.869	78.594	29
+P	Ban Huai Thalaeng		TH		14.983	102.650	21
+P	Badgām	badgam	IN		34.015	74.721	29
+P	Bar		UA		49.074	27.674	37
+P	West Bay		KY		19.382	-81.393	6
+P	Bandar-e Khamīr	bandar e khamir	IR		26.952	55.585	31
+P	Bang Racham		TH		14.892	100.317	21
+P	Baie du Tombeau		MU		-20.119	57.491	20
+P	Bagayevskaya		RU		47.320	40.385	19
+P	Bāonlī	baonli	IN		26.326	76.228	29
+P	Bāntva	bantva	IN		21.488	70.076	29
+P	Bandar Tenggara		MY		1.870	103.616	30
+P	Bà Nà	ba na	VN		15.983	107.983	21
+P	Baraguá	baragua	CU		21.682	-78.626	12
+P	Saint-Maximin-la-Sainte-Baume	saint maximin la sainte baume	FR		43.448	5.861	39
+P	la Barceloneta		ES		41.380	2.190	39
+P	Barrocas		BR		-11.528	-39.076	16
+P	Bad Laasphe		DE		50.931	8.425	39
+P	Bad Lippspringe		DE		51.783	8.817	39
+P	Bang Saphan		TH		11.213	99.512	21
+P	Tiong Bahru Estate		SG		1.283	103.833	30
+P	Santa Bárbara	santa barbara	HN		14.922	-88.238	11
+P	Badhoevedorp		NL		52.337	4.785	39
+P	Bange		JP		37.564	139.822	32
+P	Babo-Pangulo	babo pangulo	PH		15.083	120.517	30
+P	Batavia		US	New York	42.998	-78.188	14
+P	Basseterre		KN		17.296	-62.725	7
+P	Basse-Terre	basse terre	GP		15.997	-61.732	7

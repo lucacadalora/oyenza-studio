@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	VN	Vietnam	mwl	s
+B	3
+P	Xuchang		CN		34.032	113.863	1
+P	Xuzhou		CN		34.204	117.284	1
+P	Xuhui		CN		31.196	121.447	1
+P	Xuancheng		CN		30.953	118.755	1
+P	Xuanhua		CN		40.612	115.065	1
+P	Thanh Xuân	thanh xuan	VN		20.995	105.800	0
+P	Long Xuyên	long xuyen	VN		10.386	105.435	0
+P	Xuân Lộc	xuan loc	VN		10.933	107.233	0
+P	Xunchang		CN		28.454	104.715	1
+P	Nghi Xuân	nghi xuan	VN		18.658	105.752	0
+P	Xuyong		CN		28.170	105.435	1
+P	Xujiang		CN		26.839	116.320	1
+P	Xucheng		CN		20.330	110.166	1
+P	Xuantan		CN		29.209	105.570	1
+P	Xunyang		CN		32.824	109.365	1
+P	Xuzhuang		CN		34.296	117.458	1
+P	Xunsi		CN		28.101	104.561	1
+P	Xóm Mỹ Xuân	xom my xuan	VN		10.617	107.067	0
+P	Xuân Mai	xuan mai	VN		20.900	105.583	0

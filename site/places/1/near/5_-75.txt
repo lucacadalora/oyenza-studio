@@ -1,0 +1,129 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+Z	1	America/Caracas	-240	
+C	CO	Colombia	mwl	s
+C	VE	Venezuela	mwl	s
+B	0
+P	Cúcuta	cucuta	CO		7.907	-72.505	0
+P	Bucaramanga		CO		7.125	-73.119	0
+P	Barinas		VE		8.621	-70.231	1
+P	Mérida	merida	VE		8.579	-71.169	1
+P	San Cristóbal	san cristobal	VE		7.766	-72.236	1
+P	Alto Barinas		VE		8.593	-70.226	1
+P	Floridablanca		CO		7.062	-73.086	0
+P	Valera		VE		9.318	-70.604	1
+P	Barrancabermeja		CO		7.065	-73.855	0
+P	Tunja		CO		5.545	-73.358	0
+P	Yopal		CO		5.336	-72.394	0
+P	Piedecuesta		CO		6.988	-73.050	0
+P	El Vigía	el vigia	VE		8.614	-71.657	1
+P	Táriba	tariba	VE		7.821	-72.223	1
+P	Zipaquirá	zipaquira	CO		5.022	-74.005	0
+P	San Carlos del Zulia		VE		9.001	-71.927	1
+P	Magangué	magangue	CO		9.242	-74.755	0
+P	Ejido		VE		8.547	-71.241	1
+P	Sogamoso		CO		5.714	-72.934	0
+P	Girón	giron	CO		7.068	-73.170	0
+P	Ocaña	ocana	CO		8.238	-73.356	0
+P	Aguachica		CO		8.308	-73.617	0
+P	Rubio		VE		7.702	-72.356	1
+P	Duitama		CO		5.824	-73.034	0
+P	Arauca		CO		7.085	-70.759	0
+P	La Dorada		CO		5.448	-74.663	0
+P	San Timoteo		VE		9.790	-71.071	1
+P	Socopó	socopo	VE		8.231	-70.822	1
+P	Trujillo		VE		9.366	-70.437	1
+P	Boconó	bocono	VE		9.254	-70.251	1
+P	San Antonio del Táchira	san antonio del tachira	VE		7.811	-72.444	1
+P	Villa del Rosario		CO		7.834	-72.474	0
+P	Guasdualito		VE		7.242	-70.732	1
+P	Colón	colon	VE		8.031	-72.261	1
+P	La Fría	la fria	VE		8.215	-72.249	1
+P	Mene Grande		VE		9.846	-70.927	1
+P	Pampán	pampan	VE		9.445	-70.476	1
+P	Los Patios		CO		7.838	-72.504	0
+P	Ureña	urena	VE		7.922	-72.444	1
+P	San Josecito		VE		7.661	-72.220	1
+P	El Banco		CO		9.001	-73.976	0
+P	Pamplona		CO		7.376	-72.648	0
+P	Ciudad Bolivia		VE		8.353	-70.571	1
+P	Barinitas		VE		8.762	-70.412	1
+P	El Bagre		CO		7.603	-74.810	0
+P	Puerto Berrío	puerto berrio	CO		6.492	-74.403	0
+P	Cimitarra		CO		6.314	-73.950	0
+P	Plato		CO		9.790	-74.782	0
+P	Tovar		VE		8.330	-71.753	1
+P	Palmira		VE		7.838	-72.228	1
+P	San Gil		CO		6.560	-73.136	0
+P	Santa Bárbara	santa barbara	VE		7.813	-71.178	1
+P	Chiquinquirá	chiquinquira	CO		5.616	-73.817	0
+P	Guaduas		CO		5.067	-74.595	0
+P	Pueblo Nuevo El Chivo		VE		8.962	-71.608	1
+P	Bosconia		CO		9.971	-73.888	0
+P	Capacho Nuevo		VE		7.825	-72.308	1
+P	Segovia		CO		7.080	-74.699	0
+P	La Grita		VE		8.133	-71.984	1
+P	Pampanito		VE		9.410	-70.501	1
+P	Santa Ana		VE		7.643	-72.276	1
+P	Sabana de Mendoza		VE		9.435	-70.775	1
+P	Curumaní	curumani	CO		9.200	-73.543	0
+P	Paz de Ariporo		CO		5.881	-71.892	0
+P	Caja Seca		VE		9.142	-71.067	1
+P	San Sebastián de Mariquita	san sebastian de mariquita	CO		5.199	-74.893	0
+P	Villanueva		CO		5.283	-71.967	0
+P	Puerto Wilches		CO		7.348	-73.896	0
+P	Mompós	mompos	CO		9.242	-74.427	0
+P	Chimichagua		CO		9.258	-73.812	0
+P	Socorro		CO		6.468	-73.260	0
+P	Tame		CO		6.461	-71.736	0
+P	Lagunillas		VE		8.505	-71.389	1
+P	Honda		CO		5.209	-74.736	0
+P	Sabana de Torres		CO		7.391	-73.496	0
+P	Puerto Boyacá	puerto boyaca	CO		5.976	-74.585	0
+P	Chiriguaná	chiriguana	CO		9.362	-73.603	0
+P	La Mesa		CO		5.267	-73.917	0
+P	Encontrados		VE		9.060	-72.235	1
+P	El Zulia		CO		7.932	-72.601	0
+P	Motatán	motatan	VE		9.392	-70.591	1
+P	Coloncito		VE		8.326	-72.087	1
+P	Guamal		CO		9.143	-74.224	0
+P	Casigua El Cubo		VE		8.746	-72.519	1
+P	Barrancas		VE		8.770	-70.111	1
+P	Zaragoza		CO		7.490	-74.869	0
+P	Nechí	nechi	CO		8.094	-74.776	0
+P	Tucaní	tucani	VE		8.970	-71.273	1
+P	Tabay		VE		8.632	-71.078	1
+P	Pinillos		CO		8.919	-74.468	0
+P	Sucre		CO		8.811	-74.721	0
+P	Tauramena		CO		5.018	-72.747	0
+P	La Jagua de Ibirico		CO		9.562	-73.334	0
+P	Santa Cruz de Mora		VE		8.399	-71.641	1
+P	Moniquirá	moniquira	CO		5.876	-73.573	0
+P	Villeta		CO		5.009	-74.472	0
+P	Michelena		VE		7.956	-72.242	1
+P	Villa de San Diego de Ubaté	villa de san diego de ubate	CO		5.309	-73.816	0
+P	Becerril		CO		9.704	-73.279	0
+P	San Martín	san martin	CO		8.002	-73.511	0
+P	Barbosa		CO		5.932	-73.615	0
+P	Bailadores		VE		8.253	-71.828	1
+P	Timotes		VE		8.982	-70.739	1
+P	Nueva Bolivia		VE		9.140	-71.091	1
+P	Málaga	malaga	CO		6.699	-72.732	0
+P	Vélez	velez	CO		6.013	-73.674	0
+P	El Dividive		VE		9.475	-70.735	1
+P	Morales		CO		8.276	-73.868	0
+P	Astrea		CO		9.498	-73.976	0
+P	Escuque		VE		9.297	-70.672	1
+P	Tiquisio		CO		8.557	-74.264	0
+P	El Carmen de Chucurí	el carmen de chucuri	CO		6.697	-73.511	0
+P	Yondó	yondo	CO		7.006	-73.910	0
+P	Nueva Granada		CO		9.802	-74.393	0
+P	Obispos		VE		8.607	-70.105	1
+P	Puerto Triunfo		CO		5.873	-74.641	0
+P	La Azulita		VE		8.714	-71.444	1
+P	Pailitas		CO		8.957	-73.624	0
+P	Pacho		CO		5.133	-74.160	0
+P	Puerto Santander		CO		8.364	-72.406	0
+P	Aguazul		CO		5.173	-72.547	0
+P	Simití	simiti	CO		7.958	-73.944	0
+P	Puerto Salgar		CO		5.463	-74.654	0

@@ -1,0 +1,296 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Singapore	480	
+C	MY	Malaysia	singapore	s
+C	SG	Singapore	singapore	s
+B	2
+P	Singapore		SG		1.290	103.850	0
+P	Kuala Lumpur		MY		3.141	101.687	0
+P	Johor Bahru		MY		1.466	103.758	0
+P	Kampung Baru Subang		MY		3.150	101.533	0
+P	Petaling Jaya		MY		3.107	101.607	0
+P	Ipoh		MY		4.584	101.083	0
+P	Shah Alam		MY		3.085	101.533	0
+P	Subang Jaya		MY		3.044	101.581	0
+P	Bukit Rahman Putra		MY		3.217	101.561	0
+P	Pelentong		MY		1.524	103.824	0
+P	Malacca		MY		2.196	102.240	0
+P	Iskandar Puteri		MY		1.393	103.623	0
+P	Kuantan		MY		3.808	103.326	0
+P	Selayang Baru Utara		MY		3.255	101.667	0
+P	Pasir Gudang		MY		1.462	103.905	0
+P	Mukim Pulai		MY		1.533	103.667	0
+P	Kampung Larkin Lama		MY		1.502	103.744	0
+P	Kota Damansara		MY		3.155	101.580	0
+P	Taman Petaling		MY		3.199	101.650	0
+P	Kampung Kangkar Teberau		MY		1.532	103.755	0
+P	Puchong		MY		3.000	101.617	0
+P	Seremban		MY		2.730	101.938	0
+P	Setapak		MY		3.207	101.727	0
+P	Kluang		MY		2.030	103.317	0
+P	Muar		MY		2.044	102.569	0
+P	Ulu Bedok		SG		1.333	103.933	0
+P	Bedok New Town		SG		1.326	103.942	0
+P	Kapar		MY		3.133	101.383	0
+P	Sengkang New Town		SG		1.392	103.894	0
+P	Tampines Estate		SG		1.358	103.940	0
+P	Jurong Town		SG		1.334	103.723	0
+P	Tampines New Town		SG		1.349	103.950	0
+P	Woodlands		SG		1.438	103.789	0
+P	Batu Caves		MY		3.238	101.682	0
+P	Jurong West		SG		1.350	103.723	0
+P	Klang		MY		3.037	101.443	0
+P	Kajang		MY		2.994	101.789	0
+P	Teluk Intan		MY		4.022	101.021	0
+P	Kampong Baharu Cheras Batu Sebelas		MY		3.050	101.767	0
+P	Yishun New Town		SG		1.433	103.831	0
+P	Hougang New Town		SG		1.357	103.891	0
+P	Sungai Buloh		MY		3.210	101.561	0
+P	Bandar Seri Alam		MY		1.504	103.875	0
+P	Taiping		MY		4.850	100.733	0
+P	Wangsa Maju		MY		3.201	101.740	0
+P	Sepang		MY		2.693	101.750	0
+P	Punggol		SG		1.414	103.907	0
+P	Bandar Sunway		MY		3.069	101.607	0
+P	Bandar Utama		MY		3.148	101.614	0
+P	Bukit Jalil		MY		3.049	101.680	0
+P	Rawang		MY		3.321	101.577	0
+P	Kuala Kubu Baharu		MY		3.564	101.658	0
+P	Choa Chu Kang New Town		SG		1.383	103.750	0
+P	Skudai		MY		1.537	103.658	0
+P	Ang Mo Kio New Town		SG		1.380	103.840	0
+P	Bukit Batok New Town		SG		1.359	103.764	0
+P	Batu Pahat		MY		1.855	102.933	0
+P	Sitiawan		MY		4.217	100.700	0
+P	Bukit Merah Estate		SG		1.284	103.823	0
+P	Bercham		MY		4.641	101.139	0
+P	Setia Alam		MY		3.102	101.456	0
+P	Bandar Tasik Puteri		MY		3.285	101.474	0
+P	Bandar Bukit Raja		MY		3.087	101.433	0
+P	Kampung Pasir Gudang Baru		MY		1.473	103.878	0
+P	Kampong Pasir Ris		SG		1.378	103.932	0
+P	Masai		MY		1.491	103.879	0
+P	Bukit Panjang New Town		SG		1.380	103.765	0
+P	Cheras		MY		3.108	101.726	0
+P	Seri Kembangan		MY		3.033	101.717	0
+P	Kembangan		SG		1.322	103.911	0
+P	Ampang		MY		3.150	101.767	0
+P	Titiwangsa		MY		3.178	101.703	0
+P	Toa Payoh New Town		SG		1.336	103.850	0
+P	Bukit Bintang		MY		3.147	101.710	0
+P	Port Dickson		MY		2.525	101.797	0
+P	Serangoon		SG		1.363	103.897	0
+P	Serangoon New Town		SG		1.351	103.871	0
+P	Maran		MY		3.586	102.773	0
+P	Geylang		SG		1.320	103.887	0
+P	Sembawang Estate		SG		1.451	103.829	0
+P	Queenstown Estate		SG		1.294	103.802	0
+P	Kallang		SG		1.333	103.867	0
+P	Perling		MY		1.481	103.684	0
+P	Ijok		MY		3.317	101.400	0
+P	Sentul		MY		3.183	101.683	0
+P	Seri Manjung		MY		4.199	100.670	0
+P	Bandar Mahkota Cheras		MY		3.054	101.798	0
+P	Taman Melawati		MY		3.211	101.748	0
+P	Pagoh		MY		2.150	102.770	0
+P	Bandar Kinrara		MY		3.049	101.642	0
+P	Semenyih		MY		2.952	101.843	0
+P	Clementi Housing Estate		SG		1.316	103.765	0
+P	Bishan New Town		SG		1.350	103.849	0
+P	Kampung Manjoi		MY		4.619	101.069	0
+P	Kepong		MY		3.214	101.640	0
+P	Bukit Timah		SG		1.328	103.791	0
+P	Damansara Damai		MY		3.199	101.592	0
+P	Kampung Sungai Kajang		MY		3.416	101.173	0
+P	Cukai		MY		4.250	103.417	0
+P	Parit Sulung		MY		1.976	102.883	0
+P	Cyberjaya		MY		2.923	101.657	0
+P	Ulu Tiram		MY		1.600	103.817	0
+P	Taman Senai		MY		1.601	103.642	0
+P	Jurong East		SG		1.329	103.740	0
+P	Bandar Saujana Utama		MY		3.207	101.477	0
+P	Serendah		MY		3.365	101.604	0
+P	Segamat		MY		2.515	102.816	0
+P	Kampung Baru Balakong		MY		3.029	101.747	0
+P	Tanjong Malim		MY		3.681	101.520	0
+P	Johor Jaya		MY		1.539	103.809	0
+P	Taman Senawang Indah		MY		2.691	101.989	0
+P	Gelang Patah		MY		1.448	103.587	0
+P	Kulai		MY		1.656	103.603	0
+P	Kempas		MY		1.549	103.697	0
+P	Seremban 2		MY		2.690	101.908	0
+P	Parit		MY		4.483	100.917	0
+P	Setia Tropika		MY		1.546	103.718	0
+P	Putra Heights		MY		2.994	101.573	0
+P	Ara Damansara		MY		3.119	101.587	0
+P	Bukit Indah		MY		1.480	103.660	0
+P	Temerluh		MY		3.451	102.418	0
+P	Simpang Renggam		MY		1.825	103.311	0
+P	Kampong Dungun		MY		3.217	101.317	0
+P	Simpang Empat		MY		4.950	100.633	0
+P	Kuala Selangor		MY		3.350	101.250	0
+P	Kampung Bukit Baharu		MY		2.215	102.285	0
+P	Hulu Langat		MY		3.114	101.814	0
+P	Pasir Ris New Town		SG		1.372	103.948	0
+P	Pandamaran		MY		3.011	101.421	0
+P	Novena		SG		1.317	103.844	0
+P	Kota Tinggi		MY		1.738	103.900	0
+P	Matilda Estate		SG		1.399	103.903	0
+P	Putrajaya		MY		2.935	101.691	0
+P	Sri Petaling		MY		3.069	101.690	0
+P	Taman Melati		MY		3.221	101.723	0
+P	Kuchai Lama		MY		3.085	101.691	0
+P	Bentong Town		MY		3.522	101.909	0
+P	Teluk Panglima Garang		MY		2.908	101.469	0
+P	Sungai Siput		MY		4.394	101.195	0
+P	Bandar Sri Damansara		MY		3.190	101.611	0
+P	Banting		MY		2.814	101.502	0
+P	Marine Parade		SG		1.303	103.908	0
+P	Batu Gajah		MY		4.469	101.041	0
+P	Bangi		MY		2.900	101.783	0
+P	Taman Permas Jaya		MY		1.511	103.820	0
+P	Elmina		MY		3.185	101.525	0
+P	Kampung Perak		MY		3.868	102.586	0
+P	Durian Tunggal		MY		2.312	102.281	0
+P	Mentakab		MY		3.485	102.348	0
+P	Rompin		MY		2.708	102.505	0
+P	Taman Greenwood		MY		3.232	101.705	0
+P	Pontian Besar		MY		1.506	103.382	0
+P	Bentung		MY		3.532	101.904	0
+P	Raub		MY		3.790	101.857	0
+P	Bukit Gambir		MY		2.211	102.655	0
+P	Bangsar		MY		3.129	101.670	0
+P	Bandar Tun Hussein Onn		MY		3.055	101.759	0
+P	Taman Sri Sinar		MY		3.187	101.651	0
+P	Lumut		MY		4.232	100.630	0
+P	Simei New Town		SG		1.341	103.956	0
+P	Keat Hong Village		SG		1.378	103.744	0
+P	Kuala Kangsar		MY		4.767	100.933	0
+P	Yew Tee		SG		1.397	103.747	0
+P	Bandar Country Homes		MY		3.328	101.531	0
+P	Kampung Setia		MY		3.242	101.533	0
+P	Klebang Besar		MY		2.219	102.200	0
+P	Kampung Baharu Nilai		MY		2.803	101.797	0
+P	Padang Rengas		MY		4.767	100.850	0
+P	Kampung Ayer Keroh		MY		2.265	102.280	0
+P	Taman Tun Dr Ismail		MY		3.145	101.626	0
+P	Kaki Bukit Estate		SG		1.337	103.909	0
+P	Kamunting		MY		4.883	100.733	0
+P	Serangoon Garden		SG		1.364	103.858	0
+P	Tangkak		MY		2.267	102.545	0
+P	Denai Alam		MY		3.160	101.515	0
+P	Alam Damai		MY		3.060	101.741	0
+P	Bukit Kerinchi		MY		3.106	101.668	0
+P	Dungun		MY		4.775	103.416	0
+P	Peng Siang		SG		1.380	103.741	0
+P	Jerantut		MY		3.936	102.363	0
+P	Gerisek		MY		2.210	102.710	0
+P	Eunos		SG		1.323	103.898	0
+P	Sungkai		MY		4.000	101.317	0
+P	Kangkar		SG		1.376	103.902	0
+P	Kawasan Penempatan Ulu Sungai Benut		MY		1.754	103.280	0
+P	Kawasan Penempatan Ulu Benut Tiga		MY		1.750	103.277	0
+P	Kawasan Penempatan Ulu Benut Lima		MY		1.744	103.321	0
+P	Taman Pelangi		MY		2.428	102.680	0
+P	Kampung Kerubong		MY		2.296	102.254	0
+P	Pekan		MY		3.484	103.400	0
+P	Bahau		MY		2.808	102.405	0
+P	Taman Seremban Jaya		MY		2.683	101.970	0
+P	Lahat		MY		4.539	101.037	0
+P	Mont Kiara		MY		3.169	101.651	0
+P	Chemor		MY		4.721	101.119	0
+P	Bakri		MY		2.044	102.653	0
+P	Bidur		MY		4.117	101.283	0
+P	Taman Universiti		MY		1.533	103.615	0
+P	Taman Scientex		MY		1.512	103.917	0
+P	Jelebu		SG		1.380	103.763	0
+P	Gemas		MY		2.583	102.612	0
+P	Rembau		MY		2.590	102.091	0
+P	Boon Lay		SG		1.311	103.694	0
+P	Thomson		SG		1.349	103.844	0
+P	Kampong Masjid Tanah		MY		2.350	102.117	0
+P	Hutan Melintang		MY		3.877	100.933	0
+P	Yio Chu Kang		SG		1.391	103.851	0
+P	Tampin		MY		2.470	102.230	0
+P	Ulu Kelang		MY		3.180	101.773	0
+P	Tapah Road		MY		4.167	101.200	0
+P	Yong Peng		MY		2.014	103.066	0
+P	Sungai Besar		MY		3.675	100.987	0
+P	MacPherson		SG		1.327	103.884	0
+P	Fajar		SG		1.384	103.771	0
+P	Hong Kah		SG		1.359	103.723	0
+P	Bandar Sri Sendayan		MY		2.674	101.872	0
+P	Sungai Udang		MY		2.269	102.143	0
+P	Taman OUG		MY		3.073	101.676	0
+P	Cangkat Jong		MY		3.985	101.124	0
+P	SS2		MY		3.120	101.622	0
+P	Batu Berendam		MY		2.249	102.246	0
+P	Bandar Puncak Alam		MY		3.239	101.428	0
+P	Saujana		SG		1.383	103.768	0
+P	Taman Desa		MY		3.106	101.687	0
+P	Jenjarum		MY		2.872	101.495	0
+P	Kampung Jelutong Tengah		MY		1.471	103.567	0
+P	Teck Whye		SG		1.380	103.752	0
+P	Kertih		MY		4.514	103.448	0
+P	Margaret Drive		SG		1.297	103.808	0
+P	Senja		SG		1.385	103.761	0
+P	Ladang Seri Kundang		MY		3.286	101.519	0
+P	Pekan Nenas		MY		1.510	103.514	0
+P	Bandar Tun Razak		MY		2.903	102.888	0
+P	Kampung Tanjung Minyak		MY		2.267	102.200	0
+P	Anak Bukit		SG		1.341	103.773	0
+P	Batu Arang		MY		3.317	101.467	0
+P	Kampung Sedenak		MY		1.711	103.528	0
+P	Tanjung Sepat		MY		2.658	101.563	0
+P	Batu Kurau		MY		4.967	100.800	0
+P	Mersing		MY		2.431	103.841	0
+P	Marsiling		SG		1.433	103.774	0
+P	Batu Anam		MY		2.583	102.711	0
+P	Labis		MY		2.385	103.021	0
+P	Kampung Batu Empat		MY		1.776	103.874	0
+P	Tanglin		SG		1.317	103.817	0
+P	Bandar Baru Salak Tinggi		MY		2.812	101.736	0
+P	Kuang		MY		3.259	101.554	0
+P	Paka		MY		4.637	103.437	0
+P	Bangkit		SG		1.380	103.773	0
+P	Hulu Yam Lama		MY		3.454	101.641	0
+P	Alor Gajah		MY		2.380	102.209	0
+P	Bukit Beruntung		MY		3.416	101.557	0
+P	Batang Berjuntai		MY		3.383	101.417	0
+P	Pelabuhan Klang		MY		3.000	101.393	0
+P	Kampung Selang		MY		2.350	102.876	0
+P	Sungai Simpang		SG		1.438	103.827	0
+P	Tropicana Indah		MY		3.142	101.591	0
+P	Desa Petaling		MY		3.084	101.709	0
+P	Brickworks Estate		SG		1.287	103.808	0
+P	Bandar Putra Kulai		MY		1.650	103.627	0
+P	Gua Musang		MY		4.884	101.969	0
+P	Seminyih		MY		2.948	101.847	0
+P	Kuala Pilah		MY		2.739	102.249	0
+P	Kampung Minyak Beku		MY		1.795	102.897	0
+P	Telok Blangah		SG		1.275	103.812	0
+P	Kampung Cheng		MY		2.264	102.218	0
+P	Kawasan Perindustrian Cheng		MY		2.262	102.232	0
+P	Kampar		MY		4.300	101.150	0
+P	Horizon Hills		MY		1.458	103.646	0
+P	Merlimau		MY		2.145	102.425	0
+P	Seputeh		MY		3.117	101.683	0
+P	FELDA Chini		MY		3.375	102.943	0
+P	Outram Park		SG		1.282	103.838	0
+P	Kampung Simpang Renggam		MY		1.828	103.300	0
+P	Parit Raja		MY		1.868	103.112	0
+P	Bukit Rambai		MY		2.259	102.184	0
+P	Kampung Bertam Ulu		MY		2.290	102.193	0
+P	Paya Lebar		SG		1.354	103.891	0
+P	Kampung Teluk Kemang		MY		2.461	101.860	0
+P	Desa Parkcity		MY		3.186	101.629	0
+P	Lukut		MY		2.570	101.833	0
+P	Kampung Tanjung Karang		MY		3.424	101.185	0
+P	Pantai Remis		MY		4.456	100.629	0
+P	Kampung Machap Baru		MY		2.383	102.331	0
+P	Kampung Ayer Molek		MY		2.214	102.328	0
+P	Pengerang		MY		1.365	104.112	0
+P	Kuala Lipis		MY		4.184	102.047	0
+P	Loyang		SG		1.379	103.972	0
+P	Kampong Loyang		SG		1.378	103.959	0
+P	Bandar Tenggara		MY		1.870	103.616	0
+P	Tiong Bahru Estate		SG		1.283	103.833	0

@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bangui	60	
+Z	1	Africa/Juba	120	
+C	CF	Central African Republic	egyptian	s
+C	SS	South Sudan	egyptian	s
+B	0
+P	Bambari		CF		5.768	20.676	0
+P	Bria		CF		6.542	21.986	0
+P	Alindao		CF		5.027	21.209	0
+P	Ippy		CF		6.268	21.225	0
+P	Ndélé	ndele	CF		8.411	20.647	0
+P	Kafia Kingi		SS		9.273	24.417	1

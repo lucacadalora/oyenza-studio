@@ -1,0 +1,131 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ho_Chi_Minh	420	
+C	KH	Cambodia	mwl	s
+C	TH	Thailand	mwl	s
+C	VN	Vietnam	mwl	s
+B	3
+P	Ho Chi Minh City		VN		10.823	106.630	0
+P	Cần Thơ	can tho	VN		10.037	105.788	0
+P	Biên Hòa	bien hoa	VN		10.945	106.824	0
+P	Thuận An	thuan an	VN		10.924	106.714	0
+P	Nha Trang		VN		12.245	109.194	0
+P	Chợ Lớn	cho lon	VN		10.750	106.650	0
+P	Bình Thạnh	binh thanh	VN		10.811	106.706	0
+P	Thủ Đức	thu duc	VN		10.849	106.772	0
+P	Qui Nhon		VN		13.776	109.224	0
+P	Vũng Tàu	vung tau	VN		10.346	107.084	0
+P	Dĩ An	di an	VN		10.907	106.769	0
+P	Rạch Giá	rach gia	VN		10.012	105.081	0
+P	Buôn Ma Thuột	buon ma thuot	VN		12.667	108.038	0
+P	Quận Mười	quan muoi	VN		10.768	106.666	0
+P	Thủ Dầu Một	thu dau mot	VN		10.980	106.652	0
+P	Bến Cát	ben cat	VN		11.150	106.600	0
+P	Quận Mười Một	quan muoi mot	VN		10.764	106.644	0
+P	An Nhơn	an nhon	VN		13.886	109.108	0
+P	Phú Mỹ	phu my	VN		10.633	107.067	0
+P	Long Xuyên	long xuyen	VN		10.386	105.435	0
+P	Quận Sáu	quan sau	VN		10.747	106.649	0
+P	Mỹ Tho	my tho	VN		10.360	106.360	0
+P	Ðà Lạt	da lat	VN		11.946	108.442	0
+P	Xuân Lộc	xuan loc	VN		10.933	107.233	0
+P	Thành Phố Bà Rịa	thanh pho ba ria	VN		10.496	107.168	0
+P	Ninh Hòa	ninh hoa	VN		12.492	109.125	0
+P	Phan Thiết	phan thiet	VN		10.929	108.102	0
+P	Quận Ba	quan ba	VN		10.775	106.686	0
+P	Tân An	tan an	VN		10.536	106.414	0
+P	Sa Dec		VN		10.291	105.756	0
+P	Cao Lãnh	cao lanh	VN		10.460	105.633	0
+P	Phan Rang-Tháp Chàm	phan rang thap cham	VN		11.564	108.989	0
+P	Kon Tum		VN		14.355	108.008	0
+P	Quận Bốn	quan bon	VN		10.767	106.706	0
+P	Quận Năm	quan nam	VN		10.756	106.667	0
+P	Tân Châu	tan chau	VN		10.798	105.239	0
+P	Long Khánh	long khanh	VN		10.927	107.248	0
+P	Bảo Lộc	bao loc	VN		11.548	107.808	0
+P	Đồng Xoài	dong xoai	VN		11.535	106.883	0
+P	Trảng Bàng	trang bang	VN		11.030	106.358	0
+P	Đưc Trọng	duc trong	VN		11.736	108.373	0
+P	La Gi		VN		10.660	107.772	0
+P	Thốt Nốt	thot not	VN		10.272	105.534	0
+P	Tuy Hòa	tuy hoa	VN		13.095	109.321	0
+P	Đức Phổ	duc pho	VN		14.814	108.959	0
+P	Cần Giuộc	can giuoc	VN		10.609	106.671	0
+P	Hòa Thành	hoa thanh	VN		11.287	106.129	0
+P	Cam Ranh		VN		11.921	109.159	0
+P	Huyện Lâm Hà	huyen lam ha	VN		11.816	108.214	0
+P	Cai Lậy	cai lay	VN		10.400	106.117	0
+P	Vĩnh Long	vinh long	VN		10.254	105.972	0
+P	Tây Ninh	tay ninh	VN		11.310	106.098	0
+P	Quận Đức Thịnh	quan duc thinh	VN		10.310	105.739	0
+P	Ô Môn	o mon	VN		10.110	105.623	0
+P	Buôn Hồ	buon ho	VN		12.952	108.296	0
+P	Bến Tre	ben tre	VN		10.241	106.376	0
+P	Chơn Thành	chon thanh	VN		11.428	106.635	0
+P	Cờ Đỏ	co do	VN		10.094	105.429	0
+P	Pleiku		VN		13.983	108.000	0
+P	Bình Thủy	binh thuy	VN		10.074	105.740	0
+P	Gò Vấp	go vap	VN		10.817	106.683	0
+P	Thới Lai	thoi lai	VN		10.065	105.559	0
+P	Hồng Ngự	hong ngu	VN		10.800	105.350	0
+P	Vĩnh Thạnh	vinh thanh	VN		10.223	105.398	0
+P	Gò Công	go cong	VN		10.367	106.667	0
+P	Bình Minh	binh minh	VN		10.068	105.822	0
+P	Sông Cầu	song cau	VN		13.456	109.223	0
+P	Tân Bình	tan binh	VN		10.803	106.660	0
+P	Cái Răng	cai rang	VN		10.001	105.751	0
+P	Gia Nghĩa	gia nghia	VN		12.004	107.691	0
+P	An Khê	an khe	VN		13.950	108.650	0
+P	Lai Vung		VN		10.257	105.593	0
+P	Củ Chi	cu chi	VN		10.973	106.493	0
+P	Châu Đốc	chau doc	VN		10.700	105.117	0
+P	Preaek Prasab		KH		12.354	106.036	0
+P	Kampong Cham		KH		11.993	105.463	0
+P	Trảng Bom	trang bom	VN		10.954	107.006	0
+P	Châu Phong	chau phong	VN		10.717	105.133	0
+P	Cần Giờ	can gio	VN		10.411	106.955	0
+P	Tân Uyên	tan uyen	VN		11.084	106.788	0
+P	Thị Trấn Phước Bửu	thi tran phuoc buu	VN		10.535	107.402	0
+P	Cần Đước	can duoc	VN		10.510	106.603	0
+P	Mui Ne		VN		10.933	108.283	0
+P	Thị Trấn Ngải Giao	thi tran ngai giao	VN		10.647	107.246	0
+P	Phú Khương	phu khuong	VN		11.283	106.133	0
+P	Bavet		KH		11.063	106.136	0
+P	Óc Eo	oc eo	VN		10.242	105.155	0
+P	Dương Minh Châu	duong minh chau	VN		11.384	106.231	0
+P	Det Udom		TH		14.906	105.078	0
+P	Xã Long Hải	xa long hai	VN		10.387	107.239	0
+P	A Yun Pa		VN		13.400	108.435	0
+P	Ấp Long Thạnh	ap long thanh	VN		10.761	105.274	0
+P	Prey Veng		KH		11.487	105.325	0
+P	Xóm Mỹ Xuân	xom my xuan	VN		10.617	107.067	0
+P	Cô Tô	co to	VN		10.350	105.017	0
+P	Suong		KH		11.912	105.658	0
+P	Tu Bông	tu bong	VN		12.767	109.300	0
+P	Kiến An	kien an	VN		10.567	105.367	0
+P	Long Thành	long thanh	VN		10.789	106.950	0
+P	Quảng Phú	quang phu	VN		12.820	108.077	0
+P	Núi Sập	nui sap	VN		10.265	105.267	0
+P	Khánh Hòa	khanh hoa	VN		10.683	105.167	0
+P	Phú Quý	phu quy	VN		10.517	108.933	0
+P	Phước An	phuoc an	VN		12.713	108.301	0
+P	Stung Treng		KH		13.526	105.968	0
+P	Svay Rieng		KH		11.088	105.799	0
+P	Buôn Trấp	buon trap	VN		12.485	108.030	0
+P	Dar		KH		11.789	106.093	0
+P	Tràm Chim	tram chim	VN		10.670	105.565	0
+P	Ấp Phước Tĩnh	ap phuoc tinh	VN		10.400	107.183	0
+P	Ea Drăng	ea drang	VN		13.204	108.210	0
+P	Thị Trấn Đất Đỏ	thi tran dat do	VN		10.491	107.270	0
+P	Kratié	kratie	KH		12.488	106.019	0
+P	Lumphat		KH		13.491	106.980	0
+P	Long Diền	long dien	VN		10.483	107.217	0
+P	Nhà Bè	nha be	VN		10.697	106.740	0
+P	Mémót	memot	KH		11.829	106.182	0
+P	Banlung		KH		13.739	106.987	0
+P	Snuol		KH		12.072	106.421	0
+P	Phumĭ Âmpĭl Leu	phumi ampil leu	KH		12.009	105.434	0
+P	Đinh Văn	dinh van	VN		11.786	108.243	0
+P	Khánh Hải	khanh hai	VN		11.591	109.041	0
+P	Phước Hòa	phuoc hoa	VN		12.100	107.117	0
+P	Ấp Bình Châu	ap binh chau	VN		10.550	107.550	0
+P	Ea T’ling	ea tling	VN		12.589	107.896	0

@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Krasnoyarsk	420	
+C	RU	Russia	mwl	s
+B	0
+P	Abakan		RU		53.715	91.426	0
+P	Kyzyl		RU		51.711	94.438	0
+P	Minusinsk		RU		53.701	91.708	0
+P	Chernogorsk		RU		53.829	91.310	0
+P	Sayanogorsk		RU		53.100	91.407	0
+P	Shushenskoye		RU		53.324	91.936	0
+P	Abaza		RU		52.653	90.095	0

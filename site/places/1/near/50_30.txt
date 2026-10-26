@@ -1,0 +1,133 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Minsk	180	
+C	BY	Belarus	mwl	s
+C	RU	Russia	mwl	s
+C	UA	Ukraine	mwl	s
+B	1
+P	Kyiv		UA		50.455	30.524	0
+P	Homyel'	homyel	BY		52.434	30.975	1
+P	Bryansk		RU		53.271	34.321	1
+P	Desna		UA		50.522	30.682	0
+P	Dniprovskyi		UA		50.454	30.601	0
+P	Mahilyow		BY		53.909	30.340	1
+P	Darnytsya		UA		50.416	30.695	0
+P	Smolensk		RU		54.778	32.051	1
+P	Chernihiv		UA		51.505	31.287	0
+P	Sumy		UA		50.917	34.799	0
+P	Vyhurivshchyna-Troyeshchyna	vyhurivshchyna troyeshchyna	UA		50.511	30.603	0
+P	Obolon		UA		50.513	30.506	0
+P	Shevchenkivskyi		UA		50.464	30.466	0
+P	Borshchahivka		UA		50.432	30.390	0
+P	Desnyanskyi		UA		51.506	31.317	0
+P	Novozavodskyi		UA		51.489	31.256	0
+P	Zarichnyi		UA		50.904	34.809	0
+P	Kovpakivskyi		UA		50.925	34.795	0
+P	Mykilska Borshchahivka		UA		50.426	30.374	0
+P	Brovary		UA		50.511	30.791	0
+P	Pozniaky		UA		50.403	30.624	0
+P	Orsha		BY		54.514	30.404	1
+P	Pechersk		UA		50.444	30.523	0
+P	Kharkivskyi Masyv		UA		50.408	30.660	0
+P	Lisovyi Masyv		UA		50.472	30.631	0
+P	Konotop		UA		51.233	33.200	0
+P	Voskresenka		UA		50.485	30.603	0
+P	Zhlobin		BY		52.893	30.024	1
+P	Chokolivka		UA		50.424	30.447	0
+P	Shostka		UA		51.864	33.473	0
+P	Nyvky		UA		50.465	30.406	0
+P	Vidradnyi		UA		50.432	30.422	0
+P	Darnytskyi Masyv		UA		50.443	30.628	0
+P	Nizhyn		UA		51.048	31.888	0
+P	Klintsy		RU		52.760	32.239	1
+P	Irpin		UA		50.522	30.240	0
+P	Rechytsa		BY		52.362	30.392	1
+P	Boryspil		UA		50.351	30.953	0
+P	Holosiyiv		UA		50.344	30.552	0
+P	Shulyavka		UA		50.454	30.453	0
+P	Vynohradar		UA		50.514	30.425	0
+P	Roslavl’	roslavl	RU		53.954	32.864	1
+P	Svyatoshyn		UA		50.463	30.346	0
+P	Pryluky		UA		50.595	32.384	0
+P	Pivdenna Borshchahivka		UA		50.411	30.404	0
+P	Nova Zabudova		UA		50.428	30.515	0
+P	Okhtyrka		UA		50.309	34.895	0
+P	Berezniaky		UA		50.426	30.602	0
+P	Nova Darnytsya		UA		50.424	30.656	0
+P	Syrets		UA		50.480	30.445	0
+P	Lubny		UA		50.014	33.000	0
+P	Vyshneve		UA		50.388	30.368	0
+P	Novozybkov		RU		52.537	31.937	1
+P	Bucha		UA		50.547	30.209	0
+P	Stare Misto		UA		50.448	30.526	0
+P	Lyudinovo		RU		53.866	34.448	1
+P	Bilychi		UA		50.465	30.347	0
+P	Telychka		UA		50.400	30.567	0
+P	Pivnichni Osokorky		UA		50.393	30.613	0
+P	Kirov		RU		54.069	34.299	1
+P	Romny		UA		50.740	33.495	0
+P	Pivnichno-Brovarskyi Masyv	pivnichno brovarskyi masyv	UA		50.463	30.617	0
+P	Vasylkiv		UA		50.180	30.312	0
+P	Priorka		UA		50.510	30.458	0
+P	Karavayevi Dachi		UA		50.430	30.437	0
+P	Vyshhorodskyi Masyv		UA		50.510	30.454	0
+P	Teremky		UA		50.371	30.459	0
+P	Boyarka		UA		50.319	30.297	0
+P	Oleksandrivska Slobidka		UA		50.418	30.478	0
+P	Vyshhorod		UA		50.583	30.486	0
+P	Minskyi Masyv		UA		50.518	30.462	0
+P	Solomyanka		UA		50.428	30.452	0
+P	Desnogorsk		RU		54.151	33.282	1
+P	Hlukhiv		UA		51.680	33.917	0
+P	Obukhiv		UA		50.116	30.633	0
+P	Rahachow		BY		53.093	30.049	1
+P	Lukyanivka		UA		50.466	30.476	0
+P	Masany		UA		51.533	31.231	0
+P	Demiyivka		UA		50.402	30.516	0
+P	Unecha		RU		52.843	32.688	1
+P	Horki		BY		54.286	30.986	1
+P	Novobilychi		UA		50.476	30.347	0
+P	Rusanivka		UA		50.440	30.597	0
+P	Rayduzhnyi Masyv		UA		50.486	30.586	0
+P	Pereiaslav		UA		50.067	31.450	0
+P	Livoberezhnyi Masyv		UA		50.455	30.590	0
+P	Stara Darnytsya		UA		50.433	30.633	0
+P	Podil		UA		50.469	30.516	0
+P	Sofiivska Borschahivka		UA		50.409	30.359	0
+P	Tatarka		UA		50.469	30.486	0
+P	Dyat’kovo	dyatkovo	RU		53.598	34.338	1
+P	Mostytskyi Masyv		UA		50.502	30.441	0
+P	Slavutych		UA		51.523	30.718	0
+P	Krolevets		UA		51.552	33.380	0
+P	Lebedyn		UA		50.582	34.483	0
+P	Teremky-II	teremky ii	UA		50.381	30.452	0
+P	Kurenivka		UA		50.494	30.471	0
+P	Hadyach		UA		50.369	33.997	0
+P	Krychaw		BY		53.719	31.714	1
+P	Bilohorodka		UA		50.390	30.227	0
+P	Saperna Slobidka		UA		50.401	30.535	0
+P	Karachev		RU		53.123	34.985	1
+P	Zhukovka		RU		53.534	33.731	1
+P	Trostyanets		UA		50.485	34.966	0
+P	Yahotyn		UA		50.275	31.763	0
+P	Starodub		RU		52.585	32.763	1
+P	Hostomel		UA		50.568	30.265	0
+P	Vitryani Hory		UA		50.511	30.437	0
+P	Sel’tso	seltso	RU		53.368	34.103	1
+P	Lypky		UA		50.443	30.530	0
+P	Klov		UA		50.435	30.538	0
+P	Dobrush		BY		52.415	31.314	1
+P	Kotsyubynske		UA		50.488	30.330	0
+P	Darnytsya Car Repair Plant Microdistrict		UA		50.450	30.676	0
+P	Ryl’sk	rylsk	RU		51.571	34.683	1
+P	Nyzhnya Telychka		UA		50.388	30.575	0
+P	Bakhmach		UA		51.181	32.835	0
+P	Bykhov		BY		53.521	30.231	1
+P	Berezan		UA		50.311	31.468	0
+P	Svyatopetrivske		UA		50.382	30.323	0
+P	Trubchevsk		RU		52.580	33.766	1
+P	Kybalchych		UA		50.493	30.598	0
+P	Bilopillia		UA		51.147	34.311	0
+P	Bortnychi		UA		50.385	30.695	0
+P	Novhorod-Siverskyi	novhorod siverskyi	UA		52.007	33.263	0
+P	Pochep		RU		52.933	33.447	1

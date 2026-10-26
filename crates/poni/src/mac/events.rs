@@ -136,6 +136,8 @@ pub enum AppEvent {
     Update(crate::services::update::UpdateEvent),
     /// Where the Mac is, for Prayer times (`services::location`).
     Located(crate::services::location::Located),
+    /// One of Prayer times' online city files (`services::cities`).
+    Cities { file: String, got: Result<poni_core::prayer::World, String> },
     /// Prayer times' adzan played to its end (`services::adzan`).
     AdzanEnded,
     /// Free-form log line from a service thread.

@@ -1,0 +1,435 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Brussels	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	1	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	BE	Belgium	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	NL	The Netherlands	mwl	s
+B	1
+P	Brussels		BE		50.850	4.349	0
+P	Rotterdam		NL		51.922	4.479	0
+P	Amsterdam		NL		52.374	4.890	0
+P	Antwerp		BE		51.220	4.400	0
+P	The Hague		NL		52.077	4.299	0
+P	Southend-on-Sea	southend on sea	GB	England	51.538	0.714	1
+P	Gent		BE		51.050	3.717	0
+P	Lille		FR		50.634	3.055	0
+P	Bexley		GB	England	51.442	0.149	1
+P	Barking		GB	England	51.533	0.083	1
+P	Charleroi		BE		50.411	4.444	0
+P	Breda		NL		51.587	4.776	0
+P	Ipswich		GB	England	52.059	1.155	1
+P	Ilford		GB	England	51.558	0.073	1
+P	Haarlem		NL		52.381	4.637	0
+P	Anderlecht		BE		50.836	4.315	0
+P	Cambridge		GB	England	52.200	0.117	1
+P	Basildon		GB	England	51.568	0.458	1
+P	Norwich		GB	England	52.628	1.298	1
+P	Zaanstad		NL		52.453	4.814	0
+P	Schaerbeek		BE		50.869	4.377	0
+P	Hoofddorp		NL		52.303	4.689	0
+P	Colchester		GB	England	51.889	0.904	1
+P	Saint Peters		GB	England	51.367	1.417	1
+P	Leiden		NL		52.158	4.493	0
+P	Dordrecht		NL		51.810	4.674	0
+P	Brugge		BE		51.209	3.224	0
+P	Zoetermeer		NL		52.057	4.493	0
+P	Chelmsford		GB	England	51.736	0.470	1
+P	Namur		BE		50.467	4.867	0
+P	Dagenham		GB	England	51.550	0.167	1
+P	Maidstone		GB	England	51.267	0.517	1
+P	Eastbourne		GB	England	50.769	0.285	1
+P	Gillingham		GB	England	51.389	0.549	1
+P	Leuven		BE		50.880	4.701	0
+P	Becontree		GB	England	51.553	0.129	1
+P	Roubaix		FR		50.694	3.175	0
+P	Tourcoing		FR		50.724	3.161	0
+P	Molenbeek-Saint-Jean	molenbeek saint jean	BE		50.850	4.312	0
+P	Mons		BE		50.454	3.952	0
+P	Delft		NL		52.007	4.356	0
+P	Romford		GB	England	51.575	0.186	1
+P	Alkmaar		NL		52.632	4.749	0
+P	Harlow		GB	England	51.777	0.112	1
+P	Hastings		GB	England	50.856	0.580	1
+P	Grays		GB	England	51.476	0.325	1
+P	Ixelles		BE		50.833	4.367	0
+P	Dunkirk		FR		51.034	2.377	0
+P	Amsterdam-Zuidoost	amsterdam zuidoost	NL		52.307	4.972	0
+P	Uccle		BE		50.802	4.339	0
+P	Chatham		GB	England	51.379	0.528	1
+P	Purmerend		NL		52.505	4.960	0
+P	Amstelveen		NL		52.301	4.864	0
+P	Deurne		BE		51.221	4.466	0
+P	Roosendaal		NL		51.531	4.465	0
+P	Aalst		BE		50.936	4.035	0
+P	Mechelen		BE		51.026	4.478	0
+P	La Louvière	la louviere	BE		50.487	4.188	0
+P	Schiedam		NL		51.919	4.389	0
+P	Spijkenisse		NL		51.845	4.329	0
+P	Calais		FR		50.952	1.856	0
+P	Kortrijk		BE		50.828	3.265	0
+P	Vlaardingen		NL		51.913	4.342	0
+P	Gouda		NL		52.017	4.708	0
+P	Zaandam		NL		52.439	4.826	0
+P	Lowestoft		GB	England	52.475	1.752	1
+P	Chingford		GB	England	51.630	0.001	1
+P	Alphen aan den Rijn		NL		52.129	4.655	0
+P	Tournai		BE		50.607	3.389	0
+P	Ostend		BE		51.216	2.927	0
+P	Sint-Niklaas	sint niklaas	BE		51.165	4.144	0
+P	Royal Tunbridge Wells		GB	England	51.133	0.263	1
+P	Velsen-Zuid	velsen zuid	NL		52.460	4.650	0
+P	Folkestone		GB	England	51.082	1.167	1
+P	Bergen op Zoom		NL		51.495	4.292	0
+P	Capelle aan den IJssel		NL		51.929	4.578	0
+P	Great Yarmouth		GB	England	52.608	1.731	1
+P	Margate		GB	England	51.381	1.386	1
+P	Ashford		GB	England	51.146	0.874	1
+P	Villeneuve-d'Ascq	villeneuve dascq	FR		50.617	3.167	0
+P	Den Helder		NL		52.960	4.759	0
+P	Woluwe-Saint-Lambert	woluwe saint lambert	BE		50.844	4.429	0
+P	Forest		BE		50.817	4.328	0
+P	Roeselare		BE		50.947	3.123	0
+P	Canterbury		GB	England	51.279	1.080	1
+P	Leytonstone		GB	England	51.569	0.008	1
+P	Sittingbourne		GB	England	51.341	0.733	1
+P	Gravesend		GB	England	51.442	0.371	1
+P	Braintree		GB	England	51.878	0.553	1
+P	Oosterhout		NL		51.645	4.860	0
+P	Brentwood		GB	England	51.621	0.306	1
+P	Jette		BE		50.873	4.334	0
+P	Mouscron		BE		50.745	3.206	0
+P	Dartford		GB	England	51.447	0.214	1
+P	Clacton-on-Sea	clacton on sea	GB	England	51.790	1.156	1
+P	Saint-Gilles	saint gilles	BE		50.828	4.344	0
+P	Eltham		GB	England	51.451	0.052	1
+P	South Benfleet		GB	England	51.553	0.560	1
+P	Woerden		NL		52.085	4.883	0
+P	Etterbeek		BE		50.833	4.388	0
+P	Heerhugowaard		NL		52.671	4.849	0
+P	Rijswijk		NL		52.036	4.325	0
+P	Arras		FR		50.293	2.782	0
+P	Boulogne-sur-Mer	boulogne sur mer	FR		50.725	1.614	0
+P	Douai		FR		50.371	3.079	0
+P	Middelburg		NL		51.500	3.614	0
+P	King's Lynn	kings lynn	GB	England	52.752	0.395	1
+P	Borgerhout		BE		51.210	4.435	0
+P	Zwijndrecht		NL		51.818	4.633	0
+P	Dendermonde		BE		51.029	4.101	0
+P	Vlissingen		NL		51.443	3.574	0
+P	Ridderkerk		NL		51.873	4.603	0
+P	Beveren		BE		51.212	4.256	0
+P	Valenciennes		FR		50.359	3.525	0
+P	Merksem		BE		51.246	4.449	0
+P	Turnhout		BE		51.323	4.945	0
+P	Bexhill-on-Sea	bexhill on sea	GB	England	50.850	0.471	1
+P	Berchem		BE		51.190	4.433	0
+P	Wattrelos		FR		50.701	3.218	0
+P	Canning Town		GB	England	51.514	0.019	1
+P	Ramsgate		GB	England	51.336	1.418	1
+P	Dover		GB	England	51.126	1.313	1
+P	Evere		BE		50.874	4.399	0
+P	Lokeren		BE		51.104	3.993	0
+P	Wilrijk		BE		51.167	4.395	0
+P	Bury St Edmunds		GB	England	52.246	0.711	1
+P	Welling		GB	England	51.462	0.108	1
+P	Bishops Stortford		GB	England	51.871	0.159	1
+P	Dilbeek		BE		50.848	4.260	0
+P	Heemskerk		NL		52.511	4.672	0
+P	Barendrecht		NL		51.857	4.535	0
+P	Marcq-en-Barœul	marcq en baroeul	FR		50.667	3.083	0
+P	Lens		FR		50.433	2.828	0
+P	Canvey Island		GB	England	51.522	0.581	1
+P	Voorburg		NL		52.074	4.360	0
+P	Heist-op-den-Berg	heist op den berg	BE		51.075	4.728	0
+P	Beverwijk		NL		52.483	4.657	0
+P	Braine-l'Alleud	braine lalleud	BE		50.684	4.368	0
+P	Brasschaat		BE		51.291	4.492	0
+P	Grimbergen		BE		50.934	4.372	0
+P	Vilvoorde		BE		50.928	4.429	0
+P	Goes		NL		51.504	3.889	0
+P	Stratford		GB	England	51.533	0.000	1
+P	Cambrai		FR		50.176	3.235	0
+P	Billericay		GB	England	51.629	0.420	1
+P	Tonbridge		GB	England	51.195	0.274	1
+P	Waregem		BE		50.889	3.428	0
+P	Castricum		NL		52.548	4.669	0
+P	Châtelet	chatelet	BE		50.403	4.528	0
+P	Ieper		BE		50.851	2.886	0
+P	Hoogvliet		NL		51.863	4.362	0
+P	Ninove		BE		50.828	4.027	0
+P	Gorinchem		NL		51.837	4.972	0
+P	Geel		BE		51.166	4.989	0
+P	Halle		BE		50.734	4.235	0
+P	Hoboken		BE		51.176	4.348	0
+P	Liévin	lievin	FR		50.420	2.781	0
+P	Wavre		BE		50.717	4.601	0
+P	Auderghem		BE		50.817	4.433	0
+P	Knokke-Heist	knokke heist	BE		51.350	3.267	0
+P	Maubeuge		FR		50.279	3.973	0
+P	Schoten		BE		51.253	4.503	0
+P	Strood		GB	England	51.393	0.477	1
+P	Lier		BE		51.131	4.570	0
+P	Maassluis		NL		51.923	4.250	0
+P	Wisbech		GB	England	52.666	0.159	1
+P	Rayleigh		GB	England	51.586	0.605	1
+P	Whitstable		GB	England	51.361	1.026	1
+P	Sint-Amandsberg	sint amandsberg	BE		51.059	3.749	0
+P	Binche		BE		50.412	4.165	0
+P	IJmuiden		NL		52.460	4.610	0
+P	Menen		BE		50.797	3.122	0
+P	Oudenaarde		BE		50.852	3.609	0
+P	Thamesmead		GB	England	51.504	0.120	1
+P	Tienen		BE		50.807	4.938	0
+P	Papendrecht		NL		51.832	4.688	0
+P	Evergem		BE		51.113	3.710	0
+P	Béthune	bethune	FR		50.530	2.640	0
+P	Nieuw-Vennep	nieuw vennep	NL		52.264	4.631	0
+P	Wevelgem		BE		50.800	3.167	0
+P	Deal		GB	England	51.223	1.403	1
+P	Geraardsbergen		BE		50.773	3.882	0
+P	Sint-Pieters-Leeuw	sint pieters leeuw	BE		50.779	4.244	0
+P	Kessel-Lo	kessel lo	BE		50.885	4.737	0
+P	Blauwput		BE		50.886	4.724	0
+P	Ypenburg		NL		52.041	4.370	0
+P	Lomme		FR		50.644	2.987	0
+P	Deinze		BE		50.982	3.531	0
+P	Waterloo		BE		50.715	4.399	0
+P	Bergen		NL		52.669	4.704	0
+P	Stanford-le-Hope	stanford le hope	GB	England	51.523	0.434	1
+P	Louvain-la-Neuve	louvain la neuve	BE		50.668	4.614	0
+P	Sevenoaks		GB	England	51.273	0.189	1
+P	Courcelles		BE		50.464	4.375	0
+P	Krimpen aan den IJssel		NL		51.917	4.603	0
+P	Asse		BE		50.910	4.198	0
+P	Rochester		GB	England	51.388	0.505	1
+P	Lambersart		FR		50.650	3.033	0
+P	Zaventem		BE		50.884	4.473	0
+P	Groot IJsselmonde		NL		51.883	4.549	0
+P	Terneuzen		NL		51.336	3.828	0
+P	Aarschot		BE		50.987	4.837	0
+P	Wickford		GB	England	51.611	0.523	1
+P	Saint-Josse-ten-Noode	saint josse ten noode	BE		50.854	4.373	0
+P	Haverhill		GB	England	52.082	0.439	1
+P	Uithoorn		NL		52.237	4.826	0
+P	Ath		BE		50.629	3.778	0
+P	Armentières	armentieres	FR		50.686	2.882	0
+P	Abbeville		FR		50.105	1.835	0
+P	Kapellen		BE		51.314	4.435	0
+P	Izegem		BE		50.914	3.214	0
+P	Temse		BE		51.128	4.214	0
+P	Harelbeke		BE		50.853	3.309	0
+P	Leiderdorp		NL		52.158	4.529	0
+P	Herentals		BE		51.177	4.832	0
+P	Heemstede		NL		52.350	4.623	0
+P	Hornchurch		GB	England	51.557	0.217	1
+P	Dongen		NL		51.627	4.939	0
+P	Hénin-Beaumont	henin beaumont	FR		50.414	2.965	0
+P	Witham		GB	England	51.800	0.640	1
+P	Wassenaar		NL		52.146	4.403	0
+P	Waddinxveen		NL		52.045	4.651	0
+P	Coudekerque-Branche	coudekerque branche	FR		51.023	2.394	0
+P	Berchem-Sainte-Agathe	berchem sainte agathe	BE		50.866	4.296	0
+P	Watermael-Boitsfort	watermael boitsfort	BE		50.802	4.414	0
+P	Ommoord		NL		51.960	4.545	0
+P	Blackheath		GB	England	51.465	0.008	1
+P	Pitsea		GB	England	51.564	0.509	1
+P	Skegness		GB	England	53.144	0.336	1
+P	Herne Bay		GB	England	51.373	1.129	1
+P	Soignies		BE		50.579	4.071	0
+P	Ganshoren		BE		50.871	4.315	0
+P	Thetford		GB	England	52.417	0.750	1
+P	Mortsel		BE		51.167	4.451	0
+P	Felixstowe		GB	England	51.964	1.351	1
+P	Jumet		BE		50.442	4.437	0
+P	Bruay-la-Buissière	bruay la buissiere	FR		50.483	2.550	0
+P	Zottegem		BE		50.870	3.811	0
+P	Noordwijk-Binnen	noordwijk binnen	NL		52.234	4.445	0
+P	Diemen		NL		52.340	4.963	0
+P	Assendelft		NL		52.468	4.743	0
+P	Ronse		BE		50.746	3.600	0
+P	Nivelles		BE		50.598	4.328	0
+P	Heiloo		NL		52.603	4.688	0
+P	Sudbury		GB	England	52.039	0.731	1
+P	Sliedrecht		NL		51.821	4.776	0
+P	Marcinelle		BE		50.392	4.444	0
+P	Saint-Pol-sur-Mer	saint pol sur mer	FR		51.031	2.340	0
+P	Steenbergen		NL		51.584	4.319	0
+P	La Madeleine		FR		50.646	3.076	0
+P	Oud-Beijerland	oud beijerland	NL		51.824	4.412	0
+P	Wondelgem		BE		51.087	3.709	0
+P	Overijse		BE		50.774	4.535	0
+P	Hailsham		GB	England	50.862	0.258	1
+P	Maldon		GB	England	51.731	0.675	1
+P	Zwevegem		BE		50.813	3.338	0
+P	Hazebrouck		FR		50.724	2.537	0
+P	Ekeren		BE		51.281	4.418	0
+P	Broadstairs		GB	England	51.358	1.442	1
+P	Heverlee		BE		50.864	4.696	0
+P	Beersel		BE		50.766	4.300	0
+P	Grande-Synthe	grande synthe	FR		51.015	2.300	0
+P	Faversham		GB	England	51.315	0.889	1
+P	Mons-en-Barœul	mons en baroeul	FR		50.633	3.117	0
+P	Scheveningen		NL		52.105	4.276	0
+P	Aalsmeer		NL		52.259	4.760	0
+P	Wetteren		BE		51.005	3.883	0
+P	Hamme		BE		51.098	4.137	0
+P	Willebroek		BE		51.060	4.360	0
+P	Woodford Green		GB	England	51.609	0.023	1
+P	Seaford		GB	England	50.771	0.103	1
+P	Westerlo		BE		51.090	4.915	0
+P	Saint-Ghislain	saint ghislain	BE		50.448	3.819	0
+P	Voorschoten		NL		52.127	4.449	0
+P	South Ockendon		GB	England	51.508	0.283	1
+P	Lisse		NL		52.260	4.557	0
+P	Borssele		NL		51.423	3.735	0
+P	Manage		BE		50.503	4.236	0
+P	Loos		FR		50.610	3.019	0
+P	Maldegem		BE		51.207	3.445	0
+P	Fleurus		BE		50.484	4.550	0
+P	Koekelberg		BE		50.861	4.331	0
+P	Zedelgem		BE		51.142	3.137	0
+P	Koksijde		BE		51.116	2.638	0
+P	Hellevoetsluis		NL		51.833	4.133	0
+P	Swanley		GB	England	51.397	0.173	1
+P	Edegem		BE		51.157	4.445	0
+P	Crowborough		GB	England	51.061	0.163	1
+P	Gembloux		BE		50.561	4.699	0
+P	Rixensart		BE		50.712	4.525	0
+P	Oostkamp		BE		51.154	3.231	0
+P	Denain		FR		50.329	3.394	0
+P	Croix		FR		50.678	3.149	0
+P	Oegstgeest		NL		52.180	4.469	0
+P	Zemst		BE		50.983	4.461	0
+P	March		GB	England	52.551	0.088	1
+P	Stowmarket		GB	England	52.189	0.998	1
+P	Hendrik-Ido-Ambacht	hendrik ido ambacht	NL		51.844	4.639	0
+P	Geertruidenberg		NL		51.702	4.857	0
+P	Nijlen		BE		51.161	4.670	0
+P	Harwich		GB	England	51.942	1.284	1
+P	Tervuren		BE		50.824	4.514	0
+P	Frameries		BE		50.406	3.896	0
+P	Ely		GB	England	52.400	0.262	1
+P	Newmarket		GB	England	52.245	0.404	1
+P	Schilde		BE		51.241	4.583	0
+P	Kontich		BE		51.132	4.447	0
+P	Zele		BE		51.066	4.040	0
+P	Berkel en Rodenrijs		NL		51.993	4.479	0
+P	Halluin		FR		50.786	3.126	0
+P	Braine-le-Comte	braine le comte	BE		50.610	4.147	0
+P	Boussu		BE		50.434	3.794	0
+P	Gilly		BE		50.424	4.479	0
+P	Katwijk aan Zee		NL		52.203	4.399	0
+P	Bowthorpe		GB	England	52.639	1.219	1
+P	Bornem		BE		51.097	4.244	0
+P	Colfontaine		BE		50.414	3.856	0
+P	Schagen		NL		52.788	4.799	0
+P	Assebroek		BE		51.194	3.262	0
+P	Hem		FR		50.653	3.187	0
+P	Lochristi		BE		51.096	3.832	0
+P	Jambes		BE		50.456	4.872	0
+P	Poperinge		BE		50.854	2.727	0
+P	Sint-Katelijne-Waver	sint katelijne waver	BE		51.067	4.535	0
+P	Bodegraven		NL		52.083	4.750	0
+P	Sint-Andries	sint andries	BE		51.197	3.179	0
+P	Wasquehal		FR		50.670	3.134	0
+P	Tielt		BE		50.999	3.327	0
+P	East Dereham		GB	England	52.683	0.933	1
+P	Herent		BE		50.909	4.671	0
+P	's-Gravenzande	s gravenzande	NL		52.002	4.165	0
+P	Eeklo		BE		51.187	3.557	0
+P	Nootdorp		NL		52.045	4.396	0
+P	Benthuizen		NL		52.078	4.544	0
+P	Torhout		BE		51.066	3.101	0
+P	Aalter		BE		51.090	3.447	0
+P	Montignies-sur-Sambre	montignies sur sambre	BE		50.411	4.491	0
+P	Pijnacker		NL		52.020	4.429	0
+P	Carvin		FR		50.492	2.958	0
+P	Hoogstraten		BE		51.400	4.760	0
+P	Meise		BE		50.939	4.327	0
+P	Quaregnon		BE		50.441	3.865	0
+P	Avion		FR		50.410	2.831	0
+P	Uckfield		GB	England	50.969	0.096	1
+P	Hillegom		NL		52.291	4.583	0
+P	Alblasserdam		NL		51.866	4.661	0
+P	Ronchin		FR		50.599	3.091	0
+P	Hadleigh		GB	England	51.553	0.610	1
+P	Rhoon		NL		51.858	4.422	0
+P	Saint-Omer	saint omer	FR		50.748	2.261	0
+P	Zwijndrecht		BE		51.220	4.327	0
+P	Morlanwelz-Mariemont	morlanwelz mariemont	BE		50.455	4.245	0
+P	Tubize		BE		50.691	4.201	0
+P	Blankenberge		BE		51.313	3.132	0
+P	Sint-Genesius-Rode	sint genesius rode	BE		50.746	4.358	0
+P	Saint-Amand-les-Eaux	saint amand les eaux	FR		50.447	3.431	0
+P	Middelkerke		BE		51.185	2.821	0
+P	Kortenberg		BE		50.890	4.544	0
+P	Kasterlee		BE		51.241	4.967	0
+P	Naaldwijk		NL		51.994	4.210	0
+P	Abbey Wood		GB	England	51.487	0.107	1
+P	Lessines		BE		50.711	3.836	0
+P	Sin-le-Noble	sin le noble	FR		50.362	3.131	0
+P	Sint-Gillis-Waas	sint gillis waas	BE		51.219	4.124	0
+P	Middelharnis		NL		51.758	4.165	0
+P	Walcourt		BE		50.254	4.438	0
+P	Kalmthout		BE		51.384	4.476	0
+P	Walton-on-the-Naze	walton on the naze	GB	England	51.848	1.267	1
+P	Ranst		BE		51.190	4.565	0
+P	Lebbeke		BE		51.005	4.135	0
+P	Wervik		BE		50.781	3.039	0
+P	Lewes		GB	England	50.874	0.009	1
+P	Stabroek		BE		51.332	4.371	0
+P	Châtelineau	chatelineau	BE		50.415	4.520	0
+P	Haaltert		BE		50.906	4.001	0
+P	Mariakerke		BE		51.075	3.683	0
+P	Stekene		BE		51.210	4.037	0
+P	Denderleeuw		BE		50.885	4.076	0
+P	Frinton-on-Sea	frinton on sea	GB	England	51.831	1.244	1
+P	Zandvoort		NL		52.371	4.533	0
+P	Dour		BE		50.396	3.778	0
+P	Destelbergen		BE		51.060	3.799	0
+P	Lede		BE		50.966	3.986	0
+P	Longfield		GB	England	51.397	0.302	1
+P	Rochford		GB	England	51.582	0.707	1
+P	Plumstead		GB	England	51.483	0.083	1
+P	Merelbeke		BE		50.994	3.746	0
+P	Péruwelz	peruwelz	BE		50.508	3.594	0
+P	Saffron Walden		GB	England	52.023	0.242	1
+P	Bergschenhoek		NL		51.990	4.499	0
+P	Herzele		BE		50.887	3.890	0
+P	Merenwijk		NL		52.177	4.509	0
+P	Schiebroek		NL		51.958	4.471	0
+P	Hartley		GB	England	51.387	0.304	1
+P	Rijen		NL		51.591	4.919	0
+P	Beerse		BE		51.319	4.853	0
+P	Faches-Thumesnil	faches thumesnil	FR		50.583	3.067	0
+P	Duffel		BE		51.096	4.509	0
+P	Hoge Vucht		NL		51.608	4.792	0
+P	Sint-Kruis	sint kruis	BE		51.214	3.249	0
+P	Puurs		BE		51.074	4.288	0
+P	Pont-à-Celles	pont a celles	BE		50.505	4.369	0
+P	Hayes		GB	England	51.378	0.017	1
+P	Gentbrugge		BE		51.037	3.765	0
+P	Boom		BE		51.092	4.372	0
+P	Swanscombe		GB	England	51.447	0.310	1
+P	Haubourdin		FR		50.608	2.991	0
+P	Berck-Plage	berck plage	FR		50.407	1.564	0
+P	Outreau		FR		50.705	1.590	0
+P	Berck		FR		50.400	1.600	0
+P	Chislehurst		GB	England	51.417	0.069	1
+P	West Ham		GB	England	51.533	0.017	1
+P	Hautmont		FR		50.251	3.921	0
+P	Diksmuide		BE		51.032	2.864	0
+P	Sassenheim		NL		52.225	4.522	0
+P	Lille		BE		51.242	4.823	0
+P	Velserbroek		NL		52.433	4.662	0
+P	Manor Park		GB	England	51.549	0.049	1
+P	Bevere		BE		50.850	3.587	0
+P	Putte		BE		51.053	4.633	0
+P	Orpington		GB	England	51.375	0.098	1
+P	Mijdrecht		NL		52.207	4.862	0
+P	Boskoop		NL		52.075	4.656	0
+P	Marchienne-au-Pont	marchienne au pont	BE		50.406	4.395	0
+P	Julianadorp		NL		52.890	4.740	0
+P	Badhoevedorp		NL		52.337	4.785	0
+P	Rotselaar		BE		50.953	4.717	0
