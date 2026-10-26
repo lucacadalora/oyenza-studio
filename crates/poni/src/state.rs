@@ -20,7 +20,8 @@ use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
 use poni_core::timeline::Timeline;
-use std::collections::{BTreeMap, HashMap};
+use poni_core::usage::{ProviderId, Snapshot, Trouble};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 
 #[derive(Clone, Debug)]
 pub struct MediaSession {
@@ -306,6 +307,9 @@ pub struct PageUiState {
     /// the side of the camera they peek out from (`mac/notch.rs`).
     #[cfg(target_os = "macos")]
     pub peek: poni_core::peek::Peek,
+    /// The AI tab's own state while it shows (`pages::usage`).
+    #[allow(dead_code)] // until the AI tab's page lands: nothing reads it yet
+    pub usage: crate::pages::usage::UsageUi,
 }
 
 /// Whether Windows lets Oyenza Studio read a game's frames. Its event tracing
@@ -488,6 +492,76 @@ impl PrayerState {
     }
 }
 
+/// The AI tab's readings, kept in memory only (its choices are
+/// `settings.usage`). Filled by `services::usage` while the tab is open, or
+/// every few minutes for the person who switched on its heads-up notices.
+// Until the AI tab's page and worker land, nothing reads these.
+#[allow(dead_code)]
+#[derive(Clone, Debug, Default)]
+pub struct UsageState {
+    /// Each service's last reading.
+    pub readings: BTreeMap<ProviderId, Reading>,
+    /// inference.oyenza.com's balance and spend, once connected.
+    pub inference: InferenceLink,
+    /// The secret names (`usage::KeyAsk::secret`) that hold a typed key.
+    pub keys: BTreeSet<&'static str>,
+    /// A refresh is under way.
+    pub refreshing: bool,
+}
+
+/// One service's last reading on the AI tab.
+#[allow(dead_code)]
+#[derive(Clone, Debug, PartialEq)]
+pub struct Reading {
+    /// The last good one, kept through troubles.
+    pub snapshot: Option<Snapshot>,
+    /// The latest refresh's trouble; None when it worked.
+    pub trouble: Option<Trouble>,
+    /// When the latest refresh ended, unix seconds.
+    pub checked_at: i64,
+}
+
+/// inference.oyenza.com on the AI tab: connected by a code the person
+/// approves in its dashboard, after which Studio holds a read-only key.
+#[allow(dead_code)]
+#[derive(Clone, Debug, Default, PartialEq)]
+pub enum InferenceLink {
+    #[default]
+    Off,
+    /// Asking for a code.
+    Starting,
+    /// A code on screen, waiting for approval at `url`, until unix `expires_at`.
+    Code { code: String, url: String, expires_at: i64 },
+    /// Connected: its balance and spend are read.
+    On { account: String },
+    /// Connecting didn't work (why, in a few words).
+    Failed(String),
+}
+
+impl UsageState {
+    /// What the worker found. Its heads-up notices are the app's to show.
+    pub fn apply(&mut self, ev: crate::services::usage::UsageEvent) {
+        use crate::services::usage::UsageEvent;
+        match ev {
+            UsageEvent::Reading { id, outcome, at } => {
+                let r = self.readings.entry(id).or_insert(Reading { snapshot: None, trouble: None, checked_at: at });
+                match outcome {
+                    Ok(snap) => {
+                        r.snapshot = Some(snap);
+                        r.trouble = None;
+                    }
+                    Err(t) => r.trouble = Some(t),
+                }
+                r.checked_at = at;
+            }
+            UsageEvent::Keys(keys) => self.keys = keys,
+            UsageEvent::Link(link) => self.inference = link,
+            UsageEvent::Refreshing(on) => self.refreshing = on,
+            UsageEvent::Alerts(_) => {}
+        }
+    }
+}
+
 pub struct AppState {
     pub settings: Settings,
     pub store: Store,
@@ -551,6 +625,8 @@ pub struct AppState {
     /// Oyenza Studio Recorder is installed, so the Script page shows Record.
     /// Asked each time the page comes on screen, never at rest.
     pub recorder: bool,
+    /// The AI tab's readings (its choices: `settings.usage`).
+    pub usage: UsageState,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -617,6 +693,7 @@ impl AppState {
             script_note: None,
             script_hidden: None,
             recorder: false,
+            usage: UsageState::default(),
             cmds: Vec::new(),
         };
         // On ones start by checking their files (the worker reports back);
@@ -837,5 +914,22 @@ mod tests {
         // The island on screen: it shows at once.
         st.show_or_hold(notice("now"), false);
         assert_eq!(st.notice.as_ref().map(|n| n.title.as_str()), Some("now"));
+    }
+
+    #[test]
+    fn an_ai_reading_keeps_its_last_numbers_through_a_trouble() {
+        use crate::services::usage::UsageEvent;
+        use poni_core::usage::Source;
+        let mut u = UsageState::default();
+        let snap = Snapshot::new(ProviderId::Codex, 100, Source::Online);
+        u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Ok(snap.clone()), at: 100 });
+        u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Err(Trouble::Offline), at: 220 });
+        let r = &u.readings[&ProviderId::Codex];
+        assert_eq!((r.snapshot.as_ref(), r.trouble.as_ref(), r.checked_at), (Some(&snap), Some(&Trouble::Offline), 220));
+        // The next good one clears the trouble.
+        u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Ok(snap), at: 340 });
+        assert_eq!(u.readings[&ProviderId::Codex].trouble, None);
+        u.apply(UsageEvent::Link(InferenceLink::On { account: "a•••@example.com".into() }));
+        assert_eq!(u.inference, InferenceLink::On { account: "a•••@example.com".into() });
     }
 }

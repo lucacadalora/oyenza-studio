@@ -174,6 +174,10 @@ pub enum AppEvent {
     Located(crate::services::location::Located),
     /// One of prayer times' online city files (`services::cities`).
     Cities { file: String, got: Result<poni_core::prayer::World, String> },
+    /// The AI tab's readings, typed keys, inference.oyenza.com's link and
+    /// heads-up notices (`services::usage`).
+    #[allow(dead_code)] // until the AI tab's worker lands: nothing sends it yet
+    Usage(crate::services::usage::UsageEvent),
     /// The adzan finished playing, or couldn't play on.
     AdzanEnded,
     /// Start with Windows is on (true) or off, read for the Settings page.

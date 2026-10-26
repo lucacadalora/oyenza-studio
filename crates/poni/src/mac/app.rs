@@ -12,7 +12,7 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, MediaCmd, OyenzaCmd, PhoneCmd, Sound};
+use crate::commands::{Command, MediaCmd, OyenzaCmd, PhoneCmd, Sound, UsageCmd};
 use crate::events::{AppEvent, EventSink, OyenzaEvent};
 use crate::gfx::{scale_about, union_rect, Canvas, Gfx, Matrix3x2};
 use crate::glass;
@@ -404,6 +404,11 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// The AI tab's worker: started the first time the tab opens or its
+    /// notices are on (`set_usage_watch`).
+    usage: Option<services::usage::UsageService>,
+    /// What it was last told.
+    usage_watch: services::usage::Watch,
     /// New versions (`crate::updates`); None in the smoke test.
     updater: Option<crate::updates::Updater>,
     /// Prayer times' adzan, while it plays.
@@ -511,6 +516,8 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            usage: None,
+            usage_watch: services::usage::Watch::default(),
             updater: None,
             adzan: Default::default(),
             motion: None,
@@ -852,6 +859,10 @@ impl App {
             }
             self.tell_oyenza_activity();
         }
+        // The AI tab's heads-up notices: its worker reads every few minutes only while they're on.
+        if before.usage.notices != self.st.settings.usage.notices {
+            self.set_usage_watch();
+        }
     }
 
     /// Hand the add-on switches to the downloader, starting it when one is
@@ -1146,6 +1157,7 @@ impl App {
             self.update_due();
         }
         self.tell_oyenza_activity();
+        self.set_usage_watch();
         self.apply_fullscreen();
     }
 
@@ -1272,6 +1284,7 @@ impl App {
                 let old = self.st.power;
                 self.st.power = p;
                 self.tell_oyenza_activity();
+                self.set_usage_watch();
                 if old.saver && !p.saver {
                     self.update_due();
                 }
@@ -1342,6 +1355,7 @@ impl App {
             }
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
+            AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
             AppEvent::Bluetooth { name, connected, battery, audio } => {
@@ -2198,9 +2212,92 @@ impl App {
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
+                Command::Usage(c) => self.usage_cmd(c),
             }
         }
         self.sync_phone_offer();
+    }
+
+    // ------------------------------------------------------------ AI usage
+
+    /// The AI tab's worker reads while the tab is on screen, or every few
+    /// minutes for the person who switched on its heads-up notices; both rest
+    /// while nobody can see the screen, the notices also on Low Power Mode.
+    /// Its thread starts the first time either wants it.
+    fn set_usage_watch(&mut self) {
+        let here = !(self.away.0 || self.away.1);
+        let w = services::usage::Watch {
+            open: here && self.mode == Mode::Expanded(PageKind::Ai),
+            notices: here && self.st.settings.usage.notices && !self.st.power.saver,
+        };
+        // Already told: nothing to do, every frame.
+        if w == self.usage_watch {
+            return;
+        }
+        self.usage_watch = w;
+        if self.usage.is_none() && (w.open || w.notices) {
+            self.start_usage();
+        }
+        if let Some(s) = &self.usage {
+            s.set_watch(w);
+        }
+    }
+
+    fn start_usage(&mut self) {
+        match services::usage::UsageService::start(self.sink.clone()) {
+            Ok(s) => self.usage = Some(s),
+            Err(e) => pwarn!("service usage: unavailable ({e})"),
+        }
+    }
+
+    /// Hide and Show change the AI tab's settings; the rest is its worker's
+    /// (started by the first one if need be).
+    fn usage_cmd(&mut self, c: UsageCmd) {
+        match c {
+            UsageCmd::Hide(id) | UsageCmd::Show(id) => {
+                let u = &mut self.st.settings.usage;
+                u.hidden.retain(|k| k != id.key());
+                u.added.retain(|k| k != id.key());
+                let list = if matches!(c, UsageCmd::Show(_)) { &mut u.added } else { &mut u.hidden };
+                list.push(id.key().into());
+                let before = self.saved_settings.clone();
+                self.settings_changed(&before);
+                self.save_settings();
+            }
+            c => {
+                if self.usage.is_none() {
+                    self.start_usage();
+                }
+                if let Some(s) = &self.usage {
+                    s.command(c);
+                }
+            }
+        }
+    }
+
+    /// What the AI tab's worker found goes into `st.usage`, and its heads-up
+    /// notices on the island (held while a full-screen app hides it).
+    fn on_usage(&mut self, ev: services::usage::UsageEvent) {
+        match ev {
+            services::usage::UsageEvent::Alerts(alerts) => {
+                // One notice at a time: the first.
+                if let Some(a) = alerts.into_iter().next() {
+                    let notice = Notice {
+                        icon: PageKind::Ai.icon(),
+                        color: self.st.accent,
+                        title: a.title,
+                        title_dim: String::new(),
+                        subtitle: a.subtitle,
+                        until: self.st.now + oyenza::NOTICE_S,
+                        action: Some(NoticeAction::OpenPage(PageKind::Ai)),
+                        inline: None,
+                        reveal: None,
+                    };
+                    self.st.show_or_hold(notice, self.fullscreen_hidden);
+                }
+            }
+            ev => self.st.usage.apply(ev),
+        }
     }
 
     // ------------------------------------------------------------ Oyenza
@@ -2709,6 +2806,7 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
+        self.set_usage_watch();
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));

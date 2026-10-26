@@ -948,6 +948,8 @@ enum Scene {
     TodayOff,
     /// Today with a date ten days on clicked in the grid: the list starts there.
     TodayPicked,
+    /// The AI tab while its page is a placeholder.
+    AiPlaceholder,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -980,7 +982,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 89] = [
+const SCENES: [Scene; 90] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1087,6 +1089,8 @@ const SCENES: [Scene; 89] = [
     Scene::TodayTiles,
     Scene::TodayOff,
     Scene::TodayPicked,
+    // The AI tab, a core tab after Focus (its page lands later).
+    Scene::AiPlaceholder,
 ];
 
 impl Scene {
@@ -1172,6 +1176,7 @@ impl Scene {
             Scene::TodayTiles => "page-today-tiles".into(),
             Scene::TodayOff => "page-today-off".into(),
             Scene::TodayPicked => "page-today-picked".into(),
+            Scene::AiPlaceholder => "page-ai-placeholder".into(),
         }
     }
 
@@ -1207,6 +1212,7 @@ impl Scene {
             Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerWorld => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
+            Scene::AiPlaceholder => Some(PageKind::Ai),
             _ => None,
         }
     }
