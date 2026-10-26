@@ -51,6 +51,8 @@ pub mod zai;
 /// The most requests one refresh of one service makes.
 pub const MAX_FETCHES: usize = 4;
 /// The largest file [`Want::File`] asks for unless a service says otherwise.
+/// A bigger file reads as [`Got::Missing`], so a service whose file can grow
+/// (a config that keeps history) sets its own `max`.
 pub const FILE_MAX: u64 = 256 * 1024;
 
 /// The services, in the order the AI tab lists them by default.
@@ -132,8 +134,9 @@ pub enum Os {
     Mac,
 }
 
-/// Where things live on this computer, filled in by the app.
-#[derive(Clone, Debug, PartialEq, Eq)]
+/// Where things live on this computer, filled in by the app. Its `Debug`
+/// prints variable names only: some variables are keys.
+#[derive(Clone, PartialEq, Eq)]
 pub struct Dirs {
     pub os: Os,
     /// `%USERPROFILE%` / `$HOME`.
@@ -143,7 +146,15 @@ pub struct Dirs {
     /// `%LOCALAPPDATA%` / `~/Library/Caches`.
     pub local: PathBuf,
     /// The variables services asked for ([`Provider::env`]) that are set.
+    /// Some are keys (`OPENROUTER_API_KEY`): never print the values.
     pub env: Vec<(String, String)>,
+}
+
+impl std::fmt::Debug for Dirs {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let names: Vec<&str> = self.env.iter().map(|(k, _)| k.as_str()).collect();
+        f.debug_struct("Dirs").field("os", &self.os).field("home", &self.home).field("config", &self.config).field("local", &self.local).field("env", &names).finish()
+    }
 }
 
 impl Dirs {
@@ -155,8 +166,36 @@ impl Dirs {
     pub fn var_or_home(&self, name: &str, rel: &str) -> PathBuf {
         match self.var(name) {
             Some(v) => PathBuf::from(v),
-            None => self.home.join(rel),
+            None => self.join(&self.home, &[rel]),
         }
+    }
+
+    /// `base` with `parts` below it, with this OS's separator, so a Windows
+    /// path built in a test on Linux reads `C:\Users\u\.codex\auth.json`
+    /// like the real one. Parts may hold `/` (split on it).
+    pub fn join(&self, base: &Path, parts: &[&str]) -> PathBuf {
+        match self.os {
+            Os::Windows => {
+                let mut s = base.to_string_lossy().trim_end_matches(['\\', '/']).to_string();
+                for part in parts.iter().flat_map(|p| p.split(['/', '\\'])).filter(|p| !p.is_empty()) {
+                    s.push('\\');
+                    s.push_str(part);
+                }
+                PathBuf::from(s)
+            }
+            Os::Mac => {
+                let mut p = base.to_path_buf();
+                for part in parts.iter().flat_map(|p| p.split('/')).filter(|p| !p.is_empty()) {
+                    p.push(part);
+                }
+                p
+            }
+        }
+    }
+
+    /// Under home: `dirs.home_join(&[".codex", "auth.json"])`.
+    pub fn home_join(&self, parts: &[&str]) -> PathBuf {
+        self.join(&self.home, parts)
     }
 
     /// A sample for tests: `/home/u` style paths for the given OS.
@@ -234,20 +273,19 @@ impl Got {
         }
     }
 
+    /// The text, without a UTF-8 byte order mark (older Windows editors
+    /// write one); None when blank.
     pub fn text(&self) -> Option<&str> {
-        match self {
-            Got::Text(s) => Some(s.as_str()).filter(|s| !s.trim().is_empty()),
-            Got::One(f) => std::str::from_utf8(&f.bytes).ok(),
-            _ => None,
-        }
+        let s = match self {
+            Got::Text(s) => s.as_str(),
+            Got::One(f) => std::str::from_utf8(&f.bytes).ok()?,
+            _ => return None,
+        };
+        Some(s.trim_start_matches('\u{feff}')).filter(|s| !s.trim().is_empty())
     }
 
     pub fn json(&self) -> Option<Value> {
-        match self {
-            Got::Text(s) => serde_json::from_str(s).ok(),
-            Got::One(f) => serde_json::from_slice(&f.bytes).ok(),
-            _ => None,
-        }
+        serde_json::from_str(self.text()?).ok()
     }
 
     pub fn files(&self) -> &[FileRead] {
@@ -294,7 +332,7 @@ impl Request {
     }
 
     pub fn bearer(self, token: &str) -> Request {
-        self.header("Authorization", format!("Bearer {token}"))
+        self.header("Authorization", format!("Bearer {}", token.trim()))
     }
 }
 
@@ -341,6 +379,7 @@ impl Ctx<'_> {
     }
 }
 
+#[derive(Debug)]
 pub enum Step {
     Fetch(Request),
     Done(Outcome),
@@ -440,9 +479,14 @@ impl Snapshot {
         Snapshot { provider, plan: None, account: None, windows: Vec::new(), balance: None, spend: Vec::new(), tokens_today: None, days: Vec::new(), as_of, source }
     }
 
-    /// The window closest to running out.
+    /// The window closest to running out, as the numbers were read.
     pub fn tightest(&self) -> Option<&Window> {
         self.windows.iter().max_by(|a, b| a.used.total_cmp(&b.used))
+    }
+
+    /// The window closest to running out now (resets that passed count).
+    pub fn tightest_at(&self, now: i64) -> Option<Window> {
+        self.windows.iter().map(|w| w.at(now)).max_by(|a, b| a.used.total_cmp(&b.used))
     }
 }
 
@@ -524,7 +568,11 @@ impl Window {
                 let mut w = self.clone();
                 w.used = 0.0;
                 w.count = w.count.map(|(_, of)| (0, of));
-                w.resets_at = w.length_s.map(|len| t + len as i64);
+                // The next reset after now, however many periods passed.
+                w.resets_at = w.length_s.filter(|len| *len > 0).map(|len| {
+                    let len = len as i64;
+                    t + len * ((now - t) / len + 1)
+                });
                 w
             }
             _ => self.clone(),
@@ -549,9 +597,10 @@ impl Money {
     pub fn fmt(&self) -> String {
         let neg = self.micros < 0;
         let v = self.micros.unsigned_abs() as f64 / 1e6;
-        let digits = if v != 0.0 && v < 0.01 { 3 } else { 2 };
+        let (lt, v) = if v != 0.0 && v < 0.001 { ("<", 0.001) } else { ("", v) };
+        let digits = if v < 0.01 { 3 } else { 2 };
         let n = format!("{v:.digits$}");
-        let s = if self.currency == "USD" { format!("${n}") } else { format!("{n} {}", self.currency) };
+        let s = if self.currency == "USD" { format!("{lt}${n}") } else { format!("{lt}{n} {}", self.currency) };
         if neg {
             format!("-{s}")
         } else {
@@ -606,10 +655,14 @@ pub enum Trouble {
 
 impl Trouble {
     /// The usual reading of a failed request: what to tell the person.
+    /// A 403 isn't always a refused sign-in (GitHub says "rate limited" with
+    /// 403, OpenRouter "management keys only"): read the body first where the
+    /// service does that. The failure's own text never comes through, since
+    /// it can carry a URL with a key in it.
     pub fn from_net(r: &Result<Reply, NetFail>) -> Option<Trouble> {
         match r {
             Err(NetFail::Timeout) | Err(NetFail::Network(_)) => Some(Trouble::Offline),
-            Err(NetFail::Other(e)) => Some(Trouble::Unreadable(e.clone())),
+            Err(NetFail::Other(_)) => Some(Trouble::Unreadable("the request failed".into())),
             Ok(r) if r.status == 401 || r.status == 403 => Some(Trouble::Refused),
             Ok(r) if r.status == 429 => Some(Trouble::Busy { retry_after_s: r.retry_after_s }),
             Ok(r) if r.status >= 500 => Some(Trouble::Offline),
@@ -625,7 +678,7 @@ pub fn reply_json(r: &Result<Reply, NetFail>) -> Result<Value, Trouble> {
         return Err(t);
     }
     match r {
-        Ok(r) => serde_json::from_str(&r.body).map_err(|_| Trouble::Unreadable("not JSON".into())),
+        Ok(r) => serde_json::from_str(r.body.trim_start_matches('\u{feff}')).map_err(|_| Trouble::Unreadable("not JSON".into())),
         Err(_) => Err(Trouble::Offline),
     }
 }
@@ -686,7 +739,7 @@ pub fn parse_time(s: &str) -> Option<i64> {
     if b.len() < 19 || b[4] != b'-' || b[7] != b'-' || !(b[10] == b'T' || b[10] == b' ' || b[10] == b't') || b[13] != b':' || b[16] != b':' {
         return None;
     }
-    let num = |r: std::ops::Range<usize>| s.get(r)?.parse::<i64>().ok();
+    let num = |r: std::ops::Range<usize>| s.get(r).filter(|d| d.bytes().all(|b| b.is_ascii_digit()))?.parse::<i64>().ok();
     let (y, mo, d) = (num(0..4)?, num(5..7)?, num(8..10)?);
     let (h, mi, sec) = (num(11..13)?, num(14..16)?, num(17..19)?);
     if !(1..=12).contains(&mo) || !(1..=31).contains(&d) || h > 23 || mi > 59 || sec > 60 {
@@ -700,8 +753,9 @@ pub fn parse_time(s: &str) -> Option<i64> {
         "" | "Z" | "z" => 0,
         r if (r.starts_with('+') || r.starts_with('-')) && r.len() >= 5 => {
             let sign = if r.starts_with('-') { -1 } else { 1 };
-            let hh: i64 = r.get(1..3)?.parse().ok()?;
-            let mm: i64 = r.get(r.len() - 2..)?.parse().ok()?;
+            let digits = |d: &str| d.bytes().all(|b| b.is_ascii_digit());
+            let hh: i64 = r.get(1..3).filter(|d| digits(d))?.parse().ok()?;
+            let mm: i64 = r.get(r.len() - 2..).filter(|d| digits(d))?.parse().ok()?;
             sign * (hh * 3600 + mm * 60)
         }
         _ => return None,
@@ -746,9 +800,73 @@ pub fn join(base: &Path, parts: &[&str]) -> PathBuf {
     p
 }
 
+/// Runs a provider's steps against canned answers, the way the worker does:
+/// at most [`MAX_FETCHES`] requests, none under [`Reach::Local`]. Returns
+/// the requests made and the outcome.
+#[cfg(test)]
+pub fn drive(p: &dyn Provider, cx: &Ctx, mut answer: impl FnMut(&Request) -> Result<Reply, NetFail>) -> (Vec<Request>, Outcome) {
+    let (mut asked, mut replies) = (Vec::new(), Vec::new());
+    loop {
+        match p.next(cx, &replies) {
+            Step::Done(out) => return (asked, out),
+            Step::Fetch(req) => {
+                assert!(cx.reach == Reach::Online, "{:?} fetched under Reach::Local: {}", p.id(), req.url);
+                assert!(asked.len() < MAX_FETCHES, "{:?} asked more than {MAX_FETCHES} times", p.id());
+                replies.push(answer(&req));
+                asked.push(req);
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn typed_key_services_want_their_key() {
+        for p in all() {
+            if let Some(ask) = p.takes_key() {
+                for os in [Os::Windows, Os::Mac] {
+                    assert!(p.wants(&Dirs::sample(os)).contains(&Want::Secret(ask.secret)), "{:?} takes a key but doesn't want Secret({})", p.id(), ask.secret);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn nothing_found_fetches_nothing() {
+        // With nothing on the computer and no keys, no service may ask a
+        // server (they'd be asking with nothing), and none may panic.
+        for p in all() {
+            for os in [Os::Windows, Os::Mac] {
+                let dirs = Dirs::sample(os);
+                let got = vec![Got::Missing; p.wants(&dirs).len()];
+                let cx = Ctx { dirs: &dirs, got: &got, now: 1_793_077_200, reach: Reach::Online };
+                let (asked, out) = drive(p, &cx, |_| Err(NetFail::Timeout));
+                assert!(asked.is_empty(), "{:?} asked {:?} with nothing found", p.id(), asked.first().map(|r| &r.url));
+                assert!(out.is_err(), "{:?} made a snapshot from nothing", p.id());
+            }
+        }
+    }
+
+    #[test]
+    fn dirs_join_with_the_os_separator_and_debug_hides_values() {
+        let mut w = Dirs::sample(Os::Windows);
+        assert_eq!(w.home_join(&[".codex", "auth.json"]), PathBuf::from(r"C:\Users\u\.codex\auth.json"));
+        assert_eq!(w.join(&w.config, &["Cursor/User", "x.db"]), PathBuf::from(r"C:\Users\u\AppData\Roaming\Cursor\User\x.db"));
+        assert_eq!(Dirs::sample(Os::Mac).home_join(&[".claude/.credentials.json"]), PathBuf::from("/Users/u/.claude/.credentials.json"));
+        w.env.push(("OPENROUTER_API_KEY".into(), "sk-or-v1-secret".into()));
+        let shown = format!("{w:?}");
+        assert!(shown.contains("OPENROUTER_API_KEY") && !shown.contains("secret"), "{shown}");
+    }
+
+    #[test]
+    fn text_drops_a_byte_order_mark() {
+        let g = Got::One(FileRead { path: PathBuf::from("a"), bytes: b"\xef\xbb\xbf{\"a\":1}".to_vec(), modified: None });
+        assert_eq!(g.json().unwrap()["a"], 1);
+        assert_eq!(Got::Text("  ".into()).text(), None);
+    }
 
     #[test]
     fn ids_round_trip_and_cover_every_service() {
@@ -766,6 +884,7 @@ mod tests {
         assert_eq!(parse_time("2026-10-27T12:00:00.5+07:00"), Some(1_793_077_200));
         assert_eq!(parse_time("2026-10-27 05:00:00"), Some(1_793_077_200));
         assert_eq!(parse_time("27 Oct 2026"), None);
+        assert_eq!(parse_time("2026-10-27T-1:00:00Z"), None);
         assert_eq!(time(&serde_json::json!(1_793_077_200_000u64)), Some(1_793_077_200));
         assert_eq!(time(&serde_json::json!("1793077200")), Some(1_793_077_200));
     }
@@ -785,6 +904,7 @@ mod tests {
         assert_eq!(Money::usd(4.2).fmt(), "$4.20");
         assert_eq!(Money::usd(0.0031).fmt(), "$0.003");
         assert_eq!(Money::usd(-1.5).fmt(), "-$1.50");
+        assert_eq!(Money::usd(0.0002).fmt(), "<$0.001");
         assert_eq!(micros(f64::NAN), 0);
         assert_eq!(mask_email("luca@example.com"), "l•••@example.com");
         assert_eq!(mask_email("org-123"), "o•••");
@@ -798,6 +918,8 @@ mod tests {
         assert_eq!(after.used, 0.0);
         assert_eq!(after.count, Some((0, 100)));
         assert_eq!(after.resets_at, Some(19_000));
+        // Two days later: the next reset after now, not one long past.
+        assert_eq!(w.at(1000 + 2 * 86_400 + 5).resets_at, Some(1000 + 10 * 18_000));
     }
 
     #[test]
@@ -807,6 +929,9 @@ mod tests {
         assert_eq!(Trouble::from_net(&r(401)), Some(Trouble::Refused));
         assert_eq!(Trouble::from_net(&r(429)), Some(Trouble::Busy { retry_after_s: Some(9) }));
         assert_eq!(Trouble::from_net(&Err(NetFail::Timeout)), Some(Trouble::Offline));
+        let leaky = Trouble::from_net(&Err(NetFail::Other("GET https://x.test/?key=sk-123 failed".into())));
+        assert!(!format!("{leaky:?}").contains("sk-123"));
+        assert_eq!(Request::get("u").bearer("tok\n").headers[0].1, "Bearer tok");
         assert!(reply_json(&r(200)).is_ok());
     }
 }
