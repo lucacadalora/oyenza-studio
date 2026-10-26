@@ -230,6 +230,7 @@ mod tests {
         let (mut replies, mut asked) = (Vec::new(), Vec::new());
         loop {
             match Zai.next(&cx, &replies) {
+                Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
                 Step::Done(outcome) => return (outcome, asked),
                 Step::Fetch(req) => {
                     assert!(asked.len() < MAX_FETCHES, "more asks than MAX_FETCHES");

@@ -371,8 +371,10 @@ mod tests {
     fn refresh(auth: Option<&str>, logs: &[&str], reach: Reach, now: i64, reply: Option<Result<Reply, NetFail>>) -> Outcome {
         let got = got(auth, logs);
         match step(&got, reach, now, &[]) {
+            Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
             Step::Done(o) => o,
             Step::Fetch(ask) => match step(&got, reach, now, &[reply.unwrap_or_else(|| panic!("asked {} without a reply ready", ask.url))]) {
+                Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
                 Step::Done(o) => o,
                 Step::Fetch(ask) => panic!("a second ask: {}", ask.url),
             },

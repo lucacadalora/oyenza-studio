@@ -456,6 +456,7 @@ mod tests {
         let (mut replies, mut asked) = (Vec::new(), Vec::new());
         loop {
             match Oyenza.next(&cx, &replies) {
+                Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
                 Step::Done(o) => return (o, asked),
                 Step::Fetch(req) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");

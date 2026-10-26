@@ -38,8 +38,8 @@ pub fn store(dirs: &Dirs) -> PathBuf {
     join(&root, &["Cursor", "User", "globalStorage", "state.vscdb"])
 }
 
-/// `len` bytes of a file from `offset` (fewer at its end): the contract's
-/// proposed `Want::Range`.
+/// `len` bytes of a file from `offset` (fewer at its end): one
+/// [`Want::Range`].
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Piece {
     pub path: PathBuf,
@@ -47,9 +47,15 @@ pub struct Piece {
     pub len: u32,
 }
 
-/// What the reader does next: read more pieces first (the proposed
-/// `Step::Read`: the app appends what it read to `Ctx::got` and asks again),
-/// or one of the contract's steps.
+impl Piece {
+    pub fn want(self) -> Want {
+        Want::Range { path: self.path, offset: self.offset, len: self.len }
+    }
+}
+
+/// What the reader does next: read more pieces first ([`Step::Read`]: the
+/// app appends what it read to `Ctx::got` and asks again), or one of the
+/// contract's other steps.
 pub enum Go {
     Read(Vec<Piece>),
     Step(Step),
@@ -85,18 +91,14 @@ impl Provider for Cursor {
         &["VSCODE_APPDATA"]
     }
 
-    fn wants(&self, _dirs: &Dirs) -> Vec<Want> {
-        // Once the contract has `Want::Range` (lane notes, "Asks for the
-        // lead"): `Cursor::first(dirs)`, each as a `Want::Range`.
-        Vec::new()
+    fn wants(&self, dirs: &Dirs) -> Vec<Want> {
+        Cursor::first(dirs).into_iter().map(Piece::want).collect()
     }
 
     fn next(&self, cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Step {
         match self.go(cx, replies) {
             Go::Step(step) => step,
-            // Once the contract has `Step::Read`: `Step::Read` of the pieces.
-            // Until then Cursor stays off the tab, as before this reader.
-            Go::Read(_) => Step::Done(Err(Trouble::NotFound)),
+            Go::Read(pieces) => Step::Read(pieces.into_iter().map(Piece::want).collect()),
         }
     }
 
@@ -966,6 +968,7 @@ mod tests {
         loop {
             let cx = Ctx { dirs: &dirs, got: &got, now, reach };
             match Cursor.go(&cx, &replies) {
+                Go::Step(Step::Read(w)) => panic!("Cursor reads through Go::Read, not Step::Read: {w:?}"),
                 Go::Read(pieces) => {
                     assert!(got.len() + pieces.len() <= 64, "too many pieces");
                     got.extend(pieces.iter().map(|p| read(files, p)));
@@ -1236,10 +1239,25 @@ mod tests {
     }
 
     #[test]
-    fn until_the_contract_reads_pieces_cursor_stays_hidden() {
+    fn the_contract_reads_the_store_a_piece_at_a_time() {
+        // Through wants/next as the worker drives them: the same pieces and
+        // outcomes as the lane's own loop.
         let dirs = Dirs::sample(Os::Windows);
-        assert!(Cursor.wants(&dirs).is_empty());
-        let cx = Ctx { dirs: &dirs, got: &[], now: NOW, reach: Reach::Online };
-        assert!(matches!(Cursor.next(&cx, &[]), Step::Done(Err(Trouble::NotFound))));
+        let fs = files(STATE, None);
+        let piece = |w: &Want| match w {
+            Want::Range { path, offset, len } => read(&fs, &Piece { path: path.clone(), offset: *offset, len: *len }),
+            other => panic!("Cursor wanted {other:?}"),
+        };
+        let wants = Cursor.wants(&dirs);
+        assert_eq!(wants, Cursor::first(&dirs).into_iter().map(Piece::want).collect::<Vec<_>>());
+        let got: Vec<Got> = wants.iter().map(piece).collect();
+        let local = Ctx { dirs: &dirs, got: &got, now: NOW, reach: Reach::Local };
+        let (asked, out) = crate::usage::drive_reads(&Cursor, &local, piece, |_| unreachable!("fetched on a local refresh"));
+        assert!(asked.is_empty());
+        assert_eq!(out, run(&fs, Reach::Local, NOW, &[]).outcome);
+        let online = Ctx { reach: Reach::Online, ..local };
+        let (asked, out) = crate::usage::drive_reads(&Cursor, &online, piece, |_| ok(SUMMARY));
+        let lane = run(&fs, Reach::Online, NOW, &[ok(SUMMARY), ok(SUMMARY)]);
+        assert_eq!((asked.len(), out.is_ok()), (lane.asked.len(), lane.outcome.is_ok()));
     }
 }
