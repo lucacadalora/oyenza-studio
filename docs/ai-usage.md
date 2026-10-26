@@ -26,7 +26,7 @@ The **AI** tab shows how much is left of the AI coding plans on your computer, a
 | Service | Read on this computer | Asks | Online at most every (tab open) | Typed key |
 |---|---|---|---|---|
 | [Codex](#codex) | `~/.codex/auth.json`, the end of its newest session logs | `chatgpt.com` | 2 minutes | No |
-| [Claude Code](#claude-code) | *Pending* | *Pending* | *Pending* | *Pending* |
+| [Claude Code](#claude-code) | `~/.claude/.credentials.json` (on a Mac, the keychain first), `~/.claude.json` | `api.anthropic.com` | 2 minutes | No |
 | [OpenCode Go](#opencode-go) | `~/.local/share/opencode/auth.json`, `OPENCODE_API_KEY` | `opencode.ai` | 2 minutes | Optional |
 | [Gemini CLI](#gemini-cli) | `~/.gemini/oauth_creds.json`, `~/.gemini/settings.json` | `cloudcode-pa.googleapis.com` | 5 minutes | No |
 | [Cursor](#cursor) | The sign-in's pieces of `state.vscdb` | `cursor.com` | 5 minutes | No |
@@ -50,7 +50,12 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 
 ### Claude Code
 
-*Pending: this reader isn't finished yet.*
+- **Reads:** Claude Code's claude.ai sign-in (its access token, when that runs out, and the plan): on a Mac from the `Claude Code-credentials` item in your keychain, else from `~/.claude/.credentials.json`, in the order Claude Code itself looks; on Windows, only the file. Also its settings, `~/.claude.json` (or `~/.claude/.config.json` while an older version's copy is there), for two things only: your account's email, shown masked, and whether Claude Code is installed, so the card can say you're signed out. With `CLAUDE_CONFIG_DIR` set, the files are read there and the keychain item is the one Claude Code names after that folder (`Claude Code-credentials-` and 8 letters and digits). The sign-in's refresh token is never read.
+- **Asks:** `GET https://api.anthropic.com/api/oauth/usage`, the address Claude Code's own `/usage` reads, with the access token. One request a refresh.
+- **How often:** at most every 2 minutes while the tab is open. There is nothing to read offline.
+- **The card:** the plan (Pro, Max 5x, Max 20x, Team, Enterprise), the account's email (masked), **5-hour** and **Weekly** with when each resets, a weekly bar for each model your plan limits on its own (**Weekly · Opus**, **Weekly · Sonnet** and the like), extra usage this month against its cap when you've turned it on, and a credit balance for Claude's cloud sessions when Anthropic has given you one.
+- **Typed key:** none.
+- **Not read:** Claude Code's logs (they carry no running total), and a sign-in kept in Windows' Credential Manager, which newer Claude Code versions can use instead of the file: such a computer reads as signed out for now.
 
 ### OpenCode Go
 
@@ -71,7 +76,7 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 
 ### Cursor
 
-- **Reads:** Cursor's sign-in from its state database, `state.vscdb`, in `%APPDATA%\Cursor\User\globalStorage\` on Windows and `~/Library/Application Support/Cursor/User/globalStorage/` on a Mac (under `VSCODE_APPDATA` if you set it): the access token, the cached email and the plan. That file also keeps your Cursor chats and can grow to many gigabytes, so Oyenza Studio reads only the few small pieces of it (about ten, of 4 KB each) that lead to those entries, never the chats, and without locking or writing it, so Cursor carries on undisturbed.
+- **Reads:** Cursor's sign-in from its state database, `state.vscdb`, in `%APPDATA%\Cursor\User\globalStorage\` on Windows and `~/Library/Application Support/Cursor/User/globalStorage/` on a Mac (under `VSCODE_APPDATA` if you set it): the access token, the cached email and the plan. That file also keeps your Cursor chats and can grow to many gigabytes, so Oyenza Studio reads only the few small pieces of it (about ten, of 4 KB each) that lead to those entries, never the whole file or the chats, and without locking or writing it, so Cursor carries on undisturbed.
 - **Asks:** `cursor.com`, with the sign-in as the cookie Cursor's own site uses: `GET /api/usage-summary`, then `GET /api/usage?user=<your id>` for the older plans counted in requests. Two requests a refresh.
 - **How often:** at most every 5 minutes while the tab is open.
 - **The card:** the plan (Free, Hobby, Pro, Pro+, Ultra, Team, Business, Enterprise and the rest), the account's email (masked), **Monthly** (with **Monthly · Auto** and **Monthly · API** where Cursor splits it) with when the billing month resets, or **Requests** used of how many on the older plans, and extra spend this month against its cap.
@@ -123,7 +128,7 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 ### Oyenza Inference
 
 - **Reads:** the key this computer got when you connected it (below). It is never typed.
-- **Asks:** `GET https://inference.oyenza.com/v1/studio/summary` with that key. One request a refresh.
+- **Asks:** `GET https://inference.oyenza.com/v1/studio/summary` with that key. One request a refresh. A test server can be named in `PONI_INFERENCE_URL` instead: an `https://` address anywhere, or plain `http://` only on this computer (`localhost`, `127.0.0.1`, `[::1]`); anything else is ignored, so the key never crosses the network unencrypted.
 - **How often:** at most once a minute while the tab is open.
 - **The card:** your plan (Trial or Pay as you go), the account's email (masked), your balance, what you spent today and over the last 7 and 30 days, and the last 14 days as a small bar line.
 - **Typed key:** none: **Connect** instead.

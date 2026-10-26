@@ -247,7 +247,8 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   tests). `wants(dirs)` names what to read first: a file (`Want::File`,
   refused past its `max`), a log's last lines (`Want::Newest`), a piece of a
   file too big to read whole (`Want::Range`: Cursor's SQLite store, walked a
-  page at a time, shared for writing, nothing kept between refreshes), a Mac
+  page at a time, about ten 4 KB pieces a refresh and never the whole file,
+  opened shared for writing, nothing kept between refreshes), a Mac
   keychain item (`Want::Keychain`) or a key typed into the tab
   (`Want::Secret`). `next(cx, replies)` gets what was read and the answers so
   far, and returns more to read (`Step::Read`, at most `MAX_READS` wants a
@@ -261,7 +262,9 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   unknown is not zero. `alerts.rs` turns a service's readings into heads-up
   notices (near, out, back after a reset); `oyenza.rs` also holds
   inference.oyenza.com's device connect (start, poll, the read-only `oyis_`
-  key, disconnect).
+  key, disconnect). Its test-server variable, `PONI_INFERENCE_URL`, takes
+  `https://` anywhere but plain `http://` only for this computer (`localhost`,
+  `127.0.0.1`, `[::1]`), since the key goes wherever it points.
 * **Worker** (`services/usage.rs`, which the Mac app runs too through
   `#[path]`): one thread, started the first time the tab opens or the notices
   are switched on (`Services::usage_watch`), that sleeps on a condvar at zero
@@ -329,7 +332,7 @@ the Windows files are untouched.
 | `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |
 | `mac/clock.rs`, `paths.rs`, `events.rs`, `services.rs`, `dragdrop.rs` | Local time, `~/Library` folders, the event channel (drained on the main queue), the accent colour, links, clipboard, sounds |
 | `mac/services/media.rs`, `mediaremote.rs` | What plays: macOS's own now playing (browsers, Spotify, Music, any player), read through the MediaRemote adapter (`third_party/mediaremote-adapter`, BSD-3), which `/usr/bin/perl` runs since macOS 15.4 answers Apple's own programs only; its stream runs while there is sound (Core Audio, `audio.rs`) or a track to show, `poni_core::mediaremote` reads it. Until it answers, Music and Spotify's own notifications and AppleScript |
-| `mac/services/keychain.rs` | A sign-in the Mac keeps in its keychain, for the AI tab (`Want::Keychain`): read with `/usr/bin/security find-generic-password` on the usage worker's thread, only while the AI tab is open and at most once per item each time it opens (the notices use that copy), a Deny kept until Refresh, the password never logged |
+| `mac/services/keychain.rs` | A sign-in kept in the Mac's keychain, for the AI tab (`Want::Keychain`; Claude Code's `Claude Code-credentials`): read with `/usr/bin/security find-generic-password` on the usage worker's thread, only while the AI tab is open and at most once per item each time it opens (the notices use that copy), a Deny kept until Refresh, the password never logged |
 
 CI (`.github/workflows/mac.yml`, on `main` and `mac-*` branches) builds for
 Apple Silicon and Intel, renders every state, runs the real window through a
