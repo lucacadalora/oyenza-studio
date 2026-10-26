@@ -1,0 +1,46 @@
+{
+  "code": 200,
+  "msg": "操作成功",
+  "data": {
+    "limits": [
+      {
+        "type": "CREDIT_LIMIT",
+        "unit": 3,
+        "number": 5,
+        "usage": 2400,
+        "currentValue": 600,
+        "remaining": 1800,
+        "percentage": 25,
+        "nextResetTime": 1793084400000
+      },
+      {
+        "type": "CREDIT_LIMIT",
+        "unit": 6,
+        "number": 1,
+        "usage": 12000,
+        "currentValue": 1080,
+        "remaining": 10920,
+        "percentage": 9,
+        "nextResetTime": 1793336400000
+      },
+      {
+        "type": "TIME_LIMIT",
+        "unit": 5,
+        "number": 1,
+        "usage": 100,
+        "currentValue": 0,
+        "remaining": 100,
+        "percentage": 0,
+        "nextResetTime": 1794805200000,
+        "usageDetails": [
+          { "modelCode": "search-prime", "usage": 0 },
+          { "modelCode": "web-reader", "usage": 0 },
+          { "modelCode": "zread", "usage": 0 }
+        ]
+      },
+      { "type": "POINTS_POOL", "pointsRemaining": 800 }
+    ],
+    "level": "lite"
+  },
+  "success": true
+}
