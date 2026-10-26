@@ -60,6 +60,9 @@ const RING_TRACK: Color = Color::white(0.14);
 const RING_ICON: f32 = 12.0;
 /// A flight from Gmail: its dot.
 const GMAIL_RED: Color = Color::hex(0xEA4335);
+/// A calendar event: its dot, Google Calendar's blue in every theme (the
+/// accent can be orange, as in Oyen, like a bill's dot).
+const CALENDAR_BLUE: Color = Color::hex(0x4285F4);
 
 const WEEKDAY_LONG: [&str; 7] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MONTH_LONG: [&str; 12] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -316,7 +319,7 @@ fn draw_weeks_grid(ui: &mut Ui, st: &AppState, r: Rect, days: Option<(&Weeks, So
         }
         // What's on: a dot for each kind, never for days gone by.
         if let Some(k) = days.and_then(|(w, _)| w.kinds.get(&day)).filter(|_| day >= today) {
-            let dots: Vec<Color> = [(k.calendar, st.accent), (k.flight, GMAIL_RED), (k.bill, palette::ORANGE)].into_iter().filter(|(on, _)| *on).map(|(_, c)| c).collect();
+            let dots: Vec<Color> = [(k.calendar, CALENDAR_BLUE), (k.flight, GMAIL_RED), (k.bill, palette::ORANGE)].into_iter().filter(|(on, _)| *on).map(|(_, c)| c).collect();
             for (j, col) in dots.iter().enumerate() {
                 let x = c.x - (dots.len() as f32 - 1.0) * 2.5 + j as f32 * 5.0;
                 ui.c.fill_circle(Point::new(x, cell.y + 22.0), 1.5, *col);
