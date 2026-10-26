@@ -3,61 +3,57 @@
 <rect width="820" height="730" rx="16" fill="#FFF1DE"/>
 <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Helvetica, Arial, sans-serif">
 <path d="M100.5,68.0L100.5,448.0" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M61.0,646.5L792.0,646.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M61.0,609.5L792.0,609.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M61.0,572.5L792.0,572.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M61.0,534.5L407.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M446.0,534.5L650.7,534.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M689.6,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M61.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M101.0,75.0H751.1A4.0,4.0 0 0 1 755.1,79.0V89.0A4.0,4.0 0 0 1 751.1,93.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,107.0H120.3A4.0,4.0 0 0 1 124.3,111.0V121.0A4.0,4.0 0 0 1 120.3,125.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,139.0H267.1A4.0,4.0 0 0 1 271.1,143.0V153.0A4.0,4.0 0 0 1 267.1,157.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,171.0H167.0A4.0,4.0 0 0 1 171.0,175.0V185.0A4.0,4.0 0 0 1 167.0,189.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,203.0H195.2A4.0,4.0 0 0 1 199.2,207.0V217.0A4.0,4.0 0 0 1 195.2,221.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,235.0H107.7A4.0,4.0 0 0 1 111.7,239.0V249.0A4.0,4.0 0 0 1 107.7,253.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,267.0H155.3A4.0,4.0 0 0 1 159.3,271.0V281.0A4.0,4.0 0 0 1 155.3,285.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,299.0H108.7A4.0,4.0 0 0 1 112.7,303.0V313.0A4.0,4.0 0 0 1 108.7,317.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,331.0H121.3A4.0,4.0 0 0 1 125.3,335.0V345.0A4.0,4.0 0 0 1 121.3,349.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,363.0H103.8A4.0,4.0 0 0 1 107.8,367.0V377.0A4.0,4.0 0 0 1 103.8,381.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,395.0H103.8A4.0,4.0 0 0 1 107.8,399.0V409.0A4.0,4.0 0 0 1 103.8,413.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,427.0H551.9A4.0,4.0 0 0 1 555.9,431.0V441.0A4.0,4.0 0 0 1 551.9,445.0H101.0Z" fill="#D9661C"/>
-<path d="M170.8,684.0V659.9A4.0,4.0 0 0 1 174.8,655.9H190.8A4.0,4.0 0 0 1 194.8,659.9V684.0Z" fill="#D9661C"/>
-<path d="M414.5,684.0V544.2A4.0,4.0 0 0 1 418.5,540.2H434.5A4.0,4.0 0 0 1 438.5,544.2V684.0Z" fill="#D9661C"/>
-<path d="M658.2,684.0V553.4A4.0,4.0 0 0 1 662.2,549.4H678.2A4.0,4.0 0 0 1 682.2,553.4V684.0Z" fill="#D9661C"/>
+<path d="M73.0,634.5L792.0,634.5" stroke="#EAD7BC" stroke-width="1"/>
+<path d="M73.0,584.5L792.0,584.5" stroke="#EAD7BC" stroke-width="1"/>
+<path d="M73.0,534.5L646.3,534.5" stroke="#EAD7BC" stroke-width="1"/>
+<path d="M698.0,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
+<path d="M73.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
+<path d="M101.0,75.0H314.1A4.0,4.0 0 0 1 318.1,79.0V89.0A4.0,4.0 0 0 1 314.1,93.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,107.0H140.7A4.0,4.0 0 0 1 144.7,111.0V121.0A4.0,4.0 0 0 1 140.7,125.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,139.0H751.1A4.0,4.0 0 0 1 755.1,143.0V153.0A4.0,4.0 0 0 1 751.1,157.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,171.0H113.9A4.0,4.0 0 0 1 117.9,175.0V185.0A4.0,4.0 0 0 1 113.9,189.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,203.0H220.4A4.0,4.0 0 0 1 224.4,207.0V217.0A4.0,4.0 0 0 1 220.4,221.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,235.0H161.1A4.0,4.0 0 0 1 165.1,239.0V249.0A4.0,4.0 0 0 1 161.1,253.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,267.0H168.2A4.0,4.0 0 0 1 172.2,271.0V281.0A4.0,4.0 0 0 1 168.2,285.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,299.0H104.8A4.0,4.0 0 0 1 108.8,303.0V313.0A4.0,4.0 0 0 1 104.8,317.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,331.0H139.3A4.0,4.0 0 0 1 143.3,335.0V345.0A4.0,4.0 0 0 1 139.3,349.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,363.0H105.5A4.0,4.0 0 0 1 109.5,367.0V377.0A4.0,4.0 0 0 1 105.5,381.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,395.0H114.6A4.0,4.0 0 0 1 118.6,399.0V409.0A4.0,4.0 0 0 1 114.6,413.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,427.0H466.4A4.0,4.0 0 0 1 470.4,431.0V441.0A4.0,4.0 0 0 1 466.4,445.0H101.0Z" fill="#D9661C"/>
+<path d="M180.8,684.0V673.0A4.0,4.0 0 0 1 184.8,669.0H200.8A4.0,4.0 0 0 1 204.8,673.0V684.0Z" fill="#D9661C"/>
+<path d="M420.5,684.0V611.3A4.0,4.0 0 0 1 424.5,607.3H440.5A4.0,4.0 0 0 1 444.5,611.3V684.0Z" fill="#D9661C"/>
+<path d="M660.2,684.0V547.6A4.0,4.0 0 0 1 664.2,543.6H680.2A4.0,4.0 0 0 1 684.2,547.6V684.0Z" fill="#D9661C"/>
 <text x="28.0" y="44.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per release</text>
-<text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.6</text>
-<text x="763.1" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">673</text>
-<text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.5</text>
-<text x="132.3" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">24</text>
-<text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.4</text>
-<text x="279.1" y="152.5" font-size="14" fill="#2B1B10" font-weight="600">175</text>
-<text x="91.0" y="184.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.3</text>
-<text x="179.0" y="184.5" font-size="14" fill="#2B1B10" font-weight="600">72</text>
-<text x="91.0" y="216.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.2</text>
-<text x="207.2" y="216.5" font-size="14" fill="#2B1B10" font-weight="600">101</text>
-<text x="91.0" y="248.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.1</text>
-<text x="119.7" y="248.5" font-size="14" fill="#2B1B10" font-weight="600">11</text>
-<text x="91.0" y="280.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.0</text>
-<text x="167.3" y="280.5" font-size="14" fill="#2B1B10" font-weight="600">60</text>
-<text x="91.0" y="312.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.1.21</text>
-<text x="120.7" y="312.5" font-size="14" fill="#2B1B10" font-weight="600">12</text>
-<text x="91.0" y="344.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.1.20</text>
-<text x="133.3" y="344.5" font-size="14" fill="#2B1B10" font-weight="600">25</text>
-<text x="91.0" y="376.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.1.19</text>
-<text x="115.8" y="376.5" font-size="14" fill="#2B1B10" font-weight="600">7</text>
-<text x="91.0" y="408.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.1.18</text>
-<text x="115.8" y="408.5" font-size="14" fill="#2B1B10" font-weight="600">7</text>
-<text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">18 older</text>
-<text x="563.9" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">468</text>
+<text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.8</text>
+<text x="326.1" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">308</text>
+<text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.7</text>
+<text x="152.7" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">62</text>
+<text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.6</text>
+<text x="763.1" y="152.5" font-size="14" fill="#2B1B10" font-weight="600">928</text>
+<text x="91.0" y="184.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.5</text>
+<text x="125.9" y="184.5" font-size="14" fill="#2B1B10" font-weight="600">24</text>
+<text x="91.0" y="216.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.4</text>
+<text x="232.4" y="216.5" font-size="14" fill="#2B1B10" font-weight="600">175</text>
+<text x="91.0" y="248.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.3</text>
+<text x="173.1" y="248.5" font-size="14" fill="#2B1B10" font-weight="600">91</text>
+<text x="91.0" y="280.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.2</text>
+<text x="180.2" y="280.5" font-size="14" fill="#2B1B10" font-weight="600">101</text>
+<text x="91.0" y="312.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.1</text>
+<text x="116.8" y="312.5" font-size="14" fill="#2B1B10" font-weight="600">11</text>
+<text x="91.0" y="344.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.0</text>
+<text x="151.3" y="344.5" font-size="14" fill="#2B1B10" font-weight="600">60</text>
+<text x="91.0" y="376.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.1.21</text>
+<text x="117.5" y="376.5" font-size="14" fill="#2B1B10" font-weight="600">12</text>
+<text x="91.0" y="408.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.1.20</text>
+<text x="126.6" y="408.5" font-size="14" fill="#2B1B10" font-weight="600">25</text>
+<text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">20 older</text>
+<text x="478.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">524</text>
 <text x="28.0" y="496.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per day</text>
-<text x="670.2" y="542.4" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">718</text>
-<text x="426.5" y="533.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">767</text>
-<text x="51.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
-<text x="51.0" y="650.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">200</text>
-<text x="51.0" y="613.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">400</text>
-<text x="51.0" y="576.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">600</text>
-<text x="51.0" y="538.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">800</text>
-<text x="670.2" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">26 Oct</text>
+<text x="672.2" y="536.6" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">1,404</text>
+<text x="63.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
+<text x="63.0" y="638.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">500</text>
+<text x="63.0" y="588.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,000</text>
+<text x="63.0" y="538.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,500</text>
+<text x="672.2" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">26 Oct</text>
 </g>
 </svg>
