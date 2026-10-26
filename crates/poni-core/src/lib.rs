@@ -37,6 +37,7 @@ pub mod settings;
 pub mod sha256;
 pub mod shelf;
 pub mod spring;
+pub mod stocks;
 pub mod store;
 pub mod svgpath;
 pub mod sysmon;

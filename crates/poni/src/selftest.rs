@@ -43,7 +43,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -711,6 +711,25 @@ fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer>
     }
 }
 
+/// The Stocks page's scenes on a made-up market (`pages::stocks::picture`);
+/// every other scene: the list as it starts, nothing loaded.
+fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
+    use crate::pages::stocks::{picture, Picture};
+    let shows = match scene {
+        Scene::Page(PageKind::Stocks) => Picture::Day,
+        Scene::StocksPicked => Picture::Year,
+        Scene::StocksSearch => Picture::Search,
+        Scene::StocksEdit => Picture::Edit,
+        _ => {
+            st.store.stocks = poni_core::stocks::Watchlist::default();
+            st.stocks = crate::state::StocksState::default();
+            st.ui.stocks = crate::pages::stocks::StocksUi::default();
+            return;
+        }
+    };
+    picture(st, shows, now);
+}
+
 /// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
 /// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
 /// real lists arrive with the add-on's download; these few places are
@@ -948,6 +967,12 @@ enum Scene {
     TodayOff,
     /// Today with a date ten days on clicked in the grid: the list starts there.
     TodayPicked,
+    /// Stocks with Bank BCA picked, over a year.
+    StocksPicked,
+    /// Stocks: "Add a stock" open, "bank" typed.
+    StocksSearch,
+    /// Stocks in edit mode: remove buttons and handles.
+    StocksEdit,
     /// The AI tab while its page is a placeholder.
     AiPlaceholder,
 }
@@ -982,7 +1007,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 90] = [
+const SCENES: [Scene; 94] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1089,6 +1114,12 @@ const SCENES: [Scene; 90] = [
     Scene::TodayTiles,
     Scene::TodayOff,
     Scene::TodayPicked,
+    // The Stocks add-on: the IHSG's day, a stock's year, the search and
+    // edit mode, all on a made-up market (`stocks::sample`).
+    Scene::Page(PageKind::Stocks),
+    Scene::StocksPicked,
+    Scene::StocksSearch,
+    Scene::StocksEdit,
     // The AI tab, a core tab after Focus (its page lands later).
     Scene::AiPlaceholder,
 ];
@@ -1176,6 +1207,9 @@ impl Scene {
             Scene::TodayTiles => "page-today-tiles".into(),
             Scene::TodayOff => "page-today-off".into(),
             Scene::TodayPicked => "page-today-picked".into(),
+            Scene::StocksPicked => "page-stocks-picked".into(),
+            Scene::StocksSearch => "page-stocks-search".into(),
+            Scene::StocksEdit => "page-stocks-edit".into(),
             Scene::AiPlaceholder => "page-ai-placeholder".into(),
         }
     }
@@ -1212,6 +1246,7 @@ impl Scene {
             Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerWorld => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
+            Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::AiPlaceholder => Some(PageKind::Ai),
             _ => None,
         }
@@ -2107,10 +2142,12 @@ impl SelfTest {
         // pages' scenes only (and Health for its goal notice).
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health)] {
+        let stocks = scene.page() == Some(PageKind::Stocks);
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
+        seed_stocks(st, scene, now);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
