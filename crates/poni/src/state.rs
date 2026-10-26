@@ -20,6 +20,7 @@ use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
 use poni_core::timeline::Timeline;
+use poni_core::usage::alerts::{Alert, AlertCfg, AlertKind};
 use poni_core::usage::{ProviderId, Snapshot, Trouble};
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 
@@ -507,6 +508,10 @@ pub struct UsageState {
     pub keys: BTreeSet<&'static str>,
     /// A refresh is under way.
     pub refreshing: bool,
+    /// Heads-up notices waiting for the island, one per service, most
+    /// urgent first, each with when it came (mono seconds):
+    /// [`AppState::hold_usage_alerts`].
+    pub waiting: Vec<(Alert, f64)>,
 }
 
 /// One service's last reading on the AI tab.
@@ -559,6 +564,46 @@ impl UsageState {
             UsageEvent::Refreshing(on) => self.refreshing = on,
             UsageEvent::Alerts(_) => {}
         }
+    }
+}
+
+/// A heads-up notice from the AI tab: the service's mark and the alert's
+/// words; a click opens the AI tab. Quiet, as money notices are. Running out
+/// is orange, a limit back is green, one getting close takes the accent.
+pub fn usage_notice(a: &Alert, accent: Color, until: f64) -> Notice {
+    let color = match a.kind {
+        AlertKind::Near(_) => accent,
+        AlertKind::Back => palette::GREEN,
+        // All used (and a balance running low, once the alerts lane has it).
+        _ => palette::ORANGE,
+    };
+    Notice {
+        icon: service_mark(a.provider),
+        color,
+        title: a.title.clone(),
+        title_dim: String::new(),
+        subtitle: a.subtitle.clone(),
+        until,
+        action: Some(NoticeAction::OpenPage(PageKind::Ai)),
+        inline: None,
+        reveal: None,
+    }
+}
+
+/// A service's mark on its notice: the AI tab's own until the services'
+/// marks land (then `crate::icons::service(id)`, one line).
+fn service_mark(_id: ProviderId) -> Icon {
+    PageKind::Ai.icon()
+}
+
+/// Which waiting notice goes up first: a limit all used, then one getting
+/// close, then one back. The alerts lane's `AlertKind::urgency` says the same
+/// (with a low balance second): this becomes `k.urgency()` once it lands.
+fn alert_urgency(k: AlertKind) -> u8 {
+    match k {
+        AlertKind::Near(_) => 1,
+        AlertKind::Back => 0,
+        _ => 3,
     }
 }
 
@@ -767,6 +812,56 @@ impl AppState {
         } else if self.oyenza.held.as_ref().is_none_or(|(_, at)| self.now - at > poni_core::oyenza::HELD_MAX_S) {
             self.oyenza.held = Some((n, self.now));
         }
+    }
+
+    /// The AI tab's heads-up notices (its worker sends them only while they
+    /// are switched on) wait for the island: one per service, its newest,
+    /// most urgent first. [`AppState::show_usage_notice`] puts them up one at
+    /// a time, the way a new version's notice waits for the island to be free.
+    pub fn hold_usage_alerts(&mut self, alerts: Vec<Alert>) {
+        if !self.settings.usage.notices {
+            return;
+        }
+        let waiting = &mut self.usage.waiting;
+        for a in alerts {
+            waiting.retain(|(w, _)| w.provider != a.provider);
+            waiting.push((a, self.now));
+        }
+        // Stable: the same urgency keeps the order they came in.
+        waiting.sort_by_key(|(a, _)| std::cmp::Reverse(alert_urgency(a.kind)));
+    }
+
+    /// Put the next waiting AI notice up once the island is `free` (the app
+    /// says: someone at the computer, nothing hides the island, it's closed)
+    /// and no other notice shows. One older than `HELD_MAX_S` or for a service
+    /// hidden since is dropped, and all of them once the notices are switched
+    /// off. True when one went up. Called every frame: nothing waiting, it's
+    /// one comparison.
+    pub fn show_usage_notice(&mut self, free: bool) -> bool {
+        if self.usage.waiting.is_empty() {
+            return false;
+        }
+        let (u, now) = (&self.settings.usage, self.now);
+        if !u.notices {
+            self.usage.waiting.clear();
+            return false;
+        }
+        self.usage.waiting.retain(|(a, at)| now - at <= poni_core::oyenza::HELD_MAX_S && !u.hidden.iter().any(|k| k == a.provider.key()));
+        if !free || self.notice.is_some() || self.usage.waiting.is_empty() {
+            return false;
+        }
+        let (a, _) = self.usage.waiting.remove(0);
+        self.notice = Some(usage_notice(&a, self.accent, now + poni_core::oyenza::NOTICE_S));
+        true
+    }
+
+    /// What the AI tab's notices go by (`alerts::changes`, on its worker): the
+    /// line the person picked, kept to 50..=95 % (a hand-edited 0 would say
+    /// "close" at every reading, 100 only once it is all used).
+    // Unused until the worker's `Watch` carries it (the lead's merge).
+    #[allow(dead_code)]
+    pub fn usage_alert_cfg(&self) -> AlertCfg {
+        AlertCfg { near: f32::from(self.settings.usage.near_pct.clamp(50, 95)) / 100.0 }
     }
 
     pub fn cmd(&mut self, c: Command) {
