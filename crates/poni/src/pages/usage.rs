@@ -485,13 +485,6 @@ fn host(url: &str) -> &str {
     h.strip_prefix("www.").unwrap_or(h)
 }
 
-/// "openrouter.ai/settings/keys" from its https:// link: where a key is made.
-fn link_text(url: &str) -> &str {
-    let s = url.split_once("://").map_or(url, |(_, s)| s);
-    let s = s.strip_prefix("www.").unwrap_or(s);
-    s.split(['?', '#']).next().unwrap_or(s).trim_end_matches('/')
-}
-
 fn part_h(ui: &mut Ui, p: &Part, w: f32) -> f32 {
     match p {
         Part::Limit(_) | Part::Capped(_) => LIMIT_H,
@@ -613,12 +606,11 @@ fn head(ui: &mut Ui, st: &AppState, id: ProviderId, snap: Option<&Snapshot>, r: 
         (None, InferenceLink::On { account }) if id == ProviderId::Oyenza => Some(account.as_str()),
         _ => None,
     };
+    // Whole or not at all: a cut email reads as broken.
     if let Some(a) = account.filter(|a| !a.trim().is_empty()) {
         let aw = ui.c.measure(a, &dim, 1000.0).0.ceil();
-        let room = r.right() - used - 12.0;
-        if room >= aw.min(90.0) {
-            let w = aw.min(room);
-            ui.c.text(a, Rect::new(r.right() - w, r.y, w, r.h), &dim.right());
+        if aw <= r.right() - used - 12.0 {
+            ui.c.text(a, Rect::new(r.right() - aw - 1.0, r.y, aw + 1.0, r.h), &dim.right());
         }
     }
 }
@@ -694,11 +686,13 @@ fn draw_part(ui: &mut Ui, st: &AppState, p: &Part, r: Rect, view: Rect, n: u64) 
         Part::Nudge => {
             let line = Rect::new(r.x, r.y + 3.0, r.w, 16.0);
             let does = if connected(st) { Does::Url(oyenza::BASE.into()) } else { Does::Connect };
-            let label = format!("{} \u{2192}", oyenza::NUDGE);
-            let (lw, _) = ui.c.measure(&label, &TextStyle::footnote().weight(Weight::Semibold), r.w);
-            let hit = Rect::new(line.x - 4.0, line.y - 3.0, lw.ceil().min(line.w) + 8.0, line.h + 6.0);
+            let label_st = TextStyle::footnote().weight(Weight::Semibold);
+            let lw = ui.c.measure(oyenza::NUDGE, &label_st, r.w).0.ceil().min(line.w - 18.0);
+            let hit = Rect::new(line.x - 4.0, line.y - 3.0, lw + 26.0, line.h + 6.0);
             let resp = if inside(view, hit) { ui.button(wid_n("usage.nudge", n), hit) } else { Default::default() };
-            ui.c.text(&label, line, &TextStyle::footnote().weight(Weight::Semibold).color(if resp.hovered { palette::TEXT } else { OYENZA }));
+            let color = if resp.hovered { palette::TEXT } else { OYENZA };
+            ui.c.text(oyenza::NUDGE, Rect::new(line.x, line.y, lw + 1.0, line.h), &label_st.color(color));
+            ui.c.icon(Icon::Open, Rect::new(line.x + lw + 5.0, line.center().y - 6.0, 12.0, 12.0), color);
             resp.clicked.then_some(does)
         }
         Part::Trouble { title, line, act } => {
@@ -827,9 +821,9 @@ fn empty(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let title = if looking { "Looking for your AI tools…" } else { "No AI plans found on this computer" };
     let (found, keyed): (Vec<ProviderId>, Vec<ProviderId>) =
         ProviderId::ALL.into_iter().filter(|id| *id != ProviderId::Oyenza).partition(|id| usage::provider(*id).takes_key().is_none());
-    let mut body = format!("Studio looks for {} here.", names(&found));
+    let mut body = format!("Studio looks for {} on this computer.", names(&found, "and"));
     if !keyed.is_empty() {
-        body.push_str(&format!(" {} {} a key.", names(&keyed), if keyed.len() == 1 { "takes" } else { "take" }));
+        body.push_str(&format!(" Add a key for {}.", names(&keyed, "or")));
     }
     let x = r.x + BADGE + 18.0;
     let w = (r.w - BADGE - 18.0).clamp(0.0, 440.0);
@@ -866,12 +860,12 @@ fn empty(ui: &mut Ui, st: &mut AppState, r: Rect) {
     }
 }
 
-/// "Codex, Claude Code and Gemini CLI".
-fn names(ids: &[ProviderId]) -> String {
+/// "Codex, Claude Code and Gemini CLI" (or "... or ...").
+fn names(ids: &[ProviderId], last_word: &str) -> String {
     match ids {
         [] => String::new(),
         [one] => one.name().to_string(),
-        [rest @ .., last] => format!("{} and {}", rest.iter().map(|p| p.name()).collect::<Vec<_>>().join(", "), last.name()),
+        [rest @ .., last] => format!("{} {last_word} {}", rest.iter().map(|p| p.name()).collect::<Vec<_>>().join(", "), last.name()),
     }
 }
 
@@ -1055,7 +1049,7 @@ fn key_editor(ui: &mut Ui, st: &mut AppState, id: ProviderId, ask: KeyAsk, r: Re
     let removed = kept && pill_in(ui, view, wid("usage.key-remove"), remove, "Remove", None, PillStyle::Utility);
 
     // Where to make one: the service's own page.
-    let link = format!("Make one at {}", link_text(ask.url));
+    let link = format!("Make one at {}", host(ask.url));
     let lr = Rect::new(x, field.bottom() + 6.0, r.right() - x, 16.0);
     let (clicked, _) = text_link_left(ui, wid("usage.key-link"), lr, view, &link, accent);
     if clicked {
@@ -1721,7 +1715,7 @@ mod tests {
         assert_eq!((group(1_250), tokens(1_234_567), tokens(820_400)), ("1,250".into(), "1.2M".into(), "820K".into()));
         assert_eq!(money_words(&Money::usd(4.2)), ("$4.20".into(), "left".into()));
         assert_eq!(money_words(&Money { micros: 1_250_000_000, currency: "credits".into() }), ("1,250".into(), "credits left".into()));
-        assert_eq!((host("https://www.github.com/settings/copilot"), link_text("https://openrouter.ai/settings/keys?x=1")), ("github.com", "openrouter.ai/settings/keys"));
+        assert_eq!((host("https://www.github.com/settings/copilot"), host("https://openrouter.ai/settings/keys?x=1")), ("github.com", "openrouter.ai"));
         let mut st12 = state();
         st12.settings.use_24h = false;
         assert_eq!(clock_at(&st12, st12.unix + 2 * 3600 + 20 * 60), "2:20 PM");
