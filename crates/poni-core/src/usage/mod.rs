@@ -46,6 +46,7 @@ pub mod minimax;
 pub mod opencode;
 pub mod openrouter;
 pub mod oyenza;
+pub mod pace;
 pub mod zai;
 
 /// The most requests one refresh of one service makes.

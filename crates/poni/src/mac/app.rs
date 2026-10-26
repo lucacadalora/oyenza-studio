@@ -2237,6 +2237,10 @@ impl App {
         let w = services::usage::Watch {
             open: here && self.mode == Mode::Expanded(PageKind::Ai),
             notices: here && self.st.settings.usage.notices && !self.st.power.saver,
+            near_pct: self.st.settings.usage.near_pct,
+            use_24h: self.st.settings.use_24h,
+            hidden: services::usage::picked(&self.st.settings.usage.hidden),
+            added: services::usage::picked(&self.st.settings.usage.added),
         };
         // Already told: nothing to do, every frame.
         if w == self.usage_watch {

@@ -580,7 +580,6 @@ pub struct Reading {
 
 /// inference.oyenza.com on the AI tab: connected by a code the person
 /// approves in its dashboard, after which Studio holds a read-only key.
-#[allow(dead_code)]
 #[derive(Clone, Debug, Default, PartialEq)]
 pub enum InferenceLink {
     #[default]
