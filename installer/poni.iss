@@ -3,7 +3,7 @@
 ; Releases ship installer/poni.nsi (NSIS), which 0.1.x installs came from; CI builds this one too as a check.
 ;
 ; Build after `cargo build -p poni --release`:
-;   iscc installer\poni.iss                      -> dist\Oyenza-Studio-Setup-0.2.6.exe
+;   iscc installer\poni.iss                      -> dist\Oyenza-Studio-Setup-0.2.7.exe
 ;   iscc /DAppVersion=0.2.0 installer\poni.iss   (another version)
 ;
 ; Per-user install: no admin rights and no UAC prompt. The app goes to
@@ -11,7 +11,7 @@
 ; survive uninstalling (only the cache in %LOCALAPPDATA%\Poni is removed).
 
 #ifndef AppVersion
-  #define AppVersion "0.2.6"
+  #define AppVersion "0.2.7"
 #endif
 #ifndef ExeSource
   #define ExeSource "..\target\release\poni.exe"
