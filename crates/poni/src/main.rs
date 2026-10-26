@@ -7,7 +7,7 @@
 //! Architecture (see ARCHITECTURE.md):
 //! - One UI thread owns a layered top-most window, the Direct2D renderer and
 //!   [`state::AppState`]. Rendering only happens while something moves.
-//! - Services (media, lyrics, audio, power, Bluetooth, clipboard, …) run on
+//! - Services (media, lyrics, audio, power, Bluetooth, …) run on
 //!   their own threads/callbacks and talk to the UI thread through
 //!   [`events::EventSink`] (an mpsc channel + a posted window message).
 //! - Pages draw with an immediate-mode [`ui::Ui`] and request side effects by

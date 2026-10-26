@@ -1,5 +1,5 @@
-//! Health page: today's steps against the goal, the week as bars, and where
-//! the numbers came from.
+//! Health page, the Health add-on's (off until switched on): today's steps
+//! against the goal, the week as bars, and where the numbers came from.
 //!
 //! The numbers come from the person's phone: Oyenza reads daily totals from
 //! Apple Health or Health Connect and, with Show on Oyenza Studio turned on

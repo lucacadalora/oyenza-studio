@@ -161,7 +161,6 @@ pub enum AppEvent {
     /// Show over games: whether Windows lets Poni read frames (a check, or
     /// the one-time OK's outcome).
     FpsAccess(crate::state::FpsAccess),
-    ClipboardText(String),
     /// Phone drop's server: a phone opened the page, asked, sent, gave up.
     Phone(poni_core::phonedrop::Event),
     /// Paired phones: pairing done, the list changed, files from a phone.

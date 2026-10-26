@@ -117,23 +117,40 @@ pub const SCRIPT_READER: Addon = Addon {
     files: &[],
 };
 
-/// Clipboard history: the Clipboard page, text you copy kept in memory to
-/// paste again. In the app since 0.1.0 and on for everyone until 0.2.7, which
-/// made it an add-on, off (settings v4 switched it off once). Its switch is
-/// `Settings::clipboard_history`, which the tray's item also flips; off, there
-/// is no Clipboard tab and nothing watches the clipboard (on the Mac, that
-/// means no twice-a-second check: macOS has no "clipboard changed" signal).
-pub const CLIPBOARD_HISTORY: Addon = Addon {
-    id: "clipboard",
-    title: "Clipboard history",
-    blurb: "Text you copy, kept in memory to paste again. Never written to disk.",
+/// System: the System page (the processor, graphics, memory, drives,
+/// network and power, and the apps using them). A tab for everyone up to
+/// 0.2.8; an add-on, off, in the versions after it, so the island's own tabs
+/// are the everyday ones. Its code is in the app, so there is nothing to download.
+/// Off, there is no System tab, and its readings never start at rest
+/// (`Settings::system_history` only counts while it is on). Show over games
+/// keeps its own switch: its readout reads the counters while a game is in
+/// front, System on or off.
+pub const SYSTEM: Addon = Addon {
+    id: "system",
+    title: "System",
+    blurb: "Live CPU, GPU, memory, drives, network and power, and the apps using them.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
+/// Health: the Health page, today's steps against the goal and the week,
+/// which Oyenza on the phone sends once signed in (Apple Health or Health
+/// Connect). A tab for everyone up to 0.2.8; an add-on, off, in the versions
+/// after it, like System. Its code is in the app, so there is nothing to
+/// download. Off, there is no Health tab and the Oyenza worker never asks
+/// for the steps.
+pub const HEALTH: Addon = Addon {
+    id: "health",
+    title: "Health",
+    blurb: "Your steps from Oyenza on your phone: today against your goal, and your week.",
     mac_blurb: None,
     tag: "",
     files: &[],
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 4] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &CLIPBOARD_HISTORY];
+pub const ALL: [&Addon; 5] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -234,6 +251,18 @@ mod tests {
         assert_eq!(Status::Ready.line(&SCRIPT_READER, false), "On");
         assert_eq!(Status::Off.line(&SCRIPT_READER, true), "A teleprompter under your webcam.");
         assert_eq!(Addon::find("script"), Some(&SCRIPT_READER));
+    }
+
+    #[test]
+    fn system_and_health_are_built_in_add_ons_off_until_switched_on() {
+        for a in [&SYSTEM, &HEALTH] {
+            assert!(!a.downloads() && a.size() == 0, "{}", a.id);
+            assert_eq!(Addon::find(a.id), Some(a));
+            assert_eq!(Status::Ready.line(a, false), "On");
+            assert!(!Settings::default().addon_on(a.id), "{} is off for everyone until they switch it on", a.id);
+        }
+        // Clipboard history left the app after 0.2.8: no add-on by that id.
+        assert_eq!(Addon::find("clipboard"), None);
     }
 
     #[test]

@@ -157,7 +157,7 @@ fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, l: &mut Local) {
 
     let mut actions = Vec::new();
     // Pill: the boxes that reach the card's bottom corners follow them.
-    let card = super::clipboard::pill_card(st, area);
+    let card = super::card::pill_card(st, area);
     // With Phone drop open the shelf keeps its height and the panel sits below.
     let (main, phone_r) = match &st.phone {
         Some(_) => (Rect::new(area.x, area.y, area.w, PAGE_H), Some(Rect::new(area.x, area.y + PAGE_H + PHONE_GAP, area.w, PHONE_H))),
@@ -642,8 +642,8 @@ fn fade_edge(ui: &mut Ui, r: Rect, from_left: bool) {
 /// fill's corners exactly (no fill peeking past the stroke). On the Pill card
 /// (`card`) its corners in the card's rounded corners follow those.
 fn drop_zone(ui: &mut Ui, card: Option<(Rect, f32)>, zone: Rect, radius: f32, fill: Color, stroke: Color) {
-    super::clipboard::fill_box(ui, card, zone, radius, fill);
-    super::clipboard::stroke_box(ui, card, zone, radius, stroke, ZONE_STROKE);
+    super::card::fill_box(ui, card, zone, radius, fill);
+    super::card::stroke_box(ui, card, zone, radius, stroke, ZONE_STROKE);
 }
 
 /// When the Undo pill lapses or a phone result leaves the panel (the page

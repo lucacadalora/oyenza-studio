@@ -71,7 +71,7 @@ Open the Shelf, scan the code with your phone's camera, pick photos or files and
 
 ### Your whole computer on one page
 
-CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the apps using the most. Read straight from Windows' own counters, with no drivers and no admin rights, and it never leaves your PC. On a Mac it reads macOS's own counters, the way Stats does.
+CPU, GPU, memory, drives, network and battery: rings and gauges, each core's load, the last minute of history and the apps using the most. Read straight from Windows' own counters, with no drivers and no admin rights, and it never leaves your PC. On a Mac it reads macOS's own counters, the way Stats does. **System** is an [add-on](#add-ons): its tab shows once you switch it on, and until then nothing reads the counters.
 
 On a desktop, **Power** shows what the whole PC draws: split into the CPU, the graphics card and the rest. A Corsair HXi or RMi, or an MSI MEG Ai or MPG Ai…TS power supply reports the real number over its USB cable, with what it pulls from the wall, its efficiency and its temperature; Oyenza Studio only reads it, while the page is open. With any other power supply, the page estimates: the CPU's own reading, the graphics card's (NVIDIA cards report theirs through the driver), and about 40 W for the board, memory, drives and fans. On a Mac without a battery (a Mac mini, Studio, iMac or Mac Pro with Apple silicon), Power reads what the whole Mac draws from its own sensor, the number Stats shows as System total; macOS doesn't split it by part, so the CPU's and the graphics' load stand beside it. A MacBook keeps its Battery module.
 
@@ -79,9 +79,9 @@ On a desktop, **Power** shows what the whole PC draws: split into the CPU, the g
 
 ### The small things, one hover away
 
-**Focus** is a Pomodoro timer that keeps counting in the island. **Tasks** is a tiny to-do list. **Today** has the date and the next five weeks, and once you [sign in to Oyenza](#oyenza-optional), your schedule: the meeting on now with **Join**, the rest of today, then the weeks ahead from Google Calendar, with your flights from Gmail and the bills due. Click a date to start the list there. **Shelf** keeps the files you drop on the island. **Clipboard** (an [add-on](#add-ons), off until you switch it on) keeps your recent copied text in memory only and skips anything a password manager marks private. Scroll over the top of the island to switch pages.
+**Focus** is a Pomodoro timer that keeps counting in the island. **Tasks** is a tiny to-do list. **Today** has the date and the next five weeks, and once you [sign in to Oyenza](#oyenza-optional), your schedule: the meeting on now with **Join**, the rest of today, then the weeks ahead from Google Calendar, with your flights from Gmail and the bills due. Click a date to start the list there. **Shelf** keeps the files you drop on the island. The tabs run Music, Today, Shelf, Tasks, Focus, then Oyenza, with Oyen himself as its tab; Health and System are [add-ons](#add-ons). Scroll over the top of the island to switch pages.
 
-<p align="center"><img src="docs/brand/readme/pages.webp" width="880" alt="Four open pages: the Focus timer, Tasks, Clipboard history and Today"></p>
+<p align="center"><img src="docs/brand/readme/pages.webp" width="880" alt="Four open pages, in the order of the tabs: Today, the Shelf, Tasks and the Focus timer"></p>
 
 ### Black, Oyen, Glass or Pill
 
@@ -93,7 +93,7 @@ The island is black by default, like the one on a phone. **Oyen** turns it warm 
 
 ### Your money, as it moves
 
-If you keep your money in [Oyenza](https://oyenza.app), sign in (optional) and the island tells you when money comes in or goes out, reminds you the day before a bill is due, and lists your week by day. Sums stay hidden until you click **Show**, so a shared screen shows only that much. Turn on **Show on Oyenza Studio** under your steps in Oyenza's Health (Sehat) on your phone, and the **Health** page shows your daily steps too, with a notice when you reach your goal. On Windows.
+If you keep your money in [Oyenza](https://oyenza.app), sign in (optional) and the island tells you when money comes in or goes out, reminds you the day before a bill is due, and lists your week by day. Sums stay hidden until you click **Show**, so a shared screen shows only that much. Turn on **Show on Oyenza Studio** under your steps in Oyenza's Health (Sehat) on your phone and switch on the **Health** [add-on](#add-ons), and its page shows your daily steps too, with a notice when you reach your goal. On Windows.
 
 <p align="center"><img src="docs/brand/readme/oyenza.webp" width="880" alt="A Money in notice from BCA with the amount hidden, and the Oyenza tab listing today's transactions with hidden sums"></p>
 
@@ -109,7 +109,7 @@ Today's times for your kab/kota as Kemenag RI publishes them, a countdown in the
 
 ### On a Mac, it wraps the notch
 
-On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Whatever plays, with lyrics: Music, Spotify, YouTube and Spotify in your browser, any player that macOS's own now playing shows; the focus timer, the Shelf and Phone drop, tasks, the clipboard, Today and the System page are all there, in the Classic, Oyen, Glass or Pill theme.
+On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Whatever plays, with lyrics: Music, Spotify, YouTube and Spotify in your browser, any player that macOS's own now playing shows; the focus timer, the Shelf and Phone drop, tasks, Today and the System add-on are all there, in the Classic, Oyen, Glass or Pill theme.
 
 <p align="center"><img src="docs/brand/readme/mac.webp" width="880" alt="On a MacBook: music playing and a focus timer either side of the notch, and the Music page opening below it"></p>
 
@@ -126,12 +126,11 @@ On a MacBook, the island lives around the camera notch: the album art on one sid
 </tr>
 </table>
 
-On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. Features you don't use don't run: Show over games counts only while a game is in front, and add-ons download only when you switch them on. The System page keeps its last minute of history with a light reading once a second. It rests while your PC is locked, the screen is off or battery saver is on, and starts a fresh minute when you're back; right-click › **Keep System page history** turns it off.
+On Windows it draws on your graphics card in step with your display's refresh rate (60, 144 or 240 Hz), and draws nothing while nothing moves. Features you don't use don't run: Show over games counts only while a game is in front, and add-ons download only when you switch them on. With the System add-on on, its page keeps its last minute of history with a light reading once a second. It rests while your PC is locked, the screen is off or battery saver is on, and starts a fresh minute when you're back; right-click › **Keep System page history** turns it off.
 
 ## Your data stays on your computer
 
 - **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
-- **Clipboard in memory.** Copied text is never written to disk, and anything a password manager marks private is skipped.
 - **Your files stay yours.** Phone drop asks before it takes anything and uses your own Wi-Fi. Files from paired phones are encrypted with keys made on the two devices, and the meeting server never sees them.
 - **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and twice a day the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on. [PRIVACY.md](PRIVACY.md) lists every request.
 
@@ -189,7 +188,7 @@ Yes, on Windows 10 and 11. Glass needs Windows 10 version 2004 or later to bend 
 <summary><b>What's different on a Mac?</b></summary>
 <br>
 
-The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Clipboard, Today, the System page, Prayer times, the Classic, Oyen, Glass and Pill themes, headphone pop-ups, hiding in full-screen apps, Oyenza sign-in and start at login. Not on the Mac yet: paired phones and Show over games. [On a Mac](#on-a-mac) has the details.
+The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Today, the System add-on, Prayer times, the Classic, Oyen, Glass and Pill themes, headphone pop-ups, hiding in full-screen apps, Oyenza sign-in and start at login. Not on the Mac yet: paired phones and Show over games. [On a Mac](#on-a-mac) has the details.
 
 </details>
 
@@ -226,7 +225,7 @@ The details behind each feature.
 The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
 - the theme: Classic, Oyen, Glass or Pill
 - the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock)
-- lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics), clipboard history and sounds
+- lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics) and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
 - start with Windows, which version you have (**About Oyenza Studio**, with the build's day; it opens that version's release notes), and quit
 - in Settings only: **Tell me about new versions** ([New versions](#new-versions))
@@ -272,7 +271,7 @@ Windows lets only admins and the **Performance Log Users** group read that log. 
 
 On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera (the album art on the left and the beat on the right, a timer's ring and its minutes the same way), and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows. Around the notch, the Oyen theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it. Pick the eyes as the idle look and they play hide and seek with the camera: they peek out beside it on your pointer's side and follow your pointer anywhere on the screen, and when it crosses over they duck behind the camera and come out on the other side. Oyen does the same in his theme.
 
-The Mac app has the island, whatever plays with synced lyrics (Music, Spotify, a browser's YouTube or Spotify tab, any player in macOS's own now playing, read through the open-source MediaRemote adapter; Apple Music's own lyrics with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, clipboard history, Today with your Mac's CPU, memory, disk and battery, the System page with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps, pop-ups for volume, charging and Bluetooth headphones (without the battery level; macOS shows AirPods' own when they connect), [Prayer times](#add-ons) (Location Services finds your kab/kota, or you type it), the Classic, Oyen, Glass and Pill themes ([Pill](#the-pill-theme) floats just below the notch for music, pop-ups and the open card, and rests inside it), hiding in full-screen apps (or staying on top of them), [Oyenza sign-in](#oyenza-optional) and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: paired phones and Show over games.
+The Mac app has the island, whatever plays with synced lyrics (Music, Spotify, a browser's YouTube or Spotify tab, any player in macOS's own now playing, read through the open-source MediaRemote adapter; Apple Music's own lyrics with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, Today with your Mac's CPU, memory, disk and battery, the System add-on with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps, pop-ups for volume, charging and Bluetooth headphones (without the battery level; macOS shows AirPods' own when they connect), [Prayer times](#add-ons) (Location Services finds your kab/kota, or you type it), the Classic, Oyen, Glass and Pill themes ([Pill](#the-pill-theme) floats just below the notch for music, pop-ups and the open card, and rests inside it), hiding in full-screen apps (or staying on top of them), [Oyenza sign-in](#oyenza-optional) and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: paired phones and Show over games.
 
 The Mac pictures come from the Mac app itself (`poni --render <dir> --notch`, run by the `mac` workflow on a macOS runner with a MacBook's notch drawn in).
 
@@ -329,7 +328,7 @@ The phone and PC meet through a small server (`drop.oyenza.com`, code in [`serve
 
 If you keep your money in [Oyenza](https://oyenza.app), the island can show it. Signing in is optional and works like a TV: no password is typed into Oyenza Studio.
 
-1. Open the island, press the gear at the top right, and choose **Sign in with Oyenza** (the Health page has the same button; right-click the island or the tray icon → **Oyenza** → **Sign in to Oyenza…** works too; on a Mac, the menu bar under Oyen's mark). The island shows an 8-letter code.
+1. Open the island, press the gear at the top right, and choose **Sign in with Oyenza** (the Oyenza tab has the same button; right-click the island or the tray icon → **Oyenza** → **Sign in to Oyenza…** works too; on a Mac, the menu bar under Oyen's mark). The island shows an 8-letter code.
 2. Open oyenza.app/connect on your phone or this computer (**Open oyenza.app** fills the code in), check the computer's name, and choose **Connect**.
 
 Then the island shows:
@@ -339,9 +338,9 @@ Then the island shows:
 - **Bills before they're due**: a reminder the day before a subscription renews or a card bill is due.
 - **Note a spend**: type it in the **Oyenza** tab ("kopi 25rb") and press Enter; it goes straight to Oyenza, with Undo for 10 seconds.
 - **Your weeks on Today**: in oyenza.app, under Connected apps › Oyenza Studio, switch on **Google Calendar** or **Gmail**, and the **Today** tab shows the meeting on now (with **Join** for a Google Meet, Zoom, Teams or Webex link), the rest of today, then the next five weeks: your events (click one to open it in Google Calendar), the flights Oyenza found in your booking emails and the bills due, with a dot under each date in the grid for what's on it. An app switched off for Studio says so, with **Turn on**. Signed out, Today offers **Sign in with Oyenza**.
-- **Your steps**: in Oyenza on your iPhone or Android, turn on **Show on Oyenza Studio** under your steps in Health (Sehat), and the **Health** tab shows today's steps against your goal, the distance, active energy and your week, with a notice when you reach the goal. Oyenza on the phone sends them while it's open there; numbers more than a day old stay, with a reminder to open Oyenza on your phone.
+- **Your steps**: in Oyenza on your iPhone or Android, turn on **Show on Oyenza Studio** under your steps in Health (Sehat), switch on **Health** in Add-ons, and its tab shows today's steps against your goal, the distance, active energy and your week, with a notice when you reach the goal. Oyenza on the phone sends them while it's open there; numbers more than a day old stay, with a reminder to open Oyenza on your phone.
 
-This PC gets a key of its own that can do only these things: it reads the last 7 days of transactions in the space where Oyenza logs your bank's emails and notifications, never balances, account numbers, notes or receipts, and it can't change or delete anything else or touch your account. With **Show on Oyenza Studio** on, it also receives the daily totals of steps, distance and active energy for the last 7 days and your step goal, and keeps them in memory only, never on disk; sleep, heart rate and weight never reach the PC. With Google Calendar or Gmail switched on for Today, it receives the events of today and the next five weeks (title, times, place, one meeting link and the event's own Google Calendar link) and the flights in those weeks, also in memory only; guests, event notes and your emails never reach it. The key is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`); on a Mac, in a file only your Mac account can read (`~/Library/Application Support/Poni/oyenza-link.bin`). Oyenza Studio asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep), every 15 seconds while the Oyenza tab is open, for your steps every 15 minutes and when the Health tab opens, and for your day when the Today tab opens and every 5 minutes while it stays open. **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
+This PC gets a key of its own that can do only these things: it reads the last 7 days of transactions in the space where Oyenza logs your bank's emails and notifications, never balances, account numbers, notes or receipts, and it can't change or delete anything else or touch your account. With **Show on Oyenza Studio** on, it also receives the daily totals of steps, distance and active energy for the last 7 days and your step goal, and keeps them in memory only, never on disk; sleep, heart rate and weight never reach the PC. With Google Calendar or Gmail switched on for Today, it receives the events of today and the next five weeks (title, times, place, one meeting link and the event's own Google Calendar link) and the flights in those weeks, also in memory only; guests, event notes and your emails never reach it. The key is stored encrypted for your Windows account (`%LOCALAPPDATA%\Poni\oyenza-link.bin`); on a Mac, in a file only your Mac account can read (`~/Library/Application Support/Poni/oyenza-link.bin`). Oyenza Studio asks Oyenza once a minute while you use the PC (every 3 minutes on battery, never while it's locked or asleep), every 15 seconds while the Oyenza tab is open, for your steps every 15 minutes and when the Health tab opens (only while the Health add-on is on), and for your day when the Today tab opens and every 5 minutes while it stays open. **Disconnect** in Settings (or **Oyenza › Disconnect** in the menu) signs this PC out; you can also disconnect it in oyenza.app under Connected apps.
 
 ### New versions
 
@@ -358,7 +357,9 @@ The **+** at the end of the tabs lists features that stay off until you switch t
 
 **Japanese readings** (3.8 MB) gives romaji under the kanji in Japanese lyrics on PCs where Windows can't read them (Windows keeps its Japanese reading data in the Japanese typing feature, which most PCs outside Japan don't have). Only people who play Japanese songs get it: the first time a song's kanji go unread, it switches itself on and downloads once, and the romaji show a moment later. Switch it off in Add-ons and it stays off; the Music page then offers it under the lyrics, one click away. Kana, Korean and Chinese read without it. On a Mac it gives romaji under every kanji the same way, and the Mac's Add-ons tab switches it too. Details in [addons/ja](addons/ja/README.md).
 
-**Clipboard history** (built in, nothing to download) adds the **Clipboard** tab: the text you copied lately, in memory only, never written to disk, skipping anything a password manager marks private. It was on for everyone until 0.2.7 and is now off until you switch it on (here, or **Clipboard history** in the right-click menu). Switched off, there's no tab and nothing watches the clipboard.
+**Health** (built in, nothing to download) adds the **Health** tab: your steps from Oyenza on your phone, today against your goal and your week ([how to send them](#oyenza-optional)). It was a tab for everyone until 0.2.8. Switched off, there's no tab and Oyenza Studio never asks Oyenza for your steps.
+
+**System** (built in, nothing to download) adds the **System** tab: [your whole computer on one page](#your-whole-computer-on-one-page). It was a tab for everyone until 0.2.8 and is now off until you switch it on. Switched off, there's no tab and nothing reads the counters at rest; Show over games keeps its own switch.
 
 **Script reader** (built in, nothing to download) adds a **Script** tab: a teleprompter right under your webcam. Paste a script or drop a `.txt` file on the island and press **Read**. The line to say stays bright with the next ones dim below, moving a line at a time at 60 to 300 words a minute. Space pauses, the arrow keys step a line or change the pace, and on Windows **Alt+Shift+S** pauses or resumes from any app. On Windows the island stays out of screen shares and recordings while the page shows; macOS no longer lets an app keep itself out of captures, so on a Mac it shows in full-screen shares. Switched off, there's no tab, no shortcut and nothing running.
 

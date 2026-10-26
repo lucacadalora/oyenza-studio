@@ -2,8 +2,9 @@
 
 Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs from the
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
-collapsed, and expands on hover into pages (Music + synced lyrics, Focus,
-Health, Shelf, Tasks, Clipboard, Today, System). The Shelf's Phone drop serves a
+collapsed, and expands on hover into pages (Music + synced lyrics, Today,
+Shelf, Tasks, Focus and Oyenza, plus the add-ons' Health, System, Script and
+Prayer pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
 It was called Oyen Poni until 0.2.0, and plain Poni before that. The code keeps the
@@ -16,7 +17,7 @@ variables. Changing those would break upgrades and settings, so they stay.
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, clipboard history, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia and Umm al-Qura for Saudi Arabia, checked against Kemenag's published 2026 schedule and Oyen Umroh's engine; the place list is `addons/sholat/places.json`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), and the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia and Umm al-Qura for Saudi Arabia, checked against Kemenag's published 2026 schedule and Oyen Umroh's engine; the place list is `addons/sholat/places.json`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), and the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 | `crates/poni/src/mac/` | The Mac app (AppKit + Core Graphics + Core Text via `objc2`): its own window, renderer, main loop, notch layouts and menu bar item around the same state, pages, activities and Oyen. See [The Mac app](#the-mac-app). | macOS 14+ (`cargo mcheck` type-checks it from Linux) |
 
@@ -67,15 +68,17 @@ variables. Changing those would break upgrades and settings, so they stay.
   (the equalizer near 60 fps, a drifting progress bar near 30). Otherwise the
   frame clock thread is parked and one-shot timers wake the UI for the next
   visible change (countdown second, HUD expiry, minute tick). The one thing
-  that reads at rest is the System page's kept minute (`system_history`, on
-  by default): a light reading a second, about 0.35 ms of CPU. It rests while
-  the session is locked or the display is off, and on battery saver
-  (`poni_core::sysmon::reads`). See "Keep it light" in AGENTS.md.
+  that can read at rest is the System page's kept minute, and only once the
+  System add-on is on (`Settings::system_history_on`: the add-on, and
+  `system_history`, on by default): a light reading a second, about 0.35 ms
+  of CPU. It rests while the session is locked or the display is off, and on
+  battery saver (`poni_core::sysmon::reads`). See "Keep it light" in
+  AGENTS.md.
 * **Window**: `WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE`.
   It never takes focus on click; text fields temporarily drop NOACTIVATE
   (`Command::FocusText`) and give focus back afterwards.
 * **Helper window** (hidden): tray icon, AppBar registration (full-screen
-  notifications), `WM_POWERBROADCAST`, `WM_CLIPBOARDUPDATE`.
+  notifications), `WM_POWERBROADCAST`.
 * **Step aside** (Settings › Over maximized windows, on by default): the
   full-screen watcher also keeps the app windows whose top edge is at the
   top of the island's monitor, within 8 DIPs (maximized, snapped or dragged
@@ -161,12 +164,12 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 |---|---|
 | `app.rs` | message loop, island state machine, input, timers, commands |
 | `activities.rs` | collapsed modes + their geometry and drawing |
-| `oyen.rs` | the Oyen theme: draws `poni_core::oyen` frames peeking over the island's edge (idle, beside the clock, in the media pill) |
+| `oyen.rs` | Oyen: draws `poni_core::oyen` frames peeking over the island's edge in his theme (idle, beside the clock, in the media pill), and in every theme as the Oyenza tab's icon (`oyen::tab`: he rises into the tab and waves as the island opens, blinks and flicks an ear now and then, watches the pointer over the tab row, hops when his tab is picked) |
 | `pill/*.rs` | the Pill theme (`Theme::Pill`, `look::PILL` with `Shape::Pill`): the island floats `pill::TOP_GAP` below the top edge (`Island::set_floating`); `shape` draws the floating outline, shadow and hit area, `motion` its springs, and one module per surface (`idle`, `status`, `media`, `lyric`, `live`, `hud`, `notice`, `expanded`, `music`) behind hooks in `activities.rs` and `pages` that fall back to Classic's drawing |
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard, imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, oyenza, power, sound, sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `version.rs` | which build this is for the menu's About line: the version, and from `build.rs` release, test build (commit) or local build, and the day CI built it |
 | `updates.rs` | new versions, the app's side: when to read the update file (`update.json` remembers), the island's notice ("Update available x", Hide), the offer the menu and Settings show, and on Windows the new version's Setup (downloaded first, run with `/S /reopen` now or before the next start); the Update sheet it opens is drawn by `pages/settings.rs` (rules in `poni_core::update`, the read and signature check in `services/update.rs`; docs/updates.md) |
@@ -195,9 +198,6 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   days and rows and each date's dots are in `poni_core::agenda`, the page in
   `pages/today.rs`, which keeps the stat tiles for a server without the day.
 * `PONI_HOME` overrides both (the self-test uses it).
-* Clipboard history is memory-only and skips content marked
-  `ExcludeClipboardContentFromMonitorProcessing` / `CanIncludeInClipboardHistory=0`
-  (password managers set these).
 
 ## Building
 
@@ -214,8 +214,7 @@ cargo build -p poni --release    # on a Mac: the Mac app (tools/make_mac_app.sh 
 ## The Mac app
 
 Built in slices (slice 1: the island, drawing, clock, timer and the menu bar
-item; music, the Shelf, clipboard history, pop-ups and Oyenza sign-in come
-later). `main.rs` builds the shared modules (`activities`, `commands`,
+item; music, the Shelf, pop-ups and Oyenza sign-in came later). `main.rs` builds the shared modules (`activities`, `commands`,
 `icons`, `island`, `oyen`, `pages`, `plog`, `png`, `state`, `ui`) for both
 systems and takes the platform ones from `src/mac/` by `#[path]` on macOS, so
 the Windows files are untouched.

@@ -232,7 +232,7 @@ pub fn windows_build() -> Option<u32> {
 }
 
 /// Hidden top-level helper window: owns the tray icon, the AppBar
-/// registration (full-screen notifications) and power/clipboard messages.
+/// registration (full-screen notifications) and power messages.
 pub fn create_helper_window() -> Result<HWND> {
     unsafe {
         let hinst = GetModuleHandleW(None)?;

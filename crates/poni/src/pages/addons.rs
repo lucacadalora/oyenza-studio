@@ -1,7 +1,8 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader and Clipboard history are already in the app and only show their
-//! pages (Clipboard history also starts watching the clipboard).
+//! reader, System and Health are already in the app and only show their
+//! pages (System's readings and Health's steps also run only while they are
+//! on).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -22,7 +23,9 @@ use poni_core::phonedrop::fmt_bytes;
 
 const INTRO_H: f32 = 18.0;
 const ROWS_Y: f32 = 28.0;
-const ROW_H: f32 = 52.0;
+/// Five rows fit the island's height (the System page's 256 DIPs), so the
+/// window never grows for this page.
+const ROW_H: f32 = 45.0;
 const BADGE: f32 = 36.0;
 const TEXT_X: f32 = 48.0;
 /// A row's hover wash reaches this far past its contents (as in Settings).
@@ -47,7 +50,8 @@ fn icon(a: &Addon) -> Icon {
         "sholat" => Icon::Moon,
         "ja" => Icon::Lyrics,
         "script" => Icon::Script,
-        "clipboard" => Icon::Clipboard,
+        "system" => Icon::Gauge,
+        "health" => Icon::Steps,
         _ => Icon::Addons,
     }
 }
@@ -56,7 +60,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let intro = "Each one stays off until you switch it on, and switching off deletes any download.";
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
-    let card = super::clipboard::pill_card(st, area);
+    let card = super::card::pill_card(st, area);
     for (i, a) in OFFERED.iter().enumerate() {
         let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * ROW_H, area.w, ROW_H);
         if addon_row(ui, st, row, i, a, card) {
@@ -67,14 +71,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     }
 }
 
-/// Returns true when the row was clicked. `card`: the Pill card (`clipboard::pill_card`).
+/// Returns true when the row was clicked. `card`: the Pill card (`card::pill_card`).
 fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Option<(Rect, f32)>) -> bool {
     let status = st.addon(a.id);
     let accent = st.accent;
     let hit = Rect::new(r.x - ROW_BLEED, r.y + 2.0, r.w + 2.0 * ROW_BLEED, r.h - 4.0);
     let resp = ui.button(wid_n("addons.row", i as u64), hit);
     if resp.hovered || resp.pressed {
-        super::clipboard::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
+        super::card::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let cy = r.center().y;
     ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), BADGE / 2.0, accent.with_alpha(0.18));
@@ -94,11 +98,11 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
 
     let x = r.x + TEXT_X;
     let w = (text_right - x).max(0.0);
-    ui.c.text(a.title, Rect::new(x, r.y + 6.0, w, 20.0), &TextStyle::headline());
+    ui.c.text(a.title, Rect::new(x, r.y + 3.0, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
-    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 27.0, w, 17.0), &TextStyle::footnote().color(line_color));
+    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = status.progress() {
-        let bar = Rect::new(x, r.y + 46.0, w, BAR_H);
+        let bar = Rect::new(x, r.y + 40.0, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);
         if p > 0.0 {
             ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * p).max(BAR_H), BAR_H), BAR_H / 2.0, accent);

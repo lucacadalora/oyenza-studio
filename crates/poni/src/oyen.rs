@@ -57,6 +57,13 @@ pub fn next_rest_move(now: f64) -> f64 {
     now - now.rem_euclid(REST_CYCLE) + REST_CYCLE
 }
 
+/// Is a rest move under way at `now`, or within `margin` seconds of one? The
+/// self-test waits for a still Oyen before it takes a picture.
+pub fn mid_rest_move(now: f64, margin: f64) -> bool {
+    let phase = now.rem_euclid(REST_CYCLE);
+    phase < BLINK_WINDOW + margin || phase > REST_CYCLE - margin
+}
+
 /// What Oyen does while the island rests. `look` is the cursor's horizontal
 /// place over the island (-1 left .. 1 right) while it hovers: his eyes
 /// follow it, glancing down towards it. Returns the frame and whether it
@@ -283,6 +290,52 @@ pub fn peek(c: &mut Canvas, frame: &Frame, cx: f32, bar_y: f32, w: f32, top: f32
     c.clip(Rect::new(cx - w, top, 2.0 * w, (bar_y - top).max(0.0)));
     draw(c, frame, origin, k);
     c.unclip();
+}
+
+// ---------------------------------------------------------------- the Oyenza tab
+
+/// How long Oyen takes to rise into the Oyenza tab as the island opens.
+const TAB_RISE: f64 = 0.45;
+/// His arrival, rise and wave: the Hello mood's wave is over by 1.2 s (its
+/// last 0.4 s only hold still), so the frames stop there.
+const TAB_ARRIVE: f64 = 1.2;
+
+/// A move Oyen makes in the Oyenza tab, by himself, once.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TabMove {
+    /// The island opened: he rises into his tab, waving (the Hello mood).
+    Arrive,
+    /// His tab was picked: a happy hop.
+    Picked,
+}
+
+/// Oyen as the Oyenza tab's icon: the Oyenza mark, his whole head `w` DIPs
+/// wide, centred on `center` and kept inside `clip` (the tab). `moved`: his
+/// last move of his own and when it started; after it he rests (a blink, an
+/// ear flick now and then) and, with the pointer over the tab row, watches it
+/// (`look`, -1 left .. 1 right of him). At night he sleeps. Returns whether he
+/// is moving by himself (the caller keeps frames coming until he stops).
+#[allow(clippy::too_many_arguments)]
+pub fn tab(c: &mut Canvas, center: Point, w: f32, clip: Rect, now: f64, moved: Option<(TabMove, f64)>, night: bool, look: Option<f32>) -> bool {
+    // At night he rises asleep, without the wave.
+    let arrive = if night { TAB_RISE } else { TAB_ARRIVE };
+    let (frame, rise, moving) = match moved.map(|(m, at)| (m, now - at)) {
+        Some((TabMove::Arrive, s)) if s < arrive => {
+            let rise = 1.0 - back_out((s / TAB_RISE) as f32);
+            let frame = if night { oyen::frame(Mood::Sleep, 0.6, Input::default(), SMALL_EYES) } else { oyen::frame(Mood::Hello, s, Input::default(), SMALL_EYES) };
+            (frame, rise, true)
+        }
+        Some((TabMove::Picked, s)) if s < Mood::Happy.loop_secs() && !night => (oyen::frame(Mood::Happy, s, Input::default(), SMALL_EYES), 0.0, true),
+        _ => {
+            let (frame, moving) = rest(now, night, look);
+            (frame, 0.0, moving)
+        }
+    };
+    let k = w / MARK_W;
+    c.clip(clip);
+    draw(c, &frame, Point::new(center.x, center.y + 12.0 * k + rise * clip.h), k);
+    c.unclip();
+    moving
 }
 
 /// Oyen whole and still, as on the Oyenza mark: his head `w` DIPs wide, head

@@ -357,7 +357,8 @@ pub struct App {
     shown: bool,
     stats_on: bool,
     /// The System page's sampler thread: from the start while its history is
-    /// kept (`Settings::system_history`), else from the first time the page opens.
+    /// kept (`Settings::system_history_on`: System on, its history kept),
+    /// else from the first time the page opens or a game's readout needs it.
     sysmon: Option<services::sysmon::SysMon>,
     /// The System page is open (its readings come each second).
     sysmon_on: bool,
@@ -396,8 +397,6 @@ pub struct App {
     tray: Option<Tray>,
     taskbar_created_msg: u32,
     selftest: Option<selftest::SelfTest>,
-    /// Text we put on the clipboard ourselves (don't record it again).
-    own_clip: Option<String>,
     exit_code: i32,
     /// Settings as last written to disk (to diff page-made changes).
     saved_settings: Settings,
@@ -583,7 +582,6 @@ impl App {
             tray: None,
             taskbar_created_msg,
             selftest,
-            own_clip: None,
             exit_code: 0,
             saved_settings,
             settings_writable,
@@ -619,7 +617,7 @@ impl App {
             self.sync_top_watch();
             self.st.paired = self.services.as_ref().map(|s| paired_phones(s.pairs())).unwrap_or_default();
             self.sync_pair_offer();
-            if self.st.settings.system_history {
+            if self.st.settings.system_history_on() {
                 self.start_sysmon();
             }
             // A frame count left running by a Poni that crashed, and whether
@@ -1297,7 +1295,7 @@ impl App {
     }
 
     /// Save the Apple Music token copied from the browser (sealed with DPAPI)
-    /// and keep it off the clipboard and out of Poni's clipboard history.
+    /// and take it off the clipboard.
     fn use_apple_music_token(&mut self) {
         let text = services::clipboard::read_text(self.hwnd).unwrap_or_default();
         let Some(token) = poni_core::applemusic::clean_user_token(&text) else {
@@ -1310,7 +1308,7 @@ impl App {
             return;
         }
         pinfo!("apple music: token saved");
-        self.forget_clipboard_text(&token);
+        services::clipboard::set_text(self.helper, "");
         if let Some(s) = self.services.as_ref() {
             s.apple_music_token_changed();
         }
@@ -1354,6 +1352,7 @@ impl App {
             saver: p.saver,
             watching: self.oyenza_watch,
             today: self.today_watch,
+            health: self.st.health_on(),
         }
     }
 
@@ -1460,11 +1459,13 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
-            OyenzaEvent::Health(next) => {
+            // Steps asked for before Health was switched off stay out.
+            OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
                     self.steps_notice(steps);
                 }
             }
+            OyenzaEvent::Health(_) => {}
             OyenzaEvent::NoteSaved(saved) => {
                 let o = &mut self.st.oyenza;
                 o.saving = false;
@@ -1494,7 +1495,7 @@ impl App {
                 self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
             }
         }
-        // The Oyenza tab came or went: the window makes room for its page (or no longer has to).
+        // Signed in or out, the Oyenza page's height changes: the window fits the tallest page again.
         if self.st.oyenza.link != link_before {
             self.layout_surface();
         }
@@ -1569,17 +1570,6 @@ impl App {
         self.oyenza_notice(icon, palette::ORANGE, oyenza::bill_title(&b, today), shown, hidden);
     }
 
-    /// Remove history entries holding `secret` and clear the clipboard.
-    fn forget_clipboard_text(&mut self, secret: &str) {
-        let hits: Vec<usize> = self.st.clip.iter().enumerate().filter(|(_, c)| c.text.contains(secret)).map(|(i, _)| i).collect();
-        for i in hits.into_iter().rev() {
-            self.st.clip.remove(i);
-        }
-        self.st.ui.clip_flash = None;
-        self.own_clip = Some(String::new());
-        services::clipboard::set_text(self.helper, "");
-    }
-
     /// Look up the current track's lyrics again (the sources changed).
     fn refetch_lyrics(&mut self) {
         if !self.st.settings.lyrics {
@@ -1615,12 +1605,6 @@ impl App {
             self.sync_top_watch();
         }
         let now = &self.st.settings;
-        if before.clipboard_history && !now.clipboard_history {
-            // Privacy: turning history off forgets everything, pinned items included.
-            self.st.clip = poni_core::cliphist::ClipHistory::default();
-            self.st.ui.clip_flash = None;
-            self.st.ui.clip_scroll = 0.0;
-        }
         if !before.lyrics && now.lyrics {
             if let Some(m) = self.st.media.clone() {
                 let stale = self.st.lyrics.track_key != m.track_key || self.st.lyrics.status == LyricsStatus::Idle;
@@ -1633,9 +1617,6 @@ impl App {
             }
         }
         self.st.pomodoro.cfg = self.st.settings.pomodoro.clone();
-        if let Some(s) = self.services.as_ref() {
-            s.set_clipboard_history(self.st.settings.clipboard_history);
-        }
         // Prayer times: off stops it at once; a new place, or following the location again.
         let prayer_id = poni_core::addons::PRAYER_TIMES.id;
         if before.addon_on(prayer_id) && !self.st.settings.addon_on(prayer_id) {
@@ -1658,6 +1639,15 @@ impl App {
                 }
             }
         }
+        // Health on or off: the Oyenza worker asks for the steps only while
+        // it's on, and off forgets the ones it had.
+        let health_id = poni_core::addons::HEALTH.id;
+        if before.addon_on(health_id) != self.st.settings.addon_on(health_id) {
+            if !self.st.settings.addon_on(health_id) {
+                self.st.health = None;
+            }
+            self.tell_oyenza_activity();
+        }
         if before.game_stats != self.st.settings.game_stats {
             if self.st.settings.game_stats && self.st.game.access == FpsAccess::Unknown {
                 self.check_fps();
@@ -1673,8 +1663,9 @@ impl App {
             }
             self.peek_game(if self.st.settings.game_peek { "peeks picked" } else { "picked to stay" });
         }
-        let history = self.st.settings.system_history;
-        if before.system_history != history && self.selftest.is_none() {
+        // System's readings at rest: its history switch, while System is on.
+        let history = self.st.settings.system_history_on();
+        if before.system_history_on() != history && self.selftest.is_none() {
             match &self.sysmon {
                 Some(s) => s.background(history),
                 None if history => self.start_sysmon(),
@@ -1694,7 +1685,6 @@ impl App {
         match cmd {
             ToggleIdleStyle(style) => s.idle_style = style,
             SetTheme(theme) => s.theme = theme,
-            ToggleClipboard => s.clipboard_history = !s.clipboard_history,
             ToggleSystemHistory => s.system_history = !s.system_history,
             ToggleLyrics => s.lyrics = !s.lyrics,
             TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
@@ -1967,13 +1957,6 @@ impl App {
                 self.st.game.access = a;
                 self.sync_game();
             }
-            AppEvent::ClipboardText(t) => {
-                if self.own_clip.as_deref() == Some(t.as_str()) {
-                    self.own_clip = None;
-                } else {
-                    self.st.clip.push(&t, self.st.unix);
-                }
-            }
             AppEvent::AppleMusic(status) => self.on_apple_music(status),
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Paired(e) => self.on_paired(e),
@@ -2094,7 +2077,8 @@ impl App {
             }
             self.set_stats(false);
             self.set_sysmon(false);
-            self.st.ui.clip_flash = None;
+            // Oyen arrives in his tab again at the next opening.
+            self.st.ui.oyen_tab = None;
             // Sums shown in the Oyenza tab hide again, and it opens on Today next time.
             self.st.oyenza.reveal = false;
             self.st.oyenza.day = oyenza::DayPick::Today;
@@ -2179,14 +2163,14 @@ impl App {
             s.open(on);
         }
         // The readout over a game still draws from them.
-        if !on && !self.st.settings.system_history && !self.st.game.active {
+        if !on && !self.st.settings.system_history_on() && !self.st.game.active {
             self.st.system.clear();
         }
     }
 
     fn start_sysmon(&mut self) {
         self.sysmon_rest = self.rest_now();
-        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history, self.sysmon_rest) {
+        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history_on(), self.sysmon_rest) {
             Ok(s) => self.sysmon = Some(s),
             Err(e) => pwarn!("sysmon: couldn't start ({e})"),
         }
@@ -2209,7 +2193,7 @@ impl App {
         if let Some(s) = &self.sysmon {
             s.rest(rest);
         }
-        if !poni_core::sysmon::reads(self.sysmon_on, self.st.game.active, self.st.settings.system_history, rest) {
+        if !poni_core::sysmon::reads(self.sysmon_on, self.st.game.active, self.st.settings.system_history_on(), rest) {
             self.st.system.clear();
         }
     }
@@ -2415,7 +2399,7 @@ impl App {
                 self.game_pid = None;
                 self.st.game.rate = None;
                 self.st.game.app = None;
-                if !self.sysmon_on && !self.st.settings.system_history {
+                if !self.sysmon_on && !self.st.settings.system_history_on() {
                     self.st.system.clear();
                 }
             }
@@ -2728,14 +2712,16 @@ impl App {
         if let Some(ended) = self.st.pomodoro.tick(now) {
             pages::focus::on_phase_ended(&mut self.st, ended);
         }
-        // Signed out: the Oyenza tab is gone.
-        if self.st.page == PageKind::Oyenza && !self.st.oyenza.tab_visible() {
-            self.st.page = PageKind::ALL[0];
-        }
         self.prayer_tick();
         self.script_tick();
-        // Prayer times switched off: its tab is gone.
-        if self.st.page == PageKind::Prayer && !self.st.prayer_on() {
+        // Prayer times, System or Health switched off: its tab is gone.
+        let gone = match self.st.page {
+            PageKind::Prayer => !self.st.prayer_on(),
+            PageKind::System => !self.st.system_on(),
+            PageKind::Health => !self.st.health_on(),
+            _ => false,
+        };
+        if gone {
             self.st.page = PageKind::Addons;
         }
     }
@@ -3582,10 +3568,6 @@ impl App {
                         self.st.shelf_thumbs.insert(p.clone(), None);
                         services::imaging::load_thumb_async(p, self.sink.clone());
                     }
-                }
-                Command::CopyText(t) => {
-                    self.own_clip = Some(t.clone());
-                    services::clipboard::set_text(self.helper, &t);
                 }
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),

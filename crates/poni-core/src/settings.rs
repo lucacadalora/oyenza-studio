@@ -87,9 +87,8 @@ pub struct Settings {
     pub hud_volume: bool,
     pub hud_power: bool,
     pub hud_bluetooth: bool,
-    pub clipboard_history: bool,
     pub sounds: bool,
-    /// Page shown first when expanding ("media", "focus", "health", "shelf", "tasks", "clipboard", "today").
+    /// Page shown first when expanding ("media", "today", "health", "shelf", "tasks", "focus", "oyenza").
     pub start_page: String,
     /// Remember the last page instead of `start_page`.
     pub remember_page: bool,
@@ -99,6 +98,7 @@ pub struct Settings {
     pub oyenza_show_amounts: bool,
     /// Keep the System page's charts going while it's closed (a light reading
     /// of the kernel counters once a second), so they're full when it opens.
+    /// Only while the System add-on is on ([`Settings::system_history_on`]).
     pub system_history: bool,
     /// Add-ons switched on, by id (`poni_core::addons`). Ids this version
     /// doesn't know are kept, so a newer Poni's choices survive a save.
@@ -176,7 +176,6 @@ impl Default for Settings {
             hud_volume: true,
             hud_power: true,
             hud_bluetooth: true,
-            clipboard_history: false,
             sounds: true,
             start_page: "media".into(),
             remember_page: true,
@@ -209,20 +208,23 @@ impl Settings {
     }
 
     /// Is the add-on `id` switched on?
-    /// Clipboard history's switch is `clipboard_history`, which the tray flips too.
     pub fn addon_on(&self, id: &str) -> bool {
-        if id == crate::addons::CLIPBOARD_HISTORY.id {
-            return self.clipboard_history;
-        }
         self.addons.get(id).copied().unwrap_or(false)
     }
 
     pub fn set_addon(&mut self, id: &str, on: bool) {
-        if id == crate::addons::CLIPBOARD_HISTORY.id {
-            self.clipboard_history = on;
-            return;
-        }
         self.addons.insert(id.to_string(), on);
+    }
+
+    /// The System add-on is on: the System tab shows.
+    pub fn system_on(&self) -> bool {
+        self.addon_on(crate::addons::SYSTEM.id)
+    }
+
+    /// The System page's readings go on while it's closed: its history
+    /// switch, and only while System itself is on.
+    pub fn system_history_on(&self) -> bool {
+        self.system_on() && self.system_history
     }
 
     /// Has the person never switched the add-on `id` on or off? An add-on
@@ -245,14 +247,11 @@ impl Settings {
         if self.settings_version < 3 && self.collapse_delay_ms == 380 {
             self.collapse_delay_ms = 0;
         }
-        // v4: Clipboard history became an add-on, off by default, and is
-        // switched off once for everyone (it had been on by default); Add-ons
-        // or the tray bring it back. A Clipboard start page opens Music.
-        if self.settings_version < 4 {
-            self.clipboard_history = false;
-            if self.start_page == "clipboard" {
-                self.start_page = "media".into();
-            }
+        // v4: Clipboard history became an add-on, off by default (it left the
+        // app after 0.2.8, and its old `clipboard_history` key is dropped on
+        // the next save). A Clipboard start page opens Music.
+        if self.settings_version < 4 && self.start_page == "clipboard" {
+            self.start_page = "media".into();
         }
         self.settings_version = self.settings_version.max(SETTINGS_VERSION);
         // Step aside is no longer offered: the island stays over maximized windows.
@@ -364,20 +363,29 @@ mod tests {
     }
 
     #[test]
-    fn clipboard_history_goes_off_once_and_lives_in_add_ons() {
-        assert!(!Settings::default().clipboard_history);
-        // Every file from before 0.2.7 had it on: off once, and a Clipboard start page opens Music.
-        let s = serde_json::from_str::<Settings>(r#"{"settings_version":3,"clipboard_history":true,"start_page":"clipboard"}"#).unwrap().sanitized();
-        assert_eq!((s.clipboard_history, s.start_page.as_str(), s.settings_version), (false, "media", SETTINGS_VERSION));
-        // Switched back on afterwards, it stays on.
-        let s = serde_json::from_str::<Settings>(r#"{"settings_version":4,"clipboard_history":true}"#).unwrap().sanitized();
-        assert!(s.clipboard_history);
-        // The Add-ons switch and the tray's item are the same switch.
+    fn files_with_clipboard_history_still_load_and_drop_it() {
+        // Files from 0.2.8 and before hold the key: it's ignored, and gone after a save.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":4,"clipboard_history":true,"theme":"oyen"}"#).unwrap().sanitized();
+        assert_eq!(s.theme, Theme::Oyen);
+        assert!(!serde_json::to_string(&s).unwrap().contains("clipboard"));
+        // A Clipboard start page from before 0.2.7 opens Music.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":3,"start_page":"clipboard"}"#).unwrap().sanitized();
+        assert_eq!((s.start_page.as_str(), s.settings_version), ("media", SETTINGS_VERSION));
+    }
+
+    #[test]
+    fn system_history_counts_only_while_system_is_on() {
+        // Off by default, so nothing reads the counters at rest; its history
+        // switch keeps its default for when it is switched on.
         let mut s = Settings::default();
-        s.set_addon(crate::addons::CLIPBOARD_HISTORY.id, true);
-        assert!(s.clipboard_history && s.addon_on("clipboard") && !s.addons.contains_key("clipboard"));
-        s.clipboard_history = false;
-        assert!(!s.addon_on("clipboard"));
+        assert!(!s.system_on() && s.system_history && !s.system_history_on());
+        s.set_addon(crate::addons::SYSTEM.id, true);
+        assert!(s.system_on() && s.system_history_on());
+        s.system_history = false;
+        assert!(!s.system_history_on());
+        // Files from before have no System switch: off.
+        let old: Settings = serde_json::from_str(r#"{"settings_version":4,"system_history":true}"#).unwrap();
+        assert!(!old.sanitized().system_on());
     }
 
     #[test]

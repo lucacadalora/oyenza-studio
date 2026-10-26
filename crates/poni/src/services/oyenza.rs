@@ -14,10 +14,11 @@
 //! - the day list every 15 seconds while the Oyenza page is on screen, and
 //!   never otherwise; an answer with nothing new is a few bytes;
 //! - bills every half hour, and all three again when the Oyenza tab opens;
-//! - the steps every 15 minutes while the PC is in use and battery saver is
-//!   off, and when the Health tab opens (at most once in 30 seconds, battery
-//!   saver or not); a server from before steps (404) counts as none to show.
-//!   They go to the island only, never to disk or the log;
+//! - the steps, only while the Health add-on is on: every 15 minutes while
+//!   the PC is in use and battery saver is off, and when the Health tab opens
+//!   (at most once in 30 seconds, battery saver or not); a server from before
+//!   steps (404) counts as none to show. They go to the island only, never to
+//!   disk or the log;
 //! - the day for the Today page (`poni_core::agenda`) when it opens (at most
 //!   once in 30 seconds) and every 5 minutes while it stays on screen, and
 //!   never otherwise; a server without it (404) or with it paused (503) is
@@ -112,6 +113,8 @@ pub struct Activity {
     pub watching: bool,
     /// The Today page is on screen: the day is asked for.
     pub today: bool,
+    /// The Health add-on is on: the steps are asked for.
+    pub health: bool,
 }
 
 #[derive(Default)]
@@ -300,7 +303,8 @@ impl Worker {
             consider(self.next_bills);
             // The steps change only when the phone sends them: every 15 minutes is
             // enough, and battery saver stops the timer (the Health tab still asks).
-            if !a.saver || self.health_page {
+            // With the Health add-on off, never.
+            if a.health && (!a.saver || self.health_page) {
                 consider(self.next_health);
             }
             if a.watching {
@@ -371,7 +375,7 @@ impl Worker {
             if self.link.is_some() && a.watching && Instant::now() >= self.next_activity {
                 self.poll_activity();
             }
-            if self.link.is_some() && (!a.saver || self.health_page) && Instant::now() >= self.next_health {
+            if self.link.is_some() && a.health && (!a.saver || self.health_page) && Instant::now() >= self.next_health {
                 self.poll_health();
             }
             if self.link.is_some() && a.today && Instant::now() >= self.next_day {

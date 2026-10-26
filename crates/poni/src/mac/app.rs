@@ -40,7 +40,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, CLIPBOARD_HISTORY, JAPANESE_READINGS, PRAYER_TIMES};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -366,7 +366,8 @@ pub struct App {
     /// The Today page's stats are being sampled (once a second).
     stats_on: bool,
     /// The System page's sampler thread: from the start while its history is
-    /// kept (`Settings::system_history`), else from the first time the page opens.
+    /// kept (`Settings::system_history_on`: System on, its history kept),
+    /// else from the first time the page opens.
     sysmon: Option<services::sysmon::SysMon>,
     /// The System page is open (its readings come each second).
     sysmon_on: bool,
@@ -386,9 +387,6 @@ pub struct App {
     today_watch: bool,
     /// The Health page is on screen (it asks for the phone's steps as it opens).
     health_shown: bool,
-    /// Text we put on the clipboard ourselves (not recorded again).
-    own_clip: Option<String>,
-    clipboard: Option<services::clipboard::Watcher>,
     /// Files are being dragged over the island.
     drag_hover: bool,
     /// A Script page reading held the island open at the last tick.
@@ -504,8 +502,6 @@ impl App {
             oyenza_watch: false,
             today_watch: false,
             health_shown: false,
-            own_clip: None,
-            clipboard: None,
             drag_hover: false,
             script_held: false,
             script_shown: false,
@@ -555,7 +551,6 @@ impl App {
             }
         };
         self.sync_addons();
-        self.sync_clipboard();
         self.schedule_update();
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
@@ -569,7 +564,7 @@ impl App {
         if paths::oyenza_link_path().exists() || paths::oyenza_revoke_path().exists() {
             self.start_oyenza();
         }
-        if self.st.settings.system_history {
+        if self.st.settings.system_history_on() {
             self.start_sysmon();
         }
         if self.first_run && self.smoke.is_none() {
@@ -793,13 +788,6 @@ impl App {
         if pill::on(before.theme) != pill::on(self.st.settings.theme) {
             self.layout_surface();
         }
-        if before.clipboard_history && !self.st.settings.clipboard_history {
-            // Privacy: turning history off forgets everything, pinned items included.
-            self.st.clip = poni_core::cliphist::ClipHistory::default();
-            self.st.ui.clip_flash = None;
-            self.st.ui.clip_scroll = 0.0;
-        }
-        self.sync_clipboard();
         // Hide or Stay on top of full-screen apps (Settings or the menu bar).
         if before.hide_in_fullscreen != self.st.settings.hide_in_fullscreen {
             self.apply_fullscreen();
@@ -820,8 +808,9 @@ impl App {
         if before.expanded_width != self.st.settings.expanded_width {
             self.layout_surface();
         }
-        let history = self.st.settings.system_history;
-        if before.system_history != history {
+        // System's readings at rest: its history switch, while System is on.
+        let history = self.st.settings.system_history_on();
+        if before.system_history_on() != history {
             match &self.sysmon {
                 Some(s) => s.background(history),
                 None if history => self.start_sysmon(),
@@ -854,6 +843,14 @@ impl App {
         }
         if addons_changed {
             self.sync_addons();
+        }
+        // Health on or off: the Oyenza worker asks for the steps only while
+        // it's on, and off forgets the ones it had.
+        if before.addon_on(HEALTH.id) != self.st.settings.addon_on(HEALTH.id) {
+            if !self.st.settings.addon_on(HEALTH.id) {
+                self.st.health = None;
+            }
+            self.tell_oyenza_activity();
         }
     }
 
@@ -890,7 +887,6 @@ impl App {
             MenuCmd::SetTheme(t) => s.theme = t,
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
-            MenuCmd::ToggleClipboard => s.clipboard_history = !s.clipboard_history,
             MenuCmd::SetHideFullscreen(hide) => s.hide_in_fullscreen = hide,
             MenuCmd::ToggleLyrics => s.lyrics = !s.lyrics,
             MenuCmd::TogglePronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
@@ -980,8 +976,8 @@ impl App {
         }
     }
 
-    /// Save the Apple Music token copied from the browser, and keep it off
-    /// the clipboard and out of the clipboard history.
+    /// Save the Apple Music token copied from the browser, and take it off
+    /// the clipboard.
     fn use_apple_music_token(&mut self) {
         let text = services::clipboard::read_text().unwrap_or_default();
         let Some(token) = poni_core::applemusic::clean_user_token(&text) else {
@@ -994,7 +990,7 @@ impl App {
             return;
         }
         pinfo!("apple music: token saved");
-        self.forget_clipboard_text(&token);
+        services::clipboard::set_text("");
         if let Some(l) = self.lyrics.as_ref() {
             l.apple_token_changed();
         }
@@ -1026,17 +1022,6 @@ impl App {
         self.st.notify(Icon::Lyrics, color, title, subtitle, 6.0, None);
     }
 
-    /// Remove history entries holding `secret` and clear the clipboard.
-    fn forget_clipboard_text(&mut self, secret: &str) {
-        let hits: Vec<usize> = self.st.clip.iter().enumerate().filter(|(_, c)| c.text.contains(secret)).map(|(i, _)| i).collect();
-        for i in hits.into_iter().rev() {
-            self.st.clip.remove(i);
-        }
-        self.st.ui.clip_flash = None;
-        self.own_clip = Some(String::new());
-        services::clipboard::set_text("");
-    }
-
     /// Look up the current track's lyrics again (the sources changed).
     fn refetch_lyrics(&mut self) {
         if !self.st.settings.lyrics {
@@ -1046,19 +1031,6 @@ impl App {
         if let Some(l) = self.lyrics.as_ref() {
             self.st.lyrics = LyricsState { track_key: m.track_key.clone(), status: LyricsStatus::Loading, ..Default::default() };
             l.request(&m);
-        }
-    }
-
-    /// Clipboard history runs only while it is switched on.
-    fn sync_clipboard(&mut self) {
-        match (self.st.settings.clipboard_history, self.clipboard.is_some()) {
-            (true, false) => self.clipboard = Some(services::clipboard::Watcher::start(self.sink.clone())),
-            (false, true) => {
-                if let Some(w) = self.clipboard.take() {
-                    w.stop();
-                }
-            }
-            _ => {}
         }
     }
 
@@ -1089,13 +1061,13 @@ impl App {
         if let Some(s) = &self.sysmon {
             s.open(on);
         }
-        if !on && !self.st.settings.system_history {
+        if !on && !self.st.settings.system_history_on() {
             self.st.system.clear();
         }
     }
 
     fn start_sysmon(&mut self) {
-        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history) {
+        match services::sysmon::SysMon::start(self.sink.clone(), self.st.settings.system_history_on()) {
             Ok(s) => {
                 if self.away.0 || self.away.1 {
                     s.away(true);
@@ -1357,13 +1329,6 @@ impl App {
             }
             AppEvent::ScreensAsleep(on) => self.set_away(Some(on), None),
             AppEvent::Locked(on) => self.set_away(None, Some(on)),
-            AppEvent::ClipboardText(t) => {
-                if self.own_clip.as_deref() == Some(t.as_str()) {
-                    self.own_clip = None;
-                } else {
-                    self.st.clip.push(&t, self.st.unix);
-                }
-            }
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
@@ -2051,7 +2016,8 @@ impl App {
             }
             self.set_stats(false);
             self.set_sysmon(false);
-            self.st.ui.clip_flash = None;
+            // Oyen arrives in his tab again at the next opening.
+            self.st.ui.oyen_tab = None;
             // Settings closes with the island: it opens again on the page it was opened from.
             if self.st.page == PageKind::Settings {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
@@ -2183,10 +2149,6 @@ impl App {
                         services::thumbs::load_async(p, px, self.sink.clone());
                     }
                 }
-                Command::CopyText(t) => {
-                    self.own_clip = Some(t.clone());
-                    services::clipboard::set_text(&t);
-                }
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::RecordScreen => services::recorder::record_screen(self.mtm),
@@ -2262,6 +2224,7 @@ impl App {
             saver: p.saver,
             watching: self.oyenza_watch,
             today: self.today_watch,
+            health: self.st.health_on(),
         }
     }
 
@@ -2390,12 +2353,14 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
-            OyenzaEvent::Health(next) => {
+            // Steps asked for before Health was switched off stay out.
+            OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
                     let notice = pages::health::goal_notice(steps, now + oyenza::NOTICE_S);
                     self.st.show_or_hold(notice, self.fullscreen_hidden);
                 }
             }
+            OyenzaEvent::Health(_) => {}
             OyenzaEvent::NoteSaved(saved) => {
                 let o = &mut self.st.oyenza;
                 o.saving = false;
@@ -2687,8 +2652,14 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
-        // Prayer times switched off: its tab is gone.
-        if self.st.page == PageKind::Prayer && !self.st.prayer_on() {
+        // Prayer times, System or Health switched off: its tab is gone.
+        let gone = match self.st.page {
+            PageKind::Prayer => !self.st.prayer_on(),
+            PageKind::System => !self.st.system_on(),
+            PageKind::Health => !self.st.health_on(),
+            _ => false,
+        };
+        if gone {
             self.st.page = PageKind::Addons;
         }
     }
@@ -3082,6 +3053,13 @@ impl App {
                 self.expand();
             }
             "open-today" => self.st.cmds.push(Command::SetPage(PageKind::Today)),
+            // System is an add-on, off by default: on, as its row in Add-ons
+            // does. Its tab comes, and the reader starts its light readings
+            // for the kept minute while the page is still closed.
+            "system-on" => {
+                self.st.settings.set_addon(SYSTEM.id, true);
+                self.st.cmds.push(Command::SaveSettings);
+            }
             // The System page on this Mac's own readings, module by module.
             "open-system" => {
                 self.st.ui.system_module = Module::Cpu;
@@ -3123,18 +3101,6 @@ impl App {
                 self.st.hud = None;
                 self.st.power = crate::state::PowerState { has_battery: true, percent: 76, charging: false, on_ac: false, saver: false };
                 self.on_event(AppEvent::Power(crate::state::PowerState { has_battery: true, percent: 76, charging: true, on_ac: true, saver: false }));
-            }
-            // CI copies SMOKE_CLIP with pbcopy when this step is ready.
-            // Clipboard history is an add-on, off by default: on, as its row in
-            // Add-ons does, before CI copies.
-            "clipboard-copy" => {
-                self.st.hud = None;
-                self.st.settings.set_addon(CLIPBOARD_HISTORY.id, true);
-                self.st.cmds.push(Command::SaveSettings);
-            }
-            "clipboard-page" => {
-                self.st.page = PageKind::Clipboard;
-                self.expand();
             }
             "shelf-drop" => {
                 let paths = smoke_shelf_files();
@@ -3419,10 +3385,10 @@ impl App {
             "open-today" => waited > 0.5,
             // Full readings list the apps (their CPU from the second one on);
             // the apps' icons follow from Finder.
+            "system-on" => services::sysmon::cost()[0].0 > 0 || waited > 5.0,
             "open-system" => (self.st.system.latest.as_ref().is_some_and(|r| !r.top_cpu.is_empty()) && waited > 1.6) || waited > 5.0,
             "system-gpu" | "system-memory" | "system-drives" | "system-network" => waited > 0.6,
             "system-power" => waited > 1.3,
-            "clipboard-page" => self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP)) || waited > 3.0,
             "shelf-drop" => self.st.shelf_thumbs.values().filter(|t| t.is_some()).count() >= 3 || waited > 5.0,
             "music-check" => {
                 let looked_up = !matches!(self.st.lyrics.status, LyricsStatus::Idle | LyricsStatus::Loading);
@@ -3535,6 +3501,12 @@ impl App {
                 );
                 Some(("system-stats", ok, d))
             }
+            "system-on" => {
+                let tab = pages::tabs(&self.st).contains(&PageKind::System);
+                let [(light, _), _] = services::sysmon::cost();
+                let ok = tab && light > 0 && self.sysmon.is_some();
+                Some(("system-addon", ok, format!("System tab: {tab}; light readings with the page closed: {light}")))
+            }
             "open-system" => {
                 let (ok, d) = system_report(&self.st);
                 Some(("system-readings", ok, d))
@@ -3571,10 +3543,6 @@ impl App {
             "charging-hud" => {
                 let ok = matches!(self.st.hud.as_ref().map(|h| &h.kind), Some(HudKind::Charging { .. }));
                 Some(("charging-hud", ok, format!("this Mac's power: {:?}", services::power::query())))
-            }
-            "clipboard-page" => {
-                let ok = self.st.clip.iter().any(|c| c.text.contains(SMOKE_CLIP));
-                Some(("clipboard-history", ok, format!("{} item(s) recorded", self.st.clip.iter().count())))
             }
             "shelf-drop" => {
                 let made = self.st.shelf_thumbs.values().filter(|t| t.is_some()).count();
@@ -3786,8 +3754,9 @@ impl App {
                 Some(("oyenza-money", ok, format!("notice: {:?} / {:?}, sum held back for Show: {}", n.map(|n| &n.title), n.map(|n| &n.subtitle), n.is_some_and(|n| n.reveal.is_some()))))
             }
             "oyenza-off" => {
+                // Signed out, the tab stays: it is where to sign in again.
                 let tab = pages::tabs(&self.st).contains(&PageKind::Oyenza);
-                let ok = self.st.oyenza.link == OyenzaLink::Off && !tab;
+                let ok = self.st.oyenza.link == OyenzaLink::Off && tab;
                 Some(("oyenza-off", ok, format!("{:?}; Oyenza tab: {tab}", self.st.oyenza.link)))
             }
             "ja-off" => {
@@ -4061,11 +4030,12 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 59] = [
+const SMOKE_STEPS: [&str; 58] = [
     "idle",
     "hover",
     "open-focus",
     "open-today",
+    "system-on",
     "open-system",
     "system-gpu",
     "system-memory",
@@ -4077,8 +4047,6 @@ const SMOKE_STEPS: [&str; 59] = [
     "volume-hud",
     "charging-hud",
     "headphones",
-    "clipboard-copy",
-    "clipboard-page",
     "shelf-drop",
     "music-notify",
     "music-check",
@@ -4133,8 +4101,6 @@ const SMOKE_SERVICE_TRACK: &str = "Is It Broken Yet?";
 /// The title the browser's page gives its tab, as YouTube names a video
 /// (tools/mac-browser-player.html).
 const SMOKE_BROWSER_TRACK: &str = "Robbers";
-/// What CI copies with `pbcopy` during the clipboard step.
-const SMOKE_CLIP: &str = "Oyenza Studio smoke test";
 
 #[derive(Clone, Copy, Debug)]
 enum SmokePhase {

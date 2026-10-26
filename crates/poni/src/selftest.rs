@@ -43,7 +43,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, CLIPBOARD_HISTORY, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, SYSTEM};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -199,15 +199,6 @@ const LYRICS_ZH: &str = "\
 ";
 
 const NOTES_TXT: &str = "Weekend trip\n\n- ferry leaves at 9:40\n- pack the blue jacket\n- ask about the lighthouse tour\n";
-
-const CLIPS: [&str; 6] = [
-    "Lunch: noodles from the corner place, then a walk by the river",
-    "Tracking number PX-2048-7731",
-    "cargo build -p poni --release",
-    "#5AC8FA",
-    "https://example.com/projects/poni/notes",
-    "Meet at the north entrance at 6:15",
-];
 
 const GIB: u64 = 1024 * 1024 * 1024;
 
@@ -824,6 +815,8 @@ enum Scene {
     OyenzaMoneyShown,
     /// Oyenza: the day before a subscription renews.
     OyenzaBill,
+    /// The Oyenza tab signed out: what signing in brings, and Sign in.
+    OyenzaSignedOut,
     /// The Oyenza tab while a sign-in code waits for approval.
     OyenzaSignIn,
     /// The Oyenza tab right after a spend was saved (Undo showing).
@@ -994,7 +987,8 @@ const SCENES: [Scene; 87] = [
     // Last of the shelf scenes: hiding the items resets their fade-in.
     Scene::ShelfEmpty,
     Scene::Page(PageKind::Tasks),
-    Scene::Page(PageKind::Clipboard),
+    // In the Clipboard page's place (it left the app), so the numbers stay.
+    Scene::OyenzaSignedOut,
     Scene::Page(PageKind::Today),
     Scene::TabClick,
     Scene::HealthSignedOut,
@@ -1102,6 +1096,7 @@ impl Scene {
             Scene::OyenzaMoney => "oyenza-money".into(),
             Scene::OyenzaMoneyShown => "oyenza-money-shown".into(),
             Scene::OyenzaBill => "oyenza-bill".into(),
+            Scene::OyenzaSignedOut => "page-oyenza-signed-out".into(),
             Scene::OyenzaSignIn => "page-oyenza-signin".into(),
             Scene::OyenzaSaved => "page-oyenza-saved".into(),
             Scene::HealthSignedIn => "page-health-signed-in".into(),
@@ -1168,7 +1163,7 @@ impl Scene {
             Scene::ShelfDrop | Scene::ShelfEmpty | Scene::ShelfPhone | Scene::ShelfPhoneAsk | Scene::ShelfPhoneReceive => Some(PageKind::Shelf),
             Scene::TabClick => Some(PageKind::ALL[0]),
             Scene::HealthSignedOut => Some(PageKind::Health),
-            Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
+            Scene::OyenzaSignedOut | Scene::OyenzaSignIn | Scene::OyenzaSaved | Scene::OyenzaYesterday | Scene::OyenzaTomorrow => Some(PageKind::Oyenza),
             Scene::HealthSignedIn | Scene::HealthStale => Some(PageKind::Health),
             Scene::GearClick
             | Scene::SettingsSigningIn
@@ -1606,7 +1601,6 @@ impl SelfTest {
 
         seed_tasks(st);
         self.health = Some(sample_health(st));
-        seed_clipboard(st);
         let today = st.day_key();
         st.store.focus_sessions.insert(today, 2);
         self.seed_shelf(st);
@@ -1694,7 +1688,9 @@ impl SelfTest {
                 let steps = steps + 1;
                 let waited = now - since;
                 let timed_out = waited > self.settle_limit(app);
-                let ready = steps >= MIN_STEPS && stable >= STABLE_STEPS && !(scene == Scene::IdleEyes && mid_blink());
+                // No picture mid-blink: the eyes, and Oyen in the Oyenza tab.
+                let blinking = (scene == Scene::IdleEyes && mid_blink()) || (scene.expanded() && crate::oyen::mid_rest_move(clock::mono(), 0.3));
+                let ready = steps >= MIN_STEPS && stable >= STABLE_STEPS && !blinking;
                 if ready || timed_out {
                     self.capture(app, i, !timed_out || settled, waited);
                     self.phase = self.next_phase(i + 1, now);
@@ -2083,10 +2079,16 @@ impl SelfTest {
         // Script reader: on for the Script page's scenes, off (no tab) elsewhere.
         let script = scene.page() == Some(PageKind::Script);
         st.addons.insert(SCRIPT_READER.id, if script { AddonStatus::Ready } else { AddonStatus::Off });
-        // Clipboard history (an add-on, off by default): on for its own page only.
-        let clip = scene.page() == Some(PageKind::Clipboard);
-        st.settings.clipboard_history = clip;
-        st.addons.insert(CLIPBOARD_HISTORY.id, if clip { AddonStatus::Ready } else { AddonStatus::Off });
+        // System and Health (add-ons, off by default): on for their own
+        // pages' scenes only (and Health for its goal notice).
+        let system = scene.page() == Some(PageKind::System);
+        let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health)] {
+            st.settings.set_addon(id, on);
+            st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
+        }
+        // Oyen in the Oyenza tab long since arrived: at rest in every picture.
+        st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
             st.lyrics.wants_ja_readings = self.lyrics.wants_ja_readings || matches!(scene, Scene::JaOffer | Scene::JaGetting);
         }
@@ -2604,19 +2606,6 @@ fn sample_week(st: &AppState, days_ago: i64) -> HealthSnapshot {
         })
         .collect();
     HealthSnapshot { goal: 8000, source: HealthSource::AppleHealth, updated_at: st.unix - days_ago * 86_400 - 8 * 60, days }
-}
-
-fn seed_clipboard(st: &mut AppState) {
-    let unix = st.unix;
-    // Oldest first, so the last one ends up at the top.
-    for (k, text) in CLIPS.iter().enumerate() {
-        st.clip.push(text, unix - (CLIPS.len() - k) as i64 * 420);
-    }
-    // Pin the colour code (index counted from the newest).
-    let pin = st.clip.iter().position(|c| c.text == "#5AC8FA");
-    if let Some(i) = pin {
-        st.clip.toggle_pin(i);
-    }
 }
 
 /// Where the media-lyric scene holds the song: 1.5 s into the first sung line
