@@ -242,8 +242,9 @@ impl Want {
     }
 }
 
-/// One file the app read.
-#[derive(Clone, Debug, PartialEq, Eq)]
+/// One file the app read. Its `Debug` shows the size, not the bytes (they
+/// can be a sign-in).
+#[derive(Clone, PartialEq, Eq)]
 pub struct FileRead {
     pub path: PathBuf,
     pub bytes: Vec<u8>,
@@ -251,8 +252,15 @@ pub struct FileRead {
     pub modified: Option<i64>,
 }
 
-/// What one [`Want`] gave, in the same order as the wants.
-#[derive(Clone, Debug, PartialEq, Eq)]
+impl std::fmt::Debug for FileRead {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("FileRead").field("path", &self.path).field("bytes", &self.bytes.len()).field("modified", &self.modified).finish()
+    }
+}
+
+/// What one [`Want`] gave, in the same order as the wants. Its `Debug`
+/// never shows a keychain password or a typed key.
+#[derive(Clone, PartialEq, Eq)]
 pub enum Got {
     /// Not there (or too big).
     Missing,
@@ -263,6 +271,18 @@ pub enum Got {
     Text(String),
     /// The keychain said no.
     Denied,
+}
+
+impl std::fmt::Debug for Got {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Got::Missing => f.write_str("Missing"),
+            Got::One(r) => f.debug_tuple("One").field(r).finish(),
+            Got::Many(v) => f.debug_tuple("Many").field(v).finish(),
+            Got::Text(t) => write!(f, "Text(<{} chars>)", t.chars().count()),
+            Got::Denied => f.write_str("Denied"),
+        }
+    }
 }
 
 impl Got {
@@ -307,14 +327,23 @@ pub enum Method {
     Post,
 }
 
-/// A request for the app to make. The app adds its own `User-Agent`.
-#[derive(Clone, Debug, PartialEq, Eq)]
+/// A request for the app to make. The app adds its own `User-Agent`. Its
+/// `Debug` shows the URL without its query and the header names only.
+#[derive(Clone, PartialEq, Eq)]
 pub struct Request {
     pub method: Method,
     pub url: String,
     pub headers: Vec<(String, String)>,
     /// A JSON body (POST).
     pub json: Option<String>,
+}
+
+impl std::fmt::Debug for Request {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let url = self.url.split(['?', '#']).next().unwrap_or("");
+        let names: Vec<&str> = self.headers.iter().map(|(k, _)| k.as_str()).collect();
+        f.debug_struct("Request").field("method", &self.method).field("url", &url).field("headers", &names).field("json", &self.json.as_ref().map(|j| j.len())).finish()
+    }
 }
 
 impl Request {
@@ -641,6 +670,9 @@ pub enum Trouble {
     NeedsKey,
     /// The service refused the sign-in or key (401/403).
     Refused,
+    /// The account itself is switched off on the service's side (signing in
+    /// again won't help).
+    Disabled,
     /// Too many asks: wait this long.
     Busy { retry_after_s: Option<u64> },
     /// No answer: offline, DNS, TLS, timeout.
@@ -859,6 +891,17 @@ mod tests {
         w.env.push(("OPENROUTER_API_KEY".into(), "sk-or-v1-secret".into()));
         let shown = format!("{w:?}");
         assert!(shown.contains("OPENROUTER_API_KEY") && !shown.contains("secret"), "{shown}");
+    }
+
+    #[test]
+    fn debug_never_shows_secrets() {
+        let req = Request::get("https://x.test/v1/usage?key=sk-123").bearer("tok-456").header("x-api-key", "k-789");
+        let got = [Got::Text("sk-or-v1-abc".into()), Got::One(FileRead { path: PathBuf::from("auth.json"), bytes: b"{\"access_token\":\"tok-456\"}".to_vec(), modified: None })];
+        let shown = format!("{req:?} {got:?}");
+        for secret in ["sk-123", "tok-456", "k-789", "sk-or-v1-abc"] {
+            assert!(!shown.contains(secret), "{secret} in {shown}");
+        }
+        assert!(shown.contains("https://x.test/v1/usage") && shown.contains("Authorization"), "{shown}");
     }
 
     #[test]
