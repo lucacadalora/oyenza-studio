@@ -1,8 +1,8 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader, System and Health are already in the app and only show their
-//! pages (System's readings and Health's steps also run only while they are
-//! on).
+//! reader, System, Health and Stocks are already in the app and only show
+//! their pages (System's readings, Health's steps and Stocks' prices also run
+//! only while they are on).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -24,9 +24,11 @@ use poni_core::phonedrop::fmt_bytes;
 const INTRO_H: f32 = 18.0;
 const ROWS_Y: f32 = 28.0;
 /// Five rows fit the island's height (the System page's 256 DIPs), so the
-/// window never grows for this page.
+/// window never grows for this page; a sixth packs them closer ([`row_h`]).
 const ROW_H: f32 = 45.0;
+const MAX_H: f32 = 256.0;
 const BADGE: f32 = 36.0;
+const BADGE_COMPACT: f32 = 30.0;
 const TEXT_X: f32 = 48.0;
 /// A row's hover wash reaches this far past its contents (as in Settings).
 const ROW_BLEED: f32 = 8.0;
@@ -41,7 +43,12 @@ pub const OFFERED: &[&Addon] = &addons::ALL;
 const MAC: bool = cfg!(target_os = "macos");
 
 pub fn height(_st: &AppState) -> f32 {
-    ROWS_Y + OFFERED.len() as f32 * ROW_H
+    let n = OFFERED.len();
+    ROWS_Y + n as f32 * row_h(n)
+}
+
+fn row_h(n: usize) -> f32 {
+    ((MAX_H - ROWS_Y) / n.max(1) as f32).floor().min(ROW_H)
 }
 
 /// Each add-on's icon on its badge.
@@ -52,6 +59,7 @@ fn icon(a: &Addon) -> Icon {
         "script" => Icon::Script,
         "system" => Icon::Gauge,
         "health" => Icon::Steps,
+        "stocks" => Icon::Stocks,
         _ => Icon::Addons,
     }
 }
@@ -61,8 +69,9 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
     let card = super::card::pill_card(st, area);
+    let h = row_h(OFFERED.len());
     for (i, a) in OFFERED.iter().enumerate() {
-        let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * ROW_H, area.w, ROW_H);
+        let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * h, area.w, h);
         if addon_row(ui, st, row, i, a, card) {
             let on = st.settings.addon_on(a.id);
             st.settings.set_addon(a.id, !on);
@@ -81,7 +90,9 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
         super::card::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let cy = r.center().y;
-    ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), BADGE / 2.0, accent.with_alpha(0.18));
+    // Six rows sit closer: a smaller badge, the text centred in the row.
+    let (badge, dy) = if r.h < ROW_H { (BADGE_COMPACT, ((r.h - ROW_H) / 2.0).round()) } else { (BADGE, 0.0) };
+    ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), badge / 2.0, accent.with_alpha(0.18));
     ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), 18.0, 18.0), accent);
 
     let sw = Rect::new(r.right() - SWITCH_W, cy - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
@@ -98,11 +109,11 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
 
     let x = r.x + TEXT_X;
     let w = (text_right - x).max(0.0);
-    ui.c.text(a.title, Rect::new(x, r.y + 3.0, w, 20.0), &TextStyle::headline());
+    ui.c.text(a.title, Rect::new(x, r.y + 3.0 + dy, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
-    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
+    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 22.0 + dy, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = status.progress() {
-        let bar = Rect::new(x, r.y + 40.0, w, BAR_H);
+        let bar = Rect::new(x, r.y + 40.0 + dy, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);
         if p > 0.0 {
             ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * p).max(BAR_H), BAR_H), BAR_H / 2.0, accent);

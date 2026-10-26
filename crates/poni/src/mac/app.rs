@@ -404,6 +404,10 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// The Stocks page's prices: started the first time the page opens.
+    stocks: Option<services::stocks::StocksService>,
+    /// The Stocks page was on screen at the last look (`set_stocks_watch`).
+    stocks_open: bool,
     /// The AI tab's worker: started the first time the tab opens or its
     /// notices are on (`set_usage_watch`).
     usage: Option<services::usage::UsageService>,
@@ -516,6 +520,8 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            stocks: None,
+            stocks_open: false,
             usage: None,
             usage_watch: services::usage::Watch::default(),
             updater: None,
@@ -1157,6 +1163,7 @@ impl App {
             self.update_due();
         }
         self.tell_oyenza_activity();
+        self.set_stocks_watch();
         self.set_usage_watch();
         self.apply_fullscreen();
     }
@@ -1355,6 +1362,7 @@ impl App {
             }
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
+            AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
             AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
@@ -2324,6 +2332,29 @@ impl App {
         }
     }
 
+    /// The Stocks page asks oyenza.trade for prices only while it is on
+    /// screen and someone is at the Mac (`pages::stocks::watch`); the worker
+    /// starts the first time it opens.
+    fn set_stocks_watch(&mut self) {
+        let away = self.away.0 || self.away.1;
+        let open = self.mode == Mode::Expanded(PageKind::Stocks) && !away;
+        // Closed, and the worker already told so: nothing to do, every frame.
+        if !open && !self.stocks_open {
+            return;
+        }
+        self.stocks_open = open;
+        let w = pages::stocks::watch(&self.st, open);
+        if self.stocks.is_none() && w.open {
+            match services::stocks::StocksService::start(self.sink.clone()) {
+                Ok(s) => self.stocks = Some(s),
+                Err(e) => pwarn!("service stocks: unavailable ({e})"),
+            }
+        }
+        if let Some(s) = &self.stocks {
+            s.set_watch(w);
+        }
+    }
+
     /// The Today page came on screen or went: the worker asks for the day only meanwhile.
     fn set_today_watch(&mut self, on: bool) {
         if on != self.today_watch {
@@ -2740,11 +2771,12 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
-        // Prayer times, System or Health switched off: its tab is gone.
+        // Prayer times, System, Health or Stocks switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
+            PageKind::Stocks => !self.st.stocks_on(),
             _ => false,
         };
         if gone {
@@ -2806,6 +2838,7 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
+        self.set_stocks_watch();
         self.set_usage_watch();
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).

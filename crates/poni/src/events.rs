@@ -174,6 +174,8 @@ pub enum AppEvent {
     Located(crate::services::location::Located),
     /// One of prayer times' online city files (`services::cities`).
     Cities { file: String, got: Result<poni_core::prayer::World, String> },
+    /// The Stocks page's prices, names and years (`services::stocks`).
+    Stocks(crate::services::stocks::StocksEvent),
     /// The AI tab's readings, typed keys, inference.oyenza.com's link and
     /// heads-up notices (`services::usage`).
     #[allow(dead_code)] // until the AI tab's worker lands: nothing sends it yet

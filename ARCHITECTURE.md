@@ -3,8 +3,8 @@
 Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs from the
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Today,
-Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, System, Script and
-Prayer pages once they are switched on). The Shelf's Phone drop serves a
+Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, System, Script,
+Prayer and Stocks pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
 It was called Oyen Poni until 0.2.0, and plain Poni before that. The code keeps the
@@ -146,6 +146,23 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   so its times need nothing online; and in `tick` turns prayer times that just passed into a notice plus the tone or
   the adzan (`services::adzan`, WinRT MediaPlayer without media controls).
   `activities` shows the minutes before each prayer (`Activity::Prayer`).
+* Stocks (`pages/stocks.rs`) is a tab only while the Stocks add-on is on
+  (`AppState::stocks_on`; built in, nothing to download): the IHSG and up to
+  ten IDX stocks as Apple's Stocks lays them out on a Mac, the list on the
+  left (the day's line against the previous close, the price, a change pill
+  that switches between percent, points and market cap) and the picked one
+  on the right (a chart over 1D, 1M, 6M or 1Y that morphs from one line into
+  the next, a scrub under the pointer, the day's numbers), with a search to
+  add a stock and an edit mode to remove and reorder them. The list is
+  `store.stocks` (`poni_core::stocks::Watchlist`); the prices come from
+  oyenza.trade's `/dashboard/api/live/` (`watch`, `names`, `chart`) through
+  `services::stocks`, one thread started the first time the page opens,
+  which asks only while the page is on screen and someone is at the computer
+  (`pages::stocks::watch`, `App::set_stocks_watch`), as often as the answer
+  says a fresher one comes (15 s while IDX trades, 10 minutes while it's
+  shut), with `If-None-Match`. Parsing, formats, the search and the chart's
+  arithmetic are in `poni_core::stocks`; the prices stay in memory
+  (`AppState::stocks`).
 * Timed page changes (an Undo pill lapsing) report their deadline through
   `pages::next_wake` so the app wakes exactly then instead of polling.
   `st.accent` = Windows accent (lightened); `st.media_accent()` = album-art colour.
@@ -180,7 +197,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, oyenza, power, sound, sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `version.rs` | which build this is for the menu's About line: the version, and from `build.rs` release, test build (commit) or local build, and the day CI built it |
 | `updates.rs` | new versions, the app's side: when to read the update file (`update.json` remembers), the island's notice ("Update available x", Hide), the offer the menu and Settings show, and on Windows the new version's Setup (downloaded first, run with `/S /reopen` now or before the next start); the Update sheet it opens is drawn by `pages/settings.rs` (rules in `poni_core::update`, the read and signature check in `services/update.rs`; docs/updates.md) |
@@ -189,7 +206,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 ## Data
 
 * Settings: `%APPDATA%\Poni\settings.json` (created with defaults; tray → "Open settings file").
-* Data (tasks, shelf, focus stats): `%APPDATA%\Poni\data.json`. Drinks logged by the old Water page stay in it untouched (`water`).
+* Data (tasks, shelf, focus stats, the Stocks list): `%APPDATA%\Poni\data.json`. Drinks logged by the old Water page stay in it untouched (`water`).
 * Cache + log: `%LOCALAPPDATA%\Poni\` (`lyrics\*.json`, `poni.log`), plus the Apple Music
   token sealed with DPAPI (`apple-music-token.bin`) and the web player's public
   developer token (`apple-music-web.json`).

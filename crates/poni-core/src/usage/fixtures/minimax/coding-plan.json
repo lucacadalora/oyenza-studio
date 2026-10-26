@@ -1,0 +1,27 @@
+{
+  "base_resp": { "status_code": 0, "status_msg": "success" },
+  "current_subscribe_title": "Max",
+  "model_remains": [
+    {
+      "model_name": "MiniMax-M2",
+      "start_time": 1793066400000,
+      "end_time": 1793084400000,
+      "remains_time": 7200000,
+      "current_interval_total_count": 4500,
+      "current_interval_usage_count": 1710,
+      "current_weekly_total_count": 45000,
+      "current_weekly_usage_count": 31050,
+      "weekly_start_time": 1792731600000,
+      "weekly_end_time": 1793336400000,
+      "weekly_remains_time": 259200000
+    },
+    {
+      "model_name": "speech-2.6-hd",
+      "start_time": 1793059200000,
+      "end_time": 1793145600000,
+      "remains_time": 68400000,
+      "current_interval_total_count": 19000,
+      "current_interval_usage_count": 19000
+    }
+  ]
+}

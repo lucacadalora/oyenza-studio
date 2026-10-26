@@ -154,6 +154,9 @@ enum Scene {
     /// days on clicked in the grid.
     TodayOff,
     TodayPicked,
+    /// The Stocks add-on on a made-up market (`pages::stocks::picture`):
+    /// the IHSG's day, Bank BCA's year, the search and edit mode.
+    Stocks(crate::pages::stocks::Picture),
 }
 
 const SCENES: [Scene; 19] = [
@@ -226,6 +229,13 @@ const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::Oyen
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 /// The Today page signed in, after Power.
 const TODAY_SCENES: [Scene; 5] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles, Scene::TodayOff, Scene::TodayPicked];
+/// The Stocks page, after Today.
+const STOCKS_SCENES: [Scene; 4] = [
+    Scene::Stocks(crate::pages::stocks::Picture::Day),
+    Scene::Stocks(crate::pages::stocks::Picture::Year),
+    Scene::Stocks(crate::pages::stocks::Picture::Search),
+    Scene::Stocks(crate::pages::stocks::Picture::Edit),
+];
 
 impl Scene {
     fn name(self) -> String {
@@ -271,6 +281,8 @@ impl Scene {
             Scene::TodayTiles => "page-today-tiles".into(),
             Scene::TodayOff => "page-today-off".into(),
             Scene::TodayPicked => "page-today-picked".into(),
+            Scene::Stocks(crate::pages::stocks::Picture::Day) => "page-stocks".into(),
+            Scene::Stocks(p) => format!("page-stocks-{}", format!("{p:?}").to_lowercase()),
         }
     }
 }
@@ -334,10 +346,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power and Today signed in in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and Stocks in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -949,6 +961,15 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = PageKind::Today;
             Mode::Expanded(PageKind::Today)
+        }
+        Scene::Stocks(shows) => {
+            // Stocks is an add-on, off by default: on for its own scenes.
+            st.settings.set_addon(poni_core::addons::STOCKS.id, true);
+            st.addons.insert(poni_core::addons::STOCKS.id, AddonStatus::Ready);
+            let now = st.now;
+            crate::pages::stocks::picture(&mut st, shows, now);
+            st.page = PageKind::Stocks;
+            Mode::Expanded(PageKind::Stocks)
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);

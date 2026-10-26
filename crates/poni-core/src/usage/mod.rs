@@ -50,6 +50,9 @@ pub mod zai;
 
 /// The most requests one refresh of one service makes.
 pub const MAX_FETCHES: usize = 4;
+/// The most wants one refresh of one service reads: [`Provider::wants`] and
+/// every [`Step::Read`] together.
+pub const MAX_READS: usize = 64;
 /// The largest file [`Want::File`] asks for unless a service says otherwise.
 /// A bigger file reads as [`Got::Missing`], so a service whose file can grow
 /// (a config that keeps history) sets its own `max`.
@@ -234,6 +237,14 @@ pub enum Want {
     /// A key the person typed into Oyenza Studio for this service, kept
     /// sealed by the app (DPAPI / keychain), by name.
     Secret(&'static str),
+    /// `len` bytes of a file from `offset` (fewer at its end), for files too
+    /// big to read whole that a service reads a piece at a time (Cursor's
+    /// SQLite store can pass 10 GB). [`Got::One`] with what was read,
+    /// [`Got::Missing`] if the file isn't there or can't be read. The app
+    /// opens the file sharing read, write and delete (the owner keeps
+    /// writing it), caps a piece at 4 MiB and never keeps pieces between
+    /// refreshes.
+    Range { path: PathBuf, offset: u64, len: u32 },
 }
 
 impl Want {
@@ -411,6 +422,12 @@ impl Ctx<'_> {
 #[derive(Debug)]
 pub enum Step {
     Fetch(Request),
+    /// Read these too, then ask again (the next piece of a file depends on
+    /// the last one): the app reads them like [`Provider::wants`], appends
+    /// what it got to [`Ctx::got`] in order and calls [`Provider::next`]
+    /// again with the same replies. Fine with [`Reach::Local`]. At most
+    /// [`MAX_READS`] wants a refresh, the first ones included.
+    Read(Vec<Want>),
     Done(Outcome),
 }
 
@@ -597,11 +614,10 @@ impl Window {
                 let mut w = self.clone();
                 w.used = 0.0;
                 w.count = w.count.map(|(_, of)| (0, of));
-                // The next reset after now, however many periods passed.
-                w.resets_at = w.length_s.filter(|len| *len > 0).map(|len| {
-                    let len = len as i64;
-                    t + len * ((now - t) / len + 1)
-                });
+                // One window later, if that's still ahead. Past that it isn't
+                // known: Codex's and Claude's 5 hours start again only with
+                // the next use, so a later reset would be made up.
+                w.resets_at = w.length_s.map(|len| t + len as i64).filter(|next| *next > now);
                 w
             }
             _ => self.clone(),
@@ -833,14 +849,25 @@ pub fn join(base: &Path, parts: &[&str]) -> PathBuf {
 }
 
 /// Runs a provider's steps against canned answers, the way the worker does:
-/// at most [`MAX_FETCHES`] requests, none under [`Reach::Local`]. Returns
-/// the requests made and the outcome.
+/// at most [`MAX_FETCHES`] requests, none under [`Reach::Local`]; any
+/// [`Step::Read`] finds nothing. Returns the requests made and the outcome.
 #[cfg(test)]
-pub fn drive(p: &dyn Provider, cx: &Ctx, mut answer: impl FnMut(&Request) -> Result<Reply, NetFail>) -> (Vec<Request>, Outcome) {
-    let (mut asked, mut replies) = (Vec::new(), Vec::new());
+pub fn drive(p: &dyn Provider, cx: &Ctx, answer: impl FnMut(&Request) -> Result<Reply, NetFail>) -> (Vec<Request>, Outcome) {
+    drive_reads(p, cx, |_| Got::Missing, answer)
+}
+
+/// [`drive`], with `read` answering each [`Step::Read`] want.
+#[cfg(test)]
+pub fn drive_reads(p: &dyn Provider, cx: &Ctx, mut read: impl FnMut(&Want) -> Got, mut answer: impl FnMut(&Request) -> Result<Reply, NetFail>) -> (Vec<Request>, Outcome) {
+    let (mut asked, mut replies, mut got) = (Vec::new(), Vec::new(), cx.got.to_vec());
     loop {
-        match p.next(cx, &replies) {
+        let now = Ctx { dirs: cx.dirs, got: &got, now: cx.now, reach: cx.reach };
+        match p.next(&now, &replies) {
             Step::Done(out) => return (asked, out),
+            Step::Read(wants) => {
+                assert!(got.len() + wants.len() <= MAX_READS, "{:?} read more than {MAX_READS} wants", p.id());
+                got.extend(wants.iter().map(&mut read));
+            }
             Step::Fetch(req) => {
                 assert!(cx.reach == Reach::Online, "{:?} fetched under Reach::Local: {}", p.id(), req.url);
                 assert!(asked.len() < MAX_FETCHES, "{:?} asked more than {MAX_FETCHES} times", p.id());
@@ -962,8 +989,9 @@ mod tests {
         assert_eq!(after.used, 0.0);
         assert_eq!(after.count, Some((0, 100)));
         assert_eq!(after.resets_at, Some(19_000));
-        // Two days later: the next reset after now, not one long past.
-        assert_eq!(w.at(1000 + 2 * 86_400 + 5).resets_at, Some(1000 + 10 * 18_000));
+        // Two days later: when it resets next isn't known (never a reset
+        // long past, never a made-up one).
+        assert_eq!(w.at(1000 + 2 * 86_400 + 5).resets_at, None);
     }
 
     #[test]

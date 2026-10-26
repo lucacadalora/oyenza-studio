@@ -1,0 +1,41 @@
+{
+  "user": {
+    "membership": {
+      "level": "LEVEL_BASIC"
+    }
+  },
+  "usage": {
+    "limit": "100",
+    "used": "19",
+    "remaining": "81",
+    "resetTime": "2026-10-30T16:45:59.449979Z"
+  },
+  "limits": [
+    {
+      "window": {
+        "duration": 300,
+        "timeUnit": "TIME_UNIT_MINUTE"
+      },
+      "detail": {
+        "limit": "100",
+        "used": "38",
+        "remaining": "62",
+        "resetTime": "2026-10-27T08:12:31.512345Z"
+      }
+    }
+  ],
+  "parallel": {
+    "limit": "30"
+  },
+  "totalQuota": {},
+  "usages": {
+    "limit_5h": {
+      "used_ratio": 0.3812,
+      "reset_time": "2026-10-27T08:12:30Z"
+    },
+    "limit_7d": {
+      "used_ratio": 0,
+      "reset_time": "2026-10-30T16:45:58Z"
+    }
+  }
+}
