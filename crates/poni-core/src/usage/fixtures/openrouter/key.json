@@ -1,0 +1,51 @@
+{
+  "data": {
+    "label": "test-key",
+    "limit": 100,
+    "limit_remaining": 74.5,
+    "limit_reset": "monthly",
+    "usage": 61.2,
+    "usage_daily": 1.25,
+    "usage_weekly": 7.5,
+    "usage_monthly": 25.5,
+    "byok_usage": 0,
+    "byok_usage_daily": 0,
+    "byok_usage_weekly": 0,
+    "byok_usage_monthly": 0,
+    "is_free_tier": false,
+    "is_management_key": false,
+    "is_provisioning_key": false,
+    "include_byok_in_limit": false,
+    "expires_at": null,
+    "creator_user_id": "user_test",
+    "organization_id": null,
+    "workspace_id": "ws_test",
+    "allowed_data_regions": ["global", "europe", "us"],
+    "free_model_daily_requests": { "limit": 1000, "remaining": 1000, "used": 0 },
+    "budgets": [
+      {
+        "scope": "key_limit",
+        "limit_usd": 100,
+        "spend_usd": 25.5,
+        "remaining_usd": 74.5,
+        "reset_interval": "monthly",
+        "resets_at": "2026-11-01T00:00:00.000Z",
+        "include_byok": false,
+        "budget_id": null,
+        "guardrail_id": null
+      }
+    ],
+    "effective_budget": {
+      "scope": "key_limit",
+      "limit_usd": 100,
+      "spend_usd": 25.5,
+      "remaining_usd": 74.5,
+      "reset_interval": "monthly",
+      "resets_at": "2026-11-01T00:00:00.000Z",
+      "include_byok": false,
+      "budget_id": null,
+      "guardrail_id": null
+    },
+    "rate_limit": { "requests": -1, "interval": "10s", "note": "This field is deprecated and safe to ignore." }
+  }
+}

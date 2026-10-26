@@ -1,0 +1,29 @@
+{
+  "data": {
+    "label": "test-key",
+    "limit": null,
+    "limit_remaining": null,
+    "limit_reset": null,
+    "usage": 0,
+    "usage_daily": 0,
+    "usage_weekly": 0,
+    "usage_monthly": 0,
+    "byok_usage": 0,
+    "byok_usage_daily": 0,
+    "byok_usage_weekly": 0,
+    "byok_usage_monthly": 0,
+    "is_free_tier": true,
+    "is_management_key": false,
+    "is_provisioning_key": false,
+    "include_byok_in_limit": false,
+    "expires_at": null,
+    "creator_user_id": "user_test",
+    "organization_id": null,
+    "workspace_id": null,
+    "allowed_data_regions": ["global"],
+    "free_model_daily_requests": { "limit": 50, "remaining": 38, "used": 12 },
+    "budgets": [],
+    "effective_budget": null,
+    "rate_limit": { "requests": -1, "interval": "10s", "note": "This field is deprecated and safe to ignore." }
+  }
+}
