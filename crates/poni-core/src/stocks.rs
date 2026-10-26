@@ -404,23 +404,28 @@ impl Board {
         self.rows.iter().find(|q| q.code == code)
     }
 
-    /// The line under the page: where the exchange stands and how late the
+    /// The line under the chart: where the exchange stands and how late the
     /// prices are. `now`: Unix seconds.
     pub fn status(&self, now: i64) -> String {
         let delay = (self.delay_s / 60).max(1);
         let today = wib_day(now);
-        let line = match self.phase {
+        // Prices from an earlier day (overnight, a weekend) say which.
+        let earlier = day_num(&self.day).filter(|d| *d != today).map(|d| {
+            if today - d < 7 {
+                WEEKDAYS[weekday_from_days(d) as usize].to_string()
+            } else {
+                let (_, m, dd) = civil_from_days(d);
+                format!("{dd} {}", MONTHS[(m - 1) as usize])
+            }
+        });
+        match (self.phase, earlier) {
             _ if self.stale => format!("Paused at {}", wib_clock(self.t)),
-            Phase::Open | Phase::Closing => format!("Open \u{b7} {delay} min behind IDX"),
-            Phase::Break => "Lunch break".to_string(),
-            Phase::Pre if day_num(&self.day) == Some(today) => "Opens soon".to_string(),
-            Phase::Pre => "Opens at 09:00".to_string(),
-            Phase::Closed => "Closed".to_string(),
-        };
-        // Prices from an earlier day say which.
-        match day_num(&self.day) {
-            Some(d) if d != today && !self.phase.trading() => format!("{line} \u{b7} {}", day_label(d)),
-            _ => line,
+            (Phase::Open | Phase::Closing, _) => format!("Open \u{b7} {delay} min behind IDX"),
+            (Phase::Break, _) => "Lunch break".to_string(),
+            (Phase::Pre, None) => "Opens soon".to_string(),
+            (Phase::Pre, Some(d)) => format!("Opens at 09:00 \u{b7} prices from {d}"),
+            (Phase::Closed, None) => "Closed".to_string(),
+            (Phase::Closed, Some(d)) => format!("Closed \u{b7} prices from {d}"),
         }
     }
 }
@@ -447,12 +452,6 @@ pub fn wib_clock(t: i64) -> String {
 
 const WEEKDAYS: [&str; 7] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTHS: [&str; 12] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/// "Fri 24 Oct".
-fn day_label(day: i64) -> String {
-    let (_, m, d) = civil_from_days(day);
-    format!("{} {d} {}", WEEKDAYS[weekday_from_days(day) as usize], MONTHS[(m - 1) as usize])
-}
 
 /// "24 Oct 2025": a date under the chart.
 pub fn date_label(day: i64) -> String {
@@ -579,7 +578,7 @@ fn group(n: u64) -> String {
     let s = n.to_string();
     let mut out = String::with_capacity(s.len() + s.len() / 3);
     for (i, ch) in s.chars().enumerate() {
-        if i > 0 && (s.len() - i) % 3 == 0 {
+        if i > 0 && (s.len() - i).is_multiple_of(3) {
             out.push(',');
         }
         out.push(ch);
@@ -903,9 +902,10 @@ mod tests {
         b.phase = Phase::Closed;
         assert_eq!(b.status(now), "Closed");
         // The next morning, before the bell: the prices are yesterday's.
-        assert_eq!(b.status(now + 86_400 - 6 * 3600), "Closed \u{b7} Mon 26 Oct");
+        assert_eq!(b.status(now + 86_400 - 6 * 3600), "Closed \u{b7} prices from Mon");
         b.phase = Phase::Pre;
-        assert_eq!(b.status(now + 86_400 - 6 * 3600), "Opens at 09:00 \u{b7} Mon 26 Oct");
+        assert_eq!(b.status(now + 86_400 - 6 * 3600), "Opens at 09:00 \u{b7} prices from Mon");
+        assert_eq!(b.status(now + 12 * 86_400), "Opens at 09:00 \u{b7} prices from 26 Oct", "after a long holiday");
         b.stale = true;
         b.phase = Phase::Open;
         assert_eq!(b.status(now), format!("Paused at {}", wib_clock(b.t)));

@@ -756,7 +756,9 @@ fn detail(ui: &mut Ui, st: &mut AppState, r: Rect) {
         draw_line(ui, &px, color, chart.y, chart.bottom() + 6.0, 2.0, Some(0.34));
     } else {
         let msg = match range {
-            Range::Day => "The day's line starts at the opening bell.",
+            // Before the bell, or (the day the feed starts keeping lines) a first point.
+            Range::Day if line.values.is_empty() => "The day's line starts at the opening bell.",
+            Range::Day => "The day's line fills in as IDX trades.",
             _ if st.stocks.no_year.contains(&pick) => "No chart for this range yet.",
             _ => "Getting the year from oyenza.trade\u{2026}",
         };
