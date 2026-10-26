@@ -102,3 +102,10 @@ pub fn paired_phones_path() -> PathBuf {
 pub fn oyenza_revoke_path() -> PathBuf {
     cache_dir().join("oyenza-revoke.bin")
 }
+
+/// A key typed into the AI tab for one service, or the inference.oyenza.com
+/// key (`usage-<name>.bin`), sealed with DPAPI: never roams, and removing the
+/// key or uninstalling deletes it.
+pub fn usage_key_path(name: &str) -> PathBuf {
+    cache_dir().join(format!("usage-{name}.bin"))
+}

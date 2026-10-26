@@ -19,6 +19,8 @@ pub mod clipboard;
 pub mod fullscreen;
 #[path = "services/http.rs"]
 pub mod http;
+#[path = "services/keychain.rs"]
+pub mod keychain;
 #[path = "services/media.rs"]
 pub mod media;
 #[path = "services/mediaremote.rs"]
