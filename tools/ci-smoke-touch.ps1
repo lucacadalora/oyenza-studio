@@ -3,9 +3,9 @@
 #
 # The island's window is far bigger than the closed island (room for the
 # widest, tallest page). Its transparent rest must let taps through to the
-# windows under it, as it lets the mouse through: before 0.2.7 the GPU
+# windows under it, as it lets the mouse through. Up to 0.2.6 the GPU
 # renderer drew into that same window, and Windows then gave every tap
-# anywhere in its rectangle to it, where nothing answered. A tablet's top
+# anywhere in its rectangle to it, where nothing answered: a tablet's top
 # edge, browser tabs included, went dead around the island.
 #
 # Taps are injected with InjectTouchInput. A plain window (the probe) fills
