@@ -82,6 +82,15 @@ pub enum Icon {
     Download,
     /// Record (Oyenza Studio Recorder): a dot that fits inside `Circle`.
     Record,
+    /// The Record tab: a ring with the record dot inside.
+    Recorder,
+    /// The Record page's targets: a display, an app window, a dragged-out area.
+    Screen,
+    AppWindow,
+    Area,
+    /// The Record page's inputs (system sound is `Volume`).
+    Camera,
+    Mic,
 }
 
 pub struct Part {
@@ -266,6 +275,18 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Script => p![s("M10 6.5h10"), s("M10 12h10"), s("M10 17.5h6.5"), f("M3.6 9.3v5.4a.8.8 0 0 0 1.2.7l4.3-2.7a.8.8 0 0 0 0-1.4L4.8 8.6a.8.8 0 0 0-1.2.7z")],
         Stop => p![f("M8.2 6.5h7.6a1.7 1.7 0 0 1 1.7 1.7v7.6a1.7 1.7 0 0 1-1.7 1.7H8.2a1.7 1.7 0 0 1-1.7-1.7V8.2a1.7 1.7 0 0 1 1.7-1.7z")],
         Record => p![f("M6.5 12a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0z")],
+        Recorder => p![s(CIRCLE_9), f("M8.5 12a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0-7 0z")],
+        Screen => p![s("M4.5 4.5h15A1.5 1.5 0 0 1 21 6v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 15V6a1.5 1.5 0 0 1 1.5-1.5z"), s("M12 16.5v3.5"), s("M8.5 20h7")],
+        AppWindow => p![s("M5 4.5h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2z"), s("M3 9h18"), f("M5.6 6.75a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z"), f("M8.6 6.75a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z")],
+        // Four corner marks: the frame of a selection.
+        Area => p![
+            s("M4 8.5V5.5A1.5 1.5 0 0 1 5.5 4h3"),
+            s("M15.5 4h3A1.5 1.5 0 0 1 20 5.5v3"),
+            s("M20 15.5v3a1.5 1.5 0 0 1-1.5 1.5h-3"),
+            s("M8.5 20h-3A1.5 1.5 0 0 1 4 18.5v-3"),
+        ],
+        Camera => p![s("M4 7h9.5A1.5 1.5 0 0 1 15 8.5v7a1.5 1.5 0 0 1-1.5 1.5H4a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 4 7z"), s("M15 10.5l5-3v9l-5-3")],
+        Mic => p![s("M9 6a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"), s("M5.5 11a6.5 6.5 0 0 0 13 0"), s("M12 17.5V21")],
         Download => p![s("M12 4v10.5"), s("M7.5 10L12 14.5 16.5 10"), s("M4.5 16v2.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V16")],
     }
 }
@@ -283,6 +304,7 @@ mod tests {
         Icon::Sliders, Icon::Open, Icon::Phone, Icon::Eye, Icon::MoneyIn, Icon::MoneyOut, Icon::Transfer, Icon::Card, Icon::Wallet,
         Icon::Unlink, Icon::Gear,
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
+        Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic,
     ];
 
     #[test]

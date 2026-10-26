@@ -86,6 +86,13 @@ pub enum Command {
     /// The Script page's Record: Oyenza Studio Recorder records the screen
     /// the island is on (`services::recorder`).
     RecordScreen,
+    /// The Record page's Record: a recording of `settings.record`'s target
+    /// with its camera, microphone and system sound (`services::recorder`).
+    Record,
+    /// Pause, resume or stop the recording under way (the Record page).
+    RecordPause,
+    RecordResume,
+    RecordStop,
     /// Drop keyboard focus.
     BlurText,
     /// Persist `AppState::store` soon.

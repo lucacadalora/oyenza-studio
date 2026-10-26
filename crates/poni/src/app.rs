@@ -67,6 +67,11 @@ const DROP_PEEK_EVERY_S: f64 = 30.0;
 const HOTKEY_PEEK: i32 = 1;
 /// Alt+Shift+S pauses and resumes the Script page's reading from any app.
 const HOTKEY_SCRIPT: i32 = 2;
+/// Record pressed: how long the Record page says "Opening the recorder"
+/// without word from it (a cold start of the recorder takes a few seconds).
+const REC_OPENING_S: f64 = 15.0;
+/// How long the Record page shows why a recording didn't start.
+const REC_ERROR_S: f64 = 8.0;
 /// Raises that follow a new foreground window, and their spacing.
 const RAISE_REPEATS: u8 = 4;
 const RAISE_INTERVAL_MS: u32 = 500;
@@ -220,6 +225,36 @@ pub fn with_app<R>(f: impl FnOnce(&mut App) -> R) -> Option<R> {
     r
 }
 
+thread_local! {
+    /// Recorder messages that came while the app was busy (re-entered): the
+    /// next `WM_APP_EVENT` hands them over.
+    static REC_MISSED: RefCell<Vec<(poni_core::recorder::Message, isize)>> = const { RefCell::new(Vec::new()) };
+}
+
+/// A message from Oyenza Studio Recorder (`poni_core::recorder`), read while
+/// it waits in `SendMessageTimeout`: true tells it the island shows the
+/// recording (or its Record page), so it keeps its own bar and controls
+/// hidden; false, that it should show them.
+unsafe fn recorder_message(hwnd: HWND, wp: WPARAM, lp: LPARAM) -> bool {
+    use poni_core::recorder::{parse_message, COPYDATA_ID, MESSAGE_MAX};
+    let Some(cds) = (lp.0 as *const windows::Win32::System::DataExchange::COPYDATASTRUCT).as_ref() else { return false };
+    let len = cds.cbData as usize;
+    if cds.dwData != COPYDATA_ID || cds.lpData.is_null() || len > MESSAGE_MAX {
+        return false;
+    }
+    // The bytes are the sender's only until this returns: read them now.
+    let Some(m) = parse_message(std::slice::from_raw_parts(cds.lpData as *const u8, len)) else { return false };
+    let sender = wp.0 as isize;
+    match with_app(|app| app.on_recorder_message(m.clone(), sender)) {
+        Some(taken) => taken,
+        None => {
+            REC_MISSED.with(|q| q.borrow_mut().push((m, sender)));
+            let _ = PostMessageW(hwnd, WM_APP_EVENT, WPARAM(0), LPARAM(0));
+            false
+        }
+    }
+}
+
 /// Remember a message that couldn't be handled because the app was borrowed.
 fn note_missed(msg: u32, wp: WPARAM, lp: LPARAM) -> bool {
     match msg {
@@ -241,6 +276,9 @@ fn note_missed(msg: u32, wp: WPARAM, lp: LPARAM) -> bool {
 }
 
 unsafe extern "system" fn island_wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM) -> LRESULT {
+    if msg == WM_COPYDATA {
+        return LRESULT(recorder_message(hwnd, wp, lp) as isize);
+    }
     let mut deferred = Vec::new();
     let res = with_app(|app| app.handle_island(msg, wp, lp, &mut deferred));
     for d in deferred {
@@ -387,6 +425,8 @@ pub struct App {
     script_hotkey: bool,
     /// The Script page has asked for the island to stay out of screen capture.
     script_excluded: bool,
+    /// A recording has asked for the island to stay out of screen capture.
+    rec_excluded: bool,
     /// A reading held the island open at the last tick.
     script_held: bool,
     /// The Script page was on screen at the last tick.
@@ -518,6 +558,8 @@ impl App {
         island.set_floating(pill::on(st.settings.theme).then_some(pill::TOP_GAP));
         let clock = FrameClock::start(SendHwnd::new(hwnd), monitor.handle);
         let taskbar_created_msg = unsafe { RegisterWindowMessageW(w!("TaskbarCreated")) };
+        // Oyenza Studio Recorder installed: the Record tab can show (one registry read).
+        st.recorder = selftest_dir.is_none() && services::recorder::installed();
         let selftest = selftest_dir.map(selftest::SelfTest::new);
         let saved_settings = st.settings.clone();
         Ok(Self {
@@ -576,6 +618,7 @@ impl App {
             peek_hotkey: false,
             script_hotkey: false,
             script_excluded: false,
+            rec_excluded: false,
             script_held: false,
             script_shown: false,
             icon_wait: HashSet::new(),
@@ -832,6 +875,9 @@ impl App {
             WM_APP_EVENT => {
                 while let Ok(ev) = self.rx.try_recv() {
                     self.on_event(ev);
+                }
+                for (m, sender) in REC_MISSED.with(|q| std::mem::take(&mut *q.borrow_mut())) {
+                    self.on_recorder_message(m, sender);
                 }
                 self.request_frame();
                 Some(LRESULT(0))
@@ -2045,6 +2091,17 @@ impl App {
         if !self.expanded {
             self.expanded = true;
             self.cancel_hover();
+            // A recorder installed or removed since the last look (one registry read).
+            if self.selftest.is_none() {
+                self.st.recorder = services::recorder::installed();
+            }
+            self.check_recorder_alive();
+            // A recording under way opens on its page: Pause and Stop are there.
+            if self.st.rec_live() && self.st.record_on() {
+                self.st.page = PageKind::Record;
+            } else if self.st.page == PageKind::Record && !self.st.record_on() {
+                self.st.page = PageKind::ALL[0];
+            }
             if self.st.page == PageKind::Oyenza {
                 self.oyenza(OyenzaCmd::Refresh);
             } else if self.st.page == PageKind::Health {
@@ -2347,6 +2404,69 @@ impl App {
         self.script_held = held;
         let can_read = self.st.page == PageKind::Script && !self.st.store.script.is_empty() && (self.expanded || self.st.script.active);
         self.set_script_hotkey(can_read && self.selftest.is_none());
+    }
+
+    /// Oyenza Studio Recorder's word on its recording, or "show yourself"
+    /// (`recorder_message`). True when the island takes it: it shows the
+    /// recording, or opened on its Record page.
+    fn on_recorder_message(&mut self, m: poni_core::recorder::Message, sender: isize) -> bool {
+        use poni_core::recorder::{Message, Phase};
+        // Only an installed recorder writes: the Record tab can show from now.
+        self.st.recorder = true;
+        if !self.st.record_on() {
+            return false;
+        }
+        let taken = match m {
+            // Hidden for a full-screen app, the island can't be the recorder's face.
+            Message::Show if self.fullscreen_hidden => false,
+            Message::Show => {
+                self.st.page = PageKind::Record;
+                self.expand();
+                true
+            }
+            Message::State { phase, elapsed_ms, error } => {
+                let now = clock::mono();
+                let rec = &mut self.st.rec;
+                rec.opening_until = 0.0;
+                if phase == Phase::Idle {
+                    rec.phase = None;
+                    rec.sender = 0;
+                    rec.error = error.map(|e| (e, now + REC_ERROR_S));
+                } else {
+                    rec.phase = Some(phase);
+                    rec.elapsed_ms = elapsed_ms;
+                    rec.at = now;
+                    rec.sender = sender;
+                    rec.error = None;
+                }
+                true
+            }
+        };
+        self.request_frame();
+        taken
+    }
+
+    /// A recorder gone mid-recording (closed, crashed) leaves no recording
+    /// behind on the island. A window check, only while one is under way.
+    fn check_recorder_alive(&mut self) {
+        let sender = self.st.rec.sender;
+        if self.st.rec_live() && sender != 0 && !unsafe { IsWindow(HWND(sender as *mut core::ffi::c_void)) }.as_bool() {
+            pinfo!("recorder: its window went away mid-recording");
+            self.st.rec = crate::state::RecView::default();
+            self.request_frame();
+        }
+    }
+
+    /// Out of the recorder's video (and every other capture) while a recording
+    /// runs, on the Windows versions that can leave a window out.
+    fn sync_recording_capture(&mut self, on: bool) {
+        if on == self.rec_excluded {
+            return;
+        }
+        self.rec_excluded = on;
+        if !on || window::windows_build().is_some_and(|b| b >= crate::glass::EXCLUDE_FROM_CAPTURE_BUILD) {
+            window::exclude_from_capture(self.hwnd, window::CaptureOwner::Recording, on);
+        }
     }
 
     /// Out of screen shares and recordings while the Script page shows, and
@@ -2692,6 +2812,7 @@ impl App {
     }
 
     fn tick(&mut self) {
+        self.check_recorder_alive();
         let now = self.st.now;
         if let Some(h) = &self.st.hud {
             if now >= h.until {
@@ -2891,6 +3012,7 @@ impl App {
             && matches!(self.gfx.renderer(), crate::gfx::Renderer::Gpu { .. });
         self.glass.sync(copy_on, self.hwnd, &self.sink, self.monitor.handle, window_px, &mut self.gfx);
         self.sync_script_capture(self.st.page == PageKind::Script && (self.expanded || !self.island.settled()));
+        self.sync_recording_capture(self.st.rec_live() && self.st.record_on());
         let mut glass_moving = false;
         let glass = if glass_theme && !hidden_idle {
             let small = !matches!(mode, Mode::Expanded(_));
@@ -3183,6 +3305,13 @@ impl App {
         }
         if let poni_core::pomodoro::RunState::Running { ends_at } = self.st.pomodoro.run {
             consider(ends_at + 0.005);
+        }
+        // A recording's time, on the closed island and its page: a frame for
+        // each new second while it records (none while paused), resting while
+        // nobody is at the PC (the lock and display events ask for a frame).
+        let watched_rec = visible && !self.locked && !self.display_off && self.st.record_on();
+        if let Some(b) = self.st.rec_next_second().filter(|_| watched_rec) {
+            consider(now + b + 0.005);
         }
         // The music pill wakes for every sung line (in every theme), and Pill's
         // pills for their own changes; nobody sees those while the session is
@@ -3572,6 +3701,20 @@ impl App {
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::RecordScreen => services::recorder::record_screen(self.hwnd),
+                Command::Record => {
+                    let rec = self.st.settings.record;
+                    services::recorder::record(self.hwnd, rec.target, rec.inputs());
+                    self.st.rec.opening_until = self.st.now + REC_OPENING_S;
+                    self.st.rec.error = None;
+                    // A window or an area is picked on the recorder's overlay:
+                    // the open island would sit over it.
+                    if rec.target != poni_core::recorder::Target::Screen {
+                        self.collapse();
+                    }
+                }
+                Command::RecordPause => services::recorder::pause(),
+                Command::RecordResume => services::recorder::resume(),
+                Command::RecordStop => services::recorder::stop(),
                 Command::ScriptPaste => {
                     // Read here, not through the text field path: that one drops line breaks.
                     let text = services::clipboard::read_text(self.hwnd).map(|t| poni_core::script::clean(&t)).filter(|t| !t.is_empty());

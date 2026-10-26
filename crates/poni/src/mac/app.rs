@@ -2152,6 +2152,8 @@ impl App {
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::RecordScreen => services::recorder::record_screen(self.mtm),
+                // The Record page is Windows-only for now (`AppState::record_on`).
+                Command::Record | Command::RecordPause | Command::RecordResume | Command::RecordStop => {}
                 Command::ScriptPaste => {
                     let text = services::clipboard::read_text().map(|t| poni_core::script::clean(&t)).filter(|t| !t.is_empty());
                     match text {

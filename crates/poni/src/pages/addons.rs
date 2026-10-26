@@ -10,7 +10,8 @@
 //! row toggles, as in Settings: on downloads the add-on and starts it, off
 //! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
-//! Both apps list every add-on ([`OFFERED`]).
+//! Both apps list every add-on ([`OFFERED`]) but Screen recorder, which shows
+//! once Oyenza Studio Recorder is installed, on Windows ([`rows`]).
 
 use crate::commands::Command;
 use crate::gfx::TextStyle;
@@ -24,9 +25,11 @@ use poni_core::phonedrop::fmt_bytes;
 const INTRO_H: f32 = 18.0;
 const ROWS_Y: f32 = 28.0;
 /// Five rows fit the island's height (the System page's 256 DIPs), so the
-/// window never grows for this page.
+/// window never grows for this page; a sixth packs them closer ([`row_h`]).
 const ROW_H: f32 = 45.0;
+const MAX_H: f32 = 256.0;
 const BADGE: f32 = 36.0;
+const BADGE_COMPACT: f32 = 30.0;
 const TEXT_X: f32 = 48.0;
 /// A row's hover wash reaches this far past its contents (as in Settings).
 const ROW_BLEED: f32 = 8.0;
@@ -40,8 +43,33 @@ pub const OFFERED: &[&Addon] = &addons::ALL;
 /// The lines name the Mac ("on this Mac") and leave out Windows' reasons.
 const MAC: bool = cfg!(target_os = "macos");
 
-pub fn height(_st: &AppState) -> f32 {
-    ROWS_Y + OFFERED.len() as f32 * ROW_H
+pub fn height(st: &AppState) -> f32 {
+    let n = rows(st).len();
+    ROWS_Y + n as f32 * row_h(n)
+}
+
+/// The page's rows: every add-on offered, Screen recorder only once Oyenza
+/// Studio Recorder is installed (and not on the Mac yet).
+fn rows(st: &AppState) -> Vec<&'static Addon> {
+    OFFERED.iter().copied().filter(|a| a.id != addons::SCREEN_RECORDER.id || (st.recorder && !MAC)).collect()
+}
+
+fn row_h(n: usize) -> f32 {
+    ((MAX_H - ROWS_Y) / n.max(1) as f32).floor().min(ROW_H)
+}
+
+/// Where `a` stands: Screen recorder follows the recorder's install
+/// (`Settings::recorder_on`); the others, their own switch and download.
+fn status(st: &AppState, a: &Addon) -> Status {
+    if a.id == addons::SCREEN_RECORDER.id {
+        if st.record_on() {
+            Status::Ready
+        } else {
+            Status::Off
+        }
+    } else {
+        st.addon(a.id)
+    }
 }
 
 /// Each add-on's icon on its badge.
@@ -52,6 +80,7 @@ fn icon(a: &Addon) -> Icon {
         "script" => Icon::Script,
         "system" => Icon::Gauge,
         "health" => Icon::Steps,
+        "recorder" => Icon::Recorder,
         _ => Icon::Addons,
     }
 }
@@ -61,10 +90,12 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     ui.c.text(intro, Rect::new(area.x, area.y, area.w, INTRO_H), &TextStyle::footnote().color(palette::TEXT_DIM));
     // The last row's hover wash meets the Pill card's rounded corners.
     let card = super::card::pill_card(st, area);
-    for (i, a) in OFFERED.iter().enumerate() {
-        let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * ROW_H, area.w, ROW_H);
+    let rows = rows(st);
+    let h = row_h(rows.len());
+    for (i, a) in rows.iter().enumerate() {
+        let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * h, area.w, h);
         if addon_row(ui, st, row, i, a, card) {
-            let on = st.settings.addon_on(a.id);
+            let on = status(st, a).is_on();
             st.settings.set_addon(a.id, !on);
             st.cmd(Command::SaveSettings);
         }
@@ -73,7 +104,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
 
 /// Returns true when the row was clicked. `card`: the Pill card (`card::pill_card`).
 fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Option<(Rect, f32)>) -> bool {
-    let status = st.addon(a.id);
+    let status = status(st, a);
     let accent = st.accent;
     let hit = Rect::new(r.x - ROW_BLEED, r.y + 2.0, r.w + 2.0 * ROW_BLEED, r.h - 4.0);
     let resp = ui.button(wid_n("addons.row", i as u64), hit);
@@ -81,7 +112,9 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
         super::card::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let cy = r.center().y;
-    ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), BADGE / 2.0, accent.with_alpha(0.18));
+    // Six rows sit closer: a smaller badge, the text centred in the row.
+    let (badge, dy) = if r.h < ROW_H { (BADGE_COMPACT, ((r.h - ROW_H) / 2.0).round()) } else { (BADGE, 0.0) };
+    ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), badge / 2.0, accent.with_alpha(0.18));
     ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), 18.0, 18.0), accent);
 
     let sw = Rect::new(r.right() - SWITCH_W, cy - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
@@ -98,11 +131,17 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
 
     let x = r.x + TEXT_X;
     let w = (text_right - x).max(0.0);
-    ui.c.text(a.title, Rect::new(x, r.y + 3.0, w, 20.0), &TextStyle::headline());
+    ui.c.text(a.title, Rect::new(x, r.y + 3.0 + dy, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
-    ui.c.text(&status.line(a, MAC), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
+    // Screen recorder came on with the recorder, not by a click here: say so.
+    let line = if a.id == addons::SCREEN_RECORDER.id && status == Status::Ready {
+        "On, since Oyenza Studio Recorder is installed".to_string()
+    } else {
+        status.line(a, MAC)
+    };
+    ui.c.text(&line, Rect::new(x, r.y + 22.0 + dy, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = status.progress() {
-        let bar = Rect::new(x, r.y + 40.0, w, BAR_H);
+        let bar = Rect::new(x, r.y + 40.0 + dy, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);
         if p > 0.0 {
             ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * p).max(BAR_H), BAR_H), BAR_H / 2.0, accent);

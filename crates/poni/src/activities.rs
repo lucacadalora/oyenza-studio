@@ -1,5 +1,6 @@
-//! What the collapsed island shows: idle pill, live activities (media,
-//! timer, the minutes before a prayer, the readout over games), HUD
+//! What the collapsed island shows: idle pill, live activities (a screen
+//! recording, media, timer, the minutes before a prayer, the readout over
+//! games), HUD
 //! pop-ups (volume, charging, Bluetooth) and notices.
 //!
 //! Collapsed pills are sized to their content: Windows has no camera
@@ -28,6 +29,8 @@ pub enum Activity {
     Prayer,
     /// Show over games: frame rate, GPU and CPU while a full-screen app is in front.
     Game,
+    /// A screen recording with Oyenza Studio Recorder: its dot and time.
+    Recording,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -86,6 +89,9 @@ const PRAYER_W: f32 = 168.0;
 const GAME_W: f32 = 276.0;
 const GAME_NO_TEMP_W: f32 = 236.0;
 const GAME_DIVIDER: Color = Color::white(0.18);
+/// The recording: its dot, then "12:34" (the timer's width) or "1:02:03".
+const RECORDING_W: f32 = 96.0;
+const RECORDING_LONG_W: f32 = 112.0;
 
 /// Modes with the same key share content (no cross-fade between them).
 pub fn content_key(m: &Mode) -> u32 {
@@ -96,6 +102,7 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Activity(Activity::MediaTimer) => 4,
         Mode::Activity(Activity::Prayer) => 5,
         Mode::Activity(Activity::Game) => 6,
+        Mode::Activity(Activity::Recording) => 7,
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
@@ -132,7 +139,11 @@ pub fn prayer_countdown(st: &AppState) -> Option<(poni_core::prayer::Prayer, i64
 }
 
 pub fn current_activity(st: &AppState) -> Option<Activity> {
-    // The few minutes before a prayer come first: they don't come back.
+    // A recording comes first: its Stop must be one click away.
+    if st.rec_live() && st.record_on() {
+        return Some(Activity::Recording);
+    }
+    // The few minutes before a prayer come next: they don't come back.
     if prayer_countdown(st).is_some() {
         return Some(Activity::Prayer);
     }
@@ -245,6 +256,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         Mode::Activity(Activity::MediaTimer) => Geom::new(132.0, 32.0, 15.0),
         Mode::Activity(Activity::Prayer) => Geom::new(PRAYER_W, 32.0, 15.0),
         Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
+        Mode::Activity(Activity::Recording) => Geom::new(recording_w(st), 32.0, 15.0),
         Mode::Hud(HudTag::Volume) => Geom::new(316.0, 40.0, 19.0),
         Mode::Hud(HudTag::Charging) | Mode::Hud(HudTag::LowBattery) => Geom::new(300.0, 40.0, 19.0),
         Mode::Hud(HudTag::Bluetooth) => Geom::new(336.0, 46.0, 22.0),
@@ -562,6 +574,7 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             ui.c.text(&text, Rect::new(body.x + 36.0, body.y, body.w - 36.0 - 16.0, body.h), &ts);
         }
         Activity::Game => draw_game(ui, st, body),
+        Activity::Recording => draw_recording(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
             art_or_icon(ui, st, art, playing);
@@ -577,6 +590,32 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             ui.c.ring(c, 7.0, 2.2, p.progress(st.now), RING_TRACK, col);
         }
     }
+}
+
+/// The recording pill: "0:42" fits the timer's width; an hour needs more.
+fn recording_w(st: &AppState) -> f32 {
+    if st.rec_elapsed() >= 3600.0 {
+        RECORDING_LONG_W
+    } else {
+        RECORDING_W
+    }
+}
+
+/// The red dot (a pause mark while paused, a ring while starting or saving),
+/// then the time right-aligned as the timer's countdown.
+fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
+    let cy = body.center().y;
+    let dot = Point::new(body.x + 12.0 + 6.0, cy);
+    let phase = st.rec.phase;
+    match phase {
+        Some(poni_core::recorder::Phase::Recording) => ui.c.fill_circle(dot, 5.0, palette::RED),
+        Some(poni_core::recorder::Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(dot, 11.0, 11.0), palette::TEXT_DIM),
+        _ => ui.c.stroke_circle(dot, 4.4, palette::TEXT_DIM, 1.4),
+    }
+    let recording = phase == Some(poni_core::recorder::Phase::Recording);
+    let text = poni_core::recorder::fmt_length(st.rec_elapsed());
+    let ts = TextStyle::body().weight(Weight::Semibold).tabular().right().color(if recording { palette::TEXT } else { palette::TEXT_DIM });
+    ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts);
 }
 
 /// The GPU's temperature for the readout, when its driver reports one.

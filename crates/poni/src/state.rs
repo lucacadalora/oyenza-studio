@@ -15,6 +15,7 @@ use poni_core::lrc::Lyrics;
 use poni_core::oyenza::{Activity, Bill, DayPick, Saved, Seen};
 use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
+use poni_core::recorder::Phase as RecPhase;
 use poni_core::prayer::{Place, PlaceList, Site};
 use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
@@ -456,6 +457,25 @@ impl PrayerState {
     }
 }
 
+/// What Oyenza Studio Recorder last said about its recording
+/// (`poni_core::recorder::Message::State`).
+#[derive(Clone, Debug, Default)]
+pub struct RecView {
+    /// None: no recording heard of (none yet, or the last one ended).
+    pub phase: Option<RecPhase>,
+    /// Its length when the message came (paused time left out)...
+    pub elapsed_ms: u64,
+    /// ...and when that was (mono seconds), to count on from while it records.
+    pub at: f64,
+    /// The recorder's window, to notice a recorder gone mid-recording (0: none).
+    pub sender: isize,
+    /// Record was pressed and the recorder hasn't answered yet: the page says
+    /// "Opening the recorder" until this time (mono seconds).
+    pub opening_until: f64,
+    /// Why the last start failed, shown on the Record page until a time.
+    pub error: Option<(String, f64)>,
+}
+
 pub struct AppState {
     pub settings: Settings,
     pub store: Store,
@@ -516,9 +536,12 @@ pub struct AppState {
     /// Whether Windows leaves the island out of screen capture while the
     /// Script page shows (None = not asked yet, or not on Windows).
     pub script_hidden: Option<bool>,
-    /// Oyenza Studio Recorder is installed, so the Script page shows Record.
-    /// Asked each time the page comes on screen, never at rest.
+    /// Oyenza Studio Recorder is installed: the Script page shows Record, and
+    /// the Record tab can show (`record_on`). Asked at start, as the island
+    /// opens and when the recorder writes, never at rest.
     pub recorder: bool,
+    /// The recorder's recording, as it last told the island.
+    pub rec: RecView,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -585,6 +608,7 @@ impl AppState {
             script_note: None,
             script_hidden: None,
             recorder: false,
+            rec: RecView::default(),
             cmds: Vec::new(),
         };
         // On ones start by checking their files (the worker reports back);
@@ -599,6 +623,7 @@ impl AppState {
             PageKind::Script => !st.script_on(),
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
+            PageKind::Record => !st.record_on(),
             _ => false,
         };
         if off {
@@ -610,6 +635,34 @@ impl AppState {
     /// Where the add-on `id` stands (`Off` for one this version doesn't know).
     pub fn addon(&self, id: &str) -> AddonStatus {
         self.addons.get(id).copied().unwrap_or(AddonStatus::Off)
+    }
+
+    /// Screen recorder is on (`Settings::recorder_on`): the Record tab shows
+    /// and the island answers the recorder, which then shows no bar or
+    /// controls of its own. Windows only for now: the Mac recorder doesn't
+    /// tell the island about its recordings yet.
+    pub fn record_on(&self) -> bool {
+        !cfg!(target_os = "macos") && self.settings.recorder_on(self.recorder)
+    }
+
+    /// A recording is under way: starting, recording, paused or being saved.
+    pub fn rec_live(&self) -> bool {
+        self.rec.phase.is_some_and(|p| p != RecPhase::Idle)
+    }
+
+    /// The recording's length now, in seconds (paused time left out).
+    pub fn rec_elapsed(&self) -> f64 {
+        let at_message = self.rec.elapsed_ms as f64 / 1000.0;
+        if self.rec.phase == Some(RecPhase::Recording) {
+            at_message + (self.now - self.rec.at).max(0.0)
+        } else {
+            at_message
+        }
+    }
+
+    /// Seconds until the recording's time shows its next second, while it runs.
+    pub fn rec_next_second(&self) -> Option<f64> {
+        (self.rec.phase == Some(RecPhase::Recording)).then(|| 1.0 - self.rec_elapsed().fract())
     }
 
     /// The Script reader add-on is on: the Script tab shows.

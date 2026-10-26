@@ -147,6 +147,8 @@ pub fn create_visual_window(island: HWND) -> Result<HWND> {
 pub enum CaptureOwner {
     Glass = 1,
     Script = 2,
+    /// A recording with Oyenza Studio Recorder: the island isn't in its video.
+    Recording = 4,
 }
 
 thread_local! {
