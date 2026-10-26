@@ -334,3 +334,5 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 121310964379,Fetch the release to upgrade from,40240171768,1,2026-10-25T22:30:09Z,recorder-addon,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 121314533448,Fetch the release to upgrade from,40241327133,1,2026-10-25T22:45:22Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 121316099078,Fetch the release to upgrade from,40241867416,1,2026-10-25T22:52:17Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121420382237,Fetch the release to upgrade from,40276195190,1,2026-10-26T05:52:07Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121422728639,Fetch the release to upgrade from,40276980054,1,2026-10-26T06:00:33Z,today-day,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
