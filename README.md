@@ -81,7 +81,7 @@ On a desktop, **Power** shows what the whole PC draws: split into the CPU, the g
 
 **Focus** is a Pomodoro timer that keeps counting in the island. **Tasks** is a tiny to-do list. **Today** has the date and the month, and once you [sign in to Oyenza](#oyenza-optional), your day: the meeting on now with **Join**, then the rest of the day from Google Calendar and your flights from Gmail. **Shelf** keeps the files you drop on the island. The tabs run Music, Today, Shelf, Tasks, Focus, then Oyenza, with Oyen himself as its tab; Health and System are [add-ons](#add-ons). Scroll over the top of the island to switch pages.
 
-<p align="center"><img src="docs/brand/readme/pages.webp" width="880" alt="Four open pages: the Focus timer, Tasks, Clipboard history and Today"></p>
+<p align="center"><img src="docs/brand/readme/pages.webp" width="880" alt="Four open pages, in the order of the tabs: Today, the Shelf, Tasks and the Focus timer"></p>
 
 ### Black, Oyen, Glass or Pill
 
