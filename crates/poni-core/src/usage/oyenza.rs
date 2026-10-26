@@ -75,7 +75,8 @@ impl Provider for Oyenza {
 /// server); anything else is ignored.
 pub fn base(var: Option<&str>) -> String {
     let ok = |u: &str| match u.split_once("://") {
-        Some((scheme, rest)) if !rest.contains(char::is_whitespace) => {
+        // No user info ("http://localhost:1@evil.example/" goes to evil.example).
+        Some((scheme, rest)) if !rest.contains(char::is_whitespace) && !rest.contains('@') => {
             let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
             // The host without its port: "[::1]:9000" -> "[::1]", "localhost:8080" -> "localhost".
             let host = match authority.find(']') {
@@ -616,7 +617,7 @@ mod tests {
             assert_eq!(base(Some(good)), good);
         }
         // Plain http anywhere but this computer would send the key in the clear.
-        for bad in ["", "ftp://example.com", "inference.example.com", "https://", "https:///", "http://a b", "http://example.com", "http://192.168.1.5:8090", "http://localhost.example.com"] {
+        for bad in ["", "ftp://example.com", "inference.example.com", "https://", "https:///", "http://a b", "http://example.com", "http://192.168.1.5:8090", "http://localhost.example.com", "http://localhost:1@evil.example/", "https://user@inference.oyenza.com"] {
             assert_eq!(base(Some(bad)), BASE, "{bad}");
         }
     }
