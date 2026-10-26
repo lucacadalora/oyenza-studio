@@ -3300,8 +3300,16 @@ impl App {
                 self.expand();
             }
             "glass-collapsed" | "notch-oyen-collapsed" | "pill-collapsed" => self.collapse(),
-            // Around the notch Pill rests in the menu bar's line: with nothing
-            // playing and no timer, its resting ears (the time and the battery).
+            // Around the notch Pill's music floats below the menu bar even with
+            // no line to sing (as in an intro, a break or a pause): the song
+            // plays on with its lyrics dropped, and no timer.
+            "notch-pill-music" => {
+                self.st.pomodoro.reset();
+                self.st.lyrics = LyricsState::default();
+                self.collapse();
+            }
+            // Around the notch Pill rests inside it: with nothing playing and
+            // no timer, only the notch shows.
             "notch-pill-collapsed" => {
                 self.st.pomodoro.reset();
                 self.st.media = None;
@@ -3309,13 +3317,13 @@ impl App {
                 self.st.lyrics = LyricsState::default();
                 self.collapse();
             }
-            // The pointer rests on an ear and the card opens below the menu bar
-            // (as after the dwell); once it floats, the pointer moves and comes
-            // up on the ear again, and the card must stay open (smoke_step).
+            // The pointer rests on the notch and the card opens below the menu
+            // bar (as after the dwell); once it floats, the pointer moves and
+            // comes up on the notch again, and the card must stay open
+            // (smoke_step).
             "notch-pill-ear" => {
                 if let Some(n) = self.screen.notch {
-                    let g = self.island.current();
-                    let p = Point::new(self.cx - (n.w / 2.0 + (g.w - n.w) / 4.0), n.h / 2.0);
+                    let p = Point::new(self.cx - n.w / 4.0, n.h / 2.0);
                     self.smoke_point = Some(p);
                     self.on_pointer(p);
                     self.cancel_hover();
@@ -3335,7 +3343,7 @@ impl App {
                 }
             }
             // Pill floats below the top edge, open and resting; around the
-            // notch it rests in the menu bar's line and opens below it.
+            // notch it rests inside it and opens below it.
             "pill-open" | "notch-pill-open" => {
                 self.on_menu(MenuCmd::SetTheme(Theme::Pill));
                 self.st.page = PageKind::Today;
@@ -3436,9 +3444,9 @@ impl App {
     /// The Pill theme on the real window: where the island sits, and which
     /// points take the mouse. Without a notch it floats `TOP_GAP` below the
     /// top edge and the gap above it takes the mouse; around a notch it rests
-    /// attached in the menu bar's line and opens floating below it, where the
-    /// gap and the notch take the mouse and the menu bar beside the notch
-    /// doesn't.
+    /// inside the notch (the eyes peek out beside it) and the music pill and
+    /// the open card float below it, where the gap and the notch take the
+    /// mouse and the menu bar beside the notch doesn't.
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
         let look = *self.look() == poni_core::look::PILL && !glass::shown();
@@ -3449,7 +3457,7 @@ impl App {
                 let ok = self.island.floating() && (self.island.top() - pill::TOP_GAP).abs() < 0.01 && gap_takes;
                 (ok, format!("floating {:.0} DIP below the top edge, the gap above it takes the mouse: {gap_takes}", self.island.top()))
             }
-            Some(n) if self.expanded => {
+            Some(n) if self.expanded || notch::floats(&self.mode, &self.st) => {
                 let gap_takes = at(self.cx, n.h + pill::TOP_GAP / 2.0);
                 let notch_takes = at(self.cx, n.h / 2.0);
                 let bar_free = !at(self.cx - n.w / 2.0 - 24.0, n.h / 2.0);
@@ -3464,10 +3472,12 @@ impl App {
                 );
                 (ok, place)
             }
+            // At rest: back inside the notch, or the eyes beside it.
             Some(n) => {
                 let fit = notch::fit(&self.mode, &self.st);
-                let ok = !self.island.floating() && body.y == 0.0 && fit != Fit::Below;
-                (ok, format!("attached in the menu bar's line ({fit:?} around a {:.0}x{:.0} notch)", n.w, n.h))
+                let want = if self.st.settings.idle_style == IdleStyle::Eyes { Fit::Ears } else { Fit::Inside };
+                let ok = self.mode == Mode::Idle && !self.island.floating() && body.y == 0.0 && fit == want;
+                (ok, format!("resting in the menu bar's line ({fit:?} around a {:.0}x{:.0} notch)", n.w, n.h))
             }
         };
         let g = self.island.current();
@@ -3555,6 +3565,12 @@ impl App {
                 Some(("oyen-around-notch", ok, format!("ground {:?}, ink {:?}, font {:?}", look.ground, look.ink, look.font)))
             }
             "pill-open" | "pill-collapsed" | "notch-pill-open" | "notch-pill-collapsed" => Some(self.pill_report()),
+            "notch-pill-music" => {
+                let (_, placed, d) = self.pill_report();
+                let line = pill::lyric::current(&self.st).is_some();
+                let ok = placed && self.mode == Mode::Activity(activities::Activity::Media) && !line;
+                Some(("pill-music-floats", ok, format!("{d}; a line to sing: {line}")))
+            }
             "notch-eyes" => {
                 let Some(n) = self.screen.notch else { return Some(("eyes-around-notch", false, "no notch".into())) };
                 let g = self.island.current();
@@ -3593,7 +3609,7 @@ impl App {
                 let armed = self.timers[Timer::Collapse as usize].is_some();
                 let ok = self.expanded && self.hovering && !armed && self.island.floating();
                 let d = format!(
-                    "{:?} {:.0} DIP below the top, pointer on the ear at {:?}: hovering {}, collapse armed {armed}",
+                    "{:?} {:.0} DIP below the top, pointer on the notch at {:?}: hovering {}, collapse armed {armed}",
                     self.mode,
                     self.island.top(),
                     self.smoke_point.map(|p| (p.x.round(), p.y.round())),
@@ -4001,7 +4017,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 54] = [
+const SMOKE_STEPS: [&str; 55] = [
     "idle",
     "hover",
     "open-focus",
@@ -4033,6 +4049,7 @@ const SMOKE_STEPS: [&str; 54] = [
     "notch-oyen-collapsed",
     "notch-glass-open",
     "notch-pill-open",
+    "notch-pill-music",
     "notch-pill-collapsed",
     "notch-pill-ear",
     "notch-eyes",

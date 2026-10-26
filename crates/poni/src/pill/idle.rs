@@ -130,8 +130,7 @@ pub fn battery(ui: &mut Ui, r: Rect, percent: u8, charging: bool) {
     battery_glyph(ui.c, r, percent, charging);
 }
 
-/// [`battery`] for code that draws on the canvas without a `Ui` (the Mac's
-/// resting ears beside the camera).
+/// [`battery`] for code that draws on the canvas without a `Ui`.
 pub fn battery_glyph(c: &mut Canvas, r: Rect, percent: u8, charging: bool) {
     let s = r.h / BATTERY_H;
     let px = c.scale().max(0.1);

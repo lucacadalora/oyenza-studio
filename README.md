@@ -256,7 +256,7 @@ Pill changes the island's shape and layouts, not only its colours. Pick it with 
 - **While music plays** it shows the album art, the line being sung (or the title and artist between lines) and bars in the album's colour, with a glow of it along the bottom edge.
 - **Open**, it's a card with Classic's tabs. The Music page lays out like a player card: the art, the player's name over the song, the time on one line and big controls, with the lyrics beside them. Pop-ups, notices and the focus timer take the capsule shape too.
 - **Colour only where it means something:** the album's colour for music, green for a charging battery, red for a low one, and your Windows accent elsewhere.
-- **On a MacBook with a notch**, the resting island, the timer and music between lines stay beside the camera, and the line being sung, pop-ups, notices and the open card float just below the notch. Without a notch it floats below the top of the screen, as on Windows.
+- **On a MacBook with a notch**, Pill is either the pill or the notch: at rest it goes back into the notch (the menu bar already shows the time and the battery; the Eyes look still peeks out beside the camera), and music, from the first note to the end of a pause, the timer, pop-ups, notices and the open card float just below the notch. Without a notch it floats below the top of the screen, as on Windows.
 
 The pages and features are the same as in Classic.
 

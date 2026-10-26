@@ -9,7 +9,7 @@
 # notch-* steps pretend the screen has a MacBook's notch and the app paints
 # it black where the camera would be, so the pictures show what a MacBook
 # shows. Pill floats below the top edge (pill-*), and around the notch rests
-# in the menu bar's line and opens below it (notch-pill-*); its pill-theme
+# inside it while its music and open card float below it (notch-pill-*); its pill-theme
 # check in the report says where the island sat and which points took the
 # mouse.
 #
