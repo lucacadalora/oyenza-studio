@@ -2091,6 +2091,7 @@ impl App {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
             self.st.update.sheet = false;
+            self.st.update.said = None;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -3320,6 +3321,10 @@ impl App {
             if let Some(n) = self.st.notice.as_mut() {
                 n.until = self.st.now;
             }
+            // A new version's: it doesn't come back.
+            if let Some(u) = self.updater.as_mut() {
+                u.seen(&mut self.st);
+            }
             return;
         }
         if a == InlineAction::WhatsNew && self.st.notice.as_ref().is_some_and(|n| n.icon != Icon::Check) {
@@ -3533,6 +3538,7 @@ impl App {
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
+                self.st.update.said = None;
                 self.st.store.last_page = p.key().to_string();
                 unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
@@ -3633,6 +3639,7 @@ impl App {
                 Command::Play(s) => services::sound::play(s),
                 Command::OpenUrl(u) => shell::open(&u),
                 Command::Update => self.update_now(),
+                Command::CheckForUpdates => self.check_for_updates(),
                 Command::InstallOnNextStart => {
                     if let Some(u) = self.updater.as_mut() {
                         u.install_on_next_start(&mut self.st);

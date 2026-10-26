@@ -2040,6 +2040,7 @@ impl App {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
             self.st.update.sheet = false;
+            self.st.update.said = None;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -2055,6 +2056,7 @@ impl App {
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
+                self.st.update.said = None;
                 self.st.store.last_page = p.key().to_string();
                 self.set_timer(Timer::Save, 800);
             } else {
@@ -2102,6 +2104,10 @@ impl App {
             // Gone at once, the way a notice leaves when its time is up.
             if let Some(n) = self.st.notice.as_mut() {
                 n.until = self.st.now;
+            }
+            // A new version's: it doesn't come back.
+            if let Some(u) = self.updater.as_mut() {
+                u.seen(&mut self.st);
             }
             return;
         }
@@ -2209,6 +2215,7 @@ impl App {
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
                 Command::Update => self.update_now(),
+                Command::CheckForUpdates => self.check_for_updates(),
                 // The Mac downloads the DMG; its sheet has no such card.
                 Command::InstallOnNextStart => {}
                 Command::WantStats(b) => self.set_stats(b),

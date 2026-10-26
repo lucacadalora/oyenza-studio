@@ -1928,15 +1928,17 @@ impl SelfTest {
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
         // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
-        // A later version offered, only where Settings shows it.
+        // A later version offered, only where Settings shows it. A copy from
+        // GitHub reads the update file itself, so Settings has Check now.
+        let looks = crate::state::UpdateView { looks: true, ..Default::default() };
         st.update = match scene {
             Scene::SettingsUpdate | Scene::UpdateSheet | Scene::UpdateReady => crate::state::UpdateView {
                 offer: Some(fake_release()),
                 sheet: scene != Scene::SettingsUpdate,
                 ready: scene == Scene::UpdateReady,
-                next_start: false,
+                ..looks
             },
-            _ => crate::state::UpdateView::default(),
+            _ => looks,
         };
         // A new song's title shows for its few seconds (held here).
         st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };

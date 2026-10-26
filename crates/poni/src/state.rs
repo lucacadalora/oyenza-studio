@@ -183,6 +183,20 @@ pub struct UpdateView {
     pub ready: bool,
     /// Install on next start was picked for it.
     pub next_start: bool,
+    /// This copy reads the update file itself (not a Microsoft Store copy):
+    /// Settings has Check now.
+    pub looks: bool,
+    /// What Settings says in Check now's place since it was clicked, until
+    /// the island closes or the page changes.
+    pub said: Option<Said>,
+}
+
+/// Check now's answer in Settings.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Said {
+    Checking,
+    UpToDate,
+    Failed,
 }
 
 /// A phone wants to send these files; the Shelf asks the person at the PC.

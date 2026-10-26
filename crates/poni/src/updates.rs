@@ -15,9 +15,14 @@
 //! release, before the island tells about it, as Screen Studio does: the
 //! Update sheet then offers Install now and Install on next start. It waits
 //! in `update` in the cache folder and goes once that version runs.
+//!
+//! The island's "Update available" stays until it is clicked (the sheet) or
+//! put away with Hide; one that gives way to another notice, or is still up
+//! at quit, comes back. Settings has Check now beside the switch, which
+//! answers in its place while the page is open.
 
 use crate::icons::Icon;
-use crate::state::{AppState, InlineAction, Notice, NoticeAction};
+use crate::state::{AppState, InlineAction, Notice, NoticeAction, Said};
 use crate::version::VERSION;
 use poni_core::geom::{palette, Color};
 use poni_core::store::{load_json, save_json_atomic};
@@ -28,11 +33,10 @@ use poni_core::update::Download;
 
 /// Which download is this system's.
 const MAC: bool = cfg!(target_os = "macos");
-/// How long the island shows "Update available" (Hide puts it away sooner)
-/// and "Updated to".
-const ANNOUNCE_S: f64 = 15.0;
+/// How long the island shows "Updated to" ("Update available" stays until
+/// Update or Hide).
 const UPDATED_S: f64 = 10.0;
-/// How long the answer to Check for updates… shows.
+/// How long the answer to Check for updates… shows on the island.
 const ANSWER_S: f64 = 6.0;
 /// After Check for updates… finds a new version, the Update sheet opens by
 /// itself once its download is in, if that takes no longer than this; a
@@ -103,6 +107,7 @@ impl Updater {
             setup: Setup::None,
             setups,
         };
+        st.update.looks = true;
         u.show(st);
         #[cfg(windows)]
         u.clear_old_setups(st);
@@ -153,22 +158,39 @@ impl Updater {
 
     /// The answer to Check for updates…, once the file is read: up to date,
     /// or couldn't look, on the island; a new version opens the Update sheet
-    /// (true), on Windows once its Setup is in ([`Updater::fetched`]).
+    /// (true), on Windows once its Setup is in ([`Updater::fetched`]). Asked
+    /// with Settings' Check now (`said`), and Settings still open, the
+    /// answer goes in its place there.
     fn answer(&mut self, st: &mut AppState, read: bool) -> bool {
+        let in_settings = st.update.said.is_some();
         if !read {
             self.asked = None;
-            st.notify(Icon::Unlink, palette::ORANGE, "Couldn't check for updates", "Check the connection and try again.", ANSWER_S, None);
+            if in_settings {
+                st.update.said = Some(Said::Failed);
+            } else {
+                st.notify(Icon::Unlink, palette::ORANGE, "Couldn't check for updates", "Check the connection and try again.", ANSWER_S, None);
+            }
             return false;
         }
         let Some(rel) = st.update.offer.clone() else {
             self.asked = None;
-            st.notify(Icon::CheckCircle, palette::GREEN, "Oyenza Studio is up to date", format!("{VERSION} is the latest version."), ANSWER_S, None);
+            if in_settings {
+                st.update.said = Some(Said::UpToDate);
+            } else {
+                st.notify(Icon::CheckCircle, palette::GREEN, "Oyenza Studio is up to date", format!("{VERSION} is the latest version."), ANSWER_S, None);
+            }
             return false;
         };
+        // Settings now has the new version's row, with Update.
+        st.update.said = None;
         // Windows: the sheet waits for the Setup, downloading now (or
-        // tried again after a failed download).
+        // tried again after a failed download). From Settings, its new row
+        // shows meanwhile; from the menu, a notice.
         #[cfg(windows)]
         if !st.update.ready {
+            if in_settings {
+                return false;
+            }
             let notice = Notice {
                 icon: Icon::Download,
                 color: st.accent,
@@ -205,12 +227,29 @@ impl Updater {
     }
 
     /// The checks were switched on (read in a moment) or off (no more reads,
-    /// and the menu and Settings stop offering).
+    /// and the island, the menu and Settings stop offering).
     pub fn switched(&mut self, st: &mut AppState, now: u64) {
         if st.settings.update_check {
             self.due = Some(now + update::SWITCHED_ON_S);
         }
         self.show(st);
+        if st.update.offer.is_none() && st.notice.as_ref().is_some_and(is_new_version_notice) {
+            st.notice = None;
+        }
+    }
+
+    /// The offered version was seen: Hide on its notice, or the Update
+    /// sheet opened (from the notice, the menu or Settings). Its notice goes
+    /// and doesn't come back for that version.
+    pub fn seen(&mut self, st: &mut AppState) {
+        if st.notice.as_ref().is_some_and(is_new_version_notice) {
+            st.notice = None;
+        }
+        let Some(v) = st.update.offer.as_ref().map(|r| &r.version) else { return };
+        if self.memory.announced != *v {
+            self.memory.announced = v.clone();
+            save(&self.path, &self.memory);
+        }
     }
 
     /// The offered version's Setup to download, if it isn't on disk yet or
@@ -291,8 +330,11 @@ impl Updater {
 
     /// Put a waiting notice on the island if it is `free` (shown, nobody
     /// away, no other notice, closed): "Updated to" first, then a new
-    /// version, once per version. True when one went up.
+    /// version, until it is seen ([`Updater::seen`]). True when one went up.
     pub fn announce(&mut self, st: &mut AppState, free: bool) -> bool {
+        if st.update.sheet {
+            self.seen(st);
+        }
         if !free {
             return false;
         }
@@ -313,9 +355,9 @@ impl Updater {
         }
         let Some(rel) = st.update.offer.clone() else { return false };
         crate::pinfo!("updates: telling about {}", rel.version);
-        st.notice = Some(new_version_notice(&rel, st.accent, st.now + ANNOUNCE_S));
-        self.memory.announced = rel.version;
-        save(&self.path, &self.memory);
+        // No time limit: it stays until Update or Hide. Another notice may
+        // take its place; it comes back once the island is free again.
+        st.notice = Some(new_version_notice(&rel, st.accent, f64::INFINITY));
         true
     }
 
@@ -398,6 +440,11 @@ pub fn new_version_notice(rel: &Release, accent: Color, until: f64) -> Notice {
         inline: Some(InlineAction::Hide),
         reveal: None,
     }
+}
+
+/// A new version's notice, which stays until it is seen.
+fn is_new_version_notice(n: &Notice) -> bool {
+    n.action == Some(NoticeAction::OpenUpdate)
 }
 
 /// "Updated to 0.2.5" once, with What's new.
@@ -538,6 +585,112 @@ mod tests {
         assert!(st.update.sheet && st.update.ready && st.notice.is_none());
         assert!(!u.announce(&mut st, true), "and no notice for that version afterwards");
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// Download the offered Setup, so the island tells about it.
+    fn fetch(u: &mut Updater, st: &mut AppState) {
+        let (_, setup) = u.want_setup(st).expect("the Setup to download");
+        std::fs::write(&setup, b"setup bytes").unwrap();
+        u.fetched(st, Ok(setup));
+    }
+
+    #[test]
+    fn a_new_versions_notice_stays_until_update_or_hide() {
+        let dir = folder("stays");
+        let path = remembered(&dir, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path.clone(), dir.join("setups"), &mut st, 10);
+        assert!(st.update.looks, "a copy with an updater has Check now");
+        fetch(&mut u, &mut st);
+        assert!(u.announce(&mut st, true));
+        assert!(st.notice.as_ref().is_some_and(|n| n.until.is_infinite()), "no time limit");
+        // Another notice took its place: it comes back once the island is free.
+        st.notice = None;
+        assert!(u.announce(&mut st, true));
+        // Still up at quit: the next start tells again.
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path.clone(), dir.join("setups"), &mut st, 10);
+        fetch(&mut u, &mut st);
+        assert!(u.announce(&mut st, true));
+        // Hide: gone, and not again for this version, not even after a restart.
+        u.seen(&mut st);
+        assert!(st.notice.is_none());
+        assert!(!u.announce(&mut st, true));
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
+        fetch(&mut u, &mut st);
+        assert!(!u.announce(&mut st, true));
+        assert!(st.update.offer.is_some(), "Settings and the menu still offer it");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn the_update_sheet_counts_as_seen_and_switching_off_takes_the_notice_down() {
+        let dir = folder("sheet");
+        let path = remembered(&dir, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
+        fetch(&mut u, &mut st);
+        assert!(u.announce(&mut st, true));
+        // The menu's "Update to" line (or Settings' Update) opens the sheet
+        // while the notice is up: the notice goes with it.
+        st.open_update();
+        assert!(!u.announce(&mut st, false));
+        assert!(st.notice.is_none());
+        st.update.sheet = false;
+        assert!(!u.announce(&mut st, true));
+        let _ = std::fs::remove_dir_all(&dir);
+
+        let dir = folder("off");
+        let path = remembered(&dir, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
+        fetch(&mut u, &mut st);
+        assert!(u.announce(&mut st, true));
+        st.settings.update_check = false;
+        u.switched(&mut st, 20);
+        assert!(st.notice.is_none() && st.update.offer.is_none());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn check_now_answers_in_settings_not_on_the_island() {
+        let dir = folder("check-now");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(dir.join("update.json"), dir.join("setups"), &mut st, 10);
+        let now = unix_now();
+        let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+        let this = Release { version: VERSION.into(), date: String::new(), headline: "This".into(), notes: format!("{repo}/tag/v{VERSION}"), windows: None, mac: None };
+        st.update.said = Some(Said::Checking);
+        assert!(u.ask(now));
+        u.begin();
+        assert!(!u.checked(&mut st, Ok(this), now));
+        assert_eq!(st.update.said, Some(Said::UpToDate));
+        assert!(st.notice.is_none());
+        st.update.said = Some(Said::Checking);
+        assert!(u.ask(now));
+        u.begin();
+        assert!(!u.checked(&mut st, Err("offline".into()), now));
+        assert_eq!(st.update.said, Some(Said::Failed));
+        assert!(st.notice.is_none());
+        // A new version: Settings shows its row at once, and the sheet opens
+        // once the Setup is in.
+        let dir2 = folder("check-now-new");
+        let path = remembered(&dir2, b"setup bytes");
+        let mut st = AppState::new(Settings::default(), Store::default());
+        let mut u = Updater::open(path, dir2.join("setups"), &mut st, 10);
+        let rel = st.update.offer.clone().expect("a later version");
+        st.update.said = Some(Said::Checking);
+        assert!(u.ask(now));
+        u.begin();
+        assert!(!u.checked(&mut st, Ok(rel), now));
+        assert!(st.update.said.is_none() && st.notice.is_none());
+        let (_, setup) = u.want_setup(&mut st).expect("the Setup to download");
+        std::fs::write(&setup, b"setup bytes").unwrap();
+        assert!(u.fetched(&mut st, Ok(setup)), "the sheet opens");
+        assert!(st.update.sheet);
+        let _ = std::fs::remove_dir_all(&dir);
+        let _ = std::fs::remove_dir_all(&dir2);
     }
 
     #[test]
