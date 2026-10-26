@@ -950,6 +950,10 @@ enum Scene {
     TodayPicked,
     /// The AI tab while its page is a placeholder.
     AiPlaceholder,
+    /// The AI tab's heads-up notice: Claude Code close to its 5-hour limit.
+    AiNotice,
+    /// ...and Codex out of it, Oyenza Inference connected: its nudge.
+    AiNoticeOut,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -970,6 +974,21 @@ fn fake_release() -> poni_core::update::Release {
     }
 }
 
+/// The AI tab's notice in its scenes, worded by the real alerts from two
+/// readings of a 5-hour limit that resets in 2 h 20 min, on the app's clock:
+/// Claude Code from 70 to 90 %, or Codex from 70 % to all used with Oyenza
+/// Inference connected.
+fn ai_alert(st: &AppState, out: bool) -> Option<poni_core::usage::alerts::Alert> {
+    use poni_core::usage::{alerts, ProviderId, Snapshot, Source, Window, WindowKind};
+    let id = if out { ProviderId::Codex } else { ProviderId::Claude };
+    let read = |used| Snapshot {
+        windows: vec![Window::new(WindowKind::Session, "5-hour", used).resets(Some(st.unix + 2 * 3600 + 20 * 60)).length(Some(18_000))],
+        ..Snapshot::new(id, st.unix, Source::Online)
+    };
+    let cfg = alerts::AlertCfg { inference: out, ..st.usage_alert_cfg() };
+    alerts::changes(Some(&read(0.7)), &read(if out { 1.0 } else { 0.9 }), st.unix, &cfg).into_iter().next()
+}
+
 /// Running under Wine: its ntdll exports `wine_get_version`.
 fn under_wine() -> bool {
     use windows::core::{s, w};
@@ -982,7 +1001,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 90] = [
+const SCENES: [Scene; 92] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1091,6 +1110,9 @@ const SCENES: [Scene; 90] = [
     Scene::TodayPicked,
     // The AI tab, a core tab after Focus (its page lands later).
     Scene::AiPlaceholder,
+    // Its heads-up notices on the closed island.
+    Scene::AiNotice,
+    Scene::AiNoticeOut,
 ];
 
 impl Scene {
@@ -1177,6 +1199,8 @@ impl Scene {
             Scene::TodayOff => "page-today-off".into(),
             Scene::TodayPicked => "page-today-picked".into(),
             Scene::AiPlaceholder => "page-ai-placeholder".into(),
+            Scene::AiNotice => "ai-notice".into(),
+            Scene::AiNoticeOut => "ai-notice-out".into(),
         }
     }
 
@@ -2078,6 +2102,7 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 54.990".into()),
             }),
+            Scene::AiNotice | Scene::AiNoticeOut => ai_alert(st, scene == Scene::AiNoticeOut).map(|a| crate::state::usage_notice(&a, st.accent, until)),
             _ => None,
         };
         st.oyenza = if scene.oyenza() { fake_oyenza(st, scene, now) } else { OyenzaState::default() };

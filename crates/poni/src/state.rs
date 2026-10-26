@@ -569,20 +569,20 @@ impl UsageState {
 
 /// A heads-up notice from the AI tab: the service's mark and the alert's
 /// words; a click opens the AI tab. Quiet, as money notices are. Running out
-/// is orange, a limit back is green, one getting close takes the accent.
+/// and a low balance are orange, a limit back is green, one getting close
+/// takes the accent.
 pub fn usage_notice(a: &Alert, accent: Color, until: f64) -> Notice {
     let color = match a.kind {
         AlertKind::Near(_) => accent,
         AlertKind::Back => palette::GREEN,
-        // All used (and a balance running low, once the alerts lane has it).
-        _ => palette::ORANGE,
+        AlertKind::Out | AlertKind::Low => palette::ORANGE,
     };
     Notice {
         icon: service_mark(a.provider),
         color,
         title: a.title.clone(),
         title_dim: String::new(),
-        subtitle: a.subtitle.clone(),
+        subtitle: usage_line(&a.subtitle, a.nudge.as_deref()),
         until,
         action: Some(NoticeAction::OpenPage(PageKind::Ai)),
         inline: None,
@@ -590,21 +590,34 @@ pub fn usage_notice(a: &Alert, accent: Color, until: f64) -> Notice {
     }
 }
 
+/// How wide a notice's second line may be, by the Pill's guess: Classic's
+/// room for its words (372 - 58 - 22 = 292 DIP; Pill's is wider) less a
+/// little for system fonts wider than the guess.
+const NOTICE_LINE_W: f32 = 280.0;
+
+/// A notice has two lines, so a plan that ran out while Oyenza Inference is
+/// connected puts the nudge after the reset time ("Resets 14:20 · Keep going
+/// on Oyenza Inference") while both fit, else the nudge alone: the AI tab,
+/// a click away, has the reset time.
+fn usage_line(subtitle: &str, nudge: Option<&str>) -> String {
+    match nudge.map(str::trim).filter(|n| !n.is_empty()) {
+        None => subtitle.to_string(),
+        Some(n) if subtitle.trim().is_empty() => n.to_string(),
+        Some(n) => {
+            let both = format!("{} \u{b7} {n}", subtitle.trim());
+            if crate::pill::notice::guess(&both, crate::gfx::ts::FOOTNOTE) <= NOTICE_LINE_W {
+                both
+            } else {
+                n.to_string()
+            }
+        }
+    }
+}
+
 /// A service's mark on its notice: the AI tab's own until the services'
 /// marks land (then `crate::icons::service(id)`, one line).
 fn service_mark(_id: ProviderId) -> Icon {
     PageKind::Ai.icon()
-}
-
-/// Which waiting notice goes up first: a limit all used, then one getting
-/// close, then one back. The alerts lane's `AlertKind::urgency` says the same
-/// (with a low balance second): this becomes `k.urgency()` once it lands.
-fn alert_urgency(k: AlertKind) -> u8 {
-    match k {
-        AlertKind::Near(_) => 1,
-        AlertKind::Back => 0,
-        _ => 3,
-    }
 }
 
 pub struct AppState {
@@ -828,7 +841,7 @@ impl AppState {
             waiting.push((a, self.now));
         }
         // Stable: the same urgency keeps the order they came in.
-        waiting.sort_by_key(|(a, _)| std::cmp::Reverse(alert_urgency(a.kind)));
+        waiting.sort_by_key(|(a, _)| std::cmp::Reverse(a.kind.urgency()));
     }
 
     /// Put the next waiting AI notice up once the island is `free` (the app
@@ -855,13 +868,26 @@ impl AppState {
         true
     }
 
-    /// What the AI tab's notices go by (`alerts::changes`, on its worker): the
-    /// line the person picked, kept to 50..=95 % (a hand-edited 0 would say
-    /// "close" at every reading, 100 only once it is all used).
-    // Unused until the worker's `Watch` carries it (the lead's merge).
-    #[allow(dead_code)]
+    /// The line the person picked for "getting close", in percent, kept to
+    /// 50..=95: a hand-edited 0 would say so at every reading, 100 only once
+    /// it is all used.
+    pub fn usage_near_pct(&self) -> u8 {
+        self.settings.usage.near_pct.clamp(50, 95)
+    }
+
+    /// What the AI tab's notices go by, for its worker (`alerts::changes`):
+    /// that line, and the app's clock for the reset times ("Resets 14:20" or
+    /// "2:20 PM", local). A plan that runs out mentions Oyenza Inference only
+    /// while it is connected and its key works.
     pub fn usage_alert_cfg(&self) -> AlertCfg {
-        AlertCfg { near: f32::from(self.settings.usage.near_pct.clamp(50, 95)) / 100.0 }
+        let refused = self.usage.readings.get(&ProviderId::Oyenza).is_some_and(|r| matches!(r.trouble, Some(Trouble::Refused | Trouble::Disabled)));
+        AlertCfg {
+            near: f32::from(self.usage_near_pct()) / 100.0,
+            offset_min: poni_core::oyenza::offset_minutes(&self.local, self.unix),
+            use_24h: self.settings.use_24h,
+            inference: matches!(self.usage.inference, InferenceLink::On { .. }) && !refused,
+            ..AlertCfg::default()
+        }
     }
 
     pub fn cmd(&mut self, c: Command) {
@@ -1026,5 +1052,127 @@ mod tests {
         assert_eq!(u.readings[&ProviderId::Codex].trouble, None);
         u.apply(UsageEvent::Link(InferenceLink::On { account: "a•••@example.com".into() }));
         assert_eq!(u.inference, InferenceLink::On { account: "a•••@example.com".into() });
+    }
+
+    fn alert(provider: ProviderId, kind: AlertKind, title: &str) -> Alert {
+        Alert { provider, kind, title: title.into(), subtitle: "Resets 14:20".into(), nudge: None }
+    }
+
+    /// The titles of the AI notices as they go up, the island free throughout.
+    fn shown(st: &mut AppState) -> Vec<String> {
+        let mut titles = Vec::new();
+        while st.show_usage_notice(true) {
+            titles.extend(st.notice.take().map(|n| n.title));
+        }
+        titles
+    }
+
+    #[test]
+    fn ai_notices_wait_their_turn_one_per_service_most_urgent_first() {
+        use AlertKind::*;
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.settings.usage.notices = true;
+        st.now = 100.0;
+        st.hold_usage_alerts(vec![alert(ProviderId::Claude, Near(90), "Claude Code: 90% of 5-hour"), alert(ProviderId::Gemini, Back, "Gemini CLI is back")]);
+        // A later word for a service takes its place; the same urgency keeps the order they came in.
+        st.now = 110.0;
+        st.hold_usage_alerts(vec![alert(ProviderId::Codex, Out, "Codex: 5-hour used up"), alert(ProviderId::Claude, Out, "Claude Code: 5-hour used up")]);
+        st.hold_usage_alerts(vec![alert(ProviderId::OpenRouter, Low, "OpenRouter: $0.80 left")]);
+        assert_eq!(shown(&mut st), ["Codex: 5-hour used up", "Claude Code: 5-hour used up", "OpenRouter: $0.80 left", "Gemini CLI is back"]);
+        assert!(st.usage.waiting.is_empty());
+    }
+
+    #[test]
+    fn ai_notices_wait_for_a_free_island_and_drop_what_went_stale() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.now = 100.0;
+        let codex = || alert(ProviderId::Codex, AlertKind::Near(80), "Codex: 80% of 5-hour");
+        // Notices off: none is kept.
+        st.hold_usage_alerts(vec![codex()]);
+        assert!(st.usage.waiting.is_empty());
+        st.settings.usage.notices = true;
+        st.hold_usage_alerts(vec![codex()]);
+        // Nobody at the computer, a full-screen app, the island open: it waits.
+        assert!(!st.show_usage_notice(false));
+        assert!(st.notice.is_none());
+        // ...and for another notice to leave.
+        st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", "as a•••@example.com", 6.0, None);
+        assert!(!st.show_usage_notice(true));
+        assert_eq!(st.notice.as_ref().map(|n| n.title.as_str()), Some("Connected to Oyenza"));
+        st.notice = None;
+        st.now = 130.0;
+        assert!(st.show_usage_notice(true));
+        let n = st.notice.take().unwrap();
+        assert_eq!((n.title.as_str(), n.subtitle.as_str(), n.until), ("Codex: 80% of 5-hour", "Resets 14:20", 130.0 + poni_core::oyenza::NOTICE_S));
+        assert_eq!((n.action, n.inline), (Some(NoticeAction::OpenPage(PageKind::Ai)), None));
+        // Too old once the island is free: dropped.
+        st.hold_usage_alerts(vec![codex()]);
+        st.now += poni_core::oyenza::HELD_MAX_S + 1.0;
+        assert!(shown(&mut st).is_empty());
+        assert!(st.usage.waiting.is_empty());
+        // A service hidden since: dropped.
+        st.hold_usage_alerts(vec![alert(ProviderId::Claude, AlertKind::Out, "Claude Code: 5-hour used up"), codex()]);
+        st.settings.usage.hidden.push("claude".into());
+        assert_eq!(shown(&mut st), ["Codex: 80% of 5-hour"]);
+        // Notices switched off: all of them.
+        st.hold_usage_alerts(vec![alert(ProviderId::Gemini, AlertKind::Back, "Gemini CLI is back")]);
+        st.settings.usage.notices = false;
+        assert!(!st.show_usage_notice(true));
+        assert!(st.usage.waiting.is_empty());
+    }
+
+    #[test]
+    fn an_ai_notice_says_what_ran_out_and_where_to_keep_going() {
+        let accent = palette::PURPLE;
+        let color = |kind| usage_notice(&alert(ProviderId::Claude, kind, "t"), accent, 0.0).color;
+        assert_eq!(
+            [color(AlertKind::Near(90)), color(AlertKind::Out), color(AlertKind::Low), color(AlertKind::Back)],
+            [accent, palette::ORANGE, palette::ORANGE, palette::GREEN]
+        );
+        // Out with Oyenza Inference connected: the nudge follows the reset time while both fit...
+        let mut a = alert(ProviderId::Claude, AlertKind::Out, "Claude Code: 5-hour used up");
+        a.nudge = Some("Keep going on Oyenza Inference".into());
+        assert_eq!(usage_notice(&a, accent, 0.0).subtitle, "Resets 14:20 \u{b7} Keep going on Oyenza Inference");
+        a.subtitle = "Resets 2:20 PM".into();
+        assert_eq!(usage_notice(&a, accent, 0.0).subtitle, "Resets 2:20 PM \u{b7} Keep going on Oyenza Inference");
+        // ...else it stands alone (the AI tab has the reset time).
+        for long in ["Resets 10:20 AM", "Resets Thu 09:00", "Resets Tue 3 Nov", "None left for now", "Premium requests \u{b7} resets Tue 1 Dec"] {
+            a.subtitle = long.into();
+            assert_eq!(usage_notice(&a, accent, 0.0).subtitle, "Keep going on Oyenza Inference", "{long}");
+        }
+        // Without a nudge the alert's own line stays as it is.
+        a.nudge = None;
+        assert_eq!(usage_notice(&a, accent, 0.0).subtitle, "Premium requests \u{b7} resets Tue 1 Dec");
+    }
+
+    #[test]
+    fn ai_notices_go_by_a_sane_line_and_the_apps_clock() {
+        use poni_core::usage::{alerts, Source, Window, WindowKind};
+        let mut st = AppState::new(Settings::default(), Store::default());
+        for (picked, near) in [(0, 0.5), (49, 0.5), (80, 0.8), (95, 0.95), (100, 0.95), (255, 0.95)] {
+            st.settings.usage.near_pct = picked;
+            assert_eq!((st.usage_near_pct(), st.usage_alert_cfg().near), ((near * 100.0f32).round() as u8, near), "{picked}");
+        }
+        // Tue 27 Oct 2026, noon in Jakarta (UTC+7), on a 12-hour clock.
+        st.unix = 1_793_077_200;
+        st.local = LocalDateTime { year: 2026, month: 10, day: 27, hour: 12, minute: 0, second: 0 };
+        st.settings.use_24h = false;
+        st.settings.usage.near_pct = 80;
+        let cfg = st.usage_alert_cfg();
+        assert_eq!((cfg.offset_min, cfg.use_24h, cfg.inference, cfg.floor_usd), (420, false, false, alerts::AlertCfg::default().floor_usd));
+        st.usage.inference = InferenceLink::On { account: "a•••@example.com".into() };
+        assert!(st.usage_alert_cfg().inference);
+        // What the worker's alerts then say, as the island shows it.
+        let five = |used| Window::new(WindowKind::Session, "5-hour", used).resets(Some(st.unix + 2 * 3600 + 20 * 60)).length(Some(18_000));
+        let read = |used| Snapshot { windows: vec![five(used)], ..Snapshot::new(ProviderId::Claude, st.unix, Source::Online) };
+        let said = alerts::changes(Some(&read(0.7)), &read(1.0), st.unix, &st.usage_alert_cfg());
+        let n = usage_notice(&said[0], st.accent, 0.0);
+        assert_eq!((n.title.as_str(), n.color), ("Claude Code: 5-hour used up", palette::ORANGE));
+        assert!(n.subtitle.starts_with("Resets 2:20 PM \u{b7} "), "{}", n.subtitle);
+        // A refused or switched-off inference key: no nudge to a dead end.
+        for t in [Trouble::Refused, Trouble::Disabled] {
+            st.usage.readings.insert(ProviderId::Oyenza, Reading { snapshot: None, trouble: Some(t), checked_at: st.unix });
+            assert!(!st.usage_alert_cfg().inference);
+        }
     }
 }
