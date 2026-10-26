@@ -47,6 +47,9 @@ pub mod oyenza;
 // And the update file's reader, which runs on the add-ons' thread.
 #[path = "../services/update.rs"]
 pub mod update;
+// And the AI tab's worker (`poni_core::usage` does the reading).
+#[path = "../services/usage.rs"]
+pub mod usage;
 #[path = "services/location.rs"]
 pub mod location;
 #[path = "services/login.rs"]
