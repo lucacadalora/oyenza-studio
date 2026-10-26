@@ -3,8 +3,8 @@
 //! the account, from OpenRouter's own API.
 //!
 //! The key is the one typed into Oyenza Studio, else `OPENROUTER_API_KEY`
-//! (the variable OpenRouter's own tools read). A refresh asks openrouter.ai
-//! twice with it, and it goes nowhere else:
+//! (the variable tools that use OpenRouter read). A refresh asks
+//! openrouter.ai twice with it, and it goes nowhere else:
 //! - `GET /api/v1/key`: the key's spend, its limit, and whether the account
 //!   is on the free tier. Every key may ask this, so it goes first, and a
 //!   refused key or an ask to wait ends the refresh there.
