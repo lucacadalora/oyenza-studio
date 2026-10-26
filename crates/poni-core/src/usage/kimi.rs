@@ -11,7 +11,7 @@
 //!    the one this computer's Kimi Code signs in to (else kimi.ai) and,
 //!    refused there (401), to the other: both are Kimi Code's own.
 //! 2. Kimi Code's own sign-in, shared by its terminal app, desktop app and
-//!    VS Code extension: `.kimi-code\credentials\` in the home folder
+//!    VS Code extension: `.kimi-code/credentials/` in the home folder
 //!    (`%USERPROFILE%` on Windows, `~` on the Mac; `KIMI_CODE_HOME` moves
 //!    it), `kimi-code.json` for a kimi.com sign-in and
 //!    `kimi-code-env-0e4f99c69cc27850.json` for kimi.ai. The token lives 15
@@ -125,10 +125,16 @@ struct SignIn {
 fn sign_in(got: &Got, server: &'static str) -> Option<SignIn> {
     let v = got.json()?;
     let token = v["access_token"].as_str()?.trim();
-    if token.is_empty() {
+    if token.is_empty() || !header_safe(token) {
         return None;
     }
     Some(SignIn { token: token.to_string(), expires_at: time(&v["expires_at"]).unwrap_or(0), server })
+}
+
+/// Printable ASCII only, so a mangled key never reaches a header (where an
+/// HTTP error could quote it back).
+fn header_safe(t: &str) -> bool {
+    t.bytes().all(|b| b.is_ascii_graphic())
 }
 
 /// The key or token to ask with and the servers to ask, in order, or why
@@ -137,6 +143,10 @@ fn ask_with(cx: &Ctx) -> Result<(String, Vec<&'static str>), Trouble> {
     // Signed in to both servers: the newer sign-in.
     let signed = SIGNINS.iter().enumerate().filter_map(|(i, (_, server))| sign_in(cx.got(i), server)).max_by_key(|s| s.expires_at);
     if let Some(key) = cx.got(KEY).text().map(str::trim).filter(|k| !k.is_empty()) {
+        if !header_safe(key) {
+            return Err(Trouble::Refused);
+        }
+        // Which server made it is unsaid: this computer's Kimi Code's first.
         let first = signed.as_ref().map_or(KIMI_AI, |s| s.server);
         let other = if first == KIMI_AI { KIMI_COM } else { KIMI_AI };
         return Ok((key.to_string(), vec![first, other]));
@@ -253,7 +263,7 @@ fn length(w: &Value) -> Option<u32> {
         "TIME_UNIT_DAY" => 86_400,
         _ => return None,
     };
-    let n = num(&w["duration"]).filter(|n| *n >= 1.0 && *n <= 1e6)?;
+    let n = num(&w["duration"]).filter(|n| (1.0..=1e6).contains(n))?;
     u32::try_from(n as u64 * unit).ok()
 }
 
@@ -278,7 +288,7 @@ fn wallet(w: &Value) -> (Option<Money>, Vec<Spend>) {
         return (None, Vec::new());
     }
     let currency = ["monthlyChargeLimit", "monthlyUsed"].iter().filter_map(|k| w[*k]["currency"].as_str()).find(|c| !c.is_empty()).unwrap_or("USD");
-    let money = |dollars: f64| Money { micros: micros(dollars), currency: currency.to_string() };
+    let money = |units: f64| Money { micros: micros(units), currency: currency.to_string() };
     let cents = |k: &str| num(&w[k]["priceInCents"]);
     let cap = cents("monthlyChargeLimit").filter(|c| *c > 0.0 && w["monthlyChargeLimitEnabled"] == true).map(|c| money(c / 100.0));
     let month = Spend { label: "This month".into(), money: money(cents("monthlyUsed").unwrap_or(0.0) / 100.0), cap };
@@ -388,8 +398,10 @@ mod tests {
             assert!(asked.is_empty());
             assert_eq!(out, Err(Trouble::SignedOut));
         }
-        // A typed key that's only spaces is no key.
+        // A typed key that's only spaces is no key, and a token with a break in it no sign-in.
         assert_eq!(run(&got(None, None, Some("  "), true), Reach::Online, &[]).1, Err(Trouble::SignedOut));
+        let mangled = SIGNED_IN.replace("test-token", "test-\\ntoken");
+        assert_eq!(run(&got(Some(&mangled), None, None, true), Reach::Online, &[]).1, Err(Trouble::SignedOut));
     }
 
     #[test]
@@ -484,6 +496,10 @@ mod tests {
         assert_eq!(urls(&asked), ["https://api.kimi.ai/coding/v1/usages", "https://api.kimi.com/coding/v1/usages", "https://api.kimi.com/coding/v1/me"]);
         assert!(asked.iter().all(|r| r.headers[0] == ("Authorization".to_string(), "Bearer sk-kimi-test".to_string())));
         assert_eq!(out.unwrap().windows.len(), 2);
+        // A key pasted with a space in it never goes out.
+        let (asked, out) = run(&got(None, None, Some("sk-kimi te st"), false), Reach::Online, &[]);
+        assert!(asked.is_empty());
+        assert_eq!(out, Err(Trouble::Refused));
         // Refused by both: refused.
         let (asked, out) = run(&got(None, None, key, false), Reach::Online, &[answer(401, ""), answer(401, "")]);
         assert_eq!(asked.len(), 2);
@@ -512,7 +528,9 @@ mod tests {
 
     #[test]
     fn answers_we_cant_read_say_so() {
-        for (body, why) in [("<html>Bad gateway</html>", "not JSON"), ("{}", "no limits"), (r#"{"usages": {"limit_5h": {"reset_time": "2026-10-27T08:12:30Z"}, "limit_7d": {"used_ratio": -0.5}}}"#, "no limits")] {
+        // A share without its number, or a negative one, is no reading.
+        let empty = r#"{"usages": {"limit_5h": {"reset_time": "2026-10-27T08:12:30Z"}, "limit_7d": {"used_ratio": -0.5}}}"#;
+        for (body, why) in [("<html>Bad gateway</html>", "not JSON"), ("{}", "no limits"), (empty, "no limits")] {
             let (asked, out) = run(&got(Some(SIGNED_IN), None, None, true), Reach::Online, &[answer(200, body)]);
             assert_eq!(asked.len(), 1, "no /me after an answer we can't read");
             assert_eq!(out, Err(Trouble::Unreadable(why.into())));
