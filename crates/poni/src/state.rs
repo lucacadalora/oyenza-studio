@@ -306,6 +306,8 @@ pub struct PageUiState {
     /// the side of the camera they peek out from (`mac/notch.rs`).
     #[cfg(target_os = "macos")]
     pub peek: poni_core::peek::Peek,
+    /// The Stocks page: its scroll, search, edit mode and chart animation.
+    pub stocks: crate::pages::stocks::StocksUi,
 }
 
 /// Whether Windows lets Oyenza Studio read a game's frames. Its event tracing
@@ -446,6 +448,56 @@ pub enum CityFile {
     Failed,
 }
 
+/// The Stocks add-on's prices, kept in memory only (the list itself is
+/// `store.stocks`). Filled by `services::stocks` while the page is open.
+#[derive(Clone, Debug, Default)]
+pub struct StocksState {
+    /// The last answer, and the Unix time it came or was last confirmed unchanged.
+    pub board: Option<poni_core::stocks::Board>,
+    pub checked: Option<i64>,
+    /// Why the last ask failed, until one goes through.
+    pub trouble: Option<crate::services::stocks::Trouble>,
+    /// Every listed stock's name, once the search has asked for them.
+    pub names: Option<std::sync::Arc<poni_core::stocks::Names>>,
+    pub names_failed: bool,
+    /// Years of daily closes read this run, by code (the IHSG's too).
+    pub years: HashMap<String, poni_core::stocks::History>,
+    /// Codes whose year couldn't be read.
+    pub no_year: Vec<String>,
+}
+
+impl StocksState {
+    pub fn apply(&mut self, ev: crate::services::stocks::StocksEvent, unix: i64) {
+        use crate::services::stocks::StocksEvent;
+        match ev {
+            StocksEvent::Board(b) => {
+                self.board = Some(b);
+                self.checked = Some(unix);
+                self.trouble = None;
+            }
+            StocksEvent::Same => {
+                self.checked = Some(unix);
+                self.trouble = None;
+            }
+            StocksEvent::Failed(why) => self.trouble = Some(why),
+            StocksEvent::Names(n) => {
+                self.names = Some(n);
+                self.names_failed = false;
+            }
+            StocksEvent::NoNames => self.names_failed = true,
+            StocksEvent::History(h) => {
+                self.no_year.retain(|c| *c != h.code);
+                self.years.insert(h.code.clone(), h);
+            }
+            StocksEvent::NoHistory(code) => {
+                if !self.no_year.contains(&code) {
+                    self.no_year.push(code);
+                }
+            }
+        }
+    }
+}
+
 /// The Prayer times add-on's live state.
 #[derive(Clone, Debug, Default)]
 pub struct PrayerState {
@@ -551,6 +603,8 @@ pub struct AppState {
     /// Oyenza Studio Recorder is installed, so the Script page shows Record.
     /// Asked each time the page comes on screen, never at rest.
     pub recorder: bool,
+    /// The Stocks add-on's prices (its list: `store.stocks`).
+    pub stocks: StocksState,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -617,20 +671,24 @@ impl AppState {
             script_note: None,
             script_hidden: None,
             recorder: false,
+            stocks: StocksState::default(),
             cmds: Vec::new(),
         };
+        // A list from a hand-edited file keeps to codes, each once, ten at most.
+        st.store.stocks.tidy();
         // On ones start by checking their files (the worker reports back);
         // one without files is ready at once.
         for a in poni_core::addons::ALL {
             let on = st.settings.addon_on(a.id);
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
-        // Last open on the Script, System or Health page, since switched off:
-        // open where a new island does.
+        // Last open on the Script, System, Health or Stocks page, since
+        // switched off: open where a new island does.
         let off = match st.page {
             PageKind::Script => !st.script_on(),
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
+            PageKind::Stocks => !st.stocks_on(),
             _ => false,
         };
         if off {
@@ -657,6 +715,12 @@ impl AppState {
     /// The Health add-on is on: the Health tab shows and the steps are asked for.
     pub fn health_on(&self) -> bool {
         self.addon(poni_core::addons::HEALTH.id) == AddonStatus::Ready
+    }
+
+    /// The Stocks add-on is on: the Stocks tab shows (its prices are asked
+    /// for only while the page is on screen).
+    pub fn stocks_on(&self) -> bool {
+        self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.
