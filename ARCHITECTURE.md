@@ -191,10 +191,11 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   checks the tab's day list every 15 s only while the tab is on screen
   (`App::set_oyenza_watch`, beside the System page's sampler); words,
   parsing and cadence are in `poni_core::oyenza`, the tab in `pages/oyenza.rs`.
-  The Today page's day (`GET /island/day`: Google Calendar's events and the
-  flights from Gmail that the person switched on in oyenza.app) is asked for
-  when Today opens and every 5 minutes while it stays (`App::set_today_watch`);
-  reading it and its rows are in `poni_core::agenda`, the page in
+  The Today page's days (`GET /island/day?days=35`: today and the next five
+  weeks of Google Calendar's events and the flights from Gmail that the person
+  switched on in oyenza.app) are asked for when Today opens and every 5
+  minutes while it stays (`App::set_today_watch`); reading them, the list's
+  days and rows and each date's dots are in `poni_core::agenda`, the page in
   `pages/today.rs`, which keeps the stat tiles for a server without the day.
 * `PONI_HOME` overrides both (the self-test uses it).
 
