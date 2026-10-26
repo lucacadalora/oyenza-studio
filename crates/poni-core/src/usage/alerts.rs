@@ -75,7 +75,8 @@ pub struct Alert {
 }
 
 /// Placeholder words until the Oyenza lane writes the real ones.
-const NUDGE: &str = "Carry on with Oyenza Inference";
+/// The Oyenza Inference card's own words for it.
+const NUDGE: &str = super::oyenza::NUDGE;
 
 /// The longest title that keeps "of <window>" on its line: about what
 /// Classic's notice fits at 15 DIP (Pill's is wider), measured on the

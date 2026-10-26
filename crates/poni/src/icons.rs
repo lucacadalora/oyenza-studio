@@ -118,7 +118,6 @@ pub enum Icon {
 }
 
 /// A service's mark, for its card on the AI tab and its notices.
-#[allow(dead_code)] // the AI tab and its notices call it once they land; drop the allow then
 pub fn service(id: ProviderId) -> Icon {
     match id {
         ProviderId::Codex => Icon::OpenAi,
