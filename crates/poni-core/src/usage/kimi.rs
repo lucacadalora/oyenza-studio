@@ -272,8 +272,8 @@ fn span(s: u32) -> (WindowKind, String) {
     match s {
         WEEK => (WindowKind::Weekly, "Weekly".into()),
         86_400 => (WindowKind::Daily, "Daily".into()),
-        _ if s % 86_400 == 0 => (WindowKind::Other, format!("{}-day", s / 86_400)),
-        _ if s % 3600 == 0 => (WindowKind::Session, format!("{}-hour", s / 3600)),
+        _ if s.is_multiple_of(86_400) => (WindowKind::Other, format!("{}-day", s / 86_400)),
+        _ if s.is_multiple_of(3600) => (WindowKind::Session, format!("{}-hour", s / 3600)),
         _ => (WindowKind::Session, format!("{}-minute", s / 60)),
     }
 }
