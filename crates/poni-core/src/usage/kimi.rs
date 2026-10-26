@@ -24,7 +24,7 @@
 //! abuse). Should Kimi ever answer only its own client, that shows as
 //! [`Trouble::Refused`].
 
-use super::{join, mask_email, micros, num, reply_json, time, Ctx, Dirs, Got, KeyAsk, Money, NetFail, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
+use super::{mask_email, micros, num, reply_json, time, Ctx, Dirs, Got, KeyAsk, Money, NetFail, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
 use serde_json::Value;
 
 /// Kimi Code's two servers: mainland China's, and the rest of the world's.
@@ -65,9 +65,9 @@ impl Provider for Kimi {
 
     fn wants(&self, dirs: &Dirs) -> Vec<Want> {
         let home = dirs.var_or_home("KIMI_CODE_HOME", ".kimi-code");
-        let mut wants: Vec<Want> = SIGNINS.iter().map(|(file, _)| Want::File { path: join(&home, &["credentials", file]), max: 64 * 1024 }).collect();
+        let mut wants: Vec<Want> = SIGNINS.iter().map(|(file, _)| Want::File { path: dirs.join(&home, &["credentials", file]), max: 64 * 1024 }).collect();
         wants.push(Want::Secret(SECRET));
-        wants.push(Want::File { path: home.join("device_id"), max: 1024 });
+        wants.push(Want::File { path: dirs.join(&home, &["device_id"]), max: 1024 });
         wants
     }
 
@@ -360,13 +360,13 @@ mod tests {
 
     #[test]
     fn reads_kimi_codes_files_on_windows_and_the_mac() {
-        for (os, home) in [(Os::Windows, PathBuf::from(r"C:\Users\u")), (Os::Mac, PathBuf::from("/Users/u"))] {
-            let kimi = home.join(".kimi-code");
+        for (os, kimi, sep) in [(Os::Windows, r"C:\Users\u\.kimi-code", r"\"), (Os::Mac, "/Users/u/.kimi-code", "/")] {
+            let at = |rel: &[&str]| PathBuf::from(format!("{kimi}{sep}{}", rel.join(sep)));
             assert_eq!(Kimi.wants(&Dirs::sample(os)), vec![
-                Want::File { path: kimi.join("credentials").join("kimi-code.json"), max: 64 * 1024 },
-                Want::File { path: kimi.join("credentials").join("kimi-code-env-0e4f99c69cc27850.json"), max: 64 * 1024 },
+                Want::File { path: at(&["credentials", "kimi-code.json"]), max: 64 * 1024 },
+                Want::File { path: at(&["credentials", "kimi-code-env-0e4f99c69cc27850.json"]), max: 64 * 1024 },
                 Want::Secret("kimi"),
-                Want::File { path: kimi.join("device_id"), max: 1024 },
+                Want::File { path: at(&["device_id"]), max: 1024 },
             ]);
         }
         // KIMI_CODE_HOME moves all of it, as it does for Kimi Code.
@@ -374,8 +374,8 @@ mod tests {
         let mut dirs = Dirs::sample(Os::Windows);
         dirs.env.push(("KIMI_CODE_HOME".into(), r"D:\kimi".into()));
         let wants = Kimi.wants(&dirs);
-        assert_eq!(wants[1], Want::File { path: PathBuf::from(r"D:\kimi").join("credentials").join("kimi-code-env-0e4f99c69cc27850.json"), max: 64 * 1024 });
-        assert_eq!(wants[3], Want::File { path: PathBuf::from(r"D:\kimi").join("device_id"), max: 1024 });
+        assert_eq!(wants[1], Want::File { path: PathBuf::from(r"D:\kimi\credentials\kimi-code-env-0e4f99c69cc27850.json"), max: 64 * 1024 });
+        assert_eq!(wants[3], Want::File { path: PathBuf::from(r"D:\kimi\device_id"), max: 1024 });
         // The kimi.ai file's name, the way Kimi Code makes it.
         let slot = crate::sha256::hex(&crate::sha256::sha256(br#"{"oauthHost":"https://auth.kimi.ai","baseUrl":"https://api.kimi.ai/coding/v1"}"#));
         assert_eq!(SIGNINS[1].0, format!("kimi-code-env-{}.json", &slot[..16]));
