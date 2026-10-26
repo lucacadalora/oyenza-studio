@@ -1394,27 +1394,12 @@ impl App {
         }
     }
 
-    /// What the AI tab's worker found goes into `st.usage`, and its heads-up
-    /// notices on the island (held while a full-screen app hides it).
+    /// What the AI tab's worker found goes into `st.usage`. Its heads-up
+    /// notices wait their turn for the island (`tick` puts them up one at a
+    /// time once it is free); the frame `on_event` asks for looks at once.
     fn on_usage(&mut self, ev: services::usage::UsageEvent) {
         match ev {
-            services::usage::UsageEvent::Alerts(alerts) => {
-                // One notice at a time: the first.
-                if let Some(a) = alerts.into_iter().next() {
-                    let notice = Notice {
-                        icon: PageKind::Ai.icon(),
-                        color: self.st.accent,
-                        title: a.title,
-                        title_dim: String::new(),
-                        subtitle: a.subtitle,
-                        until: self.st.now + oyenza::NOTICE_S,
-                        action: Some(NoticeAction::OpenPage(PageKind::Ai)),
-                        inline: None,
-                        reveal: None,
-                    };
-                    self.st.show_or_hold(notice, self.fullscreen_hidden);
-                }
-            }
+            services::usage::UsageEvent::Alerts(alerts) => self.st.hold_usage_alerts(alerts),
             ev => self.st.usage.apply(ev),
         }
     }
@@ -2809,6 +2794,13 @@ impl App {
         // free. The first frame counts (the window shows at its end).
         let free = !self.fullscreen_hidden && !self.locked && !self.display_off && !self.expanded && self.st.notice.is_none();
         if self.updater.as_mut().is_some_and(|u| u.announce(&mut self.st, free)) {
+            self.request_frame();
+        }
+        // The AI tab's heads-up notices wait the same way, one at a time.
+        // Over a game whose readout only peeks they wait for the game to
+        // leave, as held money notices do, not for a peek.
+        let peeks = self.st.game.active && self.st.settings.game_peek;
+        if self.st.show_usage_notice(free && !peeks, self.expanded && self.st.page == PageKind::Ai) {
             self.request_frame();
         }
         if let Some(ended) = self.st.pomodoro.tick(now) {
