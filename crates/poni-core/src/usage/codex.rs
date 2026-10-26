@@ -313,7 +313,10 @@ fn plan_name(id: &str) -> Option<String> {
         "edu_plus" => "Edu Plus",
         "edu_pro" => "Edu Pro",
         // A plan newer than this list: its id in words ("sci_plus" is "Sci Plus").
-        _ => return Some(id.split(['_', '-', ' ']).filter(|w| !w.is_empty()).map(capital).collect::<Vec<_>>().join(" ")),
+        _ => {
+            let words: Vec<String> = id.split(['_', '-', ' ']).filter(|w| !w.is_empty()).map(capital).collect();
+            return (!words.is_empty()).then(|| words.join(" "));
+        }
     };
     Some(name.into())
 }
@@ -330,8 +333,9 @@ mod tests {
 
     /// 2026-10-27T05:00:00Z.
     const NOW: i64 = 1_793_077_200;
-    // Hand-made, every value fake (test-token, acct_test, a@example.com); the
-    // JWTs come from notes/codex-make-fixtures.py in the lanes folder.
+    // Hand-made, every value fake. The tokens are JWTs signed "test-token"
+    // whose claims hold a@example.com, acct_test and the plan "plus"; the
+    // access token runs out in 2100 (auth-expired.json: 2026-10-26T07:33:20Z).
     const AUTH: &str = include_str!("fixtures/codex/auth.json");
     const AUTH_EXPIRED: &str = include_str!("fixtures/codex/auth-expired.json");
     const AUTH_KEY: &str = include_str!("fixtures/codex/auth-apikey.json");
@@ -528,7 +532,7 @@ mod tests {
 
     #[test]
     fn plans_and_windows_get_plain_names() {
-        for (id, name) in [("plus", Some("Plus")), ("pro", Some("Pro")), ("prolite", Some("Pro Lite")), ("team", Some("Team")), ("self_serve_business_usage_based", Some("Business")), ("ent26", Some("Enterprise")), ("education", Some("Edu")), ("free", Some("Free")), ("sci_plus", Some("Sci Plus")), ("unknown", None), ("", None)] {
+        for (id, name) in [("plus", Some("Plus")), ("pro", Some("Pro")), ("prolite", Some("Pro Lite")), ("team", Some("Team")), ("self_serve_business_usage_based", Some("Business")), ("ent26", Some("Enterprise")), ("education", Some("Edu")), ("free", Some("Free")), ("sci_plus", Some("Sci Plus")), ("unknown", None), ("", None), ("__", None)] {
             assert_eq!(plan_name(id).as_deref(), name, "{id}");
         }
         assert_eq!(named(300), (WindowKind::Session, "5-hour".into()));
