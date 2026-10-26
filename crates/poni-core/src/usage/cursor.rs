@@ -114,7 +114,7 @@ fn online(cx: &Ctx, values: &[Option<String>], replies: &[Result<Reply, NetFail>
         _ => return Step::Done(Err(Trouble::SignedOut)),
     };
     let Some(sign) = Sign::read(token) else {
-        return Step::Done(Err(Trouble::Unreadable("Cursor's sign-in isn't a token this reads".into())));
+        return Step::Done(Err(Trouble::Unreadable("Cursor's sign-in isn't in a form this reads".into())));
     };
     // CodexBar's margin: a token this close to its end can lapse on the way.
     if sign.exp <= cx.now + 60 {
@@ -293,8 +293,8 @@ mod sqlite {
     /// WAL frames looked through: 64 index blocks, about 1 GB of WAL at 4 KB
     /// pages (a busy Cursor's has been seen near 90 MB).
     const FRAMES_MAX: u32 = 4062 + 63 * 4096;
-    const ODD: Halt = Halt::Bad("Cursor's sign-in store is laid out in a way this doesn't read");
-    const CHANGED: Halt = Halt::Bad("Cursor's sign-in store changed while it was read");
+    const ODD: Halt = Halt::Bad("Cursor's sign-in file has a layout this can't read");
+    const CHANGED: Halt = Halt::Bad("Cursor's sign-in file changed while being read");
 
     /// The database's three files.
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -470,7 +470,7 @@ mod sqlite {
                 return Ok(None);
             }
             if h.len() < 100 || &h[..16] != b"SQLite format 3\0" {
-                return Err(Halt::Bad("Cursor's sign-in store isn't a SQLite file"));
+                return Err(Halt::Bad("Cursor's sign-in file isn't a database"));
             }
             let size = match be16(h, 16) {
                 Some(1) => 65536,
@@ -580,7 +580,7 @@ mod sqlite {
                 return Ok(Cow::Borrowed(p.here));
             }
             if p.size > VALUE_MAX {
-                return Err(Halt::Bad("a value in Cursor's sign-in store is too big"));
+                return Err(Halt::Bad("a value in Cursor's sign-in file is too big"));
             }
             let size = p.size as usize;
             let mut out = p.here.to_vec();
@@ -720,7 +720,6 @@ mod sqlite {
             }
             Ok((t, x))
         }
-
     }
 
     /// The WAL's index: its header (two copies, 96 bytes; never bytes 120 to
@@ -756,7 +755,7 @@ mod sqlite {
             return Ok(None);
         }
         if last > FRAMES_MAX {
-            return Err(Halt::Bad("Cursor's write-ahead log is too big to read"));
+            return Err(Halt::Bad("Cursor's sign-in file has too many recent changes to read"));
         }
         let len = slot(last) + 4 - 136;
         let slots = r.read(Part::Shm, 136, len as u32)?.filter(|s| s.len() == len).ok_or(CHANGED)?;
@@ -1072,7 +1071,7 @@ mod tests {
         // The index header's two copies differ: SQLite was writing it.
         let mut shm = WAL_SHM.to_vec();
         shm[16] ^= 1;
-        assert_eq!(values(&files(WAL_DB, Some((WAL_LOG, &shm[..]))), &KEYS).0, Err(Halt::Bad("Cursor's sign-in store changed while it was read")));
+        assert_eq!(values(&files(WAL_DB, Some((WAL_LOG, &shm[..]))), &KEYS).0, Err(Halt::Bad("Cursor's sign-in file changed while being read")));
         // Both copies changed alike, but the checksum doesn't match.
         shm[48 + 16] ^= 1;
         assert!(matches!(values(&files(WAL_DB, Some((WAL_LOG, &shm[..]))), &KEYS).0, Err(Halt::Bad(_))));
@@ -1081,7 +1080,7 @@ mod tests {
         for frame in 0..(log.len() - 32) / 536 {
             log[32 + frame * 536 + 8] ^= 0xff;
         }
-        assert_eq!(values(&files(WAL_DB, Some((&log[..], WAL_SHM))), &KEYS).0, Err(Halt::Bad("Cursor's sign-in store changed while it was read")));
+        assert_eq!(values(&files(WAL_DB, Some((&log[..], WAL_SHM))), &KEYS).0, Err(Halt::Bad("Cursor's sign-in file changed while being read")));
         // The WAL is gone but its index stayed: not believed either.
         let gone = vec![files(WAL_DB, None).remove(0), (Part::Shm.path(&store(&Dirs::sample(Os::Windows))), WAL_SHM.to_vec())];
         assert!(matches!(values(&gone, &KEYS).0, Err(Halt::Bad(_))));
