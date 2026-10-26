@@ -118,6 +118,13 @@ jobs:
           spctl --assess --type execute -vv "/tmp/poni-dmg/Oyenza Studio.app" || echo "(expected: Gatekeeper turns down a build that isn't signed with a Developer ID yet)"
           hdiutil detach /tmp/poni-dmg
 
+      # A Mac installs its own update (docs/updates.md): an installed copy
+      # finds a newer version waiting (this build numbered 99.0.0, in a DMG
+      # made like a release's), takes the app out, swaps it into its own
+      # place, quits, and the new version opens.
+      - name: Update in place (the app replaces itself)
+        run: bash tools/mac-update-test.sh "dist/Oyenza Studio.app"
+
       - uses: actions/upload-artifact@v4
         with:
           name: oyenza-studio-mac-dmg

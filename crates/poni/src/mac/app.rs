@@ -169,6 +169,12 @@ pub fn main_entry() -> i32 {
             return 0;
         }
     };
+    // Install on next start: the new version, downloaded and checked
+    // earlier, takes this copy's place now, before any window, and opens
+    // once this copy has quit.
+    if smoke_dir.is_none() && crate::updates::pending_install() {
+        return 0;
+    }
     let nsapp = NSApplication::sharedApplication(mtm);
     // A menu bar app: no Dock icon, no menu bar of its own.
     nsapp.setActivationPolicy(NSApplicationActivationPolicy::Accessory);
@@ -552,6 +558,7 @@ impl App {
         };
         self.sync_addons();
         self.schedule_update();
+        self.fetch_setup();
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
             self.st.cmds.push(Command::LoadThumb(p));
@@ -1118,8 +1125,47 @@ impl App {
         }
     }
 
-    /// Update (the menu, the notice, Settings): download the DMG for now.
+    /// The offered version's DMG, once per release, on the add-on thread,
+    /// which then takes its app out (after a look at the file, and at start
+    /// for one already offered). Only where this copy can replace itself.
+    fn fetch_setup(&mut self) {
+        let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
+        if self.addons.is_none() {
+            match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
+                Ok(svc) => self.addons = Some(svc),
+                Err(e) => pwarn!("add-ons: unavailable ({e})"),
+            }
+        }
+        let job = services::update::download_job(self.sink.clone(), d, path);
+        if self.addons.as_ref().map(|a| a.run(job)).is_none() {
+            if let Some(u) = self.updater.as_mut() {
+                u.fetched(&mut self.st, Err("the add-on thread isn't running".into()));
+            }
+        }
+    }
+
+    /// Install now (the Update sheet): put the new app in this copy's place,
+    /// quit (saving, as on any quit) and let it open. Where that can't be
+    /// done, the DMG: the one downloaded here if it is in (opened, to drag by
+    /// hand), else the one on the release page.
     fn update_now(&mut self) {
+        let ready = self.updater.as_ref().and_then(|u| u.ready_setup(&self.st));
+        if let Some((app, d)) = ready {
+            match services::update::install(&app, d.version().unwrap_or_default()) {
+                Ok(()) => {
+                    pinfo!("updates: installing {}", d.file_name());
+                    self.quit(0);
+                    return;
+                }
+                Err(e) => pwarn!("updates: couldn't install in place ({e}); opening the DMG"),
+            }
+            if let Some(dmg) = self.updater.as_ref().and_then(|u| u.downloaded(&self.st)) {
+                services::open(&dmg.to_string_lossy());
+                self.collapse();
+                self.st.notify(Icon::Download, self.st.accent, "Install it by hand this time", "Drag Oyenza Studio to Applications in the window that opened", 10.0, None);
+                return;
+            }
+        }
         if let Some(url) = self.updater.as_ref().and_then(|u| u.download_page(&self.st)) {
             pinfo!("updates: opening {url}");
             services::open(&url);
@@ -1336,8 +1382,15 @@ impl App {
                     u.checked(&mut self.st, r, crate::updates::unix_now());
                 }
                 self.schedule_update();
+                self.fetch_setup();
                 self.refresh_menu();
                 // A frame, so a new version's notice goes up now, not with the next redraw.
+                self.request_frame();
+            }
+            AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
+                if let Some(u) = self.updater.as_mut() {
+                    u.fetched(&mut self.st, r);
+                }
                 self.request_frame();
             }
             AppEvent::Located(found) => self.on_located(found),
@@ -2192,8 +2245,11 @@ impl App {
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
                 Command::Update => self.update_now(),
-                // The Mac downloads the DMG; its sheet has no such card.
-                Command::InstallOnNextStart => {}
+                Command::InstallOnNextStart => {
+                    if let Some(u) = self.updater.as_mut() {
+                        u.install_on_next_start(&mut self.st);
+                    }
+                }
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     if (services::login::status() == Login::On) != on {
