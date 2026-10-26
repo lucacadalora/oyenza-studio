@@ -29,9 +29,7 @@ use crate::state::InferenceLink;
 use poni_core::usage::alerts::{Alert, AlertCfg, Memory};
 use poni_core::usage::pace::{self, Look, Looks, Pace};
 use poni_core::usage::{self, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
-use std::collections::BTreeSet;
-#[cfg(target_os = "macos")]
-use std::collections::HashMap;
+use std::collections::{BTreeSet, HashMap};
 use std::path::PathBuf;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
@@ -41,6 +39,9 @@ const USER_AGENT: &str = concat!("OyenzaStudio/", env!("CARGO_PKG_VERSION"), " (
 const TIMEOUT: Duration = Duration::from_secs(8);
 /// A typed key longer than this is a paste gone wrong.
 const KEY_MAX: usize = 4096;
+/// A keychain sign-in that stopped working is read again after this at the
+/// soonest (or at Refresh): each read can bring the keychain's prompt back.
+const KEYCHAIN_GAP_S: i64 = 600;
 
 /// What the island wants from the worker (`App::set_usage_watch`).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -173,6 +174,9 @@ struct Svc {
     /// The log said once that it broke the rules or had a line break in a
     /// header.
     warned: bool,
+    /// Its reader failed (a panic): left alone for the rest of the run, so
+    /// the other services and the tab carry on.
+    failed: bool,
 }
 
 struct Worker {
@@ -188,6 +192,8 @@ struct Worker {
     looks: Looks,
     /// What the island wanted when the worker last looked at its queue.
     watch: Watch,
+    /// The notices' choices as of the last look.
+    cfg: AlertCfg,
     /// A code on screen for inference.oyenza.com, and its link as last told.
     pending: Option<oyenza::Pending>,
     link: InferenceLink,
@@ -238,6 +244,7 @@ impl Worker {
             keychain: Keychain::default(),
             looks: Looks::default(),
             watch: Watch::default(),
+            cfg: AlertCfg::default(),
             pending: None,
             link: InferenceLink::Off,
             epoch: Instant::now(),
@@ -304,7 +311,7 @@ impl Worker {
         if w.open {
             self.send(UsageEvent::Refreshing(true));
         }
-        let cfg = w.notices.then(|| self.alert_cfg());
+        self.cfg = self.alert_cfg();
         let mut alerts = Vec::new();
         let mut cut = false;
         for (i, p) in usage::all().into_iter().enumerate() {
@@ -313,8 +320,8 @@ impl Worker {
                 break;
             }
             let wants = p.wants(&self.dirs);
-            if self.shown(p, &wants) {
-                alerts.extend(self.refresh(i, p, &wants, look, cfg.as_ref()));
+            if !self.svcs[i].failed && self.shown(p, &wants) {
+                alerts.extend(self.refresh(i, p, &wants, look));
             }
         }
         if !cut {
@@ -365,17 +372,30 @@ impl Worker {
     }
 
     /// One service: what it asks for read, its requests made, what it found
-    /// kept and told. Returns its notices (`notices`: they're on).
-    fn refresh(&mut self, i: usize, p: &dyn Provider, wants: &[Want], look: Look, notices: Option<&AlertCfg>) -> Vec<Alert> {
+    /// kept and told. Returns its notices.
+    fn refresh(&mut self, i: usize, p: &dyn Provider, wants: &[Want], look: Look) -> Vec<Alert> {
         let Some(reach) = self.svcs[i].pace.reach(self.tick(), p.min_gap_s(), look) else { return Vec::new() };
-        let now = crate::clock::unix_now();
+        let (now, tick) = (crate::clock::unix_now(), self.tick());
         let Worker { dirs, names, keychain, client, .. } = self;
-        let run = pace::run(p, dirs, wants, now, reach, |w| read(w, names, keychain), |req| fetch(client, req));
-        self.heard(i, p, wants, reach, run, notices)
+        // A reader reads other apps' files and servers' answers: should one
+        // of them trip it up, the rest of the tab carries on without it.
+        let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| pace::run(p, dirs, wants, now, reach, |w| read(w, names, keychain, tick), |req| fetch(client, req))));
+        match run {
+            Ok(run) => self.heard(i, p, wants, reach, run),
+            Err(_) => {
+                self.svcs[i].failed = true;
+                crate::pwarn!("usage: {}: its reader failed; left alone until the app starts again", p.id().key());
+                Vec::new()
+            }
+        }
     }
 
-    /// What a refresh came to: kept, logged and told, and its notices.
-    fn heard(&mut self, i: usize, p: &dyn Provider, wants: &[Want], reach: Reach, run: pace::Run, notices: Option<&AlertCfg>) -> Vec<Alert> {
+    /// What a refresh came to: kept, logged and told. Every good reading
+    /// goes through the notices' memory, so it stays current while they're
+    /// off (nothing old to say once they come on, and "back" still comes
+    /// after a break, when nothing was read); what it says goes to the
+    /// island only while they're on.
+    fn heard(&mut self, i: usize, p: &dyn Provider, wants: &[Want], reach: Reach, run: pace::Run) -> Vec<Alert> {
         let (id, now, tick) = (p.id(), crate::clock::unix_now(), self.tick());
         let svc = &mut self.svcs[i];
         svc.pace.heard(tick, reach, run.asked > 0, run.outcome.as_ref());
@@ -395,14 +415,18 @@ impl Worker {
                 }
                 let show = svc.kept.clone().expect("kept just now");
                 svc.trouble = None;
-                let alerts = notices.map(|cfg| svc.memory.changes(&show, now, cfg)).unwrap_or_default();
+                let alerts = svc.memory.changes(&show, now, &self.cfg);
                 self.note(i, "numbers in");
                 if id == ProviderId::Oyenza && self.pending.is_none() {
                     let account = show.account.clone().unwrap_or_else(|| self.inference_account());
                     self.set_link(InferenceLink::On { account });
                 }
                 self.send(UsageEvent::Reading { id, outcome: Ok(show), at: now });
-                alerts
+                if self.watch.notices {
+                    alerts
+                } else {
+                    Vec::new()
+                }
             }
             // Only "not asked online yet": never a trouble on the tab.
             Err(Trouble::NeedsOnline) => Vec::new(),
@@ -447,8 +471,9 @@ impl Worker {
     fn run(&mut self, c: UsageCmd) {
         match c {
             UsageCmd::Refresh => {
-                // A Deny may have been a slip: Refresh asks the keychain again.
-                self.keychain.forget_denials();
+                // A Deny may have been a slip, and an expired sign-in may be
+                // renewed by now: Refresh asks the keychain again.
+                self.keychain.refresh();
                 self.looks.ask(self.tick());
             }
             UsageCmd::SetKey { secret, key } => self.set_key(secret, &key),
@@ -515,16 +540,16 @@ impl Worker {
     /// service that uses it is read at once, asking its server (the point of
     /// a new key).
     fn reread(&mut self, name: &str) {
-        let cfg = self.watch.notices.then(|| self.alert_cfg());
+        self.cfg = self.alert_cfg();
         let mut alerts = Vec::new();
         for (i, p) in usage::all().into_iter().enumerate() {
             let wants = p.wants(&self.dirs);
-            if self.watch.hidden & pace::bit(p.id()) != 0 || !wants.iter().any(|w| matches!(w, Want::Secret(s) if *s == name)) {
+            if self.svcs[i].failed || self.watch.hidden & pace::bit(p.id()) != 0 || !wants.iter().any(|w| matches!(w, Want::Secret(s) if *s == name)) {
                 continue;
             }
             let said = std::mem::take(&mut self.svcs[i].said);
             self.svcs[i] = Svc { said, ..Svc::default() };
-            alerts.extend(self.refresh(i, p, &wants, Look::Asked, cfg.as_ref()));
+            alerts.extend(self.refresh(i, p, &wants, Look::Asked));
         }
         self.say(alerts);
     }
@@ -651,12 +676,12 @@ fn at(id: ProviderId) -> usize {
 }
 
 /// What one want gave: files as `pace` reads them, a Mac keychain item, a
-/// kept key.
-fn read(w: &Want, names: &[&'static str], keychain: &mut Keychain) -> Got {
+/// kept key. `tick`: the pacing's clock.
+fn read(w: &Want, names: &[&'static str], keychain: &mut Keychain, tick: i64) -> Got {
     match w {
         Want::File { path, max } => pace::read_file(path, *max),
         Want::Newest { dir, suffix, depth, count, tail } => pace::read_newest(dir, suffix, *depth, *count, *tail),
-        Want::Keychain { service, account } => keychain.read(service, account.as_deref()),
+        Want::Keychain { service, account } => keychain.read(service, account.as_deref(), tick, keychain_item),
         Want::Secret(name) if names.contains(name) => load_key(name).map_or(Got::Missing, Got::Text),
         Want::Secret(_) => Got::Missing,
     }
@@ -741,52 +766,65 @@ fn computer_name() -> String {
 }
 
 /// Mac keychain answers, kept for the run so its prompt doesn't come back at
-/// every look: a password until its service says the sign-in stopped
-/// working, a Deny until Refresh. A missing item is asked about again each
-/// time (no prompt comes with that). Windows has no keychain: Missing.
+/// every look: a password until its service says the sign-in stopped working
+/// (then read again at most every [`KEYCHAIN_GAP_S`], or at Refresh), a Deny
+/// until Refresh. A missing item is asked about each time (no prompt comes
+/// with that). Windows has no keychain: always Missing.
 #[derive(Default)]
 struct Keychain {
-    #[cfg(target_os = "macos")]
-    kept: HashMap<(String, Option<String>), Got>,
+    kept: HashMap<(String, Option<String>), Kept>,
 }
 
-#[cfg(target_os = "macos")]
+struct Kept {
+    got: Got,
+    /// When it was read, on the pacing's clock.
+    at: i64,
+    /// Its service said the sign-in in it stopped working.
+    stale: bool,
+}
+
 impl Keychain {
-    fn read(&mut self, service: &str, account: Option<&str>) -> Got {
+    fn read(&mut self, service: &str, account: Option<&str>, now: i64, item: impl FnOnce(&str, Option<&str>) -> Got) -> Got {
         let k = (service.to_string(), account.map(str::to_string));
-        if let Some(g) = self.kept.get(&k) {
-            return g.clone();
+        if let Some(e) = self.kept.get(&k).filter(|e| !e.stale || now - e.at < KEYCHAIN_GAP_S) {
+            return e.got.clone();
         }
-        let g = crate::services::keychain::read(service, account);
-        if matches!(g, Got::Text(_) | Got::Denied) {
-            self.kept.insert(k, g.clone());
+        let got = item(service, account);
+        if matches!(got, Got::Text(_) | Got::Denied) {
+            self.kept.insert(k, Kept { got: got.clone(), at: now, stale: false });
+        } else {
+            self.kept.remove(&k);
         }
-        g
+        got
     }
 
-    /// The sign-in from these items stopped working: read them afresh.
+    /// The sign-in from these items stopped working (expired, refused,
+    /// signed out): read them again, though not at every look.
     fn forget(&mut self, wants: &[Want]) {
         for w in wants {
             if let Want::Keychain { service, account } = w {
-                self.kept.remove(&(service.clone(), account.clone()));
+                if let Some(e) = self.kept.get_mut(&(service.clone(), account.clone())) {
+                    e.stale = matches!(e.got, Got::Text(_));
+                }
             }
         }
     }
 
-    fn forget_denials(&mut self) {
-        self.kept.retain(|_, g| !matches!(g, Got::Denied));
+    /// Refresh: whatever was refused or stopped working is asked about again.
+    fn refresh(&mut self) {
+        self.kept.retain(|_, e| matches!(e.got, Got::Text(_)) && !e.stale);
     }
 }
 
+/// One keychain item, through the Mac's reader (`services::keychain`).
+#[cfg(target_os = "macos")]
+fn keychain_item(service: &str, account: Option<&str>) -> Got {
+    crate::services::keychain::read(service, account)
+}
+
 #[cfg(not(target_os = "macos"))]
-impl Keychain {
-    fn read(&mut self, _service: &str, _account: Option<&str>) -> Got {
-        Got::Missing
-    }
-
-    fn forget(&mut self, _wants: &[Want]) {}
-
-    fn forget_denials(&mut self) {}
+fn keychain_item(_service: &str, _account: Option<&str>) -> Got {
+    Got::Missing
 }
 
 #[cfg(all(test, windows))]
@@ -822,10 +860,10 @@ mod tests {
         s
     }
 
-    fn heard(w: &mut Worker, id: ProviderId, reach: Reach, run: pace::Run, notices: Option<&AlertCfg>) -> Vec<Alert> {
+    fn heard(w: &mut Worker, id: ProviderId, reach: Reach, run: pace::Run) -> Vec<Alert> {
         let p = usage::provider(id);
         let wants = p.wants(&w.dirs);
-        w.heard(at(id), p, &wants, reach, run, notices)
+        w.heard(at(id), p, &wants, reach, run)
     }
 
     fn reading(ev: &UsageEvent) -> &Outcome {
@@ -839,35 +877,35 @@ mod tests {
     fn readings_are_kept_and_told_but_never_needs_online() {
         let (mut w, rx) = worker();
         let online = codex(Source::Online, NOW, 0.4);
-        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(online.clone()), 1), None);
+        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(online.clone()), 1));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Ok(online.clone())]);
         // A log line older than the server's answer: the tab keeps the answer.
-        heard(&mut w, ProviderId::Codex, Reach::Local, ran(Ok(codex(Source::Local, NOW - 60, 0.3)), 0), None);
+        heard(&mut w, ProviderId::Codex, Reach::Local, ran(Ok(codex(Source::Local, NOW - 60, 0.3)), 0));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Ok(online.clone())]);
         // A newer one replaces it.
         let newer = codex(Source::Local, NOW + 30, 0.45);
-        heard(&mut w, ProviderId::Codex, Reach::Local, ran(Ok(newer.clone()), 0), None);
+        heard(&mut w, ProviderId::Codex, Reach::Local, ran(Ok(newer.clone()), 0));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Ok(newer.clone())]);
         // "Not asked online yet" is never told.
-        heard(&mut w, ProviderId::Codex, Reach::Local, ran(Err(Trouble::NeedsOnline), 0), None);
+        heard(&mut w, ProviderId::Codex, Reach::Local, ran(Err(Trouble::NeedsOnline), 0));
         assert!(told(&rx).is_empty());
         // A trouble is told and keeps the numbers; a sign-in that's gone drops them.
-        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::Offline), 1), None);
+        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::Offline), 1));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Err(Trouble::Offline)]);
         assert_eq!(w.svcs[at(ProviderId::Codex)].kept, Some(newer));
-        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::SignedOut), 1), None);
+        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::SignedOut), 1));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Err(Trouble::SignedOut)]);
-        assert_eq!(w.svcs[at(ProviderId::Codex)].kept, None);
+        assert_eq!(w.svcs[at(ProviderId::Codex)].kept);
     }
 
     #[test]
     fn a_rule_breaker_changes_nothing() {
         let (mut w, rx) = worker();
         let online = codex(Source::Online, NOW, 0.4);
-        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(online.clone()), 1), None);
+        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(online.clone()), 1));
         told(&rx);
         let broke = pace::Run { outcome: None, asked: 4, broke: Some("asked its server more than 4 times in one refresh"), unsent: false };
-        heard(&mut w, ProviderId::Codex, Reach::Online, broke, None);
+        heard(&mut w, ProviderId::Codex, Reach::Online, broke);
         assert!(told(&rx).is_empty());
         assert_eq!(w.svcs[at(ProviderId::Codex)].kept, Some(online));
         assert!(w.svcs[at(ProviderId::Codex)].warned);
@@ -875,18 +913,21 @@ mod tests {
 
     #[test]
     fn notices_speak_only_when_they_are_on() {
-        let (mut w, rx) = worker();
-        let cfg = AlertCfg::default();
+        let (mut w, _rx) = worker();
+        w.watch.notices = true;
         // The first reading only sets where things stand.
-        assert!(heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW, 0.5)), 1), Some(&cfg)).is_empty());
-        // Past the line with the notices off: nothing.
-        assert!(heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW + 120, 0.85)), 1), None).is_empty());
-        let (mut w2, _) = worker();
-        heard(&mut w2, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW, 0.5)), 1), Some(&cfg));
-        let alerts = heard(&mut w2, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW + 120, 0.85)), 1), Some(&cfg));
-        assert_eq!(alerts.len(), 1, "{alerts:?}");
-        assert_eq!(alerts[0].provider, ProviderId::Codex);
-        told(&rx);
+        assert!(heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW, 0.5)), 1)).is_empty());
+        let alerts = heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW + 120, 0.85)), 1));
+        assert_eq!((alerts.len(), alerts.first().map(|a| a.provider)), (1, Some(ProviderId::Codex)), "{alerts:?}");
+        // Said once a period.
+        assert!(heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW + 240, 0.86)), 1)).is_empty());
+        // Past the line with the notices off: nothing on the island, and
+        // nothing old to say once they come back on.
+        let (mut off, _rx2) = worker();
+        heard(&mut off, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW, 0.5)), 1));
+        assert!(heard(&mut off, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW + 120, 0.85)), 1)).is_empty());
+        off.watch.notices = true;
+        assert!(heard(&mut off, ProviderId::Codex, Reach::Online, ran(Ok(codex(Source::Online, NOW + 240, 0.86)), 1)).is_empty());
     }
 
     #[test]
@@ -895,12 +936,12 @@ mod tests {
         let mut s = Snapshot::new(ProviderId::Oyenza, NOW, Source::Online);
         s.account = Some("a•••@example.com".into());
         s.balance = Some(Money::usd(4.2));
-        heard(&mut w, ProviderId::Oyenza, Reach::Online, ran(Ok(s.clone()), 1), None);
+        heard(&mut w, ProviderId::Oyenza, Reach::Online, ran(Ok(s.clone()), 1));
         let evs = told(&rx);
         assert!(evs.contains(&UsageEvent::Link(InferenceLink::On { account: "a•••@example.com".into() })), "{evs:?}");
         // A summary without one keeps the name it had.
         s.account = None;
-        heard(&mut w, ProviderId::Oyenza, Reach::Online, ran(Ok(s), 1), None);
+        heard(&mut w, ProviderId::Oyenza, Reach::Online, ran(Ok(s), 1));
         assert!(!told(&rx).iter().any(|e| matches!(e, UsageEvent::Link(_))));
         assert_eq!(w.link, InferenceLink::On { account: "a•••@example.com".into() });
     }
@@ -932,14 +973,58 @@ mod tests {
     }
 
     #[test]
+    fn the_keychain_prompt_doesnt_come_back_at_every_look() {
+        let mut k = Keychain::default();
+        let asked = std::cell::Cell::new(0);
+        let item = |answer: Got| {
+            let asked = &asked;
+            move |_: &str, _: Option<&str>| {
+                asked.set(asked.get() + 1);
+                answer
+            }
+        };
+        let token = || Got::Text("test-token".into());
+        let wants = [Want::Keychain { service: "Claude Code-credentials".into(), account: None }];
+        assert_eq!(k.read("Claude Code-credentials", None, 0, item(token())), token());
+        assert_eq!(k.read("Claude Code-credentials", None, 60, item(token())), token());
+        assert_eq!(asked.get(), 1);
+        // Expired hours after it was read: read again at once...
+        k.forget(&wants);
+        k.read("Claude Code-credentials", None, 5 * 3600, item(token()));
+        assert_eq!(asked.get(), 2);
+        // ...and while it stays expired, every 10 minutes at most.
+        k.forget(&wants);
+        k.read("Claude Code-credentials", None, 5 * 3600 + 100, item(token()));
+        assert_eq!(asked.get(), 2);
+        k.read("Claude Code-credentials", None, 5 * 3600 + 600, item(token()));
+        assert_eq!(asked.get(), 3);
+        // Refresh reads a stale one at once, not a working one.
+        k.forget(&wants);
+        k.refresh();
+        k.read("Claude Code-credentials", None, 5 * 3600 + 610, item(token()));
+        k.refresh();
+        k.read("Claude Code-credentials", None, 5 * 3600 + 620, item(token()));
+        assert_eq!(asked.get(), 4);
+        // A Deny stays until Refresh; a missing item is asked about each time.
+        assert_eq!(k.read("other", None, 0, item(Got::Denied)), Got::Denied);
+        assert_eq!(k.read("other", None, 5000, item(token())), Got::Denied);
+        k.refresh();
+        assert_eq!(k.read("other", None, 5001, item(Got::Missing)), Got::Missing);
+        assert_eq!(k.read("other", None, 5002, item(Got::Missing)), Got::Missing);
+        assert_eq!(asked.get(), 7);
+        // Windows has no keychain.
+        assert_eq!(keychain_item("Claude Code-credentials", None), Got::Missing);
+    }
+
+    #[test]
     fn the_worker_wakes_for_a_look_as_the_tab_opens() {
         let (mut w, _rx) = worker();
-        assert_eq!(w.next_wait(), None);
+        assert_eq!(w.next_wait());
         w.saw(Watch { open: true, ..Watch::default() });
         assert_eq!(w.next_wait(), Some(Duration::ZERO));
         w.looks.begin(true, w.tick());
         assert!(w.next_wait().is_some_and(|d| d > Duration::from_secs(50)));
         w.saw(Watch::default());
-        assert_eq!(w.next_wait(), None);
+        assert_eq!(w.next_wait());
     }
 }

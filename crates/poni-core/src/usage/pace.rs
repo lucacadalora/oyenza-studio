@@ -269,15 +269,31 @@ pub fn run(
     }
 }
 
-/// A request the worker sends: to an http(s) address, with no control
-/// character in it. A key pasted with a line break would otherwise end its
-/// header early (or start another).
+/// A request the worker sends: to an https address (plain http only to
+/// this computer, a test copy of a server: a token never travels in the
+/// clear), with no control character in it. A key pasted with a line break
+/// would otherwise end its header early (or start another).
 pub fn sendable(req: &Request) -> bool {
     let clean = |s: &str| !s.chars().any(char::is_control);
-    (req.url.starts_with("https://") || req.url.starts_with("http://"))
-        && clean(&req.url)
-        && !req.url.contains(' ')
-        && req.headers.iter().all(|(k, v)| !k.is_empty() && k.bytes().all(|b| b.is_ascii_graphic() && b != b':') && clean(v))
+    let to = match (req.url.strip_prefix("https://"), req.url.strip_prefix("http://")) {
+        (Some(rest), _) => !rest.is_empty(),
+        (None, Some(rest)) => loopback(rest),
+        _ => false,
+    };
+    to && clean(&req.url) && !req.url.contains(' ') && req.headers.iter().all(|(k, v)| !k.is_empty() && k.bytes().all(|b| b.is_ascii_graphic() && b != b':') && clean(v))
+}
+
+/// An address on this computer: `localhost`, 127.x.x.x or `[::1]`, with or
+/// without a port.
+fn loopback(rest: &str) -> bool {
+    let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
+    match authority.strip_prefix('[') {
+        Some(v6) => v6.split(']').next().and_then(|h| h.parse::<std::net::Ipv6Addr>().ok()).is_some_and(|ip| ip.is_loopback()),
+        None => {
+            let host = authority.split(':').next().unwrap_or("");
+            host == "localhost" || host.parse::<std::net::Ipv4Addr>().is_ok_and(|ip| ip.is_loopback())
+        }
+    }
 }
 
 /// The headers to hand the app's HTTP client: a JSON body's `Content-Type`
@@ -360,7 +376,8 @@ pub fn safe_name(name: &str) -> bool {
 /// isn't a full one.
 pub fn read_file(path: &Path, max: u64) -> Got {
     let max = max.min(READ_MAX);
-    if !path.is_absolute() {
+    // Looked at before it is opened: opening a pipe would wait for a writer.
+    if !path.is_absolute() || !fs::metadata(path).is_ok_and(|m| m.is_file()) {
         return Got::Missing;
     }
     let Ok(f) = File::open(path) else { return Got::Missing };
@@ -434,6 +451,26 @@ pub fn read_newest(dir: &Path, suffix: &str, depth: u8, count: usize, tail: u64)
         }
     }
     Got::Many(files)
+}
+
+/// `len` bytes of a file from `offset` (fewer at its end, at most 4 MB): a
+/// piece of a file too big to read whole (Cursor's SQLite store), for the
+/// cursor lane's proposed `Want::Range`. Never kept between refreshes (it is
+/// a live database). Missing when it isn't a plain file or can't be read.
+pub fn read_range(path: &Path, offset: u64, len: u32) -> Got {
+    if !path.is_absolute() || !fs::metadata(path).is_ok_and(|m| m.is_file()) {
+        return Got::Missing;
+    }
+    let read = || -> Option<FileRead> {
+        let mut f = File::open(path).ok()?;
+        let meta = f.metadata().ok()?;
+        f.seek(SeekFrom::Start(offset)).ok()?;
+        let len = u64::from(len).min(4 * 1024 * 1024);
+        let mut bytes = Vec::with_capacity(len.min(meta.len().saturating_sub(offset)) as usize);
+        f.take(len).read_to_end(&mut bytes).ok()?;
+        Some(FileRead { path: path.to_path_buf(), bytes, modified: modified(&meta) })
+    };
+    read().map_or(Got::Missing, Got::One)
 }
 
 /// The last `tail` bytes of a file (all of a shorter one).
@@ -678,10 +715,19 @@ mod tests {
     fn only_clean_requests_go_out() {
         let ok = Request::post_json("https://x.test/v1/a?b=c", "{}").bearer("tok").header("Cookie", "a=b; c=d");
         assert!(sendable(&ok));
-        assert!(sendable(&Request::get("http://127.0.0.1:8090/v1/studio/summary")));
+        for local in ["http://127.0.0.1:8090/v1/studio/summary", "http://localhost/x", "http://[::1]:8090/", "http://127.1.2.3"] {
+            assert!(sendable(&Request::get(local).bearer("oyis_test-token")), "{local}");
+        }
         for bad in [
             Request::get("file:///etc/passwd"),
             Request::get("ftp://x.test/"),
+            Request::get("https://"),
+            // In the clear, only to this computer.
+            Request::get("http://inference.oyenza.com/v1/studio/summary"),
+            Request::get("http://127.0.0.1.example.com/"),
+            Request::get("http://127.0.0.1@example.com/"),
+            Request::get("http://localhost.example.com/"),
+            Request::get("http://[::2]/"),
             Request::get("https://x.test/a b"),
             Request::get("https://x.test/\r\nX: 1"),
             Request::get("https://x.test/").header("Authorization", "Bearer a\nb"),
@@ -809,6 +855,20 @@ mod tests {
         assert_eq!(read_file(&s.0.join("none.json"), 1024), Got::Missing);
         assert_eq!(read_file(&s.0, 1 << 20), Got::Missing);
         assert_eq!(read_file(Path::new("auth.json"), 1024), Got::Missing);
+    }
+
+    #[test]
+    fn a_piece_of_a_file() {
+        let s = Scratch::new("range");
+        let p = s.file("state.vscdb", b"SQLite format 3\0rest of the page", 30);
+        let Got::One(f) = read_range(&p, 0, 16) else { panic!("read") };
+        assert_eq!(f.bytes, b"SQLite format 3\0");
+        assert!(f.modified.is_some());
+        assert_eq!(read_range(&p, 16, 1000).bytes(), Some(&b"rest of the page"[..]));
+        assert_eq!(read_range(&p, 999, 16).bytes(), Some(&b""[..]));
+        assert_eq!(read_range(&s.0.join("none.vscdb"), 0, 16), Got::Missing);
+        assert_eq!(read_range(&s.0, 0, 16), Got::Missing);
+        assert_eq!(read_range(Path::new("state.vscdb"), 0, 16), Got::Missing);
     }
 
     #[test]
