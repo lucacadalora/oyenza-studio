@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Nouakchott	0	
+Z	3	Europe/Moscow	180	
+C	DZ	Algeria	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MR	Mauritania	egyptian	s
+C	RU	Russia	mwl	s
+C	TN	Tunisia	egyptian	s
+B	0
+P	Ksar El Kebir		MA		35.000	-5.904	1
+P	Kstovo		RU		56.148	44.199	3
+P	Ksar el Boukhari		DZ		35.889	2.749	0
+P	Ksar		MR		18.099	-15.957	2
+P	Ksar Hellal		TN		35.648	10.890	0
+P	Ksar Chellala		DZ		35.212	2.319	0
+P	Ksour Essaf		TN		35.418	10.995	0
+P	Mechraa Bel Ksiri		MA		34.574	-5.956	1
+P	El Ksar		TN		34.399	8.804	0
+P	El Kseur		DZ		36.679	4.856	0
+P	El Ksiba		MA		32.573	-6.019	1

@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+B	0
+P	Matsue		JP		35.483	133.050	0
+P	Tottori-shi	tottori shi	JP		35.500	134.233	0
+P	Izumo		JP		35.367	132.767	0
+P	Yonago		JP		35.433	133.333	0
+P	Tsuyama		JP		35.052	133.999	0
+P	Toyooka		JP		35.540	134.820	0
+P	Kurayoshi		JP		35.433	133.817	0
+P	Unnan		JP		35.243	132.900	0
+P	Maniwa		JP		35.106	133.720	0
+P	Yasugichō	yasugicho	JP		35.421	133.242	0
+P	Sakaiminato		JP		35.538	133.231	0
+P	Ōdachō-ōda	odacho oda	JP		35.190	132.508	0
+P	Wadayama		JP		35.317	134.867	0
+P	Hiratachō	hiratacho	JP		35.433	132.817	0
+P	Hayashino		JP		35.000	134.150	0
+P	Yamazakichō-nakabirose	yamazakicho nakabirose	JP		35.000	134.550	0
+P	Gōtsuchō	gotsucho	JP		35.009	132.226	0
+P	Yabu		JP		35.403	134.771	0
+P	Kajiya		JP		35.067	134.917	0
+P	Yabase		JP		35.500	133.683	0
+P	Kasumi		JP		35.633	134.633	0
+P	Matsuzaki		JP		35.467	133.900	0
+P	Kōge	koge	JP		35.410	134.255	0
+P	Sayō	sayo	JP		35.003	134.359	0
+P	Mikuriya		JP		35.512	133.497	0

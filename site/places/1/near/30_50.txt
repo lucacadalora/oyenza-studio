@@ -1,0 +1,75 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tehran	210	
+C	IR	Iran	tehran	s
+B	1
+P	Isfahan		IR		32.652	51.675	0
+P	Qom		IR		34.640	50.876	0
+P	Yazd		IR		31.897	54.367	0
+P	Kashan		IR		33.982	51.428	0
+P	Kāshān	kashan	IR		34.002	51.439	0
+P	Khomeynī Shahr	khomeyni shahr	IR		32.686	51.536	0
+P	Najafābād	najafabad	IR		32.635	51.365	0
+P	Shāhīn Shahr	shahin shahr	IR		32.858	51.553	0
+P	Shahreẕā	shahreza	IR		32.009	51.864	0
+P	Shahr-e Kord	shahr e kord	IR		32.326	50.857	0
+P	Behbahān	behbahan	IR		30.596	50.242	0
+P	Bahārestān	baharestan	IR		32.488	51.773	0
+P	Shahrak-e Pardīsān	shahrak e pardisan	IR		34.557	50.802	0
+P	Yasuj		IR		30.668	51.588	0
+P	Dogonbadan		IR		30.359	50.798	0
+P	Fūlād Shahr	fulad shahr	IR		32.487	51.397	0
+P	Khomeyn		IR		33.639	50.080	0
+P	Mobārakeh	mobarakeh	IR		32.346	51.502	0
+P	Ārān Bīdgol	aran bidgol	IR		34.058	51.483	0
+P	Abadeh		IR		31.161	52.651	0
+P	Golpāyegān	golpayegan	IR		33.454	50.288	0
+P	Ardakān	ardakan	IR		32.310	54.017	0
+P	Borūjen	borujen	IR		31.965	51.287	0
+P	Nūrābād	nurabad	IR		30.114	51.522	0
+P	Dehdasht		IR		30.793	50.565	0
+P	Zarrīn Shahr	zarrin shahr	IR		32.391	51.377	0
+P	Meybod		IR		32.250	54.017	0
+P	Falāvarjān	falavarjan	IR		32.555	51.510	0
+P	Rehnān	rehnan	IR		32.683	51.602	0
+P	Eqlīd	eqlid	IR		30.899	52.697	0
+P	Naţanz	natanz	IR		33.511	51.918	0
+P	Maḩallāt	mahallat	IR		33.911	50.453	0
+P	Lordegān	lordegan	IR		31.513	50.827	0
+P	Dorcheh Pīāz	dorcheh piaz	IR		32.615	51.556	0
+P	Mahrīz	mahriz	IR		31.584	54.443	0
+P	Dowlatābād	dowlatabad	IR		32.800	51.696	0
+P	Delījān	delijan	IR		33.990	50.684	0
+P	Farrokh Shahr		IR		32.272	50.980	0
+P	Fārsān	farsan	IR		32.257	50.561	0
+P	Pāsārgād	pasargad	IR		30.202	53.180	0
+P	Qahderījān	qahderijan	IR		32.577	51.454	0
+P	Khowrzūq	khowrzuq	IR		32.778	51.647	0
+P	Abarkūh	abarkuh	IR		31.129	53.282	0
+P	Nā’īn	nain	IR		32.860	53.087	0
+P	Semīrom	semirom	IR		31.417	51.567	0
+P	Şafāshahr	safashahr	IR		30.613	53.195	0
+P	Shahrak-e Ţāleqānī	shahrak e taleqani	IR		30.835	50.199	0
+P	Bandar-e Deylam	bandar e deylam	IR		30.054	50.159	0
+P	Kelīshād va Sūdarjān	kelishad va sudarjan	IR		32.551	51.528	0
+P	Goldasht		IR		32.628	51.439	0
+P	Gaz-e Borkhar	gaz e borkhar	IR		32.805	51.621	0
+P	Khānsār	khansar	IR		33.221	50.315	0
+P	Tīrān	tiran	IR		32.703	51.154	0
+P	Hafshejān	hafshejan	IR		32.227	50.793	0
+P	Dārān	daran	IR		32.987	50.411	0
+P	Surian		IR		30.455	53.651	0
+P	Abrīsham	abrisham	IR		32.556	51.573	0
+P	Līkak	likak	IR		30.895	50.093	0
+P	Ashkez̄ar	ashkezar	IR		31.997	54.209	0
+P	Sedeh Lanjān	sedeh lanjan	IR		32.379	51.316	0
+P	Dīzīcheh	dizicheh	IR		32.388	51.510	0
+P	Varnāmkhvāst	varnamkhvast	IR		32.356	51.379	0
+P	Taft		IR		31.744	54.203	0
+P	Mādavān	madavan	IR		30.715	51.541	0
+P	Dehāqān	dehaqan	IR		31.940	51.647	0
+P	Dastgerd		IR		32.802	51.664	0
+P	Sa‘ādat Shahr	saadat shahr	IR		30.079	53.135	0
+P	Tafresh		IR		34.693	50.016	0
+P	Ardestān	ardestan	IR		33.379	52.370	0
+P	Chamgordān	chamgordan	IR		32.393	51.339	0
+P	Charām	charam	IR		30.756	50.745	0

@@ -1,0 +1,247 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	HK	Hong Kong	mwl	s
+C	MO	Macao	mwl	s
+B	24
+P	Shenzhen		CN		22.546	114.068	0
+P	Guangzhou		CN		23.117	113.250	0
+P	Dongguan		CN		23.018	113.749	0
+P	Foshan		CN		23.027	113.131	0
+P	Hong Kong		HK		22.278	114.175	0
+P	Bao'an	baoan	CN		22.552	113.883	0
+P	New Territories		HK		22.424	114.111	0
+P	Zhongshan		CN		22.523	113.379	0
+P	Huizhou		CN		23.111	114.415	0
+P	Haikou		CN		20.034	110.347	0
+P	Yunfu		CN		22.928	112.038	0
+P	Kowloon		HK		22.317	114.183	0
+P	Zhuhai		CN		22.277	113.568	0
+P	Jiangmen		CN		22.583	113.083	0
+P	Qingyuan		CN		23.700	113.033	0
+P	Zhaoqing		CN		23.049	112.461	0
+P	Zhanjiang		CN		21.234	110.387	0
+P	Maoming		CN		21.666	110.914	0
+P	Yangjiang		CN		21.856	111.963	0
+P	Hong Kong Island		HK		22.263	114.184	0
+P	Luohu District		CN		22.547	114.131	0
+P	Yulin		CN		22.631	110.147	0
+P	Shaoguan		CN		24.800	113.583	0
+P	Hezhou		CN		24.404	111.567	0
+P	Victoria		HK		22.288	114.144	0
+P	Wuzhou		CN		23.481	111.288	0
+P	Changsha		CN		22.381	112.685	0
+P	Macau		MO		22.201	113.546	0
+P	Tuen Mun		HK		22.392	113.972	0
+P	Sha Tin		HK		22.383	114.183	0
+P	Heyuan		CN		23.733	114.683	0
+P	Sham Shui Po		HK		22.330	114.159	0
+P	Wong Tai Sin		HK		22.350	114.183	0
+P	Kowloon City		HK		22.330	114.192	0
+P	Tseung Kwan O		HK		22.328	114.250	0
+P	Tanzhou		CN		22.255	113.467	0
+P	Shiqi		CN		22.517	113.385	0
+P	Kwai Chung		HK		22.368	114.139	0
+P	Tantou		CN		22.751	113.835	0
+P	Tsuen Wan		HK		22.371	114.113	0
+P	Yangshuo		CN		24.781	110.490	0
+P	Gaozhou		CN		21.920	110.857	0
+P	Xiuying		CN		20.001	110.294	0
+P	Tin Shui Wai		HK		22.457	114.002	0
+P	Tai Po		HK		22.450	114.169	0
+P	Fanling		HK		22.495	114.139	0
+P	Shijie		CN		23.095	113.792	0
+P	Longgang		CN		22.723	114.263	0
+P	Ma On Shan		HK		22.406	114.241	0
+P	Daliang		CN		22.841	113.250	0
+P	Gongheyong		CN		22.759	113.795	0
+P	Yuen Long San Hui		HK		22.433	114.033	0
+P	Yuen Long		HK		22.445	114.026	0
+P	Beiliu		CN		22.707	110.349	0
+P	Kowloon City Centre		HK		22.330	114.189	0
+P	Humen		CN		22.819	113.673	0
+P	Jing’an	jingan	CN		22.211	113.292	0
+P	Tsing Yi Town		HK		22.350	114.100	0
+P	Licheng		CN		23.295	113.825	0
+P	Yuen Long Kau Hui		HK		22.448	114.032	0
+P	Wan Chai		HK		22.281	114.173	0
+P	Aberdeen		HK		22.248	114.153	0
+P	Sanshui		CN		23.155	112.892	0
+P	Yangchun		CN		22.167	111.783	0
+P	Taishan		CN		22.251	112.780	0
+P	Shiqiao		CN		22.946	113.358	0
+P	Nantou		CN		22.722	113.293	0
+P	Santo António	santo antonio	CN		22.202	113.544	0
+P	Shajing		CN		22.746	113.819	0
+P	Danshui		CN		22.798	114.467	0
+P	Nossa Senhora de Fátima	nossa senhora de fatima	CN		22.208	113.548	0
+P	Luoyang		CN		23.162	114.273	0
+P	Bao'an Centre	baoan centre	CN		22.580	113.916	0
+P	Dasha		CN		23.110	113.442	0
+P	San Tung Chung Hang		HK		22.279	113.943	0
+P	Tung Chung		HK		22.288	113.942	0
+P	Pingshan		CN		22.994	114.713	0
+P	Maba		CN		24.684	113.598	0
+P	Taipa		MO		22.156	113.557	0
+P	Encheng		CN		22.187	112.304	0
+P	Shilong		CN		23.114	113.847	0
+P	Shaping		CN		22.770	112.958	0
+P	Wuchuan		CN		21.457	110.766	0
+P	Lianjiang		CN		21.647	110.282	0
+P	Xinyi		CN		22.373	110.947	0
+P	Lubu		CN		23.172	112.283	0
+P	Ducheng		CN		23.242	111.528	0
+P	Lianzhou		CN		24.782	112.371	0
+P	Huazhou		CN		21.633	110.583	0
+P	Huaicheng		CN		23.920	112.176	0
+P	Qiongshan		CN		20.009	110.354	0
+P	Nanfeng		CN		23.727	111.797	0
+P	Xucheng		CN		20.330	110.166	0
+P	Shiwan		CN		23.001	113.077	0
+P	Tangping		CN		22.032	111.935	0
+P	Sha Tin Wai		HK		22.378	114.198	0
+P	Xixiang		CN		22.593	113.889	0
+P	Shap Pat Heung		HK		22.425	114.036	0
+P	Pok Fu Lam		HK		22.269	114.129	0
+P	Maozhou		CN		22.764	113.813	0
+P	Nam Cheong		HK		22.328	114.154	0
+P	Kowloon West End		HK		22.328	114.185	0
+P	Shixing		CN		24.948	114.066	0
+P	Guiping		CN		23.395	110.074	0
+P	Shenzhen City Centre		CN		22.536	114.077	0
+P	Shajing Town		CN		22.738	113.808	0
+P	Babu		CN		24.417	111.517	0
+P	Mong Kok		HK		22.319	114.171	0
+P	Pingnan		CN		23.542	110.389	0
+P	Nandu		CN		22.852	110.823	0
+P	Siu Lek Yuen		HK		22.382	114.213	0
+P	Jinji		CN		23.228	110.826	0
+P	Sau Mau Ping		HK		22.320	114.235	0
+P	Sé	se	MO		22.191	113.547	0
+P	Tiu Keng Leng		HK		22.299	114.251	0
+P	São Lourenço	sao lourenco	CN		22.189	113.535	0
+P	LOHAS Park		HK		22.293	114.272	0
+P	Mei Foo		HK		22.337	114.139	0
+P	Ping Shan		HK		22.441	114.006	0
+P	Kai Tak		HK		22.324	114.197	0
+P	Jordan		HK		22.305	114.170	0
+P	Xili		CN		22.588	113.948	0
+P	Pat Heung		HK		22.446	114.092	0
+P	Lequn		CN		22.578	113.874	0
+P	Whampoa		HK		22.305	114.190	0
+P	Choi Wan		HK		22.334	114.214	0
+P	Kennedy Town		HK		22.283	114.130	0
+P	Shahe		CN		22.552	113.979	0
+P	Mei Foo Sun Chuen		HK		22.336	114.140	0
+P	Tsz Wan Shan		HK		22.352	114.200	0
+P	Hang Hau		HK		22.318	114.270	0
+P	Luhuan		MO		22.118	113.552	0
+P	Sai Kung		HK		22.383	114.267	0
+P	Tai Koo		HK		22.284	114.216	0
+P	Taikoo Shing		HK		22.286	114.219	0
+P	Yau Tong		HK		22.296	114.236	0
+P	Tai Kok Tsui		HK		22.321	114.163	0
+P	São Lázaro	sao lazaro	CN		22.200	113.549	0
+P	Shawei		CN		22.520	114.034	0
+P	Shek Lei		HK		22.366	114.140	0
+P	Whampoa Garden		HK		22.305	114.189	0
+P	Yau Ma Tei		HK		22.314	114.169	0
+P	Lower Wong Tai Sin Estate (I & II)	lower wong tai sin estate i ii	HK		22.339	114.194	0
+P	South Horizons		HK		22.244	114.148	0
+P	South Horizons (Estate)	south horizons estate	HK		22.244	114.146	0
+P	Leighton Hill		HK		22.276	114.184	0
+P	Chuk Yuen		HK		22.345	114.193	0
+P	Gangxia		CN		22.540	114.061	0
+P	Lei Tung		HK		22.241	114.158	0
+P	Wah Fu		HK		22.255	114.136	0
+P	Sham Tseng		HK		22.367	114.050	0
+P	Shek Kip Mei Estate		HK		22.334	114.165	0
+P	Nantou		CN		22.536	113.916	0
+P	Choi Wan Estate (I & II)	choi wan estate i ii	HK		22.333	114.213	0
+P	Tsim Sha Tsui		HK		22.300	114.167	0
+P	Songgang		CN		22.779	113.845	0
+P	Zhuojiacun		MO		22.161	113.556	0
+P	Wu Kai Sha		HK		22.430	114.242	0
+P	Guanlong		CN		22.588	113.944	0
+P	Laguna City		HK		22.306	114.229	0
+P	Shuen Wan		HK		22.468	114.208	0
+P	Fo Tan		HK		22.398	114.193	0
+P	Lai Chi Van		MO		22.120	113.551	0
+P	Kam Tin		HK		22.441	114.060	0
+P	Tsz Ching Estate		HK		22.351	114.201	0
+P	Ha Tsuen		HK		22.447	113.992	0
+P	Sanjianzai		CN		22.729	113.776	0
+P	Tai Wo Hau		HK		22.367	114.123	0
+P	Shek O		HK		22.233	114.251	0
+P	Chek Chue		HK		22.218	114.212	0
+P	Sheung Shui		HK		22.517	114.117	0
+P	Hong Lok Yuen		HK		22.463	114.155	0
+P	Fairview Park		HK		22.467	114.048	0
+P	Ma Tau Wai		HK		22.321	114.187	0
+P	Tai Wai		HK		22.373	114.179	0
+P	Ho Man Tin		HK		22.316	114.182	0
+P	Cheung Chau		HK		22.211	114.028	0
+P	Shui Chuen O		HK		22.372	114.198	0
+P	San Tin		HK		22.502	114.069	0
+P	Tuen Mun San Hui		HK		22.399	113.976	0
+P	Olympic		HK		22.319	114.157	0
+P	Discovery Bay		HK		22.300	114.017	0
+P	The Peak		HK		22.262	114.156	0
+P	Sung Wong Toi		HK		22.325	114.191	0
+P	So Uk		HK		22.341	114.157	0
+P	Kowloon Tong		HK		22.333	114.180	0
+P	Siu Sai Wan Estate		HK		22.262	114.249	0
+P	Sai Wan Ho		HK		22.284	114.223	0
+P	So Uk Estate		HK		22.342	114.157	0
+P	Shekou		CN		22.494	113.916	0
+P	Tak Long Estate		HK		22.330	114.203	0
+P	Keng Hau		HK		22.365	114.175	0
+P	Un Chau Estate		HK		22.336	114.156	0
+P	Lam Tin		HK		22.309	114.236	0
+P	Lei Tung Estate		HK		22.241	114.155	0
+P	Wushipai		CN		22.524	113.910	0
+P	San Po Kong		HK		22.335	114.197	0
+P	Hok Yuen		HK		22.310	114.188	0
+P	Laguna Verde		HK		22.307	114.191	0
+P	Shek Kip Mei		HK		22.331	114.168	0
+P	Heng Fa Chuen		HK		22.277	114.241	0
+P	Aldrich Bay		HK		22.282	114.225	0
+P	Choi Hung Estate		HK		22.336	114.206	0
+P	Tai Shui Hang		HK		22.406	114.224	0
+P	Wo Che		HK		22.390	114.192	0
+P	Tai Mei Tuk		HK		22.474	114.235	0
+P	Kadoorie		HK		22.322	114.176	0
+P	Oi Man Estate		HK		22.312	114.179	0
+P	Discovery Park		HK		22.376	114.111	0
+P	Fuyong		CN		22.672	113.815	0
+P	Shajing Residential District		CN		22.732	113.812	0
+P	Ting Kau		HK		22.370	114.079	0
+P	Chuk Yuen North Estate		HK		22.346	114.192	0
+P	Wang Tau Hom		HK		22.340	114.187	0
+P	Shenzhenwan		CN		22.487	113.940	0
+P	Pak Tin Estate		HK		22.337	114.167	0
+P	Tin Wan		HK		22.251	114.147	0
+P	Zhuzilin		CN		22.538	114.015	0
+P	Kwun Tong		HK		22.312	114.222	0
+P	Kam Ying		HK		22.423	114.237	0
+P	San Tin		HK		22.372	114.184	0
+P	Sun Tin Wai		HK		22.371	114.187	0
+P	Sam Shing		HK		22.381	113.979	0
+P	Wong Chuk Hang		HK		22.240	114.170	0
+P	Yeung Uk Tsuen		HK		22.450	114.017	0
+P	Braemar Hill		HK		22.283	114.200	0
+P	Hoi Lai Estate		HK		22.332	114.147	0
+P	Mount Davis		HK		22.279	114.118	0
+P	Pok Hong		HK		22.376	114.196	0
+P	Fu Cheong Estate		HK		22.329	114.154	0
+P	To Kwa Wan		HK		22.317	114.191	0
+P	Lee On		HK		22.426	114.241	0
+P	Butterfly		HK		22.376	113.963	0
+P	Prince Edward		HK		22.324	114.179	0
+P	Mid Levels		HK		22.284	114.150	0
+P	Fortress Hill		HK		22.289	114.194	0
+P	Tung Tau Estate		HK		22.332	114.193	0
+P	City One		HK		22.387	114.203	0
+P	Houhai		CN		22.512	113.925	0
+P	City Garden		HK		22.290	114.193	0
+P	Yiu Tung Estate		HK		22.278	114.223	0

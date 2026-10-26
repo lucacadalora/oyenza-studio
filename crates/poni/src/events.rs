@@ -172,6 +172,8 @@ pub enum AppEvent {
     Update(crate::services::update::UpdateEvent),
     /// Where Windows says the PC is (`services::location`), for prayer times.
     Located(crate::services::location::Located),
+    /// One of prayer times' online city files (`services::cities`).
+    Cities { file: String, got: Result<poni_core::prayer::World, String> },
     /// The adzan finished playing, or couldn't play on.
     AdzanEnded,
     /// Start with Windows is on (true) or off, read for the Settings page.

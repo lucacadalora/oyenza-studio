@@ -1,0 +1,45 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	Africa/Sao_Tome	0	
+C	CM	Cameroon	egyptian	s
+C	GA	Gabon	egyptian	s
+C	GQ	Equatorial Guinea	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	ST	Sao Tome and Principe	egyptian	s
+B	2
+P	Port Harcourt		NG		4.777	7.013	0
+P	Douala		CM		4.048	9.704	0
+P	Libreville		GA		0.392	9.454	0
+P	Calabar		NG		4.959	8.327	0
+P	Yenagoa		NG		4.927	6.268	0
+P	Kumba		CM		4.636	9.447	0
+P	Bata		GQ		1.864	9.766	0
+P	Nkongsamba		CM		4.955	9.940	0
+P	Malabo		GQ		3.756	8.782	0
+P	Buea		CM		4.153	9.242	0
+P	Buguma		NG		4.736	6.862	0
+P	Okrika		NG		4.742	7.084	0
+P	Limbe		CM		4.024	9.206	0
+P	Esuk Oron		NG		4.803	8.253	0
+P	Owendo		GA		0.291	9.505	0
+P	Tiko		CM		4.075	9.360	0
+P	Kribi		CM		2.937	9.908	0
+P	Obonoma		NG		4.711	6.791	0
+P	Mutengene		CM		4.091	9.314	0
+P	Ntoum		GA		0.391	9.761	0
+P	Loum		CM		4.718	9.735	0
+P	São Tomé	sao tome	ST		0.338	6.730	1
+P	Mbanga		CM		4.502	9.567	0
+P	Muyuka		CM		4.290	9.410	0
+P	Manjo		CM		4.843	9.822	0
+P	Akanda		GA		0.607	9.329	0
+P	Njombé	njombe	CM		4.581	9.665	0
+P	Eket		NG		4.642	7.924	0
+P	Souza Gare		CM		4.234	9.616	0
+P	Bamusso		CM		4.459	8.903	0
+P	Tombel		CM		4.747	9.671	0
+P	Ekondo Titi		CM		4.603	9.040	0
+P	Penja		CM		4.639	9.680	0
+P	Dizangué	dizangue	CM		3.767	9.983	0
+P	Degema Hulk		NG		4.761	6.750	0
+P	Bonny		NG		4.452	7.171	0

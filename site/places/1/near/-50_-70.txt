@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Catamarca	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	Comodoro Rivadavia		AR		-45.863	-67.494	0
+P	Caleta Olivia		AR		-46.448	-67.523	0
+P	Pico Truncado		AR		-46.799	-67.958	0
+P	Las Heras		AR		-46.541	-68.932	0
+P	Puerto Deseado		AR		-47.751	-65.897	0

@@ -1,0 +1,679 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Harare	120	
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Monrovia	0	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Jamaica	-300	
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Mexico_City	-360	
+Z	12	America/Phoenix	-420	
+Z	13	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	14	America/Santo_Domingo	-240	
+Z	15	America/Sao_Paulo	-180	
+Z	16	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Bangkok	420	
+Z	19	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	20	Asia/Dhaka	360	
+Z	21	Asia/Dubai	240	
+Z	22	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	23	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	24	Asia/Karachi	300	
+Z	25	Asia/Kolkata	330	
+Z	26	Asia/Riyadh	180	
+Z	27	Asia/Shanghai	480	
+Z	28	Asia/Tehran	210	
+Z	29	Asia/Tokyo	540	
+Z	30	Asia/Yangon	390	
+Z	31	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	32	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	33	Europe/Helsinki	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	34	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	35	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	36	Pacific/Honolulu	-600	
+Z	37	Pacific/Port_Moresby	600	
+C	AE	United Arab Emirates	dubai	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BG	Bulgaria	mwl	s
+C	BH	Bahrain	ummalqura	s
+C	BM	Bermuda	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GU	Guam	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IS	Iceland	mwl	s
+C	JM	Jamaica	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	LB	Lebanon	egyptian	s
+C	LK	Sri Lanka	mwl	s
+C	LR	Liberia	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PY	Paraguay	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	SO	Somalia	egyptian	s
+C	SY	Syria	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	YE	Yemen	ummalqura	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	11
+P	Hangzhou		CN		30.294	120.161	27
+P	Hanoi		VN		21.024	105.841	18
+P	Harbin		CN		45.750	126.650	27
+P	Haikou		CN		20.034	110.347	27
+P	Haiphong		VN		20.865	106.683	18
+P	Havana		CU		23.133	-82.383	8
+P	Port Harcourt		NG		4.777	7.013	3
+P	Hamburg		DE		53.551	9.993	32
+P	Harare		ZW		-17.828	31.053	2
+P	Handan		CN		36.610	114.488	27
+P	Hanzhong		CN		33.075	107.022	27
+P	Hamamatsu		JP		34.700	137.733	29
+P	Ha'il	hail	SA		27.522	41.691	26
+P	Hachiōji	hachioji	JP		35.656	139.324	29
+P	Hamilton		CA	Ontario	43.250	-79.850	16
+P	Hamhŭng	hamhung	KP		39.918	127.536	29
+P	Hamadān	hamadan	IR		34.799	48.515	28
+P	Hannover		DE		52.371	9.733	32
+P	Hāthazāri	hathazari	BD		22.505	91.813	20
+P	Hargeysa		SO		9.560	44.065	26
+P	The Hague		NL		52.077	4.299	32
+P	Halifax		CA	Nova Scotia	44.643	-63.577	7
+P	Ḩamāh	hamah	SY		35.132	36.758	26
+P	Al Ḩasakah	al hasakah	SY		36.502	40.748	26
+P	Ḩadā’iq al Qubbah	hadaiq al qubbah	EG		30.088	31.284	0
+P	Hafizabad		PK		32.071	73.688	24
+P	Hamburg-Nord	hamburg nord	DE		53.589	9.984	32
+P	Hai Bà Trưng	hai ba trung	VN		21.013	105.848	18
+P	Hamburg-Mitte	hamburg mitte	DE		53.550	10.017	32
+P	Haifa		IL		32.813	34.999	23
+P	Hakodate		JP		41.776	140.737	29
+P	Hafar Al-Batin	hafar al batin	SA		28.433	45.971	26
+P	Hạ Long	ha long	VN		20.950	107.073	18
+P	Hà Tĩnh	ha tinh	VN		18.343	105.906	18
+P	Hanam		KR		37.540	127.206	29
+P	Novo Hamburgo		BR		-29.678	-51.131	15
+P	Ḩayy Khildā	hayy khilda	JO		31.992	35.840	26
+P	Hami		CN		42.834	93.506	20
+P	Hāpur	hapur	IN		28.730	77.781	25
+P	Hải Dương	hai duong	VN		20.941	106.333	18
+P	Hachinohe		JP		40.500	141.500	29
+P	Halle (Saale)	halle saale	DE		51.482	11.979	32
+P	Ḩalwān	halwan	EG		29.841	31.301	0
+P	Haeju		KP		38.041	125.715	29
+P	Hailar		CN		49.200	119.700	27
+P	Hangu		CN		39.249	117.789	27
+P	Hagen		DE		51.361	7.472	32
+P	Hanfeng		CN		31.169	108.403	27
+P	Hamilton		NZ		-37.783	175.283	35
+P	Hat Yai		TH		7.008	100.477	18
+P	Haicheng		CN		40.852	122.748	27
+P	Haridwar		IN		29.948	78.160	25
+P	Le Havre		FR		49.493	0.108	32
+P	Hamm		DE		51.680	7.821	32
+P	Hashtsāl	hashtsal	IN		28.634	77.058	25
+P	Haldia		IN		22.060	88.110	25
+P	Harburg		DE		53.461	9.984	32
+P	Hasilpur		PK		29.692	72.546	24
+P	Ðông Hà	dong ha	VN		16.816	107.100	18
+P	Ḩawallī	hawalli	KW		29.333	48.029	26
+P	Hadano		JP		35.371	139.224	29
+P	Haarlem		NL		52.381	4.637	32
+P	Hayward		US	California	37.669	-122.081	10
+P	Centro Habana		CU		23.135	-82.369	8
+P	Harar		ET		9.314	42.118	26
+P	Hanumāngarh	hanumangarh	IN		29.582	74.329	25
+P	Al Ḩawāmidīyah	al hawamidiyah	EG		29.900	31.250	0
+P	Hassan		IN		13.007	76.096	25
+P	Hazāribāgh	hazaribagh	IN		23.992	85.362	25
+P	Harunabad		PK		29.612	73.138	24
+P	Harrow		GB	England	51.578	-0.332	34
+P	East Hampton		US	Virginia	37.037	-76.332	16
+P	Hājīpur	hajipur	IN		25.685	85.210	25
+P	Huyện Lâm Hà	huyen lam ha	VN		11.816	108.214	18
+P	Hailin		CN		44.571	129.385	27
+P	Haldwani		IN		29.223	79.529	25
+P	Hābra	habra	IN		22.842	88.656	25
+P	Hampton		US	Virginia	37.030	-76.345	16
+P	Cap-Haïtien	cap haitien	HT		19.759	-72.198	16
+P	Madīnat Ḩamad	madinat hamad	BH		26.115	50.507	26
+P	Hải Châu	hai chau	VN		15.917	108.133	18
+P	New Haven		US	Connecticut	41.308	-72.928	16
+P	Hālīsahar	halisahar	IN		22.932	88.419	25
+P	Hāthras	hathras	IN		27.596	78.052	25
+P	Haimen		CN		23.193	116.612	27
+P	Hagonoy		PH		14.834	120.733	27
+P	Hardoī	hardoi	IN		27.395	80.132	25
+P	Haveli Lakha		PK		30.451	73.694	24
+P	Hartford		US	Connecticut	41.764	-72.685	16
+P	Handa		JP		34.883	136.933	29
+P	Harlem		US	New York	40.808	-73.945	16
+P	San Tung Chung Hang		HK		22.279	113.943	27
+P	East Harlem		US	New York	40.795	-73.942	16
+P	Mỹ Hào	my hao	VN		20.917	106.083	18
+P	Hatsukaichi		JP		34.350	132.333	29
+P	Hammanskraal		ZA		-25.409	28.287	2
+P	Haikou		CN		24.780	102.575	27
+P	Hadejia		NG		12.453	10.041	3
+P	Hailun		CN		47.447	126.925	27
+P	Habikino		JP		34.553	135.591	29
+P	Handeni		TZ		-5.433	38.017	26
+P	Hanjia		CN		29.295	108.161	27
+P	Hammamet		TN		36.400	10.617	3
+P	Hà Tiên	ha tien	VN		10.383	104.488	18
+P	Hāgere Hiywet	hagere hiywet	ET		8.983	37.850	26
+P	Habboûch	habbouch	LB		33.408	35.482	19
+P	Hadera		IL		32.442	34.904	23
+P	La Habana Vieja		CU		23.130	-82.353	8
+P	Hanamaki		JP		39.383	141.117	29
+P	Hayes		GB	England	51.516	-0.423	34
+P	Harlow		GB	England	51.777	0.112	34
+P	Hastings		GB	England	50.856	0.580	34
+P	Al Hārithah	al harithah	IQ		30.585	47.761	26
+P	Hanting		CN		36.771	119.211	27
+P	Harrogate		GB	England	53.991	-1.537	34
+P	Bibir Hat		BD		22.683	91.791	20
+P	Hartlepool		GB	England	54.686	-1.210	34
+P	Habiganj		BD		24.380	91.413	20
+P	Hanau am Main		DE		50.134	8.914	32
+P	La Haute-Saint-Charles	la haute saint charles	CA	Quebec	46.890	-71.372	16
+P	Hawthorne		US	California	33.916	-118.353	10
+P	Hastings		NZ		-39.638	176.849	35
+P	Hanchuan		CN		30.650	113.767	27
+P	Hacienda Santa Fe		MX		20.518	-103.381	11
+P	Hānsi	hansi	IN		29.102	75.963	25
+P	Hamakita		JP		34.800	137.783	29
+P	Hawr al ‘Anz	hawr al anz	AE		25.277	55.337	21
+P	Hamma Bouziane		DZ		36.412	6.596	3
+P	Harihar		IN		14.513	75.807	25
+P	Ḩawsh ‘Īsá	hawsh isa	EG		30.913	30.290	0
+P	Marj Al Hamam		JO		31.903	35.846	26
+P	Havířov	havirov	CZ		49.780	18.437	32
+P	An Hải	an hai	VN		16.067	108.233	18
+P	Halifax		GB	England	53.717	-1.850	34
+P	East Hastings		CA	British Columbia	49.272	-123.062	17
+P	Hannō	hanno	JP		35.852	139.318	29
+P	Hajiawa		IQ		36.236	44.795	26
+P	Coffs Harbour		AU	New South Wales	-30.296	153.114	31
+P	Al Ḩayy	al hayy	IQ		32.174	46.043	26
+P	Hakkâri	hakkari	TR		37.574	43.741	26
+P	Hasselt		BE		50.931	5.338	32
+P	Hammond		US	Indiana	41.583	-87.500	5
+P	Hassi Bahbah		DZ		35.071	3.030	3
+P	Haninge		SE		59.168	18.145	32
+P	Harda		IN		22.344	77.095	25
+P	Joypur Hāt	joypur hat	BD		25.101	89.027	20
+P	Beled Hawo		SO		3.928	41.880	26
+P	Rosh Ha‘Ayin	rosh haayin	IL		32.096	34.957	23
+P	Hala		PK		25.815	68.422	24
+P	Halmstad		SE		56.674	12.857	32
+P	Haining		CN		30.536	120.686	27
+P	Duyên Hải	duyen hai	VN		9.635	106.492	18
+P	Hämeenlinna	hameenlinna	FI		60.996	24.464	33
+P	Aïn Harrouda	ain harrouda	MA		33.637	-7.450	1
+P	Hashima		JP		35.329	136.681	29
+P	Hāveri	haveri	IN		14.794	75.404	25
+P	Hanyin Chengguanzhen		CN		32.891	108.505	27
+P	Bajos de Haina		DO		18.415	-70.033	14
+P	Jidd Ḩafş	jidd hafs	BH		26.219	50.548	26
+P	Harlingen		US	Texas	26.191	-97.696	5
+P	Haskovo		BG		41.934	25.556	33
+P	Hālol	halol	IN		22.503	73.472	25
+P	New Halfa		SD		15.330	35.599	2
+P	West Hartford		US	Connecticut	41.762	-72.742	16
+P	Hod HaSharon		IL		32.159	34.893	23
+P	Medicine Hat		CA	Alberta	50.039	-110.677	6
+P	Halton Hills		CA	Ontario	43.640	-79.931	16
+P	Haverhill		US	Massachusetts	42.776	-71.077	16
+P	Hamilton		US	Ohio	39.400	-84.561	16
+P	La Habra		US	California	33.932	-117.946	10
+P	Hasuda		JP		35.971	139.649	29
+P	Hashimoto		JP		34.317	135.617	29
+P	Terre Haute		US	Indiana	39.467	-87.414	16
+P	Halesowen		GB	England	52.449	-2.049	34
+P	Hamden		US	Connecticut	41.396	-72.897	16
+P	Brandenburg an der Havel		DE		52.417	12.550	32
+P	Nag Hammâdi	nag hammadi	EG		26.049	32.241	0
+P	Haizhou		CN		34.582	119.129	27
+P	Hanyū	hanyu	JP		36.167	139.533	29
+P	Hameln		DE		52.104	9.356	32
+P	Al Ḩāmūl	al hamul	EG		31.311	31.148	0
+P	Hancheng		CN		35.460	110.429	27
+P	Hardenberg		NL		52.576	6.619	32
+P	Hagere Maryam		ET		5.634	38.236	26
+P	Harsīn	harsin	IR		34.272	47.586	28
+P	El Hatillo		VE		10.424	-66.826	14
+P	Hasanpur		IN		28.722	78.284	25
+P	Palm Harbor		US	Florida	28.078	-82.764	16
+P	Halabja		IQ		35.178	45.986	26
+P	Villa Hayes		PY		-25.093	-57.527	15
+P	Hamada		JP		34.883	132.083	29
+P	Haripur		PK		33.998	72.935	24
+P	Hattingen		DE		51.399	7.186	32
+P	Hanford		US	California	36.327	-119.646	10
+P	Kawm Ḩamādah	kawm hamadah	EG		30.761	30.700	0
+P	Hashtgerd		IR		35.962	50.680	28
+P	Hà Giang	ha giang	VN		22.823	104.984	18
+P	West Haven		US	Connecticut	41.271	-72.947	16
+P	Hamura		JP		35.762	139.320	29
+P	Hamilton		GB	Scotland	55.767	-4.033	34
+P	Hacienda Heights		US	California	33.993	-117.969	10
+P	Lake Havasu City		US	Arizona	34.484	-114.322	12
+P	Rampur Hat		IN		24.177	87.783	25
+P	Khanapuram Haveli		IN		17.262	80.168	25
+P	Little Havana		US	Florida	25.768	-80.233	16
+P	Hatogaya-honchō	hatogaya honcho	JP		35.833	139.743	29
+P	Universitäts- und Hansestadt Greifswald	universitats und hansestadt greifswald	DE		54.089	13.402	32
+P	Harrisonburg		US	Virginia	38.450	-78.869	16
+P	Hannan		JP		34.333	135.250	29
+P	Mott Haven		US	New York	40.809	-73.923	16
+P	Haabersti		EE		59.423	24.647	33
+P	East Hartford		US	Connecticut	41.782	-72.612	16
+P	The Hammocks		US	Florida	25.671	-80.445	16
+P	Hà Đông	ha dong	VN		20.971	105.779	18
+P	Hanyuan		CN		32.834	106.250	27
+P	Havertown		US	Pennsylvania	39.981	-75.309	16
+P	Harrisburg		US	Pennsylvania	40.274	-76.884	16
+P	Al-Hamdaniya	al hamdaniya	IQ		36.271	43.378	26
+P	Hadali		PK		32.640	74.569	24
+P	Habaswein		KE		1.017	39.491	26
+P	Hacienda La Calera		CL		-32.783	-71.217	13
+P	Haiyang		CN		29.786	118.177	27
+P	Hadero		ET		7.200	37.667	26
+P	Al Hasaheisa		SD		14.753	33.298	2
+P	Ramat HaSharon		IL		32.146	34.839	23
+P	Hanwang		CN		34.194	117.083	27
+P	Thị Trấn Đầm Hà	thi tran dam ha	VN		21.353	107.597	18
+P	Harpanahalli		IN		14.788	75.989	25
+P	El Hamma		TN		33.892	9.796	3
+P	Hattiesburg		US	Mississippi	31.327	-89.290	5
+P	Makakilo / Kapolei / Honokai Hale	makakilo kapolei honokai hale	US	Hawaii	21.337	-158.097	36
+P	Paotana Hat		BD		25.665	89.503	20
+P	Hansestadt Stade		DE		53.594	9.473	32
+P	Havant		GB	England	50.857	-0.986	34
+P	Hashtpar		IR		37.797	48.905	28
+P	Pardés H̱anna Karkur	pardes hanna karkur	IL		32.474	34.978	23
+P	Hackensack		US	New Jersey	40.886	-74.043	16
+P	Hagi		JP		34.400	131.417	29
+P	Halle-Neustadt	halle neustadt	DE		51.479	11.916	32
+P	Hassi Messaoud		DZ		31.680	6.073	3
+P	Hājīganj	hajiganj	BD		23.252	90.855	20
+P	Hammam-Lif	hammam lif	TN		36.729	10.342	3
+P	Haltom City		US	Texas	32.800	-97.269	5
+P	Ḩasanābād	hasanabad	IR		35.367	51.235	28
+P	Hāflong	haflong	IN		25.165	93.017	25
+P	Han’airike	hanairike	CN		37.542	80.117	20
+P	Ḩajjah	hajjah	YE		15.694	43.606	26
+P	Abū Ḩammād	abu hammad	EG		30.538	31.679	0
+P	Hammam Sousse		TN		35.861	10.603	3
+P	Joint Base Pearl Harbor Hickam		US	Hawaii	21.349	-157.947	36
+P	Diamond Harbour		IN		22.193	88.190	25
+P	Hatfield		GB	England	51.763	-0.224	34
+P	Hadong		KR		35.068	127.751	29
+P	Harderwijk		NL		52.342	5.621	32
+P	Hagerstown		US	Maryland	39.642	-77.720	16
+P	Haugesund		NO		59.414	5.268	32
+P	Had Soualem		MA		33.420	-7.852	1
+P	Hāsimāra	hasimara	IN		26.747	89.354	25
+P	El Hadjira		DZ		32.613	5.513	3
+P	Halberstadt		DE		51.896	11.056	32
+P	Hallandale Beach		US	Florida	25.981	-80.148	16
+P	Hamanoichi		JP		31.717	130.733	29
+P	Haguenau		FR		48.816	7.791	32
+P	El Hajeb		MA		33.688	-5.371	1
+P	Hanover Park		US	Illinois	41.999	-88.145	5
+P	Harbel		LR		6.247	-10.356	4
+P	Haltern am See		DE		51.743	7.182	32
+P	Hanover		US	Maryland	39.193	-76.724	16
+P	Hamm		DE		53.555	10.057	32
+P	Umm Hājar	umm hajar	TD		13.295	19.697	3
+P	Haedo		AR		-34.642	-58.592	15
+P	Winter Haven		US	Florida	28.022	-81.733	16
+P	Havelian		PK		34.053	73.160	24
+P	Bayt Ḩānūn	bayt hanun	PS		31.535	34.536	22
+P	Ḩarastā	harasta	SY		33.559	36.365	26
+P	Hanyuan		CN		34.011	105.292	27
+P	Hanawa		JP		40.184	140.787	29
+P	Alto Hama		AO		-12.233	15.550	3
+P	Schwäbisch Hall	schwabisch hall	DE		49.111	9.739	32
+P	Hang Hau		HK		22.318	114.270	27
+P	Haomen		CN		37.376	101.622	27
+P	Quán Hàu	quan hau	VN		17.404	106.641	18
+P	Hangu		PK		33.532	71.059	24
+P	Hato Mayor del Rey		DO		18.766	-69.256	14
+P	Linton Hall		US	Virginia	38.760	-77.575	16
+P	Harper		LR		4.378	-7.711	4
+P	Xã Long Hải	xa long hai	VN		10.387	107.239	18
+P	Bonn Hardtberg		DE		50.704	7.054	32
+P	Haitou		CN		19.506	108.951	27
+P	Hastings-Sunrise	hastings sunrise	CA	British Columbia	49.283	-123.033	17
+P	Halle		BE		50.734	4.235	32
+P	Hādīshahr	hadishahr	IR		38.848	45.662	28
+P	Katsuren-haebaru	katsuren haebaru	JP		26.333	127.874	29
+P	Hamīrpur	hamirpur	IN		25.955	80.148	25
+P	Haywards Heath		GB	England	50.998	-0.103	34
+P	Hadjout		DZ		36.513	2.414	3
+P	Hailākāndi	hailakandi	IN		24.684	92.561	25
+P	Mount Hagen		PG		-5.857	144.231	37
+P	Hàm Ninh	ham ninh	VN		10.181	104.048	18
+P	Harrismith		ZA		-28.273	29.129	2
+P	Haojiaqiao		CN		38.017	106.283	27
+P	Hatta		IN		24.134	79.601	25
+P	Haruta		JP		35.142	136.812	29
+P	Ḩayy al Quwaysimah	hayy al quwaysimah	JO		31.910	35.950	26
+P	Ḩarir	harir	IQ		36.551	44.353	26
+P	Halvad		IN		23.015	71.180	25
+P	Hajdúböszörmény	hajduboszormeny	HU		47.667	21.517	32
+P	Bale Hawassa		ET		6.919	37.529	26
+P	Hakonegasaki		JP		35.769	139.351	29
+P	Hayama		JP		35.277	139.577	29
+P	Hartbeestfontein-A	hartbeestfontein a	ZA		-25.441	27.511	2
+P	Gành Hào	ganh hao	VN		9.028	105.421	18
+P	Hafnarfjörður	hafnarfjordur	IS		64.067	-21.938	4
+P	Hakenfelde		DE		52.559	13.208	32
+P	Şān al Ḩajar al Qiblīyah	san al hajar al qibliyah	EG		30.975	31.872	0
+P	Ḩadīthah	hadithah	IQ		34.137	42.377	26
+P	Ḥawṭah Banī Tamīm	hawtah bani tamim	SA		23.496	46.878	26
+P	Harpenden		GB	England	51.817	-0.357	34
+P	Hawai‘i Kai	hawaii kai	US	Hawaii	21.296	-157.702	36
+P	Al Ḩawātah	al hawatah	SD		13.417	34.633	2
+P	Mount Hampden		ZW		-17.742	30.939	2
+P	Rais Hamidou		DZ		36.817	3.013	3
+P	Haji Zeynalabdin		AZ		40.623	49.559	21
+P	Ahmed Bel Hadj		DZ		36.801	7.608	3
+P	Hamar		NO		60.794	11.068	32
+P	Haan		DE		51.194	7.013	32
+P	East Haven		US	Connecticut	41.276	-72.868	16
+P	Hajīn	hajin	SY		34.695	40.831	26
+P	Harker Heights		US	Texas	31.084	-97.660	5
+P	Ouled Haddaj		DZ		36.715	3.342	3
+P	Fort Hamilton		US	New York	40.619	-74.033	16
+P	Hajira		PK		33.774	73.894	24
+P	Dayr Ḩāfir	dayr hafir	SY		36.157	37.708	26
+P	Ain el Hadjel		DZ		35.670	3.882	3
+P	Hammamet		DZ		35.449	7.952	3
+P	Hāyk’	hayk	ET		11.300	39.683	26
+P	Perry Hall		US	Maryland	39.413	-76.464	16
+P	Harrison		US	New York	40.969	-73.713	16
+P	Hadapu Zhen		CN		34.231	104.223	27
+P	Hāngal	hangal	IN		14.765	75.125	25
+P	’Aïn el Hammam	ain el hammam	DZ		36.565	4.306	3
+P	Hadagalli		IN		15.020	75.932	25
+P	Haaga		FI		60.221	24.898	33
+P	Hanwang		CN		33.343	105.010	27
+P	Theniet el Had		DZ		35.871	2.028	3
+P	Bou Hanifia el Hamamat		DZ		35.315	-0.050	3
+P	Hadgāon	hadgaon	IN		19.496	77.659	25
+P	Hamminkeln		DE		51.733	6.590	32
+P	Hayang		KR		35.913	128.820	29
+P	Haverhill		GB	England	52.082	0.439	34
+P	Bayt Ḩanīnā	bayt hanina	PS		31.830	35.225	22
+P	Hala'ib	halaib	EG		22.223	36.647	0
+P	Al Ḩamīdīyah	al hamidiyah	AE		25.400	55.529	21
+P	Hartbeespoort		ZA		-25.729	27.870	2
+P	Mercerville-Hamilton Square	mercerville hamilton square	US	New Jersey	40.231	-74.672	16
+P	Hazro City		PK		33.910	72.492	24
+P	Dar el Haj Taïeb	dar el haj taieb	TN		34.784	10.744	3
+P	Haqqulobod		UZ		40.917	72.117	24
+P	Ōno-hara	ono hara	JP		34.283	132.267	29
+P	Hampton Park		AU	Victoria	-38.033	145.250	31
+P	El Hadjar		DZ		36.804	7.737	3
+P	Old Harbour		JM		17.941	-77.109	9
+P	Harelbeke		BE		50.853	3.309	32
+P	Hayashino		JP		35.000	134.150	29
+P	Hammam Bou Hadjar		DZ		35.379	-0.968	3
+P	Haysyn		UA		48.813	29.379	33
+P	Migdal Ha‘Emeq	migdal haemeq	IL		32.678	35.242	23
+P	Hazelwood		US	Missouri	38.771	-90.371	5
+P	Ḩaql	haql	SA		29.286	34.947	26
+P	Downtown Halifax		CA	Nova Scotia	44.648	-63.578	7
+P	Hawarden		GB	Wales	53.185	-3.026	34
+P	Harūr	harur	IN		12.053	78.480	25
+P	Idaga Hamus		ET		14.187	39.564	26
+P	Haludbani		IN		22.751	86.210	25
+P	Harvey		US	Illinois	41.610	-87.647	5
+P	Flémalle-Haute	flemalle haute	BE		50.600	5.445	32
+P	Hachimantai		JP		39.900	141.130	29
+P	Hannoversch Münden	hannoversch munden	DE		51.415	9.650	32
+P	Hattersheim		DE		50.069	8.486	32
+P	Härnösand	harnosand	SE		62.632	17.938	32
+P	Qiryat HaYovel		IL		31.767	35.167	23
+P	Hakha		MM		22.645	93.611	30
+P	Hastings		US	Nebraska	40.586	-98.388	5
+P	Hazleton		US	Pennsylvania	40.958	-75.975	16
+P	Hatonuevo		CO		11.069	-72.767	9
+P	Market Harborough		GB	England	52.478	-0.921	34
+P	Hakui		JP		36.883	136.783	29
+P	Harbu		ET		10.920	39.787	26
+P	Havlíčkův Brod	havlickuv brod	CZ		49.607	15.579	32
+P	Haitang		CN		30.172	107.230	27
+P	Haliyal		IN		15.329	74.756	25
+P	Harsewinkel		DE		51.962	8.228	32
+P	Haaksbergen		NL		52.157	6.739	32
+P	Hastināpur	hastinapur	IN		29.160	78.008	25
+P	North Haven		US	Connecticut	41.391	-72.860	16
+P	Abou el Hassan		DZ		36.417	1.196	3
+P	Haenam		KR		34.571	126.599	29
+P	Hajdúszoboszló	hajduszoboszlo	HU		47.450	21.400	32
+P	Hanworth		GB	England	51.433	-0.383	34
+P	Harappa		PK		30.633	72.870	24
+P	Hadyach		UA		50.369	33.997	33
+P	Hailsham		GB	England	50.862	0.258	34
+P	Ḩalfāyā	halfaya	SY		35.260	36.606	26
+P	Ḩājjīābād	hajjiabad	IR		28.309	55.902	28
+P	Hazebrouck		FR		50.724	2.537	32
+P	Kiên Hải	kien hai	VN		9.973	104.847	18
+P	Hacıqabul	haciqabul	AZ		40.039	48.943	21
+P	Bad Harzburg		DE		51.883	10.562	32
+P	Hanwella Ihala		LK		6.901	80.085	25
+P	Hamme		BE		51.098	4.137	32
+P	Haines City		US	Florida	28.114	-81.620	16
+P	Oak Harbor		US	Washington	48.293	-122.643	10
+P	Halifax West End		CA	Nova Scotia	44.649	-63.619	7
+P	Hastings		US	Minnesota	44.743	-92.852	5
+P	Haren		DE		52.793	7.241	32
+P	Hawthorn		AU	Victoria	-37.820	145.036	31
+P	Hartbeesfontein		ZA		-26.766	26.420	2
+P	Hajnówka	hajnowka	PL		52.743	23.581	32
+P	Háje	haje	CZ		50.036	14.527	32
+P	Ḥamīdiyeh	hamidiyeh	IR		31.483	48.433	28
+P	Haderslev		DK		55.249	9.488	32
+P	Hamtramck		US	Michigan	42.393	-83.050	16
+P	Hartīshēk	hartishek	ET		9.157	43.354	26
+P	Digih Habar Es		ET		6.443	45.983	26
+P	Halden		NO		59.125	11.388	32
+P	Ḩājjīābād	hajjiabad	IR		28.357	54.423	28
+P	Hadley Wood		GB	England	51.667	-0.170	34
+P	Havza		TR		40.971	35.662	26
+P	Halle		DE		52.060	8.361	32
+P	Hafshejān	hafshejan	IR		32.227	50.793	28
+P	Haidong Zhen		CN		25.710	100.261	27
+P	Hawthorn South		AU	Victoria	-37.833	145.037	31
+P	Hacılar	hacilar	TR		38.646	35.449	26
+P	Hays		US	Kansas	38.879	-99.327	5
+P	Ḩalḩūl	halhul	PS		31.580	35.102	22
+P	Ha Tsuen		HK		22.447	113.992	27
+P	Hansestadt Salzwedel		DE		52.853	11.153	32
+P	Haney		CA	British Columbia	49.217	-122.600	17
+P	Harstad		NO		68.798	16.542	32
+P	Hauppauge		US	New York	40.826	-73.203	16
+P	Tai Wo Hau		HK		22.367	114.123	27
+P	Haßloch	hassloch	DE		49.363	8.258	32
+P	Halaç	halac	TM		38.072	64.879	24
+P	Harwich		GB	England	51.942	1.284	34
+P	Wade Hampton		US	South Carolina	34.904	-82.333	16
+P	Hashtrūd	hashtrud	IR		37.478	47.051	28
+P	Haramachi		JP		33.770	132.790	29
+P	Hammond		US	Louisiana	30.505	-90.463	5
+P	Halewood		GB	England	53.360	-2.831	34
+P	Havelock		US	North Carolina	34.879	-76.901	16
+P	Harvey		US	Louisiana	29.904	-90.077	5
+P	Thị Trấn Nước Hai	thi tran nuoc hai	VN		22.737	106.152	18
+P	Haldensleben I		DE		52.289	11.410	32
+P	Hārij	harij	IN		23.694	71.907	25
+P	Hatvan		HU		47.667	19.683	32
+P	Haiger		DE		50.742	8.208	32
+P	Halluin		FR		50.786	3.126	32
+P	Hazel Grove		GB	England	53.383	-2.117	34
+P	Lynn Haven		US	Florida	30.245	-85.648	5
+P	Hadim		TR		36.988	32.457	26
+P	Nova Hartz		BR		-29.584	-50.903	15
+P	Haddington		US	Pennsylvania	39.966	-75.238	16
+P	Hampton		GB	England	51.413	-0.367	34
+P	Kempston Hardwick		GB	England	52.090	-0.499	34
+P	Hambantota		LK		6.124	81.118	25
+P	Hayesville		US	Oregon	44.986	-122.983	10
+P	Halifax South End		CA	Nova Scotia	44.629	-63.577	7
+P	Mariners Harbor		US	New York	40.637	-74.159	16
+P	Hayrabolu		TR		41.213	27.107	26
+P	Hartranft		US	Pennsylvania	39.985	-75.147	16
+P	Tamuning-Tumon-Harmon Village	tamuning tumon harmon village	GU		13.488	144.781	37
+P	Hazel Dell		US	Washington	45.672	-122.663	10
+P	Halwan		AE		25.346	55.422	21
+P	Phak Hai		TH		14.457	100.370	18
+P	Green Haven		US	Maryland	39.140	-76.548	16
+P	Hässleholm	hassleholm	SE		56.159	13.766	32
+P	Hamina		FI		60.570	27.198	33
+P	Hamīrpur	hamirpur	IN		31.684	76.525	25
+P	Haslett		US	Michigan	42.747	-84.401	16
+P	Cole Harbour		CA	Nova Scotia	44.672	-63.475	7
+P	Hawthorne		US	New Jersey	40.949	-74.154	16
+P	Hässelby Villastad	hasselby villastad	SE		59.380	17.809	32
+P	Harmanli		BG		41.932	25.902	33
+P	Équeurdreville-Hainneville	equeurdreville hainneville	FR		49.649	-1.653	32
+P	Keng Hau		HK		22.365	114.175	27
+P	Haldaur		IN		29.290	78.284	25
+P	Half Way Tree		JM		18.012	-76.799	9
+P	Harpālpur	harpalpur	IN		25.288	79.333	25
+P	Happy Valley		US	Oregon	45.447	-122.530	10
+P	Haibara-akanedai	haibara akanedai	JP		34.533	135.950	29
+P	Al Ḩammām	al hammam	EG		30.845	29.388	0
+P	Hasune		JP		35.783	139.676	29
+P	Hadleigh		GB	England	51.553	0.610	34
+P	Al Ḩazm	al hazm	YE		16.164	44.777	26
+P	Abū Hayl	abu hayl	AE		25.284	55.332	21
+P	Hajdúnánás	hajdunanas	HU		47.850	21.433	32
+P	Hanahan		US	South Carolina	32.919	-80.022	16
+P	Hang Dong		TH		18.687	98.919	18
+P	Outat Oulad Al Haj		MA		33.345	-3.704	1
+P	Handiā	handia	IN		25.364	82.187	25
+P	Hannibal		US	Missouri	39.708	-91.358	5
+P	Harvestehude		DE		53.578	9.989	32
+P	South Hadley		US	Massachusetts	42.258	-72.575	16
+P	Halver		DE		51.186	7.498	32
+P	Tai Shui Hang		HK		22.406	114.224	27
+P	Hazorasp		UZ		41.319	61.074	24
+P	Haar		DE		48.109	11.727	32
+P	Safety Harbor		US	Florida	27.991	-82.693	16
+P	Hāt Piplia	hat piplia	IN		22.769	76.300	25
+P	Haydock		GB	England	53.467	-2.682	34
+P	Haukipudas		FI		65.177	25.352	33
+P	Haslemere		GB	England	51.090	-0.708	34
+P	Guru Har Sahāi	guru har sahai	IN		30.709	74.404	25
+P	Harlesden		GB	England	51.538	-0.250	34
+P	Haaltert		BE		50.906	4.001	32
+P	Hausbruch		DE		53.474	9.883	32
+P	Hanover		US	Massachusetts	42.113	-70.812	16
+P	Hayling Island		GB	England	50.784	-0.969	34
+P	El Harhoura		MA		33.945	-6.931	1
+P	Hanumana		IN		24.779	82.096	25
+P	Harsūd	harsud	IN		22.099	76.734	25
+P	Hale		GB	England	53.378	-2.333	34
+P	Hazel Park		US	Michigan	42.463	-83.104	16
+P	Harringay		GB	England	51.582	-0.100	34
+P	Harpen		DE		51.498	7.288	32
+P	Haselhorst		DE		52.544	13.237	32
+P	Wong Chuk Hang		HK		22.240	114.170	27
+P	Hartley		GB	England	51.387	0.304	34
+P	Hatti		IN		16.198	76.660	25
+P	Halstenbek		DE		53.633	9.839	32
+P	Harlingen		NL		53.175	5.422	32
+P	Ham Lake		US	Minnesota	45.250	-93.250	5
+P	Hakurōmachi	hakuromachi	JP		40.524	141.306	29
+P	Hājo	hajo	IN		26.245	91.525	25
+P	Hayes		GB	England	51.378	0.017	34
+P	Haftkel		IR		31.447	49.530	28
+P	New Haven		US	Indiana	41.071	-85.014	16
+P	Haubourdin		FR		50.608	2.991	32
+P	Handlová	handlova	SK		48.728	18.760	32
+P	Harnoli		PK		32.279	71.554	24
+P	Hale		GB	England	51.229	-0.789	34
+P	Haripād	haripad	IN		9.284	76.455	25
+P	Khánh Hải	khanh hai	VN		11.591	109.041	18
+P	Harare Western Suburbs		ZW		-17.841	30.877	2
+P	West Ham		GB	England	51.533	0.017	34
+P	Hautmont		FR		50.251	3.921	32
+P	Hayange		FR		49.329	6.063	32
+P	Giv`at H̱ananya	givat hananya	IL		31.767	35.233	23
+P	Hanover		US	Pennsylvania	39.801	-76.983	16
+P	South Hayling		GB	England	50.788	-0.977	34
+P	Harrison		US	New Jersey	40.746	-74.156	16
+P	Ḩattā	hatta	AE		24.801	56.127	21
+P	Hamilton East		NZ		-37.788	175.290	35
+P	Haslingden		GB	England	53.703	-2.324	34
+P	Niz-Hajo	niz hajo	IN		26.249	91.524	25
+P	Hatton		LK		6.892	80.596	25
+P	Tottenham Hale		GB	England	51.594	-0.060	34
+P	Harewood		CA	British Columbia	49.147	-123.947	17
+P	Hagåtña	hagatna	GU		13.476	144.749	37
+P	Hamilton		BM		32.295	-64.783	7

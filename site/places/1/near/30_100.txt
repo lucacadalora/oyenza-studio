@@ -1,0 +1,49 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	3
+P	Chengdu		CN		30.667	104.067	0
+P	Mianyang		CN		31.468	104.682	0
+P	Meishan		CN		30.044	103.837	0
+P	Ziyang		CN		30.121	104.648	0
+P	Deyang		CN		31.130	104.382	0
+P	Mianzhu, Deyang, Sichuan	mianzhu deyang sichuan	CN		31.338	104.221	0
+P	Luojiang		CN		31.305	104.505	0
+P	Pingwu County		CN		32.407	104.527	0
+P	Jiangyou		CN		31.767	104.717	0
+P	Kangding		CN		30.002	101.957	0
+P	Longnan		CN		33.398	104.917	0
+P	Wushan		CN		34.721	104.886	0
+P	Tianpeng		CN		30.987	103.939	0
+P	Maqin County		CN		34.474	100.245	0
+P	Hezuo		CN		34.986	102.909	0
+P	Barkam		CN		31.901	102.221	0
+P	Linqiong		CN		30.416	103.461	0
+P	Mali		CN		34.665	104.698	0
+P	Tange		CN		34.628	104.841	0
+P	Tanchang Chengguanzhen		CN		34.045	104.395	0
+P	Wenxian Chengguanzhen		CN		32.947	104.681	0
+P	Majie		CN		33.459	104.958	0
+P	Hadapu Zhen		CN		34.231	104.223	0
+P	Liangshui		CN		33.432	104.809	0
+P	Yuanyang		CN		34.788	104.775	0
+P	Shandan		CN		34.751	104.831	0
+P	Lintan Chengguanzhen		CN		34.689	103.352	0
+P	Zhouqu Chengguanzhen		CN		33.784	104.363	0
+P	Shawan		CN		33.627	104.564	0
+P	Qiaotou		CN		33.108	104.812	0
+P	Xincheng		CN		34.674	103.587	0
+P	Chengjiao		CN		33.385	104.920	0
+P	Lichuan Zhen		CN		34.248	104.319	0
+P	Zhongzhai		CN		33.191	104.420	0
+P	Jiaogong		CN		33.565	104.646	0
+P	Gaolou		CN		34.761	104.677	0
+P	Baiguan		CN		33.966	104.914	0
+P	Baihe		CN		33.870	104.852	0
+P	Nima		CN		34.001	102.071	0
+P	Liulin		CN		34.590	103.504	0
+P	Dongjiang		CN		33.379	104.951	0
+P	Puchi		CN		33.535	104.814	0
+P	Maying		CN		33.596	104.846	0
+P	Hualin		CN		34.826	104.752	0
+P	Dianga		CN		34.064	103.214	0

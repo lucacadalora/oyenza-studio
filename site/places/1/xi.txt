@@ -1,0 +1,174 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bissau	0	
+Z	1	Africa/Maputo	120	
+Z	2	America/Belem	-180	
+Z	3	America/Mexico_City	-360	
+Z	4	Asia/Samarkand	300	
+Z	5	Asia/Shanghai	480	
+Z	6	Asia/Urumqi	360	
+Z	7	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	8	Europe/Lisbon	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	BR	Brazil	mwl	s
+C	CN	China	mwl	s
+C	ES	Spain	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HU	Hungary	mwl	s
+C	MX	Mexico	mwl	s
+C	MZ	Mozambique	egyptian	s
+C	PT	Portugal	mwl	s
+C	TW	Taiwan	mwl	s
+C	UZ	Uzbekistan	mwl	h
+B	7
+P	Xi’an	xian	CN		34.258	108.929	5
+P	Xiamen		CN		24.480	118.082	5
+P	Xining		CN		36.626	101.757	5
+P	Xiangyang		CN		32.042	112.145	5
+P	Xinyang		CN		32.123	114.066	5
+P	Xinxiang		CN		35.190	113.802	5
+P	Xianyang		CN		34.338	108.703	5
+P	Xiangtan		CN		27.850	112.900	5
+P	Xiaogan		CN		30.927	113.922	5
+P	Xinyu		CN		27.804	114.933	5
+P	Xingtai		CN		37.062	114.493	5
+P	Xinzhou		CN		38.409	112.733	5
+P	Xianning		CN		29.843	114.322	5
+P	Xichang		CN		27.896	102.263	5
+P	Xico		MX		19.270	-98.951	3
+P	Xilinhot		CN		43.939	116.070	5
+P	Xingyi		CN		25.096	104.906	5
+P	Xinyi		CN		34.384	118.346	5
+P	Xiuying		CN		20.001	110.294	5
+P	Xinyuan		CN		43.426	83.250	6
+P	Xingning		CN		24.148	115.723	5
+P	Xiantao		CN		30.371	113.443	5
+P	Xintai		CN		35.901	117.752	5
+P	Xizhi		TW		25.066	121.660	5
+P	Xindi		CN		29.817	113.467	5
+P	Xinqiao		CN		31.065	121.308	5
+P	Xinji		CN		37.926	115.219	5
+P	Budapest XI. kerület	budapest xi kerulet	HU		47.476	19.036	7
+P	Xiayang		CN		31.150	121.116	5
+P	Xiazhen		CN		34.802	117.112	5
+P	Xiulin		CN		29.717	112.400	5
+P	Xiangcheng		CN		25.467	100.562	5
+P	Xilin Hot		CN		43.967	116.033	5
+P	Xiva		UZ		41.386	60.364	4
+P	Budapest XIII. kerület	budapest xiii kerulet	HU		47.530	19.081	7
+P	Xigang		CN		38.553	106.348	5
+P	Xinghua		CN		32.939	119.834	5
+P	Xincheng		CN		41.715	82.932	6
+P	Xinzhai		CN		36.400	118.617	5
+P	Xixiang		CN		32.987	107.764	5
+P	Xinle		CN		38.349	114.685	5
+P	Xingcheng		CN		40.617	120.717	5
+P	Xinshi		CN		31.047	113.141	5
+P	Xinyi		CN		22.373	110.947	5
+P	Xishan		CN		27.667	113.500	5
+P	Xinxing		CN		34.776	105.322	5
+P	Xiaoshan		CN		30.167	120.259	5
+P	Xingguo		CN		34.859	105.669	5
+P	Ximeicun		CN		24.988	118.386	5
+P	Xingren		CN		25.433	105.233	5
+P	Xihe		CN		31.686	113.466	5
+P	Xiazhuang		CN		36.449	119.836	5
+P	Xiangxiang		CN		27.733	112.533	5
+P	Xiannü	xiannu	CN		32.428	119.560	5
+P	Xindian		CN		36.797	118.294	5
+P	Xiugu		CN		27.911	116.776	5
+P	Xichang		CN		21.633	108.950	5
+P	Xiongzhou		CN		25.117	114.300	5
+P	Xinzhou		CN		30.867	114.800	5
+P	Xixiang		CN		22.593	113.889	5
+P	Xinying		TW		23.307	120.311	5
+P	Xinmin		CN		41.991	122.825	5
+P	Xianshuigu		CN		38.985	117.383	5
+P	Xinzhi		CN		36.499	111.705	5
+P	Xiuyan		CN		40.293	123.274	5
+P	Xinhe		CN		36.925	119.593	5
+P	Xininglu		CN		44.340	84.904	6
+P	Xiaoshi		CN		41.297	124.121	5
+P	Xinzhou		CN		19.714	109.311	5
+P	Xiaolingwei		CN		32.032	118.854	5
+P	Xiangcheng		CN		33.854	113.487	5
+P	São Félix do Xingu	sao felix do xingu	BR		-6.645	-51.995	2
+P	Xincheng		CN		33.633	115.183	5
+P	Xiazhuang		CN		34.916	118.639	5
+P	Bin Xian		CN		45.743	127.461	5
+P	Xiangzhou		CN		36.164	119.419	5
+P	Xinye		CN		32.529	112.365	5
+P	Budapest XIX. kerület	budapest xix kerulet	HU		47.453	19.149	7
+P	Xianju		CN		28.855	120.732	5
+P	Xifeng		CN		42.737	124.722	5
+P	Xiema		CN		29.774	106.369	5
+P	Xixiang		CN		35.163	112.865	5
+P	Xiaoweizhai		CN		26.190	107.513	5
+P	Xinglongshan		CN		43.956	125.466	5
+P	Budapest XII. kerület	budapest xii kerulet	HU		47.492	19.015	7
+P	Xinqing		CN		48.287	129.523	5
+P	Xihu		TW		23.957	120.479	5
+P	Xiazhuang		CN		25.400	100.833	5
+P	Xinguara		BR		-7.098	-49.944	2
+P	Xingqiao		CN		30.399	120.252	5
+P	Xinglou		CN		34.567	117.828	5
+P	Xinhe		CN		34.186	117.988	5
+P	Xianfeng		CN		29.210	106.300	5
+P	Xique-Xique	xique xique	BR		-10.823	-42.728	2
+P	Xindian		CN		34.143	118.335	5
+P	Xinglong		CN		30.657	109.446	5
+P	Xili		CN		22.588	113.948	5
+P	Xicotepec de Juárez	xicotepec de juarez	MX		20.276	-97.961	3
+P	Xilinji		CN		52.991	123.235	5
+P	Xihu		CN		29.100	106.395	5
+P	Xinxing		CN		36.049	119.541	5
+P	Xiluo		TW		23.799	120.463	5
+P	Xianlong		CN		29.151	105.784	5
+P	Xinmiao		CN		29.655	107.050	5
+P	Xintian		CN		30.699	108.402	5
+P	Xiongjia		CN		30.902	108.434	5
+P	Xiasi		CN		32.290	105.513	5
+P	Xiagezhuang		CN		36.693	120.435	5
+P	Xingyi		CN		29.956	107.816	5
+P	Xingang		TW		23.557	120.346	5
+P	Xirivella		ES		39.466	-0.426	7
+P	Xihu		CN		35.449	119.236	5
+P	Xichuan		CN		35.031	106.063	5
+P	Xindian		CN		25.281	101.558	5
+P	Xizhou		TW		24.277	120.689	5
+P	Xinmin		CN		30.398	107.389	5
+P	Xinsheng		CN		30.844	107.724	5
+P	Xiaodu		CN		29.962	105.887	5
+P	Xiaomian		CN		30.123	106.534	5
+P	Xialu		CN		29.942	108.084	5
+P	Xituo		CN		30.408	108.217	5
+P	Xiasi		CN		26.517	107.783	5
+P	Xianglong		CN		30.261	106.576	5
+P	Xiyu		CN		34.052	105.304	5
+P	Xingdaohu		CN		21.715	109.132	5
+P	Xingfeng		CN		34.861	105.838	5
+P	Xilembene		MZ		-24.689	33.258	1
+P	Xinlin		CN		51.667	124.400	5
+P	Xiaying		CN		37.042	119.477	5
+P	Xiejiawan		CN		34.812	105.171	5
+P	Xinmin		CN		30.903	109.467	5
+P	Pio XII		BR		-3.833	-45.153	2
+P	Xinshi		CN		29.960	107.104	5
+P	Xinyingpan		CN		27.168	100.920	5
+P	Xincheng		CN		34.674	103.587	5
+P	Xinglong		CN		29.169	107.006	5
+P	Xinglong		CN		29.889	106.706	5
+P	Xinglong		CN		34.038	105.344	5
+P	Xitole		GW		11.733	-14.817	0
+P	Xico		MX		19.422	-97.008	3
+P	Vila Franca de Xira		PT		38.955	-8.990	8
+P	Xintian		CN		29.196	108.270	5
+P	Xiaochuan		CN		33.681	105.562	5
+P	Xiaba		CN		29.117	106.510	5
+P	Xiulin		TW		24.120	121.626	5
+P	Xiangshui		CN		30.655	108.193	5
+P	Xigaoshan		CN		33.735	105.388	5
+P	Xiaojia		CN		30.288	106.470	5
+P	Xinhua		CN		24.753	98.483	5
+P	Xiaochangshan		CN		39.236	122.724	5
+P	Xinsheng		CN		29.957	105.751	5
+P	Vitória do Xingu	vitoria do xingu	BR		-2.880	-52.010	2
+P	Xiping		CN		34.606	105.115	5

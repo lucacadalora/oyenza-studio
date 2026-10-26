@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Blantyre	120	
+Z	1	Africa/Dar_es_Salaam	180	
+C	MW	Malawi	egyptian	s
+C	MZ	Mozambique	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	1
+P	Lilongwe		MW		-13.967	33.787	0
+P	Chipata		ZM		-13.633	32.650	0
+P	Mzuzu		MW		-11.466	34.021	0
+P	Kasama		ZM		-10.213	31.181	0
+P	Kasungu		MW		-13.033	33.483	0
+P	Mpika		ZM		-11.834	31.453	0
+P	Petauke		ZM		-14.241	31.320	0
+P	Katete		ZM		-14.050	32.083	0
+P	Lundazi		ZM		-12.293	33.178	0
+P	Salima		MW		-13.780	34.459	0
+P	Balaka		MW		-14.979	34.956	0
+P	Chinsali		ZM		-10.541	32.082	0
+P	Dedza		MW		-14.378	34.333	0
+P	Nkhotakota		MW		-12.927	34.296	0
+P	Isoka		ZM		-10.161	32.634	0
+P	Mchinji		MW		-13.798	32.880	0
+P	Serenje		ZM		-13.233	30.235	0
+P	Mzimba		MW		-11.900	33.600	0
+P	Mponela		MW		-13.531	33.739	0
+P	Rumphi		MW		-11.019	33.857	0
+P	Ntcheu		MW		-14.820	34.636	0
+P	Nyimba		ZM		-14.557	30.815	0
+P	Matiri		TZ		-10.750	34.900	1
+P	Sinda		ZM		-14.210	31.763	0
+P	Monkey Bay		MW		-14.082	34.917	0
+P	Nkhata Bay		MW		-11.607	34.291	0
+P	Ulongué	ulongue	MZ		-14.723	34.361	0

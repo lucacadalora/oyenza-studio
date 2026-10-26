@@ -1,0 +1,153 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kaliningrad	120	
+Z	1	Europe/Minsk	180	
+Z	2	Europe/Vilnius	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	3	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BY	Belarus	mwl	s
+C	LT	Lithuania	mwl	s
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+C	UA	Ukraine	mwl	s
+B	1
+P	Warsaw		PL		52.230	21.012	3
+P	Kaliningrad		RU		54.706	20.511	0
+P	Hrodna		BY		53.676	23.829	1
+P	Brest		BY		52.109	23.717	1
+P	Lublin		PL		51.251	22.570	3
+P	Białystok	bialystok	PL		53.133	23.164	3
+P	Kaunas		LT		54.902	23.909	2
+P	Radom		PL		51.403	21.147	3
+P	Mokotów	mokotow	PL		52.193	21.035	3
+P	Rzeszów	rzeszow	PL		50.041	21.999	3
+P	Kielce		PL		50.870	20.628	3
+P	Praga Południe	praga poludnie	PL		52.244	21.085	3
+P	Olsztyn		PL		53.784	20.493	3
+P	Ursynów	ursynow	PL		52.151	21.050	3
+P	Wola		PL		52.235	20.960	3
+P	Bielany		PL		52.292	20.935	3
+P	Białołeka	bialoleka	PL		52.321	20.972	3
+P	Targówek	targowek	PL		52.292	21.048	3
+P	Bemowo		PL		52.255	20.908	3
+P	Tarnów	tarnow	PL		50.014	20.987	3
+P	Śródmieście	srodmiescie	PL		52.229	21.016	3
+P	Praga Północ	praga polnoc	PL		52.254	21.035	3
+P	Ochota		PL		52.221	20.985	3
+P	Wawer		PL		52.197	21.178	3
+P	Siedlce		PL		52.168	22.290	3
+P	Ostrowiec Świętokrzyski	ostrowiec swietokrzyski	PL		50.929	21.385	3
+P	Dainava (Kaunas)	dainava kaunas	LT		54.915	23.968	2
+P	Suwałki	suwalki	PL		54.112	22.931	3
+P	Kovel		UA		51.215	24.701	2
+P	Tomaszów Mazowiecki	tomaszow mazowiecki	PL		51.531	20.009	3
+P	Stalowa Wola		PL		50.583	22.053	3
+P	Zamość	zamosc	PL		50.723	23.252	3
+P	Sheptytskyi		UA		50.394	24.239	2
+P	Łomża	lomza	PL		53.178	22.059	3
+P	Chełm	chelm	PL		51.143	23.472	3
+P	Mielec		PL		50.287	21.424	3
+P	Biała Podlaska	biala podlaska	PL		52.032	23.117	3
+P	Ełk	elk	PL		53.828	22.365	3
+P	Pruszków	pruszkow	PL		52.171	20.812	3
+P	Ostrołęka	ostroleka	PL		53.086	21.576	3
+P	Starachowice		PL		51.037	21.071	3
+P	Kobryn		BY		52.212	24.356	1
+P	Żoliborz	zoliborz	PL		52.269	20.986	3
+P	Legionowo		PL		52.401	20.927	3
+P	Tarnobrzeg		PL		50.573	21.679	3
+P	Novovolynsk		UA		50.729	24.160	2
+P	Puławy	pulawy	PL		51.417	21.969	3
+P	Skarżysko-Kamienna	skarzysko kamienna	PL		51.113	20.872	3
+P	Alytus		LT		54.396	24.039	2
+P	Skierniewice		PL		51.955	20.158	3
+P	Dębica	debica	PL		50.051	21.411	3
+P	Ursus		PL		52.195	20.884	3
+P	Ciechanów	ciechanow	PL		52.881	20.620	3
+P	Chernyakhovsk		RU		54.633	21.816	0
+P	Otwock		PL		52.106	21.261	3
+P	Bieńczyce	bienczyce	PL		50.088	20.028	3
+P	Żyrardów	zyrardow	PL		52.049	20.446	3
+P	Vaukavysk		BY		53.156	24.451	1
+P	Šilainiai	silainiai	LT		54.929	23.886	2
+P	Eiguliai		LT		54.931	23.932	2
+P	Świdnik	swidnik	PL		51.219	22.696	3
+P	Sochaczew		PL		52.229	20.238	3
+P	Volodymyr-Volynskyi	volodymyr volynskyi	UA		50.850	24.321	2
+P	Mińsk Mazowiecki	minsk mazowiecki	PL		52.179	21.573	3
+P	Wołomin	wolomin	PL		52.340	21.242	3
+P	Piaseczno		PL		52.081	21.024	3
+P	Włochy	wlochy	PL		52.179	20.946	3
+P	Kraśnik	krasnik	PL		50.924	22.227	3
+P	Jarosław	jaroslaw	PL		50.016	22.678	3
+P	Marijampolė	marijampole	LT		54.558	23.350	2
+P	Łuków	lukow	PL		51.929	22.380	3
+P	Kabaty		PL		52.130	21.081	3
+P	Giżycko	gizycko	PL		54.038	21.764	3
+P	Augustów	augustow	PL		53.843	22.980	3
+P	Mława	mlawa	PL		53.113	20.384	3
+P	Gusev		RU		54.592	22.200	0
+P	Gierłoż	gierloz	PL		54.081	21.496	3
+P	Byaroza		BY		52.531	24.978	1
+P	Nowy Dwór Mazowiecki	nowy dwor mazowiecki	PL		52.430	20.717	3
+P	Kętrzyn	ketrzyn	PL		54.077	21.375	3
+P	Biłgoraj	bilgoraj	PL		50.541	22.722	3
+P	Grodzisk Mazowiecki		PL		52.104	20.634	3
+P	Wyszków	wyszkow	PL		52.593	21.458	3
+P	Bielsk Podlaski		PL		52.765	23.186	3
+P	Szczytno		PL		53.563	20.987	3
+P	Sandomierz		PL		50.683	21.749	3
+P	Aleksotas		LT		54.880	23.908	2
+P	Bartoszyce		PL		54.254	20.808	3
+P	Ząbki	zabki	PL		52.293	21.105	3
+P	Piastów	piastow	PL		52.184	20.840	3
+P	Marki		PL		52.321	21.105	3
+P	Zambrów	zambrow	PL		52.986	22.243	3
+P	Lubartów	lubartow	PL		51.460	22.610	3
+P	Grajewo		PL		53.647	22.455	3
+P	Ostrów Mazowiecka	ostrow mazowiecka	PL		52.802	21.895	3
+P	Opoczno		PL		51.376	20.278	3
+P	Płońsk	plonsk	PL		52.623	20.376	3
+P	Hajnówka	hajnowka	PL		52.743	23.581	3
+P	Svetlyy		RU		54.675	20.135	0
+P	Mrągowo	mragowo	PL		53.864	21.305	3
+P	Rembertów	rembertow	PL		52.261	21.164	3
+P	Łęczna	leczna	PL		51.301	22.881	3
+P	Działdowo	dzialdowo	PL		53.240	20.170	3
+P	Końskie	konskie	PL		51.192	20.406	3
+P	Sokal		UA		50.475	24.281	2
+P	Tomaszów Lubelski	tomaszow lubelski	PL		50.448	23.416	3
+P	Wesoła	wesola	PL		52.255	21.224	3
+P	Pionki		PL		51.476	21.450	3
+P	Krasnystaw		PL		50.985	23.174	3
+P	Pisz		PL		53.627	21.813	3
+P	Sokółka	sokolka	PL		53.407	23.502	3
+P	Pułtusk	pultusk	PL		52.703	21.083	3
+P	Pruzhany		BY		52.555	24.455	1
+P	Hrubieszów	hrubieszow	PL		50.805	23.893	3
+P	Sulejówek	sulejowek	PL		52.252	21.269	3
+P	Łańcut	lancut	PL		50.069	22.229	3
+P	Sokołów Podlaski	sokolow podlaski	PL		52.407	22.253	3
+P	Józefów	jozefow	PL		52.137	21.236	3
+P	Dęblin	deblin	PL		51.559	21.848	3
+P	Rawa Mazowiecka		PL		51.764	20.255	3
+P	Kobyłka	kobylka	PL		52.340	21.196	3
+P	Zielonka		PL		52.304	21.160	3
+P	Międzyrzec Podlaski	miedzyrzec podlaski	PL		51.986	22.782	3
+P	Busko-Zdrój	busko zdroj	PL		50.471	20.719	3
+P	Kozienice		PL		51.583	21.548	3
+P	Jędrzejów	jedrzejow	PL		50.639	20.305	3
+P	Przasnysz		PL		53.019	20.880	3
+P	Konstancin-Jeziorna	konstancin jeziorna	PL		52.094	21.118	3
+P	Lidzbark Warmiński	lidzbark warminski	PL		54.126	20.580	3
+P	Łapy	lapy	PL		52.991	22.884	3
+P	Staszów	staszow	PL		50.563	21.166	3
+P	Radzyń Podlaski	radzyn podlaski	PL		51.783	22.617	3
+P	Olecko		PL		54.034	22.507	3
+P	Garwolin		PL		51.897	21.615	3
+P	Przeworsk		PL		50.059	22.494	3
+P	Milanówek	milanowek	PL		52.119	20.672	3
+P	Zelenogradsk		RU		54.959	20.477	0
+P	Nisko		PL		50.520	22.140	3
+P	Siemiatycze		PL		52.427	22.862	3
+P	Łomianki	lomianki	PL		52.334	20.886	3
+P	Ropczyce		PL		50.052	21.609	3
+P	Shchuchyn		BY		53.601	24.747	1

@@ -1,0 +1,73 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Manila	480	
+C	PH	Philippines	mwl	s
+B	3
+P	Budta		PH		7.204	124.440	0
+P	Malingao		PH		7.161	124.475	0
+P	Zamboanga		PH		6.910	122.074	0
+P	Cagayan de Oro		PH		8.482	124.647	0
+P	Cotabato		PH		7.224	124.246	0
+P	Iligan		PH		8.229	124.243	0
+P	Iligan City		PH		8.250	124.400	0
+P	Mantampay		PH		8.167	124.217	0
+P	Marawi City		PH		8.003	124.284	0
+P	Kabankalan		PH		9.984	122.814	0
+P	Pagadian		PH		7.826	123.437	0
+P	Koronadal		PH		6.503	124.847	0
+P	Muricay		PH		7.827	123.478	0
+P	Bayawan		PH		9.365	122.804	0
+P	Sultan Kudarat		PH		7.229	124.258	0
+P	Manolo Fortich		PH		8.370	124.864	0
+P	Midsayap		PH		7.191	124.530	0
+P	Tacurong		PH		6.692	124.676	0
+P	Dinaig		PH		7.170	124.208	0
+P	Dumaguete		PH		9.306	123.308	0
+P	Isulan		PH		6.629	124.605	0
+P	Jolo		PH		6.052	121.002	0
+P	Dipolog		PH		8.567	123.335	0
+P	Ozamiz City		PH		8.148	123.841	0
+P	Banga		PH		6.424	124.776	0
+P	Surallah		PH		6.375	124.745	0
+P	Bais		PH		9.591	123.123	0
+P	Dapitan		PH		8.656	123.423	0
+P	Tagbilaran City		PH		9.656	123.852	0
+P	Tanjay		PH		9.516	123.158	0
+P	Tupi		PH		6.334	124.953	0
+P	Sipalay		PH		9.752	122.404	0
+P	Oroquieta		PH		8.486	123.805	0
+P	City of Isabela		PH		6.704	121.971	0
+P	Buluan		PH		6.720	124.802	0
+P	Bañga	banga	PH		6.424	124.778	0
+P	Kalamansig		PH		6.552	124.051	0
+P	Siocon		PH		7.706	122.135	0
+P	Tubod		PH		8.056	123.790	0
+P	Norala		PH		6.522	124.659	0
+P	Bugo		PH		8.508	124.759	0
+P	Parang		PH		7.370	124.270	0
+P	Recodo		PH		6.952	121.964	0
+P	Balulang		PH		8.445	124.631	0
+P	Sultan sa Barongis		PH		6.800	124.637	0
+P	Jagna		PH		9.653	124.370	0
+P	Kabacan		PH		7.107	124.829	0
+P	Maluso		PH		6.543	121.875	0
+P	General Salipada K. Pendatun	general salipada k pendatun	PH		6.826	124.722	0
+P	Pagaluñgan	pagalungan	PH		7.142	124.381	0
+P	Tagoloan		PH		8.540	124.754	0
+P	Tangub		PH		8.062	123.748	0
+P	Sibulan		PH		9.358	123.285	0
+P	Santa Catalina		PH		9.334	122.864	0
+P	Al-Barka	al barka	PH		6.486	122.176	0
+P	Asia		PH		9.551	122.516	0
+P	Lake Sebu		PH		6.225	124.710	0
+P	Molave		PH		8.084	123.491	0
+P	Danao		PH		9.554	123.756	0
+P	Talitay		PH		7.033	124.700	0
+P	Ipil		PH		7.784	122.586	0
+P	Nunungan		PH		7.824	123.965	0
+P	Wao		PH		7.683	124.667	0
+P	Laguilayan		PH		6.672	124.525	0
+P	Maganoy		PH		6.865	124.442	0
+P	Mahayag		PH		8.118	123.445	0
+P	Jasaan		PH		8.654	124.756	0
+P	Loboc		PH		9.638	124.035	0
+P	Boroon		PH		8.183	124.177	0

@@ -1,0 +1,105 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Belem	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Belém	belem	BR		-1.456	-48.504	0
+P	Ananindeua		BR		-1.366	-48.372	0
+P	Castanhal		BR		-1.294	-47.926	0
+P	Abaetetuba		BR		-1.718	-48.883	0
+P	Cametá	cameta	BR		-2.244	-49.496	0
+P	Barcarena		BR		-1.506	-48.626	0
+P	Bragança	braganca	BR		-1.054	-46.766	0
+P	Marituba		BR		-1.355	-48.342	0
+P	Açailândia	acailandia	BR		-4.947	-47.505	0
+P	Paragominas		BR		-2.996	-47.355	0
+P	Tucuruí	tucurui	BR		-3.766	-49.679	0
+P	Santa Inês	santa ines	BR		-3.667	-45.380	0
+P	Pinheiro		BR		-2.521	-45.083	0
+P	Moju		BR		-1.884	-48.769	0
+P	Santa Isabel do Pará	santa isabel do para	BR		-1.299	-48.161	0
+P	Tailândia	tailandia	BR		-2.947	-48.953	0
+P	Capanema		BR		-1.196	-47.181	0
+P	Tomé-Açu	tome acu	BR		-2.419	-48.152	0
+P	Igarapé Miri	igarape miri	BR		-1.975	-48.960	0
+P	Benevides		BR		-1.361	-48.245	0
+P	Novo Repartimento		BR		-4.331	-49.796	0
+P	Jacundá	jacunda	BR		-4.447	-49.116	0
+P	Acará	acara	BR		-1.961	-48.197	0
+P	Viseu		BR		-1.197	-46.140	0
+P	Dom Eliseu		BR		-4.285	-47.505	0
+P	Santa Luzia		BR		-3.963	-45.658	0
+P	Capitão Poço	capitao poco	BR		-1.746	-47.059	0
+P	Buriticupu		BR		-4.321	-46.455	0
+P	Rondon do Pará	rondon do para	BR		-4.776	-48.067	0
+P	São Miguel do Guamá	sao miguel do guama	BR		-1.627	-47.483	0
+P	Baião	baiao	BR		-2.791	-49.672	0
+P	Viana		BR		-3.220	-45.004	0
+P	Vigia		BR		-0.858	-48.142	0
+P	Breu Branco		BR		-4.001	-49.507	0
+P	Muaná	muana	BR		-1.528	-49.217	0
+P	Salinópolis	salinopolis	BR		-0.621	-47.354	0
+P	Augusto Corrêa	augusto correa	BR		-1.022	-46.635	0
+P	Lago da Pedra		BR		-4.560	-45.132	0
+P	Santa Helena		BR		-2.231	-45.300	0
+P	Curuçá	curuca	BR		-0.729	-47.848	0
+P	Zé Doca	ze doca	BR		-3.275	-45.658	0
+P	Ulianópolis	ulianopolis	BR		-3.742	-47.495	0
+P	Turiaçu	turiacu	BR		-1.663	-45.372	0
+P	Igarapé-Açu	igarape acu	BR		-1.129	-47.620	0
+P	Mãe do Rio	mae do rio	BR		-2.046	-47.551	0
+P	Curralinho		BR		-1.814	-49.795	0
+P	Oeiras do Pará	oeiras do para	BR		-2.003	-49.854	0
+P	Bom Jardim		BR		-3.543	-45.609	0
+P	Penalva		BR		-3.294	-45.174	0
+P	Turilândia	turilandia	BR		-2.220	-45.306	0
+P	Pindaré-Mirim	pindare mirim	BR		-3.608	-45.343	0
+P	Irituia		BR		-1.771	-47.438	0
+P	Vitorino Freire		BR		-4.288	-45.246	0
+P	São Domingos do Capim	sao domingos do capim	BR		-1.674	-47.771	0
+P	Ipixuna do Pará	ipixuna do para	BR		-2.558	-47.495	0
+P	Limoeiro do Ajuru		BR		-1.895	-49.381	0
+P	Bom Jesus das Selvas		BR		-4.484	-46.853	0
+P	Tracuateua		BR		-1.076	-46.903	0
+P	Anajás	anajas	BR		-0.987	-49.940	0
+P	Monção	moncao	BR		-3.492	-45.251	0
+P	Santo Antônio do Tauá	santo antonio do taua	BR		-1.152	-48.129	0
+P	Mocajuba		BR		-2.584	-49.507	0
+P	Concórdia do Pará	concordia do para	BR		-2.002	-47.950	0
+P	Marapanim		BR		-0.718	-47.700	0
+P	Goianésia do Pará	goianesia do para	BR		-3.842	-49.097	0
+P	Maracanã	maracana	BR		-0.771	-47.452	0
+P	Alto Alegre do Pindaré	alto alegre do pindare	BR		-3.671	-45.847	0
+P	São Sebastião da Boa Vista	sao sebastiao da boa vista	BR		-1.715	-49.532	0
+P	Arame		BR		-4.886	-46.005	0
+P	Ponta de Pedras		BR		-1.390	-48.871	0
+P	Garrafão do Norte	garrafao do norte	BR		-1.934	-47.053	0
+P	Santa Maria do Pará	santa maria do para	BR		-1.350	-47.576	0
+P	Bujaru		BR		-1.515	-48.045	0
+P	Pedro do Rosário	pedro do rosario	BR		-2.972	-45.351	0
+P	Santa Luzia do Paruá	santa luzia do parua	BR		-2.544	-45.775	0
+P	Carutapera		BR		-1.207	-46.024	0
+P	Soure		BR		-0.717	-48.523	0
+P	Salvaterra		BR		-0.753	-48.517	0
+P	Cachoeira do Arari		BR		-1.011	-48.963	0
+P	Aurora do Pará	aurora do para	BR		-2.134	-47.559	0
+P	Governador Nunes Freire		BR		-2.126	-45.885	0
+P	Itinga do Maranhão	itinga do maranhao	BR		-4.450	-47.526	0
+P	Matinha		BR		-3.101	-45.034	0
+P	Pio XII		BR		-3.833	-45.153	0
+P	Maracaçumé	maracacume	BR		-2.043	-45.959	0
+P	Santa Bárbara do Pará	santa barbara do para	BR		-1.224	-48.294	0
+P	Chaves		BR		-0.160	-49.988	0
+P	São João de Pirabas	sao joao de pirabas	BR		-0.775	-47.177	0
+P	Nova Esperança do Piriá	nova esperanca do piria	BR		-2.268	-46.968	0
+P	Santa Luzia do Pará	santa luzia do para	BR		-1.524	-46.898	0
+P	Paulo Ramos		BR		-4.448	-45.241	0
+P	Cândido Mendes	candido mendes	BR		-1.453	-45.728	0
+P	Cachoeira do Piriá	cachoeira do piria	BR		-1.760	-46.545	0
+P	Olho d’Água das Cunhãs	olho dagua das cunhas	BR		-4.139	-45.119	0
+P	Ourém	ourem	BR		-1.552	-47.114	0
+P	Apicum-Açu	apicum acu	BR		-1.528	-45.079	0
+P	Presidente Sarney		BR		-2.591	-45.364	0
+P	São Caetano de Odivelas	sao caetano de odivelas	BR		-0.750	-48.020	0
+P	Cajari		BR		-3.321	-45.011	0
+P	Bacuri		BR		-1.728	-45.142	0
+P	Centro Novo do Maranhão	centro novo do maranhao	BR		-2.141	-46.124	0

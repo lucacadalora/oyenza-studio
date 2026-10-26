@@ -1,0 +1,68 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Jersey	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	1	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	FR	France	mwl	s
+C	GG	Guernsey	mwl	s
+C	JE	Jersey	mwl	s
+B	0
+P	Nantes		FR		47.217	-1.553	1
+P	Rennes		FR		48.111	-1.674	1
+P	Angers		FR		47.472	-0.552	1
+P	Brest		FR		48.390	-4.486	1
+P	Caen		FR		49.186	-0.359	1
+P	La Rochelle		FR		46.163	-1.152	1
+P	Saint-Nazaire	saint nazaire	FR		47.275	-2.218	1
+P	Quimper		FR		47.996	-4.098	1
+P	La Roche-sur-Yon	la roche sur yon	FR		46.670	-1.428	1
+P	Lorient		FR		47.748	-3.372	1
+P	Niort		FR		46.323	-0.459	1
+P	Vannes		FR		47.657	-2.762	1
+P	Cholet		FR		47.059	-0.880	1
+P	Saint-Brieuc	saint brieuc	FR		48.515	-2.768	1
+P	Saint-Malo	saint malo	FR		48.647	-2.009	1
+P	Laval		FR		48.072	-0.770	1
+P	Saint-Herblain	saint herblain	FR		47.212	-1.651	1
+P	Rezé	reze	FR		47.191	-1.569	1
+P	Saumur		FR		47.259	-0.078	1
+P	Saintes		FR		45.747	-0.635	1
+P	Rochefort		FR		45.943	-0.968	1
+P	Saint-Sébastien-sur-Loire	saint sebastien sur loire	FR		47.208	-1.503	1
+P	Saint Helier		JE		49.188	-2.105	0
+P	Cherbourg		FR		49.640	-1.616	1
+P	Orvault		FR		47.271	-1.624	1
+P	Lanester		FR		47.763	-3.339	1
+P	Hérouville-Saint-Clair	herouville saint clair	FR		49.211	-0.307	1
+P	Fougères	fougeres	FR		48.352	-1.200	1
+P	Vertou		FR		47.169	-1.473	1
+P	Saint-Lô	saint lo	FR		49.116	-1.090	1
+P	Lannion		FR		48.733	-3.457	1
+P	Concarneau		FR		47.875	-3.919	1
+P	Cognac		FR		45.696	-0.329	1
+P	Bressuire		FR		46.842	-0.490	1
+P	Ploemeur		FR		47.735	-3.430	1
+P	Couëron	coueron	FR		47.215	-1.725	1
+P	Royan		FR		45.628	-1.032	1
+P	Challans		FR		46.846	-1.879	1
+P	Équeurdreville-Hainneville	equeurdreville hainneville	FR		49.649	-1.653	1
+P	La Flèche	la fleche	FR		47.698	-0.076	1
+P	La Chapelle-sur-Erdre	la chapelle sur erdre	FR		47.300	-1.552	1
+P	Tourlaville		FR		49.638	-1.566	1
+P	Argentan		FR		48.744	-0.020	1
+P	Carquefou		FR		47.297	-1.492	1
+P	La Baule-Escoublac	la baule escoublac	FR		47.292	-2.364	1
+P	Morlaix		FR		48.578	-3.828	1
+P	Flers		FR		48.737	-0.575	1
+P	Vitré	vitre	FR		48.123	-1.210	1
+P	Octeville		FR		49.626	-1.643	1
+P	Bouguenais		FR		47.179	-1.625	1
+P	Pontivy		FR		48.068	-2.966	1
+P	Douarnenez		FR		48.095	-4.329	1
+P	Guérande	guerande	FR		47.328	-2.429	1
+P	Saint Peter Port		GG		49.460	-2.535	0
+P	Fontenay-le-Comte	fontenay le comte	FR		46.467	-0.806	1
+P	Cesson-Sévigné	cesson sevigne	FR		48.121	-1.603	1
+P	Les Sables-d'Olonne	les sables dolonne	FR		46.497	-1.785	1
+P	Landerneau		FR		48.452	-4.252	1
+P	Bayeux		FR		49.277	-0.704	1
+P	Les Herbiers		FR		46.871	-1.016	1
+P	Mayenne		FR		48.303	-0.614	1

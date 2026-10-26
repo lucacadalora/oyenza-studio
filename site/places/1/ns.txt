@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Blantyre	120	
+Z	2	Africa/Dar_es_Salaam	180	
+Z	3	Africa/Lagos	60	
+C	GH	Ghana	egyptian	s
+C	MW	Malawi	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Nsukka		NG		6.858	7.396	3
+P	Nsawam		GH		5.809	-0.350	0
+P	Nsoatre		GH		7.404	-2.466	0
+P	Nsanje		MW		-16.920	35.262	1
+P	Nsunga		TZ		-1.144	31.395	2
+P	Nshamba		TZ		-1.798	31.551	2

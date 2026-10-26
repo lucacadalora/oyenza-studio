@@ -1,0 +1,110 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Buenos_Aires	-180	
+C	AR	Argentina	mwl	s
+C	BR	Brazil	mwl	s
+C	UY	Uruguay	mwl	s
+B	2
+P	Buenos Aires		AR		-34.613	-58.377	0
+P	Montevideo		UY		-34.903	-56.188	0
+P	Avellaneda		AR		-34.660	-58.367	0
+P	Merlo		AR		-34.665	-58.727	0
+P	Quilmes		AR		-34.721	-58.255	0
+P	José C. Paz	jose c paz	AR		-34.515	-58.768	0
+P	Lanús	lanus	AR		-34.708	-58.391	0
+P	La Plata		AR		-34.921	-57.954	0
+P	Berazategui		AR		-34.765	-58.213	0
+P	San Miguel		AR		-34.543	-58.712	0
+P	Balvanera		AR		-34.610	-58.398	0
+P	Moreno		AR		-34.634	-58.791	0
+P	Concordia		AR		-31.392	-58.017	0
+P	Belgrano		AR		-34.563	-58.458	0
+P	Isidro Casanova		AR		-34.700	-58.587	0
+P	Ezeiza		AR		-34.854	-58.525	0
+P	Salto		UY		-31.388	-57.960	0
+P	Villa Lugano		AR		-34.679	-58.473	0
+P	Lomas de Zamora		AR		-34.757	-58.403	0
+P	Castelar		AR		-34.651	-58.641	0
+P	San Justo		AR		-34.681	-58.564	0
+P	Morón	moron	AR		-34.651	-58.622	0
+P	Zárate	zarate	AR		-34.096	-59.024	0
+P	Burzaco		AR		-34.826	-58.395	0
+P	Luján	lujan	AR		-34.566	-59.115	0
+P	Berisso		AR		-34.871	-57.883	0
+P	Campana		AR		-34.163	-58.959	0
+P	Monte Chingolo		AR		-34.730	-58.354	0
+P	Rivera		UY		-30.905	-55.551	0
+P	Sant'Ana do Livramento	santana do livramento	BR		-30.891	-55.533	0
+P	Paysandú	paysandu	UY		-32.317	-58.081	0
+P	Remedios de Escalada de San Martín	remedios de escalada de san martin	AR		-34.726	-58.397	0
+P	Pilar		AR		-34.459	-58.914	0
+P	Bella Vista		AR		-34.565	-58.690	0
+P	Gualeguaychú	gualeguaychu	AR		-33.008	-58.518	0
+P	Barracas		AR		-34.650	-58.383	0
+P	Don Torcuato		AR		-34.495	-58.627	0
+P	Las Piedras		UY		-34.730	-56.219	0
+P	Concepción del Uruguay	concepcion del uruguay	AR		-32.485	-58.232	0
+P	Ensenada		AR		-34.861	-57.912	0
+P	Mercedes		AR		-34.651	-59.431	0
+P	Banfield		AR		-34.746	-58.394	0
+P	Sarandí	sarandi	AR		-34.682	-58.346	0
+P	Tacuarembó	tacuarembo	UY		-31.719	-55.979	0
+P	Hurlingham		AR		-34.590	-58.629	0
+P	El Palomar		AR		-34.618	-58.602	0
+P	Colón	colon	AR		-32.223	-58.144	0
+P	Colegiales		AR		-34.574	-58.449	0
+P	Los Polvorines		AR		-34.503	-58.706	0
+P	Boedo		AR		-34.633	-58.417	0
+P	San Pedro		AR		-33.679	-59.666	0
+P	San Isidro		AR		-34.470	-58.521	0
+P	Artigas		UY		-30.404	-56.469	0
+P	Mercedes		UY		-33.252	-58.030	0
+P	Villa de Mayo		AR		-34.511	-58.681	0
+P	General Pacheco		AR		-34.453	-58.643	0
+P	Nogoyá	nogoya	AR		-32.394	-59.790	0
+P	Tortuguitas		AR		-34.475	-58.754	0
+P	Valentín Alsina	valentin alsina	AR		-34.671	-58.409	0
+P	Durazno		UY		-33.381	-56.523	0
+P	Minas		UY		-34.376	-55.238	0
+P	Retiro		AR		-34.583	-58.383	0
+P	Ingeniero Pablo Nogués	ingeniero pablo nogues	AR		-34.478	-58.707	0
+P	San Antonio de Padua		AR		-34.663	-58.698	0
+P	Haedo		AR		-34.642	-58.592	0
+P	Santos Lugares		AR		-34.603	-58.541	0
+P	Florida		UY		-34.100	-56.215	0
+P	San José de Mayo	san jose de mayo	UY		-34.339	-56.713	0
+P	Baradero		AR		-33.812	-59.505	0
+P	Villa Santa Rita		AR		-34.611	-58.481	0
+P	Pontevedra		AR		-34.749	-58.702	0
+P	Gualeguay		AR		-33.141	-59.313	0
+P	Colonia del Sacramento		UY		-34.463	-57.840	0
+P	Villaguay		AR		-31.868	-59.027	0
+P	Barros Blancos		UY		-34.752	-56.003	0
+P	Tigre		AR		-34.426	-58.580	0
+P	Chajarí	chajari	AR		-30.755	-57.982	0
+P	Adrogué	adrogue	AR		-34.800	-58.384	0
+P	Tristán Suárez	tristan suarez	AR		-34.890	-58.568	0
+P	Muñiz	muniz	AR		-34.556	-58.707	0
+P	Esquina		AR		-30.015	-59.529	0
+P	Fray Bentos		UY		-33.117	-58.311	0
+P	La Paz		AR		-30.742	-59.645	0
+P	Monte Caseros		AR		-30.252	-57.635	0
+P	La Unión	la union	AR		-34.876	-58.542	0
+P	Canelones		UY		-34.524	-56.282	0
+P	Pando		UY		-34.717	-55.958	0
+P	Quaraí	quarai	BR		-30.387	-56.451	0
+P	San Antonio de Areco		AR		-34.251	-59.469	0
+P	Trinidad		UY		-33.517	-56.900	0
+P	Villa Ortúzar	villa ortuzar	AR		-34.580	-58.468	0
+P	La Paz		UY		-34.760	-56.226	0
+P	Santa Elena		AR		-30.944	-59.788	0
+P	Carmelo		UY		-34.000	-58.284	0
+P	Delta del Tigre		UY		-34.765	-56.364	0
+P	Villa Sarmiento		AR		-34.634	-58.570	0
+P	Dolores		UY		-33.530	-58.217	0
+P	Young		UY		-32.698	-57.627	0
+P	Santa Lucía	santa lucia	UY		-34.453	-56.391	0
+P	Federal		AR		-30.956	-58.780	0
+P	Progreso		UY		-34.667	-56.218	0
+P	Carmen de Areco		AR		-34.377	-59.823	0
+P	San Javier		AR		-30.581	-59.930	0
+P	Paso de Carrasco		UY		-34.860	-56.052	0

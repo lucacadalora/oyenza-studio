@@ -1,0 +1,104 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baghdad	180	
+Z	1	Asia/Tehran	210	
+Z	2	Asia/Yerevan	240	
+C	AM	Armenia	mwl	s
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	SY	Syria	egyptian	s
+C	TR	Turkey	turkey	s
+B	5
+P	Al Mawşil al Jadīdah	al mawsil al jadidah	IQ		36.333	43.106	0
+P	Diyarbakır	diyarbakir	TR		37.914	40.217	0
+P	Mosul		IQ		36.335	43.119	0
+P	Erbil		IQ		36.191	44.009	0
+P	Kirkuk		IQ		35.468	44.392	0
+P	Erzurum		TR		39.909	41.277	0
+P	Van		TR		38.495	43.383	0
+P	Batman		TR		37.887	41.132	0
+P	Al Ḩasakah	al hasakah	SY		36.502	40.748	0
+P	Dihok		IQ		36.866	42.988	0
+P	Deir ez-Zor	deir ez zor	SY		35.336	40.141	0
+P	Khūy	khuy	IR		38.550	44.952	1
+P	Al Qāmishlī	al qamishli	SY		37.052	41.231	0
+P	Ash Sharqāt	ash sharqat	IQ		35.517	43.228	0
+P	Sumayl		IQ		36.858	42.848	0
+P	Simele		IQ		36.858	42.850	0
+P	Kızıltepe	kiziltepe	TR		37.188	40.577	0
+P	Khasnahzān	khasnahzan	IQ		36.201	44.142	0
+P	Cizre		TR		37.330	42.185	0
+P	Baḥarkah	baharkah	IQ		36.316	44.035	0
+P	Mardin		TR		37.313	40.744	0
+P	Bingöl	bingol	TR		38.885	40.494	0
+P	Sīnah	sinah	IQ		36.809	43.039	0
+P	Ağrı	agri	TR		39.715	43.040	0
+P	Silopi		TR		37.244	42.463	0
+P	Rānyah	ranyah	IQ		36.255	44.882	0
+P	Siirt		TR		37.929	41.941	0
+P	'Ākra	akra	IQ		36.734	43.880	0
+P	Iğdır	igdir	TR		39.924	44.045	0
+P	Zaxo		IQ		37.149	42.686	0
+P	Erciş	ercis	TR		39.026	43.360	0
+P	Soran		IQ		36.656	44.542	0
+P	Nusaybin		TR		37.070	41.215	0
+P	Patnos		TR		39.225	42.857	0
+P	Muş	mus	TR		38.732	41.485	0
+P	Salmās	salmas	IR		38.197	44.765	1
+P	Hajiawa		IQ		36.236	44.795	0
+P	Hakkâri	hakkari	TR		37.574	43.741	0
+P	Midyat		TR		37.419	41.339	0
+P	Bismil		TR		37.845	40.659	0
+P	Tatvan		TR		38.492	42.283	0
+P	Yüksekova	yuksekova	TR		37.574	44.287	0
+P	Doğubayazıt	dogubayazit	TR		39.547	44.084	0
+P	Şırnak	sirnak	TR		37.514	42.454	0
+P	Silvan		TR		38.137	41.008	0
+P	Ahlat		TR		38.749	42.480	0
+P	Al Mayādīn	al mayadin	SY		35.020	40.452	0
+P	Bitlis		TR		38.401	42.108	0
+P	Adilcevaz		TR		38.799	42.732	0
+P	Al-Hamdaniya	al hamdaniya	IQ		36.271	43.378	0
+P	Maku		IR		39.290	44.460	1
+P	Koysinceq		IQ		36.083	44.629	0
+P	Jamjamāl	jamjamal	IQ		35.534	44.834	0
+P	Pīrmām	pirmam	IQ		36.385	44.197	0
+P	Sinjār	sinjar	IQ		36.321	41.877	0
+P	Hınıs	hinis	TR		39.358	41.693	0
+P	Shaqlāwah	shaqlawah	IQ		36.404	44.326	0
+P	Ḩarir	harir	IQ		36.551	44.353	0
+P	Kurtalan		TR		37.925	41.685	0
+P	Yeşilli	yesilli	TR		37.338	40.817	0
+P	Ceylanpınar	ceylanpinar	TR		36.847	40.050	0
+P	Bulanık	bulanik	TR		39.087	42.272	0
+P	Shūrash	shurash	IQ		35.516	44.843	0
+P	Karakoçan	karakocan	TR		38.952	40.027	0
+P	Kozluk		TR		38.191	41.478	0
+P	Batifa		IQ		37.175	43.012	0
+P	‘Āmūdā	amuda	SY		37.104	40.930	0
+P	Kulp		TR		38.498	41.007	0
+P	Al Mālikīyah	al malikiyah	SY		37.177	42.140	0
+P	Malazgirt		TR		39.147	42.535	0
+P	Güroymak	guroymak	TR		38.576	42.016	0
+P	Showţ	showt	IR		39.219	44.770	1
+P	Pasinler		TR		39.980	41.670	0
+P	Tallkayf		IQ		36.491	43.121	0
+P	‘Aqrah	aqrah	IQ		36.760	43.894	0
+P	İdil	idil	TR		37.335	41.889	0
+P	Ṟuwandiz	ruwandiz	IQ		36.611	44.522	0
+P	Artashat		AM		39.955	44.549	2
+P	Genç	genc	TR		38.748	40.553	0
+P	Tāzah Khūrmātū	tazah khurmatu	IQ		35.302	44.326	0
+P	Ad Darbāsīyah	ad darbasiyah	SY		37.073	40.652	0
+P	Dargeçit	dargecit	TR		37.546	41.717	0
+P	Karaçoban	karacoban	TR		39.344	42.099	0
+P	Khalīfān	khalifan	IQ		36.609	44.405	0
+P	Şemdinli	semdinli	TR		37.305	44.574	0
+P	Varto		TR		39.174	41.454	0
+P	Diyadin		TR		39.541	43.671	0
+P	Seyah Cheshmeh		IR		39.065	44.384	1
+P	Ararat		AM		39.855	44.695	2
+P	Lice		TR		38.458	40.639	0
+P	Çat	cat	TR		39.606	40.968	0
+P	Aşkale	askale	TR		39.921	40.695	0
+P	Solhan		TR		38.965	41.054	0
+P	Hizan		TR		38.225	42.418	0

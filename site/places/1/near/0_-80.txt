@@ -1,0 +1,96 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+C	CO	Colombia	mwl	s
+C	EC	Ecuador	mwl	s
+B	1
+P	Cali		CO		3.431	-76.520	0
+P	Ibagué	ibague	CO		4.436	-75.203	0
+P	Pereira		CO		4.814	-75.695	0
+P	Buenaventura		CO		3.583	-77.000	0
+P	Pasto		CO		1.215	-77.278	0
+P	Neiva		CO		2.930	-75.280	0
+P	Popayán	popayan	CO		2.438	-76.613	0
+P	Palmira		CO		3.539	-76.304	0
+P	Armenia		CO		4.537	-75.673	0
+P	Buenaventura		CO		3.880	-77.031	0
+P	Tuluá	tulua	CO		4.085	-76.195	0
+P	Ibarra		EC		0.349	-78.125	0
+P	Esmeraldas		EC		0.959	-79.654	0
+P	Dosquebradas		CO		4.839	-75.667	0
+P	Florencia		CO		1.615	-75.604	0
+P	Pitalito		CO		1.854	-76.051	0
+P	Cartago		CO		4.746	-75.912	0
+P	Guadalajara de Buga		CO		3.901	-76.298	0
+P	Santander de Quilichao		CO		3.009	-76.485	0
+P	Tumaco		CO		1.791	-78.793	0
+P	Tulcán	tulcan	EC		0.812	-77.717	0
+P	Calarcá	calarca	CO		4.529	-75.641	0
+P	Ipiales		CO		0.825	-77.640	0
+P	Yumbo		CO		3.582	-76.491	0
+P	Chinchiná	chinchina	CO		4.982	-75.604	0
+P	Santa Rosa de Cabal		CO		4.868	-75.621	0
+P	Orito		CO		0.667	-76.873	0
+P	Mocoa		CO		1.153	-76.652	0
+P	Samaniego		CO		1.338	-77.596	0
+P	Florida		CO		3.322	-76.235	0
+P	Puerto Tejada		CO		3.231	-76.417	0
+P	Jamundí	jamundi	CO		3.261	-76.535	0
+P	Pradera		CO		3.421	-76.245	0
+P	Piendamo		CO		2.639	-76.531	0
+P	Sevilla		CO		4.264	-75.931	0
+P	Miranda		CO		3.253	-76.229	0
+P	Rosa Zarate		EC		0.328	-79.474	0
+P	Montenegro		CO		4.566	-75.751	0
+P	La Unión	la union	CO		4.533	-76.103	0
+P	Túquerres	tuquerres	CO		1.086	-77.619	0
+P	Líbano	libano	CO		4.922	-75.062	0
+P	El Cerrito		CO		3.685	-76.314	0
+P	Patía	patia	CO		2.069	-77.053	0
+P	Payandé	payande	CO		4.298	-75.097	0
+P	Belalcázar	belalcazar	CO		2.646	-75.973	0
+P	Gigante		CO		2.387	-75.547	0
+P	Quimbaya		CO		4.623	-75.763	0
+P	Corinto		CO		3.173	-76.263	0
+P	Puerto Rico		CO		1.910	-75.159	0
+P	Caicedonia		CO		4.332	-75.827	0
+P	Otavalo		EC		0.235	-78.262	0
+P	Puerto Asís	puerto asis	CO		0.505	-76.496	0
+P	Morales		CO		2.754	-76.628	0
+P	Garzón	garzon	CO		2.196	-75.628	0
+P	Zarzal		CO		4.395	-76.072	0
+P	El Charco		CO		2.481	-78.110	0
+P	Roldanillo		CO		4.413	-76.155	0
+P	Circasia		CO		4.619	-75.636	0
+P	La Tebaida		CO		4.453	-75.787	0
+P	Cayambe		EC		0.041	-78.146	0
+P	La Virginia		CO		4.900	-75.882	0
+P	Anaime		CO		4.396	-75.445	0
+P	Isnos		CO		1.936	-76.241	0
+P	Nueva Loja		EC		0.086	-76.895	0
+P	Candelaria		CO		3.407	-76.348	0
+P	Rivera		CO		2.777	-75.256	0
+P	Campoalegre		CO		2.685	-75.323	0
+P	Natagaima		CO		3.621	-75.094	0
+P	Timbiquí	timbiqui	CO		2.772	-77.665	0
+P	Planadas		CO		3.197	-75.645	0
+P	Rovira		CO		4.239	-75.240	0
+P	San Lorenzo de Esmeraldas		EC		1.286	-78.835	0
+P	Chaparral		CO		3.723	-75.483	0
+P	Buesaco		CO		1.384	-77.156	0
+P	Suárez	suarez	CO		2.954	-76.696	0
+P	Guacarí	guacari	CO		3.764	-76.333	0
+P	La Plata		CO		2.393	-75.892	0
+P	Rioblanco		CO		3.530	-75.645	0
+P	Balboa		CO		2.042	-77.216	0
+P	Villa Rica		CO		2.514	-76.849	0
+P	Pizarro		CO		4.953	-77.366	0
+P	Andalucía	andalucia	CO		4.171	-76.166	0
+P	El Doncello		CO		1.678	-75.285	0
+P	Atuntaqui		EC		0.328	-78.219	0
+P	San Lorenzo		CO		1.503	-77.215	0
+P	Pupiales		CO		0.871	-77.640	0
+P	Tarqui		CO		2.112	-75.824	0
+P	Guadalupe		CO		2.025	-75.756	0
+P	Darien		CO		3.931	-76.485	0
+P	Marsella		CO		4.937	-75.738	0
+P	La Unión	la union	CO		1.605	-77.132	0

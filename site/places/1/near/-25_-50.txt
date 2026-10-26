@@ -1,0 +1,420 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	3
+P	São Paulo	sao paulo	BR		-23.547	-46.636	0
+P	Guarulhos		BR		-23.463	-46.533	0
+P	Campinas		BR		-22.906	-47.061	0
+P	Sorocaba		BR		-23.502	-47.458	0
+P	São Bernardo do Campo	sao bernardo do campo	BR		-23.694	-46.565	0
+P	Osasco		BR		-23.532	-46.792	0
+P	São José dos Campos	sao jose dos campos	BR		-23.179	-45.887	0
+P	Ribeirão Preto	ribeirao preto	BR		-21.177	-47.810	0
+P	Santo André	santo andre	BR		-23.664	-46.538	0
+P	São José do Rio Preto	sao jose do rio preto	BR		-20.820	-49.379	0
+P	Jundiaí	jundiai	BR		-23.186	-46.884	0
+P	Santos		BR		-23.961	-46.334	0
+P	Mauá	maua	BR		-23.668	-46.461	0
+P	Piracicaba		BR		-22.725	-47.649	0
+P	Diadema		BR		-23.686	-46.623	0
+P	Carapicuíba	carapicuiba	BR		-23.523	-46.835	0
+P	Grajaú	grajau	BR		-23.770	-46.671	0
+P	Bauru		BR		-22.315	-49.061	0
+P	Itaquaquecetuba		BR		-23.486	-46.348	0
+P	Franca		BR		-20.539	-47.401	0
+P	Praia Grande		BR		-24.006	-46.403	0
+P	São Vicente	sao vicente	BR		-23.963	-46.392	0
+P	Mogi das Cruzes		BR		-23.523	-46.188	0
+P	Guarujá	guaruja	BR		-23.993	-46.256	0
+P	Taubaté	taubate	BR		-23.026	-45.555	0
+P	Barueri		BR		-23.511	-46.876	0
+P	Jardim Angela		BR		-23.716	-46.769	0
+P	Suzano		BR		-23.543	-46.311	0
+P	Limeira		BR		-22.565	-47.402	0
+P	Sumaré	sumare	BR		-22.822	-47.267	0
+P	Taboão da Serra	taboao da serra	BR		-23.626	-46.792	0
+P	Capao Redondo		BR		-23.669	-46.781	0
+P	Sapopemba		BR		-23.596	-46.525	0
+P	Sacomã	sacoma	BR		-23.631	-46.598	0
+P	Jardim Sao Luis		BR		-23.681	-46.739	0
+P	Indaiatuba		BR		-23.088	-47.212	0
+P	Cotia		BR		-23.604	-46.919	0
+P	Embu das Artes		BR		-23.649	-46.852	0
+P	Cidade Ademar		BR		-23.674	-46.657	0
+P	Americana		BR		-22.739	-47.331	0
+P	Brasilandia		BR		-23.449	-46.688	0
+P	Itapevi		BR		-23.549	-46.934	0
+P	Marília	marilia	BR		-22.214	-49.946	0
+P	Campo Limpo		BR		-23.636	-46.766	0
+P	Hortolândia	hortolandia	BR		-22.858	-47.220	0
+P	Jabaquara		BR		-23.651	-46.646	0
+P	Jacareí	jacarei	BR		-23.305	-45.966	0
+P	Jaraguá	jaragua	BR		-23.441	-46.738	0
+P	Itaquera		BR		-23.532	-46.444	0
+P	Itaim Paulista		BR		-23.503	-46.386	0
+P	São Carlos	sao carlos	BR		-22.017	-47.891	0
+P	Rio Claro		BR		-22.411	-47.561	0
+P	Cidade Tiradentes		BR		-23.585	-46.401	0
+P	Santa Bárbara d'Oeste	santa barbara doeste	BR		-22.754	-47.414	0
+P	Cidade Dutra		BR		-23.726	-46.702	0
+P	Pirituba		BR		-23.490	-46.732	0
+P	Ferraz de Vasconcelos		BR		-23.541	-46.369	0
+P	Bragança Paulista	braganca paulista	BR		-22.953	-46.544	0
+P	Vila Andrade		BR		-23.626	-46.728	0
+P	Poços de Caldas	pocos de caldas	BR		-21.788	-46.561	0
+P	Araraquara		BR		-21.794	-48.176	0
+P	São Caetano do Sul	sao caetano do sul	BR		-23.623	-46.551	0
+P	Pindamonhangaba		BR		-22.924	-45.462	0
+P	Francisco Morato		BR		-23.282	-46.745	0
+P	Lajeado		BR		-23.534	-46.409	0
+P	Pedreira		BR		-23.707	-46.650	0
+P	Itapecerica da Serra		BR		-23.717	-46.849	0
+P	Itapetininga		BR		-23.592	-48.053	0
+P	São Mateus	sao mateus	BR		-23.606	-46.479	0
+P	Santana de Parnaíba	santana de parnaiba	BR		-23.444	-46.918	0
+P	Parelheiros		BR		-23.828	-46.727	0
+P	Mogi Guaçu	mogi guacu	BR		-22.368	-46.946	0
+P	Pouso Alegre		BR		-22.230	-45.936	0
+P	Iguatemi		BR		-23.613	-46.427	0
+P	Sao Rafael		BR		-23.628	-46.454	0
+P	Botucatu		BR		-22.886	-48.445	0
+P	Franco da Rocha		BR		-23.322	-46.727	0
+P	Atibaia		BR		-23.117	-46.550	0
+P	Cachoeirinha		BR		-23.454	-46.662	0
+P	Cangaiba		BR		-23.497	-46.520	0
+P	Vila Curuca		BR		-23.510	-46.416	0
+P	Sao Lucas		BR		-23.595	-46.544	0
+P	Itu		BR		-23.264	-47.299	0
+P	Freguesia do Ó	freguesia do o	BR		-23.499	-46.700	0
+P	Cidade Lider		BR		-23.562	-46.491	0
+P	Varginha		BR		-21.551	-45.430	0
+P	Araras		BR		-22.357	-47.384	0
+P	Vila Jacui		BR		-23.503	-46.462	0
+P	Jaú	jau	BR		-22.296	-48.558	0
+P	Rio Pequeno		BR		-23.571	-46.759	0
+P	Jardim Helena		BR		-23.484	-46.413	0
+P	Tatuí	tatui	BR		-23.356	-47.857	0
+P	Bosque Saúde	bosque saude	BR		-23.609	-46.623	0
+P	Jose Bonifacio		BR		-23.567	-46.433	0
+P	Votorantim		BR		-23.547	-47.438	0
+P	Vila Mariana		BR		-23.588	-46.635	0
+P	Sertãozinho	sertaozinho	BR		-21.138	-47.990	0
+P	Valinhos		BR		-22.971	-46.996	0
+P	Butanta		BR		-23.570	-46.726	0
+P	Caraguatatuba		BR		-23.620	-45.413	0
+P	Itatiba		BR		-23.006	-46.839	0
+P	Barretos		BR		-20.557	-48.568	0
+P	Salto		BR		-23.201	-47.287	0
+P	Jandira		BR		-23.527	-46.903	0
+P	Guaratinguetá	guaratingueta	BR		-22.816	-45.193	0
+P	Raposo Tavares		BR		-23.592	-46.786	0
+P	Bairro da Penha		BR		-23.368	-46.311	0
+P	Ipiranga		BR		-23.600	-46.616	0
+P	Campo Grande		BR		-23.675	-46.688	0
+P	Catanduva		BR		-21.138	-48.973	0
+P	Várzea Paulista	varzea paulista	BR		-23.211	-46.828	0
+P	Santana		BR		-23.490	-46.639	0
+P	Ribeirão Pires	ribeirao pires	BR		-23.711	-46.413	0
+P	Vila Medeiros		BR		-23.489	-46.578	0
+P	Cubatão	cubatao	BR		-23.895	-46.425	0
+P	Ermelino Matarazzo		BR		-23.495	-46.474	0
+P	Passos		BR		-20.719	-46.610	0
+P	Paulínia	paulinia	BR		-22.761	-47.154	0
+P	Guaianases		BR		-23.543	-46.411	0
+P	Vila Maria		BR		-23.514	-46.586	0
+P	Vila Prudente		BR		-23.593	-46.573	0
+P	Artur Alvim		BR		-23.540	-46.486	0
+P	Ourinhos		BR		-22.979	-49.871	0
+P	Poá	poa	BR		-23.528	-46.345	0
+P	Mandaqui		BR		-23.459	-46.641	0
+P	Vila Matilde		BR		-23.539	-46.518	0
+P	Cursino		BR		-23.631	-46.621	0
+P	Itanhaém	itanhaem	BR		-24.183	-46.789	0
+P	Caieiras		BR		-23.364	-46.741	0
+P	Perdizes		BR		-23.539	-46.681	0
+P	Mairiporã	mairipora	BR		-23.319	-46.587	0
+P	Itaim Bibi		BR		-23.586	-46.682	0
+P	Tucuruvi		BR		-23.475	-46.606	0
+P	Tatuapé	tatuape	BR		-23.537	-46.567	0
+P	Leme		BR		-22.186	-47.390	0
+P	Caçapava	cacapava	BR		-23.101	-45.707	0
+P	Avaré	avare	BR		-23.099	-48.926	0
+P	Jaçanã	jacana	BR		-23.460	-46.575	0
+P	Itajubá	itajuba	BR		-22.426	-45.453	0
+P	Cajamar		BR		-23.356	-46.877	0
+P	São João da Boa Vista	sao joao da boa vista	BR		-21.969	-46.798	0
+P	Vila Formosa		BR		-23.568	-46.546	0
+P	Ubatuba		BR		-23.434	-45.071	0
+P	Arujá	aruja	BR		-23.396	-46.321	0
+P	Ponte Rasa		BR		-23.516	-46.494	0
+P	Itapeva		BR		-23.982	-48.876	0
+P	Aricanduva		BR		-23.574	-46.516	0
+P	Sao Domingos		BR		-23.493	-46.748	0
+P	Perus		BR		-23.405	-46.755	0
+P	Agua Rasa		BR		-23.567	-46.572	0
+P	Santo Amaro		BR		-23.645	-46.704	0
+P	Lorena		BR		-22.731	-45.125	0
+P	Carrao		BR		-23.551	-46.538	0
+P	Jardim Paulista		BR		-23.567	-46.664	0
+P	Limão	limao	BR		-23.493	-46.669	0
+P	Moema		BR		-23.595	-46.664	0
+P	São Sebastião	sao sebastiao	BR		-23.760	-45.410	0
+P	São Miguel	sao miguel	BR		-23.494	-46.432	0
+P	Santa Cecilia		BR		-23.532	-46.653	0
+P	Mooca		BR		-23.561	-46.596	0
+P	Casa Verde		BR		-23.501	-46.657	0
+P	Água Rasa	agua rasa	BR		-20.433	-45.167	0
+P	Vinhedo		BR		-23.030	-46.975	0
+P	São Roque	sao roque	BR		-23.529	-47.135	0
+P	Matão	matao	BR		-21.603	-48.366	0
+P	Alfenas		BR		-21.429	-45.947	0
+P	Lins		BR		-21.679	-49.742	0
+P	Mogi Mirim		BR		-22.432	-46.958	0
+P	Campo Limpo Paulista		BR		-23.206	-46.784	0
+P	Bebedouro		BR		-20.949	-48.479	0
+P	Ibiúna	ibiuna	BR		-23.656	-47.222	0
+P	Lapa		BR		-23.524	-46.707	0
+P	Três Corações	tres coracoes	BR		-21.697	-45.253	0
+P	Anhanguera		BR		-23.431	-46.793	0
+P	Parque Do Carmo		BR		-23.576	-46.463	0
+P	Pirassununga		BR		-21.996	-47.426	0
+P	Amparo		BR		-22.701	-46.764	0
+P	Itapira		BR		-22.436	-46.822	0
+P	Jaboticabal		BR		-21.255	-48.322	0
+P	São Sebastião do Paraíso	sao sebastiao do paraiso	BR		-20.917	-46.991	0
+P	Campo Belo		BR		-23.628	-46.668	0
+P	Votuporanga		BR		-20.423	-49.973	0
+P	Bairro Parque Nossa Senhora do Carmo		BR		-23.406	-46.316	0
+P	Peruíbe	peruibe	BR		-24.320	-46.998	0
+P	Formiga		BR		-20.464	-45.426	0
+P	Mococa		BR		-21.468	-47.005	0
+P	Embu-Guaçu	embu guacu	BR		-23.832	-46.811	0
+P	Lençóis Paulista	lencois paulista	BR		-22.599	-48.800	0
+P	Liberdade		BR		-23.563	-46.632	0
+P	Pinheiros		BR		-23.567	-46.692	0
+P	Bertioga		BR		-23.854	-46.139	0
+P	Monte Mor		BR		-22.947	-47.316	0
+P	Mirassol		BR		-20.819	-49.521	0
+P	Boituva		BR		-23.283	-47.672	0
+P	Nova Odessa		BR		-22.777	-47.296	0
+P	Republica		BR		-23.545	-46.641	0
+P	Ibitinga		BR		-21.758	-48.829	0
+P	Bela Vista		BR		-23.561	-46.648	0
+P	Registro		BR		-24.488	-47.844	0
+P	Cosmópolis	cosmopolis	BR		-22.646	-47.196	0
+P	Jaguariúna	jaguariuna	BR		-22.706	-46.986	0
+P	Frutal		BR		-20.025	-48.941	0
+P	Batatais		BR		-20.891	-47.585	0
+P	Mongaguá	mongagua	BR		-24.093	-46.621	0
+P	Belem		BR		-23.538	-46.595	0
+P	Jaguare		BR		-23.544	-46.749	0
+P	Três Pontas	tres pontas	BR		-21.367	-45.513	0
+P	Olímpia	olimpia	BR		-20.737	-48.915	0
+P	Extrema		BR		-22.855	-46.318	0
+P	Porto Feliz		BR		-23.215	-47.524	0
+P	Consolação	consolacao	BR		-23.552	-46.657	0
+P	Santa Isabel		BR		-23.316	-46.221	0
+P	Artur Nogueira		BR		-22.573	-47.172	0
+P	Piedade		BR		-23.712	-47.428	0
+P	Porto Ferreira		BR		-21.854	-47.479	0
+P	Vila Guilherme		BR		-23.509	-46.606	0
+P	Campos do Jordão	campos do jordao	BR		-22.739	-45.591	0
+P	Campo Belo		BR		-20.897	-45.277	0
+P	Taquaritinga		BR		-21.406	-48.505	0
+P	São José do Rio Pardo	sao jose do rio pardo	BR		-21.596	-46.889	0
+P	Louveira		BR		-23.086	-46.951	0
+P	Morumbi		BR		-23.596	-46.708	0
+P	Lagoa da Prata		BR		-20.023	-45.544	0
+P	Tremembé	tremembe	BR		-22.958	-45.549	0
+P	Guaxupé	guaxupe	BR		-21.305	-46.713	0
+P	Vargem Grande Paulista		BR		-23.603	-47.026	0
+P	Capivari		BR		-22.995	-47.508	0
+P	Mairinque		BR		-23.546	-47.183	0
+P	São Joaquim da Barra	sao joaquim da barra	BR		-20.581	-47.855	0
+P	Monte Alto		BR		-21.261	-48.496	0
+P	Cabreúva	cabreuva	BR		-23.308	-47.133	0
+P	Vila Leopoldina		BR		-23.529	-46.734	0
+P	Santa Cruz do Rio Pardo		BR		-22.899	-49.633	0
+P	Capão Bonito	capao bonito	BR		-24.006	-48.349	0
+P	Jardinópolis	jardinopolis	BR		-21.018	-47.764	0
+P	Cambuci		BR		-23.564	-46.617	0
+P	Pederneiras		BR		-22.352	-48.775	0
+P	São Lourenço	sao lourenco	BR		-22.116	-45.054	0
+P	Cerquilho		BR		-23.165	-47.744	0
+P	Itararé	itarare	BR		-24.113	-49.332	0
+P	Rio Grande da Serra		BR		-23.744	-46.398	0
+P	Serrana		BR		-21.211	-47.596	0
+P	Salto de Pirapora		BR		-23.649	-47.573	0
+P	Pedreira		BR		-22.742	-46.901	0
+P	Garça	garca	BR		-22.211	-49.656	0
+P	Arcos		BR		-20.282	-45.539	0
+P	Socorro		BR		-22.591	-46.529	0
+P	Santa Rita do Sapucaí	santa rita do sapucai	BR		-22.252	-45.703	0
+P	Andradas		BR		-22.068	-46.569	0
+P	Jacarezinho		BR		-23.161	-49.969	0
+P	Vargem Grande do Sul		BR		-21.832	-46.894	0
+P	Boa Esperança	boa esperanca	BR		-21.090	-45.566	0
+P	Espírito Santo do Pinhal	espirito santo do pinhal	BR		-22.196	-46.749	0
+P	Itápolis	itapolis	BR		-21.596	-48.813	0
+P	Guaíra	guaira	BR		-20.318	-48.311	0
+P	Brás	bras	BR		-23.550	-46.617	0
+P	Novo Horizonte		BR		-21.468	-49.221	0
+P	Orlândia	orlandia	BR		-20.720	-47.887	0
+P	São Pedro	sao pedro	BR		-22.549	-47.914	0
+P	Socorro		BR		-23.685	-46.714	0
+P	Machado		BR		-21.675	-45.920	0
+P	Agudos		BR		-22.469	-48.987	0
+P	Tietê	tiete	BR		-23.102	-47.715	0
+P	Pontal		BR		-21.023	-48.037	0
+P	Ituverava		BR		-20.339	-47.781	0
+P	Jarinu		BR		-23.101	-46.728	0
+P	Guariba		BR		-21.360	-48.228	0
+P	Alto De Pinheiros		BR		-23.548	-46.712	0
+P	São Manuel	sao manuel	BR		-22.731	-48.571	0
+P	José Bonifácio	jose bonifacio	BR		-21.053	-49.688	0
+P	Iperó	ipero	BR		-23.350	-47.689	0
+P	Piumhi		BR		-20.465	-45.958	0
+P	Ilhabela		BR		-23.778	-45.358	0
+P	Jaguariaíva	jaguariaiva	BR		-24.244	-49.709	0
+P	Promissão	promissao	BR		-21.537	-49.858	0
+P	Barra Bonita		BR		-22.495	-48.558	0
+P	Américo Brasiliense	americo brasiliense	BR		-21.724	-48.102	0
+P	Pitangueiras		BR		-21.009	-48.222	0
+P	Araçoiaba da Serra	aracoiaba da serra	BR		-23.505	-47.614	0
+P	Bom Retiro		BR		-23.525	-46.639	0
+P	Barra Funda		BR		-23.521	-46.674	0
+P	Cravinhos		BR		-21.340	-47.729	0
+P	Aparecida		BR		-22.847	-45.230	0
+P	Aguaí	aguai	BR		-22.059	-46.979	0
+P	Ibaté	ibate	BR		-21.955	-47.997	0
+P	Ouro Fino		BR		-22.283	-46.369	0
+P	Barrinha		BR		-21.194	-48.164	0
+P	São Miguel Arcanjo	sao miguel arcanjo	BR		-23.878	-47.997	0
+P	Descalvado		BR		-21.904	-47.619	0
+P	Bariri		BR		-22.074	-48.740	0
+P	Cachoeira Paulista		BR		-22.665	-45.009	0
+P	Rio das Pedras		BR		-22.843	-47.606	0
+P	Guararema		BR		-23.415	-46.035	0
+P	Vila Galvão	vila galvao	BR		-23.472	-46.579	0
+P	Serra Negra		BR		-22.612	-46.701	0
+P	Biritiba Mirim		BR		-23.573	-46.039	0
+P	Cambuí	cambui	BR		-22.612	-46.057	0
+P	Piraju		BR		-23.194	-49.384	0
+P	Iguape		BR		-24.708	-47.555	0
+P	Santa Cruz das Palmeiras		BR		-21.827	-47.249	0
+P	Cajati		BR		-24.736	-48.123	0
+P	Conchal		BR		-22.330	-47.172	0
+P	Casa Branca		BR		-21.774	-47.086	0
+P	Morro Agudo		BR		-20.731	-48.058	0
+P	Pilar do Sul		BR		-23.813	-47.716	0
+P	Juquitiba		BR		-23.932	-47.068	0
+P	Santo Antônio do Monte	santo antonio do monte	BR		-20.087	-45.294	0
+P	Bady Bassitt		BR		-20.918	-49.445	0
+P	Elói Mendes	eloi mendes	BR		-21.610	-45.565	0
+P	Laranjal Paulista		BR		-23.050	-47.837	0
+P	Igarapava		BR		-20.038	-47.747	0
+P	Campos Gerais		BR		-21.235	-45.759	0
+P	Camanducaia		BR		-22.755	-46.145	0
+P	Piracaia		BR		-23.054	-46.358	0
+P	Arapoti		BR		-24.158	-49.827	0
+P	Jacutinga		BR		-22.286	-46.612	0
+P	Tanabi		BR		-20.626	-49.649	0
+P	Brodowski		BR		-20.991	-47.659	0
+P	Itaí	itai	BR		-23.418	-49.091	0
+P	Nepomuceno		BR		-21.233	-45.235	0
+P	Apiaí	apiai	BR		-24.509	-48.843	0
+P	Santa Rita do Passa Quatro		BR		-21.710	-47.478	0
+P	Jaguara		BR		-23.511	-46.747	0
+P	Cordeirópolis	cordeiropolis	BR		-22.482	-47.457	0
+P	Angatuba		BR		-23.490	-48.413	0
+P	Dois Córregos	dois corregos	BR		-22.366	-48.380	0
+P	Taquarituba		BR		-23.533	-49.244	0
+P	Monte Sião	monte siao	BR		-22.433	-46.572	0
+P	São Gonçalo do Sapucaí	sao goncalo do sapucai	BR		-21.892	-45.595	0
+P	Brotas		BR		-22.284	-48.127	0
+P	Se		BR		-23.548	-46.631	0
+P	Cajuru		BR		-21.275	-47.304	0
+P	Piraí do Sul	pirai do sul	BR		-24.526	-49.949	0
+P	Santa Gertrudes		BR		-22.457	-47.530	0
+P	Bambuí	bambui	BR		-20.006	-45.977	0
+P	Santa Rosa de Viterbo		BR		-21.473	-47.363	0
+P	Santo Antônio de Posse	santo antonio de posse	BR		-22.606	-46.919	0
+P	Igaraçu do Tietê	igaracu do tiete	BR		-22.509	-48.558	0
+P	Capela do Alto		BR		-23.471	-47.735	0
+P	Siqueira Campos		BR		-23.689	-49.834	0
+P	Pirajuí	pirajui	BR		-21.999	-49.457	0
+P	Monte Aprazível	monte aprazivel	BR		-20.773	-49.714	0
+P	Araçariguama	aracariguama	BR		-23.439	-47.061	0
+P	Bom Jesus dos Perdões	bom jesus dos perdoes	BR		-23.135	-46.465	0
+P	Iracemápolis	iracemapolis	BR		-22.581	-47.519	0
+P	Muzambinho		BR		-21.376	-46.526	0
+P	Paraguaçu	paraguacu	BR		-21.547	-45.737	0
+P	Guapiaçu	guapiacu	BR		-20.795	-49.220	0
+P	Cerqueira César	cerqueira cesar	BR		-23.036	-49.166	0
+P	Tambaú	tambau	BR		-21.705	-47.274	0
+P	Perdões	perdoes	BR		-21.091	-45.091	0
+P	Itapecerica		BR		-20.473	-45.126	0
+P	Carmo do Rio Claro		BR		-20.972	-46.119	0
+P	Monte Santo de Minas		BR		-21.190	-46.980	0
+P	Campestre		BR		-21.711	-46.246	0
+P	Itupeva		BR		-23.153	-47.058	0
+P	Paraisópolis	paraisopolis	BR		-22.554	-45.780	0
+P	Lambari		BR		-21.976	-45.350	0
+P	Potim		BR		-22.843	-45.251	0
+P	Buri		BR		-23.797	-48.593	0
+P	Miracatu		BR		-24.281	-47.460	0
+P	Engenheiro Coelho		BR		-22.491	-47.212	0
+P	Miguelópolis	miguelopolis	BR		-20.179	-48.032	0
+P	Nova Granada		BR		-20.534	-49.314	0
+P	Paranapanema		BR		-23.386	-48.724	0
+P	Pariquera-Açu	pariquera acu	BR		-24.715	-47.881	0
+P	Wenceslau Braz		BR		-23.874	-49.803	0
+P	Guaranésia	guaranesia	BR		-21.299	-46.803	0
+P	Itatinga		BR		-23.102	-48.616	0
+P	Cesário Lange	cesario lange	BR		-23.227	-47.953	0
+P	Ribeirão Branco	ribeirao branco	BR		-24.221	-48.766	0
+P	Guará	guara	BR		-20.428	-47.824	0
+P	Potirendaba		BR		-21.043	-49.377	0
+P	Colina		BR		-20.713	-48.541	0
+P	Pirapora do Bom Jesus		BR		-23.397	-47.002	0
+P	Alpinópolis	alpinopolis	BR		-20.864	-46.388	0
+P	Águas de Lindóia	aguas de lindoia	BR		-22.476	-46.633	0
+P	Nazaré Paulista	nazare paulista	BR		-23.181	-46.395	0
+P	Souzas		BR		-22.879	-46.964	0
+P	Monte Azul Paulista		BR		-20.907	-48.641	0
+P	Itaberá	itabera	BR		-23.862	-49.137	0
+P	Elias Fausto		BR		-23.043	-47.374	0
+P	Paraibuna		BR		-23.386	-45.662	0
+P	Alumínio	aluminio	BR		-23.535	-47.262	0
+P	Viradouro		BR		-20.873	-48.297	0
+P	Borda da Mata		BR		-22.274	-46.165	0
+P	Pari		BR		-23.527	-46.618	0
+P	Sengés	senges	BR		-24.113	-49.463	0
+P	Altinópolis	altinopolis	BR		-21.026	-47.374	0
+P	Cássia	cassia	BR		-20.583	-46.922	0
+P	Juquiá	juquia	BR		-24.321	-47.635	0
+P	Caconde		BR		-21.529	-46.644	0
+P	Pradópolis	pradopolis	BR		-21.359	-48.066	0
+P	Guapiara		BR		-24.185	-48.533	0
+P	Itajobi		BR		-21.318	-49.054	0
+P	Carlópolis	carlopolis	BR		-23.425	-49.721	0
+P	Macatuba		BR		-22.502	-48.711	0
+P	Cafelândia	cafelandia	BR		-21.802	-49.610	0
+P	Fartura		BR		-23.388	-49.510	0
+P	Poço Fundo	poco fundo	BR		-21.781	-45.965	0
+P	Nova Resende		BR		-21.126	-46.420	0
+P	Itirapina		BR		-22.253	-47.823	0
+P	Cerro Azul		BR		-24.824	-49.261	0
+P	Jacupiranga		BR		-24.692	-48.002	0
+P	São Lourenço da Serra	sao lourenco da serra	BR		-23.852	-46.943	0
+P	Campanha		BR		-21.836	-45.401	0
+P	Terra Preta		BR		-22.633	-47.050	0
+P	Charqueada		BR		-22.510	-47.778	0
+P	Itariri		BR		-24.289	-47.174	0
+P	Pedregulho		BR		-20.257	-47.477	0
+P	Conchas		BR		-23.015	-48.011	0
+P	Pinhalzinho		BR		-22.779	-46.591	0
+P	Salesópolis	salesopolis	BR		-23.529	-45.849	0
+P	Piratininga		BR		-22.413	-49.135	0
+P	Holambra		BR		-22.633	-47.056	0
+P	Guareí	guarei	BR		-23.373	-48.184	0

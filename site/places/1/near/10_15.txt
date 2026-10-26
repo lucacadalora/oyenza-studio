@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Ndjamena	60	
+C	CM	Cameroon	egyptian	s
+C	TD	Chad	egyptian	s
+B	1
+P	N'Djamena	ndjamena	TD		12.107	15.044	0
+P	Kousséri	kousseri	CM		12.077	15.031	0
+P	Bongor		TD		10.281	15.374	0
+P	Yagoua		CM		10.341	15.233	0
+P	Mongo		TD		12.185	18.688	0
+P	Mao		TD		14.123	15.312	0
+P	Bitkine		TD		11.980	18.214	0
+P	Massakory		TD		12.998	15.732	0
+P	Umm Hājar	umm hajar	TD		13.295	19.697	0
+P	Moussoro		TD		13.644	16.490	0
+P	Ati		TD		13.214	18.339	0
+P	Massaguet		TD		12.476	15.436	0
+P	Bokoro		TD		12.378	17.059	0
+P	Guelendeng		TD		10.918	15.550	0
+P	Mandelia		TD		11.730	15.245	0
+P	Dourbali		TD		11.806	15.867	0
+P	Bousso		TD		10.485	16.711	0
+P	Mangalmé	mangalme	TD		12.355	19.614	0

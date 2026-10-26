@@ -1,0 +1,264 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	4
+P	Ahmedabad		IN		23.026	72.587	0
+P	Surat		IN		21.196	72.830	0
+P	Vadodara		IN		22.299	73.208	0
+P	Rājkot	rajkot	IN		22.292	70.793	0
+P	Bhavnagar		IN		21.763	72.153	0
+P	Jamnagar		IN		22.473	70.067	0
+P	Bilimora		IN		20.770	72.961	0
+P	Malegaon		IN		20.550	74.535	0
+P	Udaipur		IN		24.586	73.713	0
+P	Dhule		IN		20.901	74.777	0
+P	Jūnāgadh	junagadh	IN		21.520	70.460	0
+P	Gandhinagar		IN		23.217	72.683	0
+P	Gāndhīdhām	gandhidham	IN		23.083	70.133	0
+P	Nadiād	nadiad	IN		22.694	72.862	0
+P	Morvi		IN		22.817	70.838	0
+P	Anand		IN		22.553	72.955	0
+P	Mahesāna	mahesana	IN		23.599	72.385	0
+P	Surendranagar		IN		22.727	71.649	0
+P	Verāval	veraval	IN		20.908	70.368	0
+P	Navsari		IN		20.942	72.925	0
+P	Bharūch	bharuch	IN		21.695	72.981	0
+P	Vapi		IN		20.372	72.905	0
+P	Godhra		IN		22.775	73.615	0
+P	Pālanpur	palanpur	IN		24.171	72.438	0
+P	Valsād	valsad	IN		20.610	72.934	0
+P	Kalol		IN		23.247	72.495	0
+P	Pātan	patan	IN		23.851	72.130	0
+P	Botad		IN		22.169	71.667	0
+P	Nimach		IN		24.459	74.866	0
+P	Vejalpur		IN		22.690	73.563	0
+P	Dohad		IN		22.833	74.260	0
+P	Jetpur		IN		21.755	70.623	0
+P	Amreli		IN		21.600	71.212	0
+P	Chittorgarh		IN		24.890	74.624	0
+P	Gondal		IN		21.961	70.803	0
+P	Deesa		IN		24.256	72.179	0
+P	Nandurbar		IN		21.367	74.241	0
+P	Bānswāra	banswara	IN		23.541	74.442	0
+P	Khambhāt	khambhat	IN		22.317	72.619	0
+P	Mahuva		IN		21.090	71.769	0
+P	Silvassa		IN		20.274	72.997	0
+P	Sānand	sanand	IN		22.992	72.382	0
+P	Ankleshwar		IN		21.632	72.990	0
+P	Anjār	anjar	IN		23.113	70.027	0
+P	Dhoraji		IN		21.734	70.450	0
+P	Kadi		IN		23.299	72.334	0
+P	Vijalpor		IN		20.922	72.909	0
+P	Himatnagar		IN		23.599	72.966	0
+P	Dholka		IN		22.727	72.441	0
+P	Manmād	manmad	IN		20.253	74.438	0
+P	Savarkundla		IN		21.337	71.303	0
+P	Shirpur		IN		21.348	74.880	0
+P	Kundla		IN		21.342	71.306	0
+P	Visnagar		IN		23.699	72.552	0
+P	Keshod		IN		21.303	70.249	0
+P	Dhrāngadhra	dhrangadhra	IN		22.992	71.468	0
+P	Māngrol	mangrol	IN		21.123	70.115	0
+P	Modāsa	modasa	IN		23.463	73.299	0
+P	Pālitāna	palitana	IN		21.525	71.823	0
+P	Hālol	halol	IN		22.503	73.472	0
+P	Borsad		IN		22.408	72.898	0
+P	Nani Daman		IN		20.414	72.832	0
+P	Nīmbāhera	nimbahera	IN		24.622	74.680	0
+P	Siddhapur		IN		23.918	72.372	0
+P	Shāhāda	shahada	IN		21.545	74.471	0
+P	Bārdoli	bardoli	IN		21.123	73.112	0
+P	Upleta		IN		21.740	70.283	0
+P	Una		IN		20.823	71.038	0
+P	Unjha		IN		23.804	72.391	0
+P	Dabhoi		IN		22.183	73.433	0
+P	Viramgām	viramgam	IN		23.126	72.050	0
+P	Ābu Road	abu road	IN		24.480	72.782	0
+P	Barwāni	barwani	IN		22.032	74.900	0
+P	Petlād	petlad	IN		22.477	72.800	0
+P	Sihor		IN		21.711	71.962	0
+P	Kotharia		IN		22.234	70.819	0
+P	Dabhel		IN		20.410	72.883	0
+P	Ozar		IN		20.095	73.928	0
+P	Yeola		IN		20.042	74.489	0
+P	Kapadvanj		IN		23.023	73.071	0
+P	Dyāne	dyane	IN		20.567	74.528	0
+P	Jasdan		IN		22.037	71.208	0
+P	Bhīnmāl	bhinmal	IN		24.999	72.271	0
+P	Wānkāner	wankaner	IN		22.612	70.944	0
+P	Dūngarpur	dungarpur	IN		23.843	73.715	0
+P	Jodhpur		IN		21.902	70.033	0
+P	Dondaicha		IN		21.324	74.568	0
+P	Padra		IN		22.240	73.085	0
+P	Jambusar		IN		22.052	72.801	0
+P	Limbdi		IN		22.565	71.811	0
+P	Dahegām	dahegam	IN		23.169	72.822	0
+P	Thān	than	IN		22.574	71.199	0
+P	Bāola	baola	IN		22.828	72.364	0
+P	Idar		IN		23.841	73.001	0
+P	Pratāpgarh	pratapgarh	IN		24.032	74.782	0
+P	Nāthdwāra	nathdwara	IN		24.938	73.824	0
+P	Kodīnar	kodinar	IN		20.794	70.702	0
+P	Vyāra	vyara	IN		21.111	73.394	0
+P	Chaklāsi	chaklasi	IN		22.653	72.945	0
+P	Rādhanpur	radhanpur	IN		23.832	71.605	0
+P	Bhachāu	bhachau	IN		23.299	70.343	0
+P	Vādāsinor	vadasinor	IN		22.957	73.335	0
+P	Sirohi		IN		24.888	72.848	0
+P	Rājula	rajula	IN		21.039	71.443	0
+P	Satānā	satana	IN		20.595	74.203	0
+P	Bopal		IN		23.033	72.467	0
+P	Lūnāvāda	lunavada	IN		23.128	73.610	0
+P	Jhābua	jhabua	IN		22.768	74.591	0
+P	Gariadhar		IN		21.539	71.577	0
+P	Rājpīpla	rajpipla	IN		21.867	73.500	0
+P	Mahemdāvād	mahemdavad	IN		22.824	72.756	0
+P	Karamsad		IN		22.542	72.904	0
+P	Vijāpur	vijapur	IN		23.562	72.748	0
+P	Bagasra		IN		21.487	70.955	0
+P	Soyāgaon	soyagaon	IN		20.552	74.507	0
+P	Navāpur	navapur	IN		21.162	73.794	0
+P	Vapi INA		IN		20.360	72.931	0
+P	Umreth		IN		22.699	73.116	0
+P	Āmli	amli	IN		20.283	73.017	0
+P	Kosamba		IN		21.462	72.958	0
+P	Sānchor	sanchor	IN		24.754	71.773	0
+P	Vallabh Vidyanagar		IN		22.533	72.900	0
+P	Dhandhuka		IN		22.382	71.987	0
+P	Halvad		IN		23.015	71.180	0
+P	Mānāvadar	manavadar	IN		21.498	70.138	0
+P	Un		IN		23.887	71.770	0
+P	Karjan		IN		22.047	73.118	0
+P	Mānsa	mansa	IN		23.426	72.657	0
+P	Sarkhej		IN		22.983	72.502	0
+P	Talāja	talaja	IN		21.353	72.035	0
+P	Gadhada		IN		21.970	71.578	0
+P	Walwadi		IN		20.921	74.761	0
+P	Dhanera		IN		24.510	72.023	0
+P	Sāgwāra	sagwara	IN		23.680	74.020	0
+P	Khedbrahma		IN		24.030	73.046	0
+P	Dhāri	dhari	IN		21.329	71.026	0
+P	Tarsadi		IN		21.470	72.952	0
+P	Jhālod	jhalod	IN		23.101	74.155	0
+P	Alirajpur		IN		22.304	74.356	0
+P	Pārdi	pardi	IN		20.509	72.946	0
+P	Rāpar	rapar	IN		23.573	70.647	0
+P	Kukshi		IN		22.207	74.758	0
+P	Kansad		IN		21.075	72.879	0
+P	Kālāvad	kalavad	IN		22.208	70.383	0
+P	Jhadeshwar		IN		21.714	73.032	0
+P	Sachīn	sachin	IN		21.087	72.882	0
+P	Tharād	tharad	IN		24.396	71.626	0
+P	Umargām	umargam	IN		20.197	72.750	0
+P	Vadnagar		IN		23.786	72.639	0
+P	Kadodara		IN		21.162	72.962	0
+P	Jāfarābād	jafarabad	IN		20.866	71.366	0
+P	Songadh		IN		21.170	73.564	0
+P	Dhrol		IN		22.567	70.418	0
+P	Taloda		IN		21.561	74.212	0
+P	Sutrāpāra	sutrapara	IN		20.844	70.483	0
+P	Kālol	kalol	IN		22.608	73.463	0
+P	Jamjodhpur		IN		21.902	70.036	0
+P	Kāndla	kandla	IN		23.033	70.217	0
+P	Chhota Udepur		IN		22.304	74.016	0
+P	Dākor	dakor	IN		22.753	73.150	0
+P	Kheda		IN		22.752	72.685	0
+P	Chāndor	chandor	IN		20.331	74.245	0
+P	Gadkhol		IN		21.644	73.012	0
+P	Bābra	babra	IN		21.846	71.305	0
+P	Ābu	abu	IN		24.594	72.718	0
+P	Anklesvar INA		IN		21.617	73.028	0
+P	Bholav		IN		21.720	73.011	0
+P	Pindwāra	pindwara	IN		24.797	73.055	0
+P	Nāndgaon	nandgaon	IN		20.307	74.655	0
+P	Dharampur		IN		20.537	73.174	0
+P	Diu		IN		20.714	70.982	0
+P	Prāntij	prantij	IN		23.436	72.845	0
+P	Pethāpur	pethapur	IN		23.263	72.674	0
+P	Od		IN		22.621	73.117	0
+P	Fatehnagar		IN		24.815	74.095	0
+P	Lāthi	lathi	IN		21.723	71.388	0
+P	Chorwād	chorwad	IN		21.029	70.233	0
+P	Kathlāl	kathlal	IN		22.898	72.993	0
+P	Bhābhar	bhabhar	IN		24.072	71.597	0
+P	Kherālu	kheralu	IN		23.885	72.619	0
+P	Chalthan		IN		21.154	72.961	0
+P	Sakri		IN		20.991	74.315	0
+P	Chotila		IN		22.423	71.196	0
+P	Bedi		IN		22.501	70.044	0
+P	Talala		IN		21.055	70.529	0
+P	Devgadh Bāriya	devgadh bariya	IN		22.705	73.909	0
+P	Anklav		IN		22.377	73.001	0
+P	Abrama		IN		20.859	72.906	0
+P	Kapasan		IN		24.889	74.317	0
+P	Vadāli	vadali	IN		23.942	73.038	0
+P	Hārij	harij	IN		23.694	71.907	0
+P	Morwa		IN		22.905	73.839	0
+P	Sarigam INA		IN		20.288	72.850	0
+P	Boriavi		IN		22.611	72.933	0
+P	Bareja		IN		22.849	72.591	0
+P	Vīsāvadar	visavadar	IN		21.340	70.750	0
+P	Santrampur		IN		23.190	73.895	0
+P	Bhāyāvadar	bhayavadar	IN		21.855	70.248	0
+P	Sojītra	sojitra	IN		22.539	72.720	0
+P	Shehera		IN		22.951	73.631	0
+P	Chhiri		IN		20.378	72.941	0
+P	Solsumba		IN		20.157	72.789	0
+P	Chanod		IN		20.347	72.928	0
+P	Amod		IN		21.993	72.870	0
+P	Māndvi	mandvi	IN		21.255	73.304	0
+P	Valabhīpur	valabhipur	IN		21.889	71.879	0
+P	Kim		IN		21.401	72.927	0
+P	Alang		IN		21.399	72.175	0
+P	Sāvli	savli	IN		22.562	73.223	0
+P	Khali Kachigam		IN		20.383	72.867	0
+P	Chhoti Sādri	chhoti sadri	IN		24.381	74.701	0
+P	Thāsra	thasra	IN		22.798	73.212	0
+P	Talod		IN		23.351	72.950	0
+P	Thara		IN		23.973	71.819	0
+P	Barwala		IN		22.220	72.068	0
+P	Bayad		IN		23.223	73.215	0
+P	Kanjari		IN		22.612	72.921	0
+P	Bhindār	bhindar	IN		24.502	74.186	0
+P	Akalkuva		IN		21.554	74.019	0
+P	Dāmnagar	damnagar	IN		21.692	71.517	0
+P	Ambaji		IN		24.332	72.846	0
+P	Patdi		IN		23.196	71.792	0
+P	Mahudha		IN		22.821	72.940	0
+P	Bhuwāna	bhuwana	IN		24.621	73.708	0
+P	Lāsalgaon	lasalgaon	IN		20.143	74.239	0
+P	Jalalpore		IN		20.949	72.898	0
+P	Chhala		IN		23.308	72.774	0
+P	Mendarda		IN		21.321	70.441	0
+P	Jāwad	jawad	IN		24.599	74.863	0
+P	Rājgarh	rajgarh	IN		22.678	74.945	0
+P	Amroli		IN		21.251	72.839	0
+P	Chalāla	chalala	IN		21.411	71.166	0
+P	Rānpur	ranpur	IN		22.352	71.712	0
+P	Undera		IN		22.348	73.133	0
+P	Gandevi		IN		20.812	72.998	0
+P	Kadod		IN		21.217	73.220	0
+P	Andada		IN		21.656	73.022	0
+P	Sarangpore		IN		21.636	73.048	0
+P	Trajpar		IN		22.816	70.867	0
+P	Vāghodia	vaghodia	IN		22.305	73.400	0
+P	Sālūmbar	salumbar	IN		24.135	74.044	0
+P	Naroli		IN		20.274	72.942	0
+P	Bhiloda		IN		23.768	73.247	0
+P	Māliya	maliya	IN		23.093	70.759	0
+P	Vaso		IN		22.661	72.755	0
+P	Chānasma	chanasma	IN		23.715	72.113	0
+P	Jodiya Bandar		IN		22.717	70.283	0
+P	Thandla		IN		23.010	74.577	0
+P	Khetia		IN		21.671	74.585	0
+P	Bari Sādri	bari sadri	IN		24.413	74.473	0
+P	Kabilpor		IN		20.951	72.958	0
+P	Baben		IN		21.137	73.096	0
+P	Sanjan		IN		20.192	72.818	0
+P	Sāyla	sayla	IN		22.549	71.483	0
+P	Sayan		IN		21.320	72.882	0
+P	Bhauri		IN		24.661	72.914	0
+P	Kāthor	kathor	IN		21.289	72.941	0
+P	Bāntva	bantva	IN		21.488	70.076	0
+P	Petlāwad	petlawad	IN		23.011	74.798	0
+P	Ahwa		IN		20.757	73.686	0

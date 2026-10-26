@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+C	DZ	Algeria	egyptian	s
+B	0
+P	Djelfa		DZ		34.673	3.263	0
+P	Ghardaïa	ghardaia	DZ		32.491	3.673	0
+P	Saïda	saida	DZ		34.830	0.152	0
+P	Laghouat		DZ		33.800	2.865	0
+P	Messaad		DZ		34.154	3.503	0
+P	Aflou		DZ		34.113	2.102	0
+P	El Bayadh		DZ		33.683	1.019	0
+P	Guerara		DZ		32.792	4.499	0
+P	El Menia		DZ		30.576	2.884	0
+P	Metlili Chaamba		DZ		32.267	3.633	0
+P	El Abiodh Sidi Cheikh		DZ		32.893	0.548	0
+P	Sidi Khaled		DZ		34.387	4.988	0
+P	’Aïn Deheb	ain deheb	DZ		34.842	1.547	0
+P	’Aïn el Melh	ain el melh	DZ		34.841	4.164	0
+P	’Aïn el Bell	ain el bell	DZ		34.344	3.225	0
+P	Berriane		DZ		32.826	3.767	0
+P	El Idrissia		DZ		34.445	2.527	0
+P	Charef		DZ		34.621	2.795	0
+P	Feidh el Botma		DZ		34.500	3.767	0
+P	Dar Chioukh		DZ		34.896	3.485	0
+P	Brezina		DZ		33.099	1.261	0

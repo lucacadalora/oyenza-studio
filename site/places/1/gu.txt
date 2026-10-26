@@ -1,0 +1,405 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Dakar	0	
+Z	2	Africa/Kampala	180	
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Maputo	120	
+Z	5	America/Caracas	-240	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Guayaquil	-300	
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Hermosillo	-420	
+Z	10	America/Mexico_City	-360	
+Z	11	America/Sao_Paulo	-180	
+Z	12	America/Tijuana	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	13	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Karachi	300	
+Z	16	Asia/Kathmandu	345	
+Z	17	Asia/Kolkata	330	
+Z	18	Asia/Novokuznetsk	420	
+Z	19	Asia/Seoul	540	
+Z	20	Asia/Shanghai	480	
+Z	21	Asia/Urumqi	360	
+Z	22	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	23	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	24	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	25	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BL	Saint Barthelemy	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GT	Guatemala	mwl	s
+C	HN	Honduras	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KR	South Korea	mwl	s
+C	MA	Morocco	egyptian	s
+C	MR	Mauritania	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NP	Nepal	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PR	Puerto Rico	mwl	s
+C	PT	Portugal	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SN	Senegal	egyptian	s
+C	TD	Chad	egyptian	s
+C	TM	Turkmenistan	mwl	h
+C	TR	Turkey	turkey	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+B	10
+P	Guangzhou		CN		23.117	113.250	20
+P	Guiyang		CN		26.583	106.717	20
+P	Guayaquil		EC		-2.196	-79.886	7
+P	Gujranwala		PK		32.156	74.187	15
+P	Guilin		CN		25.280	110.296	20
+P	Guadalajara		MX		20.677	-103.347	10
+P	Guankou		CN		28.159	113.627	20
+P	Gustavo Adolfo Madero		MX		19.494	-99.111	10
+P	Guarulhos		BR		-23.463	-46.533	11
+P	Guigang		CN		23.116	109.595	20
+P	Guatemala City		GT		14.641	-90.513	10
+P	Ciudad Guayana		VE		8.351	-62.641	5
+P	Guwahati		IN		26.184	91.746	17
+P	Gurugram		IN		28.460	77.026	17
+P	Guang’an	guangan	CN		30.474	106.637	20
+P	Guadalupe		MX		25.677	-100.259	10
+P	Guntur		IN		16.300	80.457	17
+P	Jaboatão dos Guararapes	jaboatao dos guararapes	BR		-8.113	-35.015	11
+P	Gujrat		PK		32.574	74.075	15
+P	Guli		CN		28.882	120.033	20
+P	Pasir Gudang		MY		1.462	103.905	20
+P	Guangyuan		CN		32.442	105.823	20
+P	Guyuan		CN		36.007	106.281	20
+P	Gujangbagh		CN		37.109	79.934	21
+P	Gumi		KR		36.114	128.336	19
+P	Guédiawaye	guediawaye	SN		14.774	-17.402	1
+P	Guarujá	guaruja	BR		-23.993	-46.256	11
+P	Gundupālaiyam	gundupalaiyam	IN		11.941	79.803	17
+P	Gunpo		KR		37.367	126.947	19
+P	Guantánamo	guantanamo	CU		20.144	-75.209	8
+P	Gunsan		KR		35.979	126.711	19
+P	Guarenas		VE		10.470	-66.619	5
+P	Gucun		CN		31.349	121.393	20
+P	Guatire		VE		10.474	-66.542	5
+P	Gusau		NG		12.170	6.664	3
+P	Gunan		CN		29.023	106.648	20
+P	Guacara		VE		10.226	-67.877	5
+P	Guri-si	guri si	KR		37.599	127.139	19
+P	Guixi		CN		30.334	107.345	20
+P	Guarapuava		BR		-25.390	-51.465	11
+P	Guna		IN		24.647	77.311	17
+P	Gulu		UG		2.775	32.299	2
+P	Guadalupe		MX		22.747	-102.519	10
+P	Gurúè	gurue	MZ		-15.467	36.978	4
+P	Horta-Guinardó	horta guinardo	ES		41.418	2.168	25
+P	Guyong		PH		14.836	120.978	20
+P	Guangshui		CN		31.620	113.998	20
+P	Mogi Guaçu	mogi guacu	BR		-22.368	-46.946	11
+P	Kampung Pasir Gudang Baru		MY		1.473	103.878	20
+P	Guelph		CA	Ontario	43.546	-80.256	13
+P	Guelmim		MA		28.987	-10.057	0
+P	Guntakal		IN		15.171	77.362	17
+P	Guarapari		BR		-20.672	-40.502	11
+P	Guará	guara	BR		-15.810	-47.972	11
+P	Guelma		DZ		36.462	7.426	3
+P	Guiguinto		PH		14.833	120.883	20
+P	Gudivāda	gudivada	IN		16.435	80.996	17
+P	Guaratinguetá	guaratingueta	BR		-22.816	-45.193	11
+P	Heroica Guaymas		MX		27.920	-110.899	9
+P	Gulin		CN		28.042	105.810	20
+P	Guadalajara de Buga		CO		3.901	-76.298	7
+P	Guanabacoa		CU		23.125	-82.301	8
+P	Guanare		VE		9.039	-69.734	5
+P	Ciudad Guzmán	ciudad guzman	MX		19.704	-103.464	10
+P	Guaianases		BR		-23.543	-46.411	11
+P	Guercif		MA		34.226	-3.354	0
+P	Guanhu		CN		34.425	117.995	20
+P	Sādatpur Gujran	sadatpur gujran	IN		28.728	77.248	17
+P	Ben Guerir		MA		32.241	-7.954	0
+P	Gütersloh	gutersloh	DE		51.907	8.379	25
+P	Gudiyatham		IN		12.946	78.874	17
+P	Guadalajara		ES		40.629	-3.162	25
+P	Guaíba	guaiba	BR		-30.114	-51.325	11
+P	Guliston		UZ		40.495	68.775	15
+P	Gurupi		BR		-11.729	-49.069	11
+P	Guidonia Montecelio		IT		41.994	12.722	25
+P	Gusong		CN		28.313	105.238	20
+P	Guanambi		BR		-14.223	-42.781	11
+P	Gubkin		RU		51.284	37.535	2
+P	Guozhen		CN		34.366	107.359	20
+P	Gununo		ET		6.925	37.653	2
+P	San José de Guanipa	san jose de guanipa	VE		8.887	-64.165	5
+P	Guider		CM		9.933	13.947	3
+P	Guaynabo		PR		18.357	-66.111	5
+P	Güigüe	guigue	VE		10.083	-67.778	5
+P	Gueckedou		GN		8.567	-10.134	1
+P	Gualeguaychú	gualeguaychu	AR		-33.008	-58.518	11
+P	Gurdaspur		IN		32.039	75.403	17
+P	Gūdūr	gudur	IN		14.151	79.852	17
+P	Gucheng Chengguanzhen		CN		32.266	111.635	20
+P	Guamúchil	guamuchil	MX		25.459	-108.077	9
+P	Guanajuato		MX		21.019	-101.259	10
+P	Guildford		GB	England	51.235	-0.574	24
+P	Gulfport		US	Mississippi	30.367	-89.093	6
+P	West Gulfport		US	Mississippi	30.404	-89.094	6
+P	Guasave		MX		25.568	-108.469	9
+P	Guiping		CN		23.395	110.074	20
+P	Alcalá de Guadaira	alcala de guadaira	ES		37.338	-5.840	25
+P	Güira de Melena	guira de melena	CU		22.797	-82.507	8
+P	Gujar Khan		PK		33.254	73.304	15
+P	Güines	guines	CU		22.838	-82.027	8
+P	Guiglo		CI		6.544	-7.494	1
+P	Embu-Guaçu	embu guacu	BR		-23.832	-46.811	11
+P	Gukovo		RU		48.051	39.930	2
+P	Gushikawa		JP		26.359	127.867	19
+P	Guildford		CA	British Columbia	49.192	-122.800	14
+P	Guasdualito		VE		7.242	-70.732	5
+P	Guanyin		CN		29.099	104.394	20
+P	Gus’-Khrustal’nyy	gus khrustalnyy	RU		55.612	40.650	2
+P	Gubat		PH		12.921	124.123	20
+P	Gushu		CN		31.561	118.481	20
+P	Gucheng		CN		36.953	118.762	20
+P	Villa Vicente Guerrero		MX		19.121	-98.166	10
+P	Guerara		DZ		32.792	4.499	3
+P	Guarabira		BR		-6.855	-35.490	11
+P	Guiren		CN		33.670	118.189	20
+P	Guapimirim		BR		-22.537	-42.982	11
+P	Gummersbach		DE		51.026	7.565	25
+P	Gulariyā	gulariya	NP		28.206	81.345	16
+P	Nueva Guinea		NI		11.688	-84.456	10
+P	São Miguel do Guamá	sao miguel do guama	BR		-1.627	-47.483	11
+P	San José del Guaviare	san jose del guaviare	CO		2.568	-72.640	7
+P	Vila Guilherme		BR		-23.509	-46.606	11
+P	Gumlā	gumla	IN		23.043	84.544	17
+P	Bargny Guèdj	bargny guedj	SN		14.687	-17.228	1
+P	Guanshan		CN		33.798	117.866	20
+P	Guaxupé	guaxupe	BR		-21.305	-46.713	11
+P	Gurlan		UZ		41.841	60.393	15
+P	Guanzhuang		CN		36.263	119.194	20
+P	Güngören Merter	gungoren merter	TR		41.007	28.888	2
+P	Gudalur		IN		11.521	76.481	17
+P	Guangshun		CN		29.375	105.527	20
+P	Gupi		CN		34.114	117.883	20
+P	Guemar		DZ		33.485	6.797	3
+P	Gumia		IN		23.797	85.825	17
+P	Gudalur		IN		9.678	77.250	17
+P	Guaramirim		BR		-26.473	-49.003	11
+P	Gulāothi	gulaothi	IN		28.589	77.793	17
+P	Antigua Guatemala		GT		14.556	-90.733	10
+P	Gudong		CN		25.342	98.483	20
+P	Guxian		CN		36.734	120.226	20
+P	Gūduvāncheri	guduvancheri	IN		12.845	80.061	17
+P	Guandu		CN		30.956	109.847	20
+P	Gumel		NG		12.627	9.388	3
+P	Guangtong		CN		25.169	101.749	20
+P	Guaratuba		BR		-25.883	-48.575	11
+P	Guaraciaba do Norte		BR		-4.167	-40.748	11
+P	Gutao		CN		37.203	112.178	20
+P	Guindalera		ES		40.436	-3.667	25
+P	Gujō	gujo	JP		35.737	136.959	19
+P	Guaduas		CO		5.067	-74.595	7
+P	Guye		CN		39.741	118.451	20
+P	Gebre Guracha		ET		9.800	38.400	2
+P	Guimarães	guimaraes	PT		41.444	-8.296	24
+P	Gursahāiganj	gursahaiganj	IN		27.115	79.732	17
+P	Guarda		PT		40.538	-7.266	24
+P	Güiria	guiria	VE		10.577	-62.298	5
+P	Guajará Mirim	guajara mirim	BR		-10.784	-65.336	5
+P	Guáimaro	guaimaro	CU		21.054	-77.349	8
+P	Guaíra	guaira	BR		-20.318	-48.311	11
+P	Gümüşhane	gumushane	TR		40.460	39.472	2
+P	Gummi		NG		12.145	5.118	3
+P	General Güemes	general guemes	AR		-24.674	-65.047	11
+P	Las Guacamayas		MX		18.019	-102.210	10
+P	Rolim de Moura do Guaporé	rolim de moura do guapore	BR		-13.083	-62.277	5
+P	Guariba		BR		-21.360	-48.228	11
+P	Guanarito		VE		8.696	-69.208	5
+P	Guojia		CN		34.973	105.558	20
+P	el Guinardó	el guinardo	ES		41.419	2.174	25
+P	Guayaramerín	guayaramerin	BO		-10.826	-65.358	5
+P	Gul’kevichi	gulkevichi	RU		45.354	40.695	2
+P	La Guardia		VE		10.997	-64.018	5
+P	Guxi		CN		30.330	105.872	20
+P	Tecpán Guatemala	tecpan guatemala	GT		14.762	-90.992	10
+P	Guledagudda		IN		16.050	75.790	17
+P	Guskhara		IN		23.493	87.735	17
+P	Gualeguay		AR		-33.141	-59.313	11
+P	Guofu		CN		28.850	106.601	20
+P	Gudermes		RU		43.351	46.101	2
+P	Guimba		PH		15.661	120.768	20
+P	Guanhães	guanhaes	BR		-18.775	-42.932	11
+P	Guaíra	guaira	BR		-24.082	-54.246	11
+P	Guyancourt		FR		48.773	2.074	25
+P	Guōlèmùdé	guolemude	CN		36.429	94.825	20
+P	Gurupá	gurupa	BR		-1.405	-51.640	11
+P	Guojia		CN		31.295	108.481	20
+P	Guarantã do Norte	guaranta do norte	BR		-9.951	-54.908	5
+P	Cheongsong gun		KR		36.434	129.057	19
+P	San José Guadalupe Otzacatipan	san jose guadalupe otzacatipan	MX		19.345	-99.592	10
+P	Jinan-gun	jinan gun	KR		35.792	127.425	19
+P	Guararema		BR		-23.415	-46.035	11
+P	Güstrow	gustrow	DE		53.797	12.173	25
+P	Gurnee		US	Illinois	42.370	-87.902	6
+P	Guararapes		BR		-21.261	-50.643	11
+P	Gumdag		TM		39.206	54.591	15
+P	Baixo Guandu		BR		-19.519	-41.016	11
+P	Guder		ET		8.971	37.761	2
+P	Guamo		CO		4.031	-74.970	7
+P	Gürpınar	gurpinar	TR		40.993	28.614	2
+P	Guaçuí	guacui	BR		-20.776	-41.679	11
+P	Jandiāla Gurū	jandiala guru	IN		31.562	75.028	17
+P	Gunupur		IN		19.080	83.809	17
+P	Guanzhuang		CN		28.508	109.011	20
+P	Gusev		RU		54.592	22.200	4
+P	Gutin		ET		9.566	36.636	2
+P	Gundlupēt	gundlupet	IN		11.810	76.690	17
+P	Guasipati		VE		7.477	-61.897	5
+P	Guangcun		CN		19.642	109.355	20
+P	Guerou		MR		17.078	-12.039	1
+P	Ferntree Gully		AU	Victoria	-37.885	145.295	22
+P	Gulābpura	gulabpura	IN		25.904	74.660	17
+P	Guabo		EC		-3.244	-79.829	7
+P	Gubakha		RU		58.839	57.553	15
+P	Gurbetē	gurbete	ET		11.356	36.954	2
+P	Guépaouo	guepaouo	CI		6.473	-5.706	1
+P	Guadalupe		CR		9.948	-84.057	10
+P	Güroymak	guroymak	TR		38.576	42.016	2
+P	Gueznaia		MA		35.702	-5.890	0
+P	Río Guayabal de Yateras	rio guayabal de yateras	CU		20.367	-75.017	8
+P	Guaraí	guarai	BR		-8.834	-48.510	11
+P	el Baix Guinardó	el baix guinardo	ES		41.412	2.168	25
+P	Ganghwa-gun	ganghwa gun	KR		37.747	126.486	19
+P	Guadalupe		PE		-7.250	-79.483	7
+P	Guamal		CO		9.143	-74.224	7
+P	Guaporé	guapore	BR		-28.846	-51.890	11
+P	La Guaira		VE		10.602	-66.933	5
+P	Guanajay		CU		22.926	-82.687	8
+P	Gursarāi	gursarai	IN		25.617	79.181	17
+P	Gur’yevsk	guryevsk	RU		54.284	85.948	18
+P	Guandu		CN		30.081	106.429	20
+P	Guastatoya		GT		14.854	-90.070	10
+P	Guama		VE		10.266	-68.820	5
+P	Guidiguis		CM		10.134	14.707	3
+P	Guabiruba		BR		-27.086	-48.968	11
+P	Gürsu	gursu	TR		40.219	29.195	2
+P	G‘uzor	guzor	UZ		38.621	66.252	15
+P	Wenceslau Guimarães	wenceslau guimaraes	BR		-13.686	-39.478	11
+P	Guaiúba	guaiuba	BR		-4.040	-38.637	11
+P	Gusinoozyorsk		RU		51.283	106.500	20
+P	Guanba		CN		28.802	106.806	20
+P	Guidan Roumdji		NE		13.658	6.696	3
+P	Guibéroua	guiberoua	CI		6.239	-6.171	1
+P	Guelendeng		TD		10.918	15.550	3
+P	Senador Guiomard		BR		-10.150	-67.737	7
+P	Guanlong		CN		22.588	113.944	20
+P	Guihulñgan	guihulngan	PH		10.119	123.273	20
+P	Tixtla de Guerrero		MX		17.567	-99.398	10
+P	Gunjur		GM		13.202	-16.734	1
+P	Guilford		US	Connecticut	41.289	-72.682	13
+P	Gumaca		PH		13.921	122.100	20
+P	Gulu		CN		31.330	109.440	20
+P	Gualaco		HN		15.025	-86.071	10
+P	Gulebage		CN		38.413	77.230	21
+P	Guaranda		EC		-1.591	-78.999	7
+P	Guiset East		PH		16.067	120.683	20
+P	Sant Feliu de Guíxols	sant feliu de guixols	ES		41.783	3.033	25
+P	Guapiaçu	guapiacu	BR		-20.795	-49.220	11
+P	São Miguel do Guaporé	sao miguel do guapore	BR		-11.694	-62.711	5
+P	Guben		DE		51.950	14.706	25
+P	Guayama		PR		17.984	-66.114	5
+P	Guruvāyūr	guruvayur	IN		10.594	76.041	17
+P	Guocun		CN		30.566	108.169	20
+P	Guiseley		GB	England	53.876	-1.712	24
+P	Gunnaur		IN		28.240	78.440	17
+P	Guidonia		IT		41.992	12.719	25
+P	Gustavsberg		SE		59.327	18.390	25
+P	Gurmatkāl	gurmatkal	IN		16.868	77.391	17
+P	Guía de Isora	guia de isora	ES		28.212	-16.779	24
+P	Gubkinskiy		RU		64.434	76.503	15
+P	Guinguinéo	guinguineo	SN		14.270	-15.945	1
+P	Guézon	guezon	CI		6.742	-7.117	1
+P	Guézon	guezon	CI		6.567	-7.702	1
+P	Günzburg	gunzburg	DE		48.456	10.277	25
+P	Gua Musang		MY		4.884	101.969	20
+P	Guacarí	guacari	CO		3.764	-76.333	7
+P	Guapó	guapo	BR		-16.831	-49.532	11
+P	Gulou		CN		30.176	106.172	20
+P	Chapada dos Guimarães	chapada dos guimaraes	BR		-15.461	-55.750	5
+P	Gualán	gualan	GT		15.120	-89.357	10
+P	Gujan-Mestras	gujan mestras	FR		44.636	-1.068	25
+P	Guaranésia	guaranesia	BR		-21.299	-46.803	11
+P	Guápiles	guapiles	CR		10.217	-83.785	10
+P	Guaratinga		BR		-16.582	-39.781	11
+P	Gummidipundi		IN		13.408	80.109	17
+P	Guazacapán	guazacapan	GT		14.074	-90.417	10
+P	Ascención de Guarayos	ascencion de guarayos	BO		-15.893	-63.189	5
+P	Gürgentepe	gurgentepe	TR		40.790	37.601	2
+P	Guadix		ES		37.299	-3.139	25
+P	Gulu		CN		29.839	106.743	20
+P	Guará	guara	BR		-20.428	-47.824	11
+P	Gubbi		IN		13.312	76.941	17
+P	Guisa		CU		20.256	-76.539	8
+P	Guchang		CN		29.487	105.589	20
+P	Guangpu		CN		29.336	106.145	20
+P	Guéssabo	guessabo	CI		6.737	-6.955	1
+P	Güimar	guimar	ES		28.311	-16.413	24
+P	North Guwāhāti	north guwahati	IN		26.197	91.720	17
+P	Guru Har Sahāi	guru har sahai	IN		30.709	74.404	17
+P	Gualaceo		EC		-2.894	-78.779	7
+P	Ciudad Guadalupe Victoria		MX		32.289	-115.103	12
+P	Gubadag		TM		42.079	59.950	15
+P	Guapiara		BR		-24.185	-48.533	11
+P	Guisborough		GB	England	54.535	-1.056	24
+P	Gubin		PL		51.950	14.728	25
+P	Guane		CU		22.204	-84.088	8
+P	Guérande	guerande	FR		47.328	-2.429	25
+P	Guadalupe Victoria		MX		24.447	-104.123	10
+P	Gunzenhausen		DE		49.117	10.760	25
+P	Guardamar del Segura		ES		38.090	-0.656	25
+P	São Francisco do Guaporé	sao francisco do guapore	BR		-12.052	-63.568	5
+P	Ginsheim-Gustavsburg	ginsheim gustavsburg	DE		49.971	8.345	25
+P	Belén Gualcho	belen gualcho	HN		14.483	-88.800	10
+P	Vicente Guerrero		MX		23.733	-103.982	10
+P	Gurun		MY		5.817	100.474	20
+P	Guadalupe		CO		2.025	-75.756	7
+P	Guéret	gueret	FR		46.172	1.872	25
+P	Gura Humorului		RO		47.550	25.900	23
+P	Gulgam		IN		34.550	74.217	17
+P	Guamaré	guamare	BR		-5.107	-36.320	11
+P	Guochuan		CN		34.684	105.810	20
+P	la Guineueta		ES		41.439	2.169	25
+P	Guéyo	gueyo	CI		5.688	-6.071	1
+P	Guareí	guarei	BR		-23.373	-48.184	11
+P	Gustavia		BL		17.896	-62.850	5

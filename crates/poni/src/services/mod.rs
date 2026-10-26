@@ -11,6 +11,7 @@ pub mod bluetooth;
 pub mod clipboard;
 pub mod frames;
 pub mod fullscreen;
+pub mod cities;
 pub mod http;
 pub mod imaging;
 pub mod location;

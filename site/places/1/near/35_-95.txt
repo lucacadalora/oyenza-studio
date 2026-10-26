@@ -1,0 +1,91 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+C	US	United States	moonsighting	s
+B	0
+P	New South Memphis		US	Tennessee	35.087	-90.057	0
+P	Memphis		US	Tennessee	35.150	-90.049	0
+P	Kansas City		US	Missouri	39.100	-94.579	0
+P	St. Louis	st louis	US	Missouri	38.627	-90.198	0
+P	Overland Park		US	Kansas	38.982	-94.671	0
+P	Springfield		US	Missouri	37.215	-93.298	0
+P	Kansas City		US	Kansas	39.114	-94.627	0
+P	Olathe		US	Kansas	38.881	-94.819	0
+P	Columbia		US	Missouri	38.952	-92.334	0
+P	Independence		US	Missouri	39.091	-94.416	0
+P	East Independence		US	Missouri	39.096	-94.355	0
+P	Lee's Summit	lees summit	US	Missouri	38.911	-94.382	0
+P	Fort Smith		US	Arkansas	35.386	-94.399	0
+P	O'Fallon	ofallon	US	Missouri	38.811	-90.700	0
+P	Fayetteville		US	Arkansas	36.063	-94.157	0
+P	Springdale		US	Arkansas	36.187	-94.129	0
+P	Saint Joseph		US	Missouri	39.769	-94.847	0
+P	Jonesboro		US	Arkansas	35.842	-90.704	0
+P	Saint Charles		US	Missouri	38.784	-90.481	0
+P	Shawnee		US	Kansas	39.042	-94.720	0
+P	Conway		US	Arkansas	35.089	-92.442	0
+P	Rogers		US	Arkansas	36.332	-94.119	0
+P	Blue Springs		US	Missouri	39.017	-94.282	0
+P	Saint Peters		US	Missouri	38.800	-90.627	0
+P	Lenexa		US	Kansas	38.954	-94.734	0
+P	Florissant		US	Missouri	38.789	-90.323	0
+P	Joplin		US	Missouri	37.084	-94.513	0
+P	Chesterfield		US	Missouri	38.663	-90.577	0
+P	Bentonville		US	Arkansas	36.373	-94.209	0
+P	Jefferson City		US	Missouri	38.577	-92.174	0
+P	Quincy		US	Illinois	39.936	-91.410	0
+P	Oakville		US	Missouri	38.470	-90.305	0
+P	Leavenworth		US	Kansas	39.311	-94.922	0
+P	Wildwood		US	Missouri	38.583	-90.663	0
+P	Wentzville		US	Missouri	38.811	-90.853	0
+P	University City		US	Missouri	38.656	-90.309	0
+P	Leawood		US	Kansas	38.967	-94.617	0
+P	Ballwin		US	Missouri	38.595	-90.546	0
+P	Liberty		US	Missouri	39.246	-94.419	0
+P	Raytown		US	Missouri	39.009	-94.464	0
+P	Upper Alton		US	Illinois	38.911	-90.151	0
+P	Russellville		US	Arkansas	35.278	-93.134	0
+P	Granite City		US	Illinois	38.701	-90.149	0
+P	Mehlville		US	Missouri	38.508	-90.323	0
+P	Bella Vista		US	Arkansas	36.481	-94.271	0
+P	Paragould		US	Arkansas	36.058	-90.497	0
+P	Kirkwood		US	Missouri	38.583	-90.407	0
+P	Maryland Heights		US	Missouri	38.713	-90.430	0
+P	East Saint Louis		US	Illinois	38.624	-90.151	0
+P	Alton		US	Illinois	38.891	-90.184	0
+P	Gladstone		US	Missouri	39.204	-94.555	0
+P	Hazelwood		US	Missouri	38.771	-90.371	0
+P	Grandview		US	Missouri	38.886	-94.533	0
+P	West Memphis		US	Arkansas	35.146	-90.185	0
+P	Searcy		US	Arkansas	35.251	-91.736	0
+P	Webster Groves		US	Missouri	38.593	-90.357	0
+P	Belton		US	Missouri	38.812	-94.532	0
+P	Van Buren		US	Arkansas	35.437	-94.348	0
+P	Prairie Village		US	Kansas	38.992	-94.634	0
+P	Sedalia		US	Missouri	38.704	-93.228	0
+P	Arnold		US	Missouri	38.433	-90.378	0
+P	Ferguson		US	Missouri	38.744	-90.305	0
+P	Nixa		US	Missouri	37.043	-93.294	0
+P	Gardner		US	Kansas	38.811	-94.927	0
+P	Pittsburg		US	Kansas	37.411	-94.705	0
+P	Raymore		US	Missouri	38.802	-94.453	0
+P	Affton		US	Missouri	38.551	-90.333	0
+P	Rolla		US	Missouri	37.951	-91.771	0
+P	Warrensburg		US	Missouri	38.763	-93.736	0
+P	Spanish Lake		US	Missouri	38.788	-90.216	0
+P	Old Jamestown		US	Missouri	38.835	-90.285	0
+P	Ozark		US	Missouri	37.021	-93.206	0
+P	Jacksonville		US	Illinois	39.734	-90.229	0
+P	Creve Coeur		US	Missouri	38.661	-90.423	0
+P	Manchester		US	Missouri	38.597	-90.509	0
+P	Farmington		US	Missouri	37.781	-90.422	0
+P	Hannibal		US	Missouri	39.708	-91.358	0
+P	Godfrey		US	Illinois	38.956	-90.187	0
+P	Poplar Bluff		US	Missouri	36.757	-90.393	0
+P	Lemay		US	Missouri	38.533	-90.279	0
+P	Tahlequah		US	Oklahoma	35.915	-94.970	0
+P	Concord		US	Missouri	38.525	-90.357	0
+P	Siloam Springs		US	Arkansas	36.188	-94.540	0
+P	Republic		US	Missouri	37.120	-93.480	0
+P	Overland		US	Missouri	38.701	-90.362	0
+P	Clayton		US	Missouri	38.643	-90.324	0
+P	Fort Leonard Wood		US	Missouri	37.706	-92.157	0

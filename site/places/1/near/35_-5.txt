@@ -1,0 +1,216 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	DZ	Algeria	egyptian	s
+C	ES	Spain	mwl	s
+C	MA	Morocco	egyptian	s
+B	0
+P	Valencia		ES		39.474	-0.380	2
+P	Oran		DZ		35.699	-0.636	0
+P	Málaga	malaga	ES		36.720	-4.420	2
+P	Murcia		ES		37.987	-1.130	2
+P	Al Hoceïma	al hoceima	MA		35.252	-3.937	1
+P	Alicante		ES		38.345	-0.481	2
+P	Córdoba	cordoba	ES		37.892	-4.773	2
+P	Elche		ES		38.262	-0.701	2
+P	Granada		ES		37.188	-3.607	2
+P	Cartagena		ES		37.602	-0.984	2
+P	Sidi Bel Abbes		DZ		35.190	-0.631	0
+P	Almería	almeria	ES		36.838	-2.460	2
+P	Nador		MA		35.168	-2.934	1
+P	Albacete		ES		38.994	-1.856	2
+P	Castelló de la Plana	castello de la plana	ES		39.986	-0.049	2
+P	Marbella		ES		36.515	-4.886	2
+P	Jaén	jaen	ES		37.769	-3.790	2
+P	Orihuela		ES		38.085	-0.944	2
+P	Roquetas de Mar		ES		36.764	-2.615	2
+P	Lorca		ES		37.671	-1.702	2
+P	Talavera de la Reina		ES		39.963	-4.831	2
+P	Toledo		ES		39.858	-4.023	2
+P	Melilla		ES		35.294	-2.938	2
+P	El Ejido		ES		36.776	-2.815	2
+P	Torrevieja		ES		37.979	-0.682	2
+P	Mijas		ES		36.596	-4.637	2
+P	Torrent		ES		39.437	-0.465	2
+P	Ciudad Real		ES		38.986	-3.929	2
+P	Vélez-Málaga	velez malaga	ES		36.781	-4.103	2
+P	Gandia		ES		38.967	-0.183	2
+P	Fuengirola		ES		36.540	-4.625	2
+P	Aïn Temouchent	ain temouchent	DZ		35.297	-1.140	0
+P	Benidorm		ES		38.538	-0.131	2
+P	Bir el Djir		DZ		35.720	-0.545	0
+P	Campiña	campina	ES		38.219	-2.981	2
+P	Sagunto		ES		39.683	-0.267	2
+P	Torremolinos		ES		36.620	-4.500	2
+P	Molina de Segura		ES		38.055	-1.208	2
+P	Paterna		ES		39.503	-0.441	2
+P	Grao de Murviedro		ES		39.642	-0.239	2
+P	Beni Enzar		MA		35.260	-2.930	1
+P	Alcoy		ES		38.705	-0.474	2
+P	Sig		DZ		35.528	-0.194	0
+P	Motril		ES		36.751	-3.518	2
+P	Benalmádena	benalmadena	ES		36.596	-4.573	2
+P	Arzew		DZ		35.850	-0.318	0
+P	Linares		ES		38.095	-3.636	2
+P	San Vicent del Raspeig		ES		38.396	-0.525	2
+P	Tirhanimîne	tirhanimine	MA		35.236	-3.955	1
+P	Elda		ES		38.478	-0.792	2
+P	Assi Bou Nif		DZ		35.692	-0.499	0
+P	Al Aaroui		MA		35.011	-3.009	1
+P	Puertollano		ES		38.687	-4.107	2
+P	En Nedjma		DZ		35.648	-0.570	0
+P	Vila-real	vila real	ES		39.938	-0.101	2
+P	Mislata		ES		39.475	-0.418	2
+P	Antequera		ES		37.019	-4.561	2
+P	Alzira		ES		39.150	-0.433	2
+P	Lucena		ES		37.409	-4.485	2
+P	Alcantarilla		ES		37.969	-1.217	2
+P	Imzouren		MA		35.146	-3.851	1
+P	Beni Saf		DZ		35.301	-1.382	0
+P	Es Senia		DZ		35.648	-0.624	0
+P	Rincón de la Victoria	rincon de la victoria	ES		36.717	-4.276	2
+P	Burjassot		ES		39.510	-0.413	2
+P	Ontinyent		ES		38.822	-0.606	2
+P	Aïn el Bya	ain el bya	DZ		35.804	-0.302	0
+P	Zeghanghane		MA		35.156	-3.002	1
+P	Andújar	andujar	ES		38.039	-4.051	2
+P	’Aïn el Turk	ain el turk	DZ		35.744	-0.769	0
+P	Tomelloso		ES		39.158	-3.022	2
+P	Torre-Pacheco	torre pacheco	ES		37.743	-0.954	2
+P	Sidi ech Chahmi		DZ		35.659	-0.522	0
+P	Villena		ES		38.637	-0.866	2
+P	Mazarrón	mazarron	ES		37.599	-1.315	2
+P	Alhaurín de la Torre	alhaurin de la torre	ES		36.664	-4.561	2
+P	Yecla		ES		38.614	-1.115	2
+P	San Pedro Alcántara	san pedro alcantara	ES		36.488	-4.991	2
+P	Cieza		ES		38.240	-1.420	2
+P	Úbeda	ubeda	ES		38.013	-3.370	2
+P	Burriana		ES		39.889	-0.085	2
+P	Águilas	aguilas	ES		37.406	-1.583	2
+P	Villajoyosa		ES		38.508	-0.233	2
+P	Gdyel		DZ		35.781	-0.426	0
+P	Remchi		DZ		35.062	-1.434	0
+P	Santa Pola		ES		38.192	-0.566	2
+P	Aldaia		ES		39.466	-0.460	2
+P	San Javier		ES		37.806	-0.837	2
+P	Valdepeñas	valdepenas	ES		38.762	-3.385	2
+P	Hellín	hellin	ES		38.511	-1.701	2
+P	Alcázar de San Juan	alcazar de san juan	ES		39.390	-3.208	2
+P	Manises		ES		39.491	-0.463	2
+P	Puente-Genil	puente genil	ES		37.389	-4.767	2
+P	Xirivella		ES		39.466	-0.426	2
+P	Atamaría	atamaria	ES		37.600	-0.807	2
+P	Xàtiva	xativa	ES		38.990	-0.519	2
+P	Alaquàs	alaquas	ES		39.456	-0.461	2
+P	Totana		ES		37.769	-1.502	2
+P	Crevillente		ES		38.250	-0.810	2
+P	Sueca		ES		39.203	-0.311	2
+P	Ghazaouet		DZ		35.096	-1.858	0
+P	Oliva		ES		38.920	-0.119	2
+P	Sfizef		DZ		35.235	-0.244	0
+P	El Campello		ES		38.429	-0.398	2
+P	Nedroma		DZ		35.014	-1.748	0
+P	Almuñécar	almunecar	ES		36.732	-3.692	2
+P	Bou Hanifia el Hamamat		DZ		35.315	-0.050	0
+P	Algemesí	algemesi	ES		39.190	-0.436	2
+P	Novelda		ES		38.385	-0.768	2
+P	Catarroja		ES		39.400	-0.400	2
+P	Villarrobledo		ES		39.270	-2.601	2
+P	Níjar	nijar	ES		36.967	-2.206	2
+P	Caravaca		ES		38.106	-1.863	2
+P	El Amria		DZ		35.524	-1.016	0
+P	Bou Tlelis		DZ		35.573	-0.900	0
+P	Hammam Bou Hadjar		DZ		35.379	-0.968	0
+P	Almassora		ES		39.947	-0.063	2
+P	Jumilla		ES		38.479	-1.325	2
+P	Quart de Poblet		ES		39.481	-0.439	2
+P	Onda		ES		39.965	-0.260	2
+P	Martos		ES		37.721	-3.973	2
+P	Almansa		ES		38.869	-1.097	2
+P	Adra		ES		36.748	-3.021	2
+P	Alboraya		ES		39.500	-0.350	2
+P	Cullera		ES		39.167	-0.250	2
+P	Ibi		ES		38.625	-0.572	2
+P	Altea		ES		38.599	-0.052	2
+P	San Pedro del Pinatar		ES		37.836	-0.791	2
+P	Selouane		MA		35.073	-2.942	1
+P	Sidi Abdelli		DZ		35.069	-1.137	0
+P	Paiporta		ES		39.428	-0.418	2
+P	Baza		ES		37.491	-2.773	2
+P	Alhaurín el Grande	alhaurin el grande	ES		36.643	-4.687	2
+P	Montilla		ES		37.586	-4.638	2
+P	Llíria	lliria	ES		39.629	-0.598	2
+P	Vícar	vicar	ES		36.832	-2.643	2
+P	Alcalá la Real	alcala la real	ES		37.461	-3.923	2
+P	Priego de Córdoba	priego de cordoba	ES		37.438	-4.195	2
+P	Mutxamel		ES		38.416	-0.445	2
+P	Ribarroja del Turia		ES		39.546	-0.571	2
+P	Torre del Mar		ES		36.742	-4.093	2
+P	Sant Joan d'Alacant	sant joan dalacant	ES		38.401	-0.436	2
+P	Moncada		ES		39.546	-0.396	2
+P	Coín	coin	ES		36.659	-4.756	2
+P	Nerja		ES		36.753	-3.874	2
+P	Carcaixent		ES		39.122	-0.448	2
+P	Loja		ES		37.169	-4.151	2
+P	Pilar de la Horadada		ES		37.866	-0.793	2
+P	Armilla		ES		37.144	-3.625	2
+P	Cabra		ES		37.472	-4.442	2
+P	Cártama	cartama	ES		36.711	-4.633	2
+P	Bensekrane		DZ		35.075	-1.224	0
+P	Las Torres de Cotillas		ES		38.028	-1.242	2
+P	l'Alfàs del Pi	lalfas del pi	ES		38.581	-0.103	2
+P	Baena		ES		37.617	-4.322	2
+P	Alfafar		ES		39.417	-0.383	2
+P	Maracena		ES		37.208	-3.635	2
+P	Bétera	betera	ES		39.591	-0.462	2
+P	Almoradí	almoradi	ES		38.109	-0.792	2
+P	Rojales		ES		38.088	-0.725	2
+P	La Pobla de Vallbona		ES		39.597	-0.555	2
+P	Requena		ES		39.488	-1.100	2
+P	Aspe		ES		38.345	-0.767	2
+P	Mers el Kebir		DZ		35.728	-0.708	0
+P	Bni Bouayach		MA		35.105	-3.840	1
+P	Alhama de Murcia		ES		37.851	-1.425	2
+P	Picassent		ES		39.364	-0.459	2
+P	El Malah		DZ		35.391	-1.092	0
+P	Manzanares		ES		38.999	-3.370	2
+P	Puçol	pucol	ES		39.617	-0.300	2
+P	Zubia		ES		37.119	-3.584	2
+P	Silla		ES		39.363	-0.412	2
+P	Bailén	bailen	ES		38.096	-3.778	2
+P	Guadix		ES		37.299	-3.139	2
+P	Daimiel		ES		39.070	-3.615	2
+P	Archena		ES		38.116	-1.300	2
+P	Tavernes de la Valldigna		ES		39.072	-0.266	2
+P	L'Eliana	leliana	ES		39.567	-0.533	2
+P	Callosa de Segura		ES		38.125	-0.878	2
+P	la Nucia		ES		38.614	-0.127	2
+P	Arroyo de la Miel		ES		36.599	-4.535	2
+P	La Unión	la union	ES		37.619	-0.878	2
+P	Pozoblanco		ES		38.379	-4.848	2
+P	Huercal-Overa	huercal overa	ES		37.389	-1.943	2
+P	Albolote		ES		37.231	-3.655	2
+P	Mula		ES		38.041	-1.490	2
+P	Torrox		ES		36.758	-3.952	2
+P	’Aïn el Berd	ain el berd	DZ		35.364	-0.513	0
+P	Las Gabias		ES		37.135	-3.670	2
+P	Guardamar del Segura		ES		38.090	-0.656	2
+P	Baeza		ES		37.994	-3.471	2
+P	La Roda		ES		39.207	-2.157	2
+P	Barrio de Peral		ES		37.625	-0.988	2
+P	Los Alcázares	los alcazares	ES		37.744	-0.850	2
+P	Ben Taieb		MA		35.044	-3.454	1
+P	Carlet		ES		39.227	-0.521	2
+P	La Solana		ES		38.944	-3.238	2
+P	Albal		ES		39.400	-0.417	2
+P	Santafé	santafe	ES		37.189	-3.719	2
+P	Atarfe		ES		37.225	-3.687	2
+P	Santomera		ES		38.061	-1.049	2
+P	Miguelturra		ES		38.964	-3.890	2
+P	Benetússer	benetusser	ES		39.423	-0.397	2
+P	La Carolina		ES		38.276	-3.615	2
+P	Massamagrell		ES		39.567	-0.333	2
+P	Berja		ES		36.847	-2.950	2
+P	Cehegín	cehegin	ES		38.092	-1.798	2
+P	Campo de Criptana		ES		39.405	-3.125	2

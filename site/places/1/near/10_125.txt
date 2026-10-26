@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Manila	480	
+C	PH	Philippines	mwl	s
+B	0
+P	Tacloban		PH		11.243	125.005	0
+P	Panalanoy		PH		11.251	125.006	0
+P	Borongan		PH		11.608	125.432	0
+P	San Jose		PH		10.180	125.568	0
+P	Laoang		PH		12.570	125.014	0
+P	Tanauan		PH		11.109	125.016	0
+P	Abuyog		PH		10.747	125.011	0

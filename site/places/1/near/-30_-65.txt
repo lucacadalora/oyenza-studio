@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Cordoba	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	Santiago del Estero		AR		-27.800	-64.263	0
+P	Presidencia Roque Sáenz Peña	presidencia roque saenz pena	AR		-26.791	-60.441	0
+P	Villa Ángela	villa angela	AR		-27.577	-60.711	0
+P	Juan José Castelli	juan jose castelli	AR		-25.947	-60.620	0
+P	San José de Metán	san jose de metan	AR		-25.497	-64.971	0
+P	Quitilipi		AR		-26.871	-60.215	0
+P	Rosario de la Frontera		AR		-25.799	-64.974	0
+P	Machagai		AR		-26.926	-60.049	0
+P	Termas de Río Hondo	termas de rio hondo	AR		-27.494	-64.860	0
+P	Charata		AR		-27.218	-61.187	0
+P	Las Breñas	las brenas	AR		-27.088	-61.082	0
+P	Tres Isletas		AR		-26.341	-60.432	0
+P	Añatuya	anatuya	AR		-28.460	-62.834	0
+P	Vera		AR		-29.460	-60.213	0
+P	Joaquín V. González	joaquin v gonzalez	AR		-25.114	-64.126	0
+P	Tostado		AR		-29.233	-61.769	0
+P	General Pinedo		AR		-27.325	-61.281	0

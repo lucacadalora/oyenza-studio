@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Chita	540	
+C	RU	Russia	mwl	s
+B	0
+P	Krasnokamensk		RU		50.093	118.032	0
+P	Borzya		RU		50.391	116.534	0
+P	Nerchinsk		RU		51.980	116.587	0

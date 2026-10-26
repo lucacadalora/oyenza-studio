@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Buenos_Aires	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	Mar del Plata		AR		-38.000	-57.556	0
+P	Tandil		AR		-37.329	-59.137	0
+P	San Vicente		AR		-35.025	-58.424	0
+P	Mar del Tuyú	mar del tuyu	AR		-36.574	-56.694	0
+P	Necochea		AR		-38.554	-58.740	0
+P	Azul		AR		-36.778	-59.858	0
+P	Balcarce		AR		-37.846	-58.255	0
+P	Cañuelas	canuelas	AR		-35.054	-58.762	0
+P	Chascomús	chascomus	AR		-35.577	-58.012	0
+P	Pinamar		AR		-37.111	-56.865	0
+P	Lobos		AR		-35.185	-59.098	0
+P	Miramar		AR		-38.272	-57.839	0
+P	Saladillo		AR		-35.639	-59.779	0
+P	Dolores		AR		-36.315	-57.675	0
+P	Mar de Ajó	mar de ajo	AR		-36.729	-56.683	0
+P	Las Flores		AR		-36.014	-59.100	0
+P	Coronel Brandsen		AR		-35.168	-58.237	0
+P	Villa Gesell		AR		-37.264	-56.973	0
+P	San Miguel del Monte		AR		-35.439	-58.807	0
+P	General Juan Madariaga		AR		-37.002	-57.136	0
+P	General Belgrano		AR		-35.768	-58.494	0
+P	Ayacucho		AR		-37.153	-58.488	0
+P	Navarro		AR		-35.006	-59.278	0
+P	Santa Clara del Mar		AR		-37.834	-57.507	0
+P	Benito Juárez	benito juarez	AR		-37.672	-59.807	0
+P	Magdalena		AR		-35.080	-57.514	0
+P	Santa Teresita		AR		-36.541	-56.693	0

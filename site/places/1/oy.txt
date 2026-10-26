@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	Africa/Nairobi	180	
+Z	2	Asia/Tashkent	300	
+Z	3	Asia/Tokyo	540	
+Z	4	Asia/Urumqi	360	
+Z	5	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CG	Republic of the Congo	egyptian	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	FR	France	mwl	s
+C	GA	Gabon	egyptian	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	TM	Turkmenistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	0
+P	Oyo		NG		7.854	3.932	0
+P	Oyama		JP		36.300	139.800	3
+P	Oyan		NG		8.050	4.767	0
+P	Oyem		GA		1.599	11.579	0
+P	Oyim		UZ		40.820	72.742	2
+P	Oyam		GA		-0.200	10.683	0
+P	Oyabe		JP		36.667	136.850	3
+P	Oyonnax		FR		46.259	5.657	5
+P	Ōyanomachi-noboritate	oyanomachi noboritate	JP		32.596	130.434	3
+P	Ōyama	oyama	JP		34.604	138.217	3
+P	Oýrat	oyrat	TM		41.946	59.909	2
+P	Oyo		CG		-1.165	15.970	0
+P	Oyugis		KE		-0.510	34.731	1
+P	Oyama		JP		35.357	138.998	3
+P	Oytograk		CN		36.833	81.933	4
+P	Oyamazaki		JP		34.894	135.685	3
+P	Oyten		DE		53.055	9.020	5
+P	Oymak		CN		47.878	86.990	4

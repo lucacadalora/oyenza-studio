@@ -1,0 +1,93 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Riyadh	180	
+Z	1	Asia/Tehran	210	
+C	BH	Bahrain	ummalqura	s
+C	IR	Iran	tehran	s
+C	QA	Qatar	qatar	s
+C	SA	Saudi Arabia	ummalqura	s
+B	2
+P	Dammam		SA		26.434	50.103	0
+P	Shiraz		IR		29.610	52.531	1
+P	Doha		QA		25.285	51.531	0
+P	Ar Rayyān	ar rayyan	QA		25.292	51.424	0
+P	Thuqbah		SA		26.260	50.205	0
+P	Lusail		QA		25.418	51.508	0
+P	Al Muharraq		BH		26.257	50.612	0
+P	Khobar		SA		26.279	50.208	0
+P	Bushehr		IR		28.969	50.837	1
+P	Marvdasht		IR		29.874	52.803	1
+P	Manama		BH		26.228	50.586	0
+P	Jahrom		IR		28.500	53.560	1
+P	Madīnat Ḩamad	madinat hamad	BH		26.115	50.507	0
+P	Shahr-e Ṣadrā	shahr e sadra	IR		29.800	52.502	1
+P	Ar Rifā‘	ar rifa	BH		26.130	50.555	0
+P	Kāzerūn	kazerun	IR		29.619	51.654	1
+P	Borāzjān	borazjan	IR		29.270	51.219	1
+P	Dhahran		SA		26.289	50.114	0
+P	Al Qaţīf	al qatif	SA		26.565	50.009	0
+P	Fasā	fasa	IR		28.938	53.648	1
+P	Tārūt	tarut	SA		26.573	50.040	0
+P	Al Maţār al ‘Atīq	al matar al atiq	QA		25.251	51.556	0
+P	Sitrah		BH		26.155	50.621	0
+P	Dārāb	darab	IR		28.752	54.541	1
+P	Sayhāt	sayhat	SA		26.483	50.048	0
+P	Jidd Ḩafş	jidd hafs	BH		26.219	50.548	0
+P	Al Manşūrah	al mansurah	QA		25.268	51.532	0
+P	Dār Kulayb	dar kulayb	BH		26.069	50.504	0
+P	Fīrūzābād	firuzabad	IR		28.845	52.572	1
+P	Ras Tanura		SA		26.707	50.067	0
+P	Lār	lar	IR		27.683	54.342	1
+P	Bandar-e Kangān	bandar e kangan	IR		27.834	52.063	1
+P	Ābādeh	abadeh	IR		28.835	53.173	1
+P	Az̧ Z̧a‘āyin	az zaayin	QA		25.577	51.483	0
+P	Bandar-e Genāveh	bandar e genaveh	IR		29.579	50.517	1
+P	Makū	maku	IR		27.849	52.423	1
+P	Neyrīz	neyriz	IR		29.199	54.328	1
+P	Madīnat Khalīfah	madinat khalifah	QA		25.320	51.478	0
+P	An Najmah		QA		25.267	51.543	0
+P	Raḩīmah	rahimah	SA		26.708	50.062	0
+P	Khūrmūj	khurmuj	IR		28.654	51.380	1
+P	Kīsh	kish	IR		26.558	54.019	1
+P	Al ‘Unayzah	al unayzah	QA		25.338	51.510	0
+P	Umm Ghuwaylīnah	umm ghuwaylinah	QA		25.587	51.150	0
+P	Madīnat ‘Īsá	madinat isa	BH		26.174	50.548	0
+P	Estahbān	estahban	IR		29.127	54.042	1
+P	As Sadd		QA		25.286	51.501	0
+P	Gerāsh	gerash	IR		27.670	54.136	1
+P	Farīj Kulayb	farij kulayb	QA		25.313	51.493	0
+P	Farīj al Amīr	farij al amir	QA		25.287	51.471	0
+P	Zarqān	zarqan	IR		29.772	52.719	1
+P	Kavār	kavar	IR		29.205	52.690	1
+P	Jam		IR		27.830	52.325	1
+P	Bandar-e Lengeh	bandar e lengeh	IR		26.562	54.884	1
+P	Umm Şalāl Muḩammad	umm salal muhammad	QA		25.415	51.406	0
+P	Lamerd		IR		27.334	53.179	1
+P	Mu‘aydhir Rawḑat Rāshid	muaydhir rawdat rashid	QA		25.262	51.397	0
+P	As Sulţah al Jadīdah	as sultah al jadidah	QA		25.260	51.514	0
+P	Qā’emīyeh	qaemiyeh	IR		29.852	51.588	1
+P	Al Wakrah		QA		25.172	51.603	0
+P	Bandar-e Deyr	bandar e deyr	IR		27.840	51.938	1
+P	‘Ālī Shahr	ali shahr	IR		28.931	51.066	1
+P	Ath Thumāmah Sab‘ah wa Arba‘ūn	ath thumamah sabah wa arbaun	QA		25.239	51.563	0
+P	Ath Thumāmah Sittah wa Arba‘ūn	ath thumamah sittah wa arbaun	QA		25.234	51.541	0
+P	Ath Thumāmah Khamsūn	ath thumamah khamsun	QA		25.220	51.553	0
+P	Ḩājjīābād	hajjiabad	IR		28.357	54.423	1
+P	Farrāshband	farrashband	IR		28.860	52.095	1
+P	‘Inak	inak	SA		26.520	50.027	0
+P	Qīr	qir	IR		28.483	53.035	1
+P	Evaz		IR		27.762	54.004	1
+P	Nu‘ayjah	nuayjah	QA		25.246	51.532	0
+P	Khonj		IR		27.891	53.434	1
+P	Bandar-e Kong	bandar e kong	IR		26.598	54.937	1
+P	Al Ghānim	al ghanim	QA		25.280	51.540	0
+P	Al Khawr		QA		25.684	51.506	0
+P	Āb Pakhsh	ab pakhsh	IR		29.359	51.074	1
+P	Nakhl-e Taqī	nakhl e taqi	IR		27.498	52.587	1
+P	Choghādak	choghadak	IR		28.986	51.036	1
+P	Sarvestān	sarvestan	IR		29.273	53.220	1
+P	Pārsiān	parsian	IR		27.208	53.036	1
+P	Arsanjān	arsanjan	IR		29.912	53.309	1
+P	Umm Lakhbā	umm lakhba	QA		25.342	51.471	0
+P	Al Hilāl al Gharbīyah	al hilal al gharbiyah	QA		25.259	51.531	0
+P	Al Hilāl ash Sharqīyah	al hilal ash sharqiyah	QA		25.260	51.546	0
+P	Ahram		IR		28.883	51.275	1

@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	0
+P	Murmansk		RU		68.968	33.099	0
+P	Apatity		RU		67.583	33.413	0
+P	Severomorsk		RU		69.069	33.408	0
+P	Monchegorsk		RU		67.940	32.874	0
+P	Kandalaksha		RU		67.151	32.413	0
+P	Kirovsk		RU		67.615	33.673	0
+P	Olenegorsk		RU		68.143	33.253	0
+P	Kovdor		RU		67.566	30.478	0
+P	Zapolyarnyy		RU		69.426	30.811	0
+P	Polyarnyy		RU		69.203	33.437	0
+P	Nikel		RU		69.413	30.222	0
+P	Polyarnyye Zori		RU		67.366	32.498	0

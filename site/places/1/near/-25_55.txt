@@ -1,0 +1,33 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Indian/Mauritius	240	
+C	MU	Mauritius	egyptian	s
+C	RE	Reunion	egyptian	s
+B	0
+P	Port Louis		MU		-20.162	57.499	0
+P	Saint-Denis	saint denis	RE		-20.882	55.450	0
+P	Vacoas		MU		-20.298	57.478	0
+P	Beau Bassin-Rose Hill	beau bassin rose hill	MU		-20.233	57.466	0
+P	Saint-Paul	saint paul	RE		-21.010	55.271	0
+P	Saint-Pierre	saint pierre	RE		-21.339	55.478	0
+P	Le Tampon		RE		-21.277	55.518	0
+P	Curepipe		MU		-20.316	57.526	0
+P	Quatre Bornes		MU		-20.264	57.479	0
+P	Saint-André	saint andre	RE		-20.963	55.650	0
+P	Saint-Louis	saint louis	RE		-21.286	55.411	0
+P	Saint-Joseph	saint joseph	RE		-21.378	55.617	0
+P	Saint-Benoît	saint benoit	RE		-21.038	55.715	0
+P	La Possession		RE		-20.929	55.335	0
+P	Saint-Leu	saint leu	RE		-21.171	55.288	0
+P	Sainte-Marie	sainte marie	RE		-20.897	55.551	0
+P	Le Port		RE		-20.938	55.294	0
+P	Piton Saint-Leu	piton saint leu	RE		-21.220	55.315	0
+P	Triolet		MU		-20.058	57.550	0
+P	Sainte-Suzanne	sainte suzanne	RE		-20.906	55.608	0
+P	Goodlands		MU		-20.038	57.651	0
+P	Bel Air Rivière Sèche	bel air riviere seche	MU		-20.258	57.750	0
+P	Bambous		MU		-20.257	57.406	0
+P	Centre de Flacq		MU		-20.190	57.714	0
+P	Mahébourg	mahebourg	MU		-20.408	57.700	0
+P	Saint Pierre		MU		-20.221	57.534	0
+P	Le Hochet		MU		-20.139	57.530	0
+P	Baie du Tombeau		MU		-20.119	57.491	0

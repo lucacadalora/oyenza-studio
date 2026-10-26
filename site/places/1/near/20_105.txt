@@ -1,0 +1,137 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	VN	Vietnam	mwl	s
+B	6
+P	Hanoi		VN		21.024	105.841	0
+P	Nanning		CN		22.817	108.317	1
+P	Haiphong		VN		20.865	106.683	0
+P	Liuzhou		CN		24.324	109.407	1
+P	Qinzhou		CN		21.982	108.651	1
+P	Guigang		CN		23.116	109.595	1
+P	Laibin		CN		23.747	109.222	1
+P	Baise		CN		23.890	106.627	1
+P	Beihai		CN		21.483	109.115	1
+P	Bắc Giang	bac giang	VN		21.273	106.195	0
+P	Nam Định	nam dinh	VN		20.434	106.177	0
+P	Thái Nguyên	thai nguyen	VN		21.594	105.848	0
+P	Việt Trì	viet tri	VN		21.323	105.402	0
+P	Chongzuo		CN		22.382	107.368	1
+P	Đống Đa	dong da	VN		21.013	105.825	0
+P	Long Bien		VN		21.033	105.900	0
+P	Bắc Từ Liêm	bac tu liem	VN		21.065	105.747	0
+P	Hechi		CN		24.693	108.084	1
+P	Gia Lâm	gia lam	VN		21.020	105.939	0
+P	Hai Bà Trưng	hai ba trung	VN		21.013	105.848	0
+P	Thanh Xuân	thanh xuan	VN		20.995	105.800	0
+P	Cầu Giấy	cau giay	VN		21.032	105.801	0
+P	Bắc Ninh	bac ninh	VN		21.186	106.076	0
+P	Ba Vì	ba vi	VN		21.083	105.383	0
+P	Fangchenggang		CN		21.769	108.357	1
+P	Hạ Long	ha long	VN		20.950	107.073	0
+P	Thị Trấn Đông Triều	thi tran dong trieu	VN		21.082	106.514	0
+P	Hải Dương	hai duong	VN		20.941	106.333	0
+P	Phổ Yên	pho yen	VN		21.420	105.890	0
+P	Sơn Tây	son tay	VN		21.141	105.507	0
+P	Ba Dinh		VN		21.037	105.827	0
+P	Chí Linh	chi linh	VN		21.067	106.317	0
+P	Việt Yên	viet yen	VN		21.267	106.133	0
+P	Lạng Sơn	lang son	VN		21.853	106.761	0
+P	Thuận Thanh	thuan thanh	VN		21.046	106.079	0
+P	Hepu		CN		21.659	109.200	1
+P	Cẩm Phả	cam pha	VN		21.010	107.273	0
+P	Phúc Yên	phuc yen	VN		21.237	105.705	0
+P	Thị Trấn Đại Từ	thi tran dai tu	VN		21.634	105.638	0
+P	Tây Hồ	tay ho	VN		21.069	105.811	0
+P	Yizhou		CN		24.500	108.667	1
+P	Phủ Lý	phu ly	VN		20.545	105.912	0
+P	Hoàn Kiếm	hoan kiem	VN		21.029	105.851	0
+P	Cẩm Phả Mines	cam pha mines	VN		21.017	107.300	0
+P	Pingxiang		CN		22.097	106.757	1
+P	Thành phố Sông Công	thanh pho song cong	VN		21.477	105.841	0
+P	Chũ	chu	VN		21.374	106.566	0
+P	Bồ Đề	bo de	VN		21.056	105.867	0
+P	Vĩnh Yên	vinh yen	VN		21.309	105.605	0
+P	Hưng Yên	hung yen	VN		20.646	106.051	0
+P	Kiến An	kien an	VN		20.805	106.626	0
+P	Mỹ Hào	my hao	VN		20.917	106.083	0
+P	Móng Cái	mong cai	VN		21.525	107.966	0
+P	Hòa Bình	hoa binh	VN		20.817	105.338	0
+P	Tuyên Quang	tuyen quang	VN		21.824	105.214	0
+P	Gongguan		CN		21.800	109.600	1
+P	Nghĩa Đô	nghia do	VN		21.050	105.800	0
+P	Phú Thọ	phu tho	VN		21.400	105.222	0
+P	Bạch Mai	bach mai	VN		20.983	105.833	0
+P	Baisha		CN		21.717	109.683	1
+P	Dongxing		CN		21.550	107.967	1
+P	Thượng Cát	thuong cat	VN		21.093	105.732	0
+P	Vĩnh Tuy	vinh tuy	VN		21.000	105.883	0
+P	Sóc Sơn	soc son	VN		21.258	105.849	0
+P	Xichang		CN		21.633	108.950	1
+P	Cung Kiệm	cung kiem	VN		21.187	106.161	0
+P	Yên Hòa	yen hoa	VN		21.022	105.791	0
+P	Thanh Liệt	thanh liet	VN		20.967	105.817	0
+P	Cao Bằng	cao bang	VN		22.666	106.258	0
+P	Thị Trấn Mạo Khê	thi tran mao khe	VN		21.059	106.593	0
+P	Shangsi		CN		22.156	107.980	1
+P	Cổ Đô	co do	VN		21.280	105.364	0
+P	Shankou		CN		21.600	109.717	1
+P	Linh Đàm	linh dam	VN		20.964	105.831	0
+P	Luorong		CN		24.406	109.609	1
+P	Từ Sơn	tu son	VN		21.100	105.967	0
+P	Shikang		CN		21.767	109.317	1
+P	Thành Phố Uông Bí	thanh pho uong bi	VN		21.034	106.770	0
+P	Baihecun		CN		22.113	107.236	1
+P	Changle		CN		21.833	109.417	1
+P	Yongning		CN		22.761	108.484	1
+P	Vinhomes Ocean Park		VN		20.995	105.947	0
+P	Dại Mỗ	dai mo	VN		20.983	105.767	0
+P	Yashan		CN		22.198	109.942	1
+P	Bỉm Sơn	bim son	VN		20.078	105.860	0
+P	Thái Bình	thai binh	VN		20.450	106.340	0
+P	Cửa Nam	cua nam	VN		21.021	105.852	0
+P	Đố Sơn	do son	VN		20.714	106.789	0
+P	Hà Đông	ha dong	VN		20.971	105.779	0
+P	Vinhomes Smart City		VN		21.005	105.740	0
+P	Vinhomes Times City		VN		20.994	105.868	0
+P	Nga Sơn	nga son	VN		20.007	105.970	0
+P	Thị Trấn Đầm Hà	thi tran dam ha	VN		21.353	107.597	0
+P	Tây Mỗ	tay mo	VN		21.002	105.746	0
+P	Dangjiang		CN		21.650	109.117	1
+P	Bắc Kạn	bac kan	VN		22.147	105.835	0
+P	Qisha		CN		21.575	108.479	1
+P	Jiangping		CN		21.600	108.150	1
+P	Naliang		CN		21.667	107.867	1
+P	Mai Dịch	mai dich	VN		21.033	105.783	0
+P	Shiwan		CN		21.750	109.200	1
+P	Đan Phượng	dan phuong	VN		21.089	105.662	0
+P	Lương Bằng	luong bang	VN		20.740	106.060	0
+P	Ninh Bình	ninh binh	VN		20.258	105.980	0
+P	Ô Chợ Dừa	o cho dua	VN		21.021	105.825	0
+P	Zhelou		CN		24.967	105.817	1
+P	Láng Thượng	lang thuong	VN		21.024	105.804	0
+P	Zhakou		CN		21.707	109.475	1
+P	Shagang		CN		21.667	109.033	1
+P	Trâu Quỳ	trau quy	VN		21.020	105.937	0
+P	Cát Bà	cat ba	VN		20.728	107.048	0
+P	Dịch Vọng	dich vong	VN		21.033	105.800	0
+P	Cầu Diễn	cau dien	VN		21.039	105.767	0
+P	Xuân Mai	xuan mai	VN		20.900	105.583	0
+P	Quang Minh		VN		21.189	105.773	0
+P	Ecopark		VN		20.962	105.932	0
+P	Thị Trấn Na Dương	thi tran na duong	VN		21.703	106.956	0
+P	Xingdaohu		CN		21.715	109.132	1
+P	Yên Phụ	yen phu	VN		21.033	105.833	0
+P	Thị Trấn Tiên Yên	thi tran tien yen	VN		21.331	107.405	0
+P	Liễu Giai	lieu giai	VN		21.033	105.817	0
+P	Thị Trấn Nước Hai	thi tran nuoc hai	VN		22.737	106.152	0
+P	Thị Trấn Thất Khê	thi tran that khe	VN		22.255	106.474	0
+P	Vinhomes Royal City		VN		21.003	105.815	0
+P	Thị Trấn Trùng Khánh	thi tran trung khanh	VN		22.835	106.525	0
+P	Thị Trấn Ba Chẽ	thi tran ba che	VN		21.272	107.284	0
+P	Trung Phụng	trung phung	VN		21.000	105.833	0
+P	Cổ Lóa	co loa	VN		21.117	105.867	0
+P	Phú Đô	phu do	VN		21.017	105.767	0
+P	Wujia		CN		21.767	109.033	1
+P	Bo		VN		20.673	105.536	0

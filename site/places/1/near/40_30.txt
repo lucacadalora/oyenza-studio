@@ -1,0 +1,53 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Simferopol	180	
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+B	0
+P	Sevastopol		UA		44.608	33.521	0
+P	Simferopol		UA		44.957	34.111	0
+P	Adapazarı	adapazari	TR		40.781	30.403	0
+P	Çorum	corum	TR		40.549	34.953	0
+P	Düzce	duzce	TR		40.839	31.164	0
+P	Bolu		TR		40.736	31.606	0
+P	Kastamonu		TR		41.378	33.775	0
+P	Karabük	karabuk	TR		41.205	32.628	0
+P	Zonguldak		TR		41.451	31.793	0
+P	Çankırı	cankiri	TR		40.600	33.615	0
+P	Ereğli	eregli	TR		41.283	31.418	0
+P	Bartın	bartin	TR		41.636	32.337	0
+P	Yalta		UA		44.502	34.166	0
+P	Çubuk	cubuk	TR		40.239	33.032	0
+P	Karasu Mahallesi		TR		41.071	30.785	0
+P	Beypazarı	beypazari	TR		40.167	31.921	0
+P	Sungurlu		TR		40.167	34.374	0
+P	Osmancık	osmancik	TR		40.978	34.805	0
+P	Hendek		TR		40.799	30.748	0
+P	Safranbolu		TR		41.251	32.694	0
+P	Akçakoca	akcakoca	TR		41.089	31.124	0
+P	Karasu		TR		41.104	30.697	0
+P	Alushta		UA		44.677	34.410	0
+P	Gerede		TR		40.801	32.197	0
+P	Boyabat		TR		41.469	34.767	0
+P	Bakhchysaray		UA		44.755	33.858	0
+P	Alaca		TR		40.168	34.843	0
+P	Akyurt		TR		40.135	33.086	0
+P	Sapanca		TR		40.691	30.267	0
+P	Akyazı	akyazi	TR		40.685	30.622	0
+P	Devrek		TR		41.219	31.956	0
+P	Tosya		TR		41.015	34.040	0
+P	Kazan		TR		40.232	32.684	0
+P	Ferizli		TR		40.941	30.486	0
+P	Çaycuma	caycuma	TR		41.426	32.076	0
+P	Alaplı	alapli	TR		41.181	31.385	0
+P	Kaynaşlı	kaynasli	TR		40.769	31.322	0
+P	Geyve		TR		40.508	30.293	0
+P	İskilip	iskilip	TR		40.735	34.474	0
+P	Nallıhan	nallihan	TR		40.186	31.352	0
+P	Balaklava		UA		44.511	33.599	0
+P	Kızılcahamam	kizilcahamam	TR		40.470	32.651	0
+P	Çerkeş	cerkes	TR		40.812	32.894	0
+P	Taşköprü	taskopru	TR		41.510	34.214	0
+P	Sudak		UA		44.849	34.975	0
+P	Kandıra	kandira	TR		41.070	30.153	0
+P	Osmaneli		TR		40.357	30.014	0
+P	Kocaali		TR		41.053	30.853	0

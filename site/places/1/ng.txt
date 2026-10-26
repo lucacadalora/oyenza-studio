@@ -1,0 +1,64 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bujumbura	120	
+Z	1	Africa/Douala	60	
+Z	2	Africa/Nairobi	180	
+Z	3	Africa/Ouagadougou	0	
+Z	4	Asia/Bangkok	420	
+Z	5	Asia/Kolkata	330	
+Z	6	Pacific/Guadalcanal	660	
+Z	7	Pacific/Palau	540	
+C	BF	Burkina Faso	egyptian	s
+C	BI	Burundi	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	DZ	Algeria	egyptian	s
+C	IN	India	karachi	h
+C	KE	Kenya	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	PW	Palau	mwl	s
+C	RW	Rwanda	egyptian	s
+C	SB	Solomon Islands	mwl	s
+C	SN	Senegal	egyptian	s
+C	TH	Thailand	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+C	VN	Vietnam	mwl	s
+B	0
+P	Thái Nguyên	thai nguyen	VN		21.594	105.848	4
+P	Nghi Sơn	nghi son	VN		19.327	105.821	4
+P	Quảng Ngãi	quang ngai	VN		15.120	108.792	4
+P	Ngaoundéré	ngaoundere	CM		7.328	13.585	1
+P	Mbanza-Ngungu	mbanza ngungu	CD		-5.258	14.858	1
+P	Nghi Xuân	nghi xuan	VN		18.658	105.752	4
+P	Nguru		NG		12.877	10.455	1
+P	Ngong		KE		-1.353	36.670	2
+P	Ngã Bảy	nga bay	VN		9.814	105.821	4
+P	Hồng Ngự	hong ngu	VN		10.800	105.350	4
+P	Nghĩa Đô	nghia do	VN		21.050	105.800	4
+P	Gia Nghĩa	gia nghia	VN		12.004	107.691	4
+P	Fada N'gourma	fada ngourma	BF		12.062	0.358	3
+P	Nghĩa Lộ	nghia lo	VN		21.600	104.517	4
+P	Ngozi		BI		-2.908	29.831	0
+P	Ngã Năm	nga nam	VN		9.565	105.599	4
+P	Bargny Ngoude		SN		14.694	-17.235	3
+P	Thị Trấn Ngải Giao	thi tran ngai giao	VN		10.647	107.246	4
+P	Nguékhokh	nguekhokh	SN		14.513	-17.004	3
+P	Nga Sơn	nga son	VN		20.007	105.970	4
+P	Su-ngai Kolok	su ngai kolok	TH		6.030	101.966	4
+P	Ngaoundal		CM		6.500	13.267	1
+P	Nguruka		TZ		-5.109	31.042	2
+P	Ngororero		RW		-1.863	29.625	0
+P	Boma la Ngombe		TZ		-3.333	37.150	2
+P	Ngūr	ngur	IN		23.538	93.373	5
+P	Ngudu		TZ		-2.967	33.333	2
+P	Nguigmi		NE		14.250	13.109	1
+P	N’Gaous	ngaous	DZ		35.555	5.611	1
+P	Nggosi		SB		-9.431	159.921	6
+P	Nghèn	nghen	VN		18.451	105.780	4
+P	Ngora		UG		1.431	33.777	2
+P	Laem Ngop		TH		12.171	102.395	4
+P	Ngerengere		TZ		-6.750	38.117	2
+P	Ngara		TZ		-2.512	30.656	2
+P	Ra-ngae	ra ngae	TH		6.297	101.728	4
+P	Ngerulmud		PW		7.501	134.624	7

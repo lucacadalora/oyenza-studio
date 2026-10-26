@@ -1,0 +1,125 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Asia/Dhaka	360	
+Z	2	Asia/Karachi	300	
+Z	3	Asia/Kathmandu	345	
+Z	4	Asia/Kolkata	330	
+Z	5	Asia/Kuala_Lumpur	480	
+Z	6	Asia/Yangon	390	
+C	BD	Bangladesh	karachi	h
+C	IN	India	karachi	h
+C	MM	Myanmar	mwl	s
+C	MY	Malaysia	singapore	s
+C	NP	Nepal	mwl	s
+C	PK	Pakistan	karachi	h
+C	ZA	South Africa	egyptian	s
+B	1
+P	Bhopal		IN		23.255	77.403	4
+P	Bhubaneswar		IN		20.272	85.834	4
+P	Bhiwandi		IN		19.300	73.059	4
+P	Bhayandar		IN		19.302	72.851	4
+P	Bhilai		IN		21.209	81.428	4
+P	Bhavnagar		IN		21.763	72.153	4
+P	Kota Bharu		MY		6.124	102.243	5
+P	Pindi Bhattian		PK		31.898	73.273	2
+P	Bhātpāra	bhatpara	IN		22.866	88.401	4
+P	Bhāgalpur	bhagalpur	IN		25.244	86.972	4
+P	Bhawana		PK		31.569	72.649	2
+P	Bharatpur		NP		27.680	84.436	3
+P	Bhilwara		IN		25.347	74.641	4
+P	Bhatara		BD		23.800	90.450	1
+P	Bharatpur		IN		27.217	77.490	4
+P	Bhind		IN		26.567	78.787	4
+P	Bhālswa Jahangirpur	bhalswa jahangirpur	IN		28.736	77.167	4
+P	Bhiwāni	bhiwani	IN		28.793	76.140	4
+P	Bhusawal		IN		21.044	75.785	4
+P	Bhetia		IN		22.793	86.141	4
+P	Bharūch	bharuch	IN		21.695	72.981	4
+P	Bhadrāvati	bhadravati	IN		13.848	75.705	4
+P	Bhuj		IN		23.254	69.669	4
+P	Bhimavaram		IN		16.541	81.523	4
+P	Bhisho		ZA		-32.847	27.442	0
+P	Bhakkar		PK		31.627	71.065	2
+P	Bhadreswar		IN		22.824	88.338	4
+P	Bhadrak		IN		21.054	86.516	4
+P	Bhairab Bāzār	bhairab bazar	BD		24.052	90.976	1
+P	Bhiwadi		IN		28.210	76.861	4
+P	Bhola		BD		22.688	90.644	1
+P	Bhilai Charoda		IN		21.223	81.456	4
+P	Bhandāra	bhandara	IN		21.168	79.649	4
+P	Bhimdatta		NP		28.964	80.177	3
+P	Bhadohi		IN		25.395	82.570	4
+P	Bhalwal		PK		32.266	72.898	2
+P	Bhawānipatna	bhawanipatna	IN		19.907	83.167	4
+P	Bhadravati		IN		20.100	79.114	4
+P	Bhātāpāra	bhatapara	IN		21.735	81.947	4
+P	Bhīmunipatnam	bhimunipatnam	IN		17.890	83.452	4
+P	Bhamo		MM		24.253	97.234	6
+P	Bhongīr	bhongir	IN		17.515	78.886	4
+P	Bhabhua		IN		25.040	83.607	4
+P	Bhadrāchalam	bhadrachalam	IN		17.668	80.889	4
+P	Bhaisa		IN		19.113	77.963	4
+P	Bhīnmāl	bhinmal	IN		24.999	72.271	4
+P	Bhanga		BD		23.392	89.984	1
+P	Bhātpāra Abhaynagar	bhatpara abhaynagar	BD		23.015	89.439	1
+P	Bhupalpally		IN		18.429	79.864	4
+P	Bhawāni Mandi	bhawani mandi	IN		24.416	75.836	4
+P	Bharthana		IN		26.752	79.222	4
+P	Bhādra	bhadra	IN		29.103	75.171	4
+P	Bhālki	bhalki	IN		18.043	77.206	4
+P	Bhavāni	bhavani	IN		11.446	77.682	4
+P	Bhachāu	bhachau	IN		23.299	70.343	4
+P	Bherāmāra	bheramara	BD		24.025	88.992	1
+P	Bhadgaon		IN		20.669	75.229	4
+P	Char Bhadrāsan	char bhadrasan	BD		23.309	90.227	1
+P	Thāna Bhawan	thana bhawan	IN		29.586	77.418	4
+P	Bhādāsar	bhadasar	IN		28.315	74.290	4
+P	Bhokar		IN		19.219	77.670	4
+P	Bhatkal		IN		13.985	74.555	4
+P	Bhera		PK		32.482	72.909	2
+P	Bhāndāria	bhandaria	BD		22.489	90.063	1
+P	Bhongaon		IN		27.255	79.181	4
+P	Bhimber		PK		32.975	74.078	2
+P	Bhelai		IN		22.309	82.610	4
+P	Bhawanipur		IN		26.454	87.027	4
+P	Bhānder	bhander	IN		25.736	78.746	4
+P	Bholav		IN		21.720	73.011	4
+P	Bhokardan		IN		20.258	75.770	4
+P	Bhawānīgarh	bhawanigarh	IN		30.267	76.039	4
+P	Bhuban		IN		20.882	85.833	4
+P	Bhānvad	bhanvad	IN		21.931	69.781	4
+P	Bhinga		IN		27.703	81.934	4
+P	Kīl Bhuvanagiri	kil bhuvanagiri	IN		11.442	79.648	4
+P	Bhābhar	bhabhar	IN		24.072	71.597	4
+P	Bhaun		PK		32.860	72.757	2
+P	Bhānpura	bhanpura	IN		24.513	75.747	4
+P	Bhadauni		IN		24.875	85.534	4
+P	Bhanjanagar		IN		19.927	84.582	4
+P	Bhikkiwind Uttār	bhikkiwind uttar	IN		31.349	74.703	4
+P	Bhusawar		IN		27.039	77.048	4
+P	Bhadrapur		NP		26.544	88.094	3
+P	Bhāyāvadar	bhayavadar	IN		21.855	70.248	4
+P	Bhit Shah		PK		25.806	68.491	2
+P	Bhitarwār	bhitarwar	IN		25.792	78.111	4
+P	Bhor		IN		18.149	73.843	4
+P	Bhati		IN		28.430	77.226	4
+P	Bhoom		IN		18.459	75.659	4
+P	Bhadaur		IN		30.477	75.330	4
+P	Bhogpur		IN		31.554	75.643	4
+P	Bhattiprolu		IN		16.103	80.781	4
+P	Bhindār	bhindar	IN		24.502	74.186	4
+P	Bhīkhi	bhikhi	IN		30.059	75.535	4
+P	Bhuwāna	bhuwana	IN		24.621	73.708	4
+P	Bhundsi		IN		28.351	77.061	4
+P	Bhopalwala		PK		32.430	74.364	2
+P	Talwandi Bhai		IN		30.856	74.930	4
+P	Bhānpurī	bhanpuri	IN		21.092	80.932	4
+P	Bhikshāndārkovil	bhikshandarkovil	IN		10.883	78.705	4
+P	Bhan		PK		26.558	67.721	2
+P	Bharwāri	bharwari	IN		25.561	81.492	4
+P	Bhainsdehi		IN		21.645	77.630	4
+P	Bhikangaon		IN		21.868	75.964	4
+P	Bhiloda		IN		23.768	73.247	4
+P	Bharanikāvu Tekku	bharanikavu tekku	IN		9.185	76.561	4
+P	Bhudgaon		IN		16.907	74.600	4
+P	Bhauri		IN		24.661	72.914	4

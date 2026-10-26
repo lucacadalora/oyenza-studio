@@ -1,0 +1,252 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Dakar	0	
+Z	2	Africa/Johannesburg	120	
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Nairobi	180	
+Z	5	America/Caracas	-240	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Costa_Rica	-360	
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/Fortaleza	-180	
+Z	10	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	11	America/Lima	-300	
+Z	12	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	13	America/Mazatlan	-420	
+Z	14	America/Moncton	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	15	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	16	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	17	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Karachi	300	
+Z	20	Asia/Kolkata	330	
+Z	21	Asia/Kuala_Lumpur	480	
+Z	22	Asia/Tokyo	540	
+Z	23	Europe/Helsinki	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	24	Europe/Lisbon	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	25	Europe/Stockholm	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	26	Indian/Reunion	240	
+Z	27	Pacific/Honolulu	-600	
+C	AG	Antigua and Barbuda	mwl	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	LB	Lebanon	egyptian	s
+C	LT	Lithuania	mwl	s
+C	MA	Morocco	egyptian	s
+C	MQ	Martinique	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RE	Reunion	egyptian	s
+C	SE	Sweden	mwl	s
+C	SN	Senegal	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Johannesburg		ZA		-26.202	28.044	2
+P	Jodhpur		IN		26.268	73.006	20
+P	Jos		NG		9.928	8.892	3
+P	San Jose		US	California	37.339	-121.895	12
+P	Johor Bahru		MY		1.466	103.758	21
+P	João Pessoa	joao pessoa	BR		-7.115	-34.863	9
+P	São José dos Campos	sao jose dos campos	BR		-23.179	-45.887	9
+P	São José do Rio Preto	sao jose do rio preto	BR		-20.820	-49.379	9
+P	São João de Meriti	sao joao de meriti	BR		-22.804	-43.372	9
+P	Joinville		BR		-26.304	-48.846	9
+P	San Jose del Monte		PH		14.814	121.045	21
+P	San José	san jose	CR		9.934	-84.085	7
+P	São José dos Pinhais	sao jose dos pinhais	BR		-25.530	-49.208	9
+P	São José	sao jose	BR		-27.615	-48.627	9
+P	São José de Ribamar	sao jose de ribamar	BR		-2.556	-44.060	9
+P	José C. Paz	jose c paz	AR		-34.515	-58.768	9
+P	São José	sao jose	BR		-28.213	-49.164	9
+P	Jōetsu	joetsu	JP		37.148	138.236	22
+P	Jomvu		KE		-3.986	39.608	4
+P	Joliet		US	Illinois	41.525	-88.083	6
+P	San Jose		PH		12.353	121.068	21
+P	San José del Cabo	san jose del cabo	MX		23.054	-109.704	13
+P	Jose Bonifacio		BR		-23.567	-46.433	9
+P	Jorhat		IN		26.758	94.203	20
+P	Jönköping	jonkoping	SE		57.781	14.156	25
+P	West Jordan		US	Utah	40.610	-111.939	8
+P	St. John's	st johns	CA	Newfoundland and Labrador	47.565	-52.709	16
+P	Jolo		PH		6.052	121.002	21
+P	Jounieh		LB		33.981	35.618	17
+P	São João da Boa Vista	sao joao da boa vista	BR		-21.969	-46.798	9
+P	Johns Creek		US	Georgia	34.029	-84.199	15
+P	San José de Guanipa	san jose de guanipa	VE		8.887	-64.165	5
+P	João Monlevade	joao monlevade	BR		-19.810	-43.174	9
+P	San José Pinula	san jose pinula	GT		14.546	-90.413	7
+P	São João del Rei	sao joao del rei	BR		-21.136	-44.262	9
+P	Joensuu		FI		62.601	29.763	23
+P	Józsefváros	jozsefvaros	HU		47.489	19.073	25
+P	Saint Joseph		US	Missouri	39.769	-94.847	6
+P	Jōyō	joyo	JP		34.844	135.806	22
+P	Jonesboro		US	Arkansas	35.842	-90.704	6
+P	Joypur Hāt	joypur hat	BD		25.101	89.027	18
+P	Saint John		CA	New Brunswick	45.271	-66.056	14
+P	San Joaquín	san joaquin	VE		10.261	-67.793	5
+P	South Jordan		US	Utah	40.562	-111.930	8
+P	Johnson City		US	Tennessee	36.313	-82.353	15
+P	Johor Jaya		MY		1.539	103.809	21
+P	Villa Poeta José Gálvez Barrenechea	villa poeta jose galvez barrenechea	PE		-12.213	-76.905	11
+P	Jōsō	joso	JP		36.036	139.961	22
+P	Jose Rizal		PH		8.877	117.504	21
+P	San José de las Lajas	san jose de las lajas	CU		22.961	-82.152	10
+P	Jonquière	jonquiere	CA	Quebec	48.416	-71.249	15
+P	San Josecito		VE		7.661	-72.220	5
+P	Pir Jo Goth		PK		27.592	68.618	19
+P	San José del Guaviare	san jose del guaviare	CO		2.568	-72.640	11
+P	Campos do Jordão	campos do jordao	BR		-22.739	-45.591	9
+P	São José do Rio Pardo	sao jose do rio pardo	BR		-21.596	-46.889	9
+P	Joplin		US	Missouri	37.084	-94.513	6
+P	Saint John’s	saint johns	AG		17.121	-61.843	5
+P	Jobabo		CU		20.910	-77.285	10
+P	São Joaquim da Barra	sao joaquim da barra	BR		-20.581	-47.855	9
+P	Jodhpur		IN		21.902	70.033	20
+P	São José de Mipibu	sao jose de mipibu	BR		-6.075	-35.238	9
+P	Jovellanos		CU		22.805	-81.192	10
+P	João Pinheiro	joao pinheiro	BR		-17.742	-46.172	9
+P	Joda		IN		22.017	85.422	20
+P	Joal		SN		14.173	-16.849	1
+P	Mantes-la-Jolie	mantes la jolie	FR		48.990	1.717	25
+P	La Jolla		US	California	32.847	-117.274	12
+P	Mata de São João	mata de sao joao	BR		-12.530	-38.299	9
+P	José de Freitas	jose de freitas	BR		-4.756	-42.576	9
+P	Joint Base Pearl Harbor Hickam		US	Hawaii	21.349	-157.947	27
+P	Jora		IN		26.342	77.809	20
+P	Jordan		HK		22.305	114.170	21
+P	St. Johns	st johns	US	Florida	30.081	-81.548	15
+P	Jogbani		IN		26.399	87.265	20
+P	San José del Castillo	san jose del castillo	MX		20.512	-103.237	7
+P	Saint-Joseph	saint joseph	RE		-21.378	55.617	26
+P	São João da Barra	sao joao da barra	BR		-21.640	-41.051	9
+P	San José de los Cerrillos	san jose de los cerrillos	AR		-24.897	-65.484	9
+P	Joué-lès-Tours	joue les tours	FR		47.349	0.665	25
+P	South Jordan Heights		US	Utah	40.564	-111.949	8
+P	José Bonifácio	jose bonifacio	BR		-21.053	-49.688	9
+P	Juan José Castelli	juan jose castelli	AR		-25.947	-60.620	9
+P	San José de Mayo	san jose de mayo	UY		-34.339	-56.713	9
+P	San Jose		PH		13.350	123.550	21
+P	São José do Belmonte	sao jose do belmonte	BR		-7.861	-38.760	9
+P	Joliette		CA	Quebec	46.016	-73.424	15
+P	San José de Metán	san jose de metan	AR		-25.497	-64.971	9
+P	São Joaquim de Bicas	sao joaquim de bicas	BR		-20.049	-44.274	9
+P	José Mariano Jiménez	jose mariano jimenez	MX		27.131	-104.924	7
+P	João Câmara	joao camara	BR		-5.537	-35.820	9
+P	Kiryas Joel		US	New York	41.342	-74.168	15
+P	São João Batista	sao joao batista	BR		-27.276	-48.849	9
+P	Jora Khurd		IN		26.489	77.976	20
+P	Sant Joan Despí	sant joan despi	ES		41.367	2.057	25
+P	General José de San Martín	general jose de san martin	AR		-26.536	-59.341	9
+P	São José da Tapera	sao jose da tapera	BR		-9.558	-37.381	9
+P	San José	san jose	CR		10.952	-85.136	7
+P	Souk et Tnine Jorf el Mellah		MA		34.492	-5.508	0
+P	San José Guadalupe Otzacatipan	san jose guadalupe otzacatipan	MX		19.345	-99.592	7
+P	São José do Egito	sao jose do egito	BR		-7.479	-37.274	9
+P	Joaçaba	joacaba	BR		-27.178	-51.505	9
+P	Johnston		US	Rhode Island	41.822	-71.507	15
+P	São João dos Inhamuns	sao joao dos inhamuns	BR		-6.000	-40.283	9
+P	Jowai		IN		25.436	92.191	20
+P	João Alfredo	joao alfredo	BR		-7.856	-35.588	9
+P	Saint-Josse-ten-Noode	saint josse ten noode	BE		50.854	4.373	25
+P	La Joya		MX		32.444	-117.004	12
+P	San Jose		PH		10.180	125.568	21
+P	Jonava		LT		55.080	24.275	23
+P	São José da Lapa	sao jose da lapa	BR		-19.700	-43.960	9
+P	São Joaquim	sao joaquim	BR		-28.294	-49.932	9
+P	Cangkat Jong		MY		3.985	101.124	21
+P	São João Nepomuceno	sao joao nepomuceno	BR		-21.540	-43.011	9
+P	São José do Norte	sao jose do norte	BR		-32.015	-52.042	9
+P	São João dos Patos	sao joao dos patos	BR		-6.495	-43.702	9
+P	João Dourado	joao dourado	BR		-11.345	-41.663	9
+P	João Lisboa	joao lisboa	BR		-5.448	-47.401	9
+P	Josefstadt		AT		48.212	16.345	25
+P	Kamojimachō-jōgejima	kamojimacho jogejima	JP		34.068	134.350	22
+P	São João da Ponte	sao joao da ponte	BR		-15.929	-44.008	9
+P	São João do Paraíso	sao joao do paraiso	BR		-15.314	-42.014	9
+P	São João	sao joao	BR		-8.876	-36.367	9
+P	Juan José Ríos	juan jose rios	MX		25.757	-108.824	13
+P	San José Iturbide	san jose iturbide	MX		21.000	-100.386	7
+P	San Jorge Pueblo Nuevo		MX		19.254	-99.628	7
+P	São Jorge de Arroios	sao jorge de arroios	PT		38.729	-9.138	24
+P	São José do Vale do Rio Preto	sao jose do vale do rio preto	BR		-22.152	-42.923	9
+P	Senador José Porfírio	senador jose porfirio	BR		-2.591	-51.954	9
+P	San José del Valle	san jose del valle	MX		20.764	-105.228	13
+P	San José de Barlovento	san jose de barlovento	VE		10.301	-65.991	5
+P	São João da Madeira	sao joao da madeira	PT		40.901	-8.490	24
+P	Sant Joan d'Alacant	sant joan dalacant	ES		38.401	-0.436	25
+P	Fort St. John	fort st john	CA	British Columbia	56.250	-120.853	13
+P	São João do Piauí	sao joao do piaui	BR		-8.358	-42.247	9
+P	Jose Pañganiban	jose panganiban	PH		14.291	122.692	21
+P	São José da Laje	sao jose da laje	BR		-9.010	-36.058	9
+P	San José de Ocoa	san jose de ocoa	DO		18.547	-70.507	5
+P	Johnston		US	Iowa	41.673	-93.698	6
+P	São João de Pirabas	sao joao de pirabas	BR		-0.775	-47.177	9
+P	South San Jose Hills		US	California	34.013	-117.905	12
+P	San Pablo Jocopilas		GT		14.589	-91.452	7
+P	São Joaquim do Monte	sao joaquim do monte	BR		-8.432	-35.804	9
+P	Johnstown		US	Pennsylvania	40.327	-78.922	15
+P	Johannisthal		DE		52.447	13.507	25
+P	Joaquín V. González	joaquin v gonzalez	AR		-25.114	-64.126	9
+P	José Cardel	jose cardel	MX		19.368	-96.370	7
+P	Jouy-le-Moutier	jouy le moutier	FR		49.011	2.040	25
+P	São José de Piranhas	sao jose de piranhas	BR		-7.121	-38.502	9
+P	São João da Talha	sao joao da talha	PT		38.824	-9.097	24
+P	Jojutla		MX		18.615	-99.180	7
+P	Jocotepec		MX		20.286	-103.429	7
+P	São José da Coroa Grande	sao jose da coroa grande	BR		-8.898	-35.148	9
+P	San José de Colinas	san jose de colinas	HN		15.041	-88.302	7
+P	Puerto San José	puerto san jose	GT		13.922	-90.819	7
+P	São João Batista	sao joao batista	BR		-2.955	-44.807	9
+P	Jorat		AZ		40.572	49.705	26
+P	Jogipet		IN		17.836	78.068	20
+P	San José de los Olvera	san jose de los olvera	MX		20.553	-100.415	7
+P	Joinville-le-Pont	joinville le pont	FR		48.825	2.475	25
+P	São João do Rio do Peixe	sao joao do rio do peixe	BR		-6.729	-38.449	9
+P	Jocotenango		GT		14.578	-90.738	7
+P	Józefów	jozefow	PL		52.137	21.236	25
+P	São José dos Quatro Marcos	sao jose dos quatro marcos	BR		-15.621	-58.176	5
+P	Jobabo		CU		20.969	-76.299	10
+P	San José del Quince	san jose del quince	MX		20.542	-103.284	7
+P	Jona		CH		47.230	8.839	25
+P	Joaquim Gomes		BR		-9.133	-35.748	9
+P	Coronel João Sá	coronel joao sa	BR		-10.284	-37.926	9
+P	Saint-Joseph	saint joseph	MQ		14.671	-61.039	5
+P	São João do Soter	sao joao do soter	BR		-5.114	-43.810	9
+P	San Jorge		AR		-31.897	-61.860	9
+P	Johi		PK		26.692	67.614	19
+P	Jollyville		US	Texas	30.443	-97.775	6
+P	Johnstone		GB	Scotland	55.829	-4.516	24
+P	Jodiya Bandar		IN		22.717	70.283	20
+P	São João Evangelista	sao joao evangelista	BR		-18.548	-42.763	9
+P	Saint John West		CA	New Brunswick	45.259	-66.078	14

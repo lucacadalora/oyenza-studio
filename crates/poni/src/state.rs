@@ -420,10 +420,22 @@ pub enum Locate {
     Found { km: f64 },
     /// The nearest place in either list is too far away to use (km).
     Far { km: f64 },
+    /// Away from Kemenag's places, and the cities around couldn't be looked
+    /// up (offline): the place stays as it was.
+    Offline,
     /// Windows' location is off, or not allowed for Oyenza Studio.
     Denied,
     /// Windows couldn't tell where the PC is.
     Unknown,
+}
+
+/// One of Prayer times' online city files, while it's wanted.
+#[derive(Clone, Debug)]
+pub enum CityFile {
+    Asking,
+    Here(std::sync::Arc<World>),
+    /// Offline, or the website didn't answer.
+    Failed,
 }
 
 /// The Prayer times add-on's live state.
@@ -431,12 +443,16 @@ pub enum Locate {
 pub struct PrayerState {
     /// The add-on's place list, read once its files are in place.
     pub places: Option<std::sync::Arc<PlaceList>>,
-    /// The world list (places outside Indonesia), only while the picker is
-    /// open: 2 MB in memory, so it's dropped when the picker closes.
-    pub world: Option<std::sync::Arc<World>>,
-    /// Reading the world list failed this time the picker opened (the add-on
-    /// is still getting it, or the file is damaged): Kemenag's places only.
-    pub world_failed: bool,
+    /// The online city files asked for (`poni_core::prayer::world`): the
+    /// picker's, dropped when it closes, and a location's squares, dropped
+    /// once its place is found.
+    pub cities: HashMap<String, CityFile>,
+    /// A location waiting for its squares: the point (never saved) and the
+    /// files it needs.
+    pub fix: Option<(f64, f64, Vec<String>)>,
+    /// The last location that went online and the place it found: the next
+    /// one within a kilometre takes it again without asking.
+    pub last_fix: Option<(f64, f64, Option<(Place, f64)>)>,
     /// The picker's last search: what was typed, and what it found.
     pub found: Option<(String, Vec<Place>)>,
     /// The place the times are for: the chosen one, or the time zone's

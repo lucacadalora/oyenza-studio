@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	2
+P	Baotou		CN		40.652	109.844	0
+P	Bayan Nur		CN		40.741	107.386	0
+P	Tongyangdao		CN		41.770	109.970	0

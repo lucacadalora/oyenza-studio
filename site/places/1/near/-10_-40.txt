@@ -1,0 +1,287 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Maceio	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Maceió	maceio	BR		-9.666	-35.735	0
+P	Natal		BR		-5.795	-35.209	0
+P	Jaboatão dos Guararapes	jaboatao dos guararapes	BR		-8.113	-35.015	0
+P	Caruaru		BR		-8.283	-35.976	0
+P	Campina Grande		BR		-7.231	-35.881	0
+P	Parnamirim		BR		-5.916	-35.263	0
+P	Mossoró	mossoro	BR		-5.188	-37.344	0
+P	Arapiraca		BR		-9.752	-36.661	0
+P	Juazeiro do Norte		BR		-7.213	-39.315	0
+P	Cabo de Santo Agostinho		BR		-8.288	-35.029	0
+P	Garanhuns		BR		-8.882	-36.502	0
+P	Vitória de Santo Antão	vitoria de santo antao	BR		-8.118	-35.291	0
+P	Crato		BR		-7.234	-39.409	0
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-5.793	-35.329	0
+P	Paulo Afonso		BR		-9.406	-38.215	0
+P	São Lourenço da Mata	sao lourenco da mata	BR		-8.002	-35.018	0
+P	Ipojuca		BR		-8.399	-35.064	0
+P	Santa Cruz do Capibaribe		BR		-7.957	-36.205	0
+P	Iguatu		BR		-6.359	-39.299	0
+P	Rio Largo		BR		-9.478	-35.853	0
+P	Patos		BR		-7.024	-37.280	0
+P	Gravatá	gravata	BR		-8.201	-35.565	0
+P	Serra Talhada		BR		-7.992	-38.298	0
+P	Goiana		BR		-7.561	-35.002	0
+P	Belo Jardim		BR		-8.336	-36.424	0
+P	Carpina		BR		-7.851	-35.255	0
+P	Macaíba	macaiba	BR		-5.858	-35.354	0
+P	Quixeramobim		BR		-5.199	-39.293	0
+P	Arcoverde		BR		-8.419	-37.054	0
+P	Ceará-Mirim	ceara mirim	BR		-5.634	-35.426	0
+P	Barbalha		BR		-7.311	-39.304	0
+P	Sousa		BR		-6.759	-38.228	0
+P	Bezerros		BR		-8.233	-35.797	0
+P	Surubim		BR		-7.833	-35.755	0
+P	Cajazeiras		BR		-6.890	-38.555	0
+P	Pesqueira		BR		-8.358	-36.696	0
+P	Icó	ico	BR		-6.401	-38.862	0
+P	Salgueiro		BR		-8.074	-39.119	0
+P	Marechal Deodoro		BR		-9.710	-35.895	0
+P	Escada		BR		-8.359	-35.224	0
+P	Extremoz		BR		-5.706	-35.307	0
+P	Morada Nova		BR		-5.107	-38.373	0
+P	Caicó	caico	BR		-6.458	-37.098	0
+P	União dos Palmares	uniao dos palmares	BR		-9.163	-36.032	0
+P	Limoeiro do Norte		BR		-5.146	-38.098	0
+P	Guarabira		BR		-6.855	-35.490	0
+P	Paudalho		BR		-7.897	-35.180	0
+P	Limoeiro		BR		-7.875	-35.450	0
+P	Açu	acu	BR		-5.577	-36.909	0
+P	Moreno		BR		-8.119	-35.092	0
+P	Palmares		BR		-8.683	-35.592	0
+P	Buíque	buique	BR		-8.623	-37.156	0
+P	São Miguel dos Campos	sao miguel dos campos	BR		-9.781	-36.094	0
+P	Delmiro Gouveia		BR		-9.389	-37.999	0
+P	Sapé	sape	BR		-7.096	-35.233	0
+P	Brejo da Madre de Deus		BR		-8.146	-36.371	0
+P	Brejo Santo		BR		-7.493	-38.987	0
+P	Boa Viagem		BR		-5.128	-39.732	0
+P	São Bento do Una	sao bento do una	BR		-8.523	-36.444	0
+P	Queimadas		BR		-7.358	-35.898	0
+P	Santana do Ipanema		BR		-9.378	-37.245	0
+P	São José de Mipibu	sao jose de mipibu	BR		-6.075	-35.238	0
+P	Bom Conselho		BR		-9.170	-36.680	0
+P	Timbaúba	timbauba	BR		-7.505	-35.318	0
+P	Mauriti		BR		-7.389	-38.774	0
+P	Acopiara		BR		-6.095	-39.453	0
+P	Mamanguape		BR		-6.839	-35.126	0
+P	Águas Belas	aguas belas	BR		-9.111	-37.123	0
+P	Afogados da Ingazeira		BR		-7.751	-37.639	0
+P	Barreiros		BR		-8.818	-35.186	0
+P	Currais Novos		BR		-6.261	-36.518	0
+P	Toritama		BR		-8.007	-36.057	0
+P	Sirinhaém	sirinhaem	BR		-8.591	-35.116	0
+P	Santa Maria da Boa Vista		BR		-8.808	-39.826	0
+P	Pedra Branca		BR		-5.454	-39.717	0
+P	Lajedo		BR		-8.664	-36.320	0
+P	Custódia	custodia	BR		-8.088	-37.643	0
+P	Bom Jardim		BR		-7.796	-35.587	0
+P	Bonito		BR		-8.470	-35.729	0
+P	Teotônio Vilela	teotonio vilela	BR		-9.910	-36.356	0
+P	Várzea Alegre	varzea alegre	BR		-6.789	-39.296	0
+P	Atalaia		BR		-9.502	-36.023	0
+P	Mombaça	mombaca	BR		-5.743	-39.627	0
+P	Aliança	alianca	BR		-7.603	-35.231	0
+P	Girau do Ponciano		BR		-9.884	-36.829	0
+P	Santa Cruz		BR		-6.229	-36.023	0
+P	São Caitano	sao caitano	BR		-8.326	-36.143	0
+P	Missão Velha	missao velha	BR		-7.250	-39.143	0
+P	Itambé	itambe	BR		-7.410	-35.113	0
+P	Pilar		BR		-9.597	-35.957	0
+P	Bodocó	bodoco	BR		-7.778	-39.941	0
+P	Apodi		BR		-5.664	-37.799	0
+P	São José do Belmonte	sao jose do belmonte	BR		-7.861	-38.760	0
+P	Nova Cruz		BR		-6.478	-35.434	0
+P	Curaçá	curaca	BR		-8.990	-39.909	0
+P	Petrolândia	petrolandia	BR		-8.979	-38.219	0
+P	Jaguaribe		BR		-5.891	-38.622	0
+P	Itaíba	itaiba	BR		-8.947	-37.423	0
+P	Ribeirão	ribeirao	BR		-8.514	-35.378	0
+P	Poço Redondo	poco redondo	BR		-9.805	-37.684	0
+P	Exu		BR		-7.512	-39.724	0
+P	João Câmara	joao camara	BR		-5.537	-35.820	0
+P	Catende		BR		-8.667	-35.717	0
+P	Maragogi		BR		-9.012	-35.222	0
+P	Touros		BR		-5.199	-35.461	0
+P	Sertânia	sertania	BR		-8.074	-37.264	0
+P	Campo Alegre		BR		-9.782	-36.351	0
+P	São Sebastião	sao sebastiao	BR		-9.934	-36.554	0
+P	Pombal		BR		-6.770	-37.802	0
+P	Monteiro		BR		-7.889	-37.120	0
+P	São Bento	sao bento	BR		-6.283	-37.750	0
+P	Nísia Floresta	nisia floresta	BR		-6.091	-35.209	0
+P	São Luís do Quitunde	sao luis do quitunde	BR		-9.318	-35.561	0
+P	Cabrobó	cabrobo	BR		-8.514	-39.310	0
+P	Floresta		BR		-8.601	-38.569	0
+P	São José da Tapera	sao jose da tapera	BR		-9.558	-37.381	0
+P	Esperança	esperanca	BR		-7.033	-35.857	0
+P	São José do Egito	sao jose do egito	BR		-7.479	-37.274	0
+P	Lavras da Mangabeira		BR		-6.753	-38.964	0
+P	Catolé do Rocha	catole do rocha	BR		-6.344	-37.747	0
+P	Tabuleiro do Norte		BR		-5.247	-38.131	0
+P	Nazaré da Mata	nazare da mata	BR		-7.742	-35.228	0
+P	Pau dos Ferros		BR		-6.109	-38.204	0
+P	Caetés	caetes	BR		-8.773	-36.623	0
+P	Glória do Goitá	gloria do goita	BR		-8.002	-35.293	0
+P	Canguaretama		BR		-6.380	-35.129	0
+P	Pedras de Fogo		BR		-7.402	-35.116	0
+P	Ibimirim		BR		-8.541	-37.690	0
+P	Passira		BR		-7.995	-35.581	0
+P	Lagoa Seca		BR		-7.171	-35.854	0
+P	João Alfredo	joao alfredo	BR		-7.856	-35.588	0
+P	Tabira		BR		-7.591	-37.539	0
+P	Pombos		BR		-8.141	-35.396	0
+P	Inajá	inaja	BR		-8.902	-37.824	0
+P	Jardim		BR		-7.582	-39.283	0
+P	Macau		BR		-5.115	-36.634	0
+P	Água Preta	agua preta	BR		-8.707	-35.531	0
+P	Tupanatinga		BR		-8.753	-37.340	0
+P	Baraúna	barauna	BR		-5.080	-37.617	0
+P	Canindé de São Francisco	caninde de sao francisco	BR		-9.660	-37.789	0
+P	Goianinha		BR		-6.266	-35.210	0
+P	Porto da Folha		BR		-9.917	-37.278	0
+P	Vicência	vicencia	BR		-7.657	-35.327	0
+P	Caririaçu	caririacu	BR		-7.042	-39.284	0
+P	Craíbas	craibas	BR		-9.618	-36.768	0
+P	Alagoa Grande		BR		-7.042	-35.627	0
+P	Murici		BR		-9.307	-35.943	0
+P	Milagres		BR		-7.313	-38.946	0
+P	Condado		BR		-7.586	-35.106	0
+P	Limoeiro de Anadia		BR		-9.741	-36.503	0
+P	Canhotinho		BR		-8.882	-36.191	0
+P	Satuba		BR		-9.563	-35.824	0
+P	Taquaritinga do Norte		BR		-7.903	-36.044	0
+P	Uauá	uaua	BR		-9.841	-39.482	0
+P	Agrestina		BR		-8.458	-35.945	0
+P	Rio Tinto		BR		-6.803	-35.081	0
+P	Porto Calvo		BR		-9.045	-35.398	0
+P	Igaci		BR		-9.537	-36.634	0
+P	Viçosa	vicosa	BR		-9.371	-36.241	0
+P	Junqueiro		BR		-9.925	-36.476	0
+P	Matriz de Camaragibe		BR		-9.152	-35.533	0
+P	Cupira		BR		-8.617	-35.950	0
+P	Pão de Açúcar	pao de acucar	BR		-9.748	-37.437	0
+P	Senador Pompeu		BR		-5.588	-39.372	0
+P	Traipu		BR		-9.971	-37.003	0
+P	Itaporanga		BR		-7.304	-38.150	0
+P	Jucás	jucas	BR		-6.525	-39.528	0
+P	Tacaratu		BR		-9.105	-38.149	0
+P	Macaparana		BR		-7.555	-35.453	0
+P	São João	sao joao	BR		-8.876	-36.367	0
+P	Manari		BR		-8.964	-37.628	0
+P	Aurora		BR		-6.942	-38.968	0
+P	Tamandaré	tamandare	BR		-8.756	-35.100	0
+P	São Miguel	sao miguel	BR		-6.212	-38.497	0
+P	Feira Grande		BR		-9.900	-36.678	0
+P	Itabaiana		BR		-7.329	-35.333	0
+P	Bananeiras		BR		-6.750	-35.633	0
+P	Piranhas		BR		-9.624	-37.757	0
+P	Monte Alegre		BR		-6.068	-35.332	0
+P	Panelas		BR		-8.664	-36.006	0
+P	Pedra		BR		-8.497	-36.941	0
+P	Areia		BR		-6.963	-35.692	0
+P	Cedro		BR		-6.607	-39.062	0
+P	Santo Antônio	santo antonio	BR		-6.311	-35.479	0
+P	Feira Nova		BR		-7.951	-35.389	0
+P	Mata Grande		BR		-9.117	-37.732	0
+P	Vertentes		BR		-7.903	-35.988	0
+P	Orobó	orobo	BR		-7.745	-35.602	0
+P	Assaré	assare	BR		-6.874	-39.875	0
+P	Boca da Mata		BR		-9.641	-36.220	0
+P	Mari		BR		-7.060	-35.319	0
+P	Parelhas		BR		-6.688	-36.657	0
+P	Chã Grande	cha grande	BR		-8.238	-35.462	0
+P	São José da Laje	sao jose da laje	BR		-9.010	-36.058	0
+P	Altinho		BR		-8.490	-36.059	0
+P	Olho d'Água das Flores	olho dagua das flores	BR		-9.536	-37.294	0
+P	Princesa Isabel		BR		-7.737	-37.993	0
+P	Alagoa Nova		BR		-7.071	-35.758	0
+P	Quixeré	quixere	BR		-5.074	-37.989	0
+P	Flores		BR		-7.868	-37.975	0
+P	Riacho das Almas		BR		-8.134	-35.856	0
+P	Cachoeirinha		BR		-8.486	-36.233	0
+P	São Joaquim do Monte	sao joaquim do monte	BR		-8.432	-35.804	0
+P	Rio Formoso		BR		-8.669	-35.163	0
+P	Araçoiaba	aracoiaba	BR		-7.790	-35.091	0
+P	Caraúbas	caraubas	BR		-5.793	-37.557	0
+P	Cuité	cuite	BR		-6.484	-36.154	0
+P	Orós	oros	BR		-6.244	-38.914	0
+P	Água Branca	agua branca	BR		-9.261	-37.936	0
+P	Carnaíba	carnaiba	BR		-7.805	-37.794	0
+P	Taquarana		BR		-9.645	-36.497	0
+P	Barro		BR		-7.178	-38.780	0
+P	São José de Piranhas	sao jose de piranhas	BR		-7.121	-38.502	0
+P	Lagoa do Itaenga		BR		-7.936	-35.290	0
+P	Capoeiras		BR		-8.735	-36.627	0
+P	Lagoa da Canoa		BR		-9.830	-36.738	0
+P	São José da Coroa Grande	sao jose da coroa grande	BR		-8.898	-35.148	0
+P	Belém de São Francisco	belem de sao francisco	BR		-8.754	-38.966	0
+P	Aroeiras		BR		-7.545	-35.708	0
+P	Sanharó	sanharo	BR		-8.361	-36.566	0
+P	Parnamirim		BR		-8.091	-39.578	0
+P	Amaraji		BR		-8.383	-35.453	0
+P	Itapororoca		BR		-6.830	-35.247	0
+P	Picuí	picui	BR		-6.511	-36.347	0
+P	Conceição	conceicao	BR		-7.562	-38.509	0
+P	Farias Brito		BR		-6.928	-39.572	0
+P	Serrita		BR		-7.933	-39.296	0
+P	Solonópole	solonopole	BR		-5.733	-39.008	0
+P	Camocim de São Félix	camocim de sao felix	BR		-8.359	-35.762	0
+P	Lagoa do Carro		BR		-7.845	-35.320	0
+P	Gameleira		BR		-8.584	-35.387	0
+P	São João do Rio do Peixe	sao joao do rio do peixe	BR		-6.729	-38.449	0
+P	Quipapá	quipapa	BR		-8.828	-36.012	0
+P	Remígio	remigio	BR		-6.966	-35.795	0
+P	Major Isidoro		BR		-9.532	-36.985	0
+P	Jucurutu		BR		-6.034	-37.020	0
+P	Ingá	inga	BR		-7.281	-35.604	0
+P	Correntes		BR		-9.129	-36.330	0
+P	Abaré	abare	BR		-8.720	-39.114	0
+P	Iati		BR		-9.046	-36.846	0
+P	Boqueirão	boqueirao	BR		-7.482	-36.132	0
+P	Pocinhos		BR		-7.077	-36.061	0
+P	Joaquim Gomes		BR		-9.133	-35.748	0
+P	Venturosa		BR		-8.575	-36.874	0
+P	Jaguaretama		BR		-5.613	-38.767	0
+P	Banabuiú	banabuiu	BR		-5.310	-38.921	0
+P	Araruna		BR		-6.558	-35.742	0
+P	Sumé	sume	BR		-7.672	-36.880	0
+P	Batalha		BR		-9.678	-37.125	0
+P	Cruz do Espírito Santo	cruz do espirito santo	BR		-7.140	-35.086	0
+P	Porteiras		BR		-7.535	-39.118	0
+P	Solânea	solanea	BR		-6.755	-35.664	0
+P	Cariús	carius	BR		-6.537	-39.497	0
+P	Santana do Cariri		BR		-7.188	-39.737	0
+P	Tibau do Sul		BR		-6.187	-35.092	0
+P	São Paulo do Potengi	sao paulo do potengi	BR		-5.895	-35.763	0
+P	Barra de Santo Antônio	barra de santo antonio	BR		-9.405	-35.507	0
+P	São Vicente Férrer	sao vicente ferrer	BR		-7.591	-35.491	0
+P	Araçagi	aracagi	BR		-6.853	-35.381	0
+P	Piquet Carneiro		BR		-5.804	-39.418	0
+P	Cajueiro		BR		-9.397	-36.154	0
+P	Itaquitinga		BR		-7.668	-35.102	0
+P	Piancó	pianco	BR		-7.198	-37.929	0
+P	Belém	belem	BR		-6.692	-35.533	0
+P	Cumaru		BR		-8.006	-35.697	0
+P	Canudos		BR		-9.897	-39.026	0
+P	Cacimba de Dentro		BR		-6.642	-35.790	0
+P	Colônia Leopoldina	colonia leopoldina	BR		-8.909	-35.725	0
+P	Quixelô	quixelo	BR		-6.254	-39.202	0
+P	Jataúba	jatauba	BR		-7.990	-36.496	0
+P	Ferreiros		BR		-7.447	-35.244	0
+P	Canapi		BR		-9.117	-37.602	0
+P	Messias		BR		-9.383	-35.842	0
+P	Estrela de Alagoas		BR		-9.390	-36.760	0
+P	Lagoa Nova		BR		-6.094	-36.472	0
+P	Glória	gloria	BR		-9.338	-38.255	0
+P	Inhapi		BR		-9.221	-37.749	0
+P	Nova Olinda		BR		-7.092	-39.681	0
+P	Jupi		BR		-8.712	-36.415	0
+P	Guamaré	guamare	BR		-5.107	-36.320	0
+P	Pereiro		BR		-6.042	-38.460	0
+P	Capela		BR		-9.408	-36.074	0
+P	Cajueiro		BR		-9.709	-36.448	0

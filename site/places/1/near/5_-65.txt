@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Caracas	-240	
+C	VE	Venezuela	mwl	s
+B	0
+P	Ciudad Guayana		VE		8.351	-62.641	0
+P	Maturín	maturin	VE		9.746	-63.183	0
+P	Ciudad Bolívar	ciudad bolivar	VE		8.124	-63.547	0
+P	El Tigre		VE		8.889	-64.253	0
+P	Anaco		VE		9.430	-64.464	0
+P	Upata		VE		8.016	-62.406	0
+P	Tucupita		VE		9.063	-62.052	0
+P	San José de Guanipa	san jose de guanipa	VE		8.887	-64.165	0
+P	Cantaura		VE		9.306	-64.358	0
+P	Punta de Mata		VE		9.691	-63.609	0
+P	Ciudad Piar		VE		7.452	-63.320	0
+P	Pariaguán	pariaguan	VE		8.844	-64.711	0
+P	Tumeremo		VE		7.299	-61.505	0
+P	Temblador		VE		9.005	-62.645	0
+P	Aragua de Barcelona		VE		9.456	-64.829	0
+P	Soledad		VE		8.162	-63.565	0
+P	Guasipati		VE		7.477	-61.897	0
+P	Caicara		VE		9.818	-63.613	0
+P	Barrancas		VE		8.699	-62.197	0
+P	La Paragua		VE		6.833	-63.333	0
+P	El Dorado		VE		6.716	-61.637	0

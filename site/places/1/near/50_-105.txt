@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Regina	-360	
+C	CA	Canada	moonsighting	s
+B	0
+P	Regina		CA	Saskatchewan	50.450	-104.618	0
+P	Arcola East		CA	Saskatchewan	50.433	-104.536	0
+P	Dewdney East		CA	Saskatchewan	50.454	-104.547	0
+P	Yorkton		CA	Saskatchewan	51.217	-102.468	0

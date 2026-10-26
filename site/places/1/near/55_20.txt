@@ -1,0 +1,46 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kaliningrad	120	
+Z	1	Europe/Riga	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	EE	Estonia	mwl	s
+C	FI	Finland	mwl	s
+C	LT	Lithuania	mwl	s
+C	LV	Latvia	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Riga		LV		56.946	24.106	1
+P	Tallinn		EE		59.437	24.754	1
+P	Klaipėda	klaipeda	LT		55.707	21.139	1
+P	Lasnamäe	lasnamae	EE		59.434	24.860	1
+P	Šiauliai	siauliai	LT		55.933	23.317	1
+P	Panevėžys	panevezys	LT		55.732	24.360	1
+P	Mustamäe	mustamae	EE		59.405	24.681	1
+P	Kesklinn		EE		59.435	24.757	1
+P	Liepāja	liepaja	LV		56.505	21.011	1
+P	Põhja-Tallinn	pohja tallinn	EE		59.449	24.698	1
+P	Jelgava		LV		56.650	23.713	1
+P	Jūrmala	jurmala	LV		56.968	23.770	1
+P	Haabersti		EE		59.423	24.647	1
+P	Sovetsk		RU		55.084	21.879	0
+P	Pärnu	parnu	EE		58.386	24.497	1
+P	Nõmme	nomme	EE		59.378	24.686	1
+P	Kristiine		EE		59.415	24.709	1
+P	Ventspils		LV		57.395	21.561	1
+P	Mazeikiai		LT		56.317	22.333	1
+P	Raseborg		FI		59.977	23.440	1
+P	Jonava		LT		55.080	24.275	1
+P	Ogre		LV		56.816	24.614	1
+P	Kėdainiai	kedainiai	LT		55.288	23.973	1
+P	Telsiai		LT		55.981	22.247	1
+P	Taurage		LT		55.252	22.290	1
+P	Ukmerge		LT		55.250	24.750	1
+P	Mārupe	marupe	LV		56.905	24.051	1
+P	Plunge		LT		55.911	21.844	1
+P	Pirita		EE		59.469	24.838	1
+P	Palanga		LT		55.917	21.069	1
+P	Salaspils		LV		56.860	24.365	1
+P	Dārzciems	darzciems	LV		56.946	24.175	1
+P	Kretinga		LT		55.889	21.244	1
+P	Maardu		EE		59.465	24.982	1
+P	Gargždai	gargzdai	LT		55.710	21.394	1
+P	Radviliskis		LT		55.817	23.533	1
+P	Tukums		LV		56.968	23.156	1

@@ -1,0 +1,55 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Karachi	300	
+Z	1	Asia/Urumqi	360	
+C	CN	China	mwl	s
+C	PK	Pakistan	karachi	h
+B	0
+P	Kashgar		CN		39.467	75.987	1
+P	Gujangbagh		CN		37.109	79.934	1
+P	Artux		CN		39.708	76.180	1
+P	Skardu		PK		35.298	75.634	0
+P	Tumxuk		CN		39.870	79.061	1
+P	Shache		CN		38.417	77.241	1
+P	Kageleke		CN		37.301	79.601	1
+P	Qaraqash		CN		37.272	79.734	1
+P	Bageqi		CN		37.141	79.835	1
+P	Zhawa		CN		37.214	79.629	1
+P	Zepu		CN		38.189	77.271	1
+P	Kuiya		CN		37.296	79.636	1
+P	Ka'ersai	kaersai	CN		37.484	79.596	1
+P	Baishikante		CN		38.460	77.479	1
+P	Elixku		CN		38.709	77.371	1
+P	Puqiakeqi		CN		37.317	79.705	1
+P	Huangdi		CN		38.809	77.449	1
+P	Tage'erqi	tageerqi	CN		38.545	77.257	1
+P	Yawa		CN		37.412	79.514	1
+P	Mixia		CN		38.454	77.249	1
+P	Saybag		CN		37.150	79.658	1
+P	Wudalike		CN		38.362	77.130	1
+P	Yengisar		CN		38.926	76.171	1
+P	Qarek		CN		38.372	76.990	1
+P	Yishikuli		CN		38.489	77.201	1
+P	Tuomuwusitang		CN		38.363	77.232	1
+P	Layka		CN		37.077	79.732	1
+P	Akesalayi		CN		37.169	79.690	1
+P	Buzhake		CN		37.066	79.800	1
+P	Yigai'erqi	yigaierqi	CN		38.341	77.469	1
+P	Kuoyiqi		CN		37.355	79.721	1
+P	Awati		CN		38.608	77.396	1
+P	Tuwaite		CN		37.345	79.768	1
+P	Jiahanbage		CN		37.197	79.706	1
+P	Ying’awati	yingawati	CN		37.299	79.830	1
+P	Alamaiti		CN		38.582	77.476	1
+P	Manglai		CN		37.275	79.678	1
+P	Gulebage		CN		38.413	77.230	1
+P	Paikeqi		CN		38.550	77.208	1
+P	Tuohula		CN		37.242	79.693	1
+P	Kaqun		CN		37.978	76.867	1
+P	Dunbage		CN		38.857	77.505	1
+P	Arele		CN		38.380	77.313	1
+P	Huoshilafu		CN		37.866	76.696	1
+P	Bage'awati	bageawati	CN		38.489	77.540	1
+P	Langru		CN		36.893	79.621	1
+P	Kuoshi'airike	kuoshiairike	CN		38.623	77.279	1
+P	Wu'erqi	wuerqi	CN		37.320	79.559	1
+P	Azhatebage		CN		38.659	77.466	1

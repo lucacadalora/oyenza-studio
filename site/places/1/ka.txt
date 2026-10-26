@@ -1,0 +1,1066 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Dakar	0	
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Lubumbashi	120	
+Z	5	Africa/Nairobi	180	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	8	America/Merida	-360	
+Z	9	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	10	America/Vancouver	-480	29549400=-420
+Z	11	Asia/Bangkok	420	
+Z	12	Asia/Dubai	240	
+Z	13	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	14	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	15	Asia/Kabul	270	
+Z	16	Asia/Kamchatka	720	
+Z	17	Asia/Karachi	300	
+Z	18	Asia/Kathmandu	345	
+Z	19	Asia/Kolkata	330	
+Z	20	Asia/Taipei	480	
+Z	21	Asia/Tehran	210	
+Z	22	Asia/Tokyo	540	
+Z	23	Asia/Urumqi	360	
+Z	24	Asia/Vladivostok	600	
+Z	25	Asia/Yangon	390	
+Z	26	Europe/Vilnius	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	27	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	28	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	29	Pacific/Honolulu	-600	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AL	Albania	mwl	s
+C	AM	Armenia	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BI	Burundi	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BW	Botswana	egyptian	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CY	Cyprus	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LK	Sri Lanka	mwl	s
+C	LR	Liberia	egyptian	s
+C	LT	Lithuania	mwl	s
+C	MA	Morocco	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MW	Malawi	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NA	Namibia	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	RU	Russia	mwl	s
+C	RW	Rwanda	egyptian	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SL	Sierra Leone	egyptian	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SS	South Sudan	egyptian	s
+C	SY	Syria	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	YT	Mayotte	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	18
+P	Karachi		PK		24.861	67.010	17
+P	Kano		NG		12.000	8.517	3
+P	Kabul		AF		34.528	69.172	15
+P	Kanpur		IN		26.465	80.350	19
+P	Kaohsiung		TW		22.616	120.313	20
+P	Kakamega		KE		0.284	34.752	5
+P	Kaduna		NG		10.526	7.439	3
+P	Kallakurichi		IN		11.734	78.959	19
+P	Kampala		UG		0.316	32.582	5
+P	Kawasaki		JP		35.521	139.717	22
+P	Kayseri		TR		38.732	35.485	5
+P	Kaifeng		CN		34.799	114.307	20
+P	Karaj		IR		35.833	50.992	21
+P	Kathmandu		NP		27.702	85.321	18
+P	Kalyān	kalyan	IN		19.244	73.136	19
+P	Kananga		CD		-5.896	22.417	4
+P	Kazan		RU		55.789	49.122	5
+P	Karbala		IQ		32.616	44.025	5
+P	Kanayannur		IN		9.967	76.267	19
+P	Kampung Baru Subang		MY		3.150	101.533	20
+P	Katsina		NG		12.991	7.602	3
+P	Kawaguchi		JP		35.805	139.711	22
+P	Kagoshima		JP		31.567	130.550	22
+P	Kalaburagi		IN		17.336	76.838	19
+P	Kandahār	kandahar	AF		31.613	65.710	15
+P	Kasur		PK		31.119	74.450	17
+P	Kashgar		CN		39.467	75.987	23
+P	Karol Bāgh	karol bagh	IN		28.651	77.191	19
+P	Kalininskiy		RU		59.997	30.390	5
+P	Kampung Larkin Lama		MY		1.502	103.744	20
+P	Karagandy		KZ		49.802	73.102	17
+P	Karabağlar	karabaglar	TR		38.382	27.132	5
+P	Kansas City		US	Missouri	39.100	-94.579	6
+P	Kaliningrad		RU		54.706	20.511	4
+P	Kanazawa		JP		36.600	136.617	22
+P	Kahama		TZ		-3.833	32.600	5
+P	Katsushika		JP		35.733	139.850	22
+P	Kashiwa		JP		35.862	139.977	22
+P	Kampung Kangkar Teberau		MY		1.532	103.755	20
+P	Kassala		SD		15.451	36.400	4
+P	Kahramanmaraş	kahramanmaras	TR		37.585	36.926	5
+P	Kākināda	kakinada	IN		16.960	82.238	19
+P	Abū al-Kahṣīb	abu al kahsib	IQ		30.443	47.878	5
+P	Kawagoe		JP		35.909	139.485	22
+P	Kalemyo		MM		23.190	94.064	25
+P	Kadapa		IN		14.480	78.823	19
+P	Kaluga		RU		54.531	36.270	5
+P	Kafrul		BD		23.788	90.374	23
+P	Karşıyaka	karsiyaka	TR		38.458	27.114	5
+P	Kaesŏng	kaesong	KP		37.971	126.554	22
+P	Kāmārhāti	kamarhati	IN		22.671	88.375	19
+P	Kaech’ŏn	kaechon	KP		39.701	125.893	22
+P	Ust-Kamenogorsk	ust kamenogorsk	KZ		49.971	82.606	17
+P	Kasugai		JP		35.248	136.972	22
+P	Kashan		IR		33.982	51.428	21
+P	Kāshān	kashan	IR		34.002	51.439	21
+P	Karnāl	karnal	IN		29.692	76.984	19
+P	Kaolack		SN		14.152	-16.073	2
+P	Kamoke		PK		31.975	74.223	17
+P	Kariega		ZA		-33.756	25.401	4
+P	Karīmnagar	karimnagar	IN		18.439	79.129	19
+P	Kaunas		LT		54.902	23.909	26
+P	Kabwe		ZM		-14.447	28.446	4
+P	Katowice		PL		50.260	19.022	27
+P	Karlsruhe		DE		49.009	8.404	27
+P	Kaili		CN		26.586	107.980	20
+P	Kakogawachō-honmachi	kakogawacho honmachi	JP		34.769	134.829	22
+P	Kapar		MY		3.133	101.383	20
+P	Shibīn al Kawm	shibin al kawm	EG		30.553	31.009	0
+P	Karamay		CN		45.585	84.887	23
+P	Katihar		IN		25.539	87.570	19
+P	Kasulu		TZ		-4.577	30.102	5
+P	Kajang		MY		2.994	101.789	20
+P	Karur		IN		10.958	78.081	19
+P	Kampong Baharu Cheras Batu Sebelas		MY		3.050	101.767	20
+P	Kasukabe		JP		35.983	139.750	22
+P	Kamyanske		UA		48.517	34.606	26
+P	Karāwalnagar	karawalnagar	IN		28.727	77.270	19
+P	Kanchipuram		IN		12.835	79.700	19
+P	Kankan		GN		10.385	-9.306	2
+P	Kabinda		CD		-6.138	24.482	4
+P	Kabankalan		PH		9.984	122.814	20
+P	Kanggye		KP		40.969	126.585	22
+P	Kasangati		UG		0.438	32.602	5
+P	Karnaphuli		BD		22.691	92.235	23
+P	Kamina		CD		-8.735	24.998	4
+P	Kaiyuan		CN		23.698	103.304	20
+P	Kassel		DE		51.317	9.500	27
+P	Kamirenjaku		JP		35.694	139.555	22
+P	Kayes		ML		14.448	-11.444	2
+P	Kafr ash Shaykh		EG		31.112	30.940	0
+P	Karuri		KE		-1.176	36.756	5
+P	Karuri		KE		-0.700	37.183	5
+P	Choa Chu Kang New Town		SG		1.383	103.750	20
+P	Kamensk-Ural’skiy	kamensk uralskiy	RU		56.406	61.933	17
+P	Kāraikkudi	karaikkudi	IN		10.066	78.768	19
+P	Petropavlovsk-Kamchatsky	petropavlovsk kamchatsky	RU		53.064	158.628	16
+P	Kasama		ZM		-10.213	31.181	4
+P	Karaman		TR		37.181	33.215	5
+P	Kamakura		JP		35.311	139.547	22
+P	Yuen Long Kau Hui		HK		22.448	114.032	20
+P	Kamalia		PK		30.727	72.646	17
+P	Kalemie		CD		-5.947	29.195	4
+P	Katsuta		JP		36.383	140.533	22
+P	Kawanishi		JP		34.817	135.417	22
+P	Abū Kabīr	abu kabir	EG		30.725	31.671	0
+P	Katabi		UG		0.084	32.470	5
+P	Kariya		JP		34.983	136.983	22
+P	Kansas City		US	Kansas	39.114	-94.627	6
+P	Gonbad-e Kāvūs	gonbad e kavus	IR		37.250	55.167	21
+P	Kalaban Koro		ML		12.573	-8.029	2
+P	Bang Kapi		TH		13.765	100.647	11
+P	Kampung Pasir Gudang Baru		MY		1.473	103.878	20
+P	Kampung Sungai Glugur		MY		5.370	100.314	20
+P	Kaithal		IN		29.802	76.400	19
+P	Kakamigahara		JP		35.417	136.867	22
+P	Kampong Pasir Ris		SG		1.378	103.932	20
+P	Kamālshahr	kamalshahr	IR		35.862	50.874	21
+P	Kampung Sungai Ara		MY		5.327	100.273	20
+P	Kabin Buri		TH		13.951	101.717	11
+P	Kairouan		TN		35.678	10.096	3
+P	Kānchrāpāra	kanchrapara	IN		22.960	88.428	19
+P	Kajansi		UG		0.215	32.535	5
+P	Kalol		IN		23.247	72.495	19
+P	Kadoma		JP		34.738	135.574	22
+P	Kāshmar	kashmar	IR		35.238	58.466	21
+P	Kati		ML		12.744	-8.073	2
+P	Kamyshin		RU		50.089	45.413	5
+P	Kafr ad Dawwār	kafr ad dawwar	EG		31.134	30.130	0
+P	Daska Kalan		PK		32.324	74.350	17
+P	Kastamonu		TR		41.378	33.775	5
+P	Kanhangad		IN		12.308	75.106	19
+P	Karabük	karabuk	TR		41.205	32.628	5
+P	Kashihara-shi	kashihara shi	JP		34.509	135.793	22
+P	Kaya		BF		13.088	-1.084	2
+P	Kashiwara		JP		34.450	135.767	22
+P	Uppal Kalan		IN		17.406	78.559	19
+P	Kakegawa		JP		34.767	138.017	22
+P	Karatsu		JP		33.443	129.970	22
+P	Kadoma		ZW		-18.333	29.915	4
+P	Kasese		UG		0.183	30.083	5
+P	Khon Kaen		TH		16.447	102.833	11
+P	Kamsar		GN		10.650	-14.617	2
+P	Kazo		JP		36.117	139.600	22
+P	Kaiyuan		CN		42.533	124.040	20
+P	Kāzerūn	kazerun	IR		29.619	51.654	21
+P	Kandy		LK		7.291	80.634	19
+P	Set Ka Lay		MM		16.814	96.114	25
+P	Ashoknagar Kalyangarh		IN		22.864	88.637	19
+P	Kasuga		JP		33.526	130.461	22
+P	Kamagaya		JP		35.770	140.002	22
+P	Kalisz		PL		51.761	18.091	27
+P	Katumba		TZ		-9.233	33.617	5
+P	Kanpur Cantonment		IN		26.459	80.375	19
+P	Kangnyŏng	kangnyong	KP		37.907	125.510	22
+P	Robāţ Karīm	robat karim	IR		35.485	51.083	21
+P	Kamloops		CA	British Columbia	50.666	-120.319	10
+P	Kara		TG		9.551	1.186	2
+P	Kafue		ZM		-15.769	28.181	4
+P	Kalulushi		ZM		-12.842	28.095	4
+P	Kalynivskyi		UA		48.007	37.854	26
+P	Kashipur		IN		29.214	78.957	19
+P	Kangsŏn	kangson	KP		38.936	125.581	22
+P	Kani		JP		35.404	137.056	22
+P	Kawachi-Nagano	kawachi nagano	JP		34.441	135.583	22
+P	Kansk		RU		56.202	95.718	11
+P	Kalmiuskyi		UA		47.110	37.544	26
+P	Kallang		SG		1.333	103.867	20
+P	Kanoya		JP		31.383	130.850	22
+P	Kallithéa	kallithea	GR		37.950	23.700	26
+P	Kalmunai		LK		7.409	81.835	19
+P	Kangding		CN		30.002	101.957	20
+P	Kambove		CD		-10.874	26.597	4
+P	Kāsganj	kasganj	IN		27.809	78.646	19
+P	Kandhkot		PK		28.246	69.180	17
+P	Kapurthala Town		IN		31.380	75.381	19
+P	Kaiserslautern		DE		49.443	7.772	27
+P	Kamyanets-Podilskyi	kamyanets podilskyi	UA		48.679	26.585	26
+P	Kâhta	kahta	TR		37.786	38.624	5
+P	Kameoka		JP		35.000	135.583	22
+P	Pūth Kalān	puth kalan	IN		28.712	77.079	19
+P	Kamisu		JP		35.897	140.667	22
+P	Kanuma		JP		36.550	139.733	22
+P	Kalyani		IN		22.976	88.434	19
+P	Kalaw		MM		20.635	96.565	25
+P	Kaizuka		JP		34.450	135.350	22
+P	Kot Kapūra	kot kapura	IN		30.581	74.826	19
+P	Kabirwala		PK		30.405	71.863	17
+P	Kalamariá	kalamaria	GR		40.583	22.950	26
+P	Kars		TR		40.598	43.085	5
+P	Kattaqo’rg’on Shahri	kattaqorgon shahri	UZ		39.905	66.266	17
+P	Kadayanallur		IN		9.073	77.342	19
+P	Kāvali	kavali	IN		14.916	79.994	19
+P	Kanata		CA	Ontario	45.300	-75.916	9
+P	Kadiri		IN		14.112	78.160	19
+P	Katwa		CD		0.089	29.309	4
+P	Kalibo (poblacion)	kalibo poblacion	PH		11.706	122.364	20
+P	Nowshera Kalan		PK		34.019	71.974	17
+P	Kadugli		SD		11.011	29.718	4
+P	Kāraikāl	karaikal	IN		10.917	79.833	19
+P	Kāmthi	kamthi	IN		21.216	79.197	19
+P	Kasoa		GH		5.534	-0.417	2
+P	Kampung Manjoi		MY		4.619	101.069	20
+P	Kashiwazaki		JP		37.367	138.550	22
+P	Katunayaka		LK		7.170	79.888	19
+P	Kasserine		TN		35.168	8.837	3
+P	Karakol		KG		42.490	78.392	23
+P	Kampung Sungai Kajang		MY		3.416	101.173	20
+P	Kafr az Zayyāt	kafr az zayyat	EG		30.825	30.818	0
+P	Kapiri Mposhi		ZM		-13.971	28.670	4
+P	Kamigyō-ku	kamigyo ku	JP		35.030	135.757	22
+P	Karauli		IN		26.498	77.028	19
+P	Sidi Kacem		MA		34.221	-5.708	1
+P	Kaspiysk		RU		42.882	47.639	5
+P	Kasongo		CD		-4.427	26.667	4
+P	Kadi		IN		23.299	72.334	19
+P	Kabalo		CD		-6.053	26.914	4
+P	Kairāna	kairana	IN		29.395	77.205	19
+P	Kāmāreddi	kamareddi	IN		18.320	78.342	19
+P	Kanyama		CD		-7.517	24.174	4
+P	Kafanchan		NG		9.581	8.293	3
+P	Kahna Nau		PK		31.367	74.369	17
+P	Kashihara		JP		34.583	135.617	22
+P	Kaambooni		SO		-1.638	41.587	5
+P	Kātoya	katoya	IN		23.646	88.133	19
+P	Kashiba		JP		34.535	135.709	22
+P	Kambar		PK		27.588	68.001	17
+P	Kanasín	kanasin	MX		20.935	-89.558	8
+P	Karwar		IN		14.814	74.130	19
+P	Kagoro		NG		9.608	8.390	3
+P	Kannauj		IN		27.055	79.919	19
+P	Kalamazoo		US	Michigan	42.292	-85.587	9
+P	Kamensk-Shakhtinsky	kamensk shakhtinsky	RU		48.318	40.259	5
+P	Kageleke		CN		37.301	79.601	23
+P	Kanjia		CN		36.372	119.582	20
+P	Al Karama		AE		25.240	55.301	12
+P	Kanaker-Zeytun	kanaker zeytun	AM		40.220	44.538	12
+P	Kai		JP		35.685	138.510	22
+P	Kampong Chhnang		KH		12.250	104.667	11
+P	Katano		JP		34.793	135.686	22
+P	Katoro		TZ		-3.000	31.933	5
+P	Katori-shi	katori shi	JP		35.898	140.499	22
+P	Kāpas Herd	kapas herd	IN		28.526	77.084	19
+P	Kasama		JP		36.383	140.267	22
+P	Kāsipālaiyam	kasipalaiyam	IN		11.320	77.710	19
+P	Kadiyivka		UA		48.568	38.644	26
+P	Kawit		PH		14.444	120.902	20
+P	Kalima		CD		-5.485	28.216	4
+P	Kalamassery		IN		10.061	76.326	19
+P	Kadirli		TR		37.374	36.096	5
+P	Dainava (Kaunas)	dainava kaunas	LT		54.915	23.968	26
+P	Kahror Pakka		PK		29.624	71.914	17
+P	Kaura Namoda		NG		12.594	6.586	3
+P	Karonga		MW		-9.933	33.933	4
+P	Chuhar Kana		PK		31.750	73.800	17
+P	Kampung Baru Balakong		MY		3.029	101.747	20
+P	Kayamkulam		IN		9.182	76.501	19
+P	Kāranja	karanja	IN		20.483	77.489	19
+P	Kamuli		UG		0.947	33.120	5
+P	Kaga		JP		36.300	136.333	22
+P	Kashima-shi	kashima shi	JP		35.965	140.645	22
+P	Karlskrona		SE		56.162	15.587	27
+P	Kasungu		MW		-13.033	33.483	4
+P	Kalush		UA		49.024	24.372	26
+P	Kaihua		CN		23.369	104.277	20
+P	Kaposvár	kaposvar	HU		46.367	17.800	27
+P	Kangar		MY		6.441	100.199	20
+P	Kanchanaburi		TH		14.004	99.548	11
+P	Kannur		IN		11.868	75.358	19
+P	Kaitong		CN		44.809	123.081	20
+P	Kampong Cham		KH		11.993	105.463	11
+P	Karlstad		SE		59.379	13.504	27
+P	Kampong Sidam		MY		5.533	100.567	20
+P	Ban Lam Luk Ka		TH		13.977	100.778	11
+P	Bandar-e Kangān	bandar e kangan	IR		27.834	52.063	21
+P	Kathua		IN		32.369	75.525	19
+P	Katiola		CI		8.137	-5.101	2
+P	Pánlóngchéng Jīngjì Kāifāqū	panlongcheng jingji kaifaqu	CN		30.693	114.271	20
+P	Kamphaeng Phet		TH		16.483	99.522	11
+P	Kayes		CG		-4.205	13.286	3
+P	Kampong Dungun		MY		3.217	101.317	20
+P	Kanbe		MM		16.707	96.002	25
+P	Kawthoung		MM		9.982	98.550	25
+P	Kagaznāgār	kagaznagar	IN		19.332	79.466	19
+P	Ālbū Kamāl	albu kamal	SY		34.452	40.919	5
+P	Kāsībugga	kasibugga	IN		18.759	84.416	19
+P	Kan’onjichō	kanonjicho	JP		34.128	133.646	22
+P	Kātrās	katras	IN		23.798	86.298	19
+P	Kaffrine		SN		14.106	-15.551	2
+P	Kandukūr	kandukur	IN		15.215	79.904	19
+P	Kāmyārān	kamyaran	IR		34.795	46.937	21
+P	Karīmganj	karimganj	IN		24.869	92.355	19
+P	Kaédi	kaedi	MR		16.151	-13.506	2
+P	Kandi		BJ		11.134	2.939	3
+P	Kapenguria		KE		1.239	35.112	5
+P	Karād	karad	IN		17.289	74.182	19
+P	Kampung Bukit Baharu		MY		2.215	102.285	20
+P	Kawm Ḩamādah	kawm hamadah	EG		30.761	30.700	0
+P	Kas		SD		12.510	24.285	4
+P	Kalasin		TH		16.433	103.507	11
+P	Kaga-Bandoro	kaga bandoro	CF		6.990	19.187	3
+P	Kavanur		IN		12.996	80.075	19
+P	Kāndi	kandi	IN		23.959	88.040	19
+P	Kāsaragod	kasaragod	IN		12.498	74.990	19
+P	Kalamata		GR		37.039	22.113	26
+P	Kavála	kavala	GR		40.940	24.407	26
+P	Kanakapura		IN		12.547	77.420	19
+P	Kālna	kalna	IN		23.219	88.363	19
+P	Kateríni	katerini	GR		40.270	22.506	26
+P	Kabale		UG		-1.249	29.990	5
+P	'Alī Ābād-e Katūl	ali abad e katul	IR		36.910	54.867	21
+P	Kahnūj	kahnuj	IR		27.940	57.700	21
+P	Kamifukuoka		JP		35.873	139.514	22
+P	Kalamansig		PH		6.552	124.051	20
+P	Kakata		LR		6.531	-10.354	2
+P	Kariya		JP		34.751	134.387	22
+P	Kāliyāganj	kaliyaganj	IN		25.634	88.327	19
+P	Kasba Tadla		MA		32.598	-6.268	1
+P	Kangāvar	kangavar	IR		34.504	47.965	21
+P	Kabbasin		SY		36.433	37.569	5
+P	Kapchorwa		UG		1.401	34.450	5
+P	Kayna		CD		-0.609	29.172	4
+P	Ţarīf Kalbā	tarif kalba	AE		25.070	56.331	12
+P	Kavaklı	kavakli	TR		41.093	28.332	5
+P	Kasaoka		JP		34.506	133.504	22
+P	Katanawa		JP		33.521	130.424	22
+P	Kanash		RU		55.510	47.491	5
+P	Kabba		NG		7.827	6.075	3
+P	Kameyama		JP		34.850	136.450	22
+P	Karapınar	karapinar	TR		37.716	33.551	5
+P	Skarżysko-Kamienna	skarzysko kamienna	PL		51.113	20.872	27
+P	Kapadvanj		IN		23.023	73.071	19
+P	Kānūru	kanuru	IN		16.499	80.691	19
+P	Kampen		NL		52.555	5.911	27
+P	Karviná	karvina	CZ		49.854	18.542	27
+P	Kawkareik		MM		16.555	98.237	25
+P	Kainan		JP		34.152	135.214	22
+P	Kara-Balta	kara balta	KG		42.814	73.848	23
+P	Kanye		BW		-24.967	25.333	4
+P	Kazanlak		BG		42.617	25.400	26
+P	Ol Kalou		KE		-0.271	36.379	5
+P	Belaya Kalitva		RU		48.179	40.779	5
+P	Şebin Karahisar	sebin karahisar	TR		40.288	38.424	5
+P	Kafr al Baţţīkh	kafr al battikh	EG		31.404	31.738	0
+P	At Tall al Kabīr	at tall al kabir	EG		30.543	31.785	0
+P	Kawardha		IN		22.009	81.231	19
+P	Makakilo / Kapolei / Honokai Hale	makakilo kapolei honokai hale	US	Hawaii	21.337	-158.097	29
+P	Karmi’el	karmiel	IL		32.910	35.298	14
+P	Kannapolis		US	North Carolina	35.487	-80.622	9
+P	Kamen		DE		51.592	7.664	27
+P	Kamra		PK		33.855	72.394	17
+P	Kafranbel		SY		35.614	36.564	5
+P	Kālīganj	kaliganj	BD		23.410	89.138	23
+P	Karlovy Vary		CZ		50.233	12.871	27
+P	Katete		ZM		-14.050	32.083	4
+P	Kasangulu		CD		-4.583	15.166	3
+P	Kanevskaya		RU		46.095	38.977	5
+P	Bắc Kạn	bac kan	VN		22.147	105.835	11
+P	Kanganpur		PK		30.765	74.123	17
+P	Kampung Perak		MY		3.868	102.586	20
+P	Kafr al Kurdī	kafr al kurdi	EG		31.168	31.765	0
+P	Pardés H̱anna Karkur	pardes hanna karkur	IL		32.474	34.978	14
+P	Kamen’-na-Obi	kamen na obi	RU		53.789	81.332	11
+P	Kafr Şaqr	kafr saqr	EG		30.793	31.626	0
+P	Nova Kakhovka		UA		46.760	33.356	26
+P	Kandiaro		PK		27.059	68.210	17
+P	Kālpi	kalpi	IN		26.117	79.733	19
+P	Karacabey		TR		40.213	28.361	5
+P	Kalaa Srira		TN		35.822	10.557	3
+P	Kanyobagonga		CD		-0.700	29.172	4
+P	Kabeya-Kamwanga	kabeya kamwanga	CD		-5.999	23.254	4
+P	Kardzhali		BG		41.645	25.366	26
+P	Kachkanar		RU		58.700	59.484	17
+P	Kalihi-Palama	kalihi palama	US	Hawaii	21.326	-157.876	29
+P	Kamra		PK		33.747	73.512	17
+P	Kanuru		IN		16.286	81.255	19
+P	Kāndhla	kandhla	IN		29.321	77.271	19
+P	Kātol	katol	IN		21.274	78.586	19
+P	Kamaishi		JP		39.277	141.868	22
+P	Kamal Pur Majra Burari		IN		28.747	77.193	19
+P	Kālimpong	kalimpong	IN		27.035	88.631	19
+P	Kakkodi		IN		11.320	75.801	19
+P	Kasai		JP		34.926	134.845	22
+P	Kai Tak		HK		22.324	114.197	20
+P	Kaufbeuren		DE		47.882	10.622	27
+P	Kamyanobridskyi		UA		48.587	39.281	26
+P	Kabkābīyah	kabkabiyah	SD		13.650	24.083	4
+P	Kasanje		UG		0.153	32.401	5
+P	Oke Kan		MM		16.853	96.066	25
+P	Kaarst		DE		51.229	6.619	27
+P	Katanda		CD		-0.825	29.365	4
+P	Kamikoizumi		JP		36.264	139.429	22
+P	Kannad		IN		20.257	75.138	19
+P	Kapsabet		KE		0.204	35.105	5
+P	Karlovac		HR		45.492	15.550	27
+P	Kannamangalam		IN		11.075	75.985	19
+P	Karachi University Employees Co-operative Housing Society	karachi university employees co operative housing society	PK		24.963	67.119	17
+P	Ka'ersai	kaersai	CN		37.484	79.596	23
+P	Kalliyoor		IN		8.431	77.013	19
+P	Kannabechō-yahiro	kannabecho yahiro	JP		34.558	133.418	22
+P	Kansanshi		ZM		-12.095	26.427	4
+P	Katō	kato	JP		34.924	135.026	22
+P	Kayalpattinam		IN		8.571	78.120	19
+P	Kālia	kalia	BD		23.043	89.631	23
+P	Kallakkurichchi		IN		11.740	78.959	19
+P	Kanegusuku		JP		26.197	127.726	22
+P	Bol'šoj Kamen'	bolsoj kamen	RU		43.111	132.350	24
+P	Kayan		MM		16.908	96.560	25
+P	Kāttipparutti	kattipparutti	IN		10.874	76.053	19
+P	Kasumigaura		JP		36.153	140.246	22
+P	Kashira		RU		54.848	38.182	5
+P	Káto Lakatámeia	kato lakatameia	CY		35.118	33.325	26
+P	Kagano		RW		-2.343	29.091	4
+P	Kampong Pangkal Kalong		MY		5.917	102.217	20
+P	Kadungalūr	kadungalur	IN		10.095	76.321	19
+P	Kālappatti	kalappatti	IN		11.079	77.037	19
+P	Karasu Mahallesi		TR		41.071	30.785	5
+P	Kamp-Lintfort	kamp lintfort	DE		51.505	6.546	27
+P	Kuala Kangsar		MY		4.767	100.933	20
+P	Kampli		IN		15.406	76.600	19
+P	Kāro	karo	IN		23.785	85.978	19
+P	Kārakkād	karakkad	IN		10.588	76.039	19
+P	Kamar Mushani		PK		32.843	71.362	17
+P	Kaseda-shirakame	kaseda shirakame	JP		31.417	130.317	22
+P	Kampung Setia		MY		3.242	101.533	20
+P	Kātpādi	katpadi	IN		12.970	79.146	19
+P	Kavadarci		MK		41.433	22.012	27
+P	Kailua		US	Hawaii	21.402	-157.741	29
+P	Kampung Baharu Nilai		MY		2.803	101.797	20
+P	Paliā Kalān	palia kalan	IN		28.432	80.581	19
+P	Kandalaksha		RU		67.151	32.413	5
+P	Kalmar		SE		56.662	16.362	27
+P	Kampung Alor Mengkudu		MY		6.088	100.392	20
+P	Kadiolo		ML		10.550	-5.767	2
+P	Kabnur		IN		16.702	74.440	19
+P	Kamiiso		JP		41.820	140.645	22
+P	Chan Kasem		TH		13.821	100.583	11
+P	Kāman	kaman	IN		27.658	77.269	19
+P	Karatau		KZ		43.180	70.459	17
+P	Kampung Ayer Keroh		MY		2.265	102.280	20
+P	Kanda		JP		33.783	130.983	22
+P	Kawanoechō	kawanoecho	JP		34.017	133.578	22
+P	Karoi		ZW		-16.810	29.692	4
+P	Kalbā	kalba	AE		25.051	56.354	12
+P	Kahrīzak	kahrizak	IR		35.346	51.844	21
+P	Kahrīzak	kahrizak	IR		35.517	51.361	21
+P	Kānker	kanker	IN		20.272	81.492	19
+P	Kanigiri U		IN		15.406	79.507	19
+P	Katsuragi		JP		34.486	135.697	22
+P	Kaki Bukit Estate		SG		1.337	103.909	20
+P	Kanekomachi		JP		36.411	138.996	22
+P	Kalutara		LK		6.583	79.959	19
+P	Kampene		CD		-3.597	26.667	4
+P	Kabare		CD		-2.497	28.791	4
+P	Kamizawa		JP		35.102	138.954	22
+P	Katsina-Ala	katsina ala	NG		7.169	9.285	3
+P	Kalinkovichi		BY		52.132	29.326	5
+P	Kaarina		FI		60.407	22.369	26
+P	Kantharalak		TH		14.641	104.650	11
+P	Kattivākkam	kattivakkam	IN		13.217	80.317	19
+P	Kanie		JP		35.133	136.800	22
+P	Kajaani		FI		64.227	27.728	26
+P	Kamunting		MY		4.883	100.733	20
+P	Neem ka Thana		IN		27.740	75.787	19
+P	Kakhovka		UA		46.816	33.479	26
+P	Kakira		UG		0.508	33.288	5
+P	Karāla	karala	IN		28.735	77.035	19
+P	Kakrāla	kakrala	IN		27.893	79.195	19
+P	Kaputa		ZM		-8.469	29.662	4
+P	Karlova Ves		SK		48.153	17.055	27
+P	Kaipamangalam		IN		10.335	76.139	19
+P	Karavayevi Dachi		UA		50.430	30.437	26
+P	Kaminoyama		JP		38.154	140.274	22
+P	Kangle		CN		31.113	109.430	20
+P	Kalalé	kalale	BJ		10.293	3.384	3
+P	Kami		JP		33.529	130.765	22
+P	El Kala		DZ		36.896	8.443	3
+P	Kasimov		RU		54.944	41.403	5
+P	Karamsad		IN		22.542	72.904	19
+P	Kāramadai	karamadai	IN		11.241	76.960	19
+P	Karumattampatti		IN		11.109	77.182	19
+P	Kaizu		JP		35.202	136.635	22
+P	Kahoku		JP		36.758	136.712	22
+P	Kathu		TH		7.918	98.333	11
+P	Kaneohe		US	Hawaii	21.400	-157.799	29
+P	Karjat		IN		18.911	73.324	19
+P	Karabulak		RU		43.305	44.899	5
+P	Kaoma		ZM		-14.783	24.800	4
+P	Kangasala		FI		61.464	24.076	26
+P	Katsuren-haebaru	katsuren haebaru	JP		26.333	127.874	22
+P	Kadūr	kadur	IN		13.553	76.012	19
+P	Kālka	kalka	IN		30.840	76.941	19
+P	Kāgal	kagal	IN		16.577	74.315	19
+P	Kandoeng		KH		11.292	104.841	11
+P	Kashmor		PK		28.433	69.584	17
+P	Kalāleh	kalaleh	IR		37.379	55.493	21
+P	Kayanza		BI		-2.922	29.629	4
+P	Katima Mulilo		NA		-17.505	24.276	4
+P	Kandana		LK		7.048	79.894	19
+P	Kaka		TM		37.348	59.614	17
+P	Kampong Speu		KH		11.453	104.521	11
+P	Kakuda		JP		37.975	140.772	22
+P	Kamenka		RU		53.181	44.049	5
+P	Kapit		MY		1.995	112.933	20
+P	Kahin		CI		6.914	-7.631	2
+P	San Kamphaeng		TH		18.745	99.120	11
+P	Kapan		AM		39.208	46.407	12
+P	Kaimganj		IN		27.554	79.335	19
+P	Kaélé	kaele	CM		10.109	14.451	3
+P	Kardítsa	karditsa	GR		39.365	21.922	26
+P	Kameda-honchō	kameda honcho	JP		37.872	139.110	22
+P	Kaïs	kais	DZ		35.495	6.925	3
+P	Karengera		RW		-2.517	29.033	4
+P	Kazincbarcika		HU		48.250	20.633	27
+P	Kalyandurg		IN		14.545	77.106	19
+P	Kangkar		SG		1.376	103.902	20
+P	Kawasan Penempatan Ulu Sungai Benut		MY		1.754	103.280	20
+P	Kawasan Penempatan Ulu Benut Tiga		MY		1.750	103.277	20
+P	Kawasan Penempatan Ulu Benut Lima		MY		1.744	103.321	20
+P	Kangayam		IN		11.006	77.561	19
+P	Kakching		IN		24.498	93.981	19
+P	Kamogawa		JP		35.097	140.100	22
+P	Kampung Kerubong		MY		2.296	102.254	20
+P	Mamu Kanjan		PK		30.830	72.799	17
+P	Karłowice-Różanka	karlowice rozanka	PL		51.137	17.043	27
+P	Kabacan		PH		7.107	124.829	20
+P	Katagami		JP		39.879	139.998	22
+P	Kavār	kavar	IR		29.205	52.690	21
+P	Kalpatta		IN		11.609	76.083	19
+P	Kaminokawa		JP		36.433	139.917	22
+P	Karoliniškės	karoliniskes	LT		54.690	25.219	26
+P	Kawambwa		ZM		-9.791	29.079	4
+P	Kalliyasshēri	kalliyassheri	IN		11.975	75.365	19
+P	Kannānendal	kannanendal	IN		9.965	78.142	19
+P	Katirur		IN		11.785	75.530	19
+P	Foya Kamara		LR		8.360	-10.206	2
+P	Kanzakimachi-kanzaki	kanzakimachi kanzaki	JP		33.309	130.374	22
+P	Kafr Shukr		EG		30.550	31.244	0
+P	Kalakkādu	kalakkadu	IN		8.514	77.549	19
+P	Kachia		NG		9.873	7.954	3
+P	Kalomo		ZM		-17.026	26.484	4
+P	Karasu		TR		41.104	30.697	5
+P	Kaij		IN		18.714	76.067	19
+P	Kallamchavadi		IN		12.953	80.131	19
+P	Yany Kapu		UA		45.955	33.793	5
+P	Hawai‘i Kai	hawaii kai	US	Hawaii	21.296	-157.702	29
+P	Karamürsel	karamursel	TR		40.691	29.616	5
+P	Kaysville		US	Utah	41.035	-111.939	7
+P	Kasba		IN		25.856	87.538	19
+P	Karjan		IN		22.047	73.118	19
+P	Karlovo		BG		42.633	24.800	26
+P	Kaeng Khoi		TH		14.586	100.998	11
+P	Kade		GH		6.094	-0.836	2
+P	Kashima		JP		33.106	130.091	22
+P	Kakkalapalle		IN		14.642	77.567	19
+P	Karpinsk		RU		59.768	60.006	17
+P	Kavajë	kavaje	AL		41.186	19.557	27
+P	Kayunga		UG		0.703	32.889	5
+P	Kabaty		PL		52.130	21.081	27
+P	Kareli		IN		22.915	79.064	19
+P	Karumālūr	karumalur	IN		10.133	76.280	19
+P	Karakoçan	karakocan	TR		38.952	40.027	5
+P	Karambi		RW		-2.317	29.244	4
+P	Karahrūd	karahrud	IR		34.061	49.645	21
+P	Kaitaichi		JP		34.367	132.533	22
+P	Mīrānpur Katra	miranpur katra	IN		28.030	79.668	19
+P	Kapotnya		RU		55.638	37.793	5
+P	Kalur Kot		PK		32.155	71.266	17
+P	Kalavoor		IN		9.570	76.328	19
+P	Nāgar Karnūl	nagar karnul	IN		16.482	78.325	19
+P	Kampong Masjid Tanah		MY		2.350	102.117	20
+P	Kamaterón	kamateron	GR		38.056	23.705	26
+P	Kalgoorlie		AU	Western Australia	-30.746	121.474	20
+P	Kaeng Khro		TH		16.109	102.258	11
+P	Kasaali		UG		-0.617	31.550	5
+P	Kangdong-ŭp	kangdong up	KP		39.142	126.096	22
+P	Kasempa		ZM		-13.458	25.834	4
+P	Karera		IN		25.458	78.136	19
+P	Kaman		TR		39.358	33.724	5
+P	Kāraippudūr	karaippudur	IN		11.057	77.306	19
+P	Karasuk		RU		53.740	78.044	11
+P	Kartaly		RU		53.060	60.641	17
+P	Sa Kaeo		TH		13.814	102.072	11
+P	Yio Chu Kang		SG		1.391	103.851	20
+P	Kansad		IN		21.075	72.879	19
+P	Kālāvad	kalavad	IN		22.208	70.383	19
+P	Karlshorst		DE		52.484	13.532	27
+P	Kandyagash		KZ		49.469	57.419	17
+P	Kakiri		UG		0.420	32.391	5
+P	Kalwākurti	kalwakurti	IN		16.664	78.491	19
+P	Kamyshlov		RU		56.847	62.712	17
+P	Kagadi		UG		0.938	30.809	5
+P	Ban Bang Kadi		TH		13.999	100.550	11
+P	Bāmor Kalān	bamor kalan	IN		24.893	78.151	19
+P	Tirat Karmel		IL		32.760	34.969	14
+P	Kasamwa		TZ		-2.850	32.433	5
+P	Kariba		ZW		-16.517	28.800	4
+P	Kalach-na-Donu	kalach na donu	RU		48.691	43.526	5
+P	Karlskoga		SE		59.327	14.524	27
+P	Kālānwāli	kalanwali	IN		29.836	74.972	19
+P	Kadodara		IN		21.162	72.962	19
+P	Kayyerkan		RU		69.379	87.744	11
+P	Kattumannarkoil		IN		11.276	79.558	19
+P	Kalamb		IN		19.044	73.956	19
+P	Kachidoki		JP		35.658	139.775	22
+P	Katsuyama		JP		36.062	136.501	22
+P	Kayonza		RW		-1.951	30.520	4
+P	Kallio		FI		60.184	24.950	26
+P	Kara-Kul’	kara kul	KG		41.628	72.670	23
+P	Katha		MM		24.175	96.341	25
+P	Kalat		PK		29.027	66.594	17
+P	Kartārpur	kartarpur	IN		31.443	75.498	19
+P	Karhal		IN		27.001	78.939	19
+P	Kankakee		US	Illinois	41.120	-87.861	6
+P	Kara Suu		KG		40.705	72.867	23
+P	Kaarela		FI		60.252	24.881	26
+P	Kapellen		BE		51.314	4.435	27
+P	Kallidaikurichi		IN		8.686	77.466	19
+P	Kahone		SN		14.158	-16.036	2
+P	Kaisarianí	kaisariani	GR		37.963	23.765	26
+P	Kahului		US	Hawaii	20.889	-156.473	29
+P	Hong Kah		SG		1.359	103.723	20
+P	Kaouara		CI		10.091	-5.195	2
+P	Kamo		JP		37.664	139.035	22
+P	Kālol	kalol	IN		22.608	73.463	19
+P	Kailāras	kailaras	IN		26.305	77.616	19
+P	Kaltan		RU		53.528	87.276	11
+P	Kāladi	kaladi	IN		10.819	76.006	19
+P	Kāndla	kandla	IN		23.033	70.217	19
+P	Kārkala	karkala	IN		13.214	74.992	19
+P	Kallam		IN		18.575	76.022	19
+P	Karor		PK		31.225	70.952	17
+P	Kamba		NG		11.852	3.655	3
+P	Kamalāpuram	kamalapuram	IN		15.304	76.476	19
+P	Kakkanad		IN		10.016	76.342	19
+P	Yoshida-kasugachō	yoshida kasugacho	JP		37.683	138.883	22
+P	Karuva		IN		8.950	76.599	19
+P	Kamimaruko		JP		36.319	138.273	22
+P	Kamaqhekeza		ZA		-25.670	31.863	4
+P	Kadakkavoor		IN		8.679	76.767	19
+P	Karungappalli		IN		9.104	76.537	19
+P	Kallūr Vadakummuri	kallur vadakummuri	IN		10.253	76.328	19
+P	Kağızman	kagizman	TR		40.157	43.134	5
+P	Kamaruddinnagar		IN		28.677	77.054	19
+P	Kantai		IN		26.214	85.297	19
+P	Ust’-Katav	ust katav	RU		54.937	58.176	17
+P	Kanbalu		MM		23.203	95.517	25
+P	Daliyat al Karmel		IL		32.694	35.047	14
+P	Liliha - Kapalama	liliha kapalama	US	Hawaii	21.337	-157.854	29
+P	Boeng Kak Pir		KH		11.573	104.890	11
+P	Kānth	kanth	IN		29.059	78.630	19
+P	Kandahār	kandahar	IN		18.873	77.192	19
+P	Kalamnūri	kalamnuri	IN		19.674	77.311	19
+P	Kabrāi	kabrai	IN		25.403	80.000	19
+P	Kampung Jelutong Tengah		MY		1.471	103.567	20
+P	Kanowit		MY		2.100	112.150	20
+P	Kakonko		TZ		-3.283	30.964	5
+P	Kajiado		KE		-1.852	36.777	5
+P	Kabarnet		KE		0.492	35.743	5
+P	Kasozi		UG		0.020	30.499	5
+P	Kānt	kant	IN		27.810	79.792	19
+P	Kamojimachō-jōgejima	kamojimacho jogejima	JP		34.068	134.350	22
+P	Kaithoon		IN		25.124	75.972	19
+P	Kabala		ML		12.525	-8.039	2
+P	Kalachinsk		RU		55.052	74.579	23
+P	Kaikalapettai		IN		13.022	80.121	19
+P	Kamwenge		UG		0.187	30.454	5
+P	Kazan		TR		40.232	32.684	5
+P	Karumāndi Chellipālaiyam	karumandi chellipalaiyam	IN		11.302	77.586	19
+P	Kafr Qāsim	kafr qasim	IL		32.114	34.976	14
+P	Kayar		SN		14.919	-17.120	2
+P	Katheru		IN		17.038	81.776	19
+P	Karatina		KE		-0.484	37.127	5
+P	Kax		CN		43.641	81.870	23
+P	Wu Kai Sha		HK		22.430	114.242	20
+P	Kaniv		UA		49.752	31.470	26
+P	Kabanovo		RU		55.748	38.935	5
+P	Kamalasai		TH		16.338	103.576	11
+P	Kalānaur	kalanaur	IN		28.828	76.395	19
+P	Katrineholm		SE		58.996	16.207	27
+P	Káto Polemídia	kato polemidia	CY		34.697	32.993	26
+P	Karmāla	karmala	IN		18.408	75.194	19
+P	Kampung Tanjung Minyak		MY		2.267	102.200	20
+P	Kajiki		JP		31.733	130.667	22
+P	Kakuma		KE		3.714	34.857	5
+P	Kanhān	kanhan	IN		21.229	79.240	19
+P	Kamata		JP		35.563	139.721	22
+P	Kachīsī	kachisi	ET		9.600	37.833	5
+P	Karhula		FI		60.522	26.931	26
+P	Karanjiā	karanjia	IN		21.763	85.973	19
+P	Kanmaki		JP		34.564	135.706	22
+P	Kalk		DE		50.940	7.006	27
+P	Kafr Kannā	kafr kanna	IL		32.747	35.342	14
+P	Kasrāwad	kasrawad	IN		22.127	75.611	19
+P	Kādiganpalli	kadiganpalli	IN		12.523	78.209	19
+P	Kapellen		DE		51.571	6.367	27
+P	Kampot		KH		10.610	104.181	11
+P	Katghora		IN		22.502	82.543	19
+P	Kant		KG		42.891	74.851	23
+P	Kahuta		PK		33.592	73.387	17
+P	Kampung Sedenak		MY		1.711	103.528	20
+P	Kaminoma		JP		34.808	136.864	22
+P	Kadima Zoran		IL		32.278	34.919	14
+P	Karakul’	karakul	UZ		39.533	63.833	17
+P	Kanniyākumāri	kanniyakumari	IN		8.090	77.538	19
+P	Kafr Takhārīm	kafr takharim	SY		36.117	36.515	5
+P	Kailāshahar	kailashahar	IN		24.332	92.004	19
+P	Karcag		HU		47.317	20.933	27
+P	Ban Kamala		TH		7.955	98.283	11
+P	Kasamatsuchō	kasamatsucho	JP		35.367	136.767	22
+P	Kathhāra	kathhara	IN		23.764	85.885	19
+P	Kathlāl	kathlal	IN		22.898	72.993	19
+P	Kalispell		US	Montana	48.196	-114.313	7
+P	Kalbatau		KZ		49.330	81.573	17
+P	Karuvanthuruthy		IN		11.172	75.823	19
+P	Kampung Batu Empat		MY		1.776	103.874	20
+P	Kaiama		NG		9.605	3.941	3
+P	Kam Tin		HK		22.441	114.060	20
+P	Kafr Zaytā	kafr zayta	SY		35.374	36.603	5
+P	Kafr Lāhā	kafr laha	SY		34.895	36.496	5
+P	Kantābānji	kantabanji	IN		20.467	82.920	19
+P	Kamienna Góra	kamienna gora	PL		50.783	16.030	27
+P	Kalleribhāgam	kalleribhagam	IN		9.054	76.558	19
+P	Karak City		JO		31.164	35.762	5
+P	Kadayal		IN		8.408	77.266	19
+P	Karben		DE		50.230	8.772	27
+P	Karanpur		IN		29.840	73.455	19
+P	Kampung Teluk Kumbar		MY		5.289	100.247	20
+P	Katesh		TZ		-4.525	35.385	5
+P	Katutura		NA		-22.523	17.060	4
+P	Kataragama		LK		6.413	81.335	19
+P	Imouzzer Kandar		MA		33.729	-5.011	1
+P	Kaimukī	kaimuki	US	Hawaii	21.279	-157.801	29
+P	Kapasan		IN		24.889	74.317	19
+P	Kamiichi		JP		36.700	137.367	22
+P	Kaikalūr	kaikalur	IN		16.552	81.214	19
+P	Kāpren	kapren	IN		25.405	76.074	19
+P	Katālem va Sādāt Shahr	katalem va sadat shahr	IR		36.889	50.696	21
+P	Kalihi Valley		US	Hawaii	21.364	-157.843	29
+P	Kaliro		UG		0.894	33.499	5
+P	Karia Ba Mohamed		MA		34.371	-5.214	1
+P	Karaçoban	karacoban	TR		39.344	42.099	5
+P	Kalach		RU		50.425	41.016	5
+P	Kapsan-ŭp	kapsan up	KP		41.090	128.293	22
+P	Kaynaşlı	kaynasli	TR		40.769	31.322	5
+P	Kanaya		JP		34.820	138.128	22
+P	Karachayevsk		RU		43.772	41.914	5
+P	Kallangur		AU	Queensland	-27.252	152.992	24
+P	Kataiya		IN		26.568	84.083	19
+P	Kafr Mandā	kafr manda	IL		32.811	35.261	14
+P	Kaimori		IN		23.385	79.744	19
+P	Karlshamn		SE		56.171	14.862	27
+P	Kasongo-Lunda	kasongo lunda	CD		-6.478	16.817	3
+P	Karuizawa		JP		36.350	138.633	22
+P	Katwijk aan Zee		NL		52.203	4.399	27
+P	Kastanayevo		RU		55.717	37.500	5
+P	Sook Kalan		PK		32.597	74.147	17
+P	Kampung Selang		MY		2.350	102.876	20
+P	Kampung Hutan Arau		MY		6.429	100.282	20
+P	Kampong Thom		KH		12.711	104.889	11
+P	Kandalloor		IN		9.176	76.471	19
+P	Kanjiramkulam		IN		8.360	77.053	19
+P	Kalinjur		IN		12.953	79.134	19
+P	Diamond Head / Kapahulu / Saint Louis Heights	diamond head kapahulu saint louis heights	US	Hawaii	21.277	-157.811	29
+P	Kannānkurichchi	kannankurichchi	IN		11.697	78.179	19
+P	Kattanam		IN		9.176	76.563	19
+P	Karachev		RU		53.123	34.985	5
+P	Kaltenkirchen		DE		53.832	9.960	27
+P	Karnobat		BG		42.650	26.983	26
+P	Kalmeshwar		IN		21.232	78.920	19
+P	Jharoda Kalān	jharoda kalan	IN		28.653	76.952	19
+P	Sint-Katelijne-Waver	sint katelijne waver	BE		51.067	4.535	27
+P	Kabanga		TZ		-2.639	30.468	5
+P	Kaulsdorf		DE		52.517	13.589	27
+P	Kampung Minyak Beku		MY		1.795	102.897	20
+P	Kampung Teluk Air Tawar		MY		5.483	100.383	20
+P	Kakdwip		IN		21.879	88.191	19
+P	Kaimur		IN		24.054	80.614	19
+P	Katav-Ivanovsk	katav ivanovsk	RU		54.753	58.201	17
+P	Kajiya		JP		35.067	134.917	22
+P	Kampong Kadok		MY		6.000	102.250	20
+P	Kabūdarāhang	kabudarahang	IR		35.209	48.723	21
+P	Kampung Cheng		MY		2.264	102.218	20
+P	Kawasan Perindustrian Cheng		MY		2.262	102.232	20
+P	Kadikkād	kadikkad	IN		10.671	75.980	19
+P	Kallukuttam		IN		8.189	77.288	19
+P	Kampar		MY		4.300	101.150	20
+P	Katangi		IN		23.441	79.796	19
+P	Karthikappally		IN		9.257	76.449	19
+P	Kafr Qari‘	kafr qari	IL		32.505	35.052	14
+P	Kadachira		IN		11.837	75.449	19
+P	Ala Moana - Kakaʻako	ala moana kakaako	US	Hawaii	21.296	-157.857	29
+P	Kansāpur	kansapur	IN		30.145	77.266	19
+P	Kampung Baru Ulu Melaka		MY		6.352	99.788	20
+P	Kampung Kupang		MY		5.636	100.845	20
+P	Karow		DE		52.609	13.481	27
+P	Kari		NG		11.247	10.561	3
+P	Kadaň	kadan	CZ		50.383	13.267	27
+P	Kaqun		CN		37.978	76.867	23
+P	Kammivapettai		IN		11.753	79.746	19
+P	Kalininsk		RU		51.498	44.477	12
+P	Kardhān	kardhan	IN		30.318	76.866	19
+P	Kalāyat	kalayat	IN		29.677	76.256	19
+P	Kaset Wisai		TH		15.656	103.584	11
+P	Kalynivka		UA		49.461	28.515	26
+P	Myo Thit Ka		MM		16.874	96.097	25
+P	Karasuyama		JP		36.650	140.150	22
+P	Kalabo		ZM		-14.993	22.679	4
+P	Barkā Kānā	barka kana	IN		23.621	85.467	19
+P	Kannapuram		IN		11.984	75.304	19
+P	Khali Kachigam		IN		20.383	72.867	19
+P	Katerero		TZ		-1.400	31.733	5
+P	Kamogatachō-kamogata	kamogatacho kamogata	JP		34.537	133.590	22
+P	Méchouar-Kasba	mechouar kasba	MA		31.601	-7.987	1
+P	Kaitang		CN		26.720	108.130	20
+P	Kādīpur	kadipur	IN		28.774	77.163	19
+P	Majhiāon Kalān	majhiaon kalan	IN		24.324	83.816	19
+P	Kākori	kakori	IN		26.868	80.786	19
+P	Kanaishima		JP		35.344	139.117	22
+P	Kalocsa		HU		46.530	18.973	27
+P	Katoke		UG		0.758	30.683	5
+P	Kariapatti		IN		9.675	78.100	19
+P	‘Abasān al Kabīrah	abasan al kabirah	PS		31.319	34.340	13
+P	Kafr Sa‘d	kafr sad	EG		31.356	31.685	0
+P	Kattur		IN		10.373	76.167	19
+P	Kanamachi		JP		35.765	139.867	22
+P	Musa Banda/Musa khan kallay	musa banda musa khan kallay	PK		34.034	72.482	17
+P	Kahandhale		ET		5.753	45.646	5
+P	Teloi Kanan		MY		5.717	100.658	20
+P	Kabala		SL		9.589	-11.553	2
+P	Kawage		JP		34.804	136.546	22
+P	Karlsfeld		DE		48.227	11.476	27
+P	Kasli		RU		55.888	60.755	17
+P	Kanjari		IN		22.612	72.921	19
+P	Kasterlee		BE		51.241	4.967	27
+P	Kannod		IN		22.668	76.743	19
+P	Kampung Jeli		MY		5.700	101.833	20
+P	Kānke	kanke	IN		23.435	85.321	19
+P	Kampung Simpang Renggam		MY		1.828	103.300	20
+P	Kadogawa		JP		32.471	131.655	22
+P	Kamigotō	kamigoto	JP		32.983	129.083	22
+P	Kalmthout		BE		51.384	4.476	27
+P	Karukh		AF		34.481	62.586	15
+P	Kallūr Tekkumuri	kallur tekkumuri	IN		10.240	76.324	19
+P	Kavisuryanagar		IN		19.581	84.760	19
+P	Kadoorie		HK		22.322	114.176	20
+P	Kantyshevo		RU		43.228	44.633	5
+P	Kawasaki		JP		33.600	130.815	22
+P	Kāttatturai	kattatturai	IN		8.285	77.276	19
+P	Kangaba		ML		11.933	-8.417	2
+P	Kanifing		GM		13.446	-16.674	2
+P	Kamiōi	kamioi	JP		35.320	139.158	22
+P	Kampung Bertam Ulu		MY		2.290	102.193	20
+P	Kaouéni	kaoueni	YT		-12.771	45.224	5
+P	Karratha		AU	Western Australia	-20.738	116.846	20
+P	Ting Kau		HK		22.370	114.079	20
+P	Kasanda		UG		0.557	31.802	5
+P	Kalodzishchy		BY		53.944	27.782	5
+P	Kaset Sombun		TH		16.281	101.954	11
+P	Katerynivka		UA		48.556	39.183	26
+P	Kavalerovo		RU		44.272	135.051	24
+P	Katsuura		JP		35.146	140.315	22
+P	Kamenz		DE		51.268	14.094	27
+P	Kalghatgi		IN		15.183	74.971	19
+P	Kāmākhyānagar	kamakhyanagar	IN		20.934	85.545	19
+P	Kadod		IN		21.217	73.220	19
+P	Karingal		IN		8.236	77.243	19
+P	Kam Ying		HK		22.423	114.237	20
+P	Kampung Teluk Kemang		MY		2.461	101.860	20
+P	Kanungu		UG		-0.958	29.790	5
+P	Kashin		RU		57.359	37.608	5
+P	Kankauli		IN		16.266	73.712	19
+P	Kampung Tanjung Karang		MY		3.424	101.185	20
+P	Kamuhanda / Ruyenzi	kamuhanda ruyenzi	RW		-1.966	29.985	4
+P	Kaleke Mandi		PK		31.976	73.600	17
+P	Kandāri	kandari	IN		21.061	75.810	19
+P	Kargil		IN		34.558	76.126	19
+P	Tikri Kalān	tikri kalan	IN		28.684	76.970	19
+P	Kadamakudi		IN		10.064	76.246	19
+P	Kabo		CF		7.699	18.629	3
+P	Kandıra	kandira	TR		41.070	30.153	5
+P	Kamalganj		IN		27.262	79.631	19
+P	Kalundborg		DK		55.680	11.089	27
+P	Kuliouou - Kalani Iki	kuliouou kalani iki	US	Hawaii	21.297	-157.745	29
+P	Kamyzyak		RU		46.105	48.078	12
+P	Kamabi		GN		12.400	-13.417	2
+P	Katy		US	Texas	29.786	-95.824	6
+P	Kāmayakkavundanpatti	kamayakkavundanpatti	IN		9.739	77.320	19
+P	Kamiya		JP		35.770	139.731	22
+P	Kasumi		JP		35.633	134.633	22
+P	Kandamkunnu		IN		11.869	75.581	19
+P	Kafia Kingi		SS		9.273	24.417	4
+P	Karimabad		PK		36.327	74.661	17
+P	Kampung Machap Baru		MY		2.383	102.331	20
+P	Kappiyara		IN		8.247	77.262	19
+P	Kalabagh		PK		32.962	71.546	17
+P	Karusi		BI		-3.101	30.163	4
+P	Kazo		UG		-0.074	30.785	5
+P	Kakumiro		UG		0.781	31.324	5
+P	Kannampālaiyam	kannampalaiyam	IN		10.995	77.099	19
+P	Kaukauna		US	Wisconsin	44.278	-88.272	6
+P	Kallar Kahar		PK		32.780	72.698	17
+P	Kamiigusa		JP		35.723	139.606	22
+P	Kamachumu		TZ		-1.619	31.620	5
+P	Kasambya		UG		0.433	31.233	5
+P	Kabilpor		IN		20.951	72.958	19
+P	Kanō	kano	JP		34.493	135.639	22
+P	Karabash		RU		55.490	60.209	17
+P	Kamatgi		IN		16.078	75.813	19
+P	Kataysk		RU		56.289	62.581	17
+P	Kara-Kulja	kara kulja	KG		40.632	73.592	23
+P	Karabanovo		RU		56.311	38.703	5
+P	Kasāra	kasara	IN		19.645	73.474	19
+P	Kanegasaki		JP		39.200	141.117	22
+P	Kalher		IN		19.247	73.015	19
+P	Kampung Ayer Molek		MY		2.214	102.328	20
+P	Karankasso		BF		11.222	-4.644	2
+P	Kamigōri	kamigori	JP		34.875	134.362	22
+P	Kalugumalai		IN		9.149	77.706	19
+P	Kapolei Villages		US	Hawaii	21.336	-158.067	29
+P	Kan Nar Middle		MM		16.881	96.097	25
+P	Kachhwa		IN		25.206	82.714	19
+P	Karori		NZ		-41.284	174.741	28
+P	Kamenjane		MK		41.946	20.929	27
+P	Kawaminami		JP		32.183	131.517	22
+P	Kanhirode		IN		11.918	75.465	19
+P	Kanchanpur		IN		24.036	92.200	19
+P	Kampong Loyang		SG		1.378	103.959	20
+P	Katangi		IN		21.774	79.805	19
+P	Kāthor	kathor	IN		21.289	72.941	19
+P	Kadınhanı	kadinhani	TR		38.240	32.211	5
+P	Karlstadt		DE		49.960	9.772	27
+P	Kanel		SN		15.492	-13.176	2
+P	Kalisizo		UG		-0.536	31.621	5
+P	Kapolei		US	Hawaii	21.336	-158.058	29
+P	Kangeyanallur		IN		12.951	79.151	19
+P	Karamuck		IN		10.484	76.104	19
+P	Kabompo		ZM		-13.593	24.201	4
+P	Kauhava		FI		63.103	23.071	26
+P	Kāveripatnam	kaveripatnam	IN		12.422	78.219	19
+P	Kartuzy		PL		54.334	18.197	27

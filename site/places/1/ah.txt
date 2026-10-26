@@ -1,0 +1,68 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Algiers	60	
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	America/El_Salvador	-360	
+Z	4	America/Phoenix	-420	
+Z	5	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	6	Asia/Karachi	300	
+Z	7	Asia/Kolkata	330	
+Z	8	Asia/Kuwait	180	
+Z	9	Asia/Shanghai	480	
+Z	10	Asia/Tehran	210	
+Z	11	Asia/Yangon	390	
+Z	12	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	GH	Ghana	egyptian	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	KW	Kuwait	kuwait	s
+C	MA	Morocco	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	PK	Pakistan	karachi	h
+C	SV	El Salvador	mwl	s
+C	TR	Turkey	turkey	s
+C	US	United States	moonsighting	s
+B	1
+P	Ahmedabad		IN		23.026	72.587	7
+P	Ahvaz		IR		31.319	48.684	10
+P	Al Aḩmadī	al ahmadi	KW		29.077	48.084	8
+P	Ahilyanagar		IN		19.095	74.738	7
+P	Ahmadpur East		PK		29.143	71.258	6
+P	Souk Ahras		DZ		36.286	7.951	1
+P	Ahuntsic-Cartierville	ahuntsic cartierville	CA	Quebec	45.567	-73.667	5
+P	Ahar		IR		38.477	47.070	10
+P	Ahwatukee Foothills		US	Arizona	33.342	-111.984	4
+P	Ahlat		TR		38.749	42.480	8
+P	Ahu		CN		34.377	118.603	9
+P	Ahlen		DE		51.763	7.889	12
+P	Īstgāh-e Rāh Āhan-e Garmsār	istgah e rah ahan e garmsar	IR		35.235	52.309	10
+P	Ahmadpur		IN		18.706	76.937	7
+P	Ahlone		MM		16.789	96.126	11
+P	Ahaus		DE		52.079	7.013	12
+P	Domaa-Ahenkro	domaa ahenkro	GH		7.274	-2.873	0
+P	Ben Ahmed		MA		33.066	-7.242	2
+P	Ahuachapán	ahuachapan	SV		13.924	-89.843	3
+P	Ahouanou		CI		5.506	-4.859	0
+P	Ahwiaa		GH		6.761	-1.594	0
+P	Ahmedgarh		IN		30.677	75.826	7
+P	Ahrensburg		DE		53.677	10.237	12
+P	Ahmed Bel Hadj		DZ		36.801	7.608	1
+P	Bad Neuenahr-Ahrweiler	bad neuenahr ahrweiler	DE		50.543	7.111	12
+P	Ahraura		IN		25.016	83.033	7
+P	Ahmadpur Sial		PK		30.678	71.743	6
+P	Ah Lel		MM		16.922	96.063	11
+P	Boumahra Ahmed		DZ		36.458	7.514	1
+P	Ahfir		MA		34.954	-2.100	2
+P	Ahīwāra	ahiwara	IN		21.358	81.418	7
+P	Ahwiaa		GH		6.903	-1.652	0
+P	Ahigbé Koffikro	ahigbe koffikro	CI		5.408	-3.380	0
+P	Ahor		IN		25.369	72.780	7
+P	Ahualulco de Mercado		MX		20.701	-103.975	3
+P	Ahram		IR		28.883	51.275	10
+P	Ahwa		IN		20.757	73.686	7

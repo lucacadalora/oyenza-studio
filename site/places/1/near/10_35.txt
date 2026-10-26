@@ -1,0 +1,87 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+Z	1	Africa/Khartoum	120	
+C	ER	Eritrea	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	SD	Sudan	egyptian	s
+B	0
+P	Gonder		ET		12.600	37.467	0
+P	Mek'ele	mekele	ET		13.497	39.475	0
+P	Al Qadarif		SD		14.035	35.383	1
+P	Bahir Dar		ET		11.594	37.391	0
+P	Dessie		ET		11.133	39.633	0
+P	Debre Mark’os	debre markos	ET		10.350	37.733	0
+P	Kombolcha		ET		11.082	39.743	0
+P	Debre Tabor		ET		11.850	38.017	0
+P	Ādīgrat	adigrat	ET		14.277	39.462	0
+P	Weldiya		ET		11.828	39.592	0
+P	Inda Silasē	inda silase	ET		14.103	38.283	0
+P	Aksum		ET		14.121	38.723	0
+P	Adwa		ET		14.163	38.899	0
+P	Alamata		ET		12.416	39.560	0
+P	Wik’ro	wikro	ET		13.795	39.603	0
+P	Mot’a	mota	ET		11.083	37.867	0
+P	Finote Selam		ET		10.700	37.267	0
+P	Kobo		ET		10.028	39.853	0
+P	Dangila		ET		11.267	36.833	0
+P	Chagni		ET		10.956	36.505	0
+P	Sek’ot’a	sekota	ET		12.631	39.035	0
+P	Maych’ew	maychew	ET		12.787	39.542	0
+P	Werota		ET		11.917	37.700	0
+P	Injibara		ET		11.000	36.917	0
+P	Debark’	debark	ET		13.156	37.898	0
+P	Himora		ER		14.304	36.606	0
+P	Burē	bure	ET		10.700	37.067	0
+P	Nefas Mewch’a	nefas mewcha	ET		11.733	38.467	0
+P	Kemisē	kemise	ET		10.717	39.870	0
+P	Ādēt	adet	ET		11.267	37.483	0
+P	Khashm al Qirbah		SD		14.967	35.917	1
+P	Mer’āwī	merawi	ET		11.417	37.167	0
+P	Dolo		ET		13.499	39.637	0
+P	T’īs Isat	tis isat	ET		11.483	37.583	0
+P	Lalibela		ET		12.032	39.048	0
+P	Bichena		ET		10.450	38.200	0
+P	Mersa		ET		11.667	39.650	0
+P	Ādīs Zemen	adis zemen	ET		12.117	37.783	0
+P	Sheraro		ET		14.401	37.934	0
+P	Korem		ET		12.506	39.523	0
+P	Ābīy Ādī	abiy adi	ET		13.561	38.974	0
+P	Āykel	aykel	ET		12.550	37.067	0
+P	Dembech’a	dembecha	ET		10.550	37.483	0
+P	Mehoni		ET		12.799	39.644	0
+P	Hāyk’	hayk	ET		11.300	39.683	0
+P	Dabat		ET		12.984	37.765	0
+P	Tikil Dingay		ET		12.984	37.044	0
+P	Mertule Maryam		ET		10.833	38.267	0
+P	K’ola Diba	kola diba	ET		12.424	37.325	0
+P	Amba Giorgis		ET		12.769	37.624	0
+P	May Cadera		ET		14.073	36.568	0
+P	Ibnat		ET		12.133	38.050	0
+P	Gurbetē	gurbete	ET		11.356	36.954	0
+P	Filakit		ET		11.667	38.800	0
+P	Āt’aye	ataye	ET		10.350	39.936	0
+P	Maksenyit		ET		12.383	37.550	0
+P	Metemma		ET		12.955	36.155	0
+P	Idaga Hamus		ET		14.187	39.564	0
+P	Abala		ET		14.233	37.000	0
+P	Mehal Mēda	mehal meda	ET		10.312	39.659	0
+P	Gimja Bēt Maryam	gimja bet maryam	ET		10.850	36.883	0
+P	Ginja Bet		ET		10.850	36.893	0
+P	Harbu		ET		10.920	39.787	0
+P	Ābderafī	abderafi	ET		13.733	36.450	0
+P	Mambuk		ET		11.283	36.217	0
+P	Shendi		ET		10.641	36.947	0
+P	‘Alem Ketema	alem ketema	ET		10.083	39.033	0
+P	Wegeda		ET		11.216	38.365	0
+P	Intich’o	inticho	ET		14.279	39.150	0
+P	Adebaye		ET		14.202	36.760	0
+P	Indabaguna		ET		13.949	38.184	0
+P	Dibate		ET		10.650	36.217	0
+P	Al-Fashaqah	al fashaqah	SD		14.397	35.867	1
+P	Lumamē	lumame	ET		10.250	37.933	0
+P	Robīt	robit	ET		12.017	39.633	0
+P	Were Īlu	were ilu	ET		10.590	39.438	0
+P	Tīlīlī	tilili	ET		10.850	37.017	0
+P	Ādīs K’idamē	adis kidame	ET		11.083	36.883	0
+P	Doka		SD		13.517	35.767	1
+P	Mendefera		ER		14.887	38.815	0

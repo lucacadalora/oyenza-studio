@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Addis_Ababa	180	
+Z	2	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	3	Africa/Juba	120	
+Z	4	Africa/Lagos	60	
+Z	5	Asia/Tokyo	540	
+Z	6	Asia/Urumqi	360	
+C	CN	China	mwl	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	GH	Ghana	egyptian	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SS	South Sudan	egyptian	s
+B	0
+P	Awasa		ET		7.062	38.476	1
+P	Awka		NG		6.213	7.072	4
+P	Awsīm	awsim	EG		30.123	31.136	2
+P	Awaji		JP		34.478	134.931	5
+P	Aweil		SS		8.762	27.392	3
+P	Āwash	awash	ET		8.994	40.166	1
+P	Awa		JP		34.092	134.285	5
+P	Awlād Şaqr	awlad saqr	EG		30.931	31.699	2
+P	Awoshi		GH		5.584	-0.278	0
+P	Awara		JP		36.223	136.192	5
+P	Mukai-awagasaki	mukai awagasaki	JP		36.632	136.637	5
+P	Al ‘Awwāmīyah	al awwamiyah	SA		26.591	49.980	1
+P	Awati		CN		38.608	77.396	6
+P	Awgu		NG		6.073	7.477	4
+P	Awendo		KE		-0.907	34.529	1
+P	Awendo		KE		-0.500	34.400	1
+P	Awuliya		CN		43.930	81.693	6

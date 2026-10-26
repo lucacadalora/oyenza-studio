@@ -1,0 +1,34 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	1
+P	Ufa		RU		54.743	55.968	0
+P	Orenburg		RU		51.767	55.099	0
+P	Aktobe		KZ		50.280	57.207	0
+P	Magnitogorsk		RU		53.398	59.007	0
+P	Sterlitamak		RU		53.638	55.953	0
+P	Orsk		RU		51.232	58.488	0
+P	Salavat		RU		53.383	55.911	0
+P	Novotroitsk		RU		51.201	58.313	0
+P	Beloretsk		RU		53.962	58.400	0
+P	Ishimbay		RU		53.448	56.039	0
+P	Meleuz		RU		52.965	55.933	0
+P	Kumertau		RU		52.765	55.788	0
+P	Sibay		RU		52.718	58.667	0
+P	Gay		RU		51.473	58.452	0
+P	Uchaly		RU		54.358	59.436	0
+P	Trëkhgornyy	trekhgornyy	RU		54.817	58.448	0
+P	Mednogorsk		RU		51.406	57.588	0
+P	Kuvandyk		RU		51.485	57.358	0
+P	Ust’-Katav	ust katav	RU		54.937	58.176	0
+P	Davlekanovo		RU		54.218	55.031	0
+P	Khromtau		KZ		50.252	58.436	0
+P	Chishmy		RU		54.590	55.382	0
+P	Bakal		RU		54.942	58.808	0
+P	Katav-Ivanovsk	katav ivanovsk	RU		54.753	58.201	0
+P	Baymak		RU		52.592	58.311	0
+P	Saraktash		RU		51.787	56.360	0
+P	Yasnyy		RU		51.035	59.872	0
+P	Mezgor'e	mezgore	RU		54.050	57.817	0
+P	Sim		RU		54.993	57.698	0

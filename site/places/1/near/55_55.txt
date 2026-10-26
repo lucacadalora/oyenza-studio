@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	0
+P	Perm		RU		58.010	56.250	0
+P	Nizhny Tagil		RU		57.919	59.965	0
+P	Zlatoust		RU		55.172	59.655	0
+P	Berezniki		RU		59.409	56.820	0
+P	Pervouralsk		RU		56.905	59.944	0
+P	Solikamsk		RU		59.667	56.743	0
+P	Lys’va	lysva	RU		58.107	57.811	0
+P	Kungur		RU		57.414	56.972	0
+P	Revda		RU		56.802	59.938	0
+P	Krasnokamsk		RU		58.079	55.756	0
+P	Chusovoy		RU		58.289	57.813	0
+P	Satka		RU		55.041	59.047	0
+P	Kachkanar		RU		58.700	59.484	0
+P	Krasnoufimsk		RU		56.614	57.769	0
+P	Birsk		RU		55.420	55.542	0
+P	Chernushka		RU		56.507	56.077	0
+P	Blagoveshchensk		RU		55.035	55.977	0
+P	Kushva		RU		58.287	59.748	0
+P	Dobryanka		RU		58.465	56.413	0
+P	Asha		RU		55.000	57.255	0
+P	Gubakha		RU		58.839	57.553	0
+P	Lesnoy		RU		58.639	59.790	0
+P	Osa		RU		57.284	55.459	0
+P	Nizhnyaya Tura		RU		58.624	59.852	0
+P	Kizel		RU		59.047	57.648	0
+P	Nytva		RU		57.938	55.341	0
+P	Kusa		RU		55.345	59.440	0
+P	Aleksandrovsk		RU		59.158	57.571	0

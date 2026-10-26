@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Karachi	300	
+Z	1	Asia/Kolkata	330	
+C	IN	India	karachi	h
+C	PK	Pakistan	karachi	h
+B	1
+P	Karachi		PK		24.861	67.010	0
+P	Tando Bago		PK		24.789	68.965	0
+P	Malir Cantonment		PK		24.943	67.206	0
+P	Talhar		PK		24.885	68.814	0
+P	Porbandar		IN		21.642	69.609	1
+P	Bhuj		IN		23.254	69.669	1
+P	Badin		PK		24.656	68.837	0
+P	Okha		IN		22.468	69.070	1
+P	Mithi		PK		24.737	69.797	0
+P	Māndvi	mandvi	IN		22.833	69.352	1
+P	Chhaya		IN		21.629	69.634	1
+P	Rānāvāv	ranavav	IN		21.687	69.745	1
+P	Thatta		PK		24.747	67.924	0
+P	Khambhāliya	khambhaliya	IN		22.207	69.650	1
+P	Karachi University Employees Co-operative Housing Society	karachi university employees co operative housing society	PK		24.963	67.119	0
+P	Dwārka	dwarka	IN		22.239	68.968	1
+P	Salāya	salaya	IN		22.310	69.604	1
+P	Madhapar		IN		23.238	69.699	1
+P	Sikka		IN		22.432	69.842	1
+P	Bhānvad	bhanvad	IN		21.931	69.781	1
+P	Naukot		PK		24.858	69.402	0
+P	Mundra		IN		22.839	69.722	1
+P	Raval		IN		21.919	69.482	1
+P	Gharo		PK		24.742	67.585	0
+P	Pakistan Employees Cooperative Housing Society		PK		24.874	67.064	0
+P	Chuhar Jamali		PK		24.394	67.993	0
+P	Kutiyāna	kutiyana	IN		21.624	69.985	1
+P	Khapat		IN		21.654	69.613	1
+P	Lālpur	lalpur	IN		22.191	69.964	1

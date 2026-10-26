@@ -1,0 +1,113 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+C	ET	Ethiopia	egyptian	s
+B	1
+P	Addis Ababa		ET		9.025	38.747	0
+P	Nazrēt	nazret	ET		8.550	39.267	0
+P	Awasa		ET		7.062	38.476	0
+P	Jimma		ET		7.673	36.834	0
+P	Shashamane		ET		7.200	38.600	0
+P	Bishoftu		ET		8.752	38.978	0
+P	Sodo		ET		6.860	37.762	0
+P	Arba Minch		ET		6.033	37.550	0
+P	Hosa’ina	hosaina	ET		7.550	37.854	0
+P	Dīla	dila	ET		6.417	38.317	0
+P	Nek’emtē	nekemte	ET		9.083	36.550	0
+P	Debre Birhan		ET		9.680	39.533	0
+P	Āsela	asela	ET		7.950	39.133	0
+P	Sebeta		ET		8.917	38.617	0
+P	Burayu		ET		9.035	38.661	0
+P	Hāgere Hiywet	hagere hiywet	ET		8.983	37.850	0
+P	Arsi Negele		ET		7.355	38.675	0
+P	Ziway		ET		7.933	38.717	0
+P	Butajīra	butajira	ET		8.117	38.367	0
+P	Gununo		ET		6.925	37.653	0
+P	Āreka	areka	ET		7.067	37.700	0
+P	Yirga ‘Alem	yirga alem	ET		6.750	38.417	0
+P	Waliso		ET		8.534	37.965	0
+P	Welk’īt’ē	welkite	ET		8.283	37.783	0
+P	Mek’ī	meki	ET		8.150	38.817	0
+P	Negēlē	negele	ET		5.317	39.583	0
+P	K’olīto	kolito	ET		7.317	38.083	0
+P	Ciro		ET		7.833	38.233	0
+P	Tēpī	tepi	ET		7.200	35.450	0
+P	Goba		ET		7.017	39.983	0
+P	Duramē	durame	ET		7.233	37.883	0
+P	Bodītī	boditi	ET		6.967	37.867	0
+P	Gimbi		ET		9.170	35.835	0
+P	Mīzan Teferī	mizan teferi	ET		6.999	35.589	0
+P	Mojo		ET		8.587	39.121	0
+P	Felege Neway		ET		6.300	36.883	0
+P	Metu		ET		8.300	35.583	0
+P	Wendo		ET		6.600	38.417	0
+P	Hagere Maryam		ET		5.634	38.236	0
+P	Fichē	fiche	ET		9.800	38.733	0
+P	Bonga		ET		7.289	36.242	0
+P	Jinka		ET		5.650	36.650	0
+P	Āgaro	agaro	ET		7.850	36.650	0
+P	Ch’iko	chiko	ET		6.583	38.333	0
+P	Genet		ET		9.067	38.500	0
+P	Hadero		ET		7.200	37.667	0
+P	Kibre Mengist		ET		5.883	38.983	0
+P	Shakiso		ET		5.765	38.910	0
+P	Dodola		ET		6.983	39.183	0
+P	Āsasa	asasa	ET		7.100	39.200	0
+P	Shonē	shone	ET		7.133	37.950	0
+P	Gebre Guracha		ET		9.800	38.400	0
+P	Yirga Ch’efē	yirga chefe	ET		6.167	38.200	0
+P	Bedelē	bedele	ET		8.456	36.353	0
+P	Robit		ET		9.995	39.897	0
+P	Nejo		ET		9.500	35.500	0
+P	Shinshicho		ET		7.206	37.778	0
+P	Gīnch’ī	ginchi	ET		9.033	38.150	0
+P	Bek’ojī	bekoji	ET		7.533	39.250	0
+P	Gīdolē	gidole	ET		5.650	37.367	0
+P	Badessa		ET		6.877	37.936	0
+P	Bako		ET		5.783	36.567	0
+P	Bale Hawassa		ET		6.919	37.529	0
+P	Leku		ET		6.873	38.444	0
+P	Welench’ītī	welenchiti	ET		8.667	39.433	0
+P	Shambu		ET		9.567	37.100	0
+P	Īteya	iteya	ET		8.133	39.233	0
+P	Dayē	daye	ET		9.883	38.267	0
+P	Dēra	dera	ET		8.400	38.850	0
+P	Guder		ET		8.971	37.761	0
+P	Insēno	inseno	ET		8.067	38.467	0
+P	Abomsa		ET		9.983	39.983	0
+P	Tulu Bolo		ET		8.667	38.217	0
+P	Komtikas		ET		6.958	35.557	0
+P	Wonji		ET		8.454	39.218	0
+P	Mendī	mendi	ET		9.800	35.100	0
+P	Gutin		ET		9.566	36.636	0
+P	Wacha		ET		7.151	35.817	0
+P	Kofelē	kofele	ET		7.067	38.783	0
+P	Gasuba		ET		6.717	37.567	0
+P	Huruta		ET		8.150	39.350	0
+P	Ch’ench’a	chencha	ET		6.250	37.567	0
+P	Waka		ET		7.067	37.167	0
+P	Sendafa		ET		9.152	39.023	0
+P	Worabe		ET		7.853	38.185	0
+P	Dimtu		ET		6.930	38.125	0
+P	Sagurē	sagure	ET		7.750	39.150	0
+P	Bedēsa	bedesa	ET		6.833	38.083	0
+P	Tarch’a Sodo	tarcha sodo	ET		7.151	37.172	0
+P	‘Alem T’ēna	alem tena	ET		8.300	38.950	0
+P	Metahāra	metahara	ET		8.900	39.917	0
+P	Gēdo	gedo	ET		9.017	37.450	0
+P	Gobēsa	gobesa	ET		7.617	39.500	0
+P	Kele		ET		6.083	38.033	0
+P	Sheno		ET		9.329	39.293	0
+P	Kachīsī	kachisi	ET		9.600	37.833	0
+P	Gīmbīcho	gimbicho	ET		7.450	37.633	0
+P	Wenago		ET		6.317	38.267	0
+P	Mena		ET		6.417	39.850	0
+P	Āyana	ayana	ET		9.883	36.617	0
+P	Damboya		ET		7.348	37.951	0
+P	Sīrē	sire	ET		8.317	39.483	0
+P	Kuyera		ET		7.300	38.650	0
+P	Ādīs ‘Alem	adis alem	ET		9.033	38.400	0
+P	Suntu		ET		8.100	36.950	0
+P	Kercha		ET		5.780	38.409	0
+P	Tebela		ET		6.706	37.770	0
+P	Wenjī	wenji	ET		8.450	39.283	0
+P	Shanto		ET		7.024	37.861	0

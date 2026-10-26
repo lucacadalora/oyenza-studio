@@ -2001,6 +2001,7 @@ impl App {
                 self.request_frame();
             }
             AppEvent::Located(found) => self.on_located(found),
+            AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
         }
@@ -3370,15 +3371,13 @@ impl App {
 
     /// The place the times are for: the chosen one, or until there is one,
     /// the one the PC's time zone suggests. A place from the world list is
-    /// kept as it is once settled; at start the list is read once to find it.
+    /// kept as it is once settled; at start it comes from the lines settings
+    /// keep of it (nothing online).
     fn resolve_prayer_place(&mut self) {
         let Some(list) = self.st.prayer.places.clone() else { return };
         let chosen = match self.st.settings.prayer.place.as_deref() {
             Some(id) if self.st.prayer.place.as_ref().is_some_and(|p| p.id == id) => self.st.prayer.place.clone(),
-            Some(id) if id.starts_with(poni_core::prayer::world::ID_PREFIX) => {
-                poni_core::prayer::find(&list, pages::prayer::world_list(&self.st).as_deref(), id)
-            }
-            Some(id) => list.find(id).cloned(),
+            Some(id) => poni_core::prayer::find(&list, self.st.settings.prayer.world_place.as_deref(), id),
             None => None,
         };
         let suggested = chosen.is_none();
@@ -3411,28 +3410,15 @@ impl App {
     }
 
     /// The nearest listed place becomes the place, while following the
-    /// location. The point itself is dropped here.
+    /// location (`pages::prayer::located`). The point is never saved.
     fn on_located(&mut self, found: services::location::Located) {
         use services::location::Located;
-        self.st.prayer.locate = match found {
-            Located::Denied => Locate::Denied,
-            Located::Unknown => Locate::Unknown,
-            Located::At(lat, lng) => {
-                let Some(list) = self.st.prayer.places.clone() else { return };
-                // Kemenag's places and the world's cities; the list is read for this and dropped.
-                let world = pages::prayer::world_list(&self.st);
-                let Some((place, km)) = poni_core::prayer::nearest(&list, world.as_deref(), lat, lng) else { return };
-                if km > poni_core::prayer::NEAREST_MAX_KM {
-                    pinfo!("prayer: the nearest listed place is {km:.0} km away");
-                    Locate::Far { km }
-                } else {
-                    if self.st.settings.prayer.follow_location && self.st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
-                        pages::prayer::set_place(&mut self.st, place);
-                    }
-                    Locate::Found { km }
-                }
-            }
-        };
+        match found {
+            Located::Denied => self.st.prayer.locate = Locate::Denied,
+            Located::Unknown => self.st.prayer.locate = Locate::Unknown,
+            // Kemenag's places, or the world's cities around it (looked up online).
+            Located::At(lat, lng) => pages::prayer::located(&mut self.st, lat, lng),
+        }
     }
 
     /// Each frame (and each minute): the prayer times that just came, and
@@ -3640,6 +3626,12 @@ impl App {
                 Command::Phone(c) => self.phone_cmd(c),
                 Command::Pair(c) => self.pair_cmd(c),
                 Command::Oyenza(c) => self.oyenza(c),
+                // The self-test's pictures use the files it seeds (none from the website).
+                Command::GetCities(file) => {
+                    if self.selftest.is_none() {
+                        services::cities::fetch(file, self.sink.clone());
+                    }
+                }
             }
         }
         self.sync_phone_offer();

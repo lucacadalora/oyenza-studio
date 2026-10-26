@@ -1,0 +1,48 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Australia/Brisbane	600	
+Z	1	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+C	AU	Australia	mwl	s
+B	1
+P	Brisbane		AU	Queensland	-27.468	153.028	0
+P	Gold Coast		AU	Queensland	-28.000	153.431	0
+P	Sunshine Coast		AU	Queensland	-26.657	153.080	0
+P	Logan City		AU	Queensland	-27.639	153.109	0
+P	Toowoomba		AU	Queensland	-27.561	151.954	0
+P	Caloundra		AU	Queensland	-26.803	153.122	0
+P	Hervey Bay		AU	Queensland	-25.288	152.769	0
+P	Southport		AU	Queensland	-27.967	153.398	0
+P	Surfers Paradise		AU	Queensland	-28.003	153.430	0
+P	Buderim		AU	Queensland	-26.684	153.057	0
+P	Maryborough		AU	Queensland	-25.541	152.705	0
+P	Caboolture		AU	Queensland	-27.085	152.951	0
+P	Upper Coomera		AU	Queensland	-27.877	153.286	0
+P	Robina		AU	Queensland	-28.071	153.393	0
+P	Forest Lake		AU	Queensland	-27.626	152.969	0
+P	Gympie		AU	Queensland	-26.190	152.665	0
+P	North Lakes		AU	Queensland	-27.224	153.021	0
+P	Morayfield		AU	Queensland	-27.109	152.949	0
+P	Narangba		AU	Queensland	-27.203	152.959	0
+P	Kallangur		AU	Queensland	-27.252	152.992	0
+P	Deception Bay		AU	Queensland	-27.194	153.026	0
+P	Grafton		AU	New South Wales	-29.681	152.934	1
+P	Redbank Plains		AU	Queensland	-27.646	152.860	0
+P	Maroochydore		AU	Queensland	-26.660	153.100	0
+P	Labrador		AU	Queensland	-27.944	153.398	0
+P	Capalaba		AU	Queensland	-27.543	153.203	0
+P	Sunnybank Hills		AU	Queensland	-27.610	153.054	0
+P	Calamvale		AU	Queensland	-27.623	153.048	0
+P	Helensvale		AU	Queensland	-27.918	153.333	0
+P	Nerang		AU	Queensland	-27.989	153.336	0
+P	Bracken Ridge		AU	Queensland	-27.317	153.031	0
+P	Pacific Pines		AU	Queensland	-27.940	153.314	0
+P	The Gap		AU	Queensland	-27.442	152.939	0
+P	Alexandra Hills		AU	Queensland	-27.532	153.229	0
+P	Coorparoo		AU	Queensland	-27.493	153.058	0
+P	Banora Point		AU	New South Wales	-28.213	153.536	1
+P	Albany Creek		AU	Queensland	-27.354	152.968	0
+P	Carindale		AU	Queensland	-27.506	153.102	0
+P	Warwick		AU	Queensland	-28.219	152.034	0
+P	Eight Mile Plains		AU	Queensland	-27.583	153.100	0
+P	Palm Beach		AU	Queensland	-28.117	153.466	0
+P	Springfield Lakes		AU	Queensland	-27.668	152.925	0
+P	Rochedale South		AU	Queensland	-27.595	153.123	0

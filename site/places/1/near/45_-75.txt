@@ -1,0 +1,113 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	CA	Canada	moonsighting	s
+B	1
+P	Montréal	montreal	CA	Quebec	45.509	-73.588	0
+P	Québec	quebec	CA	Quebec	46.812	-71.215	0
+P	Laval		CA	Quebec	45.570	-73.692	0
+P	Longueuil		CA	Quebec	45.515	-73.468	0
+P	Saguenay		CA	Quebec	48.417	-71.066	0
+P	Rosemont–La Petite-Patrie	rosemont la petite patrie	CA	Quebec	45.537	-73.607	0
+P	Villeray–Saint-Michel–Parc-Extension	villeray saint michel parc extension	CA	Quebec	45.559	-73.605	0
+P	Trois-Rivières	trois rivieres	CA	Quebec	46.345	-72.548	0
+P	Lévis	levis	CA	Quebec	46.803	-71.178	0
+P	Mercier–Hochelaga-Maisonneuve	mercier hochelaga maisonneuve	CA	Quebec	45.572	-73.546	0
+P	Ahuntsic-Cartierville	ahuntsic cartierville	CA	Quebec	45.567	-73.667	0
+P	Le Vieux-Longueuil	le vieux longueuil	CA	Quebec	45.537	-73.508	0
+P	Sherbrooke		CA	Quebec	45.400	-71.899	0
+P	Saint-Louis-de-Terrebonne	saint louis de terrebonne	CA	Quebec	45.702	-73.787	0
+P	Rivière-des-Prairies–Pointe-aux-Trembles	riviere des prairies pointe aux trembles	CA	Quebec	45.641	-73.585	0
+P	Terrebonne		CA	Quebec	45.700	-73.647	0
+P	Sainte-Foy	sainte foy	CA	Quebec	46.781	-71.292	0
+P	La Cité-Limoilou	la cite limoilou	CA	Quebec	46.829	-71.226	0
+P	Le Plateau-Mont-Royal	le plateau mont royal	CA	Quebec	45.528	-73.581	0
+P	Ville-Marie	ville marie	CA	Quebec	45.499	-73.570	0
+P	Saint-Laurent	saint laurent	CA	Quebec	45.500	-73.666	0
+P	Saint-Jean-sur-Richelieu	saint jean sur richelieu	CA	Quebec	45.307	-73.263	0
+P	Chomedey		CA	Quebec	45.533	-73.750	0
+P	La Haute-Saint-Charles	la haute saint charles	CA	Quebec	46.890	-71.372	0
+P	Montréal-Nord	montreal nord	CA	Quebec	45.602	-73.631	0
+P	Le Sud-Ouest	le sud ouest	CA	Quebec	45.472	-73.590	0
+P	Repentigny		CA	Quebec	45.742	-73.450	0
+P	Charlesbourg		CA	Quebec	46.899	-71.305	0
+P	Saint-Hubert	saint hubert	CA	Quebec	45.500	-73.416	0
+P	Beauport		CA	Quebec	46.859	-71.192	0
+P	Saint-Léonard	saint leonard	CA	Quebec	45.588	-73.595	0
+P	Les Rivières	les rivieres	CA	Quebec	46.818	-71.272	0
+P	Pierrefonds-Roxboro	pierrefonds roxboro	CA	Quebec	45.502	-73.842	0
+P	Brossard		CA	Quebec	45.450	-73.466	0
+P	Verdun		CA	Quebec	45.460	-73.571	0
+P	Chicoutimi		CA	Quebec	48.420	-71.064	0
+P	Notre-Dame-de-Grâce	notre dame de grace	CA	Quebec	45.477	-73.614	0
+P	Granby		CA	Quebec	45.400	-72.732	0
+P	Drummondville		CA	Quebec	45.883	-72.482	0
+P	Pierrefonds		CA	Quebec	45.460	-73.893	0
+P	Saint-Michel	saint michel	CA	Quebec	45.568	-73.622	0
+P	Saint-Jérôme	saint jerome	CA	Quebec	45.780	-74.004	0
+P	Jonquière	jonquiere	CA	Quebec	48.416	-71.249	0
+P	Saint-Hyacinthe	saint hyacinthe	CA	Quebec	45.631	-72.957	0
+P	Dollard-Des Ormeaux	dollard des ormeaux	CA	Quebec	45.495	-73.824	0
+P	Cornwall		CA	Ontario	45.018	-74.728	0
+P	Blainville		CA	Quebec	45.667	-73.882	0
+P	Salaberry-de-Valleyfield	salaberry de valleyfield	CA	Quebec	45.250	-74.133	0
+P	Châteauguay	chateauguay	CA	Quebec	45.383	-73.749	0
+P	Saint-Eustache	saint eustache	CA	Quebec	45.565	-73.906	0
+P	Sorel-Tracy	sorel tracy	CA	Quebec	46.042	-73.114	0
+P	Val-des-Arbres	val des arbres	CA	Quebec	45.598	-73.675	0
+P	Boucherville		CA	Quebec	45.591	-73.436	0
+P	Shawinigan		CA	Quebec	46.567	-72.749	0
+P	Neufchâtel-Est–Lebourgneuf	neufchatel est lebourgneuf	CA	Quebec	46.854	-71.342	0
+P	Duvernay		CA	Quebec	45.583	-73.667	0
+P	Laval-des-Rapides	laval des rapides	CA	Quebec	45.556	-73.700	0
+P	Rock Forest		CA	Quebec	45.357	-71.997	0
+P	Joliette		CA	Quebec	46.016	-73.424	0
+P	Cartierville		CA	Quebec	45.531	-73.704	0
+P	Mascouche		CA	Quebec	45.750	-73.600	0
+P	Mirabel		CA	Quebec	45.650	-74.083	0
+P	Victoriaville		CA	Quebec	46.050	-71.966	0
+P	Parc-Extension	parc extension	CA	Quebec	45.530	-73.632	0
+P	Snowdon		CA	Quebec	45.486	-73.631	0
+P	Côte-Saint-Luc	cote saint luc	CA	Quebec	45.465	-73.666	0
+P	Saint-Georges	saint georges	CA	Quebec	46.114	-70.665	0
+P	Ville-Émard	ville emard	CA	Quebec	45.450	-73.602	0
+P	Pointe-Claire	pointe claire	CA	Quebec	45.449	-73.817	0
+P	Desmarchais-Crawford	desmarchais crawford	CA	Quebec	45.446	-73.582	0
+P	Alma		CA	Quebec	48.550	-71.649	0
+P	Sainte-Julie	sainte julie	CA	Quebec	45.583	-73.332	0
+P	Saint-Constant	saint constant	CA	Quebec	45.367	-73.566	0
+P	Boisbriand		CA	Quebec	45.617	-73.832	0
+P	Vaudreuil-Dorion	vaudreuil dorion	CA	Quebec	45.400	-74.033	0
+P	Thetford-Mines	thetford mines	CA	Quebec	46.094	-71.305	0
+P	Sainte-Thérèse	sainte therese	CA	Quebec	45.639	-73.828	0
+P	Saint-Bruno-de-Montarville	saint bruno de montarville	CA	Quebec	45.533	-73.349	0
+P	Mile End		CA	Quebec	45.524	-73.596	0
+P	Outremont		CA	Quebec	45.516	-73.609	0
+P	La Prairie		CA	Quebec	45.417	-73.499	0
+P	Chambly		CA	Quebec	45.450	-73.282	0
+P	Varennes		CA	Quebec	45.683	-73.432	0
+P	Westmount		CA	Quebec	45.483	-73.599	0
+P	Kirkland		CA	Quebec	45.450	-73.866	0
+P	Ile-des-Soeurs	ile des soeurs	CA	Quebec	45.460	-73.548	0
+P	Saint-Lazare	saint lazare	CA	Quebec	45.400	-74.133	0
+P	L'Île-Bizard–Sainte-Geneviève	lile bizard sainte genevieve	CA	Quebec	45.494	-73.896	0
+P	Beaconsfield		CA	Quebec	45.433	-73.866	0
+P	Dorval		CA	Quebec	45.447	-73.753	0
+P	Mont-Royal	mont royal	CA	Quebec	45.517	-73.649	0
+P	Beloeil		CA	Quebec	45.568	-73.206	0
+P	Laflèche	lafleche	CA	Quebec	45.500	-73.466	0
+P	Saint-Lin-Laurentides	saint lin laurentides	CA	Quebec	45.850	-73.766	0
+P	Deux-Montagnes	deux montagnes	CA	Quebec	45.535	-73.902	0
+P	Les Coteaux		CA	Quebec	45.283	-74.233	0
+P	Saint-Augustin-de-Desmaures	saint augustin de desmaures	CA	Quebec	46.741	-71.451	0
+P	Sainte-Catherine	sainte catherine	CA	Quebec	45.400	-73.582	0
+P	Greenfield Park		CA	Quebec	45.486	-73.462	0
+P	L'Ancienne-Lorette	lancienne lorette	CA	Quebec	46.794	-71.352	0
+P	Sainte-Catherine	sainte catherine	CA	Quebec	46.318	-72.566	0
+P	Candiac		CA	Quebec	45.383	-73.516	0
+P	L'Assomption	lassomption	CA	Quebec	45.823	-73.429	0
+P	Saint-Henri	saint henri	CA	Quebec	45.468	-73.601	0
+P	Mont-Saint-Hilaire	mont saint hilaire	CA	Quebec	45.565	-73.187	0
+P	Saint-Basile-le-Grand	saint basile le grand	CA	Quebec	45.533	-73.282	0
+P	Magog		CA	Quebec	45.267	-72.149	0
+P	Saint-Charles-Borromée	saint charles borromee	CA	Quebec	46.050	-73.466	0
+P	Saint-Vincent-de-Paul	saint vincent de paul	CA	Quebec	45.617	-73.649	0

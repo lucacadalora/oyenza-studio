@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	ZA	South Africa	egyptian	s
+B	0
+P	George		ZA		-33.963	22.462	0
+P	Mossel Bay		ZA		-34.183	22.146	0
+P	Oudtshoorn		ZA		-33.600	22.200	0
+P	Knysna		ZA		-34.036	23.047	0
+P	Graaff Reinet		ZA		-32.252	24.531	0
+P	Beaufort West		ZA		-32.357	22.583	0
+P	Plettenberg Bay		ZA		-34.053	23.372	0
+P	Humansdorp		ZA		-34.029	24.769	0
+P	Jeffreys Bay		ZA		-34.045	24.921	0
+P	De Aar		ZA		-30.650	24.012	0
+P	Swellendam		ZA		-34.023	20.442	0
+P	Riversdale		ZA		-34.093	21.257	0
+P	Kruisfontein		ZA		-34.003	24.731	0
+P	Bredasdorp		ZA		-34.532	20.040	0
+P	Montagu		ZA		-33.787	20.121	0
+P	Groot-Brakrivier	groot brakrivier	ZA		-34.044	22.226	0
+P	Ashton		ZA		-33.831	20.056	0
+P	Dysselsdorp		ZA		-33.576	22.444	0

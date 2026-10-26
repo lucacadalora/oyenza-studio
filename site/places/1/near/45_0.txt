@@ -1,0 +1,378 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	FR	France	mwl	s
+B	1
+P	Paris		FR		48.853	2.349	0
+P	Lyon		FR		45.749	4.848	0
+P	Marne La Vallée	marne la vallee	FR		48.836	2.642	0
+P	Paris 15 Vaugirard		FR		48.841	2.300	0
+P	Reims		FR		49.265	4.029	0
+P	Le Havre		FR		49.493	0.108	0
+P	Paris 20 Ménilmontant	paris 20 menilmontant	FR		48.865	2.398	0
+P	Cergy-Pontoise	cergy pontoise	FR		49.039	2.078	0
+P	Paris 18 Buttes-Montmartre	paris 18 buttes montmartre	FR		48.892	2.344	0
+P	Paris 13 Gobelins		FR		48.832	2.356	0
+P	Paris 19 Buttes-Chaumont	paris 19 buttes chaumont	FR		48.882	2.382	0
+P	Paris 13e Arrondissement		FR		48.826	2.360	0
+P	Saint-Étienne	saint etienne	FR		45.434	4.390	0
+P	Paris 16 Passy		FR		48.864	2.277	0
+P	Paris 17 Batignolles-Monceau	paris 17 batignolles monceau	FR		48.883	2.322	0
+P	Clermont-Ferrand	clermont ferrand	FR		45.780	3.087	0
+P	Saint-Quentin-en-Yvelines	saint quentin en yvelines	FR		48.772	2.019	0
+P	Le Mans		FR		48.002	0.203	0
+P	Paris 11e Arrondissement		FR		48.858	2.380	0
+P	Amiens		FR		49.900	2.300	0
+P	Tours		FR		47.395	0.704	0
+P	Limoges		FR		45.834	1.248	0
+P	Paris 12e Arrondissement		FR		48.835	2.435	0
+P	Paris 11 Popincourt		FR		48.857	2.380	0
+P	Paris 12 Reuilly		FR		48.841	2.388	0
+P	Paris 14 Observatoire		FR		48.833	2.326	0
+P	Villeurbanne		FR		45.766	4.880	0
+P	Orléans	orleans	FR		47.902	1.904	0
+P	Rouen		FR		49.443	1.099	0
+P	Montreuil		FR		48.864	2.443	0
+P	Boulogne-Billancourt	boulogne billancourt	FR		48.835	2.241	0
+P	Lyon 03		FR		45.761	4.852	0
+P	Argenteuil		FR		48.948	2.247	0
+P	Saint-Denis	saint denis	FR		48.936	2.354	0
+P	Asnières-sur-Seine	asnieres sur seine	FR		48.917	2.283	0
+P	Nanterre		FR		48.892	2.207	0
+P	Lyon 08		FR		45.736	4.869	0
+P	Poitiers		FR		46.583	0.343	0
+P	Versailles		FR		48.804	2.134	0
+P	Courbevoie		FR		48.897	2.257	0
+P	Créteil	creteil	FR		48.793	2.466	0
+P	Paris 10 Entrepôt	paris 10 entrepot	FR		48.871	2.356	0
+P	Paris 10e Arrondissement		FR		48.877	2.359	0
+P	Lyon 07		FR		45.745	4.842	0
+P	Colombes		FR		48.919	2.254	0
+P	Vitry-sur-Seine	vitry sur seine	FR		48.787	2.403	0
+P	Aulnay-sous-Bois	aulnay sous bois	FR		48.938	2.494	0
+P	Champigny-sur-Marne	champigny sur marne	FR		48.816	2.494	0
+P	Rueil-Malmaison	rueil malmaison	FR		48.877	2.190	0
+P	Gare		FR		48.833	2.375	0
+P	Saint-Maur-des-Fossés	saint maur des fosses	FR		48.794	2.493	0
+P	Aubervilliers		FR		48.917	2.383	0
+P	Bourges		FR		47.083	2.400	0
+P	Maison Blanche		FR		48.826	2.351	0
+P	Drancy		FR		48.926	2.445	0
+P	Noisy-le-Grand	noisy le grand	FR		48.850	2.563	0
+P	Levallois-Perret	levallois perret	FR		48.894	2.289	0
+P	Picpus		FR		48.843	2.400	0
+P	Issy-les-Moulineaux	issy les moulineaux	FR		48.821	2.277	0
+P	Neuilly-sur-Seine	neuilly sur seine	FR		48.885	2.270	0
+P	Troyes		FR		48.301	4.085	0
+P	Antony		FR		48.753	2.297	0
+P	Sarcelles		FR		48.997	2.378	0
+P	Ivry-sur-Seine	ivry sur seine	FR		48.816	2.385	0
+P	Évreux	evreux	FR		49.024	1.151	0
+P	Vénissieux	venissieux	FR		45.697	4.886	0
+P	Cergy		FR		49.036	2.076	0
+P	Clichy		FR		48.900	2.310	0
+P	Paris 09 Opéra	paris 09 opera	FR		48.872	2.340	0
+P	Saint-Quentin	saint quentin	FR		49.849	3.288	0
+P	Paris 05 Panthéon	paris 05 pantheon	FR		48.845	2.347	0
+P	Sartrouville		FR		48.948	2.192	0
+P	Maisons-Alfort	maisons alfort	FR		48.812	2.439	0
+P	Meaux		FR		48.960	2.879	0
+P	Blois		FR		47.594	1.329	0
+P	Brive-la-Gaillarde	brive la gaillarde	FR		45.159	1.533	0
+P	Beauvais		FR		49.433	2.083	0
+P	Châteauroux	chateauroux	FR		46.812	1.694	0
+P	Pantin		FR		48.894	2.409	0
+P	Lyon 06		FR		45.768	4.851	0
+P	Charleville-Mézières	charleville mezieres	FR		49.769	4.725	0
+P	Fontenay-sous-Bois	fontenay sous bois	FR		48.854	2.483	0
+P	Lyon 09		FR		45.773	4.803	0
+P	Évry	evry	FR		48.633	2.440	0
+P	Clamart		FR		48.803	2.267	0
+P	Châlons-en-Champagne	chalons en champagne	FR		48.954	4.367	0
+P	Lyon 05		FR		45.761	4.827	0
+P	Angoulême	angouleme	FR		45.650	0.153	0
+P	Bondy		FR		48.902	2.489	0
+P	Le Blanc-Mesnil	le blanc mesnil	FR		48.939	2.461	0
+P	Villejuif		FR		48.794	2.360	0
+P	Paris 07 Palais-Bourbon	paris 07 palais bourbon	FR		48.856	2.321	0
+P	Sevran		FR		48.945	2.527	0
+P	Chalon-sur-Saône	chalon sur saone	FR		46.781	4.854	0
+P	Chelles		FR		48.881	2.593	0
+P	Épinay-sur-Seine	epinay sur seine	FR		48.953	2.315	0
+P	Vincennes		FR		48.849	2.438	0
+P	Roquette		FR		48.858	2.381	0
+P	Bobigny		FR		48.910	2.450	0
+P	Montluçon	montlucon	FR		46.340	2.603	0
+P	Suresnes		FR		48.871	2.229	0
+P	Meudon		FR		48.814	2.235	0
+P	Mantes-la-Jolie	mantes la jolie	FR		48.990	1.717	0
+P	Compiègne	compiegne	FR		49.418	2.826	0
+P	Nevers		FR		46.990	3.159	0
+P	Chartres		FR		48.447	1.489	0
+P	Caluire-et-Cuire	caluire et cuire	FR		45.795	4.846	0
+P	Gennevilliers		FR		48.933	2.300	0
+P	Saint-Priest	saint priest	FR		45.697	4.944	0
+P	Rosny-sous-Bois	rosny sous bois	FR		48.870	2.499	0
+P	Auxerre		FR		47.800	3.570	0
+P	Saint-Germain-en-Laye	saint germain en laye	FR		48.896	2.090	0
+P	Puteaux		FR		48.883	2.239	0
+P	Corbeil-Essonnes	corbeil essonnes	FR		48.606	2.488	0
+P	Paris 06 Luxembourg		FR		48.849	2.330	0
+P	Garges-lès-Gonesse	garges les gonesse	FR		48.968	2.398	0
+P	Roanne		FR		46.036	4.068	0
+P	Savigny-sur-Orge	savigny sur orge	FR		48.677	2.348	0
+P	Livry-Gargan	livry gargan	FR		48.919	2.543	0
+P	Saint-Ouen	saint ouen	FR		48.907	2.333	0
+P	Montigny-le-Bretonneux	montigny le bretonneux	FR		48.766	2.034	0
+P	Noisy-le-Sec	noisy le sec	FR		48.891	2.465	0
+P	Melun		FR		48.546	2.654	0
+P	Bagneux		FR		48.796	2.308	0
+P	Massy		FR		48.727	2.283	0
+P	Montrouge		FR		48.816	2.314	0
+P	Gagny		FR		48.883	2.533	0
+P	Saint-Chamond	saint chamond	FR		45.476	4.513	0
+P	Bron		FR		45.739	4.913	0
+P	Vaulx-en-Velin	vaulx en velin	FR		45.787	4.925	0
+P	Joué-lès-Tours	joue les tours	FR		47.349	0.665	0
+P	Alfortville		FR		48.806	2.420	0
+P	La Courneuve		FR		48.928	2.396	0
+P	Châtellerault	chatellerault	FR		46.817	0.545	0
+P	Villepinte		FR		48.962	2.533	0
+P	Poissy		FR		48.929	2.050	0
+P	Conflans-Sainte-Honorine	conflans sainte honorine	FR		49.002	2.097	0
+P	Sainte-Marguerite	sainte marguerite	FR		48.852	2.389	0
+P	Bel-Air	bel air	FR		48.842	2.405	0
+P	Plaisir		FR		48.823	1.954	0
+P	Lyon 04		FR		45.775	4.827	0
+P	Dieppe		FR		49.922	1.078	0
+P	Tremblay-en-France	tremblay en france	FR		48.950	2.568	0
+P	Choisy-le-Roi	choisy le roi	FR		48.768	2.419	0
+P	Mâcon	macon	FR		46.314	4.828	0
+P	Paris 08 Élysée	paris 08 elysee	FR		48.876	2.318	0
+P	Pontault-Combault	pontault combault	FR		48.798	2.607	0
+P	Périgueux	perigueux	FR		45.187	0.714	0
+P	Neuilly-sur-Marne	neuilly sur marne	FR		48.854	2.549	0
+P	Franconville		FR		48.983	2.233	0
+P	Sainte-Geneviève-des-Bois	sainte genevieve des bois	FR		48.647	2.320	0
+P	Bagnolet		FR		48.867	2.417	0
+P	Villefranche-sur-Saône	villefranche sur saone	FR		45.990	4.720	0
+P	Châtenay-Malabry	chatenay malabry	FR		48.765	2.267	0
+P	Stains		FR		48.950	2.383	0
+P	Châtillon	chatillon	FR		48.802	2.293	0
+P	Vienne		FR		45.526	4.875	0
+P	Paris 03 Temple		FR		48.864	2.361	0
+P	Les Mureaux		FR		48.992	1.910	0
+P	Le Perreux-sur-Marne	le perreux sur marne	FR		48.850	2.500	0
+P	Guyancourt		FR		48.773	2.074	0
+P	Palaiseau		FR		48.718	2.250	0
+P	Saint-Dizier	saint dizier	FR		48.638	4.949	0
+P	Creil		FR		49.257	2.485	0
+P	Lyon 02		FR		45.754	4.831	0
+P	Folie Méricourt	folie mericourt	FR		48.866	2.371	0
+P	Nogent-sur-Marne	nogent sur marne	FR		48.837	2.483	0
+P	Athis-Mons	athis mons	FR		48.705	2.391	0
+P	Viry-Châtillon	viry chatillon	FR		48.672	2.393	0
+P	Houilles		FR		48.922	2.193	0
+P	Soissons		FR		49.382	3.324	0
+P	Dreux		FR		48.736	1.366	0
+P	Charenton-le-Pont	charenton le pont	FR		48.822	2.412	0
+P	Villeneuve-Saint-Georges	villeneuve saint georges	FR		48.732	2.449	0
+P	Élancourt	elancourt	FR		48.784	1.955	0
+P	Saint-Ambroise	saint ambroise	FR		48.862	2.375	0
+P	Alençon	alencon	FR		48.435	0.093	0
+P	Sotteville-lès-Rouen	sotteville les rouen	FR		49.410	1.090	0
+P	Pontoise		FR		49.050	2.100	0
+P	Villiers-sur-Marne	villiers sur marne	FR		48.831	2.548	0
+P	Chatou		FR		48.890	2.159	0
+P	Goussainville		FR		49.014	2.466	0
+P	Vierzon		FR		47.222	2.068	0
+P	Thiais		FR		48.765	2.396	0
+P	L'Haÿ-les-Roses	lhay les roses	FR		48.779	2.337	0
+P	Lyon 01		FR		45.768	4.835	0
+P	Malakoff		FR		48.820	2.300	0
+P	Draveil		FR		48.685	2.414	0
+P	Saint-Leu	saint leu	FR		46.731	4.501	0
+P	Le Chesnay		FR		48.822	2.122	0
+P	Clichy-sous-Bois	clichy sous bois	FR		48.910	2.553	0
+P	Saint-Étienne-du-Rouvray	saint etienne du rouvray	FR		49.378	1.105	0
+P	Yerres		FR		48.718	2.493	0
+P	Saint-Cloud	saint cloud	FR		48.846	2.203	0
+P	Sens		FR		48.197	3.283	0
+P	Laon		FR		49.563	3.627	0
+P	Trappes		FR		48.774	2.018	0
+P	Ermont		FR		48.990	2.258	0
+P	Rillieux-la-Pape	rillieux la pape	FR		45.817	4.900	0
+P	Villemomble		FR		48.883	2.500	0
+P	Pierrefitte-sur-Seine	pierrefitte sur seine	FR		48.967	2.361	0
+P	Le Kremlin-Bicêtre	le kremlin bicetre	FR		48.815	2.361	0
+P	Champs-sur-Marne	champs sur marne	FR		48.850	2.600	0
+P	Bezons		FR		48.924	2.213	0
+P	Paris 04 Hôtel-de-Ville	paris 04 hotel de ville	FR		48.860	2.351	0
+P	Taverny		FR		49.025	2.217	0
+P	Épernay	epernay	FR		49.040	3.959	0
+P	Villiers-le-Bel	villiers le bel	FR		49.009	2.398	0
+P	Vichy		FR		46.127	3.426	0
+P	Hôpital Saint-Louis	hopital saint louis	FR		48.877	2.367	0
+P	Sannois		FR		48.967	2.250	0
+P	Gonesse		FR		48.987	2.449	0
+P	Vigneux-sur-Seine	vigneux sur seine	FR		48.703	2.414	0
+P	Rambouillet		FR		48.644	1.830	0
+P	Cachan		FR		48.796	2.337	0
+P	Le Grand-Quevilly	le grand quevilly	FR		49.401	1.046	0
+P	La Garenne-Colombes	la garenne colombes	FR		48.905	2.247	0
+P	Quinze-Vingts	quinze vingts	FR		48.847	2.374	0
+P	Vanves		FR		48.823	2.290	0
+P	Vernon		FR		49.093	1.463	0
+P	Savigny-le-Temple	savigny le temple	FR		48.574	2.583	0
+P	Les Ulis		FR		48.682	2.169	0
+P	Oullins		FR		45.714	4.808	0
+P	Le Creusot		FR		46.807	4.416	0
+P	Herblay-sur-Seine	herblay sur seine	FR		48.990	2.170	0
+P	Ris-Orangis	ris orangis	FR		48.651	2.414	0
+P	Sucy-en-Brie	sucy en brie	FR		48.769	2.535	0
+P	Grigny		FR		48.654	2.393	0
+P	Fresnes		FR		48.756	2.322	0
+P	Romainville		FR		48.885	2.435	0
+P	Fontenay-aux-Roses	fontenay aux roses	FR		48.793	2.293	0
+P	Décines-Charpieu	decines charpieu	FR		45.769	4.959	0
+P	Lisieux		FR		49.147	0.229	0
+P	Torcy		FR		48.851	2.651	0
+P	Brétigny-sur-Orge	bretigny sur orge	FR		48.611	2.306	0
+P	Bois-Colombes	bois colombes	FR		48.919	2.275	0
+P	Beaune		FR		47.024	4.839	0
+P	Eaubonne		FR		48.997	2.282	0
+P	Brunoy		FR		48.694	2.492	0
+P	Villeparisis		FR		48.942	2.615	0
+P	Montfermeil		FR		48.898	2.579	0
+P	Sèvres	sevres	FR		48.823	2.218	0
+P	Gif-sur-Yvette	gif sur yvette	FR		48.683	2.133	0
+P	Moulins		FR		46.565	3.332	0
+P	Mont-Saint-Aignan	mont saint aignan	FR		49.463	1.094	0
+P	Étampes	etampes	FR		48.435	2.162	0
+P	Saint-Ouen-l'Aumône	saint ouen laumone	FR		49.044	2.121	0
+P	Montgeron		FR		48.705	2.450	0
+P	Maisons-Laffitte	maisons laffitte	FR		48.953	2.145	0
+P	Le Puy-en-Velay	le puy en velay	FR		45.044	3.885	0
+P	Le Petit-Quevilly	le petit quevilly	FR		49.413	1.062	0
+P	Olivet		FR		47.862	1.899	0
+P	Ozoir-la-Ferrière	ozoir la ferriere	FR		48.767	2.669	0
+P	Le Plessis-Robinson	le plessis robinson	FR		48.789	2.271	0
+P	Combs-la-Ville	combs la ville	FR		48.665	2.570	0
+P	Le Mée-sur-Seine	le mee sur seine	FR		48.532	2.628	0
+P	Villeneuve-la-Garenne	villeneuve la garenne	FR		48.939	2.315	0
+P	Fécamp	fecamp	FR		49.758	0.375	0
+P	Cormeilles-en-Parisis	cormeilles en parisis	FR		48.971	2.205	0
+P	Sainte-Foy-lès-Lyon	sainte foy les lyon	FR		45.734	4.803	0
+P	Vélizy-Villacoublay	velizy villacoublay	FR		48.782	2.194	0
+P	Achères	acheres	FR		48.961	2.069	0
+P	Deuil-la-Barre	deuil la barre	FR		48.977	2.327	0
+P	La Celle-Saint-Cloud	la celle saint cloud	FR		48.850	2.145	0
+P	Sceaux		FR		48.776	2.290	0
+P	Saint-Mandé	saint mande	FR		48.839	2.416	0
+P	Montmorency		FR		48.988	2.343	0
+P	Porte Saint-Martin	porte saint martin	FR		48.872	2.360	0
+P	Les Lilas		FR		48.880	2.421	0
+P	Fleury-les-Aubrais	fleury les aubrais	FR		47.933	1.918	0
+P	Dammarie-les-Lys	dammarie les lys	FR		48.517	2.650	0
+P	Roissy-en-Brie	roissy en brie	FR		48.792	2.647	0
+P	Saint-Genis-Laval	saint genis laval	FR		45.695	4.793	0
+P	Saint-Michel-sur-Orge	saint michel sur orge	FR		48.635	2.308	0
+P	Longjumeau		FR		48.693	2.294	0
+P	Vauréal	vaureal	FR		49.033	2.033	0
+P	Lagny-sur-Marne	lagny sur marne	FR		48.867	2.717	0
+P	Sedan		FR		49.702	4.940	0
+P	Orly		FR		48.748	2.393	0
+P	Saint-Vincent de Paul	saint vincent de paul	FR		48.881	2.355	0
+P	Chamalières	chamalieres	FR		45.774	3.067	0
+P	Montceau-les-Mines	montceau les mines	FR		46.667	4.367	0
+P	Riom		FR		45.894	3.113	0
+P	Chevilly-Larue	chevilly larue	FR		48.765	2.350	0
+P	Croulebarbe		FR		48.810	2.354	0
+P	La Defense		FR		48.892	2.239	0
+P	Romorantin-Lanthenay	romorantin lanthenay	FR		47.367	1.750	0
+P	Mantes-la-Ville	mantes la ville	FR		48.974	1.703	0
+P	Morsang-sur-Orge	morsang sur orge	FR		48.662	2.353	0
+P	Saint-Jean-de-Braye	saint jean de braye	FR		47.913	1.977	0
+P	Paris 02 Bourse		FR		48.865	2.343	0
+P	Saint-Gratien	saint gratien	FR		48.974	2.287	0
+P	Les Pavillons-sous-Bois	les pavillons sous bois	FR		48.907	2.506	0
+P	Fontainebleau		FR		48.409	2.702	0
+P	Nogent-sur-Oise	nogent sur oise	FR		49.272	2.471	0
+P	Écully	ecully	FR		45.774	4.778	0
+P	Vendôme	vendome	FR		47.793	1.066	0
+P	Louviers		FR		49.217	1.167	0
+P	Senlis		FR		49.207	2.587	0
+P	Limeil-Brévannes	limeil brevannes	FR		48.745	2.487	0
+P	Jouy-le-Moutier	jouy le moutier	FR		49.011	2.040	0
+P	Maurepas		FR		48.765	1.929	0
+P	Garches		FR		48.842	2.182	0
+P	Chilly-Mazarin	chilly mazarin	FR		48.715	2.316	0
+P	Bourg-la-Reine	bourg la reine	FR		48.779	2.318	0
+P	Cournon-d'Auvergne	cournon dauvergne	FR		45.741	3.196	0
+P	Chaville		FR		48.806	2.189	0
+P	Neuilly-Plaisance	neuilly plaisance	FR		48.863	2.506	0
+P	Bonneuil-sur-Marne	bonneuil sur marne	FR		48.770	2.479	0
+P	Le Plessis-Trévise	le plessis trevise	FR		48.811	2.574	0
+P	Mitry-Mory	mitry mory	FR		48.983	2.617	0
+P	Limay		FR		48.996	1.741	0
+P	Annonay		FR		45.240	4.671	0
+P	Chennevières-sur-Marne	chennevieres sur marne	FR		48.797	2.540	0
+P	Autun		FR		46.951	4.299	0
+P	Givors		FR		45.591	4.769	0
+P	Joinville-le-Pont	joinville le pont	FR		48.825	2.475	0
+P	Montigny-lès-Cormeilles	montigny les cormeilles	FR		48.982	2.200	0
+P	Firminy		FR		45.390	4.289	0
+P	Orsay		FR		48.696	2.187	0
+P	Le Pré-Saint-Gervais	le pre saint gervais	FR		48.885	2.404	0
+P	Lucé	luce	FR		48.437	1.464	0
+P	Les Clayes-sous-Bois	les clayes sous bois	FR		48.822	1.987	0
+P	Salpêtrière	salpetriere	FR		48.837	2.358	0
+P	Villeneuve-le-Roi	villeneuve le roi	FR		48.737	2.401	0
+P	Saint-Jean-de-la-Ruelle	saint jean de la ruelle	FR		47.911	1.865	0
+P	Montargis		FR		47.997	2.733	0
+P	Soisy-sous-Montmorency	soisy sous montmorency	FR		48.988	2.302	0
+P	Marly-le-Roi	marly le roi	FR		48.867	2.083	0
+P	Saint-Cyr-sur-Loire	saint cyr sur loire	FR		47.400	0.667	0
+P	Arcueil		FR		48.800	2.333	0
+P	Vitry-le-François	vitry le francois	FR		48.725	4.584	0
+P	Elbeuf		FR		49.287	1.003	0
+P	Montereau-Fault-Yonne	montereau fault yonne	FR		48.383	2.950	0
+P	Tulle		FR		45.266	1.772	0
+P	Tassin-la-Demi-Lune	tassin la demi lune	FR		45.755	4.788	0
+P	Verneuil-sur-Seine	verneuil sur seine	FR		48.974	1.965	0
+P	Verrières-le-Buisson	verrieres le buisson	FR		48.746	2.268	0
+P	Le Vésinet	le vesinet	FR		48.893	2.133	0
+P	Montivilliers		FR		49.545	0.188	0
+P	Domont		FR		49.028	2.326	0
+P	Osny		FR		49.070	2.063	0
+P	Le Pecq		FR		48.893	2.104	0
+P	Saint-Cyr-l'École	saint cyr lecole	FR		48.799	2.068	0
+P	Moissy-Cramayel	moissy cramayel	FR		48.626	2.601	0
+P	Saran		FR		47.950	1.876	0
+P	Bry-sur-Marne	bry sur marne	FR		48.838	2.525	0
+P	Montbrison		FR		45.608	4.065	0
+P	Viroflay		FR		48.801	2.162	0
+P	Saint-Leu-la-Forêt	saint leu la foret	FR		49.017	2.250	0
+P	Saint-Fons	saint fons	FR		45.709	4.853	0
+P	Saint-Avertin	saint avertin	FR		47.364	0.740	0
+P	Châteaudun	chateaudun	FR		48.071	1.338	0
+P	Issoire		FR		45.544	3.249	0
+P	Gien		FR		47.693	2.631	0
+P	Gentilly		FR		48.813	2.342	0
+P	Château-Thierry	chateau thierry	FR		49.046	3.403	0
+P	Brie-Comte-Robert	brie comte robert	FR		48.692	2.611	0
+P	Boissy-Saint-Léger	boissy saint leger	FR		48.751	2.512	0
+P	Guéret	gueret	FR		46.172	1.872	0
+P	Canteleu		FR		49.441	1.025	0
+P	Crépy-en-Valois	crepy en valois	FR		49.234	2.888	0
+P	Lognes		FR		48.835	2.630	0
+P	Tergnier		FR		49.656	3.301	0
+P	Carrières-sous-Poissy	carrieres sous poissy	FR		48.950	2.041	0
+P	Éragny	eragny	FR		49.017	2.100	0
+P	Noisiel		FR		48.849	2.624	0
+P	Saint-Pierre-des-Corps	saint pierre des corps	FR		47.386	0.748	0
+P	Coulommiers		FR		48.815	3.085	0
+P	Montesson		FR		48.909	2.138	0
+P	Noyon		FR		49.583	3.000	0
+P	Paris 01 Louvre		FR		48.859	2.342	0
+P	Porte Saint-Denis	porte saint denis	FR		48.874	2.352	0
+P	Avon		FR		48.402	2.720	0

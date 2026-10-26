@@ -1,0 +1,49 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baghdad	180	
+C	IQ	Iraq	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SY	Syria	egyptian	s
+B	3
+P	Baghdad		IQ		33.341	44.401	0
+P	Karbala		IQ		32.616	44.025	0
+P	Sadr City		IQ		33.389	44.458	0
+P	Abū Ghurayb	abu ghurayb	IQ		33.306	44.185	0
+P	Najaf		IQ		32.026	44.346	0
+P	Al Hillah		IQ		32.464	44.420	0
+P	Al Maḩmūdīyah	al mahmudiyah	IQ		33.062	44.366	0
+P	Al Diwaniyah		IQ		31.993	44.926	0
+P	Ramadi		IQ		33.421	43.308	0
+P	Al Fallūjah	al fallujah	IQ		33.349	43.786	0
+P	Bayjī	bayji	IQ		34.929	43.489	0
+P	Sāmarrā’	samarra	IQ		34.196	43.886	0
+P	Al Miqdādīyah	al miqdadiyah	IQ		33.979	44.937	0
+P	Baqubah		IQ		33.754	44.605	0
+P	Arar		SA		30.975	41.038	0
+P	Al Hindīyah	al hindiyah	IQ		32.542	44.225	0
+P	Ţūz Khūrmātū	tuz khurmatu	IQ		34.888	44.633	0
+P	Kufa		IQ		32.051	44.440	0
+P	Al-Musayab	al musayab	IQ		32.779	44.290	0
+P	Nāḩiyat al Iskandarīyah	nahiyat al iskandariyah	IQ		32.887	44.346	0
+P	Al-Qāsim	al qasim	IQ		32.298	44.683	0
+P	Aş Şuwayrah	as suwayrah	IQ		32.926	44.776	0
+P	Al Qā’im	al qaim	IQ		34.393	40.989	0
+P	Khāliş	khalis	IQ		33.808	44.533	0
+P	Ash Shāmīyah	ash shamiyah	IQ		31.963	44.601	0
+P	Ālbū Kamāl	albu kamal	SY		34.452	40.919	0
+P	Tikrīt	tikrit	IQ		34.616	43.679	0
+P	Balad		IQ		34.015	44.146	0
+P	Saddat al Hindīyah	saddat al hindiyah	IQ		32.716	44.279	0
+P	Hīt	hit	IQ		33.637	42.828	0
+P	Al Maḩāwīl	al mahawil	IQ		32.661	44.409	0
+P	Ḩadīthah	hadithah	IQ		34.137	42.377	0
+P	Nahiyat Ghammas		IQ		31.743	44.620	0
+P	Kifrī	kifri	IQ		34.690	44.961	0
+P	Hajīn	hajin	SY		34.695	40.831	0
+P	‘Anah	anah	IQ		34.369	41.982	0
+P	Ad Dujayl		IQ		33.847	44.234	0
+P	Al-'Alam	al alam	IQ		34.709	43.695	0
+P	Subaykhān	subaykhan	SY		34.853	40.600	0
+P	Al Mishkhāb	al mishkhab	IQ		31.804	44.489	0
+P	Nāḩiyat ash Shināfīyah	nahiyat ash shinafiyah	IQ		31.584	44.647	0
+P	Ar Ruţbah	ar rutbah	IQ		33.037	40.286	0
+P	‘Anat al Qadīmah	anat al qadimah	IQ		34.469	41.942	0

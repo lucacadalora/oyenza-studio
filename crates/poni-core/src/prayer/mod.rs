@@ -74,6 +74,10 @@ pub struct Place {
     /// A world list place's clock; the others take theirs from `tz`.
     #[serde(skip)]
     pub clock: Option<Clock>,
+    /// A world list place as its own few lines ([`World::excerpt`]): what
+    /// settings keep of it, so it comes back without going online.
+    #[serde(skip)]
+    pub world_lines: Option<String>,
 }
 
 fn default_h0() -> f64 {
@@ -162,11 +166,11 @@ impl PlaceList {
     }
 }
 
-/// Places in Kemenag's list and the world list (when it's read) matching
-/// what was typed, best first, at most `limit`. Within a rank: the world's
-/// cities of a million people or more, then Kemenag's places (and the Saudi
-/// three, also by their other spellings, "Mecca"), then the rest of the world
-/// by size.
+/// Places in Kemenag's list and the world's (the online file for what was
+/// typed, once it's here) matching what was typed, best first, at most
+/// `limit`. Within a rank: the world's cities of a million people or more,
+/// then Kemenag's places (and the Saudi three, also by their other
+/// spellings, "Mecca"), then the rest of the world by size.
 pub fn search(list: &PlaceList, world: Option<&World>, query: &str, limit: usize) -> Vec<Place> {
     let q = world::fold(query);
     let mut ours: Vec<(u8, &Place)> = list.ranked(&q);
@@ -185,22 +189,19 @@ pub fn search(list: &PlaceList, world: Option<&World>, query: &str, limit: usize
     keys.into_iter().take(limit).filter_map(|(_, tier, i)| if tier == 1 { Some(ours[i].1.clone()) } else { world?.place(i) }).collect()
 }
 
-/// The place nearest a point in Kemenag's list or the world list, and how
-/// far it is (km).
-pub fn nearest(list: &PlaceList, world: Option<&World>, lat: f64, lng: f64) -> Option<(Place, f64)> {
+/// The place nearest a point in Kemenag's list or the world's squares
+/// around it ([`world::files_near`]), and how far it is (km).
+pub fn nearest(list: &PlaceList, squares: &[&World], lat: f64, lng: f64) -> Option<(Place, f64)> {
     let ours = list.nearest(lat, lng).map(|(p, km)| (p.clone(), km));
-    let theirs = world.and_then(|w| w.nearest(lat, lng));
-    match (ours, theirs) {
-        (Some(a), Some(b)) => Some(if b.1 < a.1 { b } else { a }),
-        (a, b) => a.or(b),
-    }
+    let theirs = squares.iter().filter_map(|w| w.nearest(lat, lng));
+    ours.into_iter().chain(theirs).min_by(|a, b| a.1.total_cmp(&b.1))
 }
 
-/// The place saved under `id`: from places.json, or from the world list
-/// ("w:" ids) when it's read.
-pub fn find(list: &PlaceList, world: Option<&World>, id: &str) -> Option<Place> {
+/// The place saved under `id`: from places.json, or for a world city
+/// ("w:" ids), from the lines settings keep of it.
+pub fn find(list: &PlaceList, world_lines: Option<&str>, id: &str) -> Option<Place> {
     if id.starts_with(world::ID_PREFIX) {
-        world?.find(id)
+        World::parse(world_lines?.to_string()).ok()?.find(id)
     } else {
         list.find(id).cloned()
     }
@@ -216,6 +217,10 @@ pub fn distance_km(lat1: f64, lng1: f64, lat2: f64, lng2: f64) -> f64 {
 /// Farther than this from every listed place, a location picks none: the
 /// times there would be minutes off.
 pub const NEAREST_MAX_KM: f64 = 250.0;
+
+/// A location this close to one of Kemenag's places takes it without
+/// looking the world's cities up: it's in Indonesia (or at the Haram).
+pub const KEMENAG_NEAR_KM: f64 = 20.0;
 
 /// The place a PC's time zone suggests until one is found or picked.
 pub fn suggested_place_id(utc_offset_min: i32) -> Option<&'static str> {

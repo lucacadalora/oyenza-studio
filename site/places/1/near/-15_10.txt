@@ -1,0 +1,28 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+C	AO	Angola	egyptian	s
+B	0
+P	Lubango		AO		-14.917	13.492	0
+P	Benguela		AO		-12.577	13.403	0
+P	Lobito		AO		-12.364	13.536	0
+P	Navegantes		AO		-12.590	13.391	0
+P	Sumbe		AO		-11.206	13.844	0
+P	Bocoio		AO		-12.470	14.137	0
+P	Gabela		AO		-10.851	14.380	0
+P	Balombo		AO		-12.354	14.772	0
+P	Baía Farta	baia farta	AO		-12.604	13.197	0
+P	Catumbela		AO		-12.430	13.547	0
+P	Porto Amboim		AO		-10.733	13.768	0
+P	Cubal		AO		-13.039	14.245	0
+P	Camucuio		AO		-14.114	13.241	0
+P	Ganda		AO		-13.016	14.635	0
+P	Ucu Seles		AO		-11.412	14.307	0
+P	Calulo		AO		-10.001	14.895	0
+P	Chindumbo		AO		-11.950	14.467	0
+P	Caluquembe		AO		-13.867	14.433	0
+P	Quibala		AO		-10.734	14.980	0
+P	Dombe Grande		AO		-12.952	13.102	0
+P	Quipungo		AO		-14.819	14.535	0
+P	Conda		AO		-11.109	14.336	0
+P	Capunda		AO		-11.133	14.467	0
+P	Cubal do Lumbo		AO		-12.313	14.127	0

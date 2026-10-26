@@ -1,0 +1,59 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Asuncion	-180	
+C	AR	Argentina	mwl	s
+C	BR	Brazil	mwl	s
+C	PY	Paraguay	mwl	s
+B	1
+P	Asunción	asuncion	PY		-25.286	-57.647	0
+P	Corrientes		AR		-27.468	-58.834	0
+P	Posadas		AR		-27.392	-55.924	0
+P	Resistencia		AR		-27.464	-58.987	0
+P	San Lorenzo		PY		-25.340	-57.509	0
+P	Formosa		AR		-26.185	-58.173	0
+P	Capiatá	capiata	PY		-25.355	-57.445	0
+P	Ituzaingó	ituzaingo	AR		-27.585	-56.687	0
+P	Lambaré	lambare	PY		-25.347	-57.606	0
+P	Uruguaiana		BR		-29.755	-57.088	0
+P	Fernando de la Mora		PY		-25.339	-57.522	0
+P	Limpio		PY		-25.166	-57.486	0
+P	Nemby		PY		-25.395	-57.536	0
+P	Reconquista		AR		-29.150	-59.650	0
+P	Encarnación	encarnacion	PY		-27.332	-55.867	0
+P	Alegrete		BR		-29.783	-55.792	0
+P	Mariano Roque Alonso		PY		-25.208	-57.532	0
+P	Goya		AR		-29.140	-59.263	0
+P	Itauguá	itaugua	PY		-25.393	-57.354	0
+P	Villa Elisa		PY		-25.368	-57.593	0
+P	São Borja	sao borja	BR		-28.661	-56.004	0
+P	Villa Hayes		PY		-25.093	-57.527	0
+P	Caacupé	caacupe	PY		-25.386	-57.142	0
+P	Oberá	obera	AR		-27.487	-55.120	0
+P	San Antonio		PY		-25.421	-57.547	0
+P	Caaguazú	caaguazu	PY		-25.471	-56.016	0
+P	Coronel Oviedo		PY		-25.446	-56.439	0
+P	Barranqueras		AR		-27.481	-58.939	0
+P	San Lorenzo		AR		-28.134	-58.767	0
+P	Paso de los Libres		AR		-29.713	-57.088	0
+P	Villarrica		PY		-25.749	-56.435	0
+P	Curuzú Cuatiá	curuzu cuatia	AR		-29.791	-58.050	0
+P	Itaqui		BR		-29.125	-56.553	0
+P	Pilar		PY		-26.859	-58.306	0
+P	General José de San Martín	general jose de san martin	AR		-26.536	-59.341	0
+P	Mercedes		AR		-29.184	-58.075	0
+P	Apóstoles	apostoles	AR		-27.914	-55.754	0
+P	Garupá	garupa	AR		-27.483	-55.829	0
+P	Gobernador Virasora		AR		-28.050	-56.033	0
+P	Leandro N. Alem	leandro n alem	AR		-27.604	-55.324	0
+P	Fontana		AR		-27.420	-59.037	0
+P	Jardín América	jardin america	AR		-27.043	-55.227	0
+P	Caazapá	caazapa	PY		-26.197	-56.368	0
+P	Avellaneda		AR		-29.118	-59.658	0
+P	Santo Tomé	santo tome	AR		-28.551	-56.041	0
+P	Pirané	pirane	AR		-25.733	-59.110	0
+P	Villa Ocampo		AR		-28.487	-59.354	0
+P	Itá	ita	PY		-25.501	-57.367	0
+P	Saladas		AR		-28.255	-58.624	0
+P	São Francisco de Assis	sao francisco de assis	BR		-29.550	-55.131	0
+P	Puerto Rico		AR		-26.809	-55.021	0
+P	San Juan Bautista		PY		-26.670	-57.141	0
+P	San Luis del Palmar		AR		-27.508	-58.556	0

@@ -1,0 +1,50 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	5
+P	Wuzhong		CN		37.987	106.201	0
+P	Qingyang		CN		35.710	107.645	0
+P	Ordos		CN		39.609	109.782	0
+P	Yinchuan		CN		38.468	106.273	0
+P	Zhongwei		CN		37.511	105.191	0
+P	Shizuishan		CN		38.981	106.389	0
+P	Pingliang		CN		35.539	106.686	0
+P	Yan’an	yanan	CN		36.599	109.492	0
+P	Guyuan		CN		36.007	106.281	0
+P	Tongchuanshi		CN		35.075	109.085	0
+P	Wuhai		CN		39.684	106.816	0
+P	Yintai		CN		35.115	109.097	0
+P	Huinong		CN		39.233	106.769	0
+P	Dawukou		CN		39.042	106.396	0
+P	Wuda		CN		39.499	106.712	0
+P	Wayaobu		CN		37.136	109.660	0
+P	Xigang		CN		38.553	106.348	0
+P	Dongsheng		CN		39.816	109.978	0
+P	Bayan Hot		CN		38.839	105.669	0
+P	Yulinshi		CN		38.292	109.738	0
+P	Shitanjing		CN		39.234	106.344	0
+P	Yanghe		CN		38.279	106.248	0
+P	Lingwu		CN		38.102	106.340	0
+P	Ningdong		CN		38.161	106.585	0
+P	Wangyuan		CN		38.384	106.272	0
+P	Chongxing		CN		38.033	106.300	0
+P	Longshan		CN		35.032	106.081	0
+P	Wuying		CN		35.015	105.899	0
+P	Lianhua		CN		35.062	105.791	0
+P	Haojiaqiao		CN		38.017	106.283	0
+P	Wanghong		CN		38.212	106.225	0
+P	Jingui		CN		38.500	106.417	0
+P	Xichuan		CN		35.031	106.063	0
+P	Lijun		CN		38.186	106.120	0
+P	Weidian		CN		35.102	105.566	0
+P	Changxin		CN		38.675	106.330	0
+P	Longcheng		CN		35.001	105.973	0
+P	Minning		CN		38.249	105.971	0
+P	Ligang		CN		38.646	106.430	0
+P	Wangpu		CN		35.057	105.436	0
+P	Dongta		CN		38.081	106.344	0
+P	Maguan		CN		35.066	106.033	0
+P	Wutongshu		CN		38.183	106.283	0
+P	Hongguang Qidui		CN		38.733	106.287	0
+P	Linhe		CN		38.321	106.368	0
+P	Muhe		CN		35.023	106.135	0

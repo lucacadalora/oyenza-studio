@@ -1,0 +1,19 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Salta	-180	
+Z	1	America/La_Paz	-240	
+Z	2	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+C	AR	Argentina	mwl	s
+C	BO	Bolivia	mwl	s
+C	CL	Chile	mwl	s
+B	0
+P	Salta		AR		-24.806	-65.420	0
+P	San Salvador de Jujuy		AR		-24.193	-65.293	0
+P	Calama		CL		-22.457	-68.924	2
+P	Palpalá	palpala	AR		-24.258	-65.214	0
+P	General Güemes	general guemes	AR		-24.674	-65.047	0
+P	San José de los Cerrillos	san jose de los cerrillos	AR		-24.897	-65.484	0
+P	San Lorenzo		AR		-24.736	-65.487	0
+P	Villazón	villazon	BO		-22.087	-65.594	1
+P	Rosario de Lerma		AR		-24.986	-65.578	0
+P	Tupiza		BO		-21.443	-65.719	1
+P	Pozo Almonte		CL		-20.256	-69.786	2

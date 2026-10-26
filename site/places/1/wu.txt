@@ -1,0 +1,77 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	Asia/Bangkok	420	
+Z	2	Asia/Riyadh	180	
+Z	3	Asia/Shanghai	480	
+Z	4	Asia/Urumqi	360	
+Z	5	Asia/Yangon	390	
+Z	6	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	HK	Hong Kong	mwl	s
+C	MM	Myanmar	mwl	s
+C	NG	Nigeria	egyptian	s
+C	SA	Saudi Arabia	ummalqura	s
+C	TH	Thailand	mwl	s
+C	TW	Taiwan	mwl	s
+B	5
+P	Wuhan		CN		30.583	114.267	3
+P	Wuzhong		CN		37.987	106.201	3
+P	Wuxi		CN		31.569	120.289	3
+P	Wuhu		CN		31.353	118.429	3
+P	Wuwei		CN		37.927	102.632	3
+P	Wuzhou		CN		23.481	111.288	3
+P	Wuppertal		DE		51.256	7.148	6
+P	Wuxue		CN		29.851	115.552	3
+P	Wuhai		CN		39.684	106.816	3
+P	Wujiaqu		CN		44.163	87.522	4
+P	Wuyishan		CN		27.760	118.031	3
+P	Würzburg	wurzburg	DE		49.794	9.951	6
+P	Wugang		CN		26.728	110.632	3
+P	Wuda		CN		39.499	106.712	3
+P	Wushan		CN		31.077	109.876	3
+P	Wuzhishan		CN		18.782	109.501	3
+P	Wuchuan		CN		21.457	110.766	3
+P	Wuchang		CN		44.928	127.160	3
+P	Wukari		NG		7.871	9.778	0
+P	Wuyang		CN		31.992	116.247	3
+P	Wulong		CN		29.324	107.761	3
+P	Wusu		CN		44.431	84.676	4
+P	Wushan		CN		34.721	104.886	3
+P	Wuxi		CN		26.584	111.859	3
+P	Wufeng		TW		24.064	120.698	3
+P	Wujing		CN		36.450	118.400	3
+P	Wucheng		CN		29.601	118.175	3
+P	Wuzhen		CN		30.745	120.485	3
+P	Wulingyuan		CN		29.349	110.544	3
+P	Al Badā’i‘ al Wusţá	al badai al wusta	SA		25.985	43.737	2
+P	Wum		CM		6.383	10.067	0
+P	Wuduan		CN		34.574	117.095	3
+P	Wunstorf		DE		52.424	9.436	6
+P	Würselen	wurselen	DE		50.818	6.135	6
+P	Wujia		CN		29.635	105.391	3
+P	Wuying		CN		35.015	105.899	3
+P	Wushan		CN		36.247	118.838	3
+P	Wuhe		CN		24.859	98.668	3
+P	Wundwin		MM		21.094	96.028	5
+P	Königs Wusterhausen	konigs wusterhausen	DE		52.301	13.633	6
+P	Wudalike		CN		38.362	77.130	4
+P	Sandaoling Lutiankuang Wuqi Nongchang		CN		43.015	92.883	4
+P	Wutan		CN		29.257	106.063	3
+P	Wuma		CN		30.854	109.376	3
+P	Wuling		CN		30.506	108.259	3
+P	Wu Kai Sha		HK		22.430	114.242	3
+P	Wudil		NG		11.809	8.844	0
+P	Ban Nong Wua So		TH		17.267	103.225	1
+P	Wülfrath	wulfrath	DE		51.282	7.038	6
+P	Wuqiao		CN		30.780	108.455	3
+P	Wutongshu		CN		38.183	106.283	3
+P	Neu Wulmstorf		DE		53.466	9.792	6
+P	Wujian		CN		29.182	105.834	3
+P	Wushan		CN		30.937	107.947	3
+P	Wushipai		CN		22.524	113.910	3
+P	Wudong		CN		30.210	107.341	3
+P	Wu'erqi	wuerqi	CN		37.320	79.559	4
+P	Wujia		CN		21.767	109.033	3
+P	Wurzen		DE		51.371	12.739	6

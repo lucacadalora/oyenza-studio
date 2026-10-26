@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Karachi	300	
+Z	1	Asia/Tehran	210	
+C	IR	Iran	tehran	s
+C	PK	Pakistan	karachi	h
+B	0
+P	Zahedan		IR		29.496	60.863	1
+P	Iranshahr		IR		27.202	60.685	1
+P	Turbat		PK		26.001	63.048	0
+P	Gwadar		PK		25.122	62.325	0
+P	Khāsh	khash	IR		28.221	61.216	1
+P	Sarāvān	saravan	IR		27.371	62.331	1
+P	Chabahar		IR		25.292	60.643	1
+P	Pasni		PK		25.263	63.469	0
+P	Konārak	konarak	IR		25.360	60.400	1
+P	Washuk		PK		27.727	64.810	0
+P	Qaşr-e Qand	qasr e qand	IR		26.248	60.752	1
+P	Nok Kundi		PK		28.827	62.750	0
+P	Jiwani		PK		25.049	61.746	0
+P	Taftan		PK		28.947	61.587	0
+P	Jālq	jalq	IR		27.603	62.710	1
+P	Nīkshahr	nikshahr	IR		26.226	60.214	1
+P	Pīshīn	pishin	IR		26.079	61.754	1

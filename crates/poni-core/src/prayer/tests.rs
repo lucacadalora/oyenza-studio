@@ -340,44 +340,148 @@ fn a_passed_time_rings_only_when_on_time() {
 
 // ---------------------------------------------------------------- the world list
 
-/// The add-on's world list (tools/make_world_places.py).
-const WORLD: &[u8] = include_bytes!("../../../../addons/sholat/world.tsv.zst");
-/// adhan-js 4.4.6 itself on 47 places of that list, every 9 days of 2026 and
-/// 2027 plus the solstices, equinoxes and 2026's summer-time changes: each
-/// country's method, Hanafi Ashar where the list says so,
+/// adhan-js 4.4.6 itself on 47 places of the world list, every 9 days of
+/// 2026 and 2027 plus the solstices, equinoxes and 2026's summer-time
+/// changes: each country's method, Hanafi Ashar where the list says so,
 /// `HighLatitudeRule.recommended`, `PolarCircleResolution.AqrabBalad`, and
 /// Isya +30 minutes in Ramadan for Umm al-Qura. UTC minutes since 1970.
 const WORLD_GOLDEN: &[u8] = include_bytes!("../../tests/fixtures/prayer/world-golden.txt.zst");
 
-fn world() -> World {
-    World::unpack(WORLD).unwrap()
+/// The website's folder of the world's cities (tools/make_world_places.py).
+fn site_dir() -> std::path::PathBuf {
+    std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../site/places/1")
+}
+
+/// One of the website's files as the app reads it: a file the website
+/// doesn't have is no places.
+fn file(name: &str) -> World {
+    match std::fs::read_to_string(site_dir().join(format!("{name}.txt"))) {
+        Ok(text) => World::parse(text).unwrap_or_else(|e| panic!("{name}: {e}")),
+        Err(_) => World::empty(),
+    }
+}
+
+/// What the picker has once the file for what was typed came.
+fn typed(q: &str) -> World {
+    file(&world::file_for(&world::fold(q)).unwrap())
+}
+
+/// The squares Use my location reads around a point.
+fn squares(lat: f64, lng: f64) -> Vec<World> {
+    world::files_near(lat, lng, NEAREST_MAX_KM).iter().map(|f| file(f)).collect()
+}
+
+fn near(list: &PlaceList, lat: f64, lng: f64) -> Option<(Place, f64)> {
+    let squares = squares(lat, lng);
+    nearest(list, &squares.iter().collect::<Vec<_>>(), lat, lng)
+}
+
+/// A world place by its id, from the square it sits in.
+fn world_place(id: &str) -> Place {
+    let (lat, lng) = id.strip_prefix(world::ID_PREFIX).and_then(|p| p.split_once(',')).unwrap();
+    file(&world::files_near(lat.parse().unwrap(), lng.parse().unwrap(), 0.0)[0]).find(id).unwrap_or_else(|| panic!("{id}"))
 }
 
 #[test]
-fn world_list_is_complete_and_leaves_indonesia_to_kemenag() {
-    let w = world();
-    assert!(w.len() > 33_000, "{}", w.len());
+fn every_website_file_reads_and_holds_its_cities() {
+    let (mut ids, mut by_name) = (std::collections::HashSet::new(), 0);
+    for dir in [site_dir(), site_dir().join("near")] {
+        for e in std::fs::read_dir(&dir).unwrap() {
+            let path = e.unwrap().path();
+            if path.extension().is_none_or(|x| x != "txt") {
+                continue;
+            }
+            let name = path.file_stem().unwrap().to_string_lossy().to_string();
+            let w = World::parse(std::fs::read_to_string(&path).unwrap()).unwrap_or_else(|e| panic!("{name}: {e}"));
+            for i in 0..w.len() {
+                let p = w.place(i).unwrap();
+                if dir.ends_with("near") {
+                    // Each city in the square of its point, once.
+                    assert_eq!(world::files_near(p.lat, p.lng, 0.0)[0], format!("near/{name}"), "{}", p.label);
+                    assert!(ids.insert(p.id.clone()), "{} twice", p.id);
+                } else {
+                    // Each name file holds cities with a word starting with its two letters.
+                    let key = world::fold(&p.label);
+                    assert!(key.split(' ').any(|w| w.starts_with(&name)), "{name}: {}", p.label);
+                    by_name += 1;
+                }
+            }
+        }
+    }
+    assert!(ids.len() > 33_000, "{}", ids.len());
+    assert!(by_name >= ids.len(), "{by_name}");
+}
+
+#[test]
+fn the_files_leave_indonesia_to_kemenag() {
     let list = places();
-    // Indonesia comes from Kemenag's list only: no world place sits on a kab/kota point.
-    let jakarta = w.nearest(-6.1833, 106.8333).unwrap();
-    assert!(jakarta.1 > 50.0, "{} {}", jakarta.0.label, jakarta.1);
+    // Indonesia comes from Kemenag's list only: no world place near a kab/kota point.
+    let jakarta = squares(-6.1833, 106.8333).iter().filter_map(|w| w.nearest(-6.1833, 106.8333)).map(|n| n.1).fold(f64::MAX, f64::min);
+    assert!(jakarta > 50.0, "{jakarta}");
     // Nor on Makkah, Madinah or Jeddah.
     for id in ["makkah", "madinah", "jeddah"] {
         let p = list.find(id).unwrap();
-        assert!(w.nearest(p.lat, p.lng).unwrap().1 > 15.0, "{id}");
+        let km = squares(p.lat, p.lng).iter().filter_map(|w| w.nearest(p.lat, p.lng)).map(|n| n.1).fold(f64::MAX, f64::min);
+        assert!(km > 15.0, "{id} {km}");
     }
-    let e = w.find("w:55.952,-3.196").unwrap();
+    let e = world_place("w:55.952,-3.196");
     assert_eq!((e.label.as_str(), e.prov.as_str(), e.method, e.hanafi), ("Edinburgh", "Scotland, United Kingdom", Method::MoonsightingCommittee, false));
     assert!(e.is_world() && e.site().is_some());
 }
 
 #[test]
+fn what_is_typed_names_one_small_file() {
+    let f = |q: &str| world::file_for(&world::fold(q));
+    assert_eq!(f("edin").as_deref(), Some("ed"));
+    assert_eq!(f("Edinburgh").as_deref(), Some("ed"));
+    assert_eq!(f("new yo").as_deref(), Some("ne"));
+    assert_eq!(f("A Coruña").as_deref(), Some("co"));
+    assert_eq!(f("Düsseldorf").as_deref(), Some("du"));
+    assert_eq!(f("e"), None);
+    assert_eq!(f(""), None);
+    assert_eq!(f("مكة"), None);
+    // Every file a name can ask for is small.
+    let biggest = std::fs::read_dir(site_dir()).unwrap().flatten().map(|e| e.metadata().unwrap().len()).max().unwrap();
+    assert!(biggest < 128 * 1024, "{biggest}");
+}
+
+#[test]
+fn a_location_reads_the_squares_around_it() {
+    // Edinburgh: its own square, then the ones within 250 km.
+    let e = world::files_near(55.95, -3.2, NEAREST_MAX_KM);
+    assert_eq!(e[0], "near/55_-5");
+    assert!(e.contains(&"near/55_0".to_string()) && e.contains(&"near/50_-5".to_string()) && e.len() <= 6, "{e:?}");
+    // Mid-square on the equator: that square alone.
+    assert_eq!(world::files_near(2.5, 102.5, 100.0), ["near/0_100"]);
+    // Across 180 degrees: Fiji's squares on both sides.
+    let fiji = world::files_near(-17.8, 179.9, 100.0);
+    assert!(fiji.contains(&"near/-20_175".to_string()) && fiji.contains(&"near/-20_-180".to_string()), "{fiji:?}");
+    assert_eq!(world::url("near/55_-5"), "https://studio.oyenza.com/places/1/near/55_-5.txt");
+}
+
+#[test]
+fn a_place_keeps_as_its_own_lines() {
+    let list = places();
+    for q in ["edin", "new york", "karachi", "sydney", "kuala lumpur", "cairo"] {
+        let w = typed(q);
+        let p = w.place(w.search(&world::fold(q), 1)[0].order).unwrap();
+        let lines = p.world_lines.clone().unwrap();
+        assert!(lines.len() < 1024, "{q}: {} bytes", lines.len());
+        let back = find(&list, Some(&lines), &p.id).unwrap();
+        assert_eq!(back, p, "{q}");
+    }
+    assert_eq!(find(&list, None, "w:55.952,-3.196"), None);
+    assert_eq!(find(&list, Some("P\tnope"), "w:55.952,-3.196"), None);
+    assert_eq!(find(&list, None, "bandung").unwrap().label, "Kota Bandung");
+}
+
+#[test]
 fn world_places_match_adhan_js_to_the_minute() {
-    let w = world();
     let (mut exact, mut polar) = (0, 0);
+    let mut seen: std::collections::HashMap<String, Place> = std::collections::HashMap::new();
     for line in unpack(WORLD_GOLDEN).lines().filter(|l| !l.starts_with('#')) {
         let f: Vec<&str> = line.split(' ').collect();
-        let place = w.find(f[0]).unwrap_or_else(|| panic!("{line}"));
+        let place = seen.entry(f[0].to_string()).or_insert_with(|| world_place(f[0])).clone();
         assert_eq!(place.id, f[0]);
         let t = day_times(&place.site().unwrap(), parse_day(f[1])).unwrap();
         let ours = [t.subuh, t.terbit, t.dzuhur, t.ashar, t.maghrib, t.isya].map(|s| s.div_euclid(60));
@@ -398,9 +502,8 @@ fn world_places_match_adhan_js_to_the_minute() {
 
 #[test]
 fn world_clocks_follow_summer_time() {
-    let w = world();
     let utc = |date: &str, hhmm: &str| parse_day(date) * 86_400 + minute_of_day(hhmm) * 60;
-    let edinburgh = w.find("w:55.952,-3.196").unwrap().site().unwrap();
+    let edinburgh = world_place("w:55.952,-3.196").site().unwrap();
     // British Summer Time: 29 Mar 2026 01:00 UTC to 25 Oct 2026 01:00 UTC.
     assert_eq!(edinburgh.offset_min(utc("2026-03-29", "00:59")), 0);
     assert_eq!(edinburgh.offset_min(utc("2026-03-29", "01:00")), 60);
@@ -409,11 +512,12 @@ fn world_clocks_follow_summer_time() {
     assert_eq!(edinburgh.hhmm(utc("2026-10-26", "16:21")), "16:21");
     assert_eq!(edinburgh.hhmm(utc("2026-07-01", "16:21")), "17:21");
     assert_eq!(edinburgh.midnight(parse_day("2026-07-01")), utc("2026-06-30", "23:00"));
-    let ny = w.search(&world::fold("New York"), 1)[0];
-    let ny = w.place(ny.order).unwrap().site().unwrap();
+    let w = typed("new york");
+    let ny = w.place(w.search(&world::fold("New York"), 1)[0].order).unwrap().site().unwrap();
     assert_eq!(ny.offset_min(utc("2026-03-08", "06:59")), -300);
     assert_eq!(ny.offset_min(utc("2026-03-08", "07:00")), -240);
     // Sydney's summer is the other half of the year.
+    let w = typed("sydney");
     let sydney = w.place(w.search("sydney", 1)[0].order).unwrap().site().unwrap();
     assert_eq!(sydney.offset_min(utc("2026-01-15", "00:00")), 660);
     assert_eq!(sydney.offset_min(utc("2026-07-15", "00:00")), 600);
@@ -425,13 +529,18 @@ fn world_clocks_follow_summer_time() {
 
 #[test]
 fn world_search_finds_any_city_and_keeps_kemenag_first_at_home() {
-    let (list, w) = (places(), world());
-    let labels = |q: &str| search(&list, Some(&w), q, 8).into_iter().map(|p| format!("{} | {}", p.label, p.prov)).collect::<Vec<_>>();
+    let list = places();
+    let labels = |q: &str| search(&list, Some(&typed(q)), q, 8).into_iter().map(|p| format!("{} | {}", p.label, p.prov)).collect::<Vec<_>>();
     let edin = labels("edin");
     assert_eq!(edin[0], "Edinburgh | Scotland, United Kingdom");
     assert!(edin.contains(&"Edinburg | Texas, United States".to_string()), "{edin:?}");
     let london = labels("london");
     assert_eq!(&london[..2], ["London | England, United Kingdom", "London | Ontario, Canada"]);
+    assert_eq!(labels("vie")[0], "Vienna | Austria");
+    // A word of the name, not only its start; the whole name first.
+    let york = labels("york");
+    assert_eq!(york[0], "York | England, United Kingdom");
+    assert!(york.contains(&"New York City | New York, United States".to_string()), "{york:?}");
     assert_eq!(labels("mecca")[0], "Makkah | Arab Saudi");
     assert_eq!(labels("Madina")[0], "Madinah | Arab Saudi");
     // Typed with its accent or without.
@@ -440,33 +549,34 @@ fn world_search_finds_any_city_and_keeps_kemenag_first_at_home() {
     // Kemenag's kab/kota before smaller cities abroad; big cities first.
     assert_eq!(&labels("bandung")[..3], ["Kab. Bandung | Jawa Barat", "Kota Bandung | Jawa Barat", "Kab. Bandung Barat | Jawa Barat"]);
     assert_eq!(labels("kuala")[0], "Kuala Lumpur | Malaysia");
-    // Without the world list (not read yet) the picker still finds Kemenag's places.
+    // Before the file comes (or offline) the picker still finds Kemenag's places.
     assert_eq!(search(&list, None, "bandung", 8).len(), 3);
     assert!(search(&list, None, "edin", 8).is_empty());
 }
 
 #[test]
 fn location_picks_the_nearest_place_in_either_list() {
-    let (list, w) = (places(), world());
+    let list = places();
     // Edinburgh Castle.
-    let (p, km) = nearest(&list, Some(&w), 55.9486, -3.1999).unwrap();
+    let (p, km) = near(&list, 55.9486, -3.1999).unwrap();
     assert_eq!((p.label.as_str(), km < 2.0), ("Edinburgh", true));
-    // Gedung Sate still finds Kota Bandung.
-    assert_eq!(nearest(&list, Some(&w), -6.9025, 107.6188).unwrap().0.id, "bandung");
+    // Gedung Sate is next to Kota Bandung: no squares needed.
+    assert!(list.nearest(-6.9025, 107.6188).unwrap().1 < KEMENAG_NEAR_KM);
+    assert_eq!(near(&list, -6.9025, 107.6188).unwrap().0.id, "bandung");
     // Johor Bahru, across the strait from Batam: Malaysia's own times.
-    let (p, _) = nearest(&list, Some(&w), 1.4655, 103.7578).unwrap();
+    assert!(list.nearest(1.4655, 103.7578).unwrap().1 > KEMENAG_NEAR_KM);
+    let (p, _) = near(&list, 1.4655, 103.7578).unwrap();
     assert_eq!((p.method, p.is_world()), (Method::Singapore, true));
-    // A saved world place comes back by its id, from either list helper.
-    assert_eq!(find(&list, Some(&w), "w:55.952,-3.196").unwrap().label, "Edinburgh");
-    assert_eq!(find(&list, None, "w:55.952,-3.196"), None);
-    assert_eq!(find(&list, Some(&w), "bandung").unwrap().label, "Kota Bandung");
-    // A point the list moved a little still finds its place.
-    assert_eq!(w.find("w:55.950,-3.190").unwrap().label, "Edinburgh");
+    // Singapore too.
+    assert!(list.nearest(1.2897, 103.8501).unwrap().1 > KEMENAG_NEAR_KM);
+    assert_eq!(near(&list, 1.2897, 103.8501).unwrap().0.method, Method::Singapore);
+    // Mid-Atlantic: nothing within 250 km.
+    assert!(near(&list, 40.0, -40.0).unwrap().1 > NEAREST_MAX_KM);
 }
 
 #[test]
 fn hanafi_ashar_comes_later() {
-    let w = world();
+    let w = typed("karachi");
     let karachi = w.place(w.search("karachi", 1)[0].order).unwrap();
     assert!(karachi.hanafi);
     let site = karachi.site().unwrap();
@@ -476,10 +586,9 @@ fn hanafi_ashar_comes_later() {
     assert!((40 * 60..=90 * 60).contains(&(h.ashar - s.ashar)), "{}", h.ashar - s.ashar);
 }
 
-
 #[test]
-fn the_self_tests_sample_is_a_piece_of_the_list() {
-    let (sample, w) = (World::parse(world::SAMPLE.to_string()).unwrap(), world());
+fn the_self_tests_sample_is_a_piece_of_the_ed_file() {
+    let (sample, w) = (World::parse(world::SAMPLE.to_string()).unwrap(), file("ed"));
     assert_eq!(sample.len(), 4);
     for i in 0..sample.len() {
         let p = sample.place(i).unwrap();
@@ -489,4 +598,3 @@ fn the_self_tests_sample_is_a_piece_of_the_list() {
         assert_eq!(p.site().unwrap().offset_min(at), real.site().unwrap().offset_min(at), "{}", p.label);
     }
 }
-

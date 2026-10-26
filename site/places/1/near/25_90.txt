@@ -1,0 +1,96 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dhaka	360	
+Z	1	Asia/Kolkata	330	
+Z	2	Asia/Shanghai	480	
+C	BD	Bangladesh	karachi	h
+C	BT	Bhutan	mwl	s
+C	CN	China	mwl	s
+C	IN	India	karachi	h
+B	0
+P	Guwahati		IN		26.184	91.746	1
+P	Chéngguān Qū	chengguan qu	CN		29.638	91.044	2
+P	Lhoka		CN		29.243	91.772	2
+P	Nyingchi		CN		29.649	94.355	2
+P	Dibrugarh		IN		27.480	94.908	1
+P	Shillong		IN		25.569	91.883	1
+P	Doilungdêqên	doilungdeqen	CN		29.655	90.992	2
+P	Dimāpur	dimapur	IN		25.912	93.722	1
+P	Jorhat		IN		26.758	94.203	1
+P	Nagaon		IN		26.350	92.667	1
+P	Lhasa		CN		29.650	91.100	2
+P	Sherpur		BD		25.019	90.018	0
+P	Kohima		IN		25.675	94.111	1
+P	Tezpur		IN		26.633	92.800	1
+P	Tura		IN		25.514	90.202	1
+P	Sunāmganj	sunamganj	BD		25.069	91.402	0
+P	Bongaigaon		IN		26.477	90.558	1
+P	Dêqên	deqen	CN		29.962	90.719	2
+P	Sibsāgar	sibsagar	IN		26.984	94.638	1
+P	Diphu		IN		25.843	93.431	1
+P	North Lakhimpur		IN		27.235	94.104	1
+P	Itanagar		IN		27.087	93.610	1
+P	Mawlai-Mawïong	mawlai mawiong	IN		25.623	91.882	1
+P	Shella		IN		25.179	91.640	1
+P	Wokha		IN		26.097	94.258	1
+P	Goālpāra	goalpara	IN		26.177	90.626	1
+P	Lhünzhub	lhunzhub	CN		29.893	91.262	2
+P	Maizhokunggar		CN		29.838	91.729	2
+P	Barpeta		IN		26.323	91.006	1
+P	Hāflong	haflong	IN		25.165	93.017	1
+P	Golāghāt	golaghat	IN		26.512	93.960	1
+P	Quxu		CN		29.355	90.732	2
+P	Chhātak	chhatak	BD		25.039	91.670	0
+P	Nongthymmai		IN		25.564	91.906	1
+P	Bilāsipāra	bilasipara	IN		26.233	90.234	1
+P	Hojāi	hojai	IN		26.003	92.856	1
+P	Lanka		IN		25.929	92.949	1
+P	Tuensang		IN		26.267	94.824	1
+P	Naharlagun		IN		27.105	93.695	1
+P	Mokokchūng	mokokchung	IN		26.325	94.518	1
+P	Barpeta Road		IN		26.503	90.969	1
+P	Kokrajhar		IN		26.401	90.273	1
+P	Dagzê	dagze	CN		29.673	91.345	2
+P	Lumding Railway Colony		IN		25.749	93.170	1
+P	Nyêmo	nyemo	CN		29.437	90.148	2
+P	Zunheboto		IN		25.967	94.517	1
+P	Morigaon		IN		26.249	92.348	1
+P	Nongstoin		IN		25.517	91.265	1
+P	Jowai		IN		25.436	92.191	1
+P	Rangia		IN		26.449	91.614	1
+P	Nalbāri	nalbari	IN		26.439	91.440	1
+P	Laitumkhrah		IN		25.571	91.898	1
+P	Ukhrul		IN		25.120	94.364	1
+P	Mangaldai		IN		26.442	92.030	1
+P	Chumukedima		IN		25.825	93.776	1
+P	Silapathar		IN		27.594	94.724	1
+P	Williamnagar		IN		25.495	90.617	1
+P	Mariāni	mariani	IN		26.657	94.315	1
+P	Tsirang		BT		27.022	90.123	0
+P	Dhekiajuli		IN		26.704	92.478	1
+P	Bayi		CN		29.658	94.359	2
+P	Dhing		IN		26.468	92.473	1
+P	Jining		IN		28.216	94.854	1
+P	Chāpar	chapar	IN		26.273	90.446	1
+P	Dergaon		IN		26.700	93.967	1
+P	Bokajān	bokajan	IN		26.021	93.779	1
+P	Resubelpara		IN		25.904	90.607	1
+P	Tamenglong		IN		25.016	93.485	1
+P	Biswanath Chariali		IN		26.726	93.147	1
+P	Rangāpāra	rangapara	IN		26.838	92.669	1
+P	Khārupatia	kharupatia	IN		26.518	92.147	1
+P	Along		IN		28.170	94.801	1
+P	Seppa		IN		27.362	93.040	1
+P	Howli		IN		26.422	90.980	1
+P	Titabor Town		IN		26.592	94.194	1
+P	Jagiroad		IN		26.120	92.198	1
+P	North Guwāhāti	north guwahati	IN		26.197	91.720	1
+P	Tangla		IN		26.657	91.914	1
+P	Nongpoh		IN		25.902	91.877	1
+P	Kiphire		IN		25.868	94.786	1
+P	Kuda		IN		25.891	93.739	1
+P	Hājo	hajo	IN		26.245	91.525	1
+P	Udalguri		IN		26.754	92.102	1
+P	Abhayāpuri	abhayapuri	IN		26.323	90.685	1
+P	Lakhipur		IN		26.030	90.306	1
+P	Niz-Hajo	niz hajo	IN		26.249	91.524	1
+P	Phek		IN		25.667	94.500	1

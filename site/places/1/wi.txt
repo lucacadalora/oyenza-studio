@@ -1,0 +1,176 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Addis_Ababa	180	
+Z	2	Africa/Windhoek	120	
+Z	3	America/Bogota	-300	
+Z	4	America/Curacao	-240	
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	8	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	9	America/Vancouver	-480	29549400=-420
+Z	10	America/Winnipeg	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	11	Asia/Bangkok	420	
+Z	12	Asia/Kolkata	330	
+Z	13	Australia/Perth	480	
+Z	14	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	15	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BE	Belgium	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CO	Colombia	mwl	s
+C	CW	Curacao	mwl	s
+C	DE	Germany	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	IN	India	karachi	h
+C	NA	Namibia	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	PL	Poland	mwl	s
+C	SS	South Sudan	egyptian	s
+C	TH	Thailand	mwl	s
+C	US	United States	moonsighting	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Winnipeg		CA	Manitoba	49.884	-97.147	10
+P	Wichita		US	Kansas	37.692	-97.338	10
+P	Windhoek		NA		-22.559	17.083	2
+P	Winejok		SS		9.012	27.571	2
+P	Wiesbaden		DE		50.086	8.244	14
+P	Winston-Salem	winston salem	US	North Carolina	36.100	-80.244	8
+P	Windsor		CA	Ontario	42.300	-83.017	8
+P	Wigan		GB	England	53.543	-2.637	15
+P	Willemstad		CW		12.122	-68.886	4
+P	Wilmington		US	North Carolina	34.236	-77.946	8
+P	Gorzów Wielkopolski	gorzow wielkopolski	PL		52.734	15.225	14
+P	Winterthur		CH		47.506	8.724	14
+P	Wichita Falls		US	Texas	33.914	-98.493	10
+P	Wilmersdorf		DE		52.483	13.317	14
+P	Witten		DE		51.444	7.353	14
+P	Wilhelmshaven		DE		53.548	8.104	14
+P	Willowdale		CA	Ontario	43.767	-79.399	8
+P	Ostrów Wielkopolski	ostrow wielkopolski	PL		51.655	17.807	14
+P	Winneba		GH		5.351	-0.623	0
+P	Wilmington		US	Delaware	39.746	-75.547	8
+P	Wimbledon		GB	England	51.422	-0.208	15
+P	Wik’ro	wikro	ET		13.795	39.603	1
+P	Widnes		GB	England	53.362	-2.734	15
+P	Winterhude		DE		53.594	10.011	14
+P	Wilhelmsburg		DE		53.493	10.014	14
+P	Wilmington		US	California	33.780	-118.263	7
+P	Willich		DE		51.264	6.547	14
+P	Willowdale East		CA	Ontario	43.771	-79.401	8
+P	Wilson		US	North Carolina	35.721	-77.916	8
+P	Willenhall		GB	England	52.585	-2.059	15
+P	Winnetka		US	California	34.213	-118.572	7
+P	Rheda-Wiedenbrück	rheda wiedenbruck	DE		51.850	8.300	14
+P	Winchester		GB	England	51.065	-1.319	15
+P	Wismar		DE		53.892	11.456	14
+P	Wiener Neustadt		AT		47.805	16.232	14
+P	Willesden		GB	England	51.533	-0.233	15
+P	Wilrijk		BE		51.167	4.395	14
+P	Wilkes-Barre	wilkes barre	US	Pennsylvania	41.246	-75.881	8
+P	Wilhelmstadt		DE		52.524	13.189	14
+P	Winter Garden		US	Florida	28.565	-81.586	8
+P	Wichian Buri		TH		15.658	101.106	11
+P	Wichit		TH		7.889	98.385	11
+P	Winter Haven		US	Florida	28.022	-81.733	8
+P	Wigston Magna		GB	England	52.581	-1.092	15
+P	Willowbrook		US	California	33.917	-118.255	7
+P	Wildwood		US	Missouri	38.583	-90.663	10
+P	Wildomar		US	California	33.599	-117.280	7
+P	Winter Springs		US	Florida	28.699	-81.308	8
+P	Williamsburg		US	New York	40.714	-73.953	8
+P	Security-Widefield	security widefield	US	Colorado	38.747	-104.714	5
+P	Windsor		US	Colorado	40.477	-104.901	5
+P	Wijchen		NL		51.809	5.725	14
+P	Winsen		DE		53.358	10.212	14
+P	Wisbech		GB	England	52.666	0.159	15
+P	Puerto Wilches		CO		7.348	-73.896	3
+P	Willingboro		US	New Jersey	40.028	-74.869	8
+P	Windsor		GB	England	51.483	-0.600	15
+P	Willoughby		CA	British Columbia	49.126	-122.680	9
+P	Winsford		GB	England	53.191	-2.524	15
+P	Wishaw		GB	Scotland	55.767	-3.917	15
+P	Wittenberg		DE		51.866	12.650	14
+P	Winter Park		US	Florida	28.600	-81.339	8
+P	Winnenden		DE		48.876	9.398	14
+P	Winterswijk		NL		51.972	6.719	14
+P	Williamsport		US	Pennsylvania	41.241	-77.001	8
+P	Witney		GB	England	51.784	-1.485	15
+P	Windsor		US	Connecticut	41.853	-72.644	8
+P	Winchester		US	Nevada	36.130	-115.119	7
+P	Wiesloch		DE		49.295	8.698	14
+P	Wickford		GB	England	51.611	0.523	15
+P	Windsor		US	California	38.547	-122.816	7
+P	Wilmette		US	Illinois	42.072	-87.723	10
+P	Winchester		US	Virginia	39.186	-78.163	8
+P	Winona		US	Minnesota	44.050	-91.639	10
+P	Williston		US	North Dakota	48.147	-103.618	10
+P	Wiehl		DE		50.950	7.551	14
+P	Wilmslow		GB	England	53.328	-2.231	15
+P	Witham		GB	England	51.800	0.640	15
+P	Wierden		NL		52.359	6.593	14
+P	Wittenau		DE		52.593	13.321	14
+P	Newton-le-Willows	newton le willows	GB	England	53.450	-2.600	15
+P	Williamnagar		IN		25.495	90.617	12
+P	South Windsor		US	Connecticut	41.824	-72.621	8
+P	Przymorze Wielkie		PL		54.412	18.598	14
+P	Wil		CH		47.462	9.046	14
+P	Wipperfürth	wipperfurth	DE		51.116	7.399	14
+P	Windham		US	Connecticut	41.700	-72.157	8
+P	Willebroek		BE		51.060	4.360	14
+P	Wilsonville		US	Oregon	45.300	-122.774	7
+P	Willoughby		US	Ohio	41.640	-81.406	8
+P	Wilmington		US	Massachusetts	42.546	-71.174	8
+P	Willowridge-Martingrove-Richview	willowridge martingrove richview	CA	Ontario	43.684	-79.554	8
+P	Środa Wielkopolska	sroda wielkopolska	PL		52.228	17.276	14
+P	Wieluń	wielun	PL		51.221	18.570	14
+P	Wilnsdorf		DE		50.817	8.100	14
+P	Wissinoming		US	Pennsylvania	40.022	-75.063	8
+P	Winchester		US	Massachusetts	42.452	-71.137	8
+P	Wittmund		DE		53.577	7.776	14
+P	Winter Gardens		US	California	32.831	-116.933	7
+P	Wittenberge		DE		53.000	11.749	14
+P	Willmar		US	Minnesota	45.122	-95.043	10
+P	Wisch		NL		51.926	6.417	14
+P	Willetton		AU	Western Australia	-32.053	115.888	13
+P	Wiset Chaichan		TH		14.595	100.338	11
+P	Wieliczka		PL		49.987	20.065	14
+P	Kaset Wisai		TH		15.656	103.584	11
+P	Winschoten		NL		53.144	7.035	14
+P	Winchester		US	Kentucky	37.990	-84.180	8
+P	Wîhkwêntôwin	wihkwentowin	CA	Alberta	53.543	-113.522	6
+P	Wilten		AT		47.258	11.388	14
+P	Wildeshausen		DE		52.894	8.434	14
+P	Wilton		US	Connecticut	41.195	-73.438	8
+P	Bad Wildungen		DE		51.120	9.125	14
+P	Wisconsin Rapids		US	Wisconsin	44.384	-89.817	10
+P	Wittlich		DE		49.986	6.893	14
+P	St. Andrew-Windfields	st andrew windfields	CA	Ontario	43.756	-79.379	8
+P	Willimantic		US	Connecticut	41.711	-72.208	8
+P	Winthrop		US	Massachusetts	42.375	-70.983	8
+P	Wijk bij Duurstede		NL		51.974	5.342	14
+P	Wittstock		DE		53.161	12.483	14
+P	Wilton		US	New York	43.180	-73.744	8
+P	Willowdale West		CA	Ontario	43.771	-79.428	8
+P	Winburg		ZA		-28.518	27.009	2
+P	Red Wing		US	Minnesota	44.562	-92.534	10
+P	Stadt Winterthur (Kreis 1)	stadt winterthur kreis 1	CH		47.495	8.720	14
+P	Witzenhausen		DE		51.341	9.855	14
+P	Fort William		GB	Scotland	56.816	-5.112	15
+P	Wittenheim		FR		47.811	7.328	14
+P	Wilkinsburg		US	Pennsylvania	40.442	-79.882	8
+P	Willow Grove		US	Pennsylvania	40.144	-75.116	8
+P	Zürich (Kreis 10) / Wipkingen	zurich kreis 10 wipkingen	CH		47.395	8.525	14
+P	Williamstown		US	New Jersey	39.686	-74.995	8
+P	Wimborne Minster		GB	England	50.783	-1.983	15
+P	Winnie Mandela		ZA		-28.700	26.458	2
+P	Winder		US	Georgia	33.993	-83.720	8
+P	Wickede		DE		51.534	7.616	14
+P	Wilmington Island		US	Georgia	32.004	-80.974	8
+P	Williamsburg		US	Virginia	37.271	-76.707	8

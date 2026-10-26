@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/San_Luis	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	San Luis		AR		-33.291	-66.325	0
+P	Rawson		AR		-31.582	-68.542	0
+P	San Rafael		AR		-34.615	-68.332	0
+P	Mendoza		AR		-32.889	-68.846	0
+P	San Juan		AR		-31.537	-68.526	0
+P	Villa Mercedes		AR		-33.676	-65.458	0
+P	San Martín	san martin	AR		-33.083	-68.473	0
+P	Chimbas		AR		-31.493	-68.533	0
+P	Santa Lucía	santa lucia	AR		-31.541	-68.498	0
+P	Pocito		AR		-31.683	-68.583	0
+P	Tunuyán	tunuyan	AR		-33.581	-69.015	0
+P	General Alvear		AR		-34.977	-67.696	0
+P	Rivadavia		AR		-33.191	-68.462	0
+P	Caucete		AR		-31.651	-68.282	0
+P	Villa General San Martín	villa general san martin	AR		-31.440	-68.520	0
+P	Villa Dolores		AR		-31.945	-65.190	0
+P	Albardón	albardon	AR		-31.437	-68.526	0
+P	Perdriel		AR		-33.075	-68.888	0
+P	Villa Paula de Sarmiento		AR		-31.493	-68.538	0
+P	Rodeo del Medio		AR		-32.995	-68.686	0
+P	Tupungato		AR		-33.369	-69.148	0

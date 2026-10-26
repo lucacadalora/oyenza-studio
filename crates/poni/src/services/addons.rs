@@ -212,17 +212,14 @@ fn ensure(shared: &Shared, client: &Client, sink: &EventSink, dir: &Path, addon:
     }
     let folder = version_dir(dir, addon);
     let total = addon.size();
-    let mut missing: Vec<&AddonFile> = addon.files.iter().filter(|f| !present(&folder.join(f.name), f)).collect();
+    let missing: Vec<&AddonFile> = addon.files.iter().filter(|f| !present(&folder.join(f.name), f)).collect();
+    let mut done = total - missing.iter().map(|f| f.size).sum::<u64>();
     if !missing.is_empty() {
         if let Err(e) = fs::create_dir_all(&folder) {
             crate::pwarn!("add-ons: {}: could not make {} ({e})", addon.id, folder.display());
             sink.send(AppEvent::Addon { id: addon.id, status: Status::Failed });
             return Have::Failed;
         }
-        missing.retain(|f| !carry_over(dir, addon, f));
-    }
-    let mut done = total - missing.iter().map(|f| f.size).sum::<u64>();
-    if !missing.is_empty() {
         sink.send(AppEvent::Addon { id: addon.id, status: Status::Downloading { done, total } });
     }
     for file in missing {
@@ -281,22 +278,6 @@ fn ensure(shared: &Shared, client: &Client, sink: &EventSink, dir: &Path, addon:
     Have::Complete
 }
 
-/// A file an older version of the add-on already holds, unchanged: moved
-/// into this version's folder instead of downloaded again (a new version
-/// often changes one file of several).
-fn carry_over(dir: &Path, addon: &Addon, file: &AddonFile) -> bool {
-    let Ok(entries) = fs::read_dir(dir.join(addon.id)) else { return false };
-    let to = version_dir(dir, addon).join(file.name);
-    for e in entries.flatten() {
-        let old = e.path().join(file.name);
-        if e.file_name() != addon.tag && present(&old, file) && fs::rename(&old, &to).is_ok() {
-            crate::pinfo!("add-ons: {}: {} kept from {}", addon.id, file.name, e.file_name().to_string_lossy());
-            return true;
-        }
-    }
-    false
-}
-
 fn wait_retry(sink: &EventSink, addon: &Addon, backoff: Duration, why: &str) -> Have {
     crate::pinfo!("add-ons: {}: waiting ({why}); trying again in {} s", addon.id, backoff.as_secs());
     sink.send(AppEvent::Addon { id: addon.id, status: Status::Waiting });
@@ -350,28 +331,4 @@ pub fn fetch_for_selftest(addon: &'static Addon, dir: &Path) -> (bool, String) {
     }
     let ok = addon.files.iter().all(|f| present(&folder.join(f.name), f));
     (ok, format!("{} files, {} bytes from {} in {} ms", addon.files.len(), addon.size(), addon.tag, started.elapsed().as_millis()))
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use poni_core::addons::PRAYER_TIMES;
-
-    #[test]
-    fn unchanged_files_move_over_from_an_older_version() {
-        let dir = std::env::temp_dir().join(format!("poni-addons-carry-{}", std::process::id()));
-        let old = dir.join(PRAYER_TIMES.id).join("addon-sholat-1");
-        fs::create_dir_all(&old).unwrap();
-        fs::create_dir_all(version_dir(&dir, &PRAYER_TIMES)).unwrap();
-        let file = |name: &str| PRAYER_TIMES.files.iter().find(|f| f.name == name).unwrap();
-        fs::write(old.join("places.json"), include_bytes!("../../../../addons/sholat/places.json")).unwrap();
-        fs::write(old.join("NOTICE.txt"), b"the older notice").unwrap();
-        assert!(carry_over(&dir, &PRAYER_TIMES, file("places.json")));
-        assert!(present(&version_dir(&dir, &PRAYER_TIMES).join("places.json"), file("places.json")));
-        assert!(!old.join("places.json").exists());
-        // A file that changed downloads again; one the old version never had too.
-        assert!(!carry_over(&dir, &PRAYER_TIMES, file("NOTICE.txt")));
-        assert!(!carry_over(&dir, &PRAYER_TIMES, file(poni_core::addons::WORLD_PLACES_FILE)));
-        let _ = fs::remove_dir_all(&dir);
-    }
 }

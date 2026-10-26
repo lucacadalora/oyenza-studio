@@ -1,0 +1,77 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bishkek	360	
+Z	1	Asia/Dushanbe	300	
+Z	2	Asia/Kabul	270	
+C	AF	Afghanistan	karachi	h
+C	KG	Kyrgyzstan	mwl	h
+C	TJ	Tajikistan	mwl	h
+C	TM	Turkmenistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	0
+P	Dushanbe		TJ		38.536	68.779	1
+P	Samarkand		UZ		39.655	66.964	1
+P	Mazār-e Sharīf	mazar e sharif	AF		36.709	67.111	2
+P	Qarshi		UZ		38.861	65.789	1
+P	Istaravshan		TJ		39.914	69.003	1
+P	Kŭlob	kulob	TJ		37.915	69.785	1
+P	Tirmiz		UZ		37.224	67.278	1
+P	Kunduz		AF		36.729	68.857	2
+P	Shahrisabz		UZ		39.058	66.834	1
+P	Balkh		AF		36.756	66.897	2
+P	Bokhtar		TJ		37.837	68.778	1
+P	Baghlān	baghlan	AF		36.131	68.708	2
+P	Kattaqo’rg’on Shahri	kattaqorgon shahri	UZ		39.905	66.266	1
+P	Denov		UZ		38.267	67.899	1
+P	Khanabad		AF		36.683	69.113	2
+P	Koson		UZ		39.038	65.585	1
+P	Urgut Shahri		UZ		39.419	67.261	1
+P	Bāzārak	bazarak	AF		35.313	69.515	2
+P	Khulm		AF		36.697	67.698	2
+P	Taloqan		AF		36.736	69.535	2
+P	Pul-e Khumrī	pul e khumri	AF		35.945	68.715	2
+P	Shibirghān	shibirghan	AF		36.668	65.753	2
+P	Charikar		AF		35.014	69.171	2
+P	Sar-e Pul	sar e pul	AF		36.215	65.932	2
+P	Aībak	aibak	AF		36.265	68.016	2
+P	Vahdat		TJ		38.556	69.014	1
+P	Magdanly		TM		37.812	66.047	1
+P	Kitob		UZ		39.122	66.886	1
+P	Oqtosh		UZ		39.921	65.925	1
+P	Andkhoy		AF		36.953	65.124	2
+P	Tursunzoda		TJ		38.513	68.232	1
+P	Panjakent		TJ		39.495	67.609	1
+P	Razzakov		KG		39.839	69.528	0
+P	Kerki		TM		37.836	65.211	1
+P	Zarhalol		TJ		37.465	68.169	1
+P	Muborak		UZ		39.255	65.153	1
+P	Bulung’ur Shahri	bulungur shahri	UZ		39.760	67.274	1
+P	Muchun		TJ		39.881	69.182	1
+P	Zomin Shaharchasi		UZ		39.961	68.396	1
+P	Boysun		UZ		38.208	67.207	1
+P	Rustāq	rustaq	AF		37.126	69.830	2
+P	Sho‘rchi	shorchi	UZ		37.999	67.787	1
+P	Qarāwul	qarawul	AF		37.220	68.780	2
+P	G‘uzor	guzor	UZ		38.621	66.252	1
+P	Hisor		TJ		38.525	68.551	1
+P	Boshkengash		TJ		38.466	68.805	1
+P	Dalyoni Bolo		TJ		39.749	68.996	1
+P	Shahriston		TJ		39.774	68.809	1
+P	Danghara		TJ		38.096	69.340	1
+P	Nahrīn	nahrin	AF		36.065	69.133	2
+P	Moskovskiy		TJ		37.609	68.581	1
+P	Hulbuk		TJ		37.805	69.645	1
+P	Farkhor		TJ		37.492	69.404	1
+P	Juma Shahri		UZ		39.716	66.664	1
+P	Chubek		TJ		37.615	69.705	1
+P	Chiroqchi		UZ		39.034	66.572	1
+P	Beshkent		UZ		38.821	65.653	1
+P	Ārt Khwājah	art khwajah	AF		37.086	69.480	2
+P	Kolkhozobod		TJ		37.588	68.659	1
+P	Norak		TJ		38.389	69.323	1
+P	Yovon		TJ		38.314	69.038	1
+P	Chelak		UZ		39.920	66.862	1
+P	Sang-e Chārak	sang e charak	AF		35.850	66.437	2
+P	Vakhsh		TJ		37.715	68.835	1
+P	Jabal os Saraj		AF		35.118	69.238	2
+P	Suluktu		KG		39.937	69.568	0
+P	Qarqīn	qarqin	AF		37.419	66.044	2

@@ -1,0 +1,572 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	5
+P	New York City		US	New York	40.714	-74.006	0
+P	Brooklyn		US	New York	40.650	-73.950	0
+P	Queens		US	New York	40.681	-73.837	0
+P	Manhattan		US	New York	40.783	-73.966	0
+P	The Bronx		US	New York	40.850	-73.866	0
+P	Boston		US	Massachusetts	42.358	-71.060	0
+P	South Boston		US	Massachusetts	42.333	-71.049	0
+P	Staten Island		US	New York	40.562	-74.140	0
+P	Newark		US	New Jersey	40.736	-74.172	0
+P	Jersey City		US	New Jersey	40.728	-74.078	0
+P	Upper West Side		US	New York	40.787	-73.975	0
+P	Jamaica		US	New York	40.691	-73.806	0
+P	Worcester		US	Massachusetts	42.263	-71.802	0
+P	Yonkers		US	New York	40.930	-73.898	0
+P	Providence		US	Rhode Island	41.824	-71.413	0
+P	East Flatbush		US	New York	40.654	-73.930	0
+P	East New York		US	New York	40.667	-73.882	0
+P	Springfield		US	Massachusetts	42.101	-72.590	0
+P	Washington Heights		US	New York	40.850	-73.935	0
+P	Astoria		US	New York	40.772	-73.930	0
+P	Borough Park		US	New York	40.634	-73.997	0
+P	Paterson		US	New Jersey	40.917	-74.172	0
+P	Bridgeport		US	Connecticut	41.179	-73.189	0
+P	New Haven		US	Connecticut	41.308	-72.928	0
+P	Elizabeth		US	New Jersey	40.664	-74.211	0
+P	Stamford		US	Connecticut	41.053	-73.539	0
+P	Sunset Park		US	New York	40.645	-74.012	0
+P	Sheepshead Bay		US	New York	40.591	-73.945	0
+P	North Stamford		US	Connecticut	41.138	-73.543	0
+P	Hartford		US	Connecticut	41.764	-72.685	0
+P	Harlem		US	New York	40.808	-73.945	0
+P	East Harlem		US	New York	40.795	-73.942	0
+P	Elmhurst		US	New York	40.736	-73.878	0
+P	Bushwick		US	New York	40.694	-73.919	0
+P	Gravesend		US	New York	40.598	-73.965	0
+P	Lowell		US	Massachusetts	42.633	-71.316	0
+P	Cambridge		US	Massachusetts	42.375	-71.106	0
+P	Manchester		US	New Hampshire	42.996	-71.455	0
+P	Corona		US	New York	40.747	-73.860	0
+P	Waterbury		US	Connecticut	41.558	-73.052	0
+P	Edison		US	New Jersey	40.519	-74.412	0
+P	Albany		US	New York	42.653	-73.756	0
+P	New Bedford		US	Massachusetts	41.635	-70.927	0
+P	Richmond Hill		US	New York	40.700	-73.831	0
+P	Dorchester		US	Massachusetts	42.297	-71.075	0
+P	Brockton		US	Massachusetts	42.083	-71.018	0
+P	Fordham		US	New York	40.859	-73.898	0
+P	Fall River		US	Massachusetts	41.701	-71.155	0
+P	West Albany		US	New York	42.683	-73.778	0
+P	Quincy		US	Massachusetts	42.253	-71.002	0
+P	Flatbush		US	New York	40.652	-73.959	0
+P	Lynn		US	Massachusetts	42.467	-70.949	0
+P	Chinatown		US	New York	40.716	-73.996	0
+P	Trenton		US	New Jersey	40.217	-74.743	0
+P	Newton		US	Massachusetts	42.337	-71.209	0
+P	Norwalk		US	Connecticut	41.118	-73.408	0
+P	Nashua		US	New Hampshire	42.765	-71.468	0
+P	Canarsie		US	New York	40.644	-73.901	0
+P	Greenburgh		US	New York	41.033	-73.843	0
+P	Clifton		US	New Jersey	40.858	-74.164	0
+P	Danbury		US	Connecticut	41.395	-73.454	0
+P	East Norwalk		US	Connecticut	41.106	-73.398	0
+P	Warwick		US	Rhode Island	41.700	-71.416	0
+P	Cranston		US	Rhode Island	41.780	-71.437	0
+P	Somerville		US	Massachusetts	42.388	-71.100	0
+P	Lawrence		US	Massachusetts	42.707	-71.163	0
+P	New Rochelle		US	New York	40.911	-73.782	0
+P	Brick		US	New Jersey	40.059	-74.137	0
+P	South Ozone Park		US	New York	40.670	-73.819	0
+P	Kings Bridge		US	New York	40.879	-73.905	0
+P	Brownsville		US	New York	40.661	-73.920	0
+P	New Britain		US	Connecticut	41.661	-72.780	0
+P	Pawtucket		US	Rhode Island	41.879	-71.383	0
+P	Passaic		US	New Jersey	40.857	-74.128	0
+P	Ridgewood		US	New York	40.700	-73.906	0
+P	Union City		US	New Jersey	40.780	-74.024	0
+P	Mount Vernon		US	New York	40.913	-73.837	0
+P	Framingham		US	Massachusetts	42.279	-71.416	0
+P	Forest Hills		US	New York	40.716	-73.850	0
+P	Jackson Heights		US	New York	40.756	-73.885	0
+P	Portland		US	Maine	43.657	-70.259	0
+P	Bayside		US	New York	40.768	-73.777	0
+P	Bayonne		US	New Jersey	40.669	-74.114	0
+P	Parkchester		US	New York	40.839	-73.860	0
+P	Middletown		US	New Jersey	40.394	-74.117	0
+P	Framingham Center		US	Massachusetts	42.297	-71.437	0
+P	Schenectady		US	New York	42.814	-73.940	0
+P	Park Slope		US	New York	40.670	-73.986	0
+P	East Orange		US	New Jersey	40.767	-74.205	0
+P	Flatlands		US	New York	40.621	-73.935	0
+P	North Bergen		US	New Jersey	40.804	-74.012	0
+P	Waltham		US	Massachusetts	42.376	-71.236	0
+P	West Hartford		US	Connecticut	41.762	-72.742	0
+P	East Village		US	New York	40.729	-73.987	0
+P	Haverhill		US	Massachusetts	42.776	-71.077	0
+P	Irvington		US	New Jersey	40.732	-74.235	0
+P	Malden		US	Massachusetts	42.425	-71.066	0
+P	Financial District		US	New York	40.708	-74.009	0
+P	Brentwood		US	New York	40.781	-73.246	0
+P	Bristol		US	Connecticut	41.672	-72.949	0
+P	Bensalem		US	Pennsylvania	40.105	-74.951	0
+P	Bensonhurst		US	New York	40.602	-73.994	0
+P	Coney Island		US	New York	40.578	-73.994	0
+P	Meriden		US	Connecticut	41.538	-72.807	0
+P	Hamden		US	Connecticut	41.396	-72.897	0
+P	Fairfield		US	Connecticut	41.141	-73.264	0
+P	Brookline		US	Massachusetts	42.332	-71.121	0
+P	White Plains		US	New York	41.034	-73.763	0
+P	Wayne		US	New Jersey	40.925	-74.277	0
+P	Medford		US	Massachusetts	42.418	-71.106	0
+P	New Brunswick		US	New Jersey	40.486	-74.452	0
+P	Taunton		US	Massachusetts	41.900	-71.090	0
+P	Union		US	New Jersey	40.698	-74.263	0
+P	Chicopee		US	Massachusetts	42.149	-72.608	0
+P	Piscataway		US	New Jersey	40.499	-74.399	0
+P	Morningside Heights		US	New York	40.810	-73.963	0
+P	Hempstead		US	New York	40.706	-73.619	0
+P	North Chicopee		US	Massachusetts	42.183	-72.600	0
+P	Cypress Hills		US	New York	40.677	-73.891	0
+P	West Haven		US	Connecticut	41.271	-72.947	0
+P	Weymouth		US	Massachusetts	42.221	-70.940	0
+P	Ozone Park		US	New York	40.677	-73.844	0
+P	Briarwood		US	New York	40.709	-73.815	0
+P	Lakewood		US	New Jersey	40.098	-74.218	0
+P	Hoboken		US	New Jersey	40.744	-74.032	0
+P	Revere		US	Massachusetts	42.408	-71.012	0
+P	West New York		US	New Jersey	40.788	-74.014	0
+P	Levittown		US	Pennsylvania	40.155	-74.829	0
+P	Milford		US	Connecticut	41.222	-73.056	0
+P	Perth Amboy		US	New Jersey	40.507	-74.265	0
+P	Peabody		US	Massachusetts	42.528	-70.929	0
+P	Wakefield		US	New York	40.898	-73.852	0
+P	Methuen		US	Massachusetts	42.726	-71.191	0
+P	Queens Village		US	New York	40.727	-73.742	0
+P	Levittown		US	New York	40.726	-73.514	0
+P	Mott Haven		US	New York	40.809	-73.923	0
+P	Stratford		US	Connecticut	41.185	-73.133	0
+P	City of Milford (balance)	city of milford balance	US	Connecticut	41.224	-73.062	0
+P	East Hartford		US	Connecticut	41.782	-72.612	0
+P	Plainfield		US	New Jersey	40.634	-74.407	0
+P	Parsippany		US	New Jersey	40.858	-74.426	0
+P	South Peabody		US	Massachusetts	42.510	-70.949	0
+P	Troy		US	New York	42.728	-73.692	0
+P	Sunnyside		US	New York	40.740	-73.935	0
+P	Bloomfield		US	New Jersey	40.807	-74.185	0
+P	East Brunswick		US	New Jersey	40.428	-74.416	0
+P	Maspeth		US	New York	40.723	-73.913	0
+P	West Orange		US	New Jersey	40.799	-74.239	0
+P	Barnstable		US	Massachusetts	41.700	-70.299	0
+P	East Providence		US	Rhode Island	41.814	-71.370	0
+P	Middletown		US	Connecticut	41.562	-72.651	0
+P	Everett		US	Massachusetts	42.408	-71.054	0
+P	Brighton		US	Massachusetts	42.350	-71.156	0
+P	Hell's Kitchen	hells kitchen	US	New York	40.765	-73.991	0
+P	Enfield		US	Connecticut	41.976	-72.592	0
+P	Sayreville		US	New Jersey	40.459	-74.361	0
+P	Hackensack		US	New Jersey	40.886	-74.043	0
+P	Bridgewater		US	New Jersey	40.601	-74.648	0
+P	Attleboro		US	Massachusetts	41.945	-71.286	0
+P	Concord		US	New Hampshire	43.208	-71.538	0
+P	Rego Park		US	New York	40.726	-73.853	0
+P	North Brunswick		US	New Jersey	40.454	-74.482	0
+P	Southington		US	Connecticut	41.596	-72.878	0
+P	Freeport		US	New York	40.658	-73.583	0
+P	Pittsfield		US	Massachusetts	42.450	-73.245	0
+P	West Babylon		US	New York	40.718	-73.354	0
+P	East Boston		US	Massachusetts	42.375	-71.039	0
+P	Sayreville Junction		US	New Jersey	40.465	-74.330	0
+P	Salem		US	Massachusetts	42.520	-70.896	0
+P	Arlington		US	Massachusetts	42.415	-71.156	0
+P	East Concord		US	New Hampshire	43.242	-71.538	0
+P	Burlington		US	Vermont	44.476	-73.212	0
+P	Kearny		US	New Jersey	40.768	-74.145	0
+P	Linden		US	New Jersey	40.622	-74.245	0
+P	Woodside		US	New York	40.745	-73.905	0
+P	Westfield		US	Massachusetts	42.125	-72.750	0
+P	Leominster		US	Massachusetts	42.525	-71.760	0
+P	Hicksville		US	New York	40.768	-73.525	0
+P	Woonsocket		US	Rhode Island	42.003	-71.515	0
+P	Shelton		US	Connecticut	41.316	-73.093	0
+P	Beverly		US	Massachusetts	42.558	-70.880	0
+P	Morris Heights		US	New York	40.850	-73.920	0
+P	Holyoke		US	Massachusetts	42.204	-72.616	0
+P	Fitchburg		US	Massachusetts	42.583	-71.802	0
+P	Beverly Cove		US	Massachusetts	42.553	-70.854	0
+P	Marlboro		US	New Jersey	40.315	-74.246	0
+P	Teaneck		US	New Jersey	40.898	-74.016	0
+P	Billerica		US	Massachusetts	42.558	-71.269	0
+P	Norwich		US	Connecticut	41.524	-72.076	0
+P	Amherst		US	Massachusetts	42.367	-72.519	0
+P	Marlborough		US	Massachusetts	42.346	-71.552	0
+P	Montclair		US	New Jersey	40.826	-74.209	0
+P	Woburn		US	Massachusetts	42.479	-71.152	0
+P	Chelsea		US	Massachusetts	42.392	-71.033	0
+P	Far Rockaway		US	New York	40.605	-73.755	0
+P	Kensington		US	New York	40.646	-73.971	0
+P	Coram		US	New York	40.869	-73.001	0
+P	Manhattan Valley		US	New York	40.794	-73.965	0
+P	Hillsborough		US	New Jersey	40.478	-74.627	0
+P	East Meadow		US	New York	40.714	-73.559	0
+P	Valley Stream		US	New York	40.664	-73.708	0
+P	Fenway/Kenmore	fenway kenmore	US	Massachusetts	42.345	-71.100	0
+P	Kew Gardens Hills		US	New York	40.730	-73.823	0
+P	Jamaica Plain		US	Massachusetts	42.310	-71.120	0
+P	Braintree		US	Massachusetts	42.204	-71.002	0
+P	Whitestone		US	New York	40.795	-73.818	0
+P	Belleville		US	New Jersey	40.794	-74.150	0
+P	Clifton Park		US	New York	42.866	-73.771	0
+P	Fort Lee		US	New Jersey	40.851	-73.970	0
+P	Ewing		US	New Jersey	40.270	-74.800	0
+P	Woodhaven		US	New York	40.689	-73.858	0
+P	Mattapan		US	Massachusetts	42.272	-71.087	0
+P	Lewiston		US	Maine	44.100	-70.215	0
+P	Commack		US	New York	40.843	-73.293	0
+P	Trumbull		US	Connecticut	41.243	-73.201	0
+P	West Torrington		US	Connecticut	41.818	-73.144	0
+P	Coventry		US	Rhode Island	41.700	-71.683	0
+P	Torrington		US	Connecticut	41.801	-73.121	0
+P	Cumberland		US	Rhode Island	41.967	-71.433	0
+P	Greenpoint		US	New York	40.724	-73.951	0
+P	Derry Village		US	New Hampshire	42.892	-71.312	0
+P	Orange		US	New Jersey	40.771	-74.233	0
+P	Central Islip		US	New York	40.791	-73.202	0
+P	Dyker Heights		US	New York	40.621	-74.010	0
+P	Glendale		US	New York	40.701	-73.887	0
+P	Chelmsford		US	Massachusetts	42.600	-71.367	0
+P	Shrewsbury		US	Massachusetts	42.296	-71.713	0
+P	North Providence		US	Rhode Island	41.850	-71.466	0
+P	Throgs Neck		US	New York	40.823	-73.820	0
+P	Fair Lawn		US	New Jersey	40.940	-74.132	0
+P	New City		US	New York	41.148	-73.989	0
+P	Long Beach		US	New York	40.588	-73.658	0
+P	Elmont		US	New York	40.701	-73.713	0
+P	Bath Beach		US	New York	40.605	-74.004	0
+P	Huntington Station		US	New York	40.853	-73.412	0
+P	Williamsburg		US	New York	40.714	-73.953	0
+P	Kiryas Joel		US	New York	41.342	-74.168	0
+P	Spring Valley		US	New York	41.113	-74.044	0
+P	West Village		US	New York	40.734	-74.009	0
+P	Natick		US	Massachusetts	42.283	-71.350	0
+P	Randolph		US	Massachusetts	42.163	-71.041	0
+P	Oceanside		US	New York	40.639	-73.640	0
+P	Watertown		US	Massachusetts	42.371	-71.183	0
+P	Glastonbury		US	Connecticut	41.712	-72.608	0
+P	Hyde Park		US	Massachusetts	42.256	-71.124	0
+P	Garfield		US	New Jersey	40.881	-74.113	0
+P	Willingboro		US	New Jersey	40.028	-74.869	0
+P	Centereach		US	New York	40.858	-73.100	0
+P	Naugatuck		US	Connecticut	41.486	-73.051	0
+P	Brighton Beach		US	New York	40.578	-73.960	0
+P	Lexington		US	Massachusetts	42.447	-71.225	0
+P	Long Branch		US	New Jersey	40.304	-73.992	0
+P	Dover		US	New Hampshire	43.198	-70.874	0
+P	South Kingstown		US	Rhode Island	41.447	-71.525	0
+P	Franklin		US	Massachusetts	42.083	-71.397	0
+P	Manchester		US	Connecticut	41.776	-72.521	0
+P	Newington		US	Connecticut	41.698	-72.724	0
+P	Westfield		US	New Jersey	40.659	-74.347	0
+P	Springfield Gardens		US	New York	40.663	-73.762	0
+P	West Roxbury		US	Massachusetts	42.279	-71.150	0
+P	Poughkeepsie		US	New York	41.700	-73.921	0
+P	West Warwick		US	Rhode Island	41.697	-71.522	0
+P	Rochester		US	New Hampshire	43.305	-70.976	0
+P	Ashmont		US	Massachusetts	42.283	-71.069	0
+P	Gloucester		US	Massachusetts	42.614	-70.663	0
+P	Port Chester		US	New York	41.002	-73.666	0
+P	Princeton		US	New Jersey	40.349	-74.659	0
+P	Salem		US	New Hampshire	42.788	-71.201	0
+P	Rahway		US	New Jersey	40.608	-74.278	0
+P	Middle Village		US	New York	40.716	-73.881	0
+P	Cheshire		US	Connecticut	41.499	-72.901	0
+P	Branford		US	Connecticut	41.280	-72.815	0
+P	Tewksbury		US	Massachusetts	42.611	-71.234	0
+P	Glenville		US	New York	42.929	-74.052	0
+P	Franklin Square		US	New York	40.707	-73.676	0
+P	East Haven		US	Connecticut	41.276	-72.868	0
+P	Johnston		US	Rhode Island	41.822	-71.507	0
+P	Fort Hamilton		US	New York	40.619	-74.033	0
+P	Needham		US	Massachusetts	42.283	-71.233	0
+P	Dracut		US	Massachusetts	42.670	-71.302	0
+P	Allston		US	Massachusetts	42.358	-71.126	0
+P	Windsor		US	Connecticut	41.853	-72.644	0
+P	Agawam		US	Massachusetts	42.070	-72.615	0
+P	Norwood		US	Massachusetts	42.195	-71.200	0
+P	Northampton		US	Massachusetts	42.325	-72.641	0
+P	Englewood		US	New Jersey	40.893	-73.973	0
+P	Fresh Meadows		US	New York	40.735	-73.793	0
+P	Harrison		US	New York	40.969	-73.713	0
+P	West Islip		US	New York	40.706	-73.306	0
+P	Newburgh		US	New York	41.503	-74.010	0
+P	North Andover		US	Massachusetts	42.699	-71.135	0
+P	North Kingstown		US	Rhode Island	41.550	-71.466	0
+P	Melrose		US	Massachusetts	42.458	-71.066	0
+P	Gramercy Park		US	New York	40.737	-73.986	0
+P	Wellesley		US	Massachusetts	42.296	-71.293	0
+P	University Heights		US	New York	40.860	-73.909	0
+P	West Springfield		US	Massachusetts	42.107	-72.620	0
+P	Shirley		US	New York	40.801	-72.868	0
+P	Livingston		US	New Jersey	40.796	-74.315	0
+P	Middletown		US	New York	41.446	-74.423	0
+P	Saratoga Springs		US	New York	43.083	-73.785	0
+P	Deer Park		US	New York	40.762	-73.329	0
+P	West Scarborough		US	Maine	43.570	-70.388	0
+P	Queensbury		US	New York	43.377	-73.613	0
+P	Roslindale		US	Massachusetts	42.291	-71.124	0
+P	Bergenfield		US	New Jersey	40.928	-73.997	0
+P	Nutley		US	New Jersey	40.822	-74.160	0
+P	Glen Cove		US	New York	40.862	-73.634	0
+P	College Point		US	New York	40.788	-73.846	0
+P	Lindenhurst		US	New York	40.687	-73.373	0
+P	Hunts Point		US	New York	40.813	-73.884	0
+P	Holbrook		US	New York	40.812	-73.078	0
+P	New London		US	Connecticut	41.356	-72.100	0
+P	Milton		US	Massachusetts	42.250	-71.066	0
+P	Paramus		US	New Jersey	40.945	-74.075	0
+P	West Milford		US	New Jersey	41.131	-74.367	0
+P	Stoughton		US	Massachusetts	42.125	-71.102	0
+P	Dix Hills		US	New York	40.805	-73.336	0
+P	Merrimack		US	New Hampshire	42.865	-71.493	0
+P	Wethersfield		US	Connecticut	41.714	-72.653	0
+P	Saugus		US	Massachusetts	42.465	-71.010	0
+P	Danvers		US	Massachusetts	42.575	-70.930	0
+P	Smithtown		US	New York	40.856	-73.201	0
+P	Mansfield City		US	Connecticut	41.766	-72.234	0
+P	Mercerville-Hamilton Square	mercerville hamilton square	US	New Jersey	40.231	-74.672	0
+P	Westport		US	Connecticut	41.141	-73.358	0
+P	Bay Shore		US	New York	40.725	-73.245	0
+P	Plainview		US	New York	40.776	-73.467	0
+P	Howard Beach		US	New York	40.658	-73.836	0
+P	Rosedale		US	New York	40.662	-73.735	0
+P	Randolph		US	New Jersey	40.848	-74.581	0
+P	Ridgewood		US	New Jersey	40.979	-74.117	0
+P	Long Island City		US	New York	40.745	-73.949	0
+P	South Portland		US	Maine	43.641	-70.241	0
+P	Ossining		US	New York	41.163	-73.862	0
+P	Yarmouth		US	Massachusetts	41.706	-70.229	0
+P	Milford		US	Massachusetts	42.140	-71.516	0
+P	Maplewood		US	New Jersey	40.731	-74.273	0
+P	Farmington		US	Connecticut	41.720	-72.832	0
+P	Wakefield		US	Massachusetts	42.506	-71.073	0
+P	Cliffside Park		US	New Jersey	40.821	-73.988	0
+P	Lodi		US	New Jersey	40.882	-74.083	0
+P	Hillside		US	New York	40.708	-73.787	0
+P	Uniondale		US	New York	40.700	-73.593	0
+P	Reading		US	Massachusetts	42.526	-71.095	0
+P	Belmont		US	Massachusetts	42.396	-71.179	0
+P	Dedham		US	Massachusetts	42.242	-71.166	0
+P	Burlington		US	Massachusetts	42.505	-71.196	0
+P	South Windsor		US	Connecticut	41.824	-72.621	0
+P	South Plainfield		US	New Jersey	40.579	-74.412	0
+P	Newport		US	Rhode Island	41.490	-71.313	0
+P	Rockville Centre		US	New York	40.659	-73.641	0
+P	Carteret		US	New Jersey	40.577	-74.228	0
+P	Medford		US	New York	40.818	-73.000	0
+P	North Haven		US	Connecticut	41.391	-72.860	0
+P	Mahwah		US	New Jersey	41.089	-74.144	0
+P	Peekskill		US	New York	41.290	-73.920	0
+P	Baldwin		US	New York	40.656	-73.609	0
+P	Unionport		US	New York	40.827	-73.850	0
+P	South Portland Gardens		US	Maine	43.639	-70.315	0
+P	Old Bridge		US	New Jersey	40.415	-74.365	0
+P	Van Nest		US	New York	40.848	-73.864	0
+P	Chestnut Hill		US	Massachusetts	42.331	-71.166	0
+P	Scotch Plains		US	New Jersey	40.655	-74.390	0
+P	Easton		US	Massachusetts	42.025	-71.129	0
+P	Kingston		US	New York	41.927	-73.997	0
+P	Mansfield		US	Massachusetts	42.033	-71.219	0
+P	Keene		US	New Hampshire	42.934	-72.278	0
+P	South Old Bridge		US	New Jersey	40.408	-74.354	0
+P	East Elmhurst		US	New York	40.761	-73.865	0
+P	Morrisania		US	New York	40.829	-73.907	0
+P	Middleborough		US	Massachusetts	41.893	-70.911	0
+P	Windham		US	Connecticut	41.700	-72.157	0
+P	Copiague		US	New York	40.681	-73.400	0
+P	East Tremont		US	New York	40.845	-73.891	0
+P	Auburn		US	Maine	44.098	-70.231	0
+P	Tremont		US	New York	40.850	-73.906	0
+P	Bristol		US	Rhode Island	41.677	-71.266	0
+P	Cranford		US	New Jersey	40.658	-74.300	0
+P	Garden City		US	New York	40.727	-73.634	0
+P	Guilford		US	Connecticut	41.289	-72.682	0
+P	Melrose		US	New York	40.825	-73.910	0
+P	East Patchogue		US	New York	40.767	-72.996	0
+P	Wilmington		US	Massachusetts	42.546	-71.174	0
+P	Ludlow		US	Massachusetts	42.160	-72.476	0
+P	Hillside		US	New Jersey	40.701	-74.230	0
+P	North Plainfield		US	New Jersey	40.630	-74.427	0
+P	Merrick		US	New York	40.663	-73.552	0
+P	Somerset		US	New Jersey	40.498	-74.488	0
+P	Summit		US	New Jersey	40.716	-74.365	0
+P	Derry		US	New Hampshire	42.881	-71.327	0
+P	Great Kills		US	New York	40.554	-74.152	0
+P	Smithfield		US	Rhode Island	41.922	-71.550	0
+P	Massapequa		US	New York	40.681	-73.474	0
+P	Canton		US	Massachusetts	42.158	-71.145	0
+P	Roselle		US	New Jersey	40.652	-74.259	0
+P	Lincoln		US	Rhode Island	41.921	-71.435	0
+P	Westford		US	Massachusetts	42.579	-71.438	0
+P	Bloomfield		US	Connecticut	41.826	-72.730	0
+P	Portsmouth		US	New Hampshire	43.077	-70.758	0
+P	Stoneham		US	Massachusetts	42.480	-71.100	0
+P	Basking Ridge		US	New Jersey	40.706	-74.549	0
+P	Winchester		US	Massachusetts	42.452	-71.137	0
+P	Biddeford		US	Maine	43.493	-70.453	0
+P	Bedford		US	New Hampshire	42.946	-71.516	0
+P	Laurelton		US	New York	40.670	-73.747	0
+P	Woodrow		US	New York	40.541	-74.191	0
+P	Acton		US	Massachusetts	42.485	-71.433	0
+P	Sanford		US	Maine	43.439	-70.774	0
+P	Hauppauge		US	New York	40.826	-73.203	0
+P	New Springville		US	New York	40.593	-74.163	0
+P	Palisades Park		US	New Jersey	40.848	-73.998	0
+P	Latham		US	New York	42.747	-73.759	0
+P	Darien		US	Connecticut	41.079	-73.469	0
+P	Rotterdam		US	New York	42.787	-73.971	0
+P	Charlestown		US	Massachusetts	42.378	-71.062	0
+P	Gardner		US	Massachusetts	42.575	-71.998	0
+P	Cambria Heights		US	New York	40.695	-73.738	0
+P	Elmwood Park		US	New Jersey	40.904	-74.118	0
+P	Hollis		US	New York	40.713	-73.767	0
+P	Brooklyn Heights		US	New York	40.695	-73.994	0
+P	East Northport		US	New York	40.877	-73.325	0
+P	Montville Center		US	Connecticut	41.479	-72.151	0
+P	Lake Ronkonkoma		US	New York	40.835	-73.131	0
+P	Millburn		US	New Jersey	40.725	-74.304	0
+P	Lyndhurst		US	New Jersey	40.812	-74.124	0
+P	North Bellmore		US	New York	40.691	-73.533	0
+P	Cortlandt Manor		US	New York	41.280	-73.872	0
+P	Mariners Harbor		US	New York	40.637	-74.159	0
+P	Selden		US	New York	40.866	-73.036	0
+P	Southbury		US	Connecticut	41.481	-73.213	0
+P	Marblehead		US	Massachusetts	42.500	-70.858	0
+P	Norton		US	Massachusetts	41.967	-71.187	0
+P	Plattsburgh		US	New York	44.699	-73.453	0
+P	Greenfield		US	Massachusetts	42.588	-72.600	0
+P	New Canaan		US	Connecticut	41.147	-73.495	0
+P	Sparta		US	New Jersey	41.033	-74.638	0
+P	Holtsville		US	New York	40.815	-73.045	0
+P	Lynbrook		US	New York	40.655	-73.672	0
+P	Eastchester		US	New York	40.958	-73.809	0
+P	Mamaroneck		US	New York	40.949	-73.733	0
+P	Central Falls		US	Rhode Island	41.891	-71.392	0
+P	Waterford		US	Connecticut	41.342	-72.136	0
+P	Woodbridge		US	New Jersey	40.558	-74.285	0
+P	Mineola		US	New York	40.749	-73.641	0
+P	Secaucus		US	New Jersey	40.790	-74.057	0
+P	Madison		US	Connecticut	41.280	-72.598	0
+P	Ronkonkoma		US	New York	40.821	-73.143	0
+P	Saco		US	Maine	43.501	-70.443	0
+P	Hawthorne		US	New Jersey	40.949	-74.154	0
+P	East Massapequa		US	New York	40.673	-73.437	0
+P	Amherst Center		US	Massachusetts	42.375	-72.519	0
+P	Southbridge		US	Massachusetts	42.075	-72.033	0
+P	Melville		US	New York	40.793	-73.415	0
+P	Kew Gardens		US	New York	40.714	-73.831	0
+P	North Bay Shore		US	New York	40.753	-73.260	0
+P	Avon		US	Connecticut	41.810	-72.831	0
+P	Wantagh		US	New York	40.684	-73.510	0
+P	West Hempstead		US	New York	40.705	-73.650	0
+P	Ansonia		US	Connecticut	41.346	-73.079	0
+P	Syosset		US	New York	40.826	-73.502	0
+P	Rossville		US	New York	40.549	-74.210	0
+P	South Burlington		US	Vermont	44.467	-73.171	0
+P	Mission Hill		US	Massachusetts	42.334	-71.108	0
+P	Iselin		US	New Jersey	40.575	-74.322	0
+P	Rutherford		US	New Jersey	40.826	-74.107	0
+P	Islip		US	New York	40.730	-73.210	0
+P	Morristown		US	New Jersey	40.797	-74.482	0
+P	Point Pleasant		US	New Jersey	40.083	-74.068	0
+P	Monsey		US	New York	41.111	-74.068	0
+P	Dover		US	New Jersey	40.884	-74.562	0
+P	Amesbury		US	Massachusetts	42.858	-70.930	0
+P	Palmer		US	Massachusetts	42.158	-72.329	0
+P	Wallingford Center		US	Connecticut	41.450	-72.819	0
+P	Somerset		US	Massachusetts	41.770	-71.129	0
+P	Wilton		US	Connecticut	41.195	-73.438	0
+P	Huntington		US	New York	40.868	-73.426	0
+P	Amsterdam		US	New York	42.939	-74.188	0
+P	Dumont		US	New Jersey	40.941	-73.997	0
+P	Newburyport		US	Massachusetts	42.813	-70.877	0
+P	Rockland		US	Massachusetts	42.131	-70.916	0
+P	Westbrook		US	Maine	43.677	-70.371	0
+P	Westerly		US	Rhode Island	41.378	-71.827	0
+P	North Massapequa		US	New York	40.701	-73.462	0
+P	Scarsdale		US	New York	41.005	-73.785	0
+P	Nanuet		US	New York	41.089	-74.013	0
+P	North Amityville		US	New York	40.698	-73.425	0
+P	Colonia		US	New Jersey	40.575	-74.302	0
+P	Tinton Falls		US	New Jersey	40.304	-74.100	0
+P	Portsmouth		US	Rhode Island	41.602	-71.250	0
+P	Times Square		US	New York	40.756	-73.986	0
+P	Willimantic		US	Connecticut	41.711	-72.208	0
+P	Wallingford		US	Connecticut	41.457	-72.823	0
+P	South Hadley		US	Massachusetts	42.258	-72.575	0
+P	Winthrop		US	Massachusetts	42.375	-70.983	0
+P	Back Bay		US	Massachusetts	42.350	-71.087	0
+P	North Babylon		US	New York	40.716	-73.322	0
+P	Wilton		US	New York	43.180	-73.744	0
+P	Sudbury		US	Massachusetts	42.383	-71.416	0
+P	Plainville		US	Connecticut	41.675	-72.858	0
+P	Middletown		US	Rhode Island	41.546	-71.291	0
+P	South Orange		US	New Jersey	40.749	-74.261	0
+P	Killingly Center		US	Connecticut	41.839	-71.869	0
+P	Kings Park		US	New York	40.886	-73.257	0
+P	Massapequa Park		US	New York	40.680	-73.455	0
+P	Wyckoff		US	New Jersey	41.010	-74.173	0
+P	Woodmere		US	New York	40.632	-73.713	0
+P	Holden		US	Massachusetts	42.352	-71.863	0
+P	Avenel		US	New Jersey	40.580	-74.285	0
+P	East Setauket		US	New York	40.941	-73.106	0
+P	Colchester		US	Vermont	44.544	-73.148	0
+P	Hanover		US	Massachusetts	42.113	-70.812	0
+P	Sayville		US	New York	40.736	-73.082	0
+P	Concord		US	Massachusetts	42.460	-71.349	0
+P	New Milford		US	New Jersey	40.935	-74.019	0
+P	North Attleborough Center		US	Massachusetts	41.973	-71.325	0
+P	Parkwood Manor		US	Pennsylvania	40.093	-74.968	0
+P	Auburn		US	Massachusetts	42.195	-71.836	0
+P	Denville		US	New Jersey	40.892	-74.477	0
+P	Barrington		US	Rhode Island	41.741	-71.309	0
+P	Wolcott		US	Connecticut	41.602	-72.987	0
+P	North Valley Stream		US	New York	40.685	-73.702	0
+P	Easthampton		US	Massachusetts	42.267	-72.669	0
+P	Grafton		US	Massachusetts	42.207	-71.686	0
+P	Seymour		US	Connecticut	41.397	-73.076	0
+P	Cohoes		US	New York	42.774	-73.700	0
+P	Swansea		US	Massachusetts	41.748	-71.190	0
+P	Fairhaven		US	Massachusetts	41.638	-70.904	0
+P	Bethpage		US	New York	40.744	-73.482	0
+P	South River		US	New Jersey	40.446	-74.386	0
+P	Baychester		US	New York	40.869	-73.836	0
+P	Hopatcong Hills		US	New Jersey	40.944	-74.671	0
+P	Roosevelt		US	New York	40.679	-73.589	0
+P	Laconia		US	New Hampshire	43.528	-71.470	0
+P	Bellmore		US	New York	40.669	-73.527	0
+P	Madison		US	New Jersey	40.760	-74.417	0
+P	Rye		US	New York	40.981	-73.684	0
+P	Abington		US	Massachusetts	42.105	-70.945	0
+P	Floral Park		US	New York	40.724	-73.705	0
+P	North Arlington		US	New Jersey	40.788	-74.133	0
+P	Pearl River		US	New York	41.059	-74.022	0
+P	Narragansett		US	Rhode Island	41.450	-71.450	0
+P	Port Washington		US	New York	40.826	-73.698	0
+P	Rutland		US	Vermont	43.611	-72.973	0
+P	Asbury Park		US	New Jersey	40.220	-74.012	0
+P	Ashland		US	Massachusetts	42.261	-71.463	0
+P	Longmeadow		US	Massachusetts	42.050	-72.583	0
+P	Orient Heights		US	Massachusetts	42.388	-71.004	0
+P	Plainfield		US	Connecticut	41.676	-71.915	0
+P	Farmingville		US	New York	40.831	-73.030	0
+P	Mastic		US	New York	40.802	-72.841	0
+P	Setauket-East Setauket	setauket east setauket	US	New York	40.931	-73.102	0
+P	Harrison		US	New Jersey	40.746	-74.156	0
+P	Port Richmond		US	New York	40.633	-74.137	0
+P	Terrace Heights		US	New York	40.721	-73.769	0
+P	Emerson Hill		US	New York	40.609	-74.096	0
+P	Westbury		US	New York	40.756	-73.588	0
+P	Storrs		US	Connecticut	41.808	-72.250	0
+P	Warren Township		US	New Jersey	40.608	-74.518	0
+P	Seaford		US	New York	40.666	-73.488	0
+P	Graniteville		US	New York	40.625	-74.148	0
+P	Roxbury Crossing		US	Massachusetts	42.331	-71.091	0
+P	Ledyard		US	Connecticut	41.440	-72.014	0
+P	Fords		US	New Jersey	40.529	-74.316	0
+P	East Longmeadow		US	Massachusetts	42.065	-72.513	0
+P	Ramsey		US	New Jersey	41.057	-74.141	0
+P	Duxbury		US	Massachusetts	42.042	-70.672	0
+P	Gloversville		US	New York	43.053	-74.344	0

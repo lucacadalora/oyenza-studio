@@ -1,0 +1,46 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Seoul	540	
+C	JP	Japan	mwl	s
+C	KR	South Korea	mwl	s
+B	0
+P	Jeju City		KR		33.510	126.522	0
+P	Nagasaki		JP		32.750	129.883	0
+P	Suncheon		KR		34.950	127.488	0
+P	Yeosu		KR		34.761	127.662	0
+P	Mokpo		KR		34.813	126.392	0
+P	Sasebo		JP		33.168	129.725	0
+P	Geoje		KR		34.814	128.706	0
+P	Seogwipo		KR		33.253	126.562	0
+P	Gwangyang		KR		34.941	127.696	0
+P	Karatsu		JP		33.443	129.970	0
+P	Ōmura	omura	JP		32.921	129.954	0
+P	Muan		KR		34.990	126.479	0
+P	Kwangyang		KR		34.975	127.589	0
+P	Sinhyeon		KR		34.883	128.627	0
+P	Kyosai		KR		34.850	128.589	0
+P	Tongyeong		KR		34.850	128.428	0
+P	Imarichō-kō	imaricho ko	JP		33.274	129.879	0
+P	Tallang-dong	tallang dong	KR		33.490	126.475	0
+P	Sinan		KR		34.826	126.109	0
+P	Yeongam		KR		34.801	126.697	0
+P	Ido-dong	ido dong	KR		33.498	126.527	0
+P	Obita		JP		32.817	129.883	0
+P	Seodong		KR		33.484	126.493	0
+P	Ara-dong	ara dong	KR		33.469	126.528	0
+P	Boseong		KR		34.771	127.080	0
+P	Jangheung		KR		34.682	126.907	0
+P	Gotō	goto	JP		32.684	128.807	0
+P	Hirado		JP		33.369	129.552	0
+P	Iki		JP		33.783	129.721	0
+P	Togitsu		JP		32.833	129.850	0
+P	Tsushima		JP		34.206	129.291	0
+P	Goseong		KR		34.976	128.324	0
+P	Fukuechō	fukuecho	JP		32.697	128.846	0
+P	Saikai		JP		32.984	129.681	0
+P	Haenam		KR		34.571	126.599	0
+P	Gaigeturi		KR		33.464	126.318	0
+P	Matsuura		JP		33.341	129.695	0
+P	Beolgyo		KR		34.849	127.341	0
+P	Arita		JP		33.183	129.900	0
+P	Kamigotō	kamigoto	JP		32.983	129.083	0
+P	Ora-dong	ora dong	KR		33.482	126.506	0

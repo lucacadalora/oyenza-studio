@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Windhoek	120	
+C	NA	Namibia	egyptian	s
+B	0
+P	Windhoek		NA		-22.559	17.083	0
+P	Rehoboth		NA		-23.317	17.090	0
+P	Otjiwarongo		NA		-20.464	16.648	0
+P	Okahandja		NA		-21.981	16.903	0
+P	Gobabis		NA		-22.453	18.972	0
+P	Katutura		NA		-22.523	17.060	0

@@ -1,0 +1,395 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dakar	0	
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Lagos	60	
+Z	3	America/Caracas	-240	
+Z	4	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	5	America/Lima	-300	
+Z	6	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	7	America/Matamoros	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Mexico_City	-360	
+Z	9	America/Miquelon	-180	29549100=-120 29891760=-180 30083340=-120 30426000=-180 30607500=-120 30950160=-180 31131660=-120 31474320=-180 31655820=-120 31998480=-180 32179980=-120 32522640=-180 32714220=-120 33056880=-180 33238380=-120 33581040=-180 33762540=-120 34105200=-180 34286700=-120 34629360=-180 34810860=-120 35153520=-180 35335020=-120 35677680=-180 35869260=-120 36211920=-180 36393420=-120 36736080=-180 36917580=-120 37260240=-180 37441740=-120 37784400=-180 37965900=-120 38308560=-180 38490060=-120 38832720=-180 39024300=-120 39366960=-180 39548460=-120 39891120=-180
+Z	10	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	11	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	12	America/Sao_Paulo	-180	
+Z	13	America/Vancouver	-480	29549400=-420
+Z	14	Asia/Dhaka	360	
+Z	15	Asia/Karachi	300	
+Z	16	Asia/Kolkata	330	
+Z	17	Asia/Phnom_Penh	420	
+Z	18	Asia/Shanghai	480	
+Z	19	Asia/Tehran	210	
+Z	20	Australia/Brisbane	600	
+Z	21	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	22	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	23	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	24	Europe/Minsk	180	
+Z	25	Europe/Prague	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	26	Indian/Reunion	240	
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	EC	Ecuador	mwl	s
+C	EE	Estonia	mwl	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	KH	Cambodia	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LT	Lithuania	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PM	Saint Pierre and Miquelon	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	TW	Taiwan	mwl	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Pimpri-Chinchwad	pimpri chinchwad	IN		18.619	73.804	16
+P	Pimpri		IN		18.623	73.807	16
+P	Pikine		SN		14.765	-17.391	0
+P	Pingdingshan		CN		33.731	113.316	18
+P	Pingxiang		CN		27.617	113.854	18
+P	Pietermaritzburg		ZA		-29.617	30.393	1
+P	Piura		PE		-5.182	-80.657	5
+P	Las Piñas	las pinas	PH		14.451	120.983	18
+P	Pingdu		CN		36.784	119.946	18
+P	Pingliang		CN		35.539	106.686	18
+P	Jalalpur Pirwala		PK		29.505	71.222	15
+P	Pindi Bhattian		PK		31.898	73.273	15
+P	Piracicaba		BR		-22.725	-47.649	12
+P	Pizhou		CN		34.311	117.950	18
+P	São José dos Pinhais	sao jose dos pinhais	BR		-25.530	-49.208	12
+P	Pittsburgh		US	Pennsylvania	40.441	-79.996	10
+P	La Pintana		CL		-33.583	-70.634	11
+P	Plano Piloto		BR		-15.794	-47.883	12
+P	Pinar del Río	pinar del rio	CU		22.416	-83.697	4
+P	Pingwu County		CN		32.407	104.527	18
+P	Pirituba		BR		-23.490	-46.732	12
+P	Pilsen		CZ		49.747	13.378	25
+P	Piranshahr		IR		36.701	45.141	19
+P	Pembroke Pines		US	Florida	26.003	-80.224	10
+P	Pindamonhangaba		BR		-22.924	-45.462	12
+P	Piraeus		GR		37.942	23.646	22
+P	Piedecuesta		CO		6.988	-73.050	5
+P	Piedras Negras		MX		28.700	-100.524	7
+P	Pinetown		ZA		-29.821	30.887	1
+P	Piteşti	pitesti	RO		44.850	24.867	22
+P	Pitalito		CO		1.854	-76.051	5
+P	Pīlibhīt	pilibhit	IN		28.631	79.804	16
+P	Pingxiang		CN		22.097	106.757	18
+P	Pithampur		IN		22.602	75.696	16
+P	Pinsk		BY		52.122	26.067	24
+P	Piraquara		BR		-25.442	-49.068	12
+P	Pita Kotte		LK		6.891	79.901	16
+P	Pinhais		BR		-25.445	-49.193	12
+P	Ribeirão Pires	ribeirao pires	BR		-23.711	-46.413	12
+P	Pingshan		CN		22.994	114.713	18
+P	Pisa		IT		43.709	10.404	25
+P	Pindiga		NG		9.984	10.952	2
+P	Piacenza		IT		45.052	9.693	25
+P	Piatra Neamţ	piatra neamt	RO		46.917	26.333	22
+P	Barra do Piraí	barra do pirai	BR		-22.470	-43.826	12
+P	Vicente Pires		BR		-15.810	-48.031	12
+P	Pickering		CA	Ontario	43.900	-79.133	10
+P	Pinheiro		BR		-2.521	-45.083	12
+P	Piet Retief		ZA		-27.007	30.813	1
+P	Saint-Pierre	saint pierre	RE		-21.339	55.478	26
+P	La Piedad de Cabadas		MX		20.341	-102.023	8
+P	Picos		BR		-7.077	-41.467	12
+P	Pilar		AR		-34.459	-58.914	12
+P	Santa Catarina Pinula		GT		14.570	-90.499	8
+P	Piotrków Trybunalski	piotrkow trybunalski	PL		51.405	19.703	25
+P	San José Pinula	san jose pinula	GT		14.546	-90.413	8
+P	Pingyi		CN		35.501	117.631	18
+P	Zahir Pir		PK		28.813	70.523	15
+P	Piła	pila	PL		53.151	16.738	25
+P	Pilkhua		IN		28.713	77.656	16
+P	Pistoia		IT		43.931	10.924	25
+P	Pirassununga		BR		-21.996	-47.426	12
+P	Pierrefonds-Roxboro	pierrefonds roxboro	CA	Quebec	45.502	-73.842	10
+P	Las Piedras		UY		-34.730	-56.219	12
+P	Pittsburg		US	California	38.028	-121.885	6
+P	Pingzhuang		CN		42.037	119.289	18
+P	General Pico		AR		-35.659	-63.758	12
+P	Piripiri		BR		-4.273	-41.777	12
+P	Pinheiros		BR		-23.567	-46.692	12
+P	Picheng		CN		34.467	117.967	18
+P	Pico Rivera		US	California	33.983	-118.097	6
+P	Pindi Gheb		PK		33.241	72.265	15
+P	Pittwater		AU	New South Wales	-33.666	151.302	21
+P	Pidugurālla	piduguralla	IN		16.479	79.886	16
+P	Pingnan		CN		23.542	110.389	18
+P	Pingyin		CN		36.283	116.445	18
+P	Picpus		FR		48.843	2.400	25
+P	Pisco		PE		-13.710	-76.205	5
+P	Pine Hills		US	Florida	28.558	-81.453	10
+P	Juan-les-Pins	juan les pins	FR		43.569	7.113	25
+P	Piekary Śląskie	piekary slaskie	PL		50.380	18.927	25
+P	Pierrefonds		CA	Quebec	45.460	-73.893	10
+P	Pianura		IT		40.859	14.173	25
+P	Piscataway		US	New Jersey	40.499	-74.399	10
+P	Pirapora		BR		-17.345	-44.942	12
+P	Pingjin		CN		30.612	107.545	18
+P	Pithāpuram	pithapuram	IN		17.117	82.253	16
+P	Pirojpur		BD		22.580	89.975	14
+P	Pir Jo Goth		PK		27.592	68.618	15
+P	Sau Mau Ping		HK		22.320	114.235	18
+P	Pīshvā	pishva	IR		35.308	51.727	19
+P	Piedade		BR		-23.712	-47.428	12
+P	Pir Mahal		PK		30.767	72.435	15
+P	Pinar del Rey		ES		40.472	-3.647	25
+P	Ciudad Piar		VE		7.452	-63.320	3
+P	Pinellas Park		US	Florida	27.843	-82.700	10
+P	Pivdenna Borshchahivka		UA		50.411	30.404	22
+P	Pijijiapan		MX		15.686	-93.209	8
+P	Pipariā	piparia	IN		22.757	78.355	16
+P	Pithorāgarh	pithoragarh	IN		29.583	80.209	16
+P	João Pinheiro	joao pinheiro	BR		-17.742	-46.172	12
+P	Pilar		ES		40.477	-3.710	25
+P	Pingli		CN		32.385	109.346	18
+P	Ping Shan		HK		22.441	114.006	18
+P	Pivnichna Saltivka		UA		50.045	36.359	22
+P	Pine Bluff		US	Arkansas	34.228	-92.003	7
+P	Fort Pierce		US	Florida	27.447	-80.326	10
+P	Piendamo		CO		2.639	-76.531	5
+P	Salto de Pirapora		BR		-23.649	-47.573	12
+P	Píritu	piritu	VE		9.371	-69.210	3
+P	Picsi		PE		-6.718	-79.770	5
+P	Pirmasens		DE		49.201	7.605	25
+P	Pinamalayan		PH		13.046	121.462	18
+P	Pinto		ES		40.241	-3.700	25
+P	Pittsfield		US	Massachusetts	42.450	-73.245	10
+P	San Donà di Piave	san dona di piave	IT		45.630	12.568	25
+P	Ascoli Piceno		IT		42.854	13.574	25
+P	Pīleru	pileru	IN		13.656	78.939	16
+P	Pirāyiri	pirayiri	IN		10.765	76.632	16
+P	Pirot		RS		43.153	22.586	25
+P	Pinneberg		DE		53.659	9.797	25
+P	Pirna		DE		50.958	13.937	25
+P	Espírito Santo do Pinhal	espirito santo do pinhal	BR		-22.196	-46.749	12
+P	Pivnichni Osokorky		UA		50.393	30.613	22
+P	Pinamar		AR		-37.111	-56.865	12
+P	Pīrmām	pirmam	IQ		36.385	44.197	24
+P	Pivdennoukrainsk		UA		47.829	31.175	22
+P	Puerto Píritu	puerto piritu	VE		10.059	-65.037	3
+P	Pivnichno-Brovarskyi Masyv	pivnichno brovarskyi masyv	UA		50.463	30.617	22
+P	Dorcheh Pīāz	dorcheh piaz	IR		32.615	51.556	19
+P	Alto De Pinheiros		BR		-23.548	-46.712	12
+P	Del Pilar		PH		15.036	120.699	18
+P	Pilibangan		IN		29.450	74.101	16
+P	Pīpār	pipar	IN		26.384	73.544	16
+P	Pilar		BR		-9.597	-35.957	12
+P	Piaseczno		PL		52.081	21.024	25
+P	Piumhi		BR		-20.465	-45.958	12
+P	Pinjaur		IN		30.799	76.918	16
+P	Pilão Arcado	pilao arcado	BR		-10.001	-42.480	12
+P	Pimenta Bueno		BR		-11.672	-61.194	3
+P	Piskent		UZ		40.897	69.351	15
+P	Pīrgaaj	pirgaaj	BD		25.856	88.359	14
+P	Pila		PH		14.232	121.365	18
+P	Pioltello		IT		45.501	9.331	25
+P	Piombino		IT		42.926	10.526	25
+P	Piro		IN		25.332	84.405	16
+P	Pitangueiras		BR		-21.009	-48.222	12
+P	Pitoa		CM		9.384	13.502	2
+P	Pitanga		BR		-24.757	-51.761	12
+P	Pivijay		CO		10.462	-74.616	5
+P	Pilar		PY		-26.859	-58.306	12
+P	Pivdenne		UA		46.625	31.102	22
+P	Pīrzādagūda	pirzadaguda	IN		17.395	78.590	16
+P	Pires do Rio		BR		-17.300	-48.279	12
+P	Punta de Piedras		VE		10.901	-64.097	3
+P	Fort Pienc		ES		41.395	2.179	25
+P	Pindaré-Mirim	pindare mirim	BR		-3.608	-45.343	12
+P	Pilczyce-Kozanów-Popowice Północne	pilczyce kozanow popowice polnocne	PL		51.131	16.977	25
+P	Mangrūl Pīr	mangrul pir	IN		20.314	77.342	16
+P	Pingkai		CN		28.426	108.996	18
+P	Pinerolo		IT		44.885	7.331	25
+P	Pingtan		CN		29.846	105.878	18
+P	Pikesville		US	Maryland	39.374	-76.722	10
+P	Sint-Pieters-Leeuw	sint pieters leeuw	BE		50.779	4.244	25
+P	Pililla		PH		14.485	121.306	18
+P	Pihānī	pihani	IN		27.620	80.203	16
+P	Pinar de Chamartín	pinar de chamartin	ES		40.479	-3.668	25
+P	Pind Dadan Khan		PK		32.587	73.045	15
+P	Pinhão	pinhao	BR		-25.696	-51.660	12
+P	Písek	pisek	CZ		49.309	14.148	25
+P	Pilāni	pilani	IN		28.367	75.604	16
+P	Pinotepa Nacional		MX		16.340	-98.053	8
+P	Piraju		BR		-23.194	-49.384	12
+P	Pingshan		CN		30.097	107.424	18
+P	Pitou		TW		23.895	120.479	18
+P	Piton Saint-Leu	piton saint leu	RE		-21.220	55.315	26
+P	Piraí	pirai	BR		-22.629	-43.898	12
+P	Piracuruca		BR		-3.928	-41.709	12
+P	Pilón	pilon	CU		19.906	-77.322	4
+P	Piravam		IN		9.867	76.500	16
+P	Pichanal		AR		-23.316	-64.218	12
+P	Pierrefitte-sur-Seine	pierrefitte sur seine	FR		48.967	2.361	25
+P	Pilar do Sul		BR		-23.813	-47.716	12
+P	Piscinola		IT		40.893	14.234	25
+P	Piecki-Migowo	piecki migowo	PL		54.357	18.582	25
+P	Balneário Piçarras	balneario picarras	BR		-26.764	-48.672	12
+P	Pirthīpur	pirthipur	IN		25.208	78.752	16
+P	Piešťany	piestany	SK		48.595	17.826	25
+P	Pirenópolis	pirenopolis	BR		-15.851	-48.961	12
+P	Pitangui		BR		-19.683	-44.890	12
+P	Pineda de Mar		ES		41.628	2.689	25
+P	Las Pintitas		MX		20.564	-103.302	8
+P	Piri		AO		-8.534	14.436	2
+P	Piracaia		BR		-23.054	-46.358	12
+P	Alto Alegre do Pindaré	alto alegre do pindare	BR		-3.671	-45.847	12
+P	Pita		GN		11.059	-12.395	0
+P	Pirapozinho		BR		-22.275	-51.500	12
+P	Pico Truncado		AR		-46.799	-67.958	12
+P	Pinheiral		BR		-22.513	-44.001	12
+P	Pitsea		GB	England	51.564	0.509	23
+P	Boeng Kak Pir		KH		11.573	104.890	17
+P	Piracanjuba		BR		-17.303	-49.017	12
+P	Pianjiao		CN		26.017	100.583	18
+P	Pindwāra	pindwara	IN		24.797	73.055	16
+P	Pio		PH		15.047	120.519	18
+P	Pishin		PK		30.582	66.994	15
+P	Pinheiros		BR		-18.370	-40.213	12
+P	San Pedro del Pinatar		ES		37.836	-0.791	25
+P	Pipri		IN		20.786	78.594	16
+P	Piraí do Sul	pirai do sul	BR		-24.526	-49.949	12
+P	Pinhal Novo		PT		38.631	-8.914	23
+P	Pisochyn		UA		49.952	36.103	22
+P	Pissila		BF		13.164	-0.823	0
+P	Pindoretama		BR		-4.027	-38.305	12
+P	Pinillos		CO		8.919	-74.468	5
+P	Piastów	piastow	PL		52.184	20.840	25
+P	Pinamungahan		PH		10.271	123.584	18
+P	Piteå	pitea	SE		65.317	21.479	25
+P	Piranhas		BR		-9.624	-37.757	12
+P	Pīpri	pipri	IN		19.794	75.535	16
+P	Picnic Point-North Lynnwood	picnic point north lynnwood	US	Washington	47.863	-122.295	6
+P	Las Pintas de Arriba		MX		20.576	-103.324	8
+P	Pirajuí	pirajui	BR		-21.999	-49.457	12
+P	Piúma	piuma	BR		-20.838	-40.722	12
+P	Valença do Piauí	valenca do piaui	BR		-6.407	-41.746	12
+P	Pikalëvo	pikalevo	RU		59.518	34.166	24
+P	Pitrufquén	pitrufquen	CL		-38.986	-72.637	11
+P	Pinhalzinho		BR		-26.848	-52.992	12
+P	Pio XII		BR		-3.833	-45.153	12
+P	São João do Piauí	sao joao do piaui	BR		-8.358	-42.247	12
+P	Pilar de la Horadada		ES		37.866	-0.793	25
+P	Pirkkala		FI		61.461	23.632	22
+P	l'Alfàs del Pi	lalfas del pi	ES		38.581	-0.103	25
+P	Vadakarai Kīl Pidāgai	vadakarai kil pidagai	IN		9.040	77.274	16
+P	Piqua		US	Ohio	40.145	-84.242	10
+P	Pimlico		GB	England	51.489	-0.137	23
+P	São João de Pirabas	sao joao de pirabas	BR		-0.775	-47.177	12
+P	Nova Esperança do Piriá	nova esperanca do piria	BR		-2.268	-46.968	12
+P	Pittsburg		US	Kansas	37.411	-94.705	7
+P	Pilaitė	pilaite	LT		54.700	25.184	22
+P	Piatã	piata	BR		-13.152	-41.773	12
+P	Pionki		PL		51.476	21.450	25
+P	Picassent		ES		39.364	-0.459	25
+P	Pickerington		US	Ohio	39.884	-82.754	10
+P	Cachoeira do Piriá	cachoeira do piria	BR		-1.760	-46.545	12
+P	Pināhat	pinahat	IN		26.885	78.376	16
+P	Kuala Pilah		MY		2.739	102.249	18
+P	Piedade		PT		38.670	-9.159	23
+P	Pinecrest		US	Florida	25.667	-80.308	10
+P	Castelo do Piauí	castelo do piaui	BR		-5.322	-41.553	12
+P	Pinole		US	California	38.004	-122.299	6
+P	Pisz		PL		53.627	21.813	25
+P	Pinner		GB	England	51.594	-0.382	23
+P	Pidhorodnye		UA		48.574	35.097	22
+P	Pirané	pirane	AR		-25.733	-59.110	12
+P	Pindobaçu	pindobacu	BR		-10.742	-40.361	12
+P	São José de Piranhas	sao jose de piranhas	BR		-7.121	-38.502	12
+P	Pietrasanta		IT		43.960	10.228	25
+P	Pijnacker		NL		52.020	4.429	25
+P	Pitt Meadows		CA	British Columbia	49.221	-122.690	13
+P	Pizarro		CO		4.953	-77.366	5
+P	Pilar		AR		-31.681	-63.882	12
+P	Pirapora do Bom Jesus		BR		-23.397	-47.002	12
+P	Picuí	picui	BR		-6.511	-36.347	12
+P	Pirita		EE		59.469	24.838	22
+P	Pichor		IN		25.176	78.189	16
+P	Pitäjänmäki	pitajanmaki	FI		60.223	24.861	22
+P	Piranvādi	piranvadi	IN		15.802	74.480	16
+P	Pilar		PH		14.660	120.565	18
+P	Piazza Armerina		IT		37.384	14.369	25
+P	Pirapemas		BR		-3.727	-44.223	12
+P	Pipili		IN		20.114	85.831	16
+P	Pio IX		BR		-6.835	-40.613	12
+P	Piritiba		BR		-11.730	-40.555	12
+P	Piratini		BR		-31.448	-53.104	12
+P	Hāt Piplia	hat piplia	IN		22.769	76.300	16
+P	San Pietro a Patierno		IT		40.886	14.290	25
+P	La Pineda		ES		41.077	1.179	25
+P	Pieksämäki	pieksamaki	FI		62.300	27.133	22
+P	Piranga		BR		-20.685	-43.300	12
+P	Piñas	pinas	EC		-3.680	-79.682	5
+P	Piossasco		IT		44.988	7.460	25
+P	Pinarāyi	pinarayi	IN		11.805	75.481	16
+P	Pitimbu		BR		-7.471	-34.809	12
+P	Saint Pierre		MU		-20.221	57.534	26
+P	Piriyāpatna	piriyapatna	IN		12.335	76.101	16
+P	Piquet Carneiro		BR		-5.804	-39.418	12
+P	Pacific Pines		AU	Queensland	-27.940	153.314	20
+P	Pinewood		US	Florida	25.869	-80.217	10
+P	Piancó	pianco	BR		-7.198	-37.929	12
+P	Piaçabuçu	piacabucu	BR		-10.406	-36.434	12
+P	Pīshīn	pishin	IR		26.079	61.754	19
+P	Pigüé	pigue	AR		-37.603	-62.408	12
+P	Pipraich		IN		26.827	83.526	16
+P	Pinehurst		US	North Carolina	35.195	-79.469	10
+P	General Pinedo		AR		-27.325	-61.281	12
+P	Correia Pinto		BR		-27.585	-50.361	12
+P	Pimentel		PE		-6.837	-79.934	5
+P	Piera		ES		41.522	1.751	25
+P	Saint-Pierre-des-Corps	saint pierre des corps	FR		47.386	0.748	25
+P	Pinhalzinho		BR		-22.779	-46.591	12
+P	Pointe-à-Pitre	pointe a pitre	GP		16.236	-61.535	3
+P	Piratininga		BR		-22.413	-49.135	12
+P	Panth Pīplia	panth piplia	IN		24.195	75.006	16
+P	Piovera		ES		40.456	-3.635	25
+P	Saint-Pierre	saint pierre	PM		46.779	-56.177	9

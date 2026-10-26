@@ -1,0 +1,57 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ho_Chi_Minh	420	
+Z	1	Asia/Shanghai	480	
+Z	2	Asia/Yangon	390	
+C	CN	China	mwl	s
+C	LA	Laos	mwl	s
+C	MM	Myanmar	mwl	s
+C	VN	Vietnam	mwl	s
+B	0
+P	Mengzi		CN		23.368	103.382	1
+P	Jianshui		CN		24.277	101.224	1
+P	Wenshan City		CN		23.363	104.250	1
+P	Lincang		CN		23.880	100.095	1
+P	Pu'er	puer	CN		22.789	100.975	1
+P	Jinghong		CN		22.003	100.770	1
+P	Kaiyuan		CN		23.698	103.304	1
+P	Ning’er	ninger	CN		23.041	101.037	1
+P	Thị Trấn Thuận Châu	thi tran thuan chau	VN		21.438	103.690	0
+P	Gejiu		CN		23.361	103.154	1
+P	Lào Cai	lao cai	VN		22.486	103.971	0
+P	Bắc Quang	bac quang	VN		22.483	104.867	0
+P	Haikou		CN		24.780	102.575	1
+P	Anning		CN		24.923	102.485	1
+P	Sơn La	son la	VN		21.326	103.919	0
+P	Yuxi		CN		24.355	102.542	1
+P	Yên Bái	yen bai	VN		21.723	104.911	0
+P	Zhongshu		CN		24.517	103.767	1
+P	Longquan		CN		24.672	102.161	1
+P	Dien Bien Phu		VN		21.386	103.023	0
+P	Miyang		CN		24.404	103.443	1
+P	Nghĩa Lộ	nghia lo	VN		21.600	104.517	0
+P	Ban Khoan		LA		20.350	100.090	0
+P	Kaihua		CN		23.369	104.277	1
+P	Mabai		CN		23.013	104.451	1
+P	Xam Nua		LA		20.416	104.045	0
+P	Hà Giang	ha giang	VN		22.823	104.984	0
+P	Shilin		CN		24.819	103.332	1
+P	Qianliu		CN		22.900	100.200	1
+P	Hekou		CN		22.539	104.011	1
+P	Möng La	mong la	MM		21.671	100.013	2
+P	Lai Châu	lai chau	VN		22.396	103.458	0
+P	Möng Yawng	mong yawng	MM		21.179	100.358	2
+P	Thị Trấn Phố Lu	thi tran pho lu	VN		22.319	104.187	0
+P	Mengla		CN		21.462	101.564	1
+P	Nuozhadu		CN		22.578	100.269	1
+P	Muang Xay		LA		20.692	101.984	0
+P	Muang Sing		LA		21.192	101.148	0
+P	Meng’a	menga	CN		22.199	100.417	1
+P	Mường Lay	muong lay	VN		22.000	103.133	0
+P	Mengman		CN		22.322	100.888	1
+P	Huimin		CN		22.261	100.083	1
+P	Fudong		CN		23.123	100.000	1
+P	Ít Ong	it ong	VN		21.517	104.027	0
+P	Thị Trấn Việt Quang	thi tran viet quang	VN		22.415	104.807	0
+P	Dashan		CN		23.002	100.115	1
+P	Ban Houakhoua		LA		20.247	100.454	0
+P	Fazhanhe		CN		22.334	100.173	1

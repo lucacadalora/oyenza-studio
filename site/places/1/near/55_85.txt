@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Novokuznetsk	420	
+C	RU	Russia	mwl	s
+B	0
+P	Kemerovo		RU		55.354	86.104	0
+P	Anzhero-Sudzhensk	anzhero sudzhensk	RU		56.076	86.024	0
+P	Berëzovskiy	berezovskiy	RU		55.670	86.275	0
+P	Mariinsk		RU		56.210	87.732	0
+P	Sharypovo		RU		55.540	89.201	0
+P	Topki		RU		55.277	85.614	0
+P	Asino		RU		56.999	86.155	0
+P	Tayga		RU		56.065	85.622	0
+P	Bogotol		RU		56.204	89.533	0
+P	Kedrovka		RU		55.521	86.095	0
+P	Uzhur		RU		55.318	89.831	0
+P	Yashkino		RU		55.874	85.434	0

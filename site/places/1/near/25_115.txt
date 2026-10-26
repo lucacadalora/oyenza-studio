@@ -1,0 +1,54 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	9
+P	Fuzhou		CN		26.061	119.306	0
+P	Puyang		CN		29.457	119.889	0
+P	Nanchang		CN		28.684	115.853	0
+P	Putian		CN		25.439	119.010	0
+P	Jinhua		CN		29.107	119.644	0
+P	Jiujiang		CN		29.705	116.002	0
+P	Shangrao		CN		28.452	117.943	0
+P	Fuzhou		CN		27.960	116.333	0
+P	Longyan		CN		25.075	117.018	0
+P	Quzhou		CN		28.959	118.869	0
+P	Sanming		CN		26.249	117.619	0
+P	Jingdezhen		CN		29.295	117.208	0
+P	Nanping		CN		26.645	118.174	0
+P	Huangshan		CN		29.711	118.312	0
+P	Lishui		CN		28.460	119.910	0
+P	Ningde		CN		26.662	119.523	0
+P	Pengze		CN		29.899	116.546	0
+P	Wuxue		CN		29.851	115.552	0
+P	Yingtan		CN		28.233	117.000	0
+P	Fu’an	fuan	CN		27.091	119.644	0
+P	Wuyishan		CN		27.760	118.031	0
+P	Jinfeng		CN		28.238	116.601	0
+P	Shaowu		CN		27.341	117.483	0
+P	Jianchang		CN		27.558	116.640	0
+P	Bashan		CN		27.768	116.050	0
+P	Qincheng		CN		27.213	116.530	0
+P	Xujiang		CN		26.839	116.320	0
+P	Aoxi		CN		27.426	115.836	0
+P	Xiugu		CN		27.911	116.776	0
+P	Huicheng		CN		29.869	118.434	0
+P	Huayuan		CN		28.286	117.207	0
+P	Lanxi		CN		29.216	119.472	0
+P	Poyang		CN		28.992	116.668	0
+P	Tantou		CN		26.030	119.597	0
+P	Fuqing		CN		25.729	119.375	0
+P	Fenggang		CN		27.546	116.215	0
+P	Dengbu		CN		28.208	116.817	0
+P	Jianguang		CN		28.194	115.784	0
+P	Liancheng		CN		25.718	116.749	0
+P	Wucheng		CN		29.601	118.175	0
+P	Jiangkou		CN		25.487	119.198	0
+P	Pucheng		CN		27.923	118.533	0
+P	Jian’ou	jianou	CN		27.041	118.319	0
+P	Changleng		CN		28.700	115.817	0
+P	Qishan		CN		29.844	117.719	0
+P	Jinjiang		CN		28.401	116.900	0
+P	Haiyang		CN		29.786	118.177	0
+P	Gongqingcheng		CN		29.249	115.810	0
+P	Biyang		CN		29.929	117.946	0
+P	Wenheng		CN		25.667	116.754	0

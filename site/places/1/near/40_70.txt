@@ -1,0 +1,77 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bishkek	360	
+Z	1	Asia/Tashkent	300	
+C	KG	Kyrgyzstan	mwl	h
+C	KZ	Kazakhstan	mwl	h
+C	TJ	Tajikistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	0
+P	Bishkek		KG		42.870	74.590	0
+P	Andijon		UZ		40.783	72.351	1
+P	Namangan		UZ		40.998	71.673	1
+P	Taraz		KZ		42.898	71.373	1
+P	Osh		KG		40.528	72.799	0
+P	Fergana		UZ		40.384	71.784	1
+P	Isfara		TJ		40.126	70.625	1
+P	Qo‘qon	qoqon	UZ		40.529	70.942	1
+P	Marg‘ilon	margilon	UZ		40.472	71.725	1
+P	Konibodom		TJ		40.294	70.431	1
+P	Angren		UZ		41.017	70.144	1
+P	Manas		KG		40.945	72.993	0
+P	Chust		UZ		41.003	71.238	1
+P	Quvasoy		UZ		40.297	71.980	1
+P	Beshariq		UZ		40.436	70.610	1
+P	Shahrixon		UZ		40.713	72.057	1
+P	Asaka		UZ		40.642	72.239	1
+P	Chortoq		UZ		41.069	71.824	1
+P	Kosonsoy		UZ		41.249	71.547	1
+P	Uzgen		KG		40.770	73.301	0
+P	Kara-Balta	kara balta	KG		42.814	73.848	0
+P	Quva		UZ		40.522	72.073	1
+P	Xonobod		UZ		40.803	72.975	1
+P	Bazar-Korgon	bazar korgon	KG		41.038	72.746	0
+P	Talas		KG		42.523	72.242	0
+P	Uchqŭrghon Shahri	uchqurghon shahri	UZ		41.114	72.079	1
+P	Shu		KZ		43.605	73.762	1
+P	Karatau		KZ		43.180	70.459	1
+P	Rishton		UZ		40.357	71.285	1
+P	Paxtaobod		UZ		40.929	72.497	1
+P	Qorasuv		UZ		40.728	72.886	1
+P	Oyim		UZ		40.820	72.742	1
+P	Kyzyl-Kyya	kyzyl kyya	KG		40.257	72.128	0
+P	Suzak		KG		40.898	72.905	0
+P	To‘rqao‘rg‘on	torqaorgon	UZ		41.000	71.512	1
+P	Uychi		UZ		41.029	71.850	1
+P	Toshbuloq		UZ		40.916	71.578	1
+P	Yangiqo‘rg‘on	yangiqorgon	UZ		41.195	71.724	1
+P	Pop		UZ		40.874	71.109	1
+P	Batken		KG		40.060	70.819	0
+P	Kara-Kul’	kara kul	KG		41.628	72.670	0
+P	Kara Suu		KG		40.705	72.867	0
+P	Haqqulobod		UZ		40.917	72.117	1
+P	Iradan		KG		40.267	72.100	0
+P	Dardoq		UZ		40.816	72.832	1
+P	Poytug‘	poytug	UZ		40.898	72.245	1
+P	Qo‘rg‘ontepa	qorgontepa	UZ		40.732	72.762	1
+P	Oltiariq		UZ		40.392	71.474	1
+P	Yaypan		UZ		40.376	70.816	1
+P	Yangiobod		UZ		41.119	70.094	1
+P	Jalolquduq		UZ		40.689	72.609	1
+P	Chinobod		UZ		40.877	71.973	1
+P	Tash-Kumyr	tash kumyr	KG		41.346	72.217	0
+P	Belovodskoye		KG		42.829	74.108	0
+P	Kant		KG		42.891	74.851	0
+P	Lebedinovka		KG		42.885	74.678	0
+P	Toktogul		KG		41.874	72.942	0
+P	Kirguli		UZ		40.436	71.767	1
+P	Xo‘jaobod	xojaobod	UZ		40.669	72.560	1
+P	Sultonobod		UZ		40.765	72.976	1
+P	Massy		KG		41.060	72.633	0
+P	Toshloq		UZ		40.477	71.768	1
+P	Turar Ryskulov		KZ		42.533	70.350	1
+P	Nookat		KG		40.266	72.618	0
+P	Kochkor-Ata	kochkor ata	KG		41.037	72.483	0
+P	Merke		KZ		42.872	73.196	1
+P	Kara-Kulja	kara kulja	KG		40.632	73.592	0
+P	Ala-Buka	ala buka	KG		41.410	71.486	0
+P	Sarykemer		KZ		43.009	71.510	1

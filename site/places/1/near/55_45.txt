@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	1
+P	Kazan		RU		55.789	49.122	0
+P	Kirov		RU		58.598	49.658	0
+P	Cheboksary		RU		56.132	47.246	0
+P	Yoshkar-Ola	yoshkar ola	RU		56.639	47.891	0
+P	Novocheboksarsk		RU		56.111	47.478	0
+P	Zelenodolsk		RU		55.844	48.518	0
+P	Volzhsk		RU		55.867	48.359	0
+P	Kanash		RU		55.510	47.491	0
+P	Shumerlya		RU		55.501	46.413	0
+P	Shar’ya	sharya	RU		58.368	45.516	0
+P	Kotel’nich	kotelnich	RU		58.303	48.337	0
+P	Lyskovo		RU		56.029	45.042	0
+P	Koz’modem’yansk	kozmodemyansk	RU		56.332	46.561	0
+P	Medvedevo		RU		56.634	47.803	0
+P	Shakhun’ya	shakhunya	RU		57.676	46.612	0
+P	Sergach		RU		55.528	45.457	0
+P	Yaransk		RU		57.305	47.874	0
+P	Sovetsk		RU		57.589	48.955	0
+P	Arsk		RU		56.093	49.878	0
+P	Vasil’yevo	vasilyevo	RU		55.830	48.717	0

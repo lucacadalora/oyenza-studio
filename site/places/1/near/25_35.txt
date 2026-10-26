@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Riyadh	180	
+C	JO	Jordan	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+B	0
+P	Tabuk		SA		28.400	36.572	0
+P	Aqaba		JO		29.527	35.008	0
+P	Taymā’	tayma	SA		27.622	38.539	0
+P	Umluj		SA		25.021	37.269	0
+P	Al-`Ula	al ula	SA		26.609	37.923	0
+P	Al Wajh		SA		26.231	36.465	0
+P	Duba		SA		27.351	35.690	0

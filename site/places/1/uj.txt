@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baku	240	
+Z	1	Asia/Kolkata	330	
+Z	2	Asia/Tokyo	540	
+Z	3	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AZ	Azerbaijan	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	PL	Poland	mwl	s
+B	0
+P	Ujjain		IN		23.182	75.776	1
+P	Uji		JP		34.890	135.803	2
+P	Újpest	ujpest	HU		47.569	19.085	3
+P	Ujhāni	ujhani	IN		28.003	79.008	1
+P	Újlipótváros	ujlipotvaros	HU		47.516	19.053	3
+P	Újpalota	ujpalota	HU		47.537	19.144	3
+P	Ujiie		JP		36.683	139.967	2
+P	Ujeścisko-Łostowice	ujescisko lostowice	PL		54.324	18.603	3
+P	Újszeged	ujszeged	HU		46.248	20.166	3
+P	Ujar		AZ		40.519	47.654	0

@@ -39,7 +39,7 @@ use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
 use crate::state::{
-    AgendaState, AppState, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
+    AgendaState, AppState, CityFile, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
@@ -723,7 +723,9 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
     let world = World::parse(poni_core::prayer::world::SAMPLE.into()).expect("sample world places");
     let list = st.prayer.places.clone().expect("places");
     st.prayer.place = if scene == Scene::PrayerWorld { world.place(0) } else { list.find("jakarta").cloned() };
-    st.prayer.world = Some(std::sync::Arc::new(world));
+    st.settings.prayer.world_place = st.prayer.place.as_ref().and_then(|p| p.world_lines.clone());
+    // The website's "ed" file, as if it had come.
+    st.prayer.cities = [("ed".to_string(), CityFile::Here(std::sync::Arc::new(world)))].into();
     st.prayer.found = None;
     st.settings.prayer.follow_location = scene != Scene::PrayerWorld;
     st.prayer.suggested = false;

@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bahia	-180	
+Z	1	America/Caracas	-240	
+Z	2	Asia/Manila	480	
+C	BR	Brazil	mwl	s
+C	PH	Philippines	mwl	s
+C	VE	Venezuela	mwl	s
+B	0
+P	Ualog		PH		10.574	123.393	2
+P	Santa Elena de Uairén	santa elena de uairen	VE		4.602	-61.110	1
+P	Uauá	uaua	BR		-9.841	-39.482	0
+P	Uarini		BR		-2.990	-65.108	1

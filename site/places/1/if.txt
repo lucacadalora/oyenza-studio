@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Dar_es_Salaam	180	
+Z	2	Africa/Lagos	60	
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Ile-Ife	ile ife	NG		7.482	4.560	2
+P	Ifakara		TZ		-8.133	36.683	1
+P	Ifo		NG		6.815	3.195	2
+P	Ifrane		MA		33.527	-5.110	0
+P	Ohafia-Ifigh	ohafia ifigh	NG		5.615	7.812	2
+P	Sidi Ifni		MA		29.380	-10.173	0
+P	Ifanadiana		MG		-21.300	47.633	1

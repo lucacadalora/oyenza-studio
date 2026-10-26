@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	ES	Spain	mwl	s
+B	0
+P	Las Palmas de Gran Canaria		ES		28.102	-15.416	0
+P	Santa Cruz de Tenerife		ES		28.468	-16.255	0
+P	La Laguna		ES		28.485	-16.320	0
+P	Telde		ES		27.992	-15.419	0
+P	Centro		ES		28.127	-15.431	0
+P	Arona		ES		28.100	-16.681	0
+P	Santa Lucía	santa lucia	ES		27.912	-15.541	0
+P	San Bartolomé de Tirajana	san bartolome de tirajana	ES		27.925	-15.573	0
+P	Adeje		ES		28.123	-16.726	0
+P	La Orotava		ES		28.391	-16.523	0
+P	Granadilla de Abona		ES		28.119	-16.576	0
+P	Los Realejos		ES		28.385	-16.583	0
+P	Arucas		ES		28.120	-15.523	0
+P	Maspalomas		ES		27.761	-15.586	0
+P	Realejo Alto		ES		28.376	-16.586	0
+P	Puerto de la Cruz		ES		28.417	-16.551	0
+P	Ingenio		ES		27.919	-15.434	0
+P	Agüimes	aguimes	ES		27.905	-15.446	0
+P	Candelaria		ES		28.355	-16.373	0
+P	Gáldar	galdar	ES		28.147	-15.650	0
+P	Icod de los Vinos		ES		28.372	-16.712	0
+P	Tacoronte		ES		28.477	-16.410	0
+P	Carrizal		ES		27.912	-15.406	0
+P	Mogán	mogan	ES		27.884	-15.725	0
+P	Guía de Isora	guia de isora	ES		28.212	-16.779	0
+P	Los Llanos de Aridane		ES		28.659	-17.918	0
+P	San Isidro		ES		28.076	-16.558	0
+P	Santa Brígida	santa brigida	ES		28.032	-15.504	0
+P	Güimar	guimar	ES		28.311	-16.413	0
+P	Playa del Ingles		ES		27.757	-15.579	0
+P	San Miguel De Abona		ES		28.098	-16.617	0
+P	Santa Cruz de la Palma		ES		28.684	-17.764	0

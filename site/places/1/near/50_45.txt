@@ -1,0 +1,40 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+Z	1	Europe/Saratov	240	
+C	RU	Russia	mwl	s
+B	0
+P	Saratov		RU		51.540	45.990	1
+P	Tolyatti		RU		53.530	49.346	1
+P	Ulyanovsk		RU		54.328	48.387	1
+P	Penza		RU		53.196	45.011	0
+P	Saransk		RU		54.185	45.172	0
+P	Balakovo		RU		52.026	47.797	1
+P	Engels		RU		51.484	46.105	1
+P	Syzran		RU		53.158	48.468	1
+P	Dimitrovgrad		RU		54.214	49.618	1
+P	Kamyshin		RU		50.089	45.413	0
+P	Novokuybyshevsk		RU		53.097	49.940	1
+P	Kuznetsk		RU		53.117	46.600	0
+P	Vol’sk	volsk	RU		52.042	47.383	1
+P	Chapayevsk		RU		52.977	49.709	1
+P	Zarechnyy		RU		53.204	45.192	0
+P	Zarechnyy		RU		53.133	46.583	0
+P	Zhigulëvsk	zhigulevsk	RU		53.403	49.511	1
+P	Alatyr’	alatyr	RU		54.842	46.581	0
+P	Pugachëv	pugachev	RU		52.017	48.799	1
+P	Petrovsk		RU		52.309	45.390	1
+P	Marks		RU		51.710	46.746	1
+P	Privolzhskiy		RU		51.409	46.048	1
+P	Atkarsk		RU		51.881	45.006	1
+P	Oktyabr’sk	oktyabrsk	RU		53.167	48.697	1
+P	Krasnoarmeysk		RU		51.023	45.697	1
+P	Nikol’sk	nikolsk	RU		53.719	46.071	0
+P	Bezenchuk		RU		52.981	49.432	1
+P	Yershov		RU		51.356	48.273	1
+P	Buinsk		RU		54.974	48.291	0
+P	Inza		RU		53.853	46.351	1
+P	Barysh		RU		53.650	47.127	1
+P	Pallasovka		RU		50.049	46.886	0
+P	Novoul’yanovsk	novoulyanovsk	RU		54.148	48.386	1
+P	Novouzensk		RU		50.463	48.142	1
+P	Nikolayevsk		RU		50.028	45.461	0

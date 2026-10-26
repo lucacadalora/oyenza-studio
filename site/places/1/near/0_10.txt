@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Douala	60	
+C	CM	Cameroon	egyptian	s
+C	GA	Gabon	egyptian	s
+C	GQ	Equatorial Guinea	egyptian	s
+B	1
+P	Yaoundé	yaounde	CM		3.867	11.517	0
+P	Bertoua		CM		4.577	13.685	0
+P	Edéa	edea	CM		3.800	10.133	0
+P	Ébolowa	ebolowa	CM		2.900	11.150	0
+P	Mbalmayo		CM		3.517	11.500	0
+P	Sangmélima	sangmelima	CM		2.933	11.983	0
+P	Bafia		CM		4.750	11.233	0
+P	Oyem		GA		1.599	11.579	0
+P	Batouri		CM		4.433	14.367	0
+P	Obala		CM		4.167	11.533	0
+P	Bitam		GA		2.076	11.501	0
+P	Akonolinga		CM		3.767	12.250	0
+P	Mbandjok		CM		4.450	11.900	0
+P	Makak		CM		3.550	11.033	0
+P	Nanga Eboko		CM		4.683	12.367	0
+P	Eséka	eseka	CM		3.650	10.767	0
+P	Nkoteng		CM		4.517	12.033	0
+P	Ambam		CM		2.383	11.283	0
+P	Ebebiyin		GQ		2.152	11.330	0
+P	Makokou		GA		0.574	12.864	0
+P	Abong Mbang		CM		3.983	13.183	0
+P	Bélabo	belabo	CM		4.933	13.300	0
+P	Okoa		CM		3.983	11.600	0
+P	Lolodorf		CM		3.233	10.733	0
+P	Tonga		CM		4.967	10.700	0
+P	Ciudad de la Paz		GQ		1.593	10.824	0

@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	America/Argentina/Buenos_Aires	-180	
+Z	2	Asia/Damascus	180	
+Z	3	Asia/Kolkata	330	
+Z	4	Asia/Shanghai	480	
+C	AR	Argentina	mwl	s
+C	CN	China	mwl	s
+C	DZ	Algeria	egyptian	s
+C	IN	India	karachi	h
+C	NG	Nigeria	egyptian	s
+C	RU	Russia	mwl	s
+C	SY	Syria	egyptian	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+B	0
+P	E’zhou	ezhou	CN		30.396	114.887	4
+P	Bab Ezzouar		DZ		36.726	3.183	0
+P	Deir ez-Zor	deir ez zor	SY		35.336	40.141	2
+P	Ezhou		CN		30.400	114.833	4
+P	Ezeiza		AR		-34.854	-58.525	1
+P	Sakiet ez Zit		TN		34.802	10.764	0
+P	Ezza-Ohu	ezza ohu	NG		6.441	8.084	0
+P	Ezhva		RU		61.813	50.728	2
+P	Ez Zahra		TN		36.746	10.308	0
+P	Ezhupunna		IN		9.821	76.300	3
+P	Ezhudesam		IN		8.265	77.142	3
+P	Ezhome		IN		12.030	75.282	3
+P	Enugu-Ezike	enugu ezike	NG		6.983	7.455	0
+P	Ezzouhour		TN		35.790	10.583	0
+P	Ezine		TR		39.786	26.341	2

@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Manaus	-240	
+Z	1	America/Santarem	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Itaituba		BR		-4.276	-55.984	1
+P	Itacoatiara		BR		-3.143	-58.444	0
+P	Parintins		BR		-2.628	-56.736	0
+P	Oriximiná	oriximina	BR		-1.766	-55.866	1
+P	Maués	maues	BR		-3.384	-57.719	0
+P	Óbidos	obidos	BR		-1.917	-55.518	1
+P	Juruti		BR		-2.152	-56.092	1
+P	Autazes		BR		-3.580	-59.131	0
+P	Borba		BR		-4.391	-59.589	0
+P	Barreirinha		BR		-2.793	-57.070	0
+P	Nova Olinda do Norte		BR		-3.892	-59.095	0
+P	Rio Preto da Eva		BR		-2.698	-59.702	0
+P	Urucurituba		BR		-3.129	-58.155	0
+P	Nhamundá	nhamunda	BR		-2.186	-56.713	1
+P	Careiro da Várzea	careiro da varzea	BR		-3.197	-59.827	0
+P	Urucará	urucara	BR		-2.536	-57.760	0
+P	Terra Santa		BR		-2.104	-56.487	1
+P	Aveiro		BR		-3.606	-55.332	1
+P	Trairão	trairao	BR		-4.574	-55.944	1

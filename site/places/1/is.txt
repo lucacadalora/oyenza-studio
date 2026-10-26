@@ -1,0 +1,208 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Lagos	60	
+Z	3	Africa/Lubumbashi	120	
+Z	4	America/Argentina/Buenos_Aires	-180	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Costa_Rica	-360	
+Z	7	America/Lima	-300	
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	10	America/St_Lucia	-240	
+Z	11	Asia/Baku	240	
+Z	12	Asia/Dhaka	360	
+Z	13	Asia/Hong_Kong	480	
+Z	14	Asia/Kabul	270	
+Z	15	Asia/Karachi	300	
+Z	16	Asia/Kolkata	330	
+Z	17	Asia/Novosibirsk	420	
+Z	18	Asia/Tehran	210	
+Z	19	Asia/Tokyo	540	
+Z	20	Australia/Brisbane	600	
+Z	21	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	22	Europe/Istanbul	180	
+Z	23	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	24	Indian/Cocos	390	
+C	AF	Afghanistan	karachi	h
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BH	Bahrain	ummalqura	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CC	Cocos Islands	mwl	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	HK	Hong Kong	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	LC	Saint Lucia	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	RU	Russia	mwl	s
+C	SY	Syria	egyptian	s
+C	TJ	Tajikistan	mwl	h
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	XK	Kosovo	mwl	s
+C	ZM	Zambia	egyptian	s
+B	3
+P	Istanbul		TR		41.014	28.950	22
+P	Isfahan		IR		32.652	51.675	18
+P	Hong Kong Island		HK		22.263	114.184	13
+P	Dera Ismail Khan		PK		31.831	70.902	15
+P	Islamabad		PK		33.721	73.043	15
+P	Iskandar Puteri		MY		1.393	103.623	13
+P	Staten Island		US	New York	40.562	-74.140	9
+P	Ismailia		EG		30.604	32.272	1
+P	Iseyin		NG		7.970	3.596	2
+P	Islington		GB	England	51.536	-0.103	23
+P	Isfara		TJ		40.126	70.625	15
+P	Istaravshan		TJ		39.914	69.003	15
+P	Isiro		CD		2.774	27.616	3
+P	İskenderun	iskenderun	TR		36.587	36.173	22
+P	Isesaki		JP		36.317	139.200	19
+P	Ise-Ekiti	ise ekiti	NG		7.465	5.423	2
+P	Isparta		TR		37.764	30.552	22
+P	Ishinomaki		JP		38.417	141.300	19
+P	Isahaya		JP		32.841	130.043	19
+P	Isidro Casanova		AR		-34.700	-58.587	4
+P	Ise		JP		34.483	136.700	19
+P	Isehara		JP		35.399	139.310	19
+P	Isulan		PH		6.629	124.605	13
+P	Nāḩiyat al Iskandarīyah	nahiyat al iskandariyah	IQ		32.887	44.346	22
+P	Iserlohn		DE		51.375	7.703	21
+P	Isieke		NG		6.382	8.037	2
+P	Ḩawsh ‘Īsá	hawsh isa	EG		30.913	30.290	1
+P	Ishwardi		BD		24.129	89.066	12
+P	Isiolo		KE		0.355	37.582	22
+P	Ishioka		JP		36.183	140.267	19
+P	Santa Isabel do Pará	santa isabel do para	BR		-1.299	-48.161	4
+P	Ishimbay		RU		53.448	56.039	15
+P	San Isidro		PE		-12.097	-77.043	7
+P	Issia		CI		6.492	-6.586	0
+P	Ishim		RU		56.113	69.487	15
+P	Urun-Islāmpur	urun islampur	IN		17.050	74.267	16
+P	City of Isabela		PH		6.704	121.971	13
+P	Waterfront Communities-The Island	waterfront communities the island	CA	Ontario	43.634	-79.377	9
+P	Iskitim		RU		54.643	83.304	17
+P	Issy-les-Moulineaux	issy les moulineaux	FR		48.821	2.277	21
+P	Coney Island		US	New York	40.578	-73.994	9
+P	Ishikari		JP		43.240	141.354	19
+P	Islāmpur	islampur	IN		26.265	88.190	16
+P	Santa Isabel		BR		-23.316	-46.221	4
+P	Grand Island		US	Nebraska	40.925	-98.342	5
+P	Īstgāh-e Rāh Āhan-e Garmsār	istgah e rah ahan e garmsar	IR		35.235	52.309	18
+P	Ishigaki		JP		24.345	124.157	19
+P	San Isidro		AR		-34.470	-58.521	4
+P	Istres		FR		43.513	4.987	21
+P	Islington-City Centre West	islington city centre west	CA	Ontario	43.633	-79.543	9
+P	Ishaka		UG		-0.543	30.137	22
+P	Istālif	istalif	AF		34.833	69.078	14
+P	Bou Ismaïl	bou ismail	DZ		36.643	2.690	2
+P	Hilton Head Island		US	South Carolina	32.194	-80.738	9
+P	San Isidro		ES		40.397	-3.728	21
+P	Istok		XK		42.781	20.488	21
+P	T’īs Isat	tis isat	ET		11.483	37.583	22
+P	Rock Island		US	Illinois	41.509	-90.579	5
+P	Canvey Island		GB	England	51.522	0.581	23
+P	Madīnat ‘Īsá	madinat isa	BH		26.174	50.548	22
+P	Taman Tun Dr Ismail		MY		3.145	101.626	13
+P	Issaquah		US	Washington	47.530	-122.033	8
+P	Islāmpur	islampur	IN		25.141	85.206	16
+P	Isumi		JP		35.230	140.405	19
+P	Neu-Isenburg	neu isenburg	DE		50.048	8.694	21
+P	Romans-sur-Isère	romans sur isere	FR		45.050	5.066	21
+P	San Isidro		CR		9.367	-83.697	6
+P	Merritt Island		US	Florida	28.359	-80.690	9
+P	Central Islip		US	New York	40.791	-73.202	9
+P	Isingiro		UG		-0.869	30.830	22
+P	San Isidro		MX		19.340	-98.951	6
+P	Istra		RU		55.920	36.869	22
+P	San Isidro		AR		-28.458	-65.725	4
+P	Isoka		ZM		-10.161	32.634	3
+P	Ishigami		JP		36.250	139.150	19
+P	Burj Islām	burj islam	SY		35.674	35.803	22
+P	Isawa		JP		35.650	138.633	19
+P	Santa Isabel		MX		32.631	-115.570	8
+P	Islāmnagar	islamnagar	IN		28.329	78.725	16
+P	Isakogorka		RU		64.446	40.653	22
+P	West Islip		US	New York	40.706	-73.306	9
+P	Iskandar		UZ		41.554	69.701	15
+P	Ismayilli		AZ		40.785	48.151	11
+P	Fleming Island		US	Florida	30.093	-81.719	9
+P	Isla		MX		18.028	-95.529	6
+P	Ishqoshim		TJ		36.725	71.613	15
+P	Long Island City		US	New York	40.745	-73.949	9
+P	Gros Islet		LC		14.067	-60.950	10
+P	Ishii		JP		34.068	134.442	19
+P	Mercer Island		US	Washington	47.571	-122.222	8
+P	Isleworth		GB	England	51.475	-0.342	23
+P	Ishige		JP		36.117	139.967	19
+P	Tres Isletas		AR		-26.341	-60.432	4
+P	Isnos		CO		1.936	-76.241	7
+P	La Isla		MX		18.600	-96.150	6
+P	Isa		JP		32.067	130.612	19
+P	Ishiki		JP		34.800	137.017	19
+P	Isebania		KE		-1.225	34.464	22
+P	Bainbridge Island		US	Washington	47.626	-122.521	8
+P	Blue Island		US	Illinois	41.657	-87.680	5
+P	Isla Vista		US	California	34.413	-119.861	8
+P	Isernhagen Farster Bauerschaft		DE		52.471	9.842	21
+P	Ishikawa		JP		26.423	127.821	19
+P	Sunny Isles Beach		US	Florida	25.951	-80.123	9
+P	Isla Cristina		ES		37.200	-7.317	21
+P	Princesa Isabel		BR		-7.737	-37.993	4
+P	Isaka		TZ		-3.900	32.933	22
+P	Grand Island		US	New York	43.033	-78.963	9
+P	Guía de Isora	guia de isora	ES		28.212	-16.779	23
+P	Isil’kul’	isilkul	RU		54.912	71.272	12
+P	İskilip	iskilip	TR		40.735	34.474	22
+P	San Isidro		ES		28.076	-16.558	23
+P	Ishøj	ishoj	DK		55.615	12.352	21
+P	Ishikawa		JP		37.150	140.450	19
+P	Iselin		US	New Jersey	40.575	-74.322	9
+P	Islip		US	New York	40.730	-73.210	9
+P	Ischia		IT		40.738	13.949	21
+P	Isle of Lewis		GB	Scotland	58.219	-6.388	23
+P	Mount Isa		AU	Queensland	-20.725	139.497	20
+P	Punta Gorda Isles		US	Florida	26.918	-82.078	9
+P	Ischia Porto		IT		40.739	13.951	21
+P	Ishitsuka		JP		36.483	140.383	19
+P	Major Isidoro		BR		-9.532	-36.985	4
+P	Marco Island		US	Florida	25.941	-81.718	9
+P	Istiqlol		TJ		40.570	69.642	15
+P	Isernia		IT		41.596	14.234	21
+P	Hayling Island		GB	England	50.784	-0.969	23
+P	Isogo		JP		35.408	139.619	19
+P	Islamgarh		PK		33.190	73.838	15
+P	Ishinari		JP		33.362	130.405	19
+P	Issoire		FR		45.544	3.249	21
+P	Isabela		PH		10.205	122.989	13
+P	İstinye	istinye	TR		41.110	29.051	22
+P	Wilmington Island		US	Georgia	32.004	-80.974	9
+P	Isanlu-Itedoijowa	isanlu itedoijowa	NG		8.273	5.835	2
+P	West Island		CC		-12.157	96.823	24

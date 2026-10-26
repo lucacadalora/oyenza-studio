@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Brazzaville	60	
+C	AO	Angola	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	GA	Gabon	egyptian	s
+B	1
+P	Pointe-Noire	pointe noire	CG		-4.776	11.864	0
+P	Franceville		GA		-1.633	13.584	0
+P	Dolisie		CG		-4.198	12.667	0
+P	Nkayi		CG		-4.184	13.286	0
+P	Moanda		GA		-1.567	13.199	0
+P	Tshela		CD		-4.997	12.948	0
+P	Kayes		CG		-4.205	13.286	0
+P	Lambaréné	lambarene	GA		-0.700	10.241	0
+P	Mouila		GA		-1.868	11.056	0
+P	Buco Zau		AO		-4.767	12.550	0
+P	Tchibanga		GA		-2.933	10.982	0
+P	Sibiti		CG		-3.682	13.350	0
+P	Koulamoutou		GA		-1.137	12.464	0
+P	Oyam		GA		-0.200	10.683	0
+P	Loutété	loutete	CG		-4.296	13.851	0
+P	Bouansa		CG		-4.219	13.762	0
+P	Belize		AO		-4.650	12.767	0
+P	Loandjili		CG		-4.756	11.858	0
+P	Loudima		CG		-4.116	13.068	0
+P	Mossendjo		CG		-2.950	12.704	0
+P	Mouyondzi		CG		-3.994	13.927	0
+P	Djambala		CG		-2.545	14.753	0

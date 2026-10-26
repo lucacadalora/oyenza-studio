@@ -1,0 +1,84 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Pyongyang	540	
+Z	1	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	KP	North Korea	mwl	s
+B	2
+P	Changchun		CN		43.880	125.323	1
+P	Jilin		CN		43.847	126.561	1
+P	Mudanjiang		CN		44.548	129.626	1
+P	Tonghua		CN		41.720	125.926	1
+P	Longshan		CN		42.885	125.137	1
+P	Chongjin		KP		41.796	129.776	0
+P	Yanji		CN		42.888	129.502	1
+P	Kanggye		KP		40.969	126.585	0
+P	Changam-ch’on	changam chon	KP		40.606	128.782	0
+P	Hyesan		KP		41.402	128.178	0
+P	Baishan		CN		41.939	126.420	1
+P	Jiutai		CN		44.151	125.830	1
+P	Sinp’o	sinpo	KP		40.040	128.194	0
+P	Dunhua		CN		43.370	128.229	1
+P	Hailin		CN		44.571	129.385	1
+P	Huadian		CN		42.972	126.741	1
+P	Yushu		CN		44.828	126.541	1
+P	Jiaohe		CN		43.721	127.335	1
+P	Longjing		CN		42.771	129.423	1
+P	Manp’o	manpo	KP		41.155	126.289	0
+P	Dehui		CN		44.537	125.694	1
+P	Jishu		CN		44.317	126.800	1
+P	Hwasŏng	hwasong	KP		41.256	129.493	0
+P	Myŏnggan-dong	myonggan dong	KP		41.137	129.495	0
+P	Meihekou		CN		42.529	125.679	1
+P	Hyesan-dong	hyesan dong	KP		41.395	128.187	0
+P	Wuchang		CN		44.928	127.160	1
+P	Wangqing		CN		43.311	129.763	1
+P	Ŏrang	orang	KP		41.448	129.656	0
+P	Helong		CN		42.540	128.997	1
+P	Panshi		CN		42.937	126.057	1
+P	Tumen		CN		42.966	129.842	1
+P	Shulan		CN		44.411	126.948	1
+P	Yuktae-dong	yuktae dong	KP		40.025	128.160	0
+P	Chaoyang		CN		42.662	126.026	1
+P	Hongwŏn	hongwon	KP		40.025	127.956	0
+P	Linjiang		CN		41.807	126.908	1
+P	Chaihe		CN		44.760	129.678	1
+P	Dongfeng		CN		42.674	125.529	1
+P	Hwadae		KP		40.838	129.497	0
+P	Songjianghe		CN		42.186	127.479	1
+P	Liuhe		CN		42.285	125.745	1
+P	Sanchazi		CN		42.082	126.600	1
+P	Huinan		CN		42.623	126.261	1
+P	Huanren		CN		41.265	125.367	1
+P	Namyang-nodongjagu	namyang nodongjagu	KP		42.954	129.857	0
+P	Myŏngch’ŏn	myongchon	KP		41.071	129.429	0
+P	Dashitou		CN		43.307	128.511	1
+P	Hepingjie		CN		42.060	126.916	1
+P	Kilju		KP		40.964	129.328	0
+P	Shuangyang		CN		43.523	125.659	1
+P	Erdaojiang		CN		41.776	126.032	1
+P	Antu		CN		43.102	128.908	1
+P	Xinglongshan		CN		43.956	125.466	1
+P	Changbai		CN		41.418	128.196	1
+P	Yantongshan		CN		43.292	126.009	1
+P	Baishishan		CN		43.583	127.567	1
+P	Huangnihe		CN		43.558	128.024	1
+P	Puryŏng-ŭp	puryong up	KP		42.062	129.705	0
+P	Yŏch’im-dong	yochim dong	KP		40.362	126.659	0
+P	Hoeryŏng	hoeryong	KP		42.441	129.746	0
+P	Sijung		KP		41.079	126.375	0
+P	Chunggang		KP		41.777	126.874	0
+P	Fate		CN		44.483	126.500	1
+P	Songwŏn	songwon	KP		40.377	125.879	0
+P	Songwŏn-ŭp	songwon up	KP		40.373	126.308	0
+P	Yŏnsa-ŭp	yonsa up	KP		41.908	129.011	0
+P	Kyŏngsŏng	kyongsong	KP		41.588	129.606	0
+P	Ranam		KP		41.714	129.684	0
+P	Kop’ung	kopung	KP		40.604	125.947	0
+P	Samjiyŏn-ŭp	samjiyon up	KP		41.804	128.319	0
+P	Iwŏn-ŭp	iwon up	KP		40.323	128.655	0
+P	Namyang		KP		42.950	129.856	0
+P	Yŏnggwang-ŭp	yonggwang up	KP		40.018	127.455	0
+P	Musan-ŭp	musan up	KP		42.226	129.208	0
+P	Kapsan-ŭp	kapsan up	KP		41.090	128.293	0
+P	Onsŏng	onsong	KP		42.957	129.993	0
+P	Sakchu-ŭp	sakchu up	KP		40.389	125.047	0

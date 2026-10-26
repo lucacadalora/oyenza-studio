@@ -1,0 +1,997 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Johannesburg	120	
+Z	3	Africa/Ouagadougou	0	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Detroit	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	7	America/Edmonton	-420	29549340=-360
+Z	8	America/Guayaquil	-300	
+Z	9	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	10	America/La_Paz	-240	
+Z	11	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	12	America/Mexico_City	-360	
+Z	13	America/Phoenix	-420	
+Z	14	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	15	America/Sao_Paulo	-180	
+Z	16	America/Vancouver	-480	29549400=-420
+Z	17	Asia/Ho_Chi_Minh	420	
+Z	18	Asia/Karachi	300	
+Z	19	Asia/Kolkata	330	
+Z	20	Asia/Manila	480	
+Z	21	Asia/Tehran	210	
+Z	22	Asia/Tokyo	540	
+Z	23	Atlantic/Azores	-60	29579100=0 29881500=-60 30103260=0 30415740=-60 30627420=0 30939900=-60 31151580=0 31464060=-60 31685820=0 31988220=-60 32209980=0 32512380=-60 32734140=0 33046620=-60 33258300=0 33570780=-60 33782460=0 34094940=-60 34306620=0 34619100=-60 34840860=0 35143260=-60 35365020=0 35667420=-60 35889180=0 36201660=-60 36413340=0 36725820=-60 36937500=0 37249980=-60 37471740=0 37774140=-60 37995900=0 38298300=-60 38520060=0 38822460=-60 39044220=0 39356700=-60 39568380=0 39880860=-60
+Z	24	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	25	Australia/Hobart	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	26	Europe/Istanbul	180	
+Z	27	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	28	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	29	Indian/Reunion	240	
+Z	30	Pacific/Guam	600	
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GQ	Equatorial Guinea	egyptian	s
+C	GT	Guatemala	mwl	s
+C	GU	Guam	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	MA	Morocco	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	MQ	Martinique	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MW	Malawi	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SK	Slovakia	mwl	s
+C	SV	El Salvador	mwl	s
+C	SY	Syria	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	XK	Kosovo	mwl	s
+C	ZA	South Africa	egyptian	s
+B	7
+P	Delhi		IN		28.652	77.231	19
+P	Rio de Janeiro		BR		-22.906	-43.182	15
+P	Santa Cruz de la Sierra		BO		-17.786	-63.181	10
+P	Ecatepec de Morelos		MX		19.605	-99.061	12
+P	Santiago de Querétaro	santiago de queretaro	MX		20.588	-100.388	12
+P	León de los Aldama	leon de los aldama	MX		21.122	-101.683	12
+P	Santiago de los Caballeros		DO		19.450	-70.691	10
+P	Naucalpan de Juárez	naucalpan de juarez	MX		19.479	-99.240	12
+P	Duque de Caxias		BR		-22.786	-43.312	15
+P	Dera Ismail Khan		PK		31.831	70.902	18
+P	Cagayan de Oro		PH		8.482	124.647	20
+P	Deyang		CN		31.130	104.382	20
+P	Denver		US	Colorado	39.739	-104.985	5
+P	Dezhou		CN		37.447	116.367	20
+P	Acapulco de Juárez	acapulco de juarez	MX		16.849	-99.909	12
+P	Detroit		US	Michigan	42.331	-83.046	6
+P	Feira de Santana		BR		-12.267	-38.967	15
+P	Mar del Plata		AR		-38.000	-57.556	15
+P	Santiago de Cuba		CU		20.023	-75.822	9
+P	San Miguel de Tucumán	san miguel de tucuman	AR		-26.816	-65.211	15
+P	Juiz de Fora		BR		-21.764	-43.350	15
+P	Dehradun		IN		30.324	78.034	19
+P	Victoria de Durango		MX		24.020	-104.658	12
+P	Aparecida de Goiânia	aparecida de goiania	BR		-16.823	-49.244	15
+P	Mianzhu, Deyang, Sichuan	mianzhu deyang sichuan	CN		31.338	104.221	20
+P	Dera Ghazi Khan		PK		30.046	70.640	18
+P	São João de Meriti	sao joao de meriti	BR		-22.804	-43.372	15
+P	Santo Domingo de los Colorados		EC		-0.254	-79.176	8
+P	Xalapa de Enríquez	xalapa de enriquez	MX		19.531	-96.916	12
+P	San Nicolás de los Garza	san nicolas de los garza	MX		25.742	-100.302	12
+P	Delmas		HT		18.545	-72.300	6
+P	Ojo de Agua		MX		19.680	-99.010	12
+P	Las Palmas de Gran Canaria		ES		28.102	-15.416	24
+P	Desna		UA		50.522	30.682	27
+P	San Jose del Monte		PH		14.814	121.045	20
+P	Viña del Mar	vina del mar	CL		-33.025	-71.552	14
+P	Soledad de Graciano Sánchez	soledad de graciano sanchez	MX		22.189	-100.938	12
+P	New Delhi		IN		28.621	77.215	19
+P	Denizli		TR		37.774	29.087	26
+P	Port-de-Paix	port de paix	HT		19.940	-72.830	6
+P	Ciudad del Este		PY		-25.504	-54.651	15
+P	Dewas		IN		22.966	76.055	19
+P	Dengzhou		CN		32.683	112.089	20
+P	Santa Teresa del Tuy		VE		10.233	-66.665	10
+P	Deir ez-Zor	deir ez zor	SY		35.336	40.141	26
+P	Derby		GB	England	52.923	-1.477	24
+P	Dessie		ET		11.133	39.633	26
+P	Dezful		IR		32.381	48.406	21
+P	San Salvador de Jujuy		AR		-24.193	-65.293	15
+P	L'Hospitalet de Llobregat	lhospitalet de llobregat	ES		41.360	2.100	28
+P	Pachuca de Soto		MX		20.117	-98.733	12
+P	Santiago del Estero		AR		-27.800	-64.263	15
+P	Santiago de Surco		PE		-12.136	-77.007	8
+P	Colonia del Valle		MX		19.386	-99.162	12
+P	São José de Ribamar	sao jose de ribamar	BR		-2.556	-44.060	15
+P	Puente de Vallecas		ES		40.394	-3.662	28
+P	San Fernando de Apure		VE		7.890	-67.472	10
+P	Croix-des-Bouquets	croix des bouquets	HT		18.577	-72.226	6
+P	Diez de Octubre		CU		23.088	-82.360	9
+P	Águas Lindas de Goiás	aguas lindas de goias	BR		-15.762	-48.282	15
+P	Dehiwala-Mount Lavinia	dehiwala mount lavinia	LK		6.840	79.871	19
+P	San Pedro de Macorís	san pedro de macoris	DO		18.454	-69.309	10
+P	Cabo de Santo Agostinho		BR		-8.288	-35.029	15
+P	San Cristóbal de las Casas	san cristobal de las casas	MX		16.730	-92.638	12
+P	Sa Dec		VN		10.291	105.756	17
+P	Des Moines		US	Iowa	41.601	-93.609	4
+P	Jerez de la Frontera		ES		36.686	-6.136	28
+P	Santa Cruz de Tenerife		ES		28.468	-16.255	24
+P	Lauro de Freitas		BR		-12.894	-38.327	15
+P	Deoghar		IN		24.490	86.699	19
+P	Debrecen		HU		47.532	21.624	28
+P	Valparaíso de Goiás	valparaiso de goias	BR		-16.066	-47.979	15
+P	Alcalá de Henares	alcala de henares	ES		40.482	-3.360	28
+P	Ciudad del Carmen		MX		18.646	-91.830	12
+P	Cachoeiro de Itapemirim		BR		-20.849	-41.113	15
+P	Pinar del Río	pinar del rio	CU		22.416	-83.697	9
+P	Zamora de Hidalgo		MX		19.984	-102.286	12
+P	Poza Rica de Hidalgo		MX		20.533	-97.459	12
+P	Dessalines		HT		19.262	-72.516	6
+P	Desnyanskyi		UA		51.506	31.317	27
+P	Ferraz de Vasconcelos		BR		-23.541	-46.369	15
+P	San Miguel de Allende		MX		20.915	-100.744	12
+P	Castelló de la Plana	castello de la plana	ES		39.986	-0.049	28
+P	Deoli		IN		28.503	77.231	19
+P	Poços de Caldas	pocos de caldas	BR		-21.788	-46.561	15
+P	Ocumare del Tuy		VE		10.118	-66.775	10
+P	Deer Valley		US	Arizona	33.684	-112.135	13
+P	San Juan de los Morros		VE		9.912	-67.354	10
+P	Delegación Cuajimalpa de Morelos	delegacion cuajimalpa de morelos	MX		19.369	-99.291	12
+P	San Miguel del Padrón	san miguel del padron	CU		23.095	-82.327	9
+P	Patos de Minas		BR		-18.579	-46.518	15
+P	San Pablo de las Salinas		MX		19.667	-99.095	12
+P	San Martin Texmelucan de Labastida		MX		19.284	-98.439	12
+P	Tetuán de las Victorias	tetuan de las victorias	ES		40.460	-3.697	28
+P	Saint-Denis	saint denis	RE		-20.882	55.450	29
+P	Santana de Parnaíba	santana de parnaiba	BR		-23.444	-46.918	15
+P	Valle de La Pascua		VE		9.216	-66.007	10
+P	Playa del Carmen		MX		20.627	-87.080	8
+P	Ciudad Delicias		MX		28.190	-105.470	12
+P	Balcón de la Lisa	balcon de la lisa	CU		23.053	-82.448	9
+P	Debre Birhan		ET		9.680	39.533	26
+P	Teixeira de Freitas		BR		-17.535	-39.742	15
+P	Ciego de Ávila	ciego de avila	CU		21.842	-78.760	9
+P	Debre Mark’os	debre markos	ET		10.350	37.733	26
+P	Plaza de la Revolución	plaza de la revolucion	CU		23.119	-82.392	9
+P	San Juan del Río	san juan del rio	MX		20.389	-99.996	12
+P	Madhurampur Dehri		IN		24.969	84.196	19
+P	San José del Cabo	san jose del cabo	MX		23.054	-109.704	13
+P	San Nicolás de los Arroyos	san nicolas de los arroyos	AR		-33.334	-60.211	15
+P	Vitória de Santo Antão	vitoria de santo antao	BR		-8.118	-35.291	15
+P	Denton		US	Texas	33.215	-97.133	4
+P	Deoria		IN		26.502	83.779	19
+P	San Carlos del Zulia		VE		9.001	-71.927	10
+P	Nossa Senhora de Fátima	nossa senhora de fatima	CN		22.208	113.548	20
+P	Derince		TR		40.757	29.815	26
+P	Debre Tabor		ET		11.850	38.017	26
+P	San Francisco de Macorís	san francisco de macoris	DO		19.294	-70.253	10
+P	Salvaleón de Higüey	salvaleon de higuey	DO		18.615	-68.708	10
+P	San Pedro de la Paz		CL		-36.839	-73.100	14
+P	Fernando de la Mora		PY		-25.339	-57.522	15
+P	Bồ Đề	bo de	VN		21.056	105.867	17
+P	Saint-Louis-de-Terrebonne	saint louis de terrebonne	CA	Quebec	45.702	-73.787	6
+P	Santa Coloma de Gramenet		ES		41.452	2.208	28
+P	Iguala de la Independencia		MX		18.345	-99.541	12
+P	Torrejón de Ardoz	torrejon de ardoz	ES		40.455	-3.470	28
+P	Ciudad de Villa de Álvarez	ciudad de villa de alvarez	MX		19.267	-103.738	12
+P	Guadalajara de Buga		CO		3.901	-76.298	8
+P	Rivière-des-Prairies–Pointe-aux-Trembles	riviere des prairies pointe aux trembles	CA	Quebec	45.641	-73.585	6
+P	Lomas de Zamora		AR		-34.757	-58.403	15
+P	Deesa		IN		24.256	72.179	19
+P	Delicias		ES		41.649	-0.908	28
+P	Delhi Cantonment		IN		28.600	77.133	19
+P	Pandit Deen Dayal Upadhyaya Nagar		IN		25.283	83.120	19
+P	Dehui		CN		44.537	125.694	20
+P	Dera Murad Jamali		PK		28.547	68.223	18
+P	Derbent		RU		42.066	48.288	26
+P	Texcoco de Mora		MX		19.512	-98.883	12
+P	San Francisco De Borja		PE		-12.089	-76.999	8
+P	Hidalgo del Parral		MX		26.930	-105.666	12
+P	El Kelaa des Srarhna		MA		32.051	-7.411	1
+P	Santo Antônio de Jesus	santo antonio de jesus	BR		-12.969	-39.261	15
+P	Delta		CA	British Columbia	49.089	-123.053	16
+P	Los Puertos de Altagracia		VE		10.715	-71.522	10
+P	Red Deer		CA	Alberta	52.267	-113.802	7
+P	Villa de Cura		VE		10.039	-67.489	10
+P	Santiago de Compostela		ES		42.881	-8.546	28
+P	Santander de Quilichao		CO		3.009	-76.485	8
+P	Lagos de Moreno		MX		21.359	-101.933	12
+P	Santa Cruz de Yojoa		HN		14.981	-87.891	12
+P	Deventer		NL		52.255	6.164	28
+P	Pará de Minas	para de minas	BR		-19.860	-44.608	15
+P	Saint-Denis	saint denis	FR		48.936	2.354	28
+P	Las Rozas de Madrid		ES		40.493	-3.874	28
+P	San Carlos de Bariloche		AR		-41.146	-71.308	15
+P	Amozoc de Mota		MX		19.046	-98.045	12
+P	Saint-Michel de l'Atalaye	saint michel de latalaye	HT		19.371	-72.335	6
+P	Dearborn		US	Michigan	42.322	-83.176	6
+P	Delft		NL		52.007	4.356	28
+P	Vostochnoe Degunino		RU		55.880	37.558	26
+P	Roquetas de Mar		ES		36.764	-2.615	28
+P	Delmas		ZA		-26.147	28.683	2
+P	Tepatitlán de Morelos	tepatitlan de morelos	MX		20.817	-102.763	12
+P	Fort-de-France	fort de france	MQ		14.604	-61.074	10
+P	Talavera de la Reina		ES		39.963	-4.831	28
+P	Deltona		US	Florida	28.901	-81.264	6
+P	El Puerto de Santa María	el puerto de santa maria	ES		36.594	-6.233	28
+P	Heroica Ciudad de Juchitán de Zaragoza	heroica ciudad de juchitan de zaragoza	MX		16.434	-95.022	12
+P	Deoband		IN		29.695	77.680	19
+P	Deqing		CN		30.545	119.960	20
+P	Cornellà de Llobregat	cornella de llobregat	ES		41.350	2.083	28
+P	San Ramón de la Nueva Orán	san ramon de la nueva oran	AR		-23.137	-64.324	15
+P	Torre del Greco		IT		40.789	14.368	28
+P	Dengzhou		CN		37.808	120.759	20
+P	Túxpam de Rodríguez Cano	tuxpam de rodriguez cano	MX		20.958	-97.408	12
+P	Degan		CN		29.278	106.232	20
+P	Chiclana de la Frontera		ES		36.420	-6.144	28
+P	Derry		GB	Northern Ireland	54.998	-7.309	24
+P	La Piedad de Cabadas		MX		20.341	-102.023	12
+P	San José de Guanipa	san jose de guanipa	VE		8.887	-64.165	10
+P	Mar del Tuyú	mar del tuyu	AR		-36.574	-56.694	15
+P	La Villa del Rosario		VE		10.326	-72.313	10
+P	Sant Boi de Llobregat		ES		41.344	2.037	28
+P	Pozuelo de Alarcón	pozuelo de alarcon	ES		40.433	-3.813	28
+P	Remedios de Escalada de San Martín	remedios de escalada de san martin	AR		-34.726	-58.397	15
+P	Tepeji del Río de Ocampo	tepeji del rio de ocampo	MX		19.905	-99.344	12
+P	Deerfield Beach		US	Florida	26.318	-80.100	6
+P	Sant Cugat del Vallès	sant cugat del valles	ES		41.471	2.086	28
+P	Marburg an der Lahn		DE		50.809	8.771	28
+P	Deurne		BE		51.221	4.466	28
+P	São João del Rei	sao joao del rei	BR		-21.136	-44.262	15
+P	Denov		UZ		38.267	67.899	18
+P	Santa Cruz del Quiché	santa cruz del quiche	GT		15.030	-91.149	12
+P	Santa Cruz de Barahona		DO		18.209	-71.101	10
+P	San Sebastián de los Reyes	san sebastian de los reyes	ES		40.556	-3.627	28
+P	Delmenhorst		DE		53.051	8.631	28
+P	Saint-Maur-des-Fossés	saint maur des fosses	FR		48.794	2.493	28
+P	Vedado del Cotorro		CU		23.050	-82.250	9
+P	Silao de la Victoria		MX		20.944	-101.427	12
+P	Fuentes del Valle		MX		19.633	-99.139	12
+P	Detmold		DE		51.939	8.873	28
+P	Decatur		US	Illinois	39.840	-88.955	4
+P	San Juan de la Maguana		DO		18.806	-71.226	10
+P	Santo Antônio do Descoberto	santo antonio do descoberto	BR		-15.940	-48.255	15
+P	Delgado		SV		13.722	-89.169	12
+P	San Francisco del Rincón	san francisco del rincon	MX		21.019	-101.858	12
+P	Vila Nova de Gaia		PT		41.124	-8.612	24
+P	Alphen aan den Rijn		NL		52.129	4.655	28
+P	Alcalá de Guadaira	alcala de guadaira	ES		37.338	-5.840	28
+P	Güira de Melena	guira de melena	CU		22.797	-82.507	9
+P	Consolación del Sur	consolacion del sur	CU		22.505	-83.513	9
+P	Santa Cruz de Mara		VE		10.793	-71.685	10
+P	Altagracia de Orituco		VE		9.860	-66.381	10
+P	Notre-Dame-de-Grâce	notre dame de grace	CA	Quebec	45.477	-73.614	6
+P	Valle de Santiago		MX		20.391	-101.191	12
+P	Sanlúcar de Barrameda	sanlucar de barrameda	ES		36.778	-6.351	28
+P	Concepción del Uruguay	concepcion del uruguay	AR		-32.485	-58.232	15
+P	Deva		RO		45.883	22.900	27
+P	Dessau		DE		51.839	12.246	28
+P	Caicara del Orinoco		VE		7.635	-66.168	10
+P	Bajos de Haina		DO		18.415	-70.033	10
+P	San Antonio del Táchira	san antonio del tachira	VE		7.811	-72.444	10
+P	Delray Beach		US	Florida	26.461	-80.073	6
+P	Capelle aan den IJssel		NL		51.929	4.578	28
+P	Villa de Vallecas		ES		40.367	-3.601	28
+P	Villa del Rosario		CO		7.834	-72.474	8
+P	La Línea de la Concepción	la linea de la concepcion	ES		36.168	-5.348	28
+P	Sahuayo de Morelos		MX		20.057	-102.716	12
+P	West Des Moines		US	Iowa	41.577	-93.711	4
+P	Molina de Segura		ES		38.055	-1.208	28
+P	San Antonio de Los Altos		VE		10.389	-66.952	10
+P	San Pedro de Copán	san pedro de copan	HN		14.617	-88.867	12
+P	Dengbu		CN		28.208	116.817	20
+P	Dédougou	dedougou	BF		12.464	-3.461	3
+P	El Prat de Llobregat		ES		41.328	2.095	28
+P	Dêqên	deqen	CN		29.962	90.719	20
+P	Grao de Murviedro		ES		39.642	-0.239	28
+P	Marechal Deodoro		BR		-9.710	-35.895	15
+P	Dembī Dolo	dembi dolo	ET		8.533	34.800	26
+P	Punta de Mata		VE		9.691	-63.609	10
+P	Dewsbury		GB	England	53.691	-1.629	24
+P	North Delta		CA	British Columbia	49.167	-122.917	16
+P	Martínez de la Torre	martinez de la torre	MX		20.071	-97.061	12
+P	Cachoeiras de Macacu		BR		-22.462	-42.653	15
+P	Brandenburg an der Havel		DE		52.417	12.550	28
+P	Den Helder		NL		52.960	4.759	28
+P	Cerro de Pasco		PE		-10.666	-76.253	8
+P	Cerdanyola del Vallès	cerdanyola del valles	ES		41.491	2.141	28
+P	Des Plaines		US	Illinois	42.033	-87.883	4
+P	San Pedro de Jujuy		AR		-24.231	-64.866	15
+P	Santa Rosa de Cabal		CO		4.868	-75.621	8
+P	la Nova Esquerra de l'Eixample	la nova esquerra de leixample	ES		41.383	2.149	28
+P	Dehdasht		IR		30.793	50.565	21
+P	Barri de Sant Andreu		ES		41.437	2.190	28
+P	San Vicent del Raspeig		ES		38.396	-0.525	28
+P	Rolim de Moura		BR		-11.804	-61.803	10
+P	Dearborn Heights		US	Michigan	42.337	-83.273	6
+P	Decatur		US	Alabama	34.606	-86.983	4
+P	Aïn Defla	ain defla	DZ		36.264	1.968	0
+P	San José de las Lajas	san jose de las lajas	CU		22.961	-82.152	9
+P	Rio de Mouro		PT		38.766	-9.328	24
+P	Deglur		IN		18.548	77.577	19
+P	Deolāli	deolali	IN		19.944	73.834	19
+P	Neustadt an der Weinstraße	neustadt an der weinstrasse	DE		49.350	8.139	28
+P	Jacona de Plancarte		MX		19.956	-102.306	12
+P	Jardines de la Silla		MX		25.629	-100.188	12
+P	San Bartolomé de Tirajana	san bartolome de tirajana	ES		27.925	-15.573	24
+P	Papantla de Olarte		MX		20.447	-97.325	12
+P	Cava Dè Tirreni	cava de tirreni	IT		40.700	14.708	28
+P	Ciudad de Huajuapan de León	ciudad de huajuapan de leon	MX		17.808	-97.780	12
+P	San José del Guaviare	san jose del guaviare	CO		2.568	-72.640	8
+P	Delmiro Gouveia		BR		-9.389	-37.999	15
+P	Delano		US	California	35.769	-119.247	11
+P	Boadilla del Monte		ES		40.405	-3.878	28
+P	DeSoto		US	Texas	32.590	-96.857	4
+P	Mollet del Vallès	mollet del valles	ES		41.540	2.213	28
+P	Pinar del Rey		ES		40.472	-3.647	28
+P	Palm Desert		US	California	33.723	-116.377	11
+P	Devakottai		IN		9.947	78.823	19
+P	Bad Homburg vor der Höhe	bad homburg vor der hohe	DE		50.227	8.618	28
+P	Bom Despacho		BR		-19.736	-45.252	15
+P	Mazara del Vallo		IT		37.655	12.590	28
+P	Brejo da Madre de Deus		BR		-8.146	-36.371	15
+P	la Vila de Gràcia	la vila de gracia	ES		41.403	2.157	28
+P	Deçan	decan	XK		42.540	20.288	28
+P	Taxco de Alarcón	taxco de alarcon	MX		18.555	-99.606	12
+P	Déressia	deressia	TD		9.760	16.270	0
+P	Heidenheim an der Brenz		DE		48.678	10.152	28
+P	San Luis de la Paz		MX		21.298	-100.515	12
+P	Carmen de Viboral		CO		6.082	-75.335	8
+P	Dehu Road		IN		18.682	73.732	19
+P	Dollard-Des Ormeaux	dollard des ormeaux	CA	Quebec	45.495	-73.824	6
+P	San Juan de los Lagos		MX		21.249	-102.330	12
+P	Casimiro de Abreu		BR		-22.481	-42.204	15
+P	Puerto Francisco de Orellana		EC		-0.450	-76.997	8
+P	Colonia del Sol		MX		22.913	-109.927	13
+P	El Carmen de Bolívar	el carmen de bolivar	CO		9.717	-75.120	8
+P	São Francisco de Itabapoana	sao francisco de itabapoana	BR		-21.302	-40.961	15
+P	Dębica	debica	PL		50.051	21.411	28
+P	São José de Mipibu	sao jose de mipibu	BR		-6.075	-35.238	15
+P	Degeh Bur		ET		8.221	43.557	26
+P	Tlapa de Comonfort		MX		17.545	-98.576	12
+P	Debark’	debark	ET		13.156	37.898	26
+P	São Domingos de Rana	sao domingos de rana	PT		38.702	-9.341	24
+P	Barri de les Corts		ES		41.387	2.135	28
+P	Děčín	decin	CZ		50.782	14.215	28
+P	Esplugues de Llobregat		ES		41.377	2.088	28
+P	Dehlorān	dehloran	IR		32.694	47.268	21
+P	Mairena del Aljarafe		ES		37.345	-6.064	28
+P	San Benedetto del Tronto		IT		42.957	13.877	28
+P	Dendermonde		BE		51.029	4.101	28
+P	Autlán de Navarro	autlan de navarro	MX		19.772	-104.366	12
+P	Santiago de Veraguas		PA		8.100	-80.983	8
+P	Chiapa de Corzo		MX		16.707	-93.012	12
+P	Devinuwara		LK		5.928	80.589	19
+P	Dededo Village		GU		13.518	144.839	30
+P	Reino de Bandim		GW		11.850	-15.600	3
+P	Ponte de Lima		PT		41.767	-8.584	24
+P	San Vicente de Tagua Tagua		CL		-34.439	-71.078	14
+P	Livramento de Nossa Senhora		BR		-13.641	-41.843	15
+P	Paso de los Libres		AR		-29.713	-57.088	15
+P	Salto de Pirapora		BR		-23.649	-47.573	15
+P	Dreta de l'Eixample	dreta de leixample	ES		41.396	2.167	28
+P	Santo Antônio de Pádua	santo antonio de padua	BR		-21.539	-42.180	15
+P	Purísima de Bustos	purisima de bustos	MX		21.030	-101.878	12
+P	Barajas de Madrid		ES		40.474	-3.578	28
+P	Villa de Mayo		AR		-34.511	-58.681	15
+P	Puerta del Angel		ES		40.410	-3.732	28
+P	DeKalb		US	Illinois	41.929	-88.750	4
+P	Jerez de García Salinas	jerez de garcia salinas	MX		22.650	-102.990	12
+P	Izúcar de Matamoros	izucar de matamoros	MX		18.602	-98.462	12
+P	Sant Feliu de Llobregat		ES		41.383	2.050	28
+P	Salaberry-de-Valleyfield	salaberry de valleyfield	CA	Quebec	45.250	-74.133	6
+P	San Antonio de los Baños	san antonio de los banos	CU		22.889	-82.506	9
+P	Mata de São João	mata de sao joao	BR		-12.530	-38.299	15
+P	José de Freitas	jose de freitas	BR		-4.756	-42.576	15
+P	Barra de São Francisco	barra de sao francisco	BR		-18.755	-40.891	15
+P	Cintalapa de Figueroa		MX		16.684	-93.718	12
+P	Nueve de Julio		AR		-35.444	-60.885	15
+P	Desio		IT		45.618	9.202	28
+P	l'Antiga Esquerra de l'Eixample	lantiga esquerra de leixample	ES		41.389	2.155	28
+P	Carmen De La Legua Reynoso		PE		-12.054	-77.098	8
+P	Denia		ES		38.841	0.106	28
+P	Santa Maria de Jetibá	santa maria de jetiba	BR		-20.027	-40.743	15
+P	Landau in der Pfalz		DE		49.198	8.117	28
+P	Shāhīn Dezh	shahin dezh	IR		36.679	46.567	21
+P	Salon-de-Provence	salon de provence	FR		43.642	5.095	28
+P	Val-des-Arbres	val des arbres	CA	Quebec	45.598	-73.675	6
+P	Buchholz in der Nordheide		DE		53.330	9.866	28
+P	Porto de Moz		BR		-1.748	-52.238	15
+P	Casco Histórico de Vallecas	casco historico de vallecas	ES		40.349	-3.616	28
+P	Santa Rosalía de Camargo	santa rosalia de camargo	MX		27.679	-105.172	12
+P	San Juan del Cesar		CO		10.771	-73.003	8
+P	Huejutla de Reyes		MX		21.140	-98.419	12
+P	Granadilla de Abona		ES		28.119	-16.576	24
+P	Xicotepec de Juárez	xicotepec de juarez	MX		20.276	-97.961	12
+P	Neumarkt in der Oberpfalz		DE		49.280	11.463	28
+P	San Fernando de Henares		ES		40.424	-3.533	28
+P	Miranda de Ebro		ES		42.687	-2.947	28
+P	San José del Castillo	san jose del castillo	MX		20.512	-103.237	12
+P	Los Reyes de Salgado		MX		19.589	-102.473	12
+P	Ocozocoautla de Espinosa		MX		16.761	-93.374	12
+P	Rincón de la Victoria	rincon de la victoria	ES		36.717	-4.276	28
+P	Santa Helena de Goiás	santa helena de goias	BR		-17.814	-50.597	15
+P	Vilafranca del Penedès	vilafranca del penedes	ES		41.346	1.697	28
+P	el Camp de l'Arpa del Clot	el camp de larpa del clot	ES		41.412	2.182	28
+P	Bassano del Grappa		IT		45.767	11.727	28
+P	Dej		RO		47.150	23.867	27
+P	Delaware		US	Ohio	40.299	-83.068	6
+P	San José de los Cerrillos	san jose de los cerrillos	AR		-24.897	-65.484	15
+P	Rolim de Moura do Guaporé	rolim de moura do guapore	BR		-13.083	-62.277	10
+P	La Chaux-de-Fonds	la chaux de fonds	CH		47.100	6.826	28
+P	Heist-op-den-Berg	heist op den berg	BE		51.075	4.728	28
+P	Santa Rosa de Osos		CO		6.647	-75.460	8
+P	San Antonio de Padua		AR		-34.663	-58.698	15
+P	Vilagarcía de Arousa	vilagarcia de arousa	ES		42.596	-8.764	28
+P	Paracho de Verduzco		MX		19.648	-102.048	12
+P	Alto De Pinheiros		BR		-23.548	-46.712	15
+P	Lloret de Mar		ES		41.700	2.846	28
+P	Del Pilar		PH		15.036	120.699	20
+P	Bahía de Caráquez	bahia de caraquez	EC		-0.600	-80.424	8
+P	Laval-des-Rapides	laval des rapides	CA	Quebec	45.556	-73.700	6
+P	Debila		DZ		33.517	6.950	0
+P	Sant Adrià de Besòs	sant adria de besos	ES		41.431	2.219	28
+P	Mont-de-Marsan	mont de marsan	FR		43.890	-0.497	28
+P	Del Rio		US	Texas	29.363	-100.897	4
+P	’Aïn Deheb	ain deheb	DZ		34.842	1.547	0
+P	Setor Complementar de Indústria e Abastecimento	setor complementar de industria e abastecimento	BR		-15.782	-47.988	15
+P	Cañada de Gómez	canada de gomez	AR		-32.820	-61.395	15
+P	Hato Mayor del Rey		DO		18.766	-69.256	10
+P	San José de Mayo	san jose de mayo	UY		-34.339	-56.713	15
+P	Develi		TR		38.391	35.492	26
+P	Det Udom		TH		14.906	105.078	17
+P	Puerto del Rosario		ES		28.500	-13.863	24
+P	Casco Histórico de Vicálvaro	casco historico de vicalvaro	ES		40.392	-3.570	28
+P	Santiago de las Vegas		CU		22.970	-82.387	9
+P	São Paulo de Olivença	sao paulo de olivenca	BR		-3.378	-68.873	10
+P	Alhaurín de la Torre	alhaurin de la torre	ES		36.664	-4.561	28
+P	Staraya Derevnya		RU		59.988	30.243	26
+P	Denai Alam		MY		3.160	101.515	20
+P	Dedza		MW		-14.378	34.333	2
+P	Sabana de Mendoza		VE		9.435	-70.775	10
+P	Azuqueca de Henares		ES		40.566	-3.268	28
+P	La Vela de Coro		VE		11.461	-69.566	10
+P	Ti Port-de-Paix	ti port de paix	HT		19.933	-72.833	6
+P	Santa Cruz del Sur		CU		20.715	-77.996	9
+P	San José de Metán	san jose de metan	AR		-25.497	-64.971	15
+P	Derry Village		US	New Hampshire	42.892	-71.312	6
+P	Paz de Ariporo		CO		5.881	-71.892	8
+P	Bela Vista de Goiás	bela vista de goias	BR		-16.973	-48.953	15
+P	Minas de Matahambre		CU		22.587	-83.946	9
+P	Maravatío de Ocampo	maravatio de ocampo	MX		19.892	-100.442	12
+P	el Camp d'en Grassot i Gràcia Nova	el camp den grassot i gracia nova	ES		41.406	2.165	28
+P	São Joaquim de Bicas	sao joaquim de bicas	BR		-20.049	-44.274	15
+P	Afurada de Baixo		PT		41.144	-8.646	24
+P	Pórticos de San Antonio	porticos de san antonio	MX		32.443	-117.034	11
+P	Aragua de Barcelona		VE		9.456	-64.829	10
+P	São Luís de Montes Belos	sao luis de montes belos	BR		-16.525	-50.372	15
+P	Limburg an der Lahn		DE		50.384	8.050	28
+P	Parras de la Fuente		MX		25.442	-102.178	12
+P	Deer Park		US	Texas	29.705	-95.124	4
+P	Sainte-Geneviève-des-Bois	sainte genevieve des bois	FR		48.647	2.320	28
+P	Unión de Reyes	union de reyes	CU		22.795	-81.537	9
+P	Peixoto de Azevedo		BR		-10.223	-54.980	10
+P	Delījān	delijan	IR		33.990	50.684	21
+P	San Sebastián de Mariquita	san sebastian de mariquita	CO		5.199	-74.893	8
+P	Dupax Del Norte		PH		16.308	121.106	20
+P	Aranda de Duero		ES		41.670	-3.689	28
+P	São Desidério	sao desiderio	BR		-12.363	-44.973	15
+P	Jáltipan de Morelos	jaltipan de morelos	MX		17.965	-94.714	12
+P	Nueva Italia de Ruiz		MX		19.025	-102.093	12
+P	Desnogorsk		RU		54.151	33.282	26
+P	Villa de San Antonio		HN		14.326	-87.614	12
+P	Biberach an der Riß	biberach an der riss	DE		48.093	9.791	28
+P	De Aar		ZA		-30.650	24.012	2
+P	Puerto de la Cruz		ES		28.417	-16.551	24
+P	Demnate		MA		31.734	-7.005	1
+P	Câmara de Lobos	camara de lobos	PT		32.650	-16.977	24
+P	Curtea de Argeş	curtea de arges	RO		45.134	24.674	27
+P	Colonia del Sacramento		UY		-34.463	-57.840	15
+P	Sant Joan Despí	sant joan despi	ES		41.367	2.057	28
+P	Brasília de Minas	brasilia de minas	BR		-16.206	-44.433	15
+P	Deeside		GB	Wales	53.201	-3.038	24
+P	Punta de Piedras		VE		10.901	-64.097	10
+P	Palmeiras de Goiás	palmeiras de goias	BR		-16.805	-49.926	15
+P	General José de San Martín	general jose de san martin	AR		-26.536	-59.341	15
+P	Descalvado		BR		-21.904	-47.619	15
+P	San Carlos de Bolívar	san carlos de bolivar	AR		-36.231	-61.116	15
+P	Mehdia daira de meghila		DZ		35.431	1.757	0
+P	Santa Eulària des Riu	santa eularia des riu	ES		38.985	1.534	28
+P	Des Moines		US	Washington	47.402	-122.324	11
+P	Arcos de la Frontera		ES		36.751	-5.811	28
+P	Chilapa de Álvarez	chilapa de alvarez	MX		17.599	-99.174	12
+P	Barberà del Vallès	barbera del valles	ES		41.516	2.125	28
+P	Deggendorf		DE		48.841	12.961	28
+P	Deolali		IN		19.474	74.621	19
+P	Deal		GB	England	51.223	1.403	24
+P	Deūlgaon Rāja	deulgaon raja	IN		20.018	76.038	19
+P	San Andrés del Rabanedo	san andres del rabanedo	ES		42.612	-5.617	28
+P	Escuinapa de Hidalgo		MX		22.835	-105.778	13
+P	Reino de Antula		GW		11.900	-15.583	3
+P	Barão de Cocais	barao de cocais	BR		-19.946	-43.487	15
+P	San Luis de Sincé	san luis de since	CO		9.244	-75.147	8
+P	Riacho de Santana		BR		-13.609	-42.939	15
+P	Dēra	dera	ET		8.400	38.850	26
+P	Alcázar de San Juan	alcazar de san juan	ES		39.390	-3.208	28
+P	Campo Alegre de Lourdes		BR		-9.517	-43.010	15
+P	Coria del Río	coria del rio	ES		37.288	-6.054	28
+P	Dulce Nombre de Culmí	dulce nombre de culmi	HN		15.100	-85.533	12
+P	San Pedro de Urabá	san pedro de uraba	CO		8.275	-76.376	8
+P	la Marina de Port		ES		41.360	2.140	28
+P	Tlajomulco de Zúñiga	tlajomulco de zuniga	MX		20.474	-103.447	12
+P	DeLand		US	Florida	29.028	-81.303	6
+P	Pinar de Chamartín	pinar de chamartin	ES		40.479	-3.668	28
+P	Puerto del Carmen		ES		28.923	-13.666	24
+P	Delbrück	delbruck	DE		51.765	8.562	28
+P	San Rafael del Sur		NI		11.849	-86.438	12
+P	Deinze		BE		50.982	3.531	28
+P	Dembech’a	dembecha	ET		10.550	37.483	26
+P	Santa Elena de Uairén	santa elena de uairen	VE		4.602	-61.110	10
+P	Charneca de Caparica		PT		38.620	-9.194	24
+P	Devarkonda		IN		16.692	78.921	19
+P	Desmarchais-Crawford	desmarchais crawford	CA	Quebec	45.446	-73.582	6
+P	Pedras de Fogo		BR		-7.402	-35.116	15
+P	Rosario de la Frontera		AR		-25.799	-64.974	15
+P	Demiyivka		UA		50.402	30.516	27
+P	Póvoa de Varzim	povoa de varzim	PT		41.383	-8.764	24
+P	Krimpen aan den IJssel		NL		51.917	4.603	28
+P	Devadurga		IN		16.423	76.936	19
+P	Póvoa de Santa Iria	povoa de santa iria	PT		38.861	-9.065	24
+P	Vaihingen an der Enz		DE		48.936	8.960	28
+P	Desāīganj	desaiganj	IN		20.624	79.965	19
+P	Geislingen an der Steige		DE		48.624	9.827	28
+P	Delfzijl		NL		53.330	6.918	28
+P	Pabellón de Arteaga	pabellon de arteaga	MX		22.148	-102.279	12
+P	Tula de Allende		MX		20.052	-99.344	12
+P	Delicias		ES		40.397	-3.690	28
+P	Neuburg an der Donau		DE		48.732	11.187	28
+P	Sant Pere de Ribes		ES		41.260	1.774	28
+P	Desert Hot Springs		US	California	33.962	-116.504	11
+P	Rio Pardo de Minas		BR		-15.610	-42.540	15
+P	Cruz del Eje		AR		-30.726	-64.804	15
+P	Devanahalli		IN		13.247	77.712	19
+P	Tultitlán de Mariano Escobedo	tultitlan de mariano escobedo	MX		19.647	-99.168	12
+P	Rincón de Romos	rincon de romos	MX		22.229	-102.322	12
+P	Sant Vicenç dels Horts	sant vicenc dels horts	ES		41.393	2.007	28
+P	Sabana de Torres		CO		7.391	-73.496	8
+P	Morón de la Frontera	moron de la frontera	ES		37.121	-5.454	28
+P	Termas de Río Hondo	termas de rio hondo	AR		-27.494	-64.860	15
+P	Santa Rosa de Copán	santa rosa de copan	HN		14.774	-88.776	12
+P	Deer Park		US	New York	40.762	-73.329	6
+P	Villaviciosa de Odón	villaviciosa de odon	ES		40.358	-3.904	28
+P	Denton		GB	England	53.457	-2.118	24
+P	Roșiorii de Vede	rosiorii de vede	RO		44.117	24.983	27
+P	Premià de Mar	premia de mar	ES		41.492	2.365	28
+P	Santa Rita de Cássia	santa rita de cassia	BR		-11.009	-44.519	15
+P	Santiago de Tolú	santiago de tolu	CO		9.524	-75.581	8
+P	Paris 04 Hôtel-de-Ville	paris 04 hotel de ville	FR		48.860	2.351	28
+P	La Teste-de-Buch	la teste de buch	FR		44.633	-1.145	28
+P	Casal de' Pazzi	casal de pazzi	IT		41.929	12.566	28
+P	Palmar de Varela		CO		10.741	-74.754	8
+P	Santa Uxía de Ribeira	santa uxia de ribeira	ES		42.554	-8.991	28
+P	Dedovsk		RU		55.869	37.122	26
+P	Deder		ET		9.312	41.443	26
+P	Canindé de São Francisco	caninde de sao francisco	BR		-9.660	-37.789	15
+P	Den Den		TN		36.808	10.111	0
+P	Coração de Maria	coracao de maria	BR		-12.233	-38.750	15
+P	Pineda de Mar		ES		41.628	2.689	28
+P	Magdalena de Kino		MX		30.627	-110.962	13
+P	Río de Teapa	rio de teapa	MX		17.775	-92.902	12
+P	Lauf an der Pegnitz		DE		49.514	11.282	28
+P	Sant Andreu de la Barca		ES		41.447	1.972	28
+P	Dellys		DZ		36.917	3.913	0
+P	Sant Martí de Provençals	sant marti de provencals	ES		41.420	2.196	28
+P	Devonport		AU	Tasmania	-41.177	146.352	25
+P	Rosario de Lerma		AR		-24.986	-65.578	15
+P	Ciudad de Allende		MX		25.281	-100.019	12
+P	Carmen de Patagones		AR		-40.803	-62.983	15
+P	Paço de Arcos	paco de arcos	PT		38.696	-9.291	24
+P	São Mamede de Infesta	sao mamede de infesta	PT		41.192	-8.611	24
+P	Delitzsch		DE		51.525	12.343	28
+P	Villanueva de la Serena		ES		38.977	-5.797	28
+P	Río Guayabal de Yateras	rio guayabal de yateras	CU		20.367	-75.017	9
+P	Bandar-e Deylam	bandar e deylam	IR		30.054	50.159	21
+P	Humberto de Campos		BR		-2.598	-43.461	15
+P	Tacámbaro de Codallos	tacambaro de codallos	MX		19.236	-101.458	12
+P	Deori Khās	deori khas	IN		23.390	79.016	19
+P	Tejupilco de Hidalgo		MX		18.905	-100.153	12
+P	Jijoca de Jericoacoara		BR		-2.895	-40.449	15
+P	Valle de Bravo		MX		19.195	-100.131	12
+P	Ilha de Itamaracá	ilha de itamaraca	BR		-7.748	-34.826	15
+P	Mar de Ajó	mar de ajo	AR		-36.729	-56.683	15
+P	San Vicente de Cañete	san vicente de canete	PE		-13.076	-76.385	8
+P	Mixquiahuala de Juarez		MX		20.230	-99.214	12
+P	Quart de Poblet		ES		39.481	-0.439	28
+P	Heppenheim an der Bergstrasse		DE		49.641	8.632	28
+P	Coração de Jesus	coracao de jesus	BR		-16.685	-44.365	15
+P	Nanchital de Lázaro Cárdenas del Río	nanchital de lazaro cardenas del rio	MX		18.071	-94.408	12
+P	Limoeiro de Anadia		BR		-9.741	-36.503	15
+P	Palos de Moguer		ES		40.404	-3.695	28
+P	Santa Perpètua de Mogoda	santa perpetua de mogoda	ES		41.533	2.183	28
+P	Santa Cruz de los Taques		VE		11.823	-70.256	10
+P	Cocalzinho de Goiás	cocalzinho de goias	BR		-15.794	-48.776	15
+P	Encarnación de Díaz	encarnacion de diaz	MX		21.526	-102.240	12
+P	Taman Desa		MY		3.106	101.687	20
+P	Ponta de Pedras		BR		-1.390	-48.871	15
+P	Devarshola		IN		11.544	76.440	19
+P	Três de Maio	tres de maio	BR		-27.773	-54.240	15
+P	San Francisco de Yojoa		HN		15.014	-87.972	12
+P	Dedham		US	Massachusetts	42.242	-71.166	6
+P	De Pere		US	Wisconsin	44.449	-88.060	4
+P	Zumpango del Río	zumpango del rio	MX		17.654	-99.527	12
+P	Décines-Charpieu	decines charpieu	FR		45.769	4.959	28
+P	Saint-Dié-des-Vosges	saint die des vosges	FR		48.284	6.949	28
+P	Devrek		TR		41.219	31.956	26
+P	Saint-Bruno-de-Montarville	saint bruno de montarville	CA	Quebec	45.533	-73.349	6
+P	Matriz de Camaragibe		BR		-9.152	-35.533	15
+P	Pão de Açúcar	pao de acucar	BR		-9.748	-37.437	15
+P	Sabana de Parra		VE		10.121	-69.036	10
+P	Santa Terezinha de Itaipu		BR		-25.440	-54.402	15
+P	Denkanikota		IN		12.530	77.789	19
+P	Boca Del Mar		US	Florida	26.345	-80.147	6
+P	Jiquilpan de Juárez	jiquilpan de juarez	MX		19.992	-102.718	12
+P	Debaltseve		UA		48.336	38.403	27
+P	Gioia del Colle		IT		40.800	16.923	28
+P	Bandar-e Deyr	bandar e deyr	IR		27.840	51.938	21
+P	Molins de Rei		ES		41.417	2.017	28
+P	Castellar del Vallès	castellar del valles	ES		41.617	2.083	28
+P	Icod de los Vinos		ES		28.372	-16.712	24
+P	Capivari de Baixo		BR		-28.445	-48.958	15
+P	Bom Jesus de Goiás	bom jesus de goias	BR		-18.220	-49.730	15
+P	Miahuatlán de Porfirio Díaz	miahuatlan de porfirio diaz	MX		16.329	-96.596	12
+P	Veinticinco de Mayo		AR		-35.432	-60.172	15
+P	San Pedro del Pinatar		ES		37.836	-0.791	28
+P	Purépero de Echáiz	purepero de echaiz	MX		19.910	-102.007	12
+P	Porto de Mós	porto de mos	PT		37.085	-8.684	24
+P	Aguada de Pasajeros		CU		22.385	-80.848	9
+P	San Ignacio de Velasco		BO		-16.378	-60.965	10
+P	Santa Cruz de El Seibo		DO		18.765	-69.040	10
+P	San Martín de los Andes	san martin de los andes	AR		-40.158	-71.353	15
+P	Derby		US	Kansas	37.546	-97.269	4
+P	Santa Rosa de Viterbo		BR		-21.473	-47.363	15
+P	Dejvice		CZ		50.101	14.391	28
+P	Deneysville		ZA		-26.891	28.097	2
+P	Teotihuacán de Arista	teotihuacan de arista	MX		19.690	-98.861	12
+P	Ixtlán del Río	ixtlan del rio	MX		21.035	-104.369	13
+P	Olesa de Montserrat		ES		41.544	1.894	28
+P	Santo Antônio de Posse	santo antonio de posse	BR		-22.606	-46.919	15
+P	Santa Fe de Antioquia		CO		6.557	-75.828	8
+P	Pfaffenhofen an der Ilm		DE		48.531	11.505	28
+P	Conceição do Mato Dentro	conceicao do mato dentro	BR		-19.037	-43.425	15
+P	Denison		US	Texas	33.756	-96.537	4
+P	Jesús del Monte	jesus del monte	MX		19.375	-99.294	12
+P	São Jorge de Arroios	sao jorge de arroios	PT		38.729	-9.138	24
+P	San Antonio de Areco		AR		-34.251	-59.469	15
+P	San Antonio de Cortés	san antonio de cortes	HN		15.116	-88.041	12
+P	Arcos de Valdevez		PT		41.847	-8.419	24
+P	Las Pintas de Arriba		MX		20.576	-103.324	12
+P	Tixtla de Guerrero		MX		17.567	-99.398	12
+P	Campo de la Cruz		CO		10.378	-74.884	8
+P	Atlacomulco de Fabela		MX		19.799	-99.875	12
+P	Lerma de Villada		MX		19.289	-99.512	12
+P	Desenzano del Garda		IT		45.471	10.536	28
+P	Priego de Córdoba	priego de cordoba	ES		37.438	-4.195	28
+P	San José del Valle	san jose del valle	MX		20.764	-105.228	13
+P	Mejorada del Campo		ES		40.393	-3.482	28
+P	Conil de la Frontera		ES		36.277	-6.088	28
+P	Deogarh		IN		21.538	84.733	19
+P	San José de Barlovento	san jose de barlovento	VE		10.301	-65.991	10
+P	Demba		CD		-5.496	22.270	2
+P	Campo De Ourique		PT		38.721	-9.167	24
+P	De Meern		NL		52.082	5.036	28
+P	Deoli		IN		25.757	75.380	19
+P	Del City		US	Oklahoma	35.442	-97.441	4
+P	Derry		US	New Hampshire	42.881	-71.327	6
+P	Ribarroja del Turia		ES		39.546	-0.571	28
+P	Loma de Gato		PH		14.789	120.999	20
+P	Santiago de Cao		PE		-7.959	-79.239	8
+P	Torre del Mar		ES		36.742	-4.093	28
+P	Sant Feliu de Guíxols	sant feliu de guixols	ES		41.783	3.033	28
+P	Decatur		US	Georgia	33.775	-84.296	6
+P	São Francisco de Paula	sao francisco de paula	BR		-29.448	-50.584	15
+P	Playas del Rosario		MX		17.853	-92.932	12
+P	Huetamo de Núñez	huetamo de nunez	MX		18.626	-100.900	12
+P	Sant Antoni de Portmany		ES		38.981	1.304	28
+P	Las Matas de Farfán	las matas de farfan	DO		18.873	-71.517	10
+P	Santa María de Jesús	santa maria de jesus	GT		14.495	-90.710	12
+P	San Miguel del Monte		AR		-35.439	-58.807	15
+P	Conceição de Macabu	conceicao de macabu	BR		-22.085	-41.868	15
+P	Tenango de Arista		MX		19.104	-99.590	12
+P	Laguna de Duero		ES		41.582	-4.723	28
+P	Deuil-la-Barre	deuil la barre	FR		48.977	2.327	28
+P	Medina del Campo		ES		41.312	-4.914	28
+P	Belén de Umbría	belen de umbria	CO		5.201	-75.869	8
+P	Pilar de la Horadada		ES		37.866	-0.793	28
+P	Denain		FR		50.329	3.394	28
+P	Atoyac de Álvarez	atoyac de alvarez	MX		17.207	-100.433	12
+P	La Jagua de Ibirico		CO		9.562	-73.334	8
+P	Demirci		TR		39.046	28.659	26
+P	Fortín de las Flores	fortin de las flores	MX		18.908	-97.000	12
+P	Dupax del Sur		PH		16.284	121.090	20
+P	Santa Cruz de Mora		VE		8.399	-71.641	10
+P	Palma del Río	palma del rio	ES		37.700	-5.281	28
+P	San José de Ocoa	san jose de ocoa	DO		18.547	-70.507	10
+P	Dee Why		AU	New South Wales	-33.751	151.289	25
+P	Puente de Ixtla		MX		18.615	-99.318	12
+P	Las Torres de Cotillas		ES		38.028	-1.242	28
+P	Devgadh Bāriya	devgadh bariya	IN		22.705	73.909	19
+P	l'Alfàs del Pi	lalfas del pi	ES		38.581	-0.103	28
+P	Fuente del Berro		ES		40.425	-3.664	28
+P	Monte Santo de Minas		BR		-21.190	-46.980	15
+P	San Juan de Aznalfarache		ES		37.358	-6.037	28
+P	Vilassar de Mar		ES		41.505	2.392	28
+P	Capulhuac de Mirafuentes		MX		19.194	-99.466	12
+P	Palo del Colle		IT		41.056	16.703	28
+P	São João de Pirabas	sao joao de pirabas	BR		-0.775	-47.177	15
+P	Guía de Isora	guia de isora	ES		28.212	-16.779	24
+P	Acquaviva delle Fonti		IT		40.897	16.843	28
+P	Gotse Delchev		BG		41.567	23.733	27
+P	Mairena del Alcor		ES		37.373	-5.750	28
+P	Villa de San Diego de Ubaté	villa de san diego de ubate	CO		5.309	-73.816	8
+P	Ile-des-Soeurs	ile des soeurs	CA	Quebec	45.460	-73.548	6
+P	Jaral del Progreso		MX		20.372	-101.064	12
+P	Fara Department		BF		11.529	-2.768	3
+P	La Pobla de Vallbona		ES		39.597	-0.555	28
+P	Terrazas del Valle		MX		32.487	-116.827	11
+P	Saint-Vincent de Paul	saint vincent de paul	FR		48.881	2.355	28
+P	Provenals del Poblenou		ES		41.411	2.203	28
+P	San Lorenzo de Esmeraldas		EC		1.286	-78.835	8
+P	Giengen an der Brenz		DE		48.622	10.243	28
+P	San Antonio de la Cal		MX		17.029	-96.701	12
+P	Los Llanos de Aridane		ES		28.659	-17.918	24
+P	Monte Alegre de Minas		BR		-18.871	-48.881	15
+P	Deán Funes	dean funes	AR		-30.425	-64.353	15
+P	Palmas de Monte Alto		BR		-14.267	-43.162	15
+P	Dergaon		IN		26.700	93.967	19
+P	Ponta Delgada		PT		37.740	-25.669	23
+P	Novaya Derevnya		RU		59.987	30.287	26
+P	La Defense		FR		48.892	2.239	28
+P	Desa Petaling		MY		3.084	101.709	20
+P	DeBary		US	Florida	28.883	-81.309	6
+P	San Juan de Urabá	san juan de uraba	CO		8.759	-76.530	8
+P	Saint-Jean-de-Braye	saint jean de braye	FR		47.913	1.977	28
+P	Alhama de Murcia		ES		37.851	-1.425	28
+P	Rio Verde de Mato Grosso		BR		-18.918	-54.844	10
+P	Deoraniān	deoranian	IN		28.630	79.476	19
+P	Alameda de Osuna		ES		40.452	-3.587	28
+P	Dekoa		CF		6.322	19.079	0
+P	Monforte de Lemos		ES		42.522	-7.514	28
+P	Deception Bay		AU	Queensland	-27.194	153.026	30
+P	Hazel Dell		US	Washington	45.672	-122.663	11
+P	Lomas del Sur		MX		20.492	-103.418	12
+P	Lora del Río	lora del rio	ES		37.659	-5.528	28
+P	Acatlán de Osorio	acatlan de osorio	MX		18.203	-98.049	12
+P	Weil der Stadt		DE		48.750	8.872	28
+P	Deoli		IN		20.649	78.480	19
+P	Devadanapatti		IN		10.147	77.644	19
+P	East Dereham		GB	England	52.683	0.933	24
+P	Degema Hulk		NG		4.761	6.750	0
+P	El Viso del Alcor		ES		37.391	-5.720	28
+P	Mene de Mauroa		VE		10.681	-71.036	10
+P	Abadia de Goiás	abadia de goias	BR		-16.757	-49.438	15
+P	Villa Paula de Sarmiento		AR		-31.493	-68.538	15
+P	São José de Piranhas	sao jose de piranhas	BR		-7.121	-38.502	15
+P	Deerfield		US	Illinois	42.171	-87.845	4
+P	São Tiago de Custoias	sao tiago de custoias	PT		41.200	-8.633	24
+P	Barão de Grajaú	barao de grajau	BR		-6.756	-43.024	15
+P	Den’enchōfu	denenchofu	JP		35.595	139.665	22
+P	Vilar de Andorinho		PT		41.106	-8.586	24
+P	Cuautepec de Hinojosa		MX		20.036	-98.310	12
+P	Juan de Acosta		CO		10.829	-75.033	8
+P	Ascención de Guarayos	ascencion de guarayos	BO		-15.893	-63.189	10
+P	San José de Colinas	san jose de colinas	HN		15.041	-88.302	12
+P	Tamazula de Gordiano		MX		19.680	-103.251	12
+P	Casa de Oro-Mount Helix	casa de oro mount helix	US	California	32.764	-116.969	11
+P	Dillingen an der Donau		DE		48.582	10.495	28
+P	Bad Münder am Deister	bad munder am deister	DE		52.196	9.464	28
+P	Lerdo de Tejada		MX		18.629	-95.520	12
+P	Dewdney East		CA	Saskatchewan	50.454	-104.547	12
+P	Belém de São Francisco	belem de sao francisco	BR		-8.754	-38.966	15
+P	Eringate-Centennial-West Deane	eringate centennial west deane	CA	Ontario	43.658	-79.580	6
+P	Rodeo del Medio		AR		-32.995	-68.686	15
+P	Castiglione delle Stiviere		IT		45.390	10.486	28
+P	Madre de Deus		BR		-12.741	-38.621	15
+P	Malgrat de Mar		ES		41.647	2.741	28
+P	Deshnoke		IN		27.798	73.343	19
+P	Sant Quirze del Vallès	sant quirze del valles	ES		41.533	2.083	28
+P	San José de los Olvera	san jose de los olvera	MX		20.553	-100.415	12
+P	Santa Cruz del Norte		CU		23.154	-81.923	9
+P	Vila Franca de Xira		PT		38.955	-8.990	24
+P	Sagua de Tánamo	sagua de tanamo	CU		20.583	-75.241	9
+P	San Martín de la Vega	san martin de la vega	ES		40.207	-3.571	28
+P	Águas de Lindóia	aguas de lindoia	BR		-22.476	-46.633	15
+P	Júlio de Castilhos	julio de castilhos	BR		-29.227	-53.682	15
+P	Villa del Prado 2da Sección	villa del prado 2da seccion	MX		32.424	-116.972	11
+P	Tavernes de la Valldigna		ES		39.072	-0.266	28
+P	Zacoalco de Torres		MX		20.226	-103.570	12
+P	Coalcomán de Vázquez Pallares	coalcoman de vazquez pallares	MX		18.777	-103.160	12
+P	Deer Park		AU	Victoria	-37.767	144.767	25
+P	Dera Bugti		PK		29.036	69.158	18
+P	Humanes de Madrid		ES		40.250	-3.831	28
+P	Debar		MK		41.523	20.522	28
+P	Carmópolis de Minas	carmopolis de minas	BR		-20.541	-44.635	15
+P	Camocim de São Félix	camocim de sao felix	BR		-8.359	-35.762	15
+P	Delta del Tigre		UY		-34.765	-56.364	15
+P	Tres de Mayo		MX		18.869	-99.208	12
+P	Dehāqān	dehaqan	IR		31.940	51.647	21
+P	Primero de Enero		CU		21.945	-78.429	9
+P	Callosa de Segura		ES		38.125	-0.878	28
+P	San Lorenzo de El Escorial		ES		40.591	-4.147	28
+P	Del Remedio		PH		14.087	121.312	20
+P	Dęblin	deblin	PL		51.559	21.848	28
+P	Arroyo de la Miel		ES		36.599	-4.535	28
+P	Centre de Flacq		MU		-20.190	57.714	29
+P	Deba		NG		10.212	11.387	0
+P	San José del Quince	san jose del quince	MX		20.542	-103.284	12
+P	Ixtapan de la Sal		MX		18.844	-99.677	12
+P	El Carmen de Chucurí	el carmen de chucuri	CO		6.697	-73.511	8
+P	Parets del Vallès	parets del valles	ES		41.575	2.233	28
+P	Ciénaga de Oro	cienaga de oro	CO		8.874	-75.620	8
+P	São Francisco de Assis	sao francisco de assis	BR		-29.550	-55.131	15
+P	San Vito dei Normanni		IT		40.656	17.708	28
+P	Devgarh		IN		25.525	73.908	19
+P	Heroica Ciudad de Tlaxiaco		MX		17.269	-97.680	12
+P	Saint-Jean-de-la-Ruelle	saint jean de la ruelle	FR		47.911	1.865	28
+P	Villa del Rosario		AR		-31.554	-63.536	15
+P	Denizciler		TR		36.641	36.214	26
+P	Progreso de Alvaro Obregon		MX		20.249	-99.190	12
+P	Ciudad de Huitzuco		MX		18.303	-99.334	12
+P	Depālpur	depalpur	IN		22.851	75.542	19
+P	Delcevo		MK		41.967	22.769	28
+P	San Rafael de Onoto		VE		9.678	-68.973	10
+P	Deux-Montagnes	deux montagnes	CA	Quebec	45.535	-73.902	6
+P	Detroit-Shoreway	detroit shoreway	US	Ohio	41.478	-81.730	6
+P	Ejea de los Caballeros		ES		42.126	-1.137	28
+P	Riva del Garda		IT		45.886	10.841	28
+P	Saint-Augustin-de-Desmaures	saint augustin de desmaures	CA	Quebec	46.741	-71.451	6
+P	Deori		IN		22.099	82.266	19
+P	Navalmoral de la Mata		ES		39.892	-5.541	28
+P	Poção de Pedras	pocao de pedras	BR		-4.752	-44.944	15
+P	Playa del Ingles		ES		27.757	-15.579	24
+P	São Paulo de Frades	sao paulo de frades	PT		40.247	-8.394	24
+P	Devínska Nová Ves	devinska nova ves	SK		48.207	16.979	28
+P	Castilleja de la Cuesta		ES		37.386	-6.053	28
+P	Derhachi		UA		50.108	36.121	27
+P	Den Chai		TH		17.984	100.052	17
+P	San Fernando de Monte Cristi		DO		19.848	-71.646	10
+P	Denderleeuw		BE		50.885	4.076	28
+P	Wath upon Dearne		GB	England	53.503	-1.346	24
+P	Tassin-la-Demi-Lune	tassin la demi lune	FR		45.755	4.788	28
+P	Caldes de Montbui		ES		41.633	2.167	28
+P	Destelbergen		BE		51.060	3.799	28
+P	Devizes		GB	England	51.351	-1.994	24
+P	Sabana Grande de Boyá	sabana grande de boya	DO		18.945	-69.793	10
+P	Salinas de Hidalgo		MX		22.628	-101.714	12
+P	Villanueva de la Cañada	villanueva de la canada	ES		40.447	-4.004	28
+P	Defiance		US	Ohio	41.284	-84.356	6
+P	Puerto Deseado		AR		-47.751	-65.897	15
+P	Barra de Santo Antônio	barra de santo antonio	BR		-9.405	-35.507	15
+P	Dera Māndi	dera mandi	IN		28.436	77.176	19
+P	Cabeceiras de Basto		PT		41.514	-7.989	24
+P	Ozumba de Alzate		MX		19.037	-98.795	12
+P	North Decatur		US	Georgia	33.790	-84.306	6
+P	Los Reyes de Juárez	los reyes de juarez	MX		18.949	-97.804	12
+P	Denville		US	New Jersey	40.892	-74.477	6
+P	São Caetano de Odivelas	sao caetano de odivelas	BR		-0.750	-48.020	15
+P	Santa Clara del Mar		AR		-37.834	-57.507	15
+P	Colle di Val d'Elsa	colle di val delsa	IT		43.421	11.127	28
+P	Ario de Rosales		MX		19.208	-101.709	12
+P	Nochistlán de Mejía	nochistlan de mejia	MX		21.364	-102.848	12
+P	Plácido de Castro	placido de castro	BR		-10.335	-67.186	8
+P	Roseto degli Abruzzi		IT		42.672	14.015	28
+P	Desa Parkcity		MY		3.186	101.629	20
+P	Tlaltenango de Sánchez Román	tlaltenango de sanchez roman	MX		21.781	-103.304	12
+P	San Ignacio de Sabaneta		DO		19.478	-71.339	10
+P	Las Cabezas de San Juan		ES		36.984	-5.939	28
+P	Demerval Lobão	demerval lobao	BR		-5.358	-42.676	15
+P	Guardamar del Segura		ES		38.090	-0.656	28
+P	San Martín de Pangoa	san martin de pangoa	PE		-11.429	-74.488	8
+P	San Pedro de Lloc		PE		-7.429	-79.504	8
+P	San Miguel De Abona		ES		28.098	-16.617	24
+P	San Francisco de los Romo		MX		22.072	-102.272	12
+P	Tepatlaxco de Hidalgo		MX		19.081	-97.973	12
+P	San Juan de Flores		HN		14.267	-87.033	12
+P	Cacimba de Dentro		BR		-6.642	-35.790	15
+P	Corvera de Asturias		ES		43.536	-5.889	28
+P	Barrio de Peral		ES		37.625	-0.988	28
+P	Port-de-Bouc	port de bouc	FR		43.407	4.981	28
+P	Ciudad de Armería	ciudad de armeria	MX		18.938	-103.964	12
+P	Ebersbach an der Fils		DE		48.716	9.524	28
+P	Tecámac de Felipe Villanueva	tecamac de felipe villanueva	MX		19.713	-98.968	12
+P	Carmen de Areco		AR		-34.377	-59.823	15
+P	Zinapécuaro de Figueroa	zinapecuaro de figueroa	MX		19.860	-100.827	12
+P	Sant Just Desvern		ES		41.384	2.068	28
+P	Dera Colliery Township		IN		20.953	85.172	19
+P	Estrela de Alagoas		BR		-9.390	-36.760	15
+P	Jalpa de Méndez	jalpa de mendez	MX		18.177	-93.064	12
+P	Santa Cruz de la Palma		ES		28.684	-17.764	24
+P	Désarmes	desarmes	HT		18.993	-72.391	6
+P	el Turó de la Peira	el turo de la peira	ES		41.432	2.169	28
+P	Ahualulco de Mercado		MX		20.701	-103.975	12
+P	Sant Carles de la Ràpita	sant carles de la rapita	ES		40.617	0.600	28
+P	Montornès del Vallès	montornes del valles	ES		41.542	2.267	28
+P	Las Delicias		MX		32.409	-116.944	11
+P	Minas de Marcona		PE		-15.212	-75.110	8
+P	San Juan de Dios		CR		9.878	-84.084	12
+P	Bad Neustadt an der Saale		DE		50.322	10.207	28
+P	Peribán de Ramos	periban de ramos	MX		19.520	-102.415	12
+P	Paso de Carrasco		UY		-34.860	-56.052	15
+P	Mechelen-aan-de-Maas	mechelen aan de maas	BE		50.966	5.691	28
+P	Ayutla de los Libres		MX		16.964	-99.096	12
+P	Vişeu de Sus	viseu de sus	RO		47.708	24.430	27
+P	San Luis del Palmar		AR		-27.508	-58.556	15
+P	Penha de França	penha de franca	IN		15.517	73.835	19
+P	Ribeira de Frades		PT		40.205	-8.479	24
+P	Arenys de Mar		ES		41.582	2.549	28
+P	Degtyarsk		RU		56.704	60.088	18
+P	Saint-Pierre-des-Corps	saint pierre des corps	FR		47.386	0.748	28
+P	Coscomatepec de Bravo		MX		19.073	-97.047	12
+P	Cândido de Abreu	candido de abreu	BR		-24.567	-51.333	15
+P	Deutz		DE		50.935	6.975	28
+P	Saint-Vincent-de-Paul	saint vincent de paul	CA	Quebec	45.617	-73.649	6
+P	Ciénega de Flores	cienega de flores	MX		25.954	-100.166	12
+P	Depew		US	New York	42.904	-78.692	6
+P	Técpan de Galeana	tecpan de galeana	MX		17.220	-100.630	12
+P	Villanueva del Pardillo		ES		40.490	-3.964	28
+P	Tangancícuaro de Arista	tangancicuaro de arista	MX		19.887	-102.207	12
+P	Porte Saint-Denis	porte saint denis	FR		48.874	2.352	28
+P	Santiago de María	santiago de maria	SV		13.483	-88.467	12
+P	Brasilândia de Minas	brasilandia de minas	BR		-17.010	-46.009	15
+P	Ocotlán de Morelos	ocotlan de morelos	MX		16.792	-96.675	12
+P	Campo de Criptana		ES		39.405	-3.125	28
+P	Ciudad de la Paz		GQ		1.593	10.824	0

@@ -1,0 +1,28 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Aden	180	
+C	SA	Saudi Arabia	ummalqura	s
+C	YE	Yemen	ummalqura	s
+B	1
+P	Sanaa		YE		15.355	44.206	0
+P	Najrān	najran	SA		17.493	44.128	0
+P	Khamis Mushait		SA		18.300	42.733	0
+P	Şabyā	sabya	SA		17.149	42.625	0
+P	Abha		SA		18.216	42.505	0
+P	Jizan		SA		16.889	42.551	0
+P	Sabt Alalayah		SA		19.577	41.964	0
+P	‘Amrān	amran	YE		15.659	43.944	0
+P	Bariq		SA		18.930	41.930	0
+P	Abū ‘Arīsh	abu arish	SA		16.969	42.833	0
+P	Sayyān	sayyan	YE		15.172	44.324	0
+P	Sa'dah	sadah	YE		16.940	43.764	0
+P	Baljurashi		SA		19.859	41.557	0
+P	Bājil	bajil	YE		15.059	43.287	0
+P	Ḩajjah	hajjah	YE		15.694	43.606	0
+P	Saḩar	sahar	YE		15.316	44.309	0
+P	Fayfā’	fayfa	SA		17.281	43.137	0
+P	Şāmitah	samitah	SA		16.596	42.944	0
+P	Ḑamad	damad	SA		17.104	42.782	0
+P	An Nimas		SA		19.145	42.120	0
+P	Al Mash‘ilīyah	al mashiliyah	SA		17.756	44.468	0
+P	Sarāt ‘Abīdah	sarat abidah	SA		18.089	43.132	0
+P	Al Ḩazm	al hazm	YE		16.164	44.777	0

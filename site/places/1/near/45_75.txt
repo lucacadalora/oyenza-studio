@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+C	KZ	Kazakhstan	mwl	h
+B	0
+P	Taldykorgan		KZ		45.016	78.374	0
+P	Sarqant		KZ		45.413	79.917	0
+P	Ushtobe		KZ		45.253	77.983	0

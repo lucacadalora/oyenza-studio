@@ -1,21 +1,59 @@
-//! Places outside Indonesia: the add-on's `world.tsv.zst`, GeoNames' cities
-//! of 15,000 people or more with their time zones (tools/make_world_places.py
-//! builds it and describes the format).
+//! Places outside Indonesia: GeoNames' cities of 15,000 people or more with
+//! their time zones, looked up online one small file at a time
+//! (`site/places/1/` in the repo, https://studio.oyenza.com/places/1/ live;
+//! tools/make_world_places.py builds them and describes the format).
 //!
-//! The list is 1.4 MB unpacked, so the app reads it only while it needs it:
-//! while the place picker is open, to find the city nearest a location, and
-//! once at start when the chosen place is one of these. The chosen place
-//! itself is kept as a [`Place`], with its clock.
-
-use std::io::Read;
+//! The app never holds the whole list. While the place picker is open it
+//! asks for the file of the two letters typed ([`file_for`]); to find the
+//! city nearest a location, for the 5-degree squares around it
+//! ([`files_near`]); and drops them when done. The place picked or found is
+//! kept in settings as its own few lines ([`World::excerpt`]), so its times
+//! need nothing online.
 
 use super::{distance_km, Clock, Method, Place};
 
 /// Ids of places from this list: "w:" and the point as the file writes it.
 pub const ID_PREFIX: &str = "w:";
-/// A saved place whose point moved in a newer list is the one now nearest
-/// to the old point, within this distance (km).
-const MOVED_KM: f64 = 25.0;
+/// Where the files are (the website, `site/places/1/`). A new format goes
+/// in a new folder, so copies that read this one keep working.
+pub const BASE_URL: &str = "https://studio.oyenza.com/places/1/";
+/// The squares of the `near/` files, in degrees.
+const SQUARE_DEG: f64 = 5.0;
+
+/// The file of the places matching what was typed (folded with [`fold`]):
+/// the first two letters of its first word of two or more. `None` until
+/// there are two.
+pub fn file_for(folded: &str) -> Option<String> {
+    let word = folded.split(' ').find(|w| w.len() >= 2)?;
+    let head: String = word.chars().take(2).collect();
+    (head.len() == 2 && head.bytes().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit())).then_some(head)
+}
+
+/// The files of the 5-degree squares within `km` of a point, its own first.
+pub fn files_near(lat: f64, lng: f64, km: f64) -> Vec<String> {
+    let dlat = km / 111.0;
+    // A degree of longitude shrinks toward the poles (held at 80 degrees).
+    let dlng = (km / (111.0 * lat.abs().min(80.0).to_radians().cos())).min(180.0);
+    let square = |v: f64| (v / SQUARE_DEG).floor() as i32 * SQUARE_DEG as i32;
+    let wrap = |v: i32| (v + 180).rem_euclid(360) - 180;
+    let (lat0, lat1) = (square((lat - dlat).max(-90.0)), square((lat + dlat).min(89.999)));
+    let (lng0, lng1) = (square(lng - dlng), square(lng + dlng));
+    let mut out = vec![format!("near/{}_{}", square(lat), wrap(square(lng)))];
+    for la in (lat0..=lat1).step_by(SQUARE_DEG as usize) {
+        for lo in (lng0..=lng1).step_by(SQUARE_DEG as usize) {
+            let f = format!("near/{la}_{}", wrap(lo));
+            if !out.contains(&f) {
+                out.push(f);
+            }
+        }
+    }
+    out
+}
+
+/// A file's address ("ed" or "near/55_-5").
+pub fn url(file: &str) -> String {
+    format!("{BASE_URL}{file}.txt")
+}
 
 pub struct World {
     text: String,
@@ -59,14 +97,9 @@ pub struct Hit {
 }
 
 impl World {
-    /// The add-on file as downloaded (zstd).
-    pub fn unpack(packed: &[u8]) -> Result<World, String> {
-        let mut text = String::new();
-        ruzstd::decoding::StreamingDecoder::new(packed)
-            .map_err(|e| format!("world places: {e}"))?
-            .read_to_string(&mut text)
-            .map_err(|e| format!("world places: {e}"))?;
-        World::parse(text)
+    /// No places (a file the website doesn't have: no city there).
+    pub fn empty() -> World {
+        World { text: String::new(), zones: Vec::new(), countries: Vec::new(), aliases: Vec::new(), big: 0, rows: Vec::new() }
     }
 
     pub fn parse(text: String) -> Result<World, String> {
@@ -164,7 +197,19 @@ impl World {
             method: country.method,
             hanafi: country.hanafi,
             clock: Some(clock),
+            world_lines: Some(self.excerpt(i)?),
         })
+    }
+
+    /// Row `i` alone, as a file of its own: its clock, its country and its
+    /// P line, what settings keep of a place picked or found.
+    pub fn excerpt(&self, i: usize) -> Option<String> {
+        let [_, name, key, cc, region, lat, lng, zone] = fields(self.line(i))?;
+        let zone = self.text.lines().find(|l| l.starts_with(&format!("Z\t{zone}\t")))?;
+        let zone = zone.splitn(3, '\t').nth(2)?;
+        let country = self.text.lines().find(|l| l.starts_with(&format!("C\t{cc}\t")))?;
+        let big = u8::from(self.is_big(i));
+        Some(format!("Z\t0\t{zone}\n{country}\nB\t{big}\nP\t{name}\t{key}\t{cc}\t{region}\t{lat}\t{lng}\t0\n"))
     }
 
     fn country(&self, cc: &str) -> Option<&Country> {
@@ -172,17 +217,11 @@ impl World {
         self.countries.binary_search_by_key(&code, |c| c.code).ok().map(|i| &self.countries[i])
     }
 
-    /// The place saved under `id` ("w:lat,lng"), or, if the list moved it,
-    /// the place now nearest that point.
+    /// The place whose id is `id` ("w:lat,lng"), if it's in this file.
     pub fn find(&self, id: &str) -> Option<Place> {
         let point = id.strip_prefix(ID_PREFIX)?;
         let wanted = format!("\t{}\t", point.replace(',', "\t"));
-        if let Some(i) = (0..self.rows.len()).find(|&i| self.line(i).contains(&wanted)) {
-            return self.place(i);
-        }
-        let (lat, lng) = point.split_once(',')?;
-        let (place, km) = self.nearest(lat.parse().ok()?, lng.parse().ok()?)?;
-        (km <= MOVED_KM).then_some(place)
+        (0..self.rows.len()).find(|&i| self.line(i).contains(&wanted)).and_then(|i| self.place(i))
     }
 
     /// The place nearest a point, and how far it is (km).
@@ -252,8 +291,8 @@ impl World {
     }
 }
 
-/// A few lines of the list (its zones' changes up to 2030) for the apps'
-/// self-tests and pictures: the places "edin" finds.
+/// A few lines of the "ed" file (its zones' changes up to 2030) for the
+/// apps' self-tests and pictures: the places "edin" finds.
 pub const SAMPLE: &str = "\
 Z\t0\tEurope/London\t0\t29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0
 Z\t1\tAmerica/Chicago\t-360\t29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360
@@ -295,13 +334,14 @@ pub fn match_rank(name: &str, q: &str) -> Option<u8> {
 
 /// What was typed, as the list's search keys hold names: lowercase ASCII
 /// words, accents taken off ("Düsseldorf" -> "dusseldorf"), apostrophes
-/// dropped and other marks read as spaces. Mirrors `fold` in
-/// tools/make_world_places.py for Latin letters; letters of other scripts
-/// are kept as they are (no name in the list has them).
+/// dropped and other marks read as spaces, like letters without a plain
+/// Latin form ("ə", other scripts). Mirrors `fold` in
+/// tools/make_world_places.py.
 pub fn fold(s: &str) -> String {
     let mut out = String::with_capacity(s.len());
     for c in s.chars() {
-        if matches!(c, '\'' | '\u{2019}' | '\u{2018}' | '\u{2bb}' | '\u{2bc}' | '\u{2bf}' | '\u{2be}' | '`' | '\u{b4}') {
+        // Apostrophes, and marks typed apart from their letter ("z\u{327}").
+        if matches!(c, '\'' | '\u{2019}' | '\u{2018}' | '\u{2bb}' | '\u{2bc}' | '\u{2bf}' | '\u{2be}' | '`' | '\u{b4}' | '\u{300}'..='\u{36f}') {
             continue;
         }
         if c.is_ascii_alphanumeric() {
@@ -312,9 +352,7 @@ pub fn fold(s: &str) -> String {
             match latin_plain(c) {
                 Some(Latin::Letter(b)) => out.push(b as char),
                 Some(Latin::Pair(p)) => out.push_str(p),
-                Some(Latin::Mark) => out.push(' '),
-                None if c.is_alphanumeric() => out.extend(c.to_lowercase()),
-                None => out.push(' '),
+                Some(Latin::Mark) | None => out.push(' '),
             }
         }
     }

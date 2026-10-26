@@ -1,0 +1,165 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	11
+P	Mumbai		IN		19.073	72.883	0
+P	Pune		IN		18.520	73.855	0
+P	Navi Mumbai		IN		19.037	73.016	0
+P	Thāne	thane	IN		19.197	72.964	0
+P	Pimpri-Chinchwad	pimpri chinchwad	IN		18.619	73.804	0
+P	Nashik		IN		19.997	73.791	0
+P	Pimpri		IN		18.623	73.807	0
+P	Kalyān	kalyan	IN		19.244	73.136	0
+P	Dombivali		IN		19.217	73.083	0
+P	Virār	virar	IN		19.456	72.811	0
+P	Shivaji Nagar		IN		18.530	73.853	0
+P	Bhiwandi		IN		19.300	73.059	0
+P	Bhayandar		IN		19.302	72.851	0
+P	Dhārāvi	dharavi	IN		19.050	72.867	0
+P	Borivli		IN		19.235	72.860	0
+P	Sāngli	sangli	IN		16.854	74.564	0
+P	Kolhāpur	kolhapur	IN		16.696	74.232	0
+P	Ulhasnagar		IN		19.217	73.150	0
+P	Belagavi		IN		15.852	74.504	0
+P	Ahilyanagar		IN		19.095	74.738	0
+P	Ichalkaranji		IN		16.691	74.461	0
+P	Ambarnath		IN		19.200	73.167	0
+P	Panvel		IN		18.989	73.110	0
+P	Shahuwadi		IN		16.910	73.947	0
+P	Badlapur		IN		19.155	73.266	0
+P	Satara		IN		17.686	73.993	0
+P	Mormugao		IN		15.389	73.815	0
+P	Vasco da Gama		IN		15.396	73.816	0
+P	Airoli		IN		19.151	72.996	0
+P	Roha		IN		18.437	73.120	0
+P	Shrirampur		IN		19.622	74.657	0
+P	Madgaon		IN		15.275	73.958	0
+P	Kharghar		IN		19.050	73.070	0
+P	Gokak		IN		16.169	74.824	0
+P	Kharakvasla		IN		18.440	73.775	0
+P	Ratnagiri		IN		16.992	73.310	0
+P	Khadki		IN		18.564	73.852	0
+P	Pālghar	palghar	IN		19.697	72.765	0
+P	Khopoli		IN		18.786	73.346	0
+P	Panjim		IN		15.496	73.826	0
+P	Urun-Islāmpur	urun islampur	IN		17.050	74.267	0
+P	Sangamner		IN		19.568	74.212	0
+P	Sinnar		IN		19.845	73.999	0
+P	Kopargaon		IN		19.882	74.476	0
+P	Nipāni	nipani	IN		16.399	74.383	0
+P	Lonavla		IN		18.753	73.406	0
+P	Talegaon Dābhāde	talegaon dabhade	IN		18.735	73.676	0
+P	Karād	karad	IN		17.289	74.182	0
+P	Chiplūn	chiplun	IN		17.533	73.509	0
+P	Bārāmati	baramati	IN		18.152	74.578	0
+P	Deolāli	deolali	IN		19.944	73.834	0
+P	Phaltan		IN		17.991	74.432	0
+P	Dandeli		IN		15.267	74.617	0
+P	Dāhānu	dahanu	IN		19.968	72.713	0
+P	Daund		IN		18.465	74.584	0
+P	Bail-Hongal	bail hongal	IN		15.814	74.859	0
+P	Dehu Road		IN		18.682	73.732	0
+P	Jaisingpur		IN		16.776	74.554	0
+P	Vite		IN		17.273	74.538	0
+P	Vaijāpur	vaijapur	IN		19.927	74.728	0
+P	Chākan	chakan	IN		18.761	73.864	0
+P	Mapusa		IN		15.592	73.809	0
+P	Rāhuri	rahuri	IN		19.391	74.650	0
+P	Chikodi		IN		16.429	74.586	0
+P	Kabnur		IN		16.702	74.440	0
+P	Tāsgaon	tasgaon	IN		17.037	74.602	0
+P	Pen		IN		18.737	73.096	0
+P	Sirūr	sirur	IN		18.828	74.375	0
+P	Ashta		IN		16.949	74.409	0
+P	Boisar		IN		19.804	72.756	0
+P	Wai		IN		17.953	73.891	0
+P	Shirdi		IN		19.766	74.477	0
+P	Igatpuri		IN		19.695	73.563	0
+P	Sankeshwar		IN		16.256	74.482	0
+P	Karjat		IN		18.911	73.324	0
+P	Kāgal	kagal	IN		16.577	74.315	0
+P	Vagholi		IN		18.582	73.983	0
+P	Malkapur		IN		17.262	74.176	0
+P	Sāsvad	sasvad	IN		18.344	74.031	0
+P	Khaira		IN		19.787	72.762	0
+P	Unchagao		IN		16.697	74.273	0
+P	Shrīgonda	shrigonda	IN		18.615	74.699	0
+P	Deolali		IN		19.474	74.621	0
+P	Uran		IN		18.878	72.939	0
+P	Ārangaon	arangaon	IN		19.027	74.715	0
+P	Mharal Bk		IN		19.246	73.177	0
+P	Mudalgi		IN		16.337	74.968	0
+P	Gorai		IN		19.250	72.783	0
+P	Hupari		IN		16.617	74.404	0
+P	Alandi		IN		18.678	73.899	0
+P	Koynanagar		IN		17.400	73.767	0
+P	Mahād	mahad	IN		18.083	73.417	0
+P	Kalamb		IN		19.044	73.956	0
+P	Gadhinglaj		IN		16.223	74.350	0
+P	Indāpur	indapur	IN		18.300	73.250	0
+P	Kodoli		IN		17.670	74.035	0
+P	Khoni		IN		19.317	73.060	0
+P	Junnar		IN		19.208	73.875	0
+P	Koregaon		IN		18.646	74.059	0
+P	Wadgaon		IN		16.836	74.313	0
+P	Rājgurunagar	rajgurunagar	IN		18.867	73.900	0
+P	Shiraguppi		IN		16.619	74.709	0
+P	Ghoti Budrukh		IN		19.716	73.628	0
+P	Koregaon		IN		17.699	74.163	0
+P	Haliyal		IN		15.329	74.756	0
+P	Mhaswad		IN		17.634	74.788	0
+P	Sāvantvādi	savantvadi	IN		15.904	73.822	0
+P	Sadalgi		IN		16.559	74.532	0
+P	Kudachi		IN		16.628	74.854	0
+P	Hukeri		IN		16.231	74.602	0
+P	Curchorem		IN		15.263	74.109	0
+P	Ponda		IN		15.403	74.015	0
+P	Godoli		IN		17.672	74.013	0
+P	Kurandvād	kurandvad	IN		16.683	74.589	0
+P	Pachgaon		IN		16.660	74.227	0
+P	Rahata		IN		19.717	74.481	0
+P	Sancoale		IN		15.378	73.904	0
+P	Ghulewadi		IN		19.603	74.194	0
+P	Alībāg	alibag	IN		18.648	72.876	0
+P	Vasind		IN		19.408	73.263	0
+P	Korochi		IN		16.719	74.445	0
+P	Powai		IN		19.116	72.905	0
+P	Konnūr	konnur	IN		16.201	74.749	0
+P	Jalochi		IN		18.157	74.607	0
+P	Khānāpur	khanapur	IN		15.640	74.508	0
+P	Bhor		IN		18.149	73.843	0
+P	Manchar		IN		19.004	73.943	0
+P	Mālvan	malvan	IN		16.060	73.463	0
+P	Raybag		IN		16.492	74.774	0
+P	Murbād	murbad	IN		19.254	73.390	0
+P	Lonand		IN		18.040	74.187	0
+P	Neral		IN		19.025	73.317	0
+P	Pasthal		IN		19.820	72.730	0
+P	Māchai	machai	IN		15.793	74.484	0
+P	Nāteputa	nateputa	IN		17.899	74.752	0
+P	Piranvādi	piranvadi	IN		15.802	74.480	0
+P	Rahimatpur		IN		17.592	74.200	0
+P	Kodoli		IN		16.876	74.191	0
+P	Calangute		IN		15.544	73.755	0
+P	Ajara		IN		16.116	74.211	0
+P	Alnāvar	alnavar	IN		15.427	74.741	0
+P	Taleigao		IN		15.469	73.833	0
+P	Bicholim		IN		15.593	73.946	0
+P	Kalghatgi		IN		15.183	74.971	0
+P	Khed		IN		17.719	73.397	0
+P	Vāda	vada	IN		19.653	73.148	0
+P	Chanaje		IN		18.861	72.953	0
+P	Cuncolim		IN		15.177	73.994	0
+P	Kankauli		IN		16.266	73.712	0
+P	Curti		IN		15.417	74.017	0
+P	Kudāl	kudal	IN		16.011	73.689	0
+P	Bhudgaon		IN		16.907	74.600	0
+P	Dāpoli	dapoli	IN		17.759	73.188	0
+P	Maval		IN		18.755	73.444	0
+P	Kasāra	kasara	IN		19.645	73.474	0
+P	Kalher		IN		19.247	73.015	0
+P	Davorlim		IN		15.272	73.992	0
+P	Penha de França	penha de franca	IN		15.517	73.835	0
+P	Chimbel		IN		15.493	73.875	0
+P	Srīvardhan	srivardhan	IN		18.046	73.016	0
+P	Shrivardhan		IN		18.053	73.001	0

@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+C	UY	Uruguay	mwl	s
+B	1
+P	Porto Alegre		BR		-30.033	-51.230	0
+P	Pelotas		BR		-31.770	-52.341	0
+P	Viamão	viamao	BR		-30.081	-51.023	0
+P	Rio Grande		BR		-32.035	-52.099	0
+P	Maldonado		UY		-34.898	-54.950	0
+P	Bagé	bage	BR		-31.331	-54.107	0
+P	Guaíba	guaiba	BR		-30.114	-51.325	0
+P	Cachoeira do Sul		BR		-30.039	-52.894	0
+P	Camaquã	camaqua	BR		-30.851	-51.812	0
+P	São Gabriel	sao gabriel	BR		-30.336	-54.320	0
+P	Melo		UY		-32.368	-54.164	0
+P	Canguçu	cangucu	BR		-31.395	-52.676	0
+P	São Lourenço do Sul	sao lourenco do sul	BR		-31.365	-51.978	0
+P	Eldorado do Sul		BR		-30.084	-51.616	0
+P	Dom Pedrito		BR		-30.983	-54.673	0
+P	Rosário do Sul	rosario do sul	BR		-30.258	-54.914	0
+P	Caçapava do Sul	cacapava do sul	BR		-30.514	-53.485	0
+P	Santa Vitória do Palmar	santa vitoria do palmar	BR		-33.519	-53.368	0
+P	San Carlos		UY		-34.791	-54.918	0
+P	Rocha		UY		-34.480	-54.331	0
+P	Jaguarão	jaguarao	BR		-32.566	-53.376	0
+P	Capão do Leão	capao do leao	BR		-31.763	-52.484	0
+P	Treinta y Tres		UY		-33.231	-54.386	0
+P	São José do Norte	sao jose do norte	BR		-32.015	-52.042	0
+P	Encruzilhada do Sul		BR		-30.544	-52.522	0
+P	São Sepé	sao sepe	BR		-30.161	-53.565	0
+P	Butiá	butia	BR		-30.120	-51.962	0
+P	Arroio Grande		BR		-32.237	-53.087	0
+P	Piratini		BR		-31.448	-53.104	0
+P	Cidreira		BR		-30.181	-50.206	0

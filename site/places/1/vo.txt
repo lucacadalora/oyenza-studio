@@ -1,0 +1,91 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Africa/Monrovia	0	
+Z	2	America/Sao_Paulo	-180	
+Z	3	Asia/Bangkok	420	
+Z	4	Asia/Samarkand	300	
+Z	5	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	6	Europe/Moscow	180	
+Z	7	Europe/Samara	240	
+Z	8	Europe/Skopje	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BR	Brazil	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	FR	France	mwl	s
+C	GR	Greece	mwl	s
+C	IT	Italy	mwl	s
+C	KE	Kenya	egyptian	s
+C	LR	Liberia	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	NL	The Netherlands	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	TG	Togo	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	2
+P	Voronezh		RU		51.668	39.192	6
+P	Volgograd		RU		48.714	44.498	6
+P	Volzhsky		RU		48.786	44.780	6
+P	Vologda		RU		59.224	39.884	6
+P	Volta Redonda		BR		-22.523	-44.104	2
+P	Volgodonsk		RU		47.511	42.153	6
+P	Votorantim		BR		-23.547	-47.438	2
+P	Votkinsk		RU		57.049	53.987	7
+P	Vostochnoe Degunino		RU		55.880	37.558	6
+P	Volos		GR		39.369	22.948	5
+P	Voznesenskyi		UA		47.932	37.630	5
+P	Voskresenka		UA		50.485	30.603	5
+P	Vorkuta		RU		67.509	64.067	6
+P	Voskresensk		RU		55.313	38.691	6
+P	Mineralnye Vody		RU		44.210	43.135	6
+P	Vol’sk	volsk	RU		52.042	47.383	7
+P	Votuporanga		BR		-20.423	-49.973	2
+P	Kisela Voda		MK		41.949	21.503	8
+P	Volzhsk		RU		55.867	48.359	6
+P	Vyshniy Volochëk	vyshniy volochek	RU		57.589	34.569	6
+P	Voi		KE		-3.396	38.556	6
+P	Bad Homburg vor der Höhe	bad homburg vor der hohe	DE		50.227	8.618	8
+P	Volkhov		RU		59.923	32.340	6
+P	Vomero		IT		40.843	14.231	8
+P	Volksrust		ZA		-27.365	29.882	0
+P	Zhovti Vody		UA		48.345	33.497	5
+P	Völklingen	volklingen	DE		49.252	6.859	8
+P	Voghera		IT		44.992	9.012	8
+P	Voorburg		NL		52.074	4.360	8
+P	Volodymyr-Volynskyi	volodymyr volynskyi	UA		50.850	24.321	5
+P	Voerde		DE		51.597	6.686	8
+P	Voznesensk		UA		47.562	31.336	5
+P	Voluntari		RO		44.490	26.173	5
+P	Vostryakovo		RU		55.667	37.450	6
+P	Vorob’yovo	vorobyovo	RU		55.717	37.533	6
+P	Voúla	voula	GR		37.842	23.777	5
+P	Dịch Vọng	dich vong	VN		21.033	105.800	3
+P	Vohipaho		MG		-23.550	47.500	6
+P	Vohibinany		MG		-17.350	49.033	6
+P	Volokolamsk		RU		56.034	35.969	6
+P	Saint-Dié-des-Vosges	saint die des vosges	FR		48.284	6.949	8
+P	Voinjama		LR		8.422	-9.748	1
+P	Volla		IT		40.874	14.341	8
+P	Reichenbach/Vogtland	reichenbach vogtland	DE		50.623	12.303	8
+P	Voorschoten		NL		52.127	4.449	8
+P	Voiron		FR		45.365	5.586	8
+P	Volendam		NL		52.495	5.071	8
+P	Castel Volturno		IT		41.033	13.944	8
+P	Volnovakha		UA		47.601	37.494	5
+P	Volksdorf		DE		53.650	10.184	8
+P	Vogan		TG		6.333	1.533	1
+P	Vondrozo		MG		-22.817	47.283	6
+P	Kröpeliner-Tor-Vorstadt	kropeliner tor vorstadt	DE		54.088	12.115	8
+P	Vorgashor		RU		67.584	63.794	6
+P	Volochysk		UA		49.536	26.207	5
+P	Vordingborg		DK		55.008	11.911	8
+P	Vobkent Shahri		UZ		40.000	64.502	4
+P	Volgorechensk		RU		57.444	41.163	6
+P	Vovchansk		UA		50.291	36.941	5
+P	Vostryakovo		RU		55.399	37.808	6
+P	Vohipeno		MG		-22.350	47.833	6
+P	Voznesenivka		UA		48.076	39.796	5

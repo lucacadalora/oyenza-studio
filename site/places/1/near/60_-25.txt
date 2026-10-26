@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Atlantic/Reykjavik	0	
+C	IS	Iceland	mwl	s
+B	0
+P	Reykjavík	reykjavik	IS		64.135	-21.895	0
+P	Kópavogur	kopavogur	IS		64.112	-21.913	0
+P	Hafnarfjörður	hafnarfjordur	IS		64.067	-21.938	0
+P	Reykjanesbær	reykjanesbaer	IS		63.998	-22.561	0
+P	Keflavík	keflavik	IS		64.005	-22.562	0

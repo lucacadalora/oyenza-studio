@@ -1,0 +1,42 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Harare	120	
+C	BW	Botswana	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	0
+P	Bulawayo		ZW		-20.150	28.583	0
+P	Polokwane		ZA		-23.904	29.469	0
+P	Gaborone		BW		-24.655	25.909	0
+P	Francistown		BW		-21.170	27.508	0
+P	Mokopane		ZA		-24.194	29.010	0
+P	Bela Bela		ZA		-24.883	28.283	0
+P	Mogoditshane		BW		-24.627	25.866	0
+P	Louis Trichardt		ZA		-23.044	29.903	0
+P	Molepolole		BW		-24.407	25.495	0
+P	Serowe		BW		-22.388	26.711	0
+P	Tlokweng		BW		-24.669	25.971	0
+P	Palapye		BW		-22.546	27.125	0
+P	Mochudi		BW		-24.417	26.150	0
+P	Modimolle		ZA		-24.700	28.400	0
+P	Mankweng		ZA		-23.884	29.706	0
+P	Mahalapye		BW		-23.104	26.814	0
+P	Kanye		BW		-24.967	25.333	0
+P	Selebi-Phikwe	selebi phikwe	BW		-21.979	27.843	0
+P	Lebowakgomo		ZA		-24.315	29.501	0
+P	Letlhakane		BW		-21.415	25.593	0
+P	Thabazimbi		ZA		-24.592	27.412	0
+P	Ramotswa		BW		-24.872	25.870	0
+P	Marapong		ZA		-23.655	27.625	0
+P	Mookgophong		ZA		-24.517	28.717	0
+P	Gwanda		ZW		-20.936	29.007	0
+P	Amandelbult		ZA		-24.818	27.297	0
+P	Mmopone		BW		-24.567	25.874	0
+P	Thamaga		BW		-24.670	25.540	0
+P	Mosopa		BW		-24.772	25.422	0
+P	Tonota		BW		-21.442	27.462	0
+P	Bobonong		BW		-21.966	28.436	0
+P	Lephalale		ZA		-23.666	27.745	0
+P	Gabane		BW		-24.667	25.782	0
+P	Vaalwater		ZA		-24.296	28.114	0
+P	Tutume		BW		-20.494	27.035	0
+P	Northam		ZA		-24.958	27.265	0

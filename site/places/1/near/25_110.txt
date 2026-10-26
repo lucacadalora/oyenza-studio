@@ -1,0 +1,57 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	10
+P	Changsha		CN		28.199	112.971	0
+P	Ganzhou		CN		25.847	114.933	0
+P	Guilin		CN		25.280	110.296	0
+P	Changde		CN		29.032	111.698	0
+P	Guankou		CN		28.159	113.627	0
+P	Heshan		CN		28.569	112.347	0
+P	Zhuzhou		CN		27.833	113.150	0
+P	Hengyang		CN		26.889	112.619	0
+P	Yichun		CN		27.833	114.400	0
+P	Yongzhou		CN		26.424	111.613	0
+P	Yueyang		CN		29.375	113.095	0
+P	Xiangtan		CN		27.850	112.900	0
+P	Pingxiang		CN		27.617	113.854	0
+P	Xinyu		CN		27.804	114.933	0
+P	Chenzhou		CN		25.800	113.033	0
+P	Shaoyang		CN		27.238	111.462	0
+P	Huaihua		CN		27.563	110.004	0
+P	Ji’an	jian	CN		27.117	114.979	0
+P	Xianning		CN		29.843	114.322	0
+P	Loudi		CN		27.734	111.994	0
+P	Zhangjiajie		CN		29.129	110.478	0
+P	Xindi		CN		29.817	113.467	0
+P	Puqi		CN		29.717	113.883	0
+P	Wugang		CN		26.728	110.632	0
+P	Leiyang		CN		26.402	112.859	0
+P	Lecheng		CN		25.128	113.350	0
+P	Xiulin		CN		29.717	112.400	0
+P	Shaoshan		CN		27.917	112.517	0
+P	Lengshuijiang		CN		27.688	111.429	0
+P	Xishan		CN		27.667	113.500	0
+P	Dunhou		CN		27.050	114.900	0
+P	Gantang		CN		27.438	111.973	0
+P	Lengshuitan		CN		26.411	111.596	0
+P	Xiangxiang		CN		27.733	112.533	0
+P	Jinshi		CN		29.605	111.870	0
+P	Xiongzhou		CN		25.117	114.300	0
+P	Shangmei		CN		27.743	111.296	0
+P	Yongfeng		CN		27.455	112.169	0
+P	Lianyuan		CN		27.688	111.664	0
+P	Wuxi		CN		26.584	111.859	0
+P	Qionghu		CN		28.841	112.355	0
+P	Qingshuping		CN		27.381	112.021	0
+P	Fenyi		CN		27.811	114.668	0
+P	Hongqiao		CN		26.768	112.108	0
+P	Santangpu		CN		27.406	111.987	0
+P	Shenliu		CN		29.414	112.164	0
+P	Wenxing		CN		28.682	112.879	0
+P	Anjiang		CN		27.319	110.103	0
+P	Yutan		CN		28.258	112.560	0
+P	Nanzhou		CN		29.364	112.407	0
+P	Wulingyuan		CN		29.349	110.544	0
+P	Leifeng		CN		28.200	112.846	0
+P	Bojia		CN		26.467	111.968	0

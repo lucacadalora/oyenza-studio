@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Urumqi	360	
+C	CN	China	mwl	s
+B	1
+P	Ürümqi	urumqi	CN		43.801	87.600	0
+P	Shihezi		CN		44.302	86.037	0
+P	Korla		CN		41.761	86.152	0
+P	Turpan		CN		42.948	89.179	0
+P	Changji		CN		44.008	87.305	0
+P	Wujiaqu		CN		44.163	87.522	0
+P	Sandaohezi		CN		44.326	85.620	0

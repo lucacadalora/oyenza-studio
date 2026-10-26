@@ -1,0 +1,18 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Manaus	-240	
+C	BR	Brazil	mwl	s
+B	1
+P	Manaus		BR		-3.102	-60.025	0
+P	Manacapuru		BR		-3.300	-60.621	0
+P	Tefé	tefe	BR		-3.368	-64.721	0
+P	Coari		BR		-4.085	-63.141	0
+P	Iranduba		BR		-3.285	-60.186	0
+P	Presidente Figueiredo		BR		-2.034	-60.025	0
+P	Careiro		BR		-3.768	-60.369	0
+P	Codajás	codajas	BR		-3.837	-62.057	0
+P	Beruri		BR		-3.898	-61.373	0
+P	Barcelos		BR		-0.974	-62.927	0
+P	Anori		BR		-3.773	-61.644	0
+P	Manaquiri		BR		-3.428	-60.459	0
+P	Alvarães	alvaraes	BR		-3.221	-64.804	0
+P	Novo Airão	novo airao	BR		-2.621	-60.944	0

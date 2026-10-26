@@ -1,0 +1,62 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	America/Belem	-180	
+Z	2	Asia/Hovd	420	
+Z	3	Asia/Kolkata	330	
+Z	4	Asia/Riyadh	180	
+Z	5	Asia/Seoul	540	
+Z	6	Asia/Ulaanbaatar	480	
+Z	7	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	8	Europe/Ulyanovsk	240	
+Z	9	Pacific/Majuro	720	
+C	BR	Brazil	mwl	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	FR	France	mwl	s
+C	IN	India	karachi	h
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	MH	Marshall Islands	mwl	s
+C	MN	Mongolia	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SG	Singapore	singapore	s
+C	ZA	South Africa	egyptian	s
+B	1
+P	Ulsan		KR		35.537	129.317	5
+P	Ulan Bator		MN		47.908	106.883	6
+P	Ulyanovsk		RU		54.328	48.387	8
+P	Ulanqab		CN		40.993	113.133	6
+P	Ulhasnagar		IN		19.217	73.150	3
+P	Ulan-Ude	ulan ude	RU		51.826	107.600	6
+P	Ulu Bedok		SG		1.333	103.933	6
+P	Uluberiya		IN		22.476	88.099	3
+P	Ulanhot		CN		46.083	122.083	6
+P	Ulm		DE		48.398	9.992	7
+P	Ŭllyul	ullyul	KP		38.514	125.190	5
+P	Ulu Tiram		MY		1.600	103.817	6
+P	Ullal		IN		12.806	74.861	3
+P	Ullagaram		IN		12.979	80.197	3
+P	Neu-Ulm	neu ulm	DE		48.393	10.011	7
+P	Ulianópolis	ulianopolis	BR		-3.742	-47.495	1
+P	Ulliyeri		IN		11.452	75.767	3
+P	Al-`Ula	al ula	SA		26.609	37.923	4
+P	Kawasan Penempatan Ulu Sungai Benut		MY		1.754	103.280	6
+P	Kawasan Penempatan Ulu Benut Tiga		MY		1.750	103.277	6
+P	Kawasan Penempatan Ulu Benut Lima		MY		1.744	103.321	6
+P	Ulundi		ZA		-28.335	31.416	0
+P	Ulaangom		MN		49.981	92.067	2
+P	Uliyazhathura		IN		8.582	76.922	3
+P	Ulu Kelang		MY		3.180	101.773	6
+P	Les Ulis		FR		48.682	2.169	7
+P	Ulundurpet		IN		11.691	79.287	3
+P	Rejon ulicy Traugutta		PL		51.102	17.048	7
+P	Dalap-Uliga-Dorrit	dalap uliga dorrit	MH		7.087	171.377	9
+P	Kampung Baru Ulu Melaka		MY		6.352	99.788	6
+P	Saiyad-ul-ajaib	saiyad ul ajaib	IN		28.519	77.204	3
+P	Kampung Bertam Ulu		MY		2.290	102.193	6
+P	Uliastay		MN		47.742	96.844	2
+P	Ulongué	ulongue	MZ		-14.723	34.361	0

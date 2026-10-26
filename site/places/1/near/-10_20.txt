@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+Z	1	Africa/Lubumbashi	120	
+C	AO	Angola	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+B	2
+P	Mbuji-Mayi	mbuji mayi	CD		-6.136	23.590	1
+P	Kananga		CD		-5.896	22.417	1
+P	Tshikapa		CD		-6.416	20.800	1
+P	Saurimo		AO		-9.661	20.392	0
+P	Mwene		CD		-9.817	22.870	1
+P	Chitato		AO		-7.300	20.733	0
+P	Kabinda		CD		-6.138	24.482	1
+P	Gandajika		CD		-6.745	23.953	1
+P	Kamina		CD		-8.735	24.998	1
+P	Mwene-Ditu	mwene ditu	CD		-7.009	23.453	1
+P	Dundo		AO		-7.366	20.816	0
+P	Lucapa		AO		-8.419	20.745	0
+P	Kanyama		CD		-7.517	24.174	1
+P	Miabi		CD		-6.221	23.393	1
+P	Luputa		CD		-7.162	23.701	1
+P	Luebo		CD		-5.352	21.422	1
+P	Kabeya-Kamwanga	kabeya kamwanga	CD		-5.999	23.254	1
+P	Demba		CD		-5.496	22.270	1
+P	Cassanguidi		AO		-7.484	21.303	0

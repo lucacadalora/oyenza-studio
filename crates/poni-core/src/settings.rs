@@ -137,9 +137,12 @@ pub enum PrayerSound {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct PrayerSettings {
-    /// The place the times are for: its id in the add-on's place list. None
-    /// until one is found or picked.
+    /// The place the times are for: its id in the add-on's place list, or
+    /// "w:lat,lng" for a city abroad. None until one is found or picked.
     pub place: Option<String>,
+    /// That city abroad as its own few lines (`prayer::World::excerpt`): its
+    /// name, country, point and clock, so its times need nothing online.
+    pub world_place: Option<String>,
     /// Let Windows' location pick the nearest place, and pick again when the
     /// PC moves. Picking a place by hand turns this off.
     pub follow_location: bool,
@@ -152,7 +155,7 @@ pub struct PrayerSettings {
 
 impl Default for PrayerSettings {
     fn default() -> Self {
-        Self { place: None, follow_location: true, sound: PrayerSound::Tone, remind_before_min: 10, pause_music: true }
+        Self { place: None, world_place: None, follow_location: true, sound: PrayerSound::Tone, remind_before_min: 10, pause_music: true }
     }
 }
 

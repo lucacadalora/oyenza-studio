@@ -1,0 +1,49 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bamako	0	
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GW	Guinea-Bissau	egyptian	s
+C	ML	Mali	egyptian	s
+C	SN	Senegal	egyptian	s
+B	0
+P	Kayes		ML		14.448	-11.444	0
+P	Kindia		GN		10.057	-12.866	0
+P	Tambacounda		SN		13.771	-13.667	0
+P	Kamsar		GN		10.650	-14.617	0
+P	Labé	labe	GN		11.318	-12.283	0
+P	Kolda		SN		12.894	-14.941	0
+P	Mamou		GN		10.375	-12.091	0
+P	Faranah		GN		10.040	-10.743	0
+P	Fria		GN		10.367	-13.583	0
+P	Boké	boke	GN		10.932	-14.291	0
+P	Kolaboui		GN		10.796	-14.400	0
+P	Sangarédi	sangaredi	GN		11.100	-13.767	0
+P	Gabú	gabu	GW		12.280	-14.222	0
+P	Koumbia		GN		11.800	-13.500	0
+P	Vélingara	velingara	SN		13.150	-14.117	0
+P	Médina Gounas	medina gounas	SN		13.136	-13.756	0
+P	Bafatá	bafata	GW		12.166	-14.662	0
+P	Kolenté	kolente	GN		10.286	-12.437	0
+P	Koungheul		SN		13.983	-14.800	0
+P	Télimélé	telimele	GN		10.900	-13.033	0
+P	Kédougou	kedougou	SN		12.556	-12.181	0
+P	Dabola		GN		10.743	-11.108	0
+P	Bissikrima		GN		10.850	-10.933	0
+P	Dogomet		GN		10.589	-11.178	0
+P	Bafoulabé	bafoulabe	ML		13.808	-10.833	0
+P	Mahina		ML		13.904	-10.099	0
+P	Diaoubé	diaoube	SN		12.917	-14.167	0
+P	Tougué	tougue	GN		11.445	-11.664	0
+P	Pita		GN		11.059	-12.395	0
+P	Donghol-Sigon	donghol sigon	GN		11.800	-12.217	0
+P	Wendou Borou		GN		11.433	-13.883	0
+P	Banko		GN		10.717	-10.717	0
+P	Koundara		GN		12.483	-13.300	0
+P	Dinguiraye		GN		11.291	-10.712	0
+P	Koungneul Sossé	koungneul sosse	SN		13.967	-14.817	0
+P	Xitole		GW		11.733	-14.817	0
+P	Arfa Moussaïa	arfa moussaia	GN		10.767	-11.367	0
+P	Kamabi		GN		12.400	-13.417	0
+P	Sagalo		ML		12.200	-10.700	0
+P	Koumpentoum		SN		13.983	-14.567	0
+P	Farato		GM		13.400	-14.217	0

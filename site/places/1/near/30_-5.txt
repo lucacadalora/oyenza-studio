@@ -1,0 +1,47 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+C	DZ	Algeria	egyptian	s
+C	MA	Morocco	egyptian	s
+B	1
+P	Fes		MA		34.033	-5.000	1
+P	Oujda		MA		34.681	-1.909	1
+P	Tlemcen		DZ		34.878	-1.315	0
+P	Béchar	bechar	DZ		31.617	-2.217	0
+P	Taza		MA		34.210	-4.010	1
+P	Fès al Bali	fes al bali	MA		34.070	-4.955	1
+P	Berkane		MA		34.920	-2.320	1
+P	Taourirt		MA		34.407	-2.897	1
+P	Errachidia		MA		31.931	-4.427	1
+P	Guercif		MA		34.226	-3.354	1
+P	Maghnia		DZ		34.850	-1.728	0
+P	Sefrou		MA		33.832	-4.828	1
+P	Mecheria		DZ		33.545	-0.281	0
+P	Midelt		MA		32.685	-4.745	1
+P	Mansoûra	mansoura	DZ		34.862	-1.339	0
+P	Jerada		MA		34.310	-2.160	1
+P	Aïn Sefra	ain sefra	DZ		32.750	-0.583	0
+P	El Aïoun	el aioun	MA		34.583	-2.506	1
+P	Taounate		MA		34.537	-4.640	1
+P	Zaïo	zaio	MA		34.943	-2.733	1
+P	Chetouane		DZ		34.921	-1.295	0
+P	Sidi Slimane Echcharaa		MA		34.908	-2.351	1
+P	Sebdou		DZ		34.637	-1.331	0
+P	Arfoud		MA		31.435	-4.233	1
+P	Bouarfa		MA		32.534	-1.962	1
+P	Tahla		MA		34.050	-4.422	1
+P	Rich		MA		32.256	-4.502	1
+P	Missour		MA		33.049	-3.989	1
+P	Hennaya		DZ		34.951	-1.368	0
+P	Ouled Mimoun		DZ		34.905	-1.034	0
+P	Moulay Ali Cherif		MA		31.282	-4.265	1
+P	Ahfir		MA		34.954	-2.100	1
+P	Reçani	recani	MA		31.283	-4.266	1
+P	Beni Mester		DZ		34.870	-1.423	0
+P	Ribat Al Khayr		MA		33.815	-4.407	1
+P	Goulmima		MA		31.692	-4.953	1
+P	Outat Oulad Al Haj		MA		33.345	-3.704	1
+P	Aïn Beni Mathar	ain beni mathar	MA		34.010	-2.032	1
+P	Midar		MA		34.940	-3.533	1
+P	Driouch		MA		34.977	-3.379	1
+P	Oulad Tayeb		MA		33.946	-4.995	1

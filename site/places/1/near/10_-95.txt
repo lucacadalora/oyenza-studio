@@ -1,0 +1,79 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Guatemala	-360	
+C	GT	Guatemala	mwl	s
+C	MX	Mexico	mwl	s
+B	0
+P	Guatemala City		GT		14.641	-90.513	0
+P	Villa Nueva		GT		14.525	-90.585	0
+P	Mixco		GT		14.631	-90.607	0
+P	Tapachula		MX		14.905	-92.259	0
+P	Quetzaltenango		GT		14.845	-91.523	0
+P	Escuintla		GT		14.301	-90.788	0
+P	Villa Canales		GT		14.483	-90.534	0
+P	Chichicastenango		GT		14.943	-91.111	0
+P	San Juan Sacatepéquez	san juan sacatepequez	GT		14.719	-90.644	0
+P	Petapa		GT		14.502	-90.562	0
+P	Santa Lucía Cotzumalguapa	santa lucia cotzumalguapa	GT		14.335	-91.023	0
+P	Coatepeque		GT		14.704	-91.864	0
+P	Chinautla		GT		14.703	-90.500	0
+P	Totonicapán	totonicapan	GT		14.912	-91.361	0
+P	Chimaltenango		GT		14.659	-90.822	0
+P	Malacatán	malacatan	GT		14.911	-92.058	0
+P	Retalhuleu		GT		14.536	-91.678	0
+P	Santa Catarina Pinula		GT		14.570	-90.499	0
+P	San José Pinula	san jose pinula	GT		14.546	-90.413	0
+P	Mazatenango		GT		14.534	-91.503	0
+P	Amatitlán	amatitlan	GT		14.477	-90.635	0
+P	Palín	palin	GT		14.404	-90.697	0
+P	Chicacao		GT		14.543	-91.326	0
+P	Fraijanes		GT		14.465	-90.441	0
+P	San Pedro Ayampuc		GT		14.779	-90.453	0
+P	Patzún	patzun	GT		14.682	-91.014	0
+P	San Francisco El Alto		GT		14.945	-91.443	0
+P	Ostuncalco		GT		14.869	-91.621	0
+P	Colomba		GT		14.707	-91.732	0
+P	Barberena		GT		14.307	-90.362	0
+P	San Marcos		GT		14.964	-91.795	0
+P	Antigua Guatemala		GT		14.556	-90.733	0
+P	Sololá	solola	GT		14.771	-91.183	0
+P	Masagua		GT		14.203	-90.848	0
+P	Cantel		GT		14.812	-91.455	0
+P	Cuilapa		GT		14.275	-90.299	0
+P	Patulul		GT		14.423	-91.160	0
+P	San Pedro Sacatepéquez	san pedro sacatepequez	GT		14.968	-91.762	0
+P	Nuevo San Carlos		GT		14.593	-91.694	0
+P	Yepocapa		GT		14.502	-90.954	0
+P	Tecpán Guatemala	tecpan guatemala	GT		14.762	-90.992	0
+P	Ciudad Vieja		GT		14.524	-90.763	0
+P	Santiago Atitlán	santiago atitlan	GT		14.638	-91.229	0
+P	Comalapa		GT		14.741	-90.888	0
+P	Santiago Sacatepéquez	santiago sacatepequez	GT		14.635	-90.677	0
+P	San Sebastián	san sebastian	GT		14.562	-91.649	0
+P	Jalpatagua		GT		14.137	-90.009	0
+P	Sumpango		GT		14.646	-90.734	0
+P	Nahualá	nahuala	GT		14.843	-91.318	0
+P	San Andrés Itzapa	san andres itzapa	GT		14.622	-90.843	0
+P	Guastatoya		GT		14.854	-90.070	0
+P	San Felipe		GT		14.623	-91.595	0
+P	Zaragoza		GT		14.650	-90.890	0
+P	La Gomera		GT		14.082	-91.054	0
+P	Alotenango		GT		14.486	-90.804	0
+P	San Francisco Zapotitlán	san francisco zapotitlan	GT		14.589	-91.521	0
+P	Santa María de Jesús	santa maria de jesus	GT		14.495	-90.710	0
+P	Patzicía	patzicia	GT		14.632	-90.927	0
+P	San Lucas Sacatepéquez	san lucas sacatepequez	GT		14.611	-90.657	0
+P	San Pablo Jocopilas		GT		14.589	-91.452	0
+P	Salcajá	salcaja	GT		14.880	-91.457	0
+P	Guazacapán	guazacapan	GT		14.074	-90.417	0
+P	Puerto San José	puerto san jose	GT		13.922	-90.819	0
+P	Palencia		GT		14.667	-90.357	0
+P	Tiquisate		GT		14.284	-91.361	0
+P	Jocotenango		GT		14.578	-90.738	0
+P	El Asintal		GT		14.596	-91.727	0
+P	Santa Bárbara	santa barbara	GT		14.436	-91.227	0
+P	Cacahoatán	cacahoatan	MX		14.992	-92.164	0
+P	La Esperanza		GT		14.872	-91.561	0
+P	Sanarate		GT		14.788	-90.199	0
+P	El Tejar		GT		14.647	-90.791	0
+P	El Palmar		GT		14.651	-91.578	0
+P	San Andrés Xecul	san andres xecul	GT		14.905	-91.483	0

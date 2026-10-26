@@ -1,0 +1,285 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Manila	480	
+C	PH	Philippines	mwl	s
+B	4
+P	Quezon City		PH		14.649	121.051	0
+P	Caloocan		PH		14.650	120.968	0
+P	Manila		PH		14.604	120.982	0
+P	Taguig		PH		14.524	121.079	0
+P	Cebu City		PH		10.317	123.891	0
+P	Antipolo		PH		14.626	121.123	0
+P	Pasig City		PH		14.587	121.061	0
+P	Valenzuela		PH		14.700	120.967	0
+P	Paranaque City		PH		14.482	121.017	0
+P	Las Piñas	las pinas	PH		14.451	120.983	0
+P	Calamba		PH		14.212	121.165	0
+P	Muntinlupa		PH		14.390	121.047	0
+P	Makati City		PH		14.550	121.033	0
+P	Lapu-Lapu City	lapu lapu city	PH		10.310	123.949	0
+P	Imus		PH		14.430	120.937	0
+P	Iloilo		PH		10.697	122.564	0
+P	Marikina City		PH		14.648	121.113	0
+P	Mandaluyong City		PH		14.583	121.041	0
+P	Bacolod City		PH		10.667	122.950	0
+P	Mansilingan		PH		10.631	122.979	0
+P	Dasmariñas	dasmarinas	PH		14.329	120.937	0
+P	Mandaluyong		PH		14.578	121.035	0
+P	Pasay		PH		14.537	121.001	0
+P	Malabon		PH		14.673	120.940	0
+P	San Jose del Monte		PH		14.814	121.045	0
+P	Bacoor		PH		14.459	120.939	0
+P	San Pedro		PH		14.360	121.047	0
+P	Mandaue City		PH		10.324	123.922	0
+P	Cabuyao		PH		14.273	121.126	0
+P	San Pablo		PH		14.068	121.326	0
+P	Biñan	binan	PH		14.343	121.081	0
+P	Cainta		PH		14.579	121.122	0
+P	Malolos		PH		14.844	120.810	0
+P	Bagong Silang		PH		14.778	121.045	0
+P	Navotas		PH		14.667	120.950	0
+P	Ormoc		PH		11.006	124.608	0
+P	Batangas		PH		13.757	121.058	0
+P	Taytay		PH		14.559	121.133	0
+P	Lucena		PH		13.931	121.617	0
+P	Meycauayan		PH		14.737	120.961	0
+P	Olongapo		PH		14.829	120.283	0
+P	Binangonan		PH		14.465	121.193	0
+P	Santa Rosa		PH		14.312	121.111	0
+P	Commonwealth		PH		14.697	121.080	0
+P	Lipa City		PH		13.941	121.163	0
+P	Toledo		PH		10.377	123.639	0
+P	Bago City		PH		10.533	122.833	0
+P	Sorsogon		PH		12.974	123.993	0
+P	Roxas City		PH		11.585	122.751	0
+P	Legaspi		PH		13.141	123.741	0
+P	Naga		PH		13.619	123.181	0
+P	Pandi		PH		14.865	120.957	0
+P	Mariveles		PH		14.434	120.486	0
+P	Guyong		PH		14.836	120.978	0
+P	San Jose		PH		12.353	121.068	0
+P	Norzagaray		PH		14.911	121.049	0
+P	Naga		PH		10.209	123.758	0
+P	Candelaria		PH		13.931	121.423	0
+P	Baliuag		PH		14.955	120.897	0
+P	Angono		PH		14.527	121.154	0
+P	Rodriguez		PH		14.760	121.200	0
+P	San Mateo		PH		14.698	121.124	0
+P	San Juan		PH		14.600	121.033	0
+P	Talisay		PH		10.245	123.849	0
+P	Cadiz		PH		10.947	123.288	0
+P	Rosario		PH		13.632	121.221	0
+P	Pulong Santa Cruz		PH		14.273	121.076	0
+P	Santa Cruz		PH		14.600	120.983	0
+P	Poblacion		PH		14.379	121.025	0
+P	Hagonoy		PH		14.834	120.733	0
+P	Calumpit		PH		14.916	120.766	0
+P	Apalit		PH		14.953	120.770	0
+P	Plaridel		PH		14.887	120.857	0
+P	Silang		PH		14.216	120.971	0
+P	Guiguinto		PH		14.833	120.883	0
+P	Himamaylan		PH		10.099	122.871	0
+P	Los Baños	los banos	PH		14.170	121.242	0
+P	Cavite City		PH		14.484	120.899	0
+P	Tayabas		PH		14.026	121.593	0
+P	Iriga City		PH		13.432	123.412	0
+P	Carmona		PH		14.313	121.058	0
+P	Pulilan		PH		14.902	120.849	0
+P	Talisay		PH		10.738	122.967	0
+P	Santa Cruz		PH		14.281	121.416	0
+P	Catbalogan		PH		11.775	124.886	0
+P	Bagong Silangan		PH		14.706	121.108	0
+P	Tanza		PH		14.675	120.939	0
+P	Putatan		PH		14.399	121.050	0
+P	Bocaue		PH		14.798	120.926	0
+P	Catarman		PH		12.499	124.638	0
+P	Escalante		PH		10.840	123.499	0
+P	General Trias		PH		14.387	120.882	0
+P	Daanbantayan		PH		11.247	124.015	0
+P	Banco Filipino Homes		PH		14.434	121.022	0
+P	Sablayan		PH		12.835	120.769	0
+P	Calauan		PH		14.150	121.315	0
+P	Polangui		PH		13.292	123.486	0
+P	Kalibo (poblacion)	kalibo poblacion	PH		11.706	122.364	0
+P	Calabanga		PH		13.707	123.209	0
+P	Tagaytay		PH		14.095	120.934	0
+P	Bantayan		PH		11.168	123.722	0
+P	Victorias		PH		10.902	123.070	0
+P	Binonga		PH		10.772	122.982	0
+P	Marilao		PH		14.758	120.948	0
+P	Bulacan		PH		14.793	120.879	0
+P	Pagbilao		PH		13.967	121.698	0
+P	Limay		PH		14.562	120.598	0
+P	Bustos		PH		14.958	120.918	0
+P	Paco		PH		14.588	120.993	0
+P	Daet		PH		14.112	122.955	0
+P	Bagong Barrio		PH		14.666	120.993	0
+P	Virac		PH		13.585	124.237	0
+P	Kawit		PH		14.444	120.902	0
+P	Balanga		PH		14.676	120.536	0
+P	Port Area		PH		14.589	120.967	0
+P	Sagay		PH		10.945	123.424	0
+P	Danao		PH		10.521	124.027	0
+P	Mauban		PH		14.191	121.731	0
+P	Indang		PH		14.195	120.877	0
+P	Calauag		PH		13.957	122.288	0
+P	Libon		PH		13.300	123.439	0
+P	Tanauan		PH		14.086	121.150	0
+P	Calbayog City		PH		12.067	124.596	0
+P	Angat		PH		14.928	121.030	0
+P	La Carlota		PH		10.424	122.921	0
+P	Subic		PH		14.879	120.232	0
+P	Dinalupihan		PH		14.878	120.452	0
+P	Calapan		PH		13.412	121.180	0
+P	Oas		PH		13.259	123.496	0
+P	Enrique B. Magalona	enrique b magalona	PH		10.879	122.977	0
+P	Pateros		PH		14.539	121.073	0
+P	Orion		PH		14.621	120.582	0
+P	Nasugbu		PH		14.067	120.632	0
+P	Tinongan		PH		10.215	123.035	0
+P	Minglanilla		PH		10.245	123.796	0
+P	Tunasan		PH		14.379	121.052	0
+P	Gubat		PH		12.921	124.123	0
+P	Ualog		PH		10.574	123.393	0
+P	Cogan		PH		10.593	124.018	0
+P	Tanay		PH		14.497	121.285	0
+P	Obando		PH		14.710	120.936	0
+P	Balagtas		PH		14.817	120.867	0
+P	Paombong		PH		14.831	120.789	0
+P	Tabaco		PH		13.359	123.734	0
+P	Cupang		PH		14.434	121.036	0
+P	Santo Tomas		PH		14.108	121.141	0
+P	Lubao		PH		14.941	120.601	0
+P	Naic		PH		14.318	120.766	0
+P	Estancia		PH		11.455	123.152	0
+P	Burauen		PH		10.976	124.893	0
+P	Sibonga		PH		10.017	123.617	0
+P	Mercedes		PH		14.109	123.011	0
+P	Patuto		PH		14.117	120.967	0
+P	Victoria		PH		13.177	121.278	0
+P	Cardona		PH		14.486	121.228	0
+P	Balayan		PH		13.937	120.732	0
+P	Morong		PH		14.518	121.238	0
+P	Liloan		PH		10.399	123.999	0
+P	Consolacion		PH		10.377	123.957	0
+P	Inabanga		PH		10.031	124.067	0
+P	Masbate		PH		12.372	123.625	0
+P	Upper Bicutan		PH		14.500	121.051	0
+P	Noveleta		PH		14.429	120.880	0
+P	Vinzons		PH		14.174	122.907	0
+P	Sariaya		PH		13.962	121.526	0
+P	Orani		PH		14.801	120.537	0
+P	Canlaon		PH		10.387	123.223	0
+P	Amadeo		PH		14.171	120.924	0
+P	Pinamalayan		PH		13.046	121.462	0
+P	Passi		PH		11.108	122.642	0
+P	Maragondon		PH		14.273	120.738	0
+P	Masantol		PH		14.896	120.709	0
+P	Malilipot		PH		13.319	123.739	0
+P	Samal		PH		14.768	120.543	0
+P	Carcar		PH		10.106	123.640	0
+P	Mamatid		PH		14.235	121.159	0
+P	Taal		PH		13.880	120.923	0
+P	Hinigaran		PH		10.271	122.851	0
+P	San Pascual		PH		13.810	121.022	0
+P	Pantubig		PH		14.968	120.955	0
+P	Talipapa		PH		14.686	121.027	0
+P	San Antonio		PH		14.947	120.087	0
+P	Binalbagan		PH		10.195	122.858	0
+P	Bayanan		PH		14.408	121.050	0
+P	Calaca		PH		13.932	120.813	0
+P	Pandan		PH		11.745	122.100	0
+P	Mendez-Nuñez	mendez nunez	PH		14.129	120.906	0
+P	Bel Air		PH		14.559	121.026	0
+P	San Jose		PH		13.350	123.550	0
+P	Abucay		PH		14.733	120.534	0
+P	Jalajala		PH		14.353	121.323	0
+P	Teresa		PH		14.561	121.219	0
+P	Pila		PH		14.232	121.365	0
+P	Manapla		PH		10.958	123.123	0
+P	Baclaran		PH		14.532	120.994	0
+P	Hermosa		PH		14.831	120.508	0
+P	Bauan		PH		13.792	121.008	0
+P	Bay		PH		14.184	121.286	0
+P	Jetafe		PH		10.147	124.154	0
+P	Alaminos		PH		14.064	121.246	0
+P	Lucban		PH		14.114	121.556	0
+P	Paraiso		PH		10.885	123.363	0
+P	Pililla		PH		14.485	121.306	0
+P	Lumbang		PH		14.297	121.460	0
+P	Buhi		PH		13.432	123.517	0
+P	Malvar		PH		14.045	121.159	0
+P	Bagong Pagasa		PH		14.663	121.033	0
+P	Atimonan		PH		14.003	121.921	0
+P	Cordova		PH		10.244	123.942	0
+P	Bulan		PH		12.671	123.875	0
+P	Majayjay		PH		14.146	121.473	0
+P	Pulupandan		PH		10.518	122.803	0
+P	Castillejos		PH		14.934	120.198	0
+P	Paete		PH		14.365	121.483	0
+P	Catanauan		PH		13.593	122.322	0
+P	Maao		PH		10.490	122.991	0
+P	Lopez		PH		13.884	122.260	0
+P	Nabua		PH		13.408	123.372	0
+P	Concepcion Ibaba		PH		13.923	121.461	0
+P	Pangil		PH		14.403	121.465	0
+P	Ayala Alabang		PH		14.406	121.022	0
+P	Talisay		PH		14.092	121.022	0
+P	Nagcarlan		PH		14.136	121.416	0
+P	Victoria		PH		14.228	121.329	0
+P	La Castellana		PH		10.324	123.022	0
+P	General Emilio Aguinaldo		PH		14.184	120.796	0
+P	Mamburao		PH		13.223	120.596	0
+P	San Fernando		PH		10.162	123.708	0
+P	Bogo		PH		11.052	124.005	0
+P	Culion		PH		11.890	120.022	0
+P	Pinamungahan		PH		10.271	123.584	0
+P	Mansalay		PH		12.520	121.439	0
+P	Guihulñgan	guihulngan	PH		10.119	123.273	0
+P	Apas		PH		10.341	123.903	0
+P	Gumaca		PH		13.921	122.100	0
+P	Bignay Uno		PH		13.864	121.488	0
+P	Balamban		PH		10.504	123.716	0
+P	Loma de Gato		PH		14.789	120.999	0
+P	Malanday		PH		14.707	121.131	0
+P	Cuenca		PH		13.902	121.052	0
+P	Inopacan		PH		10.500	124.740	0
+P	Jose Pañganiban	jose panganiban	PH		14.291	122.692	0
+P	Sasmuan		PH		14.944	120.623	0
+P	Goa		PH		13.698	123.489	0
+P	Irosin		PH		12.700	124.032	0
+P	Binondo		PH		14.603	120.974	0
+P	Taloc		PH		10.575	122.895	0
+P	Baras		PH		14.517	121.266	0
+P	Sampaloc		PH		14.540	121.360	0
+P	Ternate		PH		14.290	120.717	0
+P	Pacol		PH		10.450	122.817	0
+P	Suay		PH		10.053	122.842	0
+P	Baao		PH		13.455	123.365	0
+P	Malabanban Norte		PH		13.945	121.431	0
+P	Malanday		PH		14.717	120.958	0
+P	Sumag		PH		10.601	122.919	0
+P	Compostela		PH		10.455	124.011	0
+P	San Marcelino		PH		14.974	120.157	0
+P	Maasin		PH		10.133	124.841	0
+P	Labo		PH		14.153	122.830	0
+P	Del Remedio		PH		14.087	121.312	0
+P	Pilar		PH		14.660	120.565	0
+P	Baybay		PH		10.678	124.801	0
+P	Palo		PH		11.158	124.991	0
+P	Esperanza		PH		11.736	124.042	0
+P	Carigara		PH		11.298	124.679	0
+P	Murcia		PH		10.605	123.042	0
+P	Bato		PH		13.353	123.368	0
+P	Tiwi		PH		13.459	123.680	0
+P	Zumarraga		PH		11.639	124.842	0
+P	Aurora		PH		13.348	122.519	0
+P	Morong		PH		14.679	120.266	0
+P	Calatagan		PH		13.832	120.632	0
+P	Novaliches Proper		PH		14.723	121.046	0
+P	Isabela		PH		10.205	122.989	0
+P	Calumpang		PH		14.623	121.090	0
+P	Santa Cruz		PH		14.913	120.567	0
+P	Romblon		PH		12.575	122.271	0
+P	Tagas		PH		13.167	123.717	0
+P	Lilio		PH		14.131	121.436	0
+P	Magarao		PH		13.660	123.187	0

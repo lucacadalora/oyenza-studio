@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build addons/sholat/world.tsv.zst: the Prayer times add-on's places
-outside Indonesia (Kemenag's places.json covers Indonesia, Makkah, Madinah
-and Jeddah).
+"""Build site/places/1/: the Prayer times picker's cities outside Indonesia,
+looked up online at https://studio.oyenza.com/places/1/ (Kemenag's
+places.json, in the add-on, covers Indonesia, Makkah, Madinah and Jeddah).
 
 Cities: GeoNames' cities of 15,000 people or more (cities15000), as packed in
 the geonamescache Python package, version 3.0.2:
@@ -9,41 +9,50 @@ the geonamescache Python package, version 3.0.2:
     pip download --no-deps geonamescache==3.0.2
     unzip geonamescache-3.0.2-py3-none-any.whl 'geonamescache/data/*'
 
-GeoNames data is CC BY 4.0 (https://www.geonames.org); the add-on's
-NOTICE.txt credits it. Time zones: the IANA time zone database through
+GeoNames data is CC BY 4.0 (https://www.geonames.org); every file says so,
+and so does the picker. Time zones: the IANA time zone database through
 Python's zoneinfo; each zone's UTC offsets are written out from 2026 to 2045,
 summer time included.
 
     python3 -I tools/make_world_places.py <unzipped>/geonamescache/data
 
-writes addons/sholat/world.tsv.zst (zstd -19) and prints what it
-holds. Run it again to pick up a newer tz database or city list; then the
-add-on gets a new tag and new numbers in poni_core::addons.
+empties site/places/1/ and writes it again, then prints what it holds. Run it
+again to pick up a newer tz database or city list; the website deploy puts
+it live. The app never holds the whole list: it asks for one file at a time
+and keeps only the place picked.
 
-The file: UTF-8 lines, fields split by tabs, `#` lines are comments.
+  <ab>.txt          the places with a word of their name starting with "ab"
+                    (folded as `fold` below), for typing
+  near/<la>_<lo>.txt  the places in the 5-degree square whose south-west
+                    corner is la, lo (multiples of 5), for Use my location
+
+Each file stands alone: UTF-8 lines, fields split by tabs, `#` lines are comments.
   Z <n> <IANA name> <minutes east of UTC from 2026> [<UTC minute>=<minutes east> ...]
   C <ISO code> <country> <method> <asr: s = Syafi'i, h = Hanafi>
   A <typed name> <id in places.json>
   B <how many of the first P lines have a million people or more>
   P <name> <search key> <ISO code> <region> <lat> <lng> <zone n>
-The search key is left empty when it is the name in lowercase. P lines run
-from the most people to the fewest. A place's id in settings is "w:" and its
-lat,lng as written here (no GeoNames ids: they would make the download a
-fifth bigger), and a place whose point moves in a later list is found again
-as the nearest one.
+Z lines are the file's own clocks, numbered from 0 (zones that keep the same
+offsets share one); C lines run in code order. The search key is left empty
+when it is the name in lowercase. P lines run from the most people to the
+fewest. A place's id in settings is "w:" and its lat,lng as written here.
+A new format goes in a new folder (places/2/), so copies that read this one
+keep working.
 """
 
 import datetime as dt
 import json
 import math
-import subprocess
+import shutil
 import sys
 import unicodedata
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "addons/sholat/world.tsv.zst"
+OUT = ROOT / "site/places/1"
+# The squares Use my location reads, in degrees.
+TILE_DEG = 5
 PLACES = ROOT / "addons/sholat/places.json"
 FIRST_YEAR, END_YEAR = 2026, 2046
 
@@ -157,6 +166,16 @@ def zone_line(n: int, name: str) -> str:
     return "\t".join(["Z", str(n), name, str(first), " ".join(changes)])
 
 
+def tile(lat: float, lng: float) -> str:
+    return f"near/{math.floor(lat / TILE_DEG) * TILE_DEG}_{math.floor(lng / TILE_DEG) * TILE_DEG}"
+
+
+HEADER = (
+    "# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). "
+    f"Clocks: the IANA time zone database, {FIRST_YEAR} to {END_YEAR - 1}. Built by tools/make_world_places.py."
+)
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -179,25 +198,14 @@ def main():
         kept.append(c)
     kept.sort(key=lambda c: (-c["population"], c["geonameid"]))
 
-    zones = sorted({c["timezone"] for c in kept})
-    zone_n = {z: i for i, z in enumerate(zones)}
-    used = sorted({c["countrycode"] for c in kept})
+    # Zones that keep the same offsets share a clock; a file names each of
+    # its clocks after the zone of its biggest place on it.
+    clock_of = {}
+    for z in sorted({c["timezone"] for c in kept}):
+        _, _, _, first, changes = zone_line(0, z).split("\t")
+        clock_of[z] = (first, changes)
 
-    lines = [
-        "# Oyenza Studio, Prayer times add-on: places outside Indonesia.",
-        "# Cities: GeoNames (https://www.geonames.org), CC BY 4.0: cities of 15,000 people or more,",
-        "# from geonamescache 3.0.2. Time zones: the IANA time zone database "
-        f"({FIRST_YEAR} to {END_YEAR - 1}).",
-        "# Built by tools/make_world_places.py; the fields are described there.",
-    ]
-    lines += [zone_line(i, z) for i, z in enumerate(zones)]
-    for cc in used:
-        africa = countries[cc]["continentcode"] == "AF"
-        method = METHOD_BY_COUNTRY.get(cc, "egyptian" if africa else "mwl")
-        lines.append("\t".join(["C", cc, countries[cc]["name"], method, "h" if cc in HANAFI else "s"]))
-    lines += ["\t".join(["A", k, v]) for k, v in sorted(ALIASES.items())]
-    lines.append("\t".join(["B", str(sum(1 for c in kept if c["population"] >= 1_000_000))]))
-    seen = set()
+    rows, seen = [], set()
     for c in kept:
         name = " ".join(c["name"].split())
         key = fold(name)
@@ -207,18 +215,53 @@ def main():
         if (lat, lng) in seen:
             continue
         seen.add((lat, lng))
-        lines.append("\t".join(["P", name, "" if key == name.lower() else key, c["countrycode"], region, lat, lng, str(zone_n[c["timezone"]])]))
-    text = ("\n".join(lines) + "\n").encode()
-    # From a file, so the frame records its size and the window stays that
-    # small (the app's decoder holds one window in memory).
-    plain = OUT.with_suffix("")
-    plain.write_bytes(text)
-    subprocess.run(["zstd", "-19", "-q", "-f", str(plain), "-o", str(OUT)], check=True)
-    plain.unlink()
-    packed = OUT.read_bytes()
-    dst = sum(1 for l in lines if l.startswith("Z\t") and l.split("\t")[4])
-    print(f"{len(seen)} places in {len(used)} countries, {len(zones)} time zones ({dst} with changes)")
-    print(f"{OUT.relative_to(ROOT)}: {len(text):,} bytes, packed {len(packed):,}")
+        rows.append({"name": name, "key": key, "cc": c["countrycode"], "region": region, "lat": lat, "lng": lng,
+                     "zone": c["timezone"], "clock": clock_of[c["timezone"]], "big": c["population"] >= 1_000_000})
+
+    files: dict[str, list] = {}
+    unindexed = 0
+    for r in rows:
+        heads = {w[:2] for w in r["key"].split() if len(w) >= 2}
+        good = {h for h in heads if h.isascii() and h.isalnum()}
+        unindexed += not good
+        for h in good:
+            files.setdefault(h, []).append(r)
+        files.setdefault(tile(float(r["lat"]), float(r["lng"])), []).append(r)
+    aliases: dict[str, list] = {}
+    for typed, id_ in sorted(ALIASES.items()):
+        for h in {w[:2] for w in typed.split() if len(w) >= 2}:
+            aliases.setdefault(h, []).append((typed, id_))
+            files.setdefault(h, [])
+
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    (OUT / "near").mkdir(parents=True)
+    total = 0
+    for name, members in sorted(files.items()):
+        named = {}
+        for r in members:
+            named.setdefault(r["clock"], r["zone"])
+        own = sorted(named, key=lambda k: named[k])
+        n = {k: i for i, k in enumerate(own)}
+        lines = [HEADER]
+        lines += ["\t".join(["Z", str(i), named[k], k[0], k[1]]) for i, k in enumerate(own)]
+        for cc in sorted({r["cc"] for r in members}):
+            africa = countries[cc]["continentcode"] == "AF"
+            method = METHOD_BY_COUNTRY.get(cc, "egyptian" if africa else "mwl")
+            lines.append("\t".join(["C", cc, countries[cc]["name"], method, "h" if cc in HANAFI else "s"]))
+        lines += ["\t".join(["A", typed, id_]) for typed, id_ in aliases.get(name, [])]
+        lines.append("\t".join(["B", str(sum(1 for r in members if r["big"]))]))
+        for r in members:
+            key = "" if r["key"] == r["name"].lower() else r["key"]
+            lines.append("\t".join(["P", r["name"], key, r["cc"], r["region"], r["lat"], r["lng"], str(n[r["clock"]])]))
+        text = "\n".join(lines) + "\n"
+        (OUT / f"{name}.txt").write_text(text, encoding="utf-8")
+        total += len(text.encode())
+    names = [k for k in files if not k.startswith("near/")]
+    biggest = max(files, key=lambda k: (OUT / f"{k}.txt").stat().st_size)
+    print(f"{len(rows)} places in {len({r['cc'] for r in rows})} countries, {len(set(clock_of.values()))} clocks")
+    print(f"{OUT.relative_to(ROOT)}: {len(names)} name files, {len(files) - len(names)} squares, {total:,} bytes;"
+          f" biggest {biggest}.txt {(OUT / f'{biggest}.txt').stat().st_size:,}; {unindexed} places without a name file")
 
 
 if __name__ == "__main__":

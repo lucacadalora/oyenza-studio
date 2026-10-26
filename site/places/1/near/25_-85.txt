@@ -1,0 +1,223 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	0
+P	Miami		US	Florida	25.774	-80.194	0
+P	Tampa		US	Florida	27.948	-82.458	0
+P	Orlando		US	Florida	28.538	-81.379	0
+P	St. Petersburg	st petersburg	US	Florida	27.771	-82.679	0
+P	Hialeah		US	Florida	25.858	-80.278	0
+P	Fort Lauderdale		US	Florida	26.122	-80.143	0
+P	Cape Coral		US	Florida	26.563	-81.950	0
+P	Pembroke Pines		US	Florida	26.003	-80.224	0
+P	Port Saint Lucie		US	Florida	27.294	-80.350	0
+P	Hollywood		US	Florida	26.011	-80.149	0
+P	Gainesville		US	Florida	29.652	-82.325	0
+P	Miramar		US	Florida	25.987	-80.232	0
+P	Coral Springs		US	Florida	26.271	-80.271	0
+P	West Palm Beach		US	Florida	26.715	-80.053	0
+P	Palm Bay		US	Florida	28.034	-80.589	0
+P	Clearwater		US	Florida	27.966	-82.800	0
+P	Miami Gardens		US	Florida	25.942	-80.246	0
+P	Pompano Beach		US	Florida	26.238	-80.125	0
+P	Lakeland		US	Florida	28.039	-81.950	0
+P	Brandon		US	Florida	27.938	-82.286	0
+P	Davie		US	Florida	26.063	-80.233	0
+P	Spring Hill		US	Florida	28.477	-82.525	0
+P	Boca Raton		US	Florida	26.359	-80.083	0
+P	Plantation		US	Florida	26.134	-80.232	0
+P	Miami Beach		US	Florida	25.791	-80.130	0
+P	Deltona		US	Florida	28.901	-81.264	0
+P	Lehigh Acres		US	Florida	26.625	-81.625	0
+P	Melbourne		US	Florida	28.084	-80.608	0
+P	Sunrise		US	Florida	26.134	-80.113	0
+P	Palm Coast		US	Florida	29.585	-81.208	0
+P	Largo		US	Florida	27.910	-82.788	0
+P	Homestead		US	Florida	25.469	-80.478	0
+P	Kendall		US	Florida	25.679	-80.317	0
+P	Deerfield Beach		US	Florida	26.318	-80.100	0
+P	Town 'n' Country	town n country	US	Florida	28.011	-82.577	0
+P	Alafaya		US	Florida	28.564	-81.211	0
+P	Doral		US	Florida	25.820	-80.355	0
+P	Fort Myers		US	Florida	26.622	-81.841	0
+P	Boynton Beach		US	Florida	26.525	-80.066	0
+P	Daytona Beach		US	Florida	29.211	-81.023	0
+P	Lauderhill		US	Florida	26.140	-80.213	0
+P	Riverview		US	Florida	27.866	-82.326	0
+P	Weston		US	Florida	26.100	-80.400	0
+P	Kissimmee		US	Florida	28.305	-81.417	0
+P	Delray Beach		US	Florida	26.461	-80.073	0
+P	Tamarac		US	Florida	26.213	-80.250	0
+P	Carol City		US	Florida	25.941	-80.246	0
+P	Jupiter		US	Florida	26.934	-80.094	0
+P	Wellington		US	Florida	26.659	-80.241	0
+P	North Miami		US	Florida	25.890	-80.187	0
+P	North Port		US	Florida	27.044	-82.236	0
+P	West Hollywood		US	Florida	26.021	-80.184	0
+P	Pine Hills		US	Florida	28.558	-81.453	0
+P	Port Orange		US	Florida	29.138	-80.996	0
+P	Fountainebleau		US	Florida	25.773	-80.348	0
+P	Coconut Creek		US	Florida	26.252	-80.179	0
+P	Ocala		US	Florida	29.187	-82.140	0
+P	Sanford		US	Florida	28.801	-81.273	0
+P	Palm Harbor		US	Florida	28.078	-82.764	0
+P	Margate		US	Florida	26.245	-80.206	0
+P	Kendale Lakes		US	Florida	25.708	-80.407	0
+P	Tamiami		US	Florida	25.759	-80.398	0
+P	Sarasota		US	Florida	27.336	-82.531	0
+P	Bradenton		US	Florida	27.499	-82.575	0
+P	Port Charlotte		US	Florida	26.976	-82.091	0
+P	Allapattah		US	Florida	25.815	-80.224	0
+P	Little Havana		US	Florida	25.768	-80.233	0
+P	Poinciana		US	Florida	28.140	-81.458	0
+P	Palm Beach Gardens		US	Florida	26.823	-80.139	0
+P	Bonita Springs		US	Florida	26.340	-81.779	0
+P	Pinellas Park		US	Florida	27.843	-82.700	0
+P	The Villages		US	Florida	28.934	-81.960	0
+P	Coral Gables		US	Florida	25.721	-80.268	0
+P	The Hammocks		US	Florida	25.671	-80.445	0
+P	Flagami		US	Florida	25.762	-80.316	0
+P	Apopka		US	Florida	28.676	-81.512	0
+P	Country Club		US	Florida	25.948	-80.317	0
+P	Cutler Bay		US	Florida	25.578	-80.338	0
+P	Titusville		US	Florida	28.612	-80.808	0
+P	Fort Pierce		US	Florida	27.447	-80.326	0
+P	Oakland Park		US	Florida	26.172	-80.132	0
+P	Wesley Chapel		US	Florida	28.240	-82.328	0
+P	North Miami Beach		US	Florida	25.933	-80.163	0
+P	North Lauderdale		US	Florida	26.217	-80.226	0
+P	Ocoee		US	Florida	28.569	-81.544	0
+P	Altamonte Springs		US	Florida	28.661	-81.366	0
+P	University		US	Florida	28.074	-82.439	0
+P	Ormond Beach		US	Florida	29.286	-81.056	0
+P	Carrollwood Village		US	Florida	28.068	-82.521	0
+P	Winter Garden		US	Florida	28.565	-81.586	0
+P	Hallandale Beach		US	Florida	25.981	-80.148	0
+P	North Fort Myers		US	Florida	26.667	-81.880	0
+P	Princeton		US	Florida	25.538	-80.409	0
+P	The Acreage		US	Florida	26.794	-80.267	0
+P	Oviedo		US	Florida	28.670	-81.208	0
+P	Winter Haven		US	Florida	28.022	-81.733	0
+P	Aventura		US	Florida	25.956	-80.139	0
+P	Royal Palm Beach		US	Florida	26.708	-80.231	0
+P	Lake Worth Beach		US	Florida	26.617	-80.072	0
+P	Plant City		US	Florida	28.019	-82.115	0
+P	South Miami Heights		US	Florida	25.598	-80.381	0
+P	Dunedin		US	Florida	28.020	-82.773	0
+P	Kendall West		US	Florida	25.706	-80.439	0
+P	Richmond West		US	Florida	25.610	-80.430	0
+P	Valrico		US	Florida	27.938	-82.236	0
+P	Cooper City		US	Florida	26.057	-80.272	0
+P	Egypt Lake-Leto	egypt lake leto	US	Florida	28.018	-82.506	0
+P	Saint Cloud		US	Florida	28.249	-81.281	0
+P	Lauderdale Lakes		US	Florida	26.166	-80.208	0
+P	Winter Springs		US	Florida	28.699	-81.308	0
+P	Merritt Island		US	Florida	28.359	-80.690	0
+P	West Little River		US	Florida	25.857	-80.237	0
+P	Riviera Beach		US	Florida	26.775	-80.058	0
+P	Carrollwood		US	Florida	28.050	-82.493	0
+P	Golden Glades		US	Florida	25.912	-80.200	0
+P	Greenacres City		US	Florida	26.624	-80.125	0
+P	Clermont		US	Florida	28.549	-81.773	0
+P	Land O' Lakes	land o lakes	US	Florida	28.219	-82.458	0
+P	Dania Beach		US	Florida	26.052	-80.144	0
+P	Miami Lakes		US	Florida	25.909	-80.309	0
+P	East Lake		US	Florida	28.111	-82.695	0
+P	Estero		US	Florida	26.438	-81.807	0
+P	DeLand		US	Florida	29.028	-81.303	0
+P	Parkland		US	Florida	26.310	-80.237	0
+P	Winter Park		US	Florida	28.600	-81.339	0
+P	Westchester		US	Florida	25.755	-80.327	0
+P	Lake Magdalene		US	Florida	28.074	-82.472	0
+P	Casselberry		US	Florida	28.678	-81.328	0
+P	University Park		US	Florida	25.746	-80.368	0
+P	Cutler Ridge		US	Florida	25.581	-80.347	0
+P	Leisure City		US	Florida	25.495	-80.429	0
+P	Four Corners		US	Florida	28.333	-81.647	0
+P	Buenaventura Lakes		US	Florida	28.336	-81.353	0
+P	Temple Terrace		US	Florida	28.035	-82.389	0
+P	Meadow Woods		US	Florida	28.386	-81.366	0
+P	Rockledge		US	Florida	28.351	-80.725	0
+P	Tarpon Springs		US	Florida	28.146	-82.757	0
+P	Palmetto Bay		US	Florida	25.622	-80.325	0
+P	Coral Terrace		US	Florida	25.746	-80.305	0
+P	New Smyrna Beach		US	Florida	29.026	-80.927	0
+P	Citrus Park		US	Florida	28.078	-82.570	0
+P	Boca Del Mar		US	Florida	26.345	-80.147	0
+P	Immokalee		US	Florida	26.419	-81.417	0
+P	Keystone		US	Florida	28.156	-82.621	0
+P	Sebastian		US	Florida	27.816	-80.471	0
+P	Golden Gate		US	Florida	26.188	-81.695	0
+P	Hialeah Gardens		US	Florida	25.865	-80.325	0
+P	Norland		US	Florida	25.949	-80.212	0
+P	Bayonet Point		US	Florida	28.327	-82.683	0
+P	Eloise		US	Florida	27.995	-81.738	0
+P	Palm City		US	Florida	27.168	-80.266	0
+P	Vero Beach South		US	Florida	27.616	-80.413	0
+P	East Naples		US	Florida	26.138	-81.766	0
+P	Haines City		US	Florida	28.114	-81.620	0
+P	The Crossings		US	Florida	25.671	-80.401	0
+P	East Lake-Orient Park	east lake orient park	US	Florida	27.983	-82.379	0
+P	Bloomingdale		US	Florida	27.894	-82.240	0
+P	Oak Ridge		US	Florida	28.471	-81.425	0
+P	Holiday		US	Florida	28.188	-82.740	0
+P	Palm Springs		US	Florida	26.636	-80.096	0
+P	Venice		US	Florida	27.100	-82.454	0
+P	South Bradenton		US	Florida	27.463	-82.582	0
+P	Sunny Isles Beach		US	Florida	25.951	-80.123	0
+P	Greater Northdale		US	Florida	28.105	-82.526	0
+P	Northdale		US	Florida	28.094	-82.506	0
+P	Wekiwa Springs		US	Florida	28.699	-81.426	0
+P	Leesburg		US	Florida	28.811	-81.878	0
+P	West and East Lealman		US	Florida	27.820	-82.689	0
+P	Westchase		US	Florida	28.055	-82.610	0
+P	Edgewater		US	Florida	28.989	-80.902	0
+P	Naples		US	Florida	26.142	-81.796	0
+P	Palm River-Clair Mel	palm river clair mel	US	Florida	27.924	-82.379	0
+P	Sweetwater		US	Florida	25.763	-80.373	0
+P	West Melbourne		US	Florida	28.072	-80.653	0
+P	Lake Worth Corridor		US	Florida	26.616	-80.101	0
+P	Coconut Grove		US	Florida	25.713	-80.257	0
+P	DeBary		US	Florida	28.883	-81.309	0
+P	Eustis		US	Florida	28.853	-81.685	0
+P	Lealman		US	Florida	27.821	-82.679	0
+P	Ives Estates		US	Florida	25.962	-80.177	0
+P	Pinecrest		US	Florida	25.667	-80.308	0
+P	Lutz		US	Florida	28.151	-82.461	0
+P	Sun City Center		US	Florida	27.718	-82.352	0
+P	Marion Oaks		US	Florida	29.009	-82.183	0
+P	Jasmine Estates		US	Florida	28.293	-82.690	0
+P	Bartow		US	Florida	27.896	-81.843	0
+P	Punta Gorda Isles		US	Florida	26.918	-82.078	0
+P	Belle Glade		US	Florida	26.685	-80.668	0
+P	Florida Ridge		US	Florida	27.580	-80.387	0
+P	Seminole		US	Florida	27.840	-82.791	0
+P	Punta Gorda		US	Florida	26.930	-82.045	0
+P	Cutler		US	Florida	25.615	-80.311	0
+P	Ojus		US	Florida	25.948	-80.151	0
+P	Cocoa		US	Florida	28.386	-80.742	0
+P	Marco Island		US	Florida	25.941	-81.718	0
+P	Maitland		US	Florida	28.628	-81.363	0
+P	Safety Harbor		US	Florida	27.991	-82.693	0
+P	Ruskin		US	Florida	27.721	-82.433	0
+P	Glenvar Heights		US	Florida	25.708	-80.326	0
+P	San Carlos Park		US	Florida	26.467	-81.801	0
+P	Sandalfoot Cove		US	Florida	26.339	-80.187	0
+P	Opa-locka	opa locka	US	Florida	25.902	-80.250	0
+P	Pinewood		US	Florida	25.869	-80.217	0
+P	Stuart		US	Florida	27.198	-80.253	0
+P	Sunset		US	Florida	25.706	-80.352	0
+P	Vero Beach		US	Florida	27.639	-80.397	0
+P	Bayshore Gardens		US	Florida	27.425	-82.590	0
+P	Lake Mary		US	Florida	28.759	-81.318	0
+P	Country Walk		US	Florida	25.634	-80.432	0
+P	Southchase		US	Florida	28.393	-81.383	0
+P	New Port Richey		US	Florida	28.244	-82.719	0
+P	Lake Wales		US	Florida	27.901	-81.586	0
+P	Tavares		US	Florida	28.804	-81.726	0
+P	Lake Butler		US	Florida	28.502	-81.541	0
+P	Iona		US	Florida	26.520	-81.964	0
+P	Brownsville		US	Florida	25.822	-80.241	0
+P	West Park		US	Florida	25.985	-80.199	0
+P	Three Lakes		US	Florida	25.642	-80.398	0
+P	Auburndale		US	Florida	28.065	-81.789	0

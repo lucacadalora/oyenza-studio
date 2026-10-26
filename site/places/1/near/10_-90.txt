@@ -1,0 +1,121 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Managua	-360	
+C	CR	Costa Rica	mwl	s
+C	GT	Guatemala	mwl	s
+C	HN	Honduras	mwl	s
+C	NI	Nicaragua	mwl	s
+C	SV	El Salvador	mwl	s
+B	0
+P	Managua		NI		12.133	-86.250	0
+P	Tegucigalpa		HN		14.082	-87.207	0
+P	San Salvador		SV		13.689	-89.187	0
+P	Soyapango		SV		13.710	-89.140	0
+P	San Miguel		SV		13.483	-88.182	0
+P	Danlí	danli	HN		14.033	-86.583	0
+P	Santa Ana		SV		13.988	-89.557	0
+P	Mejicanos		SV		13.724	-89.188	0
+P	Jalapa		GT		14.635	-89.991	0
+P	Jutiapa		GT		14.285	-89.888	0
+P	León	leon	NI		12.435	-86.879	0
+P	Catacamas		HN		14.851	-85.894	0
+P	Masaya		NI		11.973	-86.096	0
+P	Siguatepeque		HN		14.597	-87.831	0
+P	Chinandega		NI		12.630	-87.131	0
+P	Santa Tecla		SV		13.677	-89.283	0
+P	Apopa		SV		13.807	-89.179	0
+P	Chiquimula		GT		14.801	-89.546	0
+P	Matagalpa		NI		12.928	-85.919	0
+P	Santa Cruz de Yojoa		HN		14.981	-87.891	0
+P	Estelí	esteli	NI		13.093	-86.356	0
+P	Granada		NI		11.931	-85.954	0
+P	Ciudad Choluteca		HN		13.306	-87.179	0
+P	Delgado		SV		13.722	-89.169	0
+P	San Pedro de Copán	san pedro de copan	HN		14.617	-88.867	0
+P	Mateare		NI		12.235	-86.428	0
+P	Zacapa		GT		14.969	-89.527	0
+P	Sonsonate		SV		13.717	-89.723	0
+P	Comayagua		HN		14.456	-87.640	0
+P	Jinotega		NI		13.091	-86.002	0
+P	San Marcos		SV		13.661	-89.183	0
+P	El Viejo		NI		12.663	-87.167	0
+P	Usulután	usulutan	SV		13.345	-88.440	0
+P	Tipitapa		NI		12.197	-86.097	0
+P	Juigalpa		NI		12.106	-85.365	0
+P	Ciudad Sandino		NI		12.159	-86.344	0
+P	Cojutepeque		SV		13.720	-88.933	0
+P	Asunción Mita	asuncion mita	GT		14.334	-89.711	0
+P	Liberia		CR		10.635	-85.438	0
+P	Cuscatancingo		SV		13.727	-89.182	0
+P	Teupasenti		HN		14.217	-86.700	0
+P	San Vicente		SV		13.641	-88.785	0
+P	Zacatecoluca		SV		13.509	-88.870	0
+P	San Martín	san martin	SV		13.783	-88.917	0
+P	Ilopango		SV		13.702	-89.109	0
+P	Lepaera		HN		14.779	-88.590	0
+P	Diriamba		NI		11.858	-86.239	0
+P	Victoria		HN		14.938	-87.394	0
+P	Ahuachapán	ahuachapan	SV		13.924	-89.843	0
+P	Ocotal		NI		13.632	-86.474	0
+P	Antiguo Cuscatlán	antiguo cuscatlan	SV		13.665	-89.253	0
+P	Juticalpa		HN		14.664	-86.222	0
+P	Chichigalpa		NI		12.570	-87.028	0
+P	Villa de San Antonio		HN		14.326	-87.614	0
+P	Chalchuapa		SV		13.987	-89.681	0
+P	San José	san jose	CR		10.952	-85.136	0
+P	El Rosario		HN		14.579	-87.727	0
+P	Rivas		NI		11.440	-85.827	0
+P	San Rafael del Sur		NI		11.849	-86.438	0
+P	Jinotepe		NI		11.848	-86.199	0
+P	Boaco		NI		12.473	-85.660	0
+P	Quezaltepeque		SV		13.831	-89.272	0
+P	Santa Rosa de Copán	santa rosa de copan	HN		14.774	-88.776	0
+P	La Unión	la union	SV		13.339	-87.843	0
+P	La Iguala		HN		14.617	-88.467	0
+P	Nagarote		NI		12.266	-86.565	0
+P	Ayutuxtepeque		SV		13.735	-89.202	0
+P	San Luis Jilotepeque		GT		14.647	-89.725	0
+P	Marcovia		HN		13.288	-87.310	0
+P	Jalapa		NI		13.922	-86.123	0
+P	Sabanagrande		HN		13.808	-87.259	0
+P	La Paz Centro		NI		12.340	-86.675	0
+P	San Marcos		NI		11.909	-86.204	0
+P	Acajutla		SV		13.593	-89.828	0
+P	San Lorenzo		HN		13.424	-87.447	0
+P	Yamaranguila		HN		14.283	-88.242	0
+P	Masatepe		NI		11.914	-86.145	0
+P	Aguilares		SV		13.957	-89.190	0
+P	Esquías	esquias	HN		14.744	-87.371	0
+P	Langue		HN		13.621	-87.653	0
+P	Nandaime		NI		11.757	-86.053	0
+P	Esquipulas		GT		14.566	-89.352	0
+P	Sensuntepeque		SV		13.876	-88.627	0
+P	Somoto		NI		13.484	-86.582	0
+P	Cañas	canas	CR		10.431	-85.098	0
+P	Azacualpa		HN		14.712	-88.090	0
+P	Chalatenango		SV		14.041	-88.940	0
+P	Izalco		SV		13.745	-89.673	0
+P	Corinto		NI		12.482	-87.173	0
+P	Corquín	corquin	HN		14.567	-88.867	0
+P	Metapán	metapan	SV		14.333	-89.450	0
+P	San Rafael Oriente		SV		13.383	-88.350	0
+P	Puerto El Triunfo		SV		13.283	-88.550	0
+P	El Paraíso	el paraiso	HN		13.867	-86.550	0
+P	Colomoncagua		HN		13.950	-88.283	0
+P	Sulaco		HN		14.917	-87.267	0
+P	Atima		HN		14.933	-88.490	0
+P	La Paz		HN		14.321	-87.676	0
+P	Morocelí	moroceli	HN		14.117	-86.867	0
+P	Río Blanco	rio blanco	NI		12.934	-85.224	0
+P	La Libertad		SV		13.488	-89.322	0
+P	Cucuyagua		HN		14.648	-88.874	0
+P	Camoapa		NI		12.384	-85.513	0
+P	El Crucero		NI		11.990	-86.310	0
+P	San Francisco		SV		13.694	-88.104	0
+P	San Juan de Flores		HN		14.267	-87.033	0
+P	Belén Gualcho	belen gualcho	HN		14.483	-88.800	0
+P	Erandique		HN		14.238	-88.464	0
+P	Sonzacate		SV		13.734	-89.715	0
+P	Somotillo		NI		13.044	-86.905	0
+P	Nicoya		CR		10.150	-85.451	0
+P	Santa Bárbara	santa barbara	HN		14.922	-88.238	0
+P	Santiago de María	santiago de maria	SV		13.483	-88.467	0

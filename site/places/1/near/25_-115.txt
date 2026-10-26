@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Hermosillo	-420	
+C	MX	Mexico	mwl	s
+B	0
+P	Hermosillo		MX		29.089	-110.967	0
+P	Heroica Guaymas		MX		27.920	-110.899	0
+P	Empalme		MX		27.962	-110.814	0
+P	Ciudad Constitución	ciudad constitucion	MX		25.032	-111.663	0
+P	Miguel Alemán (La Doce)	miguel aleman la doce	MX		28.840	-111.478	0

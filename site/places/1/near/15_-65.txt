@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Guadeloupe	-240	
+C	AG	Antigua and Barbuda	mwl	s
+C	AI	Anguilla	mwl	s
+C	BL	Saint Barthelemy	mwl	s
+C	DM	Dominica	mwl	s
+C	GP	Guadeloupe	mwl	s
+C	KN	Saint Kitts and Nevis	mwl	s
+C	MF	Saint Martin	mwl	s
+C	MS	Montserrat	mwl	s
+C	SX	Sint Maarten	mwl	s
+C	VG	British Virgin Islands	mwl	s
+C	VI	U.S. Virgin Islands	mwl	s
+B	0
+P	Les Abymes		GP		16.273	-61.505	0
+P	Saint John’s	saint johns	AG		17.121	-61.843	0
+P	Saint Croix		VI		17.728	-64.747	0
+P	Baie-Mahault	baie mahault	GP		16.267	-61.585	0
+P	Le Gosier		GP		16.206	-61.493	0
+P	Petit-Bourg	petit bourg	GP		16.192	-61.591	0
+P	Sainte-Anne	sainte anne	GP		16.226	-61.381	0
+P	Le Moule		GP		16.332	-61.347	0
+P	Sainte-Rose	sainte rose	GP		16.333	-61.697	0
+P	Charlotte Amalie		VI		18.342	-64.931	0
+P	Capesterre-Belle-Eau	capesterre belle eau	GP		16.045	-61.564	0
+P	Roseau		DM		15.302	-61.388	0
+P	Pointe-à-Pitre	pointe a pitre	GP		16.236	-61.535	0
+P	Basseterre		KN		17.296	-62.725	0
+P	Basse-Terre	basse terre	GP		15.997	-61.732	0
+P	Road Town		VG		18.427	-64.621	0
+P	Gustavia		BL		17.896	-62.850	0
+P	Marigot		MF		18.068	-63.083	0
+P	The Valley		AI		18.217	-63.058	0
+P	Philipsburg		SX		18.026	-63.046	0
+P	Brades		MS		16.792	-62.211	0
+P	Plymouth		MS		16.706	-62.213	0

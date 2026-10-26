@@ -1,0 +1,211 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	1
+P	Moscow		RU		55.752	37.618	0
+P	Yaroslavl		RU		57.630	39.874	0
+P	Tver		RU		56.858	35.901	0
+P	Cherepovets		RU		59.133	37.900	0
+P	Vologda		RU		59.224	39.884	0
+P	Mar’ino	marino	RU		55.650	37.717	0
+P	Khimki		RU		55.900	37.428	0
+P	Rybinsk		RU		58.046	38.838	0
+P	Vykhino-Zhulebino	vykhino zhulebino	RU		55.702	37.812	0
+P	Zelenograd		RU		55.983	37.181	0
+P	Severnyy		RU		55.936	37.549	0
+P	Yasenevo		RU		55.607	37.520	0
+P	Podolsk		RU		55.424	37.555	0
+P	Lyublino		RU		55.677	37.760	0
+P	Mytishchi		RU		55.911	37.730	0
+P	Khoroshëvo-Mnevniki	khoroshevo mnevniki	RU		55.784	37.471	0
+P	Bibirevo		RU		55.883	37.600	0
+P	Gol’yanovo	golyanovo	RU		55.823	37.813	0
+P	Lyubertsy		RU		55.677	37.893	0
+P	Strogino		RU		55.818	37.412	0
+P	Balashikha		RU		55.795	37.948	0
+P	Zhulebino		RU		55.700	37.850	0
+P	Kolomna		RU		55.071	38.784	0
+P	Kuntsevo		RU		55.742	37.402	0
+P	Elektrostal’	elektrostal	RU		55.786	38.457	0
+P	Biryulëvo	biryulevo	RU		55.586	37.678	0
+P	Orekhovo-Borisovo	orekhovo borisovo	RU		55.613	37.726	0
+P	Novyye Kuz’minki	novyye kuzminki	RU		55.700	37.750	0
+P	Kuz’minki	kuzminki	RU		55.700	37.800	0
+P	Chertanovo Yuzhnoye		RU		55.591	37.595	0
+P	Zheleznodorozhnyy		RU		55.744	38.017	0
+P	Korolev		RU		55.914	37.826	0
+P	Odintsovo		RU		55.670	37.277	0
+P	Ramenki		RU		55.700	37.500	0
+P	Zyablikovo		RU		55.617	37.767	0
+P	Orekhovo-Borisovo Severnoye	orekhovo borisovo severnoye	RU		55.617	37.683	0
+P	Ivanovskoye		RU		55.767	37.833	0
+P	Tyoply Stan		RU		55.620	37.493	0
+P	Tsaritsyno		RU		55.625	37.650	0
+P	Veshnyaki		RU		55.724	37.820	0
+P	Presnenskiy		RU		55.759	37.558	0
+P	Zyuzino		RU		55.656	37.568	0
+P	Solntsevo		RU		55.637	37.381	0
+P	Orekhovo-Zuyevo	orekhovo zuyevo	RU		55.812	38.992	0
+P	Troparëvo	troparevo	RU		55.656	37.485	0
+P	Taganskiy		RU		55.733	37.667	0
+P	Noginsk		RU		55.865	38.449	0
+P	Novo-Peredelkino	novo peredelkino	RU		55.645	37.336	0
+P	Ochakovo-Matveyevskoye	ochakovo matveyevskoye	RU		55.684	37.447	0
+P	Shchyolkovo		RU		55.925	37.972	0
+P	Sergiyev Posad		RU		56.312	38.139	0
+P	Obninsk		RU		55.110	36.612	0
+P	Cherëmushki	cheremushki	RU		55.665	37.561	0
+P	Izmaylovo		RU		55.797	37.782	0
+P	Bogorodskoye		RU		55.814	37.721	0
+P	Pushkino		RU		55.995	37.829	0
+P	Shchukino		RU		55.800	37.450	0
+P	Brateyevo		RU		55.638	37.764	0
+P	Ryazanskiy		RU		55.733	37.767	0
+P	Novyye Cherëmushki	novyye cheremushki	RU		55.700	37.583	0
+P	Tekstil’shchiki	tekstilshchiki	RU		55.700	37.743	0
+P	Zhukovsky		RU		55.595	38.120	0
+P	Ramenskoye		RU		55.563	38.242	0
+P	Novogireyevo		RU		55.755	37.818	0
+P	Vostochnoe Degunino		RU		55.880	37.558	0
+P	Krasnogorsk		RU		55.819	37.330	0
+P	Yaroslavskiy		RU		55.883	37.717	0
+P	Lefortovo		RU		55.767	37.700	0
+P	Biryulëvo Zapadnoye	biryulevo zapadnoye	RU		55.587	37.646	0
+P	Lianozovo		RU		55.898	37.587	0
+P	Babushkin		RU		55.869	37.730	0
+P	Obruchevo		RU		55.659	37.523	0
+P	Yegor’yevsk	yegoryevsk	RU		55.380	39.041	0
+P	Klin		RU		56.332	36.729	0
+P	Fili		RU		55.745	37.488	0
+P	Reutov		RU		55.763	37.863	0
+P	Alekseyevka		RU		55.630	37.800	0
+P	Voskresensk		RU		55.313	38.691	0
+P	Nagornyy		RU		55.650	37.617	0
+P	Chekhov		RU		55.146	37.462	0
+P	Naro-Fominsk	naro fominsk	RU		55.388	36.733	0
+P	Dolgoprudnyy		RU		55.950	37.502	0
+P	Dorogomilovo		RU		55.742	37.547	0
+P	Aleksandrov		RU		56.397	38.714	0
+P	Kotlovka		RU		55.659	37.604	0
+P	gorod Solnetchnogorsk		RU		56.186	36.976	0
+P	Lobnya		RU		56.027	37.468	0
+P	Dmitrov		RU		56.345	37.520	0
+P	Dubna		RU		56.740	37.186	0
+P	Pavlovskiy Posad		RU		55.782	38.650	0
+P	Sviblovo		RU		55.850	37.633	0
+P	Ostankinskiy		RU		55.830	37.616	0
+P	Solnechnogorsk		RU		56.175	36.971	0
+P	Sokol’niki	sokolniki	RU		55.802	37.672	0
+P	Sokol		RU		55.800	37.517	0
+P	Klimovsk		RU		55.364	37.530	0
+P	Zamoskvorech’ye	zamoskvorechye	RU		55.733	37.633	0
+P	Pokrovskoye-Streshnëvo	pokrovskoye streshnevo	RU		55.808	37.458	0
+P	Altuf’yevskiy	altufyevskiy	RU		55.883	37.583	0
+P	Domodedovo		RU		55.442	37.754	0
+P	Fryazevo		RU		55.733	38.465	0
+P	Fryazino		RU		55.961	38.046	0
+P	Kimry		RU		56.875	37.360	0
+P	Levoberezhnyy		RU		55.865	37.473	0
+P	Vidnoye		RU		55.552	37.709	0
+P	Ivanteyevka		RU		55.971	37.921	0
+P	Lytkarino		RU		55.577	37.912	0
+P	Novovladykino		RU		55.850	37.583	0
+P	Vatutino		RU		55.884	37.691	0
+P	Vagonoremont		RU		55.900	37.550	0
+P	Semënovskoye	semenovskoye	RU		55.683	37.550	0
+P	Novokuz’minki	novokuzminki	RU		55.717	37.783	0
+P	Novokhovrino		RU		55.867	37.500	0
+P	Nikol’skoye	nikolskoye	RU		55.683	37.483	0
+P	Likhobory		RU		55.850	37.567	0
+P	Kozhukhovo		RU		55.706	37.676	0
+P	Kozeyevo		RU		55.867	37.617	0
+P	Metrogorodok		RU		55.810	37.787	0
+P	Dzerzhinsky		RU		55.627	37.858	0
+P	Kol’chugino	kolchugino	RU		56.304	39.377	0
+P	Tutayev		RU		57.873	39.530	0
+P	Konakovo		RU		56.702	36.773	0
+P	Dzerzhinskiy		RU		55.629	37.844	0
+P	Pereslavl’-Zalesskiy	pereslavl zalesskiy	RU		56.739	38.860	0
+P	Uglich		RU		57.523	38.323	0
+P	Troitsk		RU		55.485	37.307	0
+P	Rostokino		RU		55.833	37.667	0
+P	Krasnoznamensk		RU		55.595	37.052	0
+P	Istra		RU		55.920	36.869	0
+P	Maloyaroslavets		RU		55.015	36.472	0
+P	Yubileyny		RU		55.933	37.833	0
+P	Udomlya		RU		57.876	35.007	0
+P	Drozhzhino		RU		55.528	37.599	0
+P	Nakhabino		RU		55.849	37.178	0
+P	Mozhaysk		RU		55.502	36.027	0
+P	Likino-Dulevo	likino dulevo	RU		55.708	38.954	0
+P	Rostov Veliky		RU		57.191	39.413	0
+P	Kirzhach		RU		56.153	38.855	0
+P	Balabanovo		RU		55.182	36.661	0
+P	Shatura		RU		55.573	39.534	0
+P	Vostryakovo		RU		55.667	37.450	0
+P	Vorob’yovo	vorobyovo	RU		55.717	37.533	0
+P	Annino		RU		55.583	37.600	0
+P	Petrovskaya		RU		55.550	37.783	0
+P	Nikulino		RU		55.669	37.466	0
+P	Mikhalkovo		RU		55.683	37.433	0
+P	Matveyevskoye		RU		55.711	37.475	0
+P	Luzhniki		RU		55.716	37.554	0
+P	Leonovo		RU		55.850	37.650	0
+P	Leninskiye Gory		RU		55.700	37.567	0
+P	Kuskovo		RU		55.738	37.795	0
+P	Kur’yanovo	kuryanovo	RU		55.656	37.701	0
+P	Kolomenskoye		RU		55.667	37.683	0
+P	Davydkovo		RU		55.718	37.473	0
+P	Amin’yevo	aminyevo	RU		55.700	37.467	0
+P	Annino		RU		55.583	37.260	0
+P	Zagor’ye	zagorye	RU		55.577	37.667	0
+P	Kapotnya		RU		55.638	37.793	0
+P	Tomilino		RU		55.656	37.947	0
+P	Bezhetsk		RU		57.784	36.701	0
+P	Shcherbinka		RU		55.498	37.558	0
+P	Dedovsk		RU		55.869	37.122	0
+P	Zarya		RU		55.755	38.096	0
+P	Kubinka		RU		55.580	36.704	0
+P	Krasnoarmeysk		RU		56.100	38.133	0
+P	Yushkovo		RU		55.557	36.972	0
+P	Volokolamsk		RU		56.034	35.969	0
+P	Kabanovo		RU		55.748	38.935	0
+P	Losino-Petrovskiy	losino petrovskiy	RU		55.870	38.193	0
+P	Staraya Kupavna		RU		55.808	38.181	0
+P	Roshal’	roshal	RU		55.669	39.875	0
+P	Sheksna		RU		59.210	38.511	0
+P	Khot'kovo	khotkovo	RU		56.257	37.995	0
+P	Elektrogorsk		RU		55.884	38.786	0
+P	Chernogolovka		RU		56.001	38.365	0
+P	Zavety Il’icha	zavety ilicha	RU		56.043	37.852	0
+P	Slobodka		RU		55.867	37.583	0
+P	Setun’	setun	RU		55.717	37.417	0
+P	Rublëvo	rublevo	RU		55.785	37.355	0
+P	Kastanayevo		RU		55.717	37.500	0
+P	Elektrougli		RU		55.724	38.209	0
+P	Andreyevskoye		RU		55.555	37.926	0
+P	Vnukovo		RU		55.612	37.296	0
+P	Yur’yev-Pol’skiy	yuryev polskiy	RU		56.505	39.679	0
+P	Monino		RU		55.842	38.194	0
+P	Kurovskoye		RU		55.582	38.920	0
+P	Skhodnya		RU		55.948	37.298	0
+P	Bronnitsy		RU		55.421	38.262	0
+P	Malakhovka		RU		55.648	38.025	0
+P	Kotel’niki	kotelniki	RU		55.654	37.862	0
+P	Beloozyorskiy		RU		55.460	38.444	0
+P	Otradnoye		RU		55.867	37.600	0
+P	Aprelevka		RU		55.552	37.080	0
+P	Gavrilov-Yam	gavrilov yam	RU		57.303	39.853	0
+P	Tuchkovo		RU		55.601	36.468	0
+P	Lakinsk		RU		56.019	39.948	0
+P	Kashin		RU		57.359	37.608	0
+P	Vostryakovo		RU		55.399	37.808	0
+P	Zvenigorod		RU		55.734	36.859	0
+P	Golitsyno		RU		55.609	36.982	0
+P	Pestovo		RU		58.594	35.802	0
+P	Pokrov		RU		55.918	39.172	0
+P	Petushki		RU		55.927	39.461	0
+P	Karabanovo		RU		56.311	38.703	0
+P	Strunino		RU		56.373	38.583	0
+P	Moskovskiy		RU		55.599	37.355	0
+P	Sofrino		RU		56.150	37.933	0

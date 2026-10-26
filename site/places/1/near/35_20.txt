@@ -1,0 +1,87 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Tirane	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AL	Albania	mwl	s
+C	GR	Greece	mwl	s
+B	0
+P	Athens		GR		37.984	23.728	0
+P	Pátra	patra	GR		38.246	21.735	0
+P	Piraeus		GR		37.942	23.646	0
+P	Lárisa	larisa	GR		39.628	22.421	0
+P	Peristéri	peristeri	GR		38.015	23.692	0
+P	Kallithéa	kallithea	GR		37.950	23.700	0
+P	Acharnés	acharnes	GR		38.083	23.733	0
+P	Níkaia	nikaia	GR		37.967	23.650	0
+P	Glyfáda	glyfada	GR		37.863	23.758	0
+P	Volos		GR		39.369	22.948	0
+P	Ílion	ilion	GR		38.033	23.700	0
+P	Ilioúpoli	ilioupoli	GR		37.931	23.768	0
+P	Keratsíni	keratsini	GR		37.962	23.620	0
+P	Khalándrion	khalandrion	GR		38.024	23.801	0
+P	Néa Smýrni	nea smyrni	GR		37.945	23.714	0
+P	Maroúsi	marousi	GR		38.050	23.800	0
+P	Agios Dimitrios		GR		37.933	23.733	0
+P	Zográfos	zografos	GR		37.976	23.769	0
+P	Aigáleo	aigaleo	GR		37.983	23.683	0
+P	Néa Ionía	nea ionia	GR		38.036	23.757	0
+P	Ioánnina	ioannina	GR		39.663	20.852	0
+P	Palaió Fáliro	palaio faliro	GR		37.928	23.701	0
+P	Korydallós	korydallos	GR		37.985	23.647	0
+P	Tríkala	trikala	GR		39.555	21.768	0
+P	Výronas	vyronas	GR		37.961	23.753	0
+P	Agía Paraskeví	agia paraskevi	GR		38.017	23.833	0
+P	Galátsi	galatsi	GR		38.017	23.750	0
+P	Chalkída	chalkida	GR		38.464	23.603	0
+P	Petroúpolis	petroupolis	GR		38.042	23.685	0
+P	Kalamata		GR		37.039	22.113	0
+P	Chaniá	chania	GR		35.511	24.029	0
+P	Lamía	lamia	GR		38.899	22.433	0
+P	Irákleio	irakleio	GR		38.053	23.765	0
+P	Fylí	fyli	GR		38.102	23.669	0
+P	Kifisiá	kifisia	GR		38.074	23.811	0
+P	Agrínio	agrinio	GR		38.621	21.408	0
+P	Chaïdári	chaidari	GR		38.011	23.666	0
+P	Álimos	alimos	GR		37.910	23.724	0
+P	Ágioi Anárgyroi	agioi anargyroi	GR		38.030	23.724	0
+P	Argyroúpoli	argyroupoli	GR		37.906	23.750	0
+P	Áno Liósia	ano liosia	GR		38.083	23.700	0
+P	Kardítsa	karditsa	GR		39.365	21.922	0
+P	Rethymno		GR		35.366	24.482	0
+P	Thívai	thivai	GR		38.325	23.319	0
+P	Néa Ionía	nea ionia	GR		39.379	22.928	0
+P	Cholargós	cholargos	GR		38.000	23.800	0
+P	Vrilissia		GR		38.034	23.830	0
+P	Asprópyrgos	aspropyrgos	GR		38.061	23.590	0
+P	Kórinthos	korinthos	GR		37.940	22.951	0
+P	Gérakas	gerakas	GR		38.023	23.858	0
+P	Metamórfosi	metamorfosi	GR		38.066	23.764	0
+P	Kamaterón	kamateron	GR		38.056	23.705	0
+P	Voúla	voula	GR		37.842	23.777	0
+P	Trípoli	tripoli	GR		37.510	22.379	0
+P	Agía Varvára	agia varvara	GR		37.989	23.660	0
+P	Kaisarianí	kaisariani	GR		37.963	23.765	0
+P	Néa Filadélfeia	nea filadelfeia	GR		38.035	23.738	0
+P	Moskháton	moskhaton	GR		37.948	23.679	0
+P	Pérama	perama	GR		37.968	23.572	0
+P	Salamína	salamina	GR		37.964	23.496	0
+P	Elefsína	elefsina	GR		38.041	23.543	0
+P	Mégara	megara	GR		37.995	23.343	0
+P	Dhafní	dhafni	GR		37.950	23.734	0
+P	Melíssia	melissia	GR		38.050	23.833	0
+P	Sarandë	sarande	AL		39.875	20.005	1
+P	Pýrgos	pyrgos	GR		37.675	21.441	0
+P	Árgos	argos	GR		37.633	22.733	0
+P	Artémida	artemida	GR		37.967	23.997	0
+P	Árta	arta	GR		39.160	20.986	0
+P	Livadeiá	livadeia	GR		38.436	22.877	0
+P	Péfki	pefki	GR		38.060	23.793	0
+P	Aígio	aigio	GR		38.249	22.082	0
+P	Koropí	koropi	GR		37.899	23.872	0
+P	Néa Erythraía	nea erythraia	GR		38.093	23.822	0
+P	Néa Mákri	nea makri	GR		38.087	23.976	0
+P	Préveza	preveza	GR		38.956	20.750	0
+P	Amaliáda	amaliada	GR		37.798	21.351	0
+P	Vári	vari	GR		37.833	23.803	0
+P	Ellinikó	elliniko	GR		37.890	23.744	0
+P	Sparta		GR		37.074	22.430	0
+P	Agios Ioannis Rentis		GR		37.965	23.665	0

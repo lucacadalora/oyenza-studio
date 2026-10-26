@@ -1,0 +1,65 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Salta	-180	
+Z	1	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+C	AR	Argentina	mwl	s
+C	CL	Chile	mwl	s
+B	0
+P	Temuco		CL		-38.736	-72.597	1
+P	Concepción	concepcion	CL		-36.827	-73.050	1
+P	Talca		CL		-35.423	-71.650	1
+P	Talcahuano		CL		-36.725	-73.117	1
+P	Chillán	chillan	CL		-36.607	-72.103	1
+P	Valdivia		CL		-39.814	-73.246	1
+P	Villa Mercedes		CL		-37.404	-71.979	1
+P	Los Ángeles	los angeles	CL		-37.470	-72.354	1
+P	San Pedro de la Paz		CL		-36.839	-73.100	1
+P	Coronel		CL		-37.034	-73.140	1
+P	Hualpén	hualpen	CL		-36.789	-73.102	1
+P	Chiguayante		CL		-36.926	-73.028	1
+P	Padre Las Casas		CL		-38.761	-72.598	1
+P	Linares		CL		-35.847	-71.593	1
+P	Tomé	tome	CL		-36.618	-72.956	1
+P	Villarrica		CL		-39.286	-72.228	1
+P	Lota		CL		-37.090	-73.158	1
+P	Penco		CL		-36.741	-72.995	1
+P	Angol		CL		-37.795	-72.716	1
+P	Constitución	constitucion	CL		-35.333	-72.412	1
+P	Molina		CL		-35.114	-71.282	1
+P	San Javier		CL		-35.595	-71.729	1
+P	San Clemente		CL		-35.538	-71.487	1
+P	Cauquenes		CL		-35.967	-72.322	1
+P	Labranza		CL		-38.765	-72.753	1
+P	Lautaro		CL		-38.531	-72.437	1
+P	Panguipulli		CL		-39.644	-72.333	1
+P	Victoria		CL		-38.233	-72.333	1
+P	Curanilahue		CL		-37.478	-73.345	1
+P	Cañete	canete	CL		-37.800	-73.383	1
+P	Zapala		AR		-38.901	-70.067	0
+P	San Carlos		CL		-36.425	-71.958	1
+P	Las Animas		CL		-39.809	-73.218	1
+P	Nueva Imperial		CL		-38.745	-72.950	1
+P	Chillán Viejo	chillan viejo	CL		-36.623	-72.132	1
+P	Longaví	longavi	CL		-35.965	-71.684	1
+P	Cabrero		CL		-37.034	-72.405	1
+P	Mulchén	mulchen	CL		-37.719	-72.241	1
+P	Pucón	pucon	CL		-39.282	-71.954	1
+P	Parral		CL		-36.143	-71.826	1
+P	Nacimiento		CL		-37.503	-72.673	1
+P	Coihueco		CL		-36.628	-71.831	1
+P	Arauco		CL		-37.246	-73.318	1
+P	Carahue		CL		-38.711	-73.161	1
+P	Hualqui		CL		-36.973	-72.936	1
+P	Collipulli		CL		-37.955	-72.434	1
+P	Vilcún	vilcun	CL		-38.669	-72.226	1
+P	Freire		CL		-38.953	-72.627	1
+P	Lebu		CL		-37.608	-73.654	1
+P	Pitrufquén	pitrufquen	CL		-38.986	-72.637	1
+P	Loncoche		CL		-39.367	-72.631	1
+P	Cañete	canete	CL		-37.801	-73.396	1
+P	Los Álamos	los alamos	CL		-37.628	-73.460	1
+P	Colbún	colbun	CL		-35.695	-71.406	1
+P	Quillón	quillon	CL		-36.746	-72.475	1
+P	Traiguén	traiguen	CL		-38.250	-72.670	1
+P	Coelemu		CL		-36.487	-72.703	1
+P	Cunco		CL		-38.932	-72.032	1
+P	Teodoro Schmidt		CL		-38.994	-73.089	1

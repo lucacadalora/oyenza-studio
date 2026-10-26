@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Pacific/Guam	600	
+C	GU	Guam	mwl	s
+B	0
+P	Dededo Village		GU		13.518	144.839	0
+P	Yigo Village		GU		13.536	144.889	0
+P	Tamuning-Tumon-Harmon Village	tamuning tumon harmon village	GU		13.488	144.781	0
+P	Mangilao Village		GU		13.448	144.801	0
+P	Hagåtña	hagatna	GU		13.476	144.749	0

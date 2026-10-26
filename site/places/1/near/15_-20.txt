@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Nouakchott	0	
+C	MR	Mauritania	egyptian	s
+C	SN	Senegal	egyptian	s
+B	1
+P	Nouakchott		MR		18.086	-15.979	0
+P	Saint-Louis	saint louis	SN		16.018	-16.490	0
+P	Louga		SN		15.619	-16.224	0
+P	Richard-Toll	richard toll	SN		16.462	-15.701	0
+P	Dar Naim		MR		18.108	-15.927	0
+P	Ksar		MR		18.099	-15.957	0
+P	Tevragh Zeina		MR		18.099	-15.988	0
+P	Dara		SN		15.348	-15.480	0
+P	Mboro		SN		15.141	-16.887	0
+P	Ndibène Dahra	ndibene dahra	SN		15.334	-15.477	0
+P	Mékhé	mekhe	SN		15.110	-16.622	0
+P	Tékane	tekane	MR		16.602	-15.349	0
+P	Dagana		SN		16.477	-15.600	0
+P	Kébémer	kebemer	SN		15.365	-16.434	0
+P	Linguère	linguere	SN		15.395	-15.119	0
+P	Rosso		MR		16.514	-15.805	0

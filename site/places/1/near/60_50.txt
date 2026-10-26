@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	0
+P	Syktyvkar		RU		61.664	50.816	0
+P	Ukhta		RU		63.569	53.691	0
+P	Ezhva		RU		61.813	50.728	0
+P	Sosnogorsk		RU		63.597	53.892	0
+P	Yemva		RU		62.588	50.863	0

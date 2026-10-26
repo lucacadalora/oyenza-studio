@@ -1,0 +1,112 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Manila	480	
+C	PH	Philippines	mwl	s
+B	0
+P	Angeles City		PH		15.150	120.583	0
+P	Tarlac City		PH		15.480	120.598	0
+P	Cabanatuan City		PH		15.486	120.966	0
+P	Santol		PH		15.162	120.567	0
+P	Baguio		PH		16.416	120.593	0
+P	San Fernando		PH		15.034	120.684	0
+P	Mabalacat City		PH		15.223	120.571	0
+P	Concepcion		PH		15.325	120.657	0
+P	Dagupan		PH		16.043	120.333	0
+P	Tuguegarao		PH		17.616	121.723	0
+P	Ilagan		PH		17.149	121.889	0
+P	Capas		PH		15.331	120.590	0
+P	Urdaneta		PH		15.976	120.571	0
+P	La Trinidad		PH		16.455	120.588	0
+P	Bulaon		PH		15.083	120.663	0
+P	Gapan		PH		15.307	120.946	0
+P	Bayambang		PH		15.813	120.456	0
+P	Tabuk		PH		17.474	121.468	0
+P	Tabuk		PH		17.408	121.278	0
+P	Laoag		PH		18.198	120.596	0
+P	Santiago		PH		16.688	121.549	0
+P	Paniqui		PH		15.669	120.581	0
+P	Calasiao		PH		16.011	120.360	0
+P	Mangaldan		PH		16.070	120.403	0
+P	Arayat		PH		15.150	120.770	0
+P	Muñoz	munoz	PH		15.716	120.903	0
+P	San Fernando		PH		16.616	120.317	0
+P	Bamban		PH		15.274	120.567	0
+P	Bauang		PH		16.531	120.333	0
+P	Alicia		PH		16.779	121.697	0
+P	La Paz		PH		15.441	120.729	0
+P	Solana		PH		17.653	121.691	0
+P	Bongabon		PH		15.632	121.145	0
+P	San Leonardo		PH		15.363	120.964	0
+P	Magalang		PH		15.215	120.660	0
+P	Aparri		PH		18.357	121.641	0
+P	Rosales		PH		15.894	120.633	0
+P	San Ildefonso		PH		15.081	120.941	0
+P	San Miguel		PH		15.142	120.976	0
+P	Villasis		PH		15.902	120.588	0
+P	Talavera		PH		15.588	120.919	0
+P	Bambang		PH		16.387	121.107	0
+P	Itogon		PH		16.364	120.677	0
+P	Manaoag		PH		16.044	120.486	0
+P	Batac City		PH		18.055	120.565	0
+P	Lingayen		PH		16.022	120.232	0
+P	Zaragoza		PH		15.449	120.796	0
+P	Cabiao		PH		15.249	120.855	0
+P	Vigan		PH		17.575	120.387	0
+P	Bangued		PH		17.608	120.638	0
+P	Bayombong		PH		16.481	121.150	0
+P	Candaba		PH		15.096	120.827	0
+P	Santa Ana		PH		15.095	120.767	0
+P	Binmaley		PH		16.032	120.269	0
+P	Mexico		PH		15.065	120.720	0
+P	Gerona		PH		15.607	120.598	0
+P	Jaen		PH		15.328	120.919	0
+P	Camiling		PH		15.687	120.413	0
+P	Papaya		PH		15.320	120.836	0
+P	Del Pilar		PH		15.036	120.699	0
+P	Bantay		PH		17.585	120.389	0
+P	Ramon		PH		16.784	121.535	0
+P	Solano		PH		16.519	121.181	0
+P	Tagudin		PH		16.936	120.444	0
+P	San Nicolas		PH		18.172	120.595	0
+P	Aliaga		PH		15.500	120.843	0
+P	San Luis		PH		15.040	120.788	0
+P	Dupax Del Norte		PH		16.308	121.106	0
+P	General Tinio		PH		15.351	121.048	0
+P	Guimba		PH		15.661	120.768	0
+P	San Narciso		PH		15.014	120.080	0
+P	Aglipay		PH		16.489	121.645	0
+P	Aringay		PH		16.394	120.355	0
+P	San Simon		PH		15.000	120.781	0
+P	Agoo		PH		16.083	120.100	0
+P	Pandacaqui		PH		15.172	120.655	0
+P	Burgos		PH		15.729	120.572	0
+P	Santa Maria		PH		16.952	120.445	0
+P	Peñaranda	penaranda	PH		15.351	121.004	0
+P	Sanchez-Mira	sanchez mira	PH		18.562	121.232	0
+P	San Antonio		PH		15.306	120.856	0
+P	Rizal		PH		15.712	121.106	0
+P	Telabastagan		PH		15.119	120.608	0
+P	Cabagan		PH		17.428	121.770	0
+P	Baggabag B		PH		16.506	121.190	0
+P	Manibaug Pasig		PH		15.096	120.564	0
+P	Pio		PH		15.047	120.519	0
+P	Palayan City		PH		15.541	121.085	0
+P	Bontoc		PH		17.087	120.977	0
+P	Botolan		PH		15.290	120.025	0
+P	Guiset East		PH		16.067	120.683	0
+P	Porac		PH		15.071	120.542	0
+P	Dupax del Sur		PH		16.284	121.090	0
+P	San Francisco		PH		15.356	120.840	0
+P	Laur		PH		15.586	121.183	0
+P	Lagawe		PH		16.800	121.119	0
+P	San Miguel		PH		15.444	120.599	0
+P	Quezon		PH		15.551	120.815	0
+P	General Mamerto Natividad		PH		15.602	121.052	0
+P	Roxas		PH		17.119	121.620	0
+P	San Mateo		PH		16.882	121.587	0
+P	San Vicente		PH		15.292	120.655	0
+P	Mankayan		PH		16.863	120.783	0
+P	Diadi		PH		16.726	121.359	0
+P	Santa Barbara		PH		16.001	120.402	0
+P	Domalanoan		PH		16.003	120.212	0
+P	Ramos		PH		15.665	120.641	0
+P	Babo-Pangulo	babo pangulo	PH		15.083	120.517	0

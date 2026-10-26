@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Lagos	60	
+Z	2	Asia/Ho_Chi_Minh	420	
+Z	3	Asia/Tashkent	300	
+C	NG	Nigeria	egyptian	s
+C	SA	Saudi Arabia	ummalqura	s
+C	TZ	Tanzania	egyptian	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+B	0
+P	Uyo		NG		5.051	7.934	1
+P	Uyovu		TZ		-3.283	31.526	0
+P	Tân Uyên	tan uyen	VN		11.084	106.788	2
+P	Uychi		UZ		41.029	71.850	3
+P	‘Uyūn al Jiwā’	uyun al jiwa	SA		26.498	43.631	0

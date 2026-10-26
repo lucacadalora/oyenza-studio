@@ -1,21 +1,10 @@
-Prayer times add-on for Oyenza Studio: what it holds and where it comes from
+Prayer times add-on for Oyen Poni: what it holds and where it comes from
 
 places.json
   Every location in Kemenag RI's (Bimas Islam) prayer schedule, named as
   Kemenag writes them, each with a reference point fitted to Kemenag's
   published 2026 schedule; plus Makkah, Madinah and Jeddah (coordinates
-  from en.wikipedia.org). Part of Oyenza Studio, under its MIT license.
-
-world.tsv.zst
-  Cities of 15,000 people or more outside Indonesia, from GeoNames
-  (https://www.geonames.org), as packed in the geonamescache package 3.0.2.
-  License: Creative Commons Attribution 4.0 International (CC BY 4.0),
-  https://creativecommons.org/licenses/by/4.0/
-  Changes: Indonesia left out (places.json holds Kemenag's own places), and
-  the places within 15 km of Makkah, Madinah and Jeddah; points rounded to
-  three decimals; each country's prayer-time method added. The time zones'
-  offsets, 2026 to 2045, come from the IANA time zone database (public
-  domain).
+  from en.wikipedia.org). Part of Oyen Poni, under its MIT license.
 
 adzan.m4a
   "Maghrib Adhan at the Masjid al Haram, Mecca - 25 Feb, 2012" by

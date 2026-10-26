@@ -1,0 +1,33 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Gaborone	120	
+Z	2	America/Mexico_City	-360	
+Z	3	Asia/Ho_Chi_Minh	420	
+C	BW	Botswana	egyptian	s
+C	DZ	Algeria	egyptian	s
+C	MX	Mexico	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Tlalnepantla		MX		19.540	-99.195	2
+P	Tlaquepaque		MX		20.641	-103.293	2
+P	Tlalpan		MX		19.295	-99.162	2
+P	Tláhuac	tlahuac	MX		19.287	-99.005	2
+P	Tlemcen		DZ		34.878	-1.315	0
+P	Tlaxcala		MX		19.318	-98.238	2
+P	Tlokweng		BW		-24.669	25.971	1
+P	San Bernardino Tlaxcalancingo		MX		19.029	-98.277	2
+P	Tlapa de Comonfort		MX		17.545	-98.576	2
+P	Tlapacoyan		MX		19.963	-97.211	2
+P	Tlajomulco de Zúñiga	tlajomulco de zuniga	MX		20.474	-103.447	2
+P	Bou Tlelis		DZ		35.573	-0.900	0
+P	Tizi-n-Tleta	tizi n tleta	DZ		36.546	4.057	0
+P	Tlaquiltenango		MX		18.634	-99.163	2
+P	Heroica Ciudad de Tlaxiaco		MX		17.269	-97.680	2
+P	La Magdalena Tlaltelulco		MX		19.283	-98.196	2
+P	San Francisco Tlalcilalcalpan		MX		19.295	-99.768	2
+P	Tlaltenango de Sánchez Román	tlaltenango de sanchez roman	MX		21.781	-103.304	2
+P	San Rafael Tlanalapan		MX		19.292	-98.468	2
+P	Tlokoeng		ZA		-30.693	28.506	1
+P	Santiago Tlacotepec		MX		19.227	-99.671	2
+P	Ea T’ling	ea tling	VN		12.589	107.896	3

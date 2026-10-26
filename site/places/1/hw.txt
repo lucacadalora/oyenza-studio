@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Harare	120	
+Z	1	Asia/Seoul	540	
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	ZW	Zimbabwe	egyptian	s
+B	0
+P	Hwaseong-si	hwaseong si	KR		37.207	126.817	1
+P	Hwado		KR		37.653	127.308	1
+P	Hwasŏng	hwasong	KP		41.256	129.493	1
+P	Hwadae		KP		40.838	129.497	1
+P	Hwawŏn	hwawon	KR		35.802	128.501	1
+P	Hwasun		KR		35.061	126.987	1
+P	Hwange		ZW		-18.364	26.499	0
+P	Hwangju-ŭp	hwangju up	KP		38.670	125.776	1
+P	Hwacheon		KR		38.107	127.706	1

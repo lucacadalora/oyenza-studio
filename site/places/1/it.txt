@@ -1,0 +1,177 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Lagos	60	
+Z	3	Africa/Nairobi	180	
+Z	4	America/Bogota	-300	
+Z	5	America/Manaus	-240	
+Z	6	America/Mexico_City	-360	
+Z	7	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	8	America/Sao_Paulo	-180	
+Z	9	Asia/Bangkok	420	
+Z	10	Asia/Kathmandu	345	
+Z	11	Asia/Kolkata	330	
+Z	12	Asia/Manila	480	
+Z	13	Asia/Tokyo	540	
+Z	14	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AR	Argentina	mwl	s
+C	BR	Brazil	mwl	s
+C	CO	Colombia	mwl	s
+C	DE	Germany	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	GT	Guatemala	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NP	Nepal	mwl	s
+C	PH	Philippines	mwl	s
+C	PY	Paraguay	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	US	United States	moonsighting	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Itabashi		JP		35.749	139.715	13
+P	Itaquaquecetuba		BR		-23.486	-46.348	8
+P	Itagüí	itagui	CO		6.185	-75.599	4
+P	Itapevi		BR		-23.549	-46.934	8
+P	Itaboraí	itaborai	BR		-22.744	-42.859	8
+P	Itaquera		BR		-23.532	-46.444	8
+P	Itabuna		BR		-14.786	-39.280	8
+P	Itaim Paulista		BR		-23.503	-46.386	8
+P	Itami		JP		34.784	135.401	13
+P	Cachoeiro de Itapemirim		BR		-20.849	-41.113	8
+P	Ituzaingó	ituzaingo	AR		-27.585	-56.687	8
+P	Itapecerica da Serra		BR		-23.717	-46.849	8
+P	Itapetininga		BR		-23.592	-48.053	8
+P	Itajaí	itajai	BR		-26.908	-48.662	8
+P	Itu		BR		-23.264	-47.299	8
+P	Itapipoca		BR		-3.494	-39.579	8
+P	Itaguaí	itaguai	BR		-22.852	-43.775	8
+P	Itaituba		BR		-4.276	-55.984	8
+P	Itatiba		BR		-23.006	-46.839	8
+P	Itabira		BR		-19.619	-43.227	8
+P	Itacoatiara		BR		-3.143	-58.444	5
+P	Itaperuna		BR		-21.205	-41.888	8
+P	Itabaiana		BR		-10.685	-37.425	8
+P	Itanhaém	itanhaem	BR		-24.183	-46.789	8
+P	Ituiutaba		BR		-18.974	-49.462	8
+P	Itaim Bibi		BR		-23.586	-46.682	8
+P	Itārsi	itarsi	IN		22.615	77.762	11
+P	Itoshima		JP		33.542	130.184	13
+P	Itaúna	itauna	BR		-20.075	-44.576	8
+P	Itajubá	itajuba	BR		-22.426	-45.453	8
+P	Itapeva		BR		-23.982	-48.876	8
+P	Itumbiara		BR		-18.419	-49.215	8
+P	Ītāy al Bārūd	itay al barud	EG		30.887	30.667	0
+P	Itapema		BR		-27.090	-48.611	8
+P	Iţsā	itsa	EG		29.238	30.789	0
+P	Itapira		BR		-22.436	-46.822	8
+P	Itō	ito	JP		34.967	139.083	13
+P	Itapetinga		BR		-15.249	-40.248	8
+P	Itapoã	itapoa	BR		-15.749	-47.769	8
+P	Itaberaba		BR		-12.527	-40.307	8
+P	Itauguá	itaugua	PY		-25.393	-57.354	8
+P	Itaitinga		BR		-3.969	-38.528	8
+P	Itoman		JP		26.126	127.669	13
+P	Itapecuru Mirim		BR		-3.393	-44.359	8
+P	Itogon		PH		16.364	120.677	12
+P	Itamaraju		BR		-17.039	-39.531	8
+P	Itanagar		IN		27.087	93.610	11
+P	Itabirito		BR		-20.253	-43.801	8
+P	Itupiranga		BR		-5.135	-49.327	8
+P	Īṭahari̇̄	itahari	NP		26.664	87.274	10
+P	São Francisco de Itabapoana	sao francisco de itabapoana	BR		-21.302	-40.961	8
+P	Itapagé	itapage	BR		-3.687	-39.586	8
+P	Itaberaí	itaberai	BR		-16.020	-49.810	8
+P	Itararé	itarare	BR		-24.113	-49.332	8
+P	Itarema		BR		-2.920	-39.915	8
+P	Iten		KE		0.670	35.508	3
+P	Itoigawa		JP		37.033	137.850	13
+P	Itabaianinha		BR		-11.274	-37.790	8
+P	Itapemirim		BR		-21.011	-40.834	8
+P	Itápolis	itapolis	BR		-21.596	-48.813	8
+P	Iturama		BR		-19.728	-50.196	8
+P	Ituverava		BR		-20.339	-47.781	8
+P	Bom Jesus do Itabapoana		BR		-21.134	-41.680	8
+P	Itambé	itambe	BR		-7.410	-35.113	8
+P	Itu		NG		5.201	7.984	2
+P	Itaqui		BR		-29.125	-56.553	8
+P	Itaporanga d'Ajuda	itaporanga dajuda	BR		-10.998	-37.311	8
+P	Itiúba	itiuba	BR		-10.692	-39.854	8
+P	Itaíba	itaiba	BR		-8.947	-37.423	8
+P	Itzehoe		DE		53.921	9.515	14
+P	Itamarandiba		BR		-17.857	-42.859	8
+P	Itatiaia		BR		-22.496	-44.563	8
+P	Nueva Italia de Ruiz		MX		19.025	-102.093	6
+P	Itampolo		MG		-24.683	43.950	3
+P	Itapicuru		BR		-11.317	-38.233	8
+P	Itaperuçu	itaperucu	BR		-25.220	-49.348	8
+P	Īteya	iteya	ET		8.133	39.233	3
+P	Ithaca		US	New York	42.441	-76.497	7
+P	Itapoá	itapoa	BR		-26.117	-48.616	8
+P	Itabela		BR		-16.575	-39.553	8
+P	Itapissuma		BR		-7.776	-34.892	8
+P	Itacaré	itacare	BR		-14.279	-38.996	8
+P	Itako		JP		35.933	140.550	13
+P	Ituporanga		BR		-27.414	-49.602	8
+P	Itapuranga		BR		-15.562	-49.949	8
+P	Ilha de Itamaracá	ilha de itamaraca	BR		-7.748	-34.826	8
+P	Itogawa		JP		34.026	135.253	13
+P	Itaí	itai	BR		-23.418	-49.091	8
+P	San Andrés Itzapa	san andres itzapa	GT		14.622	-90.843	6
+P	Itsukaichi		JP		35.725	139.218	13
+P	Iturrama		ES		42.808	-1.658	14
+P	Itambé	itambe	BR		-15.245	-40.624	8
+P	Santa Terezinha de Itaipu		BR		-25.440	-54.402	8
+P	Itaporã	itapora	BR		-22.079	-54.789	5
+P	Itigi		TZ		-5.700	34.483	3
+P	Itaporanga		BR		-7.304	-38.150	8
+P	Itsoseng		ZA		-26.082	25.881	1
+P	Ituango		CO		7.171	-75.764	4
+P	Itaocara		BR		-21.669	-42.076	8
+P	San José Iturbide	san jose iturbide	MX		21.000	-100.386	6
+P	Itabaiana		BR		-7.329	-35.333	8
+P	Itinga do Maranhão	itinga do maranhao	BR		-4.450	-47.526	8
+P	Itezhi-Tezhi	itezhi tezhi	ZM		-15.737	26.042	1
+P	Itaiópolis	itaiopolis	BR		-26.336	-49.906	8
+P	Ituberá	itubera	BR		-13.735	-39.148	8
+P	Itapaci		BR		-14.951	-49.549	8
+P	Itapecerica		BR		-20.473	-45.126	8
+P	Itambacuri		BR		-18.031	-41.685	8
+P	Itupeva		BR		-23.153	-47.058	8
+P	Itatira		BR		-4.529	-39.622	8
+P	Itaparica		BR		-12.888	-38.679	8
+P	Itaquiraí	itaquirai	BR		-23.474	-54.185	5
+P	Itaobim		BR		-16.562	-41.503	8
+P	Itatinga		BR		-23.102	-48.616	8
+P	Lagoa do Itaenga		BR		-7.936	-35.290	8
+P	Itajuípe	itajuipe	BR		-14.678	-39.375	8
+P	Itá	ita	PY		-25.501	-57.367	8
+P	Itapororoca		BR		-6.830	-35.247	8
+P	Chichén-Itzá	chichen itza	MX		20.667	-88.567	6
+P	Itaberá	itabera	BR		-23.862	-49.137	8
+P	Ituaçu	ituacu	BR		-13.813	-41.297	8
+P	Itapiúna	itapiuna	BR		-4.564	-38.922	8
+P	Itanhém	itanhem	BR		-17.166	-40.330	8
+P	Itacarambi		BR		-15.102	-44.092	8
+P	Itarantim		BR		-15.660	-40.066	8
+P	Itajobi		BR		-21.318	-49.054	8
+P	Ayer Itam		MY		5.402	100.278	12
+P	Itapiranga		BR		-27.169	-53.712	8
+P	Itororó	itororo	BR		-15.117	-40.070	8
+P	Itaquitinga		BR		-7.668	-35.102	8
+P	Ít Ong	it ong	VN		21.517	104.027	9
+P	Itirapina		BR		-22.253	-47.823	8
+P	Itatim		BR		-12.712	-39.698	8
+P	Itariri		BR		-24.289	-47.174	8
+P	Itagibá	itagiba	BR		-14.284	-39.843	8
+P	Itanhandu		BR		-22.296	-44.935	8
+P	Isanlu-Itedoijowa	isanlu itedoijowa	NG		8.273	5.835	2

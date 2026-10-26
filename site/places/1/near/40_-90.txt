@@ -1,0 +1,290 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	1	America/Indiana/Indianapolis	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	1
+P	Chicago		US	Illinois	41.850	-87.650	0
+P	Milwaukee		US	Wisconsin	43.039	-87.906	0
+P	Madison		US	Wisconsin	43.073	-89.401	0
+P	Fort Wayne		US	Indiana	41.131	-85.129	1
+P	Aurora		US	Illinois	41.761	-88.320	0
+P	Grand Rapids		US	Michigan	42.963	-85.668	1
+P	Rockford		US	Illinois	42.271	-89.094	0
+P	Joliet		US	Illinois	41.525	-88.083	0
+P	Naperville		US	Illinois	41.786	-88.147	0
+P	Peoria		US	Illinois	40.694	-89.589	0
+P	North Peoria		US	Illinois	40.718	-89.584	0
+P	Elgin		US	Illinois	42.037	-88.281	0
+P	Green Bay		US	Wisconsin	44.519	-88.020	0
+P	South Bend		US	Indiana	41.683	-86.250	1
+P	Kenosha		US	Wisconsin	42.585	-87.821	0
+P	Waukegan		US	Illinois	42.364	-87.845	0
+P	West Town		US	Illinois	41.894	-87.675	0
+P	Champaign		US	Illinois	40.116	-88.243	0
+P	Near North Side		US	Illinois	41.900	-87.635	0
+P	Cicero		US	Illinois	41.846	-87.754	0
+P	Belmont Cragin		US	Illinois	41.932	-87.769	0
+P	Bloomington		US	Illinois	40.484	-88.994	0
+P	Racine		US	Wisconsin	42.726	-87.783	0
+P	Hammond		US	Indiana	41.583	-87.500	0
+P	Gary		US	Indiana	41.593	-87.346	0
+P	Kalamazoo		US	Michigan	42.292	-85.587	1
+P	Arlington Heights		US	Illinois	42.088	-87.981	0
+P	Evanston		US	Illinois	42.041	-87.690	0
+P	Wyoming		US	Michigan	42.913	-85.705	1
+P	Schaumburg		US	Illinois	42.033	-88.083	0
+P	Bolingbrook		US	Illinois	41.699	-88.068	0
+P	Appleton		US	Wisconsin	44.262	-88.415	0
+P	South Lawndale		US	Illinois	41.844	-87.713	0
+P	Logan Square		US	Illinois	41.923	-87.699	0
+P	West Ridge		US	Illinois	42.000	-87.693	0
+P	Waukesha		US	Wisconsin	43.012	-88.231	0
+P	Lafayette		US	Indiana	40.417	-86.875	1
+P	Muncie		US	Indiana	40.193	-85.386	1
+P	Palatine		US	Illinois	42.110	-88.034	0
+P	Lincoln Park		US	Illinois	41.922	-87.648	0
+P	Oshkosh		US	Wisconsin	44.025	-88.543	0
+P	Portage Park		US	Illinois	41.958	-87.765	0
+P	Skokie		US	Illinois	42.033	-87.733	0
+P	Janesville		US	Wisconsin	42.683	-89.019	0
+P	West Allis		US	Wisconsin	43.017	-88.007	0
+P	Noblesville		US	Indiana	40.046	-86.009	1
+P	Des Plaines		US	Illinois	42.033	-87.883	0
+P	Orland Park		US	Illinois	41.630	-87.854	0
+P	Kokomo		US	Indiana	40.486	-86.134	1
+P	Tinley Park		US	Illinois	41.573	-87.784	0
+P	Oak Lawn		US	Illinois	41.711	-87.758	0
+P	Irving Park		US	Illinois	41.953	-87.736	0
+P	Berwyn		US	Illinois	41.851	-87.794	0
+P	Chicago Lawn		US	Illinois	41.775	-87.696	0
+P	Anderson		US	Indiana	40.105	-85.680	1
+P	Uptown		US	Illinois	41.966	-87.653	0
+P	Edgewater		US	Illinois	41.983	-87.664	0
+P	Mount Prospect		US	Illinois	42.066	-87.937	0
+P	Rogers Park		US	Illinois	42.009	-87.667	0
+P	Normal		US	Illinois	40.514	-88.991	0
+P	Wheaton		US	Illinois	41.866	-88.107	0
+P	Elkhart		US	Indiana	41.682	-85.977	1
+P	Oak Park		US	Illinois	41.885	-87.784	0
+P	Hoffman Estates		US	Illinois	42.043	-88.080	0
+P	Albany Park		US	Illinois	41.968	-87.723	0
+P	Battle Creek		US	Michigan	42.317	-85.178	1
+P	South Shore		US	Illinois	41.762	-87.578	0
+P	Kentwood		US	Michigan	42.869	-85.645	1
+P	Downers Grove		US	Illinois	41.809	-88.011	0
+P	Sheboygan		US	Wisconsin	43.751	-87.715	0
+P	Mishawaka		US	Indiana	41.662	-86.159	1
+P	Portage		US	Michigan	42.201	-85.580	1
+P	Wauwatosa		US	Wisconsin	43.049	-88.008	0
+P	Glenview		US	Illinois	42.070	-87.788	0
+P	Elmhurst		US	Illinois	41.899	-87.940	0
+P	Auburn Gresham		US	Illinois	41.742	-87.653	0
+P	West Lafayette		US	Indiana	40.426	-86.908	1
+P	Brighton Park		US	Illinois	41.819	-87.699	0
+P	Lombard		US	Illinois	41.880	-88.008	0
+P	DeKalb		US	Illinois	41.929	-88.750	0
+P	Fond du Lac		US	Wisconsin	43.775	-88.439	0
+P	Ashburn		US	Illinois	41.748	-87.711	0
+P	Plainfield		US	Illinois	41.627	-88.204	0
+P	Urbana		US	Illinois	40.111	-88.207	0
+P	Bartlett		US	Illinois	41.995	-88.186	0
+P	Buffalo Grove		US	Illinois	42.151	-87.960	0
+P	Gage Park		US	Illinois	41.795	-87.696	0
+P	New City		US	Illinois	41.808	-87.656	0
+P	Lincoln Square		US	Illinois	41.976	-87.689	0
+P	Streamwood		US	Illinois	42.026	-88.178	0
+P	Crystal Lake		US	Illinois	42.241	-88.316	0
+P	Carol Stream		US	Illinois	41.913	-88.135	0
+P	New Berlin		US	Wisconsin	42.976	-88.108	0
+P	Avondale		US	Illinois	41.939	-87.711	0
+P	Romeoville		US	Illinois	41.648	-88.090	0
+P	Wausau		US	Wisconsin	44.959	-89.630	0
+P	Carpentersville		US	Illinois	42.121	-88.258	0
+P	Muskegon		US	Michigan	43.234	-86.248	1
+P	Hanover Park		US	Illinois	41.999	-88.145	0
+P	Wheeling		US	Illinois	42.139	-87.929	0
+P	Brookfield		US	Wisconsin	43.061	-88.106	0
+P	Park Ridge		US	Illinois	42.011	-87.841	0
+P	Greenfield		US	Wisconsin	42.961	-88.013	0
+P	Addison		US	Illinois	41.932	-87.989	0
+P	Calumet City		US	Illinois	41.616	-87.529	0
+P	Beloit		US	Wisconsin	42.508	-89.032	0
+P	Portage		US	Indiana	41.576	-87.176	0
+P	Westfield		US	Indiana	40.043	-86.127	1
+P	Franklin		US	Wisconsin	42.889	-88.038	0
+P	Menomonee Falls		US	Wisconsin	43.179	-88.117	0
+P	North Lawndale		US	Illinois	41.860	-87.718	0
+P	Oak Creek		US	Wisconsin	42.886	-87.863	0
+P	Merrillville		US	Indiana	41.483	-87.333	0
+P	North Center		US	Illinois	41.954	-87.679	0
+P	Lower West Side		US	Illinois	41.854	-87.666	0
+P	Glendale Heights		US	Illinois	41.915	-88.065	0
+P	Oswego		US	Illinois	41.683	-88.351	0
+P	Bridgeport		US	Illinois	41.838	-87.651	0
+P	Holland		US	Michigan	42.788	-86.109	1
+P	Northbrook		US	Illinois	42.128	-87.829	0
+P	Chicago Loop		US	Illinois	41.884	-87.633	0
+P	Woodridge		US	Illinois	41.747	-88.050	0
+P	Elk Grove Village		US	Illinois	42.004	-87.970	0
+P	Pekin		US	Illinois	40.568	-89.641	0
+P	Manitowoc		US	Wisconsin	44.089	-87.658	0
+P	Goshen		US	Indiana	41.582	-85.834	1
+P	St. Charles	st charles	US	Illinois	41.914	-88.309	0
+P	West Lawn		US	Illinois	41.773	-87.722	0
+P	Valparaiso		US	Indiana	41.473	-87.061	0
+P	Sun Prairie		US	Wisconsin	43.184	-89.214	0
+P	Greater Grand Crossing		US	Illinois	41.761	-87.615	0
+P	West Englewood		US	Illinois	41.778	-87.667	0
+P	Danville		US	Illinois	40.124	-87.630	0
+P	West Bend		US	Wisconsin	43.425	-88.183	0
+P	Mundelein		US	Illinois	42.263	-88.004	0
+P	Michigan City		US	Indiana	41.708	-86.895	0
+P	Chatham		US	Illinois	41.741	-87.613	0
+P	Gurnee		US	Illinois	42.370	-87.902	0
+P	Algonquin		US	Illinois	42.166	-88.294	0
+P	Granger		US	Indiana	41.753	-86.111	1
+P	Chicago Heights		US	Illinois	41.506	-87.636	0
+P	Niles		US	Illinois	42.019	-87.803	0
+P	Highland Park		US	Illinois	42.182	-87.800	0
+P	North Chicago		US	Illinois	42.326	-87.841	0
+P	Burbank		US	Illinois	41.734	-87.779	0
+P	Marion		US	Indiana	40.558	-85.659	1
+P	Lake in the Hills		US	Illinois	42.182	-88.330	0
+P	Crown Point		US	Indiana	41.417	-87.365	0
+P	Schererville		US	Indiana	41.479	-87.455	0
+P	East Chicago		US	Indiana	41.639	-87.455	0
+P	Hobart		US	Indiana	41.532	-87.255	0
+P	Lansing		US	Illinois	41.565	-87.539	0
+P	Glen Ellyn		US	Illinois	41.878	-88.067	0
+P	South Chicago		US	Illinois	41.740	-87.554	0
+P	Oak Forest		US	Illinois	41.603	-87.744	0
+P	Fitchburg		US	Wisconsin	42.961	-89.470	0
+P	Round Lake Beach		US	Illinois	42.372	-88.090	0
+P	West Chicago		US	Illinois	41.885	-88.204	0
+P	Wilmette		US	Illinois	42.072	-87.723	0
+P	Hyde Park		US	Illinois	41.794	-87.594	0
+P	Kankakee		US	Illinois	41.120	-87.861	0
+P	McHenry		US	Illinois	42.333	-88.267	0
+P	Stevens Point		US	Wisconsin	44.524	-89.575	0
+P	Batavia		US	Illinois	41.850	-88.313	0
+P	Vernon Hills		US	Illinois	42.219	-87.980	0
+P	Mount Pleasant		US	Wisconsin	42.697	-87.856	0
+P	Englewood		US	Illinois	41.780	-87.646	0
+P	Huntley		US	Illinois	42.168	-88.428	0
+P	Forest Hills		US	Michigan	42.959	-85.490	1
+P	New Lenox		US	Illinois	41.512	-87.966	0
+P	Neenah		US	Wisconsin	44.186	-88.463	0
+P	Melrose Park		US	Illinois	41.901	-87.857	0
+P	Harvey		US	Illinois	41.610	-87.647	0
+P	Woodstock		US	Illinois	42.315	-88.449	0
+P	Lockport		US	Illinois	41.589	-88.058	0
+P	Belvidere		US	Illinois	42.264	-88.844	0
+P	Westmont		US	Illinois	41.796	-87.976	0
+P	Elmwood Park		US	Illinois	41.921	-87.809	0
+P	Muskego		US	Wisconsin	42.906	-88.139	0
+P	De Pere		US	Wisconsin	44.449	-88.060	0
+P	Caledonia		US	Wisconsin	42.808	-87.924	0
+P	Walker		US	Michigan	43.001	-85.768	1
+P	Freeport		US	Illinois	42.297	-89.621	0
+P	Homer Glen		US	Illinois	41.600	-87.938	0
+P	Norton Shores		US	Michigan	43.169	-86.264	1
+P	Rolling Meadows		US	Illinois	42.084	-88.013	0
+P	Woodlawn		US	Illinois	41.779	-87.599	0
+P	Zion		US	Illinois	42.446	-87.833	0
+P	Maywood		US	Illinois	41.879	-87.843	0
+P	Watertown		US	Wisconsin	43.195	-88.729	0
+P	Blue Island		US	Illinois	41.657	-87.680	0
+P	Loves Park		US	Illinois	42.320	-89.058	0
+P	Morton Grove		US	Illinois	42.041	-87.783	0
+P	Dolton		US	Illinois	41.639	-87.607	0
+P	Mequon		US	Wisconsin	43.216	-88.030	0
+P	East Peoria		US	Illinois	40.666	-89.580	0
+P	Roselle		US	Illinois	41.985	-88.080	0
+P	Munster		US	Indiana	41.564	-87.513	0
+P	Lisle		US	Illinois	41.801	-88.075	0
+P	Highland		US	Indiana	41.554	-87.452	0
+P	Machesney Park		US	Illinois	42.347	-89.039	0
+P	Morgan Park		US	Illinois	41.690	-87.667	0
+P	Wasco		US	Illinois	41.938	-88.405	0
+P	Near South Side		US	Illinois	41.857	-87.625	0
+P	Grand Boulevard		US	Illinois	41.814	-87.617	0
+P	South Elgin		US	Illinois	41.994	-88.292	0
+P	Darien		US	Illinois	41.752	-87.974	0
+P	Bloomingdale		US	Illinois	41.958	-88.081	0
+P	South Holland		US	Illinois	41.601	-87.607	0
+P	Villa Park		US	Illinois	41.890	-87.989	0
+P	Park Forest		US	Illinois	41.491	-87.674	0
+P	La Porte		US	Indiana	41.608	-86.714	0
+P	Geneva		US	Illinois	41.888	-88.305	0
+P	South Milwaukee		US	Wisconsin	42.911	-87.861	0
+P	Crest Hill		US	Illinois	41.555	-88.099	0
+P	Grayslake		US	Illinois	42.344	-88.042	0
+P	Pleasant Prairie		US	Wisconsin	42.553	-87.933	0
+P	East Garfield Park		US	Illinois	41.881	-87.703	0
+P	Libertyville		US	Illinois	42.283	-87.953	0
+P	Douglas		US	Illinois	41.835	-87.618	0
+P	Lake Zurich		US	Illinois	42.197	-88.093	0
+P	Germantown		US	Wisconsin	43.229	-88.110	0
+P	Mokena		US	Illinois	41.526	-87.889	0
+P	Evergreen Park		US	Illinois	41.721	-87.702	0
+P	Montgomery		US	Illinois	41.731	-88.346	0
+P	Lake Forest		US	Illinois	42.259	-87.841	0
+P	Homewood		US	Illinois	41.557	-87.666	0
+P	Alsip		US	Illinois	41.669	-87.739	0
+P	Bellwood		US	Illinois	41.881	-87.883	0
+P	Howard		US	Wisconsin	44.544	-88.088	0
+P	West Elsdon		US	Illinois	41.794	-87.725	0
+P	Matteson		US	Illinois	41.504	-87.713	0
+P	Deerfield		US	Illinois	42.171	-87.845	0
+P	Middleton		US	Wisconsin	43.097	-89.504	0
+P	Brookfield		US	Illinois	41.824	-87.852	0
+P	Mount Greenwood		US	Illinois	41.698	-87.709	0
+P	Frankfort		US	Illinois	41.496	-87.849	0
+P	Bourbonnais		US	Illinois	41.154	-87.888	0
+P	Goodings Grove		US	Illinois	41.629	-87.931	0
+P	Round Lake		US	Illinois	42.353	-88.093	0
+P	Yorkville		US	Illinois	41.641	-88.447	0
+P	Bensenville		US	Illinois	41.955	-87.940	0
+P	Cudahy		US	Wisconsin	42.960	-87.861	0
+P	Ottawa		US	Illinois	41.346	-88.843	0
+P	Franklin Park		US	Illinois	41.935	-87.866	0
+P	Cary		US	Illinois	42.212	-88.238	0
+P	Wisconsin Rapids		US	Wisconsin	44.384	-89.817	0
+P	Logansport		US	Indiana	40.754	-86.357	1
+P	West Garfield Park		US	Illinois	41.881	-87.729	0
+P	Sycamore		US	Illinois	41.989	-88.687	0
+P	Hinsdale		US	Illinois	41.801	-87.937	0
+P	Kenwood		US	Illinois	41.809	-87.598	0
+P	Allendale		US	Michigan	42.972	-85.954	1
+P	Menasha		US	Wisconsin	44.202	-88.447	0
+P	Palos Hills		US	Illinois	41.697	-87.817	0
+P	North Aurora		US	Illinois	41.806	-88.327	0
+P	Ashwaubenon		US	Wisconsin	44.482	-88.070	0
+P	Huntington		US	Indiana	40.883	-85.497	1
+P	Country Club Hills		US	Illinois	41.568	-87.720	0
+P	Lemont		US	Illinois	41.674	-88.002	0
+P	Shorewood		US	Illinois	41.520	-88.202	0
+P	Westchester		US	Illinois	41.851	-87.882	0
+P	Washington		US	Illinois	40.704	-89.407	0
+P	Beaver Dam		US	Wisconsin	43.458	-88.837	0
+P	Jenison		US	Michigan	42.907	-85.792	1
+P	Bridgeview		US	Illinois	41.750	-87.804	0
+P	Prospect Heights		US	Illinois	42.095	-87.938	0
+P	Griffith		US	Indiana	41.528	-87.424	0
+P	Oconomowoc		US	Wisconsin	43.112	-88.499	0
+P	Morton		US	Illinois	40.613	-89.459	0
+P	Frankfort		US	Indiana	40.279	-86.511	1
+P	Dyer		US	Indiana	41.494	-87.522	0
+P	Crawfordsville		US	Indiana	40.041	-86.874	1
+P	Grandville		US	Michigan	42.910	-85.763	1
+P	Lebanon		US	Indiana	40.048	-86.469	1
+P	Kaukauna		US	Wisconsin	44.278	-88.272	0
+P	La Grange		US	Illinois	41.805	-87.869	0
+P	New Haven		US	Indiana	41.071	-85.014	1
+P	Bradley		US	Illinois	41.142	-87.861	0
+P	McKinley Park		US	Illinois	41.832	-87.674	0
+P	Dixon		US	Illinois	41.839	-89.480	0
+P	Bellevue		US	Wisconsin	44.444	-87.920	0
+P	Traverse City		US	Michigan	44.763	-85.621	1
+P	Weston		US	Wisconsin	44.891	-89.548	0
+P	Sterling		US	Illinois	41.789	-89.696	0

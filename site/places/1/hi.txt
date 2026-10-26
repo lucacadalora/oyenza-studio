@@ -1,0 +1,320 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Khartoum	120	
+Z	3	Africa/Tunis	60	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	8	America/Mazatlan	-420	
+Z	9	America/Mexico_City	-360	
+Z	10	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	11	America/Santo_Domingo	-240	
+Z	12	America/Sao_Paulo	-180	
+Z	13	America/Vancouver	-480	29549400=-420
+Z	14	Asia/Baghdad	180	
+Z	15	Asia/Bangkok	420	
+Z	16	Asia/Karachi	300	
+Z	17	Asia/Kolkata	330	
+Z	18	Asia/Manila	480	
+Z	19	Asia/Tokyo	540	
+Z	20	Asia/Yangon	390	
+Z	21	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	22	Australia/Brisbane	600	
+Z	23	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	24	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	25	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	27	Indian/Mauritius	240	
+Z	28	Pacific/Honolulu	-600	
+C	AE	United Arab Emirates	dubai	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	EG	Egypt	egyptian	s
+C	ER	Eritrea	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	HK	Hong Kong	mwl	s
+C	HT	Haiti	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	JP	Japan	mwl	s
+C	MD	Moldova	mwl	s
+C	MM	Myanmar	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NL	The Netherlands	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	QA	Qatar	qatar	s
+C	SD	Sudan	egyptian	s
+C	SY	Syria	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+B	1
+P	Hiroshima		JP		34.400	132.450	19
+P	Himeji		JP		34.817	134.700	19
+P	Higashiosaka		JP		34.667	135.583	19
+P	Al Hillah		IQ		32.464	44.420	14
+P	Hirakata		JP		34.814	135.649	19
+P	Miguel Hidalgo		MX		19.434	-99.200	9
+P	Hisar		IN		29.154	75.723	17
+P	Hiratsuka		JP		35.328	139.337	19
+P	Hialeah		US	Florida	25.858	-80.278	10
+P	Richmond Hill		CA	Ontario	43.871	-79.437	10
+P	Higashihiroshima		JP		34.409	132.737	19
+P	Hino		JP		35.673	139.400	19
+P	Zamora de Hidalgo		MX		19.984	-102.286	9
+P	Poza Rica de Hidalgo		MX		20.533	-97.459	9
+P	Hitachi		JP		36.600	140.650	19
+P	Hirosaki		JP		40.593	140.472	19
+P	Hitachi-Naka	hitachi naka	JP		36.397	140.535	19
+P	Higashimurayama		JP		35.755	139.469	19
+P	Hindupur		IN		13.828	77.491	17
+P	Al Hindīyah	al hindiyah	IQ		32.542	44.225	14
+P	Hinthada		MM		17.649	95.457	20
+P	High Wycombe		GB	England	51.629	-0.749	26
+P	Hua Hin		TH		12.571	99.959	15
+P	Salvaleón de Higüey	salvaleon de higuey	DO		18.615	-68.708	11
+P	Himamaylan		PH		10.099	122.871	18
+P	Higashikurume		JP		35.752	139.512	19
+P	Hikone		JP		35.250	136.250	19
+P	Beau Bassin-Rose Hill	beau bassin rose hill	MU		-20.233	57.466	27
+P	High Point		US	North Carolina	35.956	-80.005	10
+P	Hirnytskyi		UA		48.021	37.969	25
+P	Hindaun		IN		26.734	77.035	17
+P	Hidalgo del Parral		MX		26.930	-105.666	9
+P	Sangla Hill		PK		31.717	73.383	16
+P	Hildesheim		DE		52.151	9.951	24
+P	Hillsboro		US	Oregon	45.523	-122.990	7
+P	Hinganghāt	hinganghat	IN		20.549	78.840	17
+P	Hāgere Hiywet	hagere hiywet	ET		8.983	37.850	14
+P	Richmond Hill		US	New York	40.700	-73.831	10
+P	Spring Hill		US	Florida	28.477	-82.525	10
+P	Highlands Ranch		US	Colorado	39.554	-104.969	5
+P	High Peak		GB	England	53.368	-1.845	26
+P	Higashi-Matsuyama	higashi matsuyama	JP		36.033	139.417	19
+P	Sandy Hills		US	Utah	40.581	-111.851	5
+P	Enchanted Hills		US	New Mexico	35.337	-106.593	5
+P	Hingoli		IN		19.715	77.142	17
+P	Higashiyamato		JP		35.763	139.446	19
+P	Hilversum		NL		52.223	5.176	24
+P	Douar Hicher		TN		36.827	10.090	3
+P	Farmington Hills		US	Michigan	42.485	-83.377	10
+P	Himatnagar		IN		23.599	72.966	17
+P	Chino Hills		US	California	33.994	-117.759	7
+P	Hihyā	hihya	EG		30.671	31.588	1
+P	Rochester Hills		US	Michigan	42.658	-83.150	10
+P	Adelaide Hills		AU	South Australia	-34.911	138.707	21
+P	Rock Hill		US	South Carolina	34.925	-81.025	10
+P	Cherry Hill		US	New Jersey	39.935	-75.031	10
+P	Woodland Hills		US	California	34.168	-118.606	7
+P	North Richland Hills		US	Texas	32.834	-97.229	4
+P	Stamford Hill		GB	England	51.569	-0.073	26
+P	Forest Hills		US	New York	40.716	-73.850	10
+P	Dolores Hidalgo		MX		21.156	-100.933	9
+P	Hita		JP		33.321	130.941	19
+P	Halton Hills		CA	Ontario	43.640	-79.931	10
+P	Ciudad Hidalgo		MX		19.690	-100.555	9
+P	Pine Hills		US	Florida	28.558	-81.453	10
+P	Chapel Hill		US	North Carolina	35.913	-79.056	10
+P	North Hills		US	California	34.236	-118.485	7
+P	Hilden		DE		51.168	6.931	24
+P	Hiriyūr	hiriyur	IN		13.945	76.617	17
+P	Hidaka		JP		35.917	139.362	19
+P	Cypress Hills		US	New York	40.677	-73.891	10
+P	Highland		US	California	34.128	-117.209	7
+P	Himimachi		JP		36.856	136.988	19
+P	Hietzing		AT		48.186	16.297	24
+P	South Hill		US	Washington	47.141	-122.270	7
+P	Hilsa		IN		25.316	85.282	17
+P	Hikari		JP		33.955	131.950	19
+P	Hinckley		GB	England	52.539	-1.376	26
+P	Aspen Hill		US	Maryland	39.080	-77.073	10
+P	Hitachi-ota	hitachi ota	JP		36.551	140.528	19
+P	Cedar Hill		US	Texas	32.588	-96.956	4
+P	Higashine		JP		38.439	140.401	19
+P	Himora		ER		14.304	36.606	14
+P	Penn Hills		US	Pennsylvania	40.501	-79.839	10
+P	Hinatuan		PH		8.372	126.334	18
+P	Himi		JP		36.847	136.984	19
+P	Hilo		US	Hawaii	19.730	-155.091	28
+P	Morgan Hill		US	California	37.130	-121.654	7
+P	North Highlands		US	California	38.686	-121.372	7
+P	Joint Base Pearl Harbor Hickam		US	Hawaii	21.349	-157.947	28
+P	El Dorado Hills		US	California	38.686	-121.082	7
+P	Hisai-motomachi	hisai motomachi	JP		34.667	136.467	19
+P	Hicksville		US	New York	40.768	-73.525	10
+P	Hiré	hire	CI		6.189	-5.295	0
+P	West Hills		US	California	34.197	-118.644	7
+P	Higuerote		VE		10.483	-66.101	11
+P	Strawberry Hill		CA	British Columbia	49.133	-122.883	13
+P	Hilton Head Island		US	South Carolina	32.194	-80.738	10
+P	Casco Histórico de Vallecas	casco historico de vallecas	ES		40.349	-3.616	24
+P	Hickory		US	North Carolina	35.733	-81.341	10
+P	Hirai		JP		35.708	139.843	19
+P	Hinigaran		PH		10.271	122.851	18
+P	Castle Hill		AU	New South Wales	-33.733	151.000	23
+P	Hitachiomiya		JP		36.564	140.403	19
+P	Higashimatsushima		JP		38.409	141.179	19
+P	Hillsborough		US	New Jersey	40.478	-74.627	10
+P	Hitoyoshi		JP		32.217	130.750	19
+P	Kew Gardens Hills		US	New York	40.730	-73.823	10
+P	Hilton Head		US	South Carolina	32.216	-80.753	10
+P	Baulkham Hills		AU	New South Wales	-33.759	150.993	23
+P	Spring Hill		US	Tennessee	35.751	-86.930	4
+P	Saddat al Hindīyah	saddat al hindiyah	IQ		32.716	44.279	14
+P	Casco Histórico de Vicálvaro	casco historico de vicalvaro	ES		40.392	-3.570	24
+P	Hınıs	hinis	TR		39.358	41.693	14
+P	Hillerød	hillerod	DK		55.928	12.301	24
+P	Oxon Hill-Glassmanor	oxon hill glassmanor	US	Maryland	38.796	-76.975	10
+P	Hitchin		GB	England	51.949	-0.285	26
+P	Beverly Hills		US	California	34.074	-118.400	7
+P	Pleasant Hill		US	California	37.948	-122.061	7
+P	Hirara		JP		24.804	125.302	19
+P	Vestavia Hills		US	Alabama	33.449	-86.788	4
+P	Oak Hill		US	Virginia	38.926	-77.402	10
+P	Hikiso		JP		34.544	135.738	19
+P	Hilliard		US	Ohio	40.033	-83.158	10
+P	Higashinozoe		JP		34.718	134.882	19
+P	Suitland-Silver Hill	suitland silver hill	US	Maryland	38.847	-76.926	10
+P	Hinesville		US	Georgia	31.847	-81.596	10
+P	Ciudad Sabinas Hidalgo		MX		26.502	-100.181	9
+P	Hisua		IN		24.834	85.417	17
+P	Hizume		JP		39.550	141.167	19
+P	Hīt	hit	IQ		33.637	42.828	14
+P	Laguna Hills		US	California	33.613	-117.713	7
+P	Hispanoamérica	hispanoamerica	ES		40.455	-3.677	24
+P	Hirado		JP		33.369	129.552	19
+P	Hirakawa		JP		40.587	140.571	19
+P	Escuinapa de Hidalgo		MX		22.835	-105.778	8
+P	Burgess Hill		GB	England	50.958	-0.133	26
+P	Hīrākud	hirakud	IN		21.525	83.873	17
+P	East Hill-Meridian	east hill meridian	US	Washington	47.411	-122.174	7
+P	Highland Park		US	Illinois	42.182	-87.800	4
+P	Leighton Hill		HK		22.276	114.184	18
+P	Lake in the Hills		US	Illinois	42.182	-88.330	4
+P	Hiji		JP		33.371	131.530	19
+P	Higashikagawa		JP		34.210	134.337	19
+P	Hiratachō	hiratacho	JP		35.433	132.817	19
+P	Drexel Hill		US	Pennsylvania	39.947	-75.292	10
+P	Brierley Hill		GB	England	52.482	-2.121	26
+P	Muswell Hill		GB	England	51.591	-0.142	26
+P	Hidrolândia	hidrolandia	BR		-16.962	-49.228	12
+P	West Hill		CA	Ontario	43.767	-79.180	10
+P	Hıdırbey	hidirbey	TR		36.208	36.128	14
+P	Quakers Hill		AU	New South Wales	-33.733	150.883	23
+P	Dix Hills		US	New York	40.805	-73.336	10
+P	Hiragi		JP		34.271	134.131	19
+P	Highbury		GB	England	51.550	-0.100	26
+P	Dibba Al-Hisn	dibba al hisn	AE		25.620	56.273	27
+P	Vernon Hills		US	Illinois	42.219	-87.980	4
+P	Hikarigaoka		JP		35.757	139.627	19
+P	Forest Hills		US	Michigan	42.959	-85.490	10
+P	Tejupilco de Hidalgo		MX		18.905	-100.153	9
+P	Mint Hill		US	North Carolina	35.180	-80.647	10
+P	Panorama Hills		CA	Alberta	51.153	-114.081	6
+P	Hindley		GB	England	53.533	-2.583	26
+P	Hillside		US	New York	40.708	-73.787	10
+P	Hinjilicut		IN		19.482	84.745	17
+P	Endeavour Hills		AU	Victoria	-37.977	145.259	23
+P	Hitokawame		JP		40.636	141.445	19
+P	Hīrna	hirna	ET		9.217	41.100	14
+P	Hisor		TJ		38.525	68.551	16
+P	Hialeah Gardens		US	Florida	25.865	-80.325	10
+P	High Park-Swansea	high park swansea	CA	Ontario	43.645	-79.468	10
+P	Fountain Hills		US	Arizona	33.612	-111.717	8
+P	Al Ḩirāk	al hirak	SY		32.749	36.306	14
+P	Chestnut Hill		US	Massachusetts	42.331	-71.166	10
+P	Hinakallu		IN		12.330	76.602	17
+P	Highland		US	Indiana	41.554	-87.452	4
+P	Inglewood-Finn Hill	inglewood finn hill	US	Washington	47.720	-122.232	7
+P	Auburn Hills		US	Michigan	42.688	-83.234	10
+P	Hida		JP		36.245	137.173	19
+P	Hingorja		PK		27.211	68.416	16
+P	Yatsuomachi-higashikumisaka	yatsuomachi higashikumisaka	JP		36.567	137.133	19
+P	High Park North		CA	Ontario	43.656	-79.475	10
+P	Hillside		US	New Jersey	40.701	-74.230	10
+P	Higashigō	higashigo	JP		33.191	130.138	19
+P	Taphan Hin		TH		16.221	100.420	15
+P	Sugar Hill		US	Georgia	34.106	-84.034	10
+P	Crest Hill		US	Illinois	41.555	-88.099	4
+P	Hino		JP		35.000	136.250	19
+P	Notting Hill		GB	England	51.511	-0.206	26
+P	Makakilo-Makaīwa Hills-Kunia	makakilo makaiwa hills kunia	US	Hawaii	21.367	-158.073	28
+P	Agoura Hills		US	California	34.136	-118.775	7
+P	Hiddenhausen		DE		52.167	8.617	24
+P	Wheelers Hill		AU	Victoria	-37.900	145.183	23
+P	South San Jose Hills		US	California	34.013	-117.905	7
+P	Rose Hill		US	Virginia	38.789	-77.113	10
+P	Hirokawa		JP		33.243	130.552	19
+P	Seven Hills		AU	New South Wales	-33.783	150.933	23
+P	Hirekerūr	hirekerur	IN		14.455	75.395	17
+P	North Druid Hills		US	Georgia	33.817	-84.313	10
+P	Cuautepec de Hinojosa		MX		20.036	-98.310	9
+P	Union Hill-Novelty Hill	union hill novelty hill	US	Washington	47.679	-122.028	7
+P	Horizon Hills		MY		1.458	103.646	18
+P	Mission Hill		US	Massachusetts	42.334	-71.108	10
+P	Hinche		HT		19.141	-72.012	10
+P	Hillegom		NL		52.291	4.583	24
+P	Highton		AU	Victoria	-38.171	144.311	23
+P	Highland		US	Utah	40.425	-111.794	5
+P	Hidrolândia	hidrolandia	BR		-4.408	-40.404	12
+P	Sunnybank Hills		AU	Queensland	-27.610	153.054	22
+P	Oxon Hill		US	Maryland	38.803	-76.990	10
+P	Amersham on the Hill		GB	England	51.675	-0.607	26
+P	Hinsdale		US	Illinois	41.801	-87.937	4
+P	Palos Hills		US	Illinois	41.697	-87.817	4
+P	Broken Hill		AU	New South Wales	-31.965	141.451	21
+P	Coventry Hills		CA	Alberta	51.169	-114.059	6
+P	Al Hilāliyya	al hilaliyya	SD		14.940	33.234	2
+P	Hillside		AU	Victoria	-37.690	144.742	23
+P	Hilvan		TR		37.587	38.955	14
+P	Hillcrest Village		CA	Ontario	43.805	-79.354	10
+P	Hînceşti	hincesti	MD		46.831	28.590	25
+P	Salinas de Hidalgo		MX		22.628	-101.714	9
+P	Country Club Hills		US	Illinois	41.568	-87.720	4
+P	High Blantyre		GB	Scotland	55.784	-4.100	26
+P	Tadaoka-higashi	tadaoka higashi	JP		34.487	135.399	19
+P	Hille		DE		52.333	8.750	24
+P	Hitoto		JP		36.986	136.903	19
+P	Hidalgo		MX		25.972	-100.452	9
+P	Hillcrest Heights		US	Maryland	38.833	-76.959	10
+P	Hilchenbach		DE		50.997	8.111	24
+P	Hopatcong Hills		US	New Jersey	40.944	-74.671	10
+P	Hibbing		US	Minnesota	47.427	-92.938	4
+P	Braemar Hill		HK		22.283	114.200	18
+P	West Pennant Hills		AU	New South Wales	-33.746	151.048	23
+P	Cimarron Hills		US	Colorado	38.859	-104.699	5
+P	Highland Village		US	Texas	33.092	-97.047	4
+P	Tepatlaxco de Hidalgo		MX		19.081	-97.973	9
+P	Alexandra Hills		AU	Queensland	-27.532	153.229	22
+P	Hindoria		IN		23.903	79.569	17
+P	Cherry Hill		US	Virginia	38.570	-77.267	10
+P	Surry Hills		AU	New South Wales	-33.884	151.213	23
+P	Mont-Saint-Hilaire	mont saint hilaire	CA	Quebec	45.565	-73.187	10
+P	Highland Springs		US	Virginia	37.546	-77.328	10
+P	Higashigotanda		JP		35.625	139.728	19
+P	Fortress Hill		HK		22.289	114.194	18
+P	Al Hilāl al Gharbīyah	al hilal al gharbiyah	QA		25.259	51.531	14
+P	Al Hilāl ash Sharqīyah	al hilal ash sharqiyah	QA		25.260	51.546	14
+P	Taylors Hill		AU	Victoria	-37.710	144.755	23
+P	Emerson Hill		US	New York	40.609	-74.096	10
+P	Hizan		TR		38.225	42.418	14
+P	Villa Hidalgo		MX		21.676	-102.588	9
+P	Highview		US	Kentucky	38.143	-85.624	10
+P	Capitol Hill		US	District of Columbia	38.889	-77.000	10

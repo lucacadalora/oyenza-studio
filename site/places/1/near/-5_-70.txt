@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+Z	1	America/Manaus	-240	
+C	BR	Brazil	mwl	s
+C	CO	Colombia	mwl	s
+B	0
+P	Tabatinga		BR		-4.231	-69.939	1
+P	São Gabriel da Cachoeira	sao gabriel da cachoeira	BR		-0.118	-67.085	1
+P	Leticia		CO		-4.211	-69.939	0
+P	São Paulo de Olivença	sao paulo de olivenca	BR		-3.378	-68.873	1
+P	Carauari		BR		-4.883	-66.896	1
+P	Santo Antônio do Içá	santo antonio do ica	BR		-3.102	-67.940	1
+P	Tonantins		BR		-2.873	-67.802	1
+P	Fonte Boa		BR		-2.514	-66.092	1
+P	Maraã	maraa	BR		-1.853	-65.574	1
+P	Uarini		BR		-2.990	-65.108	1

@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cuiaba	-240	
+C	BR	Brazil	mwl	s
+B	0
+P	Cuiabá	cuiaba	BR		-15.596	-56.097	0
+P	Várzea Grande	varzea grande	BR		-15.647	-56.133	0
+P	Corumbá	corumba	BR		-19.009	-57.653	0
+P	Cáceres	caceres	BR		-16.071	-57.679	0
+P	Pontes e Lacerda		BR		-15.226	-59.335	0
+P	Campo Verde		BR		-15.547	-55.169	0
+P	Poconé	pocone	BR		-16.257	-56.623	0
+P	Barra do Bugres		BR		-15.072	-57.181	0
+P	Lucas		BR		-16.333	-55.933	0
+P	Lambari d'Oeste	lambari doeste	BR		-15.323	-58.004	0
+P	Mirassol d'Oeste	mirassol doeste	BR		-15.676	-58.090	0
+P	Ladário	ladario	BR		-19.005	-57.602	0
+P	Chapada dos Guimarães	chapada dos guimaraes	BR		-15.461	-55.750	0
+P	São José dos Quatro Marcos	sao jose dos quatro marcos	BR		-15.621	-58.176	0
+P	Vila Bela da Santíssima Trindade	vila bela da santissima trindade	BR		-15.008	-59.951	0
+P	Santo Antônio do Leverger	santo antonio do leverger	BR		-15.866	-56.077	0

@@ -1,0 +1,178 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Belgrade	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	1	Europe/Sofia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	AL	Albania	mwl	s
+C	BG	Bulgaria	mwl	s
+C	GR	Greece	mwl	s
+C	MK	North Macedonia	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	XK	Kosovo	mwl	s
+B	2
+P	Belgrade		RS		44.804	20.465	0
+P	Sofia		BG		42.698	23.324	1
+P	Pristina		XK		42.673	21.167	0
+P	Skopje		MK		41.996	21.431	0
+P	Plovdiv		BG		42.154	24.750	1
+P	Thessaloníki	thessaloniki	GR		40.641	22.935	1
+P	Niš	nis	RS		43.325	21.903	0
+P	Craiova		RO		44.317	23.800	1
+P	Prizren		XK		42.214	20.740	0
+P	Zemun		RS		44.846	20.401	0
+P	Kragujevac		RS		44.017	20.917	0
+P	Piteşti	pitesti	RO		44.850	24.867	1
+P	Čačak	cacak	RS		43.891	20.350	0
+P	Mitrovicë	mitrovice	XK		42.883	20.867	0
+P	Elbasan		AL		41.111	20.082	0
+P	Leskovac		RS		42.998	21.946	0
+P	Gjakovë	gjakove	XK		42.380	20.431	0
+P	Kalamariá	kalamaria	GR		40.583	22.950	1
+P	Pleven		BG		43.418	24.617	1
+P	Novi Pazar		RS		43.137	20.512	0
+P	Kraljevo		RS		43.726	20.689	0
+P	Pernik		BG		42.597	23.033	1
+P	Drobeta-Turnu Severin	drobeta turnu severin	RO		44.627	22.653	1
+P	Pančevo	pancevo	RS		44.872	20.642	0
+P	Kruševac	krusevac	RS		43.580	21.334	0
+P	Kumanovo		MK		42.133	21.716	0
+P	Évosmos	evosmos	GR		40.671	22.908	1
+P	Prilep		MK		41.346	21.554	0
+P	Suva Reka		XK		42.359	20.825	0
+P	Bitola		MK		41.032	21.336	0
+P	Blagoevgrad		BG		42.015	23.098	1
+P	Čair	cair	MK		42.015	21.441	0
+P	Slatina		RO		44.433	24.367	1
+P	Tetovo		MK		42.010	20.971	0
+P	Smederevo		RS		44.664	20.928	0
+P	Ferizaj		XK		42.371	21.155	0
+P	Glogovac		XK		42.628	20.894	0
+P	Sérres	serres	GR		41.085	23.548	1
+P	Korçë	korce	AL		40.619	20.781	0
+P	Kisela Voda		MK		41.949	21.503	0
+P	Veles		MK		41.717	21.772	0
+P	Vranje		RS		42.551	21.900	0
+P	Pazardzhik		BG		42.199	24.333	1
+P	Asenovgrad		BG		42.017	24.867	1
+P	Kavála	kavala	GR		40.940	24.407	1
+P	Kateríni	katerini	GR		40.270	22.506	1
+P	Gjilan		XK		42.460	21.470	0
+P	Gostivar		MK		41.796	20.908	0
+P	Deçan	decan	XK		42.540	20.288	0
+P	Zaječar	zajecar	RS		43.904	22.264	0
+P	Vratsa		BG		43.211	23.563	1
+P	Trstenik		RS		43.617	21.003	0
+P	Pejë	peje	XK		42.659	20.288	0
+P	Shtip		MK		41.746	22.196	0
+P	Xánthi	xanthi	GR		41.135	24.888	1
+P	Montana		BG		43.413	23.222	1
+P	Vitina		XK		42.321	21.358	0
+P	Kyustendil		BG		42.283	22.692	1
+P	Pogradec		AL		40.903	20.652	0
+P	Stavroúpoli	stavroupoli	GR		40.669	22.938	1
+P	Centar Župa	centar zupa	MK		41.478	20.559	0
+P	Sykiés	sykies	GR		40.649	22.951	1
+P	Dráma	drama	GR		41.153	24.147	1
+P	Véroia	veroia	GR		40.524	22.202	1
+P	Ohrid		MK		41.117	20.802	0
+P	Požarevac	pozarevac	RS		44.621	21.188	0
+P	Gjorče Petro	gjorce petro	MK		42.008	21.353	0
+P	Pirot		RS		43.153	22.586	0
+P	Istok		XK		42.781	20.488	0
+P	Bor		RS		44.075	22.096	0
+P	Políchni	polichni	GR		40.667	22.949	1
+P	Kavadarci		MK		41.433	22.012	0
+P	Struga		MK		41.178	20.679	0
+P	Lagkadás	lagkadas	GR		40.750	23.067	1
+P	Pylaía	pylaia	GR		40.599	22.986	1
+P	Kozáni	kozani	GR		40.299	21.790	1
+P	Butel		MK		42.031	21.447	0
+P	Kukës	kukes	AL		42.077	20.422	0
+P	Jagodina		RS		43.977	21.261	0
+P	Shtime		XK		42.433	21.040	0
+P	Podujeva		XK		42.911	21.193	0
+P	Dragash		XK		42.026	20.653	0
+P	Vidin		BG		43.992	22.882	1
+P	Dupnitsa		BG		42.265	23.117	1
+P	Kochani		MK		41.916	22.413	0
+P	Strumica		MK		41.438	22.643	0
+P	Caracal		RO		44.117	24.350	1
+P	Kičevo	kicevo	MK		41.513	20.959	0
+P	Petrich		BG		41.398	23.207	1
+P	Smolyan		BG		41.574	24.712	1
+P	Vushtrri		XK		42.823	20.968	0
+P	Karlovo		BG		42.633	24.800	1
+P	Ptolemaḯda	ptolemaida	GR		40.515	21.679	1
+P	Chalkidóna	chalkidona	GR		40.732	22.600	1
+P	Mioveni		RO		44.959	24.942	1
+P	Turnu Măgurele	turnu magurele	RO		43.747	24.868	1
+P	Sandanski		BG		41.567	23.283	1
+P	Lipkovo		MK		42.157	21.586	0
+P	Lovech		BG		43.132	24.718	1
+P	Giannitsá	giannitsa	GR		40.792	22.407	1
+P	Prokuplje		RS		43.234	21.588	0
+P	Roșiorii de Vede	rosiorii de vede	RO		44.117	24.983	1
+P	Elefthério - Kordelió	eleftherio kordelio	GR		40.664	22.897	1
+P	Smederevska Palanka		RS		44.365	20.959	0
+P	Bulqizë	bulqize	AL		41.492	20.222	0
+P	Samokov		BG		42.339	23.558	1
+P	Neapoli		GR		40.653	22.942	1
+P	Zelino		MK		41.980	21.064	0
+P	Saraj		MK		42.000	21.328	0
+P	Knjazevac		RS		43.566	22.257	0
+P	Radovis		MK		41.638	22.465	0
+P	Aranđelovac	arandelovac	RS		44.307	20.560	0
+P	Gornji Milanovac		RS		44.026	20.462	0
+P	Lazarevac		RS		44.385	20.256	0
+P	Gjirokastër	gjirokaster	AL		40.076	20.139	0
+P	Librazhd		AL		41.179	20.315	0
+P	Tearce		MK		42.076	21.052	0
+P	Sremčica	sremcica	RS		44.677	20.392	0
+P	Kilkís	kilkis	GR		40.993	22.874	1
+P	Motru		RO		44.803	22.972	1
+P	Orahovac		XK		42.399	20.655	0
+P	Troyan		BG		42.894	24.716	1
+P	Botevgrad		BG		42.908	23.793	1
+P	Oraiókastro	oraiokastro	GR		40.731	22.917	1
+P	Kriva Palanka		MK		42.202	22.334	0
+P	Šuto Orizare	suto orizare	MK		42.040	21.425	0
+P	Gevgelija		MK		41.143	22.501	0
+P	Drăgăşani	dragasani	RO		44.650	24.267	1
+P	Balş	bals	RO		44.350	24.100	1
+P	Ćuprija	cuprija	RS		43.928	21.370	0
+P	Gotse Delchev		BG		41.567	23.733	1
+P	Velingrad		BG		42.028	23.992	1
+P	Corabia		RO		43.775	24.501	1
+P	Náousa	naousa	GR		40.629	22.068	1
+P	Llazicë	llazice	XK		42.555	20.763	0
+P	Băileşti	bailesti	RO		44.017	23.350	1
+P	Negotino		MK		41.485	22.091	0
+P	Panagyurishte		BG		42.495	24.190	1
+P	Leposaviq		XK		43.104	20.803	0
+P	Filiaşi	filiasi	RO		44.550	23.517	1
+P	Peshtera		BG		42.034	24.300	1
+P	Édessa	edessa	GR		40.803	22.048	1
+P	Calafat		RO		43.991	22.933	1
+P	Lom		BG		43.832	23.238	1
+P	Peraía	peraia	GR		40.499	22.926	1
+P	Studeničani	studenicani	MK		41.922	21.535	0
+P	Vinica		MK		41.881	22.511	0
+P	Debar		MK		41.523	20.522	0
+P	Chortiátis	chortiatis	GR		40.610	23.100	1
+P	Flórina	florina	GR		40.782	21.410	1
+P	Negotin		RS		44.226	22.531	0
+P	Negotino		MK		41.878	20.884	0
+P	Panórama	panorama	GR		40.588	23.032	1
+P	Delcevo		MK		41.967	22.769	0
+P	Zvečan	zvecan	XK		42.907	20.840	0
+P	Obrenovac		RS		44.655	20.200	0
+P	Resen		MK		41.090	21.009	0
+P	Ilinden		MK		41.993	21.581	0
+P	Brvenica		MK		41.967	20.981	0
+P	Stara Pazova		RS		44.985	20.161	0
+P	Kosovo Polje		XK		42.664	21.096	0
+P	Rakovski		BG		42.288	24.968	1
+P	Nova Pazova		RS		44.944	20.219	0
+P	Efkarpía	efkarpia	GR		40.688	22.953	1
+P	Kamenjane		MK		41.946	20.929	0
+P	Bogovinje		MK		41.922	20.915	0
+P	Berkovitsa		BG		43.237	23.125	1

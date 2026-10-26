@@ -1,0 +1,70 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	GB	United Kingdom	moonsighting	s
+B	0
+P	Glasgow		GB	Scotland	55.865	-4.258	0
+P	Edinburgh		GB	Scotland	55.952	-3.196	0
+P	Aberdeen		GB	Scotland	57.144	-2.098	0
+P	Dundee		GB	Scotland	56.469	-2.975	0
+P	Paisley		GB	Scotland	55.832	-4.433	0
+P	East Kilbride		GB	Scotland	55.764	-4.177	0
+P	Tynemouth		GB	England	55.018	-1.426	0
+P	Livingston		GB	Scotland	55.903	-3.523	0
+P	Dunfermline		GB	Scotland	56.072	-3.459	0
+P	Meikle Earnock		GB	Scotland	55.750	-4.033	0
+P	Hamilton		GB	Scotland	55.767	-4.033	0
+P	Cumbernauld		GB	Scotland	55.947	-3.991	0
+P	Kirkcaldy		GB	Scotland	56.117	-3.160	0
+P	Inverness		GB	Scotland	57.479	-4.224	0
+P	Perth		GB	Scotland	56.395	-3.431	0
+P	Kilmarnock		GB	Scotland	55.612	-4.496	0
+P	Dumfries		GB	Scotland	55.070	-3.611	0
+P	Ayr		GB	Scotland	55.463	-4.634	0
+P	Coatbridge		GB	Scotland	55.862	-4.025	0
+P	Greenock		GB	Scotland	55.948	-4.761	0
+P	North Shields		GB	England	55.016	-1.449	0
+P	Glenrothes		GB	Scotland	56.195	-3.173	0
+P	Whitley Bay		GB	England	55.040	-1.447	0
+P	Stirling		GB	Scotland	56.119	-3.937	0
+P	Blyth		GB	England	55.127	-1.509	0
+P	Airdrie		GB	Scotland	55.866	-3.980	0
+P	Falkirk		GB	Scotland	56.002	-3.785	0
+P	Irvine		GB	Scotland	55.619	-4.655	0
+P	Cramlington		GB	England	55.087	-1.586	0
+P	Motherwell		GB	Scotland	55.789	-3.992	0
+P	Rutherglen		GB	Scotland	55.829	-4.214	0
+P	Cambuslang		GB	Scotland	55.810	-4.161	0
+P	Wishaw		GB	Scotland	55.767	-3.917	0
+P	Bearsden		GB	Scotland	55.915	-4.333	0
+P	Newton Mearns		GB	Scotland	55.773	-4.333	0
+P	Ashington		GB	England	55.177	-1.564	0
+P	Clydebank		GB	Scotland	55.901	-4.406	0
+P	Elgin		GB	Scotland	57.649	-3.318	0
+P	Vale of Leven		GB	Scotland	55.971	-4.579	0
+P	Renfrew		GB	Scotland	55.872	-4.393	0
+P	Gosforth		GB	England	55.000	-1.617	0
+P	Bishopbriggs		GB	Scotland	55.907	-4.219	0
+P	Arbroath		GB	Scotland	56.563	-2.587	0
+P	Musselburgh		GB	Scotland	55.942	-3.050	0
+P	Bathgate		GB	Scotland	55.902	-3.644	0
+P	Alloa		GB	Scotland	56.116	-3.790	0
+P	Dumbarton		GB	Scotland	55.944	-4.571	0
+P	Bellshill		GB	Scotland	55.817	-4.017	0
+P	Kirkintilloch		GB	Scotland	55.939	-4.153	0
+P	Peterhead		GB	Scotland	57.505	-1.784	0
+P	Bedlington		GB	England	55.131	-1.593	0
+P	Saint Andrews		GB	Scotland	56.339	-2.799	0
+P	Bonnyrigg		GB	Scotland	55.873	-3.105	0
+P	Dalserf		GB	Scotland	55.733	-3.917	0
+P	Barrhead		GB	Scotland	55.799	-4.393	0
+P	Blantyre		GB	Scotland	55.796	-4.095	0
+P	High Blantyre		GB	Scotland	55.784	-4.100	0
+P	Nigg		GB	Scotland	57.116	-2.093	0
+P	Penicuik		GB	Scotland	55.831	-3.226	0
+P	Grangemouth		GB	Scotland	56.011	-3.722	0
+P	Kilwinning		GB	Scotland	55.653	-4.707	0
+P	Viewpark		GB	Scotland	55.827	-4.057	0
+P	Broxburn		GB	Scotland	55.934	-3.471	0
+P	Johnstone		GB	Scotland	55.829	-4.516	0
+P	Erskine		GB	Scotland	55.901	-4.450	0
+P	Larkhall		GB	Scotland	55.733	-3.967	0

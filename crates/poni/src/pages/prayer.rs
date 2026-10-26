@@ -6,8 +6,9 @@
 //! each prayer's name and time under its dot (past ones dim, the next one
 //! lit). Above the arc: Imsak, Terbit and the qibla. Then what happens at
 //! prayer time. "Change" swaps in the place picker: type a kab/kota or any
-//! city in the world, or go back to following the location. Outside
-//! Indonesia the place's name carries the method its times follow.
+//! city in the world (looked up online as you type, two letters' worth at a
+//! time), or go back to following the location. Outside Indonesia the
+//! place's name carries the method its times follow.
 //!
 //! The countdown ticks once a second while the page is open ([`next_wake`])
 //! and someone is at the PC; nothing runs for it otherwise.
@@ -18,10 +19,10 @@
 use crate::commands::Command;
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
-use crate::state::{AppState, Locate};
+use crate::state::{AppState, CityFile, Locate};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
-use poni_core::prayer::{self, DayTimes, Method, Place, Prayer, PrayerMoment, Site, World};
+use poni_core::prayer::{self, world, DayTimes, Method, Place, Prayer, PrayerMoment, Site, World};
 use poni_core::settings::PrayerSound;
 use poni_core::svgpath::Seg;
 use std::f32::consts::PI;
@@ -355,17 +356,6 @@ fn place_line(st: &AppState) -> String {
 // ---------------------------------------------------------------- picker
 
 fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
-    // The world list, read as the picker opens (about 15 ms, while the page
-    // changes) and dropped when it closes.
-    if st.prayer.world.is_none() && !st.prayer.world_failed {
-        match read_world() {
-            Ok(w) => st.prayer.world = Some(Arc::new(w)),
-            Err(e) => {
-                crate::pwarn!("prayer: no world places ({e})");
-                st.prayer.world_failed = true;
-            }
-        }
-    }
     let accent = st.accent;
     let done_w = ui.pill_width("Done", false, true);
     let done = Rect::new(area.right() - done_w, area.y + (SEARCH_H - PILL_SMALL) / 2.0, done_w, PILL_SMALL);
@@ -374,10 +364,29 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let loc = Rect::new(done.x - 8.0 - loc_w, done.y, loc_w, PILL_SMALL);
     let input = Rect::new(area.x, area.y, loc.x - 12.0 - area.x, SEARCH_H);
     let resp = ui.text_input_row(wid("prayer.search"), input, &mut st.prayer.query, "Type a city, like Bandung or London", 40, accent, Some(Icon::Moon));
-    // Searched again only when the text changes (each search reads ~33,000 names).
+    // Cities abroad come from the website: the file of the first two letters
+    // typed, asked for once while the picker is open.
+    let file = world::file_for(&world::fold(&st.prayer.query));
+    let typed = st.prayer.found.as_ref().is_some_and(|(q, _)| *q != st.prayer.query);
+    if let Some(f) = &file {
+        // Offline last time: ask again once something new is typed.
+        if typed && matches!(st.prayer.cities.get(f), Some(CityFile::Failed)) {
+            st.prayer.cities.remove(f);
+        }
+        if !st.prayer.cities.contains_key(f) {
+            st.prayer.cities.insert(f.clone(), CityFile::Asking);
+            st.cmd(Command::GetCities(f.clone()));
+        }
+    }
+    let city_file = file.as_ref().and_then(|f| st.prayer.cities.get(f)).cloned();
+    // Searched again when the text changes or the file comes.
     if st.prayer.found.as_ref().is_none_or(|(q, _)| *q != st.prayer.query) {
+        let world = match &city_file {
+            Some(CityFile::Here(w)) => Some(w.clone()),
+            _ => None,
+        };
         let found = match &st.prayer.places {
-            Some(list) => prayer::search(list, st.prayer.world.as_deref(), &st.prayer.query, RESULTS),
+            Some(list) => prayer::search(list, world.as_deref(), &st.prayer.query, RESULTS),
             None => Vec::new(),
         };
         st.prayer.found = Some((st.prayer.query.clone(), found));
@@ -407,7 +416,8 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
             Locate::Denied => DENIED_HINT,
             Locate::Unknown => UNKNOWN_HINT,
             Locate::Far { .. } => "No city in the list is near you. Type the nearest one.",
-            _ => "Every kab/kota in Kemenag's schedule, and cities all over the world.",
+            Locate::Offline => "Couldn't look up the cities near you. Type yours, or try again online.",
+            _ => "Every kab/kota in Kemenag's schedule, and cities all over the world from GeoNames.",
         };
         ui.c.text(hint, Rect::new(area.x, top, area.w, 18.0), &TextStyle::footnote().color(palette::TEXT_DIM));
         if st.prayer.locate == Locate::Denied {
@@ -420,7 +430,12 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
         return;
     }
     if count == 0 {
-        ui.c.text("No city with that name", Rect::new(area.x, top, area.w, 18.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+        let line = match city_file {
+            Some(CityFile::Asking) => "Looking up cities\u{2026}",
+            Some(CityFile::Failed) => "Couldn't reach the city list. Check the connection and type again.",
+            _ => "No city with that name",
+        };
+        ui.c.text(line, Rect::new(area.x, top, area.w, 18.0), &TextStyle::footnote().color(palette::TEXT_DIM));
         return;
     }
     let col_w = (area.w - 16.0) / 2.0;
@@ -459,13 +474,14 @@ fn close(st: &mut AppState) {
     st.prayer.picking = false;
     st.prayer.query.clear();
     st.prayer.found = None;
-    st.prayer.world = None;
-    st.prayer.world_failed = false;
+    // The picker's city files go; a location's squares stay until it's placed.
+    st.prayer.cities.retain(|f, _| f.starts_with("near/"));
     st.cmd(Command::BlurText);
 }
 
-/// `place` becomes the place the times are for, as it is (a world list
-/// place needs no second read of the list), and is saved by its id.
+/// `place` becomes the place the times are for, as it is, and is saved by
+/// its id (a city abroad also as its own few lines, so it comes back
+/// without going online).
 pub fn set_place(st: &mut AppState, place: Place) {
     if st.prayer.place.as_ref().map(|p| &p.id) != Some(&place.id) {
         crate::pinfo!("prayer: times for {}", place.id);
@@ -473,27 +489,90 @@ pub fn set_place(st: &mut AppState, place: Place) {
         st.prayer.handled_until = Some(st.prayer_now());
     }
     st.settings.prayer.place = Some(place.id.clone());
+    st.settings.prayer.world_place = place.world_lines.clone();
     st.prayer.place = Some(place);
     st.prayer.suggested = false;
     st.cmd(Command::SaveSettings);
 }
 
-/// The add-on's world list, read from its file (`poni_core::prayer::World`).
-pub fn read_world() -> Result<World, String> {
-    let addon = &poni_core::addons::PRAYER_TIMES;
-    let path = crate::services::addons::file_path(addon, poni_core::addons::WORLD_PLACES_FILE);
-    let packed = std::fs::read(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-    World::unpack(&packed)
+/// Where Windows or macOS says the PC is, while following the location:
+/// the nearest of Kemenag's places when one is close, else the nearest of
+/// those and the world's cities in the squares around, once they're here
+/// ([`cities_came`]). The point stays in memory only.
+pub fn located(st: &mut AppState, lat: f64, lng: f64) {
+    let Some(list) = st.prayer.places.clone() else { return };
+    let Some((home, km)) = list.nearest(lat, lng).map(|(p, km)| (p.clone(), km)) else { return };
+    if km <= prayer::KEMENAG_NEAR_KM {
+        settle(st, Some((home, km)));
+        return;
+    }
+    // The same spot as the last time it went online: the same place.
+    if let Some((la, lo, found)) = st.prayer.last_fix.clone() {
+        if prayer::distance_km(la, lo, lat, lng) < 1.0 {
+            settle(st, found);
+            return;
+        }
+    }
+    let files = world::files_near(lat, lng, km.min(prayer::NEAREST_MAX_KM));
+    for f in &files {
+        if !st.prayer.cities.contains_key(f) {
+            st.prayer.cities.insert(f.clone(), CityFile::Asking);
+            st.cmd(Command::GetCities(f.clone()));
+        }
+    }
+    st.prayer.fix = Some((lat, lng, files));
+    place_fix(st);
 }
 
-/// The world list for the apps to find a saved place or a location's
-/// nearest city: the picker's copy while it's open, else read now (the
-/// caller drops it when done).
-pub fn world_list(st: &AppState) -> Option<Arc<World>> {
-    if let Some(w) = &st.prayer.world {
-        return Some(w.clone());
+/// One of the online city files came (or couldn't): the picker searches
+/// again with it, and a location waiting for its squares may be placed.
+/// A file nobody wants any more (the picker closed) is dropped.
+pub fn cities_came(st: &mut AppState, file: String, got: Result<World, String>) {
+    let Some(slot) = st.prayer.cities.get_mut(&file) else { return };
+    *slot = match got {
+        Ok(w) => CityFile::Here(Arc::new(w)),
+        Err(_) => CityFile::Failed,
+    };
+    st.prayer.found = None;
+    place_fix(st);
+}
+
+/// The waiting location's place, once all its squares are here; offline,
+/// the place stays as it was (the next location asks again).
+fn place_fix(st: &mut AppState) {
+    let Some((lat, lng, files)) = st.prayer.fix.clone() else { return };
+    let got: Vec<Option<CityFile>> = files.iter().map(|f| st.prayer.cities.get(f).cloned()).collect();
+    if got.iter().any(|c| matches!(c, Some(CityFile::Asking))) {
+        return;
     }
-    read_world().map(Arc::new).map_err(|e| crate::pwarn!("prayer: no world places ({e})")).ok()
+    st.prayer.fix = None;
+    for f in &files {
+        st.prayer.cities.remove(f);
+    }
+    if got.iter().any(|c| !matches!(c, Some(CityFile::Here(_)))) {
+        st.prayer.locate = Locate::Offline;
+        return;
+    }
+    let Some(list) = st.prayer.places.clone() else { return };
+    let squares: Vec<&World> = got.iter().filter_map(|c| if let Some(CityFile::Here(w)) = c { Some(&**w) } else { None }).collect();
+    let found = prayer::nearest(&list, &squares, lat, lng);
+    st.prayer.last_fix = Some((lat, lng, found.clone()));
+    settle(st, found);
+}
+
+/// The nearest place becomes the place while following the location, unless
+/// it's too far away to use.
+fn settle(st: &mut AppState, nearest: Option<(Place, f64)>) {
+    let Some((place, km)) = nearest else { return };
+    st.prayer.locate = if km > prayer::NEAREST_MAX_KM {
+        crate::pinfo!("prayer: the nearest listed place is {km:.0} km away");
+        Locate::Far { km }
+    } else {
+        if st.settings.prayer.follow_location && st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
+            set_place(st, place);
+        }
+        Locate::Found { km }
+    };
 }
 
 /// The prayers' names as the island says them (`It's time for Ashar`).

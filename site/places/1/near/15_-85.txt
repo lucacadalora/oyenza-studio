@@ -1,0 +1,6 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cayman	-300	
+C	KY	Cayman Islands	mwl	s
+B	0
+P	George Town		KY		19.287	-81.374	0
+P	West Bay		KY		19.382	-81.393	0

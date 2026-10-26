@@ -170,7 +170,7 @@ jobs:
         run: |
           $dir = New-Item -ItemType Directory -Force -Path addon-home
           $env:PONI_HOME = $dir.FullName
-          $files = Join-Path $dir.FullName "cache\addons\sholat\addon-sholat-2"
+          $files = Join-Path $dir.FullName "cache\addons\sholat\addon-sholat-1"
           $log = Join-Path $dir.FullName "cache\poni.log"
           function Run-Poni($on, $pattern) {
             "{`"addons`":{`"sholat`":$on}}" | Set-Content (Join-Path $env:PONI_HOME "settings.json")
@@ -193,7 +193,7 @@ jobs:
           "---- poni.log (add-ons)"
           Select-String -Path $log -Pattern 'add-ons' -ErrorAction SilentlyContinue | ForEach-Object { $_.Line }
           "ready: $ready, files: $have, deleted when off: $gone, folder left: $left"
-          if (-not $ready -or $have -ne 4 -or -not $gone -or $left) { exit 1 }
+          if (-not $ready -or $have -ne 3 -or -not $gone -or $left) { exit 1 }
 
       # The Oyen theme (cream look, embedded Outfit font) with the sample song in
       # Japanese: its pronunciation line comes from Windows' own reading

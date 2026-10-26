@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Aden	180	
+C	SO	Somalia	egyptian	s
+C	YE	Yemen	ummalqura	s
+B	1
+P	Aden		YE		12.780	45.039	0
+P	Mukalla		YE		14.542	49.124	0
+P	Berbera		SO		10.440	45.014	0
+P	Bosaso		SO		11.284	49.182	0
+P	Al Bayda		YE		13.985	45.573	0
+P	Ataq		YE		14.538	46.832	0
+P	Ceerigaabo		SO		10.616	47.368	0
+P	Ghayl Bā Wazīr	ghayl ba wazir	YE		14.776	49.366	0
+P	Zinjibār	zinjibar	YE		13.129	45.381	0
+P	Qandala		SO		11.472	49.873	0
