@@ -293,8 +293,8 @@ main { container-type: inline-size; }
 .news-tile:hover { transform: scale(0.99); }
 .news-tile .t-card { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .news-tile .t-card::after { content: ""; flex: none; width: 0.32em; height: 0.32em; border: solid var(--link); border-width: 2px 2px 0 0; transform: translateY(-0.12em) rotate(45deg); }
-/* The release's main change spans the row, so the tiles under it stay three
-   to a row. The next release gives the class to its own first tile instead. */
+/* The release's main change spans the row above the others, which keep the
+   places they had. The next release gives the class to its own first tile. */
 .news-tile.lead { grid-column: 1 / -1; }
 .news-tile.lead .t-card { justify-content: flex-start; }
 .news-tile.lead .t-tile { max-width: 36em; }
@@ -1548,7 +1548,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <h4>Your sign-ins stay yours</h4>
     <p>Each service's sign-in is read on your computer and goes only to that service's own server. <b>Nothing about your usage goes to Oyenza.</b> Oyenza Studio only reads: it never changes another app's files or renews its sign-in, so it can't sign you out of that app. When a sign-in has run out, the card says so: open that app once and it's back.</p>
     <h4>Oyenza Inference</h4>
-    <p>Connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab or in the dashboard.</p>
+    <p>Connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab, or in the dashboard under Connected apps.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-system" aria-labelledby="m-system-t">
