@@ -151,6 +151,10 @@ enum Scene {
     TodayDay,
     TodayNoApps,
     TodayTiles,
+    /// Google Calendar switched off for Studio (Gmail on), and a date ten
+    /// days on clicked in the grid.
+    TodayOff,
+    TodayPicked,
 }
 
 const SCENES: [Scene; 19] = [
@@ -219,7 +223,7 @@ const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::Oyen
 /// The System page's Power module on a Mac without a battery, after Oyenza.
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 /// The Today page signed in, after Power.
-const TODAY_SCENES: [Scene; 3] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles];
+const TODAY_SCENES: [Scene; 5] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles, Scene::TodayOff, Scene::TodayPicked];
 
 impl Scene {
     fn name(self) -> String {
@@ -260,6 +264,8 @@ impl Scene {
             Scene::TodayDay => "page-today-day".into(),
             Scene::TodayNoApps => "page-today-no-apps".into(),
             Scene::TodayTiles => "page-today-tiles".into(),
+            Scene::TodayOff => "page-today-off".into(),
+            Scene::TodayPicked => "page-today-picked".into(),
         }
     }
 }
@@ -875,19 +881,31 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             st.page = p;
             Mode::Expanded(p)
         }
-        Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => {
-            use poni_core::agenda::{sample, Answer, Sources};
+        Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => {
+            use poni_core::agenda::{day_num, sample, Answer, Source};
             st.oyenza = fake_oyenza(&st, false);
             let today = st.day_key();
+            let now_min = st.local.hour as i32 * 60 + st.local.minute as i32;
+            // The list starts at today, or at the date clicked ten days on.
+            st.ui.today_pick = (scene == Scene::TodayPicked).then(|| day_num(&today).unwrap_or(0) + 10);
+            st.ui.today_jump = st.ui.today_pick.is_some();
+            st.ui.today_drawn = st.now;
             let o = &mut st.oyenza;
             o.agenda_unix = Some(st.unix - 120);
             match scene {
-                Scene::TodayDay => {
-                    o.agenda = Some(sample(&today, st.local.hour as i32 * 60 + st.local.minute as i32));
+                Scene::TodayDay | Scene::TodayPicked => {
+                    o.agenda = Some(sample(&today, now_min));
+                    o.agenda_state = crate::state::AgendaState::Ready;
+                }
+                Scene::TodayOff => {
+                    let mut a = sample(&today, now_min);
+                    a.apps.googlecalendar = Source::Off;
+                    a.events.clear();
+                    o.agenda = Some(a);
                     o.agenda_state = crate::state::AgendaState::Ready;
                 }
                 Scene::TodayNoApps => {
-                    o.agenda = Some(Answer { day: today, apps: Sources::default(), events: Vec::new(), flights: Vec::new() });
+                    o.agenda = Some(Answer::none(&today));
                     o.agenda_state = crate::state::AgendaState::Ready;
                 }
                 _ => o.agenda_state = crate::state::AgendaState::Unavailable,

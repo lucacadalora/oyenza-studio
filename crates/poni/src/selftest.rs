@@ -86,13 +86,14 @@ const SETTLE_TIMEOUT: f64 = 3.0;
 const SOFT_GPU_SETTLE_TIMEOUT: f64 = 8.0;
 /// Seconds to wait for a simulated tab click to switch the page.
 const CLICK_TIMEOUT: f64 = 1.5;
-/// Stop visiting scenes after this many seconds. The 85 scenes take about
-/// 42 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
-/// theme with Japanese lyrics is the slowest run, about 53 s (it reached the
-/// old 50 s at scene 80 once the Today scenes came in). The CI and Store test
-/// steps wait 120 s for the whole run (this plus the writers' 3.5 s, and 40 s
-/// more for the animation runs, stays under it), the Wine runner 180 s.
-const SCENE_DEADLINE: f64 = 65.0;
+/// Stop visiting scenes after this many seconds. The 87 scenes take about
+/// 43 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
+/// theme with Japanese lyrics is the slowest run, about 63 s with 85 (it
+/// reached the old 50 s at scene 80 once the Today scenes came in, and 65 s
+/// was tight for two more). The CI and Store test steps wait 120 s for the
+/// whole run (this plus the writers' 3.5 s, and 40 s more for the animation
+/// runs, stays under it), the Wine runner 180 s.
+const SCENE_DEADLINE: f64 = 70.0;
 /// Give up waiting for PNG writers at this point: 3.5 s after the scene
 /// deadline, so the last scenes' pictures get their time however long the
 /// run took. (It was a fixed 43.5 s, left behind when SCENE_DEADLINE went
@@ -692,21 +693,29 @@ fn fake_oyenza(st: &AppState, scene: Scene, now: f64) -> OyenzaState {
         agenda_unix: Some(st.unix - 120),
         agenda_state: match scene {
             Scene::TodayTiles => AgendaState::Unavailable,
-            Scene::TodayDay | Scene::TodayNoApps => AgendaState::Ready,
+            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayOff | Scene::TodayPicked => AgendaState::Ready,
             _ => AgendaState::Waiting,
         },
         ..OyenzaState::default()
     }
 }
 
-/// The Today page's day for its scenes, around the clock it runs at
-/// (`agenda::sample`); none switched on for `TodayNoApps`.
+/// The Today page's days for its scenes, around the clock it runs at
+/// (`agenda::sample`); none switched on for `TodayNoApps`, Google Calendar
+/// off (so no events came) for `TodayOff`.
 fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer> {
-    use poni_core::agenda::{sample, Answer, Sources};
+    use poni_core::agenda::{sample, Answer, Source};
     let today = st.day_key();
+    let now_min = st.local.hour as i32 * 60 + st.local.minute as i32;
     match scene {
-        Scene::TodayDay => Some(sample(&today, st.local.hour as i32 * 60 + st.local.minute as i32)),
-        Scene::TodayNoApps => Some(Answer { day: today, apps: Sources::default(), events: Vec::new(), flights: Vec::new() }),
+        Scene::TodayDay | Scene::TodayPicked => Some(sample(&today, now_min)),
+        Scene::TodayOff => {
+            let mut a = sample(&today, now_min);
+            a.apps.googlecalendar = Source::Off;
+            a.events.clear();
+            Some(a)
+        }
+        Scene::TodayNoApps => Some(Answer::none(&today)),
         _ => None,
     }
 }
@@ -927,6 +936,11 @@ enum Scene {
     TodayNoApps,
     /// Today signed in to a server without the day: the stat tiles, as before.
     TodayTiles,
+    /// Today with Google Calendar switched off for Studio (Gmail on): its
+    /// logo dimmed, Turn on, and Gmail's flights and the bills.
+    TodayOff,
+    /// Today with a date ten days on clicked in the grid: the list starts there.
+    TodayPicked,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -959,7 +973,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 85] = [
+const SCENES: [Scene; 87] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1061,6 +1075,8 @@ const SCENES: [Scene; 85] = [
     Scene::TodayDay,
     Scene::TodayNoApps,
     Scene::TodayTiles,
+    Scene::TodayOff,
+    Scene::TodayPicked,
 ];
 
 impl Scene {
@@ -1141,6 +1157,8 @@ impl Scene {
             Scene::TodayDay => "page-today-day".into(),
             Scene::TodayNoApps => "page-today-no-apps".into(),
             Scene::TodayTiles => "page-today-tiles".into(),
+            Scene::TodayOff => "page-today-off".into(),
+            Scene::TodayPicked => "page-today-picked".into(),
         }
     }
 
@@ -1175,7 +1193,7 @@ impl Scene {
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
             Scene::PrayerPicker => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
-            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => Some(PageKind::Today),
+            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             _ => None,
         }
     }
@@ -1201,6 +1219,8 @@ impl Scene {
                 | Scene::TodayDay
                 | Scene::TodayNoApps
                 | Scene::TodayTiles
+                | Scene::TodayOff
+                | Scene::TodayPicked
         )
     }
 
@@ -2041,6 +2061,11 @@ impl SelfTest {
             _ => None,
         };
         st.oyenza = if scene.oyenza() { fake_oyenza(st, scene, now) } else { OyenzaState::default() };
+        // Today's list starts at today, or at the date clicked ten days on.
+        st.ui.today_pick = (scene == Scene::TodayPicked).then(|| poni_core::agenda::day_num(&st.day_key()).unwrap_or(0) + 10);
+        st.ui.today_jump = st.ui.today_pick.is_some();
+        st.ui.today_scroll = 0.0;
+        st.ui.today_drawn = now;
         // Add-ons: what the page shows (settings stay as they are, so the worker downloads nothing).
         let addon = match scene {
             Scene::AddonsDownloading => AddonStatus::Downloading { done: 1_300_000, total: PRAYER_TIMES.size() },

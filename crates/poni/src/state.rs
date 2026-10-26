@@ -270,6 +270,14 @@ pub struct PageUiState {
     pub task_scroll: f32,
     pub clip_scroll: f32,
     pub shelf_scroll: f32,
+    /// The Today page's list: how far it's scrolled (DIPs), the date clicked
+    /// in its grid (days since 1970-01-01), and when it was last drawn (mono
+    /// time; a page drawn again after a while starts at today).
+    pub today_scroll: f32,
+    pub today_pick: Option<i64>,
+    /// The next draw scrolls the list to `today_pick` (or back to today).
+    pub today_jump: bool,
+    pub today_drawn: f64,
     /// Smoothly animated lyric scroll position (line index as float).
     pub lyric_pos: f32,
     pub lyric_track: String,
