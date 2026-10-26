@@ -3,7 +3,7 @@
 Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs from the
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Today,
-Shelf, Tasks, Focus and Oyenza, plus the add-ons' Health, System, Script,
+Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, System, Script,
 Prayer and Stocks pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
@@ -17,7 +17,7 @@ variables. Changing those would break upgrades and settings, so they stay.
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), and the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report), and AI usage (`usage/`: a reader per AI coding service behind one contract, heads-up notices from their readings, and inference.oyenza.com's device connect; see [AI usage](#ai-usage)). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 | `crates/poni/src/mac/` | The Mac app (AppKit + Core Graphics + Core Text via `objc2`): its own window, renderer, main loop, notch layouts and menu bar item around the same state, pages, activities and Oyen. See [The Mac app](#the-mac-app). | macOS 14+ (`cargo mcheck` type-checks it from Linux) |
 
@@ -67,13 +67,14 @@ variables. Changing those would break upgrades and settings, so they stay.
   showing. Real motion runs on every vblank; ambient motion on every n-th
   (the equalizer near 60 fps, a drifting progress bar near 30). Otherwise the
   frame clock thread is parked and one-shot timers wake the UI for the next
-  visible change (countdown second, HUD expiry, minute tick). The one thing
+  visible change (countdown second, HUD expiry, minute tick). One thing
   that can read at rest is the System page's kept minute, and only once the
   System add-on is on (`Settings::system_history_on`: the add-on, and
   `system_history`, on by default): a light reading a second, about 0.35 ms
   of CPU. It rests while the session is locked or the display is off, and on
-  battery saver (`poni_core::sysmon::reads`). See "Keep it light" in
-  AGENTS.md.
+  battery saver (`poni_core::sysmon::reads`). The AI tab's heads-up notices,
+  once switched on, also read a few small files every 5 minutes and rest the
+  same way ([AI usage](#ai-usage)). See "Keep it light" in AGENTS.md.
 * **Window**: `WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE`.
   It never takes focus on click; text fields temporarily drop NOACTIVATE
   (`Command::FocusText`) and give focus back afterwards.
@@ -118,6 +119,11 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   `footnote()`, `body()`, `headline()`, `value()`, `display()`, `hero()`. Nothing below 11.
 * Buttons: `ui.pill(id, rect, label, icon, PillStyle::Utility | Neutral | Primary(c) | UtilityAccent(c))`
   at `PILL_SMALL` (28) or `PILL_REGULAR` (34) height, `PILL_GAP` 8 apart.
+* AI (`pages/usage.rs`) is a core tab right after Focus (`PageKind::Ai`): a card
+  per AI service on the computer and the Services list; the readings come
+  from `services::usage` through `AppEvent::Usage` into `st.usage`, and the
+  page asks for refreshes, keys and inference.oyenza.com's connect through
+  `Command::Usage`. See [AI usage](#ai-usage).
 * Settings (`pages/settings.rs`) has no tab (`PageKind::tabbed`): the gear right of
   the tabs opens it, and pressing it again goes back. It changes what the tray menu
   changes: settings through `Command::SaveSettings` (applied as a tray change is),
@@ -191,7 +197,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), sysstats, phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `version.rs` | which build this is for the menu's About line: the version, and from `build.rs` release, test build (commit) or local build, and the day CI built it |
 | `updates.rs` | new versions, the app's side: when to read the update file (`update.json` remembers), the island's notice ("Update available x", Hide), the offer the menu and Settings show, and on Windows the new version's Setup (downloaded first, run with `/S /reopen` now or before the next start); the Update sheet it opens is drawn by `pages/settings.rs` (rules in `poni_core::update`, the read and signature check in `services/update.rs`; docs/updates.md) |
@@ -219,7 +225,82 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   minutes while it stays (`App::set_today_watch`); reading them, the list's
   days and rows and each date's dots are in `poni_core::agenda`, the page in
   `pages/today.rs`, which keeps the stat tiles for a server without the day.
+* AI usage (optional): keys typed into the AI tab and inference.oyenza.com's
+  key, each sealed with DPAPI in its own file
+  (`%LOCALAPPDATA%\Poni\usage-<name>.bin`; on a Mac an owner-only file in
+  `~/Library/Application Support/Poni/`); which services are hidden or added
+  and the notices switch in `settings.json` (`usage`); the readings in memory
+  only. See [AI usage](#ai-usage).
 * `PONI_HOME` overrides both (the self-test uses it).
+
+## AI usage
+
+The AI tab (`PageKind::Ai`, a core tab right after Focus) shows how much of
+each AI coding plan on this computer is left (Codex, Claude Code, OpenCode Go,
+Gemini CLI, Cursor, GitHub Copilot, Kimi Code, Z.ai, MiniMax, OpenRouter) and
+the person's inference.oyenza.com balance once they connect it. What it reads,
+service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
+
+* **Readers** (`poni_core::usage`): one file per service behind the
+  `Provider` contract in `usage/mod.rs`, all pure, so each is tested on any
+  OS against hand-made answers in `usage/fixtures/<service>/` (loaded only in
+  tests). `wants(dirs)` names what to read first: a file (`Want::File`,
+  refused past its `max`), a log's last lines (`Want::Newest`), a piece of a
+  file too big to read whole (`Want::Range`: Cursor's SQLite store, walked a
+  page at a time, about ten 4 KB pieces a refresh and never the whole file,
+  opened shared for writing, nothing kept between refreshes), a Mac
+  keychain item (`Want::Keychain`) or a key typed into the tab
+  (`Want::Secret`). `next(cx, replies)` gets what was read and the answers so
+  far, and returns more to read (`Step::Read`, at most `MAX_READS` wants a
+  refresh), a request (`Step::Fetch`, at most `MAX_FETCHES` a refresh, none
+  under `Reach::Local`) or the result (`Step::Done`): a `Snapshot` (plan,
+  masked account, `Window`s with their resets, balance, spend, days) or a
+  `Trouble` the tab says in plain words. The rules at the top of `mod.rs` bind
+  every reader: read only, never refresh another app's sign-in, a sign-in
+  goes only to its own service's server and never into the log, an error or
+  a snapshot, ask as Oyenza Studio (never another app's `User-Agent`), and
+  unknown is not zero. `alerts.rs` turns a service's readings into heads-up
+  notices (near, out, back after a reset); `oyenza.rs` also holds
+  inference.oyenza.com's device connect (start, poll, the read-only `oyis_`
+  key, disconnect). Its test-server variable, `PONI_INFERENCE_URL`, takes
+  `https://` anywhere but plain `http://` only for this computer (`localhost`,
+  `127.0.0.1`, `[::1]`), since the key goes wherever it points.
+* **Worker** (`services/usage.rs`, which the Mac app runs too through
+  `#[path]`): one thread, started the first time the tab opens or the notices
+  are switched on (`Services::usage_watch`), that sleeps on a condvar at zero
+  CPU unless `Watch { open, notices }` says someone wants it. It serves the
+  wants (files within their size caps, the Mac keychain through
+  `/usr/bin/security`, sealed secrets), makes the requests with the shared
+  HTTP client, keeps the last good snapshot per service, and reports
+  `AppEvent::Usage` into `st.usage` (`UsageState`). The page's commands
+  (`Command::Usage`) reach it as `UsageCmd`: Refresh, SetKey / ClearKey,
+  Connect / CancelConnect / Disconnect; Hide and Show only change
+  `settings.usage`.
+* **Cadence**: the tab opening refreshes at once (at most once per 15 s of
+  reopening), then every 60 s while it stays. A service is asked online only
+  once its `min_gap_s` has passed since its last online ask (the reader's
+  own, from 60 s for inference.oyenza.com to 300 s; docs/ai-usage.md lists
+  them); otherwise the refresh is `Reach::Local`, which services with only
+  online numbers skip. With the
+  notices on and the tab closed: files every 5 minutes, online at most every
+  10. A service that says Busy waits its Retry-After (else 5 minutes); one
+  that gives no answer waits 1, 2, 5, then 10 minutes.
+* **Rest**: `App::set_usage_watch`, checked each frame beside
+  `set_today_watch`, tells the worker on every change: `open` = the AI tab is
+  on screen, `notices` = `settings.usage.notices` and not on battery saver,
+  both false while the session is locked or the display is off (and in the
+  self-test). With both false nothing runs, and with the notices off (the
+  default) there is no thread until the tab first opens.
+* **Keys and data**: typed keys and the inference key are kept one file per
+  name through `services::secret` (`usage-<name>.bin`: DPAPI on Windows, an
+  owner-only file on the Mac), never in the settings or the log. The readings
+  stay in memory (`st.usage`); `settings.usage` keeps only which services are
+  hidden or added, the notices switch and the near line (`near_pct`, 80).
+* **Page** (`pages/usage.rs`): a card per service with something to show
+  (one not found, or waiting for a key nobody typed, stays off unless the
+  person added it), the Services list (hide, show, typed keys, the inference
+  connect code) and the notices switch; `pages::usage::picture` seeds sample
+  state for the self-test and the Mac renders. Oyen never reacts to usage.
 
 ## Building
 
@@ -251,6 +332,7 @@ the Windows files are untouched.
 | `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |
 | `mac/clock.rs`, `paths.rs`, `events.rs`, `services.rs`, `dragdrop.rs` | Local time, `~/Library` folders, the event channel (drained on the main queue), the accent colour, links, clipboard, sounds |
 | `mac/services/media.rs`, `mediaremote.rs` | What plays: macOS's own now playing (browsers, Spotify, Music, any player), read through the MediaRemote adapter (`third_party/mediaremote-adapter`, BSD-3), which `/usr/bin/perl` runs since macOS 15.4 answers Apple's own programs only; its stream runs while there is sound (Core Audio, `audio.rs`) or a track to show, `poni_core::mediaremote` reads it. Until it answers, Music and Spotify's own notifications and AppleScript |
+| `mac/services/keychain.rs` | A sign-in kept in the Mac's keychain, for the AI tab (`Want::Keychain`; Claude Code's `Claude Code-credentials`): read with `/usr/bin/security find-generic-password` on the usage worker's thread, only while the AI tab is open and at most once per item each time it opens (the notices use that copy), a Deny kept until Refresh, the password never logged |
 
 CI (`.github/workflows/mac.yml`, on `main` and `mac-*` branches) builds for
 Apple Silicon and Intel, renders every state, runs the real window through a
