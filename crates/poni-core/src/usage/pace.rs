@@ -13,12 +13,13 @@
 //!   2, 5, then 10 minutes. A service with only online numbers skips the
 //!   looks that may not ask ([`Pace`]).
 //! - The worker keeps the contract's rules even when a service doesn't: no
-//!   request on a look that reads files only, at most [`MAX_FETCHES`], and
-//!   none with a line break in a header ([`run`]).
+//!   request on a look that reads files only, at most [`MAX_FETCHES`]
+//!   requests and [`MAX_READS`] reads, and no request with a line break in a
+//!   header ([`run`]).
 //! - Files are read the way the services ask ([`read_file`],
 //!   [`read_newest`]): never past a size, never a whole folder tree.
 
-use super::{all, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES};
+use super::{all, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS};
 use std::fs::{self, File};
 use std::io::{Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
@@ -235,28 +236,38 @@ pub struct Run {
 }
 
 /// One refresh of one service, as the worker runs it: its `wants` read with
-/// `read`, then [`Provider::next`] until it is done, each request answered
-/// by `fetch`. It stops a service that asks on a [`Reach::Local`] look or
-/// more than [`MAX_FETCHES`] times, and never sends a request that isn't
-/// [`sendable`].
+/// `read`, then [`Provider::next`] until it is done, each [`Step::Read`]
+/// read with `read` too and each request answered by `fetch`. It stops a
+/// service that asks on a [`Reach::Local`] look, more than [`MAX_FETCHES`]
+/// times or reads more than [`MAX_READS`] wants, and never sends a request
+/// that isn't [`sendable`].
 pub fn run(
     p: &dyn Provider,
     dirs: &Dirs,
     wants: &[Want],
     now: i64,
     reach: Reach,
-    read: impl FnMut(&Want) -> Got,
+    mut read: impl FnMut(&Want) -> Got,
     mut fetch: impl FnMut(&Request) -> Result<Reply, NetFail>,
 ) -> Run {
-    let got: Vec<Got> = wants.iter().map(read).collect();
+    let broke = |asked, unsent, rule| Run { outcome: None, asked, broke: Some(rule), unsent };
+    if wants.len() > MAX_READS {
+        return broke(0, false, "asked to read more than 64 things in one refresh");
+    }
+    let mut got: Vec<Got> = wants.iter().map(&mut read).collect();
     let mut replies = Vec::new();
     let (mut asked, mut unsent) = (0, false);
     loop {
         let cx = Ctx { dirs, got: &got, now, reach };
         let req = match p.next(&cx, &replies) {
             Step::Done(o) => return Run { outcome: Some(o), asked, broke: None, unsent },
-            Step::Fetch(_) if reach == Reach::Local => return Run { outcome: None, asked, broke: Some("asked its server on a look at this computer only"), unsent },
-            Step::Fetch(_) if replies.len() >= MAX_FETCHES => return Run { outcome: None, asked, broke: Some("asked its server more than 4 times in one refresh"), unsent },
+            Step::Read(more) if got.len() + more.len() > MAX_READS => return broke(asked, unsent, "asked to read more than 64 things in one refresh"),
+            Step::Read(more) => {
+                got.extend(more.iter().map(&mut read));
+                continue;
+            }
+            Step::Fetch(_) if reach == Reach::Local => return broke(asked, unsent, "asked its server on a look at this computer only"),
+            Step::Fetch(_) if replies.len() >= MAX_FETCHES => return broke(asked, unsent, "asked its server more than 4 times in one refresh"),
             Step::Fetch(req) => req,
         };
         if sendable(&req) {
@@ -453,10 +464,11 @@ pub fn read_newest(dir: &Path, suffix: &str, depth: u8, count: usize, tail: u64)
     Got::Many(files)
 }
 
-/// `len` bytes of a file from `offset` (fewer at its end, at most 4 MB): a
-/// piece of a file too big to read whole (Cursor's SQLite store), for the
-/// cursor lane's proposed `Want::Range`. Never kept between refreshes (it is
-/// a live database). Missing when it isn't a plain file or can't be read.
+/// [`Want::Range`]: `len` bytes of a file from `offset` (fewer at its end, at
+/// most 4 MiB), a piece of a file too big to read whole (Cursor's SQLite
+/// store). Opened sharing read, write and delete (Rust's default on
+/// Windows), so the file's owner carries on writing it; never kept between
+/// refreshes. Missing when it isn't a plain file or can't be read.
 pub fn read_range(path: &Path, offset: u64, len: u32) -> Got {
     if !path.is_absolute() || !fs::metadata(path).is_ok_and(|m| m.is_file()) {
         return Got::Missing;
@@ -677,6 +689,32 @@ mod tests {
         }
     }
 
+    /// A service that reads `n` pieces of a file one step at a time (each
+    /// depends on the last), then says how many it got.
+    struct Stepper {
+        n: usize,
+    }
+
+    impl Provider for Stepper {
+        fn id(&self) -> ProviderId {
+            ProviderId::Cursor
+        }
+
+        fn wants(&self, _dirs: &Dirs) -> Vec<Want> {
+            vec![Want::Range { path: PathBuf::from("/x/state.vscdb"), offset: 0, len: 100 }]
+        }
+
+        fn next(&self, cx: &Ctx, _replies: &[Result<Reply, NetFail>]) -> Step {
+            if cx.got.len() < self.n {
+                Step::Read(vec![Want::Range { path: PathBuf::from("/x/state.vscdb"), offset: 100 * cx.got.len() as u64, len: 100 }])
+            } else {
+                let mut s = Snapshot::new(ProviderId::Cursor, cx.now, Source::Local);
+                s.tokens_today = Some(cx.got.iter().filter(|g| g.bytes().is_some()).count() as u64);
+                Step::Done(Ok(s))
+            }
+        }
+    }
+
     fn drive(p: &Asker, reach: Reach) -> (Run, Vec<String>) {
         let dirs = Dirs::sample(Os::Windows);
         let mut sent = Vec::new();
@@ -709,6 +747,25 @@ mod tests {
         let p = Asker { n: 1, header: "Bearer k" };
         let run = run(&p, &dirs, &p.wants(&dirs), T, Reach::Online, |_| Got::Missing, |_| panic!("asked without a key"));
         assert_eq!(run.outcome, Some(Err(Trouble::NeedsKey)));
+    }
+
+    #[test]
+    fn pieces_are_read_in_steps_up_to_the_limit() {
+        let dirs = Dirs::sample(Os::Mac);
+        let piece = |w: &Want| match w {
+            Want::Range { path, len, .. } => Got::One(FileRead { path: path.clone(), bytes: vec![0; *len as usize], modified: None }),
+            _ => Got::Missing,
+        };
+        // Reads come before the end, on a local look too, and ask nothing.
+        let ten = Stepper { n: 10 };
+        let ran = run(&ten, &dirs, &ten.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"));
+        assert_eq!(ran.outcome.map(|o| o.unwrap().tokens_today), Some(Some(10)));
+        let all = Stepper { n: MAX_READS };
+        assert!(run(&all, &dirs, &all.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked")).outcome.is_some());
+        // One more than the limit stops it, and the tab keeps what it had.
+        let greedy = Stepper { n: MAX_READS + 1 };
+        let ran = run(&greedy, &dirs, &greedy.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"));
+        assert!(ran.outcome.is_none() && ran.broke.is_some());
     }
 
     #[test]

@@ -675,8 +675,9 @@ fn at(id: ProviderId) -> usize {
     ProviderId::ALL.iter().position(|p| *p == id).unwrap_or(0)
 }
 
-/// What one want gave: files as `pace` reads them, a Mac keychain item, a
-/// kept key. `tick`: the pacing's clock.
+/// What one want gave: files (whole, the newest of a folder, a piece) as
+/// `pace` reads them, a Mac keychain item, a kept key. `tick`: the pacing's
+/// clock.
 fn read(w: &Want, names: &[&'static str], keychain: &mut Keychain, tick: i64) -> Got {
     match w {
         Want::File { path, max } => pace::read_file(path, *max),
@@ -684,6 +685,7 @@ fn read(w: &Want, names: &[&'static str], keychain: &mut Keychain, tick: i64) ->
         Want::Keychain { service, account } => keychain.read(service, account.as_deref(), tick, keychain_item),
         Want::Secret(name) if names.contains(name) => load_key(name).map_or(Got::Missing, Got::Text),
         Want::Secret(_) => Got::Missing,
+        Want::Range { path, offset, len } => pace::read_range(path, *offset, *len),
     }
 }
 
@@ -895,7 +897,7 @@ mod tests {
         assert_eq!(w.svcs[at(ProviderId::Codex)].kept, Some(newer));
         heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::SignedOut), 1));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Err(Trouble::SignedOut)]);
-        assert_eq!(w.svcs[at(ProviderId::Codex)].kept);
+        assert_eq!(w.svcs[at(ProviderId::Codex)].kept, None);
     }
 
     #[test]
@@ -1019,12 +1021,12 @@ mod tests {
     #[test]
     fn the_worker_wakes_for_a_look_as_the_tab_opens() {
         let (mut w, _rx) = worker();
-        assert_eq!(w.next_wait());
+        assert_eq!(w.next_wait(), None);
         w.saw(Watch { open: true, ..Watch::default() });
         assert_eq!(w.next_wait(), Some(Duration::ZERO));
         w.looks.begin(true, w.tick());
         assert!(w.next_wait().is_some_and(|d| d > Duration::from_secs(50)));
         w.saw(Watch::default());
-        assert_eq!(w.next_wait());
+        assert_eq!(w.next_wait(), None);
     }
 }
