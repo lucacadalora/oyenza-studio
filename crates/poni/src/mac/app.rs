@@ -2707,7 +2707,7 @@ impl App {
         }
         // The AI tab's heads-up notices wait the same way, one at a time, and
         // while a full-screen app hides the island.
-        if self.st.show_usage_notice(free && !self.fullscreen_hidden) {
+        if self.st.show_usage_notice(free && !self.fullscreen_hidden, self.expanded && self.st.page == PageKind::Ai) {
             self.request_frame();
         }
         if let Some(ended) = self.st.pomodoro.tick(now) {

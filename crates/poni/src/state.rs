@@ -848,14 +848,15 @@ impl AppState {
     /// says: someone at the computer, nothing hides the island, it's closed)
     /// and no other notice shows. One older than `HELD_MAX_S` or for a service
     /// hidden since is dropped, and all of them once the notices are switched
-    /// off. True when one went up. Called every frame: nothing waiting, it's
-    /// one comparison.
-    pub fn show_usage_notice(&mut self, free: bool) -> bool {
+    /// off or the AI tab is on screen (`ai_open`), which says it all. True
+    /// when one went up. Called every frame: nothing waiting, it's one
+    /// comparison.
+    pub fn show_usage_notice(&mut self, free: bool, ai_open: bool) -> bool {
         if self.usage.waiting.is_empty() {
             return false;
         }
         let (u, now) = (&self.settings.usage, self.now);
-        if !u.notices {
+        if !u.notices || ai_open {
             self.usage.waiting.clear();
             return false;
         }
@@ -1061,7 +1062,7 @@ mod tests {
     /// The titles of the AI notices as they go up, the island free throughout.
     fn shown(st: &mut AppState) -> Vec<String> {
         let mut titles = Vec::new();
-        while st.show_usage_notice(true) {
+        while st.show_usage_notice(true, false) {
             titles.extend(st.notice.take().map(|n| n.title));
         }
         titles
@@ -1093,15 +1094,15 @@ mod tests {
         st.settings.usage.notices = true;
         st.hold_usage_alerts(vec![codex()]);
         // Nobody at the computer, a full-screen app, the island open: it waits.
-        assert!(!st.show_usage_notice(false));
+        assert!(!st.show_usage_notice(false, false));
         assert!(st.notice.is_none());
         // ...and for another notice to leave.
         st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", "as a•••@example.com", 6.0, None);
-        assert!(!st.show_usage_notice(true));
+        assert!(!st.show_usage_notice(true, false));
         assert_eq!(st.notice.as_ref().map(|n| n.title.as_str()), Some("Connected to Oyenza"));
         st.notice = None;
         st.now = 130.0;
-        assert!(st.show_usage_notice(true));
+        assert!(st.show_usage_notice(true, false));
         let n = st.notice.take().unwrap();
         assert_eq!((n.title.as_str(), n.subtitle.as_str(), n.until), ("Codex: 80% of 5-hour", "Resets 14:20", 130.0 + poni_core::oyenza::NOTICE_S));
         assert_eq!((n.action, n.inline), (Some(NoticeAction::OpenPage(PageKind::Ai)), None));
@@ -1114,10 +1115,14 @@ mod tests {
         st.hold_usage_alerts(vec![alert(ProviderId::Claude, AlertKind::Out, "Claude Code: 5-hour used up"), codex()]);
         st.settings.usage.hidden.push("claude".into());
         assert_eq!(shown(&mut st), ["Codex: 80% of 5-hour"]);
+        // The AI tab on screen (a notice's click opened it): it says it all.
+        st.hold_usage_alerts(vec![alert(ProviderId::Gemini, AlertKind::Back, "Gemini CLI is back")]);
+        assert!(!st.show_usage_notice(false, true));
+        assert!(st.usage.waiting.is_empty());
         // Notices switched off: all of them.
         st.hold_usage_alerts(vec![alert(ProviderId::Gemini, AlertKind::Back, "Gemini CLI is back")]);
         st.settings.usage.notices = false;
-        assert!(!st.show_usage_notice(true));
+        assert!(!st.show_usage_notice(true, false));
         assert!(st.usage.waiting.is_empty());
     }
 

@@ -2775,10 +2775,10 @@ impl App {
             self.request_frame();
         }
         // The AI tab's heads-up notices wait the same way, one at a time.
-        // Over a game the readout peeks over, they wait for the game to
+        // Over a game whose readout only peeks they wait for the game to
         // leave, as held money notices do, not for a peek.
         let peeks = self.st.game.active && self.st.settings.game_peek;
-        if self.st.show_usage_notice(free && !peeks) {
+        if self.st.show_usage_notice(free && !peeks, self.expanded && self.st.page == PageKind::Ai) {
             self.request_frame();
         }
         if let Some(ended) = self.st.pomodoro.tick(now) {
