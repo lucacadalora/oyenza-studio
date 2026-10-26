@@ -83,6 +83,8 @@ const FADE_H: f32 = 14.0;
 const OLD_S: i64 = 10 * 60;
 /// The longest key the field takes (Oyenza's own keys stop at 256).
 const KEY_MAX: usize = 256;
+/// A page drawn again after this long starts over (as Today does).
+const STALE_S: f64 = 1.0;
 /// Oyenza's colour, as on the Oyenza page.
 const OYENZA: Color = palette::ORANGE;
 const CHECKING: &str = "Checking…";
@@ -164,6 +166,13 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let area = Rect::new(area.x, area.y, area.w, HEIGHT);
     let now = ui.now;
     let s = &mut st.ui.usage;
+    // Opened again after a while (the island closed, or another tab showed):
+    // the cards from the top, and a key half typed is dropped.
+    if !s.still && now - s.drawn > STALE_S {
+        s.switch(false);
+        s.swap = 0.0;
+        s.reveal = None;
+    }
     // After an idle gap (the frame clock was parked) step as if one frame
     // passed; still pictures jump to the end.
     let dt = if s.still {
