@@ -27,6 +27,21 @@ fi
 chmod +x "$app/Contents/MacOS/poni"
 lipo -info "$app/Contents/MacOS/poni"
 
+# What macOS's Now Playing reports (Spotify, Music, YouTube in any browser, ...), for the music page:
+# MediaRemote Adapter's framework and script (third_party/mediaremote-adapter, BSD-3-Clause), which
+# /usr/bin/perl runs through installer/mac/now-playing.pl (crates/poni/src/mac/services/media.rs). Its
+# CMakeLists builds it for Apple Silicon and Intel; here for the app's oldest macOS too.
+adapter_build="$root/build/mediaremote-adapter"
+cmake -S "$root/third_party/mediaremote-adapter" -B "$adapter_build" -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 > /dev/null
+cmake --build "$adapter_build" --target MediaRemoteAdapter > /dev/null
+mkdir -p "$app/Contents/Frameworks"
+ditto "$adapter_build/MediaRemoteAdapter.framework" "$app/Contents/Frameworks/MediaRemoteAdapter.framework"
+rm -rf "$app/Contents/Frameworks/MediaRemoteAdapter.framework/Versions/A/Headers" "$app/Contents/Frameworks/MediaRemoteAdapter.framework/Headers"
+strip -x "$app/Contents/Frameworks/MediaRemoteAdapter.framework/Versions/A/MediaRemoteAdapter"
+lipo -info "$app/Contents/Frameworks/MediaRemoteAdapter.framework/Versions/A/MediaRemoteAdapter"
+cp "$root/third_party/mediaremote-adapter/bin/mediaremote-adapter.pl" "$root/installer/mac/now-playing.pl" "$app/Contents/Resources/"
+cp "$root/third_party/mediaremote-adapter/LICENSE" "$app/Contents/Resources/MediaRemoteAdapter-LICENSE.txt"
+
 sed "s/@VERSION@/$version/g" "$root/installer/mac/Info.plist" > "$app/Contents/Info.plist"
 plutil -lint "$app/Contents/Info.plist"
 printf 'APPL????' > "$app/Contents/PkgInfo"
@@ -34,7 +49,7 @@ if [ "$icns" != "-" ]; then
   cp "$icns" "$app/Contents/Resources/OyenzaStudio.icns"
 fi
 
-# Ad-hoc signature: seals the bundle (Apple Silicon refuses unsigned code outright).
+# Ad-hoc signature: seals the bundle, the adapter's framework too (Apple Silicon refuses unsigned code outright).
 codesign --force --deep --sign - "$app"
 codesign --verify --deep --strict --verbose=2 "$app"
 

@@ -39,11 +39,17 @@ cp -R "${apps[0]}" "$work/stage/"
 hdiutil detach "$work/mnt" -quiet
 app="$work/stage/$name"
 
-# 1. The app: hardened runtime, secure timestamp, the entitlements. It holds one binary, so no --deep (Apple
-#    advises against it for signing). --force replaces the ad-hoc signature.
+# 1. The app, inside out, each part on its own (Apple advises against --deep for signing): first the
+#    framework it carries for macOS's Now Playing (MediaRemote Adapter, loaded by /usr/bin/perl, not by
+#    the app), then the app itself with the hardened runtime, a secure timestamp and the entitlements.
+#    --force replaces the ad-hoc signatures.
+for framework in "$app/Contents/Frameworks/"*.framework; do
+  [ -d "$framework" ] || continue
+  codesign --force --options runtime --timestamp --sign "$identity" ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} "$framework"
+done
 codesign --force --options runtime --timestamp --entitlements "$entitlements" \
   --sign "$identity" ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} "$app"
-codesign --verify --strict --verbose=2 "$app"
+codesign --verify --deep --strict --verbose=2 "$app"
 codesign --display --verbose=2 "$app" > "$work/app-signature.txt" 2>&1
 cat "$work/app-signature.txt"
 grep -q "flags=.*runtime" "$work/app-signature.txt" || { echo "the app isn't signed with the hardened runtime" >&2; exit 1; }

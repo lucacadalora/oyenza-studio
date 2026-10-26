@@ -93,8 +93,11 @@ jobs:
           dmg=$(ls dist/*.dmg)
           hdiutil attach "$dmg" -nobrowse -readonly -mountpoint /tmp/poni-dmg
           ls -la /tmp/poni-dmg
-          # What a PR costs on the Mac: the DMG, and the app's binary in it.
+          # What a PR costs on the Mac: the DMG, and the app's binary in it,
+          # and what it carries for macOS's Now Playing.
           ls -l "$dmg" "/tmp/poni-dmg/Oyenza Studio.app/Contents/MacOS/poni"
+          ls -l "/tmp/poni-dmg/Oyenza Studio.app/Contents/Frameworks/MediaRemoteAdapter.framework/Versions/A/MediaRemoteAdapter" \
+            "/tmp/poni-dmg/Oyenza Studio.app/Contents/Resources/"*.pl
           plutil -p "/tmp/poni-dmg/Oyenza Studio.app/Contents/Info.plist"
           lipo -info "/tmp/poni-dmg/Oyenza Studio.app/Contents/MacOS/poni"
           codesign --verify --deep --strict "/tmp/poni-dmg/Oyenza Studio.app"
@@ -119,6 +122,9 @@ jobs:
             smoke/report.json
             smoke/stdout.txt
             smoke/home/poni.log
+            smoke/home/now-playing.log
+            smoke/home/smoke-player.txt
+            smoke/nowplaying-cost.txt
 
   # Liquid Glass came with macOS 26: the same DMG's smoke run on a macOS 26
   # runner, where the Glass steps show the real glass (the macOS 15 run
@@ -149,7 +155,13 @@ jobs:
             smoke/*.png
             smoke/report.json
             smoke/stdout.txt
+            smoke/home/now-playing.log
+            smoke/nowplaying-cost.txt
+            smoke/stdout.txt
             smoke/home/poni.log
+            smoke/home/now-playing.log
+            smoke/home/smoke-player.txt
+            smoke/nowplaying-cost.txt
 
   # The signing path on every run that isn't a release, with a throwaway
   # certificate: the app gets the hardened runtime and its entitlements, the
@@ -214,6 +226,9 @@ jobs:
             smoke/report.json
             smoke/stdout.txt
             smoke/home/poni.log
+            smoke/home/now-playing.log
+            smoke/home/smoke-player.txt
+            smoke/nowplaying-cost.txt
 
   # The release DMG, signed with the Developer ID, notarized by Apple and
   # stapled, so it opens with a plain "Open". Runs on release tags, and by hand

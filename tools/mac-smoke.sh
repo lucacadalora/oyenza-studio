@@ -40,6 +40,33 @@ defaults write com.apple.universalaccess reduceTransparency -bool false 2>&1 || 
 echo "reduce transparency now: $(defaults read com.apple.universalaccess reduceTransparency 2>&1)"
 sleep 1
 mkdir -p smoke
+# A stand-in for a browser tab or a music app (tools/mac-fake-player.m), for the
+# nowplaying-* steps: it reports a song to macOS's Now Playing.
+player="$(pwd)/smoke/Smoke Player.app"
+mkdir -p "$player/Contents/MacOS"
+clang -fobjc-arc -O1 -mmacosx-version-min=14.0 -framework AppKit -framework MediaPlayer \
+  tools/mac-fake-player.m -o "$player/Contents/MacOS/smoke-player" || echo "(could not build the stand-in player)"
+cat > "$player/Contents/Info.plist" <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key><string>com.oyenza.studio.smoke-player</string>
+	<key>CFBundleName</key><string>Smoke Player</string>
+	<key>CFBundleExecutable</key><string>smoke-player</string>
+	<key>CFBundlePackageType</key><string>APPL</string>
+	<key>LSUIElement</key><true/>
+</dict>
+</plist>
+PLIST
+codesign --force --sign - "$player" || true
+# The Now Playing adapter's processes (perl with the adapter's framework, and the
+# small one that ends it with the app): what they hold, and their CPU time so far.
+adapter_cost() {
+  ps -axo pid=,rss=,time=,command= | grep -F "now-playing.pl" | grep -v grep | while read -r p rss t rest; do
+    echo "$1: now playing adapter pid $p, resident $((rss / 1024)) MB, cpu time $t, $(footprint -p "$p" 2>/dev/null | grep -m1 -i "footprint:" | sed 's/^ *//')"
+  done | tee -a smoke/nowplaying-cost.txt
+}
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
 pid=$!
 deadline=$((SECONDS + 300))
@@ -59,6 +86,15 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
         sleep 1.5 ;;
       # Then a made-up song with Japanese lyrics (written for the test; the
       # app put them in its lyrics cache), for the Japanese readings add-on.
+      # Another app plays: the stand-in reports its song to macOS's Now Playing.
+      *nowplaying-start)
+        adapter_cost "before the song"
+        rm -f smoke/home/smoke-player.txt
+        open -g -n "$player" --args "$(pwd)/smoke/home/smoke-player.txt" || echo "(could not start the stand-in player)"
+        sleep 1.5 ;;
+      *nowplaying-check) adapter_cost "the song showing" ;;
+      *nowplaying-quit) pkill -f "Smoke Player.app/Contents/MacOS/smoke-player" || true; sleep 1 ;;
+      *menu) adapter_cost "at the end" ;;
       *ja-notify)
         osascript -l JavaScript -e 'ObjC.import("Foundation"); $.NSDistributedNotificationCenter.defaultCenter.postNotificationNameObjectUserInfoDeliverImmediately("com.spotify.client.PlaybackStateChanged", $("com.spotify.client"), $({"Name": "Paper Boats", "Artist": "The Lanterns", "Album": "Harbor Lights", "Duration": 201000, "Playback Position": 61.0, "Player State": "Playing"}), true)' || true
         sleep 1.5 ;;
@@ -83,6 +119,18 @@ else
   wait $pid
   code=$?
 fi
+pkill -f "Smoke Player.app/Contents/MacOS/smoke-player" 2>/dev/null
+# The adapter ends with the app (installer/mac/now-playing.pl).
+sleep 1
+left=$(pgrep -f "now-playing.pl" || true)
+if [ -n "$left" ]; then
+  echo "the Now Playing adapter outlived the app:"; ps -o pid=,command= -p $(echo $left | tr ' ' ',') || true
+  pkill -f "now-playing.pl" || true
+  code=1
+else
+  echo "the Now Playing adapter stopped with the app"
+fi
+echo "---- now playing"; cat smoke/nowplaying-cost.txt 2>/dev/null; cat smoke/home/now-playing.log 2>/dev/null
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true

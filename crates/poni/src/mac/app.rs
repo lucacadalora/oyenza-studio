@@ -3008,6 +3008,8 @@ impl App {
                 // requests); the Japanese readings add-on downloads 3.8 MB.
                 let limit = match name {
                     "music-check" | "ja-auto" => 25.0,
+                    "nowplaying-check" | "nowplaying-gone" => 15.0,
+                    "nowplaying-pause" => 10.0,
                     "ja-get" => 75.0,
                     "ja-off" | "prayer-off" => 15.0,
                     // Prayer times downloads 1.9 MB; Ashar comes 2 seconds in;
@@ -3142,6 +3144,18 @@ impl App {
                 self.st.hud = None;
             }
             "music-check" => {}
+            // CI starts a stand-in player (tools/mac-fake-player.m) that reports
+            // a song to macOS's Now Playing, as a browser tab or Spotify does,
+            // once this is ready; the island should show it over the
+            // notification's song, and its play/pause should reach the player.
+            // CI quits the player at nowplaying-quit, and the island goes back
+            // to the song Spotify's notification announced.
+            "nowplaying-start" => {
+                self.collapse();
+                self.st.hud = None;
+            }
+            "nowplaying-pause" => self.st.media_cmd(MediaCmd::PlayPause),
+            "nowplaying-check" | "nowplaying-quit" | "nowplaying-gone" => {}
             // What a frame costs to draw at rest while music plays: Classic's
             // attached pill here, Pill's floating one (with its shadow) later.
             "music-cost" => self.cost = DrawCost::default(),
@@ -3396,6 +3410,10 @@ impl App {
                 let looked_up = !matches!(self.st.lyrics.status, LyricsStatus::Idle | LyricsStatus::Loading);
                 (self.st.media.is_some() && looked_up) || waited > 20.0
             }
+            "nowplaying-check" => self.st.media.as_ref().is_some_and(|m| m.app_id == SMOKE_PLAYER.0) || waited > 12.0,
+            // The player took the press, and its report came back.
+            "nowplaying-pause" => (smoke_player_log().contains("toggle") && waited > 1.5) || waited > 8.0,
+            "nowplaying-gone" => self.st.media.as_ref().is_none_or(|m| m.app_id != SMOKE_PLAYER.0) || waited > 12.0,
             "ja-auto" => {
                 let l = &self.st.lyrics;
                 let playing = self.st.media.as_ref().is_some_and(|m| m.track_key == l.track_key && m.title == SMOKE_JA_TRACK.0);
@@ -3626,6 +3644,20 @@ impl App {
                 let synced = l.lyrics.as_ref().is_some_and(|x| x.synced);
                 let ok = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK) && l.status == LyricsStatus::Found && lines > 0;
                 Some(("now-playing-lyrics", ok, format!("{playing}; lyrics {:?} from {}: {lines} lines, synced {synced}", l.status, l.source)))
+            }
+            "nowplaying-check" => {
+                let ok = self.st.media.as_ref().is_some_and(|m| m.app_id == SMOKE_PLAYER.0 && m.title == SMOKE_PLAYER.1);
+                Some(("now-playing-any-app", ok, smoke_media_line(&self.st)))
+            }
+            "nowplaying-pause" => {
+                let log = smoke_player_log();
+                let ok = log.contains("toggle") && self.st.media.as_ref().is_some_and(|m| m.app_id == SMOKE_PLAYER.0 && !m.timeline.playing);
+                Some(("now-playing-button", ok, format!("the player got: {}; {}", log.split_whitespace().collect::<Vec<_>>().join(", "), smoke_media_line(&self.st))))
+            }
+            // Back to what Music's and Spotify's own announcements say.
+            "nowplaying-gone" => {
+                let ok = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK && m.app_id == "com.spotify.client");
+                Some(("now-playing-fallback", ok, smoke_media_line(&self.st)))
             }
             "ja-auto" => {
                 let l = &self.st.lyrics;
@@ -4001,7 +4033,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 54] = [
+const SMOKE_STEPS: [&str; 59] = [
     "idle",
     "hover",
     "open-focus",
@@ -4023,6 +4055,11 @@ const SMOKE_STEPS: [&str; 54] = [
     "music-notify",
     "music-check",
     "music-cost",
+    "nowplaying-start",
+    "nowplaying-check",
+    "nowplaying-pause",
+    "nowplaying-quit",
+    "nowplaying-gone",
     "glass-open",
     "glass-collapsed",
     "pill-open",
@@ -4059,6 +4096,20 @@ const SMOKE_STEPS: [&str; 54] = [
 ];
 /// The track CI announces as Spotify's own notification would.
 const SMOKE_TRACK: &str = "Blinding Lights";
+/// The stand-in player's bundle id and song (tools/mac-fake-player.m, built by tools/mac-smoke.sh).
+const SMOKE_PLAYER: (&str, &str) = ("com.oyenza.studio.smoke-player", "Smoke Signals");
+
+/// What the stand-in player was asked to do, one line each (it writes them next to poni.log).
+fn smoke_player_log() -> String {
+    std::fs::read_to_string(paths::data_dir().join("smoke-player.txt")).unwrap_or_default()
+}
+
+/// What the island shows, for the report.
+fn smoke_media_line(st: &AppState) -> String {
+    st.media.as_ref().map_or("the island shows no music".to_string(), |m| {
+        format!("the island shows {} by {} in {} ({}), {}", m.title, m.artist, m.app_name, m.app_id, if m.timeline.playing { "playing" } else { "paused" })
+    })
+}
 /// The made-up song with Japanese lyrics CI announces after it: title,
 /// artist, album and length (tools/mac-smoke.sh sends the same).
 const SMOKE_JA_TRACK: (&str, &str, &str, u32) = ("Paper Boats", "The Lanterns", "Harbor Lights", 201);

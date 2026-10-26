@@ -206,7 +206,9 @@ fn decode_json(part: &str) -> Option<Value> {
     serde_json::from_slice(&base64url(part)?).ok()
 }
 
-fn base64url(s: &str) -> Option<Vec<u8>> {
+/// Also reads standard base64 (`+`, `/`, `=` padding): the Mac's Now Playing
+/// art (`mediaremote`) comes that way.
+pub(crate) fn base64url(s: &str) -> Option<Vec<u8>> {
     let mut out = Vec::with_capacity(s.len() * 3 / 4);
     let (mut acc, mut bits) = (0u32, 0u32);
     for c in s.bytes() {

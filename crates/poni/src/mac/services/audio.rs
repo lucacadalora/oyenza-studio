@@ -115,6 +115,16 @@ pub fn current() -> Option<(f32, bool)> {
     default_device().and_then(read)
 }
 
+/// `kAudioDevicePropertyDeviceIsRunningSomewhere`: some app plays through it.
+const RUNNING_SOMEWHERE: u32 = fourcc(b"gone");
+
+/// Whether any app is playing through the default output right now (one
+/// read, nothing kept): the media service asks before it reads Music or
+/// Spotify by script, since a script brings up macOS's permission prompt.
+pub fn output_running() -> bool {
+    default_device().and_then(|d| get(d, Addr { selector: RUNNING_SOMEWHERE, scope: SCOPE_GLOBAL, element: 0 }, 0u32)).is_some_and(|v| v != 0)
+}
+
 fn device_addrs() -> Vec<Addr> {
     let mut v: Vec<Addr> = ELEMENTS.iter().map(|&e| Addr { selector: VOLUME, scope: SCOPE_OUTPUT, element: e }).collect();
     v.push(Addr { selector: MUTE, scope: SCOPE_OUTPUT, element: 0 });

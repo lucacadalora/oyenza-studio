@@ -57,16 +57,22 @@ pub fn slider_value(fraction: f64, min: f64, max: f64) -> Option<f64> {
 }
 
 /// Whether `app_id` is a web browser (its tabs report video titles with the
-/// channel as artist). Web apps installed from a browser (`…_crx_…`, e.g.
-/// YouTube Music) report proper metadata and don't count.
+/// channel as artist): a Windows media session's AUMID or a Mac bundle id.
+/// Web apps installed from a browser (`…_crx_…` on Windows,
+/// `com.google.Chrome.app.…` on a Mac, e.g. YouTube Music) report proper
+/// metadata and don't count.
 pub fn is_browser(app_id: &str) -> bool {
     let id = app_id.trim().to_ascii_lowercase();
-    if id.contains("_crx_") {
+    if id.contains("_crx_") || id.contains(".app.") {
         return false;
     }
     // Firefox registers a 16-hex-digit hash of its install path.
     let firefox_hash = id.len() == 16 && id.bytes().all(|b| b.is_ascii_hexdigit());
-    firefox_hash || ["chrome", "msedge", "microsoftedge", "brave", "opera", "firefox", "vivaldi"].iter().any(|b| id.contains(b))
+    // The Mac's: Safari (or WebKit's player process), Chromium, Edge, Arc and
+    // Dia, Zen, DuckDuckGo and Orion; Chrome, Brave, Opera, Firefox and
+    // Vivaldi match the Windows names.
+    const MAC: [&str; 8] = ["safari", "com.apple.webkit", "chromium", "com.microsoft.edgemac", "company.thebrowser", "zen-browser", "duckduckgo", "kagimacos"];
+    firefox_hash || ["chrome", "msedge", "microsoftedge", "brave", "opera", "firefox", "vivaldi"].iter().chain(MAC.iter()).any(|b| id.contains(b))
 }
 
 /// The site a browser tab is playing, judged from the browser window's title
@@ -164,6 +170,23 @@ mod tests {
             assert!(is_browser(id), "{id}");
         }
         for id in [APPLE, "Spotify.exe", "Chrome._crx_cinhimbnkkaeohfgghhklpknlkffjgod", "Microsoft.ZuneMusic_8wekyb3d8bbwe!Microsoft.ZuneMusic"] {
+            assert!(!is_browser(id), "{id}");
+        }
+        // Mac bundle ids, as macOS's Now Playing names the app.
+        for id in [
+            "com.apple.Safari",
+            "com.apple.WebKit.GPU",
+            "com.google.Chrome",
+            "org.chromium.Chromium",
+            "com.microsoft.edgemac",
+            "com.brave.Browser",
+            "company.thebrowser.Browser",
+            "org.mozilla.firefox",
+            "app.zen-browser.zen",
+        ] {
+            assert!(is_browser(id), "{id}");
+        }
+        for id in ["com.spotify.client", "com.apple.Music", "com.apple.podcasts", "com.google.Chrome.app.cinhimbnkkaeohfgghhklpknlkffjgod", "org.videolan.vlc"] {
             assert!(!is_browser(id), "{id}");
         }
     }
