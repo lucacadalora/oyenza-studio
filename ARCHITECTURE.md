@@ -228,7 +228,7 @@ the Windows files are untouched.
 | `mac/menubar.rs` | The menu bar item (Oyen's mark as a template image) and its menu, also on a right-click of the island |
 | `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |
 | `mac/clock.rs`, `paths.rs`, `events.rs`, `services.rs`, `dragdrop.rs` | Local time, `~/Library` folders, the event channel (drained on the main queue), the accent colour, links, clipboard, sounds |
-| `mac/services/media.rs` | What plays: macOS's Now Playing (any app: Spotify, Music, YouTube in a browser), read through MediaRemote Adapter (`third_party/mediaremote-adapter`, built into the app by `tools/make_mac_app.sh`), whose stream `/usr/bin/perl` runs via `installer/mac/now-playing.pl` and the island's buttons via `send`/`seek`; when Now Playing reports nothing, Music's and Spotify's own announcements and AppleScript |
+| `mac/services/media.rs` | What plays: macOS's Now Playing (any app: Spotify, Music, YouTube in a browser), read through MediaRemote Adapter (`third_party/mediaremote-adapter`, built into the app by `tools/make_mac_app.sh`), whose stream `/usr/bin/perl` runs via `installer/mac/now-playing.pl` while sound plays through the default output and 3 minutes after (`audio.rs` hears it start and stop), and the island's buttons via `send`/`seek`; when Now Playing reports nothing, Music's and Spotify's own announcements and AppleScript |
 
 CI (`.github/workflows/mac.yml`, on `main` and `mac-*` branches) builds for
 Apple Silicon and Intel, renders every state, runs the real window through a
