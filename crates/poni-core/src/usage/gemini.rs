@@ -16,9 +16,10 @@
 //! - An API key, Vertex AI or a gateway pays per call: no plan quota to read,
 //!   [`Trouble::NotFound`].
 //! - Since 18 June 2026 Google no longer serves Gemini CLI to personal
-//!   accounts (individuals, AI Pro, AI Ultra); such an account reads as
-//!   [`Trouble::Refused`]. Standard and Enterprise plans (on a schedule of
-//!   their own) and, CodexBar finds, Workspace accounts are still served.
+//!   accounts (individuals, AI Pro, AI Ultra); such an account, like one
+//!   without a licence, reads as [`Trouble::Disabled`]. Standard and
+//!   Enterprise plans (on a schedule of their own) and, CodexBar finds,
+//!   Workspace accounts are still served.
 
 use super::{jwt_claims, mask_email, num, reply_json, time, Ctx, Dirs, Got, NetFail, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, Window, WindowKind};
 use serde_json::{json, Value};
@@ -54,8 +55,8 @@ impl Provider for Gemini {
     }
 
     fn wants(&self, dirs: &Dirs) -> Vec<Want> {
-        let dir = dirs.var("GEMINI_CLI_HOME").map_or_else(|| dirs.home.clone(), PathBuf::from).join(".gemini");
-        vec![Want::file(dir.join("oauth_creds.json")), Want::file(dir.join("settings.json"))]
+        let base = dirs.var("GEMINI_CLI_HOME").map_or_else(|| dirs.home.clone(), PathBuf::from);
+        vec![Want::file(dirs.join(&base, &[".gemini", "oauth_creds.json"])), Want::file(dirs.join(&base, &[".gemini", "settings.json"]))]
     }
 
     fn next(&self, cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Step {
@@ -88,6 +89,9 @@ fn step(cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Result<Step, Trouble> {
         };
         return Ok(Step::Fetch(Request::post_json(QUOTA_URL, body.to_string()).bearer(&me.token)));
     };
+    if let Some(t) = failed(quota) {
+        return Err(t);
+    }
     let mut s = Snapshot::new(ProviderId::Gemini, cx.now, Source::Online);
     s.windows = windows(&reply_json(quota)?, cx.now)?;
     s.plan = plan(&ca, me.workspace);
@@ -138,16 +142,27 @@ fn auth_type(settings: &Got) -> Option<String> {
     Some(t.as_str()?.trim().to_ascii_lowercase())
 }
 
+/// How a failed ask reads. Google's 401 or 403 that names the account's
+/// standing, no licence (`SUBSCRIPTION_REQUIRED`) or a client it no longer
+/// serves (`UNSUPPORTED_CLIENT`), is [`Trouble::Disabled`]: signing in again
+/// wouldn't help.
+fn failed(r: &Result<Reply, NetFail>) -> Option<Trouble> {
+    match r {
+        Ok(a) if matches!(a.status, 401 | 403) && ["SUBSCRIPTION_REQUIRED", "UNSUPPORTED_CLIENT"].iter().any(|code| a.body.contains(code)) => Some(Trouble::Disabled),
+        _ => Trouble::from_net(r),
+    }
+}
+
 /// The first answer (loadCodeAssist): the account's tier and project. An
 /// answer we can't read costs only the plan's name; the quota is still asked.
 fn code_assist(r: &Result<Reply, NetFail>, me: &SignIn) -> Result<Value, Trouble> {
-    let ca = match Trouble::from_net(r) {
-        Some(t @ (Trouble::Refused | Trouble::Busy { .. } | Trouble::Offline)) => return Err(t),
+    let ca = match failed(r) {
+        Some(t @ (Trouble::Refused | Trouble::Disabled | Trouble::Busy { .. } | Trouble::Offline)) => return Err(t),
         Some(_) => Value::Null,
         None => reply_json(r).unwrap_or_default(),
     };
     if shut_out(&ca, me.workspace) {
-        return Err(Trouble::Refused);
+        return Err(Trouble::Disabled);
     }
     Ok(ca)
 }
@@ -258,8 +273,7 @@ fn window(label: &str, left: f64, resets: Option<i64>, now: i64) -> Window {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{join, FileRead, Method, Os, Outcome, MAX_FETCHES};
-    use std::path::Path;
+    use crate::usage::{drive, FileRead, Method, Os, Outcome};
 
     const CREDS: &str = include_str!("fixtures/gemini/oauth_creds.json");
     const CREDS_WORKSPACE: &str = include_str!("fixtures/gemini/oauth_creds_workspace.json");
@@ -267,6 +281,7 @@ mod tests {
     const LOAD: &str = include_str!("fixtures/gemini/load_code_assist.json");
     const SHUT_OUT: &str = include_str!("fixtures/gemini/load_code_assist_shut_out.json");
     const QUOTA: &str = include_str!("fixtures/gemini/retrieve_user_quota.json");
+    const NO_LICENCE: &str = include_str!("fixtures/gemini/retrieve_user_quota_403.json");
 
     /// 2026-10-27T05:00:00Z. The fixture token expires an hour later, and
     /// the buckets reset at 07:00Z (midnight in California).
@@ -287,18 +302,8 @@ mod tests {
     /// One refresh against canned answers, in order: what was asked, and how
     /// it ended.
     fn refresh(dirs: &Dirs, got: &[Got], now: i64, reach: Reach, answers: &[Result<Reply, NetFail>]) -> (Vec<Request>, Outcome) {
-        let cx = Ctx { dirs, got, now, reach };
-        let (mut asked, mut replies) = (Vec::new(), Vec::new());
-        loop {
-            match Gemini.next(&cx, &replies) {
-                Step::Done(outcome) => return (asked, outcome),
-                Step::Fetch(r) => {
-                    assert!(asked.len() < MAX_FETCHES, "more asks than a refresh may make");
-                    replies.push(answers.get(asked.len()).cloned().expect("an answer for every ask"));
-                    asked.push(r);
-                }
-            }
-        }
+        let mut answers = answers.iter();
+        drive(&Gemini, &Ctx { dirs, got, now, reach }, |_| answers.next().cloned().expect("an answer for every ask"))
     }
 
     /// Signed in with the fixture files, online.
@@ -322,12 +327,11 @@ mod tests {
         let mac = Dirs::sample(Os::Mac);
         assert_eq!(paths(&mac), [PathBuf::from("/Users/u/.gemini/oauth_creds.json"), PathBuf::from("/Users/u/.gemini/settings.json")]);
         let win = Dirs::sample(Os::Windows);
-        let home = Path::new(r"C:\Users\u");
-        assert_eq!(paths(&win), [join(home, &[".gemini", "oauth_creds.json"]), join(home, &[".gemini", "settings.json"])]);
+        assert_eq!(paths(&win), [PathBuf::from(r"C:\Users\u\.gemini\oauth_creds.json"), PathBuf::from(r"C:\Users\u\.gemini\settings.json")]);
         // GEMINI_CLI_HOME stands in for the home folder; .gemini stays.
         let mut moved = Dirs::sample(Os::Windows);
-        moved.env.push(("GEMINI_CLI_HOME".into(), r"D:\gem".into()));
-        assert_eq!(paths(&moved), [join(Path::new(r"D:\gem"), &[".gemini", "oauth_creds.json"]), join(Path::new(r"D:\gem"), &[".gemini", "settings.json"])]);
+        moved.env.push(("GEMINI_CLI_HOME".into(), r"D:\gem\".into()));
+        assert_eq!(paths(&moved), [PathBuf::from(r"D:\gem\.gemini\oauth_creds.json"), PathBuf::from(r"D:\gem\.gemini\settings.json")]);
         let mut moved = Dirs::sample(Os::Mac);
         moved.env.push(("GEMINI_CLI_HOME".into(), "/Volumes/work".into()));
         assert_eq!(paths(&moved)[0], PathBuf::from("/Volumes/work/.gemini/oauth_creds.json"));
@@ -394,7 +398,8 @@ mod tests {
             assert!(r.headers.contains(&("Authorization".into(), "Bearer test-token".into())));
             // The app adds its own User-Agent, and the refresh token never leaves.
             assert!(!r.headers.iter().any(|(k, _)| k.eq_ignore_ascii_case("user-agent")));
-            assert!(!format!("{r:?}").contains("test-refresh-token"));
+            let sent = format!("{} {:?} {}", r.url, r.headers, r.json.as_deref().unwrap_or(""));
+            assert!(!sent.contains("test-refresh-token") && !sent.contains("a@example.com"), "{sent}");
         }
         let s = out.unwrap();
         assert_eq!((s.provider, s.source, s.as_of), (ProviderId::Gemini, Source::Online, NOW));
@@ -453,14 +458,21 @@ mod tests {
         assert_eq!((asked.len(), out), (1, Err(Trouble::Refused)));
         let (asked, out) = online(&[ok(LOAD), status(401, None)]);
         assert_eq!((asked.len(), out), (2, Err(Trouble::Refused)));
-        // Google's 403 for an account without a licence, too.
         assert_eq!(online(&[ok(LOAD), status(403, None)]).1, Err(Trouble::Refused));
+        // Google's 403 for an account without a licence: signing in again
+        // wouldn't help.
+        let no_licence = Ok(Reply { status: 403, body: NO_LICENCE.into(), retry_after_s: None });
+        assert_eq!(online(&[ok(LOAD), no_licence]), (online(&[ok(LOAD), ok(QUOTA)]).0, Err(Trouble::Disabled)));
     }
 
     #[test]
-    fn a_personal_account_google_no_longer_serves_is_refused_at_once() {
+    fn a_personal_account_google_no_longer_serves_is_disabled_at_once() {
         let (asked, out) = online(&[ok(SHUT_OUT)]);
-        assert_eq!((asked.len(), out), (1, Err(Trouble::Refused)));
+        assert_eq!((asked.len(), out), (1, Err(Trouble::Disabled)));
+        // The same word in an error answer reads the same.
+        let error = r#"{"error":{"code":403,"message":"UNSUPPORTED_CLIENT: This client is no longer supported for Gemini Code Assist for individuals.","status":"PERMISSION_DENIED"}}"#;
+        let (asked, out) = online(&[Ok(Reply { status: 403, body: error.into(), retry_after_s: None })]);
+        assert_eq!((asked.len(), out), (1, Err(Trouble::Disabled)));
         // A Workspace account is still served: asked on, plan from its tier.
         let d = Dirs::sample(Os::Mac);
         let (asked, out) = refresh(&d, &[file(CREDS_WORKSPACE), file(SETTINGS)], NOW, Reach::Online, &[ok(SHUT_OUT), ok(QUOTA)]);
