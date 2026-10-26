@@ -145,10 +145,13 @@ fn ask(service: &str, account: Option<&str>) -> Got {
         }
         let _ = tx.send(buf);
     });
-    let printed = match reader {
-        Ok(_) => rx.recv_timeout(TIMEOUT).ok(),
-        Err(_) => None,
-    };
+    if let Err(e) = reader {
+        let _ = child.kill();
+        let _ = child.wait();
+        pwarn!("keychain: {service}: no thread to read with ({e})");
+        return Got::Missing;
+    }
+    let printed = rx.recv_timeout(TIMEOUT).ok();
     // Done, too big or too slow: either way the process ends here.
     let status = match &printed {
         Some(b) if b.len() as u64 <= FILE_MAX => child.wait().ok().and_then(|s| s.code()),

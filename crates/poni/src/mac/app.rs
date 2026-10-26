@@ -3362,6 +3362,13 @@ impl App {
                 self.on_oyenza(OyenzaEvent::Disconnected { by_server: false });
                 self.oyenza = None;
             }
+            // The AI tab (its worker never starts in the smoke run: nothing
+            // of this Mac is read), then its keychain reader on test items.
+            "ai-page" => {
+                self.st.notice = None;
+                self.set_page(PageKind::Ai);
+                self.expand();
+            }
             // macOS's own now playing, as a browser tab reaches it: the
             // stream stops, tools/mac-smoke.sh starts the MediaRemote
             // adapter's test player, and sound (CI's Macs play none) starts
@@ -3525,6 +3532,7 @@ impl App {
             "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
+            "ai-page" => (self.expanded && self.st.page == PageKind::Ai && waited > 0.6) || waited > 4.0,
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
@@ -3853,6 +3861,13 @@ impl App {
                 let n = self.st.notice.as_ref();
                 let ok = n.is_some_and(|n| n.title == "Money in \u{b7} BCA" && n.inline == Some(InlineAction::ShowAmount) && n.reveal.is_some());
                 Some(("oyenza-money", ok, format!("notice: {:?} / {:?}, sum held back for Show: {}", n.map(|n| &n.title), n.map(|n| &n.subtitle), n.is_some_and(|n| n.reveal.is_some()))))
+            }
+            "ai-page" => {
+                let tab = pages::tabs(&self.st).contains(&PageKind::Ai);
+                let asked = services::keychain::asked();
+                let ok = tab && self.expanded && self.st.page == PageKind::Ai && self.usage.is_none() && asked == 0;
+                let worker = if self.usage.is_none() { "not started" } else { "running" };
+                Some(("ai-page", ok, format!("AI tab: {tab}; page {:?}; worker {worker}; keychain asked {asked} times", self.st.page)))
             }
             "ai-keychain" => {
                 let (ok, d) = smoke_keychain();
@@ -4183,7 +4198,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 59] = [
+const SMOKE_STEPS: [&str; 60] = [
     "idle",
     "hover",
     "open-focus",
@@ -4237,6 +4252,7 @@ const SMOKE_STEPS: [&str; 59] = [
     "oyenza-page",
     "oyenza-money",
     "oyenza-off",
+    "ai-page",
     "ai-keychain",
     "now-playing-start",
     "now-playing",
