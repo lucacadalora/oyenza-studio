@@ -1,5 +1,5 @@
 //! Claude Code: Anthropic's Pro, Max 5x and Max 20x plans. The 5-hour and
-//! weekly limits come from the same answer Claude Code's own `/usage` shows.
+//! weekly limits come from the endpoint Claude Code's own `/usage` asks.
 //!
 //! - Sign-in: Claude Code keeps its claude.ai sign-in (`claudeAiOauth`: an
 //!   access token, when it expires in milliseconds, the plan) in the Mac
@@ -166,10 +166,10 @@ fn read(v: &Value, plan: Option<String>, account: Option<String>, now: i64) -> O
     }
     let mut s = Snapshot::new(ProviderId::Claude, now, Source::Online);
     s.windows = [
-        window(v, "five_hour", WindowKind::Session, "5-hour", FIVE_HOURS_S),
-        window(v, "seven_day", WindowKind::Weekly, "Weekly", WEEK_S),
-        window(v, "seven_day_opus", WindowKind::Weekly, "Weekly · Opus", WEEK_S),
-        window(v, "seven_day_sonnet", WindowKind::Weekly, "Weekly · Sonnet", WEEK_S),
+        window(v, "five_hour", Some("session"), WindowKind::Session, "5-hour", FIVE_HOURS_S),
+        window(v, "seven_day", Some("weekly_all"), WindowKind::Weekly, "Weekly", WEEK_S),
+        window(v, "seven_day_opus", None, WindowKind::Weekly, "Weekly · Opus", WEEK_S),
+        window(v, "seven_day_sonnet", None, WindowKind::Weekly, "Weekly · Sonnet", WEEK_S),
     ]
     .into_iter()
     .flatten()
@@ -182,16 +182,23 @@ fn read(v: &Value, plan: Option<String>, account: Option<String>, now: i64) -> O
     Ok(s)
 }
 
-/// `{"utilization": 62.0, "resets_at": "2026-10-27T07:20:00.28+00:00"}`:
-/// percent used and when it empties. None when absent or null.
-fn window(v: &Value, key: &str, kind: WindowKind, label: &str, length_s: u32) -> Option<Window> {
-    let w = v.get(key)?;
-    let used = num(w.get("utilization")?)?;
-    Some(Window::new(kind, label, (used / 100.0) as f32).resets(w.get("resets_at").and_then(time)).length(Some(length_s)))
+/// `{"utilization": 62.0, "resets_at": "2026-10-27T07:20:00.28+00:00"}` at
+/// `key`: percent used and when it empties. When that is absent or null, the
+/// `limits` entry of kind `listed` (`{"kind": "session", "percent": 62,
+/// "resets_at": ...}`): newer answers have been moving limits there.
+fn window(v: &Value, key: &str, listed: Option<&str>, kind: WindowKind, label: &str, length_s: u32) -> Option<Window> {
+    let flat = v.get(key).and_then(|w| Some((num(w.get("utilization")?)?, w.get("resets_at"))));
+    let in_limits = || {
+        let want = listed?;
+        let l = v.get("limits")?.as_array()?.iter().find(|l| l.get("kind").and_then(Value::as_str) == Some(want))?;
+        Some((num(l.get("percent")?)?, l.get("resets_at")))
+    };
+    let (used, resets_at) = flat.or_else(in_limits)?;
+    Some(Window::new(kind, label, (used / 100.0) as f32).resets(resets_at.and_then(time)).length(Some(length_s)))
 }
 
 /// The weekly limits on one model in `limits` ("weekly_scoped", named by
-/// `scope.model.display_name`, e.g. "Fable"), after the rows above; "All
+/// `scope.model.display_name`, e.g. "Fable"), after the flat rows; "All
 /// models" is the Weekly row itself. `is_active` is no filter: limits that
 /// apply have been seen saying false (CodexBar).
 fn scoped(v: &Value, windows: &mut Vec<Window>) {
@@ -211,8 +218,8 @@ fn scoped(v: &Value, windows: &mut Vec<Window>) {
     }
 }
 
-/// Extra usage (paying on past the plan's limits), in cents: spent this month
-/// and the monthly cap, once the person switched it on.
+/// Extra usage (paid use past the plan's limits), in cents: spent this month
+/// and the monthly cap, once the person has switched it on.
 fn extra_usage(v: &Value) -> Option<Spend> {
     let e = v.get("extra_usage").filter(|e| e.get("is_enabled").and_then(Value::as_bool) == Some(true))?;
     let currency = e.get("currency").and_then(Value::as_str).map(str::trim).filter(|c| c.len() == 3).unwrap_or("USD").to_ascii_uppercase();
@@ -232,7 +239,7 @@ fn cloud_credits(v: &Value, now: i64) -> Option<Money> {
 }
 
 /// Claude Code's settings file, read for the signed-in account only (it also
-/// holds every project's settings, which stay unread).
+/// holds every project's settings, skipped and never kept).
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct SettingsFile {
@@ -494,6 +501,23 @@ mod tests {
         assert_eq!(s.spend[0].money, Money { micros: 1_500_000, currency: "EUR".into() });
         assert_eq!(s.spend[0].cap, None);
         assert_eq!(s.balance, Some(Money::usd(40.0)));
+    }
+
+    #[test]
+    fn limits_moved_into_the_list_still_read() {
+        // The 5-hour and weekly rows only in `limits`, and a model's limit in
+        // both places: the flat field wins, without a second row.
+        let body = r#"{"five_hour": null, "seven_day": null, "seven_day_sonnet": null,
+            "seven_day_opus": {"utilization": 12.0, "resets_at": "2026-10-30T09:00:00Z"},
+            "limits": [
+              {"kind": "session", "group": "session", "percent": 40, "resets_at": "2026-10-27T07:20:00Z", "scope": null, "is_active": true},
+              {"kind": "weekly_all", "group": "weekly", "percent": 20, "resets_at": "2026-10-30T09:00:00Z", "scope": null, "is_active": false},
+              {"kind": "weekly_scoped", "group": "weekly", "percent": 7, "resets_at": "2026-10-30T09:00:00Z",
+               "scope": {"model": {"id": null, "display_name": "Opus"}, "surface": null}, "is_active": false}]}"#;
+        let s = online(&windows(file(CREDENTIALS_JSON)), reply(200, body)).unwrap();
+        let rows: Vec<_> = s.windows.iter().map(|w| (w.kind, w.label.as_str(), w.used, w.resets_at)).collect();
+        let (five, week) = (Some(1_793_085_600), Some(1_793_350_800));
+        assert_eq!(rows, vec![(WindowKind::Session, "5-hour", 0.4, five), (WindowKind::Weekly, "Weekly", 0.2, week), (WindowKind::Weekly, "Weekly · Opus", 0.12, week)]);
     }
 
     #[test]
