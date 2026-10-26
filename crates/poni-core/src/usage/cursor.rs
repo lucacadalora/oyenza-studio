@@ -370,44 +370,38 @@ mod sqlite {
     /// The values of `keys` in `table`, a key/value table like VS Code's
     /// `ItemTable (key TEXT UNIQUE, value BLOB)`: found through the key's
     /// index, then the row, whose key must match again. A key that isn't
-    /// there (or a table not made yet) is None.
+    /// there (or a table not made yet) is None. UTF-8 databases only (the
+    /// only kind VS Code and Cursor make).
     pub fn lookup(r: &mut Reads, table: &str, keys: &[&str]) -> Result<Vec<Option<String>>, Halt> {
         let none = vec![None; keys.len()];
         let Some(mut db) = Db::open(r)? else { return Ok(none) };
         let (Some(t), index) = db.roots(table)? else { return Ok(none) };
-        // A WITHOUT ROWID table is itself an index B-tree of (key, value).
-        let rowless = matches!(db.node(t)?.kind, 2 | 10);
+        let index = index.ok_or(ODD)?;
         let mut out = Vec::with_capacity(keys.len());
         for key in keys {
-            let k = db.enc(key);
-            let found = if rowless {
-                db.seek(t, &k, 2)?
-            } else {
-                match db.seek(index.ok_or(ODD)?, &k, 2)? {
-                    Some((entry, cols)) => {
-                        let rowid = int(&entry, cols[1]).ok_or(ODD)?;
-                        let (row, cols) = db.row(t, rowid)?.ok_or(CHANGED)?;
-                        if text_bytes(&row, cols[0]) != Some(&k[..]) {
-                            return Err(CHANGED);
-                        }
-                        Some((row, cols))
+            let k = key.as_bytes();
+            let found = match db.seek(index, k)? {
+                Some((entry, cols)) => {
+                    let rowid = int(&entry, cols[1]).ok_or(ODD)?;
+                    let (row, cols) = db.row(t, rowid)?.ok_or(CHANGED)?;
+                    if text_bytes(&row, cols[0]) != Some(k) {
+                        return Err(CHANGED);
                     }
-                    None => None,
+                    Some((row, cols))
                 }
+                None => None,
             };
-            out.push(found.and_then(|(rec, cols)| db.text(&rec, cols[1])));
+            out.push(found.and_then(|(rec, cols)| text(&rec, cols[1])));
         }
         Ok(out)
     }
 
-    /// An open database: its page size, text encoding, and the WAL's frames.
+    /// An open database: its page size, and the WAL's frames.
     struct Db<'r, 'a> {
         r: &'r mut Reads<'a>,
         size: u32,
         /// Bytes of each page that hold the B-tree (the rest is reserved).
         usable: usize,
-        /// None: UTF-8; Some(true): UTF-16LE; Some(false): UTF-16BE.
-        utf16: Option<bool>,
         wal: Option<Wal<'a>>,
     }
 
@@ -484,19 +478,14 @@ mod sqlite {
                 None => 0,
             };
             let usable = (size as usize).saturating_sub(h[20] as usize);
-            let utf16 = match be32(h, 56) {
-                Some(0 | 1) => None,
-                Some(2) => Some(true),
-                Some(3) => Some(false),
-                _ => return Err(ODD),
-            };
-            if !size.is_power_of_two() || size < 512 || usable < 480 {
+            // Text encoding 1 is UTF-8.
+            if !size.is_power_of_two() || size < 512 || usable < 480 || be32(h, 56) != Some(1) {
                 return Err(ODD);
             }
             // Bytes 18 and 19 are 2 in WAL mode, which stays set after Cursor
             // closes; without a -shm the main file is the whole database.
             let wal = if h[18] == 2 { wal(r, size)? } else { None };
-            Ok(Some(Db { r, size, usable, utf16, wal }))
+            Ok(Some(Db { r, size, usable, wal }))
         }
 
         /// Page `n` as the database has it now: its newest WAL frame, else the
@@ -631,8 +620,8 @@ mod sqlite {
             self.record(&p, want)
         }
 
-        /// The entry for `key` in the index B-tree at `root`.
-        fn seek(&mut self, root: u32, key: &[u8], want: usize) -> Result<Option<Record<'a>>, Halt> {
+        /// The entry for `key` in the index B-tree at `root`: (key, rowid).
+        fn seek(&mut self, root: u32, key: &[u8]) -> Result<Option<Record<'a>>, Halt> {
             let mut n = root;
             for _ in 0..DEPTH {
                 let node = self.node(n)?;
@@ -646,7 +635,7 @@ mod sqlite {
                     match order(key, &rec, cols[0])? {
                         Ordering::Less => hi = mid,
                         Ordering::Greater => lo = mid + 1,
-                        Ordering::Equal => return self.entry(&node, mid, want).map(Some),
+                        Ordering::Equal => return self.entry(&node, mid, 2).map(Some),
                     }
                 }
                 if node.kind == 10 {
@@ -699,8 +688,7 @@ mod sqlite {
         /// The root pages of `table` and of its key's index (the one SQLite
         /// makes for `UNIQUE` or `PRIMARY KEY`), from `sqlite_schema`.
         fn roots(&mut self, table: &str) -> Result<(Option<u32>, Option<u32>), Halt> {
-            let (is_table, is_index) = (self.enc("table"), self.enc("index"));
-            let (name, index) = (self.enc(table), self.enc(&format!("sqlite_autoindex_{table}_1")));
+            let (name, index) = (table.as_bytes(), format!("sqlite_autoindex_{table}_1"));
             let (mut t, mut x) = (None, None);
             let mut todo = vec![1];
             while let Some(n) = todo.pop() {
@@ -720,9 +708,9 @@ mod sqlite {
                     let (rec, c) = self.record(&p, 4)?;
                     let root = int(&rec, c[3]).and_then(|r| u32::try_from(r).ok()).filter(|r| *r > 0);
                     let (kind, own, of) = (text_bytes(&rec, c[0]), text_bytes(&rec, c[1]), text_bytes(&rec, c[2]));
-                    if kind == Some(&is_table[..]) && own == Some(&name[..]) {
+                    if kind == Some(b"table") && own == Some(name) {
                         t = root;
-                    } else if kind == Some(&is_index[..]) && of == Some(&name[..]) && own == Some(&index[..]) {
+                    } else if kind == Some(b"index") && of == Some(name) && own == Some(index.as_bytes()) {
                         x = root;
                     }
                 }
@@ -733,27 +721,6 @@ mod sqlite {
             Ok((t, x))
         }
 
-        /// `s` in the database's text encoding (keys compare as bytes).
-        fn enc(&self, s: &str) -> Vec<u8> {
-            match self.utf16 {
-                None => s.as_bytes().to_vec(),
-                Some(le) => s.encode_utf16().flat_map(|u| if le { u.to_le_bytes() } else { u.to_be_bytes() }).collect(),
-            }
-        }
-
-        /// A value as text: TEXT in the database's encoding, or a BLOB holding
-        /// UTF-8 or UTF-16LE. NULL and numbers are None.
-        fn text(&self, rec: &[u8], c: Col) -> Option<String> {
-            let b = rec.get(c.at..c.at + c.len)?;
-            match c.kind {
-                k if k >= 13 && k % 2 == 1 => match self.utf16 {
-                    None => String::from_utf8(b.to_vec()).ok(),
-                    Some(le) => utf16(b, le),
-                },
-                k if k >= 12 => blob_text(b),
-                _ => None,
-            }
-        }
     }
 
     /// The WAL's index: its header (two copies, 96 bytes; never bytes 120 to
@@ -855,6 +822,16 @@ mod sqlite {
         }
     }
 
+    /// A value as text: TEXT, or a BLOB holding UTF-8 or UTF-16LE. NULL and
+    /// numbers are None.
+    fn text(rec: &[u8], c: Col) -> Option<String> {
+        match c.kind {
+            k if k >= 13 && k % 2 == 1 => String::from_utf8(rec.get(c.at..c.at + c.len)?.to_vec()).ok(),
+            k if k >= 12 => blob_text(rec.get(c.at..c.at + c.len)?),
+            _ => None,
+        }
+    }
+
     fn text_bytes(rec: &[u8], c: Col) -> Option<&[u8]> {
         if c.kind >= 13 && c.kind % 2 == 1 {
             rec.get(c.at..c.at + c.len)
@@ -868,17 +845,16 @@ mod sqlite {
     /// UTF-16LE.
     pub fn blob_text(b: &[u8]) -> Option<String> {
         if !b.is_empty() && b.len() % 2 == 0 && b.chunks(2).all(|p| (1..128).contains(&p[0]) && p[1] == 0) {
-            return utf16(b, true);
+            return utf16le(b);
         }
-        std::str::from_utf8(b).map(str::to_string).ok().or_else(|| utf16(b, true))
+        std::str::from_utf8(b).map(str::to_string).ok().or_else(|| utf16le(b))
     }
 
-    fn utf16(b: &[u8], le: bool) -> Option<String> {
+    fn utf16le(b: &[u8]) -> Option<String> {
         if b.len() % 2 != 0 {
             return None;
         }
-        let units = b.chunks(2).map(|p| if le { u16::from_le_bytes([p[0], p[1]]) } else { u16::from_be_bytes([p[0], p[1]]) });
-        char::decode_utf16(units).collect::<Result<String, _>>().ok()
+        char::decode_utf16(b.chunks(2).map(|p| u16::from_le_bytes([p[0], p[1]]))).collect::<Result<String, _>>().ok()
     }
 
     /// SQLite's varint: 1 to 9 bytes, big-endian, 7 bits a byte (all 8 in
@@ -927,7 +903,6 @@ mod tests {
     const WAL_LOG: &[u8] = include_bytes!("fixtures/cursor/wal.vscdb-wal");
     const WAL_SHM: &[u8] = include_bytes!("fixtures/cursor/wal.vscdb-shm");
     const SIGNED_OUT: &[u8] = include_bytes!("fixtures/cursor/signed-out.vscdb");
-    const UTF16: &[u8] = include_bytes!("fixtures/cursor/utf16.vscdb");
     const SUMMARY: &str = include_str!("fixtures/cursor/usage-summary.json");
     const REQUESTS: &str = include_str!("fixtures/cursor/usage-requests.json");
     const NO_REQUESTS: &str = include_str!("fixtures/cursor/usage-no-requests.json");
@@ -1113,11 +1088,11 @@ mod tests {
     }
 
     #[test]
-    fn reads_a_utf16_database() {
-        let got = values(&files(UTF16, None), &KEYS).0.unwrap();
-        assert_eq!(exp_of(got[0].as_deref().unwrap()), EXP);
-        assert_eq!(got[1].as_deref(), Some("test@example.com"));
-        assert_eq!(got[2], None);
+    fn a_utf16_database_is_refused() {
+        // Text encoding 2 (UTF-16LE): never made by VS Code or Cursor.
+        let mut db = SIGNED_OUT.to_vec();
+        db[59] = 2;
+        assert!(matches!(values(&files(&db, None), &KEYS).0, Err(Halt::Bad(_))));
     }
 
     #[test]

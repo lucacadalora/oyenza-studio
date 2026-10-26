@@ -9,7 +9,6 @@ only. Run from anywhere: python3 -I make_fixtures.py <this folder>
   main file holds an older token, the WAL the newer one.
 - signed-out.vscdb: default 4096-byte pages, Cursor installed, nobody signed
   in (no cursorAuth keys).
-- utf16.vscdb: a UTF-16le database (never seen from Cursor, read anyway).
 
 WAL salts are random, so the WAL files differ on every run.
 """
@@ -123,23 +122,9 @@ def signed_out_store():
     con.close()
 
 
-def utf16_store():
-    con = sqlite3.connect(fresh("utf16.vscdb"))
-    con.execute("PRAGMA encoding = 'UTF-16le'")
-    con.execute("PRAGMA page_size = 512")
-    con.execute(SCHEMA)
-    put(con, fillers(0, 30) + [
-        ("cursorAuth/accessToken", jwt(2_000_000_000, 64)),
-        ("cursorAuth/cachedEmail", "test@example.com"),
-    ])
-    con.commit()
-    con.close()
-
-
 main_store()
 wal_store()
 signed_out_store()
-utf16_store()
 for name in sorted(os.listdir(OUT)):
     if "vscdb" in name:
         print(name, os.path.getsize(os.path.join(OUT, name)))
