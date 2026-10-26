@@ -703,6 +703,17 @@ mod tests {
     }
 
     #[test]
+    fn ai_is_always_a_tab_and_never_makes_the_window_taller() {
+        let st = state();
+        assert!(tabs(&st).contains(&PageKind::Ai), "a core tab: no add-on to switch on");
+        assert_eq!(PageKind::from_key("ai"), PageKind::Ai);
+        // An island last open on the AI tab opens there again.
+        let store = Store { last_page: "ai".into(), ..Store::default() };
+        assert_eq!(AppState::new(Settings { remember_page: true, ..Settings::default() }, store).page, PageKind::Ai);
+        assert!(content_height(PageKind::Ai, &st) <= content_height(PageKind::System, &st));
+    }
+
+    #[test]
     fn system_and_health_have_a_tab_only_while_their_add_ons_are_on() {
         for (page, addon) in [(PageKind::System, poni_core::addons::SYSTEM), (PageKind::Health, poni_core::addons::HEALTH)] {
             let mut st = state();
