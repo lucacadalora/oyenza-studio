@@ -732,7 +732,7 @@ pub fn reply_json(r: &Result<Reply, NetFail>) -> Result<Value, Trouble> {
     }
 }
 
-/// "luca@gmail.com" -> "l•••@gmail.com"; anything else keeps its first
+/// "someone@example.com" -> "s•••@example.com"; anything else keeps its first
 /// character only.
 pub fn mask_email(s: &str) -> String {
     let s = s.trim();
@@ -1002,7 +1002,7 @@ mod tests {
         assert_eq!(Money::usd(0.0002).fmt(), "<$0.001");
         assert_eq!(Money::usd(0.0).fmt(), "$0.00");
         assert_eq!(micros(f64::NAN), 0);
-        assert_eq!(mask_email("luca@example.com"), "l•••@example.com");
+        assert_eq!(mask_email("someone@example.com"), "s•••@example.com");
         assert_eq!(mask_email("org-123"), "o•••");
     }
 
