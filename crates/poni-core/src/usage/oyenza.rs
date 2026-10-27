@@ -14,7 +14,7 @@
 //! answers, when to ask again while a code is on screen, and the words. The
 //! AI tab's worker (`services/usage.rs`) does the HTTP and keeps the key.
 
-use super::{mask_email, num, reply_json, time, Ctx, DayUse, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want};
+use super::{mask_email, num, reply_json, sort_small_by, time, Ctx, DayUse, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want};
 use serde_json::Value;
 
 /// Where Studio asks. A test build points [`URL_VAR`] at another copy of the
@@ -130,7 +130,7 @@ fn parse_summary(v: &Value, now: i64) -> Option<Snapshot> {
         }
     }
     s.days = v.get("days").and_then(Value::as_array).map(|d| d.iter().filter_map(day_use).collect()).unwrap_or_default();
-    s.days.sort_by(|a, b| a.day.cmp(&b.day));
+    sort_small_by(&mut s.days, |a, b| a.day > b.day);
     (s.balance.is_some() || !s.spend.is_empty()).then_some(s)
 }
 
@@ -385,6 +385,9 @@ pub const DENIED: &str = "denied";
 pub const OFFLINE: &str = "offline";
 pub const BUSY: &str = "busy";
 pub const OTHER: &str = "other";
+/// Disconnected on this computer, but the server couldn't be told: the key
+/// still works there until it is removed under Connected apps.
+pub const UNTOLD: &str = "untold";
 
 /// "Approve KPJX-TMNQ on inference.oyenza.com". `at` is the server or the
 /// approve link: only its host shows.
@@ -414,6 +417,7 @@ pub fn connect_failure_text(code: &str) -> (&'static str, &'static str) {
         DENIED => ("Not connected", "The code was refused on inference.oyenza.com"),
         OFFLINE => ("Can't reach Oyenza Inference", "Check the connection and try again"),
         BUSY => ("Too many tries", "Wait a few minutes, then connect again"),
+        UNTOLD => ("Disconnected here only", "Remove this computer under Connected apps too"),
         _ => ("Couldn't connect", "Try again in a minute"),
     }
 }
@@ -763,7 +767,7 @@ mod tests {
         assert_eq!(nudge(ProviderId::Codex, Some(" ")).as_deref(), Some("Out of Codex? Keep going on Oyenza Inference."));
         assert_eq!(nudge(ProviderId::Oyenza, None), None);
         let mut words = vec![CONNECT, CONNECT_LINE, STARTING, CONNECT_AGAIN, DISCONNECT, NUDGE, refused_text(Refusal::Key).0, refused_text(Refusal::Key).1];
-        for code in [EXPIRED, DENIED, OFFLINE, BUSY, OTHER] {
+        for code in [EXPIRED, DENIED, OFFLINE, BUSY, OTHER, UNTOLD] {
             words.extend([connect_failure_text(code).0, connect_failure_text(code).1]);
         }
         assert!(words.iter().all(|w| !w.contains('—') && !w.contains('–')));

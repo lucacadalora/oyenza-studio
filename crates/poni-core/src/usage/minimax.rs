@@ -16,8 +16,8 @@
 
 use super::zai::find_key;
 use super::{
-    num, reply_json, time, Ctx, Dirs, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want,
-    Window, WindowKind,
+    num, reply_json, sort_small_by, time, Ctx, Dirs, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble,
+    Want, Window, WindowKind,
 };
 use serde_json::Value;
 
@@ -165,7 +165,7 @@ fn read(r: &Result<Reply, NetFail>, now: i64) -> Result<Snapshot, (Trouble, bool
             found.extend(lane(m, model, true, now).map(|w| (1, model, w)));
         }
     }
-    found.sort_by_key(|(order, _, _)| *order);
+    sort_small_by(&mut found, |a, b| a.0 > b.0);
     let mut s = Snapshot::new(ProviderId::MiniMax, now, Source::Online);
     for (_, model, mut w) in found {
         // Two lanes of one name (two text models): the second says which.

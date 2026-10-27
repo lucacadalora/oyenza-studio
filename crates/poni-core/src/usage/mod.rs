@@ -840,6 +840,21 @@ fn unix_s(x: f64) -> i64 {
     }
 }
 
+/// Sorts a short list (a few windows, a month of days) so that `after(a, b)`
+/// holds for no two neighbours, keeping equal ones in their order. The
+/// standard stable sort adds about 6 KB to poni.exe for each type it sorts;
+/// these lists hold a few dozen at most, where moving each one back into
+/// place is just as quick.
+pub fn sort_small_by<T>(v: &mut [T], after: impl Fn(&T, &T) -> bool) {
+    for i in 1..v.len() {
+        let mut j = i;
+        while j > 0 && after(&v[j - 1], &v[j]) {
+            v.swap(j - 1, j);
+            j -= 1;
+        }
+    }
+}
+
 /// `path` joined from parts, for building paths without caring about `\`.
 pub fn join(base: &Path, parts: &[&str]) -> PathBuf {
     let mut p = base.to_path_buf();
@@ -946,6 +961,15 @@ mod tests {
             assert_eq!(ProviderId::from_key(id.key()), Some(id));
             assert_eq!(provider(id).id(), id);
         }
+    }
+
+    #[test]
+    fn short_lists_sort_and_keep_ties_in_order() {
+        let mut v = vec![(3, 'a'), (1, 'b'), (2, 'c'), (1, 'd'), (3, 'e'), (0, 'f')];
+        sort_small_by(&mut v, |a, b| a.0 > b.0);
+        assert_eq!(v, [(0, 'f'), (1, 'b'), (1, 'd'), (2, 'c'), (3, 'a'), (3, 'e')]);
+        let mut none: [u8; 0] = [];
+        sort_small_by(&mut none, |a, b| a > b);
     }
 
     #[test]

@@ -47,6 +47,7 @@ features = [
     "Storage",
     "Storage_Streams",
     "Web_Http",
+    "Web_Http_Filters",
     "Web_Http_Headers",
     "Devices_Enumeration",
     "Devices_Bluetooth",
