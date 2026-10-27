@@ -9,10 +9,13 @@
 //! while nobody is at the PC (locked, display off) or on battery saver waits
 //! until it is back; the app asks [`Updater::due_in`] again then.
 //!
-//! On Windows a new version's Setup (about 2.5 MB) downloads once per
-//! release, before the island tells about it, as Screen Studio does: the
-//! Update sheet then offers Install now and Install on next start. It waits
-//! in `update` in the cache folder and goes once that version runs.
+//! A new version downloads once per release, before the island tells about
+//! it, as Screen Studio does: the Setup on Windows (about 2.5 MB), the DMG
+//! on a Mac (about 4.3 MB), whose app is then taken out of it and checked.
+//! The Update sheet then offers Install now and Install on next start. It
+//! waits in `update` in the cache folder and goes once that version runs. A
+//! Mac copy that can't replace itself where it is (`services::update::
+//! can_install`) downloads nothing ahead: its sheet offers the DMG.
 
 use crate::icons::Icon;
 use crate::state::{AppState, InlineAction, Notice, NoticeAction};
@@ -20,9 +23,8 @@ use crate::version::VERSION;
 use poni_core::geom::{palette, Color};
 use poni_core::store::{load_json, save_json_atomic};
 use poni_core::update::{self, Memory, Release};
-use std::path::PathBuf;
-#[cfg(windows)]
 use poni_core::update::Download;
+use std::path::PathBuf;
 
 /// Which download is this system's.
 const MAC: bool = cfg!(target_os = "macos");
@@ -38,21 +40,23 @@ pub struct Updater {
     due: Option<u64>,
     /// "Updated to" waits for the island to be free.
     updated: bool,
-    /// The offered version's Setup, and the folder it downloads to.
-    #[cfg(windows)]
+    /// The offered version's download, and the folder it downloads to.
     setup: Setup,
-    #[cfg_attr(not(windows), allow(dead_code))]
     setups: PathBuf,
+    /// This copy can install a new version itself, so it downloads one
+    /// before telling (Windows always; a Mac where it can replace itself).
+    installs: bool,
 }
 
-/// Where the offered version's Setup stands (Windows).
-#[cfg(windows)]
+/// Where the offered version's download stands: its Setup on Windows, its
+/// app out of the DMG on a Mac.
 #[derive(Clone, Debug, PartialEq)]
 enum Setup {
     /// Not asked for yet.
     None,
     Fetching,
-    /// On disk at this path, its size and SHA-256 checked.
+    /// Ready to install at this path, checked (the Setup's size and
+    /// SHA-256; the DMG's, then the app's version and signature).
     Ready(PathBuf),
     /// The download failed: the sheet offers the release page, and the
     /// next look at the file tries again.
@@ -63,11 +67,7 @@ impl Updater {
     /// At start: what was remembered, the offer it still holds (shown at
     /// once, before any read), and whether to say "Updated to".
     pub fn start(path: PathBuf, st: &mut AppState, now: u64) -> Self {
-        #[cfg(windows)]
-        let setups = setup_dir();
-        #[cfg(not(windows))]
-        let setups = PathBuf::new();
-        Self::open(path, setups, st, now)
+        Self::open(path, setup_dir(), st, now)
     }
 
     fn open(path: PathBuf, setups: PathBuf, st: &mut AppState, now: u64) -> Self {
@@ -83,12 +83,11 @@ impl Updater {
             memory,
             due,
             updated,
-            #[cfg(windows)]
             setup: Setup::None,
             setups,
+            installs: crate::services::update::can_install(),
         };
         u.show(st);
-        #[cfg(windows)]
         u.clear_old_setups(st);
         let latest = u.memory.latest.as_ref().map_or("none", |r| r.version.as_str());
         crate::pinfo!("updates: latest known {latest}, offering {:?}, next look in {} s", st.update.offer.as_ref().map(|r| &r.version), due.unwrap_or(now).saturating_sub(now));
@@ -130,16 +129,18 @@ impl Updater {
         self.show(st);
     }
 
-    /// The offered version's Setup to download, if it isn't on disk yet or
-    /// on its way (Windows). The app runs it on the add-on thread and passes
-    /// the answer to [`Updater::fetched`].
-    #[cfg(windows)]
+    /// The offered version's download, if it isn't ready yet or on its way
+    /// and this copy can install it. The app runs it on the add-on thread
+    /// and passes the answer to [`Updater::fetched`].
     pub fn want_setup(&mut self, st: &mut AppState) -> Option<(Download, PathBuf)> {
-        let d = st.update.offer.as_ref()?.download(false)?.clone();
+        if !self.installs {
+            return None;
+        }
+        let d = st.update.offer.as_ref()?.download(MAC)?.clone();
         let path = self.setups.join(d.file_name());
         match &self.setup {
             Setup::Fetching => return None,
-            Setup::Ready(p) if *p == path => return None,
+            Setup::Ready(p) if *p == self.ready_path(&d) => return None,
             _ => {}
         }
         self.setup = Setup::Fetching;
@@ -147,27 +148,44 @@ impl Updater {
         Some((d, path))
     }
 
-    /// The Setup's download ended.
-    #[cfg(windows)]
+    /// The download ended (on a Mac, with its app taken out).
     pub fn fetched(&mut self, st: &mut AppState, r: Result<PathBuf, String>) {
         self.setup = r.map_or(Setup::Failed, Setup::Ready);
         self.show(st);
         self.clear_old_setups(st);
     }
 
-    /// The checked Setup and what it must match, while Install can run it.
-    #[cfg(windows)]
+    /// What Install puts in place, checked, and the download it came from:
+    /// the Setup (Windows) or the app out of the DMG (Mac).
     pub fn ready_setup(&self, st: &AppState) -> Option<(PathBuf, Download)> {
-        let d = st.update.offer.as_ref()?.download(false)?;
+        let d = st.update.offer.as_ref()?.download(MAC)?;
         match &self.setup {
-            Setup::Ready(p) if p.file_name().is_some_and(|n| n == d.file_name()) => Some((p.clone(), d.clone())),
+            Setup::Ready(p) if *p == self.ready_path(d) => Some((p.clone(), d.clone())),
             _ => None,
         }
     }
 
-    /// Install on next start: the next start runs the Setup first
+    /// Where the download `d` is ready to install: the Setup itself, or on
+    /// a Mac the app taken out of the DMG, next to it.
+    fn ready_path(&self, d: &Download) -> PathBuf {
+        let file = self.setups.join(d.file_name());
+        #[cfg(target_os = "macos")]
+        let file = crate::services::update::staged(&file);
+        file
+    }
+
+    /// The offered version's download, if it is on disk and checks out: a
+    /// Mac opens the DMG for a drag by hand when Install can't put the app
+    /// in place.
+    #[cfg(target_os = "macos")]
+    pub fn downloaded(&self, st: &AppState) -> Option<PathBuf> {
+        let d = st.update.offer.as_ref()?.download(MAC)?;
+        let path = self.setups.join(d.file_name());
+        std::fs::read(&path).is_ok_and(|b| d.matches(&b)).then_some(path)
+    }
+
+    /// Install on next start: the next start installs it first
     /// ([`pending_install`]).
-    #[cfg(windows)]
     pub fn install_on_next_start(&mut self, st: &mut AppState) {
         let Some(v) = st.update.offer.as_ref().map(|r| r.version.clone()) else { return };
         crate::pinfo!("updates: {v} installs on the next start");
@@ -176,15 +194,16 @@ impl Updater {
         self.show(st);
     }
 
-    /// Setups in the cache folder but the offered one's: an older version's,
-    /// or every one once nothing is offered (this version is the latest).
-    #[cfg(windows)]
+    /// Downloads in the cache folder but the offered one's (and a Mac's app
+    /// out of it): an older version's, or all once nothing is offered (this
+    /// version is the latest).
     fn clear_old_setups(&self, st: &AppState) {
-        let keep = st.update.offer.as_ref().and_then(|r| r.download(false)).map(|d| d.file_name().to_string());
+        let keep: Vec<PathBuf> = st.update.offer.as_ref().and_then(|r| r.download(MAC)).map(|d| vec![self.setups.join(d.file_name()), self.ready_path(d)]).unwrap_or_default();
         let Ok(entries) = std::fs::read_dir(&self.setups) else { return };
         for e in entries.flatten() {
-            if keep.as_deref() != e.file_name().to_str() {
-                let _ = std::fs::remove_file(e.path());
+            let path = e.path();
+            if !keep.contains(&path) {
+                let _ = if path.is_dir() { std::fs::remove_dir_all(&path) } else { std::fs::remove_file(&path) };
             }
         }
     }
@@ -212,10 +231,9 @@ impl Updater {
         if !st.settings.update_check || !self.memory.should_announce(VERSION, MAC) {
             return false;
         }
-        // Windows downloads first, then tells (a failed download tells too,
-        // with the release page).
-        #[cfg(windows)]
-        if matches!(self.setup, Setup::None | Setup::Fetching) {
+        // A copy that installs downloads first, then tells (a failed
+        // download tells too, with the release page or the DMG).
+        if self.installs && matches!(self.setup, Setup::None | Setup::Fetching) {
             return false;
         }
         let Some(rel) = st.update.offer.clone() else { return false };
@@ -232,32 +250,35 @@ impl Updater {
         st.update.offer = self.memory.offer(VERSION, MAC).filter(|_| st.settings.update_check).cloned();
         st.update.sheet &= st.update.offer.is_some();
         st.update.next_start = st.update.offer.as_ref().is_some_and(|r| r.version == self.memory.install_on_start);
-        #[cfg(windows)]
-        {
-            st.update.ready = self.ready_setup(st).is_some();
-        }
+        st.update.ready = self.ready_setup(st).is_some();
     }
 }
 
-/// Where a new version's Setup waits (Windows): `update` in the cache
-/// folder, which the uninstaller removes.
-#[cfg(windows)]
+/// Where a new version's download waits: `update` in the cache folder
+/// (which the Windows uninstaller removes).
 fn setup_dir() -> PathBuf {
     crate::paths::cache_dir().join("update")
 }
 
-/// At the very start, before any window: run the Setup that Install on next
-/// start asked for, if it is still the latest and still checks out. True
-/// when it started (the app then exits; the Setup opens the new version).
-/// Asked once: a Setup that fails doesn't keep the app from opening.
-#[cfg(windows)]
+/// At the very start, before any window: install the version Install on
+/// next start asked for, if it is still the latest and still checks out.
+/// True when it started (the app then exits): Windows runs its Setup, which
+/// opens the new version; a Mac puts the new app in this copy's place and
+/// opens it once this copy has quit (its app is taken out of the DMG now if
+/// it isn't yet). Asked once: an install that fails doesn't keep the app
+/// from opening.
 pub fn pending_install() -> bool {
     let path = crate::paths::data_dir().join("update.json");
     let (mut memory, _) = load_json::<Memory>(&path);
-    let Some(d) = memory.pending_install(VERSION).and_then(|r| r.download(false)).cloned() else { return false };
+    let Some(d) = memory.pending_install(VERSION).and_then(|r| r.download(MAC)).cloned() else { return false };
     memory.install_on_start.clear();
     save(&path, &memory);
-    match crate::services::update::install(&setup_dir().join(d.file_name()), &d) {
+    let file = setup_dir().join(d.file_name());
+    #[cfg(windows)]
+    let installed = crate::services::update::install(&file, &d);
+    #[cfg(target_os = "macos")]
+    let installed = crate::services::update::stage(&file, &d).and_then(|app| crate::services::update::install(&app, d.version().unwrap_or_default()));
+    match installed {
         Ok(()) => {
             crate::pinfo!("updates: installing {} before opening", d.file_name());
             true

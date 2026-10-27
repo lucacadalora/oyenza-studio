@@ -157,6 +157,12 @@ enum Scene {
     /// The Stocks add-on on a made-up market (`pages::stocks::picture`):
     /// the IHSG's day, Bank BCA's year, the search and edit mode.
     Stocks(crate::pages::stocks::Picture),
+    /// The Update sheet for a later version: while it downloads (or where
+    /// this copy can't replace itself), with the DMG to download, and once
+    /// its app is out of the DMG and checked, Install now and Install on
+    /// next start.
+    UpdateSheet,
+    UpdateReady,
     /// The IELTS add-on signed in: on the Mac, for now, the coach is on its
     /// way (its microphone and voice come with branch ielts-coach-mac).
     Ielts,
@@ -219,7 +225,7 @@ const ADDON_SCENES: [Scene; 3] = [
 
 /// Prayer times, after the Add-ons tab.
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
-/// Prayer times abroad, last of all (so every other picture keeps its number).
+/// Prayer times abroad, after Today (so every other picture keeps its number).
 const PRAYER_WORLD_SCENES: [Scene; 2] = [Scene::PrayerPickerWorld, Scene::PrayerWorld];
 
 /// The Settings page (behind the gear), after Prayer times.
@@ -232,14 +238,16 @@ const OYENZA_SCENES: [Scene; 4] = [Scene::Oyenza, Scene::OyenzaCode, Scene::Oyen
 const POWER_SCENES: [Scene; 1] = [Scene::System(Module::Power)];
 /// The Today page signed in, after Power.
 const TODAY_SCENES: [Scene; 5] = [Scene::TodayDay, Scene::TodayNoApps, Scene::TodayTiles, Scene::TodayOff, Scene::TodayPicked];
-/// The Stocks page, after Today.
+/// The Stocks page, after Prayer times abroad.
 const STOCKS_SCENES: [Scene; 4] = [
     Scene::Stocks(crate::pages::stocks::Picture::Day),
     Scene::Stocks(crate::pages::stocks::Picture::Year),
     Scene::Stocks(crate::pages::stocks::Picture::Search),
     Scene::Stocks(crate::pages::stocks::Picture::Edit),
 ];
-/// The IELTS page, after Stocks.
+/// The Update sheet, after Stocks (so every other picture keeps its number).
+const UPDATE_SCENES: [Scene; 2] = [Scene::UpdateSheet, Scene::UpdateReady];
+/// The IELTS page, after the Update sheet.
 const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
 
 impl Scene {
@@ -288,6 +296,8 @@ impl Scene {
             Scene::TodayPicked => "page-today-picked".into(),
             Scene::Stocks(crate::pages::stocks::Picture::Day) => "page-stocks".into(),
             Scene::Stocks(p) => format!("page-stocks-{}", format!("{p:?}").to_lowercase()),
+            Scene::UpdateSheet => "page-update-sheet".into(),
+            Scene::UpdateReady => "page-update-ready".into(),
             Scene::Ielts => "page-ielts".into(),
         }
     }
@@ -352,10 +362,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Stocks and IELTS in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet and IELTS in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(IELTS_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(IELTS_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -688,6 +698,24 @@ fn base_state(theme: Theme) -> AppState {
     st
 }
 
+/// A later version than this build, with its DMG, for the Update sheet.
+fn fake_release() -> poni_core::update::Release {
+    let mut parts: Vec<u64> = crate::version::VERSION.split('.').filter_map(|p| p.parse().ok()).collect();
+    if let Some(last) = parts.last_mut() {
+        *last += 1;
+    }
+    let version = parts.iter().map(u64::to_string).collect::<Vec<_>>().join(".");
+    let repo = "https://github.com/lucacadalora/oyenza-studio/releases";
+    poni_core::update::Release {
+        date: "2026-10-27".into(),
+        headline: "Updates install themselves on a Mac".into(),
+        notes: format!("{repo}/tag/v{version}"),
+        windows: None,
+        mac: Some(poni_core::update::Download { url: format!("{repo}/download/v{version}/Oyenza-Studio-{version}-mac.dmg"), size: 4_300_000, sha256: "0".repeat(64) }),
+        version,
+    }
+}
+
 /// Oyenza for its scenes, all made up: today's and yesterday's
 /// transactions (today's newest just landed, so it glows), bills due
 /// tomorrow and later; or, signing in, the code to type in oyenza.app.
@@ -935,6 +963,11 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
             st.page = p;
             Mode::Expanded(p)
+        }
+        Scene::UpdateSheet | Scene::UpdateReady => {
+            st.update = crate::state::UpdateView { offer: Some(fake_release()), sheet: true, ready: scene == Scene::UpdateReady, next_start: false };
+            st.page = PageKind::Settings;
+            Mode::Expanded(PageKind::Settings)
         }
         Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => {
             use poni_core::agenda::{day_num, sample, Answer, Source};
