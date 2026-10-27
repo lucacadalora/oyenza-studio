@@ -157,6 +157,10 @@ enum Scene {
     /// The Stocks add-on on a made-up market (`pages::stocks::picture`):
     /// the IHSG's day, Bank BCA's year, the search and edit mode.
     Stocks(crate::pages::stocks::Picture),
+    /// The AI tab with made-up readings (`pages::usage::picture`): plans
+    /// and limits, a trouble mix, nothing found, the first look, connecting
+    /// and connected Oyenza Inference, the Services list.
+    Ai(crate::pages::usage::Picture),
 }
 
 const SCENES: [Scene; 19] = [
@@ -216,8 +220,12 @@ const ADDON_SCENES: [Scene; 3] = [
 
 /// Prayer times, after the Add-ons tab.
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
-/// Prayer times abroad, last of all (so every other picture keeps its number).
+/// Prayer times abroad, after Today signed in (so every other picture keeps its number).
 const PRAYER_WORLD_SCENES: [Scene; 2] = [Scene::PrayerPickerWorld, Scene::PrayerWorld];
+/// The AI tab in each of its sample states (the page's own list), last of all.
+fn ai_scenes() -> impl Iterator<Item = Scene> {
+    crate::pages::usage::Picture::ALL.into_iter().map(Scene::Ai)
+}
 
 /// The Settings page (behind the gear), after Prayer times.
 const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
@@ -283,6 +291,7 @@ impl Scene {
             Scene::TodayPicked => "page-today-picked".into(),
             Scene::Stocks(crate::pages::stocks::Picture::Day) => "page-stocks".into(),
             Scene::Stocks(p) => format!("page-stocks-{}", format!("{p:?}").to_lowercase()),
+            Scene::Ai(p) => p.name().into(),
         }
     }
 }
@@ -346,10 +355,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in and Stocks in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Stocks and the AI tab in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(ai_scenes());
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -970,6 +979,12 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             crate::pages::stocks::picture(&mut st, shows, now);
             st.page = PageKind::Stocks;
             Mode::Expanded(PageKind::Stocks)
+        }
+        Scene::Ai(shows) => {
+            let now = st.now;
+            crate::pages::usage::picture(&mut st, shows, now);
+            st.page = PageKind::Ai;
+            Mode::Expanded(PageKind::Ai)
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);

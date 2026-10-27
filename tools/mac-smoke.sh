@@ -62,6 +62,23 @@ if [ -n "$browser" ]; then
 else
   echo "(no Edge or Chrome: the browser check is skipped)"
 fi
+# The AI tab's keychain reader reads test items of its own (the ai-keychain
+# step): plain text, and an accent with a line break (which macOS's security
+# tool prints as hex); "absent" is never there. Made with that same tool, so
+# reading them asks nobody, in the first keychain of the search list (the
+# signing check puts its own there alone), where the reader's search finds
+# them. The app checks them only with PONI_SMOKE_KEYCHAIN.
+kc_service="Oyenza Studio smoke"
+kc_file=$(security list-keychains -d user | head -1 | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//')
+security delete-generic-password -s "$kc_service" -a absent > /dev/null 2>&1
+if security add-generic-password -U -s "$kc_service" -a plain -w '{"claudeAiOauth":{"accessToken":"test-token"}}' "$kc_file" \
+  && security add-generic-password -U -s "$kc_service" -a accent -X 636166c3a90a6e657874 "$kc_file" \
+  && security find-generic-password -s "$kc_service" -a accent > /dev/null 2>&1; then
+  export PONI_SMOKE_KEYCHAIN=1
+  echo "keychain test items in $kc_file; security prints the accented one as: $(security find-generic-password -s "$kc_service" -a accent -w)"
+else
+  echo "(could not add the keychain test items to $kc_file: the keychain check is skipped)"
+fi
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
@@ -134,6 +151,7 @@ else
 fi
 if [ -n "$client_pid" ]; then kill "$client_pid" 2>/dev/null || true; fi
 if [ -n "$browser_pid" ]; then kill "$browser_pid" 2>/dev/null || true; fi
+for a in plain accent; do security delete-generic-password -s "$kc_service" -a "$a" > /dev/null 2>&1; done
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true
