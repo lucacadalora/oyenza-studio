@@ -35,6 +35,7 @@ use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
 use crate::icons::Icon;
+use crate::pages::usage::Picture as AiPicture;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
@@ -730,6 +731,20 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
     picture(st, shows, now);
 }
 
+/// The AI tab's scenes on made-up readings, every glide at its end
+/// (`pages::usage::picture`); every other scene: nothing read yet and the
+/// notices off, as on a first start (nothing reads it there, and no key
+/// typed in one scene stays for the next).
+fn seed_ai(st: &mut AppState, scene: Scene, now: f64) {
+    if let Scene::Ai(p) = scene {
+        pages::usage::picture(st, p, now);
+    } else {
+        st.usage = crate::state::UsageState::default();
+        st.settings.usage = poni_core::settings::UsageSettings::default();
+        st.ui.usage = pages::usage::UsageUi::default();
+    }
+}
+
 /// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
 /// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
 /// real lists arrive with the add-on's download; these few places are
@@ -973,8 +988,9 @@ enum Scene {
     StocksSearch,
     /// Stocks in edit mode: remove buttons and handles.
     StocksEdit,
-    /// The AI tab while its page is a placeholder.
-    AiPlaceholder,
+    /// The AI tab on made-up readings, as the page's picture shows it
+    /// (`pages::usage::picture`): its plans, troubles, nothing found, ...
+    Ai(AiPicture),
     /// The AI tab's heads-up notice: Claude Code close to its 5-hour limit.
     AiNotice,
     /// ...and Codex out of it, Oyenza Inference connected: its nudge.
@@ -1026,7 +1042,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 96] = [
+const SCENES: [Scene; 103] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1139,8 +1155,18 @@ const SCENES: [Scene; 96] = [
     Scene::StocksPicked,
     Scene::StocksSearch,
     Scene::StocksEdit,
-    // The AI tab, a core tab after Focus (its page lands later).
-    Scene::AiPlaceholder,
+    // The AI tab, a core tab after Focus, in every picture the page has
+    // (`AiPicture::ALL`): plans, troubles, nothing found, the first look,
+    // Oyenza Inference connecting and connected, the Services list and a
+    // key being typed there.
+    Scene::Ai(AiPicture::Plans),
+    Scene::Ai(AiPicture::Troubles),
+    Scene::Ai(AiPicture::Empty),
+    Scene::Ai(AiPicture::Looking),
+    Scene::Ai(AiPicture::Connect),
+    Scene::Ai(AiPicture::Inference),
+    Scene::Ai(AiPicture::Services),
+    Scene::Ai(AiPicture::Key),
     // Its heads-up notices on the closed island.
     Scene::AiNotice,
     Scene::AiNoticeOut,
@@ -1232,7 +1258,8 @@ impl Scene {
             Scene::StocksPicked => "page-stocks-picked".into(),
             Scene::StocksSearch => "page-stocks-search".into(),
             Scene::StocksEdit => "page-stocks-edit".into(),
-            Scene::AiPlaceholder => "page-ai-placeholder".into(),
+            // "page-ai", "page-ai-troubles", ...: the page's own names.
+            Scene::Ai(p) => p.name().into(),
             Scene::AiNotice => "ai-notice".into(),
             Scene::AiNoticeOut => "ai-notice-out".into(),
         }
@@ -1271,7 +1298,7 @@ impl Scene {
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
-            Scene::AiPlaceholder => Some(PageKind::Ai),
+            Scene::Ai(_) => Some(PageKind::Ai),
             _ => None,
         }
     }
@@ -1558,6 +1585,11 @@ impl SelfTest {
         // readings); before the scene clock starts, as it takes a moment.
         let (ok, detail) = system_readings(crate::services::sysmon::probe());
         self.checks.push(check("system-readings", ok, detail));
+        // Every picture the AI page has is a scene (the Mac renders take
+        // them all from the same list), so a new one can't go unseen here.
+        let missing: Vec<&str> = AiPicture::ALL.into_iter().filter(|p| !SCENES.contains(&Scene::Ai(*p))).map(AiPicture::name).collect();
+        let detail = if missing.is_empty() { format!("all {} of the AI page's pictures", AiPicture::ALL.len()) } else { format!("no scene for {}", missing.join(", ")) };
+        self.checks.push(check("ai-pictures", missing.is_empty(), detail));
         // Show over games: count Poni's own frames through the whole run.
         let required = std::env::var("PONI_SELFTEST_FRAMES").is_ok_and(|v| v.trim().eq_ignore_ascii_case("required"));
         match crate::services::frames::Frames::start_selftest(std::process::id()) {
@@ -2205,13 +2237,7 @@ impl SelfTest {
         for (path, rgb) in SAMPLE_ICONS {
             st.app_icons.entry(path.to_string()).or_insert_with(|| Some(sample_icon(rgb)));
         }
-        if scene == Scene::AiPlaceholder {
-            // The AI tab on made-up readings (`pages::usage::picture`);
-            // PONI_SELFTEST_AI=<a picture's name> shows another than its plans.
-            let pick = std::env::var("PONI_SELFTEST_AI").ok();
-            let shows = pages::usage::Picture::ALL.into_iter().find(|p| pick.as_deref().is_some_and(|n| n.trim() == p.name())).unwrap_or(pages::usage::Picture::Plans);
-            pages::usage::picture(st, shows, now);
-        }
+        seed_ai(st, scene, now);
         if let Some(p) = scene.page() {
             st.page = p;
         }
