@@ -85,7 +85,7 @@ On a desktop, **Power** shows what the whole PC draws: split into the CPU, the g
 
 ### Your AI plans, before you run out
 
-**New in 0.2.12.** The **AI** tab, right after Focus, shows what's left of the AI coding plans on your computer: Codex, Claude Code, OpenCode Go and more. Each one gets a card with your plan, each limit as a bar with when it resets, and credits or balance left. Switch on **Tell me before I run out** and the island tells you when a limit is nearly used up, and when it's back. Each sign-in is read on your computer and goes only to its own service; nothing about your usage goes to Oyenza. Connect [Oyenza Inference](https://inference.oyenza.com) with a code, and its balance and spend show beside your plans.
+**New in 0.2.13.** The **AI** tab, right after Focus, shows what's left of the AI coding plans on your computer: Codex, Claude Code, OpenCode Go and more. Each one gets a card with your plan, each limit as a bar with when it resets, and credits or balance left. Switch on **Tell me before I run out** and the island tells you when a limit is nearly used up, and when it's back. Each sign-in is read on your computer and goes only to its own service; nothing about your usage goes to Oyenza. Connect [Oyenza Inference](https://inference.oyenza.com) with a code, and its balance and spend show beside your plans.
 
 [What it reads, service by service](docs/ai-usage.md)
 
