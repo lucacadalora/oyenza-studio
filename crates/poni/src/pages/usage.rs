@@ -829,8 +829,13 @@ fn empty(ui: &mut Ui, st: &mut AppState, r: Rect) {
     const BADGE: f32 = 52.0;
     let looking = st.usage.readings.is_empty();
     let title = if looking { "Looking for your AI tools…" } else { "No AI plans found on this computer" };
-    let (found, keyed): (Vec<ProviderId>, Vec<ProviderId>) =
-        ProviderId::ALL.into_iter().filter(|id| *id != ProviderId::Oyenza).partition(|id| usage::provider(*id).takes_key().is_none());
+    // Looked for here: every service with something to read on the computer
+    // (OpenCode Go and Kimi Code too, though they also take a key); a key:
+    // every service that takes one. The worker's own rule decides which is which.
+    let dirs = usage::Dirs::sample(if cfg!(target_os = "macos") { usage::Os::Mac } else { usage::Os::Windows });
+    let ids = ProviderId::ALL.into_iter().filter(|id| *id != ProviderId::Oyenza);
+    let found: Vec<ProviderId> = ids.clone().filter(|id| !usage::pace::typed_key_only(&usage::provider(*id).wants(&dirs), false)).collect();
+    let keyed: Vec<ProviderId> = ids.filter(|id| usage::provider(*id).takes_key().is_some()).collect();
     let mut body = format!("Studio looks for {} on this computer.", names(&found, "and"));
     if !keyed.is_empty() {
         body.push_str(&format!(" Add a key for {}.", names(&keyed, "or")));
@@ -1553,7 +1558,9 @@ pub fn picture(st: &mut AppState, shows: Picture, now: f64) {
         Picture::Looking => st.usage.refreshing = true,
         Picture::Connect => {
             readings(st, vec![(Codex, Ok(codex()))]);
-            st.usage.inference = InferenceLink::Code { code: "KPJX-TMNQ".into(), url: format!("{}/app/connect?code=KPJXTMNQ", oyenza::BASE), expires_at: t + 10 * 60 };
+            // A code just asked for: good for ten minutes from now, on a whole minute.
+            let expires_at = (unix + 10 * 60).div_euclid(60) * 60;
+            st.usage.inference = InferenceLink::Code { code: "KPJX-TMNQ".into(), url: format!("{}/app/connect?code=KPJXTMNQ", oyenza::BASE), expires_at };
         }
         Picture::Inference => {
             let inf = inference(st);
