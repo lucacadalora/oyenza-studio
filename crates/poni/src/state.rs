@@ -595,7 +595,10 @@ pub enum InferenceLink {
 }
 
 impl UsageState {
-    /// What the worker found. Its heads-up notices are the app's to show.
+    /// What the worker found. Its heads-up notices are the app's to show. A
+    /// trouble keeps the last numbers (offline, busy, expired, refused, not
+    /// read, the keychain's no) unless the person took the way in away: the
+    /// app gone, signed out, the key removed, the account switched off.
     pub fn apply(&mut self, ev: crate::services::usage::UsageEvent) {
         use crate::services::usage::UsageEvent;
         match ev {
@@ -606,7 +609,12 @@ impl UsageState {
                         r.snapshot = Some(snap);
                         r.trouble = None;
                     }
-                    Err(t) => r.trouble = Some(t),
+                    Err(t) => {
+                        if matches!(t, Trouble::NotFound | Trouble::SignedOut | Trouble::NeedsKey | Trouble::Disabled) {
+                            r.snapshot = None;
+                        }
+                        r.trouble = Some(t);
+                    }
                 }
                 r.checked_at = at;
             }
@@ -1106,10 +1114,32 @@ mod tests {
         let r = &u.readings[&ProviderId::Codex];
         assert_eq!((r.snapshot.as_ref(), r.trouble.as_ref(), r.checked_at), (Some(&snap), Some(&Trouble::Offline), 220));
         // The next good one clears the trouble.
-        u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Ok(snap), at: 340 });
+        u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Ok(snap.clone()), at: 340 });
         assert_eq!(u.readings[&ProviderId::Codex].trouble, None);
         u.apply(UsageEvent::Link(InferenceLink::On { account: "a•••@example.com".into() }));
         assert_eq!(u.inference, InferenceLink::On { account: "a•••@example.com".into() });
+        // Troubles that pass keep the numbers; the way in taken away drops them.
+        let keeps = [
+            Trouble::Offline,
+            Trouble::Busy { retry_after_s: Some(30) },
+            Trouble::Expired,
+            Trouble::Refused,
+            Trouble::Unreadable("HTTP 404".into()),
+            Trouble::Denied,
+            Trouble::NeedsOnline,
+        ];
+        for t in keeps {
+            u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Ok(snap.clone()), at: 400 });
+            u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Err(t.clone()), at: 460 });
+            assert_eq!(u.readings[&ProviderId::Codex].snapshot.as_ref(), Some(&snap), "{t:?}");
+            assert_eq!(u.readings[&ProviderId::Codex].trouble.as_ref(), Some(&t));
+        }
+        for t in [Trouble::NotFound, Trouble::SignedOut, Trouble::NeedsKey, Trouble::Disabled] {
+            u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Ok(snap.clone()), at: 400 });
+            u.apply(UsageEvent::Reading { id: ProviderId::Codex, outcome: Err(t.clone()), at: 460 });
+            assert_eq!(u.readings[&ProviderId::Codex].snapshot, None, "{t:?}");
+            assert_eq!(u.readings[&ProviderId::Codex].trouble.as_ref(), Some(&t));
+        }
     }
 
     fn alert(provider: ProviderId, kind: AlertKind, title: &str) -> Alert {

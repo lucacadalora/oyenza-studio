@@ -18,9 +18,13 @@
 //!   header ([`run`]).
 //! - Files are read the way the services ask ([`read_file`], [`read_range`],
 //!   [`read_newest`]): never past a size, never a whole folder tree.
+//! - A typed key a server refused isn't sent there again this run
+//!   ([`Refusals`]): a key every region refused goes nowhere.
 
 use super::{all, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS};
+use std::collections::HashMap;
 use std::fs::{self, File};
+use std::hash::{Hash, Hasher};
 use std::io::{Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -49,6 +53,9 @@ pub const SCAN_MAX: usize = 2000;
 /// The most one want reads, whatever it asks for (a file, or a
 /// [`Want::Newest`]'s tails together).
 pub const READ_MAX: u64 = 16 * 1024 * 1024;
+/// A refusal's answer kept for [`Refusals`] at most this long (they are a
+/// few dozen bytes); a longer one is kept without its body.
+const REFUSAL_MAX: usize = 64 * 1024;
 
 /// What a look is for.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -282,22 +289,30 @@ pub fn run(
 
 /// A request the worker sends: to an https address (plain http only to
 /// this computer, a test copy of a server: a token never travels in the
-/// clear), with no control character in it. A key pasted with a line break
-/// would otherwise end its header early (or start another).
+/// clear) without user info in it, and with no control character anywhere.
+/// A key pasted with a line break would otherwise end its header early (or
+/// start another), and `https://localhost:1@example.com/` goes to
+/// example.com.
 pub fn sendable(req: &Request) -> bool {
     let clean = |s: &str| !s.chars().any(char::is_control);
     let to = match (req.url.strip_prefix("https://"), req.url.strip_prefix("http://")) {
-        (Some(rest), _) => !rest.is_empty(),
-        (None, Some(rest)) => loopback(rest),
+        (Some(rest), _) => !authority(rest).is_empty() && !authority(rest).contains(['@', '\\']),
+        (None, Some(rest)) => !authority(rest).contains(['@', '\\']) && loopback(rest),
         _ => false,
     };
     to && clean(&req.url) && !req.url.contains(' ') && req.headers.iter().all(|(k, v)| !k.is_empty() && k.bytes().all(|b| b.is_ascii_graphic() && b != b':') && clean(v))
 }
 
+/// An address's authority: what follows `scheme://` up to its path, query
+/// or fragment.
+fn authority(rest: &str) -> &str {
+    rest.split(['/', '?', '#']).next().unwrap_or("")
+}
+
 /// An address on this computer: `localhost`, 127.x.x.x or `[::1]`, with or
 /// without a port.
 fn loopback(rest: &str) -> bool {
-    let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
+    let authority = authority(rest);
     match authority.strip_prefix('[') {
         Some(v6) => v6.split(']').next().and_then(|h| h.parse::<std::net::Ipv6Addr>().ok()).is_some_and(|ip| ip.is_loopback()),
         None => {
@@ -311,6 +326,124 @@ fn loopback(rest: &str) -> bool {
 /// is the client's to set (the Windows one refuses it as a request header).
 pub fn send_headers(req: &Request) -> Vec<(&str, &str)> {
     req.headers.iter().filter(|(k, _)| !(req.json.is_some() && k.eq_ignore_ascii_case("content-type"))).map(|(k, v)| (k.as_str(), v.as_str())).collect()
+}
+
+/// What servers said to the typed keys they refused, kept in memory for the
+/// run (security review S7): the next refresh doesn't send a key to an
+/// address that refused it but hands the service the same answer, so its
+/// own fallback carries on (Kimi's, Z.ai's and MiniMax's other region), and
+/// a key every address refused goes nowhere. Forgotten when the key changes,
+/// at Refresh and when the app quits. Keeps a fingerprint of each key, never
+/// the key.
+#[derive(Default)]
+pub struct Refusals {
+    keys: HashMap<&'static str, Refused>,
+}
+
+/// One key name's refusals: which key it was, and each refusing address's
+/// answer.
+struct Refused {
+    print: u64,
+    said: Vec<(String, Reply)>,
+}
+
+impl Refusals {
+    /// The key under `name` changed or went: what was refused goes too.
+    pub fn forget(&mut self, name: &str) {
+        self.keys.remove(name);
+    }
+
+    /// Refresh: every key is tried again.
+    pub fn clear(&mut self) {
+        self.keys.clear();
+    }
+
+    fn answer(&self, name: &str, key: &str, url: &str) -> Option<Reply> {
+        let r = self.keys.get(name).filter(|r| r.print == fingerprint(key))?;
+        r.said.iter().find(|(u, _)| u == url).map(|(_, reply)| reply.clone())
+    }
+
+    fn keep(&mut self, name: &'static str, key: &str, url: &str, reply: &Reply) {
+        let print = fingerprint(key);
+        let r = self.keys.entry(name).or_insert(Refused { print, said: Vec::new() });
+        if r.print != print {
+            *r = Refused { print, said: Vec::new() };
+        }
+        let body = if reply.body.len() <= REFUSAL_MAX { reply.body.clone() } else { String::new() };
+        r.said.retain(|(u, _)| u != url);
+        r.said.push((url.to_string(), Reply { status: reply.status, body, retry_after_s: None }));
+    }
+}
+
+/// A key's fingerprint, to tell whether it changed without keeping it.
+fn fingerprint(key: &str) -> u64 {
+    let mut h = std::collections::hash_map::DefaultHasher::new();
+    key.trim().hash(&mut h);
+    h.finish()
+}
+
+/// Whether a request carries this key in a header, as the services send it
+/// (trimmed, without quotes around it).
+pub fn carries(req: &Request, key: &str) -> bool {
+    let k = key.trim().trim_matches(['"', '\'']).trim();
+    k.len() >= 8 && req.headers.iter().any(|(_, v)| v.contains(k))
+}
+
+/// One refresh's typed key at the door ([`Refusals`]): the worker shows it
+/// each read ([`KeyGate::saw`]), sends through it ([`KeyGate::ask`]) and
+/// tells it how the refresh ended ([`KeyGate::done`]). A request with the
+/// key to an address that refused it gets that answer back unsent. An
+/// answer is kept as a refusal when it says 401 or 403, or answered at all
+/// (2xx, a refusal in its body: Z.ai, MiniMax) in a refresh that ended
+/// [`Trouble::Refused`]; a server error or no answer never is.
+pub struct KeyGate<'a> {
+    refusals: &'a mut Refusals,
+    /// The service's typed key's name ([`Provider::takes_key`]) and the key,
+    /// once read.
+    name: Option<&'static str>,
+    key: Option<String>,
+    /// The requests that carried it: where, and what came back.
+    sent: Vec<(String, Result<Reply, NetFail>)>,
+}
+
+impl<'a> KeyGate<'a> {
+    pub fn new(refusals: &'a mut Refusals, name: Option<&'static str>) -> KeyGate<'a> {
+        KeyGate { refusals, name, key: None, sent: Vec::new() }
+    }
+
+    /// What a want gave: the typed key, when it is this service's.
+    pub fn saw(&mut self, want: &Want, got: &Got) {
+        if matches!(want, Want::Secret(s) if Some(*s) == self.name) {
+            self.key = got.text().map(str::to_string);
+        }
+    }
+
+    /// A request through the door: `send` makes it, unless it carries the
+    /// key to an address that refused it already.
+    pub fn ask(&mut self, req: &Request, send: impl FnOnce(&Request) -> Result<Reply, NetFail>) -> Result<Reply, NetFail> {
+        let (Some(name), Some(key)) = (self.name, self.key.as_deref()) else { return send(req) };
+        if !carries(req, key) {
+            return send(req);
+        }
+        if let Some(said) = self.refusals.answer(name, key, &req.url) {
+            return Ok(said);
+        }
+        let answer = send(req);
+        self.sent.push((req.url.clone(), answer.clone()));
+        answer
+    }
+
+    /// The refresh ended so (None: stopped for breaking the rules).
+    pub fn done(self, outcome: Option<&Outcome>) {
+        let (Some(name), Some(key), Some(outcome)) = (self.name, self.key, outcome) else { return };
+        let refused = matches!(outcome, Err(Trouble::Refused));
+        for (url, answer) in &self.sent {
+            match answer {
+                Ok(r) if matches!(r.status, 401 | 403) || (refused && (200..300).contains(&r.status)) => self.refusals.keep(name, &key, url, r),
+                _ => {}
+            }
+        }
+    }
 }
 
 /// Whether a good reading takes the place of the one the tab has: always,
@@ -508,7 +641,7 @@ fn unix(t: SystemTime) -> Option<i64> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{openrouter, opencode, oyenza, Os, Window, WindowKind};
+    use crate::usage::{openrouter, opencode, oyenza, zai, Os, Window, WindowKind};
     use std::time::Duration;
 
     const T: i64 = 1_000;
@@ -785,6 +918,11 @@ mod tests {
             Request::get("http://127.0.0.1@example.com/"),
             Request::get("http://localhost.example.com/"),
             Request::get("http://[::2]/"),
+            // User info: these go to example.com.
+            Request::get("http://localhost:1@example.com/"),
+            Request::get("http://127.0.0.1:80@example.com/"),
+            Request::get("https://user@inference.oyenza.com/v1/studio/summary"),
+            Request::get("https://inference.oyenza.com\\@example.com/"),
             Request::get("https://x.test/a b"),
             Request::get("https://x.test/\r\nX: 1"),
             Request::get("https://x.test/").header("Authorization", "Bearer a\nb"),
@@ -800,6 +938,118 @@ mod tests {
         assert_eq!(send_headers(&ok), [("Authorization", "Bearer tok"), ("Cookie", "a=b; c=d")]);
         let get = Request::get("https://x.test/").header("content-type", "text/plain");
         assert_eq!(send_headers(&get), [("content-type", "text/plain")]);
+    }
+
+    #[test]
+    fn a_redirect_is_an_answer_the_service_doesnt_read() {
+        // The worker's clients follow no redirect: the 3xx comes back, and the
+        // service reads it as a trouble, without a second request.
+        let dirs = Dirs::sample(Os::Windows);
+        let p = oyenza::Oyenza;
+        let mut asked = Vec::new();
+        let ran = run(&p, &dirs, &p.wants(&dirs), T, Reach::Online, |_| Got::Text("oyis_test-token".into()), |r| {
+            asked.push(r.url.clone());
+            Ok(Reply { status: 302, body: String::new(), retry_after_s: None })
+        });
+        assert_eq!(ran.outcome, Some(Err(Trouble::Unreadable("HTTP 302".into()))));
+        assert_eq!(asked, ["https://inference.oyenza.com/v1/studio/summary"]);
+    }
+
+    const QUOTA: &str = include_str!("fixtures/zai/quota.json");
+    const KEY: &str = "zai-test-token.0123456789";
+
+    /// One Z.ai refresh with `key`, through the door: each request is
+    /// answered by `answer` (by host) and noted in `asked`.
+    fn zai(refusals: &mut Refusals, key: &str, asked: &mut Vec<String>, answer: impl Fn(&str) -> Result<Reply, NetFail>) -> Outcome {
+        let (dirs, p) = (Dirs::sample(Os::Windows), zai::Zai);
+        let gate = std::cell::RefCell::new(KeyGate::new(refusals, p.takes_key().map(|k| k.secret)));
+        let ran = run(
+            &p,
+            &dirs,
+            &p.wants(&dirs),
+            T,
+            Reach::Online,
+            |w| {
+                let g = Got::Text(key.into());
+                gate.borrow_mut().saw(w, &g);
+                g
+            },
+            |req| {
+                gate.borrow_mut().ask(req, |r| {
+                    asked.push(r.url.split('/').nth(2).unwrap_or("").to_string());
+                    answer(r.url.split('/').nth(2).unwrap_or(""))
+                })
+            },
+        );
+        gate.into_inner().done(ran.outcome.as_ref());
+        ran.outcome.unwrap()
+    }
+
+    fn status(status: u16, body: &str) -> Result<Reply, NetFail> {
+        Ok(Reply { status, body: body.into(), retry_after_s: None })
+    }
+
+    #[test]
+    fn a_key_every_region_refused_goes_nowhere() {
+        let mut r = Refusals::default();
+        let mut asked = Vec::new();
+        // Refused by both of Zhipu's hosts (one by status, one in its body).
+        let refuse = |host: &str| if host == "api.z.ai" { status(401, "") } else { status(200, r#"{"code":1001,"msg":"bad key","success":false}"#) };
+        assert_eq!(zai(&mut r, KEY, &mut asked, refuse), Err(Trouble::Refused));
+        assert_eq!(asked, ["api.z.ai", "open.bigmodel.cn"]);
+        // The next refresh sends it nowhere, and says the same.
+        asked.clear();
+        assert_eq!(zai(&mut r, KEY, &mut asked, |_| panic!("sent a refused key")), Err(Trouble::Refused));
+        assert!(asked.is_empty());
+        // Another key is asked about again; so is this one after Refresh.
+        assert_eq!(zai(&mut r, "zai-another-token.987", &mut asked, refuse), Err(Trouble::Refused));
+        assert_eq!(asked.len(), 2);
+        r.clear();
+        asked.clear();
+        assert_eq!(zai(&mut r, KEY, &mut asked, refuse), Err(Trouble::Refused));
+        assert_eq!(asked.len(), 2);
+        r.forget("zai");
+        asked.clear();
+        assert_eq!(zai(&mut r, KEY, &mut asked, refuse), Err(Trouble::Refused));
+        assert_eq!(asked.len(), 2);
+    }
+
+    #[test]
+    fn a_key_goes_only_where_it_answered() {
+        let mut r = Refusals::default();
+        let mut asked = Vec::new();
+        // A bigmodel.cn key: api.z.ai refuses it, bigmodel.cn answers.
+        let china = |host: &str| if host == "api.z.ai" { status(401, "") } else { status(200, QUOTA) };
+        assert!(zai(&mut r, KEY, &mut asked, china).is_ok());
+        assert_eq!(asked, ["api.z.ai", "open.bigmodel.cn"]);
+        asked.clear();
+        assert!(zai(&mut r, KEY, &mut asked, china).is_ok());
+        assert_eq!(asked, ["open.bigmodel.cn"]);
+        // A server error or no answer is never a refusal: asked again.
+        let mut r = Refusals::default();
+        let down = |host: &str| if host == "api.z.ai" { status(401, "") } else { status(502, "") };
+        assert_eq!(zai(&mut r, KEY, &mut asked, down), Err(Trouble::Refused));
+        asked.clear();
+        assert_eq!(zai(&mut r, KEY, &mut asked, down), Err(Trouble::Refused));
+        assert_eq!(asked, ["open.bigmodel.cn"]);
+        // A key from a variable isn't a typed key: never held back.
+        let mut r = Refusals::default();
+        let mut gate = KeyGate::new(&mut r, Some("zai"));
+        gate.saw(&Want::Secret("zai"), &Got::Missing);
+        let req = Request::get("https://api.z.ai/x").bearer(KEY);
+        assert_eq!(gate.ask(&req, |_| status(401, "")), status(401, ""));
+        gate.done(Some(&Err(Trouble::Refused)));
+        assert!(r.keys.is_empty());
+    }
+
+    #[test]
+    fn a_key_is_found_in_its_header_as_sent() {
+        let req = Request::get("https://x.test/").bearer("sk-or-v1-abcdef123");
+        assert!(carries(&req, "sk-or-v1-abcdef123"));
+        assert!(carries(&req, " \"sk-or-v1-abcdef123\" "));
+        assert!(!carries(&req, "sk-or-v1-other0000"));
+        // Too short to tell apart from anything else in a header.
+        assert!(!carries(&Request::get("https://x.test/").bearer("abc"), "abc"));
     }
 
     #[test]

@@ -15,6 +15,7 @@ use std::time::{Duration, Instant};
 use windows::core::{h, RuntimeType, HSTRING};
 use windows::Foundation::{AsyncOperationProgressHandler, AsyncOperationWithProgressCompletedHandler, AsyncStatus, IAsyncOperationWithProgress, Uri};
 use windows::Storage::Streams::{DataReader, IBuffer, UnicodeEncoding};
+use windows::Web::Http::Filters::{HttpBaseProtocolFilter, HttpCacheReadBehavior, HttpCacheWriteBehavior, HttpCookieUsageBehavior};
 use windows::Web::Http::{HttpClient, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_MULTITHREADED};
@@ -112,6 +113,32 @@ pub struct Client {
 impl Client {
     pub fn new(user_agent: &str) -> Result<Self, FetchError> {
         let http = HttpClient::new().map_err(|e| other("could not create an HTTP client", &e))?;
+        Self::with(http, user_agent)
+    }
+
+    /// A client of its own for requests that carry another service's
+    /// sign-in (the AI tab's worker): it follows no redirect (a 3xx comes
+    /// back as the answer, so no header goes on to another host), stores and
+    /// sends no cookies beyond the request's own `Cookie` header, never reads
+    /// or writes the disk cache, and never puts up a sign-in prompt.
+    pub fn private(user_agent: &str) -> Result<Self, FetchError> {
+        let filter = HttpBaseProtocolFilter::new().map_err(|e| other("could not create an HTTP filter", &e))?;
+        let set = || -> windows::core::Result<()> {
+            filter.SetAllowAutoRedirect(false)?;
+            filter.SetAllowUI(false)?;
+            filter.SetCookieUsageBehavior(HttpCookieUsageBehavior::NoCookies)?;
+            let cache = filter.CacheControl()?;
+            // NoCache came with Windows 10 1607; before it, MostRecent still
+            // asks the server every time.
+            cache.SetReadBehavior(HttpCacheReadBehavior::NoCache).or_else(|_| cache.SetReadBehavior(HttpCacheReadBehavior::MostRecent))?;
+            cache.SetWriteBehavior(HttpCacheWriteBehavior::NoCache)
+        };
+        set().map_err(|e| other("could not set up the HTTP filter", &e))?;
+        let http = HttpClient::Create(&filter).map_err(|e| other("could not create an HTTP client", &e))?;
+        Self::with(http, user_agent)
+    }
+
+    fn with(http: HttpClient, user_agent: &str) -> Result<Self, FetchError> {
         let headers = http.DefaultRequestHeaders().map_err(|e| other("could not set request headers", &e))?;
         let ua = HSTRING::from(user_agent);
         // The typed collection validates "product/version (comment)"; fall
