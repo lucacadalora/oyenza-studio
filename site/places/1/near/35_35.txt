@@ -1,0 +1,108 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Istanbul	180	
+C	SY	Syria	egyptian	s
+C	TR	Turkey	turkey	s
+B	4
+P	Gaziantep		TR		37.059	37.383	0
+P	Aleppo		SY		36.201	37.161	0
+P	Adana		TR		36.986	35.325	0
+P	Kayseri		TR		38.732	35.485	0
+P	Malatya		TR		38.350	38.317	0
+P	Latakia		SY		35.531	35.791	0
+P	Ar Raqqah		SY		35.953	39.008	0
+P	Ḩamāh	hamah	SY		35.132	36.758	0
+P	Şanlıurfa	sanliurfa	TR		37.167	38.794	0
+P	Elazığ	elazig	TR		38.674	39.223	0
+P	Antakya		TR		36.207	36.157	0
+P	Kahramanmaraş	kahramanmaras	TR		37.585	36.926	0
+P	Adıyaman	adiyaman	TR		37.764	38.276	0
+P	Sivas		TR		39.748	37.016	0
+P	İskenderun	iskenderun	TR		36.587	36.173	0
+P	Osmaniye		TR		37.074	36.248	0
+P	Siverek		TR		37.755	39.317	0
+P	Viranşehir	viransehir	TR		37.223	39.755	0
+P	Erzincan		TR		39.739	39.490	0
+P	Al Bāb	al bab	SY		36.371	37.516	0
+P	Idlib		SY		35.931	36.634	0
+P	Samandağ	samandag	TR		36.080	35.976	0
+P	Kilis		TR		36.716	37.115	0
+P	Arsuz		TR		36.413	35.890	0
+P	Suruç	suruc	TR		36.976	38.425	0
+P	Manbij		SY		36.528	37.955	0
+P	Kâhta	kahta	TR		37.786	38.624	0
+P	Ceyhan		TR		37.025	35.818	0
+P	As Salamīyah	as salamiyah	SY		35.011	37.053	0
+P	Kozan		TR		37.455	35.816	0
+P	Al-Tabqa	al tabqa	SY		35.838	38.548	0
+P	Akçapınar	akcapinar	TR		38.947	38.942	0
+P	Nizip		TR		37.010	37.794	0
+P	Elbistan		TR		38.206	37.198	0
+P	Kadirli		TR		37.374	36.096	0
+P	I‘zāz	izaz	SY		36.587	37.046	0
+P	Jablah		SY		35.362	35.928	0
+P	As Safīrah	as safirah	SY		36.077	37.373	0
+P	Sorgun		TR		39.810	35.186	0
+P	Kırıkhan	kirikhan	TR		36.499	36.358	0
+P	Reyhanlı	reyhanli	TR		36.268	36.567	0
+P	Dörtyol	dortyol	TR		36.839	36.230	0
+P	Ergani		TR		38.269	39.754	0
+P	Kabbasin		SY		36.433	37.569	0
+P	‘Ayn al ‘Arab	ayn al arab	SY		36.891	38.353	0
+P	Khān Shaykhūn	khan shaykhun	SY		35.442	36.651	0
+P	‘Afrīn	afrin	SY		36.512	36.870	0
+P	Kafranbel		SY		35.614	36.564	0
+P	Kireçocağı	kirecocagi	TR		37.050	35.233	0
+P	Birecik		TR		37.026	37.978	0
+P	Besni		TR		37.693	37.861	0
+P	Afşin	afsin	TR		38.248	36.914	0
+P	Cimin		TR		39.709	39.700	0
+P	Jisr ash Shughūr	jisr ash shughur	SY		35.814	36.320	0
+P	Bāniyās	baniyas	SY		35.182	35.949	0
+P	Talas		TR		38.691	35.554	0
+P	Develi		TR		38.391	35.492	0
+P	Tunceli		TR		39.099	39.544	0
+P	Tādif	tadif	SY		36.348	37.531	0
+P	Göksun	goksun	TR		38.021	36.497	0
+P	Saraqib		SY		35.864	36.806	0
+P	Maşyāf	masyaf	SY		35.065	36.341	0
+P	Ma‘arratmişrīn	maarratmisrin	SY		36.012	36.672	0
+P	Akçakale	akcakale	TR		36.711	38.947	0
+P	İmamoğlu	imamoglu	TR		37.265	35.657	0
+P	Salqīn	salqin	SY		36.139	36.452	0
+P	Şūrān	suran	SY		35.292	36.748	0
+P	Binnish		SY		35.957	36.714	0
+P	Burj Islām	burj islam	SY		35.674	35.803	0
+P	Ţayyibat al Imām	tayyibat al imam	SY		35.266	36.712	0
+P	Dayr Ḩāfir	dayr hafir	SY		36.157	37.708	0
+P	Gölbaşı	golbasi	TR		37.784	37.637	0
+P	Hıdırbey	hidirbey	TR		36.208	36.128	0
+P	Erzin		TR		36.953	36.198	0
+P	Altınşehir	altinsehir	TR		37.741	38.229	0
+P	Tall Rif‘at	tall rifat	SY		36.472	37.095	0
+P	Batabo		SY		36.134	36.740	0
+P	Nubl		SY		36.379	36.993	0
+P	Yahyalı	yahyali	TR		38.102	35.357	0
+P	Jarābulus	jarabulus	SY		36.818	38.011	0
+P	Pazarcık	pazarcik	TR		37.487	37.300	0
+P	Şarkışla	sarkisla	TR		39.352	36.410	0
+P	Ḩalfāyā	halfaya	SY		35.260	36.606	0
+P	Yakınca	yakinca	TR		38.305	38.238	0
+P	Akdağmadeni	akdagmadeni	TR		39.660	35.884	0
+P	Kovancılar	kovancilar	TR		38.719	39.863	0
+P	Kafr Takhārīm	kafr takharim	SY		36.117	36.515	0
+P	Ad Dānā	ad dana	SY		36.213	36.770	0
+P	Kafr Zaytā	kafr zayta	SY		35.374	36.603	0
+P	Bozova		TR		37.362	38.527	0
+P	Hacılar	hacilar	TR		38.646	35.449	0
+P	Çermik	cermik	TR		38.135	39.445	0
+P	Darende		TR		38.546	37.506	0
+P	Belen		TR		36.489	36.195	0
+P	Narlıca	narlica	TR		36.235	36.215	0
+P	Maharda		SY		35.248	36.572	0
+P	Denizciler		TR		36.641	36.214	0
+P	Hilvan		TR		37.587	38.955	0
+P	Gemerek		TR		39.183	36.072	0
+P	Serinyol		TR		36.361	36.214	0
+P	Baskil		TR		38.569	38.816	0
+P	Çağlayancerit	caglayancerit	TR		37.745	37.286	0
+P	Yeşilova	yesilova	TR		38.156	36.258	0

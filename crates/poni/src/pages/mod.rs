@@ -20,6 +20,7 @@ pub mod record;
 pub mod script;
 pub mod settings;
 pub mod shelf;
+pub mod stocks;
 pub mod system;
 pub mod tasks;
 pub mod today;
@@ -69,6 +70,8 @@ pub enum PageKind {
     Record,
     /// Prayer times, while that add-on is on ([`tabs`]).
     Prayer,
+    /// The IHSG and the person's stocks, while the Stocks add-on is on ([`tabs`]).
+    Stocks,
     /// The "+" at the end of the tab row: features to switch on, each of
     /// which downloads only then (`poni_core::addons`).
     Addons,
@@ -79,7 +82,7 @@ pub enum PageKind {
 impl PageKind {
     /// The tab row's order: the island's own pages, Oyenza, then the
     /// add-ons' pages and the "+".
-    pub const ALL: [PageKind; 13] = [
+    pub const ALL: [PageKind; 14] = [
         PageKind::Media,
         PageKind::Today,
         PageKind::Shelf,
@@ -91,6 +94,7 @@ impl PageKind {
         PageKind::Script,
         PageKind::Record,
         PageKind::Prayer,
+        PageKind::Stocks,
         PageKind::Addons,
         PageKind::Settings,
     ];
@@ -108,6 +112,7 @@ impl PageKind {
             PageKind::Record => "record",
             PageKind::Oyenza => "oyenza",
             PageKind::Prayer => "prayer",
+            PageKind::Stocks => "stocks",
             PageKind::Addons => "addons",
             PageKind::Settings => "settings",
         }
@@ -132,6 +137,7 @@ impl PageKind {
             PageKind::Record => "Record",
             PageKind::Oyenza => "Oyenza",
             PageKind::Prayer => "Prayer",
+            PageKind::Stocks => "Stocks",
             PageKind::Addons => "Add-ons",
             PageKind::Settings => "Settings",
         }
@@ -150,6 +156,7 @@ impl PageKind {
             PageKind::Record => Icon::Recorder,
             PageKind::Oyenza => Icon::Wallet,
             PageKind::Prayer => Icon::Moon,
+            PageKind::Stocks => Icon::Stocks,
             PageKind::Addons => Icon::Addons,
             PageKind::Settings => Icon::Gear,
         }
@@ -172,7 +179,7 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, and Health, System,
-/// Script, Record and Prayer only while their add-ons are on. Oyenza is always there
+/// Script, Record, Prayer and Stocks only while their add-ons are on. Oyenza is always there
 /// (signed out it is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
@@ -182,6 +189,7 @@ pub fn tabs(st: &AppState) -> Vec<PageKind> {
             PageKind::System => st.system_on(),
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
+            PageKind::Stocks => st.stocks_on(),
             PageKind::Record => st.record_on(),
             p => p.tabbed(),
         })
@@ -209,6 +217,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Record => record::height(st),
         PageKind::Oyenza => oyenza::height(st),
         PageKind::Prayer => prayer::height(st),
+        PageKind::Stocks => stocks::height(st),
         PageKind::Addons => addons::height(st),
         PageKind::Settings => settings::height(st),
     }
@@ -341,6 +350,7 @@ pub(crate) fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKi
         PageKind::Record => record::draw(ui, st, area),
         PageKind::Oyenza => oyenza::draw(ui, st, area),
         PageKind::Prayer => prayer::draw(ui, st, area),
+        PageKind::Stocks => stocks::draw(ui, st, area),
         PageKind::Addons => addons::draw(ui, st, area),
         PageKind::Settings => settings::draw(ui, st, area),
     }
@@ -691,8 +701,9 @@ mod tests {
         assert_eq!(tabs(&st).last(), Some(&PageKind::Addons));
         assert_eq!(PageKind::from_key("addons"), PageKind::Addons);
         // The window is as tall as the tallest page (System, laid out for
-        // whether it shows or not); the five add-ons stay under it.
+        // whether it shows or not); the add-ons' rows and Stocks stay under it.
         assert!(content_height(PageKind::Addons, &st) <= content_height(PageKind::System, &st));
+        assert!(content_height(PageKind::Stocks, &st) <= content_height(PageKind::System, &st));
         // Signed out, Oyenza's sign-in is as tall as its code, so starting to
         // sign in doesn't move the island.
         st.oyenza.link = OyenzaLink::Off;
@@ -702,8 +713,12 @@ mod tests {
     }
 
     #[test]
-    fn system_and_health_have_a_tab_only_while_their_add_ons_are_on() {
-        for (page, addon) in [(PageKind::System, poni_core::addons::SYSTEM), (PageKind::Health, poni_core::addons::HEALTH)] {
+    fn system_health_and_stocks_have_a_tab_only_while_their_add_ons_are_on() {
+        for (page, addon) in [
+            (PageKind::System, poni_core::addons::SYSTEM),
+            (PageKind::Health, poni_core::addons::HEALTH),
+            (PageKind::Stocks, poni_core::addons::STOCKS),
+        ] {
             let mut st = state();
             assert!(!tabs(&st).contains(&page), "{} is off for everyone until switched on", addon.id);
             st.settings.set_addon(addon.id, true);

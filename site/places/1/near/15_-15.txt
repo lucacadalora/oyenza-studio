@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Nouakchott	0	
+C	MR	Mauritania	egyptian	s
+C	SN	Senegal	egyptian	s
+B	0
+P	Kiffa		MR		16.621	-11.402	0
+P	Kaédi	kaedi	MR		16.151	-13.506	0
+P	Sélibaby	selibaby	MR		15.158	-12.184	0
+P	Matam		SN		15.656	-13.255	0
+P	Guerou		MR		17.078	-12.039	0
+P	Ouro Sogui		SN		15.606	-13.322	0
+P	Boutilimitt		MR		17.546	-14.698	0
+P	El ’Ayoûn	el ayoun	MR		15.558	-11.180	0
+P	Bogué	bogue	MR		16.592	-14.263	0
+P	Ndioum		SN		16.513	-14.647	0
+P	Aleg		MR		17.053	-13.913	0
+P	Akjoujt		MR		19.742	-14.385	0
+P	Ṭinṭâne	tintane	MR		16.395	-10.174	0
+P	Elghabra		MR		16.647	-12.671	0
+P	Magṭa‘ Laḥjar	magta lahjar	MR		17.506	-13.093	0
+P	Kanel		SN		15.492	-13.176	0
+P	Thilogne		SN		15.924	-13.658	0

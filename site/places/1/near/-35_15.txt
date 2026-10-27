@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	ZA	South Africa	egyptian	s
+B	1
+P	Cape Town		ZA		-33.926	18.423	0
+P	Athlone		ZA		-33.967	18.502	0
+P	Paarl		ZA		-33.734	18.975	0
+P	Somerset West		ZA		-34.084	18.821	0
+P	Worcester		ZA		-33.647	19.449	0
+P	Stellenbosch		ZA		-33.935	18.867	0
+P	Atlantis		ZA		-33.567	18.483	0
+P	Saldanha		ZA		-33.012	17.944	0
+P	Kraaifontein		ZA		-33.848	18.717	0
+P	Hermanus		ZA		-34.419	19.234	0
+P	Wellington		ZA		-33.640	19.011	0
+P	Durbanville		ZA		-33.831	18.649	0
+P	Kuils River		ZA		-33.942	18.707	0
+P	Vredenburg		ZA		-32.907	17.990	0
+P	Malmesbury		ZA		-33.461	18.727	0
+P	Ceres		ZA		-33.369	19.311	0
+P	Grabouw		ZA		-34.152	19.015	0
+P	Muizenberg		ZA		-34.097	18.480	0
+P	Robertson		ZA		-33.803	19.885	0
+P	Retreat		ZA		-34.055	18.476	0
+P	Vredendal		ZA		-31.668	18.501	0
+P	Franschhoek		ZA		-33.911	19.120	0
+P	Le Roux		ZA		-33.891	19.103	0
+P	Lansdowne		ZA		-33.987	18.497	0
+P	Caledon		ZA		-34.230	19.427	0
+P	Gansbaai		ZA		-34.583	19.350	0
+P	Moorreesburg		ZA		-33.154	18.660	0
+P	Rondebosch		ZA		-33.963	18.476	0

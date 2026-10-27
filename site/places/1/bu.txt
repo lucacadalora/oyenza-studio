@@ -1,0 +1,492 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Kinshasa	60	
+Z	2	Africa/Lubumbashi	120	
+Z	3	Africa/Monrovia	0	
+Z	4	America/Argentina/Buenos_Aires	-180	
+Z	5	America/Bogota	-300	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/Mexico_City	-360	
+Z	10	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	11	America/Phoenix	-420	
+Z	12	America/Porto_Velho	-240	
+Z	13	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Dhaka	360	
+Z	16	Asia/Dubai	240	
+Z	17	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	18	Asia/Ho_Chi_Minh	420	
+Z	19	Asia/Karachi	300	
+Z	20	Asia/Kathmandu	345	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Manila	480	
+Z	23	Asia/Seoul	540	
+Z	24	Asia/Tehran	210	
+Z	25	Asia/Yangon	390	
+Z	26	Australia/Brisbane	600	
+Z	27	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	28	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	29	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	30	Europe/Istanbul	180	
+Z	31	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	AE	United Arab Emirates	dubai	s
+C	AL	Albania	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BG	Bulgaria	mwl	s
+C	BI	Burundi	egyptian	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KG	Kyrgyzstan	mwl	h
+C	KR	South Korea	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LR	Liberia	egyptian	s
+C	LS	Lesotho	egyptian	s
+C	LY	Libya	egyptian	s
+C	ME	Montenegro	mwl	s
+C	MK	North Macedonia	mwl	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	OM	Oman	ummalqura	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	RW	Rwanda	egyptian	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	SL	Sierra Leone	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SR	Suriname	mwl	s
+C	SY	Syria	egyptian	s
+C	TH	Thailand	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	6
+P	Busan		KR		35.102	129.030	23
+P	Bursa		TR		40.196	29.060	30
+P	Buenos Aires		AR		-34.613	-58.377	4
+P	Bucharest		RO		44.432	26.106	28
+P	Budapest		HU		47.498	19.040	29
+P	Budta		PH		7.204	124.440	22
+P	Bucheon-si	bucheon si	KR		37.499	126.783	23
+P	Bukavu		CD		-2.491	28.843	2
+P	Bujumbura		BI		-3.382	29.361	2
+P	Buraydah		SA		26.326	43.975	30
+P	Bulawayo		ZW		-20.150	28.583	2
+P	Bukit Rahman Putra		MY		3.217	101.561	22
+P	Bucaramanga		CO		7.125	-73.119	5
+P	Buda		HU		47.500	19.033	29
+P	Buôn Ma Thuột	buon ma thuot	VN		12.667	108.038	18
+P	Buenaventura		CO		3.583	-77.000	5
+P	Bunamwaya		UG		0.253	32.557	30
+P	Bunia		CD		1.559	30.252	2
+P	Burewala		PK		30.167	72.650	19
+P	Butuan		PH		8.949	125.544	22
+P	Butembo		CD		0.142	29.291	2
+P	Bukhara		UZ		39.770	64.431	19
+P	Buffalo		US	New York	42.886	-78.878	10
+P	Burnaby		CA	British Columbia	49.266	-122.953	14
+P	Buenaventura		CO		3.880	-77.031	5
+P	Bunkyo		JP		35.533	139.422	23
+P	Sungai Buloh		MY		3.210	101.561	22
+P	Chon Buri		TH		13.362	100.983	18
+P	Buenavista		MX		19.608	-99.169	9
+P	Bukit Mertajam		MY		5.363	100.467	22
+P	Burhānpur	burhanpur	IN		21.309	76.230	21
+P	Burgas		BG		42.507	27.469	28
+P	Bukit Jalil		MY		3.049	101.680	22
+P	Bulandshahr		IN		28.404	77.858	21
+P	Butwāl	butwal	NP		27.691	83.453	20
+P	Būkān	bukan	IR		36.521	46.209	24
+P	Business Bay		AE		25.185	55.270	16
+P	Burlington		CA	Ontario	43.386	-79.837	10
+P	Paris 18 Buttes-Montmartre	paris 18 buttes montmartre	FR		48.892	2.344	29
+P	Bunda		TZ		-2.022	33.871	30
+P	Paris 19 Buttes-Chaumont	paris 19 buttes chaumont	FR		48.882	2.382	29
+P	Burgos		ES		42.341	-3.702	29
+P	Bushehr		IR		28.969	50.837	24
+P	Büyükçekmece	buyukcekmece	TR		41.021	28.585	30
+P	Budaun		IN		28.038	79.127	21
+P	Bukit Batok New Town		SG		1.359	103.764	22
+P	Bumba		CD		2.188	22.468	1
+P	Bukit Merah Estate		SG		1.284	103.823	22
+P	Burnley		GB	England	53.800	-2.233	31
+P	Bandar Bukit Raja		MY		3.087	101.433	22
+P	Burāri	burari	IN		28.756	77.199	21
+P	Bueng Kum		TH		13.785	100.670	18
+P	Bukoba		TZ		-1.332	31.812	30
+P	Buea		CM		4.153	9.242	1
+P	Kabin Buri		TH		13.951	101.717	18
+P	Budapest XI. kerület	budapest xi kerulet	HU		47.476	19.036	29
+P	Bukit Panjang New Town		SG		1.380	103.765	22
+P	Būsh	bush	EG		29.148	31.127	0
+P	Buguma		NG		4.736	6.862	1
+P	Bulaon		PH		15.083	120.663	22
+P	Buôn Hồ	buon ho	VN		12.952	108.296	18
+P	Butanta		BR		-23.570	-46.726	4
+P	Budapest III. kerület	budapest iii kerulet	HU		47.542	19.045	29
+P	Burton upon Trent		GB	England	52.807	-1.643	31
+P	Bukit Bintang		MY		3.147	101.710	22
+P	Thon Buri		TH		13.725	100.485	18
+P	Guadalajara de Buga		CO		3.901	-76.298	5
+P	Budapest XIII. kerület	budapest xiii kerulet	HU		47.530	19.081	29
+P	Bushwick		US	New York	40.694	-73.919	10
+P	Butterworth		MY		5.399	100.364	22
+P	Buhe		CN		30.288	112.230	22
+P	Bukama		CD		-9.204	25.855	2
+P	Burbank		US	California	34.181	-118.309	8
+P	Būndi	bundi	IN		25.439	75.637	21
+P	Buzău	buzau	RO		45.150	26.833	28
+P	Buxar		IN		25.575	83.980	21
+P	Burayu		ET		9.035	38.661	30
+P	Burao		SO		9.522	45.534	30
+P	Burzaco		AR		-34.826	-58.395	4
+P	Budapest IV. kerület	budapest iv kerulet	HU		47.562	19.089	29
+P	Burdur		TR		37.720	30.291	30
+P	České Budějovice	ceske budejovice	CZ		48.974	14.474	29
+P	Budapest XVIII. kerület	budapest xviii kerulet	HU		47.444	19.176	29
+P	Bugulma		RU		54.538	52.798	30
+P	Butajīra	butajira	ET		8.117	38.367	30
+P	Budapest II. kerület	budapest ii kerulet	HU		47.520	19.022	29
+P	Buzuluk		RU		52.778	52.259	19
+P	Rat Burana		TH		13.682	100.506	18
+P	Bukit Timah		SG		1.328	103.791	22
+P	Busto Arsizio		IT		45.611	8.849	29
+P	Buena Park		US	California	33.868	-117.998	8
+P	Bulacan		PH		14.793	120.879	22
+P	Budapest VIII. kerület	budapest viii kerulet	HU		47.489	19.070	29
+P	Bulungu		CD		-4.544	18.604	1
+P	Buta		CD		2.786	24.730	2
+P	Bustos		PH		14.958	120.918	22
+P	Budapest XV. kerület	budapest xv kerulet	HU		47.563	19.117	29
+P	Būmahen	bumahen	IR		35.730	51.869	24
+P	Budapest XVII. kerület	budapest xvii kerulet	HU		47.480	19.254	29
+P	Budge Budge		IN		22.483	88.182	21
+P	Bunbury		AU	Western Australia	-33.327	115.641	22
+P	Budapest XXI. kerület	budapest xxi kerulet	HU		47.422	19.066	29
+P	Buchanan		LR		5.877	-10.050	3
+P	Bundaberg		AU	Queensland	-24.866	152.348	26
+P	Al Buraymī	al buraymi	OM		24.251	55.793	16
+P	Busia		KE		0.460	34.112	30
+P	Buenavista		PH		8.977	125.409	22
+P	Budapest XVI. kerület	budapest xvi kerulet	HU		47.515	19.170	29
+P	Bungoma		KE		0.564	34.561	30
+P	Budyonnovsk		RU		44.784	44.166	30
+P	Glen Burnie		US	Maryland	39.163	-76.625	10
+P	Buldāna	buldana	IN		20.529	76.185	21
+P	Bununka Kunda		GM		13.427	-16.685	3
+P	Burām	buram	SD		10.858	25.159	2
+P	Busia		UG		0.466	34.092	30
+P	Buckley		GB	Wales	53.167	-3.083	31
+P	Buin		CL		-33.733	-70.743	13
+P	Budapest XX. kerület	budapest xx kerulet	HU		47.437	19.101	29
+P	Buduburam		GH		5.523	-0.477	3
+P	Butare		RW		-2.597	29.739	2
+P	Buynaksk		RU		42.818	47.127	30
+P	Budapest XIX. kerület	budapest xix kerulet	HU		47.453	19.149	29
+P	Burnsville		US	Minnesota	44.768	-93.278	6
+P	Bury		GB	England	53.600	-2.300	31
+P	Buluan		PH		6.720	124.802	22
+P	Al Burj		EG		31.582	30.981	0
+P	Bukit Indah		MY		1.480	103.660	22
+P	Buyeo		KR		36.275	126.909	23
+P	Masaurhi Buzurg		IN		25.354	85.032	21
+P	Lop Buri		TH		14.798	100.654	18
+P	Budapest XII. kerület	budapest xii kerulet	HU		47.492	19.015	29
+P	Kampung Bukit Baharu		MY		2.215	102.285	22
+P	Buthidaung Town		MM		20.875	92.530	25
+P	Buriticupu		BR		-4.321	-46.455	4
+P	Burauen		PH		10.976	124.893	22
+P	Buíque	buique	BR		-8.623	-37.156	4
+P	Bukit Tengah		MY		5.346	100.439	22
+P	Buguruslan		RU		53.655	52.442	19
+P	Buzhuang		CN		36.912	119.557	22
+P	Suphan Buri		TH		14.474	100.122	18
+P	Butterworth		ZA		-32.331	28.150	2
+P	Buseresere		TZ		-3.049	31.885	30
+P	Burlington		US	North Carolina	36.096	-79.438	10
+P	Thị Trấn Phước Bửu	thi tran phuoc buu	VN		10.535	107.402	18
+P	Būlāq Abū al ‘Ilā	bulaq abu al ila	EG		30.060	31.231	0
+P	Bunawan		PH		8.167	125.991	22
+P	Buckeye		US	Arizona	33.370	-112.584	11
+P	Yerba Buena		AR		-26.813	-65.295	4
+P	Budapest XXII. kerület	budapest xxii kerulet	HU		47.427	19.040	29
+P	Burien		US	Washington	47.470	-122.347	8
+P	Buni		PK		36.273	72.259	19
+P	Buenavista		ES		40.367	-3.746	29
+P	Businga		CD		3.339	20.886	1
+P	Pran Buri		TH		12.385	99.902	18
+P	Degeh Bur		ET		8.221	43.557	30
+P	Burla		IN		21.510	83.873	21
+P	Bünde	bunde	DE		52.198	8.586	29
+P	Burē	bure	ET		10.700	37.067	30
+P	Burj al ‘Arab al Jadīdah	burj al arab al jadidah	EG		30.885	29.577	0
+P	Bugo		PH		8.508	124.759	22
+P	Burhānuddin	burhanuddin	BD		22.495	90.724	15
+P	Bugembe		UG		0.482	33.241	30
+P	San Buenaventura		MX		19.302	-98.863	9
+P	Bulancak		TR		40.938	38.231	30
+P	Burleson		US	Texas	32.542	-97.321	6
+P	Purísima de Bustos	purisima de bustos	MX		21.030	-101.878	9
+P	Al Bukayrīyah	al bukayriyah	SA		26.139	43.658	30
+P	Kamal Pur Majra Burari		IN		28.747	77.193	21
+P	Leighton Buzzard		GB	England	51.917	-0.658	31
+P	Burlington		US	Vermont	44.476	-73.212	10
+P	Armação dos Búzios	armacao dos buzios	BR		-22.747	-41.882	4
+P	Bucha		UA		50.547	30.209	28
+P	Budapest VI. kerület	budapest vi kerulet	HU		47.504	19.066	29
+P	Bang Bua Thong		TH		13.918	100.424	18
+P	Buffalo Grove		US	Illinois	42.151	-87.960	6
+P	Bugojno		BA		44.057	17.451	29
+P	Bury St Edmunds		GB	England	52.246	0.711	31
+P	Burke		US	Virginia	38.793	-77.272	10
+P	Buco Zau		AO		-4.767	12.550	1
+P	Buchholz in der Nordheide		DE		53.330	9.866	29
+P	Butha-Buthe	butha buthe	LS		-28.767	28.249	2
+P	Buzi		TW		24.210	120.573	22
+P	Buckow		DE		52.422	13.436	29
+P	Bukit Gambir		MY		2.211	102.655	22
+P	Shepherds Bush		GB	England	51.505	-0.221	31
+P	Bullhead City		US	Arizona	35.148	-114.568	11
+P	Wichian Buri		TH		15.658	101.106	18
+P	Burjassot		ES		39.510	-0.413	29
+P	Buxtehude		DE		53.470	9.690	29
+P	Burhaniye		TR		39.500	26.973	30
+P	‘Izbat al Burj	izbat al burj	EG		31.508	31.841	0
+P	Kaki Bukit Estate		SG		1.337	103.909	22
+P	Buston		TJ		40.234	69.695	19
+P	Buyale		UG		1.934	32.116	30
+P	Butel		MK		42.031	21.447	29
+P	Bugiri		UG		0.571	33.742	30
+P	Budhāna	budhana	IN		29.288	77.475	21
+P	Pimenta Bueno		BR		-11.672	-61.194	12
+P	Bukit Kerinchi		MY		3.106	101.668	22
+P	Al Burayj		PS		31.439	34.403	17
+P	Burriana		ES		39.889	-0.085	29
+P	Nong Bua Lamphu		TH		17.204	102.441	18
+P	Butte		US	Montana	46.004	-112.535	7
+P	Burglesum		DE		53.165	8.689	29
+P	Buer		DE		51.577	7.052	29
+P	Busesa		UG		0.626	33.600	30
+P	Buyo		CI		6.275	-6.997	3
+P	Bustleton		US	Pennsylvania	40.083	-75.032	10
+P	Prachin Buri		TH		14.050	101.369	18
+P	Bugarama		TZ		-2.871	30.528	30
+P	Bulanık	bulanik	TR		39.087	42.272	30
+P	Río Bueno	rio bueno	CL		-40.335	-72.956	13
+P	Bussum		NL		52.273	5.161	29
+P	Al Burayqah		LY		30.406	19.574	2
+P	Bugarama		RW		-2.692	29.008	2
+P	Burgdorf		DE		52.446	10.006	29
+P	Bubanza		BI		-3.080	29.391	2
+P	Buriti		BR		-3.942	-42.925	4
+P	Burgess Hill		GB	England	50.958	-0.133	31
+P	Bula Atumba		AO		-8.674	14.797	1
+P	Burlingame		US	California	37.584	-122.366	8
+P	Buhi		PH		13.432	123.517	22
+P	Burj Islām	burj islam	SY		35.674	35.803	30
+P	Buyende		UG		1.152	33.155	30
+P	Bushekeri		RW		-2.420	29.091	2
+P	Barra do Bugres		BR		-15.072	-57.181	12
+P	Burirchar		BD		22.140	90.206	15
+P	Burntwood		GB	England	52.681	-1.928	31
+P	Bucak		TR		37.459	30.595	30
+P	Bulung’ur Shahri	bulungur shahri	UZ		39.760	67.274	19
+P	Burbank		US	Illinois	41.734	-87.779	6
+P	Budaka		UG		1.004	33.926	30
+P	Busumbala		GM		13.339	-16.688	3
+P	Burton		US	Michigan	42.999	-83.616	10
+P	Buderim		AU	Queensland	-26.684	153.057	26
+P	Bühl	buhl	DE		48.697	8.135	29
+P	Buturlinovka		RU		50.826	40.598	30
+P	Bulan		PH		12.671	123.875	22
+P	Bushey		GB	England	51.643	-0.361	31
+P	Buri Ram		TH		14.994	103.104	18
+P	Busogo		RW		-1.558	29.543	2
+P	Burgos		PH		15.729	120.572	22
+P	Bundoora		AU	Victoria	-37.698	145.060	27
+P	Bultfontein		ZA		-28.288	26.150	2
+P	Buritis		BR		-10.212	-63.829	12
+P	Bungu		TZ		-7.634	39.058	30
+P	Buurhakaba		SO		2.803	44.078	30
+P	Burngreave		GB	England	53.393	-1.458	31
+P	Chorakhe Bua		TH		13.839	100.611	18
+P	Parit Buntar		MY		5.127	100.493	22
+P	La Teste-de-Buch	la teste de buch	FR		44.633	-1.145	29
+P	Busselton		AU	Western Australia	-33.652	115.346	22
+P	Buzhake		CN		37.066	79.800	15
+P	Bukuya		UG		0.679	31.820	30
+P	Buzen		JP		33.612	131.130	23
+P	Bulqizë	bulqize	AL		41.492	20.222	29
+P	Budafok		HU		47.424	19.036	29
+P	Buy		RU		58.480	41.536	30
+P	Budapest V. kerület	budapest v kerulet	HU		47.500	19.051	29
+P	Budhlāda	budhlada	IN		29.928	75.562	21
+P	Ban Talat Bueng		TH		13.071	101.003	18
+P	Buenaventura Lakes		US	Florida	28.336	-81.353	10
+P	Dunga Bunga		PK		29.750	73.243	19
+P	Sydney Central Business District		AU	New South Wales	-33.865	151.208	27
+P	Burlington		US	Iowa	40.808	-91.113	6
+P	Prachin Buri Town		TH		14.055	101.373	18
+P	Butzbach		DE		50.434	8.671	29
+P	Budaörs	budaors	HU		47.462	18.958	29
+P	Burg bei Magdeburg		DE		52.272	11.855	29
+P	Ghoti Budrukh		IN		19.716	73.628	21
+P	Buzovna		AZ		40.519	50.114	16
+P	Budapest I. kerület	budapest i kerulet	HU		47.497	19.040	29
+P	Hudkeshwar Buzurg		IN		21.082	79.127	21
+P	Burlington		US	Massachusetts	42.505	-71.196	10
+P	Bruay-la-Buissière	bruay la buissiere	FR		50.483	2.550	29
+P	Bujaru		BR		-1.515	-48.045	4
+P	Buwenge		UG		0.650	33.171	30
+P	Buritis		BR		-15.618	-46.423	4
+P	Butaleja		UG		0.912	33.951	30
+P	Buritizeiro		BR		-17.351	-44.962	4
+P	Buôn Trấp	buon trap	VN		12.485	108.030	18
+P	Ban Bueng		TH		13.312	101.113	18
+P	Bulle		CH		46.618	7.057	29
+P	Burnham-on-Sea	burnham on sea	GB	England	51.239	-2.998	31
+P	Annaberg-Buchholz	annaberg buchholz	DE		50.580	13.006	29
+P	Van Buren		US	Arkansas	35.437	-94.348	6
+P	Bungo-Takada-shi	bungo takada shi	JP		33.557	131.445	23
+P	Anak Bukit		SG		1.341	103.773	22
+P	Bukit Tambun		MY		5.272	100.460	22
+P	Jharoda Mazra Burāri	jharoda mazra burari	IN		28.730	77.209	21
+P	Bushenge		RW		-2.442	28.982	2
+P	Buriti Bravo		BR		-5.837	-43.834	4
+P	Burj al ‘Arab	burj al arab	EG		30.903	29.553	0
+P	Büdingen	budingen	DE		50.290	9.111	29
+P	Bundibugyo		UG		0.711	30.065	30
+P	Buan		KR		35.728	126.732	23
+P	Büren	buren	DE		51.551	8.560	29
+P	Französisch Buchholz	franzosisch buchholz	DE		52.602	13.430	29
+P	Butarque		ES		40.337	-3.676	29
+P	Būndu	bundu	IN		23.161	85.590	21
+P	Burunday		KZ		43.356	76.855	19
+P	Buftea		RO		44.561	25.949	28
+P	San Buenaventura		MX		27.062	-101.549	9
+P	Bülach	bulach	CH		47.522	8.540	29
+P	Burnie		AU	Tasmania	-41.056	145.904	27
+P	Budapest XXIII. kerület	budapest xxiii kerulet	HU		47.398	19.115	29
+P	Buinsk		RU		54.974	48.291	30
+P	Buri		BR		-23.797	-48.593	4
+P	Waluj Buzurg		IN		19.796	75.226	21
+P	Burqin		CN		47.703	86.864	15
+P	Buxton		GB	England	53.257	-1.910	31
+P	Sing Buri		TH		14.888	100.405	18
+P	Bukit Beruntung		MY		3.416	101.557	22
+P	Buesaco		CO		1.384	-77.156	5
+P	Buriti dos Lopes		BR		-3.175	-41.867	4
+P	Buritirama		BR		-10.708	-43.631	4
+P	Buhimba		UG		1.347	31.308	30
+P	Canto do Buriti		BR		-8.110	-42.944	4
+P	Burhar		IN		23.215	81.532	21
+P	Budai		TW		23.378	120.162	22
+P	Bückeburg	buckeburg	DE		52.261	9.049	29
+P	Burscheid		DE		51.085	7.114	29
+P	Budadiri		UG		1.148	34.326	30
+P	Burgersdorp		ZA		-30.998	26.329	2
+P	Butiá	butia	BR		-30.120	-51.962	4
+P	Kui Buri		TH		12.083	99.854	18
+P	Burlata		ES		42.826	-1.617	29
+P	Butemba		UG		1.159	31.611	30
+P	South Burlington		US	Vermont	44.467	-73.171	10
+P	Bur Dubai		AE		25.260	55.299	16
+P	Khon Buri		TH		14.525	102.246	18
+P	Buikwe		UG		0.338	33.011	30
+P	Buhuşi	buhusi	RO		46.717	26.700	28
+P	Burghausen		DE		48.169	12.831	29
+P	Buchen in Odenwald		DE		49.524	9.323	29
+P	Burwood		AU	New South Wales	-33.883	151.100	27
+P	Dera Bugti		PK		29.036	69.158	19
+P	Budva		ME		42.287	18.839	29
+P	Butunduzi		UG		0.555	30.855	30
+P	Bu’aale	buaale	SO		1.083	42.583	30
+P	Bukit Rambai		MY		2.259	102.184	22
+P	Bukit Gemuroh		MY		5.298	100.211	22
+P	Bulgan		MN		48.812	103.535	22
+P	Munder Buiten		SR		5.841	-55.182	4
+P	Buritama		BR		-21.066	-50.147	4
+P	Busko-Zdrój	busko zdroj	PL		50.471	20.719	29
+P	Buulobarde		SO		3.854	45.567	30
+P	Bua Yai		TH		15.586	102.426	18
+P	Budhni		IN		22.787	77.681	21
+P	Busolwe		UG		0.850	33.926	30
+P	Verrières-le-Buisson	verrieres le buisson	FR		48.746	2.268	29
+P	Buckingham		CA	Quebec	45.586	-75.421	10
+P	Anak Bukit		MY		6.184	100.378	22
+P	Burgdorf		CH		47.059	7.628	29
+P	Burutu		NG		5.353	5.508	1
+P	Bukomero		UG		0.698	32.029	30
+P	Butiama		TZ		-1.767	33.967	30
+P	Búzi	buzi	MZ		-19.864	34.467	2
+P	Buckhall		US	Virginia	38.732	-77.431	10
+P	Bucerías	bucerias	MX		20.758	-105.336	9
+P	Bumpe		SL		7.892	-11.905	3
+P	Buraca		PT		38.733	-9.200	31
+P	Bulolo		PG		-7.204	146.640	26
+P	Buffalo		US	Minnesota	45.172	-93.875	6
+P	Buhesi		UG		0.581	30.210	30
+P	Burlington		US	Kentucky	39.028	-84.724	10
+P	Bunjwah		IN		33.146	75.948	21
+P	Busembatia		UG		0.777	33.624	30
+P	Bugaragara		RW		-1.293	30.408	2
+P	Bukuru		NG		9.794	8.864	1
+P	Butterfly		HK		22.376	113.963	22
+P	Ala-Buka	ala buka	KG		41.410	71.486	15
+P	Lake Butler		US	Florida	28.502	-81.541	10
+P	Bürstadt	burstadt	DE		49.643	8.459	29
+P	Buguda		IN		19.808	84.791	21
+P	Bussolengo		IT		45.469	10.854	29
+P	Burwood		AU	Victoria	-37.850	145.119	27
+P	Chom Bueng		TH		13.620	99.592	18

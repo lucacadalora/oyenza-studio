@@ -163,7 +163,12 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
 }
 
 pub fn collapsed_mode(st: &AppState) -> Mode {
-    if st.notice.is_some() {
+    // A notice that stays (a new version's) waits under a volume or
+    // brightness change, a game's readout and a recording (its Stop stays
+    // one click away), and shows again after.
+    let recording = st.rec_live() && st.record_on();
+    let waits = st.notice.as_ref().is_some_and(|n| n.stays()) && (st.hud.is_some() || st.game.active || recording);
+    if st.notice.is_some() && !waits {
         Mode::Notice
     } else if let Some(h) = &st.hud {
         Mode::Hud(hud_tag(&h.kind))
@@ -939,6 +944,44 @@ mod tests {
         // Readings switched off: one row again, as for a song without them.
         st.settings.lyrics_pronunciation = false;
         assert_eq!(geom(&media, &st).h, 32.0);
+    }
+
+    #[test]
+    fn a_notice_that_stays_waits_under_a_volume_change_and_a_games_readout() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.notify(Icon::Download, palette::GREEN, "Update available", "", f64::INFINITY, None);
+        assert!(st.notice.as_ref().is_some_and(|n| n.stays()));
+        assert_eq!(collapsed_mode(&st), Mode::Notice);
+        st.hud = Some(crate::state::Hud { kind: HudKind::Volume { level: 0.5, muted: false }, until: st.now + 2.0 });
+        assert_eq!(collapsed_mode(&st), Mode::Hud(HudTag::Volume));
+        st.hud = None;
+        st.game.active = true;
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Game));
+        st.game.active = false;
+        assert_eq!(collapsed_mode(&st), Mode::Notice, "and back once they're gone");
+        // A notice with a time limit still shows over both.
+        st.notify(Icon::Download, palette::GREEN, "Saved", "", 5.0, None);
+        st.hud = Some(crate::state::Hud { kind: HudKind::Volume { level: 0.5, muted: false }, until: st.now + 2.0 });
+        st.game.active = true;
+        assert_eq!(collapsed_mode(&st), Mode::Notice);
+    }
+
+    #[test]
+    fn a_notice_that_stays_waits_under_a_recording() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.recorder = true;
+        st.store.recorder_island = true;
+        st.notify(Icon::Download, palette::GREEN, "Update available", "", f64::INFINITY, None);
+        st.rec.phase = Some(poni_core::recorder::Phase::Recording);
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Recording), "Stop stays one click away");
+        st.rec.phase = Some(poni_core::recorder::Phase::Paused);
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Recording));
+        st.rec.phase = None;
+        assert_eq!(collapsed_mode(&st), Mode::Notice, "and back once the recording ends");
+        // A notice with a time limit still shows over it.
+        st.rec.phase = Some(poni_core::recorder::Phase::Recording);
+        st.notify(Icon::Download, palette::GREEN, "Saved", "", 5.0, None);
+        assert_eq!(collapsed_mode(&st), Mode::Notice);
     }
 
     #[test]

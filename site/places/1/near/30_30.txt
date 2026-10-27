@@ -1,0 +1,219 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	2	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	3	Asia/Nicosia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	CY	Cyprus	mwl	s
+C	EG	Egypt	egyptian	s
+C	IL	Israel	mwl	s
+C	PS	Palestinian Territory	mwl	s
+B	3
+P	Cairo		EG		30.063	31.250	0
+P	Giza		EG		30.009	31.209	0
+P	Shubrā al Khaymah	shubra al khaymah	EG		30.125	31.251	0
+P	Port Said		EG		31.265	32.302	0
+P	Madīnat an Naşr	madinat an nasr	EG		30.067	31.300	0
+P	Al Mansurah		EG		31.036	31.381	0
+P	Al Maḩallah al Kubrá	al mahallah al kubra	EG		30.971	31.167	0
+P	Tanta		EG		30.788	31.002	0
+P	Al Khuşūş	al khusus	EG		30.153	31.315	0
+P	Tel Aviv		IL		32.081	34.781	2
+P	Zagazig		EG		30.588	31.502	0
+P	Ismailia		EG		30.604	32.272	0
+P	Gaza		PS		31.502	34.467	1
+P	Ḩadā’iq al Qubbah	hadaiq al qubbah	EG		30.088	31.284	0
+P	Damanhur		EG		31.034	30.468	0
+P	New Cairo		EG		30.030	31.470	0
+P	Al Qāhirah al Jadīdah	al qahirah al jadidah	EG		30.042	31.444	0
+P	Damietta		EG		31.416	31.813	0
+P	Rosetta		EG		31.400	30.417	0
+P	Haifa		IL		32.813	34.999	2
+P	Shibīn al Kawm	shibin al kawm	EG		30.553	31.009	0
+P	Rishon LeTsiyyon		IL		31.971	34.789	2
+P	Petaẖ Tiqva	petah tiqva	IL		32.087	34.887	2
+P	Al ‘Āshir min Ramaḑān	al ashir min ramadan	EG		30.296	31.746	0
+P	Netanya		IL		32.333	34.860	2
+P	Ashdod		IL		31.792	34.650	2
+P	Bnei Brak		IL		32.081	34.834	2
+P	Arīsh	arish	EG		31.132	33.798	0
+P	H̱olon	holon	IL		32.010	34.779	2
+P	Kafr ash Shaykh		EG		31.112	30.940	0
+P	Beersheba		IL		31.252	34.791	2
+P	Bilbeis		EG		30.420	31.562	0
+P	Banhā	banha	EG		30.460	31.184	0
+P	Idkū	idku	EG		31.307	30.298	0
+P	Khān Yūnis	khan yunis	PS		31.340	34.306	1
+P	Ramat Gan		IL		32.082	34.811	2
+P	Jabālyā	jabalya	PS		31.527	34.483	1
+P	Al Maţarīyah	al matariyah	EG		31.183	32.031	0
+P	Qalyub		EG		30.179	31.206	0
+P	Abū Kabīr	abu kabir	EG		30.725	31.671	0
+P	Limassol		CY		34.684	33.038	3
+P	Mīt Ghamr	mit ghamr	EG		30.715	31.259	0
+P	Reẖovot	rehovot	IL		31.894	34.812	2
+P	Disūq	disuq	EG		31.133	30.648	0
+P	Ashkelon		IL		31.669	34.571	2
+P	Al-'Ubūr	al ubur	EG		30.229	31.481	0
+P	Kirdāsah	kirdasah	EG		30.031	31.111	0
+P	Bilqās	bilqas	EG		31.215	31.358	0
+P	Bat Yam		IL		32.024	34.752	2
+P	Kafr ad Dawwār	kafr ad dawwar	EG		31.134	30.130	0
+P	Al Manzalah		EG		31.158	31.936	0
+P	Rafaḩ	rafah	PS		31.297	34.244	1
+P	Munūf	munuf	EG		30.466	30.932	0
+P	Bet Shemesh		IL		31.731	34.993	2
+P	Ashmūn	ashmun	EG		30.297	30.976	0
+P	As Sinbillāwayn	as sinbillawayn	EG		30.883	31.463	0
+P	Fāqūs	faqus	EG		30.728	31.797	0
+P	Ţalkhā	talkha	EG		31.054	31.378	0
+P	Zefta		EG		30.714	31.244	0
+P	Kfar Saba		IL		32.175	34.907	2
+P	Dikirnis		EG		31.089	31.595	0
+P	Jaffa		IL		32.050	34.752	2
+P	Al Jammālīyah	al jammaliyah	EG		31.181	31.865	0
+P	Minyā al Qamḩ	minya al qamh	EG		30.516	31.346	0
+P	Herzliya		IL		32.166	34.825	2
+P	Hadera		IL		32.442	34.904	2
+P	Ash-Shaykh Zāyid	ash shaykh zayid	EG		30.020	31.000	0
+P	Al Qurayn		EG		30.616	31.735	0
+P	Awsīm	awsim	EG		30.123	31.136	0
+P	Fuwwah		EG		31.204	30.549	0
+P	El Shorouk		EG		30.138	31.616	0
+P	Biyalā	biyala	EG		31.174	31.222	0
+P	Samannūd	samannud	EG		30.962	31.241	0
+P	Al Qanāţir al Khayrīyah	al qanatir al khayriyah	EG		30.193	31.137	0
+P	Kafr az Zayyāt	kafr az zayyat	EG		30.825	30.818	0
+P	Ḩawsh ‘Īsá	hawsh isa	EG		30.913	30.290	0
+P	Minyat an Naşr	minyat an nasr	EG		31.126	31.643	0
+P	Al Khānkah	al khankah	EG		30.210	31.368	0
+P	Diyarb Najm		EG		30.754	31.440	0
+P	Sirs al Layyānah	sirs al layyanah	EG		30.443	30.970	0
+P	Ītāy al Bārūd	itay al barud	EG		30.887	30.667	0
+P	Lod		IL		31.947	34.890	2
+P	Ramla		IL		31.926	34.864	2
+P	Shirbīn	shirbin	EG		31.197	31.524	0
+P	Ash Shuhadā’	ash shuhada	EG		30.597	30.899	0
+P	Mashtūl as Sūq	mashtul as suq	EG		30.361	31.378	0
+P	Ra'anana	raanana	IL		32.184	34.874	2
+P	Basyūn	basyun	EG		30.940	30.813	0
+P	Hihyā	hihya	EG		30.671	31.588	0
+P	Shibīn al Qanāţir	shibin al qanatir	EG		30.313	31.320	0
+P	Rosh Ha‘Ayin	rosh haayin	IL		32.096	34.957	2
+P	Talā	tala	EG		30.680	30.944	0
+P	Larnaca		CY		34.922	33.628	3
+P	Madīnat as Sādāt	madinat as sadat	EG		30.367	30.509	0
+P	Al Qanāyāt	al qanayat	EG		30.619	31.462	0
+P	Ad Dilinjāt	ad dilinjat	EG		30.828	30.536	0
+P	Abū al Maţāmīr	abu al matamir	EG		30.910	30.174	0
+P	Quwaysinā	quwaysina	EG		30.565	31.158	0
+P	Hod HaSharon		IL		32.159	34.893	2
+P	Al Bājūr	al bajur	EG		30.430	31.037	0
+P	Kiryat Gat		IL		31.610	34.764	2
+P	Abū Ḩummuş	abu hummus	EG		31.093	30.314	0
+P	Givatayim		IL		32.072	34.813	2
+P	Al Burj		EG		31.582	30.981	0
+P	Dayr al Balaḩ	dayr al balah	PS		31.418	34.349	1
+P	Aş Şāliḩīyah al Jadīdah	as salihiyah al jadidah	EG		30.631	31.939	0
+P	Nabarūh	nabaruh	EG		31.098	31.303	0
+P	Al Ḩāmūl	al hamul	EG		31.311	31.148	0
+P	Bayt Lāhyā	bayt lahya	PS		31.546	34.495	1
+P	Kawm Ḩamādah	kawm hamadah	EG		30.761	30.700	0
+P	Dumyāţ al Jadīdah	dumyat al jadidah	EG		31.435	31.675	0
+P	Al Ibrāhīmīyah	al ibrahimiyah	EG		30.719	31.563	0
+P	‘Izbat ‘Alī as Sayyid	izbat ali as sayyid	EG		31.157	30.148	0
+P	Ţūkh	tukh	EG		30.355	31.201	0
+P	Būlāq Abū al ‘Ilā	bulaq abu al ila	EG		30.060	31.231	0
+P	Balţīm	baltim	EG		31.556	31.089	0
+P	Birkat as Sab‘	birkat as sab	EG		30.629	31.082	0
+P	Al Ḩusaynīyah	al husayniyah	EG		30.862	31.918	0
+P	Ness Ziona		IL		31.929	34.799	2
+P	El‘ad	elad	IL		32.050	34.954	2
+P	Qillīn	qillin	EG		31.047	30.855	0
+P	Mīt Salsīl	mit salsil	EG		31.168	31.801	0
+P	Yavné	yavne	IL		31.878	34.740	2
+P	Ramat HaSharon		IL		32.146	34.839	2
+P	Kafr al Baţţīkh	kafr al battikh	EG		31.404	31.738	0
+P	Aga		EG		30.942	31.290	0
+P	At Tall al Kabīr	at tall al kabir	EG		30.543	31.785	0
+P	As Sanţah	as santah	EG		30.746	31.130	0
+P	Aş Şalāḩāt	as salahat	EG		31.002	31.626	0
+P	Kafr al Kurdī	kafr al kurdi	EG		31.168	31.765	0
+P	Pardés H̱anna Karkur	pardes hanna karkur	IL		32.474	34.978	2
+P	Sīdī Sālim	sidi salim	EG		31.271	30.786	0
+P	Kafr Şaqr	kafr saqr	EG		30.793	31.626	0
+P	Ar Raḩmānīyah	ar rahmaniyah	EG		31.105	30.641	0
+P	Rafaḩ	rafah	EG		31.282	34.239	0
+P	Muţūbas	mutubas	EG		31.294	30.522	0
+P	Netivot		IL		31.423	34.589	2
+P	Fāraskūr	faraskur	EG		31.330	31.715	0
+P	Qalqīlyah	qalqilyah	PS		32.190	34.971	1
+P	Abū Ḩammād	abu hammad	EG		30.538	31.679	0
+P	Shubrākhīt	shubrakhit	EG		31.028	30.715	0
+P	Madīnat Wādī an Naţrūn	madinat wadi an natrun	EG		30.377	30.350	0
+P	Kiryat Ono		IL		32.061	34.856	2
+P	Abū Qīr	abu qir	EG		31.311	30.061	0
+P	‘Izbat al Burj	izbat al burj	EG		31.508	31.841	0
+P	Bayt Ḩānūn	bayt hanun	PS		31.535	34.536	1
+P	Or Yehuda		IL		32.029	34.858	2
+P	Qahā	qaha	EG		30.280	31.205	0
+P	An Nuşayrāt	an nusayrat	PS		31.449	34.392	1
+P	Paphos		CY		34.777	32.425	3
+P	Fāyīd	fayid	EG		30.313	32.309	0
+P	Al Burayj		PS		31.439	34.403	1
+P	Ofaqim		IL		31.314	34.620	2
+P	Al Maḩmūdīyah	al mahmudiyah	EG		31.184	30.524	0
+P	Badr		EG		30.136	31.715	0
+P	Awlād Şaqr	awlad saqr	EG		30.931	31.699	0
+P	Abu Suweir-el-Mahatta	abu suweir el mahatta	EG		30.570	32.115	0
+P	Quţūr	qutur	EG		30.972	30.956	0
+P	Maḩallat Damanah	mahallat damanah	EG		31.073	31.495	0
+P	Al Qanţarah	al qantarah	EG		30.857	32.312	0
+P	Banī Suhaylā	bani suhayla	PS		31.343	34.323	1
+P	Ar-Rawḍah	ar rawdah	EG		31.323	31.761	0
+P	Şān al Ḩajar al Qiblīyah	san al hajar al qibliyah	EG		30.975	31.872	0
+P	Kafr Shukr		EG		30.550	31.244	0
+P	Gedera		IL		31.815	34.780	2
+P	Yehud-Monosson	yehud monosson	IL		32.028	34.880	2
+P	As Sarw		EG		31.239	31.654	0
+P	Giv'at Shmuel	givat shmuel	IL		32.078	34.849	2
+P	Sīdī Ghāzī	sidi ghazi	EG		31.211	31.051	0
+P	Badr		EG		30.575	30.711	0
+P	Tirat Karmel		IL		32.760	34.969	2
+P	Be’er Ya‘aqov	beer yaaqov	IL		31.939	34.837	2
+P	Sderot		IL		31.525	34.597	2
+P	Az̧ Z̧āhirīyah	az zahiriyah	PS		31.410	34.973	1
+P	Az Zarqā	az zarqa	EG		31.209	31.635	0
+P	Ash Shaykh Zuwayd		EG		31.216	34.111	0
+P	Eṭ Ṭīra	et tira	IL		32.234	34.950	2
+P	Bi’r al ‘Abd	bir al abd	EG		31.019	33.010	0
+P	Yehud		IL		32.033	34.891	2
+P	Qiryat Mal’akhi	qiryat malakhi	IL		31.729	34.746	2
+P	Ganei Tikva		IL		32.060	34.873	2
+P	Kfar Yona		IL		32.317	34.935	2
+P	Al Qaşşāşīn	al qassasin	EG		30.564	31.934	0
+P	Ar Riyāḑ	ar riyad	EG		31.242	30.945	0
+P	Gan Yavne		IL		31.787	34.707	2
+P	Kafr Qāsim	kafr qasim	IL		32.114	34.976	2
+P	An Nūbārīyah	an nubariyah	EG		30.669	30.074	0
+P	Káto Polemídia	kato polemidia	CY		34.697	32.993	3
+P	Zikhron Ya‘aqov	zikhron yaaqov	IL		32.569	34.954	2
+P	Aradíppou	aradippou	CY		34.948	33.588	3
+P	Munsha‘at Abū ‘Umar	munshaat abu umar	EG		30.907	32.023	0
+P	Kadima Zoran		IL		32.278	34.919	2
+P	H̱ura	hura	IL		31.301	34.936	2
+P	Shoham		IL		31.999	34.946	2
+P	Mīt Abū Ghālib	mit abu ghalib	EG		31.288	31.677	0
+P	Timayy al Imdīd	timayy al imdid	EG		30.944	31.529	0
+P	Tel Sheva‘	tel sheva	IL		31.249	34.860	2
+P	Rahat		IL		31.395	34.757	2
+P	Al Qarārah	al qararah	PS		31.374	34.341	1
+P	Manshīyat al Qanāţir	manshiyat al qanatir	EG		30.185	31.106	0
+P	Or Akiva		IL		32.506	34.921	2
+P	Idhnā	idhna	PS		31.559	34.974	1
+P	‘Abasān al Kabīrah	abasan al kabirah	PS		31.319	34.340	1
+P	Kafr Sa‘d	kafr sad	EG		31.356	31.685	0
+P	Germasógeia	germasogeia	CY		34.721	33.084	3
+P	Qalansuwa		IL		32.285	34.981	2
+P	Az Zuwāydah	az zuwaydah	PS		31.440	34.381	1
+P	Binyamina-Giv‘at ‘Ada	binyamina givat ada	IL		32.523	34.945	2
+P	Binyamina-Giv'at Ada	binyamina givat ada	IL		32.518	34.954	2

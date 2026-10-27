@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ho_Chi_Minh	420	
+C	VN	Vietnam	mwl	s
+B	0
+P	Cà Mau	ca mau	VN		9.177	105.152	0
+P	Sóc Trăng	soc trang	VN		9.600	105.972	0
+P	Vĩnh Châu	vinh chau	VN		9.324	105.980	0
+P	Trà Vinh	tra vinh	VN		9.947	106.342	0
+P	Bạc Liêu	bac lieu	VN		9.294	105.728	0
+P	Giá Rai	gia rai	VN		9.234	105.458	0
+P	Ngã Bảy	nga bay	VN		9.814	105.821	0
+P	Phong Điền	phong dien	VN		9.998	105.667	0
+P	Duyên Hải	duyen hai	VN		9.635	106.492	0
+P	Long Mỹ	long my	VN		9.681	105.572	0
+P	Ngã Năm	nga nam	VN		9.565	105.599	0
+P	Xóm Cái Nước	xom cai nuoc	VN		9.800	105.100	0
+P	Phong Thạnh	phong thanh	VN		9.324	105.346	0
+P	Ấp Một	ap mot	VN		9.842	105.536	0
+P	Thới Bình	thoi binh	VN		9.356	105.099	0
+P	Gành Hào	ganh hao	VN		9.028	105.421	0
+P	An Trạch	an trach	VN		9.069	105.396	0
+P	Vị Thanh	vi thanh	VN		9.784	105.470	0
+P	Tam Giang		VN		8.800	105.183	0
+P	Ấp Hô Phòng	ap ho phong	VN		9.226	105.419	0
+P	Phú Lộc	phu loc	VN		9.428	105.741	0

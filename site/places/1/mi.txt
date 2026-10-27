@@ -1,0 +1,604 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bissau	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Tripoli	120	
+Z	5	America/Argentina/Tucuman	-180	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	8	America/Guatemala	-360	
+Z	9	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Moncton	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	12	America/Panama	-300	
+Z	13	America/Phoenix	-420	
+Z	14	America/Porto_Velho	-240	
+Z	15	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	16	America/Vancouver	-480	29549400=-420
+Z	17	Asia/Baku	240	
+Z	18	Asia/Dhaka	360	
+Z	19	Asia/Ho_Chi_Minh	420	
+Z	20	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	21	Asia/Karachi	300	
+Z	22	Asia/Kolkata	330	
+Z	23	Asia/Shanghai	480	
+Z	24	Asia/Tehran	210	
+Z	25	Asia/Tokyo	540	
+Z	26	Asia/Yangon	390	
+Z	27	Atlantic/Cape_Verde	-60	
+Z	28	Australia/Brisbane	600	
+Z	29	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	30	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	31	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	32	Europe/Minsk	180	
+Z	33	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	34	Pacific/Honolulu	-600	
+C	AE	United Arab Emirates	dubai	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CV	Cabo Verde	egyptian	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KR	South Korea	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SK	Slovakia	mwl	s
+C	SL	Sierra Leone	egyptian	s
+C	SV	El Salvador	mwl	s
+C	SY	Syria	egyptian	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	XK	Kosovo	mwl	s
+C	ZA	South Africa	egyptian	s
+B	5
+P	Ho Chi Minh City		VN		10.823	106.630	19
+P	Minhang		CN		31.109	121.375	23
+P	Minsk		BY		53.900	27.567	32
+P	Mianyang		CN		31.468	104.682	23
+P	Milan		IT		45.464	9.190	33
+P	Mississauga		CA	Ontario	43.579	-79.658	15
+P	Milwaukee		US	Wisconsin	43.039	-87.906	6
+P	San Miguel de Tucumán	san miguel de tucuman	AR		-26.816	-65.211	5
+P	Mirpur Model Thana		BD		23.809	90.361	18
+P	Mianzhu, Deyang, Sichuan	mianzhu deyang sichuan	CN		31.338	104.221	23
+P	Miami		US	Florida	25.774	-80.194	15
+P	Mixco		GT		14.631	-90.607	8
+P	Minna		NG		9.615	6.548	3
+P	Minneapolis		US	Minnesota	44.980	-93.264	6
+P	Miyazaki		JP		31.917	131.417	25
+P	Minato		JP		34.215	135.150	25
+P	Miguel Hidalgo		MX		19.434	-99.200	8
+P	Mingora		PK		34.779	72.363	21
+P	Misratah		LY		32.375	15.093	4
+P	San Miguelito		PA		9.050	-79.471	12
+P	Hamburg-Mitte	hamburg mitte	DE		53.550	10.017	33
+P	Miri		MY		4.399	113.992	23
+P	Minya		EG		28.092	30.758	1
+P	Mito		JP		36.350	140.450	25
+P	Mirpur Khas		PK		25.528	69.013	21
+P	Minato City		JP		35.658	139.751	25
+P	Milton Keynes		GB	England	52.042	-0.756	31
+P	San Miguel		SV		13.483	-88.182	8
+P	Al ‘Āshir min Ramaḑān	al ashir min ramadan	EG		30.296	31.746	1
+P	Minamirinkan		JP		35.495	139.443	25
+P	Mirzāpur	mirzapur	IN		25.145	82.565	22
+P	Arba Minch		ET		6.033	37.550	32
+P	Middelburg		ZA		-25.775	29.465	4
+P	Khairpur Mir’s	khairpur mirs	PK		27.529	68.759	21
+P	Miraflores		PE		-12.113	-77.033	12
+P	San Miguel de Allende		MX		20.915	-100.744	8
+P	San Miguel		AR		-34.543	-58.712	5
+P	Miass		RU		55.046	60.108	21
+P	Miyakonojō	miyakonojo	JP		31.733	131.067	25
+P	San Miguel del Padrón	san miguel del padron	CU		23.095	-82.327	9
+P	Patos de Minas		BR		-18.579	-46.518	5
+P	Al Miqdādīyah	al miqdadiyah	IQ		33.979	44.937	32
+P	Miskolc		HU		48.103	20.778	33
+P	Mīt Ghamr	mit ghamr	EG		30.715	31.259	1
+P	Villeray–Saint-Michel–Parc-Extension	villeray saint michel parc extension	CA	Quebec	45.559	-73.605	15
+P	Middlesbrough		GB	England	54.576	-1.235	31
+P	Misato, Saitama	misato saitama	JP		35.844	139.883	25
+P	Mian Channun		PK		30.441	72.357	21
+P	Miramar		US	Florida	25.987	-80.232	15
+P	Minoh		JP		34.827	135.471	25
+P	Mingaladon		MM		16.924	96.098	26
+P	Cẩm Phả Mines	cam pha mines	VN		21.017	107.300	19
+P	Mīāndoāb	miandoab	IR		36.967	46.110	24
+P	Milagro		EC		-2.134	-79.593	12
+P	Milton		CA	Ontario	43.517	-79.883	15
+P	Midland		US	Texas	31.997	-102.078	6
+P	Mingala Tangnyunt		MM		16.789	96.172	26
+P	Mianwali		PK		32.578	71.528	21
+P	New Mirpur City		PK		33.148	73.752	21
+P	Miramar		MX		22.361	-97.900	8
+P	Tsentralno-Miskyi	tsentralno miskyi	UA		48.302	38.032	30
+P	Midsayap		PH		7.191	124.530	23
+P	Mingshui		CN		36.717	117.500	23
+P	Miami Gardens		US	Florida	25.942	-80.246	15
+P	Minatitlán	minatitlan	MX		18.000	-94.557	8
+P	Mishima		JP		35.117	138.917	25
+P	Mitrovicë	mitrovice	XK		42.883	20.867	33
+P	Mīāneh	mianeh	IR		37.421	47.715	24
+P	Mingachevir		AZ		40.764	47.062	17
+P	Mityana		UG		0.417	32.023	32
+P	Miryalaguda		IN		16.872	79.562	22
+P	Mitte		DE		52.520	13.405	33
+P	Minyā al Qamḩ	minya al qamh	EG		30.516	31.346	1
+P	Mīnāb	minab	IR		27.131	57.087	24
+P	Mission Viejo		US	California	33.600	-117.672	10
+P	Pará de Minas	para de minas	BR		-19.860	-44.608	5
+P	Saint-Michel de l'Atalaye	saint michel de latalaye	HT		19.371	-72.335	15
+P	Bình Minh	binh minh	VN		10.068	105.822	19
+P	Tsentralno-Miskyi	tsentralno miskyi	UA		48.062	37.972	30
+P	Michurinsk		RU		52.908	40.482	32
+P	Miami Beach		US	Florida	25.791	-80.130	15
+P	Al Minshāh	al minshah	EG		26.477	31.804	1
+P	Mihara		JP		34.400	133.083	25
+P	Miaohang		CN		31.325	121.440	23
+P	Miragoâne	miragoane	HT		18.446	-73.090	15
+P	Micheng		CN		25.343	100.487	23
+P	Midrand		ZA		-25.976	28.118	4
+P	Mishan		CN		45.550	131.883	23
+P	Miaoli		TW		24.564	120.824	23
+P	Mianyang		CN		33.157	106.694	23
+P	Mission		US	Texas	26.216	-98.325	6
+P	Mid-City	mid city	US	California	34.041	-118.361	10
+P	Minden		DE		52.290	8.915	33
+P	Minyat an Naşr	minyat an nasr	EG		31.126	31.643	1
+P	São Miguel	sao miguel	BR		-23.494	-46.432	5
+P	Mijas		ES		36.596	-4.637	33
+P	Khemis Miliana		DZ		36.261	2.220	3
+P	Miabi		CD		-6.221	23.393	4
+P	Ceará-Mirim	ceara mirim	BR		-5.634	-35.426	5
+P	Mogi Mirim		BR		-22.432	-46.958	5
+P	Milpitas		US	California	37.428	-121.907	10
+P	Mineralnye Vody		RU		44.210	43.135	32
+P	Midyat		TR		37.419	41.339	32
+P	Miki		JP		34.800	134.983	25
+P	Mirpur Mathelo		PK		28.021	69.549	21
+P	Missouri City		US	Texas	29.619	-95.538	6
+P	Minusinsk		RU		53.701	91.708	19
+P	Miyang		CN		24.404	103.443	23
+P	Migori		KE		-1.063	34.473	32
+P	Minami-Alps	minami alps	JP		35.616	138.463	25
+P	Missoula		US	Montana	46.872	-113.994	7
+P	Mineiros		BR		-17.569	-52.551	5
+P	Mira Mesa		US	California	32.916	-117.144	10
+P	Mīthepur	mithepur	IN		28.497	77.319	22
+P	Minamiarupusu		JP		35.609	138.465	25
+P	Mindelo		CV		16.890	-24.980	27
+P	Mingguang		CN		32.780	117.964	23
+P	Minggang		CN		32.459	114.049	23
+P	Minchinabad		PK		30.164	73.569	21
+P	Mitoyo		JP		34.211	133.675	25
+P	San Miguel		PH		15.142	120.976	23
+P	Middletown		US	New Jersey	40.394	-74.117	15
+P	Bairro Militar		GW		11.875	-15.616	0
+P	King Faisal Military City		SA		28.450	45.967	32
+P	Igarapé Miri	igarape miri	BR		-1.975	-48.960	5
+P	Narutochō-mitsuishi	narutocho mitsuishi	JP		34.199	134.609	25
+P	Mitcham		GB	England	51.403	-0.168	31
+P	Mirassol		BR		-20.819	-49.521	5
+P	Mila		DZ		36.450	6.264	3
+P	Miaojie		CN		25.312	100.280	23
+P	North Miami		US	Florida	25.890	-80.187	15
+P	Millcreek		US	Utah	40.687	-111.875	7
+P	Minglanilla		PH		10.245	123.796	23
+P	Mīzan Teferī	mizan teferi	ET		6.999	35.589	32
+P	Miyoshi		JP		35.090	137.090	25
+P	Mizusawa		JP		39.133	141.133	25
+P	San Miguel		PE		-15.478	-70.125	12
+P	Itapecuru Mirim		BR		-3.393	-44.359	5
+P	Midelt		MA		32.685	-4.745	2
+P	Mirdif		AE		25.224	55.414	17
+P	Mielec		PL		50.287	21.424	33
+P	Mingshui		CN		47.179	125.903	23
+P	Mikhaylovsk		RU		45.131	42.027	32
+P	Minami-Sōma	minami soma	JP		37.629	140.979	25
+P	Mikhaylovka		RU		50.062	43.233	32
+P	Minbu		MM		20.181	94.876	26
+P	Midwest City		US	Oklahoma	35.450	-97.397	6
+P	Minokamo		JP		35.482	137.022	25
+P	Saint-Michel	saint michel	CA	Quebec	45.568	-73.622	15
+P	Mizuho		JP		35.394	136.669	25
+P	Minamiuonuma		JP		37.083	138.874	25
+P	Miyakojima		JP		24.790	125.311	25
+P	Mingcun		CN		36.754	119.641	23
+P	Miyoshi		JP		34.800	132.850	25
+P	Frýdek-Místek	frydek mistek	CZ		49.683	18.350	33
+P	São Miguel dos Campos	sao miguel dos campos	BR		-9.781	-36.094	5
+P	Miryang		KR		35.493	128.749	25
+P	São Miguel do Guamá	sao miguel do guama	BR		-1.627	-47.483	5
+P	Milford		US	Connecticut	41.222	-73.056	15
+P	Mithi		PK		24.737	69.797	21
+P	Minnetonka		US	Minnesota	44.913	-93.503	6
+P	Mikkeli		FI		61.689	27.272	30
+P	Miura		JP		35.140	139.619	25
+P	City of Milford (balance)	city of milford balance	US	Connecticut	41.224	-73.062	15
+P	Miyako		JP		39.647	141.941	25
+P	Barriera di Milano		IT		45.092	7.694	33
+P	Midori		JP		36.445	139.284	25
+P	Minnetonka Mills		US	Minnesota	44.941	-93.442	6
+P	Mihe		CN		36.621	118.529	23
+P	La Mirada		US	California	33.917	-118.012	10
+P	Minot		US	North Dakota	48.233	-101.296	6
+P	Middletown		US	Ohio	39.515	-84.398	15
+P	Asunción Mita	asuncion mita	GT		14.334	-89.711	8
+P	Mishawaka		US	Indiana	41.662	-86.159	15
+P	Mīt Salsīl	mit salsil	EG		31.168	31.801	1
+P	São José de Mipibu	sao jose de mipibu	BR		-6.075	-35.238	5
+P	Mission District		US	California	37.760	-122.419	10
+P	Middletown		US	Connecticut	41.562	-72.651	15
+P	Middelburg		NL		51.500	3.614	33
+P	Mislata		ES		39.475	-0.418	33
+P	El Milia		DZ		36.755	6.272	3
+P	Milavittan		IN		8.819	78.091	22
+P	Middleton		GB	England	53.550	-2.200	31
+P	Misterbianco		IT		37.518	15.009	33
+P	Minamiawaji		JP		34.274	134.775	25
+P	São Miguel d'Oeste	sao miguel doeste	BR		-26.725	-53.518	5
+P	Mieres		ES		43.250	-5.767	33
+P	North Miami Beach		US	Florida	25.933	-80.163	15
+P	Miliana		DZ		36.306	2.225	3
+P	Miranda		CO		3.253	-76.229	12
+P	Milas		TR		37.316	27.784	32
+P	Mitsuke		JP		37.533	138.933	25
+P	Misawa		JP		40.687	141.390	25
+P	Minamishimabara		JP		32.673	130.267	25
+P	Midland		US	Michigan	43.616	-84.247	15
+P	Stare Misto		UA		50.448	30.526	30
+P	Missérété	misserete	BJ		6.559	2.591	3
+P	Mission		CA	British Columbia	49.133	-122.303	16
+P	Mirafiori Nord		IT		45.042	7.628	33
+P	Draa el Mizan		DZ		36.536	3.833	3
+P	Mitsukaidō	mitsukaido	JP		36.017	139.983	25
+P	Mirzāpur	mirzapur	BD		24.103	90.098	18
+P	Minamiashigara		JP		35.319	139.110	25
+P	Al Mijlad		SD		11.033	27.733	4
+P	Mirny		RU		62.535	113.961	25
+P	Mingguang		CN		25.493	98.542	23
+P	Mingshan		CN		29.878	107.699	23
+P	Minawa		JP		35.523	139.319	25
+P	Mibu		JP		36.417	139.800	25
+P	Guajará Mirim	guajara mirim	BR		-10.784	-65.336	14
+P	Miranda de Ebro		ES		42.687	-2.947	33
+P	Sremska Mitrovica		RS		44.976	19.612	33
+P	Minakuchichō-matoba	minakuchicho matoba	JP		34.967	136.167	25
+P	Missira		GW		11.861	-15.607	0
+P	Mikołów	mikolow	PL		50.171	18.904	33
+P	Minas		UY		-34.376	-55.238	5
+P	Millerovo		RU		48.925	40.400	32
+P	Mirriah		NE		13.707	9.150	3
+P	Miyoshidai		JP		35.833	139.544	25
+P	Okanagan Mission		CA	British Columbia	49.817	-119.483	16
+P	Miaozi		CN		36.639	118.231	23
+P	Mizunami		JP		35.367	137.250	25
+P	Milton		US	Georgia	34.132	-84.301	15
+P	Mińsk Mazowiecki	minsk mazowiecki	PL		52.179	21.573	33
+P	Missão Velha	missao velha	BR		-7.250	-39.143	5
+P	South Miami Heights		US	Florida	25.598	-80.381	15
+P	Mission Bend		US	Texas	29.694	-95.665	6
+P	Mim		GH		6.904	-2.561	0
+P	Dương Minh Châu	duong minh chau	VN		11.384	106.231	19
+P	Michalovce		SK		48.754	21.919	33
+P	Miyama		JP		33.121	130.500	25
+P	Minamibōsō	minamiboso	JP		35.031	139.927	25
+P	Mirasierra		ES		40.496	-3.720	33
+P	Misungwi		TZ		-2.850	33.083	32
+P	Milange		MZ		-16.099	35.770	4
+P	Miaoyu		CN		30.869	109.646	23
+P	Mirabel		CA	Quebec	45.650	-74.083	15
+P	San Miguel Topilejo		MX		19.203	-99.142	8
+P	Mildura		AU	Victoria	-34.186	142.163	29
+P	Miercurea-Ciuc	miercurea ciuc	RO		46.350	25.800	30
+P	Minas de Matahambre		CU		22.587	-83.946	9
+P	Miramar		AR		-38.272	-57.839	5
+P	Miyashiro		JP		36.022	139.730	25
+P	Mimico		CA	Ontario	43.616	-79.513	15
+P	El Mirage		US	Arizona	33.613	-112.325	13
+P	Mie		JP		32.967	131.583	25
+P	Mirafiori Sud		IT		45.021	7.623	33
+P	Al Mithnab		SA		25.860	44.222	32
+P	Palmeira das Missões	palmeira das missoes	BR		-27.899	-53.314	5
+P	Minamikyushu		JP		31.347	130.456	25
+P	Minskyi Masyv		UA		50.518	30.462	30
+P	Miranda		VE		10.151	-68.393	14
+P	Minamisatsuma		JP		31.390	130.283	25
+P	Mira Taglio		IT		45.435	12.129	33
+P	Midvale		US	Utah	40.611	-111.900	7
+P	Mixia		CN		38.454	77.249	18
+P	Miguel Alves		BR		-4.166	-42.895	5
+P	São Miguel Arcanjo	sao miguel arcanjo	BR		-23.878	-47.997	5
+P	Brasília de Minas	brasilia de minas	BR		-16.206	-44.433	5
+P	Midoun		TN		33.808	10.992	3
+P	Milazzo		IT		38.220	15.240	33
+P	Michigan City		US	Indiana	41.708	-86.895	6
+P	Pindaré-Mirim	pindare mirim	BR		-3.608	-45.343	5
+P	San Giuliano Milanese		IT		45.394	9.291	33
+P	Mimarsinan		TR		41.015	28.561	32
+P	Miami Lakes		US	Florida	25.909	-80.309	15
+P	Minase		JP		34.877	135.665	25
+P	Miguel Alemán (La Doce)	miguel aleman la doce	MX		28.840	-111.478	13
+P	Owings Mills		US	Maryland	39.420	-76.780	15
+P	Mizque		BO		-17.941	-65.340	14
+P	Liptovský Mikuláš	liptovsky mikulas	SK		49.081	19.622	33
+P	Mīnūdasht	minudasht	IR		37.230	55.372	24
+P	Mikhalkovo		RU		55.683	37.433	32
+P	Mitú	mitu	CO		1.257	-70.236	12
+P	San Miguel Ajusco		MX		19.222	-99.202	8
+P	Mīnād	minad	IN		8.850	76.695	22
+P	Micolene		MZ		-16.733	39.233	4
+P	Biritiba Mirim		BR		-23.573	-46.039	5
+P	Mīrānpur Katra	miranpur katra	IN		28.030	79.668	22
+P	Middle Village		US	New York	40.716	-73.881	15
+P	Minamata		JP		32.217	130.400	25
+P	São Miguel do Iguaçu	sao miguel do iguacu	BR		-25.348	-54.238	5
+P	Mioveni		RO		44.959	24.942	30
+P	Milford Mill		US	Maryland	39.348	-76.770	15
+P	San Miguel		CR		9.871	-84.061	8
+P	Mill Park		AU	Victoria	-37.667	145.067	29
+P	Socorro Mission Number 1 Colonia		US	Texas	31.636	-106.291	7
+P	Milak		IN		28.610	79.170	22
+P	Miracema		BR		-21.412	-42.197	5
+P	San Donato Milanese		IT		45.410	9.268	33
+P	Mīnjūr	minjur	IN		13.280	80.258	22
+P	Rio Pardo de Minas		BR		-15.610	-42.540	5
+P	Millville		US	New Jersey	39.402	-75.039	15
+P	Miguel Pereira		BR		-22.454	-43.469	5
+P	Miyaodai		JP		33.847	130.713	25
+P	Mima		JP		34.055	134.140	25
+P	Mirnyy		RU		62.764	40.339	32
+P	Mirandópolis	mirandopolis	BR		-21.134	-51.102	5
+P	Missour		MA		33.049	-3.989	2
+P	Middletown		US	New York	41.446	-74.423	15
+P	Mī’ēso	mieso	ET		9.235	40.756	32
+P	Banbury-Don Mills	banbury don mills	CA	Ontario	43.738	-79.350	15
+P	Mililani Town		US	Hawaii	21.450	-158.015	34
+P	Mirassol d'Oeste	mirassol doeste	BR		-15.676	-58.090	14
+P	Mīrānpur	miranpur	IN		29.290	77.949	22
+P	Minami-ōi	minami oi	JP		35.593	139.734	25
+P	Piecki-Migowo	piecki migowo	PL		54.357	18.582	33
+P	Minaçu	minacu	BR		-13.533	-48.220	5
+P	Milton		US	Massachusetts	42.250	-71.066	15
+P	Miandrarivo		MG		-19.433	46.750	32
+P	West Milford		US	New Jersey	41.131	-74.367	15
+P	Misantla		MX		19.930	-96.852	8
+P	Milliken		CA	Ontario	43.825	-79.299	15
+P	Nizza Millefonti		IT		45.027	7.665	33
+P	Mitha Tiwana		PK		32.245	72.106	21
+P	San Miniato Basso		IT		43.693	10.841	33
+P	Miyawaka		JP		33.717	130.641	25
+P	Sanchez-Mira	sanchez mira	PH		18.562	121.232	23
+P	Mirganj		IN		26.373	84.335	22
+P	Misburg		DE		52.390	9.852	33
+P	Garbagnate Milanese		IT		45.574	9.075	33
+P	Shaykh Miskīn	shaykh miskin	SY		32.827	36.161	32
+P	Milagres		BR		-7.313	-38.946	5
+P	Thetford-Mines	thetford mines	CA	Quebec	46.094	-71.305	15
+P	Migdal Ha‘Emeq	migdal haemeq	IL		32.678	35.242	20
+P	Mint Hill		US	North Carolina	35.180	-80.647	15
+P	New Milton		GB	England	50.756	-1.666	31
+P	Miranda		BR		-20.241	-56.378	14
+P	Mixquiahuala de Juarez		MX		20.230	-99.214	8
+P	Ouled Mimoun		DZ		34.905	-1.034	3
+P	King Khalid Military City		SA		27.905	45.553	32
+P	Middle River		US	Maryland	39.334	-76.439	15
+P	Milford		US	Massachusetts	42.140	-71.516	15
+P	Mian Sahib		PK		28.153	68.642	21
+P	Midstream		ZA		-25.918	28.199	4
+P	Quang Minh		VN		21.189	105.773	19
+P	Minning		CN		38.249	105.971	23
+P	Miguel Calmon		BR		-11.429	-40.595	5
+P	Mimoso do Sul		BR		-21.064	-41.366	5
+P	Minas Novas		BR		-17.219	-42.590	5
+P	Midland		CA	Ontario	44.750	-79.883	15
+P	Miramas		FR		43.585	5.003	33
+P	Gornji Milanovac		RS		44.026	20.462	33
+P	San Miguel el Alto		MX		21.031	-102.402	8
+P	Mile End		CA	Quebec	45.524	-73.596	15
+P	Miahuatlán de Porfirio Díaz	miahuatlan de porfirio diaz	MX		16.329	-96.596	8
+P	Miano		IT		40.888	14.253	33
+P	Miranda do Norte		BR		-3.565	-44.580	5
+P	Min Ga Lar Don Zay		MM		16.923	96.116	26
+P	São Miguel	sao miguel	BR		-6.212	-38.497	5
+P	Mikuni		JP		36.215	136.148	25
+P	Misburg-Nord	misburg nord	DE		52.397	9.860	33
+P	Millau		FR		44.100	3.078	33
+P	Mine		JP		34.187	131.216	25
+P	Al Mishkhāb	al mishkhab	IQ		31.804	44.489	32
+P	Middleborough		US	Massachusetts	41.893	-70.911	15
+P	Kampung Tanjung Minyak		MY		2.267	102.200	23
+P	Millbrae		US	California	37.599	-122.387	10
+P	Mingda		CN		30.726	107.657	23
+P	San Miguel Coatlinchán	san miguel coatlinchan	MX		19.450	-98.873	8
+P	Middelburg		ZA		-31.493	25.006	4
+P	Midlothian		US	Texas	32.482	-96.994	6
+P	Nova Milanese		IT		45.589	9.198	33
+P	São Miguel do Araguaia	sao miguel do araguaia	BR		-13.275	-50.163	5
+P	San Miguel del Monte		AR		-35.439	-58.807	5
+P	Mīlē	mile	ET		11.422	40.763	32
+P	São Miguel do Guaporé	sao miguel do guapore	BR		-11.694	-62.711	14
+P	Miandrivazo		MG		-19.529	45.456	32
+P	Michle		CZ		50.048	14.462	33
+P	South Milwaukee		US	Wisconsin	42.911	-87.861	6
+P	Mililani Mauka		US	Hawaii	21.478	-157.995	34
+P	Mirador		BR		-6.371	-44.363	5
+P	Mindouli		CG		3.103	18.511	3
+P	Monte Santo de Minas		BR		-21.190	-46.980	5
+P	Minas		CU		21.488	-77.609	9
+P	Milwaukie		US	Oregon	45.446	-122.639	10
+P	Saint-Michel-sur-Orge	saint michel sur orge	FR		48.635	2.308	33
+P	East Millcreek		US	Utah	40.700	-111.810	7
+P	Capulhuac de Mirafuentes		MX		19.194	-99.466	8
+P	Mino		JP		35.533	136.917	25
+P	Michelena		VE		7.956	-72.242	14
+P	Mīt Abū Ghālib	mit abu ghalib	EG		31.288	31.677	1
+P	Miyata		JP		33.708	130.653	25
+P	Yende Millimou		GN		8.887	-10.172	0
+P	Middletown		US	Delaware	39.450	-75.716	15
+P	Montceau-les-Mines	montceau les mines	FR		46.667	4.367	33
+P	Monte Alegre de Minas		BR		-18.871	-48.881	5
+P	Millburn		US	New Jersey	40.725	-74.304	15
+P	West Mifflin		US	Pennsylvania	40.363	-79.866	15
+P	Mill Creek		US	Washington	47.860	-122.204	10
+P	Miamisburg		US	Ohio	39.643	-84.287	15
+P	Mikumi		TZ		-7.404	36.983	32
+P	Ciudad Miguel Alemán	ciudad miguel aleman	MX		26.398	-99.029	8
+P	Les Pennes-Mirabeau	les pennes mirabeau	FR		43.410	5.308	33
+P	Minamishibetsuchō	minamishibetsucho	JP		44.154	142.373	25
+P	Novate Milanese		IT		45.531	9.140	33
+P	Miracatu		BR		-24.281	-47.460	5
+P	Mishōhirajō	mishohirajo	JP		32.964	132.566	25
+P	Miguelópolis	miguelopolis	BR		-20.179	-48.032	5
+P	Kampung Minyak Beku		MY		1.795	102.897	23
+P	Asagaya-minami	asagaya minami	JP		35.702	139.637	25
+P	Misilmeri		IT		38.032	13.448	33
+P	Mineola		US	New York	40.749	-73.641	15
+P	Mir Pur Turk		IN		28.705	77.264	22
+P	Aizu-misato Machi	aizu misato machi	JP		37.409	139.813	25
+P	Middleton		US	Wisconsin	43.097	-89.504	6
+P	Milledgeville		US	Georgia	33.080	-83.232	15
+P	Miyako		JP		33.699	130.920	25
+P	Mirfield		GB	England	53.673	-1.696	31
+P	Miracema do Tocantins		BR		-9.567	-48.392	5
+P	Mission Hill		US	Massachusetts	42.334	-71.108	15
+P	Międzyrzecz	miedzyrzecz	PL		52.445	15.578	33
+P	San Miguel		PH		15.444	120.599	23
+P	Mitry-Mory	mitry mory	FR		48.983	2.617	33
+P	Minakami		JP		36.688	138.986	25
+P	Mitake		JP		35.417	137.133	25
+P	Midlothian		US	Virginia	37.506	-77.649	15
+P	Parque Industrial Ciudad Mitras		MX		25.789	-100.448	8
+P	Milpa Alta		MX		19.193	-99.023	8
+P	Mitras Poniente		MX		25.776	-100.426	8
+P	Mignouré	mignoure	CI		7.487	-6.788	0
+P	Rancho Mirage		US	California	33.740	-116.413	10
+P	Mililani Mauka / Launani Valley	mililani mauka launani valley	US	Hawaii	21.479	-157.988	34
+P	Memuro-minami	memuro minami	JP		42.907	143.036	25
+P	Carmópolis de Minas	carmopolis de minas	BR		-20.541	-44.635	5
+P	New Mills		GB	England	53.366	-2.000	31
+P	Sarāi Mīr	sarai mir	IN		26.027	82.918	22
+P	Middelkerke		BE		51.185	2.821	33
+P	Arroyo de la Miel		ES		36.599	-4.535	33
+P	Muroto-misakicho	muroto misakicho	JP		33.287	134.168	25
+P	Darnytsya Car Repair Plant Microdistrict		UA		50.450	30.676	30
+P	Middelharnis		NL		51.758	4.165	33
+P	São Miguel do Tapuio	sao miguel do tapuio	BR		-5.504	-41.323	5
+P	Miramichi		CA	New Brunswick	47.029	-65.502	11
+P	Al Mizhar First		AE		25.248	55.441	17
+P	Miharu		JP		37.433	140.483	25
+P	Al-Minyā al-Jadīdah	al minya al jadidah	EG		28.086	30.815	1
+P	Mirandola		IT		44.885	11.069	33
+P	Middletown		US	Rhode Island	41.546	-71.291	15
+P	Michelstadt		DE		49.676	9.004	33
+P	Lalla Mimouna		MA		34.846	-6.066	2
+P	Międzyrzec Podlaski	miedzyrzec podlaski	PL		51.986	22.782	33
+P	Minaminagareyama		JP		35.840	139.899	25
+P	Miyazu		JP		35.536	135.199	25
+P	Mihona		IN		26.284	78.980	22
+P	Mifune		JP		32.717	130.822	25
+P	San Miniato		IT		43.680	10.850	33
+P	New Milford		US	New Jersey	40.935	-74.019	15
+P	Mitcham		AU	Victoria	-37.817	145.200	29
+P	Mizdah		LY		31.449	12.985	4
+P	Mittweida		DE		50.986	12.975	33
+P	Minamichita		JP		34.676	137.005	25
+P	Sekimachi-minami	sekimachi minami	JP		35.721	139.581	25
+P	Midar		MA		34.940	-3.533	2
+P	Saint Michael		US	Minnesota	45.210	-93.665	6
+P	Ryōtsu-minato	ryotsu minato	JP		38.078	138.439	25
+P	Middelfart		DK		55.506	9.731	33
+P	Minturno		IT		41.263	13.746	33
+P	San Miguel De Abona		ES		28.098	-16.617	31
+P	Hope Mills		US	North Carolina	34.970	-78.945	15
+P	Midway		US	Florida	30.406	-87.006	6
+P	Mirante do Paranapanema		BR		-22.292	-51.906	5
+P	Minamiminowa		JP		35.873	137.975	25
+P	Milanówek	milanowek	PL		52.119	20.672	33
+P	Mirangaba		BR		-10.954	-40.576	5
+P	Mill Creek East		US	Washington	47.836	-122.188	10
+P	Middleburg Heights		US	Ohio	41.361	-81.813	15
+P	Mitchell		US	South Dakota	43.709	-98.030	6
+P	Miyota		JP		36.337	138.513	25
+P	Wimborne Minster		GB	England	50.783	-1.983	31
+P	Mizil		RO		45.017	26.450	30
+P	Mile 91		SL		8.466	-12.215	0
+P	Minas de Marcona		PE		-15.212	-75.110	12
+P	Mid Levels		HK		22.284	114.150	23
+P	Kan Nar Middle		MM		16.881	96.097	26
+P	Mikuriya		JP		35.512	133.497	25
+P	Eight Mile Plains		AU	Queensland	-27.583	153.100	28
+P	Mīrganj	mirganj	IN		28.540	79.208	22
+P	Miguelturra		ES		38.964	-3.890	33
+P	Millbrook		US	Alabama	32.480	-86.362	6
+P	Mijdrecht		NL		52.207	4.862	33
+P	Minami-aoyama	minami aoyama	JP		35.665	139.715	25
+P	Mirano		IT		45.495	12.108	33
+P	Miranda		AU	New South Wales	-34.039	151.100	29
+P	Brasilândia de Minas	brasilandia de minas	BR		-17.010	-46.009	5
+P	Misrikh		IN		27.431	80.532	22

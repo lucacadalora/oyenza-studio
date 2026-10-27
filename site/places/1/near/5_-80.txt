@@ -1,0 +1,108 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+C	CO	Colombia	mwl	s
+C	PA	Panama	mwl	s
+B	1
+P	Medellín	medellin	CO		6.245	-75.572	0
+P	Montería	monteria	CO		8.751	-75.878	0
+P	Manizales		CO		5.067	-75.507	0
+P	Panama City		PA		8.994	-79.520	0
+P	Bello		CO		6.337	-75.558	0
+P	San Miguelito		PA		9.050	-79.471	0
+P	Itagüí	itagui	CO		6.185	-75.599	0
+P	Sincelejo		CO		9.305	-75.391	0
+P	Envigado		CO		6.176	-75.592	0
+P	Quibdó	quibdo	CO		5.692	-76.658	0
+P	Rionegro		CO		6.155	-75.374	0
+P	Juan Díaz	juan diaz	PA		9.041	-79.441	0
+P	Cereté	cerete	CO		8.885	-75.791	0
+P	Montelíbano	montelibano	CO		7.979	-75.420	0
+P	Apartadó	apartado	CO		7.883	-76.626	0
+P	Chigorodó	chigorodo	CO		7.666	-76.681	0
+P	Sabaneta		CO		6.152	-75.617	0
+P	Caldas		CO		6.091	-75.636	0
+P	Colón	colon	PA		9.360	-79.900	0
+P	Arraiján	arraijan	PA		8.940	-79.640	0
+P	Planeta Rica		CO		8.412	-75.585	0
+P	Las Cumbres		PA		9.092	-79.539	0
+P	La Chorrera		PA		8.878	-79.780	0
+P	San Marcos		CO		8.660	-75.128	0
+P	Sahagún	sahagun	CO		8.946	-75.443	0
+P	Caucasia		CO		7.987	-75.193	0
+P	Marinilla		CO		6.174	-75.336	0
+P	Ayapel		CO		8.314	-75.140	0
+P	Barbosa		CO		6.438	-75.331	0
+P	Pedregal		PA		9.066	-79.426	0
+P	Tocumen		PA		9.089	-79.383	0
+P	Chinú	chinu	CO		9.106	-75.398	0
+P	Turbo		CO		8.093	-76.728	0
+P	Carmen de Viboral		CO		6.082	-75.335	0
+P	La Estrella		CO		6.158	-75.643	0
+P	Copacabana		CO		6.346	-75.509	0
+P	El Carmen de Bolívar	el carmen de bolivar	CO		9.717	-75.120	0
+P	Lorica		CO		9.236	-75.814	0
+P	Corozal		CO		9.318	-75.293	0
+P	Santa Rosa de Osos		CO		6.647	-75.460	0
+P	Parque Lefevre		PA		9.023	-79.479	0
+P	La Ceja		CO		6.031	-75.433	0
+P	Villamaría	villamaria	CO		5.046	-75.515	0
+P	San Antero		CO		9.374	-75.759	0
+P	San Juan Nepomuceno		CO		9.952	-75.082	0
+P	Quinchía	quinchia	CO		5.340	-75.730	0
+P	Sonsón	sonson	CO		5.711	-75.311	0
+P	Chilibre		PA		9.154	-79.620	0
+P	Anserma		CO		5.333	-75.791	0
+P	San Onofre		CO		9.736	-75.526	0
+P	San Luis de Sincé	san luis de since	CO		9.244	-75.147	0
+P	San Pedro de Urabá	san pedro de uraba	CO		8.275	-76.376	0
+P	Cativá	cativa	PA		9.362	-79.832	0
+P	Santiago de Tolú	santiago de tolu	CO		9.524	-75.581	0
+P	Río Abajo	rio abajo	PA		9.024	-79.494	0
+P	Supía	supia	CO		5.453	-75.651	0
+P	Tierralta		CO		8.174	-76.059	0
+P	Nuevo Belén	nuevo belen	PA		9.089	-79.392	0
+P	Ituango		CO		7.171	-75.764	0
+P	San Jacinto		CO		9.828	-75.122	0
+P	San Carlos		CO		8.796	-75.699	0
+P	María la Baja	maria la baja	CO		9.983	-75.302	0
+P	Ciudad Bolívar	ciudad bolivar	CO		5.854	-76.025	0
+P	Santa Fe de Antioquia		CO		6.557	-75.828	0
+P	Dabeiba		CO		7.000	-76.269	0
+P	Yarumal		CO		6.963	-75.417	0
+P	Belén de Umbría	belen de umbria	CO		5.201	-75.869	0
+P	Sampués	sampues	CO		9.184	-75.382	0
+P	La Unión	la union	CO		5.974	-75.362	0
+P	Aguadas		CO		5.612	-75.456	0
+P	Ancón	ancon	PA		8.960	-79.551	0
+P	Retiro		CO		6.059	-75.503	0
+P	Carepa		CO		7.758	-76.653	0
+P	Neira		CO		5.167	-75.520	0
+P	Alcalde Díaz	alcalde diaz	PA		9.123	-79.557	0
+P	Galeras		CO		9.161	-75.048	0
+P	Frontino		CO		6.771	-76.133	0
+P	Tolú Viejo	tolu viejo	CO		9.451	-75.439	0
+P	San Juan de Urabá	san juan de uraba	CO		8.759	-76.530	0
+P	Padua		CO		5.134	-75.140	0
+P	Riosucio		CO		5.422	-75.703	0
+P	Urrao		CO		6.317	-76.134	0
+P	Fredonia		CO		5.926	-75.671	0
+P	El Chorrillo		PA		8.950	-79.547	0
+P	San Benito Abad		CO		8.929	-75.027	0
+P	Salamina		CO		5.407	-75.487	0
+P	San Vicente		CO		6.285	-75.334	0
+P	La Cabima		PA		9.118	-79.533	0
+P	Santuario		CO		6.138	-75.264	0
+P	Fresno		CO		5.153	-75.036	0
+P	Ciénaga de Oro	cienaga de oro	CO		8.874	-75.620	0
+P	Abejorral		CO		5.789	-75.427	0
+P	Veracruz		PA		8.893	-79.623	0
+P	Tadó	tado	CO		5.266	-76.565	0
+P	Manzanares		CO		5.254	-75.154	0
+P	Andes		CO		5.656	-75.879	0
+P	Curundú	curundu	PA		8.971	-79.546	0
+P	Momil		CO		9.238	-75.675	0
+P	Cotorra		CO		9.039	-75.790	0
+P	Concordia		CO		6.046	-75.907	0
+P	Salgar		CO		5.965	-75.965	0
+P	Sabanitas		PA		9.345	-79.805	0
+P	Betulia		CO		6.113	-75.984	0

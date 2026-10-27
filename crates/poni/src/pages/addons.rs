@@ -1,8 +1,8 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader, System and Health are already in the app and only show their
-//! pages (System's readings and Health's steps also run only while they are
-//! on).
+//! reader, System, Health and Stocks are already in the app and only show
+//! their pages (System's readings, Health's steps and Stocks' prices also run
+//! only while they are on).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -81,6 +81,7 @@ fn icon(a: &Addon) -> Icon {
         "script" => Icon::Script,
         "system" => Icon::Gauge,
         "health" => Icon::Steps,
+        "stocks" => Icon::Stocks,
         "recorder" => Icon::Recorder,
         _ => Icon::Addons,
     }

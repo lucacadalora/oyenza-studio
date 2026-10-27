@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	0
+P	Uray		RU		60.130	64.789	0
+P	Yugorsk		RU		61.312	63.331	0
+P	Sovetskiy		RU		61.361	63.584	0
+P	Ivdel’	ivdel	RU		60.691	60.421	0

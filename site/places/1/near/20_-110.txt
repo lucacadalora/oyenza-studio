@@ -1,0 +1,26 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Mazatlan	-420	
+Z	1	America/Mexico_City	-360	
+C	MX	Mexico	mwl	s
+B	0
+P	Culiacán	culiacan	MX		24.802	-107.394	0
+P	Mazatlán	mazatlan	MX		23.222	-106.419	0
+P	Puerto Vallarta		MX		20.617	-105.230	1
+P	Cabo San Lucas		MX		22.891	-109.912	0
+P	San José del Cabo	san jose del cabo	MX		23.054	-109.704	0
+P	Colonia del Sol		MX		22.913	-109.927	0
+P	Escuinapa de Hidalgo		MX		22.835	-105.778	0
+P	Navolato		MX		24.767	-107.698	0
+P	Ixtapa		MX		20.716	-105.205	1
+P	Costa Rica		MX		24.591	-107.390	0
+P	El Salto		MX		23.778	-105.360	1
+P	Licenciado Benito Juárez	licenciado benito juarez	MX		24.657	-107.545	0
+P	San José del Valle	san jose del valle	MX		20.764	-105.228	0
+P	Tuxpan		MX		21.942	-105.299	0
+P	Mezcales		MX		20.730	-105.283	1
+P	Pueblo Nuevo		MX		23.384	-105.371	1
+P	Acaponeta		MX		22.490	-105.361	0
+P	Santiago Ixcuintla		MX		21.811	-105.208	0
+P	Bucerías	bucerias	MX		20.758	-105.336	1
+P	El Rosario		MX		22.990	-105.854	0
+P	La Cruz		MX		23.921	-106.892	0

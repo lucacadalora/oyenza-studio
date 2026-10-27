@@ -1,0 +1,61 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+C	TZ	Tanzania	egyptian	s
+B	1
+P	Dar es Salaam		TZ		-6.823	39.270	0
+P	Dodoma		TZ		-6.172	35.739	0
+P	Zanzibar		TZ		-6.164	39.198	0
+P	Morogoro		TZ		-6.821	37.661	0
+P	Tanga		TZ		-5.069	39.099	0
+P	Kibaha		TZ		-6.767	38.917	0
+P	Ifakara		TZ		-8.133	36.683	0
+P	Iringa		TZ		-7.767	35.700	0
+P	Handeni		TZ		-5.433	38.017	0
+P	Mafinga		TZ		-8.300	35.294	0
+P	Lindi		TZ		-9.997	39.716	0
+P	Kilosa		TZ		-6.833	36.983	0
+P	Bagamoyo		TZ		-6.442	38.904	0
+P	Vikindu		TZ		-7.007	39.298	0
+P	Korogwe		TZ		-5.150	38.483	0
+P	Chake Chake		TZ		-5.246	39.767	0
+P	Kibaigwa		TZ		-6.081	36.647	0
+P	Ikwiriri		TZ		-7.956	38.972	0
+P	Mwandege		TZ		-6.976	39.289	0
+P	Mapinga		TZ		-6.600	39.067	0
+P	Geiro		TZ		-6.150	36.867	0
+P	Dumila		TZ		-6.384	37.343	0
+P	Kidatu		TZ		-7.699	36.957	0
+P	Kidodi		TZ		-7.604	37.004	0
+P	Wete		TZ		-5.056	39.729	0
+P	Mlimba		TZ		-8.800	35.817	0
+P	Mafinga		TZ		-7.250	35.067	0
+P	Chalinze		TZ		-6.638	38.354	0
+P	Mvomero		TZ		-6.250	38.667	0
+P	Chanika		TZ		-5.417	38.017	0
+P	Nungwi		TZ		-5.727	39.299	0
+P	Kibiti		TZ		-7.722	38.937	0
+P	Mpwapwa		TZ		-6.350	36.483	0
+P	Mlandizi		TZ		-6.700	38.733	0
+P	Ilula		TZ		-7.677	36.037	0
+P	Mkuranga		TZ		-7.118	39.208	0
+P	Bungu		TZ		-7.634	39.058	0
+P	Malinyi		TZ		-8.933	36.133	0
+P	Maramba		TZ		-5.050	38.617	0
+P	Sokoni		TZ		-6.433	39.550	0
+P	Liwale		TZ		-9.767	37.933	0
+P	Ruaha		TZ		-7.657	36.983	0
+P	Mkoani		TZ		-5.367	39.650	0
+P	Kilindoni		TZ		-7.914	39.662	0
+P	Kilwa Masoko		TZ		-8.925	39.513	0
+P	Muheza		TZ		-5.167	38.783	0
+P	Mikumi		TZ		-7.404	36.983	0
+P	Kibakwe		TZ		-6.717	36.367	0
+P	Magomeni		TZ		-6.800	39.250	0
+P	Magole		TZ		-6.377	37.374	0
+P	Izazi		TZ		-7.200	35.733	0
+P	Lubata		TZ		-6.100	37.450	0
+P	Madizini		TZ		-6.141	37.636	0
+P	Msowero		TZ		-6.533	37.200	0
+P	Ngerengere		TZ		-6.750	38.117	0
+P	Lugoba		TZ		-6.450	38.333	0
+P	Mahanje		TZ		-9.933	35.333	0

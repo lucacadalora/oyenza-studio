@@ -1,0 +1,30 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Edmonton	-420	29549340=-360
+Z	1	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	2	America/Vancouver	-480	29549400=-420
+C	CA	Canada	moonsighting	s
+C	US	United States	moonsighting	s
+B	0
+P	Tri-Cities	tri cities	US	Washington	46.245	-119.196	1
+P	Spokane		US	Washington	47.660	-117.429	1
+P	Kelowna		CA	British Columbia	49.883	-119.486	2
+P	Spokane Valley		US	Washington	47.673	-117.239	1
+P	Kennewick		US	Washington	46.211	-119.137	1
+P	Pasco		US	Washington	46.240	-119.101	1
+P	Richland		US	Washington	46.286	-119.284	1
+P	Coeur d'Alene	coeur dalene	US	Idaho	47.678	-116.780	1
+P	Okanagan Mission		CA	British Columbia	49.817	-119.483	2
+P	Rutland		CA	British Columbia	49.900	-119.386	2
+P	Penticton		CA	British Columbia	49.481	-119.586	2
+P	Pullman		US	Washington	46.731	-117.180	1
+P	Lewiston		US	Idaho	46.417	-117.018	1
+P	Walla Walla		US	Washington	46.065	-118.343	1
+P	Lewiston Orchards		US	Idaho	46.380	-116.975	1
+P	Post Falls		US	Idaho	47.718	-116.952	1
+P	West Kelowna		CA	British Columbia	49.862	-119.583	2
+P	Opportunity		US	Washington	47.650	-117.240	1
+P	Moscow		US	Idaho	46.732	-117.000	1
+P	Moses Lake		US	Washington	47.130	-119.278	1
+P	Cranbrook		CA	British Columbia	49.500	-115.769	0
+P	Hermiston		US	Oregon	45.840	-119.289	1
+P	Pendleton		US	Oregon	45.672	-118.789	1

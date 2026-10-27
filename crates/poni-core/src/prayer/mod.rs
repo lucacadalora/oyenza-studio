@@ -16,16 +16,28 @@
 //! Subuh at 18.5°, Isya 90 minutes after Maghrib (120 in Ramadan), nearest
 //! minute.
 //!
+//! Everywhere else ([`world`], GeoNames' cities with their time zones) follows
+//! the method of its country as Adhan computes it: the Muslim World League,
+//! the Egyptian authority, Karachi, Umm al-Qura, Dubai, Qatar, Kuwait,
+//! Singapore, Diyanet, Tehran or the Moonsighting Committee (see
+//! tools/make_world_places.py for which country follows which), with
+//! Ashar by the Hanafi shadow where most mosques keep it.
+//!
 //! Every moment is UTC seconds since 1970 and falls on a whole minute. A
-//! place's own date decides the day, through its fixed UTC offset (the zones
-//! of every listed place have no daylight saving).
+//! place's own date decides the day, through its clock: one offset all year
+//! for Kemenag's and the Saudi places, the time zone's own (summer time
+//! included) for the world list's.
 
 pub mod adhan;
+pub mod world;
+
+use std::sync::Arc;
 
 use serde::Deserialize;
 
 use crate::datetime::{civil_from_days, days_from_civil};
 use adhan::{HighLatitudeRule, Params};
+pub use world::World;
 
 /// One place in the add-on's place list (`addons/sholat/places.json`).
 #[derive(Clone, Debug, PartialEq, Deserialize)]
@@ -34,7 +46,7 @@ pub struct Place {
     pub id: String,
     /// As Kemenag writes it: "Kota Bandung", "Kab. Bandung Barat".
     pub label: String,
-    /// "kota", "kab" or "abroad".
+    /// "kota", "kab" or "abroad" (places.json), "world" (the world list).
     #[serde(default)]
     pub kind: String,
     /// Province, or the country for places abroad.
@@ -56,6 +68,16 @@ pub struct Place {
     pub isya_angle: f64,
     #[serde(default)]
     pub method: Method,
+    /// Ashar by the Hanafi shadow (twice the object's length).
+    #[serde(default)]
+    pub hanafi: bool,
+    /// A world list place's clock; the others take theirs from `tz`.
+    #[serde(skip)]
+    pub clock: Option<Clock>,
+    /// A world list place as its own few lines ([`World::excerpt`]): what
+    /// settings keep of it, so it comes back without going online.
+    #[serde(skip)]
+    pub world_lines: Option<String>,
 }
 
 fn default_h0() -> f64 {
@@ -73,15 +95,25 @@ fn default_isya_angle() -> f64 {
 impl Place {
     /// What the engine needs, or `None` when the time zone isn't one we know.
     pub fn site(&self) -> Option<Site> {
+        let clock = match &self.clock {
+            Some(c) => c.clone(),
+            None => Clock::Fixed(utc_offset_min(&self.tz)?),
+        };
         Some(Site {
             lat: self.lat,
             lng: self.lng,
-            offset_min: utc_offset_min(&self.tz)?,
+            clock,
             h0: self.h0,
             subuh_angle: self.subuh_angle,
             isya_angle: self.isya_angle,
             method: self.method,
+            hanafi: self.hanafi,
         })
+    }
+
+    /// From the world list (anywhere outside Indonesia but the three Saudi places).
+    pub fn is_world(&self) -> bool {
+        self.id.starts_with(world::ID_PREFIX)
     }
 }
 
@@ -105,11 +137,16 @@ impl PlaceList {
         self.places.iter().map(|p| (p, distance_km(lat, lng, p.lat, p.lng))).min_by(|a, b| a.1.total_cmp(&b.1))
     }
 
-    /// Places whose name holds what was typed, best first: a word of the name
-    /// starting with it, then anywhere in the name. Case and the dots of
-    /// "Kab." don't matter. At most `limit`.
+    /// Places whose name holds what was typed, best first: the whole name
+    /// (with or without "Kab." / "Kota"), a word of it starting with it, then
+    /// anywhere in it. Case, accents and the dots of "Kab." don't matter. At
+    /// most `limit`.
     pub fn search(&self, query: &str, limit: usize) -> Vec<&Place> {
-        let q = fold(query);
+        self.ranked(&world::fold(query)).into_iter().take(limit).map(|h| h.1).collect()
+    }
+
+    /// Every match for a folded query with its rank ([`world::match_rank`]), best first.
+    fn ranked(&self, q: &str) -> Vec<(u8, &Place)> {
         if q.is_empty() {
             return Vec::new();
         }
@@ -117,27 +154,57 @@ impl PlaceList {
             .places
             .iter()
             .filter_map(|p| {
-                let name = fold(&p.label);
-                let rank = if name.split(' ').any(|w| w.starts_with(&q)) || name.contains(&format!(" {q}")) {
-                    0
-                } else if name.contains(&q) {
-                    1
-                } else {
-                    return None;
-                };
+                let name = world::fold(&p.label);
                 // Sorted by the name without "Kab." / "Kota", so Bandung's kab and kota sit together.
                 let bare = name.strip_prefix("kab ").or_else(|| name.strip_prefix("kota ")).unwrap_or(&name).to_string();
+                let rank = [world::match_rank(&name, q), world::match_rank(&bare, q)].into_iter().flatten().min()?;
                 Some((rank, bare, p))
             })
             .collect();
-        hits.sort_by(|a, b| a.0.cmp(&b.0).then_with(|| a.1.cmp(&b.1)).then_with(|| a.2.label.cmp(&b.2.label)));
-        hits.into_iter().take(limit).map(|h| h.2).collect()
+        hits.sort_unstable_by(|a, b| a.0.cmp(&b.0).then_with(|| a.1.cmp(&b.1)).then_with(|| a.2.label.cmp(&b.2.label)));
+        hits.into_iter().map(|h| (h.0, h.2)).collect()
     }
 }
 
-/// Lowercase, without dots and doubled spaces: "Kab.  Bandung" -> "kab bandung".
-fn fold(s: &str) -> String {
-    s.to_lowercase().replace('.', " ").split_whitespace().collect::<Vec<_>>().join(" ")
+/// Places in Kemenag's list and the world's (the online file for what was
+/// typed, once it's here) matching what was typed, best first, at most
+/// `limit`. Within a rank: the world's cities of a million people or more,
+/// then Kemenag's places (and the Saudi three, also by their other
+/// spellings, "Mecca"), then the rest of the world by size.
+pub fn search(list: &PlaceList, world: Option<&World>, query: &str, limit: usize) -> Vec<Place> {
+    let q = world::fold(query);
+    let mut ours: Vec<(u8, &Place)> = list.ranked(&q);
+    for (rank, id) in world.map(|w| w.aliases(&q)).unwrap_or_default() {
+        match ours.iter_mut().find(|h| h.1.id == id) {
+            Some(h) => h.0 = h.0.min(rank),
+            None => ours.extend(list.find(id).map(|p| (rank, p))),
+        }
+    }
+    // (rank, tier, index): tier 0 = the world's big cities, 1 = places.json, 2 = the rest.
+    let mut keys: Vec<(u8, u8, usize)> = ours.iter().enumerate().map(|(i, h)| (h.0, 1, i)).collect();
+    if let Some(w) = world {
+        keys.extend(w.search(&q, limit).into_iter().map(|h| (h.rank, if w.is_big(h.order) { 0 } else { 2 }, h.order)));
+    }
+    keys.sort_unstable();
+    keys.into_iter().take(limit).filter_map(|(_, tier, i)| if tier == 1 { Some(ours[i].1.clone()) } else { world?.place(i) }).collect()
+}
+
+/// The place nearest a point in Kemenag's list or the world's squares
+/// around it ([`world::files_near`]), and how far it is (km).
+pub fn nearest(list: &PlaceList, squares: &[&World], lat: f64, lng: f64) -> Option<(Place, f64)> {
+    let ours = list.nearest(lat, lng).map(|(p, km)| (p.clone(), km));
+    let theirs = squares.iter().filter_map(|w| w.nearest(lat, lng));
+    ours.into_iter().chain(theirs).min_by(|a, b| a.1.total_cmp(&b.1))
+}
+
+/// The place saved under `id`: from places.json, or for a world city
+/// ("w:" ids), from the lines settings keep of it.
+pub fn find(list: &PlaceList, world_lines: Option<&str>, id: &str) -> Option<Place> {
+    if id.starts_with(world::ID_PREFIX) {
+        World::parse(world_lines?.to_string()).ok()?.find(id)
+    } else {
+        list.find(id).cloned()
+    }
 }
 
 /// Great-circle distance in km (haversine).
@@ -150,6 +217,10 @@ pub fn distance_km(lat1: f64, lng1: f64, lat2: f64, lng2: f64) -> f64 {
 /// Farther than this from every listed place, a location picks none: the
 /// times there would be minutes off.
 pub const NEAREST_MAX_KM: f64 = 250.0;
+
+/// A location this close to one of Kemenag's places takes it without
+/// looking the world's cities up: it's in Indonesia (or at the Haram).
+pub const KEMENAG_NEAR_KM: f64 = 20.0;
 
 /// The place a PC's time zone suggests until one is found or picked.
 pub fn suggested_place_id(utc_offset_min: i32) -> Option<&'static str> {
@@ -169,8 +240,110 @@ pub enum Method {
     /// Kemenag RI (Bimas Islam), for Indonesia.
     #[default]
     Kemenag,
-    /// Umm al-Qura, for Saudi Arabia.
+    /// Umm al-Qura, for Saudi Arabia (and its neighbours in the world list).
     UmmAlQura,
+    // The world list's (by country), as Adhan has them.
+    #[serde(rename = "mwl")]
+    MuslimWorldLeague,
+    Egyptian,
+    Karachi,
+    Dubai,
+    #[serde(rename = "moonsighting")]
+    MoonsightingCommittee,
+    Kuwait,
+    Qatar,
+    Singapore,
+    Turkey,
+    Tehran,
+}
+
+impl Method {
+    /// The world list's key for it.
+    pub fn from_key(key: &str) -> Option<Method> {
+        Some(match key {
+            "kemenag" => Method::Kemenag,
+            "ummalqura" => Method::UmmAlQura,
+            "mwl" => Method::MuslimWorldLeague,
+            "egyptian" => Method::Egyptian,
+            "karachi" => Method::Karachi,
+            "dubai" => Method::Dubai,
+            "moonsighting" => Method::MoonsightingCommittee,
+            "kuwait" => Method::Kuwait,
+            "qatar" => Method::Qatar,
+            "singapore" => Method::Singapore,
+            "turkey" => Method::Turkey,
+            "tehran" => Method::Tehran,
+            _ => return None,
+        })
+    }
+
+    /// Who sets the times, as the Prayer page names it.
+    pub fn name(self) -> &'static str {
+        match self {
+            Method::Kemenag => "Kemenag",
+            Method::UmmAlQura => "Umm al-Qura",
+            Method::MuslimWorldLeague => "Muslim World League",
+            Method::Egyptian => "Egyptian authority",
+            Method::Karachi => "Karachi",
+            Method::Dubai => "Dubai",
+            Method::MoonsightingCommittee => "Moonsighting Committee",
+            Method::Kuwait => "Kuwait",
+            Method::Qatar => "Qatar",
+            Method::Singapore => "Singapore",
+            Method::Turkey => "Diyanet",
+            Method::Tehran => "Tehran",
+        }
+    }
+
+    fn adhan(self) -> Option<adhan::Method> {
+        Some(match self {
+            Method::Kemenag | Method::UmmAlQura => return None,
+            Method::MuslimWorldLeague => adhan::Method::MUSLIM_WORLD_LEAGUE,
+            Method::Egyptian => adhan::Method::EGYPTIAN,
+            Method::Karachi => adhan::Method::KARACHI,
+            Method::Dubai => adhan::Method::DUBAI,
+            Method::MoonsightingCommittee => adhan::Method::MOONSIGHTING_COMMITTEE,
+            Method::Kuwait => adhan::Method::KUWAIT,
+            Method::Qatar => adhan::Method::QATAR,
+            Method::Singapore => adhan::Method::SINGAPORE,
+            Method::Turkey => adhan::Method::TURKEY,
+            Method::Tehran => adhan::Method::TEHRAN,
+        })
+    }
+}
+
+/// A place's clock in minutes east of UTC: one offset all year, or its time
+/// zone's changes (summer time) from the world list.
+#[derive(Clone, Debug, PartialEq)]
+pub enum Clock {
+    Fixed(i32),
+    /// The offset before the first change, then (UTC seconds, offset) at each change.
+    Changes(i32, Arc<[(i64, i32)]>),
+}
+
+impl Clock {
+    pub fn offset_min(&self, utc: i64) -> i32 {
+        match self {
+            Clock::Fixed(o) => *o,
+            Clock::Changes(first, changes) => match changes.partition_point(|&(at, _)| at <= utc) {
+                0 => *first,
+                i => changes[i - 1].1,
+            },
+        }
+    }
+
+    /// A Z line's offset and changes ("<UTC minute>=<offset> ...").
+    fn parse(first: &str, changes: &str) -> Option<Clock> {
+        let first = first.parse().ok()?;
+        let changes: Vec<(i64, i32)> = changes
+            .split_whitespace()
+            .map(|c| {
+                let (at, off) = c.split_once('=')?;
+                Some((at.parse::<i64>().ok()? * 60, off.parse().ok()?))
+            })
+            .collect::<Option<_>>()?;
+        Some(if changes.is_empty() { Clock::Fixed(first) } else { Clock::Changes(first, changes.into()) })
+    }
 }
 
 /// UTC offset in minutes for the zones the place list uses. All of them keep
@@ -186,28 +359,39 @@ pub fn utc_offset_min(tz: &str) -> Option<i32> {
 }
 
 /// A place reduced to what the engine needs.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Site {
     pub lat: f64,
     pub lng: f64,
-    /// Minutes east of UTC.
-    pub offset_min: i32,
+    pub clock: Clock,
     pub h0: f64,
     pub subuh_angle: f64,
     pub isya_angle: f64,
     pub method: Method,
+    pub hanafi: bool,
 }
 
 impl Site {
+    /// Minutes east of UTC on the place's clock at a UTC moment.
+    pub fn offset_min(&self, utc: i64) -> i32 {
+        self.clock.offset_min(utc)
+    }
+
     /// The place's own date (days since 1970-01-01) at a UTC moment.
     pub fn local_day(&self, utc: i64) -> i64 {
-        (utc + self.offset_min as i64 * 60).div_euclid(86_400)
+        (utc + self.offset_min(utc) as i64 * 60).div_euclid(86_400)
     }
 
     /// "HH:MM" on the place's own clock.
     pub fn hhmm(&self, utc: i64) -> String {
-        let m = (utc + self.offset_min as i64 * 60).div_euclid(60).rem_euclid(24 * 60);
+        let m = (utc + self.offset_min(utc) as i64 * 60).div_euclid(60).rem_euclid(24 * 60);
         format!("{:02}:{:02}", m / 60, m % 60)
+    }
+
+    /// UTC seconds of the place's midnight that starts `day`.
+    pub fn midnight(&self, day: i64) -> i64 {
+        let guess = day * 86_400 - self.offset_min(day * 86_400) as i64 * 60;
+        day * 86_400 - self.offset_min(guess) as i64 * 60
     }
 }
 
@@ -325,12 +509,14 @@ fn nearest_minute(ms: i64) -> i64 {
 }
 
 /// The schedule for the place's date `day` (days since 1970-01-01). `None`
-/// only where the sun doesn't rise or set, which no listed place reaches.
+/// only where a time can't be found at all: the world list's polar cities
+/// take the nearest latitude's sun on days without a sunrise or sunset.
 pub fn day_times(site: &Site, day: i64) -> Option<DayTimes> {
     let (y, m, d) = civil_from_days(day);
     let ms = match site.method {
         Method::Kemenag => kemenag(site, y, m, d)?,
         Method::UmmAlQura => umm_al_qura(site, day, y, m, d)?,
+        other => adhan::method_times(y, m, d, site.lat, site.lng, &other.adhan()?, if site.hanafi { 2.0 } else { 1.0 })?,
     };
     Some(DayTimes {
         imsak: (ms[0] - IMSAK_BEFORE_SUBUH_MIN * MIN_MS) / 1000,

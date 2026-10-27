@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+Z	1	Asia/Vladivostok	600	
+C	CN	China	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Hegang		CN		47.347	130.290	0
+P	Shuangyashan		CN		46.677	131.133	0
+P	Jiamusi		CN		46.797	130.311	0
+P	Jixi		CN		45.293	130.962	0
+P	Qitaihe		CN		45.768	130.995	0
+P	Hengshan		CN		45.208	130.898	0
+P	Baoshan		CN		46.575	131.393	0
+P	Didao		CN		45.347	130.837	0
+P	Chengzihe		CN		45.336	131.005	0
+P	Boli		CN		45.753	130.585	0
+P	Fujin		CN		47.247	132.030	0
+P	Mishan		CN		45.550	131.883	0
+P	Lingdong		CN		46.554	131.145	0
+P	Linkou		CN		45.276	130.273	0
+P	Birobidzhan		RU		48.793	132.920	1
+P	Huanan		CN		46.236	130.546	0
+P	Baoqing		CN		46.325	132.190	0
+P	Jixian		CN		46.726	131.133	0
+P	Jidong		CN		45.256	131.116	0
+P	Luobei		CN		47.576	130.813	0
+P	Lesozavodsk		RU		45.472	133.398	1
+P	Fuyuan		CN		48.363	134.298	0
+P	Dalnerechensk		RU		45.931	133.739	1
+P	Luchegorsk		RU		46.445	134.293	1
+P	Bikin		RU		46.813	134.250	1
+P	Vyazemskiy		RU		47.533	134.758	1

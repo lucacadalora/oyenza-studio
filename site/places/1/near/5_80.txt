@@ -1,0 +1,38 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Colombo	330	
+C	LK	Sri Lanka	mwl	s
+B	0
+P	Jaffna		LK		9.668	80.007	0
+P	Kandy		LK		7.291	80.634	0
+P	Trincomalee		LK		8.578	81.229	0
+P	Kalmunai		LK		7.409	81.835	0
+P	Galle		LK		6.046	80.210	0
+P	Point Pedro		LK		9.817	80.233	0
+P	Batticaloa		LK		7.710	81.692	0
+P	Ambalantota		LK		6.120	81.021	0
+P	Valvedditturai		LK		9.817	80.167	0
+P	Matara		LK		5.949	80.535	0
+P	Dambulla		LK		7.860	80.652	0
+P	Anuradhapura		LK		8.312	80.413	0
+P	Vavuniya		LK		8.751	80.497	0
+P	Beliatta		LK		6.050	80.733	0
+P	Ambalangoda		LK		6.236	80.054	0
+P	Ratnapura		LK		6.686	80.404	0
+P	Badulla		LK		6.980	81.058	0
+P	Pottuvil		LK		6.876	81.827	0
+P	Devinuwara		LK		5.928	80.589	0
+P	Ampara		LK		7.298	81.682	0
+P	Matale		LK		7.470	80.622	0
+P	Homagama		LK		6.844	80.002	0
+P	Mullaittivu		LK		9.268	80.815	0
+P	Kurunegala		LK		7.484	80.368	0
+P	Nuwara Eliya		LK		6.971	80.783	0
+P	Gampola		LK		7.164	80.570	0
+P	Eravur Town		LK		7.778	81.604	0
+P	Hanwella Ihala		LK		6.901	80.085	0
+P	Weligama		LK		5.975	80.430	0
+P	Vakarai		LK		8.133	81.433	0
+P	Kataragama		LK		6.413	81.335	0
+P	Hambantota		LK		6.124	81.118	0
+P	Kegalle		LK		7.252	80.344	0
+P	Hatton		LK		6.892	80.596	0

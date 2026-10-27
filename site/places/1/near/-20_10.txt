@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+C	AO	Angola	egyptian	s
+B	0
+P	Mossamedes		AO		-15.196	12.152	0
+P	Cahama		AO		-16.286	14.310	0
+P	Tômbua	tombua	AO		-15.804	11.845	0
+P	Virei		AO		-15.727	12.950	0
+P	Humbe		AO		-16.686	14.903	0
+P	Xangongo		AO		-16.744	14.975	0

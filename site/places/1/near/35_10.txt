@@ -1,0 +1,130 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Tunis	60	
+Z	1	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	IT	Italy	mwl	s
+C	MT	Malta	mwl	s
+C	TN	Tunisia	egyptian	s
+B	0
+P	Tunis		TN		36.819	10.166	0
+P	Palermo		IT		38.117	13.364	1
+P	Sousse		TN		35.825	10.637	0
+P	Sukrah		TN		36.877	10.247	0
+P	Kairouan		TN		35.678	10.096	0
+P	El Mourouj		TN		36.714	10.210	0
+P	Aryanah		TN		36.860	10.193	0
+P	Sejoumi		TN		36.756	10.118	0
+P	Hammamet		TN		36.400	10.617	0
+P	La Gazelle		TN		36.895	10.186	0
+P	Monastir		TN		35.778	10.826	0
+P	La Marsa		TN		36.878	10.325	0
+P	Msaken		TN		35.729	10.581	0
+P	Ben Arous		TN		36.755	10.222	0
+P	Le Kram		TN		36.836	10.316	0
+P	Ettadhamen		TN		36.832	10.110	0
+P	Douar Hicher		TN		36.827	10.090	0
+P	Marsala		IT		37.799	12.437	1
+P	Gela		IT		37.074	14.240	1
+P	Ragusa		IT		36.926	14.724	1
+P	Radès	rades	TN		36.769	10.275	0
+P	Le Bardo		TN		36.811	10.135	0
+P	Nabeul		TN		36.456	10.738	0
+P	Trapani		IT		38.018	12.536	1
+P	La Mohammedia		TN		36.674	10.156	0
+P	Oued Lill		TN		36.834	10.041	0
+P	Korba		TN		36.579	10.859	0
+P	Skanes		TN		35.775	10.795	0
+P	Kelaa Kebira		TN		35.873	10.537	0
+P	Kélibia	kelibia	TN		36.848	11.094	0
+P	Moknine		TN		35.633	10.900	0
+P	Caltanissetta		IT		37.490	14.062	1
+P	Douane		TN		36.448	10.756	0
+P	Mnihla		TN		36.848	10.111	0
+P	Ksar Hellal		TN		35.648	10.890	0
+P	Djemmal		TN		35.622	10.757	0
+P	Modica		IT		36.859	14.760	1
+P	Bagheria		IT		38.079	13.512	1
+P	Mahdia		TN		35.505	11.062	0
+P	Mazara del Vallo		IT		37.655	12.590	1
+P	Vittoria		IT		36.952	14.528	1
+P	Paternò	paterno	IT		37.567	14.903	1
+P	La Goulette		TN		36.819	10.306	0
+P	Fouchana		TN		36.700	10.168	0
+P	Soliman		TN		36.696	10.492	0
+P	Alcamo		IT		37.978	12.965	1
+P	Zouila		TN		35.501	11.061	0
+P	Kalaa Srira		TN		35.822	10.557	0
+P	Hammam-Lif	hammam lif	TN		36.729	10.342	0
+P	Hammam Sousse		TN		35.861	10.603	0
+P	Dar Chabanne		TN		36.468	10.752	0
+P	Teboulba		TN		35.640	10.967	0
+P	Sciacca		IT		37.507	13.084	1
+P	Boumhel El Bassatine		TN		36.725	10.235	0
+P	Menzel Temime		TN		36.782	10.988	0
+P	Caltagirone		IT		37.238	14.516	1
+P	Ksour Essaf		TN		35.418	10.995	0
+P	Licata		IT		37.103	13.940	1
+P	Carini		IT		38.132	13.183	1
+P	Ez Zahra		TN		36.746	10.308	0
+P	Adrano		IT		37.664	14.833	1
+P	La Sebala du Mornag		TN		36.679	10.292	0
+P	Canicattì	canicatti	IT		37.358	13.848	1
+P	Agrigento		IT		37.311	13.577	1
+P	Favara		IT		37.318	13.662	1
+P	San Pawl il-Baħar	san pawl il bahar	MT		35.951	14.416	1
+P	Manouba		TN		36.810	10.096	0
+P	Borj Cedria		TN		36.697	10.387	0
+P	Castelvetrano		IT		37.681	12.792	1
+P	Rass el Djebel		TN		37.216	10.125	0
+P	Partinico		IT		38.047	13.118	1
+P	Grombalia		TN		36.599	10.500	0
+P	Akouda		TN		35.869	10.565	0
+P	Niscemi		IT		37.146	14.394	1
+P	Den Den		TN		36.808	10.111	0
+P	Comiso		IT		36.949	14.607	1
+P	Mégrine	megrine	TN		36.769	10.236	0
+P	Birkirkara		MT		35.897	14.461	1
+P	Carthage		TN		36.861	10.332	0
+P	Takelsa		TN		36.783	10.633	0
+P	Lentini		IT		37.286	14.997	1
+P	Casa Santa		IT		38.025	12.548	1
+P	Ouerdanine		TN		35.690	10.676	0
+P	Mosta		MT		35.909	14.426	1
+P	Biancavilla		IT		37.644	14.867	1
+P	La Mornaghia		TN		36.759	10.017	0
+P	Enna		IT		37.566	14.274	1
+P	Termini Imerese		IT		37.982	13.697	1
+P	Palma di Montechiaro		IT		37.191	13.766	1
+P	Sliema		MT		35.912	14.502	1
+P	Chebba		TN		35.237	11.115	0
+P	San Cataldo		IT		37.484	13.985	1
+P	Monreale		IT		38.081	13.289	1
+P	Beni Khiar		TN		36.469	10.782	0
+P	El Jem		TN		35.300	10.717	0
+P	Sahline		TN		35.752	10.711	0
+P	Zaouiet Sousse		TN		35.786	10.627	0
+P	Zaghouan		TN		36.403	10.143	0
+P	Bekalta		TN		35.617	10.995	0
+P	Rosolini		IT		36.821	14.951	1
+P	Misilmeri		IT		38.032	13.448	1
+P	Bronte		IT		37.789	14.834	1
+P	Villabate		IT		38.078	13.443	1
+P	Maatmeur		TN		35.752	10.691	0
+P	Mennzel Bou Zelfa		TN		36.683	10.584	0
+P	El Alia		TN		37.169	10.035	0
+P	Ouardenine		TN		35.709	10.674	0
+P	Galaat el Andeless		TN		37.063	10.118	0
+P	Pozzallo		IT		36.730	14.847	1
+P	Piazza Armerina		IT		37.384	14.369	1
+P	Ribera		IT		37.498	13.267	1
+P	Ezzouhour		TN		35.790	10.583	0
+P	Zeramedine		TN		35.575	10.735	0
+P	Qormi		MT		35.876	14.472	1
+P	Scordia		IT		37.295	14.841	1
+P	Porto Empedocle		IT		37.289	13.525	1
+P	Belpasso		IT		37.592	14.980	1
+P	Palagonia		IT		37.330	14.745	1
+P	Scicli		IT		36.790	14.703	1
+P	Bembla et Mnara		TN		35.699	10.795	0
+P	Żabbar	zabbar	MT		35.877	14.536	1
+P	Beni Khalled		TN		36.650	10.590	0
+P	Valletta		MT		35.900	14.515	1

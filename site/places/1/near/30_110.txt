@@ -1,0 +1,74 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	12
+P	Wuhan		CN		30.583	114.267	0
+P	Zhengzhou		CN		34.758	113.649	0
+P	Shiyan		CN		32.648	110.778	0
+P	Nanyang		CN		33.005	112.547	0
+P	Kaifeng		CN		34.799	114.307	0
+P	Luoyang		CN		34.673	112.437	0
+P	Yichang		CN		30.714	111.285	0
+P	Luohe		CN		33.574	114.033	0
+P	Xiangyang		CN		32.042	112.145	0
+P	Xuchang		CN		34.032	113.863	0
+P	Xinyang		CN		32.123	114.066	0
+P	Jingzhou		CN		30.350	112.190	0
+P	Pingdingshan		CN		33.731	113.316	0
+P	Xiaogan		CN		30.927	113.922	0
+P	Zhumadian		CN		32.984	114.026	0
+P	Sanmenxia		CN		34.781	111.193	0
+P	E’zhou	ezhou	CN		30.396	114.887	0
+P	Jingmen		CN		31.034	112.205	0
+P	Suizhou		CN		31.711	113.363	0
+P	Zhoukou		CN		33.633	114.633	0
+P	Yongji		CN		34.866	110.440	0
+P	Huanggang		CN		30.451	114.870	0
+P	Daye		CN		30.083	114.950	0
+P	Dengzhou		CN		32.683	112.089	0
+P	Tanghe		CN		32.685	112.832	0
+P	Chengzhong		CN		30.945	113.553	0
+P	Laohekou		CN		32.386	111.668	0
+P	Huayin		CN		34.565	110.066	0
+P	Xiantao		CN		30.371	113.443	0
+P	Jingling		CN		30.650	113.100	0
+P	Ezhou		CN		30.400	114.833	0
+P	Zaoyang		CN		32.127	112.754	0
+P	Zhenping		CN		33.035	112.228	0
+P	Qianjiang		CN		30.421	112.892	0
+P	Zhicheng		CN		30.296	111.505	0
+P	Guangshui		CN		31.620	113.998	0
+P	Huangzhou		CN		30.450	114.800	0
+P	Zhongxiang		CN		31.166	112.583	0
+P	Buhe		CN		30.288	112.230	0
+P	Xinshi		CN		31.047	113.141	0
+P	Fangcheng		CN		33.257	113.001	0
+P	Danjiangkou		CN		32.543	111.509	0
+P	Xihe		CN		31.686	113.466	0
+P	Duobao		CN		30.670	112.690	0
+P	Yuzhou		CN		34.155	113.468	0
+P	Hanchuan		CN		30.650	113.767	0
+P	Nanzhang Chengguanzhen		CN		31.784	111.828	0
+P	Yima		CN		34.738	111.884	0
+P	Xinzhou		CN		30.867	114.800	0
+P	Gucheng Chengguanzhen		CN		32.266	111.635	0
+P	Yunyang		CN		33.447	112.714	0
+P	Caidian		CN		30.583	114.033	0
+P	Anlu		CN		31.258	113.678	0
+P	Minggang		CN		32.459	114.049	0
+P	Fengkou		CN		30.083	113.333	0
+P	Wacheng Neighborhood		CN		33.783	114.517	0
+P	Xiangcheng		CN		33.854	113.487	0
+P	Yunmeng Chengguanzhen		CN		31.063	113.765	0
+P	Songyang		CN		34.455	113.032	0
+P	Xinye		CN		32.529	112.365	0
+P	Yicheng		CN		31.705	112.256	0
+P	Runan		CN		33.000	114.346	0
+P	Zhijiang		CN		30.421	111.753	0
+P	Pánlóngchéng Jīngjì Kāifāqū	panlongcheng jingji kaifaqu	CN		30.693	114.271	0
+P	Huangpi		CN		30.885	114.378	0
+P	Gongyi		CN		34.755	113.011	0
+P	Songbai		CN		31.757	110.673	0
+P	Luoping		CN		31.207	110.087	0
+P	Baolong		CN		30.942	110.006	0
+P	Sanxi		CN		31.132	110.094	0

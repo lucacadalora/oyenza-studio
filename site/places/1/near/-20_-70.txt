@@ -1,0 +1,26 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/La_Paz	-240	
+Z	1	America/Lima	-300	
+C	BO	Bolivia	mwl	s
+C	PE	Peru	mwl	s
+B	1
+P	La Paz		BO		-16.500	-68.150	0
+P	Cochabamba		BO		-17.382	-66.160	0
+P	Sucre		BO		-19.033	-65.263	0
+P	Oruro		BO		-17.972	-67.093	0
+P	Sacaba		BO		-17.398	-66.038	0
+P	Quillacollo		BO		-17.392	-66.278	0
+P	Potosí	potosi	BO		-19.584	-65.753	0
+P	Viacha		BO		-16.650	-68.300	0
+P	Tiquipaya		BO		-17.338	-66.216	0
+P	Vinto		BO		-17.391	-66.317	0
+P	Colcapirhua		BO		-17.386	-66.238	0
+P	Sipe Sipe		BO		-17.454	-66.357	0
+P	Caranavi		BO		-15.834	-67.566	0
+P	Mizque		BO		-17.941	-65.340	0
+P	Llallagua		BO		-18.425	-66.578	0
+P	Ilave		PE		-16.083	-69.667	1
+P	Achocalla		BO		-16.574	-68.151	0
+P	Laja		BO		-16.533	-68.383	0
+P	Huanuni		BO		-18.289	-66.836	0
+P	Punata		BO		-17.542	-65.835	0

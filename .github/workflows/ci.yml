@@ -18,7 +18,7 @@ concurrency:
 
 env:
   # Keep in sync with Cargo.toml's workspace version, installer/poni.nsi and installer/poni.iss.
-  PONI_VERSION: "0.2.8"
+  PONI_VERSION: "0.2.12"
 
 jobs:
   core:
@@ -90,6 +90,13 @@ jobs:
             Stop-Process -Id $am.Id -Force -ErrorAction SilentlyContinue
             Get-Content $env:PONI_FAKE_AM_LOG -ErrorAction SilentlyContinue
           }
+
+      # The Stocks thread against the live oyenza.trade, from the build above.
+      # The self-test shows a made-up market and asks for nothing, which is
+      # how 0.2.11 shipped a thread that never asked. Silence fails the step;
+      # oyenza.trade answering badly only warns.
+      - name: Stocks from the live oyenza.trade
+        run: cargo test -p poni --release the_live_market_comes_in -- --ignored --nocapture
 
   # The self-tests and smoke runs on three machines at once, from the
   # poni.exe built above. Each step is the same as when one machine ran them

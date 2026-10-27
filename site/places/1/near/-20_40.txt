@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Maputo	120	
+Z	1	Indian/Antananarivo	180	
+C	MG	Madagascar	egyptian	s
+C	MZ	Mozambique	egyptian	s
+B	0
+P	Antsalova		MG		-18.667	44.617	1
+P	Mozambique		MZ		-15.035	40.734	0
+P	Belo sur Tsiribihina		MG		-19.698	44.546	1
+P	Maintirano		MG		-18.064	44.030	1

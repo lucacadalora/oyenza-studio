@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Nouakchott	0	
+C	ML	Mali	egyptian	s
+C	MR	Mauritania	egyptian	s
+B	0
+P	Néma	nema	MR		16.617	-7.256	0
+P	Mbera		MR		15.856	-5.791	0
+P	Nioro		ML		15.231	-9.594	0
+P	Bougadoum		MR		15.867	-7.369	0
+P	Ayoun El Atrous		MR		16.661	-9.615	0
+P	Nara		ML		15.169	-7.290	0
+P	Tembedgha		MR		16.241	-8.173	0

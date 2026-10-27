@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+C	NG	Nigeria	egyptian	s
+B	0
+P	Iyo		JP		33.751	132.701	1
+P	Iyesi		NG		6.661	3.180	0

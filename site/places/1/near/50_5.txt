@@ -1,0 +1,723 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BE	Belgium	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	NL	The Netherlands	mwl	s
+B	2
+P	Hamburg		DE		53.551	9.993	0
+P	Köln	koln	DE		50.933	6.950	0
+P	Frankfurt am Main		DE		50.116	8.684	0
+P	Düsseldorf	dusseldorf	DE		51.223	6.779	0
+P	Essen		DE		51.457	7.012	0
+P	Dortmund		DE		51.515	7.466	0
+P	Bremen		DE		53.076	8.807	0
+P	Hannover		DE		52.371	9.733	0
+P	Duisburg		DE		51.432	6.765	0
+P	Bochum		DE		51.482	7.216	0
+P	Utrecht		NL		52.091	5.122	0
+P	Wuppertal		DE		51.256	7.148	0
+P	Bielefeld		DE		52.033	8.533	0
+P	Bonn		DE		50.734	7.095	0
+P	Hamburg-Nord	hamburg nord	DE		53.589	9.984	0
+P	Münster	munster	DE		51.962	7.626	0
+P	Wiesbaden		DE		50.086	8.244	0
+P	Gelsenkirchen		DE		51.505	7.097	0
+P	Eimsbüttel	eimsbuttel	DE		53.574	9.957	0
+P	Aachen		DE		50.777	6.083	0
+P	Mönchengladbach	monchengladbach	DE		51.185	6.442	0
+P	Altona		DE		53.550	9.933	0
+P	Groningen		NL		53.219	6.567	0
+P	Krefeld		DE		51.336	6.554	0
+P	Eindhoven		NL		51.441	5.478	0
+P	Tilburg		NL		51.556	5.091	0
+P	Oberhausen		DE		51.478	6.862	0
+P	Hagen		DE		51.361	7.472	0
+P	Kassel		DE		51.317	9.500	0
+P	Liège	liege	BE		50.634	5.567	0
+P	Hamm		DE		51.680	7.821	0
+P	Nijmegen		NL		51.843	5.853	0
+P	Almere Stad		NL		52.370	5.214	0
+P	Mülheim	mulheim	DE		51.432	6.880	0
+P	Herne		DE		51.539	7.226	0
+P	Harburg		DE		53.461	9.984	0
+P	Osnabrück	osnabruck	DE		52.273	8.050	0
+P	Solingen		DE		51.173	7.085	0
+P	Leverkusen		DE		51.030	6.984	0
+P	Arnhem		NL		51.980	5.911	0
+P	's-Hertogenbosch	s hertogenbosch	NL		51.699	5.304	0
+P	Oldenburg		DE		53.140	8.215	0
+P	Enschede		NL		52.218	6.896	0
+P	Neuss		DE		51.198	6.685	0
+P	Paderborn		DE		51.719	8.754	0
+P	Amersfoort		NL		52.155	5.388	0
+P	Apeldoorn		NL		52.210	5.969	0
+P	Zwolle		NL		52.513	6.094	0
+P	Leeuwarden		NL		53.203	5.810	0
+P	Recklinghausen		DE		51.614	7.197	0
+P	Maastricht		NL		50.848	5.689	0
+P	Göttingen	gottingen	DE		51.534	9.932	0
+P	Bottrop		DE		51.524	6.928	0
+P	Offenbach		DE		50.101	8.766	0
+P	Bremerhaven		DE		53.554	8.576	0
+P	Remscheid		DE		51.180	7.192	0
+P	Nippes		DE		50.965	6.953	0
+P	Porz am Rhein		DE		50.886	7.058	0
+P	Rodenkirchen		DE		50.893	6.995	0
+P	Koblenz		DE		50.354	7.579	0
+P	Siegen		DE		50.875	8.024	0
+P	Bergisch Gladbach		DE		50.986	7.133	0
+P	Moers		DE		51.453	6.633	0
+P	Hildesheim		DE		52.151	9.951	0
+P	Venlo		NL		51.370	6.168	0
+P	Deventer		NL		52.255	6.164	0
+P	Gütersloh	gutersloh	DE		51.907	8.379	0
+P	Düren	duren	DE		50.804	6.493	0
+P	Heerlen		NL		50.884	5.982	0
+P	Iserlohn		DE		51.375	7.703	0
+P	Witten		DE		51.444	7.353	0
+P	Ratingen		DE		51.297	6.849	0
+P	Marl		DE		51.657	7.090	0
+P	Lünen	lunen	DE		51.616	7.529	0
+P	Gießen	giessen	DE		50.587	8.676	0
+P	Hanau am Main		DE		50.134	8.914	0
+P	Velbert		DE		51.335	7.043	0
+P	Flensburg		DE		54.788	9.437	0
+P	Wilhelmshaven		DE		53.548	8.104	0
+P	Hilversum		NL		52.223	5.176	0
+P	Minden		DE		52.290	8.915	0
+P	Norderstedt		DE		53.702	9.993	0
+P	Hengelo		NL		52.266	6.793	0
+P	Neumünster	neumunster	DE		54.074	9.985	0
+P	Dorsten		DE		51.662	6.965	0
+P	Lelystad		NL		52.508	5.475	0
+P	Lüdenscheid	ludenscheid	DE		51.220	7.627	0
+P	Marburg an der Lahn		DE		50.809	8.771	0
+P	Rheinhausen		DE		51.401	6.712	0
+P	Castrop-Rauxel	castrop rauxel	DE		51.557	7.312	0
+P	Hasselt		BE		50.931	5.338	0
+P	Rheine		DE		52.285	7.441	0
+P	Oss		NL		51.765	5.518	0
+P	Viersen		DE		51.254	6.394	0
+P	Delmenhorst		DE		53.051	8.631	0
+P	Gladbeck		DE		51.571	6.986	0
+P	Arnsberg		DE		51.383	8.083	0
+P	Troisdorf		DE		50.809	7.150	0
+P	Helmond		NL		51.482	5.661	0
+P	Wattenscheid		DE		51.481	7.143	0
+P	Bocholt		DE		51.839	6.615	0
+P	Detmold		DE		51.939	8.873	0
+P	Almelo		NL		52.357	6.662	0
+P	Hoorn		NL		52.642	5.060	0
+P	Assen		NL		52.997	6.562	0
+P	Ede		NL		52.033	5.658	0
+P	Lippstadt		DE		51.674	8.345	0
+P	Dinslaken		DE		51.562	6.743	0
+P	Neuwied		DE		50.434	7.471	0
+P	Unna		DE		51.538	7.690	0
+P	Herten		DE		51.596	7.144	0
+P	Herford		DE		52.115	8.673	0
+P	Grevenbroich		DE		51.091	6.583	0
+P	Kerpen		DE		50.870	6.697	0
+P	Fulda		DE		50.552	9.675	0
+P	Genk		BE		50.965	5.501	0
+P	Dormagen		DE		51.097	6.832	0
+P	Bergheim		DE		50.956	6.640	0
+P	Garbsen		DE		52.414	9.590	0
+P	Wesel		DE		51.667	6.620	0
+P	Nieuwegein		NL		52.029	5.081	0
+P	Veenendaal		NL		52.029	5.559	0
+P	Zeist		NL		52.090	5.233	0
+P	Seraing		BE		50.584	5.501	0
+P	Langenfeld		DE		51.108	6.948	0
+P	Hameln		DE		52.104	9.356	0
+P	Hardenberg		NL		52.576	6.619	0
+P	Stolberg		DE		50.774	6.226	0
+P	Emmen		NL		52.779	6.907	0
+P	Hattingen		DE		51.399	7.186	0
+P	Hilden		DE		51.168	6.931	0
+P	Sankt Augustin		DE		50.775	7.197	0
+P	Eschweiler		DE		50.819	6.272	0
+P	Ahlen		DE		51.763	7.889	0
+P	Bad Salzuflen		DE		52.086	8.744	0
+P	Euskirchen		DE		50.661	6.787	0
+P	Meerbusch		DE		51.253	6.688	0
+P	Hürth	hurth	DE		50.871	6.868	0
+P	Pulheim		DE		51.000	6.806	0
+P	Gummersbach		DE		51.026	7.565	0
+P	Verviers		BE		50.589	5.862	0
+P	Nordhorn		DE		52.431	7.068	0
+P	Cuxhaven		DE		53.868	8.699	0
+P	Wetzlar		DE		50.561	8.505	0
+P	Menden		DE		51.443	7.778	0
+P	Bergkamen		DE		51.616	7.645	0
+P	Frechen		DE		50.915	6.812	0
+P	Bad Homburg vor der Höhe	bad homburg vor der hohe	DE		50.227	8.618	0
+P	Willich		DE		51.264	6.547	0
+P	Emden		DE		53.366	7.208	0
+P	Lingen		DE		52.523	7.326	0
+P	Erftstadt		DE		50.815	6.794	0
+P	Neubrück	neubruck	DE		51.134	6.639	0
+P	Ibbenbueren		DE		52.280	7.715	0
+P	Gronau		DE		52.211	7.022	0
+P	Langenhagen		DE		52.448	9.737	0
+P	Schwerte		DE		51.444	7.567	0
+P	Doetinchem		NL		51.965	6.289	0
+P	Kerkrade		NL		50.866	6.062	0
+P	Bad Oeynhausen		DE		52.207	8.804	0
+P	Leidsche Rijn		NL		52.095	5.046	0
+P	Kleve		DE		51.788	6.139	0
+P	Kampen		NL		52.555	5.911	0
+P	Elmshorn		DE		53.749	9.662	0
+P	Weert		NL		51.252	5.707	0
+P	Bornheim		DE		50.763	6.991	0
+P	Sittard		NL		50.998	5.869	0
+P	Soest		DE		51.576	8.106	0
+P	Hennef (Sieg)	hennef sieg	DE		50.776	7.283	0
+P	Erkrath		DE		51.222	6.908	0
+P	Dülmen	dulmen	DE		51.831	7.281	0
+P	Herzogenrath		DE		50.869	6.093	0
+P	Oberursel		DE		50.207	8.577	0
+P	Melle		DE		52.202	8.338	0
+P	Emmeloord		NL		52.711	5.749	0
+P	Bünde	bunde	DE		52.198	8.586	0
+P	Alsdorf		DE		50.877	6.164	0
+P	Rheda-Wiedenbrück	rheda wiedenbruck	DE		51.850	8.300	0
+P	Kamen		DE		51.592	7.664	0
+P	Hansestadt Stade		DE		53.594	9.473	0
+P	Waalwijk		NL		51.682	5.071	0
+P	Meiderich		DE		51.467	6.767	0
+P	Drachten		NL		53.113	6.099	0
+P	Soest		NL		52.173	5.292	0
+P	Roermond		NL		51.194	5.987	0
+P	Neustadt am Rübenberge	neustadt am rubenberge	DE		52.505	9.459	0
+P	Erkelenz		DE		51.079	6.315	0
+P	Brühl	bruhl	DE		50.829	6.905	0
+P	Lehrte		DE		52.372	9.979	0
+P	Rodgau		DE		50.026	8.886	0
+P	Heerenveen		NL		52.959	5.919	0
+P	Ohligs		DE		51.150	7.000	0
+P	Monheim am Rhein		DE		51.092	6.892	0
+P	Nettetal		DE		51.317	6.283	0
+P	Kaarst		DE		51.229	6.619	0
+P	Gallus		DE		50.100	8.630	0
+P	Lemgo		DE		52.028	8.899	0
+P	Laatzen		DE		52.315	9.797	0
+P	Mülheim	mulheim	DE		50.966	7.004	0
+P	Dreieich		DE		50.020	8.696	0
+P	Heinsberg		DE		51.064	6.100	0
+P	Medemblik		NL		52.772	5.106	0
+P	Huizen		NL		52.299	5.242	0
+P	Seevetal		DE		53.400	9.967	0
+P	Wunstorf		DE		52.424	9.436	0
+P	Königswinter	konigswinter	DE		50.677	7.192	0
+P	Beringen		BE		51.050	5.226	0
+P	Niendorf		DE		53.618	9.950	0
+P	Borken		DE		51.844	6.858	0
+P	Buchholz in der Nordheide		DE		53.330	9.866	0
+P	Tiel		NL		51.887	5.429	0
+P	Pinneberg		DE		53.659	9.797	0
+P	Südstadt	sudstadt	DE		52.360	9.751	0
+P	Harderwijk		NL		52.342	5.621	0
+P	Aurich		DE		53.470	7.482	0
+P	Hückelhoven	huckelhoven	DE		51.056	6.227	0
+P	Maarssen		NL		52.139	5.042	0
+P	Mettmann		DE		51.250	6.975	0
+P	Löhne	lohne	DE		52.188	8.692	0
+P	Kamp-Lintfort	kamp lintfort	DE		51.505	6.546	0
+P	Siegburg		DE		50.800	7.208	0
+P	Venray		NL		51.525	5.975	0
+P	Maintal		DE		50.150	8.833	0
+P	Biebrich		DE		50.041	8.249	0
+P	Hoogeveen		NL		52.722	6.476	0
+P	Warendorf		DE		51.951	7.988	0
+P	Nijkerk		NL		52.220	5.486	0
+P	Linden		DE		52.364	9.712	0
+P	Buxtehude		DE		53.470	9.690	0
+P	Ahaus		DE		52.079	7.013	0
+P	Haltern am See		DE		51.743	7.182	0
+P	Neustadt/Süd	neustadt sud	DE		50.925	6.948	0
+P	Sint-Truiden	sint truiden	BE		50.817	5.186	0
+P	Beckum		DE		51.756	8.041	0
+P	Hofheim am Taunus		DE		50.090	8.449	0
+P	Hemer		DE		51.387	7.770	0
+P	Würselen	wurselen	DE		50.818	6.135	0
+P	Wermelskirchen		DE		51.140	7.216	0
+P	Coesfeld		DE		51.943	7.168	0
+P	Lurup		DE		53.593	9.877	0
+P	Herstal		BE		50.664	5.623	0
+P	Niederkassel		DE		50.815	7.038	0
+P	Porta Westfalica		DE		52.230	8.916	0
+P	Datteln		DE		51.656	7.345	0
+P	Maasmechelen		BE		50.965	5.695	0
+P	Zutphen		NL		52.138	6.201	0
+P	Bad Vilbel		DE		50.179	8.738	0
+P	Wesseling		DE		50.827	6.975	0
+P	Voerde		DE		51.597	6.686	0
+P	Emsdetten		DE		52.173	7.528	0
+P	Wageningen		NL		51.970	5.667	0
+P	Neu-Isenburg	neu isenburg	DE		50.048	8.694	0
+P	Ottensen		DE		53.557	9.918	0
+P	Barneveld		NL		52.140	5.585	0
+P	Greven		DE		52.094	7.594	0
+P	Eidelstedt		DE		53.607	9.905	0
+P	Lage		DE		51.992	8.793	0
+P	Bonn Hardtberg		DE		50.704	7.054	0
+P	Wedel		DE		53.584	9.698	0
+P	Vegesack		DE		53.179	8.622	0
+P	Uden		NL		51.661	5.619	0
+P	Steinfurt		DE		52.150	7.337	0
+P	Seelze		DE		52.396	9.597	0
+P	Meppen		DE		52.691	7.291	0
+P	Papenburg		DE		53.078	7.415	0
+P	Kempen		DE		51.364	6.419	0
+P	Geldern		DE		51.519	6.324	0
+P	Jülich	julich	DE		50.921	6.363	0
+P	IJsselstein		NL		52.020	5.043	0
+P	Leer		DE		53.232	7.461	0
+P	Limburg an der Lahn		DE		50.384	8.050	0
+P	Goch		DE		51.679	6.159	0
+P	Korschenbroich		DE		51.191	6.514	0
+P	Epe		NL		52.347	5.983	0
+P	Dietzenbach		DE		50.010	8.778	0
+P	Itzehoe		DE		53.921	9.515	0
+P	Burglesum		DE		53.165	8.689	0
+P	Buer		DE		51.577	7.052	0
+P	Achim		DE		53.014	9.026	0
+P	Sneek		NL		53.033	5.659	0
+P	Geleen		NL		50.974	5.829	0
+P	Höxter	hoxter	DE		51.775	9.382	0
+P	Wijchen		NL		51.809	5.725	0
+P	Gevelsberg		DE		51.320	7.339	0
+P	Mol		BE		51.192	5.117	0
+P	Nienburg		DE		52.644	9.217	0
+P	Ennepetal		DE		51.298	7.363	0
+P	Stuhr		DE		53.033	8.750	0
+P	Meschede		DE		51.350	8.283	0
+P	Rheinberg		DE		51.546	6.595	0
+P	Werl		DE		51.555	7.914	0
+P	Neugraben-Fischbek	neugraben fischbek	DE		53.466	9.843	0
+P	Langendreer		DE		51.460	7.326	0
+P	Lommel		BE		51.231	5.313	0
+P	Emmerich		DE		51.839	6.248	0
+P	Kreuztal		DE		50.968	7.988	0
+P	Oldenzaal		NL		52.313	6.929	0
+P	Osterholz-Scharmbeck	osterholz scharmbeck	DE		53.227	8.792	0
+P	Lohmar		DE		50.839	7.214	0
+P	Bussum		NL		52.273	5.161	0
+P	Georgsmarienhütte	georgsmarienhutte	DE		52.203	8.045	0
+P	Cloppenburg		DE		52.848	8.047	0
+P	Ganderkesee		DE		53.036	8.545	0
+P	Valkenswaard		NL		51.351	5.460	0
+P	Heusden		BE		51.037	5.280	0
+P	Werne		DE		51.664	7.634	0
+P	Bad Hersfeld		DE		50.872	9.709	0
+P	Meppel		NL		52.696	6.194	0
+P	Oer-Erkenschwick	oer erkenschwick	DE		51.642	7.265	0
+P	Andernach		DE		50.431	7.404	0
+P	Tönisvorst	tonisvorst	DE		51.321	6.494	0
+P	Bad Nauheim		DE		50.365	8.739	0
+P	Schwelm		DE		51.286	7.294	0
+P	Waltrop		DE		51.621	7.402	0
+P	Taunusstein		DE		50.150	8.152	0
+P	Schnelsen		DE		53.637	9.920	0
+P	Rietberg		DE		51.809	8.428	0
+P	Houthalen		BE		51.034	5.374	0
+P	Helchteren		BE		51.056	5.382	0
+P	Delbrück	delbruck	DE		51.765	8.562	0
+P	Springe		DE		52.208	9.554	0
+P	Tongeren		BE		50.781	5.465	0
+P	Einbeck		DE		51.820	9.870	0
+P	Vechta		DE		52.731	8.290	0
+P	Winterswijk		NL		51.972	6.719	0
+P	Bilzen		BE		50.873	5.518	0
+P	Boxtel		NL		51.591	5.329	0
+P	Altona-Altstadt	altona altstadt	DE		53.550	9.947	0
+P	Haan		DE		51.194	7.013	0
+P	Oelde		DE		51.829	8.147	0
+P	Brunssum		NL		50.947	5.971	0
+P	Leusden		NL		52.133	5.432	0
+P	Wetter		DE		51.387	7.393	0
+P	Best		NL		51.508	5.390	0
+P	Düsseldorf-Pempelfort	dusseldorf pempelfort	DE		51.238	6.787	0
+P	Delfzijl		NL		53.330	6.918	0
+P	Mühlheim am Main	muhlheim am main	DE		50.117	8.833	0
+P	Warstein		DE		51.445	8.349	0
+P	Geilenkirchen		DE		50.967	6.118	0
+P	Rendsburg		DE		54.302	9.672	0
+P	Bramsche		DE		52.408	7.983	0
+P	Plettenberg		DE		51.209	7.873	0
+P	Kelkheim		DE		50.137	8.450	0
+P	Veendam		NL		53.107	6.879	0
+P	Neustadt/Nord	neustadt nord	DE		50.949	6.948	0
+P	Neukirchen-Vluyn	neukirchen vluyn	DE		51.447	6.552	0
+P	Lennestadt		DE		51.117	8.067	0
+P	Wegberg		DE		51.142	6.284	0
+P	Lohne		DE		52.666	8.238	0
+P	Leichlingen		DE		51.106	7.019	0
+P	Dronten		NL		52.525	5.718	0
+P	Kevelaer		DE		51.582	6.246	0
+P	Baunatal		DE		51.252	9.407	0
+P	Geldrop		NL		51.422	5.560	0
+P	Baesweiler		DE		50.910	6.189	0
+P	Bad Neuenahr-Ahrweiler	bad neuenahr ahrweiler	DE		50.543	7.111	0
+P	Sønderborg	sonderborg	DK		54.909	9.789	0
+P	Rijssen		NL		52.307	6.518	0
+P	Heiligenhaus		DE		51.327	6.971	0
+P	Hörde	horde	DE		51.484	7.500	0
+P	Dorstfeld		DE		51.501	7.411	0
+P	Sundern		DE		51.328	8.004	0
+P	Dotzheim		DE		50.074	8.195	0
+P	Bad Zwischenahn		DE		53.185	8.003	0
+P	Selm		DE		51.697	7.468	0
+P	Mechernich		DE		50.593	6.652	0
+P	Altstadt Sud		DE		50.933	6.960	0
+P	Friedberg		DE		50.337	8.756	0
+P	Hamminkeln		DE		51.733	6.590	0
+P	Ans		BE		50.662	5.520	0
+P	Overath		DE		50.933	7.284	0
+P	Wersten		DE		51.185	6.812	0
+P	Petershagen		DE		52.375	8.965	0
+P	Niederrad		DE		50.083	8.629	0
+P	Brilon		DE		51.395	8.571	0
+P	Verden		DE		52.923	9.238	0
+P	Rösrath	rosrath	DE		50.896	7.182	0
+P	Culemborg		NL		51.955	5.228	0
+P	Lübbecke	lubbecke	DE		52.307	8.614	0
+P	Dalfsen		NL		52.512	6.257	0
+P	Osdorf		DE		53.580	9.858	0
+P	Sprockhövel	sprockhovel	DE		51.347	7.243	0
+P	Zaltbommel		NL		51.810	5.244	0
+P	Espelkamp		DE		52.381	8.623	0
+P	Wiehl		DE		50.950	7.551	0
+P	Rheinbach		DE		50.626	6.949	0
+P	Schmallenberg		DE		51.155	8.285	0
+P	Misburg		DE		52.390	9.852	0
+P	Zevenaar		NL		51.930	6.071	0
+P	Fischeln		DE		51.304	6.588	0
+P	Oisterwijk		NL		51.579	5.189	0
+P	Nordenham		DE		53.501	8.490	0
+P	Altona-Nord	altona nord	DE		53.563	9.943	0
+P	Idstein		DE		50.218	8.267	0
+P	Geldermalsen		NL		51.881	5.289	0
+P	Olpe		DE		51.029	7.851	0
+P	Herdecke		DE		51.400	7.436	0
+P	Rinteln		DE		52.186	9.079	0
+P	Beuningen		NL		51.861	5.767	0
+P	Übach-Palenberg	ubach palenberg	DE		50.918	6.123	0
+P	Meckenheim		DE		50.624	7.029	0
+P	Duiven		NL		51.947	6.014	0
+P	Veghel		NL		51.617	5.549	0
+P	Bad Honnef		DE		50.643	7.228	0
+P	Wierden		NL		52.359	6.593	0
+P	Obertshausen		DE		50.071	8.851	0
+P	Varel		DE		53.397	8.136	0
+P	Maaseik		BE		51.098	5.784	0
+P	Netphen		DE		50.917	8.100	0
+P	Butzbach		DE		50.434	8.671	0
+P	Flémalle-Haute	flemalle haute	BE		50.600	5.445	0
+P	Hannoversch Münden	hannoversch munden	DE		51.415	9.650	0
+P	Vught		NL		51.653	5.287	0
+P	Hattersheim		DE		50.069	8.486	0
+P	Nijverdal		NL		52.360	6.468	0
+P	Hoensbroek		NL		50.924	5.925	0
+P	Gonsenheim		DE		50.002	8.197	0
+P	Bedburg		DE		50.993	6.571	0
+P	Brackel		DE		51.526	7.544	0
+P	Eißendorf	eissendorf	DE		53.452	9.951	0
+P	Eppendorf		DE		53.592	9.988	0
+P	Attendorn		DE		51.126	7.903	0
+P	Lanaken		BE		50.893	5.647	0
+P	Norden		DE		53.595	7.206	0
+P	Baarn		NL		52.212	5.287	0
+P	Salzkotten		DE		51.672	8.601	0
+P	Korbach		DE		51.276	8.873	0
+P	Walsrode		DE		52.861	9.593	0
+P	Friedrichsdorf		DE		50.250	8.643	0
+P	Warburg		DE		51.490	9.146	0
+P	Syke		DE		52.913	8.822	0
+P	Harsewinkel		DE		51.962	8.228	0
+P	Wallenhorst		DE		52.350	8.017	0
+P	Haaksbergen		NL		52.157	6.739	0
+P	Schleswig		DE		54.520	9.568	0
+P	Radevormwald		DE		51.202	7.360	0
+P	Lüdinghausen	ludinghausen	DE		51.768	7.444	0
+P	Andenne		BE		50.489	5.095	0
+P	Verl		DE		51.883	8.517	0
+P	Borne		NL		52.301	6.748	0
+P	Wipperfürth	wipperfurth	DE		51.116	7.399	0
+P	Neuehrenfeld		DE		50.958	6.936	0
+P	Oupeye		BE		50.712	5.647	0
+P	Stellingen		DE		53.592	9.929	0
+P	Ronnenberg		DE		52.319	9.655	0
+P	Misburg-Nord	misburg nord	DE		52.397	9.860	0
+P	Bilthoven		NL		52.130	5.201	0
+P	Schijndel		NL		51.623	5.432	0
+P	Nuenen		NL		51.470	5.553	0
+P	Putten		NL		52.259	5.607	0
+P	Hoheluft-Ost	hoheluft ost	DE		53.584	9.976	0
+P	Bad Soden am Taunus		DE		50.141	8.504	0
+P	Stadthagen		DE		52.323	9.203	0
+P	Lütgendortmund	lutgendortmund	DE		51.499	7.348	0
+P	Sehnde		DE		52.314	9.968	0
+P	Loon op Zand		NL		51.627	5.075	0
+P	Opladen		DE		51.069	7.004	0
+P	Neheim		DE		51.450	7.970	0
+P	Dillenburg		DE		50.741	8.287	0
+P	Kalk		DE		50.940	7.006	0
+P	Kapellen		DE		51.571	6.367	0
+P	Lengerich		DE		52.187	7.860	0
+P	Goirle		NL		51.521	5.067	0
+P	Isernhagen Farster Bauerschaft		DE		52.471	9.842	0
+P	Saint-Nicolas	saint nicolas	BE		50.628	5.532	0
+P	Jüchen	juchen	DE		51.100	6.500	0
+P	Haren		DE		52.793	7.241	0
+P	Rees		DE		51.763	6.398	0
+P	Diest		BE		50.989	5.051	0
+P	Losser		NL		52.261	7.004	0
+P	Eving		DE		51.552	7.481	0
+P	Vreden		DE		52.038	6.828	0
+P	Büdingen	budingen	DE		50.290	9.111	0
+P	Eschborn		DE		50.143	8.571	0
+P	Büren	buren	DE		51.551	8.560	0
+P	Urk		NL		52.663	5.601	0
+P	Rotenburg		DE		53.110	9.404	0
+P	De Meern		NL		52.082	5.036	0
+P	Scharnhorst		DE		51.549	7.539	0
+P	Volendam		NL		52.495	5.071	0
+P	Meinerzhagen		DE		51.107	7.648	0
+P	Elsdorf		DE		50.937	6.568	0
+P	Soltau		DE		52.985	9.840	0
+P	Marsberg		DE		51.462	8.849	0
+P	Westerstede		DE		53.257	7.927	0
+P	St. Pauli	st pauli	DE		53.557	9.964	0
+P	Gelnhausen		DE		50.202	9.187	0
+P	Elburg		NL		52.447	5.843	0
+P	Alfter		DE		50.733	7.017	0
+P	Lindlar		DE		51.020	7.378	0
+P	Karben		DE		50.230	8.772	0
+P	Bad Pyrmont		DE		51.986	9.252	0
+P	Aplerbeck		DE		51.483	7.550	0
+P	Xanten		DE		51.659	6.453	0
+P	Eckernförde	eckernforde	DE		54.469	9.838	0
+P	Wilnsdorf		DE		50.817	8.100	0
+P	Hoogezand		NL		53.162	6.761	0
+P	Stadtallendorf		DE		50.823	9.013	0
+P	Halle		DE		52.060	8.361	0
+P	Schortens		DE		53.538	7.948	0
+P	Wittmund		DE		53.577	7.776	0
+P	Brummen		NL		52.090	6.156	0
+P	Seligenstadt		DE		50.043	8.974	0
+P	Querenburg		DE		51.452	7.266	0
+P	Grivegnée	grivegnee	BE		50.621	5.611	0
+P	Holzminden		DE		51.828	9.445	0
+P	Versmold		DE		52.040	8.153	0
+P	Chaudfontaine		BE		50.583	5.634	0
+P	Altena		DE		51.295	7.673	0
+P	Husum		DE		54.486	9.052	0
+P	Engelskirchen		DE		50.989	7.414	0
+P	Bothfeld		DE		52.417	9.796	0
+P	Hiddenhausen		DE		52.167	8.617	0
+P	Leerdam		NL		51.893	5.092	0
+P	Bad Berleburg		DE		51.052	8.392	0
+P	Wülfrath	wulfrath	DE		51.282	7.038	0
+P	Ennigerloh		DE		51.838	8.031	0
+P	Edewecht		DE		53.128	7.984	0
+P	Bockum		DE		51.347	6.616	0
+P	Stadtlohn		DE		51.994	6.919	0
+P	Geseke		DE		51.641	8.511	0
+P	Heide		DE		54.196	9.097	0
+P	Bergneustadt		DE		51.025	7.656	0
+P	Bruchköbel	bruchkobel	DE		50.179	8.923	0
+P	Fröndenberg	frondenberg	DE		51.476	7.769	0
+P	Elst		NL		51.919	5.842	0
+P	Herborn		DE		50.681	8.304	0
+P	Nottuln		DE		51.933	7.350	0
+P	Quickborn		DE		53.728	9.911	0
+P	Werdohl		DE		51.260	7.766	0
+P	Senden		DE		51.856	7.483	0
+P	Tubbergen		NL		52.407	6.785	0
+P	Friesoythe		DE		53.020	7.859	0
+P	Haiger		DE		50.742	8.208	0
+P	Vlotho		DE		52.165	8.860	0
+P	Zülpich	zulpich	DE		50.694	6.654	0
+P	Tegelen		NL		51.344	6.136	0
+P	Neu Wulmstorf		DE		53.466	9.792	0
+P	Hessisch Oldendorf		DE		52.173	9.249	0
+P	Nidderau		DE		50.238	8.867	0
+P	Kürten	kurten	DE		51.050	7.267	0
+P	Rastede		DE		53.245	8.197	0
+P	Wachtberg		DE		50.633	7.100	0
+P	Flörsheim	florsheim	DE		50.013	8.428	0
+P	Raalte		NL		52.386	6.275	0
+P	Schwanewede		DE		53.224	8.590	0
+P	Stadskanaal		NL		52.989	6.950	0
+P	Balen		BE		51.168	5.170	0
+P	Huy		BE		50.519	5.233	0
+P	Cranendonck		NL		51.304	5.589	0
+P	Vianen		NL		51.992	5.092	0
+P	Zonhoven		BE		50.991	5.368	0
+P	Hörstel	horstel	DE		52.298	7.584	0
+P	Steinhagen		DE		52.000	8.400	0
+P	Enger		DE		52.141	8.558	0
+P	Eitorf		DE		50.767	7.450	0
+P	Kaltenkirchen		DE		53.832	9.960	0
+P	Huissen		NL		51.938	5.933	0
+P	Tongelre		NL		51.449	5.520	0
+P	Leek		NL		53.163	6.376	0
+P	Lichtenvoorde		NL		51.987	6.567	0
+P	Bad Driburg		DE		51.733	9.020	0
+P	Waldbröl	waldbrol	DE		50.876	7.617	0
+P	Wisch		NL		51.926	6.417	0
+P	Nunspeet		NL		52.379	5.786	0
+P	Bemerode		DE		52.350	9.833	0
+P	Ochtrup		DE		52.208	7.190	0
+P	Schwalmtal		DE		51.217	6.267	0
+P	Mayen		DE		50.328	7.223	0
+P	Bönen	bonen	DE		51.600	7.767	0
+P	Telgte		DE		51.980	7.783	0
+P	Schwalmstadt		DE		50.933	9.217	0
+P	Bremervörde	bremervorde	DE		53.485	9.146	0
+P	Bückeburg	buckeburg	DE		52.261	9.049	0
+P	Burscheid		DE		51.085	7.114	0
+P	Schneverdingen		DE		53.117	9.792	0
+P	Aalten		NL		51.925	6.581	0
+P	Rhede		DE		51.835	6.696	0
+P	Alfeld		DE		51.984	9.820	0
+P	Zeewolde		NL		52.330	5.542	0
+P	Heusenstamm		DE		50.056	8.801	0
+P	Alzenau in Unterfranken		DE		50.089	9.065	0
+P	Langen		DE		53.606	8.595	0
+P	Lahnstein		DE		50.300	7.617	0
+P	Groesbeek		NL		51.777	5.936	0
+P	Bad Münder am Deister	bad munder am deister	DE		52.196	9.464	0
+P	Sarstedt		DE		52.235	9.854	0
+P	Vellmar		DE		51.358	9.480	0
+P	Freudenberg		DE		50.897	7.874	0
+P	Driebergen-Rijsenburg	driebergen rijsenburg	NL		52.053	5.281	0
+P	Winschoten		NL		53.144	7.035	0
+P	Hemmingen		DE		52.314	9.724	0
+P	Lilienthal		DE		53.142	8.903	0
+P	Nidda		DE		50.413	9.006	0
+P	Kierspe		DE		51.134	7.591	0
+P	Eersel		NL		51.358	5.318	0
+P	Bergeijk		NL		51.319	5.358	0
+P	Wildeshausen		DE		52.894	8.434	0
+P	Koersel		BE		51.059	5.271	0
+P	Rhenen		NL		51.959	5.568	0
+P	Bad Wildungen		DE		51.120	9.125	0
+P	Eupen		BE		50.628	6.036	0
+P	Altstadt Nord		DE		50.939	6.958	0
+P	Uetersen		DE		53.689	9.662	0
+P	Uerdingen		DE		51.355	6.639	0
+P	Sinzig		DE		50.544	7.246	0
+P	Holzwickede		DE		51.500	7.633	0
+P	Didam		NL		51.941	6.132	0
+P	Brakel		DE		51.718	9.186	0
+P	Weesp		NL		52.307	5.042	0
+P	Kronberg		DE		50.181	8.513	0
+P	Diepenbeek		BE		50.908	5.419	0
+P	Velp		NL		51.995	5.974	0
+P	Harvestehude		DE		53.578	9.989	0
+P	Halver		DE		51.186	7.498	0
+P	Frankenberg		DE		51.059	8.801	0
+P	Kronberg Tal		DE		50.179	8.504	0
+P	Bendorf		DE		50.423	7.579	0
+P	Wijk bij Duurstede		NL		51.974	5.342	0
+P	Nordstadt		DE		52.386	9.716	0
+P	Nümbrecht	numbrecht	DE		50.904	7.541	0
+P	Oerlinghausen		DE		51.955	8.662	0
+P	Enkhuizen		NL		52.703	5.292	0
+P	Zolder		BE		51.025	5.310	0
+P	Glanerbrug		NL		52.216	6.971	0
+P	Schlüchtern	schluchtern	DE		50.349	9.525	0
+P	Blomberg		DE		51.943	9.091	0
+P	Steenwijk		NL		52.788	6.121	0
+P	Naarden		NL		52.296	5.162	0
+P	Gescher		DE		51.954	7.005	0
+P	Rotherbaum		DE		53.567	9.981	0
+P	Visé	vise	BE		50.738	5.699	0
+P	Hochheim am Main		DE		50.014	8.352	0
+P	Sint-Oedenrode	sint oedenrode	NL		51.568	5.460	0
+P	Hausbruch		DE		53.474	9.883	0
+P	Marche-en-Famenne	marche en famenne	BE		50.227	5.344	0
+P	Bad Arolsen		DE		51.380	9.014	0
+P	Eltville		DE		50.029	8.118	0
+P	Huckarde		DE		51.532	7.415	0
+P	Diepholz		DE		52.607	8.370	0
+P	Korrewegwijk		NL		53.232	6.568	0
+P	Gennep		NL		51.698	5.974	0
+P	Wassenberg		DE		51.100	6.155	0
+P	Tessenderlo		BE		51.065	5.089	0
+P	Hille		DE		52.333	8.750	0
+P	Herve		BE		50.641	5.794	0
+P	Harpen		DE		51.498	7.288	0
+P	Eibergen		NL		52.100	6.649	0
+P	Hilchenbach		DE		50.997	8.111	0
+P	Hofgeismar		DE		51.496	9.385	0
+P	Petersberg		DE		50.560	9.713	0
+P	Tønder	tonder	DK		54.933	8.867	0
+P	Loxstedt		DE		53.471	8.646	0
+P	Kirchhain		DE		50.827	8.928	0
+P	Hückeswagen	huckeswagen	DE		51.150	7.345	0
+P	Kirchlengern		DE		52.200	8.633	0
+P	Hünfeld	hunfeld	DE		50.680	9.767	0
+P	Weilerswist		DE		50.753	6.846	0
+P	Hochfeld		DE		51.419	6.755	0
+P	Remagen		DE		50.579	7.227	0
+P	Leopoldshöhe	leopoldshohe	DE		52.012	8.698	0
+P	Boppard		DE		50.231	7.590	0
+P	Halstenbek		DE		53.633	9.839	0
+P	Bassum		DE		52.851	8.728	0
+P	Brake (Unterweser)	brake unterweser	DE		53.333	8.483	0
+P	Maaspoort		NL		51.726	5.302	0
+P	Linden-Nord	linden nord	DE		52.372	9.707	0
+P	Rahden		DE		52.434	8.613	0
+P	Künzell	kunzell	DE		50.544	9.718	0
+P	Neerpelt		BE		51.228	5.443	0
+P	Lindenholt		NL		51.833	5.793	0
+P	Harlingen		NL		53.175	5.422	0
+P	Brüggen	bruggen	DE		51.241	6.184	0
+P	Erwitte		DE		51.613	8.338	0
+P	Witzenhausen		DE		51.341	9.855	0
+P	Rissen		DE		53.583	9.757	0
+P	Damme		DE		52.521	8.198	0
+P	Wardenburg		DE		53.059	8.197	0
+P	Grefrath		DE		51.336	6.341	0
+P	Othmarschen		DE		53.552	9.886	0
+P	Gemert		NL		51.556	5.690	0
+P	Fléron	fleron	BE		50.615	5.681	0
+P	Hövelhof	hovelhof	DE		51.817	8.650	0
+P	Uslar		DE		51.657	9.635	0
+P	Alsfeld		DE		50.752	9.271	0
+P	Blerick		NL		51.372	6.149	0
+P	Olsberg		DE		51.356	8.489	0
+P	Riemst		BE		50.810	5.601	0
+P	Staphorst		NL		52.645	6.211	0
+P	Bad Essen		DE		52.317	8.333	0
+P	Weener		DE		53.165	7.350	0
+P	Königstein im Taunus	konigstein im taunus	DE		50.179	8.471	0
+P	Spenge		DE		52.140	8.485	0
+P	Odenthal		DE		51.033	7.117	0
+P	Hude		DE		53.107	8.468	0
+P	Peer		BE		51.130	5.460	0
+P	Bad Bentheim		DE		52.301	7.158	0
+P	Niederkrüchten	niederkruchten	DE		51.200	6.217	0
+P	Bilderstöckchen	bilderstockchen	DE		50.970	6.930	0
+P	Heusy		BE		50.575	5.866	0
+P	Mechelen-aan-de-Maas	mechelen aan de maas	BE		50.966	5.691	0
+P	Bochum-Werne	bochum werne	DE		51.488	7.312	0
+P	Straelen		DE		51.442	6.266	0
+P	Oyten		DE		53.055	9.020	0
+P	Neu-Anspach	neu anspach	DE		50.317	8.500	0
+P	Beverungen		DE		51.668	9.374	0
+P	Drensteinfurt		DE		51.795	7.738	0
+P	Deutz		DE		50.935	6.975	0
+P	Soumagne		BE		50.614	5.747	0
+P	Much		DE		50.904	7.403	0
+P	Wickede		DE		51.534	7.616	0
+P	Bad Laasphe		DE		50.931	8.425	0
+P	Ascheberg		DE		51.783	7.617	0
+P	Bad Lippspringe		DE		51.783	8.817	0
+P	Bennekom		NL		51.998	5.676	0
+P	Humboldtkolonie		DE		50.932	6.995	0

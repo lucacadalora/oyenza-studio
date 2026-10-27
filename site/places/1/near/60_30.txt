@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	0
+P	Petrozavodsk		RU		61.785	34.347	0
+P	Akademicheskoe		RU		60.014	30.395	0
+P	Ozerki		RU		60.039	30.311	0
+P	Svetlanovskiy		RU		60.003	30.331	0
+P	Komendantsky aerodrom		RU		60.004	30.275	0
+P	Grazhdanka		RU		60.017	30.417	0
+P	Parnas		RU		60.070	30.349	0
+P	Sosnovka		RU		60.017	30.350	0
+P	Untolovo		RU		60.012	30.209	0
+P	Vsevolozhsk		RU		60.015	30.673	0
+P	Sertolovo		RU		60.144	30.202	0
+P	Kolomyagi		RU		60.024	30.285	0
+P	Kondopoga		RU		62.204	34.269	0
+P	Segezha		RU		63.745	34.316	0
+P	Kostomuksha		RU		64.571	30.577	0
+P	Lodeynoye Pole		RU		60.726	33.561	0
+P	Sortavala		RU		61.712	30.710	0
+P	Podporozh’ye	podporozhye	RU		60.910	34.162	0
+P	Priozërsk	priozersk	RU		61.040	30.139	0
+P	Medvezh’yegorsk	medvezhyegorsk	RU		62.914	34.459	0

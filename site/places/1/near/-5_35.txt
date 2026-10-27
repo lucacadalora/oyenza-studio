@@ -1,0 +1,100 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Nairobi	180	
+C	KE	Kenya	egyptian	s
+C	TZ	Tanzania	egyptian	s
+B	2
+P	Nairobi		KE		-1.283	36.817	0
+P	Mombasa		KE		-4.055	39.664	0
+P	Arusha		TZ		-3.367	36.683	0
+P	Nakuru		KE		-0.307	36.072	0
+P	Ruiru		KE		-1.147	36.961	0
+P	Kikuyu		KE		-1.246	36.663	0
+P	Thika		KE		-1.033	37.069	0
+P	Moshi		TZ		-3.350	37.333	0
+P	Naivasha		KE		-0.714	36.433	0
+P	Karuri		KE		-1.176	36.756	0
+P	Karuri		KE		-0.700	37.183	0
+P	Matuga		KE		-4.168	39.571	0
+P	Mwala		KE		-1.353	37.455	0
+P	Ongata Rongai		KE		-1.395	36.764	0
+P	Lang'ata	langata	KE		-1.367	36.733	0
+P	Jomvu		KE		-3.986	39.608	0
+P	Garissa		KE		-0.453	39.646	0
+P	Limuru		KE		-1.114	36.642	0
+P	Juja		KE		-1.101	37.013	0
+P	Kitengela		KE		-1.476	36.961	0
+P	Kiambu		KE		-1.171	36.836	0
+P	Mlolongo		KE		-1.396	36.940	0
+P	Ngong		KE		-1.353	36.670	0
+P	Mtwapa		KE		-3.939	39.749	0
+P	Athi River		KE		-1.456	36.978	0
+P	Kondoa		TZ		-4.900	35.783	0
+P	Nyeri		KE		-0.420	36.948	0
+P	Ukunda		KE		-4.293	39.564	0
+P	Kiserian		KE		-1.427	36.687	0
+P	Kilifi		KE		-3.630	39.850	0
+P	Babati		TZ		-4.217	35.750	0
+P	Narok		KE		-1.081	35.871	0
+P	Embu		KE		-0.540	37.457	0
+P	Machakos		KE		-1.522	37.265	0
+P	Githunguri		KE		-1.058	36.776	0
+P	Githunguri		KE		-1.300	36.990	0
+P	Gilgil		KE		-0.504	36.318	0
+P	Upper Gilgil		KE		-0.212	36.272	0
+P	Kericho		KE		-0.368	35.283	0
+P	Voi		KE		-3.396	38.556	0
+P	Imara Daima Estate		KE		-1.323	36.880	0
+P	Wanguru		KE		-0.684	37.357	0
+P	Merelani		TZ		-3.562	36.979	0
+P	Mbuguni		TZ		-3.567	36.950	0
+P	Molo		KE		-0.248	35.732	0
+P	Ol Kalou		KE		-0.271	36.379	0
+P	Mbulu		TZ		-3.850	35.533	0
+P	Kinoi		KE		-1.656	37.375	0
+P	Kenol		KE		-0.937	37.123	0
+P	Murang’a	muranga	KE		-0.721	37.153	0
+P	Njoro		KE		-0.330	35.944	0
+P	Tetu		KE		-0.434	36.917	0
+P	Boma la Ngombe		TZ		-3.333	37.150	0
+P	Same		TZ		-4.067	37.733	0
+P	Lushoto		TZ		-4.783	38.283	0
+P	Mariakani		KE		-3.863	39.475	0
+P	Rongai		KE		-0.173	35.863	0
+P	Kerugoya		KE		-0.499	37.280	0
+P	Pumwani		KE		-1.283	36.847	0
+P	Kitui		KE		-1.367	38.011	0
+P	Elburgon		KE		-0.300	35.809	0
+P	Magugu		TZ		-4.017	35.767	0
+P	Kajiado		KE		-1.852	36.777	0
+P	Karatina		KE		-0.484	37.127	0
+P	Kingori		TZ		-3.283	36.983	0
+P	Chuka		KE		-0.333	37.646	0
+P	Taveta		KE		-3.399	37.683	0
+P	Katesh		TZ		-4.525	35.385	0
+P	Usangi		TZ		-3.700	37.667	0
+P	Usa River		TZ		-3.367	36.850	0
+P	Hedaru		TZ		-4.500	37.900	0
+P	Basotu		TZ		-4.367	35.083	0
+P	Maai Mahiu		KE		-0.989	36.585	0
+P	Mai		KE		-0.982	36.586	0
+P	Makueni Boma		KE		-1.804	37.624	0
+P	Mazinde		TZ		-4.800	38.217	0
+P	Matui		TZ		-4.800	38.250	0
+P	Makuyuni		TZ		-3.550	36.100	0
+P	Kiratu		TZ		-3.333	35.667	0
+P	Dareda		TZ		-4.217	35.550	0
+P	Wote		KE		-1.781	37.629	0
+P	Bashanet		TZ		-4.233	35.417	0
+P	Dongobesh		TZ		-4.067	35.383	0
+P	Nangwa		TZ		-4.467	35.450	0
+P	Galappo		TZ		-4.267	35.850	0
+P	Emali		KE		-2.080	37.472	0
+P	Tarakea		TZ		-3.001	37.564	0
+P	Mto wa Mbu		TZ		-3.350	35.850	0
+P	Mwingi		KE		-0.936	38.060	0
+P	Mazeras		KE		-3.964	39.550	0
+P	Lembeni		TZ		-3.783	37.617	0
+P	Mlalo		TZ		-4.933	38.933	0
+P	Makuyuni		TZ		-4.733	38.100	0
+P	Muhoroni		KE		-0.158	35.196	0
+P	Makindu		KE		-2.278	37.819	0

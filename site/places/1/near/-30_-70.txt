@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Tucuman	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	San Miguel de Tucumán	san miguel de tucuman	AR		-26.816	-65.211	0
+P	La Rioja		AR		-29.413	-66.856	0
+P	Catamarca		AR		-28.470	-65.785	0
+P	Yerba Buena		AR		-26.813	-65.295	0
+P	Tafí Viejo	tafi viejo	AR		-26.733	-65.261	0
+P	Chilecito		AR		-29.162	-67.499	0
+P	Alderetes		AR		-26.818	-65.142	0
+P	Aguilares		AR		-27.431	-65.615	0
+P	San Isidro		AR		-28.458	-65.725	0
+P	Famaillá	famailla	AR		-27.055	-65.402	0
+P	Monteros		AR		-27.168	-65.499	0
+P	Cafayate		AR		-26.073	-65.978	0
+P	Aimogasta		AR		-28.560	-66.807	0
+P	Santa María	santa maria	AR		-26.695	-66.048	0
+P	Belén	belen	AR		-27.650	-67.026	0
+P	Bella Vista		AR		-27.034	-65.302	0

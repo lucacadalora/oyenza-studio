@@ -321,7 +321,7 @@ fn run_deferred(d: Deferred) {
             with_app(|app| app.request_frame());
         }
         Deferred::Menu(pt) => {
-            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), app.st.update.offer.as_ref().map(|r| r.version.as_str())))) else { return };
+            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), crate::updates::menu_line(&app.st, app.updater.is_some())))) else { return };
             if let Some(cmd) = tray::show_menu(helper, pt, &items) {
                 with_app(|app| app.on_menu(cmd));
             }
@@ -404,6 +404,8 @@ pub struct App {
     sysmon_rest: poni_core::sysmon::Rest,
     /// The Oyenza page is on screen: its day list stays live (`services::oyenza`).
     oyenza_watch: bool,
+    /// The Stocks page was on screen at the last look (`set_stocks_watch`).
+    stocks_open: bool,
     /// The Today page is on screen: the worker asks for the day (`services::oyenza`).
     today_watch: bool,
     /// Show over games: the game's frames, counted while the readout shows.
@@ -609,6 +611,7 @@ impl App {
             sysmon_on: false,
             sysmon_rest: poni_core::sysmon::Rest::default(),
             oyenza_watch: false,
+            stocks_open: false,
             today_watch: false,
             frames: None,
             game_pid: None,
@@ -955,8 +958,10 @@ impl App {
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
                     } else {
-                        // Clicking a notice jumps to its page.
-                        if let Some(n) = self.st.notice.take() {
+                        // Clicking a notice jumps to its page (a new version's
+                        // may be waiting under a volume change or a game's readout).
+                        let shown = self.mode == Mode::Notice;
+                        if let Some(n) = self.st.notice.take_if(|_| shown) {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
                                 Some(NoticeAction::OpenUpdate) => self.st.open_update(),
@@ -1196,6 +1201,7 @@ impl App {
                 self.on_event(AppEvent::Power(p));
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.set_stocks_watch();
                 self.update_due();
                 self.request_frame();
                 Some(LRESULT(1))
@@ -1208,6 +1214,7 @@ impl App {
                 }
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.set_stocks_watch();
                 self.update_due();
                 self.request_frame();
                 Some(LRESULT(0))
@@ -1249,7 +1256,7 @@ impl App {
                 }
                 if !self.hovering || self.expanded {
                     self.hover_arm = None;
-                } else if self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
+                } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
                     // pointer so the pill can be clicked (a click on the rest
                     // of the notice still opens its page). The dwell stays
@@ -1415,6 +1422,22 @@ impl App {
         if on != self.today_watch {
             self.today_watch = on;
             self.tell_oyenza_activity();
+        }
+    }
+
+    /// The Stocks page asks oyenza.trade for prices only while it is on
+    /// screen and someone is at the PC (`pages::stocks::watch`); the worker
+    /// starts the first time it opens.
+    fn set_stocks_watch(&mut self) {
+        // The self-test's scenes show a made-up market: nothing is asked.
+        let open = self.mode == Mode::Expanded(PageKind::Stocks) && !self.locked && !self.display_off && self.selftest.is_none();
+        // Closed, and the worker already told so: nothing to do, every frame.
+        if !open && !self.stocks_open {
+            return;
+        }
+        self.stocks_open = open;
+        if let Some(s) = self.services.as_ref() {
+            s.stocks_watch(pages::stocks::watch(&self.st, open));
         }
     }
 
@@ -1795,6 +1818,7 @@ impl App {
                 self.st.open_update();
                 self.expand();
             }
+            CheckForUpdates => self.check_for_updates(),
             ToggleOyenzaAmounts => s.oyenza_show_amounts = !s.oyenza_show_amounts,
             Quit => {
                 self.quit(0);
@@ -2032,21 +2056,25 @@ impl App {
                 }
             }
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.checked(&mut self.st, r, crate::updates::unix_now());
-                }
+                let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
                 self.fetch_setup();
+                // Check for updates… found one to install: the Update sheet.
+                if open {
+                    self.expand();
+                }
                 // A frame, so a new version's notice goes up now, not with the next redraw.
                 self.request_frame();
             }
             AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.fetched(&mut self.st, r);
+                if self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, r)) {
+                    self.expand();
                 }
                 self.request_frame();
             }
             AppEvent::Located(found) => self.on_located(found),
+            AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
+            AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
         }
@@ -2145,6 +2173,7 @@ impl App {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
             self.st.update.sheet = false;
+            self.st.update.said = None;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -2843,11 +2872,12 @@ impl App {
         }
         self.prayer_tick();
         self.script_tick();
-        // Prayer times, System or Health switched off: its tab is gone.
+        // Prayer times, System, Health or Stocks switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
+            PageKind::Stocks => !self.st.stocks_on(),
             _ => false,
         };
         if gone {
@@ -2946,6 +2976,7 @@ impl App {
         self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
+        self.set_stocks_watch();
         // The Pill theme floats the island below the top edge.
         self.island.set_floating(pill::on(self.st.settings.theme).then_some(pill::TOP_GAP));
         self.island.step(dt, now);
@@ -3363,7 +3394,7 @@ impl App {
         let secs = self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now()));
         unsafe {
             match secs {
-                // SetTimer waits at most about 24 days; reads are 12 hours apart.
+                // SetTimer waits at most about 24 days; reads are an hour apart.
                 Some(s) => {
                     SetTimer(self.hwnd, TIMER_UPDATE, s.saturating_mul(1000).clamp(1000, 0x7FFF_FFFF) as u32, None);
                 }
@@ -3382,18 +3413,32 @@ impl App {
         let away = self.locked || self.display_off || self.st.power.saver;
         match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
             Some(0) if away => {}
-            Some(0) => {
-                let job = services::update::check_job(self.sink.clone());
-                let started = self.services.as_ref().is_some_and(|s| s.run_job(job));
-                if let Some(u) = self.updater.as_mut() {
-                    u.begin();
-                    if !started {
-                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
-                        self.schedule_update();
-                    }
-                }
-            }
+            Some(0) => self.read_update_file(now),
             _ => self.schedule_update(),
+        }
+    }
+
+    /// Check for updates… (the menu): read the update file now, even on
+    /// battery saver (someone asked); the answer goes on the island.
+    fn check_for_updates(&mut self) {
+        let now = crate::updates::unix_now();
+        if self.updater.as_mut().is_some_and(|u| u.ask(now)) {
+            self.read_update_file(now);
+        }
+        self.request_frame();
+    }
+
+    /// Read the update file on the add-on thread; the answer comes back as
+    /// `UpdateEvent::Checked`.
+    fn read_update_file(&mut self, now: u64) {
+        let job = services::update::check_job(self.sink.clone());
+        let started = self.services.as_ref().is_some_and(|s| s.run_job(job));
+        if let Some(u) = self.updater.as_mut() {
+            u.begin();
+            if !started {
+                u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                self.schedule_update();
+            }
         }
     }
 
@@ -3402,10 +3447,8 @@ impl App {
     fn fetch_setup(&mut self) {
         let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
         let job = services::update::download_job(self.sink.clone(), d, path);
-        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) {
-            if let Some(u) = self.updater.as_mut() {
-                u.fetched(&mut self.st, Err("the add-on thread isn't running".into()));
-            }
+        if !self.services.as_ref().is_some_and(|s| s.run_job(job)) && self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, Err("the add-on thread isn't running".into()))) {
+            self.expand();
         }
     }
 
@@ -3441,6 +3484,10 @@ impl App {
             // Gone at once, the way a notice leaves when its time is up.
             if let Some(n) = self.st.notice.as_mut() {
                 n.until = self.st.now;
+            }
+            // A new version's: it doesn't come back.
+            if let Some(u) = self.updater.as_mut() {
+                u.seen(&mut self.st);
             }
             return;
         }
@@ -3506,10 +3553,16 @@ impl App {
     }
 
     /// The place the times are for: the chosen one, or until there is one,
-    /// the one the PC's time zone suggests.
+    /// the one the PC's time zone suggests. A place from the world list is
+    /// kept as it is once settled; at start it comes from the lines settings
+    /// keep of it (nothing online).
     fn resolve_prayer_place(&mut self) {
         let Some(list) = self.st.prayer.places.clone() else { return };
-        let chosen = self.st.settings.prayer.place.as_deref().and_then(|id| list.find(id)).cloned();
+        let chosen = match self.st.settings.prayer.place.as_deref() {
+            Some(id) if self.st.prayer.place.as_ref().is_some_and(|p| p.id == id) => self.st.prayer.place.clone(),
+            Some(id) => poni_core::prayer::find(&list, self.st.settings.prayer.world_place.as_deref(), id),
+            None => None,
+        };
         let suggested = chosen.is_none();
         let place = chosen.or_else(|| poni_core::prayer::suggested_place_id(self.utc_offset_min()).and_then(|id| list.find(id)).cloned());
         let changed = place.as_ref().map(|p| &p.id) != self.st.prayer.place.as_ref().map(|p| &p.id);
@@ -3540,27 +3593,15 @@ impl App {
     }
 
     /// The nearest listed place becomes the place, while following the
-    /// location. The point itself is dropped here.
+    /// location (`pages::prayer::located`). The point is never saved.
     fn on_located(&mut self, found: services::location::Located) {
         use services::location::Located;
-        self.st.prayer.locate = match found {
-            Located::Denied => Locate::Denied,
-            Located::Unknown => Locate::Unknown,
-            Located::At(lat, lng) => {
-                let Some(list) = self.st.prayer.places.clone() else { return };
-                let Some((place, km)) = list.nearest(lat, lng) else { return };
-                if km > poni_core::prayer::NEAREST_MAX_KM {
-                    pinfo!("prayer: the nearest listed place is {km:.0} km away");
-                    Locate::Far { km }
-                } else {
-                    if self.st.settings.prayer.follow_location && self.st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
-                        self.st.settings.prayer.place = Some(place.id.clone());
-                        self.st.cmd(Command::SaveSettings);
-                    }
-                    Locate::Found { km }
-                }
-            }
-        };
+        match found {
+            Located::Denied => self.st.prayer.locate = Locate::Denied,
+            Located::Unknown => self.st.prayer.locate = Locate::Unknown,
+            // Kemenag's places, or the world's cities around it (looked up online).
+            Located::At(lat, lng) => pages::prayer::located(&mut self.st, lat, lng),
+        }
     }
 
     /// Each frame (and each minute): the prayer times that just came, and
@@ -3655,6 +3696,7 @@ impl App {
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
+                self.st.update.said = None;
                 self.st.store.last_page = p.key().to_string();
                 unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
@@ -3769,6 +3811,7 @@ impl App {
                 Command::Play(s) => services::sound::play(s),
                 Command::OpenUrl(u) => shell::open(&u),
                 Command::Update => self.update_now(),
+                Command::CheckForUpdates => self.check_for_updates(),
                 Command::InstallOnNextStart => {
                     if let Some(u) = self.updater.as_mut() {
                         u.install_on_next_start(&mut self.st);
@@ -3782,6 +3825,12 @@ impl App {
                 Command::Phone(c) => self.phone_cmd(c),
                 Command::Pair(c) => self.pair_cmd(c),
                 Command::Oyenza(c) => self.oyenza(c),
+                // The self-test's pictures use the files it seeds (none from the website).
+                Command::GetCities(file) => {
+                    if self.selftest.is_none() {
+                        services::cities::fetch(file, self.sink.clone());
+                    }
+                }
             }
         }
         self.sync_phone_offer();

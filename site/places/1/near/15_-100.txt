@@ -1,0 +1,247 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Mexico_City	-360	
+C	MX	Mexico	mwl	s
+B	6
+P	Mexico City		MX		19.428	-99.128	0
+P	Iztapalapa		MX		19.355	-99.062	0
+P	Puebla		MX		19.048	-98.207	0
+P	Ecatepec de Morelos		MX		19.605	-99.061	0
+P	Gustavo Adolfo Madero		MX		19.494	-99.111	0
+P	Ciudad Nezahualcoyotl		MX		19.401	-99.015	0
+P	Naucalpan de Juárez	naucalpan de juarez	MX		19.479	-99.240	0
+P	Álvaro Obregón	alvaro obregon	MX		19.359	-99.203	0
+P	Acapulco de Juárez	acapulco de juarez	MX		16.849	-99.909	0
+P	Tlalnepantla		MX		19.540	-99.195	0
+P	Coyoacán	coyoacan	MX		19.347	-99.162	0
+P	Tlalpan		MX		19.295	-99.162	0
+P	Cuautitlán Izcalli	cuautitlan izcalli	MX		19.644	-99.216	0
+P	Cuauhtémoc	cuauhtemoc	MX		19.445	-99.146	0
+P	Toluca		MX		19.288	-99.653	0
+P	Ciudad López Mateos	ciudad lopez mateos	MX		19.558	-99.257	0
+P	Xochimilco		MX		19.255	-99.104	0
+P	Venustiano Carranza		MX		19.444	-99.105	0
+P	Veracruz		MX		19.181	-96.143	0
+P	Xalapa de Enríquez	xalapa de enriquez	MX		19.531	-96.916	0
+P	Azcapotzalco		MX		19.487	-99.186	0
+P	Ojo de Agua		MX		19.680	-99.010	0
+P	Benito Juárez	benito juarez	MX		19.373	-99.156	0
+P	Xico		MX		19.270	-98.951	0
+P	Iztacalco		MX		19.395	-99.098	0
+P	Miguel Hidalgo		MX		19.434	-99.200	0
+P	Benito Juarez		MX		19.398	-99.158	0
+P	Cuernavaca		MX		18.926	-99.231	0
+P	Ixtapaluca		MX		19.316	-98.883	0
+P	Tláhuac	tlahuac	MX		19.287	-99.005	0
+P	Cholula		MX		19.064	-98.304	0
+P	Nicolás Romero	nicolas romero	MX		19.642	-99.307	0
+P	Zumpango		MX		19.797	-99.099	0
+P	Coacalco		MX		19.629	-99.107	0
+P	Oaxaca		MX		17.060	-96.725	0
+P	Colonia del Valle		MX		19.386	-99.162	0
+P	Tehuacán	tehuacan	MX		18.464	-97.397	0
+P	Magdalena Contreras		MX		19.332	-99.211	0
+P	Buenavista		MX		19.608	-99.169	0
+P	Jiutepec		MX		18.881	-99.178	0
+P	Córdoba	cordoba	MX		18.884	-96.926	0
+P	Chilpancingo		MX		17.552	-99.501	0
+P	Cuautitlán	cuautitlan	MX		19.671	-99.180	0
+P	Chicoloapan		MX		19.417	-98.902	0
+P	Chalco		MX		19.262	-98.898	0
+P	Delegación Cuajimalpa de Morelos	delegacion cuajimalpa de morelos	MX		19.369	-99.291	0
+P	Tuxtepec		MX		18.088	-96.125	0
+P	Cuautla		MX		18.811	-98.935	0
+P	San Pablo de las Salinas		MX		19.667	-99.095	0
+P	San Martin Texmelucan de Labastida		MX		19.284	-98.439	0
+P	Huixquilucan		MX		19.360	-99.350	0
+P	Orizaba		MX		18.852	-97.100	0
+P	Iguala de la Independencia		MX		18.345	-99.541	0
+P	Yautepec		MX		18.882	-99.067	0
+P	Texcoco de Mora		MX		19.512	-98.883	0
+P	Teziutlan		MX		19.817	-97.360	0
+P	Tepexpan		MX		19.614	-98.936	0
+P	Colonia Lindavista		MX		19.492	-99.125	0
+P	Temixco		MX		18.853	-99.225	0
+P	Amozoc de Mota		MX		19.046	-98.045	0
+P	Heroica Ciudad de Juchitán de Zaragoza	heroica ciudad de juchitan de zaragoza	MX		16.434	-95.022	0
+P	Atlixco		MX		18.908	-98.436	0
+P	Los Reyes Acaquilpan		MX		19.364	-98.977	0
+P	Tlaxcala		MX		19.318	-98.238	0
+P	Salina Cruz		MX		16.175	-95.194	0
+P	Tepeji del Río de Ocampo	tepeji del rio de ocampo	MX		19.905	-99.344	0
+P	Fuentes del Valle		MX		19.633	-99.139	0
+P	Santa María Chimalhuacán	santa maria chimalhuacan	MX		19.422	-98.950	0
+P	San Mateo Atenco		MX		19.268	-99.532	0
+P	Santo Domingo Tehuantepec		MX		16.325	-95.241	0
+P	Santa Cruz Xoxocotlán	santa cruz xoxocotlan	MX		17.030	-96.735	0
+P	Tultepec		MX		19.685	-99.128	0
+P	San Andrés Tuxtla	san andres tuxtla	MX		18.449	-95.213	0
+P	San Salvador Tizatlalli		MX		19.260	-99.591	0
+P	Villa Vicente Guerrero		MX		19.121	-98.166	0
+P	Colonia Nativitas		MX		19.381	-99.137	0
+P	San Bernardino Tlaxcalancingo		MX		19.029	-98.277	0
+P	Zinacantepec		MX		19.284	-99.734	0
+P	Santiago Teyahualco		MX		19.660	-99.125	0
+P	Coatepec		MX		19.452	-96.961	0
+P	Ciudad de Huajuapan de León	ciudad de huajuapan de leon	MX		17.808	-97.780	0
+P	Huamantla		MX		19.315	-97.925	0
+P	Teoloyucan		MX		19.744	-99.181	0
+P	Taxco de Alarcón	taxco de alarcon	MX		18.555	-99.606	0
+P	Polanco		MX		19.433	-99.199	0
+P	Apizaco		MX		19.413	-98.144	0
+P	Emiliano Zapata		MX		18.841	-99.185	0
+P	Santa Ana Chiautempan		MX		19.307	-98.188	0
+P	Tierra Blanca		MX		18.448	-96.359	0
+P	Tlapa de Comonfort		MX		17.545	-98.576	0
+P	San Buenaventura		MX		19.302	-98.863	0
+P	Tizayuca		MX		19.837	-98.976	0
+P	Izúcar de Matamoros	izucar de matamoros	MX		18.602	-98.462	0
+P	Zacatelco		MX		19.216	-98.240	0
+P	Loma Bonita		MX		18.108	-95.881	0
+P	Río Blanco	rio blanco	MX		18.830	-97.156	0
+P	San Andrés Cholula	san andres cholula	MX		19.051	-98.295	0
+P	Melchor Ocampo		MX		19.702	-99.145	0
+P	Tepotzotlán	tepotzotlan	MX		19.721	-99.224	0
+P	Perote		MX		19.562	-97.242	0
+P	Santa Teresa		MX		19.845	-99.233	0
+P	San Jerónimo Cuatro Vientos	san jeronimo cuatro vientos	MX		19.293	-98.842	0
+P	Coyotepec		MX		19.777	-99.213	0
+P	Ciudad Mendoza		MX		18.806	-97.179	0
+P	San Martín Azcatepec	san martin azcatepec	MX		19.687	-98.973	0
+P	Tlapacoyan		MX		19.963	-97.211	0
+P	San Pablo Autopan		MX		19.356	-99.657	0
+P	San Miguel Topilejo		MX		19.203	-99.142	0
+P	San Isidro		MX		19.340	-98.951	0
+P	Zacatlán	zacatlan	MX		19.936	-97.961	0
+P	Calpulalpan		MX		19.589	-98.570	0
+P	Amecameca		MX		19.124	-98.766	0
+P	Huatusco		MX		19.149	-96.968	0
+P	San José Guadalupe Otzacatipan	san jose guadalupe otzacatipan	MX		19.345	-99.592	0
+P	Chilapa de Álvarez	chilapa de alvarez	MX		17.599	-99.174	0
+P	Cosamaloapan		MX		18.368	-95.799	0
+P	Puerto Escondido		MX		15.863	-97.068	0
+P	San Miguel Ajusco		MX		19.222	-99.202	0
+P	Pinotepa Nacional		MX		16.340	-98.053	0
+P	Tecamachalco		MX		18.884	-97.733	0
+P	Ciudad Sahagun		MX		19.776	-98.575	0
+P	Metepec		MX		19.259	-99.602	0
+P	Ajalpan		MX		18.379	-97.259	0
+P	Tultitlán de Mariano Escobedo	tultitlan de mariano escobedo	MX		19.647	-99.168	0
+P	San Francisco Acuautla		MX		19.346	-98.860	0
+P	Sanctorum		MX		19.099	-98.254	0
+P	Catemaco		MX		18.421	-95.114	0
+P	Contla		MX		19.329	-98.166	0
+P	Tepeaca		MX		18.967	-97.900	0
+P	Moyotzingo		MX		19.248	-98.405	0
+P	Misantla		MX		19.930	-96.852	0
+P	Apan		MX		19.711	-98.451	0
+P	Magdalena Atlicpac		MX		19.369	-98.949	0
+P	Isla		MX		18.028	-95.529	0
+P	San Jerónimo	san jeronimo	MX		19.283	-99.593	0
+P	Ixtaczoquitlán	ixtaczoquitlan	MX		18.854	-97.062	0
+P	Ocoyoacac		MX		19.271	-99.458	0
+P	Acatzingo		MX		18.982	-97.784	0
+P	Valente Diaz		MX		19.163	-96.216	0
+P	Huejotzingo		MX		19.159	-98.408	0
+P	Ixtepec		MX		16.561	-95.104	0
+P	Emiliano Zapata		MX		19.344	-98.975	0
+P	Cuautlancingo		MX		19.090	-98.273	0
+P	San Francisco Cuaxusco		MX		19.268	-99.619	0
+P	Zumpango del Río	zumpango del rio	MX		17.654	-99.527	0
+P	La Isla		MX		18.600	-96.150	0
+P	San Antonio Tecómitl	san antonio tecomitl	MX		19.218	-98.988	0
+P	San Juan Ixtayopan		MX		19.232	-98.999	0
+P	Ometepec		MX		16.690	-98.408	0
+P	Miahuatlán de Porfirio Díaz	miahuatlan de porfirio diaz	MX		16.329	-96.596	0
+P	Ciudad Serdán	ciudad serdan	MX		18.989	-97.446	0
+P	Teloloapan		MX		18.367	-99.872	0
+P	San Martín Cuautlalpan	san martin cuautlalpan	MX		19.276	-98.832	0
+P	Teotihuacán de Arista	teotihuacan de arista	MX		19.690	-98.861	0
+P	Jesús del Monte	jesus del monte	MX		19.375	-99.294	0
+P	Alvarado		MX		18.771	-95.762	0
+P	San Jorge Pueblo Nuevo		MX		19.254	-99.628	0
+P	San Lorenzo Acopilco		MX		19.330	-99.327	0
+P	Papalotla		MX		19.169	-98.204	0
+P	Tixtla de Guerrero		MX		17.567	-99.398	0
+P	Atlacomulco de Fabela		MX		19.799	-99.875	0
+P	Lerma de Villada		MX		19.289	-99.512	0
+P	Tequixquiac		MX		19.909	-99.145	0
+P	San Mateo Otzacatipan		MX		19.333	-99.603	0
+P	San Miguel Coatlinchán	san miguel coatlinchan	MX		19.450	-98.873	0
+P	Nogales		MX		18.828	-97.163	0
+P	Reyes Acozac		MX		19.776	-98.981	0
+P	Santa María Atzompa	santa maria atzompa	MX		17.102	-96.777	0
+P	Tenango de Arista		MX		19.104	-99.590	0
+P	Chiconcuac		MX		19.559	-98.899	0
+P	Zacatepec		MX		18.654	-99.190	0
+P	Fortín de las Flores	fortin de las flores	MX		18.908	-97.000	0
+P	Puente de Ixtla		MX		18.615	-99.318	0
+P	San Pedro Totoltepec		MX		19.311	-99.572	0
+P	Xoxocotla		MX		18.684	-99.246	0
+P	Acajete		MX		19.112	-97.952	0
+P	San Rafael		MX		19.210	-98.756	0
+P	Capulhuac de Mirafuentes		MX		19.194	-99.466	0
+P	Xonacatlán	xonacatlan	MX		19.405	-99.528	0
+P	San Antonio de la Cal		MX		17.029	-96.701	0
+P	Altotonga		MX		19.766	-97.245	0
+P	Banderilla		MX		19.589	-96.937	0
+P	Chignahuapan		MX		19.839	-98.032	0
+P	San Juan Zitlaltepec		MX		19.812	-99.145	0
+P	Acatlán de Osorio	acatlan de osorio	MX		18.203	-98.049	0
+P	Xochitepec		MX		18.781	-99.230	0
+P	José Cardel	jose cardel	MX		19.368	-96.370	0
+P	Matías Romero Avendaño	matias romero avendano	MX		16.877	-95.038	0
+P	Jojutla		MX		18.615	-99.180	0
+P	Santa María Totoltepec	santa maria totoltepec	MX		19.307	-99.593	0
+P	Lerdo de Tejada		MX		18.629	-95.520	0
+P	Xico		MX		19.422	-97.008	0
+P	Tlaquiltenango		MX		18.634	-99.163	0
+P	Milpa Alta		MX		19.193	-99.023	0
+P	Altepexi		MX		18.370	-97.300	0
+P	San Andrés Cuexcontitlán	san andres cuexcontitlan	MX		19.359	-99.622	0
+P	Carlos A. Carrillo	carlos a carrillo	MX		18.375	-95.754	0
+P	Tres de Mayo		MX		18.869	-99.208	0
+P	Santa María Ajoloapan	santa maria ajoloapan	MX		19.764	-98.959	0
+P	Don Antonio		MX		19.874	-98.935	0
+P	Ixtapan de la Sal		MX		18.844	-99.677	0
+P	Santiago Momoxpan		MX		19.074	-98.267	0
+P	Heroica Ciudad de Tlaxiaco		MX		17.269	-97.680	0
+P	Axochiapan		MX		18.502	-98.754	0
+P	Ciudad de Huitzuco		MX		18.303	-99.334	0
+P	Huilango		MX		19.681	-99.256	0
+P	Tres Valles		MX		18.239	-96.136	0
+P	San Salvador El Seco		MX		19.133	-97.642	0
+P	Casa Blanca		MX		19.042	-98.119	0
+P	Palmarito Tochapan		MX		18.901	-97.638	0
+P	San Salvador Atenco		MX		19.552	-98.919	0
+P	Tezoyuca		MX		19.593	-98.911	0
+P	La Magdalena Tlaltelulco		MX		19.283	-98.196	0
+P	Yecapixtla		MX		18.883	-98.865	0
+P	Zaragoza		MX		19.771	-97.555	0
+P	Ozumba de Alzate		MX		19.037	-98.795	0
+P	Santa Rosa Treinta		MX		18.700	-99.184	0
+P	Los Reyes de Juárez	los reyes de juarez	MX		18.949	-97.804	0
+P	San Francisco Tlalcilalcalpan		MX		19.295	-99.768	0
+P	San Antonio Acahualco		MX		19.274	-99.772	0
+P	Ampliación San Mateo	ampliacion san mateo	MX		19.616	-99.147	0
+P	Teolocholco		MX		19.243	-98.191	0
+P	Santa Ana Xalmimilulco		MX		19.213	-98.382	0
+P	Tepatlaxco de Hidalgo		MX		19.081	-97.973	0
+P	Juchitepec		MX		19.101	-98.879	0
+P	San Rafael Tlanalapan		MX		19.292	-98.468	0
+P	Tecámac de Felipe Villanueva	tecamac de felipe villanueva	MX		19.713	-98.968	0
+P	Santiago Tlacotepec		MX		19.227	-99.671	0
+P	Zinacatepec		MX		18.335	-97.246	0
+P	Tulantongo		MX		19.532	-98.875	0
+P	Libres		MX		19.466	-97.687	0
+P	San Pablo Oztotepec		MX		19.187	-99.074	0
+P	Santiago Tuxtla		MX		18.466	-95.301	0
+P	San Mateo Huitzilzingo		MX		19.229	-98.925	0
+P	Ayutla de los Libres		MX		16.964	-99.096	0
+P	Coscomatepec de Bravo		MX		19.073	-97.047	0
+P	Tepeapulco		MX		19.788	-98.553	0
+P	Tecámac	tecamac	MX		19.713	-98.969	0
+P	Alborada Jaltenco		MX		19.662	-99.069	0
+P	Tetla		MX		19.442	-98.103	0
+P	Crucecita		MX		15.769	-96.135	0
+P	Xalatlaco		MX		19.183	-99.418	0
+P	Ocotlán de Morelos	ocotlan de morelos	MX		16.792	-96.675	0

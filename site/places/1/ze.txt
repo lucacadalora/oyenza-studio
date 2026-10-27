@@ -1,0 +1,100 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Johannesburg	120	
+Z	4	Africa/Nouakchott	0	
+Z	5	America/Fortaleza	-180	
+Z	6	Asia/Kolkata	330	
+Z	7	Asia/Krasnoyarsk	420	
+Z	8	Asia/Shanghai	480	
+Z	9	Asia/Tehran	210	
+Z	10	Asia/Tokyo	540	
+Z	11	Asia/Urumqi	360	
+Z	12	Asia/Yangon	390	
+Z	13	Asia/Yerevan	240	
+Z	14	Europe/Istanbul	180	
+Z	15	Europe/Sarajevo	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AM	Armenia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BE	Belgium	mwl	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	CF	Central African Republic	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	GE	Georgia	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	JP	Japan	mwl	s
+C	MA	Morocco	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MR	Mauritania	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SR	Suriname	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Zeytinburnu		TR		40.994	28.904	14
+P	Zelenograd		RU		55.983	37.181	14
+P	Zenica		BA		44.202	17.904	15
+P	Zemun		RS		44.846	20.401	15
+P	Zefta		EG		30.714	31.244	1
+P	Oued Zem		MA		32.863	-6.574	2
+P	Zelenodolsk		RU		55.844	48.518	14
+P	Zerakpur		IN		30.656	76.821	6
+P	Kanaker-Zeytun	kanaker zeytun	AM		40.220	44.538	13
+P	Zelenogorsk		RU		56.109	94.587	7
+P	Zeist		NL		52.090	5.233	15
+P	Zehlendorf		DE		52.433	13.250	15
+P	Zepu		CN		38.189	77.271	11
+P	Tevragh Zeina		MR		18.099	-15.988	4
+P	Zelenokumsk		RU		44.410	43.880	14
+P	Zé Doca	ze doca	BR		-3.275	-45.658	5
+P	Zeghanghane		MA		35.156	-3.002	2
+P	Ādīs Zemen	adis zemen	ET		12.117	37.783	14
+P	Zentsujichó	zentsujicho	JP		34.227	133.778	10
+P	Zégoua	zegoua	ML		10.488	-5.649	4
+P	Haji Zeynalabdin		AZ		40.623	49.559	13
+P	Zernograd		RU		46.849	40.312	14
+P	Zeitz		DE		51.050	12.137	15
+P	Oued Zenati		DZ		36.316	7.164	0
+P	Zeya		RU		53.736	127.256	10
+P	Zevenaar		NL		51.930	6.071	15
+P	Zelino		MK		41.980	21.064	15
+P	Zee Kone		MM		16.950	96.102	12
+P	Zeribet el Oued		DZ		34.683	6.511	0
+P	Zekeriya		TR		41.198	29.030	14
+P	Zedelgem		BE		51.142	3.137	15
+P	Zemoura		DZ		35.723	0.755	0
+P	Zerbst		DE		51.966	12.085	15
+P	Zelenchukskaya		RU		43.855	41.590	14
+P	Zemst		BE		50.983	4.461	15
+P	Zele		BE		51.066	4.040	15
+P	Zestaponi		GE		42.108	43.033	13
+P	Katwijk aan Zee		NL		52.203	4.399	15
+P	Bordj Zemoura		DZ		36.275	4.857	0
+P	Zeerust		ZA		-25.537	26.075	3
+P	Zeewolde		NL		52.330	5.542	15
+P	Mennzel Bou Zelfa		TN		36.683	10.584	0
+P	Zemio		CF		5.031	25.136	0
+P	Zeralda		DZ		36.712	2.842	0
+P	Zé	ze	BJ		6.783	2.300	0
+P	Zeramedine		TN		35.575	10.735	0
+P	Shahrak-e Mohandesī-ye Zerā‘ī	shahrak e mohandesi ye zerai	IR		35.772	50.956	9
+P	Weg naar Zee		SR		5.871	-55.215	5
+P	Zéaglo	zeaglo	CI		6.563	-7.817	4
+P	Zeulenroda-Triebes	zeulenroda triebes	DE		50.650	11.984	15
+P	Zelenogradsk		RU		54.959	20.477	3
+P	Zengfu		CN		29.511	106.986	8
+P	Clausthal-Zellerfeld	clausthal zellerfeld	DE		51.809	10.338	15

@@ -1,0 +1,70 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Cordoba	-180	
+C	AR	Argentina	mwl	s
+B	1
+P	Córdoba	cordoba	AR		-31.406	-64.189	0
+P	Rosario		AR		-32.947	-60.639	0
+P	Santa Fe		AR		-31.649	-60.709	0
+P	Paraná	parana	AR		-31.733	-60.529	0
+P	Río Cuarto	rio cuarto	AR		-33.130	-64.353	0
+P	San Nicolás de los Arroyos	san nicolas de los arroyos	AR		-33.334	-60.211	0
+P	Villa María	villa maria	AR		-32.408	-63.240	0
+P	Pergamino		AR		-33.891	-60.575	0
+P	Rafaela		AR		-31.253	-61.491	0
+P	Junín	junin	AR		-34.594	-60.946	0
+P	Gobernador Gálvez	gobernador galvez	AR		-33.030	-60.640	0
+P	Venado Tuerto		AR		-33.746	-61.967	0
+P	Villa Carlos Paz		AR		-31.418	-64.490	0
+P	Chivilcoy		AR		-34.897	-60.019	0
+P	Santo Tomé	santo tome	AR		-31.663	-60.765	0
+P	San Francisco		AR		-31.425	-62.084	0
+P	Río Tercero	rio tercero	AR		-32.177	-64.113	0
+P	Chacabuco		AR		-34.642	-60.471	0
+P	Villa Constitución	villa constitucion	AR		-33.228	-60.330	0
+P	Alta Gracia		AR		-31.650	-64.430	0
+P	Jesús María	jesus maria	AR		-30.982	-64.094	0
+P	Cañada de Gómez	canada de gomez	AR		-32.820	-61.395	0
+P	Esperanza		AR		-31.450	-60.932	0
+P	Bell Ville		AR		-32.630	-62.689	0
+P	Salto		AR		-34.292	-60.255	0
+P	Lincoln		AR		-34.868	-61.529	0
+P	Granadero Baigorria		AR		-32.857	-60.718	0
+P	Casilda		AR		-33.045	-61.164	0
+P	Arrecifes		AR		-34.063	-60.103	0
+P	Ramallo		AR		-33.485	-60.006	0
+P	Cruz del Eje		AR		-30.726	-64.804	0
+P	Capitán Bermúdez	capitan bermudez	AR		-32.823	-60.719	0
+P	Colón	colon	AR		-33.897	-61.099	0
+P	Villa Nueva		AR		-32.433	-63.248	0
+P	Victoria		AR		-32.618	-60.155	0
+P	La Calera		AR		-31.346	-64.338	0
+P	Pérez	perez	AR		-32.998	-60.768	0
+P	Marcos Juárez	marcos juarez	AR		-32.698	-62.107	0
+P	Colonia Caroya		AR		-31.022	-64.062	0
+P	Río Segundo	rio segundo	AR		-31.650	-63.912	0
+P	Rojas		AR		-34.198	-60.734	0
+P	San Justo		AR		-30.790	-60.593	0
+P	Villa Allende		AR		-31.294	-64.298	0
+P	Arroyo Seco		AR		-33.154	-60.512	0
+P	Morteros		AR		-30.711	-62.007	0
+P	Deán Funes	dean funes	AR		-30.425	-64.353	0
+P	Laboulaye		AR		-34.127	-63.391	0
+P	Arroyito		AR		-31.419	-63.051	0
+P	Diamante		AR		-32.067	-60.643	0
+P	Cosquín	cosquin	AR		-31.245	-64.466	0
+P	Sunchales		AR		-30.945	-61.560	0
+P	Las Varillas		AR		-31.870	-62.720	0
+P	Pilar		AR		-31.681	-63.882	0
+P	Gálvez	galvez	AR		-32.030	-61.221	0
+P	Rufino		AR		-34.262	-62.711	0
+P	Crespo		AR		-32.031	-60.306	0
+P	Firmat		AR		-33.459	-61.483	0
+P	Los Toldos		AR		-35.000	-61.039	0
+P	Villa del Rosario		AR		-31.554	-63.536	0
+P	Coronda		AR		-31.974	-60.919	0
+P	San Jorge		AR		-31.897	-61.860	0
+P	Río Ceballos	rio ceballos	AR		-31.170	-64.317	0
+P	Embalse		AR		-32.207	-64.401	0
+P	Carcarañá	carcarana	AR		-32.857	-61.151	0
+P	Unquillo		AR		-31.237	-64.312	0
+P	La Falda		AR		-31.093	-64.484	0

@@ -39,12 +39,17 @@ pub mod lyrics;
 // So is the add-ons' downloader: the Mac offers every add-on with it.
 #[path = "../services/addons.rs"]
 pub mod addons;
+#[path = "../services/cities.rs"]
+pub mod cities;
 // And Oyenza sign-in: its key goes through secret.rs above.
 #[path = "../services/oyenza.rs"]
 pub mod oyenza;
 // And the update file's reader, which runs on the add-ons' thread.
 #[path = "../services/update.rs"]
 pub mod update;
+// And the Stocks page's prices from oyenza.trade.
+#[path = "../services/stocks.rs"]
+pub mod stocks;
 #[path = "services/location.rs"]
 pub mod location;
 #[path = "services/login.rs"]

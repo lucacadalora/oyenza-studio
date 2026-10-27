@@ -1,0 +1,102 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Curitiba		BR		-25.428	-49.273	0
+P	Florianópolis	florianopolis	BR		-27.597	-48.549	0
+P	Joinville		BR		-26.304	-48.846	0
+P	Blumenau		BR		-26.919	-49.066	0
+P	São José dos Pinhais	sao jose dos pinhais	BR		-25.530	-49.208	0
+P	São José	sao jose	BR		-27.615	-48.627	0
+P	Colombo		BR		-25.292	-49.224	0
+P	São José	sao jose	BR		-28.213	-49.164	0
+P	Jaraguá do Sul	jaragua do sul	BR		-26.486	-49.067	0
+P	Palhoça	palhoca	BR		-27.645	-48.668	0
+P	Criciúma	criciuma	BR		-28.677	-49.370	0
+P	Itajaí	itajai	BR		-26.908	-48.662	0
+P	Araucária	araucaria	BR		-25.593	-49.410	0
+P	Fazenda Rio Grande		BR		-25.657	-49.308	0
+P	Brusque		BR		-27.098	-48.913	0
+P	Paranaguá	paranagua	BR		-25.516	-48.525	0
+P	Balneário Camboriú	balneario camboriu	BR		-26.991	-48.635	0
+P	Campo Largo		BR		-25.460	-49.530	0
+P	Almirante Tamandaré	almirante tamandare	BR		-25.325	-49.310	0
+P	Piraquara		BR		-25.442	-49.068	0
+P	Pinhais		BR		-25.445	-49.193	0
+P	Tubarão	tubarao	BR		-28.467	-49.007	0
+P	Navegantes		BR		-26.899	-48.654	0
+P	Camboriú	camboriu	BR		-27.025	-48.654	0
+P	São Bento do Sul	sao bento do sul	BR		-26.250	-49.379	0
+P	Biguaçu	biguacu	BR		-27.494	-48.656	0
+P	Itapema		BR		-27.090	-48.611	0
+P	Rio do Sul		BR		-27.214	-49.643	0
+P	Gaspar		BR		-26.931	-48.959	0
+P	Araranguá	ararangua	BR		-28.936	-49.495	0
+P	Indaial		BR		-26.898	-49.232	0
+P	Içara	icara	BR		-28.713	-49.300	0
+P	Mafra		BR		-26.111	-49.805	0
+P	São Francisco do Sul	sao francisco do sul	BR		-26.243	-48.638	0
+P	Imbituba		BR		-28.240	-48.670	0
+P	Tijucas		BR		-27.241	-48.634	0
+P	Campina Grande do Sul		BR		-25.306	-49.055	0
+P	Guaramirim		BR		-26.473	-49.003	0
+P	Timbó	timbo	BR		-26.823	-49.272	0
+P	Barra Velha		BR		-26.632	-48.685	0
+P	Araquari		BR		-26.370	-48.722	0
+P	Lapa		BR		-25.770	-49.716	0
+P	Laguna		BR		-28.483	-48.781	0
+P	Guaratuba		BR		-25.883	-48.575	0
+P	Torres		BR		-29.335	-49.727	0
+P	Rio Negrinho		BR		-26.254	-49.518	0
+P	Matinhos		BR		-25.832	-48.540	0
+P	Rio Branco do Sul		BR		-25.190	-49.314	0
+P	Pomerode		BR		-26.741	-49.177	0
+P	Braço do Norte	braco do norte	BR		-28.275	-49.166	0
+P	Penha		BR		-26.769	-48.646	0
+P	São João Batista	sao joao batista	BR		-27.276	-48.849	0
+P	Forquilhinha		BR		-28.747	-49.472	0
+P	Rio Negro		BR		-26.106	-49.797	0
+P	Itaperuçu	itaperucu	BR		-25.220	-49.348	0
+P	Itapoá	itapoa	BR		-26.117	-48.616	0
+P	Pontal do Paraná	pontal do parana	BR		-25.674	-48.511	0
+P	Campo Magro		BR		-25.369	-49.451	0
+P	Sombrio		BR		-29.114	-49.617	0
+P	Garopaba		BR		-28.023	-48.613	0
+P	Porto Belo		BR		-27.158	-48.553	0
+P	Mandirituba		BR		-25.779	-49.326	0
+P	Santo Amaro da Imperatriz		BR		-27.688	-48.779	0
+P	Balneário Piçarras	balneario picarras	BR		-26.764	-48.672	0
+P	Ituporanga		BR		-27.414	-49.602	0
+P	São Joaquim	sao joaquim	BR		-28.294	-49.932	0
+P	Bombinhas		BR		-27.152	-48.489	0
+P	Guabiruba		BR		-27.086	-48.968	0
+P	Quatro Barras		BR		-25.366	-49.077	0
+P	Capivari de Baixo		BR		-28.445	-48.958	0
+P	Orleans		BR		-28.359	-49.291	0
+P	Itaiópolis	itaiopolis	BR		-26.336	-49.906	0
+P	Ribeirão da Ilha	ribeirao da ilha	BR		-27.699	-48.532	0
+P	Freguesia do Ribeirao da Ilha		BR		-27.718	-48.563	0
+P	Urussanga		BR		-28.518	-49.321	0
+P	Jaguaruna		BR		-28.621	-49.025	0
+P	Schroeder		BR		-26.413	-49.073	0
+P	Presidente Getúlio	presidente getulio	BR		-27.051	-49.623	0
+P	Campinas		BR		-27.594	-48.607	0
+P	Ibirama		BR		-27.057	-49.518	0
+P	Contenda		BR		-25.679	-49.537	0
+P	Garuva		BR		-26.027	-48.855	0
+P	Morro da Fumaça	morro da fumaca	BR		-28.651	-49.210	0
+P	Quitandinha		BR		-25.872	-49.498	0
+P	Taió	taio	BR		-27.116	-49.998	0
+P	Morretes		BR		-25.477	-48.834	0
+P	Antonina		BR		-25.429	-48.712	0
+P	Tijucas do Sul		BR		-25.928	-49.180	0
+P	Cocal do Sul		BR		-28.599	-49.323	0
+P	Massaranduba		BR		-26.611	-49.008	0
+P	Pouso Redondo		BR		-27.258	-49.934	0
+P	Ilhota		BR		-26.900	-48.827	0
+P	Governador Celso Ramos		BR		-27.315	-48.559	0
+P	Balneário Rincão	balneario rincao	BR		-28.832	-49.237	0
+P	Balneário Arroio do Silva	balneario arroio do silva	BR		-28.987	-49.417	0
+P	Balneário Gaivota	balneario gaivota	BR		-29.157	-49.579	0
+P	Corupá	corupa	BR		-26.425	-49.243	0
+P	Trindade		BR		-27.586	-48.523	0

@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Conakry	0	
+Z	1	Africa/Dar_es_Salaam	180	
+Z	2	Africa/Kigali	120	
+Z	3	Africa/Luanda	60	
+C	AO	Angola	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	GN	Guinea	egyptian	s
+C	RW	Rwanda	egyptian	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Nzérékoré	nzerekore	GN		7.756	-8.818	0
+P	Nzega		TZ		-4.217	33.183	1
+P	Nzagi		AO		-8.385	15.301	3
+P	Nzega		RW		-2.479	29.556	2
+P	N'zeto	nzeto	AO		-7.228	12.870	3
+P	Nzianouan		CI		6.012	-4.821	0

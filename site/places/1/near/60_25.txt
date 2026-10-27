@@ -1,0 +1,52 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Helsinki	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Moscow	180	
+C	FI	Finland	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Vantaa		FI		60.294	25.041	0
+P	East Helsinki		FI		60.210	25.083	0
+P	Jyväskylä	jyvaskyla	FI		62.241	25.721	0
+P	Kuopio		FI		62.892	27.677	0
+P	Lahti		FI		60.983	25.662	0
+P	Vyborg		RU		60.708	28.753	1
+P	Joensuu		FI		62.601	29.763	0
+P	Kouvola		FI		60.867	26.700	0
+P	Lappeenranta		FI		61.059	28.189	0
+P	Kurortnyy		RU		60.166	29.908	1
+P	Porvoo		FI		60.392	25.665	0
+P	Mikkeli		FI		61.689	27.272	0
+P	Kotka		FI		60.466	26.946	0
+P	Järvenpää	jarvenpaa	FI		60.474	25.090	0
+P	Tuusula		FI		60.404	25.026	0
+P	Vuosaari		FI		60.210	25.142	0
+P	Kerava		FI		60.403	25.105	0
+P	Sestroretsk		RU		60.098	29.964	1
+P	Kajaani		FI		64.227	27.728	0
+P	Mellunkylä	mellunkyla	FI		60.234	25.099	0
+P	Savonlinna		FI		61.870	28.880	0
+P	Vartiokylä	vartiokyla	FI		60.218	25.096	0
+P	Herttoniemi		FI		60.195	25.035	0
+P	Imatra		FI		61.172	28.752	0
+P	Sibbo		FI		60.378	25.269	0
+P	Karhula		FI		60.522	26.931	0
+P	Hollola		FI		61.000	25.500	0
+P	Laajasalo		FI		60.175	25.031	0
+P	Siilinjärvi	siilinjarvi	FI		63.083	27.667	0
+P	Mäntsälä	mantsala	FI		60.633	25.317	0
+P	Hollola		FI		61.050	25.433	0
+P	Iisalmi		FI		63.559	27.191	0
+P	Suutarila		FI		60.280	25.018	0
+P	Varkaus		FI		62.315	27.873	0
+P	Hamina		FI		60.570	27.198	0
+P	Jämsä	jamsa	FI		61.864	25.190	0
+P	Laukaa		FI		62.414	25.952	0
+P	Heinola		FI		61.206	26.038	0
+P	Äänekoski	aanekoski	FI		62.600	25.733	0
+P	Pieksämäki	pieksamaki	FI		62.300	27.133	0
+P	Anjala		FI		60.683	26.833	0
+P	Suurmetsä	suurmetsa	FI		60.270	25.054	0
+P	Svetogorsk		RU		61.112	28.863	1
+P	Orimattila		FI		60.805	25.730	0
+P	Viikki		FI		60.222	25.024	0
+P	Kontiolahti		FI		62.760	29.847	0

@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ulaanbaatar	480	
+C	MN	Mongolia	mwl	s
+B	0
+P	Choibalsan		MN		48.073	114.533	0
+P	Undurkhaan		MN		47.319	110.656	0
+P	Baruun-Urt	baruun urt	MN		46.681	113.279	0

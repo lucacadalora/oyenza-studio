@@ -1,0 +1,118 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Mazatlan	-420	
+Z	1	America/Mexico_City	-360	
+C	MX	Mexico	mwl	s
+B	4
+P	Santiago de Querétaro	santiago de queretaro	MX		20.588	-100.388	1
+P	León de los Aldama	leon de los aldama	MX		21.122	-101.683	1
+P	Zapopan		MX		20.721	-103.387	1
+P	Guadalajara		MX		20.677	-103.347	1
+P	San Luis Potosí	san luis potosi	MX		22.152	-100.971	1
+P	Aguascalientes		MX		21.883	-102.284	1
+P	Tlaquepaque		MX		20.641	-103.293	1
+P	Victoria de Durango		MX		24.020	-104.658	1
+P	Tonalá	tonala	MX		20.623	-103.242	1
+P	Irapuato		MX		20.671	-101.356	1
+P	Celaya		MX		20.522	-100.814	1
+P	Tepic		MX		21.507	-104.893	0
+P	Soledad de Graciano Sánchez	soledad de graciano sanchez	MX		22.189	-100.938	1
+P	San Miguel de Allende		MX		20.915	-100.744	1
+P	Guadalupe		MX		22.747	-102.519	1
+P	Salamanca		MX		20.570	-101.198	1
+P	Fresnillo		MX		23.175	-102.868	1
+P	Zacatecas		MX		22.768	-102.581	1
+P	Lagos de Moreno		MX		21.359	-101.933	1
+P	Tepatitlán de Morelos	tepatitlan de morelos	MX		20.817	-102.763	1
+P	Hacienda Santa Fe		MX		20.518	-103.381	1
+P	Ocotlán	ocotlan	MX		20.351	-102.768	1
+P	La Piedad de Cabadas		MX		20.341	-102.023	1
+P	Matehuala		MX		23.648	-100.643	1
+P	Silao de la Victoria		MX		20.944	-101.427	1
+P	Guanajuato		MX		21.019	-101.259	1
+P	El Pueblito		MX		20.540	-100.441	1
+P	San Francisco del Rincón	san francisco del rincon	MX		21.019	-101.858	1
+P	Valle de Santiago		MX		20.391	-101.191	1
+P	Dolores Hidalgo		MX		21.156	-100.933	1
+P	Sahuayo de Morelos		MX		20.057	-102.716	1
+P	San Francisco Tesistán	san francisco tesistan	MX		20.797	-103.477	1
+P	Cortazar		MX		20.483	-100.964	1
+P	Acámbaro	acambaro	MX		20.032	-100.724	1
+P	Arandas		MX		20.706	-102.345	1
+P	Uriangato		MX		20.142	-101.179	1
+P	San Luis de la Paz		MX		21.298	-100.515	1
+P	San Juan de los Lagos		MX		21.249	-102.330	1
+P	Purísima de Bustos	purisima de bustos	MX		21.030	-101.878	1
+P	Moroleón	moroleon	MX		20.130	-101.191	1
+P	Jerez de García Salinas	jerez de garcia salinas	MX		22.650	-102.990	1
+P	Jesús María	jesus maria	MX		21.961	-102.343	1
+P	Juventino Rosas		MX		20.643	-100.995	1
+P	Pénjamo	penjamo	MX		20.431	-101.724	1
+P	San José del Castillo	san jose del castillo	MX		20.512	-103.237	1
+P	Salvatierra		MX		20.216	-100.882	1
+P	Ameca		MX		20.548	-104.046	1
+P	Xalisco		MX		21.445	-104.900	0
+P	Tala		MX		20.653	-103.701	1
+P	La Barca		MX		20.290	-102.542	1
+P	Río Grande	rio grande	MX		23.827	-103.034	1
+P	Víctor Rosales	victor rosales	MX		22.949	-102.702	1
+P	Zapotlanejo		MX		20.623	-103.068	1
+P	Centro Familiar la Soledad		MX		21.135	-101.750	1
+P	Ciudad Fernández	ciudad fernandez	MX		21.940	-100.012	1
+P	Puruándiro	puruandiro	MX		20.089	-101.516	1
+P	San Agustín	san agustin	MX		20.548	-103.467	1
+P	Tlajomulco de Zúñiga	tlajomulco de zuniga	MX		20.474	-103.447	1
+P	Coyula		MX		20.661	-103.228	1
+P	Marfil		MX		20.998	-101.285	1
+P	Cocula		MX		20.365	-103.822	1
+P	Tequila		MX		20.882	-103.836	1
+P	Pabellón de Arteaga	pabellon de arteaga	MX		22.148	-102.279	1
+P	San Felipe		MX		21.479	-101.216	1
+P	San Sebastián el Grande	san sebastian el grande	MX		20.533	-103.429	1
+P	Nuevo México	nuevo mexico	MX		20.756	-103.443	1
+P	Apaseo el Alto		MX		20.456	-100.621	1
+P	Rincón de Romos	rincon de romos	MX		22.229	-102.322	1
+P	Abasolo		MX		20.450	-101.530	1
+P	Villagrán	villagran	MX		20.514	-100.996	1
+P	Atotonilco el Alto		MX		20.551	-102.508	1
+P	Las Pintitas		MX		20.564	-103.302	1
+P	Apaseo el Grande		MX		20.546	-100.688	1
+P	Yuriria		MX		20.211	-101.132	1
+P	Encarnación de Díaz	encarnacion de diaz	MX		21.526	-102.240	1
+P	Jalostotitlán	jalostotitlan	MX		21.168	-102.461	1
+P	Loreto		MX		22.272	-101.986	1
+P	San Miguel el Alto		MX		21.031	-102.402	1
+P	Yurécuaro	yurecuaro	MX		20.340	-102.282	1
+P	Teocaltiche		MX		21.434	-102.574	1
+P	Comonfort		MX		20.720	-100.761	1
+P	San José Iturbide	san jose iturbide	MX		21.000	-100.386	1
+P	Ixtlán del Río	ixtlan del rio	MX		21.035	-104.369	0
+P	Las Pintas de Arriba		MX		20.576	-103.324	1
+P	El Salto		MX		20.333	-104.500	1
+P	Sombrerete		MX		23.631	-103.641	1
+P	El Salto		MX		20.519	-103.182	1
+P	Chapala		MX		20.292	-103.190	1
+P	Romita		MX		20.872	-101.517	1
+P	Jaral del Progreso		MX		20.372	-101.064	1
+P	Santa Anita		MX		20.550	-103.444	1
+P	Calvillo		MX		21.846	-102.719	1
+P	La Ermita		MX		21.152	-101.733	1
+P	Lomas del Sur		MX		20.492	-103.418	1
+P	Jocotepec		MX		20.286	-103.429	1
+P	Santa Rosa Jáuregui	santa rosa jauregui	MX		20.742	-100.448	1
+P	San José de los Olvera	san jose de los olvera	MX		20.553	-100.415	1
+P	Zacoalco de Torres		MX		20.226	-103.570	1
+P	San José del Quince	san jose del quince	MX		20.542	-103.284	1
+P	Compostela		MX		21.237	-104.901	0
+P	Jamay		MX		20.295	-102.709	1
+P	Salinas de Hidalgo		MX		22.628	-101.714	1
+P	Nochistlán de Mejía	nochistlan de mejia	MX		21.364	-102.848	1
+P	Guadalupe Victoria		MX		24.447	-104.123	1
+P	Tlaltenango de Sánchez Román	tlaltenango de sanchez roman	MX		21.781	-103.304	1
+P	Magdalena		MX		20.907	-103.977	1
+P	Medina		MX		21.150	-101.623	1
+P	San Francisco de los Romo		MX		22.072	-102.272	1
+P	Vicente Guerrero		MX		23.733	-103.982	1
+P	Venceremos		MX		20.551	-100.398	1
+P	Ahualulco de Mercado		MX		20.701	-103.975	1
+P	Juan Aldama		MX		24.291	-103.393	1
+P	Villa Hidalgo		MX		21.676	-102.588	1

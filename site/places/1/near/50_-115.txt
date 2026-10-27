@@ -1,0 +1,33 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Edmonton	-420	29549340=-360
+C	CA	Canada	moonsighting	s
+B	2
+P	Calgary		CA	Alberta	51.050	-114.085	0
+P	Edmonton		CA	Alberta	53.550	-113.469	0
+P	Red Deer		CA	Alberta	52.267	-113.802	0
+P	Airdrie		CA	Alberta	51.300	-114.035	0
+P	Sherwood Park		CA	Alberta	53.517	-113.319	0
+P	Medicine Hat		CA	Alberta	50.039	-110.677	0
+P	St. Albert	st albert	CA	Alberta	53.633	-113.635	0
+P	Spruce Grove		CA	Alberta	53.533	-113.919	0
+P	Chestermere		CA	Alberta	51.033	-113.819	0
+P	Cochrane		CA	Alberta	51.183	-114.469	0
+P	Lloydminster		CA	Alberta	53.272	-110.023	0
+P	Okotoks		CA	Alberta	50.729	-113.983	0
+P	Beltline		CA	Alberta	51.040	-114.071	0
+P	Panorama Hills		CA	Alberta	51.153	-114.081	0
+P	Saddle Ridge		CA	Alberta	51.133	-113.947	0
+P	Cranston		CA	Alberta	50.889	-113.981	0
+P	Evergreen		CA	Alberta	50.929	-114.100	0
+P	Camrose		CA	Alberta	53.017	-112.835	0
+P	Tuscany		CA	Alberta	51.124	-114.245	0
+P	Evanston		CA	Alberta	51.164	-114.123	0
+P	Wîhkwêntôwin	wihkwentowin	CA	Alberta	53.543	-113.522	0
+P	Auburn Bay		CA	Alberta	50.888	-113.959	0
+P	Stony Plain		CA	Alberta	53.533	-114.002	0
+P	Taradale		CA	Alberta	51.118	-113.937	0
+P	McKenzie Towne		CA	Alberta	50.913	-113.967	0
+P	Sylvan Lake		CA	Alberta	52.311	-114.084	0
+P	Coventry Hills		CA	Alberta	51.169	-114.059	0
+P	Leduc		CA	Alberta	53.267	-113.552	0
+P	Edgemont		CA	Alberta	51.126	-114.149	0

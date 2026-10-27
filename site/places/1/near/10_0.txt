@@ -1,0 +1,56 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Niamey	60	
+Z	1	Africa/Ouagadougou	0	
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	TG	Togo	egyptian	s
+B	1
+P	Niamey		NE		13.514	2.110	0
+P	Birnin Kebbi		NG		12.454	4.197	0
+P	Dosso		NE		13.049	3.194	0
+P	Jega		NG		12.223	4.380	0
+P	Fada N'gourma	fada ngourma	BF		12.062	0.358	1
+P	Malanville		BJ		11.868	3.383	0
+P	Gaya		NE		11.884	3.449	0
+P	Dapaong		TG		10.862	0.208	1
+P	Kandi		BJ		11.134	2.939	0
+P	Kérou	kerou	BJ		10.826	2.105	0
+P	Natitingou		BJ		10.304	1.380	0
+P	Dogondoutchi		NE		13.640	4.026	0
+P	Argungu		NG		12.745	4.525	0
+P	Méhana	mehana	NE		14.394	1.134	0
+P	Téra	tera	NE		14.008	0.753	0
+P	Mango		TG		10.359	0.471	1
+P	Banikoara		BJ		11.298	2.439	0
+P	Péhonko	pehonko	BJ		10.227	2.002	0
+P	Kalalé	kalale	BJ		10.293	3.384	0
+P	Sinendé	sinende	BJ		10.350	2.379	0
+P	Youri Kourtéré	youri kourtere	NE		13.334	2.248	0
+P	Bembèrèkè	bembereke	BJ		10.228	2.663	0
+P	Tillabéri	tillaberi	NE		14.207	1.454	0
+P	Tanguiéta	tanguieta	BJ		10.621	1.267	0
+P	Sinkassé	sinkasse	TG		11.104	0.009	1
+P	Ségbana	segbana	BJ		10.928	3.694	0
+P	Ayorou		NE		14.731	0.917	0
+P	Kamba		NG		11.852	3.655	0
+P	Cobly		BJ		10.492	1.000	0
+P	Matéri	materi	BJ		10.696	1.063	0
+P	Boukoumbé	boukoumbe	BJ		10.177	1.106	0
+P	Baléyara	baleyara	NE		13.784	2.952	0
+P	Tambuwal		NG		12.406	4.646	0
+P	Kollo		NE		13.304	2.339	0
+P	Cinkansé	cinkanse	BF		11.119	0.010	1
+P	Birnin Gaouré	birnin gaoure	NE		13.082	2.911	0
+P	Say		NE		13.101	2.369	0
+P	Babana		NG		10.429	3.815	0
+P	Tobré	tobre	BJ		10.195	2.130	0
+P	Natiaboani		BF		11.699	0.506	1
+P	Filingué	filingue	NE		14.352	3.317	0
+P	Namponkoré	namponkore	BF		11.737	1.777	1
+P	Toukountouna		BJ		10.503	1.374	0
+P	Torodi		NE		13.119	1.799	0
+P	Diapaga		BF		12.073	1.788	1
+P	Gayéri	gayeri	BF		12.648	0.493	1
+P	Kompienga		BF		11.082	0.724	1

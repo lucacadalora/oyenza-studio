@@ -1,0 +1,66 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Istanbul	180	
+C	RU	Russia	mwl	s
+C	TR	Turkey	turkey	s
+B	0
+P	Samsun		TR		41.280	36.336	0
+P	Sochi		RU		43.597	39.725	0
+P	Trabzon		TR		41.005	39.727	0
+P	Novorossiysk		RU		44.732	37.762	0
+P	Ordu		TR		40.978	37.890	0
+P	Tokat		TR		40.314	36.554	0
+P	Giresun		TR		40.917	38.387	0
+P	Amasya		TR		40.653	35.833	0
+P	Turhal		TR		40.388	36.081	0
+P	Bafra		TR		41.568	35.903	0
+P	Fatsa		TR		41.029	37.500	0
+P	Ünye	unye	TR		41.140	37.289	0
+P	Adler		RU		43.429	39.924	0
+P	Tuapse		RU		44.101	39.083	0
+P	Krymsk		RU		44.926	37.990	0
+P	Zile		TR		40.303	35.886	0
+P	Belorechensk		RU		44.770	39.872	0
+P	Anapa		RU		44.895	37.316	0
+P	Erbaa		TR		40.669	36.568	0
+P	Gelendzhik		RU		44.580	38.066	0
+P	Merzifon		TR		40.873	35.463	0
+P	Çarşamba	carsamba	TR		41.199	36.722	0
+P	Niksar		TR		40.592	36.952	0
+P	Suluova		TR		40.831	35.648	0
+P	Şebin Karahisar	sebin karahisar	TR		40.288	38.424	0
+P	Akçaabat	akcaabat	TR		41.021	39.571	0
+P	Bulancak		TR		40.938	38.231	0
+P	Apsheronsk		RU		44.460	39.730	0
+P	Gümüşhane	gumushane	TR		40.460	39.472	0
+P	Vakfıkebir	vakfikebir	TR		41.046	39.276	0
+P	Beşikdüzü	besikduzu	TR		41.052	39.233	0
+P	Sinop		TR		42.027	35.163	0
+P	Abinsk		RU		44.871	38.158	0
+P	Yablonovskiy		RU		44.989	38.943	0
+P	Kumru		TR		40.874	37.264	0
+P	Görele	gorele	TR		41.031	39.003	0
+P	Lazarevskoye		RU		43.909	39.331	0
+P	Terme		TR		41.209	36.974	0
+P	Goryachiy Klyuch		RU		44.634	39.136	0
+P	Suşehri	susehri	TR		40.160	38.084	0
+P	Vezirköprü	vezirkopru	TR		41.144	35.455	0
+P	Kelkit		TR		40.127	39.434	0
+P	Il’skiy	ilskiy	RU		44.842	38.567	0
+P	Severskaya		RU		44.854	38.679	0
+P	Khadyzhensk		RU		44.426	39.536	0
+P	Havza		TR		40.971	35.662	0
+P	Khosta		RU		43.515	39.868	0
+P	Dagomys		RU		43.670	39.669	0
+P	Yomra		TR		40.953	39.855	0
+P	Akhtyrskiy		RU		44.855	38.303	0
+P	Taşova	tasova	TR		40.760	36.322	0
+P	Gürgentepe	gurgentepe	TR		40.790	37.601	0
+P	Afipskiy		RU		44.900	38.843	0
+P	Enem		RU		44.926	38.906	0
+P	Kholmskiy		RU		44.847	38.385	0
+P	Tekkeköy	tekkekoy	TR		41.212	36.460	0
+P	Tirebolu		TR		41.007	38.814	0
+P	Kudepsta		RU		43.495	39.893	0
+P	Korgan		TR		40.825	37.347	0
+P	Arsin		TR		40.953	39.927	0
+P	Espiye		TR		40.947	38.703	0

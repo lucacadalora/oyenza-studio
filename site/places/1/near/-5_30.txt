@@ -1,0 +1,131 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Kigali	120	
+C	BI	Burundi	egyptian	s
+C	KE	Kenya	egyptian	s
+C	RW	Rwanda	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+B	2
+P	Kigali		RW		-1.950	30.059	1
+P	Mwanza		TZ		-2.517	32.900	0
+P	Kahama		TZ		-3.833	32.600	0
+P	Kisumu		KE		-0.102	34.762	0
+P	Geita		TZ		-2.873	32.233	0
+P	Bariadi		TZ		-2.800	33.983	0
+P	Kasulu		TZ		-4.577	30.102	0
+P	Singida		TZ		-4.816	34.744	0
+P	Mbarara		UG		-0.605	30.649	0
+P	Bunda		TZ		-2.022	33.871	0
+P	Musoma		TZ		-1.500	33.800	0
+P	Bukoba		TZ		-1.332	31.812	0
+P	Shinyanga		TZ		-3.664	33.421	0
+P	Tarime		TZ		-1.350	34.367	0
+P	Nzega		TZ		-4.217	33.183	0
+P	Ibanda		UG		-0.134	30.496	0
+P	Masaka		UG		-0.334	31.734	0
+P	Kisii		KE		-0.682	34.767	0
+P	Sengerema		TZ		-2.667	32.650	0
+P	Nyagatare		RW		-1.295	30.323	1
+P	Ushirombo		TZ		-3.492	31.964	0
+P	Rutoma		UG		-0.567	30.383	0
+P	Bwizibwera		UG		-0.592	30.629	0
+P	Katoro		TZ		-3.000	31.933	0
+P	Migori		KE		-1.063	34.473	0
+P	Nakivale Refugee Camp		UG		-0.741	30.996	0
+P	Uyovu		TZ		-3.283	31.526	0
+P	Buseresere		TZ		-3.049	31.885	0
+P	Masumbwe		TZ		-3.633	32.183	0
+P	Rwamagana		RW		-1.949	30.435	1
+P	Kibungo		RW		-2.160	30.543	1
+P	Igunga		TZ		-4.283	33.883	0
+P	Diobahika		TZ		-3.339	31.523	0
+P	Homa Bay		KE		-0.527	34.457	0
+P	Nansio		TZ		-2.133	33.050	0
+P	Ishaka		UG		-0.543	30.137	0
+P	Byumba		RW		-1.576	30.067	1
+P	Ndera		RW		-1.950	30.170	1
+P	Misungwi		TZ		-2.850	33.083	0
+P	Magu		TZ		-2.591	33.446	0
+P	Isingiro		UG		-0.869	30.830	0
+P	Biharamulo		TZ		-2.632	31.309	0
+P	Somanda		TZ		-3.367	33.950	0
+P	Bugarama		TZ		-2.871	30.528	0
+P	Cendajuru		BI		-3.289	30.601	1
+P	Ngudu		TZ		-2.967	33.333	0
+P	Nyachera		UG		-0.900	30.417	0
+P	Kisesa		TZ		-2.550	33.033	0
+P	Chato		TZ		-2.638	31.767	0
+P	Kisesa		TZ		-3.083	34.150	0
+P	Mugumu		TZ		-1.850	34.700	0
+P	Kasaali		UG		-0.617	31.550	0
+P	Kibondo		TZ		-3.586	30.720	0
+P	Shanwa		TZ		-3.167	33.767	0
+P	Zanandore		BI		-3.255	30.114	1
+P	Kasamwa		TZ		-2.850	32.433	0
+P	Kayonza		RW		-1.951	30.520	1
+P	Mtinko		TZ		-4.550	34.850	0
+P	Sepuka		TZ		-4.750	34.533	0
+P	Lukaya		UG		-0.113	31.854	0
+P	Sirari		TZ		-1.254	34.476	0
+P	Mhalamba		TZ		-2.581	32.010	0
+P	Shelui		TZ		-4.367	34.200	0
+P	Kakonko		TZ		-3.283	30.964	0
+P	Nyalikungu		TZ		-3.183	33.783	0
+P	Nyamira		KE		-0.563	34.936	0
+P	Isebania		KE		-1.225	34.464	0
+P	Old Shinyanga		TZ		-3.550	33.400	0
+P	Songwa		TZ		-3.517	33.517	0
+P	Kiomboi		TZ		-4.267	34.367	0
+P	Mwadui		TZ		-3.550	33.600	0
+P	Igugunu		TZ		-4.567	34.633	0
+P	Bondo		KE		-0.096	34.273	0
+P	Lalago		TZ		-3.450	33.950	0
+P	Kihancha		KE		-1.193	34.620	0
+P	Tinde		TZ		-3.883	33.200	0
+P	Rulenge		TZ		-2.717	30.633	0
+P	Maswa		TZ		-2.683	33.983	0
+P	Mwanhuzi		TZ		-3.527	34.315	0
+P	Mhango		TZ		-3.283	32.850	0
+P	Nyamata		RW		-2.204	30.145	1
+P	Isaka		TZ		-3.900	32.933	0
+P	Ntungamo		UG		-0.879	30.264	0
+P	Rongo		KE		-0.757	34.598	0
+P	Muriti		TZ		-1.983	32.917	0
+P	Mabare		UG		-0.967	30.450	0
+P	Nsunga		TZ		-1.144	31.395	0
+P	Ogembo		KE		-0.801	34.726	0
+P	Iryango		UG		-0.967	30.600	0
+P	Matongo		TZ		-1.468	34.523	0
+P	Oyugis		KE		-0.510	34.731	0
+P	Nshamba		TZ		-1.798	31.551	0
+P	Kabanga		TZ		-2.639	30.468	0
+P	Kinoni		UG		-0.701	30.494	0
+P	Kihangara		TZ		-2.583	33.350	0
+P	Shirati		TZ		-1.133	33.983	0
+P	Katerero		TZ		-1.400	31.733	0
+P	Nyakabindi		TZ		-2.633	33.983	0
+P	Ilongero		TZ		-4.667	34.867	0
+P	Kibara		TZ		-2.150	33.450	0
+P	Puma		TZ		-5.000	34.733	0
+P	Malampaka		TZ		-3.133	33.533	0
+P	Ngara		TZ		-2.512	30.656	0
+P	Awendo		KE		-0.907	34.529	0
+P	Awendo		KE		-0.500	34.400	0
+P	Nyamunuka		UG		-0.835	30.092	0
+P	Mungaa		TZ		-4.967	34.883	0
+P	Nyamuswa		TZ		-1.900	34.017	0
+P	Butiama		TZ		-1.767	33.967	0
+P	Kishapu		TZ		-3.617	33.867	0
+P	Lyantonde		UG		-0.403	31.157	0
+P	Kyazanga		UG		-0.383	31.350	0
+P	Karusi		BI		-3.101	30.163	1
+P	Kazo		UG		-0.074	30.785	0
+P	Kyamahungu		UG		-0.451	30.113	0
+P	Bugaragara		RW		-1.293	30.408	1
+P	Kamachumu		TZ		-1.619	31.620	0
+P	Usagara		TZ		-2.683	33.000	0
+P	Kirundo		BI		-2.584	30.096	1
+P	Kalisizo		UG		-0.536	31.621	0
+P	Lwengo		UG		-0.416	31.408	0
+P	Thomas Magena home		KE		-0.770	34.751	0

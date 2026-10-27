@@ -1,0 +1,58 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Tunis	60	
+Z	2	Asia/Dhaka	360	
+Z	3	Asia/Kolkata	330	
+Z	4	Asia/Kuala_Lumpur	480	
+Z	5	Asia/Phnom_Penh	420	
+Z	6	Asia/Yekaterinburg	300	
+Z	7	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BD	Bangladesh	karachi	h
+C	IN	India	karachi	h
+C	KH	Cambodia	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	MA	Morocco	egyptian	s
+C	MY	Malaysia	singapore	s
+C	PL	Poland	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	TN	Tunisia	egyptian	s
+B	1
+P	Srinagar		IN		34.086	74.806	3
+P	Sri Ganganagar		IN		29.920	73.875	3
+P	Srikakulam		IN		18.299	83.898	3
+P	Sri Jayewardenepura Kotte		LK		6.883	79.907	3
+P	El Kelaa des Srarhna		MA		32.051	-7.411	0
+P	Śródmieście	srodmiescie	PL		52.229	21.016	7
+P	Śródmieście	srodmiescie	PL		51.113	17.081	7
+P	Srikalahasti		IN		13.755	79.701	3
+P	Srivilliputhur		IN		9.513	77.634	3
+P	Sri Dūngargarh	sri dungargarh	IN		28.096	74.009	3
+P	Sri Petaling		MY		3.069	101.690	4
+P	Bandar Sri Damansara		MY		3.190	101.611	4
+P	Sri Aman		MY		1.247	111.453	4
+P	Phumĭ Véal Srê	phumi veal sre	KH		10.981	104.778	5
+P	Kalaa Srira		TN		35.822	10.557	1
+P	Taman Sri Sinar		MY		3.187	101.651	4
+P	Sremska Mitrovica		RS		44.976	19.612	7
+P	Srvanampatti		IN		11.076	77.004	3
+P	Sri Mādhopur	sri madhopur	IN		27.466	75.597	3
+P	Śrem	srem	PL		52.089	17.015	7
+P	Srīnivāspur	srinivaspur	IN		13.339	78.212	3
+P	Bandar Sri Sendayan		MY		2.674	101.872	4
+P	Srīperumbūdūr	sriperumbudur	IN		12.968	79.942	3
+P	Srīsailain	srisailain	IN		16.072	78.868	3
+P	Srīkandamangalam	srikandamangalam	IN		9.659	76.363	3
+P	Sreekaryam		IN		8.549	76.917	3
+P	Środmieście	srodmiescie	PL		54.350	18.656	7
+P	Srimangal		BD		24.307	91.730	2
+P	Sremčica	sremcica	RS		44.677	20.392	7
+P	Środa Wielkopolska	sroda wielkopolska	PL		52.228	17.276	7
+P	Srisailam Project RFC Township		IN		16.073	78.874	3
+P	Srīnagar	srinagar	IN		30.222	78.783	3
+P	Sredneuralsk		RU		56.989	60.467	6
+P	Srīrāmnagar	sriramnagar	IN		17.267	78.255	3
+P	Sriramnagar		IN		18.283	83.534	3
+P	Srirāmpur	srirampur	IN		22.948	88.020	3
+P	Srivaikuntam		IN		8.629	77.913	3
+P	Srīvardhan	srivardhan	IN		18.046	73.016	3

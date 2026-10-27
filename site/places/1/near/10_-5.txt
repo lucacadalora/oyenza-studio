@@ -1,0 +1,86 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Ouagadougou	0	
+C	BF	Burkina Faso	egyptian	s
+C	GH	Ghana	egyptian	s
+C	ML	Mali	egyptian	s
+B	1
+P	Ouagadougou		BF		12.366	-1.534	0
+P	Bobo-Dioulasso	bobo dioulasso	BF		11.181	-4.295	0
+P	Mopti		ML		14.484	-4.183	0
+P	Koudougou		BF		12.252	-2.367	0
+P	Saaba		BF		12.371	-1.415	0
+P	Ouahigouya		BF		13.577	-2.418	0
+P	Kaya		BF		13.088	-1.084	0
+P	Banfora		BF		10.641	-4.753	0
+P	San		ML		13.297	-4.896	0
+P	Pouytenga		BF		12.252	-0.426	0
+P	Jirapa		GH		10.537	-2.702	0
+P	Houndé	hounde	BF		11.500	-3.517	0
+P	Bolgatanga		GH		10.786	-0.851	0
+P	Wa		GH		10.061	-2.502	0
+P	Bawku		GH		11.059	-0.242	0
+P	Nioko I		BF		12.395	-1.439	0
+P	Dédougou	dedougou	BF		12.464	-3.461	0
+P	Tenkodogo		BF		11.784	-0.372	0
+P	Djibo		BF		14.099	-1.627	0
+P	Kongoussi		BF		13.326	-1.535	0
+P	Léo	leo	BF		11.100	-2.107	0
+P	Koupéla	koupela	BF		12.179	-0.351	0
+P	Titao		BF		13.767	-2.067	0
+P	Saonré	saonre	BF		12.275	-1.577	0
+P	Dori		BF		14.033	-0.033	0
+P	Aribinda		BF		14.230	-0.865	0
+P	Gaoua		BF		10.331	-3.182	0
+P	Djenné	djenne	ML		13.906	-4.553	0
+P	Garango		BF		11.800	-0.551	0
+P	Gourcy		BF		13.208	-2.359	0
+P	Yako		BF		12.959	-2.261	0
+P	Zorgo		BF		12.249	-0.615	0
+P	Réo	reo	BF		12.320	-2.471	0
+P	Orodara		BF		10.981	-4.919	0
+P	Ziniaré	ziniare	BF		12.582	-1.298	0
+P	Niangoloko		BF		10.283	-4.917	0
+P	Nouna		BF		12.729	-3.863	0
+P	Bama		BF		12.036	-4.399	0
+P	Bittou		BF		11.258	-0.306	0
+P	Bankass		ML		14.078	-3.516	0
+P	Kombissiri		BF		12.069	-1.336	0
+P	Manga		BF		11.665	-1.070	0
+P	Pô	po	BF		11.170	-1.145	0
+P	Bourzanga		BF		13.678	-1.546	0
+P	Barogo		BF		12.550	-0.967	0
+P	Bandiagara		ML		14.350	-3.610	0
+P	Gao		BF		11.650	-2.178	0
+P	Tougan		BF		13.072	-3.069	0
+P	Sapouy		BF		11.554	-1.774	0
+P	Yalgo		BF		12.933	-0.850	0
+P	Kokologo		BF		12.194	-1.877	0
+P	Dano		BF		11.146	-3.058	0
+P	Mogtédo	mogtedo	BF		12.284	-0.837	0
+P	Diébougou	diebougou	BF		10.962	-3.250	0
+P	Navrongo		GH		10.895	-1.091	0
+P	Boussé	bousse	BF		12.661	-1.895	0
+P	Solenzo		BF		12.174	-4.085	0
+P	Koro		ML		14.064	-3.075	0
+P	Boulsa		BF		12.667	-0.575	0
+P	Pissila		BF		13.164	-0.823	0
+P	Kouri		ML		12.184	-4.803	0
+P	Béguédo	beguedo	BF		11.781	-0.734	0
+P	Zabré	zabre	BF		11.182	-0.632	0
+P	Bogandé	bogande	BF		12.977	-0.147	0
+P	Fara Department		BF		11.529	-2.768	0
+P	Boromo		BF		11.745	-2.930	0
+P	Zinguédéssé	zinguedesse	BF		12.247	-1.584	0
+P	Korsimoro		BF		12.825	-1.067	0
+P	Yorosso		ML		12.358	-4.777	0
+P	Nalerigu		GH		10.527	-0.370	0
+P	Kouka		BF		13.434	-1.614	0
+P	Tita		BF		11.921	-2.515	0
+P	Kindi		BF		12.439	-2.033	0
+P	Tô	to	BF		11.444	-2.225	0
+P	Toma		BF		12.758	-2.899	0
+P	Karankasso		BF		11.222	-4.644	0
+P	Gomboussougou		BF		11.426	-0.773	0
+P	Pa		BF		12.667	-3.950	0
+P	Mani		BF		13.258	-0.213	0
+P	Sabou		BF		12.067	-2.233	0

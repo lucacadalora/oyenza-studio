@@ -1,0 +1,229 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kaliningrad	120	
+Z	1	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CZ	Czechia	mwl	s
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Kraków	krakow	PL		50.061	19.937	1
+P	Wrocław	wroclaw	PL		51.103	17.030	1
+P	Łódź	lodz	PL		51.771	19.474	1
+P	Poznań	poznan	PL		52.407	16.930	1
+P	Gdańsk	gdansk	PL		54.352	18.649	1
+P	Bydgoszcz		PL		53.123	18.008	1
+P	Katowice		PL		50.260	19.022	1
+P	Gdynia		PL		54.519	18.532	1
+P	Częstochowa	czestochowa	PL		50.796	19.124	1
+P	Sosnowiec		PL		50.287	19.104	1
+P	Gliwice		PL		50.298	18.677	1
+P	Toruń	torun	PL		53.014	18.598	1
+P	Zabrze		PL		50.325	18.786	1
+P	Bytom		PL		50.348	18.933	1
+P	Ruda Śląska	ruda slaska	PL		50.258	18.856	1
+P	Rybnik		PL		50.097	18.542	1
+P	Tychy		PL		50.137	18.966	1
+P	Opole		PL		50.671	17.926	1
+P	Elbląg	elblag	PL		54.152	19.409	1
+P	Płock	plock	PL		52.547	19.706	1
+P	Wałbrzych	walbrzych	PL		50.771	16.284	1
+P	Włocławek	wloclawek	PL		52.648	19.068	1
+P	Zielona Góra	zielona gora	PL		51.935	15.506	1
+P	Dąbrowa Górnicza	dabrowa gornicza	PL		50.334	19.205	1
+P	Gorzów Wielkopolski	gorzow wielkopolski	PL		52.734	15.225	1
+P	Chorzów	chorzow	PL		50.306	18.974	1
+P	Kalisz		PL		51.761	18.091	1
+P	Koszalin		PL		54.194	16.172	1
+P	Legnica		PL		51.210	16.162	1
+P	Liberec		CZ		50.767	15.056	1
+P	Śródmieście	srodmiescie	PL		51.113	17.081	1
+P	Słupsk	slupsk	PL		54.464	17.029	1
+P	Jaworzno		PL		50.205	19.275	1
+P	Psie Pole		PL		51.146	17.035	1
+P	Grudziądz	grudziadz	PL		53.484	18.754	1
+P	Hradec Králové	hradec kralove	CZ		50.209	15.833	1
+P	Pardubice		CZ		50.041	15.777	1
+P	Konin		PL		52.223	18.251	1
+P	Piotrków Trybunalski	piotrkow trybunalski	PL		51.405	19.703	1
+P	Inowrocław	inowroclaw	PL		52.799	18.264	1
+P	Lubin		PL		51.401	16.201	1
+P	Jelenia Góra	jelenia gora	PL		50.900	15.729	1
+P	Piła	pila	PL		53.151	16.738	1
+P	Siemianowice Śląskie	siemianowice slaskie	PL		50.327	19.029	1
+P	Ostrów Wielkopolski	ostrow wielkopolski	PL		51.655	17.807	1
+P	Mysłowice	myslowice	PL		50.207	19.167	1
+P	Stargard		PL		53.337	15.050	1
+P	Pabianice		PL		51.664	19.355	1
+P	Gniezno		PL		52.535	17.583	1
+P	Fordon		PL		53.148	18.170	1
+P	Kędzierzyn-Koźle	kedzierzyn kozle	PL		50.350	18.226	1
+P	Głogów	glogow	PL		51.664	16.084	1
+P	Wrzeszcz		PL		54.376	18.608	1
+P	Leszno		PL		51.840	16.575	1
+P	Żory	zory	PL		50.045	18.701	1
+P	Bełchatów	belchatow	PL		51.369	19.357	1
+P	Tarnowskie Góry	tarnowskie gory	PL		50.445	18.861	1
+P	Świdnica	swidnica	PL		50.844	16.489	1
+P	Tczew		PL		54.092	18.778	1
+P	Piekary Śląskie	piekary slaskie	PL		50.380	18.927	1
+P	Racibórz	raciborz	PL		50.092	18.219	1
+P	Będzin	bedzin	PL		50.326	19.126	1
+P	Zgierz		PL		51.856	19.406	1
+P	Świętochłowice	swietochlowice	PL		50.296	18.917	1
+P	Zawiercie		PL		50.488	19.417	1
+P	Wodzisław Śląski	wodzislaw slaski	PL		50.004	18.472	1
+P	Kutno		PL		52.231	19.364	1
+P	Nysa		PL		50.474	17.334	1
+P	Starogard Gdański	starogard gdanski	PL		53.964	18.526	1
+P	Wejherowo		PL		54.606	18.236	1
+P	Jablonec nad Nisou		CZ		50.724	15.171	1
+P	Rumia		PL		54.571	18.388	1
+P	Radomsko		PL		51.067	19.445	1
+P	Zduńska Wola	zdunska wola	PL		51.599	18.940	1
+P	Sieradz		PL		51.596	18.730	1
+P	Kołobrzeg	kolobrzeg	PL		54.176	15.583	1
+P	Rejon placu Świętego Macieja	rejon placu swietego macieja	PL		51.121	17.038	1
+P	Bolesławiec	boleslawiec	PL		51.264	15.570	1
+P	Nowa Sól	nowa sol	PL		51.803	15.717	1
+P	Chrzanów	chrzanow	PL		50.135	19.402	1
+P	Knurów	knurow	PL		50.220	18.651	1
+P	Mikołów	mikolow	PL		50.171	18.904	1
+P	Chojnice		PL		53.696	17.557	1
+P	Żary	zary	PL		51.642	15.137	1
+P	Szczecinek		PL		53.708	16.699	1
+P	Brzeg		PL		50.861	17.467	1
+P	Olkusz		PL		50.281	19.565	1
+P	Kwidzyn		PL		53.725	18.931	1
+P	Oleśnica	olesnica	PL		51.213	17.390	1
+P	Malbork		PL		54.036	19.027	1
+P	Lębork	lebork	PL		54.539	17.750	1
+P	Sopot		PL		54.442	18.560	1
+P	Baltiysk		RU		54.655	19.909	0
+P	Czeladź	czeladz	PL		50.315	19.078	1
+P	Oświęcim	oswiecim	PL		50.034	19.210	1
+P	Dzierżoniów	dzierzoniow	PL		50.728	16.651	1
+P	Ostróda	ostroda	PL		53.697	19.965	1
+P	Kolín	kolin	CZ		50.028	15.200	1
+P	Myszków	myszkow	PL		50.575	19.325	1
+P	Zgorzelec		PL		51.149	15.008	1
+P	Oława	olawa	PL		50.947	17.293	1
+P	Iława	ilawa	PL		53.596	19.568	1
+P	Karłowice-Różanka	karlowice rozanka	PL		51.137	17.043	1
+P	Trutnov		CZ		50.561	15.913	1
+P	Pilczyce-Kozanów-Popowice Północne	pilczyce kozanow popowice polnocne	PL		51.131	16.977	1
+P	Ołbin	olbin	PL		51.121	17.053	1
+P	Chełm	chelm	PL		54.340	18.619	1
+P	Śrem	srem	PL		52.089	17.015	1
+P	Ujeścisko-Łostowice	ujescisko lostowice	PL		54.324	18.603	1
+P	Łowicz	lowicz	PL		52.107	19.945	1
+P	Psie Pole Zawidawie		PL		51.148	17.114	1
+P	Turek		PL		52.015	18.501	1
+P	Bielawa		PL		50.691	16.623	1
+P	Krotoszyn		PL		51.699	17.437	1
+P	Swarzędz	swarzedz	PL		52.413	17.085	1
+P	Grzegórzki	grzegorzki	PL		50.064	19.968	1
+P	Czerwionka-Leszczyny	czerwionka leszczyny	PL		50.150	18.678	1
+P	Września	wrzesnia	PL		52.325	17.565	1
+P	Brodnica		PL		53.260	19.397	1
+P	Piecki-Migowo	piecki migowo	PL		54.357	18.582	1
+P	Rejon placu Grunwaldzkiego		PL		51.117	17.061	1
+P	Luboń	lubon	PL		52.347	16.893	1
+P	Kluczbork		PL		50.973	18.218	1
+P	Wałcz	walcz	PL		53.278	16.471	1
+P	Świecie	swiecie	PL		53.410	18.447	1
+P	Żagań	zagan	PL		51.618	15.315	1
+P	Kłodzko	klodzko	PL		50.435	16.661	1
+P	Wągrowiec	wagrowiec	PL		52.808	17.200	1
+P	Jarocin		PL		51.973	17.503	1
+P	Nowa Ruda		PL		50.580	16.502	1
+P	Gądów-Popowice Południowe	gadow popowice poludniowe	PL		51.127	16.970	1
+P	Białogard	bialogard	PL		54.007	15.988	1
+P	Przymorze Wielkie		PL		54.412	18.598	1
+P	Osiedle Powstańców Śląskich	osiedle powstancow slaskich	PL		51.093	17.021	1
+P	Kościan	koscian	PL		52.088	16.649	1
+P	Jawor		PL		51.051	16.193	1
+P	Lubliniec		PL		50.669	18.684	1
+P	Pruszcz Gdański	pruszcz gdanski	PL		54.262	18.636	1
+P	Koło	kolo	PL		52.200	18.639	1
+P	Środmieście	srodmiescie	PL		54.350	18.656	1
+P	Prudnik		PL		50.321	17.575	1
+P	Kościerzyna	koscierzyna	PL		54.122	17.981	1
+P	Świebodzice	swiebodzice	PL		50.860	16.320	1
+P	Nadodrze		PL		51.125	17.031	1
+P	Krnov		CZ		50.090	17.704	1
+P	Lubań	luban	PL		51.120	15.288	1
+P	Łaziska Górne	laziska gorne	PL		50.150	18.842	1
+P	Rydułtowy	rydultowy	PL		50.059	18.417	1
+P	Gajowice		PL		51.096	17.002	1
+P	Świebodzin	swiebodzin	PL		52.248	15.534	1
+P	Środa Wielkopolska	sroda wielkopolska	PL		52.228	17.276	1
+P	Kamienna Góra	kamienna gora	PL		50.783	16.030	1
+P	Wrzeszcz Dolny		PL		54.385	18.613	1
+P	Wieluń	wielun	PL		51.221	18.570	1
+P	Polkowice		PL		51.504	16.073	1
+P	Rawicz		PL		51.609	16.859	1
+P	Náchod	nachod	CZ		50.417	16.163	1
+P	Krzyki-Partynice	krzyki partynice	PL		51.064	17.002	1
+P	Wrzeszcz Górny	wrzeszcz gorny	PL		54.380	18.595	1
+P	Gostyń	gostyn	PL		51.882	17.012	1
+P	Rejon ulicy Traugutta		PL		51.102	17.048	1
+P	Ozorków	ozorkow	PL		51.963	19.291	1
+P	Chełmno	chelmno	PL		53.349	18.425	1
+P	Aleksandrów Łódzki	aleksandrow lodzki	PL		51.820	19.304	1
+P	Strzelce Opolskie		PL		50.511	18.301	1
+P	Biskupin-Sępolno-Dąbie-Bartoszowice	biskupin sepolno dabie bartoszowice	PL		51.108	17.091	1
+P	Orunia Górna-Gdańsk Południe	orunia gorna gdansk poludnie	PL		54.325	18.616	1
+P	Chodzież	chodziez	PL		52.995	16.920	1
+P	Bieruń	bierun	PL		50.090	19.093	1
+P	Nakło nad Notecią	naklo nad notecia	PL		53.142	17.602	1
+P	Gaj		PL		51.080	17.040	1
+P	Osiedle Kosmonautów	osiedle kosmonautow	PL		51.128	16.962	1
+P	Pyskowice		PL		50.400	18.633	1
+P	Gostynin		PL		52.429	19.462	1
+P	Sierpc		PL		52.857	19.669	1
+P	Trzebinia		PL		50.159	19.470	1
+P	Huby		PL		51.089	17.041	1
+P	Międzyrzecz	miedzyrzecz	PL		52.445	15.578	1
+P	Szamotuły	szamotuly	PL		52.612	16.578	1
+P	Łask	lask	PL		51.591	19.133	1
+P	Szczepin		PL		51.116	17.010	1
+P	Orzesze		PL		50.156	18.779	1
+P	Złotów	zlotow	PL		53.363	17.041	1
+P	Braniewo		PL		54.380	19.820	1
+P	Konstantynów Łódzki	konstantynow lodzki	PL		51.748	19.326	1
+P	Krapkowice		PL		50.475	17.965	1
+P	Reda		PL		54.605	18.347	1
+P	Sulechów	sulechow	PL		52.084	15.625	1
+P	Oborniki		PL		52.647	16.814	1
+P	Libiąż	libiaz	PL		50.104	19.316	1
+P	Pleszew		PL		51.896	17.785	1
+P	Radlin		PL		50.050	18.476	1
+P	Radzionków	radzionkow	PL		50.400	18.902	1
+P	Trzcianka		PL		53.041	16.456	1
+P	Boguszów-Gorce	boguszow gorce	PL		50.755	16.205	1
+P	Bytów	bytow	PL		54.171	17.492	1
+P	Gryfice		PL		53.916	15.200	1
+P	Nowogard		PL		53.674	15.116	1
+P	Rypin		PL		53.066	19.409	1
+P	Namysłów	namyslow	PL		51.076	17.723	1
+P	Jičín	jicin	CZ		50.437	15.352	1
+P	Lędziny	ledziny	PL		50.143	19.131	1
+P	Ustka		PL		54.580	16.862	1
+P	Dvůr Králové nad Labem	dvur kralove nad labem	CZ		50.432	15.814	1
+P	Strzegom		PL		50.963	16.350	1
+P	Osowa		PL		54.431	18.467	1
+P	Kozanów	kozanow	PL		51.144	16.969	1
+P	Różanka-Polanka	rozanka polanka	PL		51.143	17.020	1
+P	Choszczno		PL		53.169	15.421	1
+P	Świdwin	swidwin	PL		53.775	15.777	1
+P	Złotoryja	zlotoryja	PL		51.126	15.920	1
+P	Łęczyca	leczyca	PL		52.060	19.200	1
+P	Chełmża	chelmza	PL		53.185	18.605	1
+P	Jelcz Laskowice		PL		51.021	17.316	1
+P	Jelcz		PL		51.021	17.321	1
+P	Poděbrady	podebrady	CZ		50.142	15.119	1
+P	Nowy Tomyśl	nowy tomysl	PL		52.319	16.128	1
+P	Solec Kujawski		PL		53.084	18.226	1
+P	Głuchołazy	glucholazy	PL		50.315	17.384	1
+P	Głowno	glowno	PL		51.965	19.716	1
+P	Ząbkowice Śląskie	zabkowice slaskie	PL		50.590	16.812	1
+P	Kartuzy		PL		54.334	18.197	1

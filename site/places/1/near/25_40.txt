@@ -1,0 +1,18 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Riyadh	180	
+C	SA	Saudi Arabia	ummalqura	s
+B	0
+P	Buraydah		SA		26.326	43.975	0
+P	Ha'il	hail	SA		27.522	41.691	0
+P	Unaizah		SA		26.100	44.000	0
+P	Sakakah		SA		29.970	40.206	0
+P	Az Zulfī	az zulfi	SA		26.299	44.815	0
+P	Ar Rass		SA		25.869	43.497	0
+P	Al Badā’i‘ al Wusţá	al badai al wusta	SA		25.985	43.737	0
+P	Al Bukayrīyah	al bukayriyah	SA		26.139	43.658	0
+P	Al Mithnab		SA		25.860	44.222	0
+P	Turubah		SA		28.258	42.925	0
+P	Riyāḑ al Khabrā’	riyad al khabra	SA		26.067	43.553	0
+P	Baq‘ā’	baqa	SA		27.906	42.389	0
+P	Al Khabrā’	al khabra	SA		26.072	43.625	0
+P	‘Uyūn al Jiwā’	uyun al jiwa	SA		26.498	43.631	0

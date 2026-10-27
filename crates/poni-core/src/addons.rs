@@ -149,6 +149,19 @@ pub const HEALTH: Addon = Addon {
     files: &[],
 };
 
+/// Stocks: the Stocks page, the IHSG and up to ten IDX stocks with their
+/// day's line, from oyenza.trade (`poni_core::stocks`). Its code is in the
+/// app, so there is nothing to download. Off, there is no Stocks tab; on, the
+/// prices are asked for only while its page is on screen.
+pub const STOCKS: Addon = Addon {
+    id: "stocks",
+    title: "Stocks",
+    blurb: "The IHSG and up to 10 IDX stocks from oyenza.trade, 10 minutes behind IDX.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Screen recorder: the Record page and the recording pill, the face of
 /// Oyenza Studio Recorder (its own install, about 120 MB). Its code is in the
 /// island, so there is nothing to download. It shows on the Add-ons page once
@@ -165,7 +178,7 @@ pub const SCREEN_RECORDER: Addon = Addon {
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 6] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &SCREEN_RECORDER];
+pub const ALL: [&Addon; 7] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &SCREEN_RECORDER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -270,7 +283,7 @@ mod tests {
 
     #[test]
     fn system_and_health_are_built_in_add_ons_off_until_switched_on() {
-        for a in [&SYSTEM, &HEALTH] {
+        for a in [&SYSTEM, &HEALTH, &STOCKS] {
             assert!(!a.downloads() && a.size() == 0, "{}", a.id);
             assert_eq!(Addon::find(a.id), Some(a));
             assert_eq!(Status::Ready.line(a, false), "On");

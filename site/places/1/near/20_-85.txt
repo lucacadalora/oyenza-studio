@@ -1,0 +1,79 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	1	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	CU	Cuba	mwl	s
+C	US	United States	moonsighting	s
+B	1
+P	Havana		CU		23.133	-82.383	0
+P	Almendares		CU		23.110	-82.423	0
+P	Diez de Octubre		CU		23.088	-82.360	0
+P	Arroyo Naranjo		CU		23.038	-82.377	0
+P	Mantilla		CU		23.068	-82.341	0
+P	Boyeros		CU		23.007	-82.402	0
+P	Pinar del Río	pinar del rio	CU		22.416	-83.697	0
+P	Cienfuegos		CU		22.147	-80.448	0
+P	Fontanar		CU		23.024	-82.408	0
+P	Ciudad Camilo Cienfuegos		CU		23.161	-82.328	0
+P	San Miguel del Padrón	san miguel del padron	CU		23.095	-82.327	0
+P	Centro Habana		CU		23.135	-82.369	0
+P	Balcón de la Lisa	balcon de la lisa	CU		23.053	-82.448	0
+P	Matanzas		CU		23.044	-81.583	0
+P	Plaza de la Revolución	plaza de la revolucion	CU		23.119	-82.392	0
+P	Marianao		CU		23.074	-82.430	0
+P	Cerro		CU		23.108	-82.384	0
+P	Guanabacoa		CU		23.125	-82.301	0
+P	Vedado		CU		23.138	-82.393	0
+P	Alamar		CU		23.158	-82.278	0
+P	Cárdenas	cardenas	CU		23.036	-81.206	0
+P	La Habana Vieja		CU		23.130	-82.353	0
+P	Vedado del Cotorro		CU		23.050	-82.250	0
+P	Güira de Melena	guira de melena	CU		22.797	-82.507	0
+P	Consolación del Sur	consolacion del sur	CU		22.505	-83.513	0
+P	Güines	guines	CU		22.838	-82.027	0
+P	Artemisa		CU		22.814	-82.758	0
+P	Colón	colon	CU		22.721	-80.904	0
+P	Sagua la Grande		CU		22.806	-80.074	0
+P	San Cristobal		CU		22.717	-83.056	0
+P	San José de las Lajas	san jose de las lajas	CU		22.961	-82.152	0
+P	Jagüey Grande	jaguey grande	CU		22.526	-81.129	0
+P	Corralillo		CU		22.982	-80.585	0
+P	Jovellanos		CU		22.805	-81.192	0
+P	Bauta		CU		22.982	-82.548	0
+P	Santo Domingo		CU		22.587	-80.243	0
+P	Regla		CU		23.126	-82.331	0
+P	Ranchuelo		CU		22.373	-80.150	0
+P	San Antonio de los Baños	san antonio de los banos	CU		22.889	-82.506	0
+P	Cifuentes		CU		22.649	-80.049	0
+P	Cumanayagua		CU		22.152	-80.204	0
+P	Santiago de las Vegas		CU		22.970	-82.387	0
+P	Minas de Matahambre		CU		22.587	-83.946	0
+P	Madruga		CU		22.910	-81.857	0
+P	Unión de Reyes	union de reyes	CU		22.795	-81.537	0
+P	Mariel		CU		22.990	-82.754	0
+P	La Salud		CU		22.874	-82.420	0
+P	Naranjito		CU		23.079	-82.377	0
+P	Viñales	vinales	CU		22.619	-83.707	0
+P	Pedro Betancourt		CU		22.728	-81.289	0
+P	Key West		US	Florida	24.555	-81.782	1
+P	Los Palacios		CU		22.588	-83.248	0
+P	Limonar		CU		22.950	-81.411	0
+P	Guanajay		CU		22.926	-82.687	0
+P	Cruces		CU		22.343	-80.271	0
+P	Perico		CU		22.769	-81.018	0
+P	Aguada de Pasajeros		CU		22.385	-80.848	0
+P	Calimete		CU		22.534	-80.911	0
+P	Víbora	vibora	CU		23.094	-82.372	0
+P	Palmira		CU		22.242	-80.392	0
+P	Víbora Park	vibora park	CU		23.081	-82.354	0
+P	Lajas		CU		22.414	-80.294	0
+P	Cojímar	cojimar	CU		23.165	-82.301	0
+P	Nueva Gerona		CU		21.888	-82.807	0
+P	Jaruco		CU		23.044	-82.009	0
+P	Varadero		CU		23.157	-81.244	0
+P	Bahía Honda	bahia honda	CU		22.903	-83.160	0
+P	Rodas		CU		22.342	-80.556	0
+P	Santa Cruz del Norte		CU		23.154	-81.923	0
+P	Bejucal		CU		22.928	-82.389	0
+P	Abreus		CU		22.278	-80.569	0
+P	Guane		CU		22.204	-84.088	0
+P	Alquízar	alquizar	CU		22.805	-82.584	0

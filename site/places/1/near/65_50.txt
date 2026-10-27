@@ -1,0 +1,6 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kirov	180	
+C	RU	Russia	mwl	s
+B	0
+P	Narian-Mar	narian mar	RU		67.668	53.098	0
+P	Nar'yan-Mar	naryan mar	RU		67.639	53.004	0

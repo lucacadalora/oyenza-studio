@@ -1,0 +1,63 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Taipei	480	
+Z	1	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+C	TW	Taiwan	mwl	s
+B	3
+P	Taichung		TW		24.147	120.684	0
+P	Kaohsiung		TW		22.616	120.313	0
+P	Tainan		TW		22.991	120.213	0
+P	Taoyuan		TW		24.994	121.297	0
+P	Hsinchu		TW		24.804	120.969	0
+P	Fengshan		TW		22.627	120.361	0
+P	Chiayi City		TW		23.479	120.449	0
+P	Yongkang		TW		23.024	120.256	0
+P	Chang-hua	chang hua	TW		24.073	120.563	0
+P	Changhua		TW		24.069	120.551	0
+P	Zhubei		TW		24.838	121.008	0
+P	Bade		TW		24.930	121.284	0
+P	Shulin		TW		24.991	121.422	0
+P	Yuanlin		TW		23.957	120.576	0
+P	Sanxia		TW		24.934	121.371	0
+P	Neili		TW		24.973	121.261	0
+P	Douliu		TW		23.709	120.543	0
+P	Toufen		TW		24.688	120.909	0
+P	Nantou		TW		23.916	120.664	0
+P	Taitung		TW		22.760	121.145	0
+P	Hualien City		TW		23.977	121.604	0
+P	Caotun		TW		23.977	120.688	0
+P	Zhudong		TW		24.732	121.091	0
+P	Daxi		TW		24.884	121.290	0
+P	Yilan		TW		24.757	121.753	0
+P	Yingge		TW		24.956	121.351	0
+P	Puli		TW		23.966	120.970	0
+P	Miaoli		TW		24.564	120.824	0
+P	Xinying		TW		23.307	120.311	0
+P	Wufeng		TW		24.064	120.698	0
+P	Xihu		TW		23.957	120.479	0
+P	Chaozhou		TW		22.550	120.541	0
+P	Donggang		TW		22.465	120.449	0
+P	Ishigaki		JP		24.345	124.157	1
+P	Zhushan		TW		23.756	120.682	0
+P	Erlin		TW		23.901	120.369	0
+P	Buzi		TW		24.210	120.573	0
+P	Taibao		TW		23.459	120.332	0
+P	Xiluo		TW		23.799	120.463	0
+P	Shetou		TW		23.898	120.588	0
+P	Yongjing		TW		23.921	120.546	0
+P	Tianzhong		TW		23.858	120.586	0
+P	Beigang		TW		23.570	120.302	0
+P	Beidou		TW		23.873	120.524	0
+P	Xingang		TW		23.557	120.346	0
+P	Hengchun		TW		22.004	120.744	0
+P	Pitou		TW		23.895	120.479	0
+P	Xizhou		TW		24.277	120.689	0
+P	Tianwei		TW		23.893	120.524	0
+P	Zhongxing New Village		TW		23.959	120.685	0
+P	Erlun		TW		23.770	120.413	0
+P	Citong		TW		23.758	120.500	0
+P	Budai		TW		23.378	120.162	0
+P	Lugu		TW		23.746	120.752	0
+P	Xiulin		TW		24.120	121.626	0
+P	Linnei		TW		23.762	120.619	0
+P	Yujing		TW		23.125	120.461	0

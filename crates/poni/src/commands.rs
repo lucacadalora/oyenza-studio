@@ -111,6 +111,9 @@ pub enum Command {
     Update,
     /// Install it the next time the app starts (Windows).
     InstallOnNextStart,
+    /// Settings' Check now: read the update file now, as the menu's Check
+    /// for updates… does (`AppState::update.said` takes the answer).
+    CheckForUpdates,
     /// Start/stop the 1 Hz system-stats sampler.
     WantStats(bool),
     /// Start with Windows on or off (the Settings page's switch).
@@ -127,4 +130,7 @@ pub enum Command {
     Phone(PhoneCmd),
     Pair(PairCmd),
     Oyenza(OyenzaCmd),
+    /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
+    /// answer: `AppEvent::Cities`).
+    GetCities(String),
 }

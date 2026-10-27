@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Niamey	60	
+C	NE	Niger	egyptian	s
+B	0
+P	Agadez		NE		16.973	7.991	0
+P	Arlit		NE		18.737	7.385	0
+P	Alaghsas		NE		17.019	8.017	0
+P	Abalak		NE		15.451	6.279	0
+P	Tchin Tabaradèn	tchin tabaraden	NE		15.897	5.798	0

@@ -1,0 +1,303 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AT	Austria	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	CZ	Czechia	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	PL	Poland	mwl	s
+C	RS	Serbia	mwl	s
+C	SI	Slovenia	mwl	s
+C	SK	Slovakia	mwl	s
+B	3
+P	Budapest		HU		47.498	19.040	0
+P	Vienna		AT		48.208	16.372	0
+P	Pest		HU		47.500	19.083	0
+P	Zagreb		HR		45.814	15.978	0
+P	Buda		HU		47.500	19.033	0
+P	Bratislava		SK		48.148	17.107	0
+P	Brno		CZ		49.195	16.608	0
+P	Graz		AT		47.067	15.442	0
+P	Ostrava		CZ		49.835	18.282	0
+P	Novi Sad		RS		45.252	19.837	0
+P	Favoriten		AT		48.161	16.382	0
+P	Donaustadt		AT		48.233	16.460	0
+P	Bielsko-Biala	bielsko biala	PL		49.822	19.047	0
+P	Floridsdorf		AT		48.250	16.400	0
+P	Pécs	pecs	HU		46.076	18.228	0
+P	Budapest XI. kerület	budapest xi kerulet	HU		47.476	19.036	0
+P	Zugló	zuglo	HU		47.518	19.105	0
+P	Győr	gyor	HU		47.683	17.635	0
+P	Budapest III. kerület	budapest iii kerulet	HU		47.542	19.045	0
+P	Budapest XIII. kerület	budapest xiii kerulet	HU		47.530	19.081	0
+P	Petržalka	petrzalka	SK		48.123	17.129	0
+P	Kecskemét	kecskemet	HU		46.906	19.691	0
+P	Ottakring		AT		48.217	16.300	0
+P	Székesfehérvár	szekesfehervar	HU		47.190	18.410	0
+P	Simmering		AT		48.183	16.433	0
+P	Újpest	ujpest	HU		47.569	19.085	0
+P	Subotica		RS		46.100	19.667	0
+P	Olomouc		CZ		49.596	17.252	0
+P	Landstraße	landstrasse	AT		48.202	16.388	0
+P	Budapest IV. kerület	budapest iv kerulet	HU		47.562	19.089	0
+P	Penzing		AT		48.200	16.267	0
+P	Meidling		AT		48.167	16.333	0
+P	Maribor		SI		46.556	15.646	0
+P	Jastrzębie Zdrój	jastrzebie zdroj	PL		49.955	18.575	0
+P	Budapest XVIII. kerület	budapest xviii kerulet	HU		47.444	19.176	0
+P	Budapest II. kerület	budapest ii kerulet	HU		47.520	19.022	0
+P	Brigittenau		AT		48.243	16.376	0
+P	Brno střed	brno stred	CZ		49.193	16.607	0
+P	Nitra		SK		48.308	18.085	0
+P	Havířov	havirov	CZ		49.780	18.437	0
+P	Budapest VIII. kerület	budapest viii kerulet	HU		47.489	19.070	0
+P	Žilina	zilina	SK		49.223	18.739	0
+P	Budapest XV. kerület	budapest xv kerulet	HU		47.563	19.117	0
+P	Kőbánya	kobanya	HU		47.484	19.139	0
+P	Budapest XVII. kerület	budapest xvii kerulet	HU		47.480	19.254	0
+P	Szombathely		HU		47.231	16.622	0
+P	Józsefváros	jozsefvaros	HU		47.489	19.073	0
+P	Fünfhaus	funfhaus	AT		48.196	16.318	0
+P	Budapest XXI. kerület	budapest xxi kerulet	HU		47.422	19.066	0
+P	Osijek		HR		45.551	18.694	0
+P	Döbling	dobling	AT		48.250	16.333	0
+P	Banská Bystrica	banska bystrica	SK		48.739	19.149	0
+P	Zlín	zlin	CZ		49.226	17.671	0
+P	Budapest XVI. kerület	budapest xvi kerulet	HU		47.515	19.170	0
+P	Tatabánya	tatabanya	HU		47.592	18.381	0
+P	Kaposvár	kaposvar	HU		46.367	17.800	0
+P	Budapest XX. kerület	budapest xx kerulet	HU		47.437	19.101	0
+P	Trnava		SK		48.378	17.586	0
+P	Érd	erd	HU		47.395	18.914	0
+P	Sopron		HU		47.685	16.590	0
+P	Angyalföld	angyalfold	HU		47.548	19.080	0
+P	Erzsébetváros	erzsebetvaros	HU		47.502	19.072	0
+P	Zalaegerszeg		HU		46.837	16.844	0
+P	Budapest XIX. kerület	budapest xix kerulet	HU		47.453	19.149	0
+P	Kispest		HU		47.452	19.140	0
+P	Opava		CZ		49.939	17.903	0
+P	Ferencváros	ferencvaros	HU		47.478	19.091	0
+P	Pestlőrinc	pestlorinc	HU		47.430	19.216	0
+P	Trenčín	trencin	SK		48.895	18.044	0
+P	Hernals		AT		48.225	16.309	0
+P	Veszprém	veszprem	HU		47.093	17.911	0
+P	Budapest XII. kerület	budapest xii kerulet	HU		47.492	19.015	0
+P	Sesvete		HR		45.831	16.116	0
+P	Margareten		AT		48.185	16.354	0
+P	Eisenzicken		AT		47.276	16.259	0
+P	Hietzing		AT		48.186	16.297	0
+P	Frýdek-Místek	frydek mistek	CZ		49.683	18.350	0
+P	Kelenföld	kelenfold	HU		47.466	19.031	0
+P	Währing	wahring	AT		48.226	16.345	0
+P	Martin		SK		49.067	18.924	0
+P	Aspern		AT		48.218	16.483	0
+P	Budapest XXII. kerület	budapest xxii kerulet	HU		47.427	19.040	0
+P	Jihlava		CZ		49.396	15.591	0
+P	Dunaújváros	dunaujvaros	HU		46.965	18.940	0
+P	Karviná	karvina	CZ		49.854	18.542	0
+P	Sombor		RS		45.774	19.112	0
+P	Nagykanizsa		HU		46.453	16.991	0
+P	Staré Mesto	stare mesto	SK		48.150	17.090	0
+P	Slavonski Brod		HR		45.162	18.016	0
+P	Wiener Neustadt		AT		47.805	16.232	0
+P	Prievidza		SK		48.774	18.628	0
+P	Prostějov	prostejov	CZ		49.472	17.112	0
+P	Budapest VI. kerület	budapest vi kerulet	HU		47.504	19.066	0
+P	Karlovac		HR		45.492	15.550	0
+P	Alsergrund		AT		48.223	16.355	0
+P	Přerov	prerov	CZ		49.455	17.451	0
+P	Zvolen		SK		48.574	19.153	0
+P	Cegléd	cegled	HU		47.173	19.800	0
+P	Rákospalota	rakospalota	HU		47.565	19.122	0
+P	Třinec	trinec	CZ		49.678	18.671	0
+P	Celje		SI		46.231	15.260	0
+P	Baja		HU		46.183	18.953	0
+P	Považská Bystrica	povazska bystrica	SK		49.122	18.422	0
+P	Centar		HR		45.813	15.978	0
+P	Újlipótváros	ujlipotvaros	HU		47.516	19.053	0
+P	Nové Zámky	nove zamky	SK		47.985	18.162	0
+P	Újpalota	ujpalota	HU		47.537	19.144	0
+P	Varaždin	varazdin	HR		46.304	16.338	0
+P	Pesterzsébet	pesterzsebet	HU		47.433	19.117	0
+P	Karlova Ves		SK		48.153	17.055	0
+P	Cieszyn		PL		49.751	18.632	0
+P	Dúbravka	dubravka	SK		48.189	17.035	0
+P	Znojmo		CZ		48.855	16.049	0
+P	Vác	vac	HU		47.776	19.136	0
+P	Czechowice-Dziedzice	czechowice dziedzice	PL		49.913	19.005	0
+P	Salgótarján	salgotarjan	HU		48.099	19.803	0
+P	Třebíč	trebic	CZ		49.215	15.882	0
+P	Szekszárd	szekszard	HU		46.347	18.712	0
+P	Középső-Ferencváros	kozepso ferencvaros	HU		47.473	19.080	0
+P	Óbuda	obuda	HU		47.550	19.033	0
+P	Pápa	papa	HU		47.330	17.467	0
+P	Gyöngyös	gyongyos	HU		47.783	19.928	0
+P	Jakomini		AT		47.054	15.450	0
+P	Gödöllő	godollo	HU		47.597	19.355	0
+P	Komárno	komarno	SK		48.117	18.317	0
+P	Komárno	komarno	SK		47.764	18.123	0
+P	Ruma		RS		45.008	19.822	0
+P	Żywiec	zywiec	PL		49.685	19.192	0
+P	Kiskunfélegyháza	kiskunfelegyhaza	HU		46.712	19.845	0
+P	Neubau		AT		48.202	16.347	0
+P	Ajka		HU		47.102	17.559	0
+P	Mariahilf		AT		48.196	16.352	0
+P	Lend		AT		47.083	15.416	0
+P	Levice		SK		48.216	18.607	0
+P	Mosonmagyaróvár	mosonmagyarovar	HU		47.868	17.270	0
+P	Dunakeszi		HU		47.636	19.139	0
+P	Liptovský Mikuláš	liptovsky mikulas	SK		49.081	19.622	0
+P	Velika Gorica		HR		45.712	16.076	0
+P	Dlhé diely	dlhe diely	SK		48.155	17.046	0
+P	Bačka Palanka	backa palanka	RS		45.250	19.397	0
+P	Gries		AT		47.062	15.424	0
+P	Kiskunhalas		HU		46.434	19.485	0
+P	Alsórákos	alsorakos	HU		47.528	19.123	0
+P	Esztergom		HU		47.793	18.741	0
+P	Šumperk	sumperk	CZ		49.965	16.971	0
+P	Vinkovci		HR		45.288	18.805	0
+P	Kroměříž	kromeriz	CZ		49.298	17.393	0
+P	Sisak		HR		45.466	16.377	0
+P	Orlová	orlova	CZ		49.845	18.430	0
+P	Valašské Meziříčí	valasske mezirici	CZ		49.472	17.971	0
+P	Jászberény	jaszbereny	HU		47.500	19.917	0
+P	Zakopane		PL		49.299	19.949	0
+P	Komló	komlo	HU		46.193	18.265	0
+P	Piešťany	piestany	SK		48.595	17.826	0
+P	Budafok		HU		47.424	19.036	0
+P	Ružomberok	ruzomberok	SK		49.075	19.308	0
+P	Nový Jičín	novy jicin	CZ		49.594	18.010	0
+P	Baden		AT		48.005	16.233	0
+P	Budapest V. kerület	budapest v kerulet	HU		47.500	19.051	0
+P	Vrbas		RS		45.571	19.641	0
+P	Óhegy	ohegy	HU		47.478	19.148	0
+P	Břeclav	breclav	CZ		48.759	16.882	0
+P	Český Těšín	cesky tesin	CZ		49.746	18.626	0
+P	Pszczyna		PL		49.980	18.954	0
+P	Lučenec	lucenec	SK		48.332	19.667	0
+P	Vsetín	vsetin	CZ		49.339	17.996	0
+P	Budaörs	budaors	HU		47.462	18.958	0
+P	Rákoskeresztúr	rakoskeresztur	HU		47.473	19.262	0
+P	Uherské Hradiště	uherske hradiste	CZ		49.070	17.460	0
+P	Szigetszentmiklós	szigetszentmiklos	HU		47.344	19.043	0
+P	Geidorf		AT		47.084	15.444	0
+P	Naphegy		HU		47.488	19.025	0
+P	Budapest I. kerület	budapest i kerulet	HU		47.497	19.040	0
+P	Líšeň	lisen	CZ		49.207	16.695	0
+P	Josefstadt		AT		48.212	16.345	0
+P	Novo Mesto		SI		45.804	15.169	0
+P	Pezinok		SK		48.290	17.267	0
+P	Bjelovar		HR		45.898	16.851	0
+P	Havlíčkův Brod	havlickuv brod	CZ		49.607	15.579	0
+P	Velenje		SI		46.357	15.113	0
+P	Královo Pole	kralovo pole	CZ		49.225	16.590	0
+P	Topoľčany	topolcany	SK		48.564	18.167	0
+P	Skawina		PL		49.975	19.829	0
+P	Chrudim		CZ		49.951	15.796	0
+P	Szentendre		HU		47.669	19.076	0
+P	Nagykőrös	nagykoros	HU		47.034	19.779	0
+P	Hodonín	hodonin	CZ		48.849	17.132	0
+P	Podunajské Biskupice	podunajske biskupice	SK		48.132	17.210	0
+P	Kopřivnice	koprivnice	CZ		49.599	18.145	0
+P	Tata		HU		47.653	18.318	0
+P	Rákosszentmihály	rakosszentmihaly	HU		47.525	19.155	0
+P	Starý Bohumín	stary bohumin	CZ		49.917	18.336	0
+P	Siófok	siofok	HU		46.904	18.058	0
+P	Jindřichův Hradec	jindrichuv hradec	CZ		49.144	15.003	0
+P	Dunajská Streda	dunajska streda	SK		47.993	17.612	0
+P	Bystrc		CZ		49.226	16.530	0
+P	Čadca	cadca	SK		49.435	18.789	0
+P	Koprivnica		HR		46.164	16.830	0
+P	Vukovar		HR		45.352	19.002	0
+P	Andrychów	andrychow	PL		49.855	19.338	0
+P	Gyál	gyal	HU		47.384	19.221	0
+P	Dubnica nad Váhom	dubnica nad vahom	SK		48.960	18.166	0
+P	Sankt Pölten	sankt polten	AT		48.208	15.637	0
+P	Monor		HU		47.351	19.447	0
+P	Kutná Hora	kutna hora	CZ		49.948	15.268	0
+P	Várpalota	varpalota	HU		47.199	18.140	0
+P	Essling		AT		48.213	16.524	0
+P	Dombóvár	dombovar	HU		46.377	18.137	0
+P	Partizánske	partizanske	SK		48.629	18.385	0
+P	Vrakuňa	vrakuna	SK		48.138	17.209	0
+P	Vyškov	vyskov	CZ		49.277	16.999	0
+P	Paks		HU		46.622	18.856	0
+P	Mödling	modling	AT		48.086	16.289	0
+P	Eggenberg		AT		47.070	15.399	0
+P	Žďár nad Sázavou	zdar nad sazavou	CZ		49.563	15.939	0
+P	Budapest XXIII. kerület	budapest xxiii kerulet	HU		47.398	19.115	0
+P	Bohumín	bohumin	CZ		49.904	18.358	0
+P	Oroszlány	oroszlany	HU		47.487	18.312	0
+P	Šaľa	sala	SK		48.151	17.881	0
+P	Hatvan		HU		47.667	19.683	0
+P	Senec		SK		48.220	17.400	0
+P	Blansko		CZ		49.363	16.644	0
+P	Hlohovec		SK		48.432	17.803	0
+P	Mátyásföld	matyasfold	HU		47.509	19.211	0
+P	Brezno		SK		48.804	19.636	0
+P	Lágymányos	lagymanyos	HU		47.472	19.058	0
+P	Keszthely		HU		46.768	17.243	0
+P	Žabovřesky	zabovresky	CZ		49.214	16.573	0
+P	Senica		SK		48.679	17.367	0
+P	Velika Kladuša	velika kladusa	BA		45.185	15.806	0
+P	Vecsés	vecses	HU		47.407	19.286	0
+P	Nové Mesto nad Váhom	nove mesto nad vahom	SK		48.758	17.831	0
+P	Kęty	kety	PL		49.882	19.223	0
+P	Wadowice		PL		49.883	19.493	0
+P	Andritz		AT		47.114	15.423	0
+P	Židenice	zidenice	CZ		49.197	16.647	0
+P	Komárom	komarom	HU		47.743	18.119	0
+P	Malacky		SK		48.436	17.022	0
+P	Zaprešić	zapresic	HR		45.856	15.808	0
+P	Mohács	mohacs	HU		45.990	18.686	0
+P	Csepel-Csillagtelep	csepel csillagtelep	HU		47.409	19.059	0
+P	Apatin		RS		45.673	18.978	0
+P	Kalocsa		HU		46.530	18.973	0
+P	Veresegyház	veresegyhaz	HU		47.646	19.295	0
+P	Futog		RS		45.239	19.714	0
+P	Ptuj		SI		46.420	15.870	0
+P	Hranice		CZ		49.548	17.735	0
+P	Myślenice	myslenice	PL		49.834	19.938	0
+P	Dolný Kubín	dolny kubin	SK		49.210	19.303	0
+P	Tapolca		HU		46.882	17.441	0
+P	Százhalombatta	szazhalombatta	HU		47.329	18.939	0
+P	Otrokovice		CZ		49.209	17.539	0
+P	Rožnov pod Radhoštěm	roznov pod radhostem	CZ		49.459	18.143	0
+P	Devínska Nová Ves	devinska nova ves	SK		48.207	16.979	0
+P	Púchov	puchov	SK		49.125	18.326	0
+P	Dunaharaszti		HU		47.355	19.098	0
+P	Žiar nad Hronom	ziar nad hronom	SK		48.592	18.850	0
+P	Samobor		HR		45.803	15.718	0
+P	Đakovo	dakovo	HR		45.308	18.411	0
+P	Požega	pozega	HR		45.340	17.685	0
+P	Fót	fot	HU		47.618	19.189	0
+P	Dabas		HU		47.186	19.311	0
+P	Pelhřimov	pelhrimov	CZ		49.431	15.223	0
+P	Bánovce nad Bebravou	banovce nad bebravou	SK		48.721	18.258	0
+P	Innere Stadt		AT		48.209	16.371	0
+P	Uherský Brod	uhersky brod	CZ		49.025	17.647	0
+P	Stockerau		AT		48.383	16.217	0
+P	Straßgang	strassgang	AT		47.033	15.400	0
+P	Bačka Topola	backa topola	RS		45.815	19.632	0
+P	Svitavy		CZ		49.756	16.468	0
+P	Csepel-Királyerdő	csepel kiralyerdo	HU		47.403	19.092	0
+P	Göd	god	HU		47.683	19.134	0
+P	Sankt Leonhard		AT		47.069	15.458	0
+P	Handlová	handlova	SK		48.728	18.760	0
+P	Wetzelsdorf		AT		47.053	15.399	0
+P	Ustroń	ustron	PL		49.722	18.802	0
+P	Klosterneuburg		AT		48.305	16.325	0
+P	Skalica		SK		48.845	17.226	0
+P	Sárvár	sarvar	HU		47.254	16.935	0
+P	Sashalom		HU		47.515	19.171	0
+P	Galanta		SK		48.190	17.727	0
+P	Sereď	sered	SK		48.291	17.733	0
+P	Sankt Peter		AT		47.050	15.467	0
+P	Trbovlje		SI		46.154	15.052	0
+P	Ústí nad Orlicí	usti nad orlici	CZ		49.974	16.394	0
+P	Kiskőrös	kiskoros	HU		46.621	19.285	0
+P	Čakovec	cakovec	HR		46.384	16.434	0
+P	Perchtoldsdorf		AT		48.119	16.266	0
+P	Bruntál	bruntal	CZ		49.988	17.465	0
+P	Česká Třebová	ceska trebova	CZ		49.904	16.444	0
+P	Liberpolis		HR		45.775	18.880	0

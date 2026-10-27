@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lusaka	120	
+C	BW	Botswana	egyptian	s
+C	NA	Namibia	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Mongu		ZM		-15.248	23.127	0
+P	Maun		BW		-19.983	23.417	0
+P	Katima Mulilo		NA		-17.505	24.276	0
+P	Sesheke		ZM		-17.476	24.297	0
+P	Senanga		ZM		-16.117	23.267	0
+P	Ndiyona		NA		-18.039	20.701	0

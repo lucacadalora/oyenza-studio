@@ -1,0 +1,47 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+Z	1	Asia/Shanghai	480	
+Z	2	Asia/Yangon	390	
+C	CN	China	mwl	s
+C	IN	India	karachi	h
+C	MM	Myanmar	mwl	s
+B	0
+P	Baoshan		CN		25.116	99.164	1
+P	Lushui		CN		25.823	98.859	1
+P	Shangri-La	shangri la	CN		27.825	99.708	1
+P	Tinsukia		IN		27.489	95.360	0
+P	Myitkyina		MM		25.383	97.396	2
+P	Jietou		CN		25.427	98.653	1
+P	Liuku		CN		25.851	98.856	1
+P	Hpākān	hpakan	MM		25.614	96.315	2
+P	Zibihu		CN		26.114	99.953	1
+P	Bonan		CN		25.463	99.528	1
+P	Jinding		CN		26.439	99.441	1
+P	Jinhua		CN		26.538	99.917	1
+P	Gudong		CN		25.342	98.483	1
+P	Qushi		CN		25.217	98.600	1
+P	Mingguang		CN		25.493	98.542	1
+P	Zhonghe		CN		25.056	98.400	1
+P	Yingpan		CN		26.450	99.150	1
+P	Danai		MM		26.359	96.720	2
+P	Shangpa		CN		26.919	98.952	1
+P	Duliajan		IN		27.360	95.318	0
+P	Duliajan Oil Town		IN		27.358	95.314	0
+P	Ruidian		CN		25.532	98.409	1
+P	Houqiao		CN		25.324	98.278	1
+P	Mazhan		CN		25.211	98.484	1
+P	Margherita		IN		27.285	95.668	0
+P	Mon		IN		26.736	95.058	0
+P	Pāsighāt	pasighat	IN		28.066	95.327	0
+P	Mogaung		MM		25.305	96.935	2
+P	Jiuhe		CN		26.763	99.992	1
+P	Beihai		CN		25.080	98.577	1
+P	Digboi		IN		27.393	95.618	0
+P	Dum Duma		IN		27.569	95.557	0
+P	Judian		CN		27.306	99.649	1
+P	Shigu		CN		26.869	99.956	1
+P	Sonāri	sonari	IN		27.025	95.016	0
+P	Nahorkatiya		IN		27.286	95.328	0
+P	Nāmrup	namrup	IN		27.194	95.319	0
+P	Tezu		IN		27.913	96.129	0
+P	Mākum	makum	IN		27.487	95.436	0

@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kampala	180	
+Z	1	Asia/Yangon	390	
+C	MM	Myanmar	mwl	s
+C	UG	Uganda	egyptian	s
+B	0
+P	Bwizibwera		UG		-0.592	30.629	0
+P	Saw Bwar Gyi Kone		MM		16.886	96.128	1

@@ -1,0 +1,53 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Matamoros	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	1	America/Monterrey	-360	
+C	MX	Mexico	mwl	s
+C	US	United States	moonsighting	s
+B	1
+P	Monterrey		MX		25.684	-100.317	1
+P	Torreón	torreon	MX		25.544	-103.419	1
+P	Saltillo		MX		25.426	-100.980	1
+P	Guadalupe		MX		25.677	-100.259	1
+P	Ciudad Apodaca		MX		25.781	-100.189	1
+P	Ciudad General Escobedo		MX		25.797	-100.318	1
+P	San Nicolás de los Garza	san nicolas de los garza	MX		25.742	-100.302	1
+P	Ciudad Benito Juárez	ciudad benito juarez	MX		25.647	-100.091	1
+P	Santa Catarina		MX		25.673	-100.458	1
+P	Gómez Palacio	gomez palacio	MX		25.569	-103.500	1
+P	Ciudad Acuña	ciudad acuna	MX		29.323	-100.952	0
+P	Monclova		MX		26.907	-101.421	1
+P	Piedras Negras		MX		28.700	-100.524	0
+P	San Pedro Garza García	san pedro garza garcia	MX		25.662	-100.403	1
+P	García	garcia	MX		25.801	-100.586	1
+P	Lerdo		MX		25.536	-103.525	1
+P	Frontera		MX		26.928	-101.452	1
+P	Cadereyta Jiménez	cadereyta jimenez	MX		25.591	-100.001	1
+P	Ramos Arizpe		MX		25.539	-100.947	1
+P	Sabinas		MX		27.856	-101.117	1
+P	Jardines de la Silla		MX		25.629	-100.188	1
+P	Matamoros		MX		25.527	-103.228	1
+P	San Pedro		MX		25.756	-102.984	1
+P	San Pedro		MX		25.433	-103.217	1
+P	Nueva Rosita		MX		27.937	-101.217	1
+P	Santiago		MX		25.426	-100.154	1
+P	Del Rio		US	Texas	29.363	-100.897	0
+P	Ciudad Melchor Múzquiz	ciudad melchor muzquiz	MX		27.879	-101.516	1
+P	Fraccionamiento Real Palmas		MX		25.904	-100.160	1
+P	José Mariano Jiménez	jose mariano jimenez	MX		27.131	-104.924	1
+P	Parras de la Fuente		MX		25.442	-102.178	1
+P	Ciudad Sabinas Hidalgo		MX		26.502	-100.181	1
+P	Eagle Pass		US	Texas	28.709	-100.500	0
+P	Ojinaga		MX		29.567	-104.545	0
+P	Francisco I. Madero	francisco i madero	MX		25.773	-103.271	1
+P	Ciudad de Allende		MX		25.281	-100.019	1
+P	Castaños	castanos	MX		26.789	-101.432	1
+P	Manuel Ojinaga		MX		29.564	-104.416	0
+P	Nava		MX		28.421	-100.766	1
+P	Allende		MX		28.341	-100.851	1
+P	San Buenaventura		MX		27.062	-101.549	1
+P	Parque Industrial Ciudad Mitras		MX		25.789	-100.448	1
+P	Mitras Poniente		MX		25.776	-100.426	1
+P	Palaú	palau	MX		27.892	-101.423	1
+P	Anáhuac	anahuac	MX		27.241	-100.133	0
+P	Hidalgo		MX		25.972	-100.452	1
+P	Ciénega de Flores	cienega de flores	MX		25.954	-100.166	1

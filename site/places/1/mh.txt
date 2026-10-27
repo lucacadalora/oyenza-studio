@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Asia/Kolkata	330	
+C	IN	India	karachi	h
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Mhow		IN		22.559	75.765	1
+P	Mharal Bk		IN		19.246	73.177	1
+P	Mhalamba		TZ		-2.581	32.010	0
+P	Mhaswad		IN		17.634	74.788	1
+P	Mhango		TZ		-3.283	32.850	0

@@ -1,0 +1,41 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kuwait	180	
+C	IQ	Iraq	mwl	s
+C	KW	Kuwait	kuwait	s
+C	SA	Saudi Arabia	ummalqura	s
+B	0
+P	Al Aḩmadī	al ahmadi	KW		29.077	48.084	0
+P	Al Hufūf	al hufuf	SA		25.365	49.588	0
+P	Al Mubarraz		SA		25.408	49.590	0
+P	Hafar Al-Batin	hafar al batin	SA		28.433	45.971	0
+P	Al Jubayl		SA		27.017	49.623	0
+P	Ḩawallī	hawalli	KW		29.333	48.029	0
+P	As Sālimīyah	as salimiyah	KW		29.334	48.076	0
+P	Şabāḩ as Sālim	sabah as salim	KW		29.257	48.057	0
+P	Al Fāw	al faw	IQ		29.974	48.473	0
+P	Al Farwānīyah	al farwaniyah	KW		29.277	47.959	0
+P	Al Faḩāḩīl	al fahahil	KW		29.082	48.130	0
+P	King Faisal Military City		SA		28.450	45.967	0
+P	Kuwait City		KW		29.367	47.974	0
+P	Ar Rumaythīyah	ar rumaythiyah	KW		29.312	48.074	0
+P	Al Khafjī	al khafji	SA		28.439	48.491	0
+P	Ar Riqqah		KW		29.146	48.095	0
+P	Şafwá	safwa	SA		26.650	49.955	0
+P	Salwá	salwa	KW		29.296	48.079	0
+P	Al Manqaf		KW		29.096	48.133	0
+P	Ar Rābiyah	ar rabiyah	KW		29.295	47.933	0
+P	Shaqra		SA		25.240	45.251	0
+P	Bayān	bayan	KW		29.303	48.049	0
+P	Abqaiq		SA		25.934	49.669	0
+P	Al ‘Awwāmīyah	al awwamiyah	SA		26.591	49.980	0
+P	King Khalid Military City		SA		27.905	45.553	0
+P	Rumāḩ	rumah	SA		25.564	47.164	0
+P	Al Jahrā’	al jahra	KW		29.337	47.658	0
+P	Al Finţās	al fintas	KW		29.174	48.121	0
+P	Aţ Ţaraf	at taraf	SA		25.362	49.728	0
+P	Qaisumah		SA		28.311	46.127	0
+P	Janūb as Surrah	janub as surrah	KW		29.269	47.978	0
+P	Al Mahbūlah	al mahbulah	KW		29.145	48.130	0
+P	Ad Dasmah		KW		29.365	48.001	0
+P	Al Baţţālīyah	al battaliyah	SA		25.433	49.633	0
+P	Al Munayzilah		SA		25.383	49.667	0

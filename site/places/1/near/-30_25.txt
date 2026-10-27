@@ -1,0 +1,152 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	BW	Botswana	egyptian	s
+C	LS	Lesotho	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Johannesburg		ZA		-26.202	28.044	0
+P	Pretoria		ZA		-25.745	28.188	0
+P	Soweto		ZA		-26.268	27.858	0
+P	Soshanguve		ZA		-25.473	28.099	0
+P	Evaton		ZA		-26.533	27.850	0
+P	Benoni		ZA		-26.188	28.321	0
+P	Bloemfontein		ZA		-29.121	26.214	0
+P	Thembisa		ZA		-25.996	28.227	0
+P	Vereeniging		ZA		-26.673	27.926	0
+P	Boksburg		ZA		-26.212	28.260	0
+P	Welkom		ZA		-27.977	26.735	0
+P	Newcastle		ZA		-27.758	29.932	0
+P	Krugersdorp		ZA		-26.086	27.775	0
+P	Rustenburg		ZA		-25.668	27.242	0
+P	Emalahleni		ZA		-25.871	29.233	0
+P	Maseru		LS		-29.317	27.483	0
+P	Diepsloot		ZA		-25.933	28.012	0
+P	Randburg		ZA		-26.094	28.001	0
+P	Roodepoort		ZA		-26.163	27.872	0
+P	Botshabelo		ZA		-29.267	26.726	0
+P	Brakpan		ZA		-26.237	28.369	0
+P	Germiston		ZA		-26.235	28.177	0
+P	Vanderbijlpark		ZA		-26.712	27.838	0
+P	Centurion		ZA		-25.859	28.186	0
+P	Klerksdorp		ZA		-26.852	26.667	0
+P	Middelburg		ZA		-25.775	29.465	0
+P	Springs		ZA		-26.250	28.400	0
+P	Ivory Park		ZA		-25.996	28.197	0
+P	Carletonville		ZA		-26.361	27.398	0
+P	Alexandra		ZA		-26.105	28.099	0
+P	Potchefstroom		ZA		-26.717	27.100	0
+P	Westonaria		ZA		-26.319	27.649	0
+P	Etwatwa		ZA		-26.125	28.455	0
+P	Ladysmith		ZA		-28.559	29.779	0
+P	eMbalenhle		ZA		-26.533	29.067	0
+P	Nigel		ZA		-26.431	28.477	0
+P	Sasolburg		ZA		-26.814	27.817	0
+P	Randfontein		ZA		-26.184	27.702	0
+P	Virginia		ZA		-28.104	26.866	0
+P	Brits		ZA		-25.635	27.780	0
+P	Alberton		ZA		-26.268	28.122	0
+P	Kroonstad		ZA		-27.650	27.235	0
+P	Somaroboro		ZA		-25.346	28.834	0
+P	Hammanskraal		ZA		-25.409	28.287	0
+P	Mabopane		ZA		-25.509	28.064	0
+P	Orkney		ZA		-26.980	26.673	0
+P	Tokoza		ZA		-26.360	28.129	0
+P	Standerton		ZA		-26.934	29.242	0
+P	Ermelo		ZA		-26.533	29.983	0
+P	Kutloanong		ZA		-27.833	26.750	0
+P	Stilfontein		ZA		-26.845	26.768	0
+P	Delmas		ZA		-26.147	28.683	0
+P	Bethlehem		ZA		-28.231	28.307	0
+P	Ga-Rankuwa	ga rankuwa	ZA		-25.617	27.995	0
+P	Midrand		ZA		-25.976	28.118	0
+P	Heidelberg		ZA		-26.505	28.359	0
+P	Phuthaditjhaba		ZA		-28.524	28.816	0
+P	Mafikeng		ZA		-25.865	25.644	0
+P	Mmabatho		ZA		-25.850	25.633	0
+P	Odendaalsrus		ZA		-27.874	26.691	0
+P	Bethal		ZA		-26.458	29.466	0
+P	Thaba Nchu		ZA		-29.209	26.839	0
+P	Bothaville		ZA		-27.389	26.617	0
+P	Parys		ZA		-26.903	27.457	0
+P	Schweizer-Reneke	schweizer reneke	ZA		-27.189	25.329	0
+P	Lichtenburg		ZA		-26.152	26.160	0
+P	Fochville		ZA		-26.489	27.494	0
+P	Maputsoe		LS		-28.887	27.899	0
+P	Ekangala		ZA		-25.668	28.730	0
+P	Viljoenskroon		ZA		-27.208	26.949	0
+P	Kwaggafontein		ZA		-25.327	28.942	0
+P	Trichardt		ZA		-26.492	29.229	0
+P	Letlhabile		ZA		-25.482	27.839	0
+P	Ficksburg		ZA		-28.872	27.875	0
+P	Wolmaransstad		ZA		-27.197	25.983	0
+P	Edenvale		ZA		-26.141	28.152	0
+P	Balfour		ZA		-26.663	28.590	0
+P	Mafeteng		LS		-29.823	27.237	0
+P	Siyabuswa		ZA		-25.113	29.045	0
+P	Hlotse		LS		-28.872	28.045	0
+P	Volksrust		ZA		-27.365	29.882	0
+P	Wesselsbron		ZA		-27.855	26.366	0
+P	Bronkhorstspruit		ZA		-25.810	28.742	0
+P	Butha-Buthe	butha buthe	LS		-28.767	28.249	0
+P	Senekal		ZA		-28.320	27.621	0
+P	Leslie		ZA		-26.367	28.919	0
+P	Phola		ZA		-26.002	29.034	0
+P	Mabote		LS		-29.279	27.524	0
+P	Theunissen		ZA		-28.411	26.701	0
+P	Cullinan		ZA		-25.671	28.524	0
+P	Wembesi		ZA		-29.049	29.782	0
+P	Bloemhof		ZA		-27.647	25.607	0
+P	Harrismith		ZA		-28.273	29.129	0
+P	Heilbron		ZA		-27.281	27.971	0
+P	Allanridge		ZA		-27.754	26.644	0
+P	Hartbeestfontein-A	hartbeestfontein a	ZA		-25.441	27.511	0
+P	Lebohang		ZA		-26.379	28.921	0
+P	Frankfort		ZA		-27.279	28.497	0
+P	Ladybrand		ZA		-29.194	27.457	0
+P	Lobatse		BW		-25.224	25.677	0
+P	Bultfontein		ZA		-28.288	26.150	0
+P	Hendrina		ZA		-26.159	29.715	0
+P	Teyateyaneng		LS		-29.147	27.749	0
+P	Hartbeespoort		ZA		-25.729	27.870	0
+P	Ventersdorp		ZA		-26.314	26.822	0
+P	Estcourt		ZA		-29.013	29.866	0
+P	Christiana		ZA		-27.914	25.161	0
+P	Midstream		ZA		-25.918	28.199	0
+P	Phomolong		ZA		-28.013	27.082	0
+P	Reitz		ZA		-27.801	28.427	0
+P	Itsoseng		ZA		-26.082	25.881	0
+P	Marikana		ZA		-25.699	27.475	0
+P	Koster		ZA		-25.863	26.898	0
+P	Deneysville		ZA		-26.891	28.097	0
+P	Hennenman		ZA		-27.977	27.024	0
+P	Hartbeesfontein		ZA		-26.766	26.420	0
+P	Moloto South		ZA		-25.463	28.650	0
+P	Ottosdal		ZA		-26.809	26.005	0
+P	Mooi River		ZA		-29.208	29.995	0
+P	Verena		ZA		-25.483	29.028	0
+P	Vrede		ZA		-27.426	29.166	0
+P	Hlohlolwane		ZA		-28.916	27.570	0
+P	Villiers		ZA		-27.030	28.601	0
+P	Coligny		ZA		-26.332	26.321	0
+P	Secunda		ZA		-26.550	29.167	0
+P	Vaalbank		ZA		-25.152	28.856	0
+P	Hoopstad		ZA		-27.833	25.908	0
+P	Zeerust		ZA		-25.537	26.075	0
+P	Marquard		ZA		-28.664	27.430	0
+P	Kinross		ZA		-26.417	29.087	0
+P	Kriel		ZA		-26.250	29.260	0
+P	Tshiame		ZA		-28.331	28.991	0
+P	Vredefort		ZA		-27.008	27.365	0
+P	Breyten		ZA		-26.302	29.987	0
+P	Winburg		ZA		-28.518	27.009	0
+P	Janeng		BW		-25.417	25.550	0
+P	Thaba-Tseka	thaba tseka	LS		-29.522	28.608	0
+P	Koppies		ZA		-27.242	27.574	0
+P	Bagale		ZA		-26.066	27.648	0
+P	Leeudoringstad		ZA		-27.237	26.235	0
+P	Makwassie		ZA		-27.316	25.995	0
+P	Thubelihle		ZA		-26.216	29.292	0
+P	Daggakraal		ZA		-27.132	29.976	0
+P	Fouriesburg		ZA		-28.620	28.210	0
+P	Winnie Mandela		ZA		-28.700	26.458	0
+P	Mamafubedu		ZA		-27.666	28.131	0

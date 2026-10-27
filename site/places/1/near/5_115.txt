@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kuching	480	
+C	BN	Brunei	singapore	s
+C	MY	Malaysia	singapore	s
+C	PH	Philippines	mwl	s
+B	0
+P	Kota Kinabalu		MY		5.975	116.072	0
+P	Sandakan		MY		5.840	118.118	0
+P	Puerto Princesa		PH		9.739	118.735	0
+P	Lahad Datu		MY		5.023	118.329	0
+P	Labuan		MY		5.280	115.248	0
+P	Putatan		MY		5.926	116.061	0
+P	Donggongon		MY		5.907	116.101	0
+P	Keningau		MY		5.338	116.160	0
+P	Brookes Point		PH		8.772	117.837	0
+P	Jose Rizal		PH		8.877	117.504	0
+P	Bandar Labuan		MY		5.283	115.254	0
+P	Sipitang		MY		5.079	115.550	0
+P	Petagas		MY		5.912	116.050	0
+P	Kudat		MY		6.887	116.824	0
+P	Bandar Nabawan		MY		5.039	116.427	0
+P	Tambunan		MY		5.717	116.400	0
+P	Mapun		PH		6.975	118.514	0
+P	Narra		PH		9.269	118.404	0
+P	Bongao		PH		5.029	119.773	0
+P	Kuala Penyu		MY		5.571	115.598	0
+P	Ranau		MY		5.954	116.664	0
+P	Papar		MY		5.733	115.933	0
+P	Serasa		BN		5.018	115.058	0
+P	Beaufort		MY		5.347	115.746	0
+P	Kinarut		MY		5.823	116.047	0

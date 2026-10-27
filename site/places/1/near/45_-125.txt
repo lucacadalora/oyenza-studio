@@ -1,0 +1,207 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	1	America/Vancouver	-480	29549400=-420
+C	CA	Canada	moonsighting	s
+C	US	United States	moonsighting	s
+B	0
+P	Seattle		US	Washington	47.606	-122.332	0
+P	Vancouver		CA	British Columbia	49.250	-123.119	1
+P	Portland		US	Oregon	45.523	-122.676	0
+P	Surrey		CA	British Columbia	49.106	-122.825	1
+P	Victoria		CA	British Columbia	48.436	-123.352	1
+P	Burnaby		CA	British Columbia	49.266	-122.953	1
+P	Tacoma		US	Washington	47.253	-122.444	0
+P	Richmond		CA	British Columbia	49.170	-123.137	1
+P	Vancouver		US	Washington	45.639	-122.661	0
+P	Newton		CA	British Columbia	49.133	-122.850	1
+P	Coquitlam		CA	British Columbia	49.285	-122.782	1
+P	Abbotsford		CA	British Columbia	49.058	-122.253	1
+P	Bellevue		US	Washington	47.610	-122.201	0
+P	Langley		CA	British Columbia	49.101	-122.659	1
+P	Kent		US	Washington	47.381	-122.235	0
+P	Saanich		CA	British Columbia	48.550	-123.369	1
+P	Gresham		US	Oregon	45.498	-122.431	0
+P	Everett		US	Washington	47.979	-122.202	0
+P	Whalley		CA	British Columbia	49.179	-122.867	1
+P	Hillsboro		US	Oregon	45.523	-122.990	0
+P	Delta		CA	British Columbia	49.089	-123.053	1
+P	Chilliwack		CA	British Columbia	49.166	-121.953	1
+P	Renton		US	Washington	47.483	-122.217	0
+P	Beaverton		US	Oregon	45.487	-122.804	0
+P	Federal Way		US	Washington	47.322	-122.313	0
+P	Yakima		US	Washington	46.602	-120.506	0
+P	Nanaimo		CA	British Columbia	49.166	-123.940	1
+P	North Vancouver		CA	British Columbia	49.316	-123.069	1
+P	Kirkland		US	Washington	47.681	-122.209	0
+P	Bellingham		US	Washington	48.760	-122.488	0
+P	Maple Ridge		CA	British Columbia	49.219	-122.602	1
+P	East Hastings		CA	British Columbia	49.272	-123.062	1
+P	New Westminster		CA	British Columbia	49.207	-122.911	1
+P	South Surrey		CA	British Columbia	49.050	-122.792	1
+P	Auburn		US	Washington	47.307	-122.228	0
+P	Cloverdale		CA	British Columbia	49.108	-122.728	1
+P	Marysville		US	Washington	48.052	-122.177	0
+P	Fleetwood		CA	British Columbia	49.167	-122.800	1
+P	Guildford		CA	British Columbia	49.192	-122.800	1
+P	Brighouse-City Centre	brighouse city centre	CA	British Columbia	49.167	-123.133	1
+P	Downtown Vancouver		CA	British Columbia	49.283	-123.119	1
+P	North Delta		CA	British Columbia	49.167	-122.917	1
+P	Redmond		US	Washington	47.674	-122.122	0
+P	Lakewood		US	Washington	47.172	-122.518	0
+P	Port Coquitlam		CA	British Columbia	49.266	-122.769	1
+P	Olympia		US	Washington	47.045	-122.902	0
+P	Shoreline		US	Washington	47.756	-122.342	0
+P	South Hill		US	Washington	47.141	-122.270	0
+P	Metrotown		CA	British Columbia	49.225	-123.000	1
+P	Sammamish		US	Washington	47.642	-122.080	0
+P	Renfrew-Collingwood	renfrew collingwood	CA	British Columbia	49.245	-123.038	1
+P	Tigard		US	Oregon	45.431	-122.771	0
+P	Burien		US	Washington	47.470	-122.347	0
+P	Aloha		US	Oregon	45.494	-122.867	0
+P	Kensington-Cedar Cottage	kensington cedar cottage	CA	British Columbia	49.250	-123.067	1
+P	West End		CA	British Columbia	49.283	-123.133	1
+P	Langford		CA	British Columbia	48.450	-123.503	1
+P	Lacey		US	Washington	47.034	-122.823	0
+P	Victoria-Downtown	victoria downtown	CA	British Columbia	48.428	-123.361	1
+P	City of Sammamish		US	Washington	47.604	-122.038	0
+P	West Vancouver		CA	British Columbia	49.329	-123.160	1
+P	Kitsilano		CA	British Columbia	49.267	-123.167	1
+P	Bothell		US	Washington	47.762	-122.205	0
+P	Mission		CA	British Columbia	49.133	-122.303	1
+P	Edmonds		US	Washington	47.811	-122.377	0
+P	Strawberry Hill		CA	British Columbia	49.133	-122.883	1
+P	Puyallup		US	Washington	47.185	-122.293	0
+P	Bremerton		US	Washington	47.567	-122.633	0
+P	Lake Oswego		US	Oregon	45.421	-122.671	0
+P	Lynnwood		US	Washington	47.821	-122.315	0
+P	Longview		US	Washington	46.138	-122.938	0
+P	Sunset		CA	British Columbia	49.221	-123.095	1
+P	Issaquah		US	Washington	47.530	-122.033	0
+P	Oregon City		US	Oregon	45.357	-122.607	0
+P	Parkland		US	Washington	47.155	-122.434	0
+P	Hastings-Sunrise	hastings sunrise	CA	British Columbia	49.283	-123.033	1
+P	Mount Vernon		US	Washington	48.421	-122.334	0
+P	West Lake Sammamish		US	Washington	47.578	-122.101	0
+P	McMinnville		US	Oregon	45.210	-123.199	0
+P	Wenatchee		US	Washington	47.423	-120.310	0
+P	Fairview		CA	British Columbia	49.263	-123.132	1
+P	Surrey City Centre		CA	British Columbia	49.185	-122.847	1
+P	Mount Pleasant		CA	British Columbia	49.267	-123.100	1
+P	Mt Pleasant		CA	British Columbia	49.262	-123.100	1
+P	University Place		US	Washington	47.236	-122.550	0
+P	Chilliwack-Downtown	chilliwack downtown	CA	British Columbia	49.164	-121.959	1
+P	Willoughby		CA	British Columbia	49.126	-122.680	1
+P	Des Moines		US	Washington	47.402	-122.324	0
+P	Victoria-Fraserview	victoria fraserview	CA	British Columbia	49.217	-123.067	1
+P	Lake Stevens		US	Washington	48.015	-122.064	0
+P	East Hill-Meridian	east hill meridian	US	Washington	47.411	-122.174	0
+P	North Cowichan		CA	British Columbia	48.841	-123.686	1
+P	Killarney		CA	British Columbia	49.226	-123.043	1
+P	Grandview-Woodlands	grandview woodlands	CA	British Columbia	49.277	-123.071	1
+P	Courtenay		CA	British Columbia	49.687	-124.994	1
+P	SeaTac		US	Washington	47.448	-122.292	0
+P	Marpole		CA	British Columbia	49.214	-123.130	1
+P	Port Moody		CA	British Columbia	49.281	-122.825	1
+P	Spanaway		US	Washington	47.104	-122.435	0
+P	Tualatin		US	Oregon	45.384	-122.764	0
+P	West Linn		US	Oregon	45.366	-122.612	0
+P	North Creek		US	Washington	47.820	-122.176	0
+P	Maple Valley		US	Washington	47.393	-122.046	0
+P	Walnut Grove		CA	British Columbia	49.165	-122.640	1
+P	Coquitlam West		CA	British Columbia	49.257	-122.879	1
+P	Steveston		CA	British Columbia	49.127	-123.181	1
+P	Woodburn		US	Oregon	45.144	-122.855	0
+P	Mercer Island		US	Washington	47.571	-122.222	0
+P	Fraser Heights		CA	British Columbia	49.200	-122.783	1
+P	South Granville		CA	British Columbia	49.260	-123.139	1
+P	Forest Grove		US	Oregon	45.520	-123.111	0
+P	Coquitlam Town Centre		CA	British Columbia	49.277	-122.797	1
+P	Chinatown		CA	British Columbia	49.280	-123.106	1
+P	Bainbridge Island		US	Washington	47.626	-122.521	0
+P	Squamish		CA	British Columbia	49.699	-123.156	1
+P	White Rock		CA	British Columbia	49.020	-122.795	1
+P	Graham		US	Washington	47.053	-122.294	0
+P	Broadmoor		CA	British Columbia	49.150	-123.133	1
+P	Ladner		CA	British Columbia	49.089	-123.082	1
+P	Picnic Point-North Lynnwood	picnic point north lynnwood	US	Washington	47.863	-122.295	0
+P	Newberg		US	Oregon	45.300	-122.973	0
+P	Cariboo		CA	British Columbia	49.250	-122.883	1
+P	Wilsonville		US	Oregon	45.300	-122.774	0
+P	Inglewood-Finn Hill	inglewood finn hill	US	Washington	47.720	-122.232	0
+P	Oak Harbor		US	Washington	48.293	-122.643	0
+P	Vedder Crossing		CA	British Columbia	49.100	-121.967	1
+P	Riley Park		CA	British Columbia	49.243	-123.093	1
+P	Cottage Lake		US	Washington	47.744	-122.077	0
+P	Edmonds		CA	British Columbia	49.214	-122.940	1
+P	Duncan		CA	British Columbia	48.783	-123.703	1
+P	Kenmore		US	Washington	47.757	-122.244	0
+P	Camas		US	Washington	45.587	-122.400	0
+P	Tsawwassen		CA	British Columbia	49.017	-123.083	1
+P	Gordon Head		CA	British Columbia	48.483	-123.317	1
+P	Dunbar-Southlands	dunbar southlands	CA	British Columbia	49.242	-123.188	1
+P	Mukilteo		US	Washington	47.945	-122.305	0
+P	Townline		CA	British Columbia	49.062	-122.360	1
+P	West Lake Stevens		US	Washington	47.993	-122.102	0
+P	Haney		CA	British Columbia	49.217	-122.600	1
+P	Mountlake Terrace		US	Washington	47.788	-122.309	0
+P	Silver Firs		US	Washington	47.866	-122.155	0
+P	Milwaukie		US	Oregon	45.446	-122.639	0
+P	Port Alberni		CA	British Columbia	49.241	-124.803	1
+P	Bethany		US	Oregon	45.558	-122.868	0
+P	Renfrew Heights		CA	British Columbia	49.254	-123.032	1
+P	Lents		US	Oregon	45.480	-122.567	0
+P	Eastmont		US	Washington	47.897	-122.182	0
+P	Mill Creek		US	Washington	47.860	-122.204	0
+P	Tukwila		US	Washington	47.474	-122.261	0
+P	Bonney Lake		US	Washington	47.177	-122.187	0
+P	Westwood Plateau		CA	British Columbia	49.305	-122.793	1
+P	Lower Lonsdale		CA	British Columbia	49.314	-123.073	1
+P	Salmon Creek		US	Washington	45.711	-122.649	0
+P	Maywood		CA	British Columbia	49.222	-123.006	1
+P	Orchards		US	Washington	45.667	-122.561	0
+P	Port Angeles		US	Washington	48.118	-123.431	0
+P	Hazel Dell		US	Washington	45.672	-122.663	0
+P	Battle Ground		US	Washington	45.781	-122.533	0
+P	Sherwood		US	Oregon	45.357	-122.840	0
+P	Silverdale		US	Washington	47.645	-122.695	0
+P	Covington		US	Washington	47.358	-122.122	0
+P	Tumwater		US	Washington	47.007	-122.909	0
+P	Fairwood		US	Washington	47.448	-122.157	0
+P	Ellensburg		US	Washington	46.997	-120.548	0
+P	Columbia City		US	Washington	47.564	-122.275	0
+P	Arlington		US	Washington	48.199	-122.125	0
+P	Union Hill-Novelty Hill	union hill novelty hill	US	Washington	47.679	-122.028	0
+P	Frederickson		US	Washington	47.096	-122.359	0
+P	Pitt Meadows		CA	British Columbia	49.221	-122.690	1
+P	Happy Valley		US	Oregon	45.447	-122.530	0
+P	Central Lonsdale		CA	British Columbia	49.326	-123.072	1
+P	Downtown Eastside		CA	British Columbia	49.282	-123.094	1
+P	Carey		CA	British Columbia	48.472	-123.395	1
+P	Five Corners		US	Washington	45.685	-122.575	0
+P	Anacortes		US	Washington	48.513	-122.613	0
+P	Monroe		US	Washington	47.855	-121.971	0
+P	Blundell		CA	British Columbia	49.155	-123.157	1
+P	Oak Bay		CA	British Columbia	48.450	-123.303	1
+P	Esquimalt		CA	British Columbia	48.436	-123.412	1
+P	Central Saanich		CA	British Columbia	48.566	-123.419	1
+P	Canby		US	Oregon	45.263	-122.693	0
+P	University Endowment Lands		CA	British Columbia	49.264	-123.239	1
+P	Colwood		CA	British Columbia	48.433	-123.486	1
+P	Centralia		US	Washington	46.716	-122.954	0
+P	Troutdale		US	Oregon	45.539	-122.387	0
+P	Oak Grove		US	Oregon	45.417	-122.640	0
+P	Bothell West		US	Washington	47.805	-122.241	0
+P	Sunnyside		US	Washington	46.324	-120.009	0
+P	Aberdeen		US	Washington	46.975	-123.816	0
+P	Seafair		CA	British Columbia	49.150	-123.183	1
+P	Maillardville		CA	British Columbia	49.238	-122.867	1
+P	Mill Creek East		US	Washington	47.836	-122.188	0
+P	Bryn Mawr-Skyway	bryn mawr skyway	US	Washington	47.494	-122.241	0
+P	Central Coquitlam		CA	British Columbia	49.260	-122.838	1
+P	Martha Lake		US	Washington	47.851	-122.239	0
+P	The Dalles		US	Oregon	45.595	-121.179	0
+P	Lougheed		CA	British Columbia	49.248	-122.892	1
+P	Arbutus Ridge		CA	British Columbia	49.250	-123.169	1
+P	Washougal		US	Washington	45.583	-122.353	0
+P	Sooke		CA	British Columbia	48.375	-123.728	1
+P	Harewood		CA	British Columbia	49.147	-123.947	1

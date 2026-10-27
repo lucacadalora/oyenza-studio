@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Qostanay	300	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	0
+P	Kostanay		KZ		53.214	63.625	0
+P	Rudnyy		KZ		52.972	63.111	0
+P	Troitsk		RU		54.092	61.568	0
+P	Chebarkul’	chebarkul	RU		54.978	60.366	0
+P	Zhitikara		KZ		52.190	61.199	0
+P	Korkino		RU		54.892	61.392	0
+P	Lisakovsk		KZ		52.545	62.499	0
+P	Yuzhnoural’sk	yuzhnouralsk	RU		54.448	61.264	0
+P	Yemanzhelinsk		RU		54.755	61.321	0
+P	Kartaly		RU		53.060	60.641	0
+P	Kurtamysh		RU		54.910	64.432	0
+P	Plast		RU		54.369	60.814	0

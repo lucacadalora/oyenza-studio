@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+C	CA	Canada	moonsighting	s
+B	0
+P	Halifax		CA	Nova Scotia	44.643	-63.577	0
+P	Dartmouth		CA	Nova Scotia	44.671	-63.577	0
+P	Lower Sackville		CA	Nova Scotia	44.776	-63.679	0
+P	Downtown Halifax		CA	Nova Scotia	44.648	-63.578	0
+P	Halifax West End		CA	Nova Scotia	44.649	-63.619	0
+P	Bedford		CA	Nova Scotia	44.726	-63.667	0
+P	Woodlawn		CA	Nova Scotia	44.677	-63.527	0
+P	Halifax South End		CA	Nova Scotia	44.629	-63.577	0
+P	Cole Harbour		CA	Nova Scotia	44.672	-63.475	0
+P	Clayton Park West		CA	Nova Scotia	44.658	-63.669	0
+P	Armdale		CA	Nova Scotia	44.636	-63.626	0

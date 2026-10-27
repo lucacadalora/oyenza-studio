@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ulaanbaatar	480	
+C	MN	Mongolia	mwl	s
+B	0
+P	Erdenet		MN		49.033	104.083	0
+P	Mörön	moron	MN		49.634	100.162	0
+P	Bayanhongor		MN		46.194	100.718	0
+P	Arvayheer		MN		46.264	102.775	0
+P	Tsetserleg		MN		47.475	101.454	0
+P	Bulgan		MN		48.812	103.535	0

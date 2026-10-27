@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lubumbashi	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	1
+P	Lubumbashi		CD		-11.661	27.479	0
+P	Kolwezi		CD		-10.715	25.467	0
+P	Kitwe		ZM		-12.802	28.213	0
+P	Likasi		CD		-10.983	26.738	0
+P	Ndola		ZM		-12.959	28.637	0
+P	Solwezi		ZM		-12.169	26.389	0
+P	Kabwe		ZM		-14.447	28.446	0
+P	Chingola		ZM		-12.529	27.884	0
+P	Luanshya		ZM		-13.137	28.417	0
+P	Mansa		ZM		-11.200	28.894	0
+P	Kipushi		CD		-11.761	27.251	0
+P	Mufulira		ZM		-12.550	28.241	0
+P	Chililabombwe		ZM		-12.365	27.823	0
+P	Kalulushi		ZM		-12.842	28.095	0
+P	Kambove		CD		-10.874	26.597	0
+P	Kapiri Mposhi		ZM		-13.971	28.670	0
+P	Samfya		ZM		-11.365	29.557	0
+P	Fungurume		CD		-10.618	26.321	0
+P	Mumbwa		ZM		-14.983	27.062	0
+P	Mkushi		ZM		-13.620	29.394	0
+P	Kansanshi		ZM		-12.095	26.427	0
+P	Chambishi		ZM		-12.632	28.054	0
+P	Mokambo		CD		-12.428	28.347	0
+P	Kasempa		ZM		-13.458	25.834	0
+P	Manyama		ZM		-12.315	25.849	0
+P	Luwingu		ZM		-10.262	29.927	0
+P	Mapalo		ZM		-12.937	28.672	0
+P	Mufumbwe		ZM		-13.137	25.007	0
+P	Mpongwe		ZM		-13.509	28.155	0
+P	Chisasa		ZM		-12.109	25.496	0

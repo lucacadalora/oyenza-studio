@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Urumqi	360	
+C	CN	China	mwl	s
+B	0
+P	Han’airike	hanairike	CN		37.542	80.117	0
+P	Mugala		CN		36.855	81.664	0
+P	Tawakule		CN		37.759	80.217	0
+P	Siyeke		CN		36.885	81.523	0
+P	Yisilamu'awati	yisilamuawati	CN		37.585	80.184	0
+P	Xambabazar		CN		36.886	81.510	0
+P	Langgar		CN		36.700	81.500	0
+P	Kokyar		CN		36.819	81.633	0
+P	Oytograk		CN		36.833	81.933	0
+P	Lop		CN		37.079	80.182	0
+P	Arix		CN		36.755	81.608	0
+P	Arele		CN		36.813	81.667	0
+P	Jiayi		CN		36.855	81.635	0

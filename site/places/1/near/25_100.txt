@@ -1,0 +1,71 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	4
+P	Kunming		CN		25.039	102.718	0
+P	Qujing		CN		25.483	103.783	0
+P	Liupanshui		CN		26.594	104.833	0
+P	Zigong		CN		29.342	104.777	0
+P	Yibin		CN		28.759	104.640	0
+P	Zhaotong		CN		27.317	103.717	0
+P	Panzhihua		CN		26.585	101.713	0
+P	Leshan		CN		29.562	103.764	0
+P	Ya'an	yaan	CN		29.985	102.999	0
+P	Chuxiong		CN		25.036	101.546	0
+P	Xichang		CN		27.896	102.263	0
+P	Xingyi		CN		25.096	104.906	0
+P	Dali		CN		25.585	100.212	0
+P	Lijiang		CN		26.869	100.221	0
+P	Majie		CN		25.032	102.638	0
+P	Xiangcheng		CN		25.467	100.562	0
+P	Xunchang		CN		28.454	104.715	0
+P	Shuifu		CN		28.632	104.408	0
+P	Jinniu		CN		25.801	100.574	0
+P	Nanxi		CN		28.842	104.980	0
+P	Yunnanyi		CN		25.424	100.689	0
+P	Micheng		CN		25.343	100.487	0
+P	Baixi		CN		28.700	104.549	0
+P	Dali Old Town		CN		25.689	100.159	0
+P	Changning		CN		28.578	104.921	0
+P	Junlian		CN		28.171	104.512	0
+P	Luocheng		CN		29.385	104.029	0
+P	Wenjiang		CN		28.388	104.563	0
+P	Guanyin		CN		29.099	104.394	0
+P	Miaojie		CN		25.312	100.280	0
+P	Fengyi		CN		25.584	100.312	0
+P	Yongbei		CN		26.646	100.781	0
+P	Chonglong		CN		29.781	104.852	0
+P	Weining		CN		26.850	104.233	0
+P	Qingfu		CN		28.437	104.516	0
+P	Sanchuan		CN		26.750	100.659	0
+P	Yongjian		CN		25.425	100.212	0
+P	Xiazhuang		CN		25.400	100.833	0
+P	Yousuo		CN		26.025	100.068	0
+P	Daxing		CN		27.264	100.864	0
+P	Zhongxin		CN		26.617	101.272	0
+P	Nanjian		CN		25.045	100.514	0
+P	Kongtan		CN		29.144	104.675	0
+P	Shuanglong		CN		28.452	104.345	0
+P	Juexi		CN		28.924	104.262	0
+P	Guangtong		CN		25.169	101.749	0
+P	Baihua		CN		29.094	104.609	0
+P	Xunsi		CN		28.101	104.561	0
+P	Luolong		CN		28.806	104.899	0
+P	Chenghai		CN		26.462	100.679	0
+P	Qina		CN		26.309	100.625	0
+P	Taoyuan		CN		26.228	100.560	0
+P	Rongjiang		CN		26.550	101.250	0
+P	Shunzhou		CN		26.621	100.554	0
+P	Daocheng		CN		29.038	100.297	0
+P	Xindian		CN		25.281	101.558	0
+P	Yinqiao Zhen		CN		25.754	100.123	0
+P	Renhe		CN		26.417	101.017	0
+P	Pianjiao		CN		26.017	100.583	0
+P	Zhanhe		CN		26.859	100.914	0
+P	Haidong Zhen		CN		25.710	100.261	0
+P	Xinyingpan		CN		27.168	100.920	0
+P	Yongning		CN		27.833	100.667	0
+P	Wanqiao Zhen		CN		25.789	100.123	0
+P	Huangshan		CN		26.826	100.219	0
+P	Shilongba		CN		26.579	101.363	0
+P	Hongqiao		CN		27.430	100.797	0

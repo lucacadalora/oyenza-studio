@@ -1,0 +1,1976 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Dar_es_Salaam	180	
+Z	4	Africa/Luanda	60	
+Z	5	Africa/Tripoli	120	
+Z	6	America/Bogota	-300	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/Edmonton	-420	29549340=-360
+Z	10	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	11	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	12	America/Mazatlan	-420	
+Z	13	America/Mexico_City	-360	
+Z	14	America/Miquelon	-180	29549100=-120 29891760=-180 30083340=-120 30426000=-180 30607500=-120 30950160=-180 31131660=-120 31474320=-180 31655820=-120 31998480=-180 32179980=-120 32522640=-180 32714220=-120 33056880=-180 33238380=-120 33581040=-180 33762540=-120 34105200=-180 34286700=-120 34629360=-180 34810860=-120 35153520=-180 35335020=-120 35677680=-180 35869260=-120 36211920=-180 36393420=-120 36736080=-180 36917580=-120 37260240=-180 37441740=-120 37784400=-180 37965900=-120 38308560=-180 38490060=-120 38832720=-180 39024300=-120 39366960=-180 39548460=-120 39891120=-180
+Z	15	America/Moncton	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	16	America/Port-au-Prince	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	17	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	18	America/Santo_Domingo	-240	
+Z	19	America/Sao_Paulo	-180	
+Z	20	America/Vancouver	-480	29549400=-420
+Z	21	Asia/Bangkok	420	
+Z	22	Asia/Dhaka	360	
+Z	23	Asia/Hebron	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	24	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	25	Asia/Kabul	270	
+Z	26	Asia/Karachi	300	
+Z	27	Asia/Kolkata	330	
+Z	28	Asia/Sakhalin	660	
+Z	29	Asia/Shanghai	480	
+Z	30	Asia/Tehran	210	
+Z	31	Asia/Tokyo	540	
+Z	32	Asia/Yangon	390	
+Z	33	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	34	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	35	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	36	Europe/Samara	240	
+Z	37	Europe/Sarajevo	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	38	Pacific/Honolulu	-600	
+Z	39	Pacific/Saipan	600	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AG	Antigua and Barbuda	mwl	s
+C	AL	Albania	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	AW	Aruba	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BZ	Belize	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DJ	Djibouti	egyptian	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GD	Grenada	mwl	s
+C	GE	Georgia	mwl	s
+C	GF	French Guiana	mwl	s
+C	GG	Guernsey	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HR	Croatia	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JE	Jersey	mwl	s
+C	JM	Jamaica	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	KZ	Kazakhstan	mwl	h
+C	LA	Laos	mwl	s
+C	LR	Liberia	egyptian	s
+C	LV	Latvia	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MN	Mongolia	mwl	s
+C	MP	Northern Mariana Islands	mwl	s
+C	MQ	Martinique	mwl	s
+C	MT	Malta	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MW	Malawi	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	OM	Oman	ummalqura	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PM	Saint Pierre and Miquelon	mwl	s
+C	PR	Puerto Rico	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	QA	Qatar	qatar	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SM	San Marino	mwl	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	ST	Sao Tome and Principe	egyptian	s
+C	SV	El Salvador	mwl	s
+C	SY	Syria	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TT	Trinidad and Tobago	mwl	s
+C	TW	Taiwan	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VI	U.S. Virgin Islands	mwl	s
+C	VN	Vietnam	mwl	s
+C	YE	Yemen	ummalqura	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	17
+P	São Paulo	sao paulo	BR		-23.547	-46.636	19
+P	Dar es Salaam		TZ		-6.823	39.270	3
+P	Saint Petersburg		RU		59.939	30.314	3
+P	Santiago		CL		-33.457	-70.648	17
+P	Salvador		BR		-12.976	-38.491	19
+P	Santo Domingo		DO		18.472	-69.892	18
+P	Sapporo		JP		43.067	141.350	31
+P	Sanaa		YE		15.355	44.206	3
+P	Santa Cruz de la Sierra		BO		-17.786	-63.181	18
+P	Santiago de Querétaro	santiago de queretaro	MX		20.588	-100.388	13
+P	San Antonio		US	Texas	29.424	-98.494	7
+P	San Diego		US	California	32.716	-117.165	11
+P	Saitama		JP		35.908	139.657	31
+P	Sadr City		IQ		33.389	44.458	3
+P	Santiago de los Caballeros		DO		19.450	-70.691	18
+P	Samara		RU		53.208	50.136	36
+P	Sanya		CN		18.254	109.509	29
+P	San Jose		US	California	37.339	-121.895	11
+P	Sargodha		PK		32.086	72.674	26
+P	Salé	sale	MA		34.053	-6.798	2
+P	Sanhe		CN		39.980	117.069	29
+P	Salem		IN		11.654	78.155	27
+P	São Luís	sao luis	BR		-2.530	-44.303	19
+P	Saratov		RU		51.540	45.990	36
+P	San Francisco		US	California	37.775	-122.419	11
+P	Sakai		JP		34.582	135.467	31
+P	San Pedro Sula		HN		15.506	-88.026	13
+P	Port Said		EG		31.265	32.302	1
+P	São Bernardo do Campo	sao bernardo do campo	BR		-23.694	-46.565	19
+P	São José dos Campos	sao jose dos campos	BR		-23.179	-45.887	19
+P	San Luis Potosí	san luis potosi	MX		22.152	-100.971	13
+P	General Santos		PH		6.113	125.172	29
+P	Sagamihara		JP		35.567	139.242	31
+P	Saltillo		MX		25.426	-100.980	13
+P	Santo Domingo Oeste		DO		18.500	-70.000	18
+P	Santo Domingo Este		DO		18.485	-69.848	18
+P	Sarajevo		BA		43.849	18.356	37
+P	Sanmenxia		CN		34.781	111.193	29
+P	Santo André	santo andre	BR		-23.664	-46.538	19
+P	Feira de Santana		BR		-12.267	-38.967	19
+P	Jhang Sadr		PK		31.270	72.317	26
+P	Sanming		CN		26.249	117.619	29
+P	Sāngli	sangli	IN		16.854	74.564	27
+P	Samarkand		UZ		39.655	66.964	26
+P	Santiago de Cuba		CU		20.023	-75.822	10
+P	San Miguel de Tucumán	san miguel de tucuman	AR		-26.816	-65.211	19
+P	Sahiwal		PK		31.974	72.331	26
+P	Sahiwal		PK		30.666	73.102	26
+P	San Salvador		SV		13.689	-89.187	13
+P	Sacramento		US	California	38.582	-121.494	11
+P	Salta		AR		-24.806	-65.420	19
+P	Santa Marta		CO		11.239	-74.194	6
+P	Sancaktepe		TR		41.002	29.232	3
+P	Sahāranpur	saharanpur	IN		29.968	77.545	27
+P	São José do Rio Preto	sao jose do rio preto	BR		-20.820	-49.379	19
+P	São João de Meriti	sao joao de meriti	BR		-22.804	-43.372	19
+P	Santo Domingo de los Colorados		EC		-0.254	-79.176	6
+P	Şanlıurfa	sanliurfa	TR		37.167	38.794	3
+P	Sandakan		MY		5.840	118.118	29
+P	Santos		BR		-23.961	-46.334	19
+P	San Juan		PR		18.466	-66.106	18
+P	San Nicolás de los Garza	san nicolas de los garza	MX		25.742	-100.302	13
+P	Saltivka		UA		50.022	36.349	35
+P	Samsun		TR		41.280	36.336	3
+P	Saurimo		AO		-9.661	20.392	4
+P	Santa Fe		AR		-31.649	-60.709	19
+P	San-Pédro	san pedro	CI		4.749	-6.636	0
+P	Samut Prakan		TH		13.598	100.597	21
+P	Samba		AO		-8.880	13.196	4
+P	San Jose del Monte		PH		14.814	121.045	29
+P	Sanandaj		IR		35.315	46.999	30
+P	San Pedro		PH		14.360	121.047	29
+P	Safi		MA		32.299	-9.237	2
+P	San José	san jose	CR		9.934	-84.085	13
+P	Soledad de Graciano Sánchez	soledad de graciano sanchez	MX		22.189	-100.938	13
+P	São Vicente	sao vicente	BR		-23.963	-46.392	19
+P	São José dos Pinhais	sao jose dos pinhais	BR		-25.530	-49.208	19
+P	San Miguelito		PA		9.050	-79.471	6
+P	Saransk		RU		54.185	45.172	3
+P	Santa Ana		US	California	33.746	-117.868	11
+P	Sariwŏn-si	sariwon si	KP		38.507	125.756	31
+P	Sapele		NG		5.894	5.677	4
+P	Santa Catarina		MX		25.673	-100.458	13
+P	Saint Paul		US	Minnesota	44.944	-93.093	7
+P	San Pablo		PH		14.068	121.326	29
+P	Santol		PH		15.162	120.567	29
+P	San Cristóbal	san cristobal	VE		7.766	-72.236	18
+P	Savar		BD		23.849	90.250	22
+P	Satna		IN		24.577	80.827	27
+P	Santa Teresa del Tuy		VE		10.233	-66.665	18
+P	Saugor		IN		23.839	78.739	27
+P	Saddiqabad		PK		28.309	70.127	26
+P	Santa Maria		BR		-29.684	-53.807	19
+P	Quận Sáu	quan sau	VN		10.747	106.649	21
+P	São José	sao jose	BR		-27.615	-48.627	19
+P	Sapopemba		BR		-23.596	-46.525	19
+P	Saint-Marc	saint marc	HT		19.111	-72.701	16
+P	Saskatoon		CA	Saskatchewan	52.132	-106.669	13
+P	Sacomã	sacoma	BR		-23.631	-46.598	19
+P	Jardim Sao Luis		BR		-23.681	-46.739	19
+P	San Salvador de Jujuy		AR		-24.193	-65.293	19
+P	Sari		IR		36.563	53.060	30
+P	Saint-Louis	saint louis	SN		16.018	-16.490	0
+P	Santiago del Estero		AR		-27.800	-64.263	19
+P	Santiago de Surco		PE		-12.136	-77.007	6
+P	San Fernando		PH		15.034	120.684	29
+P	Santa Clara		CU		22.407	-79.966	10
+P	San Bernardo		CL		-33.592	-70.700	17
+P	San Miguel		SV		13.483	-88.182	13
+P	São José de Ribamar	sao jose de ribamar	BR		-2.556	-44.060	19
+P	Sabzevar		IR		36.213	57.682	30
+P	Sasebo		JP		33.168	129.725	31
+P	Winston-Salem	winston salem	US	North Carolina	36.100	-80.244	16
+P	Halle (Saale)	halle saale	DE		51.482	11.979	37
+P	Sant Martí	sant marti	ES		41.418	2.199	37
+P	Saga		JP		33.233	130.300	31
+P	San Fernando de Apure		VE		7.890	-67.472	18
+P	Şabyā	sabya	SA		17.149	42.625	3
+P	San Lorenzo		PY		-25.340	-57.509	19
+P	Sāveh	saveh	IR		35.021	50.357	30
+P	Santa Luzia		BR		-19.770	-43.851	19
+P	Samambaia		BR		-15.882	-48.104	19
+P	San Pedro de Macorís	san pedro de macoris	DO		18.454	-69.309	18
+P	Cabo de Santo Agostinho		BR		-8.288	-35.029	19
+P	Santa Rosa		PH		14.312	121.111	29
+P	San Bernardino		US	California	34.108	-117.290	11
+P	San Cristóbal de las Casas	san cristobal de las casas	MX		16.730	-92.638	13
+P	Salt Lake City		US	Utah	40.761	-111.891	8
+P	Novi Sad		RS		45.252	19.837	37
+P	Sa Dec		VN		10.291	105.756	21
+P	Sabadell		ES		41.543	2.109	37
+P	Santa Cruz de Tenerife		ES		28.468	-16.255	33
+P	São Leopoldo	sao leopoldo	BR		-29.760	-51.147	19
+P	San Felipe		VE		10.340	-68.743	18
+P	São Carlos	sao carlos	BR		-22.017	-47.891	19
+P	Cabo San Lucas		MX		22.891	-109.912	12
+P	Yuen Long San Hui		HK		22.433	114.033	29
+P	São José	sao jose	BR		-28.213	-49.164	19
+P	Salé Al Jadida	sale al jadida	MA		33.997	-6.740	2
+P	Saidpur		BD		25.778	88.892	22
+P	Yuzhno-Sakhalinsk	yuzhno sakhalinsk	RU		46.954	142.736	28
+P	Sambhal		IN		28.585	78.570	27
+P	Sambalpur		IN		21.465	83.976	27
+P	Santarém	santarem	BR		-2.443	-54.708	19
+P	Sai Mai		TH		13.921	100.646	21
+P	Santa Bárbara d'Oeste	santa barbara doeste	BR		-22.754	-47.414	19
+P	Donostia / San Sebastián	donostia san sebastian	ES		43.313	-1.975	37
+P	Santa Anita - Los Ficus	santa anita los ficus	PE		-12.050	-76.973	6
+P	Sants-Montjuïc	sants montjuic	ES		41.373	2.155	37
+P	Saarbrücken	saarbrucken	DE		49.233	7.010	37
+P	Santa Clarita		US	California	34.392	-118.543	11
+P	Sacaba		BO		-17.398	-66.038	18
+P	Saki		NG		8.668	3.394	4
+P	Santa Rosa		US	California	38.440	-122.714	11
+P	Sambizanga		AO		-8.789	13.275	4
+P	San Luis Río Colorado	san luis rio colorado	MX		32.456	-114.770	12
+P	Santa Ana		SV		13.988	-89.557	13
+P	Saint-Étienne	saint etienne	FR		45.434	4.390	37
+P	Salem		US	Oregon	44.943	-123.035	11
+P	San Miguel de Allende		MX		20.915	-100.744	13
+P	Sakura		JP		35.717	140.233	31
+P	Santander		ES		43.466	-3.805	37
+P	San Luis		AR		-33.291	-66.325	19
+P	Khlong Sam Wa		TH		13.871	100.737	21
+P	San Miguel		AR		-34.543	-58.712	19
+P	São Caetano do Sul	sao caetano do sul	BR		-23.623	-46.551	19
+P	Saqqez		IR		36.250	46.273	30
+P	Port Saint Lucie		US	Florida	27.294	-80.350	16
+P	Şalālah	salalah	OM		17.015	54.092	36
+P	San Juan de los Morros		VE		9.912	-67.354	18
+P	Sayama		JP		35.853	139.412	31
+P	Salamanca		MX		20.570	-101.198	13
+P	Salavat		RU		53.383	55.911	26
+P	San Miguel del Padrón	san miguel del padron	CU		23.095	-82.327	10
+P	Sāmarrā’	samarra	IQ		34.196	43.886	3
+P	Salinas		US	California	36.678	-121.656	11
+P	San Blas-Canillejas	san blas canillejas	ES		40.439	-3.615	37
+P	Salzburg		AT		47.799	13.044	37
+P	Saharsa		IN		25.875	86.596	27
+P	San Pablo de las Salinas		MX		19.667	-99.095	13
+P	San Martin Texmelucan de Labastida		MX		19.284	-98.439	13
+P	São Mateus	sao mateus	BR		-23.606	-46.479	19
+P	Saint-Denis	saint denis	RE		-20.882	55.450	36
+P	Santana de Parnaíba	santana de parnaiba	BR		-23.444	-46.918	19
+P	San Cristóbal	san cristobal	DO		18.417	-70.107	18
+P	Sanshui		CN		23.155	112.892	29
+P	As Samawah		IQ		31.332	45.294	3
+P	Santa Rita		BR		-7.114	-34.978	19
+P	Sabha		LY		27.038	14.428	5
+P	Saguenay		CA	Quebec	48.417	-71.066	16
+P	Sao Rafael		BR		-23.628	-46.454	19
+P	Sarrià-Sant Gervasi	sarria sant gervasi	ES		41.401	2.139	37
+P	Savannah		US	Georgia	32.084	-81.100	16
+P	Salamanca		ES		40.430	-3.680	37
+P	As Sālimīyah	as salimiyah	KW		29.334	48.076	3
+P	Sasarām	sasaram	IN		24.949	84.016	27
+P	Saint-Quentin-en-Yvelines	saint quentin en yvelines	FR		48.772	2.019	37
+P	Salamanca		ES		40.969	-5.664	37
+P	Villeray–Saint-Michel–Parc-Extension	villeray saint michel parc extension	CA	Quebec	45.559	-73.605	16
+P	San Jose		PH		12.353	121.068	29
+P	Sant Andreu		ES		41.435	2.190	37
+P	Saïda	saida	DZ		34.830	0.152	4
+P	Misato, Saitama	misato saitama	JP		35.844	139.883	31
+P	Samālūţ	samalut	EG		28.312	30.710	1
+P	Sanhe		CN		29.869	107.730	29
+P	Şaḩam	saham	OM		24.172	56.889	36
+P	Şabāḩ as Sālim	sabah as salim	KW		29.257	48.057	3
+P	Sarh		TD		9.146	18.383	4
+P	San Juan del Río	san juan del rio	MX		20.389	-99.996	13
+P	Sao Lucas		BR		-23.595	-46.544	19
+P	San Juan Sacatepéquez	san juan sacatepequez	GT		14.719	-90.644	13
+P	San José del Cabo	san jose del cabo	MX		23.054	-109.704	12
+P	Saaba		BF		12.371	-1.415	0
+P	Sasolburg		ZA		-26.814	27.817	5
+P	San Mateo		PH		14.698	121.124	29
+P	San Juan		PH		14.600	121.033	29
+P	San Nicolás de los Arroyos	san nicolas de los arroyos	AR		-33.334	-60.211	19
+P	Vitória de Santo Antão	vitoria de santo antao	BR		-8.118	-35.291	19
+P	Santa Cruz do Sul		BR		-29.718	-52.426	19
+P	Sandachō	sandacho	JP		34.884	135.227	31
+P	San Pedro Garza García	san pedro garza garcia	MX		25.662	-100.403	13
+P	Sapucaia do Sul		BR		-29.818	-51.146	19
+P	Nankana Sahib		PK		31.450	73.707	26
+P	San Martin		PE		-5.186	-80.669	6
+P	Sầm Sơn	sam son	VN		19.733	105.900	21
+P	Santo António	santo antonio	CN		22.202	113.544	29
+P	Salford		GB	England	53.488	-2.290	33
+P	Sabará	sabara	BR		-19.886	-43.807	19
+P	Sātkhira	satkhira	BD		22.708	89.072	22
+P	Bosque Saúde	bosque saude	BR		-23.609	-46.623	19
+P	Sakakah		SA		29.970	40.206	3
+P	Sancti Spíritus	sancti spiritus	CU		21.934	-79.440	10
+P	Pulong Santa Cruz		PH		14.273	121.076	29
+P	Santa Cruz		PH		14.600	120.983	29
+P	San Carlos del Zulia		VE		9.001	-71.927	18
+P	Santa Clara		US	California	37.354	-121.955	11
+P	Salerno		IT		40.675	14.793	37
+P	Savannakhet		LA		16.570	104.762	21
+P	Saint Peters		GB	England	51.367	1.417	33
+P	Sakiet ed Daier		TN		34.794	10.806	4
+P	Ban Samae Dam		TH		13.590	100.387	21
+P	San Francisco de Macorís	san francisco de macoris	DO		19.294	-70.253	18
+P	Santa Tecla		SV		13.677	-89.283	13
+P	Salvaleón de Higüey	salvaleon de higuey	DO		18.615	-68.708	18
+P	São Mateus	sao mateus	BR		-18.720	-39.859	19
+P	Samandağ	samandag	TR		36.080	35.976	3
+P	Shahr-e Ṣadrā	shahr e sadra	IR		29.800	52.502	30
+P	San Pedro de la Paz		CL		-36.839	-73.100	17
+P	Sawai Madhopur		IN		26.023	76.344	27
+P	San Carlos		VE		9.664	-68.587	18
+P	Satara		IN		17.686	73.993	27
+P	Saint-Louis-de-Terrebonne	saint louis de terrebonne	CA	Quebec	45.702	-73.787	16
+P	Salto		BR		-23.201	-47.287	19
+P	Sambrial		PK		32.478	74.353	26
+P	Salihli		TR		38.483	28.148	3
+P	Santa Coloma de Gramenet		ES		41.452	2.208	37
+P	Sarandi		BR		-23.444	-51.874	19
+P	San Rafael		AR		-34.615	-68.332	19
+P	Saanich		CA	British Columbia	48.550	-123.369	20
+P	Sano		JP		36.317	139.583	31
+P	Santa Maria		BR		-16.031	-48.029	19
+P	San Tung Chung Hang		HK		22.279	113.943	29
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-5.793	-35.329	19
+P	Santana		BR		-23.490	-46.639	19
+P	Sanxia		TW		24.934	121.371	29
+P	Salto		UY		-31.388	-57.960	19
+P	Santa Lucía Cotzumalguapa	santa lucia cotzumalguapa	GT		14.335	-91.023	13
+P	Satu Mare		RO		47.799	22.863	35
+P	Bou Saâda	bou saada	DZ		35.209	4.174	4
+P	Sainte-Foy	sainte foy	CA	Quebec	46.781	-71.292	16
+P	São Lourenço da Mata	sao lourenco da mata	BR		-8.002	-35.018	19
+P	São Pedro da Aldeia	sao pedro da aldeia	BR		-22.839	-42.103	19
+P	Kfar Saba		IL		32.175	34.907	24
+P	San Juan		AR		-31.537	-68.526	19
+P	Santiago		PH		16.688	121.549	29
+P	Santa Cruz		PH		14.281	121.416	29
+P	As Salţ	as salt	JO		32.039	35.727	3
+P	Santana		BR		-0.038	-51.175	19
+P	Sandy Springs		US	Georgia	33.924	-84.379	16
+P	San Justo		AR		-34.681	-58.564	19
+P	Saint-Paul	saint paul	RE		-21.010	55.271	36
+P	Santa Maria		US	California	34.953	-120.436	11
+P	San Francisco De Borja		PE		-12.089	-76.999	6
+P	Ambala Sadar		IN		30.335	76.863	27
+P	Salzgitter		DE		52.157	10.415	37
+P	Saijō	saijo	JP		33.917	133.183	31
+P	Salaqi		CN		40.541	110.511	29
+P	Sangla Hill		PK		31.717	73.383	26
+P	San Mateo		US	California	37.563	-122.326	11
+P	San		ML		13.297	-4.896	0
+P	Santo Antônio de Jesus	santo antonio de jesus	BR		-12.969	-39.261	19
+P	Santa Rosa		AR		-36.616	-64.290	19
+P	Sabanalarga		CO		10.631	-74.922	6
+P	Sangju		KR		36.415	128.161	31
+P	Sakado		JP		35.957	139.389	31
+P	Sakata		JP		38.917	139.855	31
+P	Sakiet ez Zit		TN		34.802	10.764	4
+P	Sabt Alalayah		SA		19.577	41.964	3
+P	San Angelo		US	Texas	31.464	-100.437	7
+P	San Chaung		MM		17.095	96.099	32
+P	Santiago de Compostela		ES		42.881	-8.546	37
+P	Santander de Quilichao		CO		3.009	-76.485	6
+P	Qubo Saeed Khan		PK		27.874	67.709	26
+P	Saku		JP		36.217	138.483	31
+P	Sarapul		RU		56.476	53.798	36
+P	Saint-Laurent	saint laurent	CA	Quebec	45.500	-73.666	16
+P	São Sebastião	sao sebastiao	BR		-15.903	-47.776	19
+P	Santa Cruz do Capibaribe		BR		-7.957	-36.205	19
+P	Saint-Jean-sur-Richelieu	saint jean sur richelieu	CA	Quebec	45.307	-73.263	16
+P	Santa Cruz de Yojoa		HN		14.981	-87.891	13
+P	Sādatpur Gujran	sadatpur gujran	IN		28.728	77.248	27
+P	Molenbeek-Saint-Jean	molenbeek saint jean	BE		50.850	4.312	37
+P	Saint-Denis	saint denis	FR		48.936	2.354	37
+P	Sardārshahr	sardarshahr	IN		28.441	74.491	27
+P	Sānand	sanand	IN		22.992	72.382	27
+P	Sāhibganj	sahibganj	IN		25.244	87.635	27
+P	São Cristóvão	sao cristovao	BR		-11.015	-37.206	19
+P	San Carlos de Bariloche		AR		-41.146	-71.308	19
+P	Saint-Michel de l'Atalaye	saint michel de latalaye	HT		19.371	-72.335	16
+P	Saquarema		BR		-22.899	-42.470	19
+P	San Fernando		ES		36.476	-6.198	37
+P	As Salamīyah	as salamiyah	SY		35.011	37.053	3
+P	Sanjō	sanjo	JP		37.617	138.950	31
+P	Santa Monica		US	California	34.019	-118.491	11
+P	San Marcos		US	California	33.143	-117.166	11
+P	São João da Boa Vista	sao joao da boa vista	BR		-21.969	-46.798	19
+P	Sakai		JP		36.147	136.194	31
+P	Sassari		IT		40.726	8.556	37
+P	Santa Barbara		US	California	34.421	-119.698	11
+P	Sablayan		PH		12.835	120.769	29
+P	San Leandro		US	California	37.725	-122.156	11
+P	San Juan Bautista		VE		11.012	-63.944	18
+P	San Vicente		AR		-35.025	-58.424	19
+P	Saphan Sung		TH		13.770	100.685	21
+P	Sangyoung		MM		16.806	96.134	32
+P	Sandy Hills		US	Utah	40.581	-111.851	8
+P	Sambava		MG		-14.267	50.167	3
+P	Sao Domingos		BR		-23.493	-46.748	19
+P	Sangrūr	sangrur	IN		30.245	75.845	27
+P	La Haute-Saint-Charles	la haute saint charles	CA	Quebec	46.890	-71.372	16
+P	El Puerto de Santa María	el puerto de santa maria	ES		36.594	-6.233	37
+P	Sarov		RU		54.948	43.315	3
+P	Samannūd	samannud	EG		30.962	31.241	1
+P	San Antonio		CL		-33.595	-71.607	17
+P	Santa Fe		US	New Mexico	35.687	-105.938	8
+P	Sandy		US	Utah	40.592	-111.884	8
+P	Hacienda Santa Fe		MX		20.518	-103.381	13
+P	San Ramón de la Nueva Orán	san ramon de la nueva oran	AR		-23.137	-64.324	19
+P	Sārni	sarni	IN		22.103	78.172	27
+P	Samch’ŏn	samchon	KP		38.359	125.326	31
+P	Sandnes		NO		58.852	5.735	37
+P	Santo Amaro		BR		-23.645	-46.704	19
+P	Santa Inês	santa ines	BR		-3.667	-45.380	19
+P	Sathon		TH		13.709	100.526	21
+P	Salina Cruz		MX		16.175	-95.194	13
+P	Sant'Ana do Livramento	santana do livramento	BR		-30.891	-55.533	19
+P	Nowy Sącz	nowy sacz	PL		49.622	20.697	37
+P	Saint-Pierre	saint pierre	RE		-21.339	55.478	36
+P	San Pedro		US	California	33.736	-118.292	11
+P	Şabrātah	sabratah	LY		32.793	12.488	5
+P	São Bento do Sul	sao bento do sul	BR		-26.250	-49.379	19
+P	San José de Guanipa	san jose de guanipa	VE		8.887	-64.165	18
+P	San Fernando		PH		16.616	120.317	29
+P	San Martín	san martin	AR		-33.083	-68.473	19
+P	Saint-Hubert	saint hubert	CA	Quebec	45.500	-73.416	16
+P	Sahand		IR		37.951	46.110	30
+P	Sant Boi de Llobregat		ES		41.344	2.037	37
+P	Sabaneta		CO		6.152	-75.617	6
+P	Nakhon Sawan		TH		15.705	100.137	21
+P	Saunda		IN		23.665	85.327	27
+P	Presidencia Roque Sáenz Peña	presidencia roque saenz pena	AR		-26.791	-60.441	19
+P	Sesto San Giovanni		IT		45.533	9.226	37
+P	Salmās	salmas	IR		38.197	44.765	30
+P	São Sebastião	sao sebastiao	BR		-23.760	-45.410	19
+P	Remedios de Escalada de San Martín	remedios de escalada de san martin	AR		-34.726	-58.397	19
+P	Sarishābāri	sarishabari	BD		24.751	89.831	22
+P	San Tan Valley		US	Arizona	33.191	-111.528	12
+P	San Timoteo		VE		9.790	-71.071	18
+P	São Miguel	sao miguel	BR		-23.494	-46.432	19
+P	Santa Cecilia		BR		-23.532	-46.653	19
+P	Santa Catarina Pinula		GT		14.570	-90.499	13
+P	Samā’il	samail	OM		23.298	57.953	36
+P	Sangmélima	sangmelima	CM		2.933	11.983	4
+P	San José Pinula	san jose pinula	GT		14.546	-90.413	13
+P	San Francisco		PH		8.536	125.950	29
+P	Sathorn		TH		13.750	100.517	21
+P	Saint-Léonard	saint leonard	CA	Quebec	45.588	-73.595	16
+P	São Roque	sao roque	BR		-23.529	-47.135	19
+P	Sant Cugat del Vallès	sant cugat del valles	ES		41.471	2.086	37
+P	Sagaing		MM		21.879	95.980	32
+P	São João del Rei	sao joao del rei	BR		-21.136	-44.262	19
+P	Savarkundla		IN		21.337	71.303	27
+P	Santa Cruz del Quiché	santa cruz del quiche	GT		15.030	-91.149	13
+P	San Juan		PE		-3.776	-73.281	6
+P	Santa Cruz de Barahona		DO		18.209	-71.101	18
+P	Santa Rosa		BR		-27.871	-54.481	19
+P	Sarqant		KZ		45.413	79.917	26
+P	Santo Ângelo	santo angelo	BR		-28.299	-54.263	19
+P	Saint Joseph		US	Missouri	39.769	-94.847	7
+P	Sandu		CN		19.789	109.215	29
+P	Ciudad Satelite		PE		-16.431	-71.529	6
+P	Sakon Nakhon		TH		17.161	104.147	21
+P	San Ramon		US	California	37.780	-121.978	11
+P	San Sebastián de los Reyes	san sebastian de los reyes	ES		40.556	-3.627	37
+P	Sankt Gallen		CH		47.424	9.375	37
+P	Sapiranga		BR		-29.638	-51.007	19
+P	Saint-Maur-des-Fossés	saint maur des fosses	FR		48.794	2.493	37
+P	Lagoa Santa		BR		-19.630	-43.901	19
+P	Sarai Alamgir		PK		32.905	73.755	26
+P	Khlong San		TH		13.730	100.509	21
+P	Santa Isabel do Pará	santa isabel do para	BR		-1.299	-48.161	19
+P	San Juan de la Maguana		DO		18.806	-71.226	18
+P	Saint George		US	Utah	37.104	-113.584	8
+P	Sangāreddi	sangareddi	IN		17.625	78.087	27
+P	Sagay		PH		10.945	123.424	29
+P	Santo Antônio do Descoberto	santo antonio do descoberto	BR		-15.940	-48.255	19
+P	Sarnia		CA	Ontario	42.979	-82.404	16
+P	Sault Ste. Marie	sault ste marie	CA	Ontario	46.517	-84.333	16
+P	Sakrand		PK		26.138	68.274	26
+P	Bandar Saujana Utama		MY		3.207	101.477	29
+P	Santa Lucía	santa lucia	ES		27.912	-15.541	33
+P	Saint John		CA	New Brunswick	45.271	-66.056	15
+P	São Sebastião do Paraíso	sao sebastiao do paraiso	BR		-20.917	-46.991	19
+P	Madīnat as Sādāt	madinat as sadat	EG		30.367	30.509	1
+P	San Francisco del Rincón	san francisco del rincon	MX		21.019	-101.858	13
+P	Samar		UA		48.629	35.259	35
+P	Santa María Chimalhuacán	santa maria chimalhuacan	MX		19.422	-98.950	13
+P	San Joaquín	san joaquin	VE		10.261	-67.793	18
+P	Satpayev		KZ		47.904	67.541	26
+P	Santa Cruz de Mara		VE		10.793	-71.685	18
+P	Sayyān	sayyan	YE		15.172	44.324	3
+P	San Leonardo		PH		15.363	120.964	29
+P	San Carlo All'Arena	san carlo allarena	IT		40.865	14.263	37
+P	San Isidro		PE		-12.097	-77.043	6
+P	Sabae		JP		35.946	136.185	31
+P	Saldanha		ZA		-33.012	17.944	5
+P	Valle de Santiago		MX		20.391	-101.191	13
+P	Sanlúcar de Barrameda	sanlucar de barrameda	ES		36.778	-6.351	37
+P	Samāstipur	samastipur	IN		25.862	85.780	27
+P	San Mateo Atenco		MX		19.268	-99.532	13
+P	San Fernando		PE		-8.398	-74.538	6
+P	Saraburi		TH		14.533	100.917	21
+P	Santo Domingo Tehuantepec		MX		16.325	-95.241	13
+P	Sangamner		IN		19.568	74.212	27
+P	San Luis		CU		20.188	-75.850	10
+P	South San Francisco		US	California	37.655	-122.408	11
+P	Santa Cruz Xoxocotlán	santa cruz xoxocotlan	MX		17.030	-96.735	13
+P	Saint-Nazaire	saint nazaire	FR		47.275	-2.218	37
+P	Saiki		JP		32.950	131.900	31
+P	Sayhāt	sayhat	SA		26.483	50.048	3
+P	Santa Cruz		PH		15.765	119.909	29
+P	Quartu Sant'Elena	quartu santelena	IT		39.229	9.250	37
+P	Sanchazi		CN		42.082	126.600	29
+P	San Antonio del Táchira	san antonio del tachira	VE		7.811	-72.444	18
+P	Sagunto		ES		39.683	-0.267	37
+P	Saint Cloud		US	Minnesota	45.561	-94.162	7
+P	Saint Charles		US	Missouri	38.784	-90.481	7
+P	San Ildefonso		PH		15.081	120.941	29
+P	San Miguel		PH		15.142	120.976	29
+P	San Clemente		US	California	33.427	-117.612	11
+P	Sattahip		TH		12.666	100.902	21
+P	São Félix do Xingu	sao felix do xingu	BR		-6.645	-51.995	19
+P	Salamá	salama	GT		15.102	-90.319	13
+P	Sahuayo de Morelos		MX		20.057	-102.716	13
+P	Sandefjord		NO		59.131	10.217	37
+P	Santa Cruz		US	California	36.974	-122.031	11
+P	Santiago		PE		-13.527	-71.984	6
+P	San Antonio de Los Altos		VE		10.389	-66.952	18
+P	San Pedro de Copán	san pedro de copan	HN		14.617	-88.867	13
+P	As Safīrah	as safirah	SY		36.077	37.373	3
+P	Samut Sakhon		TH		13.548	100.274	21
+P	Santa Lucía	santa lucia	AR		-31.541	-68.498	19
+P	Sale		GB	England	53.425	-2.324	33
+P	San Francisco Tesistán	san francisco tesistan	MX		20.797	-103.477	13
+P	Salgueiro		BR		-8.074	-39.119	19
+P	Sagua la Grande		CU		22.806	-80.074	10
+P	Sanghar		PK		26.047	68.949	26
+P	San Andrés Tuxtla	san andres tuxtla	MX		18.449	-95.213	13
+P	Aş Şaff	as saff	EG		29.565	31.281	1
+P	San Salvador Tizatlalli		MX		19.260	-99.591	13
+P	Savona		IT		44.309	8.477	37
+P	Sal’sk	salsk	RU		46.475	41.542	3
+P	Sahaswān	sahaswan	IN		28.072	78.751	27
+P	San Miguel		PE		-15.478	-70.125	6
+P	Sarandí	sarandi	AR		-34.682	-58.346	19
+P	San Marcos		CO		8.660	-75.128	6
+P	San Marcos		US	Texas	29.883	-97.941	7
+P	Sanyōonoda	sanyoonoda	JP		34.032	131.160	31
+P	Sandaohezi		CN		44.326	85.620	22
+P	São Borja	sao borja	BR		-28.661	-56.004	19
+P	Sarāvān	saravan	IR		27.371	62.331	30
+P	Santutxu		ES		43.253	-2.916	37
+P	Saint Clair Shores		US	Michigan	42.497	-82.889	16
+P	San Cristobal		CU		22.717	-83.056	10
+P	Aş Şāliḩīyah al Jadīdah	as salihiyah al jadidah	EG		30.631	31.939	1
+P	San Felipe		CL		-32.750	-70.726	17
+P	Sahagún	sahagun	CO		8.946	-75.443	6
+P	San Rafael		US	California	37.974	-122.531	11
+P	Santo Tomé	santo tome	AR		-31.663	-60.765	19
+P	San Francisco		AR		-31.425	-62.084	19
+P	Sarpsborg		NO		59.284	11.110	37
+P	Ṣāleḥīeh	salehieh	IR		35.505	51.191	30
+P	San Pedro Ayampuc		GT		14.779	-90.453	13
+P	São Gabriel	sao gabriel	BR		-30.336	-54.320	19
+P	Sayama		JP		34.517	135.563	31
+P	San Pedro de Jujuy		AR		-24.231	-64.866	19
+P	Sakurai		JP		34.500	135.850	31
+P	San Andrés	san andres	CO		12.579	-81.700	6
+P	Sanford		US	Florida	28.801	-81.273	16
+P	Santangpu		CN		27.406	111.987	29
+P	Sarcelles		FR		48.997	2.378	37
+P	Santa Rosa de Cabal		CO		4.868	-75.621	6
+P	San Francisco El Alto		GT		14.945	-91.443	13
+P	Santee		US	California	32.838	-116.974	11
+P	Santa Luzia		BR		-3.963	-45.658	19
+P	Santo Tomas		PH		14.108	121.141	29
+P	Sankarankovil		IN		9.170	77.541	27
+P	Saint-André	saint andre	RE		-20.963	55.650	36
+P	Sakaidechō	sakaidecho	JP		34.323	133.836	31
+P	As Sawānī	as sawani	LY		32.717	13.067	5
+P	Sāmalkot	samalkot	IN		17.057	82.176	27
+P	Barri de Sant Andreu		ES		41.437	2.190	37
+P	Sattenapalle		IN		16.394	80.152	27
+P	San Vicent del Raspeig		ES		38.396	-0.525	37
+P	Woluwe-Saint-Lambert	woluwe saint lambert	BE		50.844	4.429	37
+P	Saint-Michel	saint michel	CA	Quebec	45.568	-73.622	16
+P	São Gabriel da Cachoeira	sao gabriel da cachoeira	BR		-0.118	-67.085	18
+P	Sanchuan		CN		26.750	100.659	29
+P	Sankt Augustin		DE		50.775	7.197	37
+P	Santo Amaro		BR		-12.547	-38.712	19
+P	San Francisco		CR		9.994	-84.127	13
+P	San Rafael		VE		10.962	-71.730	18
+P	San Antonio		PY		-25.421	-57.547	19
+P	San Fernando		TT		10.280	-61.468	18
+P	Saint-Quentin	saint quentin	FR		49.849	3.288	37
+P	Satte		JP		36.073	139.726	31
+P	Sarasota		US	Florida	27.336	-82.531	16
+P	Šabac	sabac	RS		44.747	19.690	37
+P	Saint-Jérôme	saint jerome	CA	Quebec	45.780	-74.004	16
+P	Sabinas		MX		27.856	-101.117	13
+P	Bad Salzuflen		DE		52.086	8.744	37
+P	San José de las Lajas	san jose de las lajas	CU		22.961	-82.152	10
+P	Sangarédi	sangaredi	GN		11.100	-13.767	0
+P	Sāhibābād Daulotpur	sahibabad daulotpur	IN		28.747	77.115	27
+P	San Josecito		VE		7.661	-72.220	18
+P	San Marcos		SV		13.661	-89.183	13
+P	Sāgar	sagar	IN		14.165	75.029	27
+P	San Bernardino Tlaxcalancingo		MX		19.029	-98.277	13
+P	Sau Mau Ping		HK		22.320	114.235	29
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-3.607	-38.968	19
+P	As Sāḩil	as sahil	EG		27.063	31.344	1
+P	Samāna	samana	IN		30.154	76.199	27
+P	Sartrouville		FR		48.948	2.192	37
+P	Şabbāshahr	sabbashahr	IR		35.580	51.114	30
+P	Saint-Louis	saint louis	RE		-21.286	55.411	36
+P	Santiago Teyahualco		MX		19.660	-99.125	13
+P	Safaga		EG		26.749	33.939	1
+P	San Bartolomé de Tirajana	san bartolome de tirajana	ES		27.925	-15.573	33
+P	São Miguel dos Campos	sao miguel dos campos	BR		-9.781	-36.094	19
+P	São Tomé	sao tome	ST		0.338	6.730	0
+P	Sandīla	sandila	IN		27.070	80.515	27
+P	Santa Isabel		BR		-23.316	-46.221	19
+P	‘Izbat ‘Alī as Sayyid	izbat ali as sayyid	EG		31.157	30.148	1
+P	Al Sajaah		AE		25.315	55.632	36
+P	São Miguel do Guamá	sao miguel do guama	BR		-1.627	-47.483	19
+P	San José del Guaviare	san jose del guaviare	CO		2.568	-72.640	6
+P	Saint-Brieuc	saint brieuc	FR		48.515	-2.768	37
+P	São Francisco	sao francisco	BR		-15.949	-44.864	19
+P	West Sacramento		US	California	38.580	-121.530	11
+P	São Francisco do Sul	sao francisco do sul	BR		-26.243	-48.638	19
+P	Saint Peters		US	Missouri	38.800	-90.627	7
+P	Santo Estêvão	santo estevao	BR		-12.430	-39.251	19
+P	Sammamish		US	Washington	47.642	-122.080	11
+P	Sanzhuang		CN		35.503	119.172	29
+P	São José do Rio Pardo	sao jose do rio pardo	BR		-21.596	-46.889	19
+P	Sandwīp	sandwip	BD		22.514	91.455	22
+P	Sar-e Pul	sar e pul	AF		36.215	65.932	25
+P	Sātkania	satkania	BD		22.076	92.050	22
+P	San Severo		IT		41.686	15.381	37
+P	Sa'dah	sadah	YE		16.940	43.764	3
+P	Lower Sackville		CA	Nova Scotia	44.776	-63.679	15
+P	Saint John’s	saint johns	AG		17.121	-61.843	18
+P	São Lourenço	sao lourenco	CN		22.189	113.535	29
+P	Sagrada Família	sagrada familia	ES		41.404	2.173	37
+P	Maha Sarakham		TH		16.185	103.301	21
+P	Sado		JP		38.025	138.359	31
+P	Sanhui		CN		30.082	106.591	29
+P	Samfya		ZM		-11.365	29.557	5
+P	Sapé	sape	BR		-7.096	-35.233	19
+P	Brejo Santo		BR		-7.493	-38.987	19
+P	Pom Prap Sattru Phai		TH		13.758	100.513	21
+P	Birkat as Sab‘	birkat as sab	EG		30.629	31.082	1
+P	Salo		FI		60.383	23.133	35
+P	Saint-Malo	saint malo	FR		48.647	-2.009	37
+P	Saint Croix		VI		17.728	-64.747	18
+P	San Mateo		VE		10.213	-67.424	18
+P	Saint-Hyacinthe	saint hyacinthe	CA	Quebec	45.631	-72.957	16
+P	Saint-Gilles	saint gilles	BE		50.828	4.344	37
+P	Sālūr	salur	IN		18.517	83.205	27
+P	Ali Sabih		DJ		11.156	42.712	3
+P	Ko Samui		TH		9.536	99.936	21
+P	Ciudad Sandino		NI		12.159	-86.344	13
+P	Samara		ET		11.793	41.006	3
+P	Sayanogorsk		RU		53.100	91.407	21
+P	San Luis de la Paz		MX		21.298	-100.515	13
+P	Sardhana		IN		29.146	77.614	27
+P	São Bento do Una	sao bento do una	BR		-8.523	-36.444	19
+P	Satka		RU		55.041	59.047	26
+P	Saginaw		US	Michigan	43.419	-83.951	16
+P	Rancho Santa Margarita		US	California	33.641	-117.603	11
+P	Libertador General San Martín	libertador general san martin	AR		-23.813	-64.794	19
+P	Salekhard		RU		66.534	66.610	26
+P	Samaniego		CO		1.338	-77.596	6
+P	Verkhnyaya Salda		RU		58.045	60.551	26
+P	Santiago		BR		-29.192	-54.867	19
+P	San Pedro		MX		25.756	-102.984	13
+P	San Juan de los Lagos		MX		21.249	-102.330	13
+P	São Joaquim da Barra	sao joaquim da barra	BR		-20.581	-47.855	19
+P	Sanmu		JP		35.628	140.418	31
+P	Saipan		MP		15.212	145.755	39
+P	Mīt Salsīl	mit salsil	EG		31.168	31.801	1
+P	San Lorenzo		IT		40.857	14.265	37
+P	São Bento	sao bento	BR		-2.696	-44.821	19
+P	Santa Ana Chiautempan		MX		19.307	-98.188	13
+P	Sadasivpet		IN		17.619	77.953	27
+P	Salina		US	Kansas	38.840	-97.611	7
+P	Monte Santo		BR		-10.438	-39.333	19
+P	Saonré	saonre	BF		12.275	-1.577	0
+P	Sufālat Samā’il	sufalat samail	OM		23.317	58.017	36
+P	São Benedito	sao benedito	BR		-4.049	-40.865	19
+P	San Lorenzo		AR		-28.134	-58.767	19
+P	San Pedro		AR		-33.679	-59.666	19
+P	Santana do Ipanema		BR		-9.378	-37.245	19
+P	São Francisco de Itabapoana	sao francisco de itabapoana	BR		-21.302	-40.961	19
+P	San Luis Obispo		US	California	35.283	-120.660	11
+P	São José de Mipibu	sao jose de mipibu	BR		-6.075	-35.238	19
+P	Chalon-sur-Saône	chalon sur saone	FR		46.781	4.854	37
+P	Sawara		JP		35.883	140.500	31
+P	Santa Ana		PH		15.095	120.767	29
+P	Şowme‘eh Sarā	sowmeeh sara	IR		37.301	49.315	30
+P	San Marcos		GT		14.964	-91.795	13
+P	Sanremo		IT		43.817	7.777	37
+P	Sant Gervasi - Galvany	sant gervasi galvany	ES		41.398	2.143	37
+P	Santurtzi		ES		43.328	-3.032	37
+P	San Jacinto		US	California	33.784	-116.959	11
+P	Saint-Herblain	saint herblain	FR		47.212	-1.651	37
+P	São Domingos de Rana	sao domingos de rana	PT		38.702	-9.341	33
+P	Sarakhs		IR		36.545	61.158	30
+P	Sanjiao		CN		29.488	105.868	29
+P	Santa Cruz do Rio Pardo		BR		-22.899	-49.633	19
+P	Sardasht		IR		36.155	45.479	30
+P	Sankeshu		CN		26.564	108.066	29
+P	Sadao		TH		6.639	100.423	21
+P	San Gil		CO		6.560	-73.136	6
+P	Safonovo		RU		55.111	33.237	3
+P	Şafwá	safwa	SA		26.650	49.955	3
+P	San Benedetto del Tronto		IT		42.957	13.877	37
+P	As Sanţah	as santah	EG		30.746	31.130	1
+P	Santa Bárbara	santa barbara	VE		7.813	-71.178	18
+P	City of Sammamish		US	Washington	47.604	-122.038	11
+P	Aş Şalāḩāt	as salahat	EG		31.002	31.626	1
+P	Sarpol-e Z̄ahāb	sarpol e zahab	IR		34.461	45.863	30
+P	Santo Domingo		CU		22.587	-80.243	10
+P	San Giorgio a Cremano		IT		40.833	14.342	37
+P	Santiago de Veraguas		PA		8.100	-80.983	6
+P	Salcedo		DO		19.378	-70.417	18
+P	Saint Louis Park		US	Minnesota	44.948	-93.348	7
+P	San Isidro		AR		-34.470	-58.521	19
+P	San Diego		ES		40.390	-3.668	37
+P	Sarāb	sarab	IR		37.941	47.537	30
+P	Pivnichna Saltivka		UA		50.045	36.359	35
+P	Sariaya		PH		13.962	121.526	29
+P	Sayreville		US	New Jersey	40.459	-74.361	16
+P	Santana do Paraíso	santana do paraiso	BR		-19.364	-42.569	19
+P	São Lourenço	sao lourenco	BR		-22.116	-45.054	19
+P	Salinópolis	salinopolis	BR		-0.621	-47.354	19
+P	San Buenaventura		MX		19.302	-98.863	13
+P	Si Sa Ket		TH		15.115	104.329	21
+P	Salisbury		GB	England	51.069	-1.796	33
+P	Sakura		JP		36.721	139.988	31
+P	Sīdī Sālim	sidi salim	EG		31.271	30.786	1
+P	Kafr Şaqr	kafr saqr	EG		30.793	31.626	1
+P	Santo Antônio da Platina	santo antonio da platina	BR		-23.295	-50.077	19
+P	São Miguel d'Oeste	sao miguel doeste	BR		-26.725	-53.518	19
+P	San Vicente de Tagua Tagua		CL		-34.439	-71.078	17
+P	Sarikei		MY		2.117	111.517	29
+P	Sayansk		RU		54.113	102.178	29
+P	San Germán	san german	CU		20.600	-76.135	10
+P	Salinas		EC		-2.215	-80.952	6
+P	Saint Thomas Mount		IN		13.003	80.196	27
+P	Great Sankey		GB	England	53.392	-2.640	33
+P	Salto de Pirapora		BR		-23.649	-47.573	19
+P	Santo Antônio de Pádua	santo antonio de padua	BR		-21.539	-42.180	19
+P	Sagae		JP		38.373	140.273	31
+P	Sakété	sakete	BJ		6.736	2.659	4
+P	Samal		PH		7.074	125.708	29
+P	Sainthia		IN		23.948	87.680	27
+P	San Bruno		US	California	37.630	-122.411	11
+P	Jerez de García Salinas	jerez de garcia salinas	MX		22.650	-102.990	13
+P	Wong Sawang		TH		13.817	100.516	21
+P	Sandıklı	sandikli	TR		38.465	30.269	3
+P	Santo Antônio da Patrulha	santo antonio da patrulha	BR		-29.817	-50.520	19
+P	Sant Feliu de Llobregat		ES		41.383	2.050	37
+P	Sayreville Junction		US	New Jersey	40.465	-74.330	16
+P	Salem		US	Massachusetts	42.520	-70.896	16
+P	Salaberry-de-Valleyfield	salaberry de valleyfield	CA	Quebec	45.250	-74.133	16
+P	San Antonio de los Baños	san antonio de los banos	CU		22.889	-82.506	10
+P	Mata de São João	mata de sao joao	BR		-12.530	-38.299	19
+P	Saran		KZ		49.802	72.832	26
+P	Barra de São Francisco	barra de sao francisco	BR		-18.755	-40.891	19
+P	Santos Dumont		BR		-21.457	-43.553	19
+P	São Mateus do Sul	sao mateus do sul	BR		-25.874	-50.383	19
+P	Sangarébougou	sangarebougou	ML		12.706	-7.903	0
+P	Santa Elena		EC		-2.227	-80.858	6
+P	Santyoku		KR		37.441	129.171	31
+P	Saint-Eustache	saint eustache	CA	Quebec	45.565	-73.906	16
+P	São Lourenço do Sul	sao lourenco do sul	BR		-31.365	-51.978	19
+P	San Donà di Piave	san dona di piave	IT		45.630	12.568	37
+P	Santa Rosa		EC		-3.456	-79.964	6
+P	Sali		SN		14.441	-17.019	0
+P	Saint-Priest	saint priest	FR		45.697	4.944	37
+P	Santa Maria de Jetibá	santa maria de jetiba	BR		-20.027	-40.743	19
+P	Santa Helena		BR		-2.231	-45.300	19
+P	San Vicente		SV		13.641	-88.785	13
+P	Salima		MW		-13.780	34.459	5
+P	Salon-de-Provence	salon de provence	FR		43.642	5.095	37
+P	Saundatti		IN		15.766	75.118	27
+P	São Fidélis	sao fidelis	BR		-21.646	-41.747	19
+P	San Pedro		MX		25.433	-103.217	13
+P	Santo António dos Olivais	santo antonio dos olivais	PT		40.218	-8.405	33
+P	Saint-Germain-en-Laye	saint germain en laye	FR		48.896	2.090	37
+P	As Saţwah	as satwah	AE		25.222	55.275	36
+P	São Sebastião do Passé	sao sebastiao do passe	BR		-12.512	-38.495	19
+P	Salwá	salwa	KW		29.296	48.079	3
+P	São Gotardo	sao gotardo	BR		-19.311	-46.049	19
+P	Sakhipur		BD		24.320	90.169	22
+P	Samal		PH		14.768	120.543	29
+P	Sants		ES		41.374	2.138	37
+P	Savelugu		GH		9.624	-0.827	0
+P	Santa Rita do Sapucaí	santa rita do sapucai	BR		-22.252	-45.703	19
+P	Santa Maria da Boa Vista		BR		-8.808	-39.826	19
+P	Savanūr	savanur	IN		14.973	75.337	27
+P	San Gabriel		US	California	34.096	-118.106	11
+P	San Isidro		ES		40.397	-3.728	37
+P	Sabalgarh		IN		26.249	77.408	27
+P	Saḩāb	sahab	JO		31.870	36.005	3
+P	Santa Rosalía de Camargo	santa rosalia de camargo	MX		27.679	-105.172	13
+P	San Javier		CL		-35.595	-71.729	17
+P	Santa Quitéria	santa quiteria	BR		-4.332	-40.157	19
+P	Salinas		BR		-16.170	-42.290	19
+P	San Juan del Cesar		CO		10.771	-73.003	6
+P	Sasayama		JP		35.067	135.217	31
+P	San Pedro Sacatepéquez	san pedro sacatepequez	GT		14.968	-91.762	13
+P	Choa Saidan Shah		PK		32.720	72.986	26
+P	Sathupalli		IN		17.250	80.869	27
+P	Sama		ES		43.296	-5.684	37
+P	San Andrés Cholula	san andres cholula	MX		19.051	-98.295	13
+P	Espírito Santo do Pinhal	espirito santo do pinhal	BR		-22.196	-46.749	19
+P	Sanjiang		CN		28.945	106.711	29
+P	Sawtelle		US	California	34.036	-118.449	11
+P	Beni Saf		DZ		35.301	-1.382	4
+P	Samālkha	samalkha	IN		29.236	77.013	27
+P	Qal‘at Şāliḩ	qalat salih	IQ		31.528	47.294	3
+P	Savigny-sur-Orge	savigny sur orge	FR		48.677	2.348	37
+P	Sanok		PL		49.556	22.206	37
+P	Tamba-Sasayama	tamba sasayama	JP		35.073	135.218	31
+P	Nuevo San Carlos		GT		14.593	-91.694	13
+P	San Clemente		CL		-35.538	-71.487	17
+P	São Gonçalo dos Campos	sao goncalo dos campos	BR		-12.434	-38.951	19
+P	Sabaneta		VE		8.752	-69.934	18
+P	San Fernando de Henares		ES		40.424	-3.533	37
+P	San Pascual		PH		13.810	121.022	29
+P	San Martín	san martin	SV		13.783	-88.917	13
+P	Saint-Ouen	saint ouen	FR		48.907	2.333	37
+P	Sampsonievskiy		RU		59.985	30.343	3
+P	San José del Castillo	san jose del castillo	MX		20.512	-103.237	13
+P	Los Reyes de Salgado		MX		19.589	-102.473	13
+P	Saña	sana	PE		-6.919	-79.582	6
+P	Sultan sa Barongis		PH		6.800	124.637	29
+P	Sakuragawa		JP		36.251	140.116	31
+P	Khao Saming		TH		12.354	102.434	21
+P	São Raimundo Nonato	sao raimundo nonato	BR		-9.015	-42.699	19
+P	Aliamanu / Salt Lakes / Foster Village	aliamanu salt lakes foster village	US	Hawaii	21.360	-157.918	38
+P	São Mateus do Maranhão	sao mateus do maranhao	BR		-4.042	-44.475	19
+P	Sagauli		IN		26.764	84.743	27
+P	Saint-Joseph	saint joseph	RE		-21.378	55.617	36
+P	Sanāwad	sanawad	IN		22.174	76.070	27
+P	São Francisco do Conde	sao francisco do conde	BR		-12.627	-38.680	19
+P	São João da Barra	sao joao da barra	BR		-21.640	-41.051	19
+P	Sankt Ingbert		DE		49.277	7.117	37
+P	Sangariā	sangaria	IN		29.799	74.467	27
+P	San Antonio		PH		14.947	120.087	29
+P	Santa Maria da Vitória	santa maria da vitoria	BR		-13.388	-44.199	19
+P	Santo Ovídio	santo ovidio	PT		41.114	-8.602	33
+P	Râmnicu Sărat	ramnicu sarat	RO		45.383	27.050	35
+P	Santa Helena de Goiás	santa helena de goias	BR		-17.814	-50.597	19
+P	Saarlouis		DE		49.314	6.752	37
+P	São Pedro	sao pedro	BR		-22.549	-47.914	19
+P	San Vicente		AR		-26.617	-54.133	19
+P	Ban Sang		TH		13.996	101.221	21
+P	Chak Azam Sahu		PK		30.752	73.028	26
+P	Sant Antoni		ES		41.379	2.159	37
+P	Savalou		BJ		7.928	1.976	4
+P	Saronno		IT		45.625	9.035	37
+P	Saint-Chamond	saint chamond	FR		45.476	4.513	37
+P	Dār as Salām	dar as salam	EG		26.278	32.056	1
+P	San José de los Cerrillos	san jose de los cerrillos	AR		-24.897	-65.484	19
+P	Santa Rosa de Osos		CO		6.647	-75.460	6
+P	Santaluz		BR		-11.256	-39.375	19
+P	Sathyamangalam		IN		11.505	77.238	27
+P	Saray		AZ		40.533	49.717	36
+P	San Antonio de Padua		AR		-34.663	-58.698	19
+P	Saint-Raphaël	saint raphael	HT		19.439	-72.199	16
+P	Nangli Sakrawat		IN		28.622	76.992	27
+P	Satānā	satana	IN		20.595	74.203	27
+P	Sārangpur	sarangpur	IN		23.567	76.473	27
+P	Sandūr	sandur	IN		15.086	76.547	27
+P	Santa Cruz		BR		-6.229	-36.023	19
+P	São Manuel	sao manuel	BR		-22.731	-48.571	19
+P	Santos Lugares		AR		-34.603	-58.541	19
+P	Salvatierra		MX		20.216	-100.882	13
+P	San Pablo		CO		10.052	-75.268	6
+P	São Caitano	sao caitano	BR		-8.326	-36.143	19
+P	Sam Phran		TH		13.727	100.215	21
+P	Santa Rita		BR		-3.139	-44.325	19
+P	Saint-Benoît	saint benoit	RE		-21.038	55.715	36
+P	Sassuolo		IT		44.543	10.785	37
+P	Santa Teresa		MX		19.845	-99.233	13
+P	Sarzedo		BR		-20.035	-44.145	19
+P	Santiago		MX		25.426	-100.154	13
+P	San Jerónimo Cuatro Vientos	san jeronimo cuatro vientos	MX		19.293	-98.842	13
+P	Sant Adrià de Besòs	sant adria de besos	ES		41.431	2.219	37
+P	San Juan		US	Texas	26.189	-98.155	7
+P	Salyan		AZ		39.596	48.985	36
+P	Sarankhola		BD		22.310	89.791	22
+P	San Juan Capistrano		US	California	33.502	-117.663	11
+P	Saint Charles		US	Maryland	38.603	-76.939	16
+P	Conflans-Sainte-Honorine	conflans sainte honorine	FR		49.002	2.097	37
+P	Sainte-Marguerite	sainte marguerite	FR		48.852	2.389	37
+P	Sakaiminato		JP		35.538	133.231	31
+P	Safed		IL		32.965	35.496	24
+P	Sadābād	sadabad	IN		27.438	78.038	27
+P	As Sadd		QA		25.286	51.501	3
+P	San José de Mayo	san jose de mayo	UY		-34.339	-56.713	19
+P	Sanmiao		CN		30.238	106.127	29
+P	Santa Teresa		BR		-22.918	-43.188	19
+P	Sanare		VE		9.752	-69.652	18
+P	Sai Kung		HK		22.383	114.267	29
+P	San Jose		PH		13.350	123.550	29
+P	Saddat al Hindīyah	saddat al hindiyah	IQ		32.716	44.279	3
+P	San Salvario		IT		45.053	7.680	37
+P	Saint-Martin-d'Hères	saint martin dheres	FR		45.179	5.763	37
+P	Şaḩneh	sahneh	IR		34.481	47.691	30
+P	Reghin-Sat	reghin sat	RO		46.783	24.717	35
+P	Sanjiao		CN		29.050	106.736	29
+P	Santa Ana		VE		7.643	-72.276	18
+P	San Martín Azcatepec	san martin azcatepec	MX		19.687	-98.973	13
+P	Safranbolu		TR		41.251	32.694	3
+P	Santiago de las Vegas		CU		22.970	-82.387	10
+P	São Paulo de Olivença	sao paulo de olivenca	BR		-3.378	-68.873	18
+P	Saint Cloud		US	Florida	28.249	-81.281	16
+P	San Pablo Autopan		MX		19.356	-99.657	13
+P	Saint Albans		AU	Victoria	-37.733	144.800	34
+P	Samut Songkhram		TH		13.415	100.003	21
+P	Sabanagrande		CO		10.791	-74.761	6
+P	San Pedro Alcántara	san pedro alcantara	ES		36.488	-4.991	37
+P	Saint-Raphaël	saint raphael	FR		43.423	6.774	37
+P	Santa Cruz		CL		-34.639	-71.366	17
+P	Saint-Leu	saint leu	RE		-21.171	55.288	36
+P	San Isidro		CR		9.367	-83.697	13
+P	Sabana de Mendoza		VE		9.435	-70.775	18
+P	Saïoua	saioua	CI		6.485	-6.278	0
+P	São José do Belmonte	sao jose do belmonte	BR		-7.861	-38.760	19
+P	Santa Fé do Sul	santa fe do sul	BR		-20.211	-50.926	19
+P	São Luiz Gonzaga	sao luiz gonzaga	BR		-28.408	-54.961	19
+P	Safidon		IN		29.406	76.670	27
+P	Sankeshwar		IN		16.256	74.482	27
+P	San Dimas		US	California	34.107	-117.807	11
+P	Salgótarján	salgotarjan	HU		48.099	19.803	37
+P	San Miguel Topilejo		MX		19.203	-99.142	13
+P	Santa Cruz del Sur		CU		20.715	-77.996	10
+P	San José de Metán	san jose de metan	AR		-25.497	-64.971	19
+P	Satun		TH		6.623	100.067	21
+P	Sassandra		CI		4.954	-6.085	0
+P	San Vicente		CR		9.962	-84.049	13
+P	São Joaquim de Bicas	sao joaquim de bicas	BR		-20.049	-44.274	19
+P	Sainte-Marie	sainte marie	RE		-20.897	55.551	36
+P	Same		TZ		-4.067	37.733	3
+P	Sāngola	sangola	IN		17.439	75.194	27
+P	Sāqultah	saqultah	EG		26.658	31.671	1
+P	San Nicolas		PH		18.172	120.595	29
+P	Pórticos de San Antonio	porticos de san antonio	MX		32.443	-117.034	11
+P	Saraqib		SY		35.864	36.806	3
+P	San Antero		CO		9.374	-75.759	6
+P	Sambir		UA		49.516	23.201	35
+P	San Juan Nepomuceno		CO		9.952	-75.082	6
+P	São Domingos do Maranhão	sao domingos do maranhao	BR		-5.576	-44.385	19
+P	Salto		AR		-34.292	-60.255	19
+P	Salisbury		US	North Carolina	35.671	-80.474	16
+P	Villa Santa Rita		AR		-34.611	-58.481	19
+P	West Lake Sammamish		US	Washington	47.578	-122.101	11
+P	Sabá	saba	HN		15.467	-86.250	13
+P	São Luís de Montes Belos	sao luis de montes belos	BR		-16.525	-50.372	19
+P	San Isidro		MX		19.340	-98.951	13
+P	Sainte-Geneviève-des-Bois	sainte genevieve des bois	FR		48.647	2.320	37
+P	Sant'Antimo	santantimo	IT		40.942	14.235	37
+P	San Luis		PH		15.040	120.788	29
+P	Borgo San Paolo		IT		45.060	7.645	37
+P	San Sebastián de Mariquita	san sebastian de mariquita	CO		5.199	-74.893	6
+P	Santiago Atitlán	santiago atitlan	GT		14.638	-91.229	13
+P	Salāya	salaya	IN		22.310	69.604	27
+P	Saumur		FR		47.259	-0.078	37
+P	São Lázaro	sao lazaro	CN		22.200	113.549	29
+P	Ciudad Sabinas Hidalgo		MX		26.502	-100.181	13
+P	Villefranche-sur-Saône	villefranche sur saone	FR		45.990	4.720	37
+P	San Onofre		CO		9.736	-75.526	6
+P	San Kamphaeng		TH		18.745	99.120	21
+P	Salisbury		US	Maryland	38.361	-75.599	16
+P	Sakumona		GH		5.621	-0.052	0
+P	Sānchor	sanchor	IN		24.754	71.773	27
+P	Awlād Şaqr	awlad saqr	EG		30.931	31.699	1
+P	São Desidério	sao desiderio	BR		-12.363	-44.973	19
+P	Urbano Santos		BR		-3.208	-43.404	19
+P	Şarkîkaraağaç	sarkikaraagac	TR		38.079	31.366	3
+P	São Sebastião	sao sebastiao	BR		-9.934	-36.554	19
+P	São João Batista	sao joao batista	BR		-27.276	-48.849	19
+P	San Donato		IT		45.082	7.665	37
+P	In Salah		DZ		27.197	2.479	4
+P	Saoner		IN		21.385	78.922	27
+P	Ṣafādasht	safadasht	IR		35.692	50.848	30
+P	Santa Rosa Beach		US	Florida	30.396	-86.229	7
+P	Villa de San Antonio		HN		14.326	-87.614	13
+P	Santana do Araguaia		BR		-9.335	-50.350	19
+P	Saknepalli		IN		18.929	79.457	27
+P	Saybag		CN		37.150	79.658	22
+P	São Gabriel da Palha	sao gabriel da palha	BR		-19.018	-40.537	19
+P	São Bento	sao bento	BR		-6.283	-37.750	19
+P	San Narciso		PH		15.014	120.080	29
+P	Colonia del Sacramento		UY		-34.463	-57.840	19
+P	San Pawl il-Baħar	san pawl il bahar	MT		35.951	14.416	37
+P	São Miguel Arcanjo	sao miguel arcanjo	BR		-23.878	-47.997	19
+P	Sant Joan Despí	sant joan despi	ES		41.367	2.057	37
+P	San Isidro		AR		-28.458	-65.725	19
+P	Saint-Dizier	saint dizier	FR		48.638	4.949	37
+P	Saḩar	sahar	YE		15.316	44.309	3
+P	Sādpalli	sadpalli	IN		17.210	80.836	27
+P	Sattur		IN		9.356	77.925	27
+P	Sāsvad	sasvad	IN		18.344	74.031	27
+P	Santa Rita		VE		10.536	-71.511	18
+P	São Luís do Quitunde	sao luis do quitunde	BR		-9.318	-35.561	19
+P	Santa Pola		ES		38.192	-0.566	37
+P	General José de San Martín	general jose de san martin	AR		-26.536	-59.341	19
+P	Santa Maria Capua Vetere		IT		41.082	14.253	37
+P	Sakhnīn	sakhnin	IL		32.865	35.298	24
+P	San Carlos de Bolívar	san carlos de bolivar	AR		-36.231	-61.116	19
+P	Salqīn	salqin	SY		36.139	36.452	3
+P	San Lorenzo		AR		-24.736	-65.487	19
+P	São José da Tapera	sao jose da tapera	BR		-9.558	-37.381	19
+P	San Luis		US	Arizona	32.487	-114.782	12
+P	San Carlos		CL		-36.425	-71.958	17
+P	Sapezal		BR		-13.542	-58.820	18
+P	Samjiyŏn-ŭp	samjiyon up	KP		41.804	128.319	31
+P	Savé	save	BJ		8.034	2.487	4
+P	San Javier		ES		37.806	-0.837	37
+P	San José	san jose	CR		10.952	-85.136	13
+P	Côte-Saint-Luc	cote saint luc	CA	Quebec	45.465	-73.666	16
+P	Santa Eulària des Riu	santa eularia des riu	ES		38.985	1.534	37
+P	San José Guadalupe Otzacatipan	san jose guadalupe otzacatipan	MX		19.345	-99.592	13
+P	Savonlinna		FI		61.870	28.880	35
+P	Sarahs		TM		36.524	61.215	26
+P	Sakai-nakajima	sakai nakajima	JP		36.267	139.250	31
+P	General Salipada K. Pendatun	general salipada k pendatun	PH		6.826	124.722	29
+P	Sasaguri		JP		33.616	130.551	31
+P	Saint-Georges	saint georges	CA	Quebec	46.114	-70.665	16
+P	Ban Khlong Bang Sao Thong		TH		13.642	100.833	21
+P	San Giuliano Milanese		IT		45.394	9.291	37
+P	São José do Egito	sao jose do egito	BR		-7.479	-37.274	19
+P	Santa Vitória do Palmar	santa vitoria do palmar	BR		-33.519	-53.368	19
+P	Şān al Ḩajar al Qiblīyah	san al hajar al qibliyah	EG		30.975	31.872	1
+P	Saratoga		US	California	37.264	-122.023	11
+P	Villeneuve-Saint-Georges	villeneuve saint georges	FR		48.732	2.449	37
+P	San Andrés del Rabanedo	san andres del rabanedo	ES		42.612	-5.617	37
+P	Saint Neots		GB	England	52.217	-0.267	33
+P	Saint-Ambroise	saint ambroise	FR		48.862	2.375	37
+P	San Luis de Sincé	san luis de since	CO		9.244	-75.147	6
+P	San Benito		GT		16.917	-89.919	13
+P	Riacho de Santana		BR		-13.609	-42.939	19
+P	Alcázar de San Juan	alcazar de san juan	ES		39.390	-3.208	37
+P	Santana do Acaraú	santana do acarau	BR		-3.461	-40.212	19
+P	Salt		ES		41.975	2.793	37
+P	Sabirabad		AZ		40.009	48.477	36
+P	São Domingos do Capim	sao domingos do capim	BR		-1.674	-47.771	19
+P	Santa Paula		US	California	34.354	-119.059	11
+P	San Pedro de Urabá	san pedro de uraba	CO		8.275	-76.376	6
+P	Şaḩnāyā	sahnaya	SY		33.425	36.226	3
+P	Sandaoling Lutiankuang Wuqi Nongchang		CN		43.015	92.883	22
+P	Sam Sen Nai		TH		13.777	100.551	21
+P	Santa Bárbara	santa barbara	BR		-19.959	-43.415	19
+P	Santo Antônio do Içá	santo antonio do ica	BR		-3.102	-67.940	18
+P	San Agustín	san agustin	MX		20.548	-103.467	13
+P	San Pablo		US	California	37.962	-122.346	11
+P	Savage		US	Minnesota	44.779	-93.336	7
+P	Saladillo		AR		-35.639	-59.779	19
+P	Sarkhej		IN		22.983	72.502	27
+P	San Carlos		US	California	37.507	-122.261	11
+P	Săcele	sacele	RO		45.617	25.711	35
+P	Sasovo		RU		54.354	41.920	3
+P	San Rafael del Sur		NI		11.849	-86.438	13
+P	San Paolo		IT		41.125	16.793	37
+P	Santa Elena de Uairén	santa elena de uairen	VE		4.602	-61.110	18
+P	Villa General San Martín	villa general san martin	AR		-31.440	-68.520	19
+P	San Miguel Ajusco		MX		19.222	-99.202	13
+P	Saint-Médard-en-Jalles	saint medard en jalles	FR		44.895	-0.718	37
+P	Sardrūd	sardrud	IR		38.026	46.148	30
+P	Santa Rita		IT		45.046	7.645	37
+P	São Gabriel do Oeste	sao gabriel do oeste	BR		-19.395	-54.566	18
+P	Salem		US	New Hampshire	42.788	-71.201	16
+P	Saint-Laurent-du-Var	saint laurent du var	FR		43.673	7.190	37
+P	Saintes		FR		45.747	-0.635	37
+P	Sankagiri		IN		11.476	77.866	27
+P	Sāgwāra	sagwara	IN		23.680	74.020	27
+P	Umm Şalāl Muḩammad	umm salal muhammad	QA		25.415	51.406	3
+P	Santarém	santarem	PT		39.234	-8.686	33
+P	Santa Isabel		MX		32.631	-115.570	11
+P	As Sarw		EG		31.239	31.654	1
+P	Saint-Leu	saint leu	FR		46.731	4.501	37
+P	Piton Saint-Leu	piton saint leu	RE		-21.220	55.315	36
+P	Saito		JP		32.082	131.400	31
+P	San Roque		ES		36.210	-5.385	37
+P	Saint-Sébastien-sur-Loire	saint sebastien sur loire	FR		47.208	-1.503	37
+P	Santiago Sacatepéquez	santiago sacatepequez	GT		14.635	-90.677	13
+P	San Vicente		AR		-26.996	-54.477	19
+P	São João dos Inhamuns	sao joao dos inhamuns	BR		-6.000	-40.283	19
+P	Santa Cruz Cabrália	santa cruz cabralia	BR		-16.278	-39.025	19
+P	San Fernando		MX		24.847	-98.149	13
+P	San Sebastián	san sebastian	GT		14.562	-91.649	13
+P	Sanford		US	North Carolina	35.480	-79.180	16
+P	São Miguel do Iguaçu	sao miguel do iguacu	BR		-25.348	-54.238	19
+P	San Simon		PH		15.000	120.781	29
+P	Nova Santa Rita		BR		-29.852	-51.277	19
+P	Sainte-Julie	sainte julie	CA	Quebec	45.583	-73.332	16
+P	Santa Clara		AO		-10.192	15.434	4
+P	Saint-Étienne-du-Rouvray	saint etienne du rouvray	FR		49.378	1.105	37
+P	Póvoa de Santa Iria	povoa de santa iria	PT		38.861	-9.065	33
+P	Sarny		UA		51.339	26.607	35
+P	Santa Cruz das Palmeiras		BR		-21.827	-47.249	19
+P	Saint-Cloud	saint cloud	FR		48.846	2.203	37
+P	Sarno		IT		40.807	14.622	37
+P	San Miguel		CR		9.871	-84.061	13
+P	La Salud		CU		22.874	-82.420	10
+P	La Sagrera		ES		41.423	2.186	37
+P	Santo Tomás	santo tomas	CO		10.758	-74.755	6
+P	Sabaa Aiyoun		MA		33.903	-5.369	2
+P	Santo Antônio do Sudoeste	santo antonio do sudoeste	BR		-26.074	-53.725	19
+P	Ciudad Sahagun		MX		19.776	-98.575	13
+P	Sanqu		CN		29.642	105.622	29
+P	Sandanski		BG		41.567	23.283	35
+P	Sa Kaeo		TH		13.814	102.072	21
+P	San Felipe		MX		21.479	-101.216	13
+P	Sant Pere de Ribes		ES		41.260	1.774	37
+P	San Donato Milanese		IT		45.410	9.268	37
+P	Saki		UA		45.134	33.600	3
+P	San Sebastián el Grande	san sebastian el grande	MX		20.533	-103.429	13
+P	Sachīn	sachin	IN		21.087	72.882	27
+P	Saalfeld		DE		50.648	11.365	37
+P	Santa Maria		PH		16.952	120.445	29
+P	Sahavato		MG		-20.600	48.333	3
+P	Saint Helier		JE		49.188	-2.105	33
+P	San Francisco Acuautla		MX		19.346	-98.860	13
+P	Sanctorum		MX		19.099	-98.254	13
+P	Sant Vicenç dels Horts	sant vicenc dels horts	ES		41.393	2.007	37
+P	Sabana de Torres		CO		7.391	-73.496	6
+P	Şāfītā	safita	SY		34.821	36.118	3
+P	Saratoga Springs		US	New York	43.083	-73.785	16
+P	Santa Rosa de Copán	santa rosa de copan	HN		14.774	-88.776	13
+P	Águas Santas	aguas santas	PT		41.210	-8.576	33
+P	Sānkrāil	sankrail	IN		22.550	88.225	27
+P	Mae Sai		TH		20.434	99.876	21
+P	San Pedro		CR		9.928	-84.051	13
+P	San Carlos		UY		-34.791	-54.918	19
+P	Santo Antônio do Tauá	santo antonio do taua	BR		-1.152	-48.129	19
+P	Sausar		IN		21.656	78.797	27
+P	San Rafael Abajo		CR		9.831	-84.290	13
+P	Sādri	sadri	IN		25.186	73.453	27
+P	Santa Rita de Cássia	santa rita de cassia	BR		-11.009	-44.519	19
+P	Santiago de Tolú	santiago de tolu	CO		9.524	-75.581	6
+P	Saint-Josse-ten-Noode	saint josse ten noode	BE		50.854	4.373	37
+P	Saint-Constant	saint constant	CA	Quebec	45.367	-73.566	16
+P	Santo Antônio do Monte	santo antonio do monte	BR		-20.087	-45.294	19
+P	Santo Amaro da Imperatriz		BR		-27.688	-48.779	19
+P	San Giovanni Rotondo		IT		41.706	15.728	37
+P	Santa Uxía de Ribeira	santa uxia de ribeira	ES		42.554	-8.991	37
+P	East Saint Louis		US	Illinois	38.624	-90.151	7
+P	Şāmitah	samitah	SA		16.596	42.944	3
+P	São Bernardo	sao bernardo	BR		-3.361	-42.418	19
+P	Şafāshahr	safashahr	IR		30.613	53.195	30
+P	Hôpital Saint-Louis	hopital saint louis	FR		48.877	2.367	37
+P	Sankt Wendel		DE		49.466	7.168	37
+P	Sāmba	samba	IN		32.562	75.120	27
+P	San Giuseppe Vesuviano		IT		40.836	14.505	37
+P	Sannois		FR		48.967	2.250	37
+P	Canindé de São Francisco	caninde de sao francisco	BR		-9.660	-37.789	19
+P	Sayula		MX		19.884	-103.601	13
+P	Salou		ES		41.077	1.142	37
+P	Samokov		BG		42.339	23.558	35
+P	San Jose		PH		10.180	125.568	29
+P	Sacramento		BR		-19.865	-47.440	19
+P	Saugus		US	Massachusetts	42.465	-71.010	16
+P	Sankarapatti		IN		10.048	78.747	27
+P	Salor		UZ		41.375	69.352	26
+P	São Martinho	sao martinho	PT		32.645	-16.938	33
+P	Santa Catalina		PH		9.334	122.864	29
+P	Sant Andreu de la Barca		ES		41.447	1.972	37
+P	Cinco Saltos		AR		-38.822	-68.063	19
+P	San Miniato Basso		IT		43.693	10.841	37
+P	Sapouy		BF		11.554	-1.774	0
+P	Sanchez-Mira	sanchez mira	PH		18.562	121.232	29
+P	San Jerónimo	san jeronimo	MX		19.283	-99.593	13
+P	Saikai		JP		32.984	129.681	31
+P	San Antonio		PH		15.306	120.856	29
+P	Sangzhe		CN		29.278	108.398	29
+P	Sant Martí de Provençals	sant marti de provencals	ES		41.420	2.196	37
+P	Santiago Papasquiaro		MX		25.044	-105.419	13
+P	São José da Lapa	sao jose da lapa	BR		-19.700	-43.960	19
+P	San Juan		CR		9.962	-84.079	13
+P	Saaxo		SO		6.773	46.797	3
+P	Si Satchanalai		TH		17.517	99.760	21
+P	Santo António	santo antonio	PT		32.661	-16.935	33
+P	São Mamede de Infesta	sao mamede de infesta	PT		41.192	-8.611	33
+P	São Joaquim	sao joaquim	BR		-28.294	-49.932	19
+P	Savigny-le-Temple	savigny le temple	FR		48.574	2.583	37
+P	Sagara		JP		34.685	138.205	31
+P	Sarubetsu		JP		42.872	143.338	31
+P	Sahuarita		US	Arizona	31.958	-110.956	12
+P	Aş Şanamayn	as sanamayn	SY		33.072	36.183	3
+P	São Sebastião da Boa Vista	sao sebastiao da boa vista	BR		-1.715	-49.532	19
+P	Núi Sập	nui sap	VN		10.265	105.267	21
+P	São João Nepomuceno	sao joao nepomuceno	BR		-21.540	-43.011	19
+P	Sakuradai		JP		35.744	139.661	31
+P	San Vicente de Cañete	san vicente de canete	PE		-13.076	-76.385	6
+P	Santa Helena		BR		-24.860	-54.333	19
+P	Salaga		GH		8.551	-0.519	0
+P	São José do Norte	sao jose do norte	BR		-32.015	-52.042	19
+P	Saddleworth		GB	England	53.548	-2.005	33
+P	Salem		US	Virginia	37.293	-80.055	16
+P	San Rafael		CR		9.928	-84.135	13
+P	Saratoga Springs		US	Utah	40.349	-111.905	8
+P	Saraj		MK		42.000	21.328	37
+P	Salamína	salamina	GR		37.964	23.496	35
+P	Profesor Salvador Mazza		AR		-22.049	-63.691	19
+P	Cândido Sales	candido sales	BR		-15.505	-41.239	19
+P	Sapanca		TR		40.691	30.267	3
+P	Sainte-Thérèse	sainte therese	CA	Quebec	45.639	-73.828	16
+P	Sandusky		US	Ohio	41.449	-82.708	16
+P	Pāonta Sāhib	paonta sahib	IN		30.437	77.625	27
+P	Berchem-Sainte-Agathe	berchem sainte agathe	BE		50.866	4.296	37
+P	Santa Ana		PE		-12.867	-72.717	6
+P	Saryaghash		KZ		41.460	69.168	26
+P	Campos Sales		BR		-7.074	-40.376	19
+P	Saiha		IN		22.492	92.981	27
+P	Chinna Salem		IN		11.634	78.874	27
+P	Sanchaba		GM		13.422	-16.710	0
+P	Sandomierz		PL		50.683	21.749	37
+P	Santa Perpètua de Mogoda	santa perpetua de mogoda	ES		41.533	2.183	37
+P	Santa Cruz de los Taques		VE		11.823	-70.256	18
+P	São João dos Patos	sao joao dos patos	BR		-6.495	-43.702	19
+P	Sāndi	sandi	IN		27.289	79.952	27
+P	Mian Sahib		PK		28.153	68.642	26
+P	Satuba		BR		-9.563	-35.824	19
+P	Saujana		SG		1.383	103.768	29
+P	Saginaw Township North		US	Michigan	43.460	-84.007	16
+P	San Andrés Itzapa	san andres itzapa	GT		14.622	-90.843	13
+P	San Felipe		CR		9.904	-84.106	13
+P	Sadulshahar		IN		29.909	74.176	27
+P	Sanger		US	California	36.708	-119.556	11
+P	Sakleshpur		IN		12.941	75.785	27
+P	San Fernando		US	California	34.282	-118.439	11
+P	Santeramo in Colle		IT		40.792	16.759	37
+P	Sagurē	sagure	ET		7.750	39.150	3
+P	San Francisco Cuaxusco		MX		19.268	-99.619	13
+P	Santa Rita do Passa Quatro		BR		-21.710	-47.478	19
+P	Sarrià	sarria	ES		41.403	2.116	37
+P	Safīpur	safipur	IN		26.738	80.344	27
+P	São Lourenço do Oeste	sao lourenco do oeste	BR		-26.359	-52.851	19
+P	South Salt Lake		US	Utah	40.719	-111.888	8
+P	Santana		BR		-12.983	-44.051	19
+P	San Francisco de Yojoa		HN		15.014	-87.972	13
+P	Sandviken		SE		60.617	16.767	37
+P	Saltpond		GH		5.209	-1.061	0
+P	San Luis Jilotepeque		GT		14.647	-89.725	13
+P	Saint-Dié-des-Vosges	saint die des vosges	FR		48.284	6.949	37
+P	Santa Maria do Pará	santa maria do para	BR		-1.350	-47.576	19
+P	San Borja		BO		-14.852	-66.750	18
+P	San Luis		HN		15.127	-88.439	13
+P	Salzkotten		DE		51.672	8.601	37
+P	Sachse		US	Texas	32.976	-96.595	7
+P	San Benito		US	Texas	26.133	-97.631	7
+P	Sastamala		FI		61.349	22.909	35
+P	Sahaspur		IN		29.121	78.623	27
+P	Sarreguemines		FR		49.110	7.067	37
+P	San Felipe		GT		14.623	-91.595	13
+P	São Sebastião do Caí	sao sebastiao do cai	BR		-29.587	-51.376	19
+P	San Antonio Tecómitl	san antonio tecomitl	MX		19.218	-98.988	13
+P	Saint-Bruno-de-Montarville	saint bruno de montarville	CA	Quebec	45.533	-73.349	16
+P	Saddle Ridge		CA	Alberta	51.133	-113.947	9
+P	Sants - Badal	sants badal	ES		41.375	2.128	37
+P	Santa Luzia do Paruá	santa luzia do parua	BR		-2.544	-45.775	19
+P	Sainte-Suzanne	sainte suzanne	RE		-20.906	55.608	36
+P	Saint-Laurent-du-Maroni	saint laurent du maroni	GF		5.502	-54.029	19
+P	Sabana de Parra		VE		10.121	-69.036	18
+P	Santa Terezinha de Itaipu		BR		-25.440	-54.402	19
+P	Hérouville-Saint-Clair	herouville saint clair	FR		49.211	-0.307	37
+P	São Geraldo do Araguaia	sao geraldo do araguaia	BR		-6.401	-48.555	19
+P	El Salto		MX		23.778	-105.360	13
+P	Sakai		JP		36.100	139.800	31
+P	Samphanthawong		TH		13.737	100.512	21
+P	Barki Saria		IN		24.176	85.889	27
+P	Salvaterra		BR		-0.753	-48.517	19
+P	San Juan Ixtayopan		MX		19.232	-98.999	13
+P	Samborondón	samborondon	EC		-1.961	-79.726	6
+P	la Maternitat i Sant Ramon		ES		41.381	2.117	37
+P	San Miguel el Alto		MX		21.031	-102.402	13
+P	São Gonçalo do Sapucaí	sao goncalo do sapucai	BR		-21.892	-45.595	19
+P	Sabanagrande		HN		13.808	-87.259	13
+P	São João da Ponte	sao joao da ponte	BR		-15.929	-44.008	19
+P	São João do Paraíso	sao joao do paraiso	BR		-15.314	-42.014	19
+P	Casa Santa		IT		38.025	12.548	37
+P	Santa Eugenia		ES		40.383	-3.611	37
+P	Dalsingh Sarai		IN		25.668	85.836	27
+P	Sāvantvādi	savantvadi	IN		15.904	73.822	27
+P	San Giovanni a Teduccio		IT		40.838	14.306	37
+P	São João	sao joao	BR		-8.876	-36.367	19
+P	Şarkışla	sarkisla	TR		39.352	36.410	3
+P	Sadalgi		IN		16.559	74.532	27
+P	Sarjamda		IN		22.748	86.226	27
+P	San Pedro del Pinatar		ES		37.836	-0.791	37
+P	San Pedro		AR		-26.622	-54.109	19
+P	San Fernando		PH		10.162	123.708	29
+P	Sarıkamış	sarikamis	TR		40.328	42.587	3
+P	Santa Quitéria do Maranhão	santa quiteria do maranhao	BR		-3.496	-42.562	19
+P	Saint-Pol-sur-Mer	saint pol sur mer	FR		51.031	2.340	37
+P	Santa Gertrudes		BR		-22.457	-47.530	19
+P	San Fermín	san fermin	ES		40.371	-3.689	37
+P	San Jacinto		CO		9.828	-75.122	6
+P	San Ignacio de Velasco		BO		-16.378	-60.965	18
+P	Santa Cruz de El Seibo		DO		18.765	-69.040	18
+P	São Miguel	sao miguel	BR		-6.212	-38.497	19
+P	San Carlos		CO		8.796	-75.699	6
+P	San Martín de los Andes	san martin de los andes	AR		-40.158	-71.353	19
+P	San Martín Cuautlalpan	san martin cuautlalpan	MX		19.276	-98.832	13
+P	Francisco Sá	francisco sa	BR		-16.476	-43.488	19
+P	San José Iturbide	san jose iturbide	MX		21.000	-100.386	13
+P	Sanzhi		TW		25.258	121.502	29
+P	San Lorenzo		US	California	37.674	-122.133	11
+P	Santa Rosa de Viterbo		BR		-21.473	-47.363	19
+P	Sangerhausen		DE		51.472	11.295	37
+P	San Marcos		NI		11.909	-86.204	13
+P	Salah Bey		DZ		35.855	5.291	4
+P	Damnoen Saduak		TH		13.518	99.955	21
+P	Santo Antônio de Posse	santo antonio de posse	BR		-22.606	-46.919	19
+P	San Sebastiano		IT		45.652	10.257	37
+P	Sāhibganj	sahibganj	IN		26.308	84.927	27
+P	Santa Fe de Antioquia		CO		6.557	-75.828	6
+P	Sasel		DE		53.654	10.112	37
+P	San Jorge Pueblo Nuevo		MX		19.254	-99.628	13
+P	Mont-Saint-Aignan	mont saint aignan	FR		49.463	1.094	37
+P	San Lorenzo Acopilco		MX		19.330	-99.327	13
+P	Sanza Pombo		AO		-7.315	16.002	4
+P	São Jorge de Arroios	sao jorge de arroios	PT		38.729	-9.138	33
+P	Saint-Ouen-l'Aumône	saint ouen laumone	FR		49.044	2.121	37
+P	Rodolfo Sánchez Taboada	rodolfo sanchez taboada	MX		31.723	-116.572	11
+P	Kot Samaba		PK		28.552	70.468	26
+P	Şafwān	safwan	IQ		30.116	47.716	3
+P	Santa Luzia		BR		-7.643	-47.217	19
+P	San Antonio de Areco		AR		-34.251	-59.469	19
+P	Saidpur		IN		25.537	83.224	27
+P	San Antonio de Cortés	san antonio de cortes	HN		15.116	-88.041	13
+P	Sainte-Anne	sainte anne	GP		16.226	-61.381	18
+P	Sant Pere, Santa Caterina i La Ribera	sant pere santa caterina i la ribera	ES		41.385	2.182	37
+P	Sāngaria	sangaria	IN		26.189	73.026	27
+P	Sarandi		BR		-27.944	-52.923	19
+P	Sāmbhar	sambhar	IN		26.908	75.191	27
+P	Santa Teresa		BR		-19.936	-40.600	19
+P	São José do Vale do Rio Preto	sao jose do vale do rio preto	BR		-22.152	-42.923	19
+P	San Mateo Otzacatipan		MX		19.333	-99.603	13
+P	Santo Tomé	santo tome	AR		-28.551	-56.041	19
+P	San Miguel Coatlinchán	san miguel coatlinchan	MX		19.450	-98.873	13
+P	Sarandë	sarande	AL		39.875	20.005	37
+P	Saint-Nicolas	saint nicolas	BE		50.628	5.532	37
+P	San Vicente		CL		-34.433	-71.083	17
+P	El Salto		MX		20.333	-104.500	13
+P	San José del Valle	san jose del valle	MX		20.764	-105.228	12
+P	San Francisco Zapotitlán	san francisco zapotitlan	GT		14.589	-91.521	13
+P	Saint-Ghislain	saint ghislain	BE		50.448	3.819	37
+P	Sānehwāl	sanehwal	IN		30.841	75.985	27
+P	Saikū	saiku	JP		34.533	136.633	31
+P	San José de Barlovento	san jose de barlovento	VE		10.301	-65.991	18
+P	San Lazzaro		IT		44.471	11.409	37
+P	San Lorenzo		HN		13.424	-87.447	13
+P	Sandyford		IE		53.275	-6.225	33
+P	Ath Thumāmah Sab‘ah wa Arba‘ūn	ath thumamah sabah wa arbaun	QA		25.239	51.563	3
+P	San Martín	san martin	CO		3.696	-73.700	6
+P	Porto Sant'Elpidio	porto santelpidio	IT		43.253	13.760	37
+P	Sahāwar	sahawar	IN		27.796	78.834	27
+P	Santo Antônio	santo antonio	BR		-6.311	-35.479	19
+P	Teodoro Sampaio		BR		-22.532	-52.167	19
+P	Sarapāka	sarapaka	IN		17.691	80.870	27
+P	San Cataldo		IT		37.484	13.985	37
+P	São João da Madeira	sao joao da madeira	PT		40.901	-8.490	33
+P	Saginaw		US	Texas	32.860	-97.364	7
+P	San Giovanni la Punta		IT		37.577	15.094	37
+P	Santiago de Cao		PE		-7.959	-79.239	6
+P	Sant Feliu de Guíxols	sant feliu de guixols	ES		41.783	3.033	37
+P	Saktī	sakti	IN		22.027	82.961	27
+P	Sant Joan d'Alacant	sant joan dalacant	ES		38.401	-0.436	37
+P	Sancoale		IN		15.378	73.904	27
+P	Sankt Pölten	sankt polten	AT		48.208	15.637	37
+P	Ban Na San		TH		8.800	99.364	21
+P	São Miguel do Araguaia	sao miguel do araguaia	BR		-13.275	-50.163	19
+P	Sainte-Foy-lès-Lyon	sainte foy les lyon	FR		45.734	4.803	37
+P	São Francisco de Paula	sao francisco de paula	BR		-29.448	-50.584	19
+P	Sant Antoni de Portmany		ES		38.981	1.304	37
+P	Sangod		IN		24.927	76.286	27
+P	Sakaraha		MG		-22.900	44.533	3
+P	San Justo		AR		-30.790	-60.593	19
+P	Santa María de Jesús	santa maria de jesus	GT		14.495	-90.710	13
+P	San Miguel del Monte		AR		-35.439	-58.807	19
+P	Santa María Atzompa	santa maria atzompa	MX		17.102	-96.777	13
+P	Sakri		IN		20.991	74.315	27
+P	Saint-Lô	saint lo	FR		49.116	-1.090	37
+P	San Pablo		CR		9.996	-84.097	13
+P	El Salto		MX		20.519	-103.182	13
+P	São Miguel do Guaporé	sao miguel do guapore	BR		-11.694	-62.711	18
+P	Samthar		IN		25.843	78.907	27
+P	La Celle-Saint-Cloud	la celle saint cloud	FR		48.850	2.145	37
+P	Santa Rita		HN		15.200	-87.883	13
+P	Bandar Baru Salak Tinggi		MY		2.812	101.736	29
+P	Sahline		TN		35.752	10.711	4
+P	São João do Piauí	sao joao do piaui	BR		-8.358	-42.247	19
+P	Saint-Mandé	saint mande	FR		48.839	2.416	37
+P	San Ignacio		BZ		17.159	-89.070	13
+P	São Sepé	sao sepe	BR		-30.161	-53.565	19
+P	Santa Cruz de Mora		VE		8.399	-71.641	18
+P	Rancho San Diego		US	California	32.747	-116.935	11
+P	Sampués	sampues	CO		9.184	-75.382	6
+P	Sanaur		IN		30.302	76.458	27
+P	São José da Laje	sao jose da laje	BR		-9.010	-36.058	19
+P	Porte Saint-Martin	porte saint martin	FR		48.872	2.360	37
+P	Saint Andrews		US	South Carolina	34.043	-81.101	16
+P	San José de Ocoa	san jose de ocoa	DO		18.547	-70.507	18
+P	San Nicola la Strada		IT		41.052	14.333	37
+P	Sasmuan		PH		14.944	120.623	29
+P	São Domingos do Araguaia	sao domingos do araguaia	BR		-5.538	-48.733	19
+P	Santa Bárbara do Pará	santa barbara do para	BR		-1.224	-48.294	19
+P	São Marcos	sao marcos	BR		-28.971	-51.068	19
+P	San Pedro Totoltepec		MX		19.311	-99.572	13
+P	Hansestadt Salzwedel		DE		52.853	11.153	37
+P	São Jerônimo	sao jeronimo	BR		-29.959	-51.722	19
+P	Sanjianzai		CN		22.729	113.776	29
+P	Sabunçu	sabuncu	AZ		40.443	49.948	36
+P	Santa Vitória	santa vitoria	BR		-18.839	-50.121	19
+P	Santa Bárbara	santa barbara	BR		-11.958	-38.975	19
+P	Sarauli		IN		28.494	79.092	27
+P	Sanford		US	Maine	43.439	-70.774	16
+P	Monte Santo de Minas		BR		-21.190	-46.980	19
+P	Saint-Genis-Laval	saint genis laval	FR		45.695	4.793	37
+P	San Rafael		MX		19.210	-98.756	13
+P	Saint-Louis	saint louis	FR		47.592	7.559	37
+P	Sālamedu	salamedu	IN		11.909	79.492	27
+P	Sahoua		CI		5.062	-6.260	0
+P	Saint-Michel-sur-Orge	saint michel sur orge	FR		48.635	2.308	37
+P	Saclepea		LR		6.963	-8.841	0
+P	Saw Bwar Gyi Kone		MM		16.886	96.128	32
+P	Yanagawamachi-saiwaichō	yanagawamachi saiwaicho	JP		37.850	140.600	31
+P	Sandhurst		GB	England	51.347	-0.787	33
+P	San Juan de Aznalfarache		ES		37.358	-6.037	37
+P	Sant'Anastasia	santanastasia	IT		40.868	14.402	37
+P	San Lucas Sacatepéquez	san lucas sacatepequez	GT		14.611	-90.657	13
+P	Katālem va Sādāt Shahr	katalem va sadat shahr	IR		36.889	50.696	30
+P	Sāmalāpuram	samalapuram	IN		11.072	77.198	27
+P	São João de Pirabas	sao joao de pirabas	BR		-0.775	-47.177	19
+P	Lons-le-Saunier	lons le saunier	FR		46.675	5.556	37
+P	Samtredia		GE		42.154	42.335	36
+P	Talwandi Sābo	talwandi sabo	IN		29.984	75.082	27
+P	Sāvda	savda	IN		21.151	75.889	27
+P	Sapulpa		US	Oklahoma	35.999	-96.114	7
+P	Sāmpla	sampla	IN		28.777	76.772	27
+P	South San Jose Hills		US	California	34.013	-117.905	11
+P	Villa de San Diego de Ubaté	villa de san diego de ubate	CO		5.309	-73.816	6
+P	San Buenaventura		MX		27.062	-101.549	13
+P	San Martín	san martin	CO		8.002	-73.511	6
+P	Sarzana		IT		44.112	9.962	37
+P	San Pablo Jocopilas		GT		14.589	-91.452	13
+P	São Pedro	sao pedro	BR		-22.423	-42.966	19
+P	Žďár nad Sázavou	zdar nad sazavou	CZ		49.563	15.939	37
+P	Sainte-Marie	sainte marie	MQ		14.784	-60.992	18
+P	Sarwar		IN		26.243	75.129	27
+P	Santa Luzia do Pará	santa luzia do para	BR		-1.524	-46.898	19
+P	Saint-Vincent de Paul	saint vincent de paul	FR		48.881	2.355	37
+P	Sankt Peter		AT		46.630	14.340	37
+P	Santa Anita		MX		20.550	-103.444	13
+P	Saatlı	saatli	AZ		39.932	48.369	36
+P	São Felipe	sao felipe	BR		-12.847	-39.089	19
+P	Salgado		BR		-11.032	-37.475	19
+P	Šaľa	sala	SK		48.151	17.881	37
+P	Marina di Ardea-Tor San Lorenzo	marina di ardea tor san lorenzo	IT		41.554	12.541	37
+P	San Lorenzo de Esmeraldas		EC		1.286	-78.835	6
+P	Saperna Slobidka		UA		50.401	30.535	35
+P	San Antonio de la Cal		MX		17.029	-96.701	13
+P	Sainte-Rose	sainte rose	GP		16.333	-61.697	18
+P	South Saint Paul		US	Minnesota	44.893	-93.035	7
+P	Sampaloc		PH		14.540	121.360	29
+P	Sandown		GB	England	50.652	-1.161	33
+P	Chalfont Saint Peter		GB	England	51.609	-0.556	33
+P	Saraipali		IN		21.315	83.006	27
+P	San Giovanni Lupatoto		IT		45.382	11.045	37
+P	São Joaquim do Monte	sao joaquim do monte	BR		-8.432	-35.804	19
+P	Sawar		IN		25.756	75.223	27
+P	Sambiase		IT		38.967	16.283	37
+P	Sankt Martin		AT		46.617	14.283	37
+P	Sainte-Marguerite	sainte marguerite	FR		43.262	5.401	37
+P	San Juan de Urabá	san juan de uraba	CO		8.759	-76.530	6
+P	L.A.Sagaram	l a sagaram	IN		13.903	79.891	27
+P	Sarigam INA		IN		20.288	72.850	27
+P	Saynshand		MN		44.882	110.116	29
+P	Saint-Lazare	saint lazare	CA	Quebec	45.400	-74.133	16
+P	Saint-Jean-de-Braye	saint jean de braye	FR		47.913	1.977	37
+P	L'Île-Bizard–Sainte-Geneviève	lile bizard sainte genevieve	CA	Quebec	45.494	-73.896	16
+P	Sarāt ‘Abīdah	sarat abidah	SA		18.089	43.132	3
+P	Sankaraperi		IN		8.839	78.105	27
+P	Sawankhalok		TH		17.316	99.832	21
+P	North Salt Lake		US	Utah	40.849	-111.907	8
+P	Sand Springs		US	Oklahoma	36.140	-96.109	7
+P	Diamond Head / Kapahulu / Saint Louis Heights	diamond head kapahulu saint louis heights	US	Hawaii	21.277	-157.811	38
+P	Saint-Gratien	saint gratien	FR		48.974	2.287	37
+P	Sam Roi Yot		TH		12.271	99.872	21
+P	Sarai Naurang		PK		32.826	70.781	26
+P	Salmon Creek		US	Washington	45.711	-122.649	11
+P	Samrāla	samrala	IN		30.836	76.193	27
+P	San Cristóbal Verapaz	san cristobal verapaz	GT		15.367	-90.478	13
+P	Samuyuzi		CN		43.719	81.864	22
+P	San Tin		HK		22.502	114.069	29
+P	San Juan Zitlaltepec		MX		19.812	-99.145	13
+P	San Francisco		PH		15.356	120.840	29
+P	San Isidro		ES		28.076	-16.558	33
+P	West Saint Paul		US	Minnesota	44.916	-93.102	7
+P	São Vicente Ferrer	sao vicente ferrer	BR		-2.894	-44.880	19
+P	Saint Kilda		AU	Victoria	-37.868	144.981	34
+P	Santrampur		IN		23.190	73.895	27
+P	Salcajá	salcaja	GT		14.880	-91.457	13
+P	Salmon Arm		CA	British Columbia	50.700	-119.269	20
+P	Tuen Mun San Hui		HK		22.399	113.976	29
+P	As Samū‘	as samu	PS		31.397	35.066	23
+P	Sabaudia		IT		41.300	13.028	37
+P	Sansheng		CN		29.893	106.626	29
+P	Upper Saint Clair		US	Pennsylvania	40.336	-80.083	16
+P	Sardulgarh		IN		29.692	75.236	27
+P	Santa Ana		VE		11.068	-63.923	18
+P	Sanary-sur-Mer	sanary sur mer	FR		43.120	5.802	37
+P	San Rafael Oriente		SV		13.383	-88.350	13
+P	Villa Paula de Sarmiento		AR		-31.493	-68.538	19
+P	Saco		US	Maine	43.501	-70.443	16
+P	São José de Piranhas	sao jose de piranhas	BR		-7.121	-38.502	19
+P	Samho-rodongjagu	samho rodongjagu	KP		39.947	127.871	31
+P	Saratok		MY		1.733	111.333	29
+P	São Tiago de Custoias	sao tiago de custoias	PT		41.200	-8.633	33
+P	Sanxi		CN		31.132	110.094	29
+P	Sarayköy	saraykoy	TR		37.924	28.925	3
+P	São João da Talha	sao joao da talha	PT		38.824	-9.097	33
+P	Sabie		ZA		-25.100	30.780	5
+P	Sant'Antonio Abate	santantonio abate	IT		40.722	14.540	37
+P	São José da Coroa Grande	sao jose da coroa grande	BR		-8.898	-35.148	19
+P	Siu Sai Wan Estate		HK		22.262	114.249	29
+P	San José de Colinas	san jose de colinas	HN		15.041	-88.302	13
+P	Terra Santa		BR		-2.104	-56.487	19
+P	Santa María Totoltepec	santa maria totoltepec	MX		19.307	-99.593	13
+P	Sai Wan Ho		HK		22.284	114.223	29
+P	Montignies-sur-Sambre	montignies sur sambre	BE		50.411	4.491	37
+P	Saint-Roch	saint roch	FR		43.715	7.292	37
+P	Latri Sabiji		GM		13.413	-16.679	0
+P	San Marcelino		PH		14.974	120.157	29
+P	Sarstedt		DE		52.235	9.854	37
+P	Belém de São Francisco	belem de sao francisco	BR		-8.754	-38.966	19
+P	Samraong		KH		14.182	103.518	21
+P	São Raimundo das Mangabeiras	sao raimundo das mangabeiras	BR		-7.022	-45.481	19
+P	San Mariano		PH		7.500	126.000	29
+P	Puerto San José	puerto san jose	GT		13.922	-90.819	13
+P	Saint-Barthélémy	saint barthelemy	FR		43.331	5.402	37
+P	Sanharó	sanharo	BR		-8.361	-36.566	19
+P	Saylac		SO		11.354	43.473	3
+P	São Gabriel	sao gabriel	BR		-11.229	-41.876	19
+P	Sachsenheim		DE		48.960	9.065	37
+P	San Miguel		PH		15.444	120.599	29
+P	Santa Iria da Azóia	santa iria da azoia	PT		38.841	-9.099	33
+P	Tarko-Sale	tarko sale	RU		64.916	77.775	26
+P	Aung San		MM		16.922	96.097	32
+P	São João Batista	sao joao batista	BR		-2.955	-44.807	19
+P	San Diego		CO		10.334	-73.180	6
+P	San Mauro Torinese		IT		45.104	7.768	37
+P	San Bartolomé	san bartolome	ES		29.001	-13.613	33
+P	Santa Rosa Jáuregui	santa rosa jauregui	MX		20.742	-100.448	13
+P	Sāvli	savli	IN		22.562	73.223	27
+P	Sant Quirze del Vallès	sant quirze del valles	ES		41.533	2.083	37
+P	Saint Andrews		GB	Scotland	56.339	-2.799	33
+P	Santa Elena		AR		-30.944	-59.788	19
+P	San José de los Olvera	san jose de los olvera	MX		20.553	-100.415	13
+P	San Ferdinando		IT		40.833	14.248	37
+P	Santa Cruz del Norte		CU		23.154	-81.923	10
+P	Saint Ives		AU	New South Wales	-33.730	151.160	34
+P	Santa Rosa		CO		10.445	-75.370	6
+P	São Benedito do Rio Preto	sao benedito do rio preto	BR		-3.334	-43.528	19
+P	Chhoti Sādri	chhoti sadri	IN		24.381	74.701	27
+P	Saladas		AR		-28.255	-58.624	19
+P	Say		NE		13.101	2.369	4
+P	San Pascual		ES		40.443	-3.653	37
+P	Santa Brígida	santa brigida	ES		28.032	-15.504	33
+P	Sapucaia		BR		-21.995	-42.914	19
+P	Sagua de Tánamo	sagua de tanamo	CU		20.583	-75.241	10
+P	Saint-Avold	saint avold	FR		49.105	6.704	37
+P	San Martín de la Vega	san martin de la vega	ES		40.207	-3.571	37
+P	Saint-Omer	saint omer	FR		50.748	2.261	37
+P	Santiago Ixcuintla		MX		21.811	-105.208	12
+P	San Po Kong		HK		22.335	114.197	29
+P	Sarvestān	sarvestan	IR		29.273	53.220	30
+P	San Benito Abad		CO		8.929	-75.027	6
+P	São Luís Gonzaga do Maranhão	sao luis gonzaga do maranhao	BR		-4.379	-44.671	19
+P	Kafr Sa‘d	kafr sad	EG		31.356	31.685	1
+P	Salamina		CO		5.407	-75.487	6
+P	Santa Rosa		PE		-10.919	-74.885	6
+P	Sátoraljaújhely	satoraljaujhely	HU		48.395	21.659	37
+P	San Vicente		CO		6.285	-75.334	6
+P	Santa Fe Springs		US	California	33.947	-118.085	11
+P	San Andrés Cuexcontitlán	san andres cuexcontitlan	MX		19.359	-99.622	13
+P	Satyāmangala	satyamangala	IN		13.019	76.124	27
+P	Sakchu-ŭp	sakchu up	KP		40.389	125.047	31
+P	Camocim de São Félix	camocim de sao felix	BR		-8.359	-35.762	19
+P	Sandbach		GB	England	53.145	-2.363	33
+P	São João do Rio do Peixe	sao joao do rio do peixe	BR		-6.729	-38.449	19
+P	Sapeaçu	sapeacu	BR		-12.727	-39.182	19
+P	Santo Anastácio	santo anastacio	BR		-21.976	-51.651	19
+P	Samdari		IN		25.813	72.579	27
+P	Saiyad-ul-ajaib	saiyad ul ajaib	IN		28.519	77.204	27
+P	Bad Saulgau		DE		48.017	9.501	37
+P	Sanniquellie		LR		7.362	-8.713	0
+P	San Lorenzo de El Escorial		ES		40.591	-4.147	37
+P	Sarāi Mīr	sarai mir	IN		26.027	82.918	27
+P	São José dos Quatro Marcos	sao jose dos quatro marcos	BR		-15.621	-58.176	18
+P	Salaspils		LV		56.860	24.365	35
+P	Saint-Amand-les-Eaux	saint amand les eaux	FR		50.447	3.431	37
+P	Le Pré-Saint-Gervais	le pre saint gervais	FR		48.885	2.404	37
+P	Santa Rosa		AR		-23.394	-64.425	19
+P	Santa María Ajoloapan	santa maria ajoloapan	MX		19.764	-98.959	13
+P	Sa‘īr	sair	PS		31.579	35.140	23
+P	San Pa Tong		TH		18.628	98.896	21
+P	Saýat	sayat	TM		38.784	63.880	26
+P	Santuario		CO		6.138	-75.264	6
+P	Sacavém	sacavem	PT		38.792	-9.108	33
+P	Salpêtrière	salpetriere	FR		48.837	2.358	37
+P	San José del Quince	san jose del quince	MX		20.542	-103.284	13
+P	Ixtapan de la Sal		MX		18.844	-99.677	13
+P	Santiago Momoxpan		MX		19.074	-98.267	13
+P	São Francisco de Assis	sao francisco de assis	BR		-29.550	-55.131	19
+P	San Vito dei Normanni		IT		40.656	17.708	37
+P	Sagrada Familia		CL		-34.999	-71.384	17
+P	Salonta		RO		46.800	21.650	35
+P	São Miguel do Tapuio	sao miguel do tapuio	BR		-5.504	-41.323	19
+P	Saint-Jean-de-la-Ruelle	saint jean de la ruelle	FR		47.911	1.865	37
+P	Presidente Sarney		BR		-2.591	-45.364	19
+P	Villa Sarmiento		AR		-34.634	-58.570	19
+P	Nizhnyaya Salda		RU		58.078	60.720	26
+P	Saint Matthews		US	Kentucky	38.253	-85.656	16
+P	Saint-Lin-Laurentides	saint lin laurentides	CA	Quebec	45.850	-73.766	16
+P	Safety Harbor		US	Florida	27.991	-82.693	16
+P	Sarāi Ākil	sarai akil	IN		25.379	81.510	27
+P	San Pedro		BZ		17.916	-87.966	13
+P	Saraktash		RU		51.787	56.360	26
+P	San Rafael de Onoto		VE		9.678	-68.973	18
+P	São Domingos do Prata	sao domingos do prata	BR		-19.865	-42.968	19
+P	Central Saanich		CA	British Columbia	48.566	-123.419	20
+P	Vila Bela da Santíssima Trindade	vila bela da santissima trindade	BR		-15.008	-59.951	18
+P	San Giovanni in Fiore		IT		39.254	16.697	37
+P	San Bonifacio		IT		45.396	11.274	37
+P	Saint-Cyr-sur-Loire	saint cyr sur loire	FR		47.400	0.667	37
+P	Sanhe		CN		30.037	108.182	29
+P	San Pietro a Patierno		IT		40.886	14.290	37
+P	Lom Sak		TH		16.780	101.242	21
+P	Santo Antônio do Amparo	santo antonio do amparo	BR		-20.946	-44.919	19
+P	Saint-Augustin-de-Desmaures	saint augustin de desmaures	CA	Quebec	46.741	-71.451	16
+P	San Cristobal		ES		40.341	-3.688	37
+P	San Salvador El Seco		MX		19.133	-97.642	13
+P	Sanxenxo		ES		42.400	-8.807	37
+P	Santa-Luzia	santa luzia	GW		11.888	-15.590	0
+P	Guru Har Sahāi	guru har sahai	IN		30.709	74.404	27
+P	Santa Bárbara	santa barbara	GT		14.436	-91.227	13
+P	São Paulo de Frades	sao paulo de frades	PT		40.247	-8.394	33
+P	Sake		CD		-1.574	29.043	5
+P	Sa‘ādat Shahr	saadat shahr	IR		30.079	53.135	30
+P	San Salvador Atenco		MX		19.552	-98.919	13
+P	San Salvo		IT		42.044	14.733	37
+P	Sashiōgi	sashiogi	JP		35.914	139.580	31
+P	Cruz do Espírito Santo	cruz do espirito santo	BR		-7.140	-35.086	19
+P	Sakassou		CI		7.455	-5.293	0
+P	San Esteban		CL		-32.799	-70.581	17
+P	Samālka	samalka	IN		28.535	77.091	27
+P	Coronel João Sá	coronel joao sa	BR		-10.284	-37.926	19
+P	São Simão	sao simao	BR		-18.991	-50.544	19
+P	São Pedro da Cova	sao pedro da cova	PT		41.143	-8.500	33
+P	San Fernando de Monte Cristi		DO		19.848	-71.646	18
+P	Sadabe		MG		-18.633	47.700	3
+P	San Diego		CR		9.900	-84.002	13
+P	Saint-Joseph	saint joseph	MQ		14.671	-61.039	18
+P	San Antonio Oeste		AR		-40.732	-64.948	19
+P	Santana do Cariri		BR		-7.188	-39.737	19
+P	Samobor		HR		45.803	15.718	37
+P	San Miniato		IT		43.680	10.850	37
+P	São João do Soter	sao joao do soter	BR		-5.114	-43.810	19
+P	San Jorge		AR		-31.897	-61.860	19
+P	Sant Celoni		ES		41.689	2.490	37
+P	Sayville		US	New York	40.736	-73.082	16
+P	Sabana Grande de Boyá	sabana grande de boya	DO		18.945	-69.793	18
+P	Sawang Daen Din		TH		17.475	103.458	21
+P	San Carlos Park		US	Florida	26.467	-81.801	16
+P	Salinas de Hidalgo		MX		22.628	-101.714	13
+P	Saint Ives		GB	England	52.333	-0.077	33
+P	Saoula		DZ		36.705	3.025	4
+P	Savigliano		IT		44.648	7.657	37
+P	Santo Antônio do Leverger	santo antonio do leverger	BR		-15.866	-56.077	18
+P	Sasazuka		JP		35.676	139.667	31
+P	Saalfelden am Steinernen Meer		AT		47.427	12.848	37
+P	Sartell		US	Minnesota	45.622	-94.207	7
+P	São Paulo do Potengi	sao paulo do potengi	BR		-5.895	-35.763	19
+P	Sainte-Catherine	sainte catherine	CA	Quebec	45.400	-73.582	16
+P	Santa Maria		PH		6.554	125.471	29
+P	Barra de Santo Antônio	barra de santo antonio	BR		-9.405	-35.507	19
+P	Sallanches		FR		45.944	6.632	37
+P	Sāmbūrvadakara	samburvadakara	IN		8.999	77.388	27
+P	Saint Pierre		MU		-20.221	57.534	36
+P	San Felipe		MX		31.025	-114.842	11
+P	Santa Rosa Treinta		MX		18.700	-99.184	13
+P	São Vicente Férrer	sao vicente ferrer	BR		-7.591	-35.491	19
+P	Sarangpore		IN		21.636	73.048	27
+P	São Caetano de Odivelas	sao caetano de odivelas	BR		-0.750	-48.020	19
+P	San Lorenzo		CO		1.503	-77.215	6
+P	Salitre		BR		-7.285	-40.457	19
+P	Santa Clara del Mar		AR		-37.834	-57.507	19
+P	San Tin		HK		22.372	114.184	29
+P	Sacile		IT		45.954	12.503	37
+P	Bode Saadu		NG		8.939	4.782	4
+P	Saffron Walden		GB	England	52.023	0.242	33
+P	San Juan Bautista		PY		-26.670	-57.141	19
+P	Saginomiya		JP		35.724	139.637	31
+P	Sandalfoot Cove		US	Florida	26.339	-80.187	16
+P	Samurou		IN		24.701	93.903	27
+P	San Felice A Cancello		IT		41.017	14.487	37
+P	Sālūmbar	salumbar	IN		24.135	74.044	27
+P	Savanna-la-Mar	savanna la mar	JM		18.219	-78.133	6
+P	Bad Säckingen	bad sackingen	DE		47.554	7.946	37
+P	Santa Maria das Barreiras		BR		-8.872	-49.713	19
+P	As Sallūm	as sallum	EG		31.554	25.158	1
+P	Santa María	santa maria	AR		-26.695	-66.048	19
+P	Saluzzo		IT		44.647	7.493	37
+P	San Estanislao		CO		10.398	-75.151	6
+P	San Francisco Tlalcilalcalpan		MX		19.295	-99.768	13
+P	Saint Peter Port		GG		49.460	-2.535	33
+P	San Antonio Acahualco		MX		19.274	-99.772	13
+P	Santa Lucía	santa lucia	UY		-34.453	-56.391	19
+P	Sam Shing		HK		22.381	113.979	29
+P	Bad Salzungen		DE		50.813	10.236	37
+P	Sananduva		BR		-27.950	-51.807	19
+P	Saint Michael		US	Minnesota	45.210	-93.665	7
+P	Tlaltenango de Sánchez Román	tlaltenango de sanchez roman	MX		21.781	-103.304	13
+P	Santa Margarida		BR		-20.384	-42.251	19
+P	San Ignacio de Sabaneta		DO		19.478	-71.339	18
+P	Las Cabezas de San Juan		ES		36.984	-5.939	37
+P	Saint-Cyr-l'École	saint cyr lecole	FR		48.799	2.068	37
+P	San Pedro Carchá	san pedro carcha	GT		15.477	-90.311	13
+P	São Francisco do Guaporé	sao francisco do guapore	BR		-12.052	-63.568	18
+P	Puerto Santander		CO		8.364	-72.406	6
+P	San Martín de Pangoa	san martin de pangoa	PE		-11.429	-74.488	6
+P	San Pedro de Lloc		PE		-7.429	-79.504	6
+P	Ampliación San Mateo	ampliacion san mateo	MX		19.616	-99.147	13
+P	Saran		FR		47.950	1.876	37
+P	San Mateo		PH		16.882	121.587	29
+P	Sa‘īdābād	saidabad	IR		35.668	51.186	30
+P	Sainte-Catherine	sainte catherine	CA	Quebec	46.318	-72.566	16
+P	San Miguel De Abona		ES		28.098	-16.617	33
+P	San Francisco		SV		13.694	-88.104	13
+P	Sānwer	sanwer	IN		22.974	75.827	27
+P	Santa Ana Xalmimilulco		MX		19.213	-98.382	13
+P	San Francisco de los Romo		MX		22.072	-102.272	13
+P	San Vicente		PH		15.292	120.655	29
+P	Les Sables-d'Olonne	les sables dolonne	FR		46.497	-1.785	37
+P	Saint-Loup	saint loup	FR		43.278	5.431	37
+P	Santiago Tulantepec		MX		20.036	-98.356	13
+P	Saint-Leu-la-Forêt	saint leu la foret	FR		49.017	2.250	37
+P	San Juan de Flores		HN		14.267	-87.033	13
+P	São Lourenço da Serra	sao lourenco da serra	BR		-23.852	-46.943	19
+P	Phanom Sarakham		TH		13.749	101.349	21
+P	Saint-Fons	saint fons	FR		45.709	4.853	37
+P	Sátiro Dias	satiro dias	BR		-11.604	-38.583	19
+P	Saint-Avertin	saint avertin	FR		47.364	0.740	37
+P	San Giovanni Valdarno		IT		43.568	11.530	37
+P	Sarigerme		TR		36.715	28.704	3
+P	San Rafael Tlanalapan		MX		19.292	-98.468	13
+P	Sangre Grande		TT		10.587	-61.130	18
+P	Saint-Égrève	saint egreve	FR		45.233	5.682	37
+P	Sava		IT		40.402	17.553	37
+P	Boissy-Saint-Léger	boissy saint leger	FR		48.751	2.512	37
+P	Sayō	sayo	JP		35.003	134.359	31
+P	Santiago Tlacotepec		MX		19.227	-99.671	13
+P	Sankt Leonhard		AT		47.069	15.458	37
+P	Sanarate		GT		14.788	-90.199	13
+P	Sagalo		ML		12.200	-10.700	0
+P	San Nicandro Garganico		IT		41.838	15.565	37
+P	San Clemente		PE		-13.667	-76.150	6
+P	Sant Just Desvern		ES		41.384	2.068	37
+P	Saint-Henri	saint henri	CA	Quebec	45.468	-73.601	16
+P	San Giovanni in Persiceto		IT		44.638	11.184	37
+P	Salgar		CO		5.965	-75.965	6
+P	Santa Lucía	santa lucia	CO		10.324	-74.960	6
+P	Salsomaggiore Terme		IT		44.816	9.986	37
+P	Wang Saphung		TH		17.301	101.769	21
+P	Santa Juliana		BR		-19.309	-47.525	19
+P	Mont-Saint-Hilaire	mont saint hilaire	CA	Quebec	45.565	-73.187	16
+P	Bari Sādri	bari sadri	IN		24.413	74.473	27
+P	Sashiki		JP		32.302	130.504	31
+P	Santa Cruz de la Palma		ES		28.684	-17.764	33
+P	Al Safa		AE		25.170	55.233	36
+P	Neb Sarai		IN		28.508	77.201	27
+P	San Antonio		PE		-17.217	-70.926	6
+P	Sarai Sidhu		PK		30.595	71.970	26
+P	Sātalkheri	satalkheri	IN		24.652	75.998	27
+P	Salangaippālaiyam	salangaippalaiyam	IN		11.426	77.571	27
+P	Pa Sang		TH		18.526	98.939	21
+P	San Javier		AR		-30.581	-59.930	19
+P	Saint-Basile-le-Grand	saint basile le grand	CA	Quebec	45.533	-73.282	16
+P	Sakai		JP		35.706	139.544	31
+P	São Pedro do Sul	sao pedro do sul	BR		-29.621	-54.179	19
+P	Sabanitas		PA		9.345	-79.805	6
+P	Saltash		GB	England	50.410	-4.225	33
+P	Porto San Giorgio		IT		43.178	13.794	37
+P	Santa Cecília	santa cecilia	BR		-26.961	-50.427	19
+P	Sanjan		IN		20.192	72.818	27
+P	Satipo		PE		-11.252	-74.639	6
+P	Sant Carles de la Ràpita	sant carles de la rapita	ES		40.617	0.600	37
+P	Sassenheim		NL		52.225	4.522	37
+P	San Pablo Oztotepec		MX		19.187	-99.074	13
+P	San Juan de Dios		CR		9.878	-84.084	13
+P	Santiago Tuxtla		MX		18.466	-95.301	13
+P	Santa Barbara		PH		16.001	120.402	29
+P	Apostol Santiago		ES		40.476	-3.659	37
+P	Bad Neustadt an der Saale		DE		50.322	10.207	37
+P	Santafé	santafe	ES		37.189	-3.719	37
+P	Santa Cruz		PH		14.913	120.567	29
+P	San Mateo Huitzilzingo		MX		19.229	-98.925	13
+P	Sang-e Chārak	sang e charak	AF		35.850	66.437	25
+P	Sāyla	sayla	IN		22.549	71.483	27
+P	San Luis del Palmar		AR		-27.508	-58.556	19
+P	Sárvár	sarvar	HU		47.254	16.935	37
+P	Sayan		IN		21.320	72.882	27
+P	Santo Cristo		BR		-27.824	-54.663	19
+P	Santomera		ES		38.061	-1.049	37
+P	São Martinho do Bispo	sao martinho do bispo	PT		40.210	-8.457	33
+P	São João Evangelista	sao joao evangelista	BR		-18.548	-42.763	19
+P	Sashalom		HU		47.515	19.171	37
+P	Saint-Charles-Borromée	saint charles borromee	CA	Quebec	46.050	-73.466	16
+P	Saint-Pierre-des-Corps	saint pierre des corps	FR		47.386	0.748	37
+P	Saint John West		CA	New Brunswick	45.259	-66.078	15
+P	Sayama		JP		34.875	135.750	31
+P	Santa Cruz		AW		12.510	-69.981	18
+P	Saint-Maximin-la-Sainte-Baume	saint maximin la sainte baume	FR		43.448	5.861	37
+P	Salto do Lontra		BR		-25.784	-53.309	19
+P	Santa Teresita		AR		-36.541	-56.693	19
+P	Sāram	saram	IN		23.763	85.830	27
+P	Salesópolis	salesopolis	BR		-23.529	-45.849	19
+P	Safi		JO		31.036	35.465	3
+P	Saint-Vincent-de-Paul	saint vincent de paul	CA	Quebec	45.617	-73.649	16
+P	São Félix do Coribe	sao felix do coribe	BR		-13.401	-44.195	19
+P	Sankt Peter		AT		47.050	15.467	37
+P	Sant Agustí	sant agusti	ES		39.551	2.597	37
+P	Bang Saphan		TH		11.213	99.512	21
+P	Sarykemer		KZ		43.009	71.510	26
+P	Saligram		IN		13.499	74.709	27
+P	Santa Bárbara	santa barbara	HN		14.922	-88.238	13
+P	Sanyang		GM		13.267	-16.761	0
+P	San Andrés Xecul	san andres xecul	GT		14.905	-91.483	13
+P	Porte Saint-Denis	porte saint denis	FR		48.874	2.352	37
+P	Sabou		BF		12.067	-2.233	0
+P	San Rafael Arriba		CR		9.876	-84.075	13
+P	Jabal os Saraj		AF		35.118	69.238	25
+P	Santiago de María	santiago de maria	SV		13.483	-88.467	13
+P	Sakaki		JP		36.467	138.183	31
+P	Puerto Salgar		CO		5.463	-74.654	6
+P	Saint George's	saint georges	GD		12.053	-61.752	18
+P	Saint-Pierre	saint pierre	PM		46.779	-56.177	14
+P	San Marino		SM		43.937	12.446	37

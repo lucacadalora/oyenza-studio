@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dubai	240	
+C	AE	United Arab Emirates	dubai	s
+C	OM	Oman	ummalqura	s
+B	0
+P	Al Ain City		AE		24.192	55.761	0
+P	Muscat		OM		23.584	58.408	0
+P	Seeb		OM		23.670	58.189	0
+P	Bawshar		OM		23.578	58.400	0
+P	‘Ibrī	ibri	OM		23.226	56.516	0
+P	Şaḩam	saham	OM		24.172	56.889	0
+P	Rustaq		OM		23.391	57.424	0
+P	Sohar		OM		24.347	56.709	0
+P	As Suwayq		OM		23.849	57.439	0
+P	Barkā’	barka	OM		23.679	57.886	0
+P	Samā’il	samail	OM		23.298	57.953	0
+P	Al Buraymī	al buraymi	OM		24.251	55.793	0
+P	Nizwá	nizwa	OM		22.933	57.533	0
+P	Sur		OM		22.567	59.529	0
+P	Qurayyāt	qurayyat	OM		23.263	58.920	0
+P	Bahlā’	bahla	OM		22.979	57.305	0
+P	Al Khābūrah	al khaburah	OM		23.971	57.093	0
+P	Shināş	shinas	OM		24.743	56.467	0
+P	Sufālat Samā’il	sufalat samail	OM		23.317	58.017	0
+P	Izkī	izki	OM		22.933	57.767	0
+P	Liwá	liwa	OM		24.531	56.563	0
+P	Ibrā’	ibra	OM		22.691	58.533	0
+P	Bidbid		OM		23.408	58.128	0
+P	Badīyah	badiyah	OM		22.450	58.800	0
+P	Adam		OM		22.379	57.527	0
+P	Yanqul		OM		23.586	56.540	0
+P	Ḩattā	hatta	AE		24.801	56.127	0

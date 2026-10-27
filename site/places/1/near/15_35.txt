@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Asmara	180	
+Z	1	Africa/Khartoum	120	
+C	ER	Eritrea	egyptian	s
+C	SD	Sudan	egyptian	s
+B	0
+P	Asmara		ER		15.338	38.932	0
+P	Port Sudan		SD		19.617	37.216	1
+P	Kassala		SD		15.451	36.400	1
+P	Keren		ER		15.778	38.451	0
+P	New Halfa		SD		15.330	35.599	1
+P	Suakin		SD		19.106	37.332	1
+P	Tokār	tokar	SD		18.425	37.729	1
+P	Sinkat		SD		18.840	36.835	1
+P	Jubayt		SD		18.953	36.834	1
+P	Massawa		ER		15.608	39.475	0
+P	Barentu		ER		15.106	37.591	0

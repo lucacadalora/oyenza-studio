@@ -1,0 +1,13 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Boa_Vista	-240	
+C	BR	Brazil	mwl	s
+C	VE	Venezuela	mwl	s
+B	0
+P	Boa Vista		BR		2.820	-60.673	0
+P	Rorainópolis	rorainopolis	BR		0.946	-60.418	0
+P	Santa Elena de Uairén	santa elena de uairen	VE		4.602	-61.110	0
+P	Alto Alegre		BR		2.896	-61.498	0
+P	Caracaraí	caracarai	BR		1.816	-61.128	0
+P	Pacaraima		BR		4.431	-61.146	0
+P	Cantá	canta	BR		2.610	-60.597	0
+P	Mucajaí	mucajai	BR		2.440	-60.911	0

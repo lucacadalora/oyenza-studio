@@ -1,0 +1,19 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Mexico_City	-360	
+Z	1	Asia/Ho_Chi_Minh	420	
+Z	2	Asia/Samarkand	300	
+C	MX	Mexico	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VN	Vietnam	mwl	s
+B	0
+P	Xochimilco		MX		19.255	-99.104	0
+P	Đồng Xoài	dong xoai	VN		11.535	106.883	1
+P	Xo‘jayli Shahri	xojayli shahri	UZ		42.409	59.445	2
+P	Santa Cruz Xoxocotlán	santa cruz xoxocotlan	MX		17.030	-96.735	0
+P	Xóm Cái Nước	xom cai nuoc	VN		9.800	105.100	1
+P	Xonobod		UZ		40.803	72.975	2
+P	Xóm Mỹ Xuân	xom my xuan	VN		10.617	107.067	1
+P	Xoxocotla		MX		18.684	-99.246	0
+P	Xonacatlán	xonacatlan	MX		19.405	-99.528	0
+P	Xo‘jaobod	xojaobod	UZ		40.669	72.560	2
+P	Xochitepec		MX		18.781	-99.230	0

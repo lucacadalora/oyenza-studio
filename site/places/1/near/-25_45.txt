@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Indian/Antananarivo	180	
+C	MG	Madagascar	egyptian	s
+B	0
+P	Fianarantsoa		MG		-21.453	47.086	0
+P	Manakara		MG		-22.149	48.011	0
+P	Ambalavao		MG		-21.833	46.933	0
+P	Ambositra		MG		-20.530	47.243	0
+P	Ihosy		MG		-22.403	46.126	0
+P	Vangaindrano		MG		-23.350	47.600	0
+P	Ambatofinandrahana		MG		-20.553	46.804	0
+P	Ikongo		MG		-21.883	47.433	0
+P	Nosy Varika		MG		-20.583	48.533	0
+P	Farafangana		MG		-22.822	47.826	0
+P	Fandriana		MG		-20.233	47.383	0
+P	Sahavato		MG		-20.600	48.333	0
+P	Vohipaho		MG		-23.550	47.500	0
+P	Mananjary		MG		-21.230	48.342	0
+P	Marolambo		MG		-20.050	48.117	0
+P	Ivohibe		MG		-22.483	46.883	0
+P	Jafaro		MG		-24.917	45.517	0
+P	Bekily		MG		-24.217	45.317	0
+P	Vondrozo		MG		-22.817	47.283	0
+P	Beroroha		MG		-21.667	45.167	0
+P	Betroka		MG		-23.267	46.083	0
+P	Amboanjo		MG		-22.000	47.850	0
+P	Ifanadiana		MG		-21.300	47.633	0
+P	Vohipeno		MG		-22.350	47.833	0
+P	Ikalamavony		MG		-21.150	46.583	0

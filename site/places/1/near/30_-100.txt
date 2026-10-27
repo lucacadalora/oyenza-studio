@@ -1,0 +1,112 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+C	US	United States	moonsighting	s
+B	2
+P	Dallas		US	Texas	32.783	-96.807	0
+P	Fort Worth		US	Texas	32.725	-97.321	0
+P	Austin		US	Texas	30.267	-97.743	0
+P	Arlington		US	Texas	32.736	-97.108	0
+P	Plano		US	Texas	33.020	-96.699	0
+P	Garland		US	Texas	32.913	-96.639	0
+P	Irving		US	Texas	32.814	-96.949	0
+P	Grand Prairie		US	Texas	32.746	-96.998	0
+P	McKinney		US	Texas	33.198	-96.615	0
+P	Frisco		US	Texas	33.151	-96.824	0
+P	Mesquite		US	Texas	32.767	-96.599	0
+P	Killeen		US	Texas	31.117	-97.728	0
+P	Carrollton		US	Texas	32.954	-96.890	0
+P	Waco		US	Texas	31.549	-97.147	0
+P	Denton		US	Texas	33.215	-97.133	0
+P	Abilene		US	Texas	32.449	-99.733	0
+P	Round Rock		US	Texas	30.508	-97.679	0
+P	Richardson		US	Texas	32.948	-96.730	0
+P	College Station		US	Texas	30.628	-96.334	0
+P	Wichita Falls		US	Texas	33.914	-98.493	0
+P	Lewisville		US	Texas	33.046	-96.994	0
+P	Tyler		US	Texas	32.351	-95.301	0
+P	Allen		US	Texas	33.103	-96.671	0
+P	Lawton		US	Oklahoma	34.609	-98.390	0
+P	The Woodlands		US	Texas	30.158	-95.489	0
+P	Bryan		US	Texas	30.674	-96.370	0
+P	Temple		US	Texas	31.098	-97.343	0
+P	Flower Mound		US	Texas	33.015	-97.097	0
+P	North Richland Hills		US	Texas	32.834	-97.229	0
+P	Conroe		US	Texas	30.312	-95.456	0
+P	Cedar Park		US	Texas	30.505	-97.820	0
+P	Celina		US	Texas	33.325	-96.784	0
+P	Mansfield		US	Texas	32.563	-97.142	0
+P	Georgetown		US	Texas	30.633	-97.677	0
+P	Rowlett		US	Texas	32.903	-96.564	0
+P	Leander		US	Texas	30.579	-97.853	0
+P	Pflugerville		US	Texas	30.439	-97.620	0
+P	Spring		US	Texas	30.080	-95.417	0
+P	Euless		US	Texas	32.837	-97.082	0
+P	University of Texas		US	Texas	30.286	-97.739	0
+P	DeSoto		US	Texas	32.590	-96.857	0
+P	Grapevine		US	Texas	32.934	-97.078	0
+P	The Trails of Frisco		US	Texas	33.161	-96.872	0
+P	Bedford		US	Texas	32.844	-97.143	0
+P	Cedar Hill		US	Texas	32.588	-96.956	0
+P	Wylie		US	Texas	33.015	-96.539	0
+P	Keller		US	Texas	32.935	-97.252	0
+P	Haltom City		US	Texas	32.800	-97.269	0
+P	Burleson		US	Texas	32.542	-97.321	0
+P	Rockwall		US	Texas	32.931	-96.460	0
+P	The Colony		US	Texas	33.089	-96.886	0
+P	Coppell		US	Texas	32.955	-97.015	0
+P	Huntsville		US	Texas	30.724	-95.551	0
+P	Sherman		US	Texas	33.636	-96.609	0
+P	Duncanville		US	Texas	32.652	-96.908	0
+P	Hurst		US	Texas	32.823	-97.171	0
+P	Lancaster		US	Texas	32.592	-96.756	0
+P	Little Elm		US	Texas	33.163	-96.938	0
+P	Waxahachie		US	Texas	32.387	-96.848	0
+P	Copperas Cove		US	Texas	31.124	-97.903	0
+P	Farmers Branch		US	Texas	32.927	-96.896	0
+P	Cleburne		US	Texas	32.348	-97.387	0
+P	Southlake		US	Texas	32.941	-97.134	0
+P	Fort Cavazos		US	Texas	31.135	-97.776	0
+P	Harker Heights		US	Texas	31.084	-97.660	0
+P	Weatherford		US	Texas	32.759	-97.797	0
+P	Greenville		US	Texas	33.138	-96.111	0
+P	Colleyville		US	Texas	32.881	-97.155	0
+P	Balch Springs		US	Texas	32.729	-96.623	0
+P	Ardmore		US	Oklahoma	34.174	-97.144	0
+P	Paris		US	Texas	33.661	-95.556	0
+P	University Park		US	Texas	32.850	-96.800	0
+P	Sachse		US	Texas	32.976	-96.595	0
+P	Watauga		US	Texas	32.858	-97.255	0
+P	Corsicana		US	Texas	32.095	-96.469	0
+P	Duncan		US	Oklahoma	34.502	-97.958	0
+P	Denison		US	Texas	33.756	-96.537	0
+P	Kerrville		US	Texas	30.047	-99.140	0
+P	Hutto		US	Texas	30.543	-97.547	0
+P	Benbrook		US	Texas	32.673	-97.461	0
+P	Midlothian		US	Texas	32.482	-96.994	0
+P	Saginaw		US	Texas	32.860	-97.364	0
+P	Brushy Creek		US	Texas	30.514	-97.740	0
+P	Corinth		US	Texas	33.154	-97.065	0
+P	Murphy		US	Texas	33.015	-96.613	0
+P	Belton		US	Texas	31.056	-97.464	0
+P	Stephenville		US	Texas	32.221	-98.202	0
+P	New Caney		US	Texas	30.155	-95.211	0
+P	Altus		US	Oklahoma	34.638	-99.334	0
+P	Brownwood		US	Texas	31.709	-98.991	0
+P	Ennis		US	Texas	32.329	-96.625	0
+P	Forney		US	Texas	32.748	-96.472	0
+P	McAlester		US	Oklahoma	34.933	-95.770	0
+P	Palestine		US	Texas	31.762	-95.631	0
+P	Ada		US	Oklahoma	34.775	-96.678	0
+P	Durant		US	Oklahoma	33.994	-96.371	0
+P	White Settlement		US	Texas	32.760	-97.458	0
+P	Terrell		US	Texas	32.736	-96.275	0
+P	Taylor		US	Texas	30.571	-97.409	0
+P	Brenham		US	Texas	30.167	-96.398	0
+P	Gainesville		US	Texas	33.626	-97.133	0
+P	Jollyville		US	Texas	30.443	-97.775	0
+P	Highland Village		US	Texas	33.092	-97.047	0
+P	Sulphur Springs		US	Texas	33.138	-95.601	0
+P	Prosper		US	Texas	33.236	-96.801	0
+P	Seagoville		US	Texas	32.640	-96.538	0
+P	Gatesville		US	Texas	31.435	-97.744	0
+P	Addison		US	Texas	32.962	-96.829	0

@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Aden	180	
+C	DJ	Djibouti	egyptian	s
+C	ER	Eritrea	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	SO	Somalia	egyptian	s
+C	YE	Yemen	ummalqura	s
+B	0
+P	Taiz		YE		13.580	44.021	0
+P	Ibb		YE		13.967	44.183	0
+P	Al Ḩudaydah	al hudaydah	YE		14.798	42.955	0
+P	Djibouti		DJ		11.589	43.145	0
+P	Balbala		DJ		11.562	43.107	0
+P	Dhamār	dhamar	YE		14.543	44.405	0
+P	Zabīd	zabid	YE		14.195	43.315	0
+P	Ali Sabih		DJ		11.156	42.712	0
+P	Samara		ET		11.793	41.006	0
+P	Asaita		ET		11.568	41.439	0
+P	Dhī as Sufāl	dhi as sufal	YE		13.834	44.115	0
+P	Batī	bati	ET		11.192	40.017	0
+P	Dubti		ET		11.733	41.082	0
+P	Logīya	logiya	ET		11.726	40.980	0
+P	Bayt al Faqīh	bayt al faqih	YE		14.516	43.324	0
+P	Yarīm	yarim	YE		14.298	44.378	0
+P	Dikhil		DJ		11.105	42.370	0
+P	Laḩij	lahij	YE		13.057	44.882	0
+P	Arerti		ET		13.950	40.667	0
+P	Sifra		ET		11.605	40.017	0
+P	Mīlē	mile	ET		11.422	40.763	0
+P	Assab		ER		13.009	42.739	0
+P	Tadjoura		DJ		11.788	42.882	0
+P	Saylac		SO		11.354	43.473	0
+P	Arta		DJ		11.526	42.852	0
+P	Mocha		YE		13.318	43.250	0
+P	Obock		DJ		11.967	43.288	0

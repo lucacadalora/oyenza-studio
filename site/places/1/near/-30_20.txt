@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	ZA	South Africa	egyptian	s
+B	0
+P	Kimberley		ZA		-28.732	24.762	0
+P	Upington		ZA		-28.448	21.256	0
+P	Vryburg		ZA		-26.957	24.728	0
+P	Postmasburg		ZA		-28.334	23.065	0
+P	Pampierstad		ZA		-27.783	24.688	0
+P	Warrenton		ZA		-28.114	24.848	0

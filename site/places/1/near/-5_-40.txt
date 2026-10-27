@@ -1,0 +1,51 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Fortaleza	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Fortaleza		BR		-3.717	-38.543	0
+P	Caucaia		BR		-3.736	-38.653	0
+P	Maracanaú	maracanau	BR		-3.877	-38.626	0
+P	Itapipoca		BR		-3.494	-39.579	0
+P	Maranguape		BR		-3.891	-38.686	0
+P	Quixadá	quixada	BR		-4.971	-39.015	0
+P	Pacatuba		BR		-3.984	-38.620	0
+P	Canindé	caninde	BR		-4.359	-39.312	0
+P	Eusébio	eusebio	BR		-3.890	-38.451	0
+P	Russas		BR		-4.940	-37.976	0
+P	Cascavel		BR		-4.133	-38.242	0
+P	Pacajus		BR		-4.173	-38.461	0
+P	Horizonte		BR		-4.098	-38.486	0
+P	Aquiraz		BR		-3.901	-38.391	0
+P	Itaitinga		BR		-3.969	-38.528	0
+P	Trairi		BR		-3.278	-39.269	0
+P	São Gonçalo do Amarante	sao goncalo do amarante	BR		-3.607	-38.968	0
+P	Beberibe		BR		-4.180	-38.131	0
+P	Itapagé	itapage	BR		-3.687	-39.586	0
+P	Aracati		BR		-4.562	-37.770	0
+P	Itarema		BR		-2.920	-39.915	0
+P	Amontada		BR		-3.362	-39.832	0
+P	Paracuru		BR		-3.410	-39.031	0
+P	Pentecoste		BR		-3.793	-39.270	0
+P	Baturité	baturite	BR		-4.329	-38.885	0
+P	Paraipaba		BR		-3.439	-39.148	0
+P	Jaguaruana		BR		-4.834	-37.781	0
+P	Redenção	redencao	BR		-4.226	-38.731	0
+P	Aracoiaba		BR		-4.371	-38.814	0
+P	Ocara		BR		-4.491	-38.597	0
+P	Guaiúba	guaiuba	BR		-4.040	-38.637	0
+P	Areia Branca		BR		-4.956	-37.137	0
+P	Irauçuba	iraucuba	BR		-3.746	-39.783	0
+P	Pindoretama		BR		-4.027	-38.305	0
+P	Barreira		BR		-4.287	-38.643	0
+P	Icapuí	icapui	BR		-4.713	-37.355	0
+P	Itatira		BR		-4.529	-39.622	0
+P	Uruburetama		BR		-3.625	-39.508	0
+P	Chorozinho		BR		-4.300	-38.498	0
+P	Itapiúna	itapiuna	BR		-4.564	-38.922	0
+P	Umirim		BR		-3.677	-39.350	0
+P	Fortim		BR		-4.452	-37.797	0
+P	Capistrano		BR		-4.470	-38.901	0
+P	Tejuçuoca	tejucuoca	BR		-3.989	-39.581	0
+P	Madalena		BR		-4.857	-39.577	0
+P	Caridade		BR		-4.232	-39.193	0
+P	Turaru		BR		-3.600	-39.433	0

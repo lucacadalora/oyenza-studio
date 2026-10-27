@@ -1,0 +1,39 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+Z	1	Asia/Yakutsk	540	
+C	CN	China	mwl	s
+C	RU	Russia	mwl	s
+B	2
+P	Harbin		CN		45.750	126.650	0
+P	Daqing		CN		46.583	125.000	0
+P	Bei’an	beian	CN		48.267	126.600	0
+P	Suihua		CN		46.648	126.967	0
+P	Aihui		CN		49.979	127.481	0
+P	Anda		CN		46.449	125.302	0
+P	Yichun		CN		47.721	128.875	0
+P	Zhaodong		CN		46.052	125.955	0
+P	Longfeng		CN		46.532	125.104	0
+P	Acheng		CN		45.546	126.952	0
+P	Shangzhi		CN		45.206	128.002	0
+P	Shuangcheng		CN		45.380	126.307	0
+P	Lianhe		CN		47.133	129.274	0
+P	Zhaozhou		CN		45.706	125.266	0
+P	Hailun		CN		47.447	126.925	0
+P	Hulan		CN		45.893	126.578	0
+P	Tieli		CN		46.975	128.048	0
+P	Wangkui		CN		46.832	126.477	0
+P	Zhaoyuan		CN		45.520	125.076	0
+P	Nenjiang		CN		49.174	125.220	0
+P	Youhao		CN		47.853	128.836	0
+P	Lanxi		CN		46.258	126.281	0
+P	Yilan		CN		46.322	129.561	0
+P	Baiquan		CN		47.607	126.082	0
+P	Qinggang		CN		46.698	126.092	0
+P	Bin Xian		CN		45.743	127.461	0
+P	Mingshui		CN		47.179	125.903	0
+P	Shanhecun		CN		45.711	128.580	0
+P	Langxiang		CN		46.950	128.868	0
+P	Suiling		CN		47.235	127.108	0
+P	Xinqing		CN		48.287	129.523	0
+P	Bayan		CN		46.076	127.394	0
+P	Raychikhinsk		RU		49.796	129.403	1

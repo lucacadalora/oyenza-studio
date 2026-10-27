@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Oral	300	
+Z	1	Europe/Moscow	180	
+Z	2	Europe/Samara	240	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	1
+P	Samara		RU		53.208	50.136	2
+P	Oral		KZ		51.246	51.426	0
+P	Al’met’yevsk	almetyevsk	RU		54.904	52.318	1
+P	Oktyabrsky		RU		54.481	53.471	0
+P	Bugulma		RU		54.538	52.798	1
+P	Buzuluk		RU		52.778	52.259	0
+P	Krasnaya Glinka		RU		53.738	52.939	0
+P	Tuymazy		RU		54.606	53.712	0
+P	Leninogorsk		RU		54.597	52.451	1
+P	Belebey		RU		54.108	54.117	0
+P	Buguruslan		RU		53.655	52.442	0
+P	Otradnyy		RU		53.376	51.345	2
+P	Aqsay		KZ		51.168	52.998	0
+P	Aznakayevo		RU		54.858	53.080	1
+P	Nurlat		RU		54.429	50.806	1
+P	Kinel’	kinel	RU		53.227	50.626	2
+P	Sorochinsk		RU		52.429	53.150	0
+P	Pokhvistnevo		RU		53.652	52.127	2
+P	Sol’-Iletsk	sol iletsk	RU		51.162	54.992	0
+P	Bavly		RU		54.398	53.251	1
+P	Abdulino		RU		53.686	53.655	0
+P	Priyutovo		RU		53.900	53.933	0
+P	Rayevskiy		RU		54.064	54.934	0
+P	Neftegorsk		RU		52.801	51.166	2
+P	Kinel’-Cherkassy	kinel cherkassy	RU		53.467	51.494	2

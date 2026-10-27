@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Mogadishu	180	
+C	SO	Somalia	egyptian	s
+B	1
+P	Mogadishu		SO		2.037	45.344	0
+P	Afgooye		SO		2.138	45.121	0
+P	Beledweyne		SO		4.736	45.204	0
+P	Jawhar		SO		2.781	45.500	0
+P	Ceeldheer		SO		3.849	47.181	0
+P	Buulobarde		SO		3.854	45.567	0

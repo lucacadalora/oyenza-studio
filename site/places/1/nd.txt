@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dakar	0	
+Z	1	Africa/Lusaka	120	
+Z	2	Africa/Ndjamena	60	
+C	AO	Angola	egyptian	s
+C	BJ	Benin	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	NA	Namibia	egyptian	s
+C	RW	Rwanda	egyptian	s
+C	SN	Senegal	egyptian	s
+C	TD	Chad	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	1
+P	N'Djamena	ndjamena	TD		12.107	15.044	2
+P	Ndola		ZM		-12.959	28.637	1
+P	N'dalatando	ndalatando	AO		-9.298	14.912	2
+P	Ndera		RW		-1.950	30.170	1
+P	Ndop		CM		5.988	10.439	2
+P	N’diareme limamoulaye	ndiareme limamoulaye	SN		14.781	-17.384	0
+P	Ndouci		CI		5.864	-4.761	0
+P	Ndibène Dahra	ndibene dahra	SN		15.334	-15.477	0
+P	Ndélé	ndele	CF		8.411	20.647	2
+P	Ndali		BJ		9.864	2.721	2
+P	Ndiyona		NA		-18.039	20.701	1
+P	Ndioum		SN		16.513	-14.647	0
+P	Ndevana		ZA		-32.908	27.510	1

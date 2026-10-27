@@ -1,0 +1,114 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	1
+P	Jacksonville		US	Florida	30.332	-81.656	0
+P	Atlanta		US	Georgia	33.749	-84.388	0
+P	Columbus		US	Georgia	32.461	-84.988	0
+P	Tallahassee		US	Florida	30.438	-84.281	0
+P	Savannah		US	Georgia	32.084	-81.100	0
+P	Columbia		US	South Carolina	34.001	-81.035	0
+P	Athens		US	Georgia	33.961	-83.378	0
+P	South Fulton		US	Georgia	33.593	-84.673	0
+P	Sandy Springs		US	Georgia	33.924	-84.379	0
+P	Roswell		US	Georgia	34.023	-84.362	0
+P	Macon		US	Georgia	32.841	-83.632	0
+P	Johns Creek		US	Georgia	34.029	-84.199	0
+P	Albany		US	Georgia	31.579	-84.156	0
+P	Warner Robins		US	Georgia	32.616	-83.627	0
+P	Rock Hill		US	South Carolina	34.925	-81.025	0
+P	Greenville		US	South Carolina	34.853	-82.394	0
+P	Alpharetta		US	Georgia	34.075	-84.294	0
+P	Marietta		US	Georgia	33.953	-84.550	0
+P	Smyrna		US	Georgia	33.884	-84.514	0
+P	Valdosta		US	Georgia	30.833	-83.280	0
+P	Brookhaven		US	Georgia	33.858	-84.340	0
+P	Stonecrest		US	Georgia	33.708	-84.135	0
+P	Summerville		US	South Carolina	33.019	-80.176	0
+P	Dunwoody		US	Georgia	33.946	-84.335	0
+P	Augusta		US	Georgia	33.471	-81.975	0
+P	Peachtree Corners		US	Georgia	33.970	-84.222	0
+P	Sumter		US	South Carolina	33.920	-80.341	0
+P	Goose Creek		US	South Carolina	32.981	-80.033	0
+P	Hilton Head Island		US	South Carolina	32.194	-80.738	0
+P	St. Johns	st johns	US	Florida	30.081	-81.548	0
+P	Gainesville		US	Georgia	34.298	-83.824	0
+P	Spartanburg		US	South Carolina	34.950	-81.932	0
+P	Milton		US	Georgia	34.132	-84.301	0
+P	Newnan		US	Georgia	33.381	-84.800	0
+P	Mableton		US	Georgia	33.819	-84.582	0
+P	Hilton Head		US	South Carolina	32.216	-80.753	0
+P	Martinez		US	Georgia	33.517	-82.076	0
+P	East Point		US	Georgia	33.680	-84.439	0
+P	Ponte Vedra Beach		US	Florida	30.240	-81.386	0
+P	Peachtree City		US	Georgia	33.397	-84.596	0
+P	Monroe		US	North Carolina	34.985	-80.550	0
+P	Dalton		US	Georgia	34.770	-84.970	0
+P	Kennesaw		US	Georgia	34.023	-84.615	0
+P	Hinesville		US	Georgia	31.847	-81.596	0
+P	Redan		US	Georgia	33.745	-84.132	0
+P	Douglasville		US	Georgia	33.752	-84.748	0
+P	Lakeside		US	Florida	30.130	-81.768	0
+P	Statesboro		US	Georgia	32.449	-81.783	0
+P	Aiken		US	South Carolina	33.560	-81.720	0
+P	Lawrenceville		US	Georgia	33.956	-83.988	0
+P	Woodstock		US	Georgia	34.101	-84.519	0
+P	Fruit Cove		US	Florida	30.111	-81.642	0
+P	Duluth		US	Georgia	34.003	-84.145	0
+P	Evans		US	Georgia	33.534	-82.131	0
+P	Greer		US	South Carolina	34.939	-82.227	0
+P	Chamblee		US	Georgia	33.892	-84.299	0
+P	Stockbridge		US	Georgia	33.544	-84.234	0
+P	Tucker		US	Georgia	33.855	-84.217	0
+P	Anderson		US	South Carolina	34.503	-82.650	0
+P	Fleming Island		US	Florida	30.093	-81.719	0
+P	Canton		US	Georgia	34.237	-84.491	0
+P	Mauldin		US	South Carolina	34.779	-82.310	0
+P	McDonough		US	Georgia	33.447	-84.147	0
+P	Greenwood		US	South Carolina	34.195	-82.162	0
+P	Griffin		US	Georgia	33.247	-84.264	0
+P	Pooler		US	Georgia	32.115	-81.247	0
+P	Jacksonville Beach		US	Florida	30.295	-81.393	0
+P	Candler-McAfee	candler mcafee	US	Georgia	33.727	-84.272	0
+P	North Augusta		US	South Carolina	33.502	-81.965	0
+P	Acworth		US	Georgia	34.066	-84.678	0
+P	Decatur		US	Georgia	33.775	-84.296	0
+P	Sugar Hill		US	Georgia	34.106	-84.034	0
+P	Taylors		US	South Carolina	34.920	-82.296	0
+P	Saint Andrews		US	South Carolina	34.043	-81.101	0
+P	Union City		US	Georgia	33.587	-84.542	0
+P	Easley		US	South Carolina	34.830	-82.602	0
+P	Simpsonville		US	South Carolina	34.737	-82.254	0
+P	Wade Hampton		US	South Carolina	34.904	-82.333	0
+P	Cartersville		US	Georgia	34.165	-84.802	0
+P	Oakleaf Plantation		US	Florida	30.171	-81.835	0
+P	Lexington		US	South Carolina	33.982	-81.236	0
+P	Palm Valley		US	Florida	30.177	-81.388	0
+P	Snellville		US	Georgia	33.857	-84.020	0
+P	Forest Park		US	Georgia	33.622	-84.369	0
+P	North Druid Hills		US	Georgia	33.817	-84.313	0
+P	Milledgeville		US	Georgia	33.080	-83.232	0
+P	Thomasville		US	Georgia	30.837	-83.979	0
+P	Suwanee		US	Georgia	34.051	-84.071	0
+P	Hanahan		US	South Carolina	32.919	-80.022	0
+P	St. Marys	st marys	US	Georgia	30.731	-81.546	0
+P	Fayetteville		US	Georgia	33.449	-84.455	0
+P	Bluffton		US	South Carolina	32.237	-80.860	0
+P	Tifton		US	Georgia	31.450	-83.508	0
+P	North Decatur		US	Georgia	33.790	-84.306	0
+P	Norcross		US	Georgia	33.941	-84.214	0
+P	Kingsland		US	Georgia	30.800	-81.690	0
+P	Calhoun		US	Georgia	34.503	-84.951	0
+P	Dublin		US	Georgia	32.540	-82.904	0
+P	Brunswick		US	Georgia	31.150	-81.491	0
+P	West Columbia		US	South Carolina	33.993	-81.074	0
+P	Americus		US	Georgia	32.072	-84.233	0
+P	Riverdale		US	Georgia	33.573	-84.413	0
+P	Conyers		US	Georgia	33.668	-84.018	0
+P	Lithia Springs		US	Georgia	33.794	-84.660	0
+P	Perry		US	Georgia	32.458	-83.732	0
+P	Winder		US	Georgia	33.993	-83.720	0
+P	Clemson		US	South Carolina	34.683	-82.837	0
+P	Belvedere Park		US	Georgia	33.755	-84.267	0
+P	Seven Oaks		US	South Carolina	34.049	-81.146	0
+P	Wilmington Island		US	Georgia	32.004	-80.974	0

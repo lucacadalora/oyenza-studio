@@ -1,0 +1,18 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Khartoum	120	
+C	SD	Sudan	egyptian	s
+B	0
+P	El Daein		SD		11.462	26.126	0
+P	El Fasher		SD		13.628	25.349	0
+P	Gereida		SD		11.275	25.140	0
+P	An Nuhūd	an nuhud	SD		12.700	28.433	0
+P	Kadugli		SD		11.011	29.718	0
+P	Burām	buram	SD		10.858	25.159	0
+P	Dilling		SD		12.050	29.650	0
+P	Mellit		SD		14.133	25.550	0
+P	Sh'īarīah	shiariah	SD		12.439	25.581	0
+P	Al Mijlad		SD		11.033	27.733	0
+P	Babanūsah	babanusah	SD		11.333	27.800	0
+P	Al Fūlah	al fulah	SD		11.733	28.358	0
+P	Abū Zabad	abu zabad	SD		12.350	29.250	0
+P	Ghubaysh		SD		12.150	27.350	0

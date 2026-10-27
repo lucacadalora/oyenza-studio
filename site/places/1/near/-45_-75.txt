@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Salta	-180	
+Z	1	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+C	AR	Argentina	mwl	s
+C	CL	Chile	mwl	s
+B	0
+P	Puerto Montt		CL		-41.469	-72.942	1
+P	Osorno		CL		-40.574	-73.133	1
+P	San Carlos de Bariloche		AR		-41.146	-71.308	0
+P	Castro		CL		-42.472	-73.773	1
+P	Ancud		CL		-41.871	-73.816	1
+P	Puerto Varas		CL		-41.319	-72.985	1
+P	Calbuco		CL		-41.773	-73.130	1
+P	Río Bueno	rio bueno	CL		-40.335	-72.956	1
+P	Esquel		AR		-42.911	-71.319	0
+P	La Unión	la union	CL		-40.293	-73.082	1
+P	San Martín de los Andes	san martin de los andes	AR		-40.158	-71.353	0
+P	Quellón	quellon	CL		-43.118	-73.617	1
+P	El Bolsón	el bolson	AR		-41.961	-71.533	0
+P	Purranque		CL		-40.913	-73.159	1
+P	Paillaco		CL		-40.068	-72.879	1
+P	Llanquihue		CL		-41.256	-73.006	1
+P	Maullín	maullin	CL		-41.618	-73.598	1
+P	Frutillar		CL		-41.122	-73.058	1

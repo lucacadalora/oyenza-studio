@@ -1,0 +1,176 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+B	1
+P	Sendai		JP		38.267	140.867	0
+P	Chiba		JP		35.600	140.117	0
+P	Suginami		JP		36.201	140.284	0
+P	Iwaki		JP		37.050	140.883	0
+P	Kōriyama	koriyama	JP		37.400	140.383	0
+P	Akita		JP		39.717	140.117	0
+P	Fukushima		JP		37.750	140.467	0
+P	Morioka		JP		39.700	141.150	0
+P	Ichihara		JP		35.517	140.083	0
+P	Mito		JP		36.350	140.450	0
+P	Yamagata		JP		38.233	140.367	0
+P	Tsukuba		JP		36.083	140.117	0
+P	Yachiyo		JP		35.735	140.124	0
+P	Narashino		JP		35.682	140.042	0
+P	Hitachi		JP		36.600	140.650	0
+P	Sakura		JP		35.717	140.233	0
+P	Hitachi-Naka	hitachi naka	JP		36.397	140.535	0
+P	Katsuta		JP		36.383	140.533	0
+P	Tsuchiura		JP		36.090	140.210	0
+P	Ishinomaki		JP		38.417	141.300	0
+P	Narita		JP		35.783	140.317	0
+P	Abiko		JP		35.867	140.017	0
+P	Ōsaki	osaki	JP		38.589	140.973	0
+P	Nasushiobara		JP		36.977	140.066	0
+P	Ichinoseki		JP		38.917	141.133	0
+P	Ōshū	oshu	JP		39.139	141.168	0
+P	Kamagaya		JP		35.770	140.002	0
+P	Inzai		JP		35.835	140.164	0
+P	Toride		JP		35.900	140.083	0
+P	Kamisu		JP		35.897	140.667	0
+P	Yotsukaidō	yotsukaido	JP		35.650	140.167	0
+P	Hanamaki		JP		39.383	141.117	0
+P	Yonezawa		JP		37.910	140.117	0
+P	Kitakami		JP		39.283	141.117	0
+P	Daisen		JP		39.441	140.490	0
+P	Mobara		JP		35.426	140.296	0
+P	Ryūgasaki	ryugasaki	JP		35.900	140.183	0
+P	Yokote		JP		39.317	140.550	0
+P	Ushiku		JP		35.967	140.133	0
+P	Mooka		JP		36.433	140.017	0
+P	Natori-shi	natori shi	JP		38.167	140.883	0
+P	Tome		JP		38.709	141.156	0
+P	Furukawa		JP		38.572	140.956	0
+P	Yurihonjō	yurihonjo	JP		39.389	140.058	0
+P	Sukagawa		JP		37.283	140.383	0
+P	Katori-shi	katori shi	JP		35.898	140.499	0
+P	Kasama		JP		36.383	140.267	0
+P	Ishioka		JP		36.183	140.267	0
+P	Ōtawara	otawara	JP		36.867	140.033	0
+P	Moriya		JP		35.933	140.000	0
+P	Yachimata		JP		35.650	140.317	0
+P	Kashima-shi	kashima shi	JP		35.965	140.645	0
+P	Kurihara		JP		38.750	141.000	0
+P	Tōgane	togane	JP		35.550	140.367	0
+P	Tendō	tendo	JP		38.354	140.370	0
+P	Sodegaura		JP		35.414	140.021	0
+P	Asahi		JP		35.717	140.650	0
+P	Tagajō-shi	tagajo shi	JP		38.300	141.000	0
+P	Shiroi		JP		35.800	140.067	0
+P	Mizusawa		JP		39.133	141.133	0
+P	Kuroiso		JP		36.967	140.050	0
+P	Kesennuma		JP		38.901	141.577	0
+P	Date		JP		37.817	140.500	0
+P	Shirakawa		JP		37.120	140.262	0
+P	Minami-Sōma	minami soma	JP		37.629	140.979	0
+P	Choshi		JP		35.733	140.833	0
+P	Takizawa		JP		39.803	141.135	0
+P	Nihommatsu		JP		37.583	140.433	0
+P	Inada		JP		36.433	140.517	0
+P	Ōami	oami	JP		35.517	140.317	0
+P	Naka		JP		36.050	140.167	0
+P	Shiogama		JP		38.317	141.033	0
+P	Tomiya		JP		38.393	140.886	0
+P	Miyako		JP		39.647	141.941	0
+P	Tsukubamirai		JP		35.984	140.009	0
+P	Ryōgoku	ryogoku	JP		35.717	140.367	0
+P	Omitama		JP		36.254	140.380	0
+P	Hitachi-ota	hitachi ota	JP		36.551	140.528	0
+P	Ami		JP		36.033	140.200	0
+P	Sanmu		JP		35.628	140.418	0
+P	Ōamishirasato	oamishirasato	JP		35.512	140.353	0
+P	Higashine		JP		38.439	140.401	0
+P	Sawara		JP		35.883	140.500	0
+P	Inashiki		JP		35.956	140.324	0
+P	Hokota		JP		36.150	140.517	0
+P	Yuzawa		JP		39.167	140.500	0
+P	Iwanuma		JP		38.105	140.859	0
+P	Sagae		JP		38.373	140.273	0
+P	Kamaishi		JP		39.277	141.868	0
+P	Kitaibaraki		JP		36.787	140.749	0
+P	Shinjō	shinjo	JP		38.759	140.301	0
+P	Kasumigaura		JP		36.153	140.246	0
+P	Hitachiomiya		JP		36.564	140.403	0
+P	Iwase		JP		36.350	140.100	0
+P	Higashimatsushima		JP		38.409	141.179	0
+P	Sakuragawa		JP		36.251	140.116	0
+P	Ōmagari	omagari	JP		39.450	140.483	0
+P	Murata		JP		38.119	140.724	0
+P	Tokai		JP		36.474	140.564	0
+P	Tomobe		JP		36.350	140.300	0
+P	Rifu		JP		38.331	140.977	0
+P	Sōsa	sosa	JP		35.715	140.553	0
+P	Kaminoyama		JP		38.154	140.274	0
+P	Isumi		JP		35.230	140.405	0
+P	Ōfunato	ofunato	JP		39.072	141.717	0
+P	Funaishikawa		JP		36.467	140.567	0
+P	Tamura		JP		37.431	140.603	0
+P	Sōma	soma	JP		37.793	140.929	0
+P	Okunoya		JP		36.283	140.417	0
+P	Watari		JP		38.035	140.851	0
+P	Shiroishi		JP		38.003	140.618	0
+P	Kakuda		JP		37.975	140.772	0
+P	Fujishiro		JP		35.917	140.117	0
+P	Yōkaichiba	yokaichiba	JP		35.700	140.550	0
+P	Namegata		JP		36.007	140.496	0
+P	Hizume		JP		39.550	141.167	0
+P	Kamogawa		JP		35.097	140.100	0
+P	Yamoto		JP		38.427	141.215	0
+P	Nagai		JP		38.104	140.035	0
+P	Nanyō	nanyo	JP		38.043	140.113	0
+P	Motomiya		JP		37.514	140.401	0
+P	Yoshioka		JP		38.441	140.876	0
+P	Makuhari		JP		35.650	140.050	0
+P	Yahaba		JP		39.611	141.147	0
+P	Takahagi		JP		36.717	140.717	0
+P	Itako		JP		35.933	140.550	0
+P	Ōmiya	omiya	JP		36.550	140.417	0
+P	Tōno	tono	JP		39.317	141.533	0
+P	Mashiko		JP		36.467	140.100	0
+P	Semboku		JP		39.709	140.747	0
+P	Omigawa		JP		35.850	140.617	0
+P	Narutō	naruto	JP		35.600	140.417	0
+P	Hachimantai		JP		39.900	141.130	0
+P	Nasukarasuyama		JP		36.652	140.161	0
+P	Hobaramachi		JP		37.817	140.550	0
+P	Kogota-ekimae	kogota ekimae	JP		38.533	141.067	0
+P	Nasu		JP		37.042	140.094	0
+P	Ōkawara	okawara	JP		38.050	140.734	0
+P	Funehikimachi-funehiki	funehikimachi funehiki	JP		37.447	140.577	0
+P	Takahata		JP		38.002	140.191	0
+P	Murayama		JP		38.470	140.414	0
+P	Yokoshiba		JP		35.650	140.483	0
+P	Naka-niida	naka niida	JP		38.569	140.854	0
+P	Namie		JP		37.483	141.000	0
+P	Obanazawa		JP		38.603	140.402	0
+P	Kumakura		JP		37.153	140.168	0
+P	Yanagawamachi-saiwaichō	yanagawamachi saiwaicho	JP		37.850	140.600	0
+P	Edosaki		JP		35.950	140.317	0
+P	Shisui		JP		35.717	140.267	0
+P	Ōhara	ohara	JP		35.248	140.393	0
+P	Ajiki		JP		35.833	140.233	0
+P	Kogota		JP		38.550	141.050	0
+P	Makabe		JP		36.267	140.100	0
+P	Ishikawa		JP		37.150	140.450	0
+P	Rokugō	rokugo	JP		39.417	140.550	0
+P	Karasuyama		JP		36.650	140.150	0
+P	Rikuzen-Takata	rikuzen takata	JP		39.020	141.654	0
+P	Shōbudahama	shobudahama	JP		38.284	141.062	0
+P	Ishitsuka		JP		36.483	140.383	0
+P	Yachi		JP		38.422	140.308	0
+P	Miharu		JP		37.433	140.483	0
+P	Yabuki		JP		37.200	140.317	0
+P	Katsuura		JP		35.146	140.315	0
+P	Matsushima		JP		38.374	141.061	0
+P	Shizukuishi		JP		39.694	140.984	0
+P	Ōarai	oarai	JP		36.314	140.584	0
+P	Wakuya		JP		38.545	141.135	0
+P	Daigo		JP		36.767	140.350	0
+P	Kanegasaki		JP		39.200	141.117	0
+P	Fukawa		JP		35.850	140.150	0
+P	Ogawa		JP		36.750	140.133	0
+P	Yamada		JP		39.467	141.950	0

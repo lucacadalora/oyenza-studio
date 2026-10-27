@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kabul	270	
+Z	1	Asia/Karachi	300	
+C	AF	Afghanistan	karachi	h
+C	PK	Pakistan	karachi	h
+C	TJ	Tajikistan	mwl	h
+B	0
+P	Gilgit		PK		35.919	74.312	1
+P	Chitral		PK		35.852	71.786	1
+P	Buni		PK		36.273	72.259	1
+P	Fayzabad		AF		37.117	70.580	0
+P	Bahārak	baharak	AF		37.003	70.907	0
+P	Dursh Khela		PK		35.000	72.452	1
+P	Khorugh		TJ		37.490	71.553	1
+P	Upper Dir		PK		35.207	71.877	1
+P	Thal		PK		35.478	72.244	1
+P	Jaglot		PK		35.688	74.624	1
+P	Ishqoshim		TJ		36.725	71.613	1
+P	Jurm		AF		36.865	70.834	0
+P	Karimabad		PK		36.327	74.661	1
+P	Āsmār	asmar	AF		35.033	71.358	0

@@ -15,14 +15,14 @@ const RELEASE_PAGE: &str = "https://github.com/lucacadalora/oyenza-studio/releas
 /// The file's layout this version reads. A file with a newer one is ignored
 /// (a later version of the app will read it).
 pub const SCHEMA: u64 = 1;
-/// Twice a day: a release reaches every copy within half a day, for one
-/// request of about 1 KB.
-pub const CHECK_EVERY_S: u64 = 12 * 3600;
+/// Every hour: releases often come out several a day, and one reaches every
+/// copy in use within the hour, for one request of about 1 KB.
+pub const CHECK_EVERY_S: u64 = 3600;
 /// The first look after start waits this long, out of the way of the start.
 pub const FIRST_CHECK_S: u64 = 120;
 /// After a look that failed (no network, the site busy).
 pub const RETRY_S: u64 = 3600;
-/// Switched on again in Settings: look in a moment, not in 12 hours.
+/// Switched on again in Settings: look in a moment, not in an hour.
 pub const SWITCHED_ON_S: u64 = 3;
 /// The headline is one line on the island.
 const HEADLINE_MAX: usize = 90;
@@ -108,6 +108,12 @@ impl Download {
     /// `bytes` are this file: its size and SHA-256 from the signed file.
     pub fn matches(&self, bytes: &[u8]) -> bool {
         bytes.len() as u64 == self.size && crate::sha256::hex(&crate::sha256::sha256(bytes)) == self.sha256
+    }
+
+    /// The version whose release this file is ("0.2.5"), from its address:
+    /// [`parse_payload`] made sure it is that release's own.
+    pub fn version(&self) -> Option<&str> {
+        self.url.strip_prefix(DOWNLOADS)?.split('/').next().filter(|v| parts(v).is_some())
     }
 }
 
@@ -199,7 +205,7 @@ pub struct Memory {
 
 impl Memory {
     /// When to read the file next (Unix seconds): a couple of minutes after
-    /// this run began (`started`), but not before 12 hours have passed since
+    /// this run began (`started`), but not before an hour has passed since
     /// the last look, so starting the app often costs nothing.
     pub fn next_check(&self, started: u64) -> u64 {
         (started + FIRST_CHECK_S).max(self.checked.saturating_add(CHECK_EVERY_S))
@@ -306,7 +312,13 @@ mod tests {
         assert_eq!(r.download(false).map(|d| d.size), Some(2457657));
         assert_eq!(r.download(true), None, "no DMG yet");
         let mac = r#","mac":{"url":"https://github.com/lucacadalora/oyenza-studio/releases/download/v0.2.3/Oyenza-Studio-0.2.3-mac.dmg","size":3667341,"sha256":"fabc80efc387be83d7f82702bede7c3d2470f7aa6ef62cc2a8cd095a425f3fb9"}"#;
-        assert_eq!(parse_payload(&payload(V, mac)).unwrap().download(true).map(|d| d.size), Some(3667341));
+        let r = parse_payload(&payload(V, mac)).unwrap();
+        assert_eq!(r.download(true).map(|d| d.size), Some(3667341));
+        // Each download knows its release's version (a Mac checks the app in the DMG against it).
+        assert_eq!(r.download(true).and_then(|d| d.version()), Some(V));
+        assert_eq!(r.download(false).and_then(|d| d.version()), Some(V));
+        let elsewhere = Download { url: "https://example.com/v0.2.3/x.dmg".into(), size: 1, sha256: SHA.into() };
+        assert_eq!(elsewhere.version(), None);
     }
 
     #[test]
@@ -344,12 +356,12 @@ mod tests {
     }
 
     #[test]
-    fn checks_wait_for_twelve_hours_but_start_soon_after_a_long_break() {
+    fn checks_wait_for_an_hour_but_start_soon_after_a_long_break() {
         let start = 1_000_000;
         let m = Memory::default();
         assert_eq!(m.next_check(start), start + FIRST_CHECK_S, "never looked: two minutes after start");
-        let m = Memory { checked: start - 3600, ..Memory::default() };
-        assert_eq!(m.next_check(start), start - 3600 + CHECK_EVERY_S, "looked an hour ago: 11 hours to go");
+        let m = Memory { checked: start - 600, ..Memory::default() };
+        assert_eq!(m.next_check(start), start - 600 + CHECK_EVERY_S, "looked ten minutes ago: 50 minutes to go");
         let m = Memory { checked: start - 2 * CHECK_EVERY_S, ..Memory::default() };
         assert_eq!(m.next_check(start), start + FIRST_CHECK_S);
     }

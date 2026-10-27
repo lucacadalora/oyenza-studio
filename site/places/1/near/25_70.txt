@@ -1,0 +1,124 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Karachi	300	
+Z	1	Asia/Kolkata	330	
+C	IN	India	karachi	h
+C	PK	Pakistan	karachi	h
+B	1
+P	Jodhpur		IN		26.268	73.006	1
+P	Bahawalpur		PK		29.398	71.675	0
+P	Bikaner		IN		28.018	73.315	1
+P	Ajmer		IN		26.452	74.639	1
+P	Rahim Yar Khan		PK		28.420	70.303	0
+P	Jalalpur Pirwala		PK		29.505	71.222	0
+P	Bhilwara		IN		25.347	74.641	1
+P	Saddiqabad		PK		28.309	70.127	0
+P	Bahawalnagar		PK		29.998	73.253	0
+P	Sri Ganganagar		IN		29.920	73.875	1
+P	Pāli	pali	IN		25.773	73.323	1
+P	Dajal		PK		29.558	70.376	0
+P	Ahmadpur East		PK		29.143	71.258	0
+P	Sūjāngarh	sujangarh	IN		27.700	74.467	1
+P	Hasilpur		PK		29.692	72.546	0
+P	Hanumāngarh	hanumangarh	IN		29.582	74.329	1
+P	Jampur		PK		29.642	70.595	0
+P	Kishangarh		IN		26.590	74.854	1
+P	Beāwar	beawar	IN		26.101	74.320	1
+P	Shujaabad		PK		29.881	71.293	0
+P	Chishtian		PK		29.797	72.858	0
+P	Harunabad		PK		29.612	73.138	0
+P	Lodhran		PK		29.534	71.632	0
+P	Khanpur		PK		28.647	70.657	0
+P	Mailsi		PK		29.801	72.174	0
+P	Chūru	churu	IN		28.304	74.967	1
+P	Nāgaur	nagaur	IN		27.202	73.734	1
+P	Bārmer	barmer	IN		25.746	71.392	1
+P	Sardārshahr	sardarshahr	IN		28.441	74.491	1
+P	Makrāna	makrana	IN		27.044	74.724	1
+P	Fatehpur		IN		27.995	74.956	1
+P	Fort Abbas		PK		29.193	72.855	0
+P	Zahir Pir		PK		28.813	70.523	0
+P	Balotra		IN		25.832	72.240	1
+P	Ratangarh		IN		28.081	74.619	1
+P	Suratgarh		IN		29.322	73.900	1
+P	Kahror Pakka		PK		29.624	71.914	0
+P	Rājsamand	rajsamand	IN		25.071	73.880	1
+P	Jaisalmer		IN		26.918	70.904	1
+P	Lādnūn	ladnun	IN		27.653	74.400	1
+P	Nokha		IN		27.562	73.471	1
+P	Dabwāli	dabwali	IN		29.949	74.738	1
+P	Kuchāman	kuchaman	IN		27.147	74.857	1
+P	Faqirwali		PK		29.468	73.035	0
+P	Yazman		PK		29.121	71.745	0
+P	Jalor		IN		25.346	72.616	1
+P	Dīdwāna	didwana	IN		27.401	74.575	1
+P	Sri Dūngargarh	sri dungargarh	IN		28.096	74.009	1
+P	Mandi Dabwāli	mandi dabwali	IN		29.966	74.700	1
+P	Nasīrābād	nasirabad	IN		26.305	74.734	1
+P	Rajanpur		PK		29.104	70.330	0
+P	Phalodi		IN		27.131	72.368	1
+P	Nohar		IN		29.183	74.771	1
+P	Jatoi Shimali		PK		29.518	70.845	0
+P	Merta		IN		26.649	74.034	1
+P	Sojat		IN		25.925	73.666	1
+P	Bilāra	bilara	IN		26.181	73.706	1
+P	Dunyapur		PK		29.803	71.743	0
+P	Sumerpur		IN		25.154	73.082	1
+P	Sangariā	sangaria	IN		29.799	74.467	1
+P	Keru		IN		26.192	73.044	1
+P	Ellenabad		IN		29.453	74.661	1
+P	Pilibangan		IN		29.450	74.101	1
+P	Pīpār	pipar	IN		26.384	73.544	1
+P	Bīdāsar	bidasar	IN		27.836	74.318	1
+P	Rāwatsār	rawatsar	IN		29.267	74.403	1
+P	Alipur		PK		29.382	70.911	0
+P	Anūpgarh	anupgarh	IN		29.191	73.209	1
+P	Rāmgarh	ramgarh	IN		28.171	74.980	1
+P	Bhādāsar	bhadasar	IN		28.315	74.290	1
+P	Bijaynagar		IN		25.930	74.649	1
+P	Khairpur Tamewah		PK		29.581	72.238	0
+P	Rāisinghnagar	raisinghnagar	IN		29.536	73.449	1
+P	Shāhpura	shahpura	IN		25.621	74.925	1
+P	Basni		IN		27.172	73.645	1
+P	Losal		IN		27.400	74.917	1
+P	Sheoganj		IN		25.139	73.068	1
+P	Rājaldesar	rajaldesar	IN		28.028	74.474	1
+P	Sādri	sadri	IN		25.186	73.453	1
+P	Kālānwāli	kalanwali	IN		29.836	74.972	1
+P	Gulābpura	gulabpura	IN		25.904	74.660	1
+P	Dunga Bunga		PK		29.750	73.243	0
+P	Rānia	rania	IN		29.525	74.837	1
+P	Sadulshahar		IN		29.909	74.176	1
+P	Borāwar	borawar	IN		27.024	74.676	1
+P	Fālna	falna	IN		25.267	73.239	1
+P	Pokaran		IN		26.920	71.916	1
+P	Māndal	mandal	IN		25.441	74.570	1
+P	Kuchera		IN		26.987	73.971	1
+P	Kot Samaba		PK		28.552	70.468	0
+P	Sāngaria	sangaria	IN		26.189	73.026	1
+P	Jaitāran	jaitaran	IN		26.204	73.937	1
+P	Rāman	raman	IN		29.950	74.979	1
+P	Siwāna	siwana	IN		25.652	72.422	1
+P	Napāsar	napasar	IN		27.961	73.559	1
+P	Pushkar		IN		26.490	74.552	1
+P	Karanpur		IN		29.840	73.455	1
+P	Nandri		IN		26.312	73.101	1
+P	Nīmāj	nimaj	IN		26.150	74.001	1
+P	Bāli	bali	IN		25.197	73.291	1
+P	Chhāpar	chhapar	IN		27.819	74.439	1
+P	Khangarh		PK		29.914	71.161	0
+P	Gangāpur	gangapur	IN		25.220	74.260	1
+P	Deshnoke		IN		27.798	73.343	1
+P	Padampur		IN		29.709	73.625	1
+P	Samdari		IN		25.813	72.579	1
+P	Gotan		IN		26.656	73.737	1
+P	Devgarh		IN		25.525	73.908	1
+P	Raipur		IN		26.043	74.024	1
+P	Mūndwa	mundwa	IN		27.063	73.823	1
+P	Amet		IN		25.306	73.926	1
+P	Takhatgarh		IN		25.322	73.005	1
+P	Merta Road		IN		26.723	73.918	1
+P	Ahor		IN		25.369	72.780	1
+P	Āsind	asind	IN		25.734	74.333	1
+P	Shahr Sultan		PK		29.575	71.022	0
+P	Dhanot		PK		29.580	71.752	0
+P	Parvatsar		IN		26.886	74.766	1

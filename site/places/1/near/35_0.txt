@@ -1,0 +1,159 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	DZ	Algeria	egyptian	s
+C	ES	Spain	mwl	s
+B	1
+P	Algiers		DZ		36.732	3.087	0
+P	Palma		ES		39.569	2.650	1
+P	Blida		DZ		36.470	2.828	0
+P	Bab Ezzouar		DZ		36.726	3.183	0
+P	Tiaret		DZ		35.371	1.317	0
+P	Chlef		DZ		36.165	1.335	0
+P	Mostaganem		DZ		35.931	0.089	0
+P	Bordj Bou Arreridj		DZ		36.074	4.761	0
+P	El Achir		DZ		36.064	4.627	0
+P	Médéa	medea	DZ		36.264	2.754	0
+P	M'Sila	msila	DZ		35.709	4.537	0
+P	Relizane		DZ		35.737	0.556	0
+P	Bordj el Kiffan		DZ		36.749	3.192	0
+P	Rouiba		DZ		36.738	3.281	0
+P	Bou Saâda	bou saada	DZ		35.209	4.174	0
+P	Mascara		DZ		35.397	0.140	0
+P	Baraki		DZ		36.667	3.096	0
+P	Tizi Ouzou		DZ		36.712	4.046	0
+P	Aïn Oussera	ain oussera	DZ		35.451	2.906	0
+P	Beni Mered		DZ		36.524	2.861	0
+P	Khemis Miliana		DZ		36.261	2.220	0
+P	Hassi Bahbah		DZ		35.071	3.030	0
+P	Birkhadem		DZ		36.715	3.050	0
+P	Sougueur		DZ		35.186	1.496	0
+P	Bouïra	bouira	DZ		36.375	3.902	0
+P	Sidi Aïssa	sidi aissa	DZ		35.885	3.772	0
+P	Tissemsilt		DZ		35.607	1.811	0
+P	Mohammadia		DZ		35.589	0.069	0
+P	Kolea		DZ		36.639	2.768	0
+P	Ech Chettia		DZ		36.196	1.255	0
+P	Ksar el Boukhari		DZ		35.889	2.749	0
+P	Larbaâ	larbaa	DZ		36.565	3.154	0
+P	Boufarik		DZ		36.574	2.912	0
+P	Boudouaou		DZ		36.727	3.410	0
+P	Berrouaghia		DZ		36.135	2.911	0
+P	Oued Rhiou		DZ		35.961	0.919	0
+P	Aïn Defla	ain defla	DZ		36.264	1.968	0
+P	Reghaïa	reghaia	DZ		36.736	3.340	0
+P	Boghni		DZ		36.542	3.953	0
+P	Bordj el Bahri		DZ		36.791	3.250	0
+P	Calvià	calvia	ES		39.566	2.506	1
+P	Ksar Chellala		DZ		35.212	2.319	0
+P	Ibiza		ES		38.909	1.433	1
+P	Frenda		DZ		35.065	1.049	0
+P	Khemis el Khechna		DZ		36.650	3.331	0
+P	Douéra	douera	DZ		36.670	2.944	0
+P	Bordj Menaïel	bordj menaiel	DZ		36.743	3.717	0
+P	Oued Fodda		DZ		36.185	1.533	0
+P	Boû Arfa	bou arfa	DZ		36.463	2.815	0
+P	Sour el Ghozlane		DZ		36.148	3.691	0
+P	Miliana		DZ		36.306	2.225	0
+P	Lakhdaria		DZ		36.565	3.593	0
+P	Manacor		ES		39.570	3.210	1
+P	Denia		ES		38.841	0.106	1
+P	Draa el Mizan		DZ		36.536	3.833	0
+P	Timizart		DZ		36.800	4.267	0
+P	Bou Ismaïl	bou ismail	DZ		36.643	2.690	0
+P	Meftah		DZ		36.620	3.222	0
+P	Souma		DZ		36.518	2.905	0
+P	Ouled Moussa		DZ		36.684	3.367	0
+P	Tighenif		DZ		35.417	0.330	0
+P	Bougara		DZ		36.542	3.081	0
+P	Akbou		DZ		36.458	4.535	0
+P	Dar el Beïda	dar el beida	DZ		36.713	3.212	0
+P	Marratxí	marratxi	ES		39.621	2.725	1
+P	Llucmajor		ES		39.491	2.891	1
+P	El Affroun		DZ		36.470	2.625	0
+P	Makouda		DZ		36.786	4.063	0
+P	’Aïn Merane	ain merane	DZ		36.163	0.970	0
+P	Cherchell		DZ		36.605	2.191	0
+P	Bordj Ghdir		DZ		35.901	4.898	0
+P	Beni Tamou		DZ		36.538	2.822	0
+P	Hadjout		DZ		36.513	2.414	0
+P	Beni Douala		DZ		36.620	4.083	0
+P	Aïn Taya	ain taya	DZ		36.793	3.287	0
+P	El Attaf		DZ		36.224	1.672	0
+P	Aïn Bessem	ain bessem	DZ		36.293	3.673	0
+P	Djidiouia		DZ		35.930	0.829	0
+P	Barbacha		DZ		36.567	4.967	0
+P	el hed		DZ		36.650	4.774	0
+P	Mehdia daira de meghila		DZ		35.431	1.757	0
+P	Santa Eulària des Riu	santa eularia des riu	ES		38.985	1.534	1
+P	’Aïn Benian	ain benian	DZ		36.803	2.922	0
+P	Freha		DZ		36.752	4.316	0
+P	Sidi Moussa		DZ		36.606	3.088	0
+P	L’Arbaa Naït Irathen	larbaa nait irathen	DZ		36.631	4.199	0
+P	Oued Sly		DZ		36.101	1.199	0
+P	Bouinan		DZ		36.532	2.992	0
+P	Lardjem		DZ		35.749	1.548	0
+P	Rais Hamidou		DZ		36.817	3.013	0
+P	Mekla		DZ		36.682	4.264	0
+P	Draa Ben Khedda		DZ		36.734	3.962	0
+P	Inca		ES		39.721	2.911	1
+P	Ténès	tenes	DZ		36.511	1.308	0
+P	Maó	mao	ES		39.889	4.266	1
+P	Ouled Haddaj		DZ		36.715	3.342	0
+P	Boumerdas		DZ		36.766	3.477	0
+P	Ain el Hadjel		DZ		35.670	3.882	0
+P	Boukadir		DZ		36.066	1.126	0
+P	Mouzaïa	mouzaia	DZ		36.467	2.690	0
+P	’Aïn el Hammam	ain el hammam	DZ		36.565	4.306	0
+P	Javea		ES		38.783	0.167	1
+P	Tizi Gheniff		DZ		36.588	3.774	0
+P	Cheraga		DZ		36.768	2.959	0
+P	Theniet el Had		DZ		35.871	2.028	0
+P	Ouled Slama Fouaga		DZ		36.548	3.110	0
+P	Ammi Moussa		DZ		35.868	1.111	0
+P	El Abadia		DZ		36.270	1.686	0
+P	Birine		DZ		35.635	3.225	0
+P	Sidi Akkacha		DZ		36.465	1.303	0
+P	Azazga		DZ		36.745	4.372	0
+P	Dellys		DZ		36.917	3.913	0
+P	Tirmitine		DZ		36.654	3.981	0
+P	Maâtkas	maatkas	DZ		36.605	3.984	0
+P	Chellalat el Adhaouara		DZ		35.940	3.416	0
+P	El Kseur		DZ		36.679	4.856	0
+P	Amizour		DZ		36.640	4.901	0
+P	Melouza		DZ		35.980	4.187	0
+P	Abou el Hassan		DZ		36.417	1.196	0
+P	Arhribs		DZ		36.794	4.312	0
+P	Calp		ES		38.645	0.044	1
+P	Chiffa		DZ		36.463	2.739	0
+P	Oued el Abtal		DZ		35.456	0.688	0
+P	Tizi-n-Tleta	tizi n tleta	DZ		36.546	4.057	0
+P	Mazouna		DZ		36.122	0.899	0
+P	Mansourah		DZ		36.087	4.452	0
+P	Sant Antoni de Portmany		ES		38.981	1.304	1
+P	Zemoura		DZ		35.723	0.755	0
+P	Feraoun		DZ		36.560	4.855	0
+P	Chemini		DZ		36.600	4.617	0
+P	Oued el Alleug		DZ		36.555	2.790	0
+P	Tadmaït	tadmait	DZ		36.744	3.900	0
+P	Boudjima		DZ		36.802	4.152	0
+P	Chorfa		DZ		36.365	4.326	0
+P	Chebli		DZ		36.577	3.009	0
+P	Seddouk		DZ		36.547	4.686	0
+P	Alcúdia	alcudia	ES		39.853	3.121	1
+P	Bordj Zemoura		DZ		36.275	4.857	0
+P	Chabet el Ameur		DZ		36.637	3.695	0
+P	Beni Amrane		DZ		36.668	3.591	0
+P	Felanitx		ES		39.470	3.148	1
+P	Son Rapinya		ES		39.589	2.619	1
+P	Tizi Rached		DZ		36.672	4.192	0
+P	Zeralda		DZ		36.712	2.842	0
+P	Arbatache		DZ		36.638	3.371	0
+P	Pollença	pollenca	ES		39.877	3.016	1
+P	Saoula		DZ		36.705	3.025	0
+P	Thenia		DZ		36.725	3.557	0
+P	El Grao		ES		39.974	0.013	1
+P	Naciria		DZ		36.746	3.832	0
+P	Tipasa		DZ		36.590	2.449	0
+P	Sant Agustí	sant agusti	ES		39.551	2.597	1
+P	Ighram		DZ		36.463	4.505	0

@@ -1,0 +1,146 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Karachi	300	
+Z	1	Asia/Kolkata	330	
+C	IN	India	karachi	h
+C	PK	Pakistan	karachi	h
+B	1
+P	Ludhiana		IN		30.912	75.854	1
+P	Chandigarh		IN		30.736	76.788	1
+P	Jalandhar		IN		31.326	75.579	1
+P	Dehradun		IN		30.324	78.034	1
+P	Patiāla	patiala	IN		30.336	76.392	1
+P	Yamuna Nagar		IN		30.128	77.284	1
+P	Panchkula		IN		30.695	76.850	1
+P	Ambāla	ambala	IN		30.361	76.798	1
+P	Pathānkot	pathankot	IN		32.275	75.653	1
+P	Shimla		IN		31.104	77.167	1
+P	Hoshiārpur	hoshiarpur	IN		31.537	75.913	1
+P	Mohali		IN		30.680	76.722	1
+P	Moga		IN		30.814	75.169	1
+P	Batāla	batala	IN		31.809	75.203	1
+P	Anantnag		IN		33.731	75.154	1
+P	Māler Kotla	maler kotla	IN		30.531	75.879	1
+P	Khanna		IN		30.705	76.222	1
+P	Shakargarh		PK		32.264	75.160	0
+P	Jagādhri	jagadhri	IN		30.167	77.304	1
+P	Barnāla	barnala	IN		30.375	75.549	1
+P	Ambala Sadar		IN		30.335	76.863	1
+P	Phagwāra	phagwara	IN		31.225	75.774	1
+P	Kapurthala Town		IN		31.380	75.381	1
+P	Zerakpur		IN		30.656	76.821	1
+P	Rajpura		IN		30.479	76.593	1
+P	Sangrūr	sangrur	IN		30.245	75.845	1
+P	Udhampur		IN		32.924	75.136	1
+P	Gobindgarh		IN		30.671	76.302	1
+P	Gurdaspur		IN		32.039	75.403	1
+P	Kharar		IN		30.746	76.647	1
+P	Sunām	sunam	IN		30.129	75.799	1
+P	Nābha	nabha	IN		30.376	76.153	1
+P	Rishīkesh	rishikesh	IN		30.108	78.293	1
+P	Jagraon		IN		30.788	75.474	1
+P	Sirhind		IN		30.643	76.384	1
+P	Kathua		IN		32.369	75.525	1
+P	Ropar		IN		30.969	76.527	1
+P	Dhūri	dhuri	IN		30.368	75.868	1
+P	Samāna	samana	IN		30.154	76.199	1
+P	Rampura Phul		IN		30.276	75.243	1
+P	Naya Gaon		IN		30.775	76.793	1
+P	Nangal		IN		31.390	76.376	1
+P	Jalandhar Cantonment		IN		31.294	75.620	1
+P	Nawanshahr		IN		31.125	76.116	1
+P	Rāmpura	rampura	IN		30.256	75.241	1
+P	Shāhābād	shahabad	IN		30.168	76.870	1
+P	Solan		IN		30.909	77.109	1
+P	Chīka	chika	IN		30.049	76.343	1
+P	Leh		IN		34.165	77.584	1
+P	Nakodar		IN		31.126	75.475	1
+P	Pinjaur		IN		30.799	76.918	1
+P	Kālka	kalka	IN		30.840	76.941	1
+P	Mamun		IN		32.282	75.698	1
+P	Maur		IN		30.083	75.250	1
+P	Ahmedgarh		IN		30.677	75.826	1
+P	Kūrāli	kurali	IN		30.834	76.577	1
+P	Dharamsala		IN		32.220	76.320	1
+P	Baddi		IN		30.958	76.791	1
+P	Mukeriān	mukerian	IN		31.954	75.617	1
+P	Jandiāla Gurū	jandiala guru	IN		31.562	75.028	1
+P	Nāhan	nahan	IN		30.560	77.294	1
+P	Gil		IN		30.847	75.864	1
+P	Rāikot	raikot	IN		30.650	75.600	1
+P	Sujānpur	sujanpur	IN		32.316	75.607	1
+P	Mandi		IN		31.712	76.933	1
+P	Fazilpur		PK		32.176	75.066	0
+P	Rāipur	raipur	IN		30.311	78.090	1
+P	Tehri		IN		30.391	78.480	1
+P	Sāmba	samba	IN		32.562	75.120	1
+P	Kartārpur	kartarpur	IN		31.443	75.498	1
+P	Pauri		IN		30.153	78.777	1
+P	Bablāi	bablai	IN		30.357	76.879	1
+P	Basi		IN		30.588	76.845	1
+P	Mussoorie		IN		30.455	78.071	1
+P	Jandiāla	jandiala	IN		31.159	75.618	1
+P	Dorāha	doraha	IN		30.800	76.024	1
+P	Sundarnagar		IN		31.535	76.905	1
+P	Bagha Purana		IN		30.688	75.098	1
+P	Dasūya	dasuya	IN		31.817	75.653	1
+P	Pāonta Sāhib	paonta sahib	IN		30.437	77.625	1
+P	Padam		IN		33.467	76.885	1
+P	Māchhīwāra	machhiwara	IN		30.916	76.200	1
+P	Talwāra	talwara	IN		31.938	75.887	1
+P	Phillaur		IN		31.019	75.791	1
+P	Bijbehara		IN		33.794	75.107	1
+P	Morinda		IN		30.790	76.499	1
+P	Dīnānagar	dinanagar	IN		32.137	75.473	1
+P	Longowal		IN		30.198	75.682	1
+P	Qadian		IN		31.822	75.377	1
+P	Kulgam		IN		33.645	75.019	1
+P	Urmar		IN		31.681	75.635	1
+P	Tapa		IN		30.298	75.369	1
+P	Dooru Verinag		IN		33.559	75.232	1
+P	Naraingarh		IN		30.478	77.128	1
+P	Sānehwāl	sanehwal	IN		30.841	75.985	1
+P	Sisauli		IN		30.143	77.260	1
+P	Bhawānīgarh	bhawanigarh	IN		30.267	76.039	1
+P	Laungowāl	laungowal	IN		30.194	75.681	1
+P	Bālāchor	balachor	IN		31.061	76.302	1
+P	Doda		IN		33.149	75.547	1
+P	Barāra	barara	IN		30.215	77.040	1
+P	Chamba		IN		32.555	76.126	1
+P	Lālru	lalru	IN		30.492	76.799	1
+P	Sanaur		IN		30.302	76.458	1
+P	Adampur		IN		31.432	75.715	1
+P	Banga		IN		31.189	75.995	1
+P	Clement Town		IN		30.264	78.009	1
+P	Dhāriwāl	dhariwal	IN		31.956	75.324	1
+P	Kishtwār	kishtwar	IN		33.313	75.767	1
+P	Basi		IN		30.689	76.401	1
+P	Srīnagar	srinagar	IN		30.222	78.783	1
+P	Dhanaula		IN		30.282	75.573	1
+P	Kulu		IN		31.958	77.108	1
+P	Samrāla	samrala	IN		30.836	76.193	1
+P	Hamīrpur	hamirpur	IN		31.684	76.525	1
+P	Dharmkot		IN		30.946	75.232	1
+P	Kansāpur	kansapur	IN		30.145	77.266	1
+P	Banūr	banur	IN		30.554	76.719	1
+P	Una		IN		31.465	76.269	1
+P	Kardhān	kardhan	IN		30.318	76.866	1
+P	Bhadaur		IN		30.477	75.330	1
+P	Behat		IN		30.172	77.614	1
+P	Bhogpur		IN		31.554	75.643	1
+P	Trāl	tral	IN		33.927	75.116	1
+P	Bhīkhi	bhikhi	IN		30.059	75.535	1
+P	Achhībal	achhibal	IN		33.684	75.218	1
+P	Uttarkāshi	uttarkashi	IN		30.730	78.443	1
+P	Garhshankar		IN		31.215	76.141	1
+P	Dirba		IN		30.072	75.996	1
+P	Sultanpur		IN		31.215	75.196	1
+P	Gorāya	goraya	IN		31.124	75.772	1
+P	Mūllānpur	mullanpur	IN		30.855	75.661	1
+P	Kargil		IN		34.558	76.126	1
+P	Anandpur		IN		31.239	76.503	1
+P	Balaungi		IN		30.731	76.694	1
+P	Bunjwah		IN		33.146	75.948	1
+P	Rāhon	rahon	IN		31.053	76.119	1
+P	Husainpur		IN		31.312	75.322	1
+P	Mani Mājra	mani majra	IN		30.714	76.838	1
+P	Jugiāl	jugial	IN		32.368	75.678	1

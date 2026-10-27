@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+C	GH	Ghana	egyptian	s
+B	0
+P	Takoradi		GH		4.898	-1.760	0
+P	Sekondi		GH		4.934	-1.715	0
+P	Sekondi-Takoradi	sekondi takoradi	GH		4.927	-1.758	0
+P	Esim		GH		4.866	-2.242	0

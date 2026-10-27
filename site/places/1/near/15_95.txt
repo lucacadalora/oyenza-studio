@@ -1,0 +1,126 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Yangon	390	
+C	MM	Myanmar	mwl	s
+C	TH	Thailand	mwl	s
+B	1
+P	Yangon		MM		16.805	96.156	1
+P	Nay Pyi Taw		MM		19.745	96.130	1
+P	Hlaingthaya		MM		16.850	96.067	1
+P	Mawlamyine		MM		16.491	97.628	1
+P	Insein		MM		16.889	96.103	1
+P	Bago		MM		17.335	96.481	1
+P	Lampang		TH		18.292	99.493	0
+P	Mingaladon		MM		16.924	96.098	1
+P	Pyay		MM		18.820	95.216	1
+P	Hinthada		MM		17.649	95.457	1
+P	Kyauktan		MM		16.637	96.325	1
+P	Mingala Tangnyunt		MM		16.789	96.172	1
+P	Chiang Mai		TH		18.790	98.985	0
+P	Thaton		MM		16.919	97.370	1
+P	Kyimyindine		MM		16.809	96.124	1
+P	Set Ka Lay		MM		16.814	96.114	1
+P	Taungoo		MM		18.943	96.434	1
+P	San Chaung		MM		17.095	96.099	1
+P	Thayetmyo		MM		19.321	95.183	1
+P	Pyinmana		MM		19.738	96.207	1
+P	Nyaunglebin		MM		17.954	96.722	1
+P	Sangyoung		MM		16.806	96.134	1
+P	Mudon		MM		16.256	97.725	1
+P	Taikkyi		MM		17.314	95.963	1
+P	Chiang Rai		TH		19.909	99.832	0
+P	Thanhlyin		MM		16.782	96.247	1
+P	Dawbon		MM		16.516	95.603	1
+P	Thanlyin		MM		16.769	96.245	1
+P	Bogale		MM		16.294	95.397	1
+P	Kamphaeng Phet		TH		16.483	99.522	0
+P	Kanbe		MM		16.707	96.002	1
+P	Myaydo		MM		19.368	95.215	1
+P	Thanbyuzayat		MM		15.969	97.727	1
+P	Tharyarwady		MM		17.654	95.788	1
+P	Thongwa		MM		16.760	96.525	1
+P	Kyaiklat		MM		16.445	95.724	1
+P	Hpa-An	hpa an	MM		16.890	97.635	1
+P	Kyaikto		MM		17.309	97.011	1
+P	Martaban		MM		16.528	97.616	1
+P	Kawkareik		MM		16.555	98.237	1
+P	Kyaikkami		MM		16.077	97.564	1
+P	Pyapon		MM		16.285	95.679	1
+P	Twante		MM		16.708	95.934	1
+P	Myawaddy		MM		16.689	98.509	1
+P	Mae Sot		TH		16.717	98.567	0
+P	Nyaung		MM		16.835	96.088	1
+P	Lamphun		TH		18.581	99.007	0
+P	Wakema		MM		16.603	95.183	1
+P	Maubin		MM		16.731	95.654	1
+P	Thin Gan Kyun Gyi		MM		16.957	96.155	1
+P	Myanaung		MM		18.287	95.320	1
+P	Oke Kan		MM		16.853	96.066	1
+P	Ahlone		MM		16.789	96.126	1
+P	Pazundaung		MM		16.796	96.175	1
+P	Pyu		MM		18.481	96.437	1
+P	Kayan		MM		16.908	96.560	1
+P	Ban Na		TH		17.017	99.733	0
+P	Nyaungdon		MM		17.045	95.640	1
+P	Shwenatha		MM		16.988	96.162	1
+P	Letpandan		MM		17.787	95.751	1
+P	Hlegu		MM		17.096	96.221	1
+P	Daik-u	daik u	MM		17.795	96.670	1
+P	Thanatpin		MM		17.291	96.575	1
+P	Sukhothai		TH		17.008	99.823	0
+P	Paungde		MM		18.492	95.506	1
+P	Botataung		MM		16.772	96.173	1
+P	Ye		MM		15.246	97.855	1
+P	Mawlamyinegyunn		MM		16.377	95.265	1
+P	San Kamphaeng		TH		18.745	99.120	0
+P	Kyauktaga		MM		17.495	96.978	1
+P	Ywar Ma West		MM		16.897	96.092	1
+P	Lewe		MM		19.636	96.110	1
+P	Pauk Kone		MM		16.946	96.146	1
+P	Paung		MM		16.618	97.459	1
+P	Shwe Lin Ban		MM		16.897	96.068	1
+P	Kungyangon		MM		16.443	96.019	1
+P	Payathonzu		MM		15.318	98.388	1
+P	Pyan Lel Nay Yar Cha Htar Ye		MM		16.972	96.127	1
+P	Hmaw Bi		MM		16.636	97.615	1
+P	Si Satchanalai		TH		17.517	99.760	0
+P	Zee Kone		MM		16.950	96.102	1
+P	Shwegyin		MM		17.921	96.877	1
+P	Yedashe		MM		19.156	96.346	1
+P	Tak		TH		16.870	99.129	0
+P	Pawgan		MM		16.908	96.098	1
+P	Kyonpyaw		MM		17.301	95.198	1
+P	Dok Kham Tai		TH		19.162	99.993	0
+P	Min Ga Lar Don Zay		MM		16.923	96.116	1
+P	Ah Lel		MM		16.922	96.063	1
+P	Waw		MM		17.477	96.678	1
+P	Sinngu		MM		16.913	96.097	1
+P	Da Nyin Kone		MM		16.933	96.093	1
+P	Kone Ta La Paung		MM		17.008	96.150	1
+P	Zalun		MM		17.479	95.559	1
+P	Khanu Woralaksaburi		TH		16.062	99.861	0
+P	Phayao		TH		19.192	99.879	0
+P	Saw Bwar Gyi Kone		MM		16.886	96.128	1
+P	Ingabu		MM		17.812	95.270	1
+P	Sawankhalok		TH		17.316	99.832	0
+P	Taung Thu Kone		MM		16.898	96.110	1
+P	Myenigon		MM		16.806	96.135	1
+P	Aung San		MM		16.922	96.097	1
+P	Myo Thit Ka		MM		16.874	96.097	1
+P	Thoen		TH		17.613	99.216	0
+P	Ban Tak		TH		17.043	99.081	0
+P	Hang Dong		TH		18.687	98.919	0
+P	Okpo		MM		16.973	96.088	1
+P	San Pa Tong		TH		18.628	98.896	0
+P	Lat Yao		TH		15.751	99.789	0
+P	Mae Ramat		TH		16.984	98.517	0
+P	Loikaw		MM		19.678	97.210	1
+P	Thap Than		TH		15.461	99.892	0
+P	Ywar Ma East		MM		16.899	96.103	1
+P	Kyo Kone East		MM		16.886	96.115	1
+P	Shan Chaung		MM		16.860	96.090	1
+P	Pa Sang		TH		18.526	98.939	0
+P	Kan Nar Middle		MM		16.881	96.097	1
+P	Pèkon	pekon	MM		19.868	97.007	1
+P	Zigon		MM		18.336	95.621	1
+P	Setsan		MM		16.810	96.114	1

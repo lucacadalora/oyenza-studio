@@ -1,0 +1,69 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+Z	1	America/Caracas	-240	
+C	AW	Aruba	mwl	s
+C	CO	Colombia	mwl	s
+C	VE	Venezuela	mwl	s
+B	2
+P	Maracaibo		VE		10.642	-71.611	1
+P	Barranquilla		CO		10.969	-74.781	0
+P	Santa Marta		CO		11.239	-74.194	0
+P	Valledupar		CO		10.465	-73.253	0
+P	Cabimas		VE		10.399	-71.452	1
+P	Soledad		CO		10.918	-74.765	0
+P	Ciudad Ojeda		VE		10.202	-71.315	1
+P	Riohacha		CO		11.544	-72.907	0
+P	Maicao		CO		11.378	-72.240	0
+P	Punto Fijo		VE		11.692	-70.199	1
+P	Machiques		VE		10.061	-72.552	1
+P	Malambo		CO		10.860	-74.774	0
+P	Carora		VE		10.173	-70.081	1
+P	La Concepción	la concepcion	VE		10.619	-71.838	1
+P	Punta Cardón	punta cardon	VE		11.658	-70.215	1
+P	Sabanalarga		CO		10.631	-74.922	0
+P	Los Puertos de Altagracia		VE		10.715	-71.522	1
+P	Concepción	concepcion	VE		10.412	-71.689	1
+P	Ciénaga	cienaga	CO		11.007	-74.248	0
+P	La Villa del Rosario		VE		10.326	-72.313	1
+P	Santa Cruz de Mara		VE		10.793	-71.685	1
+P	Baranoa		CO		10.794	-74.916	0
+P	Fundación	fundacion	CO		10.521	-74.185	0
+P	San Rafael		VE		10.962	-71.730	1
+P	Agustín Codazzi	agustin codazzi	CO		10.037	-73.236	0
+P	Lagunillas		VE		10.130	-71.259	1
+P	Aracataca		CO		10.592	-74.190	0
+P	San Juan del Cesar		CO		10.771	-73.003	0
+P	Barrancas		CO		10.957	-72.795	0
+P	Sabanagrande		CO		10.791	-74.761	0
+P	Puebloviejo		CO		10.994	-74.284	0
+P	Sitionuevo		CO		10.777	-74.720	0
+P	Pivijay		CO		10.462	-74.616	0
+P	Fonseca		CO		10.886	-72.849	0
+P	Santa Rita		VE		10.536	-71.511	1
+P	Oranjestad		AW		12.524	-70.027	1
+P	Santo Tomás	santo tomas	CO		10.758	-74.755	0
+P	El Copey		CO		10.150	-73.961	0
+P	Dabajuro		VE		11.023	-70.678	1
+P	Palmar de Varela		CO		10.741	-74.754	0
+P	Albania		CO		11.161	-72.592	0
+P	Ariguaní	ariguani	CO		10.250	-74.000	0
+P	Puerto Colombia		CO		10.988	-74.955	0
+P	Santa Cruz de los Taques		VE		11.823	-70.256	1
+P	Hatonuevo		CO		11.069	-72.767	0
+P	Noord		AW		12.566	-70.032	1
+P	Tía Juana	tia juana	VE		10.259	-71.363	1
+P	Ponedera		CO		10.643	-74.754	0
+P	Judibana		VE		11.759	-70.184	1
+P	Campo de la Cruz		CO		10.378	-74.884	0
+P	Tanki Leendert		AW		12.539	-70.020	1
+P	Galapa		CO		10.897	-74.886	0
+P	Polonuevo		CO		10.777	-74.853	0
+P	El Retén	el reten	CO		10.611	-74.268	0
+P	Manatí	manati	CO		10.446	-74.959	0
+P	Mene de Mauroa		VE		10.681	-71.036	1
+P	Villanueva		CO		10.608	-72.979	0
+P	San Diego		CO		10.334	-73.180	0
+P	Chivolo		CO		10.025	-74.623	0
+P	Chiquinquirá	chiquinquira	VE		10.443	-71.647	1
+P	Santa Lucía	santa lucia	CO		10.324	-74.960	0
+P	Candelaria		CO		10.459	-74.880	0

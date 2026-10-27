@@ -1,0 +1,52 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Mexico_City	-360	
+C	MX	Mexico	mwl	s
+B	0
+P	Morelia		MX		19.701	-101.184	0
+P	Uruapan		MX		19.417	-102.058	0
+P	Ciudad Lázaro Cárdenas	ciudad lazaro cardenas	MX		17.963	-102.199	0
+P	Zamora de Hidalgo		MX		19.984	-102.286	0
+P	Manzanillo		MX		19.117	-104.342	0
+P	Colima		MX		19.245	-103.713	0
+P	Ciudad de Villa de Álvarez	ciudad de villa de alvarez	MX		19.267	-103.738	0
+P	Ciudad Guzmán	ciudad guzman	MX		19.704	-103.464	0
+P	Apatzingán	apatzingan	MX		19.089	-102.357	0
+P	Tecomán	tecoman	MX		18.916	-103.877	0
+P	Heróica Zitácuaro	heroica zitacuaro	MX		19.437	-100.356	0
+P	Ixtapa-Zihuatanejo	ixtapa zihuatanejo	MX		17.643	-101.552	0
+P	Ciudad Hidalgo		MX		19.690	-100.555	0
+P	Pátzcuaro	patzcuaro	MX		19.513	-101.610	0
+P	Jacona de Plancarte		MX		19.956	-102.306	0
+P	Zacapu		MX		19.815	-101.792	0
+P	Autlán de Navarro	autlan de navarro	MX		19.772	-104.366	0
+P	Cihuatlán	cihuatlan	MX		19.237	-104.565	0
+P	Los Reyes de Salgado		MX		19.589	-102.473	0
+P	Las Guacamayas		MX		18.019	-102.210	0
+P	Paracho de Verduzco		MX		19.648	-102.048	0
+P	Maravatío de Ocampo	maravatio de ocampo	MX		19.892	-100.442	0
+P	Nueva Italia de Ruiz		MX		19.025	-102.093	0
+P	Tuxpan		MX		19.556	-103.376	0
+P	Sayula		MX		19.884	-103.601	0
+P	Tacámbaro de Codallos	tacambaro de codallos	MX		19.236	-101.458	0
+P	Tejupilco de Hidalgo		MX		18.905	-100.153	0
+P	Valle de Bravo		MX		19.195	-100.131	0
+P	Ciudad Altamirano		MX		18.358	-100.670	0
+P	Jiquilpan de Juárez	jiquilpan de juarez	MX		19.992	-102.718	0
+P	Purépero de Echáiz	purepero de echaiz	MX		19.910	-102.007	0
+P	Zapotiltic		MX		19.627	-103.418	0
+P	Huetamo de Núñez	huetamo de nunez	MX		18.626	-100.900	0
+P	Petatlán	petatlan	MX		17.538	-101.268	0
+P	Atoyac de Álvarez	atoyac de alvarez	MX		17.207	-100.433	0
+P	El Grullo		MX		19.807	-104.216	0
+P	La Orilla		MX		17.996	-102.227	0
+P	Tamazula de Gordiano		MX		19.680	-103.251	0
+P	Arcelia		MX		18.318	-100.281	0
+P	Coalcomán de Vázquez Pallares	coalcoman de vazquez pallares	MX		18.777	-103.160	0
+P	Ario de Rosales		MX		19.208	-101.709	0
+P	Ciudad de Armería	ciudad de armeria	MX		18.938	-103.964	0
+P	Zinapécuaro de Figueroa	zinapecuaro de figueroa	MX		19.860	-100.827	0
+P	Peribán de Ramos	periban de ramos	MX		19.520	-102.415	0
+P	Tuzantla		MX		19.203	-100.567	0
+P	Tepalcatepec		MX		19.187	-102.847	0
+P	Técpan de Galeana	tecpan de galeana	MX		17.220	-100.630	0
+P	Tangancícuaro de Arista	tangancicuaro de arista	MX		19.887	-102.207	0

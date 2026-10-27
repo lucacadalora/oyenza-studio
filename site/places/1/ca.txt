@@ -1,0 +1,1001 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Conakry	0	
+Z	3	Africa/Johannesburg	120	
+Z	4	Africa/Luanda	60	
+Z	5	America/Bogota	-300	
+Z	6	America/Caracas	-240	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/Edmonton	-420	29549340=-360
+Z	10	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	11	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	12	America/Mazatlan	-420	
+Z	13	America/Mexico_City	-360	
+Z	14	America/Port-au-Prince	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	15	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	16	America/Sao_Paulo	-180	
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Ho_Chi_Minh	420	
+Z	19	Asia/Karachi	300	
+Z	20	Asia/Kolkata	330	
+Z	21	Asia/Manila	480	
+Z	22	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	23	Australia/Brisbane	600	
+Z	24	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	25	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/Istanbul	180	
+Z	27	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	28	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CF	Central African Republic	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GF	French Guiana	mwl	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GT	Guatemala	mwl	s
+C	HN	Honduras	mwl	s
+C	HR	Croatia	mwl	s
+C	HT	Haiti	mwl	s
+C	IE	Ireland	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	LC	Saint Lucia	mwl	s
+C	MA	Morocco	egyptian	s
+C	MC	Monaco	mwl	s
+C	MD	Moldova	mwl	s
+C	MK	North Macedonia	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PR	Puerto Rico	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	SK	Slovakia	mwl	s
+C	SO	Somalia	egyptian	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VC	Saint Vincent and the Grenadines	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	12
+P	Cairo		EG		30.063	31.250	0
+P	Cape Town		ZA		-33.926	18.423	3
+P	Casablanca		MA		33.588	-7.611	1
+P	Caracas		VE		10.488	-66.879	6
+P	Cali		CO		3.431	-76.520	5
+P	Camayenne		GN		9.535	-13.688	2
+P	Caloocan		PH		14.650	120.968	21
+P	Cần Thơ	can tho	VN		10.037	105.788	18
+P	Calgary		CA	Alberta	51.050	-114.085	9
+P	Callao		PE		-12.052	-77.135	5
+P	Santiago de los Caballeros		DO		19.450	-70.691	6
+P	Campinas		BR		-22.906	-47.061	16
+P	Cartagena		CO		10.398	-75.493	5
+P	Campo Grande		BR		-20.443	-54.646	6
+P	Cancún	cancun	MX		21.174	-86.847	5
+P	Duque de Caxias		BR		-22.786	-43.312	16
+P	Çankaya	cankaya	TR		39.918	32.863	26
+P	São Bernardo do Campo	sao bernardo do campo	BR		-23.694	-46.565	16
+P	Cagayan de Oro		PH		8.482	124.647	21
+P	São José dos Campos	sao jose dos campos	BR		-23.179	-45.887	16
+P	Camama		AO		-8.936	13.265	4
+P	Calumbo		AO		-9.147	13.419	4
+P	Calamba		PH		14.212	121.165	21
+P	Cabinda		AO		-5.562	12.195	4
+P	Calabar		NG		4.959	8.327	4
+P	Cangzhou		CN		38.311	116.853	21
+P	Carrefour		HT		18.533	-72.400	14
+P	Campos dos Goytacazes		BR		-21.752	-41.330	16
+P	Venustiano Carranza		MX		19.444	-99.105	13
+P	Caruaru		BR		-8.283	-35.976	16
+P	Wah Cantt		PK		33.771	72.751	19
+P	Cazenga		AO		-8.838	13.284	4
+P	Carapicuíba	carapicuiba	BR		-23.523	-46.835	16
+P	Abomey-Calavi	abomey calavi	BJ		6.449	2.356	4
+P	Las Palmas de Gran Canaria		ES		28.102	-15.416	22
+P	Caxias do Sul		BR		-29.168	-51.179	16
+P	Cardiff		GB	Wales	51.480	-3.180	22
+P	Canberra		AU	Australian Capital Territory	-35.283	149.128	24
+P	Bến Cát	ben cat	VN		11.150	106.600	18
+P	Caucaia		BR		-3.736	-38.653	16
+P	Cariacica		BR		-20.264	-40.420	16
+P	Cabimas		VE		10.399	-71.452	6
+P	Campina Grande		BR		-7.231	-35.881	16
+P	Camagüey	camaguey	CU		21.381	-77.917	10
+P	Cabanatuan City		PH		15.486	120.966	21
+P	Canoas		BR		-29.918	-51.184	16
+P	New Cairo		EG		30.030	31.470	0
+P	Catania		IT		37.492	15.070	27
+P	Cabuyao		PH		14.273	121.126	21
+P	Santa Catarina		MX		25.673	-100.458	13
+P	Malir Cantonment		PK		24.943	67.206	19
+P	Cầu Giấy	cau giay	VN		21.032	105.801	18
+P	Cainta		PH		14.579	121.122	21
+P	Capao Redondo		BR		-23.669	-46.781	16
+P	Cascavel		BR		-24.956	-53.455	16
+P	Batu Caves		MY		3.238	101.682	21
+P	Carabanchel		ES		40.391	-3.724	27
+P	Cabo Frio		BR		-22.887	-42.026	16
+P	Campo Limpo		BR		-23.636	-46.766	16
+P	Cà Mau	ca mau	VN		9.177	105.152	18
+P	Campeche		MX		19.841	-90.517	13
+P	Cabo de Santo Agostinho		BR		-8.288	-35.029	16
+P	San Cristóbal de las Casas	san cristobal de las casas	MX		16.730	-92.638	13
+P	Cartagena		ES		37.602	-0.984	27
+P	Cape Coast		GH		5.105	-1.247	2
+P	Cao Lãnh	cao lanh	VN		10.460	105.633	18
+P	São Carlos	sao carlos	BR		-22.017	-47.891	16
+P	Cabo San Lucas		MX		22.891	-109.912	12
+P	Cajamarca		PE		-7.164	-78.500	5
+P	Capiatá	capiata	PY		-25.355	-57.445	16
+P	Ciudad Lázaro Cárdenas	ciudad lazaro cardenas	MX		17.963	-102.199	13
+P	Castanhal		BR		-1.294	-47.926	16
+P	Ciudad del Carmen		MX		18.646	-91.830	13
+P	Cẩm Phả	cam pha	VN		21.010	107.273	18
+P	Camaçari	camacari	BR		-12.697	-38.324	16
+P	Cachoeiro de Itapemirim		BR		-20.849	-41.113	16
+P	Reggio Calabria		IT		38.110	15.661	27
+P	Carletonville		ZA		-26.361	27.398	3
+P	Ciudad Camilo Cienfuegos		CU		23.161	-82.328	10
+P	Cape Coral		US	Florida	26.563	-81.950	14
+P	Puerto Cabello		VE		10.473	-68.013	6
+P	Castelló de la Plana	castello de la plana	ES		39.986	-0.049	27
+P	Carolina		PR		18.381	-65.957	6
+P	Poços de Caldas	pocos de caldas	BR		-21.788	-46.561	16
+P	Calabozo		VE		8.924	-67.429	6
+P	Carúpano	carupano	VE		10.665	-63.254	6
+P	Calama		CL		-22.457	-68.924	15
+P	São Caetano do Sul	sao caetano do sul	BR		-23.623	-46.551	16
+P	Capas		PH		15.331	120.590	21
+P	Cary		US	North Carolina	35.792	-78.781	14
+P	Catamarca		AR		-28.470	-65.785	16
+P	San Blas-Canillejas	san blas canillejas	ES		40.439	-3.615	27
+P	Caxias		BR		-4.859	-43.356	16
+P	Camaragibe		BR		-8.022	-34.981	16
+P	Villa Canales		GT		14.483	-90.534	13
+P	Cairns		AU	Queensland	-16.924	145.766	23
+P	Cần Giuộc	can giuoc	VN		10.609	106.671	18
+P	Playa del Carmen		MX		20.627	-87.080	5
+P	Cagliari		IT		39.231	9.119	27
+P	Cacuaco		AO		-8.780	13.375	4
+P	Cam Ranh		VN		11.921	109.159	18
+P	Cambridge		GB	England	52.200	0.117	22
+P	Çanakkale	canakkale	TR		40.156	26.413	26
+P	Cachoeirinha		BR		-23.454	-46.662	16
+P	Cai Lậy	cai lay	VN		10.400	106.117	18
+P	Cangaiba		BR		-23.497	-46.520	16
+P	Catacamas		HN		14.851	-85.894	13
+P	Balneário Camboriú	balneario camboriu	BR		-26.991	-48.635	16
+P	Candelaria		PH		13.931	121.423	21
+P	St. Catharines	st catharines	CA	Ontario	43.171	-79.243	14
+P	Campo Largo		BR		-25.460	-49.530	16
+P	San José del Cabo	san jose del cabo	MX		23.054	-109.704	12
+P	Cachoeirinha		BR		-29.951	-51.094	16
+P	Cẩm Phả Mines	cam pha mines	VN		21.017	107.300	18
+P	Ahuntsic-Cartierville	ahuntsic cartierville	CA	Quebec	45.567	-73.667	14
+P	Cartago		CO		4.746	-75.912	5
+P	Cap-Haïtien	cap haitien	HT		19.759	-72.198	14
+P	Cametá	cameta	BR		-2.244	-49.496	16
+P	Carrollton		US	Texas	32.954	-96.890	7
+P	Isidro Casanova		AR		-34.700	-58.587	16
+P	Lào Cai	lao cai	VN		22.486	103.971	18
+P	Caála	caala	AO		-12.852	15.561	4
+P	Cambridge		CA	Ontario	43.360	-80.313	14
+P	Acilia-Castel Fusano-Ostia Antica	acilia castel fusano ostia antica	IT		41.763	12.331	27
+P	Cadiz		PH		10.947	123.288	21
+P	Carnot		CF		4.943	15.877	4
+P	San Carlos del Zulia		VE		9.001	-71.927	6
+P	Les Cayes		HT		18.192	-73.749	14
+P	Caraguatatuba		BR		-23.620	-45.413	16
+P	Calumpit		PH		14.916	120.766	21
+P	Carora		VE		10.173	-70.081	6
+P	Catchiungo		AO		-12.566	16.226	4
+P	San Carlos		VE		9.664	-68.587	6
+P	Cabudwaaq		SO		6.246	46.225	26
+P	Cagua		VE		10.186	-67.459	6
+P	Senador Canedo		BR		-16.708	-49.093	16
+P	Čačak	cacak	RS		43.891	20.350	27
+P	Cadiz		ES		36.527	-6.289	27
+P	Cavite City		PH		14.484	120.899	21
+P	Campo Grande		BR		-23.675	-46.688	16
+P	Catanduva		BR		-21.138	-48.973	16
+P	Carlsbad		US	California	33.158	-117.351	11
+P	Catalão	catalao	BR		-18.166	-47.946	16
+P	Punta Cardón	punta cardon	VE		11.658	-70.215	6
+P	Carmona		PH		14.313	121.058	21
+P	Al Fqih Ben Çalah	al fqih ben calah	MA		32.502	-6.688	1
+P	Caen		FR		49.186	-0.359	27
+P	Cambridge		US	Massachusetts	42.375	-71.106	14
+P	Delhi Cantonment		IN		28.600	77.133	20
+P	Móng Cái	mong cai	VN		21.525	107.966	18
+P	Kanpur Cantonment		IN		26.459	80.375	20
+P	Catbalogan		PH		11.775	124.886	21
+P	Castelar		AR		-34.651	-58.641	16
+P	Cambé	cambe	BR		-23.276	-51.278	16
+P	Catia La Mar		VE		10.605	-67.032	6
+P	El Cajon		US	California	32.795	-116.963	11
+P	Caieiras		BR		-23.364	-46.741	16
+P	Cabudare		VE		10.027	-69.262	6
+P	Calasiao		PH		16.011	120.360	21
+P	Punta Cana		DO		18.582	-68.404	6
+P	Campo Mourão	campo mourao	BR		-24.043	-52.379	16
+P	Caldas Novas		BR		-17.744	-48.628	16
+P	Cárdenas	cardenas	CU		23.036	-81.206	10
+P	Santa Cruz do Capibaribe		BR		-7.957	-36.205	16
+P	Catarman		PH		12.499	124.638	21
+P	Caotun		TW		23.977	120.688	21
+P	Caloundra		AU	Queensland	-26.803	153.122	23
+P	Caçapava	cacapava	BR		-23.101	-45.707	16
+P	Cáceres	caceres	ES		39.476	-6.372	27
+P	San Carlos de Bariloche		AR		-41.146	-71.308	16
+P	Catumbela		AO		-12.430	13.547	4
+P	Sông Cầu	song cau	VN		13.456	109.223	18
+P	Cacém	cacem	PT		38.767	-9.298	22
+P	Carson		US	California	33.831	-118.282	11
+P	Cajamar		BR		-23.356	-46.877	16
+P	Cáceres	caceres	BR		-16.071	-57.679	6
+P	Cárdenas	cardenas	MX		18.001	-93.376	13
+P	Çankırı	cankiri	TR		40.600	33.615	26
+P	Cafunfo		AO		-8.767	17.996	4
+P	Calauan		PH		14.150	121.315	21
+P	Calabanga		PH		13.707	123.209	21
+P	Carmel		US	Indiana	39.978	-86.118	14
+P	Campo di Marte		IT		43.777	11.277	27
+P	Thượng Cát	thuong cat	VN		21.093	105.732	18
+P	Canarsie		US	New York	40.644	-73.901	14
+P	Caratinga		BR		-19.790	-42.139	16
+P	Cacoal		BR		-11.439	-61.447	6
+P	Campana		AR		-34.163	-58.959	16
+P	Canton		US	Michigan	42.309	-83.482	14
+P	Caguas		PR		18.234	-66.049	6
+P	Cái Răng	cai rang	VN		10.001	105.751	18
+P	Cannock		GB	England	52.690	-2.031	22
+P	Camboriú	camboriu	BR		-27.025	-48.654	16
+P	Túxpam de Rodríguez Cano	tuxpam de rodriguez cano	MX		20.958	-97.408	13
+P	Carrao		BR		-23.551	-46.538	16
+P	La Piedad de Cabadas		MX		20.341	-102.023	13
+P	Carpina		BR		-7.851	-35.255	16
+P	Caldas		CO		6.091	-75.636	5
+P	Santa Catarina Pinula		GT		14.570	-90.499	13
+P	Casa Verde		BR		-23.501	-46.657	16
+P	Giugliano in Campania		IT		40.928	14.202	27
+P	Cachoeira do Sul		BR		-30.039	-52.894	16
+P	El Cafetal		VE		10.465	-66.830	6
+P	Calarcá	calarca	CO		4.529	-75.641	5
+P	Catanzaro		IT		38.882	16.601	27
+P	Cẩm Lệ	cam le	VN		16.018	108.204	18
+P	Carlisle		GB	England	54.895	-2.938	22
+P	Castrop-Rauxel	castrop rauxel	DE		51.557	7.312	27
+P	Campo Limpo Paulista		BR		-23.206	-46.784	16
+P	Canaã dos Carajás	canaa dos carajas	BR		-6.524	-49.852	16
+P	Caledon		CA	Ontario	43.865	-79.993	14
+P	Camden		US	New Jersey	39.926	-75.120	14
+P	Pedro Juan Caballero		PY		-22.549	-55.739	16
+P	Parque Do Carmo		BR		-23.576	-46.463	16
+P	Cannes		FR		43.551	7.013	27
+P	Calais		FR		50.952	1.856	27
+P	Canindé	caninde	BR		-4.359	-39.312	16
+P	Casoria		IT		40.908	14.293	27
+P	Caçador	cacador	BR		-26.775	-51.015	16
+P	Don Carlos		PH		7.680	125.005	21
+P	Cao Bằng	cao bang	VN		22.666	106.258	18
+P	Canary Wharf		GB	England	51.505	-0.021	22
+P	Castro		BR		-24.789	-50.012	16
+P	Padre Las Casas		CL		-38.761	-72.598	15
+P	Caserta		IT		41.073	14.332	27
+P	Cascavel		BR		-4.133	-38.242	16
+P	Candeias		BR		-12.668	-38.551	16
+P	Casa Nova		BR		-9.174	-40.975	16
+P	Caidian		CN		30.583	114.033	21
+P	Canton		US	Ohio	40.799	-81.378	14
+P	Campo Formoso		BR		-10.508	-40.321	16
+P	Carpi		IT		44.782	10.878	27
+P	Campo Belo		BR		-23.628	-46.668	16
+P	Capanema		BR		-1.196	-47.181	16
+P	Cahama		AO		-16.286	14.310	4
+P	Bairro Parque Nossa Senhora do Carmo		BR		-23.406	-46.316	16
+P	Villa Carlos Paz		AR		-31.418	-64.490	16
+P	San Carlo All'Arena	san carlo allarena	IT		40.865	14.263	27
+P	Calauag		PH		13.957	122.288	21
+P	Cantaura		VE		9.306	-64.358	6
+P	Nakivale Refugee Camp		UG		-0.741	30.996	26
+P	Cadereyta Jiménez	cadereyta jimenez	MX		25.591	-100.001	13
+P	Cadereyta		MX		25.583	-99.983	13
+P	Calbayog City		PH		12.067	124.596	21
+P	Campiña	campina	ES		38.219	-2.981	27
+P	La Carlota		PH		10.424	122.921	21
+P	Camarillo		US	California	34.216	-119.038	11
+P	Caohe		CN		30.230	115.433	21
+P	Caicara del Orinoco		VE		7.635	-66.168	6
+P	Casas Adobes		US	Arizona	32.323	-110.995	12
+P	Cabedelo		BR		-6.981	-34.834	16
+P	Castelldefels		ES		41.278	1.970	27
+P	Cataguases		BR		-21.389	-42.697	16
+P	Castellammare di Stabia		IT		40.702	14.487	27
+P	Camucuio		AO		-14.114	13.241	4
+P	Calapan		PH		13.412	121.180	21
+P	Capelle aan den IJssel		NL		51.929	4.578	27
+P	Caoqiao		CN		34.340	118.110	21
+P	Čair	cair	MK		42.015	21.441	27
+P	Capão da Canoa	capao da canoa	BR		-29.746	-50.010	16
+P	Cajazeiras		BR		-6.890	-38.555	16
+P	Carol City		US	Florida	25.941	-80.246	14
+P	Campo Bom		BR		-29.679	-51.053	16
+P	Caltanissetta		IT		37.490	14.062	27
+P	Camocim		BR		-2.902	-40.841	16
+P	Camaquã	camaqua	BR		-30.851	-51.812	16
+P	Carazinho		BR		-28.284	-52.786	16
+P	Carmichael		US	California	38.617	-121.328	11
+P	Cayenne		GF		4.938	-52.335	16
+P	Castro Valley		US	California	37.694	-122.086	11
+P	Caicó	caico	BR		-6.458	-37.098	16
+P	Canoga Park		US	California	34.201	-118.598	11
+P	Casper		US	Wyoming	42.867	-106.313	8
+P	Heroica Caborca		MX		30.718	-112.158	12
+P	Cachoeiras de Macacu		BR		-22.462	-42.653	16
+P	Canyon Country		US	California	34.423	-118.472	11
+P	Camacupa		AO		-12.017	17.483	4
+P	Carrara		IT		44.079	10.098	27
+P	Carson City		US	Nevada	39.164	-119.767	11
+P	Los Dos Caminos		VE		10.494	-66.829	6
+P	Caucasia		CO		7.987	-75.193	5
+P	Santa Rosa de Cabal		CO		4.868	-75.621	5
+P	Catacaos		PE		-5.267	-80.683	5
+P	Caacupé	caacupe	PY		-25.386	-57.142	16
+P	Castlereagh		GB	Northern Ireland	54.574	-5.885	22
+P	Capitão Poço	capitao poco	BR		-1.746	-47.059	16
+P	São Gabriel da Cachoeira	sao gabriel da cachoeira	BR		-0.118	-67.085	6
+P	Caleta Olivia		AR		-46.448	-67.523	16
+P	Marechal Cândido Rondon	marechal candido rondon	BR		-24.556	-54.057	16
+P	Castle Rock		US	Colorado	39.372	-104.856	8
+P	Nuevo Casas Grandes		MX		30.416	-107.912	13
+P	Cần Giờ	can gio	VN		10.411	106.955	18
+P	Canterbury		GB	England	51.279	1.080	22
+P	Canoinhas		BR		-26.177	-50.390	16
+P	Caxito		AO		-8.578	13.664	4
+P	Caaguazú	caaguazu	PY		-25.471	-56.016	16
+P	Xóm Cái Nước	xom cai nuoc	VN		9.800	105.100	18
+P	Cajicá	cajica	CO		4.919	-74.028	5
+P	Cathedral City		US	California	33.780	-116.465	11
+P	São Miguel dos Campos	sao miguel dos campos	BR		-9.781	-36.094	16
+P	Cava Dè Tirreni	cava de tirreni	IT		40.700	14.708	27
+P	Caucagüito	caucaguito	VE		10.487	-66.738	6
+P	Campos do Jordão	campos do jordao	BR		-22.739	-45.591	16
+P	Campo Belo		BR		-20.897	-45.277	16
+P	Cangandala		AO		-9.783	16.433	4
+P	Caetité	caetite	BR		-14.069	-42.475	16
+P	Calvià	calvia	ES		39.566	2.506	27
+P	Caldwell		US	Idaho	43.663	-116.687	8
+P	Cardona		PH		14.486	121.228	21
+P	Casa Grande		US	Arizona	32.880	-111.757	12
+P	Catalina Foothills		US	Arizona	32.298	-110.919	12
+P	Cần Đước	can duoc	VN		10.510	106.603	18
+P	Çarşamba	carsamba	TR		41.199	36.722	26
+P	La Calera		CL		-32.787	-71.198	15
+P	Capivari		BR		-22.995	-47.508	16
+P	Campo Novo do Parecis		BR		-13.675	-57.892	6
+P	Cabiao		PH		15.249	120.855	21
+P	Rwamwanja Refugee Camp		UG		0.348	30.654	26
+P	Canguçu	cangucu	BR		-31.395	-52.676	16
+P	Carmen de Viboral		CO		6.082	-75.335	5
+P	Carcassonne		FR		43.216	2.349	27
+P	Campobasso		IT		41.559	14.667	27
+P	Hacienda La Calera		CL		-32.783	-71.217	15
+P	Canela		BR		-29.356	-50.814	16
+P	Casimiro de Abreu		BR		-22.481	-42.204	16
+P	Catu		BR		-12.353	-38.379	16
+P	El Carmen de Bolívar	el carmen de bolivar	CO		9.717	-75.120	5
+P	Jalandhar Cantonment		IN		31.294	75.620	20
+P	Campo Verde		BR		-15.547	-55.169	6
+P	Campina Grande do Sul		BR		-25.306	-49.055	16
+P	Monte Carmelo		BR		-18.725	-47.499	16
+P	Candaba		PH		15.096	120.827	21
+P	Castres		FR		43.605	2.241	27
+P	Cabreúva	cabreuva	BR		-23.308	-47.133	16
+P	Cagnes-sur-Mer	cagnes sur mer	FR		43.664	7.148	27
+P	Capão Bonito	capao bonito	BR		-24.006	-48.349	16
+P	Casalnuovo di Napoli		IT		40.910	14.342	27
+P	Campo Maior		BR		-4.828	-42.169	16
+P	Caranavi		BO		-15.834	-67.566	6
+P	Carshalton		GB	England	51.368	-0.168	22
+P	Cambuci		BR		-23.564	-46.617	16
+P	Castleford		GB	England	53.726	-1.363	22
+P	Catford		GB	England	51.445	-0.020	22
+P	Canlaon		PH		10.387	123.223	21
+P	Cabaiguán	cabaiguan	CU		22.078	-79.496	10
+P	Caojie		CN		29.998	106.390	21
+P	Calulo		AO		-10.001	14.895	4
+P	Caijia		CN		28.909	106.340	21
+P	Caripito		VE		10.111	-63.100	6
+P	Le Cannet		FR		43.577	7.019	27
+P	Caluire-et-Cuire	caluire et cuire	FR		45.795	4.846	27
+P	Canning Town		GB	England	51.514	0.019	22
+P	Cacocum		CU		20.737	-76.326	10
+P	Cantel		GT		14.812	-91.455	13
+P	Canning		IN		22.314	88.665	20
+P	Tres Cantos		ES		40.601	-3.708	27
+P	Carmen De La Legua Reynoso		PE		-12.054	-77.098	5
+P	Cañuelas	canuelas	AR		-35.054	-58.762	16
+P	Castro		CL		-42.472	-73.773	15
+P	Cariaco		VE		10.497	-63.553	6
+P	Catonsville		US	Maryland	39.272	-76.732	14
+P	Câmpina	campina	RO		45.126	25.735	25
+P	Campbell		US	California	37.287	-121.950	11
+P	Capannori		IT		43.842	10.573	27
+P	Carrollwood Village		US	Florida	28.068	-82.521	14
+P	Carcar		PH		10.106	123.640	21
+P	Carrizal		VE		10.350	-66.986	6
+P	Cascina		IT		43.676	10.555	27
+P	Casco Histórico de Vallecas	casco historico de vallecas	ES		40.349	-3.616	27
+P	Carol Stream		US	Illinois	41.913	-88.135	7
+P	Santa Rosalía de Camargo	santa rosalia de camargo	MX		27.679	-105.172	13
+P	Capacho Nuevo		VE		7.825	-72.308	6
+P	Calexico		US	California	32.679	-115.499	11
+P	Cantù	cantu	IT		45.741	9.131	27
+P	Canillas		ES		40.464	-3.636	27
+P	Çatalca	catalca	TR		41.141	28.460	26
+P	Camiling		PH		15.687	120.413	21
+P	Capelinha		BR		-17.691	-42.516	16
+P	Nuevo San Carlos		GT		14.593	-91.694	13
+P	São Gonçalo dos Campos	sao goncalo dos campos	BR		-12.434	-38.951	16
+P	Cape Girardeau		US	Missouri	37.306	-89.518	7
+P	Cacuso		AO		-9.421	15.747	4
+P	Castle Hill		AU	New South Wales	-33.733	151.000	24
+P	San José del Castillo	san jose del castillo	MX		20.512	-103.237	13
+P	Caibarién	caibarien	CU		22.520	-79.466	10
+P	Caeté	caete	BR		-19.880	-43.670	16
+P	Cauquenes		CL		-35.967	-72.322	15
+P	Carpentersville		US	Illinois	42.121	-88.258	7
+P	Caltagirone		IT		37.238	14.516	27
+P	el Camp de l'Arpa del Clot	el camp de larpa del clot	ES		41.412	2.182	27
+P	Canvey Island		GB	England	51.522	0.581	22
+P	Caraballeda		VE		10.612	-66.852	6
+P	Calaca		PH		13.932	120.813	21
+P	Cansanção	cansancao	BR		-10.667	-39.499	16
+P	São Caitano	sao caitano	BR		-8.326	-36.143	16
+P	Bahía de Caráquez	bahia de caraquez	EC		-0.600	-80.424	5
+P	Calumet City		US	Illinois	41.616	-87.529	7
+P	Campos Novos		BR		-27.402	-51.225	16
+P	Castelo		BR		-20.604	-41.185	16
+P	Juan José Castelli	juan jose castelli	AR		-25.947	-60.620	16
+P	Cambrai		FR		50.176	3.235	27
+P	San Juan Capistrano		US	California	33.502	-117.663	11
+P	Cái Đôi Vàm	cai doi vam	VN		8.857	104.812	18
+P	Cascais		PT		38.697	-9.421	22
+P	Viana do Castelo		PT		41.693	-8.833	22
+P	Risalpur Cantonment		PK		34.060	71.993	19
+P	Cañada de Gómez	canada de gomez	AR		-32.820	-61.395	16
+P	Calcutta		ZA		-24.983	31.235	3
+P	Caijiagang		CN		29.742	106.475	21
+P	Casco Histórico de Vicálvaro	casco historico de vicalvaro	ES		40.392	-3.570	27
+P	Camajuaní	camajuani	CU		22.483	-79.750	10
+P	Castricum		NL		52.548	4.669	27
+P	Carini		IT		38.132	13.183	27
+P	Cuatro Caminos		ES		40.447	-3.703	27
+P	Cartierville		CA	Quebec	45.531	-73.704	14
+P	Caivano		IT		40.958	14.306	27
+P	Canning Vale		AU	Western Australia	-32.058	115.918	21
+P	Cahul		MD		45.905	28.195	25
+P	el Camp d'en Grassot i Gràcia Nova	el camp den grassot i gracia nova	ES		41.406	2.165	27
+P	Çay	cay	TR		38.592	31.029	26
+P	Caja Seca		VE		9.142	-71.067	6
+P	Cazombo		AO		-11.899	22.902	4
+P	Cazombo		AO		-8.732	15.371	4
+P	Casalecchio di Reno		IT		44.476	11.275	27
+P	Caracal		RO		44.117	24.350	25
+P	Puerto Cabezas		NI		14.035	-83.389	13
+P	Cachoeira		BR		-12.601	-38.966	16
+P	Castelo Branco		PT		39.824	-7.491	22
+P	Campbell River		CA	British Columbia	50.016	-125.245	17
+P	Carrollwood		US	Florida	28.050	-82.493	14
+P	João Câmara	joao camara	BR		-5.537	-35.820	16
+P	Catende		BR		-8.667	-35.717	16
+P	Calpulalpan		MX		19.589	-98.570	13
+P	Capim Grosso		BR		-11.381	-40.013	16
+P	Casale Monferrato		IT		45.133	8.453	27
+P	Calbuco		CL		-41.773	-73.130	15
+P	Canicattì	canicatti	IT		37.358	13.848	27
+P	Campi Bisenzio		IT		43.825	11.130	27
+P	Arraial do Cabo		BR		-22.966	-42.028	16
+P	Campo Alegre		BR		-9.782	-36.351	16
+P	Casal Palocco		IT		41.748	12.347	27
+P	Canavieiras		BR		-15.675	-38.947	16
+P	Caçapava do Sul	cacapava do sul	BR		-30.514	-53.485	16
+P	Caucete		AR		-31.651	-68.282	16
+P	Careiro		BR		-3.768	-60.369	6
+P	Ken Caryl		US	Colorado	39.576	-105.112	8
+P	Cambrils		ES		41.070	1.059	27
+P	Caicedonia		CO		4.332	-75.827	5
+P	Câmara de Lobos	camara de lobos	PT		32.650	-16.977	22
+P	Casilda		AR		-33.045	-61.164	16
+P	Castro-Urdiales	castro urdiales	ES		43.383	-3.220	27
+P	Cañete	canete	CL		-37.800	-73.383	15
+P	Caucagua		VE		10.283	-66.376	6
+P	Cabrobó	cabrobo	BR		-8.514	-39.310	16
+P	Santa Maria Capua Vetere		IT		41.082	14.253	27
+P	Castelvetrano		IT		37.681	12.792	27
+P	Capela		BR		-10.503	-37.053	16
+P	San Carlos de Bolívar	san carlos de bolivar	AR		-36.231	-61.116	16
+P	Cachoeira Paulista		BR		-22.665	-45.009	16
+P	Cananea		MX		30.984	-110.298	12
+P	San Carlos		CL		-36.425	-71.958	15
+P	El Carmel		ES		41.418	2.159	27
+P	Carballo		ES		43.213	-8.691	27
+P	Carangola		BR		-20.733	-42.029	16
+P	Cabadbaran		PH		9.123	125.535	21
+P	Caerphilly		GB	Wales	51.575	-3.218	22
+P	Caluquembe		AO		-13.867	14.433	4
+P	Carauari		BR		-4.883	-66.896	6
+P	Cambuslang		GB	Scotland	55.810	-4.161	22
+P	Campo Alegre de Lourdes		BR		-9.517	-43.010	16
+P	Catolé do Rocha	catole do rocha	BR		-6.344	-37.747	16
+P	Caarapó	caarapo	BR		-22.634	-54.822	6
+P	Nowshera Cantonment		PK		33.998	71.998	19
+P	São Domingos do Capim	sao domingos do capim	BR		-1.674	-47.771	16
+P	Camamu		BR		-13.947	-39.103	16
+P	Caetés	caetes	BR		-8.773	-36.623	16
+P	Carlos Barbosa		BR		-29.297	-51.504	16
+P	Camargo		ES		43.407	-3.885	27
+P	Campo Magro		BR		-25.369	-49.451	16
+P	Camberley		GB	England	51.337	-0.743	22
+P	Năm Căn	nam can	VN		8.759	104.993	18
+P	Cam Lộ	cam lo	VN		16.808	106.994	18
+P	Cát Bà	cat ba	VN		20.728	107.048	18
+P	Puerto del Carmen		ES		28.923	-13.666	22
+P	Carney		US	Maryland	39.394	-76.524	14
+P	San Carlos		US	California	37.507	-122.261	11
+P	Canosa di Puglia		IT		41.220	16.068	27
+P	Charneca de Caparica		PT		38.620	-9.194	22
+P	Carpentras		FR		44.055	5.048	27
+P	Canguaretama		BR		-6.380	-35.129	16
+P	Campanhã	campanha	PT		41.157	-8.575	22
+P	Caotang		CN		31.090	109.624	21
+P	Cativá	cativa	PA		9.362	-79.832	5
+P	Fort Cavazos		US	Texas	31.135	-97.776	7
+P	Cambuí	cambui	BR		-22.612	-46.057	16
+P	Cândido Mota	candido mota	BR		-22.746	-50.387	16
+P	Carrickfergus		GB	Northern Ireland	54.716	-5.806	22
+P	Santa Cruz Cabrália	santa cruz cabralia	BR		-16.278	-39.025	16
+P	Canillejas		ES		40.448	-3.608	27
+P	Carmo do Paranaíba	carmo do paranaiba	BR		-19.001	-46.316	16
+P	Carlsbad		US	New Mexico	32.421	-104.229	8
+P	Candelária	candelaria	BR		-29.669	-52.789	16
+P	Carinhanha		BR		-14.305	-43.765	16
+P	Catabola		AO		-12.150	17.283	4
+P	Dinapur Cantonment		IN		25.636	85.020	20
+P	Carmona		ES		37.471	-5.646	27
+P	Camas		ES		37.402	-6.033	27
+P	Cajati		BR		-24.736	-48.123	16
+P	Jammu Cantonment		IN		32.704	74.861	20
+P	Eldorado dos Carajás	eldorado dos carajas	BR		-6.104	-49.355	16
+P	Cataño	catano	PR		18.441	-66.118	6
+P	Casa Branca		BR		-21.774	-47.086	16
+P	Camiri		BO		-20.041	-63.524	6
+P	El Campello		ES		38.429	-0.398	27
+P	Canarana		BR		-13.552	-52.268	6
+P	Catemaco		MX		18.421	-95.114	13
+P	Cabrero		CL		-37.034	-72.405	15
+P	Caransebeş	caransebes	RO		45.417	22.217	25
+P	San Carlos		UY		-34.791	-54.918	16
+P	Santa Rita de Cássia	santa rita de cassia	BR		-11.009	-44.519	16
+P	Caldas da Rainha		PT		39.403	-9.138	22
+P	Carlow		IE		52.841	-6.926	22
+P	Castillejos		PH		14.934	120.198	21
+P	May Cadera		ET		14.073	36.568	26
+P	Kyaka II Refugee Camp		UG		0.367	31.108	26
+P	Casal de' Pazzi	casal de pazzi	IT		41.929	12.566	27
+P	Agua Caliente		US	California	38.324	-122.488	11
+P	Capitán Bermúdez	capitan bermudez	AR		-32.823	-60.719	16
+P	Casselberry		US	Florida	28.678	-81.328	14
+P	Catarroja		ES		39.400	-0.400	27
+P	Cầu Diễn	cau dien	VN		21.039	105.767	18
+P	Canindé de São Francisco	caninde de sao francisco	BR		-9.660	-37.789	16
+P	Catanauan		PH		13.593	122.322	21
+P	Camaiore		IT		43.943	10.298	27
+P	Cavaillon		FR		43.831	5.036	27
+P	Cartago		CR		9.864	-83.919	13
+P	Cayambe		EC		0.041	-78.146	5
+P	Cachan		FR		48.796	2.337	27
+P	Gravina di Catania		IT		37.561	15.063	27
+P	Cantonment		US	Florida	30.609	-87.340	7
+P	Capão do Leão	capao do leao	BR		-31.763	-52.484	16
+P	Câmpia Turzii	campia turzii	RO		46.550	23.883	25
+P	Santa Catalina		PH		9.334	122.864	21
+P	Canidelo		PT		41.123	-8.647	22
+P	Caravaca		ES		38.106	-1.863	27
+P	Carbondale		US	Illinois	37.727	-89.217	7
+P	Caboolture		AU	Queensland	-27.085	152.951	23
+P	Caririaçu	caririacu	BR		-7.042	-39.284	16
+P	Carrollton		US	Georgia	33.580	-85.077	14
+P	Çan	can	TR		40.033	27.052	26
+P	Camden Town		GB	England	51.541	-0.143	22
+P	Campos Gerais		BR		-21.235	-45.759	16
+P	Camanducaia		BR		-22.755	-46.145	16
+P	Carmen de Patagones		AR		-40.803	-62.983	16
+P	Catandica		MZ		-18.058	33.174	3
+P	Cangas do Morrazo		ES		42.264	-8.785	27
+P	Felipe Carrillo Puerto		MX		19.578	-88.045	5
+P	Humberto de Campos		BR		-2.598	-43.461	16
+P	Cangkat Jong		MY		3.985	101.124	21
+P	Cabot		US	Arkansas	34.975	-92.017	7
+P	Castelfranco Veneto		IT		45.671	11.928	27
+P	San Vicente de Cañete	san vicente de canete	PE		-13.076	-76.385	5
+P	Canton		US	Georgia	34.237	-84.491	14
+P	Cabagan		PH		17.428	121.770	21
+P	Nanchital de Lázaro Cárdenas del Río	nanchital de lazaro cardenas del rio	MX		18.071	-94.408	13
+P	Castlewood		US	Colorado	39.585	-104.901	8
+P	Cândido Sales	candido sales	BR		-15.505	-41.239	16
+P	Campos Sales		BR		-7.074	-40.376	16
+P	Canhotinho		BR		-8.882	-36.191	16
+P	Campechuela		CU		20.233	-77.279	10
+P	Marina di Carrara		IT		44.038	10.041	27
+P	Cave Spring		US	Virginia	37.228	-80.013	14
+P	La Calera		AR		-31.346	-64.338	16
+P	Calahorra		ES		42.305	-1.965	27
+P	Castro Alves		BR		-12.766	-39.428	16
+P	Caledonia		US	Wisconsin	42.808	-87.924	7
+P	Monte Caseros		AR		-30.252	-57.635	16
+P	Aci Catena		IT		37.606	15.142	27
+P	Miguel Calmon		BR		-11.429	-40.595	16
+P	Casigua El Cubo		VE		8.746	-72.519	6
+P	Çayeli	cayeli	TR		41.086	40.722	26
+P	Casablanca		CL		-33.317	-71.403	15
+P	Porto Calvo		BR		-9.045	-35.398	16
+P	Caroline Springs		AU	Victoria	-37.741	144.736	24
+P	Campsie		AU	New South Wales	-33.913	151.103	24
+P	São Sebastião do Caí	sao sebastiao do cai	BR		-29.587	-51.376	16
+P	La Castellana		PH		10.324	123.022	21
+P	Carahue		CL		-38.711	-73.161	15
+P	Matriz de Camaragibe		BR		-9.152	-35.533	16
+P	Candelaria		ES		28.355	-16.373	22
+P	Cantanhede		BR		-3.633	-44.377	16
+P	Calafell		ES		41.200	1.568	27
+P	Carutapera		BR		-1.207	-46.024	16
+P	Carthage		TN		36.861	10.332	4
+P	Canarana		BR		-11.685	-41.769	16
+P	Calliaqua		VC		13.129	-61.192	6
+P	Colonia Caroya		AR		-31.022	-64.062	16
+P	Canelones		UY		-34.524	-56.282	16
+P	Carteret		US	New Jersey	40.577	-74.228	14
+P	Carlingford		AU	New South Wales	-33.783	151.049	24
+P	Carolina		BR		-7.336	-47.462	16
+P	Castellar del Vallès	castellar del valles	ES		41.617	2.083	27
+P	Caazapá	caazapa	PY		-26.197	-56.368	16
+P	Candelaria		CO		3.407	-76.348	5
+P	Cachoeira do Arari		BR		-1.011	-48.963	16
+P	Capivari de Baixo		BR		-28.445	-48.958	16
+P	Casa Santa		IT		38.025	12.548	27
+P	Kyangwali Refugee Camp		UG		1.188	30.783	26
+P	Cajuru		BR		-21.275	-47.304	16
+P	Carandaí	carandai	BR		-20.954	-43.806	16
+P	Calw		DE		48.714	8.740	27
+P	Río Cauto	rio cauto	CU		20.560	-76.917	10
+P	Carnaxide		PT		38.727	-9.247	22
+P	Castaños	castanos	MX		26.789	-101.432	13
+P	Caicara		VE		9.818	-63.613	6
+P	San Carlos		CO		8.796	-75.699	5
+P	Mojuí dos Campos	mojui dos campos	BR		-2.683	-54.643	16
+P	Carmo do Cajuru		BR		-20.184	-44.771	16
+P	Pedro Carbo		EC		-1.816	-80.234	5
+P	Caniço	canico	PT		32.651	-16.837	22
+P	Cahors		FR		44.449	1.437	27
+P	Calp		ES		38.645	0.044	27
+P	Capinzal		BR		-27.344	-51.612	16
+P	Calimete		CU		22.534	-80.911	10
+P	Cambre		ES		43.294	-8.347	27
+P	Cambará	cambara	BR		-23.046	-50.074	16
+P	Calabasas		US	California	34.158	-118.638	11
+P	Cabricán	cabrican	GT		15.075	-91.648	13
+P	Candler-McAfee	candler mcafee	US	Georgia	33.727	-84.272	14
+P	Carmagnola		IT		44.850	7.720	27
+P	Capela do Alto		BR		-23.471	-47.735	16
+P	Sant Pere, Santa Caterina i La Ribera	sant pere santa caterina i la ribera	ES		41.385	2.182	27
+P	El Calafate		AR		-50.341	-72.277	16
+P	Siqueira Campos		BR		-23.689	-49.834	16
+P	Campo de la Cruz		CO		10.378	-74.884	5
+P	Campo Verde		BR		-20.417	-54.067	6
+P	Cariboo		CA	British Columbia	49.250	-122.883	17
+P	Čadca	cadca	SK		49.435	18.789	27
+P	Carbonara di Bari		IT		41.067	16.867	27
+P	Camacan		BR		-15.419	-39.496	16
+P	Campoalegre		CO		2.685	-75.323	5
+P	Città di Castello	citta di castello	IT		43.466	12.238	27
+P	Mejorada del Campo		ES		40.393	-3.482	27
+P	Caculé	cacule	BR		-14.503	-42.222	16
+P	New Castle		US	Pennsylvania	41.004	-80.347	14
+P	Candeias do Jamari		BR		-8.810	-63.696	6
+P	Catete		BR		-22.925	-43.181	16
+P	Cardito		IT		40.946	14.300	27
+P	Campo De Ourique		PT		38.721	-9.167	22
+P	San Cataldo		IT		37.484	13.985	27
+P	Carrizal		ES		27.912	-15.406	22
+P	Santiago de Cao		PE		-7.959	-79.239	5
+P	Carrum Downs		AU	Victoria	-38.100	145.172	24
+P	Camberwell		AU	Victoria	-37.842	145.069	24
+P	Castel Volturno		IT		41.033	13.944	27
+P	Camas		US	Washington	45.587	-122.400	11
+P	Çaycuma	caycuma	TR		41.426	32.076	26
+P	Camabatela		AO		-8.188	15.375	4
+P	Cazin		BA		44.967	15.943	27
+P	Carcaixent		ES		39.122	-0.448	27
+P	West Carson		US	California	33.822	-118.293	11
+P	Căuşeni	causeni	MD		46.637	29.411	25
+P	Canton		US	Massachusetts	42.158	-71.145	14
+P	Carbonia		IT		39.165	8.521	27
+P	Cabramatta		AU	New South Wales	-33.897	150.934	24
+P	Medina del Campo		ES		41.312	-4.914	27
+P	Pedro Canário	pedro canario	BR		-18.030	-40.151	16
+P	Madonna di Campagna		IT		45.103	7.664	27
+P	Cabra		ES		37.472	-4.442	27
+P	Cártama	cartama	ES		36.711	-4.633	27
+P	Canyon Lake		US	Texas	29.875	-98.263	7
+P	Capunda		AO		-11.133	14.467	4
+P	Cassano Magnago		IT		45.672	8.827	27
+P	Caaporã	caapora	BR		-7.516	-34.908	16
+P	Caia		MZ		-17.820	35.344	3
+P	Caparica		PT		38.662	-9.200	22
+P	Cauto Cristo		CU		20.557	-76.473	10
+P	Carrboro		US	North Carolina	35.910	-79.075	14
+P	Cassino		IT		41.486	13.828	27
+P	Caxambu		BR		-21.977	-44.932	16
+P	Caohui		CN		30.397	107.470	21
+P	Cassilândia	cassilandia	BR		-19.113	-51.734	6
+P	Caterham		GB	England	51.282	-0.079	22
+P	Caracaraí	caracarai	BR		1.816	-61.128	6
+P	Carmo do Rio Claro		BR		-20.972	-46.119	16
+P	Puerto Carreño	puerto carreno	CO		6.190	-67.484	5
+P	Canacassala		AO		-8.163	14.117	4
+P	Camaguán	camaguan	VE		8.107	-67.607	6
+P	Carei		RO		47.683	22.467	25
+P	Capulhuac de Mirafuentes		MX		19.194	-99.466	13
+P	Calle Blancos		CR		9.945	-84.067	13
+P	Campestre		BR		-21.711	-46.246	16
+P	Carepa		CO		7.758	-76.653	5
+P	Cachoeirinha		BR		-8.486	-36.233	16
+P	Casanay		VE		10.504	-63.417	6
+P	Casal di Principe		IT		41.010	14.130	27
+P	Castillejos		ES		40.460	-3.694	27
+P	American Canyon		US	California	38.175	-122.261	11
+P	Capanema		BR		-25.672	-53.809	16
+P	Camborne		GB	England	50.213	-5.297	22
+P	Camrose		CA	Alberta	53.017	-112.835	9
+P	Carcavelos		PT		38.691	-9.322	22
+P	Castrovillari		IT		39.816	16.202	27
+P	Cartersville		US	Georgia	34.165	-84.802	14
+P	Cañas	canas	CR		10.431	-85.098	13
+P	Cambria Heights		US	New York	40.695	-73.738	14
+P	La Cañada Flintridge	la canada flintridge	US	California	34.199	-118.188	11
+P	San Antonio de la Cal		MX		17.029	-96.701	13
+P	Carolina		ZA		-26.069	30.115	3
+P	Camarate		PT		38.804	-9.128	22
+P	Cañete	canete	CL		-37.801	-73.396	15
+P	Calatayud		ES		41.354	-1.643	27
+P	Cassanguidi		AO		-7.484	21.303	4
+P	Castries		LC		13.996	-61.006	6
+P	New Caney		US	Texas	30.155	-95.211	7
+P	Campinas		BR		-27.594	-48.607	16
+P	Cantagalo		BR		-21.981	-42.368	16
+P	Castilho		BR		-20.872	-51.487	16
+P	Carira		BR		-10.361	-37.701	16
+P	Cândido Mendes	candido mendes	BR		-1.453	-45.728	16
+P	Capesterre-Belle-Eau	capesterre belle eau	GP		16.045	-61.564	6
+P	Careiro da Várzea	careiro da varzea	BR		-3.197	-59.827	6
+P	Rosignano Solvay-Castiglioncello	rosignano solvay castiglioncello	IT		43.389	10.436	27
+P	Câmpulung Moldovenesc	campulung moldovenesc	RO		47.533	25.567	25
+P	Campamento		ES		40.386	-3.798	27
+P	Calvillo		MX		21.846	-102.719	13
+P	New Canaan		US	Connecticut	41.147	-73.495	14
+P	Caraúbas	caraubas	BR		-5.793	-37.557	16
+P	Cachoeira do Piriá	cachoeira do piria	BR		-1.760	-46.545	16
+P	Caraí	carai	BR		-17.189	-41.695	16
+P	Carnaíba	carnaiba	BR		-7.805	-37.794	16
+P	Carlos Casares		AR		-35.622	-61.365	16
+P	Canto do Buriti		BR		-8.110	-42.944	16
+P	Casarano		IT		40.011	18.162	27
+P	Bayou Cane		US	Louisiana	29.624	-90.751	7
+P	Carouge		CH		46.181	6.139	27
+P	Cabildo		CL		-32.431	-71.072	15
+P	Castelo do Piauí	castelo do piaui	BR		-5.322	-41.553	16
+P	Carlisle		US	Pennsylvania	40.201	-77.189	14
+P	Camp Springs		US	Maryland	38.804	-76.907	14
+P	José Cardel	jose cardel	MX		19.368	-96.370	13
+P	Castaic		US	California	34.489	-118.623	11
+P	Cafelândia	cafelandia	BR		-24.618	-53.320	16
+P	Capoeiras		BR		-8.735	-36.627	16
+P	Capitol Riverfront		US	District of Columbia	38.878	-77.003	14
+P	Lagoa da Canoa		BR		-9.830	-36.738	16
+P	Casa de Oro-Mount Helix	casa de oro mount helix	US	California	32.764	-116.969	11
+P	Calella		ES		41.614	2.654	27
+P	Cantá	canta	BR		2.610	-60.597	6
+P	Casavatore		IT		40.899	14.277	27
+P	Calafat		RO		43.991	22.933	25
+P	Carlos Chagas		BR		-17.703	-40.766	16
+P	Catamayo		EC		-3.987	-79.358	5
+P	Carvin		FR		50.492	2.958	27
+P	Castiglione delle Stiviere		IT		45.390	10.486	27
+P	Cayey		PR		18.112	-66.166	6
+P	Belo Campo		BR		-15.038	-41.260	16
+P	Carey		CA	British Columbia	48.472	-123.395	17
+P	Casamassima		IT		40.957	16.921	27
+P	Carrigaline		IE		51.812	-8.399	22
+P	Cameron Park		US	California	38.669	-120.987	11
+P	Júlio de Castilhos	julio de castilhos	BR		-29.227	-53.682	16
+P	Campo do Brito		BR		-10.733	-37.493	16
+P	Campos Belos		BR		-13.037	-46.772	16
+P	Carquefou		FR		47.297	-1.492	27
+P	Aurangabad Cantonment		IN		19.876	75.292	20
+P	Carmelo		UY		-34.000	-58.284	16
+P	Carnide		PT		38.767	-9.183	22
+P	Castelnau-le-Lez	castelnau le lez	FR		43.636	3.901	27
+P	Campina Verde		BR		-19.538	-49.488	16
+P	Carmópolis de Minas	carmopolis de minas	BR		-20.541	-44.635	16
+P	Capalaba		AU	Queensland	-27.543	153.203	23
+P	Camocim de São Félix	camocim de sao felix	BR		-8.359	-35.762	16
+P	Carlos A. Carrillo	carlos a carrillo	MX		18.375	-95.754	13
+P	Lagoa do Carro		BR		-7.845	-35.320	16
+P	Cartagena		CL		-33.554	-71.608	15
+P	La Cabima		PA		9.118	-79.533	5
+P	Cary		US	Illinois	42.212	-88.238	7
+P	Callosa de Segura		ES		38.125	-0.878	27
+P	Carnegie		AU	Victoria	-37.894	145.055	24
+P	Cartaya		ES		37.281	-7.151	27
+P	Cármenes	carmenes	ES		40.401	-3.736	27
+P	Canutama		BR		-6.534	-64.383	6
+P	Cairu		BR		-13.487	-39.044	16
+P	Carmo		BR		-21.934	-42.609	16
+P	Calverton		US	Maryland	39.058	-76.936	14
+P	El Carmen de Chucurí	el carmen de chucuri	CO		6.697	-73.511	5
+P	Cariré	carire	BR		-3.951	-40.473	16
+P	Candelaria		PR		18.404	-66.209	6
+P	New Castle		US	Indiana	39.929	-85.370	14
+P	Darnytsya Car Repair Plant Microdistrict		UA		50.450	30.676	25
+P	Aci Castello		IT		37.556	15.145	27
+P	Carigara		PH		11.298	124.679	21
+P	Cafarnaum		BR		-11.694	-41.468	16
+P	Calangute		IN		15.544	73.755	20
+P	North Canton		US	Ohio	40.876	-81.402	14
+P	Ejea de los Caballeros		ES		42.126	-1.137	27
+P	Castelfranco Emilia		IT		44.594	11.050	27
+P	Calceta		EC		-0.846	-80.164	5
+P	Calne		GB	England	51.439	-2.006	22
+P	Canby		US	Oregon	45.263	-122.693	11
+P	Cassano d'Adda	cassano dadda	IT		45.526	9.515	27
+P	Casa Blanca		MX		19.042	-98.119	13
+P	Capistrano		BR		-4.470	-38.901	16
+P	Cambundi Catembo		AO		-10.075	17.551	4
+P	Cambundi		AO		-7.469	17.038	4
+P	Cambundi		AO		-10.895	17.764	4
+P	Carnaubal		BR		-4.167	-40.943	16
+P	Cássia	cassia	BR		-20.583	-46.922	16
+P	Castilleja de la Cuesta		ES		37.386	-6.053	27
+P	Caconde		BR		-21.529	-46.644	16
+P	Castilla		ES		40.474	-3.680	27
+P	Cariús	carius	BR		-6.537	-39.497	16
+P	Santana do Cariri		BR		-7.188	-39.737	16
+P	Calamvale		AU	Queensland	-27.623	153.048	23
+P	Castellana		ES		40.434	-3.684	27
+P	Carlópolis	carlopolis	BR		-23.425	-49.721	16
+P	Caulfield North		AU	Victoria	-37.874	145.025	24
+P	Caldes de Montbui		ES		41.633	2.167	27
+P	Cariamanga		EC		-4.328	-79.556	5
+P	Cafayate		AR		-26.073	-65.978	16
+P	San Carlos Park		US	Florida	26.467	-81.801	14
+P	Villanueva de la Cañada	villanueva de la canada	ES		40.447	-4.004	27
+P	Sainte-Catherine	sainte catherine	CA	Quebec	45.400	-73.582	14
+P	Caledon		ZA		-34.230	19.427	3
+P	Cabeceiras de Basto		PT		41.514	-7.989	22
+P	São Caetano de Odivelas	sao caetano de odivelas	BR		-0.750	-48.020	16
+P	Cafelândia	cafelandia	BR		-21.802	-49.610	16
+P	Camoapa		NI		12.384	-85.513	13
+P	Piquet Carneiro		BR		-5.804	-39.418	16
+P	Cajueiro		BR		-9.397	-36.154	16
+P	Kiryandongo Refugee Camp		UG		1.940	32.166	26
+P	Cardedeu		ES		41.640	2.357	27
+P	Le Camas		FR		43.295	5.394	27
+P	Cacahoatán	cacahoatan	MX		14.992	-92.164	13
+P	San Felice A Cancello		IT		41.017	14.487	27
+P	Plácido de Castro	placido de castro	BR		-10.335	-67.186	5
+P	Cabaceiras do Paraguaçu	cabaceiras do paraguacu	BR		-12.536	-39.191	16
+P	Cabayangan		PH		7.407	125.733	21
+P	Caiapônia	caiaponia	BR		-16.957	-51.810	16
+P	Camaná	camana	PE		-16.624	-72.711	5
+P	Cajari		BR		-3.321	-45.011	16
+P	Cañon City	canon city	US	Colorado	38.441	-105.242	8
+P	Las Cabezas de San Juan		ES		36.984	-5.939	27
+P	Caridade		BR		-4.232	-39.193	16
+P	Caronno Pertusella		IT		45.598	9.046	27
+P	San Pedro Carchá	san pedro carcha	GT		15.477	-90.311	13
+P	Calhoun		US	Georgia	34.503	-84.951	14
+P	Lázaro Cárdenas	lazaro cardenas	MX		30.527	-115.931	11
+P	Casal Bertone		IT		41.898	12.534	27
+P	Sainte-Catherine	sainte catherine	CA	Quebec	46.318	-72.566	14
+P	Cattolica		IT		43.962	12.736	27
+P	Caldera		CL		-27.068	-70.819	15
+P	Calatagan		PH		13.832	120.632	21
+P	Canudos		BR		-9.897	-39.026	16
+P	Cage Mazumbo		AO		-8.300	14.345	4
+P	Castel Maggiore		IT		44.577	11.361	27
+P	Cacimba de Dentro		BR		-6.642	-35.790	16
+P	Carlton		AU	Victoria	-37.800	144.967	24
+P	Canovelles		ES		41.617	2.283	27
+P	Monte-Carlo	monte carlo	MC		43.740	7.427	27
+P	El Camino Real		US	California	33.697	-117.777	11
+P	Candiac		CA	Quebec	45.383	-73.516	14
+P	Campanha		BR		-21.836	-45.401	16
+P	Carmen de Areco		AR		-34.377	-59.823	16
+P	Mário Campos	mario campos	BR		-20.056	-44.188	16
+P	Carmarthen		GB	Wales	51.856	-4.305	22
+P	Cala		ZA		-31.524	27.695	3
+P	Canapi		BR		-9.117	-37.602	16
+P	Canteleu		FR		49.441	1.025	27
+P	Campina da Lagoa		BR		-24.592	-52.799	16
+P	Campinápolis	campinapolis	BR		-14.541	-52.795	6
+P	Casula		AU	New South Wales	-33.952	150.899	24
+P	Carterton		GB	England	51.759	-1.594	22
+P	Candelaria		CO		10.459	-74.880	5
+P	Carcarañá	carcarana	AR		-32.857	-61.151	16
+P	Calumpang		PH		14.623	121.090	21
+P	Çat	cat	TR		39.606	40.968	26
+P	Çağlayancerit	caglayancerit	TR		37.745	37.286	26
+P	Carlet		ES		39.227	-0.521	27
+P	Campo Grande		PT		38.755	-9.167	22
+P	Sant Carles de la Ràpita	sant carles de la rapita	ES		40.617	0.600	27
+P	Venustiano Carranza		MX		16.339	-92.563	13
+P	Çaşgyn	casgyn	TM		37.797	61.549	19
+P	Cárdenas	cardenas	MX		22.001	-99.642	13
+P	Carrières-sous-Poissy	carrieres sous poissy	FR		48.950	2.041	27
+P	Capua		IT		41.105	14.213	27
+P	Carindale		AU	Queensland	-27.506	153.102	23
+P	Carate Brianza		IT		45.676	9.237	27
+P	Paso de Carrasco		UY		-34.860	-56.052	16
+P	Carugate		IT		45.550	9.340	27
+P	La Carolina		ES		38.276	-3.615	27
+P	Cândido de Abreu	candido de abreu	BR		-24.567	-51.333	16
+P	Cambridge		NZ		-37.878	175.440	28
+P	Catriel		AR		-37.876	-67.795	16
+P	Čakovec	cakovec	HR		46.384	16.434	27
+P	Cambuci		BR		-21.575	-41.911	16
+P	Capela		BR		-9.408	-36.074	16
+P	Cajueiro		BR		-9.709	-36.448	16
+P	Capitol Hill		US	District of Columbia	38.889	-77.000	14
+P	Campo de Criptana		ES		39.405	-3.125	27

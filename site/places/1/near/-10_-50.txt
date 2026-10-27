@@ -1,0 +1,39 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Belem	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Parauapebas		BR		-6.067	-49.902	0
+P	Imperatriz		BR		-5.526	-47.492	0
+P	Marabá	maraba	BR		-5.381	-49.132	0
+P	Araguaína	araguaina	BR		-7.191	-48.207	0
+P	Balsas		BR		-7.532	-46.036	0
+P	Barra do Corda		BR		-5.506	-45.243	0
+P	Canaã dos Carajás	canaa dos carajas	BR		-6.524	-49.852	0
+P	Grajaú	grajau	BR		-5.819	-46.139	0
+P	Xinguara		BR		-7.098	-49.944	0
+P	Itupiranga		BR		-5.135	-49.327	0
+P	Conceição do Araguaia	conceicao do araguaia	BR		-8.264	-49.270	0
+P	Amarante do Maranhão	amarante do maranhao	BR		-5.567	-46.742	0
+P	Colinas do Tocantins		BR		-8.059	-48.475	0
+P	Estreito		BR		-6.556	-47.441	0
+P	Araguatins		BR		-5.651	-48.111	0
+P	Eldorado dos Carajás	eldorado dos carajas	BR		-6.104	-49.355	0
+P	Guaraí	guarai	BR		-8.834	-48.510	0
+P	João Lisboa	joao lisboa	BR		-5.448	-47.401	0
+P	São Geraldo do Araguaia	sao geraldo do araguaia	BR		-6.401	-48.555	0
+P	Carolina		BR		-7.336	-47.462	0
+P	Porto Franco		BR		-6.338	-47.399	0
+P	Tocantinópolis	tocantinopolis	BR		-6.329	-47.416	0
+P	Santa Luzia		BR		-7.643	-47.217	0
+P	Riachão	riachao	BR		-7.362	-46.617	0
+P	São Domingos do Araguaia	sao domingos do araguaia	BR		-5.538	-48.733	0
+P	Curionópolis	curionopolis	BR		-6.102	-49.598	0
+P	Miracema do Tocantins		BR		-9.567	-48.392	0
+P	São Raimundo das Mangabeiras	sao raimundo das mangabeiras	BR		-7.022	-45.481	0
+P	Governador Edison Lobão	governador edison lobao	BR		-5.745	-47.364	0
+P	Bom Jesus do Tocantins		BR		-5.051	-48.609	0
+P	Floresta do Araguaia		BR		-7.554	-49.712	0
+P	Formosa da Serra Negra		BR		-6.445	-46.189	0
+P	Jenipapo dos Vieiras		BR		-5.371	-45.636	0
+P	Sítio Novo	sitio novo	BR		-5.878	-46.699	0
+P	Santa Maria das Barreiras		BR		-8.872	-49.713	0

@@ -1,0 +1,79 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+C	UA	Ukraine	mwl	s
+B	1
+P	Voronezh		RU		51.668	39.192	1
+P	Ryazan’	ryazan	RU		54.627	39.704	1
+P	Lipetsk		RU		52.588	39.552	1
+P	Tula		RU		54.196	37.618	1
+P	Kursk		RU		51.727	36.185	1
+P	Saltivka		UA		50.022	36.349	0
+P	Belgorod		RU		50.603	36.581	1
+P	Kaluga		RU		54.531	36.270	1
+P	Orël	orel	RU		52.969	36.079	1
+P	Staryy Oskol		RU		51.303	37.846	1
+P	Novomoskovsk		RU		54.011	38.291	1
+P	Serpukhov		RU		54.920	37.416	1
+P	Yelets		RU		52.614	38.509	1
+P	Oleksiyivka		UA		50.045	36.193	0
+P	Zheleznogorsk		RU		52.342	35.359	1
+P	Gubkin		RU		51.284	37.535	1
+P	Aleksin		RU		54.505	37.067	1
+P	Rossosh’	rossosh	RU		51.121	38.512	1
+P	Rossosh’	rossosh	RU		50.196	39.566	1
+P	Stupino		RU		54.897	38.068	1
+P	Shchëkino	shchekino	RU		54.007	37.506	1
+P	Uzlovaya		RU		53.984	38.160	1
+P	Liski		RU		50.982	39.504	1
+P	Mtsensk		RU		53.279	36.580	1
+P	Gryazi		RU		52.495	39.940	1
+P	Livny		RU		52.424	37.600	1
+P	Kurchatov		RU		51.654	35.687	1
+P	Yefremov		RU		53.138	38.119	1
+P	Shebekino		RU		50.413	36.925	1
+P	Pivnichna Saltivka		UA		50.045	36.359	0
+P	Kashira		RU		54.848	38.182	1
+P	Alexeyevka		RU		50.631	38.690	1
+P	Gorod Shebekino		RU		50.417	36.917	1
+P	Novovoronezh		RU		51.315	39.219	1
+P	Protvino		RU		54.868	37.216	1
+P	Valuyki		RU		50.197	38.117	1
+P	Ostrogozhsk		RU		50.866	39.078	1
+P	Lukhovitsy		RU		54.977	39.044	1
+P	Donskoy		RU		53.968	38.332	1
+P	Kimovsk		RU		53.973	38.535	1
+P	Bogoroditsk		RU		53.772	38.123	1
+P	Semiluki		RU		51.682	39.030	1
+P	Ozëry	ozery	RU		54.860	38.551	1
+P	Kireyevsk		RU		53.930	37.921	1
+P	Zaraysk		RU		54.763	38.881	1
+P	Skopin		RU		53.825	39.553	1
+P	L’govskiy	lgovskiy	RU		51.631	35.278	1
+P	Lebedyan’	lebedyan	RU		53.015	39.145	1
+P	Dankov		RU		53.250	39.144	1
+P	Novaya Usman’	novaya usman	RU		51.644	39.411	1
+P	Suvorov		RU		54.122	36.497	1
+P	Novy Oskol		RU		50.763	37.864	1
+P	Novomichurinsk		RU		54.038	39.748	1
+P	Pushchino		RU		54.834	37.611	1
+P	Zhuravlivka		UA		50.013	36.272	0
+P	Usman’	usman	RU		52.045	39.726	1
+P	Kozel’sk	kozelsk	RU		54.037	35.771	1
+P	Shchigry		RU		51.876	36.905	1
+P	Rybnoye		RU		54.725	39.513	1
+P	Stroitel		RU		50.788	36.478	1
+P	Yasnogorsk		RU		54.481	37.698	1
+P	Kosaya Gora		RU		54.119	37.545	1
+P	Bohodukhiv		UA		50.161	35.524	0
+P	Vovchansk		UA		50.291	36.941	0
+P	Derhachi		UA		50.108	36.121	0
+P	Pridonskoy		RU		51.683	39.068	1
+P	Plavsk		RU		53.708	37.295	1
+P	Severo-Zadonsk	severo zadonsk	RU		54.035	38.402	1
+P	Sukhinichi		RU		54.100	35.343	1
+P	Venëv	venev	RU		54.351	38.263	1
+P	Razumnoye		RU		50.534	36.685	1
+P	Belëv	belev	RU		53.812	36.133	1
+P	Chernyanka		RU		50.938	37.815	1

@@ -1,0 +1,28 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Pyongyang	540	
+Z	1	Asia/Shanghai	480	
+Z	2	Asia/Vladivostok	600	
+C	CN	China	mwl	s
+C	KP	North Korea	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Vladivostok		RU		43.106	131.874	2
+P	Ussuriysk		RU		43.805	131.957	2
+P	Nakhodka		RU		42.844	132.918	2
+P	Artëm	artem	RU		43.358	132.191	2
+P	Suifenhe		CN		44.400	131.148	1
+P	Ŭndŏk	undok	KP		42.519	130.335	0
+P	Hunchun		CN		42.867	130.357	1
+P	Rajin		KP		42.256	130.283	0
+P	Muling		CN		44.916	130.517	1
+P	Dongning		CN		44.084	131.118	1
+P	Arsen’yev	arsenyev	RU		44.157	133.273	2
+P	Spassk-Dal’niy	spassk dalniy	RU		44.601	132.820	2
+P	Partizansk		RU		43.120	133.123	2
+P	Bol'šoj Kamen'	bolsoj kamen	RU		43.111	132.350	2
+P	Aoji-ri	aoji ri	KP		42.522	130.396	0
+P	Sŏnbong	sonbong	KP		42.351	130.383	0
+P	Unggi		KP		42.342	130.411	0
+P	Fokino		RU		42.971	132.410	2
+P	Vrangel’	vrangel	RU		42.730	133.084	2
+P	Trudovoye		RU		43.303	132.079	2

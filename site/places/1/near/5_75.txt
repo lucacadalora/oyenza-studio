@@ -1,0 +1,288 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+C	LK	Sri Lanka	mwl	s
+B	2
+P	Madurai		IN		9.919	78.120	0
+P	Tirunelveli		IN		8.727	77.684	0
+P	Kanayannur		IN		9.967	76.267	0
+P	Thiruvananthapuram		IN		8.486	76.949	0
+P	Colombo		LK		6.935	79.849	0
+P	Kochi		IN		9.940	76.260	0
+P	Thoothukudi		IN		8.767	78.134	0
+P	Kollam		IN		8.881	76.585	0
+P	Alappuzha		IN		9.490	76.326	0
+P	Sivakasi		IN		9.450	77.798	0
+P	Nāgercoil	nagercoil	IN		8.179	77.432	0
+P	Dehiwala-Mount Lavinia	dehiwala mount lavinia	LK		6.840	79.871	0
+P	Maharagama		LK		6.848	79.927	0
+P	Moratuwa		LK		6.773	79.882	0
+P	Negombo		LK		7.208	79.836	0
+P	Rajapalayam		IN		9.453	77.553	0
+P	Pita Kotte		LK		6.891	79.901	0
+P	Sri Jayewardenepura Kotte		LK		6.883	79.907	0
+P	Paramagudi		IN		9.546	78.591	0
+P	Kovilpatti		IN		9.172	77.870	0
+P	Kadayanallur		IN		9.073	77.342	0
+P	Avaniyāpuram	avaniyapuram	IN		9.882	78.113	0
+P	Neyyāttinkara	neyyattinkara	IN		8.399	77.086	0
+P	Aruppukkottai		IN		9.510	78.096	0
+P	Katunayaka		LK		7.170	79.888	0
+P	Battaramulla South		LK		6.896	79.918	0
+P	Srivilliputhur		IN		9.513	77.634	0
+P	Virudunagar		IN		9.585	77.958	0
+P	Thenkasi		IN		8.960	77.315	0
+P	Tripunittura		IN		9.943	76.333	0
+P	Kayamkulam		IN		9.182	76.501	0
+P	Cumbum		IN		9.736	77.285	0
+P	Puliyankudi		IN		9.175	77.398	0
+P	Ramanathapuram		IN		9.372	78.831	0
+P	Kolonnawa		LK		6.933	79.885	0
+P	Kotikawatta		LK		6.927	79.909	0
+P	Ānaiyūr	anaiyur	IN		9.962	78.112	0
+P	Nedumangād	nedumangad	IN		8.603	77.001	0
+P	Sankarankovil		IN		9.170	77.541	0
+P	Tiruvalla		IN		9.382	76.575	0
+P	Hendala		LK		6.991	79.883	0
+P	Kottayam		IN		9.587	76.521	0
+P	Tiruttangal		IN		9.483	77.833	0
+P	Pallichal		IN		8.450	77.026	0
+P	Thodupuzha		IN		9.894	76.722	0
+P	Devakottai		IN		9.947	78.823	0
+P	Changanācheri	changanacheri	IN		9.442	76.536	0
+P	Tirumangalam		IN		9.823	77.984	0
+P	Tirupparangunram		IN		9.882	78.073	0
+P	Gudalur		IN		9.678	77.250	0
+P	Punalūr	punalur	IN		9.020	76.923	0
+P	Vikramasingapuram		IN		8.715	77.390	0
+P	Vattiyūrkāvu	vattiyurkavu	IN		8.525	76.989	0
+P	Komalapuram		IN		9.542	76.342	0
+P	Milavittan		IN		8.819	78.091	0
+P	Cherthala		IN		9.684	76.336	0
+P	Puttalam		LK		8.036	79.828	0
+P	Shertallai		IN		9.686	76.340	0
+P	Rameswaram		IN		9.289	79.313	0
+P	Maradu		IN		9.937	76.324	0
+P	Kottangara		IN		8.924	76.647	0
+P	Melmadai		IN		9.926	78.150	0
+P	Panachikkad		IN		9.530	76.541	0
+P	Varkala		IN		8.733	76.717	0
+P	Perumbaikad		IN		9.618	76.531	0
+P	Sivaganga		IN		9.847	78.484	0
+P	Chavara		IN		8.967	76.542	0
+P	Kumbalangy		IN		9.880	76.284	0
+P	Chinnamanūr	chinnamanur	IN		9.840	77.381	0
+P	Trikonavattam		IN		8.890	76.666	0
+P	Kudappanakkunnu		IN		8.551	76.961	0
+P	Welisara		LK		7.028	79.901	0
+P	Kalliyoor		IN		8.431	77.013	0
+P	Athiyannur		IN		8.393	77.064	0
+P	Kayalpattinam		IN		8.571	78.120	0
+P	Kulathummal		IN		8.507	77.081	0
+P	Ettumānūr	ettumanur	IN		9.669	76.559	0
+P	Mayyanād	mayyanad	IN		8.837	76.645	0
+P	Mappilaiurani		IN		8.836	78.135	0
+P	Manakunnam		IN		9.886	76.373	0
+P	Tirkadavūr	tirkadavur	IN		8.924	76.591	0
+P	Aroor		IN		9.869	76.305	0
+P	Paravūr Tekkumbhāgam	paravur tekkumbhagam	IN		8.795	76.668	0
+P	Nattakam		IN		9.545	76.514	0
+P	Kollancode		IN		8.289	77.108	0
+P	Kilakarai		IN		9.232	78.785	0
+P	Pathanāmthitta	pathanamthitta	IN		9.267	76.783	0
+P	Talattala		IN		8.874	76.672	0
+P	Malayinkeezhu		IN		8.490	77.037	0
+P	Attingal		IN		8.696	76.815	0
+P	Vettūr	vettur	IN		8.717	76.726	0
+P	Kalutara		LK		6.583	79.959	0
+P	Bentota		LK		6.426	79.996	0
+P	Vilappil		IN		8.522	77.040	0
+P	Venganoor		IN		8.396	77.003	0
+P	Mannar		LK		8.989	79.878	0
+P	Ambasamudram		IN		8.711	77.452	0
+P	Sūrandai	surandai	IN		8.976	77.419	0
+P	Usilampatti		IN		9.969	77.786	0
+P	Perunād	perunad	IN		8.949	76.643	0
+P	Erāttupetta	erattupetta	IN		9.687	76.779	0
+P	Aymanam		IN		9.607	76.501	0
+P	Beruwala		LK		6.479	79.983	0
+P	Pārassāla	parassala	IN		8.339	77.154	0
+P	Elampalloor		IN		8.956	76.674	0
+P	Panadura		LK		6.713	79.903	0
+P	Mulleriyawa		LK		6.933	79.930	0
+P	Kandana		LK		7.048	79.894	0
+P	Muttayyāpuram	muttayyapuram	IN		8.750	78.131	0
+P	Manamadurai		IN		9.673	78.471	0
+P	Ja Ela		LK		7.074	79.892	0
+P	Tiruchchendur		IN		8.497	78.119	0
+P	Mannanchōri	mannanchori	IN		9.572	76.352	0
+P	Sattur		IN		9.356	77.925	0
+P	Vilavoorkkal		IN		8.481	77.022	0
+P	Thanneermukkom		IN		9.663	76.381	0
+P	Kannānendal	kannanendal	IN		9.965	78.142	0
+P	Pāmban	pamban	IN		9.279	79.211	0
+P	Kalakkādu	kalakkadu	IN		8.514	77.549	0
+P	Vilāngudi	vilangudi	IN		9.946	78.094	0
+P	Kizhuvalam-Koonthalloor	kizhuvalam koonthalloor	IN		8.663	76.810	0
+P	Wattala		LK		6.989	79.892	0
+P	Muvattupuzha		IN		9.980	76.574	0
+P	Pānakkudi	panakkudi	IN		8.322	77.577	0
+P	Kottārakara	kottarakara	IN		9.004	76.774	0
+P	Mīnād	minad	IN		8.850	76.695	0
+P	Mūvattupula	muvattupula	IN		9.985	76.577	0
+P	Adūr	adur	IN		9.156	76.732	0
+P	Puthuppally		IN		9.558	76.575	0
+P	Kidarakulam		IN		8.567	76.991	0
+P	Kalavoor		IN		9.570	76.328	0
+P	Nedumpana		IN		8.908	76.693	0
+P	Puttankulam		IN		8.814	76.718	0
+P	Vadakku Valliyūr	vadakku valliyur	IN		8.383	77.612	0
+P	Vijayapuram		IN		9.591	76.561	0
+P	Kumbalam		IN		9.906	76.311	0
+P	Ponmana		IN		9.008	76.520	0
+P	Uttamapālaiyam	uttamapalaiyam	IN		9.807	77.327	0
+P	Kelaniya		LK		6.955	79.922	0
+P	Peliyagoda		LK		6.968	79.884	0
+P	Vandiyūr	vandiyur	IN		9.909	78.161	0
+P	Ālangulam	alangulam	IN		8.864	77.499	0
+P	Ochira		IN		9.135	76.512	0
+P	Māvelikara	mavelikara	IN		9.259	76.556	0
+P	Pallipuram		IN		9.755	76.357	0
+P	Piravam		IN		9.867	76.500	0
+P	Uliyazhathura		IN		8.582	76.922	0
+P	Ezhupunna		IN		9.821	76.300	0
+P	Pathirappally		IN		9.535	76.322	0
+P	Azhoor		IN		8.644	76.799	0
+P	Āndippatti	andippatti	IN		9.998	77.621	0
+P	Arumuganeri		IN		8.569	78.091	0
+P	Adichānallūr	adichanallur	IN		8.880	76.716	0
+P	Vettanād	vettanad	IN		8.606	76.942	0
+P	Ettumanoor		IN		9.670	76.570	0
+P	Kumārapuram	kumarapuram	IN		9.271	76.433	0
+P	Kulasēkarapuram	kulasekarapuram	IN		9.091	76.530	0
+P	Shenkottai		IN		8.977	77.246	0
+P	Krishnāpuram	krishnapuram	IN		9.152	76.523	0
+P	Kallidaikurichi		IN		8.686	77.466	0
+P	Anuppānadi	anuppanadi	IN		9.904	78.143	0
+P	Edavai		IN		8.764	76.688	0
+P	Thodiyoor		IN		9.078	76.578	0
+P	Muhamma		IN		9.609	76.361	0
+P	Mulamthuruthy		IN		9.900	76.387	0
+P	Panayāttur Vadakkumbhāgam	panayattur vadakkumbhagam	IN		8.955	76.618	0
+P	Viswanatham		IN		9.430	77.800	0
+P	Karuva		IN		8.950	76.599	0
+P	Edaicode		IN		8.383	77.198	0
+P	Kadakkavoor		IN		8.679	76.767	0
+P	Karungappalli		IN		9.104	76.537	0
+P	Vayalār	vayalar	IN		9.712	76.339	0
+P	Chengannūr	chengannur	IN		9.316	76.615	0
+P	Ilaiyankudi		IN		9.625	78.624	0
+P	Chilaw		LK		7.576	79.795	0
+P	Ezhudesam		IN		8.265	77.142	0
+P	Tiruppuvanam		IN		9.826	78.258	0
+P	Ayanavelikulangara Vadakku		IN		9.043	76.523	0
+P	Pacode		IN		8.335	77.214	0
+P	Vypīn	vypin	IN		9.967	76.250	0
+P	Tisaiyanvilai		IN		8.337	77.868	0
+P	Srīkandamangalam	srikandamangalam	IN		9.659	76.363	0
+P	Kutiatodu		IN		9.800	76.333	0
+P	Unnamalaikadai		IN		8.300	77.241	0
+P	Painkulam		IN		8.260	77.174	0
+P	Sreekaryam		IN		8.549	76.917	0
+P	Pattiyūrgrāmam	pattiyurgramam	IN		9.177	76.501	0
+P	Nāyanakulam	nayanakulam	IN		9.961	78.137	0
+P	Vaikam		IN		9.749	76.396	0
+P	Colachel		IN		8.179	77.258	0
+P	Thiruvankulam		IN		9.947	76.367	0
+P	Iroopara		IN		8.607	76.915	0
+P	Sivagiri		IN		9.345	77.429	0
+P	Aramboli		IN		8.250	77.522	0
+P	Vellūr	vellur	IN		8.626	76.831	0
+P	Kanniyākumāri	kanniyakumari	IN		8.090	77.538	0
+P	Triparappu		IN		8.395	77.266	0
+P	Puthencruz		IN		9.977	76.410	0
+P	Ādanāttutekkumuri Kizhakku	adanattutekkumuri kizhakku	IN		9.079	76.514	0
+P	Kilapavoor		IN		8.909	77.431	0
+P	Attimarappatti		IN		8.740	78.105	0
+P	Palai		IN		9.713	76.683	0
+P	Kalleribhāgam	kalleribhagam	IN		9.054	76.558	0
+P	Kadayal		IN		8.408	77.266	0
+P	Vāsudevanallūr	vasudevanallur	IN		9.242	77.412	0
+P	Padmanābhapuram	padmanabhapuram	IN		8.245	77.326	0
+P	Paippad		IN		9.425	76.585	0
+P	Kuzhithurai		IN		8.318	77.192	0
+P	Kodamthuruth		IN		9.801	76.302	0
+P	Reethapuram		IN		8.184	77.248	0
+P	Marthandam		IN		8.308	77.221	0
+P	Thaikkattussery		IN		9.771	76.344	0
+P	Vadakarai Kīl Pidāgai	vadakarai kil pidagai	IN		9.040	77.274	0
+P	Muthukulam		IN		9.217	76.459	0
+P	Settūr	settur	IN		9.406	77.478	0
+P	Cheppad		IN		9.235	76.473	0
+P	Paravai		IN		9.965	78.067	0
+P	Kandalloor		IN		9.176	76.471	0
+P	Kanjiramkulam		IN		8.360	77.053	0
+P	Sankaraperi		IN		8.839	78.105	0
+P	Kattanam		IN		9.176	76.563	0
+P	Udangudi		IN		8.429	78.030	0
+P	Verukulambu		IN		8.295	77.294	0
+P	Vadakku Viravanallur		IN		8.698	77.519	0
+P	Mulakumūd	mulakumud	IN		8.268	77.286	0
+P	Methukummal		IN		8.307	77.152	0
+P	Tiruppālai	tiruppalai	IN		9.978	78.133	0
+P	Vakkam		IN		8.684	76.768	0
+P	Kallukuttam		IN		8.189	77.288	0
+P	Karthikappally		IN		9.257	76.449	0
+P	Tiruvattār	tiruvattar	IN		8.331	77.267	0
+P	Tiruvankod		IN		8.245	77.301	0
+P	Mamsapuram		IN		9.500	77.588	0
+P	Palappallam		IN		8.209	77.248	0
+P	Pālaiyampatti	palaiyampatti	IN		9.539	78.098	0
+P	Tondi		IN		9.742	79.018	0
+P	Mandapam		IN		9.276	79.124	0
+P	Cheranmahadevi		IN		8.675	77.570	0
+P	Palugal		IN		8.354	77.186	0
+P	Inam Maniyachi		IN		9.171	77.851	0
+P	Kariapatti		IN		9.675	78.100	0
+P	Eruvādi	eruvadi	IN		8.444	77.604	0
+P	Nalloor		IN		8.306	77.224	0
+P	Arukutti		IN		9.867	76.350	0
+P	Kothanallur		IN		8.279	77.310	0
+P	Settiyārpatti	settiyarpatti	IN		9.393	77.493	0
+P	Dharmapuram		IN		8.120	77.389	0
+P	Keezhkulam		IN		8.231	77.186	0
+P	Kāttatturai	kattatturai	IN		8.285	77.276	0
+P	Kulasegaram		IN		8.363	77.298	0
+P	Nāranammālpuram	naranammalpuram	IN		8.760	77.740	0
+P	Mēppādam	meppadam	IN		9.324	76.493	0
+P	Kokōtamangalam South	kokotamangalam south	IN		9.679	76.359	0
+P	Valvachatottam		IN		8.280	77.256	0
+P	Sithurajapuram		IN		9.421	77.787	0
+P	Āchāripallam Vāniyakudi	acharipallam vaniyakudi	IN		8.174	77.385	0
+P	Vathirairuppu		IN		9.635	77.639	0
+P	Sāmbūrvadakara	samburvadakara	IN		8.999	77.388	0
+P	Karingal		IN		8.236	77.243	0
+P	Pattamadai		IN		8.673	77.584	0
+P	Nazareth		IN		8.561	77.972	0
+P	Arumanai		IN		8.367	77.243	0
+P	Nallavila		IN		8.205	77.344	0
+P	Kāmayakkavundanpatti	kamayakkavundanpatti	IN		9.739	77.320	0
+P	Chengalam		IN		9.597	76.468	0
+P	Tevāram	tevaram	IN		9.897	77.281	0
+P	Kappiyara		IN		8.247	77.262	0
+P	Kombai		IN		9.847	77.296	0
+P	Boothapandi		IN		8.266	77.446	0
+P	Bharanikāvu Tekku	bharanikavu tekku	IN		9.185	76.561	0
+P	Srivaikuntam		IN		8.629	77.913	0
+P	Pudukkottai		IN		9.937	78.053	0
+P	Elumalai		IN		9.865	77.699	0
+P	Chokkanāthapuram	chokkanathapuram	IN		9.992	77.357	0
+P	Haripād	haripad	IN		9.284	76.455	0
+P	Ponmana		IN		8.355	77.328	0
+P	Kalugumalai		IN		9.149	77.706	0
+P	Villukuri		IN		8.223	77.373	0
+P	Vilattikulam		IN		9.132	78.166	0
+P	Kīlattingal	kilattingal	IN		8.693	76.793	0
+P	Ottakkadai		IN		9.958	78.189	0
+P	Āyikudi	ayikudi	IN		9.003	77.345	0
+P	Ālūr	alur	IN		8.193	77.364	0

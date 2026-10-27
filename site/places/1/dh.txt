@@ -1,0 +1,88 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Aden	180	
+Z	1	Asia/Dhaka	360	
+Z	2	Asia/Dubai	240	
+Z	3	Asia/Karachi	300	
+Z	4	Asia/Kathmandu	345	
+Z	5	Asia/Kolkata	330	
+Z	6	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	7	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AE	United Arab Emirates	dubai	s
+C	BD	Bangladesh	karachi	h
+C	FR	France	mwl	s
+C	GR	Greece	mwl	s
+C	IN	India	karachi	h
+C	NP	Nepal	mwl	s
+C	PK	Pakistan	karachi	h
+C	SA	Saudi Arabia	ummalqura	s
+C	SO	Somalia	egyptian	s
+C	YE	Yemen	ummalqura	s
+B	3
+P	Dhaka		BD		23.710	90.407	1
+P	Abu Dhabi		AE		24.451	54.397	2
+P	Dhanbad		IN		23.798	86.430	5
+P	Dhārāvi	dharavi	IN		19.050	72.867	5
+P	Dhule		IN		20.901	74.777	5
+P	Dhangaḍhi̇̄	dhangadhi	NP		28.702	80.590	4
+P	Dhirkot		PK		34.039	73.577	3
+P	Dharān	dharan	NP		26.814	87.280	4
+P	Dhamār	dhamar	YE		14.543	44.405	0
+P	Dhaulpur		IN		26.693	77.880	5
+P	Dharmavaram		IN		14.414	77.720	5
+P	Dharashiv		IN		18.182	76.039	5
+P	Dhamtari		IN		20.707	81.549	5
+P	Dhahran		SA		26.289	50.114	0
+P	Dhār	dhar	IN		22.594	75.298	5
+P	Dhoraji		IN		21.734	70.450	5
+P	Dholka		IN		22.727	72.441	5
+P	Dhuliān	dhulian	IN		24.681	87.954	5
+P	Dhrāngadhra	dhrangadhra	IN		22.992	71.468	5
+P	Dharapuram		IN		10.738	77.532	5
+P	Dharmapuri		IN		12.128	78.158	5
+P	Dhenkānāl	dhenkanal	IN		20.657	85.597	5
+P	Dhubri		IN		26.019	89.986	5
+P	Dhone		IN		15.395	77.871	5
+P	Dhūri	dhuri	IN		30.368	75.868	5
+P	Dhanmondi		BD		23.740	90.385	1
+P	Dhāmpur	dhampur	IN		29.309	78.511	5
+P	Dhanpuri		IN		23.185	81.555	5
+P	Dhāka	dhaka	IN		26.675	85.167	5
+P	Dhupgāri	dhupgari	IN		26.589	89.007	5
+P	Dharmanagar		IN		24.367	92.167	5
+P	Dhī as Sufāl	dhi as sufal	YE		13.834	44.115	0
+P	Dhabad		SO		6.432	46.462	0
+P	Saint-Martin-d'Hères	saint martin dheres	FR		45.179	5.763	7
+P	Dharangaon		IN		21.012	75.274	5
+P	Dharmābād	dharmabad	IN		18.891	77.849	5
+P	Dhandhuka		IN		22.382	71.987	5
+P	Dhāmnod	dhamnod	IN		22.209	75.471	5
+P	Dharmadam		IN		11.775	75.465	5
+P	Dharamsala		IN		32.220	76.320	5
+P	Dhāruhera	dharuhera	IN		28.206	76.797	5
+P	Dhanera		IN		24.510	72.023	5
+P	Dhāri	dhari	IN		21.329	71.026	5
+P	Dhanaura		IN		28.959	78.256	5
+P	Dhamas		SO		3.153	41.336	0
+P	Dhrol		IN		22.567	70.418	5
+P	Dharampur		IN		20.537	73.174	5
+P	Chitrakoot Dham		IN		25.215	80.916	5
+P	Dhamanagar		IN		20.917	86.450	5
+P	Dhafní	dhafni	GR		37.950	23.734	6
+P	Dhankutā	dhankuta	NP		26.983	87.333	4
+P	Dhekiajuli		IN		26.704	92.478	5
+P	Dhulagari		IN		22.582	88.171	5
+P	Dhing		IN		26.468	92.473	5
+P	Dhāriwāl	dhariwal	IN		31.956	75.324	5
+P	Dhārūr	dharur	IN		18.820	76.109	5
+P	Mahd adh Dhahab		SA		23.500	40.884	0
+P	Adh Dhayd		AE		25.288	55.882	2
+P	Dhaurahra		IN		27.998	81.090	5
+P	Dhanaula		IN		30.282	75.573	5
+P	Dhoro Naro		PK		25.505	69.571	3
+P	Dhaunkal		PK		32.406	74.137	3
+P	Dharmkot		IN		30.946	75.232	5
+P	Dharmapuram		IN		8.120	77.389	5
+P	Dharampuri		IN		22.150	75.344	5
+P	Dhulikhel		NP		27.622	85.543	4
+P	Dhārni	dharni	IN		21.553	76.890	5
+P	Dhanot		PK		29.580	71.752	3

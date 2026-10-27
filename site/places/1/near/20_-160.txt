@@ -1,0 +1,50 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Pacific/Honolulu	-600	
+C	US	United States	moonsighting	s
+B	0
+P	Honolulu		US	Hawaii	21.307	-157.858	0
+P	East Honolulu		US	Hawaii	21.289	-157.717	0
+P	Pearl City		US	Hawaii	21.397	-157.975	0
+P	Waiau-Pacific Palisades	waiau pacific palisades	US	Hawaii	21.400	-157.954	0
+P	Makakilo / Kapolei / Honokai Hale	makakilo kapolei honokai hale	US	Hawaii	21.337	-158.097	0
+P	Kalihi-Palama	kalihi palama	US	Hawaii	21.326	-157.876	0
+P	Joint Base Pearl Harbor Hickam		US	Hawaii	21.349	-157.947	0
+P	Aliamanu / Salt Lakes / Foster Village	aliamanu salt lakes foster village	US	Hawaii	21.360	-157.918	0
+P	Kailua		US	Hawaii	21.402	-157.741	0
+P	Waipahu		US	Hawaii	21.387	-158.009	0
+P	ʻEwa Gentry-West Loch	ewa gentry west loch	US	Hawaii	21.353	-158.028	0
+P	Kaneohe		US	Hawaii	21.400	-157.799	0
+P	Makiki / Lower Punchbowl / Tantalus	makiki lower punchbowl tantalus	US	Hawaii	21.318	-157.831	0
+P	Hawai‘i Kai	hawaii kai	US	Hawaii	21.296	-157.702	0
+P	Airport		US	Hawaii	21.340	-157.928	0
+P	McCully - Moiliili	mccully moiliili	US	Hawaii	21.295	-157.831	0
+P	Mililani Town		US	Hawaii	21.450	-158.015	0
+P	Kahului		US	Hawaii	20.889	-156.473	0
+P	Liliha - Kapalama	liliha kapalama	US	Hawaii	21.337	-157.854	0
+P	Mō‘ili‘ili	moiliili	US	Hawaii	21.295	-157.830	0
+P	Manoa		US	Hawaii	21.316	-157.804	0
+P	‘Ewa Gentry	ewa gentry	US	Hawaii	21.340	-158.030	0
+P	Wahiawā-Whitmore	wahiawa whitmore	US	Hawaii	21.506	-158.034	0
+P	ʻEwa Beach-Iroquois Point	ewa beach iroquois point	US	Hawaii	21.315	-157.991	0
+P	Mililani Mauka		US	Hawaii	21.478	-157.995	0
+P	Makakilo-Makaīwa Hills-Kunia	makakilo makaiwa hills kunia	US	Hawaii	21.367	-158.073	0
+P	Kīhei	kihei	US	Hawaii	20.765	-156.446	0
+P	Kaimukī	kaimuki	US	Hawaii	21.279	-157.801	0
+P	Kalihi Valley		US	Hawaii	21.364	-157.843	0
+P	Schofield-Wheeler	schofield wheeler	US	Hawaii	21.484	-158.047	0
+P	Waikīkī	waikiki	US	Hawaii	21.285	-157.836	0
+P	Diamond Head / Kapahulu / Saint Louis Heights	diamond head kapahulu saint louis heights	US	Hawaii	21.277	-157.811	0
+P	Niu Valley		US	Hawaii	21.284	-157.737	0
+P	Ala Moana - Kakaʻako	ala moana kakaako	US	Hawaii	21.296	-157.857	0
+P	Makakilo		US	Hawaii	21.352	-158.087	0
+P	Mililani Mauka / Launani Valley	mililani mauka launani valley	US	Hawaii	21.479	-157.988	0
+P	Wahiawā	wahiawa	US	Hawaii	21.503	-158.025	0
+P	‘Ewa Beach	ewa beach	US	Hawaii	21.316	-158.007	0
+P	Schofield Barracks		US	Hawaii	21.498	-158.065	0
+P	Nuuanu - Punchbowl	nuuanu punchbowl	US	Hawaii	21.342	-157.829	0
+P	Kuliouou - Kalani Iki	kuliouou kalani iki	US	Hawaii	21.297	-157.745	0
+P	Koolauloa		US	Hawaii	21.606	-157.927	0
+P	Kapolei Villages		US	Hawaii	21.336	-158.067	0
+P	Makakilo City		US	Hawaii	21.347	-158.086	0
+P	Wailuku		US	Hawaii	20.891	-156.506	0
+P	Kapolei		US	Hawaii	21.336	-158.058	0

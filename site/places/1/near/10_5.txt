@@ -1,0 +1,59 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+B	3
+P	Kano		NG		12.000	8.517	0
+P	Kaduna		NG		10.526	7.439	0
+P	Sokoto		NG		13.063	5.243	0
+P	Zaria		NG		11.111	7.723	0
+P	Bauchi		NG		10.310	9.844	0
+P	Katsina		NG		12.991	7.602	0
+P	Maradi		NE		13.500	7.102	0
+P	Zinder		NE		13.807	8.988	0
+P	Gusau		NG		12.170	6.664	0
+P	Chakwama		NG		11.560	9.664	0
+P	Tahoua		NE		14.889	5.269	0
+P	Funtua		NG		11.524	7.312	0
+P	Kontagora		NG		10.403	5.471	0
+P	Lere		NG		10.386	8.573	0
+P	Birni N Konni		NE		13.796	5.250	0
+P	Malumfashi		NG		11.789	7.621	0
+P	Kaura Namoda		NG		12.594	6.586	0
+P	Tessaoua		NE		13.757	7.987	0
+P	Gumel		NG		12.627	9.388	0
+P	Dakoro		NE		14.511	6.765	0
+P	Talata Mafara		NG		12.568	6.062	0
+P	Gummi		NG		12.145	5.118	0
+P	Mirriah		NE		13.707	9.150	0
+P	Madaoua		NE		14.073	5.960	0
+P	Matamey		NE		13.423	8.475	0
+P	Magaria		NE		12.998	8.910	0
+P	Tibiri		NE		13.563	7.048	0
+P	Illéla	illela	NE		14.460	5.244	0
+P	Moriki		NG		12.874	6.488	0
+P	Tanout		NE		14.971	8.888	0
+P	Birnin Kudu		NG		11.452	9.479	0
+P	Daura		NG		13.033	8.324	0
+P	Zuru		NG		11.435	5.235	0
+P	Tegina		NG		10.071	6.191	0
+P	Guidan Roumdji		NE		13.658	6.696	0
+P	Aguié	aguie	NE		13.506	7.779	0
+P	Wudil		NG		11.809	8.844	0
+P	Sofo-Birnin-Gwari	sofo birnin gwari	NG		11.015	6.780	0
+P	Mayahi		NE		13.955	7.671	0
+P	Dutsen Wai		NG		10.850	8.199	0
+P	Gaya		NG		11.861	9.003	0
+P	Gazaoua		NE		13.526	7.914	0
+P	Rano		NG		11.557	8.581	0
+P	Kiyawa		NG		11.784	9.607	0
+P	Gwadabawa		NG		13.358	5.238	0
+P	Illela		NG		13.731	5.298	0
+P	Dutse		NG		11.756	9.339	0
+P	Rijau		NG		11.104	5.256	0
+P	Madarounfa		NE		13.309	7.156	0
+P	Gwarzo		NG		11.916	7.934	0
+P	Gwaram		NG		11.277	9.884	0
+P	Soba		NG		10.981	8.057	0
+P	Ibeto		NG		10.485	5.145	0
+P	Anchau		NG		10.962	8.392	0

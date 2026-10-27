@@ -1,0 +1,113 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+C	CM	Cameroon	egyptian	s
+C	NG	Nigeria	egyptian	s
+B	5
+P	Abuja		NG		9.058	7.495	0
+P	Benin City		NG		6.338	5.626	0
+P	Onitsha		NG		6.150	6.786	0
+P	Aba		NG		5.107	7.367	0
+P	Jos		NG		9.928	8.892	0
+P	Enugu		NG		6.441	7.499	0
+P	Warri		NG		5.517	5.750	0
+P	Akure		NG		7.253	5.193	0
+P	Owerri		NG		5.484	7.033	0
+P	Okene		NG		7.551	6.236	0
+P	Ikare		NG		7.526	5.753	0
+P	Uyo		NG		5.051	7.934	0
+P	Ado-Ekiti	ado ekiti	NG		7.623	5.221	0
+P	Minna		NG		9.615	6.548	0
+P	Bida		NG		9.080	6.010	0
+P	Makurdi		NG		7.734	8.521	0
+P	Umuahia		NG		5.525	7.495	0
+P	Gboko		NG		7.323	9.001	0
+P	Sapele		NG		5.894	5.677	0
+P	Owo		NG		7.196	5.587	0
+P	Ikot Ekpene		NG		5.182	7.715	0
+P	Atani		NG		6.013	6.748	0
+P	Ugep		NG		5.809	8.081	0
+P	Nnewi		NG		6.020	6.917	0
+P	Ise-Ekiti	ise ekiti	NG		7.465	5.423	0
+P	Awka		NG		6.213	7.072	0
+P	Ijero-Ekiti	ijero ekiti	NG		7.815	5.067	0
+P	Suleja		NG		9.181	7.179	0
+P	Abakaliki		NG		6.325	8.114	0
+P	Amaigbo		NG		5.789	7.838	0
+P	Lafia		NG		8.494	8.515	0
+P	Okigwe		NG		5.829	7.351	0
+P	Nsukka		NG		6.858	7.396	0
+P	Uromi		NG		6.700	6.333	0
+P	Nkpor		NG		6.150	6.830	0
+P	Ikere-Ekiti	ikere ekiti	NG		7.497	5.230	0
+P	Lafiagi		NG		8.853	5.416	0
+P	Kuje		NG		8.880	7.228	0
+P	Wukari		NG		7.871	9.778	0
+P	Emure-Ekiti	emure ekiti	NG		7.436	5.459	0
+P	Isieke		NG		6.382	8.037	0
+P	Igede-Ekiti	igede ekiti	NG		7.668	5.126	0
+P	Effium		NG		6.631	8.058	0
+P	Idanre		NG		7.113	5.116	0
+P	Keffi		NG		8.847	7.874	0
+P	Ogaminana		NG		7.594	6.218	0
+P	Ihiala		NG		5.855	6.859	0
+P	Ipoti		NG		7.874	5.077	0
+P	Ughelli		NG		5.490	6.004	0
+P	Bende		NG		5.559	7.634	0
+P	Kafanchan		NG		9.581	8.293	0
+P	Ikom		NG		5.967	8.706	0
+P	Agulu		NG		6.100	7.061	0
+P	Kagoro		NG		9.608	8.390	0
+P	Melong		CM		5.122	9.961	0
+P	Ode		NG		7.790	5.712	0
+P	Igbo-Ukwu	igbo ukwu	NG		6.018	7.020	0
+P	Aramoko-Ekiti	aramoko ekiti	NG		7.705	5.041	0
+P	Igbara-Odo	igbara odo	NG		7.503	5.063	0
+P	Ozubulu		NG		5.958	6.853	0
+P	Aku		NG		6.709	7.318	0
+P	Asaba		NG		6.198	6.732	0
+P	Ohafia-Ifigh	ohafia ifigh	NG		5.615	7.812	0
+P	Afikpo		NG		5.893	7.935	0
+P	Eha Amufu		NG		6.659	7.760	0
+P	Enugu-Ukwu	enugu ukwu	NG		6.171	7.005	0
+P	Idah		NG		7.113	6.739	0
+P	Agbor		NG		6.254	6.194	0
+P	Ezza-Ohu	ezza ohu	NG		6.441	8.084	0
+P	Uga		NG		5.936	7.079	0
+P	Nkwerre		NG		5.759	7.104	0
+P	Auchi		NG		7.068	6.264	0
+P	Lokoja		NG		7.797	6.740	0
+P	Ekpoma		NG		6.743	6.140	0
+P	Kabba		NG		7.827	6.075	0
+P	Fontem		CM		5.468	9.882	0
+P	Ogoja		NG		6.658	8.799	0
+P	Katsina-Ala	katsina ala	NG		7.169	9.285	0
+P	Itu		NG		5.201	7.984	0
+P	Pankshin		NG		9.325	9.435	0
+P	Nasarawa		NG		8.539	7.708	0
+P	Kachia		NG		9.873	7.954	0
+P	Patigi		NG		8.729	5.756	0
+P	Wamba		NG		8.942	8.603	0
+P	Baro		NG		8.616	6.418	0
+P	Ogwashi-Uku	ogwashi uku	NG		6.178	6.525	0
+P	Takum		NG		7.267	9.983	0
+P	Zungeru		NG		9.807	6.152	0
+P	Awgu		NG		6.073	7.477	0
+P	Ibi		NG		8.181	9.744	0
+P	Ubiaja		NG		6.656	6.385	0
+P	Otukpa		NG		7.102	7.659	0
+P	Oguta		NG		5.710	6.809	0
+P	Mokwa		NG		9.295	5.054	0
+P	Elele		NG		5.101	6.814	0
+P	Mamfe		CM		5.751	9.314	0
+P	Kwale		NG		5.708	6.434	0
+P	Obudu		NG		6.668	9.165	0
+P	Enugu-Ezike	enugu ezike	NG		6.983	7.455	0
+P	Igbor		NG		7.451	8.608	0
+P	Egbe		NG		8.219	5.508	0
+P	Lapai		NG		9.044	6.571	0
+P	Burutu		NG		5.353	5.508	0
+P	Akwanga		NG		8.911	8.407	0
+P	Bukuru		NG		9.794	8.864	0
+P	Ajaokuta		NG		7.562	6.655	0
+P	Doma		NG		8.393	8.355	0
+P	Isanlu-Itedoijowa	isanlu itedoijowa	NG		8.273	5.835	0

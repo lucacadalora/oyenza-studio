@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ashgabat	300	
+Z	1	Asia/Kolkata	330	
+Z	2	Asia/Seoul	540	
+Z	3	Asia/Yangon	390	
+Z	4	Asia/Yerevan	240	
+Z	5	Australia/Brisbane	600	
+Z	6	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AM	Armenia	mwl	s
+C	AU	Australia	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	KR	South Korea	mwl	s
+C	MM	Myanmar	mwl	s
+C	TM	Turkmenistan	mwl	h
+B	0
+P	Gyeongsan-si	gyeongsan si	KR		35.823	128.738	2
+P	Gyeongju		KR		35.843	129.212	2
+P	Gyānpur	gyanpur	IN		25.333	82.466	1
+P	Győr	gyor	HU		47.683	17.635	6
+P	Gyumri		AM		40.793	43.846	4
+P	Gyōda	gyoda	JP		36.141	139.460	2
+P	Gyzylarbat		TM		38.976	56.276	0
+P	Thin Gan Kyun Gyi		MM		16.957	96.155	3
+P	Gyöngyös	gyongyos	HU		47.783	19.928	6
+P	Gyula		HU		46.650	21.283	6
+P	Gympie		AU	Queensland	-26.190	152.665	5
+P	Gyál	gyal	HU		47.384	19.221	6
+P	Saw Bwar Gyi Kone		MM		16.886	96.128	3
+P	Gyomaendrőd	gyomaendrod	HU		46.933	20.833	6

@@ -142,7 +142,6 @@ pub mod ts {
     pub const HEADLINE: f32 = 15.0;
     pub const VALUE: f32 = 18.0;
     pub const DISPLAY: f32 = 30.0;
-    pub const HERO: f32 = 50.0;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -183,9 +182,6 @@ impl TextStyle {
     }
     pub fn display() -> Self {
         Self::new(ts::DISPLAY).weight(Weight::Semibold)
-    }
-    pub fn hero() -> Self {
-        Self::new(ts::HERO)
     }
     /// Uniform line spacing (e.g. 1.2) so wrapped lines read as one unit.
     pub fn line_spacing(mut self, mult: f32) -> Self {

@@ -1,0 +1,352 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+Z	1	Africa/Bissau	0	
+Z	2	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	3	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	4	Africa/Lagos	60	
+Z	5	Africa/Tripoli	120	
+Z	6	America/Caracas	-240	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	10	America/Sao_Paulo	-180	
+Z	11	Asia/Bishkek	360	
+Z	12	Asia/Dubai	240	
+Z	13	Asia/Hebron	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	14	Asia/Ho_Chi_Minh	420	
+Z	15	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	16	Asia/Kathmandu	345	
+Z	17	Asia/Kolkata	330	
+Z	18	Asia/Shanghai	480	
+Z	19	Asia/Tehran	210	
+Z	20	Asia/Tokyo	540	
+Z	21	Asia/Vladivostok	600	
+Z	22	Asia/Yangon	390	
+Z	23	Asia/Yekaterinburg	300	
+Z	24	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	25	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	26	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AE	United Arab Emirates	dubai	s
+C	AZ	Azerbaijan	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GA	Gabon	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GW	Guinea-Bissau	egyptian	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MD	Moldova	mwl	s
+C	ME	Montenegro	mwl	s
+C	MK	North Macedonia	mwl	s
+C	MM	Myanmar	mwl	s
+C	MT	Malta	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	OM	Oman	ummalqura	s
+C	PH	Philippines	mwl	s
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SY	Syria	egyptian	s
+C	TD	Chad	egyptian	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZW	Zimbabwe	egyptian	s
+B	3
+P	Biên Hòa	bien hoa	VN		10.945	106.824	14
+P	Birmingham		GB	England	52.481	-1.900	25
+P	Bijie		CN		27.302	105.286	18
+P	Bishkek		KG		42.870	74.590	11
+P	Binzhou		CN		37.367	118.017	18
+P	Bikaner		IN		28.018	73.315	17
+P	Bình Thạnh	binh thanh	VN		10.811	106.706	14
+P	Bilimora		IN		20.770	72.961	17
+P	Bissau		GW		11.864	-15.598	1
+P	Bida		NG		9.080	6.010	4
+P	Bilāspur	bilaspur	IN		22.080	82.155	17
+P	Bimbo		CF		4.257	18.416	4
+P	Long Bien		VN		21.033	105.900	14
+P	Bilbao		ES		43.263	-2.925	26
+P	Bielefeld		DE		52.033	8.533	26
+P	Birkenhead		GB	England	53.393	-3.015	25
+P	Biñan	binan	PH		14.343	121.081	18
+P	Bihār Sharīf	bihar sharif	IN		25.201	85.524	17
+P	Białystok	bialystok	PL		53.133	23.164	26
+P	Birgañj	birganj	NP		27.017	84.880	16
+P	Biratnagar		NP		26.455	87.270	16
+P	Binangonan		PH		14.465	121.193	18
+P	Bidar		IN		17.908	77.515	17
+P	Biysk		RU		52.534	85.197	14
+P	Bishoftu		ET		8.752	38.978	0
+P	Bila Tserkva		UA		49.799	30.116	24
+P	Bishan		CN		29.595	106.225	18
+P	Biskra		DZ		34.850	5.728	4
+P	Bīrjand	birjand	IR		32.866	59.221	19
+P	Birmingham		US	Alabama	33.521	-86.802	7
+P	Bilbeis		EG		30.420	31.562	2
+P	Bielsko-Biala	bielsko biala	PL		49.822	19.047	26
+P	Bibirevo		RU		55.883	37.600	0
+P	Birendranagar		NP		28.597	81.617	16
+P	Bintulu		MY		3.167	113.033	18
+P	Debre Birhan		ET		9.680	39.533	0
+P	Biryulëvo	biryulevo	RU		55.586	37.678	0
+P	Tịnh Biên	tinh bien	VN		10.596	104.937	14
+P	Bizerte		TN		37.274	9.874	4
+P	Bilqās	bilqas	EG		31.215	31.358	2
+P	Bielany		PL		52.292	20.935	26
+P	Białołeka	bialoleka	PL		52.321	20.972	26
+P	Bingöl	bingol	TR		38.885	40.494	0
+P	Bukit Bintang		MY		3.147	101.710	18
+P	Billings		US	Montana	45.783	-108.501	8
+P	Bình Thủy	binh thuy	VN		10.074	105.740	14
+P	Boulogne-Billancourt	boulogne billancourt	FR		48.835	2.241	26
+P	Birnin Kebbi		NG		12.454	4.197	4
+P	Hòa Bình	hoa binh	VN		20.817	105.338	14
+P	Birigui		BR		-21.289	-50.340	10
+P	Itaim Bibi		BR		-23.586	-46.682	10
+P	Qaşr Bin Ghashīr	qasr bin ghashir	LY		32.683	13.183	5
+P	Bislig		PH		8.215	126.316	18
+P	Binga		CD		2.374	20.498	4
+P	Birgaon		IN		21.308	81.628	17
+P	Biu		NG		10.613	12.195	4
+P	Bình Minh	binh minh	VN		10.068	105.822	14
+P	Bibā	biba	EG		28.924	30.985	2
+P	Tân Bình	tan binh	VN		10.803	106.660	14
+P	Biyalā	biyala	EG		31.174	31.222	2
+P	Bibir Hat		BD		22.683	91.791	11
+P	Biryulëvo Zapadnoye	biryulevo zapadnoye	RU		55.587	37.646	0
+P	Bishan New Town		SG		1.350	103.849	18
+P	Birni N Konni		NE		13.796	5.250	4
+P	Mohammed Bin Zayed City		AE		24.348	54.554	12
+P	Dien Bien Phu		VN		21.386	103.023	14
+P	Bijnor		IN		29.373	78.136	17
+P	Binonga		PH		10.772	122.982	18
+P	Bingerville		CI		5.356	-3.885	1
+P	Qal‘at Bīshah	qalat bishah	SA		20.001	42.605	0
+P	Bistriţa	bistrita	RO		47.133	24.500	24
+P	Koch Bihār	koch bihar	IN		26.325	89.445	17
+P	Biguaçu	biguacu	BR		-27.494	-48.656	10
+P	Biruaca		VE		7.845	-67.517	6
+P	Bihać	bihac	BA		44.817	15.871	26
+P	Bismarck		US	North Dakota	46.808	-100.784	7
+P	Bismil		TR		37.845	40.659	0
+P	Bilecik		TR		40.142	29.979	0
+P	Birobidzhan		RU		48.793	132.920	21
+P	Birkhadem		DZ		36.715	3.050	4
+P	Billstedt		DE		53.550	10.133	26
+P	Bir el Ater		DZ		34.745	8.060	4
+P	Bitola		MK		41.032	21.336	26
+P	Bīsalpur	bisalpur	IN		28.293	79.805	17
+P	Bir el Djir		DZ		35.720	-0.545	4
+P	Bihāt	bihat	IN		25.425	86.021	17
+P	Ārān Bīdgol	aran bidgol	IR		34.058	51.483	19
+P	Bianzhuang		CN		34.849	118.045	18
+P	Bīna	bina	IN		24.172	78.188	17
+P	Bishnupur		IN		23.074	87.320	17
+P	Thành Phố Uông Bí	thanh pho uong bi	VN		21.034	106.770	14
+P	Bin Xian		CN		45.743	127.461	18
+P	Biga		TR		40.228	27.242	0
+P	Biała Podlaska	biala podlaska	PL		52.032	23.117	26
+P	Bisceglie		IT		41.243	16.501	26
+P	Biel/Bienne	biel bienne	CH		47.137	7.246	26
+P	Bỉm Sơn	bim son	VN		20.078	105.860	14
+P	Thái Bình	thai binh	VN		20.450	106.340	14
+P	Bitlis		TR		38.401	42.108	0
+P	Biswān	biswan	IN		27.496	80.996	17
+P	Bitonto		IT		41.110	16.691	26
+P	Birkat as Sab‘	birkat as sab	EG		30.629	31.082	2
+P	Bindura		ZW		-17.302	31.331	5
+P	Bījār	bijar	IR		35.867	47.605	19
+P	Biaora		IN		23.921	76.911	17
+P	Bikramganj		IN		25.211	84.255	17
+P	Bilhorod-Dnistrovskyi	bilhorod dnistrovskyi	UA		46.195	30.348	24
+P	Bihtā	bihta	IN		25.559	84.871	17
+P	Upper Bicutan		PH		14.500	121.051	18
+P	Biantang		CN		34.423	117.645	18
+P	Binghamton		US	New York	42.099	-75.918	9
+P	Biloxi		US	Mississippi	30.396	-88.885	7
+P	Birecik		TR		37.026	37.978	0
+P	Binmaley		PH		16.032	120.269	18
+P	Qiryat Bialik		IL		32.828	35.086	15
+P	Bietigheim-Bissingen	bietigheim bissingen	DE		48.944	9.118	26
+P	Biella		IT		45.563	8.058	26
+P	Bishrāmpur	bishrampur	IN		24.253	83.925	17
+P	Bieńczyce	bienczyce	PL		50.088	20.028	26
+P	Bilajari		AZ		40.444	49.806	12
+P	Bitkine		TD		11.980	18.214	4
+P	Bar Bigha		IN		25.219	85.733	17
+P	Bilāra	bilara	IN		26.181	73.706	17
+P	Tine Biougra		MA		30.209	-9.379	3
+P	Birsk		RU		55.420	55.542	23
+P	Bishops Stortford		GB	England	51.871	0.159	25
+P	Bilychi		UA		50.465	30.347	24
+P	Billerica		US	Massachusetts	42.558	-71.269	9
+P	Bīlāspur	bilaspur	IN		28.887	79.270	17
+P	Bizen		JP		34.787	134.235	20
+P	Biebrich		DE		50.041	8.249	26
+P	Binalbagan		PH		10.195	122.858	18
+P	Al Bīrah	al birah	PS		31.910	35.216	13
+P	Thới Bình	thoi binh	VN		9.356	105.099	14
+P	Bilāsipāra	bilasipara	IN		26.233	90.234	17
+P	Bijeljina		BA		44.759	19.214	26
+P	Biyang		CN		29.929	117.946	18
+P	Ninh Bình	ninh binh	VN		20.258	105.980	14
+P	Bitterfeld-Wolfen	bitterfeld wolfen	DE		51.624	12.324	26
+P	Bichena		ET		10.450	38.200	0
+P	Bibiani		GH		6.452	-2.316	1
+P	Billericay		GB	England	51.629	0.420	25
+P	Bindki		IN		26.036	80.576	17
+P	Billingham		GB	England	54.589	-1.290	25
+P	Bīdāsar	bidasar	IN		27.836	74.318	17
+P	São Joaquim de Bicas	sao joaquim de bicas	BR		-20.049	-44.274	10
+P	Bimbila		GH		8.855	0.059	1
+P	Biharamulo		TZ		-2.632	31.309	0
+P	Bicester		GB	England	51.900	-1.154	25
+P	Bitam		GA		2.076	11.501	4
+P	Biltine		TD		14.527	20.926	4
+P	Birmitrapur		IN		22.400	84.767	17
+P	Biarritz		FR		43.481	-1.557	26
+P	Villa Bisonó	villa bisono	DO		19.564	-70.876	6
+P	Campi Bisenzio		IT		43.825	11.130	26
+P	Bihārīganj	bihariganj	IN		25.734	86.988	17
+P	Bijuri		IN		23.252	82.117	17
+P	Biberach an der Riß	biberach an der riss	DE		48.093	9.791	26
+P	Bisauli		IN		28.308	78.937	17
+P	Bijaynagar		IN		25.930	74.649	17
+P	Binche		BE		50.412	4.165	26
+P	Sīdī Bin Zīnah	sidi bin zinah	LY		32.887	11.987	5
+P	Bittou		BF		11.258	-0.306	1
+P	Binnish		SY		35.957	36.714	0
+P	Bidur		MY		4.117	101.283	18
+P	Birpara		IN		26.704	89.145	17
+P	Biritiba Mirim		BR		-23.573	-46.039	10
+P	Bilāri	bilari	IN		28.621	78.804	17
+P	Bilzen		BE		50.873	5.518	26
+P	Bielawa		PL		50.691	16.623	26
+P	Bibai		JP		43.325	141.859	20
+P	Biesdorf		DE		52.509	13.553	26
+P	Big Spring		US	Texas	32.250	-101.479	7
+P	Bissikrima		GN		10.850	-10.933	1
+P	Bideford		GB	England	51.017	-4.208	25
+P	Bignona		SN		12.810	-16.226	1
+P	Le Kremlin-Bicêtre	le kremlin bicetre	FR		48.815	2.361	26
+P	Bilgrām	bilgram	IN		27.175	80.032	17
+P	Bidhūna	bidhuna	IN		26.802	79.508	17
+P	Biłgoraj	bilgoraj	PL		50.541	22.722	26
+P	Clairlea-Birchmount	clairlea birchmount	CA	Ontario	43.714	-79.281	9
+P	Birine		DZ		35.635	3.225	4
+P	Birnin Kudu		NG		11.452	9.479	4
+P	Bielsk Podlaski		PL		52.765	23.186	26
+P	Bir Jdid		MA		33.374	-7.995	3
+P	Bingen am Rhein		DE		49.967	7.899	26
+P	Bi’r al ‘Abd	bir al abd	EG		31.019	33.010	2
+P	Bilsi		IN		28.129	78.911	17
+P	Bishop Auckland		GB	England	54.656	-1.677	25
+P	Hmaw Bi		MM		16.636	97.615	22
+P	Funyan Bīra	funyan bira	ET		9.402	42.318	0
+P	Keirao Bitra		IN		24.711	93.975	17
+P	Bixby		US	Oklahoma	35.942	-95.883	7
+P	Biny Selo		AZ		40.451	50.087	12
+P	Bijbehara		IN		33.794	75.107	17
+P	Białogard	bialogard	PL		54.007	15.988	26
+P	Noordwijk-Binnen	noordwijk binnen	NL		52.234	4.445	26
+P	Birkirkara		MT		35.897	14.461	26
+P	Bishopbriggs		GB	Scotland	55.907	-4.219	25
+P	Birūr	birur	IN		13.597	75.972	17
+P	Podunajské Biskupice	podunajske biskupice	SK		48.132	17.210	26
+P	Bilthoven		NL		52.130	5.201	26
+P	Biankouma		CI		7.739	-7.614	1
+P	Bissāu	bissau	IN		28.247	75.077	17
+P	Biancavilla		IT		37.644	14.867	26
+P	Bikram		IN		25.447	84.863	17
+P	Bignay Uno		PH		13.864	121.488	18
+P	Sofo-Birnin-Gwari	sofo birnin gwari	NG		11.015	6.780	4
+P	Birchcliffe-Cliffside	birchcliffe cliffside	CA	Ontario	43.695	-79.265	9
+P	Biéby	bieby	CI		6.079	-3.635	1
+P	Bilohorodka		UA		50.390	30.227	24
+P	Biddeford		US	Maine	43.493	-70.453	9
+P	Bidbid		OM		23.408	58.128	12
+P	Bisālgarh	bisalgarh	IN		23.676	91.283	17
+P	Birkerød	birkerod	DK		55.848	12.428	26
+P	Birmingham		US	Michigan	42.547	-83.211	9
+P	Bijāwar	bijawar	IN		24.624	79.490	17
+P	Binondo		PH		14.603	120.974	18
+P	Biskupin-Sępolno-Dąbie-Bartoszowice	biskupin sepolno dabie bartoszowice	PL		51.108	17.091	26
+P	Bīrpur	birpur	IN		26.508	87.012	17
+P	L'Île-Bizard–Sainte-Geneviève	lile bizard sainte genevieve	CA	Quebec	45.494	-73.896	9
+P	Bikin		RU		46.813	134.250	21
+P	Bieruń	bierun	PL		50.090	19.093	26
+P	Birnin Gaouré	birnin gaoure	NE		13.082	2.911	4
+P	Bilhaur		IN		26.843	80.064	17
+P	Biswanath Chariali		IN		26.726	93.147	17
+P	Bibo		CN		26.531	107.631	18
+P	Bishan		CN		30.771	107.457	18
+P	Bīdestān	bidestan	IR		36.231	50.124	19
+P	Bingley		GB	England	53.849	-1.839	25
+P	Bilgi		IN		16.347	75.618	17
+P	Biddulph		GB	England	53.117	-2.176	25
+P	Bishopstoke		GB	England	50.966	-1.328	25
+P	Bianouan		CI		6.012	-3.190	1
+P	Wijk bij Duurstede		NL		51.974	5.342	26
+P	Bischheim		FR		48.616	7.753	26
+P	Bilthra		IN		26.127	83.891	17
+P	Bicholim		IN		15.593	73.946	17
+P	Bijaipur		IN		26.051	77.371	17
+P	Biggleswade		GB	England	52.087	-0.265	25
+P	Bilohirsk		UA		45.057	34.604	0
+P	Bikou		CN		32.746	105.241	18
+P	Bījāpur	bijapur	IN		18.794	80.816	17
+P	Biliri		NG		9.867	11.226	4
+P	Binyamina-Giv‘at ‘Ada	binyamina givat ada	IL		32.523	34.945	15
+P	Binyamina-Giv'at Ada	binyamina givat ada	IL		32.518	34.954	15
+P	Binika		IN		21.026	83.812	17
+P	Bilopillia		UA		51.147	34.311	24
+P	Bilsanda		IN		28.243	79.951	17
+P	Bituruna		BR		-26.161	-51.553	10
+P	Bin Jawwād	bin jawwad	LY		30.804	18.077	5
+P	Bilicenii Vechi		MD		47.656	28.047	24
+P	Bilderstöckchen	bilderstockchen	DE		50.970	6.930	26
+P	Bijelo Polje		ME		43.038	19.748	26
+P	Ấp Bình Châu	ap binh chau	VN		10.550	107.550	14
+P	São Martinho do Bispo	sao martinho do bispo	PT		40.210	-8.457	25
+P	Bigadiç	bigadic	TR		39.392	28.131	0
+P	Biritinga		BR		-11.617	-38.800	10

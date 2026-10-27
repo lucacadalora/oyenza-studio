@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Aqtau	300	
+Z	1	Asia/Baku	240	
+C	AZ	Azerbaijan	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	TM	Turkmenistan	mwl	h
+B	0
+P	Aktau		KZ		43.661	51.174	0
+P	Zhanaozen		KZ		43.341	52.862	0
+P	Türkmenbaşy	turkmenbasy	TM		40.022	52.955	0
+P	Maştağa	mastaga	AZ		40.530	50.006	1
+P	Hövsan	hovsan	AZ		40.374	50.085	1
+P	Mangistau		KZ		43.691	51.322	0
+P	Buzovna		AZ		40.519	50.114	1
+P	Biny Selo		AZ		40.451	50.087	1
+P	Yeni Suraxanı	yeni suraxani	AZ		40.430	50.036	1
+P	Mardakan		AZ		40.492	50.143	1

@@ -6,10 +6,12 @@
 //! the idle look as pickers, five switches, and Hide or Stay on top in
 //! full-screen apps.
 //! A change saves at once and applies the way the tray's does
-//! (`Command::SaveSettings`). While a later version is out, a last row
-//! across the page says so, with Update: that opens the Update sheet, which
-//! takes the rows' place (as the island's notice and the menu's "Update to"
-//! line do) until the island closes or Settings does.
+//! (`Command::SaveSettings`). Beside "Tell me about new versions", Check now
+//! reads the update file at once and says what it found in its place. While
+//! a later version is out, a last row across the page says so, with Update:
+//! that opens the Update sheet, which takes the rows' place (as the island's
+//! notice and the menu's "Update to" line do) until the island closes or
+//! Settings does.
 
 use crate::activities::{text_with_dim, text_with_dim_width};
 use crate::commands::{Command, OyenzaCmd};
@@ -17,8 +19,8 @@ use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::pages::PageKind;
 use crate::pill::status;
-use crate::state::{AppState, OyenzaLink};
-use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
+use crate::state::{AppState, OyenzaLink, Said};
+use crate::ui::{wid, wid_n, CursorKind, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::oyenza;
 use poni_core::phonedrop::fmt_bytes;
@@ -58,6 +60,11 @@ const STACK_GAP: f32 = 16.0;
 /// The full-screen choice's picker, inside its row.
 const ROW_PICKER_H: f32 = 24.0;
 const SWITCH_W: f32 = 30.0;
+/// Check now (or its answer): the room around its words, and from the switch.
+const CHECK_PAD: f32 = 5.0;
+const CHECK_GAP: f32 = 7.0;
+/// Its hover wash, inside the row's.
+const CHECK_H: f32 = 22.0;
 const SWITCH_H: f32 = 18.0;
 const KNOB_INSET: f32 = 2.0;
 /// Oyenza's colour, as on the Oyenza page.
@@ -195,8 +202,12 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                     let label = if cfg!(target_os = "macos") && sw == Switch::Autostart { "Start at login" } else { label };
                     let on = switch_on(st, sw);
                     let id = wid_n("settings.switch", (c * ROWS + r) as u64);
-                    if switch_row_on(ui, id, row, label, on, accent, card) {
+                    let check = if sw == Switch::Updates { check_slot(ui, st, row) } else { None };
+                    if switch_row_on(ui, id, row, label, on, accent, card, check) {
                         flip(st, sw, on);
+                    }
+                    if let Some(b) = check {
+                        draw_check(ui, st, b);
                     }
                 }
                 Row::Fullscreen => {
@@ -212,6 +223,64 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     if let Some(rel) = st.update.offer.clone() {
         draw_offer(ui, st, Rect::new(area.x, area.y + HEIGHT, area.w, ROW_H), &rel);
     }
+}
+
+/// Where Check now goes in the new versions' row, left of the switch: while
+/// this copy looks for new versions itself, the checks are on and none is
+/// offered (then the last row has Update). Words with a wash on hover, not
+/// a pill: a pill doesn't fit beside the label at the island's usual width.
+fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
+    if !st.update.looks || !st.settings.update_check || st.update.offer.is_some() {
+        return None;
+    }
+    let (text, _) = check_look(st.update.said, st.accent);
+    // Checking… and Up to date are words only: no room for a wash, so they
+    // take less of the label's, ending where Check now's words end.
+    let pad = if answered(st.update.said) { 0.0 } else { CHECK_PAD };
+    let w = (ui.c.measure(text, &check_text(), 300.0).0 + 2.0 * pad).ceil();
+    let right = row.right() - SWITCH_W - CHECK_GAP - (CHECK_PAD - pad);
+    Some(Rect::new(right - w, row.center().y - CHECK_H / 2.0, w, CHECK_H))
+}
+
+/// Check now said something that isn't a button: checking, or up to date.
+fn answered(said: Option<Said>) -> bool {
+    matches!(said, Some(Said::Checking | Said::UpToDate))
+}
+
+/// Check now, or what it found: checking, up to date, or (it couldn't
+/// look) Try again, which looks again.
+fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
+    let said = st.update.said;
+    let (text, color) = check_look(said, st.accent);
+    if answered(said) {
+        // Words only, but a click on them doesn't reach the row's switch.
+        ui.interact(wid("settings.check"), b, CursorKind::Arrow);
+        ui.c.text(text, b, &check_text().color(color).right());
+        return;
+    }
+    let resp = ui.button(wid("settings.check"), b);
+    if resp.hovered || resp.pressed {
+        ui.c.fill_rrect(b, b.h / 2.0, Color::white(if resp.pressed { 0.14 } else { 0.08 }));
+    }
+    ui.c.text(text, b, &check_text().color(color).center());
+    if resp.clicked {
+        st.update.said = Some(Said::Checking);
+        st.cmd(Command::CheckForUpdates);
+    }
+}
+
+/// Check now's words and colour for what it has said so far.
+fn check_look(said: Option<Said>, accent: Color) -> (&'static str, Color) {
+    match said {
+        None => ("Check now", accent),
+        Some(Said::Checking) => ("Checking…", palette::TEXT_DIM),
+        Some(Said::UpToDate) => ("Up to date", palette::GREEN),
+        Some(Said::Failed) => ("Try again", palette::ORANGE),
+    }
+}
+
+fn check_text() -> TextStyle {
+    TextStyle::footnote().weight(Weight::Semibold)
 }
 
 /// The last row while a later version is out, across the page: "Update
@@ -518,19 +587,24 @@ pub(crate) fn picker_width(ui: &mut Ui, names: &[&str]) -> f32 {
 /// `None` = not known yet: drawn off and dimmed, and it doesn't click.
 /// Returns true when clicked.
 pub(crate) fn switch_row(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color) -> bool {
-    switch_row_on(ui, id, r, label, on, accent, None)
+    switch_row_on(ui, id, r, label, on, accent, None, None)
 }
 
 /// [`switch_row`] on the open card (`card` from `card::pill_card`): in
 /// Pill, a bottom row's hover wash follows the card's rounder corners.
-fn switch_row_on(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color, card: Option<(Rect, f32)>) -> bool {
+/// `inner`: a button of its own left of the switch (drawn after, so it takes
+/// its clicks), where the label stops and the row doesn't light up.
+#[allow(clippy::too_many_arguments)]
+fn switch_row_on(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color, card: Option<(Rect, f32)>, inner: Option<Rect>) -> bool {
     let hit = Rect::new(r.x - ROW_BLEED, r.y, r.w + 2.0 * ROW_BLEED, r.h);
     let resp = if on.is_some() { ui.button(id, hit) } else { Default::default() };
-    if resp.hovered || resp.pressed {
+    let over_inner = inner.is_some_and(|b| ui.hovered(b));
+    if (resp.hovered && !over_inner) || resp.pressed {
         super::card::fill_box(ui, card, hit.inset(0.0, 1.0), 8.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let sw = Rect::new(r.right() - SWITCH_W, r.center().y - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
-    ui.c.text(label, Rect::new(r.x, r.y, (sw.x - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
+    let text_right = inner.map_or(sw.x, |b| b.x);
+    ui.c.text(label, Rect::new(r.x, r.y, (text_right - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
     let alpha = if on.is_some() { 1.0 } else { 0.5 };
     ui.c.with_alpha(alpha, |c| draw_switch(c, sw, on == Some(true), accent));
     resp.clicked

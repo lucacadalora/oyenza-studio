@@ -82,6 +82,10 @@ pub enum Icon {
     Download,
     /// Record (Oyenza Studio Recorder): a dot that fits inside `Circle`.
     Record,
+    /// The Stocks tab: a line climbing to the right, its arrowhead at the end.
+    Stocks,
+    /// A magnifying glass: the Stocks page's search.
+    Search,
     /// The Record tab: a ring with the record dot inside.
     Recorder,
     /// The Record page's targets: a display, an app window, a dragged-out area.
@@ -288,6 +292,8 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Camera => p![s("M4 7h9.5A1.5 1.5 0 0 1 15 8.5v7a1.5 1.5 0 0 1-1.5 1.5H4a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 4 7z"), s("M15 10.5l5-3v9l-5-3")],
         Mic => p![s("M9 6a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"), s("M5.5 11a6.5 6.5 0 0 0 13 0"), s("M12 17.5V21")],
         Download => p![s("M12 4v10.5"), s("M7.5 10L12 14.5 16.5 10"), s("M4.5 16v2.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V16")],
+        Stocks => p![s("M3.5 17.5l5.5-5.5 4 4 7.5-7.5"), s("M15 8.5h5.5V14")],
+        Search => p![s("M4.5 10.5a6 6 0 1 0 12 0a6 6 0 1 0-12 0"), s("M15 15l4.5 4.5")],
     }
 }
 
@@ -304,6 +310,7 @@ mod tests {
         Icon::Sliders, Icon::Open, Icon::Phone, Icon::Eye, Icon::MoneyIn, Icon::MoneyOut, Icon::Transfer, Icon::Card, Icon::Wallet,
         Icon::Unlink, Icon::Gear,
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
+        Icon::Stocks, Icon::Search,
         Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic,
     ];
 

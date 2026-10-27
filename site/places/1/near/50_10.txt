@@ -1,0 +1,373 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	PL	Poland	mwl	s
+B	2
+P	Berlin		DE		52.524	13.411	0
+P	Prague		CZ		50.088	14.421	0
+P	Dresden		DE		51.051	13.738	0
+P	Leipzig		DE		51.340	12.371	0
+P	Wandsbek		DE		53.583	10.083	0
+P	Szczecin		PL		53.429	14.553	0
+P	Hamburg-Mitte	hamburg mitte	DE		53.550	10.017	0
+P	Marienthal		DE		53.567	10.083	0
+P	Kiel		DE		54.321	10.135	0
+P	Chemnitz		DE		50.836	12.929	0
+P	Braunschweig		DE		52.266	10.527	0
+P	Magdeburg		DE		52.131	11.632	0
+P	Halle (Saale)	halle saale	DE		51.482	11.979	0
+P	Neue Neustadt		DE		52.150	11.633	0
+P	Erfurt		DE		50.977	11.035	0
+P	Lübeck	lubeck	DE		53.869	10.687	0
+P	Rostock		DE		54.089	12.140	0
+P	Potsdam		DE		52.399	13.066	0
+P	Neukölln	neukolln	DE		52.477	13.431	0
+P	Kreuzberg		DE		52.500	13.403	0
+P	Prenzlauer Berg		DE		52.539	13.424	0
+P	Charlottenburg		DE		52.517	13.283	0
+P	Wolfsburg		DE		52.425	10.781	0
+P	Schöneberg	schoneberg	DE		52.498	13.344	0
+P	Bergedorf		DE		53.485	10.229	0
+P	Friedrichshain		DE		52.516	13.455	0
+P	Marzahn		DE		52.545	13.570	0
+P	Salzgitter		DE		52.157	10.415	0
+P	Jena		DE		50.929	11.590	0
+P	Gera		DE		50.880	12.082	0
+P	Mitte		DE		52.520	13.405	0
+P	Wilmersdorf		DE		52.483	13.317	0
+P	Zwickau		DE		50.727	12.488	0
+P	Schwerin		DE		53.629	11.413	0
+P	Gesundbrunnen		DE		52.550	13.391	0
+P	Rahlstedt		DE		53.602	10.157	0
+P	Ústí nad Labem	usti nad labem	CZ		50.661	14.032	0
+P	Lichterfelde		DE		52.433	13.308	0
+P	Wedding		DE		52.547	13.356	0
+P	Cottbus		DE		51.758	14.329	0
+P	Hellersdorf		DE		52.533	13.609	0
+P	Reinickendorf		DE		52.564	13.336	0
+P	Moabit		DE		52.526	13.339	0
+P	Steglitz		DE		52.456	13.332	0
+P	Lüneburg	luneburg	DE		53.251	10.415	0
+P	Billstedt		DE		53.550	10.133	0
+P	Celle		DE		52.623	10.080	0
+P	Kladno		CZ		50.147	14.103	0
+P	Neubrandenburg		DE		53.557	13.261	0
+P	Dessau		DE		51.839	12.246	0
+P	Köpenick	kopenick	DE		52.446	13.575	0
+P	Plauen		DE		50.497	12.138	0
+P	Pankow		DE		52.569	13.402	0
+P	Weimar		DE		50.980	11.329	0
+P	Most		CZ		50.503	13.636	0
+P	Tempelhof		DE		52.467	13.400	0
+P	Stodůlky	stodulky	CZ		50.050	14.317	0
+P	Brandenburg an der Havel		DE		52.417	12.550	0
+P	Berlin Köpenick	berlin kopenick	DE		52.443	13.582	0
+P	Stralsund		DE		54.309	13.082	0
+P	Žižkov	zizkov	CZ		50.083	14.450	0
+P	Görlitz	gorlitz	DE		51.155	14.989	0
+P	Frankfurt (Oder)	frankfurt oder	DE		52.347	14.551	0
+P	Neu-Hohenschönhausen	neu hohenschonhausen	DE		52.567	13.513	0
+P	Winterhude		DE		53.594	10.011	0
+P	Friedrichsfelde		DE		52.506	13.508	0
+P	Wolfenbüttel	wolfenbuttel	DE		52.164	10.541	0
+P	Zehlendorf		DE		52.433	13.250	0
+P	Schweinfurt		DE		50.049	10.222	0
+P	Wilhelmsburg		DE		53.493	10.014	0
+P	Mariendorf		DE		52.438	13.381	0
+P	Universitäts- und Hansestadt Greifswald	universitats und hansestadt greifswald	DE		54.089	13.402	0
+P	Lichtenrade		DE		52.398	13.406	0
+P	Teplice		CZ		50.640	13.825	0
+P	Alt-Hohenschönhausen	alt hohenschonhausen	DE		52.546	13.501	0
+P	Chodov		CZ		50.037	14.504	0
+P	Treptow		DE		52.494	13.445	0
+P	Peine		DE		52.319	10.235	0
+P	Hof		DE		50.313	11.913	0
+P	Královské Vinohrady	kralovske vinohrady	CZ		50.074	14.444	0
+P	Weißensee	weissensee	DE		52.556	13.466	0
+P	Chomutov		CZ		50.460	13.418	0
+P	Gotha		DE		50.948	10.702	0
+P	Děčín	decin	CZ		50.782	14.215	0
+P	Staaken		DE		52.537	13.151	0
+P	Langenhorn		DE		53.667	10.017	0
+P	Gohlis		DE		51.366	12.367	0
+P	Karlovy Vary		CZ		50.233	12.871	0
+P	Wismar		DE		53.892	11.456	0
+P	Halle-Neustadt	halle neustadt	DE		51.479	11.916	0
+P	Nordhausen		DE		51.502	10.796	0
+P	Mladá Boleslav	mlada boleslav	CZ		50.411	14.903	0
+P	Freiberg		DE		50.911	13.339	0
+P	Goslar		DE		51.904	10.428	0
+P	Lankwitz		DE		52.436	13.346	0
+P	Suhl		DE		50.609	10.694	0
+P	Gifhorn		DE		52.478	10.551	0
+P	Britz		DE		52.443	13.434	0
+P	Rudow		DE		52.424	13.485	0
+P	Eberswalde		DE		52.835	13.820	0
+P	Bautzen		DE		51.180	14.435	0
+P	Coburg		DE		50.259	10.964	0
+P	Lichtenberg		DE		52.514	13.500	0
+P	Westend		DE		52.517	13.276	0
+P	Świnoujście	swinoujscie	PL		53.911	14.247	0
+P	Oranienburg		DE		52.748	13.252	0
+P	Eisenach		DE		50.981	10.315	0
+P	Wilhelmstadt		DE		52.524	13.189	0
+P	Pirna		DE		50.958	13.937	0
+P	Barmbek-Nord	barmbek nord	DE		53.605	10.040	0
+P	Buckow		DE		52.422	13.436	0
+P	Märkisches Viertel	markisches viertel	DE		52.598	13.358	0
+P	Halberstadt		DE		51.896	11.056	0
+P	Spandau		DE		52.551	13.199	0
+P	Freital		DE		51.002	13.649	0
+P	Ilmenau		DE		50.683	10.919	0
+P	Falkenhagener Feld		DE		52.552	13.168	0
+P	Altenburg		DE		50.988	12.437	0
+P	Leuben		DE		51.011	13.820	0
+P	Mühlhausen	muhlhausen	DE		51.209	10.453	0
+P	Hamm		DE		53.555	10.057	0
+P	Weißenfels	weissenfels	DE		51.201	11.968	0
+P	Horn		DE		53.554	10.090	0
+P	Stendal		DE		52.606	11.861	0
+P	Gropiusstadt		DE		52.427	13.461	0
+P	Staré Strašnice	stare strasnice	CZ		50.076	14.510	0
+P	Holešovice	holesovice	CZ		50.105	14.449	0
+P	Falkensee		DE		52.560	13.093	0
+P	Vršovice	vrsovice	CZ		50.067	14.460	0
+P	Česká Lípa	ceska lipa	CZ		50.686	14.538	0
+P	Tegel		DE		52.576	13.294	0
+P	Bitterfeld-Wolfen	bitterfeld wolfen	DE		51.624	12.324	0
+P	Libeň	liben	CZ		50.108	14.475	0
+P	Barmbek-Süd	barmbek sud	DE		53.580	10.041	0
+P	Farmsen-Berne	farmsen berne	DE		53.606	10.120	0
+P	Záběhlice	zabehlice	CZ		50.057	14.504	0
+P	Nusle		CZ		50.065	14.440	0
+P	Uelzen		DE		52.964	10.567	0
+P	Smíchov	smichov	CZ		50.072	14.404	0
+P	Bernau bei Berlin		DE		52.680	13.587	0
+P	Merseburg		DE		51.355	11.989	0
+P	Police		PL		53.552	14.572	0
+P	Fennpfuhl		DE		52.529	13.473	0
+P	Schwedt (Oder)	schwedt oder	DE		53.060	14.282	0
+P	Modřany	modrany	CZ		50.011	14.410	0
+P	Fürstenwalde	furstenwalde	DE		52.361	14.062	0
+P	Radebeul		DE		51.107	13.660	0
+P	Cheb		CZ		50.080	12.374	0
+P	Winsen		DE		53.358	10.212	0
+P	Königs Wusterhausen	konigs wusterhausen	DE		52.301	13.633	0
+P	Marienfelde		DE		52.419	13.367	0
+P	Wernigerode		DE		51.837	10.782	0
+P	Bernburg		DE		51.795	11.740	0
+P	Eisenhüttenstadt	eisenhuttenstadt	DE		52.150	14.650	0
+P	Niederschönhausen	niederschonhausen	DE		52.585	13.403	0
+P	Neuruppin		DE		52.928	12.803	0
+P	Hakenfelde		DE		52.559	13.208	0
+P	Güstrow	gustrow	DE		53.797	12.173	0
+P	Burgdorf		DE		52.446	10.006	0
+P	Northeim		DE		51.707	10.000	0
+P	Hoyerswerda		DE		51.438	14.235	0
+P	Schönebeck	schonebeck	DE		52.017	11.731	0
+P	Ahrensburg		DE		53.677	10.237	0
+P	Wittenberg		DE		51.866	12.650	0
+P	Mahlsdorf		DE		52.509	13.614	0
+P	Naumburg		DE		51.150	11.810	0
+P	Altglienicke		DE		52.411	13.536	0
+P	Geesthacht		DE		53.437	10.373	0
+P	Riesa		DE		51.308	13.292	0
+P	Blankenfelde-Mahlow	blankenfelde mahlow	DE		52.336	13.413	0
+P	Senftenberg		DE		51.525	14.002	0
+P	Biesdorf		DE		52.509	13.553	0
+P	Köthen	kothen	DE		51.752	11.971	0
+P	Meissen		DE		51.162	13.474	0
+P	Zeitz		DE		51.050	12.137	0
+P	Karlshorst		DE		52.484	13.532	0
+P	Saalfeld		DE		50.648	11.365	0
+P	Friedenau		DE		52.471	13.328	0
+P	Kulmbach		DE		50.101	11.450	0
+P	Grimma		DE		51.234	12.720	0
+P	Krč	krc	CZ		50.042	14.446	0
+P	Rathenow		DE		52.607	12.337	0
+P	Nové Město	nove mesto	CZ		50.078	14.421	0
+P	Kobylisy		CZ		50.124	14.452	0
+P	Strausberg		DE		52.579	13.887	0
+P	Hennigsdorf		DE		52.636	13.204	0
+P	Delitzsch		DE		51.525	12.343	0
+P	Rummelsburg		DE		52.501	13.493	0
+P	Arnstadt		DE		50.840	10.952	0
+P	Aschersleben		DE		51.757	11.461	0
+P	Helmstedt		DE		52.228	11.010	0
+P	Markkleeberg		DE		51.276	12.369	0
+P	Zittau		DE		50.898	14.808	0
+P	Reinbek		DE		53.518	10.249	0
+P	Wolfen		DE		51.661	12.269	0
+P	Burg bei Magdeburg		DE		52.272	11.855	0
+P	Blasewitz		DE		51.053	13.798	0
+P	Rudolstadt		DE		50.720	11.340	0
+P	Apolda		DE		51.026	11.516	0
+P	Wittenau		DE		52.593	13.321	0
+P	Litoměřice	litomerice	CZ		50.533	14.132	0
+P	Bad Oldesloe		DE		53.812	10.374	0
+P	Ludwigsfelde		DE		52.303	13.254	0
+P	Greiz		DE		50.658	12.199	0
+P	Poppenbüttel	poppenbuttel	DE		53.659	10.085	0
+P	Sonneberg		DE		50.359	11.175	0
+P	Döbeln	dobeln	DE		51.122	13.110	0
+P	Limbach-Oberfrohna	limbach oberfrohna	DE		50.859	12.762	0
+P	Oberschöneweide	oberschoneweide	DE		52.461	13.521	0
+P	Hlubočepy	hlubocepy	CZ		50.044	14.402	0
+P	Dejvice		CZ		50.101	14.391	0
+P	Sangerhausen		DE		51.472	11.295	0
+P	Staßfurt	stassfurt	DE		51.852	11.585	0
+P	Quedlinburg		DE		51.788	11.150	0
+P	Sasel		DE		53.654	10.112	0
+P	Annaberg-Buchholz	annaberg buchholz	DE		50.580	13.006	0
+P	Bad Harzburg		DE		51.883	10.562	0
+P	Duderstadt		DE		51.513	10.260	0
+P	Forst		DE		51.735	14.640	0
+P	Schmargendorf		DE		52.475	13.291	0
+P	Drzetowo-Grabowo	drzetowo grabowo	PL		53.449	14.579	0
+P	Reichenbach/Vogtland	reichenbach vogtland	DE		50.623	12.303	0
+P	Goleniów	goleniow	PL		53.564	14.829	0
+P	Eisleben Lutherstadt		DE		51.528	11.548	0
+P	Černý Most	cerny most	CZ		50.105	14.580	0
+P	Řepy	repy	CZ		50.071	14.301	0
+P	Litvínov	litvinov	CZ		50.604	13.618	0
+P	Werder		DE		52.379	12.934	0
+P	Coswig		DE		51.132	13.583	0
+P	Neustrelitz		DE		53.360	13.073	0
+P	Eilbek		DE		53.568	10.047	0
+P	Háje	haje	CZ		50.036	14.527	0
+P	Sokolov		CZ		50.181	12.640	0
+P	Seesen		DE		51.891	10.178	0
+P	Hohen Neuendorf		DE		52.677	13.279	0
+P	Sondershausen		DE		51.370	10.870	0
+P	Letňany	letnany	CZ		50.133	14.517	0
+P	Luckenwalde		DE		52.090	13.168	0
+P	Guben		DE		51.950	14.706	0
+P	Gorbitz		DE		51.045	13.661	0
+P	Meiningen		DE		50.568	10.415	0
+P	Lusan		DE		50.844	12.065	0
+P	Waren		DE		53.520	12.681	0
+P	Französisch Buchholz	franzosisch buchholz	DE		52.602	13.430	0
+P	Glauchau		DE		50.820	12.545	0
+P	Michle		CZ		50.048	14.462	0
+P	Auerbach		DE		50.512	12.401	0
+P	Lichtenfels		DE		50.146	11.059	0
+P	Bad Kissingen		DE		50.202	10.078	0
+P	Gryfino		PL		53.252	14.488	0
+P	Löbtau	lobtau	DE		51.044	13.694	0
+P	Eschwege		DE		51.184	10.053	0
+P	Zerbst		DE		51.966	12.085	0
+P	Klotzsche		DE		51.111	13.769	0
+P	Hansestadt Salzwedel		DE		52.853	11.153	0
+P	Prenzlau		DE		53.317	13.864	0
+P	Sömmerda	sommerda	DE		51.159	11.115	0
+P	Loschwitz		DE		51.054	13.814	0
+P	Volksdorf		DE		53.650	10.184	0
+P	Werdau		DE		50.736	12.375	0
+P	Brandýs nad Labem-Stará Boleslav	brandys nad labem stara boleslav	CZ		50.187	14.663	0
+P	Haldensleben I		DE		52.289	11.410	0
+P	Adlershof		DE		52.435	13.548	0
+P	Wittenberge		DE		53.000	11.749	0
+P	Nykøbing Falster	nykobing falster	DK		54.769	11.874	0
+P	Johannisthal		DE		52.447	13.507	0
+P	Wandlitz		DE		52.742	13.458	0
+P	Bad Schwartau		DE		53.919	10.697	0
+P	Schmalkalden		DE		50.721	10.444	0
+P	Kröpeliner-Tor-Vorstadt	kropeliner tor vorstadt	DE		54.088	12.115	0
+P	Teltow		DE		52.403	13.260	0
+P	Charlottenburg-Nord	charlottenburg nord	DE		52.530	13.294	0
+P	Kaulsdorf		DE		52.517	13.589	0
+P	Steilshoop		DE		53.610	10.059	0
+P	Jirkov		CZ		50.500	13.448	0
+P	Mělník	melnik	CZ		50.350	14.474	0
+P	Parchim		DE		53.426	11.849	0
+P	Hostivař	hostivar	CZ		50.049	14.524	0
+P	Friedrichshagen		DE		52.451	13.625	0
+P	Lauchhammer		DE		51.488	13.766	0
+P	Žatec	zatec	CZ		50.327	13.546	0
+P	Finsterwalde		DE		51.634	13.707	0
+P	Baumschulenweg		DE		52.466	13.485	0
+P	Oschersleben		DE		52.030	11.229	0
+P	Karow		DE		52.609	13.481	0
+P	Borna		DE		51.124	12.496	0
+P	Kadaň	kadan	CZ		50.383	13.267	0
+P	Torgau		DE		51.560	12.996	0
+P	Radeberg		DE		51.111	13.912	0
+P	Aue		DE		50.590	12.707	0
+P	Schkeuditz		DE		51.397	12.221	0
+P	Mölln	molln	DE		53.621	10.687	0
+P	Löbau	lobau	DE		51.100	14.667	0
+P	Crimmitschau		DE		50.816	12.390	0
+P	Kronach		DE		50.240	11.333	0
+P	Marktredwitz		DE		50.004	12.086	0
+P	Großenhain	grossenhain	DE		51.290	13.534	0
+P	Heiligensee		DE		52.614	13.245	0
+P	Äußere Neustadt	aussere neustadt	DE		51.069	13.756	0
+P	Louny		CZ		50.357	13.797	0
+P	Kleinmachnow		DE		52.408	13.225	0
+P	Kostrzyn nad Odrą	kostrzyn nad odra	PL		52.587	14.650	0
+P	Braník	branik	CZ		50.035	14.415	0
+P	Munster		DE		52.985	10.090	0
+P	Templin		DE		53.119	13.502	0
+P	Słubice	slubice	PL		52.351	14.561	0
+P	Vysočany	vysocany	CZ		50.109	14.517	0
+P	Kralupy nad Vltavou		CZ		50.241	14.311	0
+P	Hummelsbüttel	hummelsbuttel	DE		53.648	10.041	0
+P	Wittstock		DE		53.161	12.483	0
+P	Meerane		DE		50.847	12.465	0
+P	Heilbad Heiligenstadt		DE		51.378	10.137	0
+P	Zossen		DE		52.216	13.449	0
+P	Selb		DE		50.171	12.131	0
+P	Elmschenhagen		DE		54.289	10.190	0
+P	Dulsberg		DE		53.584	10.064	0
+P	Eutin		DE		54.135	10.611	0
+P	Kamenz		DE		51.268	14.094	0
+P	Dahlem		DE		52.458	13.287	0
+P	Prosek		CZ		50.115	14.507	0
+P	Schneeberg		DE		50.595	12.641	0
+P	Hermsdorf		DE		52.614	13.306	0
+P	Bad Langensalza		DE		51.108	10.646	0
+P	Marienberg		DE		50.651	13.161	0
+P	Frohnau		DE		52.633	13.290	0
+P	Heidenau		DE		50.972	13.867	0
+P	Gubin		PL		51.950	14.728	0
+P	Mittweida		DE		50.986	12.975	0
+P	Nauen		DE		52.607	12.874	0
+P	Stockelsdorf		DE		53.892	10.647	0
+P	Hohenstein-Ernstthal	hohenstein ernstthal	DE		50.801	12.713	0
+P	Eilenburg		DE		51.460	12.633	0
+P	Haselhorst		DE		52.544	13.237	0
+P	Bogatynia		PL		50.907	14.956	0
+P	Bohnice		CZ		50.133	14.417	0
+P	Neratovice		CZ		50.259	14.518	0
+P	Königslutter am Elm	konigslutter am elm	DE		52.251	10.817	0
+P	Bad Salzungen		DE		50.813	10.236	0
+P	Kladow		DE		52.454	13.144	0
+P	Vechelde		DE		52.260	10.365	0
+P	Glinde		DE		53.540	10.213	0
+P	Neuenhagen		DE		52.530	13.689	0
+P	Košíře	kosire	CZ		50.067	14.363	0
+P	Bad Segeberg		DE		53.938	10.307	0
+P	Świerczewo	swierczewo	PL		53.427	14.513	0
+P	Oschatz		DE		51.300	13.110	0
+P	Blankenburg		DE		51.790	10.955	0
+P	Hettstedt		DE		51.650	11.511	0
+P	Neustadt in Holstein		DE		54.107	10.815	0
+P	Ratekau		DE		53.946	10.731	0
+P	Lubnjow		DE		51.862	13.952	0
+P	Preetz		DE		54.236	10.279	0
+P	Střížkov	strizkov	CZ		50.127	14.494	0
+P	Rakovník	rakovnik	CZ		50.104	13.733	0
+P	Ostrov		CZ		50.306	12.939	0
+P	Zeulenroda-Triebes	zeulenroda triebes	DE		50.650	11.984	0
+P	Schwarzenberg		DE		50.538	12.785	0
+P	Angermünde	angermunde	DE		53.015	13.999	0
+P	Bad Neustadt an der Saale		DE		50.322	10.207	0
+P	Clausthal-Zellerfeld	clausthal zellerfeld	DE		51.809	10.338	0
+P	Ribnitz-Damgarten	ribnitz damgarten	DE		54.242	12.457	0
+P	Horní Měcholupy	horni mecholupy	CZ		50.050	14.567	0
+P	Wurzen		DE		51.371	12.739	0
+P	Alsterdorf		DE		53.611	10.013	0
+P	Slaný	slany	CZ		50.230	14.087	0
+P	Weißwasser	weisswasser	DE		51.504	14.640	0

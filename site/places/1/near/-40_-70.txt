@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Salta	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	Neuquén	neuquen	AR		-38.951	-68.059	0
+P	Cipolletti		AR		-38.934	-67.990	0
+P	General Roca		AR		-39.033	-67.583	0
+P	Plottier		AR		-38.967	-68.233	0
+P	Centenario		AR		-38.830	-68.132	0
+P	Cutral-Có	cutral co	AR		-38.934	-69.231	0
+P	Villa Regina		AR		-39.096	-67.084	0
+P	Allen		AR		-38.977	-67.827	0
+P	Malargüe	malargue	AR		-35.478	-69.585	0
+P	Cinco Saltos		AR		-38.822	-68.063	0
+P	Catriel		AR		-37.876	-67.795	0

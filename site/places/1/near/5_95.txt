@@ -1,0 +1,33 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Kuala_Lumpur	480	
+Z	2	Asia/Yangon	390	
+C	MM	Myanmar	mwl	s
+C	MY	Malaysia	singapore	s
+C	TH	Thailand	mwl	s
+B	0
+P	Surat Thani		TH		9.140	99.333	0
+P	Nakhon Si Thammarat		TH		8.433	99.967	0
+P	Phuket		TH		7.891	98.398	0
+P	Ban Ko Sire		TH		7.887	98.426	0
+P	Trang		TH		7.556	99.611	0
+P	Kawthoung		MM		9.982	98.550	2
+P	Ban Talat Yai		TH		7.885	98.400	0
+P	Ko Samui		TH		9.536	99.936	0
+P	Takua Pa		TH		8.870	98.344	0
+P	Wichit		TH		7.889	98.385	0
+P	Kathu		TH		7.918	98.333	0
+P	Ban Ratsada		TH		7.910	98.402	0
+P	Krabi		TH		8.073	98.911	0
+P	Kuah		MY		6.326	99.843	1
+P	Thung Song		TH		8.165	99.680	0
+P	Ron Phibun		TH		8.179	99.854	0
+P	Tha Kham		TH		9.111	99.232	0
+P	Ranong		TH		9.966	98.635	0
+P	Ban Talat Nua		TH		7.885	98.386	0
+P	Ban Kamala		TH		7.955	98.283	0
+P	Ban Na San		TH		8.800	99.364	0
+P	Kampung Baru Ulu Melaka		MY		6.352	99.788	1
+P	Ban Chalong		TH		7.845	98.339	0
+P	Huai Yot		TH		7.789	99.635	0
+P	Lang Suan		TH		9.946	99.078	0

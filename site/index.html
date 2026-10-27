@@ -347,6 +347,7 @@ main { container-type: inline-size; }
 .ruby i { font: 600 clamp(12px, 1.2vw, 14px)/1 var(--font-text); font-style: normal; color: var(--new); letter-spacing: 0; }
 
 .bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.tile.wide { grid-column: 1 / -1; }
 .tile { position: relative; border-radius: var(--r); background: var(--bg); overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
 .tile-text { padding: 36px 36px 22px; display: grid; grid-template-columns: minmax(0, 1fr) 76px; gap: 16px; align-items: start; }
 .tile-text .t-tile { margin-top: 8px; }
@@ -588,6 +589,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <symbol id="i-clip" viewBox="0 0 24 24"><rect x="8" y="2.5" width="8" height="4" rx="1"/><path d="M16 4.5h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2h2"/></symbol>
   <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></symbol>
   <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.8 18.5a9.5 9.5 0 1 1 16.4 0"/></symbol>
+  <symbol id="i-stocks" viewBox="0 0 24 24"><path d="M3.5 17.5l5.5-5.5 4 4 7.5-7.5"/><path d="M15 8.5h5.5V14"/></symbol>
   <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18.5h2"/></symbol>
   <symbol id="i-waves" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M8 8a5.6 5.6 0 0 0 0 8M16 8a5.6 5.6 0 0 1 0 8M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/></symbol>
@@ -632,7 +634,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Overview</p>
       <a class="side-item" href="#top" data-k="home start download hero notch island"><i class="ic" style="--c:#1d1d1f"><svg class="ico"><use href="#i-screen"/></svg></i><span>A living notch</span></a>
-      <a class="side-item" href="#new" data-k="new release 0.2.8 latest changes today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.8</span></a>
+      <a class="side-item" href="#new" data-k="new release 0.2.12 latest changes stocks prices fixed getting prices mac updates install in place ihsg idx saham watchlist chart oyenza.trade today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.11</span></a>
       <a class="side-item" href="#highlights" data-k="best gallery overview"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-spark"/></svg></i><span>Highlights</span></a>
       <a class="side-item" href="#features" data-k="rest idle music timer volume charging headphones bluetooth money clock eyes prayer countdown"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-island"/></svg></i><span>While it rests</span></a>
     </div>
@@ -641,12 +643,11 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#music" data-k="music lyrics spotify apple youtube lrclib songs"><i class="ic" style="--c:#ff2d55"><svg class="ico"><use href="#i-music"/></svg></i><span>Music and lyrics</span></a>
       <a class="side-item" href="#read-along" data-k="korean japanese chinese romaji pinyin pronunciation reading kanji"><i class="ic" style="--c:#af52de"><svg class="ico"><use href="#i-lang"/></svg></i><span>Read along</span></a>
       <a class="side-item" href="#focus" data-k="pomodoro timer focus"><i class="ic" style="--c:#5856d6"><svg class="ico"><use href="#i-timer"/></svg></i><span>Focus</span></a>
-      <a class="side-item" href="#health" data-k="steps health apple health connect"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-steps"/></svg></i><span>Health</span></a>
+      <a class="side-item" href="#health" data-k="steps health apple health connect add-on"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-steps"/></svg></i><span>Health</span></a>
       <a class="side-item" href="#shelf" data-k="files shelf drag drop"><i class="ic" style="--c:#007aff"><svg class="ico"><use href="#i-tray"/></svg></i><span>Shelf</span></a>
       <a class="side-item" href="#tasks" data-k="todo to-do tasks list"><i class="ic" style="--c:#ff9500"><svg class="ico"><use href="#i-list"/></svg></i><span>Tasks</span></a>
-      <a class="side-item" href="#clipboard" data-k="clipboard copy paste history password add-on"><i class="ic" style="--c:#8e8e93"><svg class="ico"><use href="#i-clip"/></svg></i><span>Clipboard</span></a>
-      <a class="side-item" href="#today" data-k="today date calendar google calendar gmail meeting join flights bills your day sign in"><i class="ic" style="--c:#ff3b30"><svg class="ico"><use href="#i-cal"/></svg></i><span>Today</span></a>
-      <a class="side-item" href="#system" data-k="system cpu gpu memory ram disk network battery processes stats power psu watts"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-gauge"/></svg></i><span>System</span></a>
+      <a class="side-item" href="#today" data-k="today date calendar google calendar gmail meeting join flights bills your day five weeks week ahead schedule month grid sign in allow turn on"><i class="ic" style="--c:#ff3b30"><svg class="ico"><use href="#i-cal"/></svg></i><span>Today</span></a>
+      <a class="side-item" href="#system" data-k="system cpu gpu memory ram disk network battery processes stats power psu watts add-on"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-gauge"/></svg></i><span>System</span></a>
       <a class="side-item" href="#settings" data-k="settings gear account preferences"><i class="ic" style="--c:#8e8e93"><svg class="ico"><use href="#i-gear"/></svg></i><span>Settings</span></a>
     </div>
     <div class="side-sec">
@@ -654,8 +655,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#phone-drop" data-k="phone drop qr iphone android wifi send files"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-phone"/></svg></i><span>Phone drop</span></a>
       <a class="side-item" href="#paired-phones" data-k="paired phones pair any network mobile data share sheet"><i class="ic" style="--c:#30b0c7"><svg class="ico"><use href="#i-waves"/></svg></i><span>Paired phones</span></a>
       <a class="side-item" href="#prayer" data-k="prayer sholat salat adzan kemenag qibla kiblat jadwal islam"><i class="ic" style="--c:#5e5ce6"><svg class="ico"><use href="#i-moon"/></svg></i><span>Prayer times</span></a>
+      <a class="side-item" href="#stocks" data-k="stocks ihsg idx saham shares watchlist market prices chart oyenza.trade bursa add-on new"><i class="ic" style="--c:#30d158"><svg class="ico"><use href="#i-stocks"/></svg></i><span>Stocks</span><span class="tag">New</span></a>
       <a class="side-item" href="#addons" data-k="add-ons addons download extras plugins"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-addons"/></svg></i><span>Add-ons</span></a>
-      <a class="side-item" href="#script" data-k="script reader teleprompter prompter webcam camera read talk video new"><i class="ic" style="--c:#a2845e"><svg class="ico"><use href="#i-script"/></svg></i><span>Script reader</span><span class="tag">New</span></a>
+      <a class="side-item" href="#script" data-k="script reader teleprompter prompter webcam camera read talk video new"><i class="ic" style="--c:#a2845e"><svg class="ico"><use href="#i-script"/></svg></i><span>Script reader</span></a>
       <a class="side-item" href="#games" data-k="games fps gpu cpu overlay gaming frames readout peeks"><i class="ic" style="--c:#ff375f"><svg class="ico"><use href="#i-game"/></svg></i><span>Show over games</span></a>
       <a class="side-item" href="#on-top" data-k="full screen always on top stay hide maximized windows browser tabs chrome"><i class="ic" style="--c:#32ade6"><svg class="ico"><use href="#i-layers"/></svg></i><span>Stays on top</span></a>
     </div>
@@ -687,7 +689,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     </div>
     <a class="side-me" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">
       <img src="brand/oyen-poni-logo.svg" alt="" width="30" height="30">
-      <span><b>Version <span data-release-copy="version">0.2.1</span></b><small>What's new on GitHub</small></span>
+      <span><b>Version <span data-release-copy="version">0.2.12</span></b><small>What's new on GitHub</small></span>
     </a>
   </div>
 </aside>
@@ -717,8 +719,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <div class="hero-sky" aria-hidden="true"></div>
           <div class="hero-island">
             <div class="hi closed">
-              <img class="look-classic" src="assets/shots/classic/media-activity.webp" srcset="assets/shots/classic/media-activity.webp 1x, assets/shots/zoom/classic/media-activity.webp 2x" alt="The island while music plays: album art and a little equalizer" width="135" height="32">
-              <img class="look-oyen" src="assets/shots/oyen/media-activity.webp" srcset="assets/shots/oyen/media-activity.webp 1x, assets/shots/zoom/oyen/media-activity.webp 2x" alt="The cream island of the Oyen theme: album art, and Oyen swaying as music notes float up" width="135" height="32">
+              <img class="look-classic" src="assets/shots/classic/media-activity.webp" srcset="assets/shots/classic/media-activity.webp 1x, assets/shots/zoom/classic/media-activity.webp 2x" alt="The island while music plays: album art and a little equalizer" width="351" height="32">
+              <img class="look-oyen" src="assets/shots/oyen/media-activity.webp" srcset="assets/shots/oyen/media-activity.webp 1x, assets/shots/zoom/oyen/media-activity.webp 2x" alt="The cream island of the Oyen theme: album art, and Oyen swaying as music notes float up" width="327" height="32">
             </div>
             <div class="hi open">
               <img class="look-classic" src="assets/shots/classic/page-media.webp" alt="The open island: the Music page with synced lyrics" width="660" height="227">
@@ -728,9 +730,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <div class="hero-copy">
             <h1 class="t-hero-eyebrow">Oyenza Studio</h1>
             <p class="t-hero">A living notch.</p>
-            <a class="t-avail" href="#new">New in 0.2.8: Today shows your day from Google Calendar and Gmail, with Join for the meeting on now.</a>
+            <a class="t-avail" href="#new">New in 0.2.12: Stocks fills in the moment you open it, the IHSG and up to 10 IDX stocks on the island.</a>
             <div class="buybox">
-              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">2.5&nbsp;MB</span> · Mac <span data-release="mac-size">3.9&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.8</span></a></span></div>
+              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">2.7&nbsp;MB</span> · Mac <span data-release="mac-size">4.6&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.12</span></a></span></div>
               <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
             </div>
             <a class="link hero-other dl-other" data-release="mac-link" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Mac.dmg">Download for Mac</a>
@@ -749,15 +751,22 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   </section>
 
   <section class="sec band" id="new" aria-labelledby="new-title">
-    <div class="content head rv"><h2 class="t-l" id="new-title">New in 0.2.8.</h2></div>
+    <div class="content head rv"><h2 class="t-l" id="new-title">New in 0.2.12.</h2></div>
     <div class="content news">
-      <a class="news-tile rv" href="#today"><p class="t-card">Your day on Today</p><p class="t-tile">Sign in with Oyenza and switch on Google Calendar or Gmail: the meeting on now with Join, then the rest of your day.</p></a>
-      <a class="news-tile rv" href="#clipboard"><p class="t-card">Clipboard, if you want it</p><p class="t-tile">Clipboard history is now an add-on, off until you switch it on. Off, nothing watches what you copy.</p></a>
+      <a class="news-tile rv" href="#stocks"><p class="t-card">Stocks gets its prices</p><p class="t-tile">The tab asks oyenza.trade as soon as it opens, so the IHSG and your stocks fill in at once. In 0.2.11 it never asked and kept saying Getting prices.</p></a>
+      <a class="news-tile rv" href="#settings"><p class="t-card">Mac updates in place</p><p class="t-tile">A copy in Applications downloads the next version itself. Then Install now, or Install on next start, like on Windows.</p></a>
+      <a class="news-tile rv" href="#stocks"><p class="t-card">Stocks</p><p class="t-tile">The IHSG and up to 10 IDX stocks, with the day's line and a chart over a day, a month or a year. From oyenza.trade, 10 minutes behind IDX.</p></a>
+      <a class="news-tile rv" href="#today"><p class="t-card">Today shows the weeks ahead</p><p class="t-tile">Five weeks at a glance beside your schedule: the meeting on now with Join, then every day that has something. Click a date to jump there.</p></a>
+      <a class="news-tile rv" href="#prayer"><p class="t-card">Prayer times anywhere</p><p class="t-tile">Type any city in the world, or let your location find it.</p></a>
+      <a class="news-tile rv" href="#mac"><p class="t-card">YouTube and Spotify on the Mac</p><p class="t-tile">Music from your browser (YouTube, YouTube Music, Spotify on the web) and every other player on your Mac shows on the island, with lyrics.</p></a>
+      <a class="news-tile rv" href="#mac"><p class="t-card">Pill on a MacBook</p><p class="t-tile">At rest, Pill goes back into the notch. Music, the timer and pop-ups float as the pill below it.</p></a>
+      <a class="news-tile rv" href="#oyenza"><p class="t-card">Oyen is the Oyenza tab</p><p class="t-tile">He waves as the island opens, follows your pointer over the tabs and hops when you click him. Today now sits beside Music.</p></a>
+      <a class="news-tile rv" href="#addons"><p class="t-card">System and Health are add-ons</p><p class="t-tile">Both stay off until you switch them on, so the island does less at rest. Clipboard history is gone.</p></a>
       <a class="news-tile rv" href="#on-top"><p class="t-card">Taps go through</p><p class="t-tile">On a touch screen, taps beside and below the island reach the app under it, as mouse clicks always did.</p></a>
       <a class="news-tile rv" href="#mac"><p class="t-card">Hide and seek</p><p class="t-tile">On a MacBook with a notch, the eyes peek out beside the camera, follow your pointer and duck behind it to cross.</p></a>
       <a class="news-tile rv" href="#on-top"><p class="t-card">The island stays</p><p class="t-tile">Over a maximized window it stays on screen again, in every theme. Want the top edge clear? Idle look › Hidden until hover.</p></a>
       <a class="news-tile rv" href="#settings"><p class="t-card">New versions, told</p><p class="t-tile">The island says when a new version is out. Hide it, or open the Update sheet to see what's new.</p></a>
-      <a class="news-tile rv" href="#settings"><p class="t-card">Install from the island</p><p class="t-tile">On Windows, the new version downloads first. Then Install now, or Install on next start.</p></a>
+      <a class="news-tile rv" href="#settings"><p class="t-card">Install from the island</p><p class="t-tile">On Windows, and on a Mac since 0.2.12, the new version downloads first. Then Install now, or Install on next start.</p></a>
       <a class="news-tile rv" href="#get"><p class="t-card">A Mac installer</p><p class="t-tile">The Mac download opens as a window: drag Oyenza Studio into Applications.</p></a>
       <a class="news-tile rv" href="#health"><p class="t-card">Your steps</p><p class="t-tile">Turn on Show on Oyenza Studio in Oyenza on your phone, and your week's steps show on the Health page.</p></a>
       <a class="news-tile rv" href="#oyenza"><p class="t-card">Oyenza on the Mac</p><p class="t-tile">Sign in on a Mac too: money notices, bills due and your last 7 days, as on Windows.</p></a>
@@ -778,8 +787,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="gcard" href="#script">
         <p>Script reader: a teleprompter under your webcam, a line at a time.</p>
         <div class="gsky"><div class="sky-fill"></div>
-          <img class="look-classic" src="assets/shots/classic/page-script-reading.webp" alt="The Script page reading a script: the line to say bright, the next ones dim, 140 words a minute, and Hidden from screen shares" width="638" height="269" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-script-reading.webp" alt="The Script page reading a script, in the Oyen theme" width="638" height="269" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-script-reading.webp" alt="The Script page reading a script: the line to say bright, the next ones dim, 140 words a minute, and Hidden from screen shares" width="660" height="279" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-script-reading.webp" alt="The Script page reading a script, in the Oyen theme" width="660" height="279" loading="lazy">
         </div>
       </a>
       <a class="gcard" href="#music">
@@ -815,7 +824,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <div class="gsky pad"><img class="whole" src="brand/readme/themes.webp" alt="The Music page in each look: Classic, Oyen, Glass light, Glass dark, Pill, and Pill while a lyric line plays" width="880" height="548" loading="lazy"></div>
       </a>
       <a class="gcard" href="#prayer">
-        <p>Prayer times for your kab/kota, as Kemenag RI publishes them.</p>
+        <p>Prayer times for your kab/kota, or any city in the world.</p>
         <div class="gsky"><div class="sky-fill"></div>
           <img class="look-classic" src="assets/shots/classic/page-prayer.webp" alt="The Prayer page: Ashar at 14:52, counting down from 00:08:00, Kota Jakarta, today's five prayers on an arc with Ashar lit, Imsak, Terbit and the qibla, and Adzan, Tone or Silent" width="660" height="225" loading="lazy">
           <img class="look-oyen" src="assets/shots/oyen/page-prayer.webp" alt="The Prayer page in the Oyen theme" width="660" height="225" loading="lazy">
@@ -856,8 +865,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <div class="rest-stage">
           <div class="sky-fill"></div>
           <figure class="on" data-i="0">
-            <img class="look-classic" style="--w:135" src="assets/shots/classic/media-activity.webp" srcset="assets/shots/classic/media-activity.webp 1x, assets/shots/zoom/classic/media-activity.webp 2x" alt="Album art and an equalizer" width="135" height="32" loading="lazy">
-            <img class="look-oyen" style="--w:135" src="assets/shots/oyen/media-activity.webp" srcset="assets/shots/oyen/media-activity.webp 1x, assets/shots/zoom/oyen/media-activity.webp 2x" alt="Album art, and Oyen swaying as music notes float up" width="135" height="32" loading="lazy">
+            <img class="look-classic" style="--w:135" src="assets/shots/classic/media-activity.webp" srcset="assets/shots/classic/media-activity.webp 1x, assets/shots/zoom/classic/media-activity.webp 2x" alt="Album art and an equalizer" width="351" height="32" loading="lazy">
+            <img class="look-oyen" style="--w:135" src="assets/shots/oyen/media-activity.webp" srcset="assets/shots/oyen/media-activity.webp 1x, assets/shots/zoom/oyen/media-activity.webp 2x" alt="Album art, and Oyen swaying as music notes float up" width="327" height="32" loading="lazy">
           </figure>
           <figure data-i="1">
             <img class="look-classic" style="--w:351" src="assets/shots/classic/media-lyric.webp" srcset="assets/shots/classic/media-lyric.webp 1x, assets/shots/zoom/classic/media-lyric.webp 2x" alt="The closed island singing along: album art, the line being sung and an equalizer" width="351" height="32" loading="lazy">
@@ -903,7 +912,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content head rv">
       <p class="t-label">Music</p>
       <h3 class="t-l" id="music-title">Music, with the words.</h3>
-      <p class="t-intro">Lyrics scroll in time with <b>Spotify, Apple Music, YouTube</b> or any app in Windows' media controls.</p>
+      <p class="t-intro">Lyrics scroll in time with <b>Spotify, Apple Music, YouTube</b> or any app in Windows' media controls or the Mac's Now Playing.</p>
       <button class="more" type="button" data-more="m-music">More about Music<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content">
@@ -946,18 +955,11 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <h2 class="t-l" id="everyday-title">And the rest of your day.</h2>
     </div>
     <div class="content bento">
-      <article class="tile rv" id="focus">
-        <div class="tile-text"><div><h4 class="t-card">Focus</h4><p class="t-tile">A Pomodoro timer that keeps counting in the island.</p></div><img class="tile-pose" src="brand/art/poses/oyen-focus.webp" alt="" width="480" height="466" loading="lazy"></div>
+      <article class="tile rv wide" id="today">
+        <div class="tile-text"><div><h4 class="t-card">Today</h4><p class="t-tile">Five weeks from Google Calendar and Gmail: a dot under each day with something on, and your schedule from now, with Join for the meeting on now.</p></div><img class="tile-pose" src="brand/art/poses/oyen-today.webp" alt="" width="480" height="499" loading="lazy"></div>
         <div class="tile-shot"><div class="sky-fill"></div><div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-focus.webp" alt="The Focus page" width="660" height="223" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-focus.webp" alt="The Focus page in the Oyen theme" width="660" height="223" loading="lazy">
-        </div></div>
-      </article>
-      <article class="tile rv" id="health">
-        <div class="tile-text"><div><h4 class="t-card">Health</h4><p class="t-tile">Today's steps and your week, from your phone through Oyenza. Turn on Show on Oyenza Studio under your steps in Oyenza's Health (Sehat) on your phone and they show here, with a notice when you reach your goal.</p></div><img class="tile-pose" src="brand/art/poses/oyen-health.webp" alt="" width="480" height="572" loading="lazy"></div>
-        <div class="tile-shot"><div class="sky-fill"></div><div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-health.webp" alt="The Health page: 8,412 of 8,000 steps today, and the week as bars" width="660" height="223" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-health.webp" alt="The Health page in the Oyen theme" width="660" height="223" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-today-day.webp" alt="The Today page: the date and five weeks of days, a dot under each one with something on, beside the meeting on now with Join, then lunch, a call, a flight and a bill due" width="660" height="279" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-today-day.webp" alt="The Today page in the Oyen theme: five weeks of days beside the meeting on now with Join, then the rest of the day" width="660" height="279" loading="lazy">
         </div></div>
       </article>
       <article class="tile rv" id="shelf">
@@ -974,18 +976,18 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <img class="look-oyen" src="assets/shots/oyen/page-tasks.webp" alt="The Tasks page in the Oyen theme" width="660" height="279" loading="lazy">
         </div></div>
       </article>
-      <article class="tile rv" id="clipboard">
-        <div class="tile-text"><div><h4 class="t-card">Clipboard</h4><p class="t-tile">Recent copied text, kept in memory only. Passwords are skipped. An add-on: switch it on when you want it.</p></div><img class="tile-pose" src="brand/art/poses/oyen-clipboard.webp" alt="" width="480" height="477" loading="lazy"></div>
+      <article class="tile rv" id="focus">
+        <div class="tile-text"><div><h4 class="t-card">Focus</h4><p class="t-tile">A Pomodoro timer that keeps counting in the island.</p></div><img class="tile-pose" src="brand/art/poses/oyen-focus.webp" alt="" width="480" height="466" loading="lazy"></div>
         <div class="tile-shot"><div class="sky-fill"></div><div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-clipboard.webp" alt="The Clipboard page" width="660" height="283" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-clipboard.webp" alt="The Clipboard page in the Oyen theme" width="660" height="283" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-focus.webp" alt="The Focus page" width="660" height="223" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-focus.webp" alt="The Focus page in the Oyen theme" width="660" height="223" loading="lazy">
         </div></div>
       </article>
-      <article class="tile rv" id="today">
-        <div class="tile-text"><div><h4 class="t-card">Today</h4><p class="t-tile">Your day from Google Calendar and Gmail: the meeting on now with Join, then events, flights and bills due today.</p></div><img class="tile-pose" src="brand/art/poses/oyen-today.webp" alt="" width="480" height="499" loading="lazy"></div>
+      <article class="tile rv" id="health">
+        <div class="tile-text"><div><h4 class="t-card">Health</h4><p class="t-tile">Today's steps and your week, from your phone through Oyenza. Turn on Show on Oyenza Studio under your steps in Oyenza's Health (Sehat) on your phone and they show here, with a notice when you reach your goal. An add-on: switch it on under Add-ons.</p></div><img class="tile-pose" src="brand/art/poses/oyen-health.webp" alt="" width="480" height="572" loading="lazy"></div>
         <div class="tile-shot"><div class="sky-fill"></div><div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-today-day.webp" alt="The Today page: the date beside the meeting on now with Join, then the rest of the day, a flight and a bill due today" width="660" height="243" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-today-day.webp" alt="The Today page in the Oyen theme: the meeting on now with Join, then the rest of the day" width="660" height="243" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-health.webp" alt="The Health page: 8,412 of 8,000 steps today, and the week as bars" width="660" height="223" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-health.webp" alt="The Health page in the Oyen theme" width="660" height="223" loading="lazy">
         </div></div>
       </article>
     </div>
@@ -995,7 +997,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content head rv">
       <p class="t-label">System</p>
       <h3 class="t-l" id="system-title">Your PC at a glance.</h3>
-      <p class="t-intro">CPU, GPU, memory, drives, network and battery, and on a desktop, <b>what the whole PC draws</b>.</p>
+      <p class="t-intro">CPU, GPU, memory, drives, network and battery, and on a desktop, <b>what the whole PC draws</b>. An add-on: switch it on when you want it.</p>
       <button class="more" type="button" data-more="m-system">More about System<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content">
@@ -1039,8 +1041,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="panel rv-zoom" data-scene="par" style="--band:28px">
         <div class="sky-layer"></div>
         <div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-settings.webp" alt="The Settings page: Sign in with Oyenza at the top, then the theme, the idle look, six switches (Tell me about new versions among them) and a Hide or Stay on top choice for full-screen apps" width="660" height="305" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-settings.webp" alt="The Settings page in the Oyen theme" width="660" height="305" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-settings.webp" alt="The Settings page: Sign in with Oyenza at the top, then the theme, the idle look, six switches (Tell me about new versions among them) and a Hide or Stay on top choice for full-screen apps" width="660" height="277" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-settings.webp" alt="The Settings page in the Oyen theme" width="660" height="277" loading="lazy">
         </div>
       </div>
     </div>
@@ -1089,7 +1091,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <section class="sec" id="prayer" aria-labelledby="prayer-title">
     <div class="content head rv">
       <p class="t-label">Prayer times</p>
-      <h3 class="t-l" id="prayer-title">Prayer times, for your kab/kota.</h3>
+      <h3 class="t-l" id="prayer-title">Prayer times, for your city.</h3>
       <p class="t-intro">As <b>Kemenag RI</b> publishes them, with a live countdown, today on one arc, the qibla and the adzan. New in 0.2.3: on the Mac too.</p>
       <button class="more" type="button" data-more="m-prayer">More about prayer times<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
@@ -1110,6 +1112,25 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     </div>
   </section>
 
+  <section class="sec" id="stocks" aria-labelledby="stocks-title">
+    <div class="content head rv">
+      <p class="t-label new">New in 0.2.11</p>
+      <h3 class="t-l" id="stocks-title">Stocks, on the island.</h3>
+      <p class="t-intro">The IHSG and up to 10 IDX stocks, laid out like Stocks on a Mac: <b>the day's line</b>, the price and the change, and a chart over a day, a month or a year.</p>
+    </div>
+    <div class="content">
+      <figure class="shot-card rv-zoom">
+        <img class="look-classic" src="assets/shots/mac/classic/page-stocks.webp" alt="The Stocks tab below a MacBook's notch: the IHSG, Bank BCA, Bank BRI, Bank Mandiri and Telkom on the left, each with its day's line, price and change, and the IHSG's day as a chart on the right" width="710" height="396" loading="lazy">
+        <img class="look-oyen" src="assets/shots/mac/oyen/page-stocks.webp" alt="The Stocks tab in the Oyen theme" width="710" height="396" loading="lazy">
+      </figure>
+      <div class="stats">
+        <div class="stat rv"><small>Your list</small><b>IHSG + 10</b><span>stocks, found by code or name. Edit removes and reorders them.</span></div>
+        <div class="stat rv"><small>Prices</small><b>10&nbsp;min</b><span>behind IDX, from oyenza.trade, asked only while the tab is open.</span></div>
+        <div class="stat rv"><small>An add-on</small><b>Built&nbsp;in</b><span>Nothing to download. Off, there's no Stocks tab at all.</span></div>
+      </div>
+    </div>
+  </section>
+
   <section class="sec" id="addons" aria-labelledby="addons-title">
     <div class="content split">
       <div class="head rv">
@@ -1119,14 +1140,14 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <div class="stats three">
           <div class="stat"><b>1.9&nbsp;MB</b><span>Prayer times</span></div>
           <div class="stat"><b>3.8&nbsp;MB</b><span>Japanese readings</span></div>
-          <div class="stat"><b>Built&nbsp;in</b><span>Script reader</span></div>
+          <div class="stat"><b>Built&nbsp;in</b><span>Script reader, System, Health and Stocks</span></div>
         </div>
       </div>
       <div class="panel rv-zoom" data-scene="par" style="--band:28px">
         <div class="sky-layer"></div>
         <div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-addons.webp" alt="The Add-ons tab: Prayer times (1.9 MB), Japanese readings (3.8 MB) and Script reader (Built in), each with its switch off" width="660" height="263" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-addons.webp" alt="The Add-ons tab in the Oyen theme" width="660" height="263" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-addons.webp" alt="The Add-ons tab: Prayer times (1.9 MB), Japanese readings (3.8 MB), and Script reader, System, Health and Stocks (built in), each with its switch off" width="660" height="335" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-addons.webp" alt="The Add-ons tab in the Oyen theme" width="660" height="335" loading="lazy">
         </div>
       </div>
     </div>
@@ -1143,8 +1164,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="panel rv-zoom" data-scene="par" style="--band:28px">
         <div class="sky-layer"></div>
         <div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-script-reading.webp" alt="The Script page reading a script: the line to say bright, the next ones dim, 140 words a minute, and Hidden from screen shares" width="638" height="269" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-script-reading.webp" alt="The Script page reading a script, in the Oyen theme" width="638" height="269" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-script-reading.webp" alt="The Script page reading a script: the line to say bright, the next ones dim, 140 words a minute, and Hidden from screen shares" width="660" height="279" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-script-reading.webp" alt="The Script page reading a script, in the Oyen theme" width="660" height="279" loading="lazy">
         </div>
       </div>
       <div class="stats">
@@ -1166,8 +1187,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="panel rv-zoom" data-scene="par" style="--band:clamp(170px,18vw,230px)">
         <div class="sky-layer"></div>
         <div class="isl">
-          <img class="look-classic" src="assets/shots/classic/game-stats.webp" srcset="assets/shots/classic/game-stats.webp 1x, assets/shots/zoom/classic/game-stats.webp 2x" style="width:min(582px,100%)" alt="The island over a game: 144 fps, GPU 97% at 71°, CPU 38%" width="291" height="33" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/game-stats.webp" srcset="assets/shots/oyen/game-stats.webp 1x, assets/shots/zoom/oyen/game-stats.webp 2x" style="width:min(582px,100%)" alt="The readout over a game in the Oyen theme: 144 fps, GPU 97% at 71°, CPU 38%" width="291" height="33" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/game-stats.webp" srcset="assets/shots/classic/game-stats.webp 1x, assets/shots/zoom/classic/game-stats.webp 2x" style="width:min(582px,100%)" alt="The island over a game: 144 fps, GPU 97% at 71°, CPU 38%" width="291" height="32" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/game-stats.webp" srcset="assets/shots/oyen/game-stats.webp 1x, assets/shots/zoom/oyen/game-stats.webp 2x" style="width:min(582px,100%)" alt="The readout over a game in the Oyen theme: 144 fps, GPU 97% at 71°, CPU 38%" width="291" height="32" loading="lazy">
         </div>
         <div class="keys" style="position:absolute;left:0;right:0;bottom:clamp(28px,4vw,56px)" aria-label="Alt, Shift and F show it any time">
           <span class="cap">Alt</span><span class="plus">+</span><span class="cap">Shift</span><span class="plus">+</span><span class="cap">F</span>
@@ -1181,8 +1202,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="panel rv-zoom" data-scene="par" style="--band:28px">
         <div class="sky-layer"></div>
         <div class="isl">
-          <img class="look-classic" src="assets/shots/classic/page-settings-stay-on-top.webp" alt="The Settings page with In full-screen apps set to Stay on top" width="660" height="305" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/page-settings-stay-on-top.webp" alt="In full-screen apps set to Stay on top, in the Oyen theme" width="660" height="305" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/page-settings-stay-on-top.webp" alt="The Settings page with In full-screen apps set to Stay on top" width="660" height="277" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/page-settings-stay-on-top.webp" alt="In full-screen apps set to Stay on top, in the Oyen theme" width="660" height="277" loading="lazy">
         </div>
       </div>
       <div class="head rv">
@@ -1235,14 +1256,14 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <figcaption class="t-tile"><b>Clock.</b> Oyen keeps you company.</figcaption>
         </figure>
         <figure class="card rv">
-          <div class="strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/classic/media-activity.webp" alt="Classic: album art and an equalizer" width="135" height="32" loading="lazy"></div><span class="tag">Classic</span></div>
-          <div class="strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/oyen/media-activity.webp" alt="Oyen theme: a cream island, Oyen swaying as music notes float up" width="135" height="32" loading="lazy"></div><span class="tag">Oyen</span></div>
+          <div class="strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/classic/media-activity.webp" alt="Classic: album art, the line being sung and an equalizer" width="351" height="32" loading="lazy"></div><span class="tag">Classic</span></div>
+          <div class="strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/oyen/media-activity.webp" alt="Oyen theme: a cream island with the line being sung, Oyen swaying as music notes float up" width="327" height="32" loading="lazy"></div><span class="tag">Oyen</span></div>
           <figcaption class="t-tile"><b>Music.</b> Notes float up on every beat.</figcaption>
         </figure>
       </div>
       <div class="panel rv-zoom gap-t" data-scene="par">
         <div class="sky-layer"></div>
-        <div class="isl"><img src="assets/shots/oyen/page-today-day.webp" alt="The Today page in the Oyen theme: a cream island, brown text, today's date in Oyen's orange, the meeting on now with Join, and Oyen peeking up beside the pin" width="660" height="243" loading="lazy"></div>
+        <div class="isl"><img src="assets/shots/oyen/page-today-day.webp" alt="The Today page in the Oyen theme: a cream island, brown text, today's date in Oyen's orange among five weeks of days, the meeting on now with Join, and Oyen peeking up beside the pin" width="660" height="279" loading="lazy"></div>
         <img class="pose" src="brand/art/oyen-poni-asleep.webp" alt="Oyen asleep on the island while a song plays" width="900" height="654" loading="lazy" style="max-width:46%">
       </div>
     </div>
@@ -1288,7 +1309,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <figcaption class="t-tile"><b>Music.</b> The line being sung, in the album's colour.</figcaption>
         </figure>
         <figure class="shot-card rv">
-          <div class="strip pill-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/pill/idle-status.webp" alt="The Status bar look: the volume, the date and time in a pill of their own, and the battery" width="238" height="40" loading="lazy"></div></div>
+          <div class="strip pill-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/pill/idle-status.webp" alt="The Status bar look: the volume, the date and time in a pill of their own, and the battery" width="240" height="40" loading="lazy"></div></div>
           <figcaption class="t-tile"><b>Status bar.</b> Volume, date and time, battery.</figcaption>
         </figure>
       </div>
@@ -1320,7 +1341,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         </div>
         <div class="duo gap-t">
           <figure class="shot-card"><img src="assets/shots/mac/classic/page-media.webp" alt="The open island hanging below a MacBook's notch: the Music page with synced lyrics" width="710" height="288" loading="lazy"><figcaption class="t-tile"><b>Music,</b> with the words.</figcaption></figure>
-          <figure class="shot-card"><img src="assets/shots/mac/classic/page-today-day.webp" alt="The Today page below the notch: the date beside the meeting on now with Join, then the rest of the day" width="710" height="304" loading="lazy"><figcaption class="t-tile"><b>Today,</b> your day at a glance.</figcaption></figure>
+          <figure class="shot-card"><img src="assets/shots/mac/classic/page-today-day.webp" alt="The Today page below the notch: five weeks of days beside the meeting on now with Join, then the rest of the day and tomorrow" width="710" height="340" loading="lazy"><figcaption class="t-tile"><b>Today,</b> your weeks at a glance.</figcaption></figure>
         </div>
       </div>
       <div class="mac-set" data-k="oyen" hidden>
@@ -1331,18 +1352,18 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         </div>
         <div class="duo gap-t">
           <figure class="shot-card"><img src="assets/shots/mac/oyen/page-media.webp" alt="The open island in the Oyen theme, black around the notch with cream type and an orange play button: the Music page with synced lyrics" width="710" height="288" loading="lazy"><figcaption class="t-tile"><b>Black</b> like the notch itself.</figcaption></figure>
-          <figure class="shot-card"><img src="assets/shots/mac/oyen/page-today-day.webp" alt="The Today page in the Oyen theme below the notch" width="710" height="304" loading="lazy"><figcaption class="t-tile"><b>Today,</b> your day at a glance.</figcaption></figure>
+          <figure class="shot-card"><img src="assets/shots/mac/oyen/page-today-day.webp" alt="The Today page in the Oyen theme below the notch: five weeks beside your schedule" width="710" height="340" loading="lazy"><figcaption class="t-tile"><b>Today,</b> your weeks at a glance.</figcaption></figure>
         </div>
       </div>
       <div class="mac-set" data-k="pill" hidden>
         <div class="mac-strips">
-          <figure class="shot-card"><img src="assets/shots/mac/pill/idle-clock.webp" alt="Pill resting on a MacBook: attached beside the camera notch, the time on its left, the battery's percentage and the battery on its right" width="420" height="108" loading="lazy"><figcaption class="t-tile"><b>Resting</b> beside the camera.</figcaption></figure>
+          <figure class="shot-card"><img src="assets/shots/mac/pill/idle-clock.webp" alt="Pill resting on a MacBook: back inside the camera notch, with nothing beside it" width="420" height="108" loading="lazy"><figcaption class="t-tile"><b>Resting</b> in the notch.</figcaption></figure>
           <figure class="shot-card"><img src="assets/shots/mac/pill/media-activity.webp" alt="Pill on a MacBook while a lyric line is sung: a black capsule floating just below the notch, with the album art, the line and an equalizer in the album's colour" width="420" height="108" loading="lazy"><figcaption class="t-tile"><b>Lyrics</b> float below the notch.</figcaption></figure>
           <figure class="shot-card"><img src="assets/shots/mac/pill/volume-hud.webp" alt="The volume pop-up in Pill on a MacBook: a capsule floating just below the notch" width="420" height="108" loading="lazy"><figcaption class="t-tile"><b>Pop-ups</b> float there too.</figcaption></figure>
         </div>
         <div class="duo gap-t">
           <figure class="shot-card"><img src="assets/shots/mac/pill/page-media.webp" alt="The open island in Pill on a MacBook: a black card with four rounded corners floating below the notch, on the Music page with synced lyrics" width="710" height="296" loading="lazy"><figcaption class="t-tile"><b>Open,</b> below the notch.</figcaption></figure>
-          <figure class="shot-card"><img src="assets/shots/mac/pill/page-today-day.webp" alt="The Today page in Pill on a MacBook, in the same floating card" width="710" height="312" loading="lazy"><figcaption class="t-tile"><b>Every page</b> in the same card.</figcaption></figure>
+          <figure class="shot-card"><img src="assets/shots/mac/pill/page-today-day.webp" alt="The Today page in Pill on a MacBook, in the same floating card: five weeks beside your schedule" width="710" height="348" loading="lazy"><figcaption class="t-tile"><b>Every page</b> in the same card.</figcaption></figure>
         </div>
       </div>
     </div>
@@ -1365,9 +1386,10 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <tbody>
           <tr><th scope="row">Music, with synced lyrics</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Readings under Korean, Japanese and Chinese lines</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
-          <tr><th scope="row">Focus timer, tasks and clipboard history</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
+          <tr><th scope="row">Focus timer and tasks</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Shelf, with Phone drop over the same Wi-Fi</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
-          <tr><th scope="row">System page</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
+          <tr><th scope="row">System page, an add-on</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
+          <tr><th scope="row">Stocks, an add-on</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Volume and charging pop-ups</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Classic, Oyen, Glass and Pill</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Paired phones, from any network</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c no">Not yet</td></tr>
@@ -1396,7 +1418,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="duo gap-t">
         <figure class="shot-card rv">
           <div class="strip tall"><div class="sky-fill"></div><div class="isl">
-            <img class="look-classic" src="assets/shots/classic/page-oyenza-signin.webp" alt="Sign in to Oyenza: an 8-letter code to enter at oyenza.app/connect" width="660" height="235" loading="lazy">
+            <img class="look-classic" src="assets/shots/classic/page-oyenza-signin.webp" alt="Sign in to Oyenza: an 8-letter code to enter at oyenza.app/connect" width="660" height="294" loading="lazy">
             <img class="look-oyen" src="assets/shots/oyen/page-oyenza-signin.webp" alt="The sign-in code in the Oyen theme" width="660" height="235" loading="lazy">
           </div></div>
           <figcaption class="t-tile"><b>Sign in with a code</b> at oyenza.app/connect.</figcaption>
@@ -1420,12 +1442,12 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content">
       <div class="facts">
         <div class="fact rv"><svg class="ico"><use href="#i-user-off"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">No account needed.</h3><p class="t-tile">No sign-up, no tracking. Your things are files in your own folder.</p></div>
-        <div class="fact rv"><svg class="ico"><use href="#i-clip"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">Clipboard in memory.</h3><p class="t-tile">Never written to disk. Anything marked private is skipped.</p></div>
+        <div class="fact rv"><svg class="ico"><use href="#i-cal"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">Your weeks in memory.</h3><p class="t-tile">The meetings, flights and bills Today shows are kept in memory only, never written to disk.</p></div>
         <div class="fact rv"><svg class="ico"><use href="#i-chip"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">Light and smooth.</h3><p class="t-tile">Native Rust, no web view. Nothing drawn while nothing moves.</p></div>
       </div>
       <div class="specs rv">
-        <div class="spec"><b data-release-copy="size">2.5&nbsp;MB</b><span class="t-small">Windows installer</span></div>
-        <div class="spec"><b data-release-copy="mac-size">3.9&nbsp;MB</b><span class="t-small">Mac app</span></div>
+        <div class="spec"><b data-release-copy="size">2.7&nbsp;MB</b><span class="t-small">Windows installer</span></div>
+        <div class="spec"><b data-release-copy="mac-size">4.6&nbsp;MB</b><span class="t-small">Mac app</span></div>
         <div class="spec"><b>240&nbsp;Hz</b><span class="t-small">In step with your screen, on Windows</span></div>
         <div class="spec"><b>MIT</b><span class="t-small">Free and open source</span></div>
       </div>
@@ -1473,7 +1495,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <div class="sheet-body">
     <p class="t-label">Music</p>
     <h2 class="t-m" id="m-music-t">Music, with the words.</h2>
-    <p>Controls for whatever is playing: <b>Spotify, Apple Music, YouTube in your browser, or any app that shows up in Windows' media controls.</b> Lyrics scroll in time with the song, from the free LRCLIB library, or Apple Music's own synced lyrics if you have a subscription.</p>
+    <p>Controls for whatever is playing: <b>Spotify, Apple Music, YouTube in your browser, or any app that shows up in Windows' media controls or the Mac's Now Playing.</b> Lyrics scroll in time with the song, from the free LRCLIB library, or Apple Music's own synced lyrics if you have a subscription.</p>
     <p>YouTube videos find theirs too, even when the title carries subtitle tags or puts the song name first. After an intro or a break, the waiting dots fold away the moment the next line starts.</p>
     <p>Drag the time bar to jump anywhere in a song: the times follow as you slide, and it jumps when you let go. Since 0.1.20 that works with Apple Music too, and so does Back: the island uses Apple Music's own slider and back button. Lyrics glide into place instead of stepping a pixel at a time.</p>
     <p><b>New in 0.2.1: the closed island sings along.</b> The line being sung shows on it in Classic, Oyen and Glass, as it does in Pill. Since 0.2.3, Japanese, Korean and Chinese lines bring their reading in Latin letters along, under the line.</p>
@@ -1496,6 +1518,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p class="t-label">System</p>
     <h2 class="t-m" id="m-system-t">Your PC at a glance.</h2>
     <p>CPU, GPU, memory, drives, network and battery in rings and charts: <b>each core's load with performance and efficiency cores apart</b>, the graphics card's engines and memory, memory pressure and what fills memory, read, write, download and upload speeds, and the processes using the most.</p>
+    <p><b>An add-on since 0.2.9:</b> System is built in and off until you switch it on under Add-ons. Off, there's no System tab and nothing reads the counters.</p>
     <p>It reads Windows' own kernel counters and keeps the last minute while the page is closed, so the charts are full the moment it opens. That minute rests while your PC is locked, the screen is off or battery saver is on. Keeping it takes about a third of a millisecond each second, and the tray menu turns it off. No driver, no admin rights, and nothing leaves your PC.</p>
     <p><b>New in 0.2.1, on a desktop: Power.</b> What the whole PC draws, split into the CPU, the graphics card and the rest. It comes from the power supply itself when it reports over USB (Corsair HXi and RMi, and MSI MEG and MPG Ai models), and is estimated otherwise: the CPU's and the graphics card's own readings plus about 40 W for the board, memory, drives and fans, labelled as an estimate. The graphics card's watts come from NVIDIA's driver; AMD and Intel cards aren't read yet, and without a card reading there's no estimate. It reads only while the System page is open. Laptops keep their Battery module.</p>
     <p>On a Mac it reads macOS's own counters the way Stats does, and rests while the screen is asleep or the Mac is locked. On a Mac without a battery (a Mac mini, Studio, iMac or Mac Pro with Apple silicon), Power shows what the whole Mac draws, from its own sensor, the number Stats shows as System total; macOS doesn't split it by part. A MacBook keeps its Battery module.</p>
@@ -1515,8 +1538,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
   <div class="sheet-body">
     <p class="t-label">Prayer times · An add-on</p>
-    <h2 class="t-m" id="m-prayer-t">Prayer times, for your kab/kota.</h2>
-    <p>Today's times as Kemenag RI publishes them for your kab/kota, the next prayer and how long until it, and the qibla. <b>New in 0.2.1:</b> the page counts down to the next prayer in hours, minutes and seconds, and shows today's five prayers on one arc, with the sun or the moon. <b>Your computer's location finds the nearest of Kemenag's 517 places</b>, from Windows' location or the Mac's Location Services, and checks again when your laptop travels, or you type your city. The point stays on your computer: it only picks the place.</p>
+    <h2 class="t-m" id="m-prayer-t">Prayer times, for your city.</h2>
+    <p>Today's times as Kemenag RI publishes them for your kab/kota, the next prayer and how long until it, and the qibla. <b>New in 0.2.1:</b> the page counts down to the next prayer in hours, minutes and seconds, and shows today's five prayers on one arc, with the sun or the moon. <b>New in 0.2.10:</b> anywhere in the world. Type any city, or let the location find it: 33,000 cities, each with the method its country follows, on its own clock, summer time included. <b>Your computer's location finds the nearest of Kemenag's 517 places</b>, from Windows' location or the Mac's Location Services, and checks again when your laptop travels, or you type your city. The point stays on your computer: it only picks the place.</p>
     <p>In the ten minutes before each prayer the island counts down, and when it's time it says so, with a short tone, the adzan recorded at Masjidil Haram, or nothing. Checked against Kemenag's 2026 schedule: 98.2% of 227,367 times to the minute, none more than a minute off. Makkah, Madinah and Jeddah use Umm al-Qura.</p>
     <p><b>New in 0.2.3: on the Mac.</b> Prayer times is in the Mac's Add-ons tab too, with the adzan. Around a MacBook's notch the countdown sits beside the camera: the moon on the left, the minutes on the right.</p>
     <p>Prayer times is an add-on: open the + at the end of the tabs and switch it on. It downloads then, 1.9 MB, checked against the fingerprint built into the app, and switching it off deletes its files.</p>
@@ -1602,17 +1625,17 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <h2 class="t-m" id="m-mac-t">On a Mac, it wraps the notch.</h2>
     <p>On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera, and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows. Around the notch, the Oyen theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it.</p>
     <ul>
-      <li>Music and Spotify, with synced lyrics from LRCLIB, or Apple Music's own with your token, and the reading under Japanese, Korean and Chinese lines, on the closed island too.</li>
-      <li>The focus timer, the Shelf with Phone drop over the same Wi-Fi, tasks, clipboard history, and the System page with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps.</li>
+      <li>Whatever plays: the Music and Spotify apps, YouTube, YouTube Music or Spotify in your browser, and any other player in the Mac's Now Playing, with synced lyrics from LRCLIB, or Apple Music's own with your token, and the reading under Japanese, Korean and Chinese lines, on the closed island too.</li>
+      <li>The focus timer, the Shelf with Phone drop over the same Wi-Fi, tasks, and the System add-on with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps.</li>
       <li>Pop-ups for volume, charging and Bluetooth headphones (without the battery level; macOS shows AirPods' own when they connect), the Classic, Oyen, Glass and Pill themes, and start at login. Every option is in the menu bar, under Oyen's mark.</li>
       <li>Full-screen apps: while a video, a game or a slideshow is full screen, the island stays out of its way and comes back after, as on Windows. Or it stays on top: the menu bar's In full-screen apps, or Settings.</li>
       <li>Oyenza sign-in: money in and out, bills due and your last 7 days on the island, as on Windows. The Mac's key stays in a file only your Mac account can read.</li>
       <li>Glass is macOS's own glass, Liquid Glass on macOS 26 and a dark blur before it, with a black strip where it meets the notch.</li>
-      <li>Pill: on a MacBook with a notch, the resting island, the timer and music between lines stay beside the camera; the line being sung, pop-ups, notices and the open island float just below the notch. Without a notch it floats below the top of the screen, as on Windows.</li>
+      <li>Pill: on a MacBook with a notch, the resting island goes back into the notch; music, the timer, the prayer countdown, pop-ups, notices and the open island float as the pill just below it. Without a notch it floats below the top of the screen, as on Windows.</li>
     </ul>
     <p><b>New in 0.2.1:</b> Japanese readings and Script reader are add-ons in the Mac's Add-ons tab, so the download is about a third of what it was.</p>
-    <p><b>New in 0.2.3:</b> Prayer times, in the Mac's Add-ons tab: Location Services finds your kab/kota, or you type it, the adzan plays when it's time, and around the notch the countdown sits beside the camera.</p>
-    <p>macOS 14 or later, on Apple silicon or Intel. One app for both, <span data-release-copy="mac-size">3.9&nbsp;MB</span>. It isn't signed with an Apple Developer ID yet, so the first time, macOS holds it back until you allow it in Privacy &amp; Security.</p>
+    <p><b>New in 0.2.3:</b> Prayer times, in the Mac's Add-ons tab: Location Services finds your city, or you type it, the adzan plays when it's time, and around the notch the countdown sits beside the camera.</p>
+    <p>macOS 14 or later, on Apple silicon or Intel. One app for both, <span data-release-copy="mac-size">4.6&nbsp;MB</span>. It isn't signed with an Apple Developer ID yet, so the first time, macOS holds it back until you allow it in Privacy &amp; Security.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-oyenza" aria-labelledby="m-oyenza-t">

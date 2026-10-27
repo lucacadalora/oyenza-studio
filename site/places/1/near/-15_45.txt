@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Indian/Antananarivo	180	
+C	MG	Madagascar	egyptian	s
+C	YT	Mayotte	egyptian	s
+B	0
+P	Antsiranana		MG		-12.317	49.292	0
+P	Ambilobe		MG		-13.200	49.050	0
+P	Ambanja		MG		-13.669	48.453	0
+P	Mamoudzou		YT		-12.782	45.229	0
+P	Hell-Ville	hell ville	MG		-13.397	48.267	0
+P	Antsohihy		MG		-14.880	47.988	0
+P	Andapa		MG		-14.650	49.650	0
+P	Maromandia		MG		-14.217	48.083	0
+P	Bealanana		MG		-14.543	48.750	0
+P	Antsohimbondrona		MG		-13.083	48.850	0
+P	Koungou		YT		-12.734	45.204	0
+P	Labattoir		YT		-12.777	45.282	0
+P	Kaouéni	kaoueni	YT		-12.771	45.224	0
+P	Ambarakaraka		MG		-13.500	48.867	0
+P	Mtsapéré	mtsapere	YT		-12.786	45.217	0
+P	Dzaoudzi		YT		-12.783	45.257	0

@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Chihuahua	-360	
+Z	1	America/Hermosillo	-420	
+C	MX	Mexico	mwl	s
+B	0
+P	Chihuahua		MX		28.635	-106.089	0
+P	Ciudad Obregón	ciudad obregon	MX		27.486	-109.941	1
+P	Los Mochis		MX		25.791	-108.998	1
+P	Cuauhtémoc	cuauhtemoc	MX		28.406	-106.867	0
+P	Ciudad Delicias		MX		28.190	-105.470	0
+P	Navojoa		MX		27.071	-109.443	1
+P	Hidalgo del Parral		MX		26.930	-105.666	0
+P	Guamúchil	guamuchil	MX		25.459	-108.077	1
+P	Guasave		MX		25.568	-108.469	1
+P	Santa Rosalía de Camargo	santa rosalia de camargo	MX		27.679	-105.172	0
+P	Esperanza		MX		27.580	-109.931	1
+P	Huatabampo		MX		26.826	-109.642	1
+P	Gabriel Leyva Solano		MX		25.662	-108.637	1
+P	Santiago Papasquiaro		MX		25.044	-105.419	0
+P	Juan José Ríos	juan jose rios	MX		25.757	-108.824	1
+P	Pedro Meoqui		MX		28.268	-105.481	0
+P	Juan Aldama		MX		28.838	-105.912	0
+P	Madera		MX		29.193	-108.143	0

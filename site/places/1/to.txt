@@ -1,0 +1,475 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Dakar	0	
+Z	4	Africa/Johannesburg	120	
+Z	5	America/Caracas	-240	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	8	America/Edmonton	-420	29549340=-360
+Z	9	America/Jamaica	-300	
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Monterrey	-360	
+Z	12	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	13	America/Sao_Paulo	-180	
+Z	14	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	15	America/Vancouver	-480	29549400=-420
+Z	16	Asia/Bishkek	360	
+Z	17	Asia/Karachi	300	
+Z	18	Asia/Kolkata	330	
+Z	19	Asia/Shanghai	480	
+Z	20	Asia/Tehran	210	
+Z	21	Asia/Tokyo	540	
+Z	22	Asia/Tomsk	420	
+Z	23	Asia/Yangon	390	
+Z	24	Australia/Brisbane	600	
+Z	25	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	26	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	27	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	28	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	29	Europe/Samara	240	
+Z	30	Indian/Antananarivo	180	
+Z	31	Pacific/Honolulu	-600	
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FO	Faroe Islands	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	KY	Cayman Islands	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SS	South Sudan	egyptian	s
+C	ST	Sao Tome and Principe	egyptian	s
+C	TC	Turks and Caicos Islands	mwl	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VG	British Virgin Islands	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	4
+P	Tokyo		JP		35.690	139.692	21
+P	Cape Town		ZA		-33.926	18.423	4
+P	Toronto		CA	Ontario	43.706	-79.399	14
+P	Touba		SN		14.862	-15.875	3
+P	Torreón	torreon	MX		25.544	-103.419	11
+P	Tolyatti		RU		53.530	49.346	29
+P	Tomsk		RU		56.500	84.982	22
+P	Toulouse		FR		43.604	1.444	28
+P	Tonghua		CN		41.720	125.926	19
+P	Toluca		MX		19.288	-99.653	11
+P	Toyota		JP		35.083	137.150	21
+P	Tongchuan		CN		34.899	108.951	19
+P	Toyama		JP		36.700	137.217	21
+P	Tonalá	tonala	MX		20.623	-103.242	11
+P	Tongling		CN		30.950	117.783	19
+P	Toyonaka		JP		34.782	135.469	21
+P	Toyohashi		JP		34.767	137.383	21
+P	Toamasina		MG		-18.149	49.402	30
+P	Tokorozawa		JP		35.799	139.469	21
+P	Tongshan		CN		34.180	117.157	19
+P	Toshima		JP		35.761	139.745	21
+P	Bedok New Town		SG		1.326	103.942	19
+P	Sengkang New Town		SG		1.392	103.894	19
+P	Tokushima		JP		34.067	134.567	21
+P	Toledo		US	Ohio	41.664	-83.555	14
+P	Jurong Town		SG		1.334	103.723	19
+P	Tongliao		CN		43.612	122.265	19
+P	Tampines New Town		SG		1.349	103.950	19
+P	Tŏkch’ŏn	tokchon	KP		39.753	126.258	21
+P	Yishun New Town		SG		1.433	103.831	19
+P	Hougang New Town		SG		1.357	103.891	19
+P	Tongchuanshi		CN		35.075	109.085	19
+P	Raurkela Industrial Township		IN		22.200	84.862	18
+P	Nishi-Tokyo-shi	nishi tokyo shi	JP		35.725	139.538	21
+P	Toledo		PH		10.377	123.639	19
+P	Townsville		AU	Queensland	-19.266	146.806	24
+P	Toruń	torun	PL		53.014	18.598	28
+P	Tottori-shi	tottori shi	JP		35.500	134.233	21
+P	Choa Chu Kang New Town		SG		1.383	103.750	19
+P	Toyokawa		JP		34.817	137.400	21
+P	Tsing Yi Town		HK		22.350	114.100	19
+P	Toliara		MG		-23.350	43.667	30
+P	Tomakomai		JP		42.637	141.603	21
+P	Toulon		FR		43.124	5.928	28
+P	Tonk		IN		26.166	75.788	18
+P	Tongzhou		CN		39.904	116.662	19
+P	Ang Mo Kio New Town		SG		1.380	103.840	19
+P	Tochigi		JP		36.383	139.733	21
+P	George Town		MY		5.411	100.335	19
+P	Bukit Batok New Town		SG		1.359	103.764	19
+P	Enfield Town		GB	England	51.651	-0.085	27
+P	Tordher		PK		33.990	72.286	17
+P	Spanish Town		JM		17.991	-76.957	9
+P	Teshi Old Town		GH		5.584	-0.107	3
+P	Torrance		US	California	33.836	-118.341	10
+P	Touggourt		DZ		33.111	6.070	0
+P	Toowoomba		AU	Queensland	-27.561	151.954	24
+P	Tours		FR		47.395	0.704	28
+P	Tobruk		LY		32.090	23.954	4
+P	Bukit Panjang New Town		SG		1.380	103.765	19
+P	Tondabayashichō	tondabayashicho	JP		34.501	135.602	21
+P	Tottenham		GB	England	51.604	-0.068	27
+P	Tokat		TR		40.314	36.554	30
+P	Topeka		US	Kansas	39.048	-95.678	6
+P	Torbat-e Ḩeydarīyeh	torbat e heydariyeh	IR		35.274	59.219	20
+P	Toba Tek Singh		PK		30.971	72.483	17
+P	Toa Payoh New Town		SG		1.336	103.850	19
+P	Toledo		BR		-24.714	-53.743	13
+P	Torrejón de Ardoz	torrejon de ardoz	ES		40.455	-3.470	28
+P	Serangoon New Town		SG		1.351	103.871	19
+P	Tobolsk		RU		58.198	68.255	17
+P	Tōkai	tokai	JP		35.023	136.909	21
+P	Tocoa		HN		15.683	-86.000	11
+P	Khlong Toei		TH		13.710	100.582	22
+P	Toufen		TW		24.688	120.909	19
+P	Tokoza		ZA		-26.360	28.129	4
+P	Toride		JP		35.900	140.083	21
+P	Totonicapán	totonicapan	GT		14.912	-91.361	11
+P	Tongren		CN		35.515	102.016	19
+P	Tokuyama		JP		34.050	131.817	21
+P	Model Town		PK		31.481	74.326	17
+P	Clinton Township		US	Michigan	42.587	-82.920	14
+P	Tourcoing		FR		50.724	3.161	28
+P	Kapurthala Town		IN		31.380	75.381	18
+P	Tema New Town		GH		5.654	0.026	3
+P	Tongren		CN		27.717	109.185	19
+P	Toms River		US	New Jersey	39.954	-74.198	14
+P	Bishan New Town		SG		1.350	103.849	19
+P	Toledo		ES		39.858	-4.023	28
+P	West Town		US	Illinois	41.894	-87.675	6
+P	Torre del Greco		IT		40.789	14.368	28
+P	Torrevieja		ES		37.979	-0.682	28
+P	Dali Old Town		CN		25.689	100.159	19
+P	Torrent		ES		39.437	-0.465	28
+P	Town 'n' Country	town n country	US	Florida	28.011	-82.577	14
+P	Toyooka		JP		35.540	134.820	21
+P	Tome		JP		38.709	141.156	21
+P	Topi		PK		34.070	72.621	17
+P	El Tocuyo		VE		9.787	-69.793	5
+P	Tosu		JP		33.367	130.517	21
+P	Richard-Toll	richard toll	SN		16.462	-15.701	3
+P	Tokmok		KG		42.842	75.301	16
+P	Don Torcuato		AR		-34.495	-58.627	13
+P	Tôlanaro	tolanaro	MG		-25.032	46.983	30
+P	Tongyeong		KR		34.850	128.428	21
+P	Tournai		BE		50.607	3.389	28
+P	Toyoake		JP		35.038	136.999	21
+P	Tomé-Açu	tome acu	BR		-2.419	-48.152	13
+P	Tomaszów Mazowiecki	tomaszow mazowiecki	PL		51.531	20.009	28
+P	Shajing Town		CN		22.738	113.808	19
+P	Tōgane	togane	JP		35.550	140.367	21
+P	Torremolinos		ES		36.620	-4.500	28
+P	Ellesmere Port Town		GB	England	53.279	-2.901	27
+P	Torquay		GB	England	50.462	-3.525	27
+P	Tongaat		ZA		-29.574	31.116	4
+P	West Bloomfield Township		US	Michigan	42.569	-83.384	14
+P	Tomigusuku		JP		26.186	127.682	21
+P	Tohāna	tohana	IN		29.713	75.904	18
+P	Tonypandy		GB	Wales	51.622	-3.455	27
+P	Towada		JP		40.620	141.211	21
+P	Martínez de la Torre	martinez de la torre	MX		20.071	-97.061	11
+P	Santo Tomé	santo tome	AR		-31.663	-60.765	13
+P	Torbat-e Jām	torbat e jam	IR		35.244	60.623	20
+P	Tokoname		JP		34.883	136.850	21
+P	Toki		JP		35.350	137.183	21
+P	Tongchuan		CN		31.094	105.087	19
+P	Santo Tomas		PH		14.108	121.141	19
+P	Toumodi		CI		6.558	-5.018	3
+P	Aïn Touta	ain touta	DZ		35.377	5.900	0
+P	Buthidaung Town		MM		20.875	92.530	23
+P	Tønsberg	tonsberg	NO		59.268	10.408	28
+P	Torrelavega		ES		43.349	-4.048	28
+P	Towson		US	Maryland	39.401	-76.602	14
+P	Paraíso do Tocantins	paraiso do tocantins	BR		-10.176	-48.867	13
+P	Pasir Ris New Town		SG		1.372	103.948	19
+P	Chilanga Township		ZM		-15.571	28.270	4
+P	Bandar-e Torkaman	bandar e torkaman	IR		36.901	54.072	20
+P	Tōkamachi	tokamachi	JP		37.133	138.767	21
+P	São Tomé	sao tome	ST		0.338	6.730	3
+P	Tomé	tome	CL		-36.618	-72.956	12
+P	Tomiya		JP		38.393	140.886	21
+P	Tobias Barreto		BR		-11.184	-37.998	13
+P	Tocumen		PA		9.089	-79.383	9
+P	Tolga		DZ		34.722	5.378	0
+P	Torbalı	torbali	TR		38.182	27.335	30
+P	Bentong Town		MY		3.522	101.909	19
+P	Tonami		JP		36.620	136.943	21
+P	Torzhok		RU		57.044	34.962	30
+P	Tororo		UG		0.693	34.181	30
+P	Tovar		VE		8.330	-71.753	5
+P	Tomioka		JP		36.254	138.898	21
+P	Settimo Torinese		IT		45.139	7.770	28
+P	Tômbua	tombua	AO		-15.804	11.845	0
+P	Tondalam		IN		11.501	76.350	18
+P	Phumĭ Yoŭl Toŭng	phumi youl toung	KH		11.282	104.738	22
+P	Torre Annunziata		IT		40.753	14.453	28
+P	Canning Town		GB	England	51.514	0.019	27
+P	Torres		BR		-29.335	-49.727	13
+P	Tortuguitas		AR		-34.475	-58.754	13
+P	Toritama		BR		-8.007	-36.057	13
+P	Toyosu		JP		35.651	139.792	21
+P	Tosno		RU		59.540	30.878	30
+P	Tatsunochō-tominaga	tatsunocho tominaga	JP		34.864	134.552	21
+P	Sŭngho 1-tong	sungho 1 tong	KP		38.991	125.978	21
+P	Simei New Town		SG		1.341	103.956	19
+P	El-Tor	el tor	EG		28.242	33.622	1
+P	Kennedy Town		HK		22.283	114.130	19
+P	Tokai		JP		36.474	140.564	21
+P	Tonekābon	tonekabon	IR		36.816	50.874	20
+P	Joué-lès-Tours	joue les tours	FR		47.349	0.665	28
+P	Tozeur		TN		33.920	8.134	0
+P	Tomobe		JP		36.350	140.300	21
+P	Tokār	tokar	SD		18.425	37.729	4
+P	Tonbridge		GB	England	51.195	0.274	27
+P	Tomelloso		ES		39.158	-3.022	28
+P	West Torrington		US	Connecticut	41.818	-73.144	14
+P	Colinas do Tocantins		BR		-8.059	-48.475	13
+P	Torre-Pacheco	torre pacheco	ES		37.743	-0.954	28
+P	Tonalá	tonala	MX		16.090	-93.755	11
+P	Tortosa		ES		40.812	0.522	28
+P	Alhaurín de la Torre	alhaurin de la torre	ES		36.664	-4.561	28
+P	Torrington		US	Connecticut	41.801	-73.121	14
+P	Yau Tong		HK		22.296	114.236	19
+P	San Miguel Topilejo		MX		19.203	-99.142	11
+P	Totton		GB	England	50.919	-1.490	27
+P	Tōon	toon	JP		33.794	132.890	21
+P	Tooele		US	Utah	40.531	-112.298	7
+P	Touros		BR		-5.199	-35.461	13
+P	Cô Tô	co to	VN		10.350	105.017	22
+P	Toretsk		UA		48.395	37.848	26
+P	North Tonawanda		US	New York	43.039	-78.864	14
+P	Tongjing		CN		29.857	106.845	19
+P	Topki		RU		55.277	85.614	22
+P	Bakau New Town		GM		13.473	-16.685	3
+P	To‘rqao‘rg‘on	torqaorgon	UZ		41.000	71.512	17
+P	Tönisvorst	tonisvorst	DE		51.321	6.494	28
+P	Tōmi	tomi	JP		36.356	138.361	21
+P	Togitsu		JP		32.833	129.850	21
+P	Tokai		MY		6.029	100.407	19
+P	Tongeren		BE		50.781	5.465	28
+P	Shāhbāzpur Town	shahbazpur town	BD		24.053	91.172	16
+P	Tongxi		CN		30.000	106.130	19
+P	Tokmak		UA		47.256	35.708	26
+P	George Town		KY		19.287	-81.374	9
+P	Totana		ES		37.769	-1.502	28
+P	Tournefeuille		FR		43.589	1.319	28
+P	Tocache		PE		-8.188	-76.520	9
+P	Touboro		CM		7.771	15.357	0
+P	Touba		CI		8.283	-7.683	3
+P	Santo Tomás	santo tomas	CO		10.758	-74.755	9
+P	Duliajan Oil Town		IN		27.358	95.314	18
+P	Toshbuloq		UZ		40.916	71.578	17
+P	Tomilino		RU		55.656	37.947	30
+P	Cranberry Township		US	Pennsylvania	40.685	-80.107	14
+P	Sabana de Torres		CO		7.391	-73.496	9
+P	Toyoshina		JP		36.300	137.901	21
+P	Mililani Town		US	Hawaii	21.450	-158.015	31
+P	Santiago de Tolú	santiago de tolu	CO		9.524	-75.581	9
+P	Ibo Town		GM		13.435	-16.676	3
+P	Tosayamadachō-nakano	tosayamadacho nakano	JP		33.600	133.683	21
+P	Tougan		BF		13.072	-3.069	3
+P	Camden Town		GB	England	51.541	-0.143	27
+P	Tōno	tono	JP		39.317	141.533	21
+P	Tōyō	toyo	JP		35.670	139.815	21
+P	Tōin	toin	JP		35.095	136.601	21
+P	Tosa		JP		33.505	133.445	21
+P	Tougué	tougue	GN		11.445	-11.664	3
+P	Vilapicina i la Torre Llobeta		ES		41.429	2.174	28
+P	Tocopilla		CL		-22.092	-70.198	12
+P	Phumĭ Véal Tônsay	phumi veal tonsay	KH		11.696	104.581	22
+P	Prachin Buri Town		TH		14.055	101.373	22
+P	Saginaw Township North		US	Michigan	43.460	-84.007	14
+P	Whitehall Township		US	Pennsylvania	40.667	-75.500	14
+P	Torres Vedras		PT		39.091	-9.259	27
+P	Torcy		FR		48.851	2.651	28
+P	Tombel		CM		4.747	9.671	0
+P	Coquitlam Town Centre		CA	British Columbia	49.277	-122.797	15
+P	Topoľčany	topolcany	SK		48.564	18.167	28
+P	Tosya		TR		41.015	34.040	30
+P	Todaraisingh		IN		26.024	75.482	18
+P	Tonota		BW		-21.442	27.462	4
+P	Tocantinópolis	tocantinopolis	BR		-6.329	-47.416	13
+P	Tochio-honchō	tochio honcho	JP		37.476	138.995	21
+P	Eravur Town		LK		7.778	81.604	18
+P	Todabhim		IN		26.917	76.817	18
+P	Tomares		ES		37.373	-6.046	28
+P	Törökszentmiklós	torokszentmiklos	HU		47.183	20.417	28
+P	Tortona		IT		44.898	8.864	28
+P	Tog Wajaale		SO		9.600	43.335	30
+P	Tongyangdao		CN		41.770	109.970	19
+P	Santo Tomé	santo tome	AR		-28.551	-56.041	13
+P	Toubakoura		ML		13.464	-7.383	3
+P	Torre del Mar		ES		36.742	-4.093	28
+P	Toyohama		JP		34.709	136.934	21
+P	Toguchin		RU		55.238	84.403	22
+P	Tongjiaxi		CN		29.685	106.444	19
+P	Torrelodones		ES		40.577	-3.927	28
+P	Porto Torres		IT		40.834	8.405	28
+P	Toviklin		BJ		6.889	1.837	0
+P	Srisailam Project RFC Township		IN		16.073	78.874	18
+P	Tanushimarumachi-toyoki	tanushimarumachi toyoki	JP		33.350	130.683	21
+P	Townline		CA	British Columbia	49.062	-122.360	15
+P	San Pedro Totoltepec		MX		19.311	-99.572	11
+P	Las Torres de Cotillas		ES		38.028	-1.242	28
+P	Ţorqabeh	torqabeh	IR		36.310	59.373	20
+P	Tornio		FI		65.848	24.147	26
+P	Tor Lupara		IT		41.998	12.618	28
+P	Douar Toulal		MA		33.885	-5.597	2
+P	Clement Town		IN		30.264	78.009	18
+P	Tortiya		CI		8.768	-5.686	3
+P	Touih		CI		5.256	-6.532	3
+P	Giardinetti-Tor Vergata	giardinetti tor vergata	IT		41.853	12.619	28
+P	Vranov nad Topľou	vranov nad toplou	SK		48.888	21.685	28
+P	Toktogul		KG		41.874	72.942	16
+P	T’ongch’ŏn-ŭp	tongchon up	KP		38.954	127.892	21
+P	Tombôco	tomboco	AO		-6.805	13.330	0
+P	Tomaszów Lubelski	tomaszow lubelski	PL		50.448	23.416	28
+P	Tonantins		BR		-2.873	-67.802	5
+P	Marina di Ardea-Tor San Lorenzo	marina di ardea tor san lorenzo	IT		41.554	12.541	28
+P	Torit		SS		4.412	32.570	4
+P	Tolú Viejo	tolu viejo	CO		9.451	-75.439	9
+P	Tongelre		NL		51.449	5.520	28
+P	Kröpeliner-Tor-Vorstadt	kropeliner tor vorstadt	DE		54.088	12.115	28
+P	Tonggu		CN		28.782	108.683	19
+P	Tomar		PT		39.602	-8.409	27
+P	Torūr	torur	IN		17.584	79.659	18
+P	Sung Wong Toi		HK		22.325	114.191	19
+P	Torhout		BE		51.066	3.101	28
+P	Kowloon Tong		HK		22.333	114.180	19
+P	Miracema do Tocantins		BR		-9.567	-48.392	13
+P	Santa María Totoltepec	santa maria totoltepec	MX		19.307	-99.593	11
+P	Torgau		DE		51.560	12.996	28
+P	Tongle		CN		29.461	107.197	19
+P	North St.James Town	north st james town	CA	Ontario	43.670	-79.375	14
+P	Toshloq		UZ		40.477	71.768	17
+P	Tonggu		CN		30.934	109.731	19
+P	Torquay		AU	Victoria	-38.331	144.326	25
+P	San Mauro Torinese		IT		45.104	7.768	28
+P	Plaisance-du-Touch	plaisance du touch	FR		43.566	1.296	28
+P	Tondi		IN		9.742	79.018	18
+P	Tourlaville		FR		49.638	-1.566	28
+P	Zacoalco de Torres		MX		20.226	-103.570	11
+P	Tolosa		ES		43.135	-2.078	28
+P	Bom Jesus do Tocantins		BR		-5.051	-48.609	13
+P	Titabor Town		IN		26.592	94.194	18
+P	Não-Me-Toque	nao me toque	BR		-28.459	-52.821	13
+P	San Pa Tong		TH		18.628	98.896	22
+P	Los Toldos		AR		-35.000	-61.039	13
+P	Toba		JP		34.483	136.842	21
+P	Toul		FR		48.681	5.891	28
+P	McKenzie Towne		CA	Alberta	50.913	-113.967	8
+P	Bad Tölz	bad tolz	DE		47.761	11.559	28
+P	Tonj		SS		7.274	28.677	4
+P	Torvaianica		IT		41.621	12.462	28
+P	Palmarito Tochapan		MX		18.901	-97.638	11
+P	Barrett Town		JM		18.515	-77.802	9
+P	Toay		AR		-36.674	-64.380	13
+P	Torremaggiore		IT		41.689	15.294	28
+P	Tobré	tobre	BJ		10.195	2.130	0
+P	Torrox		ES		36.758	-3.952	28
+P	Kwun Tong		HK		22.312	114.222	19
+P	Togoshi		JP		35.611	139.717	21
+P	Tōbetsu	tobetsu	JP		43.217	141.517	21
+P	Touagui		CI		5.431	-6.559	3
+P	Las Tres Torres		ES		41.400	2.129	28
+P	Tolentino		IT		43.209	13.285	28
+P	Tostado		AR		-29.233	-61.769	13
+P	Toyota		JP		40.748	141.249	21
+P	Tønder	tonder	DK		54.933	8.867	28
+P	Toukountouna		BJ		10.503	1.374	0
+P	Tooting		GB	England	51.425	-0.164	27
+P	Tocantins		BR		-21.175	-43.018	13
+P	Bačka Topola	backa topola	RS		45.815	19.632	28
+P	Tonga		CM		4.967	10.700	0
+P	Tô	to	BF		11.444	-2.225	3
+P	Torodi		NE		13.119	1.799	0
+P	Toma		BF		12.758	-2.899	3
+P	Dera Colliery Township		IN		20.953	85.172	18
+P	To Kwa Wan		HK		22.317	114.191	19
+P	Toyoyama		JP		35.250	136.912	21
+P	Toshām	tosham	IN		28.870	75.916	18
+P	Toneri		JP		35.811	139.771	21
+P	El Torno		BO		-18.000	-63.387	5
+P	Tocancipá	tocancipa	CO		4.965	-73.913	9
+P	Tordera		ES		41.699	2.719	28
+P	Todi		IT		42.779	12.412	28
+P	Taka-Töölö	taka toolo	FI		60.184	24.919	26
+P	Warren Township		US	New Jersey	40.608	-74.518	14
+P	Baie du Tombeau		MU		-20.119	57.491	29
+P	Torredembarra		ES		41.145	1.399	28
+P	Nowy Tomyśl	nowy tomysl	PL		52.319	16.128	28
+P	Totteridge		GB	England	51.633	-0.200	27
+P	Toyoda		JP		35.017	136.667	21
+P	Tottenham Hale		GB	England	51.594	-0.060	27
+P	Torres Novas		PT		39.476	-8.543	27
+P	Tórshavn	torshavn	FO		62.010	-6.772	27
+P	Road Town		VG		18.427	-64.621	5
+P	Cockburn Town		TC		21.461	-71.142	14

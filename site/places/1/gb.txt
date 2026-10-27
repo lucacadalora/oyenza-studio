@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Lagos	60	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	GH	Ghana	egyptian	s
+C	LR	Liberia	egyptian	s
+C	NG	Nigeria	egyptian	s
+B	0
+P	Gboko		NG		7.323	9.001	1
+P	Gbongan		NG		7.477	4.354	1
+P	Gbawe		GH		5.577	-0.310	0
+P	Gbarnga		LR		6.995	-9.471	0
+P	Gbadolite		CD		4.279	21.003	1
+P	Gbapleu		CI		6.480	-7.165	0
+P	Gbabam		CI		5.467	-5.587	0
+P	Gbolouville		CI		5.794	-4.661	0

@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	0
+P	Arkhangel’sk	arkhangelsk	RU		64.546	40.552	0
+P	Novodvinsk		RU		64.416	40.817	0
+P	Isakogorka		RU		64.446	40.653	0
+P	Mirnyy		RU		62.764	40.339	0
+P	Vel’sk	velsk	RU		61.069	42.099	0
+P	Nyandoma		RU		61.672	40.212	0

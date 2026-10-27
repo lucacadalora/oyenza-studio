@@ -1,0 +1,46 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Lima	-300	
+C	PE	Peru	mwl	s
+B	1
+P	Trujillo		PE		-8.116	-79.030	0
+P	Chiclayo		PE		-6.770	-79.855	0
+P	Chimbote		PE		-9.075	-78.594	0
+P	Cajamarca		PE		-7.164	-78.500	0
+P	Huánuco	huanuco	PE		-9.929	-76.240	0
+P	Huaraz		PE		-9.526	-77.529	0
+P	Tingo María	tingo maria	PE		-9.295	-75.996	0
+P	Jaén	jaen	PE		-5.707	-78.808	0
+P	Moyobamba		PE		-6.034	-76.974	0
+P	Centenario		PE		-9.517	-77.530	0
+P	Lambayeque		PE		-6.701	-79.906	0
+P	Picsi		PE		-6.718	-79.770	0
+P	Chepén	chepen	PE		-7.224	-79.425	0
+P	Yurimaguas		PE		-5.902	-76.122	0
+P	Saña	sana	PE		-6.919	-79.582	0
+P	Juanjuí	juanjui	PE		-7.177	-76.728	0
+P	Ferreñafe	ferrenafe	PE		-6.639	-79.789	0
+P	Chocope		PE		-7.791	-79.222	0
+P	Chachapoyas		PE		-6.232	-77.869	0
+P	Pacasmayo		PE		-7.401	-79.571	0
+P	Tocache		PE		-8.188	-76.520	0
+P	La Peca		PE		-5.611	-78.435	0
+P	Monsefú	monsefu	PE		-6.874	-79.869	0
+P	Guadalupe		PE		-7.250	-79.483	0
+P	Rioja		PE		-6.057	-77.167	0
+P	La Banda		PE		-6.493	-76.342	0
+P	Laredo		PE		-8.090	-78.960	0
+P	Moche		PE		-8.171	-79.009	0
+P	Santiago de Cao		PE		-7.959	-79.239	0
+P	Huamachuco		PE		-7.800	-78.067	0
+P	Paiján	paijan	PE		-7.733	-79.302	0
+P	Contamana		PE		-7.333	-75.017	0
+P	Virú	viru	PE		-8.416	-78.752	0
+P	Bagua Grande		PE		-5.756	-78.441	0
+P	Aguaytía	aguaytia	PE		-9.038	-75.509	0
+P	Uchiza		PE		-8.459	-76.463	0
+P	San Pedro de Lloc		PE		-7.429	-79.504	0
+P	Chongoyape		PE		-6.641	-79.389	0
+P	Pimentel		PE		-6.837	-79.934	0
+P	Pátapo	patapo	PE		-6.733	-79.636	0
+P	Bellavista		PE		-7.056	-76.591	0
+P	Coishco		PE		-9.023	-78.616	0

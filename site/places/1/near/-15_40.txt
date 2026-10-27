@@ -1,0 +1,18 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Maputo	120	
+C	KM	Comoros	egyptian	s
+C	MZ	Mozambique	egyptian	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Nacala		MZ		-14.563	40.685	1
+P	Pemba		MZ		-12.974	40.518	1
+P	Mtwara		TZ		-10.267	40.183	0
+P	Moroni		KM		-11.702	43.255	0
+P	Monapo		MZ		-14.917	40.302	1
+P	Mocímboa da Praia	mocimboa da praia	MZ		-11.352	40.352	1
+P	Mocímboa	mocimboa	MZ		-11.317	40.350	1
+P	Moutsamoudou		KM		-12.167	44.399	0
+P	Mossuril		MZ		-14.968	40.664	1
+P	Macomia		MZ		-12.247	40.121	1
+P	Fomboni		KM		-12.288	43.743	0

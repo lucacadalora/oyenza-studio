@@ -1,0 +1,37 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lusaka	120	
+C	ZM	Zambia	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	1
+P	Lusaka		ZM		-15.407	28.287	0
+P	Livingstone		ZM		-17.842	25.854	0
+P	Gweru		ZW		-19.450	29.817	0
+P	Kwekwe		ZW		-18.928	29.815	0
+P	Kadoma		ZW		-18.333	29.915	0
+P	Chunga		ZM		-15.317	28.269	0
+P	Mazabuka		ZM		-15.856	27.748	0
+P	Kafue		ZM		-15.769	28.181	0
+P	Choma		ZM		-16.809	26.988	0
+P	Namalombwe		ZM		-15.391	28.190	0
+P	Madido		ZM		-15.355	28.374	0
+P	Monze		ZM		-16.271	27.477	0
+P	Chongwe		ZM		-15.329	28.682	0
+P	Chilanga Township		ZM		-15.571	28.270	0
+P	Redcliff		ZW		-19.033	29.783	0
+P	Chisankane		ZM		-15.482	28.351	0
+P	Hwange		ZW		-18.364	26.499	0
+P	Karoi		ZW		-16.810	29.692	0
+P	Chirundu		ZM		-16.036	28.843	0
+P	Victoria Falls		ZW		-17.933	25.831	0
+P	Gokwe		ZW		-18.205	28.935	0
+P	Kalomo		ZM		-17.026	26.484	0
+P	Kariba		ZW		-16.517	28.800	0
+P	Siavonga		ZM		-16.538	28.709	0
+P	Itezhi-Tezhi	itezhi tezhi	ZM		-15.737	26.042	0
+P	Maamba		ZM		-17.367	27.150	0
+P	Lusaka West		ZM		-15.319	28.110	0
+P	Ntandabale		ZM		-15.390	28.422	0
+P	Palabana		ZM		-15.446	28.534	0
+P	Nampundwe		ZM		-15.508	27.924	0
+P	Namwala		ZM		-15.750	26.438	0
+P	Sinazongwe		ZM		-17.261	27.462	0

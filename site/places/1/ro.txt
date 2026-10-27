@@ -1,0 +1,425 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Johannesburg	120	
+Z	3	Africa/Nouakchott	0	
+Z	4	America/Argentina/Cordoba	-180	
+Z	5	America/Bogota	-300	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Cuiaba	-240	
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Mazatlan	-420	
+Z	12	America/Mexico_City	-360	
+Z	13	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Bangkok	420	
+Z	16	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	17	Asia/Karachi	300	
+Z	18	Asia/Kolkata	330	
+Z	19	Asia/Manila	480	
+Z	20	Asia/Pyongyang	540	
+Z	21	Asia/Tehran	210	
+Z	22	Australia/Brisbane	600	
+Z	23	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	24	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	25	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	26	Europe/Moscow	180	
+Z	27	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	28	Indian/Mauritius	240	
+Z	29	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DM	Dominica	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GP	Guadeloupe	mwl	s
+C	GR	Greece	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KP	North Korea	mwl	s
+C	MQ	Martinique	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SK	Slovakia	mwl	s
+C	TH	Thailand	mwl	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	VG	British Virgin Islands	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	2
+P	Rome		IT		41.892	12.511	27
+P	Rostov-on-Don	rostov on don	RU		47.220	39.708	26
+P	Rosario		AR		-32.947	-60.639	4
+P	Rotterdam		NL		51.922	4.479	27
+P	Rohini		IN		28.743	77.068	18
+P	Belford Roxo		BR		-22.764	-43.399	4
+P	Rohtak		IN		28.894	76.589	18
+P	Roodepoort		ZA		-26.163	27.872	2
+P	Rosetta		EG		31.400	30.417	1
+P	Nicolás Romero	nicolas romero	MX		19.642	-99.307	12
+P	Rourkela		IN		22.225	84.864	18
+P	Rondonópolis	rondonopolis	BR		-16.471	-54.636	7
+P	Baton Rouge		US	Louisiana	30.443	-91.187	6
+P	Santa Rosa		PH		14.312	121.111	19
+P	Rochester		US	New York	43.155	-77.616	13
+P	La Romana		DO		18.423	-68.966	7
+P	Little Rock		US	Arkansas	34.746	-92.290	6
+P	Rostock		DE		54.089	12.140	27
+P	Roxas City		PH		11.585	122.751	19
+P	Santa Rosa		US	California	38.440	-122.714	10
+P	Ongata Rongai		KE		-1.395	36.764	26
+P	Robertsonpet		IN		12.956	78.275	18
+P	Rockford		US	Illinois	42.271	-89.094	6
+P	Rosemont–La Petite-Patrie	rosemont la petite patrie	CA	Quebec	45.537	-73.607	13
+P	Franco da Rocha		BR		-23.322	-46.727	4
+P	Rodriguez		PH		14.760	121.200	19
+P	Roseville		US	California	38.752	-121.288	10
+P	Rosario		PH		13.632	121.221	19
+P	Rotherham		GB	England	53.430	-1.357	25
+P	Rouiba		DZ		36.738	3.281	0
+P	Rouen		FR		49.443	1.099	27
+P	Round Rock		US	Texas	30.508	-97.679	6
+P	Rochester		US	Minnesota	44.022	-92.470	6
+P	Beau Bassin-Rose Hill	beau bassin rose hill	MU		-20.233	57.466	28
+P	Rodenkirchen		DE		50.893	6.995	27
+P	Le Plateau-Mont-Royal	le plateau mont royal	CA	Quebec	45.528	-73.581	13
+P	Robāţ Karīm	robat karim	IR		35.485	51.083	21
+P	Roorkee		IN		29.866	77.891	18
+P	Santa Rosa		AR		-36.616	-64.290	4
+P	Rosarito		MX		32.360	-117.046	10
+P	Roanoke		US	Virginia	37.271	-79.941	13
+P	Roubaix		FR		50.694	3.175	27
+P	Rochdale		GB	England	53.618	-2.155	25
+P	Las Rozas de Madrid		ES		40.493	-3.874	27
+P	Romford		GB	England	51.575	0.186	25
+P	Roquetas de Mar		ES		36.764	-2.615	27
+P	Roswell		US	Georgia	34.023	-84.362	13
+P	Rohri		PK		27.692	68.895	17
+P	Roha		IN		18.437	73.120	18
+P	Túxpam de Rodríguez Cano	tuxpam de rodriguez cano	MX		20.958	-97.408	12
+P	La Villa del Rosario		VE		10.326	-72.313	7
+P	Presidencia Roque Sáenz Peña	presidencia roque saenz pena	AR		-26.791	-60.441	4
+P	Rockhampton		AU	Queensland	-23.380	150.506	22
+P	Rouissat		DZ		31.924	5.350	0
+P	New Rochelle		US	New York	40.911	-73.782	13
+P	São Roque	sao roque	BR		-23.529	-47.135	4
+P	Roosendaal		NL		51.531	4.465	27
+P	Santa Rosa		BR		-27.871	-54.481	4
+P	La Rochelle		FR		46.163	-1.152	27
+P	Warner Robins		US	Georgia	32.616	-83.627	13
+P	Rochester Hills		US	Michigan	42.658	-83.150	13
+P	General Roca		AR		-39.033	-67.583	4
+P	Pierrefonds-Roxboro	pierrefonds roxboro	CA	Quebec	45.502	-73.842	13
+P	Rosh Ha‘Ayin	rosh haayin	IL		32.096	34.957	16
+P	Mariano Roque Alonso		PY		-25.208	-57.532	4
+P	Rolândia	rolandia	BR		-23.310	-51.369	4
+P	Rock Hill		US	South Carolina	34.925	-81.025	13
+P	Royal Tunbridge Wells		GB	England	51.133	0.263	25
+P	Roman		RO		46.921	26.926	24
+P	Rosales		PH		15.894	120.633	19
+P	Rossendale		GB	England	53.685	-2.277	25
+P	Rockville		US	Maryland	39.084	-77.153	13
+P	North Little Rock		US	Arkansas	34.770	-92.267	6
+P	Rotorua		NZ		-38.139	176.245	29
+P	Rovaniemi		FI		66.499	25.689	24
+P	Villa del Rosario		CO		7.834	-72.474	5
+P	Rossosh’	rossosh	RU		51.121	38.512	26
+P	Rogers		US	Arkansas	36.332	-94.119	6
+P	Rossosh’	rossosh	RU		50.196	39.566	26
+P	Rocklin		US	California	38.791	-121.236	10
+P	Rowlett		US	Texas	32.903	-96.564	6
+P	Rosenheim		DE		47.856	12.122	27
+P	La Roche-sur-Yon	la roche sur yon	FR		46.670	-1.428	27
+P	Royal Oak		US	Michigan	42.489	-83.145	13
+P	Er Roseires		SD		11.866	34.387	2
+P	Santa Rosa de Cabal		CO		4.868	-75.621	5
+P	Roshanpura		IN		28.601	76.989	18
+P	Roslavl’	roslavl	RU		53.954	32.864	26
+P	Rolim de Moura		BR		-11.804	-61.803	7
+P	Ródos	rodos	GR		36.436	28.222	24
+P	Ropar		IN		30.969	76.527	18
+P	Roeselare		BE		50.947	3.123	27
+P	Marechal Cândido Rondon	marechal candido rondon	BR		-24.556	-54.057	4
+P	Rocky Mount		US	North Carolina	35.938	-77.791	13
+P	Ābu Road	abu road	IN		24.480	72.782	18
+P	Castle Rock		US	Colorado	39.372	-104.856	8
+P	Rosemead		US	California	34.081	-118.073	10
+P	Rogers Park		US	Illinois	42.009	-87.667	6
+P	Rondon do Pará	rondon do para	BR		-4.776	-48.067	4
+P	Roskilde		DK		55.642	12.080	27
+P	Royal Leamington Spa		GB	England	52.285	-1.520	25
+P	Rovigo		IT		45.070	11.790	27
+P	Rowland Heights		US	California	33.976	-117.905	10
+P	Dehu Road		IN		18.682	73.732	18
+P	Roswell		US	New Mexico	33.394	-104.525	8
+P	Roseville		US	Michigan	42.497	-82.937	13
+P	Rouge		CA	Ontario	43.804	-79.166	13
+P	Roquette		FR		48.858	2.381	27
+P	Rovenky		UA		48.083	39.377	24
+P	Monte Rosello		IT		40.735	8.568	27
+P	Roermond		NL		51.194	5.987	27
+P	Rodgau		DE		50.026	8.886	27
+P	Rottenburg		DE		48.476	8.935	27
+P	Rockwall		US	Texas	32.931	-96.460	6
+P	Rohnert Park		US	California	38.340	-122.701	10
+P	Juventino Rosas		MX		20.643	-100.995	12
+P	Rosa Zarate		EC		0.328	-79.474	5
+P	Rompin		MY		2.708	102.505	19
+P	Santa Rosa		EC		-3.456	-79.964	5
+P	Rosny-sous-Bois	rosny sous bois	FR		48.870	2.499	27
+P	Rødovre	rodovre	DK		55.681	12.454	27
+P	Rouached		DZ		36.458	6.043	0
+P	Santa Rosalía de Camargo	santa rosalia de camargo	MX		27.679	-105.172	12
+P	Roanne		FR		46.036	4.068	27
+P	Rozzano		IT		45.382	9.156	27
+P	Romeoville		US	Illinois	41.648	-88.090	6
+P	Robit		ET		9.995	39.897	26
+P	Roi Et		TH		16.057	103.653	15
+P	Far Rockaway		US	New York	40.605	-73.755	13
+P	Rock Island		US	Illinois	41.509	-90.579	6
+P	Rosário	rosario	BR		-2.940	-44.249	4
+P	Romny		UA		50.740	33.495	24
+P	Nueva Rosita		MX		27.937	-101.217	12
+P	Roy		US	Utah	41.162	-112.026	8
+P	Rolim de Moura do Guaporé	rolim de moura do guapore	BR		-13.083	-62.277	7
+P	Santa Rosa de Osos		CO		6.647	-75.460	5
+P	Robertsganj		IN		24.689	83.068	18
+P	Los Rosales		ES		40.356	-3.689	27
+P	Royal Palm Beach		US	Florida	26.708	-80.231	13
+P	Rostokino		RU		55.833	37.667	26
+P	Ronda		ES		36.742	-5.167	27
+P	Rosário do Sul	rosario do sul	BR		-30.258	-54.914	4
+P	Rome		US	Georgia	34.257	-85.165	13
+P	Puerto del Rosario		ES		28.500	-13.863	25
+P	Choisy-le-Roi	choisy le roi	FR		48.768	2.419	27
+P	Roseville		US	Minnesota	45.006	-93.157	6
+P	Barpeta Road		IN		26.503	90.969	18
+P	Rosenberg		US	Texas	29.557	-95.809	6
+P	Rock Forest		CA	Quebec	45.357	-71.997	13
+P	Downsview-Roding-CFB	downsview roding cfb	CA	Ontario	43.733	-79.490	13
+P	Romans-sur-Isère	romans sur isere	FR		45.050	5.066	27
+P	Rovereto		IT		45.890	11.041	27
+P	Rolleston		NZ		-43.583	172.383	29
+P	Rowville		AU	Victoria	-37.933	145.233	23
+P	Robertson		ZA		-33.803	19.885	2
+P	Ronglong		CN		29.436	105.449	19
+P	Víctor Rosales	victor rosales	MX		22.949	-102.702	12
+P	Rorainópolis	rorainopolis	BR		0.946	-60.418	7
+P	Rome		US	New York	43.213	-75.456	13
+P	Santa Rosa Beach		US	Florida	30.396	-86.229	6
+P	Rongjiang		CN		26.550	101.250	19
+P	Karłowice-Różanka	karlowice rozanka	PL		51.137	17.043	27
+P	Bale Robe		ET		7.123	40.004	26
+P	Rosera		IN		25.755	86.032	18
+P	Rostov Veliky		RU		57.191	39.413	26
+P	Rosas		ES		40.428	-3.594	27
+P	Catolé do Rocha	catole do rocha	BR		-6.344	-37.747	4
+P	Sotteville-lès-Rouen	sotteville les rouen	FR		49.410	1.090	27
+P	Rongai		KE		-0.173	35.863	26
+P	Robbah		DZ		33.280	6.910	0
+P	West Roxbury		US	Massachusetts	42.279	-71.150	13
+P	North Royalton		US	Ohio	41.314	-81.725	13
+P	El Rosario		HN		14.579	-87.727	12
+P	Rochester		US	New Hampshire	43.305	-70.976	13
+P	L'Haÿ-les-Roses	lhay les roses	FR		48.779	2.337	27
+P	Rochefort		FR		45.943	-0.968	27
+P	Rosario de la Frontera		AR		-25.799	-64.974	4
+P	San Roque		ES		36.210	-5.385	27
+P	Saint-Étienne-du-Rouvray	saint etienne du rouvray	FR		49.378	1.105	27
+P	Rota		ES		36.624	-6.360	27
+P	Rochester		GB	England	51.388	0.505	25
+P	Rodez		FR		44.353	2.573	27
+P	Novyi Rozdil		UA		49.471	24.134	24
+P	Rincón de Romos	rincon de romos	MX		22.229	-102.322	12
+P	Tapah Road		MY		4.167	101.200	19
+P	Round Lake Beach		US	Illinois	42.372	-88.090	6
+P	Santa Rosa de Copán	santa rosa de copan	HN		14.774	-88.776	12
+P	Roslindale		US	Massachusetts	42.291	-71.124	13
+P	Rodniki		RU		57.105	41.736	26
+P	Sita Road		PK		27.033	67.850	17
+P	Roldanillo		CO		4.413	-76.155	5
+P	Roșiorii de Vede	rosiorii de vede	RO		44.117	24.983	24
+P	Rios Rosas		ES		40.442	-3.698	27
+P	Paso Robles		US	California	35.627	-120.691	10
+P	San Giovanni Rotondo		IT		41.706	15.728	27
+P	Rösrath	rosrath	DE		50.896	7.182	27
+P	Rocha		UY		-34.480	-54.331	4
+P	Ron Phibun		TH		8.179	99.854	15
+P	Romano Banco		IT		45.423	9.107	27
+P	Rosario de Lerma		AR		-24.986	-65.578	4
+P	Central 14th Street / Spring Road	central 14th street spring road	US	District of Columbia	38.937	-77.033	13
+P	Rosedale		US	New York	40.662	-73.735	13
+P	Rottweil		DE		48.168	8.627	27
+P	Roth		DE		49.248	11.091	27
+P	Rockledge		US	Florida	28.351	-80.725	13
+P	Romainville		FR		48.885	2.435	27
+P	Fontenay-aux-Roses	fontenay aux roses	FR		48.793	2.293	27
+P	Rocinha		BR		-22.989	-43.249	4
+P	Pedro do Rosário	pedro do rosario	BR		-2.972	-45.351	4
+P	Ronse		BE		50.746	3.600	27
+P	Rockville Centre		US	New York	40.659	-73.641	13
+P	Rolling Meadows		US	Illinois	42.084	-88.013	6
+P	Amélia Rodrigues	amelia rodrigues	BR		-12.399	-38.755	4
+P	Roxburgh Park		AU	Victoria	-37.626	144.926	23
+P	Rock Springs		US	Wyoming	41.587	-109.203	8
+P	Rossano Stazione		IT		39.599	16.635	27
+P	Le Robert		MQ		14.678	-60.942	7
+P	Guidan Roumdji		NE		13.658	6.696	0
+P	White Rock		CA	British Columbia	49.020	-122.795	14
+P	Rouyn-Noranda	rouyn noranda	CA	Quebec	48.237	-79.023	13
+P	Romulus		US	Michigan	42.222	-83.397	13
+P	Ronnenberg		DE		52.319	9.655	27
+P	Rosemount		US	Minnesota	44.739	-93.126	6
+P	Santa Rosa de Viterbo		BR		-21.473	-47.363	4
+P	Ron		IN		15.699	75.734	18
+P	Robina		AU	Queensland	-28.071	153.393	22
+P	Roselle		US	Illinois	41.985	-88.080	6
+P	Rodolfo Sánchez Taboada	rodolfo sanchez taboada	MX		31.723	-116.572	10
+P	Royton		GB	England	53.565	-2.123	25
+P	Rosemont		US	California	38.552	-121.365	10
+P	Le Plessis-Robinson	le plessis robinson	FR		48.789	2.271	27
+P	Rockcliffe-Smythe	rockcliffe smythe	CA	Ontario	43.675	-79.494	13
+P	Rotenburg		DE		53.110	9.404	27
+P	Roseburg		US	Oregon	43.217	-123.342	10
+P	Rojas		AR		-34.198	-60.734	4
+P	Nang Rong		TH		14.638	102.791	15
+P	Roshal’	roshal	RU		55.669	39.875	26
+P	Playas del Rosario		MX		17.853	-92.932	12
+P	Rottingdean		GB	England	50.810	-0.059	25
+P	Roselle		US	New Jersey	40.652	-74.259	13
+P	Terrier Rouge		HT		19.636	-71.955	13
+P	Rolante		BR		-29.651	-50.576	4
+P	Romita		MX		20.872	-101.517	12
+P	Roissy-en-Brie	roissy en brie	FR		48.792	2.647	27
+P	Rosedale-Moore Park	rosedale moore park	CA	Ontario	43.683	-79.380	13
+P	Clarence-Rockland	clarence rockland	CA	Ontario	45.550	-75.291	13
+P	Rongo		KE		-0.757	34.598	26
+P	Robīt	robit	ET		12.017	39.633	26
+P	Rotterdam		US	New York	42.787	-73.971	13
+P	Genzano di Roma		IT		41.707	12.689	27
+P	Rojales		ES		38.088	-0.725	27
+P	Rovira		CO		4.239	-75.240	5
+P	Rongxi		CN		28.525	108.880	19
+P	French Rocks		IN		12.501	76.674	18
+P	Rocky River		US	Ohio	41.476	-81.839	13
+P	Rose Hill		US	Virginia	38.789	-77.113	13
+P	Sainte-Rose	sainte rose	GP		16.333	-61.697	7
+P	Berkel en Rodenrijs		NL		51.993	4.479	27
+P	Lake Ronkonkoma		US	New York	40.835	-73.131	13
+P	Rolla		US	Missouri	37.951	-91.771	6
+P	Vinhomes Royal City		VN		21.003	105.815	15
+P	Romorantin-Lanthenay	romorantin lanthenay	FR		47.367	1.750	27
+P	Rosignano Solvay-Castiglioncello	rosignano solvay castiglioncello	IT		43.389	10.436	27
+P	Rosolini		IT		36.821	14.951	27
+P	Sam Roi Yot		TH		12.271	99.872	15
+P	Sulzbach-Rosenberg	sulzbach rosenberg	DE		49.501	11.746	27
+P	Roses		ES		42.262	3.177	27
+P	Rosedale		US	Maryland	39.320	-76.516	13
+P	Rodas		CU		22.342	-80.556	9
+P	Ronkonkoma		US	New York	40.821	-73.143	13
+P	Samho-rodongjagu	samho rodongjagu	KP		39.947	127.871	20
+P	Royan		FR		45.628	-1.032	27
+P	Khariar Road		IN		20.899	82.509	18
+P	Matías Romero Avendaño	matias romero avendano	MX		16.877	-95.038	12
+P	Mont-Royal	mont royal	CA	Quebec	45.517	-73.649	13
+P	Las Rosas		MX		16.366	-92.371	12
+P	Rossville		US	New York	40.549	-74.210	13
+P	Saint-Roch	saint roch	FR		43.715	7.292	27
+P	Rokugō	rokugo	JP		39.417	140.550	20
+P	Rodeo del Medio		AR		-32.995	-68.686	4
+P	Santa Rosa Jáuregui	santa rosa jauregui	MX		20.742	-100.448	12
+P	Round Lake		US	Illinois	42.353	-88.093	6
+P	Santa Rosa		CO		10.445	-75.370	5
+P	Ronchin		FR		50.599	3.091	27
+P	Rosamond		US	California	34.864	-118.163	10
+P	Terra Roxa		BR		-24.157	-54.097	4
+P	Santa Rosa		PE		-10.919	-74.885	5
+P	Sint-Genesius-Rode	sint genesius rode	BE		50.746	4.358	27
+P	Rockland		US	Massachusetts	42.131	-70.916	13
+P	Rozdilna		UA		46.855	30.071	24
+P	Santa Rosa		AR		-23.394	-64.425	4
+P	Villeneuve-le-Roi	villeneuve le roi	FR		48.737	2.401	27
+P	Romano di Lombardia		IT		45.521	9.754	27
+P	Villa del Rosario		AR		-31.554	-63.536	4
+P	Rosana		BR		-22.580	-53.059	4
+P	Le Roux		ZA		-33.891	19.103	2
+P	Marly-le-Roi	marly le roi	FR		48.867	2.083	27
+P	Rožnov pod Radhoštěm	roznov pod radhostem	CZ		49.459	18.143	27
+P	Romsey		GB	England	50.989	-1.500	25
+P	Rožňava	roznava	SK		48.660	20.538	27
+P	Rotherbaum		DE		53.567	9.981	27
+P	Mata Roma		BR		-3.625	-43.111	4
+P	Merta Road		IN		26.723	73.918	18
+P	Rochford		GB	England	51.582	0.707	25
+P	Santa Rosa Treinta		MX		18.700	-99.184	12
+P	Roxas		PH		17.119	121.620	19
+P	Ario de Rosales		MX		19.208	-101.709	12
+P	Roseau		DM		15.302	-61.388	7
+P	Roseto degli Abruzzi		IT		42.672	14.015	27
+P	Tlaltenango de Sánchez Román	tlaltenango de sanchez roman	MX		21.781	-103.304	12
+P	Roosevelt		US	New York	40.679	-73.589	13
+P	Roehampton		GB	England	51.452	-0.244	25
+P	San Francisco de los Romo		MX		22.072	-102.272	12
+P	La Roda		ES		39.207	-2.157	27
+P	El Rosario		MX		22.990	-105.854	11
+P	Brie-Comte-Robert	brie comte robert	FR		48.692	2.611	27
+P	Rosso		MR		16.514	-15.805	3
+P	Royston		GB	England	52.048	-0.024	25
+P	Różanka-Polanka	rozanka polanka	PL		51.143	17.020	27
+P	les Roquetes		ES		41.448	2.175	27
+P	Alum Rock		US	California	37.366	-121.827	10
+P	Rockdale		AU	New South Wales	-33.950	151.133	23
+P	Roanoke Rapids		US	North Carolina	36.462	-77.654	13
+P	Romblon		PH		12.575	122.271	19
+P	Rockingham		AU	Western Australia	-32.277	115.730	19
+P	Ropczyce		PL		50.052	21.609	27
+P	Roxbury Crossing		US	Massachusetts	42.331	-71.091	13
+P	Roxas		PH		10.322	119.345	19
+P	Rosário Oeste	rosario oeste	BR		-14.836	-56.428	7
+P	Rondebosch		ZA		-33.963	18.476	2
+P	Rossville		US	Maryland	39.338	-76.480	13
+P	Rochedale South		AU	Queensland	-27.595	153.123	22
+P	Front Royal		US	Virginia	38.918	-78.194	13
+P	Rocca di Papa		IT		41.766	12.702	27
+P	Rotselaar		BE		50.953	4.717	27
+P	Road Town		VG		18.427	-64.621	7

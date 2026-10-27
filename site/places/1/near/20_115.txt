@@ -1,0 +1,37 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	TW	Taiwan	mwl	s
+B	6
+P	Xiamen		CN		24.480	118.082	0
+P	Shantou		CN		23.355	116.679	0
+P	Jieyang		CN		23.542	116.366	0
+P	Chaozhou		CN		23.654	116.623	0
+P	Quanzhou		CN		24.914	118.586	0
+P	Jinjiang		CN		24.820	118.574	0
+P	Meizhou		CN		24.289	116.118	0
+P	Puning		CN		23.311	116.169	0
+P	Zhangzhou		CN		24.513	117.656	0
+P	Shanwei		CN		22.782	115.347	0
+P	Xingning		CN		24.148	115.723	0
+P	Donghai		CN		22.946	115.642	0
+P	Huanggang		CN		23.677	117.000	0
+P	Anbu		CN		23.449	116.681	0
+P	Chenghua		CN		23.461	116.770	0
+P	Shuizhai		CN		23.930	115.765	0
+P	Jieshi		CN		22.810	115.831	0
+P	Hepo		CN		23.431	115.830	0
+P	Jiazi		CN		22.879	116.073	0
+P	Huicheng		CN		23.038	116.290	0
+P	Haimen		CN		23.193	116.612	0
+P	Anliu		CN		23.698	115.680	0
+P	Hedong		CN		23.920	115.780	0
+P	Huacheng		CN		24.067	115.613	0
+P	Ximeicun		CN		24.988	118.386	0
+P	Hengbei		CN		23.880	115.725	0
+P	Shima		CN		24.446	117.812	0
+P	Luoyang		CN		24.959	118.683	0
+P	Magong		TW		23.565	119.586	0
+P	Shuikou		CN		23.984	115.896	0
+P	Jincheng		TW		24.434	118.317	0
+P	Jinhu		TW		24.439	118.421	0

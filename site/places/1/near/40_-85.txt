@@ -1,0 +1,199 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Detroit	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	CA	Canada	moonsighting	s
+C	US	United States	moonsighting	s
+B	0
+P	Detroit		US	Michigan	42.331	-83.046	0
+P	London		CA	Ontario	42.983	-81.233	0
+P	Cleveland		US	Ohio	41.499	-81.695	0
+P	Toledo		US	Ohio	41.664	-83.555	0
+P	Kitchener		CA	Ontario	43.425	-80.511	0
+P	Windsor		CA	Ontario	42.300	-83.017	0
+P	Akron		US	Ohio	41.081	-81.519	0
+P	Guelph		CA	Ontario	43.546	-80.256	0
+P	Warren		US	Michigan	42.490	-83.013	0
+P	Sterling Heights		US	Michigan	42.580	-83.030	0
+P	Cambridge		CA	Ontario	43.360	-80.313	0
+P	Ann Arbor		US	Michigan	42.278	-83.741	0
+P	Lansing		US	Michigan	42.733	-84.556	0
+P	Waterloo		CA	Ontario	43.467	-80.516	0
+P	Brantford		CA	Ontario	43.133	-80.266	0
+P	Clinton Township		US	Michigan	42.587	-82.920	0
+P	Erie		US	Pennsylvania	42.129	-80.085	0
+P	Flint		US	Michigan	43.013	-83.687	0
+P	Dearborn		US	Michigan	42.322	-83.176	0
+P	Livonia		US	Michigan	42.368	-83.353	0
+P	Canton		US	Michigan	42.309	-83.482	0
+P	Troy		US	Michigan	42.606	-83.150	0
+P	Westland		US	Michigan	42.324	-83.400	0
+P	Farmington Hills		US	Michigan	42.485	-83.377	0
+P	Parma		US	Ohio	41.405	-81.723	0
+P	Waterford		US	Michigan	42.693	-83.412	0
+P	Shelby		US	Michigan	42.671	-83.033	0
+P	Rochester Hills		US	Michigan	42.658	-83.150	0
+P	Southfield		US	Michigan	42.473	-83.222	0
+P	Sarnia		CA	Ontario	42.979	-82.404	0
+P	Canton		US	Ohio	40.799	-81.378	0
+P	West Bloomfield Township		US	Michigan	42.569	-83.384	0
+P	Youngstown		US	Ohio	41.100	-80.650	0
+P	Lorain		US	Ohio	41.453	-82.182	0
+P	Taylor		US	Michigan	42.241	-83.270	0
+P	Norfolk County		CA	Ontario	42.833	-80.383	0
+P	Pontiac		US	Michigan	42.639	-83.291	0
+P	Saint Clair Shores		US	Michigan	42.497	-82.889	0
+P	Royal Oak		US	Michigan	42.489	-83.145	0
+P	Novi		US	Michigan	42.481	-83.475	0
+P	Dearborn Heights		US	Michigan	42.337	-83.273	0
+P	Elyria		US	Ohio	41.368	-82.108	0
+P	Lakewood		US	Ohio	41.482	-81.798	0
+P	Redford		US	Michigan	42.383	-83.297	0
+P	Saginaw		US	Michigan	43.419	-83.951	0
+P	Cuyahoga Falls		US	Ohio	41.134	-81.485	0
+P	East Lansing		US	Michigan	42.737	-84.484	0
+P	Newark		US	Ohio	40.058	-82.401	0
+P	Euclid		US	Ohio	41.593	-81.527	0
+P	Roseville		US	Michigan	42.497	-82.937	0
+P	Mentor		US	Ohio	41.666	-81.340	0
+P	Mansfield		US	Ohio	40.758	-82.515	0
+P	Dublin		US	Ohio	40.099	-83.114	0
+P	Cleveland Heights		US	Ohio	41.520	-81.556	0
+P	Strongsville		US	Ohio	41.315	-81.836	0
+P	Chatham		CA	Ontario	42.412	-82.185	0
+P	Midland		US	Michigan	43.616	-84.247	0
+P	Findlay		US	Ohio	41.044	-83.650	0
+P	Woodstock		CA	Ontario	43.133	-80.750	0
+P	Warren		US	Ohio	41.238	-80.818	0
+P	St. Thomas	st thomas	CA	Ontario	42.774	-81.180	0
+P	Westerville		US	Ohio	40.126	-82.929	0
+P	Delaware		US	Ohio	40.299	-83.068	0
+P	Lima		US	Ohio	40.743	-84.105	0
+P	Lincoln Park		US	Michigan	42.251	-83.179	0
+P	Marion		US	Ohio	40.589	-83.129	0
+P	Leamington		CA	Ontario	42.050	-82.600	0
+P	Boardman		US	Ohio	41.024	-80.663	0
+P	Stow		US	Ohio	41.160	-81.440	0
+P	Brunswick		US	Ohio	41.238	-81.842	0
+P	Gahanna		US	Ohio	40.019	-82.879	0
+P	Brant		CA	Ontario	43.133	-80.350	0
+P	Collinwood		US	Ohio	41.558	-81.569	0
+P	Bay City		US	Michigan	43.594	-83.889	0
+P	Hilliard		US	Ohio	40.033	-83.158	0
+P	Jackson		US	Michigan	42.246	-84.401	0
+P	Mount Lebanon		US	Pennsylvania	40.355	-80.049	0
+P	LaSalle		CA	Ontario	42.245	-83.061	0
+P	Eastpointe		US	Michigan	42.468	-82.955	0
+P	North Ridgeville		US	Ohio	41.389	-82.019	0
+P	Westlake		US	Ohio	41.455	-81.918	0
+P	Massillon		US	Ohio	40.797	-81.522	0
+P	Bethel Park		US	Pennsylvania	40.328	-80.040	0
+P	North Olmsted		US	Ohio	41.416	-81.923	0
+P	Stratford		CA	Ontario	43.367	-80.950	0
+P	Bowling Green		US	Ohio	41.375	-83.651	0
+P	Orangeville		CA	Ontario	43.917	-80.100	0
+P	North Royalton		US	Ohio	41.314	-81.725	0
+P	Madison Heights		US	Michigan	42.486	-83.105	0
+P	Kent		US	Ohio	41.154	-81.358	0
+P	Oak Park		US	Michigan	42.459	-83.183	0
+P	Austintown		US	Ohio	41.102	-80.765	0
+P	Port Huron		US	Michigan	42.971	-82.425	0
+P	Southgate		US	Michigan	42.214	-83.194	0
+P	Burton		US	Michigan	42.999	-83.616	0
+P	Cranberry Township		US	Pennsylvania	40.685	-80.107	0
+P	Garfield Heights		US	Ohio	41.417	-81.606	0
+P	Wheeling		US	West Virginia	40.064	-80.721	0
+P	Shaker Heights		US	Ohio	41.474	-81.537	0
+P	Allen Park		US	Michigan	42.258	-83.211	0
+P	Garden City		US	Michigan	42.326	-83.331	0
+P	Wooster		US	Ohio	40.805	-81.936	0
+P	Medina		US	Ohio	41.138	-81.864	0
+P	Barberton		US	Ohio	41.013	-81.605	0
+P	Mount Pleasant		US	Michigan	43.598	-84.768	0
+P	Green		US	Ohio	40.946	-81.483	0
+P	Troy		US	Ohio	40.039	-84.203	0
+P	Sandusky		US	Ohio	41.449	-82.708	0
+P	Wyandotte		US	Michigan	42.214	-83.150	0
+P	Saginaw Township North		US	Michigan	43.460	-84.007	0
+P	Inkster		US	Michigan	42.294	-83.310	0
+P	Holt		US	Michigan	42.641	-84.515	0
+P	Waverly		US	Michigan	42.739	-84.621	0
+P	Strathroy		CA	Ontario	42.955	-81.622	0
+P	Glenville		US	Ohio	41.533	-81.617	0
+P	Avon Lake		US	Ohio	41.505	-82.028	0
+P	Romulus		US	Michigan	42.222	-83.397	0
+P	Tecumseh		CA	Ontario	42.316	-82.884	0
+P	Solon		US	Ohio	41.390	-81.441	0
+P	Marysville		US	Ohio	40.236	-83.367	0
+P	Auburn Hills		US	Michigan	42.688	-83.234	0
+P	Maple Heights		US	Ohio	41.415	-81.566	0
+P	Willoughby		US	Ohio	41.640	-81.406	0
+P	Avon		US	Ohio	41.452	-82.035	0
+P	Hudson		US	Ohio	41.240	-81.441	0
+P	New Castle		US	Pennsylvania	41.004	-80.347	0
+P	Kingsville		CA	Ontario	42.100	-82.733	0
+P	Alliance		US	Ohio	40.915	-81.106	0
+P	Hamtramck		US	Michigan	42.393	-83.050	0
+P	Wadsworth		US	Ohio	41.026	-81.730	0
+P	South Euclid		US	Ohio	41.523	-81.518	0
+P	Collingwood		CA	Ontario	44.483	-80.216	0
+P	Perrysburg		US	Ohio	41.557	-83.627	0
+P	Okemos		US	Michigan	42.722	-84.427	0
+P	Owen Sound		CA	Ontario	44.567	-80.943	0
+P	Sidney		US	Ohio	40.284	-84.156	0
+P	Birmingham		US	Michigan	42.547	-83.211	0
+P	Piqua		US	Ohio	40.145	-84.242	0
+P	Fergus		CA	Ontario	43.706	-80.378	0
+P	Adrian		US	Michigan	41.898	-84.037	0
+P	Wasaga Beach		CA	Ontario	44.517	-80.016	0
+P	Rocky River		US	Ohio	41.476	-81.839	0
+P	Ashland		US	Ohio	40.869	-82.318	0
+P	Parma Heights		US	Ohio	41.390	-81.760	0
+P	Ferndale		US	Michigan	42.461	-83.135	0
+P	Oregon		US	Ohio	41.644	-83.487	0
+P	Monroe		US	Michigan	41.916	-83.398	0
+P	Ypsilanti		US	Michigan	42.241	-83.613	0
+P	Painesville		US	Ohio	41.724	-81.246	0
+P	Weirton Heights		US	West Virginia	40.408	-80.539	0
+P	Broadview Heights		US	Ohio	41.314	-81.685	0
+P	Upper Saint Clair		US	Pennsylvania	40.336	-80.083	0
+P	Haslett		US	Michigan	42.747	-84.401	0
+P	Weirton		US	West Virginia	40.419	-80.590	0
+P	Sylvania		US	Ohio	41.719	-83.713	0
+P	Berea		US	Ohio	41.366	-81.854	0
+P	Twinsburg		US	Ohio	41.313	-81.440	0
+P	Mayfield Heights		US	Ohio	41.519	-81.458	0
+P	Brook Park		US	Ohio	41.398	-81.805	0
+P	Niles		US	Ohio	41.183	-80.765	0
+P	Tillsonburg		CA	Ontario	42.860	-80.726	0
+P	Hespeler		CA	Ontario	43.433	-80.316	0
+P	Trenton		US	Michigan	42.139	-83.178	0
+P	Ashtabula		US	Ohio	41.865	-80.790	0
+P	Eastlake		US	Ohio	41.654	-81.450	0
+P	Steubenville		US	Ohio	40.370	-80.634	0
+P	Clark-Fulton	clark fulton	US	Ohio	41.464	-81.710	0
+P	Tiffin		US	Ohio	41.114	-83.178	0
+P	Fiddlesticks		CA	Ontario	43.395	-80.287	0
+P	Tallmadge		US	Ohio	41.101	-81.442	0
+P	New Philadelphia		US	Ohio	40.490	-81.446	0
+P	North Canton		US	Ohio	40.876	-81.402	0
+P	Detroit-Shoreway	detroit shoreway	US	Ohio	41.478	-81.730	0
+P	East Cleveland		US	Ohio	41.533	-81.579	0
+P	Wayne		US	Michigan	42.281	-83.386	0
+P	Norwalk		US	Ohio	41.243	-82.616	0
+P	Defiance		US	Ohio	41.284	-84.356	0
+P	Mount Vernon		US	Ohio	40.393	-82.486	0
+P	Hazel Park		US	Michigan	42.463	-83.104	0
+P	Fairview Park		US	Ohio	41.441	-81.864	0
+P	Mount Clemens		US	Michigan	42.597	-82.878	0
+P	Hough		US	Ohio	41.512	-81.637	0
+P	Streetsboro		US	Ohio	41.239	-81.346	0
+P	Fremont		US	Ohio	41.350	-83.122	0
+P	Hermitage		US	Pennsylvania	41.233	-80.449	0
+P	Aurora		US	Ohio	41.318	-81.345	0
+P	Grosse Pointe Woods		US	Michigan	42.444	-82.907	0
+P	Avon Center		US	Ohio	41.460	-82.020	0
+P	Middleburg Heights		US	Ohio	41.361	-81.813	0
+P	Forest Heights		CA	Ontario	43.419	-80.523	0
+P	Bay Village		US	Ohio	41.485	-81.922	0
+P	Christopher-Champlain	christopher champlain	CA	Ontario	43.347	-80.302	0
+P	Berkley		US	Michigan	42.503	-83.184	0
+P	Vanier		CA	Ontario	43.427	-80.451	0

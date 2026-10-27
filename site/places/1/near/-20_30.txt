@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Harare	120	
+C	MW	Malawi	egyptian	s
+C	MZ	Mozambique	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	1
+P	Harare		ZW		-17.828	31.053	0
+P	Beira		MZ		-19.844	34.839	0
+P	Chimoio		MZ		-19.116	33.483	0
+P	Chitungwiza		ZW		-18.013	31.076	0
+P	Tete		MZ		-16.156	33.587	0
+P	Mutare		ZW		-18.971	32.671	0
+P	Epworth		ZW		-17.890	31.148	0
+P	Ruwa		ZW		-17.890	31.245	0
+P	Chinhoyi		ZW		-17.367	30.200	0
+P	Norton		ZW		-17.883	30.700	0
+P	Dondo		MZ		-19.609	34.743	0
+P	Marondera		ZW		-18.185	31.552	0
+P	Chegutu		ZW		-18.130	30.141	0
+P	Bindura		ZW		-17.302	31.331	0
+P	Moatize		MZ		-16.115	33.729	0
+P	Manica		MZ		-18.934	32.876	0
+P	Gondola		MZ		-19.088	33.649	0
+P	Rusape		ZW		-18.528	32.128	0
+P	Songo		MZ		-15.596	32.765	0
+P	Nhamatanda		MZ		-19.269	34.213	0
+P	Mount Hampden		ZW		-17.742	30.939	0
+P	Catandica		MZ		-18.058	33.174	0
+P	Shurugwi		ZW		-19.670	30.006	0
+P	Gorongosa		MZ		-18.676	34.073	0
+P	Mwanza		MW		-15.603	34.525	0
+P	Búzi	buzi	MZ		-19.864	34.467	0
+P	Machipanda		MZ		-18.986	32.736	0
+P	Messica		MZ		-18.992	33.082	0
+P	Mvurwi		ZW		-17.033	30.850	0
+P	Harare Western Suburbs		ZW		-17.841	30.877	0

@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bangui	60	
+Z	1	Africa/Juba	120	
+C	CF	Central African Republic	egyptian	s
+C	SD	Sudan	egyptian	s
+C	SS	South Sudan	egyptian	s
+B	0
+P	Winejok		SS		9.012	27.571	1
+P	Wau		SS		7.701	27.990	1
+P	Kuacjok		SS		8.303	27.980	1
+P	Gogrial		SS		8.533	28.100	1
+P	Aweil		SS		8.762	27.392	1
+P	Rumbek		SS		6.806	29.677	1
+P	Abyei		SD		9.595	28.435	1
+P	Zemio		CF		5.031	25.136	0
+P	Tonj		SS		7.274	28.677	1

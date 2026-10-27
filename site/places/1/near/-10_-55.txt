@@ -1,0 +1,13 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Belem	-180	
+Z	1	America/Cuiaba	-240	
+C	BR	Brazil	mwl	s
+B	0
+P	Redenção	redencao	BR		-8.029	-50.031	0
+P	São Félix do Xingu	sao felix do xingu	BR		-6.645	-51.995	0
+P	Tucumã	tucuma	BR		-6.747	-51.161	0
+P	Ourilândia do Norte	ourilandia do norte	BR		-6.755	-51.084	0
+P	Santana do Araguaia		BR		-9.335	-50.350	0
+P	Guarantã do Norte	guaranta do norte	BR		-9.951	-54.908	1
+P	Rio Maria		BR		-7.311	-50.048	0
+P	Água Azul do Norte	agua azul do norte	BR		-6.791	-50.467	0

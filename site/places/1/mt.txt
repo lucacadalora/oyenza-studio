@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Johannesburg	120	
+Z	2	America/Vancouver	-480	29549400=-420
+C	CA	Canada	moonsighting	s
+C	KE	Kenya	egyptian	s
+C	RU	Russia	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	YT	Mayotte	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Mthatha		ZA		-31.589	28.784	1
+P	Mtwara		TZ		-10.267	40.183	0
+P	Mtwapa		KE		-3.939	39.749	0
+P	Mtsensk		RU		53.279	36.580	0
+P	Mtubatuba		ZA		-28.418	32.185	1
+P	Mt Pleasant		CA	British Columbia	49.262	-123.100	2
+P	Mtinko		TZ		-4.550	34.850	0
+P	Mtwango		TZ		-9.017	34.800	0
+P	Mto wa Mbu		TZ		-3.350	35.850	0
+P	Mtsapéré	mtsapere	YT		-12.786	45.217	0

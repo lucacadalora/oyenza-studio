@@ -1,0 +1,10 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	ZA	South Africa	egyptian	s
+B	0
+P	Port Shepstone		ZA		-30.741	30.455	0
+P	Margate		ZA		-30.864	30.371	0
+P	Scottburgh		ZA		-30.287	30.753	0
+P	eMkhomazi		ZA		-30.207	30.796	0
+P	eMuziwezinto		ZA		-30.310	30.663	0
+P	Ga-Malakhe	ga malakhe	ZA		-30.806	30.335	0

@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+C	US	United States	moonsighting	s
+B	0
+P	Albuquerque		US	New Mexico	35.084	-106.651	0
+P	Lakewood		US	Colorado	39.705	-105.081	0
+P	Westminster		US	Colorado	39.837	-105.037	0
+P	Arvada		US	Colorado	39.803	-105.087	0
+P	Rio Rancho		US	New Mexico	35.233	-106.664	0
+P	Enchanted Hills		US	New Mexico	35.337	-106.593	0
+P	Santa Fe		US	New Mexico	35.687	-105.938	0
+P	Broomfield		US	Colorado	39.921	-105.087	0
+P	Grand Junction		US	Colorado	39.064	-108.551	0
+P	Littleton		US	Colorado	39.613	-105.017	0
+P	Farmington		US	New Mexico	36.728	-108.219	0
+P	South Valley		US	New Mexico	35.010	-106.678	0
+P	Dakota Ridge		US	Colorado	39.616	-105.139	0
+P	Ken Caryl		US	Colorado	39.576	-105.112	0
+P	Wheat Ridge		US	Colorado	39.766	-105.077	0
+P	Lafayette		US	Colorado	39.994	-105.090	0
+P	Columbine		US	Colorado	39.588	-105.069	0
+P	Gallup		US	New Mexico	35.528	-108.743	0
+P	Louisville		US	Colorado	39.978	-105.132	0
+P	Golden		US	Colorado	39.756	-105.221	0
+P	Clifton		US	Colorado	39.092	-108.449	0
+P	Montrose		US	Colorado	38.478	-107.876	0
+P	Sherrelwood		US	Colorado	39.838	-105.001	0
+P	Durango		US	Colorado	37.275	-107.880	0
+P	Cañon City	canon city	US	Colorado	38.441	-105.242	0

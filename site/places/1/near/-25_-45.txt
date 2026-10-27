@@ -1,0 +1,170 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Rio de Janeiro		BR		-22.906	-43.182	0
+P	Nova Iguaçu	nova iguacu	BR		-22.759	-43.451	0
+P	Duque de Caxias		BR		-22.786	-43.312	0
+P	Juiz de Fora		BR		-21.764	-43.350	0
+P	Serra		BR		-20.129	-40.308	0
+P	Campos dos Goytacazes		BR		-21.752	-41.330	0
+P	São João de Meriti	sao joao de meriti	BR		-22.804	-43.372	0
+P	Belford Roxo		BR		-22.764	-43.399	0
+P	Niterói	niteroi	BR		-22.883	-43.104	0
+P	Vila Velha		BR		-20.330	-40.292	0
+P	Cariacica		BR		-20.264	-40.420	0
+P	Vitória	vitoria	BR		-20.319	-40.338	0
+P	Volta Redonda		BR		-22.523	-44.104	0
+P	Petrópolis	petropolis	BR		-22.505	-43.179	0
+P	Magé	mage	BR		-22.653	-43.041	0
+P	Itaboraí	itaborai	BR		-22.744	-42.859	0
+P	Cabo Frio		BR		-22.887	-42.026	0
+P	Divinópolis	divinopolis	BR		-20.144	-44.891	0
+P	Maricá	marica	BR		-22.919	-42.819	0
+P	Nova Friburgo		BR		-22.282	-42.531	0
+P	Cachoeiro de Itapemirim		BR		-20.849	-41.113	0
+P	Angra dos Reis		BR		-23.007	-44.318	0
+P	Teresópolis	teresopolis	BR		-22.417	-42.978	0
+P	Ibirité	ibirite	BR		-20.022	-44.059	0
+P	Rio das Ostras		BR		-22.527	-41.945	0
+P	Barra Mansa		BR		-22.544	-44.171	0
+P	Queimados		BR		-22.716	-43.555	0
+P	Nilópolis	nilopolis	BR		-22.808	-43.414	0
+P	Macaé	macae	BR		-22.385	-41.783	0
+P	Araruama		BR		-22.873	-42.343	0
+P	Copacabana		BR		-22.969	-43.186	0
+P	Barbacena		BR		-21.226	-43.774	0
+P	Guarapari		BR		-20.672	-40.502	0
+P	Itaguaí	itaguai	BR		-22.852	-43.775	0
+P	Conselheiro Lafaiete		BR		-20.660	-43.786	0
+P	Resende		BR		-22.469	-44.447	0
+P	São Pedro da Aldeia	sao pedro da aldeia	BR		-22.839	-42.103	0
+P	Itaperuna		BR		-21.205	-41.888	0
+P	Lavras		BR		-21.245	-45.000	0
+P	Muriaé	muriae	BR		-21.131	-42.366	0
+P	Ubá	uba	BR		-21.120	-42.943	0
+P	Japeri		BR		-22.643	-43.653	0
+P	Barra do Piraí	barra do pirai	BR		-22.470	-43.826	0
+P	Itaúna	itauna	BR		-20.075	-44.576	0
+P	Saquarema		BR		-22.899	-42.470	0
+P	Manhuaçu	manhuacu	BR		-20.258	-42.034	0
+P	Seropédica	seropedica	BR		-22.744	-43.708	0
+P	Três Rios	tres rios	BR		-22.117	-43.209	0
+P	São João del Rei	sao joao del rei	BR		-21.136	-44.262	0
+P	Viçosa	vicosa	BR		-20.754	-42.882	0
+P	Cruzeiro		BR		-22.573	-44.971	0
+P	Ouro Preto		BR		-20.395	-43.505	0
+P	Viana		BR		-20.390	-40.496	0
+P	Valença	valenca	BR		-22.246	-43.700	0
+P	Cataguases		BR		-21.389	-42.697	0
+P	Mariana		BR		-20.378	-43.416	0
+P	Cachoeiras de Macacu		BR		-22.462	-42.653	0
+P	Rio Bonito		BR		-22.709	-42.610	0
+P	Ponte Nova		BR		-20.416	-42.909	0
+P	Guapimirim		BR		-22.537	-42.982	0
+P	Itabirito		BR		-20.253	-43.801	0
+P	Congonhas		BR		-20.505	-43.859	0
+P	Leopoldina		BR		-21.532	-42.643	0
+P	Casimiro de Abreu		BR		-22.481	-42.204	0
+P	São Francisco de Itabapoana	sao francisco de itabapoana	BR		-21.302	-40.961	0
+P	Igarapé	igarape	BR		-20.070	-44.302	0
+P	Paraíba do Sul	paraiba do sul	BR		-22.158	-43.293	0
+P	Santo Antônio de Pádua	santo antonio de padua	BR		-21.539	-42.180	0
+P	Paracambi		BR		-22.608	-43.709	0
+P	Mangaratiba		BR		-22.960	-44.041	0
+P	Armação dos Búzios	armacao dos buzios	BR		-22.747	-41.882	0
+P	Santos Dumont		BR		-21.457	-43.553	0
+P	Marataizes		BR		-21.043	-40.824	0
+P	Santa Maria de Jetibá	santa maria de jetiba	BR		-20.027	-40.743	0
+P	São Fidélis	sao fidelis	BR		-21.646	-41.747	0
+P	Itapemirim		BR		-21.011	-40.834	0
+P	Barra da Tijuca		BR		-22.998	-43.365	0
+P	Oliveira		BR		-20.696	-44.827	0
+P	Visconde do Rio Branco		BR		-21.010	-42.841	0
+P	Brumadinho		BR		-20.143	-44.200	0
+P	Ouro Branco		BR		-20.523	-43.695	0
+P	São João da Barra	sao joao da barra	BR		-21.640	-41.051	0
+P	Leblon		BR		-22.984	-43.223	0
+P	Ipanema		BR		-22.984	-43.203	0
+P	Bom Jesus do Itabapoana		BR		-21.134	-41.680	0
+P	Castelo		BR		-20.604	-41.185	0
+P	Sarzedo		BR		-20.035	-44.145	0
+P	Vassouras		BR		-22.404	-43.663	0
+P	Santa Teresa		BR		-22.918	-43.188	0
+P	Domingos Martins		BR		-20.363	-40.659	0
+P	São Joaquim de Bicas	sao joaquim de bicas	BR		-20.049	-44.274	0
+P	Tanguá	tangua	BR		-22.730	-42.714	0
+P	Arraial do Cabo		BR		-22.966	-42.028	0
+P	Itatiaia		BR		-22.496	-44.563	0
+P	Carangola		BR		-20.733	-42.029	0
+P	Além Paraíba	alem paraiba	BR		-21.888	-42.704	0
+P	Afonso Cláudio	afonso claudio	BR		-20.074	-41.124	0
+P	Cláudio	claudio	BR		-20.443	-44.766	0
+P	Anchieta		BR		-20.806	-40.646	0
+P	Bom Jardim		BR		-22.152	-42.419	0
+P	Paty do Alferes		BR		-22.429	-43.419	0
+P	Iguaba Grande		BR		-22.839	-42.229	0
+P	Guaçuí	guacui	BR		-20.776	-41.679	0
+P	Alegre		BR		-20.764	-41.533	0
+P	Piraí	pirai	BR		-22.629	-43.898	0
+P	Iúna	iuna	BR		-20.346	-41.536	0
+P	Miracema		BR		-21.412	-42.197	0
+P	Miguel Pereira		BR		-22.454	-43.469	0
+P	Universidade Rural		BR		-22.766	-43.691	0
+P	São João Nepomuceno	sao joao nepomuceno	BR		-21.540	-43.011	0
+P	Ibatiba		BR		-20.234	-41.511	0
+P	Pinheiral		BR		-22.513	-44.001	0
+P	Rocinha		BR		-22.989	-43.249	0
+P	Mimoso do Sul		BR		-21.064	-41.366	0
+P	Espera Feliz		BR		-20.650	-41.907	0
+P	Carandaí	carandai	BR		-20.954	-43.806	0
+P	Itaocara		BR		-21.669	-42.076	0
+P	Carmo do Cajuru		BR		-20.184	-44.771	0
+P	Raul Soares		BR		-20.102	-42.453	0
+P	Estácio	estacio	BR		-22.918	-43.204	0
+P	Quissamã	quissama	BR		-22.107	-41.472	0
+P	São José do Vale do Rio Preto	sao jose do vale do rio preto	BR		-22.152	-42.923	0
+P	Piúma	piuma	BR		-20.838	-40.722	0
+P	Catete		BR		-22.925	-43.181	0
+P	Cunha		BR		-23.074	-44.960	0
+P	Silva Jardim		BR		-22.651	-42.392	0
+P	Conceição de Macabu	conceicao de macabu	BR		-22.085	-41.868	0
+P	Cordeiro		BR		-22.029	-42.361	0
+P	Porto Real		BR		-22.420	-44.290	0
+P	Caxambu		BR		-21.977	-44.932	0
+P	Lajinha		BR		-20.151	-41.623	0
+P	Divino		BR		-20.614	-42.149	0
+P	Manhumirim		BR		-20.358	-41.958	0
+P	São Pedro	sao pedro	BR		-22.423	-42.966	0
+P	Ervália	ervalia	BR		-20.840	-42.657	0
+P	Barroso		BR		-21.187	-43.976	0
+P	Cantagalo		BR		-21.981	-42.368	0
+P	Simonésia	simonesia	BR		-20.124	-42.001	0
+P	Vargem Alta		BR		-20.671	-41.007	0
+P	Marechal Floriano		BR		-20.413	-40.683	0
+P	Matipó	matipo	BR		-20.284	-42.341	0
+P	Baependi		BR		-21.959	-44.890	0
+P	Sapucaia		BR		-21.995	-42.914	0
+P	Muniz Freire		BR		-20.464	-41.413	0
+P	Mendes		BR		-22.527	-43.733	0
+P	Carmópolis de Minas	carmopolis de minas	BR		-20.541	-44.635	0
+P	Rio Claro		BR		-22.723	-44.136	0
+P	Porciúncula	porciuncula	BR		-20.963	-42.041	0
+P	Carmo		BR		-21.934	-42.609	0
+P	Rio Pomba		BR		-21.275	-43.179	0
+P	Santo Antônio do Amparo	santo antonio do amparo	BR		-20.946	-44.919	0
+P	Lima Duarte		BR		-21.843	-43.793	0
+P	Bom Sucesso		BR		-21.033	-44.758	0
+P	Piranga		BR		-20.685	-43.300	0
+P	Santa Margarida		BR		-20.384	-42.251	0
+P	Tocantins		BR		-21.175	-43.018	0
+P	Mário Campos	mario campos	BR		-20.056	-44.188	0
+P	Sumidouro		BR		-22.050	-42.675	0
+P	Natividade		BR		-21.042	-41.973	0
+P	Passa Quatro		BR		-22.390	-44.967	0
+P	Cruzília	cruzilia	BR		-21.839	-44.808	0
+P	Itanhandu		BR		-22.296	-44.935	0
+P	Paraty		BR		-23.218	-44.713	0
+P	Vidigal		BR		-22.995	-43.240	0
+P	Cambuci		BR		-21.575	-41.911	0
+P	Alvinópolis	alvinopolis	BR		-20.107	-43.049	0

@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bamako	0	
+C	ML	Mali	egyptian	s
+B	0
+P	Gao		ML		16.272	-0.045	0
+P	Timbuktu		ML		16.773	-3.007	0
+P	Bourem		ML		16.955	-0.349	0
+P	Douentza		ML		15.006	-2.952	0
+P	Diré	dire	ML		16.257	-3.401	0
+P	I-n-Tillit	i n tillit	ML		15.546	-0.461	0
+P	Goundam		ML		16.415	-3.671	0

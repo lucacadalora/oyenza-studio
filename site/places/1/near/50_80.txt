@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+Z	1	Asia/Barnaul	420	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	0
+P	Barnaul		RU		53.362	83.728	1
+P	Semey		KZ		50.421	80.250	0
+P	Rubtsovsk		RU		51.515	81.206	1
+P	Berdsk		RU		54.754	83.096	1
+P	Iskitim		RU		54.643	83.304	1
+P	Novoaltaysk		RU		53.414	83.941	1
+P	Ridder		KZ		50.345	83.516	0
+P	Zarinsk		RU		53.708	84.943	1
+P	Akademgorodok		RU		54.852	83.106	1
+P	Kamen’-na-Obi	kamen na obi	RU		53.789	81.332	1
+P	Aleysk		RU		52.496	82.775	1
+P	Ob’	ob	RU		54.989	82.713	1
+P	Linëvo	linevo	RU		54.459	83.376	1
+P	Cherepanovo		RU		54.224	83.381	1
+P	Shemonaikha		KZ		50.629	81.911	0
+P	Yuzhnyy		RU		53.254	83.694	1
+P	Tal’menka	talmenka	RU		53.821	83.571	1
+P	Krasnoobsk		RU		54.920	82.991	1
+P	Gornyak		RU		50.995	81.467	1
+P	Suzun		RU		53.785	82.316	1
+P	Novosilikatnyy		RU		53.310	83.624	1

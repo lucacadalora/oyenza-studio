@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Africa/Lagos	60	
+Z	2	Asia/Kolkata	330	
+Z	3	Europe/Moscow	180	
+C	IN	India	karachi	h
+C	NG	Nigeria	egyptian	s
+C	RU	Russia	mwl	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Ugep		NG		5.809	8.081	1
+P	Ughelli		NG		5.490	6.004	1
+P	Uga		NG		5.936	7.079	1
+P	Uglich		RU		57.523	38.323	3
+P	Ugrākheri	ugrakheri	IN		29.378	77.009	2
+P	Ugie		ZA		-31.198	28.234	0

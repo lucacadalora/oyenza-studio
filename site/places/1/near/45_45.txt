@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Atyrau	300	
+Z	1	Europe/Astrakhan	240	
+Z	2	Europe/Volgograd	180	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	0
+P	Astrakhan		RU		46.350	48.041	1
+P	Akhtubinsk		RU		48.283	46.165	1
+P	Znamensk		RU		48.584	45.734	1
+P	Shalkar		KZ		48.033	48.900	0
+P	Kharabali		RU		47.408	47.254	1
+P	Kamyzyak		RU		46.105	48.078	1
+P	Leninsk		RU		48.703	45.196	2

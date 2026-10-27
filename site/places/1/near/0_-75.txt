@@ -1,0 +1,34 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bogota	-300	
+C	CO	Colombia	mwl	s
+B	1
+P	Bogotá	bogota	CO		4.610	-74.082	0
+P	Kennedy		CO		4.617	-74.146	0
+P	Soacha		CO		4.579	-74.217	0
+P	Villavicencio		CO		4.132	-73.626	0
+P	Facatativá	facatativa	CO		4.814	-74.355	0
+P	Madrid		CO		4.732	-74.264	0
+P	Mosquera		CO		4.706	-74.230	0
+P	Chía	chia	CO		4.859	-74.059	0
+P	Funza		CO		4.716	-74.212	0
+P	Girardot City		CO		4.301	-74.808	0
+P	Fusagasugá	fusagasuga	CO		4.336	-74.364	0
+P	Granada		CO		3.546	-73.707	0
+P	Espinal		CO		4.149	-74.884	0
+P	Cajicá	cajica	CO		4.919	-74.028	0
+P	San José del Guaviare	san jose del guaviare	CO		2.568	-72.640	0
+P	Acacías	acacias	CO		3.987	-73.758	0
+P	Bosconia		CO		4.856	-73.982	0
+P	Guamo		CO		4.031	-74.970	0
+P	Mitú	mitu	CO		1.257	-70.236	0
+P	Purificación	purificacion	CO		3.859	-74.931	0
+P	Flandes		CO		4.290	-74.816	0
+P	Melgar		CO		4.205	-74.641	0
+P	Sibaté	sibate	CO		4.492	-74.260	0
+P	San Martín	san martin	CO		3.696	-73.700	0
+P	Silvania		CO		4.404	-74.387	0
+P	Cota		CO		4.809	-74.098	0
+P	Restrepo		CO		4.258	-73.561	0
+P	Lérida	lerida	CO		4.862	-74.910	0
+P	Puerto López	puerto lopez	CO		4.099	-72.956	0
+P	Tocancipá	tocancipa	CO		4.965	-73.913	0

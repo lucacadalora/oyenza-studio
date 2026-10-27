@@ -1,0 +1,80 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Caracas	-240	
+C	AW	Aruba	mwl	s
+C	BQ	Bonaire, Saint Eustatius and Saba 	mwl	s
+C	CW	Curacao	mwl	s
+C	VE	Venezuela	mwl	s
+B	3
+P	Caracas		VE		10.488	-66.879	0
+P	Valencia		VE		10.162	-68.000	0
+P	Barquisimeto		VE		10.065	-69.357	0
+P	Maracay		VE		10.250	-67.595	0
+P	Petare		VE		10.477	-66.808	0
+P	Turmero		VE		10.229	-67.474	0
+P	Santa Teresa del Tuy		VE		10.233	-66.665	0
+P	Los Teques		VE		10.350	-67.043	0
+P	Guarenas		VE		10.470	-66.619	0
+P	Coro		VE		11.408	-69.678	0
+P	Baruta		VE		10.434	-66.876	0
+P	Guatire		VE		10.474	-66.542	0
+P	San Felipe		VE		10.340	-68.743	0
+P	Guacara		VE		10.226	-67.877	0
+P	Cúa	cua	VE		10.162	-66.882	0
+P	Lander		VE		10.183	-66.700	0
+P	Puerto Cabello		VE		10.473	-68.013	0
+P	Ocumare del Tuy		VE		10.118	-66.775	0
+P	El Limón	el limon	VE		10.306	-67.632	0
+P	Charallave		VE		10.242	-66.857	0
+P	Palo Negro		VE		10.174	-67.542	0
+P	La Victoria		VE		10.227	-67.331	0
+P	Willemstad		CW		12.122	-68.886	0
+P	Cagua		VE		10.186	-67.459	0
+P	Mariara		VE		10.295	-67.718	0
+P	Yaritagua		VE		10.081	-69.124	0
+P	Catia La Mar		VE		10.605	-67.032	0
+P	Cabudare		VE		10.027	-69.262	0
+P	Los Rastrojos		VE		10.026	-69.242	0
+P	Villa de Cura		VE		10.039	-67.489	0
+P	Güigüe	guigue	VE		10.083	-67.778	0
+P	El Cafetal		VE		10.465	-66.830	0
+P	Chivacoa		VE		10.160	-68.895	0
+P	San Joaquín	san joaquin	VE		10.261	-67.793	0
+P	Tacarigua		VE		10.086	-67.920	0
+P	Morón	moron	VE		10.487	-68.201	0
+P	Chacao		VE		10.496	-66.854	0
+P	San Antonio de Los Altos		VE		10.389	-66.952	0
+P	Los Dos Caminos		VE		10.494	-66.829	0
+P	El Hatillo		VE		10.424	-66.826	0
+P	La Dolorita		VE		10.488	-66.786	0
+P	Nirgua		VE		10.150	-68.565	0
+P	Cocorote		VE		10.320	-68.783	0
+P	Maiquetía	maiquetia	VE		10.595	-66.956	0
+P	Caucagüito	caucaguito	VE		10.487	-66.738	0
+P	San Mateo		VE		10.213	-67.424	0
+P	Las Tejerías	las tejerias	VE		10.254	-67.173	0
+P	Higuerote		VE		10.483	-66.101	0
+P	Carrizal		VE		10.350	-66.986	0
+P	Duaca		VE		10.286	-69.162	0
+P	Caraballeda		VE		10.612	-66.852	0
+P	Puerto Píritu	puerto piritu	VE		10.059	-65.037	0
+P	Aroa		VE		10.439	-68.895	0
+P	La Vela de Coro		VE		11.461	-69.566	0
+P	Bejuma		VE		10.174	-68.259	0
+P	Tucacas		VE		10.790	-68.326	0
+P	Miranda		VE		10.151	-68.393	0
+P	Caucagua		VE		10.283	-66.376	0
+P	Puerto Cumarebo		VE		11.486	-69.353	0
+P	Mamporal		VE		10.366	-66.134	0
+P	Montalbán	montalban	VE		10.213	-68.327	0
+P	Urachiche		VE		10.158	-69.008	0
+P	La Guaira		VE		10.602	-66.933	0
+P	Guama		VE		10.266	-68.820	0
+P	Sabana de Parra		VE		10.121	-69.036	0
+P	Río Chico	rio chico	VE		10.319	-65.978	0
+P	San José de Barlovento	san jose de barlovento	VE		10.301	-65.991	0
+P	Boraure		VE		10.248	-68.770	0
+P	Bandariba		CW		12.093	-68.831	0
+P	Pueblo Nuevo		VE		11.948	-69.923	0
+P	Yumare		VE		10.597	-68.673	0
+P	Santa Cruz		AW		12.510	-69.981	0
+P	Kralendijk		BQ		12.150	-68.267	0

@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Belem	-180	
+C	BR	Brazil	mwl	s
+C	GF	French Guiana	mwl	s
+B	0
+P	Macapá	macapa	BR		0.039	-51.066	0
+P	Cayenne		GF		4.938	-52.335	0
+P	Oiapoque		BR		3.843	-51.835	0
+P	Matoury		GF		4.849	-52.324	0
+P	Rémire-Montjoly	remire montjoly	GF		4.917	-52.267	0
+P	Porto Grande		BR		0.713	-51.413	0

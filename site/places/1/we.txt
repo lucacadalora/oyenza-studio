@@ -1,0 +1,332 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+Z	1	Africa/Banjul	0	
+Z	2	Africa/Johannesburg	120	
+Z	3	America/Cayman	-300	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	7	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	8	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	9	America/Phoenix	-420	
+Z	10	America/Sao_Paulo	-180	
+Z	11	America/Vancouver	-480	29549400=-420
+Z	12	Asia/Colombo	330	
+Z	13	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	14	Asia/Shanghai	480	
+Z	15	Asia/Urumqi	360	
+Z	16	Asia/Yangon	390	
+Z	17	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	18	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	19	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	20	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	21	Pacific/Honolulu	-600	
+Z	22	Pacific/Port_Moresby	600	
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CC	Cocos Islands	mwl	s
+C	CH	Switzerland	mwl	s
+C	CN	China	mwl	s
+C	DE	Germany	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	KE	Kenya	egyptian	s
+C	KY	Cayman Islands	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	MM	Myanmar	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PL	Poland	mwl	s
+C	SG	Singapore	singapore	s
+C	SR	Suriname	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	US	United States	moonsighting	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	3
+P	Wenzhou		CN		27.999	120.667	14
+P	Weifang		CN		36.710	119.102	14
+P	Weinan		CN		34.504	109.509	14
+P	Weihai		CN		37.509	122.114	14
+P	Wenchang		CN		19.552	110.803	14
+P	Wenshan City		CN		23.363	104.250	14
+P	Welkom		ZA		-27.977	26.735	2
+P	West Jerusalem		IL		31.782	35.220	13
+P	Wellington		NZ		-41.287	174.776	20
+P	West Raleigh		US	North Carolina	35.787	-78.664	8
+P	Jurong West		SG		1.350	103.723	14
+P	City of Westminster		GB	England	51.498	-0.136	19
+P	Upper West Side		US	New York	40.787	-73.975	8
+P	Somerset West		ZA		-34.084	18.821	2
+P	Westonaria		ZA		-26.319	27.649	2
+P	West Valley City		US	Utah	40.692	-112.001	5
+P	West Palm Beach		US	Florida	26.715	-80.053	8
+P	Westminster		US	Colorado	39.837	-105.037	5
+P	West Jordan		US	Utah	40.610	-111.939	5
+P	West Covina		US	California	34.069	-117.939	7
+P	Weldiya		ET		11.828	39.592	0
+P	West Bromwich		GB	England	52.519	-1.994	19
+P	West Albany		US	New York	42.683	-73.778	8
+P	Westminster		US	California	33.759	-118.007	7
+P	Wembley		GB	England	51.552	-0.297	19
+P	West Town		US	Illinois	41.894	-87.675	4
+P	Wedding		DE		52.547	13.356	18
+P	Wensu		CN		41.275	80.236	15
+P	Weston-super-Mare	weston super mare	GB	England	51.346	-2.977	19
+P	Westland		US	Michigan	42.324	-83.400	8
+P	New Westminster		CA	British Columbia	49.207	-122.911	11
+P	Welk’īt’ē	welkite	ET		8.283	37.783	0
+P	Kowloon West End		HK		22.328	114.185	14
+P	West Ridge		US	Illinois	42.000	-87.693	4
+P	West Gulfport		US	Mississippi	30.404	-89.094	4
+P	Weston		US	Florida	26.100	-80.400	8
+P	Royal Tunbridge Wells		GB	England	51.133	0.263	19
+P	Wenjiang		CN		28.388	104.563	14
+P	Wenling		CN		28.375	121.384	14
+P	West Lynchburg		US	Virginia	37.403	-79.178	8
+P	Weimar		DE		50.980	11.329	18
+P	West Bloomfield Township		US	Michigan	42.569	-83.384	8
+P	West Des Moines		US	Iowa	41.577	-93.711	4
+P	West Hartford		US	Connecticut	41.762	-72.742	8
+P	Wellington		US	Florida	26.659	-80.241	8
+P	West Coon Rapids		US	Minnesota	45.160	-93.350	4
+P	Wesel		DE		51.667	6.620	18
+P	West Hollywood		US	Florida	26.021	-80.184	8
+P	West Allis		US	Wisconsin	43.017	-88.007	4
+P	Wenshang		CN		35.727	116.496	14
+P	Wendo		ET		6.600	38.417	0
+P	Wenxing		CN		28.682	112.879	14
+P	Weining		CN		26.850	104.233	14
+P	Wellingborough		GB	England	52.303	-0.694	19
+P	Wellington		ZA		-33.640	19.011	2
+P	West Haven		US	Connecticut	41.271	-72.947	8
+P	Weymouth		US	Massachusetts	42.221	-70.940	8
+P	Neustadt an der Weinstraße	neustadt an der weinstrasse	DE		49.350	8.139	18
+P	Weymouth		GB	England	50.614	-2.460	19
+P	West New York		US	New Jersey	40.788	-74.014	8
+P	West Sacramento		US	California	38.580	-121.530	7
+P	Wetzlar		DE		50.561	8.505	18
+P	Welland		CA	Ontario	42.983	-79.250	8
+P	Weimiao		CN		34.583	117.067	14
+P	Welwyn Garden City		GB	England	51.802	-0.207	19
+P	Werribee		AU	Victoria	-37.900	144.667	17
+P	Weert		NL		51.252	5.707	18
+P	West Orange		US	New Jersey	40.799	-74.239	8
+P	Weiji		CN		34.033	117.950	14
+P	Werota		ET		11.917	37.700	0
+P	Weißensee	weissensee	DE		52.556	13.466	18
+P	West End		CA	British Columbia	49.283	-123.133	11
+P	Wejherowo		PL		54.606	18.236	18
+P	West Lafayette		US	Indiana	40.426	-86.908	8
+P	West Vancouver		CA	British Columbia	49.329	-123.160	11
+P	Beaufort West		ZA		-32.357	22.583	2
+P	West Seneca		US	New York	42.850	-78.800	8
+P	Wesley Chapel		US	Florida	28.240	-82.328	8
+P	Islington-City Centre West	islington city centre west	CA	Ontario	43.633	-79.543	8
+P	Quinte West		CA	Ontario	44.183	-77.566	8
+P	Weinheim		DE		49.549	8.667	18
+P	West Babylon		US	New York	40.718	-73.354	8
+P	Webuye		KE		0.600	34.771	0
+P	Wesselsbron		ZA		-27.855	26.366	2
+P	Weiden		DE		49.677	12.156	18
+P	Westfield		US	Massachusetts	42.125	-72.750	8
+P	West Hills		US	California	34.197	-118.644	7
+P	Westend		DE		52.517	13.276	18
+P	Welisara		LK		7.028	79.901	12
+P	Welling		GB	England	51.462	0.108	19
+P	Weslaco		US	Texas	26.160	-97.991	4
+P	Wenquan		CN		31.359	108.522	14
+P	West Oak Lane		US	Pennsylvania	40.069	-75.166	8
+P	Westerville		US	Ohio	40.126	-82.929	8
+P	Weixinghu		CN		29.244	105.880	14
+P	Weißenfels	weissenfels	DE		51.201	11.968	18
+P	Wermelskirchen		DE		51.140	7.216	18
+P	Westfield		US	Indiana	40.043	-86.127	8
+P	West Bridgford		GB	England	52.930	-1.125	19
+P	Porta Westfalica		DE		52.230	8.916	18
+P	West Hollywood		US	California	34.090	-118.362	7
+P	Kendall West		US	Florida	25.706	-80.439	8
+P	Weituo		CN		30.040	106.147	14
+P	West Torrington		US	Connecticut	41.818	-73.144	8
+P	Wete		TZ		-5.056	39.729	0
+P	Richmond West		US	Florida	25.610	-80.430	8
+P	ʻEwa Gentry-West Loch	ewa gentry west loch	US	Hawaii	21.353	-158.028	21
+P	Wesseling		DE		50.827	6.975	18
+P	Wentzville		US	Missouri	38.811	-90.853	4
+P	Wedel		DE		53.584	9.698	18
+P	West Little River		US	Florida	25.857	-80.237	8
+P	Lower West Side		US	Illinois	41.854	-87.666	4
+P	West Lake Sammamish		US	Washington	47.578	-122.101	7
+P	Wembesi		ZA		-29.049	29.782	2
+P	Wenatchee		US	Washington	47.423	-120.310	7
+P	West Fargo		US	North Dakota	46.875	-96.900	4
+P	Wednesfield		GB	England	52.596	-2.085	19
+P	West Humber-Clairville	west humber clairville	CA	Ontario	43.716	-79.596	8
+P	West Lawn		US	Illinois	41.773	-87.722	4
+P	Frederico Westphalen		BR		-27.359	-53.394	10
+P	West Village		US	New York	40.734	-74.009	8
+P	Westlake		US	Ohio	41.455	-81.918	8
+P	Weil am Rhein		DE		47.593	7.621	18
+P	Wernigerode		DE		51.837	10.782	18
+P	West Englewood		US	Illinois	41.778	-87.667	4
+P	Werl		DE		51.555	7.914	18
+P	Westmont		US	California	33.941	-118.302	7
+P	West Bend		US	Wisconsin	43.425	-88.183	4
+P	Welench’ītī	welenchiti	ET		8.667	39.433	0
+P	Wenxian Chengguanzhen		CN		32.947	104.681	14
+P	Wenfeng		CN		31.405	109.235	14
+P	Wevelgem		BE		50.800	3.167	18
+P	Werne		DE		51.664	7.634	18
+P	Ywar Ma West		MM		16.897	96.092	16
+P	Westfield		US	New Jersey	40.659	-74.347	8
+P	West Roxbury		US	Massachusetts	42.279	-71.150	8
+P	West Warwick		US	Rhode Island	41.697	-71.522	8
+P	Westchester		US	Florida	25.755	-80.327	8
+P	Mount Pleasant West		CA	Ontario	43.704	-79.393	8
+P	Pueblo West		US	Colorado	38.350	-104.723	5
+P	West Falls Church		US	Virginia	38.865	-77.188	8
+P	Wetter		DE		51.387	7.393	18
+P	West Kelowna		CA	British Columbia	49.862	-119.583	11
+P	Weatherford		US	Texas	32.759	-97.797	4
+P	West Elkridge		US	Maryland	39.207	-76.727	8
+P	West Islip		US	New York	40.706	-73.306	8
+P	Wegberg		DE		51.142	6.284	18
+P	Wellesley		US	Massachusetts	42.296	-71.293	8
+P	Wexford/Maryvale	wexford maryvale	CA	Ontario	43.749	-79.299	8
+P	West Springfield		US	Massachusetts	42.107	-72.620	8
+P	Welingara		GM		13.404	-16.674	1
+P	West Scarborough		US	Maine	43.570	-70.388	8
+P	West Chicago		US	Illinois	41.885	-88.204	4
+P	West Hill		CA	Ontario	43.767	-79.180	8
+P	Wersten		DE		51.185	6.812	18
+P	West Milford		US	New Jersey	41.131	-74.367	8
+P	Sankt Wendel		DE		49.466	7.168	18
+P	Weidian		CN		35.102	105.566	14
+P	Wethersfield		US	Connecticut	41.714	-72.653	8
+P	West Linn		US	Oregon	45.366	-122.612	7
+P	Weiterstadt		DE		49.904	8.589	18
+P	Westport		US	Connecticut	41.141	-73.358	8
+P	Westminster-Branson	westminster branson	CA	Ontario	43.779	-79.452	8
+P	Westhoughton		GB	England	53.549	-2.525	19
+P	Weinstadt-Endersbach	weinstadt endersbach	DE		48.813	9.364	18
+P	Key West		US	Florida	24.555	-81.782	8
+P	Coquitlam West		CA	British Columbia	49.257	-122.879	11
+P	West Whittier-Los Nietos	west whittier los nietos	US	California	33.976	-118.069	7
+P	Wendou Borou		GN		11.433	-13.883	1
+P	West Memphis		US	Arkansas	35.146	-90.185	4
+P	Westmont		US	Illinois	41.796	-87.976	4
+P	Wertheim		DE		49.759	9.509	18
+P	Wetzikon		CH		47.326	8.798	18
+P	Sun City West		US	Arizona	33.662	-112.341	9
+P	Wenceslau Guimarães	wenceslau guimaraes	BR		-13.686	-39.478	10
+P	Newtonbrook West		CA	Ontario	43.786	-79.431	8
+P	Fatehganj West		IN		28.466	79.307	12
+P	Weingarten		DE		47.810	9.639	18
+P	Agincourt South-Malvern West	agincourt south malvern west	CA	Ontario	43.789	-79.266	8
+P	Weilheim		DE		47.841	11.155	18
+P	Wegeda		ET		11.216	38.365	0
+P	Webster Groves		US	Missouri	38.593	-90.357	4
+P	Westpark		US	California	33.685	-117.814	7
+P	Wetteren		BE		51.005	3.883	18
+P	Wellington		GB	England	52.700	-2.517	19
+P	Wenago		ET		6.317	38.267	0
+P	West Odessa		US	Texas	31.842	-102.499	4
+P	Halifax West End		CA	Nova Scotia	44.649	-63.619	6
+P	West Puente Valley		US	California	34.052	-117.968	7
+P	Westerlo		BE		51.090	4.915	18
+P	West Springfield		US	Virginia	38.773	-77.221	8
+P	Werder		DE		52.379	12.934	18
+P	Weligama		LK		5.975	80.430	12
+P	Kingsview Village-The Westway	kingsview village the westway	CA	Ontario	43.699	-79.548	8
+P	Wekiwa Springs		US	Florida	28.699	-81.426	8
+P	West and East Lealman		US	Florida	27.820	-82.689	8
+P	Westerstede		DE		53.257	7.927	18
+P	Westchase		US	Florida	28.055	-82.610	8
+P	West Carson		US	California	33.822	-118.293	7
+P	Lusaka West		ZM		-15.319	28.110	2
+P	Westford		US	Massachusetts	42.579	-71.438	8
+P	Wexford		IE		52.334	-6.457	19
+P	West Pensacola		US	Florida	30.427	-87.280	4
+P	West Lake Stevens		US	Washington	47.993	-122.102	7
+P	West Melbourne		US	Florida	28.072	-80.653	8
+P	Were Īlu	were ilu	ET		10.590	39.438	0
+P	Wenheng		CN		25.667	116.754	14
+P	Werdau		DE		50.736	12.375	18
+P	Westmount		CA	Quebec	45.483	-73.599	8
+P	Werdohl		DE		51.260	7.766	18
+P	Wednesbury		GB	England	52.551	-2.024	19
+P	Wellington		IN		11.366	76.784	12
+P	Pudussery West		IN		10.788	76.728	12
+P	West Mifflin		US	Pennsylvania	40.363	-79.866	8
+P	Wesoła	wesola	PL		52.255	21.224	18
+P	Cranbourne West		AU	Victoria	-38.096	145.267	17
+P	West Chester		US	Pennsylvania	39.961	-75.608	8
+P	Westwood Plateau		CA	British Columbia	49.305	-122.793	11
+P	West Saint Paul		US	Minnesota	44.916	-93.102	4
+P	Weybridge		GB	England	51.372	-0.460	19
+P	Weirton Heights		US	West Virginia	40.408	-80.539	8
+P	Weir		IN		27.019	77.176	12
+P	Weil der Stadt		DE		48.750	8.872	18
+P	Welgelegen		SR		5.842	-55.219	10
+P	West Elsdon		US	Illinois	41.794	-87.725	4
+P	Wenceslau Braz		BR		-23.874	-49.803	10
+P	Weirton		US	West Virginia	40.419	-80.590	8
+P	West Hempstead		US	New York	40.705	-73.650	8
+P	Westminster		US	Maryland	39.575	-76.996	8
+P	Weiwu'eryuqiwen	weiwueryuqiwen	CN		43.756	81.861	15
+P	Eringate-Centennial-West Deane	eringate centennial west deane	CA	Ontario	43.658	-79.580	8
+P	West Molesey		GB	England	51.400	-0.380	19
+P	Sunshine West		AU	Victoria	-37.791	144.816	17
+P	Wealdstone		GB	England	51.600	-0.337	19
+P	Weißenburg in Bayern	weissenburg in bayern	DE		49.031	10.972	18
+P	Wenquan		CN		34.652	105.054	14
+P	Wewak		PG		-3.550	143.632	22
+P	Wettingen		CH		47.466	8.327	18
+P	Weston		CA	Ontario	43.704	-79.515	8
+P	Westbrook		US	Maine	43.677	-70.371	8
+P	Westerly		US	Rhode Island	41.378	-71.827	8
+P	Westmead		AU	New South Wales	-33.804	150.988	17
+P	Weesp		NL		52.307	5.042	18
+P	West Garfield Park		US	Illinois	41.881	-87.729	4
+P	Wervik		BE		50.781	3.039	18
+P	Wenjī	wenji	ET		8.450	39.283	0
+P	Westbury		GB	England	51.260	-2.188	19
+P	Willowdale West		CA	Ontario	43.771	-79.428	8
+P	Wels		AT		48.167	14.033	18
+P	Westchester		US	Illinois	41.851	-87.882	4
+P	Bothell West		US	Washington	47.805	-122.241	7
+P	Clayton Park West		CA	Nova Scotia	44.658	-63.669	6
+P	Wendelstein		DE		49.352	11.151	18
+P	Flowing Wells		US	Arizona	32.294	-111.010	9
+P	Weilerswist		DE		50.753	6.846	18
+P	Lansing-Westgate	lansing westgate	CA	Ontario	43.754	-79.425	8
+P	West Pennant Hills		AU	New South Wales	-33.746	151.048	17
+P	West Columbia		US	South Carolina	33.993	-81.074	8
+P	Weg naar Zee		SR		5.871	-55.215	10
+P	Petershausen-West	petershausen west	DE		47.674	9.178	18
+P	West University Place		US	Texas	29.718	-95.434	4
+P	Wendlingen am Neckar		DE		48.671	9.376	18
+P	Weener		DE		53.165	7.350	18
+P	Wetzelsdorf		AT		47.053	15.399	18
+P	Harare Western Suburbs		ZW		-17.841	30.877	2
+P	West Ham		GB	England	51.533	0.017	19
+P	Westbury		US	New York	40.756	-73.588	8
+P	Bochum-Werne	bochum werne	DE		51.488	7.312	18
+P	West Bay		KY		19.382	-81.393	3
+P	Saint John West		CA	New Brunswick	45.259	-66.078	6
+P	West Ealing		GB	England	51.514	-0.323	19
+P	West Park		US	Florida	25.985	-80.199	8
+P	Weston		US	Wisconsin	44.891	-89.548	4
+P	Weißwasser	weisswasser	DE		51.504	14.640	18
+P	West Island		CC		-12.157	96.823	16
