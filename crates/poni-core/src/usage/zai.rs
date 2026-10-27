@@ -11,8 +11,8 @@
 //! against impossible 5-hour resets.
 
 use super::{
-    num, reply_json, time, Ctx, Dirs, Got, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble,
-    Want, Window, WindowKind,
+    num, reply_json, sort_small_by, time, Ctx, Dirs, Got, KeyAsk, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step,
+    Trouble, Want, Window, WindowKind,
 };
 use serde_json::Value;
 
@@ -145,7 +145,7 @@ fn read(r: &Result<Reply, NetFail>, now: i64) -> Outcome {
         }
     }
     // Shortest window first, the tools last.
-    plan.sort_by_key(|(m, _)| *m);
+    sort_small_by(&mut plan, |a, b| a.0 > b.0);
     let mut s = Snapshot::new(ProviderId::Zai, now, Source::Online);
     s.plan = plan_name(data);
     // No limit we know leaves no windows, never a made-up 0%.

@@ -903,7 +903,7 @@ impl AppState {
             waiting.push((a, self.now));
         }
         // Stable: the same urgency keeps the order they came in.
-        waiting.sort_by_key(|(a, _)| std::cmp::Reverse(a.kind.urgency()));
+        poni_core::usage::sort_small_by(waiting, |(a, _), (b, _)| a.kind.urgency() < b.kind.urgency());
     }
 
     /// Put the next waiting AI notice up once the island is `free` (the app

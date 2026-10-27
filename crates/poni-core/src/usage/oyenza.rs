@@ -14,7 +14,7 @@
 //! answers, when to ask again while a code is on screen, and the words. The
 //! AI tab's worker (`services/usage.rs`) does the HTTP and keeps the key.
 
-use super::{mask_email, num, reply_json, time, Ctx, DayUse, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want};
+use super::{mask_email, num, reply_json, sort_small_by, time, Ctx, DayUse, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want};
 use serde_json::Value;
 
 /// Where Studio asks. A test build points [`URL_VAR`] at another copy of the
@@ -130,7 +130,7 @@ fn parse_summary(v: &Value, now: i64) -> Option<Snapshot> {
         }
     }
     s.days = v.get("days").and_then(Value::as_array).map(|d| d.iter().filter_map(day_use).collect()).unwrap_or_default();
-    s.days.sort_by(|a, b| a.day.cmp(&b.day));
+    sort_small_by(&mut s.days, |a, b| a.day > b.day);
     (s.balance.is_some() || !s.spend.is_empty()).then_some(s)
 }
 

@@ -21,7 +21,7 @@
 //! - A typed key a server refused isn't sent there again this run
 //!   ([`Refusals`]): a key every region refused goes nowhere.
 
-use super::{all, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS};
+use super::{all, sort_small_by, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS};
 use std::collections::HashMap;
 use std::fs::{self, File};
 use std::hash::{Hash, Hasher};
@@ -537,6 +537,16 @@ pub fn read_file(path: &Path, max: u64) -> Got {
     }
 }
 
+/// Puts `file` into `found`, which holds the newest `count` so far, newest
+/// first (the same second, the later name): no sorting of every file seen.
+fn keep_newest(found: &mut Vec<(Option<SystemTime>, PathBuf)>, file: (Option<SystemTime>, PathBuf), count: usize) {
+    let at = found.iter().position(|f| file > *f).unwrap_or(found.len());
+    if at < count {
+        found.insert(at, file);
+        found.truncate(count);
+    }
+}
+
 /// [`Want::Newest`]: the files under `dir` whose names end in `suffix`, down
 /// `depth` folders (0: `dir` alone), newest first by last change, at most
 /// `count`, each read from its end up to `tail` bytes (0 reads nothing: "is
@@ -572,15 +582,13 @@ pub fn read_newest(dir: &Path, suffix: &str, depth: u8, count: usize, tail: u64)
                     subs.push((t, e.path()));
                 }
             } else if meta.is_file() && e.file_name().to_string_lossy().ends_with(suffix) {
-                found.push((t, e.path()));
+                keep_newest(&mut found, (t, e.path()), count);
             }
         }
         // Oldest first, so the newest comes off the top next.
-        subs.sort();
+        sort_small_by(&mut subs, |a, b| a > b);
         todo.extend(subs.into_iter().map(|(_, p)| (p, left - 1)));
     }
-    // Newest first; the same second, the later name.
-    found.sort_by(|a, b| b.cmp(a));
     let mut budget = READ_MAX;
     let mut files = Vec::new();
     for (t, path) in found.into_iter().take(count) {

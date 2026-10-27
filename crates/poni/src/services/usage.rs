@@ -489,7 +489,7 @@ impl Worker {
     /// Notices for the island, the most urgent first.
     fn say(&self, mut alerts: Vec<Alert>) {
         if !alerts.is_empty() {
-            alerts.sort_by_key(|a| std::cmp::Reverse(a.kind.urgency()));
+            usage::sort_small_by(&mut alerts, |a, b| a.kind.urgency() < b.kind.urgency());
             self.send(UsageEvent::Alerts(alerts));
         }
     }
