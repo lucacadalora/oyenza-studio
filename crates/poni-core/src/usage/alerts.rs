@@ -11,7 +11,7 @@
 //! most urgent: out, then a low balance, then near, then back.
 
 use super::{micros, Money, ProviderId, Snapshot, Window};
-use crate::datetime::{civil_from_days, fmt_clock, fmt_date_short, LocalDateTime, WEEKDAY_SHORT};
+use poni_core::datetime::{civil_from_days, fmt_clock, fmt_date_short, LocalDateTime, WEEKDAY_SHORT};
 
 /// What the person chose on the AI tab, and the app's clock.
 #[derive(Clone, Copy, Debug, PartialEq)]

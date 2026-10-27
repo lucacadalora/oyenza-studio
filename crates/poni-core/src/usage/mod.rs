@@ -809,7 +809,7 @@ pub fn parse_time(s: &str) -> Option<i64> {
         }
         _ => return None,
     };
-    let days = crate::datetime::days_from_civil(y as i32, mo as u8, d as u8);
+    let days = poni_core::datetime::days_from_civil(y as i32, mo as u8, d as u8);
     Some(days * 86_400 + h * 3600 + mi * 60 + sec - offset)
 }
 

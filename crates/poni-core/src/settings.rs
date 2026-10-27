@@ -120,7 +120,7 @@ pub struct Settings {
     /// after start and then twice a day (docs/updates.md), and say on the
     /// island once when a new version is out.
     pub update_check: bool,
-    /// The AI tab's choices (`crate::usage`).
+    /// The AI tab's choices (its readers are the `poni-usage` crate).
     pub usage: UsageSettings,
 }
 

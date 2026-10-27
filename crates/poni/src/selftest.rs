@@ -1019,8 +1019,8 @@ fn fake_release() -> poni_core::update::Release {
 /// readings of a 5-hour limit that resets in 2 h 20 min, on the app's clock:
 /// Claude Code from 70 to 90 %, or Codex from 70 % to all used with Oyenza
 /// Inference connected.
-fn ai_alert(st: &AppState, out: bool) -> Option<poni_core::usage::alerts::Alert> {
-    use poni_core::usage::{alerts, ProviderId, Snapshot, Source, Window, WindowKind};
+fn ai_alert(st: &AppState, out: bool) -> Option<poni_usage::alerts::Alert> {
+    use poni_usage::{alerts, ProviderId, Snapshot, Source, Window, WindowKind};
     let id = if out { ProviderId::Codex } else { ProviderId::Claude };
     let read = |used| Snapshot {
         windows: vec![Window::new(WindowKind::Session, "5-hour", used).resets(Some(st.unix + 2 * 3600 + 20 * 60)).length(Some(18_000))],

@@ -46,4 +46,12 @@ pub mod todo;
 pub mod ttml;
 pub mod update;
 pub mod urlenc;
+// The AI tab's readers: the apps use them as their own crate, poni-usage,
+// built for size (crates/poni-usage/Cargo.toml); poni-core compiles the same
+// files for its tests, so `cargo test -p poni-core usage::` tests them. They
+// name poni-core's modules `poni_core::datetime` and so on, which works both
+// ways with this line.
+#[cfg(test)]
+extern crate self as poni_core;
+#[cfg(test)]
 pub mod usage;

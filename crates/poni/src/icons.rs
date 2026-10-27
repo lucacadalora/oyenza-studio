@@ -7,7 +7,7 @@
 //! both renderers would start it where the last segment ended.
 //! Geometry is parsed once and cached by [`crate::gfx::Gfx`].
 
-use poni_core::usage::ProviderId;
+use poni_usage::ProviderId;
 
 pub const STROKE: f32 = 2.0;
 

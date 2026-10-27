@@ -52,7 +52,7 @@ pub mod update;
 // And the Stocks page's prices from oyenza.trade.
 #[path = "../services/stocks.rs"]
 pub mod stocks;
-// And the AI tab's worker (`poni_core::usage` does the reading).
+// And the AI tab's worker (`poni_usage` does the reading).
 #[path = "../services/usage.rs"]
 pub mod usage;
 #[path = "services/location.rs"]

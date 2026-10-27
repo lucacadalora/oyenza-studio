@@ -23,7 +23,7 @@
 //! `ClaudeScopedWeeklyLimitMapper.swift`, `ClaudeConfigPaths.swift`.
 
 use super::{mask_email, micros, num, reply_json, time, Ctx, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
-use crate::sha256::{hex, sha256};
+use poni_core::sha256::{hex, sha256};
 use serde::Deserialize;
 use serde_json::Value;
 

@@ -3,7 +3,7 @@
 //! its card and the notices use.
 //!
 //! Connecting is a device code, the way the island signs in to oyenza.app
-//! (`crate::oyenza`): the AI tab shows 8 letters, the person approves them in
+//! (`poni_core::oyenza`): the AI tab shows 8 letters, the person approves them in
 //! the inference dashboard (where they are signed in anyway), and Studio gets
 //! a read-only key of its own (`oyis_…`), kept sealed under [`SECRET`]. The
 //! key reads the summary below and can disconnect itself; it can't call a
@@ -164,7 +164,7 @@ pub enum Refusal {
 /// The reason behind a [`Trouble::Refused`], from the answer that said it.
 pub fn refusal(r: &Reply) -> Option<Refusal> {
     match r.status {
-        403 if crate::oyenza::error_code(&r.body).as_deref() == Some("account_disabled") => Some(Refusal::Disabled),
+        403 if poni_core::oyenza::error_code(&r.body).as_deref() == Some("account_disabled") => Some(Refusal::Disabled),
         401 | 403 => Some(Refusal::Key),
         _ => None,
     }
@@ -179,7 +179,7 @@ pub fn start_request(base: &str, device: &str, os: Os, version: &str) -> Request
         Os::Windows => "windows",
         Os::Mac => "mac",
     };
-    let body = serde_json::json!({ "device": crate::oyenza::pc_name(device), "os": os, "app": APP, "version": version });
+    let body = serde_json::json!({ "device": poni_core::oyenza::pc_name(device), "os": os, "app": APP, "version": version });
     Request::post_json(format!("{base}/v1/studio/connect/start"), body.to_string())
 }
 
@@ -398,7 +398,7 @@ pub fn approve_text(code: &str, at: &str) -> String {
 
 /// "9:41" left on the code.
 pub fn time_left(expires_at: i64, now: i64) -> String {
-    crate::oyenza::code_time_left((expires_at - now) as f64)
+    poni_core::oyenza::code_time_left((expires_at - now) as f64)
 }
 
 /// "Connected as l•••@example.com".

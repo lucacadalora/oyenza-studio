@@ -1145,6 +1145,7 @@ dependencies = [
  "objc2-quartz-core",
  "p256",
  "poni-core",
+ "poni-usage",
  "serde",
  "serde_json",
  "windows 0.58.0",
@@ -1163,6 +1164,15 @@ dependencies = [
  "sha2",
  "str0m",
  "vibrato",
+]
+
+[[package]]
+name = "poni-usage"
+version = "0.2.11"
+dependencies = [
+ "poni-core",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

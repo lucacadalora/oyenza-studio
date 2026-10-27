@@ -17,6 +17,8 @@ path = "src/main.rs"
 # poni.exe: Windows downloads it as the Japanese readings add-on
 # (poni_core::addons::JAPANESE_READINGS) for the people who want it.
 poni-core = { path = "../poni-core" }
+# The AI tab's readers (poni-core/src/usage/), built for size.
+poni-usage = { path = "../poni-usage" }
 serde.workspace = true
 serde_json.workspace = true
 

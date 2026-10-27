@@ -241,9 +241,9 @@ Gemini CLI, Cursor, GitHub Copilot, Kimi Code, Z.ai, MiniMax, OpenRouter) and
 the person's inference.oyenza.com balance once they connect it. What it reads,
 service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
 
-* **Readers** (`poni_core::usage`): one file per service behind the
-  `Provider` contract in `usage/mod.rs`, all pure, so each is tested on any
-  OS against hand-made answers in `usage/fixtures/<service>/` (loaded only in
+* **Readers** (`poni-core/src/usage/`, `poni_usage` in the apps): one file
+  per service behind the `Provider` contract in `usage/mod.rs`, all pure, so
+  each is tested on any OS against hand-made answers in `usage/fixtures/<service>/` (loaded only in
   tests). `wants(dirs)` names what to read first: a file (`Want::File`,
   refused past its `max`), a log's last lines (`Want::Newest`), a piece of a
   file too big to read whole (`Want::Range`: Cursor's SQLite store, walked a
@@ -265,13 +265,23 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   key, disconnect). Its test-server variable, `PONI_INFERENCE_URL`, takes
   `https://` anywhere but plain `http://` only for this computer (`localhost`,
   `127.0.0.1`, `[::1]`), since the key goes wherever it points.
+* **Built for size**: the apps use the readers as their own crate,
+  `poni-usage` (`crates/poni-usage/Cargo.toml` points at
+  `poni-core/src/usage/mod.rs`, so no file moved), which the release profile
+  builds at opt-level "s": they parse for moments every few minutes, never in
+  a frame. poni-core still compiles the same files for its tests
+  (`cargo test -p poni-core usage::`). So in those files a reader names
+  poni-core's own modules `poni_core::datetime`, `poni_core::oyenza` and so
+  on, never `crate::` (in the apps' build `crate` is poni-usage); tests may
+  keep `crate::`.
 * **Worker** (`services/usage.rs`, which the Mac app runs too through
   `#[path]`): one thread, started the first time the tab opens or the notices
   are switched on (`Services::usage_watch`), that sleeps on a condvar at zero
   CPU unless `Watch { open, notices }` says someone wants it. It serves the
   wants (files within their size caps, the Mac keychain through
-  `/usr/bin/security`, sealed secrets), makes the requests with the shared
-  HTTP client, keeps the last good snapshot per service, and reports
+  `/usr/bin/security`, sealed secrets), makes the requests with an HTTP
+  client of its own (`Client::private`: no redirects, no cookies, no disk
+  cache), keeps the last good snapshot per service, and reports
   `AppEvent::Usage` into `st.usage` (`UsageState`). The page's commands
   (`Command::Usage`) reach it as `UsageCmd`: Refresh, SetKey / ClearKey,
   Connect / CancelConnect / Disconnect; Hide and Show only change
