@@ -105,6 +105,12 @@ impl Drop for MtaGuard {
 ///
 /// Create and use it on one worker thread that is in a COM apartment (see
 /// [`MtaGuard`]); drop it before that apartment is left.
+///
+/// Windows keeps an HTTP cache under it: a repeated GET whose answer had no
+/// `Cache-Control` comes back from that cache and never reaches the server
+/// (`cache_tests` below). A server whose answers change sends
+/// `Cache-Control: no-store`, as api.oyenza.app does on every `/island` route
+/// and oyenza.trade on the Stocks routes.
 pub struct Client {
     http: HttpClient,
 }
@@ -479,5 +485,79 @@ mod pure {
             assert_eq!(network_detail(12029), "could not connect");
             assert_eq!(network_detail(12100), "network error");
         }
+    }
+}
+
+/// Windows' HTTP cache, against a server of the test's own on 127.0.0.1 (CI's
+/// Windows unit tests): the same client and call as the Oyenza worker's.
+#[cfg(test)]
+mod cache_tests {
+    use super::*;
+    use std::io::{Read, Write};
+    use std::net::{TcpListener, TcpStream};
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    use std::sync::Arc;
+
+    /// GETs one new URL twice, with a key in `Authorization`, from a server
+    /// that numbers its answers and adds `headers` to each. Returns the
+    /// bodies and how many GETs reached the server.
+    fn ask_twice(headers: &'static str) -> (Vec<String>, usize) {
+        let listener = TcpListener::bind("127.0.0.1:0").expect("a port");
+        let port = listener.local_addr().expect("its address").port();
+        let hits = Arc::new(AtomicUsize::new(0));
+        let counted = hits.clone();
+        std::thread::spawn(move || {
+            for c in listener.incoming().flatten() {
+                let counted = counted.clone();
+                std::thread::spawn(move || answer(c, &counted, headers));
+            }
+        });
+        // A URL no earlier run asked for: the cache outlives the process.
+        let run = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_or(0, |d| d.as_nanos());
+        let url = format!("http://127.0.0.1:{port}/island/bills?tz=%2B07%3A00&days=35&run={run}");
+        let _com = MtaGuard::new();
+        let client = Client::new("OyenzaStudio/test").expect("a client");
+        let bodies = (0..2)
+            .map(|_| client.send(Method::Get, &url, &[("Authorization", "Bearer oyzd_test")], None, DEFAULT_TIMEOUT).expect("an answer").body)
+            .collect();
+        (bodies, hits.load(Ordering::SeqCst))
+    }
+
+    /// One request on `c`: counted and answered only if it is a GET (a
+    /// connection opened ahead and never used is neither).
+    fn answer(mut c: TcpStream, counted: &AtomicUsize, headers: &str) {
+        let _ = c.set_read_timeout(Some(Duration::from_secs(5)));
+        let (mut head, mut chunk) = (Vec::new(), [0u8; 4096]);
+        while !head.windows(4).any(|w| w == b"\r\n\r\n") {
+            match c.read(&mut chunk) {
+                Ok(0) | Err(_) => return,
+                Ok(n) => head.extend_from_slice(&chunk[..n]),
+            }
+        }
+        if !head.starts_with(b"GET ") {
+            return;
+        }
+        let n = counted.fetch_add(1, Ordering::SeqCst) + 1;
+        let body = format!(r#"{{"hit":{n}}}"#);
+        let _ = c.write_all(
+            format!("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n{headers}Connection: close\r\n\r\n{body}", body.len()).as_bytes(),
+        );
+    }
+
+    #[test]
+    fn a_repeated_get_without_cache_headers_comes_from_windows_cache() {
+        // oyenza-studio#137's IELTS self-test found this. If it ever stops
+        // happening, the test below proves nothing: look at both again.
+        let (bodies, hits) = ask_twice("");
+        assert_eq!((hits, bodies[1].as_str()), (1, r#"{"hit":1}"#), "answers {bodies:?}");
+    }
+
+    #[test]
+    fn a_repeated_get_answered_with_no_store_reaches_the_server() {
+        // The headers api.oyenza.app sends on every /island route
+        // (catat-server's requirePc), so Today's bills, Health steps and
+        // money are asked for every time.
+        let (bodies, hits) = ask_twice("Cache-Control: no-store\r\nVary: Origin\r\n");
+        assert_eq!((hits, bodies[1].as_str()), (2, r#"{"hit":2}"#), "answers {bodies:?}");
     }
 }
