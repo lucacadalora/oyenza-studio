@@ -984,7 +984,8 @@ fn row(ui: &mut Ui, st: &mut AppState, id: ProviderId, r: Rect, view: Rect) -> O
 }
 
 /// A row's buttons, left to right: a key's (Add key, Change key, Cancel
-/// while its field is open), or Oyenza Inference's connection.
+/// while its field is open; none for a service found without one), or
+/// Oyenza Inference's connection.
 fn row_buttons(st: &AppState, id: ProviderId) -> Vec<(String, Option<Icon>, PillStyle, Does)> {
     let b = |label: &str, icon: Option<Icon>, style: PillStyle, does: Does| (label.to_string(), icon, style, does);
     if id == ProviderId::Oyenza {
@@ -997,10 +998,13 @@ fn row_buttons(st: &AppState, id: ProviderId) -> Vec<(String, Option<Icon>, Pill
         };
     }
     let Some(ask) = usage::provider(id).takes_key() else { return Vec::new() };
+    let found = st.usage.readings.get(&id).is_some_and(|r| numbers(id, r).is_some());
     if st.ui.usage.editing == Some(id) {
         vec![b("Cancel", None, PillStyle::Utility, Does::Key)]
     } else if st.usage.keys.contains(ask.secret) {
         vec![b("Change key", None, PillStyle::Utility, Does::Key)]
+    } else if found {
+        Vec::new()
     } else {
         vec![b("Add key", Some(Icon::Plus), PillStyle::Utility, Does::Key)]
     }
@@ -1730,6 +1734,29 @@ mod tests {
         let mut st12 = state();
         st12.settings.use_24h = false;
         assert_eq!(clock_at(&st12, st12.unix + 2 * 3600 + 20 * 60), "2:20 PM");
+    }
+
+    #[test]
+    fn a_key_is_offered_only_where_it_helps() {
+        let mut st = state();
+        let id = ProviderId::OpenRouter;
+        let secret = usage::provider(id).takes_key().expect("OpenRouter takes a key").secret;
+        let labels = |st: &AppState| row_buttons(st, id).into_iter().map(|b| b.0).collect::<Vec<_>>();
+        read(&mut st, id, None, Some(Trouble::NeedsKey));
+        assert_eq!(labels(&st), ["Add key"]);
+        // Found without a typed key (its variable): nothing to add.
+        let mut s = Snapshot::new(id, st.unix, Source::Online);
+        s.balance = Some(Money::usd(1.0));
+        read(&mut st, id, Some(s), None);
+        assert!(labels(&st).is_empty());
+        st.usage.keys.insert(secret);
+        assert_eq!(labels(&st), ["Change key"]);
+        st.ui.usage.editing = Some(id);
+        assert_eq!(labels(&st), ["Cancel"]);
+        // Oyenza Inference: its connection instead.
+        assert_eq!(row_buttons(&st, ProviderId::Oyenza).into_iter().map(|b| b.0).collect::<Vec<_>>(), [oyenza::CONNECT]);
+        st.usage.inference = InferenceLink::On { account: "a•••@example.com".into() };
+        assert_eq!(row_buttons(&st, ProviderId::Oyenza).into_iter().map(|b| b.0).collect::<Vec<_>>(), [oyenza::DISCONNECT]);
     }
 
     #[test]
