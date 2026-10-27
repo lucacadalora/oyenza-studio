@@ -470,14 +470,26 @@ mod tests {
         let service = StocksService::start(sink(tx)).expect("the Stocks thread starts");
         let codes: Vec<String> = stocks::STARTERS.iter().map(|c| c.to_string()).collect();
         let start = Instant::now();
-        service.set_watch(Watch { open: true, codes: codes.clone(), chart: Some("BBCA".into()), names: true });
+        // As the page opens on the day's chart it wants the prices only (the
+        // names and a year would wake 0.2.11's thread through their own times).
+        let mut watch = Watch { open: true, codes: codes.clone(), ..Watch::default() };
+        service.set_watch(watch.clone());
         let (mut board, mut names, mut year) = (None, None, None);
         while board.is_none() || names.is_none() || year.is_none() {
+            if board.is_some() && !watch.names {
+                // Then the search opens and 1M is picked.
+                watch = Watch { names: true, chart: Some("BBCA".into()), ..watch };
+                service.set_watch(watch.clone());
+            }
             let left = Duration::from_secs(30).saturating_sub(start.elapsed());
             let ev = match rx.recv_timeout(left) {
                 Ok(AppEvent::Stocks(ev)) => ev,
                 Ok(_) => continue,
-                Err(_) => panic!("nothing from the Stocks thread in 30 s: it never asked oyenza.trade"),
+                Err(_) => {
+                    let missing = [("prices", board.is_none()), ("names", names.is_none()), ("BBCA's year", year.is_none())];
+                    let missing: Vec<&str> = missing.iter().filter(|m| m.1).map(|m| m.0).collect();
+                    panic!("no {} from the Stocks thread in 30 s: it never asked oyenza.trade", missing.join(", "));
+                }
             };
             let at = start.elapsed().as_secs_f32();
             match ev {
