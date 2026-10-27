@@ -83,6 +83,17 @@ const PHONE_IDLE_S: f64 = 600.0;
 /// one is when it has faded all the way in.
 const HIDDEN_SLIVER: f32 = 5.0;
 const HIDDEN_FADE: f32 = 24.0;
+/// Record pressed: how long the Record page says "Opening the recorder"
+/// without word from it (a cold start of the recorder takes a few seconds).
+/// The recorder's `show` in that time is the launch Record caused: the
+/// island takes it without opening, so it doesn't sit over the recorder's
+/// window or area picker.
+const REC_OPENING_S: f64 = 15.0;
+/// How long the Record page shows why a recording didn't start.
+const REC_ERROR_S: f64 = 8.0;
+/// While a recording is under way, how often the island asks macOS whether
+/// the recorder is still running (at most; only on frames that come anyway).
+const REC_ALIVE_S: f64 = 2.0;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Timer {
@@ -102,6 +113,9 @@ thread_local! {
     static APP: RefCell<Option<App>> = const { RefCell::new(None) };
     /// Mouse monitors and observers stay registered for the app's life.
     static KEEP: RefCell<Vec<Retained<AnyObject>>> = const { RefCell::new(Vec::new()) };
+    /// Recorder messages that came while the app was busy (re-entered): the
+    /// next `drain_events` hands them over.
+    static REC_MISSED: RefCell<Vec<poni_core::recorder::Message>> = const { RefCell::new(Vec::new()) };
 }
 
 /// Work that must run without the app borrowed (AppKit may call back in).
@@ -298,8 +312,27 @@ pub fn drain_events() {
         while let Ok(ev) = a.rx.try_recv() {
             a.on_event(ev);
         }
+        for m in REC_MISSED.with(|q| std::mem::take(&mut *q.borrow_mut())) {
+            a.on_recorder_message(m);
+        }
         a.request_frame();
     });
+}
+
+/// A message from Oyenza Studio Recorder through the island's message port
+/// (`services::recorder::listen`), read while the recorder waits for the
+/// reply: true tells it the island shows the recording (or its Record page),
+/// so it keeps its own bar and controls hidden; false, that it should show
+/// them.
+pub fn recorder_message(m: poni_core::recorder::Message) -> bool {
+    match enter(|a| a.on_recorder_message(m.clone())) {
+        Some(taken) => taken,
+        None => {
+            REC_MISSED.with(|q| q.borrow_mut().push(m));
+            dispatch2::DispatchQueue::main().exec_async(drain_events);
+            false
+        }
+    }
 }
 
 // ---------------------------------------------------------------- the app
@@ -445,6 +478,10 @@ pub struct App {
     smoke_post: Option<(bool, String)>,
     /// The island floated on the last frame (Pill letting go of the notch).
     was_floating: bool,
+    /// The port Oyenza Studio Recorder writes to (`services::recorder`).
+    rec_port: Option<services::recorder::Port>,
+    /// When the island next asks whether the recorder still runs (mono seconds).
+    rec_alive_at: f64,
 }
 
 impl App {
@@ -548,6 +585,8 @@ impl App {
             smoke_full_screen: None,
             smoke_post: None,
             was_floating: false,
+            rec_port: None,
+            rec_alive_at: 0.0,
         }
     }
 
@@ -560,8 +599,8 @@ impl App {
         if self.smoke.is_none() {
             self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
         }
-        let offer = self.st.update.offer.as_ref().map(|r| r.version.clone());
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, offer.as_deref()));
+        let line = crate::updates::menu_line(&self.st, self.updater.is_some());
+        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, line));
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
@@ -576,6 +615,16 @@ impl App {
         self.sync_addons();
         self.schedule_update();
         self.fetch_setup();
+        // Oyenza Studio Recorder installed: the Record tab can show (one
+        // Launch Services question); its port is open either way, for the
+        // recorder installed later.
+        if self.smoke.is_none() {
+            self.st.recorder = services::recorder::installed();
+        }
+        self.rec_port = services::recorder::listen();
+        if self.rec_port.is_none() {
+            pwarn!("recorder: the island's message port couldn't open");
+        }
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
             self.st.cmds.push(Command::LoadThumb(p));
@@ -691,7 +740,7 @@ impl App {
             Timer::Hover => {
                 if !self.hovering || self.expanded {
                     self.hover_arm = None;
-                } else if self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
+                } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
                     // pointer so the pill can be clicked.
                 } else {
@@ -748,6 +797,13 @@ impl App {
         }
         // While a full-screen app hides the island only the phase end matters.
         if let Some(b) = self.st.pomodoro.next_second_boundary(now).filter(|_| !hidden) {
+            consider(now + b + 0.005);
+        }
+        // A recording's time, on the closed island and its page: a frame for
+        // each new second while it records (none while paused), resting while
+        // the island is hidden or nobody can see the screen.
+        let watched_rec = !hidden && !self.away.0 && !self.away.1 && self.st.record_on();
+        if let Some(b) = self.st.rec_next_second().filter(|_| watched_rec) {
             consider(now + b + 0.005);
         }
         if let poni_core::pomodoro::RunState::Running { ends_at } = self.st.pomodoro.run {
@@ -957,6 +1013,7 @@ impl App {
                 self.st.open_update();
                 self.expand();
             }
+            MenuCmd::CheckForUpdates => self.check_for_updates(),
             MenuCmd::RecordScreen => services::recorder::record_screen(self.mtm),
             MenuCmd::Quit => {
                 self.quit(0);
@@ -971,9 +1028,9 @@ impl App {
 
     fn refresh_menu(&mut self) {
         let login = services::login::status();
-        let offer = self.st.update.offer.as_ref().map(|r| r.version.clone());
+        let line = crate::updates::menu_line(&self.st, self.updater.is_some());
         if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, offer.as_deref());
+            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, line);
         }
     }
 
@@ -1125,24 +1182,43 @@ impl App {
         let away = self.away.0 || self.away.1 || self.st.power.saver;
         match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
             Some(0) if away => {}
-            Some(0) => {
-                // The add-on downloader's thread reads it; it starts here when no add-on is on.
-                if self.addons.is_none() {
-                    match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
-                        Ok(svc) => self.addons = Some(svc),
-                        Err(e) => pwarn!("add-ons: unavailable ({e})"),
-                    }
-                }
-                let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
-                if let Some(u) = self.updater.as_mut() {
-                    u.begin();
-                    if !started {
-                        u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
-                        self.schedule_update();
-                    }
-                }
-            }
+            Some(0) => self.read_update_file(now),
             _ => self.schedule_update(),
+        }
+    }
+
+    /// Check for updates… (the menu): read the update file now, even in Low
+    /// Power Mode (someone asked); the answer goes on the island.
+    fn check_for_updates(&mut self) {
+        let now = crate::updates::unix_now();
+        if self.updater.as_mut().is_some_and(|u| u.ask(now)) {
+            self.read_update_file(now);
+        }
+        self.request_frame();
+    }
+
+    /// The add-on downloader's thread, started here when no add-on is on:
+    /// the update file is read and the DMG downloads on it.
+    fn start_addon_thread(&mut self) {
+        if self.addons.is_none() {
+            match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
+                Ok(svc) => self.addons = Some(svc),
+                Err(e) => pwarn!("add-ons: unavailable ({e})"),
+            }
+        }
+    }
+
+    /// Read the update file on the add-on downloader's thread; the answer
+    /// comes back as `UpdateEvent::Checked`.
+    fn read_update_file(&mut self, now: u64) {
+        self.start_addon_thread();
+        let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
+        if let Some(u) = self.updater.as_mut() {
+            u.begin();
+            if !started {
+                u.checked(&mut self.st, Err("the add-on thread isn't running".into()), now);
+                self.schedule_update();
+            }
         }
     }
 
@@ -1151,17 +1227,10 @@ impl App {
     /// for one already offered). Only where this copy can replace itself.
     fn fetch_setup(&mut self) {
         let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
-        if self.addons.is_none() {
-            match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
-                Ok(svc) => self.addons = Some(svc),
-                Err(e) => pwarn!("add-ons: unavailable ({e})"),
-            }
-        }
+        self.start_addon_thread();
         let job = services::update::download_job(self.sink.clone(), d, path);
-        if self.addons.as_ref().map(|a| a.run(job)).is_none() {
-            if let Some(u) = self.updater.as_mut() {
-                u.fetched(&mut self.st, Err("the add-on thread isn't running".into()));
-            }
+        if self.addons.as_ref().map(|a| a.run(job)).is_none() && self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, Err("the add-on thread isn't running".into()))) {
+            self.expand();
         }
     }
 
@@ -1402,18 +1471,21 @@ impl App {
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.checked(&mut self.st, r, crate::updates::unix_now());
-                }
+                let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
                 self.fetch_setup();
                 self.refresh_menu();
+                // Check for updates… found a new version: the Update sheet.
+                if open {
+                    self.expand();
+                }
                 // A frame, so a new version's notice goes up now, not with the next redraw.
                 self.request_frame();
             }
             AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
-                if let Some(u) = self.updater.as_mut() {
-                    u.fetched(&mut self.st, r);
+                // Check for updates… was waiting for it: the Update sheet.
+                if self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, r)) {
+                    self.expand();
                 }
                 self.request_frame();
             }
@@ -1946,8 +2018,10 @@ impl App {
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
                     } else {
-                        // Clicking a notice jumps to its page.
-                        if let Some(n) = self.st.notice.take() {
+                        // Clicking a notice jumps to its page (a new version's
+                        // may be waiting under a volume change or a game's readout).
+                        let shown = self.mode == Mode::Notice;
+                        if let Some(n) = self.st.notice.take_if(|_| shown) {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
                                 Some(NoticeAction::OpenUpdate) => self.st.open_update(),
@@ -2062,8 +2136,82 @@ impl App {
         if !self.expanded {
             self.expanded = true;
             self.cancel_hover();
+            // A recorder installed or removed since the last look.
+            if self.smoke.is_none() {
+                self.st.recorder = services::recorder::installed();
+            }
+            self.check_recorder_alive(true);
+            // A recording under way opens on its page: Pause and Stop are there.
+            if self.st.rec_live() && self.st.record_on() {
+                self.st.page = PageKind::Record;
+            } else if self.st.page == PageKind::Record && !self.st.record_on() {
+                self.st.page = PageKind::ALL[0];
+            }
         }
         self.request_frame();
+    }
+
+    /// Oyenza Studio Recorder's word on its recording, or "show yourself"
+    /// (`recorder_message`). True when the island takes it: it shows the
+    /// recording, or opened on its Record page.
+    fn on_recorder_message(&mut self, m: poni_core::recorder::Message) -> bool {
+        use poni_core::recorder::{Message, Phase};
+        let now = clock::mono();
+        self.st.now = now;
+        // Only an installed recorder that reads the Record page's links
+        // writes: the Record tab can show from now on (remembered).
+        self.st.recorder = true;
+        if !self.st.store.recorder_island {
+            self.st.store.recorder_island = true;
+            self.st.cmd(Command::SaveStore);
+        }
+        if !self.st.record_on() {
+            return false;
+        }
+        let taken = match m {
+            // Hidden for a full-screen app, the island can't be the recorder's face.
+            Message::Show if self.fullscreen_hidden => false,
+            // A Mac app can't tell a link launch from a plain one, so the
+            // recorder Record started says show too: taken, the island as it is.
+            Message::Show if self.st.rec.opening_until > now => true,
+            Message::Show => {
+                self.set_page(PageKind::Record);
+                self.expand();
+                true
+            }
+            Message::State { phase, elapsed_ms, error } => {
+                let rec = &mut self.st.rec;
+                rec.opening_until = 0.0;
+                if phase == Phase::Idle {
+                    rec.phase = None;
+                    rec.error = error.map(|e| (e, now + REC_ERROR_S));
+                } else {
+                    rec.phase = Some(phase);
+                    rec.elapsed_ms = elapsed_ms;
+                    rec.at = now;
+                    rec.error = None;
+                }
+                self.rec_alive_at = now + REC_ALIVE_S;
+                true
+            }
+        };
+        self.request_frame();
+        taken
+    }
+
+    /// A recorder gone mid-recording (quit, crashed) leaves no recording
+    /// behind on the island. Asked of macOS only while one is under way, at
+    /// most every `REC_ALIVE_S` (`now`: as the island opens).
+    fn check_recorder_alive(&mut self, now: bool) {
+        if !self.st.rec_live() || self.smoke.is_some() || (!now && self.st.now < self.rec_alive_at) {
+            return;
+        }
+        self.rec_alive_at = self.st.now + REC_ALIVE_S;
+        if !services::recorder::running() {
+            pinfo!("recorder: it quit mid-recording");
+            self.st.rec = crate::state::RecView::default();
+            self.request_frame();
+        }
     }
 
     /// (Re)start the hover dwell from `p`.
@@ -2092,6 +2240,7 @@ impl App {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
             }
             self.st.update.sheet = false;
+            self.st.update.said = None;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
             if let Some(n) = self.st.notice.as_mut() {
@@ -2107,6 +2256,7 @@ impl App {
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
+                self.st.update.said = None;
                 self.st.store.last_page = p.key().to_string();
                 self.set_timer(Timer::Save, 800);
             } else {
@@ -2154,6 +2304,10 @@ impl App {
             // Gone at once, the way a notice leaves when its time is up.
             if let Some(n) = self.st.notice.as_mut() {
                 n.until = self.st.now;
+            }
+            // A new version's: it doesn't come back.
+            if let Some(u) = self.updater.as_mut() {
+                u.seen(&mut self.st);
             }
             return;
         }
@@ -2221,6 +2375,20 @@ impl App {
                 Command::FocusText => self.focus_text(),
                 Command::BlurText => self.blur_text(),
                 Command::RecordScreen => services::recorder::record_screen(self.mtm),
+                Command::Record => {
+                    let rec = self.st.settings.record;
+                    services::recorder::record(self.mtm, rec.target, rec.inputs());
+                    self.st.rec.opening_until = self.st.now + REC_OPENING_S;
+                    self.st.rec.error = None;
+                    // A window or an area is picked on the recorder's overlay:
+                    // the open island would sit over it.
+                    if rec.target != poni_core::recorder::Target::Screen {
+                        self.collapse();
+                    }
+                }
+                Command::RecordPause => services::recorder::pause(),
+                Command::RecordResume => services::recorder::resume(),
+                Command::RecordStop => services::recorder::stop(),
                 Command::ScriptPaste => {
                     let text = services::clipboard::read_text().map(|t| poni_core::script::clean(&t)).filter(|t| !t.is_empty());
                     match text {
@@ -2261,6 +2429,7 @@ impl App {
                 Command::Play(s) => services::play(s == Sound::Chime),
                 Command::OpenUrl(u) => services::open(&u),
                 Command::Update => self.update_now(),
+                Command::CheckForUpdates => self.check_for_updates(),
                 Command::InstallOnNextStart => {
                     if let Some(u) = self.updater.as_mut() {
                         u.install_on_next_start(&mut self.st);
@@ -2841,12 +3010,14 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
-        // Prayer times, System, Health or Stocks switched off: its tab is gone.
+        self.check_recorder_alive(false);
+        // Prayer times, System, Health, Stocks or Screen recorder switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Record => !self.st.record_on(),
             _ => false,
         };
         if gone {
@@ -3581,6 +3752,20 @@ impl App {
                 self.st.page = PageKind::Today;
                 self.expand();
             }
+            // Oyenza Studio Recorder's word through the island's message port,
+            // sent from another process as the recorder sends it
+            // (tools/mac-smoke.sh), around a notch: the recording rests in its
+            // ears; then its end.
+            "record-port" => {
+                self.leave();
+                window::fake_notch(Some(Notch::MACBOOK));
+                self.refresh_screen();
+                self.on_menu(MenuCmd::SetTheme(Theme::Classic));
+                self.st.hud = None;
+                self.st.notice = None;
+                self.collapse();
+            }
+            "record-check" | "record-stop" | "record-gone" => {}
             "menu" => {
                 // The pointer from notch-pill-ear leaves.
                 self.leave();
@@ -3646,6 +3831,8 @@ impl App {
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
+            "record-check" => self.mode == Mode::Activity(activities::Activity::Recording) || waited > 5.0,
+            "record-gone" => self.st.rec.phase.is_none() || waited > 5.0,
             // About two seconds of frames at rest.
             "music-cost" | "pill-music-cost" => waited > 2.5,
             _ => true,
@@ -3703,6 +3890,26 @@ impl App {
     fn smoke_check(&self, name: &str) -> Option<(&'static str, bool, String)> {
         let gib = |b: u64| b as f64 / (1u64 << 30) as f64;
         match name {
+            "record-check" | "record-gone" => {
+                let showing = self.mode == Mode::Activity(activities::Activity::Recording);
+                let recording = self.st.rec.phase == Some(poni_core::recorder::Phase::Recording);
+                let g = self.island.current();
+                let d = format!(
+                    "{:?}, {:.0}x{:.0} DIP, recorder said {:?} at {}, Record tab {}, notch {:?}",
+                    self.mode,
+                    g.w,
+                    g.h,
+                    self.st.rec.phase,
+                    poni_core::recorder::fmt_length(self.st.rec_elapsed()),
+                    if self.st.record_on() { "on" } else { "off" },
+                    self.screen.notch
+                );
+                if name == "record-check" {
+                    Some(("recording-pill", showing && recording, d))
+                } else {
+                    Some(("recording-ended", !showing && self.st.rec.phase.is_none(), d))
+                }
+            }
             // Signed out, Today shows the sign-in card, so its tiles' once-a-second
             // readings stay off; the readings still work for when the tiles show
             // (a server without the day): one taken here.
@@ -4357,7 +4564,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 63] = [
+const SMOKE_STEPS: [&str; 67] = [
     "idle",
     "hover",
     "open-focus",
@@ -4420,6 +4627,10 @@ const SMOKE_STEPS: [&str; 63] = [
     "now-playing",
     "now-playing-browser-start",
     "now-playing-browser",
+    "record-port",
+    "record-check",
+    "record-stop",
+    "record-gone",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.

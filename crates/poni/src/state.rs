@@ -15,6 +15,7 @@ use poni_core::lrc::Lyrics;
 use poni_core::oyenza::{Activity, Bill, DayPick, Saved, Seen};
 use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
+use poni_core::recorder::Phase as RecPhase;
 use poni_core::prayer::{Place, PlaceList, Site, World};
 use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
@@ -171,6 +172,14 @@ pub struct Notice {
     pub reveal: Option<String>,
 }
 
+impl Notice {
+    /// No time limit (a new version's): it stays until clicked or put away,
+    /// and lets a volume change or a game's readout show over it meanwhile.
+    pub fn stays(&self) -> bool {
+        self.until.is_infinite()
+    }
+}
+
 /// What the app knows about new versions.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct UpdateView {
@@ -185,6 +194,20 @@ pub struct UpdateView {
     pub ready: bool,
     /// Install on next start was picked for it.
     pub next_start: bool,
+    /// This copy reads the update file itself (not a Microsoft Store copy):
+    /// Settings has Check now.
+    pub looks: bool,
+    /// What Settings says in Check now's place since it was clicked, until
+    /// the island closes or the page changes.
+    pub said: Option<Said>,
+}
+
+/// Check now's answer in Settings.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Said {
+    Checking,
+    UpToDate,
+    Failed,
 }
 
 /// A phone wants to send these files; the Shelf asks the person at the PC.
@@ -544,6 +567,25 @@ impl PrayerState {
     }
 }
 
+/// What Oyenza Studio Recorder last said about its recording
+/// (`poni_core::recorder::Message::State`).
+#[derive(Clone, Debug, Default)]
+pub struct RecView {
+    /// None: no recording heard of (none yet, or the last one ended).
+    pub phase: Option<RecPhase>,
+    /// Its length when the message came (paused time left out)...
+    pub elapsed_ms: u64,
+    /// ...and when that was (mono seconds), to count on from while it records.
+    pub at: f64,
+    /// The recorder's window, to notice a recorder gone mid-recording (0: none).
+    pub sender: isize,
+    /// Record was pressed and the recorder hasn't answered yet: the page says
+    /// "Opening the recorder" until this time (mono seconds).
+    pub opening_until: f64,
+    /// Why the last start failed, shown on the Record page until a time.
+    pub error: Option<(String, f64)>,
+}
+
 /// The AI tab's readings, kept in memory only (its choices are
 /// `settings.usage`). Filled by `services::usage` while the tab is open, or
 /// every few minutes for the person who switched on its heads-up notices.
@@ -730,11 +772,14 @@ pub struct AppState {
     /// Whether Windows leaves the island out of screen capture while the
     /// Script page shows (None = not asked yet, or not on Windows).
     pub script_hidden: Option<bool>,
-    /// Oyenza Studio Recorder is installed, so the Script page shows Record.
-    /// Asked each time the page comes on screen, never at rest.
+    /// Oyenza Studio Recorder is installed: the Script page shows Record, and
+    /// the Record tab can show (`record_on`). Asked at start, as the island
+    /// opens and when the recorder writes, never at rest.
     pub recorder: bool,
     /// The Stocks add-on's prices (its list: `store.stocks`).
     pub stocks: StocksState,
+    /// The recorder's recording, as it last told the island.
+    pub rec: RecView,
     /// The AI tab's readings (its choices: `settings.usage`).
     pub usage: UsageState,
     /// Side effects requested during the frame.
@@ -804,6 +849,7 @@ impl AppState {
             script_hidden: None,
             recorder: false,
             stocks: StocksState::default(),
+            rec: RecView::default(),
             usage: UsageState::default(),
             cmds: Vec::new(),
         };
@@ -822,6 +868,7 @@ impl AppState {
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
             PageKind::Stocks => !st.stocks_on(),
+            PageKind::Record => !st.record_on(),
             _ => false,
         };
         if off {
@@ -833,6 +880,39 @@ impl AppState {
     /// Where the add-on `id` stands (`Off` for one this version doesn't know).
     pub fn addon(&self, id: &str) -> AddonStatus {
         self.addons.get(id).copied().unwrap_or(AddonStatus::Off)
+    }
+
+    /// Screen recorder is on (`Settings::recorder_on`): the Record tab shows
+    /// and the island answers the recorder, which then shows no bar or
+    /// controls of its own (`WM_COPYDATA` on Windows, a message port on the Mac).
+    pub fn record_on(&self) -> bool {
+        self.settings.recorder_on(self.recorder_ready())
+    }
+
+    /// The recorder is installed and has written to the island before
+    /// (`Store::recorder_island`): it understands the Record page.
+    pub fn recorder_ready(&self) -> bool {
+        self.recorder && self.store.recorder_island
+    }
+
+    /// A recording is under way: starting, recording, paused or being saved.
+    pub fn rec_live(&self) -> bool {
+        self.rec.phase.is_some_and(|p| p != RecPhase::Idle)
+    }
+
+    /// The recording's length now, in seconds (paused time left out).
+    pub fn rec_elapsed(&self) -> f64 {
+        let at_message = self.rec.elapsed_ms as f64 / 1000.0;
+        if self.rec.phase == Some(RecPhase::Recording) {
+            at_message + (self.now - self.rec.at).max(0.0)
+        } else {
+            at_message
+        }
+    }
+
+    /// Seconds until the recording's time shows its next second, while it runs.
+    pub fn rec_next_second(&self) -> Option<f64> {
+        (self.rec.phase == Some(RecPhase::Recording)).then(|| 1.0 - self.rec_elapsed().fract())
     }
 
     /// The Script reader add-on is on: the Script tab shows.

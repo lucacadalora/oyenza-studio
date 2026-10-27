@@ -162,8 +162,23 @@ pub const STOCKS: Addon = Addon {
     files: &[],
 };
 
+/// Screen recorder: the Record page and the recording pill, the face of
+/// Oyenza Studio Recorder (its own install, about 120 MB). Its code is in the
+/// island, so there is nothing to download. It shows on the Add-ons page once
+/// the recorder is installed, and is on from then until switched off
+/// (`Settings::recorder_on`). Off, there is no Record tab, and the recorder
+/// shows its own bar and controls.
+pub const SCREEN_RECORDER: Addon = Addon {
+    id: "recorder",
+    title: "Screen recorder",
+    blurb: "Record your screen from the island, with Oyenza Studio Recorder.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 6] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS];
+pub const ALL: [&Addon; 7] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &SCREEN_RECORDER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -276,6 +291,19 @@ mod tests {
         }
         // Clipboard history left the app after 0.2.8: no add-on by that id.
         assert_eq!(Addon::find("clipboard"), None);
+    }
+
+    #[test]
+    fn screen_recorder_is_on_once_the_recorder_is_installed() {
+        assert!(!SCREEN_RECORDER.downloads() && SCREEN_RECORDER.size() == 0);
+        assert_eq!(Addon::find("recorder"), Some(&SCREEN_RECORDER));
+        let mut s = Settings::default();
+        assert!(!s.recorder_on(false), "no recorder: nothing to show");
+        assert!(s.recorder_on(true), "installing the recorder is the switch");
+        s.set_addon(SCREEN_RECORDER.id, false);
+        assert!(!s.recorder_on(true), "switched off by hand: stays off");
+        s.set_addon(SCREEN_RECORDER.id, true);
+        assert!(s.recorder_on(true) && !s.recorder_on(false));
     }
 
     #[test]

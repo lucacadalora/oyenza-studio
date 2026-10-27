@@ -12,6 +12,7 @@ use objc2_core_foundation::CGFloat;
 use objc2_core_graphics::{CGBlendMode, CGContext};
 use objc2_foundation::{NSObject, NSObjectProtocol, NSSize, NSString};
 use crate::state::OyenzaLink;
+use crate::updates::UpdateLine;
 use poni_core::settings::{IdleStyle, Settings, Theme};
 use std::cell::RefCell;
 
@@ -43,6 +44,8 @@ pub enum MenuCmd {
     RecordScreen,
     /// "Update to Oyenza Studio 0.2.5…" (`crate::updates`).
     Update,
+    /// "Check for updates…": read the update file now (`crate::updates`).
+    CheckForUpdates,
     Quit,
 }
 
@@ -58,8 +61,9 @@ fn item(label: &str, cmd: MenuCmd, checked: bool) -> MenuItem {
     MenuItem::Item { label: label.to_string(), cmd, checked, key: "" }
 }
 
-/// `update`: a later version the update file offers, if any.
-pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyenza: &OyenzaLink, update: Option<&str>) -> Vec<MenuItem> {
+/// `update`: a later version the update file offers, or Check for updates…
+/// (`crate::updates::menu_line`).
+pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyenza: &OyenzaLink, update: UpdateLine) -> Vec<MenuItem> {
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
     // The theme's own idle looks (the status bar is Pill's), the one it
@@ -108,9 +112,17 @@ pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyen
     if recorder {
         items.splice(0..0, [item("Record this screen", MenuCmd::RecordScreen, false), MenuItem::Separator]);
     }
-    // A new version first, until it is installed.
-    if let Some(v) = update {
-        items.splice(0..0, [item(&format!("Update to Oyenza Studio {v}…"), MenuCmd::Update, false), MenuItem::Separator]);
+    match update {
+        // A new version first, until it is installed.
+        UpdateLine::Offer(v) => {
+            items.splice(0..0, [item(&format!("Update to Oyenza Studio {v}…"), MenuCmd::Update, false), MenuItem::Separator]);
+        }
+        // Otherwise a look on request, under About (as in most Mac apps).
+        UpdateLine::Check => {
+            let at = items.iter().position(|i| matches!(i, MenuItem::Item { cmd: MenuCmd::About, .. })).map_or(items.len(), |i| i + 1);
+            items.insert(at, item("Check for updates…", MenuCmd::CheckForUpdates, false));
+        }
+        UpdateLine::None => {}
     }
     items
 }
@@ -187,7 +199,7 @@ pub struct MenuBar {
 }
 
 impl MenuBar {
-    pub fn add(mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink, update: Option<&str>) -> MenuBar {
+    pub fn add(mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink, update: UpdateLine) -> MenuBar {
         let item = NSStatusBar::systemStatusBar().statusItemWithLength(NSVariableStatusItemLength);
         if let Some(button) = item.button(mtm) {
             match mark_image(mtm) {
@@ -204,7 +216,7 @@ impl MenuBar {
     }
 
     /// Rebuild the menu (ticks follow the settings).
-    pub fn refresh(&mut self, mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink, update: Option<&str>) {
+    pub fn refresh(&mut self, mtm: MainThreadMarker, s: &Settings, pinned: bool, login: Login, oyenza: &OyenzaLink, update: UpdateLine) {
         self.menu = build(mtm, &self.target, &menu_items(s, pinned, login, crate::services::recorder::installed(), oyenza, update));
         self.item.setMenu(Some(&self.menu));
     }
