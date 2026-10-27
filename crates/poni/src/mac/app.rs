@@ -422,6 +422,9 @@ pub struct App {
     motions_logged: u32,
     frames_drawn: u64,
     smoke: Option<Smoke>,
+    /// The smoke run (`--smoke`): stays true while a step runs (`smoke` is
+    /// taken out then), so the AI tab's worker never starts in it.
+    smoke_run: bool,
     /// The smoke run: drawing cost at rest, a timer set aside while the
     /// music pill is measured, and where the ear step points.
     cost: DrawCost,
@@ -530,6 +533,7 @@ impl App {
             motion_name: "morph",
             motions_logged: 0,
             frames_drawn: 0,
+            smoke_run: smoke.is_some(),
             smoke,
             cost: DrawCost::default(),
             smoke_timer: None,
@@ -2242,8 +2246,8 @@ impl App {
         // stays the same.
         services::keychain::set_watch(open, self.st.settings.usage.notices);
         // The smoke run shows made-up readings (and checks the keychain on
-        // its own): nothing is read.
-        if self.smoke.is_some() {
+        // its own): nothing is read, even from inside a step.
+        if self.smoke_run {
             return;
         }
         let w = services::usage::Watch {
@@ -3937,8 +3941,10 @@ impl App {
             "ai-back" => {
                 let (ask, keep) = services::keychain::watching();
                 services::keychain::ask_again();
-                let ok = !self.away.1 && self.mode == Mode::Expanded(PageKind::Ai) && ask && keep;
-                Some(("keychain-back", ok, format!("unlocked, on the AI tab: may ask macOS {ask}, keeps what it read {keep}")))
+                // Locking and unlocking went through set_usage_watch: still no worker.
+                let ok = !self.away.1 && self.mode == Mode::Expanded(PageKind::Ai) && ask && keep && self.usage.is_none();
+                let worker = if self.usage.is_none() { "not started" } else { "running" };
+                Some(("keychain-back", ok, format!("unlocked, on the AI tab: may ask macOS {ask}, keeps what it read {keep}; worker {worker}")))
             }
             "ai-secret" => {
                 let (ok, d) = smoke_secret();
