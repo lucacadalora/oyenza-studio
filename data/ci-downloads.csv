@@ -457,3 +457,7 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 122138103274,Fetch the release to upgrade from,40488432722,1,2026-10-27T10:31:06Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122140611914,Fetch the release to upgrade from,40489113043,1,2026-10-27T10:36:48Z,ai-usage,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122141442573,Fetch the release to upgrade from,40489467110,1,2026-10-27T10:38:45Z,fix-rightclick-updates,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122175525707,Fetch the release to upgrade from,40499663378,1,2026-10-27T11:58:42Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122177200265,Fetch the release to upgrade from,40500200340,1,2026-10-27T12:02:35Z,release-0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122177568336,Fetch the release to upgrade from,40500222504,1,2026-10-27T12:03:25Z,release-0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122179376037,Fetch the release to upgrade from,40500898913,1,2026-10-27T12:07:39Z,ai-usage,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
