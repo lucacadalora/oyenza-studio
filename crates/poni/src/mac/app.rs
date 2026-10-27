@@ -260,6 +260,9 @@ pub fn view_input(input: ViewInput, event: Option<&NSEvent>) {
     let menu = enter(|a| a.on_view_input(input)).flatten();
     if let (Some(menu), Some(event), Some(view)) = (menu, event, window::view()) {
         NSMenu::popUpContextMenu_withEvent_forView(&menu, event, &view);
+        // Where the pointer is now says whether the island stays open.
+        enter(|a| a.menu_closed());
+        pointer_moved();
     }
 }
 
@@ -428,6 +431,9 @@ pub struct App {
     health_shown: bool,
     /// Files are being dragged over the island.
     drag_hover: bool,
+    /// The right-click menu is open over the open island: the pointer on
+    /// the menu is off the island, so the menu holds it open until it closes.
+    menu_open: bool,
     /// A Script page reading held the island open at the last tick.
     script_held: bool,
     /// The Script page was on screen at the last tick.
@@ -550,6 +556,7 @@ impl App {
             today_watch: false,
             health_shown: false,
             drag_hover: false,
+            menu_open: false,
             script_held: false,
             script_shown: false,
             pending_drag: None,
@@ -737,7 +744,7 @@ impl App {
                 }
             }
             Timer::Collapse => {
-                if !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && self.input.pressed_id.is_none() && !self.phone_holds() {
+                if !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.menu_open && self.input.pressed_id.is_none() && !self.phone_holds() {
                     self.collapse();
                 }
             }
@@ -845,13 +852,6 @@ impl App {
     fn settings_changed(&mut self, before: &Settings) {
         if before.theme != self.st.settings.theme {
             self.st.accent = theme_accent(self.st.settings.theme);
-        }
-        if before.update_check != self.st.settings.update_check {
-            if let Some(u) = self.updater.as_mut() {
-                u.switched(&mut self.st, crate::updates::unix_now());
-            }
-            self.schedule_update();
-            self.refresh_menu();
         }
         // The Pill theme's window keeps room for the gap above the island.
         if pill::on(before.theme) != pill::on(self.st.settings.theme) {
@@ -1150,10 +1150,10 @@ impl App {
 
     // ------------------------------------------------------------ new versions
 
-    /// Arm the update file's timer for the next read, or stop it while the
-    /// checks are off or a read runs.
+    /// Arm the update file's timer for the next read, or stop it while a
+    /// read runs.
     fn schedule_update(&mut self) {
-        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now())) {
+        match self.updater.as_ref().and_then(|u| u.due_in(crate::updates::unix_now())) {
             Some(s) => self.set_timer(Timer::Update, s.saturating_mul(1000).clamp(1000, u32::MAX as u64) as u32),
             None => self.kill_timer(Timer::Update),
         }
@@ -1165,7 +1165,7 @@ impl App {
     fn update_due(&mut self) {
         let now = crate::updates::unix_now();
         let away = self.away.0 || self.away.1 || self.st.power.saver;
-        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
+        match self.updater.as_ref().and_then(|u| u.due_in(now)) {
             Some(0) if away => {}
             Some(0) => self.read_update_file(now),
             _ => self.schedule_update(),
@@ -1520,8 +1520,8 @@ impl App {
         // Switched off and its files deleted: with no add-on on, the
         // downloader's thread ends (it starts again with the next switch-on).
         let ours = pages::addons::OFFERED.iter().any(|a| a.id == id);
-        // The update file is read on the same thread: it stays while the checks are on.
-        let in_use = self.updater.is_some() && self.st.settings.update_check;
+        // The update file is read on the same thread: it stays while this copy looks for new versions.
+        let in_use = self.updater.is_some();
         if ours && status == AddonStatus::Off && !in_use && !pages::addons::OFFERED.iter().any(|a| a.downloads() && self.st.settings.addon_on(a.id)) {
             self.addons = None;
         }
@@ -2054,7 +2054,10 @@ impl App {
                 let p = Point::new(x, y);
                 match self.hit_at(p) {
                     Some(h) => self.input.clicked = Some((h.id, MouseButton::Right)),
-                    None => return self.menubar.as_ref().map(|m| m.menu.clone()),
+                    None => {
+                        self.menu_open = self.expanded && self.hovering;
+                        return self.menubar.as_ref().map(|m| m.menu.clone());
+                    }
                 }
                 self.request_frame();
             }
@@ -2251,8 +2254,16 @@ impl App {
     }
 
     fn maybe_schedule_collapse(&mut self) {
-        if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.phone_holds() {
+        if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.menu_open && !self.phone_holds() {
             self.set_timer(Timer::Collapse, self.st.settings.collapse_delay_ms.max(50));
+        }
+    }
+
+    /// The right-click menu closed: off the island, the pointer closes it as
+    /// leaving does (the next pointer reading keeps it open when it's back on).
+    fn menu_closed(&mut self) {
+        if std::mem::take(&mut self.menu_open) && !self.hovering {
+            self.maybe_schedule_collapse();
         }
     }
 

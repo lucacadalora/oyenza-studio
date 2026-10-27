@@ -321,10 +321,20 @@ fn run_deferred(d: Deferred) {
             with_app(|app| app.request_frame());
         }
         Deferred::Menu(pt) => {
-            let Some((helper, items)) = with_app(|app| (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), crate::updates::menu_line(&app.st, app.updater.is_some())))) else { return };
-            if let Some(cmd) = tray::show_menu(helper, pt, &items) {
-                with_app(|app| app.on_menu(cmd));
-            }
+            let Some((helper, items)) = with_app(|app| {
+                // Right-clicked on the open island (the tray's menu leaves it as it is).
+                app.menu_open = app.expanded && app.hovering;
+                (app.helper, tray::menu_items(&app.st.settings, app.st.pinned, &app.st.oyenza.link, crate::services::recorder::installed(), crate::updates::menu_line(&app.st, app.updater.is_some())))
+            }) else {
+                return;
+            };
+            let cmd = tray::show_menu(helper, pt, &items);
+            with_app(|app| {
+                app.menu_closed();
+                if let Some(cmd) = cmd {
+                    app.on_menu(cmd);
+                }
+            });
         }
     }
 }
@@ -468,6 +478,10 @@ pub struct App {
     collapse_due: bool,
     /// When the pointer last closed the island by leaving it.
     left_at: f64,
+    /// The right-click menu is open over the open island. The pointer on
+    /// the menu has left the island as far as Windows is concerned, so the
+    /// menu holds the island open until it closes.
+    menu_open: bool,
     /// Phone drop's web server while the Shelf's phone panel is open.
     phone: Option<services::phonedrop::PhoneDrop>,
     /// The Shelf paths last handed to it (to notice changes).
@@ -645,6 +659,7 @@ impl App {
             hover_arm: None,
             collapse_due: false,
             left_at: f64::NEG_INFINITY,
+            menu_open: false,
             phone: None,
             phone_offer: Vec::new(),
             pair_offer: None,
@@ -1655,12 +1670,6 @@ impl App {
     fn settings_changed(&mut self, before: &Settings) {
         // Show over games and Hide in full-screen apps follow each other.
         self.st.settings.pair_game_stats(before);
-        if before.update_check != self.st.settings.update_check {
-            if let Some(u) = self.updater.as_mut() {
-                u.switched(&mut self.st, crate::updates::unix_now());
-            }
-            self.schedule_update();
-        }
         let now = &self.st.settings;
         if before.theme != now.theme {
             self.st.accent = theme_accent(now.theme);
@@ -2186,7 +2195,30 @@ impl App {
     /// Nothing holds the open island: no pointer on it, no pin, typing,
     /// file drag, press or Phone drop.
     fn free_to_collapse(&self) -> bool {
-        !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && self.input.pressed_id.is_none() && !self.phone_holds()
+        !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.menu_open && self.input.pressed_id.is_none() && !self.phone_holds()
+    }
+
+    /// The right-click menu closed: the island stays open with the pointer
+    /// back on it, and closes after the hold's grace without.
+    fn menu_closed(&mut self) {
+        if !std::mem::take(&mut self.menu_open) || !self.expanded || self.hovering {
+            return;
+        }
+        let mut pt = POINT::default();
+        let on_island = unsafe { GetCursorPos(&mut pt).is_ok() && windows::Win32::Graphics::Gdi::ScreenToClient(self.hwnd, &mut pt).as_bool() } && {
+            let s = self.gfx.scale();
+            self.hovering_inside(Point::new(pt.x as f32 / s, pt.y as f32 / s))
+        };
+        if on_island {
+            // As a move onto it would: watch for the pointer leaving again.
+            self.hovering = true;
+            unsafe {
+                let mut tme = TRACKMOUSEEVENT { cbSize: std::mem::size_of::<TRACKMOUSEEVENT>() as u32, dwFlags: TME_LEAVE, hwndTrack: self.hwnd, dwHoverTime: 0 };
+                let _ = TrackMouseEvent(&mut tme);
+            }
+        } else {
+            self.maybe_schedule_collapse();
+        }
     }
 
     /// The pointer left the open island: it starts closing on the next frame,
@@ -2208,7 +2240,7 @@ impl App {
 
     /// A hold ended (see [`HOLD_GRACE_MS`]): close soon unless the pointer is on the island.
     fn maybe_schedule_collapse(&mut self) {
-        if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.phone_holds() {
+        if self.expanded && !self.hovering && !self.st.pinned && !self.text_focus && !self.drag_hover && !self.menu_open && !self.phone_holds() {
             unsafe {
                 SetTimer(self.hwnd, TIMER_COLLAPSE, HOLD_GRACE_MS.max(self.st.settings.collapse_delay_ms), None);
             }
@@ -3388,10 +3420,10 @@ impl App {
 
     // ------------------------------------------------------------ new versions
 
-    /// Arm the update file's timer for the next read, or stop it while the
-    /// checks are off or a read runs.
+    /// Arm the update file's timer for the next read, or stop it while a
+    /// read runs.
     fn schedule_update(&mut self) {
-        let secs = self.updater.as_ref().and_then(|u| u.due_in(&self.st, crate::updates::unix_now()));
+        let secs = self.updater.as_ref().and_then(|u| u.due_in(crate::updates::unix_now()));
         unsafe {
             match secs {
                 // SetTimer waits at most about 24 days; reads are an hour apart.
@@ -3411,7 +3443,7 @@ impl App {
     fn update_due(&mut self) {
         let now = crate::updates::unix_now();
         let away = self.locked || self.display_off || self.st.power.saver;
-        match self.updater.as_ref().and_then(|u| u.due_in(&self.st, now)) {
+        match self.updater.as_ref().and_then(|u| u.due_in(now)) {
             Some(0) if away => {}
             Some(0) => self.read_update_file(now),
             _ => self.schedule_update(),
