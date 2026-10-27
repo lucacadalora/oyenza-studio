@@ -1130,7 +1130,7 @@ dependencies = [
 
 [[package]]
 name = "poni"
-version = "0.2.13"
+version = "0.2.14"
 dependencies = [
  "block2",
  "dispatch2",
@@ -1153,7 +1153,7 @@ dependencies = [
 
 [[package]]
 name = "poni-core"
-version = "0.2.13"
+version = "0.2.14"
 dependencies = [
  "hmac",
  "qrcodegen",

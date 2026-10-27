@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-  <assemblyIdentity type="win32" name="Jatevo.Poni" version="0.2.13.0" processorArchitecture="*"/>
+  <assemblyIdentity type="win32" name="Jatevo.Poni" version="0.2.14.0" processorArchitecture="*"/>
   <description>Poni - a living notch for Windows</description>
   <application xmlns="urn:schemas-microsoft-com:asm.v3">
     <windowsSettings>

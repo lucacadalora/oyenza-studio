@@ -2,8 +2,8 @@
 1 24 "poni.manifest"
 
 1 VERSIONINFO
-FILEVERSION 0,2,13,0
-PRODUCTVERSION 0,2,13,0
+FILEVERSION 0,2,14,0
+PRODUCTVERSION 0,2,14,0
 FILEOS 0x40004
 FILETYPE 0x1
 BEGIN
@@ -13,12 +13,12 @@ BEGIN
     BEGIN
       VALUE "CompanyName", "Jatevo Labs\0"
       VALUE "FileDescription", "Oyenza Studio - a living notch for Windows\0"
-      VALUE "FileVersion", "0.2.13\0"
+      VALUE "FileVersion", "0.2.14\0"
       VALUE "InternalName", "poni\0"
       VALUE "LegalCopyright", "Copyright (C) 2026 Jatevo Labs\0"
       VALUE "OriginalFilename", "poni.exe\0"
       VALUE "ProductName", "Oyenza Studio\0"
-      VALUE "ProductVersion", "0.2.13\0"
+      VALUE "ProductVersion", "0.2.14\0"
     END
   END
   BLOCK "VarFileInfo"
