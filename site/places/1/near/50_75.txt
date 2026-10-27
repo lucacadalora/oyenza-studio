@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+Z	1	Asia/Barnaul	420	
+C	KZ	Kazakhstan	mwl	h
+C	RU	Russia	mwl	s
+B	0
+P	Pavlodar		KZ		52.276	76.969	0
+P	Ekibastuz		KZ		51.724	75.323	0
+P	Aksu		KZ		52.040	76.927	0
+P	Slavgorod		RU		53.000	78.647	1
+P	Karasuk		RU		53.740	78.044	1
+P	Yarovoye		RU		52.927	78.575	1
+P	Kupino		RU		54.367	77.307	1
+P	Kulunda		RU		52.565	78.939	1

@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Guayaquil	-300	
+C	EC	Ecuador	mwl	s
+C	PE	Peru	mwl	s
+B	0
+P	Portoviejo		EC		-1.058	-80.451	0
+P	Manta		EC		-0.949	-80.731	0
+P	Sullana		PE		-4.904	-80.685	0
+P	Talara		PE		-4.577	-81.272	0
+P	Tumbes		PE		-3.556	-80.443	0
+P	La Libertad		EC		-2.233	-80.910	0
+P	Chone		EC		-0.699	-80.093	0
+P	Salinas		EC		-2.215	-80.952	0
+P	Santa Elena		EC		-2.227	-80.858	0
+P	Huaquillas		EC		-3.475	-80.231	0
+P	Bahía de Caráquez	bahia de caraquez	EC		-0.600	-80.424	0
+P	Jipijapa		EC		-1.348	-80.579	0
+P	Posorja		EC		-2.709	-80.247	0
+P	Playas		EC		-2.632	-80.388	0
+P	Tambo Grande		PE		-4.927	-80.345	0
+P	Arenillas		EC		-3.554	-80.067	0
+P	Marcavelica		PE		-4.878	-80.705	0
+P	Querecotillo		PE		-4.838	-80.646	0
+P	Pedro Carbo		EC		-1.816	-80.234	0
+P	Montecristi		EC		-1.046	-80.659	0
+P	La Breita		PE		-4.257	-80.886	0
+P	Calceta		EC		-0.846	-80.164	0
+P	Zarumilla		PE		-3.503	-80.273	0
+P	Sucre		EC		-1.280	-80.418	0

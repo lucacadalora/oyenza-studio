@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	0
+P	Puri		IN		19.798	85.825	0
+P	Bālugān	balugan	IN		19.733	85.217	0
+P	Bānapur	banapur	IN		19.779	85.170	0
+P	Konārka	konarka	IN		19.890	86.098	0

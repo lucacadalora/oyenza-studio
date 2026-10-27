@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+Z	1	Africa/Lubumbashi	120	
+C	AO	Angola	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Tshilenge		CD		-10.967	22.900	1
+P	Luau		AO		-10.707	22.225	0
+P	Malemba		CD		-10.378	24.545	1
+P	Kaoma		ZM		-14.783	24.800	1
+P	Cazombo		AO		-11.899	22.902	0
+P	Zambezi		ZM		-13.543	23.105	1
+P	Mwinilunga		ZM		-11.736	24.429	1
+P	Lukulu		ZM		-14.371	23.242	1
+P	Manyinga		ZM		-13.416	24.335	1
+P	Lumbala		AO		-14.102	21.435	0
+P	Chavuma		ZM		-13.067	22.683	1
+P	Kalabo		ZM		-14.993	22.679	1
+P	Kabompo		ZM		-13.593	24.201	1

@@ -1,0 +1,77 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	1	America/Monterrey	-360	
+C	MX	Mexico	mwl	s
+C	US	United States	moonsighting	s
+B	2
+P	Houston		US	Texas	29.763	-95.363	0
+P	San Antonio		US	Texas	29.424	-98.494	0
+P	Reynosa		MX		26.080	-98.285	0
+P	Heroica Matamoros		MX		25.880	-97.504	0
+P	Nuevo Laredo		MX		27.476	-99.516	0
+P	Corpus Christi		US	Texas	27.801	-97.396	0
+P	Laredo		US	Texas	27.506	-99.508	0
+P	Cypress		US	Texas	29.969	-95.697	0
+P	Brownsville		US	Texas	25.902	-97.497	0
+P	Pasadena		US	Texas	29.691	-95.209	0
+P	McAllen		US	Texas	26.203	-98.230	0
+P	Pearland		US	Texas	29.564	-95.286	0
+P	Alief		US	Texas	29.711	-95.596	0
+P	League City		US	Texas	29.507	-95.095	0
+P	Ciudad Río Bravo	ciudad rio bravo	MX		25.985	-98.090	1
+P	Sugar Land		US	Texas	29.620	-95.635	0
+P	Edinburg		US	Texas	26.302	-98.163	0
+P	Mission		US	Texas	26.216	-98.325	0
+P	Pharr		US	Texas	26.195	-98.184	0
+P	Missouri City		US	Texas	29.619	-95.538	0
+P	New Braunfels		US	Texas	29.703	-98.124	0
+P	Cadereyta		MX		25.583	-99.983	1
+P	Victoria		US	Texas	28.805	-97.004	0
+P	Montemorelos		MX		25.189	-99.829	1
+P	Atascocita		US	Texas	29.999	-95.177	0
+P	Harlingen		US	Texas	26.191	-97.696	0
+P	San Marcos		US	Texas	29.883	-97.941	0
+P	Valle Hermoso		MX		25.673	-97.813	1
+P	Schertz		US	Texas	29.552	-98.270	0
+P	Weslaco		US	Texas	26.160	-97.991	0
+P	Friendswood		US	Texas	29.529	-95.201	0
+P	Channelview		US	Texas	29.776	-95.115	0
+P	San Juan		US	Texas	26.189	-98.155	0
+P	Mission Bend		US	Texas	29.694	-95.665	0
+P	Kyle		US	Texas	29.989	-97.877	0
+P	Rosenberg		US	Texas	29.557	-95.809	0
+P	La Porte		US	Texas	29.666	-95.019	0
+P	Deer Park		US	Texas	29.705	-95.124	0
+P	Cibolo		US	Texas	29.562	-98.227	0
+P	Seguin		US	Texas	29.569	-97.965	0
+P	Lake Jackson		US	Texas	29.034	-95.434	0
+P	Kingsville		US	Texas	27.516	-97.856	0
+P	Alvin		US	Texas	29.424	-95.244	0
+P	San Benito		US	Texas	26.133	-97.631	0
+P	Cloverleaf		US	Texas	29.778	-95.172	0
+P	Converse		US	Texas	29.518	-98.316	0
+P	Canyon Lake		US	Texas	29.875	-98.263	0
+P	Ciudad Miguel Alemán	ciudad miguel aleman	MX		26.398	-99.029	1
+P	Universal City		US	Texas	29.548	-98.291	0
+P	Dickinson		US	Texas	29.461	-95.051	0
+P	Angleton		US	Texas	29.169	-95.432	0
+P	Alice		US	Texas	27.752	-98.070	0
+P	Alamo		US	Texas	26.184	-98.123	0
+P	Fresno		US	Texas	29.539	-95.447	0
+P	Bellaire		US	Texas	29.706	-95.459	0
+P	Stafford		US	Texas	29.616	-95.558	0
+P	Cinco Ranch		US	Texas	29.739	-95.758	0
+P	Bay City		US	Texas	28.983	-95.969	0
+P	South Houston		US	Texas	29.663	-95.235	0
+P	Mercedes		US	Texas	26.150	-97.914	0
+P	Donna		US	Texas	26.170	-98.052	0
+P	Uvalde		US	Texas	29.210	-99.786	0
+P	Katy		US	Texas	29.786	-95.824	0
+P	Portland		US	Texas	27.877	-97.324	0
+P	Pecan Grove		US	Texas	29.626	-95.732	0
+P	Aldine		US	Texas	29.932	-95.380	0
+P	Alton		US	Texas	26.287	-98.313	0
+P	West University Place		US	Texas	29.718	-95.434	0
+P	Humble		US	Texas	29.999	-95.262	0
+P	Live Oak		US	Texas	29.565	-98.336	0
+P	New Territory		US	Texas	29.594	-95.681	0

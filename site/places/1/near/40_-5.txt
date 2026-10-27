@@ -1,0 +1,271 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	ES	Spain	mwl	s
+C	FR	France	mwl	s
+B	1
+P	Madrid		ES		40.416	-3.703	0
+P	Zaragoza		ES		41.656	-0.877	0
+P	Bilbao		ES		43.263	-2.925	0
+P	Valladolid		ES		41.655	-4.724	0
+P	Bordeaux		FR		44.841	-0.580	0
+P	Gasteiz / Vitoria	gasteiz vitoria	ES		42.850	-2.673	0
+P	Latina		ES		40.389	-3.746	0
+P	Carabanchel		ES		40.391	-3.724	0
+P	Puente de Vallecas		ES		40.394	-3.662	0
+P	Fuencarral		ES		40.500	-3.683	0
+P	Ciudad Lineal		ES		40.445	-3.651	0
+P	Fuencarral-El Pardo	fuencarral el pardo	ES		40.498	-3.731	0
+P	Pamplona		ES		42.817	-1.643	0
+P	Móstoles	mostoles	ES		40.322	-3.865	0
+P	Alcalá de Henares	alcala de henares	ES		40.482	-3.360	0
+P	Fuenlabrada		ES		40.284	-3.794	0
+P	Leganés	leganes	ES		40.327	-3.764	0
+P	Getafe		ES		40.306	-3.733	0
+P	Donostia / San Sebastián	donostia san sebastian	ES		43.313	-1.975	0
+P	Burgos		ES		42.341	-3.702	0
+P	Santander		ES		43.466	-3.805	0
+P	Alcorcón	alcorcon	ES		40.346	-3.825	0
+P	Hortaleza		ES		40.474	-3.641	0
+P	San Blas-Canillejas	san blas canillejas	ES		40.439	-3.615	0
+P	Tetuán de las Victorias	tetuan de las victorias	ES		40.460	-3.697	0
+P	Logroño	logrono	ES		42.466	-2.451	0
+P	Madrid Centro		ES		40.418	-3.703	0
+P	Arganzuela		ES		40.400	-3.696	0
+P	Salamanca		ES		40.430	-3.680	0
+P	Chamberí	chamberi	ES		40.434	-3.704	0
+P	Usera		ES		40.389	-3.700	0
+P	Chamartín	chamartin	ES		40.462	-3.677	0
+P	Villaverde		ES		40.350	-3.700	0
+P	Retiro		ES		40.413	-3.683	0
+P	Torrejón de Ardoz	torrejon de ardoz	ES		40.455	-3.470	0
+P	Moncloa-Aravaca	moncloa aravaca	ES		40.435	-3.732	0
+P	Alcobendas		ES		40.547	-3.642	0
+P	Parla		ES		40.236	-3.768	0
+P	Delicias		ES		41.649	-0.908	0
+P	Moratalaz		ES		40.407	-3.649	0
+P	Barakaldo		ES		43.296	-2.988	0
+P	Las Rozas de Madrid		ES		40.493	-3.874	0
+P	Guadalajara		ES		40.629	-3.162	0
+P	Pau		FR		43.311	-0.356	0
+P	Algorta		ES		43.349	-3.009	0
+P	Pozuelo de Alarcón	pozuelo de alarcon	ES		40.433	-3.813	0
+P	Coslada		ES		40.424	-3.561	0
+P	Getxo		ES		43.357	-3.011	0
+P	Palencia		ES		42.010	-4.524	0
+P	San Sebastián de los Reyes	san sebastian de los reyes	ES		40.556	-3.627	0
+P	Valdemoro		ES		40.191	-3.679	0
+P	Mérignac	merignac	FR		44.842	-0.645	0
+P	Valdefuentes		ES		40.494	-3.636	0
+P	Rivas-Vaciamadrid	rivas vaciamadrid	ES		40.326	-3.511	0
+P	Majadahonda		ES		40.474	-3.872	0
+P	Aluche		ES		40.392	-3.757	0
+P	Vicálvaro	vicalvaro	ES		40.400	-3.600	0
+P	Villa de Vallecas		ES		40.367	-3.601	0
+P	Valverde		ES		40.500	-3.679	0
+P	Collado-Villalba	collado villalba	ES		40.635	-4.005	0
+P	Pueblo Nuevo		ES		40.426	-3.635	0
+P	Irun		ES		43.339	-1.789	0
+P	Gamonal		ES		42.357	-3.673	0
+P	Santutxu		ES		43.253	-2.916	0
+P	Pessac		FR		44.806	-0.632	0
+P	Ávila	avila	ES		40.657	-4.700	0
+P	Torrelavega		ES		43.349	-4.048	0
+P	Cuenca		ES		40.067	-2.133	0
+P	Aranjuez		ES		40.031	-3.602	0
+P	Huesca		ES		42.136	-0.409	0
+P	Vallecas		ES		40.383	-3.617	0
+P	Boadilla del Monte		ES		40.405	-3.878	0
+P	Pinar del Rey		ES		40.472	-3.647	0
+P	Segovia		ES		40.948	-4.118	0
+P	Arganda		ES		40.301	-3.437	0
+P	Las Águilas	las aguilas	ES		40.382	-3.771	0
+P	Ventas		ES		40.422	-3.647	0
+P	Buenavista		ES		40.367	-3.746	0
+P	Numancia		ES		40.400	-3.659	0
+P	Vista Alegre		ES		40.384	-3.746	0
+P	Santurtzi		ES		43.328	-3.032	0
+P	Embajadores		ES		40.409	-3.702	0
+P	Portugalete		ES		43.321	-3.021	0
+P	Pilar		ES		40.477	-3.710	0
+P	San Diego		ES		40.390	-3.668	0
+P	Lavapiés	lavapies	ES		40.408	-3.701	0
+P	Bayonne		FR		43.493	-1.473	0
+P	Peña Grande	pena grande	ES		40.475	-3.722	0
+P	Colmenar Viejo		ES		40.659	-3.768	0
+P	Pinto		ES		40.241	-3.700	0
+P	Barajas de Madrid		ES		40.474	-3.578	0
+P	Puerta del Angel		ES		40.410	-3.732	0
+P	Palomeras Sureste		ES		40.385	-3.637	0
+P	Basauri		ES		43.240	-2.886	0
+P	Talence		FR		44.808	-0.589	0
+P	Guindalera		ES		40.436	-3.667	0
+P	Tres Cantos		ES		40.601	-3.708	0
+P	Anglet		FR		43.489	-1.519	0
+P	Palomeras Bajas		ES		40.385	-3.659	0
+P	Casco Histórico de Vallecas	casco historico de vallecas	ES		40.349	-3.616	0
+P	San Isidro		ES		40.397	-3.728	0
+P	Canillas		ES		40.464	-3.636	0
+P	San Fernando de Henares		ES		40.424	-3.533	0
+P	Miranda de Ebro		ES		42.687	-2.947	0
+P	Soria		ES		41.764	-2.469	0
+P	Errenteria		ES		43.312	-1.902	0
+P	Los Rosales		ES		40.356	-3.689	0
+P	Puerta Bonita		ES		40.380	-3.739	0
+P	Lucero		ES		40.402	-3.750	0
+P	Teruel		ES		40.346	-1.106	0
+P	Mont-de-Marsan	mont de marsan	FR		43.890	-0.497	0
+P	Acacias		ES		40.401	-3.707	0
+P	Prosperidad		ES		40.444	-3.669	0
+P	Mirasierra		ES		40.496	-3.720	0
+P	Casco Histórico de Vicálvaro	casco historico de vicalvaro	ES		40.392	-3.570	0
+P	Entrevías	entrevias	ES		40.378	-3.674	0
+P	Los Angeles		ES		40.356	-3.699	0
+P	Cuatro Caminos		ES		40.447	-3.703	0
+P	Tudela		ES		42.062	-1.605	0
+P	Azuqueca de Henares		ES		40.566	-3.268	0
+P	Opañel	opanel	ES		40.390	-3.722	0
+P	Biarritz		FR		43.481	-1.557	0
+P	Aranda de Duero		ES		41.670	-3.689	0
+P	Pacífico	pacifico	ES		40.404	-3.679	0
+P	Universidad		ES		40.426	-3.707	0
+P	La Paz		ES		40.481	-3.697	0
+P	Castro-Urdiales	castro urdiales	ES		43.383	-3.220	0
+P	Galapagar		ES		40.578	-4.004	0
+P	Abrantes		ES		40.379	-3.726	0
+P	Hispanoamérica	hispanoamerica	ES		40.455	-3.677	0
+P	Arroyomolinos		ES		40.270	-3.919	0
+P	Leioa		ES		43.327	-2.989	0
+P	Rosas		ES		40.428	-3.594	0
+P	Valdezarza		ES		40.465	-3.717	0
+P	Villenave-d'Ornon	villenave dornon	FR		44.779	-0.567	0
+P	Camargo		ES		43.407	-3.885	0
+P	Oliver-Valdefierro	oliver valdefierro	ES		41.645	-0.933	0
+P	Pinar de Chamartín	pinar de chamartin	ES		40.479	-3.668	0
+P	Saint-Médard-en-Jalles	saint medard en jalles	FR		44.895	-0.718	0
+P	Goya		ES		40.425	-3.674	0
+P	Bellas Vistas		ES		40.452	-3.708	0
+P	Galdakao		ES		43.231	-2.843	0
+P	Canillejas		ES		40.448	-3.608	0
+P	Portazgo		ES		40.391	-3.648	0
+P	Simancas		ES		40.435	-3.625	0
+P	Delicias		ES		40.397	-3.690	0
+P	Durango		ES		43.171	-2.634	0
+P	Villaviciosa de Odón	villaviciosa de odon	ES		40.358	-3.904	0
+P	Sestao		ES		43.310	-3.007	0
+P	Aravaca		ES		40.458	-3.783	0
+P	Eibar		ES		43.185	-2.472	0
+P	El Viso		ES		40.446	-3.684	0
+P	La Teste-de-Buch	la teste de buch	FR		44.633	-1.145	0
+P	Rios Rosas		ES		40.442	-3.698	0
+P	Moscardó	moscardo	ES		40.389	-3.707	0
+P	Valdeacederas		ES		40.467	-3.704	0
+P	Marroquina		ES		40.411	-3.641	0
+P	Almozara		ES		41.661	-0.902	0
+P	Berruguete		ES		40.460	-3.705	0
+P	Quintana		ES		40.437	-3.645	0
+P	Arcos		ES		40.421	-3.618	0
+P	Palos de Moguer		ES		40.404	-3.695	0
+P	Argüelles	arguelles	ES		40.428	-3.718	0
+P	Iturrama		ES		42.808	-1.658	0
+P	Calahorra		ES		42.305	-1.965	0
+P	Trafalgar		ES		40.433	-3.701	0
+P	Nueva España	nueva espana	ES		40.463	-3.678	0
+P	Gradignan		FR		44.774	-0.614	0
+P	Erandio		ES		43.304	-2.974	0
+P	Libourne		FR		44.914	-0.242	0
+P	Le Bouscat		FR		44.865	-0.599	0
+P	Arapiles		ES		40.434	-3.708	0
+P	Santa Eugenia		ES		40.383	-3.611	0
+P	San Fermín	san fermin	ES		40.371	-3.689	0
+P	Bègles	begles	FR		44.808	-0.551	0
+P	Palacio		ES		40.415	-3.714	0
+P	Orcasitas		ES		40.369	-3.712	0
+P	Almenara		ES		40.471	-3.694	0
+P	Gaztambide		ES		40.435	-3.715	0
+P	Almendrales		ES		40.384	-3.699	0
+P	Comillas		ES		40.394	-3.712	0
+P	Estrella		ES		40.414	-3.666	0
+P	Lormont		FR		44.877	-0.519	0
+P	Zarautz		ES		43.284	-2.170	0
+P	Primer Ensanche		ES		42.815	-1.649	0
+P	Segundo Ensanche		ES		42.814	-1.643	0
+P	Mejorada del Campo		ES		40.393	-3.482	0
+P	Cenon		FR		44.856	-0.534	0
+P	Imperial		ES		40.406	-3.718	0
+P	Dax		FR		43.710	-1.054	0
+P	Ciempozuelos		ES		40.159	-3.621	0
+P	Arrasate / Mondragón	arrasate mondragon	ES		43.064	-2.490	0
+P	Costillares		ES		40.477	-3.669	0
+P	Torrelodones		ES		40.577	-3.927	0
+P	Laguna de Duero		ES		41.582	-4.723	0
+P	Navalcarnero		ES		40.289	-4.012	0
+P	Medina del Campo		ES		41.312	-4.914	0
+P	Ibiza		ES		40.419	-3.674	0
+P	Eysines		FR		44.884	-0.651	0
+P	Butarque		ES		40.337	-3.676	0
+P	Illescas		ES		40.122	-3.847	0
+P	Lista		ES		40.432	-3.676	0
+P	Concepción	concepcion	ES		40.439	-3.649	0
+P	Fuente del Berro		ES		40.425	-3.664	0
+P	Castillejos		ES		40.460	-3.694	0
+P	Hernani		ES		43.266	-1.976	0
+P	Algete		ES		40.597	-3.497	0
+P	Barañáin	baranain	ES		42.806	-1.677	0
+P	Calatayud		ES		41.354	-1.643	0
+P	Montecanal		ES		41.630	-0.939	0
+P	Vallehermoso		ES		40.443	-3.711	0
+P	Chopera		ES		40.395	-3.699	0
+P	Campamento		ES		40.386	-3.798	0
+P	Alameda de Osuna		ES		40.452	-3.587	0
+P	Legazpi		ES		40.389	-3.687	0
+P	Almagro		ES		40.433	-3.694	0
+P	Gujan-Mestras	gujan mestras	FR		44.636	-1.068	0
+P	El Goloso		ES		40.553	-3.700	0
+P	Burlata		ES		42.826	-1.617	0
+P	Adelfas		ES		40.401	-3.671	0
+P	Ciudad Jardín	ciudad jardin	ES		40.448	-3.673	0
+P	San Pascual		ES		40.443	-3.653	0
+P	Laudio / Llodio	laudio llodio	ES		43.143	-2.962	0
+P	San Martín de la Vega	san martin de la vega	ES		40.207	-3.571	0
+P	Justicia		ES		40.424	-3.697	0
+P	El Astillero		ES		43.401	-3.821	0
+P	Humanes de Madrid		ES		40.250	-3.831	0
+P	Tolosa		ES		43.135	-2.078	0
+P	Cestas		FR		44.745	-0.682	0
+P	Cármenes	carmenes	ES		40.401	-3.736	0
+P	San Lorenzo de El Escorial		ES		40.591	-4.147	0
+P	Pradolongo		ES		40.378	-3.707	0
+P	Oria		ES		43.255	-2.019	0
+P	Amorebieta		ES		43.217	-2.733	0
+P	Lasarte		ES		43.268	-2.022	0
+P	Utebo		ES		41.708	-0.999	0
+P	Valdebernardo		ES		40.401	-3.621	0
+P	Rejas		ES		40.445	-3.570	0
+P	Fontarrón	fontarron	ES		40.401	-3.647	0
+P	Ejea de los Caballeros		ES		42.126	-1.137	0
+P	Media Legua		ES		40.412	-3.657	0
+P	San Cristobal		ES		40.341	-3.688	0
+P	Ermitagaña	ermitagana	ES		42.811	-1.664	0
+P	Castilla		ES		40.474	-3.680	0
+P	Bermeo		ES		43.421	-2.722	0
+P	Castellana		ES		40.434	-3.684	0
+P	Vinateros		ES		40.405	-3.642	0
+P	Villanueva de la Cañada	villanueva de la canada	ES		40.447	-4.004	0
+P	Blanquefort		FR		44.911	-0.638	0
+P	Floirac		FR		44.831	-0.527	0
+P	Hondarribia		ES		43.369	-1.796	0
+P	Alcañiz	alcaniz	ES		41.050	-0.133	0
+P	Ciudad Universitaria		ES		40.456	-3.738	0
+P	Ermua		ES		43.187	-2.503	0
+P	Gernika-Lumo	gernika lumo	ES		43.317	-2.683	0
+P	Seseña	sesena	ES		40.105	-3.698	0
+P	Mungia		ES		43.355	-2.845	0
+P	Pasaia		ES		43.325	-1.927	0
+P	El Escorial		ES		40.583	-4.128	0
+P	Lourdes		FR		43.095	-0.046	0
+P	Tarancón	tarancon	ES		40.009	-3.007	0
+P	Recoletos		ES		40.425	-3.686	0
+P	Apostol Santiago		ES		40.476	-3.659	0
+P	Niño Jesús	nino jesus	ES		40.412	-3.673	0
+P	Villanueva del Pardillo		ES		40.490	-3.964	0
+P	Piovera		ES		40.456	-3.635	0

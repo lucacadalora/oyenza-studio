@@ -1,0 +1,48 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	2
+P	Yekaterinburg		RU		56.857	60.615	0
+P	Chelyabinsk		RU		55.161	61.429	0
+P	Kamensk-Ural’skiy	kamensk uralskiy	RU		56.406	61.933	0
+P	Miass		RU		55.046	60.108	0
+P	Serov		RU		59.597	60.586	0
+P	Novoural’sk	novouralsk	RU		57.255	60.091	0
+P	Ozersk		RU		55.756	60.703	0
+P	Shadrinsk		RU		56.086	63.638	0
+P	Asbest		RU		57.008	61.463	0
+P	Kopeysk		RU		55.117	61.618	0
+P	Polevskoy		RU		56.442	60.188	0
+P	Krasnoturinsk		RU		59.767	60.209	0
+P	Verkhnyaya Pyshma		RU		56.970	60.582	0
+P	Lesnoy		RU		57.620	63.078	0
+P	Snezhinsk		RU		56.078	60.748	0
+P	Verkhnyaya Salda		RU		58.045	60.551	0
+P	Beryozovsky		RU		56.908	60.802	0
+P	Alapayevsk		RU		57.850	61.694	0
+P	Irbit		RU		57.669	63.071	0
+P	Kyshtym		RU		55.716	60.551	0
+P	Rezh		RU		57.371	61.404	0
+P	Sukhoy Log		RU		56.908	62.034	0
+P	Artëmovskiy	artemovskiy	RU		57.354	61.871	0
+P	Verkhniy Ufaley		RU		56.055	60.226	0
+P	Bogdanovich		RU		56.777	62.051	0
+P	Karpinsk		RU		59.768	60.006	0
+P	Kamyshlov		RU		56.847	62.712	0
+P	Zarechnyy		RU		56.811	61.325	0
+P	Krasnoural’sk	krasnouralsk	RU		58.364	60.041	0
+P	Nev’yansk	nevyansk	RU		57.492	60.214	0
+P	Kirovgrad		RU		57.431	60.062	0
+P	Sysert’	sysert	RU		56.502	60.820	0
+P	Sredneuralsk		RU		56.989	60.467	0
+P	Talitsa		RU		56.880	60.021	0
+P	Talitsa		RU		57.011	63.733	0
+P	Turinsk		RU		58.046	63.696	0
+P	Shumikha		RU		55.229	63.286	0
+P	Kasli		RU		55.888	60.755	0
+P	Reftinskiy		RU		57.090	61.677	0
+P	Nizhnyaya Salda		RU		58.078	60.720	0
+P	Karabash		RU		55.490	60.209	0
+P	Kataysk		RU		56.289	62.581	0
+P	Degtyarsk		RU		56.704	60.088	0
+P	Aramil		RU		56.698	60.837	0

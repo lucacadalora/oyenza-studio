@@ -1,0 +1,8 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+C	DZ	Algeria	egyptian	s
+B	0
+P	Reggane		DZ		26.716	0.171	0
+P	In Salah		DZ		27.197	2.479	0
+P	Timimoun		DZ		29.264	0.236	0
+P	Aoulef		DZ		26.967	1.083	0

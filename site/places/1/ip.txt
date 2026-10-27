@@ -1,0 +1,48 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+Z	1	America/Bogota	-300	
+Z	2	America/Costa_Rica	-360	
+Z	3	America/Sao_Paulo	-180	
+Z	4	Asia/Kuala_Lumpur	480	
+Z	5	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	6	Europe/Moscow	180	
+C	BR	Brazil	mwl	s
+C	CF	Central African Republic	egyptian	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	PH	Philippines	mwl	s
+C	RU	Russia	mwl	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Ipoh		MY		4.584	101.083	4
+P	Ipatinga		BR		-19.468	-42.537	3
+P	Ipswich		GB	England	52.059	1.155	5
+P	Ipiranga		BR		-23.600	-46.616	3
+P	Ipojuca		BR		-8.399	-35.064	3
+P	Ipoti		NG		7.874	5.077	0
+P	Ipiales		CO		0.825	-77.640	1
+P	Ipirá	ipira	BR		-12.158	-39.737	3
+P	Santana do Ipanema		BR		-9.378	-37.245	3
+P	Ipu		BR		-4.322	-40.711	3
+P	Ipiaú	ipiau	BR		-14.134	-39.739	3
+P	Ipanema		BR		-22.984	-43.203	3
+P	Ipueiras		BR		-4.542	-40.719	3
+P	Iperó	ipero	BR		-23.350	-47.689	3
+P	Iporá	ipora	BR		-16.442	-51.118	3
+P	Ipubi		BR		-7.652	-40.149	3
+P	Ipixuna do Pará	ipixuna do para	BR		-2.558	-47.495	3
+P	Ipatovo		RU		45.718	42.906	6
+P	Ippy		CF		6.268	21.225	0
+P	Ipís	ipis	CR		9.965	-84.018	2
+P	Ipameri		BR		-17.722	-48.160	3
+P	Ipixuna		BR		-7.051	-71.695	1
+P	Ipanema		BR		-19.801	-41.713	3
+P	Ipil		PH		7.784	122.586	4
+P	Ipinda		TZ		-9.483	33.900	6
+P	Ipaba		BR		-19.414	-42.419	3
+P	Ipueiras		BR		-7.033	-40.450	3
+P	Iperu		NG		6.910	3.666	0
+P	Iporã	ipora	BR		-24.003	-53.704	3

@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Sakhalin	660	
+Z	1	Asia/Tokyo	540	
+Z	2	Asia/Vladivostok	600	
+C	JP	Japan	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Yuzhno-Sakhalinsk	yuzhno sakhalinsk	RU		46.954	142.736	0
+P	Korsakov		RU		46.634	142.783	0
+P	Wakkanai		JP		45.409	141.674	1
+P	Kholmsk		RU		47.046	142.049	0
+P	Sovetskaya Gavan’	sovetskaya gavan	RU		48.972	140.289	2
+P	Makubetsu		JP		45.371	141.821	1
+P	Vanino		RU		49.098	140.252	2
+P	Nevel’sk	nevelsk	RU		46.680	141.856	0
+P	Poronaysk		RU		49.220	143.091	0

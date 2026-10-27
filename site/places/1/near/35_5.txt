@@ -1,0 +1,113 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	DZ	Algeria	egyptian	s
+C	IT	Italy	mwl	s
+C	TN	Tunisia	egyptian	s
+B	0
+P	Constantine		DZ		36.365	6.615	0
+P	Annaba		DZ		36.900	7.767	0
+P	Batna		DZ		35.556	6.174	0
+P	Sétif	setif	DZ		36.191	5.414	0
+P	Tébessa	tebessa	DZ		35.404	8.124	0
+P	Skikda		DZ		36.876	6.909	0
+P	Béjaïa	bejaia	DZ		36.756	5.084	0
+P	Souk Ahras		DZ		36.286	7.951	0
+P	Cagliari		IT		39.231	9.119	1
+P	El Eulma		DZ		36.153	5.690	0
+P	Bizerte		TN		37.274	9.874	0
+P	Jijel		DZ		36.821	5.764	0
+P	Guelma		DZ		36.462	7.426	0
+P	Aïn Beïda	ain beida	DZ		35.796	7.393	0
+P	Khenchela		DZ		35.436	7.143	0
+P	Barika		DZ		35.389	5.366	0
+P	El Khroub		DZ		36.263	6.694	0
+P	Kasserine		TN		35.168	8.837	0
+P	Hamma Bouziane		DZ		36.412	6.596	0
+P	Oum el Bouaghi		DZ		35.875	7.114	0
+P	Quartu Sant'Elena	quartu santelena	IT		39.229	9.250	1
+P	Besbes		DZ		36.702	7.847	0
+P	Cheria		DZ		35.273	7.752	0
+P	Aïn M’Lila	ain mlila	DZ		36.037	6.572	0
+P	Ali Mendjeli		DZ		36.246	6.567	0
+P	Mila		DZ		36.450	6.264	0
+P	Béja	beja	TN		36.726	9.182	0
+P	District of Taher		DZ		36.772	5.898	0
+P	Menzel Bourguiba		TN		37.154	9.786	0
+P	Aïn Touta	ain touta	DZ		35.377	5.900	0
+P	Drean		DZ		36.685	7.751	0
+P	Chelghoum el Aïd	chelghoum el aid	DZ		36.163	6.167	0
+P	El Kef		TN		36.174	8.705	0
+P	Jendouba		TN		36.501	8.780	0
+P	Aïn Oulmene	ain oulmene	DZ		35.923	5.296	0
+P	Aïn Fakroun	ain fakroun	DZ		35.971	6.874	0
+P	Merouana		DZ		35.631	5.912	0
+P	Sidi Bouzid		TN		35.038	9.485	0
+P	Ouenza		DZ		35.953	8.129	0
+P	El Milia		DZ		36.755	6.272	0
+P	Sedrata		DZ		36.129	7.534	0
+P	Sidi Amar		DZ		36.820	7.716	0
+P	Jedeïda	jedeida	TN		36.831	9.924	0
+P	Râs el Oued	ras el oued	DZ		35.944	5.031	0
+P	Tadjenanet		DZ		36.121	5.987	0
+P	Tazoult-Lambese	tazoult lambese	DZ		35.482	6.261	0
+P	Rouached		DZ		36.458	6.043	0
+P	Héliopolis	heliopolis	DZ		36.504	7.443	0
+P	’Aïn Azel	ain azel	DZ		35.818	5.511	0
+P	Arris		DZ		35.259	6.347	0
+P	M’Daourouch	mdaourouch	DZ		36.078	7.820	0
+P	El Kala		DZ		36.896	8.443	0
+P	Râs el Aïoun	ras el aioun	DZ		35.674	5.645	0
+P	Azzaba		DZ		36.739	7.105	0
+P	El Arrouch		DZ		36.653	6.836	0
+P	El Aouinet		DZ		35.867	7.887	0
+P	Kaïs	kais	DZ		35.495	6.925	0
+P	Tamalous		DZ		36.838	6.640	0
+P	Mateur		TN		37.040	9.666	0
+P	Aïn Smara	ain smara	DZ		36.267	6.501	0
+P	Bougaa		DZ		36.333	5.088	0
+P	Oristano		IT		39.904	8.593	1
+P	Siliana		TN		36.085	9.371	0
+P	Dahmani		TN		35.944	8.828	0
+P	Aïn Kercha	ain kercha	DZ		35.925	6.695	0
+P	Meskiana		DZ		35.631	7.666	0
+P	Tebourba		TN		36.829	9.839	0
+P	Ahmed Bel Hadj		DZ		36.801	7.608	0
+P	’Aïn Abid	ain abid	DZ		36.232	6.943	0
+P	N’Gaous	ngaous	DZ		35.555	5.611	0
+P	Collo		DZ		37.006	6.560	0
+P	Zighout Youcef		DZ		36.533	6.712	0
+P	Grarem		DZ		36.516	6.327	0
+P	Hammamet		DZ		35.449	7.952	0
+P	Ben Mehidi		DZ		36.770	7.906	0
+P	Oued Zenati		DZ		36.316	7.164	0
+P	Kerkera		DZ		36.929	6.586	0
+P	Telerghma		DZ		36.117	6.354	0
+P	Fedj M’Zala	fedj mzala	DZ		36.409	5.945	0
+P	El Hadjar		DZ		36.804	7.737	0
+P	Didouche Mourad		DZ		36.453	6.636	0
+P	Aïn Arnat	ain arnat	DZ		36.187	5.313	0
+P	Assemini		IT		39.291	8.999	1
+P	Sidi Mérouane	sidi merouane	DZ		36.521	6.261	0
+P	El Fahs		TN		36.374	9.907	0
+P	Medjez el Bab		TN		36.650	9.612	0
+P	Sbeitla		TN		35.232	9.123	0
+P	Salah Bey		DZ		35.855	5.291	0
+P	Selargius		IT		39.258	9.163	1
+P	Boumahra Ahmed		DZ		36.458	7.514	0
+P	Iglesias		IT		39.309	8.537	1
+P	Menzel Jemil		TN		37.236	9.914	0
+P	Carbonia		IT		39.165	8.521	1
+P	Tinja		TN		37.160	9.761	0
+P	Tabursuq		TN		36.457	9.248	0
+P	Monserrato		IT		39.256	9.144	1
+P	Tabarka		TN		36.954	8.758	0
+P	Ghardimaou		TN		36.448	8.441	0
+P	Tajerouine		TN		35.892	8.553	0
+P	Berrahal		DZ		36.835	7.453	0
+P	Menzel Abderhaman		TN		37.237	9.863	0
+P	Douar Tindja		TN		37.167	9.750	0
+P	Babor		DZ		36.490	5.539	0
+P	Thala		TN		35.572	8.670	0
+P	Sestu		IT		39.298	9.092	1
+P	Sinnai		IT		39.303	9.203	1

@@ -1,0 +1,125 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+C	MA	Morocco	egyptian	s
+B	2
+P	Casablanca		MA		33.588	-7.611	0
+P	Rabat		MA		34.013	-6.833	0
+P	Marrakesh		MA		31.634	-8.000	0
+P	Salé	sale	MA		34.053	-6.798	0
+P	Agadir		MA		30.420	-9.598	0
+P	Meknes		MA		33.894	-5.547	0
+P	Kenitra		MA		34.261	-6.580	0
+P	Temara		MA		33.929	-6.907	0
+P	Safi		MA		32.299	-9.237	0
+P	Mohammedia		MA		33.686	-7.383	0
+P	Khouribga		MA		32.881	-6.906	0
+P	El Jadida		MA		33.257	-8.509	0
+P	Beni Mellal		MA		32.337	-6.350	0
+P	Salé Al Jadida	sale al jadida	MA		33.997	-6.740	0
+P	Ait Melloul		MA		30.342	-9.504	0
+P	Dar Bouazza		MA		33.515	-7.817	0
+P	Settat		MA		33.001	-7.617	0
+P	Berrechid		MA		33.266	-7.588	0
+P	Khemisset		MA		33.824	-6.066	0
+P	Inezgane		MA		30.355	-9.536	0
+P	Khenifra		MA		32.935	-5.662	0
+P	Bouskoura		MA		33.450	-7.652	0
+P	Al Fqih Ben Çalah	al fqih ben calah	MA		32.502	-6.688	0
+P	Dchira El Jihadia		MA		30.373	-9.548	0
+P	Oued Zem		MA		32.863	-6.574	0
+P	El Kelaa des Srarhna		MA		32.051	-7.411	0
+P	Sidi Slimane		MA		34.265	-5.926	0
+P	Oulad Teïma	oulad teima	MA		30.395	-9.209	0
+P	Ben Guerir		MA		32.241	-7.954	0
+P	Ouislane		MA		33.914	-5.490	0
+P	Tiflet		MA		33.895	-6.306	0
+P	Lqoliaa		MA		30.298	-9.466	0
+P	Taroudant		MA		30.470	-8.877	0
+P	Essaouira		MA		31.512	-9.770	0
+P	Sidi Kacem		MA		34.221	-5.708	0
+P	Ouarzazate		MA		30.919	-6.893	0
+P	Souk El Arbaa		MA		34.685	-6.003	0
+P	Youssoufia		MA		32.246	-8.529	0
+P	Ifrane		MA		33.527	-5.110	0
+P	Lahraouyine		MA		33.541	-7.528	0
+P	Aïn Harrouda	ain harrouda	MA		33.637	-7.450	0
+P	Souq Sebt Oulad Nemma		MA		32.297	-6.703	0
+P	Skhirate		MA		33.853	-7.032	0
+P	Ouezzane		MA		34.796	-5.578	0
+P	Benslimane		MA		33.616	-7.122	0
+P	Sidi Bennour		MA		32.652	-8.428	0
+P	Azrou		MA		33.434	-5.221	0
+P	My Drarga		MA		30.377	-9.473	0
+P	Dakhla		MA		30.411	-9.553	0
+P	Ain El Aouda		MA		33.803	-6.795	0
+P	Ben Jerrar		MA		30.262	-9.504	0
+P	Ad Darwa		MA		33.375	-7.536	0
+P	Kasba Tadla		MA		32.598	-6.268	0
+P	Bejaâd	bejaad	MA		32.771	-6.392	0
+P	Sidi Taibi		MA		34.187	-6.682	0
+P	Mrirt		MA		33.164	-5.567	0
+P	Tinghir		MA		31.515	-5.533	0
+P	Azemmour		MA		33.290	-8.342	0
+P	Souq Larb’a al Gharb	souq larba al gharb	MA		34.687	-6.003	0
+P	Zagora		MA		30.332	-5.838	0
+P	Ait Ourir		MA		31.565	-7.662	0
+P	Azilal		MA		31.962	-6.571	0
+P	Sidi Yahia El Gharb		MA		34.305	-6.304	0
+P	Tine Biougra		MA		30.209	-9.379	0
+P	Bouznika		MA		33.789	-7.160	0
+P	Had Soualem		MA		33.420	-7.852	0
+P	Aourir		MA		30.492	-9.636	0
+P	El Hajeb		MA		33.688	-5.371	0
+P	Ben Ahmed		MA		33.066	-7.242	0
+P	Tit Mellil		MA		33.558	-7.486	0
+P	Mechraa Bel Ksiri		MA		34.574	-5.956	0
+P	Tabount		MA		30.903	-6.916	0
+P	Laâttaouia	laattaouia	MA		31.835	-7.314	0
+P	Demnate		MA		31.734	-7.005	0
+P	Souk et Tnine Jorf el Mellah		MA		34.492	-5.508	0
+P	Mehdya		MA		34.256	-6.673	0
+P	Aïn Taoujdat	ain taoujdat	MA		33.936	-5.213	0
+P	Tamesna		MA		33.818	-6.917	0
+P	Oadar Temsia		MA		30.365	-9.410	0
+P	Chichaoua		MA		31.544	-8.763	0
+P	Sabaa Aiyoun		MA		33.903	-5.369	0
+P	Zawyat ech Cheïkh	zawyat ech cheikh	MA		32.644	-5.918	0
+P	Bouknadel		MA		34.118	-6.739	0
+P	Aïn Attig	ain attig	MA		33.888	-6.968	0
+P	Tamansourt		MA		31.755	-8.110	0
+P	Echemmaia Est		MA		32.081	-8.625	0
+P	Oulad Barhil		MA		30.640	-8.469	0
+P	Bir Jdid		MA		33.374	-7.995	0
+P	Oulad Ayad		MA		32.200	-6.800	0
+P	Zawyat an Nwaçer	zawyat an nwacer	MA		33.380	-7.619	0
+P	Mediouna		MA		33.452	-7.520	0
+P	El Gara		MA		33.277	-7.232	0
+P	Imi-n-Tanout	imi n tanout	MA		31.172	-8.847	0
+P	Sidi Rahal		MA		33.477	-7.936	0
+P	New Fes		MA		34.055	-5.007	0
+P	Ras el Ma		MA		33.974	-5.096	0
+P	Setti Fatma		MA		31.225	-7.678	0
+P	El Ksiba		MA		32.573	-6.019	0
+P	El Mansouria		MA		33.746	-7.302	0
+P	Al Brouj		MA		32.505	-7.192	0
+P	Imouzzer Kandar		MA		33.729	-5.011	0
+P	Douar Toulal		MA		33.885	-5.597	0
+P	Karia Ba Mohamed		MA		34.371	-5.214	0
+P	Sebt Gzoula		MA		32.108	-9.084	0
+P	Beni Yakhlef		MA		33.684	-7.339	0
+P	Oulmes		MA		33.426	-6.001	0
+P	Aoulouz		MA		30.673	-8.181	0
+P	Asni		MA		31.247	-7.979	0
+P	Kelaat Mgouna		MA		31.246	-6.133	0
+P	Méchouar-Kasba	mechouar kasba	MA		31.601	-7.987	0
+P	Agouraï	agourai	MA		33.630	-5.580	0
+P	Tamallalt		MA		31.819	-7.514	0
+P	Boujniba		MA		32.900	-6.775	0
+P	Mers El Kheir		MA		33.863	-6.930	0
+P	Sidi Allal El Bahraoui		MA		34.008	-6.531	0
+P	Lalla Mimouna		MA		34.846	-6.066	0
+P	Boumia		MA		32.724	-5.103	0
+P	El Harhoura		MA		33.945	-6.931	0
+P	Amizmiz		MA		31.217	-8.232	0
+P	Ait Yazza		MA		30.502	-8.799	0
+P	Aguelmous		MA		33.161	-5.846	0

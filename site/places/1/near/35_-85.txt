@@ -1,0 +1,106 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	0
+P	Columbus		US	Ohio	39.961	-82.999	0
+P	Charlotte		US	North Carolina	35.227	-80.843	0
+P	Lexington		US	Kentucky	37.989	-84.478	0
+P	Lexington-Fayette	lexington fayette	US	Kentucky	38.050	-84.459	0
+P	Cincinnati		US	Ohio	39.127	-84.514	0
+P	Meads		US	Kentucky	38.413	-82.709	0
+P	Winston-Salem	winston salem	US	North Carolina	36.100	-80.244	0
+P	Knoxville		US	Tennessee	35.961	-83.921	0
+P	Dayton		US	Ohio	39.759	-84.192	0
+P	High Point		US	North Carolina	35.956	-80.005	0
+P	Asheville		US	North Carolina	35.601	-82.554	0
+P	Concord		US	North Carolina	35.409	-80.582	0
+P	Gastonia		US	North Carolina	35.262	-81.187	0
+P	Johnson City		US	Tennessee	36.313	-82.353	0
+P	Hamilton		US	Ohio	39.400	-84.561	0
+P	Springfield		US	Ohio	39.924	-83.809	0
+P	Kettering		US	Ohio	39.690	-84.169	0
+P	Kingsport		US	Tennessee	36.548	-82.562	0
+P	Huntersville		US	North Carolina	35.411	-80.843	0
+P	Middletown		US	Ohio	39.515	-84.398	0
+P	Huntington		US	West Virginia	38.419	-82.445	0
+P	Charleston		US	West Virginia	38.350	-81.633	0
+P	Beavercreek		US	Ohio	39.709	-84.063	0
+P	Kannapolis		US	North Carolina	35.487	-80.622	0
+P	Blacksburg		US	Virginia	37.230	-80.414	0
+P	Cleveland		US	Tennessee	35.160	-84.877	0
+P	Fairfield		US	Ohio	39.346	-84.561	0
+P	Covington		US	Kentucky	39.084	-84.509	0
+P	Hickory		US	North Carolina	35.733	-81.341	0
+P	Lancaster		US	Ohio	39.714	-82.599	0
+P	Grove City		US	Ohio	39.881	-83.093	0
+P	Huber Heights		US	Ohio	39.844	-84.125	0
+P	Reynoldsburg		US	Ohio	39.955	-82.812	0
+P	Indian Trail		US	North Carolina	35.077	-80.669	0
+P	Mooresville		US	North Carolina	35.585	-80.810	0
+P	Richmond		US	Indiana	39.829	-84.890	0
+P	Upper Arlington		US	Ohio	39.995	-83.062	0
+P	Salisbury		US	North Carolina	35.671	-80.474	0
+P	Richmond		US	Kentucky	37.748	-84.295	0
+P	Fairborn		US	Ohio	39.821	-84.019	0
+P	Mason		US	Ohio	39.360	-84.310	0
+P	Georgetown		US	Kentucky	38.210	-84.559	0
+P	Florence		US	Kentucky	38.999	-84.627	0
+P	Parkersburg		US	West Virginia	39.267	-81.562	0
+P	Matthews		US	North Carolina	35.117	-80.724	0
+P	Nicholasville		US	Kentucky	37.881	-84.573	0
+P	Morristown		US	Tennessee	36.214	-83.295	0
+P	Oak Ridge		US	Tennessee	36.010	-84.270	0
+P	Maryville		US	Tennessee	35.756	-83.970	0
+P	Frankfort		US	Kentucky	38.201	-84.873	0
+P	Cornelius		US	North Carolina	35.487	-80.860	0
+P	Thomasville		US	North Carolina	35.883	-80.082	0
+P	Independence		US	Kentucky	38.943	-84.544	0
+P	Bristol		US	Tennessee	36.595	-82.189	0
+P	Statesville		US	North Carolina	35.783	-80.887	0
+P	Xenia		US	Ohio	39.685	-83.930	0
+P	Mint Hill		US	North Carolina	35.180	-80.647	0
+P	Zanesville		US	Ohio	39.940	-82.013	0
+P	Salem		US	Virginia	37.293	-80.055	0
+P	Athens		US	Ohio	39.329	-82.101	0
+P	Riverside		US	Ohio	39.780	-84.124	0
+P	Cave Spring		US	Virginia	37.228	-80.013	0
+P	Trotwood		US	Ohio	39.797	-84.311	0
+P	Centerville		US	Ohio	39.628	-84.159	0
+P	Kernersville		US	North Carolina	36.120	-80.074	0
+P	Oxford		US	Ohio	39.507	-84.745	0
+P	Christiansburg		US	Virginia	37.130	-80.409	0
+P	Farragut		US	Tennessee	35.885	-84.154	0
+P	Chillicothe		US	Ohio	39.333	-82.982	0
+P	Ashland		US	Kentucky	38.478	-82.638	0
+P	Lebanon		US	Ohio	39.435	-84.203	0
+P	Portsmouth		US	Ohio	38.732	-82.998	0
+P	Shelby		US	North Carolina	35.292	-81.536	0
+P	Miamisburg		US	Ohio	39.643	-84.287	0
+P	Norwood		US	Ohio	39.156	-84.460	0
+P	Clemmons		US	North Carolina	36.022	-80.382	0
+P	Pickerington		US	Ohio	39.884	-82.754	0
+P	Lexington		US	North Carolina	35.824	-80.253	0
+P	White Oak		US	Ohio	39.213	-84.599	0
+P	Erlanger		US	Kentucky	39.017	-84.601	0
+P	Fairmont		US	West Virginia	39.485	-80.143	0
+P	Whitehall		US	Ohio	39.967	-82.885	0
+P	Forest Park		US	Ohio	39.290	-84.504	0
+P	Winchester		US	Kentucky	37.990	-84.180	0
+P	Springboro		US	Ohio	39.552	-84.233	0
+P	Boone		US	North Carolina	36.217	-81.675	0
+P	Lenoir		US	North Carolina	35.914	-81.539	0
+P	Radford		US	Virginia	37.132	-80.576	0
+P	Bristol		US	Virginia	36.596	-82.188	0
+P	Beckley		US	West Virginia	37.778	-81.188	0
+P	Morganton		US	North Carolina	35.745	-81.685	0
+P	Danville		US	Kentucky	37.646	-84.772	0
+P	Sevierville		US	Tennessee	35.868	-83.562	0
+P	Fort Thomas		US	Kentucky	39.075	-84.447	0
+P	Clarksburg		US	West Virginia	39.281	-80.345	0
+P	Albemarle		US	North Carolina	35.350	-80.200	0
+P	Burlington		US	Kentucky	39.028	-84.724	0
+P	Newport		US	Kentucky	39.091	-84.496	0
+P	Stallings		US	North Carolina	35.091	-80.686	0
+P	Pataskala		US	Ohio	39.996	-82.674	0
+P	Vandalia		US	Ohio	39.891	-84.199	0
+P	Greeneville		US	Tennessee	36.163	-82.831	0

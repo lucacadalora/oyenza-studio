@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Khartoum	120	
+Z	1	Africa/Ndjamena	60	
+C	SD	Sudan	egyptian	s
+C	TD	Chad	egyptian	s
+B	0
+P	Nyala		SD		12.049	24.881	0
+P	Al-Junaynah	al junaynah	SD		13.453	22.447	0
+P	Abéché	abeche	TD		13.829	20.832	1
+P	El Geneina Fort		SD		13.475	22.457	0
+P	Am Timan		TD		11.043	20.283	1
+P	Goz Beida		TD		12.226	21.410	1
+P	'Ārdamatā	ardamata	SD		13.475	22.485	0
+P	Kas		SD		12.510	24.285	0
+P	Kabkābīyah	kabkabiyah	SD		13.650	24.083	0
+P	Tullus		SD		11.090	24.530	0
+P	Zalinjay		SD		12.909	23.471	0
+P	Kutum		SD		14.200	24.667	0
+P	Biltine		TD		14.527	20.926	1
+P	Rahad al Bardi		SD		11.300	23.883	0
+P	Adré	adre	TD		13.466	22.199	1

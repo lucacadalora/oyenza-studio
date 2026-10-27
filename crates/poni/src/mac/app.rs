@@ -169,6 +169,12 @@ pub fn main_entry() -> i32 {
             return 0;
         }
     };
+    // Install on next start: the new version, downloaded and checked
+    // earlier, takes this copy's place now, before any window, and opens
+    // once this copy has quit.
+    if smoke_dir.is_none() && crate::updates::pending_install() {
+        return 0;
+    }
     let nsapp = NSApplication::sharedApplication(mtm);
     // A menu bar app: no Dock icon, no menu bar of its own.
     nsapp.setActivationPolicy(NSApplicationActivationPolicy::Accessory);
@@ -404,6 +410,10 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// The Stocks page's prices: started the first time the page opens.
+    stocks: Option<services::stocks::StocksService>,
+    /// The Stocks page was on screen at the last look (`set_stocks_watch`).
+    stocks_open: bool,
     /// New versions (`crate::updates`); None in the smoke test.
     updater: Option<crate::updates::Updater>,
     /// Prayer times' adzan, while it plays.
@@ -511,6 +521,8 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            stocks: None,
+            stocks_open: false,
             updater: None,
             adzan: Default::default(),
             motion: None,
@@ -552,6 +564,7 @@ impl App {
         };
         self.sync_addons();
         self.schedule_update();
+        self.fetch_setup();
         // Shelf tiles for what was left on the Shelf.
         for p in self.st.store.shelf.paths() {
             self.st.cmds.push(Command::LoadThumb(p));
@@ -1113,16 +1126,21 @@ impl App {
         self.request_frame();
     }
 
-    /// Read the update file on the add-on downloader's thread, which starts
-    /// here when no add-on is on; the answer comes back as
-    /// `UpdateEvent::Checked`.
-    fn read_update_file(&mut self, now: u64) {
+    /// The add-on downloader's thread, started here when no add-on is on:
+    /// the update file is read and the DMG downloads on it.
+    fn start_addon_thread(&mut self) {
         if self.addons.is_none() {
             match services::addons::AddonService::start(self.sink.clone(), Vec::new()) {
                 Ok(svc) => self.addons = Some(svc),
                 Err(e) => pwarn!("add-ons: unavailable ({e})"),
             }
         }
+    }
+
+    /// Read the update file on the add-on downloader's thread; the answer
+    /// comes back as `UpdateEvent::Checked`.
+    fn read_update_file(&mut self, now: u64) {
+        self.start_addon_thread();
         let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
         if let Some(u) = self.updater.as_mut() {
             u.begin();
@@ -1133,8 +1151,40 @@ impl App {
         }
     }
 
-    /// Update (the menu, the notice, Settings): download the DMG for now.
+    /// The offered version's DMG, once per release, on the add-on thread,
+    /// which then takes its app out (after a look at the file, and at start
+    /// for one already offered). Only where this copy can replace itself.
+    fn fetch_setup(&mut self) {
+        let Some((d, path)) = self.updater.as_mut().and_then(|u| u.want_setup(&mut self.st)) else { return };
+        self.start_addon_thread();
+        let job = services::update::download_job(self.sink.clone(), d, path);
+        if self.addons.as_ref().map(|a| a.run(job)).is_none() && self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, Err("the add-on thread isn't running".into()))) {
+            self.expand();
+        }
+    }
+
+    /// Install now (the Update sheet): put the new app in this copy's place,
+    /// quit (saving, as on any quit) and let it open. Where that can't be
+    /// done, the DMG: the one downloaded here if it is in (opened, to drag by
+    /// hand), else the one on the release page.
     fn update_now(&mut self) {
+        let ready = self.updater.as_ref().and_then(|u| u.ready_setup(&self.st));
+        if let Some((app, d)) = ready {
+            match services::update::install(&app, d.version().unwrap_or_default()) {
+                Ok(()) => {
+                    pinfo!("updates: installing {}", d.file_name());
+                    self.quit(0);
+                    return;
+                }
+                Err(e) => pwarn!("updates: couldn't install in place ({e}); opening the DMG"),
+            }
+            if let Some(dmg) = self.updater.as_ref().and_then(|u| u.downloaded(&self.st)) {
+                services::open(&dmg.to_string_lossy());
+                self.collapse();
+                self.st.notify(Icon::Download, self.st.accent, "Install it by hand this time", "Drag Oyenza Studio to Applications in the window that opened", 10.0, None);
+                return;
+            }
+        }
         if let Some(url) = self.updater.as_ref().and_then(|u| u.download_page(&self.st)) {
             pinfo!("updates: opening {url}");
             services::open(&url);
@@ -1161,6 +1211,7 @@ impl App {
             self.update_due();
         }
         self.tell_oyenza_activity();
+        self.set_stocks_watch();
         self.apply_fullscreen();
     }
 
@@ -1349,6 +1400,7 @@ impl App {
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
                 let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
+                self.fetch_setup();
                 self.refresh_menu();
                 // Check for updates… found a new version: the Update sheet.
                 if open {
@@ -1357,7 +1409,16 @@ impl App {
                 // A frame, so a new version's notice goes up now, not with the next redraw.
                 self.request_frame();
             }
+            AppEvent::Update(services::update::UpdateEvent::Downloaded(r)) => {
+                // Check for updates… was waiting for it: the Update sheet.
+                if self.updater.as_mut().is_some_and(|u| u.fetched(&mut self.st, r)) {
+                    self.expand();
+                }
+                self.request_frame();
+            }
             AppEvent::Located(found) => self.on_located(found),
+            AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
+            AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
             AppEvent::Bluetooth { name, connected, battery, audio } => {
@@ -1443,10 +1504,16 @@ impl App {
     }
 
     /// The place the times are for: the chosen one, or until there is one,
-    /// the one the Mac's time zone suggests.
+    /// the one the Mac's time zone suggests. A place from the world list is
+    /// kept as it is once settled; at start it comes from the lines settings
+    /// keep of it (nothing online).
     fn resolve_prayer_place(&mut self) {
         let Some(list) = self.st.prayer.places.clone() else { return };
-        let chosen = self.st.settings.prayer.place.as_deref().and_then(|id| list.find(id)).cloned();
+        let chosen = match self.st.settings.prayer.place.as_deref() {
+            Some(id) if self.st.prayer.place.as_ref().is_some_and(|p| p.id == id) => self.st.prayer.place.clone(),
+            Some(id) => poni_core::prayer::find(&list, self.st.settings.prayer.world_place.as_deref(), id),
+            None => None,
+        };
         let suggested = chosen.is_none();
         let place = chosen.or_else(|| poni_core::prayer::suggested_place_id(self.utc_offset_min()).and_then(|id| list.find(id)).cloned());
         let changed = place.as_ref().map(|p| &p.id) != self.st.prayer.place.as_ref().map(|p| &p.id);
@@ -1477,32 +1544,15 @@ impl App {
     }
 
     /// The nearest listed place becomes the place, while following the
-    /// location. The point itself is dropped here.
+    /// location (`pages::prayer::located`). The point is never saved.
     fn on_located(&mut self, found: services::location::Located) {
         use services::location::Located;
-        services::location::forget();
-        // Prayer times went off while macOS was answering.
-        if !self.st.settings.addon_on(PRAYER_TIMES.id) {
-            return;
+        match found {
+            Located::Denied => self.st.prayer.locate = Locate::Denied,
+            Located::Unknown => self.st.prayer.locate = Locate::Unknown,
+            // Kemenag's places, or the world's cities around it (looked up online).
+            Located::At(lat, lng) => pages::prayer::located(&mut self.st, lat, lng),
         }
-        self.st.prayer.locate = match found {
-            Located::Denied => Locate::Denied,
-            Located::Unknown => Locate::Unknown,
-            Located::At(lat, lng) => {
-                let Some(list) = self.st.prayer.places.clone() else { return };
-                let Some((place, km)) = list.nearest(lat, lng) else { return };
-                if km > poni_core::prayer::NEAREST_MAX_KM {
-                    pinfo!("prayer: the nearest listed place is {km:.0} km away");
-                    Locate::Far { km }
-                } else {
-                    if self.st.settings.prayer.follow_location && self.st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
-                        self.st.settings.prayer.place = Some(place.id.clone());
-                        self.st.cmd(Command::SaveSettings);
-                    }
-                    Locate::Found { km }
-                }
-            }
-        };
     }
 
     /// Each frame and each minute: the prayer times that just came, and
@@ -2218,8 +2268,11 @@ impl App {
                 Command::OpenUrl(u) => services::open(&u),
                 Command::Update => self.update_now(),
                 Command::CheckForUpdates => self.check_for_updates(),
-                // The Mac downloads the DMG; its sheet has no such card.
-                Command::InstallOnNextStart => {}
+                Command::InstallOnNextStart => {
+                    if let Some(u) = self.updater.as_mut() {
+                        u.install_on_next_start(&mut self.st);
+                    }
+                }
                 Command::WantStats(b) => self.set_stats(b),
                 Command::SetAutostart(on) => {
                     if (services::login::status() == Login::On) != on {
@@ -2233,6 +2286,7 @@ impl App {
                 // shows no Pair a phone yet).
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
+                Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
             }
         }
         self.sync_phone_offer();
@@ -2259,6 +2313,29 @@ impl App {
         if on != self.oyenza_watch {
             self.oyenza_watch = on;
             self.tell_oyenza_activity();
+        }
+    }
+
+    /// The Stocks page asks oyenza.trade for prices only while it is on
+    /// screen and someone is at the Mac (`pages::stocks::watch`); the worker
+    /// starts the first time it opens.
+    fn set_stocks_watch(&mut self) {
+        let away = self.away.0 || self.away.1;
+        let open = self.mode == Mode::Expanded(PageKind::Stocks) && !away;
+        // Closed, and the worker already told so: nothing to do, every frame.
+        if !open && !self.stocks_open {
+            return;
+        }
+        self.stocks_open = open;
+        let w = pages::stocks::watch(&self.st, open);
+        if self.stocks.is_none() && w.open {
+            match services::stocks::StocksService::start(self.sink.clone()) {
+                Ok(s) => self.stocks = Some(s),
+                Err(e) => pwarn!("service stocks: unavailable ({e})"),
+            }
+        }
+        if let Some(s) = &self.stocks {
+            s.set_watch(w);
         }
     }
 
@@ -2678,11 +2755,12 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
-        // Prayer times, System or Health switched off: its tab is gone.
+        // Prayer times, System, Health or Stocks switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
+            PageKind::Stocks => !self.st.stocks_on(),
             _ => false,
         };
         if gone {
@@ -2744,6 +2822,7 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
+        self.set_stocks_watch();
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));

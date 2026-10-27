@@ -1,0 +1,52 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Lagos	60	
+C	CF	Central African Republic	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	TD	Chad	egyptian	s
+B	0
+P	Yola		NG		9.208	12.481	0
+P	Bamenda		CM		5.960	10.146	0
+P	Bafoussam		CM		5.478	10.418	0
+P	Jimeta		NG		9.279	12.458	0
+P	Ngaoundéré	ngaoundere	CM		7.328	13.585	0
+P	Foumban		CM		5.727	10.899	0
+P	Kumbo		CM		6.200	10.667	0
+P	Jalingo		NG		8.894	11.360	0
+P	Pindiga		NG		9.984	10.952	0
+P	Dschang		CM		5.444	10.053	0
+P	Guider		CM		9.933	13.947	0
+P	Numan		NG		9.464	12.031	0
+P	Foumbot		CM		5.508	10.633	0
+P	Mbouda		CM		5.626	10.254	0
+P	Pala		TD		9.365	14.907	0
+P	Meïganga	meiganga	CM		6.517	14.300	0
+P	Bafang		CM		5.157	10.177	0
+P	Banyo		CM		6.750	11.817	0
+P	Garoua Boulaï	garoua boulai	CM		5.883	14.550	0
+P	Oku		CM		6.250	10.433	0
+P	Bangangté	bangangte	CM		5.141	10.525	0
+P	Fundong		CM		6.280	10.283	0
+P	Wum		CM		6.383	10.067	0
+P	Ngaoundal		CM		6.500	13.267	0
+P	Ndop		CM		5.988	10.439	0
+P	Tibati		CM		6.465	12.628	0
+P	Tchéboa	tcheboa	CM		9.029	13.185	0
+P	Garoua		CM		9.301	13.398	0
+P	Baboua		CF		5.796	14.828	0
+P	Pitoa		CM		9.384	13.502	0
+P	Lagdo		CM		9.058	13.666	0
+P	Léré	lere	TD		9.645	14.215	0
+P	Bandjoun		CM		5.376	10.413	0
+P	Figuil		CM		9.756	13.965	0
+P	Magba		CM		5.950	11.217	0
+P	Bali		CM		5.887	10.012	0
+P	Kekem		CM		5.157	10.020	0
+P	Nkambe		CM		6.633	10.667	0
+P	Bafut		CM		6.083	10.100	0
+P	Tcholliré	tchollire	CM		8.402	14.170	0
+P	Gembu		NG		6.726	11.257	0
+P	Beli		NG		7.859	10.972	0
+P	Mboursou Léré	mboursou lere	TD		9.764	14.154	0
+P	Biliri		NG		9.867	11.226	0
+P	Ganye		NG		8.435	12.051	0

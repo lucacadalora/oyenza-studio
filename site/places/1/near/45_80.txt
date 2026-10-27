@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+Z	1	Asia/Urumqi	360	
+C	CN	China	mwl	s
+C	KZ	Kazakhstan	mwl	h
+B	0
+P	Ust-Kamenogorsk	ust kamenogorsk	KZ		49.971	82.606	0
+P	Karamay		CN		45.585	84.887	1
+P	Tacheng		CN		46.745	82.958	1
+P	Emin		CN		46.526	83.634	1
+P	Altay		KZ		49.736	84.254	0
+P	Ayagoz		KZ		47.964	80.434	0
+P	Kalbatau		KZ		49.330	81.573	0
+P	Maqanshy		KZ		46.782	82.023	0
+P	Zaysan		KZ		47.467	84.871	0

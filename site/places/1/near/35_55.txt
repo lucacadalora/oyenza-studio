@@ -1,0 +1,39 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ashgabat	300	
+Z	1	Asia/Tehran	210	
+C	IR	Iran	tehran	s
+C	TM	Turkmenistan	mwl	h
+B	2
+P	Mashhad		IR		36.298	59.606	1
+P	Ashgabat		TM		37.950	58.383	0
+P	Marāgheh	maragheh	IR		35.829	59.633	1
+P	Sabzevar		IR		36.213	57.682	1
+P	Neyshābūr	neyshabur	IR		36.213	58.796	1
+P	Bojnūrd	bojnurd	IR		37.475	57.329	1
+P	Gonbad-e Kāvūs	gonbad e kavus	IR		37.250	55.167	1
+P	Kāshmar	kashmar	IR		35.238	58.466	1
+P	Torbat-e Ḩeydarīyeh	torbat e heydariyeh	IR		35.274	59.219	1
+P	Qūchān	quchan	IR		37.106	58.510	1
+P	Shīrvān	shirvan	IR		37.397	57.930	1
+P	Esfarāyen	esfarayen	IR		37.076	57.510	1
+P	Chenārān	chenaran	IR		36.645	59.121	1
+P	Gyzylarbat		TM		38.976	56.276	0
+P	Āzādshahr	azadshahr	IR		37.086	55.172	1
+P	Arkadag		TM		38.071	58.066	0
+P	Abadan		TM		38.054	58.197	0
+P	Bäherden	baherden	TM		38.436	57.432	0
+P	Golbahār	golbahar	IR		36.570	59.190	1
+P	Dargaz		IR		37.444	59.108	1
+P	Kalāleh	kalaleh	IR		37.379	55.493	1
+P	Gökdepe	gokdepe	TM		38.159	57.961	0
+P	Kaka		TM		37.348	59.614	0
+P	Mīnūdasht	minudasht	IR		37.230	55.372	1
+P	Änew	anew	TM		37.888	58.516	0
+P	Bardaskan		IR		35.262	57.971	1
+P	Āshkhāneh	ashkhaneh	IR		37.562	56.921	1
+P	Bereket		TM		39.245	55.515	0
+P	Gālīkesh	galikesh	IR		37.273	55.434	1
+P	Ţorqabeh	torqabeh	IR		36.310	59.373	1
+P	Jājarm	jajarm	IR		36.950	56.380	1
+P	Magtymguly		TM		38.437	56.281	0
+P	Gorjī-ye Soflá	gorji ye sofla	IR		36.388	59.675	1

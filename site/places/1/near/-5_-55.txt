@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Santarem	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Santarém	santarem	BR		-2.443	-54.708	0
+P	Altamira		BR		-3.203	-52.206	0
+P	Santana		BR		-0.038	-51.175	0
+P	Breves		BR		-1.682	-50.480	0
+P	Alenquer		BR		-1.942	-54.738	0
+P	Portel		BR		-1.936	-50.821	0
+P	Monte Alegre		BR		-2.001	-54.081	0
+P	Uruará	uruara	BR		-3.717	-53.737	0
+P	Pacajá	pacaja	BR		-3.838	-50.638	0
+P	Porto de Moz		BR		-1.748	-52.238	0
+P	Afuá	afua	BR		-0.157	-50.387	0
+P	Rurópolis	ruropolis	BR		-4.096	-54.910	0
+P	Prainha		BR		-1.800	-53.480	0
+P	Laranjal do Jari		BR		-0.826	-52.506	0
+P	Almeirim		BR		-1.523	-52.582	0
+P	Bagre		BR		-1.900	-50.208	0
+P	Anapu		BR		-3.472	-51.198	0
+P	Gurupá	gurupa	BR		-1.405	-51.640	0
+P	Melgaço	melgaco	BR		-1.804	-50.712	0
+P	Medicilândia	medicilandia	BR		-3.446	-52.889	0
+P	Brasil Novo		BR		-3.307	-52.539	0
+P	Mojuí dos Campos	mojui dos campos	BR		-2.683	-54.643	0
+P	Senador José Porfírio	senador jose porfirio	BR		-2.591	-51.954	0
+P	Mazagão	mazagao	BR		-0.115	-51.289	0
+P	Placas		BR		-3.868	-54.220	0
+P	Belterra		BR		-2.636	-54.937	0
+P	Vitória do Xingu	vitoria do xingu	BR		-2.880	-52.010	0
+P	Tucumã	tucuma	BR		-0.155	-50.062	0

@@ -1,0 +1,19 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+Z	1	Africa/Maputo	120	
+Z	2	America/Santarem	-180	
+Z	3	Asia/Ho_Chi_Minh	420	
+C	AO	Angola	egyptian	s
+C	BR	Brazil	mwl	s
+C	MZ	Mozambique	egyptian	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Nha Trang		VN		12.245	109.194	3
+P	Qui Nhon		VN		13.776	109.224	3
+P	An Nhơn	an nhon	VN		13.886	109.108	3
+P	Nhamatanda		MZ		-19.269	34.213	1
+P	Nhlazatje		ZA		-26.040	30.793	1
+P	Nhamundá	nhamunda	BR		-2.186	-56.713	2
+P	Nharêa	nharea	AO		-11.475	16.965	0
+P	Nhà Bè	nha be	VN		10.697	106.740	3

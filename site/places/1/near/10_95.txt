@@ -1,0 +1,30 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Yangon	390	
+C	MM	Myanmar	mwl	s
+C	TH	Thailand	mwl	s
+B	0
+P	Myeik		MM		12.440	98.600	1
+P	Dawei		MM		14.082	98.192	1
+P	Hua Hin		TH		12.571	99.959	0
+P	Ban I Chang		TH		13.711	99.896	0
+P	Ratchaburi		TH		13.537	99.817	0
+P	Kanchanaburi		TH		14.004	99.548	0
+P	Ban Pong		TH		13.816	99.877	0
+P	Chumphon		TH		10.496	99.180	0
+P	Tha Maka		TH		13.900	99.767	0
+P	Cha-am	cha am	TH		12.800	99.967	0
+P	Pran Buri		TH		12.385	99.902	0
+P	Phetchaburi		TH		13.112	99.945	0
+P	Tha Yang		TH		12.958	99.906	0
+P	Photharam		TH		13.692	99.850	0
+P	Prachuap Khiri Khan		TH		11.821	99.784	0
+P	Bang Phae		TH		13.692	99.930	0
+P	Tha Muang		TH		13.961	99.641	0
+P	Damnoen Saduak		TH		13.518	99.955	0
+P	Sam Roi Yot		TH		12.271	99.872	0
+P	Kui Buri		TH		12.083	99.854	0
+P	Khao Yoi		TH		13.240	99.824	0
+P	Bo Phloi		TH		14.325	99.515	0
+P	Chom Bueng		TH		13.620	99.592	0
+P	Bang Saphan		TH		11.213	99.512	0

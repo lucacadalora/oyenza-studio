@@ -1,0 +1,6 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Pacific/Majuro	720	
+C	MH	Marshall Islands	mwl	s
+B	0
+P	Majuro		MH		7.090	171.380	0
+P	Dalap-Uliga-Dorrit	dalap uliga dorrit	MH		7.087	171.377	0

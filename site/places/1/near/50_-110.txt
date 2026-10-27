@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Regina	-360	
+C	CA	Canada	moonsighting	s
+B	0
+P	Saskatoon		CA	Saskatchewan	52.132	-106.669	0
+P	Nutana Sector		CA	Saskatchewan	52.100	-106.637	0
+P	Confederation		CA	Saskatchewan	52.139	-106.704	0
+P	University Heights		CA	Saskatchewan	52.144	-106.579	0
+P	Lakewood		CA	Saskatchewan	52.108	-106.590	0
+P	Core Neighbourhoods		CA	Saskatchewan	52.130	-106.672	0
+P	Prince Albert		CA	Saskatchewan	53.200	-105.768	0
+P	Lawson		CA	Saskatchewan	52.164	-106.639	0
+P	Moose Jaw		CA	Saskatchewan	50.400	-105.534	0
+P	North Battleford		CA	Saskatchewan	52.780	-108.297	0
+P	Swift Current		CA	Saskatchewan	50.283	-107.801	0
+P	Stonebridge		CA	Saskatchewan	52.085	-106.623	0

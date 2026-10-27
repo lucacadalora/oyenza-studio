@@ -1,0 +1,409 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Lagos	60	
+Z	4	Africa/Tripoli	120	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Guatemala	-360	
+Z	7	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	8	America/Lima	-300	
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	11	America/Porto_Velho	-240	
+Z	12	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	13	America/Sao_Paulo	-180	
+Z	14	Asia/Baghdad	180	
+Z	15	Asia/Baku	240	
+Z	16	Asia/Dhaka	360	
+Z	17	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	18	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	19	Asia/Kabul	270	
+Z	20	Asia/Karachi	300	
+Z	21	Asia/Kathmandu	345	
+Z	22	Asia/Kolkata	330	
+Z	23	Asia/Kuala_Lumpur	480	
+Z	24	Asia/Seoul	540	
+Z	25	Asia/Tehran	210	
+Z	26	Europe/Helsinki	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	27	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	28	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AF	Afghanistan	karachi	h
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	CA	Canada	moonsighting	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GT	Guatemala	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	JO	Jordan	mwl	s
+C	KR	South Korea	mwl	s
+C	KW	Kuwait	kuwait	s
+C	LK	Sri Lanka	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NP	Nepal	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	QA	Qatar	qatar	s
+C	RS	Serbia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SH	Saint Helena	egyptian	s
+C	SN	Senegal	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SY	Syria	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+B	6
+P	Rio de Janeiro		BR		-22.906	-43.182	13
+P	Jaipur		IN		26.920	75.788	22
+P	Al Mawşil al Jadīdah	al mawsil al jadidah	IQ		36.333	43.106	14
+P	Jamshedpur		IN		22.803	86.185	22
+P	Jabalpur		IN		23.167	79.950	22
+P	Jacksonville		US	Florida	30.332	-81.656	10
+P	Jalandhar		IN		31.326	75.579	22
+P	Petaling Jaya		MY		3.107	101.607	23
+P	Subang Jaya		MY		3.044	101.581	23
+P	Jājmau	jajmau	IN		26.430	80.409	22
+P	Jaboatão dos Guararapes	jaboatao dos guararapes	BR		-8.113	-35.015	13
+P	Jamnagar		IN		22.473	70.067	22
+P	Jammu		IN		32.735	74.862	22
+P	Jalalpur Pirwala		PK		29.505	71.222	20
+P	Jalgaon		IN		21.003	75.566	22
+P	Al Qāhirah al Jadīdah	al qahirah al jadidah	EG		30.042	31.444	1
+P	Jardim Angela		BR		-23.716	-46.769	13
+P	Jālna	jalna	IN		19.841	75.886	22
+P	Jalālābād	jalalabad	AF		34.426	70.452	19
+P	Jardim Sao Luis		BR		-23.681	-46.739	13
+P	Jacobabad		PK		28.282	68.438	20
+P	Jamaica		US	New York	40.691	-73.806	10
+P	Jabaquara		BR		-23.651	-46.646	13
+P	Jacareí	jacarei	BR		-23.305	-45.966	13
+P	El Jadida		MA		33.257	-8.509	2
+P	Jaraguá	jaragua	BR		-23.441	-46.738	13
+P	Nāngloi Jāt	nangloi jat	IN		28.680	77.068	22
+P	Salé Al Jadida	sale al jadida	MA		33.997	-6.740	2
+P	Bukit Jalil		MY		3.049	101.680	23
+P	Bhālswa Jahangirpur	bhalswa jahangirpur	IN		28.736	77.167	22
+P	Janakpur		NP		26.729	85.926	21
+P	Jaraguá do Sul	jaragua do sul	BR		-26.486	-49.067	13
+P	Jaunpur		IN		25.754	82.687	22
+P	Jaffna		LK		9.668	80.007	22
+P	Jabālyā	jabalya	PS		31.527	34.483	17
+P	Jamālpur	jamalpur	BD		24.920	89.948	16
+P	Jāmuria	jamuria	IN		23.705	87.079	22
+P	Jalapa		GT		14.635	-89.991	6
+P	Jaigaon		IN		26.848	89.376	22
+P	Jampur		PK		29.642	70.595	20
+P	Janzūr	janzur	LY		32.819	13.017	4
+P	Jackson		US	Mississippi	32.299	-90.185	5
+P	Jaranwala		PK		31.333	73.419	20
+P	Jalalpur Jattan		PK		32.641	74.206	20
+P	Jahrom		IR		28.500	53.560	25
+P	Jacmel		HT		18.236	-72.537	10
+P	Vila Jacui		BR		-23.503	-46.462	13
+P	Jaú	jau	BR		-22.296	-48.558	13
+P	Jardim Helena		BR		-23.484	-46.413	13
+P	Al Jadīd	al jadid	LY		27.050	14.400	4
+P	Jagdalpur		IN		19.081	82.021	22
+P	Jagādhri	jagadhri	IN		30.167	77.304	22
+P	Jandira		BR		-23.527	-46.903	13
+P	Jalingo		NG		8.894	11.360	3
+P	Shahre Jadide Andisheh		IR		35.680	51.019	25
+P	Sri Jayewardenepura Kotte		LK		6.883	79.907	22
+P	Jaén	jaen	ES		37.769	-3.790	28
+P	Jauharabad		PK		32.290	72.282	20
+P	Jalpāiguri	jalpaiguri	IN		26.517	88.733	22
+P	Jalai Nur		CN		49.450	117.700	23
+P	Dera Murad Jamali		PK		28.547	68.223	20
+P	Jataí	jatai	BR		-17.879	-51.722	13
+P	Jamālpur	jamalpur	IN		25.313	86.489	22
+P	Jagtiāl	jagtial	IN		18.795	78.917	22
+P	Jahānābād	jahanabad	IN		25.214	84.987	22
+P	Japeri		BR		-22.643	-43.653	13
+P	Jaffa		IL		32.050	34.752	18
+P	Raja Jang		PK		31.221	74.255	20
+P	Jaramānā	jaramana	SY		33.486	36.346	14
+P	Al Jammālīyah	al jammaliyah	EG		31.181	31.865	1
+P	Jaworzno		PL		50.205	19.275	28
+P	Japekrom		GH		7.576	-2.785	0
+P	Jastrzębie Zdrój	jastrzebie zdroj	PL		49.955	18.575	28
+P	Jaçanã	jacana	BR		-23.460	-46.575	13
+P	Jamūī	jamui	IN		24.926	86.225	22
+P	Jardim Paulista		BR		-23.567	-46.664	13
+P	Belo Jardim		BR		-8.336	-36.424	13
+P	Jacobina		BR		-11.181	-40.514	13
+P	Jangipur		IN		24.470	88.077	22
+P	Jardim Botânico	jardim botanico	BR		-15.865	-47.815	13
+P	Jaora		IN		23.638	75.127	22
+P	Jaboticabal		BR		-21.255	-48.322	13
+P	Tando Jam		PK		25.428	68.529	20
+P	Janaúba	janauba	BR		-15.803	-43.309	13
+P	Jamkhandi		IN		16.505	75.291	22
+P	Jaisalmer		IN		26.918	70.904	22
+P	Jacksonville		US	North Carolina	34.754	-77.430	10
+P	Jackson Heights		US	New York	40.756	-73.885	10
+P	Jackson		US	Tennessee	35.615	-88.814	5
+P	Johor Jaya		MY		1.539	103.809	23
+P	Jablah		SY		35.362	35.928	14
+P	Jagraon		IN		30.788	75.474	22
+P	Januária	januaria	BR		-15.479	-44.365	13
+P	Janesville		US	Wisconsin	42.683	-89.019	5
+P	Jatani		IN		20.160	85.707	22
+P	Jacundá	jacunda	BR		-4.447	-49.116	13
+P	Jaitpur		IN		28.506	77.330	22
+P	Aş Şāliḩīyah al Jadīdah	as salihiyah al jadidah	EG		30.631	31.939	1
+P	Torbat-e Jām	torbat e jam	IR		35.244	60.623	25
+P	Jaguariúna	jaguariuna	BR		-22.706	-46.986	13
+P	Jahāngīrābād	jahangirabad	IN		28.405	78.106	22
+P	Jahangira		PK		33.964	72.221	20
+P	Jamrud		PK		34.002	71.380	20
+P	Jaguare		BR		-23.544	-46.749	13
+P	Jālaun	jalaun	IN		26.145	79.337	22
+P	Jackson		US	New Jersey	39.776	-74.862	10
+P	Jāfarābād	jafarabad	IN		28.679	77.271	22
+P	Dumyāţ al Jadīdah	dumyat al jadidah	EG		31.435	31.675	1
+P	Jagüey Grande	jaguey grande	CU		22.526	-81.129	7
+P	Javānrūd	javanrud	IR		34.807	46.491	25
+P	Jalor		IN		25.346	72.616	22
+P	Jacona de Plancarte		MX		19.956	-102.306	6
+P	Jardines de la Silla		MX		25.629	-100.188	6
+P	Jaggaiahpet		IN		16.892	80.096	22
+P	Jaén	jaen	PE		-5.707	-78.808	8
+P	Jangaon		IN		17.726	79.152	22
+P	Jaru		BR		-10.439	-62.466	11
+P	Jahanian		PK		30.039	71.817	20
+P	Jales		BR		-20.269	-50.546	13
+P	Jaisingpur		IN		16.776	74.554	22
+P	Jasdan		IN		22.037	71.208	22
+P	Jalandhar Cantonment		IN		31.294	75.620	22
+P	Jatoi Shimali		PK		29.518	70.845	20
+P	Jawhar		SO		2.781	45.500	14
+P	San Jacinto		US	California	33.784	-116.959	9
+P	Järvenpää	jarvenpaa	FI		60.474	25.090	26
+P	Jāmner	jamner	IN		20.809	75.778	22
+P	Jablonec nad Nisou		CZ		50.724	15.171	28
+P	Jacobo Hunter		PE		-16.441	-71.553	8
+P	Jammalamadugu		IN		14.847	78.383	22
+P	Jaguaquara		BR		-13.531	-39.971	13
+P	Burj al ‘Arab al Jadīdah	burj al arab al jadidah	EG		30.885	29.577	1
+P	Jardinópolis	jardinopolis	BR		-21.018	-47.764	13
+P	Jaraguá	jaragua	BR		-15.757	-49.334	13
+P	Taman Permas Jaya		MY		1.511	103.820	23
+P	Jamundí	jamundi	CO		3.261	-76.535	8
+P	Jawaharnagar		IN		17.510	78.566	22
+P	Jambusar		IN		22.052	72.801	22
+P	Jamjamāl	jamjamal	IQ		35.534	44.834	14
+P	Jaspur		IN		29.279	78.828	22
+P	Jamaame		SO		0.070	42.745	14
+P	Jājpur	jajpur	IN		20.849	86.337	22
+P	Jangseong		KR		35.298	126.784	24
+P	Al Jawf		LY		24.199	23.291	4
+P	Jaxaay Parcelle Niakoul Rap		SN		14.775	-17.280	0
+P	Jaggayyapeta		IN		16.894	80.098	22
+P	Jalārpet	jalarpet	IN		12.570	78.573	22
+P	Jacarezinho		BR		-23.161	-49.969	13
+P	San Javier		CL		-35.595	-71.729	12
+P	Jaen		PH		15.328	120.919	23
+P	Jalālābād	jalalabad	IN		30.606	74.257	22
+P	Bom Jardim		BR		-7.796	-35.587	13
+P	Jalesar		IN		27.473	78.303	22
+P	Jasło	jaslo	PL		49.745	21.473	28
+P	Gogri Jamālpur	gogri jamalpur	IN		25.411	86.659	22
+P	Jaíba	jaiba	BR		-15.338	-43.674	13
+P	Jarinu		BR		-23.101	-46.728	13
+P	Jamaica Plain		US	Massachusetts	42.310	-71.120	10
+P	Jaito		IN		30.451	74.892	22
+P	Jacaltenango		GT		15.667	-91.712	6
+P	Jawi		MY		5.215	100.492	23
+P	Jalilabad		AZ		39.210	48.492	15
+P	Jagodina		RS		43.977	21.261	28
+P	Jarosław	jaroslaw	PL		50.016	22.678	28
+P	Kohtla-Järve	kohtla jarve	EE		59.399	27.273	26
+P	Conceição do Jacuípe	conceicao do jacuipe	BR		-12.317	-38.767	13
+P	Jaguariaíva	jaguariaiva	BR		-24.244	-49.709	13
+P	Laranjal do Jari		BR		-0.826	-52.506	13
+P	Jalālābād	jalalabad	IN		27.726	79.655	22
+P	Sibu Jaya		MY		2.240	111.971	23
+P	Jalajala		PH		14.353	121.323	23
+P	Jāmadoba	jamadoba	IN		23.717	86.400	22
+P	Janīn	janin	PS		32.459	35.301	17
+P	Jangheung		KR		34.682	126.907	24
+P	Jāmkhed	jamkhed	IN		18.735	75.313	22
+P	Jayamkondacholapuram		IN		11.213	79.364	22
+P	Moose Jaw		CA	Saskatchewan	50.400	-105.534	6
+P	Jaguaribe		BR		-5.891	-38.622	13
+P	Jagatsinghapur		IN		20.256	86.171	22
+P	Riachão do Jacuípe	riachao do jacuipe	BR		-11.807	-39.386	13
+P	Jackson		US	Michigan	42.246	-84.401	10
+P	Bom Jardim		BR		-3.543	-45.609	13
+P	Mount Olive-Silverstone-Jamestown	mount olive silverstone jamestown	CA	Ontario	43.747	-79.587	10
+P	Jakomini		AT		47.054	15.450	28
+P	Jānjgīr	janjgir	IN		22.009	82.578	22
+P	Jáltipan de Morelos	jaltipan de morelos	MX		17.965	-94.714	6
+P	Jaguarari		BR		-10.264	-40.196	13
+P	Jagna		PH		9.653	124.370	23
+P	Jagdīspur	jagdispur	IN		25.468	84.419	22
+P	Jayrūd	jayrud	SY		33.807	36.739	14
+P	Banī Suwayf al Jadīdah	bani suwayf al jadidah	EG		29.033	31.114	1
+P	Ja Ela		LK		7.074	79.892	22
+P	Jāridih	jaridih	IN		23.766	85.939	22
+P	Jaguaruana		BR		-4.834	-37.781	13
+P	Jam		IR		27.830	52.325	25
+P	San Javier		ES		37.806	-0.837	28
+P	Jalālpur	jalalpur	IN		26.312	82.739	22
+P	Jagdīshpur	jagdishpur	IN		26.750	80.545	22
+P	Taman Seremban Jaya		MY		2.683	101.970	23
+P	Glenfield-Jane Heights	glenfield jane heights	CA	Ontario	43.746	-79.513	10
+P	Jāsim	jasim	SY		32.991	36.061	14
+P	Jamestown		US	New York	42.097	-79.235	10
+P	Jarabacoa		DO		19.117	-70.636	11
+P	Saint-Médard-en-Jalles	saint medard en jalles	FR		44.895	-0.718	28
+P	Bom Jardim		BR		-22.152	-42.419	13
+P	Jaciara		BR		-15.965	-54.968	11
+P	Jarrow		GB	England	54.980	-1.484	27
+P	Jāmtāra	jamtara	IN		23.963	86.803	22
+P	Jandiāla Gurū	jandiala guru	IN		31.562	75.028	22
+P	Jahanian Shah		PK		31.805	72.277	20
+P	Jaguaré	jaguare	BR		-18.906	-40.076	13
+P	Jalpatagua		GT		14.137	-90.009	6
+P	Jacksonville		US	Arkansas	34.866	-92.110	5
+P	Jammu Cantonment		IN		32.704	74.861	22
+P	Jashpur Nagar		IN		22.888	84.139	22
+P	Jalgaon Jamod		IN		21.052	76.535	22
+P	Javea		ES		38.783	0.167	28
+P	Jaswantnagar		IN		26.883	78.903	22
+P	St. James-Assiniboia East	st james assiniboia east	CA	Manitoba	49.890	-97.227	5
+P	Lake Jackson		US	Texas	29.034	-95.434	5
+P	Jászberény	jaszbereny	HU		47.500	19.917	28
+P	As Sulţah al Jadīdah	as sultah al jadidah	QA		25.260	51.514	14
+P	Jardim		BR		-7.582	-39.283	13
+P	Jāfarābād	jafarabad	IN		20.866	71.366	22
+P	Jarash		JO		32.281	35.899	14
+P	Jaglot		PK		35.688	74.624	20
+P	Jaguarão	jaguarao	BR		-32.566	-53.376	13
+P	Jaynagar Majilpur		IN		22.175	88.420	22
+P	Jamjodhpur		IN		21.902	70.036	22
+P	Jāmul	jamul	IN		21.250	81.400	22
+P	Jaleshwar		IN		21.802	87.222	22
+P	Jais		IN		26.265	81.549	22
+P	Jandiāla	jandiala	IN		31.159	75.618	22
+P	Jarocin		PL		51.973	17.503	28
+P	Jacutinga		BR		-22.286	-46.612	13
+P	Jalālābad	jalalabad	IN		29.619	77.439	22
+P	Jarābulus	jarabulus	SY		36.818	38.011	14
+P	Jardín América	jardin america	AR		-27.043	-55.227	13
+P	Jaguara		BR		-23.511	-46.747	13
+P	Jalostotitlán	jalostotitlan	MX		21.168	-102.461	6
+P	Al Jahrā’	al jahra	KW		29.337	47.658	14
+P	Jakobsberg		SE		59.423	17.835	28
+P	Jacareacanga		BR		-6.222	-57.753	13
+P	Jalapa		NI		13.922	-86.123	6
+P	Jalolquduq		UZ		40.689	72.609	20
+P	Jardim		BR		-21.480	-56.138	11
+P	Jawor		PL		51.051	16.193	28
+P	San Jacinto		CO		9.828	-75.122	8
+P	Jaleshwar		NP		26.649	85.800	21
+P	Jacksonville Beach		US	Florida	30.295	-81.393	10
+P	Jaitāran	jaitaran	IN		26.204	73.937	22
+P	Jāmai	jamai	IN		22.196	78.592	22
+P	Candeias do Jamari		BR		-8.810	-63.696	11
+P	Silva Jardim		BR		-22.651	-42.392	13
+P	Jafaro		MG		-24.917	45.517	14
+P	Jainagar		IN		26.590	86.138	22
+P	Al Jazeera Aba		SD		13.319	32.613	4
+P	Jandaia do Sul		BR		-23.603	-51.643	13
+P	La Jagua de Ibirico		CO		9.562	-73.334	8
+P	Jauja		PE		-11.776	-75.497	8
+P	Jahāzpur	jahazpur	IN		25.620	75.276	22
+P	Jaral del Progreso		MX		20.372	-101.064	6
+P	Jarājūs	jarajus	EG		25.872	32.756	1
+P	Jaboticatubas		BR		-19.514	-43.745	13
+P	Jaguaruna		BR		-28.621	-49.025	13
+P	Jaruco		CU		23.044	-82.009	7
+P	Jakobstad		FI		63.675	22.703	26
+P	Rafael Jambeiro		BR		-12.408	-39.501	13
+P	Jambes		BE		50.456	4.872	28
+P	Jatibonico		CU		21.943	-79.167	7
+P	Sungai Jawi		MY		5.198	100.492	23
+P	Jājarm	jajarm	IR		36.950	56.380	25
+P	Jānsath	jansath	IN		29.325	77.850	22
+P	Jalochi		IN		18.157	74.607	22
+P	Jämsä	jamsa	FI		61.864	25.190	26
+P	Old Jamestown		US	Missouri	38.835	-90.285	5
+P	Jacksonville		US	Illinois	39.734	-90.229	5
+P	Jalladiampet		IN		12.920	80.208	22
+P	Jasmine Estates		US	Florida	28.293	-82.690	10
+P	Chuhar Jamali		PK		24.394	67.993	20
+P	North St.James Town	north st james town	CA	Ontario	43.670	-79.375	10
+P	Jadugora		IN		22.654	86.356	22
+P	Ciudad Jardín	ciudad jardin	ES		40.448	-3.673	28
+P	Santa Rosa Jáuregui	santa rosa jauregui	MX		20.742	-100.448	6
+P	Janūb as Surrah	janub as surrah	KW		29.269	47.978	14
+P	Jalālī	jalali	IN		27.867	78.253	22
+P	Jand		PK		33.433	72.019	20
+P	Barreiro do Jaíba	barreiro do jaiba	BR		-15.615	-43.592	13
+P	Jālq	jalq	IR		27.603	62.710	25
+P	Jadcherla		IN		16.774	78.137	22
+P	Jagiroad		IN		26.120	92.198	22
+P	Jaguaripe		BR		-13.113	-38.896	13
+P	Jarwal		IN		27.163	81.542	22
+P	Jaicós	jaicos	BR		-7.359	-41.138	13
+P	Jatāra	jatara	IN		25.010	79.049	22
+P	Al-Minyā al-Jadīdah	al minya al jadidah	EG		28.086	30.815	1
+P	Jalalpore		IN		20.949	72.898	22
+P	Jagalūr	jagalur	IN		14.520	76.339	22
+P	Jaguaretama		BR		-5.613	-38.767	13
+P	Jamay		MX		20.295	-102.709	6
+P	Jāwad	jawad	IN		24.599	74.863	22
+P	Janeng		BW		-25.417	25.550	4
+P	Jask		IR		25.645	57.776	25
+P	Jāmbai	jambai	IN		11.468	77.643	22
+P	Jasaan		PH		8.654	124.756	23
+P	Jasidih		IN		24.514	86.646	22
+P	Japaratuba		BR		-10.593	-36.940	13
+P	Jalakandapuram		IN		11.698	77.873	22
+P	Bayt Jālā	bayt jala	PS		31.715	35.188	17
+P	Jacupiranga		BR		-24.692	-48.002	13
+P	Janakkala		FI		60.900	24.600	26
+P	Jataúba	jatauba	BR		-7.990	-36.496	13
+P	Jalda		IN		22.187	84.844	22
+P	Jalpa de Méndez	jalpa de mendez	MX		18.177	-93.064	6
+P	San Javier		AR		-30.581	-59.930	13
+P	Bin Jawwād	bin jawwad	LY		30.804	18.077	4
+P	Jasper		US	Indiana	38.391	-86.931	10
+P	Jamestown		US	North Dakota	46.911	-98.708	5
+P	Alborada Jaltenco		MX		19.662	-99.069	6
+P	Jaguapitã	jaguapita	BR		-23.113	-51.532	13
+P	Jabal os Saraj		AF		35.118	69.238	19
+P	Jamestown		SH		-15.925	-5.718	0

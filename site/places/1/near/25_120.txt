@@ -1,0 +1,35 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Taipei	480	
+C	CN	China	mwl	s
+C	TW	Taiwan	mwl	s
+B	6
+P	Taipei		TW		25.053	121.526	0
+P	New Taipei City		TW		25.062	121.457	0
+P	Ningbo		CN		29.878	121.549	0
+P	Wenzhou		CN		27.999	120.667	0
+P	Taizhou		CN		28.663	121.433	0
+P	Yiwu		CN		29.315	120.077	0
+P	Rui’an	ruian	CN		27.776	120.659	0
+P	Zhoushan		CN		29.989	122.205	0
+P	Banqiao		TW		25.014	121.467	0
+P	Guli		CN		28.882	120.033	0
+P	Jiaojiang		CN		28.698	121.473	0
+P	Keelung		TW		25.131	121.741	0
+P	Neihu		TW		25.081	121.588	0
+P	Xizhi		TW		25.066	121.660	0
+P	Fuding		CN		27.327	120.214	0
+P	Danshui		TW		25.172	121.443	0
+P	Songcheng		CN		26.882	120.001	0
+P	Lianghu		CN		29.992	120.898	0
+P	Dongyang		CN		29.268	120.225	0
+P	Zhuji		CN		29.719	120.242	0
+P	Shenjiamen		CN		29.958	122.298	0
+P	Jinxiang		CN		27.433	120.606	0
+P	Fenghua		CN		29.656	121.406	0
+P	Ninghai		CN		29.289	121.425	0
+P	Wenling		CN		28.375	121.384	0
+P	Kunyang		CN		27.666	120.566	0
+P	Zhaobaoshan		CN		29.970	121.688	0
+P	Xianju		CN		28.855	120.732	0
+P	Ānwén	anwen	CN		29.060	120.438	0
+P	Sanzhi		TW		25.258	121.502	0

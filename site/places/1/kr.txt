@@ -1,0 +1,164 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Douala	60	
+Z	2	Africa/Johannesburg	120	
+Z	3	America/Kralendijk	-240	
+Z	4	Asia/Chita	540	
+Z	5	Asia/Kolkata	330	
+Z	6	Asia/Krasnoyarsk	420	
+Z	7	Asia/Kuala_Lumpur	480	
+Z	8	Asia/Yekaterinburg	300	
+Z	9	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	10	Europe/Moscow	180	
+Z	11	Europe/Saratov	240	
+Z	12	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AL	Albania	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BE	Belgium	mwl	s
+C	BQ	Bonaire, Saint Eustatius and Saba 	mwl	s
+C	BY	Belarus	mwl	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	EE	Estonia	mwl	s
+C	FR	France	mwl	s
+C	IN	India	karachi	h
+C	KH	Cambodia	mwl	s
+C	LT	Lithuania	mwl	s
+C	MK	North Macedonia	mwl	s
+C	MY	Malaysia	singapore	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	PL	Poland	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SI	Slovenia	mwl	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	UA	Ukraine	mwl	s
+C	ZA	South Africa	egyptian	s
+B	1
+P	Krasnoyarsk		RU		56.037	92.931	6
+P	Krasnodar		RU		45.045	38.982	10
+P	Kraków	krakow	PL		50.061	19.937	12
+P	Kryvyy Rih		UA		47.906	33.394	9
+P	Krugersdorp		ZA		-26.086	27.775	2
+P	Krasnogvargeisky		RU		59.973	30.476	10
+P	Krefeld		DE		51.336	6.554	12
+P	Kremenchuk		UA		49.063	33.405	9
+P	Kropyvnytskyi		UA		48.508	32.266	9
+P	Pak Kret		TH		13.912	100.498	6
+P	Lat Krabang		TH		13.722	100.785	6
+P	Kreuzberg		DE		52.500	13.403	12
+P	Kragujevac		RS		44.017	20.917	12
+P	Kramatorsk		UA		48.731	37.568	9
+P	Krishnanagar		IN		23.406	88.491	5
+P	Kristiansand		NO		58.147	7.996	12
+P	Kroonstad		ZA		-27.650	27.235	2
+P	Kuala Krai		MY		5.531	102.199	7
+P	Kribi		CM		2.937	9.908	1
+P	Krasnogorsk		RU		55.819	37.330	10
+P	Hradec Králové	hradec kralove	CZ		50.209	15.833	12
+P	Le Kram		TN		36.836	10.316	1
+P	Krasnaya Glinka		RU		53.738	52.939	8
+P	Kraljevo		RS		43.726	20.689	12
+P	Kropotkin		RU		45.437	40.570	10
+P	Bang Kruai		TH		13.805	100.473	6
+P	Kryukiv		UA		49.029	33.438	9
+P	Kruševac	krusevac	RS		43.580	21.334	12
+P	Krathum Baen		TH		13.653	100.260	6
+P	Krishnagiri		IN		12.519	78.214	5
+P	Krasnoturinsk		RU		59.767	60.209	8
+P	Kraaifontein		ZA		-33.848	18.717	2
+P	Krymsk		RU		44.926	37.990	10
+P	Krasnokamensk		RU		50.093	118.032	4
+P	Zürich (Kreis 11)	zurich kreis 11	CH		47.423	8.522	12
+P	Krasnokamsk		RU		58.079	55.756	8
+P	Krujë	kruje	AL		41.509	19.793	12
+P	Královské Vinohrady	kralovske vinohrady	CZ		50.074	14.444	12
+P	Krosno		PL		49.689	21.771	12
+P	Zürich (Kreis 3)	zurich kreis 3	CH		47.358	8.503	12
+P	Zürich (Kreis 9)	zurich kreis 9	CH		47.382	8.480	12
+P	Krasnoye Selo		RU		59.738	30.089	10
+P	Krasnyy Sulin		RU		47.892	40.072	10
+P	Bad Kreuznach		DE		49.841	7.867	12
+P	Krasnoufimsk		RU		56.614	57.769	8
+P	Kronstadt		RU		59.992	29.776	10
+P	Kristianstad		SE		56.031	14.152	12
+P	Kranj		SI		46.239	14.356	12
+P	Zürich (Kreis 10)	zurich kreis 10	CH		47.408	8.501	12
+P	Kraśnik	krasnik	PL		50.924	22.227	12
+P	Krishnarājāsāgara	krishnarajasagara	IN		12.440	76.383	5
+P	Kristiine		EE		59.415	24.709	9
+P	Zürich (Kreis 7)	zurich kreis 7	CH		47.373	8.580	12
+P	Krasnoznamensk		RU		55.595	37.052	10
+P	Kreuztal		DE		50.968	7.988	12
+P	Krabi		TH		8.073	98.911	6
+P	Zürich (Kreis 6)	zurich kreis 6	CH		47.392	8.544	12
+P	Krotoszyn		PL		51.699	17.437	12
+P	Zürich (Kreis 2)	zurich kreis 2	CH		47.338	8.521	12
+P	Krimpen aan den IJssel		NL		51.917	4.603	12
+P	Krasnoarmeyskaya		RU		45.366	38.212	10
+P	Zürich (Kreis 9) / Altstetten	zurich kreis 9 altstetten	CH		47.389	8.485	12
+P	Zürich (Kreis 12)	zurich kreis 12	CH		47.404	8.576	12
+P	Kroměříž	kromeriz	CZ		49.298	17.393	12
+P	Le Kremlin-Bicêtre	le kremlin bicetre	FR		48.815	2.361	12
+P	Krč	krc	CZ		50.042	14.446	12
+P	Zürich (Kreis 4) / Aussersihl	zurich kreis 4 aussersihl	CH		47.378	8.521	12
+P	Krasnoural’sk	krasnouralsk	RU		58.364	60.041	8
+P	Krishnāpuram	krishnapuram	IN		9.152	76.523	5
+P	Krishnarājpet	krishnarajpet	IN		12.666	76.488	5
+P	Krasnoarmeysk		RU		51.023	45.697	11
+P	Krasnoarmeysk		RU		56.100	38.133	10
+P	Kriens		CH		47.031	8.285	12
+P	Královo Pole	kralovo pole	CZ		49.225	16.590	12
+P	Krolevets		UA		51.552	33.380	9
+P	Kristiansund		NO		63.110	7.728	12
+P	Krychaw		BY		53.719	31.714	10
+P	Krnov		CZ		50.090	17.704	12
+P	Kreuzlingen		CH		47.651	9.175	12
+P	Krzyki-Partynice	krzyki partynice	PL		51.064	17.002	12
+P	Kremenets		UA		50.099	25.728	9
+P	Zürich (Kreis 3) / Sihlfeld	zurich kreis 3 sihlfeld	CH		47.374	8.512	12
+P	Kriva Palanka		MK		42.202	22.334	12
+P	Zürich (Kreis 6) / Unterstrass	zurich kreis 6 unterstrass	CH		47.395	8.537	12
+P	Krestovskiy ostrov		RU		59.971	30.258	10
+P	Kratié	kratie	KH		12.488	106.019	6
+P	Kröpeliner-Tor-Vorstadt	kropeliner tor vorstadt	DE		54.088	12.115	12
+P	Krasnystaw		PL		50.985	23.174	12
+P	Kruisfontein		ZA		-34.003	24.731	2
+P	Bang Krathum		TH		16.578	100.300	6
+P	Krasyliv		UA		49.654	26.972	9
+P	Kristinehamn		SE		59.310	14.108	12
+P	Krapkowice		PL		50.475	17.965	12
+P	Kriel		ZA		-26.250	29.260	2
+P	Kronach		DE		50.240	11.333	12
+P	Krasnovishersk		RU		60.407	57.083	8
+P	Kreminna		UA		49.048	38.216	9
+P	Zürich (Kreis 11) / Oerlikon	zurich kreis 11 oerlikon	CH		47.408	8.543	12
+P	Fushë-Krujë	fushe kruje	AL		41.478	19.718	12
+P	Zürich (Kreis 11) / Seebach	zurich kreis 11 seebach	CH		47.422	8.548	12
+P	Kronberg		DE		50.181	8.513	12
+P	Kronberg Tal		DE		50.179	8.504	12
+P	Kralupy nad Vltavou		CZ		50.241	14.311	12
+P	Kretinga		LT		55.889	21.244	9
+P	Zürich (Kreis 11) / Affoltern	zurich kreis 11 affoltern	CH		47.418	8.512	12
+P	Zürich (Kreis 10) / Höngg	zurich kreis 10 hongg	CH		47.403	8.497	12
+P	Krasnoobsk		RU		54.920	82.991	6
+P	Kranzadougou		CI		6.485	-7.201	0
+P	Zürich (Kreis 9) / Albisrieden	zurich kreis 9 albisrieden	CH		47.374	8.490	12
+P	Oberwinterthur (Kreis 2)	oberwinterthur kreis 2	CH		47.517	8.769	12
+P	Stadt Winterthur (Kreis 1)	stadt winterthur kreis 1	CH		47.495	8.720	12
+P	Krasnogvardeyskoye		RU		45.845	41.517	10
+P	Dvůr Králové nad Labem	dvur kralove nad labem	CZ		50.432	15.814	12
+P	Phu Kradueng		TH		16.884	101.885	6
+P	Zürich (Kreis 2) / Wollishofen	zurich kreis 2 wollishofen	CH		47.340	8.531	12
+P	Sint-Kruis	sint kruis	BE		51.214	3.249	12
+P	Zürich (Kreis 10) / Wipkingen	zurich kreis 10 wipkingen	CH		47.395	8.525	12
+P	Zürich (Kreis 8)	zurich kreis 8	CH		47.355	8.561	12
+P	Seen (Kreis 3)	seen kreis 3	CH		47.476	8.770	12
+P	Bosanska Krupa		BA		44.883	16.151	12
+P	Kralendijk		BQ		12.150	-68.267	3

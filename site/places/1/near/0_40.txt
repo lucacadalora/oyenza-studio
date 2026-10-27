@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Mogadishu	180	
+C	KE	Kenya	egyptian	s
+C	SO	Somalia	egyptian	s
+B	0
+P	Marka		SO		1.716	44.772	0
+P	Baidoa		SO		3.114	43.650	0
+P	Mandera		KE		3.937	41.857	0
+P	Wajir		KE		1.747	40.057	0
+P	Beled Hawo		SO		3.928	41.880	0
+P	El Wak		KE		2.809	40.929	0
+P	Qoryooley		SO		1.788	44.530	0
+P	Jilib		SO		0.488	42.785	0
+P	Jamaame		SO		0.070	42.745	0
+P	Baardheere		SO		2.345	42.276	0
+P	Ramu		KE		3.931	41.223	0
+P	Luuq		SO		3.803	42.544	0
+P	Buurhakaba		SO		2.803	44.078	0
+P	Dhamas		SO		3.153	41.336	0
+P	Lafey		KE		3.151	41.186	0
+P	Wanlaweyn		SO		2.619	44.894	0
+P	Takaba		KE		3.355	40.223	0
+P	Diinsoor		SO		2.409	42.977	0
+P	Bu’aale	buaale	SO		1.083	42.583	0

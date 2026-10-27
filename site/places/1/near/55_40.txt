@@ -1,0 +1,43 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+C	RU	Russia	mwl	s
+B	1
+P	Nizhniy Novgorod		RU		56.329	44.002	0
+P	Ivanovo		RU		57.000	40.973	0
+P	Vladimir		RU		56.139	40.400	0
+P	Kostroma		RU		57.766	40.928	0
+P	Dzerzhinsk		RU		56.244	43.455	0
+P	Kovrov		RU		56.358	41.319	0
+P	Murom		RU		55.569	42.024	0
+P	Arzamas		RU		55.396	43.838	0
+P	Kineshma		RU		57.437	42.128	0
+P	Kstovo		RU		56.148	44.199	0
+P	Pavlovo		RU		55.969	43.091	0
+P	Novaya Balakhna		RU		56.490	43.601	0
+P	Gus’-Khrustal’nyy	gus khrustalnyy	RU		55.612	40.650	0
+P	Vyksa		RU		55.321	42.174	0
+P	Shuya		RU		56.849	41.387	0
+P	Bor		RU		56.359	44.073	0
+P	Zavolzh’ye	zavolzhye	RU		56.641	43.394	0
+P	Sokol		RU		59.462	40.121	0
+P	Vyazniki		RU		56.242	42.149	0
+P	Vichuga		RU		57.215	41.926	0
+P	Furmanov		RU		57.254	41.111	0
+P	Kulebaki		RU		55.413	42.532	0
+P	Bogorodsk		RU		56.101	43.510	0
+P	Teykovo		RU		56.859	40.540	0
+P	Gorodets		RU		56.655	43.473	0
+P	Kokhma		RU		56.932	41.095	0
+P	Rodniki		RU		57.105	41.736	0
+P	Buy		RU		58.480	41.536	0
+P	Nerekhta		RU		57.458	40.572	0
+P	Semënov	semenov	RU		56.788	44.496	0
+P	Sobinka		RU		55.990	40.021	0
+P	Manturovo		RU		58.326	44.759	0
+P	Galich		RU		58.379	42.346	0
+P	Privolzhsk		RU		57.384	41.292	0
+P	Raduzhnyy		RU		56.004	40.339	0
+P	Volgorechensk		RU		57.444	41.163	0
+P	Danilov		RU		58.191	40.171	0
+P	Gryazovets		RU		58.880	40.252	0
+P	Melenki		RU		55.336	41.627	0

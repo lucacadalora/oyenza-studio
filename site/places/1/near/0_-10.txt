@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+C	CI	Ivory Coast	egyptian	s
+C	LR	Liberia	egyptian	s
+B	0
+P	San-Pédro	san pedro	CI		4.749	-6.636	0
+P	Harper		LR		4.378	-7.711	0
+P	Pleebo City		LR		4.590	-7.672	0
+P	Sassandra		CI		4.954	-6.085	0
+P	Tabou		CI		4.423	-7.353	0
+P	Watté	watte	CI		4.935	-6.778	0
+P	Gnépasso	gnepasso	CI		4.982	-7.060	0

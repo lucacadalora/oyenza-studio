@@ -1,0 +1,67 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	1
+P	Chennai		IN		13.088	80.278	0
+P	Ambattur		IN		13.098	80.162	0
+P	Avadi		IN		13.115	80.110	0
+P	Tiruvottiyūr	tiruvottiyur	IN		13.158	80.302	0
+P	Pallāvaram	pallavaram	IN		12.968	80.150	0
+P	Tambaram		IN		12.925	80.127	0
+P	Alandur		IN		13.002	80.206	0
+P	Madhavaram		IN		13.148	80.231	0
+P	Maduravoyal		IN		13.068	80.163	0
+P	Maraimalainagar		IN		12.798	80.025	0
+P	Neelankarai		IN		12.950	80.259	0
+P	Pammal		IN		12.975	80.135	0
+P	Vīrarāghavapuram	viraraghavapuram	IN		13.073	80.108	0
+P	Poonamalle		IN		13.049	80.115	0
+P	Nerkunram		IN		13.062	80.209	0
+P	Kavanur		IN		12.996	80.075	0
+P	Ullagaram		IN		12.979	80.197	0
+P	Ramapuram		IN		13.032	80.182	0
+P	Anakaputhur		IN		12.983	80.126	0
+P	Valasaravakkam		IN		13.044	80.173	0
+P	Porur		IN		13.036	80.158	0
+P	Meddappakkam		IN		12.917	80.194	0
+P	Gūduvāncheri	guduvancheri	IN		12.845	80.061	0
+P	Saint Thomas Mount		IN		13.003	80.196	0
+P	Pallikaranai		IN		12.938	80.215	0
+P	Perungudi		IN		12.961	80.241	0
+P	Sūlūru	suluru	IN		13.700	80.017	0
+P	Rajakilpakkam		IN		12.919	80.170	0
+P	Perunkalattu		IN		12.918	80.082	0
+P	Tinnanūr	tinnanur	IN		13.114	80.027	0
+P	Kattivākkam	kattivakkam	IN		13.217	80.317	0
+P	Madipakkam		IN		12.962	80.199	0
+P	Sholinganallur		IN		12.890	80.231	0
+P	Manali		IN		13.167	80.267	0
+P	Puzhal		IN		13.165	80.204	0
+P	Ponneri		IN		13.339	80.195	0
+P	Kallamchavadi		IN		12.953	80.131	0
+P	Reddipālaiyam	reddipalaiyam	IN		13.108	80.121	0
+P	Tirukkalikkunram		IN		12.608	80.055	0
+P	Unamaucheri		IN		12.861	80.107	0
+P	Mīnjūr	minjur	IN		13.280	80.258	0
+P	Mathur		IN		13.171	80.248	0
+P	Kullattūr	kullattur	IN		12.942	80.195	0
+P	Palavakkam		IN		12.954	80.257	0
+P	Mugalivakkam		IN		13.021	80.165	0
+P	Meenambakkam		IN		12.985	80.175	0
+P	Kaikalapettai		IN		13.022	80.121	0
+P	Pādiyanallūr	padiyanallur	IN		13.200	80.176	0
+P	Injambakkam		IN		12.916	80.249	0
+P	Nalambūr	nalambur	IN		13.087	80.170	0
+P	Polichalur		IN		12.989	80.142	0
+P	Virugambakkam		IN		13.046	80.191	0
+P	Pudupattanam		IN		12.509	80.150	0
+P	Nāravārikuppam	naravarikuppam	IN		13.191	80.185	0
+P	Kotivakkam		IN		12.970	80.258	0
+P	Tirumeshi		IN		13.053	80.060	0
+P	Maduraivayal		IN		13.063	80.172	0
+P	Jalladiampet		IN		12.920	80.208	0
+P	Gummidipundi		IN		13.408	80.109	0
+P	Chetput		IN		13.070	80.241	0
+P	Madambakkam		IN		12.852	80.047	0
+P	Vandalūr	vandalur	IN		12.892	80.081	0
+P	Mahabalipuram		IN		12.621	80.193	0

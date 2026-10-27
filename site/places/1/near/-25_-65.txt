@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Salta	-180	
+Z	1	America/La_Paz	-240	
+C	AR	Argentina	mwl	s
+C	BO	Bolivia	mwl	s
+C	PY	Paraguay	mwl	s
+B	0
+P	Tarija		BO		-21.535	-64.730	1
+P	San Ramón de la Nueva Orán	san ramon de la nueva oran	AR		-23.137	-64.324	0
+P	Yacuiba		BO		-22.016	-63.678	1
+P	Tartagal		AR		-22.517	-63.806	0
+P	San Pedro de Jujuy		AR		-24.231	-64.866	0
+P	Libertador General San Martín	libertador general san martin	AR		-23.813	-64.794	0
+P	Villamontes		BO		-21.262	-63.469	1
+P	Bermejo		BO		-22.732	-64.337	1
+P	Pichanal		AR		-23.316	-64.218	0
+P	Camiri		BO		-20.041	-63.524	1
+P	Profesor Salvador Mazza		AR		-22.049	-63.691	0
+P	Embarcación	embarcacion	AR		-23.210	-64.100	0
+P	Filadelfia		PY		-22.339	-60.032	0
+P	General Mosconi		AR		-22.596	-63.811	0
+P	Santa Rosa		AR		-23.394	-64.425	0

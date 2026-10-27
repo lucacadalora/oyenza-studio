@@ -1,0 +1,433 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Maputo	120	
+Z	2	Africa/Porto-Novo	60	
+Z	3	America/Bogota	-300	
+Z	4	America/Caracas	-240	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Fortaleza	-180	
+Z	7	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/Phoenix	-420	
+Z	10	America/Port-au-Prince	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	11	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	12	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	13	America/Tegucigalpa	-360	
+Z	14	America/Vancouver	-480	29549400=-420
+Z	15	Asia/Chita	540	
+Z	16	Asia/Colombo	330	
+Z	17	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	18	Asia/Kamchatka	720	
+Z	19	Asia/Karachi	300	
+Z	20	Asia/Phnom_Penh	420	
+Z	21	Asia/Yangon	390	
+Z	22	Australia/Perth	480	
+Z	23	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	24	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	25	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	26	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	27	Europe/Moscow	180	
+Z	28	Europe/Saratov	240	
+Z	29	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+Z	30	Pacific/Honolulu	-600	
+C	AL	Albania	mwl	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BE	Belgium	mwl	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	BZ	Belize	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GG	Guernsey	mwl	s
+C	GP	Guadeloupe	mwl	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	KH	Cambodia	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LK	Sri Lanka	mwl	s
+C	MK	North Macedonia	mwl	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NZ	New Zealand	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	XK	Kosovo	mwl	s
+C	ZM	Zambia	egyptian	s
+B	5
+P	Saint Petersburg		RU		59.939	30.314	27
+P	Peshawar		PK		34.008	71.578	19
+P	Perth		AU	Western Australia	-31.952	115.861	22
+P	Phnom Penh		KH		11.562	104.916	20
+P	Pest		HU		47.500	19.083	25
+P	Perm		RU		58.010	56.250	19
+P	João Pessoa	joao pessoa	BR		-7.115	-34.863	6
+P	Petaling Jaya		MY		3.107	101.607	22
+P	San Pedro Sula		HN		15.506	-88.026	13
+P	Pelentong		MY		1.524	103.824	22
+P	Sungai Petani		MY		5.647	100.488	22
+P	Penza		RU		53.196	45.011	27
+P	Pereira		CO		4.814	-75.695	3
+P	Taman Petaling		MY		3.199	101.650	22
+P	San-Pédro	san pedro	CI		4.749	-6.636	0
+P	Petrolina		BR		-9.399	-40.501	6
+P	Pétionville	petionville	HT		18.512	-72.285	10
+P	Petare		VE		10.477	-66.808	4
+P	Pengze		CN		29.899	116.546	22
+P	San Pedro		PH		14.360	121.047	22
+P	Pelotas		BR		-31.770	-52.341	6
+P	Petrozavodsk		RU		61.785	34.347	27
+P	Petrópolis	petropolis	BR		-22.505	-43.179	6
+P	St. Petersburg	st petersburg	US	Florida	27.771	-82.679	10
+P	Petaẖ Tiqva	petah tiqva	IL		32.087	34.887	17
+P	Peñalolén	penalolen	CL		-33.468	-70.534	11
+P	Pemba		MZ		-12.974	40.518	1
+P	San Pedro de Macorís	san pedro de macoris	DO		18.454	-69.309	4
+P	Petropavl		KZ		54.873	69.151	19
+P	Peicheng		CN		34.736	116.925	22
+P	Peoria		US	Arizona	33.581	-112.237	9
+P	Petropavlovsk-Kamchatsky	petropavlovsk kamchatsky	RU		53.064	158.628	18
+P	Pembroke Pines		US	Florida	26.003	-80.224	10
+P	Pedreira		BR		-23.707	-46.650	6
+P	Peterborough		GB	England	52.574	-0.248	26
+P	Pengpu		CN		31.285	121.437	22
+P	Rosemont–La Petite-Patrie	rosemont la petite patrie	CA	Quebec	45.537	-73.607	10
+P	Pécs	pecs	HU		46.076	18.228	25
+P	Peristéri	peristeri	GR		38.015	23.692	24
+P	Petapa		GT		14.502	-90.562	13
+P	Pervouralsk		RU		56.905	59.944	19
+P	San Pedro Garza García	san pedro garza garcia	MX		25.662	-100.403	13
+P	Rio Pequeno		BR		-23.571	-46.759	6
+P	Petrogradka		RU		59.966	30.312	27
+P	Saint Peters		GB	England	51.367	1.417	26
+P	San Pedro de la Paz		CL		-36.839	-73.100	11
+P	Perugia		IT		43.112	12.389	25
+P	Pescara		IT		42.458	14.203	25
+P	Bairro da Penha		BR		-23.368	-46.311	6
+P	Novo-Peredelkino	novo peredelkino	RU		55.645	37.336	27
+P	Peoria		US	Illinois	40.694	-89.589	5
+P	North Peoria		US	Illinois	40.718	-89.584	5
+P	Petržalka	petrzalka	SK		48.123	17.129	25
+P	Perpignan		FR		42.698	2.895	25
+P	São Pedro da Aldeia	sao pedro da aldeia	BR		-22.839	-42.103	6
+P	Pearland		US	Texas	29.564	-95.286	5
+P	Perdizes		BR		-23.539	-46.681	6
+P	Perling		MY		1.481	103.684	22
+P	Pechersk		UA		50.444	30.523	24
+P	Penzing		AT		48.200	16.267	25
+P	Pendang		MY		5.995	100.479	22
+P	High Peak		GB	England	53.368	-1.845	26
+P	Pergamino		AR		-33.891	-60.575	6
+P	Point Pedro		LK		9.817	80.233	16
+P	Perus		BR		-23.405	-46.755	6
+P	Peterborough		CA	Ontario	44.300	-78.316	10
+P	Peñaflor	penaflor	CL		-33.606	-70.876	11
+P	San Pedro		US	California	33.736	-118.292	8
+P	Pernik		BG		42.597	23.033	24
+P	Presidencia Roque Sáenz Peña	presidencia roque saenz pena	AR		-26.791	-60.441	6
+P	Pesaro		IT		43.909	12.916	25
+P	Pedro Juan Caballero		PY		-22.549	-55.739	6
+P	Perris		US	California	33.783	-117.229	8
+P	Peterhof		RU		59.883	29.900	27
+P	Peckham		GB	England	51.474	-0.070	26
+P	Pul Pehlad		IN		28.499	77.291	16
+P	Pengcheng		CN		36.431	114.170	22
+P	Peruíbe	peruibe	BR		-24.320	-46.998	6
+P	Perai		MY		5.383	100.383	22
+P	San Pedro de Copán	san pedro de copan	HN		14.617	-88.867	13
+P	Pesqueira		BR		-8.358	-36.696	6
+P	Puerto Peñasco	puerto penasco	MX		31.317	-113.538	9
+P	Pedro Leopoldo		BR		-19.618	-44.043	6
+P	Pervomaysk		UA		48.045	30.848	24
+P	Levallois-Perret	levallois perret	FR		48.894	2.289	25
+P	Petrodvorets		RU		59.896	29.801	27
+P	Penápolis	penapolis	BR		-21.420	-50.078	6
+P	Petaluma		US	California	38.232	-122.637	8
+P	Penedo		BR		-10.290	-36.586	6
+P	Rancho Penasquitos		US	California	32.959	-117.115	8
+P	Petroúpolis	petroupolis	GR		38.042	23.685	24
+P	Pestlőrinc	pestlorinc	HU		47.430	19.216	25
+P	San Pedro Ayampuc		GT		14.779	-90.453	13
+P	San Pedro de Jujuy		AR		-24.231	-64.866	6
+P	Petauke		ZM		-14.241	31.320	1
+P	Pessac		FR		44.806	-0.632	25
+P	Petlād	petlad	IN		22.477	72.800	16
+P	Periya Semūr	periya semur	IN		11.361	77.690	16
+P	East Pensacola Heights		US	Florida	30.429	-87.180	5
+P	Pensacola		US	Florida	30.421	-87.217	5
+P	Perth Amboy		US	New Jersey	40.507	-74.265	10
+P	Saint Peters		US	Missouri	38.800	-90.627	5
+P	Peabody		US	Massachusetts	42.528	-70.929	10
+P	Pedregal		PA		9.066	-79.426	3
+P	Peranāmpattu	peranampattu	IN		12.934	78.719	16
+P	Pèlèngana	pelengana	ML		13.427	-6.222	0
+P	South Peabody		US	Massachusetts	42.510	-70.949	10
+P	Sri Petaling		MY		3.069	101.690	22
+P	Peine		DE		52.319	10.235	25
+P	Perintalmanna		IN		10.977	76.225	16
+P	Perambalur		IN		11.233	78.883	16
+P	Peddāpuram	peddapuram	IN		17.077	82.138	16
+P	Pejë	peje	XK		42.659	20.288	25
+P	San Pedro		MX		25.756	-102.984	13
+P	Pearl City		US	Hawaii	21.397	-157.975	30
+P	San Pedro		AR		-33.679	-59.666	6
+P	Perth		GB	Scotland	56.395	-3.431	26
+P	Pechora		RU		65.147	57.224	27
+P	Penco		CL		-36.741	-72.995	11
+P	Taman Permas Jaya		MY		1.511	103.820	22
+P	Kampung Perak		MY		3.868	102.586	22
+P	Pederneiras		BR		-22.352	-48.775	6
+P	May Pen		JM		17.965	-77.245	3
+P	Penn Hills		US	Pennsylvania	40.501	-79.839	10
+P	Lago da Pedra		BR		-4.560	-45.132	6
+P	Peña Grande	pena grande	ES		40.475	-3.722	25
+P	Petroşani	petrosani	RO		45.417	23.367	24
+P	Pedreira		BR		-22.742	-46.901	6
+P	Perungudi		IN		12.961	80.241	16
+P	Periyakulam		IN		10.123	77.544	16
+P	Perumbaikad		IN		9.618	76.531	16
+P	Joint Base Pearl Harbor Hickam		US	Hawaii	21.349	-157.947	30
+P	Peddapalli		IN		18.614	79.374	16
+P	San Pedro		MX		25.433	-103.217	13
+P	Gjorče Petro	gjorce petro	MK		42.008	21.353	25
+P	Peachtree Corners		US	Georgia	33.970	-84.222	10
+P	Peringathur		IN		11.714	75.586	16
+P	Pereslavl’-Zalesskiy	pereslavl zalesskiy	RU		56.739	38.860	27
+P	Pedra Branca		BR		-5.454	-39.717	6
+P	Pénjamo	penjamo	MX		20.431	-101.724	13
+P	San Pedro Sacatepéquez	san pedro sacatepequez	GT		14.968	-91.762	13
+P	Pehowa		IN		29.979	76.582	16
+P	Vilafranca del Penedès	vilafranca del penedes	ES		41.346	1.697	25
+P	São Pedro	sao pedro	BR		-22.549	-47.914	6
+P	Pedro II		BR		-4.425	-41.459	6
+P	Pen		IN		18.737	73.096	16
+P	Pentecoste		BR		-3.793	-39.270	6
+P	Perote		MX		19.562	-97.242	13
+P	Perunkalattu		IN		12.918	80.082	16
+P	Péhonko	pehonko	BJ		10.227	2.002	2
+P	Pedreiras		BR		-4.569	-44.592	6
+P	Dom Pedrito		BR		-30.983	-54.673	6
+P	Peringottupulam		IN		11.027	76.099	16
+P	Pehuajó	pehuajo	AR		-35.811	-61.899	6
+P	Pennsauken		US	New Jersey	39.956	-75.058	10
+P	Pesterzsébet	pesterzsebet	HU		47.433	19.117	25
+P	Petagas		MY		5.912	116.050	22
+P	Perumanna		IN		11.253	75.891	16
+P	Peachtree City		US	Georgia	33.397	-84.596	10
+P	Perunād	perunad	IN		8.949	76.643	16
+P	Peruvallur		IN		11.105	75.933	16
+P	San Pedro Alcántara	san pedro alcantara	ES		36.488	-4.991	25
+P	Périgueux	perigueux	FR		45.187	0.714	25
+P	Petrolândia	petrolandia	BR		-8.979	-38.219	6
+P	Peng Siang		SG		1.380	103.741	22
+P	Penticton		CA	British Columbia	49.481	-119.586	14
+P	Penha		BR		-26.769	-48.646	6
+P	Petrovsk		RU		52.309	45.390	28
+P	Peixoto de Azevedo		BR		-10.223	-54.980	4
+P	Pekin		US	Illinois	40.568	-89.641	5
+P	Penalva		BR		-3.294	-45.174	6
+P	Petersburg		US	Virginia	37.228	-77.402	10
+P	Kawasan Penempatan Ulu Sungai Benut		MY		1.754	103.280	22
+P	Kawasan Penempatan Ulu Benut Tiga		MY		1.750	103.277	22
+P	Kawasan Penempatan Ulu Benut Lima		MY		1.744	103.321	22
+P	Le Perreux-sur-Marne	le perreux sur marne	FR		48.850	2.500	25
+P	Taman Pelangi		MY		2.428	102.680	22
+P	Pekan		MY		3.484	103.400	22
+P	Rio das Pedras		BR		-22.843	-47.606	6
+P	General Salipada K. Pendatun	general salipada k pendatun	PH		6.826	124.722	22
+P	Petrich		BG		41.398	23.207	24
+P	Pedana		IN		16.256	81.144	16
+P	San Pedro de Urabá	san pedro de uraba	CO		8.275	-76.376	3
+P	Petrovskaya		RU		55.550	37.783	27
+P	Pedras de Fogo		BR		-7.402	-35.116	6
+P	Düsseldorf-Pempelfort	dusseldorf pempelfort	DE		51.238	6.787	25
+P	Peliyagoda		LK		6.968	79.884	16
+P	Perry Hall		US	Maryland	39.413	-76.464	10
+P	Sant Pere de Ribes		ES		41.260	1.774	25
+P	Miguel Pereira		BR		-22.454	-43.469	6
+P	Perumbavoor		IN		10.107	76.474	16
+P	San Pedro		CR		9.928	-84.051	13
+P	Peñaranda	penaranda	PH		15.351	121.004	22
+P	Permatang Kuching		MY		5.463	100.381	22
+P	Yong Peng		MY		2.014	103.066	22
+P	Perumpāvūr	perumpavur	IN		10.115	76.476	16
+P	Petershagen		DE		52.375	8.965	25
+P	La Peca		PE		-5.611	-78.435	3
+P	Pedro Betancourt		CU		22.728	-81.289	7
+P	Pearl		US	Mississippi	32.275	-90.132	5
+P	Lauf an der Pegnitz		DE		49.514	11.282	25
+P	Pereiaslav		UA		50.067	31.450	24
+P	Pennsport		US	Pennsylvania	39.928	-75.150	10
+P	Periyanayakkanpalaiyam		IN		11.153	76.952	16
+P	Pérama	perama	GR		37.968	23.572	24
+P	Petrila		RO		45.450	23.417	24
+P	Santa Perpètua de Mogoda	santa perpetua de mogoda	ES		41.533	2.183	25
+P	Petit-Bourg	petit bourg	GP		16.192	-61.591	4
+P	Ponta de Pedras		BR		-1.390	-48.871	6
+P	Perundurai		IN		11.276	77.588	16
+P	Perevalsk		UA		48.439	38.828	24
+P	Brāhmana Periya Agrahāram	brahmana periya agraharam	IN		11.369	77.706	16
+P	Pepa		CD		-7.698	29.777	1
+P	De Pere		US	Wisconsin	44.449	-88.060	5
+P	Pezinok		SK		48.290	17.267	25
+P	Pérez	perez	AR		-32.998	-60.768	6
+P	Pedra Azul		BR		-16.005	-41.297	6
+P	Pedro do Rosário	pedro do rosario	BR		-2.972	-45.351	6
+P	Kuala Penyu		MY		5.571	115.598	22
+P	Pereira Barreto		BR		-20.638	-51.109	6
+P	Perico		CU		22.769	-81.018	7
+P	Peekskill		US	New York	41.290	-73.920	10
+P	San Pedro del Pinatar		ES		37.836	-0.791	25
+P	San Pedro		AR		-26.622	-54.109	6
+P	Penugonda		IN		16.654	81.746	16
+P	Pethāpur	pethapur	IN		23.263	72.674	16
+P	Penarth		GB	Wales	51.439	-3.173	26
+P	Pedro Carbo		EC		-1.816	-80.234	3
+P	Nova Petrópolis	nova petropolis	BR		-29.376	-51.114	6
+P	Pekan Nenas		MY		1.510	103.514	22
+P	Peringat		MY		6.033	102.283	22
+P	East Peoria		US	Illinois	40.666	-89.580	5
+P	Dom Pedro		BR		-5.038	-44.437	6
+P	Pehlādpur Bāngar	pehladpur bangar	IN		28.751	77.081	16
+P	Pelham		US	Alabama	33.286	-86.810	5
+P	Sant Pere, Santa Caterina i La Ribera	sant pere santa caterina i la ribera	ES		41.385	2.182	25
+P	Pedra		BR		-8.497	-36.941	6
+P	Le Petit-Quevilly	le petit quevilly	FR		49.413	1.062	25
+P	Pedro Meoqui		MX		28.268	-105.481	13
+P	Mount Pearl		CA	Newfoundland and Labrador	47.517	-52.781	12
+P	Losino-Petrovskiy	losino petrovskiy	RU		55.870	38.193	27
+P	Peravurani		IN		10.290	79.202	16
+P	Bom Jesus dos Perdões	bom jesus dos perdoes	BR		-23.135	-46.465	6
+P	Petatlán	petatlan	MX		17.538	-101.268	13
+P	Pedro Canário	pedro canario	BR		-18.030	-40.151	6
+P	Perrysburg		US	Ohio	41.557	-83.627	10
+P	Perdões	perdoes	BR		-21.091	-45.091	6
+P	Penja		CM		4.639	9.680	2
+P	Péfki	pefki	GR		38.060	23.793	24
+P	West Pensacola		US	Florida	30.427	-87.280	5
+P	San Pedro Totoltepec		MX		19.311	-99.572	13
+P	Perinjanam		IN		10.313	76.148	16
+P	Conselheiro Pena		BR		-19.172	-41.472	6
+P	Peritoró	peritoro	BR		-4.383	-44.333	6
+P	São Pedro	sao pedro	BR		-22.423	-42.966	6
+P	Sankt Peter		AT		46.630	14.340	25
+P	Peterlee		GB	England	54.760	-1.336	26
+P	Penukonda		IN		14.083	77.595	16
+P	El Pedregal		PE		-16.363	-72.192	3
+P	Chalfont Saint Peter		GB	England	51.609	-0.556	26
+P	Pelabuhan Klang		MY		3.000	101.393	22
+P	Desa Petaling		MY		3.084	101.709	22
+P	Pertuis		FR		43.694	5.503	25
+P	Penzance		GB	England	50.119	-5.537	26
+P	Les Pennes-Mirabeau	les pennes mirabeau	FR		43.410	5.308	25
+P	Peto		MX		20.126	-88.923	13
+P	Petrovsk-Zabaykal’skiy	petrovsk zabaykalskiy	RU		51.276	108.847	15
+P	Pennādam	pennadam	IN		11.404	79.242	16
+P	Perdriel		AR		-33.075	-68.888	6
+P	The Peak		HK		22.262	114.156	22
+P	Kawasan Perindustrian Cheng		MY		2.262	102.232	22
+P	Peterhead		GB	Scotland	57.505	-1.784	26
+P	Petworth		US	District of Columbia	38.946	-77.025	10
+P	Pedroso		PT		41.411	-8.749	26
+P	Pedra Preta		BR		-16.623	-54.474	4
+P	Peshtera		BG		42.034	24.300	24
+P	Peacehaven		GB	England	50.793	-0.007	26
+P	Peraía	peraia	GR		40.499	22.926	24
+P	Pélézi	pelezi	CI		7.282	-6.814	0
+P	São João do Rio do Peixe	sao joao do rio do peixe	BR		-6.729	-38.449	6
+P	Pelahiivka		UA		48.108	38.613	24
+P	Peddanāyakkanpālaiyam	peddanayakkanpalaiyam	IN		11.651	78.509	16
+P	Pennāgaram	pennagaram	IN		12.134	77.895	16
+P	Peçanha	pecanha	BR		-18.549	-42.557	6
+P	San Pedro		BZ		17.916	-87.966	13
+P	Pedregal		PA		8.377	-82.429	3
+P	Periyakottai		IN		10.591	77.280	16
+P	Petawawa		CA	Ontario	45.895	-77.280	10
+P	Pebane		MZ		-17.264	38.135	1
+P	Poção de Pedras	pocao de pedras	BR		-4.752	-44.944	6
+P	Perdizes		BR		-19.353	-47.293	6
+P	São Pedro da Cova	sao pedro da cova	PT		41.143	-8.500	26
+P	Pendleton		US	Oregon	45.672	-118.789	8
+P	Pendino		IT		40.847	14.263	25
+P	Peralassery		IN		11.832	75.483	16
+P	Penrith		GB	England	54.666	-2.758	26
+P	Péruwelz	peruwelz	BE		50.508	3.594	25
+P	Peqin		AL		41.046	19.751	25
+P	Pelileo		EC		-1.331	-78.545	3
+P	Pelhřimov	pelhrimov	CZ		49.431	15.223	25
+P	Le Pecq		FR		48.893	2.104	25
+P	Saint Peter Port		GG		49.460	-2.535	26
+P	Petitgoa I		CI		6.120	-6.713	0
+P	Petersberg		DE		50.560	9.713	25
+P	Caronno Pertusella		IT		45.598	9.046	25
+P	San Pedro Carchá	san pedro carcha	GT		15.477	-90.311	13
+P	San Pedro de Lloc		PE		-7.429	-79.504	3
+P	Penonomé	penonome	PA		8.519	-80.357	3
+P	West Pennant Hills		AU	New South Wales	-33.746	151.048	23
+P	Penicuik		GB	Scotland	55.831	-3.226	26
+P	Penzberg		DE		47.753	11.377	25
+P	Petit Grabo		CI		5.269	-7.314	0
+P	Petershausen-West	petershausen west	DE		47.674	9.178	25
+P	Pecan Grove		US	Texas	29.626	-95.732	5
+P	Barrio de Peral		ES		37.625	-0.988	25
+P	Pèrèrè	perere	BJ		9.797	2.984	2
+P	Pestovo		RU		58.594	35.802	27
+P	Pearl River		US	New York	41.059	-74.022	10
+P	Petushki		RU		55.927	39.461	27
+P	San Giovanni in Persiceto		IT		44.638	11.184	25
+P	Persianovka		RU		47.527	39.419	27
+P	Periyapatti		IN		11.205	78.151	16
+P	Peniche		PT		39.356	-9.381	26
+P	Perry Vale		GB	England	51.436	-0.044	26
+P	São Pedro do Sul	sao pedro do sul	BR		-29.621	-54.179	6
+P	el Turó de la Peira	el turo de la peira	ES		41.432	2.169	25
+P	Peer		BE		51.130	5.460	25
+P	Pedregulho		BR		-20.257	-47.477	6
+P	Pengerang		MY		1.365	104.112	22
+P	Perry		US	Georgia	32.458	-83.732	10
+P	Peribán de Ramos	periban de ramos	MX		19.520	-102.415	13
+P	Penha de França	penha de franca	IN		15.517	73.835	16
+P	Pèkon	pekon	MM		19.868	97.007	21
+P	Pereiro		BR		-6.042	-38.460	6
+P	Te Atatu Peninsula		NZ		-36.841	174.652	29
+P	Sankt Peter		AT		47.050	15.467	25
+P	Petlāwad	petlawad	IN		23.011	74.798	16
+P	Perchtoldsdorf		AT		48.119	16.266	25

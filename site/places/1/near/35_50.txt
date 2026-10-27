@@ -1,0 +1,116 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ashgabat	300	
+Z	1	Asia/Tehran	210	
+C	IR	Iran	tehran	s
+C	TM	Turkmenistan	mwl	h
+B	2
+P	Tehran		IR		35.694	51.422	1
+P	Karaj		IR		35.833	50.992	1
+P	Eslamshahr		IR		35.552	51.235	1
+P	Qazvin		IR		36.269	50.004	1
+P	Shahrīār	shahriar	IR		35.659	51.058	1
+P	Qods		IR		35.721	51.109	1
+P	Sari		IR		36.563	53.060	1
+P	Qarchak		IR		35.429	51.578	1
+P	Gorgān	gorgan	IR		36.843	54.444	1
+P	Golestān	golestan	IR		35.518	51.182	1
+P	Āmol	amol	IR		36.470	52.351	1
+P	Pākdasht	pakdasht	IR		35.479	51.683	1
+P	Varāmīn	varamin	IR		35.324	51.646	1
+P	Sāveh	saveh	IR		35.021	50.357	1
+P	Naz̧arābād	nazarabad	IR		35.954	50.606	1
+P	Qā’em Shahr	qaem shahr	IR		36.467	52.868	1
+P	Bābol	babol	IR		36.551	52.679	1
+P	Nasīm Shahr	nasim shahr	IR		35.565	51.163	1
+P	Nasimshahr		IR		35.565	51.158	1
+P	Fardīs	fardis	IR		35.755	50.997	1
+P	Shahrud		IR		36.418	54.976	1
+P	Kamālshahr	kamalshahr	IR		35.862	50.874	1
+P	Semnan		IR		35.577	53.392	1
+P	Moḩammad Shahr	mohammad shahr	IR		35.763	50.917	1
+P	Shahre Jadide Andisheh		IR		35.680	51.019	1
+P	Andīsheh	andisheh	IR		35.747	51.277	1
+P	Pardīs	pardis	IR		35.747	51.812	1
+P	Chālūs	chalus	IR		36.655	51.420	1
+P	Robāţ Karīm	robat karim	IR		35.485	51.083	1
+P	Lāhījān	lahijan	IR		37.204	50.009	1
+P	Parand		IR		35.472	50.975	1
+P	Behshahr		IR		36.692	53.553	1
+P	Moḩammadīyeh	mohammadiyeh	IR		36.224	50.182	1
+P	Alvand		IR		36.189	50.064	1
+P	Balkanabat		TM		39.511	54.367	0
+P	Tajrīsh	tajrish	IR		35.804	51.426	1
+P	Mehestan		IR		35.989	50.745	1
+P	Bāghestān	baghestan	IR		35.647	51.134	1
+P	Būmahen	bumahen	IR		35.730	51.869	1
+P	Langarūd	langarud	IR		37.195	50.153	1
+P	Dāmghān	damghan	IR		36.168	54.343	1
+P	Bāqershahr	baqershahr	IR		35.532	51.405	1
+P	Māhdāsht	mahdasht	IR		35.728	50.813	1
+P	Meshkīn Dasht	meshkin dasht	IR		35.750	50.944	1
+P	Nekā	neka	IR		36.651	53.299	1
+P	Ābyek	abyek	IR		36.040	50.531	1
+P	Ṣāleḥīeh	salehieh	IR		35.505	51.191	1
+P	Malārd	malard	IR		35.666	50.977	1
+P	Hashtgerd		IR		35.962	50.680	1
+P	Ābyek	abyek	IR		36.067	50.550	1
+P	Şabbāshahr	sabbashahr	IR		35.580	51.114	1
+P	Bandar-e Torkaman	bandar e torkaman	IR		36.901	54.072	1
+P	Pīshvā	pishva	IR		35.308	51.727	1
+P	'Alī Ābād-e Katūl	ali abad e katul	IR		36.910	54.867	1
+P	Chahār Dangeh	chahar dangeh	IR		35.603	51.310	1
+P	Īstgāh-e Rāh Āhan-e Garmsār	istgah e rah ahan e garmsar	IR		35.235	52.309	1
+P	Garmsār	garmsar	IR		35.218	52.341	1
+P	Bābolsar	babolsar	IR		36.699	52.650	1
+P	Rūdsar	rudsar	IR		37.137	50.292	1
+P	Ḩasanābād	hasanabad	IR		35.367	51.235	1
+P	Nowshahr		IR		36.649	51.496	1
+P	Kord Kūy	kord kuy	IR		36.793	54.112	1
+P	Kahrīzak	kahrizak	IR		35.346	51.844	1
+P	Kahrīzak	kahrizak	IR		35.517	51.361	1
+P	Tonekābon	tonekabon	IR		36.816	50.874	1
+P	Eqbālīyeh	eqbaliyeh	IR		35.302	51.536	1
+P	Qīāmdasht	qiamdasht	IR		35.524	51.651	1
+P	Rāmsar	ramsar	IR		36.918	50.648	1
+P	Āq Qalā	aq qala	IR		37.014	54.455	1
+P	Ferdowsīyeh	ferdowsiyeh	IR		35.601	51.065	1
+P	Fereydūn Kenār	fereydun kenar	IR		36.685	52.519	1
+P	Vaḩīdīyeh	vahidiyeh	IR		35.714	51.471	1
+P	Vaḩīdīyeh	vahidiyeh	IR		35.607	51.035	1
+P	Jūybār	juybar	IR		36.641	52.912	1
+P	Ṣafādasht	safadasht	IR		35.692	50.848	1
+P	Maḩmūdābād	mahmudabad	IR		36.632	52.263	1
+P	Gumdag		TM		39.206	54.591	0
+P	Amīr Kolā	amir kola	IR		36.597	52.666	1
+P	Eshtehārd	eshtehard	IR		35.725	50.366	1
+P	Shahrak-e Qods	shahrak e qods	IR		35.759	51.376	1
+P	Damāvand	damavand	IR		35.718	52.070	1
+P	Nasirshahr		IR		35.492	51.138	1
+P	Rūdehen	rudehen	IR		35.733	51.906	1
+P	Nūr	nur	IR		36.572	52.015	1
+P	Shāhedshahr	shahedshahr	IR		35.573	51.085	1
+P	Mojtame‘-e Maskūnī-ye Nāmjū	mojtame e maskuni ye namju	IR		35.472	51.724	1
+P	Garmdarreh		IR		35.748	51.069	1
+P	Māmūnīyeh	mamuniyeh	IR		35.305	50.499	1
+P	Ferūnābād	ferunabad	IR		35.516	51.623	1
+P	Shahrak-e ‘Alā’īn	shahrak e alain	IR		35.582	51.456	1
+P	Galūgāh	galugah	IR		36.727	53.809	1
+P	Galūgāh	galugah	IR		36.310	52.626	1
+P	Mahdishahr		IR		35.711	53.354	1
+P	Bandar-e Gaz	bandar e gaz	IR		36.774	53.948	1
+P	Katālem va Sādāt Shahr	katalem va sadat shahr	IR		36.889	50.696	1
+P	Sharīfābād	sharifabad	IR		36.212	50.150	1
+P	Fāẕelābād	fazelabad	IR		36.898	54.750	1
+P	Gomīshān	gomishan	IR		37.072	54.077	1
+P	Lavāsān	lavasan	IR		35.822	51.644	1
+P	Bīdestān	bidestan	IR		36.231	50.124	1
+P	Ovrīn	ovrin	IR		35.548	51.128	1
+P	Fīrūzkūh	firuzkuh	IR		35.757	52.771	1
+P	Khabarābād	khabarabad	IR		35.543	51.148	1
+P	Sīmīn Shahr	simin shahr	IR		37.014	54.230	1
+P	Sa‘īdābād	saidabad	IR		35.668	51.186	1
+P	Zīr Āb	zir ab	IR		36.180	52.973	1
+P	Shahrak-e Mohandesī-ye Zerā‘ī	shahrak e mohandesi ye zerai	IR		35.772	50.956	1
+P	Morteẕá Gerd	morteza gerd	IR		35.602	51.350	1
+P	Amlash		IR		37.097	50.187	1
+P	Jebel		TM		39.634	54.231	0

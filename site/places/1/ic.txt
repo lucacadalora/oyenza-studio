@@ -1,0 +1,32 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Fortaleza	-180	
+Z	1	America/Lima	-300	
+Z	2	America/Manaus	-240	
+Z	3	Asia/Kolkata	330	
+Z	4	Asia/Tokyo	540	
+Z	5	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	BR	Brazil	mwl	s
+C	ES	Spain	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	KR	South Korea	mwl	s
+C	PE	Peru	mwl	s
+B	0
+P	Ichikawa		JP		35.734	139.906	4
+P	Ichinomiya		JP		35.300	136.800	4
+P	Ichalkaranji		IN		16.691	74.461	3
+P	Ichihara		JP		35.517	140.083	4
+P	Ica		PE		-14.075	-75.734	1
+P	Icheon-si	icheon si	KR		37.279	127.442	4
+P	Ichinoseki		JP		38.917	141.133	4
+P	Icó	ico	BR		-6.401	-38.862	0
+P	Içara	icara	BR		-28.713	-49.300	0
+P	Icchannūr	icchannur	IN		11.361	75.778	3
+P	Ichchāpuram	ichchapuram	IN		19.114	84.687	3
+P	Ichikikushikino		JP		31.729	130.293	4
+P	Santo Antônio do Içá	santo antonio do ica	BR		-3.102	-67.940	2
+P	Icatu		BR		-2.776	-44.066	0
+P	Icod de los Vinos		ES		28.372	-16.712	5
+P	Icapuí	icapui	BR		-4.713	-37.355	0
+P	Ichinoe		JP		35.691	139.883	4
+P	Ichhāwar	ichhawar	IN		23.028	77.017	3

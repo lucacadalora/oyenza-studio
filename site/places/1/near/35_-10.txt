@@ -1,0 +1,185 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Europe/Lisbon	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	2	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	ES	Spain	mwl	s
+C	GI	Gibraltar	mwl	s
+C	MA	Morocco	egyptian	s
+C	PT	Portugal	mwl	s
+B	1
+P	Tangier		MA		35.767	-5.800	0
+P	Sevilla		ES		37.383	-5.973	2
+P	Lisbon		PT		38.725	-9.150	1
+P	Tétouan	tetouan	MA		35.578	-5.368	0
+P	Jerez de la Frontera		ES		36.686	-6.136	2
+P	Amadora		PT		38.754	-9.231	1
+P	Badajoz		ES		38.878	-6.971	2
+P	Huelva		ES		37.266	-6.940	2
+P	Ksar El Kebir		MA		35.000	-5.904	0
+P	Larache		MA		35.193	-6.156	0
+P	Leiria		PT		39.744	-8.807	1
+P	Dos Hermanas		ES		37.283	-5.921	2
+P	Algeciras		ES		36.133	-5.451	2
+P	Setúbal	setubal	PT		38.524	-8.888	1
+P	Cadiz		ES		36.527	-6.289	2
+P	Queluz		PT		38.757	-9.255	1
+P	Cáceres	caceres	ES		39.476	-6.372	2
+P	San Fernando		ES		36.476	-6.198	2
+P	Cacém	cacem	PT		38.767	-9.298	1
+P	El Puerto de Santa María	el puerto de santa maria	ES		36.594	-6.233	2
+P	Fnidek		MA		35.849	-5.357	0
+P	Chiclana de la Frontera		ES		36.420	-6.144	2
+P	Ceuta		ES		35.889	-5.320	2
+P	Faro		PT		37.019	-7.927	1
+P	Martil		MA		35.617	-5.275	0
+P	Alcalá de Guadaira	alcala de guadaira	ES		37.338	-5.840	2
+P	Sanlúcar de Barrameda	sanlucar de barrameda	ES		36.778	-6.351	2
+P	Estepona		ES		36.428	-5.146	2
+P	Algueirão	algueirao	PT		38.798	-9.344	1
+P	Loures		PT		38.831	-9.168	1
+P	La Línea de la Concepción	la linea de la concepcion	ES		36.168	-5.348	2
+P	Mdiq		MA		35.683	-5.329	0
+P	Mérida	merida	ES		38.918	-6.343	2
+P	Rio de Mouro		PT		38.766	-9.328	1
+P	Odivelas		PT		38.793	-9.184	1
+P	Évora	evora	PT		38.566	-7.904	1
+P	Utrera		ES		37.185	-5.781	2
+P	Amora		PT		38.630	-9.116	1
+P	Corroios		PT		38.640	-9.151	1
+P	Barreiro		PT		38.663	-9.072	1
+P	Monsanto		PT		39.462	-8.712	1
+P	Chefchaouen		MA		35.169	-5.264	0
+P	São Domingos de Rana	sao domingos de rana	PT		38.702	-9.341	1
+P	Lumiar		PT		38.775	-9.156	1
+P	Mairena del Aljarafe		ES		37.345	-6.064	2
+P	Olival		PT		38.771	-9.250	1
+P	Sesimbra		PT		38.445	-9.101	1
+P	Puerto Real		ES		36.528	-6.190	2
+P	Écija	ecija	ES		37.542	-5.083	2
+P	Portimão	portimao	PT		37.139	-8.538	1
+P	Damaia		PT		38.751	-9.212	1
+P	Don Benito		ES		38.956	-5.862	2
+P	Cidade Universitária	cidade universitaria	PT		38.752	-9.159	1
+P	Benfica		PT		38.751	-9.203	1
+P	Ronda		ES		36.742	-5.167	2
+P	Los Palacios y Villafranca		ES		37.162	-5.924	2
+P	Cascais		PT		38.697	-9.421	1
+P	La Rinconada		ES		37.486	-5.981	2
+P	Marvila		PT		38.740	-9.102	1
+P	Oeiras		PT		38.691	-9.311	1
+P	Beja		PT		38.015	-7.863	1
+P	Asilah		MA		35.465	-6.034	0
+P	Almada		PT		38.679	-9.157	1
+P	Olivais		PT		38.770	-9.107	1
+P	Lagos		PT		37.102	-8.674	1
+P	Castelo Branco		PT		39.824	-7.491	1
+P	Almendralejo		ES		38.683	-6.407	2
+P	Alcabideche		PT		38.734	-9.409	1
+P	Alvalade		PT		38.753	-9.144	1
+P	Arcos de la Frontera		ES		36.751	-5.811	2
+P	Coria del Río	coria del rio	ES		37.288	-6.054	2
+P	Arrentela		PT		38.625	-9.102	1
+P	Montijo		PT		38.707	-8.974	1
+P	Charneca de Caparica		PT		38.620	-9.194	1
+P	Santarém	santarem	PT		39.234	-8.686	1
+P	San Roque		ES		36.210	-5.385	2
+P	Olhão	olhao	PT		37.029	-7.841	1
+P	Marinha Grande		PT		39.748	-8.932	1
+P	Póvoa de Santa Iria	povoa de santa iria	PT		38.861	-9.065	1
+P	Rota		ES		36.624	-6.360	2
+P	Carmona		ES		37.471	-5.646	2
+P	Camas		ES		37.402	-6.033	2
+P	Massamá	massama	PT		38.753	-9.281	1
+P	Morón de la Frontera	moron de la frontera	ES		37.121	-5.454	2
+P	Caldas da Rainha		PT		39.403	-9.138	1
+P	Alfornelos		PT		38.761	-9.205	1
+P	Gibraltar		GI		36.145	-5.353	2
+P	Lebrija		ES		36.921	-6.075	2
+P	Sintra		PT		38.801	-9.378	1
+P	Paço de Arcos	paco de arcos	PT		38.696	-9.291	1
+P	Lepe		ES		37.255	-7.204	2
+P	Gueznaia		MA		35.702	-5.890	0
+P	Villanueva de la Serena		ES		38.977	-5.797	2
+P	Almonte		ES		37.265	-6.517	2
+P	Quinta Do Conde		PT		38.565	-9.043	1
+P	Torres Vedras		PT		39.091	-9.259	1
+P	Quarteira		PT		37.069	-8.101	1
+P	Estoril		PT		38.706	-9.398	1
+P	Carnaxide		PT		38.727	-9.247	1
+P	Porto de Mós	porto de mos	PT		37.085	-8.684	1
+P	Los Barrios		ES		36.185	-5.492	2
+P	Pinhal Novo		PT		38.631	-8.914	1
+P	Monte Estoril		PT		38.706	-9.406	1
+P	Sete Rios		PT		38.741	-9.161	1
+P	Pontinha		PT		38.768	-9.199	1
+P	São Jorge de Arroios	sao jorge de arroios	PT		38.729	-9.138	1
+P	Azla		MA		35.553	-5.245	0
+P	Tomares		ES		37.373	-6.046	2
+P	Barbate		ES		36.192	-5.922	2
+P	Moscavide e Portela		PT		38.779	-9.102	1
+P	Conil de la Frontera		ES		36.277	-6.088	2
+P	Parque das Nações	parque das nacoes	PT		38.769	-9.096	1
+P	Portalegre		PT		39.294	-7.431	1
+P	Campo De Ourique		PT		38.721	-9.167	1
+P	Lavradio		PT		38.668	-9.052	1
+P	Azambuja		PT		39.070	-8.868	1
+P	Isla Cristina		ES		37.200	-7.317	2
+P	Caparica		PT		38.662	-9.200	1
+P	Areeiro		PT		38.741	-9.138	1
+P	Palma del Río	palma del rio	ES		37.700	-5.281	2
+P	Belas		PT		38.777	-9.264	1
+P	Laranjeiro		PT		38.656	-9.154	1
+P	Linda-a-Velha	linda a velha	PT		38.714	-9.242	1
+P	Ayamonte		ES		37.213	-7.408	2
+P	Falagueira		PT		38.764	-9.228	1
+P	San Juan de Aznalfarache		ES		37.358	-6.037	2
+P	Mairena del Alcor		ES		37.373	-5.750	2
+P	Laranjeiro		PT		37.068	-7.808	1
+P	Carcavelos		PT		38.691	-9.322	1
+P	Alcântara	alcantara	PT		38.701	-9.171	1
+P	Camarate		PT		38.804	-9.128	1
+P	Entroncamento		PT		39.467	-8.467	1
+P	Marchena		ES		37.329	-5.417	2
+P	Moguer		ES		37.276	-6.839	2
+P	El Arahal		ES		37.263	-5.545	2
+P	Piedade		PT		38.670	-9.159	1
+P	Chipiona		ES		36.737	-6.437	2
+P	Lora del Río	lora del rio	ES		37.659	-5.528	2
+P	Algés	alges	PT		38.702	-9.229	1
+P	El Viso del Alcor		ES		37.391	-5.720	2
+P	Tomar		PT		39.602	-8.409	1
+P	São João da Talha	sao joao da talha	PT		38.824	-9.097	1
+P	Azeitão	azeitao	PT		38.519	-9.014	1
+P	Bormujos		ES		37.374	-6.072	2
+P	Santa Iria da Azóia	santa iria da azoia	PT		38.841	-9.099	1
+P	Vila Franca de Xira		PT		38.955	-8.990	1
+P	Tarifa		ES		36.014	-5.607	2
+P	Carnide		PT		38.767	-9.183	1
+P	Aljaraque		ES		37.270	-7.023	2
+P	Loulé	loule	PT		37.138	-8.020	1
+P	Cartaya		ES		37.281	-7.151	2
+P	Osuna		ES		37.238	-5.103	2
+P	Moita		PT		38.651	-8.990	1
+P	Sacavém	sacavem	PT		38.792	-9.108	1
+P	Ramada		PT		38.804	-9.188	1
+P	Pombal		PT		39.917	-8.628	1
+P	Quelfes		PT		37.060	-7.822	1
+P	Navalmoral de la Mata		ES		39.892	-5.541	2
+P	Parede		PT		38.693	-9.354	1
+P	Castilleja de la Cuesta		ES		37.386	-6.053	2
+P	Alfragide		PT		38.732	-9.219	1
+P	Ubrique		ES		36.678	-5.446	2
+P	Palmela		PT		38.569	-8.901	1
+P	Belém	belem	PT		38.699	-9.193	1
+P	Zafra		ES		38.425	-6.417	2
+P	Las Cabezas de San Juan		ES		36.984	-5.939	2
+P	La Algaba		ES		37.463	-6.011	2
+P	Montijo		ES		38.908	-6.618	2
+P	Vialonga		PT		38.872	-9.078	1
+P	Buraca		PT		38.733	-9.200	1
+P	Albufeira		PT		37.088	-8.250	1
+P	Alcobaça	alcobaca	PT		39.552	-8.977	1
+P	Peniche		PT		39.356	-9.381	1
+P	Campo Grande		PT		38.755	-9.167	1
+P	Tavira		PT		37.127	-7.649	1
+P	Torres Novas		PT		39.476	-8.543	1

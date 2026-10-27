@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Lusaka	120	
+C	TZ	Tanzania	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	0
+P	Mkushi		ZM		-13.620	29.394	1
+P	Mkhuhlu		ZA		-24.988	31.238	1
+P	Mkuranga		TZ		-7.118	39.208	0
+P	Mkoani		TZ		-5.367	39.650	0

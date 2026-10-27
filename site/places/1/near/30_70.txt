@@ -1,0 +1,274 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kabul	270	
+Z	1	Asia/Karachi	300	
+Z	2	Asia/Kolkata	330	
+C	AF	Afghanistan	karachi	h
+C	IN	India	karachi	h
+C	PK	Pakistan	karachi	h
+B	9
+P	Lahore		PK		31.558	74.351	1
+P	Peshawar		PK		34.008	71.578	1
+P	Faisalabad		PK		31.416	73.090	1
+P	Rawalpindi		PK		33.597	73.048	1
+P	Gujranwala		PK		32.156	74.187	1
+P	Multan		PK		30.197	71.478	1
+P	Bannu		PK		32.985	70.604	1
+P	Srinagar		IN		34.086	74.806	2
+P	Amritsar		IN		31.622	74.875	2
+P	Sargodha		PK		32.086	72.674	1
+P	Sialkot		PK		32.493	74.531	1
+P	Arifwala		PK		30.291	73.066	1
+P	Dera Ismail Khan		PK		31.831	70.902	1
+P	Muzaffarābād	muzaffarabad	PK		34.370	73.471	1
+P	Battagram		PK		34.677	73.023	1
+P	Chunian		PK		30.966	73.979	1
+P	Jhang Sadr		PK		31.270	72.317	1
+P	Islamabad		PK		33.721	73.043	1
+P	Shekhupura		PK		31.713	73.986	1
+P	Jammu		IN		32.735	74.862	2
+P	Gujrat		PK		32.574	74.075	1
+P	Sahiwal		PK		31.974	72.331	1
+P	Sahiwal		PK		30.666	73.102	1
+P	Okara		PK		30.810	73.452	1
+P	Kasur		PK		31.119	74.450	1
+P	Dera Ghazi Khan		PK		30.046	70.640	1
+P	Pindi Bhattian		PK		31.898	73.273	1
+P	Wah Cantt		PK		33.771	72.751	1
+P	Chak Jhumra		PK		31.568	73.183	1
+P	Bhawana		PK		31.569	72.649	1
+P	Burewala		PK		30.167	72.650	1
+P	Mingora		PK		34.779	72.363	1
+P	Hafizabad		PK		32.071	73.688	1
+P	Chiniot		PK		31.721	72.978	1
+P	Mardan		PK		34.198	72.050	1
+P	Kamoke		PK		31.975	74.223	1
+P	Bathinda		IN		30.207	74.939	2
+P	Abbottabad		PK		34.146	73.212	1
+P	Jalālābād	jalalabad	AF		34.426	70.452	0
+P	Muridke		PK		31.803	74.258	1
+P	Shahkot		PK		31.571	73.485	1
+P	Bahawalnagar		PK		30.551	73.391	1
+P	Muzaffargarh		PK		30.073	71.194	1
+P	Gojra		PK		31.149	72.683	1
+P	Qadirpur Ran		PK		30.292	71.672	1
+P	Dhirkot		PK		34.039	73.577	1
+P	Jhelum		PK		32.934	73.731	1
+P	Kamalia		PK		30.727	72.646	1
+P	Wazirabad		PK		32.443	74.120	1
+P	Kohat		PK		33.582	71.449	1
+P	Layyah		PK		30.961	70.939	1
+P	Eminabad		PK		32.042	74.260	1
+P	Jaranwala		PK		31.333	73.419	1
+P	Tordher		PK		33.990	72.286	1
+P	Jalalpur Jattan		PK		32.641	74.206	1
+P	Abohar		IN		30.145	74.196	2
+P	Attock City		PK		33.767	72.360	1
+P	Mian Channun		PK		30.441	72.357	1
+P	Bhakkar		PK		31.627	71.065	1
+P	Narowal		PK		32.102	74.873	1
+P	Nankana Sahib		PK		31.450	73.707	1
+P	Mandi Bahauddin		PK		32.587	73.491	1
+P	Mianwali		PK		32.578	71.528	1
+P	Daska Kalan		PK		32.324	74.350	1
+P	Pakpattan		PK		30.343	73.389	1
+P	New Mirpur City		PK		33.148	73.752	1
+P	Toba Tek Singh		PK		30.971	72.483	1
+P	Haveli Lakha		PK		30.451	73.694	1
+P	Charsadda		PK		34.148	71.741	1
+P	Sambrial		PK		32.478	74.353	1
+P	Muktsar		IN		30.474	74.517	2
+P	Taunsa		PK		30.704	70.651	1
+P	Phool Nagar		PK		31.202	73.949	1
+P	Pattoki		PK		31.020	73.853	1
+P	Jauharabad		PK		32.290	72.282	1
+P	Vihari		PK		30.044	72.356	1
+P	Chichawatni		PK		30.530	72.692	1
+P	Firozpur		IN		30.926	74.613	2
+P	Kot Addu		PK		30.469	70.967	1
+P	Soyībug	soyibug	IN		34.077	74.706	2
+P	Sangla Hill		PK		31.717	73.383	1
+P	Kharian		PK		32.816	73.887	1
+P	Khushāb	khushab	PK		32.297	72.353	1
+P	Pasrur		PK		32.263	74.663	1
+P	Shabqadar		PK		34.216	71.555	1
+P	Kot Radha Kishan		PK		31.171	74.101	1
+P	Chakwal		PK		32.933	72.854	1
+P	Renala Khurd		PK		30.879	73.599	1
+P	Raja Jang		PK		31.221	74.255	1
+P	Model Town		PK		31.481	74.326	1
+P	Dipalpur		PK		30.670	73.653	1
+P	Swabi		PK		34.120	72.470	1
+P	Dijkot		PK		31.217	72.996	1
+P	Khurarianwala		PK		31.499	73.268	1
+P	Kot Kapūra	kot kapura	IN		30.581	74.826	2
+P	Kabirwala		PK		30.405	71.863	1
+P	Kunjah		PK		32.530	73.975	1
+P	Dinga		PK		32.641	73.720	1
+P	Nowshera Kalan		PK		34.019	71.974	1
+P	Farīdkot	faridkot	IN		30.674	74.756	2
+P	Malout		IN		30.211	74.482	2
+P	Fatehjang		PK		33.565	72.643	1
+P	Kotkapura		IN		30.582	74.833	2
+P	Alahabad		PK		30.877	74.055	1
+P	Khewra		PK		32.649	73.011	1
+P	Talagang		PK		32.928	72.416	1
+P	Kahna Nau		PK		31.367	74.369	1
+P	Bāramūla	baramula	IN		34.209	74.343	2
+P	Fazilka		IN		30.402	74.028	2
+P	Hujra Shah Muqim		PK		30.742	73.823	1
+P	Paharpur		PK		32.105	70.971	1
+P	Topi		PK		34.070	72.621	1
+P	Bhalwal		PK		32.266	72.898	1
+P	Sarai Alamgir		PK		32.905	73.755	1
+P	Bat Khela		PK		34.618	71.972	1
+P	Sopur		IN		34.287	74.472	2
+P	Rabwah		PK		31.755	72.914	1
+P	Gujar Khan		PK		33.254	73.304	1
+P	Chuhar Kana		PK		31.750	73.800	1
+P	Darya Khan		PK		31.784	71.102	1
+P	Shorkot		PK		31.910	70.878	1
+P	Minchinabad		PK		30.164	73.569	1
+P	Tarn Taran		IN		31.452	74.928	2
+P	Mansehra		PK		34.330	73.197	1
+P	Basirpur		PK		30.578	73.839	1
+P	Lala Musa		PK		32.701	73.957	1
+P	Pindi Gheb		PK		33.241	72.265	1
+P	Phalia		PK		32.431	73.579	1
+P	Faruka		PK		31.886	72.414	1
+P	Jahangira		PK		33.964	72.221	1
+P	Haripur		PK		33.998	72.935	1
+P	Jamrud		PK		34.002	71.380	1
+P	Sharifabad		PK		33.434	73.363	1
+P	Dullewala		PK		31.834	71.436	1
+P	Pabbi		PK		34.010	71.794	1
+P	Lalian		PK		31.825	72.801	1
+P	Qabula		PK		30.178	73.065	1
+P	Pir Mahal		PK		30.767	72.435	1
+P	Kot Mumin		PK		32.188	73.030	1
+P	Jahanian		PK		30.039	71.817	1
+P	Rawalakot		PK		33.858	73.760	1
+P	Hadali		PK		32.640	74.569	1
+P	Sillanwali		PK		31.825	72.541	1
+P	Asadābād	asadabad	AF		34.873	71.147	0
+P	Kotli		PK		33.518	73.902	1
+P	Mustafabad		PK		30.892	73.499	1
+P	Kamra		PK		33.855	72.394	1
+P	Chak Thirty-one -Eleven Left	chak thirty one eleven left	PK		30.424	72.697	1
+P	Giddarbāha	giddarbaha	IN		30.200	74.666	2
+P	Kanganpur		PK		30.765	74.123	1
+P	Fatehpur		PK		31.178	71.205	1
+P	Kamra		PK		33.747	73.512	1
+P	Kundian		PK		32.458	71.479	1
+P	Sukheke Mandi		PK		31.865	73.509	1
+P	Amangarh		PK		34.006	71.930	1
+P	Patti		IN		31.281	74.858	2
+P	Naushahra Virkan		PK		31.963	73.971	1
+P	Choa Saidan Shah		PK		32.720	72.986	1
+P	Ladhewala Waraich		PK		32.157	74.116	1
+P	Jalālābād	jalalabad	IN		30.606	74.257	2
+P	Khalabat		PK		34.060	72.890	1
+P	Kamar Mushani		PK		32.843	71.362	1
+P	Tank		PK		32.217	70.383	1
+P	Tandlianwala		PK		31.034	73.133	1
+P	Chak Azam Sahu		PK		30.752	73.028	1
+P	Havelian		PK		34.053	73.160	1
+P	Zira		IN		30.969	74.991	2
+P	Jaito		IN		30.451	74.892	2
+P	Bandipura		IN		34.417	74.643	2
+P	Lakki		PK		32.607	70.912	1
+P	Hangu		PK		33.532	71.059	1
+P	Risalpur Cantonment		PK		34.060	71.993	1
+P	Tangi		PK		34.301	71.652	1
+P	Malakwal City		PK		32.555	73.212	1
+P	Khangah Dogran		PK		31.833	73.622	1
+P	Narang Mandi		PK		31.904	74.516	1
+P	Malakwal		PK		32.554	73.213	1
+P	Utmanzai		PK		34.188	71.763	1
+P	Zaida		PK		34.059	72.467	1
+P	Bāgh	bagh	PK		33.981	73.776	1
+P	Mamu Kanjan		PK		30.830	72.799	1
+P	Sharqpur Sharif		PK		31.461	74.101	1
+P	Bhera		PK		32.482	72.909	1
+P	Raiwind		PK		31.249	74.215	1
+P	Chak Five Hundred Seventy-five	chak five hundred seventy five	PK		31.545	73.829	1
+P	Nowshera Cantonment		PK		33.998	71.998	1
+P	Pind Dadan Khan		PK		32.587	73.045	1
+P	Akora Khattak		PK		34.003	72.126	1
+P	Kalur Kot		PK		32.155	71.266	1
+P	Rajaori		IN		33.375	74.309	2
+P	Garh Maharaja		PK		30.834	71.905	1
+P	Jahanian Shah		PK		31.805	72.277	1
+P	Manhala		PK		31.533	74.550	1
+P	Hajira		PK		33.774	73.894	1
+P	Mananwala		PK		31.588	73.689	1
+P	Jammu Cantonment		IN		32.704	74.861	2
+P	Ganderbal		IN		34.226	74.775	2
+P	Pūnch	punch	IN		33.770	74.093	2
+P	Talamba		PK		30.527	72.241	1
+P	Jhawarian		PK		32.362	72.623	1
+P	Mahna		IN		30.228	74.994	2
+P	Bhimber		PK		32.975	74.078	1
+P	Chawinda		PK		32.344	74.705	1
+P	Daud Khel		PK		32.875	71.571	1
+P	Mitha Tiwana		PK		32.245	72.106	1
+P	Hazro City		PK		33.910	72.492	1
+P	Karor		PK		31.225	70.952	1
+P	Murree		PK		33.908	73.390	1
+P	Ahmadpur Sial		PK		30.678	71.743	1
+P	Kulachi		PK		31.931	70.460	1
+P	Chak One Hundred Twenty Nine Left		PK		30.429	73.045	1
+P	Harappa		PK		30.633	72.870	1
+P	Pallandri		PK		33.715	73.684	1
+P	Zafarwal		PK		32.345	74.900	1
+P	Kahuta		PK		33.592	73.387	1
+P	Badāmibāgh	badamibagh	IN		34.074	74.853	2
+P	Kuri Dulal		PK		33.384	73.264	1
+P	Kopawor		IN		34.529	74.264	2
+P	Bhaun		PK		32.860	72.757	1
+P	Pāmpur	pampur	IN		34.015	74.919	2
+P	Chaksawari		PK		33.264	73.785	1
+P	Kotli Loharan		PK		32.589	74.495	1
+P	Oghi		PK		34.498	73.014	1
+P	Ajnāla	ajnala	IN		31.845	74.763	2
+P	Kot Ghulam Muhammad		PK		32.333	74.547	1
+P	Akhnūr	akhnur	IN		32.895	74.735	2
+P	Lawa		PK		32.697	71.933	1
+P	Bhikkiwind Uttār	bhikkiwind uttar	IN		31.349	74.703	2
+P	Nangli		IN		31.686	74.887	2
+P	Raipur Domana		IN		32.798	74.783	2
+P	Pulwama		IN		33.874	74.900	2
+P	Surkhpur		PK		32.718	74.448	1
+P	Sook Kalan		PK		32.597	74.147	1
+P	Dhaunkal		PK		32.406	74.137	1
+P	Sarai Naurang		PK		32.826	70.781	1
+P	Pattan		IN		34.161	74.556	2
+P	Baddomalhi		PK		31.990	74.664	1
+P	Dayal		PK		33.312	73.703	1
+P	Khai Gala		PK		33.846	73.827	1
+P	Lachi		PK		33.383	71.337	1
+P	Jand		PK		33.433	72.019	1
+P	Fatehgarh Chūriān	fatehgarh churian	IN		31.864	74.957	2
+P	Musa Banda/Musa khan kallay	musa banda musa khan kallay	PK		34.034	72.482	1
+P	Alipur		PK		33.649	73.178	1
+P	Baffa		PK		34.438	73.224	1
+P	Mehtar Lām	mehtar lam	AF		34.671	70.209	0
+P	Bhopalwala		PK		32.430	74.364	1
+P	Talwandi Bhai		IN		30.856	74.930	2
+P	Guru Har Sahāi	guru har sahai	IN		30.709	74.404	2
+P	Islamgarh		PK		33.190	73.838	1
+P	Kaleke Mandi		PK		31.976	73.600	1
+P	Shopian		IN		33.717	74.834	2
+P	Mangla		PK		31.893	72.382	1
+P	Mullānwāla	mullanwala	IN		31.062	74.823	2
+P	Sodhri		PK		32.462	74.182	1
+P	Kalabagh		PK		32.962	71.546	1
+P	Kallar Kahar		PK		32.780	72.698	1
+P	Harnoli		PK		32.279	71.554	1
+P	Sarai Sidhu		PK		30.595	71.970	1
+P	Gulgam		IN		34.550	74.217	2
+P	Brāhmanān di Bāri	brahmanan di bari	IN		32.644	74.911	2
+P	Badgām	badgam	IN		34.015	74.721	2
+P	Goniāna Mandi	goniana mandi	IN		30.317	74.913	2
+P	R.S. Pora	r s pora	IN		32.606	74.733	2
+P	Markaz-e Woluswalī-ye Āchīn	markaz e woluswali ye achin	AF		34.126	70.708	0
+P	Sumbal		IN		34.231	74.647	2

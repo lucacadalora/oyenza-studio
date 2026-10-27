@@ -1,0 +1,26 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Asia/Ulaanbaatar	480	
+Z	2	Europe/Moscow	180	
+Z	3	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BY	Belarus	mwl	s
+C	GH	Ghana	egyptian	s
+C	MN	Mongolia	mwl	s
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+C	UA	Ukraine	mwl	s
+C	YT	Mayotte	egyptian	s
+B	0
+P	Dzerzhinsk		RU		56.244	43.455	2
+P	Dzerzhinsky		RU		55.627	37.858	2
+P	Dzhankoy		UA		45.713	34.393	2
+P	Dzerzhinskiy		RU		55.629	37.844	2
+P	Czechowice-Dziedzice	czechowice dziedzice	PL		49.913	19.005	3
+P	Dzierżoniów	dzierzoniow	PL		50.728	16.651	3
+P	Ust’-Dzheguta	ust dzheguta	RU		44.083	41.976	2
+P	Dzodze		GH		6.237	0.996	0
+P	Dzyarzhynsk		BY		53.685	27.132	2
+P	Działdowo	dzialdowo	PL		53.240	20.170	3
+P	Dzüünharaa	dzuunharaa	MN		48.852	106.458	1
+P	Dzuunmod		MN		47.707	106.953	1
+P	Dzaoudzi		YT		-12.783	45.257	2

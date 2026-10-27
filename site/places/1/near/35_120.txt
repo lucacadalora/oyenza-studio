@@ -1,0 +1,43 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	3
+P	Qingdao		CN		36.065	120.380	0
+P	Dalian		CN		38.912	121.602	0
+P	Yantai		CN		37.476	121.441	0
+P	Weihai		CN		37.509	122.114	0
+P	Jiaozhou		CN		36.284	120.003	0
+P	Wafangdian		CN		39.618	122.008	0
+P	Laixi		CN		36.859	120.527	0
+P	Jinzhou		CN		39.100	121.717	0
+P	Laiyang		CN		36.976	120.714	0
+P	Nancun		CN		36.533	120.134	0
+P	Zhaoyuan		CN		37.365	120.410	0
+P	Tianfu		CN		37.264	122.052	0
+P	Pulandian		CN		39.395	121.967	0
+P	Jiudian		CN		36.992	120.204	0
+P	Dongcun		CN		36.777	121.160	0
+P	Yatou		CN		37.157	122.438	0
+P	Jiangshan		CN		36.678	120.529	0
+P	Dengzhou		CN		37.808	120.759	0
+P	Lüshun	lushun	CN		38.800	121.267	0
+P	Zhuanghe		CN		39.701	122.991	0
+P	Zhuangyuan		CN		37.306	120.827	0
+P	Yuanshang		CN		36.768	120.346	0
+P	Jimo		CN		36.390	120.462	0
+P	Ligezhuang		CN		36.358	120.143	0
+P	Qingyang		CN		37.496	121.258	0
+P	Renzhao		CN		36.639	120.204	0
+P	Longgang		CN		37.652	120.331	0
+P	Ninghai		CN		37.384	121.609	0
+P	Dalianwan		CN		39.029	121.695	0
+P	Dianbu		CN		36.702	120.351	0
+P	Yunshan		CN		36.824	120.226	0
+P	Guxian		CN		36.734	120.226	0
+P	Rizhuang		CN		36.951	120.383	0
+P	Malianzhuang		CN		37.075	120.463	0
+P	Nanshu		CN		37.020	120.337	0
+P	Hetoudian		CN		37.018	120.574	0
+P	Xiagezhuang		CN		36.693	120.435	0
+P	Dachang Shandao		CN		39.276	122.600	0
+P	Xiaochangshan		CN		39.236	122.724	0

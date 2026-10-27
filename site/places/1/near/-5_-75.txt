@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Lima	-300	
+C	BR	Brazil	mwl	s
+C	CO	Colombia	mwl	s
+C	PE	Peru	mwl	s
+B	0
+P	Iquitos		PE		-3.748	-73.253	0
+P	San Juan		PE		-3.776	-73.281	0
+P	Belen		PE		-3.760	-73.250	0
+P	Benjamin Constant		BR		-4.376	-70.032	0
+P	Puerto Leguízamo	puerto leguizamo	CO		-0.193	-74.782	0
+P	Atalaia do Norte		BR		-4.367	-70.192	0

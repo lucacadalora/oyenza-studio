@@ -1,0 +1,503 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Johannesburg	120	
+Z	4	Africa/Lagos	60	
+Z	5	America/Bogota	-300	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Cuiaba	-240	
+Z	8	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	9	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	10	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	11	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	12	America/Mazatlan	-420	
+Z	13	America/Mexico_City	-360	
+Z	14	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	15	America/Sao_Paulo	-180	
+Z	16	America/St_Johns	-210	29549130=-150 29891790=-210 30083370=-150 30426030=-210 30607530=-150 30950190=-210 31131690=-150 31474350=-210 31655850=-150 31998510=-210 32180010=-150 32522670=-210 32714250=-150 33056910=-210 33238410=-150 33581070=-210 33762570=-150 34105230=-210 34286730=-150 34629390=-210 34810890=-150 35153550=-210 35335050=-150 35677710=-210 35869290=-150 36211950=-210 36393450=-150 36736110=-210 36917610=-150 37260270=-210 37441770=-150 37784430=-210 37965930=-150 38308590=-210 38490090=-150 38832750=-210 39024330=-150 39366990=-210 39548490=-150 39891150=-210
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Bangkok	420	
+Z	19	Asia/Dhaka	360	
+Z	20	Asia/Kolkata	330	
+Z	21	Asia/Muscat	240	
+Z	22	Asia/Shanghai	480	
+Z	23	Asia/Tehran	210	
+Z	24	Asia/Tokyo	540	
+Z	25	Asia/Yekaterinburg	300	
+Z	26	Australia/Brisbane	600	
+Z	27	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	28	Europe/Dublin	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	29	Europe/Moscow	180	
+Z	30	Europe/Sofia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	31	Europe/Warsaw	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	32	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GE	Georgia	mwl	s
+C	GM	Gambia	egyptian	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	MA	Morocco	egyptian	s
+C	MD	Moldova	mwl	s
+C	MG	Madagascar	egyptian	s
+C	MX	Mexico	mwl	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	NZ	New Zealand	mwl	s
+C	OM	Oman	ummalqura	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SV	El Salvador	mwl	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	4
+P	Songjiang		CN		31.034	121.223	22
+P	Soweto		ZA		-26.268	27.858	3
+P	Sofia		BG		42.698	23.324	30
+P	Sokoto		NG		13.063	5.243	4
+P	Soshanguve		ZA		-25.473	28.099	3
+P	Sorocaba		BR		-23.502	-47.458	15
+P	Soacha		CO		4.579	-74.217	5
+P	New South Memphis		US	Tennessee	35.087	-90.057	6
+P	South Boston		US	Massachusetts	42.333	-71.049	14
+P	Rajpur Sonarpur		IN		22.438	88.432	20
+P	Soledad		CO		10.918	-74.765	5
+P	Soledad de Graciano Sánchez	soledad de graciano sanchez	MX		22.189	-100.938	13
+P	Soyapango		SV		13.710	-89.140	13
+P	Sochi		RU		43.597	39.725	29
+P	Nghi Sơn	nghi son	VN		19.327	105.821	18
+P	Solwezi		ZM		-12.169	26.389	3
+P	South Dublin		IE		53.290	-6.342	28
+P	Southend-on-Sea	southend on sea	GB	England	51.538	0.714	28
+P	Sonīpat	sonipat	IN		28.995	77.019	20
+P	Songea		TZ		-10.683	35.650	29
+P	Southampton		GB	England	50.904	-1.404	28
+P	Sohag		EG		26.557	31.695	1
+P	Pachuca de Soto		MX		20.117	-98.733	13
+P	Sōka	soka	JP		35.836	139.800	24
+P	Sơn Tây	son tay	VN		21.141	105.507	18
+P	Sosnowiec		PL		50.287	19.104	31
+P	Somerset West		ZA		-34.084	18.821	3
+P	Sousse		TN		35.825	10.637	4
+P	Soyo		AO		-6.135	12.369	4
+P	Sóc Trăng	soc trang	VN		9.600	105.972	18
+P	Sodo		ET		6.860	37.762	29
+P	Sobral		BR		-3.686	-40.350	15
+P	Lạng Sơn	lang son	VN		21.853	106.761	18
+P	Nossa Senhora do Socorro		BR		-10.855	-37.126	15
+P	Sorsogon		PH		12.974	123.993	22
+P	Songcheng		CN		26.882	120.001	22
+P	Solingen		DE		51.173	7.085	31
+P	Souk Ahras		DZ		36.286	7.951	4
+P	Songnim-ni	songnim ni	KP		38.763	125.641	24
+P	Sollentuna		SE		59.428	17.951	31
+P	Soubré	soubre	CI		5.784	-6.594	0
+P	Sonārgaon	sonargaon	BD		23.650	90.617	19
+P	Sầm Sơn	sam son	VN		19.733	105.900	18
+P	Thành phố Sông Công	thanh pho song cong	VN		21.477	105.841	18
+P	Songnan		CN		31.350	121.482	22
+P	Södermalm	sodermalm	SE		59.313	18.076	31
+P	Solihull		GB	England	52.414	-1.781	28
+P	Ottawa South		CA	Ontario	45.392	-75.687	14
+P	Sorriso		BR		-12.545	-55.711	7
+P	Solntsevo		RU		55.637	37.381	29
+P	Sokodé	sokode	TG		8.983	1.133	0
+P	Somaroboro		ZA		-25.346	28.834	3
+P	Songyuan		CN		45.129	124.828	22
+P	Sogamoso		CO		5.714	-72.934	5
+P	Sohar		OM		24.347	56.709	21
+P	South Fulton		US	Georgia	33.593	-84.673	14
+P	Sơn La	son la	VN		21.326	103.919	18
+P	Soyībug	soyibug	IN		34.077	74.706	20
+P	Palma Soriano		CU		20.211	-75.994	10
+P	Pôr do Sol	por do sol	BR		-15.855	-48.124	15
+P	South Bend		US	Indiana	41.683	-86.250	14
+P	Solikamsk		RU		59.667	56.743	25
+P	Masjed Soleymān	masjed soleyman	IR		31.936	49.304	23
+P	Soma		TR		39.186	27.609	29
+P	Soligorsk		BY		52.790	27.536	29
+P	South Gate		US	California	33.955	-118.212	11
+P	Sông Cầu	song cau	VN		13.456	109.223	18
+P	Southport		GB	England	53.646	-3.010	28
+P	Soran		IQ		36.656	44.542	29
+P	Houmt Souk		TN		33.876	10.857	4
+P	Sơn Trà	son tra	VN		16.061	108.233	18
+P	Sóc Sơn	soc son	VN		21.258	105.849	18
+P	South Shields		GB	England	54.999	-1.432	28
+P	Chilla Soroda Bāngar	chilla soroda bangar	IN		28.596	77.302	20
+P	Sobradinho II		BR		-15.634	-47.835	15
+P	Sokcho		KR		38.207	128.592	24
+P	South Suffolk		US	Virginia	36.717	-76.590	14
+P	Aulnay-sous-Bois	aulnay sous bois	FR		48.938	2.494	31
+P	Somerville		US	Massachusetts	42.388	-71.100	14
+P	Songlou		CN		34.572	116.602	22
+P	Southall		GB	England	51.509	-0.371	28
+P	Songling		CN		31.193	120.718	22
+P	South Surrey		CA	British Columbia	49.050	-122.792	17
+P	South Ozone Park		US	New York	40.670	-73.819	14
+P	Souk El Arbaa		MA		34.685	-6.003	2
+P	Battaramulla South		LK		6.896	79.918	20
+P	South Lawndale		US	Illinois	41.844	-87.713	6
+P	Southfield		US	Michigan	42.473	-83.222	14
+P	Socopó	socopo	VE		8.231	-70.822	7
+P	Sobradinho		BR		-15.647	-47.793	15
+P	Solana		PH		17.653	121.691	22
+P	Sopur		IN		34.287	74.472	20
+P	Sougueur		DZ		35.186	1.496	4
+P	Södertälje	sodertalje	SE		59.196	17.625	31
+P	Sōja	soja	JP		34.675	133.751	24
+P	Sosnovyy Bor		RU		59.900	29.086	29
+P	Söke	soke	TR		37.748	27.406	29
+P	Songjianghe		CN		42.186	127.479	22
+P	South San Francisco		US	California	37.655	-122.408	11
+P	Sousa		BR		-6.759	-38.228	15
+P	Solna		SE		59.360	18.001	31
+P	South Jordan		US	Utah	40.562	-111.930	8
+P	Sosnovka		RU		60.017	30.350	29
+P	Từ Sơn	tu son	VN		21.100	105.967	18
+P	Souq Sebt Oulad Nemma		MA		32.297	-6.703	2
+P	Sokhumi		GE		43.007	40.989	29
+P	Fort Garry South		CA	Manitoba	49.792	-97.164	6
+P	Sodegaura		JP		35.414	140.021	24
+P	Sorgun		TR		39.810	35.186	29
+P	Songyang		CN		34.455	113.032	22
+P	Sopron		HU		47.685	16.590	31
+P	gorod Solnetchnogorsk		RU		56.186	36.976	29
+P	Songkhla		TH		7.199	100.595	18
+P	Soroti		UG		1.715	33.611	29
+P	Sonsonate		SV		13.717	-89.723	13
+P	Minami-Sōma	minami soma	JP		37.629	140.979	24
+P	Solnechnogorsk		RU		56.175	36.971	29
+P	South Vineland		US	New Jersey	39.446	-75.029	14
+P	South Whittier		US	California	33.950	-118.039	11
+P	Sokol’niki	sokolniki	RU		55.802	37.672	29
+P	Sokol		RU		55.800	37.517	29
+P	South Croydon		GB	England	51.362	-0.094	28
+P	Bỉm Sơn	bim son	VN		20.078	105.860	18
+P	Sotsmisto		UA		48.737	37.591	30
+P	Southaven		US	Mississippi	34.989	-90.013	6
+P	South Hill		US	Washington	47.141	-122.270	11
+P	Songlingcun		CN		40.294	118.271	22
+P	Ban Lak Song		TH		13.689	100.398	18
+P	Fontenay-sous-Bois	fontenay sous bois	FR		48.854	2.483	31
+P	South Shore		US	Illinois	41.762	-87.578	6
+P	Đố Sơn	do son	VN		20.714	106.789	18
+P	South Peabody		US	Massachusetts	42.510	-70.949	14
+P	Sorokyne		UA		48.293	39.733	30
+P	Soloma		GT		15.658	-91.430	13
+P	South Bel Air		US	Maryland	39.533	-76.337	14
+P	South Benfleet		GB	England	51.553	0.560	28
+P	Sombor		RS		45.774	19.112	31
+P	Sosnovaya Polyana		RU		59.835	30.147	29
+P	Sonaguera		HN		15.633	-86.333	13
+P	Soest		DE		51.576	8.106	31
+P	Colonia del Sol		MX		22.913	-109.927	12
+P	Bel Air South		US	Maryland	39.505	-76.320	14
+P	Nga Sơn	nga son	VN		20.007	105.970	18
+P	Şowme‘eh Sarā	sowmeeh sara	IR		37.301	49.315	23
+P	Sololá	solola	GT		14.771	-91.183	13
+P	Soccavo		IT		40.846	14.193	31
+P	Soliman		TN		36.696	10.492	4
+P	Soest		NL		52.173	5.292	31
+P	Mae Sot		TH		16.717	98.567	18
+P	Songhwa		KP		38.360	125.137	24
+P	Sonqor		IR		34.782	47.599	23
+P	Souq Larb’a al Gharb	souq larba al gharb	MA		34.687	-6.003	2
+P	Sour el Ghozlane		DZ		36.148	3.691	4
+P	Southington		US	Connecticut	41.596	-72.878	14
+P	Sovetsk		RU		55.084	21.879	3
+P	Sojat		IN		25.925	73.666	20
+P	Hammam Sousse		TN		35.861	10.603	4
+P	Soavinandriana		MG		-19.167	46.733	29
+P	Southglenn		US	Colorado	39.587	-104.953	8
+P	Sokol		RU		59.462	40.121	29
+P	Sorel-Tracy	sorel tracy	CA	Quebec	46.042	-73.114	14
+P	Rosny-sous-Bois	rosny sous bois	FR		48.870	2.499	31
+P	Socorro		BR		-22.591	-46.529	15
+P	Karachi University Employees Co-operative Housing Society	karachi university employees co operative housing society	PK		24.963	67.119	25
+P	South Valley		US	New Mexico	35.010	-106.678	8
+P	Souma		DZ		36.518	2.905	4
+P	Sonyachnyi		UA		48.723	37.598	30
+P	Nowa Sól	nowa sol	PL		51.803	15.717	31
+P	Solan		IN		30.909	77.109	20
+P	Had Soualem		MA		33.420	-7.852	2
+P	Soanierana Ivongo		MG		-16.917	49.583	29
+P	Soria		ES		41.764	-2.469	31
+P	Sochaczew		PL		52.229	20.238	31
+P	Songwŏn	songwon	KP		40.377	125.879	24
+P	Songwŏn-ŭp	songwon up	KP		40.373	126.308	24
+P	Socorro		BR		-23.685	-46.714	15
+P	Sonepur		IN		25.696	85.167	20
+P	South Jordan Heights		US	Utah	40.564	-111.949	8
+P	South Miami Heights		US	Florida	25.598	-80.381	14
+P	Sohna		IN		28.247	77.065	20
+P	Solano		PH		16.519	121.181	22
+P	Sokolohirsk		UA		48.628	38.524	30
+P	Sōsa	sosa	JP		35.715	140.553	24
+P	Samut Songkhram		TH		13.415	100.003	18
+P	Sopot		PL		54.442	18.560	31
+P	Sōma	soma	JP		37.793	140.929	24
+P	Soyāgaon	soyagaon	IN		20.552	74.507	20
+P	Somanda		TZ		-3.367	33.950	29
+P	Sonsón	sonson	CO		5.711	-75.311	5
+P	Soo		JP		31.646	130.991	24
+P	Somerton		US	Pennsylvania	40.123	-75.015	14
+P	Socorro		US	Texas	31.655	-106.303	8
+P	Thị Trấn Lam Sơn	thi tran lam son	VN		19.905	105.406	18
+P	Southport		AU	Queensland	-27.967	153.398	26
+P	Soro		IN		21.279	86.688	20
+P	Solomyanka		UA		50.428	30.452	30
+P	Somma Vesuviana		IT		40.873	14.439	31
+P	Centro Familiar la Soledad		MX		21.135	-101.750	13
+P	El Sombrero		VE		9.386	-67.058	7
+P	Sosnovoborsk		RU		56.122	93.338	18
+P	Songo		AO		-7.352	14.846	4
+P	Souk et Tnine Jorf el Mellah		MA		34.492	-5.508	2
+P	Songbai		CN		31.757	110.673	22
+P	Songo		MZ		-15.596	32.765	3
+P	Soissons		FR		49.382	3.324	31
+P	Narre Warren South		AU	Victoria	-38.044	145.292	27
+P	South Kingstown		US	Rhode Island	41.447	-71.525	14
+P	Sorochinsk		RU		52.429	53.150	25
+P	Sotteville-lès-Rouen	sotteville les rouen	FR		49.410	1.090	31
+P	Socorro		CO		6.468	-73.260	5
+P	Sombrio		BR		-29.114	-49.617	15
+P	Soledade		BR		-28.818	-52.510	15
+P	Southlake		US	Texas	32.941	-97.134	6
+P	Soledad		VE		8.162	-63.565	7
+P	Sovetskaya Gavan’	sovetskaya gavan	RU		48.972	140.289	26
+P	South Gate		US	Maryland	39.129	-76.626	14
+P	Sola		NO		58.889	5.653	31
+P	South Horizons		HK		22.244	114.148	22
+P	Sosnogorsk		RU		63.597	53.892	29
+P	Southgate		US	Michigan	42.214	-83.194	14
+P	South Horizons (Estate)	south horizons estate	HK		22.244	114.146	22
+P	Clichy-sous-Bois	clichy sous bois	FR		48.910	2.553	31
+P	Soron		IN		27.891	78.746	20
+P	Socorro Mission Number 1 Colonia		US	Texas	31.636	-106.291	8
+P	Sonāmukhi	sonamukhi	IN		23.305	87.413	20
+P	Thung Song		TH		8.165	99.680	18
+P	South Chicago		US	Illinois	41.740	-87.554	6
+P	South Riverdale		CA	Ontario	43.649	-79.336	14
+P	Sønderborg	sonderborg	DK		54.909	9.789	31
+P	Gabriel Leyva Solano		MX		25.662	-108.637	12
+P	Soroca		MD		48.157	28.285	30
+P	Sol’-Iletsk	sol iletsk	RU		51.162	54.992	25
+P	Sŏnbong	sonbong	KP		42.351	130.383	24
+P	Ouro Sogui		SN		15.606	-13.322	0
+P	Conception Bay South		CA	Newfoundland and Labrador	47.500	-52.998	16
+P	Songadh		IN		21.170	73.564	20
+P	Sooretama		BR		-19.197	-40.098	15
+P	South Pasadena		US	California	34.116	-118.150	11
+P	South Laurel		US	Maryland	39.070	-76.850	14
+P	Sofiivska Borschahivka		UA		50.409	30.359	30
+P	Sokoni		TZ		-6.433	39.550	29
+P	South Portland		US	Maine	43.641	-70.241	14
+P	Ilha Solteira		BR		-20.433	-51.343	15
+P	Sobradinho		BR		-9.472	-40.802	15
+P	South Yarra		AU	Victoria	-37.838	144.991	27
+P	Sohāgpur	sohagpur	IN		22.701	78.195	20
+P	Soledad		US	California	36.425	-121.326	11
+P	Souza Gare		CM		4.234	9.616	4
+P	South Morang		AU	Victoria	-37.650	145.100	27
+P	Soignies		BE		50.579	4.071	31
+P	South Granville		CA	British Columbia	49.260	-123.139	17
+P	South Salt Lake		US	Utah	40.719	-111.888	8
+P	Solenzo		BF		12.174	-4.085	0
+P	South Windsor		US	Connecticut	41.824	-72.621	14
+P	Sotouboua		TG		8.563	0.984	0
+P	Tarch’a Sodo	tarcha sodo	ET		7.151	37.172	29
+P	South Plainfield		US	New Jersey	40.579	-74.412	14
+P	Nova Soure		BR		-11.233	-38.483	15
+P	South Riding		US	Virginia	38.921	-77.504	14
+P	Soure		BR		-0.717	-48.523	15
+P	Songgang		CN		22.779	113.845	22
+P	Summerlin South		US	Nevada	36.117	-115.330	11
+P	Sōmēshvara	someshvara	IN		12.804	74.865	20
+P	Sonneberg		DE		50.359	11.175	31
+P	South Portland Gardens		US	Maine	43.639	-70.315	14
+P	Sora		IT		41.718	13.614	31
+P	Agincourt South-Malvern West	agincourt south malvern west	CA	Ontario	43.789	-79.266	14
+P	Sovetskiy		RU		61.361	63.584	25
+P	Songwa		TZ		-3.517	33.517	29
+P	Raul Soares		BR		-20.102	-42.453	15
+P	Sobue		JP		35.250	136.717	24
+P	Soygaon		IN		20.596	75.618	20
+P	South Old Bridge		US	New Jersey	40.408	-74.354	14
+P	Bad Soden am Taunus		DE		50.141	8.504	31
+P	Vero Beach South		US	Florida	27.616	-80.413	14
+P	Solon		US	Ohio	41.390	-81.441	14
+P	Trikarpūr South	trikarpur south	IN		12.116	75.185	20
+P	Southbank		AU	Victoria	-37.823	144.964	27
+P	Somerset East		ZA		-32.722	25.588	3
+P	South Ockendon		GB	England	51.508	0.283	28
+P	Near South Side		US	Illinois	41.857	-87.625	6
+P	Sofo-Birnin-Gwari	sofo birnin gwari	NG		11.015	6.780	4
+P	South Elgin		US	Illinois	41.994	-88.292	6
+P	South Bradenton		US	Florida	27.463	-82.582	14
+P	Lý Sơn	ly son	VN		15.372	109.119	18
+P	Someshwar		IN		13.491	75.066	20
+P	Somerset		US	New Jersey	40.498	-74.488	14
+P	Moloto South		ZA		-25.463	28.650	3
+P	South Holland		US	Illinois	41.601	-87.607	6
+P	Sokolov		CZ		50.181	12.640	31
+P	Soltau		DE		52.985	9.840	31
+P	South Parkdale		CA	Ontario	43.637	-79.439	14
+P	Sondershausen		DE		51.370	10.870	31
+P	South Euclid		US	Ohio	41.523	-81.518	14
+P	Ban Nong Wua So		TH		17.267	103.225	18
+P	South Lake Tahoe		US	California	38.933	-119.984	11
+P	Sombrerete		MX		23.631	-103.641	13
+P	Rimavská Sobota	rimavska sobota	SK		48.383	20.022	31
+P	Owen Sound		CA	Ontario	44.567	-80.943	14
+P	Sonthofen		DE		47.518	10.283	31
+P	Dunbar-Southlands	dunbar southlands	CA	British Columbia	49.242	-123.188	17
+P	South Milwaukee		US	Wisconsin	42.911	-87.861	6
+P	Hawthorn South		AU	Victoria	-37.833	145.037	27
+P	Soanindrariny		MG		-19.900	47.233	29
+P	Solin		HR		43.543	16.493	31
+P	Zaouiet Sousse		TN		35.786	10.627	4
+P	Koungneul Sossé	koungneul sosse	SN		13.967	-14.817	0
+P	South El Monte		US	California	34.052	-118.047	11
+P	Sömmerda	sommerda	DE		51.159	11.115	31
+P	Sonepur		IN		20.833	83.917	20
+P	Sortavala		RU		61.712	30.710	29
+P	Wantirna South		AU	Victoria	-37.883	145.217	27
+P	South San Jose Hills		US	California	34.013	-117.905	11
+P	Ile-des-Soeurs	ile des soeurs	CA	Quebec	45.460	-73.548	14
+P	Sobinka		RU		55.990	40.021	29
+P	Sokal		UA		50.475	24.281	30
+P	Somoto		NI		13.484	-86.582	13
+P	South Saint Paul		US	Minnesota	44.893	-93.035	6
+P	Sook Kalan		PK		32.597	74.147	25
+P	Socastee		US	South Carolina	33.684	-78.998	14
+P	Halifax South End		CA	Nova Scotia	44.629	-63.577	9
+P	Southbury		US	Connecticut	41.481	-73.213	14
+P	Sonāri	sonari	IN		27.025	95.016	20
+P	Rosignano Solvay-Castiglioncello	rosignano solvay castiglioncello	IT		43.389	10.436	31
+P	Les Pavillons-sous-Bois	les pavillons sous bois	FR		48.907	2.506	31
+P	Soho		GB	England	51.514	-0.135	28
+P	El Soberbio		AR		-27.297	-54.198	15
+P	Pakistan Employees Cooperative Housing Society		PK		24.874	67.064	25
+P	Sojītra	sojitra	IN		22.539	72.720	20
+P	Nam Som		TH		17.770	102.189	18
+P	Sobradinho		BR		-12.833	-39.100	15
+P	Sondrio		IT		46.169	9.871	31
+P	Sokółka	sokolka	PL		53.407	23.502	31
+P	Southbridge		US	Massachusetts	42.075	-72.033	14
+P	So Uk		HK		22.341	114.157	22
+P	Somandepalle		IN		14.008	77.608	20
+P	South Elmsall		GB	England	53.597	-1.280	28
+P	Frankston South		AU	Victoria	-38.166	145.136	27
+P	Solsumba		IN		20.157	72.789	20
+P	South Burlington		US	Vermont	44.467	-73.171	14
+P	Sompeta		IN		18.944	84.584	20
+P	So Uk Estate		HK		22.342	114.157	22
+P	Sorgues		FR		44.010	4.874	31
+P	Southsea		GB	England	50.784	-1.091	28
+P	Sokołów Podlaski	sokolow podlaski	PL		52.407	22.253	31
+P	Solonópole	solonopole	BR		-5.733	-39.008	15
+P	Somerset		US	Massachusetts	41.770	-71.129	14
+P	Souzas		BR		-22.879	-46.964	15
+P	Son Rapinya		ES		39.589	2.619	31
+P	Sovetsk		RU		57.589	48.955	29
+P	Maïné Soroa	maine soroa	NE		13.211	12.024	4
+P	Les Clayes-sous-Bois	les clayes sous bois	FR		48.822	1.987	31
+P	South Hadley		US	Massachusetts	42.258	-72.575	14
+P	South Houston		US	Texas	29.663	-95.235	6
+P	Soisy-sous-Montmorency	soisy sous montmorency	FR		48.988	2.302	31
+P	Solrød Strand	solrod strand	DK		55.533	12.222	31
+P	South Orange		US	New Jersey	40.749	-74.261	14
+P	Sonobe		JP		33.424	130.499	24
+P	Te Atatu South		NZ		-36.865	174.648	32
+P	Souto Soares		BR		-12.089	-41.638	15
+P	Kokōtamangalam South	kokotamangalam south	IN		9.679	76.359	20
+P	Solânea	solanea	BR		-6.755	-35.664	15
+P	Kaset Sombun		TH		16.281	101.954	18
+P	L'Isle-sur-la-Sorgue	lisle sur la sorgue	FR		43.920	5.051	31
+P	South Ogden		US	Utah	41.192	-111.971	8
+P	São João do Soter	sao joao do soter	BR		-5.114	-43.810	15
+P	South Ruislip		GB	England	51.555	-0.409	28
+P	Solothurn		CH		47.208	7.537	31
+P	Sonkach		IN		22.972	76.347	20
+P	South Norwood		GB	England	51.399	-0.075	28
+P	South River		US	New Jersey	40.446	-74.386	14
+P	Sodhri		PK		32.462	74.182	25
+P	Southchase		US	Florida	28.393	-81.383	14
+P	Sonpet		IN		19.026	76.474	20
+P	Soba		NG		10.981	8.057	4
+P	La Solana		ES		38.944	-3.238	31
+P	South Hayling		GB	England	50.788	-0.977	28
+P	Carrières-sous-Poissy	carrieres sous poissy	FR		48.950	2.041	31
+P	Sonzacate		SV		13.734	-89.715	13
+P	Somotillo		NI		13.044	-86.905	13
+P	Solhan		TR		38.965	41.054	29
+P	Sofrino		RU		56.150	37.933	29
+P	Soumagne		BE		50.614	5.747	31
+P	South Yuba City		US	California	39.117	-121.639	11
+P	Soma		GM		13.433	-15.533	0
+P	Lawrence Park South		CA	Ontario	43.717	-79.406	14
+P	Soalala		MG		-16.100	45.317	29
+P	Gorjī-ye Soflá	gorji ye sofla	IR		36.388	59.675	23
+P	Southwest Waterfront		US	District of Columbia	38.879	-77.018	14
+P	Solec Kujawski		PL		53.084	18.226	31
+P	Sorada		IN		19.761	84.430	20
+P	Sooke		CA	British Columbia	48.375	-123.728	17
+P	Rochedale South		AU	Queensland	-27.595	153.123	26
+P	Somerton		US	Arizona	32.596	-114.710	12

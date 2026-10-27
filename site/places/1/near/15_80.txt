@@ -1,0 +1,146 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	4
+P	Rasapūdipalem	rasapudipalem	IN		17.733	83.316	0
+P	Nowrangapur		IN		19.231	82.548	0
+P	Vijayawada		IN		16.507	80.647	0
+P	Visakhapatnam		IN		17.680	83.202	0
+P	Guntur		IN		16.300	80.457	0
+P	Kākināda	kakinada	IN		16.960	82.238	0
+P	Rajamahendravaram		IN		17.005	81.778	0
+P	Brahmapur		IN		19.312	84.793	0
+P	Gajuwaka		IN		17.700	83.217	0
+P	Vizianagaram		IN		18.117	83.411	0
+P	Eluru		IN		16.713	81.104	0
+P	Ongole		IN		15.504	80.045	0
+P	Khammam		IN		17.248	80.144	0
+P	Machilīpatnam	machilipatnam	IN		16.187	81.139	0
+P	Thenali		IN		16.243	80.640	0
+P	Bhimavaram		IN		16.541	81.523	0
+P	Srikakulam		IN		18.299	83.898	0
+P	Jagdalpur		IN		19.081	82.021	0
+P	Gudivāda	gudivada	IN		16.435	80.996	0
+P	Narasaraopet		IN		16.235	80.049	0
+P	Tadepalligudem		IN		16.815	81.527	0
+P	Mangalagiri		IN		16.431	80.568	0
+P	Amaravati		IN		16.514	80.516	0
+P	Chilakalūrupet	chilakalurupet	IN		16.090	80.167	0
+P	Chīrāla	chirala	IN		15.824	80.352	0
+P	Paralakhemundi		IN		18.776	84.095	0
+P	Anakapalle		IN		17.691	83.004	0
+P	Jeypore		IN		18.856	82.572	0
+P	Palakollu		IN		16.517	81.730	0
+P	Palwancha		IN		17.582	80.677	0
+P	Kottagūdem	kottagudem	IN		17.551	80.618	0
+P	Tanuku		IN		16.754	81.681	0
+P	Pāloncha	paloncha	IN		17.602	80.705	0
+P	Rāyagada	rayagada	IN		19.171	83.414	0
+P	Bāpatla	bapatla	IN		15.904	80.467	0
+P	Bhawānipatna	bhawanipatna	IN		19.907	83.167	0
+P	Attili		IN		16.700	81.600	0
+P	Palāsa	palasa	IN		18.773	84.410	0
+P	Tādepalle	tadepalle	IN		16.483	80.600	0
+P	Ponnur		IN		16.071	80.549	0
+P	Narasapur		IN		16.434	81.698	0
+P	Nūzvīd	nuzvid	IN		16.789	80.846	0
+P	Kāsībugga	kasibugga	IN		18.759	84.416	0
+P	Ponnūru	ponnuru	IN		16.065	80.552	0
+P	Sāmalkot	samalkot	IN		17.057	82.176	0
+P	Bobbili		IN		18.574	83.359	0
+P	Sattenapalle		IN		16.394	80.152	0
+P	Mandapeta		IN		16.863	81.929	0
+P	Yanam		IN		16.733	82.214	0
+P	Bhīmunipatnam	bhimunipatnam	IN		17.890	83.452	0
+P	Pithāpuram	pithapuram	IN		17.117	82.253	0
+P	Pārvatipuram	parvatipuram	IN		18.784	83.426	0
+P	Jaggaiahpet		IN		16.892	80.096	0
+P	Khanapuram Haveli		IN		17.262	80.168	0
+P	Tuni		IN		17.359	82.546	0
+P	Amalāpuram	amalapuram	IN		16.579	82.006	0
+P	Repalle		IN		16.018	80.830	0
+P	Sunabeda		IN		18.728	82.829	0
+P	Sālūr	salur	IN		18.517	83.205	0
+P	Bhadrāchalam	bhadrachalam	IN		17.668	80.889	0
+P	Peddāpuram	peddapuram	IN		17.077	82.138	0
+P	Kānūru	kanuru	IN		16.499	80.691	0
+P	Koraput		IN		18.812	82.710	0
+P	Dowleswaram		IN		16.948	81.780	0
+P	Nidadavole		IN		16.906	81.672	0
+P	Yellandu		IN		17.591	80.321	0
+P	Polavaram		IN		17.248	81.644	0
+P	Kanuru		IN		16.286	81.255	0
+P	Rāmachandrapuram	ramachandrapuram	IN		16.836	82.029	0
+P	Mahbūbābād	mahbubabad	IN		17.597	80.002	0
+P	Rāzām	razam	IN		18.449	83.660	0
+P	Jaggayyapeta		IN		16.894	80.098	0
+P	Akivīdu	akividu	IN		16.582	81.381	0
+P	Kovvūr	kovvur	IN		17.016	81.729	0
+P	Sathupalli		IN		17.250	80.869	0
+P	Amudālavalasa	amudalavalasa	IN		18.410	83.903	0
+P	Kondapalle		IN		16.620	80.542	0
+P	Vetapālem	vetapalem	IN		15.785	80.307	0
+P	Nandigāma	nandigama	IN		16.772	80.286	0
+P	Vuyyūru	vuyyuru	IN		16.363	80.844	0
+P	Ichchāpuram	ichchapuram	IN		19.114	84.687	0
+P	Yanamalakuduru		IN		16.485	80.667	0
+P	Narsīpatnam	narsipatnam	IN		17.667	82.612	0
+P	Manuguru		IN		17.930	80.827	0
+P	Sādpalli	sadpalli	IN		17.210	80.836	0
+P	Malakanagiri		IN		18.364	81.888	0
+P	Kondagaon		IN		19.591	81.664	0
+P	Pedana		IN		16.256	81.144	0
+P	Ibrāhīmpatnam	ibrahimpatnam	IN		16.583	80.514	0
+P	Pālkonda	palkonda	IN		18.604	83.756	0
+P	Chodavaram		IN		17.829	82.935	0
+P	Umarkot		IN		19.665	82.206	0
+P	Gunupur		IN		19.080	83.809	0
+P	Tekkali		IN		18.606	84.235	0
+P	Ramanayyapeta		IN		16.945	82.239	0
+P	Elamanchili		IN		17.549	82.857	0
+P	Payakaraopeta		IN		17.368	82.568	0
+P	Vepagunta		IN		17.778	83.216	0
+P	Narasannapeta		IN		18.414	84.045	0
+P	Chīpurupalle	chipurupalle	IN		18.311	83.568	0
+P	Avanigadda		IN		16.021	80.918	0
+P	Poranki		IN		16.478	80.708	0
+P	Rampachodavaram		IN		17.441	81.776	0
+P	Hinjilicut		IN		19.482	84.745	0
+P	Suryaraopeta		IN		17.000	82.223	0
+P	Penugonda		IN		16.654	81.746	0
+P	Katheru		IN		17.038	81.776	0
+P	Polasara		IN		19.694	84.814	0
+P	Madhira		IN		16.923	80.363	0
+P	Rāmavarappādu	ramavarappadu	IN		16.521	80.681	0
+P	Sarapāka	sarapaka	IN		17.691	80.870	0
+P	Nārāinpur	narainpur	IN		19.718	81.244	0
+P	Chhatrapur		IN		19.356	84.984	0
+P	Bacheli		IN		18.684	81.269	0
+P	Āsika	asika	IN		19.611	84.660	0
+P	Kaikalūr	kaikalur	IN		16.552	81.214	0
+P	Bhanjanagar		IN		19.927	84.582	0
+P	Nellimarla		IN		18.156	83.447	0
+P	Chunchupally		IN		17.523	80.604	0
+P	Jūnāgarh	junagarh	IN		19.860	82.934	0
+P	Gannavaram		IN		16.541	80.802	0
+P	Singarāyakonda	singarayakonda	IN		15.230	80.028	0
+P	Kirandul		IN		18.636	81.258	0
+P	Sriramnagar		IN		18.283	83.534	0
+P	Sompeta		IN		18.944	84.584	0
+P	Nadim Tiruvuru		IN		17.112	80.609	0
+P	Chandili		IN		19.247	83.406	0
+P	Bhattiprolu		IN		16.103	80.781	0
+P	Tādigadapa	tadigadapa	IN		16.471	80.697	0
+P	Kavisuryanagar		IN		19.581	84.760	0
+P	Phirangipuram		IN		16.291	80.262	0
+P	Hukumpeta		IN		16.989	81.802	0
+P	Challapalle		IN		16.118	80.931	0
+P	Gokavaram		IN		17.258	81.850	0
+P	Lochapada		IN		19.329	84.801	0
+P	Kotapārh	kotaparh	IN		19.143	82.325	0
+P	Bījāpur	bijapur	IN		18.794	80.816	0
+P	Purushottampur		IN		19.520	84.885	0
+P	Dornakal		IN		17.445	80.149	0
+P	Morampudi		IN		16.980	81.837	0
+P	Buguda		IN		19.808	84.791	0
+P	Sorada		IN		19.761	84.430	0

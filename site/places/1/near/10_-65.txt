@@ -1,0 +1,55 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Caracas	-240	
+C	GD	Grenada	mwl	s
+C	LC	Saint Lucia	mwl	s
+C	MQ	Martinique	mwl	s
+C	TT	Trinidad and Tobago	mwl	s
+C	VC	Saint Vincent and the Grenadines	mwl	s
+C	VE	Venezuela	mwl	s
+B	0
+P	Barcelona		VE		10.138	-64.688	0
+P	Cumaná	cumana	VE		10.464	-64.179	0
+P	Puerto La Cruz		VE		10.214	-64.633	0
+P	Porlamar		VE		10.958	-63.870	0
+P	Carúpano	carupano	VE		10.665	-63.254	0
+P	San Juan Bautista		VE		11.012	-63.944	0
+P	Fort-de-France	fort de france	MQ		14.604	-61.074	0
+P	Chaguanas		TT		10.517	-61.417	0
+P	Pampatar		VE		11.001	-63.793	0
+P	Mon Repos		TT		10.280	-61.446	0
+P	San Fernando		TT		10.280	-61.468	0
+P	Port of Spain		TT		10.667	-61.519	0
+P	Lecherías	lecherias	VE		10.192	-64.692	0
+P	Caripito		VE		10.111	-63.100	0
+P	Cariaco		VE		10.497	-63.553	0
+P	Le Lamentin		MQ		14.613	-61.000	0
+P	Güiria	guiria	VE		10.577	-62.298	0
+P	Rio Claro		TT		10.306	-61.176	0
+P	La Asunción	la asuncion	VE		11.033	-63.863	0
+P	Arima		TT		10.637	-61.282	0
+P	La Guardia		VE		10.997	-64.018	0
+P	Punta de Piedras		VE		10.901	-64.097	0
+P	Juan Griego		VE		11.082	-63.965	0
+P	Marabella		TT		10.306	-61.447	0
+P	Cumanacoa		VE		10.251	-63.919	0
+P	Diego Martin		TT		10.721	-61.566	0
+P	Gros Islet		LC		14.067	-60.950	0
+P	Kingstown		VC		13.155	-61.227	0
+P	Calliaqua		VC		13.129	-61.192	0
+P	Le Robert		MQ		14.678	-60.942	0
+P	Araya		VE		10.580	-64.255	0
+P	Laventille		TT		10.649	-61.499	0
+P	Casanay		VE		10.504	-63.417	0
+P	Sainte-Marie	sainte marie	MQ		14.784	-60.992	0
+P	Castries		LC		13.996	-61.006	0
+P	Le François	le francois	MQ		14.615	-60.903	0
+P	Santa Ana		VE		11.068	-63.923	0
+P	Point Fortin		TT		10.174	-61.684	0
+P	Tunapuna		TT		10.652	-61.389	0
+P	Ducos		MQ		14.575	-60.975	0
+P	Scarborough		TT		11.182	-60.735	0
+P	Saint-Joseph	saint joseph	MQ		14.671	-61.039	0
+P	Sangre Grande		TT		10.587	-61.130	0
+P	Paradise		TT		10.653	-61.363	0
+P	La Trinité	la trinite	MQ		14.738	-60.963	0
+P	Saint George's	saint georges	GD		12.053	-61.752	0

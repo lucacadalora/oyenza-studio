@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Chita	540	
+Z	1	Asia/Irkutsk	480	
+C	MN	Mongolia	mwl	s
+C	RU	Russia	mwl	s
+B	0
+P	Ulan-Ude	ulan ude	RU		51.826	107.600	1
+P	Gusinoozyorsk		RU		51.283	106.500	1
+P	Sühbaatar	suhbaatar	MN		50.231	106.208	1
+P	Petrovsk-Zabaykal’skiy	petrovsk zabaykalskiy	RU		51.276	108.847	0
+P	Kyakhta		RU		50.350	106.451	1

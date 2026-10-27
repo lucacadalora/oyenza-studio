@@ -1,0 +1,57 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Luanda	60	
+C	AO	Angola	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+B	1
+P	Luanda		AO		-8.837	13.234	0
+P	Mulenvos		AO		-8.867	13.334	0
+P	Viana		AO		-8.906	13.375	0
+P	Kikolo		AO		-8.781	13.334	0
+P	Maianga		AO		-8.847	13.237	0
+P	Camama		AO		-8.936	13.265	0
+P	Golfe		AO		-8.866	13.262	0
+P	Calumbo		AO		-9.147	13.419	0
+P	Hoji ya Henda		AO		-8.805	13.290	0
+P	Cabinda		AO		-5.562	12.195	0
+P	Talatona		AO		-8.918	13.186	0
+P	Nova Vida		AO		-8.906	13.222	0
+P	Kima Kieza		AO		-8.834	13.295	0
+P	Matadi		CD		-5.839	13.463	0
+P	Cazenga		AO		-8.838	13.284	0
+P	Samba		AO		-8.880	13.196	0
+P	Ramiros		AO		-9.063	13.046	0
+P	Boma		CD		-5.851	13.054	0
+P	Vila Flor		AO		-8.980	13.308	0
+P	Kilamba		AO		-8.849	13.275	0
+P	Soyo		AO		-6.135	12.369	0
+P	Zango		AO		-9.012	13.384	0
+P	Benfica		AO		-8.944	13.164	0
+P	Rangel		AO		-8.826	13.263	0
+P	Sambizanga		AO		-8.789	13.275	0
+P	N'dalatando	ndalatando	AO		-9.298	14.912	0
+P	Panguíla	panguila	AO		-8.693	13.449	0
+P	Mbanza Kongo		AO		-6.267	14.238	0
+P	Cacuaco		AO		-8.780	13.375	0
+P	Ingombota		AO		-8.818	13.229	0
+P	Mbanza-Ngungu	mbanza ngungu	CD		-5.258	14.858	0
+P	Moanda		CD		-5.928	12.371	0
+P	Kimpese		CD		-5.561	14.432	0
+P	Barra do Dande		AO		-8.472	13.370	0
+P	Gama		AO		-8.568	13.476	0
+P	Dondo		AO		-9.685	14.428	0
+P	Kenge		CD		-5.765	13.657	0
+P	Caxito		AO		-8.578	13.664	0
+P	Cuímba	cuimba	AO		-6.121	14.621	0
+P	Úcua	ucua	AO		-8.652	14.157	0
+P	Songo		AO		-7.352	14.846	0
+P	Bula Atumba		AO		-8.674	14.797	0
+P	N'zeto	nzeto	AO		-7.228	12.870	0
+P	Piri		AO		-8.534	14.436	0
+P	Muxaluando		AO		-8.123	14.288	0
+P	Canacassala		AO		-8.163	14.117	0
+P	Tombôco	tomboco	AO		-6.805	13.330	0
+P	Golungo Alto		AO		-9.133	14.767	0
+P	Gombe		AO		-8.124	14.291	0
+P	Mabubas		AO		-8.524	13.686	0
+P	Cage Mazumbo		AO		-8.300	14.345	0
+P	Pango Aluquém	pango aluquem	AO		-8.713	14.463	0

@@ -1,0 +1,106 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Copenhagen	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	DK	Denmark	mwl	s
+C	NO	Norway	mwl	s
+C	SE	Sweden	mwl	s
+B	2
+P	Copenhagen		DK		55.676	12.566	0
+P	Oslo		NO		59.913	10.746	0
+P	Gothenburg		SE		57.707	11.967	0
+P	Malmö	malmo	SE		55.606	13.001	0
+P	Århus	arhus	DK		56.157	10.211	0
+P	Odense		DK		55.396	10.388	0
+P	Jönköping	jonkoping	SE		57.781	14.156	0
+P	Drammen		NO		59.744	10.204	0
+P	Helsingborg		SE		56.047	12.694	0
+P	Frederiksberg		DK		55.679	12.535	0
+P	Lillestrøm	lillestrom	NO		59.956	11.049	0
+P	Lund		SE		55.706	13.193	0
+P	Fredrikstad		NO		59.218	10.930	0
+P	Borås	boras	SE		57.721	12.940	0
+P	Växjö	vaxjo	SE		56.878	14.809	0
+P	Halmstad		SE		56.674	12.857	0
+P	Sandefjord		NO		59.131	10.217	0
+P	Randers		DK		56.461	10.036	0
+P	Asker		NO		59.833	10.437	0
+P	Karlstad		SE		59.379	13.504	0
+P	Mölndal	molndal	SE		57.655	12.014	0
+P	Sarpsborg		NO		59.284	11.110	0
+P	Tønsberg	tonsberg	NO		59.268	10.408	0
+P	Hvidovre		DK		55.643	12.477	0
+P	Klinteby Frihed		DK		55.197	11.596	0
+P	Avedøre	avedore	DK		55.627	12.456	0
+P	Roskilde		DK		55.642	12.080	0
+P	Moss		NO		59.434	10.658	0
+P	Trollhättan	trollhattan	SE		58.284	12.289	0
+P	Hørsholm	horsholm	DK		55.881	12.501	0
+P	Greve		DK		55.583	12.300	0
+P	Valby		DK		55.666	12.514	0
+P	Næstved	naestved	DK		55.230	11.761	0
+P	Rødovre	rodovre	DK		55.681	12.454	0
+P	Charlottenlund		DK		55.752	12.575	0
+P	Ballerup		DK		55.732	12.363	0
+P	Kristianstad		SE		56.031	14.152	0
+P	Køge	koge	DK		55.458	12.182	0
+P	Vanløse	vanlose	DK		55.684	12.487	0
+P	Skövde	skovde	SE		58.391	13.845	0
+P	Hillerød	hillerod	DK		55.928	12.301	0
+P	Taastrup		DK		55.650	12.302	0
+P	Helsingør	helsingor	DK		56.036	12.614	0
+P	Uddevalla		SE		58.348	11.942	0
+P	Varberg		SE		57.106	12.251	0
+P	Landskrona		SE		55.871	12.830	0
+P	Slagelse		DK		55.403	11.355	0
+P	Viby		DK		56.123	10.151	0
+P	Albertslund		DK		55.657	12.364	0
+P	Holbæk	holbaek	DK		55.718	11.713	0
+P	Trelleborg		SE		55.375	13.157	0
+P	Majorna		SE		57.692	11.916	0
+P	Partille		SE		57.739	12.106	0
+P	Karlskoga		SE		59.327	14.524	0
+P	Svendborg		DK		55.060	10.607	0
+P	Horten		NO		59.417	10.483	0
+P	Lerum		SE		57.771	12.269	0
+P	Alingsås	alingsas	SE		57.930	12.533	0
+P	Indre By		DK		55.678	12.573	0
+P	Allerød	allerod	DK		55.870	12.357	0
+P	Kungälv	kungalv	SE		57.871	11.981	0
+P	Falkenberg		SE		56.906	12.491	0
+P	Ängelholm	angelholm	SE		56.243	12.862	0
+P	Glostrup		DK		55.667	12.404	0
+P	Vänersborg	vanersborg	SE		58.381	12.323	0
+P	Larvik		NO		59.053	10.035	0
+P	Björlanda	bjorlanda	SE		57.767	11.833	0
+P	Ringsted		DK		55.443	11.790	0
+P	Lidköping	lidkoping	SE		58.505	13.158	0
+P	Frederikshavn		DK		57.441	10.537	0
+P	Halden		NO		59.125	11.388	0
+P	Huskvarna		SE		57.786	14.302	0
+P	Birkerød	birkerod	DK		55.848	12.428	0
+P	Farum		DK		55.809	12.361	0
+P	Karlshamn		SE		56.171	14.862	0
+P	Brøndbyvester	brondbyvester	DK		55.645	12.410	0
+P	Stenløse	stenlose	DK		55.768	12.197	0
+P	Ishøj	ishoj	DK		55.615	12.352	0
+P	Hässleholm	hassleholm	SE		56.159	13.766	0
+P	Värnamo	varnamo	SE		57.186	14.040	0
+P	Ystad		SE		55.430	13.820	0
+P	Kungsbacka		SE		57.487	12.076	0
+P	Eslöv	eslov	SE		55.839	13.304	0
+P	Kristinehamn		SE		59.310	14.108	0
+P	Vordingborg		DK		55.008	11.911	0
+P	Nässjö	nassjo	SE		57.653	14.697	0
+P	Mölnlycke	molnlycke	SE		57.659	12.118	0
+P	Nyborg		DK		55.313	10.790	0
+P	Solrød Strand	solrod strand	DK		55.533	12.222	0
+P	Falköping	falkoping	SE		58.173	13.551	0
+P	Frederikssund		DK		55.840	12.069	0
+P	Lillerød	lillerod	DK		55.875	12.346	0
+P	Vallensbæk	vallensbaek	DK		55.622	12.385	0
+P	Kalundborg		DK		55.680	11.089	0
+P	Mariestad		SE		58.710	13.824	0
+P	Västra Frölunda	vastra frolunda	SE		57.647	11.929	0
+P	Ljungby		SE		56.833	13.941	0
+P	Tilst		DK		56.194	10.113	0
+P	Staffanstorp		SE		55.643	13.206	0
+P	Kinna		SE		57.507	12.695	0

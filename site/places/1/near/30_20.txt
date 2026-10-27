@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Tripoli	120	
+C	LY	Libya	egyptian	s
+B	0
+P	Benghazi		LY		32.115	20.069	0
+P	Tobruk		LY		32.090	23.954	0
+P	Ajdabiya		LY		30.755	20.226	0
+P	Al Bayḑā’	al bayda	LY		32.763	21.755	0
+P	Darnah		LY		32.767	22.637	0
+P	Al Marj		LY		32.493	20.829	0
+P	Al Abyār	al abyar	LY		32.190	20.597	0
+P	Shahhat		LY		32.804	21.866	0
+P	Al Qubbah		LY		32.757	22.241	0
+P	Az Zuwaytīnah	az zuwaytinah	LY		30.952	20.120	0
+P	Qaryat Sulūq	qaryat suluq	LY		31.668	20.252	0

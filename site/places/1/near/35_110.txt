@@ -1,0 +1,47 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Shanghai	480	
+C	CN	China	mwl	s
+B	8
+P	Taiyuan		CN		37.869	112.560	0
+P	Shijiazhuang		CN		38.041	114.479	0
+P	Lüliang	luliang	CN		37.519	111.144	0
+P	Handan		CN		36.610	114.488	0
+P	Jinzhong		CN		37.684	112.755	0
+P	Changzhi		CN		36.184	113.105	0
+P	Anyang		CN		36.096	114.383	0
+P	Xinxiang		CN		35.190	113.802	0
+P	Linfen		CN		36.089	111.519	0
+P	Jiaozuo		CN		35.239	113.239	0
+P	Xingtai		CN		37.062	114.493	0
+P	Yangquan		CN		37.858	113.563	0
+P	Changzhi		CN		35.209	111.739	0
+P	Yuncheng		CN		35.023	110.993	0
+P	Hebi		CN		35.732	114.286	0
+P	Luancheng		CN		37.885	114.646	0
+P	Xinzhou		CN		38.409	112.733	0
+P	Jincheng		CN		35.502	112.833	0
+P	Shuozhou		CN		39.316	112.422	0
+P	Jiyuan		CN		35.089	112.588	0
+P	Yuci		CN		37.680	112.732	0
+P	Zhengding		CN		38.145	114.566	0
+P	Dingzhou		CN		38.515	114.987	0
+P	Shahecheng		CN		36.938	114.506	0
+P	Linshui		CN		36.425	114.205	0
+P	Xinle		CN		38.349	114.685	0
+P	Hecun		CN		36.533	114.111	0
+P	Yuanping		CN		38.715	112.757	0
+P	Huaiyang		CN		37.761	114.517	0
+P	Jiexiu		CN		37.024	111.912	0
+P	Xinzhi		CN		36.499	111.705	0
+P	Pengcheng		CN		36.431	114.170	0
+P	Tianchang		CN		37.998	114.016	0
+P	Xixiang		CN		35.163	112.865	0
+P	Yigou		CN		35.811	114.317	0
+P	Hancheng		CN		35.460	110.429	0
+P	Daokou		CN		35.569	114.516	0
+P	Beisu		CN		38.155	114.807	0
+P	Gutao		CN		37.203	112.178	0
+P	Anxiang		CN		38.383	114.540	0
+P	Kuangshi		CN		38.072	114.046	0
+P	Yangjiaying		CN		39.481	111.693	0
+P	Siwei		CN		38.017	114.153	0

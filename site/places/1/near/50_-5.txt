@@ -1,0 +1,676 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	GB	United Kingdom	moonsighting	s
+C	IM	Isle of Man	mwl	s
+B	2
+P	London		GB	England	51.509	-0.126	0
+P	Birmingham		GB	England	52.481	-1.900	0
+P	Manchester		GB	England	53.481	-2.237	0
+P	Sheffield		GB	England	53.383	-1.466	0
+P	Leeds		GB	England	53.796	-1.548	0
+P	Liverpool		GB	England	53.411	-2.978	0
+P	Bristol		GB	England	51.455	-2.597	0
+P	Cardiff		GB	Wales	51.480	-3.180	0
+P	Leicester		GB	England	52.639	-1.132	0
+P	Bradford		GB	England	53.794	-1.752	0
+P	Coventry		GB	England	52.407	-1.512	0
+P	Brent		GB	England	51.553	-0.302	0
+P	Birkenhead		GB	England	53.393	-3.015	0
+P	Nottingham		GB	England	52.954	-1.150	0
+P	Islington		GB	England	51.536	-0.103	0
+P	Reading		GB	England	51.456	-0.971	0
+P	Kingston upon Hull		GB	England	53.745	-0.335	0
+P	Preston		GB	England	53.763	-2.705	0
+P	Swansea		GB	Wales	51.621	-3.943	0
+P	Newcastle upon Tyne		GB	England	54.973	-1.614	0
+P	Brighton		GB	England	50.828	-0.139	0
+P	Derby		GB	England	52.923	-1.477	0
+P	Southampton		GB	England	50.904	-1.404	0
+P	Wolverhampton		GB	England	52.585	-2.123	0
+P	Plymouth		GB	England	50.372	-4.143	0
+P	Stoke-on-Trent	stoke on trent	GB	England	53.004	-2.185	0
+P	Milton Keynes		GB	England	52.042	-0.756	0
+P	City of Westminster		GB	England	51.498	-0.136	0
+P	Northampton		GB	England	52.250	-0.883	0
+P	Oldham		GB	England	53.541	-2.118	0
+P	Luton		GB	England	51.880	-0.417	0
+P	Archway		GB	England	51.567	-0.134	0
+P	Portsmouth		GB	England	50.799	-1.091	0
+P	Swindon		GB	England	51.558	-1.781	0
+P	Dudley		GB	England	52.500	-2.083	0
+P	Sutton		GB	England	51.350	-0.200	0
+P	St Helens		GB	England	53.450	-2.733	0
+P	Wigan		GB	England	53.543	-2.637	0
+P	Croydon		GB	England	51.383	-0.100	0
+P	Warrington		GB	England	53.393	-2.580	0
+P	Walsall		GB	England	52.585	-1.984	0
+P	Mansfield		GB	England	53.133	-1.200	0
+P	Sunderland		GB	England	54.905	-1.382	0
+P	Slough		GB	England	51.509	-0.595	0
+P	Bournemouth		GB	England	50.720	-1.879	0
+P	Peterborough		GB	England	52.574	-0.248	0
+P	Oxford		GB	England	51.752	-1.256	0
+P	Newport		GB	Wales	51.588	-2.998	0
+P	Enfield Town		GB	England	51.651	-0.085	0
+P	York		GB	England	53.958	-1.083	0
+P	Telford		GB	England	52.677	-2.449	0
+P	Poole		GB	England	50.714	-1.985	0
+P	Burnley		GB	England	53.800	-2.233	0
+P	Harrow		GB	England	51.578	-0.332	0
+P	Huddersfield		GB	England	53.649	-1.784	0
+P	Blackburn		GB	England	53.750	-2.483	0
+P	Blackpool		GB	England	53.817	-3.050	0
+P	Middlesbrough		GB	England	54.576	-1.235	0
+P	Bolton		GB	England	53.583	-2.433	0
+P	Stockport		GB	England	53.410	-2.158	0
+P	High Wycombe		GB	England	51.629	-0.749	0
+P	Gloucester		GB	England	51.866	-2.243	0
+P	Exeter		GB	England	50.724	-3.528	0
+P	Tottenham		GB	England	51.604	-0.068	0
+P	Salford		GB	England	53.488	-2.290	0
+P	Newcastle under Lyme		GB	England	53.000	-2.233	0
+P	Solihull		GB	England	52.414	-1.781	0
+P	Watford		GB	England	51.655	-0.396	0
+P	Crawley		GB	England	51.113	-0.183	0
+P	Burton upon Trent		GB	England	52.807	-1.643	0
+P	Cheltenham		GB	England	51.900	-2.080	0
+P	Rotherham		GB	England	53.430	-1.357	0
+P	Worthing		GB	England	50.818	-0.375	0
+P	Doncaster		GB	England	53.523	-1.131	0
+P	Chesterfield		GB	England	53.250	-1.417	0
+P	Mendip		GB	England	51.237	-2.627	0
+P	Sutton Coldfield		GB	England	52.567	-1.817	0
+P	Wakefield		GB	England	53.683	-1.498	0
+P	Walthamstow		GB	England	51.591	-0.021	0
+P	Basingstoke		GB	England	51.262	-1.087	0
+P	Bedford		GB	England	52.135	-0.466	0
+P	Woking		GB	England	51.319	-0.559	0
+P	Lincoln		GB	England	53.227	-0.538	0
+P	West Bromwich		GB	England	52.519	-1.994	0
+P	Worcester		GB	England	52.189	-2.220	0
+P	Bath		GB	England	51.375	-2.362	0
+P	Rochdale		GB	England	53.618	-2.155	0
+P	Hemel Hempstead		GB	England	51.754	-0.450	0
+P	Hayes		GB	England	51.516	-0.423	0
+P	High Peak		GB	England	53.368	-1.845	0
+P	Darlington		GB	England	54.524	-1.550	0
+P	Stevenage		GB	England	51.902	-0.203	0
+P	Southport		GB	England	53.646	-3.010	0
+P	Chester		GB	England	53.191	-2.892	0
+P	Wembley		GB	England	51.552	-0.297	0
+P	Harrogate		GB	England	53.991	-1.537	0
+P	Hartlepool		GB	England	54.686	-1.210	0
+P	Nuneaton		GB	England	52.523	-1.465	0
+P	Redditch		GB	England	52.306	-1.946	0
+P	Fulham		GB	England	51.480	-0.199	0
+P	Grimsby		GB	England	53.565	-0.076	0
+P	Cannock		GB	England	52.690	-2.031	0
+P	St Albans		GB	England	51.750	-0.333	0
+P	South Shields		GB	England	54.999	-1.432	0
+P	Weston-super-Mare	weston super mare	GB	England	51.346	-2.977	0
+P	Halifax		GB	England	53.717	-1.850	0
+P	Edmonton		GB	England	51.626	-0.058	0
+P	Tamworth		GB	England	52.634	-1.696	0
+P	Gosport		GB	England	50.795	-1.129	0
+P	Scunthorpe		GB	England	53.579	-0.654	0
+P	Stockton-on-Tees	stockton on tees	GB	England	54.568	-1.319	0
+P	Carlisle		GB	England	54.895	-2.938	0
+P	Southall		GB	England	51.509	-0.371	0
+P	Rugby		GB	England	52.371	-1.264	0
+P	Gateshead		GB	England	54.962	-1.602	0
+P	Putney		GB	England	51.461	-0.218	0
+P	Shrewsbury		GB	England	52.710	-2.752	0
+P	Fylde		GB	England	53.833	-2.917	0
+P	Crewe		GB	England	53.098	-2.442	0
+P	Bracknell		GB	England	51.414	-0.751	0
+P	Battersea		GB	England	51.475	-0.155	0
+P	Hove		GB	England	50.831	-0.167	0
+P	Aylesbury		GB	England	51.817	-0.815	0
+P	Canary Wharf		GB	England	51.505	-0.021	0
+P	Purley		GB	England	51.337	-0.112	0
+P	Guildford		GB	England	51.235	-0.574	0
+P	Peckham		GB	England	51.474	-0.070	0
+P	Barnsley		GB	England	53.550	-1.483	0
+P	Maidenhead		GB	England	51.523	-0.720	0
+P	Stafford		GB	England	52.805	-2.116	0
+P	Uxbridge		GB	England	51.549	-0.482	0
+P	Rhondda		GB	Wales	51.659	-3.449	0
+P	Wimbledon		GB	England	51.422	-0.208	0
+P	Corby		GB	England	52.496	-0.689	0
+P	Stamford Hill		GB	England	51.569	-0.073	0
+P	Paignton		GB	England	50.436	-3.568	0
+P	Rossendale		GB	England	53.685	-2.277	0
+P	Washington		GB	England	54.900	-1.517	0
+P	Brixton		GB	England	51.466	-0.107	0
+P	Hounslow		GB	England	51.468	-0.361	0
+P	Finchley		GB	England	51.601	-0.195	0
+P	Wrexham		GB	Wales	53.047	-2.991	0
+P	Ellesmere Port Town		GB	England	53.279	-2.901	0
+P	Torquay		GB	England	50.462	-3.525	0
+P	Cricklewood		GB	England	51.557	-0.215	0
+P	Loughborough		GB	England	52.767	-1.200	0
+P	Taunton		GB	England	51.015	-3.103	0
+P	Waterlooville		GB	England	50.881	-1.030	0
+P	Bognor Regis		GB	England	50.782	-0.680	0
+P	Buckley		GB	Wales	53.167	-3.083	0
+P	Mitcham		GB	England	51.403	-0.168	0
+P	Feltham		GB	England	51.446	-0.414	0
+P	Sale		GB	England	53.425	-2.324	0
+P	Tonypandy		GB	Wales	51.622	-3.455	0
+P	Acton		GB	England	51.509	-0.276	0
+P	Scarborough		GB	England	54.280	-0.404	0
+P	Widnes		GB	England	53.362	-2.734	0
+P	Runcorn		GB	England	53.342	-2.731	0
+P	Bury		GB	England	53.600	-2.300	0
+P	Dewsbury		GB	England	53.691	-1.629	0
+P	Beckenham		GB	England	51.409	-0.025	0
+P	Farnborough		GB	England	51.294	-0.756	0
+P	Hereford		GB	England	52.057	-2.715	0
+P	Stroud		GB	England	51.750	-2.200	0
+P	Halesowen		GB	England	52.449	-2.049	0
+P	Chelsea		GB	England	51.488	-0.169	0
+P	Wallasey		GB	England	53.423	-3.065	0
+P	Littlehampton		GB	England	50.811	-0.541	0
+P	Streatham		GB	England	51.429	-0.132	0
+P	Bootle		GB	England	53.467	-3.017	0
+P	Bebington		GB	England	53.350	-3.017	0
+P	Kidderminster		GB	England	52.388	-2.250	0
+P	Morley		GB	England	53.740	-1.599	0
+P	Stourbridge		GB	England	52.456	-2.143	0
+P	Kettering		GB	England	52.398	-0.726	0
+P	Wellingborough		GB	England	52.303	-0.694	0
+P	Barrow in Furness		GB	England	54.111	-3.228	0
+P	South Croydon		GB	England	51.362	-0.094	0
+P	Huyton		GB	England	53.411	-2.839	0
+P	Barry		GB	Wales	51.400	-3.284	0
+P	Macclesfield		GB	England	53.260	-2.126	0
+P	Eastleigh		GB	England	50.967	-1.350	0
+P	Smethwick		GB	England	52.493	-1.967	0
+P	Weymouth		GB	England	50.614	-2.460	0
+P	Esher		GB	England	51.370	-0.367	0
+P	Dunstable		GB	England	51.886	-0.523	0
+P	Morecambe		GB	England	54.068	-2.861	0
+P	Redhill		GB	England	51.240	-0.170	0
+P	Welwyn Garden City		GB	England	51.802	-0.207	0
+P	Horsham		GB	England	51.063	-0.328	0
+P	Staines		GB	England	51.431	-0.506	0
+P	Royal Leamington Spa		GB	England	52.285	-1.520	0
+P	Hinckley		GB	England	52.539	-1.376	0
+P	Bletchley		GB	England	51.993	-0.735	0
+P	Yeovil		GB	England	50.942	-2.632	0
+P	Keighley		GB	England	53.868	-1.907	0
+P	Altrincham		GB	England	53.388	-2.348	0
+P	Bridgend		GB	Wales	51.506	-3.577	0
+P	Llanelli		GB	Wales	51.682	-4.162	0
+P	Willenhall		GB	England	52.585	-2.059	0
+P	Banbury		GB	England	52.063	-1.342	0
+P	Cwmbran		GB	Wales	51.654	-3.023	0
+P	Morden		GB	England	51.398	-0.198	0
+P	Long Eaton		GB	England	52.899	-1.271	0
+P	Durham		GB	England	54.777	-1.576	0
+P	Northwich		GB	England	53.259	-2.520	0
+P	Lancaster		GB	England	54.046	-2.800	0
+P	Tipton		GB	England	52.530	-2.068	0
+P	Banstead		GB	England	51.322	-0.207	0
+P	Neath		GB	Wales	51.663	-3.804	0
+P	Winchester		GB	England	51.065	-1.319	0
+P	Middleton		GB	England	53.550	-2.200	0
+P	Havant		GB	England	50.857	-0.986	0
+P	Kirkby		GB	England	53.481	-2.892	0
+P	Carshalton		GB	England	51.368	-0.168	0
+P	Boston		GB	England	52.976	-0.027	0
+P	Castleford		GB	England	53.726	-1.363	0
+P	Catford		GB	England	51.445	-0.020	0
+P	Salisbury		GB	England	51.069	-1.796	0
+P	Worksop		GB	England	53.302	-1.124	0
+P	Pontefract		GB	England	53.691	-1.313	0
+P	Grantham		GB	England	52.911	-0.642	0
+P	Willesden		GB	England	51.533	-0.233	0
+P	Merthyr Tydfil		GB	Wales	51.748	-3.378	0
+P	Great Sankey		GB	England	53.392	-2.640	0
+P	Cheshunt		GB	England	51.700	-0.030	0
+P	Ashton-under-Lyne	ashton under lyne	GB	England	53.489	-2.099	0
+P	Leigh		GB	England	53.496	-2.520	0
+P	Leatherhead		GB	England	51.297	-0.334	0
+P	Newark on Trent		GB	England	53.067	-0.817	0
+P	Wallsend		GB	England	54.991	-1.534	0
+P	Leighton Buzzard		GB	England	51.917	-0.658	0
+P	Lytham St Annes		GB	England	53.743	-2.997	0
+P	Andover		GB	England	51.211	-1.494	0
+P	Fareham		GB	England	50.852	-1.179	0
+P	Stretford		GB	England	53.450	-2.317	0
+P	Urmston		GB	England	53.449	-2.354	0
+P	Coity		GB	Wales	51.522	-3.555	0
+P	Newburn		GB	England	54.988	-1.744	0
+P	Holloway		GB	England	51.552	-0.125	0
+P	Bridgwater		GB	England	51.128	-3.004	0
+P	Hatfield		GB	England	51.763	-0.224	0
+P	Wokingham		GB	England	51.411	-0.836	0
+P	Ilkeston		GB	England	52.971	-1.310	0
+P	Trowbridge		GB	England	51.319	-2.209	0
+P	Prescot		GB	England	53.429	-2.800	0
+P	Kingswood		GB	England	51.453	-2.508	0
+P	Aldershot		GB	England	51.248	-0.764	0
+P	Bloxwich		GB	England	52.618	-2.004	0
+P	Ewell		GB	England	51.349	-0.249	0
+P	Shepherds Bush		GB	England	51.505	-0.221	0
+P	Batley		GB	England	53.703	-1.634	0
+P	Cleethorpes		GB	England	53.560	-0.032	0
+P	Skelmersdale		GB	England	53.550	-2.773	0
+P	Fleet		GB	England	51.283	-0.833	0
+P	Abingdon		GB	England	51.671	-1.283	0
+P	Surbiton		GB	England	51.391	-0.298	0
+P	Greenford		GB	England	51.529	-0.355	0
+P	Arnold		GB	England	53.000	-1.133	0
+P	Coalville		GB	England	52.722	-1.370	0
+P	Leyland		GB	England	53.698	-2.688	0
+P	Chadderton		GB	England	53.545	-2.140	0
+P	Rushden		GB	England	52.289	-0.602	0
+P	Yeadon		GB	England	53.864	-1.687	0
+P	Eccles		GB	England	53.483	-2.333	0
+P	Warwick		GB	England	52.283	-1.583	0
+P	Wigston Magna		GB	England	52.581	-1.092	0
+P	Redcar		GB	England	54.617	-1.060	0
+P	Heston		GB	England	51.484	-0.376	0
+P	Farnham		GB	England	51.214	-0.801	0
+P	Chester-le-Street	chester le street	GB	England	54.859	-1.574	0
+P	Great Malvern		GB	England	52.112	-2.325	0
+P	Houghton-Le-Spring	houghton le spring	GB	England	54.840	-1.464	0
+P	West Bridgford		GB	England	52.930	-1.125	0
+P	Newton Abbot		GB	England	50.529	-3.612	0
+P	Mangotsfield		GB	England	51.488	-2.504	0
+P	Sutton in Ashfield		GB	England	53.125	-1.261	0
+P	Borehamwood		GB	England	51.655	-0.278	0
+P	Exmouth		GB	England	50.617	-3.402	0
+P	Tyldesley		GB	England	53.514	-2.468	0
+P	Hyde		GB	England	53.451	-2.079	0
+P	Chippenham		GB	England	51.460	-2.125	0
+P	Billingham		GB	England	54.589	-1.290	0
+P	Pontypool		GB	Wales	51.701	-3.044	0
+P	Walkden		GB	England	53.517	-2.400	0
+P	Hitchin		GB	England	51.949	-0.285	0
+P	Briton Ferry		GB	Wales	51.631	-3.819	0
+P	Hoddesdon		GB	England	51.761	-0.011	0
+P	Bridlington		GB	England	54.083	-0.192	0
+P	Accrington		GB	England	53.754	-2.359	0
+P	Bentley		GB	England	53.533	-1.150	0
+P	Bromsgrove		GB	England	52.336	-2.060	0
+P	Lichfield		GB	England	52.682	-1.825	0
+P	Swadlincote		GB	England	52.774	-1.557	0
+P	Felling		GB	England	54.953	-1.572	0
+P	Chiswick		GB	England	51.493	-0.258	0
+P	Totton		GB	England	50.919	-1.490	0
+P	Letchworth Garden City		GB	England	51.979	-0.227	0
+P	Chorley		GB	England	53.650	-2.617	0
+P	Bicester		GB	England	51.900	-1.154	0
+P	Haywards Heath		GB	England	50.998	-0.103	0
+P	Wednesfield		GB	England	52.596	-2.085	0
+P	Loughton		GB	England	52.433	-2.567	0
+P	Ebbw Vale		GB	Wales	51.777	-3.208	0
+P	Newbury		GB	England	51.401	-1.325	0
+P	North Watford		GB	England	51.681	-0.394	0
+P	Washwood Heath		GB	England	52.501	-1.827	0
+P	Brighouse		GB	England	53.703	-1.784	0
+P	Darwen		GB	England	53.698	-2.465	0
+P	Aston		GB	England	52.500	-1.883	0
+P	Lower Earley		GB	England	51.427	-0.920	0
+P	Shirley		GB	England	52.411	-1.820	0
+P	Deeside		GB	Wales	53.201	-3.038	0
+P	Chichester		GB	England	50.837	-0.780	0
+P	Barnstaple		GB	England	51.080	-4.058	0
+P	Windsor		GB	England	51.483	-0.600	0
+P	Prestwich		GB	England	53.533	-2.283	0
+P	Epsom		GB	England	51.331	-0.270	0
+P	Christchurch		GB	England	50.736	-1.781	0
+P	Stanley		GB	England	54.868	-1.698	0
+P	Pontypridd		GB	Wales	51.602	-3.342	0
+P	Thornton-Cleveleys	thornton cleveleys	GB	England	53.874	-3.022	0
+P	Aberdare		GB	Wales	51.714	-3.449	0
+P	Bedworth		GB	England	52.479	-1.469	0
+P	Caerphilly		GB	Wales	51.575	-3.218	0
+P	Ruislip		GB	England	51.573	-0.423	0
+P	Saint Neots		GB	England	52.217	-0.267	0
+P	Harpenden		GB	England	51.817	-0.357	0
+P	Burgess Hill		GB	England	50.958	-0.133	0
+P	Beverley		GB	England	53.846	-0.423	0
+P	Greenwich		GB	England	51.478	-0.012	0
+P	Spalding		GB	England	52.787	-0.151	0
+P	Stratford-upon-Avon	stratford upon avon	GB	England	52.192	-1.707	0
+P	Winsford		GB	England	53.191	-2.524	0
+P	Camberley		GB	England	51.337	-0.743	0
+P	Barnet		GB	England	51.650	-0.200	0
+P	Radcliffe		GB	England	53.562	-2.325	0
+P	Hucknall		GB	England	53.033	-1.200	0
+P	Egham		GB	England	51.432	-0.552	0
+P	Kidsgrove		GB	England	53.087	-2.238	0
+P	Jarrow		GB	England	54.980	-1.484	0
+P	Didcot		GB	England	51.609	-1.242	0
+P	Nelson		GB	England	53.833	-2.200	0
+P	Colwyn Bay		GB	Wales	53.295	-3.727	0
+P	Burntwood		GB	England	52.681	-1.928	0
+P	Kendal		GB	England	54.327	-2.748	0
+P	Consett		GB	England	54.854	-1.832	0
+P	Witney		GB	England	51.784	-1.485	0
+P	Heswall		GB	England	53.327	-3.096	0
+P	Kilburn		GB	England	51.553	-0.192	0
+P	Cheadle Hulme		GB	England	53.376	-2.190	0
+P	Bideford		GB	England	51.017	-4.208	0
+P	Shipley		GB	England	53.833	-1.767	0
+P	Wood Green		GB	England	51.600	-0.117	0
+P	Bushey		GB	England	51.643	-0.361	0
+P	Daventry		GB	England	52.257	-1.161	0
+P	Heywood		GB	England	53.592	-2.219	0
+P	Brierley Hill		GB	England	52.482	-2.121	0
+P	Muswell Hill		GB	England	51.591	-0.142	0
+P	Sunbury-on-Thames	sunbury on thames	GB	England	51.404	-0.418	0
+P	Melton Mowbray		GB	England	52.766	-0.887	0
+P	Bow		GB	England	51.526	-0.017	0
+P	Evesham		GB	England	52.092	-1.949	0
+P	Kirkby in Ashfield		GB	England	53.100	-1.244	0
+P	Burngreave		GB	England	53.393	-1.458	0
+P	Denton		GB	England	53.457	-2.118	0
+P	Cleckheaton		GB	England	53.724	-1.713	0
+P	Ashford		GB	England	51.432	-0.458	0
+P	Longton		GB	England	52.983	-2.133	0
+P	Maghull		GB	England	53.516	-2.941	0
+P	Aldridge		GB	England	52.605	-1.917	0
+P	Stalybridge		GB	England	53.484	-2.059	0
+P	Highbury		GB	England	51.550	-0.100	0
+P	Acocks Green		GB	England	52.450	-1.817	0
+P	East Grinstead		GB	England	51.124	-0.006	0
+P	Flint		GB	Wales	53.245	-3.132	0
+P	Newton Aycliffe		GB	England	54.618	-1.572	0
+P	Ashton in Makerfield		GB	England	53.483	-2.650	0
+P	Portishead		GB	England	51.482	-2.770	0
+P	Westhoughton		GB	England	53.549	-2.525	0
+P	Fleetwood		GB	England	53.925	-3.011	0
+P	Douglas		IM		54.150	-4.483	0
+P	Frome		GB	England	51.228	-2.322	0
+P	Congleton		GB	England	53.163	-2.213	0
+P	Rugeley		GB	England	52.759	-1.937	0
+P	Camden Town		GB	England	51.541	-0.143	0
+P	Bishop Auckland		GB	England	54.656	-1.677	0
+P	Northolt		GB	England	51.549	-0.368	0
+P	Rhyl		GB	Wales	53.319	-3.492	0
+P	Hertford		GB	England	51.796	-0.079	0
+P	Wilmslow		GB	England	53.328	-2.231	0
+P	Staveley		GB	England	53.267	-1.350	0
+P	Farnworth		GB	England	53.550	-2.400	0
+P	New Milton		GB	England	50.756	-1.666	0
+P	Coulsdon		GB	England	51.320	-0.141	0
+P	Crowthorne		GB	England	51.370	-0.792	0
+P	Hawarden		GB	Wales	53.185	-3.026	0
+P	Thatcham		GB	England	51.404	-1.260	0
+P	Saddleworth		GB	England	53.548	-2.005	0
+P	Rickmansworth		GB	England	51.639	-0.477	0
+P	Pudsey		GB	England	53.795	-1.661	0
+P	Rhosllannerchrugog		GB	Wales	53.010	-3.058	0
+P	Isleworth		GB	England	51.475	-0.342	0
+P	Hindley		GB	England	53.533	-2.583	0
+P	Chalk Farm		GB	England	51.543	-0.150	0
+P	Newport		GB	England	50.701	-1.291	0
+P	Selby		GB	England	53.783	-1.067	0
+P	Market Harborough		GB	England	52.478	-0.921	0
+P	Newton-le-Willows	newton le willows	GB	England	53.450	-2.600	0
+P	St Austell		GB	England	50.343	-4.774	0
+P	Plymstock		GB	England	50.360	-4.090	0
+P	Ryde		GB	England	50.730	-1.162	0
+P	Ormskirk		GB	England	53.567	-2.882	0
+P	Golborne		GB	England	53.477	-2.597	0
+P	Huntingdon		GB	England	52.330	-0.187	0
+P	Oadby		GB	England	52.606	-1.084	0
+P	Droitwich		GB	England	52.267	-2.150	0
+P	New Malden		GB	England	51.401	-0.262	0
+P	Ammanford		GB	Wales	51.793	-3.988	0
+P	Yate		GB	England	51.541	-2.418	0
+P	Droylsden		GB	England	53.480	-2.145	0
+P	Hanworth		GB	England	51.433	-0.383	0
+P	Whitefield		GB	England	53.550	-2.300	0
+P	Lofthouse		GB	England	53.729	-1.497	0
+P	Penarth		GB	Wales	51.439	-3.173	0
+P	Belper		GB	England	53.023	-1.481	0
+P	Formby		GB	England	53.558	-3.070	0
+P	Burnham-on-Sea	burnham on sea	GB	England	51.239	-2.998	0
+P	Heanor		GB	England	53.014	-1.354	0
+P	Chapeltown		GB	England	53.465	-1.472	0
+P	Rawtenstall		GB	England	53.701	-2.284	0
+P	Litherland		GB	England	53.470	-2.998	0
+P	Whitehaven		GB	England	54.549	-3.584	0
+P	Swinton		GB	England	53.500	-2.350	0
+P	Waltham Abbey		GB	England	51.687	-0.004	0
+P	Royton		GB	England	53.565	-2.123	0
+P	Walton-on-Thames	walton on thames	GB	England	51.387	-0.413	0
+P	Wellington		GB	England	52.700	-2.517	0
+P	Godalming		GB	England	51.186	-0.615	0
+P	Bartley Green		GB	England	52.435	-1.997	0
+P	Potters Bar		GB	England	51.694	-0.178	0
+P	Alfreton		GB	England	53.098	-1.384	0
+P	Kenilworth		GB	England	52.350	-1.583	0
+P	Seaham		GB	England	54.839	-1.346	0
+P	Thornaby-on-Tees	thornaby on tees	GB	England	54.533	-1.300	0
+P	Tiverton		GB	England	50.902	-3.492	0
+P	Retford		GB	England	53.322	-0.943	0
+P	Atherton		GB	England	53.524	-2.494	0
+P	Heavitree		GB	England	50.720	-3.496	0
+P	Berkhamsted		GB	England	51.760	-0.565	0
+P	Ossett		GB	England	53.680	-1.580	0
+P	Reigate		GB	England	51.237	-0.206	0
+P	Rottingdean		GB	England	50.810	-0.059	0
+P	Amersham		GB	England	51.667	-0.617	0
+P	Hadley Wood		GB	England	51.667	-0.170	0
+P	Richmond		GB	England	51.462	-0.306	0
+P	Old Trafford		GB	England	53.458	-2.288	0
+P	Speke		GB	England	53.341	-2.841	0
+P	Garston		GB	England	53.333	-2.900	0
+P	Hebburn		GB	England	54.973	-1.515	0
+P	Darton		GB	England	53.587	-1.527	0
+P	Workington		GB	England	54.642	-3.544	0
+P	Horley		GB	England	51.174	-0.159	0
+P	Cowes		GB	England	50.763	-1.298	0
+P	Barnes		GB	England	51.474	-0.248	0
+P	Dukinfield		GB	England	53.475	-2.088	0
+P	Dronfield		GB	England	53.302	-1.475	0
+P	Ripley		GB	England	53.033	-1.400	0
+P	Clevedon		GB	England	51.442	-2.858	0
+P	Maesteg		GB	Wales	51.609	-3.658	0
+P	Notting Hill		GB	England	51.511	-0.206	0
+P	Guiseley		GB	England	53.876	-1.712	0
+P	Bordon		GB	England	51.114	-0.862	0
+P	Caterham		GB	England	51.282	-0.079	0
+P	Wallington		GB	England	51.364	-0.154	0
+P	Goole		GB	England	53.703	-0.877	0
+P	Sandhurst		GB	England	51.347	-0.787	0
+P	Pimlico		GB	England	51.489	-0.137	0
+P	Chesham		GB	England	51.700	-0.600	0
+P	Gerrards Cross		GB	England	51.586	-0.555	0
+P	Stamford		GB	England	52.650	-0.483	0
+P	Stourport-on-Severn	stourport on severn	GB	England	52.340	-2.280	0
+P	Gorseinon		GB	Wales	51.669	-4.042	0
+P	Failsworth		GB	England	53.505	-2.166	0
+P	Nailsea		GB	England	51.432	-2.758	0
+P	Gainsborough		GB	England	53.383	-0.767	0
+P	Hythe		GB	England	50.860	-1.402	0
+P	Risca		GB	Wales	51.608	-3.101	0
+P	Halewood		GB	England	53.360	-2.831	0
+P	Tewkesbury		GB	England	51.992	-2.160	0
+P	Yateley		GB	England	51.343	-0.830	0
+P	Wednesbury		GB	England	52.551	-2.024	0
+P	Peterlee		GB	England	54.760	-1.336	0
+P	Cirencester		GB	England	51.719	-1.971	0
+P	Hazel Grove		GB	England	53.383	-2.117	0
+P	Sandown		GB	England	50.652	-1.161	0
+P	Colne		GB	England	53.857	-2.169	0
+P	Chalfont Saint Peter		GB	England	51.609	-0.556	0
+P	Buxton		GB	England	53.257	-1.910	0
+P	Ampthill		GB	England	52.027	-0.496	0
+P	Portslade		GB	England	50.843	-0.216	0
+P	Kingswinford		GB	England	52.498	-2.169	0
+P	Hampton		GB	England	51.413	-0.367	0
+P	Kempston Hardwick		GB	England	52.090	-0.499	0
+P	Poulton-le-Fylde	poulton le fylde	GB	England	53.833	-2.983	0
+P	Brough		GB	England	53.729	-0.572	0
+P	Kempston		GB	England	52.116	-0.500	0
+P	Dinnington		GB	England	53.367	-1.200	0
+P	Soho		GB	England	51.514	-0.135	0
+P	Norris Green		GB	England	53.445	-2.921	0
+P	Keynsham		GB	England	51.414	-2.498	0
+P	Earl Shilton		GB	England	52.577	-1.315	0
+P	Adwick le Street		GB	England	53.571	-1.185	0
+P	Weybridge		GB	England	51.372	-0.460	0
+P	Blackwall		GB	England	51.510	-0.002	0
+P	Irlam		GB	England	53.443	-2.423	0
+P	Chessington		GB	England	51.362	-0.304	0
+P	Alton		GB	England	51.149	-0.975	0
+P	Liversedge		GB	England	53.705	-1.693	0
+P	Leek		GB	England	53.104	-2.022	0
+P	Melksham		GB	England	51.373	-2.140	0
+P	Horsforth		GB	England	53.843	-1.638	0
+P	Clydach		GB	Wales	51.683	-3.900	0
+P	Great Wyrley		GB	England	52.663	-2.011	0
+P	Yarm		GB	England	54.504	-1.358	0
+P	Shoreham-by-Sea	shoreham by sea	GB	England	50.834	-0.274	0
+P	Pinner		GB	England	51.594	-0.382	0
+P	Prestatyn		GB	Wales	53.337	-3.408	0
+P	Hook		GB	England	51.368	-0.306	0
+P	Nether Edge		GB	England	53.359	-1.488	0
+P	Humberstone		GB	England	52.647	-1.086	0
+P	South Elmsall		GB	England	53.597	-1.280	0
+P	Golders Green		GB	England	51.576	-0.200	0
+P	Mirfield		GB	England	53.673	-1.696	0
+P	Emsworth		GB	England	50.848	-0.937	0
+P	Aberystwyth		GB	Wales	52.415	-4.083	0
+P	Oswestry		GB	England	52.862	-3.055	0
+P	Horwich		GB	England	53.601	-2.550	0
+P	Lancing		GB	England	50.829	-0.322	0
+P	Kirkdale		GB	England	53.433	-2.977	0
+P	Eastwood		GB	England	53.000	-1.300	0
+P	Peacehaven		GB	England	50.793	-0.007	0
+P	West Molesey		GB	England	51.400	-0.380	0
+P	East Molesey		GB	England	51.399	-0.349	0
+P	Southsea		GB	England	50.784	-1.091	0
+P	Wealdstone		GB	England	51.600	-0.337	0
+P	Rawmarsh		GB	England	53.461	-1.344	0
+P	Mansfield Woodhouse		GB	England	53.165	-1.194	0
+P	Bangor		GB	Wales	53.228	-4.129	0
+P	Marlow		GB	England	51.569	-0.774	0
+P	Fulwood		GB	England	53.350	-1.550	0
+P	Chapel Allerton		GB	England	53.829	-1.538	0
+P	Heckmondwike		GB	England	53.706	-1.677	0
+P	Brymbo		GB	Wales	53.067	-3.067	0
+P	East Barnet		GB	England	51.647	-0.161	0
+P	Bingley		GB	England	53.849	-1.839	0
+P	Hedge End		GB	England	50.912	-1.301	0
+P	Sandbach		GB	England	53.145	-2.363	0
+P	New Mills		GB	England	53.366	-2.000	0
+P	Ascot		GB	England	51.411	-0.675	0
+P	Manchester City Centre		GB	England	53.481	-2.246	0
+P	Glossop		GB	England	53.443	-1.949	0
+P	Spennymoor		GB	England	54.699	-1.602	0
+P	Dorking		GB	England	51.232	-0.334	0
+P	Amersham on the Hill		GB	England	51.675	-0.607	0
+P	Moreton		GB	England	53.400	-3.117	0
+P	Biddulph		GB	England	53.117	-2.176	0
+P	Bishopstoke		GB	England	50.966	-1.328	0
+P	Ferndown		GB	England	50.807	-1.900	0
+P	Bethnal Green		GB	England	51.527	-0.061	0
+P	Ware		GB	England	51.811	-0.029	0
+P	Maltby		GB	England	53.417	-1.200	0
+P	Bayswater		GB	England	51.511	-0.184	0
+P	Warminster		GB	England	51.204	-2.179	0
+P	Louth		GB	England	53.367	-0.004	0
+P	Gelligaer		GB	Wales	51.664	-3.256	0
+P	Sleaford		GB	England	52.998	-0.409	0
+P	Haydock		GB	England	53.467	-2.682	0
+P	Mountsorrel		GB	England	52.717	-1.150	0
+P	Thorne		GB	England	53.611	-0.963	0
+P	Haslemere		GB	England	51.090	-0.708	0
+P	Calne		GB	England	51.439	-2.006	0
+P	Evington		GB	England	52.600	-1.067	0
+P	Friern Barnet		GB	England	51.613	-0.159	0
+P	Nantwich		GB	England	53.069	-2.521	0
+P	Bramhall		GB	England	53.358	-2.165	0
+P	Glen Parva		GB	England	52.585	-1.171	0
+P	Harlesden		GB	England	51.538	-0.250	0
+P	Romsey		GB	England	50.989	-1.500	0
+P	Primrose Place		GB	England	52.561	-0.109	0
+P	Brockley		GB	England	51.464	-0.037	0
+P	Ramsbottom		GB	England	53.648	-2.317	0
+P	Bredbury		GB	England	53.417	-2.117	0
+P	Heysham		GB	England	54.044	-2.893	0
+P	Westbury		GB	England	51.260	-2.188	0
+P	Guisborough		GB	England	54.535	-1.056	0
+P	Wath upon Dearne		GB	England	53.503	-1.346	0
+P	Bodmin		GB	England	50.472	-4.724	0
+P	Hayling Island		GB	England	50.784	-0.969	0
+P	Dorchester		GB	England	50.717	-2.433	0
+P	Braunstone		GB	England	52.618	-1.179	0
+P	Devizes		GB	England	51.351	-1.994	0
+P	Northallerton		GB	England	54.339	-1.432	0
+P	Saint Ives		GB	England	52.333	-0.077	0
+P	South Ruislip		GB	England	51.555	-0.409	0
+P	Cobham		GB	England	51.330	-0.411	0
+P	Hale		GB	England	53.378	-2.333	0
+P	Penrith		GB	England	54.666	-2.758	0
+P	Brixham		GB	England	50.394	-3.516	0
+P	Whickham		GB	England	54.946	-1.676	0
+P	Biggleswade		GB	England	52.087	-0.265	0
+P	Kensington		GB	England	53.409	-2.953	0
+P	South Norwood		GB	England	51.399	-0.075	0
+P	Cowley		GB	England	51.732	-1.206	0
+P	Harringay		GB	England	51.582	-0.100	0
+P	Norbury		GB	England	51.417	-0.117	0
+P	Enfield Lock		GB	England	51.671	-0.027	0
+P	Fazakerley		GB	England	53.461	-2.929	0
+P	Ripon		GB	England	54.136	-1.528	0
+P	Tooting		GB	England	51.425	-0.164	0
+P	Stepney		GB	England	51.517	-0.043	0
+P	Roehampton		GB	England	51.452	-0.244	0
+P	Ryton		GB	England	52.617	-2.350	0
+P	Upper Norwood		GB	England	51.415	-0.093	0
+P	Worcester Park		GB	England	51.380	-0.244	0
+P	Longsight		GB	England	53.458	-2.201	0
+P	Basford		GB	England	52.967	-1.183	0
+P	Limehouse		GB	England	51.514	-0.033	0
+P	Seven Sisters		GB	England	51.578	-0.079	0
+P	Chertsey		GB	England	51.388	-0.508	0
+P	Kippax		GB	England	53.767	-1.371	0
+P	Ealing Common		GB	England	51.507	-0.295	0
+P	Conisbrough		GB	England	53.482	-1.232	0
+P	Carmarthen		GB	Wales	51.856	-4.305	0
+P	Hoyland Nether		GB	England	53.500	-1.450	0
+P	Tadley		GB	England	51.350	-1.129	0
+P	Royston		GB	England	52.048	-0.024	0
+P	New Cross		GB	England	51.475	-0.038	0
+P	Hunts Cross		GB	England	53.356	-2.866	0
+P	Baildon		GB	England	53.847	-1.788	0
+P	Carterton		GB	England	51.759	-1.594	0
+P	Porthcawl		GB	Wales	51.479	-3.704	0
+P	Ponders End		GB	England	51.645	-0.047	0
+P	Hale		GB	England	51.229	-0.789	0
+P	Elland		GB	England	53.685	-1.839	0
+P	Perry Vale		GB	England	51.436	-0.044	0
+P	Belle Vale		GB	England	53.392	-2.860	0
+P	Queenstown		GB	England	51.478	-0.147	0
+P	Old Swan		GB	England	53.414	-2.909	0
+P	Saltash		GB	England	50.410	-4.225	0
+P	Earlsfield		GB	England	51.444	-0.185	0
+P	Wimborne Minster		GB	England	50.783	-1.983	0
+P	Allerton		GB	England	53.367	-2.894	0
+P	Wombwell		GB	England	53.522	-1.397	0
+P	Furzedown		GB	England	51.425	-0.147	0
+P	South Hayling		GB	England	50.788	-0.977	0
+P	Blackwood		GB	Wales	51.668	-3.208	0
+P	Llandudno		GB	Wales	53.325	-3.831	0
+P	Latchmere		GB	England	51.468	-0.169	0
+P	Neston		GB	England	51.412	-2.201	0
+P	Haslingden		GB	England	53.703	-2.324	0
+P	West Ealing		GB	England	51.514	-0.323	0
+P	Palmers Green		GB	England	51.618	-0.110	0
+P	Totteridge		GB	England	51.633	-0.200	0
+P	Blaydon-on-Tyne	blaydon on tyne	GB	England	54.965	-1.714	0
+P	Sinfin		GB	England	52.882	-1.487	0
+P	Shadwell		GB	England	51.511	-0.057	0
+P	Mexborough		GB	England	53.494	-1.292	0
+P	Newport Pagnell		GB	England	52.087	-0.722	0
+P	Neston		GB	England	53.283	-3.050	0
+P	Tottenham Hale		GB	England	51.594	-0.060	0

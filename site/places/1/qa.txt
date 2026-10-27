@@ -1,0 +1,97 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Khartoum	120	
+Z	2	Asia/Baghdad	180	
+Z	3	Asia/Baku	240	
+Z	4	Asia/Hebron	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	5	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	6	Asia/Kabul	270	
+Z	7	Asia/Kolkata	330	
+Z	8	Asia/Samarkand	300	
+Z	9	Asia/Shanghai	480	
+Z	10	Asia/Tehran	210	
+Z	11	Asia/Urumqi	360	
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AZ	Azerbaijan	mwl	s
+C	CN	China	mwl	s
+C	EG	Egypt	egyptian	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	LS	Lesotho	egyptian	s
+C	LY	Libya	egyptian	s
+C	PK	Pakistan	karachi	h
+C	PS	Palestinian Territory	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SO	Somalia	egyptian	s
+C	SY	Syria	egyptian	s
+C	TJ	Tajikistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	1
+P	Al Başrah al Qadīmah	al basrah al qadimah	IQ		30.503	47.815	2
+P	Al Qadarif		SD		14.035	35.383	1
+P	Qazvin		IR		36.269	50.004	10
+P	Al Qāhirah al Jadīdah	al qahirah al jadidah	EG		30.042	31.444	0
+P	Qarshi		UZ		38.861	65.789	8
+P	Qarchak		IR		35.429	51.578	10
+P	Qā’em Shahr	qaem shahr	IR		36.467	52.868	10
+P	Qadirpur Ran		PK		30.292	71.672	8
+P	Al Qāmishlī	al qamishli	SY		37.052	41.231	2
+P	Qalyub		EG		30.179	31.206	0
+P	Qal‘at Sukkar	qalat sukkar	IQ		31.863	46.073	2
+P	Umm Qaşr	umm qasr	IQ		30.036	47.920	2
+P	Qaşr Bin Ghashīr	qasr bin ghashir	LY		32.683	13.183	1
+P	Minyā al Qamḩ	minya al qamh	EG		30.516	31.346	0
+P	Al Qaţīf	al qatif	SA		26.565	50.009	2
+P	Al-Qāsim	al qasim	IQ		32.298	44.683	2
+P	Qaraçuxur	qaracuxur	AZ		40.397	49.974	3
+P	Qamdo		CN		31.130	97.180	9
+P	Al Qanāţir al Khayrīyah	al qanatir al khayriyah	EG		30.193	31.137	0
+P	Qal‘at Bīshah	qalat bishah	SA		20.001	42.605	2
+P	Al Qā’im	al qaim	IQ		34.393	40.989	2
+P	Shibīn al Qanāţir	shibin al qanatir	EG		30.313	31.320	0
+P	Qarasu		CN		44.203	80.416	11
+P	Al Qanāyāt	al qanayat	EG		30.619	31.462	0
+P	Qaraqash		CN		37.272	79.734	11
+P	Qabula		PK		30.178	73.065	8
+P	Qaşr al Qarabūllī	qasr al qarabulli	LY		32.745	13.715	1
+P	Qayroqqum		TJ		40.266	69.796	8
+P	Qabqa		CN		36.281	100.613	9
+P	Qalqīlyah	qalqilyah	PS		32.190	34.971	4
+P	Qā’en	qaen	IR		33.727	59.184	10
+P	Qal‘at Şāliḩ	qalat salih	IQ		31.528	47.294	2
+P	Qaşr-e Qand	qasr e qand	IR		26.248	60.752	10
+P	Qahā	qaha	EG		30.280	31.205	0
+P	Āq Qalā	aq qala	IR		37.014	54.455	10
+P	Al Qanţarah	al qantarah	EG		30.857	32.312	0
+P	Al Qaryatayn		SY		34.230	37.241	2
+P	Qarek		CN		38.372	76.990	11
+P	Qahderījān	qahderijan	IR		32.577	51.454	10
+P	Qā’emīyeh	qaemiyeh	IR		29.852	51.588	10
+P	Qarah Ẕīā’ od Dīn	qarah zia od din	IR		38.892	45.026	10
+P	Qacha’s Nek	qachas nek	LS		-30.115	28.689	1
+P	Qarāwul	qarawul	AF		37.220	68.780	6
+P	Al Qaşşāşīn	al qassasin	EG		30.564	31.934	0
+P	Kafr Qāsim	kafr qasim	IL		32.114	34.976	5
+P	Qadian		IN		31.822	75.377	7
+P	Qaisumah		SA		28.311	46.127	2
+P	Qārah	qarah	SY		34.156	36.743	2
+P	Qaryat Sulūq	qaryat suluq	LY		31.668	20.252	1
+P	Al Murar al Qadīm	al murar al qadim	AE		25.276	55.307	3
+P	‘Anat al Qadīmah	anat al qadimah	IQ		34.469	41.942	2
+P	Al Qarārah	al qararah	PS		31.374	34.341	4
+P	Qandala		SO		11.472	49.873	2
+P	Manshīyat al Qanāţir	manshiyat al qanatir	EG		30.185	31.106	0
+P	Qabāţīyah	qabatiyah	PS		32.410	35.281	4
+P	Kafr Qari‘	kafr qari	IL		32.505	35.052	5
+P	Qaţanā	qatana	SY		33.438	36.079	2
+P	Qaşr-e Shīrīn	qasr e shirin	IR		34.516	45.579	10
+P	Eslam Qaleh		AF		34.667	61.067	6
+P	Qarqūzah	qarquzah	LY		32.746	12.842	1
+P	Qalansuwa		IL		32.285	34.981	5
+P	Qaşr Khiyār	qasr khiyar	LY		32.697	13.846	1
+P	Al Qawāsim	al qawasim	LY		32.184	13.060	1
+P	Qarqīn	qarqin	AF		37.419	66.044	6

@@ -1,0 +1,182 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Seoul	540	
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+B	11
+P	Seoul		KR		37.566	126.978	0
+P	Busan		KR		35.102	129.030	0
+P	Pyongyang		KP		39.034	125.754	0
+P	Incheon		KR		37.456	126.705	0
+P	Daegu		KR		35.870	128.591	0
+P	Daejeon		KR		36.349	127.385	0
+P	Gwangju		KR		35.155	126.916	0
+P	Suwon		KR		37.291	127.009	0
+P	Ulsan		KR		35.537	129.317	0
+P	Goyang-si	goyang si	KR		37.656	126.835	0
+P	Changwon		KR		35.228	128.681	0
+P	Seongnam-si	seongnam si	KR		37.439	127.138	0
+P	Cheongju-si	cheongju si	KR		36.637	127.490	0
+P	Bucheon-si	bucheon si	KR		37.499	126.783	0
+P	Cheonan		KR		36.806	127.152	0
+P	Hwaseong-si	hwaseong si	KR		37.207	126.817	0
+P	Jeonju		KR		35.822	127.149	0
+P	Ansan-si	ansan si	KR		37.324	126.822	0
+P	Anyang-si	anyang si	KR		37.392	126.927	0
+P	Hamhŭng	hamhung	KP		39.918	127.536	0
+P	Kimhae		KR		35.234	128.881	0
+P	Pohang		KR		36.029	129.365	0
+P	Uijeongbu-si	uijeongbu si	KR		37.742	127.047	0
+P	Namp’o	nampo	KP		38.737	125.408	0
+P	Sunch’ŏn	sunchon	KP		39.432	125.933	0
+P	Masan		KR		35.127	126.831	0
+P	Gumi		KR		36.114	128.336	0
+P	Sejong		KR		36.592	127.292	0
+P	Pyeongtaek		KR		36.995	127.089	0
+P	Yangsan		KR		35.342	129.034	0
+P	Gwangmyeong		KR		37.477	126.866	0
+P	Hŭngnam	hungnam	KP		39.842	127.632	0
+P	Kaesŏng	kaesong	KP		37.971	126.554	0
+P	Wŏnju	wonju	KR		37.351	127.945	0
+P	Wŏnsan	wonsan	KP		39.153	127.444	0
+P	Man’gyŏngdae-ri	mangyongdae ri	KP		38.992	125.659	0
+P	Kaech’ŏn	kaechon	KP		39.701	125.893	0
+P	Sariwŏn-si	sariwon si	KP		38.507	125.756	0
+P	Chinju		KR		35.193	128.085	0
+P	Iksan		KR		35.944	126.954	0
+P	Gunpo		KR		37.367	126.947	0
+P	Chuncheon		KR		37.875	127.734	0
+P	Gyeongsan-si	gyeongsan si	KR		35.823	128.738	0
+P	Gunsan		KR		35.979	126.711	0
+P	Hanam		KR		37.540	127.206	0
+P	Gyeongju		KR		35.843	129.212	0
+P	Osan		KR		37.152	127.071	0
+P	Tŏkch’ŏn	tokchon	KP		39.753	126.258	0
+P	Haeju		KP		38.041	125.715	0
+P	Chungju		KR		36.977	127.929	0
+P	Gangneung		KR		37.753	128.872	0
+P	Gimpo-si	gimpo si	KR		37.624	126.714	0
+P	Icheon-si	icheon si	KR		37.279	127.442	0
+P	Guri-si	guri si	KR		37.599	127.139	0
+P	Yangju		KR		37.833	127.062	0
+P	Gijang		KR		35.244	129.214	0
+P	Paech’ŏn-ŭp	paechon up	KP		37.993	126.301	0
+P	Andong		KR		36.566	128.723	0
+P	Songnim-ni	songnim ni	KP		38.763	125.641	0
+P	Gimcheon		KR		36.122	128.120	0
+P	Ch’ŏngdan-ŭp	chongdan up	KP		37.970	125.938	0
+P	Sinch’ŏn-ŭp	sinchon up	KP		38.353	125.484	0
+P	Jeongeup		KR		35.600	126.917	0
+P	Siheungdong		KR		37.452	126.911	0
+P	Paek'ak	paekak	KP		39.463	125.606	0
+P	Chaeryŏng-ni	chaeryong ni	KP		38.736	125.231	0
+P	Yeoju		KR		37.296	127.634	0
+P	Ŭllyul	ullyul	KP		38.514	125.190	0
+P	Kangnyŏng	kangnyong	KP		37.907	125.510	0
+P	Hwado		KR		37.653	127.308	0
+P	Kangsŏn	kangson	KP		38.936	125.581	0
+P	Sangju		KR		36.415	128.161	0
+P	Donghae City		KR		37.544	129.107	0
+P	P’yŏngsŏng	pyongsong	KP		39.246	125.872	0
+P	Asan		KR		36.784	127.004	0
+P	Wabu		KR		37.590	127.220	0
+P	Ŭnch’ŏn-ŭp	unchon up	KP		38.566	125.427	0
+P	Boryeong		KR		36.349	126.598	0
+P	Namyangju		KR		37.637	127.214	0
+P	Kwail-ŭp	kwail up	KP		38.446	125.019	0
+P	Hongseong		KR		36.601	126.665	0
+P	Samch’ŏn	samchon	KP		38.359	125.326	0
+P	Yeongju		KR		36.822	128.631	0
+P	Wanju		KR		35.845	127.148	0
+P	Yangp'yŏng	yangpyong	KR		37.490	127.491	0
+P	Ungsang		KR		35.406	129.169	0
+P	Sinwŏn-ŭp	sinwon up	KP		38.235	125.762	0
+P	Gwangju		KR		37.410	127.257	0
+P	Nangen		KR		35.410	127.386	0
+P	Sokcho		KR		38.207	128.592	0
+P	Naesŏ	naeso	KR		35.250	128.520	0
+P	Pongch’ŏn-ŭp	pongchon up	KP		38.124	126.205	0
+P	Mungyeong		KR		36.595	128.199	0
+P	Hongch’ŏn	hongchon	KR		37.692	127.886	0
+P	Changnyeong		KR		35.541	128.495	0
+P	Seosan		KR		36.782	126.452	0
+P	Koch'ang	kochang	KR		35.433	126.700	0
+P	Gongju		KR		36.456	127.125	0
+P	Anseong		KR		37.011	127.270	0
+P	Hwawŏn	hwawon	KR		35.802	128.501	0
+P	T’aet’an-ŭp	taetan up	KP		38.088	125.298	0
+P	Ongjin		KP		37.935	125.362	0
+P	Uiwang		KR		37.365	126.948	0
+P	Pubal		KR		37.292	127.508	0
+P	Kosong		KR		38.379	128.468	0
+P	Chinch'ŏn	chinchon	KR		36.857	127.443	0
+P	Hwasun		KR		35.061	126.987	0
+P	Buyeo		KR		36.275	126.909	0
+P	Okcheon		KR		36.301	127.568	0
+P	Eisen		KR		35.968	128.931	0
+P	Gapyeong		KR		37.831	127.511	0
+P	Yecheon		KR		36.657	128.455	0
+P	Chaeryŏng-ŭp	chaeryong up	KP		38.399	125.616	0
+P	Miryang		KR		35.493	128.749	0
+P	Yeonggwang		KR		35.278	126.512	0
+P	Anju		KP		39.618	125.665	0
+P	T’aebaek	taebaek	KR		37.176	128.989	0
+P	Kimje		KR		35.802	126.889	0
+P	Damyang		KR		35.319	126.984	0
+P	Koesan		KR		36.811	127.795	0
+P	Songhwa		KP		38.360	125.137	0
+P	Nonsan		KR		36.204	127.085	0
+P	Yeongdong		KR		36.175	127.776	0
+P	Ch’ŏsal-li	chosal li	KP		39.403	125.509	0
+P	Munsan		KR		37.859	126.785	0
+P	Naju		KR		35.029	126.718	0
+P	Santyoku		KR		37.441	129.171	0
+P	Jangseong		KR		35.298	126.784	0
+P	Hadong		KR		35.068	127.751	0
+P	Cheorwon		KR		38.209	127.218	0
+P	Sŭngho 1-tong	sungho 1 tong	KP		38.991	125.978	0
+P	Yesan		KR		36.678	126.843	0
+P	Changyŏn	changyon	KP		38.251	125.096	0
+P	Jungpyong		KR		36.785	127.582	0
+P	Sunan		KP		39.203	125.693	0
+P	Heunghae		KR		36.109	129.345	0
+P	Hwangju-ŭp	hwangju up	KP		38.670	125.776	0
+P	Yeonil		KR		36.004	129.319	0
+P	Kunwi		KR		36.235	128.573	0
+P	Tangjin		KR		36.894	126.630	0
+P	Anbyŏn-ŭp	anbyon up	KP		39.042	127.524	0
+P	Cheongsong gun		KR		36.434	129.057	0
+P	Jinan-gun	jinan gun	KR		35.792	127.425	0
+P	Kusŏng-si	kusong si	KP		39.980	125.253	0
+P	Kurye		KR		35.209	127.464	0
+P	Waegwan		KR		35.993	128.398	0
+P	Seonghwan		KR		36.916	127.131	0
+P	Chŏngju	chongju	KP		39.693	125.210	0
+P	Kangdong-ŭp	kangdong up	KP		39.142	126.096	0
+P	Hayang		KR		35.913	128.820	0
+P	Changsu		KR		35.648	127.515	0
+P	Imsil		KR		35.613	127.279	0
+P	Ganghwa-gun	ganghwa gun	KR		37.747	126.486	0
+P	Hŭkkyo-ri	hukkyo ri	KP		38.799	125.792	0
+P	Neietsu		KR		37.184	128.468	0
+P	Kinzan		KR		36.103	127.489	0
+P	Yŏnmu	yonmu	KR		36.129	127.100	0
+P	Kosan		KP		38.856	127.418	0
+P	Yanggu		KR		38.106	127.989	0
+P	Namsa		KR		35.933	127.050	0
+P	Taesal-li	taesal li	KR		36.971	126.454	0
+P	Hwacheon		KR		38.107	127.706	0
+P	Yŏnan-ŭp	yonan up	KP		37.909	126.161	0
+P	Buan		KR		35.728	126.732	0
+P	Kowŏn-ŭp	kowon up	KP		39.438	127.243	0
+P	Hoeyang		KP		38.710	127.598	0
+P	Jenzan		KR		36.241	128.298	0
+P	Jumunjin		KR		37.891	128.826	0
+P	T’ongch’ŏn-ŭp	tongchon up	KP		38.954	127.892	0
+P	Anak		KP		38.511	125.494	0
+P	Kujang-ŭp	kujang up	KP		39.867	126.030	0
+P	Sil-li	sil li	KP		39.495	125.474	0
+P	Chunghwa		KP		38.864	125.800	0
+P	Samho-rodongjagu	samho rodongjagu	KP		39.947	127.871	0
+P	Sinmak		KP		38.417	126.233	0
+P	Ayang-ni	ayang ni	KP		38.247	125.795	0
+P	Sinanju		KP		39.598	125.610	0

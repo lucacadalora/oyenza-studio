@@ -1,0 +1,718 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Lagos	60	
+Z	3	Africa/Tripoli	120	
+Z	4	America/Bogota	-300	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Halifax	-240	29549160=-180 29891820=-240 30083400=-180 30426060=-240 30607560=-180 30950220=-240 31131720=-180 31474380=-240 31655880=-180 31998540=-240 32180040=-180 32522700=-240 32714280=-180 33056940=-240 33238440=-180 33581100=-240 33762600=-180 34105260=-240 34286760=-180 34629420=-240 34810920=-180 35153580=-240 35335080=-180 35677740=-240 35869320=-180 36211980=-240 36393480=-180 36736140=-240 36917640=-180 37260300=-240 37441800=-180 37784460=-240 37965960=-180 38308620=-240 38490120=-180 38832780=-240 39024360=-180 39367020=-240 39548520=-180 39891180=-240
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Mazatlan	-420	
+Z	11	America/Mexico_City	-360	
+Z	12	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	14	America/Santo_Domingo	-240	
+Z	15	America/Sao_Paulo	-180	
+Z	16	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	17	Asia/Dhaka	360	
+Z	18	Asia/Hebron	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	19	Asia/Ho_Chi_Minh	420	
+Z	20	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Shanghai	480	
+Z	23	Asia/Tehran	210	
+Z	24	Asia/Tokyo	540	
+Z	25	Asia/Yekaterinburg	300	
+Z	26	Australia/Brisbane	600	
+Z	27	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	28	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	29	Europe/Istanbul	180	
+Z	30	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	31	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	32	Indian/Mauritius	240	
+Z	33	Pacific/Honolulu	-600	
+C	AL	Albania	mwl	s
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BG	Bulgaria	mwl	s
+C	BJ	Benin	egyptian	s
+C	BN	Brunei	singapore	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	BZ	Belize	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HN	Honduras	mwl	s
+C	HU	Hungary	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KR	South Korea	mwl	s
+C	LB	Lebanon	egyptian	s
+C	LK	Sri Lanka	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MD	Moldova	mwl	s
+C	MG	Madagascar	egyptian	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	RE	Reunion	egyptian	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SO	Somalia	egyptian	s
+C	SR	Suriname	mwl	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZW	Zimbabwe	egyptian	s
+B	8
+P	Beijing		CN		39.907	116.397	22
+P	Bengaluru		IN		12.972	77.594	21
+P	Berlin		DE		52.524	13.411	28
+P	Belo Horizonte		BR		-19.921	-43.938	15
+P	Beirut		LB		33.893	35.502	16
+P	Benin City		NG		6.338	5.626	2
+P	Belém	belem	BR		-1.456	-48.504	15
+P	Belgrade		RS		44.804	20.465	28
+P	Benxi		CN		41.289	123.765	22
+P	Bengbu		CN		32.941	117.361	22
+P	Benghazi		LY		32.115	20.069	3
+P	São Bernardo do Campo	sao bernardo do campo	BR		-23.694	-46.565	15
+P	Beira		MZ		-19.844	34.839	3
+P	Benoni		ZA		-26.188	28.321	3
+P	Benguela		AO		-12.577	13.403	2
+P	Beihai		CN		21.483	109.115	22
+P	Belagavi		IN		15.852	74.504	21
+P	Long Beach		US	California	33.767	-118.189	9
+P	Belford Roxo		BR		-22.764	-43.399	15
+P	Virginia Beach		US	Virginia	36.853	-75.978	12
+P	Bei’an	beian	CN		48.267	126.600	22
+P	Beylikdüzü	beylikduzu	TR		40.982	28.640	29
+P	Bello		CO		6.337	-75.558	4
+P	Benito Juárez	benito juarez	MX		19.373	-99.156	11
+P	Betim		BR		-19.968	-44.198	15
+P	Bến Cát	ben cat	VN		11.150	106.600	19
+P	Benito Juarez		MX		19.398	-99.158	11
+P	Pravyi Bereh		UA		47.115	37.585	30
+P	Belfast		GB	Northern Ireland	54.597	-5.925	31
+P	Belgorod		RU		50.603	36.581	29
+P	Ciudad Benito Juárez	ciudad benito juarez	MX		25.647	-100.091	11
+P	Bergen		NO		60.393	5.324	28
+P	Ulu Bedok		SG		1.333	103.933	22
+P	Bedok New Town		SG		1.326	103.942	22
+P	Bégoua	begoua	CF		4.454	18.535	2
+P	Begusarai		IN		25.419	86.134	21
+P	San Bernardo		CL		-33.592	-70.700	13
+P	Beibei		CN		29.827	106.436	22
+P	Berbera		SO		10.440	45.014	29
+P	Bexley		GB	England	51.442	0.149	31
+P	San Bernardino		US	California	34.108	-117.290	9
+P	Beni Mellal		MA		32.337	-6.350	1
+P	Sidi Bel Abbes		DZ		35.190	-0.631	2
+P	Huntington Beach		US	California	33.660	-117.999	9
+P	Beiliu		CN		22.707	110.349	22
+P	Benfica		AO		-8.944	13.164	2
+P	Beipiao		CN		41.792	120.779	22
+P	Beersheba		IL		31.252	34.791	20
+P	Berazategui		AR		-34.765	-58.213	15
+P	Béjaïa	bejaia	DZ		36.756	5.084	2
+P	Bella Vista		DO		18.455	-69.945	14
+P	Gadag-Betageri	gadag betageri	IN		15.417	75.617	21
+P	Berezniki		RU		59.409	56.820	25
+P	Béchar	bechar	DZ		31.617	-2.217	2
+P	Beining		CN		41.596	121.793	22
+P	Beāwar	beawar	IN		26.101	74.320	21
+P	Bercham		MY		4.641	101.139	22
+P	Berrechid		MA		33.266	-7.588	1
+P	Prenzlauer Berg		DE		52.539	13.424	28
+P	Beed		IN		18.989	75.756	21
+P	Beni		CD		0.491	29.473	3
+P	Bellevue		US	Washington	47.610	-122.201	9
+P	Belgrano		AR		-34.563	-58.458	15
+P	Bertoua		CM		4.577	13.685	2
+P	Bettiah		IN		26.802	84.503	21
+P	Besançon	besancon	FR		47.249	6.018	28
+P	Bet Shemesh		IL		31.731	34.993	20
+P	Bến Tre	ben tre	VN		10.241	106.376	19
+P	Bemowo		PL		52.255	20.908	28
+P	Bento Gonçalves	bento goncalves	BR		-29.171	-51.519	15
+P	Beppu		JP		33.279	131.498	24
+P	Behbahān	behbahan	IR		30.596	50.242	23
+P	Bern		CH		46.948	7.447	28
+P	Bergamo		IT		45.696	9.667	28
+P	Berkeley		US	California	37.872	-122.273	9
+P	West Palm Beach		US	Florida	26.715	-80.053	12
+P	Bergedorf		DE		53.485	10.229	28
+P	Berkane		MA		34.920	-2.320	1
+P	Aïn Beïda	ain beida	DZ		35.796	7.393	2
+P	Beaumont		US	Texas	30.086	-94.102	5
+P	Al Fqih Ben Çalah	al fqih ben calah	MA		32.502	-6.688	1
+P	Beau Bassin-Rose Hill	beau bassin rose hill	MU		-20.233	57.466	32
+P	Bender		MD		46.832	29.477	30
+P	Pompano Beach		US	Florida	26.238	-80.125	12
+P	Bedford		GB	England	52.135	-0.466	31
+P	Berdyansk		UA		46.756	36.788	30
+P	Bergisch Gladbach		DE		50.986	7.133	28
+P	Berbérati	berberati	CF		4.261	15.792	2
+P	Betūl	betul	IN		21.901	77.902	21
+P	Bendigo		AU	Victoria	-36.758	144.280	27
+P	South Bend		US	Indiana	41.683	-86.250	12
+P	New Bedford		US	Massachusetts	41.635	-70.927	12
+P	Becontree		GB	England	51.553	0.129	31
+P	Beshariq		UZ		40.436	70.610	25
+P	Bekobod		UZ		40.221	69.270	25
+P	Ben Guerir		MA		32.241	-7.954	1
+P	Francisco Beltrão	francisco beltrao	BR		-26.081	-53.055	15
+P	Beaverton		US	Oregon	45.487	-122.804	9
+P	Behshahr		IR		36.692	53.553	23
+P	Beni Mered		DZ		36.524	2.861	2
+P	Miami Beach		US	Florida	25.791	-80.130	12
+P	Bethlehem		ZA		-28.231	28.307	3
+P	Berdsk		RU		54.754	83.096	19
+P	Bela Bela		ZA		-24.883	28.283	3
+P	Berisso		AR		-34.871	-57.883	15
+P	Ben Arous		TN		36.755	10.222	2
+P	Ben Gardane		TN		33.138	11.220	2
+P	Newport Beach		US	California	33.619	-117.929	9
+P	Bend		US	Oregon	44.058	-121.315	9
+P	Bellingham		US	Washington	48.760	-122.488	9
+P	Belo Jardim		BR		-8.336	-36.424	15
+P	São Bento do Sul	sao bento do sul	BR		-26.250	-49.379	15
+P	Beauport		CA	Quebec	46.859	-71.192	12
+P	Berestovskyi		UA		48.044	37.877	30
+P	Deerfield Beach		US	Florida	26.318	-80.100	12
+P	Bella Vista		AR		-34.565	-58.690	15
+P	Bende		NG		5.559	7.634	2
+P	Belmont Cragin		US	Illinois	41.932	-87.769	5
+P	Bellflower		US	California	33.882	-118.117	9
+P	Bebedouro		BR		-20.949	-48.479	15
+P	Belovo		RU		54.421	86.299	19
+P	Benipur		IN		26.055	86.146	21
+P	Bethlehem		US	Pennsylvania	40.626	-75.370	12
+P	Beidao		CN		34.569	105.893	22
+P	Béziers	beziers	FR		43.341	3.214	28
+P	Bela		IN		25.921	81.996	21
+P	Boynton Beach		US	Florida	26.525	-80.066	12
+P	Belek		TR		36.863	31.065	29
+P	Berdychiv		UA		49.894	28.582	30
+P	Beled Hawo		SO		3.928	41.880	29
+P	Bethal		ZA		-26.458	29.466	3
+P	Daytona Beach		US	Florida	29.211	-81.023	12
+P	Beichengqu		CN		40.439	113.154	22
+P	Campo Belo		BR		-23.628	-46.668	15
+P	Beypore		IN		11.172	75.806	21
+P	Berekum		GH		7.453	-2.584	0
+P	Beloretsk		RU		53.962	58.400	25
+P	Benidorm		ES		38.538	-0.131	28
+P	Redondo Beach		US	California	33.849	-118.388	9
+P	Belogorsk		RU		50.912	128.512	24
+P	Yan Besar		MY		5.799	100.373	22
+P	Bellampalli		IN		19.056	79.493	21
+P	Besbes		DZ		36.702	7.847	2
+P	Beimeng		CN		36.604	119.496	22
+P	Bergen op Zoom		NL		51.495	4.292	28
+P	Delray Beach		US	Florida	26.461	-80.073	12
+P	Beruniy		UZ		41.691	60.752	25
+P	Belize City		BZ		17.500	-88.198	11
+P	Bezerros		BR		-8.233	-35.797	15
+P	Bertioga		BR		-23.854	-46.139	15
+P	Bandar Seri Begawan		BN		4.890	114.940	22
+P	Benevides		BR		-1.361	-48.245	15
+P	Bergheim		DE		50.956	6.640	28
+P	North Bergen		US	New Jersey	40.804	-74.012	12
+P	Bełchatów	belchatow	PL		51.369	19.357	28
+P	Belebey		RU		54.108	54.117	25
+P	Benslimane		MA		33.616	-7.122	1
+P	Berat		AL		40.706	19.952	28
+P	Beni Enzar		MA		35.260	-2.930	1
+P	Béja	beja	TN		36.726	9.182	2
+P	Sidi Bennour		MA		32.652	-8.428	1
+P	Bethesda		US	Maryland	38.981	-77.100	12
+P	Beckenham		GB	England	51.409	-0.025	31
+P	Bensalem		US	Pennsylvania	40.105	-74.951	12
+P	Bela Vista		BR		-23.561	-46.648	15
+P	Bensonhurst		US	New York	40.602	-73.994	12
+P	Békéscsaba	bekescsaba	HU		46.683	21.100	28
+P	Berlin Köpenick	berlin kopenick	DE		52.443	13.582	28
+P	Goz Beida		TD		12.226	21.410	2
+P	Benalmádena	benalmadena	ES		36.596	-4.573	28
+P	Beliatta		LK		6.050	80.733	21
+P	Beitbridge		ZW		-22.217	30.000	3
+P	Fort Beaufort		ZA		-32.775	26.634	3
+P	Benevento		IT		41.131	14.778	28
+P	Będzin	bedzin	PL		50.326	19.126	28
+P	Belen		PE		-3.760	-73.250	4
+P	Bebington		GB	England	53.350	-3.017	31
+P	Bergama		TR		39.121	27.181	29
+P	Berwyn		US	Illinois	41.851	-87.794	5
+P	Belem		BR		-23.538	-46.595	15
+P	Berrouaghia		DZ		36.135	2.911	2
+P	Bellevue		US	Nebraska	41.137	-95.891	5
+P	Beledweyne		SO		4.736	45.204	29
+P	Berëzovskiy	berezovskiy	RU		55.670	86.275	19
+P	Belfort		FR		47.642	6.854	28
+P	Belorechensk		RU		44.770	39.872	29
+P	San Bernardino Tlaxcalancingo		MX		19.029	-98.277	11
+P	Begampur		IN		28.727	77.067	21
+P	Beauvais		FR		49.433	2.083	28
+P	Beberibe		BR		-4.180	-38.131	15
+P	Ben Jerrar		MA		30.262	-9.504	1
+P	Palm Beach Gardens		US	Florida	26.823	-80.139	12
+P	Beisu		CN		38.155	114.807	22
+P	Bergkamen		DE		51.616	7.645	28
+P	Campo Belo		BR		-20.897	-45.277	15
+P	Bejaâd	bejaad	MA		32.771	-6.392	1
+P	Puerto Berrío	puerto berrio	CO		6.492	-74.403	4
+P	Belleville		CA	Ontario	44.167	-77.383	12
+P	Berwick		AU	Victoria	-38.033	145.350	27
+P	São Bento do Una	sao bento do una	BR		-8.523	-36.444	15
+P	Bedford		US	Texas	32.844	-97.143	5
+P	Bentong Town		MY		3.522	101.909	22
+P	South Bel Air		US	Maryland	39.533	-76.337	12
+P	South Benfleet		GB	England	51.553	0.560	31
+P	São Bento	sao bento	BR		-2.696	-44.821	15
+P	Bel Air South		US	Maryland	39.505	-76.320	12
+P	São Benedito	sao benedito	BR		-4.049	-40.865	15
+P	Bedong		MY		5.727	100.509	22
+P	Belaya Kalitva		RU		48.179	40.779	29
+P	Beryozovsky		RU		56.908	60.802	25
+P	Beavercreek		US	Ohio	39.709	-84.063	12
+P	Berezniaky		UA		50.426	30.602	30
+P	San Benedetto del Tronto		IT		42.957	13.877	28
+P	Beveren		BE		51.212	4.256	28
+P	Beaufort West		ZA		-32.357	22.583	3
+P	Bentonville		US	Arkansas	36.373	-94.209	5
+P	Beyşehir	beysehir	TR		37.677	31.725	29
+P	Beiwangli		CN		38.621	115.396	22
+P	North Miami Beach		US	Florida	25.933	-80.163	12
+P	North Bethesda		US	Maryland	39.045	-77.119	12
+P	Beaumont		US	California	33.929	-116.977	9
+P	Bexhill-on-Sea	bexhill on sea	GB	England	50.850	0.471	31
+P	Águas Belas	aguas belas	BR		-9.111	-37.123	15
+P	Berchem		BE		51.190	4.433	28
+P	Bellinzona		CH		46.193	9.017	28
+P	Bell Gardens		US	California	33.965	-118.151	9
+P	Belleville		US	Illinois	38.520	-89.984	5
+P	Besni		TR		37.693	37.861	29
+P	Beverly		US	Massachusetts	42.558	-70.880	12
+P	Bensheim		DE		49.684	8.618	28
+P	Ormond Beach		US	Florida	29.286	-81.056	12
+P	Beringen		BE		51.050	5.226	28
+P	Pontian Besar		MY		1.506	103.382	22
+P	Benjamin Constant		BR		-4.376	-70.032	4
+P	Bedelē	bedele	ET		8.456	36.353	29
+P	Bentung		MY		3.532	101.904	22
+P	Beverly Cove		US	Massachusetts	42.553	-70.854	12
+P	Bébédja	bebedja	TD		8.676	16.566	2
+P	New Berlin		US	Wisconsin	42.976	-88.108	5
+P	Beni Saf		DZ		35.301	-1.382	2
+P	Bera		BD		24.078	89.633	17
+P	Hallandale Beach		US	Florida	25.981	-80.148	12
+P	Betamcherla		IN		15.451	78.148	21
+P	Belpahar		IN		21.822	83.846	21
+P	Beypazarı	beypazari	TR		40.167	31.921	29
+P	Klebang Besar		MY		2.219	102.200	22
+P	Heist-op-den-Berg	heist op den berg	BE		51.075	4.728	28
+P	Beckum		DE		51.756	8.041	28
+P	Bedēsa	bedesa	ET		8.900	40.783	29
+P	Royal Palm Beach		US	Florida	26.708	-80.231	12
+P	Beverwijk		NL		52.483	4.657	28
+P	Lake Worth Beach		US	Florida	26.617	-80.072	12
+P	Dar el Beïda	dar el beida	DZ		36.713	3.212	2
+P	Saint-Benoît	saint benoit	RE		-21.038	55.715	32
+P	Don Benito		ES		38.956	-5.862	28
+P	Bentota		LK		6.426	79.996	21
+P	Beşikdüzü	besikduzu	TR		41.052	39.233	29
+P	Benfica		PT		38.751	-9.203	31
+P	Belalcázar	belalcazar	CO		2.646	-75.973	4
+P	Beloit		US	Wisconsin	42.508	-89.032	5
+P	Belleville		US	New Jersey	40.794	-74.150	12
+P	Bek’ojī	bekoji	ET		7.533	39.250	29
+P	Sant Adrià de Besòs	sant adria de besos	ES		41.431	2.219	28
+P	Mission Bend		US	Texas	29.694	-95.665	5
+P	Betafo		MG		-19.833	46.850	29
+P	Betong		MY		1.400	111.517	22
+P	Bel-Air	bel air	FR		48.842	2.405	28
+P	Bell		US	California	33.978	-118.187	9
+P	Ben Ahmed		MA		33.066	-7.242	1
+P	Bel Air		PH		14.559	121.026	22
+P	Manhattan Beach		US	California	33.885	-118.411	9
+P	Beslan		RU		43.193	44.533	29
+P	Bettendorf		US	Iowa	41.524	-90.516	5
+P	Farmsen-Berne	farmsen berne	DE		53.606	10.120	28
+P	Bermejo		BO		-22.732	-64.337	14
+P	Ponte Vedra Beach		US	Florida	30.240	-81.386	12
+P	Bell Ville		AR		-32.630	-62.689	15
+P	Padre Bernardo		BR		-15.165	-48.284	15
+P	Beverly Hills		US	California	34.074	-118.400	9
+P	Bernau bei Berlin		DE		52.680	13.587	28
+P	São José do Belmonte	sao jose do belmonte	BR		-7.861	-38.760	15
+P	Bentley		GB	England	53.533	-1.150	31
+P	Beja		PT		38.015	-7.863	31
+P	Bejuma		VE		10.174	-68.259	14
+P	Bela Vista de Goiás	bela vista de goias	BR		-16.973	-48.953	15
+P	Mechraa Bel Ksiri		MA		34.574	-5.956	1
+P	Beruwala		LK		6.479	79.983	21
+P	Benton		US	Arkansas	34.565	-92.587	5
+P	Begamganj		IN		23.599	78.341	21
+P	Riviera Beach		US	Florida	26.775	-80.058	12
+P	North Bel Air		US	Maryland	39.540	-76.355	12
+P	São Luís de Montes Belos	sao luis de montes belos	BR		-16.525	-50.372	15
+P	Beni Tamou		DZ		36.538	2.822	2
+P	Beni Douala		DZ		36.620	4.083	2
+P	Long Beach		US	New York	40.588	-73.658	12
+P	Beigang		TW		23.570	120.302	22
+P	Beidou		TW		23.873	120.524	22
+P	Béoumi	beoumi	CI		7.674	-5.581	0
+P	Bath Beach		US	New York	40.605	-74.004	12
+P	Bela Cruz		BR		-3.051	-40.168	15
+P	Bealanana		MG		-14.543	48.750	29
+P	Aïn Bessem	ain bessem	DZ		36.293	3.673	2
+P	Santa Rosa Beach		US	Florida	30.396	-86.229	5
+P	São Bento	sao bento	BR		-6.283	-37.750	15
+P	Kawasan Penempatan Ulu Sungai Benut		MY		1.754	103.280	22
+P	Kawasan Penempatan Ulu Benut Tiga		MY		1.750	103.277	22
+P	Kawasan Penempatan Ulu Benut Lima		MY		1.744	103.321	22
+P	Bethel Park		US	Pennsylvania	40.328	-80.040	12
+P	Bernburg		DE		51.795	11.740	28
+P	Bekwai		GH		6.452	-1.579	0
+P	’Aïn el Bell	ain el bell	DZ		34.344	3.225	2
+P	West Bend		US	Wisconsin	43.425	-88.183	5
+P	Béthune	bethune	FR		50.530	2.640	28
+P	Brighton Beach		US	New York	40.578	-73.960	12
+P	Dania Beach		US	Florida	26.052	-80.144	12
+P	Bektemir		UZ		41.210	69.334	25
+P	Kuala Belait		BN		4.584	114.231	22
+P	Bembèrèkè	bembereke	BJ		10.228	2.663	2
+P	’Aïn Benian	ain benian	DZ		36.803	2.922	2
+P	Bedworth		GB	England	52.479	-1.469	31
+P	Myrtle Beach		US	South Carolina	33.689	-78.887	12
+P	Berasia		IN		23.631	77.434	21
+P	San Benito		GT		16.917	-89.919	11
+P	Beverley		GB	England	53.846	-0.423	31
+P	Bel Air North		US	Maryland	39.554	-76.373	12
+P	Beykonak		TR		36.326	30.303	29
+P	Berriane		DZ		32.826	3.767	2
+P	Bentleigh East		AU	Victoria	-37.919	145.053	27
+P	New Bern		US	North Carolina	35.108	-77.044	12
+P	Bendale		CA	Ontario	43.767	-79.253	12
+P	Bergen		NL		52.669	4.704	28
+P	Ahmed Bel Hadj		DZ		36.801	7.608	2
+P	Betong		TH		5.774	101.072	19
+P	Behror		IN		27.888	76.281	21
+P	Begoro		GH		6.387	-0.377	0
+P	Draa Ben Khedda		DZ		36.734	3.962	2
+P	Bela		PK		26.227	66.312	25
+P	Bellas Vistas		ES		40.452	-3.708	28
+P	Best		NL		51.508	5.390	28
+P	Bethlehem		PS		31.705	35.204	18
+P	Beluru		MY		3.983	114.100	22
+P	Bemetāra	bemetara	IN		21.716	81.534	21
+P	Bearsden		GB	Scotland	55.915	-4.333	31
+P	Ben Mehidi		DZ		36.770	7.906	2
+P	Bergerac		FR		44.852	0.482	28
+P	Benicia		US	California	38.049	-122.159	9
+P	Berriozábal	berriozabal	MX		16.799	-93.272	11
+P	Bezhetsk		RU		57.784	36.701	29
+P	Bella Vista		US	Arkansas	36.481	-94.271	5
+P	Round Lake Beach		US	Illinois	42.372	-88.090	5
+P	Be’er Ya‘aqov	beer yaaqov	IL		31.939	34.837	20
+P	Porto Belo		BR		-27.158	-48.553	15
+P	Bergenfield		US	New Jersey	40.928	-73.997	12
+P	Bezons		FR		48.924	2.213	28
+P	Beldānga	beldanga	IN		23.934	88.260	21
+P	Imperial Beach		US	California	32.584	-117.113	9
+P	Belmont		US	California	37.520	-122.276	9
+P	Betioky		MG		-23.721	44.381	29
+P	Capitán Bermúdez	capitan bermudez	AR		-32.823	-60.719	15
+P	Villiers-le-Bel	villiers le bel	FR		49.009	2.398	28
+P	São Bernardo	sao bernardo	BR		-3.361	-42.418	15
+P	Sungai Besar		MY		3.675	100.987	22
+P	Pedro Betancourt		CU		22.728	-81.289	8
+P	Bessemer		US	Alabama	33.402	-86.954	5
+P	Bela		IN		25.557	84.431	21
+P	Benicarló	benicarlo	ES		40.416	0.427	28
+P	Fray Bentos		UY		-33.117	-58.311	15
+P	Berber		SD		18.022	33.983	3
+P	Howard Beach		US	New York	40.658	-73.836	12
+P	Beltline		CA	Alberta	51.040	-114.071	6
+P	Bečej	becej	RS		45.616	20.033	28
+P	Berruguete		ES		40.460	-3.705	28
+P	Beuningen		NL		51.861	5.767	28
+P	Heppenheim an der Bergstrasse		DE		49.641	8.632	28
+P	Hénin-Beaumont	henin beaumont	FR		50.414	2.965	28
+P	White Bear Lake		US	Minnesota	45.085	-93.010	5
+P	Berchem-Sainte-Agathe	berchem sainte agathe	BE		50.866	4.296	28
+P	Belvidere		US	Illinois	42.264	-88.844	5
+P	Belluno		IT		46.143	12.216	28
+P	Batu Berendam		MY		2.249	102.246	22
+P	Burg bei Magdeburg		DE		52.272	11.855	28
+P	Bedburg		DE		50.993	6.571	28
+P	Gimja Bēt Maryam	gimja bet maryam	ET		10.850	36.883	29
+P	Ginja Bet		ET		10.850	36.893	29
+P	Belmont		US	Massachusetts	42.396	-71.179	12
+P	Seal Beach		US	California	33.741	-118.105	9
+P	Bedēsa	bedesa	ET		6.833	38.083	29
+P	Beohāri	beohari	IN		24.024	81.378	21
+P	Bereket		TM		39.245	55.515	25
+P	San Benito		US	Texas	26.133	-97.631	5
+P	Belize		AO		-4.650	12.767	2
+P	Bélabo	belabo	CM		4.933	13.300	2
+P	New Smyrna Beach		US	Florida	29.026	-80.927	12
+P	Licenciado Benito Juárez	licenciado benito juarez	MX		24.657	-107.545	10
+P	Beaune		FR		47.024	4.839	28
+P	Nuevo Belén	nuevo belen	PA		9.089	-79.392	4
+P	Belo Oriente		BR		-19.220	-42.484	15
+P	Belo sur Tsiribihina		MG		-19.698	44.546	29
+P	Bezenchuk		RU		52.981	49.432	32
+P	Belleville		CI		6.180	-6.905	0
+P	Belleville		CI		6.873	-6.848	0
+P	Oud-Beijerland	oud beijerland	NL		51.824	4.412	28
+P	Bègles	begles	FR		44.808	-0.551	28
+P	Belper		GB	England	53.023	-1.481	31
+P	Laguna Beach		US	California	33.542	-117.783	9
+P	Bellview		US	Florida	30.462	-87.315	5
+P	Salah Bey		DZ		35.855	5.291	2
+P	Berehove		UA		48.205	22.645	30
+P	Bewar		IN		27.219	79.298	21
+P	el Besòs i el Maresme	el besos i el maresme	ES		41.413	2.217	28
+P	Bedford Park-Nortown	bedford park nortown	CA	Ontario	43.731	-79.420	12
+P	Beersel		BE		50.766	4.300	28
+P	Belton		US	Missouri	38.812	-94.532	5
+P	Vero Beach South		US	Florida	27.616	-80.413	12
+P	Jacksonville Beach		US	Florida	30.295	-81.393	12
+P	Belovodskoye		KG		42.829	74.108	17
+P	Beloha		MG		-25.167	45.050	29
+P	Beihai		CN		25.080	98.577	22
+P	Benbrook		US	Texas	32.673	-97.461	5
+P	Belaga		MY		2.700	113.783	22
+P	Belūr	belur	IN		13.166	75.865	21
+P	Bédiala	bediala	CI		7.160	-6.306	0
+P	Beruri		BR		-3.898	-61.373	14
+P	Sunny Isles Beach		US	Florida	25.951	-80.123	12
+P	Berkhamsted		GB	England	51.760	-0.565	31
+P	Béguédo	beguedo	BF		11.781	-0.734	0
+P	Fort Walton Beach		US	Florida	30.421	-86.617	5
+P	Beni Khiar		TN		36.469	10.782	2
+P	Bela Vista		BR		-22.108	-56.533	14
+P	The Beaches		CA	Ontario	43.674	-79.295	12
+P	Beroun		CZ		49.964	14.072	28
+P	Bedford		CA	Nova Scotia	44.726	-63.667	7
+P	Belén de Umbría	belen de umbria	CO		5.201	-75.869	4
+P	Berestyn		UA		49.378	35.445	30
+P	Bedi		IN		22.501	70.044	21
+P	Bensekrane		DZ		35.075	-1.224	2
+P	Békés	bekes	HU		46.767	21.133	28
+P	Bedford		US	New Hampshire	42.946	-71.516	12
+P	ʻEwa Beach-Iroquois Point	ewa beach iroquois point	US	Hawaii	21.315	-157.991	33
+P	Belas		PT		38.777	-9.264	31
+P	Fuente del Berro		ES		40.425	-3.664	28
+P	Bekily		MG		-24.217	45.317	29
+P	Berëzovka	berezovka	RU		56.037	93.127	19
+P	Begūn	begun	IN		24.983	75.000	21
+P	Bad Berleburg		DE		51.052	8.392	28
+P	Bétera	betera	ES		39.591	-0.462	28
+P	Wasaga Beach		CA	Ontario	44.517	-80.016	12
+P	Bethany		US	Oregon	45.558	-122.868	9
+P	Bergneustadt		DE		51.025	7.656	28
+P	Belsand		IN		26.444	85.401	21
+P	Belton		US	Texas	31.056	-97.464	5
+P	Bekalta		TN		35.617	10.995	2
+P	Becerril		CO		9.704	-73.279	4
+P	Beitun		CN		47.352	87.821	17
+P	Bécédi-Brignan	becedi brignan	CI		5.909	-4.013	0
+P	Berkel en Rodenrijs		NL		51.993	4.479	28
+P	Belmonte		BR		-15.861	-38.880	15
+P	Belen		TR		36.489	36.195	29
+P	Beloyarskiy		RU		63.712	66.672	25
+P	Belfast		ZA		-25.690	30.035	3
+P	Bukit Beruntung		MY		3.416	101.557	22
+P	Batang Berjuntai		MY		3.383	101.417	22
+P	Belonia		IN		23.252	91.454	21
+P	North Bellmore		US	New York	40.691	-73.533	12
+P	Hermosa Beach		US	California	33.862	-118.400	9
+P	Beyla		GN		8.690	-8.649	0
+P	Beolgyo		KR		34.849	127.341	24
+P	Capesterre-Belle-Eau	capesterre belle eau	GP		16.045	-61.564	14
+P	Beni Mester		DZ		34.870	-1.423	2
+P	Bellshill		GB	Scotland	55.817	-4.017	31
+P	Bexley		AU	New South Wales	-33.950	151.117	27
+P	Beni Yakhlef		MA		33.684	-7.339	1
+P	Fenoarivo Be		MG		-18.433	46.567	29
+P	Bethany		US	Oklahoma	35.519	-97.632	5
+P	Bequimão	bequimao	BR		-2.449	-44.782	15
+P	Bemerode		DE		52.350	9.833	28
+P	Kampung Minyak Beku		MY		1.795	102.897	22
+P	Bear		US	Delaware	39.629	-75.658	12
+P	Bellwood		US	Illinois	41.881	-87.883	5
+P	Berrahal		DZ		36.835	7.453	2
+P	Ottobrunn bei München	ottobrunn bei munchen	DE		48.065	11.663	28
+P	Beaconsfield		CA	Quebec	45.433	-73.866	12
+P	Benavente		ES		42.002	-5.678	28
+P	General Belgrano		AR		-35.768	-58.494	15
+P	Benthuizen		NL		52.078	4.544	28
+P	Beloeil		CA	Quebec	45.568	-73.206	12
+P	Beshkent		UZ		38.821	65.653	25
+P	Berea		US	Ohio	41.366	-81.854	12
+P	Belém de São Francisco	belem de sao francisco	BR		-8.754	-38.966	15
+P	Beroroha		MG		-21.667	45.167	29
+P	Befandriana		MG		-15.257	48.542	29
+P	Bellaire		US	Texas	29.706	-95.459	5
+P	Bedlington		GB	England	55.131	-1.593	31
+P	Bensenville		US	Illinois	41.955	-87.940	5
+P	Beni Amrane		DZ		36.668	3.591	2
+P	Belo Campo		BR		-15.038	-41.260	15
+P	São Benedito do Rio Preto	sao benedito do rio preto	BR		-3.334	-43.528	15
+P	Betroka		MG		-23.267	46.083	29
+P	Beloozyorskiy		RU		55.460	38.444	29
+P	Neufahrn bei Freising		DE		48.316	11.663	28
+P	Belle Glade		US	Florida	26.685	-80.668	12
+P	Behat		IN		30.172	77.614	21
+P	Bergeijk		NL		51.319	5.358	28
+P	San Benito Abad		CO		8.929	-75.027	4
+P	Bejucal		CU		22.928	-82.389	8
+P	Campos Belos		BR		-13.037	-46.772	15
+P	Belterra		BR		-2.636	-54.937	15
+P	Benicàssim	benicassim	ES		40.050	0.067	28
+P	Bel Air Rivière Sèche	bel air riviere seche	MU		-20.258	57.750	32
+P	Belaya Glina		RU		46.081	40.874	29
+P	Bentleigh		AU	Victoria	-37.918	145.035	27
+P	Bexbach		DE		49.346	7.255	28
+P	Aïn Beni Mathar	ain beni mathar	MA		34.010	-2.032	1
+P	Berezhany		UA		49.446	24.937	30
+P	Bellaria-Igea Marina	bellaria igea marina	IT		44.143	12.472	28
+P	Bethnal Green		GB	England	51.527	-0.061	31
+P	Bendorf		DE		50.423	7.579	28
+P	Beli		NG		7.859	10.972	2
+P	Bermo		IN		23.788	85.935	21
+P	Vila Bela da Santíssima Trindade	vila bela da santissima trindade	BR		-15.008	-59.951	14
+P	Benoy		TD		8.983	16.320	2
+P	Nhà Bè	nha be	VN		10.697	106.740	19
+P	Belem		GW		11.853	-15.603	0
+P	Beekhuizen		SR		5.806	-55.174	15
+P	Berga		ES		42.104	1.846	28
+P	Kampung Bertam Ulu		MY		2.290	102.193	22
+P	Beckley		US	West Virginia	37.778	-81.188	12
+P	Benešov	benesov	CZ		49.782	14.687	28
+P	Bến Thủy	ben thuy	VN		18.650	105.700	19
+P	Bechem		GH		7.090	-2.025	0
+P	Bermeo		ES		43.421	-2.722	28
+P	Leaside-Bennington	leaside bennington	CA	Ontario	43.704	-79.366	12
+P	Bet She’an	bet shean	IL		32.497	35.496	20
+P	Belyy Yar		RU		61.265	73.241	25
+P	Beltsville		US	Maryland	39.035	-76.907	12
+P	Beri Khās	beri khas	IN		28.701	76.577	21
+P	Bergschenhoek		NL		51.990	4.499	28
+P	Beaver Dam		US	Wisconsin	43.458	-88.837	5
+P	Trinity-Bellwoods	trinity bellwoods	CA	Ontario	43.648	-79.408	12
+P	’Aïn el Berd	ain el berd	DZ		35.364	-0.513	2
+P	Belém	belem	PT		38.699	-9.193	31
+P	Bánovce nad Bebravou	banovce nad bebravou	SK		48.721	18.258	28
+P	Bethpage		US	New York	40.744	-73.482	12
+P	‘Ewa Beach	ewa beach	US	Hawaii	21.316	-158.007	33
+P	Umina Beach		AU	New South Wales	-33.523	151.313	27
+P	Belém	belem	BR		-6.692	-35.533	15
+P	Vero Beach		US	Florida	27.639	-80.397	12
+P	Belpasso		IT		37.592	14.980	28
+P	Casal Bertone		IT		41.898	12.534	28
+P	Padang Besar		MY		6.383	100.300	22
+P	Bétou	betou	CG		3.055	18.517	2
+P	Bellmore		US	New York	40.669	-73.527	12
+P	Beerse		BE		51.319	4.853	28
+P	Berezan		UA		50.311	31.468	30
+P	Belidzhi		RU		41.892	48.412	29
+P	Bembla et Mnara		TN		35.699	10.795	2
+P	Betma		IN		22.687	75.615	21
+P	Beckingen		DE		49.400	6.700	28
+P	Belén Gualcho	belen gualcho	HN		14.483	-88.800	11
+P	Beaufort		MY		5.347	115.746	22
+P	Bédiondo	bediondo	TD		8.629	17.186	2
+P	Benito Juárez	benito juarez	AR		-37.672	-59.807	15
+P	Great Bend		US	Kansas	38.364	-98.765	5
+P	Berck-Plage	berck plage	FR		50.407	1.564	28
+P	Belle Vale		GB	England	53.392	-2.860	31
+P	Berck		FR		50.400	1.600	28
+P	Beylagan		AZ		39.776	47.619	32
+P	North Myrtle Beach		US	South Carolina	33.816	-78.680	12
+P	Ben Taieb		MA		35.044	-3.454	1
+P	Long Beach		US	Mississippi	30.350	-89.153	5
+P	Bad Bentheim		DE		52.301	7.158	28
+P	Beni Khalled		TN		36.650	10.590	2
+P	Béré	bere	TD		9.320	16.155	2
+P	Ou Bei Choan		KH		13.774	102.737	19
+P	Bellevue		US	Wisconsin	44.444	-87.920	5
+P	Benetússer	benetusser	ES		39.423	-0.397	28
+P	Altdorf bei Nürnberg	altdorf bei nurnberg	DE		49.386	11.357	28
+P	Bevere		BE		50.850	3.587	28
+P	Belëv	belev	RU		53.812	36.133	29
+P	Berkley		US	Michigan	42.503	-83.184	12
+P	Beverungen		DE		51.668	9.374	28
+P	Bellavista		PE		-7.056	-76.591	4
+P	Palm Beach		AU	Queensland	-28.117	153.466	26
+P	Belén	belen	AR		-27.650	-67.026	15
+P	Bennekom		NL		51.998	5.676	28
+P	Belvedere Park		US	Georgia	33.755	-84.267	12
+P	Bella Vista		AR		-27.034	-65.302	15
+P	Betulia		CO		6.113	-75.984	4
+P	Berja		ES		36.847	-2.950	28
+P	Berkovitsa		BG		43.237	23.125	30
+P	Béjar	bejar	ES		40.386	-5.763	28
+P	Belmopan		BZ		17.254	-88.764	11

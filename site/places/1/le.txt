@@ -1,0 +1,453 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Africa/Lagos	60	
+Z	2	Africa/Ouagadougou	0	
+Z	3	America/Bogota	-300	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Guadeloupe	-240	
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/Mazatlan	-420	
+Z	10	America/Mexico_City	-360	
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	13	America/Sao_Paulo	-180	
+Z	14	Asia/Baku	240	
+Z	15	Asia/Bishkek	360	
+Z	16	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	17	Asia/Kolkata	330	
+Z	18	Asia/Novokuznetsk	420	
+Z	19	Asia/Shanghai	480	
+Z	20	Asia/Tehran	210	
+Z	21	Asia/Vladivostok	600	
+Z	22	Asia/Yakutsk	540	
+Z	23	Asia/Yangon	390	
+Z	24	Asia/Yekaterinburg	300	
+Z	25	Europe/Berlin	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	26	Europe/Helsinki	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	27	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	28	Europe/Moscow	180	
+Z	29	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AD	Andorra	mwl	s
+C	AL	Albania	mwl	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AW	Aruba	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BR	Brazil	mwl	s
+C	BW	Botswana	egyptian	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GP	Guadeloupe	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	KG	Kyrgyzstan	mwl	h
+C	KH	Cambodia	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	MM	Myanmar	mwl	s
+C	MQ	Martinique	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PR	Puerto Rico	mwl	s
+C	PT	Portugal	mwl	s
+C	RE	Reunion	egyptian	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	SR	Suriname	mwl	s
+C	SS	South Sudan	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	XK	Kosovo	mwl	s
+C	ZA	South Africa	egyptian	s
+B	1
+P	León de los Aldama	leon de los aldama	MX		21.122	-101.683	10
+P	Leshan		CN		29.562	103.764	19
+P	Leeds		GB	England	53.796	-1.548	27
+P	Leipzig		DE		51.340	12.371	25
+P	Lekki		NG		6.446	3.477	1
+P	Leicester		GB	England	52.639	-1.132	27
+P	Lexington		US	Kentucky	37.989	-84.478	11
+P	Lexington-Fayette	lexington fayette	US	Kentucky	38.050	-84.459	11
+P	Rishon LeTsiyyon		IL		31.971	34.789	16
+P	São Leopoldo	sao leopoldo	BR		-29.760	-51.147	13
+P	Leganés	leganes	ES		40.327	-3.764	25
+P	Le Havre		FR		49.493	0.108	25
+P	Legaspi		PH		13.141	123.741	19
+P	Leverkusen		DE		51.030	6.984	25
+P	León	leon	NI		12.435	-86.879	10
+P	Le Mans		FR		48.002	0.203	25
+P	Lévis	levis	CA	Quebec	46.803	-71.178	11
+P	Le Vieux-Longueuil	le vieux longueuil	CA	Quebec	45.537	-73.508	11
+P	Léogâne	leogane	HT		18.511	-72.633	11
+P	Bayan Lepas		MY		5.300	100.261	19
+P	Leiyang		CN		26.402	112.859	19
+P	Leiria		PT		39.744	-8.807	27
+P	Les Cayes		HT		18.192	-73.749	11
+P	León	leon	ES		42.600	-5.570	25
+P	Leeuwarden		NL		53.203	5.810	25
+P	Lecheng		CN		25.128	113.350	19
+P	Leiden		NL		52.158	4.493	25
+P	Lengshuijiang		CN		27.688	111.429	19
+P	Leninsk-Kuznetsky	leninsk kuznetsky	RU		54.657	86.174	18
+P	Legnica		PL		51.210	16.162	25
+P	Le Plateau-Mont-Royal	le plateau mont royal	CA	Quebec	45.528	-73.581	11
+P	Lewisville		US	Texas	33.046	-96.994	4
+P	Lethbridge		CA	Alberta	49.700	-112.819	6
+P	Leuven		BE		50.880	4.701	25
+P	League City		US	Texas	29.507	-95.095	4
+P	Leme		BR		-22.186	-47.390	13
+P	Lee's Summit	lees summit	US	Missouri	38.911	-94.382	4
+P	Leskovac		RS		42.998	21.946	25
+P	Lere		NG		10.386	8.573	1
+P	Lefortovo		RU		55.767	37.700	28
+P	San Leandro		US	California	37.725	-122.156	8
+P	Lengshuitan		CN		26.411	111.596	19
+P	Le Kram		TN		36.836	10.316	1
+P	Lerik		AZ		38.774	48.415	14
+P	Lehigh Acres		US	Florida	26.625	-81.625	11
+P	Le Sud-Ouest	le sud ouest	CA	Quebec	45.472	-73.590	11
+P	Les Corts		ES		41.387	2.130	25
+P	Le Tampon		RE		-21.277	55.518	14
+P	Lecce		IT		40.355	18.172	25
+P	Lelystad		NL		52.508	5.475	25
+P	Lerdo		MX		25.536	-103.525	10
+P	Saint-Léonard	saint leonard	CA	Quebec	45.588	-73.595	11
+P	Cẩm Lệ	cam le	VN		16.018	108.204	18
+P	Les Rivières	les rivieres	CA	Quebec	46.818	-71.272	11
+P	Le Bardo		TN		36.811	10.135	1
+P	San Leonardo		PH		15.363	120.964	19
+P	Lençóis Paulista	lencois paulista	BR		-22.599	-48.800	13
+P	Leninogorsk		RU		54.597	52.451	28
+P	Lesosibirsk		RU		58.235	92.484	18
+P	Leszno		PL		51.840	16.575	25
+P	Pedro Leopoldo		BR		-19.618	-44.043	13
+P	Noisy-le-Grand	noisy le grand	FR		48.850	2.563	25
+P	Levallois-Perret	levallois perret	FR		48.894	2.289	25
+P	Issy-les-Moulineaux	issy les moulineaux	FR		48.821	2.277	25
+P	Juan-les-Pins	juan les pins	FR		43.569	7.113	25
+P	Leander		US	Texas	30.579	-97.853	4
+P	Lehi		US	Utah	40.392	-111.851	5
+P	la Nova Esquerra de l'Eixample	la nova esquerra de leixample	ES		41.383	2.149	25
+P	Legnano		IT		45.598	8.915	25
+P	Siu Lek Yuen		HK		22.382	114.213	19
+P	Lesnoy		RU		57.620	63.078	24
+P	Leytonstone		GB	England	51.569	0.008	27
+P	Les Abymes		GP		16.273	-61.505	7
+P	Ciudad de Huajuapan de León	ciudad de huajuapan de leon	MX		17.808	-97.780	10
+P	Levittown		US	Pennsylvania	40.155	-74.829	11
+P	Lenexa		US	Kansas	38.954	-94.734	4
+P	Levoberezhnyy		RU		55.865	37.473	28
+P	Levittown		US	New York	40.726	-73.514	11
+P	Tiu Keng Leng		HK		22.299	114.251	19
+P	Léo	leo	BF		11.100	-2.107	2
+P	Leesburg		US	Virginia	39.116	-77.564	11
+P	Leopoldina		BR		-21.532	-42.643	13
+P	Royal Leamington Spa		GB	England	52.285	-1.520	27
+P	Legionowo		PL		52.401	20.927	25
+P	Letlhabile		ZA		-25.482	27.839	0
+P	Leonberg		DE		48.800	9.017	25
+P	Leidsche Rijn		NL		52.095	5.046	25
+P	Leticia		CO		-4.211	-69.939	3
+P	Le Blanc-Mesnil	le blanc mesnil	FR		48.939	2.461	25
+P	Lecherías	lecherias	VE		10.192	-64.692	7
+P	Vila Leopoldina		BR		-23.529	-46.734	13
+P	Lecco		IT		45.856	9.397	25
+P	Barri de les Corts		ES		41.387	2.135	25
+P	Chak Thirty-one -Eleven Left	chak thirty one eleven left	PK		30.424	72.697	24
+P	Lehrte		DE		52.372	9.979	25
+P	Dreta de l'Eixample	dreta de leixample	ES		41.396	2.167	25
+P	Leigh		GB	England	53.496	-2.520	27
+P	Leatherhead		GB	England	51.297	-0.334	27
+P	Le Cannet		FR		43.577	7.019	25
+P	Leighton Buzzard		GB	England	51.917	-0.658	27
+P	Lebowakgomo		ZA		-24.315	29.501	0
+P	Lemgo		DE		52.028	8.899	25
+P	l'Antiga Esquerra de l'Eixample	lantiga esquerra de leixample	ES		41.389	2.155	25
+P	Carmen De La Legua Reynoso		PE		-12.054	-77.098	3
+P	Lesozavodsk		RU		45.472	133.398	21
+P	Leominster		US	Massachusetts	42.525	-71.760	11
+P	Leinfelden-Echterdingen	leinfelden echterdingen	DE		48.694	9.168	25
+P	Le Lamentin		MQ		14.613	-61.000	7
+P	Garges-lès-Gonesse	garges les gonesse	FR		48.968	2.398	25
+P	Leslie		ZA		-26.367	28.919	0
+P	Lequn		CN		22.578	113.874	19
+P	Montigny-le-Bretonneux	montigny le bretonneux	FR		48.766	2.034	25
+P	Noisy-le-Sec	noisy le sec	FR		48.891	2.465	25
+P	Letpandan		MM		17.787	95.751	23
+P	Leningradskaya		RU		46.321	39.386	28
+P	Leuben		DE		51.011	13.820	25
+P	Lens		FR		50.433	2.828	25
+P	Lepaera		HN		14.779	-88.590	10
+P	Mateus Leme		BR		-19.986	-44.428	13
+P	Leblon		BR		-22.984	-43.223	13
+P	Leyland		GB	England	53.698	-2.688	27
+P	Neufchâtel-Est–Lebourgneuf	neufchatel est lebourgneuf	CA	Quebec	46.854	-71.342	11
+P	Leh		IN		34.165	77.584	17
+P	Joué-lès-Tours	joue les tours	FR		47.349	0.665	25
+P	Parque Lefevre		PA		9.023	-79.479	3
+P	Chester-le-Street	chester le street	GB	England	54.859	-1.574	27
+P	Houghton-Le-Spring	houghton le spring	GB	England	54.840	-1.464	27
+P	Fort Lee		US	New Jersey	40.851	-73.970	11
+P	Letlhakane		BW		-21.415	25.593	0
+P	Lewiston		US	Maine	44.100	-70.215	11
+P	Leavenworth		US	Kansas	39.311	-94.922	4
+P	Leamington		CA	Ontario	42.050	-82.600	11
+P	Choisy-le-Roi	choisy le roi	FR		48.768	2.419	25
+P	Egypt Lake-Leto	egypt lake leto	US	Florida	28.018	-82.506	11
+P	Lębork	lebork	PL		54.539	17.750	25
+P	Saint-Leu	saint leu	RE		-21.171	55.288	14
+P	Six-Fours-les-Plages	six fours les plages	FR		43.092	5.825	25
+P	Le Plateau		SN		14.662	-17.440	2
+P	Leawood		US	Kansas	38.967	-94.617	4
+P	Letchworth Garden City		GB	England	51.979	-0.227	27
+P	Leer		DE		53.232	7.461	25
+P	Le Port		RE		-20.938	55.294	14
+P	Mount Lebanon		US	Pennsylvania	40.355	-80.049	11
+P	Léré	lere	TD		9.645	14.215	1
+P	Lenbe		HT		19.706	-72.403	11
+P	Lewiston		US	Idaho	46.417	-117.018	8
+P	Les Mureaux		FR		48.992	1.910	25
+P	Le Perreux-sur-Marne	le perreux sur marne	FR		48.850	2.500	25
+P	Shek Lei		HK		22.366	114.140	19
+P	Vandœuvre-lès-Nancy	vandoeuvre les nancy	FR		48.661	6.171	25
+P	Leku		ET		6.873	38.444	28
+P	Thonon-les-Bains	thonon les bains	FR		46.370	6.480	25
+P	Lebohang		ZA		-26.379	28.921	0
+P	Lewiston Orchards		US	Idaho	46.380	-116.975	8
+P	Lexington		US	Massachusetts	42.447	-71.225	11
+P	Leioa		ES		43.327	-2.989	25
+P	Lend		AT		47.083	15.416	25
+P	Charenton-le-Pont	charenton le pont	FR		48.822	2.412	25
+P	Sotteville-lès-Rouen	sotteville les rouen	FR		49.410	1.090	25
+P	Levice		SK		48.216	18.607	25
+P	Sint-Pieters-Leeuw	sint pieters leeuw	BE		50.779	4.244	25
+P	Bandar-e Lengeh	bandar e lengeh	IR		26.562	54.884	20
+P	Lebanon		US	Tennessee	36.208	-86.291	4
+P	Lewe		MM		19.636	96.110	23
+P	Yverdon-les-Bains	yverdon les bains	CH		46.779	6.641	25
+P	Leonovo		RU		55.850	37.650	28
+P	Leninskiye Gory		RU		55.700	37.567	28
+P	Levittown		PR		18.450	-66.182	7
+P	L'Haÿ-les-Roses	lhay les roses	FR		48.779	2.337	25
+P	Stanford-le-Hope	stanford le hope	GB	England	51.523	0.434	27
+P	Saint-Leu	saint leu	FR		46.731	4.501	25
+P	Piton Saint-Leu	piton saint leu	RE		-21.220	55.315	14
+P	Leusden		NL		52.133	5.432	25
+P	Leighton Hill		HK		22.276	114.184	19
+P	Le Chesnay		FR		48.822	2.122	25
+P	Czerwionka-Leszczyny	czerwionka leszczyny	PL		50.150	18.678	25
+P	Le Gosier		GP		16.206	-61.493	7
+P	Leppävaara	leppavaara	FI		60.213	24.813	26
+P	Lennestadt		DE		51.117	8.067	25
+P	Leichlingen		DE		51.106	7.019	25
+P	Leifeng		CN		28.200	112.846	19
+P	Le Kremlin-Bicêtre	le kremlin bicetre	FR		48.815	2.361	25
+P	Aix-les-Bains	aix les bains	FR		45.692	5.909	25
+P	Gabriel Leyva Solano		MX		25.662	-108.637	9
+P	Leandro N. Alem	leandro n alem	AR		-27.604	-55.324	13
+P	Leimen		DE		49.347	8.687	25
+P	Villiers-le-Bel	villiers le bel	FR		49.009	2.398	25
+P	Landsberg am Lech		DE		48.048	10.883	25
+P	Lerum		SE		57.771	12.269	25
+P	Lemon Grove		US	California	32.743	-117.031	8
+P	Le Grand-Quevilly	le grand quevilly	FR		49.401	1.046	25
+P	Capão do Leão	capao do leao	BR		-31.763	-52.484	13
+P	Lebrija		ES		36.921	-6.075	25
+P	Montigny-lès-Metz	montigny les metz	FR		49.096	6.153	25
+P	Lei Tung		HK		22.241	114.158	19
+P	Leisure City		US	Florida	25.495	-80.429	11
+P	Pyan Lel Nay Yar Cha Htar Ye		MM		16.972	96.127	23
+P	Rosario de Lerma		AR		-24.986	-65.578	13
+P	Leiderdorp		NL		52.158	4.529	25
+P	Savigny-le-Temple	savigny le temple	FR		48.574	2.583	25
+P	Lepe		ES		37.255	-7.204	25
+P	New Lenox		US	Illinois	41.512	-87.966	4
+P	Les Ulis		FR		48.682	2.169	25
+P	Lemoore		US	California	36.301	-119.783	8
+P	Le Creusot		FR		46.807	4.416	25
+P	Lebanon		US	Pennsylvania	40.341	-76.411	11
+P	Lempäälä	lempaala	FI		61.317	23.750	26
+P	Newton-le-Willows	newton le willows	GB	England	53.450	-2.600	27
+P	Vale of Leven		GB	Scotland	55.971	-4.579	27
+P	Le Bouscat		FR		44.865	-0.599	25
+P	Lentini		IT		37.286	14.997	25
+P	Chak One Hundred Twenty Nine Left		PK		30.429	73.045	24
+P	Lebedyn		UA		50.582	34.483	26
+P	Lesnoy		RU		58.639	59.790	24
+P	Le Robert		MQ		14.678	-60.942	7
+P	Lensk		RU		60.724	114.934	22
+P	Lermontov		RU		44.107	42.978	28
+P	Ah Lel		MM		16.922	96.063	23
+P	Lebedyan’	lebedyan	RU		53.015	39.145	28
+P	Lennox		US	California	33.938	-118.353	8
+P	Le Puy-en-Velay	le puy en velay	FR		45.044	3.885	25
+P	Lerma de Villada		MX		19.289	-99.512	10
+P	Lengerich		DE		52.187	7.860	25
+P	Le Moule		GP		16.332	-61.347	7
+P	Le Petit-Quevilly	le petit quevilly	FR		49.413	1.062	25
+P	Lehragaga		IN		29.943	75.801	17
+P	Letterkenny		IE		54.950	-7.733	27
+P	Le Plessis-Robinson	le plessis robinson	FR		48.789	2.271	25
+P	Leutkirch		DE		47.827	10.021	25
+P	Lebu		CL		-37.608	-73.654	12
+P	Le Mée-sur-Seine	le mee sur seine	FR		48.532	2.628	25
+P	Leesburg		US	Florida	28.811	-81.878	11
+P	West and East Lealman		US	Florida	27.820	-82.689	11
+P	Sainte-Foy-lès-Lyon	sainte foy les lyon	FR		45.734	4.803	25
+P	Łęczna	leczna	PL		51.301	22.881	25
+P	Letňany	letnany	CZ		50.133	14.517	25
+P	Legnago		IT		45.194	11.302	25
+P	Annecy-le-Vieux	annecy le vieux	FR		45.920	6.144	25
+P	Tanki Leendert		AW		12.539	-70.020	7
+P	Tustin Legacy		US	California	33.700	-117.826	8
+P	Lenger		KZ		42.182	69.886	24
+P	Lephalale		ZA		-23.666	27.745	0
+P	Les Lilas		FR		48.880	2.421	25
+P	Lebedinovka		KG		42.885	74.678	15
+P	Fleury-les-Aubrais	fleury les aubrais	FR		47.933	1.918	25
+P	Dammarie-les-Lys	dammarie les lys	FR		48.517	2.650	25
+P	Leerdam		NL		51.893	5.092	25
+P	Lons-le-Saunier	lons le saunier	FR		46.675	5.556	25
+P	Lebanon		US	Ohio	39.435	-84.203	11
+P	Montceau-les-Mines	montceau les mines	FR		46.667	4.367	25
+P	Levanger		NO		63.746	11.300	25
+P	Lents		US	Oregon	45.480	-122.567	8
+P	Lexington		US	South Carolina	33.982	-81.236	11
+P	Braine-le-Comte	braine le comte	BE		50.610	4.147	25
+P	Puerto Leguízamo	puerto leguizamo	CO		-0.193	-74.782	3
+P	Poulton-le-Fylde	poulton le fylde	GB	England	53.833	-2.983	27
+P	Lealman		US	Florida	27.821	-82.679	11
+P	Les Pennes-Mirabeau	les pennes mirabeau	FR		43.410	5.308	25
+P	Levin		NZ		-40.633	175.275	29
+P	Bourg-lès-Valence	bourg les valence	FR		44.947	4.895	25
+P	Les Pavillons-sous-Bois	les pavillons sous bois	FR		48.907	2.506	25
+P	Le François	le francois	MQ		14.615	-60.903	7
+P	Leek		NL		53.163	6.376	25
+P	Monforte de Lemos		ES		42.522	-7.514	25
+P	Adwick le Street		GB	England	53.571	-1.185	27
+P	Lebach		DE		49.411	6.910	25
+P	Legazpi		ES		40.389	-3.687	25
+P	Leek		GB	England	53.104	-2.022	27
+P	Lexington		US	North Carolina	35.824	-80.253	11
+P	Jouy-le-Moutier	jouy le moutier	FR		49.011	2.040	25
+P	Leposaviq		XK		43.104	20.803	25
+P	Digne-les-Bains	digne les bains	FR		44.093	6.232	25
+P	Lerdo de Tejada		MX		18.629	-95.520	10
+P	Lezhë	lezhe	AL		41.784	19.644	25
+P	Le Plessis-Trévise	le plessis trevise	FR		48.811	2.574	25
+P	Bar-le-Duc	bar le duc	FR		48.773	5.161	25
+P	Lei Tung Estate		HK		22.241	114.155	19
+P	Isle of Lewis		GB	Scotland	58.219	-6.388	27
+P	Lelydorp		SR		5.700	-55.233	13
+P	Joinville-le-Pont	joinville le pont	FR		48.825	2.475	25
+P	L'Eliana	leliana	ES		39.567	-0.533	25
+P	Castelnau-le-Lez	castelnau le lez	FR		43.636	3.901	25
+P	Leça da Palmeira	leca da palmeira	PT		41.191	-8.700	27
+P	Leland		US	North Carolina	34.256	-78.045	11
+P	Bang Len		TH		14.022	100.172	18
+P	Montigny-lès-Cormeilles	montigny les cormeilles	FR		48.982	2.200	25
+P	Lenoir		US	North Carolina	35.914	-81.539	11
+P	Leer		SS		8.303	30.141	0
+P	Saint-Amand-les-Eaux	saint amand les eaux	FR		50.447	3.431	25
+P	Le Pré-Saint-Gervais	le pre saint gervais	FR		48.885	2.404	25
+P	Les Clayes-sous-Bois	les clayes sous bois	FR		48.822	1.987	25
+P	Lessines		BE		50.711	3.836	25
+P	Sin-le-Noble	sin le noble	FR		50.362	3.131	25
+P	Albert Lea		US	Minnesota	43.648	-93.368	4
+P	Villeneuve-le-Roi	villeneuve le roi	FR		48.737	2.401	25
+P	Le Roux		ZA		-33.891	19.103	0
+P	Marly-le-Roi	marly le roi	FR		48.867	2.083	25
+P	Les Coteaux		CA	Quebec	45.283	-74.233	11
+P	Lebbeke		BE		51.005	4.135	25
+P	Media Legua		ES		40.412	-3.657	25
+P	Lewes		GB	England	50.874	0.009	27
+P	Vitry-le-François	vitry le francois	FR		48.725	4.584	25
+P	Lérida	lerida	CO		4.862	-74.910	3
+P	Mboursou Léré	mboursou lere	TD		9.764	14.154	1
+P	Sestri Levante		IT		44.273	9.397	25
+P	Paya Lebar		SG		1.354	103.891	19
+P	Leaside-Bennington	leaside bennington	CA	Ontario	43.704	-79.366	11
+P	Lede		BE		50.966	3.986	25
+P	Santo Antônio do Leverger	santo antonio do leverger	BR		-15.866	-56.077	7
+P	Verrières-le-Buisson	verrieres le buisson	FR		48.746	2.268	25
+P	Lemont		US	Illinois	41.674	-88.002	4
+P	Le Vésinet	le vesinet	FR		48.893	2.133	25
+P	Lemay		US	Missouri	38.533	-90.279	4
+P	Le Camas		FR		43.295	5.394	25
+P	Le Pecq		FR		48.893	2.104	25
+P	Saint-Cyr-l'École	saint cyr lecole	FR		48.799	2.068	25
+P	Lebanon		US	Oregon	44.537	-122.907	8
+P	Fontenay-le-Comte	fontenay le comte	FR		46.467	-0.806	25
+P	Lędziny	ledziny	PL		50.143	19.131	25
+P	Leopoldshöhe	leopoldshohe	DE		52.012	8.698	25
+P	Le Pontet		FR		43.961	4.860	25
+P	Phumĭ Âmpĭl Leu	phumi ampil leu	KH		12.009	105.434	18
+P	Les Sables-d'Olonne	les sables dolonne	FR		46.497	-1.785	25
+P	Leça do Bailio	leca do bailio	PT		41.212	-8.634	27
+P	Saint-Leu-la-Forêt	saint leu la foret	FR		49.017	2.250	25
+P	Leeudoringstad		ZA		-27.237	26.235	0
+P	Lembeni		TZ		-3.783	37.617	28
+P	Colônia Leopoldina	colonia leopoldina	BR		-8.909	-35.725	13
+P	Villers-lès-Nancy	villers les nancy	FR		48.673	6.153	25
+P	Lebanon		US	Indiana	40.048	-86.469	11
+P	Boissy-Saint-Léger	boissy saint leger	FR		48.751	2.512	25
+P	les Escaldes		AD		42.507	1.534	25
+P	Sankt Leonhard		AT		47.069	15.458	25
+P	Les Herbiers		FR		46.871	-1.016	25
+P	Le Hochet		MU		-20.139	57.530	14
+P	les Roquetes		ES		41.448	2.175	25
+P	Lee On		HK		22.426	114.241	19
+P	Saint-Basile-le-Grand	saint basile le grand	CA	Quebec	45.533	-73.282	11
+P	Leduc		CA	Alberta	53.267	-113.552	6
+P	Łęczyca	leczyca	PL		52.060	19.200	25
+P	Leteri		IN		24.060	77.409	17
+P	Leixlip		IE		53.366	-6.496	27
+P	Les Moulins		FR		43.675	7.205	25
+P	Mid Levels		HK		22.284	114.150	19
+P	Popeşti-Leordeni	popesti leordeni	RO		44.383	26.167	26
+P	Ledyard		US	Connecticut	41.440	-72.014	11
+P	Eggenstein-Leopoldshafen	eggenstein leopoldshafen	DE		49.090	8.399	25
+P	Les Olives		FR		43.324	5.458	25
+P	Leninsk		RU		48.703	45.196	28
+P	Fort Leonard Wood		US	Missouri	37.706	-92.157	4

@@ -1,0 +1,218 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+C	KH	Cambodia	mwl	s
+C	TH	Thailand	mwl	s
+C	VN	Vietnam	mwl	s
+B	2
+P	Bangkok		TH		13.754	100.501	0
+P	Phnom Penh		KH		11.562	104.916	0
+P	Takeo		KH		10.991	104.785	0
+P	Samut Prakan		TH		13.598	100.597	0
+P	Phu Quoc		VN		10.224	103.972	0
+P	Mueang Nonthaburi		TH		13.861	100.515	0
+P	Chon Buri		TH		13.362	100.983	0
+P	Phra Pradaeng		TH		13.659	100.534	0
+P	Bang Khae		TH		13.693	100.408	0
+P	Pak Kret		TH		13.912	100.498	0
+P	Sai Mai		TH		13.921	100.646	0
+P	Phú Quốc	phu quoc	VN		10.287	104.010	0
+P	Si Racha		TH		13.173	100.932	0
+P	Latkrabang		TH		13.728	100.746	0
+P	Watthana		TH		13.730	100.585	0
+P	Khlong Sam Wa		TH		13.871	100.737	0
+P	Bang Khun Thian		TH		13.663	100.434	0
+P	Lat Krabang		TH		13.722	100.785	0
+P	Chatuchak		TH		13.829	100.559	0
+P	Ban Khlong Prawet		TH		13.719	100.681	0
+P	Chom Thong		TH		13.677	100.484	0
+P	Nong Chok		TH		13.856	100.862	0
+P	Nong Khaem		TH		13.706	100.349	0
+P	Bang Kapi		TH		13.765	100.647	0
+P	Bueng Kum		TH		13.785	100.670	0
+P	Tịnh Biên	tinh bien	VN		10.596	104.937	0
+P	Kabin Buri		TH		13.951	101.717	0
+P	Siem Reap		KH		13.362	103.861	0
+P	Din Daeng		TH		13.790	100.570	0
+P	Nakhon Ratchasima		TH		14.971	102.102	0
+P	Bang Sue		TH		13.811	100.531	0
+P	Ban Samae Dam		TH		13.590	100.387	0
+P	Lat Phrao		TH		13.803	100.607	0
+P	Phasi Charoen		TH		13.715	100.437	0
+P	Thon Buri		TH		13.725	100.485	0
+P	Battambang		KH		13.103	103.198	0
+P	Khlong Luang		TH		14.065	100.646	0
+P	Nakhon Pathom		TH		13.820	100.044	0
+P	Bangkok Noi		TH		13.763	100.478	0
+P	Thung Khru		TH		13.628	100.510	0
+P	Pattaya		TH		12.933	100.883	0
+P	Suan Luang		TH		13.730	100.651	0
+P	Wang Thonglang		TH		13.785	100.612	0
+P	Lak Si		TH		13.887	100.579	0
+P	Khlong Toei		TH		13.710	100.582	0
+P	Dusit		TH		13.777	100.520	0
+P	Rayong		TH		12.681	101.258	0
+P	Taling Chan		TH		13.777	100.457	0
+P	Bang Bon		TH		13.662	100.396	0
+P	Si Maha Phot		TH		13.966	101.514	0
+P	Hà Tiên	ha tien	VN		10.383	104.488	0
+P	Chanthaburi		TH		12.610	102.104	0
+P	Bang Rak		TH		13.731	100.524	0
+P	Paoy Paet		KH		13.658	102.564	0
+P	Tha Raeng		TH		13.868	100.645	0
+P	Bang Na		TH		13.667	100.642	0
+P	Anusawari		TH		13.895	100.614	0
+P	Bang Phlat		TH		13.794	100.504	0
+P	Phra Khanong		TH		13.702	100.602	0
+P	Saphan Sung		TH		13.770	100.685	0
+P	Khan Na Yao		TH		13.826	100.677	0
+P	Rat Burana		TH		13.682	100.506	0
+P	Sathon		TH		13.709	100.526	0
+P	Yan Nawa		TH		13.696	100.542	0
+P	Sathorn		TH		13.750	100.517	0
+P	Bang Sue subdistrict		TH		13.806	100.531	0
+P	Bang Kruai		TH		13.805	100.473	0
+P	Huai Khwang		TH		13.777	100.579	0
+P	Khlong Chan		TH		13.781	100.645	0
+P	Dangkao		KH		11.509	104.891	0
+P	Thawi Watthana		TH		13.783	100.378	0
+P	Kampong Chhnang		KH		12.250	104.667	0
+P	Khlong San		TH		13.730	100.509	0
+P	Sihanoukville		KH		10.609	103.530	0
+P	Ratchathewi		TH		13.759	100.534	0
+P	Krathum Baen		TH		13.653	100.260	0
+P	Bangkok Yai		TH		13.723	100.476	0
+P	Phaya Thai		TH		13.780	100.543	0
+P	Khlong Kum		TH		13.788	100.680	0
+P	Huamak		TH		13.758	100.647	0
+P	Saraburi		TH		14.533	100.917	0
+P	Sattahip		TH		12.666	100.902	0
+P	Samut Sakhon		TH		13.548	100.274	0
+P	Ban Tha Kham		TH		13.637	100.441	0
+P	Ban Lam Luk Ka		TH		13.977	100.778	0
+P	Bang Khae Nuea		TH		13.706	100.389	0
+P	Prachantakham		TH		14.064	101.516	0
+P	Lop Buri		TH		14.798	100.654	0
+P	Na Di		TH		14.116	101.782	0
+P	Phra Phutthabat		TH		14.726	100.796	0
+P	Anlong Veaeng		KH		14.232	104.081	0
+P	Klaeng		TH		12.780	101.649	0
+P	Suphan Buri		TH		14.474	100.122	0
+P	Pathum Wan		TH		13.737	100.523	0
+P	Wat Tha Phra		TH		13.735	100.476	0
+P	Pursat		KH		12.539	103.919	0
+P	Ban Lak Song		TH		13.689	100.398	0
+P	Ta Khmau		KH		11.483	104.950	0
+P	Phra Nakhon		TH		13.765	100.499	0
+P	Pom Prap Sattru Phai		TH		13.758	100.513	0
+P	Phra Nakhon Si Ayutthaya		TH		14.352	100.577	0
+P	Chachoengsao		TH		13.688	101.072	0
+P	Pak Chong		TH		14.708	101.416	0
+P	Chong Nonsi		TH		13.693	100.549	0
+P	Bangkok Riverside		TH		13.755	100.517	0
+P	Surin		TH		14.882	103.494	0
+P	Phumĭ Yoŭl Toŭng	phumi youl toung	KH		11.282	104.738	0
+P	Phumĭ Véal Srê	phumi veal sre	KH		10.981	104.778	0
+P	Wong Sawang		TH		13.817	100.516	0
+P	Ban Phaeo		TH		13.591	100.107	0
+P	Bang Bua Thong		TH		13.918	100.424	0
+P	Lat Yao		TH		13.847	100.564	0
+P	Nong Khae		TH		14.340	100.867	0
+P	Bang Phai		TH		13.707	100.387	0
+P	Bang Lamung		TH		13.047	100.929	0
+P	Khao Saming		TH		12.354	102.434	0
+P	Khwaeng Bang Khae		TH		13.692	100.404	0
+P	Ban Sang		TH		13.996	101.221	0
+P	Khetsamsenok		TH		13.793	100.583	0
+P	Khlong Yai		TH		11.777	102.887	0
+P	Chan Kasem		TH		13.821	100.583	0
+P	Sam Phran		TH		13.727	100.215	0
+P	Kantharalak		TH		14.641	104.650	0
+P	Ban Ang Sila		TH		13.340	100.930	0
+P	Kep		KH		10.483	104.317	0
+P	Bang Khlo		TH		13.699	100.512	0
+P	Samut Songkhram		TH		13.415	100.003	0
+P	Kandoeng		KH		11.292	104.841	0
+P	Hàm Ninh	ham ninh	VN		10.181	104.048	0
+P	Chomphon		TH		13.804	100.560	0
+P	Kampong Speu		KH		11.453	104.521	0
+P	Koh Kong		KH		11.615	102.984	0
+P	Prachin Buri		TH		14.050	101.369	0
+P	Ban Khlong Bang Phran		TH		13.663	100.388	0
+P	Bang Khun Si		TH		13.751	100.470	0
+P	Ban Khlong Bang Sao Thong		TH		13.642	100.833	0
+P	Sam Sen Nai		TH		13.777	100.551	0
+P	Kaeng Khoi		TH		14.586	100.998	0
+P	Smach Mean Chey		KH		11.547	103.036	0
+P	Ban Chang Lo		TH		13.751	100.477	0
+P	Amphoe Sikhiu		TH		14.899	101.708	0
+P	Sa Kaeo		TH		13.814	102.072	0
+P	Bang Bo District		TH		13.583	100.817	0
+P	Buri Ram		TH		14.994	103.104	0
+P	Ban Chang		TH		12.725	101.055	0
+P	Ban Bang Kadi		TH		13.999	100.550	0
+P	Chorakhe Bua		TH		13.839	100.611	0
+P	Ban Talat Bueng		TH		13.071	101.003	0
+P	Inner Huai Khwang		TH		13.782	100.584	0
+P	Bang Pakong		TH		13.543	100.993	0
+P	Phumĭ Véal Tônsay	phumi veal tonsay	KH		11.696	104.581	0
+P	Prachin Buri Town		TH		14.055	101.373	0
+P	Boeng Kak Pir		KH		11.573	104.890	0
+P	Bangbontai		TH		13.647	100.371	0
+P	Bang Yi Khan		TH		13.763	100.490	0
+P	Pathum Thani		TH		14.013	100.530	0
+P	Tbeng Meanchey		KH		13.807	104.980	0
+P	Bang O		TH		13.836	100.460	0
+P	Samphanthawong		TH		13.737	100.512	0
+P	Ban Khlong Bang Bon		TH		13.636	100.377	0
+P	Ban Bueng		TH		13.312	101.113	0
+P	Chok Chai		TH		14.728	102.165	0
+P	Sisophon		KH		13.586	102.974	0
+P	Chrang Chamreh Muoy		KH		11.630	104.885	0
+P	Bang Kho Laem		TH		13.693	100.501	0
+P	Bang Kho Laem subdistrict		TH		13.693	100.502	0
+P	Kampot		KH		10.610	104.181	0
+P	Bang Bon Nuea		TH		13.653	100.359	0
+P	Tha Mai		TH		12.622	102.005	0
+P	Nang Rong		TH		14.638	102.791	0
+P	Khwaeng Bang Plat		TH		13.788	100.495	0
+P	Phanat Nikhom		TH		13.447	101.185	0
+P	Chatuchak subdistrict		TH		13.827	100.555	0
+P	Phumĭ Tnaôt	phumi tnaot	KH		12.947	104.569	0
+P	Trat		TH		12.244	102.515	0
+P	Nakhon Nayok		TH		14.205	101.213	0
+P	Bang Pa-in	bang pa in	TH		14.228	100.576	0
+P	Sena Nikhom		TH		13.837	100.577	0
+P	Aranyaprathet		TH		13.693	102.501	0
+P	Sing Buri		TH		14.888	100.405	0
+P	Kampong Thom		KH		12.711	104.889	0
+P	Thambon Na Mueang		TH		14.056	101.372	0
+P	Arun Amarin		TH		13.767	100.483	0
+P	Ban Khlong Bang Ramat		TH		13.767	100.433	0
+P	Phak Hai		TH		14.457	100.370	0
+P	Wiset Chaichan		TH		14.595	100.338	0
+P	Tha Ruea		TH		14.567	100.726	0
+P	Si Mahosot		TH		13.888	101.405	0
+P	Phan Thong		TH		13.470	101.093	0
+P	Samraong		KH		14.182	103.518	0
+P	Khon Buri		TH		14.525	102.246	0
+P	Ban Bang Bamru		TH		13.783	100.483	0
+P	Bang Len		TH		14.022	100.172	0
+P	Pailin		KH		12.849	102.609	0
+P	Ban Phe		TH		12.628	101.438	0
+P	Laem Ngop		TH		12.171	102.395	0
+P	Bang Ban		TH		14.374	100.485	0
+P	Phum Ânlŭng Vĭl	phum anlung vil	KH		13.083	103.235	0
+P	Wang Nam Yen		TH		13.505	102.181	0
+P	Yeang		KH		13.550	103.609	0
+P	Laem Sing		TH		12.482	102.074	0
+P	Phanom Sarakham		TH		13.749	101.349	0
+P	Ângk Tasaôm	angk tasaom	KH		11.013	104.673	0
+P	Ban Mo		TH		14.616	100.726	0
+P	Wang Noi		TH		14.227	100.716	0
+P	Makkasan		TH		13.752	100.543	0
+P	Prakhon Chai		TH		14.606	103.121	0
+P	Ban Phra		TH		14.095	101.389	0
+P	Ban Huai Thalaeng		TH		14.983	102.650	0
+P	Ou Bei Choan		KH		13.774	102.737	0
+P	Bang Racham		TH		14.892	100.317	0
+P	Nakhon Luang		TH		14.463	100.609	0

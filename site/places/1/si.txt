@@ -1,0 +1,479 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Bamako	0	
+Z	2	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	3	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	4	Africa/Khartoum	120	
+Z	5	America/Bahia	-180	
+Z	6	America/Bogota	-300	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/La_Paz	-240	
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Phoenix	-420	
+Z	13	America/Tegucigalpa	-360	
+Z	14	Asia/Bangkok	420	
+Z	15	Asia/Beirut	120	29578920=180 29881260=120 30103080=180 30415500=120 30627240=180 30939660=120 31151400=180 31463820=120 31685640=180 31987980=120 32209800=180 32512140=120 32733960=180 33046380=120 33258120=180 33570540=120 33782280=180 34094700=120 34306440=180 34618860=120 34840680=180 35143020=120 35364840=180 35667180=120 35889000=180 36201420=120 36413160=180 36725580=120 36937320=180 37249740=120 37471560=180 37773900=120 37995720=180 38298060=120 38519880=180 38822220=120 39044040=180 39356460=120 39568200=180 39880620=120
+Z	16	Asia/Dhaka	360	
+Z	17	Asia/Dubai	240	
+Z	18	Asia/Karachi	300	
+Z	19	Asia/Kathmandu	345	
+Z	20	Asia/Kolkata	330	
+Z	21	Asia/Seoul	540	
+Z	22	Asia/Singapore	480	
+Z	23	Asia/Tehran	210	
+Z	24	Asia/Yangon	390	
+Z	25	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	27	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	28	Europe/Simferopol	180	
+Z	29	Pacific/Fiji	720	
+C	AE	United Arab Emirates	dubai	s
+C	AT	Austria	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BG	Bulgaria	mwl	s
+C	BH	Bahrain	ummalqura	s
+C	BJ	Benin	egyptian	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CF	Central African Republic	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FJ	Fiji	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JO	Jordan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	LA	Laos	mwl	s
+C	LB	Lebanon	egyptian	s
+C	LT	Lithuania	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NP	Nepal	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	QA	Qatar	qatar	s
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SD	Sudan	egyptian	s
+C	SG	Singapore	singapore	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	3
+P	Singapore		SG		1.290	103.850	22
+P	Santa Cruz de la Sierra		BO		-17.786	-63.181	9
+P	Goyang-si	goyang si	KR		37.656	126.835	21
+P	Seongnam-si	seongnam si	KR		37.439	127.138	21
+P	Sialkot		PK		32.493	74.531	18
+P	Cheongju-si	cheongju si	KR		36.637	127.490	21
+P	Bucheon-si	bucheon si	KR		37.499	126.783	21
+P	Hwaseong-si	hwaseong si	KR		37.207	126.817	21
+P	Ansan-si	ansan si	KR		37.324	126.822	21
+P	Anyang-si	anyang si	KR		37.392	126.927	21
+P	Siping		CN		43.161	124.378	22
+P	Siliguri		IN		26.710	88.429	20
+P	Mianzhu, Deyang, Sichuan	mianzhu deyang sichuan	CN		31.338	104.221	22
+P	Uijeongbu-si	uijeongbu si	KR		37.742	127.047	21
+P	Wong Tai Sin		HK		22.350	114.183	22
+P	Sinjhoro		PK		26.030	68.809	18
+P	Sikasso		ML		11.318	-5.667	1
+P	Simferopol		UA		44.957	34.111	28
+P	Şişli	sisli	TR		41.060	28.987	28
+P	Sariwŏn-si	sariwon si	KP		38.507	125.756	21
+P	Sinŭiju	sinuiju	KP		40.101	124.398	21
+P	Sincelejo		CO		9.305	-75.391	6
+P	Gyeongsan-si	gyeongsan si	KR		35.823	128.738	21
+P	Sivas		TR		39.748	37.016	28
+P	Bagong Silang		PH		14.778	121.045	22
+P	Singa		SD		13.148	33.931	4
+P	Sinfra		CI		6.621	-5.911	1
+P	Sīkar	sikar	IN		27.612	75.140	20
+P	Sivakasi		IN		9.450	77.798	20
+P	Singida		TZ		-4.816	34.744	28
+P	Upper West Side		US	New York	40.787	-73.975	11
+P	Singrauli		IN		24.200	82.675	20
+P	Sinop		BR		-11.864	-55.502	9
+P	Sidi Bel Abbes		DZ		35.190	-0.631	0
+P	Gimpo-si	gimpo si	KR		37.624	126.714	21
+P	Sirjan		IR		29.451	55.681	23
+P	Sibu		MY		2.300	111.817	22
+P	Icheon-si	icheon si	KR		37.279	127.442	21
+P	Guri-si	guri si	KR		37.599	127.139	21
+P	Sirsa		IN		29.535	75.029	20
+P	Wādī as Sīr	wadi as sir	JO		31.954	35.818	28
+P	Si Racha		TH		13.173	100.932	14
+P	Silchar		IN		24.827	92.798	20
+P	Sittwe		MM		20.146	92.898	24
+P	Siverek		TR		37.755	39.317	28
+P	Sioux Falls		US	South Dakota	43.544	-96.728	7
+P	Sītāpur	sitapur	IN		27.562	80.683	20
+P	Sidon		LB		33.558	35.371	15
+P	Sitiawan		MY		4.217	100.700	22
+P	Sinp’o	sinpo	KP		40.040	128.194	21
+P	Simele		IQ		36.858	42.850	28
+P	Siguiri		GN		11.423	-9.169	1
+P	Sinch’ŏn-ŭp	sinchon up	KP		38.353	125.484	21
+P	Siem Reap		KH		13.362	103.861	14
+P	Siwān	siwan	IN		26.221	84.356	20
+P	Sibiu		RO		45.800	24.150	25
+P	Sinnūris	sinnuris	EG		29.413	30.866	2
+P	Silifke		TR		36.378	33.934	28
+P	Sīnah	sinah	IQ		36.809	43.039	28
+P	Siheungdong		KR		37.452	126.911	21
+P	Sirajganj		BD		24.458	89.708	16
+P	Siguatepeque		HN		14.597	-87.831	13
+P	Simi Valley		US	California	34.269	-118.781	10
+P	As Sinbillāwayn	as sinbillawayn	EG		30.883	31.463	2
+P	Toba Tek Singh		PK		30.971	72.483	18
+P	Siracusa		IT		37.075	15.287	27
+P	Silang		PH		14.216	120.971	22
+P	Silopi		TR		37.244	42.463	28
+P	Simões Filho	simoes filho	BR		-12.784	-38.404	5
+P	Siirt		TR		37.929	41.941	28
+P	Lak Si		TH		13.887	100.579	14
+P	Siegen		DE		50.875	8.024	27
+P	Bagong Silangan		PH		14.706	121.108	22
+P	Sirte		LY		31.209	16.589	4
+P	Nakhon Si Thammarat		TH		8.433	99.967	14
+P	Sidi Slimane		MA		34.265	-5.926	3
+P	Simmering		AT		48.183	16.433	27
+P	Si Maha Phot		TH		13.966	101.514	14
+P	Inda Silasē	inda silase	ET		14.103	38.283	28
+P	Šiauliai	siauliai	LT		55.933	23.317	25
+P	Siverskodonetsk		UA		48.944	38.488	25
+P	Silvassa		IN		20.274	72.997	20
+P	Sishui		CN		35.649	117.276	22
+P	Dubai Silicon Oasis		AE		25.120	55.387	17
+P	Usol’ye-Sibirskoye	usolye sibirskoye	RU		52.752	103.645	22
+P	Near North Side		US	Illinois	41.900	-87.635	7
+P	Sirsilla		IN		18.389	78.810	20
+P	Sinwŏn-ŭp	sinwon up	KP		38.235	125.762	21
+P	Sioux City		US	Iowa	42.500	-96.400	7
+P	Sidi Kacem		MA		34.221	-5.708	3
+P	Sinhyeon		KR		34.883	128.627	21
+P	Sirs al Layyānah	sirs al layyanah	EG		30.443	30.970	2
+P	Siedlce		PL		52.168	22.290	27
+P	Sindhnūr	sindhnur	IN		15.770	76.756	20
+P	Silao de la Victoria		MX		20.944	-101.427	13
+P	Sipalay		PH		9.752	122.404	22
+P	Sikandarābād	sikandarabad	IN		28.452	77.700	20
+P	Siemianowice Śląskie	siemianowice slaskie	PL		50.327	19.029	27
+P	Sihanoukville		KH		10.609	103.530	14
+P	Sitrah		BH		26.155	50.621	28
+P	Silver Spring		US	Maryland	38.991	-77.026	11
+P	Ban Ko Sire		TH		7.887	98.426	14
+P	Şirvan	sirvan	AZ		39.938	48.929	17
+P	Sint-Niklaas	sint niklaas	BE		51.165	4.144	27
+P	Sītāmarhi	sitamarhi	IN		26.594	85.491	20
+P	Şırnak	sirnak	TR		37.514	42.454	28
+P	Sidi Aïssa	sidi aissa	DZ		35.885	3.772	0
+P	Siddipet		IN		18.105	78.849	20
+P	Silvan		TR		38.137	41.008	28
+P	Sinnar		IN		19.845	73.999	20
+P	Siuri		IN		23.908	87.528	20
+P	Sibi		PK		29.543	67.877	18
+P	Siddharthanagar		NP		27.500	83.450	19
+P	Sirsi		IN		14.621	74.836	20
+P	Sibsāgar	sibsagar	IN		26.984	94.638	20
+P	Siddhapur		IN		23.918	72.372	20
+P	Sibay		RU		52.718	58.667	18
+P	Sig		DZ		35.528	-0.194	0
+P	Sindelfingen		DE		48.700	9.017	27
+P	Kampong Sidam		MY		5.533	100.567	22
+P	Sidi Bennour		MA		32.652	-8.428	3
+P	Sirhind		IN		30.643	76.384	20
+P	Simpang Renggam		MY		1.825	103.311	22
+P	Sillod		IN		20.303	75.653	20
+P	Simpang Empat		MY		4.950	100.633	22
+P	Sīra	sira	IN		13.742	76.904	20
+P	Siu Lek Yuen		HK		22.382	114.213	22
+P	Sitou		CN		36.313	118.412	22
+P	Sibonga		PH		10.017	123.617	22
+P	Sihor		IN		21.711	71.962	20
+P	Sittingbourne		GB	England	51.341	0.733	26
+P	Sidhi		IN		24.404	81.880	20
+P	Siena		IT		43.318	11.331	27
+P	Jardines de la Silla		MX		25.629	-100.188	13
+P	Silivri		TR		41.074	28.246	28
+P	Sinan		KR		34.826	126.109	21
+P	Siruguppa		IN		15.630	76.892	20
+P	Sironj		IN		24.103	77.691	20
+P	Siocon		PH		7.706	122.135	22
+P	Sidlaghatta		IN		13.389	77.864	20
+P	Sidi Taibi		MA		34.187	-6.682	3
+P	Phra Nakhon Si Ayutthaya		TH		14.352	100.577	14
+P	Silkeborg		DK		56.170	9.545	27
+P	Sillanwali		PK		31.825	72.541	18
+P	Sungai Siput		MY		4.394	101.195	22
+P	Sittard		NL		50.998	5.869	27
+P	Hennef (Sieg)	hennef sieg	DE		50.776	7.283	27
+P	Singen		DE		47.759	8.840	27
+P	Sidi Bouzid		TN		35.038	9.485	0
+P	Sidrolândia	sidrolandia	BR		-20.932	-54.961	9
+P	Sipe Sipe		BO		-17.454	-66.357	9
+P	Sidi Amar		DZ		36.820	7.716	0
+P	Si Sa Ket		TH		15.115	104.329	14
+P	Sīdī Sālim	sidi salim	EG		31.271	30.786	2
+P	Sieradz		PL		51.596	18.730	27
+P	Siyabuswa		ZA		-25.113	29.045	4
+P	Sihorā	sihora	IN		23.487	80.104	20
+P	Sierra Vista		US	Arizona	31.555	-110.304	12
+P	Simdega		IN		22.615	84.502	20
+P	Sicklerville		US	New Jersey	39.717	-74.969	11
+P	Sivaganga		IN		9.847	78.484	20
+P	Simão Dias	simao dias	BR		-10.738	-37.811	5
+P	Sikandra Rao		IN		27.689	78.380	20
+P	Sijung		KP		41.079	126.375	21
+P	Sidi Yahia El Gharb		MA		34.305	-6.304	3
+P	Sirinhaém	sirinhaem	BR		-8.591	-35.116	5
+P	Sighetu Marmaţiei	sighetu marmatiei	RO		47.932	23.886	25
+P	Šilainiai	silainiai	LT		54.929	23.886	25
+P	Sihu		CN		34.626	117.971	22
+P	Taman Sri Sinar		MY		3.187	101.651	22
+P	Simei New Town		SG		1.341	103.956	22
+P	Sipitang		MY		5.079	115.550	22
+P	El Abiodh Sidi Cheikh		DZ		32.893	0.548	0
+P	Sirohi		IN		24.888	72.848	20
+P	Siegburg		DE		50.800	7.208	27
+P	Sidi Khaled		DZ		34.387	4.988	0
+P	Sinjār	sinjar	IQ		36.321	41.877	28
+P	Sīdī Barānī	sidi barani	EG		31.612	25.925	2
+P	Sint-Truiden	sint truiden	BE		50.817	5.186	27
+P	Sindgi		IN		16.919	76.234	20
+P	Sirūr	sirur	IN		18.828	74.375	20
+P	Sinsheim		DE		49.253	8.879	27
+P	Ban Ang Sila		TH		13.340	100.930	14
+P	Sinkat		SD		18.840	36.835	4
+P	Sidi ech Chahmi		DZ		35.659	-0.522	0
+P	Sinendé	sinende	BJ		10.350	2.379	0
+P	Sibu Jaya		MY		2.240	111.971	22
+P	Sīrkāzhi	sirkazhi	IN		11.237	79.736	20
+P	Simav		TR		39.088	28.978	28
+P	Sinop		TR		42.027	35.163	28
+P	Six-Fours-les-Plages	six fours les plages	FR		43.092	5.825	27
+P	Sitten		CH		46.227	7.356	27
+P	Sighișoara	sighisoara	RO		46.221	24.793	25
+P	Lower West Side		US	Illinois	41.854	-87.666	7
+P	Peng Siang		SG		1.380	103.741	22
+P	Sicuani		PE		-14.269	-71.226	6
+P	Suitland-Silver Hill	suitland silver hill	US	Maryland	38.847	-76.926	11
+P	Sitionuevo		CO		10.777	-74.720	6
+P	Sidi Abid		TN		34.700	10.695	0
+P	Siaya		KE		0.061	34.288	28
+P	Sibiti		CG		-3.682	13.350	0
+P	Sidi Slimane Echcharaa		MA		34.908	-2.351	3
+P	Mount Olive-Silverstone-Jamestown	mount olive silverstone jamestown	CA	Ontario	43.747	-79.587	11
+P	Silver Lake		US	California	34.087	-118.270	10
+P	Sik		MY		5.833	100.750	22
+P	Sint-Amandsberg	sint amandsberg	BE		51.059	3.749	27
+P	Sibut		CF		5.718	19.074	0
+P	Bang Khun Si		TH		13.751	100.470	14
+P	Sīdī Bin Zīnah	sidi bin zinah	LY		32.887	11.987	4
+P	Sijua		IN		23.776	86.330	20
+P	Siliana		TN		36.085	9.371	0
+P	Singānallūr	singanallur	IN		10.999	77.032	20
+P	Šibenik	sibenik	HR		43.734	15.894	27
+P	Kusŏng-si	kusong si	KP		39.980	125.253	21
+P	Sidi Moussa		DZ		36.606	3.088	0
+P	San Luis de Sincé	san luis de since	CO		9.244	-75.147	6
+P	Sint-Pieters-Leeuw	sint pieters leeuw	BE		50.779	4.244	27
+P	Siraspur		IN		28.758	77.131	20
+P	Şidfā	sidfa	EG		26.966	31.380	2
+P	Fatehpur Sīkri	fatehpur sikri	IN		27.094	77.660	20
+P	Sidi Amrane		DZ		33.499	6.008	0
+P	Lower Wong Tai Sin Estate (I & II)	lower wong tai sin estate i ii	HK		22.339	114.194	22
+P	Sidi Okba		DZ		34.745	5.898	0
+P	Silistra		BG		44.117	27.261	25
+P	San Simon		PH		15.000	120.781	22
+P	Sirsāganj	sirsaganj	IN		27.057	78.687	20
+P	Sikka		IN		22.432	69.842	20
+P	Sirdaryo		UZ		40.844	68.662	18
+P	Simancas		ES		40.435	-3.625	27
+P	Amphoe Sikhiu		TH		14.899	101.708	14
+P	Sīdī Ghāzī	sidi ghazi	EG		31.211	31.051	2
+P	Sibulan		PH		9.358	123.285	22
+P	Sisak		HR		45.466	16.377	27
+P	Sitges		ES		41.235	1.812	27
+P	Sita Road		PK		27.033	67.850	18
+P	Siburan		MY		1.367	110.400	22
+P	Simen		CN		34.622	105.013	22
+P	Sikonge		TZ		-5.633	32.767	28
+P	Siavonga		ZM		-16.538	28.709	4
+P	Sinkassé	sinkasse	TG		11.104	0.009	1
+P	Sibi		ML		12.375	-8.335	1
+P	Sidi Akkacha		DZ		36.465	1.303	0
+P	Sintra		PT		38.801	-9.378	26
+P	Si Satchanalai		TH		17.517	99.760	14
+P	Siyazan		AZ		41.078	49.116	17
+P	Silao		IN		25.084	85.428	20
+P	Silapathar		IN		27.594	94.724	20
+P	Donghol-Sigon	donghol sigon	GN		11.800	-12.217	1
+P	Sidi Mérouane	sidi merouane	DZ		36.521	6.261	0
+P	Sīwah	siwah	EG		29.203	25.520	2
+P	Sirari		TZ		-1.254	34.476	28
+P	Ahmadpur Sial		PK		30.678	71.743	18
+P	Siraha		NP		26.654	86.208	19
+P	Singāpur	singapur	IN		17.470	78.126	20
+P	Siribala Coro		ML		14.043	-6.107	1
+P	Sitārganj	sitarganj	IN		28.929	79.704	20
+P	Siuliban		IN		23.749	86.785	20
+P	Sikandarpur		IN		26.043	84.053	20
+P	Monte Sião	monte siao	BR		-22.433	-46.572	5
+P	Yūsuf aṣ-Ṣiddīq	yusuf as siddiq	EG		29.385	30.557	2
+P	Sidi Ifni		MA		29.380	-10.173	3
+P	Sidi Abdelli		DZ		35.069	-1.137	0
+P	Muang Sing		LA		21.192	101.148	14
+P	Sisophon		KH		13.586	102.974	14
+P	Sibaté	sibate	CO		4.492	-74.260	6
+P	Sivagiri		IN		9.345	77.429	20
+P	Siófok	siofok	HU		46.904	18.058	27
+P	Simunjan		MY		1.383	110.750	22
+P	Sibbo		FI		60.378	25.269	25
+P	Sinngu		MM		16.913	96.097	24
+P	Siqueira Campos		BR		-23.689	-49.834	5
+P	Sirsi		IN		28.639	78.643	20
+P	Sidi Rahal		MA		33.477	-7.936	3
+P	Sirakoro Méguétana	sirakoro meguetana	ML		12.564	-7.916	1
+P	Sisauli		IN		30.143	77.260	20
+P	Near South Side		US	Illinois	41.857	-87.625	7
+P	Sifra		ET		11.605	40.017	28
+P	Ath Thumāmah Sittah wa Arba‘ūn	ath thumamah sittah wa arbaun	QA		25.234	51.541	28
+P	Silvânia	silvania	BR		-16.667	-48.613	5
+P	Sidhaulī	sidhauli	IN		27.282	80.835	20
+P	Siwāna	siwana	IN		25.652	72.422	20
+P	Silva Jardim		BR		-22.651	-42.392	5
+P	Siyeke		CN		36.885	81.523	16
+P	As Sibā‘īyah	as sibaiyah	EG		25.194	32.677	2
+P	Sintra-Nema	sintra nema	GW		11.862	-15.597	1
+P	Siilinjärvi	siilinjarvi	FI		63.083	27.667	25
+P	Sīrē	sire	ET		8.317	39.483	28
+P	Sitampiky		MG		-16.667	46.100	28
+P	Zürich (Kreis 3) / Sihlfeld	zurich kreis 3 sihlfeld	CH		47.374	8.512	27
+P	Sindi		IN		20.742	78.587	20
+P	Silver Firs		US	Washington	47.866	-122.155	10
+P	Sidney		US	Ohio	40.284	-84.156	11
+P	Simpsonville		US	South Carolina	34.737	-82.254	11
+P	Silvania		CO		4.404	-74.387	6
+P	Sirumugai		IN		11.321	77.005	20
+P	Singānuram	singanuram	IN		18.822	79.502	20
+P	Sing Buri		TH		14.888	100.405	14
+P	Sungai Simpang		SG		1.438	103.827	22
+P	Siswā Bāzār	siswa bazar	IN		27.147	83.758	20
+P	Sīāhkal	siahkal	IR		37.153	49.871	23
+P	Sirka		IN		23.646	85.433	20
+P	Şile	sile	TR		41.179	29.611	28
+P	Simonésia	simonesia	BR		-20.124	-42.001	5
+P	Sinchu Alagi		GM		13.375	-16.678	1
+P	Sint-Katelijne-Waver	sint katelijne waver	BE		51.067	4.535	27
+P	Sil-li	sil li	KP		39.495	125.474	21
+P	Singur		IN		22.809	88.229	20
+P	Singarāyakonda	singarayakonda	IN		15.230	80.028	20
+P	Sint-Andries	sint andries	BE		51.197	3.179	27
+P	Sironko		UG		1.231	34.248	28
+P	Silverdale		US	Washington	47.645	-122.695	10
+P	Siwāni	siwani	IN		28.909	75.615	20
+P	Silla		ES		39.363	-0.412	27
+P	Si Mahosot		TH		13.888	101.405	14
+P	Sierpc		PL		52.857	19.669	27
+P	Siu Sai Wan Estate		HK		22.262	114.249	22
+P	Sinda		ZM		-14.210	31.763	4
+P	Sinmak		KP		38.417	126.233	21
+P	Silvāni	silvani	IN		23.303	78.441	20
+P	Sirgittī	sirgitti	IN		22.047	82.149	20
+P	Siquirres		CR		10.097	-83.507	13
+P	Singampunari		IN		10.186	78.415	20
+P	Sint-Genesius-Rode	sint genesius rode	BE		50.746	4.358	27
+P	Sir Muttra		IN		26.515	77.372	20
+P	Sinzig		DE		50.544	7.246	27
+P	Sīlappādi	silappadi	IN		10.394	78.008	20
+P	Sin-le-Noble	sin le noble	FR		50.362	3.131	27
+P	Sint-Gillis-Waas	sint gillis waas	BE		51.219	4.124	27
+P	Sigatoka		FJ		-18.143	177.507	29
+P	Kampung Simpang Renggam		MY		1.828	103.300	22
+P	Sidi Allal El Bahraoui		MA		34.008	-6.531	3
+P	Sivagirippatti		IN		10.450	77.530	20
+P	Sīmīn Shahr	simin shahr	IR		37.014	54.230	23
+P	Sitangkai		PH		4.661	119.396	22
+P	Siwei		CN		38.017	114.153	22
+P	Sítio Novo	sitio novo	BR		-5.878	-46.699	5
+P	São Simão	sao simao	BR		-18.991	-50.544	5
+P	Nong Kung Si		TH		16.650	103.300	14
+P	La Sierpe		CU		21.772	-79.268	8
+P	Sint-Oedenrode	sint oedenrode	NL		51.568	5.460	27
+P	Sirālkoppa	siralkoppa	IN		14.381	75.250	20
+P	Sithurajapuram		IN		9.421	77.787	20
+P	Sibanicú	sibanicu	CU		21.236	-77.526	8
+P	Sierre		CH		46.292	7.536	27
+P	Sivagiri		IN		11.120	77.788	20
+P	La Providencia Siglo XXI		MX		20.064	-98.717	13
+P	Sigmaringen		DE		48.088	9.230	27
+P	Sikeston		US	Missouri	36.877	-89.588	7
+P	Sindkhed Raja		IN		19.954	76.126	20
+P	Siloam Springs		US	Arkansas	36.188	-94.540	7
+P	Laem Sing		TH		12.482	102.074	14
+P	Siuna		NI		13.733	-84.777	13
+P	Simga		IN		21.628	81.704	20
+P	Sint-Kruis	sint kruis	BE		51.214	3.249	27
+P	Seven Sisters		GB	England	51.578	-0.079	26
+P	Sisauli		IN		29.414	77.469	20
+P	Balneário Arroio do Silva	balneario arroio do silva	BR		-28.987	-49.417	5
+P	Sinnai		IT		39.303	9.203	27
+P	Şimleu Silvaniei	simleu silvaniei	RO		47.233	22.800	25
+P	Sinanju		KP		39.598	125.610	21
+P	Siderno		IT		38.270	16.296	27
+P	Sim		RU		54.993	57.698	18
+P	Sarai Sidhu		PK		30.595	71.970	18
+P	Siemiatycze		PL		52.427	22.862	27
+P	Simití	simiti	CO		7.958	-73.944	6
+P	Sinazongwe		ZM		-17.261	27.462	4
+P	Novhorod-Siverskyi	novhorod siverskyi	UA		52.007	33.263	25
+P	Sinfin		GB	England	52.882	-1.487	26

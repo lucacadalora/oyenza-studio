@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ho_Chi_Minh	420	
+Z	1	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+C	VN	Vietnam	mwl	s
+B	0
+P	Thành Phố Uông Bí	thanh pho uong bi	VN		21.034	106.770	0
+P	Uozu		JP		36.800	137.400	1
+P	Uonuma		JP		37.245	138.962	1

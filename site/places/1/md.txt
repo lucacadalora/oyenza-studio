@@ -1,0 +1,11 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Africa/Johannesburg	120	
+C	DZ	Algeria	egyptian	s
+C	MA	Morocco	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Mdantsane		ZA		-32.933	27.777	2
+P	Mdiq		MA		35.683	-5.329	1
+P	M’Daourouch	mdaourouch	DZ		36.078	7.820	0

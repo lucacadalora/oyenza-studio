@@ -1,0 +1,82 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Istanbul	180	
+C	GR	Greece	mwl	s
+C	TR	Turkey	turkey	s
+B	1
+P	İzmir	izmir	TR		38.413	27.138	1
+P	Karabağlar	karabaglar	TR		38.382	27.132	1
+P	Uşak	usak	TR		38.674	29.406	1
+P	Karşıyaka	karsiyaka	TR		38.458	27.114	1
+P	Konak		TR		38.400	27.100	1
+P	Denizli		TR		37.774	29.087	1
+P	Merkezefendi		TR		37.805	29.042	1
+P	Manisa		TR		38.612	27.426	1
+P	Balıkesir	balikesir	TR		39.649	27.886	1
+P	Çiğli	cigli	TR		38.496	27.070	1
+P	Kütahya	kutahya	TR		39.424	29.983	1
+P	Aydın	aydin	TR		37.845	27.840	1
+P	Irákleion	irakleion	GR		35.328	25.143	0
+P	Nazilli		TR		37.916	28.322	1
+P	Salihli		TR		38.483	28.148	1
+P	Turgutlu		TR		38.495	27.700	1
+P	Soma		TR		39.186	27.609	1
+P	Muğla	mugla	TR		37.218	28.366	1
+P	Akhisar		TR		38.919	27.840	1
+P	Ayvalık	ayvalik	TR		39.319	26.693	1
+P	Söke	soke	TR		37.748	27.406	1
+P	Ödemiş	odemis	TR		38.228	27.970	1
+P	Kuşadası	kusadasi	TR		37.860	27.257	1
+P	Urla		TR		38.323	26.764	1
+P	Fethiye		TR		36.640	29.128	1
+P	Bergama		TR		39.121	27.181	1
+P	Ródos	rodos	GR		36.436	28.222	0
+P	Menemen		TR		38.608	27.069	1
+P	Tavşanlı	tavsanli	TR		39.542	29.499	1
+P	Torbalı	torbali	TR		38.182	27.335	1
+P	Alaşehir	alasehir	TR		38.351	28.517	1
+P	Tire		TR		38.089	27.735	1
+P	Aliağa	aliaga	TR		38.800	26.972	1
+P	Milas		TR		37.316	27.784	1
+P	Edremit		TR		39.596	27.024	1
+P	Bodrum		TR		37.038	27.429	1
+P	Burhaniye		TR		39.500	26.973	1
+P	Simav		TR		39.088	28.978	1
+P	Marmaris		TR		36.855	28.274	1
+P	Çeşme	cesme	TR		38.326	26.306	1
+P	Kula		TR		38.547	28.650	1
+P	Kemalpaşa	kemalpasa	TR		38.426	27.417	1
+P	Bostanlı	bostanli	TR		38.459	27.097	1
+P	Şemikler	semikler	TR		38.475	27.096	1
+P	Selçuk	selcuk	TR		37.951	27.368	1
+P	Ataşehir	atasehir	TR		38.489	27.061	1
+P	Foça	foca	TR		38.670	26.757	1
+P	Mytilene		GR		39.108	26.555	0
+P	Didim		TR		37.385	27.256	1
+P	Susurluk		TR		39.914	28.158	1
+P	Chios		GR		38.369	26.137	0
+P	Emet		TR		39.343	29.258	1
+P	Gediz		TR		38.994	29.391	1
+P	Menderes		TR		38.250	27.134	1
+P	Kırkağaç	kirkagac	TR		39.106	27.669	1
+P	Küçükçiğli	kucukcigli	TR		38.508	27.055	1
+P	Demirci		TR		39.046	28.659	1
+P	Çine	cine	TR		37.613	28.059	1
+P	Evka-Üç	evka uc	TR		38.471	27.251	1
+P	Ortaca		TR		36.839	28.765	1
+P	Seferihisar		TR		38.197	26.839	1
+P	Dalaman		TR		36.766	28.803	1
+P	Kos		GR		36.893	27.288	0
+P	Balatçık	balatcik	TR		38.516	27.048	1
+P	Yatağan	yatagan	TR		37.340	28.143	1
+P	Sarayköy	saraykoy	TR		37.924	28.925	1
+P	İncirliova	incirliova	TR		37.852	27.724	1
+P	Dursunbey		TR		39.586	28.626	1
+P	Serinhisar		TR		37.581	29.266	1
+P	Banaz		TR		38.737	29.752	1
+P	Bayındır	bayindir	TR		38.217	27.647	1
+P	Elmalı	elmali	TR		36.736	29.918	1
+P	Turgutreis		TR		37.017	27.267	1
+P	Sarigerme		TR		36.715	28.704	1
+P	Ezine		TR		39.786	26.341	1
+P	Bigadiç	bigadic	TR		39.392	28.131	1

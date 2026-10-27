@@ -1,0 +1,43 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Lima	-300	
+C	PE	Peru	mwl	s
+B	2
+P	Lima		PE		-12.043	-77.028	0
+P	Callao		PE		-12.052	-77.135	0
+P	Huancayo		PE		-12.069	-75.210	0
+P	Ica		PE		-14.075	-75.734	0
+P	Santiago de Surco		PE		-12.136	-77.007	0
+P	Miraflores		PE		-12.113	-77.033	0
+P	Santa Anita - Los Ficus	santa anita los ficus	PE		-12.050	-76.973	0
+P	Chincha Alta		PE		-13.410	-76.132	0
+P	San Francisco De Borja		PE		-12.089	-76.999	0
+P	Chosica		PE		-11.943	-76.709	0
+P	Breña	brena	PE		-12.056	-77.053	0
+P	Chilca		PE		-12.086	-75.208	0
+P	San Isidro		PE		-12.097	-77.043	0
+P	Jesus Maria		PE		-12.070	-77.045	0
+P	Huaral		PE		-11.495	-77.208	0
+P	Pisco		PE		-13.710	-76.205	0
+P	Villa Poeta José Gálvez Barrenechea	villa poeta jose galvez barrenechea	PE		-12.213	-76.905	0
+P	Cerro de Pasco		PE		-10.666	-76.253	0
+P	Huacho		PE		-11.117	-77.606	0
+P	Tarma		PE		-11.419	-75.690	0
+P	Barranca		PE		-10.750	-77.767	0
+P	Carmen De La Legua Reynoso		PE		-12.054	-77.098	0
+P	Barranco		PE		-12.143	-77.019	0
+P	La Oroya		PE		-11.519	-75.899	0
+P	Nuevo Imperial		PE		-13.075	-76.317	0
+P	Imperial		PE		-13.059	-76.353	0
+P	Chaupimarca		PE		-10.407	-76.462	0
+P	Paramonga		PE		-10.667	-77.833	0
+P	Chancay		PE		-11.571	-77.267	0
+P	Hualmay		PE		-11.096	-77.614	0
+P	San Vicente de Cañete	san vicente de canete	PE		-13.076	-76.385	0
+P	Yanacancha		PE		-10.666	-76.255	0
+P	Yanacancha		PE		-10.241	-76.646	0
+P	Jauja		PE		-11.776	-75.497	0
+P	Huaura		PE		-11.070	-77.599	0
+P	Mala		PE		-12.658	-76.631	0
+P	Huarmey		PE		-10.068	-78.152	0
+P	San Clemente		PE		-13.667	-76.150	0
+P	Junín	junin	PE		-11.159	-75.993	0

@@ -1,0 +1,31 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Djibouti	180	
+Z	2	Africa/Lubumbashi	120	
+Z	3	Africa/Ouagadougou	0	
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	DJ	Djibouti	egyptian	s
+C	DZ	Algeria	egyptian	s
+C	ML	Mali	egyptian	s
+C	TN	Tunisia	egyptian	s
+B	0
+P	Djibouti		DJ		11.589	43.145	1
+P	Djelfa		DZ		34.673	3.263	0
+P	Djougou		BJ		9.709	1.666	0
+P	Bir el Djir		DZ		35.720	-0.545	0
+P	Djibo		BF		14.099	-1.627	3
+P	Ouled Djellal		DZ		34.430	5.061	0
+P	Djemmal		TN		35.622	10.757	0
+P	Djugu		CD		1.919	30.503	2
+P	Djenné	djenne	ML		13.906	-4.553	3
+P	Djapadji		CI		5.291	-6.820	3
+P	Djamaa		DZ		33.534	5.993	0
+P	Djidiouia		DZ		35.930	0.829	0
+P	Rass el Djebel		TN		37.216	10.125	0
+P	Djidja		BJ		7.344	1.934	0
+P	Djakotomé	djakotome	BJ		6.899	1.716	0
+P	Djambala		CG		-2.545	14.753	0

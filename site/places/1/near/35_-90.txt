@@ -1,0 +1,95 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	1	America/Indiana/Indianapolis	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	0
+P	Indianapolis		US	Indiana	39.768	-86.158	1
+P	Nashville		US	Tennessee	36.166	-86.784	0
+P	Louisville		US	Kentucky	38.254	-85.759	1
+P	Chattanooga		US	Tennessee	35.046	-85.310	1
+P	Clarksville		US	Tennessee	36.530	-87.359	0
+P	Murfreesboro		US	Tennessee	35.846	-86.390	0
+P	East Chattanooga		US	Tennessee	35.065	-85.249	1
+P	Evansville		US	Indiana	37.975	-87.556	0
+P	Springfield		US	Illinois	39.802	-89.644	0
+P	Carmel		US	Indiana	39.978	-86.118	1
+P	Bloomington		US	Indiana	39.165	-86.526	1
+P	Fishers		US	Indiana	39.956	-86.014	1
+P	Decatur		US	Illinois	39.840	-88.955	0
+P	Franklin		US	Tennessee	35.925	-86.869	0
+P	Cordova		US	Tennessee	35.156	-89.776	0
+P	Jackson		US	Tennessee	35.615	-88.814	0
+P	Bowling Green		US	Kentucky	36.990	-86.444	0
+P	Terre Haute		US	Indiana	39.467	-87.414	1
+P	Owensboro		US	Kentucky	37.774	-87.113	0
+P	Bartlett		US	Tennessee	35.205	-89.874	0
+P	Hendersonville		US	Tennessee	36.305	-86.620	0
+P	Greenwood		US	Indiana	39.614	-86.107	1
+P	Collierville		US	Tennessee	35.042	-89.665	0
+P	Lawrence		US	Indiana	39.839	-86.025	1
+P	Jeffersonville		US	Indiana	38.278	-85.737	1
+P	Columbus		US	Indiana	39.201	-85.921	1
+P	Smyrna		US	Tennessee	35.983	-86.519	0
+P	Belleville		US	Illinois	38.520	-89.984	0
+P	Brentwood		US	Tennessee	36.033	-86.783	0
+P	Cape Girardeau		US	Missouri	37.306	-89.518	0
+P	Germantown		US	Tennessee	35.087	-89.810	0
+P	Hermitage		US	Tennessee	36.196	-86.623	0
+P	Columbia		US	Tennessee	35.615	-87.035	0
+P	New Albany		US	Indiana	38.286	-85.824	1
+P	Spring Hill		US	Tennessee	35.751	-86.930	0
+P	La Vergne		US	Tennessee	36.016	-86.582	0
+P	Gallatin		US	Tennessee	36.388	-86.447	0
+P	Hopkinsville		US	Kentucky	36.866	-87.491	0
+P	Cookeville		US	Tennessee	36.163	-85.502	0
+P	Mount Juliet		US	Tennessee	36.200	-86.519	0
+P	Brentwood Estates		US	Tennessee	36.025	-86.779	0
+P	Plainfield		US	Indiana	39.704	-86.399	1
+P	Lebanon		US	Tennessee	36.208	-86.291	0
+P	Elizabethtown		US	Kentucky	37.694	-85.859	1
+P	O'Fallon	ofallon	US	Illinois	38.592	-89.911	0
+P	Henderson		US	Kentucky	37.836	-87.590	0
+P	Jeffersontown		US	Kentucky	38.194	-85.564	1
+P	Carbondale		US	Illinois	37.727	-89.217	0
+P	Zionsville		US	Indiana	39.951	-86.262	1
+P	Ellendale		US	Tennessee	35.231	-89.826	0
+P	Pleasure Ridge Park		US	Kentucky	38.145	-85.858	1
+P	Brownsburg		US	Indiana	39.843	-86.398	1
+P	Edwardsville		US	Illinois	38.811	-89.953	0
+P	Paducah		US	Kentucky	37.083	-88.600	0
+P	Collinsville		US	Illinois	38.670	-89.985	0
+P	Franklin		US	Indiana	39.481	-86.055	1
+P	Valley Station		US	Kentucky	38.111	-85.870	1
+P	Radcliff		US	Kentucky	37.840	-85.949	1
+P	Clarksville		US	Indiana	38.297	-85.760	1
+P	Greenfield		US	Indiana	39.785	-85.769	1
+P	Shelbyville		US	Tennessee	35.483	-86.460	0
+P	Fairfield Heights		US	Indiana	39.829	-86.382	1
+P	Charleston		US	Illinois	39.496	-88.176	0
+P	East Ridge		US	Tennessee	35.014	-85.252	1
+P	Newburg		US	Kentucky	38.160	-85.660	1
+P	Madisonville		US	Kentucky	37.328	-87.499	0
+P	Seymour		US	Indiana	38.959	-85.890	1
+P	Shelbyville		US	Indiana	39.521	-85.777	1
+P	Tullahoma		US	Tennessee	35.362	-86.209	0
+P	Murray		US	Kentucky	36.610	-88.315	0
+P	Fern Creek		US	Kentucky	38.160	-85.588	1
+P	Mattoon		US	Illinois	39.483	-88.373	0
+P	Vincennes		US	Indiana	38.677	-87.529	0
+P	Marion		US	Illinois	37.731	-88.933	0
+P	New Castle		US	Indiana	39.929	-85.370	1
+P	Saint Matthews		US	Kentucky	38.253	-85.656	1
+P	Okolona		US	Kentucky	38.141	-85.688	1
+P	Broad Ripple		US	Indiana	39.867	-86.142	1
+P	Goodlettsville		US	Tennessee	36.323	-86.713	0
+P	Fairview Heights		US	Illinois	38.589	-89.990	0
+P	Springfield		US	Tennessee	36.509	-86.885	0
+P	Dyersburg		US	Tennessee	36.035	-89.386	0
+P	Avon		US	Indiana	39.763	-86.400	1
+P	Sikeston		US	Missouri	36.877	-89.588	0
+P	Shively		US	Kentucky	38.200	-85.823	1
+P	Jasper		US	Indiana	38.391	-86.931	1
+P	Dickson		US	Tennessee	36.077	-87.388	0
+P	Shelbyville		US	Kentucky	38.212	-85.224	1
+P	Highview		US	Kentucky	38.143	-85.624	1
+P	Mount Vernon		US	Illinois	38.317	-88.903	0

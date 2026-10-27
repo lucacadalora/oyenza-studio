@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Hovd	420	
+Z	1	Asia/Urumqi	360	
+C	CN	China	mwl	s
+C	MN	Mongolia	mwl	s
+B	0
+P	Jinshanlu		CN		47.850	88.133	1
+P	Baijiantan		CN		45.693	85.139	1
+P	Ölgii	olgii	MN		48.968	89.963	0
+P	Hoxtolgay		CN		46.519	86.002	1
+P	Beitun		CN		47.352	87.821	1
+P	Burqin		CN		47.703	86.864	1
+P	Fuyun		CN		46.992	89.521	1
+P	Dure		CN		46.512	88.534	1
+P	Oymak		CN		47.878	86.990	1

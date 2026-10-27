@@ -1,0 +1,26 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+C	ET	Ethiopia	egyptian	s
+C	SO	Somalia	egyptian	s
+B	0
+P	Warder		ET		6.974	45.341	0
+P	Cabudwaaq		SO		6.246	46.225	0
+P	Burao		SO		9.522	45.534	0
+P	Balanbale		SO		5.769	45.763	0
+P	Gaalkacyo		SO		6.770	47.431	0
+P	Laascaanood		SO		8.477	47.360	0
+P	Garoowe		SO		8.402	48.483	0
+P	Lasoano		ET		6.255	45.385	0
+P	Qorof		ET		6.582	46.433	0
+P	Yamarugley		ET		6.808	46.085	0
+P	Dhabad		SO		6.432	46.462	0
+P	Fadhigaradle		ET		6.176	45.299	0
+P	Neefkuceliye		ET		6.555	45.390	0
+P	Saaxo		SO		6.773	46.797	0
+P	Raqo		ET		6.419	45.853	0
+P	Waal		ET		6.887	46.215	0
+P	El Bahay		ET		6.347	45.478	0
+P	Digih Habar Es		ET		6.443	45.983	0
+P	Golwayn		ET		6.507	45.835	0
+P	Eyl		SO		7.980	49.816	0
+P	Kahandhale		ET		5.753	45.646	0

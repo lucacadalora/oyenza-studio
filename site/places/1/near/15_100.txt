@@ -1,0 +1,83 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Vientiane	420	
+C	LA	Laos	mwl	s
+C	TH	Thailand	mwl	s
+C	VN	Vietnam	mwl	s
+B	0
+P	Vientiane		LA		17.967	102.600	0
+P	Udon Thani		TH		17.416	102.786	0
+P	Savannakhet		LA		16.570	104.762	0
+P	Ubon Ratchathani		TH		15.238	104.849	0
+P	Khon Kaen		TH		16.447	102.833	0
+P	Thakhèk	thakhek	LA		17.410	104.831	0
+P	Nakhon Sawan		TH		15.705	100.137	0
+P	Sakon Nakhon		TH		17.161	104.147	0
+P	Thái Hòa	thai hoa	VN		18.920	104.974	0
+P	Nong Khai		TH		17.878	102.742	0
+P	Phitsanulok		TH		16.825	100.259	0
+P	Chaiyaphum		TH		15.810	102.029	0
+P	Uttaradit		TH		17.626	100.094	0
+P	Kalasin		TH		16.433	103.507	0
+P	Luang Prabang		LA		19.893	102.153	0
+P	Maha Sarakham		TH		16.185	103.301	0
+P	Phetchabun		TH		16.419	101.161	0
+P	Chum Phae		TH		16.544	102.099	0
+P	Si Sa Ket		TH		15.115	104.329	0
+P	Warin Chamrap		TH		15.193	104.863	0
+P	Mukdahan		TH		16.545	104.724	0
+P	Roi Et		TH		16.057	103.653	0
+P	Wichian Buri		TH		15.658	101.106	0
+P	Phrae		TH		18.146	100.141	0
+P	Muang Phônsavan	muang phonsavan	LA		19.449	103.192	0
+P	Phichit		TH		16.442	100.349	0
+P	Ban Phai		TH		16.060	102.731	0
+P	Tha Bo		TH		17.850	102.581	0
+P	Loei		TH		17.491	101.727	0
+P	Amnat Charoen		TH		15.859	104.629	0
+P	Nakhon Phanom		TH		17.411	104.779	0
+P	Nong Bua Lamphu		TH		17.204	102.441	0
+P	Na Klang		TH		17.307	102.189	0
+P	Ban Aranyik		TH		16.826	100.285	0
+P	Ban Phan Don		TH		17.143	102.973	0
+P	Kaeng Khro		TH		16.109	102.258	0
+P	Nong Phai		TH		15.990	101.062	0
+P	Chai Badan		TH		15.200	101.133	0
+P	Ban Xénô	ban xeno	LA		16.676	104.988	0
+P	Vang Vieng		LA		18.924	102.448	0
+P	Kut Chap		TH		17.426	102.567	0
+P	Nan		TH		18.784	100.779	0
+P	Kamalasai		TH		16.338	103.576	0
+P	Uthai Thani		TH		15.379	100.025	0
+P	Pakxan		LA		18.394	103.661	0
+P	Taphan Hin		TH		16.221	100.420	0
+P	Ban Nong Wua So		TH		17.267	103.225	0
+P	Yasothon		TH		15.794	104.145	0
+P	Kuchinarai		TH		16.541	104.050	0
+P	Ban Dung		TH		17.699	103.260	0
+P	Nam Som		TH		17.770	102.189	0
+P	Bang Krathum		TH		16.578	100.300	0
+P	Kaset Wisai		TH		15.656	103.584	0
+P	Non Sung		TH		15.180	102.257	0
+P	Borikhan		LA		18.563	103.727	0
+P	Chon Daen		TH		16.190	100.860	0
+P	Ban Selaphum		TH		16.017	103.950	0
+P	Lom Sak		TH		16.780	101.242	0
+P	Phu Khiao		TH		16.377	102.129	0
+P	Den Chai		TH		17.984	100.052	0
+P	Nong Kung Si		TH		16.650	103.300	0
+P	Kaset Sombun		TH		16.281	101.954	0
+P	Bang Rakam		TH		16.758	100.117	0
+P	Bua Yai		TH		15.586	102.426	0
+P	Sawang Daen Din		TH		17.475	103.458	0
+P	Bản Na Hỷ	ban na hy	VN		19.564	104.535	0
+P	Seka		TH		17.929	103.955	0
+P	Phu Kradueng		TH		16.884	101.885	0
+P	Warichaphum		TH		17.294	103.638	0
+P	Wang Saphung		TH		17.301	101.769	0
+P	Bang Mun Nak		TH		16.028	100.379	0
+P	Dan Khun Thot		TH		15.209	101.771	0
+P	Thap Khlo		TH		16.160	100.597	0
+P	Chai Nat		TH		15.186	100.124	0
+P	Phon Charoen		TH		18.033	103.167	0
+P	Khao Wong		TH		16.700	104.090	0
+P	Erawan		TH		17.302	101.954	0

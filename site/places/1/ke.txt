@@ -1,0 +1,269 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	1	Africa/Freetown	0	
+Z	2	Africa/Lagos	60	
+Z	3	Africa/Windhoek	120	
+Z	4	America/Bogota	-300	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	8	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	9	America/Vancouver	-480	29549400=-420
+Z	10	Asia/Almaty	300	
+Z	11	Asia/Baghdad	180	
+Z	12	Asia/Dhaka	360	
+Z	13	Asia/Kolkata	330	
+Z	14	Asia/Novokuznetsk	420	
+Z	15	Asia/Taipei	480	
+Z	16	Asia/Tehran	210	
+Z	17	Asia/Tokyo	540	
+Z	18	Asia/Yangon	390	
+Z	19	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	20	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	21	Europe/Budapest	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	22	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BJ	Benin	egyptian	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	CO	Colombia	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EE	Estonia	mwl	s
+C	ER	Eritrea	egyptian	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IS	Iceland	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KH	Cambodia	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	LA	Laos	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LT	Lithuania	mwl	s
+C	MA	Morocco	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MY	Malaysia	singapore	s
+C	NA	Namibia	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+C	SG	Singapore	singapore	s
+C	SK	Slovakia	mwl	s
+C	SL	Sierra Leone	egyptian	s
+C	SN	Senegal	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	TW	Taiwan	mwl	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+B	0
+P	Kennedy		CO		4.617	-74.146	4
+P	Kermanshah		IR		34.314	47.065	16
+P	Kerman		IR		30.283	57.079	16
+P	Kemerovo		RU		55.354	86.104	14
+P	Kenitra		MA		34.261	-6.580	0
+P	Keelung		TW		25.131	121.741	15
+P	Milton Keynes		GB	England	52.042	-0.756	22
+P	Kenema		SL		7.877	-11.190	1
+P	Kelar		IQ		34.628	45.319	11
+P	Kēng Tung	keng tung	MM		21.631	99.927	18
+P	Kerch		UA		45.357	36.475	11
+P	Kelowna		CA	British Columbia	49.883	-119.486	9
+P	Budapest XI. kerület	budapest xi kerulet	HU		47.476	19.036	21
+P	Ksar El Kebir		MA		35.000	-5.904	0
+P	Seri Kembangan		MY		3.033	101.717	15
+P	Kembangan		SG		1.322	103.911	15
+P	Kent		US	Washington	47.381	-122.235	7
+P	Budapest III. kerület	budapest iii kerulet	HU		47.542	19.045	21
+P	Budapest XIII. kerület	budapest xiii kerulet	HU		47.530	19.081	21
+P	Kecskemét	kecskemet	HU		46.906	19.691	21
+P	Birnin Kebbi		NG		12.454	4.197	2
+P	El Kelaa des Srarhna		MA		32.051	-7.411	0
+P	Kenosha		US	Wisconsin	42.585	-87.821	5
+P	Budapest IV. kerület	budapest iv kerulet	HU		47.562	19.089	21
+P	Budapest XVIII. kerület	budapest xviii kerulet	HU		47.444	19.176	21
+P	Budapest II. kerület	budapest ii kerulet	HU		47.520	19.022	21
+P	Kepong		MY		3.214	101.640	15
+P	Keffi		NG		8.847	7.874	2
+P	Kelo		TD		9.309	15.807	2
+P	Budapest VIII. kerület	budapest viii kerulet	HU		47.489	19.070	21
+P	Kendall		US	Florida	25.679	-80.317	8
+P	Budapest XV. kerület	budapest xv kerulet	HU		47.563	19.117	21
+P	Kennewick		US	Washington	46.211	-119.137	7
+P	Budapest XVII. kerület	budapest xvii kerulet	HU		47.480	19.254	21
+P	Keningau		MY		5.338	116.160	15
+P	Keur Médoune	keur medoune	SN		14.758	-15.904	1
+P	Keratsíni	keratsini	GR		37.962	23.620	20
+P	Budapest XXI. kerület	budapest xxi kerulet	HU		47.422	19.066	21
+P	Keshod		IN		21.303	70.249	13
+P	Keren		ER		15.778	38.451	11
+P	Budapest XVI. kerület	budapest xvi kerulet	HU		47.515	19.170	21
+P	Kesklinn		EE		59.435	24.757	20
+P	Kenner		US	Louisiana	29.994	-90.242	5
+P	Kędzierzyn-Koźle	kedzierzyn kozle	PL		50.350	18.226	21
+P	Kerpen		DE		50.870	6.697	21
+P	Budapest XX. kerület	budapest xx kerulet	HU		47.437	19.101	21
+P	Kenge		CD		-5.765	13.657	2
+P	Kelaa Kebira		TN		35.873	10.537	2
+P	Kélibia	kelibia	TN		36.848	11.094	2
+P	Kempas		MY		1.549	103.697	15
+P	Budapest XIX. kerület	budapest xix kerulet	HU		47.453	19.149	21
+P	Kempten (Allgäu)	kempten allgau	DE		47.727	10.314	21
+P	Kesennuma		JP		38.901	141.577	17
+P	Keonjhargarh		IN		21.632	85.597	13
+P	Kentau		KZ		43.517	68.505	10
+P	Kettering		GB	England	52.398	-0.726	22
+P	Budapest XII. kerület	budapest xii kerulet	HU		47.492	19.015	21
+P	Kendale Lakes		US	Florida	25.708	-80.407	8
+P	Kettering		US	Ohio	39.690	-84.169	8
+P	Kérou	kerou	BJ		10.826	2.105	2
+P	Kericho		KE		-0.368	35.283	11
+P	El Kef		TN		36.174	8.705	2
+P	Kelenföld	kelenfold	HU		47.466	19.031	21
+P	Tiu Keng Leng		HK		22.299	114.251	15
+P	Kentwood		US	Michigan	42.869	-85.645	8
+P	Budapest XXII. kerület	budapest xxii kerulet	HU		47.427	19.040	21
+P	Keighley		GB	England	53.868	-1.907	22
+P	Merter Keresteciler		TR		41.013	28.886	11
+P	Kerkrade		NL		50.866	6.062	21
+P	Keskin		TR		39.673	33.614	11
+P	Kensington-Cedar Cottage	kensington cedar cottage	CA	British Columbia	49.250	-123.067	9
+P	Kendrāparha	kendraparha	IN		20.502	86.422	13
+P	Kebri Dahar		ET		6.740	44.278	11
+P	Keller		US	Texas	32.935	-97.252	5
+P	Si Sa Ket		TH		15.115	104.329	14
+P	Keşan	kesan	TR		40.855	26.633	11
+P	Kenol		KE		-0.937	37.123	11
+P	Kemisē	kemise	ET		10.717	39.870	11
+P	Kenscoff		HT		18.448	-72.284	8
+P	Kearny		US	New Jersey	40.768	-74.145	8
+P	Budapest VI. kerület	budapest vi kerulet	HU		47.504	19.066	21
+P	Kekri		IN		25.971	75.150	13
+P	Kétou	ketou	BJ		7.363	2.600	2
+P	Kehl		DE		48.573	7.815	21
+P	Keat Hong Village		SG		1.378	103.744	15
+P	Kensington		US	New York	40.646	-73.971	8
+P	Kerava		FI		60.403	25.105	20
+P	Keru		IN		26.192	73.044	13
+P	Kennedy Town		HK		22.283	114.130	15
+P	Keizer		US	Oregon	44.990	-123.026	7
+P	Fenway/Kenmore	fenway kenmore	US	Massachusetts	42.345	-71.100	8
+P	Kampung Ayer Keroh		MY		2.265	102.280	15
+P	Kew Gardens Hills		US	New York	40.730	-73.823	8
+P	Kestel		TR		40.198	29.212	11
+P	Kendall West		US	Florida	25.706	-80.439	8
+P	Kep		KH		10.483	104.317	14
+P	Kearns		US	Utah	40.660	-111.996	6
+P	Bukit Kerinchi		MY		3.106	101.668	15
+P	Kempen		DE		51.364	6.419	21
+P	Fereydūn Kenār	fereydun kenar	IR		36.685	52.519	16
+P	Kennesaw		US	Georgia	34.023	-84.615	8
+P	Kerki		TM		37.836	65.211	10
+P	Kearney		US	Nebraska	40.699	-99.081	5
+P	Ken Caryl		US	Colorado	39.576	-105.112	6
+P	Kampung Kerubong		MY		2.296	102.254	15
+P	Kesabpur		BD		22.907	89.220	12
+P	Aïn Kercha	ain kercha	DZ		35.925	6.695	2
+P	Kemalpaşa	kemalpasa	TR		38.426	27.417	11
+P	Kessel-Lo	kessel lo	BE		50.885	4.737	21
+P	Kédougou	kedougou	SN		12.556	-12.181	1
+P	Kerugoya		KE		-0.499	37.280	11
+P	Keysborough		AU	Victoria	-37.991	145.174	19
+P	Kent		US	Ohio	41.154	-81.358	8
+P	Kendal		GB	England	54.327	-2.748	22
+P	Kelaniya		LK		6.955	79.922	13
+P	West Kelowna		CA	British Columbia	49.862	-119.583	9
+P	Ulu Kelang		MY		3.180	101.773	15
+P	Kelkheim		DE		50.137	8.450	21
+P	Kevelaer		DE		51.582	6.246	21
+P	Kellyville		AU	New South Wales	-33.710	150.951	19
+P	Kętrzyn	ketrzyn	PL		54.077	21.375	21
+P	Kerkera		DZ		36.929	6.586	2
+P	Kekem		CM		5.157	10.020	2
+P	Kérouané	kerouane	GN		9.267	-9.017	1
+P	Kemrī	kemri	IN		28.807	79.205	13
+P	Kebili		TN		33.704	8.969	2
+P	Budapest V. kerület	budapest v kerulet	HU		47.500	19.051	21
+P	Key West		US	Florida	24.555	-81.782	8
+P	Kelīshād va Sūdarjān	kelishad va sudarjan	IR		32.551	51.528	16
+P	Keirao Bitra		IN		24.711	93.975	13
+P	Budapest I. kerület	budapest i kerulet	HU		47.497	19.040	21
+P	Keshorai Pātan	keshorai patan	IN		25.293	75.939	13
+P	Kew		AU	Victoria	-37.806	145.031	19
+P	Kertih		MY		4.514	103.448	15
+P	Keystone		US	Florida	28.156	-82.621	8
+P	Kelkit		TR		40.127	39.434	11
+P	Kernersville		US	North Carolina	36.120	-80.074	8
+P	‘Alem Ketema	alem ketema	ET		10.083	39.033	11
+P	Keene		US	New Hampshire	42.934	-72.278	8
+P	Kērkandi	kerkandi	IN		11.368	76.746	13
+P	Kerrville		US	Texas	30.047	-99.140	5
+P	Kele		ET		6.083	38.033	11
+P	Keetmanshoop		NA		-26.577	18.134	3
+P	Kėdainiai	kedainiai	LT		55.288	23.973	20
+P	Kenilworth		GB	England	52.350	-1.583	22
+P	Kenmore		US	Washington	47.757	-122.244	7
+P	Keswick		CA	Ontario	44.250	-79.466	8
+P	Kercha		ET		5.780	38.409	11
+P	Keevallur		IN		11.897	75.531	13
+P	Budapest XXIII. kerület	budapest xxiii kerulet	HU		47.398	19.115	21
+P	Mers el Kebir		DZ		35.728	-0.708	2
+P	Kempston Hardwick		GB	England	52.090	-0.499	22
+P	Kébémer	kebemer	SN		15.365	-16.434	1
+P	Kempston		GB	England	52.116	-0.500	22
+P	Kerūr	kerur	IN		16.014	75.546	13
+P	Keszthely		HU		46.768	17.243	21
+P	Keynsham		GB	England	51.414	-2.498	22
+P	Kemi		FI		65.736	24.564	20
+P	Kęty	kety	PL		49.882	19.223	21
+P	Kesinga		IN		20.188	83.219	13
+P	Kuala Kedah		MY		6.100	100.300	15
+P	Kuala Ketil		MY		5.600	100.650	15
+P	Kesariyā	kesariya	IN		26.350	84.871	13
+P	Kew Gardens		US	New York	40.714	-73.831	8
+P	Keng Hau		HK		22.365	114.175	15
+P	Kelaat Mgouna		MA		31.246	-6.133	0
+P	Keta		GH		5.918	0.988	1
+P	Kegalle		LK		7.252	80.344	13
+P	Kensington-Chinatown	kensington chinatown	CA	Ontario	43.654	-79.397	8
+P	Kedrovka		RU		55.521	86.095	14
+P	Kenwood		US	Illinois	41.809	-87.598	5
+P	Keezhkulam		IN		8.231	77.186	13
+P	Kemer		TR		36.598	30.561	11
+P	Kepala Batas		MY		5.517	100.427	15
+P	Kennedy Park		CA	Ontario	43.723	-79.261	8
+P	Kampung Teluk Kemang		MY		2.461	101.860	15
+P	Kensington		GB	England	53.409	-2.953	22
+P	Kedia		IN		23.795	85.587	13
+P	Keflavík	keflavik	IS		64.005	-22.562	1
+P	Ké-Macina	ke macina	ML		13.964	-5.358	1
+P	Kelheim		DE		48.917	11.886	21
+P	Ban Kèngkok	ban kengkok	LA		16.444	105.198	14
+P	Kellabine		TN		34.709	11.215	2
+P	Kestel		TR		36.509	32.083	11
+P	Kežmarok	kezmarok	SK		49.136	20.434	21
+P	Kennedy Street		US	District of Columbia	38.956	-77.018	8
+P	Kenmore		US	New York	42.966	-78.870	8
+P	Kenda		IN		23.196	86.515	13
+P	Kenora		CA	Ontario	49.767	-94.490	5
+P	Keilor East		AU	Victoria	-37.733	144.865	19
+P	Kensington		AU	New South Wales	-33.920	151.222	19

@@ -1,0 +1,96 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dakar	0	
+C	GM	Gambia	egyptian	s
+C	GW	Guinea-Bissau	egyptian	s
+C	SN	Senegal	egyptian	s
+B	3
+P	Dakar		SN		14.694	-17.444	0
+P	Pikine		SN		14.765	-17.391	0
+P	Touba		SN		14.862	-15.875	0
+P	Bissau		GW		11.864	-15.598	0
+P	Serekunda		GM		13.438	-16.678	0
+P	Guédiawaye	guediawaye	SN		14.774	-17.402	0
+P	Thiès	thies	SN		14.789	-16.926	0
+P	Kaolack		SN		14.152	-16.073	0
+P	Rufisque		SN		14.715	-17.273	0
+P	Mbour		SN		14.422	-16.964	0
+P	Thiès Nones	thies nones	SN		14.783	-16.967	0
+P	Rufisque est		SN		14.716	-17.273	0
+P	Ziguinchor		SN		12.568	-16.273	0
+P	Diourbel		SN		14.648	-16.244	0
+P	Tivaouane		SN		14.952	-16.815	0
+P	Mbaké	mbake	SN		14.790	-15.908	0
+P	Tiébo	tiebo	SN		14.633	-16.233	0
+P	Brikama		GM		13.271	-16.649	0
+P	Keur Médoune	keur medoune	SN		14.758	-15.904	0
+P	Dougnane		SN		14.959	-16.870	0
+P	Bargny		SN		14.697	-17.230	0
+P	Bununka Kunda		GM		13.427	-16.685	0
+P	Bairro Militar		GW		11.875	-15.616	0
+P	Kaffrine		SN		14.106	-15.551	0
+P	Sukuta		GM		13.410	-16.708	0
+P	Bargny Guèdj	bargny guedj	SN		14.687	-17.228	0
+P	Bargny Ngoude		SN		14.694	-17.235	0
+P	Talinding		GM		13.426	-16.673	0
+P	Nguékhokh	nguekhokh	SN		14.513	-17.004	0
+P	Diamniadio		SN		14.721	-17.182	0
+P	Joal		SN		14.173	-16.849	0
+P	Faji Kunda		GM		13.418	-16.667	0
+P	Contumo		GW		11.850	-15.617	0
+P	Reino de Bandim		GW		11.850	-15.600	0
+P	Bakau		GM		13.478	-16.682	0
+P	Sébikhotane	sebikhotane	SN		14.745	-17.138	0
+P	Sali		SN		14.441	-17.019	0
+P	Niakoul Rab		SN		14.784	-17.274	0
+P	Jaxaay Parcelle Niakoul Rap		SN		14.775	-17.280	0
+P	Fatick		SN		14.332	-16.405	0
+P	Missira		GW		11.861	-15.607	0
+P	Bambey		SN		14.701	-16.459	0
+P	Banjul		GM		13.453	-16.578	0
+P	N’diareme limamoulaye	ndiareme limamoulaye	SN		14.781	-17.384	0
+P	Le Plateau		SN		14.662	-17.440	0
+P	Nema Kunku		GM		13.250	-15.883	0
+P	Farafenni		GM		13.567	-15.600	0
+P	Sédhiou	sedhiou	SN		12.708	-15.557	0
+P	Reino de Antula		GW		11.900	-15.583	0
+P	Bakau New Town		GM		13.473	-16.685	0
+P	Quelele		GW		11.867	-15.633	0
+P	Busumbala		GM		13.339	-16.688	0
+P	Bignona		SN		12.810	-16.226	0
+P	Lamin		GM		13.352	-16.434	0
+P	Welingara		GM		13.404	-16.674	0
+P	Brufut		GM		13.384	-16.751	0
+P	Plaque		GW		11.883	-15.617	0
+P	Ibo Town		GM		13.435	-16.676	0
+P	Kahone		SN		14.158	-16.036	0
+P	Luanda		GW		11.879	-15.600	0
+P	Sanchaba		GM		13.422	-16.710	0
+P	Poukham Un		SN		14.358	-16.412	0
+P	Pout		SN		14.771	-17.061	0
+P	Latri Kunda		GM		13.449	-16.685	0
+P	Kayar		SN		14.919	-17.120	0
+P	Gunjur		GM		13.202	-16.734	0
+P	Manjai Kunda		GM		13.445	-16.703	0
+P	Sintra-Nema	sintra nema	GW		11.862	-15.597	0
+P	Dippa Kunda		GM		13.440	-16.687	0
+P	New Jeshwang		GM		13.447	-16.665	0
+P	Nioro du Rip		SN		13.750	-15.800	0
+P	Guinguinéo	guinguineo	SN		14.270	-15.945	0
+P	Khombole		SN		14.764	-16.692	0
+P	Bakoti		GM		13.430	-16.698	0
+P	Thiadiaye		SN		14.420	-16.703	0
+P	Kunkujang		GM		13.390	-16.673	0
+P	Sinchu Alagi		GM		13.375	-16.678	0
+P	Kotu		GM		13.459	-16.705	0
+P	Abuko		GM		13.404	-16.656	0
+P	Latri Sabiji		GM		13.413	-16.679	0
+P	Goudomp		SN		12.578	-15.872	0
+P	Gandiaye		SN		14.244	-16.272	0
+P	Tanji		GM		13.349	-16.791	0
+P	Belem		GW		11.853	-15.603	0
+P	Santa-Luzia	santa luzia	GW		11.888	-15.590	0
+P	Kanifing		GM		13.446	-16.674	0
+P	Gossas Village		SN		14.484	-16.114	0
+P	Kbombole		SN		14.767	-16.700	0
+P	Soma		GM		13.433	-15.533	0
+P	Sanyang		GM		13.267	-16.761	0

@@ -1,0 +1,30 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	0
+P	Mangaluru		IN		12.917	74.856	0
+P	Udupi		IN		13.335	74.746	0
+P	Karwar		IN		14.814	74.130	0
+P	Sirsi		IN		14.621	74.836	0
+P	Ullal		IN		12.806	74.861	0
+P	Kāsaragod	kasaragod	IN		12.498	74.990	0
+P	Kumta		IN		14.429	74.419	0
+P	Manipal		IN		13.350	74.783	0
+P	Bhatkal		IN		13.985	74.555	0
+P	Mūdbidri	mudbidri	IN		13.067	74.995	0
+P	Kundapura		IN		13.631	74.690	0
+P	Kūdlu	kudlu	IN		12.530	74.979	0
+P	Gokarna		IN		14.550	74.317	0
+P	Kārkala	karkala	IN		13.214	74.992	0
+P	Sōmēshvara	someshvara	IN		12.804	74.865	0
+P	Malpe		IN		13.350	74.704	0
+P	Ankola		IN		14.660	74.305	0
+P	Yellāpur	yellapur	IN		14.964	74.709	0
+P	Byndoor		IN		13.867	74.633	0
+P	Honnavar		IN		14.281	74.445	0
+P	Koipādi	koipadi	IN		12.593	74.963	0
+P	Murudeshwara		IN		14.094	74.484	0
+P	Mūlki	mulki	IN		13.091	74.794	0
+P	Kōtekāra	kotekara	IN		12.793	74.872	0
+P	Gangolli		IN		13.650	74.671	0
+P	Saligram		IN		13.499	74.709	0

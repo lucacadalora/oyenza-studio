@@ -1,0 +1,19 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	US	United States	moonsighting	s
+B	0
+P	Charleston		US	South Carolina	32.776	-79.933	0
+P	Wilmington		US	North Carolina	34.236	-77.946	0
+P	North Charleston		US	South Carolina	32.855	-79.975	0
+P	Mount Pleasant		US	South Carolina	32.794	-79.863	0
+P	Jacksonville		US	North Carolina	34.754	-77.430	0
+P	Florence		US	South Carolina	34.195	-79.763	0
+P	Myrtle Beach		US	South Carolina	33.689	-78.887	0
+P	Lumberton		US	North Carolina	34.618	-79.010	0
+P	Conway		US	South Carolina	33.836	-79.048	0
+P	Havelock		US	North Carolina	34.879	-76.901	0
+P	Socastee		US	South Carolina	33.684	-78.998	0
+P	Leland		US	North Carolina	34.256	-78.045	0
+P	Hope Mills		US	North Carolina	34.970	-78.945	0
+P	North Myrtle Beach		US	South Carolina	33.816	-78.680	0
+P	Laurinburg		US	North Carolina	34.774	-79.463	0

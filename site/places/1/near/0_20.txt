@@ -1,0 +1,17 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kinshasa	60	
+Z	1	Africa/Lubumbashi	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+B	0
+P	Bumba		CD		2.188	22.468	0
+P	Lisala		CD		2.151	21.517	0
+P	Binga		CD		2.374	20.498	0
+P	Buta		CD		2.786	24.730	1
+P	Basoko		CD		1.239	23.616	1
+P	Gbadolite		CD		4.279	21.003	0
+P	Yangambi		CD		0.768	24.440	1
+P	Aketi		CD		2.739	23.783	1
+P	Bangassou		CF		4.741	22.818	0
+P	Businga		CD		3.339	20.886	0
+P	Bondo		CD		3.815	23.687	1

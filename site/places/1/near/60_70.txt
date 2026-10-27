@@ -1,0 +1,14 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	0
+P	Surgut		RU		61.258	73.418	0
+P	Nefteyugansk		RU		61.100	72.603	0
+P	Kogalym		RU		62.265	74.479	0
+P	Pyt-Yakh	pyt yakh	RU		60.750	72.858	0
+P	Muravlenko		RU		63.790	74.523	0
+P	Lyantor		RU		61.619	72.155	0
+P	Poykovskiy		RU		61.001	71.892	0
+P	Fedorovskiy		RU		61.606	73.714	0
+P	Belyy Yar		RU		61.265	73.241	0
+P	Nizhnesortymskiy		RU		62.440	71.760	0

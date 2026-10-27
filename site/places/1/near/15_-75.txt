@@ -1,0 +1,66 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Port-au-Prince	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	1	America/Santo_Domingo	-240	
+C	DO	Dominican Republic	mwl	s
+C	HT	Haiti	mwl	s
+B	2
+P	Port-au-Prince	port au prince	HT		18.543	-72.339	0
+P	Santiago de los Caballeros		DO		19.450	-70.691	1
+P	Carrefour		HT		18.533	-72.400	0
+P	Delmas		HT		18.545	-72.300	0
+P	Pétionville	petionville	HT		18.512	-72.285	0
+P	Port-de-Paix	port de paix	HT		19.940	-72.830	0
+P	Saint-Marc	saint marc	HT		19.111	-72.701	0
+P	Croix-des-Bouquets	croix des bouquets	HT		18.577	-72.226	0
+P	Dessalines		HT		19.262	-72.516	0
+P	San Cristóbal	san cristobal	DO		18.417	-70.107	1
+P	Puerto Plata		DO		19.793	-70.688	1
+P	Jacmel		HT		18.236	-72.537	0
+P	Cap-Haïtien	cap haitien	HT		19.759	-72.198	0
+P	Léogâne	leogane	HT		18.511	-72.633	0
+P	Arcahaie		HT		18.770	-72.512	0
+P	Les Cayes		HT		18.192	-73.749	0
+P	San Francisco de Macorís	san francisco de macoris	DO		19.294	-70.253	1
+P	Tigwav		HT		18.431	-72.865	0
+P	La Vega		DO		19.220	-70.531	1
+P	Jérémie	jeremie	HT		18.650	-74.117	0
+P	Saint-Michel de l'Atalaye	saint michel de latalaye	HT		19.371	-72.335	0
+P	Miragoâne	miragoane	HT		18.446	-73.090	0
+P	Gonaïves	gonaives	HT		19.448	-72.689	0
+P	Santa Cruz de Barahona		DO		18.209	-71.101	1
+P	Bonao		DO		18.942	-70.411	1
+P	San Juan de la Maguana		DO		18.806	-71.226	1
+P	Bajos de Haina		DO		18.415	-70.033	1
+P	Baní	bani	DO		18.280	-70.332	1
+P	Moca		DO		19.393	-70.523	1
+P	Azua		DO		18.453	-70.735	1
+P	Thomazeau		HT		18.653	-72.094	0
+P	Grangwav		HT		18.426	-72.770	0
+P	Verrettes		HT		19.050	-72.466	0
+P	Mao		DO		19.549	-71.078	1
+P	Salcedo		DO		19.378	-70.417	1
+P	Kenscoff		HT		18.448	-72.284	0
+P	Esperanza		DO		19.585	-70.985	1
+P	Cotuí	cotui	DO		19.054	-70.151	1
+P	Villa Altagracia		DO		18.673	-70.171	1
+P	Saint-Raphaël	saint raphael	HT		19.439	-72.199	0
+P	Ti Port-de-Paix	ti port de paix	HT		19.933	-72.833	0
+P	Villa Bisonó	villa bisono	DO		19.564	-70.876	1
+P	Lenbe		HT		19.706	-72.403	0
+P	Jarabacoa		DO		19.117	-70.636	1
+P	Constanza		DO		18.909	-70.745	1
+P	Gressier		HT		18.541	-72.527	0
+P	Tamboril		DO		19.485	-70.611	1
+P	Las Matas de Farfán	las matas de farfan	DO		18.873	-71.517	1
+P	Terrier Rouge		HT		19.636	-71.955	0
+P	San José de Ocoa	san jose de ocoa	DO		18.547	-70.507	1
+P	Río Grande	rio grande	DO		19.667	-70.767	1
+P	Monte Llano		DO		19.735	-70.599	1
+P	Neiba		DO		18.490	-71.419	1
+P	Hinche		HT		19.141	-72.012	0
+P	Fond Parisien		HT		18.505	-71.981	0
+P	Grand Gosier		HT		18.185	-71.918	0
+P	San Fernando de Monte Cristi		DO		19.848	-71.646	1
+P	Dajabón	dajabon	DO		19.548	-71.708	1
+P	San Ignacio de Sabaneta		DO		19.478	-71.339	1
+P	Désarmes	desarmes	HT		18.993	-72.391	0

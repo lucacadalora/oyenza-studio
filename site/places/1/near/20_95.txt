@@ -1,0 +1,83 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Shanghai	480	
+Z	2	Asia/Yangon	390	
+C	CN	China	mwl	s
+C	MM	Myanmar	mwl	s
+C	TH	Thailand	mwl	s
+B	1
+P	Mandalay		MM		21.975	96.084	2
+P	Longling County		CN		24.587	98.689	1
+P	Amarapura		MM		21.907	96.049	2
+P	Yawnghwe		MM		20.660	96.934	2
+P	Monywa		MM		22.109	95.136	2
+P	Meiktila		MM		20.878	95.858	2
+P	Kēng Tung	keng tung	MM		21.631	99.927	2
+P	Mu-se	mu se	MM		23.997	97.901	2
+P	Taunggyi		MM		20.789	97.038	2
+P	Myingyan		MM		21.460	95.388	2
+P	Lashio		MM		22.936	97.750	2
+P	Tengyue		CN		24.995	98.513	1
+P	Pakokku		MM		21.335	95.084	2
+P	Pyin Oo Lwin		MM		22.035	96.457	2
+P	Möng Yang	mong yang	MM		21.848	99.677	2
+P	Mengmao		CN		24.001	97.865	1
+P	Menghuan		CN		24.435	98.584	1
+P	Heho		MM		20.723	96.823	2
+P	Kalaw		MM		20.635	96.565	2
+P	Mogok		MM		22.918	96.510	2
+P	Shwebo		MM		22.569	95.698	2
+P	Menglang		CN		22.562	99.910	1
+P	Lakang		MM		24.661	97.189	2
+P	Yingjiang		CN		24.710	97.937	1
+P	Sagaing		MM		21.879	95.980	2
+P	Taungdwingyi		MM		20.006	95.545	2
+P	Fengping		CN		24.397	98.518	1
+P	Longshan		CN		24.601	98.704	1
+P	Yamethin		MM		20.432	96.139	2
+P	Shwegu		MM		24.227	96.791	2
+P	Bhamo		MM		24.253	97.234	2
+P	Zhangfeng		CN		24.191	97.802	1
+P	Tachilek		MM		20.448	99.881	2
+P	Zhefang		CN		24.267	98.283	1
+P	Kyaukse		MM		21.606	96.135	2
+P	Mangshi		CN		24.453	98.570	1
+P	Nongzhang		CN		24.616	97.882	1
+P	Shangyun		CN		23.052	99.828	1
+P	Kyaukpadaung		MM		20.842	95.127	2
+P	Kyauktan		MM		24.278	95.895	2
+P	Tatkon		MM		24.679	95.074	2
+P	Kyaukme		MM		22.539	97.034	2
+P	Mangbang		CN		24.932	98.670	1
+P	Mae Chan		TH		20.147	99.853	0
+P	Zhutang		CN		22.715	99.807	1
+P	Tangyan		MM		22.494	98.393	2
+P	Namhkam		MM		23.833	97.680	2
+P	Mohnyin		MM		24.778	96.369	2
+P	Wuhe		CN		24.859	98.668	1
+P	Wundwin		MM		21.094	96.028	2
+P	Pyawbwe		MM		20.592	96.052	2
+P	Aungban		MM		20.661	96.635	2
+P	Taiping		CN		24.661	97.853	1
+P	Lawksawk		MM		21.248	96.867	2
+P	Mae Sai		TH		20.434	99.876	0
+P	Panglong		MM		24.101	98.313	2
+P	Puchuan		CN		24.703	98.570	1
+P	Katha		MM		24.175	96.341	2
+P	Kanbalu		MM		23.203	95.517	2
+P	Kutkai		MM		23.458	97.938	2
+P	Hehua		CN		24.970	98.394	1
+P	Madaya		MM		22.211	96.104	2
+P	Nanling		CN		22.711	99.996	1
+P	Nansang		MM		20.892	97.717	2
+P	Laukkai		MM		23.696	98.762	2
+P	Hopin		MM		24.991	96.527	2
+P	Yesagyo		MM		21.632	95.246	2
+P	Fubang		CN		22.904	99.803	1
+P	Ye-u	ye u	MM		22.767	95.428	2
+P	Nuofu		CN		22.220	99.700	1
+P	Tuantian		CN		24.711	98.653	1
+P	Xinhua		CN		24.753	98.483	1
+P	Mujia		CN		22.991	99.635	1
+P	Pangkham		MM		22.179	99.167	2
+P	Donghui		CN		22.441	99.800	1

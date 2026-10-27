@@ -39,17 +39,17 @@ use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
 use crate::state::{
-    AgendaState, AppState, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
+    AgendaState, AppState, CityFile, FpsAccess, GameState, Hud, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, MediaSession, Notice, NoticeAction, OyenzaLink,
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
 use poni_core::oyenza::{Activity, Bill, Day, DayPick, Saved, Seen, Txn, WalletRef};
 use poni_core::phonedrop::QrMatrix;
-use poni_core::prayer::PlaceList;
+use poni_core::prayer::{PlaceList, World};
 use poni_core::pomodoro::{Phase as PomoPhase, RunState};
 use poni_core::power::{PowerReading, PsuReading, Rail};
 use poni_core::settings::{IdleStyle, Theme};
@@ -86,13 +86,14 @@ const SETTLE_TIMEOUT: f64 = 3.0;
 const SOFT_GPU_SETTLE_TIMEOUT: f64 = 8.0;
 /// Seconds to wait for a simulated tab click to switch the page.
 const CLICK_TIMEOUT: f64 = 1.5;
-/// Stop visiting scenes after this many seconds. The 85 scenes take about
-/// 42 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
-/// theme with Japanese lyrics is the slowest run, about 53 s (it reached the
-/// old 50 s at scene 80 once the Today scenes came in). The CI and Store test
-/// steps wait 120 s for the whole run (this plus the writers' 3.5 s, and 40 s
-/// more for the animation runs, stays under it), the Wine runner 180 s.
-const SCENE_DEADLINE: f64 = 65.0;
+/// Stop visiting scenes after this many seconds. The 89 scenes take about
+/// 45 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
+/// theme with Japanese lyrics is the slowest run, about 63 s with 85 (it
+/// reached the old 50 s at scene 80 once the Today scenes came in, and 65 s
+/// was tight for four more). The CI and Store test steps wait 120 s for the
+/// whole run (this plus the writers' 3.5 s, and 40 s more for the animation
+/// runs, stays under it), the Wine runner 180 s.
+const SCENE_DEADLINE: f64 = 70.0;
 /// Give up waiting for PNG writers at this point: 3.5 s after the scene
 /// deadline, so the last scenes' pictures get their time however long the
 /// run took. (It was a fixed 43.5 s, left behind when SCENE_DEADLINE went
@@ -683,30 +684,61 @@ fn fake_oyenza(st: &AppState, scene: Scene, now: f64) -> OyenzaState {
         agenda_unix: Some(st.unix - 120),
         agenda_state: match scene {
             Scene::TodayTiles => AgendaState::Unavailable,
-            Scene::TodayDay | Scene::TodayNoApps => AgendaState::Ready,
+            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayOff | Scene::TodayPicked => AgendaState::Ready,
             _ => AgendaState::Waiting,
         },
         ..OyenzaState::default()
     }
 }
 
-/// The Today page's day for its scenes, around the clock it runs at
-/// (`agenda::sample`); none switched on for `TodayNoApps`.
+/// The Today page's days for its scenes, around the clock it runs at
+/// (`agenda::sample`); none switched on for `TodayNoApps`, Google Calendar
+/// off (so no events came) for `TodayOff`.
 fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer> {
-    use poni_core::agenda::{sample, Answer, Sources};
+    use poni_core::agenda::{sample, Answer, Source};
     let today = st.day_key();
+    let now_min = st.local.hour as i32 * 60 + st.local.minute as i32;
     match scene {
-        Scene::TodayDay => Some(sample(&today, st.local.hour as i32 * 60 + st.local.minute as i32)),
-        Scene::TodayNoApps => Some(Answer { day: today, apps: Sources::default(), events: Vec::new(), flights: Vec::new() }),
+        Scene::TodayDay | Scene::TodayPicked => Some(sample(&today, now_min)),
+        Scene::TodayOff => {
+            let mut a = sample(&today, now_min);
+            a.apps.googlecalendar = Source::Off;
+            a.events.clear();
+            Some(a)
+        }
+        Scene::TodayNoApps => Some(Answer::none(&today)),
         _ => None,
     }
 }
 
-/// Prayer times for its scenes: on, in Kota Jakarta, its clock 8 minutes
-/// before today's Ashar (the real list arrives with the add-on's download;
-/// these few places are copied from it).
+/// The Stocks page's scenes on a made-up market (`pages::stocks::picture`);
+/// every other scene: the list as it starts, nothing loaded.
+fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
+    use crate::pages::stocks::{picture, Picture};
+    let shows = match scene {
+        Scene::Page(PageKind::Stocks) => Picture::Day,
+        Scene::StocksPicked => Picture::Year,
+        Scene::StocksSearch => Picture::Search,
+        Scene::StocksEdit => Picture::Edit,
+        _ => {
+            st.store.stocks = poni_core::stocks::Watchlist::default();
+            st.stocks = crate::state::StocksState::default();
+            st.ui.stocks = crate::pages::stocks::StocksUi::default();
+            return;
+        }
+    };
+    picture(st, shows, now);
+}
+
+/// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
+/// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
+/// real lists arrive with the add-on's download; these few places are
+/// copied from them).
 fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
-    let on = matches!(scene, Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice);
+    let on = matches!(
+        scene,
+        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld
+    );
     if !on {
         st.prayer = PrayerState::default();
         return;
@@ -716,18 +748,24 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
         let list = PlaceList::parse(SAMPLE_PLACES).expect("sample places");
         st.prayer.places = Some(std::sync::Arc::new(list));
     }
+    let world = World::parse(poni_core::prayer::world::SAMPLE.into()).expect("sample world places");
     let list = st.prayer.places.clone().expect("places");
-    st.prayer.place = list.find("jakarta").cloned();
+    st.prayer.place = if scene == Scene::PrayerWorld { world.place(0) } else { list.find("jakarta").cloned() };
+    st.settings.prayer.world_place = st.prayer.place.as_ref().and_then(|p| p.world_lines.clone());
+    // The website's "ed" file, as if it had come.
+    st.prayer.cities = [("ed".to_string(), CityFile::Here(std::sync::Arc::new(world)))].into();
+    st.prayer.found = None;
+    st.settings.prayer.follow_location = scene != Scene::PrayerWorld;
     st.prayer.suggested = false;
     st.prayer.locate = Locate::Found { km: 2.0 };
     st.prayer.located_at = Some(st.unix);
-    st.prayer.picking = scene == Scene::PrayerPicker;
-    if st.prayer.picking {
-        st.prayer.query = "band".into();
-    } else {
-        st.prayer.query.clear();
-    }
-    let site = st.prayer.site().expect("Jakarta's site");
+    st.prayer.picking = matches!(scene, Scene::PrayerPicker | Scene::PrayerPickerWorld);
+    st.prayer.query = match scene {
+        Scene::PrayerPicker => "band".into(),
+        Scene::PrayerPickerWorld => "edin".into(),
+        _ => String::new(),
+    };
+    let site = st.prayer.site().expect("the place's site");
     let today = site.local_day(st.unix);
     let ashar = poni_core::prayer::day_times(&site, today).expect("today's times").ashar;
     // PONI_SELFTEST_PRAYER_AT=HH:MM: the Prayer page at that time of
@@ -737,7 +775,7 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
         Some(h.parse::<i64>().ok()? * 3600 + m.parse::<i64>().ok()? * 60)
     });
     st.prayer.clock_shift = match at {
-        Some(secs) => today * 86_400 - i64::from(site.offset_min) * 60 + secs - st.unix,
+        Some(secs) => site.midnight(today) + secs - st.unix,
         None => ashar - 8 * 60 - st.unix,
     };
     st.prayer.handled_until = Some(st.prayer_now());
@@ -856,6 +894,10 @@ enum Scene {
     PrayerCountdown,
     /// Prayer times: Ashar's time came, the adzan playing.
     PrayerNotice,
+    /// Prayer times: the place picker, "edin" typed (cities abroad).
+    PrayerPickerWorld,
+    /// Prayer times in Edinburgh, picked by hand (a city abroad, its method beside its name).
+    PrayerWorld,
     /// The Oyenza page on yesterday (a dot on Today: something new there).
     OyenzaYesterday,
     /// The Oyenza page on tomorrow's bills.
@@ -920,6 +962,17 @@ enum Scene {
     TodayNoApps,
     /// Today signed in to a server without the day: the stat tiles, as before.
     TodayTiles,
+    /// Today with Google Calendar switched off for Studio (Gmail on): its
+    /// logo dimmed, Turn on, and Gmail's flights and the bills.
+    TodayOff,
+    /// Today with a date ten days on clicked in the grid: the list starts there.
+    TodayPicked,
+    /// Stocks with Bank BCA picked, over a year.
+    StocksPicked,
+    /// Stocks: "Add a stock" open, "bank" typed.
+    StocksSearch,
+    /// Stocks in edit mode: remove buttons and handles.
+    StocksEdit,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -952,7 +1005,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 85] = [
+const SCENES: [Scene; 93] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1013,6 +1066,8 @@ const SCENES: [Scene; 85] = [
     Scene::PrayerPicker,
     Scene::PrayerCountdown,
     Scene::PrayerNotice,
+    Scene::PrayerPickerWorld,
+    Scene::PrayerWorld,
     Scene::OyenzaYesterday,
     Scene::OyenzaTomorrow,
     Scene::OyenzaMoneyOut,
@@ -1055,6 +1110,14 @@ const SCENES: [Scene; 85] = [
     Scene::TodayDay,
     Scene::TodayNoApps,
     Scene::TodayTiles,
+    Scene::TodayOff,
+    Scene::TodayPicked,
+    // The Stocks add-on: the IHSG's day, a stock's year, the search and
+    // edit mode, all on a made-up market (`stocks::sample`).
+    Scene::Page(PageKind::Stocks),
+    Scene::StocksPicked,
+    Scene::StocksSearch,
+    Scene::StocksEdit,
 ];
 
 impl Scene {
@@ -1106,6 +1169,8 @@ impl Scene {
             Scene::PrayerPicker => "page-prayer-picker".into(),
             Scene::PrayerCountdown => "prayer-countdown".into(),
             Scene::PrayerNotice => "prayer-notice".into(),
+            Scene::PrayerPickerWorld => "page-prayer-picker-world".into(),
+            Scene::PrayerWorld => "page-prayer-world".into(),
             Scene::OyenzaYesterday => "page-oyenza-yesterday".into(),
             Scene::OyenzaTomorrow => "page-oyenza-tomorrow".into(),
             Scene::OyenzaMoneyOut => "oyenza-money-out".into(),
@@ -1136,6 +1201,11 @@ impl Scene {
             Scene::TodayDay => "page-today-day".into(),
             Scene::TodayNoApps => "page-today-no-apps".into(),
             Scene::TodayTiles => "page-today-tiles".into(),
+            Scene::TodayOff => "page-today-off".into(),
+            Scene::TodayPicked => "page-today-picked".into(),
+            Scene::StocksPicked => "page-stocks-picked".into(),
+            Scene::StocksSearch => "page-stocks-search".into(),
+            Scene::StocksEdit => "page-stocks-edit".into(),
         }
     }
 
@@ -1168,9 +1238,10 @@ impl Scene {
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
-            Scene::PrayerPicker => Some(PageKind::Prayer),
+            Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerWorld => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
-            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles => Some(PageKind::Today),
+            Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
+            Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             _ => None,
         }
     }
@@ -1196,6 +1267,8 @@ impl Scene {
                 | Scene::TodayDay
                 | Scene::TodayNoApps
                 | Scene::TodayTiles
+                | Scene::TodayOff
+                | Scene::TodayPicked
         )
     }
 
@@ -2039,6 +2112,11 @@ impl SelfTest {
             _ => None,
         };
         st.oyenza = if scene.oyenza() { fake_oyenza(st, scene, now) } else { OyenzaState::default() };
+        // Today's list starts at today, or at the date clicked ten days on.
+        st.ui.today_pick = (scene == Scene::TodayPicked).then(|| poni_core::agenda::day_num(&st.day_key()).unwrap_or(0) + 10);
+        st.ui.today_jump = st.ui.today_pick.is_some();
+        st.ui.today_scroll = 0.0;
+        st.ui.today_drawn = now;
         // Add-ons: what the page shows (settings stay as they are, so the worker downloads nothing).
         let addon = match scene {
             Scene::AddonsDownloading => AddonStatus::Downloading { done: 1_300_000, total: PRAYER_TIMES.size() },
@@ -2060,10 +2138,12 @@ impl SelfTest {
         // pages' scenes only (and Health for its goal notice).
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health)] {
+        let stocks = scene.page() == Some(PageKind::Stocks);
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
+        seed_stocks(st, scene, now);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {

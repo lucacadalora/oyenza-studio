@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Buenos_Aires	-180	
+C	AR	Argentina	mwl	s
+B	0
+P	Bahía Blanca	bahia blanca	AR		-38.718	-62.265	0
+P	Santa Rosa		AR		-36.616	-64.290	0
+P	Olavarría	olavarria	AR		-36.894	-60.323	0
+P	General Pico		AR		-35.659	-63.758	0
+P	Punta Alta		AR		-38.880	-62.075	0
+P	Tres Arroyos		AR		-38.377	-60.276	0
+P	Nueve de Julio		AR		-35.444	-60.885	0
+P	Trenque Lauquen		AR		-35.973	-62.733	0
+P	Bragado		AR		-35.116	-60.490	0
+P	Pehuajó	pehuajo	AR		-35.811	-61.899	0
+P	Coronel Suárez	coronel suarez	AR		-37.459	-61.933	0
+P	San Carlos de Bolívar	san carlos de bolivar	AR		-36.231	-61.116	0
+P	Veinticinco de Mayo		AR		-35.432	-60.172	0
+P	General Villegas		AR		-35.033	-63.015	0
+P	Coronel Pringles		AR		-37.986	-61.350	0
+P	Carlos Casares		AR		-35.622	-61.365	0
+P	Toay		AR		-36.674	-64.380	0
+P	Río Colorado	rio colorado	AR		-38.991	-64.096	0
+P	Pigüé	pigue	AR		-37.603	-62.408	0
+P	General Acha		AR		-37.378	-64.604	0

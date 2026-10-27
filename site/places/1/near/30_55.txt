@@ -1,0 +1,18 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tehran	210	
+C	IR	Iran	tehran	s
+B	0
+P	Kerman		IR		30.283	57.079	0
+P	Bīrjand	birjand	IR		32.866	59.221	0
+P	Rafsanjān	rafsanjan	IR		30.407	55.994	0
+P	Zarand		IR		30.813	56.564	0
+P	Shahr-e Bābak	shahr e babak	IR		30.116	55.119	0
+P	Tabas		IR		33.596	56.924	0
+P	Bāfq	bafq	IR		31.604	55.402	0
+P	Gonābād	gonabad	IR		34.353	58.684	0
+P	Rāvar	ravar	IR		31.266	56.805	0
+P	Qā’en	qaen	IR		33.727	59.184	0
+P	Ferdows		IR		34.019	58.172	0
+P	Māhān	mahan	IR		30.059	57.292	0
+P	Anār	anar	IR		30.871	55.270	0
+P	Boshrūyeh	boshruyeh	IR		33.868	57.429	0

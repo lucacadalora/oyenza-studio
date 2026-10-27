@@ -1,0 +1,27 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+B	0
+P	Naha		JP		26.213	127.679	0
+P	Okinawa		JP		26.336	127.801	0
+P	Uruma		JP		26.376	127.859	0
+P	Urasoe		JP		26.259	127.730	0
+P	Ginowan		JP		26.263	127.761	0
+P	Gushikawa		JP		26.359	127.867	0
+P	Tomigusuku		JP		26.186	127.682	0
+P	Nago		JP		26.615	127.985	0
+P	Itoman		JP		26.126	127.669	0
+P	Nanjō	nanjo	JP		26.144	127.767	0
+P	Amami		JP		28.377	129.494	0
+P	Naze		JP		28.367	129.483	0
+P	Yomitan		JP		26.402	127.745	0
+P	Kanegusuku		JP		26.197	127.726	0
+P	Nishihara		JP		26.254	127.744	0
+P	Katsuren-haebaru	katsuren haebaru	JP		26.333	127.874	0
+P	Yaese		JP		26.127	127.743	0
+P	Chatan		JP		26.309	127.770	0
+P	Ishikawa		JP		26.423	127.821	0
+P	Nakagusuku		JP		26.250	127.783	0
+P	Yonabaru		JP		26.204	127.753	0
+P	Tsuha		JP		26.658	128.094	0
+P	Kishaba		JP		26.303	127.794	0

@@ -1,0 +1,348 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Johannesburg	120	
+Z	2	Africa/Tunis	60	
+Z	3	America/Bogota	-300	
+Z	4	America/Campo_Grande	-240	
+Z	5	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	6	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	7	America/Edmonton	-420	29549340=-360
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	10	America/Mexico_City	-360	
+Z	11	America/New_York	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	12	America/Phoenix	-420	
+Z	13	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	14	America/Sao_Paulo	-180	
+Z	15	America/Vancouver	-480	29549400=-420
+Z	16	Asia/Kolkata	330	
+Z	17	Asia/Kuala_Lumpur	480	
+Z	18	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	19	Atlantic/South_Georgia	-120	
+Z	20	Australia/Sydney	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	21	Europe/Moscow	180	
+Z	22	Europe/Vienna	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BA	Bosnia and Herzegovina	mwl	s
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	ES	Spain	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GS	South Georgia and the South Sandwich Islands	mwl	s
+C	HT	Haiti	mwl	s
+C	IE	Ireland	mwl	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	LC	Saint Lucia	mwl	s
+C	LR	Liberia	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NA	Namibia	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NL	The Netherlands	mwl	s
+C	NO	Norway	mwl	s
+C	PE	Peru	mwl	s
+C	PL	Poland	mwl	s
+C	PT	Portugal	mwl	s
+C	RU	Russia	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TT	Trinidad and Tobago	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Campo Grande		BR		-20.443	-54.646	4
+P	Grajaú	grajau	BR		-23.770	-46.671	14
+P	Las Palmas de Gran Canaria		ES		28.102	-15.416	18
+P	Praia Grande		BR		-24.006	-46.403	14
+P	Campina Grande		BR		-7.231	-35.881	14
+P	Soledad de Graciano Sánchez	soledad de graciano sanchez	MX		22.189	-100.938	10
+P	Várzea Grande	varzea grande	BR		-15.647	-56.133	4
+P	Graz		AT		47.067	15.442	22
+P	Grozny		RU		43.312	45.689	21
+P	Greater Noida		IN		28.496	77.536	16
+P	Ponta Grossa		BR		-25.095	-50.162	14
+P	Greensboro		US	North Carolina	36.073	-79.792	11
+P	Gravataí	gravatai	BR		-29.942	-50.993	14
+P	Groningen		NL		53.219	6.567	22
+P	Granada		ES		37.188	-3.607	22
+P	Grand Rapids		US	Michigan	42.963	-85.668	11
+P	Rio Grande		BR		-32.035	-52.099	14
+P	Grand Prairie		US	Texas	32.746	-96.998	5
+P	Garden Grove		US	California	33.774	-117.941	9
+P	Elk Grove		US	California	38.409	-121.372	9
+P	Greater Sudbury		CA	Ontario	46.490	-80.990	11
+P	Grenoble		FR		45.179	5.715	22
+P	Fazenda Rio Grande		BR		-25.657	-49.308	14
+P	Gràcia	gracia	ES		41.402	2.156	22
+P	Santa Coloma de Gramenet		ES		41.452	2.208	22
+P	Campo Grande		BR		-23.675	-46.688	14
+P	Gravesend		US	New York	40.598	-73.965	11
+P	Gresham		US	Oregon	45.498	-122.431	9
+P	Greeley		US	Colorado	40.423	-104.709	6
+P	Green Bay		US	Wisconsin	44.519	-88.020	5
+P	Grand-Bassam	grand bassam	CI		5.212	-3.739	0
+P	Grudziądz	grudziadz	PL		53.484	18.754	22
+P	Gravatá	gravata	BR		-8.201	-35.565	14
+P	Grahamstown		ZA		-33.304	26.533	1
+P	Greenville		US	North Carolina	35.613	-77.366	11
+P	Grays		GB	England	51.476	0.325	18
+P	Granada		NI		11.931	-85.954	10
+P	Greenburgh		US	New York	41.033	-73.843	11
+P	Grimsby		GB	England	53.565	-0.076	18
+P	Torre del Greco		IT		40.789	14.368	22
+P	Grajaú	grajau	BR		-5.819	-46.139	14
+P	Grazhdanka		RU		60.017	30.417	21
+P	Grande Prairie		CA	Alberta	55.167	-118.803	7
+P	Granada		CO		3.546	-73.707	3
+P	Maple Grove		US	Minnesota	45.072	-93.456	5
+P	Notre-Dame-de-Grâce	notre dame de grace	CA	Quebec	45.477	-73.614	11
+P	Granby		CA	Quebec	45.400	-72.732	11
+P	Grevenbroich		DE		51.091	6.583	22
+P	Greenville		US	South Carolina	34.853	-82.394	11
+P	Bowling Green		US	Kentucky	36.990	-86.444	5
+P	Great Yarmouth		GB	England	52.608	1.731	18
+P	Florence-Graham	florence graham	US	California	33.968	-118.244	9
+P	Graaff Reinet		ZA		-32.252	24.531	1
+P	Noisy-le-Grand	noisy le grand	FR		48.850	2.563	22
+P	Grao de Murviedro		ES		39.642	-0.239	22
+P	Sagua la Grande		CU		22.806	-80.074	8
+P	Granollers		ES		41.608	2.288	22
+P	Grosseto		IT		42.763	11.109	22
+P	Mene Grande		VE		9.846	-70.927	4
+P	Grand Junction		US	Colorado	39.064	-108.551	6
+P	Great Falls		US	Montana	47.500	-111.301	6
+P	Grand Forks		US	North Dakota	47.925	-97.033	5
+P	Greenwood		US	Indiana	39.614	-86.107	11
+P	Nuevo Casas Grandes		MX		30.416	-107.912	10
+P	Jagüey Grande	jaguey grande	CU		22.526	-81.129	8
+P	Gravesend		GB	England	51.442	0.371	18
+P	Granja		BR		-3.120	-40.826	14
+P	Universitäts- und Hansestadt Greifswald	universitats und hansestadt greifswald	DE		54.089	13.402	22
+P	Río Grande	rio grande	AR		-53.788	-67.710	14
+P	Casa Grande		US	Arizona	32.880	-111.757	12
+P	Grand Island		US	Nebraska	40.925	-98.342	5
+P	Grapevine		US	Texas	32.934	-97.078	5
+P	la Vila de Gràcia	la vila de gracia	ES		41.403	2.157	22
+P	Gronau		DE		52.211	7.022	22
+P	Vargem Grande Paulista		BR		-23.603	-47.026	14
+P	Downers Grove		US	Illinois	41.809	-88.011	5
+P	Grangwav		HT		18.426	-72.770	11
+P	Campina Grande do Sul		BR		-25.306	-49.055	14
+P	Greve		DK		55.583	12.300	22
+P	Grasse		FR		43.658	6.925	22
+P	Gryazi		RU		52.495	39.940	21
+P	Auburn Gresham		US	Illinois	41.742	-87.653	5
+P	Grantham		GB	England	52.911	-0.642	18
+P	Peña Grande	pena grande	ES		40.475	-3.722	22
+P	Rio Grande da Serra		BR		-23.744	-46.398	14
+P	Great Sankey		GB	England	53.392	-2.640	18
+P	Vargem Grande		BR		-3.543	-43.916	14
+P	Gravina in Puglia		IT		40.817	16.419	22
+P	Taman Greenwood		MY		3.232	101.705	17
+P	Buffalo Grove		US	Illinois	42.151	-87.960	5
+P	Greenock		GB	Scotland	55.948	-4.761	18
+P	Gremda		TN		34.791	10.721	2
+P	Alta Gracia		AR		-31.650	-64.430	14
+P	Gramado		BR		-29.379	-50.874	14
+P	Vargem Grande do Sul		BR		-21.832	-46.894	14
+P	Granadilla de Abona		ES		28.119	-16.576	18
+P	Grove City		US	Ohio	39.881	-83.093	11
+P	Spruce Grove		CA	Alberta	53.533	-113.919	7
+P	Bassano del Grappa		IT		45.767	11.727	22
+P	Pleasant Grove		US	Utah	40.364	-111.739	6
+P	Greenford		GB	England	51.529	-0.355	18
+P	Gropiusstadt		DE		52.427	13.461	22
+P	La Grita		VE		8.133	-71.984	4
+P	Grabouw		ZA		-34.152	19.015	1
+P	Greenfield		US	Wisconsin	42.961	-88.013	5
+P	Grants Pass		US	Oregon	42.439	-123.331	9
+P	Grimbergen		BE		50.934	4.372	22
+P	Grand-Lahou	grand lahou	CI		5.138	-5.021	0
+P	Great Malvern		GB	England	52.112	-2.325	18
+P	Grugliasco		IT		45.065	7.580	22
+P	Cottage Grove		US	Minnesota	44.828	-92.944	5
+P	Greven		DE		52.094	7.594	22
+P	Inver Grove Heights		US	Minnesota	44.848	-93.043	5
+P	Greenpoint		US	New York	40.724	-73.951	11
+P	el Camp d'en Grassot i Gràcia Nova	el camp den grassot i gracia nova	ES		41.406	2.165	22
+P	Elk Grove Village		US	Illinois	42.004	-87.970	5
+P	Capim Grosso		BR		-11.381	-40.013	14
+P	Greenacres City		US	Florida	26.624	-80.125	11
+P	Río Grande	rio grande	MX		23.827	-103.034	10
+P	Granadero Baigorria		AR		-32.857	-60.718	14
+P	Greater Grand Crossing		US	Illinois	41.761	-87.615	5
+P	Greenville		US	Mississippi	33.409	-91.060	5
+P	Grand-Zattry	grand zattry	CI		6.116	-6.536	0
+P	Grottaglie		IT		40.537	17.437	22
+P	Bowling Green		US	Ohio	41.375	-83.651	11
+P	Greenwich		GB	England	51.478	-0.012	18
+P	Granger		US	Indiana	41.753	-86.111	11
+P	Tambo Grande		PE		-4.927	-80.345	3
+P	Iguaba Grande		BR		-22.839	-42.229	14
+P	Gries		AT		47.062	15.424	22
+P	Grandview-Woodlands	grandview woodlands	CA	British Columbia	49.277	-123.071	15
+P	Gragnano		IT		40.689	14.520	22
+P	Granite City		US	Illinois	38.701	-90.149	5
+P	Grzegórzki	grzegorzki	PL		50.064	19.968	22
+P	Marinha Grande		PT		39.748	-8.932	18
+P	Grarem		DZ		36.516	6.327	2
+P	Wood Green		GB	England	51.600	-0.117	18
+P	Greer		US	South Carolina	34.939	-82.227	11
+P	Juan Griego		VE		11.082	-63.965	4
+P	San Sebastián el Grande	san sebastian el grande	MX		20.533	-103.429	10
+P	Groot IJsselmonde		NL		51.883	4.549	22
+P	Gramercy Park		US	New York	40.737	-73.986	11
+P	Grimma		DE		51.234	12.720	22
+P	Grimsby		CA	Ontario	43.200	-79.566	11
+P	Illkirch-Graffenstaden	illkirch graffenstaden	FR		48.529	7.715	22
+P	Grombalia		TN		36.599	10.500	2
+P	Rejon placu Grunwaldzkiego		PL		51.117	17.061	22
+P	Lemon Grove		US	California	32.743	-117.031	9
+P	Grodzisk Mazowiecki		PL		52.104	20.634	22
+P	Acocks Green		GB	England	52.450	-1.817	18
+P	Gravina di Catania		IT		37.561	15.063	22
+P	East Grinstead		GB	England	51.124	-0.006	18
+P	Le Grand-Quevilly	le grand quevilly	FR		49.401	1.046	22
+P	Greenville		US	Texas	33.138	-96.111	5
+P	Apaseo el Grande		MX		20.546	-100.688	10
+P	Alagoa Grande		BR		-7.042	-35.627	14
+P	Gressier		HT		18.541	-72.527	11
+P	Green		US	Ohio	40.946	-81.483	11
+P	Walnut Grove		CA	British Columbia	49.165	-122.640	15
+P	Khajuraho Group of Monuments		IN		24.848	79.934	16
+P	Griesheim		DE		49.861	8.572	22
+P	Grandview		US	Missouri	38.886	-94.533	5
+P	Gros Islet		LC		14.067	-60.950	4
+P	Dombe Grande		AO		-12.952	13.102	2
+P	Grigny		FR		48.654	2.393	22
+P	South Granville		CA	British Columbia	49.260	-123.139	15
+P	Forest Grove		US	Oregon	45.520	-123.111	9
+P	Gradignan		FR		44.774	-0.614	22
+P	Greenacre		AU	New South Wales	-33.900	151.056	20
+P	Greenbelt		US	Maryland	39.005	-76.876	11
+P	Greiz		DE		50.658	12.199	22
+P	Grootfontein		NA		-19.573	18.100	1
+P	Lagoa Grande		BR		-8.997	-40.272	14
+P	Grimstad		NO		58.340	8.593	22
+P	Groß-Gerau	gross gerau	DE		49.921	8.483	22
+P	Greystanes		AU	New South Wales	-33.823	150.946	20
+P	Graham		US	Washington	47.053	-122.294	9
+P	Morton Grove		US	Illinois	42.041	-87.783	5
+P	Alhaurín el Grande	alhaurin el grande	ES		36.643	-4.687	22
+P	Graneros		CL		-34.069	-70.727	13
+P	Greenwood		US	South Carolina	34.195	-82.162	11
+P	Grande-Synthe	grande synthe	FR		51.015	2.300	22
+P	Griffin		US	Georgia	33.247	-84.264	11
+P	Feira Grande		BR		-9.900	-36.678	14
+P	Webster Groves		US	Missouri	38.593	-90.357	5
+P	Greytown		ZA		-29.064	30.593	1
+P	Grajewo		PL		53.647	22.455	22
+P	Woodford Green		GB	England	51.609	0.023	18
+P	Bartley Green		GB	England	52.435	-1.997	18
+P	Drzetowo-Grabowo	drzetowo grabowo	PL		53.449	14.579	22
+P	Grand Boulevard		US	Illinois	41.814	-87.617	5
+P	Mata Grande		BR		-9.117	-37.732	14
+P	Greater Northdale		US	Florida	28.105	-82.526	11
+P	Greystones		IE		53.141	-6.063	18
+P	Great Kills		US	New York	40.554	-74.152	11
+P	Greenfield		US	Indiana	39.785	-85.769	11
+P	Green Valley		US	Arizona	31.854	-110.994	12
+P	Greenvale		AU	Victoria	-37.633	144.867	20
+P	Gryfino		PL		53.252	14.488	22
+P	Groß-Umstadt	gross umstadt	DE		49.869	8.932	22
+P	Chã Grande	cha grande	BR		-8.238	-35.462	14
+P	Greensborough		AU	Victoria	-37.705	145.103	20
+P	Grivegnée	grivegnee	BE		50.621	5.611	22
+P	El Grullo		MX		19.807	-104.216	10
+P	Grayslake		US	Illinois	42.344	-88.042	5
+P	Grand Island		US	New York	43.033	-78.963	11
+P	Griffith		AU	New South Wales	-34.289	146.051	20
+P	Granite Bay		US	California	38.763	-121.164	9
+P	Bagua Grande		PE		-5.756	-78.441	3
+P	Greenville		LR		5.011	-9.039	0
+P	Hazel Grove		GB	England	53.383	-2.117	18
+P	Río Grande	rio grande	DO		19.667	-70.767	4
+P	Coconut Grove		US	Florida	25.713	-80.257	11
+P	Rio Verde de Mato Grosso		BR		-18.918	-54.844	4
+P	Greenfield		US	Massachusetts	42.588	-72.600	11
+P	Saint-Gratien	saint gratien	FR		48.974	2.287	22
+P	Norris Green		GB	England	53.445	-2.921	18
+P	Nova Granada		BR		-20.534	-49.314	14
+P	Battle Ground		US	Washington	45.781	-122.533	9
+P	Green Haven		US	Maryland	39.140	-76.548	11
+P	Grafton		AU	New South Wales	-29.681	152.934	20
+P	Great Wyrley		GB	England	52.663	-2.011	18
+P	's-Gravenzande	s gravenzande	NL		52.002	4.165	22
+P	Gröbenzell	grobenzell	DE		48.200	11.367	22
+P	Barão de Grajaú	barao de grajau	BR		-6.756	-43.024	14
+P	São José da Coroa Grande	sao jose da coroa grande	BR		-8.898	-35.148	14
+P	Golders Green		GB	England	51.576	-0.200	18
+P	Mount Greenwood		US	Illinois	41.698	-87.709	5
+P	Groesbeek		NL		51.777	5.936	22
+P	Greater Upper Marlboro		US	Maryland	38.831	-76.748	11
+P	Goodings Grove		US	Illinois	41.629	-87.931	5
+P	Baixa Grande		BR		-11.960	-40.168	14
+P	Großenhain	grossenhain	DE		51.290	13.534	22
+P	Grottaferrata		IT		41.787	12.671	22
+P	Arroyo Grande		US	California	35.119	-120.591	9
+P	Groot-Brakrivier	groot brakrivier	ZA		-34.044	22.226	1
+P	Gretna		US	Louisiana	29.915	-90.054	5
+P	Grumo Nevano		IT		40.936	14.260	22
+P	Porto Grande		BR		0.713	-51.413	14
+P	Bethnal Green		GB	England	51.527	-0.061	18
+P	Arroio Grande		BR		-32.237	-53.087	14
+P	Nueva Granada		CO		9.802	-74.393	3
+P	Gribanovskiy		RU		51.450	41.962	21
+P	Greenfield		US	California	36.321	-121.244	9
+P	Grand Gosier		HT		18.185	-71.918	11
+P	Sabana Grande de Boyá	sabana grande de boya	DO		18.945	-69.793	4
+P	Greenfield Park		CA	Quebec	45.486	-73.462	11
+P	Gryfice		PL		53.916	15.200	22
+P	Granville		AU	New South Wales	-33.841	151.007	20
+P	Oak Grove		US	Oregon	45.417	-122.640	9
+P	Grafton		US	Massachusetts	42.207	-71.686	11
+P	Griffith		US	Indiana	41.528	-87.424	5
+P	Großostheim	grossostheim	DE		49.920	9.076	22
+P	Gryazovets		RU		58.880	40.252	21
+P	Grangemouth		GB	Scotland	56.011	-3.722	18
+P	Petit Grabo		CI		5.269	-7.314	0
+P	El Grao		ES		39.974	0.013	22
+P	Grefrath		DE		51.336	6.341	22
+P	Sangre Grande		TT		10.587	-61.130	4
+P	Pecan Grove		US	Texas	29.626	-95.732	5
+P	Grandville		US	Michigan	42.910	-85.763	11
+P	Grenchen		CH		47.192	7.396	22
+P	Greater Napanee		CA	Ontario	44.250	-76.949	11
+P	Myrtle Grove		US	Florida	30.421	-87.307	5
+P	Grosse Pointe Woods		US	Michigan	42.444	-82.907	11
+P	Gračanica	gracanica	BA		44.703	18.310	22
+P	Groves		US	Texas	29.948	-93.917	5
+P	Willow Grove		US	Pennsylvania	40.144	-75.116	11
+P	La Grange		US	Illinois	41.805	-87.869	5
+P	Great Bend		US	Kansas	38.364	-98.765	5
+P	Pacific Grove		US	California	36.618	-121.917	9
+P	Greenwood Village		US	Colorado	39.617	-104.951	6
+P	Gradačac	gradacac	BA		44.879	18.428	22
+P	Saint-Basile-le-Grand	saint basile le grand	CA	Quebec	45.533	-73.282	11
+P	Campo Grande		PT		38.755	-9.167	18
+P	Greenwood		US	Mississippi	33.516	-90.180	5
+P	Great Falls		US	Virginia	38.998	-77.288	11
+P	Graniteville		US	New York	40.625	-74.148	11
+P	Palmers Green		GB	England	51.618	-0.110	18
+P	Greeneville		US	Tennessee	36.163	-82.831	11
+P	Grytviken		GS		-54.281	-36.509	19

@@ -1,0 +1,75 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Baku	240	
+Z	1	Europe/Moscow	180	
+C	AM	Armenia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	GE	Georgia	mwl	s
+C	RU	Russia	mwl	s
+B	1
+P	Baku		AZ		40.378	49.892	0
+P	Makhachkala		RU		42.978	47.500	1
+P	Sumgayit		AZ		40.590	49.669	0
+P	Ganja		AZ		40.682	46.361	0
+P	Grozny		RU		43.312	45.689	1
+P	Khirdalan		AZ		40.448	49.755	0
+P	Yevlakh		AZ		40.618	47.150	0
+P	Khasavyurt		RU		43.249	46.586	1
+P	Mingachevir		AZ		40.764	47.062	0
+P	Derbent		RU		42.066	48.288	1
+P	Qaraçuxur	qaracuxur	AZ		40.397	49.974	0
+P	Kaspiysk		RU		42.882	47.639	1
+P	Sunzha		RU		43.321	45.049	1
+P	Sheki		AZ		41.192	47.171	0
+P	Xaçmaz	xacmaz	AZ		41.464	48.806	0
+P	Bakıxanov	bakixanov	AZ		40.419	49.967	0
+P	Buynaksk		RU		42.818	47.127	1
+P	Kizlyar		RU		43.847	46.710	1
+P	Göyçay	goycay	AZ		40.651	47.742	0
+P	Bilajari		AZ		40.444	49.806	0
+P	Izberbash		RU		42.567	47.875	1
+P	Barda		AZ		40.376	47.126	0
+P	Urus-Martan	urus martan	RU		43.131	45.538	1
+P	Shamkhir		AZ		40.830	46.018	0
+P	Aghjabadi		AZ		40.050	47.459	0
+P	Shamakhi		AZ		40.631	48.641	0
+P	Saray		AZ		40.533	49.717	0
+P	Kizilyurt		RU		43.203	46.866	1
+P	Gudermes		RU		43.351	46.101	1
+P	Zaqatala		AZ		41.632	46.645	0
+P	Lokbatan		AZ		40.326	49.734	0
+P	Sabirabad		AZ		40.009	48.477	0
+P	Haji Zeynalabdin		AZ		40.623	49.559	0
+P	Amirdzhan		AZ		40.426	49.984	0
+P	Argun		RU		43.293	45.867	1
+P	Dagestanskiye Ogni		RU		42.116	48.192	1
+P	Ismayilli		AZ		40.785	48.151	0
+P	Siyazan		AZ		41.078	49.116	0
+P	Shali		RU		43.148	45.902	1
+P	Ağdaş	agdas	AZ		40.647	47.474	0
+P	Divichibazar		AZ		41.201	48.987	0
+P	Hacıqabul	haciqabul	AZ		40.039	48.943	0
+P	Quba		AZ		41.361	48.513	0
+P	Aghsu		AZ		40.570	48.401	0
+P	Zabrat		AZ		40.477	49.942	0
+P	Sabunçu	sabuncu	AZ		40.443	49.948	0
+P	Kurchaloy		RU		43.205	46.088	1
+P	Gazakh		AZ		41.092	45.366	0
+P	Mehdiabad		AZ		40.497	49.852	0
+P	Tartar		AZ		40.342	46.932	0
+P	Telavi		GE		41.920	45.470	0
+P	Goygol		AZ		40.586	46.319	0
+P	Ijevan		AM		40.880	45.148	0
+P	Nesterovskaya		RU		43.239	45.050	1
+P	Kyurdarmir		AZ		40.343	48.156	0
+P	Gavar		AM		40.354	45.124	0
+P	Jorat		AZ		40.572	49.705	0
+P	Avtury		RU		43.163	46.002	1
+P	Gobu		AZ		40.405	49.713	0
+P	Hokmali		AZ		40.431	49.737	0
+P	Achkhoy-Martan	achkhoy martan	RU		43.192	45.283	1
+P	Belidzhi		RU		41.892	48.412	1
+P	Qusar		AZ		41.428	48.430	0
+P	Tsotsin-Yurt	tsotsin yurt	RU		43.242	46.000	1
+P	Ujar		AZ		40.519	47.654	0
+P	Semender		RU		42.986	47.404	1
+P	Govlar		AZ		40.946	45.732	0

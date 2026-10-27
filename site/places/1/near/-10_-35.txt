@@ -1,0 +1,20 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Recife	-180	
+C	BR	Brazil	mwl	s
+B	1
+P	Recife		BR		-8.054	-34.881	0
+P	João Pessoa	joao pessoa	BR		-7.115	-34.863	0
+P	Olinda		BR		-8.009	-34.855	0
+P	Paulista		BR		-7.941	-34.873	0
+P	Camaragibe		BR		-8.022	-34.981	0
+P	Santa Rita		BR		-7.114	-34.978	0
+P	Igarassu		BR		-7.834	-34.906	0
+P	Abreu e Lima		BR		-7.912	-34.903	0
+P	Bayeux		BR		-7.125	-34.932	0
+P	Cabedelo		BR		-6.981	-34.834	0
+P	Itapissuma		BR		-7.776	-34.892	0
+P	Conde		BR		-7.260	-34.907	0
+P	Ilha de Itamaracá	ilha de itamaraca	BR		-7.748	-34.826	0
+P	Alhandra		BR		-7.439	-34.914	0
+P	Caaporã	caapora	BR		-7.516	-34.908	0
+P	Pitimbu		BR		-7.471	-34.809	0

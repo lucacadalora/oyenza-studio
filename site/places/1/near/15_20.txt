@@ -1,0 +1,7 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Ndjamena	60	
+C	TD	Chad	egyptian	s
+B	0
+P	Iriba		TD		15.117	22.250	0
+P	Amdjarass		TD		16.067	22.835	0
+P	Fada		TD		17.192	21.581	0

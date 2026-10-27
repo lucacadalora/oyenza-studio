@@ -1,0 +1,54 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Bamako	0	
+C	CI	Ivory Coast	egyptian	s
+C	GN	Guinea	egyptian	s
+C	ML	Mali	egyptian	s
+B	1
+P	Bamako		ML		12.609	-7.975	0
+P	Sikasso		ML		11.318	-5.667	0
+P	Kankan		GN		10.385	-9.306	0
+P	Koutiala		ML		12.387	-5.465	0
+P	Ségou	segou	ML		13.440	-6.259	0
+P	Kalaban Koro		ML		12.573	-8.029	0
+P	Siguiri		GN		11.423	-9.169	0
+P	Kati		ML		12.744	-8.073	0
+P	Bougouni		ML		11.418	-7.483	0
+P	Kita		ML		13.039	-9.488	0
+P	Dialakorodji		ML		12.704	-7.965	0
+P	Koulikoro		ML		12.863	-7.560	0
+P	Fana		ML		12.779	-6.956	0
+P	Markala		ML		13.684	-6.074	0
+P	Niono		ML		14.251	-5.987	0
+P	Tengréla	tengrela	CI		10.481	-6.407	0
+P	Pèlèngana	pelengana	ML		13.427	-6.222	0
+P	Kolokani		ML		13.574	-8.033	0
+P	Sangarébougou	sangarebougou	ML		12.706	-7.903	0
+P	Massiogo		ML		10.306	-6.110	0
+P	Kadiolo		ML		10.550	-5.767	0
+P	Kouroussa		GN		10.650	-9.883	0
+P	Bla		ML		12.951	-5.756	0
+P	Moninnpébougou	moninnpebougou	ML		14.151	-5.521	0
+P	Zégoua	zegoua	ML		10.488	-5.649	0
+P	Diéma	diema	ML		14.540	-9.192	0
+P	Banamba		ML		13.548	-7.448	0
+P	M’Bengué	mbengue	CI		10.002	-5.900	0
+P	Bamba		ML		10.383	-7.150	0
+P	Kintinian		GN		11.600	-9.383	0
+P	Sibi		ML		12.375	-8.335	0
+P	Diourou		ML		13.687	-5.832	0
+P	Dougabougou		ML		13.820	-6.121	0
+P	Diawala		CI		10.107	-5.473	0
+P	Kaouara		CI		10.091	-5.195	0
+P	Niellé	nielle	CI		10.198	-5.623	0
+P	Yanfolila		ML		11.183	-8.150	0
+P	Siribala Coro		ML		14.043	-6.107	0
+P	Kabala		ML		12.525	-8.039	0
+P	Finnkolo		ML		11.268	-5.511	0
+P	Moribabougou		ML		12.687	-7.864	0
+P	Dioïla	dioila	ML		12.487	-6.803	0
+P	Sirakoro Méguétana	sirakoro meguetana	ML		12.564	-7.916	0
+P	Toubakoura		ML		13.464	-7.383	0
+P	Mandiana		GN		10.626	-8.694	0
+P	Kangaba		ML		11.933	-8.417	0
+P	Nambingué	nambingue	CI		10.050	-5.338	0
+P	Ké-Macina	ke macina	ML		13.964	-5.358	0

@@ -1,0 +1,99 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	2	Asia/Riyadh	180	
+C	EG	Egypt	egyptian	s
+C	IL	Israel	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+B	0
+P	Suez		EG		29.974	32.526	0
+P	Assiut		EG		27.181	31.184	0
+P	Al Fayyum		EG		29.310	30.842	0
+P	Esna		EG		25.293	32.554	0
+P	Luxor		EG		25.699	32.642	0
+P	6th of October City		EG		29.817	31.050	0
+P	Minya		EG		28.092	30.758	0
+P	Banī Suwayf	bani suwayf	EG		29.074	31.098	0
+P	Sohag		EG		26.557	31.695	0
+P	Qina		EG		26.164	32.727	0
+P	Ḩalwān	halwan	EG		29.841	31.301	0
+P	Mallawī	mallawi	EG		27.733	30.841	0
+P	Hurghada		EG		27.257	33.813	0
+P	Al Ḩawāmidīyah	al hawamidiyah	EG		29.900	31.250	0
+P	Akhmīm	akhmim	EG		26.562	31.746	0
+P	Girga		EG		26.337	31.893	0
+P	Samālūţ	samalut	EG		28.312	30.710	0
+P	Būsh	bush	EG		29.148	31.127	0
+P	Ţahţā	tahta	EG		26.769	31.502	0
+P	Sinnūris	sinnuris	EG		29.413	30.866	0
+P	Maghāghah	maghaghah	EG		28.648	30.841	0
+P	Manfalūţ	manfalut	EG		27.313	30.970	0
+P	Banī Mazār	bani mazar	EG		28.495	30.805	0
+P	Al Fashn		EG		28.823	30.899	0
+P	Abnūb	abnub	EG		27.269	31.152	0
+P	Abū Tīj	abu tij	EG		27.045	31.318	0
+P	Dayrūţ	dayrut	EG		27.556	30.811	0
+P	Ţimā	tima	EG		26.908	31.435	0
+P	Al Qūşīyah	al qusiyah	EG		27.440	30.817	0
+P	Bibā	biba	EG		28.924	30.985	0
+P	Al Minshāh	al minshah	EG		26.477	31.804	0
+P	Al Badrashayn		EG		29.850	31.267	0
+P	Abū Qurqāş	abu qurqas	EG		27.930	30.838	0
+P	Abū an Numrus	abu an numrus	EG		29.950	31.200	0
+P	Ibshawāy	ibshaway	EG		29.359	30.681	0
+P	Qūş	qus	EG		25.915	32.763	0
+P	Al Khārjah	al kharjah	EG		25.451	30.547	0
+P	Al-Khārijah	al kharijah	EG		25.250	30.550	0
+P	Maţāy	matay	EG		28.419	30.779	0
+P	Armant		EG		25.620	32.543	0
+P	Juhaynah		EG		26.674	31.497	0
+P	Iţsā	itsa	EG		29.238	30.789	0
+P	Ţāmiyah	tamiyah	EG		29.476	30.961	0
+P	Farshūţ	farshut	EG		26.055	32.163	0
+P	Al Ghanāyim	al ghanayim	EG		26.875	31.330	0
+P	Ihnāsyā al Madīnah	ihnasya al madinah	EG		29.090	30.943	0
+P	Al Balyanā	al balyana	EG		26.236	32.004	0
+P	Sumusţā al Waqf	sumusta al waqf	EG		28.921	30.854	0
+P	Dishnā	dishna	EG		26.122	32.467	0
+P	Ihnāsīyah	ihnasiyah	EG		29.093	31.020	0
+P	Aş Şaff	as saff	EG		29.565	31.281	0
+P	Dayr Mawās	dayr mawas	EG		27.641	30.850	0
+P	Nag Hammâdi	nag hammadi	EG		26.049	32.241	0
+P	Al Wāsiţah	al wasitah	EG		29.338	31.206	0
+P	Al Badārī	al badari	EG		26.993	31.416	0
+P	As Sāḩil	as sahil	EG		27.063	31.344	0
+P	Al Marāghah	al maraghah	EG		26.700	31.605	0
+P	Safaga		EG		26.749	33.939	0
+P	Eilat		IL		29.558	34.948	1
+P	Zaafarana		EG		29.110	32.660	0
+P	Banī ‘Ubayd	bani ubayd	EG		27.952	30.781	0
+P	Al ‘Ayyāţ	al ayyat	EG		29.620	31.258	0
+P	Al ‘Ayn as Sukhnah	al ayn as sukhnah	EG		29.589	32.336	0
+P	Ain Sukhna		EG		29.600	32.317	0
+P	Ras Gharib		EG		28.358	33.078	0
+P	Aţ Ţārif	at tarif	EG		25.738	32.637	0
+P	Sharm el-Sheikh	sharm el sheikh	EG		27.916	34.330	0
+P	El-Tor	el tor	EG		28.242	33.622	0
+P	Dār as Salām	dar as salam	EG		26.278	32.056	0
+P	Sumusţā as Sulţānī	sumusta as sultani	EG		28.917	30.850	0
+P	Al Waqf		EG		26.087	32.423	0
+P	Sāqultah	saqultah	EG		26.658	31.671	0
+P	Al Başalīyah Baḩrī	al basaliyah bahri	EG		25.150	32.717	0
+P	Banī Suwayf al Jadīdah	bani suwayf al jadidah	EG		29.033	31.114	0
+P	Ţūd	tud	EG		25.583	32.533	0
+P	Şidfā	sidfa	EG		26.966	31.380	0
+P	New Bani Sewif City		EG		29.036	31.118	0
+P	Aţfīḩ	atfih	EG		29.407	31.253	0
+P	Naqādah	naqadah	EG		25.901	32.724	0
+P	Al ‘Idwah	al idwah	EG		28.699	30.767	0
+P	Ḩaql	haql	SA		29.286	34.947	2
+P	Al Quşayr	al qusayr	EG		26.106	34.277	0
+P	Qifţ	qift	EG		25.998	32.818	0
+P	Yūsuf aṣ-Ṣiddīq	yusuf as siddiq	EG		29.385	30.557	0
+P	Al Bayāḑīyah	al bayadiyah	EG		25.665	32.635	0
+P	An Nāşirīyah	an nasiriyah	EG		27.206	31.196	0
+P	As Sibā‘īyah	as sibaiyah	EG		25.194	32.677	0
+P	Jarājūs	jarajus	EG		25.872	32.756	0
+P	Az Zaynīyah Qiblī	az zayniyah qibli	EG		25.751	32.678	0
+P	Abū Ţisht	abu tisht	EG		26.120	32.095	0
+P	Al-Minyā al-Jadīdah	al minya al jadidah	EG		28.086	30.815	0

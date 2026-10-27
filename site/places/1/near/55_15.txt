@@ -1,0 +1,53 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Stockholm	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	SE	Sweden	mwl	s
+B	1
+P	Stockholm		SE		59.329	18.069	0
+P	Uppsala		SE		59.859	17.639	0
+P	Linköping	linkoping	SE		58.411	15.622	0
+P	Örebro	orebro	SE		59.274	15.207	0
+P	Sollentuna		SE		59.428	17.951	0
+P	Västerås	vasteras	SE		59.616	16.553	0
+P	Södermalm	sodermalm	SE		59.313	18.076	0
+P	Norrköping	norrkoping	SE		58.594	16.183	0
+P	Huddinge		SE		59.237	17.982	0
+P	Haninge		SE		59.168	18.145	0
+P	Bromma		SE		59.340	17.940	0
+P	Södertälje	sodertalje	SE		59.196	17.625	0
+P	Kungsholmen		SE		59.332	18.041	0
+P	Eskilstuna		SE		59.367	16.508	0
+P	Solna		SE		59.360	18.001	0
+P	Karlskrona		SE		56.162	15.587	0
+P	Vasastaden		SE		59.350	18.033	0
+P	Täby	taby	SE		59.444	18.069	0
+P	Lidingö	lidingo	SE		59.367	18.133	0
+P	Tumba		SE		59.199	17.833	0
+P	Nyköping	nykoping	SE		58.753	17.008	0
+P	Kalmar		SE		56.662	16.362	0
+P	Upplands Väsby	upplands vasby	SE		59.518	17.911	0
+P	Östermalm	ostermalm	SE		59.339	18.085	0
+P	Sundbyberg		SE		59.361	17.971	0
+P	Åkersberga	akersberga	SE		59.479	18.300	0
+P	Danderyd		SE		59.404	18.024	0
+P	Vallentuna		SE		59.534	18.078	0
+P	Motala		SE		58.537	15.036	0
+P	Märsta	marsta	SE		59.622	17.855	0
+P	Nacka		SE		59.311	18.164	0
+P	Boo		SE		59.333	18.283	0
+P	Jakobsberg		SE		59.423	17.835	0
+P	Visby		SE		57.641	18.296	0
+P	Katrineholm		SE		58.996	16.207	0
+P	Enköping	enkoping	SE		59.636	17.078	0
+P	Västervik	vastervik	SE		57.758	16.637	0
+P	Gustavsberg		SE		59.327	18.390	0
+P	Norrtälje	norrtalje	SE		59.758	18.705	0
+P	Rinkeby		SE		59.387	17.928	0
+P	Hässelby Villastad	hasselby villastad	SE		59.380	17.809	0
+P	Köping	koping	SE		59.514	15.993	0
+P	Oskarshamn		SE		57.265	16.448	0
+P	Gamla Uppsala		SE		59.898	17.634	0
+P	Tensta		SE		59.394	17.901	0
+P	Råsunda	rasunda	SE		59.366	17.996	0
+P	Årsta	arsta	SE		59.298	18.051	0
+P	Kumla		SE		59.128	15.143	0
+P	Tullinge		SE		59.200	17.900	0

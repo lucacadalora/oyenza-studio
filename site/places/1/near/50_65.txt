@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Almaty	300	
+C	KZ	Kazakhstan	mwl	h
+B	0
+P	Petropavl		KZ		54.873	69.151	0
+P	Kokshetau		KZ		53.284	69.394	0
+P	Arkalyk		KZ		50.250	66.904	0
+P	Atbasar		KZ		51.809	68.358	0
+P	Akkol’	akkol	KZ		53.296	69.600	0

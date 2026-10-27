@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Algiers	60	
+Z	1	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	2	Asia/Kolkata	330	
+Z	3	Asia/Shanghai	480	
+Z	4	Asia/Tokyo	540	
+Z	5	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	CN	China	mwl	s
+C	DZ	Algeria	egyptian	s
+C	IN	India	karachi	h
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KP	North Korea	mwl	s
+C	MA	Morocco	egyptian	s
+B	0
+P	Aomori		JP		40.817	140.733	4
+P	Aoxi		CN		27.426	115.836	3
+P	Ain El Aouda		MA		33.803	-6.795	1
+P	Aonla		IN		28.274	79.165	2
+P	Aobadai		JP		35.547	139.517	4
+P	Aourir		MA		30.492	-9.636	1
+P	Aosta		IT		45.738	7.317	5
+P	Aoji-ri	aoji ri	KP		42.522	130.396	4
+P	El Aouinet		DZ		35.867	7.887	0
+P	Aoto		JP		35.750	139.854	4
+P	Aoulef		DZ		26.967	1.083	0
+P	Aoulouz		MA		30.673	-8.181	1
+P	Aoi		JP		35.774	139.817	4
+P	Minami-aoyama	minami aoyama	JP		35.665	139.715	4

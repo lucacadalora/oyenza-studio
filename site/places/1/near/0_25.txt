@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kampala	180	
+Z	1	Africa/Lubumbashi	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	SS	South Sudan	egyptian	s
+C	UG	Uganda	egyptian	s
+B	1
+P	Kisangani		CD		0.515	25.191	1
+P	Butembo		CD		0.142	29.291	1
+P	Isiro		CD		2.774	27.616	1
+P	Beni		CD		0.491	29.473	1
+P	Bakwa		CD		4.126	27.395	1
+P	Katwa		CD		0.089	29.309	1
+P	Babamba		CD		0.183	27.483	1
+P	Hyosha		CD		0.698	29.519	1
+P	Mpondwe		UG		0.040	29.725	0
+P	Mangina		CD		0.604	29.310	1
+P	Watsa		CD		3.037	29.536	1
+P	Yambio		SS		4.571	28.394	1
+P	Nyahuka		UG		0.675	29.993	0
+P	Kisinga		UG		0.077	29.868	0
+P	Wamba		CD		2.148	27.995	1

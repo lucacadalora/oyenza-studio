@@ -1,0 +1,49 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dakar	0	
+Z	1	Africa/Dar_es_Salaam	180	
+Z	2	Africa/Kinshasa	60	
+Z	3	Africa/Lubumbashi	120	
+C	AO	Angola	egyptian	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CF	Central African Republic	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	KE	Kenya	egyptian	s
+C	MR	Mauritania	egyptian	s
+C	SN	Senegal	egyptian	s
+C	SZ	Eswatini	egyptian	s
+C	TD	Chad	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	UG	Uganda	egyptian	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	1
+P	Mbuji-Mayi	mbuji mayi	CD		-6.136	23.590	3
+P	Mbeya		TZ		-8.900	33.450	1
+P	Mbandaka		CD		0.049	18.260	2
+P	Mbour		SN		14.422	-16.964	0
+P	Mbarara		UG		-0.605	30.649	1
+P	Mbanza Kongo		AO		-6.267	14.238	2
+P	Mbanza-Ngungu	mbanza ngungu	CD		-5.258	14.858	2
+P	Mbale		UG		1.082	34.175	1
+P	Mbombela		ZA		-25.475	30.969	3
+P	Mbaké	mbake	SN		14.790	-15.908	0
+P	Mbalmayo		CM		3.517	11.500	2
+P	Mbabane		SZ		-26.317	31.133	3
+P	Mbouda		CM		5.626	10.254	2
+P	Mbinga		TZ		-10.933	35.017	1
+P	Mbale		KE		0.082	34.721	1
+P	Mbera		MR		15.856	-5.791	0
+P	Mbuguni		TZ		-3.567	36.950	1
+P	Mbulu		TZ		-3.850	35.533	1
+P	Mbanga		CM		4.502	9.567	2
+P	Mbala		ZM		-8.840	31.366	3
+P	Mboro		SN		15.141	-16.887	0
+P	Mbandjok		CM		4.450	11.900	2
+P	M’Bengué	mbengue	CI		10.002	-5.900	0
+P	Abong Mbang		CM		3.983	13.183	2
+P	M’Batto	mbatto	CI		6.472	-4.358	0
+P	Mbaïki	mbaiki	CF		3.868	17.989	2
+P	M’Bahiakro	mbahiakro	CI		7.457	-4.340	0
+P	Mto wa Mbu		TZ		-3.350	35.850	1
+P	Mboursou Léré	mboursou lere	TD		9.764	14.154	2

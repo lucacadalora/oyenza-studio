@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Novokuznetsk	420	
+C	RU	Russia	mwl	s
+B	0
+P	Novokuznetsk		RU		53.758	87.136	0
+P	Prokop’yevsk	prokopyevsk	RU		53.915	86.719	0
+P	Biysk		RU		52.534	85.197	0
+P	Leninsk-Kuznetsky	leninsk kuznetsky	RU		54.657	86.174	0
+P	Kiselëvsk	kiselevsk	RU		53.990	86.662	0
+P	Mezhdurechensk		RU		53.690	88.062	0
+P	Kisilevsk		RU		53.996	86.648	0
+P	Belovo		RU		54.421	86.299	0
+P	Gorno-Altaysk	gorno altaysk	RU		51.961	85.919	0
+P	Osinniki		RU		53.604	87.332	0
+P	Myski		RU		53.716	87.797	0
+P	Polysayevo		RU		54.603	86.276	0
+P	Kaltan		RU		53.528	87.276	0
+P	Gur’yevsk	guryevsk	RU		54.284	85.948	0
+P	Tashtagol		RU		52.768	87.888	0
+P	Promyshlennaya		RU		54.914	85.640	0
+P	Mayma		RU		52.003	85.897	0

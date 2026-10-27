@@ -1,0 +1,68 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Fortaleza	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Teresina		BR		-5.089	-42.802	0
+P	Petrolina		BR		-9.399	-40.501	0
+P	Juazeiro		BR		-9.412	-40.499	0
+P	Timon		BR		-5.094	-42.837	0
+P	Araripina		BR		-7.576	-40.498	0
+P	Picos		BR		-7.077	-41.467	0
+P	Crateús	crateus	BR		-5.178	-40.669	0
+P	Casa Nova		BR		-9.174	-40.975	0
+P	Ouricuri		BR		-7.883	-40.082	0
+P	Floriano		BR		-6.767	-43.023	0
+P	Tauá	taua	BR		-6.003	-40.293	0
+P	Altos		BR		-5.038	-42.460	0
+P	Presidente Dutra		BR		-5.290	-44.490	0
+P	Remanso		BR		-9.622	-42.081	0
+P	Colinas		BR		-6.026	-44.249	0
+P	São Raimundo Nonato	sao raimundo nonato	BR		-9.015	-42.699	0
+P	Oeiras		BR		-7.025	-42.131	0
+P	Sento Sé	sento se	BR		-9.746	-41.885	0
+P	Tuntum		BR		-5.258	-44.649	0
+P	São Domingos do Maranhão	sao domingos do maranhao	BR		-5.576	-44.385	0
+P	Matões	matoes	BR		-5.519	-43.199	0
+P	Parambu		BR		-6.211	-40.694	0
+P	Parnarama		BR		-5.682	-43.093	0
+P	Campo Alegre de Lourdes		BR		-9.517	-43.010	0
+P	Ipubi		BR		-7.652	-40.149	0
+P	Trindade		BR		-7.762	-40.268	0
+P	São João dos Inhamuns	sao joao dos inhamuns	BR		-6.000	-40.283	0
+P	Bom Jesus		BR		-9.074	-44.359	0
+P	Novo Oriente		BR		-5.534	-40.774	0
+P	Sobradinho		BR		-9.472	-40.802	0
+P	Uruçuí	urucui	BR		-7.229	-44.556	0
+P	Campos Sales		BR		-7.074	-40.376	0
+P	São João dos Patos	sao joao dos patos	BR		-6.495	-43.702	0
+P	Lagoa Grande		BR		-8.997	-40.272	0
+P	Independência	independencia	BR		-5.396	-40.309	0
+P	Dom Pedro		BR		-5.038	-44.437	0
+P	Buriti Bravo		BR		-5.837	-43.834	0
+P	Valença do Piauí	valenca do piaui	BR		-6.407	-41.746	0
+P	Várzea Alegre	varzea alegre	BR		-5.350	-40.383	0
+P	São João do Piauí	sao joao do piaui	BR		-8.358	-42.247	0
+P	Paulistana		BR		-8.144	-41.150	0
+P	Mirador		BR		-6.371	-44.363	0
+P	Quiterianópolis	quiterianopolis	BR		-5.844	-40.702	0
+P	Araripe		BR		-7.213	-40.137	0
+P	Canto do Buriti		BR		-8.110	-42.944	0
+P	Afrânio	afranio	BR		-8.515	-41.005	0
+P	Castelo do Piauí	castelo do piaui	BR		-5.322	-41.553	0
+P	Barão de Grajaú	barao de grajau	BR		-6.756	-43.024	0
+P	Pastos Bons		BR		-6.602	-44.077	0
+P	Paraibano		BR		-6.433	-43.984	0
+P	Dormentes		BR		-8.447	-40.771	0
+P	Estreito		BR		-5.783	-43.250	0
+P	Pio IX		BR		-6.835	-40.613	0
+P	Água Branca	agua branca	BR		-5.892	-42.636	0
+P	São Miguel do Tapuio	sao miguel do tapuio	BR		-5.504	-41.323	0
+P	Jaicós	jaicos	BR		-7.359	-41.138	0
+P	Amarante		BR		-6.243	-42.845	0
+P	Passagem Franca		BR		-6.180	-43.784	0
+P	Regeneração	regeneracao	BR		-6.231	-42.687	0
+P	Ipueiras		BR		-7.033	-40.450	0
+P	Fortuna		BR		-5.733	-44.158	0
+P	São João do Soter	sao joao do soter	BR		-5.114	-43.810	0
+P	Salitre		BR		-7.285	-40.457	0
+P	Demerval Lobão	demerval lobao	BR		-5.358	-42.676	0

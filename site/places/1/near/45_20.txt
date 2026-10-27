@@ -1,0 +1,151 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Bratislava	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	1	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+C	HU	Hungary	mwl	s
+C	PL	Poland	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	SK	Slovakia	mwl	s
+C	UA	Ukraine	mwl	s
+B	0
+P	Lviv		UA		49.838	24.023	1
+P	Cluj-Napoca	cluj napoca	RO		46.767	23.600	1
+P	Timişoara	timisoara	RO		45.754	21.226	1
+P	Ivano-Frankivsk	ivano frankivsk	UA		48.923	24.712	1
+P	Košice	kosice	SK		48.714	21.258	0
+P	Târgu Mureş	targu mures	RO		46.542	24.557	1
+P	Debrecen		HU		47.532	21.624	0
+P	Oradea		RO		47.046	21.918	1
+P	Arad		RO		46.183	21.317	1
+P	Szeged		HU		46.253	20.148	0
+P	Miskolc		HU		48.103	20.778	0
+P	Sykhiv		UA		49.794	24.063	1
+P	Sibiu		RO		45.800	24.150	1
+P	Nyíregyháza	nyiregyhaza	HU		47.955	21.717	0
+P	Uzhhorod		UA		48.624	22.295	1
+P	Satu Mare		RO		47.799	22.863	1
+P	Baia Mare		RO		47.657	23.568	1
+P	Râmnicu Vâlcea	ramnicu valcea	RO		45.100	24.367	1
+P	Mukachevo		UA		48.442	22.718	1
+P	Nowy Sącz	nowy sacz	PL		49.622	20.697	0
+P	Prešov	presov	SK		48.999	21.235	0
+P	Reşiţa	resita	RO		45.301	21.889	1
+P	Zrenjanin		RS		45.384	20.382	0
+P	Bistriţa	bistrita	RO		47.133	24.500	1
+P	Drohobych		UA		49.352	23.511	1
+P	Târgu Jiu	targu jiu	RO		45.050	23.283	1
+P	Szolnok		HU		47.181	20.198	0
+P	Hunedoara		RO		45.750	22.900	1
+P	Deva		RO		45.883	22.900	1
+P	Przemyśl	przemysl	PL		49.785	22.767	0
+P	Kalush		UA		49.024	24.372	1
+P	Alba Iulia		RO		46.067	23.583	1
+P	Stryi		UA		49.261	23.848	1
+P	Békéscsaba	bekescsaba	HU		46.683	21.100	0
+P	Eger		HU		47.903	20.373	0
+P	Mediaş	medias	RO		46.167	24.350	1
+P	Zalău	zalau	RO		47.200	23.050	1
+P	Poprad		SK		49.061	20.298	0
+P	Krosno		PL		49.689	21.771	0
+P	Petroşani	petrosani	RO		45.417	23.367	1
+P	Hódmezővásárhely	hodmezovasarhely	HU		46.417	20.333	0
+P	Turda		RO		46.567	23.783	1
+P	Lugoj		RO		45.689	21.903	1
+P	Kikinda		RS		45.830	20.465	0
+P	Sighetu Marmaţiei	sighetu marmatiei	RO		47.932	23.886	1
+P	Novyi Lviv		UA		49.815	24.032	1
+P	Sanok		PL		49.556	22.206	0
+P	Dej		RO		47.150	23.867	1
+P	Jasło	jaslo	PL		49.745	21.473	0
+P	Vršac	vrsac	RS		45.117	21.304	0
+P	Michalovce		SK		48.754	21.919	0
+P	Reghin-Sat	reghin sat	RO		46.783	24.717	1
+P	Spišská Nová Ves	spisska nova ves	SK		48.945	20.562	0
+P	Sighișoara	sighisoara	RO		46.221	24.793	1
+P	Sambir		UA		49.516	23.201	1
+P	Nowy Targ		PL		49.478	20.032	0
+P	Boryslav		UA		49.290	23.429	1
+P	Kazincbarcika		HU		48.250	20.633	0
+P	Gyula		HU		46.650	21.283	0
+P	Curtea de Argeş	curtea de arges	RO		45.134	24.674	1
+P	Hajdúböszörmény	hajduboszormeny	HU		47.667	21.517	0
+P	Orosháza	oroshaza	HU		46.567	20.667	0
+P	Novoyavorivs'k	novoyavorivsk	UA		49.930	23.574	1
+P	Făgăraș	fagaras	RO		45.850	24.967	1
+P	Lupeni		RO		45.360	23.238	1
+P	Humenné	humenne	SK		48.937	21.916	0
+P	Bardejov		SK		49.292	21.273	0
+P	Ózd	ozd	HU		48.217	20.300	0
+P	Bochnia		PL		49.969	20.430	0
+P	Târnăveni	tarnaveni	RO		46.332	24.297	1
+P	Gorlice		PL		49.656	21.160	0
+P	Khust		UA		48.172	23.298	1
+P	Aiud		RO		46.310	23.721	1
+P	Novyi Rozdil		UA		49.471	24.134	1
+P	Truskavets		UA		49.281	23.504	1
+P	Szentes		HU		46.658	20.261	0
+P	Caransebeş	caransebes	RO		45.417	22.217	1
+P	Sebeş	sebes	RO		45.956	23.571	1
+P	Borşa	borsa	RO		47.655	24.663	1
+P	Câmpia Turzii	campia turzii	RO		46.550	23.883	1
+P	Bečej	becej	RS		45.616	20.033	0
+P	Vynohradiv		UA		48.141	23.036	1
+P	Újszeged	ujszeged	HU		46.248	20.166	0
+P	Petrila		RO		45.450	23.417	1
+P	Makó	mako	HU		46.217	20.483	0
+P	Cugir		RO		45.837	23.370	1
+P	Inđija	indija	RS		45.048	20.082	0
+P	Hajdúszoboszló	hajduszoboszlo	HU		47.450	21.400	0
+P	Gherla		RO		47.033	23.917	1
+P	Berehove		UA		48.205	22.645	1
+P	Trebišov	trebisov	SK		48.629	21.720	0
+P	Törökszentmiklós	torokszentmiklos	HU		47.183	20.417	0
+P	Zolochiv		UA		49.807	24.904	1
+P	Nadvirna		UA		48.637	24.571	1
+P	Karcag		HU		47.317	20.933	0
+P	Snina		SK		48.989	22.151	0
+P	Rimavská Sobota	rimavska sobota	SK		48.383	20.022	0
+P	Békés	bekes	HU		46.767	21.133	0
+P	Carei		RO		47.683	22.467	1
+P	Orăştie	orastie	RO		45.833	23.200	1
+P	Vranov nad Topľou	vranov nad toplou	SK		48.888	21.685	0
+P	Dolyna		UA		48.972	23.966	1
+P	Blaj		RO		46.175	23.916	1
+P	Senta		RS		45.928	20.077	0
+P	Stebnyk		UA		49.301	23.552	1
+P	Vulcan		RO		45.383	23.267	1
+P	Mezőtúr	mezotur	HU		47.000	20.633	0
+P	Vynnyky		UA		49.817	24.144	1
+P	Mátészalka	mateszalka	HU		47.955	22.323	0
+P	Wieliczka		PL		49.987	20.065	0
+P	Csongrád	csongrad	HU		46.713	20.142	0
+P	Kisvárda	kisvarda	HU		48.217	22.083	0
+P	Szarvas		HU		46.867	20.550	0
+P	Diósgyőr	diosgyor	HU		48.100	20.683	0
+P	Sátoraljaújhely	satoraljaujhely	HU		48.395	21.659	0
+P	Hajdúnánás	hajdunanas	HU		47.850	21.433	0
+P	Balmazújváros	balmazujvaros	HU		47.617	21.350	0
+P	Mezőkövesd	mezokovesd	HU		47.817	20.583	0
+P	Berezhany		UA		49.446	24.937	1
+P	Salonta		RO		46.800	21.650	1
+P	Tiszaújváros	tiszaujvaros	HU		47.933	21.083	0
+P	Luduş	ludus	RO		46.483	24.100	1
+P	Rožňava	roznava	SK		48.660	20.538	0
+P	Svalyava		UA		48.547	22.987	1
+P	Mostyska		UA		49.795	23.151	1
+P	Brzesko		PL		49.969	20.606	0
+P	Baia Sprie		RO		47.662	23.692	1
+P	Knyahynyn		UA		48.936	24.713	1
+P	Bocşa	bocsa	RO		45.373	21.709	1
+P	Abony		HU		47.190	20.005	0
+P	Horodok		UA		49.785	23.648	1
+P	Püspökladány	puspokladany	HU		47.317	21.117	0
+P	Brad		RO		46.133	22.783	1
+P	Şimleu Silvaniei	simleu silvaniei	RO		47.233	22.800	1
+P	Stará Ľubovňa	stara lubovna	SK		49.299	20.686	0
+P	Rakhiv		UA		48.055	24.203	1
+P	Vişeu de Sus	viseu de sus	RO		47.708	24.430	1
+P	Ocna Mureş	ocna mures	RO		46.383	23.850	1
+P	Kežmarok	kezmarok	SK		49.136	20.434	0
+P	Gyomaendrőd	gyomaendrod	HU		46.933	20.833	0
+P	Cisnădie	cisnadie	RO		45.717	24.150	1

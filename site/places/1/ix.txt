@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Fortaleza	-180	
+Z	1	America/Mazatlan	-420	
+Z	2	America/Mexico_City	-360	
+Z	3	Europe/Brussels	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	MX	Mexico	mwl	s
+B	0
+P	Ixtapaluca		MX		19.316	-98.883	2
+P	Ixelles		BE		50.833	4.367	3
+P	Ixtapa-Zihuatanejo	ixtapa zihuatanejo	MX		17.643	-101.552	2
+P	Ixmiquilpan		MX		20.478	-99.217	2
+P	Ixtapa		MX		20.716	-105.205	2
+P	Ixtaczoquitlán	ixtaczoquitlan	MX		18.854	-97.062	2
+P	Ixtepec		MX		16.561	-95.104	2
+P	San Juan Ixtayopan		MX		19.232	-98.999	2
+P	Ixtlán del Río	ixtlan del rio	MX		21.035	-104.369	1
+P	Puente de Ixtla		MX		18.615	-99.318	2
+P	Santiago Ixcuintla		MX		21.811	-105.208	1
+P	Ixtapan de la Sal		MX		18.844	-99.677	2
+P	Pio IX		BR		-6.835	-40.613	0

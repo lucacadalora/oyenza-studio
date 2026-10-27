@@ -1,0 +1,51 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Volgograd	180	
+C	RU	Russia	mwl	s
+B	1
+P	Volgograd		RU		48.714	44.498	0
+P	Stavropol		RU		45.034	41.964	0
+P	Volzhsky		RU		48.786	44.780	0
+P	Shakhty		RU		47.719	40.216	0
+P	Volgodonsk		RU		47.511	42.153	0
+P	Novocherkassk		RU		47.422	40.094	0
+P	Elista		RU		46.308	44.255	0
+P	Kropotkin		RU		45.437	40.570	0
+P	Kamensk-Shakhtinsky	kamensk shakhtinsky	RU		48.318	40.259	0
+P	Tikhoretsk		RU		45.853	40.119	0
+P	Sal’sk	salsk	RU		46.475	41.542	0
+P	Mikhaylovsk		RU		45.131	42.027	0
+P	Belaya Kalitva		RU		48.179	40.779	0
+P	Krasnyy Sulin		RU		47.892	40.072	0
+P	Frolovo		RU		49.769	43.654	0
+P	Svetlograd		RU		45.327	42.856	0
+P	Izobil’nyy	izobilnyy	RU		45.367	41.709	0
+P	Millerovo		RU		48.925	40.400	0
+P	Novokubansk		RU		45.113	41.036	0
+P	Blagodarnyy		RU		45.098	43.436	0
+P	Gul’kevichi	gulkevichi	RU		45.354	40.695	0
+P	Morozovsk		RU		48.351	41.829	0
+P	Zernograd		RU		46.849	40.312	0
+P	Ipatovo		RU		45.718	42.906	0
+P	Novoaleksandrovsk		RU		45.497	41.225	0
+P	Kalach-na-Donu	kalach na donu	RU		48.691	43.526	0
+P	Zverevo		RU		48.027	40.123	0
+P	Tbilisskaya		RU		45.365	40.197	0
+P	Semikarakorsk		RU		47.517	40.808	0
+P	Surovikino		RU		48.610	42.857	0
+P	Kotel’nikovo	kotelnikovo	RU		47.630	43.142	0
+P	Gorodishche		RU		48.803	44.475	0
+P	Proletarsk		RU		46.702	41.725	0
+P	Novopokrovskaya		RU		45.958	40.698	0
+P	Orlovskiy		RU		46.874	42.052	0
+P	Konstantinovsk		RU		47.581	41.093	0
+P	Belaya Glina		RU		46.081	40.874	0
+P	Yegorlykskaya		RU		46.566	40.657	0
+P	Zimovniki		RU		47.146	42.470	0
+P	Krasnogvardeyskoye		RU		45.845	41.517	0
+P	Arzgir		RU		45.374	44.220	0
+P	Divnoye		RU		45.910	43.349	0
+P	Donskoye		RU		45.453	41.972	0
+P	Tsimlyansk		RU		47.648	42.093	0
+P	Bagayevskaya		RU		47.320	40.385	0
+P	Dubovka		RU		49.056	44.829	0
+P	Boguchar		RU		49.935	40.554	0

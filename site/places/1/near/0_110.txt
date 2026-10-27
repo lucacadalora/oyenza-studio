@@ -1,0 +1,41 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kuching	480	
+C	BN	Brunei	singapore	s
+C	MY	Malaysia	singapore	s
+B	0
+P	Kuching		MY		1.550	110.333	0
+P	Miri		MY		4.399	113.992	0
+P	Sibu		MY		2.300	111.817	0
+P	Bintulu		MY		3.167	113.033	0
+P	Marudi		MY		4.183	114.317	0
+P	Bandar Seri Begawan		BN		4.890	114.940	0
+P	Serian		MY		1.167	110.567	0
+P	Bau		MY		1.417	110.150	0
+P	Niah		MY		3.862	113.715	0
+P	Sri Aman		MY		1.247	111.453	0
+P	Sarikei		MY		2.117	111.517	0
+P	Sengkurong		BN		4.883	114.833	0
+P	Betong		MY		1.400	111.517	0
+P	Sibu Jaya		MY		2.240	111.971	0
+P	Mukah		MY		2.894	112.091	0
+P	Kapit		MY		1.995	112.933	0
+P	Tatau		MY		2.883	112.850	0
+P	Kuala Belait		BN		4.584	114.231	0
+P	Seria		BN		4.606	114.325	0
+P	Sebauh		MY		3.117	113.267	0
+P	Beluru		MY		3.983	114.100	0
+P	Siburan		MY		1.367	110.400	0
+P	Tebedu		MY		1.027	110.363	0
+P	Kanowit		MY		2.100	112.150	0
+P	Simunjan		MY		1.383	110.750	0
+P	Belaga		MY		2.700	113.783	0
+P	Dalat		MY		2.667	112.083	0
+P	Maradong		MY		2.083	111.617	0
+P	Selangau		MY		2.525	112.325	0
+P	Daro		MY		2.517	111.430	0
+P	Tutong		BN		4.803	114.649	0
+P	Saratok		MY		1.733	111.333	0
+P	Liang		BN		4.677	114.496	0
+P	Pakan		MY		1.883	111.683	0
+P	Julau		MY		2.017	111.917	0
+P	Engkilili		MY		1.139	111.667	0

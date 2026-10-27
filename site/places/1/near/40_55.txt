@@ -1,0 +1,16 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Samarkand	300	
+C	TM	Turkmenistan	mwl	h
+C	UZ	Uzbekistan	mwl	h
+B	0
+P	Nukus		UZ		42.459	59.606	0
+P	Daşoguz	dasoguz	TM		41.836	59.967	0
+P	Qŭnghirot	qunghirot	UZ		43.043	58.839	0
+P	Xo‘jayli Shahri	xojayli shahri	UZ		42.409	59.445	0
+P	Oltinko‘l	oltinkol	UZ		43.069	58.904	0
+P	Boldumsaz		TM		42.128	59.671	0
+P	Köneürgenç	koneurgenc	TM		42.328	59.154	0
+P	Yylanly		TM		41.833	59.650	0
+P	Görogly	gorogly	TM		41.650	59.916	0
+P	Oýrat	oyrat	TM		41.946	59.909	0
+P	Gubadag		TM		42.079	59.950	0

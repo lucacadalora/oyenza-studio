@@ -1,0 +1,143 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Bucharest	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	1	Europe/Istanbul	180	
+C	BG	Bulgaria	mwl	s
+C	GR	Greece	mwl	s
+C	RO	Romania	mwl	s
+C	TR	Turkey	turkey	s
+B	3
+P	Istanbul		TR		41.014	28.950	1
+P	Bursa		TR		40.196	29.060	1
+P	Bucharest		RO		44.432	26.106	0
+P	Esenyurt		TR		41.027	28.677	1
+P	Küçükçekmece	kucukcekmece	TR		40.991	28.771	1
+P	Bağcılar	bagcilar	TR		41.039	28.857	1
+P	Bahçelievler	bahcelievler	TR		41.002	28.860	1
+P	Umraniye		TR		41.016	29.125	1
+P	Nilüfer	nilufer	TR		40.214	28.916	1
+P	Üsküdar	uskudar	TR		41.023	29.014	1
+P	Esenler		TR		41.044	28.876	1
+P	Sancaktepe		TR		41.002	29.232	1
+P	Sultangazi		TR		41.107	28.868	1
+P	Maltepe		TR		40.936	29.155	1
+P	Beylikdüzü	beylikduzu	TR		40.982	28.640	1
+P	Sector 3		RO		44.423	26.169	0
+P	Sector 6		RO		44.436	26.016	0
+P	Ataşehir	atasehir	TR		40.983	29.117	1
+P	Sultanbeyli		TR		40.961	29.271	1
+P	Fatih		TR		41.023	28.941	1
+P	Varna		BG		43.219	27.910	0
+P	Constanţa	constanta	RO		44.181	28.634	0
+P	Şişli	sisli	TR		41.060	28.987	1
+P	Sector 2		RO		44.453	26.133	0
+P	Sector 4		RO		44.376	26.121	0
+P	Gebze		TR		40.803	29.431	1
+P	Zeytinburnu		TR		40.994	28.904	1
+P	Sector 5		RO		44.388	26.071	0
+P	Sector 1		RO		44.492	26.048	0
+P	Burgas		BG		42.507	27.469	0
+P	Çorlu	corlu	TR		41.161	27.801	1
+P	Arnavutköy	arnavutkoy	TR		41.184	28.740	1
+P	İzmit	izmit	TR		40.765	29.929	1
+P	Başakşehir	basaksehir	TR		41.106	28.791	1
+P	Ploieşti	ploiesti	RO		44.950	26.017	0
+P	Edirne		TR		41.677	26.556	1
+P	Büyükçekmece	buyukcekmece	TR		41.021	28.585	1
+P	Çanakkale	canakkale	TR		40.156	26.413	1
+P	İnegol	inegol	TR		40.078	29.513	1
+P	Derince		TR		40.757	29.815	1
+P	Tekirdağ	tekirdag	TR		40.978	27.511	1
+P	Stara Zagora		BG		42.432	25.643	0
+P	Ruse		BG		43.849	25.953	0
+P	Bandırma	bandirma	TR		40.352	27.977	1
+P	Mustafakemalpaşa	mustafakemalpasa	TR		40.038	28.409	1
+P	Lüleburgaz	luleburgaz	TR		41.402	27.357	1
+P	Körfez	korfez	TR		40.767	29.783	1
+P	Çerkezköy	cerkezkoy	TR		41.286	27.999	1
+P	Sliven		BG		42.686	26.326	0
+P	Bilecik		TR		40.142	29.979	1
+P	Shumen		BG		43.271	26.923	0
+P	Yalova		TR		40.655	29.277	1
+P	Gemlik		TR		40.431	29.160	1
+P	Dobrich		BG		43.565	27.831	0
+P	Târgovişte	targoviste	RO		44.925	25.457	0
+P	Haskovo		BG		41.934	25.556	0
+P	Yambol		BG		42.482	26.500	0
+P	Biga		TR		40.228	27.242	1
+P	Veliko Tŭrnovo	veliko turnovo	BG		43.081	25.629	0
+P	Kırklareli	kirklareli	TR		41.735	27.225	1
+P	Gölcük	golcuk	TR		40.715	29.818	1
+P	Eminönü	eminonu	TR		41.018	28.971	1
+P	Giurgiu		RO		43.887	25.963	0
+P	Silivri		TR		41.074	28.246	1
+P	Alexandroupoli		GR		40.850	25.876	0
+P	Orhangazi		TR		40.489	29.309	1
+P	Kavaklı	kavakli	TR		41.093	28.332	1
+P	Merter Keresteciler		TR		41.013	28.886	1
+P	Güngören Merter	gungoren merter	TR		41.007	28.888	1
+P	Gabrovo		BG		42.874	25.318	0
+P	Kazanlak		BG		42.617	25.400	0
+P	Komotiní	komotini	GR		41.118	25.406	0
+P	Keşan	kesan	TR		40.855	26.633	1
+P	Karacabey		TR		40.213	28.361	1
+P	Kardzhali		BG		41.645	25.366	0
+P	Medgidia		RO		44.250	28.283	0
+P	Slobozia		RO		44.565	27.363	0
+P	Gönen	gonen	TR		40.105	27.654	1
+P	Alexandria		RO		43.983	25.333	0
+P	Çatalca	catalca	TR		41.141	28.460	1
+P	Mangalia		RO		43.816	28.577	0
+P	Dimitrovgrad		BG		42.050	25.600	0
+P	Uzunköprü	uzunkopru	TR		41.269	26.686	1
+P	Kestel		TR		40.198	29.212	1
+P	Görükle	gorukle	TR		40.231	28.840	1
+P	Targovishte		BG		43.251	26.572	0
+P	Năvodari	navodari	RO		44.317	28.600	0
+P	Feteşti	fetesti	RO		44.383	27.833	0
+P	Gorna Oryahovitsa		BG		43.128	25.702	0
+P	Mimarsinan		TR		41.015	28.561	1
+P	Karamürsel	karamursel	TR		40.691	29.616	1
+P	Voluntari		RO		44.490	26.173	0
+P	Svishtov		BG		43.619	25.350	0
+P	Silistra		BG		44.117	27.261	0
+P	Gürpınar	gurpinar	TR		40.993	28.614	1
+P	Razgrad		BG		43.533	26.518	0
+P	Yakuplu		TR		40.989	28.676	1
+P	Yenişehir	yenisehir	TR		40.264	29.653	1
+P	Malkara		TR		40.891	26.902	1
+P	Asparuhovo		BG		43.181	27.888	0
+P	Babaeski		TR		41.428	27.097	1
+P	Çan	can	TR		40.033	27.052	1
+P	Gelibolu		TR		40.408	26.672	1
+P	Sevlievo		BG		43.023	25.104	0
+P	Gürsu	gursu	TR		40.219	29.195	1
+P	Fetești-Gară	fetesti gara	RO		44.420	27.825	0
+P	Nova Zagora		BG		42.483	26.017	0
+P	Mudanya		TR		40.375	28.884	1
+P	Erdek		TR		40.400	27.793	1
+P	Olteniţa	oltenita	RO		44.083	26.633	0
+P	Zekeriya		TR		41.198	29.030	1
+P	İznik	iznik	TR		40.429	29.721	1
+P	Tepecik		TR		41.029	28.550	1
+P	Aytos		BG		42.703	27.255	0
+P	Çubuklu	cubuklu	TR		41.104	29.083	1
+P	Buftea		RO		44.561	25.949	0
+P	Moreni		RO		44.983	25.644	0
+P	Hayrabolu		TR		41.213	27.107	1
+P	Şile	sile	TR		41.179	29.611	1
+P	Karnobat		BG		42.650	26.983	0
+P	Harmanli		BG		41.932	25.902	0
+P	Cernavodă	cernavoda	RO		44.340	28.033	0
+P	Tarabya		TR		41.134	29.046	1
+P	Parvomay		BG		42.100	25.217	0
+P	Svilengrad		BG		41.768	26.198	0
+P	Urziceni		RO		44.717	26.633	0
+P	Popovo		BG		43.350	26.233	0
+P	Orestiáda	orestiada	GR		41.503	26.530	0
+P	Pantelimon		RO		44.450	26.200	0
+P	İstinye	istinye	TR		41.110	29.051	1
+P	Popeşti-Leordeni	popesti leordeni	RO		44.383	26.167	0
+P	Zimnicea		RO		43.656	25.365	0
+P	Akhisar		TR		40.118	29.466	1
+P	Chirpan		BG		42.200	25.333	0
+P	Găeşti	gaesti	RO		44.717	25.317	0

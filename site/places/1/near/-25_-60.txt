@@ -1,0 +1,19 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Asuncion	-180	
+Z	1	America/Campo_Grande	-240	
+C	BR	Brazil	mwl	s
+C	PY	Paraguay	mwl	s
+B	0
+P	Ponta Porã	ponta pora	BR		-22.536	-55.726	1
+P	Pedro Juan Caballero		PY		-22.549	-55.739	0
+P	Aquidauana		BR		-20.471	-55.787	1
+P	Concepción	concepcion	PY		-23.400	-57.432	0
+P	Maracaju		BR		-21.614	-55.168	1
+P	Amambai		BR		-23.104	-55.226	1
+P	Yby Yaú	yby yau	PY		-22.966	-56.541	0
+P	Miranda		BR		-20.241	-56.378	1
+P	Anastácio	anastacio	BR		-20.484	-55.807	1
+P	Jardim		BR		-21.480	-56.138	1
+P	Bonito		BR		-21.121	-56.482	1
+P	Bela Vista		BR		-22.108	-56.533	1
+P	Loma Plata		PY		-22.383	-59.835	0

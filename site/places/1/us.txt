@@ -1,0 +1,62 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Argentina/Ushuaia	-180	
+Z	1	America/El_Salvador	-360	
+Z	2	Asia/Almaty	300	
+Z	3	Asia/Irkutsk	480	
+Z	4	Asia/Kolkata	330	
+Z	5	Asia/Tokyo	540	
+Z	6	Asia/Vladivostok	600	
+Z	7	Europe/Istanbul	180	
+Z	8	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AR	Argentina	mwl	s
+C	CH	Switzerland	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	ES	Spain	mwl	s
+C	IN	India	karachi	h
+C	JP	Japan	mwl	s
+C	KZ	Kazakhstan	mwl	h
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	RU	Russia	mwl	s
+C	SV	El Salvador	mwl	s
+C	TR	Turkey	turkey	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Üsküdar	uskudar	TR		41.023	29.014	7
+P	Uşak	usak	TR		38.674	29.406	7
+P	Ust-Kamenogorsk	ust kamenogorsk	KZ		49.971	82.606	2
+P	Ussuriysk		RU		43.805	131.957	6
+P	Usera		ES		40.389	-3.700	8
+P	Ust’-Ilimsk	ust ilimsk	RU		58.001	102.662	3
+P	Ushirombo		TZ		-3.492	31.964	7
+P	Ústí nad Labem	usti nad labem	CZ		50.661	14.032	8
+P	Usol’ye-Sibirskoye	usolye sibirskoye	RU		52.752	103.645	3
+P	Ushiku		JP		35.967	140.133	5
+P	Usta Muhammad		PK		28.177	68.044	2
+P	Ushuaia		AR		-54.811	-68.316	0
+P	Usulután	usulutan	SV		13.345	-88.440	1
+P	Ust’-Kut	ust kut	RU		56.798	105.787	3
+P	Ust’-Labinsk	ust labinsk	RU		45.214	39.688	7
+P	Usinsk		RU		66.009	57.531	7
+P	Usuki		JP		33.123	131.804	5
+P	Usilampatti		IN		9.969	77.786	4
+P	Uster		CH		47.347	8.721	8
+P	Ust’-Dzheguta	ust dzheguta	RU		44.083	41.976	7
+P	Velikiy Ustyug		RU		60.762	46.314	7
+P	Ust’-Katav	ust katav	RU		54.937	58.176	2
+P	Shirahamachō-usazakiminami	shirahamacho usazakiminami	JP		34.783	134.717	5
+P	Novaya Usman’	novaya usman	RU		51.644	39.411	7
+P	Usangi		TZ		-3.700	37.667	7
+P	Usa River		TZ		-3.367	36.850	7
+P	Ushtobe		KZ		45.253	77.983	2
+P	Usman’	usman	RU		52.045	39.726	7
+P	Usevia		TZ		-7.100	31.233	7
+P	Ushibukamachi		JP		32.201	130.022	5
+P	Ustka		PL		54.580	16.862	8
+P	Uslar		DE		51.657	9.635	8
+P	Ushitsu		JP		37.308	137.152	5
+P	Ustroń	ustron	PL		49.722	18.802	8
+P	Usagara		TZ		-2.683	33.000	7
+P	Ústí nad Orlicí	usti nad orlici	CZ		49.974	16.394	8
+P	Usehat		IN		27.798	79.238	4

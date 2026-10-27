@@ -1,0 +1,13 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yangon	390	
+C	MM	Myanmar	mwl	s
+B	0
+P	Pathein		MM		16.779	94.732	0
+P	Kyaukpyu		MM		19.428	93.551	0
+P	Ann		MM		19.795	94.048	0
+P	Gwa		MM		17.594	94.580	0
+P	Myaungmya		MM		16.599	94.921	0
+P	Manaung		MM		18.855	93.729	0
+P	Labutta		MM		16.149	94.759	0
+P	Taungup		MM		18.856	94.241	0
+P	Kyeintali		MM		18.006	94.490	0

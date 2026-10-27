@@ -1,0 +1,73 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Tokyo	540	
+C	JP	Japan	mwl	s
+B	1
+P	Sapporo		JP		43.067	141.350	0
+P	Asahikawa		JP		43.771	142.365	0
+P	Aomori		JP		40.817	140.733	0
+P	Hakodate		JP		41.776	140.737	0
+P	Hachinohe		JP		40.500	141.500	0
+P	Tomakomai		JP		42.637	141.603	0
+P	Hirosaki		JP		40.593	140.472	0
+P	Kushiro		JP		42.975	144.375	0
+P	Obihiro		JP		42.917	143.204	0
+P	Ebetsu		JP		43.108	141.551	0
+P	Kitami		JP		43.803	143.891	0
+P	Otaru		JP		43.189	141.002	0
+P	Chitose		JP		42.819	141.652	0
+P	Muroran		JP		42.317	140.988	0
+P	Iwamizawa		JP		43.200	141.760	0
+P	Eniwa		JP		42.894	141.576	0
+P	Ōdate	odate	JP		40.272	140.558	0
+P	Towada		JP		40.620	141.211	0
+P	Kitahiroshima		JP		42.976	141.567	0
+P	Ishikari		JP		43.240	141.354	0
+P	Mutsu		JP		41.289	141.217	0
+P	Goshogawara		JP		40.804	140.441	0
+P	Noshiro		JP		40.208	140.027	0
+P	Noboribetsu		JP		42.452	141.179	0
+P	Hokuto		JP		41.816	140.635	0
+P	Takikawa		JP		43.553	141.906	0
+P	Otofuke		JP		42.992	143.200	0
+P	Misawa		JP		40.687	141.390	0
+P	Kuroishi		JP		40.646	140.584	0
+P	Kamiiso		JP		41.820	140.645	0
+P	Hanawa		JP		40.184	140.787	0
+P	Abashiri		JP		44.021	144.270	0
+P	Date		JP		42.468	140.868	0
+P	Kuji		JP		40.188	141.769	0
+P	Kita-Akita	kita akita	JP		40.200	140.394	0
+P	Hirakawa		JP		40.587	140.571	0
+P	Tsugaru		JP		40.804	140.403	0
+P	Bibai		JP		43.325	141.859	0
+P	Honchō	honcho	JP		41.894	140.694	0
+P	Nayoro		JP		44.351	142.458	0
+P	Rumoi		JP		43.934	141.643	0
+P	Fukagawa		JP		43.708	142.039	0
+P	Shimo-furano	shimo furano	JP		43.350	142.383	0
+P	Sarubetsu		JP		42.872	143.338	0
+P	Ninohe		JP		40.291	141.313	0
+P	Hitokawame		JP		40.636	141.445	0
+P	Nakashibetsu		JP		43.548	144.972	0
+P	Mombetsu		JP		44.352	143.352	0
+P	Motomachi		JP		43.826	144.096	0
+P	Shizunai-furukawachō	shizunai furukawacho	JP		42.334	142.367	0
+P	Namioka		JP		40.711	140.590	0
+P	Takanosu		JP		40.223	140.366	0
+P	Sunagawa		JP		43.486	141.906	0
+P	Minamishibetsuchō	minamishibetsucho	JP		44.154	142.373	0
+P	Engaru		JP		44.048	143.545	0
+P	Ashibetsu		JP		43.510	142.186	0
+P	Yoichi		JP		43.204	140.770	0
+P	Shimokizukuri		JP		40.816	140.375	0
+P	Memuro-minami	memuro minami	JP		42.907	143.036	0
+P	Shibetsu		JP		44.171	142.395	0
+P	Shiraoi		JP		42.550	141.350	0
+P	Nanaku		JP		40.401	141.273	0
+P	Tōbetsu	tobetsu	JP		43.217	141.517	0
+P	Toyota		JP		40.748	141.249	0
+P	Hakurōmachi	hakuromachi	JP		40.524	141.306	0
+P	Yakumo		JP		42.254	140.269	0
+P	Kutchan		JP		42.901	140.741	0
+P	Moritake		JP		40.097	140.077	0
+P	Ōno	ono	JP		40.285	141.629	0

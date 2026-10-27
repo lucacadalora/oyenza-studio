@@ -1,0 +1,38 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Conakry	0	
+C	GN	Guinea	egyptian	s
+C	LR	Liberia	egyptian	s
+C	SL	Sierra Leone	egyptian	s
+B	3
+P	Conakry		GN		9.538	-13.677	0
+P	Camayenne		GN		9.535	-13.688	0
+P	Monrovia		LR		6.301	-10.797	0
+P	Freetown		SL		8.487	-13.236	0
+P	Kenema		SL		7.877	-11.190	0
+P	Bo		SL		7.965	-11.738	0
+P	Manéah	maneah	GN		9.733	-13.417	0
+P	Dubréka	dubreka	GN		9.791	-13.523	0
+P	Dixinn		GN		9.551	-13.673	0
+P	Koidu		SL		8.644	-10.971	0
+P	Kissidougou		GN		9.185	-10.100	0
+P	Makeni		SL		8.886	-12.044	0
+P	Gueckedou		GN		8.567	-10.134	0
+P	Coyah		GN		9.706	-13.385	0
+P	Buchanan		LR		5.877	-10.050	0
+P	Waterloo		SL		8.339	-13.071	0
+P	Kakata		LR		6.531	-10.354	0
+P	Port Loko		SL		8.766	-12.787	0
+P	Njala		SL		8.232	-12.016	0
+P	Harbel		LR		6.247	-10.356	0
+P	Foya Kamara		LR		8.360	-10.206	0
+P	Douako		GN		9.733	-10.183	0
+P	Forécariah	forecariah	GN		9.431	-13.088	0
+P	Lunsar		SL		8.684	-12.535	0
+P	Tubmanburg		LR		6.871	-10.821	0
+P	Yende Millimou		GN		8.887	-10.172	0
+P	Goderich		SL		8.428	-13.286	0
+P	Kabala		SL		9.589	-11.553	0
+P	Albadéria	albaderia	GN		9.550	-10.100	0
+P	Segbwema		SL		7.995	-10.950	0
+P	Bumpe		SL		7.892	-11.905	0
+P	Mile 91		SL		8.466	-12.215	0

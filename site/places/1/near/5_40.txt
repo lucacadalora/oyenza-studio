@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Mogadishu	180	
+C	ET	Ethiopia	egyptian	s
+C	SO	Somalia	egyptian	s
+B	0
+P	Borama		SO		9.936	43.183	0
+P	Jijiga		ET		9.350	42.800	0
+P	Hargeysa		SO		9.560	44.065	0
+P	Dire Dawa		ET		9.593	41.866	0
+P	Harar		ET		9.314	42.118	0
+P	Ārabī	arabi	ET		9.963	42.493	0
+P	Ruqi		SO		9.973	43.428	0
+P	Gebiley		SO		9.700	43.624	0
+P	Gode		ET		5.951	43.552	0
+P	‘Alemaya	alemaya	ET		9.393	42.010	0
+P	Degeh Bur		ET		8.221	43.557	0
+P	Kebri Dahar		ET		6.740	44.278	0
+P	Bedēsa	bedesa	ET		8.900	40.783	0
+P	Babīlē	babile	ET		9.226	42.332	0
+P	Āwash	awash	ET		8.994	40.166	0
+P	Ghinnir		ET		7.140	40.711	0
+P	Gelemso		ET		8.817	40.517	0
+P	Bale Robe		ET		7.123	40.004	0
+P	Āsbe Teferī	asbe teferi	ET		9.086	40.867	0
+P	Mī’ēso	mieso	ET		9.235	40.756	0
+P	Deder		ET		9.312	41.443	0
+P	Felana		ET		9.465	42.184	0
+P	Chinahsen		ET		9.506	42.609	0
+P	Funyan Bīra	funyan bira	ET		9.402	42.318	0
+P	Hīrna	hirna	ET		9.217	41.100	0
+P	Gedeb		ET		9.572	43.181	0
+P	Ara Ali		ET		5.967	41.033	0
+P	Tog Wajaale		SO		9.600	43.335	0
+P	Hartīshēk	hartishek	ET		9.157	43.354	0
+P	Chelenko		ET		9.397	41.561	0
+P	Baki		SO		9.892	43.385	0

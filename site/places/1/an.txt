@@ -1,0 +1,476 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Algiers	60	
+Z	2	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	3	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	4	Africa/Khartoum	120	
+Z	5	America/Anchorage	-540	29549460=-480 29892120=-540 30083700=-480 30426360=-540 30607860=-480 30950520=-540 31132020=-480 31474680=-540 31656180=-480 31998840=-540 32180340=-480 32523000=-540 32714580=-480 33057240=-540 33238740=-480 33581400=-540 33762900=-480 34105560=-540 34287060=-480 34629720=-540 34811220=-480 35153880=-540 35335380=-480 35678040=-540 35869620=-480 36212280=-540 36393780=-480 36736440=-540 36917940=-480 37260600=-540 37442100=-480 37784760=-540 37966260=-480 38308920=-540 38490420=-480 38833080=-540 39024660=-480 39367320=-540 39548820=-480 39891480=-540
+Z	6	America/Caracas	-240	
+Z	7	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	8	America/Detroit	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	9	America/El_Salvador	-360	
+Z	10	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	11	America/Lima	-300	
+Z	12	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	13	America/Phoenix	-420	
+Z	14	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	15	America/Sao_Paulo	-180	
+Z	16	Asia/Anadyr	720	
+Z	17	Asia/Dubai	240	
+Z	18	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	19	Asia/Ho_Chi_Minh	420	
+Z	20	Asia/Kabul	270	
+Z	21	Asia/Kolkata	330	
+Z	22	Asia/Seoul	540	
+Z	23	Asia/Shanghai	480	
+Z	24	Asia/Tashkent	300	
+Z	25	Asia/Tehran	210	
+Z	26	Asia/Yangon	390	
+Z	27	Europe/Brussels	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	28	Europe/Istanbul	180	
+Z	29	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	30	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	AD	Andorra	mwl	s
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AO	Angola	egyptian	s
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	BE	Belgium	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EG	Egypt	egyptian	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GH	Ghana	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	GW	Guinea-Bissau	egyptian	s
+C	HN	Honduras	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IN	India	karachi	h
+C	IQ	Iraq	mwl	s
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JO	Jordan	mwl	s
+C	JP	Japan	mwl	s
+C	KH	Cambodia	mwl	s
+C	KP	North Korea	mwl	s
+C	KR	South Korea	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LT	Lithuania	mwl	s
+C	LY	Libya	egyptian	s
+C	MA	Morocco	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	ML	Mali	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PH	Philippines	mwl	s
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	QA	Qatar	qatar	s
+C	RE	Reunion	egyptian	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SD	Sudan	egyptian	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SV	El Salvador	mwl	s
+C	SY	Syria	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	UG	Uganda	egyptian	s
+C	US	United States	moonsighting	s
+C	UZ	Uzbekistan	mwl	h
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+B	7
+P	Los Angeles		US	California	34.052	-118.244	12
+P	Ankara		TR		39.920	32.854	28
+P	San Antonio		US	Texas	29.424	-98.494	7
+P	Anshan		CN		41.124	122.990	23
+P	Antananarivo		MG		-18.914	47.536	28
+P	Antalya		TR		36.908	30.696	28
+P	Anyang		CN		36.096	114.383	23
+P	Antipolo		PH		14.626	121.123	23
+P	Ankang		CN		32.680	109.017	23
+P	Anqing		CN		30.514	117.047	23
+P	Anshun		CN		26.250	105.933	23
+P	Andijon		UZ		40.783	72.351	24
+P	Madīnat an Naşr	madinat an nasr	EG		30.067	31.300	2
+P	Santo André	santo andre	BR		-23.664	-46.538	15
+P	Ansan-si	ansan si	KR		37.324	126.822	22
+P	Anyang-si	anyang si	KR		37.392	126.927	22
+P	Thuận An	thuan an	VN		10.924	106.714	19
+P	Antwerp		BE		51.220	4.400	27
+P	Angeles City		PH		15.150	120.583	23
+P	Dĩ An	di an	VN		10.907	106.769	19
+P	Ananindeua		BR		-1.366	-48.372	15
+P	Antofagasta		CL		-23.651	-70.398	14
+P	Antakya		TR		36.207	36.157	28
+P	Anqiu		CN		36.434	119.192	23
+P	Anaheim		US	California	33.835	-117.915	12
+P	Annaba		DZ		36.900	7.767	1
+P	Anápolis	anapolis	BR		-16.327	-48.953	15
+P	Jardim Angela		BR		-23.716	-46.769	15
+P	Santa Ana		US	California	33.746	-117.868	12
+P	An Nhơn	an nhon	VN		13.886	109.108	19
+P	Anchorage		US	Alaska	61.218	-149.900	5
+P	Anantapur		IN		14.678	77.608	21
+P	Antsirabe		MG		-19.866	47.033	28
+P	Angarsk		RU		52.560	103.914	23
+P	Tân An	tan an	VN		10.536	106.414	19
+P	Anand		IN		22.553	72.955	21
+P	Angren		UZ		41.017	70.144	24
+P	Anjō	anjo	JP		34.958	137.081	22
+P	Santa Anita - Los Ficus	santa anita los ficus	PE		-12.050	-76.973	11
+P	Anda		CN		46.449	125.302	23
+P	Angra dos Reis		BR		-23.007	-44.318	15
+P	Santa Ana		SV		13.988	-89.557	9
+P	Vila Andrade		BR		-23.626	-46.728	15
+P	Angers		FR		47.472	-0.552	27
+P	Anbu		CN		23.449	116.681	23
+P	Anderlecht		BE		50.836	4.315	27
+P	Ang Mo Kio New Town		SG		1.380	103.840	23
+P	Andong		KR		36.566	128.723	22
+P	Anantnag		IN		33.731	75.154	21
+P	Kỳ Anh	ky anh	VN		18.062	106.298	19
+P	Sant Andreu		ES		41.435	2.190	27
+P	Anaco		VE		9.430	-64.464	6
+P	Antsiranana		MG		-12.317	49.292	28
+P	Andīmeshk	andimeshk	IR		32.462	48.354	25
+P	Angono		PH		14.527	121.154	23
+P	Vitória de Santo Antão	vitoria de santo antao	BR		-8.118	-35.291	15
+P	Anyama		CI		5.495	-4.052	0
+P	Santo António	santo antonio	CN		22.202	113.544	23
+P	Acilia-Castel Fusano-Ostia Antica	acilia castel fusano ostia antica	IT		41.763	12.331	27
+P	East Los Angeles		US	California	34.024	-118.172	12
+P	Los Ángeles	los angeles	CL		-37.470	-72.354	14
+P	Ann		MM		19.795	94.048	26
+P	Bandar-e Anzalī	bandar e anzali	IR		37.473	49.458	25
+P	Kiến An	kien an	VN		20.805	106.626	19
+P	Ann Arbor		US	Michigan	42.278	-83.741	8
+P	Shahre Jadide Andisheh		IR		35.680	51.019	25
+P	Andīsheh	andisheh	IR		35.747	51.277	25
+P	Anliu		CN		23.698	115.680	23
+P	Antioch		US	California	38.005	-121.806	12
+P	An Nu‘mānīyah	an numaniyah	IQ		32.556	45.413	28
+P	An Nuhūd	an nuhud	SD		12.700	28.433	4
+P	Anning		CN		24.923	102.485	23
+P	Angoche		MZ		-16.233	39.909	4
+P	Santo Antônio de Jesus	santo antonio de jesus	BR		-12.969	-39.261	15
+P	San Angelo		US	Texas	31.464	-100.437	7
+P	Andria		IT		41.231	16.298	27
+P	Anusawari		TH		13.895	100.614	19
+P	Ancona		IT		43.607	13.510	27
+P	Ankleshwar		IN		21.632	72.990	21
+P	San Antonio		CL		-33.595	-71.607	14
+P	Anjār	anjar	IN		23.113	70.027	21
+P	Abū an Numrus	abu an numrus	EG		29.950	31.200	2
+P	Anakapalle		IN		17.691	83.004	21
+P	Anlong		CN		25.100	105.517	23
+P	Hawr al ‘Anz	hawr al anz	AE		25.277	55.337	17
+P	An Hải	an hai	VN		16.067	108.233	19
+P	Anzhero-Sudzhensk	anzhero sudzhensk	RU		56.076	86.024	19
+P	Minyat an Naşr	minyat an nasr	EG		31.126	31.643	2
+P	Anguo		CN		34.831	116.819	23
+P	An Khê	an khe	VN		13.950	108.650	19
+P	Marburg an der Lahn		DE		50.809	8.771	27
+P	Santo Ângelo	santo angelo	BR		-28.299	-54.263	15
+P	Antibes		FR		43.581	7.125	27
+P	Anhanguera		BR		-23.431	-46.793	15
+P	Santo Antônio do Descoberto	santo antonio do descoberto	BR		-15.940	-48.255	15
+P	Antalaha		MG		-14.900	50.279	28
+P	Anlu		CN		31.258	113.678	23
+P	Antanifotsy		MG		-19.650	47.317	28
+P	Anan		JP		33.917	134.650	22
+P	Anseong		KR		37.011	127.270	22
+P	Angat		PH		14.928	121.030	23
+P	San Antonio del Táchira	san antonio del tachira	VE		7.811	-72.444	6
+P	Ānaiyūr	anaiyur	IN		9.962	78.112	21
+P	San Antonio de Los Altos		VE		10.389	-66.952	6
+P	Los Andes		CL		-32.834	-70.598	14
+P	Angyalföld	angyalfold	HU		47.548	19.080	27
+P	San Andrés Tuxtla	san andres tuxtla	MX		18.449	-95.213	9
+P	Andradina		BR		-20.896	-51.379	15
+P	Anuradhapura		LK		8.312	80.413	21
+P	Antony		FR		48.753	2.297	27
+P	Brandenburg an der Havel		DE		52.417	12.550	27
+P	Antu		CN		43.102	128.908	23
+P	Antsalova		MG		-18.667	44.617	28
+P	San Andrés	san andres	CO		12.579	-81.700	11
+P	Saint-André	saint andre	RE		-20.963	55.650	17
+P	Anamur		TR		36.075	32.837	28
+P	Annaka		JP		36.330	138.896	22
+P	Anlong Veaeng		KH		14.232	104.081	19
+P	Barri de Sant Andreu		ES		41.437	2.190	27
+P	Ankeny		US	Iowa	41.730	-93.606	7
+P	Anjangaon		IN		21.165	77.309	21
+P	San Antonio		PY		-25.421	-57.547	15
+P	Anjiang		CN		27.319	110.103	23
+P	Anderson		US	Indiana	40.105	-85.680	8
+P	Neustadt an der Weinstraße	neustadt an der weinstrasse	DE		49.350	8.139	27
+P	Gaddi Annaram		IN		17.367	78.524	21
+P	Anapa		RU		44.895	37.316	28
+P	Antratsyt		UA		48.116	39.089	29
+P	Ānwén	anwen	CN		29.060	120.438	23
+P	Anju		KP		39.618	125.665	22
+P	Heidenheim an der Brenz		DE		48.678	10.152	27
+P	Hpa-An	hpa an	MM		16.890	97.635	26
+P	Andulo		AO		-11.487	16.697	1
+P	Angoulême	angouleme	FR		45.650	0.153	27
+P	An Nabk		SY		34.024	36.728	28
+P	Annecy		FR		45.909	6.126	27
+P	Nova Andradina		BR		-22.233	-53.343	6
+P	Anakaputhur		IN		12.983	80.126	21
+P	Santa Ana Chiautempan		MX		19.307	-98.188	9
+P	Aného	aneho	TG		6.228	1.592	0
+P	Santa Ana		PH		15.095	120.767	23
+P	Antigua Guatemala		GT		14.556	-90.733	9
+P	Antelope		US	California	38.708	-121.330	12
+P	Anzio		IT		41.453	12.622	27
+P	Antequera		ES		37.019	-4.561	27
+P	Angol		CL		-37.795	-72.716	14
+P	Angul		IN		20.841	85.102	21
+P	Santo Antônio da Platina	santo antonio da platina	BR		-23.295	-50.077	15
+P	Anekal		IN		12.711	77.696	21
+P	An Najmah		QA		25.267	51.543	28
+P	Santo Antônio de Pádua	santo antonio de padua	BR		-21.539	-42.180	15
+P	Torre Annunziata		IT		40.753	14.453	27
+P	Villa Ángela	villa angela	AR		-27.577	-60.711	15
+P	Puerta del Angel		ES		40.410	-3.732	27
+P	Santo Antônio da Patrulha	santo antonio da patrulha	BR		-29.817	-50.520	15
+P	Panipat Taraf Ansar		IN		29.412	76.955	21
+P	San Antonio de los Baños	san antonio de los banos	CU		22.889	-82.506	10
+P	Lytham St Annes		GB	England	53.743	-2.997	30
+P	Andover		GB	England	51.211	-1.494	30
+P	Madīnat Wādī an Naţrūn	madinat wadi an natrun	EG		30.377	30.350	2
+P	Santo António dos Olivais	santo antonio dos olivais	PT		40.218	-8.405	30
+P	Annandale		US	Virginia	38.830	-77.196	8
+P	Anyuan		CN		34.881	105.276	23
+P	Ancud		CL		-41.871	-73.816	14
+P	Annapolis		US	Maryland	38.979	-76.492	8
+P	Anglet		FR		43.489	-1.519	27
+P	Ancaster		CA	Ontario	43.218	-79.987	8
+P	Andradas		BR		-22.068	-46.569	15
+P	Antsohihy		MG		-14.880	47.988	28
+P	Anfu		CN		29.359	105.467	23
+P	Antakalnis		LT		54.708	25.317	29
+P	San Andrés Cholula	san andres cholula	MX		19.051	-98.295	9
+P	Anandpur		IN		21.214	86.125	21
+P	Andilamena		MG		-17.010	48.573	28
+P	San Antonio		PH		14.947	120.087	23
+P	Anxiang		CN		38.383	114.540	23
+P	Sant Antoni		ES		41.379	2.159	27
+P	Andkhoy		AF		36.953	65.124	20
+P	San Antonio de Padua		AR		-34.663	-58.698	15
+P	Anié	anie	TG		7.750	1.200	0
+P	Andújar	andujar	ES		38.039	-4.051	27
+P	Andapa		MG		-14.650	49.650	28
+P	An Nuşayrāt	an nusayrat	PS		31.449	34.392	18
+P	Ban Ang Sila		TH		13.340	100.930	19
+P	Santa Ana		VE		7.643	-72.276	6
+P	Los Angeles		ES		40.356	-3.699	27
+P	Angamāli	angamali	IN		10.191	76.388	21
+P	Pórticos de San Antonio	porticos de san antonio	MX		32.443	-117.034	12
+P	San Antero		CO		9.374	-75.759	11
+P	Ágioi Anárgyroi	agioi anargyroi	GR		38.030	23.724	29
+P	Anloga		GH		5.795	0.897	0
+P	Limburg an der Lahn		DE		50.384	8.050	27
+P	Antiguo Cuscatlán	antiguo cuscatlan	SV		13.665	-89.253	9
+P	Áno Liósia	ano liosia	GR		38.083	23.700	29
+P	Anūpgarh	anupgarh	IN		29.191	73.209	21
+P	Anserma		CO		5.333	-75.791	11
+P	Hoi An		VN		15.879	108.335	19
+P	Villa de San Antonio		HN		14.326	-87.614	9
+P	Anta		IN		25.150	76.300	21
+P	Biberach an der Riß	biberach an der riss	DE		48.093	9.791	27
+P	Andover		US	Minnesota	45.233	-93.291	7
+P	Anfu		CN		34.973	105.630	23
+P	Antsohimbondrona		MG		-13.083	48.850	28
+P	Anapu		BR		-3.472	-51.198	15
+P	Anbyŏn-ŭp	anbyon up	KP		39.042	127.524	22
+P	Ansbach		DE		49.305	10.593	27
+P	Angri		IT		40.738	14.571	27
+P	Anlan		CN		29.247	106.594	23
+P	Ancien-Prozi	ancien prozi	CI		7.669	-6.969	0
+P	San Andrés del Rabanedo	san andres del rabanedo	ES		42.612	-5.617	27
+P	Reino de Antula		GW		11.900	-15.583	0
+P	Anwen		CN		28.680	106.757	23
+P	Annex		CA	Ontario	43.672	-79.404	8
+P	Santo Antônio do Içá	santo antonio do ica	BR		-3.102	-67.940	6
+P	Andernach		DE		50.431	7.404	27
+P	Annino		RU		55.583	37.600	28
+P	Annino		RU		55.583	37.260	28
+P	Las Animas		CL		-39.809	-73.218	14
+P	Anchieta		BR		-20.806	-40.646	15
+P	Anhua		CN		33.505	105.048	23
+P	Anyinam		GH		6.382	-0.549	0
+P	Vaihingen an der Enz		DE		48.936	8.960	27
+P	Santo Antônio do Sudoeste	santo antonio do sudoeste	BR		-26.074	-53.725	15
+P	Geislingen an der Steige		DE		48.624	9.827	27
+P	Änew	anew	TM		37.888	58.516	24
+P	Ankazobe		MG		-18.317	47.117	28
+P	An Trạch	an trach	VN		9.069	105.396	19
+P	Neuburg an der Donau		DE		48.732	11.187	27
+P	Kiến An	kien an	VN		10.567	105.367	19
+P	Annemasse		FR		46.194	6.238	27
+P	Annigeri		IN		15.425	75.433	21
+P	North Andover		US	Massachusetts	42.699	-71.135	8
+P	Anajás	anajas	BR		-0.987	-49.940	15
+P	Santo Antônio do Tauá	santo antonio do taua	BR		-1.152	-48.129	15
+P	Anderson		US	South Carolina	34.503	-82.650	8
+P	Ans		BE		50.662	5.520	27
+P	Santo Antônio do Monte	santo antonio do monte	BR		-20.087	-45.294	15
+P	Āndippatti	andippatti	IN		9.998	77.621	21
+P	‘Anah	anah	IQ		34.369	41.982	28
+P	Lauf an der Pegnitz		DE		49.514	11.282	27
+P	Sant Andreu de la Barca		ES		41.447	1.972	27
+P	Anjad		IN		22.042	75.055	21
+P	San Antonio		PH		15.306	120.856	23
+P	Anuppānadi	anuppanadi	IN		9.904	78.143	21
+P	Zawyat an Nwaçer	zawyat an nwacer	MA		33.380	-7.619	3
+P	Ankazoabo		MG		-22.283	44.517	28
+P	Santo António	santo antonio	PT		32.661	-16.935	30
+P	Anaime		CO		4.396	-75.445	11
+P	Anjozorobe		MG		-18.400	47.867	28
+P	Andipalayam		IN		11.092	77.312	21
+P	Heppenheim an der Bergstrasse		DE		49.641	8.632	27
+P	Anagé	anage	BR		-14.612	-41.136	15
+P	Anajatuba		BR		-3.264	-44.620	15
+P	Anūpshahr	anupshahr	IN		28.357	78.269	21
+P	Limoeiro de Anadia		BR		-9.741	-36.503	15
+P	Santa Ana		PE		-12.867	-72.717	11
+P	Phước An	phuoc an	VN		12.713	108.301	19
+P	San Andrés Itzapa	san andres itzapa	GT		14.622	-90.843	9
+P	Anklesvar INA		IN		21.617	73.028	21
+P	Anping		CN		30.964	109.345	23
+P	Andol		IN		17.815	78.077	21
+P	Angatuba		BR		-23.490	-48.413	15
+P	San Antonio Tecómitl	san antonio tecomitl	MX		19.218	-98.988	9
+P	An Nimas		SA		19.145	42.120	28
+P	Anastácio	anastacio	BR		-20.484	-55.807	6
+P	Andenne		BE		50.489	5.095	27
+P	Anaka		UG		2.601	31.947	28
+P	San Martín de los Andes	san martin de los andes	AR		-40.158	-71.353	15
+P	An Nūbārīyah	an nubariyah	EG		30.669	30.074	2
+P	Santo Antônio de Posse	santo antonio de posse	BR		-22.606	-46.919	15
+P	Ängelholm	angelholm	SE		56.243	12.862	27
+P	Santa Fe de Antioquia		CO		6.557	-75.828	11
+P	Pfaffenhofen an der Ilm		DE		48.531	11.505	27
+P	Annaberg-Buchholz	annaberg buchholz	DE		50.580	13.006	27
+P	Ancharakandy		IN		11.884	75.485	21
+P	Anak Bukit		SG		1.341	103.773	23
+P	San Antonio de Areco		AR		-34.251	-59.469	15
+P	San Antonio de Cortés	san antonio de cortes	HN		15.116	-88.041	9
+P	Sainte-Anne	sainte anne	GP		16.226	-61.381	6
+P	An Muileann gCearr		IE		53.525	-7.338	30
+P	An Nāşirīyah	an nasiriyah	EG		27.206	31.196	2
+P	Anniston		US	Alabama	33.660	-85.832	7
+P	Ankola		IN		14.660	74.305	21
+P	Santo Antônio	santo antonio	BR		-6.311	-35.479	15
+P	Andrychów	andrychow	PL		49.855	19.338	27
+P	West and East Lealman		US	Florida	27.820	-82.689	8
+P	Batu Anam		MY		2.583	102.711	23
+P	Sant Antoni de Portmany		ES		38.981	1.304	27
+P	Anthem		US	Arizona	33.867	-112.147	13
+P	Annecy-le-Vieux	annecy le vieux	FR		45.920	6.144	27
+P	Saint Andrews		US	South Carolina	34.043	-81.101	8
+P	Anthiyur		IN		11.575	77.590	21
+P	Anklav		IN		22.377	73.001	21
+P	Anju		CN		29.991	106.032	23
+P	Ancón	ancon	PA		8.960	-79.551	11
+P	An Nāşirīyah	an nasiriyah	LY		32.633	12.874	4
+P	Andorra la Vella		AD		42.508	1.521	27
+P	Santa Anita		MX		20.550	-103.444	9
+P	Añatuya	anatuya	AR		-28.460	-62.834	15
+P	Giengen an der Brenz		DE		48.622	10.243	27
+P	San Antonio de la Cal		MX		17.029	-96.701	9
+P	Annur		IN		11.236	77.105	21
+P	Andreyevskoye		RU		55.555	37.926	28
+P	Anak		KP		38.511	125.494	22
+P	Anūppur	anuppur	IN		23.103	81.691	21
+P	Andirá	andira	BR		-23.051	-50.229	15
+P	Chinna Āndānkovil	chinna andankovil	IN		10.951	78.068	21
+P	An-Najaylah	an najaylah	EG		31.407	26.583	2
+P	‘Anat al Qadīmah	anat al qadimah	IQ		34.469	41.942	28
+P	Antrim		GB	Northern Ireland	54.718	-6.211	30
+P	Port Angeles		US	Washington	48.118	-123.431	12
+P	Angleton		US	Texas	29.169	-95.432	7
+P	Sint-Andries	sint andries	BE		51.197	3.179	27
+P	Santa Ana		VE		11.068	-63.923	6
+P	Anna		RU		51.490	40.422	28
+P	Andritz		AT		47.114	15.423	27
+P	Anshing		IN		20.041	77.315	21
+P	Vilar de Andorinho		PT		41.106	-8.586	30
+P	Ansonia		US	Connecticut	41.346	-73.079	8
+P	Dillingen an der Donau		DE		48.582	10.495	27
+P	Andéranboukan	anderanboukan	ML		15.428	3.018	0
+P	Anicuns		BR		-16.461	-49.962	15
+P	Annonay		FR		45.240	4.671	27
+P	Saint Andrews		GB	Scotland	56.339	-2.799	30
+P	Ansfelden		AT		48.210	14.290	27
+P	Galaat el Andeless		TN		37.063	10.118	1
+P	‘Anbarābād	anbarabad	IR		28.476	57.848	25
+P	Andalucía	andalucia	CO		4.171	-76.166	11
+P	Anacortes		US	Washington	48.513	-122.613	12
+P	Antonina		BR		-25.429	-48.712	15
+P	San Andrés Cuexcontitlán	san andres cuexcontitlan	MX		19.359	-99.622	9
+P	Santo Anastácio	santo anastacio	BR		-21.976	-51.651	15
+P	Anori		BR		-3.773	-61.644	6
+P	Anamizu		JP		37.233	136.900	22
+P	St. Andrew-Windfields	st andrew windfields	CA	Ontario	43.756	-79.379	8
+P	Don Antonio		MX		19.874	-98.935	9
+P	‘Anjarah	anjarah	JO		32.307	35.754	28
+P	Andahuaylas		PE		-13.656	-73.387	11
+P	Anoka		US	Minnesota	45.198	-93.387	7
+P	Santo Antônio do Amparo	santo antonio do amparo	BR		-20.946	-44.919	15
+P	Anaimalai		IN		10.583	76.934	21
+P	San Antonio Oeste		AR		-40.732	-64.948	15
+P	Santo Antônio do Leverger	santo antonio do leverger	BR		-15.866	-56.077	6
+P	Anjala		FI		60.683	26.833	29
+P	Barra de Santo Antônio	barra de santo antonio	BR		-9.405	-35.507	15
+P	Andada		IN		21.656	73.022	21
+P	Anáhuac	anahuac	MX		27.241	-100.133	7
+P	Anak Bukit		MY		6.184	100.378	23
+P	Phum Ânlŭng Vĭl	phum anlung vil	KH		13.083	103.235	19
+P	San Antonio Acahualco		MX		19.274	-99.772	9
+P	Andes		CO		5.656	-75.879	11
+P	Andé	ande	CI		6.782	-4.085	0
+P	Annāmalainagar	annamalainagar	IN		11.400	79.733	21
+P	Anandpur		IN		31.239	76.503	21
+P	Santa Ana Xalmimilulco		MX		19.213	-98.382	9
+P	Ângk Tasaôm	angk tasaom	KH		11.013	104.673	19
+P	Ankazondandy		MG		-18.700	47.783	28
+P	Ebersbach an der Fils		DE		48.716	9.524	27
+P	San Antonio		PE		-17.217	-70.926	11
+P	Anadyr		RU		64.734	177.510	16
+P	Anchau		NG		10.962	8.392	1
+P	Anār	anar	IR		30.871	55.270	25
+P	Angermünde	angermunde	DE		53.015	13.999	27
+P	Bad Neustadt an der Saale		DE		50.322	10.207	27
+P	Neu-Anspach	neu anspach	DE		50.317	8.500	27
+P	San Andrés Xecul	san andres xecul	GT		14.905	-91.483	9
+P	Andorinha		BR		-10.345	-39.836	15

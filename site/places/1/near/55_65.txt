@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Yekaterinburg	300	
+C	RU	Russia	mwl	s
+B	0
+P	Tyumen		RU		57.152	65.527	0
+P	Kurgan		RU		55.449	65.343	0
+P	Tobolsk		RU		58.198	68.255	0
+P	Ishim		RU		56.113	69.487	0
+P	Tavda		RU		58.042	65.272	0
+P	Yalutorovsk		RU		56.653	66.300	0
+P	Zavodoukovsk		RU		56.503	66.547	0
+P	Borovskiy		RU		57.041	65.720	0

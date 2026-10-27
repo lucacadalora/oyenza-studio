@@ -1,0 +1,36 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dhaka	360	
+Z	1	Asia/Karachi	300	
+Z	2	Asia/Kolkata	330	
+C	BD	Bangladesh	karachi	h
+C	IN	India	karachi	h
+C	PK	Pakistan	karachi	h
+B	0
+P	Jhang Sadr		PK		31.270	72.317	1
+P	Jhānsi	jhansi	IN		25.459	78.580	2
+P	Chak Jhumra		PK		31.568	73.183	1
+P	Jhelum		PK		32.934	73.731	1
+P	Jhunjhunūn	jhunjhunun	IN		28.126	75.398	2
+P	Jharsuguda		IN		21.855	84.007	2
+P	Jhumri Telaiya		IN		24.435	85.530	2
+P	Jharia		IN		23.741	86.415	2
+P	Jhālāwār	jhalawar	IN		24.596	76.165	2
+P	Jhārgrām	jhargram	IN		22.454	86.995	2
+P	Jhajjar		IN		28.606	76.656	2
+P	Jhingergācha	jhingergacha	BD		23.111	89.091	0
+P	Jhajha		IN		24.771	86.379	2
+P	Jhālrapātan	jhalrapatan	IN		24.542	76.172	2
+P	Jhābua	jhabua	IN		22.768	74.591	2
+P	Jhanjhārpur	jhanjharpur	IN		26.265	86.280	2
+P	Jhālod	jhalod	IN		23.101	74.155	2
+P	Jhadeshwar		IN		21.714	73.032	2
+P	Jhawarian		PK		32.362	72.623	1
+P	Fīrozpur Jhirka	firozpur jhirka	IN		27.789	76.945	2
+P	Jhīnjhak	jhinjhak	IN		26.561	79.734	2
+P	Jharoda Mazra Burāri	jharoda mazra burari	IN		28.730	77.209	2
+P	Jhālu	jhalu	IN		29.336	78.226	2
+P	Jhinjhāna	jhinjhana	IN		29.521	77.225	2
+P	Jharoda Kalān	jharoda kalan	IN		28.653	76.952	2
+P	Jhol		PK		25.955	68.889	1
+P	Jhalidā	jhalida	IN		23.365	85.976	2
+P	Jhūsi	jhusi	IN		25.437	81.906	2

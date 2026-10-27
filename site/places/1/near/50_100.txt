@@ -1,0 +1,15 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Irkutsk	480	
+C	RU	Russia	mwl	s
+B	0
+P	Irkutsk		RU		52.296	104.291	0
+P	Angarsk		RU		52.560	103.914	0
+P	Usol’ye-Sibirskoye	usolye sibirskoye	RU		52.752	103.645	0
+P	Cheremkhovo		RU		53.147	103.082	0
+P	Tulun		RU		54.568	100.577	0
+P	Shelekhov		RU		52.216	104.099	0
+P	Sayansk		RU		54.113	102.178	0
+P	Zima		RU		53.920	102.044	0
+P	Slyudyanka		RU		51.662	103.710	0
+P	Markova		RU		52.207	104.218	0
+P	Baykal’sk	baykalsk	RU		51.515	104.140	0

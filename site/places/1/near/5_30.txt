@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Addis_Ababa	180	
+Z	1	Africa/Juba	120	
+C	ET	Ethiopia	egyptian	s
+C	SS	South Sudan	egyptian	s
+B	0
+P	Malakal		SS		9.533	31.660	1
+P	Gambēla	gambela	ET		8.250	34.583	0
+P	Dembī Dolo	dembi dolo	ET		8.533	34.800	0
+P	Bor		SS		6.209	31.559	1
+P	Bambesi		ET		9.750	34.733	0
+P	Leer		SS		8.303	30.141	1

@@ -1,0 +1,276 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Dhaka	360	
+Z	1	Asia/Kolkata	330	
+C	BD	Bangladesh	karachi	h
+C	IN	India	karachi	h
+B	6
+P	Kolkata		IN		22.563	88.363	1
+P	Khulna		BD		22.810	89.564	0
+P	Jamshedpur		IN		22.803	86.185	1
+P	Dhanbad		IN		23.798	86.430	1
+P	Ranchi		IN		23.343	85.309	1
+P	Howrah		IN		22.577	88.319	1
+P	Bhubaneswar		IN		20.272	85.834	1
+P	Rajshahi		BD		24.374	88.601	0
+P	Cuttack		IN		20.465	85.879	1
+P	Bokāro	bokaro	IN		23.669	86.152	1
+P	Mohammadpur		BD		24.898	88.528	0
+P	Durgapur		IN		23.516	87.308	1
+P	Āsansol	asansol	IN		23.683	86.983	1
+P	Bhātpāra	bhatpara	IN		22.866	88.401	1
+P	Gaya		IN		24.797	85.004	1
+P	Maheshtala		IN		22.509	88.253	1
+P	Shyamnagar		IN		22.833	88.367	1
+P	Rajpur Sonarpur		IN		22.438	88.432	1
+P	Pānihāti	panihati	IN		22.691	88.374	1
+P	Natore		BD		24.411	88.987	0
+P	Kāmārhāti	kamarhati	IN		22.671	88.375	1
+P	Kulti		IN		23.732	86.844	1
+P	Barddhamān	barddhaman	IN		23.256	87.857	1
+P	Bārāsat	barasat	IN		22.722	88.482	1
+P	Bāli	bali	IN		22.649	88.341	1
+P	Bagerhat		BD		22.657	89.791	0
+P	Baranagar		IN		22.641	88.377	1
+P	Naihāti	naihati	IN		22.894	88.415	1
+P	Jessore		BD		23.170	89.214	0
+P	Nāgarpur	nagarpur	BD		24.058	89.877	0
+P	Uluberiya		IN		22.476	88.099	1
+P	Shrīrāmpur	shrirampur	IN		22.753	88.342	1
+P	Mango		IN		22.828	86.216	1
+P	Kharagpur		IN		22.340	87.325	1
+P	Bogra		BD		24.851	89.371	0
+P	Deoghar		IN		24.490	86.699	1
+P	Pār Naogaon	par naogaon	BD		24.804	88.949	0
+P	Pābna	pabna	BD		24.006	89.237	0
+P	Phusro		IN		23.756	86.005	1
+P	Chandannagar		IN		22.862	88.368	1
+P	Baharampur		IN		24.105	88.252	1
+P	Tangail		BD		24.250	89.917	0
+P	Hugli		IN		22.909	88.397	1
+P	Bhetia		IN		22.793	86.141	1
+P	Haldia		IN		22.060	88.110	1
+P	Jamālpur	jamalpur	BD		24.920	89.948	0
+P	Madhyamgram		IN		22.689	88.446	1
+P	Jāmuria	jamuria	IN		23.705	87.079	1
+P	Puthia		BD		24.365	88.834	0
+P	Hazāribāgh	hazaribagh	IN		23.992	85.362	1
+P	Medinīpur	medinipur	IN		22.421	87.323	1
+P	Shāntipur	shantipur	IN		23.247	88.433	1
+P	Bārākpur	barakpur	IN		22.766	88.363	1
+P	Krishnanagar		IN		23.406	88.491	1
+P	Balasore		IN		21.493	86.933	1
+P	Basirhat City		IN		22.661	88.855	1
+P	Nawābganj	nawabganj	BD		24.590	88.274	0
+P	Chas		IN		23.636	86.167	1
+P	Hābra	habra	IN		22.842	88.656	1
+P	Kānchrāpāra	kanchrapara	IN		22.960	88.428	1
+P	Kushtia		BD		23.903	89.119	0
+P	Bānkura	bankura	IN		23.232	87.072	1
+P	Rānīganj	raniganj	IN		23.616	87.131	1
+P	Sātkhira	satkhira	BD		22.708	89.072	0
+P	Khardah		IN		22.719	88.378	1
+P	Hālīsahar	halisahar	IN		22.932	88.419	1
+P	Titāgarh	titagarh	IN		22.743	88.373	1
+P	Sirajganj		BD		24.458	89.708	0
+P	Dam Dam		IN		22.633	88.423	1
+P	Puruliya		IN		23.331	86.363	1
+P	Bhadreswar		IN		22.824	88.338	1
+P	Bhadrak		IN		21.054	86.516	1
+P	Rishra		IN		22.724	88.346	1
+P	Baripāda	baripada	IN		21.935	86.729	1
+P	Baidyabāti	baidyabati	IN		22.785	88.326	1
+P	Giridih		IN		24.186	86.309	1
+P	Tungipara		BD		22.900	89.903	0
+P	Farīdpur	faridpur	BD		23.606	89.841	0
+P	Bangaon		IN		23.046	88.831	1
+P	Ashoknagar Kalyangarh		IN		22.864	88.637	1
+P	Navadwīp	navadwip	IN		23.407	88.369	1
+P	Bānsbāria	bansbaria	IN		22.954	88.401	1
+P	Shāhzādpur	shahzadpur	BD		24.177	89.599	0
+P	Nawāda	nawada	IN		24.887	85.544	1
+P	Kalyani		IN		22.976	88.434	1
+P	Bagaha		IN		24.529	85.060	1
+P	Rāmgarh	ramgarh	IN		23.630	85.522	1
+P	Contai		IN		21.780	87.749	1
+P	Jhumri Telaiya		IN		24.435	85.530	1
+P	Jamūī	jamui	IN		24.926	86.225	1
+P	Jharia		IN		23.741	86.415	1
+P	Parādīp Garh	paradip garh	IN		20.316	86.609	1
+P	Jangipur		IN		24.470	88.077	1
+P	Ishwardi		BD		24.129	89.066	0
+P	Saunda		IN		23.665	85.327	1
+P	Sarishābāri	sarishabari	BD		24.751	89.831	0
+P	Kātoya	katoya	IN		23.646	88.133	1
+P	Bagbera		IN		22.759	86.190	1
+P	Dhuliān	dhulian	IN		24.681	87.954	1
+P	Budge Budge		IN		22.483	88.182	1
+P	Konnagar		IN		22.705	88.344	1
+P	Bolpur		IN		23.663	87.697	1
+P	Rānāghāt	ranaghat	IN		23.176	88.567	1
+P	Chāībāsa	chaibasa	IN		22.550	85.802	1
+P	Dhenkānāl	dhenkanal	IN		20.657	85.597	1
+P	Barbil		IN		22.102	85.378	1
+P	Siuri		IN		23.908	87.528	1
+P	Bishnupur		IN		23.074	87.320	1
+P	Jatani		IN		20.160	85.707	1
+P	Arāmbāgh	arambagh	IN		22.883	87.783	1
+P	Keonjhargarh		IN		21.632	85.597	1
+P	Jhārgrām	jhargram	IN		22.454	86.995	1
+P	Kātrās	katras	IN		23.798	86.298	1
+P	Byasanagar		IN		20.956	86.126	1
+P	Bada Barabīl	bada barabil	IN		22.112	85.387	1
+P	Chakradharpur		IN		22.676	85.629	1
+P	Bankra		IN		22.603	88.278	1
+P	Madhupur		IN		24.274	86.639	1
+P	Narail		BD		23.155	89.495	0
+P	Kāndi	kandi	IN		23.959	88.040	1
+P	Ghātāl	ghatal	IN		22.662	87.734	1
+P	Pirojpur		BD		22.580	89.975	0
+P	Kālna	kalna	IN		23.219	88.363	1
+P	Rampur Hat		IN		24.177	87.783	1
+P	Baruipur		IN		22.365	88.433	1
+P	Choudwar		IN		20.539	85.915	1
+P	Jugsālai	jugsalai	IN		22.777	86.184	1
+P	Badūria	baduria	IN		22.744	88.787	1
+P	Tamlūk	tamluk	IN		22.301	87.926	1
+P	Godda		IN		24.827	87.213	1
+P	Gumia		IN		23.797	85.825	1
+P	Dumka		IN		24.268	87.249	1
+P	Kendrāparha	kendraparha	IN		20.502	86.422	1
+P	Joda		IN		22.017	85.422	1
+P	Khordha		IN		20.183	85.616	1
+P	Bānka	banka	IN		24.881	86.923	1
+P	Pakur		IN		24.639	87.842	1
+P	Kālīganj	kaliganj	BD		23.410	89.138	0
+P	Chirkunda		IN		23.748	86.788	1
+P	Chittaranjan		IN		23.857	86.903	1
+P	Pāthardih	pathardih	IN		23.666	86.432	1
+P	Memāri	memari	IN		23.176	88.097	1
+P	Angul		IN		20.841	85.102	1
+P	Gobārdānga	gobardanga	IN		22.877	88.755	1
+P	Kopali		IN		22.837	86.192	1
+P	Sainthia		IN		23.948	87.680	1
+P	Bhanga		BD		23.392	89.984	0
+P	Bhātpāra Abhaynagar	bhatpara abhaynagar	BD		23.015	89.439	0
+P	Jājpur	jajpur	IN		20.849	86.337	1
+P	Canning		IN		22.314	88.665	1
+P	Jhingergācha	jhingergacha	BD		23.111	89.091	0
+P	Diamond Harbour		IN		22.193	88.190	1
+P	Tālcher	talcher	IN		20.949	85.234	1
+P	Jhajha		IN		24.771	86.379	1
+P	Ghātsīla	ghatsila	IN		22.585	86.477	1
+P	Kālia	kalia	BD		23.043	89.631	0
+P	Tāki	taki	IN		22.589	88.933	1
+P	Bera		BD		24.078	89.633	0
+P	Anandpur		IN		21.214	86.125	1
+P	Murshidābād	murshidabad	IN		24.184	88.272	1
+P	Kāro	karo	IN		23.785	85.978	1
+P	Bherāmāra	bheramara	BD		24.025	88.992	0
+P	Phultala		BD		22.717	89.512	0
+P	Pujali		IN		22.468	88.145	1
+P	Patāmundai	patamundai	IN		20.578	86.561	1
+P	Sarankhola		BD		22.310	89.791	0
+P	Khunti		IN		23.076	85.278	1
+P	Shibganj		BD		24.685	88.156	0
+P	Dubrājpur	dubrajpur	IN		23.790	87.376	1
+P	Rairangpur		IN		22.267	86.174	1
+P	Jāmadoba	jamadoba	IN		23.717	86.400	1
+P	Guskhara		IN		23.493	87.735	1
+P	Bāsudebpur	basudebpur	IN		21.120	86.729	1
+P	Jagatsinghapur		IN		20.256	86.171	1
+P	Remuna		IN		21.528	86.872	1
+P	Lakhyabad		IN		23.667	86.667	1
+P	Patrātu	patratu	IN		23.665	85.304	1
+P	Egra		IN		21.899	87.538	1
+P	Mushābani	mushabani	IN		22.511	86.457	1
+P	Hisua		IN		24.834	85.417	1
+P	Soro		IN		21.279	86.688	1
+P	Jāridih	jaridih	IN		23.766	85.939	1
+P	Chhota Gobindpur		IN		22.746	86.259	1
+P	Morrelgonj		BD		22.456	89.856	0
+P	Sijua		IN		23.776	86.330	1
+P	Gomoh		IN		23.874	86.152	1
+P	Kesabpur		BD		22.907	89.220	0
+P	Tarakeswar		IN		22.886	88.014	1
+P	Rajauli		IN		24.645	85.500	1
+P	Mathba		BD		22.286	89.959	0
+P	Jāmtāra	jamtara	IN		23.963	86.803	1
+P	Lālgola	lalgola	IN		24.422	88.252	1
+P	Sonāmukhi	sonamukhi	IN		23.305	87.413	1
+P	Pandua		IN		23.075	88.286	1
+P	Sānkrāil	sankrail	IN		22.550	88.225	1
+P	Beldānga	beldanga	IN		23.934	88.260	1
+P	Chandrapura		IN		23.749	86.120	1
+P	Chakapara		IN		22.632	88.349	1
+P	Gobindpur		IN		22.634	86.072	1
+P	Jaynagar Majilpur		IN		22.175	88.420	1
+P	Nalhāti	nalhati	IN		24.297	87.829	1
+P	Jaleshwar		IN		21.802	87.222	1
+P	Haludbani		IN		22.751	86.210	1
+P	Churi		IN		23.655	85.013	1
+P	Kodarma		IN		24.468	85.594	1
+P	Taluker Char Doani		BD		22.140	89.941	0
+P	Siuliban		IN		23.749	86.785	1
+P	Barki Saria		IN		24.176	85.889	1
+P	Sarjamda		IN		22.748	86.226	1
+P	Pānchla	panchla	IN		22.537	88.138	1
+P	Monoharpur		IN		22.108	88.079	1
+P	Dhamanagar		IN		20.917	86.450	1
+P	Karanjiā	karanjia	IN		21.763	85.973	1
+P	Balarāmpur	balarampur	IN		23.097	86.223	1
+P	Chitarpur		IN		23.573	85.654	1
+P	Raghunathpur		IN		23.539	86.674	1
+P	Dugda		IN		23.745	86.172	1
+P	Rātu	ratu	IN		23.420	85.215	1
+P	Bhuban		IN		20.882	85.833	1
+P	Adra		IN		23.497	86.684	1
+P	Kathhāra	kathhara	IN		23.764	85.885	1
+P	Chandrakona		IN		22.733	87.517	1
+P	Farakka		IN		24.817	87.900	1
+P	Kuju		IN		23.725	85.510	1
+P	Dhulagari		IN		22.582	88.171	1
+P	Būndu	bundu	IN		23.161	85.590	1
+P	Bagulā	bagula	IN		23.337	88.641	1
+P	Bhadauni		IN		24.875	85.534	1
+P	Ghorabandha		IN		22.772	86.271	1
+P	Khalāri	khalari	IN		23.651	85.007	1
+P	Sirka		IN		23.646	85.433	1
+P	Nalco		IN		20.865	85.183	1
+P	Aistala		IN		23.180	88.580	1
+P	Singur		IN		22.809	88.229	1
+P	Kakdwip		IN		21.879	88.191	1
+P	Nimāparha	nimaparha	IN		20.058	86.004	1
+P	Āmlāgora	amlagora	IN		22.846	87.336	1
+P	Maithon		IN		23.780	86.810	1
+P	Gadhra		IN		22.747	86.245	1
+P	Srirāmpur	srirampur	IN		22.948	88.020	1
+P	Jadugora		IN		22.654	86.356	1
+P	Barkā Kānā	barka kana	IN		23.621	85.467	1
+P	Fort Gloster		IN		22.504	88.183	1
+P	Rāmjībanpur	ramjibanpur	IN		22.828	87.609	1
+P	Jhalidā	jhalida	IN		23.365	85.976	1
+P	Mahīshādal	mahishadal	IN		22.186	87.981	1
+P	Dumjor		IN		22.620	88.246	1
+P	Noāmundi	noamundi	IN		22.161	85.504	1
+P	Pipili		IN		20.114	85.831	1
+P	Kānke	kanke	IN		23.435	85.321	1
+P	Bānki	banki	IN		20.379	85.530	1
+P	Bermo		IN		23.788	85.935	1
+P	Āthagarh	athagarh	IN		20.520	85.630	1
+P	Nilagiri		IN		21.462	86.768	1
+P	Bālugaon	balugaon	IN		20.178	85.113	1
+P	Basukinath		IN		24.394	87.086	1
+P	Mahiari		IN		22.588	88.235	1
+P	Nayāgarh	nayagarh	IN		20.129	85.096	1
+P	Kāmākhyānagar	kamakhyanagar	IN		20.934	85.545	1
+P	Āmta	amta	IN		22.583	88.010	1
+P	Khātra	khatra	IN		22.976	86.855	1
+P	Jasidih		IN		24.514	86.646	1
+P	Chākuliā	chakulia	IN		22.483	86.718	1
+P	Bahula		IN		23.652	87.165	1
+P	Kedia		IN		23.795	85.587	1
+P	Domchānch	domchanch	IN		24.475	85.692	1
+P	Dera Colliery Township		IN		20.953	85.172	1
+P	Sāram	saram	IN		23.763	85.830	1
+P	Ghantapada		IN		20.935	85.188	1
+P	Kenda		IN		23.196	86.515	1

@@ -1,0 +1,533 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Rome	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+C	AT	Austria	mwl	s
+C	BE	Belgium	mwl	s
+C	CH	Switzerland	mwl	s
+C	DE	Germany	mwl	s
+C	FR	France	mwl	s
+C	IT	Italy	mwl	s
+C	LI	Liechtenstein	mwl	s
+C	LU	Luxembourg	mwl	s
+B	1
+P	Milan		IT		45.464	9.190	0
+P	Turin		IT		45.070	7.687	0
+P	Stuttgart		DE		48.782	9.177	0
+P	Zürich	zurich	CH		47.367	8.550	0
+P	Mannheim		DE		49.489	8.467	0
+P	Karlsruhe		DE		49.009	8.404	0
+P	Strasbourg		FR		48.584	7.746	0
+P	Freiburg		DE		47.996	7.852	0
+P	Mainz		DE		49.982	8.280	0
+P	Geneva		CH		46.202	6.146	0
+P	Saarbrücken	saarbrucken	DE		49.233	7.010	0
+P	Quarto Oggiaro		IT		45.513	9.143	0
+P	Basel		CH		47.558	7.573	0
+P	Darmstadt		DE		49.872	8.650	0
+P	Ludwigshafen am Rhein		DE		49.481	8.446	0
+P	Dijon		FR		47.313	5.014	0
+P	Grenoble		FR		45.179	5.715	0
+P	Heidelberg		DE		49.408	8.691	0
+P	Circoiscrizione II		IT		45.050	7.641	0
+P	Lausanne		CH		46.516	6.633	0
+P	Circoiscrizione VIII		IT		45.038	7.672	0
+P	Würzburg	wurzburg	DE		49.794	9.951	0
+P	Circoiscrizione III		IT		45.063	7.631	0
+P	Besançon	besancon	FR		47.249	6.018	0
+P	Circoiscrizione V		IT		45.101	7.655	0
+P	Monza		IT		45.580	9.272	0
+P	Metz		FR		49.119	6.173	0
+P	Bern		CH		46.948	7.447	0
+P	Bergamo		IT		45.696	9.667	0
+P	Heilbronn		DE		49.140	9.221	0
+P	Ulm		DE		48.398	9.992	0
+P	Pforzheim		DE		48.884	8.699	0
+P	Reutlingen		DE		48.491	9.204	0
+P	Winterthur		CH		47.506	8.724	0
+P	Mulhouse		FR		47.752	7.329	0
+P	Circoiscrizione VI		IT		45.102	7.700	0
+P	Nancy		FR		48.684	6.185	0
+P	Piacenza		IT		45.052	9.693	0
+P	Novara		IT		45.447	8.621	0
+P	Trier		DE		49.756	6.639	0
+P	Circoiscrizione IV		IT		45.081	7.632	0
+P	Kaiserslautern		DE		49.443	7.772	0
+P	Esslingen		DE		48.740	9.305	0
+P	Tübingen	tubingen	DE		48.523	9.052	0
+P	Circoiscrizione VII		IT		45.078	7.697	0
+P	Ludwigsburg		DE		48.897	9.192	0
+P	Como		IT		45.808	9.083	0
+P	Busto Arsizio		IT		45.611	8.849	0
+P	Sesto San Giovanni		IT		45.533	9.226	0
+P	Villingen-Schwenningen	villingen schwenningen	DE		48.062	8.494	0
+P	Luzern		CH		47.050	8.306	0
+P	Konstanz		DE		47.660	9.176	0
+P	Worms		DE		49.633	8.359	0
+P	Varese		IT		45.821	8.825	0
+P	Circoiscrizione I		IT		45.066	7.687	0
+P	Luxembourg		LU		49.610	6.133	0
+P	Cinisello Balsamo		IT		45.558	9.215	0
+P	Sankt Gallen		CH		47.424	9.375	0
+P	Aschaffenburg		DE		49.977	9.152	0
+P	Pavia		IT		45.192	9.159	0
+P	Colmar		FR		48.081	7.356	0
+P	Lugano		CH		46.010	8.960	0
+P	Chambéry	chambery	FR		45.566	5.921	0
+P	Sindelfingen		DE		48.700	9.017	0
+P	Schwäbisch Gmünd	schwabisch gmund	DE		48.799	9.798	0
+P	Rüsselsheim am Main	russelsheim am main	DE		49.990	8.423	0
+P	Offenburg		DE		48.474	7.945	0
+P	Friedrichshafen		DE		47.657	9.476	0
+P	Göppingen	goppingen	DE		48.704	9.652	0
+P	Vigevano		IT		45.314	8.854	0
+P	Legnano		IT		45.598	8.915	0
+P	Baden-Baden	baden baden	DE		48.761	8.240	0
+P	Biel/Bienne	biel bienne	CH		47.137	7.246	0
+P	Pozzo Strada		IT		45.068	7.625	0
+P	Belfort		FR		47.642	6.854	0
+P	Zürich (Kreis 11)	zurich kreis 11	CH		47.423	8.522	0
+P	Neustadt an der Weinstraße	neustadt an der weinstrasse	DE		49.350	8.139	0
+P	Waiblingen		DE		48.832	9.316	0
+P	Lahr		DE		48.340	7.869	0
+P	Gallarate		IT		45.660	8.792	0
+P	Barriera di Milano		IT		45.092	7.694	0
+P	Speyer		DE		49.321	8.431	0
+P	Barriera di Lanzo		IT		45.110	7.651	0
+P	Neunkirchen		DE		49.344	7.180	0
+P	Lingotto		IT		45.033	7.650	0
+P	Leonberg		DE		48.800	9.017	0
+P	Dornbirn		AT		47.414	9.742	0
+P	Annecy		FR		45.909	6.126	0
+P	Ravensburg		DE		47.782	9.611	0
+P	Rivoli		IT		45.071	7.515	0
+P	Rastatt		DE		48.859	8.210	0
+P	Bruchsal		DE		49.124	8.598	0
+P	Nichelino		IT		45.000	7.653	0
+P	Singen		DE		47.759	8.840	0
+P	Stuttgart-Ost	stuttgart ost	DE		48.784	9.210	0
+P	Settimo Torinese		IT		45.139	7.770	0
+P	Frankenthal		DE		49.534	8.354	0
+P	Rho		IT		45.532	9.040	0
+P	Lörrach	lorrach	DE		47.615	7.665	0
+P	Albstadt		DE		48.216	9.026	0
+P	Parella		IT		45.080	7.626	0
+P	Lecco		IT		45.856	9.397	0
+P	Collegno		IT		45.079	7.567	0
+P	Böblingen	boblingen	DE		48.682	9.012	0
+P	Paderno Dugnano		IT		45.569	9.165	0
+P	Zürich (Kreis 3)	zurich kreis 3	CH		47.358	8.503	0
+P	Vercelli		IT		45.322	8.420	0
+P	Cologno Monzese		IT		45.530	9.278	0
+P	Filadelfia		IT		45.024	7.644	0
+P	Bourg-en-Bresse	bourg en bresse	FR		46.206	5.226	0
+P	Zürich (Kreis 9)	zurich kreis 9	CH		47.382	8.480	0
+P	Homburg		DE		49.326	7.339	0
+P	Thionville		FR		49.360	6.160	0
+P	Fellbach		DE		48.809	9.277	0
+P	Thun		CH		46.751	7.622	0
+P	Pirmasens		DE		49.201	7.605	0
+P	Bietigheim-Bissingen	bietigheim bissingen	DE		48.944	9.118	0
+P	Filderstadt		DE		48.657	9.220	0
+P	Weinheim		DE		49.549	8.667	0
+P	Bellinzona		CH		46.193	9.017	0
+P	Bad Kreuznach		DE		49.841	7.867	0
+P	Biella		IT		45.563	8.058	0
+P	Seregno		IT		45.650	9.205	0
+P	Rottenburg		DE		48.476	8.935	0
+P	Desio		IT		45.618	9.202	0
+P	Köniz	koniz	CH		46.924	7.415	0
+P	Schorndorf		DE		48.805	9.527	0
+P	Landau in der Pfalz		DE		49.198	8.117	0
+P	Mirafiori Nord		IT		45.042	7.628	0
+P	Leinfelden-Echterdingen	leinfelden echterdingen	DE		48.694	9.168	0
+P	Bensheim		DE		49.684	8.618	0
+P	Völklingen	volklingen	DE		49.252	6.859	0
+P	Lodi		IT		45.310	9.501	0
+P	Nürtingen	nurtingen	DE		48.626	9.342	0
+P	Kirchheim unter Teck		DE		48.647	9.454	0
+P	Cantù	cantu	IT		45.741	9.131	0
+P	Rozzano		IT		45.382	9.156	0
+P	Kehl		DE		48.573	7.815	0
+P	Épinal	epinal	FR		48.183	6.453	0
+P	Backnang		DE		48.947	9.437	0
+P	Langen		DE		49.990	8.669	0
+P	Haguenau		FR		48.816	7.791	0
+P	Sankt Ingbert		DE		49.277	7.117	0
+P	Ettlingen		DE		48.941	8.408	0
+P	Fribourg		CH		46.802	7.151	0
+P	Saarlouis		DE		49.314	6.752	0
+P	Saronno		IT		45.625	9.035	0
+P	La Chaux-de-Fonds	la chaux de fonds	CH		47.100	6.826	0
+P	Lissone		IT		45.612	9.240	0
+P	Sinsheim		DE		49.253	8.879	0
+P	Cesano Maderno		IT		45.629	9.152	0
+P	Chieri		IT		45.011	7.821	0
+P	Grugliasco		IT		45.065	7.580	0
+P	Esch-sur-Alzette	esch sur alzette	LU		49.496	5.981	0
+P	Schaffhausen		CH		47.697	8.635	0
+P	Schwäbisch Hall	schwabisch hall	DE		49.111	9.739	0
+P	Zürich (Kreis 10)	zurich kreis 10	CH		47.408	8.501	0
+P	Cenisia		IT		45.069	7.651	0
+P	San Salvario		IT		45.053	7.680	0
+P	Saint-Martin-d'Hères	saint martin dheres	FR		45.179	5.763	0
+P	Chur		CH		46.850	9.533	0
+P	Aosta		IT		45.738	7.317	0
+P	Bollate		IT		45.546	9.121	0
+P	Zweibrücken	zweibrucken	DE		49.247	7.370	0
+P	Romans-sur-Isère	romans sur isere	FR		45.050	5.066	0
+P	Tuttlingen		DE		47.985	8.818	0
+P	Rapperswil		CH		47.226	8.822	0
+P	Uster		CH		47.347	8.721	0
+P	Sitten		CH		46.227	7.356	0
+P	Rheinfelden		DE		47.560	7.787	0
+P	Balingen		DE		48.275	8.855	0
+P	Pioltello		IT		45.501	9.331	0
+P	Herrenberg		DE		48.595	8.866	0
+P	Kornwestheim		DE		48.862	9.186	0
+P	Zürich (Kreis 7)	zurich kreis 7	CH		47.373	8.580	0
+P	Mirafiori Sud		IT		45.021	7.623	0
+P	Corsico		IT		45.431	9.111	0
+P	Ostfildern		DE		48.727	9.250	0
+P	Venaria Reale		IT		45.126	7.631	0
+P	Neuchâtel	neuchatel	CH		46.992	6.931	0
+P	Feldkirch		AT		47.236	9.597	0
+P	Borgo San Paolo		IT		45.060	7.645	0
+P	Casale Monferrato		IT		45.133	8.453	0
+P	Échirolles	echirolles	FR		45.146	5.714	0
+P	Brugherio		IT		45.553	9.299	0
+P	Abbiategrasso		IT		45.398	8.917	0
+P	Mörfelden-Walldorf	morfelden walldorf	DE		49.995	8.584	0
+P	Viernheim		DE		49.540	8.578	0
+P	San Donato		IT		45.082	7.665	0
+P	Lampertheim		DE		49.598	8.473	0
+P	Biberach an der Riß	biberach an der riss	DE		48.093	9.791	0
+P	Schiltigheim		FR		48.607	7.749	0
+P	Weil am Rhein		DE		47.593	7.621	0
+P	Limbiate		IT		45.600	9.125	0
+P	Vandœuvre-lès-Nancy	vandoeuvre les nancy	FR		48.661	6.171	0
+P	Radolfzell		DE		47.742	8.971	0
+P	Thonon-les-Bains	thonon les bains	FR		46.370	6.480	0
+P	Crema		IT		45.363	9.682	0
+P	Merzig		DE		49.443	6.639	0
+P	Verbania		IT		45.921	8.552	0
+P	San Giuliano Milanese		IT		45.394	9.291	0
+P	Emmen		CH		47.078	8.273	0
+P	Zug		CH		47.172	8.517	0
+P	Bretten		DE		49.037	8.707	0
+P	Yverdon-les-Bains	yverdon les bains	CH		46.779	6.641	0
+P	Vernier		CH		46.217	6.085	0
+P	Zürich (Kreis 6)	zurich kreis 6	CH		47.392	8.544	0
+P	Winnenden		DE		48.876	9.398	0
+P	Bregenz		AT		47.503	9.747	0
+P	Santa Rita		IT		45.046	7.645	0
+P	Gaggenau		DE		48.800	8.333	0
+P	Vanchiglia		IT		45.071	7.704	0
+P	Zürich (Kreis 2)	zurich kreis 2	CH		47.338	8.521	0
+P	Idar-Oberstein	idar oberstein	DE		49.714	7.308	0
+P	Cernusco sul Naviglio		IT		45.525	9.333	0
+P	Chinatown		IT		45.482	9.175	0
+P	Chaumont		FR		48.111	5.141	0
+P	Meyzieu		FR		45.766	5.003	0
+P	Pallanza-Intra-Suna	pallanza intra suna	IT		45.938	8.571	0
+P	Montbéliard	montbeliard	FR		47.510	6.798	0
+P	Vaihingen an der Enz		DE		48.936	8.960	0
+P	Geislingen an der Steige		DE		48.624	9.827	0
+P	Bühl	buhl	DE		48.697	8.135	0
+P	San Donato Milanese		IT		45.410	9.268	0
+P	Zürich (Kreis 9) / Altstetten	zurich kreis 9 altstetten	CH		47.389	8.485	0
+P	Segrate		IT		45.492	9.298	0
+P	Annemasse		FR		46.194	6.238	0
+P	Zürich (Kreis 12)	zurich kreis 12	CH		47.404	8.576	0
+P	Stuttgart Feuerbach		DE		48.809	9.157	0
+P	Ehingen		DE		48.283	9.727	0
+P	Wiesloch		DE		49.295	8.698	0
+P	Aix-les-Bains	aix les bains	FR		45.692	5.909	0
+P	Emmendingen		DE		48.121	7.854	0
+P	Lancy		CH		46.190	6.114	0
+P	Zürich (Kreis 4) / Aussersihl	zurich kreis 4 aussersihl	CH		47.378	8.521	0
+P	Illkirch-Graffenstaden	illkirch graffenstaden	FR		48.529	7.715	0
+P	Leimen		DE		49.347	8.687	0
+P	Wangen		DE		47.690	9.832	0
+P	Sankt Wendel		DE		49.466	7.168	0
+P	Mühlacker	muhlacker	DE		48.948	8.837	0
+P	Achern		DE		48.631	8.076	0
+P	Weiterstadt		DE		49.904	8.589	0
+P	Remseck am Neckar		DE		48.872	9.273	0
+P	Nizza Millefonti		IT		45.027	7.665	0
+P	Neckarsulm		DE		49.189	9.225	0
+P	Montigny-lès-Metz	montigny les metz	FR		49.096	6.153	0
+P	Parabiago		IT		45.560	8.945	0
+P	Bingen am Rhein		DE		49.967	7.899	0
+P	Arlon		BE		49.683	5.817	0
+P	Weinstadt-Endersbach	weinstadt endersbach	DE		48.813	9.364	0
+P	Romano Banco		IT		45.423	9.107	0
+P	Stuttgart Mühlhausen	stuttgart muhlhausen	DE		48.842	9.230	0
+P	Montreux		CH		46.433	6.911	0
+P	Garbagnate Milanese		IT		45.574	9.075	0
+P	Giussano		IT		45.700	9.209	0
+P	Dole		FR		47.092	5.490	0
+P	Bresso		IT		45.538	9.189	0
+P	Oyonnax		FR		46.259	5.657	0
+P	Horb am Neckar		DE		48.444	8.691	0
+P	Frauenfeld		CH		47.558	8.899	0
+P	Rottweil		DE		48.168	8.627	0
+P	Heppenheim an der Bergstrasse		DE		49.641	8.632	0
+P	Pfungstadt		DE		49.806	8.603	0
+P	Griesheim		DE		49.861	8.572	0
+P	Mosbach		DE		49.354	9.151	0
+P	Lainate		IT		45.572	9.027	0
+P	Kriens		CH		47.031	8.285	0
+P	Lucento		IT		45.106	7.656	0
+P	Ingelheim am Rhein		DE		49.971	8.059	0
+P	Treviglio		IT		45.521	9.591	0
+P	Wertheim		DE		49.759	9.509	0
+P	Wetzikon		CH		47.326	8.798	0
+P	Saint-Dié-des-Vosges	saint die des vosges	FR		48.284	6.949	0
+P	Nieder-Ingelheim	nieder ingelheim	DE		49.978	8.072	0
+P	Fontaine		FR		45.193	5.688	0
+P	Lindau		DE		47.546	9.684	0
+P	Sarreguemines		FR		49.110	7.067	0
+P	Ditzingen		DE		48.827	9.067	0
+P	Wil		CH		47.462	9.046	0
+P	Freudenstadt		DE		48.467	8.414	0
+P	Weingarten		DE		47.810	9.639	0
+P	Calw		DE		48.714	8.740	0
+P	Groß-Gerau	gross gerau	DE		49.921	8.483	0
+P	Ivrea		IT		45.467	7.876	0
+P	Seriate		IT		45.685	9.725	0
+P	Bulle		CH		46.618	7.057	0
+P	Cesano Boscone		IT		45.442	9.094	0
+P	Muggiò	muggio	IT		45.589	9.228	0
+P	Riedstadt		DE		49.834	8.496	0
+P	Chivasso		IT		45.191	7.890	0
+P	Nagold		DE		48.550	8.724	0
+P	Dalmine		IT		45.649	9.606	0
+P	Lustenau		AT		47.426	9.659	0
+P	Öhringen	ohringen	DE		49.199	9.507	0
+P	Seveso		IT		45.647	9.143	0
+P	Vimercate		IT		45.615	9.368	0
+P	Meda		IT		45.661	9.153	0
+P	Horgen		CH		47.260	8.598	0
+P	Mariano Comense		IT		45.697	9.182	0
+P	Schwetzingen		DE		49.382	8.582	0
+P	Magenta		IT		45.465	8.885	0
+P	Bad Mergentheim		DE		49.492	9.774	0
+P	Waldshut-Tiengen	waldshut tiengen	DE		47.623	8.217	0
+P	Eislingen		DE		48.695	9.707	0
+P	Nova Milanese		IT		45.589	9.198	0
+P	Voiron		FR		45.365	5.586	0
+P	Metzingen		DE		48.537	9.283	0
+P	Kreuzlingen		CH		47.651	9.175	0
+P	Orbassano		IT		45.005	7.538	0
+P	Verdun		FR		49.160	5.383	0
+P	Donaueschingen		DE		47.955	8.497	0
+P	Lunéville	luneville	FR		48.593	6.494	0
+P	Opfikon		CH		47.432	8.576	0
+P	Dillingen		DE		49.356	6.728	0
+P	Annecy-le-Vieux	annecy le vieux	FR		45.920	6.144	0
+P	Überlingen	uberlingen	DE		47.770	9.171	0
+P	Aarau		CH		47.393	8.044	0
+P	Madonna di Campagna		IT		45.103	7.664	0
+P	Forbach		FR		49.188	6.893	0
+P	Groß-Umstadt	gross umstadt	DE		49.869	8.932	0
+P	Cassano Magnago		IT		45.672	8.827	0
+P	Eppingen		DE		49.136	8.912	0
+P	Püttlingen	puttlingen	DE		49.285	6.887	0
+P	Zürich (Kreis 3) / Sihlfeld	zurich kreis 3 sihlfeld	CH		47.374	8.512	0
+P	Germersheim		DE		49.214	8.367	0
+P	Renens		CH		46.540	6.588	0
+P	Dietikon		CH		47.402	8.400	0
+P	Saint-Louis	saint louis	FR		47.592	7.559	0
+P	Haßloch	hassloch	DE		49.363	8.258	0
+P	Lons-le-Saunier	lons le saunier	FR		46.675	5.556	0
+P	Senago		IT		45.576	9.126	0
+P	Hockenheim		DE		49.323	8.552	0
+P	Bad Rappenau		DE		49.238	9.102	0
+P	Baar		CH		47.196	8.530	0
+P	Bülach	bulach	CH		47.522	8.540	0
+P	Borgomanero		IT		45.699	8.462	0
+P	Rheinstetten		DE		48.968	8.307	0
+P	Oberkirch		DE		48.532	8.079	0
+P	Pontarlier		FR		46.903	6.355	0
+P	Centro		IT		45.071	7.684	0
+P	Meylan		FR		45.210	5.778	0
+P	Blieskastel		DE		49.237	7.256	0
+P	Waghäusel	waghausel	DE		49.250	8.513	0
+P	Waldkirch		DE		48.096	7.964	0
+P	Cornaredo		IT		45.501	9.027	0
+P	Zürich (Kreis 6) / Unterstrass	zurich kreis 6 unterstrass	CH		47.395	8.537	0
+P	Cormano		IT		45.549	9.160	0
+P	Mössingen	mossingen	DE		48.406	9.054	0
+P	Heusweiler		DE		49.336	6.930	0
+P	Trezzano sul Naviglio		IT		45.422	9.063	0
+P	Aurora		IT		45.081	7.687	0
+P	Riehen		CH		47.579	7.647	0
+P	Vesoul		FR		47.626	6.143	0
+P	Vevey		CH		46.463	6.843	0
+P	Dübendorf	dubendorf	CH		47.397	8.619	0
+P	Bad Waldsee		DE		47.920	9.755	0
+P	Cluses		FR		46.063	6.575	0
+P	Meyrin		CH		46.234	6.080	0
+P	Novate Milanese		IT		45.531	9.140	0
+P	Villefontaine		FR		45.613	5.151	0
+P	Lebach		DE		49.411	6.910	0
+P	Trecate		IT		45.434	8.736	0
+P	Hechingen		DE		48.351	8.963	0
+P	Schopfheim		DE		47.651	7.821	0
+P	Cran-Gevrier	cran gevrier	FR		45.900	6.100	0
+P	Carouge		CH		46.181	6.139	0
+P	Baden		CH		47.473	8.306	0
+P	Weil der Stadt		DE		48.750	8.872	0
+P	Reinach		CH		47.497	7.592	0
+P	Schifferstadt		DE		49.384	8.377	0
+P	Sondrio		IT		46.169	9.871	0
+P	Arese		IT		45.550	9.077	0
+P	Albertville		FR		45.675	6.391	0
+P	Eselsberg		DE		48.410	9.951	0
+P	Gerlingen		DE		48.800	9.063	0
+P	Laupheim		DE		48.228	9.879	0
+P	Porta Palazzo		IT		45.077	7.684	0
+P	Gorgonzola		IT		45.531	9.405	0
+P	Sélestat	selestat	FR		48.262	7.449	0
+P	Cusano		IT		45.552	9.184	0
+P	Schwalbach		DE		49.300	6.817	0
+P	Bad Dürkheim	bad durkheim	DE		49.462	8.172	0
+P	Bar-le-Duc	bar le duc	FR		48.773	5.161	0
+P	Sachsenheim		DE		48.960	9.065	0
+P	Seynod		FR		45.885	6.088	0
+P	Schramberg		DE		48.224	8.386	0
+P	Konz		DE		49.700	6.577	0
+P	San Mauro Torinese		IT		45.104	7.768	0
+P	Brera		IT		45.472	9.188	0
+P	Illingen		DE		49.374	7.048	0
+P	Wadgassen		DE		49.267	6.783	0
+P	Olten		CH		47.350	7.903	0
+P	Crocetta		IT		45.058	7.666	0
+P	Martigny-Ville	martigny ville	CH		46.103	7.072	0
+P	Vanchiglietta		IT		45.074	7.718	0
+P	Saint-Avold	saint avold	FR		49.105	6.704	0
+P	Pfullingen		DE		48.465	9.228	0
+P	Alzey		DE		49.747	8.115	0
+P	Buchen in Odenwald		DE		49.524	9.323	0
+P	Wettingen		CH		47.466	8.327	0
+P	Allschwil		CH		47.551	7.536	0
+P	Tettnang		DE		47.669	9.591	0
+P	Müllheim	mullheim	DE		47.808	7.630	0
+P	Korntal		DE		48.832	9.121	0
+P	Eppelborn		DE		49.400	6.967	0
+P	Melzo		IT		45.498	9.420	0
+P	Dudelange		LU		49.481	6.088	0
+P	Palazzolo sull'Oglio	palazzolo sulloglio	IT		45.597	9.887	0
+P	Zürich (Kreis 11) / Oerlikon	zurich kreis 11 oerlikon	CH		47.408	8.543	0
+P	Bad Saulgau		DE		48.017	9.501	0
+P	Wittlich		DE		49.986	6.893	0
+P	Zürich (Kreis 11) / Seebach	zurich kreis 11 seebach	CH		47.422	8.548	0
+P	Reinheim		DE		49.829	8.836	0
+P	Arheilgen		DE		49.913	8.657	0
+P	Bexbach		DE		49.346	7.255	0
+P	Domodossola		IT		46.117	8.293	0
+P	Monthey		CH		46.255	6.954	0
+P	Gartenstadt		DE		49.459	8.404	0
+P	Babenhausen		DE		49.965	8.951	0
+P	Toul		FR		48.681	5.891	0
+P	Jona		CH		47.230	8.839	0
+P	Schmelz		DE		49.433	6.850	0
+P	Romano di Lombardia		IT		45.521	9.754	0
+P	Adriano		IT		45.513	9.249	0
+P	Renningen		DE		48.770	8.939	0
+P	Ciriè	cirie	IT		45.235	7.601	0
+P	Bischheim		FR		48.616	7.753	0
+P	Valenza		IT		45.012	8.644	0
+P	Onex		CH		46.184	6.102	0
+P	Lingolsheim		FR		48.558	7.683	0
+P	Michelstadt		DE		49.676	9.004	0
+P	Wörth am Rhein	worth am rhein	DE		49.049	8.260	0
+P	Cassano d'Adda	cassano dadda	IT		45.526	9.515	0
+P	Zürich (Kreis 11) / Affoltern	zurich kreis 11 affoltern	CH		47.418	8.512	0
+P	Tradate		IT		45.708	8.908	0
+P	Zürich (Kreis 10) / Höngg	zurich kreis 10 hongg	CH		47.403	8.497	0
+P	Vimodrone		IT		45.515	9.288	0
+P	Gossau		CH		47.416	9.255	0
+P	Nerviano		IT		45.553	8.979	0
+P	Polo Nord		IT		45.055	7.649	0
+P	Muttenz		CH		47.523	7.645	0
+P	Stockach		DE		47.851	9.009	0
+P	Nyon		CH		46.383	6.240	0
+P	Sierre		CH		46.292	7.536	0
+P	Solothurn		CH		47.208	7.537	0
+P	Sallanches		FR		45.944	6.632	0
+P	Cham		CH		47.182	8.464	0
+P	Melegnano		IT		45.358	9.324	0
+P	Arcore		IT		45.627	9.325	0
+P	Losheim		DE		49.510	6.745	0
+P	Alpignano		IT		45.093	7.524	0
+P	Sigmaringen		DE		48.088	9.230	0
+P	Bad Säckingen	bad sackingen	DE		47.554	7.946	0
+P	Bareggio		IT		45.479	8.998	0
+P	Bovisio-Masciago	bovisio masciago	IT		45.610	9.153	0
+P	Zürich (Kreis 9) / Albisrieden	zurich kreis 9 albisrieden	CH		47.374	8.490	0
+P	Wadern		DE		49.541	6.888	0
+P	Erba		IT		45.809	9.226	0
+P	Burgdorf		CH		47.059	7.628	0
+P	Seeheim-Jugenheim	seeheim jugenheim	DE		49.765	8.652	0
+P	Caronno Pertusella		IT		45.598	9.046	0
+P	Sulzbach		DE		49.299	7.057	0
+P	Oberwinterthur (Kreis 2)	oberwinterthur kreis 2	CH		47.517	8.769	0
+P	Großostheim	grossostheim	DE		49.920	9.076	0
+P	Laxou		FR		48.684	6.149	0
+P	Hohenems		AT		47.361	9.687	0
+P	Kloten		CH		47.452	8.585	0
+P	Pully		CH		46.510	6.662	0
+P	Baiersbronn		DE		48.503	8.377	0
+P	Stadt Winterthur (Kreis 1)	stadt winterthur kreis 1	CH		47.495	8.720	0
+P	Lohr am Main		DE		49.989	9.572	0
+P	Littau		CH		47.050	8.263	0
+P	Zürich (Kreis 2) / Wollishofen	zurich kreis 2 wollishofen	CH		47.340	8.531	0
+P	Ginsheim-Gustavsburg	ginsheim gustavsburg	DE		49.971	8.345	0
+P	Petershausen-West	petershausen west	DE		47.674	9.178	0
+P	Quartiere Otto		IT		45.486	9.139	0
+P	Beckingen		DE		49.400	6.700	0
+P	Grenchen		CH		47.192	7.396	0
+P	Ebersbach an der Fils		DE		48.716	9.524	0
+P	Unterkrozingen		DE		47.919	7.690	0
+P	Saint-Égrève	saint egreve	FR		45.233	5.682	0
+P	Villers-lès-Nancy	villers les nancy	FR		48.673	6.153	0
+P	Einsiedeln		CH		47.128	8.747	0
+P	Locarno		CH		46.171	8.800	0
+P	Chenôve	chenove	FR		47.293	5.005	0
+P	Schiffweiler		DE		49.367	7.133	0
+P	Wittenheim		FR		47.811	7.328	0
+P	Herisau		CH		47.386	9.279	0
+P	Wendlingen am Neckar		DE		48.671	9.376	0
+P	Zürich (Kreis 10) / Wipkingen	zurich kreis 10 wipkingen	CH		47.395	8.525	0
+P	Steffisburg		CH		46.778	7.632	0
+P	Morges		CH		46.511	6.499	0
+P	Galliate		IT		45.479	8.698	0
+P	Yutz		FR		49.356	6.193	0
+P	Riegelsberg		DE		49.300	6.933	0
+P	Klingenstein		DE		48.418	9.908	0
+P	Eberbach		DE		49.467	8.990	0
+P	Marbach am Neckar		DE		48.940	9.260	0
+P	Audincourt		FR		47.483	6.853	0
+P	Chiari		IT		45.538	9.927	0
+P	Zürich (Kreis 8)	zurich kreis 8	CH		47.355	8.561	0
+P	Hayange		FR		49.329	6.063	0
+P	Malnate		IT		45.794	8.881	0
+P	Illzach		FR		47.774	7.352	0
+P	Seen (Kreis 3)	seen kreis 3	CH		47.476	8.770	0
+P	Pont-à-Mousson	pont a mousson	FR		48.907	6.056	0
+P	Carate Brianza		IT		45.676	9.237	0
+P	Carugate		IT		45.550	9.340	0
+P	Ober-Ramstadt	ober ramstadt	DE		49.831	8.749	0
+P	Bürstadt	burstadt	DE		49.643	8.459	0
+P	Lauda-Königshofen	lauda konigshofen	DE		49.565	9.708	0
+P	Karlstadt		DE		49.960	9.772	0
+P	Freiberg am Neckar		DE		48.932	9.202	0
+P	Adliswil		CH		47.310	8.525	0
+P	Eggenstein-Leopoldshafen	eggenstein leopoldshafen	DE		49.090	8.399	0
+P	Schwyz		CH		47.021	8.654	0
+P	Dieburg		DE		49.897	8.846	0
+P	Bludenz		AT		47.155	9.823	0
+P	Brackenheim		DE		49.078	9.066	0
+P	Künzelsau	kunzelsau	DE		49.282	9.684	0
+P	Trossingen		DE		48.077	8.644	0
+P	Vaduz		LI		47.142	9.522	0

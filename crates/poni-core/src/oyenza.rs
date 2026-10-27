@@ -40,8 +40,9 @@ pub const ACTIVITY_EVERY_S: u64 = 15;
 /// and when the Health page opens: the phone sends them only while Oyenza is
 /// open on it.
 pub const HEALTH_EVERY_S: u64 = 15 * 60;
-/// Bills are asked for this many days ahead: Tomorrow, then Later.
-pub const BILLS_DAYS: u32 = 31;
+/// Bills are asked for this many days ahead: Tomorrow and Later on the
+/// Oyenza tab, and the five weeks on Today.
+pub const BILLS_DAYS: u32 = 35;
 /// A transaction that lands while the page is open glows this long.
 pub const GLOW_S: f64 = 60.0;
 /// Errors back off from a minute, doubling, up to this.
@@ -919,7 +920,7 @@ mod tests {
         assert_eq!(money_url(Some("123"), "+07:00"), "https://api.oyenza.app/island/money?since=123&tz=%2B07%3A00&kinds=all");
         assert_eq!(activity_url("+07:00", None), "https://api.oyenza.app/island/activity?tz=%2B07%3A00&days=7");
         assert_eq!(activity_url("+07:00", Some("9")), "https://api.oyenza.app/island/activity?tz=%2B07%3A00&days=7&since=9");
-        assert_eq!(bills_url("-03:30"), "https://api.oyenza.app/island/bills?tz=-03%3A30&days=31");
+        assert_eq!(bills_url("-03:30"), "https://api.oyenza.app/island/bills?tz=-03%3A30&days=35");
         assert_eq!(undo_url("abc 1/2"), "https://api.oyenza.app/island/note/abc%201%2F2");
         let b: serde_json::Value = serde_json::from_str(&start_body("DESKTOP-7Q2K", "0.1.5", "windows")).unwrap();
         assert_eq!(b, serde_json::json!({ "app": "poni", "name": "DESKTOP-7Q2K", "version": "0.1.5", "platform": "windows" }));

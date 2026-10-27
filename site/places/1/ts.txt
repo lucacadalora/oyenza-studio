@@ -1,0 +1,85 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kinshasa	60	
+Z	1	Africa/Lome	0	
+Z	2	Africa/Lubumbashi	120	
+Z	3	America/Vancouver	-480	29549400=-420
+Z	4	Asia/Hong_Kong	480	
+Z	5	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	6	Asia/Tbilisi	240	
+Z	7	Asia/Thimphu	360	
+Z	8	Asia/Tokyo	540	
+Z	9	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	10	Europe/Moscow	180	
+C	BT	Bhutan	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	GE	Georgia	mwl	s
+C	HK	Hong Kong	mwl	s
+C	IL	Israel	mwl	s
+C	JP	Japan	mwl	s
+C	LS	Lesotho	egyptian	s
+C	MG	Madagascar	egyptian	s
+C	MN	Mongolia	mwl	s
+C	NA	Namibia	egyptian	s
+C	RU	Russia	mwl	s
+C	TG	Togo	egyptian	s
+C	UA	Ukraine	mwl	s
+C	ZA	South Africa	egyptian	s
+B	0
+P	Tshikapa		CD		-6.416	20.800	2
+P	Tseung Kwan O		HK		22.328	114.250	4
+P	Tsuen Wan		HK		22.371	114.113	4
+P	Tsu		JP		34.733	136.517	8
+P	Tsukuba		JP		36.083	140.117	8
+P	Bila Tserkva		UA		49.799	30.116	9
+P	Tsing Yi Town		HK		22.350	114.100	4
+P	Tsentralnyi		UA		47.098	37.548	9
+P	Tsuchiura		JP		36.090	140.210	8
+P	Tsuruoka		JP		38.722	139.822	8
+P	Tsaritsyno		RU		55.625	37.650	10
+P	Tsentralno-Miskyi	tsentralno miskyi	UA		48.302	38.032	9
+P	Tshilenge		CD		-10.967	22.900	2
+P	Tsuyama		JP		35.052	133.999	8
+P	Tsentralno-Miskyi	tsentralno miskyi	UA		48.062	37.972	9
+P	Tsubame		JP		37.664	138.925	8
+P	Tsurusaki		JP		33.245	131.692	8
+P	Tsurugashima		JP		35.960	139.403	8
+P	Tsuruga		JP		35.653	136.063	8
+P	Tsushima		JP		35.167	136.717	8
+P	Tshela		CD		-4.997	12.948	0
+P	Tsévié	tsevie	TG		6.426	1.213	1
+P	Tsukubamirai		JP		35.984	140.009	8
+P	Tsiroanomandidy		MG		-18.770	46.047	10
+P	Shimo-tsuma	shimo tsuma	JP		36.183	139.967	8
+P	Tsubata		JP		36.670	136.740	8
+P	Tsz Wan Shan		HK		22.352	114.200	4
+P	Tsuma		JP		32.100	131.400	8
+P	Tai Kok Tsui		HK		22.321	114.163	4
+P	Ts’khinvali	tskhinvali	GE		42.228	43.969	6
+P	Tsuru		JP		35.547	138.910	8
+P	Tsugaru		JP		40.804	140.403	8
+P	Tsiombe		MG		-25.300	45.483	10
+P	Tsushima		JP		34.206	129.291	8
+P	Tsaratanana		MG		-16.797	47.652	10
+P	Sham Tseng		HK		22.367	114.050	4
+P	Tsim Sha Tsui		HK		22.300	114.167	4
+P	Mevasseret Tsiyyon		IL		31.802	35.151	5
+P	Belo sur Tsiribihina		MG		-19.698	44.546	10
+P	Tsumeb		NA		-19.248	17.713	2
+P	Tsirang		BT		27.022	90.123	7
+P	Tsurugi-asahimachi	tsurugi asahimachi	JP		36.450	136.633	8
+P	Tsz Ching Estate		HK		22.351	114.201	4
+P	Tsukumiura		JP		33.075	131.869	8
+P	Tsetserleg		MN		47.475	101.454	4
+P	Tsawwassen		CA	British Columbia	49.017	-123.083	3
+P	Ha Tsuen		HK		22.447	113.992	4
+P	Tsuruda		JP		31.950	130.483	8
+P	Tshitereke		ZA		-22.884	30.494	2
+P	Tsukawaki		JP		33.277	131.156	8
+P	Tsuha		JP		26.658	128.094	8
+P	Tshiame		ZA		-28.331	28.991	2
+P	Tsuiki		JP		33.673	131.038	8
+P	Thaba-Tseka	thaba tseka	LS		-29.522	28.608	2
+P	Yeung Uk Tsuen		HK		22.450	114.017	4
+P	Tsotsin-Yurt	tsotsin yurt	RU		43.242	46.000	10
+P	Tsimlyansk		RU		47.648	42.093	10

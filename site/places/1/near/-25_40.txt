@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Indian/Antananarivo	180	
+C	MG	Madagascar	egyptian	s
+B	0
+P	Toliara		MG		-23.350	43.667	0
+P	Morondava		MG		-20.289	44.318	0
+P	Ampanihy		MG		-24.694	44.746	0
+P	Itampolo		MG		-24.683	43.950	0
+P	Betioky		MG		-23.721	44.381	0
+P	Ankazoabo		MG		-22.283	44.517	0
+P	Morombe		MG		-21.745	43.361	0
+P	Sakaraha		MG		-22.900	44.533	0

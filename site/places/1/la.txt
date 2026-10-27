@@ -1,0 +1,957 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Cairo	120	29616360=180 29888460=120 30150600=180 30412620=120 30674760=180 30936780=120 31198920=180 31460940=120 31723080=180 31995180=120 32247240=180 32519340=120 32781480=180 33043500=120 33305640=180 33567660=120 33829800=180 34091820=120 34353960=180 34615980=120 34878120=180 35150220=120 35402280=180 35674380=120 35936520=180 36198540=120 36460680=180 36722700=120 36984840=180 37246860=120 37509000=180 37781100=120 38033160=180 38305260=120 38557320=180 38829420=120 39091560=180 39353580=120 39615720=180 39877740=120
+Z	1	Africa/Conakry	0	
+Z	2	Africa/El_Aaiun	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Johannesburg	120	
+Z	4	Africa/Lagos	60	
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Edmonton	-420	29549340=-360
+Z	7	America/Guayaquil	-300	
+Z	8	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	9	America/La_Paz	-240	
+Z	10	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	11	America/Matamoros	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	12	America/Mazatlan	-420	
+Z	13	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	14	America/Sao_Paulo	-180	
+Z	15	America/Tegucigalpa	-360	
+Z	16	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	17	America/Vancouver	-480	29549400=-420
+Z	18	Asia/Baku	240	
+Z	19	Asia/Bangkok	420	
+Z	20	Asia/Damascus	180	
+Z	21	Asia/Dhaka	360	
+Z	22	Asia/Gaza	120	29577600=180 29879940=120 30101760=180 30414180=120 30625920=180 30938340=120 31150080=180 31462500=120 31684320=180 31986660=120 32208480=180 32510820=120 32732640=180 33045060=120 33256800=180 33569220=120 33780960=180 34093380=120 34305120=180 34617540=120 34839360=180 35131620=120 35363520=180 35645700=120 35887680=180 36149700=120 36411840=180 36663780=120 36936000=180 37167780=120 37238400=180 37248420=120 37470240=180 37681860=120 37742400=180 37772580=120 37994400=180 38195940=120 38256480=180 38296740=120 38518560=180 38699940=120 38770560=180 38820900=120 39042720=180 39214020=120 39274560=180 39355140=120 39566880=180 39728100=120 39788640=180 39879300=120
+Z	23	Asia/Kabul	270	
+Z	24	Asia/Karachi	300	
+Z	25	Asia/Kathmandu	345	
+Z	26	Asia/Kolkata	330	
+Z	27	Asia/Shanghai	480	
+Z	28	Asia/Tehran	210	
+Z	29	Asia/Yangon	390	
+Z	30	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	31	Australia/Hobart	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	32	Europe/Athens	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	33	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	34	Pacific/Fiji	720	
+Z	35	Pacific/Honolulu	-600	
+Z	36	Pacific/Port_Moresby	600	
+C	AD	Andorra	mwl	s
+C	AE	United Arab Emirates	dubai	s
+C	AF	Afghanistan	karachi	h
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	AZ	Azerbaijan	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BO	Bolivia	mwl	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CH	Switzerland	mwl	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CM	Cameroon	egyptian	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CY	Cyprus	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DO	Dominican Republic	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	EE	Estonia	mwl	s
+C	EG	Egypt	egyptian	s
+C	EH	Western Sahara	egyptian	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FI	Finland	mwl	s
+C	FJ	Fiji	mwl	s
+C	FR	France	mwl	s
+C	GA	Gabon	egyptian	s
+C	GB	United Kingdom	moonsighting	s
+C	GF	French Guiana	mwl	s
+C	GH	Ghana	egyptian	s
+C	GM	Gambia	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GQ	Equatorial Guinea	egyptian	s
+C	GR	Greece	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	HU	Hungary	mwl	s
+C	IE	Ireland	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JM	Jamaica	mwl	s
+C	KE	Kenya	egyptian	s
+C	LA	Laos	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LT	Lithuania	mwl	s
+C	MA	Morocco	egyptian	s
+C	MM	Myanmar	mwl	s
+C	MO	Macao	mwl	s
+C	MQ	Martinique	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NG	Nigeria	egyptian	s
+C	NI	Nicaragua	mwl	s
+C	NO	Norway	mwl	s
+C	NP	Nepal	mwl	s
+C	PA	Panama	mwl	s
+C	PE	Peru	mwl	s
+C	PG	Papua New Guinea	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	PS	Palestinian Territory	mwl	s
+C	PT	Portugal	mwl	s
+C	PY	Paraguay	mwl	s
+C	QA	Qatar	qatar	s
+C	RE	Reunion	egyptian	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SO	Somalia	egyptian	s
+C	SR	Suriname	mwl	s
+C	SV	El Salvador	mwl	s
+C	SY	Syria	egyptian	s
+C	TD	Chad	egyptian	s
+C	TH	Thailand	mwl	s
+C	TN	Tunisia	egyptian	s
+C	TT	Trinidad and Tobago	mwl	s
+C	TZ	Tanzania	egyptian	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	UY	Uruguay	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	YE	Yemen	ummalqura	s
+C	YT	Mayotte	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	5
+P	Lagos		NG		6.454	3.395	4
+P	Lahore		PK		31.558	74.351	24
+P	Lanzhou		CN		36.057	103.840	27
+P	La Paz		BO		-16.500	-68.150	9
+P	Santa Cruz de la Sierra		BO		-17.786	-63.181	9
+P	Laiwu		CN		36.193	117.657	27
+P	Laibin		CN		23.747	109.222	27
+P	Langfang		CN		39.521	116.715	27
+P	Latakia		SY		35.531	35.791	20
+P	Las Vegas		US	Nevada	36.175	-115.137	10
+P	Las Piñas	las pinas	PH		14.451	120.983	27
+P	Kampung Larkin Lama		MY		1.502	103.744	27
+P	Lapu-Lapu City	lapu lapu city	PH		10.310	123.949	27
+P	Laval		CA	Quebec	45.570	-73.692	16
+P	Nuevo Laredo		MX		27.476	-99.516	11
+P	Las Palmas de Gran Canaria		ES		28.102	-15.416	30
+P	Latur		IN		18.397	76.568	26
+P	Puerto La Cruz		VE		10.214	-64.633	9
+P	Larkana		PK		27.559	68.212	24
+P	Laixi		CN		36.859	120.527	27
+P	Marne La Vallée	marne la vallee	FR		48.836	2.642	33
+P	Gia Lâm	gia lam	VN		21.020	105.939	19
+P	Lal Bahadur Nagar		IN		17.348	78.558	26
+P	Ðà Lạt	da lat	VN		11.946	108.442	19
+P	Latina		ES		40.389	-3.746	33
+P	Laredo		US	Texas	27.506	-99.508	11
+P	Laohekou		CN		32.386	111.668	27
+P	La Paz		MX		24.142	-110.313	12
+P	North Las Vegas		US	Nevada	36.199	-115.118	10
+P	Sete Lagoas		BR		-19.466	-44.247	14
+P	La Ceiba		HN		15.760	-86.782	15
+P	Dehiwala-Mount Lavinia	dehiwala mount lavinia	LK		6.840	79.871	26
+P	La Ceiba		HN		15.767	-86.833	15
+P	San Cristóbal de las Casas	san cristobal de las casas	MX		16.730	-92.638	15
+P	Salt Lake City		US	Utah	40.761	-111.891	5
+P	Jerez de la Frontera		ES		36.686	-6.136	33
+P	Lanús	lanus	AR		-34.708	-58.391	14
+P	Cao Lãnh	cao lanh	VN		10.460	105.633	19
+P	La Romana		DO		18.423	-68.966	9
+P	Latacunga		EC		-0.934	-78.615	7
+P	Las Tunas		CU		20.961	-76.952	8
+P	Lauro de Freitas		BR		-12.894	-38.327	14
+P	La Pintana		CL		-33.583	-70.634	13
+P	Lạng Sơn	lang son	VN		21.853	106.761	19
+P	Laayoune		EH		27.142	-13.188	2
+P	Ciudad Lázaro Cárdenas	ciudad lazaro cardenas	MX		17.963	-102.199	15
+P	La Plata		AR		-34.921	-57.954	14
+P	Laizhou		CN		37.181	119.942	27
+P	Shangri-La	shangri la	CN		27.825	99.708	27
+P	Fort Lauderdale		US	Florida	26.122	-80.143	16
+P	La Rioja		AR		-29.413	-66.856	14
+P	Lander		VE		10.183	-66.700	9
+P	Latkrabang		TH		13.728	100.746	19
+P	Lang'ata	langata	KE		-1.367	36.733	20
+P	Castelló de la Plana	castello de la plana	ES		39.986	-0.049	33
+P	Laiyang		CN		36.976	120.714	27
+P	Lages		BR		-27.816	-50.326	14
+P	Lajeado		BR		-23.534	-46.409	14
+P	Lat Krabang		TH		13.722	100.785	19
+P	Lancaster		US	California	34.698	-118.137	10
+P	La Gi		VN		10.660	107.772	19
+P	San Pablo de las Salinas		MX		19.667	-99.095	15
+P	Lampang		TH		18.292	99.493	19
+P	San Martin Texmelucan de Labastida		MX		19.284	-98.439	15
+P	Tetuán de las Victorias	tetuan de las victorias	ES		40.460	-3.697	33
+P	La Serena		CL		-29.906	-71.250	13
+P	Valle de La Pascua		VE		9.216	-66.007	9
+P	Lakewood		US	Colorado	39.705	-105.081	5
+P	Layyah		PK		30.961	70.939	24
+P	La Laguna		ES		28.485	-16.320	30
+P	Balcón de la Lisa	balcon de la lisa	CU		23.053	-82.448	8
+P	Lárisa	larisa	GR		39.628	22.421	32
+P	Rosemont–La Petite-Patrie	rosemont la petite patrie	CA	Quebec	45.537	-73.607	16
+P	Huyện Lâm Hà	huyen lam ha	VN		11.816	108.214	19
+P	Ladysmith		ZA		-28.559	29.779	3
+P	Cai Lậy	cai lay	VN		10.400	106.117	19
+P	La Trinidad		PH		16.455	120.588	27
+P	Lakhīmpur	lakhimpur	IN		27.948	80.779	26
+P	Plaza de la Revolución	plaza de la revolucion	CU		23.119	-82.392	8
+P	Lausanne		CH		46.516	6.633	33
+P	Larache		MA		35.193	-6.156	2
+P	Campo Largo		BR		-25.460	-49.530	14
+P	Laghouat		DZ		33.800	2.865	4
+P	Langley		CA	British Columbia	49.101	-122.659	17
+P	Lashio		MM		22.936	97.750	29
+P	Lào Cai	lao cai	VN		22.486	103.971	19
+P	Lafia		NG		8.494	8.515	4
+P	La Victoria		VE		10.227	-67.331	9
+P	Lalitpur		IN		24.690	78.419	26
+P	Lambaré	lambare	PY		-25.347	-57.606	14
+P	Haveli Lakha		PK		30.451	73.694	24
+P	Lat Phrao		TH		13.803	100.607	19
+P	San Pedro de la Paz		CL		-36.839	-73.100	13
+P	Lahti		FI		60.983	25.662	32
+P	Lafayette		US	Louisiana	30.224	-92.020	11
+P	La Concepción	la concepcion	VE		10.619	-71.838	9
+P	Fernando de la Mora		PY		-25.339	-57.522	14
+P	Iguala de la Independencia		MX		18.345	-99.541	15
+P	Lasnamäe	lasnamae	EE		59.434	24.860	32
+P	Lansing		US	Michigan	42.733	-84.556	16
+P	Laoag		PH		18.198	120.596	27
+P	Conselheiro Lafaiete		BR		-20.660	-43.786	14
+P	Set Ka Lay		MM		16.814	96.114	29
+P	Lak Si		TH		13.887	100.579	19
+P	Thới Lai	thoi lai	VN		10.065	105.559	19
+P	La Cité-Limoilou	la cite limoilou	CA	Quebec	46.829	-71.226	16
+P	Labé	labe	GN		11.318	-12.283	1
+P	Catia La Mar		VE		10.605	-67.032	9
+P	Sơn La	son la	VN		21.326	103.919	19
+P	Lahad Datu		MY		5.023	118.329	27
+P	Lavras		BR		-21.245	-45.000	14
+P	Lakeland		US	Florida	28.039	-81.950	16
+P	Lahān	lahan	NP		26.720	86.483	25
+P	Lafiagi		NG		8.853	5.416	4
+P	La Vega		DO		19.220	-70.531	9
+P	Lampa		CL		-33.286	-70.876	13
+P	Las Cruces		US	New Mexico	32.312	-106.778	5
+P	Lagarto		BR		-10.917	-37.650	14
+P	Lāhījān	lahijan	IR		37.204	50.009	28
+P	Saint-Laurent	saint laurent	CA	Quebec	45.500	-73.666	16
+P	Landstraße	landstrasse	AT		48.202	16.388	33
+P	Lagos de Moreno		MX		21.359	-101.933	15
+P	Rio Largo		BR		-9.478	-35.853	14
+P	Lawton		US	Oklahoma	34.609	-98.390	11
+P	Las Rozas de Madrid		ES		40.493	-3.874	33
+P	La Habana Vieja		CU		23.130	-82.353	8
+P	Saint-Michel de l'Atalaye	saint michel de latalaye	HT		19.371	-72.335	16
+P	Labuan		MY		5.280	115.248	27
+P	La Gazelle		TN		36.895	10.186	4
+P	Lawrence		US	Kansas	38.972	-95.235	11
+P	Lajeado		BR		-29.467	-51.961	14
+P	La Spezia		IT		44.103	9.824	33
+P	La Marsa		TN		36.878	10.325	4
+P	Launceston		AU	Tasmania	-41.439	147.135	31
+P	Ústí nad Labem	usti nad labem	CZ		50.661	14.032	33
+P	Lankaran		AZ		38.754	48.851	18
+P	Talavera de la Reina		ES		39.963	-4.831	33
+P	La Haute-Saint-Charles	la haute saint charles	CA	Quebec	46.890	-71.372	16
+P	Sugar Land		US	Texas	29.620	-95.635	11
+P	San Ramón de la Nueva Orán	san ramon de la nueva oran	AR		-23.137	-64.324	14
+P	Lakang		MM		24.661	97.189	29
+P	Laojunmiao		CN		39.833	97.733	27
+P	Chiclana de la Frontera		ES		36.420	-6.144	33
+P	La Piedad de Cabadas		MX		20.341	-102.023	15
+P	La Villa del Rosario		VE		10.326	-72.313	9
+P	Lake Forest		US	California	33.647	-117.689	10
+P	Lākshām	laksham	BD		23.240	91.121	21
+P	La Dorada		CO		5.448	-74.663	7
+P	Lakewood		US	California	33.854	-118.134	10
+P	Lambayong		PH		6.519	125.044	27
+P	Lalupon		NG		7.468	4.066	4
+P	Largo		US	Florida	27.910	-82.788	16
+P	Lai Vung		VN		10.257	105.593	19
+P	Lawrence		US	Massachusetts	42.707	-71.163	16
+P	Marburg an der Lahn		DE		50.809	8.771	33
+P	Três Lagoas	tres lagoas	BR		-20.788	-51.703	9
+P	Sirs al Layyānah	sirs al layyanah	EG		30.443	30.970	0
+P	Pok Fu Lam		HK		22.269	114.129	27
+P	La Rochelle		FR		46.163	-1.152	33
+P	La Louvière	la louviere	BE		50.487	4.188	33
+P	Latina		IT		41.466	12.904	33
+P	Lae		PG		-6.723	146.996	36
+P	Lake Charles		US	Louisiana	30.213	-93.204	11
+P	La Libertad		EC		-2.233	-80.910	7
+P	Lapa		BR		-23.524	-46.707	14
+P	Lagoa Santa		BR		-19.630	-43.901	14
+P	Silao de la Victoria		MX		20.944	-101.427	15
+P	Layton		US	Utah	41.060	-111.971	5
+P	South Lawndale		US	Illinois	41.844	-87.713	11
+P	Lanxi		CN		29.216	119.472	27
+P	San Juan de la Maguana		DO		18.806	-71.226	9
+P	Lappeenranta		FI		61.059	28.189	32
+P	Padre Las Casas		CL		-38.761	-72.598	13
+P	Lanxi		CN		46.258	126.281	27
+P	Larnaca		CY		34.922	33.628	32
+P	La Paz		PH		15.441	120.729	27
+P	Landshut		DE		48.530	12.162	33
+P	Lauderhill		US	Florida	26.140	-80.213	16
+P	Lafayette		US	Indiana	40.417	-86.875	16
+P	Lahraouyine		MA		33.541	-7.528	2
+P	Lamezia Terme		IT		38.963	16.309	33
+P	Las Piedras		UY		-34.730	-56.219	14
+P	Las Cumbres		PA		9.092	-79.539	7
+P	Langarūd	langarud	IR		37.195	50.153	28
+P	La Carlota		PH		10.424	122.921	27
+P	La Mohammedia		TN		36.674	10.156	4
+P	Vilanova i la Geltrú	vilanova i la geltru	ES		41.224	1.725	33
+P	Laguna Niguel		US	California	33.523	-117.708	10
+P	Lādnūn	ladnun	IN		27.653	74.400	26
+P	Bom Jesus da Lapa		BR		-13.255	-43.418	14
+P	Lala Musa		PK		32.701	73.957	24
+P	Lalmonirhat		BD		25.917	89.446	21
+P	La Línea de la Concepción	la linea de la concepcion	ES		36.168	-5.348	33
+P	La Seyne-sur-Mer	la seyne sur mer	FR		43.103	5.878	33
+P	La Habra		US	California	33.932	-117.946	10
+P	Sagua la Grande		CU		22.806	-80.074	8
+P	Lār	lar	IR		27.683	54.342	28
+P	Lake Elsinore		US	California	33.668	-117.327	10
+P	Labinsk		RU		44.636	40.736	20
+P	Lakshmīpur	lakshmipur	BD		22.944	90.830	21
+P	La Fría	la fria	VE		8.215	-72.249	9
+P	La Chorrera		PA		8.878	-79.780	7
+P	Ban Lam Luk Ka		TH		13.977	100.778	19
+P	Lakeville		US	Minnesota	44.650	-93.243	11
+P	Langzhong		CN		31.550	105.994	27
+P	Laascaanood		SO		8.477	47.360	20
+P	La Mesa		US	California	32.768	-117.023	10
+P	Martínez de la Torre	martinez de la torre	MX		20.071	-97.061	15
+P	North Lakhimpur		IN		27.235	94.104	26
+P	Lakewood		US	Washington	47.172	-122.518	10
+P	La Roche-sur-Yon	la roche sur yon	FR		46.670	-1.428	33
+P	Lancaster		US	Pennsylvania	40.038	-76.306	16
+P	Langenfeld		DE		51.108	6.948	33
+P	Langtoucun		CN		40.041	124.335	27
+P	Larbaâ	larbaa	DZ		36.565	3.154	4
+P	la Nova Esquerra de l'Eixample	la nova esquerra de leixample	ES		41.383	2.149	33
+P	Langxiang		CN		46.950	128.868	27
+P	Bayt Lāhyā	bayt lahya	PS		31.546	34.495	22
+P	La Dolorita		VE		10.488	-66.786	9
+P	Oak Lawn		US	Illinois	41.711	-87.758	11
+P	Woluwe-Saint-Lambert	woluwe saint lambert	BE		50.844	4.429	33
+P	Kendale Lakes		US	Florida	25.708	-80.407	16
+P	Lāharpur	laharpur	IN		27.708	80.903	26
+P	Chicago Lawn		US	Illinois	41.775	-87.696	11
+P	Lanshan		CN		33.936	117.725	27
+P	Hulu Langat		MY		3.114	101.814	27
+P	San José de las Lajas	san jose de las lajas	CU		22.961	-82.152	8
+P	Pontes e Lacerda		BR		-15.226	-59.335	9
+P	Bandar Labuan		MY		5.283	115.254	27
+P	Lakewood		US	New Jersey	40.098	-74.218	16
+P	Jardines de la Silla		MX		25.629	-100.188	15
+P	Lake Havasu City		US	Arizona	34.484	-114.322	12
+P	Brive-la-Gaillarde	brive la gaillarde	FR		45.159	1.533	33
+P	Laxmangarh		IN		27.823	75.028	26
+P	Lahbab		AE		25.038	55.591	18
+P	Lalian		PK		31.825	72.801	24
+P	Lautoka		FJ		-17.617	177.450	34
+P	La Crosse		US	Wisconsin	43.801	-91.240	11
+P	Ban Lak Song		TH		13.689	100.398	19
+P	Lamía	lamia	GR		38.899	22.433	32
+P	Lagoa da Prata		BR		-20.023	-45.544	14
+P	Las Águilas	las aguilas	ES		40.382	-3.771	33
+P	Lakewood		CA	Saskatchewan	52.108	-106.590	15
+P	la Vila de Gràcia	la vila de gracia	ES		41.403	2.157	33
+P	Lahr		DE		48.340	7.869	33
+P	Lakewood		US	Ohio	41.482	-81.798	16
+P	Laval		FR		48.072	-0.770	33
+P	North La Crosse		US	Wisconsin	43.846	-91.248	11
+P	Langenhagen		DE		52.448	9.737	33
+P	La Calera		CL		-32.787	-71.198	13
+P	Barriera di Lanzo		IT		45.110	7.651	33
+P	Kuchai Lama		MY		3.085	101.691	27
+P	San Luis de la Paz		MX		21.298	-100.515	15
+P	La Mirada		US	California	33.917	-118.012	10
+P	La Estrella		CO		6.158	-75.643	7
+P	Lashibi		GH		5.685	-0.040	1
+P	Hacienda La Calera		CL		-32.783	-71.217	13
+P	Lábrea	labrea	BR		-7.264	-64.796	9
+P	San Juan de los Lagos		MX		21.249	-102.330	15
+P	East Lansing		US	Michigan	42.737	-84.484	16
+P	Lawrence		US	Indiana	39.839	-86.025	16
+P	Lancaster		GB	England	54.046	-2.800	30
+P	Laguna		US	California	38.421	-121.424	10
+P	Lambaréné	lambarene	GA		-0.700	10.241	4
+P	Langford		CA	British Columbia	48.450	-123.503	17
+P	Lacey		US	Washington	47.034	-122.823	10
+P	Langenhorn		DE		53.667	10.017	33
+P	La Lima		HN		15.433	-87.917	15
+P	La Goulette		TN		36.819	10.306	4
+P	West Lafayette		US	Indiana	40.426	-86.908	16
+P	Lapa		BR		-25.770	-49.716	14
+P	Lavapiés	lavapies	ES		40.408	-3.701	33
+P	Lago da Pedra		BR		-4.560	-45.132	14
+P	Mantes-la-Jolie	mantes la jolie	FR		48.990	1.717	33
+P	Lagunillas		VE		10.130	-71.259	9
+P	Ust’-Labinsk	ust labinsk	RU		45.214	39.688	20
+P	Souq Larb’a al Gharb	souq larba al gharb	MA		34.687	-6.003	2
+P	Faya-Largeau	faya largeau	TD		17.926	19.104	4
+P	L'Amoreaux	lamoreaux	CA	Ontario	43.796	-79.314	16
+P	Lashkar Gāh	lashkar gah	AF		31.594	64.372	23
+P	Lambayeque		PE		-6.701	-79.906	7
+P	North Lauderdale		US	Florida	26.217	-80.226	16
+P	Lankwitz		DE		52.436	13.346	33
+P	Hoàn Lão	hoan lao	VN		17.584	106.534	19
+P	Las Tejerías	las tejerias	VE		10.254	-67.173	9
+P	Lamphun		TH		18.581	99.007	19
+P	Möng La	mong la	MM		21.671	100.013	29
+P	Lai Châu	lai chau	VN		22.396	103.458	19
+P	Fond du Lac		US	Wisconsin	43.775	-88.439	11
+P	Lakhdaria		DZ		36.565	3.593	4
+P	La Jolla		US	California	32.847	-117.274	10
+P	Laguna		BR		-28.483	-48.781	14
+P	Las Choapas		MX		17.912	-94.096	15
+P	Lālmohan	lalmohan	BD		22.338	90.737	21
+P	l'Antiga Esquerra de l'Eixample	lantiga esquerra de leixample	ES		41.389	2.155	33
+P	Mount Laurel		US	New Jersey	39.934	-74.891	16
+P	Carmen De La Legua Reynoso		PE		-12.054	-77.098	7
+P	Laatzen		DE		52.315	9.797	33
+P	La Orotava		ES		28.391	-16.523	30
+P	Lago Norte		BR		-15.739	-47.857	14
+P	Tazoult-Lambese	tazoult lambese	DZ		35.482	6.261	4
+P	Landau in der Pfalz		DE		49.198	8.117	33
+P	Laisu		CN		29.266	105.778	27
+P	Lat Yao		TH		13.847	100.564	19
+P	Saint-Germain-en-Laye	saint germain en laye	FR		48.896	2.090	33
+P	Lake Ridge		US	Virginia	38.688	-77.298	16
+P	La Unión	la union	CO		4.533	-76.103	7
+P	La Puente		US	California	34.020	-117.950	10
+P	Le Lamentin		MQ		14.613	-61.000	9
+P	La Quinta		US	California	33.663	-116.310	10
+P	Crystal Lake		US	Illinois	42.241	-88.316	11
+P	Káto Lakatámeia	kato lakatameia	CY		35.118	33.325	32
+P	Langepas		RU		61.254	75.212	24
+P	Trenque Lauquen		AR		-35.973	-62.733	14
+P	Lancaster		US	Ohio	39.714	-82.599	16
+P	Ladhewala Waraich		PK		32.157	74.116	24
+P	Lakkanahalli		IN		12.112	78.154	26
+P	Bang Lamung		TH		13.047	100.929	19
+P	Lajedo		BR		-8.664	-36.320	14
+P	Lalibela		ET		12.032	39.048	20
+P	Aliamanu / Salt Lakes / Foster Village	aliamanu salt lakes foster village	US	Hawaii	21.360	-157.918	35
+P	Lancaster		US	Texas	32.592	-96.756	11
+P	Langen		DE		49.990	8.669	33
+P	West Oak Lane		US	Pennsylvania	40.069	-75.166	16
+P	Rincón de la Victoria	rincon de la victoria	ES		36.717	-4.276	33
+P	Lake Oswego		US	Oregon	45.421	-122.671	10
+P	el Camp de l'Arpa del Clot	el camp de larpa del clot	ES		41.412	2.182	33
+P	Lasoano		ET		6.255	45.385	20
+P	Las Guacamayas		MX		18.019	-102.210	15
+P	La Chaux-de-Fonds	la chaux de fonds	CH		47.100	6.826	33
+P	La Grita		VE		8.133	-71.984	9
+P	Boma la Ngombe		TZ		-3.333	37.150	20
+P	Braine-l'Alleud	braine lalleud	BE		50.684	4.368	33
+P	Lake Worth Beach		US	Florida	26.617	-80.072	16
+P	La Courneuve		FR		48.928	2.396	33
+P	Lālganj	lalganj	IN		25.869	85.174	26
+P	Lagkadás	lagkadas	GR		40.750	23.067	32
+P	Laval-des-Rapides	laval des rapides	CA	Quebec	45.556	-73.700	16
+P	Grand-Lahou	grand lahou	CI		5.138	-5.021	1
+P	Lanka		IN		25.929	92.949	26
+P	Lakshmeshwar		IN		15.127	75.469	26
+P	La Ceja		CO		6.031	-75.433	7
+P	Lakki		PK		32.607	70.912	24
+P	La Troncal		EC		-2.425	-79.342	7
+P	La Rinconada		ES		37.486	-5.981	33
+P	Labranza		CL		-38.765	-72.753	13
+P	Lahār	lahar	IN		26.194	78.941	26
+P	Langao Chengguanzhen		CN		32.300	108.893	27
+P	Egypt Lake-Leto	egypt lake leto	US	Florida	28.018	-82.506	16
+P	North Lawndale		US	Illinois	41.860	-87.718	11
+P	La Possession		RE		-20.929	55.335	18
+P	Santiago de las Vegas		CU		22.970	-82.387	8
+P	La Barca		MX		20.290	-102.542	15
+P	La Porte		US	Texas	29.666	-95.019	11
+P	Alhaurín de la Torre	alhaurin de la torre	ES		36.664	-4.561	33
+P	Laranjal do Jari		BR		-0.826	-52.506	14
+P	La Asunción	la asuncion	VE		11.033	-63.863	9
+P	Lage		DE		51.992	8.793	33
+P	Sungai Lalang		MY		5.700	100.514	27
+P	La Unión	la union	PE		-5.402	-80.742	7
+P	Lauderdale Lakes		US	Florida	26.166	-80.208	16
+P	La Vergne		US	Tennessee	36.016	-86.582	11
+P	Lanciano		IT		42.227	14.390	33
+P	La Guardia		VE		10.997	-64.018	9
+P	La Vela de Coro		VE		11.461	-69.566	9
+P	Lawson		CA	Saskatchewan	52.164	-106.639	15
+P	Nong Bua Lamphu		TH		17.204	102.441	19
+P	Lālsot	lalsot	IN		26.560	76.329	26
+P	Lautaro		CL		-38.531	-72.437	13
+P	Ladispoli		IT		41.951	12.075	33
+P	La Presa		US	California	32.708	-116.997	10
+P	West Lake Sammamish		US	Washington	47.578	-122.101	10
+P	Limburg an der Lahn		DE		50.384	8.050	33
+P	Parras de la Fuente		MX		25.442	-102.178	15
+P	L'Aquila	laquila	IT		42.351	13.400	33
+P	Fair Lawn		US	New Jersey	40.940	-74.132	16
+P	Lagdo		CM		9.058	13.666	4
+P	Lagos		PT		37.102	-8.674	30
+P	Lawndale		US	California	33.887	-118.353	10
+P	La Sebala du Mornag		TN		36.679	10.292	4
+P	La Oroya		PE		-11.519	-75.899	7
+P	Lakhyabad		IN		23.667	86.667	26
+P	Thị Trấn Lam Sơn	thi tran lam son	VN		19.905	105.406	19
+P	La Ciotat		FR		43.175	5.604	33
+P	Laâttaouia	laattaouia	MA		31.835	-7.314	2
+P	São Lázaro	sao lazaro	CN		22.200	113.549	27
+P	Silver Lake		US	California	34.087	-118.270	10
+P	West Lawn		US	Illinois	41.773	-87.722	11
+P	LaSalle		CA	Ontario	42.245	-83.061	16
+P	La Verne		US	California	34.101	-117.768	10
+P	Lampertheim		DE		49.598	8.473	33
+P	Lakota		CI		5.848	-5.682	1
+P	Landskrona		SE		55.871	12.830	33
+P	Laranjeiras do Sul		BR		-25.408	-52.416	14
+P	Puerto de la Cruz		ES		28.417	-16.551	30
+P	La Paz		ES		40.481	-3.697	33
+P	Centro Familiar la Soledad		MX		21.135	-101.750	15
+P	Laramie		US	Wyoming	41.311	-105.591	5
+P	La Ligua		CL		-32.452	-71.231	13
+P	Langendreer		DE		51.460	7.326	33
+P	Land O' Lakes	land o lakes	US	Florida	28.219	-82.458	16
+P	Laguna Hills		US	California	33.613	-117.713	10
+P	Láng Thượng	lang thuong	VN		21.024	105.804	19
+P	Dún Laoghaire	dun laoghaire	IE		53.294	-6.136	30
+P	Arcos de la Frontera		ES		36.751	-5.811	33
+P	Lazdynai		LT		54.668	25.207	32
+P	Miami Lakes		US	Florida	25.909	-80.309	16
+P	East Lake		US	Florida	28.111	-82.695	16
+P	Lakeside		US	Florida	30.130	-81.768	16
+P	Ladybrand		ZA		-29.194	27.457	3
+P	Lake Stevens		US	Washington	48.015	-122.064	10
+P	Miguel Alemán (La Doce)	miguel aleman la doce	MX		28.840	-111.478	12
+P	Lavras da Mangabeira		BR		-6.753	-38.964	14
+P	Lahat		MY		4.539	101.037	27
+P	L’Arbaa Naït Irathen	larbaa nait irathen	DZ		36.631	4.199	4
+P	Lawrenceville		US	Georgia	33.956	-83.988	16
+P	la Marina de Port		ES		41.360	2.140	33
+P	Lazarevskoye		RU		43.909	39.331	20
+P	Lardjem		DZ		35.749	1.548	4
+P	Las Animas		CL		-39.809	-73.218	13
+P	Laplace		US	Louisiana	30.067	-90.481	11
+P	Laylá	layla	SA		22.292	46.724	20
+P	La Rinconada		PE		-14.631	-69.446	7
+P	Labutta		MM		16.149	94.759	29
+P	LaGrange		US	Georgia	33.039	-85.031	16
+P	Lākheri	lakheri	IN		25.672	76.177	26
+P	Lawksawk		MM		21.248	96.867	29
+P	Latour		SR		5.797	-55.209	14
+P	Louvain-la-Neuve	louvain la neuve	BE		50.668	4.614	33
+P	Saint-Laurent-du-Var	saint laurent du var	FR		43.673	7.190	33
+P	Boon Lay		SG		1.311	103.694	27
+P	Lamerd		IR		27.334	53.179	28
+P	Rosario de la Frontera		AR		-25.799	-64.974	14
+P	la Verneda i la Pau		ES		41.424	2.203	33
+P	Layka		CN		37.077	79.732	21
+P	Lake in the Hills		US	Illinois	42.182	-88.330	11
+P	Lādwa	ladwa	IN		29.994	77.046	26
+P	La Salud		CU		22.874	-82.420	8
+P	La Sagrera		ES		41.423	2.186	33
+P	Laon		FR		49.563	3.627	33
+P	Lambersart		FR		50.650	3.033	33
+P	Lake Magdalene		US	Florida	28.074	-82.472	16
+P	Lamin		GM		13.352	-16.434	1
+P	Lālgola	lalgola	IN		24.422	88.252	26
+P	Lansing		US	Illinois	41.565	-87.539	11
+P	La Garde		FR		43.125	6.010	33
+P	Lagunillas		VE		8.505	-71.389	9
+P	Rillieux-la-Pape	rillieux la pape	FR		45.817	4.900	33
+P	Labasa		FJ		-16.433	179.365	34
+P	Round Lake Beach		US	Illinois	42.372	-88.090	11
+P	Morón de la Frontera	moron de la frontera	ES		37.121	-5.454	33
+P	Lagoa Seca		BR		-7.171	-35.854	14
+P	Lafayette		US	Colorado	39.994	-105.090	5
+P	Lagoa Vermelha		BR		-28.209	-51.526	14
+P	Lake Jackson		US	Texas	29.034	-95.434	11
+P	Lambari d'Oeste	lambari doeste	BR		-15.323	-58.004	9
+P	Cisterna di Latina		IT		41.591	12.828	33
+P	Lancy		CH		46.190	6.114	33
+P	La Teste-de-Buch	la teste de buch	FR		44.633	-1.145	33
+P	Laitumkhrah		IN		25.571	91.898	26
+P	La Tebaida		CO		4.453	-75.787	7
+P	Laï	lai	TD		9.397	16.301	4
+P	Labytnangi		RU		66.657	66.418	24
+P	La Peca		PE		-5.611	-78.435	7
+P	Landsberg am Lech		DE		48.048	10.883	33
+P	Lātehār	latehar	IN		23.744	84.500	26
+P	Las Breñas	las brenas	AR		-27.088	-61.082	14
+P	Horn Lake		US	Mississippi	34.955	-90.035	11
+P	La Joya		MX		32.444	-117.004	10
+P	La Unión	la union	SV		13.339	-87.843	15
+P	La Iguala		HN		14.617	-88.467	15
+P	La Mesa		CO		5.267	-73.917	7
+P	Lar		IN		26.204	83.969	26
+P	Albano Laziale		IT		41.727	12.659	33
+P	Las Pintitas		MX		20.564	-103.302	15
+P	Lauf an der Pegnitz		DE		49.514	11.282	33
+P	Sant Andreu de la Barca		ES		41.447	1.972	33
+P	La Garenne-Colombes	la garenne colombes	FR		48.905	2.247	33
+P	La Unión	la union	CL		-40.293	-73.082	13
+P	Laranjal Paulista		BR		-23.050	-47.837	14
+P	Lago Sul		BR		-15.846	-47.884	14
+P	Laurel		US	Maryland	39.099	-76.848	16
+P	la Prosperitat		ES		41.443	2.182	33
+P	South Laurel		US	Maryland	39.070	-76.850	16
+P	São José da Lapa	sao jose da lapa	BR		-19.700	-43.960	14
+P	Buenaventura Lakes		US	Florida	28.336	-81.353	16
+P	Lawas		MY		4.860	115.409	27
+P	La Virginia		CO		4.900	-75.882	7
+P	La Oliva		ES		28.611	-13.929	30
+P	Lafayette		US	California	37.886	-122.118	10
+P	La Bonanova		ES		41.406	2.132	33
+P	Villanueva de la Serena		ES		38.977	-5.797	33
+P	Lapão	lapao	BR		-11.383	-41.832	14
+P	Vilapicina i la Torre Llobeta		ES		41.429	2.174	33
+P	Lamu		KE		-2.272	40.902	20
+P	Nanchital de Lázaro Cárdenas del Río	nanchital de lazaro cardenas del rio	MX		18.071	-94.408	15
+P	Prior Lake		US	Minnesota	44.713	-93.423	11
+P	La Guaira		VE		10.602	-66.933	9
+P	White Bear Lake		US	Minnesota	45.085	-93.010	11
+P	Las Flores		AR		-36.014	-59.100	14
+P	Lady Frere		ZA		-31.703	27.233	3
+P	Lainate		IT		45.572	9.027	33
+P	La Banda		PE		-6.493	-76.342	7
+P	La Calera		AR		-31.346	-64.338	14
+P	South Salt Lake		US	Utah	40.719	-111.888	5
+P	Lanaken		BE		50.893	5.647	33
+P	Las Heras		AR		-46.541	-68.932	14
+P	La Paz		AR		-30.742	-59.645	14
+P	Laredo		PE		-8.090	-78.960	7
+P	Lami		FJ		-18.111	178.409	34
+P	La Isla		MX		18.600	-96.150	15
+P	Bruay-la-Buissière	bruay la buissiere	FR		50.483	2.550	33
+P	Laitan		CN		30.176	106.486	27
+P	La Castellana		PH		10.324	123.022	27
+P	Lanester		FR		47.763	-3.339	33
+P	La Unión	la union	AR		-34.876	-58.542	14
+P	Saint-Laurent-du-Maroni	saint laurent du maroni	GF		5.502	-54.029	14
+P	Lawndale		US	Pennsylvania	40.050	-75.092	16
+P	Lagoa Grande		BR		-8.997	-40.272	14
+P	la Maternitat i Sant Ramon		ES		41.381	2.117	33
+P	La Gomera		GT		14.082	-91.054	15
+P	Mỹ Lại	my lai	VN		15.188	108.889	19
+P	Laranjeiras		BR		-10.806	-37.170	14
+P	Lalgudi		IN		10.874	78.819	26
+P	Lālganj	lalganj	IN		25.932	81.705	26
+P	Latri Kunda		GM		13.449	-16.685	1
+P	Lanyang		CN		19.461	109.660	27
+P	Min Ga Lar Don Zay		MM		16.923	96.116	29
+P	La Madeleine		FR		50.646	3.076	33
+P	Lazarevac		RS		44.385	20.256	33
+P	La Paz Centro		NI		12.340	-86.675	15
+P	Avon Lake		US	Ohio	41.505	-82.028	16
+P	Laukkai		MM		23.696	98.762	29
+P	María la Baja	maria la baja	CO		9.983	-75.302	7
+P	Laḩij	lahij	YE		13.057	44.882	20
+P	Laguna Beach		US	California	33.542	-117.783	10
+P	La Prairie		CA	Quebec	45.417	-73.499	16
+P	Ladang Seri Kundang		MY		3.286	101.519	27
+P	Lalor		AU	Victoria	-37.667	145.017	31
+P	La Valette-du-Var	la valette du var	FR		43.138	5.983	33
+P	Lalganj		IN		25.799	82.998	26
+P	Larvik		NO		59.053	10.035	33
+P	La Mornaghia		TN		36.759	10.017	4
+P	Landover		US	Maryland	38.934	-76.897	16
+P	Ladner		CA	British Columbia	49.089	-123.082	17
+P	Ladera Ranch		US	California	33.571	-117.636	10
+P	Saint-Ouen-l'Aumône	saint ouen laumone	FR		49.044	2.121	33
+P	Labuleng		CN		35.201	102.521	27
+P	Lafey		KE		3.151	41.186	20
+P	Sant Pere, Santa Caterina i La Ribera	sant pere santa caterina i la ribera	ES		41.385	2.182	33
+P	Las Pintas de Arriba		MX		20.576	-103.324	15
+P	Campo de la Cruz		CO		10.378	-74.884	7
+P	Alcalá la Real	alcala la real	ES		37.461	-3.923	33
+P	Maisons-Laffitte	maisons laffitte	FR		48.953	2.145	33
+P	East Lake-Orient Park	east lake orient park	US	Florida	27.983	-82.379	16
+P	Lāthi	lathi	IN		21.723	71.388	26
+P	Laguna City		HK		22.306	114.229	27
+P	Bang Kho Laem		TH		13.693	100.501	19
+P	Bang Kho Laem subdistrict		TH		13.693	100.502	19
+P	Kone Ta La Paung		MM		17.008	96.150	29
+P	Lajas		CU		22.414	-80.294	8
+P	Forest Lake		AU	Queensland	-27.626	152.969	36
+P	Lalago		TZ		-3.450	33.950	20
+P	Ozoir-la-Ferrière	ozoir la ferriere	FR		48.767	2.669	33
+P	Cottage Lake		US	Washington	47.744	-122.077	10
+P	Ladyzhyn		UA		48.684	29.236	32
+P	Conil de la Frontera		ES		36.277	-6.088	33
+P	Laajasalo		FI		60.175	25.031	32
+P	Englemount-Lawrence	englemount lawrence	CA	Ontario	43.720	-79.437	16
+P	San Lazzaro		IT		44.471	11.409	33
+P	Combs-la-Ville	combs la ville	FR		48.665	2.570	33
+P	Langwarrin		AU	Victoria	-38.167	145.167	31
+P	Lai Chi Van		MO		22.120	113.551	27
+P	Moses Lake		US	Washington	47.130	-119.278	10
+P	San Giovanni la Punta		IT		37.577	15.094	33
+P	Villeneuve-la-Garenne	villeneuve la garenne	FR		48.939	2.315	33
+P	Lauri		IN		25.140	80.001	26
+P	Łaziska Górne	laziska gorne	PL		50.150	18.842	33
+P	La Porte		US	Indiana	41.608	-86.714	11
+P	Labis		MY		2.385	103.021	27
+P	Laungowāl	laungowal	IN		30.194	75.681	26
+P	Lavradio		PT		38.668	-9.052	30
+P	Kafr Lāhā	kafr laha	SY		34.895	36.496	20
+P	Las Matas de Farfán	las matas de farfan	DO		18.873	-71.517	9
+P	Lake Sebu		PH		6.225	124.710	27
+P	Laguna de Duero		ES		41.582	-4.723	33
+P	South Lake Tahoe		US	California	38.933	-119.984	10
+P	Deuil-la-Barre	deuil la barre	FR		48.977	2.327	33
+P	La Celle-Saint-Cloud	la celle saint cloud	FR		48.850	2.145	33
+P	Ladário	ladario	BR		-19.005	-57.602	9
+P	Lannion		FR		48.733	-3.457	33
+P	Pilar de la Horadada		ES		37.866	-0.793	33
+P	Lālru	lalru	IN		30.492	76.799	26
+P	La Jagua de Ibirico		CO		9.562	-73.334	7
+P	Fortín de las Flores	fortin de las flores	MX		18.908	-97.000	15
+P	Ban Laongam		LA		15.465	106.167	19
+P	Canyon Lake		US	Texas	29.875	-98.263	11
+P	North Lakes		AU	Queensland	-27.224	153.021	36
+P	São José da Laje	sao jose da laje	BR		-9.010	-36.058	14
+P	San Nicola la Strada		IT		41.052	14.333	33
+P	Las Torres de Cotillas		ES		38.028	-1.242	33
+P	Laurelton		US	New York	40.670	-73.747	16
+P	Laje		BR		-13.182	-39.425	14
+P	Lino Lakes		US	Minnesota	45.160	-93.089	11
+P	West Lake Stevens		US	Washington	47.993	-122.102	10
+P	l'Alfàs del Pi	lalfas del pi	ES		38.581	-0.103	33
+P	La Felguera		ES		43.307	-5.691	33
+P	Laventille		TT		10.649	-61.499	9
+P	Laranjeiro		PT		38.656	-9.154	30
+P	Langue		HN		13.621	-87.653	15
+P	Saint-Genis-Laval	saint genis laval	FR		45.695	4.793	33
+P	Lathrop		US	California	37.823	-121.277	10
+P	Lajinha		BR		-20.151	-41.623	14
+P	Lawngtlai		IN		22.533	92.899	26
+P	Las Margaritas		MX		16.313	-91.982	15
+P	La Unión	la union	CO		5.974	-75.362	7
+P	Latham		US	New York	42.747	-73.759	16
+P	Lagny-sur-Marne	lagny sur marne	FR		48.867	2.717	33
+P	Lakeside		US	California	32.857	-116.922	10
+P	Lake Worth Corridor		US	Florida	26.616	-80.101	16
+P	Lawa		PK		32.697	71.933	24
+P	Laranjeiro		PT		37.068	-7.808	30
+P	Mường Lay	muong lay	VN		22.000	103.133	19
+P	La Pobla de Vallbona		ES		39.597	-0.555	33
+P	Andorra la Vella		AD		42.508	1.521	33
+P	Lambari		BR		-21.976	-45.350	14
+P	Hulu Yam Lama		MY		3.454	101.641	27
+P	Brandýs nad Labem-Stará Boleslav	brandys nad labem stara boleslav	CZ		50.187	14.663	33
+P	La Cañada Flintridge	la canada flintridge	US	California	34.199	-118.188	10
+P	San Antonio de la Cal		MX		17.029	-96.701	15
+P	Las Vegas		VE		9.537	-68.630	9
+P	Lalín	lalin	ES		42.661	-8.113	33
+P	Lake Ronkonkoma		US	New York	40.835	-73.131	16
+P	La Orilla		MX		17.996	-102.227	15
+P	Chevilly-Larue	chevilly larue	FR		48.765	2.350	33
+P	Lauttasaari		FI		60.159	24.868	32
+P	La Defense		FR		48.892	2.239	33
+P	Lake Zurich		US	Illinois	42.197	-88.093	11
+P	Romorantin-Lanthenay	romorantin lanthenay	FR		47.367	1.750	33
+P	Mantes-la-Ville	mantes la ville	FR		48.974	1.703	33
+P	La Paz		UY		-34.760	-56.226	14
+P	Laboulaye		AR		-34.127	-63.391	14
+P	Bonney Lake		US	Washington	47.177	-122.187	10
+P	Saint-Lazare	saint lazare	CA	Quebec	45.400	-74.133	16
+P	North Salt Lake		US	Utah	40.849	-111.907	5
+P	Lágymányos	lagymanyos	HU		47.472	19.058	33
+P	La Ermita		MX		21.152	-101.733	15
+P	La Crescenta-Montrose	la crescenta montrose	US	California	34.232	-118.235	10
+P	Spanish Lake		US	Missouri	38.788	-90.216	11
+P	Forest Lake		US	Minnesota	45.279	-92.985	11
+P	Lāwar Khās	lawar khas	IN		29.111	77.778	26
+P	Langgar		CN		36.700	81.500	21
+P	Lake Shore		US	Maryland	39.107	-76.485	16
+P	Lake Forest		US	Illinois	42.259	-87.841	11
+P	Mandelieu-la-Napoule	mandelieu la napoule	FR		43.546	6.937	33
+P	La Plata		CO		2.393	-75.892	7
+P	Laksar		IN		29.759	78.041	26
+P	Laur		PH		15.586	121.183	27
+P	Laela		TZ		-8.567	32.050	20
+P	Lagawe		PH		16.800	121.119	27
+P	Sedeh Lanjān	sedeh lanjan	IR		32.379	51.316	28
+P	Cesário Lange	cesario lange	BR		-23.227	-47.953	14
+P	Laupheim		DE		48.228	9.879	33
+P	Lagoa do Itaenga		BR		-7.936	-35.290	14
+P	Lauchhammer		DE		51.488	13.766	33
+P	Lagoa Formosa		BR		-18.779	-46.407	14
+P	Laukaa		FI		62.414	25.952	32
+P	Bourg-la-Reine	bourg la reine	FR		48.779	2.318	33
+P	Langen		DE		53.606	8.595	33
+P	Lateri		IN		24.061	77.410	26
+P	Laurel		US	Mississippi	31.694	-89.131	11
+P	Lagoa da Canoa		BR		-9.830	-36.738	14
+P	Las Rosas		MX		16.366	-92.371	15
+P	Langley Park		US	Maryland	38.989	-76.981	16
+P	Lahnstein		DE		50.300	7.617	33
+P	Latri Sabiji		GM		13.413	-16.679	1
+P	Lancing		GB	England	50.829	-0.322	30
+P	Lam Tin		HK		22.309	114.236	27
+P	Las Varillas		AR		-31.870	-62.720	14
+P	La Paragua		VE		6.833	-63.333	9
+P	Łask	lask	PL		51.591	19.133	33
+P	Lachi		PK		33.383	71.337	24
+P	La Flèche	la fleche	FR		47.698	-0.076	33
+P	La Bordeta		ES		41.374	2.144	33
+P	La Chapelle-sur-Erdre	la chapelle sur erdre	FR		47.300	-1.552	33
+P	Lālī	lali	IR		32.330	49.093	28
+P	Round Lake		US	Illinois	42.353	-88.093	11
+P	Larne		GB	Northern Ireland	54.850	-5.817	30
+P	Labrador		AU	Queensland	-27.944	153.398	36
+P	Laudio / Llodio	laudio llodio	ES		43.143	-2.962	33
+P	Łańcut	lancut	PL		50.069	22.229	33
+P	San Martín de la Vega	san martin de la vega	ES		40.207	-3.571	33
+P	Tavernes de la Valldigna		ES		39.072	-0.266	33
+P	Lanham-Seabrook	lanham seabrook	US	Maryland	38.968	-76.851	16
+P	Lavāsān	lavasan	IR		35.822	51.644	28
+P	Labo		PH		14.153	122.830	27
+P	Laguna Verde		HK		22.307	114.191	27
+P	Mililani Mauka / Launani Valley	mililani mauka launani valley	US	Hawaii	21.479	-157.988	35
+P	Laja		BO		-16.533	-68.383	9
+P	Lagoa do Carro		BR		-7.845	-35.320	14
+P	La Cabima		PA		9.118	-79.533	7
+P	Lackawanna		US	New York	42.826	-78.823	16
+P	La Crau		FR		43.150	6.074	33
+P	la Nucia		ES		38.614	-0.127	33
+P	La Pomme		FR		43.290	5.442	33
+P	Lasarte		ES		43.268	-2.022	33
+P	La Baule-Escoublac	la baule escoublac	FR		47.292	-2.364	33
+P	Laguilayan		PH		6.672	124.525	27
+P	Arroyo de la Miel		ES		36.599	-4.535	33
+P	Labattoir		YT		-12.777	45.282	20
+P	La Unión	la union	ES		37.619	-0.878	33
+P	La Concepción	la concepcion	PA		8.517	-82.624	7
+P	La Breita		PE		-4.257	-80.886	7
+P	Ixtapan de la Sal		MX		18.844	-99.677	15
+P	La Paz		HN		14.321	-87.676	15
+P	Saint-Jean-de-la-Ruelle	saint jean de la ruelle	FR		47.911	1.865	33
+P	Niagara-on-the-Lake	niagara on the lake	CA	Ontario	43.257	-79.085	16
+P	Lat Yao		TH		15.751	99.789	19
+P	Laflèche	lafleche	CA	Quebec	45.500	-73.466	16
+P	Sylvan Lake		CA	Alberta	52.311	-114.084	6
+P	Saint-Lin-Laurentides	saint lin laurentides	CA	Quebec	45.850	-73.766	16
+P	Lansdowne		ZA		-33.987	18.497	3
+P	Lattes		FR		43.568	3.903	33
+P	Lāsalgaon	lasalgaon	IN		20.143	74.239	26
+P	Mehtar Lām	mehtar lam	AF		34.671	70.209	23
+P	La Cruz		CL		-32.827	-71.226	13
+P	La Pineda		ES		41.077	1.179	33
+P	Lakhnādon	lakhnadon	IN		22.600	79.601	26
+P	Navalmoral de la Mata		ES		39.892	-5.541	33
+P	Lalla Mimouna		MA		34.846	-6.066	2
+P	Laem Ngop		TH		12.171	102.395	19
+P	Castilleja de la Cuesta		ES		37.386	-6.053	33
+P	La Azulita		VE		8.714	-71.444	9
+P	Umm Lakhbā	umm lakhba	QA		25.342	51.471	20
+P	L'Isle-sur-la-Sorgue	lisle sur la sorgue	FR		43.920	5.051	33
+P	La Sierpe		CU		21.772	-79.268	8
+P	Lakemba		AU	New South Wales	-33.920	151.076	31
+P	La Vista		US	Nebraska	41.184	-96.031	11
+P	Tassin-la-Demi-Lune	tassin la demi lune	FR		45.755	4.788	33
+P	University Endowment Lands		CA	British Columbia	49.264	-123.239	17
+P	La Libertad		SV		13.488	-89.322	15
+P	La Magdalena Tlaltelulco		MX		19.283	-98.196	15
+P	Villanueva de la Cañada	villanueva de la canada	ES		40.447	-4.004	33
+P	La Providencia Siglo XXI		MX		20.064	-98.717	15
+P	Laoang		PH		12.570	125.014	27
+P	Bad Langensalza		DE		51.108	10.646	33
+P	Laurel		US	Virginia	37.643	-77.509	16
+P	Lakinsk		RU		56.019	39.948	20
+P	Lālpettai	lalpettai	IN		11.301	79.556	26
+P	Savanna-la-Mar	savanna la mar	JM		18.219	-78.133	7
+P	Las Tres Torres		ES		41.400	2.129	33
+P	L'Ancienne-Lorette	lancienne lorette	CA	Quebec	46.794	-71.352	16
+P	Lansdale		US	Pennsylvania	40.242	-75.284	16
+P	Langru		CN		36.893	79.621	21
+P	Xangri-lá	xangri la	BR		-29.801	-50.044	14
+P	La Esperanza		GT		14.872	-91.561	15
+P	La Maná	la mana	EC		-0.941	-79.227	7
+P	Lapai		NG		9.044	6.571	4
+P	Łapy	lapy	PL		52.991	22.884	33
+P	Laguna Woods		US	California	33.610	-117.725	10
+P	Las Cabezas de San Juan		ES		36.984	-5.939	33
+P	Las Gabias		ES		37.135	-3.670	33
+P	Laxou		FR		48.684	6.149	33
+P	Lagoa da Confusão	lagoa da confusao	BR		-10.794	-49.624	14
+P	La Algaba		ES		37.463	-6.011	33
+P	Lázaro Cárdenas	lazaro cardenas	MX		30.527	-115.931	10
+P	Laconia		US	New Hampshire	43.528	-71.470	16
+P	Lansing-Westgate	lansing westgate	CA	Ontario	43.754	-79.425	16
+P	Dvůr Králové nad Labem	dvur kralove nad labem	CZ		50.432	15.814	33
+P	Lang Suan		TH		9.946	99.078	19
+P	Saint-Leu-la-Forêt	saint leu la foret	FR		49.017	2.250	33
+P	Hoi Lai Estate		HK		22.332	114.147	27
+P	Laem Sing		TH		12.482	102.074	19
+P	Ham Lake		US	Minnesota	45.250	-93.250	11
+P	La Roda		ES		39.207	-2.157	33
+P	Landerneau		FR		48.452	-4.252	33
+P	Lake Mary		US	Florida	28.759	-81.318	16
+P	Lara		AU	Victoria	-38.024	144.406	31
+P	La Marque		US	Texas	29.369	-94.971	11
+P	L'Assomption	lassomption	CA	Quebec	45.823	-73.429	16
+P	La Palma		US	California	33.846	-118.047	10
+P	Lake Country		CA	British Columbia	50.009	-119.397	17
+P	Campina da Lagoa		BR		-24.592	-52.799	14
+P	La Grange		US	Illinois	41.805	-87.869	11
+P	Santa Cruz de la Palma		ES		28.684	-17.764	30
+P	La Cruz		MX		23.921	-106.892	12
+P	Lakhipur		IN		26.030	90.306	26
+P	Lagoa Nova		BR		-6.094	-36.472	14
+P	el Turó de la Peira	el turo de la peira	ES		41.432	2.169	33
+P	Lake Wales		US	Florida	27.901	-81.586	16
+P	La Solana		ES		38.944	-3.238	33
+P	Sant Carles de la Ràpita	sant carles de la rapita	ES		40.617	0.600	33
+P	Laurinburg		US	North Carolina	34.774	-79.463	16
+P	Las Delicias		MX		32.409	-116.944	10
+P	Martha Lake		US	Washington	47.851	-122.239	10
+P	Magṭa‘ Laḥjar	magta lahjar	MR		17.506	-13.093	1
+P	Landsdale		AU	Western Australia	-31.808	115.866	27
+P	Lake Butler		US	Florida	28.502	-81.541	16
+P	Latchmere		GB	England	51.468	-0.169	30
+P	Jelcz Laskowice		PL		51.021	17.316	33
+P	La Carolina		ES		38.276	-3.615	33
+P	La Blancarde		FR		43.300	5.406	33
+P	Lauda-Königshofen	lauda konigshofen	DE		49.565	9.708	33
+P	Lancenigo-Villorba	lancenigo villorba	IT		45.713	12.257	33
+P	Saint-Maximin-la-Sainte-Baume	saint maximin la sainte baume	FR		43.448	5.861	33
+P	la Barceloneta		ES		41.380	2.190	33
+P	Bad Laasphe		DE		50.931	8.425	33
+P	Lawrence Park South		CA	Ontario	43.717	-79.406	16
+P	Taylors Lakes		AU	Victoria	-37.699	144.786	31
+P	la Guineueta		ES		41.439	2.169	33
+P	Lamont		US	California	35.260	-118.914	10
+P	La Falda		AR		-31.093	-64.484	14
+P	Springfield Lakes		AU	Queensland	-27.668	152.925	36
+P	Lālpur	lalpur	IN		22.191	69.964	26
+P	La Unión	la union	CO		1.605	-77.132	7
+P	Three Lakes		US	Florida	25.642	-80.398	16
+P	La Trinité	la trinite	MQ		14.738	-60.963	9
+P	Larkhall		GB	Scotland	55.733	-3.967	30
+P	Ciudad de la Paz		GQ		1.593	10.824	4

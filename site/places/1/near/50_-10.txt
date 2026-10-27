@@ -1,0 +1,71 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Dublin	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+C	GB	United Kingdom	moonsighting	s
+C	IE	Ireland	mwl	s
+B	1
+P	Dublin		IE		53.333	-6.249	0
+P	Belfast		GB	Northern Ireland	54.597	-5.925	0
+P	South Dublin		IE		53.290	-6.342	0
+P	Cork		IE		51.898	-8.471	0
+P	Limerick		IE		52.665	-8.623	0
+P	Londonderry County Borough		GB	Northern Ireland	54.997	-7.309	0
+P	Galway		IE		53.272	-9.051	0
+P	Derry		GB	Northern Ireland	54.998	-7.309	0
+P	Tallaght		IE		53.286	-6.373	0
+P	Lisburn		GB	Northern Ireland	54.523	-6.035	0
+P	Newtownabbey		GB	Northern Ireland	54.660	-5.909	0
+P	Bangor		GB	Northern Ireland	54.661	-5.668	0
+P	Waterford		IE		52.258	-7.112	0
+P	Craigavon		GB	Northern Ireland	54.447	-6.387	0
+P	Castlereagh		GB	Northern Ireland	54.574	-5.885	0
+P	Drogheda		IE		53.719	-6.348	0
+P	Dundalk		IE		54.000	-6.417	0
+P	Redruth		GB	England	50.233	-5.224	0
+P	Swords		IE		53.460	-6.218	0
+P	Navan		IE		53.653	-6.681	0
+P	Bray		IE		53.203	-6.098	0
+P	Portadown		GB	Northern Ireland	54.423	-6.444	0
+P	Falmouth		GB	England	50.154	-5.071	0
+P	Dún Laoghaire	dun laoghaire	IE		53.294	-6.136	0
+P	Newtownards		GB	Northern Ireland	54.592	-5.691	0
+P	Carrickfergus		GB	Northern Ireland	54.716	-5.806	0
+P	Ballymena		GB	Northern Ireland	54.864	-6.276	0
+P	Ennis		IE		52.844	-8.986	0
+P	Newry		GB	Northern Ireland	54.178	-6.337	0
+P	Carlow		IE		52.841	-6.926	0
+P	Douglas		IE		51.874	-8.435	0
+P	Tralee		IE		52.270	-9.703	0
+P	Portlaoise		IE		53.034	-7.300	0
+P	Truro		GB	England	50.265	-5.054	0
+P	Athlone		IE		53.423	-7.937	0
+P	Droichead Nua		IE		53.182	-6.797	0
+P	An Muileann gCearr		IE		53.525	-7.338	0
+P	Letterkenny		IE		54.950	-7.733	0
+P	Sandyford		IE		53.275	-6.225	0
+P	Greystones		IE		53.141	-6.063	0
+P	Balbriggan		IE		53.608	-6.183	0
+P	Kilkenny		IE		52.654	-7.252	0
+P	Wexford		IE		52.334	-6.457	0
+P	Omagh		GB	Northern Ireland	54.600	-7.300	0
+P	Naas		IE		53.216	-6.667	0
+P	Sligo		IE		54.270	-8.469	0
+P	Camborne		GB	England	50.213	-5.297	0
+P	Celbridge		IE		53.342	-6.544	0
+P	Newquay		GB	England	50.416	-5.073	0
+P	Penzance		GB	England	50.119	-5.537	0
+P	Finglas		IE		53.389	-6.297	0
+P	Antrim		GB	Northern Ireland	54.718	-6.211	0
+P	Ballincollig		IE		51.883	-8.583	0
+P	Larne		GB	Northern Ireland	54.850	-5.817	0
+P	Cluain Meala		IE		52.355	-7.704	0
+P	Carrigaline		IE		51.812	-8.399	0
+P	Templeogue		IE		53.295	-6.309	0
+P	Rathfarnham		IE		53.301	-6.283	0
+P	Maynooth		IE		53.385	-6.594	0
+P	Malahide		IE		53.451	-6.154	0
+P	Blanchardstown		IE		53.388	-6.376	0
+P	Banbridge		GB	Northern Ireland	54.350	-6.283	0
+P	Tullamore		IE		53.274	-7.489	0
+P	Leixlip		IE		53.366	-6.496	0
+P	Donaghmede		IE		53.398	-6.162	0
+P	Lucan		IE		53.357	-6.449	0

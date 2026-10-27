@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Ulaanbaatar	480	
+C	MN	Mongolia	mwl	s
+B	0
+P	Ulan Bator		MN		47.908	106.883	0
+P	Darhan		MN		49.487	105.923	0
+P	Nalayh		MN		47.767	107.283	0
+P	Dzüünharaa	dzuunharaa	MN		48.852	106.458	0
+P	Dzuunmod		MN		47.707	106.953	0

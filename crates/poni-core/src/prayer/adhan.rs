@@ -365,6 +365,211 @@ pub fn moments(year: i32, month: u8, day: u8, lat: f64, lng: f64, p: &Params) ->
     Some(Moments { fajr, sunrise, dhuhr, asr, sunset, isha })
 }
 
+// ---------------------------------------------------------------- Adhan's methods
+
+/// One of Adhan's calculation methods, with the parts `PrayerTimes` reads:
+/// for places outside Indonesia (the world list), whose times follow Adhan
+/// itself, rounding and method adjustments included.
+#[derive(Clone, Copy, Debug)]
+pub struct Method {
+    /// Degrees below the horizon.
+    pub fajr_angle: f64,
+    /// Degrees below the horizon; unused when `isha_interval_min` > 0.
+    pub isha_angle: f64,
+    /// Isha this many minutes after Maghrib, 0 = by angle.
+    pub isha_interval_min: f64,
+    /// Maghrib with the sun this far below the horizon (Tehran), 0 = sunset.
+    pub maghrib_angle: f64,
+    /// The Moonsighting Committee's seasonal twilight and its 1/7 rule at 55° and up.
+    pub moonsighting: bool,
+    /// Minutes added to Fajr, sunrise, Dhuhr, Asr, Maghrib and Isha.
+    pub adjust: [i64; 6],
+    /// Round to the next minute (`Rounding.Up`) instead of the nearest.
+    pub round_up: bool,
+}
+
+impl Method {
+    const fn angles(fajr: f64, isha: f64) -> Method {
+        Method { fajr_angle: fajr, isha_angle: isha, isha_interval_min: 0.0, maghrib_angle: 0.0, moonsighting: false, adjust: [0; 6], round_up: false }
+    }
+    pub const MUSLIM_WORLD_LEAGUE: Method = Method { adjust: [0, 0, 1, 0, 0, 0], ..Method::angles(18.0, 17.0) };
+    pub const EGYPTIAN: Method = Method { adjust: [0, 0, 1, 0, 0, 0], ..Method::angles(19.5, 17.5) };
+    pub const KARACHI: Method = Method { adjust: [0, 0, 1, 0, 0, 0], ..Method::angles(18.0, 18.0) };
+    pub const DUBAI: Method = Method { adjust: [0, -3, 3, 3, 3, 0], ..Method::angles(18.2, 18.2) };
+    pub const MOONSIGHTING_COMMITTEE: Method = Method { moonsighting: true, adjust: [0, 0, 5, 0, 3, 0], ..Method::angles(18.0, 18.0) };
+    pub const KUWAIT: Method = Method::angles(18.0, 17.5);
+    pub const QATAR: Method = Method { isha_interval_min: 90.0, ..Method::angles(18.0, 0.0) };
+    pub const SINGAPORE: Method = Method { adjust: [0, 0, 1, 0, 0, 0], round_up: true, ..Method::angles(20.0, 18.0) };
+    pub const TURKEY: Method = Method { adjust: [0, -7, 5, 4, 7, 0], ..Method::angles(18.0, 17.0) };
+    pub const TEHRAN: Method = Method { maghrib_angle: 4.5, ..Method::angles(17.7, 14.0) };
+}
+
+/// Adhan's `PolarCircleResolution.AqrabBalad`: where the sun doesn't rise or
+/// set that day (inside the polar circles), the sun of the nearest latitude,
+/// in 0.5° steps toward the equator, where it does. `None` where it does.
+fn aqrab_balad(year: i32, month: u8, day: u8, lat: f64, lng: f64) -> Option<(SolarTime, SolarTime)> {
+    let valid = |s: &SolarTime| !s.sunrise.is_nan() && !s.sunset.is_nan();
+    let (ty, tm, td) = civil_from_days(days_from_civil(year, month, day) + 1);
+    let mut l = lat - lat.signum() * 0.5;
+    loop {
+        let (st, tomorrow) = (SolarTime::new(year, month, day, l, lng), SolarTime::new(ty, tm, td, l, lng));
+        if valid(&st) && valid(&tomorrow) {
+            return Some((st, tomorrow));
+        }
+        if l.abs() < 65.0 {
+            return None;
+        }
+        l -= l.signum() * 0.5;
+    }
+}
+
+/// Days since the winter solstice for the Moonsighting Committee's seasons.
+fn days_since_solstice(day_of_year: i64, year: i32, lat: f64) -> i64 {
+    let leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+    let days_in_year = if leap { 366 } else { 365 };
+    if lat >= 0.0 {
+        let d = day_of_year + 10;
+        if d >= days_in_year {
+            d - days_in_year
+        } else {
+            d
+        }
+    } else {
+        let d = day_of_year - if leap { 173 } else { 172 };
+        if d < 0 {
+            d + days_in_year
+        } else {
+            d
+        }
+    }
+}
+
+/// The Moonsighting Committee's twilight in minutes from four seasonal values.
+fn seasonal(a: f64, b: f64, c: f64, d: f64, dyy: i64) -> f64 {
+    let dyy = dyy as f64;
+    if dyy < 91.0 {
+        a + (b - a) / 91.0 * dyy
+    } else if dyy < 137.0 {
+        b + (c - b) / 46.0 * (dyy - 91.0)
+    } else if dyy < 183.0 {
+        c + (d - c) / 46.0 * (dyy - 137.0)
+    } else if dyy < 229.0 {
+        d + (c - d) / 46.0 * (dyy - 183.0)
+    } else if dyy < 275.0 {
+        c + (b - c) / 46.0 * (dyy - 229.0)
+    } else {
+        b + (a - b) / 91.0 * (dyy - 275.0)
+    }
+}
+
+/// `Astronomical.seasonAdjustedMorningTwilight`: the earliest Fajr.
+fn season_adjusted_morning(lat: f64, day_of_year: i64, year: i32, sunrise: i64) -> i64 {
+    let l = lat.abs();
+    let (a, b, c, d) = (75.0 + 28.65 / 55.0 * l, 75.0 + 19.44 / 55.0 * l, 75.0 + 32.74 / 55.0 * l, 75.0 + 48.1 / 55.0 * l);
+    let adjustment = seasonal(a, b, c, d, days_since_solstice(day_of_year, year, lat));
+    add_seconds(sunrise, js_round(adjustment * -60.0))
+}
+
+/// `Astronomical.seasonAdjustedEveningTwilight` with `Shafaq.General`: the latest Isha.
+fn season_adjusted_evening(lat: f64, day_of_year: i64, year: i32, sunset: i64) -> i64 {
+    let l = lat.abs();
+    let (a, b, c, d) = (75.0 + 25.6 / 55.0 * l, 75.0 + 2.05 / 55.0 * l, 75.0 - 9.21 / 55.0 * l, 75.0 + 6.14 / 55.0 * l);
+    let adjustment = seasonal(a, b, c, d, days_since_solstice(day_of_year, year, lat));
+    add_seconds(sunset, js_round(adjustment * 60.0))
+}
+
+/// Adhan's `roundedMinute`: nearest uses the whole seconds only; `Up` always
+/// moves on to the next minute, even from a whole one.
+fn rounded_minute(ms: i64, up: bool) -> i64 {
+    let secs = ms.div_euclid(1000).rem_euclid(60);
+    let offset = if up || secs >= 30 { 60 - secs } else { -secs };
+    ms + offset * 1000
+}
+
+/// Fajr, sunrise, Dhuhr, Asr, Maghrib and Isha in UTC milliseconds for one
+/// calendar date of the place, after the method's adjustments and rounding:
+/// Adhan's `PrayerTimes`, step for step ([`adhan_times`]). Near the poles,
+/// where Adhan's day comes out of order (in deep winter the sun stays too low
+/// for Asr's shadow, and Adhan's Asr lands after Maghrib or before Dhuhr),
+/// the day of the nearest latitude, in 0.5° steps toward the equator, whose
+/// times are in order. `None` only where a time can't be found at all.
+pub fn method_times(year: i32, month: u8, day: u8, lat: f64, lng: f64, m: &Method, shadow_length: f64) -> Option<[i64; 6]> {
+    let first = adhan_times(year, month, day, lat, lng, m, shadow_length);
+    let in_order = |t: &[i64; 6]| t.windows(2).all(|w| w[0] <= w[1]);
+    if first.as_ref().is_none_or(in_order) || lat.abs() < 60.0 {
+        return first;
+    }
+    let mut l = lat;
+    while l.abs() >= 60.0 {
+        l -= lat.signum() * 0.5;
+        if let Some(t) = adhan_times(year, month, day, l, lng, m, shadow_length).filter(in_order) {
+            return Some(t);
+        }
+    }
+    first
+}
+
+/// Adhan's `PrayerTimes` with `PolarCircleResolution.AqrabBalad`: inside
+/// the polar circles, on days without a sunrise or sunset, the nearest
+/// latitude's sun.
+fn adhan_times(year: i32, month: u8, day: u8, lat: f64, lng: f64, m: &Method, shadow_length: f64) -> Option<[i64; 6]> {
+    const HIGH_LATITUDE_THRESHOLD: f64 = 55.0;
+    let days = days_from_civil(year, month, day);
+    let day0 = days * DAY_MS;
+    let mut st = SolarTime::new(year, month, day, lat, lng);
+    let (ty, tm, td) = civil_from_days(days + 1);
+    let mut tomorrow = SolarTime::new(ty, tm, td, lat, lng);
+    if st.sunrise.is_nan() || st.sunset.is_nan() || tomorrow.sunrise.is_nan() {
+        if let Some((s, t)) = aqrab_balad(year, month, day, lat, lng) {
+            (st, tomorrow) = (s, t);
+        }
+    }
+    let dhuhr = utc_ms(day0, st.transit)?;
+    let sunrise = utc_ms(day0, st.sunrise)?;
+    let sunset = utc_ms(day0, st.sunset)?;
+    let asr = utc_ms(day0, st.afternoon(shadow_length))?;
+    let night = utc_ms(day0 + DAY_MS, tomorrow.sunrise).map(|r| (r - sunset) as f64 / 1000.0);
+    let portion = HighLatitudeRule::recommended(lat).portion();
+    let day_of_year = days - days_from_civil(year, 1, 1) + 1;
+    let moonsighting_high = m.moonsighting && lat >= HIGH_LATITUDE_THRESHOLD;
+
+    let mut fajr = utc_ms(day0, st.hour_angle(-m.fajr_angle, false));
+    if moonsighting_high {
+        fajr = night.map(|n| add_seconds(sunrise, -(n / 7.0)));
+    }
+    let safe_fajr = if m.moonsighting { Some(season_adjusted_morning(lat, day_of_year, year, sunrise)) } else { night.map(|n| add_seconds(sunrise, -(portion * n))) };
+    // JavaScript: a missing (NaN) side never wins the comparison.
+    let fajr = match (fajr, safe_fajr) {
+        (Some(f), Some(s)) => f.max(s),
+        (None, s) => s?,
+        (f, None) => f?,
+    };
+    let isha = if m.isha_interval_min > 0.0 {
+        add_seconds(sunset, m.isha_interval_min * 60.0)
+    } else {
+        let mut isha = utc_ms(day0, st.hour_angle(-m.isha_angle, true));
+        if moonsighting_high {
+            isha = night.map(|n| add_seconds(sunset, n / 7.0));
+        }
+        let safe_isha = if m.moonsighting { Some(season_adjusted_evening(lat, day_of_year, year, sunset)) } else { night.map(|n| add_seconds(sunset, portion * n)) };
+        match (isha, safe_isha) {
+            (Some(i), Some(s)) => i.min(s),
+            (None, s) => s?,
+            (i, None) => i?,
+        }
+    };
+    let mut maghrib = sunset;
+    if m.maghrib_angle > 0.0 {
+        if let Some(angle) = utc_ms(day0, st.hour_angle(-m.maghrib_angle, true)) {
+            if sunset < angle && isha > angle {
+                maghrib = angle;
+            }
+        }
+    }
+    let raw = [fajr, sunrise, dhuhr, asr, maghrib, isha];
+    Some(std::array::from_fn(|i| rounded_minute(add_seconds(raw[i], (m.adjust[i] * 60) as f64), m.round_up)))
+}
+
 /// Initial great-circle bearing from a place to the Kaaba, degrees clockwise
 /// from true north (0..360). Oyen Umroh's formula and Kaaba point.
 pub fn qibla(lat: f64, lng: f64) -> f64 {

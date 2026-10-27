@@ -123,4 +123,7 @@ pub enum Command {
     Phone(PhoneCmd),
     Pair(PairCmd),
     Oyenza(OyenzaCmd),
+    /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
+    /// answer: `AppEvent::Cities`).
+    GetCities(String),
 }

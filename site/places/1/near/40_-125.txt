@@ -1,0 +1,30 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+C	US	United States	moonsighting	s
+B	0
+P	Eugene		US	Oregon	44.052	-123.087	0
+P	Salem		US	Oregon	44.943	-123.035	0
+P	Redding		US	California	40.587	-122.392	0
+P	Bend		US	Oregon	44.058	-121.315	0
+P	Medford		US	Oregon	42.327	-122.876	0
+P	Springfield		US	Oregon	44.046	-123.022	0
+P	Corvallis		US	Oregon	44.565	-123.262	0
+P	Albany		US	Oregon	44.637	-123.106	0
+P	Keizer		US	Oregon	44.990	-123.026	0
+P	Grants Pass		US	Oregon	42.439	-123.331	0
+P	Redmond		US	Oregon	44.273	-121.174	0
+P	Eureka		US	California	40.802	-124.164	0
+P	Roseburg		US	Oregon	43.217	-123.342	0
+P	Klamath Falls		US	Oregon	42.225	-121.782	0
+P	Ashland		US	Oregon	42.195	-122.709	0
+P	Hayesville		US	Oregon	44.986	-122.983	0
+P	Altamont		US	Oregon	42.207	-121.737	0
+P	Central Point		US	Oregon	42.376	-122.916	0
+P	Arcata		US	California	40.867	-124.083	0
+P	Bayside		US	California	40.842	-124.064	0
+P	Lebanon		US	Oregon	44.537	-122.907	0
+P	Coos Bay		US	Oregon	43.367	-124.218	0
+P	Four Corners		US	Oregon	44.928	-122.984	0
+P	Dallas		US	Oregon	44.919	-123.317	0
+P	Susanville		US	California	40.416	-120.653	0
+P	McKinleyville		US	California	40.947	-124.101	0

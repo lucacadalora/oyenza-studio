@@ -366,6 +366,8 @@ pub struct App {
     sysmon_rest: poni_core::sysmon::Rest,
     /// The Oyenza page is on screen: its day list stays live (`services::oyenza`).
     oyenza_watch: bool,
+    /// The Stocks page was on screen at the last look (`set_stocks_watch`).
+    stocks_open: bool,
     /// The Today page is on screen: the worker asks for the day (`services::oyenza`).
     today_watch: bool,
     /// Show over games: the game's frames, counted while the readout shows.
@@ -567,6 +569,7 @@ impl App {
             sysmon_on: false,
             sysmon_rest: poni_core::sysmon::Rest::default(),
             oyenza_watch: false,
+            stocks_open: false,
             today_watch: false,
             frames: None,
             game_pid: None,
@@ -1152,6 +1155,7 @@ impl App {
                 self.on_event(AppEvent::Power(p));
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.set_stocks_watch();
                 self.update_due();
                 self.request_frame();
                 Some(LRESULT(1))
@@ -1164,6 +1168,7 @@ impl App {
                 }
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
+                self.set_stocks_watch();
                 self.update_due();
                 self.request_frame();
                 Some(LRESULT(0))
@@ -1371,6 +1376,22 @@ impl App {
         if on != self.today_watch {
             self.today_watch = on;
             self.tell_oyenza_activity();
+        }
+    }
+
+    /// The Stocks page asks oyenza.trade for prices only while it is on
+    /// screen and someone is at the PC (`pages::stocks::watch`); the worker
+    /// starts the first time it opens.
+    fn set_stocks_watch(&mut self) {
+        // The self-test's scenes show a made-up market: nothing is asked.
+        let open = self.mode == Mode::Expanded(PageKind::Stocks) && !self.locked && !self.display_off && self.selftest.is_none();
+        // Closed, and the worker already told so: nothing to do, every frame.
+        if !open && !self.stocks_open {
+            return;
+        }
+        self.stocks_open = open;
+        if let Some(s) = self.services.as_ref() {
+            s.stocks_watch(pages::stocks::watch(&self.st, open));
         }
     }
 
@@ -2006,6 +2027,8 @@ impl App {
                 self.request_frame();
             }
             AppEvent::Located(found) => self.on_located(found),
+            AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
+            AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
         }
@@ -2720,11 +2743,12 @@ impl App {
         }
         self.prayer_tick();
         self.script_tick();
-        // Prayer times, System or Health switched off: its tab is gone.
+        // Prayer times, System, Health or Stocks switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
+            PageKind::Stocks => !self.st.stocks_on(),
             _ => false,
         };
         if gone {
@@ -2823,6 +2847,7 @@ impl App {
         self.set_sysmon(self.mode == Mode::Expanded(PageKind::System));
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
+        self.set_stocks_watch();
         // The Pill theme floats the island below the top edge.
         self.island.set_floating(pill::on(self.st.settings.theme).then_some(pill::TOP_GAP));
         self.island.step(dt, now);
@@ -3391,10 +3416,16 @@ impl App {
     }
 
     /// The place the times are for: the chosen one, or until there is one,
-    /// the one the PC's time zone suggests.
+    /// the one the PC's time zone suggests. A place from the world list is
+    /// kept as it is once settled; at start it comes from the lines settings
+    /// keep of it (nothing online).
     fn resolve_prayer_place(&mut self) {
         let Some(list) = self.st.prayer.places.clone() else { return };
-        let chosen = self.st.settings.prayer.place.as_deref().and_then(|id| list.find(id)).cloned();
+        let chosen = match self.st.settings.prayer.place.as_deref() {
+            Some(id) if self.st.prayer.place.as_ref().is_some_and(|p| p.id == id) => self.st.prayer.place.clone(),
+            Some(id) => poni_core::prayer::find(&list, self.st.settings.prayer.world_place.as_deref(), id),
+            None => None,
+        };
         let suggested = chosen.is_none();
         let place = chosen.or_else(|| poni_core::prayer::suggested_place_id(self.utc_offset_min()).and_then(|id| list.find(id)).cloned());
         let changed = place.as_ref().map(|p| &p.id) != self.st.prayer.place.as_ref().map(|p| &p.id);
@@ -3425,27 +3456,15 @@ impl App {
     }
 
     /// The nearest listed place becomes the place, while following the
-    /// location. The point itself is dropped here.
+    /// location (`pages::prayer::located`). The point is never saved.
     fn on_located(&mut self, found: services::location::Located) {
         use services::location::Located;
-        self.st.prayer.locate = match found {
-            Located::Denied => Locate::Denied,
-            Located::Unknown => Locate::Unknown,
-            Located::At(lat, lng) => {
-                let Some(list) = self.st.prayer.places.clone() else { return };
-                let Some((place, km)) = list.nearest(lat, lng) else { return };
-                if km > poni_core::prayer::NEAREST_MAX_KM {
-                    pinfo!("prayer: the nearest listed place is {km:.0} km away");
-                    Locate::Far { km }
-                } else {
-                    if self.st.settings.prayer.follow_location && self.st.settings.prayer.place.as_deref() != Some(place.id.as_str()) {
-                        self.st.settings.prayer.place = Some(place.id.clone());
-                        self.st.cmd(Command::SaveSettings);
-                    }
-                    Locate::Found { km }
-                }
-            }
-        };
+        match found {
+            Located::Denied => self.st.prayer.locate = Locate::Denied,
+            Located::Unknown => self.st.prayer.locate = Locate::Unknown,
+            // Kemenag's places, or the world's cities around it (looked up online).
+            Located::At(lat, lng) => pages::prayer::located(&mut self.st, lat, lng),
+        }
     }
 
     /// Each frame (and each minute): the prayer times that just came, and
@@ -3655,6 +3674,12 @@ impl App {
                 Command::Phone(c) => self.phone_cmd(c),
                 Command::Pair(c) => self.pair_cmd(c),
                 Command::Oyenza(c) => self.oyenza(c),
+                // The self-test's pictures use the files it seeds (none from the website).
+                Command::GetCities(file) => {
+                    if self.selftest.is_none() {
+                        services::cities::fetch(file, self.sink.clone());
+                    }
+                }
             }
         }
         self.sync_phone_offer();

@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Cancun	-300	
+Z	1	America/Merida	-360	
+C	MX	Mexico	mwl	s
+B	1
+P	Mérida	merida	MX		20.967	-89.623	1
+P	Cancún	cancun	MX		21.174	-86.847	0
+P	Playa del Carmen		MX		20.627	-87.080	0
+P	Kanasín	kanasin	MX		20.935	-89.558	1
+P	Cozumel		MX		20.500	-86.943	0
+P	Valladolid		MX		20.688	-88.199	1
+P	Tizimín	tizimin	MX		21.143	-88.152	1
+P	Umán	uman	MX		20.881	-89.748	1
+P	Progreso		MX		21.282	-89.663	1
+P	Ticul		MX		20.399	-89.535	1
+P	Tecax		MX		20.205	-89.285	1
+P	Hunucmá	hunucma	MX		21.016	-89.877	1
+P	Motul		MX		21.096	-89.283	1
+P	Oxkutzkab		MX		20.307	-89.418	1
+P	Peto		MX		20.126	-88.923	1
+P	Tulum		MX		20.212	-87.463	0
+P	Chichén-Itzá	chichen itza	MX		20.667	-88.567	1
+P	Izamal		MX		20.933	-89.019	1

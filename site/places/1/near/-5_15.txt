@@ -1,0 +1,25 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kinshasa	60	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CG	Republic of the Congo	egyptian	s
+B	2
+P	Kinshasa		CD		-4.328	15.314	0
+P	Brazzaville		CG		-4.266	15.283	0
+P	Masina		CD		-4.384	15.391	0
+P	Bandundu Province		CD		-3.317	17.381	0
+P	Idiofa		CD		-4.966	19.592	0
+P	Bulungu		CD		-4.544	18.604	0
+P	Inongo		CD		-1.927	18.288	0
+P	Mangai		CD		-4.023	19.534	0
+P	Nioki		CD		-2.720	17.690	0
+P	Mushie		CD		-3.017	16.922	0
+P	Kutu		CD		-2.725	18.148	0
+P	Dibaya-Lubwe	dibaya lubwe	CD		-4.159	19.862	0
+P	Bolobo		CD		-2.158	16.232	0
+P	Masi-Manimba	masi manimba	CD		-4.775	17.891	0
+P	Kasangulu		CD		-4.583	15.166	0
+P	Dungu		CD		-3.624	18.849	0
+P	Owando		CG		-0.482	15.900	0
+P	Gamboma		CG		-1.876	15.864	0
+P	Mossaka		CG		-1.220	16.799	0
+P	Oyo		CG		-1.165	15.970	0

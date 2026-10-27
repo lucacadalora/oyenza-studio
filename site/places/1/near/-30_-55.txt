@@ -1,0 +1,170 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Sao_Paulo	-180	
+C	AR	Argentina	mwl	s
+C	BR	Brazil	mwl	s
+C	PY	Paraguay	mwl	s
+B	0
+P	Caxias do Sul		BR		-29.168	-51.179	0
+P	Canoas		BR		-29.918	-51.184	0
+P	Ciudad del Este		PY		-25.504	-54.651	0
+P	Foz do Iguaçu	foz do iguacu	BR		-25.548	-54.588	0
+P	Ponta Grossa		BR		-25.095	-50.162	0
+P	Santa Maria		BR		-29.684	-53.807	0
+P	Gravataí	gravatai	BR		-29.942	-50.993	0
+P	Novo Hamburgo		BR		-29.678	-51.131	0
+P	São Leopoldo	sao leopoldo	BR		-29.760	-51.147	0
+P	Alvorada		BR		-30.000	-51.076	0
+P	Guarapuava		BR		-25.390	-51.465	0
+P	Passo Fundo		BR		-28.263	-52.407	0
+P	Lages		BR		-27.816	-50.326	0
+P	Chapecó	chapeco	BR		-27.096	-52.618	0
+P	Cachoeirinha		BR		-29.951	-51.094	0
+P	Santa Cruz do Sul		BR		-29.718	-52.426	0
+P	Sapucaia do Sul		BR		-29.818	-51.146	0
+P	Bento Gonçalves	bento goncalves	BR		-29.171	-51.519	0
+P	Francisco Beltrão	francisco beltrao	BR		-26.081	-53.055	0
+P	Erechim		BR		-27.635	-52.275	0
+P	Lajeado		BR		-29.467	-51.961	0
+P	Pato Branco		BR		-26.229	-52.671	0
+P	Ijuí	ijui	BR		-28.388	-53.915	0
+P	Concórdia	concordia	BR		-27.234	-52.028	0
+P	Santa Rosa		BR		-27.871	-54.481	0
+P	Santo Ângelo	santo angelo	BR		-28.299	-54.263	0
+P	Esteio		BR		-29.861	-51.179	0
+P	Sapiranga		BR		-29.638	-51.007	0
+P	Caçador	cacador	BR		-26.775	-51.015	0
+P	Farroupilha		BR		-29.225	-51.348	0
+P	Venâncio Aires	venancio aires	BR		-29.606	-52.192	0
+P	Montenegro		BR		-29.689	-51.461	0
+P	Vacaria		BR		-28.512	-50.934	0
+P	Capão da Canoa	capao da canoa	BR		-29.746	-50.010	0
+P	Campo Bom		BR		-29.679	-51.053	0
+P	Carazinho		BR		-28.284	-52.786	0
+P	Irati		BR		-25.467	-50.651	0
+P	Cruz Alta		BR		-28.644	-53.606	0
+P	Videira		BR		-27.008	-51.152	0
+P	União da Vitória	uniao da vitoria	BR		-26.230	-51.086	0
+P	Canoinhas		BR		-26.177	-50.390	0
+P	Tramandaí	tramandai	BR		-29.985	-50.134	0
+P	Medianeira		BR		-25.295	-54.094	0
+P	Presidente Franco		PY		-25.564	-54.611	0
+P	Eldorado		AR		-26.405	-54.618	0
+P	Taquara		BR		-29.651	-50.781	0
+P	Parobé	parobe	BR		-29.629	-50.835	0
+P	Xanxerê	xanxere	BR		-26.877	-52.404	0
+P	Prudentópolis	prudentopolis	BR		-25.213	-50.978	0
+P	Canela		BR		-29.356	-50.814	0
+P	Santiago		BR		-29.192	-54.867	0
+P	Palmas		BR		-26.484	-51.991	0
+P	Estância Velha	estancia velha	BR		-29.648	-51.174	0
+P	Osório	osorio	BR		-29.887	-50.270	0
+P	Marau		BR		-28.449	-52.200	0
+P	Dois Vizinhos		BR		-25.734	-53.057	0
+P	São Miguel d'Oeste	sao miguel doeste	BR		-26.725	-53.518	0
+P	Panambi		BR		-28.293	-53.502	0
+P	Santo Antônio da Patrulha	santo antonio da patrulha	BR		-29.817	-50.520	0
+P	São Mateus do Sul	sao mateus do sul	BR		-25.874	-50.383	0
+P	Gramado		BR		-29.379	-50.874	0
+P	Curitibanos		BR		-27.283	-50.584	0
+P	San Vicente		AR		-26.617	-54.133	0
+P	Campos Novos		BR		-27.402	-51.225	0
+P	Charqueadas		BR		-29.955	-51.625	0
+P	São Luiz Gonzaga	sao luiz gonzaga	BR		-28.408	-54.961	0
+P	Rio Pardo		BR		-29.990	-52.378	0
+P	Garibaldi		BR		-29.256	-51.534	0
+P	Portão	portao	BR		-29.702	-51.242	0
+P	Palmeira		BR		-25.429	-50.006	0
+P	Fraiburgo		BR		-27.026	-50.921	0
+P	Palmeira das Missões	palmeira das missoes	BR		-27.899	-53.314	0
+P	Porto União	porto uniao	BR		-26.238	-51.078	0
+P	Igrejinha		BR		-29.574	-50.790	0
+P	Teutônia	teutonia	BR		-29.448	-51.806	0
+P	Frederico Westphalen		BR		-27.359	-53.394	0
+P	Laranjeiras do Sul		BR		-25.408	-52.416	0
+P	Estrela		BR		-29.502	-51.966	0
+P	Puerto Iguazú	puerto iguazu	AR		-25.599	-54.574	0
+P	Xaxim		BR		-26.962	-52.535	0
+P	Flores da Cunha		BR		-29.029	-51.182	0
+P	Quedas do Iguaçu	quedas do iguacu	BR		-25.453	-52.905	0
+P	Dois Irmãos	dois irmaos	BR		-29.580	-51.085	0
+P	Carlos Barbosa		BR		-29.297	-51.504	0
+P	Joaçaba	joacaba	BR		-27.178	-51.505	0
+P	Soledade		BR		-28.818	-52.510	0
+P	Imbituva		BR		-25.230	-50.604	0
+P	Pinhão	pinhao	BR		-25.696	-51.660	0
+P	San Vicente		AR		-26.996	-54.477	0
+P	São Miguel do Iguaçu	sao miguel do iguacu	BR		-25.348	-54.238	0
+P	Nova Santa Rita		BR		-29.852	-51.277	0
+P	Candelária	candelaria	BR		-29.669	-52.789	0
+P	Santo Antônio do Sudoeste	santo antonio do sudoeste	BR		-26.074	-53.725	0
+P	Maravilha		BR		-26.761	-53.172	0
+P	Lagoa Vermelha		BR		-28.209	-51.526	0
+P	Triunfo		BR		-29.943	-51.718	0
+P	Imbé	imbe	BR		-29.975	-50.128	0
+P	Vera Cruz		BR		-29.717	-52.503	0
+P	Nova Prata		BR		-28.784	-51.610	0
+P	Três Passos	tres passos	BR		-27.456	-53.932	0
+P	Guaporé	guapore	BR		-28.846	-51.890	0
+P	Taquari		BR		-29.800	-51.864	0
+P	Três de Maio	tres de maio	BR		-27.773	-54.240	0
+P	São Lourenço do Oeste	sao lourenco do oeste	BR		-26.359	-52.851	0
+P	Tapejara		BR		-28.068	-52.014	0
+P	São Sebastião do Caí	sao sebastiao do cai	BR		-29.587	-51.376	0
+P	Três Coroas	tres coroas	BR		-29.517	-50.778	0
+P	Santa Terezinha de Itaipu		BR		-25.440	-54.402	0
+P	Estrela		BR		-28.061	-50.938	0
+P	Veranópolis	veranopolis	BR		-28.936	-51.549	0
+P	San Pedro		AR		-26.622	-54.109	0
+P	Coronel Vivida		BR		-25.980	-52.568	0
+P	Capinzal		BR		-27.344	-51.612	0
+P	Nova Petrópolis	nova petropolis	BR		-29.376	-51.114	0
+P	Ivoti		BR		-29.591	-51.161	0
+P	Encantado		BR		-29.236	-51.870	0
+P	Sarandi		BR		-27.944	-52.923	0
+P	Montecarlo		AR		-26.568	-54.758	0
+P	Pinhalzinho		BR		-26.848	-52.992	0
+P	Arroio do Meio		BR		-29.401	-51.945	0
+P	São Francisco de Paula	sao francisco de paula	BR		-29.448	-50.584	0
+P	Herval dOeste		BR		-27.194	-51.495	0
+P	Ibirubá	ibiruba	BR		-28.628	-53.090	0
+P	Rolante		BR		-29.651	-50.576	0
+P	Chopinzinho		BR		-25.856	-52.523	0
+P	São Marcos	sao marcos	BR		-28.971	-51.068	0
+P	São Jerônimo	sao jeronimo	BR		-29.959	-51.722	0
+P	Capanema		BR		-25.672	-53.809	0
+P	Nova Hartz		BR		-29.584	-50.903	0
+P	Tupanciretã	tupancireta	BR		-29.081	-53.836	0
+P	Três Barras	tres barras	BR		-26.106	-50.322	0
+P	Ampére	ampere	BR		-25.915	-53.473	0
+P	El Soberbio		AR		-27.297	-54.198	0
+P	Realeza		BR		-25.769	-53.532	0
+P	Papanduva		BR		-26.370	-50.144	0
+P	Horizontina		BR		-27.626	-54.308	0
+P	Seara		BR		-27.149	-52.311	0
+P	Matelândia	matelandia	BR		-25.240	-53.982	0
+P	Júlio de Castilhos	julio de castilhos	BR		-29.227	-53.682	0
+P	Não-Me-Toque	nao me toque	BR		-28.459	-52.821	0
+P	Abelardo Luz		BR		-26.565	-52.328	0
+P	Otacílio Costa	otacilio costa	BR		-27.483	-50.122	0
+P	Serafina Corrêa	serafina correa	BR		-28.712	-51.935	0
+P	Itapiranga		BR		-27.169	-53.712	0
+P	Mangueirinha		BR		-25.941	-52.176	0
+P	Getúlio Vargas	getulio vargas	BR		-27.890	-52.227	0
+P	Xangri-lá	xangri la	BR		-29.801	-50.044	0
+P	Sananduva		BR		-27.950	-51.807	0
+P	Agudo		BR		-29.645	-53.240	0
+P	Giruá	girua	BR		-28.028	-54.350	0
+P	Cruz Machado		BR		-26.017	-51.347	0
+P	Marmeleiro		BR		-26.149	-53.026	0
+P	Correia Pinto		BR		-27.585	-50.361	0
+P	Palmitos		BR		-27.067	-53.161	0
+P	Puerto Esperanza		AR		-26.023	-54.614	0
+P	São Pedro do Sul	sao pedro do sul	BR		-29.621	-54.179	0
+P	Santa Cecília	santa cecilia	BR		-26.961	-50.427	0
+P	Bituruna		BR		-26.161	-51.553	0
+P	Colonia Wanda		AR		-25.973	-54.563	0
+P	Santo Cristo		BR		-27.824	-54.663	0
+P	Salto do Lontra		BR		-25.784	-53.309	0
+P	Espumoso		BR		-28.725	-52.850	0
+P	Clevelândia	clevelandia	BR		-26.405	-52.351	0
+P	Dionísio Cerqueira	dionisio cerqueira	BR		-26.255	-53.640	0

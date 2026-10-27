@@ -1,0 +1,24 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Australia/Perth	480	
+C	AU	Australia	mwl	s
+B	1
+P	Perth		AU	Western Australia	-31.952	115.861	0
+P	Mandurah		AU	Western Australia	-32.527	115.722	0
+P	Bunbury		AU	Western Australia	-33.327	115.641	0
+P	Baldivis		AU	Western Australia	-32.329	115.830	0
+P	Canning Vale		AU	Western Australia	-32.058	115.918	0
+P	Kwinana		AU	Western Australia	-32.230	115.781	0
+P	Busselton		AU	Western Australia	-33.652	115.346	0
+P	Ellenbrook		AU	Western Australia	-31.767	115.969	0
+P	Dianella		AU	Western Australia	-31.888	115.872	0
+P	Thornlie		AU	Western Australia	-32.060	115.955	0
+P	Morley		AU	Western Australia	-31.888	115.910	0
+P	Gosnells		AU	Western Australia	-32.081	116.005	0
+P	Willetton		AU	Western Australia	-32.053	115.888	0
+P	Byford		AU	Western Australia	-32.221	116.009	0
+P	Ballajura		AU	Western Australia	-31.841	115.895	0
+P	Scarborough		AU	Western Australia	-31.896	115.764	0
+P	Australind		AU	Western Australia	-33.279	115.715	0
+P	Duncraig		AU	Western Australia	-31.833	115.776	0
+P	Landsdale		AU	Western Australia	-31.808	115.866	0
+P	Rockingham		AU	Western Australia	-32.277	115.730	0

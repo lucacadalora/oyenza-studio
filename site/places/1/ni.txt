@@ -1,0 +1,261 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+Z	1	Africa/Niamey	60	
+Z	2	Africa/Ouagadougou	0	
+Z	3	America/Caracas	-240	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	6	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	7	America/Monterrey	-360	
+Z	8	America/Sao_Paulo	-180	
+Z	9	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	10	Asia/Bangkok	420	
+Z	11	Asia/Kabul	270	
+Z	12	Asia/Kolkata	330	
+Z	13	Asia/Muscat	240	
+Z	14	Asia/Nicosia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	15	Asia/Shanghai	480	
+Z	16	Asia/Tehran	210	
+Z	17	Asia/Tokyo	540	
+Z	18	Asia/Vladivostok	600	
+Z	19	Asia/Yekaterinburg	300	
+Z	20	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	21	Europe/Moscow	180	
+Z	22	Europe/Paris	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	23	Pacific/Honolulu	-600	
+C	AF	Afghanistan	karachi	h
+C	AR	Argentina	mwl	s
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BJ	Benin	egyptian	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	CI	Ivory Coast	egyptian	s
+C	CN	China	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CU	Cuba	mwl	s
+C	CY	Cyprus	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	ES	Spain	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GR	Greece	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KP	North Korea	mwl	s
+C	ME	Montenegro	mwl	s
+C	ML	Mali	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NE	Niger	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	OM	Oman	ummalqura	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	PL	Poland	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SA	Saudi Arabia	ummalqura	s
+C	SK	Slovakia	mwl	s
+C	SN	Senegal	egyptian	s
+C	TG	Togo	egyptian	s
+C	TH	Thailand	mwl	s
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Ningbo		CN		29.878	121.549	15
+P	Niamey		NE		13.514	2.110	1
+P	Nizhniy Novgorod		RU		56.329	44.002	21
+P	Niigata		JP		37.923	139.041	17
+P	Nilüfer	nilufer	TR		40.214	28.916	21
+P	Nishinomiya		JP		34.716	135.332	17
+P	Niterói	niteroi	BR		-22.883	-43.104	8
+P	Ningde		CN		26.662	119.523	15
+P	San Nicolás de los Garza	san nicolas de los garza	MX		25.742	-100.302	7
+P	Nizhny Tagil		RU		57.919	59.965	19
+P	Nice		FR		43.703	7.266	22
+P	Nizāmābād	nizamabad	IN		18.672	78.099	12
+P	Bắc Ninh	bac ninh	VN		21.186	106.076	10
+P	Nicolás Romero	nicolas romero	MX		19.642	-99.307	7
+P	Nianbo		CN		36.480	102.416	15
+P	Niš	nis	RS		43.325	21.903	22
+P	Nizhnevartovsk		RU		60.934	76.553	19
+P	Nizhnekamsk		RU		55.638	51.815	21
+P	Ninh Hòa	ninh hoa	VN		12.492	109.125	10
+P	NIA Valencia		PH		7.906	125.094	15
+P	Nishi-Tokyo-shi	nishi tokyo shi	JP		35.725	139.538	17
+P	Nicosia		CY		35.173	33.354	14
+P	Dinapur Nizamat		IN		25.638	85.051	12
+P	Nijmegen		NL		51.843	5.853	22
+P	Nishio		JP		34.867	137.050	17
+P	Niiza		JP		35.821	139.558	17
+P	Ning’er	ninger	CN		23.041	101.037	15
+P	Songnim-ni	songnim ni	KP		38.763	125.641	17
+P	Nîmes	nimes	FR		43.837	4.358	22
+P	Nilópolis	nilopolis	BR		-22.808	-43.414	8
+P	Nigel		ZA		-26.431	28.477	0
+P	Tây Ninh	tay ninh	VN		11.310	106.098	10
+P	San Nicolás de los Arroyos	san nicolas de los arroyos	AR		-33.334	-60.211	8
+P	Nimach		IN		24.459	74.866	12
+P	Chaeryŏng-ni	chaeryong ni	KP		38.736	125.231	17
+P	Niihama		JP		33.960	133.305	17
+P	Nippes		DE		50.965	6.953	22
+P	Nikopol		UA		47.568	34.391	14
+P	Niagara Falls		CA	Ontario	43.100	-79.066	9
+P	Nisshin		JP		35.137	137.052	17
+P	Niğde	nigde	TR		37.966	34.679	21
+P	Níkaia	nikaia	GR		37.967	23.650	14
+P	Nirmal		IN		19.097	78.344	12
+P	Nitra		SK		48.308	18.085	22
+P	Ningyang		CN		35.764	116.791	15
+P	Nizip		TR		37.010	37.794	21
+P	Nianzhuang		CN		34.297	117.772	15
+P	Nikkō	nikko	JP		36.750	139.617	17
+P	Nizwá	nizwa	OM		22.933	57.533	13
+P	Sint-Niklaas	sint niklaas	BE		51.165	4.144	22
+P	Ninghai		CN		29.289	121.425	15
+P	Nizhyn		UA		51.048	31.888	14
+P	Nikki		BJ		9.940	3.211	1
+P	Niitsu-honchō	niitsu honcho	JP		37.800	139.122	17
+P	Laguna Niguel		US	California	33.523	-117.708	6
+P	Nioko I		BF		12.395	-1.439	2
+P	Nipāni	nipani	IN		16.399	74.383	12
+P	Nioki		CD		-2.720	17.690	1
+P	Nianzishan		CN		47.513	122.888	15
+P	Nīmbāhera	nimbahera	IN		24.622	74.680	12
+P	Nieuwegein		NL		52.029	5.081	22
+P	Nikšić	niksic	ME		42.773	18.944	22
+P	Ninghai		CN		37.384	121.609	15
+P	Niort		FR		46.323	-0.459	22
+P	Nirgua		VE		10.150	-68.565	3
+P	Assi Bou Nif		DZ		35.692	-0.499	1
+P	Nihommatsu		JP		37.583	140.433	17
+P	Niono		ML		14.251	-5.987	2
+P	Nioro		ML		15.231	-9.594	2
+P	El Nido		PH		11.186	119.396	15
+P	Nichinan		JP		31.600	131.367	17
+P	Nithari		IN		28.705	77.053	12
+P	Nikol’skoye	nikolskoye	RU		55.683	37.483	21
+P	Niksar		TR		40.592	36.952	21
+P	Niagara Falls		US	New York	43.094	-79.057	9
+P	Niah		MY		3.862	113.715	15
+P	Ningdong		CN		38.161	106.585	15
+P	Nihtaur		IN		29.324	78.387	12
+P	Nihammatsu		JP		35.373	139.392	17
+P	Nichelino		IT		45.000	7.653	22
+P	Nilambūr	nilambur	IN		11.273	76.226	12
+P	Jablonec nad Nisou		CZ		50.724	15.171	22
+P	Nidadavole		IN		16.906	81.672	12
+P	Nilithi		IN		28.652	77.056	12
+P	Nishifukuma		JP		33.766	130.475	17
+P	Niakoul Rab		SN		14.784	-17.274	2
+P	Jaxaay Parcelle Niakoul Rap		SN		14.775	-17.280	2
+P	Niendorf		DE		53.618	9.950	22
+P	Nibong Tebal		MY		5.166	100.478	15
+P	Nicastro		IT		38.971	16.313	22
+P	Nizhneudinsk		RU		54.907	99.034	15
+P	Nishiwaki		JP		34.984	134.974	17
+P	Kampung Baharu Nilai		MY		2.803	101.797	15
+P	Nijkerk		NL		52.220	5.486	22
+P	Nildoh		IN		21.111	78.989	12
+P	Niwai		IN		26.361	75.918	12
+P	Ninh Bình	ninh binh	VN		20.258	105.980	10
+P	Niederkassel		DE		50.815	7.038	22
+P	Nilanga		IN		18.117	76.753	12
+P	Nishishinminato		JP		36.780	137.076	17
+P	Nishihara		JP		26.254	127.744	17
+P	Niquelândia	niquelandia	BR		-14.474	-48.460	8
+P	Ninove		BE		50.828	4.027	22
+P	San Nicolas		PH		18.172	120.595	15
+P	Hàm Ninh	ham ninh	VN		10.181	104.048	10
+P	Niangoloko		BF		10.283	-4.917	2
+P	Nienburg		DE		52.644	9.217	22
+P	Niederschönhausen	niederschonhausen	DE		52.585	13.403	22
+P	Nísia Floresta	nisia floresta	BR		-6.091	-35.209	8
+P	Nieuw-Vennep	nieuw vennep	NL		52.264	4.631	22
+P	Niagara		CA	Ontario	43.645	-79.407	9
+P	Niimi		JP		34.983	133.467	17
+P	Nīlī	nili	AF		33.722	66.130	11
+P	Nikulino		RU		55.669	37.466	21
+P	Niles		US	Illinois	42.019	-87.803	4
+P	Nicholasville		US	Kentucky	37.881	-84.573	9
+P	Nirasaki		JP		35.700	138.450	17
+P	Ninomiya		JP		35.301	139.256	17
+P	Nikolayevsk-on-Amure	nikolayevsk on amure	RU		53.147	140.723	18
+P	Niederrad		DE		50.083	8.629	22
+P	Niscemi		IT		37.146	14.394	22
+P	Níjar	nijar	ES		36.967	-2.206	22
+P	Nizza Millefonti		IT		45.027	7.665	22
+P	West Whittier-Los Nietos	west whittier los nietos	US	California	33.976	-118.069	6
+P	Ninohe		JP		40.291	141.313	17
+P	Nīlēshwar	nileshwar	IN		12.260	75.135	12
+P	Nijverdal		NL		52.360	6.468	22
+P	Niellé	nielle	CI		10.198	-5.623	2
+P	Nieder-Ingelheim	nieder ingelheim	DE		49.978	8.072	22
+P	Nishinippori		JP		35.733	139.770	17
+P	Nikol’sk	nikolsk	RU		53.719	46.071	21
+P	An Nimas		SA		19.145	42.120	21
+P	Nivelles		BE		50.598	4.328	22
+P	Chak One Hundred Twenty Nine Left		PK		30.429	73.045	19
+P	Nizhniy Lomov		RU		53.530	43.677	21
+P	Nivāri	nivari	IN		25.349	78.800	12
+P	Nikaho		JP		39.271	139.939	17
+P	Niamtougou		TG		9.768	1.105	2
+P	Nizhnyaya Tura		RU		58.624	59.852	19
+P	Saint-Nicolas	saint nicolas	BE		50.628	5.532	22
+P	Nilakottai		IN		10.165	77.850	12
+P	Naka-niida	naka niida	JP		38.569	140.854	17
+P	Phanat Nikhom		TH		13.447	101.185	10
+P	Nishiarai		JP		35.785	139.779	17
+P	Niakaramandougou		CI		8.658	-5.291	2
+P	San Nicola la Strada		IT		41.052	14.333	22
+P	Nixa		US	Missouri	37.043	-93.294	4
+P	Nijlen		BE		51.161	4.670	22
+P	Nioro du Rip		SN		13.750	-15.800	2
+P	Nīmāj	nimaj	IN		26.150	74.001	12
+P	Niablé	niable	CI		6.661	-3.270	2
+P	Sena Nikhom		TH		13.837	100.577	10
+P	Nirmāli	nirmali	IN		26.314	86.585	12
+P	Nidderau		DE		50.238	8.867	22
+P	Sueyoshichō-ninokata	sueyoshicho ninokata	JP		31.650	131.017	17
+P	Nishitawara		JP		34.956	134.768	17
+P	Nimāparha	nimaparha	IN		20.058	86.004	12
+P	Nikol’skoye	nikolskoye	RU		59.701	30.785	21
+P	Niu Valley		US	Hawaii	21.284	-157.737	23
+P	Niquero		CU		20.046	-77.580	5
+P	Niles		US	Ohio	41.183	-80.765	9
+P	Niapidou		CI		5.348	-6.056	2
+P	Nidda		DE		50.413	9.006	22
+P	Nigrán	nigran	ES		42.142	-8.807	22
+P	Nīlokheri	nilokheri	IN		29.837	76.932	12
+P	Nishinoomote		JP		30.733	131.000	17
+P	Nima		CN		34.001	102.071	15
+P	Nichlaul		IN		27.312	83.725	12
+P	Niagara-on-the-Lake	niagara on the lake	CA	Ontario	43.257	-79.085	9
+P	Nizhnyaya Salda		RU		58.078	60.720	19
+P	Nīsang	nisang	IN		29.692	76.755	12
+P	Nicetown-Tioga	nicetown tioga	US	Pennsylvania	40.010	-75.164	9
+P	Nilagiri		IN		21.462	86.768	12
+P	Nīkshahr	nikshahr	IR		26.226	60.214	16
+P	Nipomo		US	California	35.043	-120.476	6
+P	Nigg		GB	Scotland	57.116	-2.093	20
+P	Ayang-ni	ayang ni	KP		38.247	125.795	17
+P	Nikolayevsk		RU		50.028	45.461	21
+P	San Nicandro Garganico		IT		41.838	15.565	22
+P	Nikel		RU		69.413	30.222	21
+P	Nisko		PL		50.520	22.140	22
+P	Niederkrüchten	niederkruchten	DE		51.200	6.217	22
+P	Nicoya		CR		10.150	-85.451	7
+P	Nizahon II		CI		6.372	-7.399	2
+P	Nizhnesortymskiy		RU		62.440	71.760	19
+P	Niz-Hajo	niz hajo	IN		26.249	91.524	12
+P	Niño Jesús	nino jesus	ES		40.412	-3.673	22

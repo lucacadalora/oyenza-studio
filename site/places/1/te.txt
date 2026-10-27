@@ -1,0 +1,365 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Accra	0	
+Z	1	Africa/Algiers	60	
+Z	2	Africa/Casablanca	60	29518680=0 29569080=60 29831100=0
+Z	3	Africa/Maputo	120	
+Z	4	America/Bogota	-300	
+Z	5	America/Caracas	-240	
+Z	6	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	7	America/Fortaleza	-180	
+Z	8	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	9	America/Mazatlan	-420	
+Z	10	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	11	America/Tegucigalpa	-360	
+Z	12	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	America/Vancouver	-480	29549400=-420
+Z	14	Asia/Almaty	300	
+Z	15	Asia/Dhaka	360	
+Z	16	Asia/Hong_Kong	480	
+Z	17	Asia/Jerusalem	120	29576160=180 29881380=120 30100320=180 30415620=120 30624480=180 30939780=120 31148640=180 31463940=120 31682880=180 31988100=120 32207040=180 32512260=120 32731200=180 33046500=120 33255360=180 33570660=120 33779520=180 34094820=120 34303680=180 34618980=120 34837920=180 35143140=120 35362080=180 35667300=120 35886240=180 36201540=120 36410400=180 36725700=120 36934560=180 37249860=120 37468800=180 37774020=120 37992960=180 38298180=120 38517120=180 38822340=120 39041280=180 39356580=120 39565440=180 39880740=120
+Z	18	Asia/Kolkata	330	
+Z	19	Asia/Tbilisi	240	
+Z	20	Asia/Tehran	210	
+Z	21	Asia/Tokyo	540	
+Z	22	Atlantic/Canary	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	23	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	24	Europe/Istanbul	180	
+Z	25	Europe/Kyiv	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	27	Pacific/Auckland	780	29588520=720 29840520=780 30112680=720 30364680=780 30636840=720 30888840=780 31161000=720 31423080=780 31695240=720 31947240=780 32219400=720 32471400=780 32743560=720 32995560=780 33267720=720 33519720=780 33791880=720 34043880=780 34316040=720 34578120=780 34850280=720 35102280=780 35374440=720 35626440=780 35898600=720 36150600=780 36422760=720 36674760=780 36946920=720 37209000=780 37481160=720 37733160=780 38005320=720 38257320=780 38529480=720 38781480=780 39053640=720 39305640=780 39577800=720 39829800=780
+C	AR	Argentina	mwl	s
+C	AT	Austria	mwl	s
+C	AU	Australia	mwl	s
+C	BD	Bangladesh	karachi	h
+C	BE	Belgium	mwl	s
+C	BF	Burkina Faso	egyptian	s
+C	BR	Brazil	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CN	China	mwl	s
+C	CO	Colombia	mwl	s
+C	CR	Costa Rica	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DZ	Algeria	egyptian	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	ET	Ethiopia	egyptian	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GE	Georgia	mwl	s
+C	GH	Ghana	egyptian	s
+C	GN	Guinea	egyptian	s
+C	GP	Guadeloupe	mwl	s
+C	GT	Guatemala	mwl	s
+C	HK	Hong Kong	mwl	s
+C	HN	Honduras	mwl	s
+C	HT	Haiti	mwl	s
+C	IE	Ireland	mwl	s
+C	IL	Israel	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	JP	Japan	mwl	s
+C	KE	Kenya	egyptian	s
+C	KZ	Kazakhstan	mwl	h
+C	LS	Lesotho	egyptian	s
+C	LT	Lithuania	mwl	s
+C	MA	Morocco	egyptian	s
+C	MK	North Macedonia	mwl	s
+C	MR	Mauritania	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	MZ	Mozambique	egyptian	s
+C	NE	Niger	egyptian	s
+C	NG	Nigeria	egyptian	s
+C	NL	The Netherlands	mwl	s
+C	NZ	New Zealand	mwl	s
+C	PH	Philippines	mwl	s
+C	PK	Pakistan	karachi	h
+C	RO	Romania	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SG	Singapore	singapore	s
+C	SV	El Salvador	mwl	s
+C	TM	Turkmenistan	mwl	h
+C	TN	Tunisia	egyptian	s
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VE	Venezuela	mwl	s
+C	ZA	South Africa	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	3
+P	Tehran		IR		35.694	51.422	20
+P	New Territories		HK		22.424	114.111	16
+P	Teni		IN		10.011	77.478	18
+P	Teresina		BR		-5.089	-42.802	7
+P	Tegucigalpa		HN		14.082	-87.207	11
+P	Tel Aviv		IL		32.081	34.781	17
+P	Kuala Terengganu		MY		5.330	103.141	16
+P	Tétouan	tetouan	MA		35.578	-5.368	2
+P	Kampung Kangkar Teberau		MY		1.532	103.755	16
+P	Tete		MZ		-16.156	33.587	3
+P	Temara		MA		33.929	-6.907	2
+P	Tepic		MX		21.507	-104.893	9
+P	Santa Teresa del Tuy		VE		10.233	-66.665	5
+P	Los Teques		VE		10.350	-67.043	5
+P	Tehuacán	tehuacan	MX		18.464	-97.397	11
+P	Temuco		CL		-38.736	-72.597	10
+P	Teluk Intan		MY		4.022	101.021	16
+P	Paya Terubong		MY		5.373	100.280	16
+P	Ternopil		UA		49.554	25.591	25
+P	Terrassa		ES		41.567	2.017	26
+P	Santa Cruz de Tenerife		ES		28.468	-16.255	22
+P	Tébessa	tebessa	DZ		35.404	8.124	1
+P	Teresópolis	teresopolis	BR		-22.417	-42.978	7
+P	Tempe		US	Arizona	33.415	-111.909	9
+P	Temirtau		KZ		50.052	72.955	14
+P	Tempe Junction		US	Arizona	33.414	-111.943	9
+P	Tema		GH		5.670	-0.017	0
+P	San Martin Texmelucan de Labastida		MX		19.284	-98.439	11
+P	Telford		GB	England	52.677	-2.449	22
+P	Tetuán de las Victorias	tetuan de las victorias	ES		40.460	-3.697	26
+P	Teixeira de Freitas		BR		-17.535	-39.742	7
+P	Teshi Old Town		GH		5.584	-0.107	0
+P	Metairie Terrace		US	Louisiana	29.979	-90.164	6
+P	Tengyue		CN		24.995	98.513	16
+P	Santa Tecla		SV		13.677	-89.283	11
+P	Telde		ES		27.992	-15.419	22
+P	Toba Tek Singh		PK		30.971	72.483	14
+P	Tekirdağ	tekirdag	TR		40.978	27.511	24
+P	Saint-Louis-de-Terrebonne	saint louis de terrebonne	CA	Quebec	45.702	-73.787	12
+P	Terrebonne		CA	Quebec	45.700	-73.647	12
+P	Terni		IT		42.563	12.643	26
+P	Temecula		US	California	33.494	-117.148	8
+P	Texcoco de Mora		MX		19.512	-98.883	11
+P	Teziutlan		MX		19.817	-97.360	11
+P	Tepexpan		MX		19.614	-98.936	11
+P	Teófilo Otoni	teofilo otoni	BR		-17.858	-41.505	7
+P	Tekstil’shchiki	tekstilshchiki	RU		55.700	37.743	24
+P	Temixco		MX		18.853	-99.225	11
+P	Oulad Teïma	oulad teima	MA		30.395	-9.209	2
+P	Tellicherry		IN		11.748	75.493	18
+P	Tema New Town		GH		5.654	0.026	0
+P	Tepatitlán de Morelos	tepatitlan de morelos	MX		20.817	-102.763	11
+P	Jhumri Telaiya		IN		24.435	85.530	18
+P	Tecomán	tecoman	MX		18.916	-103.877	11
+P	Techiman		GH		7.591	-1.939	0
+P	Tepeji del Río de Ocampo	tepeji del rio de ocampo	MX		19.905	-99.344	11
+P	Stockton-on-Tees	stockton on tees	GB	England	54.568	-1.319	22
+P	Tefé	tefe	BR		-3.368	-64.721	5
+P	Tezpur		IN		26.633	92.800	18
+P	Telêmaco Borba	telemaco borba	BR		-24.324	-50.616	7
+P	Tekstylnyk		UA		47.946	37.698	25
+P	Temple		US	Texas	31.098	-97.343	6
+P	Tenri		JP		34.583	135.833	21
+P	Aïn Temouchent	ain temouchent	DZ		35.297	-1.140	1
+P	Lamezia Terme		IT		38.963	16.309	26
+P	Santo Domingo Tehuantepec		MX		16.325	-95.241	11
+P	Tejen		TM		37.383	60.505	14
+P	Tēpī	tepi	ET		7.200	35.450	24
+P	Tendō	tendo	JP		38.354	140.370	21
+P	Tecate		MX		32.566	-116.632	8
+P	Tetovo		MK		42.010	20.971	26
+P	San Francisco Tesistán	san francisco tesistan	MX		20.797	-103.477	11
+P	Mīzan Teferī	mizan teferi	ET		6.999	35.589	24
+P	Tenkodogo		BF		11.784	-0.372	0
+P	Tempelhof		DE		52.467	13.400	26
+P	Terre Haute		US	Indiana	39.467	-87.414	12
+P	Temerluh		MY		3.451	102.418	16
+P	Tessaoua		NE		13.757	7.987	1
+P	Tennala		IN		10.993	75.935	18
+P	Teghra		IN		25.490	85.940	18
+P	Bukit Tengah		MY		5.346	100.439	16
+P	Teramo		IT		42.661	13.699	26
+P	Santiago Teyahualco		MX		19.660	-99.125	11
+P	Río Tercero	rio tercero	AR		-32.177	-64.113	7
+P	University of Texas		US	Texas	30.286	-97.739	6
+P	Tengréla	tengrela	CI		10.481	-6.407	0
+P	Teoloyucan		MX		19.744	-99.181	11
+P	Teplice		CZ		50.640	13.825	26
+P	Teluk Panglima Garang		MY		2.908	101.469	16
+P	Tevragh Zeina		MR		18.099	-15.988	0
+P	Texas City		US	Texas	29.384	-94.903	6
+P	Puerto Tejada		CO		3.231	-76.417	4
+P	Teupasenti		HN		14.217	-86.700	11
+P	Las Tejerías	las tejerias	VE		10.254	-67.173	5
+P	Teboulba		TN		35.640	10.967	1
+P	Tecuci		RO		45.850	27.434	25
+P	Tebesbest		DZ		33.117	6.083	1
+P	Teknāf	teknaf	BD		20.858	92.298	15
+P	Kirchheim unter Teck		DE		48.647	9.454	26
+P	Teaneck		US	New Jersey	40.898	-74.016	12
+P	Nibong Tebal		MY		5.166	100.478	16
+P	Telychka		UA		50.400	30.567	25
+P	Téra	tera	NE		14.008	0.753	1
+P	Tetu		KE		-0.434	36.917	24
+P	Teotônio Vilela	teotonio vilela	BR		-9.910	-36.356	7
+P	Yew Tee		SG		1.397	103.747	16
+P	Paravūr Tekkumbhāgam	paravur tekkumbhagam	IN		8.795	76.668	18
+P	Menzel Temime		TN		36.782	10.988	1
+P	Tepotzotlán	tepotzotlan	MX		19.721	-99.224	11
+P	Texarkana		US	Texas	33.425	-94.048	6
+P	Santa Teresa		MX		19.845	-99.233	11
+P	Tegel		DE		52.576	13.294	26
+P	Temryuk		RU		45.269	37.398	24
+P	Temblador		VE		9.005	-62.645	5
+P	Temple City		US	California	34.107	-118.058	8
+P	Teruel		ES		40.346	-1.106	26
+P	Teykovo		RU		56.859	40.540	24
+P	Santa Teresa		BR		-22.918	-43.188	7
+P	Teresa		PH		14.561	121.219	16
+P	Tecpán Guatemala	tecpan guatemala	GT		14.762	-90.992	11
+P	Teremky		UA		50.371	30.459	25
+P	Teutônia	teutonia	BR		-29.448	-51.806	7
+P	Tenosique		MX		17.473	-91.424	11
+P	Paris 03 Temple		FR		48.864	2.361	26
+P	Termoli		IT		42.000	14.994	26
+P	Terracina		IT		41.292	13.244	26
+P	Āsbe Teferī	asbe teferi	ET		9.086	40.867	24
+P	Oadar Temsia		MA		30.365	-9.410	2
+P	Texarkana		US	Arkansas	33.442	-94.038	6
+P	Télimélé	telimele	GN		10.900	-13.033	0
+P	Tebourba		TN		36.829	9.839	1
+P	Tequisquiapan		MX		20.523	-99.892	11
+P	Yau Ma Tei		HK		22.314	114.169	16
+P	Tewksbury		US	Massachusetts	42.611	-71.234	12
+P	Tela		HN		15.774	-87.467	11
+P	Ténès	tenes	DZ		36.511	1.308	1
+P	Tequila		MX		20.882	-103.836	11
+P	Tecamachalco		MX		18.884	-97.733	11
+P	Tekkali		IN		18.606	84.235	18
+P	Terme		TR		41.209	36.974	24
+P	Terny		UA		48.145	33.558	25
+P	Terneuzen		NL		51.336	3.828	26
+P	Termas de Río Hondo	termas de rio hondo	AR		-27.494	-64.860	7
+P	Tehri		IN		30.391	78.480	18
+P	Tepeaca		MX		18.967	-97.900	11
+P	Saint-Josse-ten-Noode	saint josse ten noode	BE		50.854	4.373	26
+P	Teyateyaneng		LS		-29.147	27.749	3
+P	La Teste-de-Buch	la teste de buch	FR		44.633	-1.145	26
+P	La Tebaida		CO		4.453	-75.787	4
+P	Ternivka		UA		48.527	36.071	25
+P	Tekeli		KZ		44.868	78.728	14
+P	Teapa		MX		17.556	-92.948	11
+P	Río de Teapa	rio de teapa	MX		17.775	-92.902	11
+P	Terdāl	terdal	IN		16.494	75.047	18
+P	Telerghma		DZ		36.117	6.354	1
+P	Tekkalakote		IN		15.534	76.877	18
+P	Temse		BE		51.128	4.214	26
+P	Telabastagan		PH		15.119	120.608	16
+P	Savigny-le-Temple	savigny le temple	FR		48.574	2.583	26
+P	Terlizzi		IT		41.129	16.545	26
+P	Tecax		MX		20.205	-89.285	11
+P	Český Těšín	cesky tesin	CZ		49.746	18.626	26
+P	Temple Terrace		US	Florida	28.035	-82.389	12
+P	Tejupilco de Hidalgo		MX		18.905	-100.153	11
+P	Tebedu		MY		1.027	110.363	16
+P	Kampung Jelutong Tengah		MY		1.471	103.567	16
+P	Teck Whye		SG		1.380	103.752	16
+P	San Antonio Tecómitl	san antonio tecomitl	MX		19.218	-98.988	11
+P	Coral Terrace		US	Florida	25.746	-80.305	12
+P	Santa Terezinha de Itaipu		BR		-25.440	-54.402	7
+P	Tegina		NG		10.071	6.191	1
+P	San Giovanni a Teduccio		IT		40.838	14.306	26
+P	Teremky-II	teremky ii	UA		50.381	30.452	25
+P	Teocaltiche		MX		21.434	-102.574	11
+P	‘Alem T’ēna	alem tena	ET		8.300	38.950	24
+P	Teloloapan		MX		18.367	-99.872	11
+P	Teotihuacán de Arista	teotihuacan de arista	MX		19.690	-98.861	11
+P	Terrytown		US	Louisiana	29.910	-90.033	6
+P	Tecumseh		CA	Ontario	42.316	-82.884	12
+P	Tearce		MK		42.076	21.052	26
+P	Termini Imerese		IT		37.982	13.697	26
+P	Santa Teresa		BR		-19.936	-40.600	7
+P	Tennō	tenno	JP		39.900	139.967	21
+P	Tequixquiac		MX		19.909	-99.145	11
+P	Itezhi-Tezhi	itezhi tezhi	ZM		-15.737	26.042	3
+P	Tejar		CR		9.743	-84.232	11
+P	Thornaby-on-Tees	thornaby on tees	GB	England	54.533	-1.300	22
+P	Teodoro Sampaio		BR		-22.532	-52.167	7
+P	Tékane	tekane	MR		16.602	-15.349	0
+P	Tenango de Arista		MX		19.104	-99.590	11
+P	Tepecik		TR		41.029	28.550	24
+P	Kampung Teluk Kumbar		MY		5.289	100.247	16
+P	Terrier Rouge		HT		19.636	-71.955	12
+P	Tekāri	tekari	IN		24.943	84.843	18
+P	Telsiai		LT		55.981	22.247	25
+P	Terek		RU		43.483	44.138	24
+P	Teofilândia	teofilandia	BR		-11.483	-38.997	7
+P	Telhāra	telhara	IN		21.027	76.839	18
+P	Teliamura		IN		23.842	91.630	18
+P	Mountlake Terrace		US	Washington	47.788	-122.309	8
+P	Tervuren		BE		50.824	4.514	26
+P	Terrazas del Valle		MX		32.487	-116.827	8
+P	Tewkesbury		GB	England	51.992	-2.160	22
+P	Tel Sheva‘	tel sheva	IL		31.249	34.860	17
+P	Tegelen		NL		51.344	6.136	26
+P	Ternate		PH		14.290	120.717	16
+P	Templeton-Est	templeton est	CA	Quebec	45.494	-75.588	12
+P	Telavi		GE		41.920	45.470	19
+P	Teltow		DE		52.403	13.260	26
+P	Terrace		CA	British Columbia	54.516	-128.603	13
+P	Teguise		ES		29.060	-13.564	22
+P	Telgte		DE		51.980	7.783	26
+P	Kampung Teluk Air Tawar		MY		5.483	100.383	16
+P	Telok Blangah		SG		1.275	103.812	16
+P	Terra Santa		BR		-2.104	-56.487	7
+P	Lerdo de Tejada		MX		18.629	-95.520	11
+P	Abano Terme		IT		45.358	11.787	26
+P	Tezu		IN		27.913	96.129	18
+P	Tettnang		DE		47.669	9.591	26
+P	Terra Roxa		BR		-24.157	-54.097	7
+P	Templeogue		IE		53.295	-6.309	22
+P	Tepa		GH		7.006	-2.166	0
+P	Teloi Kanan		MY		5.717	100.658	16
+P	Montecatini-Terme	montecatini terme	IT		43.882	10.772	26
+P	Tekwane		ZA		-25.478	31.146	3
+P	Acqui Terme		IT		44.676	8.469	26
+P	Teo		ES		42.795	-8.548	26
+P	Terenos		BR		-20.442	-54.860	5
+P	Templin		DE		53.119	13.502	26
+P	Terra Boa		BR		-23.768	-52.444	7
+P	Tebela		ET		6.706	37.770	24
+P	Kallūr Tekkumuri	kallur tekkumuri	IN		10.240	76.324	18
+P	Tembedgha		MR		16.241	-8.173	0
+P	Te Atatu South		NZ		-36.865	174.648	27
+P	Tekkeköy	tekkekoy	TR		41.212	36.460	24
+P	Tena		EC		-0.996	-77.813	4
+P	Tejuçuoca	tejucuoca	BR		-3.989	-39.581	7
+P	Terzigno		IT		40.804	14.493	26
+P	Tensta		SE		59.394	17.901	26
+P	Teonthar		IN		24.982	81.642	18
+P	Nyzhnya Telychka		UA		50.388	30.575	25
+P	Terrell		US	Texas	32.736	-96.275	6
+P	Templestowe		AU	Victoria	-37.754	145.149	23
+P	Tezoyuca		MX		19.593	-98.911	11
+P	Teboulbou		TN		33.846	10.114	1
+P	Kampung Teluk Kemang		MY		2.461	101.860	16
+P	Tessenderlo		BE		51.065	5.089	26
+P	Teopisca		MX		16.541	-92.473	11
+P	Teolocholco		MX		19.243	-98.191	11
+P	Tepatlaxco de Hidalgo		MX		19.081	-97.973	11
+P	Tevāram	tevaram	IN		9.897	77.281	18
+P	Bharanikāvu Tekku	bharanikavu tekku	IN		9.185	76.561	18
+P	Tecámac de Felipe Villanueva	tecamac de felipe villanueva	MX		19.713	-98.968	11
+P	Salsomaggiore Terme		IT		44.816	9.986	26
+P	El Tejar		GT		14.647	-90.791	11
+P	Terra Preta		BR		-22.633	-47.050	7
+P	Teodoro Schmidt		CL		-38.994	-73.089	10
+P	Tergnier		FR		49.656	3.301	26
+P	Terrace Heights		US	New York	40.721	-73.769	12
+P	Teolândia	teolandia	BR		-13.602	-39.492	7
+P	Bandar Tenggara		MY		1.870	103.616	16
+P	Tepeapulco		MX		19.788	-98.553	11
+P	Tecámac	tecamac	MX		19.713	-98.969	11
+P	Telfs		AT		47.307	11.068	26
+P	Tepalcatepec		MX		19.187	-102.847	11
+P	Santa Teresita		AR		-36.541	-56.693	7
+P	Te Atatu Peninsula		NZ		-36.841	174.652	27
+P	New Territory		US	Texas	29.594	-95.681	6
+P	Tetla		MX		19.442	-98.103	11
+P	Técpan de Galeana	tecpan de galeana	MX		17.220	-100.630	11
+P	Basse-Terre	basse terre	GP		15.997	-61.732	5

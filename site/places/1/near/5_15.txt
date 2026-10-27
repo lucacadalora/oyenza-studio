@@ -1,0 +1,39 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Ndjamena	60	
+C	CF	Central African Republic	egyptian	s
+C	CM	Cameroon	egyptian	s
+C	TD	Chad	egyptian	s
+B	0
+P	Moundou		TD		8.574	16.077	0
+P	Sarh		TD		9.146	18.383	0
+P	Kelo		TD		9.309	15.807	0
+P	Bouar		CF		5.934	15.596	0
+P	Doba		TD		8.664	16.853	0
+P	Bossangoa		CF		6.493	17.455	0
+P	Kaga-Bandoro	kaga bandoro	CF		6.990	19.187	0
+P	Koumra		TD		8.916	17.550	0
+P	Déressia	deressia	TD		9.760	16.270	0
+P	Paoua		CF		7.243	16.441	0
+P	Bébédja	bebedja	TD		8.676	16.566	0
+P	Bocaranga		CF		6.985	15.641	0
+P	Sibut		CF		5.718	19.074	0
+P	Fianga		TD		9.915	15.140	0
+P	Goré	gore	TD		8.650	16.517	0
+P	Gounou Gaya		TD		9.629	15.513	0
+P	Touboro		CM		7.771	15.357	0
+P	Laï	lai	TD		9.397	16.301	0
+P	Batangafo		CF		7.301	18.283	0
+P	Kyabé	kyabe	TD		9.451	18.945	0
+P	Yaloké	yaloke	CF		5.320	17.101	0
+P	Maro		TD		9.223	17.710	0
+P	Bozoum		CF		6.319	16.380	0
+P	Abba		CF		5.334	15.152	0
+P	Dekoa		CF		6.322	19.079	0
+P	Bouca		CF		6.507	18.277	0
+P	Baoro		CF		5.667	15.967	0
+P	Benoy		TD		8.983	16.320	0
+P	Moïssala	moissala	TD		8.340	17.766	0
+P	Bossembélé	bossembele	CF		5.267	17.650	0
+P	Kabo		CF		7.699	18.629	0
+P	Bédiondo	bediondo	TD		8.629	17.186	0
+P	Béré	bere	TD		9.320	16.155	0

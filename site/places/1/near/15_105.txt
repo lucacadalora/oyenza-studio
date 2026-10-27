@@ -1,0 +1,80 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Bangkok	420	
+Z	1	Asia/Shanghai	480	
+C	CN	China	mwl	s
+C	LA	Laos	mwl	s
+C	TH	Thailand	mwl	s
+C	VN	Vietnam	mwl	s
+B	3
+P	Huế	hue	VN		16.462	107.595	0
+P	Da Nang		VN		16.068	108.221	0
+P	Sanya		CN		18.254	109.509	1
+P	Thanh Hóa	thanh hoa	VN		19.800	105.767	0
+P	Vinh		VN		18.673	105.692	0
+P	Basuo		CN		19.103	108.666	1
+P	Nghi Sơn	nghi son	VN		19.327	105.821	0
+P	Quảng Ngãi	quang ngai	VN		15.120	108.792	0
+P	Hà Tĩnh	ha tinh	VN		18.343	105.906	0
+P	Nada		CN		19.521	109.579	1
+P	Điện Bàn	dien ban	VN		15.889	108.254	0
+P	Thanh Khê	thanh khe	VN		16.071	108.191	0
+P	Tam Kỳ	tam ky	VN		15.574	108.474	0
+P	Ðông Hà	dong ha	VN		16.816	107.100	0
+P	Kỳ Anh	ky anh	VN		18.062	106.298	0
+P	Đồng Hới	dong hoi	VN		17.469	106.622	0
+P	Hải Châu	hai chau	VN		15.917	108.133	0
+P	Sầm Sơn	sam son	VN		19.733	105.900	0
+P	Hòa Cường	hoa cuong	VN		16.043	108.182	0
+P	Nghi Xuân	nghi xuan	VN		18.658	105.752	0
+P	Phong Điền	phong dien	VN		16.583	107.364	0
+P	Hoàng Mai	hoang mai	VN		19.268	105.716	0
+P	Wuzhishan		CN		18.782	109.501	1
+P	Yên Vinh	yen vinh	VN		18.667	105.667	0
+P	Ba Đồn	ba don	VN		17.754	106.424	0
+P	Hương Thủy	huong thuy	VN		16.422	107.640	0
+P	Sơn Trà	son tra	VN		16.061	108.233	0
+P	Dacheng		CN		19.509	109.393	1
+P	An Hải	an hai	VN		16.067	108.233	0
+P	Cẩm Lệ	cam le	VN		16.018	108.204	0
+P	Pakse		LA		15.120	105.799	0
+P	Sandu		CN		19.789	109.215	1
+P	Yaxing		CN		19.448	109.263	1
+P	Hương Trà	huong tra	VN		16.525	107.475	0
+P	Núi Thành	nui thanh	VN		15.432	108.659	0
+P	Xinzhou		CN		19.714	109.311	1
+P	Lingao		CN		19.909	109.687	1
+P	Baimajing		CN		19.712	109.218	1
+P	Dongcheng		CN		19.709	109.456	1
+P	Hoàn Lão	hoan lao	VN		17.584	106.534	0
+P	Yinggen		CN		19.038	109.840	1
+P	Mutang		CN		19.808	109.345	1
+P	Hồng Lĩnh	hong linh	VN		18.529	105.706	0
+P	Quán Hàu	quan hau	VN		17.404	106.641	0
+P	Haitou		CN		19.506	108.951	1
+P	Đông Phú	dong phu	VN		15.674	108.220	0
+P	Baocheng		CN		18.640	109.699	1
+P	Thị Trấn Lam Sơn	thi tran lam son	VN		19.905	105.406	0
+P	Hoi An		VN		15.879	108.335	0
+P	Zhonghe		CN		19.743	109.345	1
+P	Cam Lộ	cam lo	VN		16.808	106.994	0
+P	Guangcun		CN		19.642	109.355	1
+P	Kim Liên	kim lien	VN		18.883	105.317	0
+P	Wangwu		CN		19.656	109.291	1
+P	Mỹ Lại	my lai	VN		15.188	108.889	0
+P	Mỹ Khê	my khe	VN		15.150	108.900	0
+P	Lanyang		CN		19.461	109.660	1
+P	Nanfeng		CN		19.410	109.550	1
+P	thị xã Quảng Trị	thi xa quang tri	VN		16.751	107.183	0
+P	Lý Sơn	ly son	VN		15.372	109.119	0
+P	Diễn Thành	dien thanh	VN		18.977	105.600	0
+P	Ban Laongam		LA		15.465	106.167	0
+P	Heqing		CN		19.528	109.633	1
+P	Sekong		LA		15.346	106.724	0
+P	Phibun Mangsahan		TH		15.245	105.229	0
+P	Nghèn	nghen	VN		18.451	105.780	0
+P	Paipu		CN		19.640	109.159	1
+P	Eman		CN		19.857	109.263	1
+P	Bến Thủy	ben thuy	VN		18.650	105.700	0
+P	Đại Lộc	dai loc	VN		15.882	108.121	0
+P	Ban Kèngkok	ban kengkok	LA		16.444	105.198	0
+P	Bà Nà	ba na	VN		15.983	107.983	0

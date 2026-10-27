@@ -1,0 +1,9 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Kampala	180	
+Z	1	Africa/Kigali	120	
+C	RW	Rwanda	egyptian	s
+C	UG	Uganda	egyptian	s
+B	0
+P	Rwamwanja Refugee Camp		UG		0.348	30.654	0
+P	Rwamagana		RW		-1.949	30.435	1
+P	Rwiimi		UG		0.380	30.230	0

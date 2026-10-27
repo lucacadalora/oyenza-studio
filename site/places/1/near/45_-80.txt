@@ -1,0 +1,29 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+C	CA	Canada	moonsighting	s
+B	1
+P	Ottawa		CA	Ontario	45.411	-75.698	0
+P	Gatineau		CA	Quebec	45.477	-75.702	0
+P	Nepean		CA	Ontario	45.336	-75.722	0
+P	Gloucester		CA	Ontario	45.350	-75.633	0
+P	Orléans	orleans	CA	Ontario	45.457	-75.504	0
+P	Ottawa South		CA	Ontario	45.392	-75.687	0
+P	Kanata		CA	Ontario	45.300	-75.916	0
+P	Hull		CA	Quebec	45.428	-75.711	0
+P	Aylmer		CA	Quebec	45.400	-75.806	0
+P	North Bay		CA	Ontario	46.317	-79.466	0
+P	Stittsville		CA	Ontario	45.250	-75.916	0
+P	Centretown		CA	Ontario	45.415	-75.696	0
+P	Val-d'Or	val dor	CA	Quebec	48.097	-77.797	0
+P	Fallingbrook		CA	Ontario	45.476	-75.484	0
+P	Alta Vista		CA	Ontario	45.386	-75.658	0
+P	Bridlewood		CA	Ontario	45.285	-75.857	0
+P	Rouyn-Noranda	rouyn noranda	CA	Quebec	48.237	-79.023	0
+P	Clarence-Rockland	clarence rockland	CA	Ontario	45.550	-75.291	0
+P	Templeton-Est	templeton est	CA	Quebec	45.494	-75.588	0
+P	Huntsville		CA	Ontario	45.333	-79.216	0
+P	Amos		CA	Quebec	48.567	-78.116	0
+P	Petawawa		CA	Ontario	45.895	-77.280	0
+P	Vanier		CA	Ontario	45.440	-75.665	0
+P	Buckingham		CA	Quebec	45.586	-75.421	0
+P	Bracebridge		CA	Ontario	45.033	-79.316	0

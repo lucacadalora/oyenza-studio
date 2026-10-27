@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Mogadishu	180	
+C	KE	Kenya	egyptian	s
+C	SO	Somalia	egyptian	s
+B	0
+P	Kismayo		SO		-0.358	42.545	0
+P	Malindi		KE		-3.218	40.117	0
+P	Kaambooni		SO		-1.638	41.587	0
+P	Masalani		KE		-1.694	40.170	0
+P	Watamu		KE		-3.353	40.021	0
+P	Lamu		KE		-2.272	40.902	0
+P	Hola		KE		-1.483	40.033	0

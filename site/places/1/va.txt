@@ -1,0 +1,417 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Abidjan	0	
+Z	1	Africa/Johannesburg	120	
+Z	2	America/Bogota	-300	
+Z	3	America/Caracas	-240	
+Z	4	America/Chicago	-360	29549280=-300 29891940=-360 30083520=-300 30426180=-360 30607680=-300 30950340=-360 31131840=-300 31474500=-360 31656000=-300 31998660=-360 32180160=-300 32522820=-360 32714400=-300 33057060=-360 33238560=-300 33581220=-360 33762720=-300 34105380=-360 34286880=-300 34629540=-360 34811040=-300 35153700=-360 35335200=-300 35677860=-360 35869440=-300 36212100=-360 36393600=-300 36736260=-360 36917760=-300 37260420=-360 37441920=-300 37784580=-360 37966080=-300 38308740=-360 38490240=-300 38832900=-360 39024480=-300 39367140=-360 39548640=-300 39891300=-360
+Z	5	America/Denver	-420	29549340=-360 29892000=-420 30083580=-360 30426240=-420 30607740=-360 30950400=-420 31131900=-360 31474560=-420 31656060=-360 31998720=-420 32180220=-360 32522880=-420 32714460=-360 33057120=-420 33238620=-360 33581280=-420 33762780=-360 34105440=-420 34286940=-360 34629600=-420 34811100=-360 35153760=-420 35335260=-360 35677920=-420 35869500=-360 36212160=-420 36393660=-360 36736320=-420 36917820=-360 37260480=-420 37441980=-360 37784640=-420 37966140=-360 38308800=-420 38490300=-360 38832960=-420 39024540=-360 39367200=-420 39548700=-360 39891360=-420
+Z	6	America/Havana	-300	29549100=-240 29891820=-300 30083340=-240 30426060=-300 30607500=-240 30950220=-300 31131660=-240 31474380=-300 31655820=-240 31998540=-300 32179980=-240 32522700=-300 32714220=-240 33056940=-300 33238380=-240 33581100=-300 33762540=-240 34105260=-300 34286700=-240 34629420=-300 34810860=-240 35153580=-300 35335020=-240 35677740=-300 35869260=-240 36211980=-300 36393420=-240 36736140=-300 36917580=-240 37260300=-300 37441740=-240 37784460=-300 37965900=-240 38308620=-300 38490060=-240 38832780=-300 39024300=-240 39367020=-300 39548460=-240 39891180=-300
+Z	7	America/Los_Angeles	-480	29549400=-420 29892060=-480 30083640=-420 30426300=-480 30607800=-420 30950460=-480 31131960=-420 31474620=-480 31656120=-420 31998780=-480 32180280=-420 32522940=-480 32714520=-420 33057180=-480 33238680=-420 33581340=-480 33762840=-420 34105500=-480 34287000=-420 34629660=-480 34811160=-420 35153820=-480 35335320=-420 35677980=-480 35869560=-420 36212220=-480 36393720=-420 36736380=-480 36917880=-420 37260540=-480 37442040=-420 37784700=-480 37966200=-420 38308860=-480 38490360=-420 38833020=-480 39024600=-420 39367260=-480 39548760=-420 39891420=-480
+Z	8	America/Mexico_City	-360	
+Z	9	America/Phoenix	-420	
+Z	10	America/Santiago	-180	29589300=-240 29811120=-180 30113460=-240 30335280=-180 30637620=-240 30859440=-180 31171860=-240 31383600=-180 31696020=-240 31917840=-180 32220180=-240 32442000=-180 32744340=-240 32966160=-180 33268500=-240 33490320=-180 33792660=-240 34014480=-180 34326900=-240 34538640=-180 34851060=-240 35072880=-180 35375220=-240 35597040=-180 35899380=-240 36121200=-180 36423540=-240 36645360=-180 36957780=-240 37169520=-180 37481940=-240 37703760=-180 38006100=-240 38227920=-180 38530260=-240 38752080=-180 39054420=-240 39276240=-180 39578580=-240 39800400=-180
+Z	11	America/Sao_Paulo	-180	
+Z	12	America/Toronto	-300	29549220=-240 29891880=-300 30083460=-240 30426120=-300 30607620=-240 30950280=-300 31131780=-240 31474440=-300 31655940=-240 31998600=-300 32180100=-240 32522760=-300 32714340=-240 33057000=-300 33238500=-240 33581160=-300 33762660=-240 34105320=-300 34286820=-240 34629480=-300 34810980=-240 35153640=-300 35335140=-240 35677800=-300 35869380=-240 36212040=-300 36393540=-240 36736200=-300 36917700=-240 37260360=-300 37441860=-240 37784520=-300 37966020=-240 38308680=-300 38490180=-240 38832840=-300 39024420=-240 39367080=-300 39548580=-240 39891240=-300
+Z	13	America/Vancouver	-480	29549400=-420
+Z	14	Asia/Dushanbe	300	
+Z	15	Asia/Ho_Chi_Minh	420	
+Z	16	Asia/Kolkata	330	
+Z	17	Asia/Manila	480	
+Z	18	Asia/Tehran	210	
+Z	19	Asia/Vladivostok	600	
+Z	20	Australia/Adelaide	630	29588670=570 29850750=630 30112830=570 30374910=630 30636990=570 30899070=630 31161150=570 31433310=630 31695390=570 31957470=630 32219550=570 32481630=630 32743710=570 33005790=630 33267870=570 33529950=630 33792030=570 34054110=630 34316190=570 34588350=630 34850430=570 35112510=630 35374590=570 35636670=630 35898750=570 36160830=630 36422910=570 36684990=630 36947070=570 37219230=630 37481310=570 37743390=630 38005470=570 38267550=630 38529630=570 38791710=630 39053790=570 39315870=630 39577950=570 39840030=630
+Z	21	Australia/Melbourne	660	29588640=600 29850720=660 30112800=600 30374880=660 30636960=600 30899040=660 31161120=600 31433280=660 31695360=600 31957440=660 32219520=600 32481600=660 32743680=600 33005760=660 33267840=600 33529920=660 33792000=600 34054080=660 34316160=600 34588320=660 34850400=600 35112480=660 35374560=600 35636640=660 35898720=600 36160800=660 36422880=600 36684960=660 36947040=600 37219200=660 37481280=600 37743360=660 38005440=600 38267520=660 38529600=600 38791680=660 39053760=600 39315840=660 39577920=600 39840000=660
+Z	22	Europe/Istanbul	180	
+Z	23	Europe/London	0	29579100=60 29881500=0 30103260=60 30415740=0 30627420=60 30939900=0 31151580=60 31464060=0 31685820=60 31988220=0 32209980=60 32512380=0 32734140=60 33046620=0 33258300=60 33570780=0 33782460=60 34094940=0 34306620=60 34619100=0 34840860=60 35143260=0 35365020=60 35667420=0 35889180=60 36201660=0 36413340=60 36725820=0 36937500=60 37249980=0 37471740=60 37774140=0 37995900=60 38298300=0 38520060=60 38822460=0 39044220=60 39356700=0 39568380=60 39880860=0
+Z	24	Europe/Madrid	60	29579100=120 29881500=60 30103260=120 30415740=60 30627420=120 30939900=60 31151580=120 31464060=60 31685820=120 31988220=60 32209980=120 32512380=60 32734140=120 33046620=60 33258300=120 33570780=60 33782460=120 34094940=60 34306620=120 34619100=60 34840860=120 35143260=60 35365020=120 35667420=60 35889180=120 36201660=60 36413340=120 36725820=60 36937500=120 37249980=60 37471740=120 37774140=60 37995900=120 38298300=60 38520060=120 38822460=60 39044220=120 39356700=60 39568380=120 39880860=60
+Z	25	Europe/Sofia	120	29579100=180 29881500=120 30103260=180 30415740=120 30627420=180 30939900=120 31151580=180 31464060=120 31685820=180 31988220=120 32209980=180 32512380=120 32734140=180 33046620=120 33258300=180 33570780=120 33782460=180 34094940=120 34306620=180 34619100=120 34840860=180 35143260=120 35365020=180 35667420=120 35889180=180 36201660=120 36413340=180 36725820=120 36937500=180 37249980=120 37471740=180 37774140=120 37995900=180 38298300=120 38520060=180 38822460=120 39044220=180 39356700=120 39568380=180 39880860=120
+Z	26	Indian/Mauritius	240	
+Z	27	Pacific/Honolulu	-600	
+C	AI	Anguilla	mwl	s
+C	AM	Armenia	mwl	s
+C	AR	Argentina	mwl	s
+C	AU	Australia	mwl	s
+C	BG	Bulgaria	mwl	s
+C	BR	Brazil	mwl	s
+C	BY	Belarus	mwl	s
+C	CA	Canada	moonsighting	s
+C	CI	Ivory Coast	egyptian	s
+C	CL	Chile	mwl	s
+C	CO	Colombia	mwl	s
+C	CU	Cuba	mwl	s
+C	CZ	Czechia	mwl	s
+C	DE	Germany	mwl	s
+C	DK	Denmark	mwl	s
+C	EC	Ecuador	mwl	s
+C	ES	Spain	mwl	s
+C	FI	Finland	mwl	s
+C	FR	France	mwl	s
+C	GB	United Kingdom	moonsighting	s
+C	GR	Greece	mwl	s
+C	HR	Croatia	mwl	s
+C	HU	Hungary	mwl	s
+C	IN	India	karachi	h
+C	IR	Iran	tehran	s
+C	IT	Italy	mwl	s
+C	LA	Laos	mwl	s
+C	LI	Liechtenstein	mwl	s
+C	LK	Sri Lanka	mwl	s
+C	LV	Latvia	mwl	s
+C	MG	Madagascar	egyptian	s
+C	MO	Macao	mwl	s
+C	MT	Malta	mwl	s
+C	MU	Mauritius	egyptian	s
+C	MX	Mexico	mwl	s
+C	MY	Malaysia	singapore	s
+C	NL	The Netherlands	mwl	s
+C	PH	Philippines	mwl	s
+C	PT	Portugal	mwl	s
+C	RO	Romania	mwl	s
+C	RS	Serbia	mwl	s
+C	RU	Russia	mwl	s
+C	SE	Sweden	mwl	s
+C	SK	Slovakia	mwl	s
+C	TJ	Tajikistan	mwl	h
+C	TR	Turkey	turkey	s
+C	UA	Ukraine	mwl	s
+C	US	United States	moonsighting	s
+C	VA	Vatican	mwl	s
+C	VE	Venezuela	mwl	s
+C	VN	Vietnam	mwl	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Vadodara		IN		22.299	73.208	16
+P	Valencia		VE		10.162	-68.000	3
+P	Varanasi		IN		25.317	83.010	16
+P	Valencia		ES		39.474	-0.380	24
+P	Valenzuela		PH		14.700	120.967	17
+P	Vancouver		CA	British Columbia	49.250	-123.119	13
+P	Van		TR		38.495	43.383	22
+P	Valledupar		CO		10.465	-73.253	2
+P	Vaughan		CA	Ontario	43.836	-79.498	12
+P	Varna		BG		43.219	27.910	25
+P	Marne La Vallée	marne la vallee	FR		48.836	2.642	24
+P	Várzea Grande	varzea grande	BR		-15.647	-56.133	3
+P	Valladolid		ES		41.655	-4.724	24
+P	Valparaíso	valparaiso	CL		-33.036	-71.630	10
+P	Vantaa		FI		60.294	25.041	25
+P	Governador Valadares		BR		-18.851	-41.949	11
+P	Colonia del Valle		MX		19.386	-99.162	8
+P	Vanderbijlpark		ZA		-26.712	27.838	1
+P	Valera		VE		9.318	-70.604	3
+P	Puente de Vallecas		ES		40.394	-3.662	24
+P	Paris 15 Vaugirard		FR		48.841	2.300	24
+P	Varāmīn	varamin	IR		35.324	51.646	18
+P	Puerto Vallarta		MX		20.617	-105.230	8
+P	NIA Valencia		PH		7.906	125.094	17
+P	Moreno Valley		US	California	33.938	-117.231	7
+P	Vasyl'evsky Ostrov	vasylevsky ostrov	RU		59.941	30.254	22
+P	Valparaíso de Goiás	valparaiso de goias	BR		-16.066	-47.979	11
+P	Vancouver		US	Washington	45.639	-122.661	7
+P	Ferraz de Vasconcelos		BR		-23.541	-46.369	11
+P	Spring Valley		US	Nevada	36.108	-115.245	7
+P	Deer Valley		US	Arizona	33.684	-112.135	9
+P	Vapi		IN		20.372	72.905	16
+P	Valle de La Pascua		VE		9.216	-66.007	3
+P	Valencia		US	California	34.444	-118.610	7
+P	Valsād	valsad	IN		20.610	72.934	16
+P	Varginha		BR		-21.551	-45.430	11
+P	Van Nuys		US	California	34.187	-118.449	7
+P	West Valley City		US	Utah	40.692	-112.001	5
+P	Valdivia		CL		-39.814	-73.246	10
+P	Västerås	vasteras	SE		59.616	16.553	24
+P	Simi Valley		US	California	34.269	-118.781	7
+P	Valinhos		BR		-22.971	-46.996	11
+P	Ciudad Valles		MX		21.996	-99.011	8
+P	Vallejo		US	California	38.104	-122.257	7
+P	Várzea Paulista	varzea paulista	BR		-23.211	-46.828	11
+P	Vacoas		MU		-20.298	57.478	26
+P	Gò Vấp	go vap	VN		10.817	106.683	15
+P	Vasco da Gama		IN		15.396	73.816	16
+P	Vacaville		US	California	38.357	-121.988	7
+P	Vaniyambadi		IN		12.682	78.620	16
+P	Spokane Valley		US	Washington	47.673	-117.239	7
+P	Parli Vaijnāth	parli vaijnath	IN		18.851	76.532	16
+P	Râmnicu Vâlcea	ramnicu valcea	RO		45.100	24.367	25
+P	Valparai		IN		10.327	76.951	16
+P	Val Dor		MY		5.252	100.490	17
+P	North Vancouver		CA	British Columbia	49.316	-123.069	13
+P	Vavoua		CI		7.382	-6.478	0
+P	Valença	valenca	BR		-13.370	-39.073	11
+P	San Tan Valley		US	Arizona	33.191	-111.528	9
+P	Varese		IT		45.821	8.825	24
+P	Sant Cugat del Vallès	sant cugat del valles	ES		41.471	2.086	24
+P	Valvedditturai		LK		9.817	80.167	16
+P	Vanadzor		AM		40.807	44.497	26
+P	Valdemoro		ES		40.191	-3.679	24
+P	Fuentes del Valle		MX		19.633	-99.139	8
+P	Apple Valley		US	California	34.501	-117.186	7
+P	Valença	valenca	BR		-22.246	-43.700	11
+P	Växjö	vaxjo	SE		56.878	14.809	24
+P	Vaasa		FI		63.096	21.616	25
+P	Valdefuentes		ES		40.494	-3.636	24
+P	Rivas-Vaciamadrid	rivas vaciamadrid	ES		40.326	-3.511	24
+P	Valle de Santiago		MX		20.391	-101.191	8
+P	Villa de Vallecas		ES		40.367	-3.601	24
+P	Valverde		ES		40.500	-3.679	24
+P	Vacaria		BR		-28.512	-50.934	11
+P	Valence		FR		44.926	4.910	24
+P	Vaslui		RO		46.633	27.733	25
+P	Downtown Vancouver		CA	British Columbia	49.283	-123.119	13
+P	Castro Valley		US	California	37.694	-122.086	7
+P	Valjevo		RS		44.275	19.898	24
+P	Vavuniya		LK		8.751	80.497	16
+P	Valley Glen		US	California	34.186	-118.420	7
+P	Cerdanyola del Vallès	cerdanyola del valles	ES		41.491	2.141	24
+P	Vasastaden		SE		59.350	18.033	24
+P	Fountain Valley		US	California	33.709	-117.954	7
+P	Trần Văn Thời	tran van thoi	VN		9.077	104.979	15
+P	Valdosta		US	Georgia	30.833	-83.280	12
+P	Vannes		FR		47.657	-2.762	24
+P	Vallecas		ES		40.383	-3.617	24
+P	Mollet del Vallès	mollet del valles	ES		41.540	2.213	24
+P	Mazara del Vallo		IT		37.655	12.590	24
+P	Vazhakkala		IN		10.012	76.326	16
+P	Apple Valley		US	Minnesota	44.732	-93.218	4
+P	Vargem Grande Paulista		BR		-23.603	-47.026	11
+P	Vatutino		RU		55.884	37.691	22
+P	Vagonoremont		RU		55.900	37.550	22
+P	Valladolid		MX		20.688	-88.199	8
+P	Valle Hermoso		MX		25.673	-97.813	8
+P	Vagharshapat		AM		40.166	44.295	26
+P	Valasaravakkam		IN		13.044	80.173	16
+P	Vattiyūrkāvu	vattiyurkavu	IN		8.525	76.989	16
+P	Valby		DK		55.666	12.514	24
+P	Vahdat		TJ		38.556	69.014	14
+P	Karlovy Vary		CZ		50.233	12.871	24
+P	West Vancouver		CA	British Columbia	49.329	-123.160	13
+P	Oro Valley		US	Arizona	32.391	-110.966	9
+P	Vallenar		CL		-28.576	-70.759	10
+P	Valenciennes		FR		50.359	3.525	24
+P	Varangaon		IN		21.018	75.910	16
+P	Varkala		IN		8.733	76.717	16
+P	Vargem Grande		BR		-3.543	-43.916	11
+P	Salaberry-de-Valleyfield	salaberry de valleyfield	CA	Quebec	45.250	-74.133	12
+P	Prescott Valley		US	Arizona	34.610	-112.316	9
+P	Varash		UA		51.340	25.855	25
+P	Vasto		IT		42.111	14.706	24
+P	Vaijāpur	vaijapur	IN		19.927	74.728	16
+P	Valentín Alsina	valentin alsina	AR		-34.671	-58.409	11
+P	Vaukavysk		BY		53.156	24.451	22
+P	South Valley		US	New Mexico	35.010	-106.678	5
+P	Val-des-Arbres	val des arbres	CA	Quebec	45.598	-73.675	12
+P	Vadgaon		IN		20.376	78.113	16
+P	Vangaindrano		MG		-23.350	47.600	22
+P	Casco Histórico de Vallecas	casco historico de vallecas	ES		40.349	-3.616	24
+P	Vargem Grande do Sul		BR		-21.832	-46.894	11
+P	Vadavalli		IN		11.025	76.897	16
+P	Vādāsinor	vadasinor	IN		22.957	73.335	16
+P	Várzea Alegre	varzea alegre	BR		-6.789	-39.296	11
+P	Manhattan Valley		US	New York	40.794	-73.965	12
+P	Valley Stream		US	New York	40.664	-73.708	12
+P	Vavatenina		MG		-17.467	49.200	22
+P	Vakfıkebir	vakfikebir	TR		41.046	39.276	22
+P	Puerto Varas		CL		-41.319	-72.985	10
+P	Vaulx-en-Velin	vaulx en velin	FR		45.787	4.925	24
+P	Nosy Varika		MG		-20.583	48.533	22
+P	Vanløse	vanlose	DK		55.684	12.487	24
+P	Vasylkiv		UA		50.180	30.312	25
+P	Vazhayur		IN		11.217	75.900	16
+P	Upplands Väsby	upplands vasby	SE		59.518	17.911	24
+P	Cái Đôi Vàm	cai doi vam	VN		8.857	104.812	15
+P	Varaždin	varazdin	HR		46.304	16.338	24
+P	Vassouras		BR		-22.404	-43.663	11
+P	Valuyki		RU		50.197	38.117	22
+P	Valrico		US	Florida	27.938	-82.236	12
+P	Vác	vac	HU		47.776	19.136	24
+P	Canning Vale		AU	Western Australia	-32.058	115.918	17
+P	Varberg		SE		57.106	12.251	24
+P	Vapi INA		IN		20.360	72.931	16
+P	Várzea da Palma	varzea da palma	BR		-17.598	-44.734	11
+P	Vagholi		IN		18.582	73.983	16
+P	Vaḩīdīyeh	vahidiyeh	IR		35.714	51.471	18
+P	Vaḩīdīyeh	vahidiyeh	IR		35.607	51.035	18
+P	Ebbw Vale		GB	Wales	51.777	-3.208	23
+P	Valparaiso		US	Indiana	41.473	-87.061	4
+P	Spring Valley		US	New York	41.113	-74.044	12
+P	Vallabh Vidyanagar		IN		22.533	72.900	16
+P	Vallentuna		SE		59.534	18.078	24
+P	Vandœuvre-lès-Nancy	vandoeuvre les nancy	FR		48.661	6.171	24
+P	Vandavāsi	vandavasi	IN		12.504	79.606	16
+P	Valdepeñas	valdepenas	ES		38.762	-3.385	24
+P	Barberà del Vallès	barbera del valles	ES		41.516	2.125	24
+P	Valkenswaard		NL		51.351	5.460	24
+P	Vadanappally		IN		10.469	76.081	16
+P	Valdezarza		ES		40.465	-3.717	24
+P	Vartiokylä	vartiokyla	FI		60.218	25.096	25
+P	Oliver-Valdefierro	oliver valdefierro	ES		41.645	-0.933	24
+P	Saint-Laurent-du-Var	saint laurent du var	FR		43.673	7.190	24
+P	Vadakku Valliyūr	vadakku valliyur	IN		8.383	77.612	16
+P	Vanchiglia		IT		45.071	7.704	24
+P	Póvoa de Varzim	povoa de varzim	PT		41.383	-8.764	23
+P	Vaihingen an der Enz		DE		48.936	8.960	24
+P	Vandiyūr	vandiyur	IN		9.909	78.161	16
+P	Spring Valley		US	California	32.745	-116.999	7
+P	Vadnagar		IN		23.786	72.639	16
+P	Valašské Meziříčí	valasske mezirici	CZ		49.472	17.971	24
+P	Vallauris		FR		43.578	7.055	24
+P	Palmar de Varela		CO		10.741	-74.754	2
+P	Don Valley Village		CA	Ontario	43.783	-79.354	12
+P	Vadipatti		IN		10.085	77.961	16
+P	Varappuzha		IN		10.076	76.272	16
+P	Valdeacederas		ES		40.467	-3.704	24
+P	Agía Varvára	agia varvara	GR		37.989	23.660	25
+P	Vanves		FR		48.823	2.290	24
+P	Vaudreuil-Dorion	vaudreuil dorion	CA	Quebec	45.400	-74.033	12
+P	Valente Diaz		MX		19.163	-96.216	8
+P	Maple Valley		US	Washington	47.393	-122.046	7
+P	Kelīshād va Sūdarjān	kelishad va sudarjan	IR		32.551	51.528	18
+P	Panayāttur Vadakkumbhāgam	panayattur vadakkumbhagam	IN		8.955	76.618	16
+P	Valle de Bravo		MX		19.195	-100.131	8
+P	Val-d'Or	val dor	CA	Quebec	48.097	-77.797	12
+P	Kallūr Vadakummuri	kallur vadakummuri	IN		10.253	76.328	16
+P	Varel		DE		53.397	8.136	24
+P	Vayalār	vayalar	IN		9.712	76.339	16
+P	Valls		ES		41.286	1.250	24
+P	Vang Vieng		LA		18.924	102.448	15
+P	Vale of Leven		GB	Scotland	55.971	-4.579	23
+P	Valente		BR		-11.412	-39.462	11
+P	Ayanavelikulangara Vadakku		IN		9.043	76.523	16
+P	Valparaíso	valparaiso	BR		-21.228	-50.868	11
+P	Castellar del Vallès	castellar del valles	ES		41.617	2.083	24
+P	Morphett Vale		AU	South Australia	-35.133	138.517	20
+P	Hunt Valley		US	Maryland	39.500	-76.641	12
+P	Fuquay-Varina	fuquay varina	US	North Carolina	35.584	-78.800	12
+P	Van Nest		US	New York	40.848	-73.864	12
+P	Vaikam		IN		9.749	76.396	16
+P	La Valette-du-Var	la valette du var	FR		43.138	5.983	24
+P	Vänersborg	vanersborg	SE		58.381	12.323	24
+P	Van Buren		US	Arkansas	35.437	-94.348	4
+P	Vadakkanandal		IN		11.782	78.835	16
+P	Vattalkundu		IN		10.161	77.759	16
+P	Noe Valley		US	California	37.750	-122.434	7
+P	Arcos de Valdevez		PT		41.847	-8.419	23
+P	Valinda		US	California	34.045	-117.944	7
+P	Valmiera		LV		57.541	25.428	25
+P	São José do Vale do Rio Preto	sao jose do vale do rio preto	BR		-22.152	-42.923	11
+P	Valley Station		US	Kentucky	38.111	-85.870	12
+P	West Puente Valley		US	California	34.052	-117.968	7
+P	Valdagno		IT		45.645	11.299	24
+P	San José del Valle	san jose del valle	MX		20.764	-105.228	9
+P	Visitacion Valley		US	California	37.717	-122.404	7
+P	Trizidela do Vale		BR		-4.572	-44.621	11
+P	Valadares		PT		41.093	-8.632	23
+P	Valença do Piauí	valenca do piaui	BR		-6.407	-41.746	11
+P	Lai Chi Van		MO		22.120	113.551	17
+P	Jurupa Valley		US	California	33.993	-117.516	7
+P	Dubnica nad Váhom	dubnica nad vahom	SK		48.960	18.166	24
+P	Várzea Alegre	varzea alegre	BR		-5.350	-40.383	11
+P	Yucca Valley		US	California	34.114	-116.432	7
+P	Green Valley		US	Arizona	31.854	-110.994	9
+P	Vāsudevanallūr	vasudevanallur	IN		9.242	77.412	16
+P	Valongo		PT		41.189	-8.499	23
+P	Várpalota	varpalota	HU		47.199	18.140	24
+P	Golden Valley		US	Minnesota	45.010	-93.349	4
+P	Plaine du Var		FR		43.682	7.202	24
+P	Västervik	vastervik	SE		57.758	16.637	24
+P	Vaterstetten		DE		48.105	11.768	24
+P	Vakarai		LK		8.133	81.433	16
+P	Varennes		CA	Quebec	45.683	-73.432	12
+P	Valkeakoski		FI		61.264	24.031	25
+P	Vadakarai Kīl Pidāgai	vadakarai kil pidagai	IN		9.040	77.274	16
+P	Katālem va Sādāt Shahr	katalem va sadat shahr	IR		36.889	50.696	18
+P	Vauréal	vaureal	FR		49.033	2.033	24
+P	Kalihi Valley		US	Hawaii	21.364	-157.843	27
+P	Vadāli	vadali	IN		23.942	73.038	16
+P	Vadakakarai		IN		10.166	76.202	16
+P	Vasind		IN		19.408	73.263	16
+P	Wyndham Vale		AU	Victoria	-37.891	144.624	21
+P	La Pobla de Vallbona		ES		39.597	-0.555	24
+P	Terrazas del Valle		MX		32.487	-116.827	7
+P	Palm Valley		US	Florida	30.177	-81.388	12
+P	Varadero		CU		23.157	-81.244	6
+P	Vazante		BR		-17.987	-46.908	11
+P	Vallehermoso		ES		40.443	-3.711	24
+P	Careiro da Várzea	careiro da varzea	BR		-3.197	-59.827	3
+P	Bourg-lès-Valence	bourg les valence	FR		44.947	4.895	24
+P	Vaalwater		ZA		-24.296	28.114	1
+P	Vadakku Viravanallur		IN		8.698	77.519	16
+P	Varkaus		FI		62.315	27.873	25
+P	Vargem Alta		BR		-20.671	-41.007	11
+P	Vaalbank		ZA		-25.152	28.856	1
+P	Nové Mesto nad Váhom	nove mesto nad vahom	SK		48.758	17.831	24
+P	Sun Valley		US	Nevada	39.596	-119.776	7
+P	Vakkam		IN		8.684	76.768	16
+P	Vibo Valentia		IT		38.676	16.101	24
+P	Niu Valley		US	Hawaii	21.284	-157.737	27
+P	Värnamo	varnamo	SE		57.186	14.040	24
+P	Valencia		EC		-0.953	-79.355	2
+P	Varzelândia	varzelandia	BR		-15.701	-44.028	11
+P	Varnāmkhvāst	varnamkhvast	IR		32.356	51.379	18
+P	Varto		TR		39.174	41.454	22
+P	Valabhīpur	valabhipur	IN		21.889	71.879	16
+P	Las Varillas		AR		-31.870	-62.720	11
+P	Vanino		RU		49.098	140.252	19
+P	Valday		RU		57.977	33.252	22
+P	Mead Valley		US	California	33.833	-117.296	7
+P	Happy Valley		US	Oregon	45.447	-122.530	7
+P	Sant Quirze del Vallès	sant quirze del valles	ES		41.533	2.083	24
+P	Vāzhakulam	vazhakulam	IN		10.094	76.420	16
+P	Vanchiglietta		IT		45.074	7.718	24
+P	Tavernes de la Valldigna		ES		39.072	-0.266	24
+P	Pascoe Vale		AU	Victoria	-37.733	144.933	21
+P	Coalcomán de Vázquez Pallares	coalcoman de vazquez pallares	MX		18.777	-103.160	8
+P	Varjota		BR		-4.194	-40.477	11
+P	Mililani Mauka / Launani Valley	mililani mauka launani valley	US	Hawaii	21.479	-157.988	27
+P	Vadamadurai		IN		10.441	78.098	16
+P	Vadlapūdi	vadlapudi	IN		14.311	79.804	16
+P	V.S.K.Valasai (Dindigul-Dist.)	v s k valasai dindigul dist	IN		10.315	78.151	16
+P	Parets del Vallès	parets del valles	ES		41.575	2.233	24
+P	Vazhapadi		IN		11.655	78.401	16
+P	Valdebernardo		ES		40.401	-3.621	24
+P	Valley East		CA	Ontario	46.645	-80.997	12
+P	Valenza		IT		45.012	8.644	24
+P	Tres Valles		MX		18.239	-96.136	8
+P	Varam		IN		11.900	75.413	16
+P	Vanier		CA	Ontario	45.440	-75.665	12
+P	Valvachatottam		IN		8.280	77.256	16
+P	Vandalūr	vandalur	IN		12.892	80.081	16
+P	Āchāripallam Vāniyakudi	acharipallam vaniyakudi	IN		8.174	77.385	16
+P	Vasil’yevo	vasilyevo	RU		55.830	48.717	22
+P	Vathirairuppu		IN		9.635	77.639	16
+P	Vatomandry		MG		-19.330	48.978	22
+P	Vallam		IN		10.720	79.060	16
+P	Vāda	vada	IN		19.653	73.148	16
+P	Valavanur		IN		11.921	79.582	16
+P	Vári	vari	GR		37.833	23.803	25
+P	Vammala		FI		61.333	22.900	25
+P	North Valley Stream		US	New York	40.685	-73.702	12
+P	Colle di Val d'Elsa	colle di val delsa	IT		43.421	11.127	24
+P	Vāghodia	vaghodia	IN		22.305	73.400	16
+P	Getúlio Vargas	getulio vargas	BR		-27.890	-52.227	11
+P	Vallensbæk	vallensbaek	DK		55.622	12.385	24
+P	Valenzano		IT		41.044	16.885	24
+P	Vāniyamkulam	vaniyamkulam	IN		10.783	76.334	16
+P	Vatra Dornei		RO		47.350	25.367	25
+P	Đinh Văn	dinh van	VN		11.786	108.243	15
+P	San Giovanni Valdarno		IT		43.568	11.530	24
+P	Vaso		IN		22.661	72.755	16
+P	Västra Frölunda	vastra frolunda	SE		57.647	11.929	24
+P	Vadakkēkkād	vadakkekkad	IN		10.664	76.003	16
+P	Hybla Valley		US	Virginia	38.748	-77.083	12
+P	Crépy-en-Valois	crepy en valois	FR		49.234	2.888	24
+P	Vadakāncheri	vadakancheri	IN		10.660	76.247	16
+P	Perry Vale		GB	England	51.436	-0.044	23
+P	Belle Vale		GB	England	53.392	-2.860	23
+P	Vallcarca		ES		41.412	2.144	24
+P	Edenbridge-Humber Valley	edenbridge humber valley	CA	Ontario	43.671	-79.522	12
+P	Montornès del Vallès	montornes del valles	ES		41.542	2.267	24
+P	Väståboland	vastaboland	FI		60.300	22.300	25
+P	Vanier		CA	Ontario	43.427	-80.451	12
+P	Vakhsh		TJ		37.715	68.835	14
+P	Ascot Vale		AU	Victoria	-37.780	144.923	21
+P	Vandalia		US	Ohio	39.891	-84.199	12
+P	Valletta		MT		35.900	14.515	24
+P	Vaduz		LI		47.142	9.522	24
+P	The Valley		AI		18.217	-63.058	3
+P	Vatican City		VA		41.903	12.454	24

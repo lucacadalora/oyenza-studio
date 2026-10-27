@@ -1,0 +1,94 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Karachi	300	
+C	PK	Pakistan	karachi	h
+B	1
+P	Hyderabad		PK		25.397	68.377	0
+P	Sukkur		PK		27.703	68.859	0
+P	Tando Allahyar		PK		25.460	68.717	0
+P	Larkana		PK		27.559	68.212	0
+P	Nawabshah		PK		26.239	68.404	0
+P	Sinjhoro		PK		26.030	68.809	0
+P	Mirpur Khas		PK		25.528	69.013	0
+P	Kunri		PK		25.179	69.566	0
+P	Digri		PK		25.157	69.111	0
+P	Jacobabad		PK		28.282	68.438	0
+P	Khuzdar		PK		27.812	66.611	0
+P	Shikarpur		PK		27.956	68.638	0
+P	Dadu		PK		26.730	67.777	0
+P	Hub		PK		25.026	66.885	0
+P	Garhi Khairo		PK		28.057	67.979	0
+P	Khairpur Mir’s	khairpur mirs	PK		27.529	68.759	0
+P	Tando Adam		PK		25.768	68.662	0
+P	Arif Wala		PK		26.325	66.296	0
+P	Umarkot		PK		25.363	69.742	0
+P	Moro		PK		26.663	68.000	0
+P	Manjhand		PK		25.908	68.237	0
+P	Daur		PK		26.455	68.318	0
+P	Dokri		PK		27.374	68.097	0
+P	Shahdad Kot		PK		27.847	67.907	0
+P	Ghotki		PK		28.004	69.316	0
+P	Tando Muhammad Khan		PK		25.124	68.537	0
+P	Shahdadpur		PK		25.925	68.623	0
+P	Dera Murad Jamali		PK		28.547	68.223	0
+P	Kotri		PK		25.366	68.308	0
+P	Pano Aqil		PK		27.856	69.111	0
+P	Qubo Saeed Khan		PK		27.874	67.709	0
+P	Kandhkot		PK		28.246	69.180	0
+P	Gambat		PK		27.352	68.522	0
+P	Rohri		PK		27.692	68.895	0
+P	Daharki		PK		28.054	69.702	0
+P	Thul		PK		28.240	68.775	0
+P	Ratodero		PK		27.802	68.289	0
+P	Kambar		PK		27.588	68.001	0
+P	Mirpur Mathelo		PK		28.021	69.549	0
+P	Sakrand		PK		26.138	68.274	0
+P	Tando Jam		PK		25.428	68.529	0
+P	Hala		PK		25.815	68.422	0
+P	Usta Muhammad		PK		28.177	68.044	0
+P	Sibi		PK		29.543	67.877	0
+P	Sanghar		PK		26.047	68.949	0
+P	Pir Jo Goth		PK		27.592	68.618	0
+P	Ubauro		PK		28.164	69.731	0
+P	Matli		PK		25.043	68.656	0
+P	Nushki		PK		29.552	66.023	0
+P	Mach		PK		29.864	67.330	0
+P	Kandiaro		PK		27.059	68.210	0
+P	Sehwan		PK		26.425	67.861	0
+P	Khairpur		PK		28.064	69.704	0
+P	Chak		PK		27.858	68.834	0
+P	New Badah		PK		27.342	68.032	0
+P	Mehrabpur		PK		28.108	68.026	0
+P	Ranipur		PK		27.287	68.506	0
+P	Kashmor		PK		28.433	69.584	0
+P	Naudero		PK		27.667	68.361	0
+P	Setharja Old		PK		27.213	68.469	0
+P	Kharan		PK		28.585	65.415	0
+P	Mehar		PK		27.180	67.821	0
+P	Khairpur Nathan Shah		PK		27.091	67.735	0
+P	Ghauspur		PK		28.139	69.082	0
+P	Bela		PK		26.227	66.312	0
+P	Mastung		PK		29.800	66.846	0
+P	Nasirabad		PK		27.381	67.916	0
+P	Sita Road		PK		27.033	67.850	0
+P	Kalat		PK		29.027	66.594	0
+P	Kot Diji		PK		27.342	68.708	0
+P	Mian Sahib		PK		28.153	68.642	0
+P	Khanpur Mahar		PK		27.841	69.413	0
+P	Hingorja		PK		27.211	68.416	0
+P	Shahpur Chakar		PK		26.154	68.650	0
+P	Chhor		PK		25.513	69.784	0
+P	Pad Idan		PK		26.775	68.301	0
+P	Dhoro Naro		PK		25.505	69.571	0
+P	Jhol		PK		25.955	68.889	0
+P	Bhit Shah		PK		25.806	68.491	0
+P	Matiari		PK		25.597	68.447	0
+P	Warah		PK		27.448	67.797	0
+P	Dera Bugti		PK		29.036	69.158	0
+P	Tharu Shah		PK		26.942	68.118	0
+P	Naushahro Firoz		PK		26.840	68.123	0
+P	Gadani		PK		25.119	66.732	0
+P	Dadhar		PK		29.475	67.652	0
+P	Bhan		PK		26.558	67.721	0
+P	Goth Radhan		PK		27.198	67.953	0
+P	Uthal		PK		25.807	66.622	0
+P	Johi		PK		26.692	67.614	0

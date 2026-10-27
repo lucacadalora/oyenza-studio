@@ -1,0 +1,118 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Campo_Grande	-240	
+Z	1	America/Sao_Paulo	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Campo Grande		BR		-20.443	-54.646	0
+P	Londrina		BR		-23.310	-51.163	1
+P	Maringá	maringa	BR		-23.425	-51.939	1
+P	Cascavel		BR		-24.956	-53.455	1
+P	Presidente Prudente		BR		-22.126	-51.389	1
+P	Araçatuba	aracatuba	BR		-21.209	-50.433	1
+P	Dourados		BR		-22.221	-54.806	0
+P	Apucarana		BR		-23.551	-51.461	1
+P	Toledo		BR		-24.714	-53.743	1
+P	Arapongas		BR		-23.419	-51.424	1
+P	Sarandi		BR		-23.444	-51.874	1
+P	Umuarama		BR		-23.766	-53.325	1
+P	Cambé	cambe	BR		-23.276	-51.278	1
+P	Assis		BR		-22.662	-50.412	1
+P	Birigui		BR		-21.289	-50.340	1
+P	Campo Mourão	campo mourao	BR		-24.043	-52.379	1
+P	Paranavaí	paranavai	BR		-23.073	-52.465	1
+P	Cianorte		BR		-23.663	-52.605	1
+P	Três Lagoas	tres lagoas	BR		-20.788	-51.703	0
+P	Telêmaco Borba	telemaco borba	BR		-24.324	-50.616	1
+P	Castro		BR		-24.789	-50.012	1
+P	Rolândia	rolandia	BR		-23.310	-51.369	1
+P	Fernandópolis	fernandopolis	BR		-20.284	-50.246	1
+P	Tupã	tupa	BR		-21.935	-50.514	1
+P	Penápolis	penapolis	BR		-21.420	-50.078	1
+P	Andradina		BR		-20.896	-51.379	1
+P	Marechal Cândido Rondon	marechal candido rondon	BR		-24.556	-54.057	1
+P	Ibiporã	ibipora	BR		-23.269	-51.048	1
+P	Naviraí	navirai	BR		-23.065	-54.191	0
+P	Jales		BR		-20.269	-50.546	1
+P	Nova Andradina		BR		-22.233	-53.343	0
+P	Sidrolândia	sidrolandia	BR		-20.932	-54.961	0
+P	Paiçandu	paicandu	BR		-23.457	-52.049	1
+P	Dracena		BR		-21.483	-51.533	1
+P	Cornélio Procópio	cornelio procopio	BR		-23.181	-50.647	1
+P	Santo Antônio da Platina	santo antonio da platina	BR		-23.295	-50.077	1
+P	Marialva		BR		-23.485	-51.792	1
+P	Paraguaçu Paulista	paraguacu paulista	BR		-22.413	-50.576	1
+P	Presidente Epitácio	presidente epitacio	BR		-21.763	-52.116	1
+P	Rio Brilhante		BR		-21.802	-54.546	0
+P	Assis Chateaubriand		BR		-24.420	-53.521	1
+P	Mandaguari		BR		-23.521	-51.682	1
+P	Adamantina		BR		-21.685	-51.072	1
+P	Presidente Venceslau		BR		-21.876	-51.844	1
+P	Palotina		BR		-24.284	-53.840	1
+P	Santa Fé do Sul	santa fe do sul	BR		-20.211	-50.926	1
+P	Pitanga		BR		-24.757	-51.761	1
+P	Ivaiporã	ivaipora	BR		-24.248	-51.685	1
+P	Guaíra	guaira	BR		-24.082	-54.246	1
+P	Mandaguaçu	mandaguacu	BR		-23.347	-52.095	1
+P	Bandeirantes		BR		-23.110	-50.367	1
+P	Osvaldo Cruz		BR		-21.797	-50.879	1
+P	Guararapes		BR		-21.261	-50.643	1
+P	Caarapó	caarapo	BR		-22.634	-54.822	0
+P	Cândido Mota	candido mota	BR		-22.746	-50.387	1
+P	Ibaiti		BR		-23.849	-50.188	1
+P	Rancharia		BR		-22.229	-50.893	1
+P	Goioerê	goioere	BR		-24.185	-53.028	1
+P	Álvares Machado	alvares machado	BR		-22.079	-51.472	1
+P	Mirandópolis	mirandopolis	BR		-21.134	-51.102	1
+P	Aparecida do Taboado		BR		-20.087	-51.094	0
+P	Nova Esperança	nova esperanca	BR		-23.184	-52.205	1
+P	Ilha Solteira		BR		-20.433	-51.343	1
+P	Santa Helena		BR		-24.860	-54.333	1
+P	Astorga		BR		-23.233	-51.666	1
+P	Pirapozinho		BR		-22.275	-51.500	1
+P	Martinópolis	martinopolis	BR		-22.146	-51.171	1
+P	Ubiratã	ubirata	BR		-24.545	-52.988	1
+P	Reserva		BR		-24.650	-50.851	1
+P	Valparaíso	valparaiso	BR		-21.228	-50.868	1
+P	Ortigueira		BR		-24.208	-50.949	1
+P	Itaporã	itapora	BR		-22.079	-54.789	0
+P	Pereira Barreto		BR		-20.638	-51.109	1
+P	Cruzeiro do Oeste		BR		-23.785	-53.073	1
+P	Loanda		BR		-22.923	-53.137	1
+P	Cambará	cambara	BR		-23.046	-50.074	1
+P	Ribas do Rio Pardo		BR		-20.443	-53.759	0
+P	Bataguassu		BR		-21.714	-52.422	0
+P	Colorado		BR		-22.837	-51.973	1
+P	Campo Verde		BR		-20.417	-54.067	0
+P	Teodoro Sampaio		BR		-22.532	-52.167	1
+P	Nova Alvorada do Sul		BR		-21.466	-54.384	0
+P	Bastos		BR		-21.922	-50.734	1
+P	Jandaia do Sul		BR		-23.603	-51.643	1
+P	Fátima do Sul	fatima do sul	BR		-22.374	-54.514	0
+P	Junqueirópolis	junqueiropolis	BR		-21.515	-51.434	1
+P	Pompéia	pompeia	BR		-22.109	-50.172	1
+P	Regente Feijó	regente feijo	BR		-22.221	-51.303	1
+P	Lucélia	lucelia	BR		-21.720	-51.019	1
+P	Castilho		BR		-20.872	-51.487	1
+P	Tibagi		BR		-24.509	-50.414	1
+P	Andirá	andira	BR		-23.051	-50.229	1
+P	Palmital		BR		-22.789	-50.218	1
+P	Itaquiraí	itaquirai	BR		-23.474	-54.185	0
+P	Cafelândia	cafelandia	BR		-24.618	-53.320	1
+P	Altônia	altonia	BR		-23.874	-53.902	1
+P	Terra Roxa		BR		-24.157	-54.097	1
+P	Santo Anastácio	santo anastacio	BR		-21.976	-51.651	1
+P	Terenos		BR		-20.442	-54.860	0
+P	Terra Boa		BR		-23.768	-52.444	1
+P	Corbélia	corbelia	BR		-24.799	-53.307	1
+P	Rosana		BR		-22.580	-53.059	1
+P	Buritama		BR		-21.066	-50.147	1
+P	Água Clara	agua clara	BR		-20.448	-52.878	0
+P	Faxinal		BR		-24.000	-51.319	1
+P	Sertanópolis	sertanopolis	BR		-23.059	-51.036	1
+P	Mirante do Paranapanema		BR		-22.292	-51.906	1
+P	Tapejara		BR		-23.733	-52.873	1
+P	Tupi Paulista		BR		-21.381	-51.571	1
+P	Iporã	ipora	BR		-24.003	-53.704	1
+P	Campina da Lagoa		BR		-24.592	-52.799	1
+P	Cândido de Abreu	candido de abreu	BR		-24.567	-51.333	1
+P	Jaguapitã	jaguapita	BR		-23.113	-51.532	1

@@ -1,0 +1,63 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Johannesburg	120	
+C	MZ	Mozambique	egyptian	s
+C	SZ	Eswatini	egyptian	s
+C	ZA	South Africa	egyptian	s
+B	3
+P	Durban		ZA		-29.858	31.029	0
+P	Maputo		MZ		-25.966	32.583	0
+P	Matola		MZ		-25.962	32.459	0
+P	Pietermaritzburg		ZA		-29.617	30.393	0
+P	Richards Bay		ZA		-28.783	32.038	0
+P	KwaDukuza		ZA		-29.328	31.290	0
+P	Xai-Xai	xai xai	MZ		-25.052	33.644	0
+P	Vryheid		ZA		-27.770	30.792	0
+P	Pinetown		ZA		-29.821	30.887	0
+P	Mpumalanga		ZA		-29.813	30.636	0
+P	Ntuzuma		ZA		-29.739	30.949	0
+P	Manzini		SZ		-26.499	31.380	0
+P	Mbombela		ZA		-25.475	30.969	0
+P	Ressano Garcia		MZ		-25.443	31.995	0
+P	Dundee		ZA		-28.167	30.234	0
+P	Piet Retief		ZA		-27.007	30.813	0
+P	Mbabane		SZ		-26.317	31.133	0
+P	Barberton		ZA		-25.788	31.053	0
+P	Manhiça	manhica	MZ		-25.402	32.807	0
+P	Tongaat		ZA		-29.574	31.116	0
+P	Mondlo		ZA		-27.983	30.718	0
+P	Lydenburg		ZA		-25.096	30.444	0
+P	eSikhaleni		ZA		-28.871	31.900	0
+P	Matsulu		ZA		-25.523	31.357	0
+P	Mandeni		ZA		-29.147	31.414	0
+P	Lukwatini		ZA		-26.055	30.823	0
+P	Folweni		ZA		-29.996	30.807	0
+P	Mtubatuba		ZA		-28.418	32.185	0
+P	Empangeni		ZA		-28.762	31.893	0
+P	Howick		ZA		-29.478	30.231	0
+P	Richmond		ZA		-29.872	30.272	0
+P	Macia		MZ		-25.027	33.099	0
+P	Ulundi		ZA		-28.335	31.416	0
+P	Mpophomeni		ZA		-29.568	30.186	0
+P	Nhlazatje		ZA		-26.040	30.793	0
+P	Driefontein		ZA		-26.965	30.436	0
+P	Ballitoville		ZA		-29.539	31.214	0
+P	Shakaskraal		ZA		-29.449	31.215	0
+P	Boane		MZ		-26.042	32.330	0
+P	White River		ZA		-25.332	31.012	0
+P	Kamaqhekeza		ZA		-25.670	31.863	0
+P	Schoemansdal		ZA		-25.709	31.510	0
+P	Redhill		ZA		-26.261	30.825	0
+P	Greytown		ZA		-29.064	30.593	0
+P	Glencoe		ZA		-28.178	30.147	0
+P	Komatipoort		ZA		-25.433	31.955	0
+P	Carolina		ZA		-26.069	30.115	0
+P	Belfast		ZA		-25.690	30.035	0
+P	Ncotshane		ZA		-27.342	31.580	0
+P	Sabie		ZA		-25.100	30.780	0
+P	Driekoppies		ZA		-25.698	31.564	0
+P	Tekwane		ZA		-25.478	31.146	0
+P	Eshowe		ZA		-28.886	31.470	0
+P	Frischgewaagd		ZA		-27.390	30.955	0
+P	Fernie		ZA		-26.390	30.787	0
+P	Empuluzu		ZA		-26.305	30.774	0
+P	Lobamba		SZ		-26.467	31.200	0

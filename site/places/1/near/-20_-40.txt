@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Bahia	-180	
+C	BR	Brazil	mwl	s
+B	0
+P	Porto Seguro		BR		-16.450	-39.065	0
+P	Teixeira de Freitas		BR		-17.535	-39.742	0
+P	São Mateus	sao mateus	BR		-18.720	-39.859	0
+P	Eunápolis	eunapolis	BR		-16.378	-39.580	0
+P	Itamaraju		BR		-17.039	-39.531	0
+P	Nova Viçosa	nova vicosa	BR		-17.892	-39.372	0
+P	Mucuri		BR		-18.086	-39.551	0
+P	Prado		BR		-17.341	-39.221	0
+P	Canavieiras		BR		-15.675	-38.947	0
+P	Santa Cruz Cabrália	santa cruz cabralia	BR		-16.278	-39.025	0
+P	Itabela		BR		-16.575	-39.553	0
+P	Conceição da Barra	conceicao da barra	BR		-18.593	-39.732	0
+P	Alcobaça	alcobaca	BR		-17.519	-39.196	0
+P	Camacan		BR		-15.419	-39.496	0
+P	Posto da Mata		BR		-17.886	-39.859	0
+P	Belmonte		BR		-15.861	-38.880	0
+P	Guaratinga		BR		-16.582	-39.781	0
+P	Una		BR		-15.293	-39.075	0

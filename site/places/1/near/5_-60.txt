@@ -1,0 +1,21 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Guyana	-240	
+Z	1	America/Paramaribo	-180	
+C	GY	Guyana	mwl	s
+C	SR	Suriname	mwl	s
+B	0
+P	Georgetown		GY		6.804	-58.155	0
+P	Paramaribo		SR		5.866	-55.167	1
+P	Linden		GY		6.008	-58.307	0
+P	New Amsterdam		GY		6.249	-57.516	0
+P	Blauwgrond		SR		5.843	-55.119	1
+P	Latour		SR		5.797	-55.209	1
+P	Pontbuiten		SR		5.788	-55.209	1
+P	Rainville		SR		5.834	-55.138	1
+P	Flora		SR		5.800	-55.200	1
+P	Welgelegen		SR		5.842	-55.219	1
+P	Lelydorp		SR		5.700	-55.233	1
+P	Munder Buiten		SR		5.841	-55.182	1
+P	Beekhuizen		SR		5.806	-55.174	1
+P	Weg naar Zee		SR		5.871	-55.215	1
+P	Tammenga		SR		5.829	-55.202	1

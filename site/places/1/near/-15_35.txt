@@ -1,0 +1,38 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Maputo	120	
+C	MW	Malawi	egyptian	s
+C	MZ	Mozambique	egyptian	s
+C	TZ	Tanzania	egyptian	s
+B	0
+P	Songea		TZ		-10.683	35.650	0
+P	Lichinga		MZ		-13.313	35.241	1
+P	Mandimba		MZ		-14.352	35.651	1
+P	Cuamba		MZ		-14.803	36.537	1
+P	Masasi		TZ		-10.717	38.800	0
+P	Montepuez		MZ		-13.126	39.000	1
+P	Mbinga		TZ		-10.933	35.017	0
+P	Mangochi		MW		-14.478	35.264	1
+P	Tunduru		TZ		-11.067	37.350	0
+P	Newala Kisimani		TZ		-10.950	39.283	0
+P	Chiúre	chiure	MZ		-13.383	39.782	1
+P	Namialo		MZ		-14.921	39.984	1
+P	Newala		TZ		-10.933	39.300	0
+P	Mutuáli	mutuali	MZ		-14.871	37.004	1
+P	Ribáuè	ribaue	MZ		-14.945	38.324	1
+P	Lukuledi		TZ		-10.567	38.800	0
+P	Mueda		MZ		-11.663	39.551	1
+P	Namapa-erati	namapa erati	MZ		-13.713	39.832	1
+P	Luchingu		TZ		-10.900	39.333	0
+P	Malema		MZ		-14.947	37.416	1
+P	Nangomba		TZ		-10.900	38.500	0
+P	Kigonsera		TZ		-10.800	35.050	0
+P	Nachingwea		TZ		-10.373	38.763	0
+P	Tandahimba		TZ		-10.750	39.633	0
+P	Ruangwa		TZ		-10.067	38.933	0
+P	Nanyamba		TZ		-10.683	39.833	0
+P	Maposeni		TZ		-10.583	35.400	0
+P	Nanganga		TZ		-10.383	39.150	0
+P	Nyangao		TZ		-10.333	39.283	0
+P	Tingi		TZ		-11.300	35.033	0
+P	Kitama		TZ		-10.717	39.733	0

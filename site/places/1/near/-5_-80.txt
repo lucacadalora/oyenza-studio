@@ -1,0 +1,50 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/Guayaquil	-300	
+C	EC	Ecuador	mwl	s
+B	2
+P	Quito		EC		-0.230	-78.525	0
+P	Guayaquil		EC		-2.196	-79.886	0
+P	Cuenca		EC		-2.895	-78.996	0
+P	Santo Domingo de los Colorados		EC		-0.254	-79.176	0
+P	Ambato		EC		-1.249	-78.617	0
+P	Eloy Alfaro		EC		-2.169	-79.840	0
+P	Machala		EC		-3.259	-79.959	0
+P	Loja		EC		-3.993	-79.204	0
+P	Riobamba		EC		-1.665	-78.659	0
+P	Quevedo		EC		-1.029	-79.463	0
+P	Latacunga		EC		-0.934	-78.615	0
+P	Daule		EC		-1.860	-79.977	0
+P	Milagro		EC		-2.134	-79.593	0
+P	Babahoyo		EC		-1.805	-79.525	0
+P	El Empalme		EC		-1.045	-79.638	0
+P	Puerto Francisco de Orellana		EC		-0.450	-76.997	0
+P	Pasaje		EC		-3.326	-79.807	0
+P	Santa Rosa		EC		-3.456	-79.964	0
+P	Balzar		EC		-1.366	-79.905	0
+P	Ventanas		EC		-1.443	-79.463	0
+P	La Troncal		EC		-2.425	-79.342	0
+P	Azogues		EC		-2.740	-78.846	0
+P	Naranjito		EC		-2.171	-79.465	0
+P	Vinces		EC		-1.556	-79.752	0
+P	El Triunfo		EC		-1.933	-79.967	0
+P	Naranjal		EC		-2.676	-79.617	0
+P	Pomasqui		EC		-0.054	-78.454	0
+P	Yaguachi Nuevo		EC		-2.098	-79.693	0
+P	Guabo		EC		-3.244	-79.829	0
+P	Machachi		EC		-0.513	-78.571	0
+P	Puyo		EC		-1.492	-78.003	0
+P	Samborondón	samborondon	EC		-1.961	-79.726	0
+P	Macas		EC		-2.307	-78.120	0
+P	Guaranda		EC		-1.591	-78.999	0
+P	Boca Suno		EC		-0.698	-77.141	0
+P	Valencia		EC		-0.953	-79.355	0
+P	Catamayo		EC		-3.987	-79.358	0
+P	Tena		EC		-0.996	-77.813	0
+P	Gualaceo		EC		-2.894	-78.779	0
+P	Piñas	pinas	EC		-3.680	-79.682	0
+P	Cariamanga		EC		-4.328	-79.556	0
+P	Pelileo		EC		-1.331	-78.545	0
+P	La Maná	la mana	EC		-0.941	-79.227	0
+P	Pujilí	pujili	EC		-0.958	-78.696	0
+P	Montalvo		EC		-1.790	-79.288	0
+P	Zamora		EC		-4.064	-78.951	0

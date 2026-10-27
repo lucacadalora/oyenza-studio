@@ -1,0 +1,12 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	America/La_Paz	-240	
+C	BO	Bolivia	mwl	s
+B	1
+P	Santa Cruz de la Sierra		BO		-17.786	-63.181	0
+P	Montero		BO		-17.339	-63.251	0
+P	San Ignacio de Velasco		BO		-16.378	-60.965	0
+P	Warnes		BO		-17.516	-63.168	0
+P	Ascención de Guarayos	ascencion de guarayos	BO		-15.893	-63.189	0
+P	Cotoca		BO		-17.817	-63.050	0
+P	Villa Yapacaní	villa yapacani	BO		-17.400	-63.833	0
+P	El Torno		BO		-18.000	-63.387	0

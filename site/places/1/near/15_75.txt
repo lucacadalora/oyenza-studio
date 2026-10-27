@@ -1,0 +1,278 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kolkata	330	
+C	IN	India	karachi	h
+B	2
+P	Hyderabad		IN		17.384	78.456	0
+P	Aurangabad		IN		19.878	75.342	0
+P	Sholapur		IN		17.672	75.910	0
+P	Hubballi		IN		15.348	75.134	0
+P	Warangal		IN		18.000	79.583	0
+P	Nanded		IN		19.160	77.315	0
+P	Kalaburagi		IN		17.336	76.838	0
+P	Kurnool		IN		15.829	78.036	0
+P	Rāmgundam	ramgundam	IN		18.801	79.452	0
+P	Ballari		IN		15.142	76.924	0
+P	Latur		IN		18.397	76.568	0
+P	Kukatpally		IN		17.485	78.414	0
+P	Chānda	chanda	IN		19.951	79.295	0
+P	Vijayapura		IN		16.824	75.715	0
+P	Nizāmābād	nizamabad	IN		18.672	78.099	0
+P	Parbhani		IN		19.269	76.771	0
+P	Mulugu		IN		18.191	79.943	0
+P	Karīmnagar	karimnagar	IN		18.439	79.129	0
+P	Jālna	jalna	IN		19.841	75.886	0
+P	Lal Bahadur Nagar		IN		17.348	78.558	0
+P	Ramagundam		IN		18.755	79.474	0
+P	Rāichūr	raichur	IN		16.205	77.356	0
+P	Quthbullapur		IN		17.501	78.458	0
+P	Rāniganj	raniganj	IN		17.428	78.494	0
+P	Bidar		IN		17.908	77.515	0
+P	Nandyāl	nandyal	IN		15.478	78.484	0
+P	Hosapete		IN		15.270	76.387	0
+P	Secunderabad		IN		17.504	78.543	0
+P	Mahbūbnagar	mahbubnagar	IN		16.744	77.986	0
+P	Adoni		IN		15.628	77.275	0
+P	Gadag-Betageri	gadag betageri	IN		15.417	75.617	0
+P	Gadag		IN		15.430	75.630	0
+P	Nalgonda		IN		17.054	79.267	0
+P	Serilingampalle		IN		17.493	78.302	0
+P	Malkajgiri		IN		17.448	78.526	0
+P	Beed		IN		18.989	75.756	0
+P	Guntakal		IN		15.171	77.362	0
+P	Barshi		IN		18.235	75.693	0
+P	Ādilābād	adilabad	IN		19.672	78.536	0
+P	Uppal Kalan		IN		17.406	78.559	0
+P	Gangavati		IN		15.431	76.529	0
+P	Dharashiv		IN		18.182	76.039	0
+P	Bagalkot		IN		16.187	75.696	0
+P	Suriāpet	suriapet	IN		17.141	79.620	0
+P	Miryalaguda		IN		16.872	79.562	0
+P	Jagtiāl	jagtial	IN		18.795	78.917	0
+P	Udgīr	udgir	IN		18.393	77.118	0
+P	Pandharpur		IN		17.679	75.331	0
+P	Emmiganūr	emmiganur	IN		15.772	77.483	0
+P	Parli Vaijnāth	parli vaijnath	IN		18.851	76.532	0
+P	Ballarpur		IN		19.847	79.346	0
+P	Mancherial		IN		18.871	79.429	0
+P	Nirmal		IN		19.097	78.344	0
+P	Hingoli		IN		19.715	77.142	0
+P	Sirsilla		IN		18.389	78.810	0
+P	Kāmāreddi	kamareddi	IN		18.320	78.342	0
+P	Bodhan		IN		18.662	77.886	0
+P	Rabkavi-Banhatti	rabkavi banhatti	IN		16.470	75.120	0
+P	Sindhnūr	sindhnur	IN		15.770	76.756	0
+P	Yadgir		IN		16.770	77.138	0
+P	Ambājogāi	ambajogai	IN		18.733	76.386	0
+P	Rabkavi		IN		16.476	75.111	0
+P	Pusad		IN		19.913	77.578	0
+P	Sangāreddi	sangareddi	IN		17.625	78.087	0
+P	Zahirābād	zahirabad	IN		17.681	77.607	0
+P	Mārkāpur	markapur	IN		15.735	79.268	0
+P	Koppal		IN		15.345	76.155	0
+P	Basavakalyan		IN		17.874	76.950	0
+P	Jamkhandi		IN		16.505	75.291	0
+P	Basmat		IN		19.329	77.157	0
+P	Siddipet		IN		18.105	78.849	0
+P	Bellampalli		IN		19.056	79.493	0
+P	Koratla		IN		18.822	78.712	0
+P	Mandamarri		IN		18.965	79.475	0
+P	Wadgaon Kolhati		IN		19.843	75.236	0
+P	Tandur		IN		17.248	77.577	0
+P	Kodār	kodar	IN		16.998	79.966	0
+P	Āmūr	amur	IN		18.793	78.277	0
+P	Gadwāl	gadwal	IN		16.235	77.796	0
+P	Pidugurālla	piduguralla	IN		16.479	79.886	0
+P	Vinukonda		IN		16.053	79.740	0
+P	Wanparti		IN		16.367	78.069	0
+P	Ilkal		IN		15.959	76.114	0
+P	Dhone		IN		15.395	77.871	0
+P	Kagaznāgār	kagaznagar	IN		19.332	79.466	0
+P	Mācherla	macherla	IN		16.476	79.435	0
+P	Kandukūr	kandukur	IN		15.215	79.904	0
+P	Deglur		IN		18.548	77.577	0
+P	Gaddi Annaram		IN		17.367	78.524	0
+P	Shāhpur	shahpur	IN		16.696	76.842	0
+P	Bhongīr	bhongir	IN		17.515	78.886	0
+P	Vikārābād	vikarabad	IN		17.338	77.904	0
+P	Shāhābād	shahabad	IN		17.131	76.944	0
+P	Siruguppa		IN		15.630	76.892	0
+P	Jangaon		IN		17.726	79.152	0
+P	Mudhol		IN		16.334	75.283	0
+P	Shorāpur	shorapur	IN		16.521	76.757	0
+P	Metpalle		IN		18.847	78.626	0
+P	Gangākher	gangakher	IN		18.970	76.749	0
+P	Bhaisa		IN		19.113	77.963	0
+P	Majalgaon		IN		19.155	76.210	0
+P	Gooty		IN		15.118	77.638	0
+P	Sadasivpet		IN		17.619	77.953	0
+P	Athani		IN		16.726	75.064	0
+P	Umarkhed		IN		19.601	77.689	0
+P	Selu		IN		19.455	76.441	0
+P	Medak		IN		18.045	78.261	0
+P	Patancheru		IN		17.533	78.264	0
+P	Mānvi	manvi	IN		15.991	77.050	0
+P	Farrukhnagar		IN		17.078	78.203	0
+P	Nandikotkūr	nandikotkur	IN		15.857	78.266	0
+P	Jawaharnagar		IN		17.510	78.566	0
+P	Homnābād	homnabad	IN		17.771	77.125	0
+P	Jintūr	jintur	IN		19.612	76.687	0
+P	Ahmadpur		IN		18.706	76.937	0
+P	Bodupāl	bodupal	IN		17.419	78.584	0
+P	Ranjangaon S		IN		19.844	75.215	0
+P	Bhupalpally		IN		18.429	79.864	0
+P	Aland		IN		17.564	76.569	0
+P	Kyathampalle		IN		19.668	78.529	0
+P	Nārāyanpet	narayanpet	IN		16.748	77.495	0
+P	Paithan		IN		19.475	75.386	0
+P	Saundatti		IN		15.766	75.118	0
+P	Peddapalli		IN		18.614	79.374	0
+P	Bhālki	bhalki	IN		18.043	77.206	0
+P	Akalkot		IN		17.525	76.206	0
+P	Aklūj	akluj	IN		17.892	75.021	0
+P	Sedam		IN		17.179	77.290	0
+P	Kampli		IN		15.406	76.600	0
+P	Betamcherla		IN		15.451	78.148	0
+P	Indi		IN		17.177	75.953	0
+P	Wādi	wadi	IN		17.052	76.990	0
+P	Pāthri	pathri	IN		19.259	76.434	0
+P	Sandūr	sandur	IN		15.086	76.547	0
+P	Kanigiri U		IN		15.406	79.507	0
+P	Sindgi		IN		16.919	76.234	0
+P	Lakshmeshwar		IN		15.127	75.469	0
+P	Amīnpur	aminpur	IN		17.524	78.323	0
+P	Pūrna	purna	IN		19.182	77.026	0
+P	Nargund		IN		15.723	75.387	0
+P	Nilanga		IN		18.117	76.753	0
+P	Ausa		IN		18.247	76.499	0
+P	Mahālingpur	mahalingpur	IN		16.389	75.109	0
+P	Partūr	partur	IN		19.599	76.215	0
+P	Medchal		IN		17.630	78.481	0
+P	Tuljāpur	tuljapur	IN		18.008	76.070	0
+P	Umarga		IN		17.838	76.623	0
+P	Lingsugūr	lingsugur	IN		16.159	76.522	0
+P	Giddalūr	giddalur	IN		15.374	78.926	0
+P	Atmakūr	atmakur	IN		15.881	78.587	0
+P	Rāmdurg	ramdurg	IN		15.946	75.298	0
+P	Bolārum	bolarum	IN		17.556	78.348	0
+P	Sāngola	sangola	IN		17.439	75.194	0
+P	Muddebihāl	muddebihal	IN		16.338	76.132	0
+P	Risod		IN		19.977	76.788	0
+P	Jāmkhed	jamkhed	IN		18.735	75.313	0
+P	Guledagudda		IN		16.050	75.790	0
+P	Dharmābād	dharmabad	IN		18.891	77.849	0
+P	Vemalwāda	vemalwada	IN		18.465	78.869	0
+P	Gevrai		IN		19.264	75.750	0
+P	Darsi		IN		15.770	79.679	0
+P	Basavana Bāgevādi	basavana bagevadi	IN		16.573	75.973	0
+P	Bhokar		IN		19.219	77.670	0
+P	Ghugus		IN		19.938	79.112	0
+P	Bādepalli	badepalli	IN		16.755	78.144	0
+P	Pīrzādagūda	pirzadaguda	IN		17.395	78.590	0
+P	Shamshabad		IN		17.252	78.418	0
+P	Manwath		IN		19.301	76.497	0
+P	Saknepalli		IN		18.929	79.457	0
+P	Gajendragarh		IN		15.736	75.970	0
+P	Meerpet		IN		17.321	78.530	0
+P	Tālīkota	talikota	IN		16.473	76.311	0
+P	Ambad		IN		19.613	75.789	0
+P	Chītāpur	chitapur	IN		17.124	77.082	0
+P	Nāspur	naspur	IN		18.846	79.462	0
+P	Podili		IN		15.606	79.615	0
+P	Narsampet		IN		17.928	79.892	0
+P	Bādāmi	badami	IN		15.915	75.677	0
+P	Kaij		IN		18.714	76.067	0
+P	Nāgāvaram	nagavaram	IN		17.489	78.602	0
+P	Devarkonda		IN		16.692	78.921	0
+P	Rājūra	rajura	IN		19.779	79.365	0
+P	Nāgar Karnūl	nagar karnul	IN		16.482	78.325	0
+P	Nakrekal		IN		17.163	79.428	0
+P	Devadurga		IN		16.423	76.936	0
+P	Mukher		IN		18.706	77.368	0
+P	Addanki		IN		15.811	79.973	0
+P	Kinwat		IN		19.626	78.199	0
+P	Bānswāda	banswada	IN		18.377	77.880	0
+P	Annigeri		IN		15.425	75.433	0
+P	Kalwākurti	kalwakurti	IN		16.664	78.491	0
+P	Hadagalli		IN		15.020	75.932	0
+P	Gangāpur	gangapur	IN		19.697	75.010	0
+P	Bāspalli	baspalli	IN		17.539	78.364	0
+P	Jilādiguda	jiladiguda	IN		17.332	78.526	0
+P	Hadgāon	hadgaon	IN		19.496	77.659	0
+P	Pāthardi	pathardi	IN		19.173	75.174	0
+P	Afzalpur		IN		17.200	76.360	0
+P	Chāndur	chandur	IN		19.734	79.172	0
+P	Māmidālapādu	mamidalapadu	IN		15.854	78.015	0
+P	Terdāl	terdal	IN		16.494	75.047	0
+P	Tekkalakote		IN		15.534	76.877	0
+P	Kallam		IN		18.575	76.022	0
+P	Jevargi		IN		17.014	76.773	0
+P	Kamalāpuram	kamalapuram	IN		15.304	76.476	0
+P	Indāpur	indapur	IN		18.115	75.029	0
+P	Banganapalle		IN		15.318	78.227	0
+P	Chitaguppa		IN		17.697	77.215	0
+P	Gajwel		IN		17.848	78.683	0
+P	Mundargi		IN		15.207	75.884	0
+P	Kushtagi		IN		15.756	76.191	0
+P	Kandahār	kandahar	IN		18.873	77.192	0
+P	Kalamnūri	kalamnuri	IN		19.674	77.311	0
+P	Andol		IN		17.815	78.077	0
+P	Navalgund		IN		15.559	75.353	0
+P	Singāpur	singapur	IN		17.470	78.126	0
+P	Srīsailain	srisailain	IN		16.072	78.868	0
+P	Loha		IN		18.945	77.116	0
+P	Chinnūr	chinnur	IN		18.858	79.796	0
+P	Mudkhed		IN		19.157	77.503	0
+P	Lonar		IN		19.985	76.520	0
+P	Ron		IN		15.699	75.734	0
+P	Karmāla	karmala	IN		18.408	75.194	0
+P	Kurduvādi	kurduvadi	IN		18.093	75.416	0
+P	Asifābād	asifabad	IN		19.359	79.284	0
+P	Pīpri	pipri	IN		19.794	75.535	0
+P	Mudgal		IN		16.012	76.442	0
+P	Cumbum		IN		15.582	79.111	0
+P	Kurikuppi		IN		15.218	76.649	0
+P	Dasnapur		IN		19.654	78.512	0
+P	Mangalvedha		IN		17.510	75.447	0
+P	Srisailam Project RFC Township		IN		16.073	78.874	0
+P	Chincholi		IN		17.465	77.419	0
+P	Hungund		IN		16.062	76.059	0
+P	Achampet		IN		16.398	78.638	0
+P	Gurmatkāl	gurmatkal	IN		16.868	77.391	0
+P	Dhārūr	dharur	IN		18.820	76.109	0
+P	Waluj Buzurg		IN		19.796	75.226	0
+P	Singānuram	singanuram	IN		18.822	79.502	0
+P	Pāmūru	pamuru	IN		15.096	79.412	0
+P	Aurād	aurad	IN		18.254	77.418	0
+P	Ghatkesar		IN		17.451	78.684	0
+P	Kerūr	kerur	IN		16.014	75.546	0
+P	Srīrāmnagar	sriramnagar	IN		17.267	78.255	0
+P	Torūr	torur	IN		17.584	79.659	0
+P	Chautāpal	chautapal	IN		17.258	78.898	0
+P	Kothakota		IN		16.380	77.940	0
+P	Mulgund		IN		15.281	75.521	0
+P	Paranda		IN		18.263	75.463	0
+P	Kundgol		IN		15.256	75.247	0
+P	Bhoom		IN		18.459	75.659	0
+P	Jogipet		IN		17.836	78.068	0
+P	Moram		IN		17.788	76.471	0
+P	Naldurg		IN		17.817	76.282	0
+P	Aurangabad Cantonment		IN		19.876	75.292	0
+P	Jadcherla		IN		16.774	78.137	0
+P	Bilgi		IN		16.347	75.618	0
+P	Shirhatti		IN		15.234	75.580	0
+P	Naregal		IN		15.573	75.808	0
+P	Shaktinagar		IN		16.365	77.359	0
+P	Sindkhed Raja		IN		19.954	76.126	0
+P	Hatti		IN		16.198	76.660	0
+P	Utnūr	utnur	IN		19.368	78.776	0
+P	Vijayapuri North		IN		16.585	79.320	0
+P	Sonpet		IN		19.026	76.474	0
+P	Yamjāl	yamjal	IN		17.269	78.577	0
+P	Manthani		IN		18.651	79.665	0
+P	Kamatgi		IN		16.078	75.813	0
+P	Nārāyankher	narayankher	IN		18.034	77.773	0
+P	Kompalli		IN		17.545	78.488	0
+P	Kosigi		IN		15.855	77.245	0
+P	Rāmachandrapuran	ramachandrapuran	IN		17.513	78.289	0
+P	Yadagirigutta		IN		17.589	78.943	0
+P	Amīngarh	amingarh	IN		16.057	75.948	0

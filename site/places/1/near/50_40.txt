@@ -1,0 +1,40 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Europe/Moscow	180	
+Z	1	Europe/Saratov	240	
+C	RU	Russia	mwl	s
+B	0
+P	Tambov		RU		52.736	41.441	0
+P	Balashov		RU		51.551	43.171	1
+P	Michurinsk		RU		52.908	40.482	0
+P	Sarov		RU		54.948	43.315	0
+P	Borisoglebsk		RU		51.369	42.098	0
+P	Mikhaylovka		RU		50.062	43.233	0
+P	Ruzayevka		RU		54.060	44.949	0
+P	Rasskazovo		RU		52.664	41.889	0
+P	Rtishchevo		RU		52.260	43.787	1
+P	Morshansk		RU		53.443	41.811	0
+P	Uryupinsk		RU		50.806	42.009	0
+P	Serdobsk		RU		52.459	44.217	0
+P	Kasimov		RU		54.944	41.403	0
+P	Kotovsk		RU		52.590	41.503	0
+P	Kamenka		RU		53.181	44.049	0
+P	Sasovo		RU		54.354	41.920	0
+P	Uvarovo		RU		51.982	42.262	0
+P	Buturlinovka		RU		50.826	40.598	0
+P	Kotovo		RU		50.316	44.810	0
+P	Pavlovsk		RU		50.454	40.124	0
+P	Nizhniy Lomov		RU		53.530	43.677	0
+P	Ryazhsk		RU		53.706	40.080	0
+P	Kovylkino		RU		54.037	43.919	0
+P	Bobrov		RU		51.098	40.030	0
+P	Kalach		RU		50.425	41.016	0
+P	Novoanninskiy		RU		50.528	42.675	0
+P	Anna		RU		51.490	40.422	0
+P	Kalininsk		RU		51.498	44.477	1
+P	Povorino		RU		51.198	42.246	0
+P	Kirsanov		RU		52.651	42.735	0
+P	Zhirnovsk		RU		50.979	44.779	0
+P	Gribanovskiy		RU		51.450	41.962	0
+P	Shilovo		RU		54.320	40.880	0
+P	Zherdevka		RU		51.854	41.455	0
+P	Yelan’	yelan	RU		50.949	43.737	0

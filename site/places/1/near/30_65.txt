@@ -1,0 +1,23 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Asia/Kabul	270	
+Z	1	Asia/Karachi	300	
+C	AF	Afghanistan	karachi	h
+C	PK	Pakistan	karachi	h
+B	2
+P	Kabul		AF		34.528	69.172	0
+P	Quetta		PK		30.184	67.001	1
+P	Kandahār	kandahar	AF		31.613	65.710	0
+P	Ghazni		AF		33.554	68.421	0
+P	Chaman		PK		30.918	66.453	1
+P	Gardez		AF		33.597	69.226	0
+P	Khōst	khost	AF		33.340	69.920	0
+P	Kot Malik Barkhurdar		PK		30.204	66.987	1
+P	Bāzār-e Yakāwlang	bazar e yakawlang	AF		34.735	66.974	0
+P	Bāmyān	bamyan	AF		34.822	67.827	0
+P	Zhob		PK		31.341	69.449	1
+P	Paghmān	paghman	AF		34.588	68.951	0
+P	Istālif	istalif	AF		34.833	69.078	0
+P	Loralai		PK		30.371	68.598	1
+P	Nīlī	nili	AF		33.722	66.130	0
+P	Pishin		PK		30.582	66.994	1
+P	Baraki Barak		AF		33.967	68.949	0

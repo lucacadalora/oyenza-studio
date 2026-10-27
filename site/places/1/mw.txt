@@ -1,0 +1,22 @@
+# Oyenza Studio, Prayer times. Cities: GeoNames (https://www.geonames.org), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Clocks: the IANA time zone database, 2026 to 2045. Built by tools/make_world_places.py.
+Z	0	Africa/Dar_es_Salaam	180	
+Z	1	Africa/Lubumbashi	120	
+C	CD	Democratic Republic of the Congo	egyptian	s
+C	KE	Kenya	egyptian	s
+C	MW	Malawi	egyptian	s
+C	TZ	Tanzania	egyptian	s
+C	ZM	Zambia	egyptian	s
+B	1
+P	Mwanza		TZ		-2.517	32.900	0
+P	Mwene		CD		-9.817	22.870	1
+P	Mwene-Ditu	mwene ditu	CD		-7.009	23.453	1
+P	Mwala		KE		-1.353	37.455	0
+P	Mweka		CD		-4.852	21.559	1
+P	Mwandege		TZ		-6.976	39.289	0
+P	Mwinilunga		ZM		-11.736	24.429	1
+P	Mwadui		TZ		-3.550	33.600	0
+P	Mwanhuzi		TZ		-3.527	34.315	0
+P	Mwanza		MW		-15.603	34.525	1
+P	Mwingi		KE		-0.936	38.060	0
+P	Mwandiga		TZ		-4.830	29.658	0
+P	Mwansabombwe		ZM		-9.822	28.760	1
