@@ -460,7 +460,7 @@ fn words(id: ProviderId, t: &Trouble) -> Words {
         }
         Trouble::Offline => w(format!("Can't reach {name}"), "The numbers come back once you're online".into(), "Offline".into(), again()),
         Trouble::Unreadable(_) => w("Couldn't read the numbers".into(), format!("{name} answered in a way this version doesn't know"), "Couldn't read the latest numbers".into(), again()),
-        Trouble::Denied => w("Keychain said no".into(), "Allow Oyenza Studio when macOS asks for it".into(), "Keychain said no".into(), again()),
+        Trouble::Denied => w("Keychain said no".into(), "Choose Allow when macOS asks about “security”".into(), "Keychain said no".into(), again()),
         // Never said (it only means "not asked online yet"): kept for completeness.
         Trouble::NeedsOnline => w(CHECKING.into(), String::new(), CHECKING.into(), None),
     }
