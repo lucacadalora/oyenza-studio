@@ -390,7 +390,7 @@ pub const OTHER: &str = "other";
 /// approve link: only its host shows.
 pub fn approve_text(code: &str, at: &str) -> String {
     let host = at.split_once("://").map_or(at, |(_, h)| h);
-    format!("Approve {code} on {}", host.split(|c| matches!(c, '/' | '?' | '#')).next().unwrap_or(host))
+    format!("Approve {code} on {}", host.split(['/', '?', '#']).next().unwrap_or(host))
 }
 
 /// "9:41" left on the code.

@@ -161,7 +161,7 @@ impl Sign {
             return None;
         }
         let claims = jwt_claims(token)?;
-        let user = claims["sub"].as_str()?.split('|').filter(|p| !p.is_empty()).last()?;
+        let user = claims["sub"].as_str()?.split('|').rfind(|p| !p.is_empty())?;
         if !user.bytes().all(|c| c.is_ascii_alphanumeric() || matches!(c, b'-' | b'_' | b'.')) {
             return None;
         }
@@ -767,7 +767,7 @@ mod sqlite {
     /// SQLite's checksum of the index header, in this computer's byte order
     /// (little-endian on every Windows and Mac this runs on).
     fn checksum(b: &[u8]) -> (u32, u32) {
-        b.chunks_exact(8).fold((0u32, 0u32), |(s1, s2), c| {
+        b.as_chunks::<8>().0.iter().fold((0u32, 0u32), |(s1, s2), c| {
             let s1 = s1.wrapping_add(le32(c, 0).unwrap_or(0)).wrapping_add(s2);
             let s2 = s2.wrapping_add(le32(c, 4).unwrap_or(0)).wrapping_add(s1);
             (s1, s2)
@@ -845,14 +845,14 @@ mod sqlite {
     /// second byte 0, which also passes as UTF-8) first, then UTF-8, then
     /// UTF-16LE.
     pub fn blob_text(b: &[u8]) -> Option<String> {
-        if !b.is_empty() && b.len() % 2 == 0 && b.chunks(2).all(|p| (1..128).contains(&p[0]) && p[1] == 0) {
+        if !b.is_empty() && b.len().is_multiple_of(2) && b.chunks(2).all(|p| (1..128).contains(&p[0]) && p[1] == 0) {
             return utf16le(b);
         }
         std::str::from_utf8(b).map(str::to_string).ok().or_else(|| utf16le(b))
     }
 
     fn utf16le(b: &[u8]) -> Option<String> {
-        if b.len() % 2 != 0 {
+        if !b.len().is_multiple_of(2) {
             return None;
         }
         char::decode_utf16(b.chunks(2).map(|p| u16::from_le_bytes([p[0], p[1]]))).collect::<Result<String, _>>().ok()

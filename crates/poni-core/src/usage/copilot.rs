@@ -119,7 +119,7 @@ fn sign_in(cx: &Ctx) -> Result<SignIn, Trouble> {
                 continue;
             };
             let rank = (api != "api.github.com", key.as_str());
-            if best.as_ref().map_or(true, |(r, _)| rank < *r) {
+            if best.as_ref().is_none_or(|(r, _)| rank < *r) {
                 let user = e["user"].as_str().or_else(|| e["login"].as_str()).map(str::to_string);
                 best = Some((rank, SignIn { api, token: token.to_string(), user }));
             }
