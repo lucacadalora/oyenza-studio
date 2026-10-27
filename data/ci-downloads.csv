@@ -422,3 +422,17 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 121924505193,Fetch the release to upgrade from,40423281070,1,2026-10-27T00:03:02Z,mac-trial-sweep-all,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 121925033078,Fetch the release to upgrade from,40423499650,1,2026-10-27T00:04:27Z,stocks-ask-now,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 121925577149,Fetch the release to upgrade from,40423596675,1,2026-10-27T00:05:49Z,ielts-coach,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121926920400,Fetch the release to upgrade from,40424184565,1,2026-10-27T00:09:28Z,release-0.2.12,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121927191648,Fetch the release to upgrade from,40424180074,1,2026-10-27T00:10:13Z,release-0.2.12,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121929520817,Fetch the release to upgrade from,40424855384,1,2026-10-27T00:16:31Z,update-mac-install,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121929563365,Fetch the release to upgrade from,40424903779,1,2026-10-27T00:16:41Z,update-sooner,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121929587262,Fetch the release to upgrade from,40424775675,1,2026-10-27T00:16:42Z,release-0.2.12,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121929704375,Fetch the release to upgrade from,40424876265,1,2026-10-27T00:17:02Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121929769114,Fetch the release to upgrade from,40424817900,1,2026-10-27T00:17:16Z,release-0.2.12,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121929928595,Fetch the release to upgrade from,40425056504,1,2026-10-27T00:17:42Z,ielts-coach,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121932423545,Fetch the release to upgrade from,40425540796,1,2026-10-27T00:24:38Z,ielts-coach,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121934015480,Fetch the release to upgrade from,40426141595,1,2026-10-27T00:29:01Z,release-0.2.12,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121934139459,Fetch the release to upgrade from,40426117538,1,2026-10-27T00:29:27Z,release-0.2.12,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+121998804891,Fetch the release to upgrade from,40446073980,1,2026-10-27T03:51:19Z,mac-usage,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122002096659,Fetch the release to upgrade from,40447079834,1,2026-10-27T04:02:21Z,mac-usage,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122007085523,Fetch the release to upgrade from,40448509125,1,2026-10-27T04:18:51Z,ai-usage,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
