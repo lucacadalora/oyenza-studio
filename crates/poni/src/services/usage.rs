@@ -423,7 +423,13 @@ impl Worker {
     /// after a break, when nothing was read); what it says goes to the
     /// island only while they're on.
     fn heard(&mut self, i: usize, p: &dyn Provider, reach: Reach, run: pace::Run) -> Vec<Alert> {
-        let (id, now, tick) = (p.id(), crate::clock::unix_now(), self.tick());
+        self.heard_at(i, p, reach, run, crate::clock::unix_now())
+    }
+
+    /// [`Worker::heard`] at `now` (the tests' own clock: a reset they set
+    /// must not pass because the real one moved on).
+    fn heard_at(&mut self, i: usize, p: &dyn Provider, reach: Reach, run: pace::Run, now: i64) -> Vec<Alert> {
+        let (id, tick) = (p.id(), self.tick());
         let svc = &mut self.svcs[i];
         svc.pace.heard(tick, reach, run.asked > 0, run.outcome.as_ref());
         if (run.broke.is_some() || run.unsent) && !svc.warned {
@@ -862,8 +868,14 @@ mod tests {
         s
     }
 
+    /// The worker hears a reading as it is taken, so the clock is the
+    /// reading's own time (NOW for a trouble).
     fn heard(w: &mut Worker, id: ProviderId, reach: Reach, run: pace::Run) -> Vec<Alert> {
-        w.heard(at(id), usage::provider(id), reach, run)
+        let now = match &run.outcome {
+            Some(Ok(s)) => s.as_of,
+            _ => NOW,
+        };
+        w.heard_at(at(id), usage::provider(id), reach, run, now)
     }
 
     fn reading(ev: &UsageEvent) -> &Outcome {
