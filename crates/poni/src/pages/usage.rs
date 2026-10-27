@@ -280,11 +280,9 @@ fn connected(st: &AppState) -> bool {
     matches!(st.usage.inference, InferenceLink::On { .. }) || st.usage.keys.contains(oyenza::SECRET)
 }
 
-/// The service's mark. A stand-in until the services' own marks land in
-/// `icons.rs`; then this is one line: `ui.c.icon(crate::icons::service(id), r, color)`.
+/// The service's mark.
 fn mark(ui: &mut Ui, id: ProviderId, r: Rect, color: Color) {
-    let icon = if id == ProviderId::Oyenza { Icon::Wallet } else { PageKind::Ai.icon() };
-    ui.c.icon(icon, r, color);
+    ui.c.icon(crate::icons::service(id), r, color);
 }
 
 // ---------------------------------------------------------------- a card's lines
