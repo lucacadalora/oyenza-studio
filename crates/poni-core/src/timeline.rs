@@ -47,6 +47,26 @@ impl Timeline {
     pub fn has_duration(&self) -> bool {
         self.duration_s > 0.5
     }
+
+    /// Fill a blank report from what the same track showed before.
+    ///
+    /// Some players (Firefox and browsers built on it, such as Zen) now and
+    /// then report a timeline with no length in the middle of a track, often
+    /// with no position either. Taken as it is, the bar and the synced lyrics
+    /// vanish until the next full report, which may not come before a pause
+    /// and play. `shown` is the same track's last timeline: its length stays,
+    /// and a report with no position either keeps counting from where
+    /// `shown` is at `now`. A report with a length is returned as it is.
+    pub fn or_length_of(self, shown: &Timeline, now: f64) -> Timeline {
+        if self.has_duration() || !shown.has_duration() {
+            return self;
+        }
+        let duration_s = shown.duration_s;
+        if self.position_s > 0.0 {
+            return Timeline { position_s: self.position_s.min(duration_s), duration_s, ..self };
+        }
+        Timeline { position_s: shown.position_at(now), duration_s, sampled_at: now, ..self }
+    }
 }
 
 /// A seek the player hasn't confirmed yet.
@@ -245,5 +265,44 @@ mod tests {
         // Hidden for a while: snaps to the report.
         c.tick(4.0 / 60.0, 2.5, true, 1.0);
         assert_eq!(c.tick(10.0, 50.0, true, 1.0), 50.0);
+    }
+
+    #[test]
+    fn blank_report_keeps_the_tracks_length_and_place() {
+        // Shown: 72 s into a 212 s song at 100 s on the clock, playing.
+        let shown = Timeline::new(72.0, 212.0, 100.0, true);
+        // Zen sends no length and no position at 130 s: the song goes on at 102 s.
+        let blank = Timeline::new(0.0, 0.0, 130.0, true);
+        let t = blank.or_length_of(&shown, 130.0);
+        assert!(t.has_duration());
+        assert_eq!(t.duration_s, 212.0);
+        assert!((t.position_at(130.0) - 102.0).abs() < 1e-9);
+        assert!((t.position_at(131.0) - 103.0).abs() < 1e-9);
+        // Paused in the same blank report: it stops where it is.
+        let t = Timeline::new(0.0, 0.0, 130.0, false).or_length_of(&shown, 130.0);
+        assert!(!t.playing);
+        assert!((t.position_at(150.0) - 102.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn report_with_a_position_but_no_length_keeps_its_position() {
+        let shown = Timeline::new(72.0, 212.0, 100.0, true);
+        let t = Timeline::new(95.0, 0.0, 120.0, true).or_length_of(&shown, 120.0);
+        assert_eq!((t.position_s, t.duration_s, t.sampled_at), (95.0, 212.0, 120.0));
+        // Never past the end.
+        let t = Timeline::new(300.0, 0.0, 120.0, true).or_length_of(&shown, 120.0);
+        assert_eq!(t.position_s, 212.0);
+    }
+
+    #[test]
+    fn full_reports_and_lengthless_tracks_pass_unchanged() {
+        let shown = Timeline::new(72.0, 212.0, 100.0, true);
+        // A full report (a seek, the next song) wins as it is.
+        let full = Timeline::new(5.0, 180.0, 120.0, true);
+        assert_eq!(full.or_length_of(&shown, 120.0), full);
+        // A stream that never had a length stays without one.
+        let live = Timeline::new(0.0, 0.0, 100.0, true);
+        let blank = Timeline::new(0.0, 0.0, 120.0, true);
+        assert_eq!(blank.or_length_of(&live, 120.0), blank);
     }
 }
