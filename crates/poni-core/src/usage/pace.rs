@@ -1146,6 +1146,20 @@ mod tests {
             f.set_modified(SystemTime::now() - Duration::from_secs(age)).unwrap();
             p
         }
+
+        /// The folder `rel`, last changed `age` seconds before now. Windows
+        /// opens a folder only with FILE_FLAG_BACKUP_SEMANTICS, and setting
+        /// its times takes FILE_WRITE_ATTRIBUTES.
+        fn age_folder(&self, rel: &str, age: u64) {
+            #[cfg(windows)]
+            let f = {
+                use std::os::windows::fs::OpenOptionsExt;
+                File::options().access_mode(0x100).custom_flags(0x0200_0000).open(self.0.join(rel))
+            };
+            #[cfg(not(windows))]
+            let f = File::open(self.0.join(rel));
+            f.unwrap().set_modified(SystemTime::now() - Duration::from_secs(age)).unwrap();
+        }
     }
 
     impl Drop for Scratch {
@@ -1221,7 +1235,7 @@ mod tests {
             s.file(&format!("logs/old/{i:05}.jsonl"), b"", 10_000);
         }
         // Its last file came long ago (made here a moment before the new one).
-        File::open(s.0.join("logs/old")).unwrap().set_modified(SystemTime::now() - Duration::from_secs(10_000)).unwrap();
+        s.age_folder("logs/old", 10_000);
         s.file("logs/new/today.jsonl", b"today", 5);
         // The newest folder is walked first, so the cap cuts the old ones.
         assert_eq!(names(&read_newest(&s.0.join("logs"), ".jsonl", 1, 1, 64)), ["today.jsonl"]);
