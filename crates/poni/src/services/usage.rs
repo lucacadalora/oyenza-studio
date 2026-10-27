@@ -19,6 +19,11 @@
 //! approved, refused or runs out (the server gives it 10 minutes). In
 //! between, the thread sleeps on a condition variable at zero CPU.
 //!
+//! Requests go through a client of the worker's own (`Client::private`): it
+//! follows no redirect (a 3xx is the answer, so a sign-in never goes on to
+//! another host), keeps no cookies and caches nothing. A typed key a server
+//! refused isn't sent there again this run (`pace::Refusals`).
+//!
 //! Nothing is written but the typed keys, and the log gets one line per
 //! change of a service's state: never a token, a key, an answer or an email.
 
@@ -27,8 +32,9 @@ use crate::events::{AppEvent, EventSink};
 use crate::services::http::{Client, FetchError, Method, MtaGuard};
 use crate::state::InferenceLink;
 use poni_core::usage::alerts::{Alert, AlertCfg, Memory};
-use poni_core::usage::pace::{self, Look, Looks, Pace};
+use poni_core::usage::pace::{self, KeyGate, Look, Looks, Pace, Refusals};
 use poni_core::usage::{self, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
+use std::cell::RefCell;
 use std::collections::BTreeSet;
 use std::path::PathBuf;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
@@ -185,6 +191,8 @@ struct Worker {
     keys: BTreeSet<&'static str>,
     /// One per service, in `ProviderId::ALL` order.
     svcs: Vec<Svc>,
+    /// Where the typed keys were refused, so they aren't sent there again.
+    refusals: Refusals,
     looks: Looks,
     /// What the island wanted when the worker last looked at its queue.
     watch: Watch,
@@ -237,6 +245,7 @@ impl Worker {
             names,
             keys: BTreeSet::new(),
             svcs: ProviderId::ALL.iter().map(|_| Svc::default()).collect(),
+            refusals: Refusals::default(),
             looks: Looks::default(),
             watch: Watch::default(),
             cfg: AlertCfg::default(),
@@ -373,12 +382,24 @@ impl Worker {
     fn refresh(&mut self, i: usize, p: &dyn Provider, wants: &[Want], look: Look) -> Vec<Alert> {
         let Some(reach) = self.svcs[i].pace.reach(self.tick(), p.min_gap_s(), look) else { return Vec::new() };
         let now = crate::clock::unix_now();
-        let Worker { dirs, names, client, .. } = self;
+        let Worker { dirs, names, client, refusals, .. } = self;
+        // The service's typed key, if it reads one, goes through the door:
+        // never again to an address that refused it.
+        let gate = RefCell::new(KeyGate::new(refusals, p.takes_key().map(|k| k.secret)));
         // A reader reads other apps' files and servers' answers: should one
         // of them trip it up, the rest of the tab carries on without it.
-        let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| pace::run(p, dirs, wants, now, reach, |w| read(w, names), |req| fetch(client, req))));
+        let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            let read = |w: &Want| {
+                let got = read(w, names);
+                gate.borrow_mut().saw(w, &got);
+                got
+            };
+            pace::run(p, dirs, wants, now, reach, read, |req| gate.borrow_mut().ask(req, |r| fetch(client, r)))
+        }));
+        let gate = gate.into_inner();
         match run {
             Ok(mut run) => {
+                gate.done(run.outcome.as_ref());
                 // The Mac's keychain is never asked from the background (its
                 // prompt would come out of nowhere): a sign-in kept only there
                 // reads as missing on a notices-only look, which means "not
@@ -438,14 +459,14 @@ impl Worker {
             // Only "not asked online yet": never a trouble on the tab.
             Err(Trouble::NeedsOnline) => Vec::new(),
             Err(t) => {
-                if matches!(t, Trouble::NotFound | Trouble::SignedOut | Trouble::NeedsKey) {
-                    // The sign-in is gone, and with it its numbers and what
-                    // the notices knew.
+                if matches!(t, Trouble::NotFound | Trouble::SignedOut | Trouble::NeedsKey | Trouble::Disabled) {
+                    // The way in is gone (or switched off), and with it its
+                    // numbers and what the notices knew.
                     svc.kept = None;
                     svc.memory = Memory::default();
                 }
                 svc.trouble = Some(t.clone());
-                if id == ProviderId::Oyenza && t == Trouble::NeedsKey && self.pending.is_none() {
+                if id == ProviderId::Oyenza && t == Trouble::NeedsKey && matches!(self.link, InferenceLink::On { .. }) {
                     // Its key went (or no longer unseals): not connected.
                     self.set_link(InferenceLink::Off);
                 }
@@ -477,8 +498,12 @@ impl Worker {
 
     fn run(&mut self, c: UsageCmd) {
         match c {
-            // (The Mac app tells its keychain reader to ask again first.)
-            UsageCmd::Refresh => self.looks.ask(self.tick()),
+            // Every key is tried again, wherever it was refused. (The Mac app
+            // tells its keychain reader to ask again first.)
+            UsageCmd::Refresh => {
+                self.refusals.clear();
+                self.looks.ask(self.tick());
+            }
             UsageCmd::SetKey { secret, key } => self.set_key(secret, &key),
             UsageCmd::ClearKey(secret) => self.clear_key(secret),
             UsageCmd::Connect => self.connect(),
@@ -513,6 +538,7 @@ impl Worker {
             }
             Err(e) => crate::pwarn!("usage: {name}: couldn't keep the key ({e})"),
         }
+        self.refusals.forget(name);
         self.send(UsageEvent::Keys(self.keys.clone()));
         self.reread(name);
     }
@@ -523,6 +549,17 @@ impl Worker {
         if !self.names.contains(&name) {
             return;
         }
+        self.drop_key(name);
+        if name == oyenza::SECRET {
+            self.pending = None;
+            self.set_link(InferenceLink::Off);
+        }
+        self.reread(name);
+    }
+
+    /// Delete a kept key, with what was refused of it, and say which keys
+    /// are kept.
+    fn drop_key(&mut self, name: &'static str) {
         match crate::services::secret::delete(&crate::paths::usage_key_path(name)) {
             Ok(()) => {
                 if self.keys.remove(name) {
@@ -531,12 +568,8 @@ impl Worker {
             }
             Err(e) => crate::pwarn!("usage: {name}: couldn't remove the key ({e})"),
         }
+        self.refusals.forget(name);
         self.send(UsageEvent::Keys(self.keys.clone()));
-        if name == oyenza::SECRET {
-            self.pending = None;
-            self.set_link(InferenceLink::Off);
-        }
-        self.reread(name);
     }
 
     /// A key changed: what was read with the old one goes, and each shown
@@ -660,16 +693,29 @@ impl Worker {
     }
 
     /// Tell inference.oyenza.com to forget this computer's key, then forget
-    /// it here, reached or not (the dashboard can remove it too).
+    /// it here, reached or not. When the server couldn't be told, the key
+    /// still works there until it is removed under Connected apps, and the
+    /// card says so (`oyenza::UNTOLD`) instead of looking cleanly
+    /// disconnected.
     fn disconnect(&mut self) {
         self.pending = None;
-        if let Some(key) = load_key(oyenza::SECRET).filter(|k| oyenza::key_ok(k.trim())) {
-            let req = oyenza::disconnect_request(&self.base(), key.trim());
-            if !oyenza::disconnected(&self.send_one(&req)) {
-                crate::pwarn!("usage: oyenza: Oyenza Inference couldn't be told; the key is gone from this computer");
+        let told = match load_key(oyenza::SECRET).filter(|k| oyenza::key_ok(k.trim())) {
+            Some(key) => {
+                let req = oyenza::disconnect_request(&self.base(), key.trim());
+                oyenza::disconnected(&self.send_one(&req))
             }
+            // Nothing to tell.
+            None => true,
+        };
+        self.drop_key(oyenza::SECRET);
+        if told {
+            crate::pinfo!("usage: oyenza: disconnected");
+            self.set_link(InferenceLink::Off);
+        } else {
+            crate::pwarn!("usage: oyenza: Oyenza Inference couldn't be told; the key is gone from this computer");
+            self.set_link(InferenceLink::Failed(oyenza::UNTOLD.into()));
         }
-        self.clear_key(oyenza::SECRET);
+        self.reread(oyenza::SECRET);
     }
 }
 
@@ -696,12 +742,12 @@ fn load_key(name: &str) -> Option<String> {
     crate::services::secret::load(&crate::paths::usage_key_path(name))
 }
 
-/// One request with the worker's client (made on the first one, kept). An
-/// answer comes back whole; a failure never brings its text, which can name
-/// the URL.
+/// One request with the worker's own client (made on the first one, kept:
+/// no redirects, cookies or cache). An answer comes back whole; a failure
+/// never brings its text, which can name the URL.
 fn fetch(client: &mut Option<Client>, req: &Request) -> Result<Reply, NetFail> {
     if client.is_none() {
-        *client = Some(Client::new(USER_AGENT).map_err(|_| NetFail::Other("no HTTP client".into()))?);
+        *client = Some(Client::private(USER_AGENT).map_err(|_| NetFail::Other("no HTTP client".into()))?);
     }
     let c = client.as_ref().expect("client was just made");
     let method = match req.method {
@@ -850,6 +896,10 @@ mod tests {
         heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::SignedOut), 1));
         assert_eq!(told(&rx).iter().map(reading).collect::<Vec<_>>(), [&Err(Trouble::SignedOut)]);
         assert_eq!(w.svcs[at(ProviderId::Codex)].kept, None);
+        // So does an account switched off on the service's side.
+        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Ok(online.clone()), 1));
+        heard(&mut w, ProviderId::Codex, Reach::Online, ran(Err(Trouble::Disabled), 1));
+        assert_eq!(w.svcs[at(ProviderId::Codex)].kept, None);
     }
 
     #[test]
@@ -904,6 +954,11 @@ mod tests {
         assert!(!told(&rx).iter().any(|e| matches!(e, UsageEvent::Link(_))));
         heard(&mut w, ProviderId::Oyenza, Reach::Local, ran(Err(Trouble::NeedsKey), 0));
         assert!(told(&rx).contains(&UsageEvent::Link(InferenceLink::Off)));
+        // A disconnect the server never heard keeps saying so through the
+        // next look (no key here either way).
+        w.link = InferenceLink::Failed(oyenza::UNTOLD.into());
+        heard(&mut w, ProviderId::Oyenza, Reach::Local, ran(Err(Trouble::NeedsKey), 0));
+        assert_eq!(w.link, InferenceLink::Failed(oyenza::UNTOLD.into()));
     }
 
     #[test]
