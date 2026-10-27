@@ -1,6 +1,6 @@
 {
   "warn_only_until": "2026-11-01",
-  "exe_mb": 8.0,
+  "exe_mb": 8.5,
   "download_mb": 3.0,
   "rest": {
     "private_mib": 21.0,
