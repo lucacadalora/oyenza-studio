@@ -32,7 +32,9 @@ impl VoicePlayer {
     /// Plays an mp3/wav file; sends AppEvent::VoiceEnded when it finishes or fails.
     pub fn play(&mut self, path: &Path, sink: &EventSink) -> Result<(), String> {
         self.stop();
-        let uri = Uri::CreateUri(&HSTRING::from(super::adzan::file_uri(path))).map_err(|e| format!("bad path ({e})"))?;
+        // A file URI needs the whole path (the self-test's home is relative).
+        let path = std::path::absolute(path).unwrap_or_else(|_| path.to_path_buf());
+        let uri = Uri::CreateUri(&HSTRING::from(super::adzan::file_uri(&path))).map_err(|e| format!("bad path ({e})"))?;
         let player = MediaPlayer::new().map_err(|e| format!("no media player ({e})"))?;
         // No media session: Oyen isn't a song.
         if let Ok(cm) = player.CommandManager() {

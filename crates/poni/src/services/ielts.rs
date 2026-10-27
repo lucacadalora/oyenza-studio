@@ -228,7 +228,8 @@ impl Worker {
             let _com = MtaGuard::new();
             let base = api.as_ref().map_or(ielts::BASE.to_string(), |a| a.0.clone());
             let fixed = api.is_some();
-            let mut w = Client::new(USER_AGENT)
+            // The ladder changes with every session: never from Windows' cache.
+            let mut w = Client::uncached(USER_AGENT)
                 .map(|client| Calls { client, base, key: api.map(|a| a.1), fixed, turns: 0 })
                 .map_err(|e| crate::pwarn!("ielts: no HTTP client ({e})"));
             // Ends once the page lets the worker go (its sender drops). Every
