@@ -273,7 +273,7 @@ fn window(label: &str, left: f64, resets: Option<i64>, now: i64) -> Window {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{drive, FileRead, Method, Os, Outcome};
+    use crate::{drive, FileRead, Method, Os, Outcome};
 
     const CREDS: &str = include_str!("fixtures/gemini/oauth_creds.json");
     const CREDS_WORKSPACE: &str = include_str!("fixtures/gemini/oauth_creds_workspace.json");

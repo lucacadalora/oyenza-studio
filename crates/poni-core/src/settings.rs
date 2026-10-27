@@ -120,7 +120,7 @@ pub struct Settings {
     /// after start and then twice a day (docs/updates.md), and say on the
     /// island once when a new version is out.
     pub update_check: bool,
-    /// The AI tab's choices (its readers are the `poni-usage` crate).
+    /// The AI tab's choices (its readers are the `studio-usage` crate).
     pub usage: UsageSettings,
 }
 
@@ -128,7 +128,7 @@ pub struct Settings {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct UsageSettings {
-    /// Services the person hid, by key (`usage::ProviderId::key`). Keys this
+    /// Services the person hid, by key (`studio_usage::ProviderId::key`). Keys this
     /// version doesn't know are kept, so a newer Studio's choices survive a save.
     pub hidden: Vec<String>,
     /// Services shown even when nothing of them is on this computer (the

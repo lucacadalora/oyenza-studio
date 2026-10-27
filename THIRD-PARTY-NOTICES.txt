@@ -254,7 +254,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 CodexBar 0.74.1
 
 Used for: how much of each AI coding plan is left, on the AI tab
-(crates/poni-core/src/usage/). Its readers port CodexBar's logic to Rust:
+(crates/studio-usage/). Its readers port CodexBar's logic to Rust:
 where each tool keeps its sign-in, which of the service's own servers to ask
 and how to read the answers. No CodexBar file is copied.
 

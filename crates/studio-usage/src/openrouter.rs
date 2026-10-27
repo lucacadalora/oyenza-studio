@@ -174,7 +174,7 @@ fn count(v: &Value) -> Option<u64> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{Got, Os, MAX_FETCHES};
+    use crate::{Got, Os, MAX_FETCHES};
 
     const KEY: &str = include_str!("fixtures/openrouter/key.json");
     const KEY_FREE: &str = include_str!("fixtures/openrouter/key_free.json");

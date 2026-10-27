@@ -306,7 +306,7 @@ fn read_me(r: &Result<Reply, NetFail>, snap: &mut Snapshot) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{FileRead, Method, Os, Outcome, MAX_FETCHES};
+    use crate::{FileRead, Method, Os, Outcome, MAX_FETCHES};
     use std::path::PathBuf;
 
     /// 2026-10-27T05:00:00Z.
@@ -378,7 +378,7 @@ mod tests {
         assert_eq!(wants[1], Want::File { path: PathBuf::from(r"D:\kimi\credentials\kimi-code-env-0e4f99c69cc27850.json"), max: 64 * 1024 });
         assert_eq!(wants[3], Want::File { path: PathBuf::from(r"D:\kimi\device_id"), max: 1024 });
         // The kimi.ai file's name, the way Kimi Code makes it.
-        let slot = crate::sha256::hex(&crate::sha256::sha256(br#"{"oauthHost":"https://auth.kimi.ai","baseUrl":"https://api.kimi.ai/coding/v1"}"#));
+        let slot = poni_core::sha256::hex(&poni_core::sha256::sha256(br#"{"oauthHost":"https://auth.kimi.ai","baseUrl":"https://api.kimi.ai/coding/v1"}"#));
         assert_eq!(SIGNINS[1].0, format!("kimi-code-env-{}.json", &slot[..16]));
     }
 

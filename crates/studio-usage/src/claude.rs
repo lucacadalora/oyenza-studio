@@ -261,7 +261,7 @@ fn account(settings: &Got) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{FileRead, Method, MAX_FETCHES};
+    use crate::{FileRead, Method, MAX_FETCHES};
     use std::path::PathBuf;
 
     /// 2026-10-27 05:00 UTC; the fixtures' sign-in expires an hour later.

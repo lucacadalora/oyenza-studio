@@ -11,13 +11,15 @@ It was called Oyen Poni until 0.2.0, and plain Poni before that. The code keeps 
 old short name where people don't see it: the crates (`poni`, `poni-core`), `poni.exe`,
 its folders (`%LOCALAPPDATA%\Programs\Poni`, `%APPDATA%\Poni`), the uninstall key and
 Run value, `Local\Poni.Island`, the Mac bundle id `com.oyenza.poni` and the `PONI_*`
-variables. Changing those would break upgrades and settings, so they stay.
+variables. Changing those would break upgrades and settings, so they stay. New
+crates take the new name (`studio-usage`).
 
 ## Crates
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report), and AI usage (`usage/`: a reader per AI coding service behind one contract, heads-up notices from their readings, and inference.oyenza.com's device connect; see [AI usage](#ai-usage)). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
+| `crates/studio-usage` | The AI tab's readers: one per AI coding service behind one contract, heads-up notices from their readings, and inference.oyenza.com's device connect; see [AI usage](#ai-usage). Pure, like poni-core, and built for size. | any OS (`cargo test -p studio-usage`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 | `crates/poni/src/mac/` | The Mac app (AppKit + Core Graphics + Core Text via `objc2`): its own window, renderer, main loop, notch layouts and menu bar item around the same state, pages, activities and Oyen. See [The Mac app](#the-mac-app). | macOS 14+ (`cargo mcheck` type-checks it from Linux) |
 
@@ -241,10 +243,9 @@ Gemini CLI, Cursor, GitHub Copilot, Kimi Code, Z.ai, MiniMax, OpenRouter) and
 the person's inference.oyenza.com balance once they connect it. What it reads,
 service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
 
-* **Readers** (`poni-core/src/usage/`, `poni_usage` in the apps): one file
-  per service behind the `Provider` contract in `usage/mod.rs`, all pure, so
-  each is tested on any OS against hand-made answers in `usage/fixtures/<service>/` (loaded only in
-  tests). `wants(dirs)` names what to read first: a file (`Want::File`,
+* **Readers** (`crates/studio-usage`): one file per service behind the
+  `Provider` contract in its `lib.rs`, all pure, so each is tested on any OS
+  against hand-made answers in `fixtures/<service>/` (loaded only in tests). `wants(dirs)` names what to read first: a file (`Want::File`,
   refused past its `max`), a log's last lines (`Want::Newest`), a piece of a
   file too big to read whole (`Want::Range`: Cursor's SQLite store, walked a
   page at a time, about ten 4 KB pieces a refresh and never the whole file,
@@ -255,7 +256,7 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   refresh), a request (`Step::Fetch`, at most `MAX_FETCHES` a refresh, none
   under `Reach::Local`) or the result (`Step::Done`): a `Snapshot` (plan,
   masked account, `Window`s with their resets, balance, spend, days) or a
-  `Trouble` the tab says in plain words. The rules at the top of `mod.rs` bind
+  `Trouble` the tab says in plain words. The rules at the top of `lib.rs` bind
   every reader: read only, never refresh another app's sign-in, a sign-in
   goes only to its own service's server and never into the log, an error or
   a snapshot, ask as Oyenza Studio (never another app's `User-Agent`), and
@@ -265,15 +266,10 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   key, disconnect). Its test-server variable, `PONI_INFERENCE_URL`, takes
   `https://` anywhere but plain `http://` only for this computer (`localhost`,
   `127.0.0.1`, `[::1]`), since the key goes wherever it points.
-* **Built for size**: the apps use the readers as their own crate,
-  `poni-usage` (`crates/poni-usage/Cargo.toml` points at
-  `poni-core/src/usage/mod.rs`, so no file moved), which the release profile
-  builds at opt-level "s": they parse for moments every few minutes, never in
-  a frame. poni-core still compiles the same files for its tests
-  (`cargo test -p poni-core usage::`). So in those files a reader names
-  poni-core's own modules `poni_core::datetime`, `poni_core::oyenza` and so
-  on, never `crate::` (in the apps' build `crate` is poni-usage); tests may
-  keep `crate::`.
+* **Built for size**: the readers are their own crate so the release profile
+  can build them at opt-level "s": they parse for moments every few minutes,
+  never in a frame. They use poni-core's dates and SHA-256, and the device
+  code helpers the oyenza.app sign-in uses (`poni_core::oyenza`).
 * **Worker** (`services/usage.rs`, which the Mac app runs too through
   `#[path]`): one thread, started the first time the tab opens or the notices
   are switched on (`Services::usage_watch`), that sleeps on a condvar at zero

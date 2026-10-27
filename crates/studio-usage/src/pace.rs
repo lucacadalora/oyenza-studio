@@ -649,7 +649,7 @@ fn unix(t: SystemTime) -> Option<i64> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{openrouter, opencode, oyenza, zai, Os, Window, WindowKind};
+    use crate::{openrouter, opencode, oyenza, zai, Os, Window, WindowKind};
     use std::time::Duration;
 
     const T: i64 = 1_000;

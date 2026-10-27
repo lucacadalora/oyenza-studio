@@ -211,7 +211,7 @@ fn read_balance(r: &Result<Reply, NetFail>) -> Option<Money> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{parse_time, FileRead, Got, Method, Os, Outcome, MAX_FETCHES};
+    use crate::{parse_time, FileRead, Got, Method, Os, Outcome, MAX_FETCHES};
 
     const AUTH: &str = include_str!("fixtures/opencode/auth.json");
     const AUTH_NO_GO: &str = include_str!("fixtures/opencode/auth-no-go.json");

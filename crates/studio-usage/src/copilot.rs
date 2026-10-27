@@ -257,7 +257,7 @@ fn day_or_time(v: &Value) -> Option<i64> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{FileRead, Got, Method};
+    use crate::{FileRead, Got, Method};
 
     const APPS: &str = include_str!("fixtures/copilot/apps.json");
     const HOSTS: &str = include_str!("fixtures/copilot/hosts.json");

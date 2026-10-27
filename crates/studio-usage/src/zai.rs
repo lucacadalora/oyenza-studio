@@ -204,7 +204,7 @@ fn clean_key(s: &str) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{Method, Os, MAX_FETCHES};
+    use crate::{Method, Os, MAX_FETCHES};
 
     const QUOTA_JSON: &str = include_str!("fixtures/zai/quota.json");
     const CREDITS_JSON: &str = include_str!("fixtures/zai/quota-credits.json");

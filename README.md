@@ -378,13 +378,14 @@ Oyenza Studio is a Cargo workspace:
 | Crate | What |
 |---|---|
 | `crates/poni-core` | Pure logic (springs, lyrics parsing, Pomodoro, steps, tasks, settings…), Phone drop's small web server and paired phone drop (pairing, signed messages, the WebRTC link). Unit-tested on any OS. |
+| `crates/studio-usage` | The AI tab's readers: how much of each AI coding plan is left, from the computer and each service's own server, and the inference.oyenza.com connect. Unit-tested on any OS. |
 | `server` | The meeting server and phone page for paired phones (`drop.oyenza.com`); Node, no dependencies. |
 | `crates/poni` | The app. On Windows: Win32 + Direct2D + WinRT through [windows-rs](https://github.com/microsoft/windows-rs). On a Mac (`src/mac/`): AppKit, Core Graphics and Core Text through [objc2](https://github.com/madsmtm/objc2), drawing the same pages. |
 
 On Windows, with Rust stable and the MSVC toolchain:
 
 ```
-cargo test -p poni-core
+cargo test -p poni-core -p studio-usage
 cargo build -p poni --release        # target\release\poni.exe
 ```
 

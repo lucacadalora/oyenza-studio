@@ -46,7 +46,7 @@ jobs:
           cargo build -p poni --release --target x86_64-apple-darwin
 
       - name: Unit tests (core)
-        run: cargo test -p poni-core --release
+        run: cargo test -p poni-core -p studio-usage --release
 
       # Every island state with sample data, Classic, Oyen, Glass (a
       # smoked stand-in for macOS's glass) and Pill, without and with a

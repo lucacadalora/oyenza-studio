@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/poni-core", "crates/poni-usage", "crates/poni"]
+members = ["crates/poni-core", "crates/studio-usage", "crates/poni"]
 
 [workspace.package]
 version = "0.2.11"
@@ -46,8 +46,7 @@ opt-level = "s"
 opt-level = "s"
 [profile.release.package.qrcodegen]
 opt-level = "s"
-# The AI tab's readers (poni_core::usage's files as their own crate): JSON and
-# log parsing that runs for moments every few minutes, while the tab is open
-# or its notices are on.
-[profile.release.package.poni-usage]
+# The AI tab's readers (crates/studio-usage): JSON and log parsing that runs
+# for moments every few minutes, while the tab is open or its notices are on.
+[profile.release.package.studio-usage]
 opt-level = "s"

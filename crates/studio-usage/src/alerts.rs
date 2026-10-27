@@ -277,7 +277,7 @@ fn pct(used: f32) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{parse_time, Source, WindowKind};
+    use crate::{parse_time, Source, WindowKind};
     use ProviderId::*;
 
     /// Tue 27 Oct 2026 05:00 UTC: noon in Jakarta.

@@ -16,7 +16,7 @@
 //!
 //! The password never goes into the log.
 
-use poni_usage::{Got, FILE_MAX};
+use studio_usage::{Got, FILE_MAX};
 use std::io::Read;
 use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicU32, AtomicU8, Ordering};

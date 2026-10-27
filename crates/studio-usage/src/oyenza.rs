@@ -448,7 +448,7 @@ pub fn nudge(out: ProviderId, until: Option<&str>) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::MAX_FETCHES;
+    use crate::MAX_FETCHES;
 
     const SUMMARY: &str = include_str!("fixtures/oyenza/summary.json");
     const ZEROS: &str = include_str!("fixtures/oyenza/summary-zeros.json");
@@ -524,7 +524,7 @@ mod tests {
     fn reads_the_summary() {
         let (o, asked) = refresh(&Dirs::sample(Os::Mac), key(), Reach::Online, &|_| reply(200, SUMMARY));
         assert_eq!(asked.len(), 1);
-        assert_eq!(asked[0].method, crate::usage::Method::Get);
+        assert_eq!(asked[0].method, crate::Method::Get);
         assert_eq!(asked[0].url, "https://inference.oyenza.com/v1/studio/summary");
         assert_eq!(asked[0].headers, [("Authorization".to_string(), "Bearer oyis_test-token".to_string())]);
         let s = o.unwrap();
@@ -629,7 +629,7 @@ mod tests {
     #[test]
     fn connect_requests() {
         let start = start_request(BASE, "  DESKTOP-7Q2K\n", Os::Windows, "0.2.11");
-        assert_eq!((start.method, start.url.as_str()), (crate::usage::Method::Post, "https://inference.oyenza.com/v1/studio/connect/start"));
+        assert_eq!((start.method, start.url.as_str()), (crate::Method::Post, "https://inference.oyenza.com/v1/studio/connect/start"));
         let body: Value = serde_json::from_str(start.json.as_deref().unwrap()).unwrap();
         assert_eq!(body, serde_json::json!({ "device": "DESKTOP-7Q2K", "os": "windows", "app": "studio", "version": "0.2.11" }));
         assert!(!start.headers.iter().any(|(k, _)| k == "Authorization"));
@@ -644,7 +644,7 @@ mod tests {
         assert_eq!(ask.json.as_deref(), Some(r#"{"poll":"test-poll-token"}"#));
 
         let bye = disconnect_request(BASE, KEY);
-        assert_eq!((bye.method, bye.url.as_str(), bye.json.as_deref()), (crate::usage::Method::Post, "https://inference.oyenza.com/v1/studio/disconnect", Some("{}")));
+        assert_eq!((bye.method, bye.url.as_str(), bye.json.as_deref()), (crate::Method::Post, "https://inference.oyenza.com/v1/studio/disconnect", Some("{}")));
         assert!(bye.headers.contains(&("Authorization".into(), "Bearer oyis_test-token".into())));
         assert!(disconnected(&reply(200, r#"{"ok":true}"#)));
         assert!(disconnected(&reply(401, r#"{"error":"invalid_key"}"#)));

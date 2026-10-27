@@ -1,7 +1,7 @@
 //! The AI tab's worker: how much of each AI coding plan is left
-//! (`poni_usage`), read on one thread, which the Mac app runs too (it
+//! (`studio_usage`), read on one thread, which the Mac app runs too (it
 //! shares this file as is). Each service's reader is its own file in
-//! `poni_usage`, and when the worker looks and the rules it keeps are
+//! `studio_usage`, and when the worker looks and the rules it keeps are
 //! `usage::pace`. This file reads what the services ask for (their files, a
 //! Mac keychain item, the keys typed into the tab), makes their requests,
 //! keeps the typed keys sealed (`services::secret` at
@@ -31,9 +31,9 @@ use crate::commands::UsageCmd;
 use crate::events::{AppEvent, EventSink};
 use crate::services::http::{Client, FetchError, Method, MtaGuard};
 use crate::state::InferenceLink;
-use poni_usage::alerts::{Alert, AlertCfg, Memory};
-use poni_usage::pace::{self, KeyGate, Look, Looks, Pace, Refusals};
-use poni_usage::{self as usage, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
+use studio_usage::alerts::{Alert, AlertCfg, Memory};
+use studio_usage::pace::{self, KeyGate, Look, Looks, Pace, Refusals};
+use studio_usage::{self as usage, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
 use std::cell::RefCell;
 use std::collections::BTreeSet;
 use std::path::PathBuf;
@@ -83,7 +83,7 @@ pub enum UsageEvent {
     Keys(BTreeSet<&'static str>),
     /// inference.oyenza.com's link changed.
     Link(InferenceLink),
-    /// Heads-up notices for the island (`poni_usage::alerts`), the
+    /// Heads-up notices for the island (`studio_usage::alerts`), the
     /// most urgent first.
     Alerts(Vec<Alert>),
     /// A look at the services started (true) or ended, while the tab is open.
@@ -839,7 +839,7 @@ fn keychain_item(_service: &str, _account: Option<&str>) -> Got {
 mod tests {
     use super::*;
     use crate::events::SendHwnd;
-    use poni_usage::{Money, Source, Window, WindowKind};
+    use studio_usage::{Money, Source, Window, WindowKind};
     use std::sync::mpsc::{channel, Receiver};
 
     const NOW: i64 = 1_793_077_200;

@@ -329,7 +329,7 @@ fn capital(word: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{Method, Os, FILE_MAX};
+    use crate::{Method, Os, FILE_MAX};
 
     /// 2026-10-27T05:00:00Z.
     const NOW: i64 = 1_793_077_200;

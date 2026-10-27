@@ -897,7 +897,7 @@ mod sqlite {
 mod tests {
     use super::sqlite::{blob_text, lookup, Halt, Part, Reads};
     use super::*;
-    use crate::usage::{FileRead, Got, Os, Outcome, MAX_FETCHES};
+    use crate::{FileRead, Got, Os, Outcome, MAX_FETCHES};
 
     const STATE: &[u8] = include_bytes!("fixtures/cursor/state.vscdb");
     const WAL_DB: &[u8] = include_bytes!("fixtures/cursor/wal.vscdb");
@@ -1138,7 +1138,7 @@ mod tests {
         assert_eq!(snap.account.as_deref(), Some("t•••@example.com"));
         assert_eq!(snap.source, Source::Online);
         assert_eq!(snap.as_of, NOW);
-        let resets = crate::usage::parse_time("2026-11-18T10:27:04Z");
+        let resets = crate::parse_time("2026-11-18T10:27:04Z");
         let labels: Vec<_> = snap.windows.iter().map(|w| (w.label.as_str(), w.kind, w.resets_at, w.length_s)).collect();
         assert_eq!(labels, vec![
             ("Monthly", WindowKind::Monthly, resets, Some(31 * 86_400)),
@@ -1252,11 +1252,11 @@ mod tests {
         assert_eq!(wants, Cursor::first(&dirs).into_iter().map(Piece::want).collect::<Vec<_>>());
         let got: Vec<Got> = wants.iter().map(piece).collect();
         let local = Ctx { dirs: &dirs, got: &got, now: NOW, reach: Reach::Local };
-        let (asked, out) = crate::usage::drive_reads(&Cursor, &local, piece, |_| unreachable!("fetched on a local refresh"));
+        let (asked, out) = crate::drive_reads(&Cursor, &local, piece, |_| unreachable!("fetched on a local refresh"));
         assert!(asked.is_empty());
         assert_eq!(out, run(&fs, Reach::Local, NOW, &[]).outcome);
         let online = Ctx { reach: Reach::Online, ..local };
-        let (asked, out) = crate::usage::drive_reads(&Cursor, &online, piece, |_| ok(SUMMARY));
+        let (asked, out) = crate::drive_reads(&Cursor, &online, piece, |_| ok(SUMMARY));
         let lane = run(&fs, Reach::Online, NOW, &[ok(SUMMARY), ok(SUMMARY)]);
         assert_eq!((asked.len(), out.is_ok()), (lane.asked.len(), lane.outcome.is_ok()));
     }

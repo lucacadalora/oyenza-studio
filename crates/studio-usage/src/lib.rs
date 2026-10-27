@@ -4,7 +4,7 @@
 //!
 //! Each service is one file here (`codex.rs`, `claude.rs`, ...) behind the
 //! same [`Provider`] contract, and all of it is pure, so every service is
-//! tested on any OS against answers kept in `usage/fixtures/<service>/`:
+//! tested on any OS against answers kept in `fixtures/<service>/`:
 //!
 //! 1. [`Provider::wants`]: which files on this computer to read (the
 //!    service's own sign-in or logs), a Mac keychain item, or a key the

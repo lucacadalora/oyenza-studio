@@ -1,7 +1,7 @@
 //! Side effects requested by pages; executed by the app after each frame.
 
 use crate::pages::PageKind;
-use poni_usage::ProviderId;
+use studio_usage::ProviderId;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum MediaCmd {

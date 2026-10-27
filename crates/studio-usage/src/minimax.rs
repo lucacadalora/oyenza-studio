@@ -280,7 +280,7 @@ fn plan_name(raw: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::usage::{Got, Os, MAX_FETCHES};
+    use crate::{Got, Os, MAX_FETCHES};
 
     const TOKEN_PLAN: &str = include_str!("fixtures/minimax/token-plan.json");
     const CODING_PLAN: &str = include_str!("fixtures/minimax/coding-plan.json");

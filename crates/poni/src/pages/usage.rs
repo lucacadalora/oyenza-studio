@@ -1,5 +1,5 @@
 //! The AI tab: how much of each AI coding plan is left, one card per
-//! service on this computer (`poni_usage`, read by `services::usage`
+//! service on this computer (`studio_usage`, read by `services::usage`
 //! into `st.usage`; the person's choices are `settings.usage`).
 //!
 //! A card: the service's mark, name, plan and masked account; a row per
@@ -34,7 +34,7 @@ use crate::state::{AppState, InferenceLink, Reading};
 use crate::ui::{wid, wid_n, CursorKind, Input, KeyInput, PillStyle, Ui, WidgetId, PILL_GAP, PILL_SMALL};
 use poni_core::datetime::{civil_from_days, fmt_clock, fmt_date_short, LocalDateTime, MONTH_SHORT, WEEKDAY_SHORT};
 use poni_core::geom::{palette, Color, Point, Rect};
-use poni_usage::{self as usage, oyenza, DayUse, KeyAsk, Money, ProviderId, Snapshot, Source, Spend, Trouble, Window};
+use studio_usage::{self as usage, oyenza, DayUse, KeyAsk, Money, ProviderId, Snapshot, Source, Spend, Trouble, Window};
 
 /// The System page's height: the window never grows for this page, and the
 /// cards scroll inside it.
@@ -1463,7 +1463,7 @@ impl Picture {
 /// another's state; the caller puts the island on the AI tab.
 #[cfg_attr(target_os = "macos", allow(dead_code))]
 pub fn picture(st: &mut AppState, shows: Picture, now: f64) {
-    use poni_usage::WindowKind::{Monthly, Session, Weekly};
+    use studio_usage::WindowKind::{Monthly, Session, Weekly};
     use ProviderId::*;
     const H: i64 = 3600;
     const DAY: i64 = 86_400;
