@@ -173,24 +173,7 @@ struct Worker {
 
 fn worker_main(shared: Arc<Shared>, sink: EventSink) {
     let _com = MtaGuard::new();
-    let now = Instant::now();
-    let mut w = Worker {
-        sink,
-        client: None,
-        base: base_url(),
-        codes: Vec::new(),
-        tag: None,
-        asked: None,
-        next_board: now,
-        every_s: None,
-        fails: 0,
-        said: None,
-        names: None,
-        next_names: now,
-        years: HashMap::new(),
-        next_year: HashMap::new(),
-        was_open: false,
-    };
+    let mut w = Worker::new(sink, Instant::now());
     loop {
         let watch = {
             let mut q = shared.lock();
@@ -201,7 +184,7 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink) {
                 let now = Instant::now();
                 let watch = q.watch.clone();
                 w.opened(&watch, now);
-                match w.next_due(&watch) {
+                match w.next_due(&watch, now) {
                     Some(t) if t <= now => break watch,
                     Some(t) => q = wait(&shared, q, Some(t - now)),
                     None => q = wait(&shared, q, None),
@@ -223,6 +206,26 @@ fn wait<'a>(shared: &Shared, g: MutexGuard<'a, Queue>, timeout: Option<Duration>
 }
 
 impl Worker {
+    fn new(sink: EventSink, now: Instant) -> Self {
+        Self {
+            sink,
+            client: None,
+            base: base_url(),
+            codes: Vec::new(),
+            tag: None,
+            asked: None,
+            next_board: now,
+            every_s: None,
+            fails: 0,
+            said: None,
+            names: None,
+            next_names: now,
+            years: HashMap::new(),
+            next_year: HashMap::new(),
+            was_open: false,
+        }
+    }
+
     fn send(&self, ev: StocksEvent) {
         self.sink.send(AppEvent::Stocks(ev));
     }
@@ -244,18 +247,21 @@ impl Worker {
         self.was_open = watch.open;
     }
 
-    /// When the next call is due; None while the page is closed.
-    fn next_due(&self, watch: &Watch) -> Option<Instant> {
+    /// When the next call is due; None while the page is closed. "At once" is
+    /// `now`, the caller's own reading: a fresh `Instant::now()` here is always
+    /// a little later, so `t <= now` never held and a new list was never asked
+    /// for (0.2.11: "Getting prices" for good).
+    fn next_due(&self, watch: &Watch, now: Instant) -> Option<Instant> {
         if !watch.open {
             return None;
         }
         // A changed list is asked for at once.
-        let mut t = if watch.codes != self.codes { Instant::now() } else { self.next_board };
+        let mut t = if watch.codes != self.codes { now } else { self.next_board };
         if watch.names && self.names.is_none() {
             t = t.min(self.next_names);
         }
         if let Some(code) = watch.chart.as_ref().filter(|c| !self.years.contains_key(*c)) {
-            t = t.min(self.next_year.get(code).copied().unwrap_or_else(Instant::now));
+            t = t.min(self.next_year.get(code).copied().unwrap_or(now));
         }
         Some(t)
     }
@@ -389,5 +395,56 @@ impl Worker {
         }
         self.next_year.insert(code.to_string(), Instant::now() + RETRY_GAP);
         self.send(StocksEvent::NoHistory(code.to_string()));
+    }
+}
+
+// The Mac app builds this file too; its `EventSink` takes no window handle.
+#[cfg(all(test, windows))]
+mod tests {
+    use super::*;
+    use crate::events::SendHwnd;
+
+    fn worker(now: Instant) -> Worker {
+        Worker::new(EventSink::new(std::sync::mpsc::channel().0, SendHwnd(0)), now)
+    }
+
+    fn open(codes: &[&str]) -> Watch {
+        Watch { open: true, codes: codes.iter().map(|c| c.to_string()).collect(), ..Watch::default() }
+    }
+
+    /// The thread asks only once `next_due` is at or before its own `now`.
+    /// 0.2.11 read the clock again for "at once", which is always later, so
+    /// the page said "Getting prices" for good.
+    #[test]
+    fn an_opened_page_is_asked_for_at_once() {
+        let now = Instant::now() + Duration::from_millis(5);
+        let mut w = worker(now - Duration::from_millis(5));
+        let watch = open(&["BBCA", "TLKM"]);
+        w.opened(&watch, now);
+        assert!(w.next_due(&watch, now).is_some_and(|t| t <= now));
+        // The IHSG alone too (an empty list).
+        let mut w = worker(now - Duration::from_millis(5));
+        let watch = open(&[]);
+        w.opened(&watch, now);
+        assert!(w.next_due(&watch, now).is_some_and(|t| t <= now));
+    }
+
+    #[test]
+    fn a_wanted_year_is_asked_for_at_once_while_the_prices_wait() {
+        let now = Instant::now();
+        let mut w = worker(now);
+        let mut watch = open(&["BBCA"]);
+        w.codes = watch.codes.clone();
+        w.next_board = now + Duration::from_secs(60);
+        assert_eq!(w.next_due(&watch, now), Some(now + Duration::from_secs(60)));
+        watch.chart = Some("BBCA".into());
+        assert_eq!(w.next_due(&watch, now), Some(now));
+    }
+
+    #[test]
+    fn a_closed_page_asks_for_nothing() {
+        let now = Instant::now();
+        let w = worker(now);
+        assert_eq!(w.next_due(&Watch { open: false, ..open(&["BBCA"]) }, now), None);
     }
 }
