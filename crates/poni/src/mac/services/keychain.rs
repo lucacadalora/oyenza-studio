@@ -10,15 +10,16 @@
 //! while the AI tab is on screen, at most once an item each time the tab
 //! opens, and never again after a no until the person clicks Refresh. With
 //! the tab closed (the heads-up notices reading in the background) a read
-//! answers with what was read while it was open, kept in memory only while
-//! the tab or the notices want it.
+//! answers with what was read while it was open, kept in memory while the
+//! tab is open or the notices are switched on, also while they rest (the
+//! Mac locked, the display off, Low Power Mode), so they go on after.
 //!
 //! The password never goes into the log.
 
 use poni_core::usage::{Got, FILE_MAX};
 use std::io::Read;
 use std::process::{Command, Stdio};
-use std::sync::atomic::{AtomicU32, Ordering};
+use std::sync::atomic::{AtomicU32, AtomicU8, Ordering};
 use std::sync::{mpsc, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
 
@@ -47,7 +48,7 @@ struct Kept {
 struct Gate {
     /// The AI tab is on screen: a read may ask macOS (and its prompt show).
     open: bool,
-    /// The tab or the notices want readings: what was read may be kept.
+    /// The tab is open or the notices are switched on: what was read is kept.
     keep: bool,
     /// Counts the tab's openings.
     opening: u64,
@@ -55,6 +56,9 @@ struct Gate {
 }
 
 static GATE: Mutex<Gate> = Mutex::new(Gate { open: false, keep: false, opening: 0, kept: Vec::new() });
+/// What the island last told [`set_watch`], packed, so telling it every
+/// frame costs nothing while it stays the same.
+static TOLD: AtomicU8 = AtomicU8::new(0);
 /// How many times macOS was asked (the smoke run checks it).
 static ASKED: AtomicU32 = AtomicU32::new(0);
 
@@ -63,20 +67,31 @@ fn gate() -> MutexGuard<'static, Gate> {
     GATE.lock().unwrap_or_else(|p| p.into_inner())
 }
 
-/// The AI tab came on screen or left it (`open`), and whether the heads-up
-/// notices read in the background (`notices`): the island calls this
-/// whenever either changes (`App::set_usage_watch`).
-pub fn set_watch(open: bool, notices: bool) {
+/// Whether the AI tab is on screen (`open`) and whether the heads-up notices
+/// are switched on (`notices_on`: the setting, resting or not). The island
+/// tells it every frame (`App::set_usage_watch`); only a change does anything.
+pub fn set_watch(open: bool, notices_on: bool) {
+    let told = 0x80 | open as u8 | (notices_on as u8) << 1;
+    if TOLD.swap(told, Ordering::Relaxed) == told {
+        return;
+    }
     let mut g = gate();
     if open && !g.open {
         g.opening += 1;
     }
     g.open = open;
-    g.keep = open || notices;
+    g.keep = open || notices_on;
     if !g.keep {
         // Nobody needs what was read: forget it, but not a no (so it isn't asked again).
         g.kept.retain(|k| k.got == Got::Denied);
     }
+}
+
+/// What the island last told: whether a read may ask macOS, and whether
+/// what was read is kept (the smoke run checks it).
+pub fn watching() -> (bool, bool) {
+    let g = gate();
+    (g.open, g.keep)
 }
 
 /// The person clicked Refresh on the AI tab: the next read asks macOS

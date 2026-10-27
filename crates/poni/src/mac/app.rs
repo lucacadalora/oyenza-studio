@@ -2233,14 +2233,21 @@ impl App {
     /// while nobody can see the screen, the notices also on Low Power Mode.
     /// Its thread starts the first time either wants it.
     fn set_usage_watch(&mut self) {
+        let here = !(self.away.0 || self.away.1);
+        let open = here && self.mode == Mode::Expanded(PageKind::Ai);
+        // A keychain read may bring up macOS's prompt only while the tab is
+        // on screen; what it read stays while the notices are switched on,
+        // resting or not, so they go on once someone is back
+        // (services::keychain). Told before the worker; nothing while it
+        // stays the same.
+        services::keychain::set_watch(open, self.st.settings.usage.notices);
         // The smoke run shows made-up readings (and checks the keychain on
         // its own): nothing is read.
         if self.smoke.is_some() {
             return;
         }
-        let here = !(self.away.0 || self.away.1);
         let w = services::usage::Watch {
-            open: here && self.mode == Mode::Expanded(PageKind::Ai),
+            open,
             notices: here && self.st.settings.usage.notices && !self.st.power.saver,
             near_pct: self.st.settings.usage.near_pct,
             use_24h: self.st.settings.use_24h,
@@ -2252,9 +2259,6 @@ impl App {
             return;
         }
         self.usage_watch = w;
-        // A keychain read may bring up macOS's prompt only while the tab is
-        // on screen (services::keychain): told before the worker.
-        services::keychain::set_watch(w.open, w.notices);
         if self.usage.is_none() && (w.open || w.notices) {
             self.start_usage();
         }
@@ -3398,6 +3402,23 @@ impl App {
                 self.set_page(PageKind::Ai);
                 self.expand();
             }
+            // With the notices on and a keychain reading in hand (the tab is
+            // open), the Mac locks, then unlocks on the AI tab.
+            "ai-locked" => {
+                self.st.settings.usage.notices = true;
+                // The reader's gate as the island has it again (the keychain
+                // step set its own, and a resting island draws no frame).
+                self.set_usage_watch();
+                if std::env::var_os("PONI_SMOKE_KEYCHAIN").is_some() {
+                    let _ = services::keychain::read(SMOKE_KEYCHAIN.0, Some("plain"));
+                }
+                self.set_away(None, Some(true));
+            }
+            "ai-back" => {
+                self.set_away(None, Some(false));
+                self.set_page(PageKind::Ai);
+                self.expand();
+            }
             // macOS's own now playing, as a browser tab reaches it: the
             // stream stops, tools/mac-smoke.sh starts the MediaRemote
             // adapter's test player, and sound (CI's Macs play none) starts
@@ -3561,7 +3582,7 @@ impl App {
             "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
-            "ai-page" => (self.expanded && self.st.page == PageKind::Ai && waited > 0.6) || waited > 4.0,
+            "ai-page" | "ai-back" => (self.expanded && self.st.page == PageKind::Ai && waited > 0.6) || waited > 4.0,
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
@@ -3902,6 +3923,27 @@ impl App {
                 let (ok, d) = smoke_keychain();
                 Some(("keychain", ok, d))
             }
+            // Locked, the notices rest, but what the keychain read stays for
+            // when someone is back; macOS is asked nothing meanwhile.
+            "ai-locked" => {
+                let (ask, keep) = services::keychain::watching();
+                let before = services::keychain::asked();
+                let read = services::keychain::read(SMOKE_KEYCHAIN.0, Some("plain"));
+                let asked = services::keychain::asked() - before;
+                let kept = std::env::var_os("PONI_SMOKE_KEYCHAIN").is_none() || read == poni_core::usage::Got::Text(SMOKE_KEYCHAIN.1.into());
+                let ok = self.away.1 && !ask && keep && kept && asked == 0;
+                Some(("keychain-locked", ok, format!("locked, notices on: may ask macOS {ask}, keeps what it read {keep}; a read now: {read:?}, macOS asked {asked} times")))
+            }
+            "ai-back" => {
+                let (ask, keep) = services::keychain::watching();
+                services::keychain::ask_again();
+                let ok = !self.away.1 && self.mode == Mode::Expanded(PageKind::Ai) && ask && keep;
+                Some(("keychain-back", ok, format!("unlocked, on the AI tab: may ask macOS {ask}, keeps what it read {keep}")))
+            }
+            "ai-secret" => {
+                let (ok, d) = smoke_secret();
+                Some(("secret-backups", ok, d))
+            }
             "oyenza-off" => {
                 // Signed out, the tab stays: it is where to sign in again.
                 let tab = pages::tabs(&self.st).contains(&PageKind::Oyenza);
@@ -3966,6 +4008,32 @@ fn smoke_keychain() -> (bool, String) {
     // Got's Debug shows a text's length, never the text.
     let d = format!("tab closed: {closed:?}; open: {open:?} in {ms} ms; again: {again:?}; notices only: {notices:?}; nobody watching: {gone:?}; macOS asked {} times", asked());
     (ok, d)
+}
+
+/// The smoke test of a key saved the way the AI tab saves one (into this
+/// run's own home): it reads back, and Time Machine leaves it out (tmutil's
+/// own answer, and the attribute that says so).
+fn smoke_secret() -> (bool, String) {
+    let path = paths::usage_key_path("smoke-test");
+    if let Err(e) = services::secret::save(&path, "test-key") {
+        return (false, format!("not saved: {e}"));
+    }
+    let out = |cmd: &str, args: &[&std::ffi::OsStr]| {
+        std::process::Command::new(cmd).args(args).output().map(|o| String::from_utf8_lossy(&o.stdout).into_owned()).unwrap_or_default()
+    };
+    let tm = out("/usr/bin/tmutil", &["isexcluded".as_ref(), path.as_os_str()]);
+    let attr = out("/usr/bin/xattr", &[path.as_os_str()]).contains("com.apple.metadata:com_apple_backup_excludeItem");
+    let back = services::secret::load(&path);
+    let _ = services::secret::delete(&path);
+    let verdict = if tm.contains("[Excluded]") {
+        "excluded"
+    } else if tm.contains("[Included]") {
+        "included"
+    } else {
+        "no answer"
+    };
+    let ok = attr && verdict != "included" && back.as_deref() == Some("test-key");
+    (ok, format!("tmutil: {verdict}; exclusion attribute: {}; read back: {}", if attr { "set" } else { "missing" }, back.is_some()))
 }
 
 /// The smoke test: one POST with a JSON body and a key through the Mac's
@@ -4227,7 +4295,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 60] = [
+const SMOKE_STEPS: [&str; 63] = [
     "idle",
     "hover",
     "open-focus",
@@ -4283,6 +4351,9 @@ const SMOKE_STEPS: [&str; 60] = [
     "oyenza-off",
     "ai-page",
     "ai-keychain",
+    "ai-locked",
+    "ai-back",
+    "ai-secret",
     "now-playing-start",
     "now-playing",
     "now-playing-browser-start",
