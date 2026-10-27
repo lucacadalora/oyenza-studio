@@ -1403,6 +1403,11 @@ enum IeltsStep {
     Intro,
     /// The answer sent: waiting for the verdict to be said.
     Verdict,
+    /// Selesai pressed (the server dropped that session with its verdict):
+    /// waiting for the ladder again, then Mulai once more.
+    Again,
+    /// The second session: Udahan at the person's turn.
+    Leave,
     /// Udahan pressed: waiting for the session's end (DELETE).
     Ended,
 }
@@ -1412,8 +1417,10 @@ enum IeltsStep {
 /// 127.0.0.1 answers `/island/ielts/*` the way catat-server's do, a tone in
 /// a 16 kHz WAV stands in for the microphone, and the app's own coach,
 /// worker, voice (a 0.4 s clip) and files do the rest: the ladder, Mulai,
-/// Oyen's intro, the answer's upload, the verdict and the roast, Udahan.
-/// The check reads what the server saw, the band shown, and the files left.
+/// Oyen's intro, the answer's upload, the verdict and the roast, Selesai and
+/// the ladder again (no DELETE: the server ends a session with its verdict),
+/// then a second session left with Udahan (DELETE). The check reads what the
+/// server saw, the band shown, and the files left.
 struct IeltsRun {
     seen: Arc<Mutex<Vec<String>>>,
     stop: Arc<AtomicBool>,
@@ -1422,6 +1429,8 @@ struct IeltsRun {
     /// When the step began (seconds into the run).
     since: f64,
     band: Option<f32>,
+    /// DELETEs the server had seen when Udahan was pressed.
+    deleted: usize,
     started: Instant,
 }
 
@@ -1429,7 +1438,7 @@ impl IeltsRun {
     fn begin(app: &mut App) -> IeltsRun {
         let seen = Arc::new(Mutex::new(Vec::new()));
         let stop = Arc::new(AtomicBool::new(false));
-        let mut run = IeltsRun { seen: seen.clone(), stop: stop.clone(), server: None, step: IeltsStep::Ladder, since: 0.0, band: None, started: Instant::now() };
+        let mut run = IeltsRun { seen: seen.clone(), stop: stop.clone(), server: None, step: IeltsStep::Ladder, since: 0.0, band: None, deleted: 0, started: Instant::now() };
         let listener = match std::net::TcpListener::bind("127.0.0.1:0") {
             Ok(l) => l,
             Err(e) => {
@@ -1475,9 +1484,18 @@ impl IeltsRun {
             IeltsStep::Verdict if c.phase == P::Result && !c.talking() => {
                 self.band = c.result.as_ref().map(|v| v.band);
                 app.selftest_ielts(IeltsCmd::Quit);
+                Some(IeltsStep::Again)
+            }
+            IeltsStep::Again if c.phase == P::Home && self.count("GET /island/ielts/me") >= 2 => {
+                app.selftest_ielts(IeltsCmd::Start);
+                Some(IeltsStep::Leave)
+            }
+            IeltsStep::Leave if c.phase == P::Ready => {
+                self.deleted = self.count("DELETE ");
+                app.selftest_ielts(IeltsCmd::Quit);
                 Some(IeltsStep::Ended)
             }
-            IeltsStep::Ended if self.saw("DELETE ") || t - self.since > 3.0 => return Some(self.finish(app, None)),
+            IeltsStep::Ended if self.count("DELETE ") > self.deleted || t - self.since > 3.0 => return Some(self.finish(app, None)),
             _ => None,
         };
         if let Some(n) = next {
@@ -1486,7 +1504,8 @@ impl IeltsRun {
             return None;
         }
         let c = &app.st.ielts;
-        let stuck = c.phase == P::Stuck || c.me_problem.is_some() || (self.step == IeltsStep::Intro && c.phase == P::Home && c.problem.is_some());
+        let starting = matches!(self.step, IeltsStep::Intro | IeltsStep::Leave);
+        let stuck = c.phase == P::Stuck || c.me_problem.is_some() || (starting && c.phase == P::Home && c.problem.is_some());
         if stuck || t - self.since > IELTS_STEP_S {
             let why = c.problem.or(c.me_problem).map_or_else(|| format!("{:?}", c.phase), |p| format!("{p:?}"));
             return Some(self.finish(app, Some(format!("stopped at {:?} ({why})", self.step))));
@@ -1494,8 +1513,8 @@ impl IeltsRun {
         None
     }
 
-    fn saw(&self, prefix: &str) -> bool {
-        self.seen.lock().is_ok_and(|s| s.iter().any(|l| l.starts_with(prefix)))
+    fn count(&self, prefix: &str) -> usize {
+        self.seen.lock().map_or(0, |s| s.iter().filter(|l| l.starts_with(prefix)).count())
     }
 
     fn finish(&mut self, app: &mut App, stopped: Option<String>) -> Check {
@@ -1510,6 +1529,7 @@ impl IeltsRun {
         let _ = fs::remove_file(paths::cache_dir().join("ielts-stand-in.wav"));
         let seen = self.seen.lock().map(|s| s.clone()).unwrap_or_default();
         let has = |want: &str| seen.iter().any(|l| l == want);
+        let deletes = seen.iter().filter(|l| l.starts_with("DELETE ")).count();
         // Wine has no WinRT HttpClient (Windows.Web.Http): nothing reaches the
         // server there, and the run is Windows CI's to judge.
         let wine = under_wine() && seen.is_empty() && self.step == IeltsStep::Ladder;
@@ -1518,6 +1538,7 @@ impl IeltsRun {
             && has("POST /island/ielts/session key level=1 spice=2 tz")
             && has("POST /island/ielts/session/smoke-1/answer key wav=16000/1/16 2.0s")
             && has("DELETE /island/ielts/session/smoke-1 key")
+            && deletes == 1
             && self.band == Some(6.5)
             && left == 0;
         let ok = turned || wine;

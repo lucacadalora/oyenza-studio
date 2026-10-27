@@ -2056,8 +2056,10 @@ impl App {
             }
             // A stopped clip's late report doesn't end the one playing now.
             AppEvent::VoiceEnded if !self.ielts.voice.playing() => {
+                let failed = self.ielts.voice.failed();
                 self.ielts.voice.stop();
-                let fx = self.st.ielts.voice_ended(now);
+                // A clip that couldn't play shows its words for their reading time.
+                let fx = if failed { self.st.ielts.voice_failed(now) } else { self.st.ielts.voice_ended(now) };
                 self.ielts_do(fx);
             }
             AppEvent::VoiceEnded => {}

@@ -6,7 +6,9 @@
 //! `AppEvent::VoiceEnded` comes when a clip finishes or fails, from a
 //! thread-pool thread. A clip stopped on purpose may still report; the app
 //! asks [`VoicePlayer::playing`] to tell the current clip's end from a
-//! stale one. The player exists only while a clip plays.
+//! stale one, and [`VoicePlayer::failed`] whether it played at all (with no
+//! sound device, Oyen's words then show for their reading time). The player
+//! exists only while a clip plays.
 
 use crate::events::{AppEvent, EventSink};
 use std::path::Path;
@@ -22,6 +24,8 @@ pub struct VoicePlayer {
     player: Option<MediaPlayer>,
     /// The current clip ended or failed (set by its own handlers only).
     ended: Arc<AtomicBool>,
+    /// The current clip couldn't play.
+    failed: Arc<AtomicBool>,
 }
 
 impl VoicePlayer {
@@ -36,17 +40,19 @@ impl VoicePlayer {
         }
         let source = MediaSource::CreateFromUri(&uri).map_err(|e| format!("can't open the clip ({e})"))?;
         player.SetSource(&source).map_err(|e| format!("can't open the clip ({e})"))?;
-        // Each clip has its own flag: a stopped clip's late report can't end the next one.
-        let ended = Arc::new(AtomicBool::new(false));
+        // Each clip has its own flags: a stopped clip's late report can't end the next one.
+        let (ended, failed) = (Arc::new(AtomicBool::new(false)), Arc::new(AtomicBool::new(false)));
         let (done, sent) = (ended.clone(), sink.clone());
         let _ = player.MediaEnded(&TypedEventHandler::new(move |_, _| {
             done.store(true, Ordering::SeqCst);
             sent.send(AppEvent::VoiceEnded);
             Ok(())
         }));
-        let (done, sent) = (ended.clone(), sink.clone());
-        let _ = player.MediaFailed(&TypedEventHandler::new(move |_, _| {
-            crate::pwarn!("ielts: a clip didn't play");
+        let (done, broke, sent) = (ended.clone(), failed.clone(), sink.clone());
+        let _ = player.MediaFailed(&TypedEventHandler::new(move |_, args: &Option<windows::Media::Playback::MediaPlayerFailedEventArgs>| {
+            let code = args.as_ref().and_then(|a| a.ExtendedErrorCode().ok()).map_or(0, |h| h.0 as u32);
+            crate::pwarn!("ielts: a clip didn't play ({code:#010x})");
+            broke.store(true, Ordering::SeqCst);
             done.store(true, Ordering::SeqCst);
             sent.send(AppEvent::VoiceEnded);
             Ok(())
@@ -54,6 +60,7 @@ impl VoicePlayer {
         player.Play().map_err(|e| format!("can't play ({e})"))?;
         self.player = Some(player);
         self.ended = ended;
+        self.failed = failed;
         Ok(())
     }
 
@@ -66,5 +73,10 @@ impl VoicePlayer {
 
     pub fn playing(&self) -> bool {
         self.player.is_some() && !self.ended.load(Ordering::SeqCst)
+    }
+
+    /// The clip that just ended didn't play (no sound device, a broken file).
+    pub fn failed(&self) -> bool {
+        self.player.is_some() && self.failed.load(Ordering::SeqCst)
     }
 }
