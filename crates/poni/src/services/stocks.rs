@@ -398,14 +398,24 @@ impl Worker {
     }
 }
 
-// The Mac app builds this file too; its `EventSink` takes no window handle.
-#[cfg(all(test, windows))]
+#[cfg(test)]
 mod tests {
     use super::*;
-    use crate::events::SendHwnd;
+    use std::sync::mpsc::{self, Sender};
+
+    // The Mac app builds this file too; its `EventSink` takes no window handle.
+    #[cfg(windows)]
+    fn sink(tx: Sender<AppEvent>) -> EventSink {
+        EventSink::new(tx, crate::events::SendHwnd(0))
+    }
+
+    #[cfg(not(windows))]
+    fn sink(tx: Sender<AppEvent>) -> EventSink {
+        EventSink::new(tx)
+    }
 
     fn worker(now: Instant) -> Worker {
-        Worker::new(EventSink::new(std::sync::mpsc::channel().0, SendHwnd(0)), now)
+        Worker::new(sink(mpsc::channel().0), now)
     }
 
     fn open(codes: &[&str]) -> Watch {
@@ -446,5 +456,61 @@ mod tests {
         let now = Instant::now();
         let w = worker(now);
         assert_eq!(w.next_due(&Watch { open: false, ..open(&["BBCA"]) }, now), None);
+    }
+
+    /// The real thread against the live oyenza.trade (CI's Windows unit tests
+    /// run it with `--ignored`): the IHSG and the starters' prices, every name
+    /// and a year come in. The self-test shows a made-up market and asks for
+    /// nothing, which is how 0.2.11 shipped a thread that never asked. Silence
+    /// fails; oyenza.trade answering badly only warns, since the thread asked.
+    #[test]
+    #[ignore = "asks the live oyenza.trade"]
+    fn the_live_market_comes_in() {
+        let (tx, rx) = mpsc::channel();
+        let service = StocksService::start(sink(tx)).expect("the Stocks thread starts");
+        let codes: Vec<String> = stocks::STARTERS.iter().map(|c| c.to_string()).collect();
+        let start = Instant::now();
+        service.set_watch(Watch { open: true, codes: codes.clone(), chart: Some("BBCA".into()), names: true });
+        let (mut board, mut names, mut year) = (None, None, None);
+        while board.is_none() || names.is_none() || year.is_none() {
+            let left = Duration::from_secs(30).saturating_sub(start.elapsed());
+            let ev = match rx.recv_timeout(left) {
+                Ok(AppEvent::Stocks(ev)) => ev,
+                Ok(_) => continue,
+                Err(_) => panic!("nothing from the Stocks thread in 30 s: it never asked oyenza.trade"),
+            };
+            let at = start.elapsed().as_secs_f32();
+            match ev {
+                StocksEvent::Board(b) => {
+                    println!("prices after {at:.2} s: {} rows, tag {}, every {} s", b.rows.len(), b.tag, b.every_s);
+                    board = Some(b);
+                }
+                StocksEvent::Names(n) => {
+                    println!("names after {at:.2} s: {}", n.list.len());
+                    names = Some(n);
+                }
+                StocksEvent::History(h) => {
+                    println!("{}'s year after {at:.2} s", h.code);
+                    year = Some(h);
+                }
+                StocksEvent::Same => {}
+                StocksEvent::Failed(why) => {
+                    println!("::warning::The Stocks thread asked, but oyenza.trade gave no prices ({why:?}) after {at:.2} s");
+                    return;
+                }
+                StocksEvent::NoNames | StocksEvent::NoHistory(_) => {
+                    println!("::warning::The Stocks thread asked, but oyenza.trade gave no names or year after {at:.2} s");
+                    return;
+                }
+            }
+        }
+        let board = board.expect("prices came");
+        for code in std::iter::once(stocks::INDEX).chain(stocks::STARTERS) {
+            let q = board.quote(code).unwrap_or_else(|| panic!("{code} isn't in the answer"));
+            assert!(q.price > 0.0, "{code} has no price");
+            println!("  {code} {}", q.price);
+        }
+        assert!(names.is_some_and(|n| n.list.len() > 500), "every listed stock's name");
+        assert_eq!(year.map(|h| h.code), Some("BBCA".to_string()));
     }
 }
