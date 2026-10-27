@@ -109,6 +109,12 @@ impl Download {
     pub fn matches(&self, bytes: &[u8]) -> bool {
         bytes.len() as u64 == self.size && crate::sha256::hex(&crate::sha256::sha256(bytes)) == self.sha256
     }
+
+    /// The version whose release this file is ("0.2.5"), from its address:
+    /// [`parse_payload`] made sure it is that release's own.
+    pub fn version(&self) -> Option<&str> {
+        self.url.strip_prefix(DOWNLOADS)?.split('/').next().filter(|v| parts(v).is_some())
+    }
 }
 
 /// Read the payload, once its signature checked out. Refuses a newer
@@ -306,7 +312,13 @@ mod tests {
         assert_eq!(r.download(false).map(|d| d.size), Some(2457657));
         assert_eq!(r.download(true), None, "no DMG yet");
         let mac = r#","mac":{"url":"https://github.com/lucacadalora/oyenza-studio/releases/download/v0.2.3/Oyenza-Studio-0.2.3-mac.dmg","size":3667341,"sha256":"fabc80efc387be83d7f82702bede7c3d2470f7aa6ef62cc2a8cd095a425f3fb9"}"#;
-        assert_eq!(parse_payload(&payload(V, mac)).unwrap().download(true).map(|d| d.size), Some(3667341));
+        let r = parse_payload(&payload(V, mac)).unwrap();
+        assert_eq!(r.download(true).map(|d| d.size), Some(3667341));
+        // Each download knows its release's version (a Mac checks the app in the DMG against it).
+        assert_eq!(r.download(true).and_then(|d| d.version()), Some(V));
+        assert_eq!(r.download(false).and_then(|d| d.version()), Some(V));
+        let elsewhere = Download { url: "https://example.com/v0.2.3/x.dmg".into(), size: 1, sha256: SHA.into() };
+        assert_eq!(elsewhere.version(), None);
     }
 
     #[test]
