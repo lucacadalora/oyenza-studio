@@ -2205,6 +2205,13 @@ impl SelfTest {
         for (path, rgb) in SAMPLE_ICONS {
             st.app_icons.entry(path.to_string()).or_insert_with(|| Some(sample_icon(rgb)));
         }
+        if scene == Scene::AiPlaceholder {
+            // The AI tab on made-up readings (`pages::usage::picture`);
+            // PONI_SELFTEST_AI=<a picture's name> shows another than its plans.
+            let pick = std::env::var("PONI_SELFTEST_AI").ok();
+            let shows = pages::usage::Picture::ALL.into_iter().find(|p| pick.as_deref().is_some_and(|n| n.trim() == p.name())).unwrap_or(pages::usage::Picture::Plans);
+            pages::usage::picture(st, shows, now);
+        }
         if let Some(p) = scene.page() {
             st.page = p;
         }

@@ -311,7 +311,6 @@ pub struct PageUiState {
     /// The Stocks page: its scroll, search, edit mode and chart animation.
     pub stocks: crate::pages::stocks::StocksUi,
     /// The AI tab's own state while it shows (`pages::usage`).
-    #[allow(dead_code)] // until the AI tab's page lands: nothing reads it yet
     pub usage: crate::pages::usage::UsageUi,
 }
 
@@ -548,8 +547,6 @@ impl PrayerState {
 /// The AI tab's readings, kept in memory only (its choices are
 /// `settings.usage`). Filled by `services::usage` while the tab is open, or
 /// every few minutes for the person who switched on its heads-up notices.
-// Until the AI tab's page and worker land, nothing reads these.
-#[allow(dead_code)]
 #[derive(Clone, Debug, Default)]
 pub struct UsageState {
     /// Each service's last reading.
@@ -567,7 +564,6 @@ pub struct UsageState {
 }
 
 /// One service's last reading on the AI tab.
-#[allow(dead_code)]
 #[derive(Clone, Debug, PartialEq)]
 pub struct Reading {
     /// The last good one, kept through troubles.
@@ -591,6 +587,7 @@ pub enum InferenceLink {
     /// Connected: its balance and spend are read.
     On { account: String },
     /// Connecting didn't work (why, in a few words).
+    #[allow(dead_code)] // until the AI tab's worker lands: it says why connecting stopped
     Failed(String),
 }
 
