@@ -3,12 +3,13 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, five switches, and Hide or Stay on top in
-//! full-screen apps.
+//! the idle look as pickers, four switches, and Hide or Stay on top in
+//! full-screen apps; and this copy's version.
 //! A change saves at once and applies the way the tray's does
-//! (`Command::SaveSettings`). Beside "Tell me about new versions", Check now
-//! reads the update file at once and says what it found in its place. While
-//! a later version is out, a last row across the page says so, with Update:
+//! (`Command::SaveSettings`). New versions are always looked for; beside
+//! the version, Check now reads the update file at once and says what it
+//! found in its place. While a later version is out, a last row across the
+//! page says so, with Update:
 //! that opens the Update sheet, which takes the rows' place (as the island's
 //! notice and the menu's "Update to" line do) until the island closes or
 //! Settings does.
@@ -20,7 +21,8 @@ use crate::icons::Icon;
 use crate::pages::PageKind;
 use crate::pill::status;
 use crate::state::{AppState, OyenzaLink, Said};
-use crate::ui::{wid, wid_n, CursorKind, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
+use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
+use crate::version::VERSION;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::oyenza;
 use poni_core::phonedrop::fmt_bytes;
@@ -60,9 +62,8 @@ const STACK_GAP: f32 = 16.0;
 /// The full-screen choice's picker, inside its row.
 const ROW_PICKER_H: f32 = 24.0;
 const SWITCH_W: f32 = 30.0;
-/// Check now (or its answer): the room around its words, and from the switch.
+/// Check now (or its answer): the room around its words.
 const CHECK_PAD: f32 = 5.0;
-const CHECK_GAP: f32 = 7.0;
 /// Its hover wash, inside the row's.
 const CHECK_H: f32 = 22.0;
 const SWITCH_H: f32 = 18.0;
@@ -84,22 +85,23 @@ fn idle_name(s: IdleStyle, eyes: &'static str) -> &'static str {
     }
 }
 
-/// The switches, as the tray menu names them (new versions: Settings only).
+/// The switches, as the tray menu names them.
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Switch {
     Lyrics,
     Pronunciation,
     Sounds,
     Autostart,
-    Updates,
 }
 
-/// What a row of the two columns holds: a switch, or the full-screen choice
-/// (the tray menu's "In full-screen apps" submenu).
+/// What a row of the two columns holds: a switch, the full-screen choice
+/// (the tray menu's "In full-screen apps" submenu), or this copy's version
+/// with Check now.
 #[derive(Clone, Copy)]
 enum Row {
     Switch(Switch, &'static str),
     Fullscreen,
+    Version,
 }
 
 const LEFT: &[Row] = &[
@@ -107,8 +109,9 @@ const LEFT: &[Row] = &[
     Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"),
     Row::Switch(Switch::Sounds, "Sounds"),
 ];
-// New versions took the row Clipboard history left, so the columns stay even.
-const RIGHT: &[Row] = &[Row::Switch(Switch::Updates, "Tell me about new versions"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
+// The version took the row of the new versions' switch (Clipboard history's
+// before it), so the columns stay even.
+const RIGHT: &[Row] = &[Row::Version, Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
 const COLUMNS: [&[Row]; 2] = [LEFT, RIGHT];
 /// Rows in the taller column.
 const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len() };
@@ -202,10 +205,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                     let label = if cfg!(target_os = "macos") && sw == Switch::Autostart { "Start at login" } else { label };
                     let on = switch_on(st, sw);
                     let id = wid_n("settings.switch", (c * ROWS + r) as u64);
-                    let check = if sw == Switch::Updates { check_slot(ui, st, row) } else { None };
-                    if switch_row_on(ui, id, row, label, on, accent, card, check) {
+                    if switch_row_on(ui, id, row, label, on, accent, card) {
                         flip(st, sw, on);
                     }
+                }
+                Row::Version => {
+                    let check = check_slot(ui, st, row);
+                    let right = check.map_or(row.right(), |b| b.x - 10.0);
+                    text_with_dim(ui, "Version", VERSION, Rect::new(row.x, row.y, (right - row.x).max(0.0), row.h), TextStyle::body());
                     if let Some(b) = check {
                         draw_check(ui, st, b);
                     }
@@ -225,12 +232,11 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     }
 }
 
-/// Where Check now goes in the new versions' row, left of the switch: while
-/// this copy looks for new versions itself, the checks are on and none is
-/// offered (then the last row has Update). Words with a wash on hover, not
-/// a pill: a pill doesn't fit beside the label at the island's usual width.
+/// Where Check now goes in the version's row, at its right end: while this
+/// copy looks for new versions itself and none is offered (then the last
+/// row has Update). Words with a wash on hover, not a pill.
 fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
-    if !st.update.looks || !st.settings.update_check || st.update.offer.is_some() {
+    if !st.update.looks || st.update.offer.is_some() {
         return None;
     }
     let (text, _) = check_look(st.update.said, st.accent);
@@ -238,7 +244,7 @@ fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
     // take less of the label's, ending where Check now's words end.
     let pad = if answered(st.update.said) { 0.0 } else { CHECK_PAD };
     let w = (ui.c.measure(text, &check_text(), 300.0).0 + 2.0 * pad).ceil();
-    let right = row.right() - SWITCH_W - CHECK_GAP - (CHECK_PAD - pad);
+    let right = row.right() - (CHECK_PAD - pad);
     Some(Rect::new(right - w, row.center().y - CHECK_H / 2.0, w, CHECK_H))
 }
 
@@ -253,8 +259,6 @@ fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
     let said = st.update.said;
     let (text, color) = check_look(said, st.accent);
     if answered(said) {
-        // Words only, but a click on them doesn't reach the row's switch.
-        ui.interact(wid("settings.check"), b, CursorKind::Arrow);
         ui.c.text(text, b, &check_text().color(color).right());
         return;
     }
@@ -435,7 +439,6 @@ fn switch_on(st: &AppState, sw: Switch) -> Option<bool> {
         Switch::Pronunciation => Some(s.lyrics_pronunciation),
         Switch::Sounds => Some(s.sounds),
         Switch::Autostart => st.ui.autostart,
-        Switch::Updates => Some(s.update_check),
     }
 }
 
@@ -445,7 +448,6 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
         Switch::Lyrics => s.lyrics = !s.lyrics,
         Switch::Pronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
         Switch::Sounds => s.sounds = !s.sounds,
-        Switch::Updates => s.update_check = !s.update_check,
         Switch::Autostart => {
             if let Some(on) = on {
                 st.cmd(Command::SetAutostart(!on));
@@ -587,24 +589,19 @@ pub(crate) fn picker_width(ui: &mut Ui, names: &[&str]) -> f32 {
 /// `None` = not known yet: drawn off and dimmed, and it doesn't click.
 /// Returns true when clicked.
 pub(crate) fn switch_row(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color) -> bool {
-    switch_row_on(ui, id, r, label, on, accent, None, None)
+    switch_row_on(ui, id, r, label, on, accent, None)
 }
 
 /// [`switch_row`] on the open card (`card` from `card::pill_card`): in
 /// Pill, a bottom row's hover wash follows the card's rounder corners.
-/// `inner`: a button of its own left of the switch (drawn after, so it takes
-/// its clicks), where the label stops and the row doesn't light up.
-#[allow(clippy::too_many_arguments)]
-fn switch_row_on(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color, card: Option<(Rect, f32)>, inner: Option<Rect>) -> bool {
+fn switch_row_on(ui: &mut Ui, id: u64, r: Rect, label: &str, on: Option<bool>, accent: Color, card: Option<(Rect, f32)>) -> bool {
     let hit = Rect::new(r.x - ROW_BLEED, r.y, r.w + 2.0 * ROW_BLEED, r.h);
     let resp = if on.is_some() { ui.button(id, hit) } else { Default::default() };
-    let over_inner = inner.is_some_and(|b| ui.hovered(b));
-    if (resp.hovered && !over_inner) || resp.pressed {
+    if resp.hovered || resp.pressed {
         super::card::fill_box(ui, card, hit.inset(0.0, 1.0), 8.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let sw = Rect::new(r.right() - SWITCH_W, r.center().y - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
-    let text_right = inner.map_or(sw.x, |b| b.x);
-    ui.c.text(label, Rect::new(r.x, r.y, (text_right - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
+    ui.c.text(label, Rect::new(r.x, r.y, (sw.x - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
     let alpha = if on.is_some() { 1.0 } else { 0.5 };
     ui.c.with_alpha(alpha, |c| draw_switch(c, sw, on == Some(true), accent));
     resp.clicked

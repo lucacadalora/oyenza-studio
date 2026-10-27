@@ -22,8 +22,6 @@ pub const CHECK_EVERY_S: u64 = 3600;
 pub const FIRST_CHECK_S: u64 = 120;
 /// After a look that failed (no network, the site busy).
 pub const RETRY_S: u64 = 3600;
-/// Switched on again in Settings: look in a moment, not in an hour.
-pub const SWITCHED_ON_S: u64 = 3;
 /// The headline is one line on the island.
 const HEADLINE_MAX: usize = 90;
 /// The file is about 1 KB: anything much bigger isn't it.

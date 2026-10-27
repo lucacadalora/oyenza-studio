@@ -5,7 +5,7 @@
 //! [`Updater`] and drive it from their own timers.
 //!
 //! Costs at rest: one read of a ~1 KB file a couple of minutes after start
-//! and then every hour, while the checks are on. A read that comes due
+//! and then every hour; the checks are always on. A read that comes due
 //! while nobody is at the PC (locked, display off) or on battery saver waits
 //! until it is back; the app asks [`Updater::due_in`] again then. Check for
 //! updates… in the menu reads it at once ([`Updater::ask`]) and says on the
@@ -21,7 +21,7 @@
 //!
 //! The island's "Update available" stays until it is clicked (the sheet) or
 //! put away with Hide; one that gives way to another notice, or is still up
-//! at quit, comes back. Settings has Check now beside the switch, which
+//! at quit, comes back. Settings has Check now beside the version, which
 //! answers in its place while the page is open.
 
 use crate::icons::Icon;
@@ -115,11 +115,9 @@ impl Updater {
         u
     }
 
-    /// Seconds until the next read, if the checks are on and one is due
-    /// (0 = now). None while a read runs.
-    pub fn due_in(&self, st: &AppState, now: u64) -> Option<u64> {
-        let due = self.due.filter(|_| st.settings.update_check)?;
-        Some(due.saturating_sub(now))
+    /// Seconds until the next read (0 = now). None while a read runs.
+    pub fn due_in(&self, now: u64) -> Option<u64> {
+        Some(self.due?.saturating_sub(now))
     }
 
     /// The read starts now (on the add-on thread).
@@ -224,18 +222,6 @@ impl Updater {
             save(&self.path, &self.memory);
         }
         true
-    }
-
-    /// The checks were switched on (read in a moment) or off (no more reads,
-    /// and the island, the menu and Settings stop offering).
-    pub fn switched(&mut self, st: &mut AppState, now: u64) {
-        if st.settings.update_check {
-            self.due = Some(now + update::SWITCHED_ON_S);
-        }
-        self.show(st);
-        if st.update.offer.is_none() && st.notice.as_ref().is_some_and(is_new_version_notice) {
-            st.notice = None;
-        }
     }
 
     /// The offered version was seen: Hide on its notice, or the Update
@@ -365,7 +351,7 @@ impl Updater {
             st.notice = Some(updated_notice(headline, st.now + UPDATED_S));
             return true;
         }
-        if !st.settings.update_check || !self.memory.should_announce(VERSION, MAC) {
+        if !self.memory.should_announce(VERSION, MAC) {
             return false;
         }
         // A copy that installs downloads first, then tells (a failed
@@ -381,10 +367,10 @@ impl Updater {
         true
     }
 
-    /// The offer Settings and the menu show, from what is remembered (none
-    /// while the checks are off, and then no sheet either).
+    /// The offer Settings and the menu show, from what is remembered (no
+    /// sheet without one).
     fn show(&self, st: &mut AppState) {
-        st.update.offer = self.memory.offer(VERSION, MAC).filter(|_| st.settings.update_check).cloned();
+        st.update.offer = self.memory.offer(VERSION, MAC).cloned();
         st.update.sheet &= st.update.offer.is_some();
         st.update.next_start = st.update.offer.as_ref().is_some_and(|r| r.version == self.memory.install_on_start);
         st.update.ready = self.ready_setup(st).is_some();
@@ -394,7 +380,7 @@ impl Updater {
 /// The menu's line about new versions.
 #[derive(Clone, Debug, PartialEq)]
 pub enum UpdateLine {
-    /// None: the checks are off, or the Microsoft Store updates this copy.
+    /// None: the Microsoft Store updates this copy.
     None,
     /// "Check for updates…", under About.
     Check,
@@ -404,11 +390,11 @@ pub enum UpdateLine {
 
 /// What the menu says about new versions: the version on offer, or Check for
 /// updates… while this copy looks for them itself (`looks`: it has an
-/// [`Updater`]) and the checks are on.
+/// [`Updater`]).
 pub fn menu_line(st: &AppState, looks: bool) -> UpdateLine {
     match &st.update.offer {
         Some(r) => UpdateLine::Offer(r.version.clone()),
-        None if looks && st.settings.update_check => UpdateLine::Check,
+        None if looks => UpdateLine::Check,
         None => UpdateLine::None,
     }
 }
@@ -648,7 +634,7 @@ mod tests {
     }
 
     #[test]
-    fn the_update_sheet_counts_as_seen_and_switching_off_takes_the_notice_down() {
+    fn the_update_sheet_counts_as_seen() {
         let dir = folder("sheet");
         let path = remembered(&dir, b"setup bytes");
         let mut st = AppState::new(Settings::default(), Store::default());
@@ -662,17 +648,6 @@ mod tests {
         assert!(st.notice.is_none());
         st.update.sheet = false;
         assert!(!u.announce(&mut st, true));
-        let _ = std::fs::remove_dir_all(&dir);
-
-        let dir = folder("off");
-        let path = remembered(&dir, b"setup bytes");
-        let mut st = AppState::new(Settings::default(), Store::default());
-        let mut u = Updater::open(path, dir.join("setups"), &mut st, 10);
-        fetch(&mut u, &mut st);
-        assert!(u.announce(&mut st, true));
-        st.settings.update_check = false;
-        u.switched(&mut st, 20);
-        assert!(st.notice.is_none() && st.update.offer.is_none());
         let _ = std::fs::remove_dir_all(&dir);
     }
 

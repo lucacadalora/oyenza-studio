@@ -183,8 +183,7 @@ impl Notice {
 /// What the app knows about new versions.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct UpdateView {
-    /// A later release than this copy, with a download for this system
-    /// (only while the checks are on).
+    /// A later release than this copy, with a download for this system.
     pub offer: Option<poni_core::update::Release>,
     /// Settings shows the Update sheet in place of its rows (until the
     /// island closes or the page changes).
