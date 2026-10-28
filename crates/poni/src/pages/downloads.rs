@@ -11,6 +11,8 @@ use poni_core::ytdlp::Mode;
 
 /// The page's height: the window never grows for it.
 const HEIGHT: f32 = 256.0;
+/// A message from the app ("Copy a link first") shows this long.
+const NOTE_S: f64 = 4.0;
 
 /// What the page keeps between frames.
 #[derive(Clone, Debug, Default)]
@@ -19,10 +21,22 @@ pub struct DownloadsUi {
     pub link: String,
     pub mode: Mode,
     pub scroll: f32,
+    /// A message under the link field until a time (mono seconds).
+    pub note: Option<(&'static str, f64)>,
 }
 
 pub fn height(_st: &AppState) -> f32 {
     HEIGHT
+}
+
+/// Show a short message under the link field.
+pub fn note(st: &mut AppState, text: &'static str) {
+    st.ui.downloads.note = Some((text, st.now + NOTE_S));
+}
+
+/// When the message ends (the app's wake timer takes it away).
+pub fn next_wake(st: &AppState) -> Option<f64> {
+    st.ui.downloads.note.map(|(_, until)| until).filter(|&until| until > st.now)
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
