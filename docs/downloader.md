@@ -4,6 +4,8 @@ The Downloader saves the video or the sound of a link you paste. It's an add-on,
 
 It's on Windows only for now, and the Microsoft Store build doesn't offer it. The Mac gets it later.
 
+It's part of Studio Pro: it switches on, and its tools download, only for an Oyenza account the Oyenza server says has Pro. Signed out or without Pro, its row in Add-ons stays off and says what's missing.
+
 [yt-dlp](https://github.com/yt-dlp/yt-dlp) does the work. This page says what the add-on downloads, what runs and when, what goes online, and how yt-dlp is kept up to date.
 
 ## What switching it on downloads
@@ -34,7 +36,8 @@ Finished files go to your Downloads folder, and onto the Shelf. **Open** opens a
 
 - **The site of the link you paste.** yt-dlp asks it for the page, then downloads the video or sound from wherever that site keeps it. The requests go straight from your PC to the site, as your browser's would.
 - **github.com, for the tools:** when you switch the add-on on, and when an Oyenza Studio release pins new ones.
-- **Nothing else.** No Oyenza server is involved, and nothing about what you download goes to us or to anyone but that site. yt-dlp doesn't get your browser's cookies or sign-ins.
+- **api.oyenza.app, whether your account has Pro:** with the add-on on, once the sign-in is there (at start, or as you sign in), and when Add-ons opens. The request carries this PC's Oyenza key and nothing about your downloads; the answer is a yes or a no.
+- **Nothing else.** Nothing about what you download goes to us or to anyone but that site. yt-dlp doesn't get your browser's cookies or sign-ins.
 
 ## How yt-dlp is kept up to date
 
