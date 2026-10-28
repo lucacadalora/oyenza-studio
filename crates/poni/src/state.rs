@@ -305,9 +305,6 @@ pub struct PageUiState {
     pub hud_level: f32,
     /// Collapsed media pill shows the track title until this mono time.
     pub peek_until: f64,
-    /// The closed island says a download was saved until this mono time
-    /// (`activities::SAVED_S` after it was).
-    pub saved_until: f64,
     /// Header tab under the pointer and since when (for hover labels).
     pub tab_hover: Option<(usize, f64)>,
     /// Oyen in the Oyenza tab: his last move of his own and when it started

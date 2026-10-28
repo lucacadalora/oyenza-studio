@@ -72,11 +72,10 @@ const DIVIDER_H: f32 = 14.0;
 /// down by the difference, so the readout reads along one baseline.
 const BASELINE_K: f32 = 0.4;
 /// Downloads, in the timer's place: the arrow's box where the ring sits
-/// (its lines fill about 11 x 12 of it, at a 1.5 DIP stroke), Saved's check
-/// a size up so it weighs as much, and the count's chip 6 past the arrow.
-/// The timer's widths, the long one while the count shows.
+/// (its lines fill about 11 x 12 of it, at a 1.5 DIP stroke), and the
+/// count's chip 6 past the arrow. The timer's widths, the long one while
+/// the count shows.
 const DOWNLOAD_GLYPH: f32 = 18.0;
-const CHECK_GLYPH: f32 = 20.0;
 const COUNT_H: f32 = 18.0;
 const COUNT_X: f32 = 12.0;
 
@@ -209,26 +208,18 @@ fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
 /// Downloads, in the timer's place: the download arrow in the left end cap,
 /// the count on a chip beside it while more than one waits or runs, and the
 /// percentage where the countdown sits (a grey dash until a size is known:
-/// no ring here, as a 14-DIP one has no room for the arrow). Saved: a green
-/// check in the arrow's place and the word, for a moment.
+/// no ring here, as a 14-DIP one has no room for the arrow).
 fn draw_download(ui: &mut Ui, st: &AppState, body: Rect) {
     let c = Point::new(body.x + GLYPH_INSET + RING_D / 2.0, body.center().y);
     let right = body.right() - DIGITS_RIGHT;
     let slot = Rect::new(right - 80.0, body.y, 80.0, body.h);
-    match download_view(st) {
-        DownloadView::Saved => {
-            ui.c.icon(Icon::Check, Rect::from_center(c, CHECK_GLYPH, CHECK_GLYPH), palette::GREEN);
-            ui.c.text("Saved", slot, &TextStyle::body().weight(Weight::Semibold).color(INK).right());
-        }
-        DownloadView::Progress { fraction, count } => {
-            ui.c.icon(Icon::Download, Rect::from_center(c, DOWNLOAD_GLYPH, DOWNLOAD_GLYPH), INK);
-            if count > 1 {
-                count_chip(ui, count, c.x + COUNT_X, c.y, COUNT_H, TextStyle::footnote().weight(Weight::Semibold).tabular().color(INK));
-            }
-            let text = fraction.map_or_else(|| "\u{2013}".to_string(), download_pct);
-            ui.c.text(&text, slot, &digits(fraction.is_none()).right());
-        }
+    let DownloadView { fraction, count } = download_view(st);
+    ui.c.icon(Icon::Download, Rect::from_center(c, DOWNLOAD_GLYPH, DOWNLOAD_GLYPH), INK);
+    if count > 1 {
+        count_chip(ui, count, c.x + COUNT_X, c.y, COUNT_H, TextStyle::footnote().weight(Weight::Semibold).tabular().color(INK));
     }
+    let text = fraction.map_or_else(|| "\u{2013}".to_string(), download_pct);
+    ui.c.text(&text, slot, &digits(fraction.is_none()).right());
 }
 
 /// Album art in the left end cap (or a note on a grey tile), dimmed while
