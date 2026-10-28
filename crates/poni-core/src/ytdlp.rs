@@ -29,6 +29,8 @@ pub struct Tools<'a> {
     pub ytdlp: &'a str,
     pub qjs: &'a str,
     pub ffmpeg: &'a str,
+    /// yt-dlp's cache folder (`--cache-dir`), in the add-on's own data.
+    pub cache: &'a str,
 }
 
 /// What one line of yt-dlp's output says.
