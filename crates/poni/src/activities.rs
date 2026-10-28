@@ -19,6 +19,7 @@ use poni_core::frames::fmt_fps;
 use poni_core::geom::{clamp01, palette, Color, Point, Rect};
 use poni_core::pomodoro::Phase;
 use poni_core::settings::IdleStyle;
+use poni_core::svgpath::Seg;
 use poni_core::sysmon::fmt_pct;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -718,23 +719,23 @@ pub(crate) fn count_chip(ui: &mut Ui, count: usize, x: f32, cy: f32, h: f32, ts:
 }
 
 /// Downloads, in the timer's place: the ring filling with the accent round
-/// the download arrow, the count beside it while more than one waits or
-/// runs, and the percentage where the countdown sits. Until a size is
-/// known, the ring's track alone and a dash: no spinner, nothing moves (it
-/// repaints as yt-dlp reports). Saved: the ring whole and green round a
-/// check, and the word.
+/// an arrow down, the count beside it while more than one waits or runs,
+/// and the percentage where the countdown sits. Until a size is known, the
+/// ring's track alone and a dash: no spinner, nothing moves (it repaints as
+/// yt-dlp reports). Saved: the ring turns into a green circled check, and
+/// the word.
 fn draw_download(ui: &mut Ui, st: &AppState, body: Rect) {
     let c = Point::new(body.x + 12.0 + 9.0, body.center().y);
     let ts = TextStyle::body().weight(Weight::Semibold).tabular().right();
     let (text, col) = match download_view(st) {
         DownloadView::Saved => {
-            ui.c.stroke_circle(c, 9.0, palette::GREEN, 2.4);
-            ui.c.icon(Icon::Check, Rect::from_center(c, 12.0, 12.0), palette::GREEN);
+            // The icon's circle has the ring's radius.
+            ui.c.icon(Icon::CheckCircle, Rect::from_center(c, 24.0, 24.0), palette::GREEN);
             ("Saved".to_string(), palette::TEXT)
         }
         DownloadView::Progress { fraction, count } => {
             ui.c.ring(c, 9.0, 2.4, fraction.unwrap_or(0.0), RING_TRACK, st.accent);
-            ui.c.icon(Icon::Download, Rect::from_center(c, 11.0, 11.0), palette::TEXT);
+            arrow_down(ui, c, palette::TEXT);
             if count > 1 {
                 count_chip(ui, count, c.x + 15.0, c.y, 16.0, TextStyle::caption().weight(Weight::Semibold).tabular());
             }
@@ -745,6 +746,14 @@ fn draw_download(ui: &mut Ui, st: &AppState, body: Rect) {
         }
     };
     ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts.color(col));
+}
+
+/// A plain arrow down centred on `c`, 8.5 DIPs tall: `Icon::Download`'s
+/// tray leaves its arrow too small inside the download pill's ring.
+fn arrow_down(ui: &mut Ui, c: Point, color: Color) {
+    let (x, y) = (c.x, c.y);
+    let segs = [Seg::MoveTo(x, y - 4.25), Seg::LineTo(x, y + 4.25), Seg::MoveTo(x - 3.5, y + 0.75), Seg::LineTo(x, y + 4.25), Seg::LineTo(x + 3.5, y + 0.75)];
+    ui.c.path(&segs, None, Some((color, 1.6)));
 }
 
 /// The GPU's temperature for the readout, when its driver reports one.
