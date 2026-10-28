@@ -23,7 +23,7 @@ use poni_core::sha256;
 use poni_core::ytdlp::{self, Line, Mode, Problem, Request, Tools};
 use std::fs;
 use std::io::{BufRead, BufReader, Read};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::mpsc::{self, RecvTimeoutError};
 use std::time::{Duration, Instant};
@@ -43,12 +43,13 @@ const RUN_TIMEOUT: Duration = Duration::from_secs(240);
 fn the_pinned_tools_download_a_real_link() {
     let dir = std::env::temp_dir().join("poni-downloader-live");
     let _ = fs::remove_dir_all(&dir);
-    let bin = dir.join("tools");
-    fs::create_dir_all(&bin).expect("a temp folder");
+    // The tools, and yt-dlp's cache as the add-on keeps one in its own data.
+    let (bin, cache) = (dir.join("tools"), dir.join("cache"));
+    fs::create_dir_all(&bin).and_then(|_| fs::create_dir_all(&cache)).expect("a temp folder");
     let ffmpeg = fetch(&bin);
-    let path = |name: &str| bin.join(name).to_str().expect("a Unicode temp folder").to_string();
-    let (ytdlp, qjs, ffmpeg_exe) = (path(addons::YTDLP_EXE), path(addons::QJS_EXE), path(addons::FFMPEG_EXE));
-    save_the_film(&Tools { ytdlp: &ytdlp, qjs: &qjs, ffmpeg: &ffmpeg_exe }, ffmpeg, &dir);
+    let path = |p: PathBuf| p.to_str().expect("a Unicode temp folder").to_string();
+    let (ytdlp, qjs, ffmpeg_exe, cache) = (path(bin.join(addons::YTDLP_EXE)), path(bin.join(addons::QJS_EXE)), path(bin.join(addons::FFMPEG_EXE)), path(cache));
+    save_the_film(&Tools { ytdlp: &ytdlp, qjs: &qjs, ffmpeg: &ffmpeg_exe, cache: &cache }, ffmpeg, &dir);
     let _ = fs::remove_dir_all(&dir);
 }
 
@@ -124,7 +125,7 @@ fn save_the_film(tools: &Tools, ffmpeg: bool, dir: &Path) {
         let size = fs::metadata(path).map(|m| m.len()).unwrap_or_else(|e| panic!("{mode:?}: the Done line's file {path}: {e}"));
         assert!(size > least, "{mode:?}: {path} is only {size} bytes");
         let parent = Path::new(path).parent().and_then(|p| fs::canonicalize(p).ok());
-        assert_eq!(parent, fs::canonicalize(&folder).ok(), "{mode:?}: {path} isn't in the folder asked for");
+        assert_eq!(parent, Some(fs::canonicalize(&folder).expect("the folder asked for")), "{mode:?}: {path} isn't in the folder asked for");
         println!("{mode:?}: {} Progress lines, then {size} bytes in {path}", progress.len());
     }
 }
