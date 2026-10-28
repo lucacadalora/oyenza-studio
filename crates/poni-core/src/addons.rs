@@ -104,8 +104,8 @@ impl Addon {
 
     /// Whether this build can get every file it needs ([`AddonFile::pinned`]).
     /// One that can't stays off ([`Status::Unpinned`]): a build made while a
-    /// file is still a placeholder (the Downloader's FFmpeg and notice, until
-    /// they are on its release).
+    /// file is still a placeholder (a new add-on whose files aren't on its
+    /// release yet).
     pub fn pinned(&self) -> bool {
         self.files.iter().all(AddonFile::pinned)
     }
@@ -246,9 +246,9 @@ pub const DOWNLOADER: Addon = Addon {
             sha256: "2aeabf0092c3262d6b2609824418f7dd7ed1f1df939f73b2b15645230cac0d77",
             url: Some("https://github.com/quickjs-ng/quickjs/releases/download/v0.17.0/qjs-windows-x86_64.exe"),
         },
-        // Placeholder until tools/build-ffmpeg-min.sh's build is on the add-on's release.
-        AddonFile { name: FFMPEG_EXE, size: 0, sha256: "", url: None },
-        AddonFile { name: "NOTICE.txt", size: 0, sha256: "", url: None },
+        // tools/build-ffmpeg-min.sh's build (FFmpeg 9.0.2, the same bytes every time).
+        AddonFile { name: FFMPEG_EXE, size: 2_298_880, sha256: "8a42638bc2c9bed20670a3e89ccb7117345a941e245d8151aa60066cac0b3993", url: None },
+        AddonFile { name: "NOTICE.txt", size: 32_624, sha256: "01fb0f44904d1f4789a5bc048fc1b2c29d1a36c25d91469632af03d2402331a0", url: None },
     ],
 };
 
@@ -526,8 +526,8 @@ mod tests {
         ] {
             assert!(!f.pinned(), "{f:?}");
         }
-        // Everything else in the app has its files pinned (built-ins have none to pin).
-        for a in ALL.iter().filter(|a| a.id != DOWNLOADER.id) {
+        // Everything in the app has its files pinned (built-ins have none to pin).
+        for a in ALL {
             assert!(a.pinned(), "{}", a.id);
         }
         // The switch stays off and the line says why; nothing comes in.
@@ -536,6 +536,14 @@ mod tests {
         assert_eq!(s.line(&SOON, false), "This version can't get its files yet, so it stays off.");
         assert_eq!(s.line(&SOON, true), s.line(&SOON, false));
         assert!(ja_offer(s).is_some_and(|(_, click)| !click));
+    }
+
+    #[test]
+    fn the_downloaders_notice_is_the_one_in_the_repo() {
+        let notice = DOWNLOADER.files.iter().find(|f| f.name == "NOTICE.txt").unwrap();
+        let bytes: &[u8] = include_bytes!("../../../addons/downloader/NOTICE.txt");
+        assert!(notice.matches(bytes), "size {} sha256 {}", bytes.len(), sha256::hex(&sha256::sha256(bytes)));
+        assert_eq!(DOWNLOADER.url(notice), "https://github.com/lucacadalora/oyenza-studio/releases/download/addon-downloader-1/NOTICE.txt");
     }
 
     #[test]
