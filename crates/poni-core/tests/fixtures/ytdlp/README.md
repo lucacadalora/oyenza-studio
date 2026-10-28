@@ -57,6 +57,12 @@ const YTDLP_ARGS: &[&str] = &[
   them with a qjs path that doesn't exist printed nothing extra on PeerTube.
 - `-S +res` for audio: see surprise 7. It was used in `hls_ts_audio_m4a` only.
 
+The island's own arguments are `poni_core::ytdlp::args`, whose tests read these files. Its JSON
+lines are these, with `|null` ids and two `info` fields more (`site` from `%(extractor)j`,
+and `domain`). It also passes `--no-plugin-dirs`, `--cache-dir`, `--progress-delta 0.5`,
+`--no-playlist --playlist-items 1` and `--merge-output-format mp4/webm/mkv`. It leaves out
+`-x` and `--audio-format`: our FFmpeg only copies, so the sound comes as the site sends it.
+
 ### What changed and why
 
 1. `--no-quiet`: `--print` turns quiet mode on, which removes yt-dlp's own lines from stdout
