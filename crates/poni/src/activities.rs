@@ -34,6 +34,9 @@ pub enum Activity {
     Recording,
     /// The Downloader add-on: how far its downloads are.
     Download,
+    /// Meeting notes: Oyen listening (his head moving with the voices, the
+    /// red dot and the time), then writing the notes.
+    Notes,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -111,6 +114,12 @@ const DOWNLOAD_W: f32 = 96.0;
 const DOWNLOAD_MANY_W: f32 = 112.0;
 /// The capsule under the download count.
 const COUNT_FILL: Color = Color::white(0.16);
+/// A meeting being taken down: Oyen's head, the dot and the time; then
+/// Oyen with "Writing notes".
+const NOTES_W: f32 = 124.0;
+const NOTES_LONG_W: f32 = 140.0;
+const NOTES_WRITING_W: f32 = 170.0;
+const NOTES_HEAD_W: f32 = 24.0;
 
 /// Modes with the same key share content (no cross-fade between them).
 pub fn content_key(m: &Mode) -> u32 {
@@ -123,6 +132,7 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Activity(Activity::Game) => 6,
         Mode::Activity(Activity::Recording) => 7,
         Mode::Activity(Activity::Download) => 8,
+        Mode::Activity(Activity::Notes) => 9,
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
@@ -166,6 +176,10 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
     if st.rec_live() && st.record_on() {
         return Some(Activity::Recording);
     }
+    // So does a meeting being taken down, and its notes on their way.
+    if st.notes.live() && st.notes_on() {
+        return Some(Activity::Notes);
+    }
     // The few minutes before a prayer come next: they don't come back.
     if prayer_countdown(st).is_some() {
         return Some(Activity::Prayer);
@@ -198,7 +212,7 @@ pub fn collapsed_mode(st: &AppState) -> Mode {
     // A notice that stays (a new version's) waits under a volume or
     // brightness change, a game's readout and a recording (its Stop stays
     // one click away), and shows again after.
-    let recording = st.rec_live() && st.record_on();
+    let recording = (st.rec_live() && st.record_on()) || (st.notes.listening() && st.notes_on());
     let waits = st.notice.as_ref().is_some_and(|n| n.stays()) && (st.hud.is_some() || st.game.active || recording);
     if st.notice.is_some() && !waits {
         Mode::Notice
@@ -295,6 +309,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
         Mode::Activity(Activity::Recording) => Geom::new(recording_w(st), 32.0, 15.0),
         Mode::Activity(Activity::Download) => Geom::new(if download_many(st) { DOWNLOAD_MANY_W } else { DOWNLOAD_W }, 32.0, 15.0),
+        Mode::Activity(Activity::Notes) => Geom::new(notes_w(st), 32.0, 15.0),
         Mode::Hud(HudTag::Volume) => Geom::new(316.0, 40.0, 19.0),
         Mode::Hud(HudTag::Charging) | Mode::Hud(HudTag::LowBattery) => Geom::new(300.0, 40.0, 19.0),
         Mode::Hud(HudTag::Bluetooth) => Geom::new(336.0, 46.0, 22.0),
@@ -615,6 +630,7 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
         Activity::Game => draw_game(ui, st, body),
         Activity::Recording => draw_recording(ui, st, body),
         Activity::Download => draw_download(ui, st, body),
+        Activity::Notes => draw_notes(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
             art_or_icon(ui, st, art, playing);
@@ -639,6 +655,38 @@ pub(crate) fn draw_prayer_ok(ui: &mut Ui, body: Rect) -> f32 {
     let r = Rect::new(body.right() - PRAYER_OK_INSET - PRAYER_OK_W, body.center().y - PRAYER_OK_H / 2.0, PRAYER_OK_W, PRAYER_OK_H);
     ui.pill(wid(PRAYER_OK_ID), r, "OK", None, PillStyle::Utility);
     body.right() - PRAYER_OK_ROOM
+}
+
+/// The meeting's pill: listening, "0:42" (an hour needs more); then the
+/// notes on their way.
+fn notes_w(st: &AppState) -> f32 {
+    match st.notes.phase {
+        poni_core::notes::Phase::Listening { .. } if st.notes.elapsed(st.now) >= 3600.0 => NOTES_LONG_W,
+        poni_core::notes::Phase::Listening { .. } => NOTES_W,
+        _ => NOTES_WRITING_W,
+    }
+}
+
+/// Oyen's head on the left, listening (it lifts with the voices) or
+/// writing; then the red dot and the time, or "Writing notes". In every
+/// theme: the notes are his.
+fn draw_notes(ui: &mut Ui, st: &AppState, body: Rect) {
+    let cy = body.center().y;
+    let listening = st.notes.listening();
+    let what = if listening { crate::oyen::Coach::Listen { level: st.notes.mic.max(st.notes.pc) } } else { crate::oyen::Coach::Write };
+    crate::oyen::coach(ui.c, Point::new(body.x + 12.0 + NOTES_HEAD_W / 2.0, cy - 1.0), NOTES_HEAD_W, ui.now, what);
+    // The head follows the voices, and the pencil its line.
+    ui.request_live();
+    let x = body.x + 12.0 + NOTES_HEAD_W + 8.0;
+    if listening {
+        ui.c.fill_circle(Point::new(x + 5.0, cy), 5.0, palette::RED);
+        let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(palette::TEXT);
+        let text = poni_core::notes::fmt_length(st.notes.elapsed(st.now));
+        ui.c.text(&text, Rect::new(x + 14.0, body.y, body.right() - 14.0 - x - 14.0, body.h), &ts.right());
+    } else {
+        let ts = TextStyle::footnote().weight(Weight::Semibold).color(palette::TEXT_DIM);
+        ui.c.text("Writing notes\u{2026}", Rect::new(x, body.y, body.right() - 12.0 - x, body.h), &ts);
+    }
 }
 
 /// The recording pill: "0:42" fits the timer's width; an hour needs more.

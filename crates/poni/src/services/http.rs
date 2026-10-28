@@ -1,4 +1,4 @@
-//! Minimal HTTPS requests (GET, POST/DELETE with a JSON body, and file downloads with progress) over WinRT `Windows.Web.Http.HttpClient`.
+//! Minimal HTTPS requests (GET, POST/DELETE with a JSON body, POST of raw bytes, and file downloads with progress) over WinRT `Windows.Web.Http.HttpClient`.
 //!
 //! Every call blocks until the response (headers and body) has arrived or the
 //! timeout has passed, so use it on worker threads only, never on the UI
@@ -226,6 +226,34 @@ impl Client {
                 .map_err(|e| other("could not set the request body", &e))?;
             request.SetContent(&content).map_err(|e| other("could not set the request body", &e))?;
         }
+        let op = self.http.SendRequestAsync(&request).map_err(classify)?;
+        let resp = wait(&op, deadline)?;
+        let out = read_response(&resp, deadline);
+        let _ = resp.Close();
+        let _ = request.Close();
+        out
+    }
+
+    /// POST `body` as it is (a meeting's audio part), with its media type.
+    pub fn post_bytes(&self, url: &str, headers: &[(&str, &str)], body: &[u8], content_type: &str, timeout: Duration) -> Result<Response, FetchError> {
+        let deadline = Instant::now() + timeout;
+        let uri = Uri::CreateUri(&HSTRING::from(url)).map_err(|e| other("invalid URL", &e))?;
+        let request = HttpRequestMessage::Create(&HttpMethod::Post().map_err(|e| other("could not create a request", &e))?, &uri)
+            .map_err(|e| other("could not create a request", &e))?;
+        let request_headers = request.Headers().map_err(|e| other("could not set request headers", &e))?;
+        for (name, value) in headers {
+            if !request_headers.TryAppendWithoutValidation(&HSTRING::from(*name), &HSTRING::from(*value)).unwrap_or(false) {
+                return Err(FetchError::Other(format!("could not set the {name} header")));
+            }
+        }
+        let content = (|| {
+            let writer = DataWriter::new()?;
+            writer.WriteBytes(body)?;
+            let content = HttpBufferContent::CreateFromBuffer(&writer.DetachBuffer()?)?;
+            content.Headers()?.SetContentType(&HttpMediaTypeHeaderValue::Create(&HSTRING::from(content_type))?)?;
+            request.SetContent(&content)
+        })();
+        content.map_err(|e| other("could not set the request body", &e))?;
         let op = self.http.SendRequestAsync(&request).map_err(classify)?;
         let resp = wait(&op, deadline)?;
         let out = read_response(&resp, deadline);

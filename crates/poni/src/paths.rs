@@ -77,11 +77,15 @@ pub fn media_downloads_dir() -> PathBuf {
 }
 
 fn downloads_dir() -> Option<PathBuf> {
+    known_folder(&windows::Win32::UI::Shell::FOLDERID_Downloads)
+}
+
+fn known_folder(id: &windows::core::GUID) -> Option<PathBuf> {
     use windows::Win32::Foundation::HANDLE;
     use windows::Win32::System::Com::CoTaskMemFree;
-    use windows::Win32::UI::Shell::{FOLDERID_Downloads, SHGetKnownFolderPath, KF_FLAG_DEFAULT};
+    use windows::Win32::UI::Shell::{SHGetKnownFolderPath, KF_FLAG_DEFAULT};
     unsafe {
-        let p = SHGetKnownFolderPath(&FOLDERID_Downloads, KF_FLAG_DEFAULT, HANDLE::default()).ok()?;
+        let p = SHGetKnownFolderPath(id, KF_FLAG_DEFAULT, HANDLE::default()).ok()?;
         let s = p.to_string().ok();
         CoTaskMemFree(Some(p.0 as *const _));
         s.filter(|s| !s.is_empty()).map(PathBuf::from)
@@ -105,6 +109,23 @@ pub fn addons_dir() -> PathBuf {
 /// deleted once used (local, never roaming).
 pub fn ielts_dir() -> PathBuf {
     cache_dir().join("ielts")
+}
+
+/// A meeting being recorded or handed over for notes: its audio parts, one
+/// folder a meeting (local, never roaming). A folder goes once its notes are
+/// saved or the recording is thrown away.
+pub fn notes_audio_dir() -> PathBuf {
+    cache_dir().join("notes")
+}
+
+/// Where meeting notes are saved, as Markdown: `Documents\Oyenza Studio\Notes`
+/// (wherever the user moved Documents to). Under `PONI_HOME` for the self-test.
+pub fn notes_dir() -> PathBuf {
+    if let Some(h) = home_override() {
+        return h.join("notes-saved");
+    }
+    let docs = known_folder(&windows::Win32::UI::Shell::FOLDERID_Documents).unwrap_or_else(|| env_dir("USERPROFILE").join("Documents"));
+    docs.join("Oyenza Studio").join("Notes")
 }
 
 /// Paired phones (their pairing secrets and names), sealed with DPAPI.

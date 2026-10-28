@@ -17,6 +17,7 @@ pub mod focus;
 pub mod health;
 pub mod ielts;
 pub mod media;
+pub mod notes;
 pub mod notifications;
 pub mod oyenza;
 pub mod prayer;
@@ -73,6 +74,10 @@ pub enum PageKind {
     /// Speaking examiner, through the Oyenza account, so its tab follows
     /// Oyenza's and Health's.
     Ielts,
+    /// The Meeting notes add-on's page, while it is on ([`tabs`]; Windows):
+    /// Oyen listens to a meeting and the Oyenza account writes its notes, so
+    /// its tab follows IELTS'.
+    Notes,
     /// The System add-on's page, while it is on ([`tabs`]).
     System,
     /// The teleprompter: a script read under the webcam.
@@ -99,7 +104,7 @@ pub enum PageKind {
 impl PageKind {
     /// The tab row's order: the island's own pages, Oyenza, then the
     /// add-ons' pages and the "+".
-    pub const ALL: [PageKind; 18] = [
+    pub const ALL: [PageKind; 19] = [
         PageKind::Media,
         PageKind::Today,
         PageKind::Shelf,
@@ -109,6 +114,7 @@ impl PageKind {
         PageKind::Oyenza,
         PageKind::Health,
         PageKind::Ielts,
+        PageKind::Notes,
         PageKind::System,
         PageKind::Script,
         PageKind::Record,
@@ -127,6 +133,7 @@ impl PageKind {
             PageKind::Ai => "ai",
             PageKind::Health => "health",
             PageKind::Ielts => "ielts",
+            PageKind::Notes => "notes",
             PageKind::Shelf => "shelf",
             PageKind::Tasks => "tasks",
             PageKind::Today => "today",
@@ -156,6 +163,7 @@ impl PageKind {
             PageKind::Ai => "AI",
             PageKind::Health => "Health",
             PageKind::Ielts => "IELTS",
+            PageKind::Notes => "Notes",
             PageKind::Shelf => "Shelf",
             PageKind::Tasks => "Tasks",
             PageKind::Today => "Today",
@@ -179,6 +187,7 @@ impl PageKind {
             PageKind::Ai => Icon::Ai,
             PageKind::Health => Icon::Steps,
             PageKind::Ielts => Icon::Mic,
+            PageKind::Notes => Icon::Notes,
             PageKind::Shelf => Icon::Tray,
             PageKind::Tasks => Icon::ListChecks,
             PageKind::Today => Icon::Calendar,
@@ -219,12 +228,12 @@ impl PageKind {
     }
 }
 
-/// The tabs in the header: every page but Settings, and Health, IELTS, System,
-/// Script, Record, Prayer, Stocks and Notifications only while their add-ons
-/// are on. Music, Today, Shelf, Tasks and Focus unless Settings took them off
-/// the row; one of those still shows while its page is open (a file dropped
-/// on the island opens the Shelf). AI and Oyenza are always there (signed
-/// out, Oyenza is where to sign in). Add-ons is last, in both apps.
+/// The tabs in the header: every page but Settings, and Health, IELTS, Notes,
+/// System, Script, Record, Prayer, Stocks and Notifications only while their
+/// add-ons are on. Music, Today, Shelf, Tasks and Focus unless Settings took
+/// them off the row; one of those still shows while its page is open (a file
+/// dropped on the island opens the Shelf). AI and Oyenza are always there
+/// (signed out, Oyenza is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     row(st, Some(st.page))
 }
@@ -242,6 +251,7 @@ fn row(st: &AppState, open: Option<PageKind>) -> Vec<PageKind> {
         .filter(|&p| match p {
             PageKind::Health => st.health_on(),
             PageKind::Ielts => st.ielts_on(),
+            PageKind::Notes => st.notes_on(),
             PageKind::System => st.system_on(),
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
@@ -270,6 +280,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Ai => usage::height(st),
         PageKind::Health => health::height(st),
         PageKind::Ielts => ielts::height(st),
+        PageKind::Notes => notes::height(st),
         PageKind::Shelf => shelf::height(st),
         PageKind::Tasks => tasks::height(st),
         PageKind::Today => today::height(st),
@@ -302,6 +313,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Today => today::next_wake(st),
         PageKind::Downloads => downloads::next_wake(st),
         PageKind::Ielts => ielts::next_wake(st),
+        PageKind::Notes => notes::next_wake(st),
         _ => None,
     };
     // Oyen in the Oyenza tab (and beside the pin in his theme) blinks and
@@ -409,6 +421,7 @@ pub(crate) fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKi
         PageKind::Ai => usage::draw(ui, st, area),
         PageKind::Health => health::draw(ui, st, area),
         PageKind::Ielts => ielts::draw(ui, st, area),
+        PageKind::Notes => notes::draw(ui, st, area),
         PageKind::Shelf => shelf::draw(ui, st, area),
         PageKind::Tasks => tasks::draw(ui, st, area),
         PageKind::Today => today::draw(ui, st, area),

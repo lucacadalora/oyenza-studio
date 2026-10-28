@@ -22,6 +22,7 @@ pub mod location;
 pub mod lyrics;
 pub mod media;
 pub mod mic;
+pub mod notes;
 pub mod oyenza;
 pub mod pairdrop;
 pub mod phonedrop;
