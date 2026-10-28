@@ -221,6 +221,8 @@ pub const STOCKS: Addon = Addon {
 /// to download. Off, there is no Notifications tab and nothing listens.
 /// Windows lets only an app with a package identity read notifications, so
 /// it works in the Microsoft Store copy; the Mac has no way to read them.
+/// Part of Studio Pro (the website's Pro card sells the messages on the
+/// island): it listens only for an account the server says has Pro.
 pub const NOTIFICATIONS: Addon = Addon {
     id: "notifications",
     title: "Notifications",
@@ -228,7 +230,7 @@ pub const NOTIFICATIONS: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
-    pro: false,
+    pro: true,
 };
 
 /// Screen recorder: the Record page and the recording pill, the face of
@@ -253,7 +255,8 @@ pub const SCREEN_RECORDER: Addon = Addon {
 /// a video's picture and sound, is our own small build
 /// (`tools/build-ffmpeg-min.sh`, `addons/downloader/`). Windows only for now,
 /// and not in the Microsoft Store build. Nothing runs at rest: the tools only
-/// run while a download does.
+/// run while a download does. Part of Studio Pro: its tools download, and it
+/// downloads, only for an account the server says has Pro.
 pub const DOWNLOADER: Addon = Addon {
     id: "downloader",
     title: "Downloader",
@@ -277,7 +280,7 @@ pub const DOWNLOADER: Addon = Addon {
         AddonFile { name: FFMPEG_EXE, size: 2_298_880, sha256: "8a42638bc2c9bed20670a3e89ccb7117345a941e245d8151aa60066cac0b3993", url: None },
         AddonFile { name: "NOTICE.txt", size: 32_624, sha256: "01fb0f44904d1f4789a5bc048fc1b2c29d1a36c25d91469632af03d2402331a0", url: None },
     ],
-    pro: false,
+    pro: true,
 };
 
 /// The Downloader's tools, as saved in its folder.
@@ -429,9 +432,9 @@ mod tests {
     }
 
     #[test]
-    fn meeting_notes_is_the_pro_one() {
+    fn pro_is_notifications_meeting_notes_and_the_downloader() {
         let pro: Vec<&str> = ALL.iter().filter(|a| a.pro).map(|a| a.id).collect();
-        assert_eq!(pro, vec!["notes"]);
+        assert_eq!(pro, vec!["notifications", "notes", "downloader"]);
     }
 
     #[test]
