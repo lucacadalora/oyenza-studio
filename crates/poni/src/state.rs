@@ -16,7 +16,7 @@ use poni_core::oyenza::{Activity, Bill, DayPick, Saved, Seen};
 use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
 use poni_core::recorder::Phase as RecPhase;
-use poni_core::prayer::{Place, PlaceList, Site, World};
+use poni_core::prayer::{Place, PlaceList, PrayerMoment, Site, World};
 use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
@@ -138,6 +138,9 @@ pub enum NoticeAction {
     StartFocus,
     /// Open the Update sheet in Settings (a new version's notice).
     OpenUpdate,
+    /// Open the app another app's notification came from (its
+    /// AppUserModelID; the Notifications add-on). The island stays closed.
+    OpenApp(String),
 }
 
 /// A one-click action shown as a small pill inside a notice (doesn't expand).
@@ -145,7 +148,8 @@ pub enum NoticeAction {
 pub enum InlineAction {
     /// Start the idle Pomodoro phase.
     StartFocus,
-    /// Put the notice's hidden sum (and sender) in place (Oyenza).
+    /// Put the notice's hidden words in place: an Oyenza sum (and sender),
+    /// or a message and who it's from (Notifications).
     ShowAmount,
     /// Stop the adzan (Prayer times).
     StopAdzan,
@@ -154,6 +158,34 @@ pub enum InlineAction {
     Hide,
     /// Open this version's release notes ("Updated to").
     WhatsNew,
+    /// Open the app a notification came from (the notice's `OpenApp`).
+    Open,
+}
+
+/// Whether this copy may read other apps' notifications (the Notifications
+/// add-on, `services::notifications`), for its page.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum NotifyAccess {
+    /// Not looked at yet: the add-on is off, or just came on.
+    #[default]
+    Unknown,
+    /// This copy has no package identity (the download from GitHub), and
+    /// Windows lets only a packaged app read notifications.
+    NoPackage,
+    /// Windows hasn't been asked yet, or its question was closed unanswered.
+    Ask,
+    /// Windows' question is on screen.
+    Asking,
+    /// Asked, and Windows came back without an answer (the question was
+    /// closed, or never showed): ask again, or turn it on in Windows' settings.
+    Unanswered,
+    /// Turned off for Oyenza Studio in Windows' settings.
+    Denied,
+    /// Windows lets it read them: new ones show on the island.
+    Allowed,
+    /// Windows' notification listener didn't answer (an older Windows, or a
+    /// failure the log names).
+    Failed,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -556,6 +588,10 @@ pub struct PrayerState {
     pub handled_until: Option<i64>,
     /// The adzan is playing.
     pub adzan: bool,
+    /// OK on the countdown put it away until this prayer's time (UTC
+    /// seconds): the closed island shows what it would otherwise (the song
+    /// and its sung line) until then. Kept in memory only.
+    pub countdown_ok: Option<i64>,
     /// Self-test only: moves the prayer clock by this many seconds.
     pub clock_shift: i64,
 }
@@ -779,6 +815,8 @@ pub struct AppState {
     pub stocks: StocksState,
     /// The recorder's recording, as it last told the island.
     pub rec: RecView,
+    /// Whether Windows lets the Notifications add-on read notifications.
+    pub notify_access: NotifyAccess,
     /// The AI tab's readings (its choices: `settings.usage`).
     pub usage: UsageState,
     /// Side effects requested during the frame.
@@ -849,6 +887,7 @@ impl AppState {
             recorder: false,
             stocks: StocksState::default(),
             rec: RecView::default(),
+            notify_access: NotifyAccess::Unknown,
             usage: UsageState::default(),
             cmds: Vec::new(),
         };
@@ -868,6 +907,7 @@ impl AppState {
             PageKind::Health => !st.health_on(),
             PageKind::Stocks => !st.stocks_on(),
             PageKind::Record => !st.record_on(),
+            PageKind::Notifications => !st.notifications_on(),
             _ => false,
         };
         if off {
@@ -935,6 +975,12 @@ impl AppState {
         self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
     }
 
+    /// The Notifications add-on is on (Windows): its tab shows, and new
+    /// notifications from the apps picked there show on the island.
+    pub fn notifications_on(&self) -> bool {
+        cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
+    }
+
     /// Prayer times is on and its places are read: the tab and reminders run.
     pub fn prayer_on(&self) -> bool {
         self.addon(poni_core::addons::PRAYER_TIMES.id) == AddonStatus::Ready && self.prayer.places.is_some()
@@ -943,6 +989,17 @@ impl AppState {
     /// The prayer clock, UTC seconds (the self-test moves it).
     pub fn prayer_now(&self) -> i64 {
         self.unix + self.prayer.clock_shift
+    }
+
+    /// OK on the countdown before a prayer: it goes away until that prayer's
+    /// time (`activities::prayer_countdown`). The adzan still comes then,
+    /// since what rings follows the prayer clock, not the countdown. Returns
+    /// the prayer put away (none when no countdown runs).
+    pub fn prayer_countdown_ok(&mut self) -> Option<PrayerMoment> {
+        let site = self.prayer.site()?;
+        let (m, _) = poni_core::prayer::countdown(&site, self.prayer_now(), self.settings.prayer.remind_before_min)?;
+        self.prayer.countdown_ok = Some(m.at);
+        Some(m)
     }
 
     /// New steps from the phone (`None`: none to show), kept in memory only,

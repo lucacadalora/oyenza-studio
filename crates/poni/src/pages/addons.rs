@@ -1,8 +1,8 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader, System, Health and Stocks are already in the app and only show
-//! their pages (System's readings, Health's steps and Stocks' prices also run
-//! only while they are on).
+//! reader, System, Health, Stocks and Notifications are already in the app
+//! and only show their pages (System's readings, Health's steps, Stocks'
+//! prices and Notifications' listening also run only while they are on).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -11,7 +11,9 @@
 //! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
 //! Both apps list every add-on ([`OFFERED`]) but Screen recorder, which shows
-//! once Oyenza Studio Recorder is installed ([`rows`]).
+//! once Oyenza Studio Recorder is installed, and Notifications, which only
+//! Windows has ([`rows`]). Eight rows (the recorder's with them) are one
+//! line each: the name, then the line after it.
 
 use crate::commands::Command;
 use crate::gfx::TextStyle;
@@ -36,6 +38,11 @@ const ROW_BLEED: f32 = 8.0;
 const SWITCH_W: f32 = 30.0;
 const SWITCH_H: f32 = 18.0;
 const BAR_H: f32 = 3.0;
+/// Rows shorter than this (eight of them) put the line after the name.
+const TWO_LINES: f32 = 32.0;
+const BADGE_ONE_LINE: f32 = 24.0;
+/// Between the name and the line after it, on a one-line row.
+const LINE_GAP: f32 = 10.0;
 
 /// The add-ons this app has, in the page's order: all of them, on Windows
 /// and on the Mac (whose Prayer times use macOS's location and sounds).
@@ -50,9 +57,15 @@ pub fn height(st: &AppState) -> f32 {
 
 /// The page's rows: every add-on offered, Screen recorder only once Oyenza
 /// Studio Recorder is installed and has spoken to the island
-/// (`AppState::recorder_ready`).
+/// (`AppState::recorder_ready`), Notifications only on Windows (a Mac has
+/// no way to read other apps' notifications).
 fn rows(st: &AppState) -> Vec<&'static Addon> {
-    OFFERED.iter().copied().filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready()).collect()
+    OFFERED
+        .iter()
+        .copied()
+        .filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready())
+        .filter(|a| a.id != addons::NOTIFICATIONS.id || cfg!(windows))
+        .collect()
 }
 
 fn row_h(n: usize) -> f32 {
@@ -82,6 +95,7 @@ fn icon(a: &Addon) -> Icon {
         "system" => Icon::Gauge,
         "health" => Icon::Steps,
         "stocks" => Icon::Stocks,
+        "notifications" => Icon::Bell,
         "recorder" => Icon::Recorder,
         _ => Icon::Addons,
     }
@@ -114,10 +128,19 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
         super::card::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let cy = r.center().y;
-    // Six rows sit closer: a smaller badge, the text centred in the row.
-    let (badge, dy) = if r.h < ROW_H { (BADGE_COMPACT, ((r.h - ROW_H) / 2.0).round()) } else { (BADGE, 0.0) };
+    // Six rows sit closer: a smaller badge, the text centred in the row;
+    // eight are a line each.
+    let one_line = r.h < TWO_LINES;
+    let (badge, dy) = if one_line {
+        (BADGE_ONE_LINE, 0.0)
+    } else if r.h < ROW_H {
+        (BADGE_COMPACT, ((r.h - ROW_H) / 2.0).round())
+    } else {
+        (BADGE, 0.0)
+    };
     ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), badge / 2.0, accent.with_alpha(0.18));
-    ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), 18.0, 18.0), accent);
+    let glyph = if one_line { 14.0 } else { 18.0 };
+    ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), glyph, glyph), accent);
 
     let sw = Rect::new(r.right() - SWITCH_W, cy - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
     crate::pages::settings::draw_switch(ui.c, sw, status.is_on(), accent);
@@ -133,7 +156,6 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
 
     let x = r.x + TEXT_X;
     let w = (text_right - x).max(0.0);
-    ui.c.text(a.title, Rect::new(x, r.y + 3.0 + dy, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
     // Screen recorder came on with the recorder, not by a click here: say so.
     let line = if a.id == addons::SCREEN_RECORDER.id && status == Status::Ready {
@@ -141,9 +163,22 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     } else {
         status.line(a, MAC)
     };
-    ui.c.text(&line, Rect::new(x, r.y + 22.0 + dy, w, 17.0), &TextStyle::footnote().color(line_color));
+    let bar_y = if one_line {
+        // The name, then the line after it while there is room.
+        let title_w = ui.c.measure(a.title, &TextStyle::headline(), w.max(1.0)).0.ceil().min(w);
+        ui.c.text(a.title, Rect::new(x, r.y, title_w + 1.0, r.h), &TextStyle::headline());
+        let lx = x + title_w + LINE_GAP;
+        if text_right > lx {
+            ui.c.text(&line, Rect::new(lx, r.y, text_right - lx, r.h), &TextStyle::footnote().color(line_color));
+        }
+        r.bottom() - BAR_H - 1.0
+    } else {
+        ui.c.text(a.title, Rect::new(x, r.y + 3.0 + dy, w, 20.0), &TextStyle::headline());
+        ui.c.text(&line, Rect::new(x, r.y + 22.0 + dy, w, 17.0), &TextStyle::footnote().color(line_color));
+        r.y + 40.0 + dy
+    };
     if let Some(p) = status.progress() {
-        let bar = Rect::new(x, r.y + 40.0 + dy, w, BAR_H);
+        let bar = Rect::new(x, bar_y, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);
         if p > 0.0 {
             ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * p).max(BAR_H), BAR_H), BAR_H / 2.0, accent);

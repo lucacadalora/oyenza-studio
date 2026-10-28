@@ -119,8 +119,8 @@ fn inline_done(st: &AppState, n: &Notice, a: InlineAction) -> bool {
         InlineAction::StopAdzan => !st.prayer.adzan,
         // Done once clicked: the app puts the check in the notice's icon.
         InlineAction::WhatsNew => n.icon == Icon::Check,
-        // Hide takes the notice away at once.
-        InlineAction::Hide => false,
+        // Hide and Open take the notice away at once.
+        InlineAction::Hide | InlineAction::Open => false,
     }
 }
 

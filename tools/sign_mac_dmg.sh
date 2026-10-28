@@ -81,8 +81,15 @@ if [ "${NOTARIZE:-1}" = 1 ]; then
     fi
     exit 1
   fi
-  xcrun stapler staple "$dmg"
-  xcrun stapler validate "$dmg"
+  # Stapling and checking the stapled ticket both reach Apple's servers, and a runner's connection to them
+  # sometimes drops for a moment (Error 68, "The network connection was lost": the staple once and the check
+  # once on 28 Oct 2026), so the two get five tries together, 30 s apart.
+  for try in 1 2 3 4 5; do
+    xcrun stapler staple "$dmg" && xcrun stapler validate "$dmg" && break
+    [ "$try" -lt 5 ] || exit 1
+    echo "stapling or its check failed (try $try of 5), again in 30 s" >&2
+    sleep 30
+  done
   # What Gatekeeper says about a downloaded copy: "accepted", source=Notarized Developer ID.
   spctl --assess --type open --context context:primary-signature --verbose=4 "$dmg"
   hdiutil attach "$dmg" -nobrowse -readonly -mountpoint "$work/mnt" -quiet

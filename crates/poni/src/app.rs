@@ -3,7 +3,7 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, MediaCmd, OyenzaCmd, PairCmd, PhoneCmd, UsageCmd};
+use crate::commands::{Command, MediaCmd, NotifyCmd, OyenzaCmd, PairCmd, PhoneCmd, UsageCmd};
 use crate::events::{AppEvent, AppleMusicStatus, EventSink, OyenzaEvent, SendHwnd, WM_APP_APPBAR, WM_APP_EVENT, WM_APP_FRAME, WM_APP_TRAY};
 use crate::gfx::{px_rect, px_union, scale_about, union_rect, Canvas, Gfx, HitMask};
 use crate::icons::Icon;
@@ -12,10 +12,11 @@ use crate::oyen;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::pill;
+use crate::services::notifications::NotifyEvent;
 use crate::services::{self, Services};
 use crate::state::{
-    AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PairedPhone, PhoneAsk, PhoneDrop,
-    PhoneTransfer, PhoneView, PrayerState,
+    AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, NotifyAccess, OyenzaLink, PairedPhone, PhoneAsk,
+    PhoneDrop, PhoneTransfer, PhoneView, PrayerState,
 };
 use crate::tray::{self, Tray};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
@@ -496,6 +497,9 @@ pub struct App {
     /// New versions (`crate::updates`); None in the self-test and in a
     /// Store copy, which the Store updates.
     updater: Option<crate::updates::Updater>,
+    /// The Notifications add-on's listener while it is on; None while it's
+    /// off, in the download (no package identity) and in the self-test.
+    notify: Option<services::notifications::Listener>,
 }
 
 /// The island window: position and size in screen pixels.
@@ -668,6 +672,7 @@ impl App {
             pair_offer: None,
             laid_floating: false,
             updater: None,
+            notify: None,
         })
     }
 
@@ -689,6 +694,11 @@ impl App {
             services::frames::stop_stale();
             if self.st.settings.game_stats {
                 self.check_fps();
+            }
+            // Notifications on: listen if Windows already allows it (its
+            // question waits for the page's Allow).
+            if self.st.notifications_on() {
+                self.start_notify(false);
             }
             self.try_add_tray();
             services::power::register_session(self.helper);
@@ -975,10 +985,16 @@ impl App {
                         // release can't click the pill a second time.
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
+                    } else if self.input.pressed_id == Some(wid(activities::PRAYER_OK_ID)) {
+                        // The prayer countdown's OK, the same way.
+                        self.input.pressed_id = None;
+                        self.prayer_countdown_ok();
                     } else {
                         // Clicking a notice jumps to its page (a new version's
                         // may be waiting under a volume change or a game's readout).
                         let shown = self.mode == Mode::Notice;
+                        // Another app's notification opens that app instead.
+                        let mut opened = false;
                         if let Some(n) = self.st.notice.take_if(|_| shown) {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
@@ -989,11 +1005,17 @@ impl App {
                                         self.st.pomodoro.start(self.st.now);
                                     }
                                 }
+                                Some(NoticeAction::OpenApp(id)) => {
+                                    shell::open_app(&id);
+                                    opened = true;
+                                }
                                 None => {}
                             }
                         }
                         self.st.hud = None;
-                        self.expand();
+                        if !opened {
+                            self.expand();
+                        }
                     }
                 } else if self.text_focus && self.input.pressed_id != self.input.focused {
                     self.blur_text();
@@ -1281,6 +1303,9 @@ impl App {
                     // pointer so the pill can be clicked (a click on the rest
                     // of the notice still opens its page). The dwell stays
                     // armed: the next movement restarts it.
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
+                    // So does the prayer countdown under a pointer resting on
+                    // its OK (resting on the rest of it still opens).
                 } else {
                     self.expand();
                 }
@@ -1780,6 +1805,15 @@ impl App {
                 }
             }
         }
+        // Notifications on: listen, Windows' question first; off: stop.
+        let notify_id = poni_core::addons::NOTIFICATIONS.id;
+        if before.addon_on(notify_id) != self.st.settings.addon_on(notify_id) && self.selftest.is_none() {
+            if self.st.settings.addon_on(notify_id) {
+                self.start_notify(true);
+            } else {
+                self.stop_notify();
+            }
+        }
         // Health on or off: the Oyenza worker asks for the steps only while
         // it's on, and off forgets the ones it had.
         let health_id = poni_core::addons::HEALTH.id;
@@ -2151,6 +2185,7 @@ impl App {
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
             AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
+            AppEvent::Notify(ev) => self.on_notify(ev),
             AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
@@ -2211,6 +2246,8 @@ impl App {
                 self.oyenza(OyenzaCmd::Refresh);
             } else if self.st.page == PageKind::Health {
                 self.oyenza(OyenzaCmd::RefreshHealth);
+            } else if self.st.page == PageKind::Notifications {
+                self.notify_cmd(NotifyCmd::Check);
             }
         }
         self.request_frame();
@@ -2985,6 +3022,7 @@ impl App {
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Notifications => !self.st.notifications_on(),
             _ => false,
         };
         if gone {
@@ -3584,6 +3622,13 @@ impl App {
     /// then show a check mark in the pill briefly before the notice leaves.
     fn run_inline_action(&mut self, a: InlineAction) {
         self.refresh_time();
+        if a == InlineAction::Open {
+            // Another app's notification: that app opens and the notice goes.
+            if let Some(Notice { action: Some(NoticeAction::OpenApp(id)), .. }) = self.st.notice.take() {
+                shell::open_app(&id);
+            }
+            return;
+        }
         if a == InlineAction::StopAdzan {
             self.adzan.stop();
             self.st.prayer.adzan = false;
@@ -3621,7 +3666,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew | InlineAction::Open => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -3788,6 +3833,17 @@ impl App {
         }
     }
 
+    /// OK on the countdown before a prayer: the closed island goes back to
+    /// what it would show (the song and its sung line) until the prayer's
+    /// time. Its moment still comes then: `prayer_tick` doesn't look at the
+    /// countdown.
+    fn prayer_countdown_ok(&mut self) {
+        self.refresh_time();
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+            pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
+        }
+    }
+
     fn adzan_ended(&mut self) {
         self.adzan.stop();
         self.st.prayer.adzan = false;
@@ -3821,6 +3877,8 @@ impl App {
                 self.oyenza(OyenzaCmd::Refresh);
             } else if p == PageKind::Health {
                 self.oyenza(OyenzaCmd::RefreshHealth);
+            } else if p == PageKind::Notifications {
+                self.notify_cmd(NotifyCmd::Check);
             }
         }
     }
@@ -3940,10 +3998,80 @@ impl App {
                         services::cities::fetch(file, self.sink.clone());
                     }
                 }
+                Command::Notify(c) => self.notify_cmd(c),
             }
         }
         self.sync_phone_offer();
         self.sync_pair_offer();
+    }
+
+    // ------------------------------------------------------------ notifications
+
+    /// The Notifications add-on came on (`ask`: by its switch, so Windows'
+    /// question comes now) or the app started with it on.
+    fn start_notify(&mut self, ask: bool) {
+        self.st.notify_access = NotifyAccess::Unknown;
+        if self.notify.is_none() {
+            self.notify = services::notifications::Listener::start(self.sink.clone(), ask);
+        }
+    }
+
+    /// Off: stop listening (dropping the listener stops it).
+    fn stop_notify(&mut self) {
+        self.notify = None;
+        self.st.notify_access = NotifyAccess::Unknown;
+    }
+
+    fn notify_cmd(&mut self, c: NotifyCmd) {
+        match c {
+            NotifyCmd::Ask => {
+                if let Some(l) = self.notify.as_mut() {
+                    l.ask();
+                }
+            }
+            NotifyCmd::Check => {
+                if let Some(l) = self.notify.as_mut() {
+                    l.check();
+                }
+            }
+            NotifyCmd::OpenWindowsSettings => shell::open_notification_settings(),
+        }
+    }
+
+    fn on_notify(&mut self, ev: NotifyEvent) {
+        if !self.st.notifications_on() {
+            return;
+        }
+        match ev {
+            NotifyEvent::Access(a) => {
+                self.st.notify_access = a;
+                if let Some(l) = self.notify.as_mut() {
+                    l.follow(a);
+                }
+            }
+            NotifyEvent::Apps(apps) => {
+                let mut changed = false;
+                for (id, name) in apps {
+                    changed |= self.st.settings.notifications.remember(&id, &name).1;
+                }
+                if changed {
+                    self.st.cmd(Command::SaveSettings);
+                }
+            }
+            NotifyEvent::Seen(seen) => {
+                let (shows, changed) = self.st.settings.notifications.remember(&seen.app_id, &seen.app);
+                if changed {
+                    self.st.cmd(Command::SaveSettings);
+                }
+                // Nobody would see it: Windows keeps it in its own list.
+                if !shows || self.locked || self.display_off {
+                    return;
+                }
+                if let Some(n) = pages::notifications::message_notice(&seen, &self.st.settings.notifications, self.st.accent, self.st.now) {
+                    self.st.show_or_hold(n, self.fullscreen_hidden);
+                }
+            }
+        }
     }
 
     // ------------------------------------------------------------ phone drop
@@ -4369,6 +4497,20 @@ impl App {
         if let Some(h) = self.hit_at(p) {
             self.input.clicked = Some((h.id, MouseButton::Left));
         }
+    }
+
+    /// A press and release at `p` (DIPs) through the island's own mouse
+    /// messages, for what acts at mouse-down (`selftest_click` only sets the
+    /// click). Returns whether the island opened.
+    pub fn selftest_press(&mut self, p: Point) -> bool {
+        let s = self.gfx.scale();
+        let (x, y) = ((p.x * s).round() as i32 & 0xffff, (p.y * s).round() as i32 & 0xffff);
+        let lp = LPARAM(((y << 16) | x) as isize);
+        // Nothing a left press defers (the right button's menu is what does).
+        let mut deferred = Vec::new();
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut deferred);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut deferred);
+        self.expanded
     }
 
     /// The island body in window DIPs (where clicks land).

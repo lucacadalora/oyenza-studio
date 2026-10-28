@@ -54,6 +54,9 @@ features = [
     "Devices_Enumeration",
     "Devices_Bluetooth",
     "UI",
+    # The Notifications add-on: Windows' notification listener (services/notifications.rs).
+    "UI_Notifications",
+    "UI_Notifications_Management",
     "UI_ViewManagement",
     "Win32_Foundation",
     "Win32_Devices_DeviceAndDriverInstallation",

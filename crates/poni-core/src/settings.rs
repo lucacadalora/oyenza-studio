@@ -120,6 +120,9 @@ pub struct Settings {
     pub usage: UsageSettings,
     /// The Record page's choices (Oyenza Studio Recorder).
     pub record: RecordSettings,
+    /// The Notifications add-on's choices: which apps the island shows, and
+    /// whether who it's from and the message show at once.
+    pub notifications: crate::notifications::NotificationSettings,
 }
 
 /// What the AI tab shows and whether it gives heads-up notices.
@@ -236,6 +239,7 @@ impl Default for Settings {
             game_peek: false,
             usage: UsageSettings::default(),
             record: RecordSettings::default(),
+            notifications: crate::notifications::NotificationSettings::default(),
         }
     }
 }

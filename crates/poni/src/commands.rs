@@ -68,6 +68,18 @@ pub enum OyenzaCmd {
     RefreshDay,
 }
 
+/// Requests for the Notifications add-on (`services::notifications`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum NotifyCmd {
+    /// Ask Windows to let the island read notifications (its question).
+    Ask,
+    /// Look again at what Windows allows: the page opened, and the person
+    /// may have changed it in Windows' settings meanwhile.
+    Check,
+    /// Open Windows' settings for which apps may read notifications.
+    OpenWindowsSettings,
+}
+
 /// What the AI tab asks for. Hide and Show change `settings.usage`; the rest
 /// go to its worker (`services::usage`).
 #[derive(Clone, PartialEq)]
@@ -174,5 +186,7 @@ pub enum Command {
     /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
     /// answer: `AppEvent::Cities`).
     GetCities(String),
+    /// The Notifications add-on.
+    Notify(NotifyCmd),
     Usage(UsageCmd),
 }

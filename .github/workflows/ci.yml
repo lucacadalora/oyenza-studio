@@ -18,7 +18,7 @@ concurrency:
 
 env:
   # Keep in sync with Cargo.toml's workspace version, installer/poni.nsi and installer/poni.iss.
-  PONI_VERSION: "0.2.13"
+  PONI_VERSION: "0.2.15"
 
 jobs:
   core:
@@ -97,6 +97,13 @@ jobs:
       # oyenza.trade answering badly only warns.
       - name: Stocks from the live oyenza.trade
         run: cargo test -p poni --release the_live_market_comes_in -- --ignored --nocapture
+
+      # Windows reads the Bluetooth watchers' filters only when they start,
+      # and one it refused would mean no Bluetooth pop-ups at all. The runner
+      # has no Bluetooth radio: this proves Windows takes the paired-only
+      # filters as it takes its own, not which devices they let through.
+      - name: Bluetooth filters on a real Windows
+        run: cargo test -p poni --release the_paired_only_filters_work_like_windows_own -- --ignored --nocapture
 
   # The self-tests and smoke runs on three machines at once, from the
   # poni.exe built above. Each step is the same as when one machine ran them

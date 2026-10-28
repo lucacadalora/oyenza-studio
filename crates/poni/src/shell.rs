@@ -9,10 +9,13 @@
 //! only two kinds are handed to the shell: existing absolute local or UNC
 //! file-system paths, and `http`/`https` URLs. Anything else (`ms-settings:`,
 //! `javascript:`, `shell:`, relative names that would be searched on `PATH`)
-//! is logged and refused. Two fixed exceptions: Settings > Apps > Startup
-//! ([`open_startup_settings`]), a constant URI, and Oyenza Studio Recorder's
+//! is logged and refused. Fixed exceptions: Settings > Apps > Startup
+//! ([`open_startup_settings`]) and Settings > Privacy > Notifications
+//! ([`open_notification_settings`]), constant URIs; Oyenza Studio Recorder's
 //! own action links ([`open_recorder_link`]): its fixed scheme and one
-//! percent-encoded value, as `poni_core::recorder` builds them.
+//! percent-encoded value, as `poni_core::recorder` builds them; and an app
+//! by its AppUserModelID in the Apps folder ([`open_app`]), the characters
+//! of an id only.
 
 use std::sync::atomic::{AtomicUsize, Ordering};
 use windows::core::{w, HSTRING};
@@ -81,6 +84,51 @@ pub fn open_startup_settings() {
             crate::pwarn!("open failed ({}): ms-settings:startupapps", r.0 as isize);
         }
     });
+}
+
+/// Open Settings > Privacy & security > Notifications (asynchronously),
+/// where Windows lists the apps that may read notifications: the only
+/// place the Notifications add-on can be allowed again once turned off.
+pub fn open_notification_settings() {
+    run("open", || {
+        let r = unsafe { ShellExecuteW(None, w!("open"), w!("ms-settings:privacy-notifications"), None, None, SW_SHOWNORMAL) };
+        if (r.0 as isize) <= 32 {
+            crate::pwarn!("open failed ({}): ms-settings:privacy-notifications", r.0 as isize);
+        }
+    });
+}
+
+/// Open the app with this AppUserModelID the way Start does, through the
+/// Apps folder (asynchronously): a notification's Open. Only an id made of
+/// the characters ids use reaches the shell ([`app_id_ok`]).
+pub fn open_app(app_id: &str) {
+    if !app_id_ok(app_id) {
+        crate::pwarn!("open app refused (not an app id): {}", for_log(app_id));
+        return;
+    }
+    let args = format!("shell:AppsFolder\\{app_id}");
+    run("open", move || {
+        let r = unsafe { ShellExecuteW(None, w!("open"), w!("explorer.exe"), &HSTRING::from(args.as_str()), None, SW_SHOWNORMAL) };
+        if (r.0 as isize) <= 32 {
+            crate::pwarn!("open app failed ({}): {}", r.0 as isize, for_log(&args));
+        }
+    });
+}
+
+/// An AppUserModelID as Windows hands one over: a packaged app's
+/// "Family_hash!App", a desktop app's dotted name, or a path under a known
+/// folder ("{GUID}\\Folder\\app.exe"). Letters, digits, spaces and
+/// `. _ - ! { } \ ( )` only, no "..", no leading or trailing space, 255
+/// characters at most: nothing that could end explorer's argument or leave
+/// the Apps folder.
+pub(crate) fn app_id_ok(id: &str) -> bool {
+    let allowed = |c: char| c.is_alphanumeric() || matches!(c, ' ' | '.' | '_' | '-' | '!' | '{' | '}' | '\\' | '(' | ')');
+    !id.is_empty()
+        && id.chars().count() <= 255
+        && id.trim() == id
+        && !id.contains("..")
+        && !id.starts_with('\\')
+        && id.chars().all(allowed)
 }
 
 /// Show a file selected in Explorer (asynchronously).
@@ -260,6 +308,23 @@ fn for_log(s: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn app_ids_from_windows_open_and_nothing_else_does() {
+        for id in [
+            "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App",
+            "Telegram.TelegramDesktop",
+            "Microsoft.YourPhone_8wekyb3d8bbwe!App",
+            r"{6D809377-6AF0-444B-8957-A3773F02200E}\Mozilla Firefox\firefox.exe",
+            "Microsoft.Office.OUTLOOK.EXE.15",
+        ] {
+            assert!(app_id_ok(id), "{id}");
+        }
+        let long = "a".repeat(256);
+        for id in ["", " Telegram", "a\"b", "a&b", "..\\..\\Windows", r"\\server\share", "x\ny", "app:id", "a/b", long.as_str()] {
+            assert!(!app_id_ok(id), "{id}");
+        }
+    }
 
     #[test]
     fn accepts_absolute_paths() {
