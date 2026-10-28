@@ -81,7 +81,14 @@ if [ "${NOTARIZE:-1}" = 1 ]; then
     fi
     exit 1
   fi
-  xcrun stapler staple "$dmg"
+  # Stapling fetches the ticket from Apple's servers, and a runner's connection to them sometimes drops for a
+  # moment (Error 68, "The network connection was lost", 28 Oct 2026), so it gets five tries, 30 s apart.
+  for try in 1 2 3 4 5; do
+    xcrun stapler staple "$dmg" && break
+    [ "$try" -lt 5 ] || exit 1
+    echo "stapling failed (try $try of 5), again in 30 s" >&2
+    sleep 30
+  done
   xcrun stapler validate "$dmg"
   # What Gatekeeper says about a downloaded copy: "accepted", source=Notarized Developer ID.
   spctl --assess --type open --context context:primary-signature --verbose=4 "$dmg"

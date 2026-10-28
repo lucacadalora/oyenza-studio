@@ -330,9 +330,20 @@ jobs:
           ( umask 077 && printf '%s\n' "$P8" > "$NOTARY_KEY" )
           SIGN_KEYCHAIN="$KEYCHAIN" bash tools/sign_mac_dmg.sh dmg/*.dmg signed "$IDENTITY"
           echo "signed=true" >> "$GITHUB_OUTPUT"
+      # The adapter's test player, as every other smoke run has it. The first
+      # signed run (28 Oct 2026) went without and failed the browser step that
+      # the runs with it pass.
+      - uses: actions/download-artifact@v4
+        if: steps.dmg.outputs.signed == 'true'
+        with:
+          name: mediaremote-test-client
+          path: build/mediaremote
       - name: Smoke run, the signed app
         if: steps.dmg.outputs.signed == 'true'
+        env:
+          MEDIAREMOTE_TEST_CLIENT: build/mediaremote/MediaRemoteAdapterTestClient
         run: |
+          chmod +x "$MEDIAREMOTE_TEST_CLIENT"
           hdiutil attach signed/*.dmg -nobrowse -readonly -mountpoint /tmp/poni-signed
           mkdir -p dist
           cp -R /tmp/poni-signed/*.app dist/
