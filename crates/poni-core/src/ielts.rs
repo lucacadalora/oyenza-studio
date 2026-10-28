@@ -528,7 +528,9 @@ pub enum MicIssue {
 /// What went wrong, as the page says it: never a code or a status.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Problem {
-    /// 503 `paused`: switched off on the server.
+    /// 503 `paused`: switched off on the server. Also any other 404: a
+    /// server without the IELTS routes yet says what a paused one does,
+    /// not "error".
     Paused,
     /// 429 `daily_cap`: today's sessions are used.
     DailyCap,
@@ -572,6 +574,7 @@ pub fn problem(status: u16, body: &str, retry_after: Option<u64>) -> Problem {
         (_, "rate_limited") | (429, _) => Problem::TooFast,
         (_, "level_locked") => Problem::LevelLocked,
         (_, "no_session") => Problem::NoSession,
+        (404, _) => Problem::Paused,
         (_, "too_big") | (413, _) => Problem::TooBig,
         (_, "ai_busy") => Problem::Busy(wait),
         (_, "ai_failed") | (502, _) => Problem::AiFailed,
@@ -1889,6 +1892,9 @@ mod tests {
         assert_eq!(problem(429, "", None), Problem::TooFast);
         assert_eq!(problem(403, r#"{"error":"level_locked"}"#, None), Problem::LevelLocked);
         assert_eq!(problem(404, r#"{"error":"no_session"}"#, None), Problem::NoSession);
+        // A server without the routes yet reads as paused, not as an error.
+        assert_eq!(problem(404, r#"{"error":"not_found"}"#, None), Problem::Paused);
+        assert_eq!(problem(404, "Cannot GET /island/ielts/me", None), Problem::Paused);
         assert_eq!(problem(413, "", None), Problem::TooBig);
         assert_eq!(problem(503, r#"{"error":"ai_busy","retry_after":7}"#, None), Problem::Busy(Some(7)));
         assert_eq!(problem(503, r#"{"error":"ai_busy"}"#, Some(20)), Problem::Busy(Some(20)));
