@@ -732,34 +732,43 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
 
 /// The Downloads page's list for its scenes, newest first: a song waiting
 /// its turn, a film coming in from PeerTube, a private video that failed and
-/// a finished film, built as yt-dlp's lines leave them
-/// (`poni_core::downloads`); every other scene: none. No pictures, so
+/// a finished film, moved along by yt-dlp's lines as the app moves them
+/// (`poni_core::downloads::Jobs`), so the bar and the island's pill count the
+/// bytes as they do for real; every other scene: none. No pictures, so
 /// nothing is fetched, and the self-test starts no downloader.
 fn seed_downloads(st: &mut AppState, scene: Scene) {
-    use poni_core::downloads::{Job, State};
-    use poni_core::ytdlp::Mode;
+    use poni_core::downloads::{Jobs, State};
+    use poni_core::ytdlp::{Line, Mode};
     let ui = &mut st.ui.downloads;
     ui.link.clear();
     ui.mode = Mode::Video;
     ui.scroll = 0.0;
+    ui.offer = None;
+    ui.note = None;
     if !matches!(scene, Scene::Page(PageKind::Downloads) | Scene::DownloadActivity) {
-        st.downloads.list.clear();
+        st.downloads = Jobs::default();
         return;
     }
     let unix = st.unix;
-    let job = |id: u64, url: &str, mode: Mode, state: State, ago: i64| Job { id, url: url.into(), mode, title: None, site: None, thumbnail: None, state, added: unix - ago };
-    let film = State::Downloading { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) };
-    let saved = State::Done { path: "C:\\Users\\Sample\\Downloads\\Big Buck Bunny.mp4".into(), size: 332_000_000 };
-    st.downloads.list = vec![
-        job(4, "https://soundcloud.com/forss/flickermood", Mode::Audio, State::Queued, 20),
-        Job {
-            title: Some("OVERGROWN: a feature film project by Blender Studio".into()),
-            site: Some("PeerTube".into()),
-            ..job(3, "https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605", Mode::Video, film, 50)
-        },
-        job(2, "https://video.blender.org/w/4e0c1f7a-93b2-4d58-a6e1-2f8b9c3d7a51", Mode::Video, State::Failed("This video is private".into()), 4 * 60),
-        Job { title: Some("Big Buck Bunny".into()), site: Some("Internet Archive".into()), ..job(1, "https://archive.org/details/BigBuckBunny_124", Mode::Video, saved, 25 * 60) },
-    ];
+    let info = |title: &str, site: &str| Line::Info { title: title.into(), site: site.into(), thumbnail: None, duration_s: None };
+    let mut jobs = Jobs::default();
+    // Oldest first: each one goes on top of the list.
+    let bunny = jobs.add("https://archive.org/details/BigBuckBunny_124".into(), Mode::Video, unix - 25 * 60);
+    jobs.starting(bunny);
+    jobs.apply(bunny, info("Big Buck Bunny", "Internet Archive"));
+    jobs.apply(bunny, Line::Done { path: "C:\\Users\\Sample\\Downloads\\Big Buck Bunny.mp4".into() });
+    jobs.set_size(bunny, 332_000_000);
+    let private = jobs.add("https://video.blender.org/w/4e0c1f7a-93b2-4d58-a6e1-2f8b9c3d7a51".into(), Mode::Video, unix - 4 * 60);
+    // yt-dlp's private video (`ytdlp::Problem::Private`), in the page's words.
+    if let Some(job) = jobs.list.iter_mut().find(|j| j.id == private) {
+        job.state = State::Failed("This video is private".into());
+    }
+    let film = jobs.add("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605".into(), Mode::Video, unix - 50);
+    jobs.starting(film);
+    jobs.apply(film, info("OVERGROWN: a feature film project by Blender Studio", "PeerTube"));
+    jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
+    jobs.add("https://soundcloud.com/forss/flickermood".into(), Mode::Audio, unix - 20);
+    st.downloads = jobs;
 }
 
 /// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
