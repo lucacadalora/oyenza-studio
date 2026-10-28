@@ -928,16 +928,23 @@ mod tests {
 
     #[test]
     fn info_and_files_keep_their_letters() {
-        // `j` writes non-ASCII as \u escapes; Windows paths' backslashes doubled.
-        let info = r#"{"t":"info","id":"abc123","title":"F\u00eate des Lumi\u00e8res \u2014 \u65e5\u672c\u8a9e \"live\"","site":"generic","domain":"www.example.org","thumb":"https://example.org/p.jpg","duration":596.46}"#;
+        // Recorded with these arguments and our FFmpeg (29 Oct 2026), joining
+        // two local files (`--load-info-json`): `j` writes non-ASCII as \u
+        // escapes, yt-dlp's own lines as UTF-8, and the name swaps `"` for `＂`.
+        let info = r#"{"t":"info","id":"local-mp4","title":"F\u00eate \u2014 \u65e5\u672c\u8a9e \"merge\" test","site":"generic","domain":"example.invalid","thumb":null,"duration":3}"#;
         assert_eq!(
             parse(info),
-            Some(Line::Info {
-                title: "Fête des Lumières — 日本語 \"live\"".into(),
-                site: "example.org".into(),
-                thumbnail: Some("https://example.org/p.jpg".into()),
-                duration_s: Some(596.46),
-            })
+            Some(Line::Info { title: "Fête — 日本語 \"merge\" test".into(), site: "example.invalid".into(), thumbnail: None, duration_s: Some(3.0) })
+        );
+        assert_eq!(parse(r#"[Merger] Merging formats into "<dir>/Fête — 日本語 ＂merge＂ test [local-mp4].mp4""#), Some(Line::Stage(Stage::Merging)));
+        assert_eq!(
+            parse(r#"{"t":"done","path":"<dir>/F\u00eate \u2014 \u65e5\u672c\u8a9e \uff02merge\uff02 test [local-mp4].mp4"}"#),
+            Some(done("<dir>/Fête — 日本語 ＂merge＂ test [local-mp4].mp4"))
+        );
+        // The sound alone, under its own name (Audio on the Blender film).
+        assert_eq!(
+            parse(r#"{"t":"done","path":"<dir>/OVERGROWN\uff1a a feature film project by Blender Studio [b29290cc-dc51-4a12-bcb2-2aa5fece7605] (audio).mp4"}"#),
+            Some(done("<dir>/OVERGROWN： a feature film project by Blender Studio [b29290cc-dc51-4a12-bcb2-2aa5fece7605] (audio).mp4"))
         );
         // The site's own names, as the preview says them.
         let site = |site: &str, domain: &str| match parse(&format!(r#"{{"t":"info","title":"x","site":"{site}","domain":"{domain}","thumb":null,"duration":null}}"#)) {
