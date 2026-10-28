@@ -1209,6 +1209,10 @@ enum Scene {
     NotesActivity,
     /// Meeting notes signed in without Studio Pro: the Pro card.
     NotesPro,
+    /// The Add-ons page signed out where the Downloader is offered, its
+    /// tools in place from before: the Downloader and Notifications stay
+    /// off, each saying "Sign in with your Oyenza account".
+    AddonsPro,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1256,7 +1260,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 132] = [
+const SCENES: [Scene; 133] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1430,6 +1434,8 @@ const SCENES: [Scene; 132] = [
     Scene::NotesReady,
     Scene::NotesActivity,
     Scene::NotesPro,
+    // The Downloader's and Notifications' rows signed out, without Pro.
+    Scene::AddonsPro,
 ];
 
 impl Scene {
@@ -1546,6 +1552,7 @@ impl Scene {
             Scene::NotesReady => "page-notes-ready".into(),
             Scene::NotesActivity => "notes-activity".into(),
             Scene::NotesPro => "page-notes-pro".into(),
+            Scene::AddonsPro => "page-addons-pro".into(),
         }
     }
 
@@ -1584,7 +1591,7 @@ impl Scene {
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::RecordLive => Some(PageKind::Record),
-            Scene::AddonsRecorder | Scene::AddonsDownloader => Some(PageKind::Addons),
+            Scene::AddonsRecorder | Scene::AddonsDownloader | Scene::AddonsPro => Some(PageKind::Addons),
             Scene::DownloadsEmpty => Some(PageKind::Downloads),
             Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
             Scene::Ai(_) => Some(PageKind::Ai),
@@ -1599,7 +1606,7 @@ impl Scene {
     /// The Downloader is offered (Windows outside the Store build), in its
     /// own scenes only: the other Add-ons pictures keep their rows.
     fn downloader(self) -> bool {
-        matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity)
+        matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity | Scene::AddonsPro)
     }
 
     /// Signed in to an account with Studio Pro: the Downloader's and
@@ -3080,7 +3087,8 @@ impl SelfTest {
         seed_stocks(st, scene, now);
         // The Downloader: offered in its own scenes, and on there (its tools
         // in place, so the tab shows) except on the Add-ons page, whose row
-        // shows it off. Its setting stays as it is, as for Prayer times above.
+        // shows it off; signed out (`AddonsPro`) it stays off all the same.
+        // Its setting stays as it is, as for Prayer times above.
         st.downloader_offered = scene.downloader();
         let tab = scene.downloader() && scene != Scene::AddonsDownloader;
         st.addons.insert(DOWNLOADER.id, if tab { AddonStatus::Ready } else { AddonStatus::Off });
@@ -3369,9 +3377,10 @@ impl SelfTest {
             checks.push(check("recording-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {}, Windows build {build:?}", if hidden { "left out of capture" } else { "in capture" })));
         }
         if scene.downloader() {
-            // The Downloads tab shows once the Downloader is on, not while it's off.
+            // The Downloads tab shows once the Downloader is on, not while
+            // it's off, nor without Pro with its tools in place.
             let shown = pages::tabs(&app.st).contains(&PageKind::Downloads);
-            let want = scene != Scene::AddonsDownloader;
+            let want = !matches!(scene, Scene::AddonsDownloader | Scene::AddonsPro);
             checks.push(check("downloads-tab", shown == want, format!("Downloads tab shown: {shown}, want {want}")));
         }
 
