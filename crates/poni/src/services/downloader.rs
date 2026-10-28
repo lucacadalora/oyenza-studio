@@ -140,11 +140,13 @@ fn download(req: &Request, run: &Run, runs: &Runs, sink: &EventSink) -> bool {
     let id = req.id;
     let tool = |name: &str| crate::services::addons::file_path(&DOWNLOADER, name).to_string_lossy().into_owned();
     let (ytdlp, qjs, ffmpeg) = (tool(YTDLP_EXE), tool(QJS_EXE), tool(FFMPEG_EXE));
-    let data = crate::paths::addons_dir().join(DOWNLOADER.id);
-    let cache = data.join("cache");
-    // Next to the cache: switching the add-on off deletes both, and so does
-    // its check at start, before the Downloads tab can open.
-    let temps = data.join("tmp");
+    // yt-dlp's cache (YouTube's solved players: QuickJS is slow at them)
+    // sits with this version's tools, so it lasts while the add-on stays on
+    // and goes when it is switched off or its tools change.
+    let cache = crate::services::addons::file_path(&DOWNLOADER, "cache");
+    // Outside the version folder: the add-on's check at start clears it, and
+    // switching the add-on off deletes it.
+    let temps = crate::paths::addons_dir().join(DOWNLOADER.id).join("tmp");
     sweep(&temps, runs);
     let temp = temps.join(id.to_string());
     let args = ytdlp::args(req, &Tools { ytdlp: &ytdlp, qjs: &qjs, ffmpeg: &ffmpeg, cache: &cache.to_string_lossy() });
