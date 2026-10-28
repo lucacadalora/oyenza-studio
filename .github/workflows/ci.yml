@@ -98,6 +98,13 @@ jobs:
       - name: Stocks from the live oyenza.trade
         run: cargo test -p poni --release the_live_market_comes_in -- --ignored --nocapture
 
+      # Windows reads the Bluetooth watchers' filters only when they start,
+      # and one it refused would mean no Bluetooth pop-ups at all. The runner
+      # has no Bluetooth radio: this proves Windows takes the paired-only
+      # filters as it takes its own, not which devices they let through.
+      - name: Bluetooth filters on a real Windows
+        run: cargo test -p poni --release the_paired_only_filters_work_like_windows_own -- --ignored --nocapture
+
   # The self-tests and smoke runs on three machines at once, from the
   # poni.exe built above. Each step is the same as when one machine ran them
   # all in a row; `group` says which machine runs it:
