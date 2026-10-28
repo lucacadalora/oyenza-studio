@@ -1228,9 +1228,12 @@ mod tests {
         st.downloads.add(url.into(), poni_core::ytdlp::Mode::Video, 0)
     }
 
-    /// The Downloader on, with `n` downloads starting (no size known yet).
+    /// The Downloader on for an account with Studio Pro, with `n` downloads
+    /// starting (no size known yet).
     fn with_downloads(mut st: AppState, n: usize) -> AppState {
         st.downloader_offered = true;
+        st.oyenza.link = crate::state::OyenzaLink::Connected { account: "a•••@example.com".into() };
+        st.oyenza.pro = Some(true);
         st.addons.insert(poni_core::addons::DOWNLOADER.id, poni_core::addons::Status::Ready);
         for i in 0..n {
             let id = add(&mut st, &format!("https://video.blender.org/w/{i}"));
@@ -1260,6 +1263,10 @@ mod tests {
         let mut mac = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
         mac.downloader_offered = false;
         assert_eq!(current_activity(&mac), None);
+        // Nor for an account without Studio Pro.
+        let mut free = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        free.oyenza.pro = Some(false);
+        assert_eq!(current_activity(&free), None);
     }
 
     #[test]

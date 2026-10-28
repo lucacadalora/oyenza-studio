@@ -846,7 +846,6 @@ mod tests {
             (PageKind::System, poni_core::addons::SYSTEM),
             (PageKind::Health, poni_core::addons::HEALTH),
             (PageKind::Stocks, poni_core::addons::STOCKS),
-            (PageKind::Notifications, poni_core::addons::NOTIFICATIONS),
         ] {
             let mut st = state();
             assert!(!tabs(&st).contains(&page), "{} is off for everyone until switched on", addon.id);
@@ -859,6 +858,31 @@ mod tests {
             assert_eq!(AppState::new(settings.clone(), store.clone()).page, PageKind::ALL[0]);
             settings.set_addon(addon.id, true);
             assert_eq!(AppState::new(settings, store).page, page);
+        }
+    }
+
+    #[test]
+    fn notifications_and_downloads_have_a_tab_only_with_studio_pro() {
+        for (page, addon) in [(PageKind::Notifications, poni_core::addons::NOTIFICATIONS), (PageKind::Downloads, poni_core::addons::DOWNLOADER)] {
+            let mut st = state();
+            st.downloader_offered = true;
+            st.settings.set_addon(addon.id, true);
+            st.addons.insert(addon.id, poni_core::addons::Status::Ready);
+            assert!(!tabs(&st).contains(&page), "{}: signed out", addon.id);
+            st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+            assert!(!tabs(&st).contains(&page), "{}: before the server's answer", addon.id);
+            st.oyenza.pro = Some(false);
+            assert!(!tabs(&st).contains(&page), "{}: an account without Pro", addon.id);
+            st.oyenza.pro = Some(true);
+            assert!(tabs(&st).contains(&page), "{}", addon.id);
+            // Signed out again: gone, whatever the server said before.
+            st.oyenza.link = OyenzaLink::Off;
+            assert!(!tabs(&st).contains(&page), "{}", addon.id);
+            // Pro isn't known yet at start: an island last open on its page opens on the first tab.
+            let store = Store { last_page: page.key().into(), ..Store::default() };
+            let mut settings = Settings { remember_page: true, ..Settings::default() };
+            settings.set_addon(addon.id, true);
+            assert_eq!(AppState::new(settings, store).page, PageKind::ALL[0], "{}", addon.id);
         }
     }
 

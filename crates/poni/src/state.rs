@@ -1010,15 +1010,17 @@ impl AppState {
         self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
     }
 
-    /// The Downloader add-on is on, with its tools in place: the Downloads tab shows.
+    /// The Downloader add-on is on, with its tools in place, for an account
+    /// with Studio Pro: the Downloads tab shows.
     pub fn downloader_on(&self) -> bool {
-        self.downloader_offered && self.addon(poni_core::addons::DOWNLOADER.id) == AddonStatus::Ready
+        self.downloader_offered && self.studio_pro() == Some(true) && self.addon(poni_core::addons::DOWNLOADER.id) == AddonStatus::Ready
     }
 
-    /// The Notifications add-on is on (Windows): its tab shows, and new
-    /// notifications from the apps picked there show on the island.
+    /// The Notifications add-on is on (Windows), for an account with Studio
+    /// Pro: its tab shows, and new notifications from the apps picked there
+    /// show on the island.
     pub fn notifications_on(&self) -> bool {
-        cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
+        cfg!(windows) && self.studio_pro() == Some(true) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
     }
 
     /// Settings took this page's tab off the header's row (Music, Today,
