@@ -339,11 +339,16 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
     }
 }
 
-/// The letter on a download's badge: its site's, as yt-dlp names it, or its
-/// link's until yt-dlp has said.
+/// The letter on a download's badge: its link's site's ("V" for
+/// video.blender.org), for the row's whole life. Not yt-dlp's name for the
+/// site (`Job::site`): that comes only once yt-dlp starts, and some sites it
+/// names by their software or owner (a PeerTube server is "PeerTube",
+/// archive.org "Internet Archive"), so the letter would change halfway, V to
+/// P. Before yt-dlp starts only the link tells the site, and it never
+/// changes; the preview names a site from its address alone the same way
+/// (`ytdlp_info::site_name` with no extractor gives the domain).
 fn badge_letter(job: &Job) -> Option<String> {
-    let site = job.site.as_deref().map(str::trim).filter(|s| !s.is_empty());
-    site.unwrap_or_else(|| host(&job.url)).chars().find(|c| c.is_alphanumeric()).map(|c| c.to_uppercase().collect())
+    host(&job.url).chars().find(|c| c.is_alphanumeric()).map(|c| c.to_uppercase().collect())
 }
 
 /// A link as its row shows it until the title comes: without "https://" or
@@ -354,10 +359,11 @@ fn link_text(url: &str) -> &str {
     rest[..end].rfind('@').map_or(rest, |at| &rest[at + 1..])
 }
 
-/// The link's site ("video.blender.org"), without "www." or the port.
+/// The link's site ("video.blender.org"), without "www." or a phone's "m."
+/// (m.youtube.com is youtube.com), or the port.
 fn host(url: &str) -> &str {
     let h = link_text(url).split(['/', '?', '#', ':']).next().unwrap_or("");
-    h.strip_prefix("www.").unwrap_or(h)
+    h.strip_prefix("www.").or_else(|| h.strip_prefix("m.")).unwrap_or(h)
 }
 
 /// A Small capsule drawn inert (Focus's and Record's look at the small
@@ -399,10 +405,15 @@ mod tests {
     }
 
     #[test]
-    fn the_badge_has_the_site_s_letter_or_the_link_s() {
+    fn the_badge_keeps_the_link_s_letter_once_yt_dlp_names_the_site() {
         let letter = |url, site| badge_letter(&job(url, site));
-        assert_eq!(letter("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605", Some("PeerTube")).as_deref(), Some("P"));
-        assert_eq!(letter("https://www.youtube.com/watch?v=x", None).as_deref(), Some("Y"), "until yt-dlp names the site");
+        let film = "https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605";
+        assert_eq!(letter(film, None).as_deref(), Some("V"), "before yt-dlp starts");
+        assert_eq!(letter(film, Some("PeerTube")).as_deref(), Some("V"), "and after: never P");
+        assert_eq!(letter("https://archive.org/details/BigBuckBunny_124", Some("Internet Archive")).as_deref(), Some("A"));
+        assert_eq!(letter("https://www.youtube.com/watch?v=x", None).as_deref(), Some("Y"));
+        assert_eq!(letter("https://m.youtube.com/watch?v=x", Some("YouTube")).as_deref(), Some("Y"), "a phone's link, the same site");
+        assert_eq!(letter("https://music.youtube.com/watch?v=x", None).as_deref(), Some("M"));
         assert_eq!(letter("http://video.blender.org:443/w/b29", Some(" ")).as_deref(), Some("V"));
         assert_eq!(link_text("https://archive.org/details/BigBuckBunny_124"), "archive.org/details/BigBuckBunny_124");
         assert_eq!(link_text("https://me:secret@archive.org/details/x@y"), "archive.org/details/x@y", "never a password");
