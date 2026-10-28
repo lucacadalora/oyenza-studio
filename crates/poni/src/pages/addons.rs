@@ -17,11 +17,16 @@
 //! once Oyenza Studio Recorder is installed, and Notifications, which only
 //! Windows has ([`rows`]). Eight rows (the recorder's with them) are one
 //! line each: the name, then the line after it.
+//!
+//! A Studio Pro add-on's row says Pro where its size was. The Downloader's
+//! and Notifications' switches work only with Pro ([`needs_pro`]); without
+//! it they stay off, the line says why, and a click helps ([`NoPro`]).
 
-use crate::commands::Command;
+use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
-use crate::state::AppState;
+use crate::pages::PageKind;
+use crate::state::{AppState, OyenzaLink};
 use crate::ui::{wid_n, Ui};
 use poni_core::addons::{self, Addon, Status};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -92,12 +97,50 @@ pub fn pro_wanted(st: &AppState) -> bool {
     rows(st).iter().any(|a| needs_pro(a) && st.settings.addon_on(a.id))
 }
 
+/// Why the Downloader's or Notifications' switch doesn't work for this
+/// account: what the row says instead, beside its Pro, and what a click does.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum NoPro {
+    /// Signed out: a click opens the Oyenza page, where signing in is.
+    SignIn,
+    /// The server says this account has no Pro: a click asks again (it may
+    /// have just come).
+    NotHere,
+    /// No word from the server yet (just signed in, offline): a click asks again.
+    Checking,
+}
+
+impl NoPro {
+    fn line(self) -> &'static str {
+        match self {
+            NoPro::SignIn => "Sign in with your Oyenza account",
+            NoPro::NotHere => "Not on this account yet",
+            NoPro::Checking => "Checking your account",
+        }
+    }
+}
+
+/// Why `a` can't be switched on here (None: it can).
+fn no_pro(st: &AppState, a: &Addon) -> Option<NoPro> {
+    if !needs_pro(a) {
+        return None;
+    }
+    match (&st.oyenza.link, st.studio_pro()) {
+        (_, Some(true)) => None,
+        (OyenzaLink::Connected { .. }, Some(false)) => Some(NoPro::NotHere),
+        (OyenzaLink::Connected { .. }, None) => Some(NoPro::Checking),
+        _ => Some(NoPro::SignIn),
+    }
+}
+
 fn row_h(n: usize) -> f32 {
     ((MAX_H - ROWS_Y) / n.max(1) as f32).floor().min(ROW_H)
 }
 
 /// Where `a` stands: Screen recorder follows the recorder's install
-/// (`Settings::recorder_on`); the others, their own switch and download.
+/// (`Settings::recorder_on`); the Downloader and Notifications are off
+/// without Pro, even switched on before; the others, their own switch and
+/// download.
 fn status(st: &AppState, a: &Addon) -> Status {
     if a.id == addons::SCREEN_RECORDER.id {
         if st.record_on() {
@@ -105,6 +148,8 @@ fn status(st: &AppState, a: &Addon) -> Status {
         } else {
             Status::Off
         }
+    } else if no_pro(st, a).is_some() {
+        Status::Off
     } else {
         st.addon(a.id)
     }
@@ -139,12 +184,17 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * h, area.w, h);
         if addon_row(ui, st, row, i, a, card) {
             let on = status(st, a).is_on();
-            if !on && !a.pinned() {
+            match no_pro(st, a) {
+                Some(NoPro::SignIn) => st.cmd(Command::SetPage(PageKind::Oyenza)),
+                Some(NoPro::NotHere | NoPro::Checking) => st.cmd(Command::Oyenza(OyenzaCmd::CheckPro)),
                 // This build can't get its files: it stays off, and its line says why.
-                st.addons.insert(a.id, Status::Unpinned);
-            } else {
-                st.settings.set_addon(a.id, !on);
-                st.cmd(Command::SaveSettings);
+                None if !on && !a.pinned() => {
+                    st.addons.insert(a.id, Status::Unpinned);
+                }
+                None => {
+                    st.settings.set_addon(a.id, !on);
+                    st.cmd(Command::SaveSettings);
+                }
             }
         }
     }
@@ -190,10 +240,11 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     let w = (text_right - x).max(0.0);
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
     // Screen recorder came on with the recorder, not by a click here: say so.
-    let line = if a.id == addons::SCREEN_RECORDER.id && status == Status::Ready {
-        "On, since Oyenza Studio Recorder is installed".to_string()
-    } else {
-        status.line(a, MAC)
+    // The Downloader and Notifications without Pro say why they stay off.
+    let line = match no_pro(st, a) {
+        Some(n) => n.line().to_string(),
+        None if a.id == addons::SCREEN_RECORDER.id && status == Status::Ready => "On, since Oyenza Studio Recorder is installed".to_string(),
+        None => status.line(a, MAC),
     };
     let bar_y = if one_line {
         // The name, then the line after it while there is room.
@@ -236,5 +287,35 @@ mod tests {
         assert_eq!(rows(&st).len(), without + 2);
         assert!(height(&st) <= MAX_H, "the window never grows for this page");
         assert!(row_h(rows(&st).len()) < TWO_LINES, "that many rows are a line each");
+    }
+
+    #[test]
+    fn the_downloader_and_notifications_switch_only_with_studio_pro() {
+        use poni_core::addons::{DOWNLOADER, MEETING_NOTES, NOTIFICATIONS};
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.downloader_offered = true;
+        assert!(!pro_wanted(&st), "nothing to ask about at sign-in");
+        // The Downloader switched on before, its tools in place.
+        st.settings.set_addon(DOWNLOADER.id, true);
+        st.addons.insert(DOWNLOADER.id, Status::Ready);
+        assert!(pro_wanted(&st));
+        let line = |st: &AppState, a| no_pro(st, a).map(NoPro::line);
+        for a in [&DOWNLOADER, &NOTIFICATIONS] {
+            assert_eq!(line(&st, a), Some("Sign in with your Oyenza account"), "{}", a.id);
+            assert_eq!(status(&st, a), Status::Off, "{}: stays off", a.id);
+        }
+        st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+        assert_eq!(line(&st, &DOWNLOADER), Some("Checking your account"));
+        st.oyenza.pro = Some(false);
+        assert_eq!(line(&st, &DOWNLOADER), Some("Not on this account yet"));
+        assert_eq!(status(&st, &DOWNLOADER), Status::Off);
+        st.oyenza.pro = Some(true);
+        assert_eq!(no_pro(&st, &DOWNLOADER), None);
+        assert_eq!(status(&st, &DOWNLOADER), Status::Ready);
+        // Meeting notes switches on for anyone (its page says what Pro is),
+        // as does every add-on that isn't Pro.
+        st.oyenza = Default::default();
+        assert_eq!(no_pro(&st, &MEETING_NOTES), None);
+        assert!(addons::ALL.iter().filter(|a| !a.pro).all(|a| no_pro(&st, a).is_none()));
     }
 }
