@@ -214,14 +214,15 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     // eight are a line each.
     let one_line = r.h < TWO_LINES;
     let (badge, dy) = if one_line {
-        (BADGE_ONE_LINE, 0.0)
+        // Eleven rows are 20 DIPs: the badge keeps a DIP clear above and below.
+        (BADGE_ONE_LINE.min(r.h - 2.0), 0.0)
     } else if r.h < ROW_H {
         (BADGE_COMPACT, ((r.h - ROW_H) / 2.0).round())
     } else {
         (BADGE, 0.0)
     };
     ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), badge / 2.0, accent.with_alpha(0.18));
-    let glyph = if one_line { 14.0 } else { 18.0 };
+    let glyph = if one_line { 14.0f32.min(r.h - 8.0) } else { 18.0 };
     ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), glyph, glyph), accent);
 
     let sw = Rect::new(r.right() - SWITCH_W, cy - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
@@ -286,7 +287,9 @@ mod tests {
         st.downloader_offered = true;
         assert_eq!(rows(&st).len(), without + 2);
         assert!(height(&st) <= MAX_H, "the window never grows for this page");
-        assert!(row_h(rows(&st).len()) < TWO_LINES, "that many rows are a line each");
+        let h = row_h(rows(&st).len());
+        assert!(h < TWO_LINES, "that many rows are a line each");
+        assert!(BADGE_ONE_LINE.min(h - 2.0) + 2.0 <= h, "{h} DIPs: the badges keep apart");
     }
 
     #[test]
