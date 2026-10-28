@@ -480,6 +480,9 @@ pub struct OyenzaState {
     pub agenda_state: AgendaState,
     /// Signing in started from the Today page: back to it once connected.
     pub from_today: bool,
+    /// Whether the account has Studio Pro, as the server last said (None:
+    /// not asked yet). Signing out forgets it with the rest.
+    pub pro: Option<bool>,
 }
 
 
@@ -1012,6 +1015,14 @@ impl AppState {
     /// The IELTS add-on is on: the IELTS tab shows.
     pub fn ielts_on(&self) -> bool {
         self.addon(poni_core::addons::IELTS.id) == AddonStatus::Ready
+    }
+
+    /// The signed-in account has Studio Pro, as the server last said.
+    pub fn studio_pro(&self) -> Option<bool> {
+        match self.oyenza.link {
+            OyenzaLink::Connected { .. } => self.oyenza.pro,
+            _ => Some(false),
+        }
     }
 
     /// The Meeting notes add-on is on (Windows): the Notes tab shows.

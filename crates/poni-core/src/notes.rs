@@ -269,6 +269,8 @@ pub enum Problem {
     /// The app closed on a meeting (a crash, a restart, the PC turned off)
     /// before its notes were written: its recording was kept.
     Unfinished,
+    /// 403 `pro_required`: this Oyenza account doesn't have Studio Pro.
+    ProRequired,
     /// Any other status, or an answer that couldn't be read.
     Server,
     Capture(CaptureIssue),
@@ -284,6 +286,7 @@ pub fn problem(status: u16, body: &str, retry_after: Option<u64>) -> Problem {
         (_, "paused") => Problem::Paused,
         (_, "daily_cap") => Problem::DailyCap,
         (_, "too_long") => Problem::TooLong,
+        (_, "pro_required") => Problem::ProRequired,
         (_, "nothing_heard") => Problem::NothingHeard,
         (_, "no_notes") | (404, _) => Problem::Gone,
         (_, "ai_busy") | (429, _) | (503, _) => Problem::Busy(wait),
@@ -302,6 +305,7 @@ impl Problem {
             Problem::AiFailed | Problem::Server | Problem::Gone | Problem::TooSlow => "Oyen couldn't write the notes",
             Problem::NothingHeard => "Oyen didn't hear anyone",
             Problem::Unfinished => "Your last meeting isn't written up",
+            Problem::ProRequired => "Meeting notes are part of Studio Pro",
             Problem::Offline => "Can't reach Oyenza",
             Problem::SignedOut => "You're signed out of Oyenza",
             Problem::Capture(CaptureIssue::MicDenied) => "The microphone is blocked",
@@ -322,6 +326,7 @@ impl Problem {
             Problem::AiFailed | Problem::Server | Problem::Gone | Problem::TooSlow => "Your recording is kept. Try again.".into(),
             Problem::NothingHeard => "Was the call muted? Check that the bars move next time.".into(),
             Problem::Unfinished => "Its recording was kept when Oyenza Studio closed. Write it up now, or throw it away.".into(),
+            Problem::ProRequired => "This Oyenza account doesn't have Pro. Your recording is kept.".into(),
             Problem::Offline => "Your recording is kept. Check the internet, then try again.".into(),
             Problem::SignedOut => "Sign in to Oyenza again: your recording is kept.".into(),
             Problem::Capture(CaptureIssue::MicDenied) => "Turn on microphone access for desktop apps in Windows Settings.".into(),
@@ -615,6 +620,7 @@ mod tests {
         assert_eq!(problem(429, r#"{"error":"daily_cap","used_min":240,"cap_min":240}"#, None), Problem::DailyCap);
         assert_eq!(problem(503, r#"{"error":"ai_busy","retry_after":17}"#, None), Problem::Busy(Some(17)));
         assert_eq!(problem(404, r#"{"error":"no_notes"}"#, None), Problem::Gone);
+        assert_eq!(problem(403, r#"{"error":"pro_required"}"#, None), Problem::ProRequired);
         assert_eq!(problem(500, "", None), Problem::Server);
         assert!(Problem::Gone.retryable() && Problem::Offline.retryable());
         assert!(!Problem::NothingHeard.retryable() && !Problem::TooLong.retryable());

@@ -17,7 +17,7 @@
 //! line each: the name, then the line after it.
 
 use crate::commands::Command;
-use crate::gfx::TextStyle;
+use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::state::AppState;
 use crate::ui::{wid_n, Ui};
@@ -154,8 +154,8 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     // The size, while there is a choice to make.
     let mut text_right = sw.x - 16.0;
     if status == Status::Off {
-        let size = if a.downloads() { fmt_bytes(a.size()) } else { "Built in".to_string() };
-        let style = TextStyle::footnote().color(palette::TEXT_DIM).right();
+        let size = if a.pro { "Pro".to_string() } else if a.downloads() { fmt_bytes(a.size()) } else { "Built in".to_string() };
+        let style = if a.pro { TextStyle::footnote().weight(Weight::Semibold).color(crate::oyen::ORANGE).right() } else { TextStyle::footnote().color(palette::TEXT_DIM).right() };
         let w = ui.c.measure(&size, &style, 200.0).0.ceil();
         ui.c.text(&size, Rect::new(sw.x - 10.0 - w, r.y, w, r.h), &style);
         text_right = sw.x - 10.0 - w - 16.0;

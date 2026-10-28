@@ -66,6 +66,9 @@ pub enum OyenzaCmd {
     RefreshHealth,
     /// Today's Try again: the day, now (unless just asked for).
     RefreshDay,
+    /// A Pro add-on's page, or Add-ons, opened: whether the account has
+    /// Studio Pro, now (unless just asked).
+    CheckPro,
 }
 
 /// Requests for the Notifications add-on (`services::notifications`).

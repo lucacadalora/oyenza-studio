@@ -814,6 +814,10 @@ fn seed_notes(st: &mut AppState, scene: Scene, now: f64) {
     st.notes = Taker::default();
     st.ui.notes_kept = false;
     st.ui.notes_note = None;
+    // Studio Pro, as the server would say: on for the notes' own scenes.
+    if st.oyenza.link != crate::state::OyenzaLink::Off {
+        st.oyenza.pro = Some(scene.page() == Some(PageKind::Notes) && scene != Scene::NotesPro);
+    }
     match scene {
         Scene::Page(PageKind::Notes) => st.notes.last = Some(sample_notes()),
         Scene::NotesListening | Scene::NotesActivity => {
@@ -1153,6 +1157,8 @@ enum Scene {
     NotesReady,
     /// Meeting notes on the closed island: Oyen listening, 12:34 in.
     NotesActivity,
+    /// Meeting notes signed in without Studio Pro: the Pro card.
+    NotesPro,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1200,7 +1206,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 127] = [
+const SCENES: [Scene; 128] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1366,6 +1372,7 @@ const SCENES: [Scene; 127] = [
     Scene::NotesWriting,
     Scene::NotesReady,
     Scene::NotesActivity,
+    Scene::NotesPro,
 ];
 
 impl Scene {
@@ -1478,6 +1485,7 @@ impl Scene {
             Scene::NotesWriting => "page-notes-writing".into(),
             Scene::NotesReady => "page-notes-ready".into(),
             Scene::NotesActivity => "notes-activity".into(),
+            Scene::NotesPro => "page-notes-pro".into(),
         }
     }
 
@@ -1522,7 +1530,7 @@ impl Scene {
             Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
                 Some(PageKind::Ielts)
             }
-            Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady => Some(PageKind::Notes),
+            Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady | Scene::NotesPro => Some(PageKind::Notes),
             _ => None,
         }
     }
@@ -1583,6 +1591,7 @@ impl Scene {
                 | Scene::NotesListening
                 | Scene::NotesWriting
                 | Scene::NotesReady
+                | Scene::NotesPro
         )
     }
 

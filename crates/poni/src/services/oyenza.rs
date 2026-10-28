@@ -184,6 +184,10 @@ struct Worker {
     next_day: Instant,
     day_asked: Option<Instant>,
     was_today: bool,
+    /// Studio Pro: asked when a Pro add-on's page or Add-ons opens (never
+    /// on a timer), and when it was last asked.
+    next_pro: Option<Instant>,
+    pro_asked: Option<Instant>,
     fails: u32,
     /// A key whose disconnect couldn't reach the server yet.
     revoke: Option<String>,
@@ -214,6 +218,8 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink) {
         next_day: now,
         day_asked: None,
         was_today: false,
+        next_pro: None,
+        pro_asked: None,
         fails: 0,
         revoke: None,
         next_revoke: now,
@@ -313,6 +319,9 @@ impl Worker {
             if a.today {
                 consider(self.next_day);
             }
+            if let Some(t) = self.next_pro {
+                consider(t);
+            }
         }
         if self.revoke.is_some() && a.in_use {
             consider(self.next_revoke);
@@ -354,6 +363,12 @@ impl Worker {
                     self.health_page = true;
                 }
             }
+            OyenzaCmd::CheckPro => {
+                let now = Instant::now();
+                if self.link.is_some() && self.pro_asked.is_none_or(|t| now - t >= REFRESH_GAP) {
+                    self.next_pro = Some(now);
+                }
+            }
         }
     }
 
@@ -380,6 +395,9 @@ impl Worker {
             }
             if self.link.is_some() && a.today && Instant::now() >= self.next_day {
                 self.poll_day();
+            }
+            if self.link.is_some() && self.next_pro.is_some_and(|t| Instant::now() >= t) {
+                self.poll_pro();
             }
         }
         if self.revoke.is_some() && a.in_use && Instant::now() >= self.next_revoke {
@@ -640,6 +658,24 @@ impl Worker {
             crate::pinfo!("oyenza: {said}");
         }
         self.send(OyenzaEvent::Health(health));
+    }
+
+    /// Whether the account has Studio Pro: asked once a page needs it.
+    fn poll_pro(&mut self) {
+        self.next_pro = None;
+        let Some(key) = self.link.as_ref().map(|l| l.key.clone()) else { return };
+        self.pro_asked = Some(Instant::now());
+        match self.call(Method::Get, &oyenza::pro_url(), Some(&key), None, TIMEOUT) {
+            Ok(r) if r.status == 200 => match oyenza::parse_pro(&r.body) {
+                Some(pro) => self.send(OyenzaEvent::Pro(pro)),
+                None => crate::pwarn!("oyenza: Pro check: unreadable answer"),
+            },
+            // A server from before Studio Pro: nobody has it there.
+            Ok(r) if r.status == 404 => self.send(OyenzaEvent::Pro(false)),
+            Ok(r) if r.status == 401 => self.signed_out_by_server(),
+            Ok(r) => crate::pwarn!("oyenza: Pro check: HTTP {}", r.status),
+            Err(e) => crate::pwarn!("oyenza: Pro check: {e}"),
+        }
     }
 
     /// The Today page's day, from the apps switched on in oyenza.app.

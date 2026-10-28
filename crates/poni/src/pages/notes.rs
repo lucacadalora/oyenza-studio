@@ -3,6 +3,8 @@
 //! its notes (`poni_core::notes`).
 //!
 //! - Signed out: the Oyenza sign-in card, saying what the notes do.
+//! - Signed in without Studio Pro (the server's word, `GET /island/pro`):
+//!   what the notes do and that they're part of Pro; nothing records.
 //! - Before a meeting: Oyen beside the record button, what he hears (the
 //!   microphone and the PC's own sound: a call in Meet, Zoom or Teams, with
 //!   no bot joining it), and the notes saved last with Open.
@@ -71,6 +73,12 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         super::oyenza::sign_in_card(ui, st, card, SIGN_IN_TITLE, SIGN_IN_BODY, "notes.sign-in");
         return;
     }
+    // Without Pro nothing records (a meeting under way, or kept, still finishes:
+    // the server says if it can't write it up).
+    if st.studio_pro() == Some(false) && st.notes.phase == Phase::Idle && !st.ui.notes_kept {
+        draw_pro(ui, st, Rect::new(area.x, area.y, area.w, HEIGHT));
+        return;
+    }
     // Fixed layout height: the island's spring may still be opening.
     let area = Rect::new(area.x, area.y, area.w, HEIGHT);
     let left = Rect::new(area.x, area.y, LEFT_W, area.h);
@@ -95,6 +103,26 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         Phase::Writing { since } => draw_writing(ui, st, right, since),
         Phase::Ready => draw_ready(ui, st, right),
         Phase::Failed(p) => draw_failed(ui, st, right, p),
+    }
+}
+
+/// Signed in without Studio Pro: Oyen, what the notes do, and that they're
+/// part of Pro (in early access: there is nothing to buy yet).
+fn draw_pro(ui: &mut Ui, st: &AppState, area: Rect) {
+    let left = Rect::new(area.x, area.y, LEFT_W, area.h);
+    let at = Point::new(left.center().x, left.y + HEAD_Y);
+    if oyen::coach(ui.c, at, HEAD_W, ui.now, Oyen::Rest { look: look(ui, at, area) }) {
+        ui.request_live();
+    }
+    let tag = Rect::new(left.center().x - 22.0, left.y + BUTTON_Y - 11.0, 44.0, 22.0);
+    ui.c.fill_rrect(tag, 11.0, ACCENT.with_alpha(0.2));
+    ui.c.text("PRO", tag, &TextStyle::caption().weight(Weight::Bold).center().color(ACCENT));
+    let r = Rect::new(area.x + LEFT_W + COL_GAP, area.y + 4.0, (area.w - LEFT_W - COL_GAP).max(0.0).min(420.0), area.h);
+    let y = headline(ui, r, "Meeting notes are part of Studio Pro");
+    let body = "One click and Oyen listens to your meeting, Meet, Zoom, Teams or in the room, then writes the notes and the whole transcript. Studio Pro is in early access, so it isn't on this account yet.";
+    let y = para(ui, Rect::new(r.x, y + 6.0, r.w, 80.0), body, palette::TEXT_DIM);
+    if let OyenzaLink::Connected { account } = &st.oyenza.link {
+        para(ui, Rect::new(r.x, y + 10.0, r.w, 20.0), &format!("Signed in as {account}"), palette::TEXT_FAINT);
     }
 }
 

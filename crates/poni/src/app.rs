@@ -1666,6 +1666,7 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
+            OyenzaEvent::Pro(pro) => self.st.oyenza.pro = Some(pro),
             // Steps asked for before Health was switched off stay out.
             OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
@@ -2319,6 +2320,8 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if self.st.page == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
+            } else if matches!(self.st.page, PageKind::Notes | PageKind::Addons) {
+                self.oyenza(OyenzaCmd::CheckPro);
             }
         }
         self.request_frame();
@@ -4106,7 +4109,8 @@ impl App {
 
     /// Take notes: the microphone and the PC's sound start recording.
     fn notes_start(&mut self) {
-        if self.notes_rec.is_some() || self.st.notes.live() || self.notes_take.is_some() {
+        // Studio Pro only: the page shows its Pro card instead of the button.
+        if self.notes_rec.is_some() || self.st.notes.live() || self.notes_take.is_some() || self.st.studio_pro() == Some(false) {
             return;
         }
         // Whatever an earlier meeting left (the app closed on it) goes first.
@@ -4244,6 +4248,8 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if p == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
+            } else if matches!(p, PageKind::Notes | PageKind::Addons) {
+                self.oyenza(OyenzaCmd::CheckPro);
             }
         }
     }
