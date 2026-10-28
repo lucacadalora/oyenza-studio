@@ -1600,8 +1600,12 @@ impl App {
     fn on_oyenza(&mut self, ev: OyenzaEvent) {
         let now = self.st.now;
         let link_before = self.st.oyenza.link.clone();
+        let pro_before = self.st.studio_pro() == Some(true);
         match ev {
-            OyenzaEvent::Restored { account } => self.st.oyenza.link = OyenzaLink::Connected { account },
+            OyenzaEvent::Restored { account } => {
+                self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
+            }
             OyenzaEvent::Connecting { code, url, expires_in_s } => {
                 self.st.oyenza.link = OyenzaLink::Connecting { code, url, until: now + expires_in_s as f64 };
                 // Keep the code on screen while the person goes to oyenza.app.
@@ -1616,6 +1620,7 @@ impl App {
                 self.end_sign_in();
                 self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
                 self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
                 // Signed in from the Today page: back to it, where the day comes in.
                 if std::mem::take(&mut self.st.oyenza.from_today) {
                     self.st.page = PageKind::Today;
@@ -1714,6 +1719,33 @@ impl App {
         // Signed in or out, the Oyenza page's height changes: the window fits the tallest page again.
         if self.st.oyenza.link != link_before {
             self.layout_surface();
+        }
+        if (self.st.studio_pro() == Some(true)) != pro_before {
+            self.pro_changed();
+        }
+    }
+
+    /// Signed in (at start, or just now) with the Downloader or Notifications
+    /// switched on: whether the account has Studio Pro, now, so they don't
+    /// wait for the Add-ons page to open (`pages::addons::pro_wanted`).
+    fn ask_pro(&self) {
+        if pages::addons::pro_wanted(&self.st) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+    }
+
+    /// Studio Pro came, or went (the server's word, or signing out):
+    /// Notifications listens only with it, and the Downloader's downloads stop
+    /// as it goes. Their tabs follow by themselves (`downloader_on`,
+    /// `notifications_on`), and a page of theirs on screen leaves for Add-ons.
+    fn pro_changed(&mut self) {
+        if self.st.studio_pro() != Some(true) {
+            self.downloads_off();
+            self.stop_notify();
+        } else if self.st.notifications_on() && self.selftest.is_none() {
+            // Switched on before, waiting for Pro: it listens now (Windows'
+            // question waits for the page's Allow).
+            self.start_notify(false);
         }
     }
 
@@ -1854,10 +1886,11 @@ impl App {
                 }
             }
         }
-        // Notifications on: listen, Windows' question first; off: stop.
+        // Notifications on: listen, Windows' question first; off: stop. Only
+        // with Studio Pro (`pro_changed` starts it once the server says so).
         let notify_id = poni_core::addons::NOTIFICATIONS.id;
         if before.addon_on(notify_id) != self.st.settings.addon_on(notify_id) && self.selftest.is_none() {
-            if self.st.settings.addon_on(notify_id) {
+            if self.st.notifications_on() {
                 self.start_notify(true);
             } else {
                 self.stop_notify();

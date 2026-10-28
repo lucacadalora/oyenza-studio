@@ -77,6 +77,21 @@ fn rows(st: &AppState) -> Vec<&'static Addon> {
         .collect()
 }
 
+/// The Pro add-ons whose switch works only with Studio Pro, since their tabs
+/// need it (`AppState::downloader_on`, `notifications_on`): the Downloader,
+/// whose tools download only for Pro, and Notifications. Meeting notes
+/// switches on for anyone, and its page says what Pro is.
+fn needs_pro(a: &Addon) -> bool {
+    a.id == addons::DOWNLOADER.id || a.id == addons::NOTIFICATIONS.id
+}
+
+/// One of them is switched on in this app ([`rows`]): the island asks the
+/// server about Pro as soon as it's signed in (at start, or just connected),
+/// so their tabs and listening don't wait for this page to open.
+pub fn pro_wanted(st: &AppState) -> bool {
+    rows(st).iter().any(|a| needs_pro(a) && st.settings.addon_on(a.id))
+}
+
 fn row_h(n: usize) -> f32 {
     ((MAX_H - ROWS_Y) / n.max(1) as f32).floor().min(ROW_H)
 }
