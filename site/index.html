@@ -489,6 +489,7 @@ main { container-type: inline-size; }
 .price-list { list-style: none; margin: 8px 0 12px; padding: 0; display: grid; gap: 12px; }
 .price-list li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; align-items: start; }
 .price-list .ico { margin-top: 3px; color: var(--blue); stroke-width: 2.2; }
+.price-list .soon { display: inline-block; margin-left: 4px; padding: 4px 8px; vertical-align: 1px; }
 /* The button sits at the bottom, level with the end of the taller card. */
 .price-card .btn { align-self: flex-start; margin-top: auto; }
 .price-strip { border-radius: 14px; margin-top: 4px; }
@@ -726,7 +727,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Get it</p>
       <a class="side-item" href="#privacy" data-k="privacy data light fast size open source mit"><i class="ic" style="--c:#007aff"><svg class="ico"><use href="#i-lock"/></svg></i><span>Privacy</span></a>
-      <a class="side-item" href="#pricing" data-k="pricing price prices cost free pro plan subscription monthly yearly trial buy notifications whatsapp telegram phone link"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span>Pricing</span></a>
+      <a class="side-item" href="#pricing" data-k="pricing price prices cost free pro plan subscription monthly yearly trial buy meeting notes notetaker record transcript summary meet zoom teams notifications whatsapp telegram phone link"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span>Pricing</span></a>
       <a class="side-item" href="#get" data-k="install download setup smartscreen dmg get"><i class="ic" style="--c:#0071e3"><svg class="ico"><use href="#i-download"/></svg></i><span>Get Oyenza Studio</span></a>
     </div>
     <p class="side-empty" id="sideEmpty" hidden>No feature by that name. Try "lyrics" or "files".</p>
@@ -1506,7 +1507,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <section class="sec" id="pricing" aria-labelledby="pricing-title">
     <div class="content head center rv">
       <h2 class="t-l" id="pricing-title">Studio is free. Pro is on its way.</h2>
-      <p class="t-intro">Everything Studio does today stays free, with no account. <b>Pro brings your messages to the island,</b> for $2.99 a month or $12 a year.</p>
+      <p class="t-intro">Everything Studio does today stays free, with no account. <b>Pro brings Meeting notes,</b> for $2.99 a month or $12 a year.</p>
     </div>
     <div class="content price-cards">
       <article class="price-card rv" aria-labelledby="price-free-title">
@@ -1518,6 +1519,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Focus, Tasks, the Shelf and Phone drop</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Today, System, Prayer times and Stocks</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>The Classic, Oyen, Glass and Pill looks</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>WhatsApp and Telegram on the island, on Windows <span class="soon">Soon</span></span></li>
         </ul>
         <a class="btn" href="#get">Download free</a>
       </article>
@@ -1526,13 +1528,14 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <p class="price"><b>$2.99</b><span class="t-small">a month</span></p>
         <p class="t-small">Or $12 a year, which saves 67%.</p>
         <div class="strip price-strip"><div class="sky-fill"></div><div class="isl">
-          <img class="look-classic" src="assets/shots/classic/message-notice.webp" alt="A WhatsApp message on the island: Mom, Dinner at 7 tonight?, with an Open button" width="387" height="53" loading="lazy">
-          <img class="look-oyen" src="assets/shots/oyen/message-notice.webp" alt="The same WhatsApp message in the Oyen theme" width="387" height="53" loading="lazy">
+          <img class="look-classic" src="assets/shots/classic/notes-activity.webp" alt="Oyen listening on the closed island: the red dot and 12:34 of the meeting so far" width="139" height="32" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/notes-activity.webp" alt="Oyen listening to a meeting on the closed island, in the Oyen theme" width="139" height="32" loading="lazy">
         </div></div>
         <ul class="price-list t-tile">
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Your messages on the island:</b> WhatsApp, Telegram, and your phone's through Phone Link.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>You pick the apps,</b> and can keep who it's from or the message hidden until you press Show.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Your messages never leave your PC.</b></span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Meeting notes:</b> one click, and Oyen listens to your meeting, then writes it up.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Google Meet, Zoom, Teams or WhatsApp,</b> with no bot joining the call.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>A summary, the decisions and who does what,</b> with the whole transcript, saved on your PC.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>The recording is deleted</b> once your notes are saved.</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Up to 3 PCs</b> on one Oyenza account.</span></li>
         </ul>
         <p class="t-small">On Windows 10 and 11. Prices in US dollars, before tax.</p>
@@ -1541,7 +1544,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content facts price-facts">
       <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Try Pro for 7 days.</h3><p class="t-tile">Free, and no card. The 7 days start the first time you switch on Pro.</p></div>
       <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">No license key.</h3><p class="t-tile">Pro comes with your Oyenza account. Sign in with a code, like on a TV. Making an account is free.</p></div>
-      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Free stays free.</h3><p class="t-tile">If Pro ends, notifications switch off with one notice that says why. Everything else keeps working.</p></div>
+      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Free stays free.</h3><p class="t-tile">If Pro ends, only Meeting notes stop. The notes you made stay on your PC, and everything else keeps working.</p></div>
     </div>
   </section>
 
