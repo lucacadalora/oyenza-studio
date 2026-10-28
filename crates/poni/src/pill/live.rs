@@ -1,6 +1,6 @@
 //! The other live activities, collapsed: a screen recording, the focus
-//! timer, music with the timer, the minutes before a prayer and the readout
-//! over games. Each is a
+//! timer, music with the timer, the minutes before a prayer, the readout
+//! over games and downloads. Each is a
 //! 32-DIP capsule sized to what it shows (spec 6.1 and 6.8).
 //!
 //! The Pill way: content keeps clear of the round ends (16 DIPs for text, 12
@@ -11,10 +11,10 @@
 //! widest value, so a pill keeps its width while they change.
 //!
 //! Nothing here moves by itself: the countdowns repaint on the app's
-//! existing one-shot wakes (the timer's second, the minute) and the readout
-//! when a reading arrives.
+//! existing one-shot wakes (the timer's second, the minute), the readout
+//! when a reading arrives and the downloads as yt-dlp reports.
 
-use crate::activities::{prayer_countdown, Activity};
+use crate::activities::{count_chip, download_many, download_pct, download_view, prayer_countdown, Activity, DownloadView};
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::island::Geom;
@@ -71,6 +71,13 @@ const DIVIDER_H: f32 = 14.0;
 /// DIP of type size (Segoe UI and SF are both about 0.4): smaller words move
 /// down by the difference, so the readout reads along one baseline.
 const BASELINE_K: f32 = 0.4;
+/// Downloads, in the timer's place: the arrow's box where the ring sits
+/// (its lines fill about 11 x 12 of it, at a 1.5 DIP stroke), and the
+/// count's chip 6 past the arrow. The timer's widths, the long one while
+/// the count shows.
+const DOWNLOAD_GLYPH: f32 = 18.0;
+const COUNT_H: f32 = 18.0;
+const COUNT_X: f32 = 12.0;
 
 fn capsule(w: f32) -> Geom {
     Geom::new(w, H, H / 2.0)
@@ -86,6 +93,8 @@ pub fn geom(a: Activity, st: &AppState) -> Option<Geom> {
         Activity::Game => game_w(st),
         Activity::Recording if st.rec_elapsed() >= 3600.0 => TIMER_LONG_W,
         Activity::Recording => TIMER_W,
+        Activity::Download if download_many(st) => TIMER_LONG_W,
+        Activity::Download => TIMER_W,
     };
     Some(capsule(w))
 }
@@ -98,6 +107,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) -> bool {
         Activity::Prayer => draw_prayer(ui, st, body),
         Activity::Game => draw_game(ui, st, body),
         Activity::Recording => draw_recording(ui, st, body),
+        Activity::Download => draw_download(ui, st, body),
     }
     true
 }
@@ -193,6 +203,32 @@ fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
     let text = poni_core::recorder::fmt_length(st.rec_elapsed());
     let right = body.right() - DIGITS_RIGHT;
     ui.c.text(&text, Rect::new(right - 80.0, body.y, 80.0, body.h), &digits(phase != Some(Phase::Recording)).right());
+}
+
+/// Downloads, in the timer's place: the download arrow in the left end cap,
+/// the count on a chip beside it while more than one waits or runs, and the
+/// percentage where the countdown sits (a grey dash until a size is known:
+/// no ring here, as a 14-DIP one has no room for the arrow). Saved: a green
+/// check in the arrow's place and the word, for a moment.
+fn draw_download(ui: &mut Ui, st: &AppState, body: Rect) {
+    let c = Point::new(body.x + GLYPH_INSET + RING_D / 2.0, body.center().y);
+    let glyph = Rect::from_center(c, DOWNLOAD_GLYPH, DOWNLOAD_GLYPH);
+    let right = body.right() - DIGITS_RIGHT;
+    let slot = Rect::new(right - 80.0, body.y, 80.0, body.h);
+    match download_view(st) {
+        DownloadView::Saved => {
+            ui.c.icon(Icon::Check, glyph, palette::GREEN);
+            ui.c.text("Saved", slot, &TextStyle::body().weight(Weight::Semibold).color(INK).right());
+        }
+        DownloadView::Progress { fraction, count } => {
+            ui.c.icon(Icon::Download, glyph, INK);
+            if count > 1 {
+                count_chip(ui, count, c.x + COUNT_X, c.y, COUNT_H, TextStyle::footnote().weight(Weight::Semibold).tabular().color(INK));
+            }
+            let text = fraction.map_or_else(|| "\u{2013}".to_string(), download_pct);
+            ui.c.text(&text, slot, &digits(fraction.is_none()).right());
+        }
+    }
 }
 
 /// Album art in the left end cap (or a note on a grey tile), dimmed while
@@ -481,7 +517,7 @@ mod tests {
     fn nothing_in_the_live_pills_moves_by_itself() {
         let st = state();
         assert_eq!(is_live(Activity::MediaTimer, &st), Some(false));
-        for a in [Activity::Timer, Activity::Prayer, Activity::Game] {
+        for a in [Activity::Timer, Activity::Prayer, Activity::Game, Activity::Download] {
             assert_eq!(is_live(a, &st), None, "{a:?}: Classic's answer (no frames) stands");
         }
     }

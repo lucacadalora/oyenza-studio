@@ -1,6 +1,6 @@
 //! What the collapsed island shows: idle pill, live activities (a screen
 //! recording, media, timer, the minutes before a prayer, the readout over
-//! games), HUD
+//! games, downloads), HUD
 //! pop-ups (volume, charging, Bluetooth) and notices.
 //!
 //! Collapsed pills are sized to their content: Windows has no camera
@@ -14,6 +14,7 @@ use crate::pages::{self, PageKind};
 use crate::state::{AppState, FpsAccess, HudKind, InlineAction, Notice};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_countdown};
+use poni_core::downloads::State as DownloadState;
 use poni_core::frames::fmt_fps;
 use poni_core::geom::{clamp01, palette, Color, Point, Rect};
 use poni_core::pomodoro::Phase;
@@ -31,6 +32,9 @@ pub enum Activity {
     Game,
     /// A screen recording with Oyenza Studio Recorder: its dot and time.
     Recording,
+    /// The Downloader add-on: how far its downloads are, then "Saved" for a
+    /// moment ([`SAVED_S`]) when one is.
+    Download,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -92,6 +96,15 @@ const GAME_DIVIDER: Color = Color::white(0.18);
 /// The recording: its dot, then "12:34" (the timer's width) or "1:02:03".
 const RECORDING_W: f32 = 96.0;
 const RECORDING_LONG_W: f32 = 112.0;
+/// Downloads: the ring with the arrow in it, then "37%" (the timer's
+/// width); the long timer's while the count sits beside the ring.
+const DOWNLOAD_W: f32 = 96.0;
+const DOWNLOAD_MANY_W: f32 = 112.0;
+/// A download just saved says so this long (seconds), then the island goes
+/// back to what it showed.
+pub const SAVED_S: f64 = 4.0;
+/// The capsule under the download count.
+const COUNT_FILL: Color = Color::white(0.16);
 
 /// Modes with the same key share content (no cross-fade between them).
 pub fn content_key(m: &Mode) -> u32 {
@@ -103,6 +116,7 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Activity(Activity::Prayer) => 5,
         Mode::Activity(Activity::Game) => 6,
         Mode::Activity(Activity::Recording) => 7,
+        Mode::Activity(Activity::Download) => 8,
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
@@ -151,6 +165,11 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
     if st.game.active {
         return Some(Activity::Game);
     }
+    // A download just saved says so for its few seconds, after the three
+    // above but over music and the timer: it is news, as a new song's title is.
+    if just_saved(st) {
+        return Some(Activity::Download);
+    }
     let media = st.settings.show_media_activity
         && st.media.as_ref().is_some_and(|m| m.is_playing() || media_grace_end(st).is_some_and(|end| st.now < end));
     let timer = st.pomodoro.is_active();
@@ -158,8 +177,28 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
         (true, true) => Some(Activity::MediaTimer),
         (true, false) => Some(Activity::Media),
         (false, true) => Some(Activity::Timer),
+        // Downloads under way come last: they run for minutes and their
+        // page has the details, so music and the timer keep the island;
+        // they show while nothing else is live.
+        _ if downloading(st) => Some(Activity::Download),
         _ => None,
     }
+}
+
+/// Downloads wait or run (the Downloader add-on, Windows only for now).
+fn downloading(st: &AppState) -> bool {
+    st.downloader_on() && st.downloads.busy()
+}
+
+/// A download was saved less than [`SAVED_S`] ago (`st.ui.saved_until`).
+fn just_saved(st: &AppState) -> bool {
+    st.downloader_on() && st.now < st.ui.saved_until
+}
+
+/// Downloads saved, of those on the Downloads page's list. The app counts
+/// them around each of yt-dlp's reports: one more starts the Saved moment.
+pub fn downloads_saved(st: &AppState) -> usize {
+    st.downloads.list.iter().filter(|j| matches!(j.state, DownloadState::Done { .. })).count()
 }
 
 pub fn collapsed_mode(st: &AppState) -> Mode {
@@ -262,6 +301,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         Mode::Activity(Activity::Prayer) => Geom::new(PRAYER_W, 32.0, 15.0),
         Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
         Mode::Activity(Activity::Recording) => Geom::new(recording_w(st), 32.0, 15.0),
+        Mode::Activity(Activity::Download) => Geom::new(if download_many(st) { DOWNLOAD_MANY_W } else { DOWNLOAD_W }, 32.0, 15.0),
         Mode::Hud(HudTag::Volume) => Geom::new(316.0, 40.0, 19.0),
         Mode::Hud(HudTag::Charging) | Mode::Hud(HudTag::LowBattery) => Geom::new(300.0, 40.0, 19.0),
         Mode::Hud(HudTag::Bluetooth) => Geom::new(336.0, 46.0, 22.0),
@@ -327,6 +367,10 @@ pub fn next_wake(m: &Mode, st: &AppState) -> Option<f64> {
         if let Some(t) = crate::pill::lyric::next_wake(st) {
             consider(t);
         }
+    }
+    // A download's Saved moment ends; its progress repaints as yt-dlp reports.
+    if *m == Mode::Activity(Activity::Download) {
+        consider(st.ui.saved_until);
     }
     if let Some(t) = crate::pill::next_wake(m, st) {
         consider(t);
@@ -580,6 +624,7 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
         }
         Activity::Game => draw_game(ui, st, body),
         Activity::Recording => draw_recording(ui, st, body),
+        Activity::Download => draw_download(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
             art_or_icon(ui, st, art, playing);
@@ -630,6 +675,76 @@ pub(crate) fn recording_time(st: &AppState) -> (String, TextStyle) {
     let recording = st.rec.phase == Some(poni_core::recorder::Phase::Recording);
     let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(if recording { palette::TEXT } else { palette::TEXT_DIM });
     (poni_core::recorder::fmt_length(st.rec_elapsed()), ts)
+}
+
+/// What the download pill shows (`Activity::Download`, every theme).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub(crate) enum DownloadView {
+    /// How far the downloads are, of everything running (None until a size
+    /// is known), and how many wait or run.
+    Progress { fraction: Option<f32>, count: usize },
+    /// One was just saved.
+    Saved,
+}
+
+pub(crate) fn download_view(st: &AppState) -> DownloadView {
+    if just_saved(st) {
+        return DownloadView::Saved;
+    }
+    let pill = st.downloads.pill();
+    DownloadView::Progress { fraction: pill.as_ref().and_then(|p| p.fraction), count: pill.map_or(0, |p| p.count) }
+}
+
+/// The count shows beside the download pill's mark: more than one download
+/// waits or runs.
+pub(crate) fn download_many(st: &AppState) -> bool {
+    matches!(download_view(st), DownloadView::Progress { count, .. } if count > 1)
+}
+
+/// "37%": whole percents rounded down, so 100% waits for the last byte.
+pub(crate) fn download_pct(fraction: f32) -> String {
+    // The thousandth keeps a float just under a whole percent on it.
+    format!("{}%", (fraction.clamp(0.0, 1.0) * 100.0 + 0.001).floor() as u32)
+}
+
+/// The download count on a grey capsule `h` tall, its left end at `x`
+/// (the Pill theme's too, in its own type).
+pub(crate) fn count_chip(ui: &mut Ui, count: usize, x: f32, cy: f32, h: f32, ts: TextStyle) {
+    let text = count.to_string();
+    let w = (ui.c.measure(&text, &ts, 100.0).0.ceil() + h / 2.0).max(h);
+    let r = Rect::new(x, cy - h / 2.0, w, h);
+    ui.c.fill_rrect(r, h / 2.0, COUNT_FILL);
+    ui.c.text(&text, r, &ts.center());
+}
+
+/// Downloads, in the timer's place: the ring filling with the accent round
+/// the download arrow, the count beside it while more than one waits or
+/// runs, and the percentage where the countdown sits. Until a size is
+/// known, the ring's track alone and a dash: no spinner, nothing moves (it
+/// repaints as yt-dlp reports). Saved: the ring whole and green round a
+/// check, and the word.
+fn draw_download(ui: &mut Ui, st: &AppState, body: Rect) {
+    let c = Point::new(body.x + 12.0 + 9.0, body.center().y);
+    let ts = TextStyle::body().weight(Weight::Semibold).tabular().right();
+    let (text, col) = match download_view(st) {
+        DownloadView::Saved => {
+            ui.c.stroke_circle(c, 9.0, palette::GREEN, 2.4);
+            ui.c.icon(Icon::Check, Rect::from_center(c, 12.0, 12.0), palette::GREEN);
+            ("Saved".to_string(), palette::TEXT)
+        }
+        DownloadView::Progress { fraction, count } => {
+            ui.c.ring(c, 9.0, 2.4, fraction.unwrap_or(0.0), RING_TRACK, st.accent);
+            ui.c.icon(Icon::Download, Rect::from_center(c, 11.0, 11.0), palette::TEXT);
+            if count > 1 {
+                count_chip(ui, count, c.x + 15.0, c.y, 16.0, TextStyle::caption().weight(Weight::Semibold).tabular());
+            }
+            match fraction {
+                Some(f) => (download_pct(f), palette::TEXT),
+                None => ("\u{2013}".to_string(), palette::TEXT_DIM),
+            }
+        }
+    };
+    ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts.color(col));
 }
 
 /// The GPU's temperature for the readout, when its driver reports one.
@@ -1013,5 +1128,84 @@ mod tests {
         song.hud = None;
         assert!(!is_live(&Mode::Aside, &song));
         assert!(is_live(&media, &song));
+    }
+
+    fn job(id: u64, state: DownloadState) -> poni_core::downloads::Job {
+        let mode = poni_core::ytdlp::Mode::Video;
+        poni_core::downloads::Job { id, url: format!("https://example.org/v/{id}"), mode, title: None, site: None, thumbnail: None, state, added: 0 }
+    }
+
+    /// The Downloader on, with `n` downloads under way (no size known yet).
+    fn with_downloads(mut st: AppState, n: u64) -> AppState {
+        st.downloader_offered = true;
+        st.addons.insert(poni_core::addons::DOWNLOADER.id, poni_core::addons::Status::Ready);
+        for id in 1..=n {
+            st.downloads.list.push(job(id, DownloadState::Downloading { done: 0, total: None, speed: None, eta_s: None }));
+        }
+        st
+    }
+
+    #[test]
+    fn downloads_show_while_nothing_else_is_live_and_saved_shows_over_music_and_the_timer() {
+        let dl = Some(Activity::Download);
+        let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        assert_eq!(current_activity(&st), dl);
+        // Music and the timer keep the island while downloads run.
+        let mut song = with_downloads(playing(None), 1);
+        assert_eq!(current_activity(&song), Some(Activity::Media));
+        st.pomodoro.start(st.now);
+        assert_eq!(current_activity(&st), Some(Activity::Timer));
+        // One saved: Saved over them for its few seconds, then back.
+        for s in [&mut song, &mut st] {
+            s.ui.saved_until = s.now + SAVED_S;
+            assert_eq!(current_activity(s), dl);
+            assert_eq!(download_view(s), DownloadView::Saved);
+        }
+        song.now += SAVED_S;
+        assert_eq!(current_activity(&song), Some(Activity::Media));
+        // A recording and a game's readout keep the island through it.
+        st.recorder = true;
+        st.store.recorder_island = true;
+        st.rec.phase = Some(poni_core::recorder::Phase::Recording);
+        assert_eq!(current_activity(&st), Some(Activity::Recording));
+        st.rec.phase = None;
+        st.game.active = true;
+        assert_eq!(current_activity(&st), Some(Activity::Game));
+        // Where the Downloader isn't offered (the Mac, for now): never.
+        let mut mac = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        mac.ui.saved_until = mac.now + SAVED_S;
+        mac.downloader_offered = false;
+        assert_eq!(current_activity(&mac), None);
+    }
+
+    #[test]
+    fn the_download_pill_never_moves_and_wakes_once_to_end_saved() {
+        use poni_core::settings::Theme;
+        let m = Mode::Activity(Activity::Download);
+        let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 0);
+        st.now = 100.0;
+        st.ui.saved_until = st.now + SAVED_S;
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+            st.settings.theme = theme;
+            assert!(!is_live(&m, &st), "{theme:?}");
+            assert_eq!(next_wake(&m, &st), Some(100.0 + SAVED_S), "{theme:?}");
+            // Saved keeps the timer's width.
+            let g = geom(&m, &st);
+            assert_eq!((g.w, g.h), (DOWNLOAD_W, 32.0), "{theme:?}");
+        }
+        st.now = 100.0 + SAVED_S;
+        assert_eq!(next_wake(&m, &st), None);
+        assert_eq!(current_activity(&st), None, "then gone");
+        // The app starts the moment when a report leaves one more saved.
+        assert_eq!(downloads_saved(&st), 0);
+        st.downloads.list = vec![job(2, DownloadState::Queued), job(1, DownloadState::Done { path: "clip.mp4".into(), size: 1 })];
+        assert_eq!(downloads_saved(&st), 1);
+    }
+
+    #[test]
+    fn download_percents_round_down_so_100_waits_for_the_last_byte() {
+        for (f, s) in [(0.0, "0%"), (0.29, "29%"), (0.37, "37%"), (0.996, "99%"), (1.0, "100%"), (1.5, "100%")] {
+            assert_eq!(download_pct(f), s);
+        }
     }
 }

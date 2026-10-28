@@ -991,6 +991,12 @@ impl App {
                                 None => {}
                             }
                         }
+                        // The download pill opens on its page, which shows
+                        // what was saved: the Saved moment is over.
+                        if self.mode == Mode::Activity(activities::Activity::Download) {
+                            self.st.page = PageKind::Downloads;
+                            self.st.ui.saved_until = 0.0;
+                        }
                         self.st.hud = None;
                         self.expand();
                     }
@@ -1847,6 +1853,7 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        let saved_before = matches!(ev, AppEvent::Download { .. } | AppEvent::DownloadEnded { .. }).then(|| activities::downloads_saved(&self.st));
         match ev {
             AppEvent::Backdrop => {
                 if self.glass.on_backdrop(self.hwnd, &mut self.gfx) {
@@ -2093,6 +2100,10 @@ impl App {
         }
         if let Some(before) = media_before {
             self.after_media_change(before, now);
+        }
+        // A download saved: the closed island says so for a moment.
+        if saved_before.is_some_and(|n| activities::downloads_saved(&self.st) > n) {
+            self.st.ui.saved_until = now + activities::SAVED_S;
         }
         self.request_frame();
     }
