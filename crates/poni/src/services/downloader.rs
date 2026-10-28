@@ -11,9 +11,9 @@
 //! into a temporary folder and runs it as a second process. So yt-dlp starts
 //! suspended and only runs once it is in the job, which nothing it starts
 //! can leave; the job also ends all of it when its last handle closes, even
-//! if Poni itself is ended. The loader only deletes what it unpacked when it
-//! ends by itself, so each download unpacks into its own folder, deleted
-//! when the download ends.
+//! if Poni itself is ended. The loader only deletes what it unpacked (about
+//! 30 MB) when it ends by itself, so each download unpacks into its own
+//! folder, deleted when the download ends.
 
 use crate::events::{AppEvent, EventSink};
 use poni_core::addons::{DOWNLOADER, FFMPEG_EXE, QJS_EXE, YTDLP_EXE};
@@ -140,10 +140,11 @@ fn download(req: &Request, run: &Run, runs: &Runs, sink: &EventSink) -> bool {
     let id = req.id;
     let tool = |name: &str| crate::services::addons::file_path(&DOWNLOADER, name).to_string_lossy().into_owned();
     let (ytdlp, qjs, ffmpeg) = (tool(YTDLP_EXE), tool(QJS_EXE), tool(FFMPEG_EXE));
-    let cache = crate::paths::addons_dir().join(DOWNLOADER.id).join("cache");
-    // In the add-on's version folder: switching it off deletes them, its
-    // check at start (which clears other folders) doesn't.
-    let temps = crate::services::addons::file_path(&DOWNLOADER, "temp");
+    let data = crate::paths::addons_dir().join(DOWNLOADER.id);
+    let cache = data.join("cache");
+    // Next to the cache: switching the add-on off deletes both, and so does
+    // its check at start, before the Downloads tab can open.
+    let temps = data.join("tmp");
     sweep(&temps, runs);
     let temp = temps.join(id.to_string());
     let args = ytdlp::args(req, &Tools { ytdlp: &ytdlp, qjs: &qjs, ffmpeg: &ffmpeg, cache: &cache.to_string_lossy() });
@@ -302,7 +303,8 @@ impl Lines<'_> {
         }
     }
 
-    /// Held-back progress goes before any other line, and at the end.
+    /// Held-back progress goes before any other line and at the end, so the
+    /// count before what follows (the finished size, say) is the last one.
     fn flush(&mut self) {
         if let Some(p) = self.held.take() {
             self.send(p);
