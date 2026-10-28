@@ -91,6 +91,7 @@ fn icon(a: &Addon) -> Icon {
         "health" => Icon::Steps,
         "stocks" => Icon::Stocks,
         "recorder" => Icon::Recorder,
+        "downloader" => Icon::Download,
         _ => Icon::Addons,
     }
 }
