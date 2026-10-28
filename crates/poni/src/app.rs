@@ -982,6 +982,10 @@ impl App {
                         // release can't click the pill a second time.
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
+                    } else if self.input.pressed_id == Some(wid(activities::PRAYER_OK_ID)) {
+                        // The prayer countdown's OK, the same way.
+                        self.input.pressed_id = None;
+                        self.prayer_countdown_ok();
                     } else {
                         // Clicking a notice jumps to its page (a new version's
                         // may be waiting under a volume change or a game's readout).
@@ -1294,6 +1298,9 @@ impl App {
                     // pointer so the pill can be clicked (a click on the rest
                     // of the notice still opens its page). The dwell stays
                     // armed: the next movement restarts it.
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
+                    // So does the prayer countdown under a pointer resting on
+                    // its OK (resting on the rest of it still opens).
                 } else {
                     self.expand();
                 }
@@ -3750,6 +3757,17 @@ impl App {
         }
     }
 
+    /// OK on the countdown before a prayer: the closed island goes back to
+    /// what it would show (the song and its sung line) until the prayer's
+    /// time. Its moment still comes then: `prayer_tick` doesn't look at the
+    /// countdown.
+    fn prayer_countdown_ok(&mut self) {
+        self.refresh_time();
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+            pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
+        }
+    }
+
     fn adzan_ended(&mut self) {
         self.adzan.stop();
         self.st.prayer.adzan = false;
@@ -4402,6 +4420,20 @@ impl App {
         if let Some(h) = self.hit_at(p) {
             self.input.clicked = Some((h.id, MouseButton::Left));
         }
+    }
+
+    /// A press and release at `p` (DIPs) through the island's own mouse
+    /// messages, for what acts at mouse-down (`selftest_click` only sets the
+    /// click). Returns whether the island opened.
+    pub fn selftest_press(&mut self, p: Point) -> bool {
+        let s = self.gfx.scale();
+        let (x, y) = ((p.x * s).round() as i32 & 0xffff, (p.y * s).round() as i32 & 0xffff);
+        let lp = LPARAM(((y << 16) | x) as isize);
+        // Nothing a left press defers (the right button's menu is what does).
+        let mut deferred = Vec::new();
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut deferred);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut deferred);
+        self.expanded
     }
 
     /// The island body in window DIPs (where clicks land).
