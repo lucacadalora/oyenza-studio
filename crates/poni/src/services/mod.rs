@@ -13,6 +13,8 @@ pub mod frames;
 pub mod fullscreen;
 pub mod cities;
 pub mod downloader;
+#[cfg(test)]
+mod downloader_live;
 pub mod http;
 pub mod imaging;
 pub mod location;

@@ -105,6 +105,15 @@ jobs:
       - name: Bluetooth filters on a real Windows
         run: cargo test -p poni --release the_paired_only_filters_work_like_windows_own -- --ignored --nocapture
 
+      # The Downloader add-on for real (services/downloader_live.rs): yt-dlp
+      # and QuickJS exactly as poni_core::addons pins them, then a 70 s
+      # Blender film from Blender's own PeerTube as video and as sound, every
+      # line read by poni_core::ytdlp::parse. Takes about a minute; the
+      # film's site having trouble only warns.
+      - name: Downloader with the pinned tools and a real link
+        timeout-minutes: 10
+        run: cargo test -p poni --release the_pinned_tools_download_a_real_link -- --ignored --nocapture
+
   # The self-tests and smoke runs on three machines at once, from the
   # poni.exe built above. Each step is the same as when one machine ran them
   # all in a row; `group` says which machine runs it:
