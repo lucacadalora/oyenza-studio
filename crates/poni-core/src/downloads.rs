@@ -577,7 +577,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "needs ytdlp::Problem::message (lane dl-ytdlp); drop this line once that is in"]
     fn a_failure_says_what_went_wrong() {
         let mut jobs = Jobs::default();
         let id = jobs.add(SPRITE_FRIGHT.into(), Mode::Video, 0);
