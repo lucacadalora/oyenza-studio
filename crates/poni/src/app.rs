@@ -2908,12 +2908,13 @@ impl App {
         }
         self.prayer_tick();
         self.script_tick();
-        // Prayer times, System, Health or Stocks switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Downloads => !self.st.downloader_on(),
             _ => false,
         };
         if gone {
