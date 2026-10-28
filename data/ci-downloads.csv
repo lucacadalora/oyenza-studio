@@ -465,3 +465,10 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 122654057860,Fetch the release to upgrade from,40638984712,1,2026-10-28T05:42:05Z,prayer-countdown-ok,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122660478384,Fetch the release to upgrade from,40641081642,1,2026-10-28T06:03:13Z,qa/notifications-shots,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122660693563,Fetch the release to upgrade from,40641032179,1,2026-10-28T06:03:51Z,island-notifications,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122716611285,Fetch the release to upgrade from,40658413546,1,2026-10-28T08:44:04Z,bluetooth-quiet,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122719708765,Fetch the release to upgrade from,40659336937,1,2026-10-28T08:51:39Z,release-0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122719939546,Fetch the release to upgrade from,40659343831,1,2026-10-28T08:52:16Z,release-0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122724757233,Fetch the release to upgrade from,40660913219,1,2026-10-28T09:03:51Z,v0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122725581302,Fetch the release to upgrade from,40660891705,1,2026-10-28T09:05:49Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122731890603,Fetch the release to upgrade from,40663012011,1,2026-10-28T09:20:31Z,site-pricing,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122734299292,Fetch the release to upgrade from,40663666259,1,2026-10-28T09:25:57Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
