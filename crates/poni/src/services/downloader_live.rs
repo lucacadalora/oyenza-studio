@@ -198,3 +198,83 @@ fn needs_ffmpeg(line: &str) -> bool {
     let line = line.to_ascii_lowercase();
     line.contains("ffmpeg") && (line.contains("not found") || line.contains("not installed"))
 }
+
+/// The same film through the island's own runner (`services::downloader`):
+/// the job object, the windowless start, the reader thread and the events the
+/// Downloads page gets. Its tools go where the add-on keeps them, under a
+/// `PONI_HOME` of its own. A second download, stopped at its first bytes,
+/// must end as stopped and leave no unfinished file behind. CI's filter
+/// (`the_pinned_tools_download_a_real_link`) runs this one too.
+#[test]
+#[ignore = "downloads yt-dlp, QuickJS and a short film; CI runs it on a real Windows"]
+fn the_pinned_tools_download_a_real_link_through_the_runner() {
+    use crate::events::{AppEvent, EventSink, SendHwnd};
+    let home = std::env::temp_dir().join("poni-downloader-runner");
+    let _ = fs::remove_dir_all(&home);
+    std::env::set_var("PONI_HOME", &home);
+    let tools = crate::services::addons::file_path(&DOWNLOADER, addons::YTDLP_EXE).parent().expect("the add-on's folder").to_path_buf();
+    fs::create_dir_all(&tools).expect("the add-on's folder");
+    let ffmpeg = fetch(&tools);
+    let folder = crate::paths::media_downloads_dir();
+    fs::create_dir_all(&folder).expect("a downloads folder");
+    let (tx, rx) = mpsc::channel();
+    // No window to wake: the events are read here.
+    let runner = super::downloader::DownloaderService::start(EventSink::new(tx, SendHwnd(0))).expect("the runner starts");
+    let request = |id| Request { id, url: LINK.to_string(), mode: Mode::Video, max_height: Some(480), folder: folder.to_str().expect("a Unicode temp folder").to_string() };
+
+    // Saved, start to end.
+    runner.run(request(1));
+    let (mut info, mut progress, mut done, mut ended) = (false, 0, None, None);
+    let deadline = Instant::now() + RUN_TIMEOUT;
+    while ended.is_none() {
+        match rx.recv_timeout(deadline.saturating_duration_since(Instant::now())) {
+            Ok(AppEvent::Download { id: 1, line }) => match line {
+                Line::Info { .. } => info = true,
+                Line::Progress { .. } => progress += 1,
+                Line::Done { path } => done = Some(path),
+                Line::Failed(p) if matches!(p, Problem::Network | Problem::Limited | Problem::NotFound) => {
+                    println!("::warning::the runner: video.blender.org didn't give the film ({p:?}), so nothing was checked");
+                    return;
+                }
+                Line::Failed(p) if !ffmpeg && matches!(&p, Problem::Other(m) if m.contains("ffmpeg")) => {
+                    println!("::warning::the runner: the film needed FFmpeg, which addons::DOWNLOADER doesn't pin yet");
+                    return;
+                }
+                Line::Failed(p) => panic!("the runner: yt-dlp failed: {p:?}"),
+                Line::Stage(_) => {}
+            },
+            Ok(AppEvent::DownloadEnded { id: 1, ok }) => ended = Some(ok),
+            Ok(_) => {}
+            Err(RecvTimeoutError::Timeout) => panic!("the runner: nothing for {RUN_TIMEOUT:?}"),
+            Err(RecvTimeoutError::Disconnected) => panic!("the runner's events stopped"),
+        }
+    }
+    assert!(info && progress > 0, "the runner: Info {info}, {progress} Progress lines");
+    assert_eq!(ended, Some(true), "the runner: the download ends well");
+    let path = done.expect("the runner: a Done line");
+    let size = fs::metadata(&path).map(|m| m.len()).unwrap_or(0);
+    assert!(size > 1_000_000 && Path::new(&path).starts_with(&folder), "the runner: {path} ({size} bytes)");
+    println!("the runner saved {path} ({size} bytes)");
+    let _ = fs::remove_file(&path);
+
+    // Stopped at its first bytes: ends as stopped, nothing unfinished left.
+    runner.run(request(2));
+    let deadline = Instant::now() + RUN_TIMEOUT;
+    let mut stopped = false;
+    let ok = loop {
+        match rx.recv_timeout(deadline.saturating_duration_since(Instant::now())) {
+            Ok(AppEvent::Download { id: 2, line: Line::Progress { .. } }) if !stopped => {
+                runner.stop(2);
+                stopped = true;
+            }
+            Ok(AppEvent::DownloadEnded { id: 2, ok }) => break ok,
+            Ok(_) => {}
+            Err(e) => panic!("the runner, stopping: {e:?}"),
+        }
+    };
+    assert!(stopped && !ok, "a stopped download ends as not done");
+    let left: Vec<String> = fs::read_dir(&folder).map(|d| d.flatten().map(|e| e.file_name().to_string_lossy().into_owned()).collect()).unwrap_or_default();
+    assert!(left.iter().all(|n| !n.ends_with(".part") && !n.ends_with(".ytdl") && !n.contains(".part-Frag")), "a stopped download leaves nothing unfinished: {left:?}");
+    drop(runner);
+    let _ = fs::remove_dir_all(&home);
+}
