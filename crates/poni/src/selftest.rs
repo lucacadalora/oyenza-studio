@@ -44,7 +44,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
@@ -806,6 +806,60 @@ fn seed_ielts(st: &mut AppState, scene: Scene, now: f64) {
     st.ielts = Coach::sample(shows, now);
 }
 
+/// The Notes page's scenes in made-up states (nothing records: the levels
+/// hold still, and the time sits half a second into its second so the
+/// picture doesn't catch it turning); every other scene: no meeting.
+fn seed_notes(st: &mut AppState, scene: Scene, now: f64) {
+    use poni_core::notes::{Phase, Reply, Taker};
+    st.notes = Taker::default();
+    st.ui.notes_kept = false;
+    st.ui.notes_note = None;
+    match scene {
+        Scene::Page(PageKind::Notes) => st.notes.last = Some(sample_notes()),
+        Scene::NotesListening | Scene::NotesActivity => {
+            let secs = if scene == Scene::NotesListening { 42.5 } else { 754.5 };
+            st.notes.started(now - secs, true, true);
+            (st.notes.mic, st.notes.pc) = (0.32, 0.55);
+        }
+        Scene::NotesWriting => {
+            st.notes.stopped(4, 1834.0);
+            st.notes.phase = Phase::Writing { since: now - 38.5 };
+        }
+        Scene::NotesReady => {
+            st.notes.reply(Reply::Saved(Box::new(sample_notes())), now);
+            // Oyen's tick long since drawn: at rest in the picture.
+            st.ui.notes_saved_at = f64::NEG_INFINITY;
+        }
+        _ => {}
+    }
+}
+
+/// A made-up meeting's notes (no real names).
+fn sample_notes() -> poni_core::notes::Saved {
+    use poni_core::notes::{Action, Line, Notes, Saved, Topic};
+    let s = |v: &[&str]| v.iter().map(|x| x.to_string()).collect::<Vec<_>>();
+    let notes = Notes {
+        title: "Studio launch plan".into(),
+        lang: "en".into(),
+        summary: s(&[
+            "The launch moves to 14 Nov so the Windows build is signed first.",
+            "Pro stays at Rp49rb a month; the student price waits for December.",
+            "Dimas takes the store listing, Rina the landing page and the video.",
+        ]),
+        decisions: s(&["Launch on 14 Nov", "No student price at launch"]),
+        actions: vec![
+            Action { who: "Dimas".into(), what: "Send the store listing for review".into(), when: "Friday".into() },
+            Action { who: "Rina".into(), what: "Cut the 30 s launch video".into(), when: "next Tuesday".into() },
+            Action { who: "".into(), what: "Ask two campuses about the student price".into(), when: "".into() },
+        ],
+        topics: vec![Topic { title: "Timing".into(), points: s(&["Signing takes a week", "14 Nov is a Friday"]) }],
+        transcript: vec![Line { t: 3.0, who: "Rina".into(), text: "Okay, let's start with the date.".into() }],
+        secs: 1834,
+    };
+    let started = poni_core::datetime::LocalDateTime { year: 2026, month: 10, day: 29, hour: 14, minute: 5, second: 0 };
+    Saved { notes, file: "2026-10-29 14.05 Studio launch plan.md".into(), started }
+}
+
 /// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
 /// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
 /// real lists arrive with the add-on's download; these few places are
@@ -1088,6 +1142,14 @@ enum Scene {
     IeltsResult,
     /// IELTS: Windows' privacy switch keeps the microphone from desktop apps.
     IeltsMicDenied,
+    /// Meeting notes: Oyen listening, 0:42 in, both bars moving.
+    NotesListening,
+    /// Meeting notes: the meeting handed over, Oyen writing.
+    NotesWriting,
+    /// Meeting notes: the notes saved, with Open, Copy, the folder and Done.
+    NotesReady,
+    /// Meeting notes on the closed island: Oyen listening, 12:34 in.
+    NotesActivity,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1135,7 +1197,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 121] = [
+const SCENES: [Scene; 126] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1291,6 +1353,14 @@ const SCENES: [Scene; 121] = [
     Scene::IeltsCueCard,
     Scene::IeltsResult,
     Scene::IeltsMicDenied,
+    // Meeting notes: the page before a meeting (the notes saved last), Oyen
+    // listening, writing, the notes, and the closed island while he listens,
+    // all made up (`seed_notes`).
+    Scene::Page(PageKind::Notes),
+    Scene::NotesListening,
+    Scene::NotesWriting,
+    Scene::NotesReady,
+    Scene::NotesActivity,
 ];
 
 impl Scene {
@@ -1398,6 +1468,10 @@ impl Scene {
             Scene::IeltsCueCard => "page-ielts-cue-card".into(),
             Scene::IeltsResult => "page-ielts-result".into(),
             Scene::IeltsMicDenied => "page-ielts-mic-denied".into(),
+            Scene::NotesListening => "page-notes-listening".into(),
+            Scene::NotesWriting => "page-notes-writing".into(),
+            Scene::NotesReady => "page-notes-ready".into(),
+            Scene::NotesActivity => "notes-activity".into(),
         }
     }
 
@@ -1441,6 +1515,7 @@ impl Scene {
             Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
                 Some(PageKind::Ielts)
             }
+            Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady => Some(PageKind::Notes),
             _ => None,
         }
     }
@@ -1497,6 +1572,10 @@ impl Scene {
                 | Scene::IeltsCueCard
                 | Scene::IeltsResult
                 | Scene::IeltsMicDenied
+                | Scene::Page(PageKind::Notes)
+                | Scene::NotesListening
+                | Scene::NotesWriting
+                | Scene::NotesReady
         )
     }
 
@@ -2692,13 +2771,16 @@ impl SelfTest {
         // Notifications (Windows, off by default): on for its page and its notices.
         let notify = scene.page() == Some(PageKind::Notifications) || matches!(scene, Scene::MessageNotice | Scene::MessageHidden);
         let ielts = scene.page() == Some(PageKind::Ielts);
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (NOTIFICATIONS.id, notify), (IELTS.id, ielts)] {
+        // Meeting notes: on for its page and its pill.
+        let notes = scene.page() == Some(PageKind::Notes) || scene == Scene::NotesActivity;
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (NOTIFICATIONS.id, notify), (IELTS.id, ielts), (MEETING_NOTES.id, notes)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
         seed_notifications(st, scene);
         seed_ielts(st, scene, now);
+        seed_notes(st, scene, now);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
@@ -2954,6 +3036,12 @@ impl SelfTest {
             let wine = under_wine();
             let note = if wine { " (Wine, which can't leave a window out)" } else { "" };
             checks.push(check("script-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {said}, Windows build {build:?}{note}")));
+        }
+        if scene == Scene::NotesActivity {
+            // A meeting being taken down rests on the closed island: Oyen, the dot, the time.
+            let (mode, _) = app.selftest_mode();
+            let want = Mode::Activity(crate::activities::Activity::Notes);
+            checks.push(check("notes-pill", mode == want, format!("{mode:?}, want {want:?}")));
         }
         if matches!(scene, Scene::RecordActivity | Scene::RecordPaused) {
             // The recording rests on the closed island, ahead of everything else.
