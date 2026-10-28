@@ -1,0 +1,39 @@
+{
+ "_type": "video",
+ "id": "b29290cc-dc51-4a12-bcb2-2aa5fece7605",
+ "title": "OVERGROWN: a feature film project by Blender Studio",
+ "fulltitle": "OVERGROWN: a feature film project by Blender Studio",
+ "thumbnail": "https://video.blender.org/lazy-static/thumbnails/2d0a6dff-ad41-4e1c-a921-53338b30759c.jpg",
+ "thumbnails": [
+  {"url": "https://video.blender.org/lazy-static/thumbnails/2d0a6dff-ad41-4e1c-a921-53338b30759c.jpg", "id": "0"}
+ ],
+ "uploader": "Blender",
+ "uploader_url": "https://video.blender.org/accounts/blender",
+ "channel": "Blender Studio",
+ "channel_url": "https://video.blender.org/video-channels/blender_studio",
+ "duration": 70,
+ "duration_string": "1:10",
+ "view_count": 12752,
+ "tags": ["b3d", "blenderstudio", "openmovie"],
+ "license": "Unknown",
+ "upload_date": "20260710",
+ "webpage_url": "https://video.blender.org/videos/watch/b29290cc-dc51-4a12-bcb2-2aa5fece7605",
+ "original_url": "https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605",
+ "webpage_url_domain": "video.blender.org",
+ "extractor": "PeerTube",
+ "extractor_key": "PeerTube",
+ "formats": [
+  {"format_id": "Audio_only", "format": "Audio_only - unknown", "url": "https://video.blender.org/object-storage/web_videos/1effe9c9-882d-4eec-8469-f3445d319cd2-0.mp4", "ext": "mp4", "protocol": "https", "fps": 0, "tbr": null, "filesize": 2799967, "resolution": null, "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "480p-0", "format": "480p-0 - 480p", "url": "https://video.blender.org/object-storage/streaming_playlists/hls/b29290cc-dc51-4a12-bcb2-2aa5fece7605/df27a955-cc20-4b0e-828a-ed0cf9d79083-480-fragmented.mp4", "ext": "mp4", "protocol": "https", "height": 480, "fps": 24, "tbr": null, "filesize": 8315403, "resolution": "480p", "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "480p-1", "format": "480p-1 - 480p", "url": "https://video.blender.org/object-storage/web_videos/709aa7d2-5d70-42a2-a963-8c87b543a6db-480.mp4", "ext": "mp4", "protocol": "https", "height": 480, "fps": 24, "tbr": null, "filesize": 8320545, "resolution": "480p", "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "3", "format": "3 - 854x480", "url": "https://video.blender.org/object-storage/streaming_playlists/hls/b29290cc-dc51-4a12-bcb2-2aa5fece7605/df27a955-cc20-4b0e-828a-ed0cf9d79083-480.m3u8", "manifest_url": "https://video.blender.org/object-storage/streaming_playlists/hls/b29290cc-dc51-4a12-bcb2-2aa5fece7605/88b94334-5068-4008-b220-6d8b068c525e-master.m3u8", "ext": "mp4", "protocol": "m3u8_native", "vcodec": "avc1.64001e", "acodec": "mp4a.40.2", "width": 854, "height": 480, "fps": 24.0, "tbr": 950.332, "resolution": "854x480", "has_drm": false, "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "1080p-0", "format": "1080p-0 - 1080p", "url": "https://video.blender.org/object-storage/streaming_playlists/hls/b29290cc-dc51-4a12-bcb2-2aa5fece7605/69df68e2-6983-42d5-9022-c945507b0839-1080-fragmented.mp4", "ext": "mp4", "protocol": "https", "height": 1080, "fps": 24, "tbr": null, "filesize": 23256496, "resolution": "1080p", "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "1080p-1", "format": "1080p-1 - 1080p", "url": "https://video.blender.org/object-storage/web_videos/d3f1c1fa-9b39-4049-bc5d-2ca29315fda1-1080.mp4", "ext": "mp4", "protocol": "https", "height": 1080, "fps": 24, "tbr": null, "filesize": 23262402, "resolution": "1080p", "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "6", "format": "6 - 1920x1080", "url": "https://video.blender.org/object-storage/streaming_playlists/hls/b29290cc-dc51-4a12-bcb2-2aa5fece7605/69df68e2-6983-42d5-9022-c945507b0839-1080.m3u8", "manifest_url": "https://video.blender.org/object-storage/streaming_playlists/hls/b29290cc-dc51-4a12-bcb2-2aa5fece7605/88b94334-5068-4008-b220-6d8b068c525e-master.m3u8", "ext": "mp4", "protocol": "m3u8_native", "vcodec": "avc1.640028", "acodec": "mp4a.40.2", "width": 1920, "height": 1080, "fps": 24.0, "tbr": 2657.886, "resolution": "1920x1080", "has_drm": false, "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"}
+ ],
+ "format_id": "6",
+ "ext": "mp4",
+ "width": 1920,
+ "height": 1080,
+ "_version": {"version": "2026.10.26", "current_git_head": null, "release_git_head": null, "repository": "yt-dlp/yt-dlp"}
+}
