@@ -22,6 +22,10 @@ pub struct AddonFile {
     pub size: u64,
     /// SHA-256, lowercase hex.
     pub sha256: &'static str,
+    /// Where it comes from when that isn't the add-on's own release: a tool's
+    /// own release, unchanged (the Downloader's yt-dlp and QuickJS). Saved
+    /// under `name` all the same.
+    pub url: Option<&'static str>,
 }
 
 impl AddonFile {
@@ -53,7 +57,10 @@ impl Addon {
     }
 
     pub fn url(&self, file: &AddonFile) -> String {
-        format!("{RELEASES}/{}/{}", self.tag, file.name)
+        match file.url {
+            Some(url) => url.to_string(),
+            None => format!("{RELEASES}/{}/{}", self.tag, file.name),
+        }
     }
 
     pub fn find(id: &str) -> Option<&'static Addon> {
@@ -76,9 +83,9 @@ pub const PRAYER_TIMES: Addon = Addon {
     mac_blurb: None,
     tag: "addon-sholat-1",
     files: &[
-        AddonFile { name: "places.json", size: 79_687, sha256: "4d2e1cd6c277b97273f415cf0460579db143fe92ac88f6e4bddb79cdf8cbf69b" },
-        AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59" },
-        AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a" },
+        AddonFile { name: "places.json", size: 79_687, sha256: "4d2e1cd6c277b97273f415cf0460579db143fe92ac88f6e4bddb79cdf8cbf69b", url: None },
+        AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59", url: None },
+        AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a", url: None },
     ],
 };
 
@@ -100,8 +107,8 @@ pub const JAPANESE_READINGS: Addon = Addon {
     mac_blurb: Some("Romaji under kanji in Japanese lyrics."),
     tag: "addon-ja-1",
     files: &[
-        AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8" },
-        AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079" },
+        AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8", url: None },
+        AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079", url: None },
     ],
 };
 
@@ -177,8 +184,45 @@ pub const SCREEN_RECORDER: Addon = Addon {
     files: &[],
 };
 
+/// Downloader: the Downloads page, which saves the video or sound of a link
+/// with yt-dlp (`ytdlp`, `downloads`). yt-dlp and QuickJS (which yt-dlp needs
+/// for YouTube) come from their own releases, unchanged; FFmpeg, which joins
+/// a video's picture and sound, is our own small build
+/// (`tools/build-ffmpeg-min.sh`, `addons/downloader/`). Windows only for now,
+/// and not in the Microsoft Store build. Nothing runs at rest: the tools only
+/// run while a download does.
+pub const DOWNLOADER: Addon = Addon {
+    id: "downloader",
+    title: "Downloader",
+    blurb: "Save the video or sound of a link you paste, with yt-dlp.",
+    mac_blurb: None,
+    tag: "addon-downloader-1",
+    files: &[
+        AddonFile {
+            name: YTDLP_EXE,
+            size: 23_575_744,
+            sha256: "f5389d3698ecde4ef06f4e6b1ce0294fe9ac1396228c8990b8d3416d6d177a7d",
+            url: Some("https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp.exe"),
+        },
+        AddonFile {
+            name: QJS_EXE,
+            size: 2_151_363,
+            sha256: "2aeabf0092c3262d6b2609824418f7dd7ed1f1df939f73b2b15645230cac0d77",
+            url: Some("https://github.com/quickjs-ng/quickjs/releases/download/v0.17.0/qjs-windows-x86_64.exe"),
+        },
+        // Placeholder until tools/build-ffmpeg-min.sh's build is on the add-on's release.
+        AddonFile { name: FFMPEG_EXE, size: 0, sha256: "", url: None },
+        AddonFile { name: "NOTICE.txt", size: 0, sha256: "", url: None },
+    ],
+};
+
+/// The Downloader's tools, as saved in its folder.
+pub const YTDLP_EXE: &str = "yt-dlp.exe";
+pub const QJS_EXE: &str = "qjs.exe";
+pub const FFMPEG_EXE: &str = "ffmpeg.exe";
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 7] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &SCREEN_RECORDER];
+pub const ALL: [&Addon; 8] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &SCREEN_RECORDER, &DOWNLOADER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads

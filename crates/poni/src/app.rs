@@ -576,6 +576,8 @@ impl App {
         let taskbar_created_msg = unsafe { RegisterWindowMessageW(w!("TaskbarCreated")) };
         // Oyenza Studio Recorder installed: the Record tab can show (one registry read).
         st.recorder = selftest_dir.is_none() && services::recorder::installed();
+        // The Downloader: not in the Microsoft Store build.
+        st.downloader_offered = !crate::autostart::packaged();
         let selftest = selftest_dir.map(selftest::SelfTest::new);
         let saved_settings = st.settings.clone();
         Ok(Self {
@@ -2085,6 +2087,8 @@ impl App {
             AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
             AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
             AppEvent::AdzanEnded => self.adzan_ended(),
+            AppEvent::Download { id, line } => self.download_line(id, line),
+            AppEvent::DownloadEnded { id, ok } => self.download_ended(id, ok),
             AppEvent::Log(s) => pinfo!("{s}"),
         }
         if let Some(before) = media_before {
@@ -3863,6 +3867,7 @@ impl App {
                         services::cities::fetch(file, self.sink.clone());
                     }
                 }
+                Command::Download(c) => self.download_cmd(c),
             }
         }
         self.sync_phone_offer();
@@ -4420,6 +4425,10 @@ fn paired_phones(pairs: Vec<poni_core::pairdrop::Pair>) -> Vec<PairedPhone> {
 fn files_label(n: usize) -> String {
     format!("{n} {}", if n == 1 { "file" } else { "files" })
 }
+
+// The Downloads page's commands and yt-dlp's reports.
+#[path = "app_downloads.rs"]
+mod downloads;
 
 #[cfg(test)]
 mod tests {

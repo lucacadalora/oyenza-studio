@@ -12,6 +12,7 @@ pub mod clipboard;
 pub mod frames;
 pub mod fullscreen;
 pub mod cities;
+pub mod downloader;
 pub mod http;
 pub mod imaging;
 pub mod location;
@@ -51,6 +52,8 @@ pub struct Services {
     addons: Option<addons::AddonService>,
     /// Started the first time the Stocks page opens ([`Services::stocks_watch`]).
     stocks: std::cell::OnceCell<Option<stocks::StocksService>>,
+    /// Started at the first download ([`Services::download`]).
+    downloader: std::cell::OnceCell<Option<downloader::DownloaderService>>,
     sink: EventSink,
 }
 
@@ -81,7 +84,7 @@ impl Services {
         // Asleep unless an add-on is on; then it only checks the files it has.
         let on = poni_core::addons::ALL.iter().filter(|a| settings.addon_on(a.id)).map(|a| a.id).collect();
         let addons = started("add-ons", addons::AddonService::start(sink.clone(), on));
-        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), sink: sink.clone() }
+        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), downloader: std::cell::OnceCell::new(), sink: sink.clone() }
     }
 
     pub fn stop(self, _helper: HWND) {
@@ -104,6 +107,20 @@ impl Services {
         }
         if let Some(s) = self.stocks.get_or_init(|| started("stocks", stocks::StocksService::start(self.sink.clone()))) {
             s.set_watch(w);
+        }
+    }
+
+    /// Run yt-dlp for `req` (the Downloader add-on's tools are in place).
+    pub fn download(&self, req: poni_core::ytdlp::Request) {
+        if let Some(d) = self.downloader.get_or_init(|| started("downloader", downloader::DownloaderService::start(self.sink.clone()))) {
+            d.run(req);
+        }
+    }
+
+    /// Stop download `id` (its yt-dlp and whatever yt-dlp started).
+    pub fn stop_download(&self, id: u64) {
+        if let Some(Some(d)) = self.downloader.get() {
+            d.stop(id);
         }
     }
 

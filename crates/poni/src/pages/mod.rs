@@ -11,6 +11,7 @@
 
 pub mod addons;
 pub mod card;
+pub mod downloads;
 pub mod focus;
 pub mod health;
 pub mod media;
@@ -72,6 +73,8 @@ pub enum PageKind {
     Prayer,
     /// The IHSG and the person's stocks, while the Stocks add-on is on ([`tabs`]).
     Stocks,
+    /// Links to save as video or sound, while the Downloader add-on is on ([`tabs`]).
+    Downloads,
     /// The "+" at the end of the tab row: features to switch on, each of
     /// which downloads only then (`poni_core::addons`).
     Addons,
@@ -82,7 +85,7 @@ pub enum PageKind {
 impl PageKind {
     /// The tab row's order: the island's own pages, Oyenza, then the
     /// add-ons' pages and the "+".
-    pub const ALL: [PageKind; 14] = [
+    pub const ALL: [PageKind; 15] = [
         PageKind::Media,
         PageKind::Today,
         PageKind::Shelf,
@@ -95,6 +98,7 @@ impl PageKind {
         PageKind::Record,
         PageKind::Prayer,
         PageKind::Stocks,
+        PageKind::Downloads,
         PageKind::Addons,
         PageKind::Settings,
     ];
@@ -113,6 +117,7 @@ impl PageKind {
             PageKind::Oyenza => "oyenza",
             PageKind::Prayer => "prayer",
             PageKind::Stocks => "stocks",
+            PageKind::Downloads => "downloads",
             PageKind::Addons => "addons",
             PageKind::Settings => "settings",
         }
@@ -138,6 +143,7 @@ impl PageKind {
             PageKind::Oyenza => "Oyenza",
             PageKind::Prayer => "Prayer",
             PageKind::Stocks => "Stocks",
+            PageKind::Downloads => "Downloads",
             PageKind::Addons => "Add-ons",
             PageKind::Settings => "Settings",
         }
@@ -157,6 +163,7 @@ impl PageKind {
             PageKind::Oyenza => Icon::Wallet,
             PageKind::Prayer => Icon::Moon,
             PageKind::Stocks => Icon::Stocks,
+            PageKind::Downloads => Icon::Download,
             PageKind::Addons => Icon::Addons,
             PageKind::Settings => Icon::Gear,
         }
@@ -190,6 +197,7 @@ pub fn tabs(st: &AppState) -> Vec<PageKind> {
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
             PageKind::Stocks => st.stocks_on(),
+            PageKind::Downloads => st.downloader_on(),
             PageKind::Record => st.record_on(),
             p => p.tabbed(),
         })
@@ -218,6 +226,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Oyenza => oyenza::height(st),
         PageKind::Prayer => prayer::height(st),
         PageKind::Stocks => stocks::height(st),
+        PageKind::Downloads => downloads::height(st),
         PageKind::Addons => addons::height(st),
         PageKind::Settings => settings::height(st),
     }
@@ -351,6 +360,7 @@ pub(crate) fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKi
         PageKind::Oyenza => oyenza::draw(ui, st, area),
         PageKind::Prayer => prayer::draw(ui, st, area),
         PageKind::Stocks => stocks::draw(ui, st, area),
+        PageKind::Downloads => downloads::draw(ui, st, area),
         PageKind::Addons => addons::draw(ui, st, area),
         PageKind::Settings => settings::draw(ui, st, area),
     }

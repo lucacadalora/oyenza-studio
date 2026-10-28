@@ -330,6 +330,8 @@ pub struct PageUiState {
     pub peek: poni_core::peek::Peek,
     /// The Stocks page: its scroll, search, edit mode and chart animation.
     pub stocks: crate::pages::stocks::StocksUi,
+    /// The Downloads page: its link field, mode and scroll.
+    pub downloads: crate::pages::downloads::DownloadsUi,
 }
 
 /// Whether Windows lets Oyenza Studio read a game's frames. Its event tracing
@@ -647,6 +649,11 @@ pub struct AppState {
     pub recorder: bool,
     /// The Stocks add-on's prices (its list: `store.stocks`).
     pub stocks: StocksState,
+    /// The Downloads page's jobs (`poni_core::downloads`), in memory only.
+    pub downloads: poni_core::downloads::Jobs,
+    /// This app offers the Downloader: Windows outside the Microsoft Store
+    /// build (set at start; false on the Mac for now).
+    pub downloader_offered: bool,
     /// The recorder's recording, as it last told the island.
     pub rec: RecView,
     /// Side effects requested during the frame.
@@ -716,6 +723,8 @@ impl AppState {
             script_hidden: None,
             recorder: false,
             stocks: StocksState::default(),
+            downloads: poni_core::downloads::Jobs::default(),
+            downloader_offered: false,
             rec: RecView::default(),
             cmds: Vec::new(),
         };
@@ -734,6 +743,7 @@ impl AppState {
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
             PageKind::Stocks => !st.stocks_on(),
+            PageKind::Downloads => !st.downloader_on(),
             PageKind::Record => !st.record_on(),
             _ => false,
         };
@@ -800,6 +810,11 @@ impl AppState {
     /// for only while the page is on screen).
     pub fn stocks_on(&self) -> bool {
         self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
+    }
+
+    /// The Downloader add-on is on, with its tools in place: the Downloads tab shows.
+    pub fn downloader_on(&self) -> bool {
+        self.downloader_offered && self.addon(poni_core::addons::DOWNLOADER.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.
