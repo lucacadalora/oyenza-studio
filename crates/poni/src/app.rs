@@ -1735,17 +1735,22 @@ impl App {
     }
 
     /// Studio Pro came, or went (the server's word, or signing out):
-    /// Notifications listens only with it, and the Downloader's downloads stop
-    /// as it goes. Their tabs follow by themselves (`downloader_on`,
-    /// `notifications_on`), and a page of theirs on screen leaves for Add-ons.
+    /// Notifications listens only with it, the Downloader's downloads stop as
+    /// it goes, and the Pro add-ons' files come with it (`Services::set_pro`).
+    /// Their tabs follow by themselves (`downloader_on`, `notifications_on`),
+    /// and a page of theirs on screen leaves for Add-ons.
     fn pro_changed(&mut self) {
-        if self.st.studio_pro() != Some(true) {
+        let pro = self.st.studio_pro() == Some(true);
+        if !pro {
             self.downloads_off();
             self.stop_notify();
         } else if self.st.notifications_on() && self.selftest.is_none() {
             // Switched on before, waiting for Pro: it listens now (Windows'
             // question waits for the page's Allow).
             self.start_notify(false);
+        }
+        if let Some(s) = self.services.as_ref() {
+            s.set_pro(pro);
         }
     }
 

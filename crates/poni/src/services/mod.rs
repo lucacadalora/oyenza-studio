@@ -94,6 +94,9 @@ impl Services {
         let pairdrop = started("pair drop", pairdrop::PairDropService::start(sink.clone()));
         // Asleep unless an add-on is on; then it only checks the files it has.
         // The Microsoft Store build has no Downloader, whatever settings.json says.
+        // A Studio Pro add-on's files wait for Pro (`set_pro`): a filter here
+        // would delete the Downloader's tools at every start, before the
+        // server's answer, and fetch them again after it.
         let store = crate::autostart::packaged();
         let on = poni_core::addons::ALL
             .iter()
@@ -142,9 +145,18 @@ impl Services {
     }
 
     /// An add-on was switched on (download its files) or off (delete them).
+    /// A Studio Pro add-on's files come only with Pro (`set_pro`).
     pub fn set_addon(&self, id: &'static str, on: bool) {
         if let Some(a) = &self.addons {
             a.set(id, on);
+        }
+    }
+
+    /// Whether the account has Studio Pro: the Pro add-ons' files come with
+    /// it, and stay as they are without it.
+    pub fn set_pro(&self, pro: bool) {
+        if let Some(a) = &self.addons {
+            a.set_pro(pro);
         }
     }
 

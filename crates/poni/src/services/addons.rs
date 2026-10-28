@@ -9,7 +9,14 @@
 //! A download that can't reach GitHub waits and tries again (5 s,
 //! doubling to 10 minutes); one whose bytes don't match is thrown away and
 //! not retried until the add-on is switched off and on again. An add-on
-//! whose files this build doesn't pin yet downloads nothing at all.
+//! whose files this build doesn't pin yet downloads nothing at all. A Studio
+//! Pro add-on's files (`Addon::pro`: the Downloader's tools) are checked and
+//! fetched only for an account the server says has Pro
+//! ([`AddonService::set_pro`]). Without it (at start before the answer,
+//! signed out, a no, or an app that never tells, as the Mac's for now) they
+//! stay as they are, neither checked, fetched nor deleted, so no start,
+//! sign-out or wrong answer costs their download again; switching the
+//! add-on off deletes them as for any other.
 //!
 //! GitHub answers a release download (the add-ons' own pre-releases, and
 //! the Downloader's yt-dlp and QuickJS from theirs) with a redirect to its
@@ -61,7 +68,7 @@ impl AddonService {
     /// `on`: the add-ons switched on in settings.
     pub fn start(sink: EventSink, on: Vec<&'static str>) -> io::Result<Self> {
         let want = addons::ALL.iter().map(|a| (a.id, on.contains(&a.id))).collect();
-        let shared = Arc::new(Shared { q: Mutex::new(Queue { want, jobs: Vec::new(), shutdown: false }), cv: Condvar::new() });
+        let shared = Arc::new(Shared { q: Mutex::new(Queue { want, pro: false, jobs: Vec::new(), shutdown: false }), cv: Condvar::new() });
         let worker = shared.clone();
         std::thread::Builder::new()
             .name("poni-addons".into())
@@ -74,6 +81,17 @@ impl AddonService {
     pub fn set(&self, id: &'static str, on: bool) {
         self.shared.lock().want.insert(id, on);
         self.shared.cv.notify_all();
+    }
+
+    /// Whether the account has Studio Pro, as the server last said, for the
+    /// Pro add-ons' files ([`wanted`]); returns at once.
+    pub fn set_pro(&self, pro: bool) {
+        let mut q = self.shared.lock();
+        if q.pro != pro {
+            q.pro = pro;
+            drop(q);
+            self.shared.cv.notify_all();
+        }
     }
 
     /// Run `job` on the worker after what it is doing now; returns at once.
@@ -94,6 +112,7 @@ impl Drop for AddonService {
 
 struct Queue {
     want: BTreeMap<&'static str, bool>,
+    pro: bool,
     jobs: Vec<Job>,
     shutdown: bool,
 }
@@ -106,6 +125,17 @@ struct Shared {
 impl Shared {
     fn lock(&self) -> MutexGuard<'_, Queue> {
         self.q.lock().unwrap_or_else(|p| p.into_inner())
+    }
+}
+
+/// What becomes of `addon`'s files, switched `on` or off: kept (true) or
+/// deleted (false). None leaves them as they are: a Pro add-on switched on
+/// for an account without Pro (as far as the island knows).
+fn wanted(addon: &Addon, on: bool, pro: bool) -> Option<bool> {
+    if on && addon.pro && !pro {
+        None
+    } else {
+        Some(on)
     }
 }
 
@@ -129,9 +159,9 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
     let mut have: BTreeMap<&'static str, Have> = addons::ALL.iter().map(|a| (a.id, Have::Unknown)).collect();
     let mut was_on: BTreeMap<&'static str, bool> = BTreeMap::new();
     loop {
-        let (want, jobs, shutdown) = {
+        let (want, pro, jobs, shutdown) = {
             let mut q = shared.lock();
-            (q.want.clone(), std::mem::take(&mut q.jobs), q.shutdown)
+            (q.want.clone(), q.pro, std::mem::take(&mut q.jobs), q.shutdown)
         };
         if shutdown {
             return;
@@ -142,7 +172,8 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
             if !addon.downloads() {
                 continue;
             }
-            let on = want.get(addon.id).copied().unwrap_or(false);
+            // A Pro add-on's files wait for Pro.
+            let Some(on) = wanted(addon, want.get(addon.id).copied().unwrap_or(false), pro) else { continue };
             let h = have.get(addon.id).copied().unwrap_or(Have::Unknown);
             // Switched on again after a failure: a fresh start.
             let h = if on && !was_on.get(addon.id).copied().unwrap_or(false) && matches!(h, Have::Failed | Have::Removed) { Have::Unknown } else { h };
@@ -192,7 +223,7 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink, dir: PathBuf) {
         }
         // Sleep until something changes or a retry is due.
         let q = shared.lock();
-        if q.want == want && q.jobs.is_empty() && !q.shutdown {
+        if q.want == want && q.pro == pro && q.jobs.is_empty() && !q.shutdown {
             let _q = match next_wake {
                 Some(at) => shared.cv.wait_timeout(q, at.saturating_duration_since(Instant::now())).map(|r| r.0).unwrap_or_else(|p| p.into_inner().0),
                 None => shared.cv.wait(q).unwrap_or_else(|p| p.into_inner()),
@@ -304,8 +335,13 @@ fn ensure(shared: &Shared, client: &Client, sink: &EventSink, dir: &Path, addon:
         sink.send(AppEvent::Addon { id: addon.id, status: Status::Downloading { done, total } });
     }
     for file in missing {
-        // Switched off meanwhile: stop here (the caller deletes the files).
-        if !shared.lock().want.get(addon.id).copied().unwrap_or(false) {
+        // Switched off meanwhile, or Pro went: stop here (the caller deletes
+        // the files, or leaves them for Pro).
+        let wants = {
+            let q = shared.lock();
+            wanted(addon, q.want.get(addon.id).copied().unwrap_or(false), q.pro)
+        };
+        if wants != Some(true) {
             return Have::Unknown;
         }
         let url = addon.url(file);
@@ -440,6 +476,21 @@ pub fn fetch_for_selftest(addon: &'static Addon, dir: &Path) -> (bool, String) {
 mod tests {
     use super::*;
     use poni_core::addons::JAPANESE_READINGS;
+
+    #[test]
+    fn a_pro_add_on_s_files_come_only_with_pro() {
+        use poni_core::addons::{DOWNLOADER, PRAYER_TIMES};
+        // Switched on: kept (and fetched) with Pro, left as they are without it.
+        assert_eq!(wanted(&DOWNLOADER, true, true), Some(true));
+        assert_eq!(wanted(&DOWNLOADER, true, false), None);
+        for pro in [true, false] {
+            // Switched off: deleted, Pro or not.
+            assert_eq!(wanted(&DOWNLOADER, false, pro), Some(false));
+            // Every other add-on goes by its switch alone.
+            assert_eq!(wanted(&PRAYER_TIMES, true, pro), Some(true));
+            assert_eq!(wanted(&PRAYER_TIMES, false, pro), Some(false));
+        }
+    }
 
     #[test]
     fn a_big_file_gets_more_time() {
