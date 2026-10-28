@@ -1,0 +1,2 @@
+WARNING: [PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Unable to download webpage: HTTP Error 400: Bad Request
+ERROR: [PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Requested format is not available. Use --list-formats for a list of available formats

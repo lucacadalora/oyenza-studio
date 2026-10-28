@@ -4,3 +4,6 @@ addons/** -text
 # The prayer picker's city files (tools/make_world_places.py): the website
 # serves them as built, and the tests read the same bytes on every system.
 site/places/** -text
+# yt-dlp's recorded output (crates/poni-core/tests/fixtures/ytdlp): the parser
+# tests read the bytes yt-dlp wrote, so no line-ending conversion on checkout.
+crates/poni-core/tests/fixtures/ytdlp/** -text
