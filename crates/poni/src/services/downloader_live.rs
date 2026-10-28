@@ -60,7 +60,7 @@ fn fetch(bin: &Path) -> bool {
     let client = Client::new(USER_AGENT).expect("an HTTP client");
     let mut ffmpeg = false;
     for file in DOWNLOADER.files.iter().filter(|f| [addons::YTDLP_EXE, addons::QJS_EXE, addons::FFMPEG_EXE].contains(&f.name)) {
-        if file.name == addons::FFMPEG_EXE && file.size == 0 {
+        if file.name == addons::FFMPEG_EXE && !file.pinned() {
             println!("::warning::{} isn't pinned in addons::DOWNLOADER yet: the downloads go without it", file.name);
             continue;
         }

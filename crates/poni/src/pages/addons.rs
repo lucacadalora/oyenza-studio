@@ -10,6 +10,8 @@
 //! row toggles, as in Settings: on downloads the add-on and starts it, off
 //! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
+//! One whose files this build can't get yet stays off and says so
+//! (`Status::Unpinned`).
 //! Both apps list every add-on ([`OFFERED`]) but Screen recorder, which shows
 //! once Oyenza Studio Recorder is installed ([`rows`]).
 
@@ -89,6 +91,7 @@ fn icon(a: &Addon) -> Icon {
         "health" => Icon::Steps,
         "stocks" => Icon::Stocks,
         "recorder" => Icon::Recorder,
+        "downloader" => Icon::Download,
         _ => Icon::Addons,
     }
 }
@@ -104,8 +107,13 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         let row = Rect::new(area.x, area.y + ROWS_Y + i as f32 * h, area.w, h);
         if addon_row(ui, st, row, i, a, card) {
             let on = status(st, a).is_on();
-            st.settings.set_addon(a.id, !on);
-            st.cmd(Command::SaveSettings);
+            if !on && !a.pinned() {
+                // This build can't get its files: it stays off, and its line says why.
+                st.addons.insert(a.id, Status::Unpinned);
+            } else {
+                st.settings.set_addon(a.id, !on);
+                st.cmd(Command::SaveSettings);
+            }
         }
     }
 }

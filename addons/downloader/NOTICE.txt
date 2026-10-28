@@ -1,19 +1,17 @@
 Downloader add-on for Oyenza Studio: what it holds and where it comes from
 
 yt-dlp.exe
-  yt-dlp 2026.10.26, which reads a link and downloads its video or sound.
-  Downloaded from yt-dlp's own release on GitHub, unchanged:
-  https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp.exe
-  (23,575,744 bytes, SHA-256
-  f5389d3698ecde4ef06f4e6b1ce0294fe9ac1396228c8990b8d3416d6d177a7d)
+  yt-dlp, which reads a link and downloads its video or sound. Downloaded
+  from yt-dlp's own release on GitHub, unchanged. Each version of Oyenza
+  Studio names the release it takes and that file's size and SHA-256
+  (poni_core::addons::DOWNLOADER), and refuses any other file; a newer
+  yt-dlp comes with a newer Oyenza Studio.
 
 qjs.exe
-  QuickJS-ng 0.17.0, a small JavaScript engine. yt-dlp runs it to answer
-  YouTube's JavaScript challenges. Downloaded from QuickJS-ng's own release
-  on GitHub, unchanged, and saved as qjs.exe:
-  https://github.com/quickjs-ng/quickjs/releases/download/v0.17.0/qjs-windows-x86_64.exe
-  (2,151,363 bytes, SHA-256
-  2aeabf0092c3262d6b2609824418f7dd7ed1f1df939f73b2b15645230cac0d77)
+  QuickJS-ng, a small JavaScript engine. yt-dlp runs it to answer YouTube's
+  JavaScript challenges. Downloaded from QuickJS-ng's own release on GitHub
+  (qjs-windows-x86_64.exe), unchanged, and saved as qjs.exe; pinned the
+  same way as yt-dlp.exe.
 
 ffmpeg.exe
   A minimal build of FFmpeg 9.0.2, which yt-dlp runs to join a video's
@@ -30,7 +28,7 @@ They are separate programs: Oyenza Studio runs yt-dlp, and yt-dlp runs the
 other two. Each keeps its own license, below.
 
 ------------------------------------------------------------------------------
-yt-dlp 2026.10.26
+yt-dlp
 
 Used for: yt-dlp.exe.
 
@@ -45,7 +43,8 @@ the combined work is licensed under GPLv3+." yt-dlp's
 THIRD_PARTY_LICENSES.txt lists every bundled part with its license text and
 says how to get its source. yt-dlp.exe carries that file inside it, and it
 is also at
-https://github.com/yt-dlp/yt-dlp/blob/2026.10.26/THIRD_PARTY_LICENSES.txt
+https://github.com/yt-dlp/yt-dlp/blob/master/THIRD_PARTY_LICENSES.txt
+(and in each release's source).
 
 Its license (LICENSE), unchanged:
 
@@ -75,7 +74,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 
 ------------------------------------------------------------------------------
-QuickJS-ng 0.17.0
+QuickJS-ng
 
 Used for: qjs.exe. It is QuickJS-ng's own Windows build, which also has
 mimalloc (MIT) and the mingw-w64 runtime linked in.
