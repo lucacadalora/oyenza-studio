@@ -4,10 +4,11 @@
 //! came up waiting above the list (`downloads_offer`). The list: the
 //! downloads, newest first, each with its site's letter, title, the line
 //! under it (`poni_core::downloads::line`), a bar while it comes in, and
-//! Stop, or Open, Show in folder and remove; a finished file also drags out
-//! of its row, as from the Shelf. yt-dlp does the work
-//! (`services::downloader`, Windows); nothing runs at rest, and the page
-//! moves by itself only while its list glides to where the wheel sent it.
+//! Stop (Cancel while it waits its turn), or Open, Show in folder and
+//! remove; a finished file also drags out of its row, as from the Shelf.
+//! yt-dlp does the work (`services::downloader`, Windows); nothing runs at
+//! rest, and the page moves by itself only while its list glides to where
+//! the wheel sent it.
 
 use crate::commands::{Command, DownloadCmd};
 use crate::gfx::{TextStyle, Weight};
@@ -220,6 +221,8 @@ fn list(ui: &mut Ui, st: &mut AppState, r: Rect) {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum RowAct {
     Stop,
+    /// Stop for one still waiting its turn: it leaves the list (`Jobs::stop`).
+    Cancel,
     Open,
     Reveal,
     /// Off the list (the file stays).
@@ -230,6 +233,7 @@ impl RowAct {
     fn label(self) -> &'static str {
         match self {
             RowAct::Stop => "Stop",
+            RowAct::Cancel => "Cancel",
             RowAct::Open => "Open",
             RowAct::Reveal => REVEAL,
             RowAct::Remove => "",
@@ -237,11 +241,12 @@ impl RowAct {
     }
 }
 
-/// A download's buttons, left to right: Stop while it runs (a queued one
-/// too); Open, Show in folder and remove once it's done; remove once it
+/// A download's buttons, left to right: Cancel while it waits, Stop while
+/// it runs; Open, Show in folder and remove once it's done; remove once it
 /// failed or was stopped.
 fn row_acts(state: &State) -> &'static [RowAct] {
     match state {
+        State::Queued => &[RowAct::Cancel],
         State::Done { .. } => &[RowAct::Open, RowAct::Reveal, RowAct::Remove],
         s if s.live() => &[RowAct::Stop],
         _ => &[RowAct::Remove],
@@ -302,7 +307,7 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
             continue;
         }
         let clicked = match act {
-            RowAct::Stop => ui.pill(wid_n("downloads.stop", job.id), b, act.label(), None, PillStyle::Utility).clicked,
+            RowAct::Stop | RowAct::Cancel => ui.pill(wid_n("downloads.stop", job.id), b, act.label(), None, PillStyle::Utility).clicked,
             RowAct::Open => ui.pill(wid_n("downloads.open", job.id), b, act.label(), None, PillStyle::Neutral).clicked,
             RowAct::Reveal => ui.pill(wid_n("downloads.reveal", job.id), b, act.label(), None, PillStyle::Utility).clicked,
             RowAct::Remove => {
@@ -312,7 +317,7 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
         };
         if clicked {
             let cmd = match act {
-                RowAct::Stop => DownloadCmd::Stop(job.id),
+                RowAct::Stop | RowAct::Cancel => DownloadCmd::Stop(job.id),
                 RowAct::Open => DownloadCmd::Open(job.id),
                 RowAct::Reveal => DownloadCmd::Reveal(job.id),
                 RowAct::Remove => DownloadCmd::Remove(job.id),
@@ -380,9 +385,12 @@ mod tests {
 
     #[test]
     fn each_row_offers_what_its_download_can_do() {
+        // Waiting its turn: Cancel, the same command, which takes it off the list.
+        assert_eq!(row_acts(&State::Queued), [RowAct::Cancel]);
+        assert_eq!(RowAct::Cancel.label(), "Cancel");
         let downloading = State::Downloading { done: 1, total: None, speed: None, eta_s: None };
-        for live in [State::Queued, State::Starting, downloading, State::Finishing(Stage::Merging)] {
-            assert_eq!(row_acts(&live), [RowAct::Stop], "{live:?}");
+        for running in [State::Starting, downloading, State::Finishing(Stage::Merging)] {
+            assert_eq!(row_acts(&running), [RowAct::Stop], "{running:?}");
         }
         let done = State::Done { path: "C:\\Users\\a\\Downloads\\Big Buck Bunny.mp4".into(), size: 4_200_000 };
         assert_eq!(row_acts(&done), [RowAct::Open, RowAct::Reveal, RowAct::Remove]);

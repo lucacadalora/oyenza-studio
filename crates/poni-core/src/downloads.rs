@@ -166,8 +166,11 @@ impl Jobs {
         self.end(id, State::Failed(why.to_string()));
     }
 
-    /// The person stopped job `id` (one that ended already stays as it ended).
+    /// The person stopped job `id` (one that ended already stays as it
+    /// ended). One still queued never started: its Cancel takes it off the
+    /// list, as there is nothing of it to show.
     pub fn stop(&mut self, id: u64) {
+        self.list.retain(|j| j.id != id || j.state != State::Queued);
         self.end(id, State::Stopped);
     }
 
@@ -605,15 +608,17 @@ mod tests {
     }
 
     #[test]
-    fn a_stopped_download_stays_stopped() {
+    fn a_stopped_download_stays_stopped_and_a_cancelled_one_goes() {
         let mut jobs = Jobs::default();
         let running = jobs.add(SPRITE_FRIGHT.into(), Mode::Video, 0);
         let queued = jobs.add(BUNNY.into(), Mode::Video, 0);
         jobs.starting(running);
         jobs.apply(running, bytes(5_000_000, Some(10_000_000)));
         jobs.stop(running);
+        assert_eq!(line_of(&jobs, running), "Stopped");
+        // Cancel: the queued one never started, so it leaves the list.
         jobs.stop(queued);
-        assert_eq!((line_of(&jobs, running), line_of(&jobs, queued)), ("Stopped".to_string(), "Stopped".to_string()));
+        assert_eq!(ids(&jobs), [running]);
         assert_eq!(jobs.to_start(), Vec::<u64>::new(), "a stopped job never starts");
         jobs.starting(queued);
         // yt-dlp's last words before it went, and its exit, change nothing.
@@ -625,7 +630,7 @@ mod tests {
         jobs.ended(running, false);
         assert_eq!(jobs.get(running).unwrap().state, State::Stopped);
         assert_eq!(jobs.get(running).unwrap().title, None);
-        assert_eq!(jobs.get(queued).unwrap().state, State::Stopped);
+        assert_eq!(jobs.get(queued), None);
         assert_eq!((jobs.progress(running), jobs.running(), jobs.busy()), (None, 0, false));
         assert!(jobs.parts.is_empty());
     }
@@ -638,6 +643,7 @@ mod tests {
         let failed = jobs.add(BUNNY.into(), Mode::Video, 0);
         jobs.ended(failed, false);
         let stopped = jobs.add(FLICKERMOOD.into(), Mode::Audio, 0);
+        jobs.starting(stopped);
         jobs.stop(stopped);
         let running = jobs.add(SPRITE_FRIGHT.into(), Mode::Audio, 0);
         jobs.starting(running);

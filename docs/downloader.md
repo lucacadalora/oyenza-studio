@@ -1,6 +1,6 @@
 # The Downloader add-on
 
-The Downloader saves the video or the sound of a link you paste. It's an add-on, off until you switch it on in Add-ons (the "+" at the end of the tab row); then a **Downloads** tab shows. Paste a link, pick **Video** or **Sound** and click **Download**. Each download gets a row with its progress and **Stop**, then **Open** and **Show in folder** once it's done. While something downloads, the closed island shows its progress in a small pill.
+The Downloader saves the video or the sound of a link you paste. It's an add-on, off until you switch it on in Add-ons (the "+" at the end of the tab row); then a **Downloads** tab shows. Paste a link, pick **Video** or **Sound** and click **Download**. Each download gets a row with its progress and **Stop** (**Cancel** while it waits its turn, which takes it off the list), then **Open** and **Show in folder** once it's done. While something downloads, the closed island shows its progress in a small pill.
 
 It's on Windows only for now, and the Microsoft Store build doesn't offer it. The Mac gets it later.
 
