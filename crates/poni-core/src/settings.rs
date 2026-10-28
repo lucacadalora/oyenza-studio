@@ -93,6 +93,10 @@ pub struct Settings {
     pub start_page: String,
     /// Remember the last page instead of `start_page`.
     pub remember_page: bool,
+    /// Tabs taken off the header's row in Settings, by page key: Music,
+    /// Today, Shelf, Tasks and Focus can go. Keys this version doesn't know
+    /// are kept, so a newer Studio's choices survive a save.
+    pub hidden_tabs: Vec<String>,
     pub pomodoro: PomodoroConfig,
     /// Oyenza (once signed in): show sums and senders on the island straight
     /// away. Off: they wait for a click on Show, so a shared screen shows none.
@@ -233,6 +237,7 @@ impl Default for Settings {
             sounds: true,
             start_page: "media".into(),
             remember_page: true,
+            hidden_tabs: Vec::new(),
             pomodoro: PomodoroConfig::default(),
             oyenza_show_amounts: false,
             system_history: true,
@@ -530,6 +535,18 @@ mod tests {
         // A newer Studio's service stays hidden when this one saves the file.
         let back: Settings = serde_json::from_str(&serde_json::to_string(&s).unwrap()).unwrap();
         assert_eq!(back.usage.hidden, ["codex", "future"]);
+    }
+
+    #[test]
+    fn every_tab_shows_until_hidden() {
+        assert!(Settings::default().hidden_tabs.is_empty());
+        // Files from before, and a newer Studio's tab, which stays hidden
+        // when this one saves the file.
+        let old: Settings = serde_json::from_str(r#"{"settings_version":4}"#).unwrap();
+        assert!(old.hidden_tabs.is_empty());
+        let s: Settings = serde_json::from_str(r#"{"hidden_tabs":["today","future"]}"#).unwrap();
+        let back: Settings = serde_json::from_str(&serde_json::to_string(&s).unwrap()).unwrap();
+        assert_eq!(back.hidden_tabs, ["today", "future"]);
     }
 
     #[test]

@@ -919,7 +919,8 @@ impl AppState {
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
         // Last open on the Script, System, Health, Stocks, IELTS or Notes
-        // page, since switched off: open where a new island does.
+        // page, since switched off, or on a tab since hidden: open on the
+        // first tab.
         let off = match st.page {
             PageKind::Script => !st.script_on(),
             PageKind::System => !st.system_on(),
@@ -929,10 +930,10 @@ impl AppState {
             PageKind::Notifications => !st.notifications_on(),
             PageKind::Ielts => !st.ielts_on(),
             PageKind::Notes => !st.notes_on(),
-            _ => false,
+            p => st.tab_hidden(p),
         };
         if off {
-            st.page = PageKind::ALL[0];
+            st.page = crate::pages::first_tab(&st);
         }
         st
     }
@@ -1000,6 +1001,12 @@ impl AppState {
     /// notifications from the apps picked there show on the island.
     pub fn notifications_on(&self) -> bool {
         cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
+    }
+
+    /// Settings took this page's tab off the header's row (Music, Today,
+    /// Shelf, Tasks or Focus).
+    pub fn tab_hidden(&self, p: PageKind) -> bool {
+        p.hideable() && self.settings.hidden_tabs.iter().any(|k| k == p.key())
     }
 
     /// The IELTS add-on is on: the IELTS tab shows.
