@@ -97,8 +97,9 @@ const CLICK_TIMEOUT: f64 = 1.5;
 /// was tight for four more). With 121 (Notifications, the AI tab and IELTS
 /// together, 28 Oct) the Classic run passed 70 s at scene 119. The CI and
 /// Store test steps wait 180 s for the whole run (this plus the writers'
-/// 3.5 s, the Classic runs' IELTS turn of about 26 s, or 40 s more for the
-/// animation runs, stays under it), the Wine runner 180 s.
+/// 3.5 s, the Classic runs' IELTS turn of about 26 s and notes turn of about
+/// 5 s, which the deadline leaves out, or 40 s more for the animation runs,
+/// stays under it), the Wine runner 180 s.
 const SCENE_DEADLINE: f64 = 90.0;
 /// Give up waiting for PNG writers at this point: 3.5 s after the scene
 /// deadline, so the last scenes' pictures get their time however long the
@@ -2481,7 +2482,7 @@ impl SelfTest {
         let elapsed = self.t0.elapsed().as_secs_f64();
         // The IELTS run keeps its own time (each of its steps has a budget).
         if elapsed > SCENE_DEADLINE
-            && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll | Phase::Ielts { .. })
+            && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll | Phase::Ielts { .. } | Phase::Notes { .. })
         {
             let at = match &self.phase {
                 Phase::Settle { i, .. } | Phase::Click { i } | Phase::ClickWait { i, .. } => SCENES[*i].name(),
