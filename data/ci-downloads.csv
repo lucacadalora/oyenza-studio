@@ -461,3 +461,7 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 122177200265,Fetch the release to upgrade from,40500200340,1,2026-10-27T12:02:35Z,release-0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122177568336,Fetch the release to upgrade from,40500222504,1,2026-10-27T12:03:25Z,release-0.2.14,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122179376037,Fetch the release to upgrade from,40500898913,1,2026-10-27T12:07:39Z,ai-usage,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122648511502,Fetch the release to upgrade from,40637459200,1,2026-10-28T05:24:01Z,steps-behind-hint,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122654057860,Fetch the release to upgrade from,40638984712,1,2026-10-28T05:42:05Z,prayer-countdown-ok,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122660478384,Fetch the release to upgrade from,40641081642,1,2026-10-28T06:03:13Z,qa/notifications-shots,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122660693563,Fetch the release to upgrade from,40641032179,1,2026-10-28T06:03:51Z,island-notifications,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
