@@ -149,18 +149,17 @@ impl App {
     /// notice while the island is closed. Not for a download stopped in the
     /// meantime, or a file that isn't where yt-dlp said.
     fn saved(&mut self, id: u64, path: String) {
-        let Some(job) = self.st.downloads.list.iter_mut().find(|j| j.id == id) else { return };
-        let State::Done { path: done, size } = &mut job.state else { return };
-        if *done != path {
+        let Some(job) = self.st.downloads.get(id) else { return };
+        if !matches!(&job.state, State::Done { path: done, .. } if *done == path) {
             return;
         }
+        let title = job.title.clone().unwrap_or_else(|| job.url.clone());
         let Ok(meta) = std::fs::metadata(&path) else {
             pwarn!("downloads: {id} finished, but its file isn't where yt-dlp said");
             return;
         };
-        *size = meta.len();
+        self.st.downloads.set_size(id, meta.len());
         pinfo!("downloads: {id} saved ({} bytes)", meta.len());
-        let title = job.title.clone().unwrap_or_else(|| job.url.clone());
         self.st.store.shelf.add_paths(&[&path], self.st.unix);
         self.st.cmds.push(Command::LoadThumb(path));
         self.st.save();
