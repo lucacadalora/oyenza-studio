@@ -1856,6 +1856,10 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        // A download's bytes coming in while nobody can see the island (locked,
+        // display off) wait for the next frame something else asks for: the
+        // pill catches up then, as nothing else of it moves on its own.
+        let unseen = matches!(ev, AppEvent::Download { line: poni_core::ytdlp::Line::Progress { .. }, .. }) && (self.locked || self.display_off);
         match ev {
             AppEvent::Backdrop => {
                 if self.glass.on_backdrop(self.hwnd, &mut self.gfx) {
@@ -2103,7 +2107,9 @@ impl App {
         if let Some(before) = media_before {
             self.after_media_change(before, now);
         }
-        self.request_frame();
+        if !unseen {
+            self.request_frame();
+        }
     }
 
     /// (player, track, playing) of the current media session.
