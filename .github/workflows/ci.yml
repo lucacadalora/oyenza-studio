@@ -210,7 +210,8 @@ jobs:
           $ready = Run-Poni "true" "add-ons: sholat: ready"
           "---- files"
           Get-ChildItem $files -ErrorAction SilentlyContinue | ForEach-Object { "  $($_.Name)  $($_.Length) bytes" }
-          $have = @(Get-ChildItem $files -ErrorAction SilentlyContinue).Count
+          # The add-on's own files; .ok is the add-on service's stamp of what it checked.
+          $have = @(Get-ChildItem $files -ErrorAction SilentlyContinue | Where-Object Name -ne '.ok').Count
           $gone = Run-Poni "false" "add-ons: sholat: switched off, files deleted"
           $left = Test-Path (Join-Path $dir.FullName "cache\addons\sholat")
           "---- poni.log (add-ons)"
