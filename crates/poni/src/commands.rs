@@ -142,6 +142,7 @@ pub enum Command {
 pub enum DownloadCmd {
     /// Download `url`'s video or sound.
     Start { url: String, mode: poni_core::ytdlp::Mode },
+    /// Stop a download; one still waiting its turn leaves the list (Cancel).
     Stop(u64),
     /// Take a finished, failed or stopped job off the list.
     Remove(u64),

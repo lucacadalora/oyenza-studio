@@ -49,3 +49,4 @@ pub mod update;
 pub mod urlenc;
 pub mod ytdlp;
 pub mod ytdlp_info;
+pub mod ytdlp_partial;

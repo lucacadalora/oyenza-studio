@@ -4,10 +4,11 @@
 //! came up waiting above the list (`downloads_offer`). The list: the
 //! downloads, newest first, each with its site's letter, title, the line
 //! under it (`poni_core::downloads::line`), a bar while it comes in, and
-//! Stop, or Open, Show in folder and remove; a finished file also drags out
-//! of its row, as from the Shelf. yt-dlp does the work
-//! (`services::downloader`, Windows); nothing runs at rest, and the page
-//! moves by itself only while its list glides to where the wheel sent it.
+//! Stop (Cancel while it waits its turn), or Open, Show in folder and
+//! remove; a finished file also drags out of its row, as from the Shelf.
+//! yt-dlp does the work (`services::downloader`, Windows); nothing runs at
+//! rest, and the page moves by itself only while its list glides to where
+//! the wheel sent it.
 
 use crate::commands::{Command, DownloadCmd};
 use crate::gfx::{TextStyle, Weight};
@@ -220,6 +221,8 @@ fn list(ui: &mut Ui, st: &mut AppState, r: Rect) {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum RowAct {
     Stop,
+    /// Stop for one still waiting its turn: it leaves the list (`Jobs::stop`).
+    Cancel,
     Open,
     Reveal,
     /// Off the list (the file stays).
@@ -230,6 +233,7 @@ impl RowAct {
     fn label(self) -> &'static str {
         match self {
             RowAct::Stop => "Stop",
+            RowAct::Cancel => "Cancel",
             RowAct::Open => "Open",
             RowAct::Reveal => REVEAL,
             RowAct::Remove => "",
@@ -237,11 +241,12 @@ impl RowAct {
     }
 }
 
-/// A download's buttons, left to right: Stop while it runs (a queued one
-/// too); Open, Show in folder and remove once it's done; remove once it
+/// A download's buttons, left to right: Cancel while it waits, Stop while
+/// it runs; Open, Show in folder and remove once it's done; remove once it
 /// failed or was stopped.
 fn row_acts(state: &State) -> &'static [RowAct] {
     match state {
+        State::Queued => &[RowAct::Cancel],
         State::Done { .. } => &[RowAct::Open, RowAct::Reveal, RowAct::Remove],
         s if s.live() => &[RowAct::Stop],
         _ => &[RowAct::Remove],
@@ -302,7 +307,7 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
             continue;
         }
         let clicked = match act {
-            RowAct::Stop => ui.pill(wid_n("downloads.stop", job.id), b, act.label(), None, PillStyle::Utility).clicked,
+            RowAct::Stop | RowAct::Cancel => ui.pill(wid_n("downloads.stop", job.id), b, act.label(), None, PillStyle::Utility).clicked,
             RowAct::Open => ui.pill(wid_n("downloads.open", job.id), b, act.label(), None, PillStyle::Neutral).clicked,
             RowAct::Reveal => ui.pill(wid_n("downloads.reveal", job.id), b, act.label(), None, PillStyle::Utility).clicked,
             RowAct::Remove => {
@@ -312,7 +317,7 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
         };
         if clicked {
             let cmd = match act {
-                RowAct::Stop => DownloadCmd::Stop(job.id),
+                RowAct::Stop | RowAct::Cancel => DownloadCmd::Stop(job.id),
                 RowAct::Open => DownloadCmd::Open(job.id),
                 RowAct::Reveal => DownloadCmd::Reveal(job.id),
                 RowAct::Remove => DownloadCmd::Remove(job.id),
@@ -328,15 +333,22 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
     let line_color = if matches!(job.state, State::Failed(_)) { palette::ORANGE } else { palette::TEXT_DIM };
     ui.c.text(&downloads::line(job), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = bar {
+        // At the whole percent the island's pill says (`downloads::percent`).
+        let p = downloads::percent(p) as f32 / 100.0;
         ui.progress_bar(wid_n("downloads.bar", job.id), Rect::new(x, r.y + 40.0, w, BAR_H), p, accent, false);
     }
 }
 
-/// The letter on a download's badge: its site's, as yt-dlp names it, or its
-/// link's until yt-dlp has said.
+/// The letter on a download's badge: its link's site's ("V" for
+/// video.blender.org), for the row's whole life. Not yt-dlp's name for the
+/// site (`Job::site`): that comes only once yt-dlp starts, and some sites it
+/// names by their software or owner (a PeerTube server is "PeerTube",
+/// archive.org "Internet Archive"), so the letter would change halfway, V to
+/// P. Before yt-dlp starts only the link tells the site, and it never
+/// changes; the preview names a site from its address alone the same way
+/// (`ytdlp_info::site_name` with no extractor gives the domain).
 fn badge_letter(job: &Job) -> Option<String> {
-    let site = job.site.as_deref().map(str::trim).filter(|s| !s.is_empty());
-    site.unwrap_or_else(|| host(&job.url)).chars().find(|c| c.is_alphanumeric()).map(|c| c.to_uppercase().collect())
+    host(&job.url).chars().find(|c| c.is_alphanumeric()).map(|c| c.to_uppercase().collect())
 }
 
 /// A link as its row shows it until the title comes: without "https://" or
@@ -347,10 +359,11 @@ fn link_text(url: &str) -> &str {
     rest[..end].rfind('@').map_or(rest, |at| &rest[at + 1..])
 }
 
-/// The link's site ("video.blender.org"), without "www." or the port.
+/// The link's site ("video.blender.org"), without "www." or a phone's "m."
+/// (m.youtube.com is youtube.com), or the port.
 fn host(url: &str) -> &str {
     let h = link_text(url).split(['/', '?', '#', ':']).next().unwrap_or("");
-    h.strip_prefix("www.").unwrap_or(h)
+    h.strip_prefix("www.").or_else(|| h.strip_prefix("m.")).unwrap_or(h)
 }
 
 /// A Small capsule drawn inert (Focus's and Record's look at the small
@@ -378,9 +391,12 @@ mod tests {
 
     #[test]
     fn each_row_offers_what_its_download_can_do() {
+        // Waiting its turn: Cancel, the same command, which takes it off the list.
+        assert_eq!(row_acts(&State::Queued), [RowAct::Cancel]);
+        assert_eq!(RowAct::Cancel.label(), "Cancel");
         let downloading = State::Downloading { done: 1, total: None, speed: None, eta_s: None };
-        for live in [State::Queued, State::Starting, downloading, State::Finishing(Stage::Merging)] {
-            assert_eq!(row_acts(&live), [RowAct::Stop], "{live:?}");
+        for running in [State::Starting, downloading, State::Finishing(Stage::Merging)] {
+            assert_eq!(row_acts(&running), [RowAct::Stop], "{running:?}");
         }
         let done = State::Done { path: "C:\\Users\\a\\Downloads\\Big Buck Bunny.mp4".into(), size: 4_200_000 };
         assert_eq!(row_acts(&done), [RowAct::Open, RowAct::Reveal, RowAct::Remove]);
@@ -389,10 +405,15 @@ mod tests {
     }
 
     #[test]
-    fn the_badge_has_the_site_s_letter_or_the_link_s() {
+    fn the_badge_keeps_the_link_s_letter_once_yt_dlp_names_the_site() {
         let letter = |url, site| badge_letter(&job(url, site));
-        assert_eq!(letter("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605", Some("PeerTube")).as_deref(), Some("P"));
-        assert_eq!(letter("https://www.youtube.com/watch?v=x", None).as_deref(), Some("Y"), "until yt-dlp names the site");
+        let film = "https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605";
+        assert_eq!(letter(film, None).as_deref(), Some("V"), "before yt-dlp starts");
+        assert_eq!(letter(film, Some("PeerTube")).as_deref(), Some("V"), "and after: never P");
+        assert_eq!(letter("https://archive.org/details/BigBuckBunny_124", Some("Internet Archive")).as_deref(), Some("A"));
+        assert_eq!(letter("https://www.youtube.com/watch?v=x", None).as_deref(), Some("Y"));
+        assert_eq!(letter("https://m.youtube.com/watch?v=x", Some("YouTube")).as_deref(), Some("Y"), "a phone's link, the same site");
+        assert_eq!(letter("https://music.youtube.com/watch?v=x", None).as_deref(), Some("M"));
         assert_eq!(letter("http://video.blender.org:443/w/b29", Some(" ")).as_deref(), Some("V"));
         assert_eq!(link_text("https://archive.org/details/BigBuckBunny_124"), "archive.org/details/BigBuckBunny_124");
         assert_eq!(link_text("https://me:secret@archive.org/details/x@y"), "archive.org/details/x@y", "never a password");

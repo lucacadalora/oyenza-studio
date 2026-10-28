@@ -14,10 +14,17 @@
 //! if Poni itself is ended. The loader only deletes what it unpacked (about
 //! 30 MB) when it ends by itself, so each download unpacks into its own
 //! folder, deleted when the download ends.
+//!
+//! When the person stops a download, its thread deletes the files yt-dlp was
+//! writing in the Downloads folder (`….part`, `….ytdl` and the fragments,
+//! `poni_core::ytdlp_partial`) once yt-dlp has ended, found by the video's id
+//! from yt-dlp's info line. Not when the app quits: those stay, as after a
+//! failure.
 
 use crate::events::{AppEvent, EventSink};
 use poni_core::addons::{DOWNLOADER, FFMPEG_EXE, QJS_EXE, YTDLP_EXE};
 use poni_core::ytdlp::{self, Line, Problem, Request, Tools};
+use poni_core::ytdlp_partial;
 use std::collections::HashMap;
 use std::fs;
 use std::io::{self, PipeReader, Read};
@@ -59,7 +66,7 @@ impl DownloaderService {
     pub fn run(&self, req: Request) {
         let id = req.id;
         let started = Job::new().map_err(io::Error::from).and_then(|job| {
-            let run = Arc::new(Run { job, stopped: AtomicBool::new(false) });
+            let run = Arc::new(Run::new(job));
             self.runs.lock().insert(id, run.clone());
             let (runs, sink) = (self.runs.clone(), self.sink.clone());
             std::thread::Builder::new().name(format!("poni-dl-{id}")).spawn(move || {
@@ -76,9 +83,11 @@ impl DownloaderService {
     }
 
     /// Stop download `id`; returns at once. Its thread reports the end (not
-    /// ok) once yt-dlp and what it started are gone.
+    /// ok) once yt-dlp and what it started are gone, and deletes the files
+    /// yt-dlp left unfinished.
     pub fn stop(&self, id: u64) {
         if let Some(run) = self.runs.lock().get(&id) {
+            run.tidy.store(true, Ordering::SeqCst);
             run.stop();
         }
     }
@@ -105,16 +114,35 @@ impl Runs {
     }
 }
 
-/// One download's job, and whether the person stopped it.
+/// One download's job, and whether it was stopped (by the person, or the
+/// app quitting).
 struct Run {
     job: Job,
     stopped: AtomicBool,
+    /// The person stopped it: the files yt-dlp left unfinished go once it has
+    /// ended ([`tidy`]).
+    tidy: AtomicBool,
+    /// The site's id for the video, from yt-dlp's info line, which the
+    /// video's files carry in their names.
+    video: Mutex<Option<String>>,
 }
 
 impl Run {
+    fn new(job: Job) -> Self {
+        Run { job, stopped: AtomicBool::new(false), tidy: AtomicBool::new(false), video: Mutex::new(None) }
+    }
+
     fn stop(&self) {
         self.stopped.store(true, Ordering::SeqCst);
         self.job.end();
+    }
+
+    fn video(&self) -> Option<String> {
+        self.video.lock().unwrap_or_else(|p| p.into_inner()).clone()
+    }
+
+    fn set_video(&self, video: String) {
+        *self.video.lock().unwrap_or_else(|p| p.into_inner()) = Some(video);
     }
 }
 
@@ -155,7 +183,7 @@ fn download(req: &Request, run: &Run, runs: &Runs, sink: &EventSink) -> bool {
     let ok = match spawned {
         Ok((out, mut child)) => {
             crate::pinfo!("downloader: {id}: yt-dlp started");
-            read(out, id, &run.stopped, sink);
+            read(out, id, run, sink);
             let code = child.wait().ok().and_then(|s| s.code());
             let stopped = run.stopped.load(Ordering::SeqCst);
             let secs = began.elapsed().as_secs();
@@ -175,6 +203,12 @@ fn download(req: &Request, run: &Run, runs: &Runs, sink: &EventSink) -> bool {
     // Whatever is left in the job ends, then what the loader unpacked goes.
     run.job.end();
     remove(&temp);
+    // Stopped by the person: what yt-dlp wrote of the video goes too.
+    if run.tidy.load(Ordering::SeqCst) {
+        if let Some(video) = run.video() {
+            tidy(Path::new(&req.folder), &video, id, runs);
+        }
+    }
     ok
 }
 
@@ -245,8 +279,8 @@ fn resume(pid: u32) -> io::Result<()> {
 }
 
 /// Pass yt-dlp's output on, line by line, until it ends.
-fn read(mut out: PipeReader, id: u64, stopped: &AtomicBool, sink: &EventSink) {
-    let mut lines = Lines { id, stopped, sink, line: Vec::new(), held: None, sent: None };
+fn read(mut out: PipeReader, id: u64, run: &Run, sink: &EventSink) {
+    let mut lines = Lines { id, run, sink, line: Vec::new(), held: None, sent: None };
     let mut buf = [0u8; 4096];
     loop {
         match out.read(&mut buf) {
@@ -265,7 +299,7 @@ fn read(mut out: PipeReader, id: u64, stopped: &AtomicBool, sink: &EventSink) {
 /// most every PROGRESS_EVERY, the newest one held back going next.
 struct Lines<'a> {
     id: u64,
-    stopped: &'a AtomicBool,
+    run: &'a Run,
     sink: &'a EventSink,
     line: Vec<u8>,
     /// The newest progress not sent yet, and when progress last went.
@@ -288,7 +322,12 @@ impl Lines<'_> {
         if self.line.is_empty() {
             return;
         }
-        let parsed = ytdlp::parse(&String::from_utf8_lossy(&self.line));
+        let text = String::from_utf8_lossy(&self.line);
+        let parsed = ytdlp::parse(&text);
+        // The video's id comes with its info line (`Line::Info` leaves it out).
+        if let Some(video) = matches!(parsed, Some(Line::Info { .. })).then(|| ytdlp_partial::video_id(&text)).flatten() {
+            self.run.set_video(video);
+        }
         self.line.clear();
         match parsed {
             Some(p @ Line::Progress { .. }) if self.sent.is_some_and(|t| t.elapsed() < PROGRESS_EVERY) => self.held = Some(p),
@@ -315,7 +354,7 @@ impl Lines<'_> {
 
     fn send(&self, line: Line) {
         // Stopped: the page shows that already; yt-dlp's last words are moot.
-        if !self.stopped.load(Ordering::SeqCst) {
+        if !self.run.stopped.load(Ordering::SeqCst) {
             self.sink.send(AppEvent::Download { id: self.id, line });
         }
     }
@@ -349,6 +388,39 @@ fn remove(dir: &Path) {
             Err(_) => std::thread::sleep(Duration::from_millis(100)),
         }
     }
+}
+
+/// Delete the files yt-dlp left unfinished of `video` in `folder`
+/// (`ytdlp_partial::is_partial`), once the person stopped download `id`.
+/// Not while another download of the same video runs (its sound alone, say):
+/// they may be that one's. Like [`remove`], it tries for about a second.
+fn tidy(folder: &Path, video: &str, id: u64, runs: &Runs) {
+    if runs.lock().iter().any(|(&other, run)| other != id && run.video().as_deref() == Some(video)) {
+        crate::pinfo!("downloader: {id}: stopped; its video downloads again, so its unfinished files stay");
+        return;
+    }
+    let mut gone = 0;
+    for left in (0..10).rev() {
+        let Ok(entries) = fs::read_dir(folder) else { return };
+        let mut busy = false;
+        for e in entries.flatten() {
+            let ours = e.file_name().to_str().is_some_and(|n| ytdlp_partial::is_partial(n, video));
+            if !ours || !e.file_type().is_ok_and(|t| t.is_file()) {
+                continue;
+            }
+            match fs::remove_file(e.path()) {
+                Ok(()) => gone += 1,
+                Err(err) if err.kind() == io::ErrorKind::NotFound => {}
+                Err(err) if left == 0 => crate::pwarn!("downloader: {id}: could not delete an unfinished file ({err})"),
+                Err(_) => busy = true,
+            }
+        }
+        if !busy {
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(100));
+    }
+    crate::pinfo!("downloader: {id}: {gone} unfinished file(s) deleted");
 }
 
 /// A job object whose processes all end with it: when `end` is called, or
@@ -389,5 +461,64 @@ impl Drop for Job {
         unsafe {
             let _ = CloseHandle(self.0);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::PathBuf;
+
+    const FILM: &str = "b29290cc-dc51-4a12-bcb2-2aa5fece7605";
+
+    /// An empty folder of the test's own, as the Downloads folder.
+    fn folder(name: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("poni-downloader-{name}-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        fs::create_dir_all(&dir).expect("a temp folder");
+        dir
+    }
+
+    fn names(dir: &Path) -> Vec<String> {
+        let mut names: Vec<String> = fs::read_dir(dir).unwrap().flatten().map(|e| e.file_name().to_string_lossy().into_owned()).collect();
+        names.sort();
+        names
+    }
+
+    #[test]
+    fn a_stopped_download_leaves_no_unfinished_files() {
+        let dir = folder("tidy");
+        // Stopped during Blender's HLS film: the file, two fragments and the note of them.
+        let film = format!("OVERGROWN： a feature film project by Blender Studio [{FILM}].mp4");
+        for end in [".part", ".part-Frag3", ".part-Frag4.part", ".ytdl"] {
+            fs::write(dir.join(format!("{film}{end}")), b"x").unwrap();
+        }
+        // The same film saved before, another video's download, and a folder.
+        let kept = [film.clone(), "Big Buck Bunny [BigBuckBunny_124].ogv.part".to_string(), format!("odd [{FILM}].part")];
+        fs::write(dir.join(&kept[0]), b"x").unwrap();
+        fs::write(dir.join(&kept[1]), b"x").unwrap();
+        fs::create_dir(dir.join(&kept[2])).unwrap();
+        tidy(&dir, FILM, 1, &Runs::default());
+        let mut want = kept.to_vec();
+        want.sort();
+        assert_eq!(names(&dir), want);
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn another_download_of_the_same_video_keeps_them() {
+        let dir = folder("same-video");
+        let sound = format!("OVERGROWN [{FILM}] (audio).mp4.part");
+        fs::write(dir.join(&sound), b"x").unwrap();
+        let runs = Runs::default();
+        let other = Arc::new(Run::new(Job::new().expect("a job object")));
+        other.set_video(FILM.to_string());
+        runs.lock().insert(2, other);
+        tidy(&dir, FILM, 1, &runs);
+        assert_eq!(names(&dir), [sound], "download 2, the sound alone, still writes it");
+        runs.lock().remove(&2);
+        tidy(&dir, FILM, 1, &runs);
+        assert!(names(&dir).is_empty());
+        let _ = fs::remove_dir_all(&dir);
     }
 }

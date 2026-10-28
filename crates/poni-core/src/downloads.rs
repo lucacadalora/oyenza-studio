@@ -166,8 +166,11 @@ impl Jobs {
         self.end(id, State::Failed(why.to_string()));
     }
 
-    /// The person stopped job `id` (one that ended already stays as it ended).
+    /// The person stopped job `id` (one that ended already stays as it
+    /// ended). One still queued never started: its Cancel takes it off the
+    /// list, as there is nothing of it to show.
     pub fn stop(&mut self, id: u64) {
+        self.list.retain(|j| j.id != id || j.state != State::Queued);
         self.end(id, State::Stopped);
     }
 
@@ -251,6 +254,18 @@ impl Jobs {
             None => host(&first.url).unwrap_or(&first.url).to_string(),
         };
         Some(Pill { fraction: (of > 0.0).then(|| (got / of) as f32), count: live().count(), title })
+    }
+}
+
+/// How far, in whole percents rounded to the nearest (36.9% is 37), for the
+/// island's pill and the Downloads page's bars alike, so the two agree. 100
+/// waits for the last byte: 99.6% is 99.
+pub fn percent(fraction: f32) -> u32 {
+    let p = (fraction.clamp(0.0, 1.0) * 100.0).round() as u32;
+    if fraction < 1.0 {
+        p.min(99)
+    } else {
+        p
     }
 }
 
@@ -592,15 +607,17 @@ mod tests {
     }
 
     #[test]
-    fn a_stopped_download_stays_stopped() {
+    fn a_stopped_download_stays_stopped_and_a_cancelled_one_goes() {
         let mut jobs = Jobs::default();
         let running = jobs.add(SPRITE_FRIGHT.into(), Mode::Video, 0);
         let queued = jobs.add(BUNNY.into(), Mode::Video, 0);
         jobs.starting(running);
         jobs.apply(running, bytes(5_000_000, Some(10_000_000)));
         jobs.stop(running);
+        assert_eq!(line_of(&jobs, running), "Stopped");
+        // Cancel: the queued one never started, so it leaves the list.
         jobs.stop(queued);
-        assert_eq!((line_of(&jobs, running), line_of(&jobs, queued)), ("Stopped".to_string(), "Stopped".to_string()));
+        assert_eq!(ids(&jobs), [running]);
         assert_eq!(jobs.to_start(), Vec::<u64>::new(), "a stopped job never starts");
         jobs.starting(queued);
         // yt-dlp's last words before it went, and its exit, change nothing.
@@ -612,7 +629,7 @@ mod tests {
         jobs.ended(running, false);
         assert_eq!(jobs.get(running).unwrap().state, State::Stopped);
         assert_eq!(jobs.get(running).unwrap().title, None);
-        assert_eq!(jobs.get(queued).unwrap().state, State::Stopped);
+        assert_eq!(jobs.get(queued), None);
         assert_eq!((jobs.progress(running), jobs.running(), jobs.busy()), (None, 0, false));
         assert!(jobs.parts.is_empty());
     }
@@ -625,6 +642,7 @@ mod tests {
         let failed = jobs.add(BUNNY.into(), Mode::Video, 0);
         jobs.ended(failed, false);
         let stopped = jobs.add(FLICKERMOOD.into(), Mode::Audio, 0);
+        jobs.starting(stopped);
         jobs.stop(stopped);
         let running = jobs.add(SPRITE_FRIGHT.into(), Mode::Audio, 0);
         jobs.starting(running);
@@ -667,6 +685,21 @@ mod tests {
         jobs.ended(b, false);
         jobs.stop(c);
         assert_eq!(jobs.pill(), None);
+    }
+
+    #[test]
+    fn the_pill_and_the_bar_say_the_same_whole_percent() {
+        for (f, p) in [(0.0, 0), (0.004, 0), (0.29, 29), (0.369, 37), (0.5, 50), (0.994, 99), (1.0, 100), (1.5, 100), (-0.2, 0), (f32::NAN, 0)] {
+            assert_eq!(percent(f), p, "{f}");
+        }
+        assert_eq!(percent(0.996), 99, "100 waits for the last byte");
+        // 8.6 of 23.3 MB, 36.9%: 37 on the island's pill and on the page's bar.
+        let mut jobs = Jobs::default();
+        let id = jobs.add(SPRITE_FRIGHT.into(), Mode::Video, 0);
+        jobs.starting(id);
+        jobs.apply(id, bytes(8_600_000, Some(23_300_000)));
+        let (pill, bar) = (jobs.pill().unwrap().fraction.unwrap(), jobs.progress(id).unwrap());
+        assert_eq!((percent(pill), percent(bar)), (37, 37));
     }
 
     #[test]
