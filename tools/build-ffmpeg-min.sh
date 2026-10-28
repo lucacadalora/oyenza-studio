@@ -57,8 +57,8 @@ flags=(
   # (.mkv) and webm (.webm), the formats yt-dlp merges into.
   --enable-muxer=mp4,ipod,mov,matroska,webm
   # MPEG-TS carries H.264, HEVC and AAC as a stream of bytes: these cut it
-  # into frames and read the picture size. Opus and VP9 time WebM's packets.
-  # (The muxers add the AC-3 parser themselves.)
+  # into frames and read the picture size. Opus and VP9 give WebM and MP4
+  # packets their durations and key frames. (The MP4 muxer adds AC-3's.)
   --enable-parser=h264,hevc,aac,opus,vp9
   # Two decoders, only to look at a few frames when a file opens; what ffmpeg
   # copies is never decoded. MPEG-TS doesn't say an AAC track's sample rate or
