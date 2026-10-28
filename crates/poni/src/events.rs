@@ -180,6 +180,12 @@ pub enum AppEvent {
     Download { id: u64, line: poni_core::ytdlp::Line },
     /// yt-dlp for download `id` ended (`ok`: it exited with 0).
     DownloadEnded { id: u64, ok: bool },
+    /// The Notifications add-on: what Windows allows, and new notifications
+    /// (`services::notifications`).
+    Notify(crate::services::notifications::NotifyEvent),
+    /// The AI tab's readings, typed keys, inference.oyenza.com's link and
+    /// heads-up notices (`services::usage`).
+    Usage(crate::services::usage::UsageEvent),
     /// The adzan finished playing, or couldn't play on.
     AdzanEnded,
     /// Start with Windows is on (true) or off, read for the Settings page.
@@ -188,4 +194,10 @@ pub enum AppEvent {
     Log(String),
     /// The Glass theme's screen copy has new pixels (or stopped).
     Backdrop,
+    /// The IELTS worker's answer (`services::ielts`).
+    Ielts(Box<poni_core::ielts::Reply>),
+    /// Oyen's clip finished playing, or couldn't play on (`services::voice`).
+    VoiceEnded,
+    /// The microphone stopped mid-answer (`services::mic`): why, for the log.
+    MicFailed(String),
 }

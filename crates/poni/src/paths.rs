@@ -101,6 +101,12 @@ pub fn addons_dir() -> PathBuf {
     cache_dir().join("addons")
 }
 
+/// The IELTS page's audio: Oyen's clips and the answer being recorded, each
+/// deleted once used (local, never roaming).
+pub fn ielts_dir() -> PathBuf {
+    cache_dir().join("ielts")
+}
+
 /// Paired phones (their pairing secrets and names), sealed with DPAPI.
 /// Removing every phone deletes the file.
 pub fn paired_phones_path() -> PathBuf {
@@ -111,4 +117,11 @@ pub fn paired_phones_path() -> PathBuf {
 /// tell the server once it can.
 pub fn oyenza_revoke_path() -> PathBuf {
     cache_dir().join("oyenza-revoke.bin")
+}
+
+/// A key typed into the AI tab for one service, or the inference.oyenza.com
+/// key (`usage-<name>.bin`), sealed with DPAPI: never roams, and removing the
+/// key or uninstalling deletes it.
+pub fn usage_key_path(name: &str) -> PathBuf {
+    cache_dir().join(format!("usage-{name}.bin"))
 }

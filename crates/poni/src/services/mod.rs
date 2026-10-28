@@ -16,10 +16,12 @@ pub mod downloader;
 #[cfg(test)]
 mod downloader_live;
 pub mod http;
+pub mod ielts;
 pub mod imaging;
 pub mod location;
 pub mod lyrics;
 pub mod media;
+pub mod mic;
 pub mod oyenza;
 pub mod pairdrop;
 pub mod phonedrop;
@@ -31,12 +33,15 @@ pub mod romanize;
 mod romanize_compare;
 pub mod secret;
 pub mod sound;
+pub mod notifications;
 pub mod stocks;
 pub mod sysmon;
 pub mod sysstats;
 pub mod update;
+pub mod usage;
+pub mod voice;
 
-use crate::commands::{MediaCmd, OyenzaCmd};
+use crate::commands::{MediaCmd, OyenzaCmd, UsageCmd};
 use crate::events::EventSink;
 use crate::state::MediaSession;
 use poni_core::geom::Color;
@@ -56,6 +61,9 @@ pub struct Services {
     stocks: std::cell::OnceCell<Option<stocks::StocksService>>,
     /// Started at the first download ([`Services::download`]).
     downloader: std::cell::OnceCell<Option<downloader::DownloaderService>>,
+    /// Started the first time the AI tab opens or its notices are on
+    /// ([`Services::usage_watch`]).
+    usage: std::cell::OnceCell<Option<usage::UsageService>>,
     sink: EventSink,
 }
 
@@ -92,7 +100,7 @@ impl Services {
             .map(|a| a.id)
             .collect();
         let addons = started("add-ons", addons::AddonService::start(sink.clone(), on));
-        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), downloader: std::cell::OnceCell::new(), sink: sink.clone() }
+        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), usage: std::cell::OnceCell::new(), downloader: std::cell::OnceCell::new(), sink: sink.clone() }
     }
 
     pub fn stop(self, _helper: HWND) {
@@ -176,6 +184,26 @@ impl Services {
     pub fn oyenza_activity(&self, a: oyenza::Activity) {
         if let Some(o) = &self.oyenza {
             o.set_activity(a);
+        }
+    }
+
+    /// What the AI tab and its heads-up notices want (`App::set_usage_watch`).
+    /// The worker's thread starts the first time either wants it and sleeps
+    /// whenever neither does.
+    pub fn usage_watch(&self, w: usage::Watch) {
+        if !(w.open || w.notices) && self.usage.get().is_none() {
+            return;
+        }
+        if let Some(s) = self.usage.get_or_init(|| started("usage", usage::UsageService::start(self.sink.clone()))) {
+            s.set_watch(w);
+        }
+    }
+
+    /// Something the AI tab asked its worker for (a key, a refresh, the
+    /// inference.oyenza.com link): it starts the thread if need be.
+    pub fn usage_cmd(&self, c: UsageCmd) {
+        if let Some(s) = self.usage.get_or_init(|| started("usage", usage::UsageService::start(self.sink.clone()))) {
+            s.command(c);
         }
     }
 

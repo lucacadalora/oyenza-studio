@@ -14,8 +14,10 @@ use std::sync::mpsc::{self, RecvTimeoutError};
 use std::time::{Duration, Instant};
 use windows::core::{h, RuntimeType, HSTRING};
 use windows::Foundation::{AsyncOperationProgressHandler, AsyncOperationWithProgressCompletedHandler, AsyncStatus, IAsyncOperationWithProgress, Uri};
-use windows::Storage::Streams::{DataReader, IBuffer, UnicodeEncoding};
-use windows::Web::Http::{HttpClient, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
+use windows::Storage::Streams::{DataReader, DataWriter, IBuffer, UnicodeEncoding};
+use windows::Web::Http::Filters::{HttpBaseProtocolFilter, HttpCacheReadBehavior, HttpCacheWriteBehavior, HttpCookieUsageBehavior};
+use windows::Web::Http::Headers::HttpMediaTypeHeaderValue;
+use windows::Web::Http::{HttpBufferContent, HttpClient, HttpMethod, HttpProgress, HttpRequestMessage, HttpResponseMessage, HttpStringContent, IHttpContent};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{CoInitializeEx, CoUninitialize, COINIT_MULTITHREADED};
 
@@ -27,6 +29,10 @@ pub const DEFAULT_TIMEOUT: Duration = Duration::from_secs(8);
 
 /// Bodies larger than this are refused (nothing Poni fetches comes close).
 const MAX_BODY_BYTES: u64 = 8 * 1024 * 1024;
+
+/// A request body past this size (an IELTS answer's audio) goes as UTF-8
+/// bytes: a string body is copied to UTF-16 first, then encoded again.
+const BIG_BODY_BYTES: usize = 256 * 1024;
 
 /// The methods [`Client::send`] speaks.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -118,6 +124,48 @@ pub struct Client {
 impl Client {
     pub fn new(user_agent: &str) -> Result<Self, FetchError> {
         let http = HttpClient::new().map_err(|e| other("could not create an HTTP client", &e))?;
+        Self::with(http, user_agent)
+    }
+
+    /// A client of its own for requests that carry another service's
+    /// sign-in (the AI tab's worker): it follows no redirect (a 3xx comes
+    /// back as the answer, so no header goes on to another host), stores and
+    /// sends no cookies beyond the request's own `Cookie` header, never reads
+    /// or writes the disk cache, and never puts up a sign-in prompt.
+    pub fn private(user_agent: &str) -> Result<Self, FetchError> {
+        let filter = HttpBaseProtocolFilter::new().map_err(|e| other("could not create an HTTP filter", &e))?;
+        let set = || -> windows::core::Result<()> {
+            filter.SetAllowAutoRedirect(false)?;
+            filter.SetAllowUI(false)?;
+            filter.SetCookieUsageBehavior(HttpCookieUsageBehavior::NoCookies)?;
+            let cache = filter.CacheControl()?;
+            // NoCache came with Windows 10 1607; before it, MostRecent still
+            // asks the server every time.
+            cache.SetReadBehavior(HttpCacheReadBehavior::NoCache).or_else(|_| cache.SetReadBehavior(HttpCacheReadBehavior::MostRecent))?;
+            cache.SetWriteBehavior(HttpCacheWriteBehavior::NoCache)
+        };
+        set().map_err(|e| other("could not set up the HTTP filter", &e))?;
+        let http = HttpClient::Create(&filter).map_err(|e| other("could not create an HTTP client", &e))?;
+        Self::with(http, user_agent)
+    }
+
+    /// A client that never answers from Windows' HTTP cache and writes
+    /// nothing to it. The default one serves a second GET of the same URL
+    /// from the cache when the server sent no `Cache-Control` (the IELTS
+    /// ladder after a session: "answered in 1 ms", the server never asked).
+    pub fn uncached(user_agent: &str) -> Result<Self, FetchError> {
+        let http = (|| {
+            let filter = HttpBaseProtocolFilter::new()?;
+            let cache = filter.CacheControl()?;
+            cache.SetReadBehavior(HttpCacheReadBehavior::MostRecent)?;
+            cache.SetWriteBehavior(HttpCacheWriteBehavior::NoCache)?;
+            HttpClient::Create(&filter)
+        })()
+        .map_err(|e| other("could not create an HTTP client", &e))?;
+        Self::with(http, user_agent)
+    }
+
+    fn with(http: HttpClient, user_agent: &str) -> Result<Self, FetchError> {
         let headers = http.DefaultRequestHeaders().map_err(|e| other("could not set request headers", &e))?;
         let ua = HSTRING::from(user_agent);
         // The typed collection validates "product/version (comment)"; fall
@@ -164,7 +212,16 @@ impl Client {
                 return Err(FetchError::Other(format!("could not set the {name} header")));
             }
         }
-        if let Some(body) = json {
+        if let Some(body) = json.filter(|b| b.len() > BIG_BODY_BYTES) {
+            let content = (|| {
+                let writer = DataWriter::new()?;
+                writer.WriteBytes(body.as_bytes())?;
+                let content = HttpBufferContent::CreateFromBuffer(&writer.DetachBuffer()?)?;
+                content.Headers()?.SetContentType(&HttpMediaTypeHeaderValue::Create(h!("application/json"))?)?;
+                request.SetContent(&content)
+            })();
+            content.map_err(|e| other("could not set the request body", &e))?;
+        } else if let Some(body) = json {
             let content = HttpStringContent::CreateFromStringWithEncodingAndMediaType(&HSTRING::from(body), UnicodeEncoding::Utf8, h!("application/json"))
                 .map_err(|e| other("could not set the request body", &e))?;
             request.SetContent(&content).map_err(|e| other("could not set the request body", &e))?;

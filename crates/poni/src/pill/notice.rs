@@ -91,8 +91,9 @@ fn guess_width(n: &Notice) -> f32 {
     fit(TEXT_X + words + tail)
 }
 
-/// About what the UI font's letters take at `size`, erring wide.
-fn guess(s: &str, size: f32) -> f32 {
+/// About what the UI font's letters take at `size`, erring wide (also how
+/// long an AI notice's second line may grow, `state::usage_notice`).
+pub(crate) fn guess(s: &str, size: f32) -> f32 {
     let em: f32 = s
         .chars()
         .map(|c| match c {
@@ -118,8 +119,8 @@ fn inline_done(st: &AppState, n: &Notice, a: InlineAction) -> bool {
         InlineAction::StopAdzan => !st.prayer.adzan,
         // Done once clicked: the app puts the check in the notice's icon.
         InlineAction::WhatsNew => n.icon == Icon::Check,
-        // Hide takes the notice away at once.
-        InlineAction::Hide => false,
+        // Hide and Open take the notice away at once.
+        InlineAction::Hide | InlineAction::Open => false,
     }
 }
 

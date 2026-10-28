@@ -1,0 +1,26 @@
+{
+  "account": "a•••@example.com",
+  "tier": "paid",
+  "balance_usd": 0,
+  "spend": { "today_usd": 0, "week_usd": 0, "month_usd": 0 },
+  "requests": { "today": 0, "month": 0 },
+  "days": [
+    { "day": "2026-10-14", "usd": 0, "requests": 0 },
+    { "day": "2026-10-15", "usd": 0, "requests": 0 },
+    { "day": "2026-10-16", "usd": 0, "requests": 0 },
+    { "day": "2026-10-17", "usd": 0, "requests": 0 },
+    { "day": "2026-10-18", "usd": 0, "requests": 0 },
+    { "day": "2026-10-19", "usd": 0, "requests": 0 },
+    { "day": "2026-10-20", "usd": 0, "requests": 0 },
+    { "day": "2026-10-21", "usd": 0, "requests": 0 },
+    { "day": "2026-10-22", "usd": 0, "requests": 0 },
+    { "day": "2026-10-23", "usd": 0, "requests": 0 },
+    { "day": "2026-10-24", "usd": 0, "requests": 0 },
+    { "day": "2026-10-25", "usd": 0, "requests": 0 },
+    { "day": "2026-10-26", "usd": 0, "requests": 0 },
+    { "day": "2026-10-27", "usd": 0, "requests": 0 }
+  ],
+  "top_models": [],
+  "as_of": "2026-10-27T05:00:00Z",
+  "links": { "dashboard": "https://inference.oyenza.com/app", "start": "https://inference.oyenza.com/app/start" }
+}

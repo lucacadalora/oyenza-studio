@@ -76,9 +76,10 @@ At 400 % the frame-time checks fail under Wine (drawing is slower); the
 pictures are still right.
 
 The self-test writes NAME.png (the island's canvas on a test gradient, with
-margins) and NAME-alpha.png (the canvas's own alpha). This cuts the canvas out,
-takes its alpha from NAME-alpha.png and removes the gradient from the
-anti-aliased edge pixels. Needs Pillow and NumPy.
+margins) and NAME-alpha.png (the canvas's own alpha), each name after the
+state's number (01-idle-clock.png; three digits from the 100th state on).
+This cuts the canvas out, takes its alpha from NAME-alpha.png and removes
+the gradient from the anti-aliased edge pixels. Needs Pillow and NumPy.
 """
 import re
 import sys
@@ -96,6 +97,7 @@ KEEP = {
     "page-settings-stay-on-top", "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
     "game-stats", "page-system-games", "page-system-power-estimate", "page-script", "page-script-reading", "media-lyric",
     "message-notice",
+    "page-ai",
 }
 # The Pill section: the island at rest (clock and status bar looks), playing music (the line being
 # sung), a timer, a pop-up and a notice, and open on the Music page.
@@ -148,8 +150,8 @@ def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:
 def glass(src: Path, run: str) -> None:
     dst = ROOT / "site" / "assets" / "shots" / "glass"
     dst.mkdir(parents=True, exist_ok=True)
-    for shot in sorted(src.glob("[0-9][0-9]-*.png")):
-        name = re.sub(r"^\d\d-", "", shot.stem)
+    for shot in sorted(src.glob("[0-9][0-9]*-*.png")):
+        name = re.sub(r"^\d+-", "", shot.stem)
         if name not in GLASS_KEEP[run]:
             continue
         img = Image.open(shot).convert("RGB")
@@ -158,8 +160,8 @@ def glass(src: Path, run: str) -> None:
 
 
 def mac(src: Path, only: str | None = None) -> None:
-    for shot in sorted(src.glob("[0-9][0-9]-*-notch.png")):
-        name = re.sub(r"^\d\d-", "", shot.stem)[: -len("-notch")]
+    for shot in sorted(src.glob("[0-9][0-9]*-*-notch.png")):
+        name = re.sub(r"^\d+-", "", shot.stem)[: -len("-notch")]
         theme = "classic"
         for t in ("oyen", "pill"):
             if name.endswith("-" + t):
@@ -201,8 +203,8 @@ def main() -> None:
         img.save(dst / "media-activity.webp", lossless=True, method=6)
         print(f"{theme}/media-activity.webp  {img.width}x{img.height}  (from {lang})")
         return
-    for shot in sorted(src.glob("[0-9][0-9]-*.png")):
-        name = re.sub(r"^\d\d-", "", shot.stem)
+    for shot in sorted(src.glob("[0-9][0-9]*-*.png")):
+        name = re.sub(r"^\d+-", "", shot.stem)
         alpha = shot.with_name(shot.stem + "-alpha.png")
         if name.endswith("-alpha") or name not in keep or not alpha.exists():
             continue

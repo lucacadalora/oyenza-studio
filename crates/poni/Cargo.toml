@@ -17,6 +17,8 @@ path = "src/main.rs"
 # poni.exe: Windows downloads it as the Japanese readings add-on
 # (poni_core::addons::JAPANESE_READINGS) for the people who want it.
 poni-core = { path = "../poni-core" }
+# The AI tab's readers (crates/studio-usage), built for size.
+studio-usage = { path = "../studio-usage" }
 serde.workspace = true
 serde_json.workspace = true
 
@@ -47,10 +49,14 @@ features = [
     "Storage",
     "Storage_Streams",
     "Web_Http",
+    "Web_Http_Filters",
     "Web_Http_Headers",
     "Devices_Enumeration",
     "Devices_Bluetooth",
     "UI",
+    # The Notifications add-on: Windows' notification listener (services/notifications.rs).
+    "UI_Notifications",
+    "UI_Notifications_Management",
     "UI_ViewManagement",
     "Win32_Foundation",
     "Win32_Devices_DeviceAndDriverInstallation",

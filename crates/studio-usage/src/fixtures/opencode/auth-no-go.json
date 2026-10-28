@@ -1,0 +1,12 @@
+{
+  "anthropic": {
+    "type": "oauth",
+    "refresh": "test-refresh",
+    "access": "test-access",
+    "expires": 1793077200000
+  },
+  "opencode": {
+    "type": "api",
+    "key": "test-zen-token"
+  }
+}
