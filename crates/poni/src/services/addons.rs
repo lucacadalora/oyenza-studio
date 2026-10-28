@@ -261,7 +261,8 @@ fn stamp_line(file: &AddonFile, m: &fs::Metadata) -> Option<String> {
 /// and return it: written only when they changed, so a start that finds
 /// everything in place writes nothing.
 fn save_stamp(folder: &Path, stamp: &str, lines: &mut [String]) -> String {
-    lines.sort();
+    // Unstable: the lines are distinct, and its code is a few KB smaller.
+    lines.sort_unstable();
     let text: String = lines.iter().map(|l| format!("{l}\n")).collect();
     if text != stamp {
         if let Err(e) = fs::write(folder.join(STAMP), &text) {
