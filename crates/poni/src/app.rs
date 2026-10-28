@@ -1708,6 +1708,11 @@ impl App {
         if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
             self.locate();
         }
+        // The Downloader: off stops its downloads before its tools are deleted.
+        let downloader_id = poni_core::addons::DOWNLOADER.id;
+        if before.addon_on(downloader_id) && !self.st.settings.addon_on(downloader_id) {
+            self.downloads_off();
+        }
         // An add-on switched on downloads its files; off deletes them.
         for a in poni_core::addons::ALL {
             let on = self.st.settings.addon_on(a.id);

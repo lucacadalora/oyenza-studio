@@ -66,6 +66,16 @@ pub fn phone_inbox_dir() -> PathBuf {
     if before_rename.is_dir() { before_rename } else { downloads.join("Oyenza Studio") }
 }
 
+/// Where the Downloader saves videos and sound: the user's Downloads folder
+/// (wherever they moved it), as a browser would. Under `PONI_HOME` for the
+/// self-test.
+pub fn media_downloads_dir() -> PathBuf {
+    if let Some(h) = home_override() {
+        return h.join("downloads");
+    }
+    downloads_dir().unwrap_or_else(|| env_dir("USERPROFILE").join("Downloads"))
+}
+
 fn downloads_dir() -> Option<PathBuf> {
     use windows::Win32::Foundation::HANDLE;
     use windows::Win32::System::Com::CoTaskMemFree;

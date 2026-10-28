@@ -247,6 +247,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Record => record::next_wake(st),
         PageKind::Prayer => prayer::next_wake(st),
         PageKind::Today => today::next_wake(st),
+        PageKind::Downloads => downloads::next_wake(st),
         _ => None,
     };
     // Oyen in the Oyenza tab (and beside the pin in his theme) blinks and
