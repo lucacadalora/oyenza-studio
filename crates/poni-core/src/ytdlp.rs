@@ -130,7 +130,7 @@ const INFO: &str = concat!(
     r#"before_dl:{"t":"info","id":%(id|null)j,"title":%(title|null)j,"site":%(extractor|null)j,"#,
     r#""domain":%(webpage_url_domain|null)j,"thumb":%(thumbnail|null)j,"duration":%(duration|null)j}"#,
 );
-/// The finished file, once it is where it stays (joined or converted). Every
+/// The finished file, once it is where it stays (joined or tidied). Every
 /// `j` field above has `|null`: one yt-dlp doesn't know prints `NA`
 /// otherwise, which isn't JSON.
 const DONE: &str = r#"after_move:{"t":"done","path":%(filepath|null)j}"#;
