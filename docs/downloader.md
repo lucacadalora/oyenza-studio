@@ -32,7 +32,7 @@ Finished files go to your Downloads folder, and onto the Shelf. **Open** opens a
 
 ## What goes online
 
-- **The site of the link you paste.** yt-dlp asks it for the page, then downloads the video or sound from wherever that site keeps it. The requests go straight from your PC to the site, as your browser's would. The picture on a download's row comes from the site too.
+- **The site of the link you paste.** yt-dlp asks it for the page, then downloads the video or sound from wherever that site keeps it. The requests go straight from your PC to the site, as your browser's would.
 - **github.com, for the tools:** when you switch the add-on on, and when an Oyenza Studio release pins new ones.
 - **Nothing else.** No Oyenza server is involved, and nothing about what you download goes to us or to anyone but that site. yt-dlp doesn't get your browser's cookies or sign-ins.
 

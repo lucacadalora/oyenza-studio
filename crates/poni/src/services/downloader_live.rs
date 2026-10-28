@@ -103,7 +103,14 @@ fn save_the_film(tools: &Tools, ffmpeg: bool, dir: &Path) {
             continue;
         }
         let failed: Vec<&Problem> = run.lines.iter().filter_map(|(_, l)| if let Some(Line::Failed(p)) = l { Some(p) } else { None }).collect();
-        if let Some(p) = failed.iter().find(|p| matches!(p, Problem::Network | Problem::Limited | Problem::NotFound)) {
+        // The site's own trouble (its server erroring or turning CI's runner
+        // away) says nothing about our code.
+        let site_trouble = |p: &Problem| match p {
+            Problem::Network | Problem::Limited | Problem::NotFound => true,
+            Problem::Other(m) => m.contains("HTTP Error 5") || m.contains("HTTP Error 403"),
+            _ => false,
+        };
+        if let Some(p) = failed.iter().find(|p| site_trouble(p)) {
             println!("::warning::{mode:?}: video.blender.org didn't give the film ({p:?}), so nothing was checked");
             continue;
         }

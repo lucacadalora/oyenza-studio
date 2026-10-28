@@ -384,13 +384,20 @@ fn clear_old_versions(dir: &Path, addon: &Addon) {
     }
 }
 
-/// Switched off: delete all of the add-on's files.
+/// Switched off: delete all of the add-on's files. A program of the add-on
+/// that was just stopped (the Downloader's yt-dlp) can hold its file for a
+/// moment after the stop, so a failed delete is tried again for about 2 s
+/// (this runs on the add-on thread, never the UI's).
 fn remove(dir: &Path, addon: &Addon) {
     let folder = dir.join(addon.id);
-    if folder.exists() {
+    for tries in 0.. {
+        if !folder.exists() {
+            return;
+        }
         match fs::remove_dir_all(&folder) {
-            Ok(()) => crate::pinfo!("add-ons: {}: switched off, files deleted", addon.id),
-            Err(e) => crate::pwarn!("add-ons: {}: could not delete {} ({e})", addon.id, folder.display()),
+            Ok(()) => return crate::pinfo!("add-ons: {}: switched off, files deleted", addon.id),
+            Err(_) if tries < 10 => std::thread::sleep(Duration::from_millis(200)),
+            Err(e) => return crate::pwarn!("add-ons: {}: could not delete {} ({e})", addon.id, folder.display()),
         }
     }
 }

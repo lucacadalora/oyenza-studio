@@ -84,7 +84,13 @@ impl Services {
         // Asks nothing until a phone is paired.
         let pairdrop = started("pair drop", pairdrop::PairDropService::start(sink.clone()));
         // Asleep unless an add-on is on; then it only checks the files it has.
-        let on = poni_core::addons::ALL.iter().filter(|a| settings.addon_on(a.id)).map(|a| a.id).collect();
+        // The Microsoft Store build has no Downloader, whatever settings.json says.
+        let store = crate::autostart::packaged();
+        let on = poni_core::addons::ALL
+            .iter()
+            .filter(|a| settings.addon_on(a.id) && !(store && a.id == poni_core::addons::DOWNLOADER.id))
+            .map(|a| a.id)
+            .collect();
         let addons = started("add-ons", addons::AddonService::start(sink.clone(), on));
         Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), downloader: std::cell::OnceCell::new(), sink: sink.clone() }
     }
