@@ -172,9 +172,11 @@ fn draw_idle(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let body = "He listens to your microphone and your PC's sound, so a call in Meet, Zoom or Teams is heard with no bot joining. Stop when it's over: the notes and the transcript are saved to Documents \u{203a} Oyenza Studio \u{203a} Notes.";
     let y = para(ui, Rect::new(r.x, y + 6.0, r.w, 80.0), body, palette::TEXT_DIM);
     let foot = Rect::new(r.x, r.bottom() - PILL_SMALL - 6.0, r.w, PILL_SMALL);
-    match st.notes.last.clone() {
-        Some(last) => {
-            let line = format!("Last: {} \u{b7} {} min", last.notes.title, (last.notes.secs as f32 / 60.0).round().max(1.0));
+    // Only what the line shows: a meeting's transcript can run to thousands of lines.
+    let last = st.notes.last.as_ref().map(|l| (l.notes.title.clone(), l.notes.secs));
+    match last {
+        Some((title, secs)) => {
+            let line = format!("Last: {title} \u{b7} {} min", (secs as f32 / 60.0).round().max(1.0));
             let w = ui.pill_width("Open", true, true);
             ui.c.text(&line, Rect::new(foot.x, foot.y, foot.w - w - 10.0, foot.h), &TextStyle::footnote().color(palette::TEXT_DIM));
             if ui.pill(wid("notes.open-last"), Rect::new(foot.right() - w, foot.y, w, PILL_SMALL), "Open", Some(Icon::Open), PillStyle::Utility).clicked {
@@ -236,20 +238,21 @@ fn draw_writing(ui: &mut Ui, st: &AppState, r: Rect, since: f64) {
 }
 
 fn draw_ready(ui: &mut Ui, st: &mut AppState, r: Rect) {
-    let Some(saved) = st.notes.last.clone() else { return };
-    let n = &saved.notes;
+    // Only what the page shows: a meeting's transcript can run to thousands of lines.
+    let Some((title, secs, s, actions, summary)) = st.notes.last.as_ref().map(|l| (l.notes.title.clone(), l.notes.secs, l.started, l.notes.actions.len(), l.notes.summary.iter().take(6).cloned().collect::<Vec<_>>())) else {
+        return;
+    };
     let r = Rect::new(r.x, r.y + 2.0, r.w.min(440.0), r.h);
     let title_st = TextStyle::headline();
-    ui.c.text(&n.title, Rect::new(r.x, r.y, r.w, 20.0), &title_st);
-    let s = &saved.started;
-    let when = format!("{:02}:{:02} \u{b7} {} min \u{b7} {} action item{}", s.hour, s.minute, (n.secs as f32 / 60.0).round().max(1.0), n.actions.len(), if n.actions.len() == 1 { "" } else { "s" });
+    ui.c.text(&title, Rect::new(r.x, r.y, r.w, 20.0), &title_st);
+    let when = format!("{:02}:{:02} \u{b7} {} min \u{b7} {actions} action item{}", s.hour, s.minute, (secs as f32 / 60.0).round().max(1.0), if actions == 1 { "" } else { "s" });
     ui.c.text(&when, Rect::new(r.x, r.y + 22.0, r.w, 15.0), &TextStyle::caption().color(palette::TEXT_DIM));
     // The summary's first lines, as many as fit above the buttons.
     let buttons_y = r.bottom() - PILL_SMALL - 6.0;
     let mut y = r.y + 44.0;
     let body = TextStyle::footnote().wrap().top();
     ui.c.clip(Rect::new(r.x, y, r.w, buttons_y - 8.0 - y));
-    for line in &n.summary {
+    for line in &summary {
         let text = format!("\u{2022}  {line}");
         let (_, h) = ui.c.measure(&text, &body, r.w);
         if y + h > buttons_y - 8.0 {
