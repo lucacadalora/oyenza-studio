@@ -95,13 +95,13 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     if !ui.input.down {
         st.ui.downloads.dragging = false;
     }
-    let field = link_row(ui, st, Rect::new(area.x, area.y, area.w, FIELD_H));
+    link_row(ui, st, Rect::new(area.x, area.y, area.w, FIELD_H));
     // A message from the app ("Copy a link first") under the field while it
     // lasts ([`next_wake`] brings the frame that takes it away).
     let mut top = area.y + LIST_TOP;
     if let Some((text, _)) = st.ui.downloads.note.filter(|&(_, until)| until > st.now) {
-        let x = field.x + FIELD_TEXT_X;
-        ui.c.text(text, Rect::new(x, top - 4.0, (field.right() - x).max(0.0), 16.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+        let x = area.x + FIELD_TEXT_X;
+        ui.c.text(text, Rect::new(x, top - 4.0, (area.right() - x).max(0.0), 16.0), &TextStyle::footnote().color(palette::TEXT_DIM));
         top += NOTE_H;
     }
     let list_r = Rect::new(area.x, top, area.w, (area.bottom() - top).max(0.0));
@@ -119,9 +119,8 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
 }
 
 /// The link field, then Paste, Video or Sound, and Download, which waits for
-/// a link (`downloads::link_in`); Enter in the field downloads too. Returns
-/// the field's rect.
-fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) -> Rect {
+/// a link (`downloads::link_in`); Enter in the field downloads too.
+fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let accent = st.accent;
     let y = r.center().y - PILL_SMALL / 2.0;
     let modes = ["Video", "Sound"];
@@ -157,7 +156,6 @@ fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) -> Rect {
         st.ui.downloads.scroll = 0.0;
         st.cmd(Command::Download(DownloadCmd::Start { url, mode }));
     }
-    field
 }
 
 /// The downloads, newest first, scrolling under the wheel (they glide there,
