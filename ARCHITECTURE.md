@@ -169,12 +169,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   shut), with `If-None-Match`. Parsing, formats, the search and the chart's
   arithmetic are in `poni_core::stocks`; the prices stay in memory
   (`AppState::stocks`).
-* Notifications (`pages/notifications.rs`) is a tab only while the
-  Notifications add-on is on (`AppState::notifications_on`; Windows, built
-  in): what Windows allows (`AppState::notify_access`, with Allow or
-  Windows settings), the apps that sent a notification since it came on
-  with a switch each, and whether a notice shows who it's from and the
-  message (`settings.notifications`, `poni_core::notifications`). Windows'
+* Notifications (`pages/notifications.rs`) is a tab wherever the copy can
+  read notifications (`AppState::notify_can`, the Store copy) until its chip
+  in Settings' tabs row switches it off (`AppState::notifications_on`; on
+  by default, not an add-on): what Windows allows
+  (`AppState::notify_access`, with Allow or Windows settings), the apps
+  that sent a notification since it came on with a switch each, and
+  whether a notice shows who it's from and the message
+  (`settings.notifications`, `poni_core::notifications`). Windows'
   notification listener (`services::notifications`) needs a package
   identity, so only the Store copy listens; its NotificationChanged event
   brings each new notification (no polling), and `pages::notifications::

@@ -3,8 +3,8 @@ Oyenza Studio test copy
 
 This folder is the Microsoft Store package of Oyenza Studio, signed with a
 throwaway certificate by the CI run that built it. Install it to try what
-only the Store copy can do, such as the Notifications add-on: Windows lets
-only an app installed as a package read other apps' notifications.
+only the Store copy can do, such as Notifications: Windows lets only an
+app installed as a package read other apps' notifications.
 
 It's a test build, not the Store's: never upload it anywhere.
 
@@ -23,9 +23,11 @@ Install
 
 Try Notifications
 -----------------
-1. Open the island, press + (Add-ons) and switch Notifications on.
+1. Open the island and the bell tab (Notifications): it's on from the
+   start. Press Allow.
 2. Windows asks whether Oyenza Studio may read your notifications: Allow.
-   (No question? The bell tab's page has Ask again and Windows settings.)
+   (No question? The bell tab's page has Ask again and Windows settings.
+   To switch Notifications off, tap it under Tabs in Settings.)
 3. WhatsApp, Telegram and Phone Link start on. In Telegram Desktop, turn on
    Settings > Notifications and Sounds > Use Windows notifications.
 4. A message shows on the island for 8 seconds: Open (or a click on it)

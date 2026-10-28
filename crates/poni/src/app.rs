@@ -597,6 +597,8 @@ impl App {
         st.local = clock::local_now();
         st.unix = clock::unix_now();
         st.accent = theme_accent(st.settings.theme);
+        // Notifications only where Windows lets this copy read them (the Store copy).
+        st.notify_can = crate::autostart::packaged();
         let mode = Mode::Idle;
         let mut island = Island::new(activities::geom(&mode, &st));
         island.set_floating(pill::on(st.settings.theme).then_some(pill::TOP_GAP));
@@ -1843,10 +1845,11 @@ impl App {
                 }
             }
         }
-        // Notifications on: listen, Windows' question first; off: stop.
-        let notify_id = poni_core::addons::NOTIFICATIONS.id;
-        if before.addon_on(notify_id) != self.st.settings.addon_on(notify_id) && self.selftest.is_none() {
-            if self.st.settings.addon_on(notify_id) {
+        // Notifications switched on in Settings' tabs row: listen, Windows'
+        // question first; off: stop.
+        let notify_was = !before.hidden_tabs.iter().any(|k| k == PageKind::Notifications.key());
+        if self.st.notify_can && notify_was != self.st.notifications_on() && self.selftest.is_none() {
+            if self.st.notifications_on() {
                 self.start_notify(true);
             } else {
                 self.stop_notify();
@@ -4380,8 +4383,8 @@ impl App {
 
     // ------------------------------------------------------------ notifications
 
-    /// The Notifications add-on came on (`ask`: by its switch, so Windows'
-    /// question comes now) or the app started with it on.
+    /// Notifications came on (`ask`: by its chip in Settings' tabs row, so
+    /// Windows' question comes now) or the app started with it on.
     fn start_notify(&mut self, ask: bool) {
         self.st.notify_access = NotifyAccess::Unknown;
         if self.notify.is_none() {

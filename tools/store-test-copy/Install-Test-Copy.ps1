@@ -1,6 +1,6 @@
 # Installs the Oyenza Studio test copy from this folder: the Microsoft Store
 # package, signed with the throwaway certificate of the CI run that built it,
-# to try on a PC what only the Store copy can do (the Notifications add-on).
+# to try on a PC what only the Store copy can do (Notifications).
 # README.txt says how to run it and how to go back.
 #
 # It asks for administrator rights once, only to trust that certificate for
@@ -54,6 +54,6 @@ if (-not $pkg) { throw "The test copy didn't install." }
 "Installed $($pkg.Version). Starting it."
 Start-Process "shell:AppsFolder\$($pkg.PackageFamilyName)!Poni"
 ""
-"Next: open the island, press + (Add-ons), switch Notifications on, and answer Windows' question."
+"Next: open the island, open the bell tab (Notifications), press Allow and answer Windows' question."
 "WhatsApp, Telegram and Phone Link notifications then show on the island."
 "To go back to your usual copy: Remove-Test-Copy.ps1 in this folder."

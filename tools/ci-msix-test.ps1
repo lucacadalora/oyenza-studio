@@ -151,7 +151,7 @@ if (Test-Path $reportPath) {
             $failures.Add("the self-test ran without the package identity: $($startup[0].detail)")
         }
     }
-    # The Notifications add-on: Windows' listener answers inside the package
+    # Notifications: Windows' listener answers inside the package
     # (the manifest declares userNotificationListener). It asks nothing here.
     $notify = @($report.checks | Where-Object { $_.name -eq "notifications" })
     if ($notify.Count -eq 0) {

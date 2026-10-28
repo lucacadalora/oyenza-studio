@@ -1,9 +1,9 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader, System, Health, Stocks, Notifications and IELTS are already in
-//! the app and only show their pages (System's readings, Health's steps,
-//! Stocks' prices and Notifications' listening also run only while they are
-//! on; IELTS only while a session runs).
+//! reader, System, Health, Stocks, IELTS and Meeting notes are already in
+//! the app and only show their pages (System's readings, Health's steps and
+//! Stocks' prices also run only while they are on; IELTS only while a
+//! session runs, Meeting notes only while it records).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -12,9 +12,9 @@
 //! stops it and deletes its files
 //! (`Command::SaveSettings`; the app passes the change to `services::addons`).
 //! Both apps list every add-on ([`OFFERED`]) but Screen recorder, which shows
-//! once Oyenza Studio Recorder is installed, and Notifications, which only
-//! Windows has ([`rows`]). Eight rows (the recorder's with them) are one
-//! line each: the name, then the line after it.
+//! once Oyenza Studio Recorder is installed, and Meeting notes, which only
+//! Windows has ([`rows`]). From seven rows each is one line: the name, then
+//! the line after it.
 
 use crate::commands::Command;
 use crate::gfx::{TextStyle, Weight};
@@ -60,15 +60,13 @@ pub fn height(st: &AppState) -> f32 {
 
 /// The page's rows: every add-on offered, Screen recorder only once Oyenza
 /// Studio Recorder is installed and has spoken to the island
-/// (`AppState::recorder_ready`), Notifications only on Windows (a Mac has
-/// no way to read other apps' notifications), Meeting notes only on Windows
-/// (the Mac's own sound isn't recorded yet).
+/// (`AppState::recorder_ready`), Meeting notes only on Windows (the Mac's
+/// own sound isn't recorded yet).
 fn rows(st: &AppState) -> Vec<&'static Addon> {
     OFFERED
         .iter()
         .copied()
         .filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready())
-        .filter(|a| a.id != addons::NOTIFICATIONS.id || cfg!(windows))
         .filter(|a| a.id != addons::MEETING_NOTES.id || cfg!(windows))
         .collect()
 }
