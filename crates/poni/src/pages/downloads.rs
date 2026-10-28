@@ -19,6 +19,12 @@ pub struct DownloadsUi {
     pub link: String,
     pub mode: Mode,
     pub scroll: f32,
+    /// A link copied before the page came up, waiting above the list until
+    /// it is downloaded or dismissed (`downloads_offer`; Windows only).
+    pub offer: Option<String>,
+    /// The clipboard's link the last time the page came up: each link is
+    /// offered once, so a dismissed one doesn't come back.
+    pub offered: String,
 }
 
 pub fn height(_st: &AppState) -> f32 {
