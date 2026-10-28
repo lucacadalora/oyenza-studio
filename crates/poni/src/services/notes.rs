@@ -71,11 +71,12 @@ pub struct Recording {
 }
 
 impl Recording {
-    /// Start recording into a new folder under `root`: the recording, and
+    /// Start recording into a new folder under `root` (the meeting's local
+    /// start written beside its parts, for [`kept`]): the recording, and
     /// whether the microphone and the PC's sound each opened.
-    pub fn start(root: &Path, sink: &EventSink) -> Result<(Recording, bool, bool), CaptureIssue> {
+    pub fn start(root: &Path, started: &LocalDateTime, sink: &EventSink) -> Result<(Recording, bool, bool), CaptureIssue> {
         let dir = root.join(format!("meeting-{}", crate::clock::unix_now()));
-        std::fs::create_dir_all(&dir).map_err(|e| {
+        std::fs::create_dir_all(&dir).and_then(|()| std::fs::write(dir.join(STARTED), fmt_started(started))).map_err(|e| {
             crate::pwarn!("notes: no folder for the recording ({e})");
             CaptureIssue::Failed
         })?;
@@ -330,6 +331,47 @@ fn capture(dir: &Path, shared: &Shared, sink: &EventSink, ready: mpsc::Sender<Re
         unsafe { CoUninitialize() };
     }
     out
+}
+
+/// Beside a meeting's parts: when it began, "2026-10-29 14:05" (local time).
+const STARTED: &str = "started.txt";
+
+fn fmt_started(t: &LocalDateTime) -> String {
+    format!("{:04}-{:02}-{:02} {:02}:{:02}", t.year, t.month, t.day, t.hour, t.minute)
+}
+
+fn parse_started(s: &str) -> Option<LocalDateTime> {
+    let (d, t) = s.trim().split_once(' ')?;
+    let mut d = d.split('-').map(|x| x.parse::<i32>().ok());
+    let mut t = t.split(':').map(|x| x.parse::<u8>().ok());
+    Some(LocalDateTime { year: d.next()??, month: d.next()?? as u8, day: d.next()?? as u8, hour: t.next()??, minute: t.next()??, second: 0 })
+}
+
+/// A meeting the app closed on before its notes were saved (a crash, a
+/// restart, the PC turned off mid-meeting): the newest one left, with what
+/// its parts hold (a part cut short has the length 0 in its header; the
+/// server reads such a part to its end). Older ones, and ones with under a
+/// second in them, go.
+pub fn kept() -> Option<(Take, LocalDateTime)> {
+    let root = crate::paths::notes_audio_dir();
+    let mut dirs: Vec<PathBuf> = std::fs::read_dir(&root).ok()?.flatten().map(|e| e.path()).filter(|p| p.is_dir()).collect();
+    dirs.sort();
+    let newest = dirs.pop()?;
+    for old in dirs {
+        let _ = std::fs::remove_dir_all(old);
+    }
+    let mut parts: Vec<PathBuf> = std::fs::read_dir(&newest).ok()?.flatten().map(|e| e.path()).filter(|p| p.extension().is_some_and(|x| x == "wav")).collect();
+    parts.sort();
+    let bytes: u64 = parts.iter().filter_map(|p| std::fs::metadata(p).ok()).map(|m| m.len().saturating_sub(44)).sum();
+    let secs = bytes as f64 / 2.0 / RATE as f64;
+    let started = std::fs::read_to_string(newest.join(STARTED)).ok().and_then(|s| parse_started(&s));
+    match started {
+        Some(started) if secs >= 1.0 => Some((Take { dir: newest, parts, secs }, started)),
+        _ => {
+            let _ = std::fs::remove_dir_all(newest);
+            None
+        }
+    }
 }
 
 /// Whatever is left of meetings whose notes were saved or thrown away, and

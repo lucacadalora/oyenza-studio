@@ -3,8 +3,8 @@
 Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs from the
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Today,
-Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, IELTS, System,
-Script, Prayer and Stocks pages once they are switched on). The Shelf's Phone drop serves a
+Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, IELTS, Notes,
+System, Script, Prayer and Stocks pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
 It was called Oyen Poni until 0.2.0, and plain Poni before that. The code keeps the
@@ -198,6 +198,24 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   session runs. The self-test plays one turn against a server of its own on
   127.0.0.1 (`ielts-turn`). On the Mac the page says it's coming (its audio is
   `mac/services/{mic,voice}.rs`, wired in next).
+* Notes (`pages/notes.rs`) is a tab only while the Meeting notes add-on is
+  on (`AppState::notes_on`; Windows; built in, nothing to download): one
+  click and Oyen listens to a meeting, then the Oyenza account writes its
+  notes (catat-server's `/island/notes/*`). `poni_core::notes` holds the
+  page's moments (`Taker` in `AppState::notes`), the mix, the calls'
+  answers and the Markdown. `services::notes` records on a `poni-notes`
+  thread that exists only while recording: the default microphone and the
+  default playback device's own sound (WASAPI loopback, opened by
+  `services::mic::open_endpoint`), mixed onto one 16 kHz mono track by the
+  clock (`notes::Mixer`: loopback sends nothing while nothing plays) and
+  written as five-minute WAV parts in `%LOCALAPPDATA%\Poni\notes\`; a new
+  default device (a headset plugged in) is followed. After Stop, a
+  `poni-notes-send` thread, only while a meeting is handed over, sends the
+  parts (`Client::post_bytes`), asks every 4 s until the notes are
+  written, saves them as Markdown in `Documents\Oyenza Studio\Notes` and
+  deletes the audio, which is kept for Try again until then. The closed
+  island shows Oyen listening (`Activity::Notes`, ambient frames while it
+  shows).
 * Timed page changes (an Undo pill lapsing) report their deadline through
   `pages::next_wake` so the app wakes exactly then instead of polling.
   `st.accent` = Windows accent (lightened); `st.media_accent()` = album-art colour.
@@ -232,7 +250,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, ielts (the IELTS page's calls, microphone and voice, only while that page is open or a session runs), mic (WASAPI capture, only while recording), voice (Oyen's clips, only while one plays), oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), notifications (the Notifications add-on: Windows' notification listener, in the Store copy only, event-driven while the add-on is on and Windows allows it), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, ielts (the IELTS page's calls, microphone and voice, only while that page is open or a session runs), mic (WASAPI capture, only while recording), notes (Meeting notes: the microphone and the PC's own sound, only while recording; the hand-over to the server, only after Stop until the notes are saved), voice (Oyen's clips, only while one plays), oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), notifications (the Notifications add-on: Windows' notification listener, in the Store copy only, event-driven while the add-on is on and Windows allows it), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `version.rs` | which build this is for the menu's About line: the version, and from `build.rs` release, test build (commit) or local build, and the day CI built it |
 | `updates.rs` | new versions, the app's side: when to read the update file (`update.json` remembers), the island's notice ("Update available x", Hide), the offer the menu and Settings show, and on Windows the new version's Setup (downloaded first, run with `/S /reopen` now or before the next start); the Update sheet it opens is drawn by `pages/settings.rs` (rules in `poni_core::update`, the read and signature check in `services/update.rs`; docs/updates.md) |

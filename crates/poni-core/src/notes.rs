@@ -266,6 +266,9 @@ pub enum Problem {
     SignedOut,
     /// The server took too long to write.
     TooSlow,
+    /// The app closed on a meeting (a crash, a restart, the PC turned off)
+    /// before its notes were written: its recording was kept.
+    Unfinished,
     /// Any other status, or an answer that couldn't be read.
     Server,
     Capture(CaptureIssue),
@@ -298,6 +301,7 @@ impl Problem {
             Problem::Busy(_) => "Oyen is swamped",
             Problem::AiFailed | Problem::Server | Problem::Gone | Problem::TooSlow => "Oyen couldn't write the notes",
             Problem::NothingHeard => "Oyen didn't hear anyone",
+            Problem::Unfinished => "Your last meeting isn't written up",
             Problem::Offline => "Can't reach Oyenza",
             Problem::SignedOut => "You're signed out of Oyenza",
             Problem::Capture(CaptureIssue::MicDenied) => "The microphone is blocked",
@@ -317,6 +321,7 @@ impl Problem {
             Problem::Busy(_) => "Your recording is kept. Try again in a minute.".into(),
             Problem::AiFailed | Problem::Server | Problem::Gone | Problem::TooSlow => "Your recording is kept. Try again.".into(),
             Problem::NothingHeard => "Was the call muted? Check that the bars move next time.".into(),
+            Problem::Unfinished => "Its recording was kept when Oyenza Studio closed. Write it up now, or throw it away.".into(),
             Problem::Offline => "Your recording is kept. Check the internet, then try again.".into(),
             Problem::SignedOut => "Sign in to Oyenza again: your recording is kept.".into(),
             Problem::Capture(CaptureIssue::MicDenied) => "Turn on microphone access for desktop apps in Windows Settings.".into(),

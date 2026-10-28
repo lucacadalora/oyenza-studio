@@ -295,7 +295,8 @@ fn draw_failed(ui: &mut Ui, st: &mut AppState, r: Rect, p: Problem) {
     }
     let kept = st.ui.notes_kept;
     if kept && p.retryable() {
-        list.push(("notes.retry", "Try again", None, PillStyle::Primary(ACCENT)));
+        let label = if p == Problem::Unfinished { "Write it up" } else { "Try again" };
+        list.push(("notes.retry", label, None, PillStyle::Primary(ACCENT)));
         cmds.push(Command::Notes(NotesCmd::Retry));
     }
     if kept {

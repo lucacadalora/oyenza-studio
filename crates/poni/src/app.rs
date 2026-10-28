@@ -732,6 +732,9 @@ impl App {
             if self.st.notifications_on() {
                 self.start_notify(false);
             }
+            if self.st.notes_on() {
+                self.notes_restore();
+            }
             self.try_add_tray();
             services::power::register_session(self.helper);
             if !crate::autostart::packaged() {
@@ -4109,10 +4112,11 @@ impl App {
         // Whatever an earlier meeting left (the app closed on it) goes first.
         services::notes::clear_audio(None);
         let now = self.st.now;
-        match services::notes::Recording::start(&crate::paths::notes_audio_dir(), &self.sink) {
+        let started = self.st.local;
+        match services::notes::Recording::start(&crate::paths::notes_audio_dir(), &started, &self.sink) {
             Ok((rec, mic, pc)) => {
                 pinfo!("notes: listening (microphone {}, the PC's sound {})", if mic { "on" } else { "off" }, if pc { "on" } else { "off" });
-                self.notes_started = self.st.local;
+                self.notes_started = started;
                 self.st.notes.started(now, mic, pc);
                 self.notes_rec = Some(rec);
             }
@@ -4179,6 +4183,19 @@ impl App {
                 let color = if good { crate::oyen::ORANGE } else { palette::TEXT_DIM };
                 self.st.notify(Icon::Notes, color, title, subtitle, 8.0, Some(crate::state::NoticeAction::OpenPage(PageKind::Notes)));
             }
+        }
+    }
+
+    /// A meeting the app closed on before its notes were saved: its
+    /// recording waits on the page for Write it up or Throw away.
+    fn notes_restore(&mut self) {
+        if let Some((take, started)) = services::notes::kept() {
+            pinfo!("notes: a meeting of {:.0} s from before wasn't written up; it's kept", take.secs);
+            self.notes_started = started;
+            self.st.notes.secs = take.secs;
+            self.notes_take = Some(take);
+            self.st.ui.notes_kept = true;
+            self.st.notes.failed(poni_core::notes::Problem::Unfinished);
         }
     }
 
