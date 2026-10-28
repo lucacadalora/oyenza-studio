@@ -530,6 +530,39 @@ jobs:
           path: installer-out
           if-no-files-found: warn
 
+  # The Downloader add-on's ffmpeg.exe: FFmpeg's own release, built small
+  # (addons/downloader/FFMPEG.md). It changes only with its script, so a run
+  # takes the last build from the cache and builds again (about two minutes)
+  # only when tools/build-ffmpeg-min.sh changes. The artifact holds what goes
+  # on the add-on's pre-release: the exe, its SHA-256 and FFmpeg's source.
+  downloader-ffmpeg:
+    name: Downloader add-on's ffmpeg.exe (minimal LGPL FFmpeg)
+    # Pinned: the exe's bytes follow 24.04's mingw-w64 (FFMPEG.md).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: dist/ffmpeg
+          key: downloader-ffmpeg-${{ hashFiles('tools/build-ffmpeg-min.sh') }}
+      - name: Build
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gcc-mingw-w64-x86-64-win32 > /dev/null
+          tools/build-ffmpeg-min.sh dist/ffmpeg
+      - name: Size and SHA-256
+        run: ls -l dist/ffmpeg/windows/ffmpeg.exe && cat dist/ffmpeg/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: downloader-ffmpeg
+          path: |
+            dist/ffmpeg/windows/ffmpeg.exe
+            dist/ffmpeg/SHA256SUMS
+            dist/ffmpeg/ffmpeg-*.tar.xz
+          if-no-files-found: error
+
   # A tag push publishes. A manual run with release_dry_run goes through the
   # same jobs and checks and publishes nothing: no tag, release or issue, and
   # no website deploy. It says what a tag would publish instead.
