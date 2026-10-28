@@ -16,7 +16,7 @@
 //! once Oyenza Studio Recorder is installed ([`rows`]).
 
 use crate::commands::Command;
-use crate::gfx::TextStyle;
+use crate::gfx::{ts, TextStyle};
 use crate::icons::Icon;
 use crate::state::AppState;
 use crate::ui::{wid_n, Ui};
@@ -32,6 +32,12 @@ const ROW_H: f32 = 45.0;
 const MAX_H: f32 = 256.0;
 const BADGE: f32 = 36.0;
 const BADGE_COMPACT: f32 = 30.0;
+/// Rows shorter than this (eight make 28 DIPs) have no room for the title
+/// over its line: the line goes beside the title, by a smaller badge still.
+const TWO_LINES_H: f32 = 32.0;
+const BADGE_TIGHT: f32 = 24.0;
+/// Between a one-line row's title and its line.
+const LINE_GAP: f32 = 8.0;
 const TEXT_X: f32 = 48.0;
 /// A row's hover wash reaches this far past its contents (as in Settings).
 const ROW_BLEED: f32 = 8.0;
@@ -65,6 +71,17 @@ fn rows(st: &AppState) -> Vec<&'static Addon> {
 
 fn row_h(n: usize) -> f32 {
     ((MAX_H - ROWS_Y) / n.max(1) as f32).floor().min(ROW_H)
+}
+
+/// The badge in rows `h` tall: smaller as they pack closer.
+fn badge(h: f32) -> f32 {
+    if h >= ROW_H {
+        BADGE
+    } else if h >= TWO_LINES_H {
+        BADGE_COMPACT
+    } else {
+        BADGE_TIGHT
+    }
 }
 
 /// Where `a` stands: Screen recorder follows the recorder's install
@@ -128,10 +145,13 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
         super::card::fill_box(ui, card, hit, 10.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
     }
     let cy = r.center().y;
-    // Six rows sit closer: a smaller badge, the text centred in the row.
-    let (badge, dy) = if r.h < ROW_H { (BADGE_COMPACT, ((r.h - ROW_H) / 2.0).round()) } else { (BADGE, 0.0) };
-    ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), badge / 2.0, accent.with_alpha(0.18));
-    ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), 18.0, 18.0), accent);
+    // Six or seven rows sit closer: a smaller badge, the text centred in the
+    // row. Eight have room for one line of text, its line beside the title.
+    let two_lines = r.h >= TWO_LINES_H;
+    let dy = if two_lines && r.h < ROW_H { ((r.h - ROW_H) / 2.0).round() } else { 0.0 };
+    let glyph = if two_lines { 18.0 } else { 15.0 };
+    ui.c.fill_circle(Point::new(r.x + BADGE / 2.0, cy), badge(r.h) / 2.0, accent.with_alpha(0.18));
+    ui.c.icon(icon(a), Rect::from_center(Point::new(r.x + BADGE / 2.0, cy), glyph, glyph), accent);
 
     let sw = Rect::new(r.right() - SWITCH_W, cy - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
     crate::pages::settings::draw_switch(ui.c, sw, status.is_on(), accent);
@@ -147,7 +167,6 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
 
     let x = r.x + TEXT_X;
     let w = (text_right - x).max(0.0);
-    ui.c.text(a.title, Rect::new(x, r.y + 3.0 + dy, w, 20.0), &TextStyle::headline());
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
     // Screen recorder came on with the recorder, not by a click here: say so.
     let line = if a.id == addons::SCREEN_RECORDER.id && status == Status::Ready {
@@ -155,13 +174,50 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     } else {
         status.line(a, MAC)
     };
-    ui.c.text(&line, Rect::new(x, r.y + 22.0 + dy, w, 17.0), &TextStyle::footnote().color(line_color));
+    let line_style = TextStyle::footnote().color(line_color);
+    if two_lines {
+        ui.c.text(a.title, Rect::new(x, r.y + 3.0 + dy, w, 20.0), &TextStyle::headline());
+        ui.c.text(&line, Rect::new(x, r.y + 22.0 + dy, w, 17.0), &line_style);
+    } else {
+        // The line after the title, on its baseline: centred on the same
+        // middle, smaller type's baseline sits about 0.4 DIP higher per DIP
+        // smaller, so the line moves down by that.
+        let title_w = ui.c.measure(a.title, &TextStyle::headline(), w).0.ceil().min(w);
+        ui.c.text(a.title, Rect::new(x, cy - 10.0, w, 20.0), &TextStyle::headline());
+        let lx = x + title_w + LINE_GAP;
+        let down = (ts::HEADLINE - ts::FOOTNOTE) * 0.4;
+        ui.c.text(&line, Rect::new(lx, cy - 8.5 + down, (x + w - lx).max(0.0), 17.0), &line_style);
+    }
     if let Some(p) = status.progress() {
-        let bar = Rect::new(x, r.y + 40.0 + dy, w, BAR_H);
+        let bar = Rect::new(x, if two_lines { r.y + 40.0 + dy } else { cy + 10.0 }, w, BAR_H);
         ui.c.fill_rrect(bar, BAR_H / 2.0, palette::TRACK);
         if p > 0.0 {
             ui.c.fill_rrect(Rect::new(bar.x, bar.y, (bar.w * p).max(BAR_H), BAR_H), BAR_H / 2.0, accent);
         }
     }
     resp.clicked
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use poni_core::settings::Settings;
+    use poni_core::store::Store;
+
+    #[test]
+    fn eight_rows_fit_the_page_with_their_text_on_one_line() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        assert_eq!(rows(&st).len(), 6, "neither Screen recorder nor the Downloader");
+        // Oyenza Studio Recorder installed and the Downloader offered: all eight.
+        st.recorder = true;
+        st.store.recorder_island = true;
+        st.downloader_offered = true;
+        assert_eq!(rows(&st).len(), 8);
+        assert!(height(&st) <= MAX_H, "the window never grows for this page");
+        for n in 5..=8 {
+            let h = row_h(n);
+            assert!(badge(h) + 2.0 <= h, "{n} rows, {h} DIPs: the badges keep apart");
+            assert_eq!(h >= TWO_LINES_H, n <= 7, "{n} rows, {h} DIPs: the title over its line up to seven");
+        }
+    }
 }
