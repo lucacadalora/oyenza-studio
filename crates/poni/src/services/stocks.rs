@@ -173,24 +173,7 @@ struct Worker {
 
 fn worker_main(shared: Arc<Shared>, sink: EventSink) {
     let _com = MtaGuard::new();
-    let now = Instant::now();
-    let mut w = Worker {
-        sink,
-        client: None,
-        base: base_url(),
-        codes: Vec::new(),
-        tag: None,
-        asked: None,
-        next_board: now,
-        every_s: None,
-        fails: 0,
-        said: None,
-        names: None,
-        next_names: now,
-        years: HashMap::new(),
-        next_year: HashMap::new(),
-        was_open: false,
-    };
+    let mut w = Worker::new(sink, Instant::now());
     loop {
         let watch = {
             let mut q = shared.lock();
@@ -201,7 +184,7 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink) {
                 let now = Instant::now();
                 let watch = q.watch.clone();
                 w.opened(&watch, now);
-                match w.next_due(&watch) {
+                match w.next_due(&watch, now) {
                     Some(t) if t <= now => break watch,
                     Some(t) => q = wait(&shared, q, Some(t - now)),
                     None => q = wait(&shared, q, None),
@@ -223,6 +206,26 @@ fn wait<'a>(shared: &Shared, g: MutexGuard<'a, Queue>, timeout: Option<Duration>
 }
 
 impl Worker {
+    fn new(sink: EventSink, now: Instant) -> Self {
+        Self {
+            sink,
+            client: None,
+            base: base_url(),
+            codes: Vec::new(),
+            tag: None,
+            asked: None,
+            next_board: now,
+            every_s: None,
+            fails: 0,
+            said: None,
+            names: None,
+            next_names: now,
+            years: HashMap::new(),
+            next_year: HashMap::new(),
+            was_open: false,
+        }
+    }
+
     fn send(&self, ev: StocksEvent) {
         self.sink.send(AppEvent::Stocks(ev));
     }
@@ -244,18 +247,21 @@ impl Worker {
         self.was_open = watch.open;
     }
 
-    /// When the next call is due; None while the page is closed.
-    fn next_due(&self, watch: &Watch) -> Option<Instant> {
+    /// When the next call is due; None while the page is closed. "At once" is
+    /// `now`, the caller's own reading: a fresh `Instant::now()` here is always
+    /// a little later, so `t <= now` never held and a new list was never asked
+    /// for (0.2.11: "Getting prices" for good).
+    fn next_due(&self, watch: &Watch, now: Instant) -> Option<Instant> {
         if !watch.open {
             return None;
         }
         // A changed list is asked for at once.
-        let mut t = if watch.codes != self.codes { Instant::now() } else { self.next_board };
+        let mut t = if watch.codes != self.codes { now } else { self.next_board };
         if watch.names && self.names.is_none() {
             t = t.min(self.next_names);
         }
         if let Some(code) = watch.chart.as_ref().filter(|c| !self.years.contains_key(*c)) {
-            t = t.min(self.next_year.get(code).copied().unwrap_or_else(Instant::now));
+            t = t.min(self.next_year.get(code).copied().unwrap_or(now));
         }
         Some(t)
     }
@@ -389,5 +395,134 @@ impl Worker {
         }
         self.next_year.insert(code.to_string(), Instant::now() + RETRY_GAP);
         self.send(StocksEvent::NoHistory(code.to_string()));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::mpsc::{self, Sender};
+
+    // The Mac app builds this file too; its `EventSink` takes no window handle.
+    #[cfg(windows)]
+    fn sink(tx: Sender<AppEvent>) -> EventSink {
+        EventSink::new(tx, crate::events::SendHwnd(0))
+    }
+
+    #[cfg(not(windows))]
+    fn sink(tx: Sender<AppEvent>) -> EventSink {
+        EventSink::new(tx)
+    }
+
+    fn worker(now: Instant) -> Worker {
+        Worker::new(sink(mpsc::channel().0), now)
+    }
+
+    fn open(codes: &[&str]) -> Watch {
+        Watch { open: true, codes: codes.iter().map(|c| c.to_string()).collect(), ..Watch::default() }
+    }
+
+    /// The thread asks only once `next_due` is at or before its own `now`.
+    /// 0.2.11 read the clock again for "at once", which is always later, so
+    /// the page said "Getting prices" for good.
+    #[test]
+    fn an_opened_page_is_asked_for_at_once() {
+        let now = Instant::now() + Duration::from_millis(5);
+        let mut w = worker(now - Duration::from_millis(5));
+        let watch = open(&["BBCA", "TLKM"]);
+        w.opened(&watch, now);
+        assert!(w.next_due(&watch, now).is_some_and(|t| t <= now));
+        // The IHSG alone too (an empty list).
+        let mut w = worker(now - Duration::from_millis(5));
+        let watch = open(&[]);
+        w.opened(&watch, now);
+        assert!(w.next_due(&watch, now).is_some_and(|t| t <= now));
+    }
+
+    #[test]
+    fn a_wanted_year_is_asked_for_at_once_while_the_prices_wait() {
+        let now = Instant::now();
+        let mut w = worker(now);
+        let mut watch = open(&["BBCA"]);
+        w.codes = watch.codes.clone();
+        w.next_board = now + Duration::from_secs(60);
+        assert_eq!(w.next_due(&watch, now), Some(now + Duration::from_secs(60)));
+        watch.chart = Some("BBCA".into());
+        assert_eq!(w.next_due(&watch, now), Some(now));
+    }
+
+    #[test]
+    fn a_closed_page_asks_for_nothing() {
+        let now = Instant::now();
+        let w = worker(now);
+        assert_eq!(w.next_due(&Watch { open: false, ..open(&["BBCA"]) }, now), None);
+    }
+
+    /// The real thread against the live oyenza.trade (CI's Windows unit tests
+    /// run it with `--ignored`): the IHSG and the starters' prices, every name
+    /// and a year come in. The self-test shows a made-up market and asks for
+    /// nothing, which is how 0.2.11 shipped a thread that never asked. Silence
+    /// fails; oyenza.trade answering badly only warns, since the thread asked.
+    #[test]
+    #[ignore = "asks the live oyenza.trade"]
+    fn the_live_market_comes_in() {
+        let (tx, rx) = mpsc::channel();
+        let service = StocksService::start(sink(tx)).expect("the Stocks thread starts");
+        let codes: Vec<String> = stocks::STARTERS.iter().map(|c| c.to_string()).collect();
+        let start = Instant::now();
+        // As the page opens on the day's chart it wants the prices only (the
+        // names and a year would wake 0.2.11's thread through their own times).
+        let mut watch = Watch { open: true, codes: codes.clone(), ..Watch::default() };
+        service.set_watch(watch.clone());
+        let (mut board, mut names, mut year) = (None, None, None);
+        while board.is_none() || names.is_none() || year.is_none() {
+            if board.is_some() && !watch.names {
+                // Then the search opens and 1M is picked.
+                watch = Watch { names: true, chart: Some("BBCA".into()), ..watch };
+                service.set_watch(watch.clone());
+            }
+            let left = Duration::from_secs(30).saturating_sub(start.elapsed());
+            let ev = match rx.recv_timeout(left) {
+                Ok(AppEvent::Stocks(ev)) => ev,
+                Ok(_) => continue,
+                Err(_) => {
+                    let missing = [("prices", board.is_none()), ("names", names.is_none()), ("BBCA's year", year.is_none())];
+                    let missing: Vec<&str> = missing.iter().filter(|m| m.1).map(|m| m.0).collect();
+                    panic!("no {} from the Stocks thread in 30 s: it never asked oyenza.trade", missing.join(", "));
+                }
+            };
+            let at = start.elapsed().as_secs_f32();
+            match ev {
+                StocksEvent::Board(b) => {
+                    println!("prices after {at:.2} s: {} rows, tag {}, every {} s", b.rows.len(), b.tag, b.every_s);
+                    board = Some(b);
+                }
+                StocksEvent::Names(n) => {
+                    println!("names after {at:.2} s: {}", n.list.len());
+                    names = Some(n);
+                }
+                StocksEvent::History(h) => {
+                    println!("{}'s year after {at:.2} s", h.code);
+                    year = Some(h);
+                }
+                StocksEvent::Same => {}
+                StocksEvent::Failed(why) => {
+                    println!("::warning::The Stocks thread asked, but oyenza.trade gave no prices ({why:?}) after {at:.2} s");
+                    return;
+                }
+                StocksEvent::NoNames | StocksEvent::NoHistory(_) => {
+                    println!("::warning::The Stocks thread asked, but oyenza.trade gave no names or year after {at:.2} s");
+                    return;
+                }
+            }
+        }
+        let board = board.expect("prices came");
+        for code in std::iter::once(stocks::INDEX).chain(stocks::STARTERS) {
+            let q = board.quote(code).unwrap_or_else(|| panic!("{code} isn't in the answer"));
+            assert!(q.price > 0.0, "{code} has no price");
+            println!("  {code} {}", q.price);
+        }
+        assert!(names.is_some_and(|n| n.list.len() > 500), "every listed stock's name");
+        assert_eq!(year.map(|h| h.code), Some("BBCA".to_string()));
     }
 }

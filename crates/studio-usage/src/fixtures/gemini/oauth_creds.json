@@ -1,0 +1,8 @@
+{
+  "access_token": "test-token",
+  "scope": "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
+  "token_type": "Bearer",
+  "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6InRlc3QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiJ0ZXN0LWNsaWVudC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6InRlc3QtY2xpZW50LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwiZW1haWwiOiJhQGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJ0ZXN0LWhhc2giLCJpYXQiOjE3OTMwNzcyMDAsImV4cCI6MTc5MzA4MDgwMH0.test-signature",
+  "expiry_date": 1793080800000,
+  "refresh_token": "test-refresh-token"
+}

@@ -3,13 +3,16 @@
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
-//! the idle look as pickers, five switches, and Hide or Stay on top in
-//! full-screen apps.
+//! the idle look as pickers, four switches, and Hide or Stay on top in
+//! full-screen apps; and this copy's version.
 //! A change saves at once and applies the way the tray's does
-//! (`Command::SaveSettings`). While a later version is out, a last row
-//! across the page says so, with Update: that opens the Update sheet, which
-//! takes the rows' place (as the island's notice and the menu's "Update to"
-//! line do) until the island closes or Settings does.
+//! (`Command::SaveSettings`). New versions are always looked for; beside
+//! the version, Check now reads the update file at once and says what it
+//! found in its place. While a later version is out, a last row across the
+//! page says so, with Update:
+//! that opens the Update sheet, which takes the rows' place (as the island's
+//! notice and the menu's "Update to" line do) until the island closes or
+//! Settings does.
 
 use crate::activities::{text_with_dim, text_with_dim_width};
 use crate::commands::{Command, OyenzaCmd};
@@ -17,8 +20,9 @@ use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::pages::PageKind;
 use crate::pill::status;
-use crate::state::{AppState, OyenzaLink};
+use crate::state::{AppState, OyenzaLink, Said};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_GAP, PILL_REGULAR, PILL_SMALL};
+use crate::version::VERSION;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::oyenza;
 use poni_core::phonedrop::fmt_bytes;
@@ -58,6 +62,10 @@ const STACK_GAP: f32 = 16.0;
 /// The full-screen choice's picker, inside its row.
 const ROW_PICKER_H: f32 = 24.0;
 const SWITCH_W: f32 = 30.0;
+/// Check now (or its answer): the room around its words.
+const CHECK_PAD: f32 = 5.0;
+/// Its hover wash, inside the row's.
+const CHECK_H: f32 = 22.0;
 const SWITCH_H: f32 = 18.0;
 const KNOB_INSET: f32 = 2.0;
 /// Oyenza's colour, as on the Oyenza page.
@@ -77,22 +85,23 @@ fn idle_name(s: IdleStyle, eyes: &'static str) -> &'static str {
     }
 }
 
-/// The switches, as the tray menu names them (new versions: Settings only).
+/// The switches, as the tray menu names them.
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Switch {
     Lyrics,
     Pronunciation,
     Sounds,
     Autostart,
-    Updates,
 }
 
-/// What a row of the two columns holds: a switch, or the full-screen choice
-/// (the tray menu's "In full-screen apps" submenu).
+/// What a row of the two columns holds: a switch, the full-screen choice
+/// (the tray menu's "In full-screen apps" submenu), or this copy's version
+/// with Check now.
 #[derive(Clone, Copy)]
 enum Row {
     Switch(Switch, &'static str),
     Fullscreen,
+    Version,
 }
 
 const LEFT: &[Row] = &[
@@ -100,8 +109,9 @@ const LEFT: &[Row] = &[
     Row::Switch(Switch::Pronunciation, "Lyrics pronunciation"),
     Row::Switch(Switch::Sounds, "Sounds"),
 ];
-// New versions took the row Clipboard history left, so the columns stay even.
-const RIGHT: &[Row] = &[Row::Switch(Switch::Updates, "Tell me about new versions"), Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
+// The version took the row of the new versions' switch (Clipboard history's
+// before it), so the columns stay even.
+const RIGHT: &[Row] = &[Row::Version, Row::Fullscreen, Row::Switch(Switch::Autostart, "Start with Windows")];
 const COLUMNS: [&[Row]; 2] = [LEFT, RIGHT];
 /// Rows in the taller column.
 const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len() };
@@ -199,6 +209,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                         flip(st, sw, on);
                     }
                 }
+                Row::Version => {
+                    let check = check_slot(ui, st, row);
+                    let right = check.map_or(row.right(), |b| b.x - 10.0);
+                    text_with_dim(ui, "Version", VERSION, Rect::new(row.x, row.y, (right - row.x).max(0.0), row.h), TextStyle::body());
+                    if let Some(b) = check {
+                        draw_check(ui, st, b);
+                    }
+                }
                 Row::Fullscreen => {
                     let sel = FULLSCREEN.iter().position(|f| f.0 == st.settings.hide_in_fullscreen).unwrap_or(0);
                     if let Some(i) = choice_row(ui, row, "In full-screen apps", "settings.fullscreen", &FULLSCREEN.map(|f| f.1), sel) {
@@ -212,6 +230,61 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     if let Some(rel) = st.update.offer.clone() {
         draw_offer(ui, st, Rect::new(area.x, area.y + HEIGHT, area.w, ROW_H), &rel);
     }
+}
+
+/// Where Check now goes in the version's row, at its right end: while this
+/// copy looks for new versions itself and none is offered (then the last
+/// row has Update). Words with a wash on hover, not a pill.
+fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
+    if !st.update.looks || st.update.offer.is_some() {
+        return None;
+    }
+    let (text, _) = check_look(st.update.said, st.accent);
+    // Checking… and Up to date are words only: no room for a wash, so they
+    // take less of the label's, ending where Check now's words end.
+    let pad = if answered(st.update.said) { 0.0 } else { CHECK_PAD };
+    let w = (ui.c.measure(text, &check_text(), 300.0).0 + 2.0 * pad).ceil();
+    let right = row.right() - (CHECK_PAD - pad);
+    Some(Rect::new(right - w, row.center().y - CHECK_H / 2.0, w, CHECK_H))
+}
+
+/// Check now said something that isn't a button: checking, or up to date.
+fn answered(said: Option<Said>) -> bool {
+    matches!(said, Some(Said::Checking | Said::UpToDate))
+}
+
+/// Check now, or what it found: checking, up to date, or (it couldn't
+/// look) Try again, which looks again.
+fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
+    let said = st.update.said;
+    let (text, color) = check_look(said, st.accent);
+    if answered(said) {
+        ui.c.text(text, b, &check_text().color(color).right());
+        return;
+    }
+    let resp = ui.button(wid("settings.check"), b);
+    if resp.hovered || resp.pressed {
+        ui.c.fill_rrect(b, b.h / 2.0, Color::white(if resp.pressed { 0.14 } else { 0.08 }));
+    }
+    ui.c.text(text, b, &check_text().color(color).center());
+    if resp.clicked {
+        st.update.said = Some(Said::Checking);
+        st.cmd(Command::CheckForUpdates);
+    }
+}
+
+/// Check now's words and colour for what it has said so far.
+fn check_look(said: Option<Said>, accent: Color) -> (&'static str, Color) {
+    match said {
+        None => ("Check now", accent),
+        Some(Said::Checking) => ("Checking…", palette::TEXT_DIM),
+        Some(Said::UpToDate) => ("Up to date", palette::GREEN),
+        Some(Said::Failed) => ("Try again", palette::ORANGE),
+    }
+}
+
+fn check_text() -> TextStyle {
+    TextStyle::footnote().weight(Weight::Semibold)
 }
 
 /// The last row while a later version is out, across the page: "Update
@@ -366,7 +439,6 @@ fn switch_on(st: &AppState, sw: Switch) -> Option<bool> {
         Switch::Pronunciation => Some(s.lyrics_pronunciation),
         Switch::Sounds => Some(s.sounds),
         Switch::Autostart => st.ui.autostart,
-        Switch::Updates => Some(s.update_check),
     }
 }
 
@@ -376,7 +448,6 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
         Switch::Lyrics => s.lyrics = !s.lyrics,
         Switch::Pronunciation => s.lyrics_pronunciation = !s.lyrics_pronunciation,
         Switch::Sounds => s.sounds = !s.sounds,
-        Switch::Updates => s.update_check = !s.update_check,
         Switch::Autostart => {
             if let Some(on) = on {
                 st.cmd(Command::SetAutostart(!on));

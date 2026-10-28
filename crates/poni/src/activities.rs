@@ -1,5 +1,6 @@
-//! What the collapsed island shows: idle pill, live activities (media,
-//! timer, the minutes before a prayer, the readout over games), HUD
+//! What the collapsed island shows: idle pill, live activities (a screen
+//! recording, media, timer, the minutes before a prayer, the readout over
+//! games), HUD
 //! pop-ups (volume, charging, Bluetooth) and notices.
 //!
 //! Collapsed pills are sized to their content: Windows has no camera
@@ -28,6 +29,8 @@ pub enum Activity {
     Prayer,
     /// Show over games: frame rate, GPU and CPU while a full-screen app is in front.
     Game,
+    /// A screen recording with Oyenza Studio Recorder: its dot and time.
+    Recording,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -78,14 +81,27 @@ const OYEN_IDLE_W: f32 = 30.0;
 const OYEN_CLOCK_W: f32 = 22.0;
 const OYEN_MEDIA_W: f32 = 24.0;
 const OYEN_CLOCK_LEAD: f32 = 12.0 + OYEN_CLOCK_W;
-/// The countdown before a prayer: the moon, then "Maghrib 10 min".
-const PRAYER_W: f32 = 168.0;
+/// The countdown before a prayer: the moon, then "Maghrib 10 min" (152,
+/// its words' room), then its OK.
+const PRAYER_W: f32 = 152.0 + PRAYER_OK_ROOM;
+/// The countdown's OK: a small grey pill concentric with the 32 DIP pill's
+/// right end, as a notice's Hide is with the notice's. It puts the
+/// countdown away until the prayer's time (`AppState::prayer_countdown_ok`).
+pub(crate) const PRAYER_OK_ID: &str = "prayer.ok";
+const PRAYER_OK_W: f32 = 40.0;
+const PRAYER_OK_H: f32 = 24.0;
+const PRAYER_OK_INSET: f32 = (32.0 - PRAYER_OK_H) / 2.0;
+/// What the OK takes at the pill's right end, from where the words end.
+pub(crate) const PRAYER_OK_ROOM: f32 = 12.0 + PRAYER_OK_W + PRAYER_OK_INSET;
 /// The readout over games: room for "999 fps", "GPU 100% · 100°" and
 /// "CPU 100%" with dividers (tabular digits keep it still as numbers
 /// change), and without the temperature when the driver reports none.
 const GAME_W: f32 = 276.0;
 const GAME_NO_TEMP_W: f32 = 236.0;
 const GAME_DIVIDER: Color = Color::white(0.18);
+/// The recording: its dot, then "12:34" (the timer's width) or "1:02:03".
+const RECORDING_W: f32 = 96.0;
+const RECORDING_LONG_W: f32 = 112.0;
 
 /// Modes with the same key share content (no cross-fade between them).
 pub fn content_key(m: &Mode) -> u32 {
@@ -96,6 +112,7 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Activity(Activity::MediaTimer) => 4,
         Mode::Activity(Activity::Prayer) => 5,
         Mode::Activity(Activity::Game) => 6,
+        Mode::Activity(Activity::Recording) => 7,
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
@@ -122,17 +139,24 @@ fn media_grace_end(st: &AppState) -> Option<f64> {
     st.media_paused_at.map(|t| t + MEDIA_GRACE)
 }
 
-/// The prayer coming up and the minutes left, while its countdown runs.
+/// The prayer coming up and the minutes left, while its countdown runs and
+/// its OK wasn't clicked.
 pub fn prayer_countdown(st: &AppState) -> Option<(poni_core::prayer::Prayer, i64)> {
     if !st.prayer_on() {
         return None;
     }
     let site = st.prayer.site()?;
-    poni_core::prayer::countdown(&site, st.prayer_now(), st.settings.prayer.remind_before_min).map(|(m, left)| (m.prayer, left))
+    poni_core::prayer::countdown(&site, st.prayer_now(), st.settings.prayer.remind_before_min)
+        .filter(|(m, _)| st.prayer.countdown_ok != Some(m.at))
+        .map(|(m, left)| (m.prayer, left))
 }
 
 pub fn current_activity(st: &AppState) -> Option<Activity> {
-    // The few minutes before a prayer come first: they don't come back.
+    // A recording comes first: its Stop must be one click away.
+    if st.rec_live() && st.record_on() {
+        return Some(Activity::Recording);
+    }
+    // The few minutes before a prayer come next: they don't come back.
     if prayer_countdown(st).is_some() {
         return Some(Activity::Prayer);
     }
@@ -152,7 +176,12 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
 }
 
 pub fn collapsed_mode(st: &AppState) -> Mode {
-    if st.notice.is_some() {
+    // A notice that stays (a new version's) waits under a volume or
+    // brightness change, a game's readout and a recording (its Stop stays
+    // one click away), and shows again after.
+    let recording = st.rec_live() && st.record_on();
+    let waits = st.notice.as_ref().is_some_and(|n| n.stays()) && (st.hud.is_some() || st.game.active || recording);
+    if st.notice.is_some() && !waits {
         Mode::Notice
     } else if let Some(h) = &st.hud {
         Mode::Hud(hud_tag(&h.kind))
@@ -245,6 +274,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         Mode::Activity(Activity::MediaTimer) => Geom::new(132.0, 32.0, 15.0),
         Mode::Activity(Activity::Prayer) => Geom::new(PRAYER_W, 32.0, 15.0),
         Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
+        Mode::Activity(Activity::Recording) => Geom::new(recording_w(st), 32.0, 15.0),
         Mode::Hud(HudTag::Volume) => Geom::new(316.0, 40.0, 19.0),
         Mode::Hud(HudTag::Charging) | Mode::Hud(HudTag::LowBattery) => Geom::new(300.0, 40.0, 19.0),
         Mode::Hud(HudTag::Bluetooth) => Geom::new(336.0, 46.0, 22.0),
@@ -553,15 +583,17 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             ui.c.text(&text, Rect::new(body.x + 40.0, body.y, 64.0, body.h), &countdown_style(col, paused));
         }
         Activity::Prayer => {
-            // No Oyen here, in any theme: the moon and the minutes only.
+            // No Oyen here, in any theme: the moon, the minutes and OK only.
             let Some((prayer, left)) = prayer_countdown(st) else { return };
             let col = st.accent;
             ui.c.icon(Icon::Moon, Rect::new(body.x + 14.0, cy - 8.0, 16.0, 16.0), col);
             let text = format!("{} {left} min", prayer.name());
             let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(col).right();
-            ui.c.text(&text, Rect::new(body.x + 36.0, body.y, body.w - 36.0 - 16.0, body.h), &ts);
+            let end = draw_prayer_ok(ui, body);
+            ui.c.text(&text, Rect::new(body.x + 36.0, body.y, end - body.x - 36.0, body.h), &ts);
         }
         Activity::Game => draw_game(ui, st, body),
+        Activity::Recording => draw_recording(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
             art_or_icon(ui, st, art, playing);
@@ -577,6 +609,50 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             ui.c.ring(c, 7.0, 2.2, p.progress(st.now), RING_TRACK, col);
         }
     }
+}
+
+/// The countdown's OK in the right end of its pill `body` (the app acts on
+/// it at mouse-down, as on a notice's inline pill). Returns where the words
+/// end.
+pub(crate) fn draw_prayer_ok(ui: &mut Ui, body: Rect) -> f32 {
+    let r = Rect::new(body.right() - PRAYER_OK_INSET - PRAYER_OK_W, body.center().y - PRAYER_OK_H / 2.0, PRAYER_OK_W, PRAYER_OK_H);
+    ui.pill(wid(PRAYER_OK_ID), r, "OK", None, PillStyle::Utility);
+    body.right() - PRAYER_OK_ROOM
+}
+
+/// The recording pill: "0:42" fits the timer's width; an hour needs more.
+fn recording_w(st: &AppState) -> f32 {
+    if st.rec_elapsed() >= 3600.0 {
+        RECORDING_LONG_W
+    } else {
+        RECORDING_W
+    }
+}
+
+/// The red dot, then the time right-aligned as the timer's countdown.
+fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
+    recording_mark(ui, st, Point::new(body.x + 12.0 + 6.0, body.center().y));
+    let (text, ts) = recording_time(st);
+    ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts.right());
+}
+
+/// The recording's mark at `c`: the red dot; a solid pause mark while
+/// paused, so the dimmed time still reads on the light Oyen ground; a ring
+/// while it starts or saves. Shared with the notch's left ear.
+pub(crate) fn recording_mark(ui: &mut Ui, st: &AppState, c: Point) {
+    match st.rec.phase {
+        Some(poni_core::recorder::Phase::Recording) => ui.c.fill_circle(c, 5.0, palette::RED),
+        Some(poni_core::recorder::Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(c, 11.0, 11.0), palette::TEXT),
+        _ => ui.c.stroke_circle(c, 4.4, palette::TEXT_DIM, 1.4),
+    }
+}
+
+/// The recording's time and its style (dimmed unless it records), for the
+/// caller to align. Shared with the notch's right ear.
+pub(crate) fn recording_time(st: &AppState) -> (String, TextStyle) {
+    let recording = st.rec.phase == Some(poni_core::recorder::Phase::Recording);
+    let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(if recording { palette::TEXT } else { palette::TEXT_DIM });
+    (poni_core::recorder::fmt_length(st.rec_elapsed()), ts)
 }
 
 /// The GPU's temperature for the readout, when its driver reports one.
@@ -730,8 +806,8 @@ fn inline_done(st: &AppState, a: InlineAction) -> bool {
         InlineAction::StopAdzan => !st.prayer.adzan,
         // Done once clicked: the app puts the check in the notice's icon.
         InlineAction::WhatsNew => st.notice.as_ref().is_some_and(|n| n.icon == Icon::Check),
-        // Hide takes the notice away at once.
-        InlineAction::Hide => false,
+        // Hide and Open take the notice away at once.
+        InlineAction::Hide | InlineAction::Open => false,
     }
 }
 
@@ -779,6 +855,8 @@ pub(crate) fn inline_look(st: &AppState, n: &Notice, a: InlineAction) -> (&'stat
         InlineAction::ShowAmount => ("Show", Some(Icon::Eye), n.color),
         InlineAction::StopAdzan => ("Stop", Some(Icon::Stop), n.color),
         InlineAction::WhatsNew => ("What's new", Some(Icon::Open), n.color),
+        // Another app's notification: open that app.
+        InlineAction::Open => ("Open", Some(Icon::Open), n.color),
         InlineAction::Hide => ("Hide", None, palette::TEXT_DIM),
     }
 }
@@ -891,6 +969,92 @@ mod tests {
         // Readings switched off: one row again, as for a song without them.
         st.settings.lyrics_pronunciation = false;
         assert_eq!(geom(&media, &st).h, 32.0);
+    }
+
+    /// Prayer times on in Kota Jakarta with a song singing its line, the
+    /// prayer clock `secs` before today's Ashar; and today's times there.
+    fn before_ashar(secs: i64) -> (AppState, poni_core::prayer::DayTimes) {
+        use poni_core::addons::{Status, PRAYER_TIMES};
+        let mut st = playing(Some("[00:10.00]Paper lanterns on the line\n[00:14.00]Count the windows\n"));
+        st.addons.insert(PRAYER_TIMES.id, Status::Ready);
+        let list = poni_core::prayer::PlaceList::parse(
+            r#"{"places":[{"id":"jakarta","label":"Kota Jakarta","kind":"kota","prov":"DKI Jakarta","lat":-6.1833,"lng":106.8333,"tz":"Asia/Jakarta"}]}"#,
+        )
+        .expect("the place");
+        st.prayer.place = list.find("jakarta").cloned();
+        st.prayer.places = Some(std::sync::Arc::new(list));
+        let site = st.prayer.site().expect("its site");
+        let times = poni_core::prayer::day_times(&site, site.local_day(st.unix)).expect("today's times");
+        st.prayer.clock_shift = times.ashar - secs - st.unix;
+        (st, times)
+    }
+
+    #[test]
+    fn ok_on_the_prayer_countdown_gives_the_island_back_until_that_prayer() {
+        use poni_core::prayer::Prayer;
+        let (mut st, times) = before_ashar(8 * 60);
+        // The countdown comes before the song...
+        assert_eq!(prayer_countdown(&st), Some((Prayer::Ashar, 8)));
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Prayer));
+        // ...until OK: the song and its line again, until Ashar.
+        assert_eq!(st.prayer_countdown_ok().map(|m| (m.prayer, m.at)), Some((Prayer::Ashar, times.ashar)));
+        assert_eq!(prayer_countdown(&st), None);
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Media));
+        st.prayer.clock_shift += 7 * 60;
+        assert_eq!(prayer_countdown(&st), None, "a minute before Ashar");
+        // Maghrib counts down as ever.
+        st.prayer.clock_shift = times.maghrib - 5 * 60 - st.unix;
+        assert_eq!(prayer_countdown(&st), Some((Prayer::Maghrib, 5)));
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Prayer));
+    }
+
+    #[test]
+    fn ok_with_no_countdown_running_puts_nothing_away() {
+        let (mut st, _) = before_ashar(30 * 60);
+        assert_eq!(prayer_countdown(&st), None);
+        assert_eq!(st.prayer_countdown_ok(), None);
+        assert_eq!(st.prayer.countdown_ok, None);
+        // Ashar's countdown still comes in its time.
+        st.prayer.clock_shift += 25 * 60;
+        assert_eq!(prayer_countdown(&st).map(|(p, _)| p), Some(poni_core::prayer::Prayer::Ashar));
+    }
+
+    #[test]
+    fn a_notice_that_stays_waits_under_a_volume_change_and_a_games_readout() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.notify(Icon::Download, palette::GREEN, "Update available", "", f64::INFINITY, None);
+        assert!(st.notice.as_ref().is_some_and(|n| n.stays()));
+        assert_eq!(collapsed_mode(&st), Mode::Notice);
+        st.hud = Some(crate::state::Hud { kind: HudKind::Volume { level: 0.5, muted: false }, until: st.now + 2.0 });
+        assert_eq!(collapsed_mode(&st), Mode::Hud(HudTag::Volume));
+        st.hud = None;
+        st.game.active = true;
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Game));
+        st.game.active = false;
+        assert_eq!(collapsed_mode(&st), Mode::Notice, "and back once they're gone");
+        // A notice with a time limit still shows over both.
+        st.notify(Icon::Download, palette::GREEN, "Saved", "", 5.0, None);
+        st.hud = Some(crate::state::Hud { kind: HudKind::Volume { level: 0.5, muted: false }, until: st.now + 2.0 });
+        st.game.active = true;
+        assert_eq!(collapsed_mode(&st), Mode::Notice);
+    }
+
+    #[test]
+    fn a_notice_that_stays_waits_under_a_recording() {
+        let mut st = AppState::new(Settings::default(), Store::default());
+        st.recorder = true;
+        st.store.recorder_island = true;
+        st.notify(Icon::Download, palette::GREEN, "Update available", "", f64::INFINITY, None);
+        st.rec.phase = Some(poni_core::recorder::Phase::Recording);
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Recording), "Stop stays one click away");
+        st.rec.phase = Some(poni_core::recorder::Phase::Paused);
+        assert_eq!(collapsed_mode(&st), Mode::Activity(Activity::Recording));
+        st.rec.phase = None;
+        assert_eq!(collapsed_mode(&st), Mode::Notice, "and back once the recording ends");
+        // A notice with a time limit still shows over it.
+        st.rec.phase = Some(poni_core::recorder::Phase::Recording);
+        st.notify(Icon::Download, palette::GREEN, "Saved", "", 5.0, None);
+        assert_eq!(collapsed_mode(&st), Mode::Notice);
     }
 
     #[test]

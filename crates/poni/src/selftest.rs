@@ -35,6 +35,7 @@ use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
 use crate::icons::Icon;
+use crate::pages::usage::Picture as AiPicture;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
@@ -43,7 +44,8 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -92,10 +94,12 @@ const CLICK_TIMEOUT: f64 = 1.5;
 /// 45 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
 /// theme with Japanese lyrics is the slowest run, about 63 s with 85 (it
 /// reached the old 50 s at scene 80 once the Today scenes came in, and 65 s
-/// was tight for four more). The CI and Store test steps wait 120 s for the
-/// whole run (this plus the writers' 3.5 s, and 40 s more for the animation
-/// runs, stays under it), the Wine runner 180 s.
-const SCENE_DEADLINE: f64 = 70.0;
+/// was tight for four more). With 121 (Notifications, the AI tab and IELTS
+/// together, 28 Oct) the Classic run passed 70 s at scene 119. The CI and
+/// Store test steps wait 180 s for the whole run (this plus the writers'
+/// 3.5 s, the Classic runs' IELTS turn of about 26 s, or 40 s more for the
+/// animation runs, stays under it), the Wine runner 180 s.
+const SCENE_DEADLINE: f64 = 90.0;
 /// Give up waiting for PNG writers at this point: 3.5 s after the scene
 /// deadline, so the last scenes' pictures get their time however long the
 /// run took. (It was a fixed 43.5 s, left behind when SCENE_DEADLINE went
@@ -713,6 +717,43 @@ fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer>
     }
 }
 
+/// The WhatsApp message in the Notifications scenes (made up: the self-test
+/// reads no notifications).
+fn sample_message() -> poni_core::notifications::Seen {
+    poni_core::notifications::Seen {
+        app_id: "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App".into(),
+        app: "WhatsApp".into(),
+        lines: vec!["Mom".into(), "Dinner at 7 tonight?".into()],
+    }
+}
+
+/// The Notifications scenes: what Windows answered, and the apps the page
+/// lists (WhatsApp and Telegram on, Phone Link switched off by hand, Outlook
+/// as every other app starts: off). Every other scene has the add-on's
+/// choices as they start.
+fn seed_notifications(st: &mut AppState, scene: Scene) {
+    use crate::state::NotifyAccess;
+    st.notify_access = match scene {
+        Scene::NotifyAsk => NotifyAccess::Ask,
+        Scene::NotifyNoPackage => NotifyAccess::NoPackage,
+        Scene::Page(PageKind::Notifications) | Scene::MessageNotice | Scene::MessageHidden => NotifyAccess::Allowed,
+        _ => NotifyAccess::Unknown,
+    };
+    let n = &mut st.settings.notifications;
+    *n = NotificationSettings::default();
+    if scene == Scene::Page(PageKind::Notifications) {
+        for (id, name) in [
+            ("5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App", "WhatsApp"),
+            ("Telegram.TelegramDesktop", "Telegram"),
+            ("Microsoft.YourPhone_8wekyb3d8bbwe!App", "Phone Link"),
+            ("Microsoft.Office.OUTLOOK.EXE.15", "Outlook"),
+        ] {
+            n.remember(id, name);
+        }
+        n.set("Microsoft.YourPhone_8wekyb3d8bbwe!App", false);
+    }
+}
+
 /// The Stocks page's scenes on a made-up market (`pages::stocks::picture`);
 /// every other scene: the list as it starts, nothing loaded.
 fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
@@ -730,6 +771,20 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
         }
     };
     picture(st, shows, now);
+}
+
+/// The AI tab's scenes on made-up readings, every glide at its end
+/// (`pages::usage::picture`); every other scene: nothing read yet and the
+/// notices off, as on a first start (nothing reads it there, and no key
+/// typed in one scene stays for the next).
+fn seed_ai(st: &mut AppState, scene: Scene, now: f64) {
+    if let Scene::Ai(p) = scene {
+        pages::usage::picture(st, p, now);
+    } else {
+        st.usage = crate::state::UsageState::default();
+        st.settings.usage = poni_core::settings::UsageSettings::default();
+        st.ui.usage = pages::usage::UsageUi::default();
+    }
 }
 
 /// The IELTS page's scenes in made-up states (`ielts::Coach::sample`); every
@@ -758,7 +813,7 @@ fn seed_ielts(st: &mut AppState, scene: Scene, now: f64) {
 fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
     let on = matches!(
         scene,
-        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld
+        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld | Scene::PrayerOk
     );
     if !on {
         st.prayer = PrayerState::default();
@@ -994,6 +1049,33 @@ enum Scene {
     StocksSearch,
     /// Stocks in edit mode: remove buttons and handles.
     StocksEdit,
+    /// A recording with Oyenza Studio Recorder: the Record page while it
+    /// records (`Page(Record)` shows its choices), then the closed island's
+    /// recording pill, recording and paused.
+    RecordLive,
+    RecordActivity,
+    RecordPaused,
+    /// The Add-ons page with the recorder installed: Screen recorder's row
+    /// (eight rows with Notifications, a line each, the window no taller).
+    AddonsRecorder,
+    /// Prayer times: the countdown 8 minutes before Ashar over a song with
+    /// synced lyrics, its OK pressed (`Phase::PressOk`): the song's line again.
+    PrayerOk,
+    /// The Notifications add-on: a WhatsApp message on the closed island...
+    MessageNotice,
+    /// ...with "Message text" switched off: it waits for Show.
+    MessageHidden,
+    /// The Notifications page before Windows was asked: Allow, no apps yet.
+    NotifyAsk,
+    /// The Notifications page in the download from GitHub, which can't read them.
+    NotifyNoPackage,
+    /// The AI tab on made-up readings, as the page's picture shows it
+    /// (`pages::usage::picture`): its plans, troubles, nothing found, ...
+    Ai(AiPicture),
+    /// The AI tab's heads-up notice: Claude Code close to its 5-hour limit.
+    AiNotice,
+    /// ...and Codex out of it, Oyenza Inference connected: its nudge.
+    AiNoticeOut,
     /// IELTS signed out: the Oyenza sign-in card, saying what the coach does.
     IeltsSignedOut,
     /// IELTS: Oyen reacting to an answer, in gaul (`ielts::Sample::Talking`).
@@ -1026,6 +1108,21 @@ fn fake_release() -> poni_core::update::Release {
     }
 }
 
+/// The AI tab's notice in its scenes, worded by the real alerts from two
+/// readings of a 5-hour limit that resets in 2 h 20 min, on the app's clock:
+/// Claude Code from 70 to 90 %, or Codex from 70 % to all used with Oyenza
+/// Inference connected.
+fn ai_alert(st: &AppState, out: bool) -> Option<studio_usage::alerts::Alert> {
+    use studio_usage::{alerts, ProviderId, Snapshot, Source, Window, WindowKind};
+    let id = if out { ProviderId::Codex } else { ProviderId::Claude };
+    let read = |used| Snapshot {
+        windows: vec![Window::new(WindowKind::Session, "5-hour", used).resets(Some(st.unix + 2 * 3600 + 20 * 60)).length(Some(18_000))],
+        ..Snapshot::new(id, st.unix, Source::Online)
+    };
+    let cfg = alerts::AlertCfg { inference: out, ..st.usage_alert_cfg() };
+    alerts::changes(Some(&read(0.7)), &read(if out { 1.0 } else { 0.9 }), st.unix, &cfg).into_iter().next()
+}
+
 /// Running under Wine: its ntdll exports `wine_get_version`.
 fn under_wine() -> bool {
     use windows::core::{s, w};
@@ -1038,7 +1135,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 100] = [
+const SCENES: [Scene; 121] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1151,6 +1248,39 @@ const SCENES: [Scene; 100] = [
     Scene::StocksPicked,
     Scene::StocksSearch,
     Scene::StocksEdit,
+    // Oyenza Studio Recorder installed: the Record page's choices and the
+    // recording, the closed island while it records and while paused, and
+    // the Add-ons page with Screen recorder's row.
+    Scene::Page(PageKind::Record),
+    Scene::RecordLive,
+    Scene::RecordActivity,
+    Scene::RecordPaused,
+    Scene::AddonsRecorder,
+    // The prayer countdown's OK, pressed: the closed island sings again.
+    Scene::PrayerOk,
+    // The Notifications add-on: a message on the closed island (shown, and
+    // waiting for Show), then its page once Windows allows it, before
+    // Windows was asked, and in the download from GitHub.
+    Scene::MessageNotice,
+    Scene::MessageHidden,
+    Scene::Page(PageKind::Notifications),
+    Scene::NotifyAsk,
+    Scene::NotifyNoPackage,
+    // The AI tab, a core tab after Focus, in every picture the page has
+    // (`AiPicture::ALL`): plans, troubles, nothing found, the first look,
+    // Oyenza Inference connecting and connected, the Services list and a
+    // key being typed there.
+    Scene::Ai(AiPicture::Plans),
+    Scene::Ai(AiPicture::Troubles),
+    Scene::Ai(AiPicture::Empty),
+    Scene::Ai(AiPicture::Looking),
+    Scene::Ai(AiPicture::Connect),
+    Scene::Ai(AiPicture::Inference),
+    Scene::Ai(AiPicture::Services),
+    Scene::Ai(AiPicture::Key),
+    // Its heads-up notices on the closed island.
+    Scene::AiNotice,
+    Scene::AiNoticeOut,
     // The IELTS add-on: signed out, the ladder, Oyen talking, an answer
     // recording, Part 2's card, the result and a blocked microphone, all
     // made up (`ielts::Coach::sample`).
@@ -1249,6 +1379,19 @@ impl Scene {
             Scene::StocksPicked => "page-stocks-picked".into(),
             Scene::StocksSearch => "page-stocks-search".into(),
             Scene::StocksEdit => "page-stocks-edit".into(),
+            Scene::RecordLive => "page-record-live".into(),
+            Scene::RecordActivity => "record-activity".into(),
+            Scene::RecordPaused => "record-paused-activity".into(),
+            Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::PrayerOk => "prayer-countdown-ok".into(),
+            Scene::MessageNotice => "message-notice".into(),
+            Scene::MessageHidden => "message-hidden-notice".into(),
+            Scene::NotifyAsk => "page-notifications-ask".into(),
+            Scene::NotifyNoPackage => "page-notifications-download".into(),
+            // "page-ai", "page-ai-troubles", ...: the page's own names.
+            Scene::Ai(p) => p.name().into(),
+            Scene::AiNotice => "ai-notice".into(),
+            Scene::AiNoticeOut => "ai-notice-out".into(),
             Scene::IeltsSignedOut => "page-ielts-signed-out".into(),
             Scene::IeltsTalking => "page-ielts-talking".into(),
             Scene::IeltsRecording => "page-ielts-recording".into(),
@@ -1291,11 +1434,38 @@ impl Scene {
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
+            Scene::RecordLive => Some(PageKind::Record),
+            Scene::AddonsRecorder => Some(PageKind::Addons),
+            Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
+            Scene::Ai(_) => Some(PageKind::Ai),
             Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
                 Some(PageKind::Ielts)
             }
             _ => None,
         }
+    }
+
+    /// Oyenza Studio Recorder is installed (Record by the Script page's Paste,
+    /// the Record tab, Screen recorder's row).
+    fn recorder(self) -> bool {
+        matches!(
+            self,
+            Scene::ScriptRecorder | Scene::Page(PageKind::Record) | Scene::RecordLive | Scene::RecordActivity | Scene::RecordPaused | Scene::AddonsRecorder
+        )
+    }
+
+    /// What the recorder last told the island: recording (0:42 on the page,
+    /// 12:34 on the closed island) or paused, held still for the pictures.
+    fn recording(self, now: f64) -> crate::state::RecView {
+        use poni_core::recorder::Phase;
+        let (phase, elapsed_ms) = match self {
+            Scene::RecordLive => (Phase::Recording, 42_000),
+            Scene::RecordActivity => (Phase::Recording, 754_000),
+            Scene::RecordPaused => (Phase::Paused, 754_000),
+            _ => return crate::state::RecView::default(),
+        };
+        // Sent "later" than now, so the time doesn't count on while the scene settles.
+        crate::state::RecView { phase: Some(phase), elapsed_ms, at: now + 3600.0, ..Default::default() }
     }
 
     /// Scenes that show something from Oyenza (every other one is signed out,
@@ -1340,7 +1510,7 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk) || self.expanded()
     }
 
     /// A maximized window is under the island.
@@ -1709,6 +1879,9 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
+    /// Scene `i` shows the prayer countdown; once it rests with its OK
+    /// drawn, press OK (`Scene::PrayerOk`).
+    PressOk { i: usize, since: f64 },
     /// The IELTS coach's one turn against a server of the self-test's own
     /// (Classic runs only; see [`IeltsRun`]).
     Ielts { since: f64 },
@@ -1845,6 +2018,11 @@ impl SelfTest {
         // readings); before the scene clock starts, as it takes a moment.
         let (ok, detail) = system_readings(crate::services::sysmon::probe());
         self.checks.push(check("system-readings", ok, detail));
+        // Every picture the AI page has is a scene (the Mac renders take
+        // them all from the same list), so a new one can't go unseen here.
+        let missing: Vec<&str> = AiPicture::ALL.into_iter().filter(|p| !SCENES.contains(&Scene::Ai(*p))).map(AiPicture::name).collect();
+        let detail = if missing.is_empty() { format!("all {} of the AI page's pictures", AiPicture::ALL.len()) } else { format!("no scene for {}", missing.join(", ")) };
+        self.checks.push(check("ai-pictures", missing.is_empty(), detail));
         // Show over games: count Poni's own frames through the whole run.
         let required = std::env::var("PONI_SELFTEST_FRAMES").is_ok_and(|v| v.trim().eq_ignore_ascii_case("required"));
         match crate::services::frames::Frames::start_selftest(std::process::id()) {
@@ -1981,6 +2159,13 @@ impl SelfTest {
             Err(d) => (false, d),
         };
         self.checks.push(check("start-with-windows", ok, detail));
+        // Notifications: the download says it needs the Store copy; inside
+        // the package Windows' listener must answer (CI's Store job checks).
+        let (ok, detail) = match crate::services::notifications::describe() {
+            Ok(d) => (true, d),
+            Err(d) => (false, d),
+        };
+        self.checks.push(check("notifications", ok, detail));
 
         // PONI_SELFTEST_ADDONS=download (Windows CI): fetch every add-on's files
         // from their releases and check each against the size and SHA-256 built in.
@@ -2104,6 +2289,26 @@ impl SelfTest {
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
+            Phase::PressOk { i, since } => {
+                // The countdown first, as a person sees it, then a real press
+                // on its OK: the island stays closed and the countdown goes.
+                self.apply(app, SCENES[i]);
+                let at = app.selftest_hit_center(wid(crate::activities::PRAYER_OK_ID)).filter(|_| app.selftest_settled());
+                if at.is_some() || now - since > self.settle_limit(app) {
+                    let (opened, said) = match at {
+                        Some(p) => {
+                            crate::pinfo!("selftest: pressing the prayer countdown's OK at ({:.0}, {:.0}) DIP", p.x, p.y);
+                            let opened = app.selftest_press(p);
+                            (opened, format!("pressed at ({:.0}, {:.0}) DIP, the island {}", p.x, p.y, if opened { "opened" } else { "stayed closed" }))
+                        }
+                        None => (false, "no OK on the closed island".to_string()),
+                    };
+                    let away = crate::activities::prayer_countdown(&app.st).is_none();
+                    let ok = at.is_some() && !opened && away;
+                    self.checks.push(check("prayer-ok", ok, format!("{said}; the countdown {}", if away { "put away" } else { "still there" })));
+                    self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
             Phase::Ielts { since } => {
                 let run = self.ielts.get_or_insert_with(|| IeltsRun::begin(app));
                 if let Some(c) = run.step(app, now - since) {
@@ -2129,6 +2334,7 @@ impl SelfTest {
     fn next_phase(&self, i: usize, now: f64) -> Phase {
         match SCENES.get(i) {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
+            Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             // One IELTS turn end to end, in the plain Classic runs.
             None if self.theme == Theme::Classic && self.glass.is_none() => Phase::Ielts { since: now },
@@ -2340,15 +2546,17 @@ impl SelfTest {
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
         // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
-        // A later version offered, only where Settings shows it.
+        // A later version offered, only where Settings shows it. A copy from
+        // GitHub reads the update file itself, so Settings has Check now.
+        let looks = crate::state::UpdateView { looks: true, ..Default::default() };
         st.update = match scene {
             Scene::SettingsUpdate | Scene::UpdateSheet | Scene::UpdateReady => crate::state::UpdateView {
                 offer: Some(fake_release()),
                 sheet: scene != Scene::SettingsUpdate,
                 ready: scene == Scene::UpdateReady,
-                next_start: false,
+                ..looks
             },
-            _ => crate::state::UpdateView::default(),
+            _ => looks,
         };
         // A new song's title shows for its few seconds (held here).
         st.ui.peek_until = if scene == Scene::AsidePeek { now + 30.0 } else { 0.0 };
@@ -2364,7 +2572,7 @@ impl SelfTest {
         }
 
         if scene.media_playing() {
-            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric) { self.lyric_pos } else { TRACK_POS_S };
+            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric | Scene::PrayerOk) { self.lyric_pos } else { TRACK_POS_S };
             let timeline = Timeline::new(pos, TRACK_LEN_S, now, true);
             match st.media.as_mut() {
                 Some(m) if m.track_key == self.track_key => m.timeline = timeline,
@@ -2435,6 +2643,10 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 89.000 · Tokopedia".into()),
             }),
+            Scene::MessageNotice | Scene::MessageHidden => {
+                let choices = NotificationSettings { text: scene == Scene::MessageNotice, ..Default::default() };
+                crate::pages::notifications::message_notice(&sample_message(), &choices, st.accent, now).map(|n| Notice { until, ..n })
+            }
             Scene::OyenzaBill => Some(Notice {
                 icon: Icon::Calendar,
                 color: palette::ORANGE,
@@ -2446,6 +2658,7 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 54.990".into()),
             }),
+            Scene::AiNotice | Scene::AiNoticeOut => ai_alert(st, scene == Scene::AiNoticeOut).map(|a| crate::state::usage_notice(&a, st.accent, until)),
             _ => None,
         };
         st.oyenza = if scene.oyenza() { fake_oyenza(st, scene, now) } else { OyenzaState::default() };
@@ -2476,12 +2689,15 @@ impl SelfTest {
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
         let stocks = scene.page() == Some(PageKind::Stocks);
+        // Notifications (Windows, off by default): on for its page and its notices.
+        let notify = scene.page() == Some(PageKind::Notifications) || matches!(scene, Scene::MessageNotice | Scene::MessageHidden);
         let ielts = scene.page() == Some(PageKind::Ielts);
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (IELTS.id, ielts)] {
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (NOTIFICATIONS.id, notify), (IELTS.id, ielts)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
+        seed_notifications(st, scene);
         seed_ielts(st, scene, now);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
@@ -2498,7 +2714,10 @@ impl SelfTest {
         } else {
             st.store.script.text.clear();
         }
-        st.recorder = scene == Scene::ScriptRecorder;
+        st.recorder = scene.recorder();
+        st.store.recorder_island = scene.recorder() && scene != Scene::ScriptRecorder;
+        st.rec = scene.recording(now);
+        st.settings.record = poni_core::settings::RecordSettings::default();
         st.system = fake_system(scene);
         st.settings.game_stats = scene.game();
         st.game = fake_game(scene, &mut st.system);
@@ -2515,6 +2734,7 @@ impl SelfTest {
         for (path, rgb) in SAMPLE_ICONS {
             st.app_icons.entry(path.to_string()).or_insert_with(|| Some(sample_icon(rgb)));
         }
+        seed_ai(st, scene, now);
         if let Some(p) = scene.page() {
             st.page = p;
         }
@@ -2711,6 +2931,13 @@ impl SelfTest {
         if scene == Scene::MediaLyric {
             checks.push(lyric_line_check(&app.st));
         }
+        if scene == Scene::PrayerOk {
+            // After OK: the song and its sung line until Ashar, as before the countdown.
+            let (mode, _) = app.selftest_mode();
+            let want = Mode::Activity(crate::activities::Activity::Media);
+            checks.push(check("prayer-ok-song", mode == want, format!("{mode:?}, want {want:?}")));
+            checks.push(lyric_line_check(&app.st));
+        }
         if matches!(scene, Scene::AsidePeek | Scene::AsideHud) {
             // Stepped aside, and still what just happened shows over the window.
             let (mode, aside) = app.selftest_mode();
@@ -2727,6 +2954,20 @@ impl SelfTest {
             let wine = under_wine();
             let note = if wine { " (Wine, which can't leave a window out)" } else { "" };
             checks.push(check("script-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {said}, Windows build {build:?}{note}")));
+        }
+        if matches!(scene, Scene::RecordActivity | Scene::RecordPaused) {
+            // The recording rests on the closed island, ahead of everything else.
+            let (mode, _) = app.selftest_mode();
+            let want = Mode::Activity(crate::activities::Activity::Recording);
+            checks.push(check("recording-pill", mode == want, format!("{mode:?}, want {want:?}")));
+        }
+        if matches!(scene, Scene::RecordLive | Scene::RecordActivity | Scene::RecordPaused) {
+            // The island stays out of the recorder's video: ask Windows.
+            let build = crate::window::windows_build();
+            let can = build.is_some_and(|b| b >= crate::glass::EXCLUDE_FROM_CAPTURE_BUILD);
+            let hidden = crate::window::capture_excluded(app.hwnd());
+            let wine = under_wine();
+            checks.push(check("recording-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {}, Windows build {build:?}", if hidden { "left out of capture" } else { "in capture" })));
         }
 
         let ok = checks.iter().all(|c| c.ok);

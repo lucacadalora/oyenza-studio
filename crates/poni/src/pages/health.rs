@@ -5,8 +5,9 @@
 //! Apple Health or Health Connect and, with Show on Oyenza Studio turned on
 //! there, a signed-in Oyenza Studio receives them (`AppState::health`, in
 //! memory only). Without numbers the page says how to get them; numbers more
-//! than a day old stay, with a line asking to open Oyenza on the phone.
-//! Nothing here animates; the page only redraws when new numbers arrive.
+//! than two hours old stay, with a line asking to open Oyenza on the phone.
+//! Nothing here animates; the page only redraws when new numbers arrive (each
+//! check, every 15 minutes, brings them again, so that line comes on time).
 
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{ts, TextStyle, Weight};
@@ -125,7 +126,7 @@ fn draw_today(ui: &mut Ui, st: &AppState, h: &HealthSnapshot, steps: u32, goal: 
 
     let faint = TextStyle::caption().color(palette::TEXT_FAINT);
     if is_stale(h.updated_at, st.unix) {
-        // Not updated for a day: the phone sends only while Oyenza is open on it.
+        // Not updated for two hours (`STALE_AFTER_S`): opening Oyenza on the phone sends the newest.
         ui.c.text(&updated_text(st, h.updated_at), Rect::new(r.x, y + 92.0, r.w, 15.0), &faint);
         let hint = TextStyle::caption().color(palette::TEXT_DIM);
         ui.c.text("Open Oyenza on your phone to update", Rect::new(r.x, y + 107.0, (right - r.x).max(r.w), 15.0), &hint);

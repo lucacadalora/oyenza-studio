@@ -1,5 +1,6 @@
-//! The other live activities, collapsed: the focus timer, music with the
-//! timer, the minutes before a prayer and the readout over games. Each is a
+//! The other live activities, collapsed: a screen recording, the focus
+//! timer, music with the timer, the minutes before a prayer and the readout
+//! over games. Each is a
 //! 32-DIP capsule sized to what it shows (spec 6.1 and 6.8).
 //!
 //! The Pill way: content keeps clear of the round ends (16 DIPs for text, 12
@@ -13,7 +14,7 @@
 //! existing one-shot wakes (the timer's second, the minute) and the readout
 //! when a reading arrives.
 
-use crate::activities::{prayer_countdown, Activity};
+use crate::activities::{draw_prayer_ok, prayer_countdown, Activity, PRAYER_OK_ROOM};
 use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::island::Geom;
@@ -56,7 +57,8 @@ const ART: f32 = 20.0;
 const ART_R: f32 = 6.0;
 const MARK_GAP: f32 = 7.0;
 /// The countdown before a prayer: a crescent in the end cap, then "Maghrib
-/// 10 min" with the minutes in a two-digit slot (60 at most).
+/// 10 min" with the minutes in a two-digit slot (60 at most), then its OK
+/// in the other end (`activities::draw_prayer_ok`).
 const MOON: f32 = 14.0;
 const MOON_GAP: f32 = 8.0;
 /// The readout over games: the frame rate, the GPU and the CPU between thin
@@ -83,6 +85,8 @@ pub fn geom(a: Activity, st: &AppState) -> Option<Geom> {
         Activity::MediaTimer => MEDIA_TIMER_W,
         Activity::Prayer => prayer_w(st),
         Activity::Game => game_w(st),
+        Activity::Recording if st.rec_elapsed() >= 3600.0 => TIMER_LONG_W,
+        Activity::Recording => TIMER_W,
     };
     Some(capsule(w))
 }
@@ -94,6 +98,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) -> bool {
         Activity::MediaTimer => draw_media_timer(ui, st, body),
         Activity::Prayer => draw_prayer(ui, st, body),
         Activity::Game => draw_game(ui, st, body),
+        Activity::Recording => draw_recording(ui, st, body),
     }
     true
 }
@@ -174,6 +179,23 @@ fn draw_timer(ui: &mut Ui, st: &AppState, body: Rect) {
     ui.c.text(&text, Rect::new(right - 80.0, body.y, 80.0, body.h), &digits(paused).right());
 }
 
+/// A recording, in the timer's place: the red dot in the left end cap (a
+/// pause mark while paused, a ring while it starts or saves), the time
+/// where the countdown sits.
+fn draw_recording(ui: &mut Ui, st: &AppState, body: Rect) {
+    use poni_core::recorder::Phase;
+    let c = Point::new(body.x + GLYPH_INSET + RING_D / 2.0, body.center().y);
+    let phase = st.rec.phase;
+    match phase {
+        Some(Phase::Recording) => ui.c.fill_circle(c, 5.0, palette::RED),
+        Some(Phase::Paused) => ui.c.icon(Icon::Pause, Rect::from_center(c, 11.0, 11.0), palette::TEXT),
+        _ => ui.c.stroke_circle(c, 4.4, palette::TEXT_DIM, 1.4),
+    }
+    let text = poni_core::recorder::fmt_length(st.rec_elapsed());
+    let right = body.right() - DIGITS_RIGHT;
+    ui.c.text(&text, Rect::new(right - 80.0, body.y, 80.0, body.h), &digits(phase != Some(Phase::Recording)).right());
+}
+
 /// Album art in the left end cap (or a note on a grey tile), dimmed while
 /// the player is paused, as in the music pill.
 fn art(ui: &mut Ui, st: &AppState, r: Rect, playing: bool) {
@@ -223,7 +245,7 @@ fn prayer_w(st: &AppState) -> f32 {
         }
     }
     // Before the first frame: about 7 DIPs a character at 13 semibold.
-    (GLYPH_INSET + MOON + MOON_GAP + 7.0 * prayer_slot_text(prayer).chars().count() as f32 + TEXT_INSET).ceil()
+    (GLYPH_INSET + MOON + MOON_GAP + 7.0 * prayer_slot_text(prayer).chars().count() as f32 + PRAYER_OK_ROOM).ceil()
 }
 
 /// A filled crescent `d` across centred on `c`: Poni's moon icon, filled
@@ -248,15 +270,17 @@ fn draw_prayer(ui: &mut Ui, st: &AppState, body: Rect) {
     let col = st.accent;
     let ts = prayer_style(col);
     let (slot, _) = ui.c.measure(&prayer_slot_text(prayer), &ts, 400.0);
-    let w = (GLYPH_INSET + MOON + MOON_GAP + slot + TEXT_INSET).ceil();
+    let w = (GLYPH_INSET + MOON + MOON_GAP + slot + PRAYER_OK_ROOM).ceil();
     PRAYER_FIT.with(|f| f.set(Some((prayer, w))));
-    // The pill keeps the two-digit width; the moon and the line centre in
-    // it as one group, so "8 min" doesn't leave a gap at the end. They
-    // shift half a digit once, at "10 min" to "9 min", as the text changes.
+    // The pill keeps the two-digit width; the moon and the line centre
+    // left of the OK as one group, so "8 min" doesn't leave a gap before
+    // it. They shift half a digit once, at "10 min" to "9 min", as the
+    // text changes.
     let text = format!("{} {left} min", prayer.name());
     let (tw, _) = ui.c.measure(&text, &ts, 400.0);
+    let end = draw_prayer_ok(ui, body);
     let content = MOON + MOON_GAP + tw;
-    let x0 = (body.center().x - content / 2.0).max(body.x + GLYPH_INSET);
+    let x0 = ((body.x + GLYPH_INSET + end) / 2.0 - content / 2.0).max(body.x + GLYPH_INSET);
     moon(ui, Point::new(x0 + MOON / 2.0, body.center().y), MOON, col);
     ui.c.text(&text, Rect::new(x0 + MOON + MOON_GAP, body.y, tw + 2.0, body.h), &ts);
 }

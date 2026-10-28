@@ -1,0 +1,42 @@
+{
+  "access_type_sku": "free_limited_copilot",
+  "analytics_tracking_id": "acct_test",
+  "assigned_date": null,
+  "can_signup_for_limited": false,
+  "chat_enabled": true,
+  "copilot_plan": "individual",
+  "organization_login_list": [],
+  "limited_user_reset_date": "2026-11-14",
+  "quota_snapshots": {
+    "chat": {
+      "entitlement": 50,
+      "overage_count": 0,
+      "overage_permitted": false,
+      "percent_remaining": 62.0,
+      "quota_id": "chat",
+      "quota_remaining": 31.0,
+      "remaining": 31,
+      "unlimited": false
+    },
+    "completions": {
+      "entitlement": 2000,
+      "overage_count": 0,
+      "overage_permitted": false,
+      "percent_remaining": 76.0,
+      "quota_id": "completions",
+      "quota_remaining": 1520.0,
+      "remaining": 1520,
+      "unlimited": false
+    },
+    "premium_interactions": {
+      "entitlement": 0,
+      "overage_count": 0,
+      "overage_permitted": false,
+      "percent_remaining": 0.0,
+      "quota_id": "premium_interactions",
+      "quota_remaining": 0.0,
+      "remaining": 0,
+      "unlimited": false
+    }
+  }
+}

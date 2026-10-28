@@ -163,6 +163,19 @@ enum Scene {
     /// next start.
     UpdateSheet,
     UpdateReady,
+    /// Oyenza Studio Recorder installed and heard from: the Record page's
+    /// choices, the page while it records (0:42), the closed island's
+    /// recording (12:34; around a notch its dot and time sit in the ears),
+    /// paused, and the Add-ons tab with Screen recorder's row.
+    Record,
+    RecordLive,
+    RecordActivity,
+    RecordPaused,
+    AddonsRecorder,
+    /// The AI tab with made-up readings (`pages::usage::picture`): plans
+    /// and limits, a trouble mix, nothing found, the first look, connecting
+    /// and connected Oyenza Inference, the Services list.
+    Ai(crate::pages::usage::Picture),
     /// The IELTS add-on signed in: on the Mac, for now, the coach is on its
     /// way (its microphone and voice come with branch ielts-coach-mac).
     Ielts,
@@ -227,6 +240,10 @@ const ADDON_SCENES: [Scene; 3] = [
 const PRAYER_SCENES: [Scene; 4] = [Scene::Prayer, Scene::PrayerPicker, Scene::PrayerCountdown, Scene::PrayerNotice];
 /// Prayer times abroad, after Today (so every other picture keeps its number).
 const PRAYER_WORLD_SCENES: [Scene; 2] = [Scene::PrayerPickerWorld, Scene::PrayerWorld];
+/// The AI tab in each of its sample states (the page's own list), last of all.
+fn ai_scenes() -> impl Iterator<Item = Scene> {
+    crate::pages::usage::Picture::ALL.into_iter().map(Scene::Ai)
+}
 
 /// The Settings page (behind the gear), after Prayer times.
 const SETTINGS_SCENES: [Scene; 1] = [Scene::Page(PageKind::Settings)];
@@ -247,6 +264,9 @@ const STOCKS_SCENES: [Scene; 4] = [
 ];
 /// The Update sheet, after Stocks (so every other picture keeps its number).
 const UPDATE_SCENES: [Scene; 2] = [Scene::UpdateSheet, Scene::UpdateReady];
+/// The Record page and the recording on the closed island, every theme,
+/// after the Update sheet (so every other picture keeps its number).
+const RECORD_SCENES: [Scene; 5] = [Scene::Record, Scene::RecordLive, Scene::RecordActivity, Scene::RecordPaused, Scene::AddonsRecorder];
 /// The IELTS page, after the Update sheet.
 const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
 
@@ -298,6 +318,12 @@ impl Scene {
             Scene::Stocks(p) => format!("page-stocks-{}", format!("{p:?}").to_lowercase()),
             Scene::UpdateSheet => "page-update-sheet".into(),
             Scene::UpdateReady => "page-update-ready".into(),
+            Scene::Record => "page-record".into(),
+            Scene::RecordLive => "page-record-live".into(),
+            Scene::RecordActivity => "record-activity".into(),
+            Scene::RecordPaused => "record-paused-activity".into(),
+            Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::Ai(p) => p.name().into(),
             Scene::Ielts => "page-ielts".into(),
         }
     }
@@ -362,10 +388,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet and IELTS in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet, Record, the AI tab and IELTS in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(IELTS_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -965,7 +991,7 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             Mode::Expanded(p)
         }
         Scene::UpdateSheet | Scene::UpdateReady => {
-            st.update = crate::state::UpdateView { offer: Some(fake_release()), sheet: true, ready: scene == Scene::UpdateReady, next_start: false };
+            st.update = crate::state::UpdateView { offer: Some(fake_release()), sheet: true, ready: scene == Scene::UpdateReady, ..Default::default() };
             st.page = PageKind::Settings;
             Mode::Expanded(PageKind::Settings)
         }
@@ -1018,6 +1044,36 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             crate::pages::stocks::picture(&mut st, shows, now);
             st.page = PageKind::Stocks;
             Mode::Expanded(PageKind::Stocks)
+        }
+        Scene::Record | Scene::RecordLive | Scene::RecordActivity | Scene::RecordPaused | Scene::AddonsRecorder => {
+            use poni_core::recorder::Phase as RecPhase;
+            st.recorder = true;
+            st.store.recorder_island = true;
+            let (phase, elapsed_ms) = match scene {
+                Scene::RecordLive => (Some(RecPhase::Recording), 42_000),
+                Scene::RecordActivity => (Some(RecPhase::Recording), 754_000),
+                Scene::RecordPaused => (Some(RecPhase::Paused), 754_000),
+                _ => (None, 0),
+            };
+            // Heard at the picture's moment, so the time shows as sent.
+            st.rec = crate::state::RecView { phase, elapsed_ms, at: NOW_MONO, ..Default::default() };
+            match scene {
+                Scene::RecordActivity | Scene::RecordPaused => Mode::Activity(activities::Activity::Recording),
+                Scene::AddonsRecorder => {
+                    st.page = PageKind::Addons;
+                    Mode::Expanded(PageKind::Addons)
+                }
+                _ => {
+                    st.page = PageKind::Record;
+                    Mode::Expanded(PageKind::Record)
+                }
+            }
+        }
+        Scene::Ai(shows) => {
+            let now = st.now;
+            crate::pages::usage::picture(&mut st, shows, now);
+            st.page = PageKind::Ai;
+            Mode::Expanded(PageKind::Ai)
         }
         Scene::Oyenza | Scene::OyenzaCode => {
             st.oyenza = fake_oyenza(&st, scene == Scene::OyenzaCode);

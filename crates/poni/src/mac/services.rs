@@ -1,10 +1,10 @@
 //! The Mac's side of what the island asks the system for: what plays (from
 //! macOS's own now playing, or Music and Spotify themselves), lyrics, the add-ons (Japanese readings, and Prayer times'
 //! location and adzan), power, volume, system stats, the System page's
-//! readings, the clipboard, Shelf tiles, Phone drop, full-screen apps and
-//! start at login (one file each), plus a few direct calls (the accent
-//! colour, opening and revealing files, sounds). Oyenza sign-in is the
-//! Windows app's worker, shared as is.
+//! readings, the clipboard, Shelf tiles, Phone drop, full-screen apps,
+//! start at login and the AI tab's keychain reads (one file each), plus a
+//! few direct calls (the accent colour, opening and revealing files,
+//! sounds). Oyenza sign-in is the Windows app's worker, shared as is.
 
 // This file is loaded with #[path], so its modules sit in services/ by path.
 #[path = "services/adzan.rs"]
@@ -19,6 +19,8 @@ pub mod clipboard;
 pub mod fullscreen;
 #[path = "services/http.rs"]
 pub mod http;
+#[path = "services/keychain.rs"]
+pub mod keychain;
 #[path = "services/media.rs"]
 pub mod media;
 #[path = "services/mediaremote.rs"]
@@ -50,6 +52,9 @@ pub mod update;
 // And the Stocks page's prices from oyenza.trade.
 #[path = "../services/stocks.rs"]
 pub mod stocks;
+// And the AI tab's worker (`studio_usage` does the reading).
+#[path = "../services/usage.rs"]
+pub mod usage;
 #[path = "services/location.rs"]
 pub mod location;
 #[path = "services/login.rs"]

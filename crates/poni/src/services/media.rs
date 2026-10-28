@@ -797,8 +797,19 @@ impl Worker {
         let end = tl.EndTime()?.Duration;
         let pos = tl.Position()?.Duration;
         let updated = tl.LastUpdatedTime().map(|t| t.UniversalTime).unwrap_or(0);
-        let timeline =
-            make_timeline(start, end, pos, updated, playing, rate, crate::clock::filetime_now(), crate::clock::mono());
+        let now = crate::clock::mono();
+        let mut timeline = make_timeline(start, end, pos, updated, playing, rate, crate::clock::filetime_now(), now);
+        // Before the controls are worked out: a blank length would also turn
+        // seeking off and replace the whole card.
+        let same_track = self.shown.as_ref().filter(|s| self.meta.as_ref() == Some(&s.meta));
+        if let Some(filled) = same_track.map(|s| timeline.or_length_of(&s.timeline, now)).filter(|f| *f != timeline) {
+            if self.timeline_logs < TIMELINE_LOGS_PER_TRACK {
+                self.timeline_logs += 1;
+                let app = self.meta.as_ref().map_or("", |m| m.app_name.as_str());
+                crate::pinfo!("media: {app} reported no track length at {:.1} s; keeping {:.0} s", filled.position_at(now), filled.duration_s);
+            }
+            timeline = filled;
+        }
         self.start_ticks = start;
         let reported = read_caps(&info);
         let aumid = &self.sessions[i].aumid;

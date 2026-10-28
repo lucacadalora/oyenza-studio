@@ -1,7 +1,8 @@
 //! Oyenza Studio Recorder: the separate recorder app built from Cap. The
-//! island only starts it, through the recorder's own link
-//! (`poni_core::recorder`); pausing and stopping stay on the recorder's own
-//! bar. Nothing here runs at rest: [`installed`] is read when the menu opens.
+//! island starts, pauses and stops its recordings through the recorder's own
+//! links (`poni_core::recorder`), and the recorder tells the island how they
+//! go with `WM_COPYDATA` (read in `app.rs`). Nothing here runs at rest:
+//! [`installed`] is read at start, as the island opens and when the menu opens.
 
 use poni_core::recorder;
 use windows::core::{HSTRING, PCWSTR};
@@ -21,6 +22,25 @@ pub fn installed() -> bool {
         let _ = RegCloseKey(key);
     }
     true
+}
+
+/// The Record page's Record: `target` (the screen the island is on, or a
+/// window or an area the recorder's overlay asks for) with `inputs`.
+pub fn record(island: HWND, target: recorder::Target, inputs: recorder::Inputs) {
+    let screen = if target == recorder::Target::Screen { screen_name(island) } else { None };
+    crate::shell::open_recorder_link(&recorder::record_link(target, screen.as_deref(), inputs));
+}
+
+pub fn pause() {
+    crate::shell::open_recorder_link(&recorder::pause_link());
+}
+
+pub fn resume() {
+    crate::shell::open_recorder_link(&recorder::resume_link());
+}
+
+pub fn stop() {
+    crate::shell::open_recorder_link(&recorder::stop_link());
 }
 
 /// Record the screen the island is on, with the camera, microphone and

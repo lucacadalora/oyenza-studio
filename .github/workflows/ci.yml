@@ -18,7 +18,7 @@ concurrency:
 
 env:
   # Keep in sync with Cargo.toml's workspace version, installer/poni.nsi and installer/poni.iss.
-  PONI_VERSION: "0.2.11"
+  PONI_VERSION: "0.2.15"
 
 jobs:
   core:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      - run: cargo test -p poni-core
+      - run: cargo test -p poni-core -p studio-usage
       # THIRD-PARTY-NOTICES.txt ships with every build: it must list every
       # crate poni.exe links (run the script after changing dependencies).
       - name: Third-party notices up to date
@@ -91,6 +91,20 @@ jobs:
             Get-Content $env:PONI_FAKE_AM_LOG -ErrorAction SilentlyContinue
           }
 
+      # The Stocks thread against the live oyenza.trade, from the build above.
+      # The self-test shows a made-up market and asks for nothing, which is
+      # how 0.2.11 shipped a thread that never asked. Silence fails the step;
+      # oyenza.trade answering badly only warns.
+      - name: Stocks from the live oyenza.trade
+        run: cargo test -p poni --release the_live_market_comes_in -- --ignored --nocapture
+
+      # Windows reads the Bluetooth watchers' filters only when they start,
+      # and one it refused would mean no Bluetooth pop-ups at all. The runner
+      # has no Bluetooth radio: this proves Windows takes the paired-only
+      # filters as it takes its own, not which devices they let through.
+      - name: Bluetooth filters on a real Windows
+        run: cargo test -p poni --release the_paired_only_filters_work_like_windows_own -- --ignored --nocapture
+
   # The self-tests and smoke runs on three machines at once, from the
   # poni.exe built above. Each step is the same as when one machine ran them
   # all in a row; `group` says which machine runs it:
@@ -137,9 +151,9 @@ jobs:
           New-Item -ItemType Directory -Force -Path selftest-out | Out-Null
           $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-out" -PassThru
           $null = $p.Handle  # keep the handle so ExitCode is available after exit
-          if (-not $p.WaitForExit(120000)) {
+          if (-not $p.WaitForExit(180000)) {
             Stop-Process -Id $p.Id -Force
-            Write-Host "self-test did not finish within 120 s"
+            Write-Host "self-test did not finish within 180 s"
             $code = -1
           } else {
             $code = $p.ExitCode
@@ -216,7 +230,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path selftest-oyen-ja | Out-Null
           $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-oyen-ja" -PassThru
           $null = $p.Handle
-          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
           "oyen + japanese self-test exit code: $code"
           if (Test-Path selftest-oyen-ja\report.json) {
             $r = Get-Content selftest-oyen-ja\report.json -Raw | ConvertFrom-Json
@@ -251,7 +265,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path selftest-ja-own | Out-Null
           $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-ja-own" -PassThru
           $null = $p.Handle
-          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
           "own-dictionary self-test exit code: $code"
           if (Test-Path selftest-ja-own\report.json) {
             $r = Get-Content selftest-ja-own\report.json -Raw | ConvertFrom-Json
@@ -319,7 +333,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path selftest-pill | Out-Null
           $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-pill" -PassThru
           $null = $p.Handle
-          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
           "pill self-test exit code: $code"
           if (Test-Path selftest-pill\report.json) {
             $r = Get-Content selftest-pill\report.json -Raw | ConvertFrom-Json
@@ -386,7 +400,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path selftest-soft | Out-Null
           $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-soft" -PassThru
           $null = $p.Handle
-          if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
           "software self-test exit code: $code"
           if (Test-Path selftest-soft\report.json) {
             $r = Get-Content selftest-soft\report.json -Raw | ConvertFrom-Json

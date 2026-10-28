@@ -84,6 +84,14 @@ pub fn oyenza_revoke_path() -> PathBuf {
     data_dir().join("oyenza-revoke.bin")
 }
 
+/// A key typed into the AI tab for one service, or the inference.oyenza.com
+/// key (`usage-<name>.bin`), in a file only this Mac account can read
+/// (`services::secret`). With the settings, not the cache: macOS may empty
+/// caches by itself.
+pub fn usage_key_path(name: &str) -> PathBuf {
+    data_dir().join(format!("usage-{name}.bin"))
+}
+
 /// The person's Apple Music token (owner-only file; uninstalling with the
 /// cache folder removes it).
 pub fn apple_music_token_path() -> PathBuf {
