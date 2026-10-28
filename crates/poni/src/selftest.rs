@@ -767,7 +767,7 @@ fn seed_downloads(st: &mut AppState, scene: Scene) {
     jobs.starting(film);
     jobs.apply(film, info("OVERGROWN: a feature film project by Blender Studio", "PeerTube"));
     jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
-    jobs.add("https://soundcloud.com/forss/flickermood".into(), Mode::Audio, unix - 20);
+    jobs.add("https://archive.org/details/ElephantsDream".into(), Mode::Audio, unix - 20);
     st.downloads = jobs;
 }
 
@@ -1785,6 +1785,13 @@ impl SelfTest {
             let _ = std::thread::Builder::new().name("selftest-addon".into()).spawn(move || {
                 let (mut ok, mut said) = (true, Vec::new());
                 for a in poni_core::addons::ALL {
+                    // An add-on whose files aren't on their release yet (the
+                    // Downloader until addon-downloader-1 is published) has
+                    // nothing to check; its switch says so (`Status::Unpinned`).
+                    if !a.pinned() {
+                        said.push(format!("{}: not pinned yet", a.id));
+                        continue;
+                    }
                     let (fine, detail) = crate::services::addons::fetch_for_selftest(a, &dir);
                     ok &= fine;
                     said.push(format!("{}: {detail}", a.id));
