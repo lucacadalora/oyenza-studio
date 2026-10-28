@@ -95,6 +95,10 @@ pub enum Icon {
     /// The Record page's inputs (system sound is `Volume`).
     Camera,
     Mic,
+    /// The Notifications tab: a bell.
+    Bell,
+    /// Another app's message in a notice: a speech bubble.
+    Message,
 }
 
 pub struct Part {
@@ -294,6 +298,8 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Download => p![s("M12 4v10.5"), s("M7.5 10L12 14.5 16.5 10"), s("M4.5 16v2.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V16")],
         Stocks => p![s("M3.5 17.5l5.5-5.5 4 4 7.5-7.5"), s("M15 8.5h5.5V14")],
         Search => p![s("M4.5 10.5a6 6 0 1 0 12 0a6 6 0 1 0-12 0"), s("M15 15l4.5 4.5")],
+        Bell => p![s("M6 11a6 6 0 0 1 12 0v4.2l1.6 2.3H4.4L6 15.2z"), s("M10 20.3a2.2 2.2 0 0 0 4 0")],
+        Message => p![s("M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z")],
     }
 }
 
@@ -311,7 +317,7 @@ mod tests {
         Icon::Unlink, Icon::Gear,
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
         Icon::Stocks, Icon::Search,
-        Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic,
+        Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic, Icon::Bell, Icon::Message,
     ];
 
     #[test]

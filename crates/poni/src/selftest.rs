@@ -43,7 +43,8 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -711,6 +712,43 @@ fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer>
     }
 }
 
+/// The WhatsApp message in the Notifications scenes (made up: the self-test
+/// reads no notifications).
+fn sample_message() -> poni_core::notifications::Seen {
+    poni_core::notifications::Seen {
+        app_id: "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App".into(),
+        app: "WhatsApp".into(),
+        lines: vec!["Mom".into(), "Dinner at 7 tonight?".into()],
+    }
+}
+
+/// The Notifications scenes: what Windows answered, and the apps the page
+/// lists (WhatsApp and Telegram on, Phone Link switched off by hand, Outlook
+/// as every other app starts: off). Every other scene has the add-on's
+/// choices as they start.
+fn seed_notifications(st: &mut AppState, scene: Scene) {
+    use crate::state::NotifyAccess;
+    st.notify_access = match scene {
+        Scene::NotifyAsk => NotifyAccess::Ask,
+        Scene::NotifyNoPackage => NotifyAccess::NoPackage,
+        Scene::Page(PageKind::Notifications) | Scene::MessageNotice | Scene::MessageHidden => NotifyAccess::Allowed,
+        _ => NotifyAccess::Unknown,
+    };
+    let n = &mut st.settings.notifications;
+    *n = NotificationSettings::default();
+    if scene == Scene::Page(PageKind::Notifications) {
+        for (id, name) in [
+            ("5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App", "WhatsApp"),
+            ("Telegram.TelegramDesktop", "Telegram"),
+            ("Microsoft.YourPhone_8wekyb3d8bbwe!App", "Phone Link"),
+            ("Microsoft.Office.OUTLOOK.EXE.15", "Outlook"),
+        ] {
+            n.remember(id, name);
+        }
+        n.set("Microsoft.YourPhone_8wekyb3d8bbwe!App", false);
+    }
+}
+
 /// The Stocks page's scenes on a made-up market (`pages::stocks::picture`);
 /// every other scene: the list as it starts, nothing loaded.
 fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
@@ -980,8 +1018,16 @@ enum Scene {
     RecordActivity,
     RecordPaused,
     /// The Add-ons page with the recorder installed: Screen recorder's row
-    /// (seven rows with Stocks, packed closer, the window no taller).
+    /// (eight rows with Notifications, a line each, the window no taller).
     AddonsRecorder,
+    /// The Notifications add-on: a WhatsApp message on the closed island...
+    MessageNotice,
+    /// ...with "Message text" switched off: it waits for Show.
+    MessageHidden,
+    /// The Notifications page before Windows was asked: Allow, no apps yet.
+    NotifyAsk,
+    /// The Notifications page in the download from GitHub, which can't read them.
+    NotifyNoPackage,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1014,7 +1060,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 98] = [
+const SCENES: [Scene; 103] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1135,6 +1181,14 @@ const SCENES: [Scene; 98] = [
     Scene::RecordActivity,
     Scene::RecordPaused,
     Scene::AddonsRecorder,
+    // The Notifications add-on: a message on the closed island (shown, and
+    // waiting for Show), then its page once Windows allows it, before
+    // Windows was asked, and in the download from GitHub.
+    Scene::MessageNotice,
+    Scene::MessageHidden,
+    Scene::Page(PageKind::Notifications),
+    Scene::NotifyAsk,
+    Scene::NotifyNoPackage,
 ];
 
 impl Scene {
@@ -1227,6 +1281,10 @@ impl Scene {
             Scene::RecordActivity => "record-activity".into(),
             Scene::RecordPaused => "record-paused-activity".into(),
             Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::MessageNotice => "message-notice".into(),
+            Scene::MessageHidden => "message-hidden-notice".into(),
+            Scene::NotifyAsk => "page-notifications-ask".into(),
+            Scene::NotifyNoPackage => "page-notifications-download".into(),
         }
     }
 
@@ -1265,6 +1323,7 @@ impl Scene {
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::RecordLive => Some(PageKind::Record),
             Scene::AddonsRecorder => Some(PageKind::Addons),
+            Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
             _ => None,
         }
     }
@@ -1710,6 +1769,13 @@ impl SelfTest {
             Err(d) => (false, d),
         };
         self.checks.push(check("start-with-windows", ok, detail));
+        // Notifications: the download says it needs the Store copy; inside
+        // the package Windows' listener must answer (CI's Store job checks).
+        let (ok, detail) = match crate::services::notifications::describe() {
+            Ok(d) => (true, d),
+            Err(d) => (false, d),
+        };
+        self.checks.push(check("notifications", ok, detail));
 
         // PONI_SELFTEST_ADDONS=download (Windows CI): fetch every add-on's files
         // from their releases and check each against the size and SHA-256 built in.
@@ -2144,6 +2210,10 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 89.000 · Tokopedia".into()),
             }),
+            Scene::MessageNotice | Scene::MessageHidden => {
+                let choices = NotificationSettings { text: scene == Scene::MessageNotice, ..Default::default() };
+                crate::pages::notifications::message_notice(&sample_message(), &choices, st.accent, now).map(|n| Notice { until, ..n })
+            }
             Scene::OyenzaBill => Some(Notice {
                 icon: Icon::Calendar,
                 color: palette::ORANGE,
@@ -2185,11 +2255,14 @@ impl SelfTest {
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
         let stocks = scene.page() == Some(PageKind::Stocks);
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks)] {
+        // Notifications (Windows, off by default): on for its page and its notices.
+        let notify = scene.page() == Some(PageKind::Notifications) || matches!(scene, Scene::MessageNotice | Scene::MessageHidden);
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (NOTIFICATIONS.id, notify)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
+        seed_notifications(st, scene);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {

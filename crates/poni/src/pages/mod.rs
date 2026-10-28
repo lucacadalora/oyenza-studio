@@ -14,6 +14,7 @@ pub mod card;
 pub mod focus;
 pub mod health;
 pub mod media;
+pub mod notifications;
 pub mod oyenza;
 pub mod prayer;
 pub mod record;
@@ -72,6 +73,9 @@ pub enum PageKind {
     Prayer,
     /// The IHSG and the person's stocks, while the Stocks add-on is on ([`tabs`]).
     Stocks,
+    /// Which apps' notifications show on the island, while the
+    /// Notifications add-on is on ([`tabs`]; Windows only).
+    Notifications,
     /// The "+" at the end of the tab row: features to switch on, each of
     /// which downloads only then (`poni_core::addons`).
     Addons,
@@ -82,7 +86,7 @@ pub enum PageKind {
 impl PageKind {
     /// The tab row's order: the island's own pages, Oyenza, then the
     /// add-ons' pages and the "+".
-    pub const ALL: [PageKind; 14] = [
+    pub const ALL: [PageKind; 15] = [
         PageKind::Media,
         PageKind::Today,
         PageKind::Shelf,
@@ -95,6 +99,7 @@ impl PageKind {
         PageKind::Record,
         PageKind::Prayer,
         PageKind::Stocks,
+        PageKind::Notifications,
         PageKind::Addons,
         PageKind::Settings,
     ];
@@ -113,6 +118,7 @@ impl PageKind {
             PageKind::Oyenza => "oyenza",
             PageKind::Prayer => "prayer",
             PageKind::Stocks => "stocks",
+            PageKind::Notifications => "notifications",
             PageKind::Addons => "addons",
             PageKind::Settings => "settings",
         }
@@ -138,6 +144,7 @@ impl PageKind {
             PageKind::Oyenza => "Oyenza",
             PageKind::Prayer => "Prayer",
             PageKind::Stocks => "Stocks",
+            PageKind::Notifications => "Notifications",
             PageKind::Addons => "Add-ons",
             PageKind::Settings => "Settings",
         }
@@ -157,6 +164,7 @@ impl PageKind {
             PageKind::Oyenza => Icon::Wallet,
             PageKind::Prayer => Icon::Moon,
             PageKind::Stocks => Icon::Stocks,
+            PageKind::Notifications => Icon::Bell,
             PageKind::Addons => Icon::Addons,
             PageKind::Settings => Icon::Gear,
         }
@@ -179,7 +187,7 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, and Health, System,
-/// Script, Record, Prayer and Stocks only while their add-ons are on. Oyenza is always there
+/// Script, Record, Prayer, Stocks and Notifications only while their add-ons are on. Oyenza is always there
 /// (signed out it is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     PageKind::ALL
@@ -191,6 +199,7 @@ pub fn tabs(st: &AppState) -> Vec<PageKind> {
             PageKind::Script => st.script_on(),
             PageKind::Stocks => st.stocks_on(),
             PageKind::Record => st.record_on(),
+            PageKind::Notifications => st.notifications_on(),
             p => p.tabbed(),
         })
         .collect()
@@ -218,6 +227,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Oyenza => oyenza::height(st),
         PageKind::Prayer => prayer::height(st),
         PageKind::Stocks => stocks::height(st),
+        PageKind::Notifications => notifications::height(st),
         PageKind::Addons => addons::height(st),
         PageKind::Settings => settings::height(st),
     }
@@ -351,6 +361,7 @@ pub(crate) fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKi
         PageKind::Oyenza => oyenza::draw(ui, st, area),
         PageKind::Prayer => prayer::draw(ui, st, area),
         PageKind::Stocks => stocks::draw(ui, st, area),
+        PageKind::Notifications => notifications::draw(ui, st, area),
         PageKind::Addons => addons::draw(ui, st, area),
         PageKind::Settings => settings::draw(ui, st, area),
     }
@@ -704,6 +715,11 @@ mod tests {
         // whether it shows or not); the add-ons' rows and Stocks stay under it.
         assert!(content_height(PageKind::Addons, &st) <= content_height(PageKind::System, &st));
         assert!(content_height(PageKind::Stocks, &st) <= content_height(PageKind::System, &st));
+        // Notifications with as many apps as it lists.
+        for i in 0..poni_core::notifications::MAX_APPS {
+            st.settings.notifications.remember(&format!("App.{i}"), &format!("App {i}"));
+        }
+        assert!(content_height(PageKind::Notifications, &st) <= content_height(PageKind::System, &st));
         // Signed out, Oyenza's sign-in is as tall as its code, so starting to
         // sign in doesn't move the island.
         st.oyenza.link = OyenzaLink::Off;
@@ -718,6 +734,7 @@ mod tests {
             (PageKind::System, poni_core::addons::SYSTEM),
             (PageKind::Health, poni_core::addons::HEALTH),
             (PageKind::Stocks, poni_core::addons::STOCKS),
+            (PageKind::Notifications, poni_core::addons::NOTIFICATIONS),
         ] {
             let mut st = state();
             assert!(!tabs(&st).contains(&page), "{} is off for everyone until switched on", addon.id);

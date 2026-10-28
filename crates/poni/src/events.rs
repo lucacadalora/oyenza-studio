@@ -176,6 +176,9 @@ pub enum AppEvent {
     Cities { file: String, got: Result<poni_core::prayer::World, String> },
     /// The Stocks page's prices, names and years (`services::stocks`).
     Stocks(crate::services::stocks::StocksEvent),
+    /// The Notifications add-on: what Windows allows, and new notifications
+    /// (`services::notifications`).
+    Notify(crate::services::notifications::NotifyEvent),
     /// The adzan finished playing, or couldn't play on.
     AdzanEnded,
     /// Start with Windows is on (true) or off, read for the Settings page.

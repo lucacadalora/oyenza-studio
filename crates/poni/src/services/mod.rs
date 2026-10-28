@@ -28,6 +28,7 @@ pub mod romanize;
 mod romanize_compare;
 pub mod secret;
 pub mod sound;
+pub mod notifications;
 pub mod stocks;
 pub mod sysmon;
 pub mod sysstats;

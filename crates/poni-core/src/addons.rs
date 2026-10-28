@@ -162,6 +162,22 @@ pub const STOCKS: Addon = Addon {
     files: &[],
 };
 
+/// Notifications (Windows): other apps' notifications in the island, from
+/// the apps the person picks on its page (WhatsApp, Telegram and Phone Link
+/// to begin with), read through Windows' notification listener
+/// (`poni_core::notifications`). Its code is in the app, so there is nothing
+/// to download. Off, there is no Notifications tab and nothing listens.
+/// Windows lets only an app with a package identity read notifications, so
+/// it works in the Microsoft Store copy; the Mac has no way to read them.
+pub const NOTIFICATIONS: Addon = Addon {
+    id: "notifications",
+    title: "Notifications",
+    blurb: "Messages from WhatsApp, Telegram and your phone in the island.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Screen recorder: the Record page and the recording pill, the face of
 /// Oyenza Studio Recorder (its own install, about 120 MB). Its code is in the
 /// island, so there is nothing to download. It shows on the Add-ons page once
@@ -178,7 +194,7 @@ pub const SCREEN_RECORDER: Addon = Addon {
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 7] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &SCREEN_RECORDER];
+pub const ALL: [&Addon; 8] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &SCREEN_RECORDER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -283,7 +299,7 @@ mod tests {
 
     #[test]
     fn system_and_health_are_built_in_add_ons_off_until_switched_on() {
-        for a in [&SYSTEM, &HEALTH, &STOCKS] {
+        for a in [&SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS] {
             assert!(!a.downloads() && a.size() == 0, "{}", a.id);
             assert_eq!(Addon::find(a.id), Some(a));
             assert_eq!(Status::Ready.line(a, false), "On");

@@ -40,7 +40,7 @@ jobs:
 
       - name: Install it and self-test it inside the package
         shell: powershell
-        run: ./tools/ci-msix-test.ps1 -Msix "dist\Oyenza-Studio-$env:PONI_VERSION.msix" -Out msix-out
+        run: ./tools/ci-msix-test.ps1 -Msix "dist\Oyenza-Studio-$env:PONI_VERSION.msix" -Out msix-out -TestCopy test-copy
 
       - name: Upload screenshots and logs
         if: always()
@@ -49,6 +49,16 @@ jobs:
           name: msix-check
           path: msix-out
           if-no-files-found: warn
+
+      # The same package signed with this run's throwaway certificate, with
+      # scripts to install and remove it: a test copy for a PC
+      # (tools/store-test-copy/README.txt). Never upload it to the Store.
+      - name: Upload the test copy
+        uses: actions/upload-artifact@v4
+        with:
+          name: oyenza-studio-test-copy
+          path: test-copy
+          if-no-files-found: error
 
       - name: Upload the Store package
         uses: actions/upload-artifact@v4

@@ -118,6 +118,9 @@ pub struct Settings {
     pub game_peek: bool,
     /// The Record page's choices (Oyenza Studio Recorder).
     pub record: RecordSettings,
+    /// The Notifications add-on's choices: which apps the island shows, and
+    /// whether who it's from and the message show at once.
+    pub notifications: crate::notifications::NotificationSettings,
 }
 
 /// What the Record page records next: its last picks.
@@ -210,6 +213,7 @@ impl Default for Settings {
             game_stats: false,
             game_peek: false,
             record: RecordSettings::default(),
+            notifications: crate::notifications::NotificationSettings::default(),
         }
     }
 }
