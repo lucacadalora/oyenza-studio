@@ -544,6 +544,7 @@ mod tests {
         jobs.ended(id, false);
         jobs.apply(id, bytes(1, Some(2)));
         jobs.apply(id, Line::Done { path: "C:\\elsewhere.mp4".into() });
+        jobs.apply(id, Line::Failed(Problem::Other("unable to write the thumbnail".into())));
         jobs.stop(id);
         assert_eq!(line_of(&jobs, id), "Done · 48 MB");
         // Only a finished download has a file to measure.
@@ -608,6 +609,7 @@ mod tests {
         jobs.apply(running, bytes(6_000_000, Some(10_000_000)));
         jobs.apply(running, Line::Stage(Stage::Merging));
         jobs.apply(running, Line::Done { path: "C:\\Users\\Luca\\Downloads\\Sprite Fright.mp4".into() });
+        jobs.apply(running, Line::Failed(Problem::Network));
         jobs.ended(running, false);
         assert_eq!(jobs.get(running).unwrap().state, State::Stopped);
         assert_eq!(jobs.get(running).unwrap().title, None);
