@@ -472,3 +472,8 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 122725581302,Fetch the release to upgrade from,40660891705,1,2026-10-28T09:05:49Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122731890603,Fetch the release to upgrade from,40663012011,1,2026-10-28T09:20:31Z,site-pricing,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 122734299292,Fetch the release to upgrade from,40663666259,1,2026-10-28T09:25:57Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122984547245,Fetch the release to upgrade from,40735314519,1,2026-10-28T17:28:20Z,sign-job-test-player,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+122994604183,Fetch the release to upgrade from,40738150694,1,2026-10-28T17:46:23Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123017785895,Fetch the release to upgrade from,40744601854,1,2026-10-28T18:28:31Z,sign-job-reader-check,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123022399215,Fetch the release to upgrade from,40746216086,1,2026-10-28T18:37:01Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123038690700,Fetch the release to upgrade from,40750559179,1,2026-10-28T19:07:26Z,reader-whole-framework,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
