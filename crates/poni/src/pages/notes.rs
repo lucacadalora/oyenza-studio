@@ -28,7 +28,7 @@ use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::notes::{fmt_length, CaptureIssue, Phase, Problem};
 
 /// Every state is this tall, so the island never jumps between them.
-const HEIGHT: f32 = 200.0;
+const HEIGHT: f32 = 180.0;
 /// Signed out: the Oyenza sign-in card's height.
 const SIGNED_OUT_H: f32 = 156.0;
 /// Oyen's column, and the gap to the right one.
@@ -37,7 +37,7 @@ const COL_GAP: f32 = 18.0;
 const HEAD_W: f32 = 84.0;
 const HEAD_Y: f32 = 46.0;
 const BUTTON_R: f32 = 24.0;
-const BUTTON_Y: f32 = 128.0;
+const BUTTON_Y: f32 = 124.0;
 /// The level bars' rows.
 const BAR_H: f32 = 6.0;
 const METER_ROW: f32 = 26.0;

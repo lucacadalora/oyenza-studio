@@ -4825,6 +4825,26 @@ impl App {
     }
 
     /// Self-test, the IELTS turn is over: nothing of it stays.
+    /// The self-test's notes turn: a made-up meeting (`take`) handed over to
+    /// the run's own server with its own key.
+    pub fn selftest_notes_begin(&mut self, base: String, key: String, take: services::notes::Take) {
+        self.notes_api = Some((base, key));
+        self.st.settings.set_addon(poni_core::addons::MEETING_NOTES.id, true);
+        self.st.addons.insert(poni_core::addons::MEETING_NOTES.id, AddonStatus::Ready);
+        self.st.notes = Default::default();
+        self.notes_started = poni_core::datetime::LocalDateTime { year: 2026, month: 10, day: 29, hour: 14, minute: 5, second: 0 };
+        self.notes_take = Some(take);
+        self.st.ui.notes_kept = true;
+        self.notes_send();
+    }
+
+    pub fn selftest_notes_end(&mut self) {
+        self.notes_off();
+        self.notes_api = None;
+        self.st.settings.set_addon(poni_core::addons::MEETING_NOTES.id, false);
+        self.st.addons.insert(poni_core::addons::MEETING_NOTES.id, AddonStatus::Off);
+    }
+
     pub fn selftest_ielts_end(&mut self) {
         self.ielts_off();
         self.ielts_turn = false;
