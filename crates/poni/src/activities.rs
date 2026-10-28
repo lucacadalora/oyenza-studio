@@ -1139,17 +1139,18 @@ mod tests {
         assert!(is_live(&media, &song));
     }
 
-    fn job(id: u64, state: DownloadState) -> poni_core::downloads::Job {
-        let mode = poni_core::ytdlp::Mode::Video;
-        poni_core::downloads::Job { id, url: format!("https://example.org/v/{id}"), mode, title: None, site: None, thumbnail: None, state, added: 0 }
+    /// A download of `url` added to the list (queued).
+    fn add(st: &mut AppState, url: &str) -> u64 {
+        st.downloads.add(url.into(), poni_core::ytdlp::Mode::Video, 0)
     }
 
-    /// The Downloader on, with `n` downloads under way (no size known yet).
-    fn with_downloads(mut st: AppState, n: u64) -> AppState {
+    /// The Downloader on, with `n` downloads starting (no size known yet).
+    fn with_downloads(mut st: AppState, n: usize) -> AppState {
         st.downloader_offered = true;
         st.addons.insert(poni_core::addons::DOWNLOADER.id, poni_core::addons::Status::Ready);
-        for id in 1..=n {
-            st.downloads.list.push(job(id, DownloadState::Downloading { done: 0, total: None, speed: None, eta_s: None }));
+        for i in 0..n {
+            let id = add(&mut st, &format!("https://video.blender.org/w/{i}"));
+            st.downloads.starting(id);
         }
         st
     }
@@ -1206,9 +1207,40 @@ mod tests {
         assert_eq!(next_wake(&m, &st), None);
         assert_eq!(current_activity(&st), None, "then gone");
         // The app starts the moment when a report leaves one more saved.
+        let id = add(&mut st, "https://video.blender.org/w/sprite-fright");
+        add(&mut st, "https://archive.org/details/BigBuckBunny_124");
         assert_eq!(downloads_saved(&st), 0);
-        st.downloads.list = vec![job(2, DownloadState::Queued), job(1, DownloadState::Done { path: "clip.mp4".into(), size: 1 })];
+        st.downloads.apply(id, poni_core::ytdlp::Line::Done { path: "Sprite Fright.mp4".into() });
         assert_eq!(downloads_saved(&st), 1);
+    }
+
+    #[test]
+    fn the_pill_shows_how_far_and_widens_for_the_count() {
+        use poni_core::settings::Theme;
+        use poni_core::ytdlp::Line;
+        let m = Mode::Activity(Activity::Download);
+        let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 0);
+        let id = add(&mut st, "https://video.blender.org/w/sprite-fright");
+        st.downloads.starting(id);
+        assert_eq!(download_view(&st), DownloadView::Progress { fraction: None, count: 1 }, "no size yet");
+        st.downloads.apply(id, Line::Progress { done: 12_400_000, total: Some(45_100_000), speed: Some(2.1e6), eta_s: Some(14) });
+        let DownloadView::Progress { fraction: Some(f), count: 1 } = download_view(&st) else { panic!("{:?}", download_view(&st)) };
+        assert_eq!(download_pct(f), "27%");
+        for theme in [Theme::Classic, Theme::Pill] {
+            st.settings.theme = theme;
+            assert_eq!(geom(&m, &st).w, DOWNLOAD_W, "{theme:?}");
+        }
+        // A second one, queued: the count shows beside the mark.
+        add(&mut st, "https://archive.org/details/BigBuckBunny_124");
+        assert!(download_many(&st));
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+            st.settings.theme = theme;
+            assert_eq!(geom(&m, &st).w, DOWNLOAD_MANY_W, "{theme:?}");
+        }
+        // Joining the picture and the sound: all its bytes are in.
+        st.downloads.apply(id, Line::Stage(poni_core::ytdlp::Stage::Merging));
+        let DownloadView::Progress { fraction: Some(f), count: 2 } = download_view(&st) else { panic!("{:?}", download_view(&st)) };
+        assert_eq!(download_pct(f), "100%");
     }
 
     #[test]
