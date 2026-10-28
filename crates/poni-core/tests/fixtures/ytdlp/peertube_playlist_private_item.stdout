@@ -1,0 +1,9 @@
+[PeerTube:Playlist] Extracting URL: https://video.blender.org/w/p/rkPtQt1nKmibQ5J6SZXyRb
+[PeerTube:Playlist] rkPtQt1nKmibQ5J6SZXyRb: Downloading playlist information
+[download] Downloading playlist: shorts
+[PeerTube:Playlist] rkPtQt1nKmibQ5J6SZXyRb: Downloading page 1
+[PeerTube:Playlist] Playlist shorts: Downloading 1 items
+[download] Downloading item 1 of 1
+{"t":"pp","id":"rkPtQt1nKmibQ5J6SZXyRb","pp":"Concat","st":"started"}
+{"t":"pp","id":"rkPtQt1nKmibQ5J6SZXyRb","pp":"Concat","st":"finished"}
+[download] Finished downloading playlist: shorts
