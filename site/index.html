@@ -453,6 +453,21 @@ main { container-type: inline-size; }
 .os-card .btn { margin-top: 14px; }
 .os-card .link { margin-top: 8px; background: none; border: 0; cursor: pointer; font: 400 17px/1.47 var(--font-text); }
 
+/* ---------- pricing: Free, and Pro before it can be bought (no buy button until it can) */
+.price-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.price-card { border-radius: var(--r); background: var(--alt); padding: 40px 40px 36px; display: flex; flex-direction: column; gap: 12px; }
+.price-card h3 { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.price-card .soon { font: 600 12px/1 var(--font-text); letter-spacing: 0; color: var(--new); background: #fff1e5; padding: 6px 10px; border-radius: 980px; }
+.price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.price b { font: 600 48px/1.08349 var(--font-display); letter-spacing: -0.003em; color: var(--ink); }
+.price-list { list-style: none; margin: 8px 0 12px; padding: 0; display: grid; gap: 12px; }
+.price-list li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; align-items: start; }
+.price-list .ico { margin-top: 3px; color: var(--blue); stroke-width: 2.2; }
+/* The button sits at the bottom, level with the end of the taller card. */
+.price-card .btn { align-self: flex-start; margin-top: auto; }
+.price-strip { border-radius: 14px; margin-top: 4px; }
+.price-facts { margin-top: 20px; }
+
 .foot { background: var(--alt); padding: 0 0 calc(40px + env(safe-area-inset-bottom, 0px)); }
 .foot .content { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font: 400 12px/1.33337 var(--font-text); letter-spacing: -0.01em; color: var(--gray); }
 .foot .grow { flex: 1 1 auto; }
@@ -503,7 +518,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .t-avail { font-size: 14px; line-height: 1.28577; letter-spacing: -0.016em; }
   .sec { --sp: 88px; }
   .head { margin-bottom: 36px; }
-  .bento, .duo, .stats, .stats.two, .facts, .os-cards, .cards3, .mac-strips, .news, .news.two { grid-template-columns: minmax(0, 1fr); }
+  .bento, .duo, .stats, .stats.two, .facts, .os-cards, .price-cards, .cards3, .mac-strips, .news, .news.two { grid-template-columns: minmax(0, 1fr); }
   .news-tile { padding: 24px 24px 26px; border-radius: 18px; }
   .stats { gap: 28px; margin-top: 44px; }
   .stat > b { font-size: 32px; }
@@ -528,6 +543,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .cmp .no { font-size: 13px; }
   .steps-row li { font-size: 17px; line-height: 1.47; letter-spacing: -0.022em; }
   .os-card { padding: 36px 24px; }
+  .price-card { padding: 30px 24px 28px; border-radius: 18px; }
+  .price b { font-size: 40px; }
   .buybox { flex-direction: column; align-items: stretch; text-align: center; gap: 14px; padding: 16px; width: min(100%, 340px); }
   .buybox .btn { padding: 12px 22px; }
   .looks-stage { height: clamp(220px, 62vw, 300px); }
@@ -613,6 +630,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6.5 9.5 17 4 11.5"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 4.9v6.9a1.5 1.5 0 0 0 .44 1.06l7.6 7.6a1.5 1.5 0 0 0 2.12 0l6.8-6.8a1.5 1.5 0 0 0 0-2.12l-7.6-7.6a1.5 1.5 0 0 0-1.06-.44H4.9a1.4 1.4 0 0 0-1.4 1.4z"/><circle cx="8.3" cy="8.3" r="1.4"/></symbol>
   <symbol id="i-win" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M2 2h9.2v9.2H2zm10.8 0H22v9.2h-9.2zM2 12.8h9.2V22H2zm10.8 0H22V22h-9.2z"/></symbol>
   <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></symbol>
 </svg>
@@ -677,6 +695,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Get it</p>
       <a class="side-item" href="#privacy" data-k="privacy data light fast size open source mit"><i class="ic" style="--c:#007aff"><svg class="ico"><use href="#i-lock"/></svg></i><span>Privacy</span></a>
+      <a class="side-item" href="#pricing" data-k="pricing price prices cost free pro plan subscription monthly yearly trial buy notifications whatsapp telegram phone link"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span>Pricing</span></a>
       <a class="side-item" href="#get" data-k="install download setup smartscreen dmg get"><i class="ic" style="--c:#0071e3"><svg class="ico"><use href="#i-download"/></svg></i><span>Get Oyenza Studio</span></a>
     </div>
     <p class="side-empty" id="sideEmpty" hidden>No feature by that name. Try "lyrics" or "files".</p>
@@ -703,6 +722,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <nav class="top-links" aria-label="Page">
     <a href="#top">Overview</a>
     <a href="#compare">Compare</a>
+    <a href="#pricing">Pricing</a>
     <a href="#get">Install</a>
     <a class="btn btn-sm top-dl" data-download="bar" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
   </nav>
@@ -1457,6 +1477,48 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <div class="spec"><b>240&nbsp;Hz</b><span class="t-small">In step with your screen, on Windows</span></div>
         <div class="spec"><b>MIT</b><span class="t-small">Free and open source</span></div>
       </div>
+    </div>
+  </section>
+
+  <section class="sec" id="pricing" aria-labelledby="pricing-title">
+    <div class="content head center rv">
+      <h2 class="t-l" id="pricing-title">Studio is free. Pro is on its way.</h2>
+      <p class="t-intro">Everything Studio does today stays free, with no account. <b>Pro brings your messages to the island,</b> for $2.99 a month or $12 a year.</p>
+    </div>
+    <div class="content price-cards">
+      <article class="price-card rv" aria-labelledby="price-free-title">
+        <h3 class="t-card" id="price-free-title">Free</h3>
+        <p class="price"><b>$0</b></p>
+        <p class="t-tile">Everything Studio does today, on Windows and Mac. <b>No account needed.</b> Free and open source.</p>
+        <ul class="price-list t-tile">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Music with synced lyrics, and Read along</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Focus, Tasks, the Shelf and Phone drop</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Today, System, Prayer times and Stocks</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>The Classic, Oyen, Glass and Pill looks</span></li>
+        </ul>
+        <a class="btn" href="#get">Download free</a>
+      </article>
+      <article class="price-card rv" aria-labelledby="price-pro-title">
+        <h3 class="t-card" id="price-pro-title">Pro <span class="soon">Coming soon</span></h3>
+        <p class="price"><b>$2.99</b><span class="t-small">a month</span></p>
+        <p class="t-small">Or $12 a year, which saves 67%.</p>
+        <div class="strip price-strip"><div class="sky-fill"></div><div class="isl">
+          <img class="look-classic" src="assets/shots/classic/message-notice.webp" alt="A WhatsApp message on the island: Mom, Dinner at 7 tonight?, with an Open button" width="387" height="53" loading="lazy">
+          <img class="look-oyen" src="assets/shots/oyen/message-notice.webp" alt="The same WhatsApp message in the Oyen theme" width="387" height="53" loading="lazy">
+        </div></div>
+        <ul class="price-list t-tile">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Your messages on the island:</b> WhatsApp, Telegram, and your phone's through Phone Link.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>You pick the apps,</b> and can keep who it's from or the message hidden until you press Show.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Your messages never leave your PC.</b></span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Up to 3 PCs</b> on one Oyenza account.</span></li>
+        </ul>
+        <p class="t-small">On Windows 10 and 11. Prices in US dollars, before tax.</p>
+      </article>
+    </div>
+    <div class="content facts price-facts">
+      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Try Pro for 7 days.</h3><p class="t-tile">Free, and no card. The 7 days start the first time you switch on Pro.</p></div>
+      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">No license key.</h3><p class="t-tile">Pro comes with your Oyenza account. Sign in with a code, like on a TV. Making an account is free.</p></div>
+      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Free stays free.</h3><p class="t-tile">If Pro ends, notifications switch off with one notice that says why. Everything else keeps working.</p></div>
     </div>
   </section>
 
