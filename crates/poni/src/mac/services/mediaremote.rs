@@ -11,7 +11,9 @@
 //! app's cache folder: a downloaded app's files are quarantined, and macOS
 //! stops a quarantined library that isn't notarized when another program
 //! (perl) loads it, while the files the app writes itself carry no
-//! quarantine.
+//! quarantine. The copy is the whole framework: its signature seals the
+//! framework's Info.plist and resources, and with a Developer ID macOS
+//! refuses the binary copied on its own ("code signature invalid").
 
 use std::io::{self, BufRead, BufReader, Read};
 use std::path::{Path, PathBuf};
@@ -43,15 +45,15 @@ impl Adapter {
     pub fn find() -> Option<Adapter> {
         let exe = std::env::current_exe().ok()?;
         let contents = exe.parent()?.parent()?;
-        let lib = contents.join("Frameworks").join(format!("{NAME}.framework")).join(NAME);
+        let bundled = contents.join("Frameworks").join(format!("{NAME}.framework"));
         let script = contents.join("Resources").join(SCRIPT);
-        if !lib.is_file() || !script.is_file() || !Path::new(PERL).is_file() {
+        if !bundled.join(NAME).is_file() || !script.is_file() || !Path::new(PERL).is_file() {
             return None;
         }
         let dir = crate::paths::cache_dir().join("mediaremote");
         let framework = dir.join(format!("{NAME}.framework"));
         let copy = dir.join(SCRIPT);
-        match write_if_changed(&lib, &framework.join(NAME)).and_then(|_| write_if_changed(&script, &copy)) {
+        match copy_framework(&bundled, &framework).and_then(|_| write_if_changed(&script, &copy)) {
             Ok(()) => Some(Adapter { script: copy, framework }),
             Err(e) => {
                 pwarn!("media: could not ready macOS's now playing reader ({e})");
@@ -144,4 +146,75 @@ fn write_if_changed(from: &Path, to: &Path) -> io::Result<()> {
     let part = to.with_extension("part");
     std::fs::write(&part, &want)?;
     std::fs::rename(&part, to)
+}
+
+/// Put the framework folder `from` at `to`, whole, unless the same files
+/// and links are there already (an earlier version's copy, the binary
+/// alone, is replaced). Files are written anew and links made anew, as
+/// in `write_if_changed`, so nothing in the copy carries a quarantine flag.
+fn copy_framework(from: &Path, to: &Path) -> io::Result<()> {
+    if same_tree(from, to) {
+        return Ok(());
+    }
+    let part = to.with_extension("part");
+    remove(&part)?;
+    copy_tree(from, &part)?;
+    remove(to)?;
+    std::fs::rename(&part, to)
+}
+
+/// Whether `b` holds what `a` holds: the same names, files with the same
+/// bytes, links to the same places.
+fn same_tree(a: &Path, b: &Path) -> bool {
+    let (Ok(ma), Ok(mb)) = (std::fs::symlink_metadata(a), std::fs::symlink_metadata(b)) else {
+        return false;
+    };
+    let (ka, kb) = (ma.file_type(), mb.file_type());
+    if ka.is_symlink() || kb.is_symlink() {
+        return ka.is_symlink() && kb.is_symlink() && std::fs::read_link(a).ok() == std::fs::read_link(b).ok();
+    }
+    if ka.is_dir() != kb.is_dir() {
+        return false;
+    }
+    if !ka.is_dir() {
+        return ma.len() == mb.len() && std::fs::read(a).ok() == std::fs::read(b).ok();
+    }
+    let names = |p: &Path| -> Option<Vec<std::ffi::OsString>> {
+        let mut v = std::fs::read_dir(p).ok()?.map(|e| e.map(|e| e.file_name())).collect::<io::Result<Vec<_>>>().ok()?;
+        v.sort();
+        Some(v)
+    };
+    match (names(a), names(b)) {
+        (Some(x), Some(y)) if x == y => x.iter().all(|n| same_tree(&a.join(n), &b.join(n))),
+        _ => false,
+    }
+}
+
+/// `from`'s folders, files and links, made anew under `to`.
+fn copy_tree(from: &Path, to: &Path) -> io::Result<()> {
+    std::fs::create_dir_all(to)?;
+    for entry in std::fs::read_dir(from)? {
+        let entry = entry?;
+        let (src, dst) = (entry.path(), to.join(entry.file_name()));
+        let kind = entry.file_type()?;
+        if kind.is_symlink() {
+            std::os::unix::fs::symlink(std::fs::read_link(&src)?, &dst)?;
+        } else if kind.is_dir() {
+            copy_tree(&src, &dst)?;
+        } else {
+            std::fs::write(&dst, std::fs::read(&src)?)?;
+        }
+    }
+    Ok(())
+}
+
+/// Whatever is at `p` gone: a folder, a file or a link (nothing there is
+/// fine).
+fn remove(p: &Path) -> io::Result<()> {
+    match std::fs::symlink_metadata(p) {
+        Ok(m) if m.is_dir() => std::fs::remove_dir_all(p),
+        Ok(_) => std::fs::remove_file(p),
+        Err(e) if e.kind() == io::ErrorKind::NotFound => Ok(()),
+        Err(e) => Err(e),
+    }
 }
