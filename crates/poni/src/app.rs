@@ -2284,7 +2284,7 @@ impl App {
             if self.st.rec_live() && self.st.record_on() {
                 self.st.page = PageKind::Record;
             } else if self.st.page == PageKind::Record && !self.st.record_on() {
-                self.st.page = PageKind::ALL[0];
+                self.st.page = pages::first_tab(&self.st);
             }
             if self.st.page == PageKind::Oyenza {
                 self.oyenza(OyenzaCmd::Refresh);
@@ -2328,7 +2328,7 @@ impl App {
             self.st.oyenza.scroll = 0.0;
             // Settings closes with the island: it opens again on the page it was opened from.
             if self.st.page == PageKind::Settings {
-                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
+                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or_else(|| pages::first_tab(&self.st));
             }
             self.st.update.sheet = false;
             self.st.update.said = None;

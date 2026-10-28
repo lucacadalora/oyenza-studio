@@ -201,16 +201,37 @@ impl PageKind {
     pub fn tabbed(self) -> bool {
         self != PageKind::Settings
     }
+
+    /// The island's own pages, which Settings can take off the row. AI and
+    /// Oyenza stay; the add-ons' pages come and go with their switches.
+    pub const HIDEABLE: [PageKind; 5] = [PageKind::Media, PageKind::Today, PageKind::Shelf, PageKind::Tasks, PageKind::Focus];
+
+    pub fn hideable(self) -> bool {
+        Self::HIDEABLE.contains(&self)
+    }
 }
 
 /// The tabs in the header: every page but Settings, and Health, IELTS, System,
 /// Script, Record, Prayer, Stocks and Notifications only while their add-ons
-/// are on. AI and Oyenza are always there (signed out, Oyenza is where to
-/// sign in). Add-ons is last, in both apps.
+/// are on. Music, Today, Shelf, Tasks and Focus unless Settings took them off
+/// the row; one of those still shows while its page is open (a file dropped
+/// on the island opens the Shelf). AI and Oyenza are always there (signed
+/// out, Oyenza is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
+    row(st, Some(st.page))
+}
+
+/// Where the island goes when its page leaves the row (an add-on switched
+/// off, a tab hidden): the first tab, Music unless it's hidden.
+pub fn first_tab(st: &AppState) -> PageKind {
+    // Never empty: AI, Oyenza and Add-ons always have tabs.
+    row(st, None)[0]
+}
+
+fn row(st: &AppState, open: Option<PageKind>) -> Vec<PageKind> {
     PageKind::ALL
         .into_iter()
-        .filter(|p| match p {
+        .filter(|&p| match p {
             PageKind::Health => st.health_on(),
             PageKind::Ielts => st.ielts_on(),
             PageKind::System => st.system_on(),
@@ -219,6 +240,7 @@ pub fn tabs(st: &AppState) -> Vec<PageKind> {
             PageKind::Stocks => st.stocks_on(),
             PageKind::Record => st.record_on(),
             PageKind::Notifications => st.notifications_on(),
+            p if p.hideable() => !st.tab_hidden(p) || open == Some(p),
             p => p.tabbed(),
         })
         .collect()
@@ -705,6 +727,35 @@ mod tests {
         assert_eq!(&tabs(&st)[6..], [Oyenza, Health, System, Script, Addons]);
         // Clipboard left the app: an island last open there opens on Music.
         assert_eq!(PageKind::from_key("clipboard"), Media);
+    }
+
+    #[test]
+    fn hidden_tabs_leave_the_row_but_not_while_their_page_is_open() {
+        use PageKind::*;
+        let mut st = state();
+        st.settings.hidden_tabs = vec!["today".into(), "tasks".into(), "oyenza".into(), "addons".into()];
+        st.page = Focus;
+        // AI, Oyenza and the "+" can't be hidden.
+        assert_eq!(tabs(&st), [Media, Shelf, Focus, Ai, Oyenza, Addons]);
+        assert_eq!(first_tab(&st), Media);
+        // Opened from elsewhere (a meeting's notice opens Today): its tab
+        // shows while it's open, and stepping on leaves it behind.
+        st.page = Today;
+        assert_eq!(tabs(&st), [Media, Today, Shelf, Focus, Ai, Oyenza, Addons]);
+        st.page = step_tab(Today, &st, true);
+        assert_eq!(st.page, Shelf);
+        assert!(!tabs(&st).contains(&Today));
+        // Every one of them hidden: the island opens on AI.
+        st.settings.hidden_tabs = PageKind::HIDEABLE.iter().map(|p| p.key().to_string()).collect();
+        st.page = Ai;
+        assert_eq!(tabs(&st), [Ai, Oyenza, Addons]);
+        assert_eq!(first_tab(&st), Ai);
+        // A start on a hidden page opens on the first tab instead.
+        let mut settings = poni_core::settings::Settings::default();
+        settings.start_page = "today".into();
+        settings.remember_page = false;
+        settings.hidden_tabs = vec!["media".into(), "today".into()];
+        assert_eq!(AppState::new(settings, Store::default()).page, Shelf);
     }
 
     #[test]

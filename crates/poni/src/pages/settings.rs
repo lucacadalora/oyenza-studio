@@ -4,7 +4,8 @@
 //! (the code itself shows on the Oyenza page), who is signed in, and
 //! Disconnect. Under a line, what the tray menu also changes: the theme and
 //! the idle look as pickers, four switches, and Hide or Stay on top in
-//! full-screen apps; and this copy's version.
+//! full-screen apps; this copy's version; and which of the island's own pages
+//! (Music, Today, Shelf, Tasks, Focus) have a tab.
 //! A change saves at once and applies the way the tray's does
 //! (`Command::SaveSettings`). New versions are always looked for; beside
 //! the version, Check now reads the update file at once and says what it
@@ -30,10 +31,11 @@ use poni_core::settings::{IdleStyle, Theme};
 use poni_core::update::Release;
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), then the switches and choices (three rows), and the new
-/// version's row while there is one. Shorter than the System page (256),
-/// so the window keeps its size.
-const HEIGHT: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
+/// narrow island), then the switches and choices (three rows), the tabs, and
+/// the new version's row while there is one. Shorter than the System page
+/// (256), so the window keeps its size.
+const TABS_Y: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
+const HEIGHT: f32 = TABS_Y + ROW_H;
 const HEIGHT_OFFER: f32 = HEIGHT + ROW_H;
 const ACCOUNT_H: f32 = 44.0;
 /// The Oyenza app's icon, and the text column right of it.
@@ -70,6 +72,12 @@ const SWITCH_H: f32 = 18.0;
 const KNOB_INSET: f32 = 2.0;
 /// Oyenza's colour, as on the Oyenza page.
 const OYENZA: Color = palette::ORANGE;
+/// The tabs row's chips, like the Record page's inputs.
+const CHIP_H: f32 = 24.0;
+const CHIP_PAD: f32 = 8.0;
+const CHIP_ICON: f32 = 14.0;
+const CHIP_ICON_GAP: f32 = 5.0;
+const CHIP_GAP: f32 = 6.0;
 
 // Glass: on Windows from a copy of the screen, on a Mac macOS's own glass.
 const THEMES: [(Theme, &str); 4] = [(Theme::Classic, "Classic"), (Theme::Oyen, "Oyen"), (Theme::Glass, "Glass"), (Theme::Pill, "Pill")];
@@ -227,8 +235,67 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
             }
         }
     }
+    draw_tabs(ui, st, Rect::new(area.x, area.y + TABS_Y, area.w, ROW_H));
     if let Some(rel) = st.update.offer.clone() {
         draw_offer(ui, st, Rect::new(area.x, area.y + HEIGHT, area.w, ROW_H), &rel);
+    }
+}
+
+/// "Tabs", then a chip for each of the island's own pages: on, its icon and
+/// name; off (no tab in the row), the icon struck through and dim, as the
+/// Record page marks an input that's off. A click flips it. Icons only
+/// where the names don't fit.
+fn draw_tabs(ui: &mut Ui, st: &mut AppState, r: Rect) {
+    let body = TextStyle::body();
+    let label_w = ui.c.measure("Tabs", &body, 200.0).0.ceil();
+    ui.c.text("Tabs", Rect::new(r.x, r.y, label_w + 1.0, r.h), &body);
+    let chip_st = TextStyle::footnote().weight(Weight::Semibold);
+    let pages = PageKind::HIDEABLE;
+    let gaps = CHIP_GAP * (pages.len() - 1) as f32;
+    let full: Vec<f32> =
+        pages.iter().map(|p| (CHIP_PAD + CHIP_ICON + CHIP_ICON_GAP + ui.c.measure(p.title(), &chip_st, 200.0).0 + CHIP_PAD).ceil()).collect();
+    let names = full.iter().sum::<f32>() + gaps <= r.w - label_w - 12.0;
+    let widths: Vec<f32> = if names { full } else { vec![CHIP_H + 8.0; pages.len()] };
+    let mut x = r.right() - widths.iter().sum::<f32>() - gaps;
+    let y = r.center().y - CHIP_H / 2.0;
+    let mut flip = None;
+    for (i, (&p, w)) in pages.iter().zip(widths).enumerate() {
+        let c = Rect::new(x, y, w, CHIP_H);
+        x += w + CHIP_GAP;
+        let on = !st.tab_hidden(p);
+        let resp = ui.button(wid_n("settings.tab", i as u64), c);
+        if resp.clicked {
+            flip = Some(p);
+        }
+        let fill = match (on, resp.pressed, resp.hovered) {
+            (_, true, _) => Color::white(0.22),
+            (true, _, true) => Color::white(0.20),
+            (true, _, false) => Color::white(0.16),
+            (false, _, true) => Color::white(0.12),
+            (false, _, false) => palette::SURFACE,
+        };
+        ui.c.fill_rrect(c, CHIP_H / 2.0, fill);
+        let color = if on { palette::TEXT } else { palette::TEXT_DIM };
+        let ix = if names { c.x + CHIP_PAD } else { c.center().x - CHIP_ICON / 2.0 };
+        let ir = Rect::new(ix, c.center().y - CHIP_ICON / 2.0, CHIP_ICON, CHIP_ICON);
+        ui.c.icon(p.icon(), ir, color);
+        if !on {
+            ui.c.line(Point::new(ir.x, ir.bottom()), Point::new(ir.right(), ir.y), color, 1.5);
+        }
+        if names {
+            let tx = ix + CHIP_ICON + CHIP_ICON_GAP;
+            ui.c.text(p.title(), Rect::new(tx, c.y, (c.right() - tx).max(0.0), c.h), &chip_st.color(color));
+        }
+    }
+    if let Some(p) = flip {
+        let hidden = &mut st.settings.hidden_tabs;
+        match hidden.iter().position(|k| k == p.key()) {
+            Some(i) => {
+                hidden.remove(i);
+            }
+            None => hidden.push(p.key().to_string()),
+        }
+        st.cmd(Command::SaveSettings);
     }
 }
 

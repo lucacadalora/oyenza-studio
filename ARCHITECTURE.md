@@ -130,6 +130,10 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   the tabs opens it, and pressing it again goes back. It changes what the tray menu
   changes: settings through `Command::SaveSettings` (applied as a tray change is),
   Start with Windows through `Command::SetAutostart` (read and set off the UI thread).
+  Its last row takes Music, Today, Shelf, Tasks or Focus off the tab row
+  (`settings.hidden_tabs`, `PageKind::HIDEABLE`): `pages::tabs` leaves them out
+  except while their page is open (a dropped file still opens the Shelf), and
+  `pages::first_tab` is where the island goes when its page leaves the row.
 * Add-ons (`pages/addons.rs`) is the last tab, a "+" (tiles with a plus): one row
   per add-on the app has (`pages::addons::OFFERED`: every one in
   `poni_core::addons::ALL` on Windows, Japanese readings on the Mac) with a switch. Switching one flips

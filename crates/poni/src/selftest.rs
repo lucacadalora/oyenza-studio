@@ -1088,6 +1088,9 @@ enum Scene {
     IeltsResult,
     /// IELTS: Windows' privacy switch keeps the microphone from desktop apps.
     IeltsMicDenied,
+    /// Settings with Today and Tasks taken off the tab row: their chips
+    /// struck through, the header's row without them.
+    SettingsTabs,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1135,7 +1138,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 121] = [
+const SCENES: [Scene; 122] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1291,6 +1294,8 @@ const SCENES: [Scene; 121] = [
     Scene::IeltsCueCard,
     Scene::IeltsResult,
     Scene::IeltsMicDenied,
+    // Settings' tabs row with two of the island's pages off the row.
+    Scene::SettingsTabs,
 ];
 
 impl Scene {
@@ -1330,6 +1335,7 @@ impl Scene {
             Scene::SystemBattery => "page-system-battery".into(),
             Scene::SystemWaiting => "page-system-waiting".into(),
             Scene::SettingsStayOnTop => "page-settings-stay-on-top".into(),
+            Scene::SettingsTabs => "page-settings-tabs".into(),
             Scene::ShelfPairing => "page-shelf-pairing".into(),
             Scene::ShelfPaired => "page-shelf-paired".into(),
             Scene::ShelfPairedPhones => "page-shelf-paired-phones".into(),
@@ -1413,6 +1419,7 @@ impl Scene {
             | Scene::SettingsSigningIn
             | Scene::SettingsSignedIn
             | Scene::SettingsStayOnTop
+            | Scene::SettingsTabs
             | Scene::SettingsAsideStay
             | Scene::SettingsUpdate
             | Scene::UpdateSheet
@@ -2544,6 +2551,8 @@ impl SelfTest {
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
+        // Every tab in the row, except in the scene that hides two.
+        st.settings.hidden_tabs = if scene == Scene::SettingsTabs { vec!["today".into(), "tasks".into()] } else { Vec::new() };
         // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
         // A later version offered, only where Settings shows it. A copy from
