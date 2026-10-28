@@ -55,8 +55,9 @@
     <Capability Name="internetClient" />
     <!-- Phone drop: a page on the home network for the user's own phone, while its panel is open. -->
     <Capability Name="privateNetworkClientServer" />
-    <!-- The Notifications add-on (off by default): other apps' notifications on the island,
-         read on the PC and never sent anywhere. Windows asks the person before it allows it. -->
+    <!-- Notifications (on by default in this copy, off under Tabs in Settings): other apps'
+         notifications on the island, read on the PC and never sent anywhere. Windows asks the
+         person before it allows it. -->
     <uap3:Capability Name="userNotificationListener" />
     <!-- A desktop app: runs outside the app sandbox, like the installer build. -->
     <rescap:Capability Name="runFullTrust" />

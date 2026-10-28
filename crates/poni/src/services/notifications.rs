@@ -1,15 +1,17 @@
-//! Other apps' notifications for the Notifications add-on, through Windows'
+//! Other apps' notifications for Notifications, through Windows'
 //! notification listener (`Windows.UI.Notifications.Management`).
 //!
 //! Windows lets only an app with a package identity listen (the capability
-//! is in installer/msix/AppxManifest.xml), so the download from GitHub says
-//! so and does nothing more. In the Store copy, switching the add-on on asks
-//! Windows once (its question needs the UI thread); once it's allowed, the
+//! is in installer/msix/AppxManifest.xml), so the download from GitHub
+//! offers no Notifications (`AppState::notify_can`). In the Store copy it's
+//! on by default: the page's Allow, or switching it back on in Settings'
+//! tabs row, asks Windows once (its question needs the UI thread); once
+//! it's allowed, the
 //! listener's NotificationChanged event brings each new notification on a
 //! thread of Windows' own, and its app and words go to the UI thread as
 //! `AppEvent::Notify`. Every answer from Windows reaches the UI thread as
-//! `NotifyEvent::Access`, which the app hands back to [`Listener::follow`]. Nothing polls and no thread of ours waits, so the
-//! add-on costs nothing at rest; nothing is written down
+//! `NotifyEvent::Access`, which the app hands back to [`Listener::follow`]. Nothing polls and no thread of ours waits, so it
+//! costs nothing at rest; nothing is written down
 //! (`poni_core::notifications` decides what the notice says).
 
 use crate::events::{AppEvent, EventSink};
@@ -32,7 +34,7 @@ pub enum NotifyEvent {
     Seen(Seen),
 }
 
-/// The listener while the add-on is on (None in the download: no package).
+/// The listener while Notifications is on (None without a package).
 pub struct Listener {
     listener: UserNotificationListener,
     token: Option<EventRegistrationToken>,
@@ -41,8 +43,8 @@ pub struct Listener {
 
 impl Listener {
     /// Look at what Windows allows and listen if it lets us; `ask`: the
-    /// person just switched the add-on on, so Windows' question comes now
-    /// (at a start with the add-on on, the page offers Allow instead).
+    /// person just switched Notifications on, so Windows' question comes now
+    /// (at a start with it on, the page offers Allow instead).
     /// None, with the reason sent, when this copy can't listen at all.
     pub fn start(sink: EventSink, ask: bool) -> Option<Self> {
         if !crate::autostart::packaged() {
@@ -182,7 +184,7 @@ impl Listener {
         }
     }
 
-    /// Stop hearing them (the add-on off, or Windows no longer allows it).
+    /// Stop hearing them (Notifications off, or Windows no longer allows it).
     pub fn stop(&mut self) {
         if let Some(token) = self.token.take() {
             if let Err(e) = self.listener.RemoveNotificationChanged(token) {
@@ -236,7 +238,7 @@ fn read(n: &UserNotification) -> Result<Seen> {
 /// Err when a packaged copy can't reach the listener.
 pub fn describe() -> std::result::Result<String, String> {
     if !crate::autostart::packaged() {
-        return Ok("installer build: no package identity, so the add-on says it needs the Store copy".into());
+        return Ok("installer build: no package identity, so it offers no Notifications".into());
     }
     let status = UserNotificationListener::Current().and_then(|l| l.GetAccessStatus()).map_err(|e| format!("packaged: listener unavailable: {e}"))?;
     Ok(format!("packaged: Windows says {:?}", access_of(status, false)))

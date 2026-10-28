@@ -211,9 +211,11 @@ impl PageKind {
         self != PageKind::Settings
     }
 
-    /// The island's own pages, which Settings can take off the row. AI and
-    /// Oyenza stay; the add-ons' pages come and go with their switches.
-    pub const HIDEABLE: [PageKind; 5] = [PageKind::Media, PageKind::Today, PageKind::Shelf, PageKind::Tasks, PageKind::Focus];
+    /// The island's own pages, which Settings can take off the row, and
+    /// Notifications, which goes off with its tab (it's offered only where
+    /// the copy can read notifications). AI and Oyenza stay; the add-ons'
+    /// pages come and go with their switches.
+    pub const HIDEABLE: [PageKind; 6] = [PageKind::Media, PageKind::Today, PageKind::Shelf, PageKind::Tasks, PageKind::Focus, PageKind::Notifications];
 
     pub fn hideable(self) -> bool {
         Self::HIDEABLE.contains(&self)
@@ -221,10 +223,11 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, and Health, IELTS, Notes,
-/// System, Script, Record, Prayer, Stocks and Notifications only while their
-/// add-ons are on. Music, Today, Shelf, Tasks and Focus unless Settings took
-/// them off the row; one of those still shows while its page is open (a file
-/// dropped on the island opens the Shelf). AI and Oyenza are always there
+/// System, Script, Record, Prayer and Stocks only while their add-ons are on.
+/// Music, Today, Shelf, Tasks and Focus unless Settings took them off the
+/// row; one of those still shows while its page is open (a file dropped on
+/// the island opens the Shelf). Notifications wherever the copy can read
+/// them, unless Settings switched it off. AI and Oyenza are always there
 /// (signed out, Oyenza is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     row(st, Some(st.page))
@@ -834,7 +837,6 @@ mod tests {
             (PageKind::System, poni_core::addons::SYSTEM),
             (PageKind::Health, poni_core::addons::HEALTH),
             (PageKind::Stocks, poni_core::addons::STOCKS),
-            (PageKind::Notifications, poni_core::addons::NOTIFICATIONS),
         ] {
             let mut st = state();
             assert!(!tabs(&st).contains(&page), "{} is off for everyone until switched on", addon.id);
@@ -848,6 +850,22 @@ mod tests {
             settings.set_addon(addon.id, true);
             assert_eq!(AppState::new(settings, store).page, page);
         }
+    }
+
+    #[test]
+    fn notifications_is_on_wherever_the_copy_can_read_them_until_switched_off() {
+        // The download can't read other apps' notifications: no tab, nothing listens.
+        let mut st = state();
+        assert!(!st.notifications_on() && !tabs(&st).contains(&PageKind::Notifications));
+        // The Store copy: on for everyone, without an add-on to switch on.
+        st.notify_can = true;
+        assert!(st.notifications_on() && tabs(&st).contains(&PageKind::Notifications));
+        // Its chip in Settings' tabs row switches it off, tab and all, even
+        // while its page is open.
+        st.settings.hidden_tabs = vec!["notifications".into()];
+        st.page = PageKind::Notifications;
+        assert!(!st.notifications_on() && !tabs(&st).contains(&PageKind::Notifications));
+        assert_eq!(first_tab(&st), PageKind::Media);
     }
 
     #[test]

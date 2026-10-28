@@ -244,13 +244,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
 /// "Tabs", then a chip for each of the island's own pages: on, its icon and
 /// name; off (no tab in the row), the icon struck through and dim, as the
 /// Record page marks an input that's off. A click flips it. Icons only
-/// where the names don't fit.
+/// where the names don't fit. Notifications' chip shows only where the copy
+/// can read them, and switches the whole of it off, not just its tab.
 fn draw_tabs(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let body = TextStyle::body();
     let label_w = ui.c.measure("Tabs", &body, 200.0).0.ceil();
     ui.c.text("Tabs", Rect::new(r.x, r.y, label_w + 1.0, r.h), &body);
     let chip_st = TextStyle::footnote().weight(Weight::Semibold);
-    let pages = PageKind::HIDEABLE;
+    let pages: Vec<PageKind> = PageKind::HIDEABLE.into_iter().filter(|&p| p != PageKind::Notifications || st.notify_can).collect();
     let gaps = CHIP_GAP * (pages.len() - 1) as f32;
     let full: Vec<f32> =
         pages.iter().map(|p| (CHIP_PAD + CHIP_ICON + CHIP_ICON_GAP + ui.c.measure(p.title(), &chip_st, 200.0).0 + CHIP_PAD).ceil()).collect();

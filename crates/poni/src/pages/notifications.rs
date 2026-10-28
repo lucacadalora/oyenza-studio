@@ -1,10 +1,10 @@
-//! Notifications page, the bell tab while the Notifications add-on is on
-//! (Windows): other apps' notifications on the island
+//! Notifications page, the bell tab while Notifications is on (Windows'
+//! Store copy, on by default): other apps' notifications on the island
 //! (`poni_core::notifications`, read by `services::notifications`).
 //!
 //! First a bell and what Windows allows, with Allow while Windows hasn't
 //! been asked and Windows settings once it said no there. Under a line, two
-//! columns: the apps that have sent a notification since the add-on came on,
+//! columns: the apps that have sent a notification since it came on,
 //! each with a switch (WhatsApp, Telegram and Phone Link start on), and what
 //! the island shows of a message: who it's from, and the message itself
 //! (either off, it waits for Show). A change saves at once
@@ -74,7 +74,7 @@ fn access_look(access: NotifyAccess) -> (&'static str, Vec<Button>) {
         NotifyAccess::Unanswered => ("Windows got no answer. Ask again, or turn it on in Windows' settings.", vec![("Ask again", NotifyCmd::Ask, true), SETTINGS]),
         NotifyAccess::Denied => ("Turned off for Oyenza Studio in Windows' settings.", vec![SETTINGS]),
         NotifyAccess::Allowed => ("On. New ones from the apps you pick show on the island.", vec![]),
-        NotifyAccess::Failed => ("Windows didn't let the island listen. Switch the add-on off and on to try again.", vec![]),
+        NotifyAccess::Failed => ("Windows didn't let the island listen. Switch it off and on in Settings.", vec![]),
     }
 }
 

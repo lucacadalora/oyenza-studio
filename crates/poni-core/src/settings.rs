@@ -48,7 +48,7 @@ pub enum MonitorChoice {
 }
 
 /// Bumped when defaults change in a way existing files should pick up.
-pub const SETTINGS_VERSION: u32 = 4;
+pub const SETTINGS_VERSION: u32 = 5;
 
 fn version_zero() -> u32 {
     0
@@ -94,8 +94,9 @@ pub struct Settings {
     /// Remember the last page instead of `start_page`.
     pub remember_page: bool,
     /// Tabs taken off the header's row in Settings, by page key: Music,
-    /// Today, Shelf, Tasks and Focus can go. Keys this version doesn't know
-    /// are kept, so a newer Studio's choices survive a save.
+    /// Today, Shelf, Tasks and Focus can go, and Notifications, which is off
+    /// while its key is here. Keys this version doesn't know are kept, so a
+    /// newer Studio's choices survive a save.
     pub hidden_tabs: Vec<String>,
     pub pomodoro: PomodoroConfig,
     /// Oyenza (once signed in): show sums and senders on the island straight
@@ -321,6 +322,13 @@ impl Settings {
         if self.settings_version < 4 && self.start_page == "clipboard" {
             self.start_page = "media".into();
         }
+        // v5: Notifications left the add-ons (it's on wherever Windows lets the
+        // copy read notifications, and its chip in Settings' tabs row switches
+        // it off). One switched off by hand as an add-on stays off, as a hidden
+        // tab; the add-on's key goes.
+        if self.settings_version < 5 && self.addons.remove("notifications") == Some(false) && !self.hidden_tabs.iter().any(|k| k == "notifications") {
+            self.hidden_tabs.push("notifications".into());
+        }
         self.settings_version = self.settings_version.max(SETTINGS_VERSION);
         // Step aside is no longer offered: the island stays over maximized windows.
         self.step_aside = false;
@@ -535,6 +543,23 @@ mod tests {
         // A newer Studio's service stays hidden when this one saves the file.
         let back: Settings = serde_json::from_str(&serde_json::to_string(&s).unwrap()).unwrap();
         assert_eq!(back.usage.hidden, ["codex", "future"]);
+    }
+
+    #[test]
+    fn notifications_switched_off_as_an_add_on_stays_off() {
+        // Until 0.2.16 Notifications was an add-on, off by default. One switched
+        // off by hand stays off, as a hidden tab, and the add-on's key goes.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":4,"addons":{"notifications":false,"sholat":true}}"#).unwrap().sanitized();
+        assert_eq!(s.hidden_tabs, ["notifications"]);
+        assert!(!s.addons.contains_key("notifications") && s.addon_on("sholat"));
+        // Switched on, or never touched: on, like everyone's now.
+        for file in [r#"{"settings_version":4,"addons":{"notifications":true}}"#, r#"{"settings_version":4}"#] {
+            let s = serde_json::from_str::<Settings>(file).unwrap().sanitized();
+            assert!(s.hidden_tabs.is_empty() && !s.addons.contains_key("notifications"), "{file}");
+        }
+        // Once only: after that, the tabs row is its switch.
+        let s = serde_json::from_str::<Settings>(r#"{"settings_version":5,"addons":{"notifications":false}}"#).unwrap().sanitized();
+        assert!(s.hidden_tabs.is_empty());
     }
 
     #[test]
