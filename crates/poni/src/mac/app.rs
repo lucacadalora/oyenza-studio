@@ -2484,7 +2484,7 @@ impl App {
                 Command::Usage(c) => self.usage_cmd(c),
                 // The IELTS coach's microphone and voice come to the Mac with
                 // branch ielts-coach-mac; until then its page says so.
-                Command::Ielts(_) => {}
+                Command::Ielts(_) | Command::Notes(_) => {}
             }
         }
         self.sync_phone_offer();

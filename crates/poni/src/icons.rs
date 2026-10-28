@@ -103,6 +103,8 @@ pub enum Icon {
     Mic,
     /// The Notifications tab: a bell.
     Bell,
+    /// The Notes tab (Meeting notes): a page with a sound wave over two lines of text.
+    Notes,
     /// Another app's message in a notice: a speech bubble.
     Message,
     /// The AI tab: a spark with a small one beside it.
@@ -348,6 +350,15 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Stocks => p![s("M3.5 17.5l5.5-5.5 4 4 7.5-7.5"), s("M15 8.5h5.5V14")],
         Search => p![s("M4.5 10.5a6 6 0 1 0 12 0a6 6 0 1 0-12 0"), s("M15 15l4.5 4.5")],
         Bell => p![s("M6 11a6 6 0 0 1 12 0v4.2l1.6 2.3H4.4L6 15.2z"), s("M10 20.3a2.2 2.2 0 0 0 4 0")],
+        Notes => p![
+            s("M6.5 3h11A1.5 1.5 0 0 1 19 4.5v15a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19.5v-15A1.5 1.5 0 0 1 6.5 3z"),
+            s("M8.5 8v1.5"),
+            s("M10.75 6.5v4.5"),
+            s("M13 7.25v3"),
+            s("M15.25 8v1.5"),
+            s("M8.5 14.5h7"),
+            s("M8.5 17.5h4.5"),
+        ],
         Message => p![s("M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z")],
         // Four tips joined by sides bowed in toward the middle, drawn from a tip
         // so the closing join is a corner; the small spark is solid.
@@ -473,7 +484,7 @@ mod tests {
         Icon::Unlink, Icon::Gear,
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
         Icon::Stocks, Icon::Search,
-        Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic, Icon::Bell, Icon::Message,
+        Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic, Icon::Bell, Icon::Notes, Icon::Message,
         Icon::Ai, Icon::OpenAi, Icon::Claude, Icon::OpenCode, Icon::Gemini, Icon::Cursor, Icon::Copilot, Icon::Kimi, Icon::Zai,
         Icon::MiniMax, Icon::OpenRouter, Icon::Oyenza,
         Icon::Lock,

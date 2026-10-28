@@ -196,4 +196,9 @@ pub enum AppEvent {
     VoiceEnded,
     /// The microphone stopped mid-answer (`services::mic`): why, for the log.
     MicFailed(String),
+    /// The meeting being handed over, as it goes (`services::notes`).
+    Notes(Box<poni_core::notes::Reply>),
+    /// The meeting's recording stopped by itself: the longest meeting taken,
+    /// or the disk wouldn't take more (`services::notes`).
+    NotesStopped(poni_core::notes::CaptureIssue),
 }

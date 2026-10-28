@@ -366,6 +366,12 @@ pub struct PageUiState {
     pub stocks: crate::pages::stocks::StocksUi,
     /// The AI tab's own state while it shows (`pages::usage`).
     pub usage: crate::pages::usage::UsageUi,
+    /// The Notes page: when the last notes were saved (Oyen's tick), a short
+    /// line beside them until a time ("Copied"), and whether a recording is
+    /// kept on this PC for Try again.
+    pub notes_saved_at: f64,
+    pub notes_note: Option<(String, f64)>,
+    pub notes_kept: bool,
 }
 
 /// Whether Windows lets Oyenza Studio read a game's frames. Its event tracing
@@ -821,6 +827,8 @@ pub struct AppState {
     pub usage: UsageState,
     /// The IELTS page's session with Oyen (the IELTS add-on).
     pub ielts: poni_core::ielts::Coach,
+    /// The Notes page's meeting (the Meeting notes add-on).
+    pub notes: poni_core::notes::Taker,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
 }
@@ -899,6 +907,7 @@ impl AppState {
             notify_access: NotifyAccess::Unknown,
             usage: UsageState::default(),
             ielts: Default::default(),
+            notes: Default::default(),
             cmds: Vec::new(),
         };
         // A list from a hand-edited file keeps to codes, each once, ten at most.
@@ -909,8 +918,8 @@ impl AppState {
             let on = st.settings.addon_on(a.id);
             st.addons.insert(a.id, if !on { AddonStatus::Off } else if a.downloads() { AddonStatus::Checking } else { AddonStatus::Ready });
         }
-        // Last open on the Script, System, Health, Stocks or IELTS page, since
-        // switched off: open where a new island does.
+        // Last open on the Script, System, Health, Stocks, IELTS or Notes
+        // page, since switched off: open where a new island does.
         let off = match st.page {
             PageKind::Script => !st.script_on(),
             PageKind::System => !st.system_on(),
@@ -919,6 +928,7 @@ impl AppState {
             PageKind::Record => !st.record_on(),
             PageKind::Notifications => !st.notifications_on(),
             PageKind::Ielts => !st.ielts_on(),
+            PageKind::Notes => !st.notes_on(),
             _ => false,
         };
         if off {
@@ -995,6 +1005,11 @@ impl AppState {
     /// The IELTS add-on is on: the IELTS tab shows.
     pub fn ielts_on(&self) -> bool {
         self.addon(poni_core::addons::IELTS.id) == AddonStatus::Ready
+    }
+
+    /// The Meeting notes add-on is on (Windows): the Notes tab shows.
+    pub fn notes_on(&self) -> bool {
+        cfg!(windows) && self.addon(poni_core::addons::MEETING_NOTES.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.

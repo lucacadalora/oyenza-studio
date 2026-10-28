@@ -371,6 +371,16 @@ pub struct App {
     ielts_shown: bool,
     /// An IELTS session held the island open at the last tick.
     ielts_held: bool,
+    /// The Notes page's meeting while it is recorded (only then).
+    notes_rec: Option<services::notes::Recording>,
+    /// The meeting's audio once stopped, kept until its notes are saved (or
+    /// it is thrown away), for Try again.
+    notes_take: Option<services::notes::Take>,
+    /// When the meeting being taken down began (local time, for its notes).
+    notes_started: poni_core::datetime::LocalDateTime,
+    /// The self-test's own notes server and key, in place of api.oyenza.app
+    /// and this PC's sign-in.
+    pub(crate) notes_api: Option<(String, String)>,
     /// The self-test runs (for the whole run: `selftest` itself is taken out
     /// while a step runs), and its IELTS turn is under way.
     in_selftest: bool,
@@ -621,6 +631,10 @@ impl App {
             ielts_music: false,
             ielts_shown: false,
             ielts_held: false,
+            notes_rec: None,
+            notes_take: None,
+            notes_started: Default::default(),
+            notes_api: None,
             in_selftest: selftest.is_some(),
             ielts_turn: false,
             glass_moving: false,
@@ -1839,6 +1853,11 @@ impl App {
         if before.addon_on(ielts_id) && !self.st.settings.addon_on(ielts_id) {
             self.ielts_off();
         }
+        // Meeting notes off: a recording stops and its audio goes.
+        let notes_id = poni_core::addons::MEETING_NOTES.id;
+        if before.addon_on(notes_id) && !self.st.settings.addon_on(notes_id) {
+            self.notes_off();
+        }
         // Health on or off: the Oyenza worker asks for the steps only while
         // it's on, and off forgets the ones it had.
         let health_id = poni_core::addons::HEALTH.id;
@@ -2226,6 +2245,11 @@ impl App {
                 self.ielts_do(fx);
             }
             AppEvent::VoiceEnded => {}
+            AppEvent::Notes(reply) => self.notes_reply(*reply),
+            AppEvent::NotesStopped(issue) => {
+                pwarn!("notes: the recording stopped by itself ({issue:?})");
+                self.notes_stop();
+            }
             AppEvent::MicFailed(why) => {
                 pwarn!("ielts: the microphone failed ({why})");
                 let issue = self.ielts.mic_failed();
@@ -3060,6 +3084,7 @@ impl App {
         }
         self.prayer_tick();
         self.ielts_tick();
+        self.notes_tick();
         self.script_tick();
         // Prayer times, System, Health, Stocks or IELTS switched off: its tab is gone.
         let gone = match self.st.page {
@@ -3069,6 +3094,7 @@ impl App {
             PageKind::Stocks => !self.st.stocks_on(),
             PageKind::Notifications => !self.st.notifications_on(),
             PageKind::Ielts => !self.st.ielts_on(),
+            PageKind::Notes => !self.st.notes_on(),
             _ => false,
         };
         if gone {
@@ -4029,6 +4055,143 @@ impl App {
         self.ielts_shown = false;
     }
 
+    // ------------------------------------------------------------ Meeting notes
+
+    /// Each frame while a meeting is recorded: how loud each source is, for
+    /// Oyen's head and the page's bars.
+    fn notes_tick(&mut self) {
+        if let Some(r) = &self.notes_rec {
+            (self.st.notes.mic, self.st.notes.pc) = r.levels();
+        }
+    }
+
+    /// A press on the Notes page.
+    fn notes_cmd(&mut self, c: crate::commands::NotesCmd) {
+        use crate::commands::NotesCmd;
+        let now = self.st.now;
+        match c {
+            NotesCmd::Start => self.notes_start(),
+            NotesCmd::Stop => self.notes_stop(),
+            NotesCmd::Retry => self.notes_send(),
+            NotesCmd::Discard => {
+                self.notes_take = None;
+                self.st.ui.notes_kept = false;
+                services::notes::clear_audio(None);
+                self.st.notes.reset();
+                pinfo!("notes: the kept recording was thrown away");
+            }
+            NotesCmd::Done => self.st.notes.reset(),
+            NotesCmd::Open => {
+                if let Some(last) = &self.st.notes.last {
+                    crate::shell::open(&last.file);
+                }
+            }
+            NotesCmd::Folder => {
+                let dir = crate::paths::notes_dir();
+                let _ = std::fs::create_dir_all(&dir);
+                crate::shell::open(&dir.to_string_lossy());
+            }
+            NotesCmd::Copy => {
+                if let Some(last) = &self.st.notes.last {
+                    let md = poni_core::notes::markdown(&last.notes, &last.started, false);
+                    services::clipboard::set_text(self.hwnd, &md);
+                    self.st.ui.notes_note = Some(("Copied".into(), now + 2.0));
+                }
+            }
+        }
+    }
+
+    /// Take notes: the microphone and the PC's sound start recording.
+    fn notes_start(&mut self) {
+        if self.notes_rec.is_some() || self.st.notes.live() || self.notes_take.is_some() {
+            return;
+        }
+        // Whatever an earlier meeting left (the app closed on it) goes first.
+        services::notes::clear_audio(None);
+        let now = self.st.now;
+        match services::notes::Recording::start(&crate::paths::notes_audio_dir(), &self.sink) {
+            Ok((rec, mic, pc)) => {
+                pinfo!("notes: listening (microphone {}, the PC's sound {})", if mic { "on" } else { "off" }, if pc { "on" } else { "off" });
+                self.notes_started = self.st.local;
+                self.st.notes.started(now, mic, pc);
+                self.notes_rec = Some(rec);
+            }
+            Err(issue) => {
+                pwarn!("notes: no recording ({issue:?})");
+                self.st.ui.notes_kept = false;
+                self.st.notes.failed(poni_core::notes::Problem::Capture(issue));
+            }
+        }
+    }
+
+    /// Stop: the meeting is over, its notes get written.
+    fn notes_stop(&mut self) {
+        use poni_core::notes::{CaptureIssue, Problem};
+        let Some(rec) = self.notes_rec.take() else { return };
+        match rec.stop() {
+            Ok(take) if take.secs >= 1.0 && !take.parts.is_empty() => {
+                self.notes_take = Some(take);
+                self.st.ui.notes_kept = true;
+                self.notes_send();
+            }
+            Ok(take) => {
+                let _ = std::fs::remove_dir_all(&take.dir);
+                self.st.ui.notes_kept = false;
+                self.st.notes.failed(Problem::NothingHeard);
+            }
+            Err(issue) => {
+                self.st.ui.notes_kept = false;
+                self.st.notes.failed(Problem::Capture(if issue == CaptureIssue::MicDenied { issue } else { CaptureIssue::Failed }));
+            }
+        }
+    }
+
+    /// Hand the kept meeting over (again, for Try again).
+    fn notes_send(&mut self) {
+        let Some(take) = self.notes_take.clone() else { return };
+        self.st.notes.stopped(take.parts.len() as u32, take.secs);
+        let job = services::notes::Job { take, started: self.notes_started, lang: poni_core::notes::Lang::Auto, api: self.notes_api.clone(), out: crate::paths::notes_dir() };
+        services::notes::send(job, &self.sink);
+    }
+
+    /// The meeting on its way: how far, the notes saved, or what went wrong.
+    /// With the island closed, the end of it shows as a notice.
+    fn notes_reply(&mut self, r: poni_core::notes::Reply) {
+        use poni_core::notes::Reply;
+        if !self.st.notes_on() {
+            return;
+        }
+        let now = self.st.now;
+        let end = match &r {
+            Reply::Saved(s) => Some(("Your notes are ready".to_string(), s.notes.title.clone(), true)),
+            Reply::Failed(p) => Some((p.title().to_string(), "Open Notes to try again".to_string(), false)),
+            _ => None,
+        };
+        let saved = matches!(r, Reply::Saved(_));
+        self.st.notes.reply(r, now);
+        if saved {
+            self.notes_take = None;
+            self.st.ui.notes_kept = false;
+            self.st.ui.notes_saved_at = now;
+        }
+        if let Some((title, subtitle, good)) = end {
+            if !(self.expanded && self.st.page == PageKind::Notes) {
+                let color = if good { crate::oyen::ORANGE } else { palette::TEXT_DIM };
+                self.st.notify(Icon::Notes, color, title, subtitle, 8.0, Some(crate::state::NoticeAction::OpenPage(PageKind::Notes)));
+            }
+        }
+    }
+
+    /// The add-on switched off: a recording stops, its audio goes, and the
+    /// page forgets the meeting.
+    fn notes_off(&mut self) {
+        drop(self.notes_rec.take());
+        self.notes_take = None;
+        services::notes::clear_audio(None);
+        self.st.notes = Default::default();
+        self.st.ui.notes_kept = false;
+    }
+
     fn adzan_ended(&mut self) {
         self.adzan.stop();
         self.st.prayer.adzan = false;
@@ -4178,6 +4341,7 @@ impl App {
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::Usage(c) => self.usage_cmd(c),
                 Command::Ielts(c) => self.ielts_cmd(c),
+                Command::Notes(c) => self.notes_cmd(c),
                 // The self-test's pictures use the files it seeds (none from the website).
                 Command::GetCities(file) => {
                     if self.selftest.is_none() {

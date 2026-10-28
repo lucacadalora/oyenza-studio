@@ -207,8 +207,23 @@ pub const IELTS: Addon = Addon {
     files: &[],
 };
 
+/// Meeting notes (Windows): the Notes page (`crate::notes`). One click and
+/// Oyen listens to the microphone and the PC's own sound (a call in Meet,
+/// Zoom, Teams), then the Oyenza account writes the notes. Its code is in the
+/// app, so there is nothing to download. Off, there is no Notes tab and
+/// nothing of it runs: no recording, no calls. The Mac doesn't list it yet:
+/// its recording of the Mac's own sound is still to come.
+pub const MEETING_NOTES: Addon = Addon {
+    id: "notes",
+    title: "Meeting notes",
+    blurb: "One click and Oyen listens to your meeting, Meet, Zoom or Teams, and writes the notes.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+};
+
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 9] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &SCREEN_RECORDER];
+pub const ALL: [&Addon; 10] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -313,7 +328,7 @@ mod tests {
 
     #[test]
     fn built_in_add_ons_are_off_until_switched_on() {
-        for a in [&SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS] {
+        for a in [&SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES] {
             assert!(!a.downloads() && a.size() == 0, "{}", a.id);
             assert_eq!(Addon::find(a.id), Some(a));
             assert_eq!(Status::Ready.line(a, false), "On");

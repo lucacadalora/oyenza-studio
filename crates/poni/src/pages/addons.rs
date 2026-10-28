@@ -61,13 +61,15 @@ pub fn height(st: &AppState) -> f32 {
 /// The page's rows: every add-on offered, Screen recorder only once Oyenza
 /// Studio Recorder is installed and has spoken to the island
 /// (`AppState::recorder_ready`), Notifications only on Windows (a Mac has
-/// no way to read other apps' notifications).
+/// no way to read other apps' notifications), Meeting notes only on Windows
+/// (the Mac's own sound isn't recorded yet).
 fn rows(st: &AppState) -> Vec<&'static Addon> {
     OFFERED
         .iter()
         .copied()
         .filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready())
         .filter(|a| a.id != addons::NOTIFICATIONS.id || cfg!(windows))
+        .filter(|a| a.id != addons::MEETING_NOTES.id || cfg!(windows))
         .collect()
 }
 
@@ -101,6 +103,7 @@ fn icon(a: &Addon) -> Icon {
         "notifications" => Icon::Bell,
         "recorder" => Icon::Recorder,
         "ielts" => Icon::Mic,
+        "notes" => Icon::Notes,
         _ => Icon::Addons,
     }
 }
