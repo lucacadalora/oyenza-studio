@@ -1,5 +1,7 @@
 //! Downloads page (the Downloader add-on, `poni_core::addons::DOWNLOADER`):
-//! a link field with Paste, Video or Sound, and Download; under it the
+//! a link field with Paste, Video or Sound, and Download, the app's message
+//! under it for a few seconds ([`note`]), and a link copied before the page
+//! came up waiting above the list (`downloads_offer`). The list: the
 //! downloads, newest first, each with its site's letter, title, the line
 //! under it (`poni_core::downloads::line`), a bar while it comes in, and
 //! Stop, or Open, Show in folder and remove; a finished file also drags out
@@ -18,10 +20,16 @@ use poni_core::ytdlp::Mode;
 
 /// The page's height: the window never grows for it.
 const HEIGHT: f32 = 256.0;
+/// A message from the app ("Copy a link first") shows this long.
+const NOTE_S: f64 = 4.0;
 /// The link row (a field as tall as Tasks' and Stocks'); the list, or the
 /// empty page, starts under it.
 const FIELD_H: f32 = 34.0;
 const LIST_TOP: f32 = 44.0;
+/// A message's line under the field (the list moves down for it), and the
+/// field's text column it starts in (`Ui::text_input_row`'s).
+const NOTE_H: f32 = 18.0;
+const FIELD_TEXT_X: f32 = 36.0;
 /// The longest link the field takes.
 const LINK_MAX: usize = 2048;
 /// Video or Sound: the Settings picker, as tall as on Prayer and System.
@@ -54,6 +62,14 @@ pub struct DownloadsUi {
     /// The list's scroll: where the wheel sent it, and where it shows on its way.
     pub scroll: f32,
     shown_scroll: f32,
+    /// A link copied before the page came up, waiting above the list until
+    /// it is downloaded or dismissed (`downloads_offer`; Windows only).
+    pub offer: Option<String>,
+    /// The clipboard's link the last time the page came up: each link is
+    /// offered once, so a dismissed one doesn't come back.
+    pub offered: String,
+    /// A message under the link field until a time (mono seconds).
+    pub note: Option<(&'static str, f64)>,
     /// When the page last drew (mono seconds): the glide's step.
     drawn: f64,
     /// A finished file is being dragged out (once per press).
@@ -64,28 +80,48 @@ pub fn height(_st: &AppState) -> f32 {
     HEIGHT
 }
 
+/// Show a short message under the link field.
+pub fn note(st: &mut AppState, text: &'static str) {
+    st.ui.downloads.note = Some((text, st.now + NOTE_S));
+}
+
+/// When the message ends (the app's wake timer takes it away).
+pub fn next_wake(st: &AppState) -> Option<f64> {
+    st.ui.downloads.note.map(|(_, until)| until).filter(|&until| until > st.now)
+}
+
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let area = Rect::new(area.x, area.y, area.w, area.h.min(HEIGHT));
     if !ui.input.down {
         st.ui.downloads.dragging = false;
     }
-    link_row(ui, st, Rect::new(area.x, area.y, area.w, FIELD_H));
-    // A link offered from the clipboard comes between the field and the list.
-    let top = area.y + LIST_TOP + offer(ui, st, offer_rect(area));
-    let rest = Rect::new(area.x, top, area.w, (area.bottom() - top).max(0.0));
+    let field = link_row(ui, st, Rect::new(area.x, area.y, area.w, FIELD_H));
+    // A message from the app ("Copy a link first") under the field while it
+    // lasts ([`next_wake`] brings the frame that takes it away).
+    let mut top = area.y + LIST_TOP;
+    if let Some((text, _)) = st.ui.downloads.note.filter(|&(_, until)| until > st.now) {
+        let x = field.x + FIELD_TEXT_X;
+        ui.c.text(text, Rect::new(x, top - 4.0, (field.right() - x).max(0.0), 16.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+        top += NOTE_H;
+    }
+    let list_r = Rect::new(area.x, top, area.w, (area.bottom() - top).max(0.0));
+    // A link copied before the page came up waits above the list.
+    let used = super::downloads_offer::draw(ui, st, list_r);
+    let list_r = Rect::new(list_r.x, list_r.y + used, list_r.w, (list_r.h - used).max(0.0));
     if st.downloads.list.is_empty() {
         let s = &mut st.ui.downloads;
         s.scroll = 0.0;
         s.shown_scroll = 0.0;
-        super::empty_state(ui, rest, Icon::Download, "Paste a link to save its video or sound.", "yt-dlp does the work; files go to your Downloads folder.");
+        super::empty_state(ui, list_r, Icon::Download, "Paste a link to save its video or sound.", "yt-dlp does the work; files go to your Downloads folder.");
     } else {
-        list(ui, st, rest);
+        list(ui, st, list_r);
     }
 }
 
 /// The link field, then Paste, Video or Sound, and Download, which waits for
-/// a link (`downloads::link_in`); Enter in the field downloads too.
-fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
+/// a link (`downloads::link_in`); Enter in the field downloads too. Returns
+/// the field's rect.
+fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) -> Rect {
     let accent = st.accent;
     let y = r.center().y - PILL_SMALL / 2.0;
     let modes = ["Video", "Sound"];
@@ -113,32 +149,15 @@ fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
     if ui.pill(wid("downloads.paste"), paste, "Paste", Some(Icon::Clipboard), PillStyle::Utility).clicked {
         st.cmd(Command::Download(DownloadCmd::PasteLink));
     }
+    // The new row comes in at the top of the list. The app empties the field
+    // once it takes the download (a link already downloading stays, with a
+    // note saying so).
     if let Some(url) = url.filter(|_| go_clicked || typed.submitted) {
-        st.ui.downloads.link.clear();
-        ui.input.caret = 0;
-        start(st, url);
+        let mode = st.ui.downloads.mode;
+        st.ui.downloads.scroll = 0.0;
+        st.cmd(Command::Download(DownloadCmd::Start { url, mode }));
     }
-}
-
-/// Download `url` as the mode picked; its row comes in at the top of the list.
-fn start(st: &mut AppState, url: String) {
-    let mode = st.ui.downloads.mode;
-    st.ui.downloads.scroll = 0.0;
-    st.cmd(Command::Download(DownloadCmd::Start { url, mode }));
-}
-
-/// Under the link row, the page's width: where a link copied elsewhere is
-/// offered (the `linkbox` lane draws it in [`offer`]).
-pub fn offer_rect(area: Rect) -> Rect {
-    Rect::new(area.x, area.y + LIST_TOP, area.w, PILL_SMALL)
-}
-
-/// The clipboard's link offered in `r` ([`offer_rect`]); returns the room it
-/// takes, its gap to the list included (0 while none is offered). Nothing
-/// offers one yet.
-fn offer(ui: &mut Ui, st: &mut AppState, r: Rect) -> f32 {
-    let _ = (ui, st, r);
-    0.0
+    field
 }
 
 /// The downloads, newest first, scrolling under the wheel (they glide there,
@@ -308,15 +327,18 @@ fn draw_row(ui: &mut Ui, job: &Job, r: Rect, view: Rect, accent: Color, dragging
 /// link's until yt-dlp has said.
 fn badge_letter(job: &Job) -> Option<String> {
     let site = job.site.as_deref().map(str::trim).filter(|s| !s.is_empty());
-    site.unwrap_or_else(|| host(&job.url)).chars().next().map(|c| c.to_uppercase().collect())
+    site.unwrap_or_else(|| host(&job.url)).chars().find(|c| c.is_alphanumeric()).map(|c| c.to_uppercase().collect())
 }
 
-/// A link as its row shows it until the title comes: without "https://".
+/// A link as its row shows it until the title comes: without "https://" or
+/// a user name and password (never shown, as on the copied link's chip).
 fn link_text(url: &str) -> &str {
-    url.split_once("://").map_or(url, |(_, rest)| rest)
+    let rest = url.split_once("://").map_or(url, |(_, r)| r);
+    let end = rest.find(['/', '?', '#']).unwrap_or(rest.len());
+    rest[..end].rfind('@').map_or(rest, |at| &rest[at + 1..])
 }
 
-/// The link's site ("video.blender.org"), without "www.".
+/// The link's site ("video.blender.org"), without "www." or the port.
 fn host(url: &str) -> &str {
     let h = link_text(url).split(['/', '?', '#', ':']).next().unwrap_or("");
     h.strip_prefix("www.").unwrap_or(h)
@@ -356,7 +378,7 @@ mod tests {
         for live in [State::Queued, State::Starting, downloading, State::Finishing(Stage::Merging)] {
             assert_eq!(row_acts(&live), [RowAct::Stop], "{live:?}");
         }
-        let done = State::Done { path: "C:\\Users\\a\\Downloads\\Flickermood.m4a".into(), size: 3_900_000 };
+        let done = State::Done { path: "C:\\Users\\a\\Downloads\\Big Buck Bunny.mp4".into(), size: 4_200_000 };
         assert_eq!(row_acts(&done), [RowAct::Open, RowAct::Reveal, RowAct::Remove]);
         assert_eq!(row_acts(&State::Failed("This video is private.".into())), [RowAct::Remove]);
         assert_eq!(row_acts(&State::Stopped), [RowAct::Remove]);
@@ -365,10 +387,12 @@ mod tests {
     #[test]
     fn the_badge_has_the_site_s_letter_or_the_link_s() {
         let letter = |url, site| badge_letter(&job(url, site));
-        assert_eq!(letter("https://soundcloud.com/forss/flickermood", Some("soundcloud")).as_deref(), Some("S"));
+        assert_eq!(letter("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605", Some("PeerTube")).as_deref(), Some("P"));
         assert_eq!(letter("https://www.youtube.com/watch?v=x", None).as_deref(), Some("Y"), "until yt-dlp names the site");
         assert_eq!(letter("http://video.blender.org:443/w/b29", Some(" ")).as_deref(), Some("V"));
         assert_eq!(link_text("https://archive.org/details/BigBuckBunny_124"), "archive.org/details/BigBuckBunny_124");
+        assert_eq!(link_text("https://me:secret@archive.org/details/x@y"), "archive.org/details/x@y", "never a password");
+        assert_eq!(letter("https://me:secret@www.archive.org", None).as_deref(), Some("A"));
     }
 
     #[test]

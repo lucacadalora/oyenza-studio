@@ -1708,6 +1708,11 @@ impl App {
         if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
             self.locate();
         }
+        // The Downloader: off stops its downloads before its tools are deleted.
+        let downloader_id = poni_core::addons::DOWNLOADER.id;
+        if before.addon_on(downloader_id) && !self.st.settings.addon_on(downloader_id) {
+            self.downloads_off();
+        }
         // An add-on switched on downloads its files; off deletes them.
         for a in poni_core::addons::ALL {
             let on = self.st.settings.addon_on(a.id);
@@ -2908,12 +2913,13 @@ impl App {
         }
         self.prayer_tick();
         self.script_tick();
-        // Prayer times, System, Health or Stocks switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Downloads => !self.st.downloader_on(),
             _ => false,
         };
         if gone {
@@ -2990,6 +2996,9 @@ impl App {
             }
             self.mode = target;
             retarget = true;
+            if target == Mode::Expanded(PageKind::Downloads) {
+                self.downloads_page_shown();
+            }
         } else {
             // Size can change within a mode (a page's height, the hover lift); follow it.
             let g = self.geom_for(&self.mode);
