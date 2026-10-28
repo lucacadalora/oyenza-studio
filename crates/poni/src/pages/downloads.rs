@@ -163,7 +163,8 @@ fn link_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
 /// finished, failed or stopped.
 fn list(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let accent = st.accent;
-    let jobs = &st.downloads.list;
+    let downloads = &st.downloads;
+    let jobs = &downloads.list;
     let s = &mut st.ui.downloads;
     let finished = jobs.iter().any(|j| !j.state.live());
     let foot = Rect::new(r.x, r.bottom() - PILL_SMALL, r.w, PILL_SMALL);
@@ -192,7 +193,8 @@ fn list(ui: &mut Ui, st: &mut AppState, r: Rect) {
     for (i, job) in jobs.iter().enumerate() {
         let row = Rect::new(view.x, view.y + i as f32 * ROW_H - scroll, view.w, ROW_H);
         if row.bottom() > view.y && row.y < view.bottom() {
-            draw_row(ui, job, row, view, accent, &mut s.dragging, &mut cmds);
+            let v = RowView { job, bar: downloads.progress(job.id), accent };
+            draw_row(ui, v, row, view, &mut s.dragging, &mut cmds);
         }
     }
     if scroll > 0.5 {
@@ -246,11 +248,20 @@ fn row_acts(state: &State) -> &'static [RowAct] {
     }
 }
 
+/// What one row shows.
+struct RowView<'a> {
+    job: &'a Job,
+    /// How far it has come, all its parts together (`Jobs::progress`).
+    bar: Option<f32>,
+    accent: Color,
+}
+
 /// One download: its site's letter on a badge, its title over its line
-/// (orange once it failed) with a bar while the bytes come in, and its
-/// buttons on the right. Buttons the list's edges (`view`) cut into don't
-/// show: none takes a click outside the list.
-fn draw_row(ui: &mut Ui, job: &Job, r: Rect, view: Rect, accent: Color, dragging: &mut bool, cmds: &mut Vec<Command>) {
+/// (orange once it failed) with a bar while the bytes come in and while
+/// they're joined, and its buttons on the right. Buttons the list's edges
+/// (`view`) cut into don't show: none takes a click outside the list.
+fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, cmds: &mut Vec<Command>) {
+    let RowView { job, bar, accent } = v;
     let cy = r.center().y;
     let c = Point::new(r.x + BADGE / 2.0, cy);
     ui.c.fill_circle(c, BADGE / 2.0, accent.with_alpha(0.18));
@@ -316,8 +327,8 @@ fn draw_row(ui: &mut Ui, job: &Job, r: Rect, view: Rect, accent: Color, dragging
     ui.c.text(title, Rect::new(x, r.y + 3.0, w, 20.0), &TextStyle::headline());
     let line_color = if matches!(job.state, State::Failed(_)) { palette::ORANGE } else { palette::TEXT_DIM };
     ui.c.text(&downloads::line(job), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
-    if let State::Downloading { done, total, .. } = job.state {
-        ui.progress_bar(wid_n("downloads.bar", job.id), Rect::new(x, r.y + 40.0, w, BAR_H), fraction(done, total), accent, false);
+    if let Some(p) = bar {
+        ui.progress_bar(wid_n("downloads.bar", job.id), Rect::new(x, r.y + 40.0, w, BAR_H), p, accent, false);
     }
 }
 
@@ -340,11 +351,6 @@ fn link_text(url: &str) -> &str {
 fn host(url: &str) -> &str {
     let h = link_text(url).split(['/', '?', '#', ':']).next().unwrap_or("");
     h.strip_prefix("www.").unwrap_or(h)
-}
-
-/// How much of the part being fetched is in (0 while its size isn't known).
-fn fraction(done: u64, total: Option<u64>) -> f32 {
-    total.filter(|t| *t > 0).map_or(0.0, |t| (done as f64 / t as f64).clamp(0.0, 1.0) as f32)
 }
 
 /// A Small capsule drawn inert (Focus's and Record's look at the small
@@ -391,14 +397,6 @@ mod tests {
         assert_eq!(link_text("https://archive.org/details/BigBuckBunny_124"), "archive.org/details/BigBuckBunny_124");
         assert_eq!(link_text("https://me:secret@archive.org/details/x@y"), "archive.org/details/x@y", "never a password");
         assert_eq!(letter("https://me:secret@www.archive.org", None).as_deref(), Some("A"));
-    }
-
-    #[test]
-    fn the_bar_follows_the_bytes() {
-        assert_eq!(fraction(0, None), 0.0);
-        assert_eq!(fraction(5, Some(0)), 0.0);
-        assert_eq!(fraction(25, Some(100)), 0.25);
-        assert_eq!(fraction(120, Some(100)), 1.0);
     }
 
     #[test]
