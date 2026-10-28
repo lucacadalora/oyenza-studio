@@ -2990,6 +2990,9 @@ impl App {
             }
             self.mode = target;
             retarget = true;
+            if target == Mode::Expanded(PageKind::Downloads) {
+                self.downloads_page_shown();
+            }
         } else {
             // Size can change within a mode (a page's height, the hover lift); follow it.
             let g = self.geom_for(&self.mode);

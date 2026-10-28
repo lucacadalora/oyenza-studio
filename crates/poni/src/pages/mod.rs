@@ -12,6 +12,7 @@
 pub mod addons;
 pub mod card;
 pub mod downloads;
+pub mod downloads_offer;
 pub mod focus;
 pub mod health;
 pub mod media;
