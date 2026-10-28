@@ -16,7 +16,7 @@ use poni_core::oyenza::{Activity, Bill, DayPick, Saved, Seen};
 use poni_core::phonedrop::QrMatrix;
 use poni_core::pomodoro::Pomodoro;
 use poni_core::recorder::Phase as RecPhase;
-use poni_core::prayer::{Place, PlaceList, Site, World};
+use poni_core::prayer::{Place, PlaceList, PrayerMoment, Site, World};
 use poni_core::romanize::Ruby;
 use poni_core::settings::Settings;
 use poni_core::store::Store;
@@ -552,6 +552,10 @@ pub struct PrayerState {
     pub handled_until: Option<i64>,
     /// The adzan is playing.
     pub adzan: bool,
+    /// OK on the countdown put it away until this prayer's time (UTC
+    /// seconds): the closed island shows what it would otherwise (the song
+    /// and its sung line) until then. Kept in memory only.
+    pub countdown_ok: Option<i64>,
     /// Self-test only: moves the prayer clock by this many seconds.
     pub clock_shift: i64,
 }
@@ -810,6 +814,17 @@ impl AppState {
     /// The prayer clock, UTC seconds (the self-test moves it).
     pub fn prayer_now(&self) -> i64 {
         self.unix + self.prayer.clock_shift
+    }
+
+    /// OK on the countdown before a prayer: it goes away until that prayer's
+    /// time (`activities::prayer_countdown`). The adzan still comes then,
+    /// since what rings follows the prayer clock, not the countdown. Returns
+    /// the prayer put away (none when no countdown runs).
+    pub fn prayer_countdown_ok(&mut self) -> Option<PrayerMoment> {
+        let site = self.prayer.site()?;
+        let (m, _) = poni_core::prayer::countdown(&site, self.prayer_now(), self.settings.prayer.remind_before_min)?;
+        self.prayer.countdown_ok = Some(m.at);
+        Some(m)
     }
 
     /// New steps from the phone (`None`: none to show), kept in memory only,

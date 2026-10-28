@@ -739,6 +739,9 @@ impl App {
                 } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
                     // pointer so the pill can be clicked.
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
+                    // So does the prayer countdown under a pointer resting on
+                    // its OK (resting on the rest of it still opens).
                 } else {
                     self.expand();
                 }
@@ -1688,6 +1691,17 @@ impl App {
         }
     }
 
+    /// OK on the countdown before a prayer: the closed island goes back to
+    /// what it would show (the song and its sung line) until the prayer's
+    /// time. Its moment still comes then: `prayer_tick` doesn't look at the
+    /// countdown.
+    fn prayer_countdown_ok(&mut self) {
+        self.refresh_time();
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+            pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
+        }
+    }
+
     fn adzan_ended(&mut self) {
         self.adzan.stop();
         self.st.prayer.adzan = false;
@@ -1999,6 +2013,10 @@ impl App {
                         // The notice's inline pill acts in place without expanding.
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
+                    } else if self.input.pressed_id == Some(wid(activities::PRAYER_OK_ID)) {
+                        // The prayer countdown's OK, the same way.
+                        self.input.pressed_id = None;
+                        self.prayer_countdown_ok();
                     } else {
                         // Clicking a notice jumps to its page (a new version's
                         // may be waiting under a volume change or a game's readout).
@@ -3424,6 +3442,16 @@ impl App {
                 self.st.cmds.push(Command::SaveSettings);
             }
             "prayer-page" => self.st.cmds.push(Command::SetPage(PageKind::Prayer)),
+            // 5 minutes before Ashar on the prayer clock, then the countdown's
+            // OK (what a click on it does). The next step's adzan still comes.
+            "prayer-ok" => {
+                let unix = clock::unix_now();
+                if let Some(ashar) = self.st.prayer.site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| t.ashar)) {
+                    self.st.prayer.clock_shift = ashar - 5 * 60 - unix;
+                    self.st.prayer.handled_until = Some(ashar - 5 * 60);
+                }
+                self.prayer_countdown_ok();
+            }
             // Ashar comes 2 seconds from now on the prayer clock, with the adzan chosen.
             "prayer-adzan" => {
                 self.st.settings.prayer.sound = PrayerSound::Adzan;
@@ -3996,6 +4024,12 @@ impl App {
                 let ok = self.st.page == PageKind::Prayer && tabs.contains(&PageKind::Prayer) && next.is_some();
                 Some(("prayer-page", ok, format!("{} tabs; next: {}", tabs.len(), next.unwrap_or_else(|| "none".into()))))
             }
+            "prayer-ok" => {
+                let running = self.st.prayer.site().and_then(|s| poni_core::prayer::countdown(&s, self.st.prayer_now(), self.st.settings.prayer.remind_before_min));
+                let shown = activities::prayer_countdown(&self.st);
+                let ok = running.is_some() && shown.is_none() && self.st.prayer.countdown_ok == running.map(|(m, _)| m.at);
+                Some(("prayer-ok", ok, format!("countdown {:?}, on the island: {shown:?}", running.map(|(m, left)| (m.prayer, left)))))
+            }
             "prayer-adzan" => {
                 let playing = self.adzan.is_playing();
                 let notice = self.st.notice.as_ref().map(|n| format!("{} / {}", n.title, n.subtitle)).unwrap_or_default();
@@ -4370,6 +4404,7 @@ const SMOKE_STEPS: [&str; 62] = [
     "ja-off",
     "prayer-get",
     "prayer-page",
+    "prayer-ok",
     "prayer-adzan",
     "prayer-stop",
     "prayer-locate",

@@ -737,7 +737,7 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
 fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
     let on = matches!(
         scene,
-        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld
+        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld | Scene::PrayerOk
     );
     if !on {
         st.prayer = PrayerState::default();
@@ -982,6 +982,9 @@ enum Scene {
     /// The Add-ons page with the recorder installed: Screen recorder's row
     /// (seven rows with Stocks, packed closer, the window no taller).
     AddonsRecorder,
+    /// Prayer times: the countdown 8 minutes before Ashar over a song with
+    /// synced lyrics, its OK pressed (`Phase::PressOk`): the song's line again.
+    PrayerOk,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1014,7 +1017,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 98] = [
+const SCENES: [Scene; 99] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1135,6 +1138,8 @@ const SCENES: [Scene; 98] = [
     Scene::RecordActivity,
     Scene::RecordPaused,
     Scene::AddonsRecorder,
+    // The prayer countdown's OK, pressed: the closed island sings again.
+    Scene::PrayerOk,
 ];
 
 impl Scene {
@@ -1227,6 +1232,7 @@ impl Scene {
             Scene::RecordActivity => "record-activity".into(),
             Scene::RecordPaused => "record-paused-activity".into(),
             Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::PrayerOk => "prayer-countdown-ok".into(),
         }
     }
 
@@ -1328,7 +1334,7 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk) || self.expanded()
     }
 
     /// A maximized window is under the island.
@@ -1444,6 +1450,9 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
+    /// Scene `i` shows the prayer countdown; once it rests with its OK
+    /// drawn, press OK (`Scene::PrayerOk`).
+    PressOk { i: usize, since: f64 },
     Finish { since: f64 },
     Done(i32),
 }
@@ -1830,6 +1839,26 @@ impl SelfTest {
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
+            Phase::PressOk { i, since } => {
+                // The countdown first, as a person sees it, then a real press
+                // on its OK: the island stays closed and the countdown goes.
+                self.apply(app, SCENES[i]);
+                let at = app.selftest_hit_center(wid(crate::activities::PRAYER_OK_ID)).filter(|_| app.selftest_settled());
+                if at.is_some() || now - since > self.settle_limit(app) {
+                    let (opened, said) = match at {
+                        Some(p) => {
+                            crate::pinfo!("selftest: pressing the prayer countdown's OK at ({:.0}, {:.0}) DIP", p.x, p.y);
+                            let opened = app.selftest_press(p);
+                            (opened, format!("pressed at ({:.0}, {:.0}) DIP, the island {}", p.x, p.y, if opened { "opened" } else { "stayed closed" }))
+                        }
+                        None => (false, "no OK on the closed island".to_string()),
+                    };
+                    let away = crate::activities::prayer_countdown(&app.st).is_none();
+                    let ok = at.is_some() && !opened && away;
+                    self.checks.push(check("prayer-ok", ok, format!("{said}; the countdown {}", if away { "put away" } else { "still there" })));
+                    self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
             Phase::Finish { since } => {
                 let all_done = self.writes.iter().all(|(_, h)| h.is_finished());
                 let deadline = if self.anim || self.media_loop || self.scroll_hz.is_some() { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
@@ -1847,6 +1876,7 @@ impl SelfTest {
     fn next_phase(&self, i: usize, now: f64) -> Phase {
         match SCENES.get(i) {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
+            Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             None if self.anim => Phase::Anim { seq: 0 },
             None if self.media_loop => Phase::Loop,
@@ -2073,7 +2103,7 @@ impl SelfTest {
         }
 
         if scene.media_playing() {
-            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric) { self.lyric_pos } else { TRACK_POS_S };
+            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric | Scene::PrayerOk) { self.lyric_pos } else { TRACK_POS_S };
             let timeline = Timeline::new(pos, TRACK_LEN_S, now, true);
             match st.media.as_mut() {
                 Some(m) if m.track_key == self.track_key => m.timeline = timeline,
@@ -2419,6 +2449,13 @@ impl SelfTest {
             checks.push(check("page", page == want, format!("showing '{}', expected '{}'", page.key(), want.key())));
         }
         if scene == Scene::MediaLyric {
+            checks.push(lyric_line_check(&app.st));
+        }
+        if scene == Scene::PrayerOk {
+            // After OK: the song and its sung line until Ashar, as before the countdown.
+            let (mode, _) = app.selftest_mode();
+            let want = Mode::Activity(crate::activities::Activity::Media);
+            checks.push(check("prayer-ok-song", mode == want, format!("{mode:?}, want {want:?}")));
             checks.push(lyric_line_check(&app.st));
         }
         if matches!(scene, Scene::AsidePeek | Scene::AsideHud) {
