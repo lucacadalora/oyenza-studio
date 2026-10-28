@@ -31,11 +31,16 @@ impl HealthSource {
     }
 }
 
-/// Numbers the phone read longer ago than this are old: Oyenza sends them only
-/// while it's open on the phone, so the page asks the person to open it.
-pub const STALE_AFTER_S: i64 = 24 * 3600;
+/// Numbers the phone read longer ago than this are old, and the page asks the
+/// person to open Oyenza on the phone. Oyenza also sends with the app closed
+/// (on an iPhone when Apple Health wakes it for new steps, about once an hour
+/// at most; on Android every 15 minutes or so), but not always: an iPhone that
+/// was locked, an Oyenza that iOS closed, an older Oyenza. Two hours is past
+/// a missed wake or two, so a reading that has fallen behind says so while
+/// the day is still going, not only the next day.
+pub const STALE_AFTER_S: i64 = 2 * 3600;
 
-/// The phone read the numbers more than a day before `now` (unix seconds).
+/// The phone read the numbers more than two hours before `now` (unix seconds).
 pub fn is_stale(updated_at: i64, now: i64) -> bool {
     now.saturating_sub(updated_at) > STALE_AFTER_S
 }
@@ -189,9 +194,11 @@ mod tests {
     }
 
     #[test]
-    fn stale_after_a_day() {
+    fn stale_after_two_hours() {
         let now = 1_793_000_000;
         assert!(!is_stale(now - 8 * 60, now));
+        assert!(!is_stale(now - 3600, now));
+        assert!(is_stale(now - 3 * 3600, now));
         assert!(!is_stale(now - STALE_AFTER_S, now));
         assert!(is_stale(now - STALE_AFTER_S - 1, now));
         assert!(is_stale(now - 3 * 86_400, now));
