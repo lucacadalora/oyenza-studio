@@ -1602,6 +1602,23 @@ impl Scene {
         matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity)
     }
 
+    /// Signed in to an account with Studio Pro: the Downloader's and
+    /// Notifications' own scenes, which only Pro shows.
+    fn pro(self) -> bool {
+        matches!(
+            self,
+            Scene::Page(PageKind::Downloads)
+                | Scene::DownloadsEmpty
+                | Scene::AddonsDownloader
+                | Scene::DownloadActivity
+                | Scene::MessageNotice
+                | Scene::MessageHidden
+                | Scene::Page(PageKind::Notifications)
+                | Scene::NotifyAsk
+                | Scene::NotifyNoPackage
+        )
+    }
+
     /// Oyenza Studio Recorder is installed (Record by the Script page's Paste,
     /// the Record tab, Screen recorder's row).
     fn recorder(self) -> bool {
@@ -3071,6 +3088,10 @@ impl SelfTest {
         seed_notifications(st, scene);
         seed_ielts(st, scene, now);
         seed_notes(st, scene, now);
+        if scene.pro() {
+            st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+            st.oyenza.pro = Some(true);
+        }
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
