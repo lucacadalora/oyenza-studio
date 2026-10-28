@@ -19,7 +19,7 @@
 //! line each: the name, then the line after it.
 
 use crate::commands::Command;
-use crate::gfx::{ts, TextStyle};
+use crate::gfx::TextStyle;
 use crate::icons::Icon;
 use crate::state::AppState;
 use crate::ui::{wid_n, Ui};
@@ -36,12 +36,6 @@ const ROW_H: f32 = 45.0;
 const MAX_H: f32 = 256.0;
 const BADGE: f32 = 36.0;
 const BADGE_COMPACT: f32 = 30.0;
-/// Rows shorter than this (eight make 28 DIPs) have no room for the title
-/// over its line: the line goes beside the title, by a smaller badge still.
-const TWO_LINES_H: f32 = 32.0;
-const BADGE_TIGHT: f32 = 24.0;
-/// Between a one-line row's title and its line.
-const LINE_GAP: f32 = 8.0;
 const TEXT_X: f32 = 48.0;
 /// A row's hover wash reaches this far past its contents (as in Settings).
 const ROW_BLEED: f32 = 8.0;
@@ -83,17 +77,6 @@ fn rows(st: &AppState) -> Vec<&'static Addon> {
 
 fn row_h(n: usize) -> f32 {
     ((MAX_H - ROWS_Y) / n.max(1) as f32).floor().min(ROW_H)
-}
-
-/// The badge in rows `h` tall: smaller as they pack closer.
-fn badge(h: f32) -> f32 {
-    if h >= ROW_H {
-        BADGE
-    } else if h >= TWO_LINES_H {
-        BADGE_COMPACT
-    } else {
-        BADGE_TIGHT
-    }
 }
 
 /// Where `a` stands: Screen recorder follows the recorder's install
@@ -225,19 +208,15 @@ mod tests {
     use poni_core::store::Store;
 
     #[test]
-    fn eight_rows_fit_the_page_with_their_text_on_one_line() {
+    fn every_row_offered_fits_the_page() {
         let mut st = AppState::new(Settings::default(), Store::default());
-        assert_eq!(rows(&st).len(), 6, "neither Screen recorder nor the Downloader");
-        // Oyenza Studio Recorder installed and the Downloader offered: all eight.
+        let without = rows(&st).len();
+        // Oyenza Studio Recorder installed and the Downloader offered: two more.
         st.recorder = true;
         st.store.recorder_island = true;
         st.downloader_offered = true;
-        assert_eq!(rows(&st).len(), 8);
+        assert_eq!(rows(&st).len(), without + 2);
         assert!(height(&st) <= MAX_H, "the window never grows for this page");
-        for n in 5..=8 {
-            let h = row_h(n);
-            assert!(badge(h) + 2.0 <= h, "{n} rows, {h} DIPs: the badges keep apart");
-            assert_eq!(h >= TWO_LINES_H, n <= 7, "{n} rows, {h} DIPs: the title over its line up to seven");
-        }
+        assert!(row_h(rows(&st).len()) < TWO_LINES, "that many rows are a line each");
     }
 }

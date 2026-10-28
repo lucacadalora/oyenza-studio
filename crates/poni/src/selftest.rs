@@ -1503,7 +1503,6 @@ impl Scene {
             Scene::RecordLive => Some(PageKind::Record),
             Scene::AddonsRecorder | Scene::AddonsDownloader => Some(PageKind::Addons),
             Scene::DownloadsEmpty => Some(PageKind::Downloads),
-            Scene::AddonsRecorder => Some(PageKind::Addons),
             Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
             Scene::Ai(_) => Some(PageKind::Ai),
             Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
