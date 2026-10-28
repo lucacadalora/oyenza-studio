@@ -362,6 +362,12 @@ pub enum Coach {
     Proud { since: f64 },
     /// Something went wrong: he droops from `since`, and stays down.
     Sorry { since: f64 },
+    /// Writing (the Notes page, while a meeting's notes are made): eyes down,
+    /// following a pencil along the line, line after line.
+    Write,
+    /// The notes are saved: the ear flips up like a page corner and a tick
+    /// draws itself from `since`, then rest.
+    Logged { since: f64 },
 }
 
 /// Syllables a second while Oyen talks, a phrase's length, and how much of
@@ -373,6 +379,8 @@ const PHRASE_ON: f64 = 0.8;
 const LISTEN_LIFT: f64 = 3.0;
 /// How long he's happy about a good band.
 const PROUD_S: f64 = 2.4;
+/// One line of writing, while a meeting's notes are made.
+const WRITE_LINE_S: f64 = 1.6;
 
 /// Oyen on the IELTS page: his whole head `w` DIPs wide, head and ears
 /// centred on `center`. Returns whether he moves by himself (the page keeps
@@ -394,6 +402,14 @@ pub fn coach(c: &mut Canvas, center: Point, w: f32, now: f64, what: Coach) -> bo
             let t = (now - since).max(0.0);
             (oyen::frame(Mood::Sad, t, Input::default(), eyes), t < Mood::Sad.loop_secs())
         }
+        Coach::Write => {
+            // Across the line in 1.6 s, then back to the next one.
+            let line = (now / WRITE_LINE_S).fract();
+            let pencil = Input { pencil: 2.0 * line - 1.0, ..Input::default() };
+            (oyen::frame(Mood::Nulis, now.rem_euclid(Mood::Nulis.loop_secs()), pencil, eyes), true)
+        }
+        Coach::Logged { since } if now - since < Mood::Tercatat.loop_secs() => (oyen::frame(Mood::Tercatat, (now - since).max(0.0), Input::default(), eyes), true),
+        Coach::Logged { .. } => rest_eyes(now, false, None, eyes),
     };
     let k = w / MARK_W;
     draw(c, &frame, Point::new(center.x, center.y + 12.0 * k), k);

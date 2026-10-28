@@ -17,7 +17,7 @@
 //! line each: the name, then the line after it.
 
 use crate::commands::Command;
-use crate::gfx::TextStyle;
+use crate::gfx::{TextStyle, Weight};
 use crate::icons::Icon;
 use crate::state::AppState;
 use crate::ui::{wid_n, Ui};
@@ -61,13 +61,15 @@ pub fn height(st: &AppState) -> f32 {
 /// The page's rows: every add-on offered, Screen recorder only once Oyenza
 /// Studio Recorder is installed and has spoken to the island
 /// (`AppState::recorder_ready`), Notifications only on Windows (a Mac has
-/// no way to read other apps' notifications).
+/// no way to read other apps' notifications), Meeting notes only on Windows
+/// (the Mac's own sound isn't recorded yet).
 fn rows(st: &AppState) -> Vec<&'static Addon> {
     OFFERED
         .iter()
         .copied()
         .filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready())
         .filter(|a| a.id != addons::NOTIFICATIONS.id || cfg!(windows))
+        .filter(|a| a.id != addons::MEETING_NOTES.id || cfg!(windows))
         .collect()
 }
 
@@ -101,6 +103,7 @@ fn icon(a: &Addon) -> Icon {
         "notifications" => Icon::Bell,
         "recorder" => Icon::Recorder,
         "ielts" => Icon::Mic,
+        "notes" => Icon::Notes,
         _ => Icon::Addons,
     }
 }
@@ -151,8 +154,8 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     // The size, while there is a choice to make.
     let mut text_right = sw.x - 16.0;
     if status == Status::Off {
-        let size = if a.downloads() { fmt_bytes(a.size()) } else { "Built in".to_string() };
-        let style = TextStyle::footnote().color(palette::TEXT_DIM).right();
+        let size = if a.pro { "Pro".to_string() } else if a.downloads() { fmt_bytes(a.size()) } else { "Built in".to_string() };
+        let style = if a.pro { TextStyle::footnote().weight(Weight::Semibold).color(crate::oyen::ORANGE).right() } else { TextStyle::footnote().color(palette::TEXT_DIM).right() };
         let w = ui.c.measure(&size, &style, 200.0).0.ceil();
         ui.c.text(&size, Rect::new(sw.x - 10.0 - w, r.y, w, r.h), &style);
         text_right = sw.x - 10.0 - w - 16.0;

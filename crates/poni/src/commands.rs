@@ -66,6 +66,9 @@ pub enum OyenzaCmd {
     RefreshHealth,
     /// Today's Try again: the day, now (unless just asked for).
     RefreshDay,
+    /// A Pro add-on's page, or Add-ons, opened: whether the account has
+    /// Studio Pro, now (unless just asked).
+    CheckPro,
 }
 
 /// Requests for the Notifications add-on (`services::notifications`).
@@ -136,6 +139,26 @@ pub enum IeltsCmd {
     Retry,
 }
 
+/// The Notes page's buttons (the Meeting notes add-on).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum NotesCmd {
+    /// Take notes: Oyen starts listening.
+    Start,
+    /// Stop: the meeting is over, its notes get written.
+    Stop,
+    /// Try again: hand the kept recording over again.
+    Retry,
+    /// Throw the kept recording away.
+    Discard,
+    /// Open the notes' file, or the notes folder.
+    Open,
+    Folder,
+    /// Copy the notes (without the transcript) as Markdown.
+    Copy,
+    /// Back to Take notes.
+    Done,
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum Command {
     Media(MediaCmd),
@@ -200,6 +223,7 @@ pub enum Command {
     Pair(PairCmd),
     Oyenza(OyenzaCmd),
     Ielts(IeltsCmd),
+    Notes(NotesCmd),
     /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
     /// answer: `AppEvent::Cities`).
     GetCities(String),

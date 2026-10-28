@@ -44,6 +44,9 @@ pub struct Addon {
     /// The release that holds this version of the files.
     pub tag: &'static str,
     pub files: &'static [AddonFile],
+    /// Part of Oyenza Studio Pro: it works only for an Oyenza account the
+    /// server says has Pro (`GET /island/pro`; `AppState::pro`).
+    pub pro: bool,
 }
 
 impl Addon {
@@ -80,6 +83,7 @@ pub const PRAYER_TIMES: Addon = Addon {
         AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59" },
         AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a" },
     ],
+    pro: false,
 };
 
 /// The Japanese readings add-on's dictionary file (`romanize::JaDict`).
@@ -103,6 +107,7 @@ pub const JAPANESE_READINGS: Addon = Addon {
         AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8" },
         AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079" },
     ],
+    pro: false,
 };
 
 /// Script reader: the Script page, a teleprompter under the webcam. Its
@@ -115,6 +120,7 @@ pub const SCRIPT_READER: Addon = Addon {
     mac_blurb: Some("A teleprompter under your webcam."),
     tag: "",
     files: &[],
+    pro: false,
 };
 
 /// System: the System page (the processor, graphics, memory, drives,
@@ -132,6 +138,7 @@ pub const SYSTEM: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
+    pro: false,
 };
 
 /// Health: the Health page, today's steps against the goal and the week,
@@ -147,6 +154,7 @@ pub const HEALTH: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
+    pro: false,
 };
 
 /// Stocks: the Stocks page, the IHSG and up to ten IDX stocks with their
@@ -160,6 +168,7 @@ pub const STOCKS: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
+    pro: false,
 };
 
 /// Notifications (Windows): other apps' notifications in the island, from
@@ -176,6 +185,7 @@ pub const NOTIFICATIONS: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
+    pro: false,
 };
 
 /// Screen recorder: the Record page and the recording pill, the face of
@@ -191,6 +201,7 @@ pub const SCREEN_RECORDER: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
+    pro: false,
 };
 
 /// IELTS: Oyen's IELTS Speaking coach, the IELTS page (`crate::ielts`):
@@ -205,10 +216,29 @@ pub const IELTS: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
+    pro: false,
+};
+
+/// Meeting notes (Windows): the Notes page (`crate::notes`). One click and
+/// Oyen listens to the microphone and the PC's own sound (a call in Meet,
+/// Zoom, Teams), then the Oyenza account writes the notes. Its code is in the
+/// app, so there is nothing to download. Off, there is no Notes tab and
+/// nothing of it runs: no recording, no calls. Part of Studio Pro: the page
+/// records only for an account the server says has Pro, and the server
+/// writes notes only for one. The Mac doesn't list it yet: its recording of
+/// the Mac's own sound is still to come.
+pub const MEETING_NOTES: Addon = Addon {
+    id: "notes",
+    title: "Meeting notes",
+    blurb: "One click and Oyen listens to your meeting, Meet, Zoom or Teams, and writes the notes.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+    pro: true,
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 9] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &SCREEN_RECORDER];
+pub const ALL: [&Addon; 10] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -312,8 +342,14 @@ mod tests {
     }
 
     #[test]
+    fn meeting_notes_is_the_pro_one() {
+        let pro: Vec<&str> = ALL.iter().filter(|a| a.pro).map(|a| a.id).collect();
+        assert_eq!(pro, vec!["notes"]);
+    }
+
+    #[test]
     fn built_in_add_ons_are_off_until_switched_on() {
-        for a in [&SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS] {
+        for a in [&SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES] {
             assert!(!a.downloads() && a.size() == 0, "{}", a.id);
             assert_eq!(Addon::find(a.id), Some(a));
             assert_eq!(Status::Ready.line(a, false), "On");
