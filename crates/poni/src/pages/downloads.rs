@@ -328,6 +328,8 @@ fn draw_row(ui: &mut Ui, v: RowView, r: Rect, view: Rect, dragging: &mut bool, c
     let line_color = if matches!(job.state, State::Failed(_)) { palette::ORANGE } else { palette::TEXT_DIM };
     ui.c.text(&downloads::line(job), Rect::new(x, r.y + 22.0, w, 17.0), &TextStyle::footnote().color(line_color));
     if let Some(p) = bar {
+        // At the whole percent the island's pill says (`downloads::percent`).
+        let p = downloads::percent(p) as f32 / 100.0;
         ui.progress_bar(wid_n("downloads.bar", job.id), Rect::new(x, r.y + 40.0, w, BAR_H), p, accent, false);
     }
 }

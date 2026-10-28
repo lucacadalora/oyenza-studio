@@ -674,10 +674,10 @@ pub(crate) fn download_many(st: &AppState) -> bool {
     download_view(st).count > 1
 }
 
-/// "37%": whole percents rounded down, so 100% waits for the last byte.
+/// "37%": the whole percent the Downloads page's bar shows too
+/// (`downloads::percent`).
 pub(crate) fn download_pct(fraction: f32) -> String {
-    // The thousandth keeps a float just under a whole percent on it.
-    format!("{}%", (fraction.clamp(0.0, 1.0) * 100.0 + 0.001).floor() as u32)
+    format!("{}%", poni_core::downloads::percent(fraction))
 }
 
 /// The download count on a grey capsule `h` tall, its left end at `x`
@@ -1189,8 +1189,8 @@ mod tests {
     }
 
     #[test]
-    fn download_percents_round_down_so_100_waits_for_the_last_byte() {
-        for (f, s) in [(0.0, "0%"), (0.29, "29%"), (0.37, "37%"), (0.996, "99%"), (1.0, "100%"), (1.5, "100%")] {
+    fn download_percents_round_to_the_nearest_as_the_page_s_bars_do() {
+        for (f, s) in [(0.0, "0%"), (0.29, "29%"), (0.369, "37%"), (0.996, "99%"), (1.0, "100%"), (1.5, "100%")] {
             assert_eq!(download_pct(f), s);
         }
     }

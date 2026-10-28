@@ -254,6 +254,18 @@ impl Jobs {
     }
 }
 
+/// How far, in whole percents rounded to the nearest (36.9% is 37), for the
+/// island's pill and the Downloads page's bars alike, so the two agree. 100
+/// waits for the last byte: 99.6% is 99.
+pub fn percent(fraction: f32) -> u32 {
+    let p = (fraction.clamp(0.0, 1.0) * 100.0).round() as u32;
+    if fraction < 1.0 {
+        p.min(99)
+    } else {
+        p
+    }
+}
+
 /// The line under a job on the Downloads page: "12 MB of 45 MB · 2.1 MB/s ·
 /// 14 s left", "Joining picture and sound", "Done · 45 MB", the failure...
 pub fn line(job: &Job) -> String {
@@ -668,6 +680,21 @@ mod tests {
         jobs.ended(b, false);
         jobs.stop(c);
         assert_eq!(jobs.pill(), None);
+    }
+
+    #[test]
+    fn the_pill_and_the_bar_say_the_same_whole_percent() {
+        for (f, p) in [(0.0, 0), (0.004, 0), (0.29, 29), (0.369, 37), (0.5, 50), (0.994, 99), (1.0, 100), (1.5, 100), (-0.2, 0), (f32::NAN, 0)] {
+            assert_eq!(percent(f), p, "{f}");
+        }
+        assert_eq!(percent(0.996), 99, "100 waits for the last byte");
+        // 8.6 of 23.3 MB, 36.9%: 37 on the island's pill and on the page's bar.
+        let mut jobs = Jobs::default();
+        let id = jobs.add(SPRITE_FRIGHT.into(), Mode::Video, 0);
+        jobs.starting(id);
+        jobs.apply(id, bytes(8_600_000, Some(23_300_000)));
+        let (pill, bar) = (jobs.pill().unwrap().fraction.unwrap(), jobs.progress(id).unwrap());
+        assert_eq!((percent(pill), percent(bar)), (37, 37));
     }
 
     #[test]
