@@ -230,14 +230,17 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                     // out, Update to it there instead (the Update sheet).
                     let update = st.update.offer.as_ref().map(|rel| update_label(ui, row, &rel.version));
                     let slot = match &update {
-                        Some(text) => Some(link_slot(ui, text, row)),
+                        Some(text) => {
+                            let w = ui.pill_width(text, false, true);
+                            Some(Rect::new(row.right() - w, row.center().y - ROW_PICKER_H / 2.0, w, ROW_PICKER_H))
+                        }
                         None => check_slot(ui, st, row),
                     };
                     let right = slot.map_or(row.right(), |b| b.x - 10.0);
                     text_with_dim(ui, "Version", VERSION, Rect::new(row.x, row.y, (right - row.x).max(0.0), row.h), TextStyle::body());
                     match (update, slot) {
                         (Some(text), Some(b)) => {
-                            if link(ui, wid("settings.update"), b, &text, accent) {
+                            if ui.pill(wid("settings.update"), b, &text, None, PillStyle::Primary(accent)).clicked {
                                 st.update.sheet = true;
                             }
                         }
@@ -367,7 +370,12 @@ pub(crate) fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
         ui.c.text(text, b, &check_text().color(color).right());
         return;
     }
-    if link(ui, wid("settings.check"), b, text, color) {
+    let resp = ui.button(wid("settings.check"), b);
+    if resp.hovered || resp.pressed {
+        ui.c.fill_rrect(b, b.h / 2.0, Color::white(if resp.pressed { 0.14 } else { 0.08 }));
+    }
+    ui.c.text(text, b, &check_text().color(color).center());
+    if resp.clicked {
         st.update.said = Some(Said::Checking);
         st.cmd(Command::CheckForUpdates);
     }
@@ -377,29 +385,12 @@ pub(crate) fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
 /// where it and the version don't both fit (a narrow island).
 fn update_label(ui: &mut Ui, row: Rect, version: &str) -> String {
     let long = format!("Update to {version}");
-    let need = text_with_dim_width(ui, "Version", VERSION, &TextStyle::body()) + 10.0 + link_slot(ui, &long, row).w;
+    let need = text_with_dim_width(ui, "Version", VERSION, &TextStyle::body()) + 10.0 + ui.pill_width(&long, false, true);
     if need <= row.w {
         long
     } else {
         "Update".to_string()
     }
-}
-
-/// Where words that act go at `row`'s right end (Check now's place).
-fn link_slot(ui: &mut Ui, text: &str, row: Rect) -> Rect {
-    let w = (ui.c.measure(text, &check_text(), 300.0).0 + 2.0 * CHECK_PAD).ceil();
-    Rect::new(row.right() - w, row.center().y - CHECK_H / 2.0, w, CHECK_H)
-}
-
-/// Words that act, in `color` with a wash on hover (Check now, Update).
-/// True when clicked.
-fn link(ui: &mut Ui, id: u64, b: Rect, text: &str, color: Color) -> bool {
-    let resp = ui.button(id, b);
-    if resp.hovered || resp.pressed {
-        ui.c.fill_rrect(b, b.h / 2.0, Color::white(if resp.pressed { 0.14 } else { 0.08 }));
-    }
-    ui.c.text(text, b, &check_text().color(color).center());
-    resp.clicked
 }
 
 /// Check now's words and colour for what it has said so far.
