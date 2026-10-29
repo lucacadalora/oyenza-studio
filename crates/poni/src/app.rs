@@ -5224,6 +5224,18 @@ impl App {
         out
     }
 
+    /// Film the Settings window as a person uses it (`settings_host::film`)
+    /// on this monitor, at `hz`. Its clicks change a setting: it goes back
+    /// as it was, unsaved, afterwards.
+    pub fn selftest_settings_film(&mut self, hz: f64, on_frame: impl FnMut(usize, i32, i32, &[u8], Option<RECT>)) -> Option<settings_host::Film> {
+        let (before, queued) = (self.st.settings.clone(), self.st.cmds.len());
+        let film = settings_host::film(&mut self.st, self.monitor.work, self.gfx.dpi.round() as u32, hz, on_frame);
+        self.st.settings = before;
+        self.st.cmds.truncate(queued);
+        self.st.now = clock::mono();
+        film.inspect_err(|e| pwarn!("selftest: the Settings window's film couldn't open its windows ({e})")).ok()
+    }
+
     /// The scale the Settings window draws at.
     pub fn selftest_settings_scale(&self) -> f32 {
         self.settings_win.as_ref().map_or(1.0, |w| w.scale())

@@ -542,6 +542,21 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
     }
 }
 
+/// The widget id of `key`'s row in `section` (the self-test's film).
+#[cfg(windows)]
+pub fn row_id(section: Section, st: &AppState, key: Key) -> Option<u64> {
+    blocks(section, st).iter().enumerate().find_map(|(bi, b)| match b {
+        Block::Group(_, items) => items.iter().position(|it| it.key == key).map(|ri| wid_n(&format!("settingswin.row.{bi}"), ri as u64)),
+        _ => None,
+    })
+}
+
+/// The widget id of `section`'s row in the sidebar (the self-test's film).
+#[cfg(windows)]
+pub fn nav_id(st: &AppState, section: Section) -> Option<u64> {
+    sections(st).iter().position(|s| *s == section).map(|i| wid_n("settingswin.nav", i as u64))
+}
+
 /// Step a number of minutes: by 5, by 1 below 5.
 fn step_min(v: u32, d: i32, lo: u32, hi: u32) -> u32 {
     let by = if (d < 0 && v <= 5) || (d > 0 && v < 5) { 1 } else { 5 };
@@ -724,6 +739,7 @@ impl View {
             self.section = section;
             self.scroll = Scroll::default();
             self.input.focused = None;
+            self.motion.leave_section();
         }
         self.motion.snap_next = true;
         self.dirty = true;
@@ -732,6 +748,12 @@ impl View {
     /// The hit under `p` in the last frame.
     pub fn hit_at(&self, p: Point) -> Option<Hit> {
         self.hits.iter().rev().find(|h| h.rect.contains(p)).copied()
+    }
+
+    /// Where the widget `id` was in the last frame (the self-test's film).
+    #[cfg(windows)]
+    pub fn hit_rect(&self, id: u64) -> Option<Rect> {
+        self.hits.iter().find(|h| h.id == id).map(|h| h.rect)
     }
 
     /// The pointer's cursor over `p`.
@@ -802,6 +824,7 @@ impl View {
         if !self.section.shown(st) {
             self.section = Section::General;
             self.scroll = Scroll::default();
+            self.motion.leave_section();
         }
         self.motion.begin(now, frame.still);
         let mut out = Painted::default();
@@ -813,6 +836,7 @@ impl View {
                 Some(Nav::Section(s)) => {
                     self.section = s;
                     self.scroll = Scroll::default();
+                    self.motion.leave_section();
                     out.again = true;
                 }
                 Some(Nav::Close) => out.close = true,
@@ -851,8 +875,11 @@ const FIRST_STEP: f32 = 1.0 / 120.0;
 /// for starts where it's going, so the window opens complete.
 #[derive(Default)]
 struct Motion {
-    /// Each value and its speed, by key.
-    vals: HashMap<u64, (f32, f32)>,
+    /// Each value, its speed, and whether it is the section's content's,
+    /// by key.
+    vals: HashMap<u64, (f32, f32, bool)>,
+    /// Values asked for from now on (this frame) are the section's content's.
+    content: bool,
     /// Seconds since the last frame, at most a thirtieth: a long pause
     /// doesn't jump.
     dt: f32,
@@ -878,6 +905,13 @@ impl Motion {
         self.moving = false;
         self.snap = still || std::mem::take(&mut self.snap_next);
         self.next = None;
+        self.content = false;
+    }
+
+    /// Another section opens: its rows start where they're going, not where
+    /// the last section's rows in their place were (a switch would slide).
+    fn leave_section(&mut self) {
+        self.vals.retain(|_, v| !v.2);
     }
 
     /// Something in `r` still moves: the next frame redraws it.
@@ -894,10 +928,11 @@ impl Motion {
     /// `key`'s value this frame on its way to `target` at `pace`; within
     /// `near` it has arrived.
     fn glide(&mut self, key: u64, target: f32, pace: f32, near: f32) -> f32 {
-        let e = self.vals.entry(key).or_insert((target, 0.0));
-        let (x, v) = *e;
+        let content = self.content;
+        let e = self.vals.entry(key).or_insert((target, 0.0, content));
+        let (x, v, _) = *e;
         if self.snap || ((x - target).abs() < near && v.abs() < near * pace) {
-            *e = (target, 0.0);
+            *e = (target, 0.0, content);
             return target;
         }
         self.moving = true;
@@ -908,7 +943,7 @@ impl Motion {
         let k = (-pace * t).exp();
         let nd = (d + (v + pace * d) * t) * k;
         let nv = (v - pace * (v + pace * d) * t) * k;
-        *e = (target + nd, nv);
+        *e = (target + nd, nv, content);
         target + nd
     }
 
@@ -926,7 +961,7 @@ impl Motion {
 
     /// Put `key` at `value` now (a trackpad's scroll).
     fn jump(&mut self, key: u64, value: f32) {
-        self.vals.insert(key, (value, 0.0));
+        self.vals.insert(key, (value, 0.0, self.content));
     }
 }
 
@@ -965,11 +1000,16 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: b
         }
         c.fill_rrect(card, radius, sf.ground);
     });
-    // The sidebar: the card's left part in its own shade.
+    // The sidebar: the card's left part in its own shade, rounded only where
+    // the card is. Nothing of it reaches past its edge, so no clip is needed
+    // (a glide's frame elsewhere doesn't draw it).
     let side = Rect::new(card.x, card.y, SIDEBAR_W, card.h);
-    ui.c.clip(side);
-    ui.c.unthemed(|c| c.fill_rrect(Rect::new(side.x, side.y, side.w + RADIUS, side.h), radius, sf.sidebar));
-    ui.c.unclip();
+    ui.c.unthemed(|c| {
+        c.fill_rrect(side, radius, sf.sidebar);
+        if radius > 0.0 {
+            c.fill_rect(Rect::new(side.right() - radius, side.y, radius, side.h), sf.sidebar);
+        }
+    });
     let px = 1.0 / ui.c.scale().max(0.5);
     ui.c.fill_rect(Rect::new(side.right() - px, side.y, px, side.h), RULE);
     if frame.own_chrome {
@@ -982,6 +1022,9 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: b
     let close = frame.own_chrome && draw_close(ui, card, m);
 
     let view = Rect::new(content.x - PAD / 2.0, card.y + CONTENT_Y, content.w + PAD, card.bottom() - CONTENT_Y - card.y - 1.0);
+    // From here on, the section's own: its scroll and rows, whose values go
+    // when another section opens.
+    m.content = true;
     // Scrolling: a wheel glides to where it points, a trackpad follows the fingers.
     let max_scroll = (sc.content_h - view.h + 16.0).max(0.0);
     let wheel = ui.wheel_in(view);
@@ -1713,6 +1756,20 @@ mod tests {
         m.begin(20.0, false);
         let next = m.slide(9, 100.0, SLIDE);
         assert!(next < 40.0, "{first} then {next}");
+        // Another section opens: the switch in a row's place starts as it is
+        // (no slide from the last section's), while the sidebar's highlight
+        // glides on.
+        let mut m = Motion::default();
+        m.begin(1.0, false);
+        m.slide(1, 0.0, SLIDE);
+        m.content = true;
+        m.fade(2, 1.0, SWITCHING);
+        m.begin(1.0 + 1.0 / 144.0, false);
+        m.leave_section();
+        let highlight = m.slide(1, 100.0, SLIDE);
+        m.content = true;
+        assert_eq!(m.fade(2, 0.0, SWITCHING), 0.0);
+        assert!(highlight > 0.0 && highlight < 100.0 && m.moving, "{highlight}");
     }
 
     #[test]
