@@ -774,8 +774,8 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
     picture(st, shows, now);
 }
 
-/// The Downloads page's list for its scenes, newest first: a song waiting
-/// its turn, a film coming in from PeerTube, a private video that failed and
+/// The Downloads page's list for its scenes, newest first: a YouTube link
+/// just started, a film coming in from PeerTube, a private video that failed and
 /// a finished film, moved along by yt-dlp's lines as the app moves them
 /// (`poni_core::downloads::Jobs`), so the bar and the island's pill count the
 /// bytes as they do for real; every other scene: none. No pictures, so
@@ -811,7 +811,8 @@ fn seed_downloads(st: &mut AppState, scene: Scene) {
     jobs.starting(film);
     jobs.apply(film, info("OVERGROWN: a feature film project by Blender Studio", "PeerTube"));
     jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
-    jobs.add("https://archive.org/details/ElephantsDream".into(), Mode::Audio, unix - 20);
+    let youtube = jobs.add("https://www.youtube.com/watch?v=aqz-KE-bpKQ".into(), Mode::Video, unix - 20);
+    jobs.starting(youtube);
     st.downloads = jobs;
 }
 
