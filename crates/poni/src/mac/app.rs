@@ -4723,7 +4723,9 @@ impl App {
                     Err(issue) => (true, format!("microphone {mic}, the Mac's sound {pc}; stop gave {issue:?}")),
                 }
             }
-            Some(Err(issue)) => (true, format!("no recording: {issue:?}")),
+            // No microphone, or macOS saying no, is the runner's business; a
+            // recording that fails to start (a source hanging) is ours.
+            Some(Err(issue)) => (issue != poni_core::notes::CaptureIssue::Failed, format!("no recording: {issue:?}")),
             None => (false, "Recording::start didn't run".into()),
         }
     }

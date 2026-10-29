@@ -14,7 +14,11 @@
 //!
 //! The microphone is the default input device, after macOS's question (the
 //! IELTS coach's too). While the question is up the recording goes on with
-//! the Mac's sound alone and looks again every 2 s (`Source::moved`).
+//! the Mac's sound alone and looks again every 2 s (`Source::moved`). The
+//! tap is made on a thread of its own (`poni-notes-tap`), since making it
+//! can wait on macOS's question for as long as the person takes to answer:
+//! the recording waits for it a moment, then goes on with the microphone,
+//! and the Mac's sound joins once the tap is there.
 //! Nothing here runs between recordings: the IOProcs, the tap and the
 //! aggregate device exist only from `open` to `close`.
 
@@ -28,12 +32,17 @@ use objc2_foundation::{NSArray, NSDictionary, NSNumber, NSString};
 use poni_core::ielts::{peak, Downmix, SampleFormat};
 use poni_core::notes::RATE;
 use std::ffi::{c_char, c_void};
+use std::sync::mpsc::{self, Receiver, RecvTimeoutError, TryRecvError};
 use std::sync::Mutex;
+use std::time::Duration;
 
 /// The level meters: the loudest sample of the last ~100 ms, eased down.
 const METER_FALL: f32 = 0.82;
 /// What a queue keeps for a reader that stopped reading: 10 s.
 const MAX_QUEUE: usize = RATE as usize * 10;
+/// How long a recording's start waits for the tap (a tap macOS already
+/// allows takes a fraction of this).
+const TAP_WAIT: Duration = Duration::from_millis(1500);
 
 #[repr(C)]
 struct Addr {
@@ -254,13 +263,34 @@ extern "C" fn io_proc(
 }
 
 /// A running IOProc, and for the Mac's sound the tap and aggregate device
-/// it hears through.
+/// it hears through: all of it stopped and gone when this is dropped.
 struct Running {
     device: u32,
     proc_id: *mut c_void,
     feed: Box<Feed>,
     /// (aggregate device, tap), for the Mac's sound.
     tap: Option<(u32, u32)>,
+}
+
+// SAFETY: plain Core Audio ids (the IOProc's id is an opaque handle any
+// thread may pass back) and a boxed feed behind a mutex.
+unsafe impl Send for Running {}
+
+impl Drop for Running {
+    fn drop(&mut self) {
+        // SAFETY: our IOProc and the devices we made; stopped before the
+        // feed it writes to goes (after this, with the struct).
+        unsafe {
+            let _ = AudioDeviceStop(self.device, self.proc_id);
+            let _ = AudioDeviceDestroyIOProcID(self.device, self.proc_id);
+            if let Some((aggregate, tap)) = self.tap {
+                let _ = AudioHardwareDestroyAggregateDevice(aggregate);
+                if let Some(destroy) = tap_fn::<DestroyTap>(c"AudioHardwareDestroyProcessTap") {
+                    let _ = destroy(tap);
+                }
+            }
+        }
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -274,6 +304,8 @@ pub struct Source {
     kind: Kind,
     pub what: &'static str,
     run: Option<Running>,
+    /// The tap's thread, until it answers (the Mac's sound only).
+    pending: Option<Receiver<Result<(u32, Running), MicError>>>,
     /// The default device it opened, to notice a new default.
     id: u32,
     /// What `read` brought: 16 kHz mono.
@@ -291,36 +323,60 @@ impl Source {
     }
 
     fn new(kind: Kind, what: &'static str) -> Source {
-        Source { kind, what, run: None, id: 0, pcm: Vec::with_capacity(RATE as usize / 4), level: 0.0 }
+        Source { kind, what, run: None, pending: None, id: 0, pcm: Vec::with_capacity(RATE as usize / 4), level: 0.0 }
     }
 
     pub fn open(&mut self) -> Result<(), MicError> {
         self.close();
         let (id, run) = match self.kind {
             Kind::Mic => open_mic()?,
-            Kind::Pc => open_pc()?,
+            Kind::Pc => self.open_pc_aside()?,
         };
         self.id = id;
         self.run = Some(run);
         Ok(())
     }
 
-    pub fn close(&mut self) {
-        if let Some(r) = self.run.take() {
-            // SAFETY: our IOProc and the devices we made; stopped before the
-            // feed it writes to goes.
-            unsafe {
-                let _ = AudioDeviceStop(r.device, r.proc_id);
-                let _ = AudioDeviceDestroyIOProcID(r.device, r.proc_id);
-                if let Some((aggregate, tap)) = r.tap {
-                    let _ = AudioHardwareDestroyAggregateDevice(aggregate);
-                    if let Some(destroy) = tap_fn::<DestroyTap>(c"AudioHardwareDestroyProcessTap") {
-                        let _ = destroy(tap);
-                    }
-                }
-            }
-            drop(r.feed);
+    /// The Mac's sound, from the tap's own thread: its answer if it comes
+    /// within TAP_WAIT, else a "not yet" and the answer at a later `open`
+    /// (the recording looks every 2 s). A recording that ends first drops
+    /// the receiver, and the tap goes with the thread's answer.
+    fn open_pc_aside(&mut self) -> Result<(u32, Running), MicError> {
+        let fresh = self.pending.is_none();
+        if fresh {
+            let (tx, rx) = mpsc::channel();
+            std::thread::Builder::new()
+                .name("poni-notes-tap".into())
+                .spawn(move || {
+                    let _ = tx.send(open_pc());
+                })
+                .map_err(|e| MicError::Failed(format!("no thread for the tap ({e})")))?;
+            self.pending = Some(rx);
         }
+        let Some(rx) = self.pending.as_ref() else { return Err(MicError::Failed("no tap".into())) };
+        let got = if fresh { rx.recv_timeout(TAP_WAIT).map_err(|e| e == RecvTimeoutError::Timeout) } else { rx.try_recv().map_err(|e| e == TryRecvError::Empty) };
+        match got {
+            Ok(r) => {
+                self.pending = None;
+                r
+            }
+            Err(true) => {
+                if fresh {
+                    crate::pinfo!("notes: the Mac's sound isn't there yet (macOS may be asking); the recording goes on without it for now");
+                }
+                Err(MicError::Failed("the tap isn't there yet".into()))
+            }
+            Err(false) => {
+                self.pending = None;
+                Err(MicError::Failed("the tap's thread ended".into()))
+            }
+        }
+    }
+
+    /// Stop the IOProc (and drop the tap and aggregate device); a tap still
+    /// being made stays on its way.
+    pub fn close(&mut self) {
+        self.run = None;
     }
 
     /// Everything the IOProc handed over since the last read.
@@ -342,11 +398,6 @@ impl Source {
     }
 }
 
-impl Drop for Source {
-    fn drop(&mut self) {
-        self.close();
-    }
-}
 
 /// Start our IOProc on `device`, its frames in format `f` going to a queue.
 fn start(device: u32, f: &Asbd, tap: Option<(u32, u32)>) -> Result<Running, MicError> {
@@ -391,7 +442,9 @@ fn open_mic() -> Result<(u32, Running), MicError> {
         return Err(MicError::Denied);
     }
     let f = get::<Asbd>(id, STREAM_FORMAT, SCOPE_INPUT, None).ok_or_else(|| MicError::Failed("the microphone's format".into()))?;
-    Ok((id, start(id, &f, None)?))
+    let run = start(id, &f, None)?;
+    crate::pinfo!("notes: microphone: device {id}, {:.0} Hz, {} channel(s)", f.rate, f.channels);
+    Ok((id, run))
 }
 
 /// One of the tap functions, where this macOS has them (14.2 and later).
@@ -435,6 +488,7 @@ fn open_pc() -> Result<(u32, Running), MicError> {
         s.to_string()
     };
     let mut tap = 0u32;
+    crate::pinfo!("notes: the Mac's sound: making the tap");
     // SAFETY: the description is a live CATapDescription.
     let r = unsafe { create(Retained::as_ptr(&desc).cast_mut(), &mut tap) };
     if r != 0 || tap == 0 {
@@ -456,8 +510,12 @@ fn open_pc() -> Result<(u32, Running), MicError> {
             return Err(e);
         }
     };
+    crate::pinfo!("notes: the Mac's sound: tap {tap}, aggregate device {aggregate}, {:.0} Hz, {} channel(s)", f.rate, f.channels);
     match start(aggregate, &f, Some((aggregate, tap))) {
-        Ok(run) => Ok((output, run)),
+        Ok(run) => {
+            crate::pinfo!("notes: the Mac's sound: started");
+            Ok((output, run))
+        }
         Err(e) => {
             unsafe {
                 let _ = AudioHardwareDestroyAggregateDevice(aggregate);
