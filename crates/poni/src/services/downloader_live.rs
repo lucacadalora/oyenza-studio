@@ -246,7 +246,7 @@ fn the_pinned_tools_download_a_real_link_through_the_runner() {
                     return;
                 }
                 Line::Failed(p) => panic!("the runner: yt-dlp failed: {p:?}"),
-                Line::Stage(_) => {}
+                Line::Stage(_) | Line::Solving => {}
             },
             Ok(AppEvent::DownloadEnded { id: 1, ok }) => ended = Some(ok),
             Ok(_) => {}
