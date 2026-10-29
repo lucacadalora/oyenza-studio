@@ -682,7 +682,7 @@ impl Worker {
         }
     }
 
-    /// Connecting stopped without a key: one of `oyenza::{EXPIRED, DENIED,
+    /// Connecting stopped without a key: one of `oyenza::{EXPIRED, DENIED, SOON,
     /// OFFLINE, BUSY, OTHER}`, for the card's `connect_failure_text`.
     fn connect_failed(&mut self, why: &'static str) {
         self.pending = None;

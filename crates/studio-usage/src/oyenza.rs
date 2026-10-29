@@ -246,6 +246,7 @@ pub fn started(r: &Result<Reply, NetFail>, base: &str, now: i64) -> Result<Pendi
         Err(NetFail::Other(_)) => return Err(OTHER),
         Ok(a) if a.status == 429 => return Err(BUSY),
         Ok(a) if a.status >= 500 => return Err(OFFLINE),
+        Ok(a) if a.status == 404 => return Err(SOON),
         Ok(a) if a.status != 200 => return Err(OTHER),
         Ok(a) => a,
     };
@@ -385,6 +386,8 @@ pub const DENIED: &str = "denied";
 pub const OFFLINE: &str = "offline";
 pub const BUSY: &str = "busy";
 pub const OTHER: &str = "other";
+/// The server has no device connect yet (404): it's on its way, not broken.
+pub const SOON: &str = "soon";
 /// Disconnected on this computer, but the server couldn't be told: the key
 /// still works there until it is removed under Connected apps.
 pub const UNTOLD: &str = "untold";
@@ -417,6 +420,7 @@ pub fn connect_failure_text(code: &str) -> (&'static str, &'static str) {
         DENIED => ("Not connected", "The code was refused on inference.oyenza.com"),
         OFFLINE => ("Can't reach Oyenza Inference", "Check the connection and try again"),
         BUSY => ("Too many tries", "Wait a few minutes, then connect again"),
+        SOON => ("Coming soon", "Oyenza Inference can't connect apps yet"),
         UNTOLD => ("Disconnected here only", "Remove this computer under Connected apps too"),
         _ => ("Couldn't connect", "Try again in a minute"),
     }
@@ -677,7 +681,9 @@ mod tests {
         assert_eq!(starts(Err(NetFail::Other("tls".into()))), Some(OTHER));
         assert_eq!(starts(Ok(Reply { status: 429, body: String::new(), retry_after_s: Some(300) })), Some(BUSY));
         assert_eq!(starts(reply(502, "<html>")), Some(OFFLINE));
-        assert_eq!(starts(reply(404, "{}")), Some(OTHER));
+        assert_eq!(starts(reply(404, "{}")), Some(SOON));
+        assert_eq!(connect_failure_text(SOON), ("Coming soon", "Oyenza Inference can't connect apps yet"));
+        assert_eq!(starts(reply(403, "{}")), Some(OTHER));
         assert_eq!(starts(reply(200, "<html>")), Some(OTHER));
         assert_eq!(starts(reply(200, r#"{"code":"KPJ","poll":"p"}"#)), Some(OTHER));
         assert_eq!(starts(reply(200, r#"{"code":"KPJX-TMNQ","poll":" "}"#)), Some(OTHER));
