@@ -228,15 +228,15 @@ The details behind each feature.
 
 ### Settings and options
 
-The gear at the top right of the open island opens the **Settings** window, with every setting in one place: General (start with Windows, sounds, the 24-hour clock, the version with **Check now**), Appearance (the theme and the idle look), Island (how soon it opens and closes, its width, the display, full-screen apps and games), Music and lyrics, Pop-ups (volume, charger and battery, Bluetooth), Tabs, Add-ons, Focus, Prayer times, AI usage, your Oyenza account and About. It follows Windows' light or dark mode. Right-click the island or the tray icon for the quick ones, and **Settings…** opens the window too:
+The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below, and last **Advanced settings**. That opens a window with every setting in one place, and the island closes as it opens: General (start with Windows, sounds, the 24-hour clock, the version with **Check now**), Appearance (the theme and the idle look), Island (how soon it opens and closes, its width, the display, full-screen apps and games), Music and lyrics, Pop-ups (volume, charger and battery, Bluetooth), Tabs, Add-ons, Focus, Prayer times, AI usage, your Oyenza account and About. It follows Windows' light or dark mode. Right-click the island or the tray icon for the quick ones, and **Advanced settings…** opens the window too:
 - the theme: Classic, Oyen, Glass or Pill
 - the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock)
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics) and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
 - start with Windows, which version you have (**About Oyenza Studio**, with the build's day; it opens that version's release notes), and quit
-- in Settings only: which version you have, with **Check now** ([New versions](#new-versions)), and everything the menu doesn't have
+- in Settings only: which version you have, with **Check now** ([New versions](#new-versions)); in Advanced settings, everything the menu doesn't have
 
-On a Mac the gear opens the same Settings window, a real Mac window with the title bar buttons over its sidebar; the menu bar item under Oyen's mark has **Settings…** (⌘,) and the quick options.
+On a Mac the gear opens the same Settings, and **Advanced settings** the same window, a real Mac window with the title bar buttons over its sidebar; the menu bar item under Oyen's mark has **Advanced settings…** (⌘,) and the quick options.
 
 ### The Oyen theme
 

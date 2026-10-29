@@ -1,9 +1,10 @@
 //! The Settings window on the Mac: a real window, with the system's title
 //! bar buttons over the sidebar as in System Settings, that shows the
-//! Settings content (`settings_window::View`). The island's gear and the
-//! menu bar item's Settings… open it, ⌘W and its close button close it, and
-//! it is light or dark as the Mac is. The window is made when it opens and
-//! let go when it closes, so nothing of it stays at rest.
+//! Settings content (`settings_window::View`). The island's Settings page
+//! (its Advanced settings row) and the menu bar item's Advanced settings…
+//! open it, ⌘W and its close button close it, and it is light or dark as
+//! the Mac is. The window is made when it opens and let go when it closes,
+//! so nothing of it stays at rest.
 //!
 //! Everything here runs on the main thread. The window and its view live in
 //! a thread-local; the view draws and forwards input through the app
@@ -212,7 +213,7 @@ pub fn create(mtm: MainThreadMarker) -> f32 {
     let style = NSWindowStyleMask::Titled | NSWindowStyleMask::Closable | NSWindowStyleMask::Miniaturizable | NSWindowStyleMask::FullSizeContentView;
     let window: Retained<SettingsWindow> =
         unsafe { msg_send![SettingsWindow::alloc(mtm), initWithContentRect: rect, styleMask: style, backing: NSBackingStoreType::Buffered, defer: false] };
-    window.setTitle(ns_string!("Oyenza Studio Settings"));
+    window.setTitle(ns_string!("Oyenza Studio Advanced Settings"));
     window.setTitleVisibility(NSWindowTitleVisibility::Hidden);
     window.setTitlebarAppearsTransparent(true);
     window.setAcceptsMouseMovedEvents(true);

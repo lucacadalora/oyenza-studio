@@ -126,15 +126,16 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   from `services::usage` through `AppEvent::Usage` into `st.usage`, and the
   page asks for refreshes, keys and inference.oyenza.com's connect through
   `Command::Usage`. See [AI usage](#ai-usage).
-* The Settings window: every setting in a window of its own, a sidebar of sections
-  (General, Appearance, Island, Music and lyrics, Pop-ups, Tabs, Add-ons, Focus,
-  Prayer times while that add-on is on, AI usage, Oyenza account, About). The gear
-  right of the tabs and the menu's Settings… open it (`Command::OpenSettings`,
-  `MenuCmd::ShowSettings`); the island stays the island. Its content is shared
-  (`settings_window.rs`, a `View` both apps draw): a section is a list of `Block`s
-  (rows of `Item`s: a switch, a picker, a stepper or a button), and a click comes
-  back as an `Act` that `settings_window::apply` turns into the setting and
-  `Command::SaveSettings`. It draws with the pages' widgets on the same `AppState`
+* The Settings window, called Advanced settings: every setting in a window of its
+  own, a sidebar of sections (General, Appearance, Island, Music and lyrics, Pop-ups,
+  Tabs, Add-ons, Focus, Prayer times while that add-on is on, AI usage, Oyenza
+  account, About). The Settings page's last row and the menu's Advanced settings…
+  open it (`Command::OpenSettings`, `MenuCmd::ShowSettings`), and the island closes
+  as it opens (`App::show_settings`), so the open island never sits over it. Its
+  content is shared (`settings_window.rs`, a `View` both apps draw): a section is a
+  list of `Block`s (rows of `Item`s: a switch, a picker, a stepper or a button), and
+  a click comes back as an `Act` that `settings_window::apply` turns into the setting
+  and `Command::SaveSettings`. It draws with the pages' widgets on the same `AppState`
   (Add-ons draws the Add-ons page itself, Oyenza account the Settings page's
   account row), light or dark as the system is: its own surfaces from `Surfaces`,
   everything on them through `look::glass(light)`, which turns the island's white
@@ -149,12 +150,15 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   buttons over the sidebar (transparent title bar, full-size content view), its
   view drawn in `drawRect:` (`App::draw_settings`); its commands run with the next
   frame, empty parts move it (`performWindowDragWithEvent:`), ⌘W closes it, and the
-  menu bar item has Settings… (⌘,).
-* Settings (`pages/settings.rs`) has no tab (`PageKind::tabbed`): it shows the Update
-  sheet (a new version's notice), and the gear goes back from it. It changes what the menu
-  changes: settings through `Command::SaveSettings` (applied as a tray change is),
-  Start with Windows through `Command::SetAutostart` (read and set off the UI thread).
-  Its last row takes Music, Today, Shelf, Tasks or Focus off the tab row
+  menu bar item has Advanced settings… (⌘,).
+* Settings (`pages/settings.rs`) has no tab (`PageKind::tabbed`): the gear right of
+  the tabs opens it, and pressing it again goes back. It has the everyday settings,
+  the ones the tray menu also has, and last, under a line, Advanced settings (the
+  Settings window); a new version's Update sheet takes its rows' place. It changes
+  what the menu changes: settings through `Command::SaveSettings` (applied as a tray
+  change is), Start with Windows through `Command::SetAutostart` (read and set off
+  the UI thread).
+  Its Tabs row takes Music, Today, Shelf, Tasks or Focus off the tab row
   (`settings.hidden_tabs`, `PageKind::HIDEABLE`): `pages::tabs` leaves them out
   except while their page is open (a dropped file still opens the Shelf), and
   `pages::first_tab` is where the island goes when its page leaves the row.

@@ -1089,6 +1089,14 @@ impl App {
 
     // ------------------------------------------------------------ the Settings window
 
+    /// Advanced settings (the Settings page's last row, the menu's
+    /// Advanced settings…): the island closes and the window opens, so the
+    /// open island never sits over it.
+    fn show_settings(&mut self) {
+        self.collapse();
+        self.open_settings(None);
+    }
+
     /// Open the Settings window on `section` (General when it opens), or
     /// bring it forward, on that section when one is given.
     fn open_settings(&mut self, section: Option<Section>) {
@@ -1224,7 +1232,7 @@ impl App {
         let before = self.st.settings.clone();
         let s = &mut self.st.settings;
         match cmd {
-            MenuCmd::ShowSettings => self.open_settings(None),
+            MenuCmd::ShowSettings => self.show_settings(),
             MenuCmd::TogglePinned => {
                 self.st.pinned = !self.st.pinned;
                 if !self.st.pinned {
@@ -2768,7 +2776,7 @@ impl App {
                 Command::Download(c) => self.download_cmd(c),
                 // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
                 Command::Notify(_) => {}
-                Command::OpenSettings => self.open_settings(None),
+                Command::OpenSettings => self.show_settings(),
                 Command::Usage(c) => self.usage_cmd(c),
                 Command::Ielts(c) => self.ielts_cmd(c),
                 Command::Notes(c) => self.notes_cmd(c),
@@ -4157,7 +4165,7 @@ impl App {
                 self.collapse();
             }
             "record-check" | "record-stop" | "record-gone" => {}
-            // The Settings window, from the gear's command: dark, then light, then closed.
+            // The Settings window, from Advanced settings' command: dark, then light, then closed.
             "settings-window" => {
                 self.leave();
                 self.collapse();

@@ -621,9 +621,10 @@ pub(crate) fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKin
             st.cmd(Command::SetPinned(!pinned));
         }
     }
-    // The gear opens the Settings window. The Settings page shows only the
-    // Update sheet (a new version's notice): the gear is lit like a selected
-    // tab while it shows, and a press then goes back to the page it was on.
+    // Settings: the gear is lit like a selected tab while its page shows,
+    // and a second press goes back to the page it was pressed on. The page
+    // has the everyday settings; its last row opens Advanced settings, the
+    // window with every setting.
     if gear_r.x > tabs_end + 8.0 {
         if gear_k > 0.0 {
             ui.c.with_alpha(gear_k, |c| c.fill_rrect(gear_r, GEAR / 2.0, Color::white(0.14)));
@@ -638,7 +639,8 @@ pub(crate) fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKin
                 let back = st.ui.before_settings.take().filter(|p| row.contains(p)).unwrap_or(row[0]);
                 st.cmd(Command::SetPage(back));
             } else {
-                st.cmd(Command::OpenSettings);
+                st.ui.before_settings = Some(page);
+                st.cmd(Command::SetPage(PageKind::Settings));
             }
         }
     }

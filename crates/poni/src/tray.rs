@@ -67,7 +67,7 @@ pub enum MenuCmd {
     ToggleSounds,
     TogglePinned,
     ToggleAutostart,
-    /// "Settings…": the Settings window.
+    /// "Advanced settings…": the Settings window.
     ShowSettings,
     OpenSettings,
     ReloadSettings,
@@ -125,7 +125,7 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
     let mut items = vec![
-        item("Settings…", MenuCmd::ShowSettings, false),
+        item("Advanced settings…", MenuCmd::ShowSettings, false),
         MenuItem::Separator,
         item("Keep island open", MenuCmd::TogglePinned, pinned),
         MenuItem::Sub { label: "Theme".into(), items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen), theme("Glass", Theme::Glass), theme("Pill", Theme::Pill)] },

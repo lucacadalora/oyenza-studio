@@ -1355,6 +1355,14 @@ impl App {
 
     // ------------------------------------------------------------ the Settings window
 
+    /// Advanced settings (the Settings page's last row, the menu's
+    /// Advanced settings…): the island closes and the window opens, so the
+    /// open island never sits over it.
+    fn show_settings(&mut self, deferred: &mut Vec<Deferred>) {
+        self.collapse();
+        self.open_settings_window(None, deferred);
+    }
+
     /// Open the Settings window on `section` (General when it opens), or
     /// bring it forward, on that section when one is given.
     fn open_settings_window(&mut self, section: Option<Section>, deferred: &mut Vec<Deferred>) {
@@ -2214,7 +2222,7 @@ impl App {
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
             RecordScreen => crate::services::recorder::record_screen(self.hwnd),
-            ShowSettings => self.open_settings_window(None, &mut Vec::new()),
+            ShowSettings => self.show_settings(&mut Vec::new()),
             ToggleAutostart => {
                 let on = crate::autostart::is_enabled();
                 if let Err(e) = crate::autostart::set_enabled(!on) {
@@ -4632,7 +4640,7 @@ impl App {
                     self.settings_changed(&before);
                     self.save_settings();
                 }
-                Command::OpenSettings => self.open_settings_window(None, deferred),
+                Command::OpenSettings => self.show_settings(deferred),
                 Command::SaveStore => unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
                 },
@@ -5087,6 +5095,11 @@ impl App {
         } else {
             self.collapse();
         }
+    }
+
+    /// Self-test: whether the island is open.
+    pub fn selftest_expanded(&self) -> bool {
+        self.expanded
     }
 
     /// Self-test: a maximized window across the top of the island's monitor

@@ -1,9 +1,11 @@
 //! The Settings window's content: every setting Oyenza Studio has, in a
 //! sidebar of sections (General, Appearance, Island, Music and lyrics,
-//! Pop-ups, Tabs, Add-ons, Focus, Prayer, AI, Oyenza, About). The island's
-//! gear and the menu's Settings… open it, in a window of its own: on Windows
-//! a borderless one (`settings_host.rs`), on the Mac a real window with the
-//! system's title bar (`mac/settings_host.rs`). Both draw this [`View`].
+//! Pop-ups, Tabs, Add-ons, Focus, Prayer, AI, Oyenza, About), called
+//! Advanced settings. The last row of the island's Settings page (behind
+//! the gear) and the menu's Advanced settings… open it, in a window of its
+//! own: on Windows a borderless one (`settings_host.rs`), on the Mac a real
+//! window with the system's title bar (`mac/settings_host.rs`). Both draw
+//! this [`View`].
 //!
 //! It draws with the island's widgets ([`Ui`], the Settings page's switch
 //! and picker) on the same [`AppState`], and changes settings the way the
@@ -1089,7 +1091,7 @@ fn draw_close(ui: &mut Ui, card: Rect, m: &mut Motion) -> bool {
 fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section, top: f32, m: &mut Motion) -> Option<Section> {
     let icon_c = Point::new(side.x + 20.0 + 12.0, side.y + top + 32.0);
     crate::oyen::app_icon(ui.c, icon_c, 24.0);
-    ui.c.text("Settings", Rect::new(icon_c.x + 20.0, side.y + top + 20.0, side.w - 60.0, 24.0), &TextStyle::headline());
+    ui.c.text("Advanced settings", Rect::new(icon_c.x + 20.0, side.y + top + 20.0, side.w - 60.0, 24.0), &TextStyle::headline());
     let list = sections(st);
     let about_at = side.bottom() - 12.0 - NAV_H;
     let row_y = |i: usize, s: Section| if s == Section::About { about_at } else { side.y + top + NAV_Y + i as f32 * (NAV_H + NAV_GAP) };

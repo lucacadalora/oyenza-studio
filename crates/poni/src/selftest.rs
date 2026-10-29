@@ -1128,7 +1128,7 @@ enum Scene {
     UpdateNotice,
     /// The first start after an update: "Updated to", with What's new.
     UpdatedNotice,
-    /// Settings while a new version is offered: Update on its last row.
+    /// Settings while a new version is offered: Update to it in the version's row.
     SettingsUpdate,
     /// The Update sheet (the notice or the menu's "Update to" line opens it).
     UpdateSheet,
@@ -2241,7 +2241,11 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
-    /// After the scenes: the Settings window's `k`-th section as a picture.
+    /// After the scenes: a real click on the Settings page's last row,
+    /// Advanced settings (`clicked` once pressed): the window opens and the
+    /// island closes.
+    Advanced { since: f64, clicked: bool },
+    /// Then the Settings window's `k`-th section as a picture.
     Window { k: usize },
     /// Scene `i` shows the prayer countdown; once it rests with its OK
     /// drawn, press OK (`Scene::PrayerOk`).
@@ -2651,28 +2655,55 @@ impl SelfTest {
             }
             Phase::ClickWait { i, since, from, want } => {
                 let page = app.st.page;
-                // The gear opens the Settings window; the island stays on its page.
-                let gear = SCENES[i] == Scene::GearClick;
-                let opened = gear && app.settings_window_open();
-                if page != from || opened || now - since > CLICK_TIMEOUT {
-                    let ms = (now - since) * 1000.0;
-                    if gear {
-                        let ok = opened && page == from;
-                        let said = if opened { "opened" } else { "didn't open" };
-                        self.checks.push(check("gear-click", ok, format!("the Settings window {said} after {ms:.0} ms; page '{}' -> '{}'", from.key(), page.key())));
-                        if !ok {
-                            crate::pwarn!("selftest: the gear's Settings window {said} (page is '{}')", page.key());
-                        }
-                        // The Settings page's own pictures go on as before.
-                        app.selftest_close_settings();
-                    } else {
-                        let ok = from != want && page == want;
-                        self.checks.push(check("tab-click", ok, format!("page '{}' -> '{}' after {ms:.0} ms (expected '{}')", from.key(), page.key(), want.key())));
-                        if !ok {
-                            crate::pwarn!("selftest: tab-click did not switch to '{}' (page is '{}')", want.key(), page.key());
-                        }
+                if page != from || now - since > CLICK_TIMEOUT {
+                    let ok = from != want && page == want;
+                    let name = if SCENES[i] == Scene::GearClick { "gear-click" } else { "tab-click" };
+                    self.checks.push(check(
+                        name,
+                        ok,
+                        format!("page '{}' -> '{}' after {:.0} ms (expected '{}')", from.key(), page.key(), (now - since) * 1000.0, want.key()),
+                    ));
+                    if !ok {
+                        crate::pwarn!("selftest: {name} did not switch to '{}' (page is '{}')", want.key(), page.key());
                     }
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
+            Phase::Advanced { since, clicked: false } => {
+                // The Settings page on the open island, then a real click on
+                // its last row once the island has settled.
+                self.apply(app, Scene::Page(PageKind::Settings));
+                let at = app.selftest_hit_center(wid(pages::settings::ADVANCED_ID)).filter(|_| app.selftest_settled());
+                match at {
+                    Some(p) => {
+                        crate::pinfo!("selftest: clicking Advanced settings at ({:.0}, {:.0}) DIP", p.x, p.y);
+                        app.selftest_click(p);
+                        self.phase = Phase::Advanced { since: now, clicked: true };
+                    }
+                    None if now - since > self.settle_limit(app) => {
+                        self.checks.push(check("advanced-settings", false, "no Advanced settings row on the Settings page"));
+                        self.phase = Phase::Window { k: 0 };
+                    }
+                    None => {}
+                }
+            }
+            Phase::Advanced { since, clicked: true } => {
+                // The window opens and the island closes, so it never sits over the window.
+                let opened = app.settings_window_open();
+                if opened || now - since > CLICK_TIMEOUT {
+                    let closed = !app.selftest_expanded();
+                    let ok = opened && closed;
+                    let detail = format!(
+                        "the Settings window {} after {:.0} ms; the island {}",
+                        if opened { "opened" } else { "didn't open" },
+                        (now - since) * 1000.0,
+                        if closed { "closed" } else { "stayed open" }
+                    );
+                    if !ok {
+                        crate::pwarn!("selftest: Advanced settings: {detail}");
+                    }
+                    self.checks.push(check("advanced-settings", ok, detail));
+                    self.phase = Phase::Window { k: 0 };
                 }
             }
             Phase::Window { k } => {
@@ -2834,8 +2865,9 @@ impl SelfTest {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
-            // The Settings window's sections (not over the Glass backdrops).
-            None if self.glass.is_none() => Phase::Window { k: 0 },
+            // Advanced settings opening the Settings window, then its
+            // sections (not over the Glass backdrops).
+            None if self.glass.is_none() => Phase::Advanced { since: now, clicked: false },
             None => self.after_window(now),
         }
     }
