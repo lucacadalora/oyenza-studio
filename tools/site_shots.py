@@ -94,7 +94,7 @@ KEEP = {
     "idle-clock", "idle-eyes", "media-activity", "timer-activity", "volume-hud", "bluetooth-hud",
     "page-media", "page-focus", "page-health", "page-shelf", "page-tasks", "page-today-day",
     "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin", "page-settings", "page-system",
-    "page-settings-stay-on-top", "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
+    "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
     "game-stats", "page-system-games", "page-system-power-estimate", "page-script", "page-script-reading", "media-lyric",
     "message-notice", "notes-activity",
     "page-ai",
