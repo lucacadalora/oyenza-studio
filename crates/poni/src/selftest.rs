@@ -2153,6 +2153,8 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
+    /// After the scenes: the Settings window's `k`-th section as a picture.
+    Window { k: usize },
     /// Scene `i` shows the prayer countdown; once it rests with its OK
     /// drawn, press OK (`Scene::PrayerOk`).
     PressOk { i: usize, since: f64 },
@@ -2554,18 +2556,56 @@ impl SelfTest {
             }
             Phase::ClickWait { i, since, from, want } => {
                 let page = app.st.page;
-                if page != from || now - since > CLICK_TIMEOUT {
-                    let ok = from != want && page == want;
-                    let name = if SCENES[i] == Scene::GearClick { "gear-click" } else { "tab-click" };
-                    self.checks.push(check(
-                        name,
-                        ok,
-                        format!("page '{}' -> '{}' after {:.0} ms (expected '{}')", from.key(), page.key(), (now - since) * 1000.0, want.key()),
-                    ));
-                    if !ok {
-                        crate::pwarn!("selftest: {name} did not switch to '{}' (page is '{}')", want.key(), page.key());
+                // The gear opens the Settings window; the island stays on its page.
+                let gear = SCENES[i] == Scene::GearClick;
+                let opened = gear && app.settings_window_open();
+                if page != from || opened || now - since > CLICK_TIMEOUT {
+                    let ms = (now - since) * 1000.0;
+                    if gear {
+                        let ok = opened && page == from;
+                        let said = if opened { "opened" } else { "didn't open" };
+                        self.checks.push(check("gear-click", ok, format!("the Settings window {said} after {ms:.0} ms; page '{}' -> '{}'", from.key(), page.key())));
+                        if !ok {
+                            crate::pwarn!("selftest: the gear's Settings window {said} (page is '{}')", page.key());
+                        }
+                        // The Settings page's own pictures go on as before.
+                        app.selftest_close_settings();
+                    } else {
+                        let ok = from != want && page == want;
+                        self.checks.push(check("tab-click", ok, format!("page '{}' -> '{}' after {ms:.0} ms (expected '{}')", from.key(), page.key(), want.key())));
+                        if !ok {
+                            crate::pwarn!("selftest: tab-click did not switch to '{}' (page is '{}')", want.key(), page.key());
+                        }
                     }
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
+            Phase::Window { k } => {
+                // Each of the Settings window's sections, as a picture.
+                let list = crate::settings_window::sections(&app.st);
+                match list.get(k) {
+                    Some(&section) => {
+                        let (w, h, px) = app.selftest_settings_shot(section);
+                        let name = format!("settings-window-{}", section.key());
+                        let sized = w > 0 && h > 0 && px.len() == (w as usize) * (h as usize) * 4;
+                        // The card is opaque where the sidebar meets the content.
+                        let solid = sized && {
+                            let s = app.selftest_settings_scale();
+                            let at = |x: f32, y: f32| px[(((y * s) as usize) * w as usize + (x * s) as usize) * 4 + 3];
+                            let card = app.selftest_settings_card();
+                            at(card.center().x, card.center().y) == 255 && at(1.0, 1.0) == 0
+                        };
+                        self.checks.push(check(&name, solid, format!("{w}x{h} px{}", if solid { "" } else { ", card not drawn" })));
+                        if sized {
+                            let scale = app.selftest_settings_scale();
+                            self.queue_write(&name, w, h, px, scale, None);
+                        }
+                        self.phase = Phase::Window { k: k + 1 };
+                    }
+                    None => {
+                        app.selftest_close_settings();
+                        self.phase = self.after_window(now);
+                    }
                 }
             }
             Phase::PressOk { i, since } => {
@@ -2623,9 +2663,19 @@ impl SelfTest {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
-            // One IELTS turn end to end, in the plain Classic runs.
-            None if self.theme == Theme::Classic && self.glass.is_none() => Phase::Ielts { since: now },
-            None => self.after_scenes(now),
+            // The Settings window's sections (not over the Glass backdrops).
+            None if self.glass.is_none() => Phase::Window { k: 0 },
+            None => self.after_window(now),
+        }
+    }
+
+    /// After the scenes and the Settings window's pictures.
+    fn after_window(&self, now: f64) -> Phase {
+        // One IELTS turn end to end, in the plain Classic runs.
+        if self.theme == Theme::Classic && self.glass.is_none() {
+            Phase::Ielts { since: now }
+        } else {
+            self.after_scenes(now)
         }
     }
 

@@ -947,6 +947,13 @@ impl Gfx {
         }
     }
 
+    /// Never start the GPU renderer: a window that draws only when it
+    /// changes (the Settings window) needs no graphics device of its own.
+    pub fn software_only(mut self) -> Self {
+        self.gpu_allowed = false;
+        self
+    }
+
     pub fn scale(&self) -> f32 {
         self.dpi / 96.0
     }

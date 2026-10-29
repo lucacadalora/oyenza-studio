@@ -1,4 +1,7 @@
-//! Settings page, behind the gear on the right of the header.
+//! Settings page, behind the gear on the right of the header on the Mac. On
+//! Windows the gear opens the Settings window (`settings_window`), which
+//! has every setting, and this page shows only the Update sheet; the
+//! window draws this page's account row, switch, picker and Check now.
 //!
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
@@ -302,7 +305,7 @@ fn draw_tabs(ui: &mut Ui, st: &mut AppState, r: Rect) {
 /// Where Check now goes in the version's row, at its right end: while this
 /// copy looks for new versions itself and none is offered (then the last
 /// row has Update). Words with a wash on hover, not a pill.
-fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
+pub(crate) fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
     if !st.update.looks || st.update.offer.is_some() {
         return None;
     }
@@ -322,7 +325,7 @@ fn answered(said: Option<Said>) -> bool {
 
 /// Check now, or what it found: checking, up to date, or (it couldn't
 /// look) Try again, which looks again.
-fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
+pub(crate) fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
     let said = st.update.said;
     let (text, color) = check_look(said, st.accent);
     if answered(said) {
@@ -527,7 +530,7 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
 
 // ---------------------------------------------------------------- account
 
-fn draw_account(ui: &mut Ui, st: &mut AppState, r: Rect) {
+pub(crate) fn draw_account(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let cy = r.center().y;
     crate::oyen::app_icon(ui.c, Point::new(r.x + ICON / 2.0, cy), ICON);
     match st.oyenza.link.clone() {

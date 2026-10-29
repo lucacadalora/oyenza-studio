@@ -228,15 +228,15 @@ The details behind each feature.
 
 ### Settings and options
 
-The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below. Right-click the island or the tray icon for every option:
+The gear at the top right of the open island opens the **Settings** window, with every setting in one place: General (start with Windows, sounds, the 24-hour clock, the version with **Check now**), Appearance (the theme and the idle look), Island (how soon it opens and closes, its width, the display, full-screen apps and games), Music and lyrics, Pop-ups (volume, charger and battery, Bluetooth), Tabs, Add-ons, Focus, Prayer times, AI usage, your Oyenza account and About. Right-click the island or the tray icon for the quick ones, and **Settings…** opens the window too:
 - the theme: Classic, Oyen, Glass or Pill
 - the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock)
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics) and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
 - start with Windows, which version you have (**About Oyenza Studio**, with the build's day; it opens that version's release notes), and quit
-- in Settings only: which version you have, with **Check now** ([New versions](#new-versions))
+- in Settings only: which version you have, with **Check now** ([New versions](#new-versions)), and everything the menu doesn't have
 
-On a Mac, every option is in the menu bar, under Oyen's mark.
+On a Mac, the gear opens Settings on the island, and every option is in the menu bar, under Oyen's mark.
 
 ### The Oyen theme
 

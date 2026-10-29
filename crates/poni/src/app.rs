@@ -14,6 +14,7 @@ use crate::paths;
 use crate::pill;
 use crate::services::notifications::NotifyEvent;
 use crate::services::{self, Services};
+use crate::settings_window::{self, Section, SettingsWindow};
 use crate::state::{
     AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, NotifyAccess, OyenzaLink, PairedPhone, PhoneAsk,
     PhoneDrop, PhoneTransfer, PhoneView, PrayerState,
@@ -157,6 +158,9 @@ pub fn main_entry() -> i32 {
 
 fn run(selftest_dir: Option<String>) -> Result<i32> {
     window::register_classes(island_wndproc, helper_wndproc)?;
+    if let Err(e) = settings_window::register(settings_wndproc) {
+        pwarn!("settings window: class not registered ({e})");
+    }
     let hwnd = window::create_island_window()?;
     let helper = window::create_helper_window()?;
     pinfo!("windows created");
@@ -312,6 +316,19 @@ unsafe extern "system" fn helper_wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: L
     }
 }
 
+/// The Settings window's messages (`settings_window`).
+unsafe extern "system" fn settings_wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM) -> LRESULT {
+    let mut deferred = Vec::new();
+    let res = with_app(|app| app.handle_settings_window(hwnd, msg, wp, lp, &mut deferred));
+    for d in deferred {
+        run_deferred(d);
+    }
+    match res {
+        Some(Some(r)) => r,
+        _ => DefWindowProcW(hwnd, msg, wp, lp),
+    }
+}
+
 fn run_deferred(d: Deferred) {
     match d {
         Deferred::DragOut(paths) => {
@@ -355,6 +372,8 @@ pub struct App {
     text_focus: bool,
     prev_foreground: HWND,
     monitor: MonitorInfo,
+    /// The Settings window, while it is open.
+    settings_win: Option<SettingsWindow>,
     clock: FrameClock,
     sink: EventSink,
     rx: Receiver<AppEvent>,
@@ -621,6 +640,7 @@ impl App {
             text_focus: false,
             prev_foreground: HWND::default(),
             monitor,
+            settings_win: None,
             clock,
             sink,
             rx,
@@ -760,6 +780,7 @@ impl App {
 
     fn shutdown(&mut self) -> i32 {
         self.save_now();
+        self.settings_win = None;
         // Stops the frame count's trace session (it would outlive Poni).
         self.frames = None;
         self.set_peek_hotkey(false);
@@ -1320,6 +1341,209 @@ impl App {
             WM_DISPLAYCHANGE | WM_SETTINGCHANGE => {
                 self.refresh_monitor();
                 None
+            }
+            _ => None,
+        }
+    }
+
+    // ------------------------------------------------------------ the Settings window
+
+    /// Open the Settings window on `section` (General when it opens), or
+    /// bring it forward, on that section when one is given.
+    fn open_settings_window(&mut self, section: Option<Section>, deferred: &mut Vec<Deferred>) {
+        match self.settings_win.as_mut() {
+            Some(w) => {
+                if let Some(s) = section {
+                    w.show_section(s);
+                }
+                w.raise();
+            }
+            None => match SettingsWindow::new(self.monitor.work, self.gfx.dpi.round() as u32, section.unwrap_or(Section::General)) {
+                Ok(w) => {
+                    pinfo!("settings window: open");
+                    self.settings_win = Some(w);
+                    // Start with Windows is read off the UI thread; its answer draws the switch.
+                    crate::autostart::report(self.sink.clone(), None);
+                }
+                Err(e) => {
+                    pwarn!("settings window: couldn't open it ({e})");
+                    return;
+                }
+            },
+        }
+        if self.settings_win.as_ref().is_some_and(|w| w.section == Section::Addons) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+        self.paint_settings(deferred);
+    }
+
+    /// Close it: the window, its renderer and its pixels go.
+    fn close_settings_window(&mut self) {
+        if self.settings_win.take().is_some() {
+            pinfo!("settings window: closed");
+        }
+    }
+
+    /// Draw the Settings window, run what its clicks asked for and draw it
+    /// again with the result (a few times at most).
+    fn paint_settings(&mut self, deferred: &mut Vec<Deferred>) {
+        for _ in 0..4 {
+            self.st.now = self.st.now.max(clock::mono());
+            let now = self.st.now;
+            let Some(w) = self.settings_win.as_mut() else { return };
+            let before = w.section;
+            let out = w.paint(&mut self.st, now, false);
+            let after = w.section;
+            if out.close {
+                self.close_settings_window();
+                return;
+            }
+            // Add-ons lists IELTS and Meeting notes by the account's Pro, as its tab does.
+            if after != before && after == Section::Addons {
+                self.oyenza(OyenzaCmd::CheckPro);
+            }
+            let ran = !self.st.cmds.is_empty();
+            if ran {
+                self.run_commands(deferred);
+                self.request_frame();
+            }
+            let dirty = self.settings_win.as_ref().is_some_and(|w| w.dirty);
+            if !(out.again || ran || dirty) {
+                return;
+            }
+        }
+    }
+
+    fn paint_settings_if_dirty(&mut self, deferred: &mut Vec<Deferred>) {
+        if self.settings_win.as_ref().is_some_and(|w| w.dirty) {
+            self.paint_settings(deferred);
+        }
+    }
+
+    fn handle_settings_window(&mut self, hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM, deferred: &mut Vec<Deferred>) -> Option<LRESULT> {
+        let w = self.settings_win.as_mut().filter(|w| w.hwnd == hwnd)?;
+        let xy = |lp: LPARAM| ((lp.0 & 0xffff) as u16 as i16 as i32, ((lp.0 >> 16) & 0xffff) as u16 as i16 as i32);
+        match msg {
+            WM_NCHITTEST => {
+                // Empty parts of the card move the window; the shadow takes nothing.
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x - w.at.0, y - w.at.1);
+                let hit = if !w.card().contains(p) {
+                    HTNOWHERE
+                } else if w.drags_at(p) {
+                    HTCAPTION
+                } else {
+                    HTCLIENT
+                };
+                Some(LRESULT(hit as isize))
+            }
+            // A double-click on an empty part doesn't maximize it.
+            WM_NCLBUTTONDBLCLK => Some(LRESULT(0)),
+            WM_MOUSEMOVE => {
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x, y);
+                if !w.tracking {
+                    w.tracking = true;
+                    unsafe {
+                        let mut tme = TRACKMOUSEEVENT { cbSize: std::mem::size_of::<TRACKMOUSEEVENT>() as u32, dwFlags: TME_LEAVE, hwndTrack: hwnd, dwHoverTime: 0 };
+                        let _ = TrackMouseEvent(&mut tme);
+                    }
+                }
+                // Drawn again only when what's under the pointer changes.
+                let was = w.input.mouse.and_then(|m| w.hit_at(m)).map(|h| h.id);
+                let is = w.hit_at(p).map(|h| h.id);
+                let entered = w.input.mouse.is_none();
+                w.input.mouse = Some(p);
+                if was != is || entered || w.input.down {
+                    self.paint_settings(deferred);
+                }
+                Some(LRESULT(0))
+            }
+            WM_MOUSELEAVE => {
+                w.tracking = false;
+                w.input.mouse = None;
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_LBUTTONDOWN => {
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x, y);
+                w.input.mouse = Some(p);
+                w.input.down = true;
+                w.input.just_pressed = true;
+                w.input.press_pos = Some(p);
+                w.input.pressed_id = w.hit_at(p).map(|h| h.id);
+                unsafe {
+                    SetCapture(hwnd);
+                }
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_LBUTTONUP => {
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x, y);
+                w.input.mouse = Some(p);
+                if let (Some(pid), Some(h)) = (w.input.pressed_id, w.hit_at(p).map(|h| h.id)) {
+                    if pid == h {
+                        w.input.clicked = Some((h, MouseButton::Left));
+                    }
+                }
+                if w.input.down {
+                    w.input.released = w.input.pressed_id.map(|id| (id, p));
+                }
+                w.input.down = false;
+                w.input.pressed_id = None;
+                unsafe {
+                    let _ = ReleaseCapture();
+                }
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_MOUSEWHEEL => {
+                let delta = ((wp.0 >> 16) & 0xffff) as u16 as i16 as f32 / WHEEL_DELTA as f32;
+                let (x, y) = xy(lp);
+                w.input.mouse = Some(w.mouse_dip(x - w.at.0, y - w.at.1));
+                w.input.wheel += delta;
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_SETCURSOR if (lp.0 & 0xffff) as u32 == HTCLIENT => {
+                let kind = w.input.mouse.map_or(CursorKind::Arrow, |p| w.cursor_at(p));
+                unsafe {
+                    let id = match kind {
+                        CursorKind::Arrow => IDC_ARROW,
+                        CursorKind::Hand => IDC_HAND,
+                        CursorKind::Text => IDC_IBEAM,
+                    };
+                    if let Ok(c) = LoadCursorW(None, id) {
+                        SetCursor(c);
+                    }
+                }
+                Some(LRESULT(1))
+            }
+            WM_KEYDOWN => {
+                let ctrl = unsafe { GetKeyState(VK_CONTROL.0 as i32) } < 0;
+                if wp.0 == VK_ESCAPE.0 as usize || (ctrl && wp.0 == b'W' as usize) {
+                    self.close_settings_window();
+                }
+                Some(LRESULT(0))
+            }
+            WM_CLOSE => {
+                self.close_settings_window();
+                Some(LRESULT(0))
+            }
+            WM_MOVE => {
+                w.at = xy(lp);
+                Some(LRESULT(0))
+            }
+            WM_DPICHANGED => {
+                // Dragged onto a display with another scale: Windows' place for it, drawn at that scale.
+                if let Some(r) = unsafe { (lp.0 as *const RECT).as_ref() } {
+                    w.at = (r.left, r.top);
+                }
+                w.set_dpi((wp.0 & 0xffff) as u32);
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
             }
             _ => None,
         }
@@ -1890,6 +2114,18 @@ impl App {
         if before.usage.notices != self.st.settings.usage.notices {
             self.set_usage_watch();
         }
+        // The display the island hangs on, or its width when open (the
+        // Settings window has both).
+        if before.monitor != self.st.settings.monitor {
+            self.monitor = window::pick_monitor(self.st.settings.monitor);
+            self.set_dpi(self.monitor.dpi);
+            self.refresh_monitor();
+        } else if before.expanded_width != self.st.settings.expanded_width {
+            self.layout_surface();
+        }
+        if let Some(w) = self.settings_win.as_mut() {
+            w.dirty = true;
+        }
         // System's readings at rest: its history switch, while System is on.
         let history = self.st.settings.system_history_on();
         if before.system_history_on() != history && self.selftest.is_none() {
@@ -1921,6 +2157,7 @@ impl App {
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
             RecordScreen => crate::services::recorder::record_screen(self.hwnd),
+            ShowSettings => self.open_settings_window(None, &mut Vec::new()),
             ToggleAutostart => {
                 let on = crate::autostart::is_enabled();
                 if let Err(e) = crate::autostart::set_enabled(!on) {
@@ -1994,6 +2231,14 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        // What the Settings window shows that a service reports.
+        let shown = matches!(
+            ev,
+            AppEvent::Autostart(_) | AppEvent::Update(_) | AppEvent::Oyenza(_) | AppEvent::Addon { .. } | AppEvent::Usage(_) | AppEvent::Located(_) | AppEvent::Notify(_)
+        );
+        if let Some(w) = self.settings_win.as_mut().filter(|_| shown) {
+            w.dirty = true;
+        }
         match ev {
             AppEvent::Backdrop => {
                 if self.glass.on_backdrop(self.hwnd, &mut self.gfx) {
@@ -3119,6 +3364,7 @@ impl App {
             self.refresh_time();
             self.tick();
             self.run_commands(deferred);
+            self.paint_settings_if_dirty(deferred);
             self.clock.set_active(false);
             self.motion = None;
             self.schedule_wake();
@@ -3440,6 +3686,7 @@ impl App {
             None => {}
         }
         self.run_commands(deferred);
+        self.paint_settings_if_dirty(deferred);
 
         // Decide whether to keep the frame clock running. Real motion runs
         // at the display's full refresh rate; ambient motion runs on every
@@ -4315,6 +4562,7 @@ impl App {
                     self.settings_changed(&before);
                     self.save_settings();
                 }
+                Command::OpenSettings => self.open_settings_window(None, deferred),
                 Command::SaveStore => unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
                 },
@@ -4862,6 +5110,41 @@ impl App {
     }
 
     /// At rest: outline settled, mode current, no page switch or outgoing fade.
+    /// The Settings window is open.
+    pub fn settings_window_open(&self) -> bool {
+        self.settings_win.is_some()
+    }
+
+    /// The Settings window on `section`, opened if it isn't: its pixels
+    /// (premultiplied BGRA) and their size.
+    pub fn selftest_settings_shot(&mut self, section: Section) -> (i32, i32, Vec<u8>) {
+        let mut deferred = Vec::new();
+        if self.settings_win.is_none() {
+            self.open_settings_window(Some(section), &mut deferred);
+        }
+        self.st.now = self.st.now.max(clock::mono());
+        let now = self.st.now;
+        let Some(w) = self.settings_win.as_mut() else { return (0, 0, Vec::new()) };
+        w.show_section(section);
+        w.input.mouse = None;
+        let _ = w.paint(&mut self.st, now, true);
+        w.take_capture()
+    }
+
+    pub fn selftest_close_settings(&mut self) {
+        self.close_settings_window();
+    }
+
+    /// The scale the Settings window draws at.
+    pub fn selftest_settings_scale(&self) -> f32 {
+        self.settings_win.as_ref().map_or(1.0, |w| w.scale())
+    }
+
+    /// Where its card is in its window (DIPs).
+    pub fn selftest_settings_card(&self) -> Rect {
+        self.settings_win.as_ref().map_or(settings_window::card_rect(settings_window::CARD_H), |w| w.card())
+    }
+
     pub fn selftest_settled(&self) -> bool {
         self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none() && !self.glass_moving
     }

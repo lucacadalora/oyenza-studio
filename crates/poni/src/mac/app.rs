@@ -2485,6 +2485,8 @@ impl App {
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
                 // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
                 Command::Notify(_) => {}
+                // Only the Windows gear sends it: the Mac has the Settings page.
+                Command::OpenSettings => {}
                 Command::Usage(c) => self.usage_cmd(c),
                 // The IELTS coach's microphone and voice come to the Mac with
                 // branch ielts-coach-mac; until then its page says so.

@@ -191,6 +191,8 @@ pub enum Command {
     SaveStore,
     /// Persist `AppState::settings` now (after a page toggled a setting).
     SaveSettings,
+    /// Open the Settings window, or bring it forward (the gear, Windows).
+    OpenSettings,
     SetPage(PageKind),
     /// Keep the island open even when the cursor leaves.
     SetPinned(bool),

@@ -57,6 +57,8 @@ mod selftest;
 #[cfg(windows)]
 mod services;
 #[cfg(windows)]
+mod settings_window;
+#[cfg(windows)]
 mod shell;
 #[cfg(any(windows, target_os = "macos"))]
 mod state;
