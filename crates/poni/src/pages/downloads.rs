@@ -395,7 +395,7 @@ mod tests {
         assert_eq!(row_acts(&State::Queued), [RowAct::Cancel]);
         assert_eq!(RowAct::Cancel.label(), "Cancel");
         let downloading = State::Downloading { done: 1, total: None, speed: None, eta_s: None };
-        for running in [State::Starting, downloading, State::Finishing(Stage::Merging)] {
+        for running in [State::Starting, State::Solving, downloading, State::Finishing(Stage::Merging)] {
             assert_eq!(row_acts(&running), [RowAct::Stop], "{running:?}");
         }
         let done = State::Done { path: "C:\\Users\\a\\Downloads\\Big Buck Bunny.mp4".into(), size: 4_200_000 };

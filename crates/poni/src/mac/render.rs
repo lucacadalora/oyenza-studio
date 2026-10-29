@@ -765,10 +765,10 @@ const SAMPLE_PLACES: &str = r#"{"places":[
 ]}"#;
 
 /// The Downloads page's list, newest first, as on Windows (`selftest.rs`):
-/// a YouTube link just started, a film coming in from PeerTube, a private video
-/// that failed and a finished film, moved along by yt-dlp's lines as the app
-/// moves them, so the bar and the island's pill count the bytes as they do
-/// for real. No pictures, so nothing is fetched.
+/// a YouTube link whose puzzle QuickJS is solving, a film coming in from
+/// PeerTube, a private video that failed and a finished film, moved along by
+/// yt-dlp's lines as the app moves them, so the bar and the island's pill
+/// count the bytes as they do for real. No pictures, so nothing is fetched.
 fn seed_downloads(st: &mut AppState) {
     use poni_core::downloads::{Jobs, State};
     use poni_core::ytdlp::{Line, Mode as Get};
@@ -792,6 +792,7 @@ fn seed_downloads(st: &mut AppState) {
     jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
     let youtube = jobs.add("https://www.youtube.com/watch?v=aqz-KE-bpKQ".into(), Get::Video, unix - 20);
     jobs.starting(youtube);
+    jobs.apply(youtube, Line::Solving);
     st.downloads = jobs;
 }
 

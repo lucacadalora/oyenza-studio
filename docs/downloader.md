@@ -37,7 +37,7 @@ Nothing runs at rest. With the add-on on and nothing downloading, it has no prog
 - **A download** starts one `yt-dlp.exe`, without a window, at below normal priority. yt-dlp starts `qjs.exe` when YouTube's JavaScript needs answering, and `ffmpeg.exe` to join the picture and the sound once both are in. They all end when the download does. A Mac runs `yt-dlp`, `qjs` and `ffmpeg` the same way.
 - **Two at a time:** a third download waits for a free place (`poni_core::downloads::AT_ONCE`).
 - **Stop** ends a download's programs at once, and so does quitting Oyenza Studio: each yt-dlp runs in a Windows job object, which ends it with everything it started. On a Mac each yt-dlp leads a process group of its own, which what it starts joins; Stop asks the whole group to end, and ends what is left of it 2 seconds later. Stop then deletes what yt-dlp had written of the file (its `.part` and `.ytdl` files); after quitting, they stay in the Downloads folder.
-- **The progress** comes from yt-dlp's own lines, read by one thread per running download, which ends with it.
+- **The progress** comes from yt-dlp's own lines, five a second at most, read by one thread per running download, which ends with it. A YouTube link first reads **Solving YouTube's puzzle** while QuickJS answers YouTube's JavaScript: seconds, and longer for a YouTube player it hasn't seen before.
 
 ## Where the files go
 

@@ -46,6 +46,9 @@ pub struct Tools<'a> {
 /// What one line of yt-dlp's output says.
 #[derive(Clone, Debug, PartialEq)]
 pub enum Line {
+    /// QuickJS is solving YouTube's puzzle for the video's links (its "JS
+    /// challenges"): the slow part of a YouTube link, before its `Info`.
+    Solving,
     /// What is being downloaded (once per item, before its first byte).
     Info { title: String, site: String, thumbnail: Option<String>, duration_s: Option<f64> },
     /// Bytes so far of the part being fetched (`total` None while unknown).
@@ -174,9 +177,11 @@ pub fn args(req: &Request, tools: &Tools) -> Vec<String> {
         // still writes cursor codes), a line per progress report, UTF-8.
         "--color", "never", "--newline", "--encoding", "utf-8",
         // `--print` turns on quiet and simulate: download all the same, and
-        // keep yt-dlp's own lines. A progress line at most every half second:
-        // yt-dlp writes one per block it reads (224 in 10 s for a 23 MB film).
-        "--no-simulate", "--no-quiet", "--progress", "--progress-delta", "0.5",
+        // keep yt-dlp's own lines. A progress line at most five times a
+        // second: yt-dlp writes one per block it reads (224 in 10 s for a
+        // 23 MB film), and every half second showed a file that comes in a
+        // second or two (YouTube's, often) as a step or two, or none.
+        "--no-simulate", "--no-quiet", "--progress", "--progress-delta", "0.2",
         "--progress-template", PROGRESS, "--progress-template", STEP, "--print", INFO, "--print", DONE,
         // One video per link: the one it points at, or a playlist's first (a
         // channel's link would download the whole channel).
@@ -263,8 +268,14 @@ fn one(text: &str) -> Option<Line> {
         // the pinned yt-dlp doesn't take one of ours.
         return Some(Line::Failed(Problem::Other(short(why.trim()))));
     }
-    // yt-dlp's own line for a step: `[Merger] Merging formats into "…"`.
     let (tag, rest) = text.strip_prefix('[')?.split_once("] ")?;
+    // `[youtube] [jsc:quickjs] Solving JS challenges using quickjs`: yt-dlp's
+    // JS challenge provider handing YouTube's player to QuickJS, for seconds
+    // (more for a player it hasn't seen before).
+    if rest.starts_with("[jsc:") && rest.contains("Solving JS challenges") {
+        return Some(Line::Solving);
+    }
+    // yt-dlp's own line for a step: `[Merger] Merging formats into "…"`.
     match step(tag)? {
         // "[ExtractAudio] Not converting audio …; file is already in target format m4a"
         Stage::Converting if rest.starts_with("Not converting") => None,
@@ -457,7 +468,7 @@ mod tests {
         let want = [
             "--ignore-config", "--no-plugin-dirs", "--cache-dir", r"C:\Users\Luca Cada\AppData\Local\Poni\addons\downloader\cache",
             "--color", "never", "--newline", "--encoding", "utf-8",
-            "--no-simulate", "--no-quiet", "--progress", "--progress-delta", "0.5",
+            "--no-simulate", "--no-quiet", "--progress", "--progress-delta", "0.2",
             "--progress-template", PROGRESS, "--progress-template", STEP, "--print", INFO, "--print", DONE,
             "--no-playlist", "--playlist-items", "1",
             "--no-mtime", "--windows-filenames", "--continue",
@@ -923,6 +934,21 @@ mod tests {
             (r#"{"t":"later","id":"x"}"#, None),
         ] {
             assert_eq!(parse(line), stage.map(Line::Stage), "{line}");
+        }
+    }
+
+    #[test]
+    fn youtubes_puzzle_in_yt_dlps_own_words() {
+        // As yt_dlp/extractor/youtube/jsc/_builtin/ejs.py prints it, after
+        // the player; this server can't reach YouTube to record it.
+        assert_eq!(parse("[youtube] [jsc:quickjs] Solving JS challenges using quickjs"), Some(Line::Solving));
+        for line in [
+            "[youtube] aqz-KE-bpKQ: Downloading webpage",
+            "[youtube] aqz-KE-bpKQ: Downloading m3u8 information",
+            // QuickJS's warning about itself (quickjs.py) is no step.
+            "WARNING: [youtube] [jsc:quickjs] quickjs-ng versions older than 0.12.0 are missing important optimizations and will solve the JS challenges very slowly. Consider upgrading.",
+        ] {
+            assert_eq!(parse(line), None, "{line}");
         }
     }
 

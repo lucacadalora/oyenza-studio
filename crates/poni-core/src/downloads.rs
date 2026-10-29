@@ -30,6 +30,9 @@ pub enum State {
     Queued,
     /// yt-dlp is reading the link.
     Starting,
+    /// QuickJS is solving YouTube's puzzle for the link (`Line::Solving`),
+    /// until its first bytes: the slow part of a YouTube link.
+    Solving,
     /// All its parts together ([`Jobs::apply`]); `speed` and `eta_s` are the
     /// part coming in now.
     Downloading { done: u64, total: Option<u64>, speed: Option<f64>, eta_s: Option<u64> },
@@ -44,14 +47,14 @@ pub enum State {
 }
 
 impl State {
-    /// Still to finish: queued, starting, downloading or finishing.
+    /// Still to finish: queued, starting, solving, downloading or finishing.
     pub fn live(&self) -> bool {
-        matches!(self, State::Queued | State::Starting | State::Downloading { .. } | State::Finishing(_))
+        matches!(self, State::Queued | State::Starting | State::Solving | State::Downloading { .. } | State::Finishing(_))
     }
 
-    /// Its yt-dlp runs: starting, downloading or finishing.
+    /// Its yt-dlp runs: starting, solving, downloading or finishing.
     fn running(&self) -> bool {
-        matches!(self, State::Starting | State::Downloading { .. } | State::Finishing(_))
+        matches!(self, State::Starting | State::Solving | State::Downloading { .. } | State::Finishing(_))
     }
 }
 
@@ -116,6 +119,12 @@ impl Jobs {
     pub fn apply(&mut self, id: u64, line: Line) {
         let Some(job) = self.list.iter_mut().find(|j| j.id == id && j.state.live()) else { return };
         match line {
+            // The puzzle comes before the bytes, and only then shows.
+            Line::Solving => {
+                if matches!(job.state, State::Queued | State::Starting) {
+                    job.state = State::Solving;
+                }
+            }
             Line::Info { title, site, thumbnail, .. } => {
                 job.title = Some(title).filter(|t| !t.is_empty());
                 job.site = Some(site).filter(|s| !s.is_empty());
@@ -275,6 +284,7 @@ pub fn line(job: &Job) -> String {
     match &job.state {
         State::Queued => "Waiting".to_string(),
         State::Starting => "Starting".to_string(),
+        State::Solving => "Solving YouTube's puzzle".to_string(),
         State::Downloading { done, total, speed, eta_s } => {
             let mut bits = vec![match total {
                 Some(total) => format!("{} of {}", fmt_bytes(*done), fmt_bytes(*total)),
@@ -361,6 +371,7 @@ mod tests {
     const SPRITE_FRIGHT: &str = "https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605";
     const BUNNY: &str = "https://archive.org/details/BigBuckBunny_124";
     const FLICKERMOOD: &str = "https://soundcloud.com/forss/flickermood";
+    const BUNNY_ON_YOUTUBE: &str = "https://www.youtube.com/watch?v=aqz-KE-bpKQ";
 
     fn bytes(done: u64, total: Option<u64>) -> Line {
         Line::Progress { done, total, speed: None, eta_s: None }
@@ -430,11 +441,36 @@ mod tests {
     }
 
     #[test]
+    fn youtubes_puzzle_shows_until_the_first_bytes() {
+        let mut jobs = Jobs::default();
+        let id = jobs.add(BUNNY_ON_YOUTUBE.into(), Mode::Video, 0);
+        jobs.starting(id);
+        jobs.apply(id, Line::Solving);
+        assert_eq!(line_of(&jobs, id), "Solving YouTube's puzzle");
+        assert_eq!((jobs.running(), jobs.progress(id)), (1, None), "it runs, with no bar yet");
+        // Solved: its title, then its bytes.
+        jobs.apply(id, info("Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film"));
+        assert_eq!(jobs.get(id).unwrap().state, State::Solving);
+        jobs.apply(id, bytes(1_024, Some(2_048)));
+        assert!(matches!(jobs.get(id).unwrap().state, State::Downloading { .. }));
+        // Another puzzle line by then changes nothing.
+        jobs.apply(id, Line::Solving);
+        assert!(matches!(jobs.get(id).unwrap().state, State::Downloading { .. }));
+        // Stop works while it solves.
+        let other = jobs.add(BUNNY_ON_YOUTUBE.into(), Mode::Audio, 0);
+        jobs.starting(other);
+        jobs.apply(other, Line::Solving);
+        jobs.stop(other);
+        assert_eq!(jobs.get(other).unwrap().state, State::Stopped);
+    }
+
+    #[test]
     fn lines_say_where_a_download_stands() {
         let job = |state| Job { id: 1, url: SPRITE_FRIGHT.into(), mode: Mode::Video, title: None, site: None, thumbnail: None, state, added: 0 };
         let at = |done, total, speed, eta_s| line(&job(State::Downloading { done, total, speed, eta_s }));
         assert_eq!(line(&job(State::Queued)), "Waiting");
         assert_eq!(line(&job(State::Starting)), "Starting");
+        assert_eq!(line(&job(State::Solving)), "Solving YouTube's puzzle");
         assert_eq!(at(12_300_000, Some(45_000_000), Some(2_100_000.0), Some(14)), "12 MB of 45 MB · 2.1 MB/s · 14 s left");
         assert_eq!(at(820_400, Some(4_120_000), Some(850_000.0), Some(200)), "820 KB of 4.1 MB · 850 KB/s · 3 min left");
         assert_eq!(at(1_260_000_000, Some(4_000_000_000), Some(512.0), Some(3_900)), "1.3 GB of 4.0 GB · 512 bytes/s · 1 h 5 min left");

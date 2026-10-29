@@ -775,11 +775,12 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
 }
 
 /// The Downloads page's list for its scenes, newest first: a YouTube link
-/// just started, a film coming in from PeerTube, a private video that failed and
-/// a finished film, moved along by yt-dlp's lines as the app moves them
-/// (`poni_core::downloads::Jobs`), so the bar and the island's pill count the
-/// bytes as they do for real; every other scene: none. No pictures, so
-/// nothing is fetched, and the self-test starts no downloader.
+/// whose puzzle QuickJS is solving, a film coming in from PeerTube, a
+/// private video that failed and a finished film, moved along by yt-dlp's
+/// lines as the app moves them (`poni_core::downloads::Jobs`), so the bar and
+/// the island's pill count the bytes as they do for real; every other scene:
+/// none. No pictures, so nothing is fetched, and the self-test starts no
+/// downloader.
 fn seed_downloads(st: &mut AppState, scene: Scene) {
     use poni_core::downloads::{Jobs, State};
     use poni_core::ytdlp::{Line, Mode};
@@ -813,6 +814,7 @@ fn seed_downloads(st: &mut AppState, scene: Scene) {
     jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
     let youtube = jobs.add("https://www.youtube.com/watch?v=aqz-KE-bpKQ".into(), Mode::Video, unix - 20);
     jobs.starting(youtube);
+    jobs.apply(youtube, Line::Solving);
     st.downloads = jobs;
 }
 
