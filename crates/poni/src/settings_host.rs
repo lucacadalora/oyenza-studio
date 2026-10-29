@@ -168,9 +168,10 @@ impl SettingsWindow {
     }
 
     /// Draw the window for `st` (and show it, the first time), light or
-    /// dark as Windows' apps are. `capture`: keep this frame's pixels for
-    /// the self-test.
-    pub fn paint(&mut self, st: &mut AppState, now: f64, capture: bool) -> Painted {
+    /// dark as Windows' apps are. `only`: a frame of a glide, which redraws
+    /// and shows only that part (DIPs). `capture`: keep this frame's pixels
+    /// for the self-test.
+    pub fn paint(&mut self, st: &mut AppState, now: f64, only: Option<Rect>, capture: bool) -> Painted {
         let (w, h) = surface_px(self.scale(), self.card_h);
         if let Err(e) = self.gfx.set_surface(w, h) {
             crate::pwarn!("settings window: surface failed ({e})");
@@ -183,8 +184,18 @@ impl SettingsWindow {
             self.gfx.request_capture(full);
         }
         let frame = Frame { card: self.card(), own_chrome: true, top: 0.0, still: capture || self.reduce };
-        let out = match self.gfx.begin(full) {
-            Ok(mut canvas) => Some(self.view.draw(&mut canvas, st, now, frame, light)),
+        let part = only.filter(|_| !capture && !self.gfx.draws_all()).map(|r| crate::gfx::px_rect(r, self.scale(), 1, w, h));
+        let out = match self.gfx.begin(part.unwrap_or(full)) {
+            Ok(mut canvas) => {
+                if let Some(r) = only.filter(|_| part.is_some()) {
+                    canvas.clip(r);
+                }
+                let out = self.view.draw(&mut canvas, st, now, frame, light);
+                if part.is_some() {
+                    canvas.unclip();
+                }
+                Some(out)
+            }
             Err(e) => {
                 crate::pwarn!("settings window: begin frame failed ({e})");
                 None

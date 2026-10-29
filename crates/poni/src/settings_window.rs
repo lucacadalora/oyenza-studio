@@ -694,6 +694,12 @@ pub struct View {
     pub moving: bool,
 }
 
+/// `a` and `b` together.
+fn span(a: Rect, b: Rect) -> Rect {
+    let (x0, y0) = (a.x.min(b.x), a.y.min(b.y));
+    Rect::new(x0, y0, a.right().max(b.right()) - x0, a.bottom().max(b.bottom()) - y0)
+}
+
 /// How far the content is scrolled (DIPs): where it is, where it's going
 /// (a wheel glides there; a trackpad goes there at once, under the
 /// fingers), and how tall it was last drawn.
@@ -777,6 +783,12 @@ impl View {
         self.input.wheel += notches;
     }
 
+    /// What the next frame of a glide must redraw (DIPs): only what still
+    /// moves. None = nothing moves, or the whole window must be drawn.
+    pub fn next_clip(&self) -> Option<Rect> {
+        self.motion.next.filter(|_| self.moving && !self.dirty)
+    }
+
     /// A trackpad: `points` (+ = up), the content follows the fingers.
     pub fn scroll_by(&mut self, p: Point, points: f32) {
         self.input.mouse = Some(p);
@@ -848,6 +860,9 @@ struct Motion {
     snap: bool,
     /// So does the next one (a section opened from outside).
     snap_next: bool,
+    /// Where what still moves will be drawn on the next frame (from where
+    /// it is to where it's going): a frame of a glide redraws only that.
+    next: Option<Rect>,
 }
 
 impl Motion {
@@ -857,6 +872,18 @@ impl Motion {
         self.last = now;
         self.moving = false;
         self.snap = still || std::mem::take(&mut self.snap_next);
+        self.next = None;
+    }
+
+    /// Something in `r` still moves: the next frame redraws it.
+    fn cover(&mut self, r: Rect) {
+        self.next = Some(match self.next {
+            Some(n) => {
+                let (x0, y0) = (n.x.min(r.x), n.y.min(r.y));
+                Rect::new(x0, y0, n.right().max(r.right()) - x0, n.bottom().max(r.bottom()) - y0)
+            }
+            None => r,
+        });
     }
 
     /// `key`'s value this frame on its way to `target` at `pace`; within
@@ -964,6 +991,10 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: b
     }
     sc.to = sc.to.clamp(0.0, max_scroll);
     sc.at = m.slide(skey, sc.to, SCROLLING);
+    if sc.at != sc.to {
+        // The whole content moves, and the edge it scrolls under.
+        m.cover(view.inset(0.0, -2.0));
+    }
     ui.c.clip(view);
     let mut y = view.y - sc.at;
     let x = content.x;
@@ -987,7 +1018,11 @@ fn draw_close(ui: &mut Ui, card: Rect, m: &mut Motion) -> bool {
     let r = Rect::new(card.right() - 14.0 - 28.0, card.y + 14.0, 28.0, 28.0);
     let id = wid("settingswin.close");
     let resp = ui.button(id, r);
-    let a = m.fade(mkey(id, K_WASH), if resp.pressed { 0.8 } else if resp.hovered { 0.6 } else { 0.0 }, WASH);
+    let to = if resp.pressed { 0.8 } else if resp.hovered { 0.6 } else { 0.0 };
+    let a = m.fade(mkey(id, K_WASH), to, WASH);
+    if a != to {
+        m.cover(r);
+    }
     if a > 0.0 {
         ui.c.fill_rrect(r, 8.0, palette::RED.with_alpha(a));
     }
@@ -1013,8 +1048,13 @@ fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section, to
     // The highlight, under the rows.
     let sel_key = mkey(wid("settingswin.nav.sel"), K_Y);
     if let Some(i) = list.iter().position(|s| *s == section) {
-        let y = m.slide(sel_key, row_y(i, section), SLIDE);
-        ui.c.fill_rrect(Rect::new(side.x + 10.0, y, side.w - 20.0, NAV_H), 8.0, Color::white(0.12));
+        let to = row_y(i, section);
+        let y = m.slide(sel_key, to, SLIDE);
+        let r = Rect::new(side.x + 10.0, y, side.w - 20.0, NAV_H);
+        if y != to {
+            m.cover(span(r, Rect::new(r.x, to, r.w, r.h)));
+        }
+        ui.c.fill_rrect(r, 8.0, Color::white(0.12));
     }
     let mut picked = None;
     for (i, s) in list.iter().enumerate() {
@@ -1025,7 +1065,11 @@ fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section, to
             picked = Some(*s);
         }
         let on = *s == section;
-        let wash = m.fade(mkey(id, K_WASH), if on { 0.0 } else if resp.pressed { 0.09 } else if resp.hovered { 0.05 } else { 0.0 }, WASH);
+        let to = if on { 0.0 } else if resp.pressed { 0.09 } else if resp.hovered { 0.05 } else { 0.0 };
+        let wash = m.fade(mkey(id, K_WASH), to, WASH);
+        if wash != to {
+            m.cover(r);
+        }
         if wash > 0.0 {
             ui.c.fill_rrect(r, 8.0, Color::white(wash));
         }
@@ -1156,7 +1200,11 @@ fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, a
                 (Some(_), Some(hit)) => ui.button(rid, hit),
                 _ => Default::default(),
             };
-            let wash = m.fade(mkey(rid, K_WASH), if resp.pressed { 0.07 } else if resp.hovered { 0.04 } else { 0.0 }, WASH);
+            let to = if resp.pressed { 0.07 } else if resp.hovered { 0.04 } else { 0.0 };
+            let wash = m.fade(mkey(rid, K_WASH), to, WASH);
+            if wash != to {
+                m.cover(row);
+            }
             if wash > 0.0 {
                 fill_row(ui, row, Color::white(wash), ends);
             }
@@ -1164,8 +1212,12 @@ fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, a
                 act = Some(Act::Toggle);
             }
             // The knob slides and the track takes the colour as it goes.
-            let k = m.fade(mkey(rid, K_ON), if *on == Some(true) { 1.0 } else { 0.0 }, SWITCHING);
+            let to = if *on == Some(true) { 1.0 } else { 0.0 };
+            let k = m.fade(mkey(rid, K_ON), to, SWITCHING);
             let sw = Rect::new(ctl_x, row.center().y - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
+            if k != to {
+                m.cover(sw.inset(-1.0, -1.0));
+            }
             let alpha = if on.is_some() { 1.0 } else { 0.5 };
             ui.c.with_alpha(alpha, |c| draw_switch_at(c, sw, k, accent));
         }
@@ -1185,7 +1237,11 @@ fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, a
                     Some(hit) => ui.button(bid, hit),
                     None => Default::default(),
                 };
-                let lit = m.fade(mkey(bid, K_WASH), if resp.pressed { 1.0 } else if resp.hovered { 0.5 } else { 0.0 }, WASH);
+                let to = if resp.pressed { 1.0 } else if resp.hovered { 0.5 } else { 0.0 };
+                let lit = m.fade(mkey(bid, K_WASH), to, WASH);
+                if lit != to {
+                    m.cover(r.inset(-1.0, -1.0));
+                }
                 let fill = if lit <= 0.5 { Color::lerp(palette::SURFACE, palette::SURFACE_HOVER, lit * 2.0) } else { Color::lerp(palette::SURFACE_HOVER, palette::SURFACE_PRESSED, lit * 2.0 - 1.0) };
                 ui.c.fill_circle(r.center(), STEP_BTN / 2.0, fill);
                 ui.c.icon(icon, Rect::from_center(r.center(), 12.0, 12.0), palette::TEXT);
@@ -1261,9 +1317,13 @@ fn picker_glide(ui: &mut Ui, m: &mut Motion, id: &str, x: f32, y: f32, names: &[
     ui.c.fill_rrect(Rect::new(x, y, cx + SEG_INSET - x, h), h / 2.0, palette::SURFACE);
     let base = wid(id);
     // The lift, under the names.
+    let track = Rect::new(x, y, cx + SEG_INSET - x, h);
     if let Some(cell) = sel.and_then(|s| cells.get(s)) {
         let lx = m.slide(mkey(base, K_X), cell.x - x, SLIDE);
         let lw = m.slide(mkey(base, K_W), cell.w, SLIDE);
+        if lx != cell.x - x || lw != cell.w {
+            m.cover(track);
+        }
         ui.c.fill_rrect(Rect::new(x + lx, cell.y, lw, inner_h), inner_h / 2.0, Color::white(0.16));
     }
     let mut picked = None;
@@ -1274,11 +1334,16 @@ fn picker_glide(ui: &mut Ui, m: &mut Motion, id: &str, x: f32, y: f32, names: &[
         if resp.clicked {
             picked = Some(i);
         }
-        let wash = m.fade(mkey(cid, K_WASH), if resp.pressed { 0.10 } else if resp.hovered { 0.06 } else { 0.0 }, WASH);
+        let to = if resp.pressed { 0.10 } else if resp.hovered { 0.06 } else { 0.0 };
+        let wash = m.fade(mkey(cid, K_WASH), to, WASH);
         if wash > 0.0 {
             ui.c.fill_rrect(*cell, inner_h / 2.0, Color::white(wash));
         }
-        let lit = m.fade(mkey(cid, K_LIT), if chosen || resp.hovered || resp.pressed { 1.0 } else { 0.0 }, WASH);
+        let lit_to = if chosen || resp.hovered || resp.pressed { 1.0 } else { 0.0 };
+        let lit = m.fade(mkey(cid, K_LIT), lit_to, WASH);
+        if wash != to || lit != lit_to {
+            m.cover(*cell);
+        }
         ui.c.text(name, *cell, &st.color(Color::lerp(palette::TEXT_DIM, palette::TEXT, lit)).center());
     }
     picked
@@ -1376,12 +1441,17 @@ fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surface
         };
         let on = st.settings.theme == *theme;
         fill_group(ui, c, sf.group);
-        let lit = m.fade(mkey(id, K_WASH), if resp.pressed { 1.0 } else if resp.hovered { 0.6 } else { 0.0 }, WASH);
+        let lit_to = if resp.pressed { 1.0 } else if resp.hovered { 0.6 } else { 0.0 };
+        let lit = m.fade(mkey(id, K_WASH), lit_to, WASH);
         if lit > 0.0 {
             let over = if lit > 0.6 { sf.group_press } else { sf.group_hover };
             ui.c.unthemed(|cv| cv.fill_rrect(c, GROUP_R, over.mul_alpha((lit / 0.6).min(1.0))));
         }
-        let ring = m.fade(mkey(id, K_ON), if on { 1.0 } else { 0.0 }, SWITCHING);
+        let ring_to = if on { 1.0 } else { 0.0 };
+        let ring = m.fade(mkey(id, K_ON), ring_to, SWITCHING);
+        if lit != lit_to || ring != ring_to {
+            m.cover(c.inset(-2.0, -2.0));
+        }
         if ring > 0.0 {
             ui.c.stroke_rrect(c.inset(1.0, 1.0), GROUP_R - 1.0, accent.mul_alpha(ring), 2.0);
         }

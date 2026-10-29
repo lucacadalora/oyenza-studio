@@ -1105,10 +1105,13 @@ impl App {
     /// The display link's tick: draw the next frame while something glides,
     /// and stop the frames once it has arrived.
     fn settings_step(&mut self) {
-        if self.settings_ui.as_ref().is_some_and(|s| s.view.moving) {
-            settings_host::redraw();
-        } else {
-            settings_host::set_frames(false);
+        match self.settings_ui.as_ref().filter(|s| s.view.moving) {
+            Some(s) => match s.view.next_clip() {
+                // Only what moves: a switch's knob, a highlight's way.
+                Some(r) => settings_host::redraw_in(r),
+                None => settings_host::redraw(),
+            },
+            None => settings_host::set_frames(false),
         }
     }
 

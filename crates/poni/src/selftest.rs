@@ -2696,16 +2696,22 @@ impl SelfTest {
                         }
                         // Frames of a glide redraw the whole window: what one costs.
                         if k == 0 {
-                            let ms = app.selftest_settings_frames(30);
-                            let median = ms.get(ms.len() / 2).copied().unwrap_or(f64::INFINITY);
+                            let median = |ms: &[f64]| ms.get(ms.len() / 2).copied().unwrap_or(f64::INFINITY);
+                            let full = app.selftest_settings_frames(30, None);
+                            // A glide's frame: the sidebar's highlight going a few rows down.
+                            let card = app.selftest_settings_card();
+                            let part = app.selftest_settings_frames(30, Some(Rect::new(card.x + 10.0, card.y + 80.0, 200.0, 140.0)));
                             let detail = format!(
-                                "median {median:.2} ms, best {:.2}, worst {:.2} over {} frames at {:.0} %; 144 Hz leaves 6.94 ms a frame",
-                                ms.first().copied().unwrap_or(0.0),
-                                ms.last().copied().unwrap_or(0.0),
-                                ms.len(),
+                                "whole window {:.2} ms (best {:.2}, worst {:.2}), a glide's frame {:.2} ms (worst {:.2}), {} frames each at {:.0} %; 144 Hz leaves 6.94 ms a frame",
+                                median(&full),
+                                full.first().copied().unwrap_or(0.0),
+                                full.last().copied().unwrap_or(0.0),
+                                median(&part),
+                                part.last().copied().unwrap_or(0.0),
+                                full.len(),
                                 app.selftest_settings_scale() * 100.0
                             );
-                            self.checks.push(check("settings-window-frame", median < SETTINGS_FRAME_BUDGET_MS, detail));
+                            self.checks.push(check("settings-window-frame", median(&full) < SETTINGS_FRAME_BUDGET_MS, detail));
                         }
                         self.phase = Phase::Window { k: k + 1 };
                     }

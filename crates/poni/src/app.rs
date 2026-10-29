@@ -1399,7 +1399,7 @@ impl App {
             let now = self.st.now;
             let Some(w) = self.settings_win.as_mut() else { return };
             let before = w.view.section;
-            let out = w.paint(&mut self.st, now, false);
+            let out = w.paint(&mut self.st, now, None, false);
             let after = w.view.section;
             if out.close {
                 self.close_settings_window();
@@ -1426,10 +1426,18 @@ impl App {
     }
 
     /// Draw the Settings window on this frame when something in it changed
-    /// or still glides.
+    /// (all of it), or still glides (only what moves).
     fn paint_settings_if_dirty(&mut self, deferred: &mut Vec<Deferred>) {
-        if self.settings_win.as_ref().is_some_and(|w| w.view.dirty || w.view.moving) {
+        let Some(w) = self.settings_win.as_ref() else { return };
+        if w.view.dirty {
             self.paint_settings(deferred);
+        } else if w.view.moving {
+            self.st.now = self.st.now.max(clock::mono());
+            let now = self.st.now;
+            if let Some(w) = self.settings_win.as_mut() {
+                let only = w.view.next_clip();
+                let _ = w.paint(&mut self.st, now, only, false);
+            }
         }
     }
 
@@ -5191,7 +5199,7 @@ impl App {
         w.view.show_section(section);
         w.view.input.mouse = None;
         w.set_light(light);
-        let _ = w.paint(&mut self.st, now, true);
+        let _ = w.paint(&mut self.st, now, None, true);
         w.take_capture()
     }
 
@@ -5199,16 +5207,17 @@ impl App {
         self.close_settings_window();
     }
 
-    /// Draw the Settings window `n` times, as frames of a glide do: each
-    /// frame's time to draw and show (ms), sorted.
-    pub fn selftest_settings_frames(&mut self, n: usize) -> Vec<f64> {
+    /// Draw the Settings window `n` times: whole (`only` None, as after a
+    /// click) or only a part (as a frame of a glide): each frame's time to
+    /// draw and show (ms), sorted.
+    pub fn selftest_settings_frames(&mut self, n: usize, only: Option<Rect>) -> Vec<f64> {
         let mut out = Vec::with_capacity(n);
         for _ in 0..n {
             self.st.now = self.st.now.max(clock::mono());
             let now = self.st.now;
             let Some(w) = self.settings_win.as_mut() else { break };
             let t = std::time::Instant::now();
-            let _ = w.paint(&mut self.st, now, false);
+            let _ = w.paint(&mut self.st, now, only, false);
             out.push(t.elapsed().as_secs_f64() * 1000.0);
         }
         out.sort_by(|a, b| a.total_cmp(b));
