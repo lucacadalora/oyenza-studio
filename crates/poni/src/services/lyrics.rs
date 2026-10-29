@@ -68,6 +68,19 @@ const CACHE_KEEP: usize = 1600;
 const PRUNE_EVERY_WRITES: u32 = 200;
 
 const MSG_BUSY: &str = "LRCLIB is busy right now";
+const MSG_TIMEOUT: &str = "LRCLIB didn't answer in time";
+const MSG_UNREACHABLE: &str = "Can't reach LRCLIB";
+/// "LRCLIB error 503": its HTTP status follows.
+const MSG_HTTP: &str = "LRCLIB error";
+
+/// A lookup that failed with `msg` failed on LRCLIB's side: it was busy,
+/// didn't answer in time, couldn't be reached or had a server error. The
+/// service asks again later on its own; nothing was wrong with the song or
+/// with this copy.
+#[cfg_attr(windows, allow(dead_code))] // only the Mac's smoke run asks (it looks a real song up)
+pub fn lrclib_trouble(msg: &str) -> bool {
+    [MSG_BUSY, MSG_TIMEOUT, MSG_UNREACHABLE].contains(&msg) || msg.strip_prefix(MSG_HTTP).and_then(|s| s.trim().parse::<u16>().ok()).is_some_and(|s| s >= 500)
+}
 
 pub struct LyricsService {
     shared: Arc<Shared>,
@@ -531,8 +544,8 @@ impl Worker {
                 Err(e) => {
                     crate::pwarn!("lyrics: request failed: {e}");
                     let msg = match e {
-                        FetchError::Timeout => "LRCLIB didn't answer in time",
-                        FetchError::Network(_) => "Can't reach LRCLIB",
+                        FetchError::Timeout => MSG_TIMEOUT,
+                        FetchError::Network(_) => MSG_UNREACHABLE,
                         FetchError::Other(_) => "Lyrics are unavailable",
                     };
                     return Err(Halt::Failed { msg: msg.into(), retry_at: Some(Instant::now() + retry_delay(job.attempt)) });
@@ -577,7 +590,7 @@ impl Worker {
         crate::pwarn!("lyrics: LRCLIB answered HTTP {status}");
         // Server trouble is worth a later retry; other client errors are not.
         let retry_at = (status >= 500).then(|| Instant::now() + retry_delay(job.attempt));
-        Halt::Failed { msg: format!("LRCLIB error {status}"), retry_at }
+        Halt::Failed { msg: format!("{MSG_HTTP} {status}"), retry_at }
     }
 
     /// A 200 that isn't LRCLIB JSON (captive portal, proxy page, API change):
@@ -954,6 +967,22 @@ mod pure {
             ];
             assert!(prune_victims(files.clone(), 4, 2).is_empty());
             assert_eq!(prune_victims(files, 3, 2), vec![PathBuf::from("unknown"), PathBuf::from("a")]);
+        }
+    }
+}
+
+#[cfg(test)]
+mod trouble_tests {
+    use super::*;
+
+    #[test]
+    fn only_lrclibs_own_trouble_counts_as_lrclibs() {
+        for msg in [MSG_BUSY, MSG_TIMEOUT, MSG_UNREACHABLE, "LRCLIB error 500", "LRCLIB error 503"] {
+            assert!(lrclib_trouble(msg), "{msg}");
+        }
+        // A missing song, a refused request or a reply we can't read is ours to look at.
+        for msg in ["LRCLIB error 404", "LRCLIB error 429", "LRCLIB error", "Unexpected reply from LRCLIB", "Lyrics are unavailable", ""] {
+            assert!(!lrclib_trouble(msg), "{msg}");
         }
     }
 }
