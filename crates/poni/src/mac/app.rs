@@ -141,6 +141,9 @@ struct SettingsUi {
     /// (the smoke test reports them).
     draw_ms: f32,
     draw_max_ms: f32,
+    /// The display link's frame: the refresh it will be shown on (mono
+    /// seconds), for the draw it asked for.
+    frame_t: Option<f64>,
 }
 
 /// Run `f` with the app if it isn't already borrowed (re-entrancy safe), then
@@ -340,8 +343,8 @@ pub fn settings_input(input: settings_host::Input) -> bool {
 }
 
 /// The Settings window's display link ticked.
-pub fn settings_step() {
-    enter(|a| a.settings_step());
+pub fn settings_step(timestamp: f64, target: f64) {
+    enter(|a| a.settings_step(timestamp, target));
 }
 
 /// The Settings window closed (its button, ⌘W).
@@ -1047,7 +1050,7 @@ impl App {
             }
             None => {
                 let scale = settings_host::create(self.mtm);
-                self.settings_ui = Some(SettingsUi { view: settings_window::View::new(section.unwrap_or(Section::General)), gfx: Gfx::new(scale), draw_ms: 0.0, draw_max_ms: 0.0 });
+                self.settings_ui = Some(SettingsUi { view: settings_window::View::new(section.unwrap_or(Section::General)), gfx: Gfx::new(scale), draw_ms: 0.0, draw_max_ms: 0.0, frame_t: None });
                 // Start at login's switch reads it.
                 self.st.ui.autostart = Some(services::login::status() == Login::On);
                 pinfo!("settings window: open");
@@ -1067,7 +1070,7 @@ impl App {
         let light = settings_host::is_light();
         ui.gfx.set_scale(settings_host::scale());
         ui.gfx.set_look(poni_core::look::glass(light));
-        self.st.now = self.st.now.max(clock::mono());
+        self.st.now = self.st.now.max(ui.frame_t.take().unwrap_or_else(clock::mono));
         let now = self.st.now;
         let frame = settings_window::Frame {
             card: Rect::new(0.0, 0.0, settings_host::WIDTH as f32, settings_host::HEIGHT as f32),
@@ -1104,13 +1107,19 @@ impl App {
 
     /// The display link's tick: draw the next frame while something glides,
     /// and stop the frames once it has arrived.
-    fn settings_step(&mut self) {
-        match self.settings_ui.as_ref().filter(|s| s.view.moving) {
-            Some(s) => match s.view.next_clip() {
-                // Only what moves: a switch's knob, a highlight's way.
-                Some(r) => settings_host::redraw_in(r),
-                None => settings_host::redraw(),
-            },
+    fn settings_step(&mut self, timestamp: f64, target: f64) {
+        match self.settings_ui.as_mut().filter(|s| s.view.moving) {
+            Some(s) => {
+                // Stamp the frame with the refresh it will be shown on, as the
+                // island's are, so every step is a whole refresh.
+                let period = (target - timestamp).clamp(1.0 / 240.0, 1.0 / 24.0);
+                s.frame_t = Some(clock::mono() + period);
+                match s.view.next_clip() {
+                    // Only what moves: a switch's knob, a highlight's way.
+                    Some(r) => settings_host::redraw_in(r),
+                    None => settings_host::redraw(),
+                }
+            }
             None => settings_host::set_frames(false),
         }
     }

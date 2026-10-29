@@ -154,8 +154,8 @@ define_class!(
 
         /// The display link's tick: the next frame of what glides.
         #[unsafe(method(step:))]
-        fn step(&self, _link: &CADisplayLink) {
-            crate::app::settings_step();
+        fn step(&self, link: &CADisplayLink) {
+            crate::app::settings_step(link.timestamp(), link.targetTimestamp());
         }
 
         #[unsafe(method(keyDown:))]

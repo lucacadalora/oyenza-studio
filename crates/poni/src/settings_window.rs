@@ -841,6 +841,9 @@ const SWITCHING: f32 = 24.0;
 const SLIDE: f32 = 24.0;
 /// The content after a mouse wheel.
 const SCROLLING: f32 = 22.0;
+/// A motion's first step out of rest: about one refresh (144 Hz's is 1/144,
+/// 60 Hz's 1/60), however long the window was still.
+const FIRST_STEP: f32 = 1.0 / 120.0;
 
 /// Values that glide to where they're going, a step a frame at the
 /// display's own rate (120 Hz on ProMotion, 144 Hz on a 144 Hz screen),
@@ -867,8 +870,10 @@ struct Motion {
 
 impl Motion {
     fn begin(&mut self, now: f64, still: bool) {
-        let dt = if self.last > 0.0 { now - self.last } else { 0.0 };
-        self.dt = dt.clamp(0.0, 1.0 / 30.0) as f32;
+        // Out of rest, a motion starts with one refresh's step, not the whole
+        // time since the last frame (a jump on its first frame).
+        let dt = if self.moving { (now - self.last) as f32 } else { FIRST_STEP };
+        self.dt = dt.clamp(0.0, 1.0 / 30.0);
         self.last = now;
         self.moving = false;
         self.snap = still || std::mem::take(&mut self.snap_next);
@@ -1696,12 +1701,18 @@ mod tests {
         m.begin(t + 1.0, true);
         assert_eq!(m.slide(7, 50.0, SLIDE), 50.0);
         assert!(!m.moving);
-        // A long pause between frames doesn't jump: a step is at most a 30th of a second.
+        // Out of rest, the first step is about one refresh, however long the
+        // window was still: no jump as it starts.
         let mut m = Motion::default();
         m.begin(1.0, false);
         m.slide(9, 0.0, SLIDE);
         m.begin(10.0, false);
-        assert!(m.slide(9, 100.0, SLIDE) < 60.0);
+        let first = m.slide(9, 100.0, SLIDE);
+        assert!(first > 0.0 && first < 3.0, "first step {first}");
+        // A long pause on the way doesn't jump either: a step is at most a 30th of a second.
+        m.begin(20.0, false);
+        let next = m.slide(9, 100.0, SLIDE);
+        assert!(next < 40.0, "{first} then {next}");
     }
 
     #[test]
