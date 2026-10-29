@@ -1434,7 +1434,7 @@ const SCENES: [Scene; 133] = [
     Scene::NotesReady,
     Scene::NotesActivity,
     Scene::NotesPro,
-    // The Downloader's row signed out, without Pro.
+    // The Add-ons page signed out, without Pro: no Downloader row.
     Scene::AddonsPro,
 ];
 
@@ -3082,7 +3082,7 @@ impl SelfTest {
         seed_stocks(st, scene, now);
         // The Downloader: offered in its own scenes, and on there (its tools
         // in place, so the tab shows) except on the Add-ons page, whose row
-        // shows it off; signed out (`AddonsPro`) it stays off all the same.
+        // shows it off; signed out (`AddonsPro`) it isn't listed at all.
         // Its setting stays as it is, as for Prayer times above.
         st.downloader_offered = scene.downloader();
         let tab = scene.downloader() && scene != Scene::AddonsDownloader;
