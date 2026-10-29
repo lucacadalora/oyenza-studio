@@ -3,7 +3,7 @@ resolver = "2"
 members = ["crates/poni-core", "crates/studio-usage", "crates/poni"]
 
 [workspace.package]
-version = "0.2.17"
+version = "0.2.18"
 edition = "2021"
 publish = false
 license = "MIT"
