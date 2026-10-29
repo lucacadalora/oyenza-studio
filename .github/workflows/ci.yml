@@ -35,6 +35,10 @@ jobs:
         run: |
           cargo fetch --locked
           python3 tools/make_notices.py --check
+      # design/tokens.json writes the website's :root block; the recorder
+      # (oyen-studio-cap) generates its theme from a pinned copy of it.
+      - name: Design tokens up to date
+        run: python3 tools/tokens.py --check
 
   # poni.exe is built once, here. The unit tests, the self-tests and the
   # installer each run on their own machine, side by side.
