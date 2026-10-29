@@ -1,21 +1,21 @@
-//! The Downloader add-on for real, on a real Windows (CI's Unit tests job
-//! runs it with `--ignored`): yt-dlp.exe and qjs.exe come from their own
-//! releases exactly as `poni_core::addons::DOWNLOADER` pins them, checked by
-//! size and SHA-256 as the add-on checks them. yt-dlp.exe then saves a short
-//! Blender Studio film from Blender's own PeerTube, as video and as sound,
-//! with the arguments the island gives it (`poni_core::ytdlp::args`), and
-//! every line it prints goes through `poni_core::ytdlp::parse`, as the
-//! Downloads page reads them:
+//! The Downloader add-on for real, on a real Windows or Mac (CI's Unit tests
+//! job and mac.yml's Mac job run it with `--ignored`): the tools come from
+//! where the add-on gets them, exactly as `poni_core::addons::DOWNLOADER`
+//! pins them for this app, checked by size and SHA-256 and made runnable as
+//! the add-on does both. yt-dlp then saves a short Blender Studio film from
+//! Blender's own PeerTube, as video and as sound, with the arguments the
+//! island gives it (`poni_core::ytdlp::args`), and every line it prints goes
+//! through `poni_core::ytdlp::parse`, as the Downloads page reads them:
 //!
 //! ```text
 //! cargo test -p poni --release the_pinned_tools_download_a_real_link -- --ignored --nocapture
 //! ```
 //!
-//! FFmpeg is the add-on's own build. Until `addons::DOWNLOADER` pins it, the
-//! runs point yt-dlp at an ffmpeg.exe that isn't there (so a copy on the
-//! runner is never used either), and a run that needs FFmpeg is skipped with
-//! a warning. The film's site having trouble only warns, like oyenza.trade in
-//! the Stocks test; anything else that goes wrong fails.
+//! A tool this build doesn't pin yet is left out: FFmpeg's absence (yt-dlp
+//! is pointed at an ffmpeg that isn't there, so a copy on the runner is never
+//! used either) skips a run that needs it with a warning. The film's site
+//! having trouble only warns, like oyenza.trade in the Stocks test; anything
+//! else that goes wrong fails.
 
 use crate::services::http::{Client, MtaGuard};
 use poni_core::addons::{self, DOWNLOADER};
@@ -39,7 +39,7 @@ const FETCH_TIMEOUT: Duration = Duration::from_secs(180);
 const RUN_TIMEOUT: Duration = Duration::from_secs(240);
 
 #[test]
-#[ignore = "downloads yt-dlp, QuickJS and a short film; CI runs it on a real Windows"]
+#[ignore = "downloads yt-dlp, QuickJS and a short film; CI runs it on a real Windows and Mac"]
 fn the_pinned_tools_download_a_real_link() {
     let dir = std::env::temp_dir().join("poni-downloader-live");
     let _ = fs::remove_dir_all(&dir);
@@ -59,8 +59,8 @@ fn fetch(bin: &Path) -> bool {
     let _com = MtaGuard::new();
     let client = Client::new(USER_AGENT).expect("an HTTP client");
     let mut ffmpeg = false;
-    for file in DOWNLOADER.files.iter().filter(|f| [addons::YTDLP_EXE, addons::QJS_EXE, addons::FFMPEG_EXE].contains(&f.name)) {
-        if file.name == addons::FFMPEG_EXE && !file.pinned() {
+    for file in DOWNLOADER.files.iter().filter(|f| addons::is_downloader_tool(f.name)) {
+        if !file.pinned() {
             println!("::warning::{} isn't pinned in addons::DOWNLOADER yet: the downloads go without it", file.name);
             continue;
         }
@@ -70,6 +70,7 @@ fn fetch(bin: &Path) -> bool {
         assert_eq!(status, 200, "{}: {url}", file.name);
         assert!(file.matches(&bytes), "{} from {url} isn't the pinned file: {} bytes, SHA-256 {}", file.name, bytes.len(), sha256::hex(&sha256::sha256(&bytes)));
         fs::write(bin.join(file.name), &bytes).expect("the tool saves");
+        crate::services::addons::make_runnable(&bin.join(file.name)).expect("the tool can run");
         println!("{}: {} bytes from {url} in {:.1} s, as pinned", file.name, bytes.len(), started.elapsed().as_secs_f32());
         ffmpeg |= file.name == addons::FFMPEG_EXE;
     }
@@ -200,15 +201,15 @@ fn needs_ffmpeg(line: &str) -> bool {
 }
 
 /// The same film through the island's own runner (`services::downloader`):
-/// the job object, the windowless start, the reader thread and the events the
-/// Downloads page gets. Its tools go where the add-on keeps them, under a
+/// the job object and windowless start (the process group on a Mac), the
+/// reader thread and the events the Downloads page gets. Its tools go where the add-on keeps them, under a
 /// `PONI_HOME` of its own. A second download, stopped at its first bytes,
 /// must end as stopped and leave no unfinished file behind. CI's filter
 /// (`the_pinned_tools_download_a_real_link`) runs this one too.
 #[test]
-#[ignore = "downloads yt-dlp, QuickJS and a short film; CI runs it on a real Windows"]
+#[ignore = "downloads yt-dlp, QuickJS and a short film; CI runs it on a real Windows and Mac"]
 fn the_pinned_tools_download_a_real_link_through_the_runner() {
-    use crate::events::{AppEvent, EventSink, SendHwnd};
+    use crate::events::{AppEvent, EventSink};
     let home = std::env::temp_dir().join("poni-downloader-runner");
     let _ = fs::remove_dir_all(&home);
     std::env::set_var("PONI_HOME", &home);
@@ -219,7 +220,11 @@ fn the_pinned_tools_download_a_real_link_through_the_runner() {
     fs::create_dir_all(&folder).expect("a downloads folder");
     let (tx, rx) = mpsc::channel();
     // No window to wake: the events are read here.
-    let runner = super::downloader::DownloaderService::start(EventSink::new(tx, SendHwnd(0))).expect("the runner starts");
+    #[cfg(windows)]
+    let sink = EventSink::new(tx, crate::events::SendHwnd(0));
+    #[cfg(target_os = "macos")]
+    let sink = EventSink::new(tx);
+    let runner = super::downloader::DownloaderService::start(sink).expect("the runner starts");
     let request = |id| Request { id, url: LINK.to_string(), mode: Mode::Video, max_height: Some(480), folder: folder.to_str().expect("a Unicode temp folder").to_string() };
 
     // Saved, start to end.

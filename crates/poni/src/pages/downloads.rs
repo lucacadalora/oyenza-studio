@@ -6,7 +6,7 @@
 //! under it (`poni_core::downloads::line`), a bar while it comes in, and
 //! Stop (Cancel while it waits its turn), or Open, Show in folder and
 //! remove; a finished file also drags out of its row, as from the Shelf.
-//! yt-dlp does the work (`services::downloader`, Windows); nothing runs at
+//! yt-dlp does the work (`services::downloader`); nothing runs at
 //! rest, and the page moves by itself only while its list glides to where
 //! the wheel sent it.
 
@@ -64,7 +64,7 @@ pub struct DownloadsUi {
     pub scroll: f32,
     shown_scroll: f32,
     /// A link copied before the page came up, waiting above the list until
-    /// it is downloaded or dismissed (`downloads_offer`; Windows only).
+    /// it is downloaded or dismissed (`downloads_offer`).
     pub offer: Option<String>,
     /// The clipboard's link the last time the page came up: each link is
     /// offered once, so a dismissed one doesn't come back.

@@ -827,7 +827,7 @@ pub struct AppState {
     /// The Downloads page's jobs (`poni_core::downloads`), in memory only.
     pub downloads: poni_core::downloads::Jobs,
     /// This app offers the Downloader: Windows outside the Microsoft Store
-    /// build (set at start; false on the Mac for now).
+    /// build, and the Mac (set at start).
     pub downloader_offered: bool,
     /// The recorder's recording, as it last told the island.
     pub rec: RecView,
@@ -1016,9 +1016,8 @@ impl AppState {
         self.downloader_offered && self.studio_pro() == Some(true) && self.addon(poni_core::addons::DOWNLOADER.id) == AddonStatus::Ready
     }
 
-    /// The Notifications add-on is on (Windows), for an account with Studio
-    /// Pro: its tab shows, and new notifications from the apps picked there
-    /// show on the island.
+    /// The Notifications add-on is on (Windows): its tab shows, and new
+    /// notifications from the apps picked there show on the island.
     pub fn notifications_on(&self) -> bool {
         cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
     }

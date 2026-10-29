@@ -1,9 +1,9 @@
 //! The Downloads page's copied link: a link the person copied before the
 //! page came up waits above the list as a chip, "Download copied link" over
 //! its site, with Video and Sound to start it at once and × to put it away.
-//! The Windows app reads the clipboard only as the page comes up
-//! (`App::downloads_page_shown` fills `DownloadsUi::offer`). The Mac reads
-//! its clipboard another way and has no offer yet: the chip never shows there.
+//! Each app reads the clipboard only as the page comes up
+//! (`App::downloads_page_shown` fills `DownloadsUi::offer`, in
+//! `app_downloads.rs` and the Mac's `mac/app_downloads.rs`).
 
 use crate::commands::{Command, DownloadCmd};
 use crate::gfx::{TextStyle, Weight};

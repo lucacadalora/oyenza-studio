@@ -203,7 +203,7 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
     }
 }
 
-/// Downloads wait or run (the Downloader add-on, Windows only for now).
+/// Downloads wait or run (the Downloader add-on).
 fn downloading(st: &AppState) -> bool {
     st.downloader_on() && st.downloads.busy()
 }

@@ -40,7 +40,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, DOWNLOADER, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -452,6 +452,8 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// The Downloader add-on's runner: started at the first download.
+    downloader: Option<services::downloader::DownloaderService>,
     /// The Stocks page's prices: started the first time the page opens.
     stocks: Option<services::stocks::StocksService>,
     /// The Stocks page was on screen at the last look (`set_stocks_watch`).
@@ -515,6 +517,8 @@ impl App {
         pinfo!("screen {}x{} pt at {}x, notch {:?}", screen.w, screen.h, screen.scale, screen.notch);
         let gfx = Gfx::new(screen.scale);
         let mut st = AppState::new(settings, store);
+        // The Downloader (Studio Pro): the Mac has it too.
+        st.downloader_offered = true;
         st.now = clock::mono();
         st.local = clock::local_now();
         st.unix = clock::unix_now();
@@ -577,6 +581,7 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            downloader: None,
             stocks: None,
             stocks_open: false,
             usage: None,
@@ -671,6 +676,9 @@ impl App {
     fn quit(&mut self, code: i32) {
         self.save_now();
         self.save_settings();
+        // Downloads under way end with the app (std::process::exit runs no
+        // destructors): yt-dlp's groups get their SIGTERM now.
+        self.downloader = None;
         pinfo!("Oyenza Studio exiting with code {code}");
         std::process::exit(code);
     }
@@ -918,6 +926,10 @@ impl App {
         if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
             self.locate();
         }
+        // The Downloader: off stops its downloads before its tools are deleted.
+        if before.addon_on(DOWNLOADER.id) && !self.st.settings.addon_on(DOWNLOADER.id) {
+            self.downloads_off();
+        }
         // An add-on switched on downloads its files; off deletes them.
         let mut addons_changed = false;
         for a in pages::addons::OFFERED {
@@ -948,17 +960,23 @@ impl App {
     /// Hand the add-on switches to the downloader, starting it when one is
     /// on. It checks the files of the ones on (downloading what's missing),
     /// deletes those of one switched off, and sleeps in between; with none
-    /// on, it isn't started (see `AppEvent::Addon` for its end).
+    /// on, it isn't started (see `AppEvent::Addon` for its end). A Studio Pro
+    /// add-on's files (the Downloader's tools) wait for Pro (`pro_changed`).
     fn sync_addons(&mut self) {
         let on: Vec<&'static str> = pages::addons::OFFERED.iter().filter(|a| a.downloads() && self.st.settings.addon_on(a.id)).map(|a| a.id).collect();
+        let pro = self.st.studio_pro() == Some(true);
         match &self.addons {
             Some(svc) => {
                 for a in pages::addons::OFFERED {
                     svc.set(a.id, on.contains(&a.id));
                 }
+                svc.set_pro(pro);
             }
             None if !on.is_empty() => match services::addons::AddonService::start(self.sink.clone(), on) {
-                Ok(svc) => self.addons = Some(svc),
+                Ok(svc) => {
+                    svc.set_pro(pro);
+                    self.addons = Some(svc);
+                }
                 Err(e) => pwarn!("add-ons: unavailable ({e})"),
             },
             None => {}
@@ -1330,6 +1348,10 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        // A download's bytes coming in while nobody can see the island (locked,
+        // displays asleep) wait for the next frame something else asks for:
+        // the pill catches up then, as nothing else of it moves on its own.
+        let unseen = matches!(ev, AppEvent::Download { line: poni_core::ytdlp::Line::Progress { .. }, .. }) && (self.away.0 || self.away.1);
         match ev {
             AppEvent::Media(session) => {
                 let prev_key = self.st.media.as_ref().map(|m| m.track_key.clone());
@@ -1477,6 +1499,8 @@ impl App {
             AppEvent::Locked(on) => self.set_away(None, Some(on)),
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
+            AppEvent::Download { id, line } => self.download_line(id, line),
+            AppEvent::DownloadEnded { id, ok } => self.download_ended(id, ok),
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
                 let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
@@ -1516,7 +1540,9 @@ impl App {
         if let Some(before) = media_before {
             self.after_media_change(before, now);
         }
-        self.request_frame();
+        if !unseen {
+            self.request_frame();
+        }
     }
 
     /// Where an add-on's files stand, from the downloader.
@@ -2172,6 +2198,9 @@ impl App {
                 self.st.page = PageKind::Record;
             } else if self.st.page == PageKind::Record && !self.st.record_on() {
                 self.st.page = pages::first_tab(&self.st);
+            } else if self.mode == Mode::Activity(activities::Activity::Download) {
+                // The download pill opens on its page.
+                self.st.page = PageKind::Downloads;
             }
         }
         self.request_frame();
@@ -2483,8 +2512,7 @@ impl App {
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
-                // The Downloader comes to the Mac in a later slice (its page never shows here).
-                Command::Download(_) => {}
+                Command::Download(c) => self.download_cmd(c),
                 // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
                 Command::Notify(_) => {}
                 Command::Usage(c) => self.usage_cmd(c),
@@ -2686,8 +2714,12 @@ impl App {
     fn on_oyenza(&mut self, ev: OyenzaEvent) {
         let now = self.st.now;
         let link_before = self.st.oyenza.link.clone();
+        let pro_before = self.st.studio_pro() == Some(true);
         match ev {
-            OyenzaEvent::Restored { account } => self.st.oyenza.link = OyenzaLink::Connected { account },
+            OyenzaEvent::Restored { account } => {
+                self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
+            }
             OyenzaEvent::Connecting { code, url, expires_in_s } => {
                 self.st.oyenza.link = OyenzaLink::Connecting { code, url, until: now + expires_in_s as f64 };
                 // Keep the code on screen while the person goes to oyenza.app.
@@ -2702,6 +2734,7 @@ impl App {
                 self.end_sign_in();
                 self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
                 self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
                 // Signed in from the Today page: back to it, where the day comes in.
                 if std::mem::take(&mut self.st.oyenza.from_today) {
                     self.st.page = PageKind::Today;
@@ -2801,6 +2834,32 @@ impl App {
         if self.st.oyenza.link != link_before {
             self.refresh_menu();
             self.layout_surface();
+        }
+        if (self.st.studio_pro() == Some(true)) != pro_before {
+            self.pro_changed();
+        }
+    }
+
+    /// Signed in (at start, or just now) with the Downloader switched on:
+    /// whether the account has Studio Pro, now, so its tab doesn't wait for
+    /// the Add-ons page to open (`pages::addons::pro_wanted`).
+    fn ask_pro(&self) {
+        if let (true, Some(o)) = (pages::addons::pro_wanted(&self.st), &self.oyenza) {
+            o.send(OyenzaCmd::CheckPro);
+        }
+    }
+
+    /// Studio Pro came, or went (the server's word, or signing out): the
+    /// Downloader's downloads stop as it goes, and its files come with it
+    /// (`AddonService::set_pro`). Its tab follows by itself (`downloader_on`),
+    /// and its page on screen leaves for Add-ons (`tick`).
+    fn pro_changed(&mut self) {
+        let pro = self.st.studio_pro() == Some(true);
+        if !pro {
+            self.downloads_off();
+        }
+        if let Some(a) = self.addons.as_ref() {
+            a.set_pro(pro);
         }
     }
 
@@ -3064,7 +3123,8 @@ impl App {
         self.script_held = held;
         self.prayer_tick();
         self.check_recorder_alive(false);
-        // Prayer times, System, Health, Stocks, Screen recorder or IELTS switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, Screen recorder, IELTS or
+        // Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
@@ -3072,6 +3132,7 @@ impl App {
             PageKind::Stocks => !self.st.stocks_on(),
             PageKind::Record => !self.st.record_on(),
             PageKind::Ielts => !self.st.ielts_on(),
+            PageKind::Downloads => !self.st.downloader_on(),
             _ => false,
         };
         if gone {
@@ -3113,6 +3174,9 @@ impl App {
             self.island.set_target(g, now, new_content);
             self.mode = target_mode;
             retarget = true;
+            if target_mode == Mode::Expanded(PageKind::Downloads) {
+                self.downloads_page_shown();
+            }
         } else {
             let g = self.geom_for(&self.mode);
             if g != self.island.target() {
@@ -4774,3 +4838,7 @@ impl Smoke {
         let _ = std::fs::write(self.dir.join("report.json"), out);
     }
 }
+
+// The Downloads page's commands and yt-dlp's reports.
+#[path = "app_downloads.rs"]
+mod downloads;
