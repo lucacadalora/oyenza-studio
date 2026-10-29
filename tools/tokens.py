@@ -7,8 +7,10 @@ Usage:
 
 design/tokens.json holds Oyenza Studio's design tokens: the website's colours,
 fonts, radius and motion curves under "site", and Oyenza Studio Recorder's
-theme under "recorder" (every entry there has a light and a dark value; a
-colour without alpha is opaque). The
+theme under "recorder": every entry has a light and a dark value, except under
+"fixed", which holds colours that are the same in both; a role can name a
+palette or editor entry ("palette.blue-9") instead of a colour, and a colour
+without alpha is opaque. The
 recorder keeps a pinned copy and generates its Rust constants from it
 (apps/desktop-gpui/branding/tokens.py in oyen-studio-cap), so a change here
 reaches the recorder only when that copy is synced.
@@ -31,7 +33,8 @@ END = "  /* end of design tokens */"
 COLOR = re.compile(r"#[0-9a-f]{6}([0-9a-f]{2})?")
 LENGTH = re.compile(r"[0-9]+(\.[0-9]+)?px")
 CURVE = re.compile(r"cubic-bezier\(-?[0-9.]+, -?[0-9.]+, -?[0-9.]+, -?[0-9.]+\)")
-RECORDER_GROUPS = ("palette", "editor", "liquid-glass", "vibrancy")
+RECORDER_GROUPS = ("palette", "editor", "liquid-glass", "vibrancy", "roles", "fixed")
+REFERENCE = re.compile(r"(palette|editor)\.[a-z0-9-]+")
 
 
 def fail(message):
@@ -57,13 +60,24 @@ def check(tokens):
     recorder = tokens.get("recorder", {})
     if tuple(recorder) != RECORDER_GROUPS:
         fail(f"recorder groups are {list(recorder)}, expected {list(RECORDER_GROUPS)}")
+    for name, value in recorder["fixed"].items():
+        if not isinstance(value, str) or not COLOR.fullmatch(value):
+            fail(f"recorder.fixed.{name} is {value!r}, not one lowercase colour")
     for group, entries in recorder.items():
+        if group == "fixed":
+            continue
         for name, modes in entries.items():
             if not isinstance(modes, dict) or set(modes) != {"light", "dark"}:
                 fail(f"recorder.{group}.{name} needs exactly a light and a dark value")
             kinds = set()
             for mode, value in modes.items():
-                if isinstance(value, str) and COLOR.fullmatch(value):
+                if group == "roles" and isinstance(value, str) and REFERENCE.fullmatch(value):
+                    target_group, target = value.split(".", 1)
+                    resolved = recorder[target_group].get(target, {}).get(mode)
+                    if not (isinstance(resolved, str) and COLOR.fullmatch(resolved)):
+                        fail(f"recorder.roles.{name}.{mode} points at {value}, which has no {mode} colour")
+                    kinds.add("colour")
+                elif isinstance(value, str) and COLOR.fullmatch(value):
                     kinds.add("colour")
                 elif isinstance(value, (int, float)) and not isinstance(value, bool):
                     kinds.add("number")
