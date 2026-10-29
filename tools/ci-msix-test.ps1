@@ -2,10 +2,14 @@
 # sign a copy with a throwaway certificate, install it, run Poni's self-test
 # inside the package (with the package identity the Store copy has), then
 # start it the normal way and check it keeps running.
+# With -TestCopy, the signed copy, the certificate's public half and the
+# scripts in tools/store-test-copy go into that folder: a test copy to
+# install on a PC (what only the Store copy can do, such as Notifications).
 # Windows PowerShell 5.1: the Appx cmdlets don't load in PowerShell 7.
 param(
     [Parameter(Mandatory = $true)][string]$Msix,
-    [string]$Out = "msix-out"
+    [string]$Out = "msix-out",
+    [string]$TestCopy = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -102,6 +106,14 @@ try {
     Invoke-WebRequest -Uri "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx" -OutFile $vclibs -UseBasicParsing
     Add-AppxPackage -Path $signed -DependencyPath $vclibs
 }
+if ($TestCopy) {
+    New-Item -ItemType Directory -Force -Path $TestCopy | Out-Null
+    $name = [IO.Path]::GetFileNameWithoutExtension($Msix)
+    Copy-Item $signed (Join-Path $TestCopy "$name-test.msix") -Force
+    Copy-Item $cer (Join-Path $TestCopy "oyenza-studio-test.cer") -Force
+    Copy-Item (Join-Path $PSScriptRoot "store-test-copy\*") $TestCopy -Force
+    "test copy: $((Get-ChildItem $TestCopy).Name -join ', ')"
+}
 $pkg = Get-AppxPackage -Name $identity.Name
 if (-not $pkg) { throw "$($identity.Name) is not installed after Add-AppxPackage" }
 "installed: $($pkg.PackageFullName)"
@@ -118,9 +130,9 @@ $selftest = Join-Path $Out "selftest"
 $p = Get-Process -Id ([PoniCi.Apps]::Launch($aumid, "--selftest `"$selftest`""))
 $null = $p.Handle  # keep the handle so ExitCode is available after exit
 "self-test: process $($p.Id), $($p.Path)"
-if (-not $p.WaitForExit(120000)) {
+if (-not $p.WaitForExit(180000)) {
     Stop-Process -Id $p.Id -Force
-    $failures.Add("the packaged self-test did not finish within 120 s")
+    $failures.Add("the packaged self-test did not finish within 180 s")
 } elseif ($p.ExitCode -ne 0) {
     $failures.Add("the packaged self-test exited with code $($p.ExitCode)")
 }
@@ -137,6 +149,17 @@ if (Test-Path $reportPath) {
         "start-with-windows: ok=$($startup[0].ok) ($($startup[0].detail))"
         if (-not "$($startup[0].detail)".StartsWith("packaged")) {
             $failures.Add("the self-test ran without the package identity: $($startup[0].detail)")
+        }
+    }
+    # The Notifications add-on: Windows' listener answers inside the package
+    # (the manifest declares userNotificationListener). It asks nothing here.
+    $notify = @($report.checks | Where-Object { $_.name -eq "notifications" })
+    if ($notify.Count -eq 0) {
+        $failures.Add("report.json has no notifications check")
+    } else {
+        "notifications: ok=$($notify[0].ok) ($($notify[0].detail))"
+        if (-not $notify[0].ok -or -not "$($notify[0].detail)".StartsWith("packaged")) {
+            $failures.Add("Windows' notification listener didn't answer inside the package: $($notify[0].detail)")
         }
     }
 } else {

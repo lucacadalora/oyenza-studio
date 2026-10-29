@@ -1,0 +1,12 @@
+{
+  "code": "resource_exhausted",
+  "message": "Credits used up.",
+  "details": [
+    {
+      "type": "google.rpc.ErrorInfo",
+      "debug": {
+        "reason": "REASON_QUOTA_EXCEEDED"
+      }
+    }
+  ]
+}

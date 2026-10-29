@@ -118,6 +118,17 @@ pub fn health_url() -> String {
     format!("{API}/island/health")
 }
 
+/// Whether the signed-in account has Oyenza Studio Pro: `{"pro": bool}`. The
+/// server decides (who it is is never in the island, which only knows a
+/// masked account).
+pub fn pro_url() -> String {
+    format!("{API}/island/pro")
+}
+
+pub fn parse_pro(body: &str) -> Option<bool> {
+    serde_json::from_str::<serde_json::Value>(body).ok().and_then(|v| v["pro"].as_bool())
+}
+
 pub fn note_url() -> String {
     format!("{API}/island/note")
 }
@@ -895,6 +906,15 @@ pub fn unseen(shown: &mut Vec<String>, arrived: &[Arrival]) -> Vec<Arrival> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn pro_answers() {
+        assert_eq!(pro_url(), "https://api.oyenza.app/island/pro");
+        assert_eq!(parse_pro(r#"{"pro":true}"#), Some(true));
+        assert_eq!(parse_pro(r#"{"pro":false}"#), Some(false));
+        assert_eq!(parse_pro(r#"{"error":"invalid_key"}"#), None);
+        assert_eq!(parse_pro("<html>"), None);
+    }
     use super::*;
 
     fn arrival(id: &str, text: &str, title: &str, wallet: Option<&str>) -> Arrival {

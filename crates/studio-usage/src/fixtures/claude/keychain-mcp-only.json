@@ -1,0 +1,11 @@
+{
+  "mcpOAuth": {
+    "example|test": {
+      "serverName": "example",
+      "serverUrl": "https://mcp.example.com/mcp",
+      "accessToken": "test-token",
+      "refreshToken": "test-refresh-token",
+      "expiresAt": 1793080800000
+    }
+  }
+}

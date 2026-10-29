@@ -3,7 +3,7 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, MediaCmd, OyenzaCmd, PairCmd, PhoneCmd};
+use crate::commands::{Command, MediaCmd, NotifyCmd, OyenzaCmd, PairCmd, PhoneCmd, UsageCmd};
 use crate::events::{AppEvent, AppleMusicStatus, EventSink, OyenzaEvent, SendHwnd, WM_APP_APPBAR, WM_APP_EVENT, WM_APP_FRAME, WM_APP_TRAY};
 use crate::gfx::{px_rect, px_union, scale_about, union_rect, Canvas, Gfx, HitMask};
 use crate::icons::Icon;
@@ -12,10 +12,11 @@ use crate::oyen;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::pill;
+use crate::services::notifications::NotifyEvent;
 use crate::services::{self, Services};
 use crate::state::{
-    AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PairedPhone, PhoneAsk, PhoneDrop,
-    PhoneTransfer, PhoneView, PrayerState,
+    AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, NotifyAccess, OyenzaLink, PairedPhone, PhoneAsk,
+    PhoneDrop, PhoneTransfer, PhoneView, PrayerState,
 };
 use crate::tray::{self, Tray};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
@@ -362,6 +363,28 @@ pub struct App {
     glass: crate::glass::Glass,
     /// Prayer times' adzan, while it plays.
     adzan: services::adzan::AdzanPlayer,
+    /// The IELTS page's calls, microphone and voice (each only while needed).
+    ielts: services::ielts::Kit,
+    /// Music that played was paused for the IELTS session (it plays again after).
+    ielts_music: bool,
+    /// The IELTS page was on screen at the last tick (the coach is told when it comes and goes).
+    ielts_shown: bool,
+    /// An IELTS session held the island open at the last tick.
+    ielts_held: bool,
+    /// The Notes page's meeting while it is recorded (only then).
+    notes_rec: Option<services::notes::Recording>,
+    /// The meeting's audio once stopped, kept until its notes are saved (or
+    /// it is thrown away), for Try again.
+    notes_take: Option<services::notes::Take>,
+    /// When the meeting being taken down began (local time, for its notes).
+    notes_started: poni_core::datetime::LocalDateTime,
+    /// The self-test's own notes server and key, in place of api.oyenza.app
+    /// and this PC's sign-in.
+    pub(crate) notes_api: Option<(String, String)>,
+    /// The self-test runs (for the whole run: `selftest` itself is taken out
+    /// while a step runs), and its IELTS turn is under way.
+    in_selftest: bool,
+    ielts_turn: bool,
     /// The glass was still changing on the last frame (turning light or dark).
     glass_moving: bool,
     /// Animation time of the last frame (the vblank it was shown on).
@@ -418,6 +441,8 @@ pub struct App {
     stocks_open: bool,
     /// The Today page is on screen: the worker asks for the day (`services::oyenza`).
     today_watch: bool,
+    /// What the AI tab's worker was last told (`set_usage_watch`).
+    usage_watch: services::usage::Watch,
     /// Show over games: the game's frames, counted while the readout shows.
     frames: Option<services::frames::Frames>,
     /// The process whose frames count (the full-screen app).
@@ -494,6 +519,9 @@ pub struct App {
     /// New versions (`crate::updates`); None in the self-test and in a
     /// Store copy, which the Store updates.
     updater: Option<crate::updates::Updater>,
+    /// The Notifications add-on's listener while it is on; None while it's
+    /// off, in the download (no package identity) and in the self-test.
+    notify: Option<services::notifications::Listener>,
 }
 
 /// The island window: position and size in screen pixels.
@@ -599,6 +627,16 @@ impl App {
             services: None,
             glass: crate::glass::Glass::new(services::apps_use_light_theme()),
             adzan: Default::default(),
+            ielts: Default::default(),
+            ielts_music: false,
+            ielts_shown: false,
+            ielts_held: false,
+            notes_rec: None,
+            notes_take: None,
+            notes_started: Default::default(),
+            notes_api: None,
+            in_selftest: selftest.is_some(),
+            ielts_turn: false,
             glass_moving: false,
             last_frame_t: 0.0,
             surface: Surface::default(),
@@ -627,6 +665,7 @@ impl App {
             oyenza_watch: false,
             stocks_open: false,
             today_watch: false,
+            usage_watch: services::usage::Watch::default(),
             frames: None,
             game_pid: None,
             game_peek_until: 0.0,
@@ -665,6 +704,7 @@ impl App {
             pair_offer: None,
             laid_floating: false,
             updater: None,
+            notify: None,
         })
     }
 
@@ -686,6 +726,14 @@ impl App {
             services::frames::stop_stale();
             if self.st.settings.game_stats {
                 self.check_fps();
+            }
+            // Notifications on: listen if Windows already allows it (its
+            // question waits for the page's Allow).
+            if self.st.notifications_on() {
+                self.start_notify(false);
+            }
+            if self.st.notes_on() {
+                self.notes_restore();
             }
             self.try_add_tray();
             services::power::register_session(self.helper);
@@ -972,10 +1020,16 @@ impl App {
                         // release can't click the pill a second time.
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
+                    } else if self.input.pressed_id == Some(wid(activities::PRAYER_OK_ID)) {
+                        // The prayer countdown's OK, the same way.
+                        self.input.pressed_id = None;
+                        self.prayer_countdown_ok();
                     } else {
                         // Clicking a notice jumps to its page (a new version's
                         // may be waiting under a volume change or a game's readout).
                         let shown = self.mode == Mode::Notice;
+                        // Another app's notification opens that app instead.
+                        let mut opened = false;
                         if let Some(n) = self.st.notice.take_if(|_| shown) {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
@@ -986,11 +1040,17 @@ impl App {
                                         self.st.pomodoro.start(self.st.now);
                                     }
                                 }
+                                Some(NoticeAction::OpenApp(id)) => {
+                                    shell::open_app(&id);
+                                    opened = true;
+                                }
                                 None => {}
                             }
                         }
                         self.st.hud = None;
-                        self.expand();
+                        if !opened {
+                            self.expand();
+                        }
                     }
                 } else if self.text_focus && self.input.pressed_id != self.input.focused {
                     self.blur_text();
@@ -1217,6 +1277,7 @@ impl App {
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
                 self.set_stocks_watch();
+                self.set_usage_watch();
                 self.update_due();
                 self.request_frame();
                 Some(LRESULT(1))
@@ -1230,6 +1291,7 @@ impl App {
                 self.tell_oyenza_activity();
                 self.tell_sysmon_rest();
                 self.set_stocks_watch();
+                self.set_usage_watch();
                 self.update_due();
                 self.request_frame();
                 Some(LRESULT(0))
@@ -1276,6 +1338,9 @@ impl App {
                     // pointer so the pill can be clicked (a click on the rest
                     // of the notice still opens its page). The dwell stays
                     // armed: the next movement restarts it.
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
+                    // So does the prayer countdown under a pointer resting on
+                    // its OK (resting on the rest of it still opens).
                 } else {
                     self.expand();
                 }
@@ -1406,6 +1471,64 @@ impl App {
             AppleMusicStatus::NoAccess => (palette::ORANGE, "No lyrics from Apple Music", "They need an Apple Music subscription"),
         };
         self.st.notify(Icon::Lyrics, color, title, subtitle, 6.0, None);
+    }
+
+    // ------------------------------------------------------------ AI usage
+
+    /// The AI tab's worker reads while the tab is on screen, or every few
+    /// minutes for the person who switched on its heads-up notices; both rest
+    /// while nobody is at the PC, the notices also on battery saver. Its
+    /// thread starts the first time either wants it (`Services::usage_watch`).
+    fn set_usage_watch(&mut self) {
+        // The self-test's scenes show made-up readings: nothing is read.
+        let here = !self.locked && !self.display_off && self.selftest.is_none();
+        let w = services::usage::Watch {
+            open: here && self.mode == Mode::Expanded(PageKind::Ai),
+            notices: here && self.st.settings.usage.notices && !self.st.power.saver,
+            near_pct: self.st.settings.usage.near_pct,
+            use_24h: self.st.settings.use_24h,
+            hidden: services::usage::picked(&self.st.settings.usage.hidden),
+            added: services::usage::picked(&self.st.settings.usage.added),
+        };
+        // Already told: nothing to do, every frame.
+        if w == self.usage_watch {
+            return;
+        }
+        self.usage_watch = w;
+        if let Some(s) = self.services.as_ref() {
+            s.usage_watch(w);
+        }
+    }
+
+    /// Hide and Show change the AI tab's settings; the rest is its worker's.
+    fn usage_cmd(&mut self, c: UsageCmd) {
+        match c {
+            UsageCmd::Hide(id) | UsageCmd::Show(id) => {
+                let u = &mut self.st.settings.usage;
+                u.hidden.retain(|k| k != id.key());
+                u.added.retain(|k| k != id.key());
+                let list = if matches!(c, UsageCmd::Show(_)) { &mut u.added } else { &mut u.hidden };
+                list.push(id.key().into());
+                let before = self.saved_settings.clone();
+                self.settings_changed(&before);
+                self.save_settings();
+            }
+            c => {
+                if let Some(s) = self.services.as_ref() {
+                    s.usage_cmd(c);
+                }
+            }
+        }
+    }
+
+    /// What the AI tab's worker found goes into `st.usage`. Its heads-up
+    /// notices wait their turn for the island (`tick` puts them up one at a
+    /// time once it is free); the frame `on_event` asks for looks at once.
+    fn on_usage(&mut self, ev: services::usage::UsageEvent) {
+        match ev {
+            services::usage::UsageEvent::Alerts(alerts) => self.st.hold_usage_alerts(alerts),
+            ev => self.st.usage.apply(ev),
+        }
     }
 
     // ------------------------------------------------------------ Oyenza
@@ -1543,6 +1666,7 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
+            OyenzaEvent::Pro(pro) => self.st.oyenza.pro = Some(pro),
             // Steps asked for before Health was switched off stay out.
             OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
@@ -1574,6 +1698,8 @@ impl App {
                 self.end_sign_in();
                 self.st.oyenza = crate::state::OyenzaState::default();
                 self.st.health = None;
+                // Signed out: an IELTS session ends, and the ladder was the account's.
+                self.ielts_off();
                 let (title, subtitle) =
                     if by_server { ("Oyenza disconnected", "Sign in again in Settings") } else { ("Disconnected from Oyenza", "Sign in again any time in Settings") };
                 self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
@@ -1717,6 +1843,25 @@ impl App {
                 }
             }
         }
+        // Notifications on: listen, Windows' question first; off: stop.
+        let notify_id = poni_core::addons::NOTIFICATIONS.id;
+        if before.addon_on(notify_id) != self.st.settings.addon_on(notify_id) && self.selftest.is_none() {
+            if self.st.settings.addon_on(notify_id) {
+                self.start_notify(true);
+            } else {
+                self.stop_notify();
+            }
+        }
+        // IELTS off: a session ends, the microphone and voice stop, the files go.
+        let ielts_id = poni_core::addons::IELTS.id;
+        if before.addon_on(ielts_id) && !self.st.settings.addon_on(ielts_id) {
+            self.ielts_off();
+        }
+        // Meeting notes off: a recording stops and its audio goes.
+        let notes_id = poni_core::addons::MEETING_NOTES.id;
+        if before.addon_on(notes_id) && !self.st.settings.addon_on(notes_id) {
+            self.notes_off();
+        }
         // Health on or off: the Oyenza worker asks for the steps only while
         // it's on, and off forgets the ones it had.
         let health_id = poni_core::addons::HEALTH.id;
@@ -1740,6 +1885,10 @@ impl App {
                 let _ = KillTimer(self.hwnd, TIMER_PEEK);
             }
             self.peek_game(if self.st.settings.game_peek { "peeks picked" } else { "picked to stay" });
+        }
+        // The AI tab's heads-up notices: its worker reads every few minutes only while they're on.
+        if before.usage.notices != self.st.settings.usage.notices {
+            self.set_usage_watch();
         }
         // System's readings at rest: its history switch, while System is on.
         let history = self.st.settings.system_history_on();
@@ -2084,7 +2233,33 @@ impl App {
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
             AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
+            AppEvent::Notify(ev) => self.on_notify(ev),
+            AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
+            AppEvent::Ielts(reply) => {
+                let fx = self.st.ielts.reply(*reply, now);
+                self.ielts_do(fx);
+            }
+            // A stopped clip's late report doesn't end the one playing now.
+            AppEvent::VoiceEnded if !self.ielts.voice.playing() => {
+                let failed = self.ielts.voice.failed();
+                self.ielts.voice.stop();
+                // A clip that couldn't play shows its words for their reading time.
+                let fx = if failed { self.st.ielts.voice_failed(now) } else { self.st.ielts.voice_ended(now) };
+                self.ielts_do(fx);
+            }
+            AppEvent::VoiceEnded => {}
+            AppEvent::Notes(reply) => self.notes_reply(*reply),
+            AppEvent::NotesStopped(issue) => {
+                pwarn!("notes: the recording stopped by itself ({issue:?})");
+                self.notes_stop();
+            }
+            AppEvent::MicFailed(why) => {
+                pwarn!("ielts: the microphone failed ({why})");
+                let issue = self.ielts.mic_failed();
+                let fx = self.st.ielts.mic_failed(issue);
+                self.ielts_do(fx);
+            }
             AppEvent::Log(s) => pinfo!("{s}"),
         }
         if let Some(before) = media_before {
@@ -2137,12 +2312,16 @@ impl App {
             if self.st.rec_live() && self.st.record_on() {
                 self.st.page = PageKind::Record;
             } else if self.st.page == PageKind::Record && !self.st.record_on() {
-                self.st.page = PageKind::ALL[0];
+                self.st.page = pages::first_tab(&self.st);
             }
             if self.st.page == PageKind::Oyenza {
                 self.oyenza(OyenzaCmd::Refresh);
             } else if self.st.page == PageKind::Health {
                 self.oyenza(OyenzaCmd::RefreshHealth);
+            } else if self.st.page == PageKind::Notifications {
+                self.notify_cmd(NotifyCmd::Check);
+            } else if matches!(self.st.page, PageKind::Notes | PageKind::Addons) {
+                self.oyenza(OyenzaCmd::CheckPro);
             }
         }
         self.request_frame();
@@ -2179,7 +2358,7 @@ impl App {
             self.st.oyenza.scroll = 0.0;
             // Settings closes with the island: it opens again on the page it was opened from.
             if self.st.page == PageKind::Settings {
-                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
+                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or_else(|| pages::first_tab(&self.st));
             }
             self.st.update.sheet = false;
             self.st.update.said = None;
@@ -2899,17 +3078,29 @@ impl App {
         if self.updater.as_mut().is_some_and(|u| u.announce(&mut self.st, free)) {
             self.request_frame();
         }
+        // The AI tab's heads-up notices wait the same way, one at a time.
+        // Over a game whose readout only peeks they wait for the game to
+        // leave, as held money notices do, not for a peek.
+        let peeks = self.st.game.active && self.st.settings.game_peek;
+        if self.st.show_usage_notice(free && !peeks, self.expanded && self.st.page == PageKind::Ai) {
+            self.request_frame();
+        }
         if let Some(ended) = self.st.pomodoro.tick(now) {
             pages::focus::on_phase_ended(&mut self.st, ended);
         }
         self.prayer_tick();
+        self.ielts_tick();
+        self.notes_tick();
         self.script_tick();
-        // Prayer times, System, Health or Stocks switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks or IELTS switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Notifications => !self.st.notifications_on(),
+            PageKind::Ielts => !self.st.ielts_on(),
+            PageKind::Notes => !self.st.notes_on(),
             _ => false,
         };
         if gone {
@@ -3009,6 +3200,7 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_stocks_watch();
+        self.set_usage_watch();
         // The Pill theme floats the island below the top edge.
         self.island.set_floating(pill::on(self.st.settings.theme).then_some(pill::TOP_GAP));
         self.island.step(dt, now);
@@ -3508,6 +3700,13 @@ impl App {
     /// then show a check mark in the pill briefly before the notice leaves.
     fn run_inline_action(&mut self, a: InlineAction) {
         self.refresh_time();
+        if a == InlineAction::Open {
+            // Another app's notification: that app opens and the notice goes.
+            if let Some(Notice { action: Some(NoticeAction::OpenApp(id)), .. }) = self.st.notice.take() {
+                shell::open_app(&id);
+            }
+            return;
+        }
         if a == InlineAction::StopAdzan {
             self.adzan.stop();
             self.st.prayer.adzan = false;
@@ -3545,7 +3744,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew | InlineAction::Open => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -3712,6 +3911,308 @@ impl App {
         }
     }
 
+    /// OK on the countdown before a prayer: the closed island goes back to
+    /// what it would show (the song and its sung line) until the prayer's
+    /// time. Its moment still comes then: `prayer_tick` doesn't look at the
+    /// countdown.
+    fn prayer_countdown_ok(&mut self) {
+        self.refresh_time();
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+            pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
+        }
+    }
+
+    // ------------------------------------------------------------ IELTS
+
+    /// The IELTS page's coach, each frame: told when the page comes and goes
+    /// (a tab switch, the island closing, the PC locked or the display off,
+    /// a full-screen app), ticked for its clock, fed the microphone's level.
+    /// The worker goes once the page is closed and nothing is in flight.
+    fn ielts_tick(&mut self) {
+        if !self.ielts_live() {
+            return;
+        }
+        let now = self.st.now;
+        let signed_in = matches!(self.st.oyenza.link, OyenzaLink::Connected { .. });
+        let shown = self.expanded && self.st.page == PageKind::Ielts && self.st.ielts_on() && signed_in && !self.locked && !self.display_off && !self.fullscreen_hidden;
+        if shown != self.ielts_shown {
+            self.ielts_shown = shown;
+            let fx = self.st.ielts.show(shown, now);
+            self.ielts_do(fx);
+        }
+        if shown {
+            let fx = self.st.ielts.tick(now);
+            self.ielts_do(fx);
+        }
+        if self.ielts.recording() {
+            self.st.ielts.meter = self.ielts.level();
+        }
+        self.ielts.retry_deletes();
+        if !shown {
+            self.ielts.rest();
+        }
+        let held = self.st.ielts_holds_island();
+        if self.ielts_held && !held {
+            self.maybe_schedule_collapse();
+        }
+        self.ielts_held = held;
+    }
+
+    /// The self-test pictures the IELTS page from made-up states: the coach
+    /// runs only in the app, and in the self-test's own one-turn run.
+    fn ielts_live(&self) -> bool {
+        !self.in_selftest || self.ielts_turn
+    }
+
+    /// A press on the IELTS page.
+    fn ielts_cmd(&mut self, c: crate::commands::IeltsCmd) {
+        use crate::commands::IeltsCmd;
+        let now = self.st.now;
+        let fx = match c {
+            IeltsCmd::Start => self.st.ielts.start(self.st.settings.ielts_spice),
+            IeltsCmd::Mic => self.st.ielts.tap(now),
+            IeltsCmd::Skip => self.st.ielts.skip(),
+            IeltsCmd::Quit => self.st.ielts.quit(now),
+            IeltsCmd::Retry => self.st.ielts.retry(now),
+        };
+        if c == IeltsCmd::Start && self.st.ielts.phase == poni_core::ielts::Phase::Starting {
+            // A new session: whatever an earlier one left behind goes first.
+            self.ielts.voice.stop();
+            services::ielts::clear_files();
+        }
+        self.ielts_do(fx);
+    }
+
+    /// Carry out what the coach asked for, in order; what an effect brings
+    /// back from the coach (a clip that won't play, a recording that
+    /// stopped) runs before the rest.
+    fn ielts_do(&mut self, fx: Vec<poni_core::ielts::Effect>) {
+        use poni_core::ielts::Effect;
+        if !self.ielts_live() {
+            // The self-test's made-up states ask for nothing.
+            return;
+        }
+        let mut todo: std::collections::VecDeque<Effect> = fx.into();
+        while let Some(e) = todo.pop_front() {
+            let now = self.st.now;
+            let more = match e {
+                Effect::Call(c) => {
+                    self.ielts.call(c, &self.sink);
+                    Vec::new()
+                }
+                Effect::Play(path) => match self.ielts.voice.play(&path, &self.sink) {
+                    Ok(()) => Vec::new(),
+                    Err(err) => {
+                        pwarn!("ielts: a clip didn't play ({err})");
+                        self.st.ielts.voice_failed(now)
+                    }
+                },
+                Effect::StopVoice => {
+                    self.ielts.voice.stop();
+                    Vec::new()
+                }
+                Effect::Record => match self.ielts.record(&self.sink) {
+                    Ok(()) => Vec::new(),
+                    Err(issue) => self.st.ielts.mic_failed(issue),
+                },
+                Effect::StopRecord => match self.ielts.stop_record() {
+                    Ok((wav, secs)) => self.st.ielts.recorded(wav, secs, now),
+                    Err(issue) => self.st.ielts.mic_failed(issue),
+                },
+                Effect::DropRecord => {
+                    self.ielts.drop_record();
+                    Vec::new()
+                }
+                Effect::Delete(path) => {
+                    self.ielts.delete(path);
+                    Vec::new()
+                }
+                Effect::PauseMusic => {
+                    // Once a session, like the adzan: music played back by hand stays playing.
+                    if !self.ielts_music && self.st.media.as_ref().is_some_and(|m| m.is_playing()) {
+                        self.st.media_cmd(MediaCmd::PlayPause);
+                        self.ielts_music = true;
+                    }
+                    Vec::new()
+                }
+                Effect::ResumeMusic => {
+                    if std::mem::take(&mut self.ielts_music) && self.st.media.as_ref().is_some_and(|m| !m.is_playing()) {
+                        self.st.media_cmd(MediaCmd::PlayPause);
+                    }
+                    Vec::new()
+                }
+            };
+            for m in more.into_iter().rev() {
+                todo.push_front(m);
+            }
+        }
+    }
+
+    /// The add-on switched off, or signed out: the session ends (the server
+    /// is told), nothing of it keeps running, and its files go.
+    fn ielts_off(&mut self) {
+        use poni_core::ielts::{Call, Effect};
+        let now = self.st.now;
+        // Everything Udahan does but read the ladder again.
+        let fx = self.st.ielts.quit(now).into_iter().filter(|e| *e != Effect::Call(Call::Me)).collect();
+        self.ielts_do(fx);
+        self.ielts.close();
+        self.st.ielts = Default::default();
+        self.ielts_shown = false;
+    }
+
+    // ------------------------------------------------------------ Meeting notes
+
+    /// Each frame while a meeting is recorded: how loud each source is, for
+    /// Oyen's head and the page's bars.
+    fn notes_tick(&mut self) {
+        if let Some(r) = &self.notes_rec {
+            (self.st.notes.mic, self.st.notes.pc) = r.levels();
+        }
+    }
+
+    /// A press on the Notes page.
+    fn notes_cmd(&mut self, c: crate::commands::NotesCmd) {
+        use crate::commands::NotesCmd;
+        let now = self.st.now;
+        match c {
+            NotesCmd::Start => self.notes_start(),
+            NotesCmd::Stop => self.notes_stop(),
+            NotesCmd::Retry => self.notes_send(),
+            NotesCmd::Discard => {
+                self.notes_take = None;
+                self.st.ui.notes_kept = false;
+                services::notes::clear_audio(None);
+                self.st.notes.reset();
+                pinfo!("notes: the kept recording was thrown away");
+            }
+            NotesCmd::Done => self.st.notes.reset(),
+            NotesCmd::Open => {
+                if let Some(last) = &self.st.notes.last {
+                    crate::shell::open(&last.file);
+                }
+            }
+            NotesCmd::Folder => {
+                let dir = crate::paths::notes_dir();
+                let _ = std::fs::create_dir_all(&dir);
+                crate::shell::open(&dir.to_string_lossy());
+            }
+            NotesCmd::Copy => {
+                if let Some(last) = &self.st.notes.last {
+                    let md = poni_core::notes::markdown(&last.notes, &last.started, false);
+                    services::clipboard::set_text(self.hwnd, &md);
+                    self.st.ui.notes_note = Some(("Copied".into(), now + 2.0));
+                }
+            }
+        }
+    }
+
+    /// Take notes: the microphone and the PC's sound start recording.
+    fn notes_start(&mut self) {
+        // Studio Pro only: the page shows its Pro card instead of the button.
+        if self.notes_rec.is_some() || self.st.notes.live() || self.notes_take.is_some() || self.st.studio_pro() == Some(false) {
+            return;
+        }
+        // Whatever an earlier meeting left (the app closed on it) goes first.
+        services::notes::clear_audio(None);
+        let now = self.st.now;
+        let started = self.st.local;
+        match services::notes::Recording::start(&crate::paths::notes_audio_dir(), &started, &self.sink) {
+            Ok((rec, mic, pc)) => {
+                pinfo!("notes: listening (microphone {}, the PC's sound {})", if mic { "on" } else { "off" }, if pc { "on" } else { "off" });
+                self.notes_started = started;
+                self.st.notes.started(now, mic, pc);
+                self.notes_rec = Some(rec);
+            }
+            Err(issue) => {
+                pwarn!("notes: no recording ({issue:?})");
+                self.st.ui.notes_kept = false;
+                self.st.notes.failed(poni_core::notes::Problem::Capture(issue));
+            }
+        }
+    }
+
+    /// Stop: the meeting is over, its notes get written.
+    fn notes_stop(&mut self) {
+        use poni_core::notes::{CaptureIssue, Problem};
+        let Some(rec) = self.notes_rec.take() else { return };
+        match rec.stop() {
+            Ok(take) if take.secs >= 1.0 && !take.parts.is_empty() => {
+                self.notes_take = Some(take);
+                self.st.ui.notes_kept = true;
+                self.notes_send();
+            }
+            Ok(take) => {
+                let _ = std::fs::remove_dir_all(&take.dir);
+                self.st.ui.notes_kept = false;
+                self.st.notes.failed(Problem::NothingHeard);
+            }
+            Err(issue) => {
+                self.st.ui.notes_kept = false;
+                self.st.notes.failed(Problem::Capture(if issue == CaptureIssue::MicDenied { issue } else { CaptureIssue::Failed }));
+            }
+        }
+    }
+
+    /// Hand the kept meeting over (again, for Try again).
+    fn notes_send(&mut self) {
+        let Some(take) = self.notes_take.clone() else { return };
+        self.st.notes.stopped(take.parts.len() as u32, take.secs);
+        let job = services::notes::Job { take, started: self.notes_started, lang: poni_core::notes::Lang::Auto, api: self.notes_api.clone(), out: crate::paths::notes_dir() };
+        services::notes::send(job, &self.sink);
+    }
+
+    /// The meeting on its way: how far, the notes saved, or what went wrong.
+    /// With the island closed, the end of it shows as a notice.
+    fn notes_reply(&mut self, r: poni_core::notes::Reply) {
+        use poni_core::notes::Reply;
+        if !self.st.notes_on() {
+            return;
+        }
+        let now = self.st.now;
+        let end = match &r {
+            Reply::Saved(s) => Some(("Your notes are ready".to_string(), s.notes.title.clone(), true)),
+            Reply::Failed(p) => Some((p.title().to_string(), "Open Notes to try again".to_string(), false)),
+            _ => None,
+        };
+        let saved = matches!(r, Reply::Saved(_));
+        self.st.notes.reply(r, now);
+        if saved {
+            self.notes_take = None;
+            self.st.ui.notes_kept = false;
+            self.st.ui.notes_saved_at = now;
+        }
+        if let Some((title, subtitle, good)) = end {
+            if !(self.expanded && self.st.page == PageKind::Notes) {
+                let color = if good { crate::oyen::ORANGE } else { palette::TEXT_DIM };
+                self.st.notify(Icon::Notes, color, title, subtitle, 8.0, Some(crate::state::NoticeAction::OpenPage(PageKind::Notes)));
+            }
+        }
+    }
+
+    /// A meeting the app closed on before its notes were saved: its
+    /// recording waits on the page for Write it up or Throw away.
+    fn notes_restore(&mut self) {
+        if let Some((take, started)) = services::notes::kept() {
+            pinfo!("notes: a meeting of {:.0} s from before wasn't written up; it's kept", take.secs);
+            self.notes_started = started;
+            self.st.notes.secs = take.secs;
+            self.notes_take = Some(take);
+            self.st.ui.notes_kept = true;
+            self.st.notes.failed(poni_core::notes::Problem::Unfinished);
+        }
+    }
+
+    /// The add-on switched off: a recording stops, its audio goes, and the
+    /// page forgets the meeting.
+    fn notes_off(&mut self) {
+        drop(self.notes_rec.take());
+        self.notes_take = None;
+        services::notes::clear_audio(None);
+        self.st.notes = Default::default();
+        self.st.ui.notes_kept = false;
+    }
+
     fn adzan_ended(&mut self) {
         self.adzan.stop();
         self.st.prayer.adzan = false;
@@ -3745,6 +4246,10 @@ impl App {
                 self.oyenza(OyenzaCmd::Refresh);
             } else if p == PageKind::Health {
                 self.oyenza(OyenzaCmd::RefreshHealth);
+            } else if p == PageKind::Notifications {
+                self.notify_cmd(NotifyCmd::Check);
+            } else if matches!(p, PageKind::Notes | PageKind::Addons) {
+                self.oyenza(OyenzaCmd::CheckPro);
             }
         }
     }
@@ -3857,16 +4362,89 @@ impl App {
                 Command::Phone(c) => self.phone_cmd(c),
                 Command::Pair(c) => self.pair_cmd(c),
                 Command::Oyenza(c) => self.oyenza(c),
+                Command::Usage(c) => self.usage_cmd(c),
+                Command::Ielts(c) => self.ielts_cmd(c),
+                Command::Notes(c) => self.notes_cmd(c),
                 // The self-test's pictures use the files it seeds (none from the website).
                 Command::GetCities(file) => {
                     if self.selftest.is_none() {
                         services::cities::fetch(file, self.sink.clone());
                     }
                 }
+                Command::Notify(c) => self.notify_cmd(c),
             }
         }
         self.sync_phone_offer();
         self.sync_pair_offer();
+    }
+
+    // ------------------------------------------------------------ notifications
+
+    /// The Notifications add-on came on (`ask`: by its switch, so Windows'
+    /// question comes now) or the app started with it on.
+    fn start_notify(&mut self, ask: bool) {
+        self.st.notify_access = NotifyAccess::Unknown;
+        if self.notify.is_none() {
+            self.notify = services::notifications::Listener::start(self.sink.clone(), ask);
+        }
+    }
+
+    /// Off: stop listening (dropping the listener stops it).
+    fn stop_notify(&mut self) {
+        self.notify = None;
+        self.st.notify_access = NotifyAccess::Unknown;
+    }
+
+    fn notify_cmd(&mut self, c: NotifyCmd) {
+        match c {
+            NotifyCmd::Ask => {
+                if let Some(l) = self.notify.as_mut() {
+                    l.ask();
+                }
+            }
+            NotifyCmd::Check => {
+                if let Some(l) = self.notify.as_mut() {
+                    l.check();
+                }
+            }
+            NotifyCmd::OpenWindowsSettings => shell::open_notification_settings(),
+        }
+    }
+
+    fn on_notify(&mut self, ev: NotifyEvent) {
+        if !self.st.notifications_on() {
+            return;
+        }
+        match ev {
+            NotifyEvent::Access(a) => {
+                self.st.notify_access = a;
+                if let Some(l) = self.notify.as_mut() {
+                    l.follow(a);
+                }
+            }
+            NotifyEvent::Apps(apps) => {
+                let mut changed = false;
+                for (id, name) in apps {
+                    changed |= self.st.settings.notifications.remember(&id, &name).1;
+                }
+                if changed {
+                    self.st.cmd(Command::SaveSettings);
+                }
+            }
+            NotifyEvent::Seen(seen) => {
+                let (shows, changed) = self.st.settings.notifications.remember(&seen.app_id, &seen.app);
+                if changed {
+                    self.st.cmd(Command::SaveSettings);
+                }
+                // Nobody would see it: Windows keeps it in its own list.
+                if !shows || self.locked || self.display_off {
+                    return;
+                }
+                if let Some(n) = pages::notifications::message_notice(&seen, &self.st.settings.notifications, self.st.accent, self.st.now) {
+                    self.st.show_or_hold(n, self.fullscreen_hidden);
+                }
+            }
+        }
     }
 
     // ------------------------------------------------------------ phone drop
@@ -4218,6 +4796,71 @@ impl App {
         }
     }
 
+    /// Self-test, the IELTS turn: calls go to `base` with `key`, the
+    /// recording is `stand_in`, and the IELTS page is open, signed in.
+    pub fn selftest_ielts_begin(&mut self, base: String, key: String, stand_in: PathBuf) {
+        // A kit of its own: no worker from before, and calls go to the run's server.
+        self.ielts = Default::default();
+        self.ielts_turn = true;
+        self.ielts.api = Some((base, key));
+        self.ielts.stand_in = Some(stand_in);
+        self.st.ielts = Default::default();
+        self.st.oyenza = Default::default();
+        self.st.oyenza.link = OyenzaLink::Connected { account: "s\u{2022}\u{2022}\u{2022}@example.com".into() };
+        self.st.settings.set_addon(poni_core::addons::IELTS.id, true);
+        self.st.addons.insert(poni_core::addons::IELTS.id, AddonStatus::Ready);
+        self.st.notice = None;
+        self.st.hud = None;
+        self.st.page = PageKind::Ielts;
+        self.ielts_shown = false;
+        self.selftest_set_expanded(true);
+    }
+
+    /// Self-test, the IELTS turn: a press on the page.
+    pub fn selftest_ielts(&mut self, c: crate::commands::IeltsCmd) {
+        self.st.now = clock::mono();
+        self.ielts_cmd(c);
+        self.request_frame();
+    }
+
+    /// Self-test, the IELTS turn: the files its session left (none, once
+    /// every clip and answer was used and deleted).
+    pub fn selftest_ielts_files(&mut self) -> usize {
+        self.ielts.retry_deletes();
+        std::fs::read_dir(paths::ielts_dir()).map(|d| d.count()).unwrap_or(0)
+    }
+
+    /// Self-test, the IELTS turn is over: nothing of it stays.
+    /// The self-test's notes turn: a made-up meeting (`take`) handed over to
+    /// the run's own server with its own key.
+    pub fn selftest_notes_begin(&mut self, base: String, key: String, take: services::notes::Take) {
+        self.notes_api = Some((base, key));
+        self.st.settings.set_addon(poni_core::addons::MEETING_NOTES.id, true);
+        self.st.addons.insert(poni_core::addons::MEETING_NOTES.id, AddonStatus::Ready);
+        self.st.notes = Default::default();
+        self.notes_started = poni_core::datetime::LocalDateTime { year: 2026, month: 10, day: 29, hour: 14, minute: 5, second: 0 };
+        self.notes_take = Some(take);
+        self.st.ui.notes_kept = true;
+        self.notes_send();
+    }
+
+    pub fn selftest_notes_end(&mut self) {
+        self.notes_off();
+        self.notes_api = None;
+        self.st.settings.set_addon(poni_core::addons::MEETING_NOTES.id, false);
+        self.st.addons.insert(poni_core::addons::MEETING_NOTES.id, AddonStatus::Off);
+    }
+
+    pub fn selftest_ielts_end(&mut self) {
+        self.ielts_off();
+        self.ielts_turn = false;
+        self.ielts = Default::default();
+        self.st.settings.set_addon(poni_core::addons::IELTS.id, false);
+        self.st.addons.insert(poni_core::addons::IELTS.id, AddonStatus::Off);
+        self.st.oyenza = Default::default();
+        self.st.page = PageKind::ALL[0];
+    }
+
     /// At rest: outline settled, mode current, no page switch or outgoing fade.
     pub fn selftest_settled(&self) -> bool {
         self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none() && !self.glass_moving
@@ -4292,6 +4935,20 @@ impl App {
         if let Some(h) = self.hit_at(p) {
             self.input.clicked = Some((h.id, MouseButton::Left));
         }
+    }
+
+    /// A press and release at `p` (DIPs) through the island's own mouse
+    /// messages, for what acts at mouse-down (`selftest_click` only sets the
+    /// click). Returns whether the island opened.
+    pub fn selftest_press(&mut self, p: Point) -> bool {
+        let s = self.gfx.scale();
+        let (x, y) = ((p.x * s).round() as i32 & 0xffff, (p.y * s).round() as i32 & 0xffff);
+        let lp = LPARAM(((y << 16) | x) as isize);
+        // Nothing a left press defers (the right button's menu is what does).
+        let mut deferred = Vec::new();
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut deferred);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut deferred);
+        self.expanded
     }
 
     /// The island body in window DIPs (where clicks land).

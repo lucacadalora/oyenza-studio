@@ -1,0 +1,28 @@
+{
+  "account": "a•••@example.com",
+  "tier": "trial",
+  "balance_usd": 4.2,
+  "spend": { "today_usd": 0.12, "week_usd": 1.03, "month_usd": 3.4 },
+  "requests": { "today": 41, "month": 812 },
+  "days": [
+    { "day": "2026-10-14", "usd": 0.1, "requests": 20 },
+    { "day": "2026-10-15", "usd": 0, "requests": 0 },
+    { "day": "2026-10-16", "usd": 0.25, "requests": 61 },
+    { "day": "2026-10-17", "usd": 0.3, "requests": 74 },
+    { "day": "2026-10-18", "usd": 0.12, "requests": 33 },
+    { "day": "2026-10-19", "usd": 0, "requests": 0 },
+    { "day": "2026-10-20", "usd": 0.4, "requests": 96 },
+    { "day": "2026-10-21", "usd": 0.15, "requests": 38 },
+    { "day": "2026-10-22", "usd": 0.2, "requests": 52 },
+    { "day": "2026-10-23", "usd": 0.08, "requests": 19 },
+    { "day": "2026-10-24", "usd": 0.1, "requests": 27 },
+    { "day": "2026-10-25", "usd": 0.18, "requests": 45 },
+    { "day": "2026-10-26", "usd": 0.2, "requests": 50 },
+    { "day": "2026-10-27", "usd": 0.12, "requests": 41 }
+  ],
+  "top_models": [
+    { "model": "kimi-k2.5", "usd": 2.1, "requests": 500 }
+  ],
+  "as_of": "2026-10-27T05:00:00Z",
+  "links": { "dashboard": "https://inference.oyenza.com/app", "start": "https://inference.oyenza.com/app/start" }
+}

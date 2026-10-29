@@ -1,0 +1,26 @@
+{
+  "numStartups": 42,
+  "installMethod": "native",
+  "autoUpdates": true,
+  "userID": "test-user-id",
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "2.1.284",
+  "oauthAccount": {
+    "accountUuid": "acct_test",
+    "emailAddress": "a•••@example.com",
+    "organizationUuid": "org_test",
+    "displayName": "Test",
+    "organizationName": "Test Org",
+    "organizationRole": "admin",
+    "workspaceRole": null,
+    "billingType": "stripe_subscription"
+  },
+  "projects": {
+    "/Users/u/code/example": {
+      "allowedTools": [],
+      "mcpServers": {},
+      "hasTrustDialogAccepted": true,
+      "lastSessionId": "test-session"
+    }
+  }
+}

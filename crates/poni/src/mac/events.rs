@@ -84,6 +84,8 @@ pub enum OyenzaEvent {
     /// The server has no day for the Today page (a server from before it, or
     /// switched off there): the page stays as it was before signing in mattered.
     DayUnavailable,
+    /// Whether the account has Studio Pro (a server from before Pro: no).
+    Pro(bool),
     /// The day couldn't be read just now (offline, a server error).
     DayFailed,
     NoteSaved(Vec<Saved>),
@@ -140,6 +142,9 @@ pub enum AppEvent {
     Cities { file: String, got: Result<poni_core::prayer::World, String> },
     /// The Stocks page's prices, names and years (`services::stocks`).
     Stocks(crate::services::stocks::StocksEvent),
+    /// The AI tab's readings, typed keys, inference.oyenza.com's link and
+    /// heads-up notices (`services::usage`).
+    Usage(crate::services::usage::UsageEvent),
     /// Prayer times' adzan played to its end (`services::adzan`).
     AdzanEnded,
     /// Free-form log line from a service thread.

@@ -65,6 +65,12 @@ pub fn addons_dir() -> PathBuf {
     cache_dir().join("addons")
 }
 
+/// The IELTS page's audio: Oyen's clips and the answer being recorded, each
+/// deleted once used.
+pub fn ielts_dir() -> PathBuf {
+    cache_dir().join("ielts")
+}
+
 /// The Oyenza sign-in (this Mac's key and the masked account), in a file
 /// only this Mac account can read (`services::secret`). Signing out removes
 /// it. With the settings, not the cache: macOS may empty caches by itself.
@@ -76,6 +82,14 @@ pub fn oyenza_link_path() -> PathBuf {
 /// server once it can.
 pub fn oyenza_revoke_path() -> PathBuf {
     data_dir().join("oyenza-revoke.bin")
+}
+
+/// A key typed into the AI tab for one service, or the inference.oyenza.com
+/// key (`usage-<name>.bin`), in a file only this Mac account can read
+/// (`services::secret`). With the settings, not the cache: macOS may empty
+/// caches by itself.
+pub fn usage_key_path(name: &str) -> PathBuf {
+    data_dir().join(format!("usage-{name}.bin"))
 }
 
 /// The person's Apple Music token (owner-only file; uninstalling with the

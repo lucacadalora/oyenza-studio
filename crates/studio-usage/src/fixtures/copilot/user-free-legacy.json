@@ -1,0 +1,18 @@
+{
+  "access_type_sku": "free_limited_copilot",
+  "analytics_tracking_id": "acct_test",
+  "assigned_date": null,
+  "can_signup_for_limited": false,
+  "chat_enabled": true,
+  "copilot_plan": "individual",
+  "organization_login_list": [],
+  "limited_user_quotas": {
+    "chat": 31,
+    "completions": 1520
+  },
+  "limited_user_reset_date": "2026-11-14",
+  "monthly_quotas": {
+    "chat": 50,
+    "completions": 2000
+  }
+}

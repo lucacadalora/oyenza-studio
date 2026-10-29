@@ -12,7 +12,7 @@
 
 use crate::activities::{self, Mode};
 use crate::clock;
-use crate::commands::{Command, MediaCmd, OyenzaCmd, PhoneCmd, Sound};
+use crate::commands::{Command, MediaCmd, OyenzaCmd, PhoneCmd, Sound, UsageCmd};
 use crate::events::{AppEvent, EventSink, OyenzaEvent};
 use crate::gfx::{scale_about, union_rect, Canvas, Gfx, Matrix3x2};
 use crate::glass;
@@ -453,6 +453,11 @@ pub struct App {
     stocks: Option<services::stocks::StocksService>,
     /// The Stocks page was on screen at the last look (`set_stocks_watch`).
     stocks_open: bool,
+    /// The AI tab's worker: started the first time the tab opens or its
+    /// notices are on (`set_usage_watch`).
+    usage: Option<services::usage::UsageService>,
+    /// What it was last told.
+    usage_watch: services::usage::Watch,
     /// New versions (`crate::updates`); None in the smoke test.
     updater: Option<crate::updates::Updater>,
     /// Prayer times' adzan, while it plays.
@@ -462,6 +467,9 @@ pub struct App {
     motions_logged: u32,
     frames_drawn: u64,
     smoke: Option<Smoke>,
+    /// The smoke run (`--smoke`): stays true while a step runs (`smoke` is
+    /// taken out then), so the AI tab's worker never starts in it.
+    smoke_run: bool,
     /// The smoke run: drawing cost at rest, a timer set aside while the
     /// music pill is measured, and where the ear step points.
     cost: DrawCost,
@@ -567,12 +575,15 @@ impl App {
             addons: None,
             stocks: None,
             stocks_open: false,
+            usage: None,
+            usage_watch: services::usage::Watch::default(),
             updater: None,
             adzan: Default::default(),
             motion: None,
             motion_name: "morph",
             motions_logged: 0,
             frames_drawn: 0,
+            smoke_run: smoke.is_some(),
             smoke,
             cost: DrawCost::default(),
             smoke_timer: None,
@@ -739,6 +750,9 @@ impl App {
                 } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
                     // pointer so the pill can be clicked.
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
+                    // So does the prayer countdown under a pointer resting on
+                    // its OK (resting on the rest of it still opens).
                 } else {
                     self.expand();
                 }
@@ -920,6 +934,10 @@ impl App {
                 self.st.health = None;
             }
             self.tell_oyenza_activity();
+        }
+        // The AI tab's heads-up notices: its worker reads every few minutes only while they're on.
+        if before.usage.notices != self.st.settings.usage.notices {
+            self.set_usage_watch();
         }
     }
 
@@ -1268,6 +1286,7 @@ impl App {
         }
         self.tell_oyenza_activity();
         self.set_stocks_watch();
+        self.set_usage_watch();
         self.apply_fullscreen();
     }
 
@@ -1394,6 +1413,7 @@ impl App {
                 let old = self.st.power;
                 self.st.power = p;
                 self.tell_oyenza_activity();
+                self.set_usage_watch();
                 if old.saver && !p.saver {
                     self.update_due();
                 }
@@ -1475,6 +1495,7 @@ impl App {
             AppEvent::Located(found) => self.on_located(found),
             AppEvent::Cities { file, got } => pages::prayer::cities_came(&mut self.st, file, got),
             AppEvent::Stocks(ev) => self.st.stocks.apply(ev, self.st.unix),
+            AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
             AppEvent::Log(s) => pinfo!("{s}"),
             AppEvent::Bluetooth { name, connected, battery, audio } => {
@@ -1685,6 +1706,17 @@ impl App {
                 pwarn!("prayer: the adzan didn't play ({e}); the tone instead");
                 false
             }
+        }
+    }
+
+    /// OK on the countdown before a prayer: the closed island goes back to
+    /// what it would show (the song and its sung line) until the prayer's
+    /// time. Its moment still comes then: `prayer_tick` doesn't look at the
+    /// countdown.
+    fn prayer_countdown_ok(&mut self) {
+        self.refresh_time();
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+            pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
         }
     }
 
@@ -1999,6 +2031,10 @@ impl App {
                         // The notice's inline pill acts in place without expanding.
                         self.input.pressed_id = None;
                         self.run_inline_action(a);
+                    } else if self.input.pressed_id == Some(wid(activities::PRAYER_OK_ID)) {
+                        // The prayer countdown's OK, the same way.
+                        self.input.pressed_id = None;
+                        self.prayer_countdown_ok();
                     } else {
                         // Clicking a notice jumps to its page (a new version's
                         // may be waiting under a volume change or a game's readout).
@@ -2007,6 +2043,7 @@ impl App {
                             match n.action {
                                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
                                 Some(NoticeAction::OpenUpdate) => self.st.open_update(),
+                                Some(NoticeAction::OpenApp(_)) => {}
                                 Some(NoticeAction::StartFocus) => {
                                     self.st.page = PageKind::Focus;
                                     if !self.st.pomodoro.is_active() {
@@ -2130,7 +2167,7 @@ impl App {
             if self.st.rec_live() && self.st.record_on() {
                 self.st.page = PageKind::Record;
             } else if self.st.page == PageKind::Record && !self.st.record_on() {
-                self.st.page = PageKind::ALL[0];
+                self.st.page = pages::first_tab(&self.st);
             }
         }
         self.request_frame();
@@ -2222,7 +2259,7 @@ impl App {
             self.st.ui.oyen_tab = None;
             // Settings closes with the island: it opens again on the page it was opened from.
             if self.st.page == PageKind::Settings {
-                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or(PageKind::ALL[0]);
+                self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or_else(|| pages::first_tab(&self.st));
             }
             self.st.update.sheet = false;
             self.st.update.said = None;
@@ -2324,7 +2361,7 @@ impl App {
         }
         match a {
             InlineAction::StartFocus => st.pomodoro.start(st.now),
-            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew => {}
+            InlineAction::ShowAmount | InlineAction::StopAdzan | InlineAction::Hide | InlineAction::WhatsNew | InlineAction::Open => {}
         }
         let until = st.now + INLINE_DONE_S;
         if let Some(n) = st.notice.as_mut() {
@@ -2442,9 +2479,102 @@ impl App {
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
+                // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
+                Command::Notify(_) => {}
+                Command::Usage(c) => self.usage_cmd(c),
+                // The IELTS coach's microphone and voice come to the Mac with
+                // branch ielts-coach-mac; until then its page says so.
+                Command::Ielts(_) | Command::Notes(_) => {}
             }
         }
         self.sync_phone_offer();
+    }
+
+    // ------------------------------------------------------------ AI usage
+
+    /// The AI tab's worker reads while the tab is on screen, or every few
+    /// minutes for the person who switched on its heads-up notices; both rest
+    /// while nobody can see the screen, the notices also on Low Power Mode.
+    /// Its thread starts the first time either wants it.
+    fn set_usage_watch(&mut self) {
+        let here = !(self.away.0 || self.away.1);
+        let open = here && self.mode == Mode::Expanded(PageKind::Ai);
+        // A keychain read may bring up macOS's prompt only while the tab is
+        // on screen; what it read stays while the notices are switched on,
+        // resting or not, so they go on once someone is back
+        // (services::keychain). Told before the worker; nothing while it
+        // stays the same.
+        services::keychain::set_watch(open, self.st.settings.usage.notices);
+        // The smoke run shows made-up readings (and checks the keychain on
+        // its own): nothing is read, even from inside a step.
+        if self.smoke_run {
+            return;
+        }
+        let w = services::usage::Watch {
+            open,
+            notices: here && self.st.settings.usage.notices && !self.st.power.saver,
+            near_pct: self.st.settings.usage.near_pct,
+            use_24h: self.st.settings.use_24h,
+            hidden: services::usage::picked(&self.st.settings.usage.hidden),
+            added: services::usage::picked(&self.st.settings.usage.added),
+        };
+        // Already told: nothing to do, every frame.
+        if w == self.usage_watch {
+            return;
+        }
+        self.usage_watch = w;
+        if self.usage.is_none() && (w.open || w.notices) {
+            self.start_usage();
+        }
+        if let Some(s) = &self.usage {
+            s.set_watch(w);
+        }
+    }
+
+    fn start_usage(&mut self) {
+        match services::usage::UsageService::start(self.sink.clone()) {
+            Ok(s) => self.usage = Some(s),
+            Err(e) => pwarn!("service usage: unavailable ({e})"),
+        }
+    }
+
+    /// Hide and Show change the AI tab's settings; the rest is its worker's
+    /// (started by the first one if need be).
+    fn usage_cmd(&mut self, c: UsageCmd) {
+        match c {
+            UsageCmd::Hide(id) | UsageCmd::Show(id) => {
+                let u = &mut self.st.settings.usage;
+                u.hidden.retain(|k| k != id.key());
+                u.added.retain(|k| k != id.key());
+                let list = if matches!(c, UsageCmd::Show(_)) { &mut u.added } else { &mut u.hidden };
+                list.push(id.key().into());
+                let before = self.saved_settings.clone();
+                self.settings_changed(&before);
+                self.save_settings();
+            }
+            c => {
+                // The person asked: the keychain may ask macOS again, even after a no.
+                if matches!(c, UsageCmd::Refresh) {
+                    services::keychain::ask_again();
+                }
+                if self.usage.is_none() {
+                    self.start_usage();
+                }
+                if let Some(s) = &self.usage {
+                    s.command(c);
+                }
+            }
+        }
+    }
+
+    /// What the AI tab's worker found goes into `st.usage`. Its heads-up
+    /// notices wait their turn for the island (`tick` puts them up one at a
+    /// time once it is free); the frame `on_event` asks for looks at once.
+    fn on_usage(&mut self, ev: services::usage::UsageEvent) {
+        match ev {
+            services::usage::UsageEvent::Alerts(alerts) => self.st.hold_usage_alerts(alerts),
+            ev => self.st.usage.apply(ev),
+        }
     }
 
     // ------------------------------------------------------------ Oyenza
@@ -2611,6 +2741,7 @@ impl App {
                 self.st.oyenza.agenda_state = crate::state::AgendaState::Unavailable;
             }
             OyenzaEvent::DayFailed => self.st.oyenza.agenda_state = crate::state::AgendaState::Failed,
+            OyenzaEvent::Pro(pro) => self.st.oyenza.pro = Some(pro),
             // Steps asked for before Health was switched off stay out.
             OyenzaEvent::Health(next) if self.st.health_on() => {
                 if let Some(steps) = self.st.take_health(next) {
@@ -2890,6 +3021,11 @@ impl App {
         if self.updater.as_mut().is_some_and(|u| u.announce(&mut self.st, free)) {
             self.request_frame();
         }
+        // The AI tab's heads-up notices wait the same way, one at a time, and
+        // while a full-screen app hides the island.
+        if self.st.show_usage_notice(free && !self.fullscreen_hidden, self.expanded && self.st.page == PageKind::Ai) {
+            self.request_frame();
+        }
         if let Some(ended) = self.st.pomodoro.tick(now) {
             pages::focus::on_phase_ended(&mut self.st, ended);
         }
@@ -2911,13 +3047,14 @@ impl App {
         self.script_held = held;
         self.prayer_tick();
         self.check_recorder_alive(false);
-        // Prayer times, System, Health, Stocks or Screen recorder switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, Screen recorder or IELTS switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
             PageKind::Record => !self.st.record_on(),
+            PageKind::Ielts => !self.st.ielts_on(),
             _ => false,
         };
         if gone {
@@ -2980,6 +3117,7 @@ impl App {
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
         self.set_stocks_watch();
+        self.set_usage_watch();
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));
@@ -3424,6 +3562,16 @@ impl App {
                 self.st.cmds.push(Command::SaveSettings);
             }
             "prayer-page" => self.st.cmds.push(Command::SetPage(PageKind::Prayer)),
+            // 5 minutes before Ashar on the prayer clock, then the countdown's
+            // OK (what a click on it does). The next step's adzan still comes.
+            "prayer-ok" => {
+                let unix = clock::unix_now();
+                if let Some(ashar) = self.st.prayer.site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| t.ashar)) {
+                    self.st.prayer.clock_shift = ashar - 5 * 60 - unix;
+                    self.st.prayer.handled_until = Some(ashar - 5 * 60);
+                }
+                self.prayer_countdown_ok();
+            }
             // Ashar comes 2 seconds from now on the prayer clock, with the adzan chosen.
             "prayer-adzan" => {
                 self.st.settings.prayer.sound = PrayerSound::Adzan;
@@ -3522,6 +3670,32 @@ impl App {
                 self.st.notice = None;
                 self.on_oyenza(OyenzaEvent::Disconnected { by_server: false });
                 self.oyenza = None;
+            }
+            // The AI tab (its worker never starts in the smoke run: nothing
+            // of this Mac is read), then its keychain reader on test items.
+            "ai-page" => {
+                self.st.notice = None;
+                let now = self.st.now;
+                pages::usage::picture(&mut self.st, pages::usage::Picture::Plans, now);
+                self.set_page(PageKind::Ai);
+                self.expand();
+            }
+            // With the notices on and a keychain reading in hand (the tab is
+            // open), the Mac locks, then unlocks on the AI tab.
+            "ai-locked" => {
+                self.st.settings.usage.notices = true;
+                // The reader's gate as the island has it again (the keychain
+                // step set its own, and a resting island draws no frame).
+                self.set_usage_watch();
+                if std::env::var_os("PONI_SMOKE_KEYCHAIN").is_some() {
+                    let _ = services::keychain::read(SMOKE_KEYCHAIN.0, Some("plain"));
+                }
+                self.set_away(None, Some(true));
+            }
+            "ai-back" => {
+                self.set_away(None, Some(false));
+                self.set_page(PageKind::Ai);
+                self.expand();
             }
             // macOS's own now playing, as a browser tab reaches it: the
             // stream stops, tools/mac-smoke.sh starts the MediaRemote
@@ -3700,6 +3874,7 @@ impl App {
             "fullscreen-back" => (!self.front_full_screen && !self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 8.0,
             "oyenza-code" | "oyenza-page" => (self.expanded && self.st.page == PageKind::Oyenza && waited > 0.6) || waited > 4.0,
             "oyenza-money" => self.st.notice.is_some() || waited > 4.0,
+            "ai-page" | "ai-back" => (self.expanded && self.st.page == PageKind::Ai && waited > 0.6) || waited > 4.0,
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
@@ -3996,6 +4171,12 @@ impl App {
                 let ok = self.st.page == PageKind::Prayer && tabs.contains(&PageKind::Prayer) && next.is_some();
                 Some(("prayer-page", ok, format!("{} tabs; next: {}", tabs.len(), next.unwrap_or_else(|| "none".into()))))
             }
+            "prayer-ok" => {
+                let running = self.st.prayer.site().and_then(|s| poni_core::prayer::countdown(&s, self.st.prayer_now(), self.st.settings.prayer.remind_before_min));
+                let shown = activities::prayer_countdown(&self.st);
+                let ok = running.is_some() && shown.is_none() && self.st.prayer.countdown_ok == running.map(|(m, _)| m.at);
+                Some(("prayer-ok", ok, format!("countdown {:?}, on the island: {shown:?}", running.map(|(m, left)| (m.prayer, left)))))
+            }
             "prayer-adzan" => {
                 let playing = self.adzan.is_playing();
                 let notice = self.st.notice.as_ref().map(|n| format!("{} / {}", n.title, n.subtitle)).unwrap_or_default();
@@ -4051,6 +4232,40 @@ impl App {
                 let ok = n.is_some_and(|n| n.title == "Money in \u{b7} BCA" && n.inline == Some(InlineAction::ShowAmount) && n.reveal.is_some());
                 Some(("oyenza-money", ok, format!("notice: {:?} / {:?}, sum held back for Show: {}", n.map(|n| &n.title), n.map(|n| &n.subtitle), n.is_some_and(|n| n.reveal.is_some()))))
             }
+            "ai-page" => {
+                let tab = pages::tabs(&self.st).contains(&PageKind::Ai);
+                let asked = services::keychain::asked();
+                let ok = tab && self.expanded && self.st.page == PageKind::Ai && self.usage.is_none() && asked == 0;
+                let worker = if self.usage.is_none() { "not started" } else { "running" };
+                Some(("ai-page", ok, format!("AI tab: {tab}; page {:?}; worker {worker}; keychain asked {asked} times", self.st.page)))
+            }
+            "ai-keychain" => {
+                let (ok, d) = smoke_keychain();
+                Some(("keychain", ok, d))
+            }
+            // Locked, the notices rest, but what the keychain read stays for
+            // when someone is back; macOS is asked nothing meanwhile.
+            "ai-locked" => {
+                let (ask, keep) = services::keychain::watching();
+                let before = services::keychain::asked();
+                let read = services::keychain::read(SMOKE_KEYCHAIN.0, Some("plain"));
+                let asked = services::keychain::asked() - before;
+                let kept = std::env::var_os("PONI_SMOKE_KEYCHAIN").is_none() || read == studio_usage::Got::Text(SMOKE_KEYCHAIN.1.into());
+                let ok = self.away.1 && !ask && keep && kept && asked == 0;
+                Some(("keychain-locked", ok, format!("locked, notices on: may ask macOS {ask}, keeps what it read {keep}; a read now: {read:?}, macOS asked {asked} times")))
+            }
+            "ai-back" => {
+                let (ask, keep) = services::keychain::watching();
+                services::keychain::ask_again();
+                // Locking and unlocking went through set_usage_watch: still no worker.
+                let ok = !self.away.1 && self.mode == Mode::Expanded(PageKind::Ai) && ask && keep && self.usage.is_none();
+                let worker = if self.usage.is_none() { "not started" } else { "running" };
+                Some(("keychain-back", ok, format!("unlocked, on the AI tab: may ask macOS {ask}, keeps what it read {keep}; worker {worker}")))
+            }
+            "ai-secret" => {
+                let (ok, d) = smoke_secret();
+                Some(("secret-backups", ok, d))
+            }
             "oyenza-off" => {
                 // Signed out, the tab stays: it is where to sign in again.
                 let tab = pages::tabs(&self.st).contains(&PageKind::Oyenza);
@@ -4067,6 +4282,80 @@ impl App {
             _ => None,
         }
     }
+}
+
+/// The keychain items tools/mac-smoke.sh adds for the AI tab's reader: their
+/// service, and the passwords of the accounts "plain" and "accent" (an accent
+/// and a line break, which `security` prints as hex). "absent" is never added.
+const SMOKE_KEYCHAIN: (&str, &str, &str) = ("Oyenza Studio smoke", "{\"claudeAiOauth\":{\"accessToken\":\"test-token\"}}", "caf\u{e9}\nnext");
+
+/// The smoke test of the AI tab's keychain reader (`services::keychain`) on
+/// the items above, with the tab closed, open, then closed with the notices
+/// on and with nothing watching: whether each read gave what it should and
+/// how often macOS was asked. The worker never runs in the smoke run, so the
+/// reader's gate is this test's alone.
+fn smoke_keychain() -> (bool, String) {
+    use studio_usage::Got;
+    use services::keychain as k;
+    if std::env::var_os("PONI_SMOKE_KEYCHAIN").is_none() {
+        return (true, "skipped: no test items in the keychain".into());
+    }
+    let (svc, plain, accent) = SMOKE_KEYCHAIN;
+    let text = |s: &str| Got::Text(s.to_string());
+    k::set_watch(false, false);
+    k::ask_again();
+    let before = k::asked();
+    let asked = || k::asked() - before;
+    // Closed and never read: nothing, and macOS isn't asked.
+    let closed = k::read(svc, Some("plain"));
+    let closed_ok = closed == Got::Missing && asked() == 0;
+    k::set_watch(true, false);
+    let t = std::time::Instant::now();
+    let open = [k::read(svc, Some("plain")), k::read(svc, Some("accent")), k::read(svc, Some("absent"))];
+    let ms = t.elapsed().as_millis();
+    let open_ok = open == [text(plain), text(accent), Got::Missing] && asked() == 3;
+    // Once an opening: the next read is the one kept.
+    let again = k::read(svc, Some("plain"));
+    let again_ok = again == text(plain) && asked() == 3;
+    // Closed with the notices on: what was read while it was open.
+    k::set_watch(false, true);
+    let notices = k::read(svc, Some("plain"));
+    let notices_ok = notices == text(plain) && asked() == 3;
+    // Nobody watching: forgotten.
+    k::set_watch(false, false);
+    let gone = k::read(svc, Some("plain"));
+    let gone_ok = gone == Got::Missing && asked() == 3;
+    k::ask_again();
+    let ok = closed_ok && open_ok && again_ok && notices_ok && gone_ok;
+    // Got's Debug shows a text's length, never the text.
+    let d = format!("tab closed: {closed:?}; open: {open:?} in {ms} ms; again: {again:?}; notices only: {notices:?}; nobody watching: {gone:?}; macOS asked {} times", asked());
+    (ok, d)
+}
+
+/// The smoke test of a key saved the way the AI tab saves one (into this
+/// run's own home): it reads back, and Time Machine leaves it out (tmutil's
+/// own answer, and the attribute that says so).
+fn smoke_secret() -> (bool, String) {
+    let path = paths::usage_key_path("smoke-test");
+    if let Err(e) = services::secret::save(&path, "test-key") {
+        return (false, format!("not saved: {e}"));
+    }
+    let out = |cmd: &str, args: &[&std::ffi::OsStr]| {
+        std::process::Command::new(cmd).args(args).output().map(|o| String::from_utf8_lossy(&o.stdout).into_owned()).unwrap_or_default()
+    };
+    let tm = out("/usr/bin/tmutil", &["isexcluded".as_ref(), path.as_os_str()]);
+    let attr = out("/usr/bin/xattr", &[path.as_os_str()]).contains("com.apple.metadata:com_apple_backup_excludeItem");
+    let back = services::secret::load(&path);
+    let _ = services::secret::delete(&path);
+    let verdict = if tm.contains("[Excluded]") {
+        "excluded"
+    } else if tm.contains("[Included]") {
+        "included"
+    } else {
+        "no answer"
+    };
+    let ok = attr && verdict != "included" && back.as_deref() == Some("test-key");
+    (ok, format!("tmutil: {verdict}; exclusion attribute: {}; read back: {}", if attr { "set" } else { "missing" }, back.is_some()))
 }
 
 /// The smoke test: one POST with a JSON body and a key through the Mac's
@@ -4328,7 +4617,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 62] = [
+const SMOKE_STEPS: [&str; 68] = [
     "idle",
     "hover",
     "open-focus",
@@ -4370,6 +4659,7 @@ const SMOKE_STEPS: [&str; 62] = [
     "ja-off",
     "prayer-get",
     "prayer-page",
+    "prayer-ok",
     "prayer-adzan",
     "prayer-stop",
     "prayer-locate",
@@ -4382,6 +4672,11 @@ const SMOKE_STEPS: [&str; 62] = [
     "oyenza-page",
     "oyenza-money",
     "oyenza-off",
+    "ai-page",
+    "ai-keychain",
+    "ai-locked",
+    "ai-back",
+    "ai-secret",
     "now-playing-start",
     "now-playing",
     "now-playing-browser-start",

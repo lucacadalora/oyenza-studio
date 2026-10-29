@@ -69,22 +69,27 @@ pub fn mid_rest_move(now: f64, margin: f64) -> bool {
 /// follow it, glancing down towards it. Returns the frame and whether it
 /// moves on its own (the caller then keeps frames coming).
 pub fn rest(now: f64, night: bool, look: Option<f32>) -> (Frame, bool) {
+    rest_eyes(now, night, look, SMALL_EYES)
+}
+
+/// [`rest`] with eyes of `eyes` (the mark's small cut for small sizes).
+fn rest_eyes(now: f64, night: bool, look: Option<f32>, eyes: f64) -> (Frame, bool) {
     if night {
         // Asleep, drawn still: no breathing frames at night.
-        return (oyen::frame(Mood::Sleep, 0.6, Input::default(), SMALL_EYES), false);
+        return (oyen::frame(Mood::Sleep, 0.6, Input::default(), eyes), false);
     }
     if let Some(x) = look {
         let input = Input { pencil: x.clamp(-1.0, 1.0) as f64, ..Input::default() };
-        return (oyen::frame(Mood::Nulis, 0.0, input, SMALL_EYES), false);
+        return (oyen::frame(Mood::Nulis, 0.0, input, eyes), false);
     }
     let phase = now.rem_euclid(REST_CYCLE);
     if !rest_moving(now) {
-        return (oyen::frame(Mood::Oyen, 0.0, Input::default(), SMALL_EYES), false);
+        return (oyen::frame(Mood::Oyen, 0.0, Input::default(), eyes), false);
     }
     // The idle mood blinks at 1.7 s and flicks the folded ear at 0.6 s.
     let flick = (now / REST_CYCLE).floor() as i64 % 3 == 2;
     let t = if flick { 0.55 + phase } else { 1.6 + phase };
-    (oyen::frame(Mood::Oyen, t, Input::default(), SMALL_EYES), true)
+    (oyen::frame(Mood::Oyen, t, Input::default(), eyes), true)
 }
 
 /// Bopping to the music while it plays: eyes shut in a smile, bouncing on the
@@ -338,6 +343,98 @@ pub fn tab(c: &mut Canvas, center: Point, w: f32, clip: Rect, now: f64, moved: O
     moving
 }
 
+// ---------------------------------------------------------------- the IELTS page
+
+/// What Oyen does on the IELTS page, as the examiner.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Coach {
+    /// Between turns: a blink now and then, eyes on the pointer while it's
+    /// over the page (`look`, -1 left .. 1 right of him).
+    Rest { look: Option<f32> },
+    /// Saying a line that started at `since` (mono seconds).
+    Talk { since: f64 },
+    /// Listening to the answer: eyes down on the mic under him, his head
+    /// lifting a little with the voice (`level`, 0..1).
+    Listen { level: f32 },
+    /// Thinking the answer over: eyes up, the three dots.
+    Think,
+    /// The band reached the level's target: happy hops from `since`, then rest.
+    Proud { since: f64 },
+    /// Something went wrong: he droops from `since`, and stays down.
+    Sorry { since: f64 },
+    /// Writing (the Notes page, while a meeting's notes are made): eyes down,
+    /// following a pencil along the line, line after line.
+    Write,
+    /// The notes are saved: the ear flips up like a page corner and a tick
+    /// draws itself from `since`, then rest.
+    Logged { since: f64 },
+}
+
+/// Syllables a second while Oyen talks, a phrase's length, and how much of
+/// each phrase he talks (the rest is a breath).
+const TALK_HZ: f64 = 4.2;
+const PHRASE_S: f64 = 1.7;
+const PHRASE_ON: f64 = 0.8;
+/// How far the voice lifts his head while he listens (mark units).
+const LISTEN_LIFT: f64 = 3.0;
+/// How long he's happy about a good band.
+const PROUD_S: f64 = 2.4;
+/// One line of writing, while a meeting's notes are made.
+const WRITE_LINE_S: f64 = 1.6;
+
+/// Oyen on the IELTS page: his whole head `w` DIPs wide, head and ears
+/// centred on `center`. Returns whether he moves by himself (the page keeps
+/// frames coming meanwhile).
+pub fn coach(c: &mut Canvas, center: Point, w: f32, now: f64, what: Coach) -> bool {
+    let eyes = if w * c.scale() <= 32.0 { SMALL_EYES } else { 1.0 };
+    let (frame, moving) = match what {
+        Coach::Rest { look } => rest_eyes(now, false, look, eyes),
+        Coach::Talk { since } => (talk((now - since).max(0.0), eyes), true),
+        Coach::Listen { level } => {
+            let mut f = oyen::frame(Mood::Nulis, 0.0, Input::default(), eyes);
+            f.head = f.head.then(Affine::translation(0.0, -LISTEN_LIFT * level.clamp(0.0, 1.0) as f64));
+            (f, false)
+        }
+        Coach::Think => (oyen::frame(Mood::Think, now.rem_euclid(Mood::Think.loop_secs()), Input::default(), eyes), true),
+        Coach::Proud { since } if now - since < PROUD_S => (oyen::frame(Mood::Happy, (now - since).max(0.0), Input::default(), eyes), true),
+        Coach::Proud { .. } => rest_eyes(now, false, None, eyes),
+        Coach::Sorry { since } => {
+            let t = (now - since).max(0.0);
+            (oyen::frame(Mood::Sad, t, Input::default(), eyes), t < Mood::Sad.loop_secs())
+        }
+        Coach::Write => {
+            // Across the line in 1.6 s, then back to the next one.
+            let line = (now / WRITE_LINE_S).fract();
+            let pencil = Input { pencil: 2.0 * line - 1.0, ..Input::default() };
+            (oyen::frame(Mood::Nulis, now.rem_euclid(Mood::Nulis.loop_secs()), pencil, eyes), true)
+        }
+        Coach::Logged { since } if now - since < Mood::Tercatat.loop_secs() => (oyen::frame(Mood::Tercatat, (now - since).max(0.0), Input::default(), eyes), true),
+        Coach::Logged { .. } => rest_eyes(now, false, None, eyes),
+    };
+    let k = w / MARK_W;
+    draw(c, &frame, Point::new(center.x, center.y + 12.0 * k), k);
+    moving
+}
+
+/// Oyen saying a line, `t` seconds in. He has no mouth (the mark has none),
+/// so his head does the talking: a squash and lift on each syllable, a breath
+/// between phrases, and the folded ear's flick as each phrase starts.
+fn talk(t: f64, eyes: f64) -> Frame {
+    let p = t.rem_euclid(PHRASE_S);
+    // The idle mood's ear flick runs from 0.55 s.
+    let mood_t = if p < 0.45 { 0.55 + p } else { 0.0 };
+    let mut f = oyen::frame(Mood::Oyen, mood_t, Input::default(), eyes);
+    let talking = PHRASE_S * PHRASE_ON;
+    // Eased in and out at the phrase's ends, so a breath never jumps.
+    let edge = (p / 0.12).min((talking - p) / 0.12).clamp(0.0, 1.0);
+    let b = if p < talking { (PI * TALK_HZ * t).sin().abs().powf(1.6) * edge } else { 0.0 };
+    let syllable = Affine::translation(0.0, -oyen::CHIN)
+        .then(Affine::scale(1.0 + 0.025 * b, 1.0 - 0.045 * b))
+        .then(Affine::translation(0.0, oyen::CHIN - 2.5 * b));
+    f.head = f.head.then(syllable);
+    f
+}
+
 /// Oyen whole and still, as on the Oyenza mark: his head `w` DIPs wide, head
 /// and ears centred on `center`. The mark fits a 108-unit square whose
 /// middle is 12 units above its origin.
@@ -475,6 +572,19 @@ mod tests {
         assert!((lean(&music(6.3, true, None)) - LEAN_DEG).abs() < 0.2);
         assert!(lean(&music(6.4, false, Some(6.3))) > 1.0);
         assert!(lean(&music(6.3 + SETTLE, false, Some(6.3))).abs() < 1e-6);
+    }
+
+    #[test]
+    fn oyen_talks_in_phrases_and_rests_between_them() {
+        let height = |f: &Frame| f.head.d;
+        // Mid-phrase he squashes on a syllable; in the breath he's himself.
+        assert!(height(&talk(0.37, 1.0)) < 0.97);
+        let rest = oyen::frame(Mood::Oyen, 0.0, Input::default(), 1.0);
+        assert!((height(&talk(1.55, 1.0)) - height(&rest)).abs() < 1e-9);
+        // The phrase starts (with the ear's flick) and ends without a jump.
+        let flick = oyen::frame(Mood::Oyen, 0.55, Input::default(), 1.0);
+        assert!((height(&talk(0.0, 1.0)) - height(&flick)).abs() < 1e-9);
+        assert!((height(&talk(PHRASE_S * PHRASE_ON - 1e-6, 1.0)) - height(&rest)).abs() < 1e-3);
     }
 
     #[test]

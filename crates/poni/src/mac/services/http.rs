@@ -8,10 +8,14 @@
 //! thread. Waiting costs no CPU: the caller sleeps on a channel that the
 //! request's completion handler fills.
 
-use block2::RcBlock;
+use block2::{DynBlock, RcBlock};
 use objc2::rc::Retained;
-use objc2::Message;
-use objc2_foundation::{NSData, NSError, NSHTTPURLResponse, NSMutableURLRequest, NSString, NSURLRequestCachePolicy, NSURLResponse, NSURLSession, NSURL};
+use objc2::runtime::ProtocolObject;
+use objc2::{define_class, msg_send, AnyThread, Message};
+use objc2_foundation::{
+    NSData, NSError, NSHTTPCookieAcceptPolicy, NSHTTPURLResponse, NSMutableURLRequest, NSObject, NSObjectProtocol, NSString, NSURLRequest, NSURLRequestCachePolicy, NSURLResponse,
+    NSURLSession, NSURLSessionConfiguration, NSURLSessionDelegate, NSURLSessionTask, NSURLSessionTaskDelegate, NSURL,
+};
 use std::fmt;
 use std::sync::mpsc::{self, RecvTimeoutError};
 use std::time::{Duration, Instant};
@@ -88,11 +92,60 @@ impl Default for MtaGuard {
 
 pub struct Client {
     user_agent: String,
+    /// A session of its own ([`Client::private`]); else the shared one.
+    own: Option<Retained<NSURLSession>>,
+}
+
+define_class!(
+    /// Turns down every redirect, so a 3xx comes back as the answer and no
+    /// header goes on to another host (the private session's delegate, on
+    /// its own queue).
+    #[unsafe(super(NSObject))]
+    #[name = "PoniNoRedirect"]
+    struct NoRedirect;
+
+    unsafe impl NSObjectProtocol for NoRedirect {}
+
+    unsafe impl NSURLSessionDelegate for NoRedirect {}
+
+    unsafe impl NSURLSessionTaskDelegate for NoRedirect {
+        #[unsafe(method(URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:))]
+        fn will_redirect(&self, _session: &NSURLSession, _task: &NSURLSessionTask, _response: &NSHTTPURLResponse, _request: &NSURLRequest, handler: &DynBlock<dyn Fn(*mut NSURLRequest)>) {
+            handler.call((std::ptr::null_mut(),));
+        }
+    }
+);
+
+impl NoRedirect {
+    fn new() -> Retained<Self> {
+        let this = Self::alloc().set_ivars(());
+        unsafe { msg_send![super(this), init] }
+    }
 }
 
 impl Client {
     pub fn new(user_agent: &str) -> Result<Self, FetchError> {
-        Ok(Client { user_agent: user_agent.to_string() })
+        Ok(Client { user_agent: user_agent.to_string(), own: None })
+    }
+
+    /// A client of its own for requests that carry another service's
+    /// sign-in (the AI tab's worker): an ephemeral session that keeps no
+    /// cookies (a request's own `Cookie` header still goes) and no cache, and
+    /// turns down every redirect, so a 3xx comes back as the answer.
+    pub fn private(user_agent: &str) -> Result<Self, FetchError> {
+        let cfg = NSURLSessionConfiguration::ephemeralSessionConfiguration();
+        cfg.setHTTPCookieStorage(None);
+        cfg.setHTTPShouldSetCookies(false);
+        cfg.setHTTPCookieAcceptPolicy(NSHTTPCookieAcceptPolicy::Never);
+        cfg.setURLCache(None);
+        cfg.setRequestCachePolicy(NSURLRequestCachePolicy::ReloadIgnoringLocalCacheData);
+        let delegate = NoRedirect::new();
+        let session = unsafe { NSURLSession::sessionWithConfiguration_delegate_delegateQueue(&cfg, Some(ProtocolObject::from_ref(&*delegate)), None) };
+        Ok(Client { user_agent: user_agent.to_string(), own: Some(session) })
+    }
+
+    fn session(&self) -> Retained<NSURLSession> {
+        self.own.clone().unwrap_or_else(NSURLSession::sharedSession)
     }
 
     pub fn get(&self, url: &str, timeout: Duration) -> Result<Response, FetchError> {
@@ -126,7 +179,7 @@ impl Client {
             let result = unsafe { finish(data.as_ref(), resp.as_ref(), err.as_ref()) };
             let _ = tx.send(result);
         });
-        let task = unsafe { NSURLSession::sharedSession().dataTaskWithRequest_completionHandler(&req, &done) };
+        let task = unsafe { self.session().dataTaskWithRequest_completionHandler(&req, &done) };
         task.resume();
         // URLSession enforces the timeout itself; the extra second only guards
         // against a completion handler that never runs.
@@ -154,7 +207,7 @@ impl Client {
             let result = unsafe { finish_bytes(data.as_ref(), resp.as_ref(), err.as_ref(), max_bytes) };
             let _ = tx.send(result);
         });
-        let task = unsafe { NSURLSession::sharedSession().dataTaskWithRequest_completionHandler(&req, &done) };
+        let task = unsafe { self.session().dataTaskWithRequest_completionHandler(&req, &done) };
         task.resume();
         // URLSession's timeout counts a pause in the data, not the whole
         // download, so the budget for all of it is kept here.
@@ -176,6 +229,15 @@ impl Client {
                     return Err(FetchError::Timeout);
                 }
             }
+        }
+    }
+}
+
+impl Drop for Client {
+    fn drop(&mut self) {
+        // A session of its own keeps its delegate until it is invalidated.
+        if let Some(s) = &self.own {
+            s.finishTasksAndInvalidate();
         }
     }
 }

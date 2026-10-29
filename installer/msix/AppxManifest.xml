@@ -10,9 +10,10 @@
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap5 rescap">
+  IgnorableNamespaces="uap uap3 uap5 rescap">
 
   <Identity Name="$IdentityName$" Publisher="$Publisher$" Version="$Version$" ProcessorArchitecture="x64" />
 
@@ -54,6 +55,9 @@
     <Capability Name="internetClient" />
     <!-- Phone drop: a page on the home network for the user's own phone, while its panel is open. -->
     <Capability Name="privateNetworkClientServer" />
+    <!-- The Notifications add-on (off by default): other apps' notifications on the island,
+         read on the PC and never sent anywhere. Windows asks the person before it allows it. -->
+    <uap3:Capability Name="userNotificationListener" />
     <!-- A desktop app: runs outside the app sandbox, like the installer build. -->
     <rescap:Capability Name="runFullTrust" />
     <!-- Headphone battery levels over Bluetooth LE. -->

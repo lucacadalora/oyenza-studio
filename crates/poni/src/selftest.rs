@@ -35,6 +35,7 @@ use crate::app::App;
 use crate::clock;
 use crate::gfx::{Image, ImageData};
 use crate::icons::Icon;
+use crate::pages::usage::Picture as AiPicture;
 use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::png;
@@ -43,7 +44,8 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
 use poni_core::lrc::{parse_lrc, Lyrics};
@@ -63,6 +65,8 @@ use poni_core::timeline::Timeline;
 use serde::Serialize;
 use std::cell::Cell;
 use std::fs;
+use std::sync::atomic::AtomicBool;
+use std::sync::{Arc, Mutex};
 use std::path::PathBuf;
 use std::thread::JoinHandle;
 use std::time::Instant;
@@ -90,10 +94,13 @@ const CLICK_TIMEOUT: f64 = 1.5;
 /// 45 s under Wine at 100 % (a busy machine is the slow end); on CI the Oyen
 /// theme with Japanese lyrics is the slowest run, about 63 s with 85 (it
 /// reached the old 50 s at scene 80 once the Today scenes came in, and 65 s
-/// was tight for four more). The CI and Store test steps wait 120 s for the
-/// whole run (this plus the writers' 3.5 s, and 40 s more for the animation
-/// runs, stays under it), the Wine runner 180 s.
-const SCENE_DEADLINE: f64 = 70.0;
+/// was tight for four more). With 121 (Notifications, the AI tab and IELTS
+/// together, 28 Oct) the Classic run passed 70 s at scene 119. The CI and
+/// Store test steps wait 180 s for the whole run (this plus the writers'
+/// 3.5 s, the Classic runs' IELTS turn of about 26 s and notes turn of about
+/// 5 s, which the deadline leaves out, or 40 s more for the animation runs,
+/// stays under it), the Wine runner 180 s.
+const SCENE_DEADLINE: f64 = 90.0;
 /// Give up waiting for PNG writers at this point: 3.5 s after the scene
 /// deadline, so the last scenes' pictures get their time however long the
 /// run took. (It was a fixed 43.5 s, left behind when SCENE_DEADLINE went
@@ -711,6 +718,43 @@ fn fake_agenda(st: &AppState, scene: Scene) -> Option<poni_core::agenda::Answer>
     }
 }
 
+/// The WhatsApp message in the Notifications scenes (made up: the self-test
+/// reads no notifications).
+fn sample_message() -> poni_core::notifications::Seen {
+    poni_core::notifications::Seen {
+        app_id: "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App".into(),
+        app: "WhatsApp".into(),
+        lines: vec!["Mom".into(), "Dinner at 7 tonight?".into()],
+    }
+}
+
+/// The Notifications scenes: what Windows answered, and the apps the page
+/// lists (WhatsApp and Telegram on, Phone Link switched off by hand, Outlook
+/// as every other app starts: off). Every other scene has the add-on's
+/// choices as they start.
+fn seed_notifications(st: &mut AppState, scene: Scene) {
+    use crate::state::NotifyAccess;
+    st.notify_access = match scene {
+        Scene::NotifyAsk => NotifyAccess::Ask,
+        Scene::NotifyNoPackage => NotifyAccess::NoPackage,
+        Scene::Page(PageKind::Notifications) | Scene::MessageNotice | Scene::MessageHidden => NotifyAccess::Allowed,
+        _ => NotifyAccess::Unknown,
+    };
+    let n = &mut st.settings.notifications;
+    *n = NotificationSettings::default();
+    if scene == Scene::Page(PageKind::Notifications) {
+        for (id, name) in [
+            ("5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App", "WhatsApp"),
+            ("Telegram.TelegramDesktop", "Telegram"),
+            ("Microsoft.YourPhone_8wekyb3d8bbwe!App", "Phone Link"),
+            ("Microsoft.Office.OUTLOOK.EXE.15", "Outlook"),
+        ] {
+            n.remember(id, name);
+        }
+        n.set("Microsoft.YourPhone_8wekyb3d8bbwe!App", false);
+    }
+}
+
 /// The Stocks page's scenes on a made-up market (`pages::stocks::picture`);
 /// every other scene: the list as it starts, nothing loaded.
 fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
@@ -730,6 +774,97 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
     picture(st, shows, now);
 }
 
+/// The AI tab's scenes on made-up readings, every glide at its end
+/// (`pages::usage::picture`); every other scene: nothing read yet and the
+/// notices off, as on a first start (nothing reads it there, and no key
+/// typed in one scene stays for the next).
+fn seed_ai(st: &mut AppState, scene: Scene, now: f64) {
+    if let Scene::Ai(p) = scene {
+        pages::usage::picture(st, p, now);
+    } else {
+        st.usage = crate::state::UsageState::default();
+        st.settings.usage = poni_core::settings::UsageSettings::default();
+        st.ui.usage = pages::usage::UsageUi::default();
+    }
+}
+
+/// The IELTS page's scenes in made-up states (`ielts::Coach::sample`); every
+/// other scene: the coach as it starts.
+fn seed_ielts(st: &mut AppState, scene: Scene, now: f64) {
+    use poni_core::ielts::{Coach, Sample};
+    let shows = match scene {
+        Scene::Page(PageKind::Ielts) | Scene::IeltsSignedOut => Sample::Home,
+        Scene::IeltsTalking => Sample::Talking,
+        Scene::IeltsRecording => Sample::Recording,
+        Scene::IeltsCueCard => Sample::CueCard,
+        Scene::IeltsResult => Sample::Result,
+        Scene::IeltsMicDenied => Sample::MicDenied,
+        _ => {
+            st.ielts = Coach::default();
+            return;
+        }
+    };
+    st.ielts = Coach::sample(shows, now);
+}
+
+/// The Notes page's scenes in made-up states (nothing records: the levels
+/// hold still, and the time sits half a second into its second so the
+/// picture doesn't catch it turning); every other scene: no meeting.
+fn seed_notes(st: &mut AppState, scene: Scene, now: f64) {
+    use poni_core::notes::{Phase, Reply, Taker};
+    st.notes = Taker::default();
+    st.ui.notes_kept = false;
+    st.ui.notes_note = None;
+    // Studio Pro, as the server would say: on for the notes' own scenes.
+    if st.oyenza.link != crate::state::OyenzaLink::Off {
+        st.oyenza.pro = Some(scene.page() == Some(PageKind::Notes) && scene != Scene::NotesPro);
+    }
+    match scene {
+        Scene::Page(PageKind::Notes) => st.notes.last = Some(sample_notes()),
+        Scene::NotesListening | Scene::NotesActivity => {
+            let secs = if scene == Scene::NotesListening { 42.5 } else { 754.5 };
+            st.notes.started(now - secs, true, true);
+            (st.notes.mic, st.notes.pc) = (0.32, 0.55);
+        }
+        Scene::NotesWriting => {
+            st.notes.stopped(4, 1834.0);
+            st.notes.phase = Phase::Writing { since: now - 38.5 };
+        }
+        Scene::NotesReady => {
+            st.notes.reply(Reply::Saved(Box::new(sample_notes())), now);
+            // Oyen's tick long since drawn: at rest in the picture.
+            st.ui.notes_saved_at = f64::NEG_INFINITY;
+        }
+        _ => {}
+    }
+}
+
+/// A made-up meeting's notes (no real names).
+fn sample_notes() -> poni_core::notes::Saved {
+    use poni_core::notes::{Action, Line, Notes, Saved, Topic};
+    let s = |v: &[&str]| v.iter().map(|x| x.to_string()).collect::<Vec<_>>();
+    let notes = Notes {
+        title: "Studio launch plan".into(),
+        lang: "en".into(),
+        summary: s(&[
+            "The launch moves to 14 Nov so the Windows build is signed first.",
+            "Pro stays at Rp49rb a month; the student price waits for December.",
+            "Dimas takes the store listing, Rina the landing page and the video.",
+        ]),
+        decisions: s(&["Launch on 14 Nov", "No student price at launch"]),
+        actions: vec![
+            Action { who: "Dimas".into(), what: "Send the store listing for review".into(), when: "Friday".into() },
+            Action { who: "Rina".into(), what: "Cut the 30 s launch video".into(), when: "next Tuesday".into() },
+            Action { who: "".into(), what: "Ask two campuses about the student price".into(), when: "".into() },
+        ],
+        topics: vec![Topic { title: "Timing".into(), points: s(&["Signing takes a week", "14 Nov is a Friday"]) }],
+        transcript: vec![Line { t: 3.0, who: "Rina".into(), text: "Okay, let's start with the date.".into() }],
+        secs: 1834,
+    };
+    let started = poni_core::datetime::LocalDateTime { year: 2026, month: 10, day: 29, hour: 14, minute: 5, second: 0 };
+    Saved { notes, file: "2026-10-29 14.05 Studio launch plan.md".into(), started }
+}
+
 /// Prayer times for its scenes: on, in Kota Jakarta (Edinburgh, picked by
 /// hand, for `PrayerWorld`), its clock 8 minutes before today's Ashar (the
 /// real lists arrive with the add-on's download; these few places are
@@ -737,7 +872,7 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
 fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
     let on = matches!(
         scene,
-        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld
+        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld | Scene::PrayerOk
     );
     if !on {
         st.prayer = PrayerState::default();
@@ -980,8 +1115,51 @@ enum Scene {
     RecordActivity,
     RecordPaused,
     /// The Add-ons page with the recorder installed: Screen recorder's row
-    /// (seven rows with Stocks, packed closer, the window no taller).
+    /// (eight rows with Notifications, a line each, the window no taller).
     AddonsRecorder,
+    /// Prayer times: the countdown 8 minutes before Ashar over a song with
+    /// synced lyrics, its OK pressed (`Phase::PressOk`): the song's line again.
+    PrayerOk,
+    /// The Notifications add-on: a WhatsApp message on the closed island...
+    MessageNotice,
+    /// ...with "Message text" switched off: it waits for Show.
+    MessageHidden,
+    /// The Notifications page before Windows was asked: Allow, no apps yet.
+    NotifyAsk,
+    /// The Notifications page in the download from GitHub, which can't read them.
+    NotifyNoPackage,
+    /// The AI tab on made-up readings, as the page's picture shows it
+    /// (`pages::usage::picture`): its plans, troubles, nothing found, ...
+    Ai(AiPicture),
+    /// The AI tab's heads-up notice: Claude Code close to its 5-hour limit.
+    AiNotice,
+    /// ...and Codex out of it, Oyenza Inference connected: its nudge.
+    AiNoticeOut,
+    /// IELTS signed out: the Oyenza sign-in card, saying what the coach does.
+    IeltsSignedOut,
+    /// IELTS: Oyen reacting to an answer, in gaul (`ielts::Sample::Talking`).
+    IeltsTalking,
+    /// IELTS: a Part 1 answer recording, the voice's level round the mic.
+    IeltsRecording,
+    /// IELTS: Part 2's card, during the minute to prepare.
+    IeltsCueCard,
+    /// IELTS: the band, the criteria with Oyen's notes, the roast and the tips.
+    IeltsResult,
+    /// IELTS: Windows' privacy switch keeps the microphone from desktop apps.
+    IeltsMicDenied,
+    /// Settings with Today and Tasks taken off the tab row: their chips
+    /// struck through, the header's row without them.
+    SettingsTabs,
+    /// Meeting notes: Oyen listening, 0:42 in, both bars moving.
+    NotesListening,
+    /// Meeting notes: the meeting handed over, Oyen writing.
+    NotesWriting,
+    /// Meeting notes: the notes saved, with Open, Copy, the folder and Done.
+    NotesReady,
+    /// Meeting notes on the closed island: Oyen listening, 12:34 in.
+    NotesActivity,
+    /// Meeting notes signed in without Studio Pro: the Pro card.
+    NotesPro,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1002,6 +1180,21 @@ fn fake_release() -> poni_core::update::Release {
     }
 }
 
+/// The AI tab's notice in its scenes, worded by the real alerts from two
+/// readings of a 5-hour limit that resets in 2 h 20 min, on the app's clock:
+/// Claude Code from 70 to 90 %, or Codex from 70 % to all used with Oyenza
+/// Inference connected.
+fn ai_alert(st: &AppState, out: bool) -> Option<studio_usage::alerts::Alert> {
+    use studio_usage::{alerts, ProviderId, Snapshot, Source, Window, WindowKind};
+    let id = if out { ProviderId::Codex } else { ProviderId::Claude };
+    let read = |used| Snapshot {
+        windows: vec![Window::new(WindowKind::Session, "5-hour", used).resets(Some(st.unix + 2 * 3600 + 20 * 60)).length(Some(18_000))],
+        ..Snapshot::new(id, st.unix, Source::Online)
+    };
+    let cfg = alerts::AlertCfg { inference: out, ..st.usage_alert_cfg() };
+    alerts::changes(Some(&read(0.7)), &read(if out { 1.0 } else { 0.9 }), st.unix, &cfg).into_iter().next()
+}
+
 /// Running under Wine: its ntdll exports `wine_get_version`.
 fn under_wine() -> bool {
     use windows::core::{s, w};
@@ -1014,7 +1207,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 98] = [
+const SCENES: [Scene; 128] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1135,6 +1328,52 @@ const SCENES: [Scene; 98] = [
     Scene::RecordActivity,
     Scene::RecordPaused,
     Scene::AddonsRecorder,
+    // The prayer countdown's OK, pressed: the closed island sings again.
+    Scene::PrayerOk,
+    // The Notifications add-on: a message on the closed island (shown, and
+    // waiting for Show), then its page once Windows allows it, before
+    // Windows was asked, and in the download from GitHub.
+    Scene::MessageNotice,
+    Scene::MessageHidden,
+    Scene::Page(PageKind::Notifications),
+    Scene::NotifyAsk,
+    Scene::NotifyNoPackage,
+    // The AI tab, a core tab after Focus, in every picture the page has
+    // (`AiPicture::ALL`): plans, troubles, nothing found, the first look,
+    // Oyenza Inference connecting and connected, the Services list and a
+    // key being typed there.
+    Scene::Ai(AiPicture::Plans),
+    Scene::Ai(AiPicture::Troubles),
+    Scene::Ai(AiPicture::Empty),
+    Scene::Ai(AiPicture::Looking),
+    Scene::Ai(AiPicture::Connect),
+    Scene::Ai(AiPicture::Inference),
+    Scene::Ai(AiPicture::Services),
+    Scene::Ai(AiPicture::Key),
+    // Its heads-up notices on the closed island.
+    Scene::AiNotice,
+    Scene::AiNoticeOut,
+    // The IELTS add-on: signed out, the ladder, Oyen talking, an answer
+    // recording, Part 2's card, the result and a blocked microphone, all
+    // made up (`ielts::Coach::sample`).
+    Scene::IeltsSignedOut,
+    Scene::Page(PageKind::Ielts),
+    Scene::IeltsTalking,
+    Scene::IeltsRecording,
+    Scene::IeltsCueCard,
+    Scene::IeltsResult,
+    Scene::IeltsMicDenied,
+    // Settings' tabs row with two of the island's pages off the row.
+    Scene::SettingsTabs,
+    // Meeting notes: the page before a meeting (the notes saved last), Oyen
+    // listening, writing, the notes, and the closed island while he listens,
+    // all made up (`seed_notes`).
+    Scene::Page(PageKind::Notes),
+    Scene::NotesListening,
+    Scene::NotesWriting,
+    Scene::NotesReady,
+    Scene::NotesActivity,
+    Scene::NotesPro,
 ];
 
 impl Scene {
@@ -1174,6 +1413,7 @@ impl Scene {
             Scene::SystemBattery => "page-system-battery".into(),
             Scene::SystemWaiting => "page-system-waiting".into(),
             Scene::SettingsStayOnTop => "page-settings-stay-on-top".into(),
+            Scene::SettingsTabs => "page-settings-tabs".into(),
             Scene::ShelfPairing => "page-shelf-pairing".into(),
             Scene::ShelfPaired => "page-shelf-paired".into(),
             Scene::ShelfPairedPhones => "page-shelf-paired-phones".into(),
@@ -1227,6 +1467,26 @@ impl Scene {
             Scene::RecordActivity => "record-activity".into(),
             Scene::RecordPaused => "record-paused-activity".into(),
             Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::PrayerOk => "prayer-countdown-ok".into(),
+            Scene::MessageNotice => "message-notice".into(),
+            Scene::MessageHidden => "message-hidden-notice".into(),
+            Scene::NotifyAsk => "page-notifications-ask".into(),
+            Scene::NotifyNoPackage => "page-notifications-download".into(),
+            // "page-ai", "page-ai-troubles", ...: the page's own names.
+            Scene::Ai(p) => p.name().into(),
+            Scene::AiNotice => "ai-notice".into(),
+            Scene::AiNoticeOut => "ai-notice-out".into(),
+            Scene::IeltsSignedOut => "page-ielts-signed-out".into(),
+            Scene::IeltsTalking => "page-ielts-talking".into(),
+            Scene::IeltsRecording => "page-ielts-recording".into(),
+            Scene::IeltsCueCard => "page-ielts-cue-card".into(),
+            Scene::IeltsResult => "page-ielts-result".into(),
+            Scene::IeltsMicDenied => "page-ielts-mic-denied".into(),
+            Scene::NotesListening => "page-notes-listening".into(),
+            Scene::NotesWriting => "page-notes-writing".into(),
+            Scene::NotesReady => "page-notes-ready".into(),
+            Scene::NotesActivity => "notes-activity".into(),
+            Scene::NotesPro => "page-notes-pro".into(),
         }
     }
 
@@ -1242,6 +1502,7 @@ impl Scene {
             | Scene::SettingsSigningIn
             | Scene::SettingsSignedIn
             | Scene::SettingsStayOnTop
+            | Scene::SettingsTabs
             | Scene::SettingsAsideStay
             | Scene::SettingsUpdate
             | Scene::UpdateSheet
@@ -1265,6 +1526,12 @@ impl Scene {
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::RecordLive => Some(PageKind::Record),
             Scene::AddonsRecorder => Some(PageKind::Addons),
+            Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
+            Scene::Ai(_) => Some(PageKind::Ai),
+            Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
+                Some(PageKind::Ielts)
+            }
+            Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady | Scene::NotesPro => Some(PageKind::Notes),
             _ => None,
         }
     }
@@ -1315,6 +1582,17 @@ impl Scene {
                 | Scene::TodayTiles
                 | Scene::TodayOff
                 | Scene::TodayPicked
+                | Scene::Page(PageKind::Ielts)
+                | Scene::IeltsTalking
+                | Scene::IeltsRecording
+                | Scene::IeltsCueCard
+                | Scene::IeltsResult
+                | Scene::IeltsMicDenied
+                | Scene::Page(PageKind::Notes)
+                | Scene::NotesListening
+                | Scene::NotesWriting
+                | Scene::NotesReady
+                | Scene::NotesPro
         )
     }
 
@@ -1328,7 +1606,7 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk) || self.expanded()
     }
 
     /// A maximized window is under the island.
@@ -1372,6 +1650,437 @@ pub fn fetch_phone_page(url: &str) -> (bool, String) {
         }
         Ok(resp) => (false, format!("unexpected answer from {addr}: {}", resp.lines().next().unwrap_or(""))),
         Err(e) => (false, format!("couldn't fetch the page at {addr}: {e}")),
+    }
+}
+
+// ---------------------------------------------------------------- the IELTS turn
+
+/// The key the run's calls carry (never a real one).
+const IELTS_KEY: &str = "oyzd_selftest_not_a_real_key_0000000000000000000";
+/// A step's budget: the ladder, Oyen's intro, the verdict, Udahan.
+const IELTS_STEP_S: f64 = 20.0;
+const IELTS_SESSION: &str = "smoke-1";
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum IeltsStep {
+    /// Waiting for the ladder (GET /me).
+    Ladder,
+    /// Mulai pressed: waiting for Oyen's intro to end on the person's turn.
+    Intro,
+    /// The answer sent: waiting for the verdict to be said.
+    Verdict,
+    /// Selesai pressed (the server dropped that session with its verdict):
+    /// waiting for the ladder again, then Mulai once more.
+    Again,
+    /// The second session: Udahan at the person's turn.
+    Leave,
+    /// Udahan pressed: waiting for the session's end (DELETE).
+    Ended,
+}
+
+/// `ielts-turn`: after the scenes, the IELTS coach plays one turn end to end
+/// with no microphone and no network. A server of the run's own on
+/// 127.0.0.1 answers `/island/ielts/*` the way catat-server's do, a tone in
+/// a 16 kHz WAV stands in for the microphone, and the app's own coach,
+/// worker, voice (a 0.4 s clip) and files do the rest: the ladder, Mulai,
+/// Oyen's intro, the answer's upload, the verdict and the roast, Selesai and
+/// the ladder again (no DELETE: the server ends a session with its verdict),
+/// then a second session left with Udahan (DELETE). The check reads what the
+/// server saw, the band shown, and the files left.
+struct IeltsRun {
+    seen: Arc<Mutex<Vec<String>>>,
+    stop: Arc<AtomicBool>,
+    server: Option<JoinHandle<()>>,
+    step: IeltsStep,
+    /// When the step began (seconds into the run).
+    since: f64,
+    band: Option<f32>,
+    /// DELETEs the server had seen when Udahan was pressed.
+    deleted: usize,
+    started: Instant,
+}
+
+impl IeltsRun {
+    fn begin(app: &mut App) -> IeltsRun {
+        let seen = Arc::new(Mutex::new(Vec::new()));
+        let stop = Arc::new(AtomicBool::new(false));
+        let mut run = IeltsRun { seen: seen.clone(), stop: stop.clone(), server: None, step: IeltsStep::Ladder, since: 0.0, band: None, deleted: 0, started: Instant::now() };
+        let listener = match std::net::TcpListener::bind("127.0.0.1:0") {
+            Ok(l) => l,
+            Err(e) => {
+                run.note(format!("no listener ({e})"));
+                return run;
+            }
+        };
+        let port = listener.local_addr().map(|a| a.port()).unwrap_or(0);
+        let _ = listener.set_nonblocking(true);
+        run.server = Some(std::thread::spawn(move || ielts_server(listener, &seen, &stop)));
+        let stand_in = paths::cache_dir().join("ielts-stand-in.wav");
+        let _ = fs::create_dir_all(paths::cache_dir());
+        if let Err(e) = fs::write(&stand_in, poni_core::ielts::tone_wav(2.0, 220.0, poni_core::ielts::RATE)) {
+            run.note(format!("can't write the stand-in answer ({e})"));
+        }
+        crate::pinfo!("selftest: IELTS turn against 127.0.0.1:{port}");
+        app.selftest_ielts_begin(format!("http://127.0.0.1:{port}"), IELTS_KEY.into(), stand_in);
+        run
+    }
+
+    fn note(&self, line: String) {
+        if let Ok(mut s) = self.seen.lock() {
+            s.push(line);
+        }
+    }
+
+    /// One self-test step, `t` seconds into the run: the check once it's over.
+    fn step(&mut self, app: &mut App, t: f64) -> Option<Check> {
+        use crate::commands::IeltsCmd;
+        use poni_core::ielts::Phase as P;
+        let c = &app.st.ielts;
+        let next = match self.step {
+            IeltsStep::Ladder if c.me.is_some() => {
+                app.selftest_ielts(IeltsCmd::Start);
+                Some(IeltsStep::Intro)
+            }
+            IeltsStep::Intro if c.phase == P::Ready => {
+                // Tap to answer, tap to stop: the stand-in is the answer.
+                app.selftest_ielts(IeltsCmd::Mic);
+                app.selftest_ielts(IeltsCmd::Mic);
+                Some(IeltsStep::Verdict)
+            }
+            IeltsStep::Verdict if c.phase == P::Result && !c.talking() => {
+                self.band = c.result.as_ref().map(|v| v.band);
+                app.selftest_ielts(IeltsCmd::Quit);
+                Some(IeltsStep::Again)
+            }
+            IeltsStep::Again if c.phase == P::Home && self.count("GET /island/ielts/me") >= 2 => {
+                app.selftest_ielts(IeltsCmd::Start);
+                Some(IeltsStep::Leave)
+            }
+            IeltsStep::Leave if c.phase == P::Ready => {
+                self.deleted = self.count("DELETE ");
+                app.selftest_ielts(IeltsCmd::Quit);
+                Some(IeltsStep::Ended)
+            }
+            IeltsStep::Ended if self.count("DELETE ") > self.deleted || t - self.since > 3.0 => return Some(self.finish(app, None)),
+            _ => None,
+        };
+        if let Some(n) = next {
+            self.step = n;
+            self.since = t;
+            return None;
+        }
+        let c = &app.st.ielts;
+        let starting = matches!(self.step, IeltsStep::Intro | IeltsStep::Leave);
+        let stuck = c.phase == P::Stuck || c.me_problem.is_some() || (starting && c.phase == P::Home && c.problem.is_some());
+        if stuck || t - self.since > IELTS_STEP_S {
+            let why = c.problem.or(c.me_problem).map_or_else(|| format!("{:?}", c.phase), |p| format!("{p:?}"));
+            return Some(self.finish(app, Some(format!("stopped at {:?} ({why})", self.step))));
+        }
+        None
+    }
+
+    fn count(&self, prefix: &str) -> usize {
+        self.seen.lock().map_or(0, |s| s.iter().filter(|l| l.starts_with(prefix)).count())
+    }
+
+    fn finish(&mut self, app: &mut App, stopped: Option<String>) -> Check {
+        let ms = self.started.elapsed().as_millis();
+        // Counted before the add-on goes off (which deletes whatever is left).
+        let left = app.selftest_ielts_files();
+        app.selftest_ielts_end();
+        self.stop.store(true, std::sync::atomic::Ordering::SeqCst);
+        if let Some(h) = self.server.take() {
+            let _ = h.join();
+        }
+        let _ = fs::remove_file(paths::cache_dir().join("ielts-stand-in.wav"));
+        let seen = self.seen.lock().map(|s| s.clone()).unwrap_or_default();
+        let has = |want: &str| seen.iter().any(|l| l == want);
+        let deletes = seen.iter().filter(|l| l.starts_with("DELETE ")).count();
+        // Wine has no WinRT HttpClient (Windows.Web.Http): nothing reaches the
+        // server there, and the run is Windows CI's to judge.
+        let wine = under_wine() && seen.is_empty() && self.step == IeltsStep::Ladder;
+        let turned = stopped.is_none()
+            && has("GET /island/ielts/me key tz")
+            && has("POST /island/ielts/session key level=1 spice=2 tz")
+            && has("POST /island/ielts/session/smoke-1/answer key wav=16000/1/16 2.0s")
+            && has("DELETE /island/ielts/session/smoke-1 key")
+            && deletes == 1
+            && self.band == Some(6.5)
+            && left == 0;
+        let ok = turned || wine;
+        let band = self.band.map_or("none".into(), poni_core::ielts::fmt_band);
+        let note = if wine { "Wine has no WinRT HttpClient, so this runs on Windows only; " } else { "" };
+        let detail = format!("{note}{}server saw [{}]; band shown {band}; files left in ielts/: {left}; {ms} ms", stopped.map_or(String::new(), |s| format!("{s}; ")), seen.join(" | "));
+        crate::pinfo!("selftest: ielts-turn {}: {detail}", if ok { "ok" } else { "FAILED" });
+        check("ielts-turn", ok, detail)
+    }
+}
+
+/// What `GET /me` answers in the run: level 1 open, none played today.
+const IELTS_ME: &str = r#"{"levels":[{"n":1,"name":"Pemanasan","blurb":"Part 1.","target":5.0,"parts":[1],"unlocked":true,"best":null},
+{"n":2,"name":"Lumayan","blurb":"Part 1 + 2.","target":5.5,"parts":[1,2],"unlocked":false,"best":null}],"level":1,"voice":true,"today":{"used":0,"cap":5}}"#;
+
+/// The IELTS routes as catat-server answers them, for one session, until
+/// `stop`. What each request carried goes into `seen`, one line each. The
+/// answers are written as text (this ships in poni.exe: no `json!` code).
+fn ielts_server(listener: std::net::TcpListener, seen: &Mutex<Vec<String>>, stop: &AtomicBool) {
+    use std::io::{Read, Write};
+    let voice = poni_core::ielts::b64_encode(&poni_core::ielts::tone_wav(0.4, 440.0, poni_core::ielts::RATE));
+    let clip = |text: &str| format!(r#"{{"text":"{text}","lang":"en","audio":{{"mime":"audio/wav","b64":"{voice}"}}}}"#);
+    let session = format!("/island/ielts/session/{IELTS_SESSION}");
+    while !stop.load(std::sync::atomic::Ordering::SeqCst) {
+        let Ok((mut c, _)) = listener.accept() else {
+            std::thread::sleep(std::time::Duration::from_millis(20));
+            continue;
+        };
+        let _ = c.set_nonblocking(false);
+        let _ = c.set_read_timeout(Some(std::time::Duration::from_secs(5)));
+        // The headers, then as much body as Content-Length says.
+        let (mut buf, mut chunk, mut continued) = (Vec::new(), [0u8; 16 * 1024], false);
+        let (head, body) = loop {
+            match c.read(&mut chunk) {
+                Ok(0) | Err(_) => break (String::new(), Vec::new()),
+                Ok(n) => buf.extend_from_slice(&chunk[..n]),
+            }
+            let Some(end) = buf.windows(4).position(|w| w == b"\r\n\r\n") else { continue };
+            let head = String::from_utf8_lossy(&buf[..end]).to_ascii_lowercase();
+            let len = head.lines().find_map(|l| l.strip_prefix("content-length:").map(|v| v.trim().parse::<usize>().unwrap_or(0))).unwrap_or(0);
+            if head.contains("expect: 100-continue") && !continued {
+                continued = true;
+                let _ = c.write_all(b"HTTP/1.1 100 Continue\r\n\r\n");
+            }
+            if buf.len() >= end + 4 + len {
+                break (String::from_utf8_lossy(&buf[..end]).into_owned(), buf[end + 4..end + 4 + len].to_vec());
+            }
+        };
+        let mut first = head.lines().next().unwrap_or("").split_whitespace();
+        let (method, full) = (first.next().unwrap_or("").to_string(), first.next().unwrap_or("").to_string());
+        let (path, query) = full.split_once('?').map_or((full.clone(), String::new()), |(p, q)| (p.to_string(), q.to_string()));
+        let key = head.lines().any(|l| l.split_once(':').is_some_and(|(k, v)| k.eq_ignore_ascii_case("authorization") && v.trim() == format!("Bearer {IELTS_KEY}")));
+        let json: serde_json::Value = serde_json::from_slice(&body).unwrap_or_default();
+        let mut line = format!("{method} {path} {}", if key { "key" } else { "no key" });
+        let (status, answer) = match (method.as_str(), path.as_str()) {
+            ("GET", "/island/ielts/me") => {
+                if query.contains("tz=") {
+                    line.push_str(" tz");
+                }
+                (200, IELTS_ME.to_string())
+            }
+            ("POST", "/island/ielts/session") => {
+                let tz = json["tz"].as_str().is_some_and(|t| !t.is_empty());
+                line.push_str(&format!(" level={} spice={}{}", json["level"], json["spice"], if tz { " tz" } else { "" }));
+                let turn = format!(
+                    r#"{{"part":1,"kind":"intro","expect":"answer","max_secs":30,"prep_secs":0,"cue_card":null,"say":[{},{{"text":"Where are you from?","lang":"en","audio":null}}]}}"#,
+                    clip("Hi, I'm Oyen. Let's begin.")
+                );
+                (200, format!(r#"{{"id":"{IELTS_SESSION}","turn":{turn},"fillers":[{}]}}"#, clip("Hmm, bentar ya.")))
+            }
+            ("POST", p) if p == format!("{session}/answer") => {
+                let wav = json["audio"]["b64"].as_str().and_then(poni_core::ielts::b64_decode).and_then(|b| poni_core::ielts::wav_info(&b));
+                let mime = json["audio"]["mime"].as_str() == Some("audio/wav");
+                match wav.filter(|_| mime) {
+                    Some(w) => line.push_str(&format!(" wav={}/{}/{} {:.1}s", w.rate, w.channels, w.bits, w.secs)),
+                    None => line.push_str(" no wav"),
+                }
+                // The verdict turn says closing, roast and the level; the result repeats the roast.
+                let turn = format!(
+                    r#"{{"part":0,"kind":"verdict","expect":"none","max_secs":0,"prep_secs":0,"cue_card":null,"say":[{},{},{}]}}"#,
+                    clip("That's the end of the test."),
+                    clip("Not bad at all."),
+                    clip("Level 2 is open.")
+                );
+                let criteria = r#"{"fc":{"band":6.5,"note":"Lancar."},"lr":{"band":6.0,"note":"Lumayan."},"gra":{"band":6.5,"note":"Aman."},"p":{"band":7.0,"note":"Jelas."}}"#;
+                let result = format!(
+                    r#"{{"band":6.5,"criteria":{criteria},"roast":{},"tips":["Satu.","Dua.","Tiga."],"level":{{"before":1,"after":2,"unlocked":true}},"best":6.5}}"#,
+                    clip("Not bad at all.")
+                );
+                (200, format!(r#"{{"heard":"I'm from Bandung.","done":true,"turn":{turn},"result":{result}}}"#))
+            }
+            ("DELETE", p) if p == session => (200, r#"{"ok":true}"#.to_string()),
+            _ => (404, r#"{"error":"not_found"}"#.to_string()),
+        };
+        if let Ok(mut s) = seen.lock() {
+            s.push(line);
+        }
+        let _ = c.write_all(format!("HTTP/1.1 {status} OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{answer}", answer.len()).as_bytes());
+    }
+}
+
+/// `notes-turn`: after the IELTS turn, a made-up meeting is handed over end
+/// to end with no microphone and no network. Two parts of a tone in 16 kHz
+/// WAV stand in for what the microphone and the PC's sound would have made,
+/// and a server of the run's own on 127.0.0.1 answers `/island/notes/*` the
+/// way catat-server's do. The app's own sender does the rest: the start,
+/// both parts as raw bytes, the finish, the asking, the notes saved as
+/// Markdown, the audio deleted, the server told to let go. The check reads
+/// what the server saw, the file saved and the audio left.
+struct NotesRun {
+    seen: Arc<Mutex<Vec<String>>>,
+    stop: Arc<AtomicBool>,
+    server: Option<JoinHandle<()>>,
+    dir: PathBuf,
+    started: Instant,
+}
+
+/// The run's meeting on its server, and the key it takes.
+const NOTES_ID: &str = "n-1";
+const NOTES_KEY: &str = "oyzd_selftest";
+/// How long the turn may take: one ask after the 4 s wait, on a slow runner.
+const NOTES_TURN_S: f64 = 30.0;
+
+impl NotesRun {
+    fn begin(app: &mut App) -> NotesRun {
+        let seen = Arc::new(Mutex::new(Vec::new()));
+        let stop = Arc::new(AtomicBool::new(false));
+        let dir = paths::notes_audio_dir().join("meeting-selftest");
+        let mut run = NotesRun { seen: seen.clone(), stop: stop.clone(), server: None, dir: dir.clone(), started: Instant::now() };
+        let listener = match std::net::TcpListener::bind("127.0.0.1:0") {
+            Ok(l) => l,
+            Err(e) => {
+                run.note(format!("no listener ({e})"));
+                return run;
+            }
+        };
+        let port = listener.local_addr().map(|a| a.port()).unwrap_or(0);
+        let _ = listener.set_nonblocking(true);
+        run.server = Some(std::thread::spawn(move || notes_server(listener, &seen, &stop)));
+        let _ = fs::create_dir_all(&dir);
+        let rate = poni_core::notes::RATE;
+        let parts = vec![dir.join("part-000.wav"), dir.join("part-001.wav")];
+        for (path, secs) in parts.iter().zip([2.0, 1.0]) {
+            if let Err(e) = fs::write(path, poni_core::ielts::tone_wav(secs, 220.0, rate)) {
+                run.note(format!("can't write a stand-in part ({e})"));
+            }
+        }
+        crate::pinfo!("selftest: notes turn against 127.0.0.1:{port}");
+        app.selftest_notes_begin(format!("http://127.0.0.1:{port}"), NOTES_KEY.into(), crate::services::notes::Take { dir, parts, secs: 3.0 });
+        run
+    }
+
+    fn note(&self, line: String) {
+        if let Ok(mut s) = self.seen.lock() {
+            s.push(line);
+        }
+    }
+
+    /// One self-test step, `t` seconds into the run: the check once it's over.
+    fn step(&mut self, app: &mut App, t: f64) -> Option<Check> {
+        use poni_core::notes::Phase as P;
+        match &app.st.notes.phase {
+            P::Ready => Some(self.finish(app, None)),
+            P::Failed(p) => {
+                let why = format!("{p:?}");
+                Some(self.finish(app, Some(why)))
+            }
+            _ if t > NOTES_TURN_S => Some(self.finish(app, Some(format!("still {:?} after {NOTES_TURN_S} s", app.st.notes.phase)))),
+            _ => None,
+        }
+    }
+
+    fn finish(&mut self, app: &mut App, failed: Option<String>) -> Check {
+        let ms = self.started.elapsed().as_millis();
+        let saved = app.st.notes.last.as_ref().map(|s| s.file.clone());
+        let md = saved.as_ref().and_then(|f| fs::read_to_string(f).ok()).unwrap_or_default();
+        let audio_left = self.dir.exists();
+        app.selftest_notes_end();
+        self.stop.store(true, std::sync::atomic::Ordering::SeqCst);
+        if let Some(h) = self.server.take() {
+            let _ = h.join();
+        }
+        let _ = fs::remove_dir_all(&self.dir);
+        let seen = self.seen.lock().map(|s| s.clone()).unwrap_or_default();
+        let has = |want: &str| seen.iter().any(|l| l == want);
+        // Wine has no WinRT HttpClient (Windows.Web.Http): nothing reaches the
+        // server there, and the run is Windows CI's to judge.
+        let wine = under_wine() && seen.is_empty() && failed.as_deref() == Some("Offline");
+        let wrote = md.contains("# Self-test sync")
+            && md.contains("- [ ] Send the deck (Rina, Friday)")
+            && md.contains("**[0:01] Speaker 1:** Let's start.")
+            && saved.as_deref().is_some_and(|f| f.ends_with("2026-10-29 14.05 Self-test sync.md"));
+        let handed = failed.is_none()
+            && has("POST /island/notes key lang=auto")
+            && has(&format!("POST /island/notes/{NOTES_ID}/part/0 key wav=16000/1/16 2.0s"))
+            && has(&format!("POST /island/notes/{NOTES_ID}/part/1 key wav=16000/1/16 1.0s"))
+            && has(&format!("POST /island/notes/{NOTES_ID}/finish key"))
+            && has(&format!("GET /island/notes/{NOTES_ID} key"))
+            && has(&format!("DELETE /island/notes/{NOTES_ID} key"))
+            && wrote
+            && !audio_left;
+        let ok = handed || wine;
+        let note = if wine { "Wine has no WinRT HttpClient, so this runs on Windows only; " } else { "" };
+        let detail = format!(
+            "{note}{}server saw [{}]; notes {}; audio left: {audio_left}; {ms} ms",
+            failed.map_or(String::new(), |s| format!("stopped at {s}; ")),
+            seen.join(" | "),
+            if wrote { "saved" } else if saved.is_some() { "saved but not as expected" } else { "not saved" }
+        );
+        crate::pinfo!("selftest: notes-turn {}: {detail}", if ok { "ok" } else { "FAILED" });
+        check("notes-turn", ok, detail)
+    }
+}
+
+/// What `GET /island/notes/:id` answers once the run's meeting is written up.
+const NOTES_DONE: &str = r#"{"status":"done","secs":3,"notes":{"title":"Self-test sync","lang":"en","summary":["The deck goes out on Friday."],
+"decisions":["Ship on Friday"],"actions":[{"who":"Rina","what":"Send the deck","when":"Friday"}],"topics":[{"title":"Deck","points":["Two slides left"]}]},
+"transcript":[{"t":1,"who":"Speaker 1","text":"Let's start."},{"t":2,"who":"Rina","text":"I'll send the deck on Friday."}]}"#;
+
+/// The notes routes as catat-server answers them, for one meeting, until
+/// `stop`. What each request carried goes into `seen`, one line each.
+fn notes_server(listener: std::net::TcpListener, seen: &Mutex<Vec<String>>, stop: &AtomicBool) {
+    use std::io::{Read, Write};
+    let meeting = format!("/island/notes/{NOTES_ID}");
+    while !stop.load(std::sync::atomic::Ordering::SeqCst) {
+        let Ok((mut c, _)) = listener.accept() else {
+            std::thread::sleep(std::time::Duration::from_millis(20));
+            continue;
+        };
+        let _ = c.set_nonblocking(false);
+        let _ = c.set_read_timeout(Some(std::time::Duration::from_secs(5)));
+        // The headers, then as much body as Content-Length says.
+        let (mut buf, mut chunk, mut continued) = (Vec::new(), [0u8; 16 * 1024], false);
+        let (head, body) = loop {
+            match c.read(&mut chunk) {
+                Ok(0) | Err(_) => break (String::new(), Vec::new()),
+                Ok(n) => buf.extend_from_slice(&chunk[..n]),
+            }
+            let Some(end) = buf.windows(4).position(|w| w == b"\r\n\r\n") else { continue };
+            let head = String::from_utf8_lossy(&buf[..end]).to_ascii_lowercase();
+            let len = head.lines().find_map(|l| l.strip_prefix("content-length:").map(|v| v.trim().parse::<usize>().unwrap_or(0))).unwrap_or(0);
+            if head.contains("expect: 100-continue") && !continued {
+                continued = true;
+                let _ = c.write_all(b"HTTP/1.1 100 Continue\r\n\r\n");
+            }
+            if buf.len() >= end + 4 + len {
+                break (String::from_utf8_lossy(&buf[..end]).into_owned(), buf[end + 4..end + 4 + len].to_vec());
+            }
+        };
+        let mut first = head.lines().next().unwrap_or("").split_whitespace();
+        let (method, path) = (first.next().unwrap_or("").to_string(), first.next().unwrap_or("").to_string());
+        let key = head.lines().any(|l| l.split_once(':').is_some_and(|(k, v)| k.eq_ignore_ascii_case("authorization") && v.trim() == format!("Bearer {NOTES_KEY}")));
+        let mut line = format!("{method} {path} {}", if key { "key" } else { "no key" });
+        let (status, answer) = match (method.as_str(), path.as_str()) {
+            ("POST", "/island/notes") => {
+                let json: serde_json::Value = serde_json::from_slice(&body).unwrap_or_default();
+                line.push_str(&format!(" lang={}", json["lang"].as_str().unwrap_or("?")));
+                (200, format!(r#"{{"id":"{NOTES_ID}","part_max":12582912,"max_secs":10800,"today":{{"used_min":0,"cap_min":240}}}}"#))
+            }
+            ("POST", p) if p.starts_with(&format!("{meeting}/part/")) => {
+                let n: u32 = p.rsplit('/').next().and_then(|n| n.parse().ok()).unwrap_or(0);
+                match poni_core::ielts::wav_info(&body) {
+                    Some(w) => line.push_str(&format!(" wav={}/{}/{} {:.1}s", w.rate, w.channels, w.bits, w.secs)),
+                    None => line.push_str(" no wav"),
+                }
+                (200, format!(r#"{{"next":{},"secs":{}}}"#, n + 1, 3))
+            }
+            ("POST", p) if p == format!("{meeting}/finish") => (202, r#"{"status":"working"}"#.to_string()),
+            ("GET", p) if p == meeting => (200, NOTES_DONE.to_string()),
+            ("DELETE", p) if p == meeting => (200, r#"{"ok":true}"#.to_string()),
+            _ => (404, r#"{"error":"no_notes"}"#.to_string()),
+        };
+        if let Ok(mut s) = seen.lock() {
+            s.push(line);
+        }
+        let _ = c.write_all(format!("HTTP/1.1 {status} OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{answer}", answer.len()).as_bytes());
     }
 }
 
@@ -1444,6 +2153,14 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
+    /// Scene `i` shows the prayer countdown; once it rests with its OK
+    /// drawn, press OK (`Scene::PrayerOk`).
+    PressOk { i: usize, since: f64 },
+    /// The IELTS coach's one turn against a server of the self-test's own
+    /// (Classic runs only; see [`IeltsRun`]).
+    Ielts { since: f64 },
+    /// After the IELTS turn: one meeting handed over end to end (`NotesRun`).
+    Notes { since: f64 },
     Finish { since: f64 },
     Done(i32),
 }
@@ -1500,6 +2217,10 @@ pub struct SelfTest {
     /// log must deliver them (PONI_SELFTEST_FRAMES=required on Windows CI,
     /// which runs as admin).
     frames: Option<crate::services::frames::Frames>,
+    /// The IELTS one-turn run, while it goes.
+    ielts: Option<IeltsRun>,
+    /// The meeting-notes run, while it goes.
+    notes: Option<NotesRun>,
 }
 
 /// Transitions recorded in animation mode: (name, from, to).
@@ -1565,6 +2286,8 @@ impl SelfTest {
             shelf_thumbs: Vec::new(),
             addon_fetch: None,
             frames: None,
+            ielts: None,
+            notes: None,
         }
     }
 
@@ -1574,6 +2297,11 @@ impl SelfTest {
         // readings); before the scene clock starts, as it takes a moment.
         let (ok, detail) = system_readings(crate::services::sysmon::probe());
         self.checks.push(check("system-readings", ok, detail));
+        // Every picture the AI page has is a scene (the Mac renders take
+        // them all from the same list), so a new one can't go unseen here.
+        let missing: Vec<&str> = AiPicture::ALL.into_iter().filter(|p| !SCENES.contains(&Scene::Ai(*p))).map(AiPicture::name).collect();
+        let detail = if missing.is_empty() { format!("all {} of the AI page's pictures", AiPicture::ALL.len()) } else { format!("no scene for {}", missing.join(", ")) };
+        self.checks.push(check("ai-pictures", missing.is_empty(), detail));
         // Show over games: count Poni's own frames through the whole run.
         let required = std::env::var("PONI_SELFTEST_FRAMES").is_ok_and(|v| v.trim().eq_ignore_ascii_case("required"));
         match crate::services::frames::Frames::start_selftest(std::process::id()) {
@@ -1710,6 +2438,13 @@ impl SelfTest {
             Err(d) => (false, d),
         };
         self.checks.push(check("start-with-windows", ok, detail));
+        // Notifications: the download says it needs the Store copy; inside
+        // the package Windows' listener must answer (CI's Store job checks).
+        let (ok, detail) = match crate::services::notifications::describe() {
+            Ok(d) => (true, d),
+            Err(d) => (false, d),
+        };
+        self.checks.push(check("notifications", ok, detail));
 
         // PONI_SELFTEST_ADDONS=download (Windows CI): fetch every add-on's files
         // from their releases and check each against the size and SHA-256 built in.
@@ -1745,7 +2480,10 @@ impl SelfTest {
         self.renderer = app.renderer();
         let now = clock::mono();
         let elapsed = self.t0.elapsed().as_secs_f64();
-        if elapsed > SCENE_DEADLINE && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll) {
+        // The IELTS run keeps its own time (each of its steps has a budget).
+        if elapsed > SCENE_DEADLINE
+            && !matches!(self.phase, Phase::Finish { .. } | Phase::Done(_) | Phase::Anim { .. } | Phase::Loop | Phase::Scroll | Phase::Ielts { .. } | Phase::Notes { .. })
+        {
             let at = match &self.phase {
                 Phase::Settle { i, .. } | Phase::Click { i } | Phase::ClickWait { i, .. } => SCENES[*i].name(),
                 _ => String::new(),
@@ -1830,6 +2568,42 @@ impl SelfTest {
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
+            Phase::PressOk { i, since } => {
+                // The countdown first, as a person sees it, then a real press
+                // on its OK: the island stays closed and the countdown goes.
+                self.apply(app, SCENES[i]);
+                let at = app.selftest_hit_center(wid(crate::activities::PRAYER_OK_ID)).filter(|_| app.selftest_settled());
+                if at.is_some() || now - since > self.settle_limit(app) {
+                    let (opened, said) = match at {
+                        Some(p) => {
+                            crate::pinfo!("selftest: pressing the prayer countdown's OK at ({:.0}, {:.0}) DIP", p.x, p.y);
+                            let opened = app.selftest_press(p);
+                            (opened, format!("pressed at ({:.0}, {:.0}) DIP, the island {}", p.x, p.y, if opened { "opened" } else { "stayed closed" }))
+                        }
+                        None => (false, "no OK on the closed island".to_string()),
+                    };
+                    let away = crate::activities::prayer_countdown(&app.st).is_none();
+                    let ok = at.is_some() && !opened && away;
+                    self.checks.push(check("prayer-ok", ok, format!("{said}; the countdown {}", if away { "put away" } else { "still there" })));
+                    self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
+            Phase::Ielts { since } => {
+                let run = self.ielts.get_or_insert_with(|| IeltsRun::begin(app));
+                if let Some(c) = run.step(app, now - since) {
+                    self.ielts = None;
+                    self.checks.push(c);
+                    self.phase = Phase::Notes { since: clock::mono() };
+                }
+            }
+            Phase::Notes { since } => {
+                let run = self.notes.get_or_insert_with(|| NotesRun::begin(app));
+                if let Some(c) = run.step(app, now - since) {
+                    self.notes = None;
+                    self.checks.push(c);
+                    self.phase = self.after_scenes(clock::mono());
+                }
+            }
             Phase::Finish { since } => {
                 let all_done = self.writes.iter().all(|(_, h)| h.is_finished());
                 let deadline = if self.anim || self.media_loop || self.scroll_hz.is_some() { WRITE_DEADLINE + 40.0 } else { WRITE_DEADLINE };
@@ -1847,11 +2621,23 @@ impl SelfTest {
     fn next_phase(&self, i: usize, now: f64) -> Phase {
         match SCENES.get(i) {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
+            Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
-            None if self.anim => Phase::Anim { seq: 0 },
-            None if self.media_loop => Phase::Loop,
-            None if self.scroll_hz.is_some() => Phase::Scroll,
-            None => Phase::Finish { since: now },
+            // One IELTS turn end to end, in the plain Classic runs.
+            None if self.theme == Theme::Classic && self.glass.is_none() => Phase::Ielts { since: now },
+            None => self.after_scenes(now),
+        }
+    }
+
+    fn after_scenes(&self, now: f64) -> Phase {
+        if self.anim {
+            Phase::Anim { seq: 0 }
+        } else if self.media_loop {
+            Phase::Loop
+        } else if self.scroll_hz.is_some() {
+            Phase::Scroll
+        } else {
+            Phase::Finish { since: now }
         }
     }
 
@@ -2045,6 +2831,8 @@ impl SelfTest {
         st.ui.autostart = Some(true);
         // Hide in full-screen apps (the default), except in the Stay on top scene.
         st.settings.hide_in_fullscreen = scene != Scene::SettingsStayOnTop;
+        // Every tab in the row, except in the scene that hides two.
+        st.settings.hidden_tabs = if scene == Scene::SettingsTabs { vec!["today".into(), "tasks".into()] } else { Vec::new() };
         // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
         // A later version offered, only where Settings shows it. A copy from
@@ -2073,7 +2861,7 @@ impl SelfTest {
         }
 
         if scene.media_playing() {
-            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric) { self.lyric_pos } else { TRACK_POS_S };
+            let pos = if matches!(scene, Scene::MediaLyric | Scene::AsideLyric | Scene::PrayerOk) { self.lyric_pos } else { TRACK_POS_S };
             let timeline = Timeline::new(pos, TRACK_LEN_S, now, true);
             match st.media.as_mut() {
                 Some(m) if m.track_key == self.track_key => m.timeline = timeline,
@@ -2144,6 +2932,10 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 89.000 · Tokopedia".into()),
             }),
+            Scene::MessageNotice | Scene::MessageHidden => {
+                let choices = NotificationSettings { text: scene == Scene::MessageNotice, ..Default::default() };
+                crate::pages::notifications::message_notice(&sample_message(), &choices, st.accent, now).map(|n| Notice { until, ..n })
+            }
             Scene::OyenzaBill => Some(Notice {
                 icon: Icon::Calendar,
                 color: palette::ORANGE,
@@ -2155,6 +2947,7 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 54.990".into()),
             }),
+            Scene::AiNotice | Scene::AiNoticeOut => ai_alert(st, scene == Scene::AiNoticeOut).map(|a| crate::state::usage_notice(&a, st.accent, until)),
             _ => None,
         };
         st.oyenza = if scene.oyenza() { fake_oyenza(st, scene, now) } else { OyenzaState::default() };
@@ -2185,11 +2978,19 @@ impl SelfTest {
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
         let stocks = scene.page() == Some(PageKind::Stocks);
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks)] {
+        // Notifications (Windows, off by default): on for its page and its notices.
+        let notify = scene.page() == Some(PageKind::Notifications) || matches!(scene, Scene::MessageNotice | Scene::MessageHidden);
+        let ielts = scene.page() == Some(PageKind::Ielts);
+        // Meeting notes: on for its page and its pill.
+        let notes = scene.page() == Some(PageKind::Notes) || scene == Scene::NotesActivity;
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (NOTIFICATIONS.id, notify), (IELTS.id, ielts), (MEETING_NOTES.id, notes)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
+        seed_notifications(st, scene);
+        seed_ielts(st, scene, now);
+        seed_notes(st, scene, now);
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
@@ -2225,6 +3026,7 @@ impl SelfTest {
         for (path, rgb) in SAMPLE_ICONS {
             st.app_icons.entry(path.to_string()).or_insert_with(|| Some(sample_icon(rgb)));
         }
+        seed_ai(st, scene, now);
         if let Some(p) = scene.page() {
             st.page = p;
         }
@@ -2421,6 +3223,13 @@ impl SelfTest {
         if scene == Scene::MediaLyric {
             checks.push(lyric_line_check(&app.st));
         }
+        if scene == Scene::PrayerOk {
+            // After OK: the song and its sung line until Ashar, as before the countdown.
+            let (mode, _) = app.selftest_mode();
+            let want = Mode::Activity(crate::activities::Activity::Media);
+            checks.push(check("prayer-ok-song", mode == want, format!("{mode:?}, want {want:?}")));
+            checks.push(lyric_line_check(&app.st));
+        }
         if matches!(scene, Scene::AsidePeek | Scene::AsideHud) {
             // Stepped aside, and still what just happened shows over the window.
             let (mode, aside) = app.selftest_mode();
@@ -2437,6 +3246,12 @@ impl SelfTest {
             let wine = under_wine();
             let note = if wine { " (Wine, which can't leave a window out)" } else { "" };
             checks.push(check("script-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {said}, Windows build {build:?}{note}")));
+        }
+        if scene == Scene::NotesActivity {
+            // A meeting being taken down rests on the closed island: Oyen, the dot, the time.
+            let (mode, _) = app.selftest_mode();
+            let want = Mode::Activity(crate::activities::Activity::Notes);
+            checks.push(check("notes-pill", mode == want, format!("{mode:?}, want {want:?}")));
         }
         if matches!(scene, Scene::RecordActivity | Scene::RecordPaused) {
             // The recording rests on the closed island, ahead of everything else.

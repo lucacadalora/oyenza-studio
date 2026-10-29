@@ -1,0 +1,20 @@
+{
+  "currentTier": {
+    "id": "standard-tier",
+    "name": "Gemini Code Assist",
+    "userDefinedCloudaicompanionProject": true,
+    "hasAcceptedTos": true,
+    "hasOnboardedPreviously": true
+  },
+  "allowedTiers": [
+    {
+      "id": "standard-tier",
+      "name": "Gemini Code Assist",
+      "userDefinedCloudaicompanionProject": true,
+      "isDefault": true,
+      "hasAcceptedTos": true,
+      "hasOnboardedPreviously": true
+    }
+  ],
+  "cloudaicompanionProject": "test-project-123456"
+}

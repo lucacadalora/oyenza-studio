@@ -46,7 +46,7 @@ jobs:
           cargo build -p poni --release --target x86_64-apple-darwin
 
       - name: Unit tests (core)
-        run: cargo test -p poni-core --release
+        run: cargo test -p poni-core -p studio-usage --release
 
       # Every island state with sample data, Classic, Oyen, Glass (a
       # smoked stand-in for macOS's glass) and Pill, without and with a
@@ -98,8 +98,9 @@ jobs:
       # Pill floating below the top edge, Oyen, Glass and Pill around a notch
       # the app pretends the screen has, the adapter's test player in macOS's
       # own now playing, a tab playing in the runner's Edge (YouTube's way of
-      # naming a song), and the menu. At each state the app writes where its
-      # window is and waits; tools/mac-smoke.sh takes the screenshot and answers.
+      # naming a song), the AI tab's keychain reads (test items of its own),
+      # and the menu. At each state the app writes where its window is and
+      # waits; tools/mac-smoke.sh takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
         env:
           MEDIAREMOTE_TEST_CLIENT: build/mediaremote/MediaRemoteAdapterTestClient

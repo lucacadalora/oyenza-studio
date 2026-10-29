@@ -1,0 +1,4 @@
+{
+  "auth_mode": "apikey",
+  "OPENAI_API_KEY": "test-token"
+}
