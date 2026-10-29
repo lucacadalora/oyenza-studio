@@ -1,0 +1,98 @@
+/* The Oyenza Studio blog (studio.oyenza.com/blog/): the landing page's look, with the same tokens as
+   site/index.html, light only. One reading column; pictures and tiles may run wider. */
+:root {
+  --bg: #ffffff;
+  --alt: #f5f5f7;
+  --ink: #1d1d1f;
+  --gray: #6e6e73;
+  --line: #d2d2d7;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --link: #0066cc;
+  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --r: 28px;
+  --gutter: 22px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.53 var(--font-text); letter-spacing: -0.022em; -webkit-font-smoothing: antialiased; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 6px; }
+img { display: block; max-width: 100%; height: auto; }
+p, ol, ul, figure { margin: 0; }
+
+/* ---------- top bar */
+.bar { position: sticky; top: 0; z-index: 5; padding-top: env(safe-area-inset-top, 0px); background: rgba(255, 255, 255, 0.88); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0, 0, 0, 0.08); }
+.bar .in { max-width: 1024px; margin: 0 auto; min-height: 52px; display: flex; align-items: center; gap: 20px; padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+.bar .home { margin-right: auto; font: 600 21px/1.2 var(--font-display); letter-spacing: 0.011em; color: var(--ink); }
+.bar .home:hover { text-decoration: none; }
+.bar .nav { font-size: 14px; color: var(--ink); }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 980px; background: var(--blue); color: #fff; font: 400 17px/1.18 var(--font-text); letter-spacing: -0.022em; }
+.btn:hover { background: var(--blue-hover); text-decoration: none; }
+.btn-sm { padding: 5px 12px; font-size: 13px; }
+
+/* ---------- the page */
+main { padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+.post { max-width: 980px; margin: 0 auto; padding-block: 56px 32px; display: grid; gap: 64px; }
+.post > header, .post > section { display: grid; gap: 18px; min-width: 0; }
+.col { max-width: 692px; display: grid; gap: 14px; }
+.eyebrow { font: 600 14px/1.3 var(--font-text); letter-spacing: -0.016em; color: var(--gray); }
+h1 { margin: 0; font: 600 clamp(34px, 6vw, 56px)/1.07 var(--font-display); letter-spacing: -0.005em; text-wrap: balance; }
+h2 { margin: 0; font: 600 clamp(26px, 3.8vw, 34px)/1.15 var(--font-display); letter-spacing: 0.004em; text-wrap: balance; }
+h3 { margin: 0; font: 600 19px/1.26 var(--font-display); letter-spacing: 0.012em; }
+.lead { font: 500 21px/1.43 var(--font-display); letter-spacing: 0.011em; }
+.muted { color: var(--gray); }
+.hero img { width: 100%; border-radius: var(--r); background: var(--alt); }
+
+/* The pay, as four tiles */
+.pay { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.pay div { background: var(--alt); border-radius: 22px; padding: 20px 18px; display: grid; gap: 4px; align-content: start; }
+.pay b { font: 600 32px/1.1 var(--font-display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.pay span { font-size: 15px; line-height: 1.4; color: var(--gray); }
+
+/* Steps: a real sequence, so they are numbered */
+.steps { list-style: none; padding: 0; display: grid; gap: 16px; counter-reset: step; }
+.steps li { counter-increment: step; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; align-items: start; }
+.steps li::before { content: counter(step); width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; font: 600 16px/34px var(--font-text); text-align: center; }
+
+/* Ideas, each with the island it would show */
+.ideas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.idea { background: var(--alt); border-radius: 22px; padding: 22px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.idea .pic { min-height: 40px; display: flex; align-items: center; }
+.idea p { font-size: 15px; line-height: 1.45; color: var(--gray); }
+
+.rules { padding-left: 1.2em; display: grid; gap: 8px; }
+.rules li::marker { color: var(--gray); }
+
+.cta { background: var(--alt); border-radius: var(--r); padding: 36px 32px; display: grid; gap: 14px; justify-items: start; }
+.cta .addr { font-size: 15px; color: var(--gray); }
+.cta .addr b { color: var(--ink); font-weight: 600; user-select: all; }
+
+/* The blog's front page */
+.items { list-style: none; padding: 0; display: grid; gap: 28px; }
+.item { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 28px; align-items: center; }
+.item img { border-radius: 20px; background: var(--alt); }
+.item .col { gap: 8px; }
+
+/* The footer sits on the page's own ground, as on the landing page */
+.foot { max-width: 980px; margin: 0 auto; padding: 8px max(var(--gutter), env(safe-area-inset-right, 0px)) calc(40px + env(safe-area-inset-bottom, 0px)) max(var(--gutter), env(safe-area-inset-left, 0px)); display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 12px; line-height: 1.4; color: var(--gray); }
+.foot .grow { flex: 1 1 auto; }
+.foot a { color: var(--gray); }
+
+@media (max-width: 734px) {
+  .post { padding-block: 36px 24px; gap: 48px; }
+  .pay { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pay b { font-size: 28px; }
+  .ideas, .item { grid-template-columns: minmax(0, 1fr); }
+  .cta { padding: 28px 22px; }
+  .bar .in { gap: 12px; }
+  .bar .home { font-size: 18px; }
+  .bar .home, .bar .nav { white-space: nowrap; }
+  .bar .nav-blog { display: none; } /* the footer links the blog too */
+}
+@media (max-width: 380px) {
+  .bar .long { display: none; }
+}
