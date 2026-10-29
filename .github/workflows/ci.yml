@@ -35,6 +35,10 @@ jobs:
         run: |
           cargo fetch --locked
           python3 tools/make_notices.py --check
+      # design/tokens.json writes the website's :root block; the recorder
+      # (oyen-studio-cap) generates its theme from a pinned copy of it.
+      - name: Design tokens up to date
+        run: python3 tools/tokens.py --check
 
   # poni.exe is built once, here. The unit tests, the self-tests and the
   # installer each run on their own machine, side by side.
@@ -565,12 +569,12 @@ jobs:
       - name: Size and SHA-256
         run: ls -l dist/ffmpeg/windows/ffmpeg.exe && cat dist/ffmpeg/SHA256SUMS
       # The app downloads the ffmpeg.exe on addon-downloader-1, pinned in
-      # poni_core::addons::DOWNLOADER. A build here that differs (another
+      # poni_core::addons::DOWNLOADER_WINDOWS. A build here that differs (another
       # MinGW, another script) is worth knowing, not a failure: the release's
       # file is the one people get.
       - name: Same bytes as the pinned ffmpeg.exe
         run: |
-          pin=$(grep -o 'FFMPEG_EXE, size: [0-9_]*, sha256: "[0-9a-f]*"' crates/poni-core/src/addons.rs | grep -o '[0-9a-f]\{64\}')
+          pin=$(grep -o 'name: "ffmpeg.exe", size: [0-9_]*, sha256: "[0-9a-f]*"' crates/poni-core/src/addons.rs | grep -o '[0-9a-f]\{64\}')
           got=$(sha256sum dist/ffmpeg/windows/ffmpeg.exe | cut -d' ' -f1)
           if [ "$pin" = "$got" ]; then echo "ffmpeg.exe matches the pin ($got)"; else echo "::warning::this build of ffmpeg.exe ($got) isn't the pinned one ($pin)"; fi
       - uses: actions/upload-artifact@v4

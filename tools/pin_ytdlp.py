@@ -2,9 +2,10 @@
 """Pin the latest yt-dlp in the Downloader add-on, or with --quickjs the
 latest QuickJS-ng.
 
-The Downloader takes yt-dlp.exe and qjs.exe from their own GitHub releases,
-unchanged, and keeps each only if its size and SHA-256 are the ones built
-into the app (`DOWNLOADER` in crates/poni-core/src/addons.rs). yt-dlp ships
+The Downloader takes yt-dlp.exe and qjs.exe on Windows, and yt-dlp_macos on
+the Mac, from their own GitHub releases, unchanged, and keeps each only if
+its size and SHA-256 are the ones built into the app (`DOWNLOADER_WINDOWS`
+and `DOWNLOADER_MAC` in crates/poni-core/src/addons.rs). yt-dlp ships
 fixes most weeks, as sites (YouTube most of all) keep changing, so the
 Downloader pins workflow (.github/workflows/ytdlp-pin.yml) runs this every
 week and opens a pull request when the pin moves (docs/downloader-pins.md).
@@ -12,13 +13,16 @@ week and opens a pull request when the pin moves (docs/downloader-pins.md).
 It reads the tool's latest release from the GitHub API and takes the file's
 size from there, and its SHA-256 from two places that must agree:
 
-    yt-dlp       yt-dlp.exe: the API's digest and the release's SHA2-256SUMS
+    yt-dlp       yt-dlp.exe and yt-dlp_macos, together: the API's digest and
+                 the release's SHA2-256SUMS
     QuickJS-ng   qjs-windows-x86_64.exe: the API's digest and the file itself,
-                 downloaded and hashed (its releases carry no checksum file)
+                 downloaded and hashed (its releases carry no checksum file).
+                 The Mac's qjs is our own build (mac.yml's downloader-tools
+                 job), pinned by hand with the add-on's pre-release.
 
 Then it rewrites that file's size, sha256 and url in addons.rs, and nothing
-else (its name, YTDLP_EXE or QJS_EXE, is the name it's saved under and
-stays). A pin newer than the latest release, set by hand, is left alone.
+else (its name is the name it's saved under and stays). A pin newer than
+the latest release, set by hand, is left alone.
 
 Usage:
     python3 tools/pin_ytdlp.py [--quickjs]            # pin the latest release
@@ -45,12 +49,18 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ADDONS = os.path.join(ROOT, "crates", "poni-core", "src", "addons.rs")
 API = "https://api.github.com/repos/"
 
-# Each pin: whose releases it follows, the file it takes from them, the
-# constant that names that file in `DOWNLOADER`, and the checksum file the
-# releases carry (None: hash the download instead).
+# Each pin: whose releases it follows, the file it takes from them, the add-on
+# (`DOWNLOADER_WINDOWS` or `DOWNLOADER_MAC`) and the name it saves that file
+# under, and the checksum file the releases carry (None: hash the download
+# instead). yt-dlp's two pins move together, to the same release.
 TOOLS = {
-    "yt-dlp": {"title": "yt-dlp", "repo": "yt-dlp/yt-dlp", "asset": "yt-dlp.exe", "name": "YTDLP_EXE", "sums": "SHA2-256SUMS"},
-    "quickjs": {"title": "QuickJS-ng", "repo": "quickjs-ng/quickjs", "asset": "qjs-windows-x86_64.exe", "name": "QJS_EXE", "sums": None},
+    "yt-dlp": [
+        {"title": "yt-dlp", "repo": "yt-dlp/yt-dlp", "asset": "yt-dlp.exe", "addon": "DOWNLOADER_WINDOWS", "name": "yt-dlp.exe", "sums": "SHA2-256SUMS"},
+        {"title": "yt-dlp", "repo": "yt-dlp/yt-dlp", "asset": "yt-dlp_macos", "addon": "DOWNLOADER_MAC", "name": "yt-dlp", "sums": "SHA2-256SUMS"},
+    ],
+    "quickjs": [
+        {"title": "QuickJS-ng", "repo": "quickjs-ng/quickjs", "asset": "qjs-windows-x86_64.exe", "addon": "DOWNLOADER_WINDOWS", "name": "qjs.exe", "sums": None},
+    ],
 }
 
 # The values rewritten in a file's `AddonFile { .. }`: what comes before the
@@ -155,41 +165,42 @@ def latest(t):
     return {"tag": tag, "url": url, "size": a["size"], "sha256": sha, "agree": f"the API's digest and in {where}"}
 
 
-def block(text, name):
-    """Where the `AddonFile { .. }` named `name` is, inside `DOWNLOADER`."""
-    start = text.find("pub const DOWNLOADER: Addon = Addon {")
+def block(text, t):
+    """Where the `AddonFile { .. }` of the tool's file is, inside its add-on."""
+    addon, name = t["addon"], t["name"]
+    start = text.find(f"pub const {addon}: Addon = Addon {{")
     end = text.find("\n};", start)
     if start < 0 or end < 0:
-        die("addons.rs has no `pub const DOWNLOADER: Addon = Addon { .. };`")
-    hits = [m.start() for m in re.finditer(rf"\bname:\s*{name}\b", text[start:end])]
+        die(f"addons.rs has no `pub const {addon}: Addon = Addon {{ .. }};`")
+    hits = [m.start() for m in re.finditer(rf'\bname:\s*"{re.escape(name)}"', text[start:end])]
     if len(hits) != 1:
-        die(f"DOWNLOADER names {name} {len(hits)} times, expected once")
+        die(f"{addon} names {name} {len(hits)} times, expected once")
     at = start + hits[0]
     a = text.rfind("AddonFile {", start, at)
     b = text.find("}", at)
     if a < 0 or not at < b < end:
-        die(f"can't find the `AddonFile {{ .. }}` around {name} in DOWNLOADER")
+        die(f"can't find the `AddonFile {{ .. }}` around {name} in {addon}")
     return a, b + 1
 
 
 def pinned(text, t):
     """What addons.rs pins for the tool: tag, url, size and SHA-256."""
-    a, b = block(text, t["name"])
+    a, b = block(text, t)
     got = {}
     for key, pat in FIELDS.items():
         found = pat.findall(text[a:b])
         if len(found) != 1:
-            die(f"{t['name']}'s {key} in DOWNLOADER isn't written the way tools/pin_ytdlp.py reads it")
+            die(f"{t['name']}'s {key} in {t['addon']} isn't written the way tools/pin_ytdlp.py reads it")
         got[key] = found[0][1]
     m = re.fullmatch(rf"https://github\.com/{re.escape(t['repo'])}/releases/download/([^/]+)/{re.escape(t['asset'])}", got["url"])
     if not m:
-        die(f"{t['name']} comes from {got['url']}, not from {t['repo']}'s releases: change its pin by hand")
+        die(f"{t['name']} in {t['addon']} comes from {got['url']}, not from {t['repo']}'s releases: change its pin by hand")
     return {"tag": m.group(1), "url": got["url"], "size": int(got["size"].replace("_", "")), "sha256": got["sha256"]}
 
 
 def repin(text, t, new):
     """addons.rs with the tool's size, sha256 and url set to `new`'s."""
-    a, b = block(text, t["name"])
+    a, b = block(text, t)
     part = text[a:b]
     for key, value in (("size", f"{new['size']:_}"), ("sha256", new["sha256"]), ("url", new["url"])):
         part = FIELDS[key].sub(lambda m, v=value: m.group(1) + v + m.group(3), part, count=1)
@@ -213,40 +224,46 @@ def main(argv):
     if any(a not in ("--check", "--quickjs") for a in argv):
         sys.exit(__doc__)
     check = "--check" in argv
-    t = TOOLS["quickjs" if "--quickjs" in argv else "yt-dlp"]
+    pins = TOOLS["quickjs" if "--quickjs" in argv else "yt-dlp"]
     with open(ADDONS, encoding="utf-8", newline="") as f:
         text = f.read()
-    old = pinned(text, t)
-    try:
-        new = latest(t)
-    except urllib.error.HTTPError as e:
-        die(f"GitHub answered {e.code} {e.reason} for {e.url}" + (" (set GH_TOKEN for a higher rate limit)" if e.code in (403, 429) else ""))
-    except (urllib.error.URLError, TimeoutError) as e:
-        die(f"couldn't reach GitHub: {e}")
-    size = f"{old['size']:,} -> {new['size']:,} bytes" if old["size"] != new["size"] else f"{new['size']:,} bytes"
-    facts = f"{size}, SHA-256 {new['sha256']}, the same in {new['agree']}"
-    changed = False
-    if version_key(new["tag"]) < version_key(old["tag"]):
-        line = f"{t['asset']}: the pin, {old['tag']}, is newer than {t['title']}'s latest release, {new['tag']}; left as it is"
-    elif (old["tag"], old["size"], old["sha256"]) == (new["tag"], new["size"], new["sha256"]):
-        line = f"{t['asset']}: {old['tag']} is pinned, and it is {t['title']}'s latest release ({facts})"
-    else:
-        changed = True
-        if new["tag"] == old["tag"]:
-            what = f"the pin of {t['title']} {new['tag']} doesn't match the release"
+    lines, changed, first = [], False, None
+    for t in pins:
+        old = pinned(text, t)
+        try:
+            new = latest(t)
+        except urllib.error.HTTPError as e:
+            die(f"GitHub answered {e.code} {e.reason} for {e.url}" + (" (set GH_TOKEN for a higher rate limit)" if e.code in (403, 429) else ""))
+        except (urllib.error.URLError, TimeoutError) as e:
+            die(f"couldn't reach GitHub: {e}")
+        first = first or (old, new)
+        size = f"{old['size']:,} -> {new['size']:,} bytes" if old["size"] != new["size"] else f"{new['size']:,} bytes"
+        facts = f"{size}, SHA-256 {new['sha256']}, the same in {new['agree']}"
+        if version_key(new["tag"]) < version_key(old["tag"]):
+            line = f"{t['asset']}: the pin, {old['tag']}, is newer than {t['title']}'s latest release, {new['tag']}; left as it is"
+        elif (old["tag"], old["size"], old["sha256"]) == (new["tag"], new["size"], new["sha256"]):
+            line = f"{t['asset']}: {old['tag']} is pinned, and it is {t['title']}'s latest release ({facts})"
         else:
-            what = f"{t['title']} {new['tag']} is out, the pin is {old['tag']}"
-        if check:
-            line = f"{t['asset']}: {what} ({facts}). Run without --check to pin it."
-        else:
-            text = repin(text, t, new)
-            if pinned(text, t) != {k: new[k] for k in ("tag", "url", "size", "sha256")}:
-                die("addons.rs doesn't read back as the new pin; nothing written")
-            with open(ADDONS, "w", encoding="utf-8", newline="") as f:
-                f.write(text)
-            line = f"{t['asset']}: {what}; pinned {new['tag']} in addons.rs ({facts})"
-    print(line)
-    output(changed=str(changed).lower(), version=new["tag"], previous=old["tag"], line=line)
+            changed = True
+            if new["tag"] == old["tag"]:
+                what = f"the pin of {t['title']} {new['tag']} doesn't match the release"
+            else:
+                what = f"{t['title']} {new['tag']} is out, the pin is {old['tag']}"
+            if check:
+                line = f"{t['asset']}: {what} ({facts}). Run without --check to pin it."
+            else:
+                text = repin(text, t, new)
+                if pinned(text, t) != {k: new[k] for k in ("tag", "url", "size", "sha256")}:
+                    die("addons.rs doesn't read back as the new pin; nothing written")
+                line = f"{t['asset']}: {what}; pinned {new['tag']} in addons.rs ({facts})"
+        print(line)
+        lines.append(line)
+    # Written once every pin read back right: all of them move, or none.
+    if changed and not check:
+        with open(ADDONS, "w", encoding="utf-8", newline="") as f:
+            f.write(text)
+    old, new = first
+    output(changed=str(changed).lower(), version=new["tag"], previous=old["tag"], line=" ".join(lines))
 
 
 if __name__ == "__main__":

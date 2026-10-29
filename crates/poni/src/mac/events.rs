@@ -134,6 +134,10 @@ pub enum AppEvent {
     Phone(poni_core::phonedrop::Event),
     /// Where an add-on's files stand (`services::addons`).
     Addon { id: &'static str, status: poni_core::addons::Status },
+    /// One of yt-dlp's lines for download `id` (`services::downloader`).
+    Download { id: u64, line: poni_core::ytdlp::Line },
+    /// yt-dlp for download `id` ended (`ok`: it exited with 0).
+    DownloadEnded { id: u64, ok: bool },
     /// What the update file said (`services::update`).
     Update(crate::services::update::UpdateEvent),
     /// Where the Mac is, for Prayer times (`services::location`).

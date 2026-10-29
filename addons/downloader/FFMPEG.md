@@ -86,6 +86,38 @@ The `ci` workflow's `downloader-ffmpeg` job runs it on ubuntu-24.04 and uploads
 the artifact `downloader-ffmpeg` (`ffmpeg.exe`, `SHA256SUMS`, the tarball). It
 builds again only when the script changes.
 
+## On a Mac
+
+The Mac's Downloader runs the same build as `ffmpeg`: the same version, the
+same configure flags, for Apple silicon and Intel in one file, macOS 14 and
+later. The script's `darwin` target makes it on a Mac with Xcode's clang
+(each half its own build, the half that isn't the Mac's own cross-compiled),
+joins the halves with `lipo` and signs the file ad-hoc, since a Mac with
+Apple silicon runs only signed code. mac.yml's `downloader-tools` job runs it
+on macOS 15 and uploads the artifact `downloader-tools-mac`; the file is on
+the `addon-downloader-mac-1` pre-release with this file, the licence and the
+same source.
+
+| | |
+|---|---|
+| `ffmpeg` (Mac) | 4,307,968 bytes, SHA-256 `fb47d9aa82cf1e61aa49b54d1989fffef98571d1cec3d0f9a5133e0b63468724` |
+| Runs on | macOS 14 and later, Apple silicon and Intel; links only `/usr/lib/libSystem.B.dylib` |
+
+What the Mac changes in the configure line, for each half (`arm64`, and
+`x86_64` with `--enable-cross-compile` on Apple silicon):
+
+```
+--target-os=darwin --arch=arm64 --cc='clang -arch arm64' --extra-cflags=-mmacosx-version-min=14.0
+--extra-ldflags='-mmacosx-version-min=14.0 -Wl,-dead_strip -Wl,-dead_strip_dylibs'
+```
+
+macOS has no static libSystem, so there is no `-static`; `-dead_strip` is
+ld64's `--gc-sections`. configure always finds CoreFoundation, CoreMedia and
+CoreVideo and hands them to libavutil, which uses them only for VideoToolbox
+(off here), so `-dead_strip_dylibs` drops them: without it the file would
+load three frameworks it never calls. A different Xcode may give different
+bytes; the pinned file is the one on the release.
+
 ## What yt-dlp asks of it
 
 From yt-dlp 2026.10.26 (`yt_dlp/postprocessor/ffmpeg.py`, `YoutubeDL.py`):

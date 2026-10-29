@@ -194,23 +194,25 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   arithmetic are in `poni_core::stocks`; the prices stay in memory
   (`AppState::stocks`).
 * Downloads (`pages/downloads.rs`) is a tab only while the Downloader add-on
-  is on and its tools are in place (`AppState::downloader_on`; Windows only,
-  and not in the Microsoft Store build, `autostart::packaged`): a link field,
+  is on and its tools are in place (`AppState::downloader_on`; Windows and
+  the Mac, not in the Microsoft Store build, `autostart::packaged`): a link field,
   Video or Sound, Download, and the downloads under it with Stop, Open and
   Show in folder. yt-dlp does the work, with QuickJS-ng for YouTube's
   JavaScript and a minimal FFmpeg (`tools/build-ffmpeg-min.sh`) to join
-  picture and sound; all three are the add-on's files (`addons/downloader/`,
-  docs/downloader.md). `poni_core::ytdlp` has the arguments yt-dlp runs with
+  picture and sound; all three are the add-on's files (`addons/downloader/`
+  and `addons/downloader-mac/`, each app its own builds, docs/downloader.md). `poni_core::ytdlp` has the arguments yt-dlp runs with
   and what each line it prints means, tested against its real output;
   `poni_core::ytdlp_info` reads what a link holds, for the preview; and
   `poni_core::downloads` keeps the jobs (two at once, the rest queued, in
   memory only) and what the closed island's pill shows while they run
   (`downloads::Pill`). `services::downloader` starts with the first download
-  and runs one yt-dlp per job with `CREATE_NO_WINDOW` inside a job object, so
-  Stop or quitting ends yt-dlp and the QuickJS and FFmpeg it started; a
-  thread per job reads its lines into `AppEvent::Download` and ends with it.
-  The app's side (`app_downloads.rs`) starts queued jobs as places free up
-  and puts finished files, saved to the Downloads folder, on the Shelf.
+  and runs one yt-dlp per job with `CREATE_NO_WINDOW` inside a job object (on
+  the Mac, which runs the same file, as the leader of a process group of its
+  own), so Stop or quitting ends yt-dlp and the QuickJS and FFmpeg it
+  started; a thread per job reads its lines into `AppEvent::Download` and
+  ends with it. The app's side (`app_downloads.rs`, and the Mac's twin
+  `mac/app_downloads.rs`) starts queued jobs as places free up and puts
+  finished files, saved to the Downloads folder, on the Shelf.
 * Notifications (`pages/notifications.rs`) is a tab only while the
   Notifications add-on is on (`AppState::notifications_on`; Windows, built
   in): what Windows allows (`AppState::notify_access`, with Allow or

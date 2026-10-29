@@ -1,19 +1,25 @@
 //! The Downloader add-on's runner: one yt-dlp per download
-//! (`poni_core::ytdlp::args`), started without a console window inside a
-//! job object, so stopping a download (or the app quitting) ends yt-dlp and
-//! the FFmpeg and QuickJS it started. Each job has a reader thread for its
-//! output, which `poni_core::ytdlp::parse` turns into `AppEvent::Download`;
-//! the thread ends with the process (`AppEvent::DownloadEnded`). Nothing runs
-//! at rest: the service starts at the first download and holds no thread of
-//! its own between downloads.
+//! (`poni_core::ytdlp::args`), started without a window in a group of its
+//! own (a job object on Windows, a process group on the Mac), so stopping a
+//! download (or the app quitting) ends yt-dlp and the FFmpeg and QuickJS it
+//! started. Each job has a reader thread for its output, which
+//! `poni_core::ytdlp::parse` turns into `AppEvent::Download`; the thread ends
+//! with the process (`AppEvent::DownloadEnded`). Nothing runs at rest: the
+//! service starts at the first download and holds no thread of its own
+//! between downloads. The Mac app runs this file too (`mac/services.rs`).
 //!
-//! yt-dlp.exe is a PyInstaller bundle: a small loader that unpacks Python
-//! into a temporary folder and runs it as a second process. So yt-dlp starts
-//! suspended and only runs once it is in the job, which nothing it starts
-//! can leave; the job also ends all of it when its last handle closes, even
-//! if Poni itself is ended. The loader only deletes what it unpacked (about
-//! 30 MB) when it ends by itself, so each download unpacks into its own
-//! folder, deleted when the download ends.
+//! yt-dlp is a PyInstaller bundle: a small loader that unpacks Python into a
+//! temporary folder and runs it as a second process. On Windows yt-dlp
+//! starts suspended and only runs once it is in the job, which nothing it
+//! starts can leave; the job also ends all of it when its last handle
+//! closes, even if Poni itself is ended. On the Mac yt-dlp leads a process
+//! group from its first instruction, which what it starts joins: a stop
+//! signals the whole group, SIGTERM first so the loader deletes what it
+//! unpacked and FFmpeg closes its file, SIGKILL for what is left 2 s later.
+//! (If the Mac app itself ends, yt-dlp ends at its next line of output,
+//! which has nowhere to go.) The loader only deletes what it unpacked
+//! (about 30 MB, 75 MB on the Mac) when it ends by itself, so each download
+//! unpacks into its own folder, deleted when the download ends.
 //!
 //! When the person stops a download, its thread deletes the files yt-dlp was
 //! writing in the Downloads folder (`….part`, `….ytdl` and the fragments,
@@ -28,20 +34,27 @@ use poni_core::ytdlp_partial;
 use std::collections::HashMap;
 use std::fs;
 use std::io::{self, PipeReader, Read};
-use std::os::windows::io::AsRawHandle;
-use std::os::windows::process::CommandExt;
 use std::path::Path;
 use std::process::{Child, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
+#[cfg(windows)]
+use std::os::windows::io::AsRawHandle;
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
+#[cfg(windows)]
 use windows::core::PCWSTR;
+#[cfg(windows)]
 use windows::Win32::Foundation::{CloseHandle, HANDLE};
+#[cfg(windows)]
 use windows::Win32::System::Diagnostics::ToolHelp::{CreateToolhelp32Snapshot, Thread32First, Thread32Next, TH32CS_SNAPTHREAD, THREADENTRY32};
+#[cfg(windows)]
 use windows::Win32::System::JobObjects::{
     AssignProcessToJobObject, CreateJobObjectW, JobObjectExtendedLimitInformation, SetInformationJobObject, TerminateJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION,
     JOB_OBJECT_LIMIT_DIE_ON_UNHANDLED_EXCEPTION, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
 };
+#[cfg(windows)]
 use windows::Win32::System::Threading::{OpenThread, ResumeThread, BELOW_NORMAL_PRIORITY_CLASS, CREATE_NO_WINDOW, CREATE_SUSPENDED, THREAD_SUSPEND_RESUME};
 
 /// Progress reaches the island at most this often per download (yt-dlp
@@ -215,6 +228,7 @@ fn download(req: &Request, run: &Run, runs: &Runs, sink: &EventSink) -> bool {
 /// Start yt-dlp suspended, put it in the job, then let it run: what it
 /// starts (the loader starts Python at once) is in the job from the start.
 /// Its stdout and stderr share one pipe, so one thread reads both in order.
+#[cfg(windows)]
 fn spawn(exe: &str, args: &[String], temp: &Path, run: &Run) -> io::Result<(PipeReader, Child)> {
     let (out, into) = io::pipe()?;
     let mut cmd = Command::new(exe);
@@ -250,9 +264,46 @@ fn spawn(exe: &str, args: &[String], temp: &Path, run: &Run) -> io::Result<(Pipe
     Ok((out, child))
 }
 
+/// Start yt-dlp as the leader of a process group of its own: what it starts
+/// (the loader's Python, QuickJS, FFmpeg) joins the group, which one signal
+/// reaches whole ([`Job::end`]). The group is set before yt-dlp runs its
+/// first instruction, so nothing it starts is left out. Its stdout and
+/// stderr share one pipe, so one thread reads both in order.
+#[cfg(unix)]
+fn spawn(exe: &str, args: &[String], temp: &Path, run: &Run) -> io::Result<(PipeReader, Child)> {
+    use std::os::unix::process::CommandExt;
+    let (out, into) = io::pipe()?;
+    let mut cmd = Command::new(exe);
+    cmd.args(args)
+        .env("PYTHONUTF8", "1")
+        .env("PYTHONIOENCODING", "utf-8")
+        // Where the loader unpacks Python, and Python's own temporary files.
+        .env("TMPDIR", temp)
+        .stdin(Stdio::null())
+        .stdout(into.try_clone()?)
+        .stderr(into)
+        .process_group(0);
+    let child = cmd.spawn()?;
+    // `cmd` held the pipe's writing end: with it gone, the output ends once
+    // yt-dlp and what inherited it from yt-dlp have closed theirs.
+    drop(cmd);
+    let group = child.id() as i32;
+    // Below normal priority, as on Windows: what it starts inherits it (the
+    // loader is still unpacking when this runs).
+    // SAFETY: a plain call on a group of ours.
+    unsafe { setpriority(PRIO_PGRP, group as u32, BELOW_NORMAL) };
+    run.job.group.store(group, Ordering::SeqCst);
+    if run.stopped.load(Ordering::SeqCst) {
+        // Stopped while it started.
+        run.job.end();
+    }
+    Ok((out, child))
+}
+
 /// Let suspended process `pid` run. std keeps no handle to its first thread,
 /// so it is found in a snapshot of the system's threads (a new process has
 /// only that one).
+#[cfg(windows)]
 fn resume(pid: u32) -> io::Result<()> {
     // SAFETY: plain calls on handles opened and closed here.
     unsafe {
@@ -426,12 +477,16 @@ fn tidy(folder: &Path, video: &str, id: u64, runs: &Runs) {
 /// A job object whose processes all end with it: when `end` is called, or
 /// when its last handle closes (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), even if
 /// Poni itself is ended. What yt-dlp starts joins it on its own.
+#[cfg(windows)]
 struct Job(HANDLE);
 
 // SAFETY: a kernel handle, usable from any thread; closed once, in Drop.
+#[cfg(windows)]
 unsafe impl Send for Job {}
+#[cfg(windows)]
 unsafe impl Sync for Job {}
 
+#[cfg(windows)]
 impl Job {
     fn new() -> windows::core::Result<Self> {
         // SAFETY: plain calls; the Job owns the handle from here on.
@@ -455,12 +510,65 @@ impl Job {
     }
 }
 
+#[cfg(windows)]
 impl Drop for Job {
     fn drop(&mut self) {
         // SAFETY: closed once, here.
         unsafe {
             let _ = CloseHandle(self.0);
         }
+    }
+}
+
+/// How long a stopped download has to end by itself before SIGKILL.
+#[cfg(unix)]
+const STOP_GRACE: Duration = Duration::from_secs(2);
+#[cfg(unix)]
+const SIGTERM: i32 = 15;
+#[cfg(unix)]
+const SIGKILL: i32 = 9;
+#[cfg(unix)]
+const PRIO_PGRP: i32 = 1;
+/// A nice value of 10: below normal, as Windows' BELOW_NORMAL_PRIORITY_CLASS.
+#[cfg(unix)]
+const BELOW_NORMAL: i32 = 10;
+
+#[cfg(unix)]
+extern "C" {
+    fn killpg(pgrp: i32, sig: i32) -> i32;
+    fn setpriority(which: i32, who: u32, prio: i32) -> i32;
+}
+
+/// The Mac's stand-in for the job object: yt-dlp's process group, whose id
+/// is yt-dlp's pid ([`spawn`]); 0 until it started.
+#[cfg(unix)]
+struct Job {
+    group: std::sync::atomic::AtomicI32,
+}
+
+#[cfg(unix)]
+impl Job {
+    fn new() -> io::Result<Self> {
+        Ok(Job { group: std::sync::atomic::AtomicI32::new(0) })
+    }
+
+    /// End every process in the group (none left: nothing happens): SIGTERM
+    /// now, so the loader deletes what it unpacked and FFmpeg closes its
+    /// file, and SIGKILL after STOP_GRACE to whatever is still there, from a
+    /// thread that lives only that long. The group's id is the leader's pid,
+    /// which macOS doesn't hand out again that soon. Returns at once.
+    fn end(&self) {
+        let group = self.group.load(Ordering::SeqCst);
+        // SAFETY: plain signals to a group of ours; signal 0 only asks
+        // whether anything is left in it.
+        if group <= 0 || unsafe { killpg(group, 0) } != 0 {
+            return;
+        }
+        unsafe { killpg(group, SIGTERM) };
+        let _ = std::thread::Builder::new().name("poni-dl-stop".into()).spawn(move || {
+            std::thread::sleep(STOP_GRACE);
+            unsafe { killpg(group, SIGKILL) };
+        });
     }
 }
 

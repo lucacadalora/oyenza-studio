@@ -1,7 +1,9 @@
 # yt-dlp ships fixes most weeks, as sites (YouTube most of all) keep changing,
-# and the Downloader add-on takes only the yt-dlp.exe whose size and SHA-256 are
-# built into the app (DOWNLOADER in crates/poni-core/src/addons.rs). Every
-# Monday, and by hand, tools/pin_ytdlp.py pins yt-dlp's latest release on main.
+# and the Downloader add-on takes only the yt-dlp whose size and SHA-256 are
+# built into the app: yt-dlp.exe on Windows, yt-dlp_macos on the Mac
+# (DOWNLOADER_WINDOWS and DOWNLOADER_MAC in crates/poni-core/src/addons.rs).
+# Every Monday, and by hand, tools/pin_ytdlp.py pins yt-dlp's latest release,
+# both files together, on main.
 # When that moves the pin, the change goes to the downloader/ytdlp-pin branch,
 # and the pull request "Downloader: yt-dlp <version>" is opened, or updated if
 # one is open. Merging it ships the new yt-dlp with the next release.
@@ -80,9 +82,9 @@ jobs:
 
           $LINE
 
-          **Run ci on this branch before merging.** GitHub starts no workflow for a push made with a workflow's own token, so this pull request has no checks yet: Actions › ci › Run workflow on \`$BRANCH\`, or \`gh workflow run ci.yml --ref $BRANCH\`. If yt-dlp's notes ask for a newer QuickJS, pin that too: \`python3 tools/pin_ytdlp.py --quickjs\`.
+          **Run ci on this branch before merging.** GitHub starts no workflow for a push made with a workflow's own token, so this pull request has no checks yet: Actions › ci › Run workflow on \`$BRANCH\`, or \`gh workflow run ci.yml --ref $BRANCH\`. If yt-dlp's notes ask for a newer QuickJS, pin that too: \`python3 tools/pin_ytdlp.py --quickjs\` for Windows, and for the Mac a new build from mac.yml's downloader-tools job on a new addon-downloader-mac pre-release (the pins doc says how).
 
-          Once merged, the next release carries it: copies with the Downloader on find that their yt-dlp.exe no longer matches and download the new one, once.
+          Once merged, the next release carries it: copies with the Downloader on, Windows and Mac, find that their yt-dlp no longer matches and download the new one, once.
 
           The [Downloader pins]($docs) workflow owns this branch and rewrites it from main when a newer yt-dlp is out, so commits added here don't last. Closing this pull request skips $VERSION.
           EOF

@@ -179,6 +179,13 @@ enum Scene {
     /// The IELTS add-on signed in: on the Mac, for now, the coach is on its
     /// way (its microphone and voice come with branch ielts-coach-mac).
     Ielts,
+    /// The Downloader, signed in with Studio Pro: the Downloads page with a
+    /// download coming in, one waiting, one done and one failed; the closed
+    /// island while it downloads (around a notch, the ring and the percent
+    /// sit in the ears); and the Add-ons tab with its row.
+    Downloads,
+    DownloadActivity,
+    AddonsDownloader,
 }
 
 const SCENES: [Scene; 19] = [
@@ -269,6 +276,8 @@ const UPDATE_SCENES: [Scene; 2] = [Scene::UpdateSheet, Scene::UpdateReady];
 const RECORD_SCENES: [Scene; 5] = [Scene::Record, Scene::RecordLive, Scene::RecordActivity, Scene::RecordPaused, Scene::AddonsRecorder];
 /// The IELTS page, after the Update sheet.
 const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
+/// The Downloader, last of all (so every other picture keeps its number).
+const DOWNLOAD_SCENES: [Scene; 3] = [Scene::Downloads, Scene::DownloadActivity, Scene::AddonsDownloader];
 
 impl Scene {
     fn name(self) -> String {
@@ -325,6 +334,9 @@ impl Scene {
             Scene::AddonsRecorder => "page-addons-recorder".into(),
             Scene::Ai(p) => p.name().into(),
             Scene::Ielts => "page-ielts".into(),
+            Scene::Downloads => "page-downloads".into(),
+            Scene::DownloadActivity => "download-activity".into(),
+            Scene::AddonsDownloader => "page-addons-downloader".into(),
         }
     }
 }
@@ -388,10 +400,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet, Record, the AI tab and IELTS in every theme, after Pill's.
+    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet, Record, the AI tab, IELTS and the Downloader in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES).chain(DOWNLOAD_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -752,6 +764,36 @@ const SAMPLE_PLACES: &str = r#"{"places":[
     {"id":"makkah","label":"Makkah","kind":"abroad","prov":"Arab Saudi","lat":21.4225,"lng":39.8261,"tz":"Asia/Riyadh","method":"ummalqura"}
 ]}"#;
 
+/// The Downloads page's list, newest first, as on Windows (`selftest.rs`):
+/// a song waiting its turn, a film coming in from PeerTube, a private video
+/// that failed and a finished film, moved along by yt-dlp's lines as the app
+/// moves them, so the bar and the island's pill count the bytes as they do
+/// for real. No pictures, so nothing is fetched.
+fn seed_downloads(st: &mut AppState) {
+    use poni_core::downloads::{Jobs, State};
+    use poni_core::ytdlp::{Line, Mode as Get};
+    let unix = st.unix;
+    let info = |title: &str, site: &str| Line::Info { title: title.into(), site: site.into(), thumbnail: None, duration_s: None };
+    let mut jobs = Jobs::default();
+    // Oldest first: each one goes on top of the list.
+    let bunny = jobs.add("https://archive.org/details/BigBuckBunny_124".into(), Get::Video, unix - 25 * 60);
+    jobs.starting(bunny);
+    jobs.apply(bunny, info("Big Buck Bunny", "Internet Archive"));
+    jobs.apply(bunny, Line::Done { path: "/Users/sample/Downloads/Big Buck Bunny.mp4".into() });
+    jobs.set_size(bunny, 332_000_000);
+    let private = jobs.add("https://video.blender.org/w/4e0c1f7a-93b2-4d58-a6e1-2f8b9c3d7a51".into(), Get::Video, unix - 4 * 60);
+    // yt-dlp's private video (`ytdlp::Problem::Private`), in the page's words.
+    if let Some(job) = jobs.list.iter_mut().find(|j| j.id == private) {
+        job.state = State::Failed("This video is private".into());
+    }
+    let film = jobs.add("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605".into(), Get::Video, unix - 50);
+    jobs.starting(film);
+    jobs.apply(film, info("OVERGROWN: a feature film project by Blender Studio", "PeerTube"));
+    jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
+    jobs.add("https://archive.org/details/ElephantsDream".into(), Get::Audio, unix - 20);
+    st.downloads = jobs;
+}
+
 /// The Health add-on switched on, as its row in Add-ons does.
 fn health_on(st: &mut AppState) {
     st.settings.set_addon(poni_core::addons::HEALTH.id, true);
@@ -1085,6 +1127,30 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             st.ielts = poni_core::ielts::Coach::sample(poni_core::ielts::Sample::Home, st.now);
             st.page = PageKind::Ielts;
             Mode::Expanded(PageKind::Ielts)
+        }
+        Scene::Downloads | Scene::DownloadActivity | Scene::AddonsDownloader => {
+            // The Downloader is an add-on, off by default, for Studio Pro: on
+            // for its own scenes, signed in with Pro.
+            st.oyenza = fake_oyenza(&st, false);
+            st.oyenza.pro = Some(true);
+            st.downloader_offered = true;
+            st.settings.set_addon(poni_core::addons::DOWNLOADER.id, true);
+            st.addons.insert(poni_core::addons::DOWNLOADER.id, AddonStatus::Ready);
+            match scene {
+                Scene::AddonsDownloader => {
+                    st.page = PageKind::Addons;
+                    Mode::Expanded(PageKind::Addons)
+                }
+                Scene::DownloadActivity => {
+                    seed_downloads(&mut st);
+                    Mode::Activity(activities::Activity::Download)
+                }
+                _ => {
+                    seed_downloads(&mut st);
+                    st.page = PageKind::Downloads;
+                    Mode::Expanded(PageKind::Downloads)
+                }
+            }
         }
         Scene::Stocks(shows) => {
             // Stocks is an add-on, off by default: on for its own scenes.
