@@ -2694,6 +2694,19 @@ impl SelfTest {
                             let scale = app.selftest_settings_scale();
                             self.queue_write(&name, w, h, px, scale, None);
                         }
+                        // Frames of a glide redraw the whole window: what one costs.
+                        if k == 0 {
+                            let ms = app.selftest_settings_frames(30);
+                            let median = ms.get(ms.len() / 2).copied().unwrap_or(f64::INFINITY);
+                            let detail = format!(
+                                "median {median:.2} ms, best {:.2}, worst {:.2} over {} frames at {:.0} %; 144 Hz leaves 6.94 ms a frame",
+                                ms.first().copied().unwrap_or(0.0),
+                                ms.last().copied().unwrap_or(0.0),
+                                ms.len(),
+                                app.selftest_settings_scale() * 100.0
+                            );
+                            self.checks.push(check("settings-window-frame", median < SETTINGS_FRAME_BUDGET_MS, detail));
+                        }
                         self.phase = Phase::Window { k: k + 1 };
                     }
                     None => {
@@ -4064,6 +4077,11 @@ fn lyric_line_check(st: &AppState) -> Check {
 
 /// Centre of the first header tab. Mirrors `pages::draw_header`: tabs start at
 /// the header's left edge and are 30 DIPs wide while inactive.
+/// A Settings window frame must draw well inside a 60 Hz refresh even on
+/// CI's small runners (the window glides at the display's rate; 144 Hz
+/// leaves 6.94 ms).
+const SETTINGS_FRAME_BUDGET_MS: f64 = 12.0;
+
 fn first_tab_point(body: Rect) -> Point {
     let header = crate::pages::header_rect(body);
     Point::new(header.x + 15.0, header.center().y)

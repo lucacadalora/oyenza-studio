@@ -36,6 +36,9 @@ pub struct SettingsWindow {
     pub tracking: bool,
     /// Light or dark, as Windows' apps were when it opened or last changed.
     light: bool,
+    /// Windows asks for less motion (Settings › Accessibility › Animation
+    /// effects off): everything lands at once.
+    reduce: bool,
 }
 
 impl Drop for SettingsWindow {
@@ -118,7 +121,7 @@ impl SettingsWindow {
             }
         };
         let light = crate::services::apps_use_light_theme();
-        Ok(SettingsWindow { hwnd, gfx, view: View::new(section), at: (x, y), dpi, card_h, tracking: false, light })
+        Ok(SettingsWindow { hwnd, gfx, view: View::new(section), at: (x, y), dpi, card_h, tracking: false, light, reduce: animations_off() })
     }
 
     pub fn scale(&self) -> f32 {
@@ -133,9 +136,11 @@ impl SettingsWindow {
         }
     }
 
-    /// Windows' apps switched between light and dark (or may have): read it again.
+    /// Windows' apps switched between light and dark, or animation effects
+    /// on or off (or may have): read them again.
     pub fn refresh_mode(&mut self) {
         self.set_light(crate::services::apps_use_light_theme());
+        self.reduce = animations_off();
     }
 
     /// Draw light or dark from now on (the self-test picks).
@@ -177,7 +182,7 @@ impl SettingsWindow {
         if capture {
             self.gfx.request_capture(full);
         }
-        let frame = Frame { card: self.card(), own_chrome: true, top: 0.0 };
+        let frame = Frame { card: self.card(), own_chrome: true, top: 0.0, still: capture || self.reduce };
         let out = match self.gfx.begin(full) {
             Ok(mut canvas) => Some(self.view.draw(&mut canvas, st, now, frame, light)),
             Err(e) => {
@@ -217,4 +222,11 @@ impl SettingsWindow {
             let _ = SetForegroundWindow(self.hwnd);
         }
     }
+}
+
+/// Windows' Animation effects are off (Settings › Accessibility › Visual effects).
+fn animations_off() -> bool {
+    let mut on = windows::Win32::Foundation::BOOL(1);
+    let read = unsafe { SystemParametersInfoW(SPI_GETCLIENTAREAANIMATION, 0, Some(&mut on as *mut _ as *mut core::ffi::c_void), SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS(0)) };
+    read.is_ok() && !on.as_bool()
 }

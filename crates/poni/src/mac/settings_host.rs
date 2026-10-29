@@ -7,16 +7,20 @@
 //!
 //! Everything here runs on the main thread. The window and its view live in
 //! a thread-local; the view draws and forwards input through the app
-//! (`crate::app::draw_settings`, `settings_input`).
+//! (`crate::app::draw_settings`, `settings_input`). While something in it
+//! glides (a switch, a highlight, the content after a wheel), a display link
+//! on the view draws a frame each refresh at the screen's own rate (120 Hz
+//! on ProMotion, 144 Hz on a 144 Hz display); at rest it is paused.
 
 use objc2::rc::Retained;
 use objc2::runtime::AnyObject;
-use objc2::{define_class, msg_send, AllocAnyThread, MainThreadMarker, MainThreadOnly};
+use objc2::{define_class, msg_send, sel, AllocAnyThread, MainThreadMarker, MainThreadOnly};
 use objc2_app_kit::{
     NSAppearance, NSAppearanceCustomization, NSAppearanceNameAqua, NSAppearanceNameDarkAqua, NSApplication, NSBackingStoreType, NSEvent, NSEventModifierFlags,
-    NSGraphicsContext, NSResponder, NSScreen, NSTrackingArea, NSTrackingAreaOptions, NSView, NSWindow, NSWindowStyleMask, NSWindowTitleVisibility,
+    NSGraphicsContext, NSResponder, NSScreen, NSTrackingArea, NSTrackingAreaOptions, NSView, NSWindow, NSWindowStyleMask, NSWindowTitleVisibility, NSWorkspace,
 };
-use objc2_foundation::{ns_string, NSArray, NSObject, NSObjectProtocol, NSPoint, NSRect, NSSize};
+use objc2_foundation::{ns_string, NSArray, NSObject, NSObjectProtocol, NSPoint, NSRect, NSRunLoop, NSRunLoopCommonModes, NSSize};
+use objc2_quartz_core::{CADisplayLink, CAFrameRateRange};
 use std::cell::RefCell;
 
 /// The window's content size (points).
@@ -32,7 +36,10 @@ pub enum Input {
     Up { x: f32, y: f32 },
     Move { x: f32, y: f32 },
     Leave,
+    /// A mouse wheel, in notches: the content glides.
     Wheel { x: f32, y: f32, notches: f32 },
+    /// A trackpad (or a smooth wheel), in points: the content follows.
+    Scroll { x: f32, y: f32, points: f32 },
 }
 
 define_class!(
@@ -135,13 +142,20 @@ define_class!(
 
         #[unsafe(method(scrollWheel:))]
         fn scroll_wheel(&self, event: &NSEvent) {
-            // Wheel notches, as on Windows; a trackpad's points become fractions of one.
+            // A trackpad moves the content by its own points, its momentum
+            // included; a wheel by notches, which glide.
             let dy = event.scrollingDeltaY() as f32;
-            let notches = if event.hasPreciseScrollingDeltas() { dy / 24.0 } else { dy };
-            if notches != 0.0 {
+            if dy != 0.0 {
                 let (x, y) = self.local(event);
-                crate::app::settings_input(Input::Wheel { x, y, notches });
+                let input = if event.hasPreciseScrollingDeltas() { Input::Scroll { x, y, points: dy } } else { Input::Wheel { x, y, notches: dy } };
+                crate::app::settings_input(input);
             }
+        }
+
+        /// The display link's tick: the next frame of what glides.
+        #[unsafe(method(step:))]
+        fn step(&self, _link: &CADisplayLink) {
+            crate::app::settings_step();
         }
 
         #[unsafe(method(keyDown:))]
@@ -175,6 +189,8 @@ impl SettingsView {
 struct Host {
     window: Retained<SettingsWindow>,
     view: Retained<SettingsView>,
+    /// Frames while something glides (macOS 14's view display link).
+    link: Option<Retained<CADisplayLink>>,
 }
 
 thread_local! {
@@ -211,9 +227,42 @@ pub fn create(mtm: MainThreadMarker) -> f32 {
     window.setContentView(Some(&view));
     window.makeFirstResponder(Some(&view));
     window.center();
+    let has_link: bool = unsafe { msg_send![&*view, respondsToSelector: sel!(displayLinkWithTarget:selector:)] };
+    let link = has_link.then(|| {
+        let target: &AnyObject = view.as_ref();
+        let link = unsafe { view.displayLinkWithTarget_selector(target, sel!(step:)) };
+        unsafe { link.addToRunLoop_forMode(&NSRunLoop::mainRunLoop(), NSRunLoopCommonModes) };
+        link.setPaused(true);
+        link
+    });
     let s = window.backingScaleFactor() as f32;
-    HOST.with(|h| *h.borrow_mut() = Some(Host { window, view }));
+    HOST.with(|h| *h.borrow_mut() = Some(Host { window, view, link }));
     s
+}
+
+/// Frames at the screen's own rate (on), or none (off: everything is still).
+pub fn set_frames(on: bool) {
+    HOST.with(|h| {
+        let host = h.borrow();
+        let Some(host) = host.as_ref() else { return };
+        let Some(link) = host.link.as_ref() else { return };
+        if on && link.isPaused() {
+            // As fast as the screen goes: 120 on ProMotion, 144 on a 144 Hz display.
+            let fps = host.window.screen().map_or(120, |s| s.maximumFramesPerSecond()).max(60) as f32;
+            link.setPreferredFrameRateRange(CAFrameRateRange { minimum: 60.0, maximum: fps, preferred: fps });
+        }
+        link.setPaused(!on);
+    });
+}
+
+/// The window can draw frames while things glide (it has a display link).
+pub fn has_frames() -> bool {
+    HOST.with(|h| h.borrow().as_ref().is_some_and(|host| host.link.is_some()))
+}
+
+/// The Mac asks for less motion (Accessibility › Display › Reduce motion).
+pub fn reduce_motion() -> bool {
+    NSWorkspace::sharedWorkspace().accessibilityDisplayShouldReduceMotion()
 }
 
 /// Bring the window to the front, and the app with it.
@@ -242,6 +291,10 @@ pub fn close() {
 /// autorelease pool, not here.
 pub fn release() {
     if let Some(host) = HOST.with(|h| h.borrow_mut().take()) {
+        // The link holds the view: let go of it first.
+        if let Some(link) = host.link.as_ref() {
+            link.invalidate();
+        }
         let _ = Retained::autorelease_ptr(host.window);
         let _ = Retained::autorelease_ptr(host.view);
     }

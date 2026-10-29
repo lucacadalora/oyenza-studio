@@ -20,7 +20,7 @@
 use crate::commands::Command;
 use crate::gfx::{Canvas, TextStyle, Weight};
 use crate::icons::Icon;
-use crate::pages::settings::{draw_switch, picker, picker_width};
+use crate::pages::settings::picker_width;
 use crate::pages::PageKind;
 use crate::pill::status;
 use crate::state::AppState;
@@ -28,6 +28,7 @@ use crate::ui::{wid, wid_n, CursorKind, Hit, Input, MouseButton, PillStyle, Ui, 
 use crate::version::VERSION;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::settings::{IdleStyle, MonitorChoice, PrayerSound, Theme};
+use std::collections::HashMap;
 
 /// The card, in DIPs. Windows' window gives it room for its shadow and is
 /// less tall on a short screen (the content scrolls).
@@ -56,6 +57,10 @@ const GROUP_R: f32 = 10.0;
 const SWITCH_W: f32 = 30.0;
 const SWITCH_H: f32 = 18.0;
 const PICKER_H: f32 = 26.0;
+/// The picker's and the switch's insides, as the island's Settings page has them.
+const SEG_INSET: f32 = 2.0;
+const SEG_PAD: f32 = 11.0;
+const KNOB_INSET: f32 = 2.0;
 const STEP_BTN: f32 = 26.0;
 const STEP_VALUE_W: f32 = 84.0;
 /// The Appearance section's theme cards.
@@ -63,7 +68,7 @@ const THEME_CARD_H: f32 = 154.0;
 const THEME_PREVIEW_H: f32 = 74.0;
 const THEME_GAP: f32 = 12.0;
 /// A wheel notch scrolls this far.
-const WHEEL_STEP: f32 = 48.0;
+pub const WHEEL_STEP: f32 = 48.0;
 
 /// The window's own surfaces, painted as they are; text and widgets on
 /// them go through the look of the same mode.
@@ -659,6 +664,9 @@ pub struct Frame {
     pub own_chrome: bool,
     /// Room at the top of the sidebar for the Mac's window buttons.
     pub top: f32,
+    /// Everything lands where it's going at once: the system asks for less
+    /// motion, or a picture is taken.
+    pub still: bool,
 }
 
 /// What a frame of the window asked for.
@@ -669,6 +677,8 @@ pub struct Painted {
     pub again: bool,
     /// The close button was clicked.
     pub close: bool,
+    /// Something still glides: draw the next frame at the display's rate.
+    pub moving: bool,
 }
 
 /// The content and its input, whichever window shows it.
@@ -676,24 +686,40 @@ pub struct View {
     pub input: Input,
     hits: Vec<Hit>,
     pub section: Section,
-    /// How far the content is scrolled (DIPs) and how tall it was last drawn.
-    scroll: f32,
-    content_h: f32,
+    scroll: Scroll,
+    motion: Motion,
     /// Something it shows changed: draw it again.
     pub dirty: bool,
+    /// Something glided in the last frame: the window keeps drawing frames.
+    pub moving: bool,
+}
+
+/// How far the content is scrolled (DIPs): where it is, where it's going
+/// (a wheel glides there; a trackpad goes there at once, under the
+/// fingers), and how tall it was last drawn.
+#[derive(Default)]
+struct Scroll {
+    at: f32,
+    to: f32,
+    content_h: f32,
+    /// A trackpad's points since the last frame.
+    pending: f32,
 }
 
 impl View {
     pub fn new(section: Section) -> Self {
-        View { input: Input::default(), hits: Vec::new(), section, scroll: 0.0, content_h: 0.0, dirty: true }
+        View { input: Input::default(), hits: Vec::new(), section, scroll: Scroll::default(), motion: Motion::default(), dirty: true, moving: false }
     }
 
+    /// Show `section`, from outside the window (it opens on it): no glide,
+    /// it's there at once.
     pub fn show_section(&mut self, section: Section) {
         if section != self.section {
             self.section = section;
-            self.scroll = 0.0;
+            self.scroll = Scroll::default();
             self.input.focused = None;
         }
+        self.motion.snap_next = true;
         self.dirty = true;
     }
 
@@ -745,9 +771,16 @@ impl View {
         self.input.pressed_id = None;
     }
 
+    /// A mouse wheel: whole notches, the content glides.
     pub fn wheel(&mut self, p: Point, notches: f32) {
         self.input.mouse = Some(p);
         self.input.wheel += notches;
+    }
+
+    /// A trackpad: `points` (+ = up), the content follows the fingers.
+    pub fn scroll_by(&mut self, p: Point, points: f32) {
+        self.input.mouse = Some(p);
+        self.scroll.pending += points;
     }
 
     /// Draw the window on `c` for `st`, light or dark.
@@ -756,17 +789,18 @@ impl View {
         // A section that went away (Prayer times switched off) is General.
         if !self.section.shown(st) {
             self.section = Section::General;
-            self.scroll = 0.0;
+            self.scroll = Scroll::default();
         }
+        self.motion.begin(now, frame.still);
         let mut out = Painted::default();
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
         {
             let mut ui = Ui::new(c, &mut self.input, &mut hits, now);
-            match draw(&mut ui, st, self.section, frame, light, &mut self.scroll, &mut self.content_h) {
+            match draw(&mut ui, st, self.section, frame, light, &mut self.scroll, &mut self.motion) {
                 Some(Nav::Section(s)) => {
                     self.section = s;
-                    self.scroll = 0.0;
+                    self.scroll = Scroll::default();
                     out.again = true;
                 }
                 Some(Nav::Close) => out.close = true,
@@ -776,9 +810,105 @@ impl View {
         }
         self.hits = hits;
         self.input.end_frame();
+        out.moving = self.motion.moving;
+        self.moving = out.moving;
         out
     }
 }
+
+// ---------------------------------------------------------------- motion
+
+/// How fast a value glides: a critically damped spring of this many
+/// radians a second, so it never overshoots and has all but arrived after
+/// about 4.5 / pace seconds.
+/// Hover and press washes: about a tenth of a second.
+const WASH: f32 = 46.0;
+/// A switch's knob and colour.
+const SWITCHING: f32 = 24.0;
+/// A highlight going to another row or choice.
+const SLIDE: f32 = 24.0;
+/// The content after a mouse wheel.
+const SCROLLING: f32 = 22.0;
+
+/// Values that glide to where they're going, a step a frame at the
+/// display's own rate (120 Hz on ProMotion, 144 Hz on a 144 Hz screen),
+/// and stop there. Only answers to the person move: a value first asked
+/// for starts where it's going, so the window opens complete.
+#[derive(Default)]
+struct Motion {
+    /// Each value and its speed, by key.
+    vals: HashMap<u64, (f32, f32)>,
+    /// Seconds since the last frame, at most a thirtieth: a long pause
+    /// doesn't jump.
+    dt: f32,
+    last: f64,
+    /// Something hasn't arrived yet.
+    moving: bool,
+    /// This frame, everything lands at once.
+    snap: bool,
+    /// So does the next one (a section opened from outside).
+    snap_next: bool,
+}
+
+impl Motion {
+    fn begin(&mut self, now: f64, still: bool) {
+        let dt = if self.last > 0.0 { now - self.last } else { 0.0 };
+        self.dt = dt.clamp(0.0, 1.0 / 30.0) as f32;
+        self.last = now;
+        self.moving = false;
+        self.snap = still || std::mem::take(&mut self.snap_next);
+    }
+
+    /// `key`'s value this frame on its way to `target` at `pace`; within
+    /// `near` it has arrived.
+    fn glide(&mut self, key: u64, target: f32, pace: f32, near: f32) -> f32 {
+        let e = self.vals.entry(key).or_insert((target, 0.0));
+        let (x, v) = *e;
+        if self.snap || ((x - target).abs() < near && v.abs() < near * pace) {
+            *e = (target, 0.0);
+            return target;
+        }
+        self.moving = true;
+        if self.dt <= 0.0 {
+            return x;
+        }
+        let (t, d) = (self.dt, x - target);
+        let k = (-pace * t).exp();
+        let nd = (d + (v + pace * d) * t) * k;
+        let nv = (v - pace * (v + pace * d) * t) * k;
+        *e = (target + nd, nv);
+        target + nd
+    }
+
+    /// A 0..1 value (an opacity, a switch's way across): within 0.4 % it
+    /// has arrived.
+    fn fade(&mut self, key: u64, target: f32, pace: f32) -> f32 {
+        self.glide(key, target, pace, 0.004)
+    }
+
+    /// A position or a size, in DIPs: within a third of one it has arrived
+    /// (under a pixel at any scale), so no frames go to a tail nobody sees.
+    fn slide(&mut self, key: u64, target: f32, pace: f32) -> f32 {
+        self.glide(key, target, pace, 0.3)
+    }
+
+    /// Put `key` at `value` now (a trackpad's scroll).
+    fn jump(&mut self, key: u64, value: f32) {
+        self.vals.insert(key, (value, 0.0));
+    }
+}
+
+/// A key for one of a widget's moving values.
+fn mkey(id: u64, what: u64) -> u64 {
+    id.wrapping_mul(0x9E3779B97F4A7C15) ^ what
+}
+
+const K_WASH: u64 = 1;
+const K_ON: u64 = 2;
+const K_X: u64 = 3;
+const K_W: u64 = 4;
+const K_Y: u64 = 5;
+const K_LIT: u64 = 6;
 
 // ---------------------------------------------------------------- drawing
 
@@ -791,7 +921,7 @@ enum Nav {
 
 /// The whole window: the card, the sidebar and the section. Returns the
 /// section picked in the sidebar, or the close button.
-fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: bool, scroll: &mut f32, content_h: &mut f32) -> Option<Nav> {
+fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: bool, sc: &mut Scroll, m: &mut Motion) -> Option<Nav> {
     let card = frame.card;
     let sf = surfaces(light);
     // Windows' borderless window: its own shadow and rounded corners.
@@ -814,25 +944,36 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: b
         ui.c.stroke_rrect(card.inset(px / 2.0, px / 2.0), RADIUS, EDGE, px);
     }
 
-    let picked = draw_sidebar(ui, st, side, section, frame.top);
+    let picked = draw_sidebar(ui, st, side, section, frame.top, m);
     let content = Rect::new(side.right() + PAD, card.y, card.right() - side.right() - 2.0 * PAD, card.h);
     ui.c.text(section.title(), Rect::new(content.x, card.y + TITLE_Y, content.w - 40.0, TITLE_H), &TextStyle::new(22.0).weight(Weight::Bold));
-    let close = frame.own_chrome && draw_close(ui, card);
+    let close = frame.own_chrome && draw_close(ui, card, m);
 
     let view = Rect::new(content.x - PAD / 2.0, card.y + CONTENT_Y, content.w + PAD, card.bottom() - CONTENT_Y - card.y - 1.0);
+    // Scrolling: a wheel glides to where it points, a trackpad follows the fingers.
+    let max_scroll = (sc.content_h - view.h + 16.0).max(0.0);
     let wheel = ui.wheel_in(view);
-    let max_scroll = (*content_h - view.h + 16.0).max(0.0);
-    *scroll = (*scroll - wheel * WHEEL_STEP).clamp(0.0, max_scroll);
+    if wheel != 0.0 {
+        sc.to -= wheel * WHEEL_STEP;
+    }
+    let skey = mkey(wid("settingswin.scroll"), K_Y);
+    if sc.pending != 0.0 {
+        sc.to = (sc.to - sc.pending).clamp(0.0, max_scroll);
+        sc.pending = 0.0;
+        m.jump(skey, sc.to);
+    }
+    sc.to = sc.to.clamp(0.0, max_scroll);
+    sc.at = m.slide(skey, sc.to, SCROLLING);
     ui.c.clip(view);
-    let mut y = view.y - *scroll;
+    let mut y = view.y - sc.at;
     let x = content.x;
     for (bi, b) in blocks(section, st).into_iter().enumerate() {
-        y = draw_block(ui, st, &b, bi, Rect::new(x, y, content.w, 0.0), view, &sf);
+        y = draw_block(ui, st, &b, bi, Rect::new(x, y, content.w, 0.0), view, &sf, m);
     }
     ui.c.unclip();
-    *content_h = y + *scroll - view.y;
+    sc.content_h = y + sc.at - view.y;
     // The edge the content scrolls under.
-    if *scroll > 0.5 {
+    if sc.at > 0.5 {
         ui.c.fill_rect(Rect::new(view.x, view.y, view.w, px), RULE);
     }
     if close {
@@ -842,39 +983,51 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: b
 }
 
 /// The close button at the card's top right (Windows). True when clicked.
-fn draw_close(ui: &mut Ui, card: Rect) -> bool {
+fn draw_close(ui: &mut Ui, card: Rect, m: &mut Motion) -> bool {
     let r = Rect::new(card.right() - 14.0 - 28.0, card.y + 14.0, 28.0, 28.0);
-    let resp = ui.button(wid("settingswin.close"), r);
-    if resp.hovered || resp.pressed {
-        ui.c.fill_rrect(r, 8.0, palette::RED.with_alpha(if resp.pressed { 0.8 } else { 0.6 }));
+    let id = wid("settingswin.close");
+    let resp = ui.button(id, r);
+    let a = m.fade(mkey(id, K_WASH), if resp.pressed { 0.8 } else if resp.hovered { 0.6 } else { 0.0 }, WASH);
+    if a > 0.0 {
+        ui.c.fill_rrect(r, 8.0, palette::RED.with_alpha(a));
     }
-    let color = if resp.hovered { palette::ON_ACCENT } else { palette::TEXT_DIM };
-    ui.c.icon(Icon::Close, Rect::from_center(r.center(), 14.0, 14.0), color);
+    let t = (a / 0.6).min(1.0);
+    let x = Rect::from_center(r.center(), 14.0, 14.0);
+    ui.c.icon(Icon::Close, x, palette::TEXT_DIM.mul_alpha(1.0 - t));
+    if t > 0.0 {
+        ui.c.icon(Icon::Close, x, palette::ON_ACCENT.mul_alpha(t));
+    }
     resp.clicked
 }
 
 /// The sidebar: Oyen's tile and the window's name, then a row per section
-/// (About at the bottom). `top`: room for the Mac's window buttons.
-fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section, top: f32) -> Option<Section> {
+/// (About at the bottom). The highlight glides to the section picked.
+/// `top`: room for the Mac's window buttons.
+fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section, top: f32, m: &mut Motion) -> Option<Section> {
     let icon_c = Point::new(side.x + 20.0 + 12.0, side.y + top + 32.0);
     crate::oyen::app_icon(ui.c, icon_c, 24.0);
     ui.c.text("Settings", Rect::new(icon_c.x + 20.0, side.y + top + 20.0, side.w - 60.0, 24.0), &TextStyle::headline());
-    let mut picked = None;
     let list = sections(st);
     let about_at = side.bottom() - 12.0 - NAV_H;
-    let mut y = side.y + top + NAV_Y;
+    let row_y = |i: usize, s: Section| if s == Section::About { about_at } else { side.y + top + NAV_Y + i as f32 * (NAV_H + NAV_GAP) };
+    // The highlight, under the rows.
+    let sel_key = mkey(wid("settingswin.nav.sel"), K_Y);
+    if let Some(i) = list.iter().position(|s| *s == section) {
+        let y = m.slide(sel_key, row_y(i, section), SLIDE);
+        ui.c.fill_rrect(Rect::new(side.x + 10.0, y, side.w - 20.0, NAV_H), 8.0, Color::white(0.12));
+    }
+    let mut picked = None;
     for (i, s) in list.iter().enumerate() {
-        let row_y = if *s == Section::About { about_at } else { y };
-        let r = Rect::new(side.x + 10.0, row_y, side.w - 20.0, NAV_H);
-        y += NAV_H + NAV_GAP;
-        let resp = ui.button(wid_n("settingswin.nav", i as u64), r);
+        let r = Rect::new(side.x + 10.0, row_y(i, *s), side.w - 20.0, NAV_H);
+        let id = wid_n("settingswin.nav", i as u64);
+        let resp = ui.button(id, r);
         if resp.clicked {
             picked = Some(*s);
         }
         let on = *s == section;
-        if on || resp.hovered || resp.pressed {
-            let a = if on { 0.12 } else if resp.pressed { 0.09 } else { 0.05 };
-            ui.c.fill_rrect(r, 8.0, Color::white(a));
+        let wash = m.fade(mkey(id, K_WASH), if on { 0.0 } else if resp.pressed { 0.09 } else if resp.hovered { 0.05 } else { 0.0 }, WASH);
+        if wash > 0.0 {
+            ui.c.fill_rrect(r, 8.0, Color::white(wash));
         }
         let tile = Rect::new(r.x + 8.0, r.center().y - NAV_TILE / 2.0, NAV_TILE, NAV_TILE);
         if *s == Section::About {
@@ -933,7 +1086,8 @@ fn fill_group(ui: &mut Ui, r: Rect, color: Color) {
 
 /// Draw block `b` (the `bi`-th) from `at`'s top left, `at.w` wide; returns
 /// where the next one starts.
-fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, view: Rect, sf: &Surfaces) -> f32 {
+#[allow(clippy::too_many_arguments)]
+fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, view: Rect, sf: &Surfaces, m: &mut Motion) -> f32 {
     let h = block_h(st, b);
     let r = Rect::new(at.x, at.y, at.w, h);
     let next = r.bottom() + GROUP_GAP;
@@ -957,14 +1111,14 @@ fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, vi
                 if i > 0 {
                     ui.c.fill_rect(Rect::new(row.x + ROW_PAD, row.y, row.w - ROW_PAD, px), RULE);
                 }
-                if let Some(act) = draw_row(ui, it, (bi, i), row, view, accent, i == 0, i + 1 == items.len()) {
+                if let Some(act) = draw_row(ui, it, (bi, i), row, view, accent, (i == 0, i + 1 == items.len()), m) {
                     apply(st, it.key, act);
                 }
                 y += rh;
             }
         }
         Block::Version => draw_version(ui, st, r, view, sf),
-        Block::Themes => draw_themes(ui, st, r, view, sf),
+        Block::Themes => draw_themes(ui, st, r, view, sf, m),
         Block::Account => {
             fill_group(ui, r, sf.group);
             if visible(r, view).is_some_and(|v| v.h >= r.h - 0.5) {
@@ -978,11 +1132,12 @@ fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, vi
 }
 
 /// One row: its label (and dim line), and its control. Returns what a
-/// click did.
+/// click did. `ends`: the row is the card's first, its last.
 #[allow(clippy::too_many_arguments)]
-fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, accent: Color, first: bool, last: bool) -> Option<Act> {
+fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, accent: Color, ends: (bool, bool), m: &mut Motion) -> Option<Act> {
     let id = |what: &str| wid_n(&format!("settingswin.{what}.{}", at.0), at.1 as u64);
     let shown = visible(row, view);
+    let whole = shown.is_some_and(|v| v.h >= row.h - 0.5);
     let inner = row.inset(ROW_PAD, 0.0);
     let mut act = None;
     // The control's room at the right end.
@@ -996,32 +1151,28 @@ fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, a
     match &it.ctl {
         Ctl::Switch(on) => {
             // The whole row toggles, as on the island's Settings page.
-            if let (Some(_), Some(hit)) = (on, shown) {
-                let resp = ui.button(id("row"), hit);
-                if resp.hovered || resp.pressed {
-                    let wash = Color::white(if resp.pressed { 0.07 } else { 0.04 });
-                    fill_row(ui, row, wash, first, last);
-                }
-                if resp.clicked {
-                    act = Some(Act::Toggle);
-                }
+            let rid = id("row");
+            let resp = match (on, shown) {
+                (Some(_), Some(hit)) => ui.button(rid, hit),
+                _ => Default::default(),
+            };
+            let wash = m.fade(mkey(rid, K_WASH), if resp.pressed { 0.07 } else if resp.hovered { 0.04 } else { 0.0 }, WASH);
+            if wash > 0.0 {
+                fill_row(ui, row, Color::white(wash), ends);
             }
+            if resp.clicked {
+                act = Some(Act::Toggle);
+            }
+            // The knob slides and the track takes the colour as it goes.
+            let k = m.fade(mkey(rid, K_ON), if *on == Some(true) { 1.0 } else { 0.0 }, SWITCHING);
             let sw = Rect::new(ctl_x, row.center().y - SWITCH_H / 2.0, SWITCH_W, SWITCH_H);
             let alpha = if on.is_some() { 1.0 } else { 0.5 };
-            ui.c.with_alpha(alpha, |c| draw_switch(c, sw, *on == Some(true), accent));
+            ui.c.with_alpha(alpha, |c| draw_switch_at(c, sw, k, accent));
         }
         Ctl::Choice(names, sel) => {
             let y = row.center().y - PICKER_H / 2.0;
-            if shown.is_some_and(|v| v.h >= row.h - 0.5) {
-                if let Some(i) = picker(ui, &format!("settingswin.pick.{}.{}", at.0, at.1), ctl_x, y, PICKER_H, names, sel.unwrap_or(usize::MAX)) {
-                    act = Some(Act::Pick(i));
-                }
-            } else {
-                // Partly scrolled away: drawn, not clickable.
-                let mut none = Input::default();
-                let mut no_hits = Vec::new();
-                let mut ghost = Ui::new(&mut *ui.c, &mut none, &mut no_hits, 0.0);
-                let _ = picker(&mut ghost, "settingswin.ghost", ctl_x, y, PICKER_H, names, sel.unwrap_or(usize::MAX));
+            if let Some(i) = picker_glide(ui, m, &format!("settingswin.pick.{}.{}", at.0, at.1), ctl_x, y, names, *sel, whole) {
+                act = Some(Act::Pick(i));
             }
         }
         Ctl::Stepper(value) => {
@@ -1029,17 +1180,13 @@ fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, a
             let minus = Rect::new(ctl_x, cy - STEP_BTN / 2.0, STEP_BTN, STEP_BTN);
             let plus = Rect::new(inner.right() - STEP_BTN, cy - STEP_BTN / 2.0, STEP_BTN, STEP_BTN);
             for (r, icon, d, what) in [(minus, Icon::Minus, -1, "minus"), (plus, Icon::Plus, 1, "plus")] {
+                let bid = id(what);
                 let resp = match visible(r, view) {
-                    Some(hit) => ui.button(id(what), hit),
+                    Some(hit) => ui.button(bid, hit),
                     None => Default::default(),
                 };
-                let fill = if resp.pressed {
-                    palette::SURFACE_PRESSED
-                } else if resp.hovered {
-                    palette::SURFACE_HOVER
-                } else {
-                    palette::SURFACE
-                };
+                let lit = m.fade(mkey(bid, K_WASH), if resp.pressed { 1.0 } else if resp.hovered { 0.5 } else { 0.0 }, WASH);
+                let fill = if lit <= 0.5 { Color::lerp(palette::SURFACE, palette::SURFACE_HOVER, lit * 2.0) } else { Color::lerp(palette::SURFACE_HOVER, palette::SURFACE_PRESSED, lit * 2.0 - 1.0) };
                 ui.c.fill_circle(r.center(), STEP_BTN / 2.0, fill);
                 ui.c.icon(icon, Rect::from_center(r.center(), 12.0, 12.0), palette::TEXT);
                 if resp.clicked {
@@ -1079,8 +1226,66 @@ fn draw_row(ui: &mut Ui, it: &Item, at: (usize, usize), row: Rect, view: Rect, a
     act
 }
 
+/// A switch `k` of the way on (0 off, 1 on): the knob slides across and
+/// the track takes the accent as it goes (the island's switch, in motion).
+fn draw_switch_at(c: &mut Canvas, r: Rect, k: f32, accent: Color) {
+    let k = k.clamp(0.0, 1.0);
+    c.fill_rrect(r, r.h / 2.0, palette::TRACK.mul_alpha(1.0 - k));
+    if k > 0.0 {
+        c.fill_rrect(r, r.h / 2.0, accent.mul_alpha(k));
+    }
+    let d = r.h - 2.0 * KNOB_INSET;
+    let x0 = r.x + KNOB_INSET + d / 2.0;
+    let x1 = r.right() - KNOB_INSET - d / 2.0;
+    c.fill_circle(Point::new(x0 + (x1 - x0) * k, r.center().y), d / 2.0, palette::ON_ACCENT);
+}
+
+/// The island's picker (choices side by side in a track, the chosen one
+/// lifted) with the lift gliding to the choice picked. `live`: it takes
+/// clicks (not while partly scrolled away). Returns the choice clicked.
+#[allow(clippy::too_many_arguments)]
+fn picker_glide(ui: &mut Ui, m: &mut Motion, id: &str, x: f32, y: f32, names: &[&str], sel: Option<usize>, live: bool) -> Option<usize> {
+    let st = TextStyle::footnote().weight(Weight::Semibold);
+    let h = PICKER_H;
+    let inner_h = h - 2.0 * SEG_INSET;
+    let mut cx = x + SEG_INSET;
+    let cells: Vec<Rect> = names
+        .iter()
+        .map(|n| {
+            let w = (2.0 * SEG_PAD + ui.c.measure(n, &st, 300.0).0).ceil();
+            let cell = Rect::new(cx, y + SEG_INSET, w, inner_h);
+            cx += w;
+            cell
+        })
+        .collect();
+    ui.c.fill_rrect(Rect::new(x, y, cx + SEG_INSET - x, h), h / 2.0, palette::SURFACE);
+    let base = wid(id);
+    // The lift, under the names.
+    if let Some(cell) = sel.and_then(|s| cells.get(s)) {
+        let lx = m.slide(mkey(base, K_X), cell.x - x, SLIDE);
+        let lw = m.slide(mkey(base, K_W), cell.w, SLIDE);
+        ui.c.fill_rrect(Rect::new(x + lx, cell.y, lw, inner_h), inner_h / 2.0, Color::white(0.16));
+    }
+    let mut picked = None;
+    for (i, (name, cell)) in names.iter().zip(&cells).enumerate() {
+        let cid = wid_n(id, i as u64);
+        let chosen = sel == Some(i);
+        let resp = if live && !chosen { ui.button(cid, Rect::new(cell.x, y, cell.w, h)) } else { Default::default() };
+        if resp.clicked {
+            picked = Some(i);
+        }
+        let wash = m.fade(mkey(cid, K_WASH), if resp.pressed { 0.10 } else if resp.hovered { 0.06 } else { 0.0 }, WASH);
+        if wash > 0.0 {
+            ui.c.fill_rrect(*cell, inner_h / 2.0, Color::white(wash));
+        }
+        let lit = m.fade(mkey(cid, K_LIT), if chosen || resp.hovered || resp.pressed { 1.0 } else { 0.0 }, WASH);
+        ui.c.text(name, *cell, &st.color(Color::lerp(palette::TEXT_DIM, palette::TEXT, lit)).center());
+    }
+    picked
+}
+
 /// A row's hover wash, rounded where the row meets the card's corners.
-fn fill_row(ui: &mut Ui, row: Rect, c: Color, first: bool, last: bool) {
+fn fill_row(ui: &mut Ui, row: Rect, c: Color, (first, last): (bool, bool)) {
     if !(first || last) {
         ui.c.fill_rect(row, c);
         return;
@@ -1154,8 +1359,9 @@ fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surfac
 }
 
 /// The four themes, a card each: a small screen with the island on it as
-/// the theme draws it, the name and a line.
-fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surfaces) {
+/// the theme draws it, the name and a line. The ring and the tick fade to
+/// the theme picked.
+fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surfaces, m: &mut Motion) {
     ui.c.text("Theme", Rect::new(r.x + 2.0, r.y, r.w, GROUP_TITLE_H - 6.0), &TextStyle::footnote().weight(Weight::Semibold).color(palette::TEXT_DIM));
     let n = THEMES.len() as f32;
     let w = ((r.w - (n - 1.0) * THEME_GAP) / n).floor();
@@ -1163,21 +1369,21 @@ fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surface
     let mut picked = None;
     for (i, (theme, name, line)) in THEMES.iter().enumerate() {
         let c = Rect::new(r.x + i as f32 * (w + THEME_GAP), r.y + GROUP_TITLE_H, w, THEME_CARD_H);
+        let id = wid_n("settingswin.theme", i as u64);
         let resp = match visible(c, view) {
-            Some(hit) => ui.button(wid_n("settingswin.theme", i as u64), hit),
+            Some(hit) => ui.button(id, hit),
             None => Default::default(),
         };
         let on = st.settings.theme == *theme;
-        let fill = if resp.pressed {
-            sf.group_press
-        } else if resp.hovered {
-            sf.group_hover
-        } else {
-            sf.group
-        };
-        fill_group(ui, c, fill);
-        if on {
-            ui.c.stroke_rrect(c.inset(1.0, 1.0), GROUP_R - 1.0, accent, 2.0);
+        fill_group(ui, c, sf.group);
+        let lit = m.fade(mkey(id, K_WASH), if resp.pressed { 1.0 } else if resp.hovered { 0.6 } else { 0.0 }, WASH);
+        if lit > 0.0 {
+            let over = if lit > 0.6 { sf.group_press } else { sf.group_hover };
+            ui.c.unthemed(|cv| cv.fill_rrect(c, GROUP_R, over.mul_alpha((lit / 0.6).min(1.0))));
+        }
+        let ring = m.fade(mkey(id, K_ON), if on { 1.0 } else { 0.0 }, SWITCHING);
+        if ring > 0.0 {
+            ui.c.stroke_rrect(c.inset(1.0, 1.0), GROUP_R - 1.0, accent.mul_alpha(ring), 2.0);
         }
         let screen = Rect::new(c.x + 10.0, c.y + 10.0, c.w - 20.0, THEME_PREVIEW_H);
         ui.c.unthemed(|cv| draw_theme_preview(cv, *theme, screen));
@@ -1186,10 +1392,12 @@ fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surface
         let tw = c.w - 24.0 - if on { 20.0 } else { 0.0 };
         ui.c.text(name, Rect::new(tx, ty, tw, 19.0), &TextStyle::body().weight(Weight::Semibold));
         ui.c.text(line, Rect::new(tx, ty + 20.0, c.w - 24.0, 34.0), &TextStyle::footnote().color(palette::TEXT_DIM).wrap().top());
-        if on {
+        if ring > 0.0 {
             let dot = Point::new(c.right() - 20.0, ty + 9.5);
-            ui.c.fill_circle(dot, 8.0, accent);
-            ui.c.icon(Icon::Check, Rect::from_center(dot, 10.0, 10.0), palette::ON_ACCENT);
+            ui.c.with_alpha(ring, |cv| {
+                cv.fill_circle(dot, 8.0, accent);
+                cv.icon(Icon::Check, Rect::from_center(dot, 10.0, 10.0), palette::ON_ACCENT);
+            });
         }
         if resp.clicked {
             picked = Some(*theme);
@@ -1366,6 +1574,64 @@ mod tests {
         assert!(looks(&st).contains(&"Status"));
         st.settings.theme = Theme::Oyen;
         assert!(looks(&st).contains(&"Oyen"));
+    }
+
+    #[test]
+    fn motion_glides_without_overshoot_and_stops() {
+        let mut m = Motion::default();
+        // Asked for the first time, a value starts where it's going: the
+        // window opens complete.
+        m.begin(1.0, false);
+        assert_eq!(m.slide(7, 100.0, SLIDE), 100.0);
+        assert!(!m.moving);
+        // Sent elsewhere, it moves a little every frame at 144 Hz, never
+        // past where it's going, and stops there.
+        let (mut t, mut last, mut frames) = (1.0, 100.0f32, 0);
+        loop {
+            t += 1.0 / 144.0;
+            m.begin(t, false);
+            let x = m.slide(7, 0.0, SLIDE);
+            assert!(x <= last + 1e-4 && x >= 0.0, "frame {frames}: {x} after {last}");
+            last = x;
+            frames += 1;
+            if !m.moving {
+                break;
+            }
+            assert!(frames < 144, "still moving after a second");
+        }
+        assert_eq!(last, 0.0);
+        // About a third of a second, then no more frames.
+        assert!((30..60).contains(&frames), "{frames} frames");
+        m.begin(t + 1.0 / 144.0, false);
+        assert_eq!(m.slide(7, 0.0, SLIDE), 0.0);
+        assert!(!m.moving);
+        // A switch's knob arrives sooner; a hover wash sooner still.
+        let count = |pace: f32| {
+            let mut m = Motion::default();
+            m.begin(1.0, false);
+            m.fade(1, 0.0, pace);
+            let (mut t, mut n) = (1.0, 0);
+            loop {
+                t += 1.0 / 144.0;
+                m.begin(t, false);
+                m.fade(1, 1.0, pace);
+                n += 1;
+                if !m.moving || n > 300 {
+                    return n;
+                }
+            }
+        };
+        assert!(count(WASH) < count(SWITCHING) && count(SWITCHING) <= 48, "wash {} switch {}", count(WASH), count(SWITCHING));
+        // Less motion (or a picture): everything lands at once.
+        m.begin(t + 1.0, true);
+        assert_eq!(m.slide(7, 50.0, SLIDE), 50.0);
+        assert!(!m.moving);
+        // A long pause between frames doesn't jump: a step is at most a 30th of a second.
+        let mut m = Motion::default();
+        m.begin(1.0, false);
+        m.slide(9, 0.0, SLIDE);
+        m.begin(10.0, false);
+        assert!(m.slide(9, 100.0, SLIDE) < 60.0);
     }
 
     #[test]

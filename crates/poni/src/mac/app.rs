@@ -137,6 +137,10 @@ enum Deferred {
 struct SettingsUi {
     view: settings_window::View,
     gfx: Gfx,
+    /// How long its frames took to draw (ms): the last one and the slowest
+    /// (the smoke test reports them).
+    draw_ms: f32,
+    draw_max_ms: f32,
 }
 
 /// Run `f` with the app if it isn't already borrowed (re-entrancy safe), then
@@ -333,6 +337,11 @@ pub fn draw_settings(ctx: &CGContext) {
 /// the window then moves with the drag.
 pub fn settings_input(input: settings_host::Input) -> bool {
     enter(|a| a.settings_input(input)).unwrap_or(false)
+}
+
+/// The Settings window's display link ticked.
+pub fn settings_step() {
+    enter(|a| a.settings_step());
 }
 
 /// The Settings window closed (its button, ⌘W).
@@ -1038,7 +1047,7 @@ impl App {
             }
             None => {
                 let scale = settings_host::create(self.mtm);
-                self.settings_ui = Some(SettingsUi { view: settings_window::View::new(section.unwrap_or(Section::General)), gfx: Gfx::new(scale) });
+                self.settings_ui = Some(SettingsUi { view: settings_window::View::new(section.unwrap_or(Section::General)), gfx: Gfx::new(scale), draw_ms: 0.0, draw_max_ms: 0.0 });
                 // Start at login's switch reads it.
                 self.st.ui.autostart = Some(services::login::status() == Login::On);
                 pinfo!("settings window: open");
@@ -1064,13 +1073,21 @@ impl App {
             card: Rect::new(0.0, 0.0, settings_host::WIDTH as f32, settings_host::HEIGHT as f32),
             own_chrome: false,
             top: settings_host::TITLEBAR,
+            still: settings_host::reduce_motion() || !settings_host::has_frames(),
         };
         let before = ui.view.section;
+        let started = std::time::Instant::now();
         let out = {
             let mut canvas = ui.gfx.canvas(ctx);
             ui.view.draw(&mut canvas, &mut self.st, now, frame, light)
         };
+        ui.draw_ms = started.elapsed().as_secs_f32() * 1000.0;
+        ui.draw_max_ms = ui.draw_max_ms.max(ui.draw_ms);
         let after = ui.view.section;
+        // A switch sliding, a highlight gliding: frames at the screen's rate until it arrives.
+        if out.moving {
+            settings_host::set_frames(true);
+        }
         if out.close {
             self.pending.push(Deferred::CloseSettings);
         }
@@ -1082,6 +1099,16 @@ impl App {
         }
         if !self.st.cmds.is_empty() {
             self.request_frame();
+        }
+    }
+
+    /// The display link's tick: draw the next frame while something glides,
+    /// and stop the frames once it has arrived.
+    fn settings_step(&mut self) {
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.moving) {
+            settings_host::redraw();
+        } else {
+            settings_host::set_frames(false);
         }
     }
 
@@ -1110,6 +1137,10 @@ impl App {
             }
             settings_host::Input::Wheel { x, y, notches } => {
                 v.wheel(Point::new(x, y), notches);
+                true
+            }
+            settings_host::Input::Scroll { x, y, points } => {
+                v.scroll_by(Point::new(x, y), points);
                 true
             }
         };
@@ -4192,7 +4223,9 @@ impl App {
             "settings-window" => {
                 let open = settings_host::is_open() && self.settings_ui.is_some();
                 let at = settings_host::frame_top_left();
-                Some(("settings-window-open", open, format!("window {at:?}, {} mode", if settings_host::is_light() { "light" } else { "dark" })))
+                let ms = self.settings_ui.as_ref().map_or((0.0, 0.0), |s| (s.draw_ms, s.draw_max_ms));
+                let detail = format!("window {at:?}, {} mode, a frame draws in {:.1} ms (slowest {:.1})", if settings_host::is_light() { "light" } else { "dark" }, ms.0, ms.1);
+                Some(("settings-window-open", open, detail))
             }
             "settings-window-light" => Some(("settings-window-light", settings_host::is_light(), format!("section {:?}", self.settings_ui.as_ref().map(|s| s.view.section)))),
             "settings-window-closed" => {

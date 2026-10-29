@@ -468,7 +468,7 @@ fn render_settings(gfx: &mut Gfx, section: crate::settings_window::Section, them
     st.accent = crate::app::theme_accent(theme);
     st.ui.autostart = Some(true);
     let mut view = crate::settings_window::View::new(section);
-    let frame = crate::settings_window::Frame { card: Rect::new(0.0, 0.0, w, h), own_chrome: false, top: TITLEBAR };
+    let frame = crate::settings_window::Frame { card: Rect::new(0.0, 0.0, w, h), own_chrome: false, top: TITLEBAR, still: true };
     gfx.set_look(poni_core::look::glass(light));
     {
         let mut c = gfx.canvas(bmp.ctx());
