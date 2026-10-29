@@ -2581,12 +2581,14 @@ impl SelfTest {
                 }
             }
             Phase::Window { k } => {
-                // Each of the Settings window's sections, as a picture.
-                let list = crate::settings_window::sections(&app.st);
+                // Each of the Settings window's sections, as a picture: dark,
+                // then General and Appearance light.
+                let mut list: Vec<_> = crate::settings_window::sections(&app.st).into_iter().map(|s| (s, false)).collect();
+                list.extend([(crate::settings_window::Section::General, true), (crate::settings_window::Section::Appearance, true)]);
                 match list.get(k) {
-                    Some(&section) => {
-                        let (w, h, px) = app.selftest_settings_shot(section);
-                        let name = format!("settings-window-{}", section.key());
+                    Some(&(section, light)) => {
+                        let (w, h, px) = app.selftest_settings_shot(section, light);
+                        let name = format!("settings-window-{}{}", section.key(), if light { "-light" } else { "" });
                         let sized = w > 0 && h > 0 && px.len() == (w as usize) * (h as usize) * 4;
                         // The card is opaque where the sidebar meets the content.
                         let solid = sized && {

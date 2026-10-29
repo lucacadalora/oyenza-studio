@@ -14,7 +14,8 @@ use crate::paths;
 use crate::pill;
 use crate::services::notifications::NotifyEvent;
 use crate::services::{self, Services};
-use crate::settings_window::{self, Section, SettingsWindow};
+use crate::settings_host::{self, SettingsWindow};
+use crate::settings_window::Section;
 use crate::state::{
     AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, NotifyAccess, OyenzaLink, PairedPhone, PhoneAsk,
     PhoneDrop, PhoneTransfer, PhoneView, PrayerState,
@@ -158,7 +159,7 @@ pub fn main_entry() -> i32 {
 
 fn run(selftest_dir: Option<String>) -> Result<i32> {
     window::register_classes(island_wndproc, helper_wndproc)?;
-    if let Err(e) = settings_window::register(settings_wndproc) {
+    if let Err(e) = settings_host::register(settings_wndproc) {
         pwarn!("settings window: class not registered ({e})");
     }
     let hwnd = window::create_island_window()?;
@@ -1354,7 +1355,7 @@ impl App {
         match self.settings_win.as_mut() {
             Some(w) => {
                 if let Some(s) = section {
-                    w.show_section(s);
+                    w.view.show_section(s);
                 }
                 w.raise();
             }
@@ -1371,7 +1372,7 @@ impl App {
                 }
             },
         }
-        if self.settings_win.as_ref().is_some_and(|w| w.section == Section::Addons) {
+        if self.settings_win.as_ref().is_some_and(|w| w.view.section == Section::Addons) {
             self.oyenza(OyenzaCmd::CheckPro);
         }
         self.paint_settings(deferred);
@@ -1391,9 +1392,9 @@ impl App {
             self.st.now = self.st.now.max(clock::mono());
             let now = self.st.now;
             let Some(w) = self.settings_win.as_mut() else { return };
-            let before = w.section;
+            let before = w.view.section;
             let out = w.paint(&mut self.st, now, false);
-            let after = w.section;
+            let after = w.view.section;
             if out.close {
                 self.close_settings_window();
                 return;
@@ -1407,7 +1408,7 @@ impl App {
                 self.run_commands(deferred);
                 self.request_frame();
             }
-            let dirty = self.settings_win.as_ref().is_some_and(|w| w.dirty);
+            let dirty = self.settings_win.as_ref().is_some_and(|w| w.view.dirty);
             if !(out.again || ran || dirty) {
                 return;
             }
@@ -1415,7 +1416,7 @@ impl App {
     }
 
     fn paint_settings_if_dirty(&mut self, deferred: &mut Vec<Deferred>) {
-        if self.settings_win.as_ref().is_some_and(|w| w.dirty) {
+        if self.settings_win.as_ref().is_some_and(|w| w.view.dirty) {
             self.paint_settings(deferred);
         }
     }
@@ -1450,29 +1451,21 @@ impl App {
                     }
                 }
                 // Drawn again only when what's under the pointer changes.
-                let was = w.input.mouse.and_then(|m| w.hit_at(m)).map(|h| h.id);
-                let is = w.hit_at(p).map(|h| h.id);
-                let entered = w.input.mouse.is_none();
-                w.input.mouse = Some(p);
-                if was != is || entered || w.input.down {
+                if w.view.hover(p) {
                     self.paint_settings(deferred);
                 }
                 Some(LRESULT(0))
             }
             WM_MOUSELEAVE => {
                 w.tracking = false;
-                w.input.mouse = None;
+                w.view.leave();
                 self.paint_settings(deferred);
                 Some(LRESULT(0))
             }
             WM_LBUTTONDOWN => {
                 let (x, y) = xy(lp);
                 let p = w.mouse_dip(x, y);
-                w.input.mouse = Some(p);
-                w.input.down = true;
-                w.input.just_pressed = true;
-                w.input.press_pos = Some(p);
-                w.input.pressed_id = w.hit_at(p).map(|h| h.id);
+                w.view.press(p);
                 unsafe {
                     SetCapture(hwnd);
                 }
@@ -1482,17 +1475,7 @@ impl App {
             WM_LBUTTONUP => {
                 let (x, y) = xy(lp);
                 let p = w.mouse_dip(x, y);
-                w.input.mouse = Some(p);
-                if let (Some(pid), Some(h)) = (w.input.pressed_id, w.hit_at(p).map(|h| h.id)) {
-                    if pid == h {
-                        w.input.clicked = Some((h, MouseButton::Left));
-                    }
-                }
-                if w.input.down {
-                    w.input.released = w.input.pressed_id.map(|id| (id, p));
-                }
-                w.input.down = false;
-                w.input.pressed_id = None;
+                w.view.release(p);
                 unsafe {
                     let _ = ReleaseCapture();
                 }
@@ -1502,13 +1485,13 @@ impl App {
             WM_MOUSEWHEEL => {
                 let delta = ((wp.0 >> 16) & 0xffff) as u16 as i16 as f32 / WHEEL_DELTA as f32;
                 let (x, y) = xy(lp);
-                w.input.mouse = Some(w.mouse_dip(x - w.at.0, y - w.at.1));
-                w.input.wheel += delta;
+                let p = w.mouse_dip(x - w.at.0, y - w.at.1);
+                w.view.wheel(p, delta);
                 self.paint_settings(deferred);
                 Some(LRESULT(0))
             }
             WM_SETCURSOR if (lp.0 & 0xffff) as u32 == HTCLIENT => {
-                let kind = w.input.mouse.map_or(CursorKind::Arrow, |p| w.cursor_at(p));
+                let kind = w.view.input.mouse.map_or(CursorKind::Arrow, |p| w.view.cursor_at(p));
                 unsafe {
                     let id = match kind {
                         CursorKind::Arrow => IDC_ARROW,
@@ -1520,6 +1503,12 @@ impl App {
                     }
                 }
                 Some(LRESULT(1))
+            }
+            // Windows switched between light and dark: the window follows.
+            WM_SETTINGCHANGE => {
+                w.refresh_mode();
+                self.paint_settings(deferred);
+                None
             }
             WM_KEYDOWN => {
                 let ctrl = unsafe { GetKeyState(VK_CONTROL.0 as i32) } < 0;
@@ -2124,7 +2113,7 @@ impl App {
             self.layout_surface();
         }
         if let Some(w) = self.settings_win.as_mut() {
-            w.dirty = true;
+            w.view.dirty = true;
         }
         // System's readings at rest: its history switch, while System is on.
         let history = self.st.settings.system_history_on();
@@ -2237,7 +2226,7 @@ impl App {
             AppEvent::Autostart(_) | AppEvent::Update(_) | AppEvent::Oyenza(_) | AppEvent::Addon { .. } | AppEvent::Usage(_) | AppEvent::Located(_) | AppEvent::Notify(_)
         );
         if let Some(w) = self.settings_win.as_mut().filter(|_| shown) {
-            w.dirty = true;
+            w.view.dirty = true;
         }
         match ev {
             AppEvent::Backdrop => {
@@ -5115,9 +5104,9 @@ impl App {
         self.settings_win.is_some()
     }
 
-    /// The Settings window on `section`, opened if it isn't: its pixels
-    /// (premultiplied BGRA) and their size.
-    pub fn selftest_settings_shot(&mut self, section: Section) -> (i32, i32, Vec<u8>) {
+    /// The Settings window on `section`, light or dark, opened if it isn't:
+    /// its pixels (premultiplied BGRA) and their size.
+    pub fn selftest_settings_shot(&mut self, section: Section, light: bool) -> (i32, i32, Vec<u8>) {
         let mut deferred = Vec::new();
         if self.settings_win.is_none() {
             self.open_settings_window(Some(section), &mut deferred);
@@ -5125,8 +5114,9 @@ impl App {
         self.st.now = self.st.now.max(clock::mono());
         let now = self.st.now;
         let Some(w) = self.settings_win.as_mut() else { return (0, 0, Vec::new()) };
-        w.show_section(section);
-        w.input.mouse = None;
+        w.view.show_section(section);
+        w.view.input.mouse = None;
+        w.set_light(light);
         let _ = w.paint(&mut self.st, now, true);
         w.take_capture()
     }
@@ -5142,7 +5132,7 @@ impl App {
 
     /// Where its card is in its window (DIPs).
     pub fn selftest_settings_card(&self) -> Rect {
-        self.settings_win.as_ref().map_or(settings_window::card_rect(settings_window::CARD_H), |w| w.card())
+        self.settings_win.as_ref().map_or(settings_host::card_rect(crate::settings_window::CARD_H), |w| w.card())
     }
 
     pub fn selftest_settled(&self) -> bool {

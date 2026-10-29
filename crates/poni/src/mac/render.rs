@@ -403,6 +403,19 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         }
         next = first + k + 1;
     }
+    // The Settings window's sections, dark, and two of them light.
+    for (k, (section, light)) in settings_shots().into_iter().enumerate() {
+        let mode = if light { "-light" } else { "" };
+        let path = out.join(format!("{:02}-settings-window-{}{mode}{suffix}.png", next + k, section.key()));
+        match render_settings(&mut gfx, section, theme, light, &path) {
+            Ok(()) => println!("render: {}", path.display()),
+            Err(e) => {
+                eprintln!("render: {}: {e}", path.display());
+                failed += 1;
+            }
+        }
+    }
+    let next = next + settings_shots().len();
     // Around a notch, last: the Eyes look's hide and seek with the camera.
     if let Some(n) = notch {
         let path = out.join(format!("{next:02}-peek-frames{suffix}.png"));
@@ -420,6 +433,43 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     } else {
         0
     }
+}
+
+/// The Settings window's pictures: every section dark, General and
+/// Appearance light too.
+fn settings_shots() -> Vec<(crate::settings_window::Section, bool)> {
+    use crate::settings_window::Section;
+    let mut v: Vec<_> = Section::ALL.into_iter().filter(|s| *s != Section::Prayer).map(|s| (s, false)).collect();
+    v.extend([(Section::General, true), (Section::Appearance, true)]);
+    v
+}
+
+/// One section of the Settings window as the Mac shows it, light or dark,
+/// with the system's window buttons where macOS puts them (the real window
+/// draws those itself; the smoke test pictures that one).
+fn render_settings(gfx: &mut Gfx, section: crate::settings_window::Section, theme: Theme, light: bool, path: &Path) -> Result<(), String> {
+    use crate::settings_host::{HEIGHT, TITLEBAR, WIDTH};
+    let (w, h) = (WIDTH as f32, HEIGHT as f32);
+    let (w_px, h_px) = ((w * SCALE) as usize, (h * SCALE) as usize);
+    let bmp = Bitmap::new(w_px, h_px, SCALE).ok_or("no bitmap")?;
+    let mut st = AppState::new(Settings { theme, ..Settings::default() }, Store::default());
+    st.accent = crate::app::theme_accent(theme);
+    st.ui.autostart = Some(true);
+    let mut view = crate::settings_window::View::new(section);
+    let frame = crate::settings_window::Frame { card: Rect::new(0.0, 0.0, w, h), own_chrome: false, top: TITLEBAR };
+    gfx.set_look(poni_core::look::glass(light));
+    {
+        let mut c = gfx.canvas(bmp.ctx());
+        let _ = view.draw(&mut c, &mut st, NOW_MONO, frame, light);
+        // Close, minimise and zoom, 12 points across and 20 apart from 20 in.
+        c.unthemed(|c| {
+            for (i, rgb) in [0xFF5F57u32, 0xFEBC2E, 0x28C840].into_iter().enumerate() {
+                c.fill_circle(Point::new(20.0 + 6.0 + i as f32 * 20.0, TITLEBAR / 2.0), 6.0, Color::hex(rgb));
+            }
+        });
+    }
+    let px = bmp.pixels();
+    crate::png::save_pbgra(path, w_px as u32, h_px as u32, &px)
 }
 
 /// The island opening from rest onto the Today page (left column) and

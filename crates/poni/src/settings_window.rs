@@ -1,46 +1,39 @@
-//! The Settings window: every setting Oyenza Studio has, in a window of its
-//! own, with a sidebar of sections (General, Appearance, Island, Music and
-//! lyrics, Pop-ups, Tabs, Add-ons, Focus, Prayer, AI, Oyenza, About). The
-//! island's gear and the tray menu's Settings… open it.
-//!
-//! A borderless layered window drawn by a renderer of its own (`Gfx`, always
-//! the software one: it draws only when something in it changes), so its
-//! rounded card and soft shadow sit on the desktop like the island does. It
-//! exists only while it is open: closing it drops the window, its renderer
-//! and its pixels, so nothing of it stays at rest.
+//! The Settings window's content: every setting Oyenza Studio has, in a
+//! sidebar of sections (General, Appearance, Island, Music and lyrics,
+//! Pop-ups, Tabs, Add-ons, Focus, Prayer, AI, Oyenza, About). The island's
+//! gear and the menu's Settings… open it, in a window of its own: on Windows
+//! a borderless one (`settings_host.rs`), on the Mac a real window with the
+//! system's title bar (`mac/settings_host.rs`). Both draw this [`View`].
 //!
 //! It draws with the island's widgets ([`Ui`], the Settings page's switch
 //! and picker) on the same [`AppState`], and changes settings the way the
 //! island's pages do: `Command::SaveSettings` after a change, which the app
-//! applies as a tray change is. Each section is a list of [`Block`]s, most
+//! applies as a menu change is. Each section is a list of [`Block`]s, most
 //! of them groups of rows ([`Item`]: a label, a dim line under it, and a
 //! switch, a picker, a stepper or a button), laid out from the top; a click
 //! comes back as an [`Act`] on the row's [`Key`] ([`apply`]).
+//!
+//! It follows the system's light or dark mode: the window's own surfaces in
+//! [`Surfaces`], and everything on them through the Glass look of that mode,
+//! which turns the island's white ink dark on the light window.
 
 use crate::commands::Command;
-use crate::gfx::{Gfx, TextStyle, Weight};
+use crate::gfx::{Canvas, TextStyle, Weight};
 use crate::icons::Icon;
 use crate::pages::settings::{draw_switch, picker, picker_width};
 use crate::pages::PageKind;
 use crate::pill::status;
 use crate::state::AppState;
-use crate::ui::{wid, wid_n, CursorKind, Hit, Input, PillStyle, Ui, PILL_GAP, PILL_SMALL};
+use crate::ui::{wid, wid_n, CursorKind, Hit, Input, MouseButton, PillStyle, Ui, PILL_GAP, PILL_SMALL};
 use crate::version::VERSION;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::settings::{IdleStyle, MonitorChoice, PrayerSound, Theme};
-use windows::core::{w, Result, PCWSTR};
-use windows::Win32::Foundation::{HWND, RECT};
-use windows::Win32::System::LibraryLoader::GetModuleHandleW;
-use windows::Win32::UI::WindowsAndMessaging::*;
 
-pub const CLASS: PCWSTR = w!("Studio.Settings");
-
-/// The card, in DIPs, and the room around it for its shadow. On a short
-/// screen it is less tall (down to CARD_H_MIN) and its content scrolls.
+/// The card, in DIPs. Windows' window gives it room for its shadow and is
+/// less tall on a short screen (the content scrolls).
 pub const CARD_W: f32 = 840.0;
 pub const CARD_H: f32 = 580.0;
-const CARD_H_MIN: f32 = 440.0;
-const MARGIN: f32 = 24.0;
+/// Its corners when the window draws its own (Windows).
 const RADIUS: f32 = 14.0;
 const SIDEBAR_W: f32 = 220.0;
 /// The content column: its left and right padding, and where it starts.
@@ -72,11 +65,42 @@ const THEME_GAP: f32 = 12.0;
 /// A wheel notch scrolls this far.
 const WHEEL_STEP: f32 = 48.0;
 
-/// Colours of the window itself (the island's palette draws on them).
-const GROUND: Color = Color::hex(0x1C1C1E);
-const SIDEBAR: Color = Color::hex(0x242426);
-const GROUP: Color = Color::hex(0x2A2A2D);
-const RULE: Color = Color::white(0.07);
+/// The window's own surfaces, painted as they are; text and widgets on
+/// them go through the look of the same mode.
+#[derive(Clone, Copy, Debug)]
+pub struct Surfaces {
+    pub ground: Color,
+    sidebar: Color,
+    group: Color,
+    group_hover: Color,
+    group_press: Color,
+}
+
+const DARK: Surfaces = Surfaces {
+    ground: Color::hex(0x1C1C1E),
+    sidebar: Color::hex(0x242426),
+    group: Color::hex(0x2C2C2E),
+    group_hover: Color::hex(0x333336),
+    group_press: Color::hex(0x3A3A3D),
+};
+const LIGHT: Surfaces = Surfaces {
+    ground: Color::hex(0xF2F2F7),
+    sidebar: Color::hex(0xE6E6EB),
+    group: Color::hex(0xFFFFFF),
+    group_hover: Color::hex(0xF7F7F9),
+    group_press: Color::hex(0xEDEDF1),
+};
+
+pub fn surfaces(light: bool) -> Surfaces {
+    if light {
+        LIGHT
+    } else {
+        DARK
+    }
+}
+
+/// Lines and edges, in the look's ink.
+const RULE: Color = Color::white(0.08);
 const EDGE: Color = Color::white(0.10);
 /// Behind the theme cards' little screens.
 const WALLPAPER: Color = Color::hex(0x3B4A7A);
@@ -311,6 +335,12 @@ const THEMES: [(Theme, &str, &str); 4] = [
     (Theme::Glass, "Glass", "Frosted glass over your screen"),
     (Theme::Pill, "Pill", "Floats just below the top edge"),
 ];
+/// Start with Windows, or at login on a Mac (its menu bar says so).
+const AUTOSTART: (&str, &str) = if cfg!(target_os = "macos") {
+    ("Start at login", "Opens Oyenza Studio when you log in")
+} else {
+    ("Start with Windows", "Opens Oyenza Studio when you sign in")
+};
 const WIDTH_STEP: f32 = 20.0;
 const OFFSET_STEP: i32 = 100;
 
@@ -361,7 +391,7 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
     match section {
         Section::General => {
             let mut rows = vec![
-                item(Key::Autostart, "Start with Windows", Some("Opens Oyenza Studio when you sign in"), Ctl::Switch(st.ui.autostart)),
+                item(Key::Autostart, AUTOSTART.0, Some(AUTOSTART.1), Ctl::Switch(st.ui.autostart)),
                 switch(Key::Sounds, "Sounds", Some("A soft sound for timers, drops and reminders"), s.sounds),
                 switch(Key::Clock24, "24-hour clock", None, s.use_24h),
             ];
@@ -382,25 +412,29 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
                 ),
             ]
         }
-        Section::Island => vec![
-            Block::Group(
-                Some("Opening and closing"),
-                vec![
-                    item(Key::HoverDelay, "Opens after", Some("How long the pointer rests on the island first"), Ctl::Choice(names(&HOVER), nearest(&HOVER, s.hover_delay_ms))),
-                    item(Key::CloseDelay, "Closes", Some("Once the pointer leaves the open island"), Ctl::Choice(names(&CLOSE), nearest(&CLOSE, s.collapse_delay_ms))),
-                    item(Key::Width, "Width when open", Some("Wider gives the pages more room"), Ctl::Stepper(format!("{:.0}", s.expanded_width))),
-                ],
-            ),
-            Block::Group(
-                Some("Where it shows"),
-                vec![
-                    item(Key::Display, "Display", Some("The screen the island hangs on"), Ctl::Choice(names(&DISPLAYS), chosen(&DISPLAYS, s.monitor))),
-                    item(Key::Fullscreen, "In full-screen apps", Some("Games and videos that fill the screen"), Ctl::Choice(names(&FULLSCREEN), chosen(&FULLSCREEN, s.hide_in_fullscreen))),
-                    switch(Key::GameStats, "Show FPS, GPU and CPU over games", Some("Keeps the island on top of full-screen apps"), s.game_stats),
-                    switch(Key::GamePeek, "Only for a few seconds", Some("Then the island hides and adds no delay to the game"), s.game_peek),
-                ],
-            ),
-        ],
+        Section::Island => {
+            // The Mac's island goes where the notch is; the game readout is Windows'.
+            let mut shows = Vec::new();
+            if cfg!(windows) {
+                shows.push(item(Key::Display, "Display", Some("The screen the island hangs on"), Ctl::Choice(names(&DISPLAYS), chosen(&DISPLAYS, s.monitor))));
+            }
+            shows.push(item(Key::Fullscreen, "In full-screen apps", Some("Games and videos that fill the screen"), Ctl::Choice(names(&FULLSCREEN), chosen(&FULLSCREEN, s.hide_in_fullscreen))));
+            if cfg!(windows) {
+                shows.push(switch(Key::GameStats, "Show FPS, GPU and CPU over games", Some("Keeps the island on top of full-screen apps"), s.game_stats));
+                shows.push(switch(Key::GamePeek, "Only for a few seconds", Some("Then the island hides and adds no delay to the game"), s.game_peek));
+            }
+            vec![
+                Block::Group(
+                    Some("Opening and closing"),
+                    vec![
+                        item(Key::HoverDelay, "Opens after", Some("How long the pointer rests on the island first"), Ctl::Choice(names(&HOVER), nearest(&HOVER, s.hover_delay_ms))),
+                        item(Key::CloseDelay, "Closes", Some("Once the pointer leaves the open island"), Ctl::Choice(names(&CLOSE), nearest(&CLOSE, s.collapse_delay_ms))),
+                        item(Key::Width, "Width when open", Some("Wider gives the pages more room"), Ctl::Stepper(format!("{:.0}", s.expanded_width))),
+                    ],
+                ),
+                Block::Group(Some("Where it shows"), shows),
+            ]
+        }
         Section::Music => vec![
             Block::Group(
                 Some("Lyrics"),
@@ -495,7 +529,7 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
             Block::Group(
                 Some("Files"),
                 vec![
-                    item(Key::SettingsFile, "Settings file", Some("settings.json, for what this window doesn't have"), Ctl::Button("Open")),
+                    item(Key::SettingsFile, "Settings file", Some("settings.json, the same settings as a file"), Ctl::Button("Open")),
                     item(Key::DataFolder, "Data folder", Some("Tasks, the Shelf and your Focus history"), Ctl::Button("Open")),
                 ],
             ),
@@ -613,7 +647,19 @@ pub fn apply(st: &mut AppState, key: Key, act: Act) {
     st.cmd(Command::SaveSettings);
 }
 
-// ---------------------------------------------------------------- the window
+// ---------------------------------------------------------------- the view
+
+/// Where the content goes in the window that shows it.
+#[derive(Clone, Copy, Debug)]
+pub struct Frame {
+    /// The card: what the window shows of the content (DIPs).
+    pub card: Rect,
+    /// The window draws its own shadow, edge and close button (Windows' is
+    /// borderless); the Mac's window has the system's.
+    pub own_chrome: bool,
+    /// Room at the top of the sidebar for the Mac's window buttons.
+    pub top: f32,
+}
 
 /// What a frame of the window asked for.
 #[derive(Clone, Copy, Debug, Default)]
@@ -625,132 +671,21 @@ pub struct Painted {
     pub close: bool,
 }
 
-/// The open Settings window.
-pub struct SettingsWindow {
-    pub hwnd: HWND,
-    gfx: Gfx,
+/// The content and its input, whichever window shows it.
+pub struct View {
     pub input: Input,
     hits: Vec<Hit>,
     pub section: Section,
     /// How far the content is scrolled (DIPs) and how tall it was last drawn.
     scroll: f32,
     content_h: f32,
-    /// Window position (screen pixels) and the DPI it draws at.
-    pub at: (i32, i32),
-    dpi: u32,
-    /// The card's height (DIPs), from the screen it opened on.
-    card_h: f32,
-    /// The pointer is over the window's client part (TrackMouseEvent armed).
-    pub tracking: bool,
     /// Something it shows changed: draw it again.
     pub dirty: bool,
 }
 
-impl Drop for SettingsWindow {
-    fn drop(&mut self) {
-        unsafe {
-            let _ = DestroyWindow(self.hwnd);
-        }
-    }
-}
-
-/// Register the window class (with the app's icon, for the taskbar).
-pub fn register(wndproc: crate::window::WndProc) -> Result<()> {
-    unsafe {
-        let hinst = GetModuleHandleW(None)?;
-        let icon = LoadIconW(hinst, PCWSTR(1 as _)).unwrap_or_default();
-        let wc = WNDCLASSEXW {
-            cbSize: std::mem::size_of::<WNDCLASSEXW>() as u32,
-            lpfnWndProc: Some(wndproc),
-            hInstance: hinst.into(),
-            hIcon: icon,
-            hIconSm: icon,
-            hCursor: LoadCursorW(None, IDC_ARROW)?,
-            lpszClassName: CLASS,
-            ..Default::default()
-        };
-        if RegisterClassExW(&wc) == 0 {
-            return Err(windows::core::Error::from_win32());
-        }
-    }
-    Ok(())
-}
-
-/// The window's size in pixels at `scale`, for a card `card_h` tall.
-fn surface_px(scale: f32, card_h: f32) -> (i32, i32) {
-    (((CARD_W + 2.0 * MARGIN) * scale).ceil() as i32, ((card_h + 2.0 * MARGIN) * scale).ceil() as i32)
-}
-
-/// The card inside the window, in DIPs.
-pub fn card_rect(card_h: f32) -> Rect {
-    Rect::new(MARGIN, MARGIN, CARD_W, card_h)
-}
-
-/// How tall the card can be on a work area `work_h` pixels tall.
-fn card_h_for(work_h: i32, scale: f32) -> f32 {
-    (work_h as f32 / scale - 2.0 * MARGIN - 16.0).clamp(CARD_H_MIN, CARD_H).floor()
-}
-
-impl SettingsWindow {
-    /// Make the window, centred in `work` (a monitor's work area, pixels)
-    /// at `dpi`. It shows with its first frame.
-    pub fn new(work: RECT, dpi: u32, section: Section) -> Result<Self> {
-        let scale = dpi as f32 / 96.0;
-        let card_h = card_h_for(work.bottom - work.top, scale);
-        let (w, h) = surface_px(scale, card_h);
-        let x = work.left + ((work.right - work.left) - w) / 2;
-        let y = work.top + (((work.bottom - work.top) - h) / 2).max(0);
-        let hwnd = unsafe {
-            CreateWindowExW(
-                WS_EX_LAYERED | WS_EX_APPWINDOW,
-                CLASS,
-                w!("Oyenza Studio Settings"),
-                WS_POPUP | WS_SYSMENU | WS_MINIMIZEBOX,
-                x,
-                y,
-                w,
-                h,
-                None,
-                None,
-                GetModuleHandleW(None)?,
-                None,
-            )?
-        };
-        let gfx = match Gfx::new(dpi as f32, hwnd) {
-            Ok(g) => g.software_only(),
-            Err(e) => {
-                unsafe {
-                    let _ = DestroyWindow(hwnd);
-                }
-                return Err(e);
-            }
-        };
-        Ok(SettingsWindow {
-            hwnd,
-            gfx,
-            input: Input::default(),
-            hits: Vec::new(),
-            section,
-            scroll: 0.0,
-            content_h: 0.0,
-            at: (x, y),
-            dpi,
-            card_h,
-            tracking: false,
-            dirty: true,
-        })
-    }
-
-    pub fn scale(&self) -> f32 {
-        self.dpi as f32 / 96.0
-    }
-
-    pub fn set_dpi(&mut self, dpi: u32) {
-        if dpi != self.dpi {
-            self.dpi = dpi;
-            self.gfx.set_dpi(dpi as f32);
-            self.dirty = true;
-        }
+impl View {
+    pub fn new(section: Section) -> Self {
+        View { input: Input::default(), hits: Vec::new(), section, scroll: 0.0, content_h: 0.0, dirty: true }
     }
 
     pub fn show_section(&mut self, section: Section) {
@@ -767,103 +702,81 @@ impl SettingsWindow {
         self.hits.iter().rev().find(|h| h.rect.contains(p)).copied()
     }
 
-    pub fn mouse_dip(&self, x: i32, y: i32) -> Point {
-        let s = self.scale();
-        Point::new(x as f32 / s, y as f32 / s)
-    }
-
-    /// The card inside the window, in DIPs.
-    pub fn card(&self) -> Rect {
-        card_rect(self.card_h)
-    }
-
-    /// Where the window can be dragged from: inside the card, where no
-    /// widget is.
-    pub fn drags_at(&self, p: Point) -> bool {
-        self.card().contains(p) && self.hit_at(p).is_none()
-    }
-
     /// The pointer's cursor over `p`.
     pub fn cursor_at(&self, p: Point) -> CursorKind {
         self.hit_at(p).map_or(CursorKind::Arrow, |h| h.cursor)
     }
 
-    /// Draw the window for `st` (and show it, the first time). `capture`:
-    /// keep this frame's pixels for the self-test.
-    pub fn paint(&mut self, st: &mut AppState, now: f64, capture: bool) -> Painted {
+    /// The pointer moved to `p`. True when what's under it changed (or a
+    /// press is held): the window is drawn again only then.
+    pub fn hover(&mut self, p: Point) -> bool {
+        let was = self.input.mouse.and_then(|m| self.hit_at(m)).map(|h| h.id);
+        let entered = self.input.mouse.is_none();
+        self.input.mouse = Some(p);
+        entered || self.input.down || was != self.hit_at(p).map(|h| h.id)
+    }
+
+    /// The pointer left the window.
+    pub fn leave(&mut self) {
+        self.input.mouse = None;
+    }
+
+    pub fn press(&mut self, p: Point) {
+        self.input.mouse = Some(p);
+        self.input.down = true;
+        self.input.just_pressed = true;
+        self.input.press_pos = Some(p);
+        self.input.pressed_id = self.hit_at(p).map(|h| h.id);
+    }
+
+    /// The button came up at `p`: a click when it's still on what it went
+    /// down on (it shows on the next frame).
+    pub fn release(&mut self, p: Point) {
+        self.input.mouse = Some(p);
+        if let (Some(pid), Some(h)) = (self.input.pressed_id, self.hit_at(p).map(|h| h.id)) {
+            if pid == h {
+                self.input.clicked = Some((h, MouseButton::Left));
+            }
+        }
+        if self.input.down {
+            self.input.released = self.input.pressed_id.map(|id| (id, p));
+        }
+        self.input.down = false;
+        self.input.pressed_id = None;
+    }
+
+    pub fn wheel(&mut self, p: Point, notches: f32) {
+        self.input.mouse = Some(p);
+        self.input.wheel += notches;
+    }
+
+    /// Draw the window on `c` for `st`, light or dark.
+    pub fn draw(&mut self, c: &mut Canvas, st: &mut AppState, now: f64, frame: Frame, light: bool) -> Painted {
         self.dirty = false;
-        let mut out = Painted::default();
-        let (w, h) = surface_px(self.scale(), self.card_h);
-        if let Err(e) = self.gfx.set_surface(w, h) {
-            crate::pwarn!("settings window: surface failed ({e})");
-            return out;
-        }
-        self.gfx.set_look(&poni_core::look::CLASSIC);
-        let full = RECT { left: 0, top: 0, right: w, bottom: h };
-        if capture {
-            self.gfx.request_capture(full);
-        }
-        let mut hits = std::mem::take(&mut self.hits);
-        hits.clear();
+        // A section that went away (Prayer times switched off) is General.
         if !self.section.shown(st) {
             self.section = Section::General;
             self.scroll = 0.0;
         }
-        let card_h = self.card_h;
-        let SettingsWindow { gfx, input, section, scroll, content_h, .. } = self;
-        let began = match gfx.begin(full) {
-            Ok(mut canvas) => {
-                let mut ui = Ui::new(&mut canvas, input, &mut hits, now);
-                match draw(&mut ui, st, *section, card_h, scroll, content_h) {
-                    Some(Nav::Section(s)) => {
-                        *section = s;
-                        *scroll = 0.0;
-                        out.again = true;
-                    }
-                    Some(Nav::Close) => out.close = true,
-                    None => {}
+        let mut out = Painted::default();
+        let mut hits = std::mem::take(&mut self.hits);
+        hits.clear();
+        {
+            let mut ui = Ui::new(c, &mut self.input, &mut hits, now);
+            match draw(&mut ui, st, self.section, frame, light, &mut self.scroll, &mut self.content_h) {
+                Some(Nav::Section(s)) => {
+                    self.section = s;
+                    self.scroll = 0.0;
+                    out.again = true;
                 }
-                out.again |= ui.repaint_requested();
-                true
+                Some(Nav::Close) => out.close = true,
+                None => {}
             }
-            Err(e) => {
-                crate::pwarn!("settings window: begin frame failed ({e})");
-                false
-            }
-        };
-        if began {
-            if let Err(e) = gfx.end() {
-                crate::pwarn!("settings window: EndDraw failed ({e})");
-            }
+            out.again |= ui.repaint_requested();
         }
         self.hits = hits;
         self.input.end_frame();
-        if let Err(e) = self.gfx.present(self.at.0, self.at.1) {
-            crate::pwarn!("settings window: present failed ({e})");
-        }
-        unsafe {
-            if !IsWindowVisible(self.hwnd).as_bool() {
-                let _ = ShowWindow(self.hwnd, SW_SHOW);
-                let _ = SetForegroundWindow(self.hwnd);
-            }
-        }
         out
-    }
-
-    /// The last frame's pixels (premultiplied BGRA) and its size.
-    pub fn take_capture(&mut self) -> (i32, i32, Vec<u8>) {
-        let (w, h) = surface_px(self.scale(), self.card_h);
-        (w, h, self.gfx.take_capture())
-    }
-
-    /// Bring the window forward (it was open already).
-    pub fn raise(&self) {
-        unsafe {
-            if IsIconic(self.hwnd).as_bool() {
-                let _ = ShowWindow(self.hwnd, SW_RESTORE);
-            }
-            let _ = SetForegroundWindow(self.hwnd);
-        }
     }
 }
 
@@ -876,25 +789,35 @@ enum Nav {
     Close,
 }
 
-/// The whole window: shadow, card, sidebar and the section. Returns the
+/// The whole window: the card, the sidebar and the section. Returns the
 /// section picked in the sidebar, or the close button.
-fn draw(ui: &mut Ui, st: &mut AppState, section: Section, card_h: f32, scroll: &mut f32, content_h: &mut f32) -> Option<Nav> {
-    let card = card_rect(card_h);
-    ui.c.rrect_shadow(card.offset(0.0, 4.0), RADIUS, Color::black(0.55), &crate::pill::shape::SHADOW_RAMP);
-    ui.c.fill_rrect(card, RADIUS, GROUND);
+fn draw(ui: &mut Ui, st: &mut AppState, section: Section, frame: Frame, light: bool, scroll: &mut f32, content_h: &mut f32) -> Option<Nav> {
+    let card = frame.card;
+    let sf = surfaces(light);
+    // Windows' borderless window: its own shadow and rounded corners.
+    let radius = if frame.own_chrome { RADIUS } else { 0.0 };
+    ui.c.unthemed(|c| {
+        if frame.own_chrome {
+            let shadow = Color::black(if light { 0.30 } else { 0.55 });
+            c.rrect_shadow(card.offset(0.0, 4.0), RADIUS, shadow, &crate::pill::shape::SHADOW_RAMP);
+        }
+        c.fill_rrect(card, radius, sf.ground);
+    });
     // The sidebar: the card's left part in its own shade.
     let side = Rect::new(card.x, card.y, SIDEBAR_W, card.h);
     ui.c.clip(side);
-    ui.c.fill_rrect(Rect::new(side.x, side.y, side.w + RADIUS, side.h), RADIUS, SIDEBAR);
+    ui.c.unthemed(|c| c.fill_rrect(Rect::new(side.x, side.y, side.w + RADIUS, side.h), radius, sf.sidebar));
     ui.c.unclip();
     let px = 1.0 / ui.c.scale().max(0.5);
     ui.c.fill_rect(Rect::new(side.right() - px, side.y, px, side.h), RULE);
-    ui.c.stroke_rrect(card.inset(px / 2.0, px / 2.0), RADIUS, EDGE, px);
+    if frame.own_chrome {
+        ui.c.stroke_rrect(card.inset(px / 2.0, px / 2.0), RADIUS, EDGE, px);
+    }
 
-    let picked = draw_sidebar(ui, st, side, section);
+    let picked = draw_sidebar(ui, st, side, section, frame.top);
     let content = Rect::new(side.right() + PAD, card.y, card.right() - side.right() - 2.0 * PAD, card.h);
     ui.c.text(section.title(), Rect::new(content.x, card.y + TITLE_Y, content.w - 40.0, TITLE_H), &TextStyle::new(22.0).weight(Weight::Bold));
-    let close = draw_close(ui, card);
+    let close = frame.own_chrome && draw_close(ui, card);
 
     let view = Rect::new(content.x - PAD / 2.0, card.y + CONTENT_Y, content.w + PAD, card.bottom() - CONTENT_Y - card.y - 1.0);
     let wheel = ui.wheel_in(view);
@@ -904,7 +827,7 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, card_h: f32, scroll: &
     let mut y = view.y - *scroll;
     let x = content.x;
     for (bi, b) in blocks(section, st).into_iter().enumerate() {
-        y = draw_block(ui, st, &b, bi, Rect::new(x, y, content.w, 0.0), view);
+        y = draw_block(ui, st, &b, bi, Rect::new(x, y, content.w, 0.0), view, &sf);
     }
     ui.c.unclip();
     *content_h = y + *scroll - view.y;
@@ -918,28 +841,29 @@ fn draw(ui: &mut Ui, st: &mut AppState, section: Section, card_h: f32, scroll: &
     picked.filter(|p| *p != section).map(Nav::Section)
 }
 
-/// The close button at the card's top right. True when clicked.
+/// The close button at the card's top right (Windows). True when clicked.
 fn draw_close(ui: &mut Ui, card: Rect) -> bool {
     let r = Rect::new(card.right() - 14.0 - 28.0, card.y + 14.0, 28.0, 28.0);
     let resp = ui.button(wid("settingswin.close"), r);
     if resp.hovered || resp.pressed {
         ui.c.fill_rrect(r, 8.0, palette::RED.with_alpha(if resp.pressed { 0.8 } else { 0.6 }));
     }
-    ui.c.icon(Icon::Close, Rect::from_center(r.center(), 14.0, 14.0), if resp.hovered { palette::TEXT } else { palette::TEXT_DIM });
+    let color = if resp.hovered { palette::ON_ACCENT } else { palette::TEXT_DIM };
+    ui.c.icon(Icon::Close, Rect::from_center(r.center(), 14.0, 14.0), color);
     resp.clicked
 }
 
-fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section) -> Option<Section> {
-    // Oyen's tile and the window's name.
-    let icon_c = Point::new(side.x + 20.0 + 12.0, side.y + 32.0);
+/// The sidebar: Oyen's tile and the window's name, then a row per section
+/// (About at the bottom). `top`: room for the Mac's window buttons.
+fn draw_sidebar(ui: &mut Ui, st: &mut AppState, side: Rect, section: Section, top: f32) -> Option<Section> {
+    let icon_c = Point::new(side.x + 20.0 + 12.0, side.y + top + 32.0);
     crate::oyen::app_icon(ui.c, icon_c, 24.0);
-    ui.c.text("Settings", Rect::new(icon_c.x + 20.0, side.y + 20.0, side.w - 60.0, 24.0), &TextStyle::headline());
+    ui.c.text("Settings", Rect::new(icon_c.x + 20.0, side.y + top + 20.0, side.w - 60.0, 24.0), &TextStyle::headline());
     let mut picked = None;
     let list = sections(st);
     let about_at = side.bottom() - 12.0 - NAV_H;
-    let mut y = side.y + NAV_Y;
+    let mut y = side.y + top + NAV_Y;
     for (i, s) in list.iter().enumerate() {
-        // About sits at the bottom, on its own.
         let row_y = if *s == Section::About { about_at } else { y };
         let r = Rect::new(side.x + 10.0, row_y, side.w - 20.0, NAV_H);
         y += NAV_H + NAV_GAP;
@@ -1002,9 +926,14 @@ fn block_h(st: &AppState, b: &Block) -> f32 {
     }
 }
 
+/// A group's card.
+fn fill_group(ui: &mut Ui, r: Rect, color: Color) {
+    ui.c.unthemed(|c| c.fill_rrect(r, GROUP_R, color));
+}
+
 /// Draw block `b` (the `bi`-th) from `at`'s top left, `at.w` wide; returns
 /// where the next one starts.
-fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, view: Rect) -> f32 {
+fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, view: Rect, sf: &Surfaces) -> f32 {
     let h = block_h(st, b);
     let r = Rect::new(at.x, at.y, at.w, h);
     let next = r.bottom() + GROUP_GAP;
@@ -1019,7 +948,7 @@ fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, vi
                 y += GROUP_TITLE_H;
             }
             let card = Rect::new(r.x, y, r.w, r.bottom() - y);
-            ui.c.fill_rrect(card, GROUP_R, GROUP);
+            fill_group(ui, card, sf.group);
             let accent = st.accent;
             let px = 1.0 / ui.c.scale().max(0.5);
             for (i, it) in items.iter().enumerate() {
@@ -1034,10 +963,10 @@ fn draw_block(ui: &mut Ui, st: &mut AppState, b: &Block, bi: usize, at: Rect, vi
                 y += rh;
             }
         }
-        Block::Version => draw_version(ui, st, r, view),
-        Block::Themes => draw_themes(ui, st, r, view),
+        Block::Version => draw_version(ui, st, r, view, sf),
+        Block::Themes => draw_themes(ui, st, r, view, sf),
         Block::Account => {
-            ui.c.fill_rrect(r, GROUP_R, GROUP);
+            fill_group(ui, r, sf.group);
             if visible(r, view).is_some_and(|v| v.h >= r.h - 0.5) {
                 crate::pages::settings::draw_account(ui, st, r.inset(ROW_PAD, 14.0));
             }
@@ -1166,8 +1095,8 @@ fn fill_row(ui: &mut Ui, row: Rect, c: Color, first: bool, last: bool) {
 /// The version card: Oyen's tile, "Oyenza Studio" and this version, and
 /// Check now; with a later version out, what it brings and how to get it
 /// (the island's Update sheet does the same).
-fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect) {
-    ui.c.fill_rrect(r, GROUP_R, GROUP);
+fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surfaces) {
+    fill_group(ui, r, sf.group);
     let head = Rect::new(r.x + ROW_PAD, r.y, r.w - 2.0 * ROW_PAD, 72.0);
     let cy = head.center().y;
     crate::oyen::app_icon(ui.c, Point::new(head.x + 20.0, cy), 40.0);
@@ -1185,7 +1114,7 @@ fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect) {
     let row = Rect::new(head.x, head.bottom(), head.w, r.bottom() - head.bottom());
     ui.c.fill_rect(Rect::new(row.x, row.y, row.w, px), RULE);
     let accent = st.accent;
-    // Windows with the Setup in: now or next start; otherwise its page.
+    // Windows with the Setup in: now or next start; otherwise its page (or the Mac's DMG).
     let mut buttons: Vec<(&str, Command, PillStyle)> = Vec::new();
     if st.update.ready {
         buttons.push(("Install now", Command::Update, PillStyle::Primary(accent)));
@@ -1226,7 +1155,7 @@ fn draw_version(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect) {
 
 /// The four themes, a card each: a small screen with the island on it as
 /// the theme draws it, the name and a line.
-fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect) {
+fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect, sf: &Surfaces) {
     ui.c.text("Theme", Rect::new(r.x + 2.0, r.y, r.w, GROUP_TITLE_H - 6.0), &TextStyle::footnote().weight(Weight::Semibold).color(palette::TEXT_DIM));
     let n = THEMES.len() as f32;
     let w = ((r.w - (n - 1.0) * THEME_GAP) / n).floor();
@@ -1240,18 +1169,18 @@ fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect) {
         };
         let on = st.settings.theme == *theme;
         let fill = if resp.pressed {
-            Color::hex(0x333337)
+            sf.group_press
         } else if resp.hovered {
-            Color::hex(0x303033)
+            sf.group_hover
         } else {
-            GROUP
+            sf.group
         };
-        ui.c.fill_rrect(c, GROUP_R, fill);
+        fill_group(ui, c, fill);
         if on {
             ui.c.stroke_rrect(c.inset(1.0, 1.0), GROUP_R - 1.0, accent, 2.0);
         }
         let screen = Rect::new(c.x + 10.0, c.y + 10.0, c.w - 20.0, THEME_PREVIEW_H);
-        draw_theme_preview(ui, *theme, screen);
+        ui.c.unthemed(|cv| draw_theme_preview(cv, *theme, screen));
         let tx = c.x + 12.0;
         let ty = screen.bottom() + 10.0;
         let tw = c.w - 24.0 - if on { 20.0 } else { 0.0 };
@@ -1273,11 +1202,11 @@ fn draw_themes(ui: &mut Ui, st: &mut AppState, r: Rect, view: Rect) {
 }
 
 /// A theme's island on a small screen: hanging from its top edge, glass,
-/// with Oyen's eyes, or floating below it.
-fn draw_theme_preview(ui: &mut Ui, theme: Theme, screen: Rect) {
-    ui.c.clip(screen);
-    ui.c.fill_rrect(screen, 7.0, WALLPAPER);
-    ui.c.fill_rrect(Rect::new(screen.x, screen.y + screen.h * 0.55, screen.w, screen.h), 7.0, Color::hex(0x56679C));
+/// with Oyen's eyes, or floating below it. Drawn as it is, in either mode.
+fn draw_theme_preview(c: &mut Canvas, theme: Theme, screen: Rect) {
+    c.clip(screen);
+    c.fill_rrect(screen, 7.0, WALLPAPER);
+    c.fill_rrect(Rect::new(screen.x, screen.y + screen.h * 0.55, screen.w, screen.h), 7.0, Color::hex(0x56679C));
     let cx = screen.center().x;
     let clock = TextStyle::caption().weight(Weight::Semibold).tabular().center();
     match theme {
@@ -1287,24 +1216,24 @@ fn draw_theme_preview(ui: &mut Ui, theme: Theme, screen: Rect) {
                 Theme::Glass => (Color::white(0.30), Some(Color::white(0.45))),
                 _ => (palette::ISLAND, None),
             };
-            ui.c.notch(body, 9.0, 5.0, fill, border);
+            c.notch(body, 9.0, 5.0, fill, border);
             if theme == Theme::Oyen {
                 // Oyen's eyes peek over the island's edge.
                 for dx in [-6.0, 6.0] {
-                    ui.c.fill_rrect(Rect::from_center(Point::new(cx + dx, body.center().y), 5.0, 8.0), 2.5, palette::ORANGE);
+                    c.fill_rrect(Rect::from_center(Point::new(cx + dx, body.center().y), 5.0, 8.0), 2.5, palette::ORANGE);
                 }
             } else {
-                ui.c.text("10:08", body, &clock.color(palette::TEXT));
+                c.text("10:08", body, &clock.color(palette::TEXT));
             }
         }
         Theme::Pill => {
             let body = Rect::new(cx - 36.0, screen.y + 7.0, 72.0, 20.0);
-            ui.c.fill_rrect(body.offset(0.0, 2.0), 10.0, Color::black(0.25));
-            ui.c.fill_rrect(body, 10.0, palette::ISLAND);
-            ui.c.text("10:08", body, &clock.color(palette::TEXT));
+            c.fill_rrect(body.offset(0.0, 2.0), 10.0, Color::black(0.25));
+            c.fill_rrect(body, 10.0, palette::ISLAND);
+            c.text("10:08", body, &clock.color(palette::TEXT));
         }
     }
-    ui.c.unclip();
+    c.unclip();
 }
 
 #[cfg(test)]

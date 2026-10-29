@@ -20,6 +20,8 @@ pub use crate::services::login::Status as Login;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MenuCmd {
+    /// "Settings…": the Settings window.
+    ShowSettings,
     TogglePinned,
     SetTheme(Theme),
     SetIdleStyle(IdleStyle),
@@ -82,6 +84,8 @@ pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyen
         item(label, MenuCmd::SetIdleStyle(st), shown == st)
     };
     let mut items = vec![
+        MenuItem::Item { label: "Settings…".into(), cmd: MenuCmd::ShowSettings, checked: false, key: "," },
+        MenuItem::Separator,
         item("Keep island open", MenuCmd::TogglePinned, pinned),
         MenuItem::Sub {
             label: "Theme".into(),

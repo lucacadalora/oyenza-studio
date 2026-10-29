@@ -609,10 +609,9 @@ pub(crate) fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKin
             st.cmd(Command::SetPinned(!pinned));
         }
     }
-    // Settings: the gear is lit like a selected tab while its page shows,
-    // and a second press goes back to the page it was pressed on. On
-    // Windows it opens the Settings window (the page shows only the Update
-    // sheet there).
+    // The gear opens the Settings window. The Settings page shows only the
+    // Update sheet (a new version's notice): the gear is lit like a selected
+    // tab while it shows, and a press then goes back to the page it was on.
     if gear_r.x > tabs_end + 8.0 {
         if gear_k > 0.0 {
             ui.c.with_alpha(gear_k, |c| c.fill_rrect(gear_r, GEAR / 2.0, Color::white(0.14)));
@@ -626,11 +625,8 @@ pub(crate) fn draw_header(ui: &mut Ui, st: &mut AppState, r: Rect, page: PageKin
             if page == PageKind::Settings {
                 let back = st.ui.before_settings.take().filter(|p| row.contains(p)).unwrap_or(row[0]);
                 st.cmd(Command::SetPage(back));
-            } else if cfg!(windows) {
-                st.cmd(Command::OpenSettings);
             } else {
-                st.ui.before_settings = Some(page);
-                st.cmd(Command::SetPage(PageKind::Settings));
+                st.cmd(Command::OpenSettings);
             }
         }
     }

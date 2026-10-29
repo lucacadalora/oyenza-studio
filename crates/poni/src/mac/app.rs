@@ -25,6 +25,8 @@ use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::pill;
 use crate::services;
+use crate::settings_host;
+use crate::settings_window::{self, Section};
 use crate::events::{AppleMusicStatus, LyricsResult};
 use crate::state::{
     AppState, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PhoneAsk, PhoneDrop, PhoneTransfer, PrayerState,
@@ -125,6 +127,16 @@ enum Deferred {
     Show,
     /// Open the menu bar item's menu (the smoke test's picture of it).
     OpenMenu,
+    /// Bring the Settings window (and the app) to the front.
+    ShowSettings,
+    /// Close the Settings window (its own close tells the app).
+    CloseSettings,
+}
+
+/// The Settings window's content and its renderer, while it is open.
+struct SettingsUi {
+    view: settings_window::View,
+    gfx: Gfx,
 }
 
 /// Run `f` with the app if it isn't already borrowed (re-entrancy safe), then
@@ -141,6 +153,8 @@ fn enter<R>(f: impl FnOnce(&mut App) -> R) -> Option<R> {
             Deferred::ReleaseKeyboard => window::release_keyboard(),
             Deferred::Show => window::show(),
             Deferred::OpenMenu => crate::menubar::open_menu(),
+            Deferred::ShowSettings => settings_host::show(),
+            Deferred::CloseSettings => settings_host::close(),
         }
     }
     r
@@ -310,6 +324,23 @@ pub fn on_menu(cmd: MenuCmd) {
     enter(|a| a.on_menu(cmd));
 }
 
+/// The Settings window's view draws.
+pub fn draw_settings(ctx: &CGContext) {
+    enter(|a| a.draw_settings(ctx));
+}
+
+/// Input in the Settings window. True for a press where nothing takes it:
+/// the window then moves with the drag.
+pub fn settings_input(input: settings_host::Input) -> bool {
+    enter(|a| a.settings_input(input)).unwrap_or(false)
+}
+
+/// The Settings window closed (its button, ⌘W).
+pub fn settings_closed() {
+    enter(|a| a.settings_closed());
+    settings_host::release();
+}
+
 pub fn drain_events() {
     enter(|a| {
         while let Ok(ev) = a.rx.try_recv() {
@@ -381,6 +412,8 @@ pub struct App {
     rx: Receiver<AppEvent>,
     menubar: Option<MenuBar>,
     pending: Vec<Deferred>,
+    /// The Settings window's content and renderer, while it is open.
+    settings_ui: Option<SettingsUi>,
     /// Animation time of the last frame (the refresh it was shown on).
     last_frame_t: f64,
     /// The canvas drawn last frame (the next frame redraws it too).
@@ -540,6 +573,7 @@ impl App {
             rx,
             menubar: None,
             pending: Vec::new(),
+            settings_ui: None,
             last_frame_t: 0.0,
             prev_canvas: None,
             drawn: Drawn::default(),
@@ -691,6 +725,9 @@ impl App {
         self.refresh_time();
         self.tick();
         self.run_commands();
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.dirty) {
+            settings_host::redraw();
+        }
         if !self.st.cmds.is_empty() {
             self.set_timer(Timer::Wake, 1);
         }
@@ -868,6 +905,10 @@ impl App {
 
     /// Apply side effects of a settings change (from the menu, a reload or a page).
     fn settings_changed(&mut self, before: &Settings) {
+        // The Settings window shows the change.
+        if let Some(s) = self.settings_ui.as_mut() {
+            s.view.dirty = true;
+        }
         if before.theme != self.st.settings.theme {
             self.st.accent = theme_accent(self.st.settings.theme);
         }
@@ -965,10 +1006,113 @@ impl App {
         }
     }
 
+    // ------------------------------------------------------------ the Settings window
+
+    /// Open the Settings window on `section` (General when it opens), or
+    /// bring it forward, on that section when one is given.
+    fn open_settings(&mut self, section: Option<Section>) {
+        match self.settings_ui.as_mut() {
+            Some(s) => {
+                if let Some(sec) = section {
+                    s.view.show_section(sec);
+                    settings_host::redraw();
+                }
+            }
+            None => {
+                let scale = settings_host::create(self.mtm);
+                self.settings_ui = Some(SettingsUi { view: settings_window::View::new(section.unwrap_or(Section::General)), gfx: Gfx::new(scale) });
+                // Start at login's switch reads it.
+                self.st.ui.autostart = Some(services::login::status() == Login::On);
+                pinfo!("settings window: open");
+            }
+        }
+        // Add-ons lists IELTS and Meeting notes by the account's Pro, as its tab does.
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.section == Section::Addons) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+        self.pending.push(Deferred::ShowSettings);
+    }
+
+    /// Draw the Settings window (its view's drawRect), light or dark as the
+    /// window shows. The commands its clicks pushed run with the next frame.
+    fn draw_settings(&mut self, ctx: &CGContext) {
+        let Some(ui) = self.settings_ui.as_mut() else { return };
+        let light = settings_host::is_light();
+        ui.gfx.set_scale(settings_host::scale());
+        ui.gfx.set_look(poni_core::look::glass(light));
+        self.st.now = self.st.now.max(clock::mono());
+        let now = self.st.now;
+        let frame = settings_window::Frame {
+            card: Rect::new(0.0, 0.0, settings_host::WIDTH as f32, settings_host::HEIGHT as f32),
+            own_chrome: false,
+            top: settings_host::TITLEBAR,
+        };
+        let before = ui.view.section;
+        let out = {
+            let mut canvas = ui.gfx.canvas(ctx);
+            ui.view.draw(&mut canvas, &mut self.st, now, frame, light)
+        };
+        let after = ui.view.section;
+        if out.close {
+            self.pending.push(Deferred::CloseSettings);
+        }
+        if out.again {
+            settings_host::redraw();
+        }
+        if after != before && after == Section::Addons {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+        if !self.st.cmds.is_empty() {
+            self.request_frame();
+        }
+    }
+
+    /// Input in the Settings window. True for a press on an empty part:
+    /// the window moves with the drag.
+    fn settings_input(&mut self, input: settings_host::Input) -> bool {
+        let Some(ui) = self.settings_ui.as_mut() else { return false };
+        let v = &mut ui.view;
+        let redraw = match input {
+            settings_host::Input::Move { x, y } => v.hover(Point::new(x, y)),
+            settings_host::Input::Leave => {
+                v.leave();
+                true
+            }
+            settings_host::Input::Down { x, y } => {
+                let p = Point::new(x, y);
+                if v.hit_at(p).is_none() {
+                    return true;
+                }
+                v.press(p);
+                true
+            }
+            settings_host::Input::Up { x, y } => {
+                v.release(Point::new(x, y));
+                true
+            }
+            settings_host::Input::Wheel { x, y, notches } => {
+                v.wheel(Point::new(x, y), notches);
+                true
+            }
+        };
+        if redraw {
+            settings_host::redraw();
+        }
+        false
+    }
+
+    /// The Settings window closed: its content and renderer go.
+    fn settings_closed(&mut self) {
+        if self.settings_ui.take().is_some() {
+            pinfo!("settings window: closed");
+        }
+    }
+
     fn on_menu(&mut self, cmd: MenuCmd) {
         let before = self.st.settings.clone();
         let s = &mut self.st.settings;
         match cmd {
+            MenuCmd::ShowSettings => self.open_settings(None),
             MenuCmd::TogglePinned => {
                 self.st.pinned = !self.st.pinned;
                 if !self.st.pinned {
@@ -1330,6 +1474,11 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        // What the Settings window shows that a service reports.
+        let shown = matches!(ev, AppEvent::Update(_) | AppEvent::Oyenza(_) | AppEvent::Addon { .. } | AppEvent::Usage(_) | AppEvent::Located(_));
+        if let Some(s) = self.settings_ui.as_mut().filter(|_| shown) {
+            s.view.dirty = true;
+        }
         match ev {
             AppEvent::Media(session) => {
                 let prev_key = self.st.media.as_ref().map(|m| m.track_key.clone());
@@ -2485,8 +2634,7 @@ impl App {
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
                 // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
                 Command::Notify(_) => {}
-                // Only the Windows gear sends it: the Mac has the Settings page.
-                Command::OpenSettings => {}
+                Command::OpenSettings => self.open_settings(None),
                 Command::Usage(c) => self.usage_cmd(c),
                 // The IELTS coach's microphone and voice come to the Mac with
                 // branch ielts-coach-mac; until then its page says so.
@@ -3325,6 +3473,9 @@ impl App {
             None => {}
         }
         self.run_commands();
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.dirty) {
+            settings_host::redraw();
+        }
         let moving = !self.island.settled()
             || d.anim
             || d.repaint
@@ -3439,7 +3590,8 @@ impl App {
                     if let Some((check, ok, detail)) = self.smoke_check(name) {
                         sm.note(check, ok, detail);
                     }
-                    let rect = window::frame_top_left();
+                    // The Settings window's steps picture that window.
+                    let rect = if name.starts_with("settings-window") && settings_host::is_open() { settings_host::frame_top_left() } else { window::frame_top_left() };
                     sm.write_ready(name, rect);
                     sm.phase = SmokePhase::Wait(now);
                 }
@@ -3831,6 +3983,20 @@ impl App {
                 self.collapse();
             }
             "record-check" | "record-stop" | "record-gone" => {}
+            // The Settings window, from the gear's command: dark, then light, then closed.
+            "settings-window" => {
+                self.leave();
+                self.collapse();
+                self.st.cmds.push(Command::OpenSettings);
+            }
+            "settings-window-light" => {
+                settings_host::force_appearance(true);
+                if let Some(s) = self.settings_ui.as_mut() {
+                    s.view.show_section(Section::Appearance);
+                }
+                settings_host::redraw();
+            }
+            "settings-window-closed" => self.pending.push(Deferred::CloseSettings),
             "menu" => {
                 // The pointer from notch-pill-ear leaves.
                 self.leave();
@@ -3896,6 +4062,8 @@ impl App {
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
+            "settings-window" | "settings-window-light" => (settings_host::is_open() && waited > 0.8) || waited > 5.0,
+            "settings-window-closed" => !settings_host::is_open() || waited > 3.0,
             "record-check" => self.mode == Mode::Activity(activities::Activity::Recording) || waited > 5.0,
             "record-gone" => self.st.rec.phase.is_none() || waited > 5.0,
             // About two seconds of frames at rest.
@@ -3955,6 +4123,16 @@ impl App {
     fn smoke_check(&self, name: &str) -> Option<(&'static str, bool, String)> {
         let gib = |b: u64| b as f64 / (1u64 << 30) as f64;
         match name {
+            "settings-window" => {
+                let open = settings_host::is_open() && self.settings_ui.is_some();
+                let at = settings_host::frame_top_left();
+                Some(("settings-window-open", open, format!("window {at:?}, {} mode", if settings_host::is_light() { "light" } else { "dark" })))
+            }
+            "settings-window-light" => Some(("settings-window-light", settings_host::is_light(), format!("section {:?}", self.settings_ui.as_ref().map(|s| s.view.section)))),
+            "settings-window-closed" => {
+                let gone = !settings_host::is_open() && self.settings_ui.is_none();
+                Some(("settings-window-closed", gone, format!("window {}, content {}", if settings_host::is_open() { "still open" } else { "gone" }, if self.settings_ui.is_some() { "kept" } else { "dropped" })))
+            }
             "record-check" | "record-gone" => {
                 let showing = self.mode == Mode::Activity(activities::Activity::Recording);
                 let recording = self.st.rec.phase == Some(poni_core::recorder::Phase::Recording);
@@ -4553,7 +4731,7 @@ fn system_report(st: &AppState) -> (bool, String) {
 }
 
 /// Oyen's orange in his theme, the Mac's accent colour otherwise.
-fn theme_accent(theme: Theme) -> Color {
+pub(crate) fn theme_accent(theme: Theme) -> Color {
     if oyen::on(theme) {
         oyen::ORANGE
     } else {
@@ -4635,7 +4813,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 68] = [
+const SMOKE_STEPS: [&str; 71] = [
     "idle",
     "hover",
     "open-focus",
@@ -4703,6 +4881,9 @@ const SMOKE_STEPS: [&str; 68] = [
     "record-check",
     "record-stop",
     "record-gone",
+    "settings-window",
+    "settings-window-light",
+    "settings-window-closed",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.

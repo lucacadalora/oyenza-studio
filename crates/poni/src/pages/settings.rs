@@ -1,7 +1,7 @@
-//! Settings page, behind the gear on the right of the header on the Mac. On
-//! Windows the gear opens the Settings window (`settings_window`), which
-//! has every setting, and this page shows only the Update sheet; the
-//! window draws this page's account row, switch, picker and Check now.
+//! Settings page: the gear on the right of the header opens the Settings
+//! window (`settings_window`), which has every setting, so this page shows
+//! only the Update sheet (a new version's notice); the window draws this
+//! page's account row, switch, picker and Check now.
 //!
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and

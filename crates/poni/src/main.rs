@@ -57,6 +57,11 @@ mod selftest;
 #[cfg(windows)]
 mod services;
 #[cfg(windows)]
+mod settings_host;
+#[cfg(target_os = "macos")]
+#[path = "mac/settings_host.rs"]
+mod settings_host;
+#[cfg(any(windows, target_os = "macos"))]
 mod settings_window;
 #[cfg(windows)]
 mod shell;
