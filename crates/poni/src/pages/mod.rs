@@ -862,8 +862,13 @@ mod tests {
     }
 
     #[test]
-    fn notifications_and_downloads_have_a_tab_only_with_studio_pro() {
-        for (page, addon) in [(PageKind::Notifications, poni_core::addons::NOTIFICATIONS), (PageKind::Downloads, poni_core::addons::DOWNLOADER)] {
+    fn downloads_has_a_tab_only_with_studio_pro() {
+        // Notifications is free (Luca, 28 Oct): its tab needs no sign-in.
+        let mut st = state();
+        st.settings.set_addon(poni_core::addons::NOTIFICATIONS.id, true);
+        st.addons.insert(poni_core::addons::NOTIFICATIONS.id, poni_core::addons::Status::Ready);
+        assert_eq!(tabs(&st).contains(&PageKind::Notifications), cfg!(windows), "signed out, no Pro");
+        for (page, addon) in [(PageKind::Downloads, poni_core::addons::DOWNLOADER)] {
             let mut st = state();
             st.downloader_offered = true;
             st.settings.set_addon(addon.id, true);

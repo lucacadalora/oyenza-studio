@@ -1725,29 +1725,23 @@ impl App {
         }
     }
 
-    /// Signed in (at start, or just now) with the Downloader or Notifications
-    /// switched on: whether the account has Studio Pro, now, so they don't
-    /// wait for the Add-ons page to open (`pages::addons::pro_wanted`).
+    /// Signed in (at start, or just now) with the Downloader switched on:
+    /// whether the account has Studio Pro, now, so its tab doesn't wait for
+    /// the Add-ons page to open (`pages::addons::pro_wanted`).
     fn ask_pro(&self) {
         if pages::addons::pro_wanted(&self.st) {
             self.oyenza(OyenzaCmd::CheckPro);
         }
     }
 
-    /// Studio Pro came, or went (the server's word, or signing out):
-    /// Notifications listens only with it, the Downloader's downloads stop as
-    /// it goes, and the Pro add-ons' files come with it (`Services::set_pro`).
-    /// Their tabs follow by themselves (`downloader_on`, `notifications_on`),
-    /// and a page of theirs on screen leaves for Add-ons.
+    /// Studio Pro came, or went (the server's word, or signing out): the
+    /// Downloader's downloads stop as it goes, and its files come with it
+    /// (`Services::set_pro`). Its tab follows by itself (`downloader_on`), and
+    /// its page on screen leaves for Add-ons.
     fn pro_changed(&mut self) {
         let pro = self.st.studio_pro() == Some(true);
         if !pro {
             self.downloads_off();
-            self.stop_notify();
-        } else if self.st.notifications_on() && self.selftest.is_none() {
-            // Switched on before, waiting for Pro: it listens now (Windows'
-            // question waits for the page's Allow).
-            self.start_notify(false);
         }
         if let Some(s) = self.services.as_ref() {
             s.set_pro(pro);
@@ -1891,11 +1885,10 @@ impl App {
                 }
             }
         }
-        // Notifications on: listen, Windows' question first; off: stop. Only
-        // with Studio Pro (`pro_changed` starts it once the server says so).
+        // Notifications on: listen, Windows' question first; off: stop.
         let notify_id = poni_core::addons::NOTIFICATIONS.id;
         if before.addon_on(notify_id) != self.st.settings.addon_on(notify_id) && self.selftest.is_none() {
-            if self.st.notifications_on() {
+            if self.st.settings.addon_on(notify_id) {
                 self.start_notify(true);
             } else {
                 self.stop_notify();

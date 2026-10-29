@@ -19,8 +19,8 @@
 //! line each: the name, then the line after it.
 //!
 //! A Studio Pro add-on's row says Pro where its size was. The Downloader's
-//! and Notifications' switches work only with Pro ([`needs_pro`]); without
-//! it they stay off, the line says why, and a click helps ([`NoPro`]).
+//! switch works only with Pro ([`needs_pro`]); without it the switch stays
+//! off, the line says why, and a click helps ([`NoPro`]).
 
 use crate::commands::{Command, OyenzaCmd};
 use crate::gfx::{TextStyle, Weight};
@@ -82,23 +82,23 @@ fn rows(st: &AppState) -> Vec<&'static Addon> {
         .collect()
 }
 
-/// The Pro add-ons whose switch works only with Studio Pro, since their tabs
-/// need it (`AppState::downloader_on`, `notifications_on`): the Downloader,
-/// whose tools download only for Pro, and Notifications. Meeting notes
-/// switches on for anyone, and its page says what Pro is.
+/// The Pro add-on whose switch works only with Studio Pro, since its tab
+/// needs it (`AppState::downloader_on`): the Downloader, whose tools download
+/// only for Pro. Meeting notes switches on for anyone, and its page says what
+/// Pro is.
 fn needs_pro(a: &Addon) -> bool {
-    a.id == addons::DOWNLOADER.id || a.id == addons::NOTIFICATIONS.id
+    a.id == addons::DOWNLOADER.id
 }
 
-/// One of them is switched on in this app ([`rows`]): the island asks the
-/// server about Pro as soon as it's signed in (at start, or just connected),
-/// so their tabs and listening don't wait for this page to open.
+/// It is switched on in this app ([`rows`]): the island asks the server
+/// about Pro as soon as it's signed in (at start, or just connected), so its
+/// tab doesn't wait for this page to open.
 pub fn pro_wanted(st: &AppState) -> bool {
     rows(st).iter().any(|a| needs_pro(a) && st.settings.addon_on(a.id))
 }
 
-/// Why the Downloader's or Notifications' switch doesn't work for this
-/// account: what the row says instead, beside its Pro, and what a click does.
+/// Why the Downloader's switch doesn't work for this account: what the row
+/// says instead, beside its Pro, and what a click does.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum NoPro {
     /// Signed out: a click opens the Oyenza page, where signing in is.
@@ -138,9 +138,8 @@ fn row_h(n: usize) -> f32 {
 }
 
 /// Where `a` stands: Screen recorder follows the recorder's install
-/// (`Settings::recorder_on`); the Downloader and Notifications are off
-/// without Pro, even switched on before; the others, their own switch and
-/// download.
+/// (`Settings::recorder_on`); the Downloader is off without Pro, even
+/// switched on before; the others, their own switch and download.
 fn status(st: &AppState, a: &Addon) -> Status {
     if a.id == addons::SCREEN_RECORDER.id {
         if st.record_on() {
@@ -241,7 +240,7 @@ fn addon_row(ui: &mut Ui, st: &AppState, r: Rect, i: usize, a: &Addon, card: Opt
     let w = (text_right - x).max(0.0);
     let line_color = if status == Status::Failed { palette::ORANGE } else { palette::TEXT_DIM };
     // Screen recorder came on with the recorder, not by a click here: say so.
-    // The Downloader and Notifications without Pro say why they stay off.
+    // The Downloader without Pro says why it stays off.
     let line = match no_pro(st, a) {
         Some(n) => n.line().to_string(),
         None if a.id == addons::SCREEN_RECORDER.id && status == Status::Ready => "On, since Oyenza Studio Recorder is installed".to_string(),
@@ -293,7 +292,7 @@ mod tests {
     }
 
     #[test]
-    fn the_downloader_and_notifications_switch_only_with_studio_pro() {
+    fn the_downloader_switches_only_with_studio_pro() {
         use poni_core::addons::{DOWNLOADER, MEETING_NOTES, NOTIFICATIONS};
         let mut st = AppState::new(Settings::default(), Store::default());
         st.downloader_offered = true;
@@ -303,10 +302,10 @@ mod tests {
         st.addons.insert(DOWNLOADER.id, Status::Ready);
         assert!(pro_wanted(&st));
         let line = |st: &AppState, a| no_pro(st, a).map(NoPro::line);
-        for a in [&DOWNLOADER, &NOTIFICATIONS] {
-            assert_eq!(line(&st, a), Some("Sign in with your Oyenza account"), "{}", a.id);
-            assert_eq!(status(&st, a), Status::Off, "{}: stays off", a.id);
-        }
+        assert_eq!(line(&st, &DOWNLOADER), Some("Sign in with your Oyenza account"));
+        assert_eq!(status(&st, &DOWNLOADER), Status::Off, "stays off");
+        // Notifications is free (Luca, 28 Oct): it switches on without Pro.
+        assert_eq!(no_pro(&st, &NOTIFICATIONS), None);
         st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
         assert_eq!(line(&st, &DOWNLOADER), Some("Checking your account"));
         st.oyenza.pro = Some(false);

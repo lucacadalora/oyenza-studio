@@ -1020,7 +1020,7 @@ impl AppState {
     /// Pro: its tab shows, and new notifications from the apps picked there
     /// show on the island.
     pub fn notifications_on(&self) -> bool {
-        cfg!(windows) && self.studio_pro() == Some(true) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
+        cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
     }
 
     /// Settings took this page's tab off the header's row (Music, Today,

@@ -1434,7 +1434,7 @@ const SCENES: [Scene; 133] = [
     Scene::NotesReady,
     Scene::NotesActivity,
     Scene::NotesPro,
-    // The Downloader's and Notifications' rows signed out, without Pro.
+    // The Downloader's row signed out, without Pro.
     Scene::AddonsPro,
 ];
 
@@ -1609,8 +1609,8 @@ impl Scene {
         matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity | Scene::AddonsPro)
     }
 
-    /// Signed in to an account with Studio Pro: the Downloader's and
-    /// Notifications' own scenes, which only Pro shows.
+    /// Signed in to an account with Studio Pro: the Downloader's own
+    /// scenes, which only Pro shows.
     fn pro(self) -> bool {
         matches!(
             self,
@@ -1618,11 +1618,6 @@ impl Scene {
                 | Scene::DownloadsEmpty
                 | Scene::AddonsDownloader
                 | Scene::DownloadActivity
-                | Scene::MessageNotice
-                | Scene::MessageHidden
-                | Scene::Page(PageKind::Notifications)
-                | Scene::NotifyAsk
-                | Scene::NotifyNoPackage
         )
     }
 

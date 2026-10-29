@@ -221,8 +221,6 @@ pub const STOCKS: Addon = Addon {
 /// to download. Off, there is no Notifications tab and nothing listens.
 /// Windows lets only an app with a package identity read notifications, so
 /// it works in the Microsoft Store copy; the Mac has no way to read them.
-/// Part of Studio Pro (the website's Pro card sells the messages on the
-/// island): it listens only for an account the server says has Pro.
 pub const NOTIFICATIONS: Addon = Addon {
     id: "notifications",
     title: "Notifications",
@@ -230,7 +228,7 @@ pub const NOTIFICATIONS: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
-    pro: true,
+    pro: false,
 };
 
 /// Screen recorder: the Record page and the recording pill, the face of
@@ -434,7 +432,7 @@ mod tests {
     #[test]
     fn pro_is_notifications_meeting_notes_and_the_downloader() {
         let pro: Vec<&str> = ALL.iter().filter(|a| a.pro).map(|a| a.id).collect();
-        assert_eq!(pro, vec!["notifications", "notes", "downloader"]);
+        assert_eq!(pro, vec!["notes", "downloader"]);
     }
 
     #[test]
