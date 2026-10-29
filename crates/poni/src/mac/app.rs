@@ -429,6 +429,9 @@ pub struct App {
     today_watch: bool,
     /// The Health page is on screen (it asks for the phone's steps as it opens).
     health_shown: bool,
+    /// The IELTS or Add-ons page is on screen (it asks whether the account
+    /// has Studio Pro as it opens).
+    pro_shown: bool,
     /// Files are being dragged over the island.
     drag_hover: bool,
     /// The right-click menu is open over the open island: the pointer on
@@ -563,6 +566,7 @@ impl App {
             oyenza_watch: false,
             today_watch: false,
             health_shown: false,
+            pro_shown: false,
             drag_hover: false,
             menu_open: false,
             script_held: false,
@@ -2643,6 +2647,17 @@ impl App {
         }
     }
 
+    /// The IELTS or Add-ons page came on screen: whether the account has
+    /// Studio Pro, now (unless just asked). Never signed in: nothing starts.
+    fn set_pro_shown(&mut self, on: bool) {
+        if on != self.pro_shown {
+            self.pro_shown = on;
+            if let (true, Some(o)) = (on, &self.oyenza) {
+                o.send(OyenzaCmd::CheckPro);
+            }
+        }
+    }
+
     fn tell_oyenza_activity(&self) {
         if let Some(o) = &self.oyenza {
             o.set_activity(self.oyenza_activity());
@@ -3116,6 +3131,7 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
+        self.set_pro_shown(matches!(self.mode, Mode::Expanded(PageKind::Ielts | PageKind::Addons)));
         self.set_stocks_watch();
         self.set_usage_watch();
         // The Pill theme floats the island below the top edge (below the menu

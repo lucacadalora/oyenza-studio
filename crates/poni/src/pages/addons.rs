@@ -62,7 +62,8 @@ pub fn height(st: &AppState) -> f32 {
 /// Studio Recorder is installed and has spoken to the island
 /// (`AppState::recorder_ready`), Notifications only on Windows (a Mac has
 /// no way to read other apps' notifications), Meeting notes only on Windows
-/// (the Mac's own sound isn't recorded yet).
+/// (the Mac's own sound isn't recorded yet), IELTS only for an account the
+/// server says has Studio Pro.
 fn rows(st: &AppState) -> Vec<&'static Addon> {
     OFFERED
         .iter()
@@ -70,6 +71,7 @@ fn rows(st: &AppState) -> Vec<&'static Addon> {
         .filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready())
         .filter(|a| a.id != addons::NOTIFICATIONS.id || cfg!(windows))
         .filter(|a| a.id != addons::MEETING_NOTES.id || cfg!(windows))
+        .filter(|a| a.id != addons::IELTS.id || st.studio_pro() == Some(true))
         .collect()
 }
 

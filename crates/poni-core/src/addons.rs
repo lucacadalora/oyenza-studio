@@ -208,7 +208,9 @@ pub const SCREEN_RECORDER: Addon = Addon {
 /// Oyen asks the questions out loud, listens to the answers through the
 /// microphone and gives a band score, through the Oyenza account. Its code
 /// is in the app, so there is nothing to download. Off, there is no IELTS
-/// tab, and nothing of it runs: no microphone, no player, no calls.
+/// tab, and nothing of it runs: no microphone, no player, no calls. Part of
+/// Studio Pro: the Add-ons page lists it only for an account the server says
+/// has Pro, and its tab goes once the server says an account hasn't.
 pub const IELTS: Addon = Addon {
     id: "ielts",
     title: "IELTS",
@@ -216,7 +218,7 @@ pub const IELTS: Addon = Addon {
     mac_blurb: None,
     tag: "",
     files: &[],
-    pro: false,
+    pro: true,
 };
 
 /// Meeting notes (Windows): the Notes page (`crate::notes`). One click and
@@ -342,9 +344,9 @@ mod tests {
     }
 
     #[test]
-    fn meeting_notes_is_the_pro_one() {
+    fn ielts_and_meeting_notes_are_the_pro_ones() {
         let pro: Vec<&str> = ALL.iter().filter(|a| a.pro).map(|a| a.id).collect();
-        assert_eq!(pro, vec!["notes"]);
+        assert_eq!(pro, vec!["ielts", "notes"]);
     }
 
     #[test]

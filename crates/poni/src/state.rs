@@ -1012,9 +1012,10 @@ impl AppState {
         p.hideable() && self.settings.hidden_tabs.iter().any(|k| k == p.key())
     }
 
-    /// The IELTS add-on is on: the IELTS tab shows.
+    /// The IELTS add-on is on, and the server hasn't said the account is
+    /// without Studio Pro: the IELTS tab shows (signed out, its sign-in card).
     pub fn ielts_on(&self) -> bool {
-        self.addon(poni_core::addons::IELTS.id) == AddonStatus::Ready
+        self.addon(poni_core::addons::IELTS.id) == AddonStatus::Ready && self.oyenza.pro != Some(false)
     }
 
     /// The signed-in account has Studio Pro, as the server last said.

@@ -815,9 +815,9 @@ fn seed_notes(st: &mut AppState, scene: Scene, now: f64) {
     st.notes = Taker::default();
     st.ui.notes_kept = false;
     st.ui.notes_note = None;
-    // Studio Pro, as the server would say: on for the notes' own scenes.
+    // Studio Pro, as the server would say: on for the notes' and IELTS' own scenes.
     if st.oyenza.link != crate::state::OyenzaLink::Off {
-        st.oyenza.pro = Some(scene.page() == Some(PageKind::Notes) && scene != Scene::NotesPro);
+        st.oyenza.pro = Some(matches!(scene.page(), Some(PageKind::Notes | PageKind::Ielts)) && scene != Scene::NotesPro);
     }
     match scene {
         Scene::Page(PageKind::Notes) => st.notes.last = Some(sample_notes()),
