@@ -306,6 +306,11 @@ pub struct Source {
     run: Option<Running>,
     /// The tap's thread, until it answers (the Mac's sound only).
     pending: Option<Receiver<Result<(u32, Running), MicError>>>,
+    /// The output device a tap failed on (no tap API, or macOS said no):
+    /// no new try on it, since each try makes and drops an aggregate device,
+    /// which every app on the Mac hears about (the call included). A new
+    /// output device gets a new try.
+    failed_on: Option<u32>,
     /// The default device it opened, to notice a new default.
     id: u32,
     /// What `read` brought: 16 kHz mono.
@@ -323,7 +328,7 @@ impl Source {
     }
 
     fn new(kind: Kind, what: &'static str) -> Source {
-        Source { kind, what, run: None, pending: None, id: 0, pcm: Vec::with_capacity(RATE as usize / 4), level: 0.0 }
+        Source { kind, what, run: None, pending: None, failed_on: None, id: 0, pcm: Vec::with_capacity(RATE as usize / 4), level: 0.0 }
     }
 
     pub fn open(&mut self) -> Result<(), MicError> {
@@ -344,6 +349,10 @@ impl Source {
     fn open_pc_aside(&mut self) -> Result<(u32, Running), MicError> {
         let fresh = self.pending.is_none();
         if fresh {
+            let output = default_device(DEFAULT_OUTPUT);
+            if self.failed_on == Some(output) {
+                return Err(MicError::Failed("the tap didn't work on this output device".into()));
+            }
             let (tx, rx) = mpsc::channel();
             std::thread::Builder::new()
                 .name("poni-notes-tap".into())
@@ -358,6 +367,10 @@ impl Source {
         match got {
             Ok(r) => {
                 self.pending = None;
+                if let Err(e) = &r {
+                    crate::pinfo!("notes: the Mac's sound can't be recorded ({e}); the microphone records alone");
+                    self.failed_on = Some(default_device(DEFAULT_OUTPUT));
+                }
                 r
             }
             Err(true) => {
