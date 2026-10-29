@@ -415,11 +415,13 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         }
         next = first + k + 1;
     }
-    // The Settings window's sections, dark, and two of them light.
-    for (k, (section, light)) in settings_shots().into_iter().enumerate() {
+    // The Settings window's sections, dark, two of them light, and Island
+    // with Stay on top picked.
+    for (k, (section, light, on_top)) in settings_shots().into_iter().enumerate() {
         let mode = if light { "-light" } else { "" };
-        let path = out.join(format!("{:02}-settings-window-{}{mode}{suffix}.png", next + k, section.key()));
-        match render_settings(&mut gfx, section, theme, light, &path) {
+        let pick = if on_top { "-on-top" } else { "" };
+        let path = out.join(format!("{:02}-settings-window-{}{pick}{mode}{suffix}.png", next + k, section.key()));
+        match render_settings(&mut gfx, section, theme, light, on_top, &path) {
             Ok(()) => println!("render: {}", path.display()),
             Err(e) => {
                 eprintln!("render: {}: {e}", path.display());
@@ -448,23 +450,25 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
 }
 
 /// The Settings window's pictures: every section dark, General and
-/// Appearance light too.
-fn settings_shots() -> Vec<(crate::settings_window::Section, bool)> {
+/// Appearance light too, and Island with In full-screen apps set to Stay on
+/// top (the website's full-screen chapter). Each is (section, light, Stay on top).
+fn settings_shots() -> Vec<(crate::settings_window::Section, bool, bool)> {
     use crate::settings_window::Section;
-    let mut v: Vec<_> = Section::ALL.into_iter().filter(|s| *s != Section::Prayer).map(|s| (s, false)).collect();
-    v.extend([(Section::General, true), (Section::Appearance, true)]);
+    let mut v: Vec<_> = Section::ALL.into_iter().filter(|s| *s != Section::Prayer).map(|s| (s, false, false)).collect();
+    v.extend([(Section::General, true, false), (Section::Appearance, true, false), (Section::Island, false, true)]);
     v
 }
 
 /// One section of the Settings window as the Mac shows it, light or dark,
 /// with the system's window buttons where macOS puts them (the real window
-/// draws those itself; the smoke test pictures that one).
-fn render_settings(gfx: &mut Gfx, section: crate::settings_window::Section, theme: Theme, light: bool, path: &Path) -> Result<(), String> {
+/// draws those itself; the smoke test pictures that one). `on_top`: In
+/// full-screen apps set to Stay on top instead of Hide.
+fn render_settings(gfx: &mut Gfx, section: crate::settings_window::Section, theme: Theme, light: bool, on_top: bool, path: &Path) -> Result<(), String> {
     use crate::settings_host::{HEIGHT, TITLEBAR, WIDTH};
     let (w, h) = (WIDTH as f32, HEIGHT as f32);
     let (w_px, h_px) = ((w * SCALE) as usize, (h * SCALE) as usize);
     let bmp = Bitmap::new(w_px, h_px, SCALE).ok_or("no bitmap")?;
-    let mut st = AppState::new(Settings { theme, ..Settings::default() }, Store::default());
+    let mut st = AppState::new(Settings { theme, hide_in_fullscreen: !on_top, ..Settings::default() }, Store::default());
     st.accent = crate::app::theme_accent(theme);
     st.ui.autostart = Some(true);
     let mut view = crate::settings_window::View::new(section);
