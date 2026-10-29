@@ -338,14 +338,14 @@ pub const IELTS: Addon = Addon {
     pro: true,
 };
 
-/// Meeting notes (Windows): the Notes page (`crate::notes`). One click and
-/// Oyen listens to the microphone and the PC's own sound (a call in Meet,
-/// Zoom, Teams), then the Oyenza account writes the notes. Its code is in the
+/// Meeting notes: the Notes page (`crate::notes`). One click and Oyen listens
+/// to the microphone and the computer's own sound (a call in Meet, Zoom,
+/// Teams; on a Mac through a Core Audio tap, macOS 14.2 and later), then the
+/// Oyenza account writes the notes. Its code is in the
 /// app, so there is nothing to download. Off, there is no Notes tab and
 /// nothing of it runs: no recording, no calls. Part of Studio Pro: the page
 /// records only for an account the server says has Pro, and the server
-/// writes notes only for one. The Mac doesn't list it yet: its recording of
-/// the Mac's own sound is still to come.
+/// writes notes only for one.
 pub const MEETING_NOTES: Addon = Addon {
     id: "notes",
     title: "Meeting notes",

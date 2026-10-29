@@ -243,7 +243,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   127.0.0.1 (`ielts-turn`). On the Mac the page says it's coming (its audio is
   `mac/services/{mic,voice}.rs`, wired in next).
 * Notes (`pages/notes.rs`) is a tab only while the Meeting notes add-on is
-  on (`AppState::notes_on`; Windows; built in, nothing to download): one
+  on (`AppState::notes_on`; Windows and the Mac; built in, nothing to download): one
   click and Oyen listens to a meeting, then the Oyenza account writes its
   notes (catat-server's `/island/notes/*`). `poni_core::notes` holds the
   page's moments (`Taker` in `AppState::notes`), the mix, the calls'
@@ -259,7 +259,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   written, saves them as Markdown in `Documents\Oyenza Studio\Notes` and
   deletes the audio, which is kept for Try again until then. The closed
   island shows Oyen listening (`Activity::Notes`, ambient frames while it
-  shows).
+  shows). The Mac runs the same `services::notes` with its own two sources
+  (`mac/services/capture.rs`): the default input device, and the Mac's
+  own sound through a Core Audio process tap (macOS 14.2 and later; the
+  tap's functions looked up at run time) in a private aggregate device,
+  each an IOProc feeding a queue `poni_core::ielts::Downmix` turns into
+  16 kHz mono; `mac/app_notes.rs` is the app's side, as `mac/app_ielts.rs`
+  is the IELTS coach's (`mac/services/mic.rs` and `voice.rs`: AVAudioRecorder
+  and NSSound).
 * Timed page changes (an Undo pill lapsing) report their deadline through
   `pages::next_wake` so the app wakes exactly then instead of polling.
   `st.accent` = Windows accent (lightened); `st.media_accent()` = album-art colour.

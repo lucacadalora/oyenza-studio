@@ -329,6 +329,7 @@ impl Problem {
             Problem::ProRequired => "This Oyenza account doesn't have Pro. Your recording is kept.".into(),
             Problem::Offline => "Your recording is kept. Check the internet, then try again.".into(),
             Problem::SignedOut => "Sign in to Oyenza again: your recording is kept.".into(),
+            Problem::Capture(CaptureIssue::MicDenied) if cfg!(target_os = "macos") => "Turn on Oyenza Studio in System Settings \u{203a} Privacy & Security \u{203a} Microphone.".into(),
             Problem::Capture(CaptureIssue::MicDenied) => "Turn on microphone access for desktop apps in Windows Settings.".into(),
             Problem::Capture(CaptureIssue::NoSound) => "Plug in a microphone or speakers, then try again.".into(),
             Problem::Capture(CaptureIssue::Failed) => "A sound device went away. What was heard is kept.".into(),
