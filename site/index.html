@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
 <link rel="preload" as="image" href="assets/wall/morning.jpg">
-<script>(function(r){r.classList.add("js");if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)r.classList.add("still");setTimeout(function(){if(!r.hasAttribute("data-ready"))r.classList.remove("js")},3000)})(document.documentElement);</script>
+<script>(function(r){r.classList.add("js");if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)r.classList.add("still");if(window.matchMedia&&matchMedia("(max-width: 734px) and (pointer: coarse)").matches)r.classList.add("phone");setTimeout(function(){if(!r.hasAttribute("data-ready"))r.classList.remove("js")},3000)})(document.documentElement);</script>
 <style>
 /* The page follows the system of a big product page, measured on apple.com:
    SF Pro (Inter where SF isn't on the computer), one short headline and one
@@ -479,6 +479,16 @@ main { container-type: inline-size; }
 .os-card > .ico { width: 48px; height: 48px; margin-bottom: 10px; stroke: none; }
 .os-card .btn { margin-top: 14px; }
 .os-card .link { margin-top: 8px; background: none; border: 0; cursor: pointer; font: 400 17px/1.47 var(--font-text); }
+/* ---------- on a phone, Get Oyenza Studio sends the link to your computer: an installer can't run on a phone */
+.send-wrap, .send-word { display: none; }
+.phone .send-wrap { display: block; margin-bottom: 20px; }
+.phone .send-word { display: inline; }
+.phone .dl-word, .phone #get .os-cards .btn { display: none; }
+.send-card > .ico { stroke: currentColor; stroke-width: 1.5; }
+.send-alt { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; }
+.send-url { width: 100%; max-width: 420px; margin-top: 12px; padding: 11px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--alt); color: var(--ink); font: 400 15px/1.4 var(--font-text); text-align: center; }
+.send-or { margin-top: 8px; font-weight: 400; }
+.sent-note { margin-top: 10px; color: var(--ink); }
 
 /* ---------- pricing: Free, and Pro before it can be bought (no buy button until it can) */
 .price-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
@@ -791,7 +801,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
             <a class="t-avail" href="#new">New in 0.2.16: how much of Codex, Claude Code and your other AI plans you have left, right on the island.</a>
             <div class="buybox">
               <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.1&nbsp;MB</span> · Mac <span data-release="mac-size">5.3&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.16</span></a></span></div>
-              <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
+              <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe"><span class="dl-word">Download</span><span class="send-word">Send to your computer</span></a>
             </div>
             <a class="link hero-other dl-other" data-release="mac-link" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Mac.dmg">Download for Mac</a>
           </div>
@@ -1583,6 +1593,22 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content head center rv">
       <h2 class="t-l" id="get-title">Get Oyenza Studio.</h2>
       <p class="t-intro">Free and open source. Coming from Oyen Poni? <b>Updating keeps your settings.</b></p>
+      <p class="t-intro sent-note" hidden>Sent from your phone. Pick your computer below.</p>
+    </div>
+    <div class="content send-wrap">
+      <article class="os-card send-card" id="send">
+        <svg class="ico"><use href="#i-laptop"/></svg>
+        <h3 class="t-card">Send it to your computer</h3>
+        <p class="t-tile">Studio runs on Windows and Mac, not on phones. Send yourself the link, then open it on your computer.</p>
+        <button class="btn" type="button" data-send="share" data-tap="send-pc:share" hidden>Share the link</button>
+        <p class="send-alt">
+          <a class="link" data-send="whatsapp" data-tap="send-pc:whatsapp" href="https://wa.me/?text=Oyenza%20Studio%20for%20my%20computer%3A%20https%3A%2F%2Fstudio.oyenza.com%2F%3Futm_content%3Dsend-to-pc%23get">WhatsApp it to me</a>
+          <a class="link" data-send="email" data-tap="send-pc:email" href="mailto:?subject=Oyenza%20Studio%20for%20my%20computer&amp;body=Open%20this%20on%20your%20computer%20to%20get%20Oyenza%20Studio%3A%20https%3A%2F%2Fstudio.oyenza.com%2F%3Futm_content%3Dsend-to-pc%23get">Email it to me</a>
+          <button class="link" type="button" data-send="copy" data-tap="send-pc:copy">Copy link</button>
+        </p>
+        <input class="send-url" id="send-url" type="text" readonly aria-label="The link to open on your computer" hidden>
+        <p class="t-tile send-or">Or type <b>studio.oyenza.com</b> on your computer.</p>
+      </article>
     </div>
     <div class="content os-cards">
       <article class="os-card rv">
@@ -2169,11 +2195,44 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     primary.href = MAC; primary.setAttribute('data-release', 'mac-link');
     other.href = WIN; other.removeAttribute('data-release'); other.textContent = 'Download for Windows';
   }
-  // On a phone the downloads lead to Get Oyenza Studio, where both are.
-  if (window.matchMedia('(max-width: 734px) and (pointer: coarse)').matches) {
-    [document.querySelector('.top-dl'), primary].forEach(function (a) { a.href = '#get'; a.removeAttribute('data-release'); });
+  // On a phone the downloads lead to Get Oyenza Studio, which there sends the link to your computer. The head
+  // script sets .phone with the same check, so the page paints right the first time.
+  var phone = document.documentElement.classList.contains('phone');
+  if (phone) {
+    [document.querySelector('.top-dl'), document.querySelector('.side-dl'), primary].forEach(function (a) { if (a) { a.href = '#get'; a.removeAttribute('data-release'); } });
+    document.querySelectorAll('.side-dl [data-download-label]').forEach(function (s) { s.textContent = 'Send to your computer'; });
     other.hidden = true;
   }
+
+  // ---- Send it to your computer. The link keeps this visit's utm tags (a creator's link, say) and adds
+  // utm_content=send-to-pc, so the visit it brings on the computer counts for the same place. Nothing leaves the
+  // phone except through the visitor's own share sheet, WhatsApp or mail app.
+  (function () {
+    var q = new URLSearchParams(location.search), keep = new URLSearchParams();
+    ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { var v = q.get(k); if (v) keep.set(k, v.slice(0, 100)); });
+    keep.set('utm_content', 'send-to-pc');
+    var url = location.origin + '/?' + keep.toString() + '#get';
+    if (!phone) {
+      var note = document.querySelector('.sent-note');
+      if (note && q.get('utm_content') === 'send-to-pc') note.hidden = false;
+      return;
+    }
+    var card = document.getElementById('send');
+    if (!card) return;
+    var what = 'Oyenza Studio for my computer';
+    var share = card.querySelector('[data-send="share"]'), copy = card.querySelector('[data-send="copy"]'), field = document.getElementById('send-url');
+    card.querySelector('[data-send="whatsapp"]').href = 'https://wa.me/?text=' + encodeURIComponent(what + ': ' + url);
+    card.querySelector('[data-send="email"]').href = 'mailto:?subject=' + encodeURIComponent(what) + '&body=' + encodeURIComponent('Open this on your computer to get Oyenza Studio:\n\n' + url);
+    if (navigator.share) {
+      share.hidden = false;
+      share.addEventListener('click', function () { navigator.share({ title: 'Oyenza Studio', text: what, url: url }).catch(function () {}); });
+    }
+    copy.addEventListener('click', function () {
+      function select() { field.value = url; field.hidden = false; field.focus(); field.select(); }
+      function copied() { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy link'; }, 2000); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(copied, select); else select();
+    });
+  })();
 
   // ---- The download line follows the latest release on GitHub, so the page stays
   // current between edits. Its own text is the fallback when the API is out of reach.
