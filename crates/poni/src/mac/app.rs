@@ -2632,6 +2632,8 @@ impl App {
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
+                // The Downloader comes to the Mac in a later slice (its page never shows here).
+                Command::Download(_) => {}
                 // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
                 Command::Notify(_) => {}
                 Command::OpenSettings => self.open_settings(None),

@@ -44,7 +44,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, DOWNLOADER, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
@@ -774,6 +774,47 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
     picture(st, shows, now);
 }
 
+/// The Downloads page's list for its scenes, newest first: a song waiting
+/// its turn, a film coming in from PeerTube, a private video that failed and
+/// a finished film, moved along by yt-dlp's lines as the app moves them
+/// (`poni_core::downloads::Jobs`), so the bar and the island's pill count the
+/// bytes as they do for real; every other scene: none. No pictures, so
+/// nothing is fetched, and the self-test starts no downloader.
+fn seed_downloads(st: &mut AppState, scene: Scene) {
+    use poni_core::downloads::{Jobs, State};
+    use poni_core::ytdlp::{Line, Mode};
+    let ui = &mut st.ui.downloads;
+    ui.link.clear();
+    ui.mode = Mode::Video;
+    ui.scroll = 0.0;
+    ui.offer = None;
+    ui.note = None;
+    if !matches!(scene, Scene::Page(PageKind::Downloads) | Scene::DownloadActivity) {
+        st.downloads = Jobs::default();
+        return;
+    }
+    let unix = st.unix;
+    let info = |title: &str, site: &str| Line::Info { title: title.into(), site: site.into(), thumbnail: None, duration_s: None };
+    let mut jobs = Jobs::default();
+    // Oldest first: each one goes on top of the list.
+    let bunny = jobs.add("https://archive.org/details/BigBuckBunny_124".into(), Mode::Video, unix - 25 * 60);
+    jobs.starting(bunny);
+    jobs.apply(bunny, info("Big Buck Bunny", "Internet Archive"));
+    jobs.apply(bunny, Line::Done { path: "C:\\Users\\Sample\\Downloads\\Big Buck Bunny.mp4".into() });
+    jobs.set_size(bunny, 332_000_000);
+    let private = jobs.add("https://video.blender.org/w/4e0c1f7a-93b2-4d58-a6e1-2f8b9c3d7a51".into(), Mode::Video, unix - 4 * 60);
+    // yt-dlp's private video (`ytdlp::Problem::Private`), in the page's words.
+    if let Some(job) = jobs.list.iter_mut().find(|j| j.id == private) {
+        job.state = State::Failed("This video is private".into());
+    }
+    let film = jobs.add("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605".into(), Mode::Video, unix - 50);
+    jobs.starting(film);
+    jobs.apply(film, info("OVERGROWN: a feature film project by Blender Studio", "PeerTube"));
+    jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
+    jobs.add("https://archive.org/details/ElephantsDream".into(), Mode::Audio, unix - 20);
+    st.downloads = jobs;
+}
+
 /// The AI tab's scenes on made-up readings, every glide at its end
 /// (`pages::usage::picture`); every other scene: nothing read yet and the
 /// notices off, as on a first start (nothing reads it there, and no key
@@ -1117,6 +1158,14 @@ enum Scene {
     /// The Add-ons page with the recorder installed: Screen recorder's row
     /// (eight rows with Notifications, a line each, the window no taller).
     AddonsRecorder,
+    /// The Downloads page before anything was downloaded (`Page(Downloads)`
+    /// shows one downloading, one waiting, one done and one failed).
+    DownloadsEmpty,
+    /// The Add-ons page where the Downloader is offered (Windows outside the
+    /// Store build): its row, off, with its size (seven rows, as with the recorder).
+    AddonsDownloader,
+    /// The closed island while a download runs: its pill.
+    DownloadActivity,
     /// Prayer times: the countdown 8 minutes before Ashar over a song with
     /// synced lyrics, its OK pressed (`Phase::PressOk`): the song's line again.
     PrayerOk,
@@ -1160,6 +1209,10 @@ enum Scene {
     NotesActivity,
     /// Meeting notes signed in without Studio Pro: the Pro card.
     NotesPro,
+    /// The Add-ons page signed out where the Downloader is offered, its
+    /// tools in place from before: the Downloader and Notifications stay
+    /// off, each saying "Sign in with your Oyenza account".
+    AddonsPro,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1207,7 +1260,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 128] = [
+const SCENES: [Scene; 133] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1328,6 +1381,13 @@ const SCENES: [Scene; 128] = [
     Scene::RecordActivity,
     Scene::RecordPaused,
     Scene::AddonsRecorder,
+    // The Downloader: the Downloads page with a download running, one
+    // waiting, one done and one failed, then empty; the Add-ons page with
+    // its row; and the closed island while it downloads.
+    Scene::Page(PageKind::Downloads),
+    Scene::DownloadsEmpty,
+    Scene::AddonsDownloader,
+    Scene::DownloadActivity,
     // The prayer countdown's OK, pressed: the closed island sings again.
     Scene::PrayerOk,
     // The Notifications add-on: a message on the closed island (shown, and
@@ -1374,6 +1434,8 @@ const SCENES: [Scene; 128] = [
     Scene::NotesReady,
     Scene::NotesActivity,
     Scene::NotesPro,
+    // The Add-ons page signed out, without Pro: no Downloader row.
+    Scene::AddonsPro,
 ];
 
 impl Scene {
@@ -1467,6 +1529,9 @@ impl Scene {
             Scene::RecordActivity => "record-activity".into(),
             Scene::RecordPaused => "record-paused-activity".into(),
             Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::DownloadsEmpty => "page-downloads-empty".into(),
+            Scene::AddonsDownloader => "page-addons-downloader".into(),
+            Scene::DownloadActivity => "download-activity".into(),
             Scene::PrayerOk => "prayer-countdown-ok".into(),
             Scene::MessageNotice => "message-notice".into(),
             Scene::MessageHidden => "message-hidden-notice".into(),
@@ -1487,6 +1552,7 @@ impl Scene {
             Scene::NotesReady => "page-notes-ready".into(),
             Scene::NotesActivity => "notes-activity".into(),
             Scene::NotesPro => "page-notes-pro".into(),
+            Scene::AddonsPro => "page-addons-pro".into(),
         }
     }
 
@@ -1525,7 +1591,8 @@ impl Scene {
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::RecordLive => Some(PageKind::Record),
-            Scene::AddonsRecorder => Some(PageKind::Addons),
+            Scene::AddonsRecorder | Scene::AddonsDownloader | Scene::AddonsPro => Some(PageKind::Addons),
+            Scene::DownloadsEmpty => Some(PageKind::Downloads),
             Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
             Scene::Ai(_) => Some(PageKind::Ai),
             Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
@@ -1534,6 +1601,24 @@ impl Scene {
             Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady | Scene::NotesPro => Some(PageKind::Notes),
             _ => None,
         }
+    }
+
+    /// The Downloader is offered (Windows outside the Store build), in its
+    /// own scenes only: the other Add-ons pictures keep their rows.
+    fn downloader(self) -> bool {
+        matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity | Scene::AddonsPro)
+    }
+
+    /// Signed in to an account with Studio Pro: the Downloader's own
+    /// scenes, which only Pro shows.
+    fn pro(self) -> bool {
+        matches!(
+            self,
+            Scene::Page(PageKind::Downloads)
+                | Scene::DownloadsEmpty
+                | Scene::AddonsDownloader
+                | Scene::DownloadActivity
+        )
     }
 
     /// Oyenza Studio Recorder is installed (Record by the Script page's Paste,
@@ -2456,6 +2541,13 @@ impl SelfTest {
             let _ = std::thread::Builder::new().name("selftest-addon".into()).spawn(move || {
                 let (mut ok, mut said) = (true, Vec::new());
                 for a in poni_core::addons::ALL {
+                    // An add-on whose files aren't on their release yet (the
+                    // Downloader until addon-downloader-1 is published) has
+                    // nothing to check; its switch says so (`Status::Unpinned`).
+                    if !a.pinned() {
+                        said.push(format!("{}: not pinned yet", a.id));
+                        continue;
+                    }
                     let (fine, detail) = crate::services::addons::fetch_for_selftest(a, &dir);
                     ok &= fine;
                     said.push(format!("{}: {detail}", a.id));
@@ -3040,9 +3132,21 @@ impl SelfTest {
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
+        // The Downloader: offered in its own scenes, and on there (its tools
+        // in place, so the tab shows) except on the Add-ons page, whose row
+        // shows it off; signed out (`AddonsPro`) it isn't listed at all.
+        // Its setting stays as it is, as for Prayer times above.
+        st.downloader_offered = scene.downloader();
+        let tab = scene.downloader() && scene != Scene::AddonsDownloader;
+        st.addons.insert(DOWNLOADER.id, if tab { AddonStatus::Ready } else { AddonStatus::Off });
+        seed_downloads(st, scene);
         seed_notifications(st, scene);
         seed_ielts(st, scene, now);
         seed_notes(st, scene, now);
+        if scene.pro() {
+            st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+            st.oyenza.pro = Some(true);
+        }
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
@@ -3318,6 +3422,13 @@ impl SelfTest {
             let hidden = crate::window::capture_excluded(app.hwnd());
             let wine = under_wine();
             checks.push(check("recording-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {}, Windows build {build:?}", if hidden { "left out of capture" } else { "in capture" })));
+        }
+        if scene.downloader() {
+            // The Downloads tab shows once the Downloader is on, not while
+            // it's off, nor without Pro with its tools in place.
+            let shown = pages::tabs(&app.st).contains(&PageKind::Downloads);
+            let want = !matches!(scene, Scene::AddonsDownloader | Scene::AddonsPro);
+            checks.push(check("downloads-tab", shown == want, format!("Downloads tab shown: {shown}, want {want}")));
         }
 
         let ok = checks.iter().all(|c| c.ok);

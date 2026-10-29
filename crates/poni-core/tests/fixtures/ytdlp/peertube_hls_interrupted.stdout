@@ -1,0 +1,34 @@
+[PeerTube] Extracting URL: https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605
+[PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading video JSON
+[PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading m3u8 information
+[PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading description JSON
+[info] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading 1 format(s): 6
+{"t":"info","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","title":"OVERGROWN: a feature film project by Blender Studio","site":"PeerTube","thumb":"https://video.blender.org/lazy-static/thumbnails/2d0a6dff-ad41-4e1c-a921-53338b30759c.jpg","duration":70,"uploader":"Blender"}
+[hlsnative] Downloading m3u8 manifest
+[hlsnative] Total fragments: 18
+[download] Destination: <dir>/OVERGROWN： a feature film project by Blender Studio [b29290cc-dc51-4a12-bcb2-2aa5fece7605].mp4
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1024,"total":0,"est":25056.0,"speed":1555.3859882348286,"eta":0,"frag":0,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1393,"total":0,"est":43488.0,"speed":1555.3859882348286,"eta":0,"frag":0,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1393,"total":0,"est":50148.0,"speed":1555.3859882348286,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":2417,"total":0,"est":17228259.0,"speed":2337.1678556121906,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":4465,"total":0,"est":17237475.0,"speed":2337.1678556121906,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":8561,"total":0,"est":17255907.0,"speed":2337.1678556121906,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":16753,"total":0,"est":17292771.0,"speed":2337.1678556121906,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":33137,"total":0,"est":17366499.0,"speed":2337.1678556121906,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":65905,"total":0,"est":17513955.0,"speed":27732.144559317083,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":131441,"total":0,"est":17808867.0,"speed":61771.47584745147,"eta":0,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":262513,"total":0,"est":18398691.0,"speed":105061.9074453098,"eta":88.00854805877833,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":524657,"total":0,"est":19578339.0,"speed":182289.38039638396,"eta":84.46407254494113,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1048945,"total":0,"est":21937635.0,"speed":321645.32412052044,"eta":79.24716329885435,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1914252,"total":0,"est":26656227.0,"speed":545099.9820570396,"eta":73.64238226475419,"frag":1,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1914252,"total":0,"est":34443999.0,"speed":545099.9820570396,"eta":73.64238226475419,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1915276,"total":0,"est":24274776.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1917324,"total":0,"est":24280920.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1921420,"total":0,"est":24293208.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1929612,"total":0,"est":24317784.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1945996,"total":0,"est":24366936.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":1978764,"total":0,"est":24465240.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":2044300,"total":0,"est":24661848.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":2175372,"total":0,"est":25055064.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":2437516,"total":0,"est":25841496.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}
+{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","st":"downloading","done":2961804,"total":0,"est":27414360.0,"speed":662782.4887582941,"eta":68.66347540461298,"frag":2,"frags":18}

@@ -364,6 +364,8 @@ pub struct PageUiState {
     pub peek: poni_core::peek::Peek,
     /// The Stocks page: its scroll, search, edit mode and chart animation.
     pub stocks: crate::pages::stocks::StocksUi,
+    /// The Downloads page: its link field, mode and scroll.
+    pub downloads: crate::pages::downloads::DownloadsUi,
     /// The AI tab's own state while it shows (`pages::usage`).
     pub usage: crate::pages::usage::UsageUi,
     /// The Notes page: when the last notes were saved (Oyen's tick), a short
@@ -822,6 +824,11 @@ pub struct AppState {
     pub recorder: bool,
     /// The Stocks add-on's prices (its list: `store.stocks`).
     pub stocks: StocksState,
+    /// The Downloads page's jobs (`poni_core::downloads`), in memory only.
+    pub downloads: poni_core::downloads::Jobs,
+    /// This app offers the Downloader: Windows outside the Microsoft Store
+    /// build (set at start; false on the Mac for now).
+    pub downloader_offered: bool,
     /// The recorder's recording, as it last told the island.
     pub rec: RecView,
     /// Whether Windows lets the Notifications add-on read notifications.
@@ -906,6 +913,8 @@ impl AppState {
             script_hidden: None,
             recorder: false,
             stocks: StocksState::default(),
+            downloads: poni_core::downloads::Jobs::default(),
+            downloader_offered: false,
             rec: RecView::default(),
             notify_access: NotifyAccess::Unknown,
             usage: UsageState::default(),
@@ -929,6 +938,7 @@ impl AppState {
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
             PageKind::Stocks => !st.stocks_on(),
+            PageKind::Downloads => !st.downloader_on(),
             PageKind::Record => !st.record_on(),
             PageKind::Notifications => !st.notifications_on(),
             PageKind::Ielts => !st.ielts_on(),
@@ -1000,8 +1010,15 @@ impl AppState {
         self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
     }
 
-    /// The Notifications add-on is on (Windows): its tab shows, and new
-    /// notifications from the apps picked there show on the island.
+    /// The Downloader add-on is on, with its tools in place, for an account
+    /// with Studio Pro: the Downloads tab shows.
+    pub fn downloader_on(&self) -> bool {
+        self.downloader_offered && self.studio_pro() == Some(true) && self.addon(poni_core::addons::DOWNLOADER.id) == AddonStatus::Ready
+    }
+
+    /// The Notifications add-on is on (Windows), for an account with Studio
+    /// Pro: its tab shows, and new notifications from the apps picked there
+    /// show on the island.
     pub fn notifications_on(&self) -> bool {
         cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
     }

@@ -18,7 +18,7 @@ concurrency:
 
 env:
   # Keep in sync with Cargo.toml's workspace version, installer/poni.nsi and installer/poni.iss.
-  PONI_VERSION: "0.2.16"
+  PONI_VERSION: "0.2.17"
 
 jobs:
   core:
@@ -104,6 +104,15 @@ jobs:
       # filters as it takes its own, not which devices they let through.
       - name: Bluetooth filters on a real Windows
         run: cargo test -p poni --release the_paired_only_filters_work_like_windows_own -- --ignored --nocapture
+
+      # The Downloader add-on for real (services/downloader_live.rs): yt-dlp
+      # and QuickJS exactly as poni_core::addons pins them, then a 70 s
+      # Blender film from Blender's own PeerTube as video and as sound, every
+      # line read by poni_core::ytdlp::parse. Takes about a minute; the
+      # film's site having trouble only warns.
+      - name: Downloader with the pinned tools and a real link
+        timeout-minutes: 10
+        run: cargo test -p poni --release the_pinned_tools_download_a_real_link -- --ignored --nocapture
 
   # The self-tests and smoke runs on three machines at once, from the
   # poni.exe built above. Each step is the same as when one machine ran them
@@ -201,7 +210,8 @@ jobs:
           $ready = Run-Poni "true" "add-ons: sholat: ready"
           "---- files"
           Get-ChildItem $files -ErrorAction SilentlyContinue | ForEach-Object { "  $($_.Name)  $($_.Length) bytes" }
-          $have = @(Get-ChildItem $files -ErrorAction SilentlyContinue).Count
+          # The add-on's own files; .ok is the add-on service's stamp of what it checked.
+          $have = @(Get-ChildItem $files -ErrorAction SilentlyContinue | Where-Object Name -ne '.ok').Count
           $gone = Run-Poni "false" "add-ons: sholat: switched off, files deleted"
           $left = Test-Path (Join-Path $dir.FullName "cache\addons\sholat")
           "---- poni.log (add-ons)"
@@ -529,6 +539,48 @@ jobs:
           name: installer-check
           path: installer-out
           if-no-files-found: warn
+
+  # The Downloader add-on's ffmpeg.exe: FFmpeg's own release, built small
+  # (addons/downloader/FFMPEG.md). It changes only with its script, so a run
+  # takes the last build from the cache and builds again (about two minutes)
+  # only when tools/build-ffmpeg-min.sh changes. The artifact holds what goes
+  # on the add-on's pre-release: the exe, its SHA-256 and FFmpeg's source.
+  downloader-ffmpeg:
+    name: Downloader add-on's ffmpeg.exe (minimal LGPL FFmpeg)
+    # Pinned: the exe's bytes follow 24.04's mingw-w64 (FFMPEG.md).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: dist/ffmpeg
+          key: downloader-ffmpeg-${{ hashFiles('tools/build-ffmpeg-min.sh') }}
+      - name: Build
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gcc-mingw-w64-x86-64-win32 > /dev/null
+          tools/build-ffmpeg-min.sh dist/ffmpeg
+      - name: Size and SHA-256
+        run: ls -l dist/ffmpeg/windows/ffmpeg.exe && cat dist/ffmpeg/SHA256SUMS
+      # The app downloads the ffmpeg.exe on addon-downloader-1, pinned in
+      # poni_core::addons::DOWNLOADER. A build here that differs (another
+      # MinGW, another script) is worth knowing, not a failure: the release's
+      # file is the one people get.
+      - name: Same bytes as the pinned ffmpeg.exe
+        run: |
+          pin=$(grep -o 'FFMPEG_EXE, size: [0-9_]*, sha256: "[0-9a-f]*"' crates/poni-core/src/addons.rs | grep -o '[0-9a-f]\{64\}')
+          got=$(sha256sum dist/ffmpeg/windows/ffmpeg.exe | cut -d' ' -f1)
+          if [ "$pin" = "$got" ]; then echo "ffmpeg.exe matches the pin ($got)"; else echo "::warning::this build of ffmpeg.exe ($got) isn't the pinned one ($pin)"; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: downloader-ffmpeg
+          path: |
+            dist/ffmpeg/windows/ffmpeg.exe
+            dist/ffmpeg/SHA256SUMS
+            dist/ffmpeg/ffmpeg-*.tar.xz
+          if-no-files-found: error
 
   # A tag push publishes. A manual run with release_dry_run goes through the
   # same jobs and checks and publishes nothing: no tag, release or issue, and

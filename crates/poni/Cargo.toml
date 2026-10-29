@@ -90,6 +90,7 @@ features = [
     "Win32_System_Diagnostics_Etw",
     "Win32_System_LibraryLoader",
     "Win32_System_IO",
+    "Win32_System_JobObjects",
     "Win32_System_Memory",
     "Win32_System_Ole",
     "Win32_System_Performance",

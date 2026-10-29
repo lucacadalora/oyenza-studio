@@ -1,0 +1,79 @@
+[generic] Extracting URL: https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd
+[generic] bbb_30fps: Downloading webpage
+[generic] bbb_30fps: Extracting information
+[info] bbb_30fps: Downloading 1 format(s): bbb_a64k
+{"t":"info","id":"bbb_30fps","title":"bbb_30fps","site":"Generic","thumb":null,"duration":null,"uploader":null}
+[dashsegments] Total fragments: 160
+[download] Destination: <dir>/bbb_30fps [bbb_30fps].m4a
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":633,"total":0,"est":101280.0,"speed":0,"eta":0,"frag":0,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":633,"total":0,"est":202560.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":1657,"total":0,"est":2741200.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":3705,"total":0,"est":2823120.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":7801,"total":0,"est":2986960.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15993,"total":0,"est":3314640.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":32377,"total":0,"est":3970000.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":34265,"total":0,"est":5280720.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":34265,"total":0,"est":5431760.0,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":35289,"total":0,"est":3609280.0,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":37337,"total":0,"est":3663893.333333333,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":41433,"total":0,"est":3773120.0,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":49625,"total":0,"est":3991573.333333333,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":66009,"total":0,"est":4428480.0,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":67674,"total":0,"est":5302293.333333334,"speed":0,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":67674,"total":0,"est":5391093.333333334,"speed":0,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":68698,"total":0,"est":4043160.0,"speed":392978.29999710544,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":70746,"total":0,"est":4084120.0,"speed":392978.29999710544,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":74842,"total":0,"est":4166040.0,"speed":392978.29999710544,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":83034,"total":0,"est":4329880.0,"speed":392978.29999710544,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":99418,"total":0,"est":4657560.0,"speed":392978.29999710544,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":101079,"total":0,"est":5312920.0,"speed":392978.29999710544,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":101079,"total":0,"est":5379360.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":102103,"total":0,"est":4302656.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":104151,"total":0,"est":4335424.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":108247,"total":0,"est":4400960.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":116439,"total":0,"est":4532032.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":132823,"total":0,"est":4794176.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":134458,"total":0,"est":5318464.0,"speed":392978.29999710544,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":134458,"total":0,"est":5370784.0,"speed":392978.29999710544,"eta":0,"frag":5,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5155802,"total":0,"est":5314012.307692308,"speed":340180.74521252175,"eta":1.336568417665053,"frag":155,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5172186,"total":0,"est":5322414.358974359,"speed":340180.74521252175,"eta":1.336568417665053,"frag":155,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5173994,"total":0,"est":5339218.461538461,"speed":340180.74521252175,"eta":1.336568417665053,"frag":155,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5173994,"total":0,"est":5341072.82051282,"speed":340180.74521252175,"eta":1.336568417665053,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5175018,"total":0,"est":5306736.305732484,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5177066,"total":0,"est":5307779.872611465,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5181162,"total":0,"est":5309867.006369427,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5189354,"total":0,"est":5314041.273885351,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5205738,"total":0,"est":5322389.8089171965,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5207235,"total":0,"est":5339086.878980892,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5207235,"total":0,"est":5340612.484076433,"speed":336497.1827146744,"eta":1.2430815730212361,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5208259,"total":0,"est":5307041.012658227,"speed":334067.960635029,"eta":1.1488532208660087,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5210307,"total":0,"est":5308077.974683545,"speed":334067.960635029,"eta":1.1488532208660087,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5214403,"total":0,"est":5310151.898734177,"speed":334067.960635029,"eta":1.1488532208660087,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5222595,"total":0,"est":5314299.746835442,"speed":334067.960635029,"eta":1.1488532208660087,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5238979,"total":0,"est":5322595.443037974,"speed":334067.960635029,"eta":1.1488532208660087,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5240703,"total":0,"est":5339186.835443038,"speed":334067.960635029,"eta":1.1488532208660087,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5240703,"total":0,"est":5340932.658227849,"speed":334067.960635029,"eta":1.1488532208660087,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5241727,"total":0,"est":5307213.081761006,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5243775,"total":0,"est":5308243.522012578,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5247871,"total":0,"est":5310304.402515722,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5256063,"total":0,"est":5314426.1635220125,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5272447,"total":0,"est":5322669.685534592,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5274043,"total":0,"est":5339156.729559748,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5274043,"total":0,"est":5340762.767295597,"speed":330619.98358183744,"eta":1.0542689580352582,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5275067,"total":0,"est":5278733.0,"speed":329121.3761476638,"eta":0.9499678984594845,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5277115,"total":0,"est":5279757.0,"speed":329121.3761476638,"eta":0.9499678984594845,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5278733,"total":0,"est":5281805.0,"speed":329121.3761476638,"eta":0.9499678984594845,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5278733,"total":0,"est":5283423.0,"speed":329121.3761476638,"eta":0.9499678984594845,"frag":160,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"finished","done":5278733,"total":5278733,"est":0,"speed":408147.5682409711,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"bbb_30fps","pp":"FixupM4a","st":"started"}
+[FixupM4a] Correcting container of "<dir>/bbb_30fps [bbb_30fps].m4a"
+{"t":"pp","id":"bbb_30fps","pp":"FixupM4a","st":"finished"}
+{"t":"pp","id":"bbb_30fps","pp":"FixupDuplicateMoov","st":"started"}
+[FixupDuplicateMoov] Fixing duplicate MOOV atoms of "<dir>/bbb_30fps [bbb_30fps].m4a"
+{"t":"pp","id":"bbb_30fps","pp":"FixupDuplicateMoov","st":"finished"}
+{"t":"pp","id":"bbb_30fps","pp":"ExtractAudio","st":"started"}
+[ExtractAudio] Not converting audio <dir>/bbb_30fps [bbb_30fps].m4a; file is already in target format m4a
+{"t":"pp","id":"bbb_30fps","pp":"ExtractAudio","st":"finished"}
+{"t":"pp","id":"bbb_30fps","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"bbb_30fps","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/bbb_30fps [bbb_30fps].m4a"}

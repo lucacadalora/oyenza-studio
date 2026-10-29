@@ -76,8 +76,9 @@ fn ease_out_cubic(t: f32) -> f32 {
     1.0 - u * u * u
 }
 
-/// Move `from` toward `to` with frame-rate independent smoothing; snaps when close.
-fn glide(from: f32, to: f32, dt: f32) -> (f32, bool) {
+/// Move `from` toward `to` with frame-rate independent smoothing; snaps when
+/// close (also the Downloads page's scroll).
+pub(crate) fn glide(from: f32, to: f32, dt: f32) -> (f32, bool) {
     let v = from + (to - from) * (1.0 - (-GLIDE_RATE * dt).exp());
     if (to - v).abs() < 0.3 {
         (to, false)
@@ -390,7 +391,8 @@ fn draw_row(ui: &mut Ui, row: Rect, hit: Rect, view: Rect, id: u64, done: bool, 
 
 /// Darken `r` toward the island colour; `top` = strongest at the top edge.
 /// Glass has no one island colour to fade into, so the list just ends there.
-fn fade(ui: &mut Ui, r: Rect, top: bool) {
+/// Also the Downloads page's list.
+pub(crate) fn fade(ui: &mut Ui, r: Rect, top: bool) {
     if ui.c.look().material == poni_core::look::Material::Glass {
         return;
     }

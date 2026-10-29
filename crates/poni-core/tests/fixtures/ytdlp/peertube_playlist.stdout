@@ -1,0 +1,158 @@
+[PeerTube:Playlist] Extracting URL: https://video.blender.org/w/p/rkPtQt1nKmibQ5J6SZXyRb
+[PeerTube:Playlist] rkPtQt1nKmibQ5J6SZXyRb: Downloading playlist information
+[download] Downloading playlist: shorts
+[PeerTube:Playlist] rkPtQt1nKmibQ5J6SZXyRb: Downloading page 1
+[PeerTube:Playlist] Playlist shorts: Downloading 2 items
+[download] Downloading item 1 of 2
+[PeerTube] Extracting URL: https://video.blender.org/w/bYxajtKxKPSmjf3D4sYi9x
+[PeerTube] bYxajtKxKPSmjf3D4sYi9x: Downloading video JSON
+[PeerTube] bYxajtKxKPSmjf3D4sYi9x: Downloading m3u8 information
+[PeerTube] bYxajtKxKPSmjf3D4sYi9x: Downloading description JSON
+[info] bYxajtKxKPSmjf3D4sYi9x: Downloading 1 format(s): 2
+{"t":"info","id":"bYxajtKxKPSmjf3D4sYi9x","title":"Compositor updates for Blender 4.2 #b3d #software #animation #compositing","site":"PeerTube","thumb":"https://video.blender.org/lazy-static/thumbnails/150c7073-7db5-4494-b99a-4491584923e8.jpg","duration":43,"uploader":"Blender"}
+[hlsnative] Downloading m3u8 manifest
+[hlsnative] Total fragments: 11
+[download] Destination: <dir>/Compositor updates for Blender 4.2 #b3d #software #animation #compositing [bYxajtKxKPSmjf3D4sYi9x].mp4
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1024,"total":0,"est":14872.0,"speed":1322.1431821062904,"eta":0,"frag":0,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1353,"total":0,"est":26136.0,"speed":1322.1431821062904,"eta":0,"frag":0,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1353,"total":0,"est":29766.0,"speed":1322.1431821062904,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2377,"total":0,"est":2383364.5,"speed":1888.7744359335484,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":4425,"total":0,"est":2388996.5,"speed":1888.7744359335484,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":8521,"total":0,"est":2400260.5,"speed":1888.7744359335484,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":16713,"total":0,"est":2422788.5,"speed":1888.7744359335484,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":33097,"total":0,"est":2467844.5,"speed":1888.7744359335484,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":65865,"total":0,"est":2557956.5,"speed":22849.200421106078,"eta":0,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":131401,"total":0,"est":2738180.5,"speed":52093.931718717446,"eta":21.663292726647995,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":262473,"total":0,"est":3098628.5,"speed":98654.05394479411,"eta":20.8651414330734,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":433340,"total":0,"est":3819524.5,"speed":159371.10431597347,"eta":19.90344027544813,"frag":1,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":433340,"total":0,"est":4759298.5,"speed":159371.10431597347,"eta":19.90344027544813,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":434364,"total":0,"est":2238052.666666667,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":436412,"total":0,"est":2241807.333333333,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":440508,"total":0,"est":2249316.666666667,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":448700,"total":0,"est":2264335.333333333,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":465084,"total":0,"est":2294372.666666667,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":497852,"total":0,"est":2354447.333333333,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":563388,"total":0,"est":2474596.666666667,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":610379,"total":0,"est":2714895.333333333,"speed":190316.8407325584,"eta":18.600154077408867,"frag":2,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":610379,"total":0,"est":2887199.3333333335,"speed":190316.8407325584,"eta":18.600154077408867,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":611403,"total":0,"est":2087461.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":613451,"total":0,"est":2090277.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":617547,"total":0,"est":2095909.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":625739,"total":0,"est":2107173.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":642123,"total":0,"est":2129701.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":674891,"total":0,"est":2174757.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":740427,"total":0,"est":2264869.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":759078,"total":0,"est":2445093.75,"speed":230492.54133287817,"eta":17.195380982657003,"frag":3,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1560510,"total":0,"est":2039918.2222222225,"speed":427448.73460045224,"eta":11.014048062716512,"frag":8,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1604513,"total":0,"est":2120017.7777777775,"speed":427448.73460045224,"eta":11.014048062716512,"frag":8,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1604513,"total":0,"est":2173800.4444444445,"speed":427448.73460045224,"eta":11.014048062716512,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1605537,"total":0,"est":1983194.4,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1607585,"total":0,"est":1984320.7999999998,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1611681,"total":0,"est":1986573.6,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1619873,"total":0,"est":1991079.2000000002,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1636257,"total":0,"est":2000090.4,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1669025,"total":0,"est":2018112.7999999998,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1734561,"total":0,"est":2054157.6,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1802905,"total":0,"est":2126247.2,"speed":466305.3676640694,"eta":9.980448852288415,"frag":9,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1802905,"total":0,"est":2201426.7,"speed":466305.3676640694,"eta":9.980448852288415,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1803929,"total":0,"est":2019585.0,"speed":468917.809446825,"eta":9.02780393923916,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1805977,"total":0,"est":2020609.0,"speed":468917.809446825,"eta":9.02780393923916,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1810073,"total":0,"est":2022657.0,"speed":468917.809446825,"eta":9.02780393923916,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1818265,"total":0,"est":2026753.0,"speed":468917.809446825,"eta":9.02780393923916,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1834649,"total":0,"est":2034945.0,"speed":469861.53329888923,"eta":8.1674534252785,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1867417,"total":0,"est":2051329.0000000002,"speed":475853.07552216994,"eta":7.388253914100859,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":1932953,"total":0,"est":2084097.0,"speed":471348.9619893369,"eta":6.682226068189357,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2019586,"total":0,"est":2149633.0,"speed":459695.2112037524,"eta":6.044071914560921,"frag":10,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2019586,"total":0,"est":2236267.0,"speed":459695.2112037524,"eta":6.044071914560921,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2020610,"total":0,"est":2020610,"speed":436639.0395862104,"eta":5.439664723104829,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2022658,"total":0,"est":2022658,"speed":436639.0395862104,"eta":5.439664723104829,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2026754,"total":0,"est":2026754,"speed":436639.0395862104,"eta":5.439664723104829,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2034946,"total":0,"est":2034946,"speed":436639.0395862104,"eta":5.439664723104829,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2051330,"total":0,"est":2051330,"speed":436639.0395862104,"eta":5.439664723104829,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2084098,"total":0,"est":2084098,"speed":420247.1910344197,"eta":4.8956982507943465,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2113504,"total":0,"est":2113504,"speed":420247.1910344197,"eta":4.8956982507943465,"frag":11,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"downloading","done":2113504,"total":0,"est":2113504,"speed":420247.1910344197,"eta":4.8956982507943465,"frag":12,"frags":11}
+{"t":"dl","id":"bYxajtKxKPSmjf3D4sYi9x","st":"finished","done":2113504,"total":2113504,"est":0,"speed":389193.8771814966,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"bYxajtKxKPSmjf3D4sYi9x","pp":"FixupM3u8","st":"started"}
+{"t":"pp","id":"bYxajtKxKPSmjf3D4sYi9x","pp":"FixupM3u8","st":"finished"}
+{"t":"pp","id":"bYxajtKxKPSmjf3D4sYi9x","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"bYxajtKxKPSmjf3D4sYi9x","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/Compositor updates for Blender 4.2 #b3d #software #animation #compositing [bYxajtKxKPSmjf3D4sYi9x].mp4"}
+[download] Downloading item 2 of 2
+[PeerTube] Extracting URL: https://video.blender.org/w/1gw3XpwmiDXAsXshQrH7mo
+[PeerTube] 1gw3XpwmiDXAsXshQrH7mo: Downloading video JSON
+[PeerTube] 1gw3XpwmiDXAsXshQrH7mo: Downloading m3u8 information
+[PeerTube] 1gw3XpwmiDXAsXshQrH7mo: Downloading description JSON
+[info] 1gw3XpwmiDXAsXshQrH7mo: Downloading 1 format(s): 2
+{"t":"info","id":"1gw3XpwmiDXAsXshQrH7mo","title":"What are some of the things you are looking forward to the most from Blender 4.2 Eevee? #b3d #eevee","site":"PeerTube","thumb":"https://video.blender.org/lazy-static/thumbnails/7ac4e9db-8c1d-4b63-b8a7-c3541cab7b57.jpg","duration":36,"uploader":"Blender"}
+[hlsnative] Downloading m3u8 manifest
+[hlsnative] Total fragments: 9
+[download] Destination: <dir>/What are some of the things you are looking forward to the most from Blender 4.2 Eevee？ #b3d #eevee [1gw3XpwmiDXAsXshQrH7mo].mp4
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":1024,"total":0,"est":12168.0,"speed":1160.5332902201917,"eta":0,"frag":0,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":1353,"total":0,"est":21384.0,"speed":1160.5332902201917,"eta":0,"frag":0,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":1353,"total":0,"est":24354.0,"speed":1160.5332902201917,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2377,"total":0,"est":1960173.0,"speed":1880.3504013916724,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":4425,"total":0,"est":1964781.0,"speed":1880.3504013916724,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":8521,"total":0,"est":1973997.0,"speed":1880.3504013916724,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":16713,"total":0,"est":1992429.0,"speed":1880.3504013916724,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":33097,"total":0,"est":2029293.0,"speed":1880.3504013916724,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":65865,"total":0,"est":2103021.0,"speed":24643.117054293954,"eta":0,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":131401,"total":0,"est":2250477.0,"speed":55780.396365126755,"eta":16.499332003522976,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":262473,"total":0,"est":2545389.0,"speed":96443.11718719325,"eta":16.04262617109297,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":435595,"total":0,"est":3135213.0,"speed":151933.27114269248,"eta":15.397680973568797,"frag":1,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":435595,"total":0,"est":3914266.5,"speed":151933.27114269248,"eta":15.397680973568797,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":436619,"total":0,"est":1756518.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":438667,"total":0,"est":1759590.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":442763,"total":0,"est":1765734.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":450955,"total":0,"est":1778022.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":467339,"total":0,"est":1802598.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":500107,"total":0,"est":1851750.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":565643,"total":0,"est":1950054.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":585507,"total":0,"est":2146662.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":2,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":585507,"total":0,"est":2206257.0,"speed":179176.3160990816,"eta":14.401655316100559,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":586531,"total":0,"est":1993252.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":588579,"total":0,"est":1995556.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":592675,"total":0,"est":2000164.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":600867,"total":0,"est":2009380.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":617251,"total":0,"est":2027812.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":650019,"total":0,"est":2064676.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":715555,"total":0,"est":2138404.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":846627,"total":0,"est":2285860.5,"speed":206095.47473931088,"eta":13.484615739325879,"frag":3,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2414631,"total":0,"est":3267480.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2418727,"total":0,"est":3269784.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2426919,"total":0,"est":3274392.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2443303,"total":0,"est":3283608.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2476071,"total":0,"est":3302040.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2541607,"total":0,"est":3338904.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2672679,"total":0,"est":3412632.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2903404,"total":0,"est":3560088.375,"speed":575584.6557590931,"eta":9.015279870690293,"frag":7,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2903404,"total":0,"est":3819655.125,"speed":575584.6557590931,"eta":9.015279870690293,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2904428,"total":0,"est":3279175.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2906476,"total":0,"est":3280199.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2910572,"total":0,"est":3282247.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2918764,"total":0,"est":3286343.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2935148,"total":0,"est":3294535.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":2967916,"total":0,"est":3310919.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3033452,"total":0,"est":3343687.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3164524,"total":0,"est":3409223.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3279176,"total":0,"est":3540295.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":8,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3279176,"total":0,"est":3654948.0,"speed":699605.4426167133,"eta":8.151643877593495,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3280200,"total":0,"est":3280200,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3282248,"total":0,"est":3282248,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3286344,"total":0,"est":3286344,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3294536,"total":0,"est":3294536,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3310920,"total":0,"est":3310920,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3343688,"total":0,"est":3343688,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3409224,"total":0,"est":3409224,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3540296,"total":0,"est":3540296,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3591765,"total":0,"est":3591765,"speed":810451.994574426,"eta":7.336479489834145,"frag":9,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"downloading","done":3591765,"total":0,"est":3591765,"speed":810451.994574426,"eta":7.336479489834145,"frag":10,"frags":9}
+{"t":"dl","id":"1gw3XpwmiDXAsXshQrH7mo","st":"finished","done":3591765,"total":3591765,"est":0,"speed":903168.3834447924,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"1gw3XpwmiDXAsXshQrH7mo","pp":"FixupM3u8","st":"started"}
+{"t":"pp","id":"1gw3XpwmiDXAsXshQrH7mo","pp":"FixupM3u8","st":"finished"}
+{"t":"pp","id":"1gw3XpwmiDXAsXshQrH7mo","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"1gw3XpwmiDXAsXshQrH7mo","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/What are some of the things you are looking forward to the most from Blender 4.2 Eevee\uff1f #b3d #eevee [1gw3XpwmiDXAsXshQrH7mo].mp4"}
+{"t":"pp","id":"rkPtQt1nKmibQ5J6SZXyRb","pp":"Concat","st":"started"}
+{"t":"pp","id":"rkPtQt1nKmibQ5J6SZXyRb","pp":"Concat","st":"finished"}
+[download] Finished downloading playlist: shorts

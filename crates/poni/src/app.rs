@@ -624,6 +624,8 @@ impl App {
         let taskbar_created_msg = unsafe { RegisterWindowMessageW(w!("TaskbarCreated")) };
         // Oyenza Studio Recorder installed: the Record tab can show (one registry read).
         st.recorder = selftest_dir.is_none() && services::recorder::installed();
+        // The Downloader: not in the Microsoft Store build.
+        st.downloader_offered = !crate::autostart::packaged();
         let selftest = selftest_dir.map(selftest::SelfTest::new);
         let saved_settings = st.settings.clone();
         Ok(Self {
@@ -1068,6 +1070,10 @@ impl App {
                                 }
                                 None => {}
                             }
+                        }
+                        // The download pill opens on its page.
+                        if self.mode == Mode::Activity(activities::Activity::Download) {
+                            self.st.page = PageKind::Downloads;
                         }
                         self.st.hud = None;
                         if !opened {
@@ -1807,8 +1813,12 @@ impl App {
     fn on_oyenza(&mut self, ev: OyenzaEvent) {
         let now = self.st.now;
         let link_before = self.st.oyenza.link.clone();
+        let pro_before = self.st.studio_pro() == Some(true);
         match ev {
-            OyenzaEvent::Restored { account } => self.st.oyenza.link = OyenzaLink::Connected { account },
+            OyenzaEvent::Restored { account } => {
+                self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
+            }
             OyenzaEvent::Connecting { code, url, expires_in_s } => {
                 self.st.oyenza.link = OyenzaLink::Connecting { code, url, until: now + expires_in_s as f64 };
                 // Keep the code on screen while the person goes to oyenza.app.
@@ -1823,6 +1833,7 @@ impl App {
                 self.end_sign_in();
                 self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
                 self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
                 // Signed in from the Today page: back to it, where the day comes in.
                 if std::mem::take(&mut self.st.oyenza.from_today) {
                     self.st.page = PageKind::Today;
@@ -1921,6 +1932,32 @@ impl App {
         // Signed in or out, the Oyenza page's height changes: the window fits the tallest page again.
         if self.st.oyenza.link != link_before {
             self.layout_surface();
+        }
+        if (self.st.studio_pro() == Some(true)) != pro_before {
+            self.pro_changed();
+        }
+    }
+
+    /// Signed in (at start, or just now) with the Downloader switched on:
+    /// whether the account has Studio Pro, now, so its tab doesn't wait for
+    /// the Add-ons page to open (`pages::addons::pro_wanted`).
+    fn ask_pro(&self) {
+        if pages::addons::pro_wanted(&self.st) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+    }
+
+    /// Studio Pro came, or went (the server's word, or signing out): the
+    /// Downloader's downloads stop as it goes, and its files come with it
+    /// (`Services::set_pro`). Its tab follows by itself (`downloader_on`), and
+    /// its page on screen leaves for Add-ons.
+    fn pro_changed(&mut self) {
+        let pro = self.st.studio_pro() == Some(true);
+        if !pro {
+            self.downloads_off();
+        }
+        if let Some(s) = self.services.as_ref() {
+            s.set_pro(pro);
         }
     }
 
@@ -2044,6 +2081,11 @@ impl App {
         }
         if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
             self.locate();
+        }
+        // The Downloader: off stops its downloads before its tools are deleted.
+        let downloader_id = poni_core::addons::DOWNLOADER.id;
+        if before.addon_on(downloader_id) && !self.st.settings.addon_on(downloader_id) {
+            self.downloads_off();
         }
         // An add-on switched on downloads its files; off deletes them.
         for a in poni_core::addons::ALL {
@@ -2228,6 +2270,10 @@ impl App {
         if let Some(w) = self.settings_win.as_mut().filter(|_| shown) {
             w.view.dirty = true;
         }
+        // A download's bytes coming in while nobody can see the island (locked,
+        // display off) wait for the next frame something else asks for: the
+        // pill catches up then, as nothing else of it moves on its own.
+        let unseen = matches!(ev, AppEvent::Download { line: poni_core::ytdlp::Line::Progress { .. }, .. }) && (self.locked || self.display_off);
         match ev {
             AppEvent::Backdrop => {
                 if self.glass.on_backdrop(self.hwnd, &mut self.gfx) {
@@ -2470,6 +2516,8 @@ impl App {
             AppEvent::Notify(ev) => self.on_notify(ev),
             AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
+            AppEvent::Download { id, line } => self.download_line(id, line),
+            AppEvent::DownloadEnded { id, ok } => self.download_ended(id, ok),
             AppEvent::Ielts(reply) => {
                 let fx = self.st.ielts.reply(*reply, now);
                 self.ielts_do(fx);
@@ -2499,7 +2547,9 @@ impl App {
         if let Some(before) = media_before {
             self.after_media_change(before, now);
         }
-        self.request_frame();
+        if !unseen {
+            self.request_frame();
+        }
     }
 
     /// (player, track, playing) of the current media session.
@@ -3326,12 +3376,13 @@ impl App {
         self.ielts_tick();
         self.notes_tick();
         self.script_tick();
-        // Prayer times, System, Health, Stocks or IELTS switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, IELTS or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Downloads => !self.st.downloader_on(),
             PageKind::Notifications => !self.st.notifications_on(),
             PageKind::Ielts => !self.st.ielts_on(),
             PageKind::Notes => !self.st.notes_on(),
@@ -3412,6 +3463,9 @@ impl App {
             }
             self.mode = target;
             retarget = true;
+            if target == Mode::Expanded(PageKind::Downloads) {
+                self.downloads_page_shown();
+            }
         } else {
             // Size can change within a mode (a page's height, the hover lift); follow it.
             let g = self.geom_for(&self.mode);
@@ -4608,6 +4662,7 @@ impl App {
                         services::cities::fetch(file, self.sink.clone());
                     }
                 }
+                Command::Download(c) => self.download_cmd(c),
                 Command::Notify(c) => self.notify_cmd(c),
             }
         }
@@ -5350,6 +5405,10 @@ fn paired_phones(pairs: Vec<poni_core::pairdrop::Pair>) -> Vec<PairedPhone> {
 fn files_label(n: usize) -> String {
     format!("{n} {}", if n == 1 { "file" } else { "files" })
 }
+
+// The Downloads page's commands and yt-dlp's reports.
+#[path = "app_downloads.rs"]
+mod downloads;
 
 #[cfg(test)]
 mod tests {

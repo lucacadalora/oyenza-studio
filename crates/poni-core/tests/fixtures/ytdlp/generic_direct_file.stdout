@@ -1,0 +1,21 @@
+[generic] Extracting URL: https://video.blender.org/object-storage/web_videos/1effe9c9-882d-4eec-8469-f3445d319cd2-0.mp4
+[generic] 1effe9c9-882d-4eec-8469-f3445d319cd2-0: Downloading webpage
+[info] 1effe9c9-882d-4eec-8469-f3445d319cd2-0: Downloading 1 format(s): mp4
+{"t":"info","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","title":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","site":"Generic","thumb":null,"duration":null,"uploader":null}
+[download] Destination: <dir>/1effe9c9-882d-4eec-8469-f3445d319cd2-0 [1effe9c9-882d-4eec-8469-f3445d319cd2-0].mp4
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":1024,"total":2799967,"est":0,"speed":0,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":3072,"total":2799967,"est":0,"speed":0,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":7168,"total":2799967,"est":0,"speed":5940480.354080222,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":15360,"total":2799967,"est":0,"speed":4267371.626150891,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":31744,"total":2799967,"est":0,"speed":2661336.148553839,"eta":1,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":64512,"total":2799967,"est":0,"speed":249535.6091579625,"eta":10,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":130048,"total":2799967,"est":0,"speed":257238.12839438402,"eta":10,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":261120,"total":2799967,"est":0,"speed":211782.70104306034,"eta":11,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":441310,"total":2799967,"est":0,"speed":298066.7084660498,"eta":7,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":801690,"total":2799967,"est":0,"speed":464033.7636434996,"eta":4,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":1522450,"total":2799967,"est":0,"speed":770679.5643287989,"eta":1,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"downloading","done":2799967,"total":2799967,"est":0,"speed":1259288.7483439008,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","st":"finished","done":2799967,"total":2799967,"est":0,"speed":870078.5290205646,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"1effe9c9-882d-4eec-8469-f3445d319cd2-0","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/1effe9c9-882d-4eec-8469-f3445d319cd2-0 [1effe9c9-882d-4eec-8469-f3445d319cd2-0].mp4"}

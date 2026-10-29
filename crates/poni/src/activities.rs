@@ -1,6 +1,6 @@
 //! What the collapsed island shows: idle pill, live activities (a screen
 //! recording, media, timer, the minutes before a prayer, the readout over
-//! games), HUD
+//! games, downloads), HUD
 //! pop-ups (volume, charging, Bluetooth) and notices.
 //!
 //! Collapsed pills are sized to their content: Windows has no camera
@@ -18,6 +18,7 @@ use poni_core::frames::fmt_fps;
 use poni_core::geom::{clamp01, palette, Color, Point, Rect};
 use poni_core::pomodoro::Phase;
 use poni_core::settings::IdleStyle;
+use poni_core::svgpath::Seg;
 use poni_core::sysmon::fmt_pct;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -31,6 +32,8 @@ pub enum Activity {
     Game,
     /// A screen recording with Oyenza Studio Recorder: its dot and time.
     Recording,
+    /// The Downloader add-on: how far its downloads are.
+    Download,
     /// Meeting notes: Oyen listening (his head moving with the voices, the
     /// red dot and the time), then writing the notes.
     Notes,
@@ -105,6 +108,12 @@ const GAME_DIVIDER: Color = Color::white(0.18);
 /// The recording: its dot, then "12:34" (the timer's width) or "1:02:03".
 const RECORDING_W: f32 = 96.0;
 const RECORDING_LONG_W: f32 = 112.0;
+/// Downloads: the ring with the arrow in it, then "37%" (the timer's
+/// width); the long timer's while the count sits beside the ring.
+const DOWNLOAD_W: f32 = 96.0;
+const DOWNLOAD_MANY_W: f32 = 112.0;
+/// The capsule under the download count.
+const COUNT_FILL: Color = Color::white(0.16);
 /// A meeting being taken down: Oyen's head, the dot and the time; then
 /// Oyen with "Writing notes".
 const NOTES_W: f32 = 124.0;
@@ -122,7 +131,8 @@ pub fn content_key(m: &Mode) -> u32 {
         Mode::Activity(Activity::Prayer) => 5,
         Mode::Activity(Activity::Game) => 6,
         Mode::Activity(Activity::Recording) => 7,
-        Mode::Activity(Activity::Notes) => 8,
+        Mode::Activity(Activity::Download) => 8,
+        Mode::Activity(Activity::Notes) => 9,
         Mode::Hud(t) => 10 + *t as u32,
         Mode::Notice => 20,
         Mode::Expanded(_) => 30,
@@ -185,8 +195,17 @@ pub fn current_activity(st: &AppState) -> Option<Activity> {
         (true, true) => Some(Activity::MediaTimer),
         (true, false) => Some(Activity::Media),
         (false, true) => Some(Activity::Timer),
+        // Downloads under way come last: they run for minutes and their
+        // page has the details, so music and the timer keep the island;
+        // they show while nothing else is live.
+        _ if downloading(st) => Some(Activity::Download),
         _ => None,
     }
+}
+
+/// Downloads wait or run (the Downloader add-on, Windows only for now).
+fn downloading(st: &AppState) -> bool {
+    st.downloader_on() && st.downloads.busy()
 }
 
 pub fn collapsed_mode(st: &AppState) -> Mode {
@@ -289,6 +308,7 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
         Mode::Activity(Activity::Prayer) => Geom::new(PRAYER_W, 32.0, 15.0),
         Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
         Mode::Activity(Activity::Recording) => Geom::new(recording_w(st), 32.0, 15.0),
+        Mode::Activity(Activity::Download) => Geom::new(if download_many(st) { DOWNLOAD_MANY_W } else { DOWNLOAD_W }, 32.0, 15.0),
         Mode::Activity(Activity::Notes) => Geom::new(notes_w(st), 32.0, 15.0),
         Mode::Hud(HudTag::Volume) => Geom::new(316.0, 40.0, 19.0),
         Mode::Hud(HudTag::Charging) | Mode::Hud(HudTag::LowBattery) => Geom::new(300.0, 40.0, 19.0),
@@ -609,6 +629,7 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
         }
         Activity::Game => draw_game(ui, st, body),
         Activity::Recording => draw_recording(ui, st, body),
+        Activity::Download => draw_download(ui, st, body),
         Activity::Notes => draw_notes(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
@@ -701,6 +722,72 @@ pub(crate) fn recording_time(st: &AppState) -> (String, TextStyle) {
     let recording = st.rec.phase == Some(poni_core::recorder::Phase::Recording);
     let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(if recording { palette::TEXT } else { palette::TEXT_DIM });
     (poni_core::recorder::fmt_length(st.rec_elapsed()), ts)
+}
+
+/// What the download pill shows (`Activity::Download`, every theme): how far
+/// the downloads are, of everything running (None until a size is known),
+/// and how many wait or run. A saved file shows as the app's "Saved" notice
+/// (`app_downloads.rs`), not here.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub(crate) struct DownloadView {
+    pub fraction: Option<f32>,
+    pub count: usize,
+}
+
+pub(crate) fn download_view(st: &AppState) -> DownloadView {
+    let pill = st.downloads.pill();
+    DownloadView { fraction: pill.as_ref().and_then(|p| p.fraction), count: pill.map_or(0, |p| p.count) }
+}
+
+/// The count shows beside the download pill's mark: more than one download
+/// waits or runs.
+pub(crate) fn download_many(st: &AppState) -> bool {
+    download_view(st).count > 1
+}
+
+/// "37%": the whole percent the Downloads page's bar shows too
+/// (`downloads::percent`).
+pub(crate) fn download_pct(fraction: f32) -> String {
+    format!("{}%", poni_core::downloads::percent(fraction))
+}
+
+/// The download count on a grey capsule `h` tall, its left end at `x`
+/// (the Pill theme's too, in its own type).
+pub(crate) fn count_chip(ui: &mut Ui, count: usize, x: f32, cy: f32, h: f32, ts: TextStyle) {
+    let text = count.to_string();
+    let w = (ui.c.measure(&text, &ts, 100.0).0.ceil() + h / 2.0).max(h);
+    let r = Rect::new(x, cy - h / 2.0, w, h);
+    ui.c.fill_rrect(r, h / 2.0, COUNT_FILL);
+    ui.c.text(&text, r, &ts.center());
+}
+
+/// Downloads, in the timer's place: the ring filling with the accent round
+/// an arrow down, the count beside it while more than one waits or runs,
+/// and the percentage where the countdown sits. Until a size is known, the
+/// ring's track alone and a dash: no spinner, nothing moves (it repaints as
+/// yt-dlp reports).
+fn draw_download(ui: &mut Ui, st: &AppState, body: Rect) {
+    let c = Point::new(body.x + 12.0 + 9.0, body.center().y);
+    let ts = TextStyle::body().weight(Weight::Semibold).tabular().right();
+    let DownloadView { fraction, count } = download_view(st);
+    ui.c.ring(c, 9.0, 2.4, fraction.unwrap_or(0.0), RING_TRACK, st.accent);
+    arrow_down(ui, c, palette::TEXT);
+    if count > 1 {
+        count_chip(ui, count, c.x + 15.0, c.y, 16.0, TextStyle::caption().weight(Weight::Semibold).tabular());
+    }
+    let (text, col) = match fraction {
+        Some(f) => (download_pct(f), palette::TEXT),
+        None => ("\u{2013}".to_string(), palette::TEXT_DIM),
+    };
+    ui.c.text(&text, Rect::new(body.x + 30.0, body.y, body.w - 30.0 - 14.0, body.h), &ts.color(col));
+}
+
+/// A plain arrow down centred on `c`, 8.5 DIPs tall: `Icon::Download`'s
+/// tray leaves its arrow too small inside the download pill's ring.
+fn arrow_down(ui: &mut Ui, c: Point, color: Color) {
+    let (x, y) = (c.x, c.y);
+    let segs = [Seg::MoveTo(x, y - 4.25), Seg::LineTo(x, y + 4.25), Seg::MoveTo(x - 3.5, y + 0.75), Seg::LineTo(x, y + 4.25), Seg::LineTo(x + 3.5, y + 0.75)];
+    ui.c.path(&segs, None, Some((color, 1.6)));
 }
 
 /// The GPU's temperature for the readout, when its driver reports one.
@@ -1134,5 +1221,105 @@ mod tests {
         song.hud = None;
         assert!(!is_live(&Mode::Aside, &song));
         assert!(is_live(&media, &song));
+    }
+
+    /// A download of `url` added to the list (queued).
+    fn add(st: &mut AppState, url: &str) -> u64 {
+        st.downloads.add(url.into(), poni_core::ytdlp::Mode::Video, 0)
+    }
+
+    /// The Downloader on for an account with Studio Pro, with `n` downloads
+    /// starting (no size known yet).
+    fn with_downloads(mut st: AppState, n: usize) -> AppState {
+        st.downloader_offered = true;
+        st.oyenza.link = crate::state::OyenzaLink::Connected { account: "a•••@example.com".into() };
+        st.oyenza.pro = Some(true);
+        st.addons.insert(poni_core::addons::DOWNLOADER.id, poni_core::addons::Status::Ready);
+        for i in 0..n {
+            let id = add(&mut st, &format!("https://video.blender.org/w/{i}"));
+            st.downloads.starting(id);
+        }
+        st
+    }
+
+    #[test]
+    fn downloads_show_while_nothing_else_is_live() {
+        let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        assert_eq!(current_activity(&st), Some(Activity::Download));
+        // Music and the timer keep the island while downloads run.
+        let song = with_downloads(playing(None), 1);
+        assert_eq!(current_activity(&song), Some(Activity::Media));
+        st.pomodoro.start(st.now);
+        assert_eq!(current_activity(&st), Some(Activity::Timer));
+        // So do a recording and a game's readout.
+        st.recorder = true;
+        st.store.recorder_island = true;
+        st.rec.phase = Some(poni_core::recorder::Phase::Recording);
+        assert_eq!(current_activity(&st), Some(Activity::Recording));
+        st.rec.phase = None;
+        st.game.active = true;
+        assert_eq!(current_activity(&st), Some(Activity::Game));
+        // Where the Downloader isn't offered (the Mac, for now): never.
+        let mut mac = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        mac.downloader_offered = false;
+        assert_eq!(current_activity(&mac), None);
+        // Nor for an account without Studio Pro.
+        let mut free = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        free.oyenza.pro = Some(false);
+        assert_eq!(current_activity(&free), None);
+    }
+
+    #[test]
+    fn the_download_pill_never_moves_and_goes_once_its_file_is_saved() {
+        use poni_core::settings::Theme;
+        let m = Mode::Activity(Activity::Download);
+        let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+            st.settings.theme = theme;
+            assert!(!is_live(&m, &st), "{theme:?}");
+            assert_eq!(next_wake(&m, &st), None, "{theme:?}: it repaints as yt-dlp reports");
+            let g = geom(&m, &st);
+            assert_eq!((g.w, g.h), (DOWNLOAD_W, 32.0), "{theme:?}");
+        }
+        // Saved: the app's notice says so (`App::saved`), the pill has nothing left to show.
+        let id = st.downloads.list[0].id;
+        st.downloads.apply(id, poni_core::ytdlp::Line::Done { path: "Sprite Fright.mp4".into() });
+        assert_eq!(current_activity(&st), None);
+    }
+
+    #[test]
+    fn the_pill_shows_how_far_and_widens_for_the_count() {
+        use poni_core::settings::Theme;
+        use poni_core::ytdlp::Line;
+        let m = Mode::Activity(Activity::Download);
+        let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 0);
+        let id = add(&mut st, "https://video.blender.org/w/sprite-fright");
+        st.downloads.starting(id);
+        assert_eq!(download_view(&st), DownloadView { fraction: None, count: 1 }, "no size yet");
+        st.downloads.apply(id, Line::Progress { done: 12_400_000, total: Some(45_100_000), speed: Some(2.1e6), eta_s: Some(14) });
+        let DownloadView { fraction: Some(f), count: 1 } = download_view(&st) else { panic!("{:?}", download_view(&st)) };
+        assert_eq!(download_pct(f), "27%");
+        for theme in [Theme::Classic, Theme::Pill] {
+            st.settings.theme = theme;
+            assert_eq!(geom(&m, &st).w, DOWNLOAD_W, "{theme:?}");
+        }
+        // A second one, queued: the count shows beside the mark.
+        add(&mut st, "https://archive.org/details/BigBuckBunny_124");
+        assert!(download_many(&st));
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+            st.settings.theme = theme;
+            assert_eq!(geom(&m, &st).w, DOWNLOAD_MANY_W, "{theme:?}");
+        }
+        // Joining the picture and the sound: all its bytes are in.
+        st.downloads.apply(id, Line::Stage(poni_core::ytdlp::Stage::Merging));
+        let DownloadView { fraction: Some(f), count: 2 } = download_view(&st) else { panic!("{:?}", download_view(&st)) };
+        assert_eq!(download_pct(f), "100%");
+    }
+
+    #[test]
+    fn download_percents_round_to_the_nearest_as_the_page_s_bars_do() {
+        for (f, s) in [(0.0, "0%"), (0.29, "29%"), (0.369, "37%"), (0.996, "99%"), (1.0, "100%"), (1.5, "100%")] {
+            assert_eq!(download_pct(f), s);
+        }
     }
 }

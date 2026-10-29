@@ -22,12 +22,44 @@ pub struct AddonFile {
     pub size: u64,
     /// SHA-256, lowercase hex.
     pub sha256: &'static str,
+    /// Where it comes from when that isn't the add-on's own release: a tool's
+    /// own release, unchanged (the Downloader's yt-dlp and QuickJS). Saved
+    /// under `name` all the same.
+    pub url: Option<&'static str>,
 }
 
 impl AddonFile {
     /// True when `bytes` are exactly this file.
     pub fn matches(&self, bytes: &[u8]) -> bool {
         bytes.len() as u64 == self.size && sha256::hex(&sha256::sha256(bytes)) == self.sha256
+    }
+
+    /// The same for a file read from `r` 64 KB at a time, so checking one on
+    /// disk never holds all of it in memory (the Downloader's yt-dlp is 24 MB).
+    pub fn matches_read(&self, mut r: impl std::io::Read) -> bool {
+        let (mut hash, mut n, mut buf) = (sha256::Sha256::new(), 0u64, vec![0u8; 64 * 1024]);
+        loop {
+            match r.read(&mut buf) {
+                Ok(0) => break,
+                Ok(k) => {
+                    n += k as u64;
+                    if n > self.size {
+                        return false;
+                    }
+                    hash.update(&buf[..k]);
+                }
+                Err(e) if e.kind() == std::io::ErrorKind::Interrupted => {}
+                Err(_) => return false,
+            }
+        }
+        n == self.size && sha256::hex(&hash.finish()) == self.sha256
+    }
+
+    /// Whether this build of the app knows the file: a size and a SHA-256 to
+    /// check it against. A placeholder (size 0, no SHA-256) stands for a file
+    /// that isn't published yet, and nothing is downloaded for it.
+    pub fn pinned(&self) -> bool {
+        self.size > 0 && self.sha256.len() == 64 && self.sha256.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f'))
     }
 }
 
@@ -56,7 +88,10 @@ impl Addon {
     }
 
     pub fn url(&self, file: &AddonFile) -> String {
-        format!("{RELEASES}/{}/{}", self.tag, file.name)
+        match file.url {
+            Some(url) => url.to_string(),
+            None => format!("{RELEASES}/{}/{}", self.tag, file.name),
+        }
     }
 
     pub fn find(id: &str) -> Option<&'static Addon> {
@@ -69,6 +104,14 @@ impl Addon {
     pub fn downloads(&self) -> bool {
         !self.files.is_empty()
     }
+
+    /// Whether this build can get every file it needs ([`AddonFile::pinned`]).
+    /// One that can't stays off ([`Status::Unpinned`]): a build made while a
+    /// file is still a placeholder (a new add-on whose files aren't on its
+    /// release yet).
+    pub fn pinned(&self) -> bool {
+        self.files.iter().all(AddonFile::pinned)
+    }
 }
 
 /// Prayer times: the place list and the adzan (`addons/sholat/` in the repo).
@@ -79,9 +122,9 @@ pub const PRAYER_TIMES: Addon = Addon {
     mac_blurb: None,
     tag: "addon-sholat-1",
     files: &[
-        AddonFile { name: "places.json", size: 79_687, sha256: "4d2e1cd6c277b97273f415cf0460579db143fe92ac88f6e4bddb79cdf8cbf69b" },
-        AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59" },
-        AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a" },
+        AddonFile { name: "places.json", size: 79_687, sha256: "4d2e1cd6c277b97273f415cf0460579db143fe92ac88f6e4bddb79cdf8cbf69b", url: None },
+        AddonFile { name: "adzan.m4a", size: 1_822_513, sha256: "bd5a9db9d23eb2fb7e3368c33afeb08603b71b762549ba8247491c5aac24cb59", url: None },
+        AddonFile { name: "NOTICE.txt", size: 869, sha256: "a1762a46d2ff3c7456070f76fe370e02e169f30ee749fea7763568034401185a", url: None },
     ],
     pro: false,
 };
@@ -104,8 +147,8 @@ pub const JAPANESE_READINGS: Addon = Addon {
     mac_blurb: Some("Romaji under kanji in Japanese lyrics."),
     tag: "addon-ja-1",
     files: &[
-        AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8" },
-        AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079" },
+        AddonFile { name: JA_READINGS_FILE, size: 3_790_036, sha256: "4950e5e42a2a48ad50396304c6bfbb8f9a97b33947e147007943361d65d856c8", url: None },
+        AddonFile { name: "NOTICE.txt", size: 4_786, sha256: "fb8cd0420c2a8b04404c17a1a2ada30e0e1bbd73e54ef548bb60ede42198e079", url: None },
     ],
     pro: false,
 };
@@ -204,6 +247,45 @@ pub const SCREEN_RECORDER: Addon = Addon {
     pro: false,
 };
 
+/// Downloader: the Downloads page, which saves the video or sound of a link
+/// with yt-dlp (`ytdlp`, `downloads`). yt-dlp and QuickJS (which yt-dlp needs
+/// for YouTube) come from their own releases, unchanged; FFmpeg, which joins
+/// a video's picture and sound, is our own small build
+/// (`tools/build-ffmpeg-min.sh`, `addons/downloader/`). Windows only for now,
+/// and not in the Microsoft Store build. Nothing runs at rest: the tools only
+/// run while a download does. Part of Studio Pro: its tools download, and it
+/// downloads, only for an account the server says has Pro.
+pub const DOWNLOADER: Addon = Addon {
+    id: "downloader",
+    title: "Downloader",
+    blurb: "Save the video or sound of a link you paste, with yt-dlp.",
+    mac_blurb: None,
+    tag: "addon-downloader-1",
+    files: &[
+        AddonFile {
+            name: YTDLP_EXE,
+            size: 23_575_744,
+            sha256: "f5389d3698ecde4ef06f4e6b1ce0294fe9ac1396228c8990b8d3416d6d177a7d",
+            url: Some("https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp.exe"),
+        },
+        AddonFile {
+            name: QJS_EXE,
+            size: 2_151_363,
+            sha256: "2aeabf0092c3262d6b2609824418f7dd7ed1f1df939f73b2b15645230cac0d77",
+            url: Some("https://github.com/quickjs-ng/quickjs/releases/download/v0.17.0/qjs-windows-x86_64.exe"),
+        },
+        // tools/build-ffmpeg-min.sh's build (FFmpeg 9.0.2, the same bytes every time).
+        AddonFile { name: FFMPEG_EXE, size: 2_298_880, sha256: "8a42638bc2c9bed20670a3e89ccb7117345a941e245d8151aa60066cac0b3993", url: None },
+        AddonFile { name: "NOTICE.txt", size: 32_624, sha256: "01fb0f44904d1f4789a5bc048fc1b2c29d1a36c25d91469632af03d2402331a0", url: None },
+    ],
+    pro: true,
+};
+
+/// The Downloader's tools, as saved in its folder.
+pub const YTDLP_EXE: &str = "yt-dlp.exe";
+pub const QJS_EXE: &str = "qjs.exe";
+pub const FFMPEG_EXE: &str = "ffmpeg.exe";
+
 /// IELTS: Oyen's IELTS Speaking coach, the IELTS page (`crate::ielts`):
 /// Oyen asks the questions out loud, listens to the answers through the
 /// microphone and gives a band score, through the Oyenza account. Its code
@@ -240,7 +322,8 @@ pub const MEETING_NOTES: Addon = Addon {
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 10] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER];
+pub const ALL: [&Addon; 11] =
+    [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER, &DOWNLOADER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -259,7 +342,7 @@ pub fn ja_offer(status: Status) -> Option<(String, bool)> {
         Status::Checking => Some(("Checking Japanese readings\u{2026}".to_string(), false)),
         Status::Downloading { done, total } => Some((format!("Getting Japanese readings \u{b7} {} of {}", fmt_bytes(done), fmt_bytes(total)), false)),
         Status::Waiting => Some(("Japanese readings download once you're online".to_string(), false)),
-        Status::Failed => Some(("Japanese readings didn't download: see Add-ons".to_string(), false)),
+        Status::Failed | Status::Unpinned => Some(("Japanese readings didn't download: see Add-ons".to_string(), false)),
         Status::Ready => None,
     }
 }
@@ -280,12 +363,16 @@ pub enum Status {
     /// A file came back different from the one the app expects, so it was
     /// thrown away. Trying again is the person's call (off, then on).
     Failed,
+    /// Asked to switch on, but this build can't get its files yet
+    /// ([`Addon::pinned`]): it stays off, and nothing downloads.
+    Unpinned,
 }
 
 impl Status {
-    /// The switch shows on for everything but `Off`.
+    /// The switch shows on for everything but `Off`, and `Unpinned`, which
+    /// stays off.
     pub fn is_on(self) -> bool {
-        self != Status::Off
+        !matches!(self, Status::Off | Status::Unpinned)
     }
 
     /// The line under the add-on's name; `mac`: in the Mac app.
@@ -299,6 +386,7 @@ impl Status {
             Status::Ready if !addon.downloads() => "On".to_string(),
             Status::Ready => format!("On · {} on {here}", fmt_bytes(addon.size())),
             Status::Failed => "The download didn't come through right. Switch it off and on to try again.".to_string(),
+            Status::Unpinned => "This version can't get its files yet, so it stays off.".to_string(),
         }
     }
 
@@ -344,9 +432,9 @@ mod tests {
     }
 
     #[test]
-    fn ielts_and_meeting_notes_are_the_pro_ones() {
+    fn pro_is_ielts_meeting_notes_and_the_downloader() {
         let pro: Vec<&str> = ALL.iter().filter(|a| a.pro).map(|a| a.id).collect();
-        assert_eq!(pro, vec!["ielts", "notes"]);
+        assert_eq!(pro, vec!["ielts", "notes", "downloader"]);
     }
 
     #[test]
@@ -446,5 +534,125 @@ mod tests {
         assert_eq!(Status::Downloading { done: 1, total: 4 }.progress(), Some(0.25));
         assert_eq!(Status::Downloading { done: 0, total: 0 }.progress(), Some(0.0));
         assert_eq!(Status::Ready.progress(), None);
+    }
+
+    #[test]
+    fn add_ons_are_listed_in_order_each_with_its_own_id() {
+        // The Add-ons page's order: the Downloader last.
+        let ids: Vec<&str> = ALL.iter().map(|a| a.id).collect();
+        assert_eq!(ids, ["sholat", "ja", "script", "system", "health", "stocks", "notifications", "ielts", "notes", "recorder", "downloader"]);
+        for (i, a) in ALL.iter().enumerate() {
+            // The key in settings.json and the folder's name.
+            assert!(!a.id.is_empty() && a.id.bytes().all(|b| b.is_ascii_lowercase()), "{}", a.id);
+            assert!(ALL[..i].iter().all(|b| b.id != a.id && b.title != a.title), "{} twice", a.id);
+            assert_eq!(Addon::find(a.id), Some(*a));
+            assert_eq!(a.downloads(), !a.tag.is_empty(), "{}: a release exactly when there are files", a.id);
+            // Each file a name of its own in the folder, and none of the
+            // downloader's own there (its `.ok` stamp, a `.part` on its way).
+            for (j, f) in a.files.iter().enumerate() {
+                assert!(a.files[..j].iter().all(|g| g.name != f.name), "{}: {} twice", a.id, f.name);
+                assert!(!f.name.starts_with('.') && !f.name.ends_with(".part") && !f.name.contains(['/', '\\']), "{}: {}", a.id, f.name);
+            }
+        }
+    }
+
+    #[test]
+    fn the_downloader_takes_its_tools_from_their_own_releases() {
+        let d = Addon::find("downloader").unwrap();
+        assert_eq!(d.files.iter().map(|f| f.name).collect::<Vec<_>>(), [YTDLP_EXE, QJS_EXE, FFMPEG_EXE, "NOTICE.txt"]);
+        // yt-dlp and QuickJS: their projects' own releases, unchanged, each
+        // from a fixed tag (a `latest` link would change under the pin).
+        for (f, project, asset) in [(&d.files[0], "yt-dlp/yt-dlp", "yt-dlp.exe"), (&d.files[1], "quickjs-ng/quickjs", "qjs-windows-x86_64.exe")] {
+            let url = d.url(f);
+            let tag = url.strip_prefix(&format!("https://github.com/{project}/releases/download/")).and_then(|rest| rest.strip_suffix(&format!("/{asset}")));
+            assert!(tag.is_some_and(|t| !t.is_empty() && !t.contains('/')), "{url}");
+            assert!(f.pinned(), "{}: a tool from elsewhere is always pinned", f.name);
+        }
+        // FFmpeg (our own build) and the notice: the add-on's own pre-release.
+        assert_eq!(d.url(&d.files[2]), "https://github.com/lucacadalora/oyenza-studio/releases/download/addon-downloader-1/ffmpeg.exe");
+        assert_eq!(d.url(&d.files[3]), "https://github.com/lucacadalora/oyenza-studio/releases/download/addon-downloader-1/NOTICE.txt");
+    }
+
+    #[test]
+    fn an_add_on_with_a_placeholder_file_stays_off() {
+        const SOON: Addon = Addon {
+            id: "soon",
+            title: "Soon",
+            blurb: "Not out yet.",
+            mac_blurb: None,
+            tag: "addon-soon-1",
+            files: &[
+                AddonFile { name: "tool.exe", size: 2_151_363, sha256: "2aeabf0092c3262d6b2609824418f7dd7ed1f1df939f73b2b15645230cac0d77", url: None },
+                AddonFile { name: "NOTICE.txt", size: 0, sha256: "", url: None },
+            ],
+            pro: false,
+        };
+        let tool = SOON.files[0];
+        assert!(tool.pinned() && !SOON.files[1].pinned() && !SOON.pinned());
+        // Half a pin is none.
+        for f in [
+            AddonFile { sha256: "", ..tool },
+            AddonFile { size: 0, ..tool },
+            AddonFile { sha256: &tool.sha256[1..], ..tool },
+            AddonFile { sha256: "2AEABF0092C3262D6B2609824418F7DD7ED1F1DF939F73B2B15645230CAC0D77", ..tool },
+        ] {
+            assert!(!f.pinned(), "{f:?}");
+        }
+        // Everything in the app has its files pinned (built-ins have none to pin).
+        for a in ALL {
+            assert!(a.pinned(), "{}", a.id);
+        }
+        // The switch stays off and the line says why; nothing comes in.
+        let s = Status::Unpinned;
+        assert!(!s.is_on() && s.progress().is_none());
+        assert_eq!(s.line(&SOON, false), "This version can't get its files yet, so it stays off.");
+        assert_eq!(s.line(&SOON, true), s.line(&SOON, false));
+        assert!(ja_offer(s).is_some_and(|(_, click)| !click));
+    }
+
+    #[test]
+    fn the_downloaders_notice_is_the_one_in_the_repo() {
+        let notice = DOWNLOADER.files.iter().find(|f| f.name == "NOTICE.txt").unwrap();
+        let bytes: &[u8] = include_bytes!("../../../addons/downloader/NOTICE.txt");
+        assert!(notice.matches(bytes), "size {} sha256 {}", bytes.len(), sha256::hex(&sha256::sha256(bytes)));
+        assert_eq!(DOWNLOADER.url(notice), "https://github.com/lucacadalora/oyenza-studio/releases/download/addon-downloader-1/NOTICE.txt");
+    }
+
+    #[test]
+    fn a_file_on_disk_is_checked_a_piece_at_a_time() {
+        // The dictionary (3.8 MB) in 64 KB reads, against the same pin.
+        let dict: &[u8] = include_bytes!("../data/ja-readings.dic.zst");
+        let f = &JAPANESE_READINGS.files[0];
+        assert!(f.matches_read(dict));
+        let mut changed = dict.to_vec();
+        *changed.last_mut().unwrap() ^= 1;
+        assert!(!f.matches_read(&changed[..]));
+        assert!(!f.matches_read(&dict[..dict.len() - 1]), "a byte short");
+        assert!(!f.matches_read(std::io::Read::chain(dict, &b"!"[..])), "a byte more");
+        // A file that can't be read to its end isn't the file.
+        struct Unplugged;
+        impl std::io::Read for Unplugged {
+            fn read(&mut self, _: &mut [u8]) -> std::io::Result<usize> {
+                Err(std::io::Error::other("unplugged"))
+            }
+        }
+        assert!(!f.matches_read(Unplugged));
+    }
+
+    #[test]
+    fn a_big_add_on_reads_well() {
+        // About the Downloader's size with FFmpeg: whole megabytes from 10 MB up.
+        const BIG: Addon = Addon {
+            id: "big",
+            title: "Big",
+            blurb: "Big tools.",
+            mac_blurb: None,
+            tag: "addon-big-1",
+            files: &[AddonFile { name: "big.exe", size: 30_100_000, sha256: "f5389d3698ecde4ef06f4e6b1ce0294fe9ac1396228c8990b8d3416d6d177a7d", url: None }],
+            pro: false,
+        };
+        assert_eq!(fmt_bytes(BIG.size()), "30 MB", "its size on the page while it's off");
+        assert_eq!(Status::Downloading { done: 12_345_678, total: BIG.size() }.line(&BIG, false), "Downloading · 12 MB of 30 MB");
+        assert_eq!(Status::Ready.line(&BIG, false), "On · 30 MB on this PC");
     }
 }

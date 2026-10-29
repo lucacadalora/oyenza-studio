@@ -1,0 +1,79 @@
+[generic] Extracting URL: https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+[generic] x36xhzz: Downloading webpage
+[generic] x36xhzz: Downloading m3u8 information
+[generic] x36xhzz: Checking m3u8 live status
+[info] x36xhzz: Downloading 1 format(s): 240
+{"t":"info","id":"x36xhzz","title":"x36xhzz","site":"Generic","thumb":null,"duration":634,"uploader":null}
+[hlsnative] Downloading m3u8 manifest
+[hlsnative] Total fragments: 64
+[download] Destination: <dir>/x36xhzz [x36xhzz].mp4
+{"t":"dl","id":"x36xhzz","st":"downloading","done":1024,"total":0,"est":17434368.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":3072,"total":0,"est":17499904.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":7168,"total":0,"est":17630976.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":15360,"total":0,"est":17893120.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":31744,"total":0,"est":18417408.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":64512,"total":0,"est":19465984.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":130048,"total":0,"est":21563136.0,"speed":0,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":261120,"total":0,"est":25757440.0,"speed":1342038.8120070207,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":272412,"total":0,"est":34146048.0,"speed":1342038.8120070207,"eta":0,"frag":0,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":272412,"total":0,"est":34868736.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":273436,"total":0,"est":22048640.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":275484,"total":0,"est":22081408.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":279580,"total":0,"est":22146944.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":287772,"total":0,"est":22278016.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":304156,"total":0,"est":22540160.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":336924,"total":0,"est":23064448.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":402460,"total":0,"est":24113024.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":533532,"total":0,"est":26210176.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":689020,"total":0,"est":30404480.0,"speed":1342038.8120070207,"eta":0,"frag":1,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":689020,"total":0,"est":35380096.0,"speed":1342038.8120070207,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":690044,"total":0,"est":20775253.333333332,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":692092,"total":0,"est":20797098.666666668,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":696188,"total":0,"est":20840789.333333332,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":704380,"total":0,"est":20928170.666666668,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":720764,"total":0,"est":21102933.333333332,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":753532,"total":0,"est":21452458.666666668,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":819068,"total":0,"est":22151509.333333332,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":950140,"total":0,"est":23549610.666666668,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":973840,"total":0,"est":26345813.333333332,"speed":2842398.6705768583,"eta":0,"frag":2,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":973840,"total":0,"est":26851413.333333332,"speed":2842398.6705768583,"eta":0,"frag":3,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21851604,"total":0,"est":23181865.967213117,"speed":535827.6676639189,"eta":14.746828019895272,"frag":60,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21965168,"total":0,"est":23319384.13114754,"speed":535827.6676639189,"eta":14.746828019895272,"frag":60,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21965168,"total":0,"est":23438533.24590164,"speed":535827.6676639189,"eta":14.746828019895272,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21966192,"total":0,"est":22833825.032258064,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21968240,"total":0,"est":22834882.06451613,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21972336,"total":0,"est":22836996.129032258,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21980528,"total":0,"est":22841224.258064516,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":21996912,"total":0,"est":22849680.51612903,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22029680,"total":0,"est":22866593.032258064,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22095216,"total":0,"est":22900418.06451613,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22120268,"total":0,"est":22968068.129032258,"speed":475642.8981857263,"eta":13.530976533346301,"frag":61,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22120268,"total":0,"est":22993928.258064516,"speed":475642.8981857263,"eta":13.530976533346301,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22121292,"total":0,"est":22671725.714285713,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22123340,"total":0,"est":22672765.968253966,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22127436,"total":0,"est":22674846.476190478,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22135628,"total":0,"est":22679007.492063493,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22152012,"total":0,"est":22687329.523809522,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22184780,"total":0,"est":22703973.587301586,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22250316,"total":0,"est":22737261.714285713,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22317480,"total":0,"est":22803837.968253966,"speed":389718.22868774395,"eta":12.46876376698828,"frag":62,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22317480,"total":0,"est":22872068.063492063,"speed":389718.22868774395,"eta":12.46876376698828,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22318504,"total":0,"est":22418060.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22320552,"total":0,"est":22419084.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22324648,"total":0,"est":22421132.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22332840,"total":0,"est":22425228.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22349224,"total":0,"est":22433420.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22381992,"total":0,"est":22449804.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22418060,"total":0,"est":22482572.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":63,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"downloading","done":22418060,"total":0,"est":22518640.0,"speed":308905.56486212165,"eta":11.304614480833857,"frag":64,"frags":64}
+{"t":"dl","id":"x36xhzz","st":"finished","done":22418060,"total":22418060,"est":0,"speed":437429.402965233,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"x36xhzz","pp":"FixupM3u8","st":"started"}
+[FixupM3u8] Fixing MPEG-TS in MP4 container of "<dir>/x36xhzz [x36xhzz].mp4"
+{"t":"pp","id":"x36xhzz","pp":"FixupM3u8","st":"finished"}
+{"t":"pp","id":"x36xhzz","pp":"ExtractAudio","st":"started"}
+[ExtractAudio] Destination: <dir>/x36xhzz [x36xhzz].m4a
+{"t":"pp","id":"x36xhzz","pp":"ExtractAudio","st":"finished"}
+Deleting original file <dir>/x36xhzz [x36xhzz].mp4 (pass -k to keep)
+{"t":"pp","id":"x36xhzz","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"x36xhzz","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/x36xhzz [x36xhzz].m4a"}

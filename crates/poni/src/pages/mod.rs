@@ -11,6 +11,8 @@
 
 pub mod addons;
 pub mod card;
+pub mod downloads;
+pub mod downloads_offer;
 pub mod focus;
 pub mod health;
 pub mod ielts;
@@ -87,6 +89,8 @@ pub enum PageKind {
     Prayer,
     /// The IHSG and the person's stocks, while the Stocks add-on is on ([`tabs`]).
     Stocks,
+    /// Links to save as video or sound, while the Downloader add-on is on ([`tabs`]).
+    Downloads,
     /// Which apps' notifications show on the island, while the
     /// Notifications add-on is on ([`tabs`]; Windows only).
     Notifications,
@@ -100,7 +104,7 @@ pub enum PageKind {
 impl PageKind {
     /// The tab row's order: the island's own pages, Oyenza, then the
     /// add-ons' pages and the "+".
-    pub const ALL: [PageKind; 18] = [
+    pub const ALL: [PageKind; 19] = [
         PageKind::Media,
         PageKind::Today,
         PageKind::Shelf,
@@ -116,6 +120,7 @@ impl PageKind {
         PageKind::Record,
         PageKind::Prayer,
         PageKind::Stocks,
+        PageKind::Downloads,
         PageKind::Notifications,
         PageKind::Addons,
         PageKind::Settings,
@@ -138,6 +143,7 @@ impl PageKind {
             PageKind::Oyenza => "oyenza",
             PageKind::Prayer => "prayer",
             PageKind::Stocks => "stocks",
+            PageKind::Downloads => "downloads",
             PageKind::Notifications => "notifications",
             PageKind::Addons => "addons",
             PageKind::Settings => "settings",
@@ -167,6 +173,7 @@ impl PageKind {
             PageKind::Oyenza => "Oyenza",
             PageKind::Prayer => "Prayer",
             PageKind::Stocks => "Stocks",
+            PageKind::Downloads => "Downloads",
             PageKind::Notifications => "Notifications",
             PageKind::Addons => "Add-ons",
             PageKind::Settings => "Settings",
@@ -190,6 +197,7 @@ impl PageKind {
             PageKind::Oyenza => Icon::Wallet,
             PageKind::Prayer => Icon::Moon,
             PageKind::Stocks => Icon::Stocks,
+            PageKind::Downloads => Icon::Download,
             PageKind::Notifications => Icon::Bell,
             PageKind::Addons => Icon::Addons,
             PageKind::Settings => Icon::Gear,
@@ -248,6 +256,7 @@ fn row(st: &AppState, open: Option<PageKind>) -> Vec<PageKind> {
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
             PageKind::Stocks => st.stocks_on(),
+            PageKind::Downloads => st.downloader_on(),
             PageKind::Record => st.record_on(),
             PageKind::Notifications => st.notifications_on(),
             p if p.hideable() => !st.tab_hidden(p) || open == Some(p),
@@ -281,6 +290,7 @@ pub fn content_height(p: PageKind, st: &AppState) -> f32 {
         PageKind::Oyenza => oyenza::height(st),
         PageKind::Prayer => prayer::height(st),
         PageKind::Stocks => stocks::height(st),
+        PageKind::Downloads => downloads::height(st),
         PageKind::Notifications => notifications::height(st),
         PageKind::Addons => addons::height(st),
         PageKind::Settings => settings::height(st),
@@ -301,6 +311,7 @@ pub fn next_wake(page: PageKind, st: &AppState) -> Option<f64> {
         PageKind::Record => record::next_wake(st),
         PageKind::Prayer => prayer::next_wake(st),
         PageKind::Today => today::next_wake(st),
+        PageKind::Downloads => downloads::next_wake(st),
         PageKind::Ielts => ielts::next_wake(st),
         PageKind::Notes => notes::next_wake(st),
         _ => None,
@@ -420,6 +431,7 @@ pub(crate) fn draw_page(ui: &mut Ui, st: &mut AppState, area: Rect, page: PageKi
         PageKind::Oyenza => oyenza::draw(ui, st, area),
         PageKind::Prayer => prayer::draw(ui, st, area),
         PageKind::Stocks => stocks::draw(ui, st, area),
+        PageKind::Downloads => downloads::draw(ui, st, area),
         PageKind::Notifications => notifications::draw(ui, st, area),
         PageKind::Addons => addons::draw(ui, st, area),
         PageKind::Settings => settings::draw(ui, st, area),
@@ -834,7 +846,6 @@ mod tests {
             (PageKind::System, poni_core::addons::SYSTEM),
             (PageKind::Health, poni_core::addons::HEALTH),
             (PageKind::Stocks, poni_core::addons::STOCKS),
-            (PageKind::Notifications, poni_core::addons::NOTIFICATIONS),
         ] {
             let mut st = state();
             assert!(!tabs(&st).contains(&page), "{} is off for everyone until switched on", addon.id);
@@ -847,6 +858,36 @@ mod tests {
             assert_eq!(AppState::new(settings.clone(), store.clone()).page, PageKind::ALL[0]);
             settings.set_addon(addon.id, true);
             assert_eq!(AppState::new(settings, store).page, page);
+        }
+    }
+
+    #[test]
+    fn downloads_has_a_tab_only_with_studio_pro() {
+        // Notifications is free (Luca, 28 Oct): its tab needs no sign-in.
+        let mut st = state();
+        st.settings.set_addon(poni_core::addons::NOTIFICATIONS.id, true);
+        st.addons.insert(poni_core::addons::NOTIFICATIONS.id, poni_core::addons::Status::Ready);
+        assert_eq!(tabs(&st).contains(&PageKind::Notifications), cfg!(windows), "signed out, no Pro");
+        for (page, addon) in [(PageKind::Downloads, poni_core::addons::DOWNLOADER)] {
+            let mut st = state();
+            st.downloader_offered = true;
+            st.settings.set_addon(addon.id, true);
+            st.addons.insert(addon.id, poni_core::addons::Status::Ready);
+            assert!(!tabs(&st).contains(&page), "{}: signed out", addon.id);
+            st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+            assert!(!tabs(&st).contains(&page), "{}: before the server's answer", addon.id);
+            st.oyenza.pro = Some(false);
+            assert!(!tabs(&st).contains(&page), "{}: an account without Pro", addon.id);
+            st.oyenza.pro = Some(true);
+            assert!(tabs(&st).contains(&page), "{}", addon.id);
+            // Signed out again: gone, whatever the server said before.
+            st.oyenza.link = OyenzaLink::Off;
+            assert!(!tabs(&st).contains(&page), "{}", addon.id);
+            // Pro isn't known yet at start: an island last open on its page opens on the first tab.
+            let store = Store { last_page: page.key().into(), ..Store::default() };
+            let mut settings = Settings { remember_page: true, ..Settings::default() };
+            settings.set_addon(addon.id, true);
+            assert_eq!(AppState::new(settings, store).page, PageKind::ALL[0], "{}", addon.id);
         }
     }
 
