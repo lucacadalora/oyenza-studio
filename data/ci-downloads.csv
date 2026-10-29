@@ -576,3 +576,7 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 123581829108,Fetch the release to upgrade from,40911143548,1,2026-10-29T16:28:38Z,island-settings-simple,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 123585400598,Fetch the release to upgrade from,40912294247,1,2026-10-29T16:34:41Z,island-settings-simple,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 123591575122,Fetch the release to upgrade from,40913979820,1,2026-10-29T16:45:33Z,smoke-lrclib-slow,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123635194155,Fetch the release to upgrade from,40926386775,1,2026-10-29T18:02:50Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123660339075,Fetch the release to upgrade from,40933480610,1,2026-10-29T18:48:21Z,timeline-colours,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123660908179,Fetch the release to upgrade from,40933860567,1,2026-10-29T18:49:24Z,release-0.2.21,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+123661757975,Fetch the release to upgrade from,40933905006,1,2026-10-29T18:51:01Z,release-0.2.21,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe

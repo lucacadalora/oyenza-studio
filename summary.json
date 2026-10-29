@@ -1,40 +1,40 @@
 {
   "repo": "lucacadalora/oyenza-studio",
-  "checked_at": "2026-10-29T17:06:26Z",
+  "checked_at": "2026-10-29T22:02:20Z",
   "since": "2026-10-24",
-  "downloads": 7658,
-  "github_count": 7849,
-  "ci_count": 577,
-  "last_7_days": 7658,
+  "downloads": 7805,
+  "github_count": 7999,
+  "ci_count": 581,
+  "last_7_days": 7805,
   "latest": {
     "release": "v0.2.20",
-    "downloads": 133
+    "downloads": 279
   },
   "stars": 111,
-  "forks": 20,
+  "forks": 21,
   "watchers": 0,
   "releases": [
     {
       "release": "v0.2.20",
       "published": "2026-10-29T16:17:33Z",
-      "downloads": 133,
-      "github_count": 133,
+      "downloads": 279,
+      "github_count": 279,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 1,
-        "Oyen-Poni-Setup.exe": 6,
-        "Oyenza-Studio-0.2.20-mac.dmg": 9,
-        "Oyenza-Studio-0.2.20-portable.zip": 1,
+        "Oyen-Poni-Setup.exe": 10,
+        "Oyenza-Studio-0.2.20-mac.dmg": 20,
+        "Oyenza-Studio-0.2.20-portable.zip": 3,
         "Oyenza-Studio-Mac.dmg": 1,
-        "Oyenza-Studio-Setup-0.2.20.exe": 104,
-        "Oyenza-Studio-Setup.exe": 11
+        "Oyenza-Studio-Setup-0.2.20.exe": 230,
+        "Oyenza-Studio-Setup.exe": 14
       }
     },
     {
       "release": "v0.2.19",
       "published": "2026-10-29T11:11:51Z",
-      "downloads": 531,
-      "github_count": 531,
+      "downloads": 532,
+      "github_count": 532,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 0,
@@ -43,7 +43,7 @@
         "Oyenza-Studio-0.2.19-portable.zip": 6,
         "Oyenza-Studio-Mac.dmg": 14,
         "Oyenza-Studio-Setup-0.2.19.exe": 420,
-        "Oyenza-Studio-Setup.exe": 34
+        "Oyenza-Studio-Setup.exe": 35
       }
     },
     {
@@ -608,8 +608,8 @@
       "release": "v0.1.1",
       "published": "2026-10-24T05:54:33Z",
       "downloads": 108,
-      "github_count": 685,
-      "ci_count": 577,
+      "github_count": 688,
+      "ci_count": 581,
       "files": {
         "Poni-0.1.1-portable.zip": 2,
         "Poni-Setup-0.1.1.exe": 106
@@ -650,7 +650,7 @@
     },
     {
       "date": "2026-10-29",
-      "downloads": 1954
+      "downloads": 2101
     }
   ]
 }
