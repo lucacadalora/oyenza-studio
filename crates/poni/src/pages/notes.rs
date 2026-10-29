@@ -46,7 +46,10 @@ const METER_ROW: f32 = 26.0;
 /// Oyen's orange: the page's accent in every theme.
 const ACCENT: Color = oyen::ORANGE;
 const REC: Color = palette::RED;
-const MIC_SETTINGS: &str = "ms-settings:privacy-microphone";
+const MIC_SETTINGS: &str =
+    if cfg!(target_os = "macos") { "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone" } else { "ms-settings:privacy-microphone" };
+/// What the computer's own sound is called on this one.
+const OWN_SOUND: &str = if cfg!(target_os = "macos") { "the Mac's sound" } else { "the PC's sound" };
 const SIGN_IN_TITLE: &str = "Meeting notes by Oyen";
 const SIGN_IN_BODY: &str = "One click and Oyen listens to your meeting, Meet, Zoom, Teams or in the room, then writes the notes and the transcript. Sign in to Oyenza to start.";
 
@@ -197,7 +200,11 @@ fn buttons(ui: &mut Ui, x: f32, y: f32, list: &[(&str, &str, Option<Icon>, PillS
 fn draw_idle(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let r = Rect::new(r.x, r.y + 4.0, r.w.min(420.0), r.h);
     let y = headline(ui, r, "Oyen takes your meeting notes");
-    let body = "He listens to your microphone and your PC's sound, so a call in Meet, Zoom or Teams is heard with no bot joining. Stop when it's over: the notes and the transcript are saved to Documents \u{203a} Oyenza Studio \u{203a} Notes.";
+    let body = if cfg!(target_os = "macos") {
+        "He listens to your microphone and your Mac's sound, so a call in Meet, Zoom or Teams is heard with no bot joining. Stop when it's over: the notes and the transcript are saved to Documents \u{203a} Oyenza Studio \u{203a} Notes."
+    } else {
+        "He listens to your microphone and your PC's sound, so a call in Meet, Zoom or Teams is heard with no bot joining. Stop when it's over: the notes and the transcript are saved to Documents \u{203a} Oyenza Studio \u{203a} Notes."
+    };
     let y = para(ui, Rect::new(r.x, y + 6.0, r.w, 80.0), body, palette::TEXT_DIM);
     let foot = Rect::new(r.x, r.bottom() - PILL_SMALL - 6.0, r.w, PILL_SMALL);
     // Only what the line shows: a meeting's transcript can run to thousands of lines.
@@ -221,7 +228,7 @@ fn draw_listening(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let r = Rect::new(r.x, r.y + 4.0, r.w.min(420.0), r.h);
     let y = headline(ui, r, "Oyen is listening");
     let y = para(ui, Rect::new(r.x, y + 4.0, r.w, 40.0), "Stop when the meeting ends, and he'll write it up.", palette::TEXT_DIM) + 14.0;
-    let rows = [("You", "microphone", st.notes.mic_on, st.notes.mic), ("The call", "the PC's sound", st.notes.pc_on, st.notes.pc)];
+    let rows = [("You", "microphone", st.notes.mic_on, st.notes.mic), ("The call", OWN_SOUND, st.notes.pc_on, st.notes.pc)];
     for (i, (name, source, on, level)) in rows.into_iter().enumerate() {
         let ry = y + i as f32 * METER_ROW;
         let label = TextStyle::footnote().weight(Weight::Semibold);

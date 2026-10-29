@@ -538,6 +538,9 @@ pub enum Problem {
     TooFast,
     /// 403 `level_locked`.
     LevelLocked,
+    /// 403 `pro_required`: the account no longer has Studio Pro (a session
+    /// already started is finished anyway).
+    ProRequired,
     /// 404 `no_session`: it ended after 30 minutes without an answer.
     NoSession,
     /// 413 `too_big`.
@@ -573,6 +576,7 @@ pub fn problem(status: u16, body: &str, retry_after: Option<u64>) -> Problem {
         (_, "daily_cap") => Problem::DailyCap,
         (_, "rate_limited") | (429, _) => Problem::TooFast,
         (_, "level_locked") => Problem::LevelLocked,
+        (_, "pro_required") => Problem::ProRequired,
         (_, "no_session") => Problem::NoSession,
         (404, _) => Problem::Paused,
         (_, "too_big") | (413, _) => Problem::TooBig,
@@ -593,6 +597,7 @@ impl Problem {
             Problem::DailyCap => "Jatah hari ini udah habis",
             Problem::TooFast => "Pelan-pelan dulu",
             Problem::LevelLocked => "Level ini masih kekunci",
+            Problem::ProRequired => "Latihan IELTS khusus Studio Pro",
             Problem::NoSession => "Sesinya udah berhenti",
             Problem::TooBig => "Jawabannya kepanjangan",
             Problem::Busy(_) => "Oyen lagi rame",
@@ -616,6 +621,7 @@ impl Problem {
             Problem::DailyCap => "Sesi latihan hari ini udah kepakai semua. Lanjut besok ya.".into(),
             Problem::TooFast => "Kebanyakan permintaan dalam sejam ini. Tunggu sebentar, terus coba lagi.".into(),
             Problem::LevelLocked => "Capai target band di level sebelumnya dulu.".into(),
+            Problem::ProRequired => "Akun Oyenza-mu belum Studio Pro, jadi sesi baru belum bisa dimulai.".into(),
             Problem::NoSession => "Sesi berhenti kalau 30 menit nggak ada jawaban. Mulai lagi yuk.".into(),
             Problem::TooBig => "Rekaman maksimal sekitar 4 menit. Coba jawab lebih singkat.".into(),
             Problem::Busy(Some(s)) if s > 1 => format!("Lagi banyak yang latihan. Coba lagi {s} detik lagi."),
@@ -1891,6 +1897,7 @@ mod tests {
         assert_eq!(problem(429, r#"{"error":"rate_limited"}"#, None), Problem::TooFast);
         assert_eq!(problem(429, "", None), Problem::TooFast);
         assert_eq!(problem(403, r#"{"error":"level_locked"}"#, None), Problem::LevelLocked);
+        assert_eq!(problem(403, r#"{"error":"pro_required"}"#, None), Problem::ProRequired);
         assert_eq!(problem(404, r#"{"error":"no_session"}"#, None), Problem::NoSession);
         // A server without the routes yet reads as paused, not as an error.
         assert_eq!(problem(404, r#"{"error":"not_found"}"#, None), Problem::Paused);
@@ -1910,6 +1917,7 @@ mod tests {
             Problem::DailyCap,
             Problem::TooFast,
             Problem::LevelLocked,
+            Problem::ProRequired,
             Problem::NoSession,
             Problem::TooBig,
             Problem::Busy(Some(30)),
@@ -1927,7 +1935,7 @@ mod tests {
         ];
         for p in every {
             let words = format!("{} {} {}", p.title(), p.line(false), p.line(true));
-            for raw in ["paused", "daily_cap", "level_locked", "no_session", "too_big", "ai_", "HTTP", "40", "50", "41"] {
+            for raw in ["paused", "daily_cap", "level_locked", "pro_required", "no_session", "too_big", "ai_", "HTTP", "40", "50", "41"] {
                 assert!(!words.contains(raw), "{p:?} says {raw:?}: {words}");
             }
         }

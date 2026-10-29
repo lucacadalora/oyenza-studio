@@ -11,6 +11,9 @@
 pub mod adzan;
 #[path = "services/audio.rs"]
 pub mod audio;
+// Meeting notes' two sources (the microphone, and the Mac's own sound).
+#[path = "services/capture.rs"]
+pub mod capture;
 #[path = "services/cf.rs"]
 mod cf;
 #[path = "services/clipboard.rs"]
@@ -25,6 +28,8 @@ pub mod keychain;
 pub mod media;
 #[path = "services/mediaremote.rs"]
 mod mediaremote;
+#[path = "services/mic.rs"]
+pub mod mic;
 #[path = "services/romanize.rs"]
 pub mod romanize;
 #[path = "services/secret.rs"]
@@ -44,6 +49,12 @@ pub mod addons;
 // And the Downloader add-on's runner (a process group per download here).
 #[path = "../services/downloader.rs"]
 pub mod downloader;
+// And the IELTS coach's calls (its microphone and voice are the Mac's: mic.rs, voice.rs).
+#[path = "../services/ielts.rs"]
+pub mod ielts;
+// And Meeting notes' recording and handing over (its sources: capture.rs).
+#[path = "../services/notes.rs"]
+pub mod notes;
 #[cfg(test)]
 #[path = "../services/downloader_live.rs"]
 mod downloader_live;
@@ -77,6 +88,8 @@ pub mod sysmon;
 pub mod sysstats;
 #[path = "services/thumbs.rs"]
 pub mod thumbs;
+#[path = "services/voice.rs"]
+pub mod voice;
 
 use objc2_app_kit::{NSColor, NSColorSpace, NSSound, NSWorkspace};
 use objc2_foundation::{NSArray, NSFileManager, NSString, NSURL};

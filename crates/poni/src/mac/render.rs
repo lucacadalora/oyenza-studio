@@ -186,6 +186,13 @@ enum Scene {
     Downloads,
     DownloadActivity,
     AddonsDownloader,
+    /// Meeting notes, signed in with Studio Pro: the page while Oyen listens
+    /// (42 s in), the closed island 12 minutes in (around a notch, Oyen in
+    /// one ear and the time in the other), and the Add-ons tab with every
+    /// Pro add-on listed.
+    NotesListening,
+    NotesActivity,
+    AddonsPro,
 }
 
 const SCENES: [Scene; 19] = [
@@ -278,6 +285,8 @@ const RECORD_SCENES: [Scene; 5] = [Scene::Record, Scene::RecordLive, Scene::Reco
 const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
 /// The Downloader, last of all (so every other picture keeps its number).
 const DOWNLOAD_SCENES: [Scene; 3] = [Scene::Downloads, Scene::DownloadActivity, Scene::AddonsDownloader];
+/// Meeting notes and every Pro add-on, after the Downloader.
+const NOTES_SCENES: [Scene; 3] = [Scene::NotesListening, Scene::NotesActivity, Scene::AddonsPro];
 
 impl Scene {
     fn name(self) -> String {
@@ -337,6 +346,9 @@ impl Scene {
             Scene::Downloads => "page-downloads".into(),
             Scene::DownloadActivity => "download-activity".into(),
             Scene::AddonsDownloader => "page-addons-downloader".into(),
+            Scene::NotesListening => "page-notes-listening".into(),
+            Scene::NotesActivity => "notes-activity".into(),
+            Scene::AddonsPro => "page-addons-pro".into(),
         }
     }
 }
@@ -403,7 +415,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet, Record, the AI tab, IELTS and the Downloader in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES).chain(DOWNLOAD_SCENES);
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES).chain(DOWNLOAD_SCENES).chain(NOTES_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
@@ -1149,6 +1161,34 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
                     seed_downloads(&mut st);
                     st.page = PageKind::Downloads;
                     Mode::Expanded(PageKind::Downloads)
+                }
+            }
+        }
+        Scene::NotesListening | Scene::NotesActivity | Scene::AddonsPro => {
+            // Signed in with Studio Pro, every Pro add-on switched on.
+            st.oyenza = fake_oyenza(&st, false);
+            st.oyenza.pro = Some(true);
+            st.downloader_offered = true;
+            for a in [poni_core::addons::MEETING_NOTES, poni_core::addons::IELTS, poni_core::addons::DOWNLOADER] {
+                st.settings.set_addon(a.id, true);
+                st.addons.insert(a.id, AddonStatus::Ready);
+            }
+            let now = st.now;
+            match scene {
+                Scene::AddonsPro => {
+                    st.page = PageKind::Addons;
+                    Mode::Expanded(PageKind::Addons)
+                }
+                _ => {
+                    let secs = if scene == Scene::NotesListening { 42.5 } else { 754.5 };
+                    st.notes.started(now - secs, true, true);
+                    (st.notes.mic, st.notes.pc) = (0.32, 0.55);
+                    if scene == Scene::NotesActivity {
+                        Mode::Activity(activities::Activity::Notes)
+                    } else {
+                        st.page = PageKind::Notes;
+                        Mode::Expanded(PageKind::Notes)
+                    }
                 }
             }
         }

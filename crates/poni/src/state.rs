@@ -1042,9 +1042,9 @@ impl AppState {
         }
     }
 
-    /// The Meeting notes add-on is on (Windows): the Notes tab shows.
+    /// The Meeting notes add-on is on: the Notes tab shows.
     pub fn notes_on(&self) -> bool {
-        cfg!(windows) && self.addon(poni_core::addons::MEETING_NOTES.id) == AddonStatus::Ready
+        self.addon(poni_core::addons::MEETING_NOTES.id) == AddonStatus::Ready
     }
 
     /// Prayer times is on and its places are read: the tab and reminders run.
