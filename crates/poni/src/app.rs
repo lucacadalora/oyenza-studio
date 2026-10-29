@@ -2370,7 +2370,7 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if self.st.page == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
-            } else if matches!(self.st.page, PageKind::Notes | PageKind::Addons) {
+            } else if matches!(self.st.page, PageKind::Notes | PageKind::Ielts | PageKind::Addons) {
                 self.oyenza(OyenzaCmd::CheckPro);
             }
         }
@@ -4302,7 +4302,7 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if p == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
-            } else if matches!(p, PageKind::Notes | PageKind::Addons) {
+            } else if matches!(p, PageKind::Notes | PageKind::Ielts | PageKind::Addons) {
                 self.oyenza(OyenzaCmd::CheckPro);
             }
         }

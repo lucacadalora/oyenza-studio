@@ -1067,7 +1067,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       </div>
       <div class="facts two">
         <div class="fact rv"><svg class="ico"><use href="#i-shield"/></svg><h4 class="t-card" style="font-size:21px;line-height:1.19">Sign-ins stay on your computer.</h4><p class="t-tile">Each one goes only to its own service. Nothing about your usage goes to Oyenza.</p></div>
-        <div class="fact rv"><svg class="ico"><use href="#i-wallet"/></svg><h4 class="t-card" style="font-size:21px;line-height:1.19">Oyenza Inference, soon.</h4><p class="t-tile">Connecting your inference.oyenza.com account comes soon. Then its balance and spend show beside your plans.</p></div>
+        <div class="fact rv"><svg class="ico"><use href="#i-wallet"/></svg><h4 class="t-card" style="font-size:21px;line-height:1.19">Oyenza Inference, too.</h4><p class="t-tile">Connect inference.oyenza.com with a code, and your balance and spend show beside your plans.</p></div>
       </div>
     </div>
   </section>
@@ -1521,7 +1521,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     </div>
     <div class="content">
       <div class="facts">
-        <div class="fact rv"><svg class="ico"><use href="#i-user-off"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">No account needed.</h3><p class="t-tile">No sign-up, no tracking. Your things are files in your own folder.</p></div>
+        <div class="fact rv"><svg class="ico"><use href="#i-user-off"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">No account needed.</h3><p class="t-tile">No sign-up, and the app tracks nothing. Your things are files in your own folder.</p></div>
         <div class="fact rv"><svg class="ico"><use href="#i-cal"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">Your weeks in memory.</h3><p class="t-tile">The meetings, flights and bills Today shows are kept in memory only, never written to disk.</p></div>
         <div class="fact rv"><svg class="ico"><use href="#i-chip"/></svg><h3 class="t-card" style="font-size:21px;line-height:1.19">Light and smooth.</h3><p class="t-tile">Native Rust, no web view. Nothing drawn while nothing moves.</p></div>
       </div>
@@ -1609,6 +1609,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <a href="https://github.com/lucacadalora/oyenza-studio">Open source (MIT)</a>
     <a href="https://github.com/lucacadalora/oyenza-studio/releases">Releases</a>
     <a href="https://lrclib.net">Lyrics by LRCLIB</a>
+    <a href="https://oyenza.com/privasi#en">Visits to this page are counted, no cookies</a>
   </div>
 </footer>
 </div>
@@ -1660,8 +1661,8 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>Switch them on and the island tells you <b>when a limit is nearly used up, when it runs out, and when it's back</b> after it resets. For that it reads the files on your computer every few minutes and asks the services at most every 10 minutes, and it rests while your computer is locked, the screen is off or battery saver is on. With notices off, nothing runs while the tab is closed: it reads when you open it.</p>
     <h4>Your sign-ins stay yours</h4>
     <p>Each service's sign-in is read on your computer and goes only to that service's own server. <b>Nothing about your usage goes to Oyenza.</b> Oyenza Studio only reads: it never changes another app's files or renews its sign-in, so it can't sign you out of that app. When a sign-in has run out, the card says so: open that app once and it's back.</p>
-    <h4>Oyenza Inference, soon</h4>
-    <p>Connecting opens soon; until then its card says so. You'll connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab, or in the dashboard under Connected apps.</p>
+    <h4>Oyenza Inference</h4>
+    <p>Connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab, or in the dashboard under Connected apps.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-system" aria-labelledby="m-system-t">
@@ -2202,5 +2203,6 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   root.setAttribute('data-ready', '');
 })();
 </script>
+<script src="/track.js?v=1" defer></script>
 </body>
 </html>
