@@ -1052,6 +1052,7 @@ mod tests {
     const SEALED_TOKEN: &str = include_str!("fixtures/safe-storage/cursor-token.txt");
     const LOCAL_STATE: &str = include_str!("fixtures/safe-storage/local-state.json");
     /// The fixtures' made-up "Cursor Safe Storage" password.
+    #[cfg(not(windows))]
     const PASSWORD: &str = "synthetic-safe-storage-password";
 
     /// Cursor 3.27's store on `os`, read to the end: its pieces, `other`
@@ -1076,7 +1077,9 @@ mod tests {
         }
     }
 
+    /// The Mac's opening isn't built on Windows: this runs elsewhere.
     #[test]
+    #[cfg(not(windows))]
     fn a_sealed_token_opens_with_the_keychain_on_a_mac() {
         let keychain = |w: &Want| match w {
             Want::Keychain { .. } => Got::Text(PASSWORD.into()),

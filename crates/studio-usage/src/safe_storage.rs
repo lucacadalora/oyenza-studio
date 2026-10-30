@@ -148,11 +148,15 @@ mod tests {
 
     /// The fixtures' made-up keychain password and what it sealed (sealed
     /// with Python's `cryptography` by `fixtures/safe-storage/make.py`).
+    /// The Mac's opening isn't built on Windows: its tests run elsewhere.
+    #[cfg(not(windows))]
     const PASSWORD: &str = "synthetic-safe-storage-password";
     const PLAIN: &str = "a test sign-in, not a real one";
+    #[cfg(not(windows))]
     const MAC_SEALED: &str = include_str!("fixtures/safe-storage/mac-v10.b64");
     const LOCAL_STATE: &str = include_str!("fixtures/safe-storage/local-state.json");
 
+    #[cfg(not(windows))]
     fn mac_sealed() -> Vec<u8> {
         b64url(MAC_SEALED.trim()).unwrap()
     }
@@ -162,12 +166,14 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn the_mac_key_is_chromiums() {
         // Python: hashlib.pbkdf2_hmac("sha1", b"peanuts", b"saltysalt", 1003, 16).
         assert_eq!(mac_key("peanuts"), [0xd9, 0xa0, 0x9d, 0x49, 0x9b, 0x4e, 0x1b, 0x74, 0x61, 0xf2, 0x8e, 0x67, 0x97, 0x2c, 0x6d, 0xbd]);
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn a_mac_seal_opens_with_its_password_only() {
         let sealed = mac_sealed();
         assert_eq!(mac(&sealed, PASSWORD).as_deref(), Some(PLAIN.as_bytes()));
@@ -179,6 +185,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn a_mac_asks_the_keychain_once() {
         let dirs = Dirs::sample(Os::Mac);
         let folder = dirs.config.join("Cursor");

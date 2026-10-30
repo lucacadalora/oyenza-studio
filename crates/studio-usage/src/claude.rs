@@ -349,6 +349,7 @@ mod tests {
     /// The Claude app's config.json, its token cache sealed with this
     /// "Claude Safe Storage" password (fixtures/safe-storage/make.py).
     const APP_CONFIG_JSON: &str = include_str!("fixtures/safe-storage/claude-config.json");
+    #[cfg(not(windows))]
     const PASSWORD: &str = "synthetic-safe-storage-password";
 
     fn file(text: &str) -> Got {
@@ -481,11 +482,14 @@ mod tests {
     }
 
     /// What a Mac reads without Claude Code signed in, the Claude app there.
+    #[cfg(not(windows))]
     fn mac_app() -> Vec<Got> {
         vec![Got::Missing, Got::Missing, file(SETTINGS_JSON), file(APP_CONFIG_JSON), Got::Missing]
     }
 
+    /// The Mac's opening isn't built on Windows: this runs elsewhere.
     #[test]
+    #[cfg(not(windows))]
     fn the_claude_apps_sign_in_on_a_mac() {
         let keychain = |w: &Want| match w {
             Want::Keychain { service, account: None } if service == "Claude Safe Storage" => Got::Text(PASSWORD.into()),
