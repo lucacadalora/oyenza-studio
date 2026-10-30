@@ -1580,9 +1580,12 @@ dependencies = [
 name = "studio-usage"
 version = "0.2.21"
 dependencies = [
+ "aes",
+ "hmac",
  "poni-core",
  "serde",
  "serde_json",
+ "sha1",
 ]
 
 [[package]]

@@ -19,8 +19,14 @@
 //! (request counts, for the older request-based plans), both with the cookie
 //! Cursor's own website uses. The token goes only there, and it is never
 //! renewed here: Cursor renews it when it runs.
+//!
+//! Cursor 3.27 on seals the token with Electron's safeStorage
+//! (`cursor-safe-storage:v1:` and base64): [`safe_storage`] opens it, with
+//! the keychain item "Cursor Safe Storage" on a Mac and Cursor's
+//! `Local State` and Windows' own crypto on Windows.
 
-use super::{join, jwt_claims, mask_email, num, reply_json, time, Ctx, Dirs, Money, NetFail, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
+use super::safe_storage::{self, Open};
+use super::{b64url, join, jwt_claims, mask_email, num, reply_json, time, Ctx, Dirs, Got, Money, NetFail, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
 use serde_json::Value;
 use std::path::PathBuf;
 
@@ -29,13 +35,20 @@ pub struct Cursor;
 /// What is read from `ItemTable`: the sign-in, who it is, which plan.
 const KEYS: [&str; 3] = ["cursorAuth/accessToken", "cursorAuth/cachedEmail", "cursorAuth/stripeMembershipType"];
 const SITE: &str = "https://cursor.com";
+/// What Cursor 3.27 on puts before a token it sealed ([`safe_storage`]).
+const SEALED: &str = "cursor-safe-storage:v1:";
 
-/// Cursor's store, under `%APPDATA%` / `~/Library/Application Support`, or
+/// Cursor's folder, under `%APPDATA%` / `~/Library/Application Support`, or
 /// under `VSCODE_APPDATA` when that is set (Cursor is a VS Code fork and
 /// keeps its data there too).
-pub fn store(dirs: &Dirs) -> PathBuf {
+fn folder(dirs: &Dirs) -> PathBuf {
     let root = dirs.var("VSCODE_APPDATA").map(PathBuf::from).unwrap_or_else(|| dirs.config.clone());
-    join(&root, &["Cursor", "User", "globalStorage", "state.vscdb"])
+    join(&root, &["Cursor"])
+}
+
+/// Cursor's store, in its folder.
+pub fn store(dirs: &Dirs) -> PathBuf {
+    join(&folder(dirs), &["User", "globalStorage", "state.vscdb"])
 }
 
 /// `len` bytes of a file from `offset` (fewer at its end): one
@@ -78,7 +91,9 @@ impl Cursor {
             Err(sqlite::Halt::Missing) => return Go::Step(Step::Done(Err(Trouble::NotFound))),
             Err(sqlite::Halt::Bad(why)) => return Go::Step(Step::Done(Err(Trouble::Unreadable(why.into())))),
         };
-        Go::Step(online(cx, &values, replies))
+        // What was read after the store: opening a sealed token.
+        let more = cx.got.get(reads.used()..).unwrap_or(&[]);
+        Go::Step(online(cx, &values, more, replies))
     }
 }
 
@@ -109,15 +124,30 @@ impl Provider for Cursor {
     }
 }
 
-/// From the store's values (`KEYS`, in order) to the asks and the snapshot.
-fn online(cx: &Ctx, values: &[Option<String>], replies: &[Result<Reply, NetFail>]) -> Step {
+/// From the store's values (`KEYS`, in order) to the asks and the snapshot;
+/// `more` is what was read after the store, to open a sealed token.
+fn online(cx: &Ctx, values: &[Option<String>], more: &[Got], replies: &[Result<Reply, NetFail>]) -> Step {
+    let unread = || Step::Done(Err(Trouble::Unreadable("Cursor's sign-in isn't in a form this reads".into())));
     let token = match values[0].as_deref().map(str::trim) {
         Some(t) if !t.is_empty() => t,
         _ => return Step::Done(Err(Trouble::SignedOut)),
     };
-    let Some(sign) = Sign::read(token) else {
-        return Step::Done(Err(Trouble::Unreadable("Cursor's sign-in isn't in a form this reads".into())));
+    let opened;
+    let token = match token.strip_prefix(SEALED) {
+        None => token,
+        Some(b64) => {
+            let Some(sealed) = b64url(b64.trim()) else { return unread() };
+            match safe_storage::open("Cursor", &folder(cx.dirs), cx.dirs, &sealed, more) {
+                Open::Need(wants) => return Step::Read(wants),
+                Open::Done(Err(t)) => return Step::Done(Err(t)),
+                Open::Done(Ok(bytes)) => {
+                    opened = String::from_utf8(bytes).unwrap_or_default();
+                    opened.trim()
+                }
+            }
+        }
     };
+    let Some(sign) = Sign::read(token) else { return unread() };
     // CodexBar's margin: a token this close to its end can lapse on the way.
     if sign.exp <= cx.now + 60 {
         return Step::Done(Err(Trouble::Expired));
@@ -343,6 +373,12 @@ mod sqlite {
     impl<'a> Reads<'a> {
         pub fn new(got: &'a [Got]) -> Reads<'a> {
             Reads { got, used: 0, seen: Vec::new(), visits: 0 }
+        }
+
+        /// How many of `got` the walk has used: what comes after them is
+        /// the reader's own (a walk to the end always uses the same ones).
+        pub fn used(&self) -> usize {
+            self.used
         }
 
         /// `offset..offset + len` of a file (shorter at its end), None if the
@@ -1010,6 +1046,73 @@ mod tests {
         assert_eq!(store(&moved), PathBuf::from("/Volumes/Data/vscode/Cursor/User/globalStorage/state.vscdb"));
         assert_eq!(Cursor.env(), &["VSCODE_APPDATA"]);
         assert_eq!(Cursor.min_gap_s(), 300);
+    }
+
+    const SEALED_STORE: &[u8] = include_bytes!("fixtures/safe-storage/cursor-sealed.vscdb");
+    const SEALED_TOKEN: &str = include_str!("fixtures/safe-storage/cursor-token.txt");
+    const LOCAL_STATE: &str = include_str!("fixtures/safe-storage/local-state.json");
+    /// The fixtures' made-up "Cursor Safe Storage" password.
+    const PASSWORD: &str = "synthetic-safe-storage-password";
+
+    /// Cursor 3.27's store on `os`, read to the end: its pieces, `other`
+    /// answering the rest, the summary and empty request counts online.
+    /// The outcome and the other wants.
+    fn run_sealed(os: Os, reach: Reach, other: impl Fn(&Want) -> Got) -> (Outcome, Vec<Want>) {
+        let dirs = Dirs::sample(os);
+        let files = vec![(store(&dirs), SEALED_STORE.to_vec())];
+        let mut got: Vec<Got> = Cursor::first(&dirs).iter().map(|p| read(&files, p)).collect();
+        let (mut replies, mut wants) = (Vec::new(), Vec::new());
+        loop {
+            let cx = Ctx { dirs: &dirs, got: &got, now: NOW, reach };
+            match Cursor.go(&cx, &replies) {
+                Go::Read(pieces) => got.extend(pieces.iter().map(|p| read(&files, p))),
+                Go::Step(Step::Read(more)) => {
+                    got.extend(more.iter().map(&other));
+                    wants.extend(more);
+                }
+                Go::Step(Step::Fetch(_)) => replies.push(ok(if replies.is_empty() { SUMMARY } else { NO_REQUESTS })),
+                Go::Step(Step::Done(out)) => return (out, wants),
+            }
+        }
+    }
+
+    #[test]
+    fn a_sealed_token_opens_with_the_keychain_on_a_mac() {
+        let keychain = |w: &Want| match w {
+            Want::Keychain { .. } => Got::Text(PASSWORD.into()),
+            _ => Got::Missing,
+        };
+        let (out, wants) = run_sealed(Os::Mac, Reach::Online, keychain);
+        assert_eq!(wants, vec![Want::Keychain { service: "Cursor Safe Storage".into(), account: None }]);
+        let s = out.unwrap();
+        assert_eq!((s.plan.as_deref(), s.account.as_deref()), (Some("Pro"), Some("t•••@example.com")));
+        assert!(!s.windows.is_empty());
+        // Opened on a look at this computer too (its expiry is inside), asking nobody.
+        assert_eq!(run_sealed(Os::Mac, Reach::Local, keychain).0, Err(Trouble::NeedsOnline));
+        // The keychain said no; not asked yet (the tab closed) or no item; another password.
+        assert_eq!(run_sealed(Os::Mac, Reach::Online, |_| Got::Denied).0, Err(Trouble::Denied));
+        assert_eq!(run_sealed(Os::Mac, Reach::Online, |_| Got::Missing).0, Err(Trouble::SignedOut));
+        assert!(matches!(run_sealed(Os::Mac, Reach::Online, |_| Got::Text("not it".into())).0, Err(Trouble::Unreadable(_))));
+    }
+
+    #[test]
+    fn a_sealed_token_opens_through_windows() {
+        let dirs = Dirs::sample(Os::Windows);
+        let state = dirs.join(&folder(&dirs), &["Local State"]);
+        let windows = |w: &Want| match w {
+            Want::File { path, .. } if *path == state => Got::One(FileRead { path: path.clone(), bytes: LOCAL_STATE.as_bytes().to_vec(), modified: None }),
+            // Windows opens what was sealed with the key from Local State.
+            Want::Unseal { sealed, key: Some(key) } if sealed.0.starts_with(b"v10") && key.0 == b"a DPAPI blob" => Got::Text(SEALED_TOKEN.trim().into()),
+            _ => Got::Missing,
+        };
+        let (out, wants) = run_sealed(Os::Windows, Reach::Online, windows);
+        assert_eq!(wants.len(), 2);
+        assert!(matches!(&wants[0], Want::File { path, .. } if *path == state));
+        let s = out.unwrap();
+        assert_eq!(s.account.as_deref(), Some("t•••@example.com"));
+        // Windows couldn't open it.
+        let refused = |w: &Want| if matches!(w, Want::Unseal { .. }) { Got::Missing } else { windows(w) };
+        assert!(matches!(run_sealed(Os::Windows, Reach::Online, refused).0, Err(Trouble::Unreadable(_))));
     }
 
     #[test]
