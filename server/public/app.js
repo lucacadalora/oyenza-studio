@@ -53,6 +53,10 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
 
+// The page works like an app, so it doesn't pinch-zoom. Android keeps to the viewport tag;
+// Safari ignores user-scalable=no, so its pinch gesture is stopped here.
+for (const type of ['gesturestart', 'gesturechange']) document.addEventListener(type, (e) => e.preventDefault());
+
 let installPrompt = null;
 let installed = false;
 addEventListener('beforeinstallprompt', (e) => {
