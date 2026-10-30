@@ -242,6 +242,28 @@ pub fn create_helper_window() -> Result<HWND> {
     }
 }
 
+/// Whether Windows' own taskbar is docked along the top edge of `mon`.
+/// Third-party bars that reserve the top of the work area are not the
+/// taskbar; the island hangs over them.
+fn taskbar_at_top(mon: &RECT) -> bool {
+    for class in [w!("Shell_TrayWnd"), w!("Shell_SecondaryTrayWnd")] {
+        let Ok(bar) = (unsafe { FindWindowW(class, PCWSTR::null()) }) else { continue };
+        if bar.is_invalid() || !unsafe { IsWindowVisible(bar) }.as_bool() {
+            continue;
+        }
+        let mut r = RECT::default();
+        if unsafe { GetWindowRect(bar, &mut r) }.is_ok()
+            && r.top <= mon.top + 2
+            && r.bottom > mon.top
+            && r.left < mon.right
+            && r.right > mon.left
+        {
+            return true;
+        }
+    }
+    false
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MonitorInfo {
     pub handle: isize,
@@ -256,9 +278,17 @@ impl MonitorInfo {
     pub fn scale(&self) -> f32 {
         self.dpi as f32 / 96.0
     }
-    /// Y where the island hangs from: below a top-docked taskbar, else the monitor top.
+    /// Y where the island hangs from: below Windows' own taskbar when it is
+    /// docked at the top of this monitor, else the monitor's top edge. A bar
+    /// that reserves the work area without being the taskbar (a macOS-style
+    /// menu bar, a dock's own top bar) doesn't push the island down: it hangs
+    /// over it, the way a Mac's notch sits over the menu bar.
     pub fn top(&self) -> i32 {
-        if self.work.top > self.rect.top && self.work.left <= self.rect.left && self.work.right >= self.rect.right {
+        if self.work.top > self.rect.top
+            && self.work.left <= self.rect.left
+            && self.work.right >= self.rect.right
+            && taskbar_at_top(&self.rect)
+        {
             self.work.top
         } else {
             self.rect.top
