@@ -50,6 +50,7 @@ use poni_core::look::{Look, Material};
 use poni_core::oyenza;
 use poni_core::prayer::{Due, PlaceList, Prayer, PrayerMoment};
 use poni_core::settings::{IdleStyle, PrayerSound, Settings, Theme};
+use poni_core::spot;
 use poni_core::sysmon::{CoreKind, Module};
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
 use std::cell::RefCell;
@@ -415,10 +416,21 @@ pub struct App {
     text_focus: bool,
     cursor: CursorKind,
     screen: ScreenInfo,
-    /// The window: a fixed-size surface (DIPs) the island is drawn centred in.
+    /// The island's room (DIPs): the window's size, unless the island was
+    /// dragged along the top edge around a notch (`place_window`).
     surface: (f32, f32),
-    /// Centre of the surface (where the island hangs from).
+    /// The window's left edge (DIPs from the screen's left edge) and width.
+    win: (f32, f32),
+    /// The island's centre in the window this frame (where it hangs from):
+    /// the notch (or the middle), or the spot it was dragged to.
     cx: f32,
+    /// The notch's centre in the window (the middle of the screen without one).
+    notch_cx: f32,
+    /// The spot along the top edge (`Settings::island_x`, in DIPs from the
+    /// screen's left edge) the window was last placed for.
+    laid_spot: Option<f32>,
+    /// A press on the closed island, which a sideways move turns into a drag.
+    grab: Option<Grab>,
     #[allow(dead_code)]
     sink: EventSink,
     rx: Receiver<AppEvent>,
@@ -565,6 +577,18 @@ pub struct App {
     rec_alive_at: f64,
 }
 
+/// A press on the closed island: let go where it was, it opens the island;
+/// moved sideways first, it drags the island along the top edge.
+#[derive(Clone, Copy, Debug)]
+struct Grab {
+    /// Where the pointer was pressed, DIPs from the screen's left edge.
+    from: f32,
+    /// The island's centre then, DIPs from the screen's left edge.
+    centre: f32,
+    /// The pointer went past `spot::DRAG_SLOP`: a drag, not a click.
+    moved: bool,
+}
+
 impl App {
     fn new(mtm: MainThreadMarker, smoke_dir: Option<PathBuf>) -> App {
         let (raw_settings, s_out): (Settings, _) = load_json(&paths::settings_path());
@@ -609,7 +633,11 @@ impl App {
             cursor: CursorKind::Arrow,
             screen,
             surface: (0.0, 0.0),
+            win: (0.0, 0.0),
             cx: 0.0,
+            notch_cx: 0.0,
+            laid_spot: None,
+            grab: None,
             sink,
             rx,
             menubar: None,
@@ -699,7 +727,7 @@ impl App {
             self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
         }
         let line = crate::updates::menu_line(&self.st, self.updater.is_some());
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, line));
+        self.menubar = Some(MenuBar::add(self.mtm, &self.menu_settings(), self.st.pinned, services::login::status(), &self.st.oyenza.link, line));
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
@@ -974,8 +1002,10 @@ impl App {
             self.st.accent = theme_accent(self.st.settings.theme);
         }
         // The Pill theme's window keeps room for the gap above the island.
+        // Around a notch only Pill moves along the top edge (Move island to the centre).
         if pill::on(before.theme) != pill::on(self.st.settings.theme) {
             self.layout_surface();
+            self.refresh_menu();
         }
         // Hide or Stay on top of full-screen apps (Settings or the menu bar).
         if before.hide_in_fullscreen != self.st.settings.hide_in_fullscreen {
@@ -1239,6 +1269,7 @@ impl App {
                     self.maybe_schedule_collapse();
                 }
             }
+            MenuCmd::CentreIsland => s.island_x = None,
             MenuCmd::SetTheme(t) => s.theme = t,
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
@@ -1300,9 +1331,20 @@ impl App {
     fn refresh_menu(&mut self) {
         let login = services::login::status();
         let line = crate::updates::menu_line(&self.st, self.updater.is_some());
+        let s = self.menu_settings();
         if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, line);
+            m.refresh(self.mtm, &s, self.st.pinned, login, &self.st.oyenza.link, line);
         }
+    }
+
+    /// The settings as the menu shows them: a spot along the top edge only
+    /// where the island moves (Move island to the centre).
+    fn menu_settings(&self) -> Settings {
+        let mut s = self.st.settings.clone();
+        if !self.movable() {
+            s.island_x = None;
+        }
+        s
     }
 
     /// Start at login on or off. macOS may ask the person to allow it in
@@ -2057,6 +2099,11 @@ impl App {
             self.screen = s;
             self.gfx.set_scale(s.scale);
             self.layout_surface();
+            // The same room on another screen still moves there, and a spot
+            // along the top edge is a share of this screen's width.
+            self.place_window();
+            // Whether the island can move here (Move island to the centre).
+            self.refresh_menu();
             // Whether a full-screen app is in front is a question per screen.
             services::fullscreen::check();
         }
@@ -2067,7 +2114,8 @@ impl App {
 
     /// Size and place the window once for the largest island (the widest,
     /// tallest expanded page plus spring overshoot). The island is drawn
-    /// centred in it, so a morph never moves or resizes the window.
+    /// centred in it, or at the spot it was dragged to, so a morph never
+    /// moves or resizes the window.
     fn layout_surface(&mut self) {
         let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
         self.layout_surface_for(self.st.settings.expanded_width, pages::HEADER_H + tallest + pages::PAD);
@@ -2082,9 +2130,80 @@ impl App {
         let h = ((body_h + self.strip()) * OVERSHOOT + top + bottom).ceil();
         if (w, h) != self.surface {
             self.surface = (w, h);
-            self.cx = w / 2.0;
-            self.prev_canvas = None;
-            window::place(&self.screen, w as f64, h as f64);
+            self.place_window();
+        }
+    }
+
+    /// Whether the island can be dragged along the top edge here: on a
+    /// screen without a notch in every theme, and around a notch in Pill,
+    /// whose island floats below the menu bar. The other themes' island
+    /// belongs at the camera.
+    fn movable(&self) -> bool {
+        self.screen.notch.is_none() || pill::on(self.st.settings.theme)
+    }
+
+    /// The spot along the top edge the island was dragged to, DIPs from the
+    /// screen's left edge: None in the middle (at the notch), and where it
+    /// can't move.
+    fn spot(&self) -> Option<f32> {
+        self.st.settings.island_x.filter(|_| self.movable()).map(|f| f * self.screen.w as f32)
+    }
+
+    /// Put the window at the top of the screen: centred on the notch (or the
+    /// middle), or around the spot the island was dragged to, as far as the
+    /// screen allows. Around a notch it keeps the notch in it too: Pill
+    /// docks there to rest, and slides between the two. While the island is
+    /// dragged the window spans the screen, so a drag never moves it.
+    fn place_window(&mut self) {
+        let (w, h) = self.surface;
+        let (sw, home) = (self.screen.w as f32, self.screen.cx as f32);
+        self.laid_spot = self.spot();
+        let at_home = ((home - w / 2.0).round(), w);
+        let (left, width) = match self.laid_spot {
+            _ if self.grab.is_some_and(|g| g.moved) => (0.0, sw),
+            None => at_home,
+            Some(at) => {
+                let l = spot::window_left(0, sw as i32, w as i32, at.round() as i32) as f32;
+                match self.screen.notch {
+                    Some(_) => {
+                        let (l, r) = (l.min(at_home.0), (l + w).max(at_home.0 + w));
+                        (l, r - l)
+                    }
+                    None => (l, w),
+                }
+            }
+        };
+        self.win = (left, width);
+        self.notch_cx = home - left;
+        self.prev_canvas = None;
+        window::place(&self.screen, left as f64, width as f64, h as f64);
+        self.place_island();
+    }
+
+    /// The island's centre in the window this frame: at the notch (or the
+    /// middle), or at the spot it was dragged to, moved in just enough to
+    /// keep its outline (as wide as it is now) in the window: opening near
+    /// the screen's edge, it grows away from the edge. Pill around a notch
+    /// docks at the notch to rest and slides to the spot as it floats.
+    fn place_island(&mut self) {
+        let Some(at) = self.laid_spot else {
+            self.cx = self.notch_cx;
+            return;
+        };
+        let at = at - self.win.0;
+        let want = match self.screen.notch {
+            Some(n) => self.notch_cx + (at - self.notch_cx) * notch::detach(self.island.top(), Some(n)),
+            None => at,
+        };
+        self.cx = spot::fit_centre(want, self.win.1, self.island.current().w, self.room().0);
+    }
+
+    /// The spot along the top edge changed since the window was placed (a
+    /// drag, Move island to the centre, Reload settings, another theme):
+    /// place it there. Called every frame; a move only on that change.
+    fn sync_spot(&mut self) {
+        if self.spot() != self.laid_spot {
+            self.place_window();
         }
     }
 
@@ -2204,7 +2323,7 @@ impl App {
         // already hovers, the resting island's ears too.
         if let Some(n) = self.screen.notch.filter(|_| self.island.floating()) {
             if p.y < n.h {
-                return (p.x - self.cx).abs() <= self.menu_line_w(n) / 2.0;
+                return (p.x - self.notch_cx).abs() <= self.menu_line_w(n) / 2.0;
             }
         }
         if !self.expanded {
@@ -2234,6 +2353,11 @@ impl App {
     // ------------------------------------------------------------ input
 
     fn on_pointer(&mut self, p: Point) {
+        if self.grab.is_some() {
+            self.input.mouse = Some(p);
+            self.drag_island(p);
+            return;
+        }
         self.peek_at(p);
         let inside = self.hovering_inside(p) || self.input.down;
         if !inside {
@@ -2270,7 +2394,7 @@ impl App {
         let Some(n) = self.screen.notch.filter(|_| self.st.settings.idle_style == IdleStyle::Eyes) else { return };
         let now = clock::mono().max(self.st.now);
         let before = notch::peek_key(&self.st, n, now);
-        self.st.ui.peek.point(Point::new(p.x - self.cx, p.y), now, n.w / 2.0);
+        self.st.ui.peek.point(Point::new(p.x - self.notch_cx, p.y), now, n.w / 2.0);
         if self.mode == Mode::Idle && !self.fullscreen_hidden && notch::peek_key(&self.st, n, now) != before {
             self.request_frame();
         }
@@ -2326,26 +2450,15 @@ impl App {
                         // The prayer countdown's OK, the same way.
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
+                    } else if self.movable() && (self.screen.notch.is_none() || self.island.floating()) {
+                        // Opens when the button comes up (`open_from_press`),
+                        // unless the pointer moves sideways first: then it
+                        // drags the island along the top edge (`drag_island`).
+                        self.grab = Some(Grab { from: self.win.0 + p.x, centre: self.win.0 + self.cx, moved: false });
+                        // Held still on it, it doesn't open by itself either.
+                        self.cancel_hover();
                     } else {
-                        // Clicking a notice jumps to its page (a new version's
-                        // may be waiting under a volume change or a game's readout).
-                        let shown = self.mode == Mode::Notice;
-                        if let Some(n) = self.st.notice.take_if(|_| shown) {
-                            match n.action {
-                                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
-                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
-                                Some(NoticeAction::OpenApp(_)) => {}
-                                Some(NoticeAction::StartFocus) => {
-                                    self.st.page = PageKind::Focus;
-                                    if !self.st.pomodoro.is_active() {
-                                        self.st.pomodoro.start(self.st.now);
-                                    }
-                                }
-                                None => {}
-                            }
-                        }
-                        self.st.hud = None;
-                        self.expand();
+                        self.open_from_press();
                     }
                 } else if self.text_focus && self.input.pressed_id != self.input.focused {
                     self.blur_text();
@@ -2353,7 +2466,19 @@ impl App {
                 self.request_frame();
             }
             ViewInput::Up { x, y } => {
-                let p = Point::new(x, y);
+                // A drop puts the window back around the island: the point
+                // came in the coordinates of the window as it was.
+                let left = self.win.0;
+                if let Some(g) = self.grab.take() {
+                    // What the closed island showed under the press doesn't click.
+                    self.input.pressed_id = None;
+                    if g.moved {
+                        self.dropped_island();
+                    } else {
+                        self.open_from_press();
+                    }
+                }
+                let p = Point::new(x + left - self.win.0, y);
                 self.input.mouse = Some(p);
                 let hit = self.hit_at(p).map(|h| h.id);
                 if let (Some(pid), Some(h)) = (self.input.pressed_id, hit) {
@@ -2430,6 +2555,76 @@ impl App {
             }
         }
         None
+    }
+
+    /// A click on the closed island (pressed and let go, or on a notch's
+    /// island, pressed): a notice jumps to its page, and the island opens.
+    fn open_from_press(&mut self) {
+        // Clicking a notice jumps to its page (a new version's
+        // may be waiting under a volume change or a game's readout).
+        let shown = self.mode == Mode::Notice;
+        if let Some(n) = self.st.notice.take_if(|_| shown) {
+            match n.action {
+                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
+                Some(NoticeAction::OpenApp(_)) => {}
+                Some(NoticeAction::StartFocus) => {
+                    self.st.page = PageKind::Focus;
+                    if !self.st.pomodoro.is_active() {
+                        self.st.pomodoro.start(self.st.now);
+                    }
+                }
+                None => {}
+            }
+        }
+        self.st.hud = None;
+        self.expand();
+    }
+
+    /// The pointer moved while pressing the closed island: once it has gone
+    /// `spot::DRAG_SLOP` sideways, the island follows it along the top edge,
+    /// as far as it stays on the screen, and back to the middle when it
+    /// comes within `spot::SNAP` of it.
+    fn drag_island(&mut self, p: Point) {
+        let Some(g) = self.grab else { return };
+        let dx = self.win.0 + p.x - g.from;
+        if !g.moved {
+            if dx.abs() < spot::DRAG_SLOP {
+                return;
+            }
+            pinfo!("island: dragged along the top edge");
+            // The left-right cursor every macOS has (columnResizeCursor is macOS 15's).
+            #[allow(deprecated)]
+            NSCursor::resizeLeftRightCursor().set();
+            self.cursor = CursorKind::Arrow;
+        }
+        self.grab = Some(Grab { moved: true, ..g });
+        let sw = self.screen.w as f32;
+        let centre = spot::fit_centre(g.centre + dx, sw, self.island.current().w, self.room().0);
+        self.st.settings.island_x = spot::remember(centre, sw);
+        if g.moved {
+            self.sync_spot();
+        } else {
+            // The window spans the screen for the drag.
+            self.place_window();
+        }
+        self.request_frame();
+    }
+
+    /// A drag along the top edge ended: the island stays there (saved), and
+    /// doesn't open under the pointer that just let go of it.
+    fn dropped_island(&mut self) {
+        self.cancel_hover();
+        match self.st.settings.island_x {
+            Some(x) => pinfo!("island: moved to {:.0} % across the screen", x * 100.0),
+            None => pinfo!("island: back in the middle"),
+        }
+        // The window fits around the spot again.
+        self.place_window();
+        NSCursor::arrowCursor().set();
+        self.save_settings();
+        // Move island to the centre shows in the menu now (or goes).
+        self.refresh_menu();
     }
 
     fn on_resign_key(&mut self) {
@@ -3470,6 +3665,10 @@ impl App {
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));
         self.island.step(dt, now);
+        // Where the island was dragged along the top edge: the window for
+        // that spot, and the island in it for this frame's outline.
+        self.sync_spot();
+        self.place_island();
         // The island let go of the notch or docked again under a pointer that
         // didn't move: take the mouse there, or let it through, for where the
         // island is now (the smoke run moves its own pointer).
@@ -3490,7 +3689,7 @@ impl App {
         glass::show(glass_at);
 
         let canvas_r = self.island.canvas_rect_at(self.cx).inset(-2.0, -2.0);
-        let full = Rect::new(0.0, 0.0, self.surface.0, self.surface.1);
+        let full = Rect::new(0.0, 0.0, self.win.1, self.surface.1);
         // Floating at rest, only the content changes (the equalizer, a line,
         // the clock): redraw inside the body, and the shadow and hairline
         // around it stay as drawn. Whole DIPs and one more, so no pixel on its
@@ -3544,7 +3743,7 @@ impl App {
         let (floating, detach) = (self.island.floating(), notch::detach(self.island.top(), notch));
         // The smoke run's pretend notch (CI's Macs have none), painted where a
         // MacBook's camera hides the island, so its pictures show what one shows.
-        let pretend_notch = notch.filter(|_| self.smoke.is_some() && window::faking_notch()).map(|n| Rect::new(self.cx - n.w / 2.0, -12.0, n.w, n.h + 12.0));
+        let pretend_notch = notch.filter(|_| self.smoke.is_some() && window::faking_notch()).map(|n| Rect::new(self.notch_cx - n.w / 2.0, -12.0, n.w, n.h + 12.0));
         self.gfx.set_look(look);
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
@@ -3774,8 +3973,16 @@ impl App {
                     if let Some((check, ok, detail)) = self.smoke_check(name) {
                         sm.note(check, ok, detail);
                     }
-                    // The Settings window's steps picture that window.
-                    let rect = if name.starts_with("settings-window") && settings_host::is_open() { settings_host::frame_top_left() } else { window::frame_top_left() };
+                    // The Settings window's steps picture that window, and the
+                    // drag steps the top of the whole screen (where along it the island is).
+                    let along = name.contains("-drag") || name.ends_with("-centre") || name == "notch-pill-rest";
+                    let rect = if name.starts_with("settings-window") && settings_host::is_open() {
+                        settings_host::frame_top_left()
+                    } else if along {
+                        window::screen_top_left(&self.screen, self.surface.1 as f64)
+                    } else {
+                        window::frame_top_left()
+                    };
                     sm.write_ready(name, rect);
                     sm.phase = SmokePhase::Wait(now);
                 }
@@ -3877,6 +4084,34 @@ impl App {
                 self.st.pomodoro.reset();
                 self.cost = DrawCost::default();
             }
+            // Dragged along the top edge: the music pill (Pill on a screen
+            // without a notch, then floating below one), pressed, moved 300
+            // DIPs right and let go, as the view's mouse events bring it. It
+            // stays closed, there.
+            "pill-drag" | "notch-pill-drag" => {
+                self.leave();
+                self.smoke_drag(300.0);
+            }
+            // A click on it there opens it there, whole on the screen. The
+            // pointer is on it first, as a real click's is (a pointer that
+            // isn't lets the open island close again).
+            "pill-drag-open" => {
+                let p = self.island.body_rect_at(self.cx).center();
+                self.on_pointer(p);
+                self.cancel_hover();
+                let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+                let _ = self.on_view_input(ViewInput::Up { x: p.x, y: p.y });
+            }
+            // Move island to the centre puts it back in the middle.
+            "pill-drag-centre" => {
+                self.leave();
+                self.collapse();
+                self.on_menu(MenuCmd::CentreIsland);
+            }
+            // Resting (notch-pill-collapsed stopped the music), Pill docks in
+            // the notch again, the spot kept for when it floats; the check looks.
+            "notch-pill-rest" => {}
+            "notch-pill-centre" => self.on_menu(MenuCmd::CentreIsland),
             // A made-up Japanese song: its lyrics go in the lyrics cache, as
             // if LRCLIB had answered before, and CI announces it as Spotify
             // would. Back in Classic first, as the menu step is, without the
@@ -4309,6 +4544,20 @@ impl App {
     /// inside the notch (the eyes peek out beside it) and the music pill and
     /// the open card float below it, where the gap and the notch take the
     /// mouse and the menu bar beside the notch doesn't.
+    /// A press on the closed island, a move `dx` DIPs sideways and the
+    /// release there, as the view's mouse events bring them: in window DIPs,
+    /// each placed for the window as it is (it spans the screen once the
+    /// drag starts, and goes back around the island at the drop).
+    fn smoke_drag(&mut self, dx: f32) {
+        let p = self.island.body_rect_at(self.cx).center();
+        let from = self.win.0 + p.x;
+        let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+        for step in [spot::DRAG_SLOP + 1.0, dx] {
+            self.on_pointer(Point::new(from + step - self.win.0, p.y));
+        }
+        let _ = self.on_view_input(ViewInput::Up { x: from + dx - self.win.0, y: p.y });
+    }
+
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
         let look = *self.look() == poni_core::look::PILL && !glass::shown();
@@ -4530,6 +4779,42 @@ impl App {
                     self.hovering
                 );
                 Some(("pill-ear-stays-open", ok, d))
+            }
+            "pill-drag" | "notch-pill-drag" => {
+                let sw = self.screen.w as f32;
+                let (home, centre) = (self.screen.cx as f32, self.win.0 + self.cx);
+                let want = (home + 300.0).min(sw - self.island.current().w / 2.0 - self.room().0);
+                // Around a notch the window keeps the notch in it (Pill docks there to rest).
+                let notch_in = self.screen.notch.is_none_or(|n| self.notch_cx >= n.w / 2.0 && self.notch_cx + n.w / 2.0 <= self.win.1);
+                let ok = !self.expanded && self.st.settings.island_x.is_some() && (centre - want).abs() < 1.5 && notch_in;
+                let d = format!(
+                    "{:?}: centre {home:.0} -> {centre:.0} DIP across a {sw:.0} DIP screen (want {want:.0}), saved {:?}, {}; window {:.0}+{:.0}, the notch (or middle) at {:.0} in it",
+                    self.mode,
+                    self.st.settings.island_x,
+                    if self.expanded { "opened" } else { "closed" },
+                    self.win.0,
+                    self.win.1,
+                    self.notch_cx
+                );
+                Some((if self.screen.notch.is_some() { "notch-pill-dragged" } else { "island-dragged" }, ok, d))
+            }
+            "pill-drag-open" => {
+                let sw = self.screen.w as f32;
+                let b = self.island.body_rect_at(self.cx);
+                let (l, r) = (self.win.0 + b.x, self.win.0 + b.right());
+                let ok = self.expanded && l >= -0.5 && r <= sw + 0.5 && self.win.0 + b.center().x > self.screen.cx as f32;
+                Some(("island-opens-at-its-spot", ok, format!("{:?} from {l:.0} to {r:.0} DIP across a {sw:.0} DIP screen", self.mode)))
+            }
+            "notch-pill-rest" => {
+                let ok = self.spot().is_some() && self.mode == Mode::Idle && !self.island.floating() && (self.cx - self.notch_cx).abs() < 0.5;
+                let d = format!("{:?}, the island at {:.0} and the notch at {:.0} in the window, spot {:?}", self.mode, self.cx, self.notch_cx, self.spot());
+                Some(("notch-pill-docks-at-the-notch", ok, d))
+            }
+            "pill-drag-centre" | "notch-pill-centre" => {
+                let (home, centre) = (self.screen.cx as f32, self.win.0 + self.cx);
+                let ok = self.st.settings.island_x.is_none() && (centre - home).abs() < 0.5 && self.win.1 == self.surface.0;
+                let d = format!("centre {centre:.0} DIP (the notch or middle: {home:.0}), window {:.0} wide for a {:.0} room, saved {:?}", self.win.1, self.surface.0, self.st.settings.island_x);
+                Some((if self.screen.notch.is_some() { "notch-pill-centred" } else { "island-centred" }, ok, d))
             }
             "pill-hover" => {
                 let (now, rest) = (self.island.current(), activities::geom(&self.mode, &self.st));
@@ -5194,7 +5479,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 77] = [
+const SMOKE_STEPS: [&str; 83] = [
     "idle",
     "hover",
     "open-focus",
@@ -5221,12 +5506,18 @@ const SMOKE_STEPS: [&str; 77] = [
     "pill-collapsed",
     "pill-hover",
     "pill-music-cost",
+    "pill-drag",
+    "pill-drag-open",
+    "pill-drag-centre",
     "notch-oyen-open",
     "notch-oyen-collapsed",
     "notch-glass-open",
     "notch-pill-open",
     "notch-pill-music",
+    "notch-pill-drag",
     "notch-pill-collapsed",
+    "notch-pill-rest",
+    "notch-pill-centre",
     "notch-pill-ear",
     "notch-eyes",
     "ja-notify",
