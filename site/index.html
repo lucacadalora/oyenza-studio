@@ -316,6 +316,22 @@ main { container-type: inline-size; }
 .ctx-menu span:first-child { background: #0a84ff; color: #fff; }
 .ctx-menu .on::before { content: "\2713"; position: absolute; left: 8px; }
 .ctx-menu i { height: 1px; margin: 4px 6px; background: rgba(0, 0, 0, 0.12); }
+/* Move the island: the top of a maximized browser, drawn, with the island dragged off the middle onto the free end of
+   its tab strip. The tabs stop short of the island: nothing overlaps them. */
+.browser-top { position: absolute; inset: 0 0 auto; height: 64px; background: #fff; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 12px 28px rgba(0, 0, 0, 0.16); font: 500 11px/1 var(--font-text); letter-spacing: -0.01em; color: #3c4043; text-align: left; }
+.browser-strip { position: absolute; inset: 0 0 auto; height: 31px; background: #dfe3e8; }
+.browser-tabs { position: absolute; left: 8px; right: 342px; top: 6px; height: 25px; display: flex; gap: 2px; }
+.browser-tab { flex: 0 1 140px; min-width: 0; display: flex; align-items: center; gap: 7px; padding: 0 12px; border-radius: 8px 8px 0 0; white-space: nowrap; }
+.browser-tab.on { background: #fff; }
+.browser-tab i { flex: none; width: 12px; height: 12px; border-radius: 50%; background: #9aa0a6; }
+.browser-tab span { overflow: hidden; text-overflow: ellipsis; }
+.browser-new { flex: none; width: 24px; display: grid; place-items: center; font: 400 17px/1 var(--font-text); color: #5f6368; }
+.browser-ctl { position: absolute; top: 0; right: 0; width: 108px; height: 31px; fill: none; stroke: #3c4043; stroke-width: 1; }
+.browser-url { position: absolute; left: 12px; right: 12px; top: 36px; height: 23px; display: flex; align-items: center; padding: 0 14px; border-radius: 12px; background: #f1f3f4; color: #80868b; font-weight: 400; }
+.browser-isl { position: absolute; top: 0; right: 114px; line-height: 0; }
+.browser-isl img { height: 20px; width: auto; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.28)); }
+/* The cursor Windows shows while the island is dragged, below the island's words. */
+.browser-cursor { position: absolute; left: 50%; top: 16px; width: 26px; height: 15px; margin-left: -13px; }
 .sheet-body .new-list { list-style: none; padding: 0; gap: 16px; }
 .new-list li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 14px; align-items: start; }
 .new-list .ic { width: 30px; height: 30px; border-radius: 8px; background: var(--c, #8e8e93); color: #fff; display: grid; place-items: center; }
@@ -558,6 +574,13 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .news-tile.shot > p { padding: 0 24px; }
   .news-visual { height: 200px; }
   .ctx-menu { top: 14%; }
+  .browser-ctl { display: none; }
+  .browser-isl { right: 8px; }
+  .browser-isl img { height: 18px; }
+  .browser-tabs { right: 210px; }
+  .browser-tab { padding: 0 10px; gap: 6px; }
+  .browser-tab + .browser-tab { display: none; }
+  .browser-cursor { top: 14px; }
   .stats { gap: 28px; margin-top: 44px; }
   .stat > b { font-size: 32px; }
   .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -691,7 +714,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Overview</p>
       <a class="side-item" href="#top" data-k="home start download hero notch island"><i class="ic" style="--c:#1d1d1f"><svg class="ico"><use href="#i-screen"/></svg></i><span>A living notch</span></a>
-      <a class="side-item" href="#new" data-k="new release 0.2.21 latest changes settings in the island again gear advanced settings window island closes update in version row check now settings window glides smooth motion 144 fps 120 hz promotion slide switches highlight trackpad scroll reduce motion downloader progress youtube puzzle solving meeting notes mac ielts coach speaking band downloader video sound studio pro settings window gear every setting one place sidebar light dark mode mac window title bar meeting notes record call transcript summary action items pro ai tab usage codex claude code opencode go gemini cursor copilot kimi glm minimax openrouter limits plans resets heads-up tabs hide switch off music today shelf tasks focus prayer countdown ok lyrics come back steps two hours ielts notifications whatsapp telegram mac signed developer id notarized checked by apple opens open anyway gone privacy security permissions once more right click menu stays open island stays open always looks for new versions version check now bluetooth pop-ups headphones speakers paired quiet connected disconnected check for updates every hour check now update available stays lyrics bar zen firefox stocks prices fixed getting prices mac updates install in place ihsg idx saham watchlist chart oyenza.trade today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.21</span></a>
+      <a class="side-item" href="#new" data-k="new release 0.2.22 latest changes move the island drag along the top edge left right side browser tabs out of the way centre center settings in the island againgear advanced settings window island closes update in version row check now settings window glides smooth motion 144 fps 120 hz promotion slide switches highlight trackpad scroll reduce motion downloader progress youtube puzzle solving meeting notes mac ielts coach speaking band downloader video sound studio pro settings window gear every setting one place sidebar light dark mode mac window title bar meeting notes record call transcript summary action items pro ai tab usage codex claude code opencode go gemini cursor copilot kimi glm minimax openrouter limits plans resets heads-up tabs hide switch off music today shelf tasks focus prayer countdown ok lyrics come back steps two hours ielts notifications whatsapp telegram mac signed developer id notarized checked by apple opens open anyway gone privacy security permissions once more right click menu stays open island stays open always looks for new versions version check now bluetooth pop-ups headphones speakers paired quiet connected disconnected check for updates every hour check now update available stays lyrics bar zen firefox stocks prices fixed getting prices mac updates install in place ihsg idx saham watchlist chart oyenza.trade today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.22</span></a>
       <a class="side-item" href="#highlights" data-k="best gallery overview"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-spark"/></svg></i><span>Highlights</span></a>
       <a class="side-item" href="#features" data-k="rest idle music timer volume charging headphones bluetooth money clock eyes prayer countdown"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-island"/></svg></i><span>While it rests</span></a>
     </div>
@@ -717,7 +740,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#addons" data-k="add-ons addons download extras plugins"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-addons"/></svg></i><span>Add-ons</span></a>
       <a class="side-item" href="#script" data-k="script reader teleprompter prompter webcam camera read talk video new"><i class="ic" style="--c:#a2845e"><svg class="ico"><use href="#i-script"/></svg></i><span>Script reader</span></a>
       <a class="side-item" href="#games" data-k="games fps gpu cpu overlay gaming frames readout peeks"><i class="ic" style="--c:#ff375f"><svg class="ico"><use href="#i-game"/></svg></i><span>Show over games</span></a>
-      <a class="side-item" href="#on-top" data-k="full screen always on top stay hide maximized windows browser tabs chrome"><i class="ic" style="--c:#32ade6"><svg class="ico"><use href="#i-layers"/></svg></i><span>Stays on top</span></a>
+      <a class="side-item" href="#on-top" data-k="full screen always on top stay hide maximized windows browser tabs chrome move drag island left right side centre center out of the way"><i class="ic" style="--c:#32ade6"><svg class="ico"><use href="#i-layers"/></svg></i><span>Stays on top</span></a>
     </div>
     <div class="side-sec">
       <p class="side-group">Looks</p>
@@ -790,9 +813,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <div class="hero-copy">
             <h1 class="t-hero-eyebrow">Oyenza Studio</h1>
             <p class="t-hero">A living notch.</p>
-            <a class="t-avail" href="#new">New in 0.2.21: Settings opens in the island again, and Advanced settings opens every setting in a window.</a>
+            <a class="t-avail" href="#new">New in 0.2.22: on Windows, drag the island along the top edge, out of your browser's tabs.</a>
             <div class="buybox">
-              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.2&nbsp;MB</span> · Mac <span data-release="mac-size">5.8&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.21</span></a></span></div>
+              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.2&nbsp;MB</span> · Mac <span data-release="mac-size">5.8&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.22</span></a></span></div>
               <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
             </div>
             <a class="link hero-other dl-other" data-release="mac-link" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Mac.dmg">Download for Mac</a>
@@ -812,11 +835,18 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 
   <section class="sec band" id="new" aria-labelledby="new-title">
     <div class="content head rv">
-      <h2 class="t-l" id="new-title">New in 0.2.21.</h2>
+      <h2 class="t-l" id="new-title">New in 0.2.22.</h2>
       <button class="more" type="button" data-more="m-new">Everything new, release by release<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content news">
-      <a class="news-tile shot wide rv" href="#settings">
+      <a class="news-tile shot wide rv" href="#on-top">
+        <span class="news-visual" aria-hidden="true">
+          <span class="browser-top"><span class="browser-strip"></span><span class="browser-tabs"><span class="browser-tab on"><i></i><span>Inbox</span></span><span class="browser-tab"><i></i><span>Docs</span></span><span class="browser-new">+</span></span><svg class="browser-ctl" viewBox="0 0 108 31"><path d="M13 15.5h10M49.5 11h9v9h-9zM85.5 11l9 9m0-9-9 9"/></svg><span class="browser-url">Search or type a URL</span></span>
+          <span class="browser-isl"><img class="look-classic" src="assets/shots/classic/media-activity.webp" alt="" width="702" height="65" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/media-activity.webp" alt="" width="654" height="65" loading="lazy"><svg class="browser-cursor" viewBox="0 0 28 16"><path d="M1.5 8 7.5 2v4h13V2l6 6-6 6v-4h-13v4z" fill="#000" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+        </span>
+        <p class="t-card">Move the island</p><p class="t-tile">Press the island and drag it along the top edge, out of your browser's tabs. It stays there, and opens away from the edge. On Windows.</p>
+      </a>
+      <a class="news-tile shot rv" href="#settings">
         <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/classic/page-settings.webp" alt="" width="660" height="333" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-settings.webp" alt="" width="660" height="333" loading="lazy"></span>
         <p class="t-card">Settings in the island again</p><p class="t-tile">The gear opens Settings in the island: your account, the theme, the idle look and the switches you use most. Its last row, Advanced settings, opens every setting in a window. On Windows and Mac.</p>
       </a>
@@ -831,10 +861,6 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="news-tile shot rv" href="#pricing">
         <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/mac/classic/page-ielts.webp" alt="" width="710" height="388" loading="lazy"><img class="look-oyen" src="assets/shots/mac/oyen/page-ielts.webp" alt="" width="710" height="388" loading="lazy"></span>
         <p class="t-card">The IELTS coach</p><p class="t-tile">Oyen asks IELTS Speaking questions out loud, listens to your answers and gives you a band. Studio Pro, now on Windows and Mac.</p>
-      </a>
-      <a class="news-tile shot rv" href="#pricing">
-        <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/mac/classic/page-downloads.webp" alt="" width="710" height="396" loading="lazy"><img class="look-oyen" src="assets/shots/mac/oyen/page-downloads.webp" alt="" width="710" height="396" loading="lazy"></span>
-        <p class="t-card">The Downloader</p><p class="t-tile">Paste a link, pick Video or Sound, and watch it come in to Downloads and the Shelf. Studio Pro, on Windows and Mac. Only what you have the right to keep.</p>
       </a>
     </div>
   </section>
@@ -1290,7 +1316,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <div class="head rv">
         <p class="t-label">Stays on top</p>
         <h3 class="t-l" id="ontop-title">Above every window.</h3>
-        <p class="t-intro">In full-screen games and videos, <b>you choose</b>: hide it, or keep it on top. Over maximized windows it stays where you can see it.</p>
+        <p class="t-intro">In full-screen games and videos, <b>you choose</b>: hide it, or keep it on top. Over maximized windows it stays where you can see it. New in 0.2.22, on Windows: press it and drag it along the top edge, out of your browser's tabs.</p>
       </div>
     </div>
   </section>
@@ -1721,7 +1747,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>Switch it on in System › Games, or right-click the island › In full-screen apps › Show FPS, GPU and CPU over games.</p>
     <p>Frames are counted the way Intel's PresentMon and Xbox Game Bar count them, from Windows' own log of each frame a game shows. Nothing is loaded into the game, so anti-cheat has nothing to see. DirectX 9 to 12, Vulkan and OpenGL. The first time, Windows asks once for an admin OK, as Game Bar's FPS counter does, and FPS shows from your next sign-in. Over a full-screen app, Glass draws smoked glass instead of copying the screen.</p>
     <p><b>Stays on top:</b> when another window covers the island, such as a browser left on top after full screen or an app set to stay on top, the island goes back on top. In full-screen games and videos you choose: right-click the island or open Settings, then In full-screen apps › Hide or Stay on top (on a Mac, the menu bar under Oyen's mark). Hide is the default. A game in exclusive full-screen mode still covers every window.</p>
-    <p><b>Over maximized windows it stays.</b> The island sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. To keep that spot clear, pick <b>Hidden until hover</b> as the idle look: while nothing plays, only an invisible strip stays at the top edge until you point at it. (0.2.4 and 0.2.5 stepped aside over maximized windows by default, which made the island seem to vanish; 0.2.6 drops that.)</p>
+    <p><b>Over maximized windows it stays.</b> The island starts in the middle of the top edge, so over a maximized browser it can cover the tabs there. <b>New in 0.2.22, on Windows: press the island and drag it left or right along the top edge</b>, out of the way. It stays where you leave it, also after a restart, and opens away from the screen's edge. To bring it back, drag it to the middle, or right-click it › Move island to the centre. Or pick <b>Hidden until hover</b> as the idle look: while nothing plays, only an invisible strip stays at the top edge until you point at it. (0.2.4 and 0.2.5 stepped aside over maximized windows by default, which made the island seem to vanish; 0.2.6 drops that.)</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-oyen" aria-labelledby="m-oyen-t">
@@ -1842,6 +1868,10 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <div class="sheet-body">
     <p class="t-label">Everything new</p>
     <h2 class="t-m" id="m-new-t">Release by release.</h2>
+    <h4>New in 0.2.19</h4>
+    <ul class="new-list">
+      <li><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span><b>The Downloader</b>Paste a link, pick Video or Sound, and watch it come in to Downloads and the Shelf. Studio Pro, on Windows and Mac. Only what you have the right to keep.</span></li>
+    </ul>
     <h4>New in 0.2.16</h4>
     <ul class="new-list">
       <li><i class="ic" style="--c:#00c7be"><svg class="ico"><use href="#i-meter"/></svg></i><span><b>A tab for your AI plans</b>What's left of Codex, Claude Code, OpenCode Go and more, and when each one resets. Switch on a heads-up before you run out.</span></li>
