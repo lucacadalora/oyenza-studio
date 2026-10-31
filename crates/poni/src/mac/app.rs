@@ -4092,9 +4092,13 @@ impl App {
                 self.leave();
                 self.smoke_drag(300.0);
             }
-            // A click on it there opens it there, whole on the screen.
+            // A click on it there opens it there, whole on the screen. The
+            // pointer is on it first, as a real click's is (a pointer that
+            // isn't lets the open island close again).
             "pill-drag-open" => {
                 let p = self.island.body_rect_at(self.cx).center();
+                self.on_pointer(p);
+                self.cancel_hover();
                 let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
                 let _ = self.on_view_input(ViewInput::Up { x: p.x, y: p.y });
             }
