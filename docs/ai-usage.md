@@ -9,13 +9,14 @@ The **AI** tab shows how much is left of the AI coding plans on your computer, a
 - **With heads-up notices on** (**Tell me before I run out**, off until you switch it on): while the tab is closed, the files every 5 minutes and each server at most every 10 minutes, so the island can say when a limit is nearly used up (80% by default), when it runs out, when it's back after its reset, and when a balance drops under $1.
 - **It rests** while the computer is locked or the screen is off. The notices also rest on battery saver.
 - **When a service pushes back:** after "too many requests" it waits as long as the service asks (5 minutes if it doesn't say); after no answer at all, 1, 2, 5, then 10 minutes.
-- **A refresh makes at most 4 requests** to one service.
+- **A refresh makes at most 4 requests** to one service, and runs at most 2 programs (only [Antigravity](#antigravity) runs one).
+- **A program is never run for the notices.** Starting one costs far more than a request, so Antigravity's numbers are read only while the tab is open (or you press **Refresh**), at most every 15 minutes. With the tab closed, the notices use the last numbers.
 
 ## What every reader keeps to
 
 - **Read only.** It never writes another app's files and never renews another app's sign-in: a renewal can sign you out of that app. When a sign-in has run out, the card keeps the last numbers it had and asks you to open that app once.
 - **A sign-in goes only to its own service's server.** Never to Oyenza or anyone else, and never into the log, an error message or the numbers kept for the card.
-- **It asks as Oyenza Studio.** Every request carries the User-Agent `OyenzaStudio/<version> (+https://github.com/lucacadalora/oyenza-studio)`, never one that pretends to be the service's own app. A service that answers only its own app shows as refused; Oyenza Studio doesn't work around it.
+- **It asks as Oyenza Studio.** Every request carries the User-Agent `OyenzaStudio/<version> (+https://github.com/lucacadalora/oyenza-studio)`, never one that pretends to be the service's own app. A service that answers only its own app shows as refused; Oyenza Studio doesn't work around it. (Google's server answers Antigravity's limits only to Antigravity itself, so [Antigravity](#antigravity) is read by asking its own command line instead.)
 - **Unknown is not zero.** A number the service doesn't give stays off the card.
 - **Nothing about your usage goes to Oyenza.** The numbers come from each service to your computer and stay in Oyenza Studio's memory.
 
@@ -29,6 +30,7 @@ The **AI** tab shows how much is left of the AI coding plans on your computer, a
 | [Claude Code](#claude-code) | `~/.claude/.credentials.json` (on a Mac, the keychain first), `~/.claude.json` | `api.anthropic.com` | 2 minutes | No |
 | [OpenCode Go](#opencode-go) | `~/.local/share/opencode/auth.json`, `OPENCODE_API_KEY` | `opencode.ai` | 2 minutes | Optional |
 | [Gemini CLI](#gemini-cli) | `~/.gemini/oauth_creds.json`, `~/.gemini/settings.json` | `cloudcode-pa.googleapis.com` | 5 minutes | No |
+| [Antigravity](#antigravity) | The sign-in item in the Mac keychain; runs `agy`, which asks Google | Nothing itself | 15 minutes (a program) | No |
 | [Cursor](#cursor) | The sign-in's pieces of `state.vscdb` | `cursor.com` | 5 minutes | No |
 | [GitHub Copilot](#github-copilot) | Copilot's `apps.json` or `hosts.json` | `api.github.com` | 5 minutes | No |
 | [Kimi Code](#kimi-code) | `~/.kimi-code/credentials/` | `api.kimi.com` or `api.kimi.ai` | 5 minutes | Optional |
@@ -37,7 +39,7 @@ The **AI** tab shows how much is left of the AI coding plans on your computer, a
 | [OpenRouter](#openrouter) | `OPENROUTER_API_KEY` | `openrouter.ai` | 2 minutes | Needed, or the variable |
 | [Oyenza Inference](#oyenza-inference) | The key from **Connect** | `inference.oyenza.com` | 1 minute | No: **Connect** |
 
-With the tab closed and notices on, every server is asked at most every 10 minutes. A service that isn't on this computer and has no key gets no card and no request.
+With the tab closed and notices on, every server is asked at most every 10 minutes (Antigravity not at all). A service that isn't on this computer and has no key gets no card and no request.
 
 ### Codex
 
@@ -73,6 +75,17 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 - **The card:** the plan (Free, Standard, AI Pro and so on), the account's email (masked), and a bar each for **Pro**, **Flash** and **Flash Lite**, grouped the way Gemini CLI's `/stats` groups them, with when each resets.
 - **Typed key:** none.
 - **Not shown:** Gemini CLI signed in with a Gemini API key, Vertex AI or a cloud machine's own sign-in (paid per call, no plan limits). A sign-in Gemini CLI keeps in the system's keychain (only if you ask it to) isn't read, so the card says you're signed out. Google's sign-in lasts about an hour and Gemini CLI renews it only while it runs, so the card often asks you to open Gemini CLI once. For accounts Google no longer serves in Gemini CLI (personal accounts since June 2026), the card says so.
+
+### Antigravity
+
+Google's Antigravity CLI (`agy`), which took over from Gemini CLI. Mac only for now.
+
+- **Reads:** its sign-in in your keychain, the item `gemini` of the account `antigravity` (where `agy` keeps it), only to see whether you are signed in (it holds a refresh token) and as whom (the email, masked). The tokens in it are never used or sent. Also, to run it, where `agy` is installed: `~/.local/bin/agy`, `/opt/homebrew/bin/agy` or `/usr/local/bin/agy`.
+- **Asks:** nothing itself. Google's server answers these limits to Antigravity only, so Oyenza Studio runs `agy --version` and then `agy -p /usage --output-format json`, the command that prints what `/usage` shows, and `agy` asks Google. `/usage` makes no model turn and spends no quota; an `agy` older than 1.1.11, which would send it to the model, is not asked, and neither is a reply that shows a model turn. Two programs a refresh.
+- **How often:** only while the tab is open (or you press **Refresh**), at most every 15 minutes. A run is one process of `agy`: about 2 seconds of CPU and up to 250 MB of memory for 4 to 6 seconds, in `agy`'s own process, at lowered priority, with no window and its updater switched off. It is stopped after 30 seconds, and what it prints (at most 512 KB) is read and never logged. If `agy` ever asks you to sign in in the browser, it is stopped and not run again until you press **Refresh**. With the notices on and the tab closed, nothing is run.
+- **The card:** the account's email (masked), and for each group of models Antigravity limits (**Gemini Models**, **Claude and GPT models**, and a single model that has a limit of its own) a **5-hour** and a **Weekly** bar with when each resets. A limit Antigravity doesn't count is left out.
+- **Typed key:** none.
+- **Not shown:** Windows (it keeps its sign-in elsewhere; not read yet). Antigravity's IDE sign-in, and `~/.gemini/jetski-standalone-oauth-token`, a leftover.
 
 ### Cursor
 
@@ -144,7 +157,7 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 - **Typed keys** go in the AI tab: open **Services**, choose **Add key** beside the service, paste the key and **Save**. Oyenza Studio keeps each one sealed with Windows' own protection (DPAPI), so only your Windows account on this PC can read it, in `%LOCALAPPDATA%\Poni\`; on a Mac, in a file only your Mac account can read, in `~/Library/Application Support/Poni/`. Never in your settings or the log. Uninstalling on Windows deletes them.
 - **A key with a space or line break inside it** (a paste that caught one) is refused before it is sent; spaces around it are trimmed.
 - **Variables** such as `OPENROUTER_API_KEY` or `CODEX_HOME` are the ones Oyenza Studio started with, so restart it after setting one. On a Mac, apps opened from the Dock or Finder don't see variables set in a shell profile such as `~/.zshrc`, so type the key in the AI tab there instead.
-- **On a Mac, a sign-in kept in the keychain** is read with macOS's own `security` tool, only while the AI tab is open, and at most once each time you open it (the notices use that copy). The item normally trusts that tool, so macOS doesn't ask. If it does, its prompt names "security": say no to keep the item closed, and the card says so until you press **Refresh**, which asks once more.
+- **On a Mac, a sign-in kept in the keychain** (Claude Code's, Antigravity's) is read with macOS's own `security` tool, only while the AI tab is open, and at most once each time you open it (the notices use that copy). The item normally trusts that tool, so macOS doesn't ask. If it does, its prompt names "security": say no to keep the item closed, and the card says so until you press **Refresh**, which asks once more.
 - **What you chose** (which services are hidden or added, the notices switch) is kept in your settings, `settings.json`, under `usage`.
 
 ## Removing it all
@@ -157,4 +170,4 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 
 ## Where this comes from
 
-The readers port logic from [CodexBar](https://github.com/steipete/CodexBar) by Peter Steinberger (MIT; its notice is in [THIRD-PARTY-NOTICES.txt](../THIRD-PARTY-NOTICES.txt)): where each tool keeps its sign-in, which of its service's servers to ask and how to read the answers. File names and requests were also checked against the services' own open-source tools (Codex, Gemini CLI, Kimi Code, OpenCode and VS Code's Copilot code), with no code taken from them. Each reader is one file in `crates/studio-usage/src/`, tested against hand-made answers in `crates/studio-usage/src/fixtures/`; none of them came from a real account. How the pieces fit: [ARCHITECTURE.md](../ARCHITECTURE.md#ai-usage).
+The readers port logic from [CodexBar](https://github.com/steipete/CodexBar) by Peter Steinberger (MIT; its notice is in [THIRD-PARTY-NOTICES.txt](../THIRD-PARTY-NOTICES.txt)): where each tool keeps its sign-in, which of its service's servers to ask and how to read the answers. File names and requests were also checked against the services' own open-source tools (Codex, Gemini CLI, Kimi Code, OpenCode and VS Code's Copilot code), with no code taken from them. Antigravity's `/usage` answer and the guards around running `agy` follow what [Orca](https://github.com/stablyai/orca) (MIT) found reading it; no code taken either. Each reader is one file in `crates/studio-usage/src/`, tested against hand-made answers in `crates/studio-usage/src/fixtures/`; none of them came from a real account. How the pieces fit: [ARCHITECTURE.md](../ARCHITECTURE.md#ai-usage).

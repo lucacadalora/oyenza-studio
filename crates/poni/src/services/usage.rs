@@ -33,7 +33,7 @@ use crate::services::http::{Client, FetchError, Method, MtaGuard};
 use crate::state::InferenceLink;
 use studio_usage::alerts::{Alert, AlertCfg, Memory};
 use studio_usage::pace::{self, KeyGate, Look, Looks, Pace, Refusals};
-use studio_usage::{self as usage, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
+use studio_usage::{self as usage, oyenza, Cli, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
 use std::cell::RefCell;
 use std::collections::BTreeSet;
 use std::path::PathBuf;
@@ -193,6 +193,9 @@ struct Worker {
     svcs: Vec<Svc>,
     /// Where the typed keys were refused, so they aren't sent there again.
     refusals: Refusals,
+    /// A program asked the person to sign in in a browser: it isn't run again
+    /// until Refresh, or it would open one at every look.
+    held: bool,
     looks: Looks,
     /// What the island wanted when the worker last looked at its queue.
     watch: Watch,
@@ -246,6 +249,7 @@ impl Worker {
             keys: BTreeSet::new(),
             svcs: ProviderId::ALL.iter().map(|_| Svc::default()).collect(),
             refusals: Refusals::default(),
+            held: false,
             looks: Looks::default(),
             watch: Watch::default(),
             cfg: AlertCfg::default(),
@@ -381,8 +385,12 @@ impl Worker {
     /// kept and told. Returns its notices.
     fn refresh(&mut self, i: usize, p: &dyn Provider, wants: &[Want], look: Look) -> Vec<Alert> {
         let Some(reach) = self.svcs[i].pace.reach(self.tick(), p.min_gap_s(), look) else { return Vec::new() };
+        // A program costs far more than a request: it runs for the person
+        // looking at the tab (or pressing Refresh), never for the notices
+        // alone, which read what is there.
+        let reach = if look == Look::Notices && p.runs_programs() { Reach::Local } else { reach };
         let now = crate::clock::unix_now();
-        let Worker { dirs, names, client, refusals, .. } = self;
+        let Worker { dirs, names, client, refusals, held, .. } = self;
         // The service's typed key, if it reads one, goes through the door:
         // never again to an address that refused it.
         let gate = RefCell::new(KeyGate::new(refusals, p.takes_key().map(|k| k.secret)));
@@ -394,7 +402,7 @@ impl Worker {
                 gate.borrow_mut().saw(w, &got);
                 got
             };
-            pace::run(p, dirs, wants, now, reach, read, |req| gate.borrow_mut().ask(req, |r| fetch(client, r)))
+            pace::run(p, dirs, wants, now, reach, read, |req| gate.borrow_mut().ask(req, |r| fetch(client, r)), |cli| run_program(cli, dirs, held))
         }));
         let gate = gate.into_inner();
         match run {
@@ -508,6 +516,7 @@ impl Worker {
             // tells its keychain reader to ask again first.)
             UsageCmd::Refresh => {
                 self.refusals.clear();
+                self.held = false;
                 self.looks.ask(self.tick());
             }
             UsageCmd::SetKey { secret, key } => self.set_key(secret, &key),
@@ -833,6 +842,28 @@ fn keychain_item(service: &str, account: Option<&str>) -> Got {
 #[cfg(not(target_os = "macos"))]
 fn keychain_item(_service: &str, _account: Option<&str>) -> Got {
     Got::Missing
+}
+
+/// One of the programs a reader may run (`studio_usage::Cli`; the Mac's
+/// `services::agy` does it). A program that asked for a browser sign-in
+/// answers 401 and is not run again until Refresh (`held`): the reader hears
+/// 401 meanwhile, as if it had run.
+#[cfg(target_os = "macos")]
+fn run_program(cli: Cli, dirs: &Dirs, held: &mut bool) -> Result<Reply, NetFail> {
+    if *held {
+        return Ok(Reply { status: 401, body: String::new(), retry_after_s: None });
+    }
+    let answer = crate::services::agy::run(cli, &dirs.home);
+    if matches!(&answer, Ok(r) if r.status == 401) {
+        *held = true;
+    }
+    answer
+}
+
+/// Windows runs no program for the AI tab yet.
+#[cfg(not(target_os = "macos"))]
+fn run_program(_cli: Cli, _dirs: &Dirs, _held: &mut bool) -> Result<Reply, NetFail> {
+    Err(NetFail::Other("no program to run".into()))
 }
 
 #[cfg(all(test, windows))]

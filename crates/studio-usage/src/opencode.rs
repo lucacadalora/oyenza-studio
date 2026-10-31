@@ -241,6 +241,7 @@ mod tests {
         loop {
             match OpenCode.next(&cx, &replies) {
                 Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Done(outcome) => return (asked, outcome),
                 Step::Fetch(req) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");
@@ -288,6 +289,7 @@ mod tests {
         let d = with_env_key(Dirs::sample(Os::Windows));
         let first = |got: &[Got]| match OpenCode.next(&Ctx { dirs: &d, got, now: NOW, reach: Reach::Online }, &[]) {
             Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+            Step::Run(c) => panic!("this service never runs programs: {c:?}"),
             Step::Fetch(r) => r.headers.into_iter().find(|(k, _)| k == "Authorization").map(|(_, v)| v),
             Step::Done(o) => panic!("{o:?}"),
         };
