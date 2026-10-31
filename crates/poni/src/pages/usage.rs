@@ -474,6 +474,7 @@ fn usage_page(id: ProviderId) -> &'static str {
         ProviderId::Claude => "https://claude.ai/settings/usage",
         ProviderId::OpenCode => "https://opencode.ai/auth",
         ProviderId::Gemini => "https://gemini.google.com",
+        ProviderId::Antigravity => "https://antigravity.google",
         ProviderId::Cursor => "https://cursor.com/dashboard?tab=usage",
         ProviderId::Copilot => "https://github.com/settings/copilot",
         ProviderId::Kimi => "https://www.kimi.com/code/console",

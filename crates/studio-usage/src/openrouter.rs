@@ -200,6 +200,7 @@ mod tests {
         loop {
             match OpenRouter.next(&cx, &replies) {
                 Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Fetch(r) => {
                     assert!(asked.len() < MAX_FETCHES, "asked too often");
                     replies.push(answer(&r));

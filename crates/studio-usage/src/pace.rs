@@ -21,7 +21,7 @@
 //! - A typed key a server refused isn't sent there again this run
 //!   ([`Refusals`]): a key every region refused goes nowhere.
 
-use super::{all, sort_small_by, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS};
+use super::{all, sort_small_by, Cli, Ctx, Dirs, FileRead, Got, NetFail, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Step, Trouble, Want, MAX_FETCHES, MAX_READS, MAX_RUNS};
 use std::collections::HashMap;
 use std::fs::{self, File};
 use std::hash::{Hash, Hasher};
@@ -233,7 +233,8 @@ pub struct Run {
     /// None when the service broke the rules and was stopped (or the worker
     /// set its answer aside): the tab keeps what it had.
     pub outcome: Option<Outcome>,
-    /// Requests sent.
+    /// Requests sent and programs run: what the service's gap
+    /// ([`Provider::min_gap_s`]) is counted from.
     pub asked: usize,
     /// The rule it broke, for the log.
     pub broke: Option<&'static str>,
@@ -244,10 +245,13 @@ pub struct Run {
 
 /// One refresh of one service, as the worker runs it: its `wants` read with
 /// `read`, then [`Provider::next`] until it is done, each [`Step::Read`]
-/// read with `read` too and each request answered by `fetch`. It stops a
-/// service that asks on a [`Reach::Local`] look, more than [`MAX_FETCHES`]
-/// times or reads more than [`MAX_READS`] wants, and never sends a request
-/// that isn't [`sendable`].
+/// read with `read` too, each request answered by `fetch` and each program
+/// run by `spawn`. It stops a service that asks or runs a program on a
+/// [`Reach::Local`] look, more than [`MAX_FETCHES`] times or [`MAX_RUNS`]
+/// programs, or reads more than [`MAX_READS`] wants, and never sends a
+/// request that isn't [`sendable`]. A program run counts as an ask: the
+/// service's gap is counted from it like from a request.
+#[allow(clippy::too_many_arguments)]
 pub fn run(
     p: &dyn Provider,
     dirs: &Dirs,
@@ -256,6 +260,7 @@ pub fn run(
     reach: Reach,
     mut read: impl FnMut(&Want) -> Got,
     mut fetch: impl FnMut(&Request) -> Result<Reply, NetFail>,
+    mut spawn: impl FnMut(Cli) -> Result<Reply, NetFail>,
 ) -> Run {
     let broke = |asked, unsent, rule| Run { outcome: None, asked, broke: Some(rule), unsent };
     if wants.len() > MAX_READS {
@@ -263,7 +268,7 @@ pub fn run(
     }
     let mut got: Vec<Got> = wants.iter().map(&mut read).collect();
     let mut replies = Vec::new();
-    let (mut asked, mut unsent) = (0, false);
+    let (mut asked, mut unsent, mut fetches, mut runs) = (0, false, 0, 0);
     loop {
         let cx = Ctx { dirs, got: &got, now, reach };
         let req = match p.next(&cx, &replies) {
@@ -273,9 +278,20 @@ pub fn run(
                 got.extend(more.iter().map(&mut read));
                 continue;
             }
+            Step::Run(_) if reach == Reach::Local => return broke(asked, unsent, "ran a program on a look at this computer only"),
+            Step::Run(_) if runs >= MAX_RUNS => return broke(asked, unsent, "ran more than 2 programs in one refresh"),
+            Step::Run(cli) => {
+                runs += 1;
+                asked += 1;
+                replies.push(spawn(cli));
+                continue;
+            }
             Step::Fetch(_) if reach == Reach::Local => return broke(asked, unsent, "asked its server on a look at this computer only"),
-            Step::Fetch(_) if replies.len() >= MAX_FETCHES => return broke(asked, unsent, "asked its server more than 4 times in one refresh"),
-            Step::Fetch(req) => req,
+            Step::Fetch(_) if fetches >= MAX_FETCHES => return broke(asked, unsent, "asked its server more than 4 times in one refresh"),
+            Step::Fetch(req) => {
+                fetches += 1;
+                req
+            }
         };
         if sendable(&req) {
             asked += 1;
@@ -862,7 +878,7 @@ mod tests {
         let run = run(p, &dirs, &p.wants(&dirs), T, reach, |_| Got::Text("key".into()), |r| {
             sent.push(r.url.clone());
             Ok(Reply { status: 200, body: "{}".into(), retry_after_s: None })
-        });
+        }, |c| panic!("ran {c:?}"));
         (run, sent)
     }
 
@@ -886,8 +902,77 @@ mod tests {
         // What is read goes to the service in order: no key, no asking.
         let dirs = Dirs::sample(Os::Mac);
         let p = Asker { n: 1, header: "Bearer k" };
-        let run = run(&p, &dirs, &p.wants(&dirs), T, Reach::Online, |_| Got::Missing, |_| panic!("asked without a key"));
+        let run = run(&p, &dirs, &p.wants(&dirs), T, Reach::Online, |_| Got::Missing, |_| panic!("asked without a key"), |c| panic!("ran {c:?}"));
         assert_eq!(run.outcome, Some(Err(Trouble::NeedsKey)));
+    }
+
+    /// A service that runs a program `n` times, then says it got there.
+    struct Runner {
+        n: usize,
+    }
+
+    impl Provider for Runner {
+        fn id(&self) -> ProviderId {
+            ProviderId::Antigravity
+        }
+
+        fn wants(&self, _dirs: &Dirs) -> Vec<Want> {
+            Vec::new()
+        }
+
+        fn next(&self, cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Step {
+            if replies.len() < self.n {
+                Step::Run(Cli::AgyVersion)
+            } else {
+                Step::Done(Ok(Snapshot::new(ProviderId::Antigravity, cx.now, Source::Online)))
+            }
+        }
+
+        fn min_gap_s(&self) -> u64 {
+            900
+        }
+    }
+
+    fn drive_runner(p: &Runner, reach: Reach) -> (Run, Vec<Cli>) {
+        let dirs = Dirs::sample(Os::Mac);
+        let mut ran = Vec::new();
+        let run = run(p, &dirs, &[], T, reach, |_| Got::Missing, |r| panic!("asked {}", r.url), |c| {
+            ran.push(c);
+            Ok(Reply { status: 200, body: "1.4.12".into(), retry_after_s: None })
+        });
+        (run, ran)
+    }
+
+    #[test]
+    fn a_program_run_is_an_ask_kept_to_two_and_never_on_a_local_look() {
+        let fine = drive_runner(&Runner { n: 2 }, Reach::Online);
+        assert!(matches!(fine.0, Run { outcome: Some(Ok(_)), asked: 2, broke: None, unsent: false }), "{:?}", fine.0);
+        assert_eq!(fine.1, [Cli::AgyVersion, Cli::AgyVersion]);
+        // Two at most: the third stops it, and the tab keeps what it had.
+        let greedy = drive_runner(&Runner { n: 3 }, Reach::Online);
+        assert!(greedy.0.outcome.is_none() && greedy.0.broke.is_some() && greedy.0.asked == MAX_RUNS);
+        assert_eq!(greedy.1.len(), MAX_RUNS);
+        // Nothing runs on a look at this computer only.
+        let sneaky = drive_runner(&Runner { n: 1 }, Reach::Local);
+        assert!(sneaky.0.outcome.is_none() && sneaky.0.broke.is_some() && sneaky.0.asked == 0);
+        assert!(sneaky.1.is_empty());
+    }
+
+    #[test]
+    fn a_program_run_waits_out_the_services_gap_like_a_request() {
+        // The run counts as an ask ...
+        let mut pace = Pace::default();
+        assert_eq!(pace.reach(0, 900, Look::Open), Some(Reach::Online));
+        let ran = drive_runner(&Runner { n: 2 }, Reach::Online).0;
+        pace.heard(0, Reach::Online, ran.asked > 0, ran.outcome.as_ref());
+        // ... so the tab's look every minute does not run it again for 15 minutes,
+        assert_eq!(pace.reach(60, 900, Look::Open), Some(Reach::Local));
+        assert_eq!(pace.reach(899, 900, Look::Open), Some(Reach::Local));
+        assert_eq!(pace.reach(900, 900, Look::Open), Some(Reach::Online));
+        // and the notices alone, which never run it, would wait at least 10.
+        assert_eq!(pace.reach(700, 900, Look::Notices), Some(Reach::Local));
+        // Refresh asks again after the short gap.
+        assert_eq!(pace.reach(20, 900, Look::Asked), Some(Reach::Online));
     }
 
     #[test]
@@ -899,13 +984,13 @@ mod tests {
         };
         // Reads come before the end, on a local look too, and ask nothing.
         let ten = Stepper { n: 10 };
-        let ran = run(&ten, &dirs, &ten.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"));
+        let ran = run(&ten, &dirs, &ten.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"), |c| panic!("ran {c:?}"));
         assert_eq!(ran.outcome.map(|o| o.unwrap().tokens_today), Some(Some(10)));
         let all = Stepper { n: MAX_READS };
-        assert!(run(&all, &dirs, &all.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked")).outcome.is_some());
+        assert!(run(&all, &dirs, &all.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"), |c| panic!("ran {c:?}")).outcome.is_some());
         // One more than the limit stops it, and the tab keeps what it had.
         let greedy = Stepper { n: MAX_READS + 1 };
-        let ran = run(&greedy, &dirs, &greedy.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"));
+        let ran = run(&greedy, &dirs, &greedy.wants(&dirs), T, Reach::Local, piece, |_| panic!("asked"), |c| panic!("ran {c:?}"));
         assert!(ran.outcome.is_none() && ran.broke.is_some());
     }
 
@@ -958,7 +1043,7 @@ mod tests {
         let ran = run(&p, &dirs, &p.wants(&dirs), T, Reach::Online, |_| Got::Text("oyis_test-token".into()), |r| {
             asked.push(r.url.clone());
             Ok(Reply { status: 302, body: String::new(), retry_after_s: None })
-        });
+        }, |c| panic!("ran {c:?}"));
         assert_eq!(ran.outcome, Some(Err(Trouble::Unreadable("HTTP 302".into()))));
         assert_eq!(asked, ["https://inference.oyenza.com/v1/studio/summary"]);
     }
@@ -988,6 +1073,7 @@ mod tests {
                     answer(r.url.split('/').nth(2).unwrap_or(""))
                 })
             },
+            |c| panic!("ran {c:?}"),
         );
         gate.into_inner().done(ran.outcome.as_ref());
         ran.outcome.unwrap()
@@ -1093,7 +1179,7 @@ mod tests {
     fn services_as_bits_and_the_notices_line() {
         assert!(ProviderId::ALL.len() <= 32);
         assert_eq!(bit(ProviderId::Codex), 1);
-        assert_eq!(bit(ProviderId::Oyenza), 1 << 10);
+        assert_eq!(bit(ProviderId::Oyenza), 1 << 11);
         assert_eq!(bits(&["claude".into(), "nope".into(), "openrouter".into(), "claude".into()]), bit(ProviderId::Claude) | bit(ProviderId::OpenRouter));
         assert_eq!(bits(&[]), 0);
         let all: u32 = ProviderId::ALL.iter().map(|id| bit(*id)).sum();

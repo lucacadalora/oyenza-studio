@@ -969,6 +969,7 @@ mod tests {
             let cx = Ctx { dirs: &dirs, got: &got, now, reach };
             match Cursor.go(&cx, &replies) {
                 Go::Step(Step::Read(w)) => panic!("Cursor reads through Go::Read, not Step::Read: {w:?}"),
+                Go::Step(Step::Run(c)) => panic!("Cursor never runs programs: {c:?}"),
                 Go::Read(pieces) => {
                     assert!(got.len() + pieces.len() <= 64, "too many pieces");
                     got.extend(pieces.iter().map(|p| read(files, p)));

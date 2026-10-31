@@ -9,6 +9,9 @@
 // This file is loaded with #[path], so its modules sit in services/ by path.
 #[path = "services/adzan.rs"]
 pub mod adzan;
+// Antigravity's `agy`, run for the AI tab.
+#[path = "services/agy.rs"]
+pub mod agy;
 #[path = "services/audio.rs"]
 pub mod audio;
 // Meeting notes' two sources (the microphone, and the Mac's own sound).

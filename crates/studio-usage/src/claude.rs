@@ -297,6 +297,7 @@ mod tests {
         loop {
             match Claude.next(&cx, &replies) {
                 Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Done(out) => return (asked, out),
                 Step::Fetch(r) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");

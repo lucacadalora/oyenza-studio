@@ -346,7 +346,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 
 The AI tab (`PageKind::Ai`, a core tab right after Focus) shows how much of
 each AI coding plan on this computer is left (Codex, Claude Code, OpenCode Go,
-Gemini CLI, Cursor, GitHub Copilot, Kimi Code, Z.ai, MiniMax, OpenRouter) and
+Gemini CLI, Antigravity, Cursor, GitHub Copilot, Kimi Code, Z.ai, MiniMax, OpenRouter) and
 the person's inference.oyenza.com balance once they connect it. What it reads,
 service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
 
@@ -361,7 +361,11 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   (`Want::Secret`). `next(cx, replies)` gets what was read and the answers so
   far, and returns more to read (`Step::Read`, at most `MAX_READS` wants a
   refresh), a request (`Step::Fetch`, at most `MAX_FETCHES` a refresh, none
-  under `Reach::Local`) or the result (`Step::Done`): a `Snapshot` (plan,
+  under `Reach::Local`), a program (`Step::Run(Cli)`, at most `MAX_RUNS` a
+  refresh, none under `Reach::Local`: Antigravity's numbers are answered to
+  its own `agy` only, so the reader asks the app to run `agy --version` and
+  `agy -p /usage`; `Cli` is a fixed list, the app knows each command line,
+  and the answer comes back as a `Reply`) or the result (`Step::Done`): a `Snapshot` (plan,
   masked account, `Window`s with their resets, balance, spend, days) or a
   `Trouble` the tab says in plain words. The rules at the top of `lib.rs` bind
   every reader: read only, never refresh another app's sign-in, a sign-in
@@ -382,7 +386,11 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   are switched on (`Services::usage_watch`), that sleeps on a condvar at zero
   CPU unless `Watch { open, notices }` says someone wants it. It serves the
   wants (files within their size caps, the Mac keychain through
-  `/usr/bin/security`, sealed secrets), makes the requests with an HTTP
+  `/usr/bin/security`, sealed secrets), runs the programs a reader asks for
+  (`mac/services/agy.rs`: a process group of its own at lowered priority, 30 s
+  at most, output capped and never logged; only for a look the person is
+  there for, never for the notices alone; held after a browser sign-in
+  prompt until Refresh), makes the requests with an HTTP
   client of its own (`Client::private`: no redirects, no cookies, no disk
   cache), keeps the last good snapshot per service, and reports
   `AppEvent::Usage` into `st.usage` (`UsageState`). The page's commands
@@ -396,7 +404,10 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   them); otherwise the refresh is `Reach::Local`, which services with only
   online numbers skip. With the
   notices on and the tab closed: files every 5 minutes, online at most every
-  10. A service that says Busy waits its Retry-After (else 5 minutes); one
+  10. A service that runs a program (`Provider::runs_programs`: Antigravity,
+  whose gap is 15 minutes and counts a run like a request) is never run for
+  the notices: its notices-only look is `Reach::Local`. A service that says
+  Busy waits its Retry-After (else 5 minutes); one
   that gives no answer waits 1, 2, 5, then 10 minutes.
 * **Rest**: `App::set_usage_watch`, checked each frame beside
   `set_today_watch`, tells the worker on every change: `open` = the AI tab is
