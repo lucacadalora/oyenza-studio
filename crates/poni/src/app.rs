@@ -24,6 +24,7 @@ use crate::tray::{self, Tray};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
 use crate::window::{self, FrameClock, FrameTick, MonitorInfo};
 use crate::{dragdrop, selftest, shell};
+use poni_core::spot;
 use poni_core::addons::Status as AddonStatus;
 use poni_core::frametime::{ambient_divisor, MotionStats};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -409,10 +410,15 @@ pub struct App {
     glass_moving: bool,
     /// Animation time of the last frame (the vblank it was shown on).
     last_frame_t: f64,
-    /// The window: a fixed-size surface the island is drawn centred in.
+    /// The window: a fixed-size surface the island is drawn in, centred on
+    /// the monitor unless the island was dragged along the top edge.
     surface: Surface,
-    /// Centre of the surface in DIPs (where the island hangs from).
+    /// The island's centre in the window, DIPs (where it hangs from): where
+    /// it rests (`home_cx`), unless its outline needs more room there.
     cx: f32,
+    /// Where the island's centre rests in the window, DIPs: the window's
+    /// middle, or off it once dragged towards an edge (`place_surface`).
+    home_cx: f32,
     /// Canvas pixels drawn last frame (the next frame clears them).
     prev_canvas_px: Option<RECT>,
     /// GPU renderer: the hit mask last pushed to the window, and when.
@@ -536,6 +542,11 @@ pub struct App {
     /// Whether the island floated when the window was last laid out (its
     /// room differs: see `sync_room`).
     laid_floating: bool,
+    /// The spot along the top edge (`Settings::island_x`) the window was
+    /// last laid out for (see `sync_spot`).
+    laid_spot: Option<f32>,
+    /// A press on the closed island, which a sideways move turns into a drag.
+    grab: Option<Grab>,
     /// New versions (`crate::updates`); None in the self-test and in a
     /// Store copy, which the Store updates.
     updater: Option<crate::updates::Updater>,
@@ -551,6 +562,18 @@ struct Surface {
     y: i32,
     w: i32,
     h: i32,
+}
+
+/// A press on the closed island: let go where it was, it opens the
+/// island; moved sideways first, it drags the island along the top edge.
+#[derive(Clone, Copy, Debug)]
+struct Grab {
+    /// Where the pointer was pressed, screen pixels across.
+    from_px: i32,
+    /// The island's centre then, DIPs from the monitor's left edge.
+    centre: f32,
+    /// The pointer went past `spot::DRAG_SLOP`: a drag, not a click.
+    moved: bool,
 }
 
 /// The grow springs overshoot by about 3 %; the surface leaves 5 %.
@@ -664,6 +687,7 @@ impl App {
             last_frame_t: 0.0,
             surface: Surface::default(),
             cx: 0.0,
+            home_cx: 0.0,
             prev_canvas_px: None,
             mask: None,
             motion: None,
@@ -726,6 +750,8 @@ impl App {
             phone_offer: Vec::new(),
             pair_offer: None,
             laid_floating: false,
+            laid_spot: None,
+            grab: None,
             updater: None,
             notify: None,
         })
@@ -858,16 +884,104 @@ impl App {
         let mon_w = self.monitor.rect.right - self.monitor.rect.left;
         let (w, h) = surface_size(&self.island, body_w, body_h, s, mon_w);
         self.laid_floating = self.island.floating();
-        let surface = Surface { x: self.monitor.rect.left + (mon_w - w) / 2, y: self.monitor.top(), w, h };
+        self.place_surface(w, h);
+    }
+
+    /// Put the `w`×`h` px window at the top of the monitor: centred, or as
+    /// near the spot the island was dragged to as the monitor allows. Past
+    /// that the island goes the rest of the way inside the window
+    /// (`place_island`).
+    fn place_surface(&mut self, w: i32, h: i32) {
+        let s = self.gfx.scale();
+        let (left, mon_w) = (self.monitor.rect.left, self.monitor.rect.right - self.monitor.rect.left);
+        self.laid_spot = self.st.settings.island_x;
+        let (x, home) = match self.laid_spot {
+            None => (left + (mon_w - w) / 2, w as f32 / 2.0 / s),
+            Some(f) => {
+                let at = left + (f * mon_w as f32).round() as i32;
+                let x = spot::window_left(left, mon_w, w, at);
+                (x, (at - x) as f32 / s)
+            }
+        };
+        self.home_cx = home;
+        let surface = Surface { x, y: self.monitor.top(), w, h };
         if surface != self.surface {
             self.surface = surface;
-            self.cx = w as f32 / 2.0 / s;
             self.prev_canvas_px = None;
             self.mask = None;
             if let Err(e) = self.gfx.set_surface(w, h) {
                 pwarn!("window surface {w}x{h} failed: {e}");
             }
         }
+        self.place_island();
+    }
+
+    /// The island's centre in the window this frame. In the middle, where
+    /// it rests. Dragged towards an edge, moved in just enough to keep its
+    /// outline (as wide as it is now) in the window: opening there, it
+    /// grows away from the edge.
+    fn place_island(&mut self) {
+        self.cx = match self.laid_spot {
+            None => self.home_cx,
+            Some(_) => spot::fit_centre(self.home_cx, self.surface.w as f32 / self.gfx.scale(), self.island.current().w, self.island.side_room()),
+        };
+    }
+
+    /// The spot along the top edge changed since the window was laid out
+    /// (a drag, the menu's Move island to the centre, Reload settings): lay
+    /// it out there. Called every frame; a layout only on that change.
+    fn sync_spot(&mut self) {
+        if self.st.settings.island_x != self.laid_spot {
+            self.place_surface(self.surface.w, self.surface.h);
+        }
+    }
+
+    /// Where a mouse message's point is on the screen, pixels across.
+    fn screen_x(&self, lp: LPARAM) -> i32 {
+        let mut pt = POINT { x: (lp.0 & 0xffff) as u16 as i16 as i32, y: ((lp.0 >> 16) & 0xffff) as u16 as i16 as i32 };
+        unsafe {
+            let _ = windows::Win32::Graphics::Gdi::ClientToScreen(self.hwnd, &mut pt);
+        }
+        pt.x
+    }
+
+    /// The pointer moved while pressing the closed island: once it has
+    /// gone `spot::DRAG_SLOP` sideways, the island follows it along the top
+    /// edge, as far as it stays on the screen, and back to the middle when
+    /// it comes within `spot::SNAP` of it.
+    fn drag_island(&mut self, lp: LPARAM) {
+        let Some(g) = self.grab else { return };
+        let s = self.gfx.scale();
+        let dx = self.screen_x(lp) - g.from_px;
+        if !g.moved {
+            if (dx.abs() as f32) < spot::DRAG_SLOP * s {
+                return;
+            }
+            pinfo!("island: dragged along the top edge");
+            // No WM_SETCURSOR comes while the mouse is captured.
+            unsafe {
+                if let Ok(c) = LoadCursorW(None, IDC_SIZEWE) {
+                    SetCursor(c);
+                }
+            }
+        }
+        self.grab = Some(Grab { moved: true, ..g });
+        let mon_w = (self.monitor.rect.right - self.monitor.rect.left) as f32 / s;
+        let centre = spot::fit_centre(g.centre + dx as f32 / s, mon_w, self.island.current().w, self.island.side_room());
+        self.st.settings.island_x = spot::remember(centre, mon_w);
+        self.sync_spot();
+        self.request_frame();
+    }
+
+    /// A drag along the top edge ended: the island stays there (saved), and
+    /// doesn't open under the pointer that just let go of it.
+    fn dropped_island(&mut self) {
+        self.cancel_hover();
+        match self.st.settings.island_x {
+            Some(x) => pinfo!("island: moved to {:.0} % across the screen", x * 100.0),
+            None => pinfo!("island: back in the middle"),
+        }
+        self.save_settings();
     }
 
     /// The island started or stopped floating since the window was laid out
@@ -942,6 +1056,42 @@ impl App {
         }
     }
 
+    /// A click on the closed island (pressed and let go without dragging
+    /// it): a notice jumps to its page or app, the download pill to its
+    /// page, and the island opens.
+    fn open_from_press(&mut self) {
+        // Clicking a notice jumps to its page (a new version's
+        // may be waiting under a volume change or a game's readout).
+        let shown = self.mode == Mode::Notice;
+        // Another app's notification opens that app instead.
+        let mut opened = false;
+        if let Some(n) = self.st.notice.take_if(|_| shown) {
+            match n.action {
+                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
+                Some(NoticeAction::StartFocus) => {
+                    self.st.page = PageKind::Focus;
+                    if !self.st.pomodoro.is_active() {
+                        self.st.pomodoro.start(self.st.now);
+                    }
+                }
+                Some(NoticeAction::OpenApp(id)) => {
+                    shell::open_app(&id);
+                    opened = true;
+                }
+                None => {}
+            }
+        }
+        // The download pill opens on its page.
+        if self.mode == Mode::Activity(activities::Activity::Download) {
+            self.st.page = PageKind::Downloads;
+        }
+        self.st.hud = None;
+        if !opened {
+            self.expand();
+        }
+    }
+
     fn release_mouse(&mut self) {
         self.input.down = false;
         self.input.pressed_id = None;
@@ -978,6 +1128,11 @@ impl App {
             }
             WM_MOUSEMOVE => {
                 let p = self.mouse_dip(lp);
+                if self.grab.is_some() {
+                    self.input.mouse = Some(p);
+                    self.drag_island(lp);
+                    return Some(LRESULT(0));
+                }
                 if self.over_stale_mask(p) {
                     // The pointer is over a part of the hit mask the outline
                     // already left: it isn't on the island.
@@ -1049,36 +1204,13 @@ impl App {
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
                     } else {
-                        // Clicking a notice jumps to its page (a new version's
-                        // may be waiting under a volume change or a game's readout).
-                        let shown = self.mode == Mode::Notice;
-                        // Another app's notification opens that app instead.
-                        let mut opened = false;
-                        if let Some(n) = self.st.notice.take_if(|_| shown) {
-                            match n.action {
-                                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
-                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
-                                Some(NoticeAction::StartFocus) => {
-                                    self.st.page = PageKind::Focus;
-                                    if !self.st.pomodoro.is_active() {
-                                        self.st.pomodoro.start(self.st.now);
-                                    }
-                                }
-                                Some(NoticeAction::OpenApp(id)) => {
-                                    shell::open_app(&id);
-                                    opened = true;
-                                }
-                                None => {}
-                            }
-                        }
-                        // The download pill opens on its page.
-                        if self.mode == Mode::Activity(activities::Activity::Download) {
-                            self.st.page = PageKind::Downloads;
-                        }
-                        self.st.hud = None;
-                        if !opened {
-                            self.expand();
-                        }
+                        // Opens when the button comes up (`open_from_press`),
+                        // unless the pointer moves sideways first: then it
+                        // drags the island along the top edge (`drag_island`).
+                        let centre = (self.surface.x - self.monitor.rect.left) as f32 / self.gfx.scale() + self.cx;
+                        self.grab = Some(Grab { from_px: self.screen_x(lp), centre, moved: false });
+                        // Held still on it, it doesn't open by itself either.
+                        self.cancel_hover();
                     }
                 } else if self.text_focus && self.input.pressed_id != self.input.focused {
                     self.blur_text();
@@ -1087,6 +1219,15 @@ impl App {
                 Some(LRESULT(0))
             }
             WM_LBUTTONUP => {
+                if let Some(g) = self.grab.take() {
+                    // What the closed island showed under the press doesn't click.
+                    self.input.pressed_id = None;
+                    if g.moved {
+                        self.dropped_island();
+                    } else {
+                        self.open_from_press();
+                    }
+                }
                 let p = self.mouse_dip(lp);
                 self.input.mouse = Some(p);
                 let hit = self.hit_at(p).map(|h| h.id);
@@ -1113,7 +1254,11 @@ impl App {
                 Some(LRESULT(0))
             }
             WM_CAPTURECHANGED_ => {
-                // Capture taken by someone else mid-press: drop the stale press.
+                // Capture taken by someone else mid-press: drop the stale press
+                // (a drag leaves the island where it got to).
+                if lp.0 != self.hwnd.0 as isize && self.grab.take().is_some_and(|g| g.moved) {
+                    self.dropped_island();
+                }
                 if lp.0 != self.hwnd.0 as isize && (self.input.down || self.input.pressed_id.is_some()) {
                     self.input.down = false;
                     self.input.pressed_id = None;
@@ -1584,7 +1729,7 @@ impl App {
                 unsafe {
                     let _ = KillTimer(self.hwnd, TIMER_HOVER);
                 }
-                if !self.hovering || self.expanded {
+                if !self.hovering || self.expanded || self.grab.is_some() {
                     self.hover_arm = None;
                 } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
@@ -2221,6 +2366,7 @@ impl App {
             ToggleGamePeek => s.game_peek = !s.game_peek,
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
+            CentreIsland => s.island_x = None,
             RecordScreen => crate::services::recorder::record_screen(self.hwnd),
             ShowSettings => self.show_settings(&mut Vec::new()),
             ToggleAutostart => {
@@ -3529,6 +3675,8 @@ impl App {
         self.island.step(dt, now);
         self.sync_room();
         self.ensure_room();
+        self.sync_spot();
+        self.place_island();
         self.note_motion(retarget, rendered_at, period, dt as f64);
 
         let scale = self.gfx.scale();
@@ -5346,6 +5494,35 @@ impl App {
         self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut deferred);
         self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut deferred);
         self.expanded
+    }
+
+    /// A press on the island at `p` (DIPs), a move `dx` DIPs sideways and
+    /// the release there, through the island's own mouse messages. Returns
+    /// whether the island opened.
+    pub fn selftest_drag(&mut self, p: Point, dx: f32) -> bool {
+        let s = self.gfx.scale();
+        let lp = |p: Point| LPARAM(((((p.y * s).round() as i32 & 0xffff) << 16) | ((p.x * s).round() as i32 & 0xffff)) as isize);
+        let to = Point::new(p.x + dx, p.y);
+        let mut deferred = Vec::new();
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp(p), &mut deferred);
+        self.handle_island(WM_MOUSEMOVE, WPARAM(0x0001), lp(to), &mut deferred);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp(to), &mut deferred);
+        self.expanded
+    }
+
+    /// The island's centre, DIPs from its monitor's left edge.
+    pub fn selftest_island_centre(&self) -> f32 {
+        (self.surface.x - self.monitor.rect.left) as f32 / self.gfx.scale() + self.cx
+    }
+
+    /// The island's monitor's width in DIPs.
+    pub fn selftest_monitor_width(&self) -> f32 {
+        (self.monitor.rect.right - self.monitor.rect.left) as f32 / self.gfx.scale()
+    }
+
+    /// Room the island keeps beside its body (shoulders and hit margin, or the pill's shadow).
+    pub fn selftest_side_room(&self) -> f32 {
+        self.island.side_room()
     }
 
     /// The island body in window DIPs (where clicks land).

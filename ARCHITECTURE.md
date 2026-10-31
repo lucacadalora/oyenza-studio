@@ -40,7 +40,11 @@ crates take the new name (`studio-usage`).
 * **Rendering**: `gfx.rs`. The island window is a fixed-size, per-pixel-alpha
   layered window big enough for the largest island (widest, tallest page plus
   spring overshoot); the island is drawn centred in it, so a morph never moves
-  or resizes the window and the centre stays on one pixel.
+  or resizes the window and the centre stays on one pixel. Dragged along the
+  top edge (`Settings::island_x`, `poni_core::spot`), the window follows the
+  island until it meets the monitor's edge, and from there the island moves
+  inside the window, kept in by its outline's width as it morphs, so it opens
+  away from the edge (`App::place_surface`, `App::place_island`).
   * GPU renderer (default): Direct2D on a Direct3D 11 device (hardware, else
     WARP) draws into a premultiplied flip-model swap chain that
     DirectComposition shows on the window. The layered window's own bitmap is
