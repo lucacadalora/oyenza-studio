@@ -210,7 +210,7 @@ Yes: right-click the island › **In full-screen apps** › **Hide**. Pick **Sta
 <summary><b>Does it cover my browser tabs?</b></summary>
 <br>
 
-It sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. On Windows you can move it: press the closed island and drag it left or right along the top edge. It stays where you leave it, also after a restart, and opens away from the screen's edge. To put it back, drag it to the middle (it snaps there) or right-click it › **Move island to the centre**. To keep the top edge clear while nothing plays, right-click the island › **Idle look** › **Hidden until hover**: only an invisible strip stays at the top edge until you point at it.
+It sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. You can move it: press the closed island and drag it left or right along the top edge. It stays where you leave it, also after a restart, and opens away from the screen's edge. To put it back, drag it to the middle (it snaps there) or right-click it › **Move island to the centre** (on a Mac, also in the menu bar under Oyen's mark). On a MacBook with a notch the island lives in the menu bar around the camera, above your tabs, and stays there; only the Pill theme's island, which floats below the menu bar, moves, and it docks back in the notch to rest. To keep the top edge clear while nothing plays, right-click the island › **Idle look** › **Hidden until hover**: only an invisible strip stays at the top edge until you point at it.
 
 </details>
 

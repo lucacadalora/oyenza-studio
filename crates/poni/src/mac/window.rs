@@ -1,6 +1,7 @@
 //! The island's window on the Mac: a borderless, non-activating panel above
 //! the menu bar, sized once for the largest island and placed at the top
-//! centre of a screen (over the camera notch on MacBooks that have one). Its
+//! centre of a screen (over the camera notch on MacBooks that have one), or
+//! where the island was dragged along the top edge. Its
 //! view draws the island and forwards input; a display link on the view
 //! paces frames to the screen's refresh (120 Hz on ProMotion screens).
 //!
@@ -374,11 +375,12 @@ pub fn create(mtm: MainThreadMarker) {
     WINDOW.with(|w| *w.borrow_mut() = Some(IslandWindow { panel, root, view, link, fallback: None, ignoring: true, frame }));
 }
 
-/// Place the panel: `w`×`h` DIPs hanging from the top of `screen`, centred on
-/// its notch (or its middle).
-pub fn place(screen: &ScreenInfo, w: f64, h: f64) {
+/// Place the panel: `w`×`h` DIPs hanging from the top of `screen`, its left
+/// edge `left` DIPs from the screen's (the app centres it on the notch, or
+/// the middle, unless the island was dragged along the top edge).
+pub fn place(screen: &ScreenInfo, left: f64, w: f64, h: f64) {
     with_window(|win| {
-        let x = (screen.x + screen.cx - w / 2.0).round();
+        let x = (screen.x + left).round();
         let y = screen.y + screen.h - h;
         let frame = NSRect::new(NSPoint::new(x, y), NSSize::new(w, h));
         win.panel.setFrame_display(frame, false);
@@ -516,6 +518,14 @@ pub fn frame_top_left() -> Option<(f64, f64, f64, f64)> {
         let f = win.frame;
         (f.origin.x, primary_h - (f.origin.y + f.size.height), f.size.width, f.size.height)
     })
+}
+
+/// The top `h` DIPs of `screen`, in the same coordinates as `frame_top_left`
+/// (the smoke run pictures where the island sits along the top edge).
+pub fn screen_top_left(screen: &ScreenInfo, h: f64) -> Option<(f64, f64, f64, f64)> {
+    let mtm = MainThreadMarker::new()?;
+    let primary_h = NSScreen::screens(mtm).iter().next().map(|s| s.frame().size.height)?;
+    Some((screen.x, primary_h - (screen.y + screen.h), screen.w, h))
 }
 
 /// Start dragging `paths` out of the island, from the press in progress.
