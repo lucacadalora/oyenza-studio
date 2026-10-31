@@ -1,33 +1,33 @@
 {
   "repo": "lucacadalora/oyenza-studio",
-  "checked_at": "2026-10-31T01:05:47Z",
+  "checked_at": "2026-10-31T07:33:32Z",
   "since": "2026-10-24",
-  "downloads": 9004,
-  "github_count": 9208,
+  "downloads": 9086,
+  "github_count": 9291,
   "ci_count": 586,
-  "last_7_days": 8854,
+  "last_7_days": 8936,
   "latest": {
     "release": "v0.2.21",
-    "downloads": 1045
+    "downloads": 1122
   },
-  "stars": 120,
-  "forks": 22,
+  "stars": 122,
+  "forks": 23,
   "watchers": 0,
   "releases": [
     {
       "release": "v0.2.21",
       "published": "2026-10-30T00:24:27Z",
-      "downloads": 1045,
-      "github_count": 1045,
+      "downloads": 1122,
+      "github_count": 1122,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 4,
-        "Oyen-Poni-Setup.exe": 13,
-        "Oyenza-Studio-0.2.21-mac.dmg": 84,
-        "Oyenza-Studio-0.2.21-portable.zip": 5,
-        "Oyenza-Studio-Mac.dmg": 23,
-        "Oyenza-Studio-Setup-0.2.21.exe": 768,
-        "Oyenza-Studio-Setup.exe": 148
+        "Oyen-Poni-Setup.exe": 14,
+        "Oyenza-Studio-0.2.21-mac.dmg": 88,
+        "Oyenza-Studio-0.2.21-portable.zip": 7,
+        "Oyenza-Studio-Mac.dmg": 27,
+        "Oyenza-Studio-Setup-0.2.21.exe": 809,
+        "Oyenza-Studio-Setup.exe": 173
       }
     },
     {
@@ -98,7 +98,7 @@
       "release": "v0.2.16",
       "published": "2026-10-28T22:32:22Z",
       "downloads": 567,
-      "github_count": 185,
+      "github_count": 186,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 4,
@@ -623,12 +623,12 @@
     {
       "release": "v0.1.1",
       "published": "2026-10-24T05:54:33Z",
-      "downloads": 126,
-      "github_count": 712,
+      "downloads": 131,
+      "github_count": 717,
       "ci_count": 586,
       "files": {
         "Poni-0.1.1-portable.zip": 2,
-        "Poni-Setup-0.1.1.exe": 124
+        "Poni-Setup-0.1.1.exe": 129
       }
     },
     {
@@ -674,7 +674,7 @@
     },
     {
       "date": "2026-10-31",
-      "downloads": 41
+      "downloads": 123
     }
   ]
 }
