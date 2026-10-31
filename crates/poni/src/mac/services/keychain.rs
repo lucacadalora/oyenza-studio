@@ -1,5 +1,8 @@
 //! A password from this Mac's keychain, for the AI tab (`Want::Keychain`):
-//! Claude Code keeps its sign-in there, as "Claude Code-credentials".
+//! Claude Code keeps its sign-in there, as "Claude Code-credentials", and
+//! Cursor and the Claude app the key their own sign-ins are sealed with
+//! ("Cursor Safe Storage", "Claude Safe Storage": those the apps made
+//! themselves, so macOS asks the person before it hands one over).
 //!
 //! It is read with macOS's own `/usr/bin/security` (`find-generic-password
 //! -w`), the tool Claude Code keeps that item with, so the keychain usually

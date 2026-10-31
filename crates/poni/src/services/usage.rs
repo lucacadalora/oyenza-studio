@@ -34,7 +34,7 @@ use crate::state::InferenceLink;
 use studio_usage::alerts::{Alert, AlertCfg, Memory};
 use studio_usage::pace::{self, KeyGate, Look, Looks, Pace, Refusals};
 use studio_usage::{self as usage, oyenza, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 use std::collections::BTreeSet;
 use std::path::PathBuf;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
@@ -386,10 +386,14 @@ impl Worker {
         // The service's typed key, if it reads one, goes through the door:
         // never again to an address that refused it.
         let gate = RefCell::new(KeyGate::new(refusals, p.takes_key().map(|k| k.secret)));
+        // Whether the Mac's keychain was asked, first or in a step (opening
+        // a sealed sign-in asks it on the way).
+        let keyed = Cell::new(false);
         // A reader reads other apps' files and servers' answers: should one
         // of them trip it up, the rest of the tab carries on without it.
         let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
             let read = |w: &Want| {
+                keyed.set(keyed.get() || matches!(w, Want::Keychain { .. }));
                 let got = read(w, names);
                 gate.borrow_mut().saw(w, &got);
                 got
@@ -404,7 +408,7 @@ impl Worker {
                 // prompt would come out of nowhere): a sign-in kept only there
                 // reads as missing on a notices-only look, which means "not
                 // asked yet", not "signed out". What the tab had stays.
-                if look == Look::Notices && wants.iter().any(|w| matches!(w, Want::Keychain { .. })) && matches!(run.outcome, Some(Err(Trouble::NotFound | Trouble::SignedOut))) {
+                if look == Look::Notices && keyed.get() && matches!(run.outcome, Some(Err(Trouble::NotFound | Trouble::SignedOut))) {
                     run.outcome = None;
                 }
                 self.heard(i, p, reach, run)
@@ -740,6 +744,7 @@ fn read(w: &Want, names: &[&'static str]) -> Got {
         Want::Secret(name) if names.contains(name) => load_key(name).map_or(Got::Missing, Got::Text),
         Want::Secret(_) => Got::Missing,
         Want::Range { path, offset, len } => pace::read_range(path, *offset, *len),
+        Want::Unseal { sealed, key } => unseal(&sealed.0, key.as_ref().map(|k| k.0.as_slice())),
     }
 }
 
@@ -832,6 +837,18 @@ fn keychain_item(service: &str, account: Option<&str>) -> Got {
 /// Windows has no keychain.
 #[cfg(not(target_os = "macos"))]
 fn keychain_item(_service: &str, _account: Option<&str>) -> Got {
+    Got::Missing
+}
+
+/// What an Electron app sealed, opened by Windows ([`Want::Unseal`]).
+#[cfg(windows)]
+fn unseal(sealed: &[u8], key: Option<&[u8]>) -> Got {
+    crate::services::secret::open_electron(sealed, key).and_then(|b| String::from_utf8(b).ok()).map_or(Got::Missing, Got::Text)
+}
+
+/// A Mac opens them itself, with the keychain's password.
+#[cfg(not(windows))]
+fn unseal(_sealed: &[u8], _key: Option<&[u8]>) -> Got {
     Got::Missing
 }
 

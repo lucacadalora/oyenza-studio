@@ -1,0 +1,9 @@
+{
+  "browser": {
+    "enabled_labs_experiments": []
+  },
+  "os_crypt": {
+    "audit_enabled": true,
+    "encrypted_key": "RFBBUElhIERQQVBJIGJsb2I="
+  }
+}
