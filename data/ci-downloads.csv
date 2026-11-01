@@ -593,3 +593,8 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 124562424898,Fetch the release to upgrade from,41209518675,1,2026-10-31T14:23:12Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 124577898637,Fetch the release to upgrade from,41214747334,1,2026-10-31T15:29:54Z,mac-island-drag,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 124582690917,Fetch the release to upgrade from,41216376887,1,2026-10-31T15:50:17Z,mac-island-drag,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+124823115450,Fetch the release to upgrade from,41297711400,1,2026-11-01T10:34:50Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+124823192316,Fetch the release to upgrade from,41297825324,1,2026-11-01T10:35:14Z,release-0.2.23,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+124823359403,Fetch the release to upgrade from,41297840714,1,2026-11-01T10:35:52Z,release-0.2.23,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+124826409471,Fetch the release to upgrade from,41298862166,1,2026-11-01T10:50:11Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+124826486143,Fetch the release to upgrade from,41298869962,1,2026-11-01T10:50:30Z,v0.2.23,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
