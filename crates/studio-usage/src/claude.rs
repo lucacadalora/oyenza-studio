@@ -14,6 +14,14 @@
 //! - The account, masked, comes from Claude Code's settings (`~/.claude.json`,
 //!   `oauthAccount.emailAddress`), which also tell "signed out" from "not on
 //!   this computer".
+//! - The Claude app's own sign-in, when Claude Code has none here (someone
+//!   who runs Claude Code only through the app, on this computer or another
+//!   one over SSH): the app keeps the tokens it gives Claude Code in its
+//!   `config.json` (`oauth:tokenCacheV2`), sealed with Electron's
+//!   safeStorage ([`safe_storage`]: on a Mac the keychain item "Claude Safe
+//!   Storage", so macOS asks first, like for Claude Code's own item). The
+//!   one made for Claude Code is used as it is, never renewed: the app
+//!   renews it when it next needs it.
 //! - Nothing comes from Claude Code's logs: they carry no running total (each
 //!   reply counts its own tokens), so a day's tokens would mean reading whole
 //!   files on every refresh. `tokens_today` stays empty, and a [`Reach::Local`]
@@ -22,7 +30,8 @@
 //! Ported from CodexBar (MIT): `ClaudeOAuth/`, `ClaudePlan.swift`,
 //! `ClaudeScopedWeeklyLimitMapper.swift`, `ClaudeConfigPaths.swift`.
 
-use super::{mask_email, micros, num, reply_json, time, Ctx, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
+use super::safe_storage::{self, Open};
+use super::{b64url, mask_email, micros, num, reply_json, time, Ctx, Dirs, Got, Money, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Source, Spend, Step, Trouble, Want, Window, WindowKind};
 use poni_core::sha256::{hex, sha256};
 use serde::Deserialize;
 use serde_json::Value;
@@ -32,16 +41,26 @@ const USAGE_URL: &str = "https://api.anthropic.com/api/oauth/usage";
 const BETA: &str = "oauth-2025-04-20";
 /// The keychain item Claude Code keeps its sign-in in ([`keychain_service`]).
 const KEYCHAIN_SERVICE: &str = "Claude Code-credentials";
+/// The Claude app's sealed token cache in its `config.json`, and the one
+/// before it (same entries), which the app still reads.
+const APP_TOKENS: [&str; 2] = ["oauth:tokenCacheV2", "oauth:tokenCache"];
+/// The app's `config.json` holds its other settings too: it stays small.
+const APP_CONFIG_MAX: u64 = 1 << 20;
+/// The API a cached token is for: its key says so (staging's are skipped).
+const API: &str = "https://api.anthropic.com";
+/// Claude Code's own OAuth client: the tokens the app makes for Claude Code.
+const CLAUDE_CODE_CLIENT: &str = "9d1c250a-e61b-44d9-88ed-5944d1962f5e";
 const FIVE_HOURS_S: u32 = 5 * 3600;
 const WEEK_S: u32 = 7 * 86_400;
 
 // What `wants` asks for, by position. The keychain is last, so on Windows,
 // which doesn't ask for it, the list just ends before it (`Ctx::got` answers
-// Missing past the end).
+// Missing past the end). Opening the app's sign-in reads more after them.
 const CREDENTIALS: usize = 0;
 const OLD_SETTINGS: usize = 1;
 const SETTINGS: usize = 2;
-const KEYCHAIN: usize = 3;
+const APP_CONFIG: usize = 3;
+const KEYCHAIN: usize = 4;
 
 pub struct Claude;
 
@@ -63,7 +82,8 @@ impl Provider for Claude {
             Some(_) => dirs.join(&root, &[".claude.json"]),
             None => dirs.home_join(&[".claude.json"]),
         };
-        let mut wants = vec![Want::file(dirs.join(&root, &[".credentials.json"])), Want::file(dirs.join(&root, &[".config.json"])), Want::file(settings)];
+        let app = Want::File { path: dirs.join(&app_folder(dirs), &["config.json"]), max: APP_CONFIG_MAX };
+        let mut wants = vec![Want::file(dirs.join(&root, &[".credentials.json"])), Want::file(dirs.join(&root, &[".config.json"])), Want::file(settings), app];
         if dirs.os == Os::Mac {
             wants.push(Want::Keychain { service: keychain_service(dirs), account: None });
         }
@@ -75,16 +95,22 @@ impl Provider for Claude {
             Got::Missing => cx.got(SETTINGS),
             old => old,
         };
-        let keychain = cx.got(KEYCHAIN);
-        let Some(s) = sign_in(keychain).or_else(|| sign_in(cx.got(CREDENTIALS))) else {
-            // No sign-in we can read: the keychain said no, or Claude Code is
-            // here but signed out (its files are), or it isn't here at all.
-            let here = !cx.got(CREDENTIALS).is_missing() || !settings.is_missing() || matches!(keychain, Got::Text(_));
-            return Step::Done(Err(match keychain {
-                Got::Denied => Trouble::Denied,
-                _ if here => Trouble::SignedOut,
-                _ => Trouble::NotFound,
-            }));
+        // On Windows the reads opening the app's sign-in come where a Mac's keychain answer is.
+        let keychain = if cx.dirs.os == Os::Mac { cx.got(KEYCHAIN) } else { &Got::Missing };
+        let s = match sign_in(keychain).or_else(|| sign_in(cx.got(CREDENTIALS))).map_or_else(|| app_sign_in(cx), App::Found) {
+            App::Found(s) => s,
+            App::Need(wants) => return Step::Read(wants),
+            App::Failed(t) if t != Trouble::SignedOut => return Step::Done(Err(t)),
+            // No sign-in we can read: the keychain said no, or Claude Code (or
+            // the app) is here but signed out, or neither is here at all.
+            _ => {
+                let here = !cx.got(CREDENTIALS).is_missing() || !settings.is_missing() || !cx.got(APP_CONFIG).is_missing() || matches!(keychain, Got::Text(_));
+                return Step::Done(Err(match keychain {
+                    Got::Denied => Trouble::Denied,
+                    _ if here => Trouble::SignedOut,
+                    _ => Trouble::NotFound,
+                }));
+            }
         };
         if s.expires_at.is_some_and(|t| t <= cx.now) {
             return Step::Done(Err(Trouble::Expired));
@@ -113,6 +139,95 @@ fn keychain_service(dirs: &Dirs) -> String {
         Some(dir) => format!("{KEYCHAIN_SERVICE}-{}", &hex(&sha256(dir.as_bytes()))[..8]),
         None => KEYCHAIN_SERVICE.to_string(),
     }
+}
+
+/// The Claude app's folder: `%APPDATA%\Claude`, `~/Library/Application
+/// Support/Claude`.
+fn app_folder(dirs: &Dirs) -> std::path::PathBuf {
+    dirs.join(&dirs.config, &["Claude"])
+}
+
+/// What the card's Sign in button does ([`sign_in_via`]).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum SignInVia {
+    /// Claude Code's own sign-in, `claude auth login`, in a terminal window:
+    /// this program, or `claude` as the person's shell finds it (None). It
+    /// keeps the sign-in where this reader looks first.
+    Cli(Option<std::path::PathBuf>),
+    /// Open the Claude app (its `claude://` link): it signs Claude Code in,
+    /// and this reader reads the app's sign-in.
+    App,
+}
+
+/// Where Claude Code's installers put its program: the native installer,
+/// the older local one, npm's own folder, Homebrew (Apple silicon, then
+/// Intel), WinGet's links.
+const CLI_MAC: [&str; 5] = ["~/.local/bin/claude", "~/.claude/local/claude", "~/.npm-global/bin/claude", "/opt/homebrew/bin/claude", "/usr/local/bin/claude"];
+const CLI_WINDOWS: [&str; 3] = ["~/.local/bin/claude.exe", "%APPDATA%/npm/claude.cmd", "%LOCALAPPDATA%/Microsoft/WinGet/Links/claude.exe"];
+
+/// The Sign in button: Claude Code's own `claude auth login` where its
+/// program is in a place its installers use; else the Claude app, when its
+/// settings are on this computer; else `claude auth login` by name, for a
+/// program kept somewhere else.
+pub fn sign_in_via(dirs: &Dirs, is_file: impl Fn(&std::path::Path) -> bool) -> SignInVia {
+    let places = if dirs.os == Os::Mac { &CLI_MAC[..] } else { &CLI_WINDOWS[..] };
+    let place = |p: &str| match p.split_once('/') {
+        Some(("~", rest)) => dirs.home_join(&[rest]),
+        Some(("%APPDATA%", rest)) => dirs.join(&dirs.config, &[rest]),
+        Some(("%LOCALAPPDATA%", rest)) => dirs.join(&dirs.local, &[rest]),
+        _ => std::path::PathBuf::from(p),
+    };
+    if let Some(cli) = places.iter().map(|p| place(p)).find(|p| is_file(p)) {
+        return SignInVia::Cli(Some(cli));
+    }
+    if is_file(&dirs.join(&app_folder(dirs), &["config.json"])) {
+        return SignInVia::App;
+    }
+    SignInVia::Cli(None)
+}
+
+/// Where the Claude app's sign-in stands.
+enum App {
+    Found(SignIn),
+    /// Read these to open it.
+    Need(Vec<Want>),
+    Failed(Trouble),
+    /// The app isn't here, or keeps no sign-in.
+    None,
+}
+
+/// The Claude app's sign-in, from its sealed token cache: opened after
+/// this reader's own reads (two more on Windows, one on a Mac).
+fn app_sign_in(cx: &Ctx) -> App {
+    let sealed = cx.got(APP_CONFIG).json().and_then(|v| APP_TOKENS.iter().find_map(|k| b64url(v.get(k)?.as_str()?.trim())));
+    let Some(sealed) = sealed.filter(|s| !s.is_empty()) else { return App::None };
+    let first = if cx.dirs.os == Os::Mac { KEYCHAIN + 1 } else { KEYCHAIN };
+    match safe_storage::open("Claude", &app_folder(cx.dirs), cx.dirs, &sealed, cx.got.get(first..).unwrap_or(&[])) {
+        Open::Need(wants) => App::Need(wants),
+        Open::Done(Err(t)) => App::Failed(t),
+        Open::Done(Ok(plain)) => serde_json::from_slice(&plain).ok().and_then(|v| pick(&v, cx.now)).map_or(App::Failed(Trouble::SignedOut), App::Found),
+    }
+}
+
+/// The cached sign-in to read usage with, from the app's
+/// `{"acct:<account>|<client>:<org>:<API>:<scopes>": {"token", "expiresAt"
+/// (ms), "subscriptionType", "rateLimitTier", ...}}`: for claude.ai's API,
+/// with `user:profile` among its scopes; one still good first, then Claude
+/// Code's own (the endpoint is Claude Code's), then the one lasting longest.
+fn pick(cache: &Value, now: i64) -> Option<SignIn> {
+    let api = format!(":{API}:");
+    let found = cache.as_object()?.iter().filter_map(|(key, e)| {
+        let (_, scopes) = key.split_once(&api)?;
+        let token = e.get("token")?.as_str()?.trim();
+        if token.is_empty() || !scopes.split(' ').any(|s| s == "user:profile") {
+            return None;
+        }
+        let text = |k: &str| e.get(k).and_then(Value::as_str);
+        let s = SignIn { token: token.to_string(), expires_at: e.get("expiresAt").and_then(time), plan: plan(text("subscriptionType"), text("rateLimitTier")) };
+        let rank = (s.expires_at.is_none_or(|t| t > now), key.contains(CLAUDE_CODE_CLIENT), s.expires_at.unwrap_or(i64::MAX));
+        Some((rank, s))
+    });
+    found.max_by_key(|(rank, _)| *rank).map(|(_, s)| s)
 }
 
 /// The parts of Claude Code's sign-in this reader uses (never the refresh
@@ -270,6 +385,11 @@ mod tests {
     const MCP_ONLY: &str = include_str!("fixtures/claude/keychain-mcp-only.json");
     const SETTINGS_JSON: &str = include_str!("fixtures/claude/claude.json");
     const USAGE: &str = include_str!("fixtures/claude/usage.json");
+    /// The Claude app's config.json, its token cache sealed with this
+    /// "Claude Safe Storage" password (fixtures/safe-storage/make.py).
+    const APP_CONFIG_JSON: &str = include_str!("fixtures/safe-storage/claude-config.json");
+    #[cfg(not(windows))]
+    const PASSWORD: &str = "synthetic-safe-storage-password";
 
     fn file(text: &str) -> Got {
         Got::One(FileRead { path: PathBuf::from("fixture"), bytes: text.as_bytes().to_vec(), modified: Some(NOW) })
@@ -284,21 +404,35 @@ mod tests {
         vec![credentials, Got::Missing, file(SETTINGS_JSON)]
     }
 
-    /// What a Mac reads: the same, then the keychain.
+    /// What a Mac reads: the same, no Claude app, then the keychain.
     fn mac(credentials: Got, keychain: Got) -> Vec<Got> {
-        vec![credentials, Got::Missing, file(SETTINGS_JSON), keychain]
+        vec![credentials, Got::Missing, file(SETTINGS_JSON), Got::Missing, keychain]
     }
 
     /// One refresh to the end, answering each request in turn.
     fn run(os: Os, got: &[Got], reach: Reach, answers: &[Result<Reply, NetFail>]) -> (Vec<Request>, Outcome) {
+        let (asked, out, read) = run_with(os, got, reach, answers, |_| Got::Missing);
+        assert_eq!(read, [], "Claude Code's own sign-in reads nothing more");
+        (asked, out)
+    }
+
+    /// [`run`], with `other` answering the reads that open the Claude app's
+    /// sign-in, which come back too.
+    fn run_with(os: Os, got: &[Got], reach: Reach, answers: &[Result<Reply, NetFail>], other: impl Fn(&Want) -> Got) -> (Vec<Request>, Outcome, Vec<Want>) {
         let dirs = Dirs::sample(os);
-        let cx = Ctx { dirs: &dirs, got, now: NOW, reach };
-        let (mut asked, mut replies) = (Vec::new(), Vec::new());
+        let mut got = got.to_vec();
+        let (mut asked, mut replies, mut read) = (Vec::new(), Vec::new(), Vec::new());
         loop {
+            let cx = Ctx { dirs: &dirs, got: &got, now: NOW, reach };
             match Claude.next(&cx, &replies) {
-                Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Read(w) => {
+                    // The reader's own reads come first: padded on Windows, where the keychain isn't asked.
+                    got.resize(got.len().max(if os == Os::Mac { KEYCHAIN + 1 } else { KEYCHAIN }), Got::Missing);
+                    got.extend(w.iter().map(&other));
+                    read.extend(w);
+                }
                 Step::Run(c) => panic!("this service never runs programs: {c:?}"),
-                Step::Done(out) => return (asked, out),
+                Step::Done(out) => return (asked, out, read),
                 Step::Fetch(r) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");
                     asked.push(r);
@@ -315,7 +449,8 @@ mod tests {
     #[test]
     fn windows_reads_the_file_in_its_home() {
         let d = Dirs::sample(Os::Windows);
-        let want = vec![Want::file(PathBuf::from(r"C:\Users\u\.claude\.credentials.json")), Want::file(PathBuf::from(r"C:\Users\u\.claude\.config.json")), Want::file(PathBuf::from(r"C:\Users\u\.claude.json"))];
+        let app = Want::File { path: PathBuf::from(r"C:\Users\u\AppData\Roaming\Claude\config.json"), max: APP_CONFIG_MAX };
+        let want = vec![Want::file(PathBuf::from(r"C:\Users\u\.claude\.credentials.json")), Want::file(PathBuf::from(r"C:\Users\u\.claude\.config.json")), Want::file(PathBuf::from(r"C:\Users\u\.claude.json")), app];
         assert_eq!(Claude.wants(&d), want);
         let (asked, out) = run(Os::Windows, &windows(file(CREDENTIALS_JSON)), Reach::Online, &[reply(200, USAGE)]);
         assert_eq!(asked.len(), 1);
@@ -326,9 +461,10 @@ mod tests {
     fn mac_reads_the_keychain_first_then_the_file() {
         let d = Dirs::sample(Os::Mac);
         let w = Claude.wants(&d);
-        assert_eq!(w.len(), 4);
+        assert_eq!(w.len(), 5);
         assert_eq!(w[CREDENTIALS], Want::file(d.home.join(".claude").join(".credentials.json")));
         assert_eq!(w[SETTINGS], Want::file(d.home.join(".claude.json")));
+        assert_eq!(w[APP_CONFIG], Want::File { path: d.config.join("Claude").join("config.json"), max: APP_CONFIG_MAX });
         assert_eq!(w[KEYCHAIN], Want::Keychain { service: "Claude Code-credentials".into(), account: None });
         let max20 = CREDENTIALS_JSON.replace("default_claude_max_5x", "default_claude_max_20x");
         let plan_of = |got: Vec<Got>| run(Os::Mac, &got, Reach::Online, &[reply(200, USAGE)]).1.unwrap().plan;
@@ -352,13 +488,16 @@ mod tests {
             Want::file(root.join(".credentials.json")),
             Want::file(root.join(".config.json")),
             Want::file(root.join(".claude.json")),
+            // The app's folder stays where it is.
+            Want::File { path: d.config.join("Claude").join("config.json"), max: APP_CONFIG_MAX },
             // printf '%s' /Users/u/claude-work | sha256sum: 54cfd2c8f800...
             Want::Keychain { service: "Claude Code-credentials-54cfd2c8".into(), account: None },
         ];
         assert_eq!(Claude.wants(&d), want);
         let mut w = Dirs::sample(Os::Windows);
         w.env.push(("CLAUDE_CONFIG_DIR".into(), r"D:\claude".into()));
-        assert_eq!(Claude.wants(&w), vec![Want::file(PathBuf::from(r"D:\claude\.credentials.json")), Want::file(PathBuf::from(r"D:\claude\.config.json")), Want::file(PathBuf::from(r"D:\claude\.claude.json"))]);
+        let app = Want::File { path: PathBuf::from(r"C:\Users\u\AppData\Roaming\Claude\config.json"), max: APP_CONFIG_MAX };
+        assert_eq!(Claude.wants(&w), vec![Want::file(PathBuf::from(r"D:\claude\.credentials.json")), Want::file(PathBuf::from(r"D:\claude\.config.json")), Want::file(PathBuf::from(r"D:\claude\.claude.json")), app]);
         // A blank variable is no override.
         let mut blank = Dirs::sample(Os::Mac);
         blank.env.push(("CLAUDE_CONFIG_DIR".into(), " ".into()));
@@ -367,7 +506,7 @@ mod tests {
 
     #[test]
     fn not_found_signed_out_and_denied() {
-        let none = [Got::Missing, Got::Missing, Got::Missing, Got::Missing];
+        let none = [Got::Missing, Got::Missing, Got::Missing, Got::Missing, Got::Missing];
         assert_eq!(run(Os::Mac, &none, Reach::Online, &[]).1, Err(Trouble::NotFound));
         assert_eq!(run(Os::Windows, &none[..3], Reach::Local, &[]).1, Err(Trouble::NotFound));
         // Claude Code's settings but no sign-in: signed out (or on an API key).
@@ -376,10 +515,94 @@ mod tests {
         let blank = [file(r#"{"claudeAiOauth": {"accessToken": " "}}"#), Got::Missing, Got::Missing];
         assert_eq!(run(Os::Windows, &blank, Reach::Online, &[]).1, Err(Trouble::SignedOut));
         // A keychain item holding only MCP servers' sign-ins.
-        let mcp = [Got::Missing, Got::Missing, Got::Missing, Got::Text(MCP_ONLY.into())];
+        let mcp = [Got::Missing, Got::Missing, Got::Missing, Got::Missing, Got::Text(MCP_ONLY.into())];
         assert_eq!(run(Os::Mac, &mcp, Reach::Online, &[]).1, Err(Trouble::SignedOut));
         // The keychain said no and there is no file.
         assert_eq!(run(Os::Mac, &mac(Got::Missing, Got::Denied), Reach::Online, &[]).1, Err(Trouble::Denied));
+    }
+
+    /// What a Mac reads without Claude Code signed in, the Claude app there.
+    #[cfg(not(windows))]
+    fn mac_app() -> Vec<Got> {
+        vec![Got::Missing, Got::Missing, file(SETTINGS_JSON), file(APP_CONFIG_JSON), Got::Missing]
+    }
+
+    /// The Mac's opening isn't built on Windows: this runs elsewhere.
+    #[test]
+    #[cfg(not(windows))]
+    fn the_claude_apps_sign_in_on_a_mac() {
+        let keychain = |w: &Want| match w {
+            Want::Keychain { service, account: None } if service == "Claude Safe Storage" => Got::Text(PASSWORD.into()),
+            _ => Got::Missing,
+        };
+        let (asked, out, read) = run_with(Os::Mac, &mac_app(), Reach::Online, &[reply(200, USAGE)], keychain);
+        assert_eq!(read, vec![Want::Keychain { service: "Claude Safe Storage".into(), account: None }]);
+        // The token the app made for Claude Code, with its plan; staging's,
+        // one without user:profile and the app's own (longer) one are passed over.
+        let bearer = asked[0].headers.iter().find(|(k, _)| k == "Authorization").map(|(_, v)| v.as_str());
+        assert_eq!(bearer, Some("Bearer app-claude-code-token"));
+        let s = out.unwrap();
+        assert_eq!((s.plan.as_deref(), s.windows.len()), (Some("Max 20x"), 5));
+        // macOS said no; not asked yet (the tab closed); another password.
+        assert_eq!(run_with(Os::Mac, &mac_app(), Reach::Online, &[], |_| Got::Denied).1, Err(Trouble::Denied));
+        assert_eq!(run_with(Os::Mac, &mac_app(), Reach::Online, &[], |_| Got::Missing).1, Err(Trouble::SignedOut));
+        let wrong = run_with(Os::Mac, &mac_app(), Reach::Online, &[], |_| Got::Text("not it".into())).1;
+        assert_eq!(wrong, Err(Trouble::Unreadable("Claude's sign-in didn't open".into())));
+        // Claude Code's own sign-in comes first: the app's is never opened.
+        let mut both = mac_app();
+        both[CREDENTIALS] = file(CREDENTIALS_JSON);
+        let (asked, _, read) = run_with(Os::Mac, &both, Reach::Online, &[reply(200, USAGE)], keychain);
+        assert_eq!((read.len(), asked[0].headers.iter().any(|(_, v)| v == "Bearer test-token")), (0, true));
+    }
+
+    #[test]
+    fn the_claude_apps_sign_in_on_windows() {
+        let d = Dirs::sample(Os::Windows);
+        let state = &d.join(&d.config, &["Claude", "Local State"]);
+        let cache = |cli_expires: i64| {
+            let key = |client: &str, scopes: &str| format!("acct:a|{client}:org:https://api.anthropic.com:{scopes}");
+            serde_json::json!({
+                key(CLAUDE_CODE_CLIENT, "user:inference user:profile user:sessions:claude_code"): {"token": "cli", "expiresAt": cli_expires * 1000},
+                key("desktop", "user:inference user:file_upload user:profile"): {"token": "desktop", "expiresAt": (NOW + 600) * 1000},
+            })
+            .to_string()
+        };
+        let windows = |plain: String| {
+            move |w: &Want| match w {
+                Want::File { path, .. } if path == state => file(include_str!("fixtures/safe-storage/local-state.json")),
+                Want::Unseal { key: Some(_), .. } => Got::Text(plain.clone()),
+                _ => Got::Missing,
+            }
+        };
+        let got = [Got::Missing, Got::Missing, Got::Missing, file(APP_CONFIG_JSON)];
+        let bearer = |asked: &[Request]| asked[0].headers.iter().find(|(k, _)| k == "Authorization").map(|(_, v)| v.clone());
+        let (asked, out, read) = run_with(Os::Windows, &got, Reach::Online, &[reply(200, USAGE)], windows(cache(NOW + 3600)));
+        assert!(matches!(&read[..], [Want::File { .. }, Want::Unseal { .. }]));
+        assert_eq!((bearer(&asked).as_deref(), out.is_ok()), (Some("Bearer cli"), true));
+        // Claude Code's has run out: the app's own, still good.
+        let (asked, _, _) = run_with(Os::Windows, &got, Reach::Online, &[reply(200, USAGE)], windows(cache(NOW - 60)));
+        assert_eq!(bearer(&asked).as_deref(), Some("Bearer desktop"));
+        // Windows couldn't open it.
+        let refused = |w: &Want| if matches!(w, Want::Unseal { .. }) { Got::Missing } else { windows(cache(NOW))(w) };
+        assert!(matches!(run_with(Os::Windows, &got, Reach::Online, &[], refused).1, Err(Trouble::Unreadable(_))));
+    }
+
+    #[test]
+    fn the_apps_cache_picks_a_token_for_claude_ai() {
+        let entry = |token: &str, expires: i64| serde_json::json!({"token": token, "expiresAt": expires * 1000});
+        let pick_of = |v: Value| pick(&v, NOW).map(|s| s.token);
+        let cli = format!("acct:a|{CLAUDE_CODE_CLIENT}:org:https://api.anthropic.com:user:inference user:profile user:sessions:claude_code");
+        // Expired is still picked when it's all there is (the card says so).
+        let only_old = serde_json::json!({ cli.clone(): entry("old", NOW - 1) });
+        assert_eq!(pick(&only_old, NOW).map(|s| (s.token, s.expires_at)), Some(("old".into(), Some(NOW - 1))));
+        // Not claude.ai's API, or no profile scope, or no token: none.
+        let none = serde_json::json!({
+            "acct:a|x:org:https://api-staging.anthropic.com:user:inference user:profile": entry("staging", NOW + 60),
+            "acct:a|x:org:https://api.anthropic.com:user:inference user:office": entry("office", NOW + 60),
+            "acct:a|x:org:https://api.anthropic.com:user:profile": {"expiresAt": (NOW + 60) * 1000},
+        });
+        assert_eq!(pick_of(none), None);
+        assert_eq!(pick_of(serde_json::json!([])), None);
     }
 
     #[test]
@@ -518,6 +741,27 @@ mod tests {
         let rows: Vec<_> = s.windows.iter().map(|w| (w.kind, w.label.as_str(), w.used, w.resets_at)).collect();
         let (five, week) = (Some(1_793_085_600), Some(1_793_350_800));
         assert_eq!(rows, vec![(WindowKind::Session, "5-hour", 0.4, five), (WindowKind::Weekly, "Weekly", 0.2, week), (WindowKind::Weekly, "Weekly · Opus", 0.12, week)]);
+    }
+
+    #[test]
+    fn sign_in_runs_claude_codes_own_login_first_then_opens_the_app() {
+        fn on<'a>(files: &'a [&str]) -> impl Fn(&std::path::Path) -> bool + 'a {
+            move |p| files.iter().any(|f| p == std::path::Path::new(f))
+        }
+        let mac = Dirs::sample(Os::Mac);
+        let app = "/Users/u/Library/Application Support/Claude/config.json";
+        let cli = |p: &str| SignInVia::Cli(Some(PathBuf::from(p)));
+        assert_eq!(sign_in_via(&mac, on(&["/Users/u/.local/bin/claude", app])), cli("/Users/u/.local/bin/claude"));
+        assert_eq!(sign_in_via(&mac, on(&["/opt/homebrew/bin/claude"])), cli("/opt/homebrew/bin/claude"));
+        // Only the app (someone who runs Claude Code through it): open it.
+        assert_eq!(sign_in_via(&mac, on(&[app])), SignInVia::App);
+        // Neither in a known place: `claude` as the shell finds it.
+        assert_eq!(sign_in_via(&mac, on(&[])), SignInVia::Cli(None));
+        let win = Dirs::sample(Os::Windows);
+        assert_eq!(sign_in_via(&win, on(&[r"C:\Users\u\AppData\Roaming\npm\claude.cmd"])), cli(r"C:\Users\u\AppData\Roaming\npm\claude.cmd"));
+        assert_eq!(sign_in_via(&win, on(&[r"C:\Users\u\.local\bin\claude.exe"])), cli(r"C:\Users\u\.local\bin\claude.exe"));
+        assert_eq!(sign_in_via(&win, on(&[r"C:\Users\u\AppData\Roaming\Claude\config.json"])), SignInVia::App);
+        assert_eq!(sign_in_via(&win, on(&[])), SignInVia::Cli(None));
     }
 
     #[test]

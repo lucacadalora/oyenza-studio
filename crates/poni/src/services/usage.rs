@@ -34,7 +34,7 @@ use crate::state::InferenceLink;
 use studio_usage::alerts::{Alert, AlertCfg, Memory};
 use studio_usage::pace::{self, KeyGate, Look, Looks, Pace, Refusals};
 use studio_usage::{self as usage, oyenza, Cli, Dirs, Got, NetFail, Os, Outcome, Provider, ProviderId, Reach, Reply, Request, Snapshot, Trouble, Want};
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 use std::collections::BTreeSet;
 use std::path::PathBuf;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard};
@@ -394,10 +394,14 @@ impl Worker {
         // The service's typed key, if it reads one, goes through the door:
         // never again to an address that refused it.
         let gate = RefCell::new(KeyGate::new(refusals, p.takes_key().map(|k| k.secret)));
+        // Whether the Mac's keychain was asked, first or in a step (opening
+        // a sealed sign-in asks it on the way).
+        let keyed = Cell::new(false);
         // A reader reads other apps' files and servers' answers: should one
         // of them trip it up, the rest of the tab carries on without it.
         let run = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
             let read = |w: &Want| {
+                keyed.set(keyed.get() || matches!(w, Want::Keychain { .. }));
                 let got = read(w, names);
                 gate.borrow_mut().saw(w, &got);
                 got
@@ -412,7 +416,7 @@ impl Worker {
                 // prompt would come out of nowhere): a sign-in kept only there
                 // reads as missing on a notices-only look, which means "not
                 // asked yet", not "signed out". What the tab had stays.
-                if look == Look::Notices && wants.iter().any(|w| matches!(w, Want::Keychain { .. })) && matches!(run.outcome, Some(Err(Trouble::NotFound | Trouble::SignedOut))) {
+                if look == Look::Notices && keyed.get() && matches!(run.outcome, Some(Err(Trouble::NotFound | Trouble::SignedOut))) {
                     run.outcome = None;
                 }
                 self.heard(i, p, reach, run)
@@ -524,8 +528,29 @@ impl Worker {
             UsageCmd::Connect => self.connect(),
             UsageCmd::CancelConnect => self.cancel_connect(),
             UsageCmd::Disconnect => self.disconnect(),
+            UsageCmd::SignIn(id) => self.sign_in(id),
             // The app keeps these in its settings; the watch brings them.
             UsageCmd::Hide(_) | UsageCmd::Show(_) => {}
+        }
+    }
+
+    /// The card's Sign in, for Claude Code: its own `claude auth login` in
+    /// a terminal window, or the Claude app (`claude::sign_in_via`). The
+    /// tab reads again as the person comes back to it.
+    fn sign_in(&self, id: ProviderId) {
+        use usage::claude::SignInVia;
+        if id != ProviderId::Claude {
+            return;
+        }
+        match usage::claude::sign_in_via(&self.dirs, |p| p.is_file()) {
+            SignInVia::App => {
+                crate::pinfo!("usage: claude: sign in: the Claude app");
+                open_claude_app();
+            }
+            SignInVia::Cli(program) => {
+                crate::pinfo!("usage: claude: sign in: claude auth login{}", if program.is_some() { "" } else { " (on PATH)" });
+                run_login(program);
+            }
         }
     }
 
@@ -749,6 +774,7 @@ fn read(w: &Want, names: &[&'static str]) -> Got {
         Want::Secret(name) if names.contains(name) => load_key(name).map_or(Got::Missing, Got::Text),
         Want::Secret(_) => Got::Missing,
         Want::Range { path, offset, len } => pace::read_range(path, *offset, *len),
+        Want::Unseal { sealed, key } => unseal(&sealed.0, key.as_ref().map(|k| k.0.as_slice())),
     }
 }
 
@@ -830,6 +856,48 @@ fn computer_name() -> String {
     crate::services::phonedrop::computer_name().unwrap_or_default()
 }
 
+/// The Claude app, through its own link.
+#[cfg(not(target_os = "macos"))]
+fn open_claude_app() {
+    crate::shell::open_claude_app();
+}
+
+#[cfg(target_os = "macos")]
+fn open_claude_app() {
+    crate::services::open("claude://");
+}
+
+/// `claude auth login` in a console window: `program`, or `claude` as PATH
+/// finds it.
+#[cfg(not(target_os = "macos"))]
+fn run_login(program: Option<PathBuf>) {
+    crate::shell::run_in_console(program.as_deref().unwrap_or("claude".as_ref()), "auth login");
+}
+
+/// `claude auth login` in Terminal, which runs a `.command` file it's handed:
+/// one in Studio's cache folder that only the person can read or run.
+/// Without a known `program`, their login shell finds `claude` (a Mac app
+/// started from the Dock has no PATH of theirs).
+#[cfg(target_os = "macos")]
+fn run_login(program: Option<PathBuf>) {
+    use std::io::Write;
+    use std::os::unix::fs::OpenOptionsExt;
+    let quote = |s: &str| format!("'{}'", s.replace('\'', "'\\''"));
+    let login = match program {
+        Some(p) => format!("{} auth login", quote(&p.to_string_lossy())),
+        None => format!("\"${{SHELL:-/bin/zsh}}\" -lic {}", quote("claude auth login")),
+    };
+    let script = format!("#!/bin/sh\n# Oyenza Studio's AI tab: Claude Code's own sign-in.\n{login} && echo && echo 'Signed in. Oyenza Studio reads it when you open the AI tab.'\n");
+    let dir = crate::paths::cache_dir();
+    let path = dir.join("Claude Code sign-in.command");
+    let _ = std::fs::remove_file(&path);
+    let wrote = std::fs::create_dir_all(&dir).and_then(|()| std::fs::OpenOptions::new().write(true).create_new(true).mode(0o700).open(&path)).and_then(|mut f| f.write_all(script.as_bytes()));
+    match wrote {
+        Ok(()) => crate::services::open(&path.to_string_lossy()),
+        Err(e) => crate::pwarn!("usage: claude: sign-in script not written ({e})"),
+    }
+}
+
 /// One keychain item, through the Mac's reader (`services::keychain`), which
 /// keeps macOS's prompt in hand itself: at most once per opening of the tab,
 /// never from the background, a Deny kept until Refresh.
@@ -864,6 +932,18 @@ fn run_program(cli: Cli, dirs: &Dirs, held: &mut bool) -> Result<Reply, NetFail>
 #[cfg(not(target_os = "macos"))]
 fn run_program(_cli: Cli, _dirs: &Dirs, _held: &mut bool) -> Result<Reply, NetFail> {
     Err(NetFail::Other("no program to run".into()))
+}
+
+/// What an Electron app sealed, opened by Windows ([`Want::Unseal`]).
+#[cfg(windows)]
+fn unseal(sealed: &[u8], key: Option<&[u8]>) -> Got {
+    crate::services::secret::open_electron(sealed, key).and_then(|b| String::from_utf8(b).ok()).map_or(Got::Missing, Got::Text)
+}
+
+/// A Mac opens them itself, with the keychain's password.
+#[cfg(not(windows))]
+fn unseal(_sealed: &[u8], _key: Option<&[u8]>) -> Got {
+    Got::Missing
 }
 
 #[cfg(all(test, windows))]

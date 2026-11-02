@@ -1216,6 +1216,13 @@ enum Scene {
     /// tools in place from before: the Downloader and Notifications stay
     /// off, each saying "Sign in with your Oyenza account".
     AddonsPro,
+    /// A song playing on the closed island, which a real press, a move
+    /// sideways and the release drag to the right (`Phase::Drag`): it
+    /// stays closed there, and a click on it there still opens it.
+    IslandDrag,
+    /// The open island where it was dragged to the screen's right edge: it
+    /// grows away from the edge, whole on the screen.
+    IslandOpenAtEdge,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1251,6 +1258,54 @@ fn ai_alert(st: &AppState, out: bool) -> Option<studio_usage::alerts::Alert> {
     alerts::changes(Some(&read(0.7)), &read(if out { 1.0 } else { 0.9 }), st.unix, &cfg).into_iter().next()
 }
 
+/// How far the self-test drags the island to the right (DIPs).
+const DRAG_DX: f32 = 560.0;
+
+/// Drag the closed island `DRAG_DX` to the right through its own mouse
+/// messages: it follows the pointer (as far as the screen lets it), stays
+/// closed, and keeps the spot; a click on it there opens it, as in the
+/// middle. Leaves it closed where it went.
+fn drag_check(app: &mut App) -> (bool, String) {
+    let body = app.island_body();
+    let (from, mon_w) = (app.selftest_island_centre(), app.selftest_monitor_width());
+    let want = poni_core::spot::fit_centre(from + DRAG_DX, mon_w, body.w, app.selftest_side_room());
+    let opened = app.selftest_drag(body.center(), DRAG_DX);
+    let to = app.selftest_island_centre();
+    let spot = app.st.settings.island_x;
+    let moved = (to - want).abs() <= 1.5 && spot.is_some_and(|x| (x * mon_w - to).abs() <= 1.5);
+    // A click on it where it went.
+    let clicked = app.selftest_press(app.island_body().center());
+    app.selftest_set_expanded(false);
+    let ok = moved && !opened && clicked;
+    let detail = format!(
+        "centre {from:.1} -> {to:.1} DIP across a {mon_w:.0} DIP screen (want {want:.1}), saved {spot:?}, {} after the drag, {} on a click there",
+        if opened { "opened" } else { "closed" },
+        if clicked { "opened" } else { "stayed closed" }
+    );
+    (ok, detail)
+}
+
+/// Off the middle, the island is whole on the screen: dragged, where the
+/// drag took it; open at the right edge, grown away from the edge.
+fn on_screen_check(app: &App, scene: Scene) -> Check {
+    let mon_w = app.selftest_monitor_width();
+    let body = app.island_body();
+    let centre = app.selftest_island_centre();
+    let side = app.selftest_side_room();
+    let (left, right) = (centre - body.w / 2.0 - side, centre + body.w / 2.0 + side);
+    let whole = left >= -0.5 && right <= mon_w + 0.5;
+    let placed = match scene {
+        // Against the right edge: no room left beside it.
+        Scene::IslandOpenAtEdge => right >= mon_w - 1.5,
+        _ => centre > mon_w / 2.0 + poni_core::spot::SNAP,
+    };
+    check(
+        "island-on-screen",
+        whole && placed,
+        format!("{left:.1}..{right:.1} DIP (body {:.0} wide, centre {centre:.1}) on a {mon_w:.0} DIP screen", body.w),
+    )
+}
+
 /// Running under Wine: its ntdll exports `wine_get_version`.
 fn under_wine() -> bool {
     use windows::core::{s, w};
@@ -1263,7 +1318,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 133] = [
+const SCENES: [Scene; 135] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1439,6 +1494,9 @@ const SCENES: [Scene; 133] = [
     Scene::NotesPro,
     // The Add-ons page signed out, without Pro: no Downloader row.
     Scene::AddonsPro,
+    // The island dragged along the top edge, closed, then open at the edge.
+    Scene::IslandDrag,
+    Scene::IslandOpenAtEdge,
 ];
 
 impl Scene {
@@ -1556,6 +1614,8 @@ impl Scene {
             Scene::NotesActivity => "notes-activity".into(),
             Scene::NotesPro => "page-notes-pro".into(),
             Scene::AddonsPro => "page-addons-pro".into(),
+            Scene::IslandDrag => "island-dragged".into(),
+            Scene::IslandOpenAtEdge => "island-open-at-edge".into(),
         }
     }
 
@@ -1602,6 +1662,7 @@ impl Scene {
                 Some(PageKind::Ielts)
             }
             Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady | Scene::NotesPro => Some(PageKind::Notes),
+            Scene::IslandOpenAtEdge => Some(PageKind::Media),
             _ => None,
         }
     }
@@ -1694,7 +1755,12 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk | Scene::IslandDrag) || self.expanded()
+    }
+
+    /// The island is off the middle of the screen.
+    fn moved(self) -> bool {
+        matches!(self, Scene::IslandDrag | Scene::IslandOpenAtEdge)
     }
 
     /// A maximized window is under the island.
@@ -2250,6 +2316,9 @@ enum Phase {
     /// Scene `i` shows the prayer countdown; once it rests with its OK
     /// drawn, press OK (`Scene::PrayerOk`).
     PressOk { i: usize, since: f64 },
+    /// Scene `i` has a song on the closed island; once it rests, drag it
+    /// to the right (`Scene::IslandDrag`).
+    Drag { i: usize, since: f64 },
     /// The IELTS coach's one turn against a server of the self-test's own
     /// (Classic runs only; see [`IeltsRun`]).
     Ielts { since: f64 },
@@ -2830,6 +2899,18 @@ impl SelfTest {
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
+            Phase::Drag { i, since } => {
+                // In the middle, closed and still, then a real press on it, a
+                // move sideways and the release: it moves and stays closed.
+                // Then a click on it where it went: that still opens it.
+                self.apply(app, SCENES[i]);
+                let still = app.selftest_settled() && !app.selftest_expanded() && app.st.settings.island_x.is_none();
+                if still || now - since > self.settle_limit(app) {
+                    let (ok, detail) = if still { drag_check(app) } else { (false, "the island never rested closed in the middle".to_string()) };
+                    self.checks.push(check("island-drag", ok, detail));
+                    self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
             Phase::Ielts { since } => {
                 let run = self.ielts.get_or_insert_with(|| IeltsRun::begin(app));
                 if let Some(c) = run.step(app, now - since) {
@@ -2864,6 +2945,7 @@ impl SelfTest {
         match SCENES.get(i) {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
+            Some(Scene::IslandDrag) => Phase::Drag { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
             // Advanced settings opening the Settings window, then its
             // sections (not over the Glass backdrops).
@@ -3088,6 +3170,12 @@ impl SelfTest {
         st.settings.hidden_tabs = if scene == Scene::SettingsTabs { vec!["today".into(), "tasks".into()] } else { Vec::new() };
         // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
+        // In the middle, except where the drag left it (`Phase::Drag`) and at the right edge.
+        st.settings.island_x = match scene {
+            Scene::IslandDrag => st.settings.island_x,
+            Scene::IslandOpenAtEdge => Some(1.0),
+            _ => None,
+        };
         // A later version offered, only where Settings shows it. A copy from
         // GitHub reads the update file itself, so Settings has Check now.
         let looks = crate::state::UpdateView { looks: true, ..Default::default() };
@@ -3465,7 +3553,9 @@ impl SelfTest {
             let area = if self.glass.is_some() { Rect::new(body.x + 10.0, body.y, (body.w - 20.0).max(1.0), (body.h - 10.0).max(1.0)) } else { body };
             let lit = frame.content_pixels(area, scale, rgb8(look.ground));
             checks.push(check("content-drawn", lit >= 20, format!("{lit} content pixels inside the island")));
-            if let Some(run) = self.glass {
+            // Not where the island moved: the backdrop is a page laid out
+            // for the island in the middle.
+            if let Some(run) = self.glass.filter(|_| !scene.moved()) {
                 self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
             }
             if pill {
@@ -3487,6 +3577,9 @@ impl SelfTest {
         }
         if scene == Scene::MediaLyric {
             checks.push(lyric_line_check(&app.st));
+        }
+        if scene.moved() {
+            checks.push(on_screen_check(app, scene));
         }
         if scene == Scene::PrayerOk {
             // After OK: the song and its sung line until Ashar, as before the countdown.
