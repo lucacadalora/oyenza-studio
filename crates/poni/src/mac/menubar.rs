@@ -23,6 +23,8 @@ pub enum MenuCmd {
     /// "Advanced settings…": the Settings window.
     ShowSettings,
     TogglePinned,
+    /// "Move island to the centre": back from where it was dragged along the top edge.
+    CentreIsland,
     SetTheme(Theme),
     SetIdleStyle(IdleStyle),
     ToggleSounds,
@@ -63,8 +65,9 @@ fn item(label: &str, cmd: MenuCmd, checked: bool) -> MenuItem {
     MenuItem::Item { label: label.to_string(), cmd, checked, key: "" }
 }
 
-/// `update`: a later version the update file offers, or Check for updates…
-/// (`crate::updates::menu_line`).
+/// Move island to the centre shows while `s.island_x` is set (the app
+/// passes it only where the island moves). `update`: a later version the
+/// update file offers, or Check for updates… (`crate::updates::menu_line`).
 pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyenza: &OyenzaLink, update: UpdateLine) -> Vec<MenuItem> {
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
@@ -111,6 +114,11 @@ pub fn menu_items(s: &Settings, pinned: bool, login: Login, recorder: bool, oyen
         MenuItem::Separator,
         MenuItem::Item { label: "Quit Oyenza Studio".into(), cmd: MenuCmd::Quit, checked: false, key: "q" },
     ];
+    // Only while the island sits off the middle, under Keep island open.
+    if s.island_x.is_some() {
+        let at = items.iter().position(|i| matches!(i, MenuItem::Item { cmd: MenuCmd::TogglePinned, .. })).map_or(items.len(), |i| i + 1);
+        items.insert(at, item("Move island to the centre", MenuCmd::CentreIsland, false));
+    }
     // Only once the separate recorder app is installed: until then the
     // island doesn't mention recording at all.
     if recorder {
