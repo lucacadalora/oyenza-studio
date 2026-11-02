@@ -79,6 +79,10 @@ pub struct Settings {
     /// top edge clear. The key stays so files from those versions still load.
     pub step_aside: bool,
     pub monitor: MonitorChoice,
+    /// Where the island sits along the top edge once dragged there: its
+    /// centre as a share of the monitor's width (0 the left edge, 1 the
+    /// right), kept on screen ([`crate::spot`]). None: the middle.
+    pub island_x: Option<f32>,
     pub show_media_activity: bool,
     pub lyrics: bool,
     /// Romanized "pronunciation" line under Japanese, Korean and Chinese lyrics.
@@ -227,6 +231,7 @@ impl Default for Settings {
             hide_in_fullscreen: true,
             step_aside: false,
             monitor: MonitorChoice::Primary,
+            island_x: None,
             show_media_activity: true,
             lyrics: true,
             lyrics_pronunciation: true,
@@ -335,6 +340,7 @@ impl Settings {
             self.expanded_width = 620.0;
         }
         self.expanded_width = self.expanded_width.clamp(480.0, 900.0);
+        self.island_x = self.island_x.filter(|x| x.is_finite()).map(|x| x.clamp(0.0, 1.0));
         let p = &mut self.pomodoro;
         p.focus_min = p.focus_min.clamp(1, 180);
         p.short_break_min = p.short_break_min.clamp(1, 60);
@@ -512,6 +518,18 @@ mod tests {
         }
         let s: Settings = serde_json::from_str(r#"{"game_stats":true,"game_peek":true}"#).unwrap();
         assert!(s.game_peek);
+    }
+
+    #[test]
+    fn the_island_sits_in_the_middle_until_dragged() {
+        assert_eq!(Settings::default().island_x, None);
+        // Files from before the drag, and hand-edited ones, stay on screen.
+        let old: Settings = serde_json::from_str(r#"{"settings_version":4}"#).unwrap();
+        assert_eq!(old.sanitized().island_x, None);
+        let far: Settings = serde_json::from_str(r#"{"island_x":3.5}"#).unwrap();
+        assert_eq!(far.sanitized().island_x, Some(1.0));
+        let moved: Settings = serde_json::from_str(r#"{"island_x":0.8}"#).unwrap();
+        assert_eq!(moved.sanitized().island_x, Some(0.8));
     }
 
     #[test]
