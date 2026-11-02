@@ -815,7 +815,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
             <p class="t-hero">A living notch.</p>
             <a class="t-avail" href="#new">New in 0.2.23: drag the island along the top edge on a Mac too, as on Windows.</a>
             <div class="buybox">
-              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.2&nbsp;MB</span> · Mac <span data-release="mac-size">5.8&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.23</span></a></span></div>
+              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.2&nbsp;MB</span> · Mac <span data-release="mac-size">5.8&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.24</span></a></span></div>
               <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe">Download</a>
             </div>
             <a class="link hero-other dl-other" data-release="mac-link" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Mac.dmg">Download for Mac</a>
@@ -835,10 +835,14 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 
   <section class="sec band" id="new" aria-labelledby="new-title">
     <div class="content head rv">
-      <h2 class="t-l" id="new-title">New in 0.2.23.</h2>
+      <h2 class="t-l" id="new-title">New in 0.2.24.</h2>
       <button class="more" type="button" data-more="m-new">Everything new, release by release<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content news">
+      <a class="news-tile shot rv" href="#ai">
+        <span class="news-visual top right" aria-hidden="true"><img class="look-classic" src="assets/shots/classic/page-ai.webp" alt="" width="660" height="335" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-ai.webp" alt="" width="660" height="335" loading="lazy"></span>
+        <p class="t-card">Claude and Cursor are back</p><p class="t-tile">Use Claude Code through the Claude app? The AI tab shows your Claude plan now, and a signed-out card has a Sign in button. Cursor 3.27 reads again too.</p>
+      </a>
       <a class="news-tile shot wide rv" href="#on-top">
         <span class="news-visual" aria-hidden="true">
           <span class="browser-top"><span class="browser-strip"></span><span class="browser-tabs"><span class="browser-tab on"><i></i><span>Inbox</span></span><span class="browser-tab"><i></i><span>Docs</span></span><span class="browser-new">+</span></span><svg class="browser-ctl" viewBox="0 0 108 31"><path d="M13 15.5h10M49.5 11h9v9h-9zM85.5 11l9 9m0-9-9 9"/></svg><span class="browser-url">Search or type a URL</span></span>
@@ -857,10 +861,6 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="news-tile shot rv" href="#pricing">
         <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/mac/classic/page-notes-listening.webp" alt="" width="710" height="320" loading="lazy"><img class="look-oyen" src="assets/shots/mac/oyen/page-notes-listening.webp" alt="" width="710" height="320" loading="lazy"></span>
         <p class="t-card">Meeting notes on the Mac</p><p class="t-tile">Oyen listens to your call through your Mac's microphone and its own sound, then writes the summary, the decisions and the whole transcript. Studio Pro; the Mac's own sound needs macOS 14.2 or later.</p>
-      </a>
-      <a class="news-tile shot rv" href="#pricing">
-        <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/mac/classic/page-ielts.webp" alt="" width="710" height="388" loading="lazy"><img class="look-oyen" src="assets/shots/mac/oyen/page-ielts.webp" alt="" width="710" height="388" loading="lazy"></span>
-        <p class="t-card">The IELTS coach</p><p class="t-tile">Oyen asks IELTS Speaking questions out loud, listens to your answers and gives you a band. Studio Pro, now on Windows and Mac.</p>
       </a>
     </div>
   </section>
@@ -1689,6 +1689,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>Switch them on and the island tells you <b>when a limit is nearly used up, when it runs out, and when it's back</b> after it resets. For that it reads the files on your computer every few minutes and asks the services at most every 10 minutes, and it rests while your computer is locked, the screen is off or battery saver is on. With notices off, nothing runs while the tab is closed: it reads when you open it.</p>
     <h4>Your sign-ins stay yours</h4>
     <p>Each service's sign-in is read on your computer and goes only to that service's own server. <b>Nothing about your usage goes to Oyenza.</b> Oyenza Studio only reads: it never changes another app's files or renews its sign-in, so it can't sign you out of that app. When a sign-in has run out, the card says so: open that app once and it's back.</p>
+    <p><b>Claude Code through the Claude app.</b> If you run Claude Code from the Claude app, its card uses the sign-in the app keeps for Claude Code. When Claude Code is signed out, its card has <b>Sign in</b>: it starts Claude Code's own sign-in in a terminal window, or opens the Claude app. On a Mac, macOS asks once before the Claude app's or Cursor's sign-in is read: choose Always Allow.</p>
     <h4>Oyenza Inference</h4>
     <p>Connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab, or in the dashboard under Connected apps.</p>
   </div>
@@ -1871,6 +1872,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <h2 class="t-m" id="m-new-t">Release by release.</h2>
     <h4>New in 0.2.19</h4>
     <ul class="new-list">
+      <li><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span><b>The IELTS coach</b>Oyen asks IELTS Speaking questions out loud, listens to your answers and gives you a band. Studio Pro, now on Windows and Mac.</span></li>
       <li><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span><b>The Downloader</b>Paste a link, pick Video or Sound, and watch it come in to Downloads and the Shelf. Studio Pro, on Windows and Mac. Only what you have the right to keep.</span></li>
     </ul>
     <h4>New in 0.2.16</h4>
