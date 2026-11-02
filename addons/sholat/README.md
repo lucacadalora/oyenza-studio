@@ -6,12 +6,14 @@ them. The code that works out the times (`crates/poni-core/src/prayer/`) is
 part of poni.exe and stays asleep until the add-on is on.
 
 The files are published, byte for byte, on the pre-release
-[`addon-sholat-1`](https://github.com/lucacadalora/oyenza-studio/releases/tag/addon-sholat-1).
+[`addon-sholat-3`](https://github.com/lucacadalora/oyenza-studio/releases/tag/addon-sholat-3).
 Each one's size and SHA-256 are built into the app (`poni_core::addons`),
 and `cargo test -p poni-core addons` checks that they match the files here.
-Changing a file means a new tag (`addon-sholat-3`: `addon-sholat-2` holds a
-world list that went online instead and never shipped), new numbers in
-`poni_core::addons`, and an app release.
+Changing a file means a new tag (`addon-sholat-4`), new numbers in
+`poni_core::addons`, and an app release. Never delete an older tag:
+`addon-sholat-1` holds the files every version up to 0.2.24 downloads (the
+older adzan), and `addon-sholat-2` a world list that went online instead and
+never shipped.
 
 - `places.json`: the places people can pick. All 517 locations in Kemenag's
   prayer schedule (every kab/kota, plus five island points such as "Pulau
@@ -22,12 +24,23 @@ world list that went online instead and never shipped), new numbers in
   twilight angles there (Subuh 21°, Isya 19°). Makkah, Madinah and Jeddah
   use Umm al-Qura. Settings keep the chosen place by its `id`, so never
   rename one.
-- `adzan.m4a`: the Maghrib adzan at Masjidil Haram on 25 Feb 2012 (178 s,
-  AAC), by 3omar Faruq, from Wikimedia Commons under CC BY 3.0, so the app
-  shows its credit. Checked word by word: the whole adzan, ending with "la
-  ilaha illallah", and no Subuh line, so it plays for the other four prayers.
-  (The first recording, from 21 Jan 2013, stopped mid-way through the closing
-  takbir.)
+- `adzan.m4a`: "The Adhan - Muslim Call to Prayer - Aaqib Azeez" (86 s,
+  AAC), by Atcovi, from Wikimedia Commons under CC BY-SA 4.0, so the notice
+  credits it and this file is shared under the same license. A close, clean
+  recording: the whole frequency range, and the pauses between the phrases
+  about 38 dB under the voice. Checked word by word: four takbir, each
+  shahada twice, each hayya twice, the closing takbir and "la ilaha
+  illallah", and no Subuh line, so it plays for the other four prayers.
+  Made from the Commons file with `ffmpeg -i
+  The_Adhan_-_Muslim_Call_to_Prayer_-_Aaqib_Azeez.mp3 -af
+  "pan=mono|c0=0.5*c0+0.5*c1,highpass=f=70:poles=2,atrim=start=0.25:end=86.0,asetpts=PTS-STARTPTS,afade=t=in:d=0.2,afade=t=out:st=84.35:d=1.4,volume=0.25dB,alimiter=limit=0.8414:attack=2:release=40:level=false"
+  -ar 44100 -ac 1 -c:a aac -b:a 80k -map_metadata -1 -map_chapters -1
+  -fflags +bitexact -flags:a +bitexact -movflags +faststart adzan.m4a`
+  (FFmpeg 6.1.1 gives these exact bytes). The adzan before it (on
+  `addon-sholat-1`), the Maghrib adzan at Masjidil Haram on 25 Feb 2012 by
+  3omar Faruq, came from a phone video: nothing above 4 kHz, and the crowd
+  and the hall under every phrase. The first recording, from 21 Jan 2013,
+  stopped mid-way through the closing takbir.
 - `NOTICE.txt`: where each file comes from, its licence and what was changed.
 
 Cities outside Indonesia aren't in the add-on. The place picker looks them

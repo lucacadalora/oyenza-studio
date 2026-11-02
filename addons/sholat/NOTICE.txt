@@ -1,16 +1,18 @@
-Prayer times add-on for Oyen Poni: what it holds and where it comes from
+Prayer times add-on for Oyenza Studio: what it holds and where it comes from
 
 places.json
   Every location in Kemenag RI's (Bimas Islam) prayer schedule, named as
   Kemenag writes them, each with a reference point fitted to Kemenag's
   published 2026 schedule; plus Makkah, Madinah and Jeddah (coordinates
-  from en.wikipedia.org). Part of Oyen Poni, under its MIT license.
+  from en.wikipedia.org). Part of Oyenza Studio, under its MIT license.
 
 adzan.m4a
-  "Maghrib Adhan at the Masjid al Haram, Mecca - 25 Feb, 2012" by
-  3omar Faruq (YouTube: yodasdad), from Wikimedia Commons:
-  https://commons.wikimedia.org/wiki/File:Maghrib_Adhan_at_the_Masjid_al_Haram,_Mecca_-_25_Feb,_2012.webm
-  License: Creative Commons Attribution 3.0 Unported (CC BY 3.0),
-  https://creativecommons.org/licenses/by/3.0/
-  Changes: only the adzan kept (1:54 to 4:52 of the video), made mono,
-  faded in and out, its loudness levelled, and saved as AAC (80 kbit/s).
+  "The Adhan - Muslim Call to Prayer - Aaqib Azeez" by Atcovi, from
+  Wikimedia Commons (the version uploaded on 11 December 2025):
+  https://commons.wikimedia.org/wiki/File:The_Adhan_-_Muslim_Call_to_Prayer_-_Aaqib_Azeez.mp3
+  License: Creative Commons Attribution-ShareAlike 4.0 International
+  (CC BY-SA 4.0), https://creativecommons.org/licenses/by-sa/4.0/
+  Changes: made mono, the rumble below 70 Hz filtered out, its loudness
+  levelled (a few peaks limited), faded in and out, and saved as AAC
+  (80 kbit/s). This adzan.m4a is shared under the same license,
+  CC BY-SA 4.0.
