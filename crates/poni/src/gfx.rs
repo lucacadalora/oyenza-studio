@@ -947,6 +947,19 @@ impl Gfx {
         }
     }
 
+    /// Never start the GPU renderer: a window that draws only when it
+    /// changes (the Settings window) needs no graphics device of its own.
+    pub fn software_only(mut self) -> Self {
+        self.gpu_allowed = false;
+        self
+    }
+
+    /// The next frame will draw and show the whole surface whatever part
+    /// is asked for (a new surface, or the GPU renderer).
+    pub fn draws_all(&self) -> bool {
+        self.soft_full || self.gpu.is_some()
+    }
+
     pub fn scale(&self) -> f32 {
         self.dpi / 96.0
     }

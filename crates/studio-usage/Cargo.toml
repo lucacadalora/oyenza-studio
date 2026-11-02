@@ -15,3 +15,11 @@ description = "Oyenza Studio's AI tab readers: how much of each AI coding plan i
 poni-core = { path = "../poni-core" }
 serde.workspace = true
 serde_json.workspace = true
+
+# Cursor's and the Claude app's sealed sign-ins on a Mac (safe_storage.rs):
+# AES and HMAC-SHA1 from RustCrypto, which the Mac build already carries for
+# str0m. Windows opens them with its own crypto, so poni.exe gains none.
+[target.'cfg(not(windows))'.dependencies]
+aes = "0.8"
+hmac = "0.12"
+sha1 = "0.10"

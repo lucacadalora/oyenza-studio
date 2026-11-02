@@ -1,0 +1,23 @@
+{
+ "_type": "playlist",
+ "id": "j5y8znJnMkYKVpRUwtHTUQ",
+ "title": "BCON20",
+ "thumbnail": "https://video.blender.org/lazy-static/thumbnails/playlist-926745ab-c50d-4cd9-88b9-c6dec96d407c.jpg",
+ "thumbnails": [
+  {"url": "https://video.blender.org/lazy-static/thumbnails/playlist-926745ab-c50d-4cd9-88b9-c6dec96d407c.jpg", "id": "0"}
+ ],
+ "channel": "blender",
+ "upload_date": "20201030",
+ "webpage_url": "https://video.blender.org/w/p/j5y8znJnMkYKVpRUwtHTUQ",
+ "original_url": "https://video.blender.org/w/p/j5y8znJnMkYKVpRUwtHTUQ",
+ "webpage_url_domain": "video.blender.org",
+ "extractor": "PeerTube:Playlist",
+ "extractor_key": "PeerTubePlaylist",
+ "playlist_count": 3,
+ "entries": [
+  {"ie_key": "PeerTube", "id": "6mpVJBp4AWggD7k1gvhNvc", "title": "Blender Conference 2020 - Pre Party", "_type": "url", "url": "https://video.blender.org/w/6mpVJBp4AWggD7k1gvhNvc"},
+  {"ie_key": "PeerTube", "id": "a7vZhd4u9VXoGjkcm9w4mB", "title": "BCON20 - Blender Conference: Together Apart", "_type": "url", "url": "https://video.blender.org/w/a7vZhd4u9VXoGjkcm9w4mB"},
+  {"ie_key": "PeerTube", "id": "eJeLCkQyxvK1joGAaBf5PY", "title": "BCON blues + Q&A #125 | Blender.Today LIVE", "_type": "url", "url": "https://video.blender.org/w/eJeLCkQyxvK1joGAaBf5PY"}
+ ],
+ "_version": {"version": "2026.10.26", "current_git_head": null, "release_git_head": null, "repository": "yt-dlp/yt-dlp"}
+}

@@ -134,6 +134,10 @@ pub enum AppEvent {
     Phone(poni_core::phonedrop::Event),
     /// Where an add-on's files stand (`services::addons`).
     Addon { id: &'static str, status: poni_core::addons::Status },
+    /// One of yt-dlp's lines for download `id` (`services::downloader`).
+    Download { id: u64, line: poni_core::ytdlp::Line },
+    /// yt-dlp for download `id` ended (`ok`: it exited with 0).
+    DownloadEnded { id: u64, ok: bool },
     /// What the update file said (`services::update`).
     Update(crate::services::update::UpdateEvent),
     /// Where the Mac is, for Prayer times (`services::location`).
@@ -149,4 +153,15 @@ pub enum AppEvent {
     AdzanEnded,
     /// Free-form log line from a service thread.
     Log(String),
+    /// The IELTS worker's answer (`services::ielts`).
+    Ielts(Box<poni_core::ielts::Reply>),
+    /// The meeting being handed over, as it goes (`services::notes`).
+    Notes(Box<poni_core::notes::Reply>),
+    /// The meeting's recording stopped by itself (the longest meeting taken,
+    /// or the disk): why (`services::notes`).
+    NotesStopped(poni_core::notes::CaptureIssue),
+    /// The IELTS coach's voice played a line to its end, or couldn't play on (`services::voice`).
+    VoiceEnded,
+    /// The IELTS coach's microphone stopped by itself, or the person said no to macOS's question (`services::mic`).
+    MicFailed(String),
 }

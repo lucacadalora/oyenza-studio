@@ -100,6 +100,9 @@ pub enum UsageCmd {
     CancelConnect,
     /// Disconnect inference.oyenza.com (its key stops working there too).
     Disconnect,
+    /// Start a service's own sign-in on this computer (Claude Code's
+    /// `claude auth login`, or the Claude app): `studio_usage::claude::sign_in`.
+    SignIn(ProviderId),
     /// Take a service's card off the tab.
     Hide(ProviderId),
     /// Put it back, even when nothing of it is on this computer (a service
@@ -117,6 +120,7 @@ impl std::fmt::Debug for UsageCmd {
             UsageCmd::Connect => f.write_str("Connect"),
             UsageCmd::CancelConnect => f.write_str("CancelConnect"),
             UsageCmd::Disconnect => f.write_str("Disconnect"),
+            UsageCmd::SignIn(id) => write!(f, "SignIn({})", id.key()),
             UsageCmd::Hide(id) => write!(f, "Hide({})", id.key()),
             UsageCmd::Show(id) => write!(f, "Show({})", id.key()),
         }
@@ -191,6 +195,8 @@ pub enum Command {
     SaveStore,
     /// Persist `AppState::settings` now (after a page toggled a setting).
     SaveSettings,
+    /// Open the Settings window, or bring it forward (the gear, Windows).
+    OpenSettings,
     SetPage(PageKind),
     /// Keep the island open even when the cursor leaves.
     SetPinned(bool),
@@ -230,4 +236,23 @@ pub enum Command {
     /// The Notifications add-on.
     Notify(NotifyCmd),
     Usage(UsageCmd),
+    /// The Downloads page (`pages::downloads`).
+    Download(DownloadCmd),
+}
+
+/// What the Downloads page asks for.
+#[derive(Clone, Debug, PartialEq)]
+pub enum DownloadCmd {
+    /// Download `url`'s video or sound.
+    Start { url: String, mode: poni_core::ytdlp::Mode },
+    /// Stop a download; one still waiting its turn leaves the list (Cancel).
+    Stop(u64),
+    /// Take a finished, failed or stopped job off the list.
+    Remove(u64),
+    ClearDone,
+    /// Open the finished file, or show it in its folder.
+    Open(u64),
+    Reveal(u64),
+    /// Put the clipboard's link in the page's link field.
+    PasteLink,
 }

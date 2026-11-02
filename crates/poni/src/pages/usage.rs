@@ -331,6 +331,8 @@ enum Does {
     Connect,
     CancelConnect,
     Disconnect,
+    /// Start the service's own sign-in on this computer.
+    SignIn,
     Url(String),
 }
 
@@ -442,13 +444,17 @@ fn words(id: ProviderId, t: &Trouble) -> Words {
             _ => {}
         }
     }
+    // Claude Code signs in from here: its own `claude auth login`, or the
+    // Claude app, which signs it in too (`UsageCmd::SignIn`).
+    let sign_in = (id == ProviderId::Claude).then(|| Act { label: "Sign in".into(), does: Does::SignIn });
+    let where_ = if id == ProviderId::Claude { format!("{name} or the Claude app") } else { name.to_string() };
     match t {
         Trouble::NotFound => w("Not on this computer".into(), format!("Sign in to {name} here and its plan shows up"), "Not on this computer".into(), None),
-        Trouble::SignedOut => w("Not signed in".into(), format!("Sign in to {name} on this computer"), format!("Signed out of {name}"), None),
-        Trouble::Expired => w("Sign-in expired".into(), format!("Open {name} once to refresh"), format!("Open {name} once to refresh"), None),
+        Trouble::SignedOut => w("Not signed in".into(), format!("Sign in to {where_} on this computer"), format!("Signed out of {name}"), sign_in),
+        Trouble::Expired => w("Sign-in expired".into(), format!("Open {where_} once to refresh"), format!("Open {name} once to refresh"), sign_in),
         Trouble::NeedsKey => w("Needs a key".into(), format!("Add your {name} key to see your plan"), "Needs a key".into(), Act::new("Add key", Does::Key)),
         Trouble::Refused if key => w("Key not accepted".into(), format!("{name} refused the key. Check it, or make a new one"), "Key not accepted".into(), Act::new("Change key", Does::Key)),
-        Trouble::Refused => w("Sign-in not accepted".into(), format!("Sign in to {name} again on this computer"), format!("Sign in to {name} again"), None),
+        Trouble::Refused => w("Sign-in not accepted".into(), format!("Sign in to {where_} again on this computer"), format!("Sign in to {name} again"), sign_in),
         Trouble::Disabled => {
             let page = usage_page(id);
             let act = Act::new(format!("Open {}", host(page)), Does::Url(page.into()));
@@ -714,7 +720,7 @@ fn draw_part(ui: &mut Ui, st: &AppState, p: &Part, r: Rect, view: Rect, n: u64) 
                 Does::Connect => PillStyle::Primary(OYENZA),
                 _ => PillStyle::Primary(st.accent),
             };
-            let icon = matches!(a.does, Does::Url(_)).then_some(Icon::Open);
+            let icon = matches!(a.does, Does::Url(_) | Does::SignIn).then_some(Icon::Open);
             let pw = ui.pill_width(&a.label, icon.is_some(), true).min(r.w);
             let pill = Rect::new(r.x, r.y + 19.0 + lh.ceil() + 8.0, pw, PILL_SMALL);
             pill_in(ui, view, wid_n("usage.fix", n), pill, &a.label, icon, style).then(|| a.does.clone())
@@ -1190,6 +1196,7 @@ fn act(ui: &mut Ui, st: &mut AppState, id: ProviderId, does: Does) {
             st.usage.inference = InferenceLink::Off;
         }
         Does::Disconnect => st.cmd(Command::Usage(UsageCmd::Disconnect)),
+        Does::SignIn => st.cmd(Command::Usage(UsageCmd::SignIn(id))),
         Does::Url(u) => st.cmd(Command::OpenUrl(u)),
     }
 }
@@ -1650,6 +1657,23 @@ mod tests {
         let p = parts(&st, ProviderId::Codex);
         assert!(p.contains(&Part::Note("Updated 3 days ago".into())), "{p:?}");
         assert!(matches!(p.last(), Some(Part::Warn(w, Some(Act { does: Does::Refresh, .. }))) if w == "Offline"), "{p:?}");
+    }
+
+    #[test]
+    fn claude_code_signed_out_has_a_sign_in_button() {
+        let mut st = state();
+        let sign_in = Some(Act { label: "Sign in".into(), does: Does::SignIn });
+        for (t, title, line) in [
+            (Trouble::SignedOut, "Not signed in", "Sign in to Claude Code or the Claude app on this computer"),
+            (Trouble::Expired, "Sign-in expired", "Open Claude Code or the Claude app once to refresh"),
+            (Trouble::Refused, "Sign-in not accepted", "Sign in to Claude Code or the Claude app again on this computer"),
+        ] {
+            read(&mut st, ProviderId::Claude, None, Some(t));
+            assert_eq!(parts(&st, ProviderId::Claude), [Part::Trouble { title: title.into(), line: line.into(), act: sign_in.clone() }]);
+        }
+        // Others keep their words, with no button (Kimi Code signs in in its own app).
+        read(&mut st, ProviderId::Kimi, None, Some(Trouble::SignedOut));
+        assert_eq!(parts(&st, ProviderId::Kimi), [Part::Trouble { title: "Not signed in".into(), line: "Sign in to Kimi Code on this computer".into(), act: None }]);
     }
 
     #[test]

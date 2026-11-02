@@ -1,4 +1,8 @@
-//! Settings page, behind the gear on the right of the header.
+//! Settings page, behind the gear on the right of the header: the everyday
+//! settings. Its last row, Advanced settings, opens the Settings window
+//! (`settings_window`) with every setting, and the island closes as the
+//! window opens, so the two never overlap. The window draws this page's
+//! account row, switch, picker and Check now.
 //!
 //! The Oyenza account comes first: the Oyenza app's icon, then signing in
 //! (the code itself shows on the Oyenza page), who is signed in, and
@@ -9,11 +13,10 @@
 //! A change saves at once and applies the way the tray's does
 //! (`Command::SaveSettings`). New versions are always looked for; beside
 //! the version, Check now reads the update file at once and says what it
-//! found in its place. While a later version is out, a last row across the
-//! page says so, with Update:
-//! that opens the Update sheet, which takes the rows' place (as the island's
-//! notice and the menu's "Update to" line do) until the island closes or
-//! Settings does.
+//! found in its place. While a later version is out, Update to it takes
+//! Check now's place: that opens the Update sheet, which takes the rows'
+//! place (as the island's notice and the menu's "Update to" line do) until
+//! the island closes or Settings does.
 
 use crate::activities::{text_with_dim, text_with_dim_width};
 use crate::commands::{Command, OyenzaCmd};
@@ -31,12 +34,13 @@ use poni_core::settings::{IdleStyle, Theme};
 use poni_core::update::Release;
 
 /// Account row, a line, the pickers under their labels (or a row each on a
-/// narrow island), then the switches and choices (three rows), the tabs, and
-/// the new version's row while there is one. Shorter than the System page
-/// (256), so the window keeps its size.
+/// narrow island), then the switches and choices (three rows), the tabs,
+/// and under a line Advanced settings. Shorter than the System page (256),
+/// so the window keeps its size: a new version's Update goes in the
+/// version's row, not a row of its own.
 const TABS_Y: f32 = SWITCHES_Y + ROWS as f32 * ROW_H;
-const HEIGHT: f32 = TABS_Y + ROW_H;
-const HEIGHT_OFFER: f32 = HEIGHT + ROW_H;
+const ADVANCED_Y: f32 = TABS_Y + ROW_H;
+const HEIGHT: f32 = ADVANCED_Y + ROW_H;
 const ACCOUNT_H: f32 = 44.0;
 /// The Oyenza app's icon, and the text column right of it.
 const ICON: f32 = 36.0;
@@ -68,6 +72,8 @@ const SWITCH_W: f32 = 30.0;
 const CHECK_PAD: f32 = 5.0;
 /// Its hover wash, inside the row's.
 const CHECK_H: f32 = 22.0;
+/// Advanced settings' icon: it opens a window of its own.
+const ADVANCED_ICON: f32 = 15.0;
 const SWITCH_H: f32 = 18.0;
 const KNOB_INSET: f32 = 2.0;
 /// Oyenza's colour, as on the Oyenza page.
@@ -128,11 +134,13 @@ const ROWS: usize = if LEFT.len() > RIGHT.len() { LEFT.len() } else { RIGHT.len(
 /// `hide_in_fullscreen` each one sets.
 const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
 
+/// Advanced settings, the last row (the self-test presses it).
+pub const ADVANCED_ID: &str = "settings.advanced";
+
 pub fn height(st: &AppState) -> f32 {
     match st.update.offer {
         Some(_) if st.update.sheet => SHEET_H,
-        Some(_) => HEIGHT_OFFER,
-        None => HEIGHT,
+        _ => HEIGHT,
     }
 }
 
@@ -218,11 +226,26 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
                     }
                 }
                 Row::Version => {
-                    let check = check_slot(ui, st, row);
-                    let right = check.map_or(row.right(), |b| b.x - 10.0);
+                    // Check now at its right end; while a later version is
+                    // out, Update to it there instead (the Update sheet).
+                    let update = st.update.offer.as_ref().map(|rel| update_label(ui, row, &rel.version));
+                    let slot = match &update {
+                        Some(text) => {
+                            let w = ui.pill_width(text, false, true);
+                            Some(Rect::new(row.right() - w, row.center().y - ROW_PICKER_H / 2.0, w, ROW_PICKER_H))
+                        }
+                        None => check_slot(ui, st, row),
+                    };
+                    let right = slot.map_or(row.right(), |b| b.x - 10.0);
                     text_with_dim(ui, "Version", VERSION, Rect::new(row.x, row.y, (right - row.x).max(0.0), row.h), TextStyle::body());
-                    if let Some(b) = check {
-                        draw_check(ui, st, b);
+                    match (update, slot) {
+                        (Some(text), Some(b)) => {
+                            if ui.pill(wid("settings.update"), b, &text, None, PillStyle::Primary(accent)).clicked {
+                                st.update.sheet = true;
+                            }
+                        }
+                        (None, Some(b)) => draw_check(ui, st, b),
+                        _ => {}
                     }
                 }
                 Row::Fullscreen => {
@@ -236,8 +259,26 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         }
     }
     draw_tabs(ui, st, Rect::new(area.x, area.y + TABS_Y, area.w, ROW_H));
-    if let Some(rel) = st.update.offer.clone() {
-        draw_offer(ui, st, Rect::new(area.x, area.y + HEIGHT, area.w, ROW_H), &rel);
+    draw_advanced(ui, st, Rect::new(area.x, area.y + ADVANCED_Y, area.w, ROW_H), card);
+}
+
+/// The last row, under a line: Advanced settings, the window with every
+/// setting (`Command::OpenSettings`; the island closes as it opens). The
+/// whole row is the button, as a switch's row is.
+fn draw_advanced(ui: &mut Ui, st: &mut AppState, r: Rect, card: Option<(Rect, f32)>) {
+    let px = 1.0 / ui.c.scale().max(0.5);
+    ui.c.fill_rect(Rect::new(r.x, r.y, r.w, px), Color::white(0.10));
+    let hit = Rect::new(r.x - ROW_BLEED, r.y, r.w + 2.0 * ROW_BLEED, r.h);
+    let resp = ui.button(wid(ADVANCED_ID), hit);
+    let lit = resp.hovered || resp.pressed;
+    if lit {
+        super::card::fill_box(ui, card, hit.inset(0.0, 1.0), 8.0, Color::white(if resp.pressed { 0.10 } else { 0.06 }));
+    }
+    let icon = Rect::new(r.right() - ADVANCED_ICON, r.center().y - ADVANCED_ICON / 2.0, ADVANCED_ICON, ADVANCED_ICON);
+    ui.c.icon(Icon::Open, icon, if lit { palette::TEXT } else { palette::TEXT_DIM });
+    ui.c.text("Advanced settings", Rect::new(r.x, r.y, (icon.x - 10.0 - r.x).max(0.0), r.h), &TextStyle::body());
+    if resp.clicked {
+        st.cmd(Command::OpenSettings);
     }
 }
 
@@ -302,7 +343,7 @@ fn draw_tabs(ui: &mut Ui, st: &mut AppState, r: Rect) {
 /// Where Check now goes in the version's row, at its right end: while this
 /// copy looks for new versions itself and none is offered (then the last
 /// row has Update). Words with a wash on hover, not a pill.
-fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
+pub(crate) fn check_slot(ui: &mut Ui, st: &AppState, row: Rect) -> Option<Rect> {
     if !st.update.looks || st.update.offer.is_some() {
         return None;
     }
@@ -322,7 +363,7 @@ fn answered(said: Option<Said>) -> bool {
 
 /// Check now, or what it found: checking, up to date, or (it couldn't
 /// look) Try again, which looks again.
-fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
+pub(crate) fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
     let said = st.update.said;
     let (text, color) = check_look(said, st.accent);
     if answered(said) {
@@ -340,6 +381,18 @@ fn draw_check(ui: &mut Ui, st: &mut AppState, b: Rect) {
     }
 }
 
+/// What Update says in the version's row: "Update to 0.2.5", or "Update"
+/// where it and the version don't both fit (a narrow island).
+fn update_label(ui: &mut Ui, row: Rect, version: &str) -> String {
+    let long = format!("Update to {version}");
+    let need = text_with_dim_width(ui, "Version", VERSION, &TextStyle::body()) + 10.0 + ui.pill_width(&long, false, true);
+    if need <= row.w {
+        long
+    } else {
+        "Update".to_string()
+    }
+}
+
 /// Check now's words and colour for what it has said so far.
 fn check_look(said: Option<Said>, accent: Color) -> (&'static str, Color) {
     match said {
@@ -352,26 +405,6 @@ fn check_look(said: Option<Said>, accent: Color) -> (&'static str, Color) {
 
 fn check_text() -> TextStyle {
     TextStyle::footnote().weight(Weight::Semibold)
-}
-
-/// The last row while a later version is out, across the page: "Update
-/// available 0.2.5", its headline, and Update (the sheet).
-fn draw_offer(ui: &mut Ui, st: &mut AppState, r: Rect, rel: &Release) {
-    let cy = r.center().y;
-    let w = ui.pill_width("Update", false, true);
-    let b = Rect::new(r.right() - w, cy - PILL_SMALL / 2.0, w, PILL_SMALL);
-    if ui.pill(wid("settings.update"), b, "Update", None, PillStyle::Primary(st.accent)).clicked {
-        st.update.sheet = true;
-    }
-    let right = b.x - 12.0;
-    let body = TextStyle::body();
-    let title = "Update available";
-    let tw = text_with_dim_width(ui, title, &rel.version, &body).ceil().min((right - r.x).max(0.0));
-    text_with_dim(ui, title, &rel.version, Rect::new(r.x, r.y, tw + 1.0, r.h), body);
-    let x = r.x + tw + 12.0;
-    if right > x {
-        ui.c.text(&rel.headline, Rect::new(x, r.y, right - x, r.h), &TextStyle::footnote().color(palette::TEXT_DIM));
-    }
 }
 
 // ---------------------------------------------------------------- the Update sheet
@@ -527,7 +560,7 @@ fn flip(st: &mut AppState, sw: Switch, on: Option<bool>) {
 
 // ---------------------------------------------------------------- account
 
-fn draw_account(ui: &mut Ui, st: &mut AppState, r: Rect) {
+pub(crate) fn draw_account(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let cy = r.center().y;
     crate::oyen::app_icon(ui.c, Point::new(r.x + ICON / 2.0, cy), ICON);
     match st.oyenza.link.clone() {
