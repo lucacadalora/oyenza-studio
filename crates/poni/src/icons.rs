@@ -118,6 +118,8 @@ pub enum Icon {
     OpenCode,
     /// Gemini's spark: Gemini CLI.
     Gemini,
+    /// An arch: Antigravity.
+    Antigravity,
     Cursor,
     /// GitHub Copilot.
     Copilot,
@@ -142,6 +144,7 @@ pub fn service(id: ProviderId) -> Icon {
         ProviderId::Claude => Icon::Claude,
         ProviderId::OpenCode => Icon::OpenCode,
         ProviderId::Gemini => Icon::Gemini,
+        ProviderId::Antigravity => Icon::Antigravity,
         ProviderId::Cursor => Icon::Cursor,
         ProviderId::Copilot => Icon::Copilot,
         ProviderId::Kimi => Icon::Kimi,
@@ -370,6 +373,7 @@ pub fn parts(icon: Icon) -> &'static [Part] {
         Claude => p![f(CLAUDE)],
         OpenCode => p![f(OPENCODE)],
         Gemini => p![f(GEMINI)],
+        Antigravity => p![f(ANTIGRAVITY)],
         Cursor => p![f(CURSOR)],
         Copilot => p![f(COPILOT)],
         Kimi => p![f(KIMI)],
@@ -418,6 +422,8 @@ const GEMINI: &str = "M11.6 2.3c.1-.4.7-.4.8 0l.4 1.2c.6 1.7 1.6 3.3 2.9 4.6 1.3
     c.4.1.4.7 0 .9l-1.3.4c-1.7.7-3.2 1.6-4.5 2.9-1.3 1.3-2.2 2.8-2.8 4.5l-.6 1.4c-.1.4-.7.4-.8 0L11 20.3\
     c-.6-1.7-1.6-3.2-2.8-4.5-1.3-1.3-2.8-2.2-4.5-2.9l-1.3-.4c-.4-.2-.4-.8 0-.9l1.4-.5c1.6-.7 3.1-1.6 4.4-2.9\
     C9.4 6.9 10.4 5.4 11 3.7Z";
+const ANTIGRAVITY: &str = "M12 3.4c-.8 0-1.5.4-1.9 1.1L3.3 16.8c-1.1 1.9.3 3.8 2.3 3.8 1 0 1.8-.5 2.4-1.2 1.2-1.4 2.4-2.4 4-2.4\
+    s2.8 1 4 2.4c.6.7 1.4 1.2 2.4 1.2 2 0 3.4-1.9 2.3-3.8L13.9 4.5c-.4-.7-1.1-1.1-1.9-1.1Z";
 const CURSOR: &str = "M19.8 7.1 12.4 2.9c-.3-.2-.5-.2-.8 0L4.2 7.1c-.2.1-.3.4-.3.6v8.6c0 .2.1.5.3.6l7.4 4.2\
     c.3.2.5.2.8 0l7.4-4.2c.2-.1.3-.4.3-.6V7.7c0-.2-.1-.5-.3-.6Zm-.4.9-7.2 12.4c-.1.1-.2.1-.2 0V12.3\
     c0-.2-.1-.3-.2-.4L4.7 7.8c-.1 0 0-.2.1-.2H19.1c.2 0 .4.3.3.4Z";
@@ -485,7 +491,7 @@ mod tests {
         Icon::Gauge, Icon::App, Icon::Windows, Icon::Addons, Icon::Moon, Icon::Stop, Icon::Script, Icon::Record, Icon::Download,
         Icon::Stocks, Icon::Search,
         Icon::Recorder, Icon::Screen, Icon::AppWindow, Icon::Area, Icon::Camera, Icon::Mic, Icon::Bell, Icon::Notes, Icon::Message,
-        Icon::Ai, Icon::OpenAi, Icon::Claude, Icon::OpenCode, Icon::Gemini, Icon::Cursor, Icon::Copilot, Icon::Kimi, Icon::Zai,
+        Icon::Ai, Icon::OpenAi, Icon::Claude, Icon::OpenCode, Icon::Gemini, Icon::Antigravity, Icon::Cursor, Icon::Copilot, Icon::Kimi, Icon::Zai,
         Icon::MiniMax, Icon::OpenRouter, Icon::Oyenza,
         Icon::Lock,
     ];

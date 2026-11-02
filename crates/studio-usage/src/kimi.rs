@@ -344,6 +344,7 @@ mod tests {
         loop {
             match Kimi.next(&cx, &replies) {
                 Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Fetch(req) => {
                     assert!(asked.len() < MAX_FETCHES, "too many asks");
                     let a = answers.get(replies.len()).cloned().unwrap_or_else(|| panic!("no answer for {}", req.url));

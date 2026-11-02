@@ -282,6 +282,7 @@ mod tests {
     fn done(s: Step) -> Outcome {
         match s {
             Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+            Step::Run(c) => panic!("this service never runs programs: {c:?}"),
             Step::Done(o) => o,
             Step::Fetch(r) => panic!("asked {}", r.url),
         }
@@ -351,6 +352,7 @@ mod tests {
     fn picks_one_sign_in_the_same_way_every_time() {
         let ask = |got: &[Got]| match step(got, Reach::Online, &[]) {
             Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+            Step::Run(c) => panic!("this service never runs programs: {c:?}"),
             Step::Fetch(r) => (r.url, r.headers[0].1.clone()),
             Step::Done(o) => panic!("{o:?}"),
         };

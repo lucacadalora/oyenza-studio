@@ -431,6 +431,7 @@ mod tests {
                     got.extend(w.iter().map(&other));
                     read.extend(w);
                 }
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Done(out) => return (asked, out, read),
                 Step::Fetch(r) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");

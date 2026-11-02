@@ -315,6 +315,7 @@ mod tests {
         loop {
             match MiniMax.next(&cx, &replies) {
                 Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Done(outcome) => return (outcome, asked),
                 Step::Fetch(req) => {
                     assert!(asked.len() < MAX_FETCHES, "more asks than MAX_FETCHES");

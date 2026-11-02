@@ -479,6 +479,7 @@ mod tests {
         loop {
             match Oyenza.next(&cx, &replies) {
                 Step::Read(w) => panic!("this service never reads in steps: {w:?}"),
+                Step::Run(c) => panic!("this service never runs programs: {c:?}"),
                 Step::Done(o) => return (o, asked),
                 Step::Fetch(req) => {
                     assert!(asked.len() < MAX_FETCHES, "too many requests");
