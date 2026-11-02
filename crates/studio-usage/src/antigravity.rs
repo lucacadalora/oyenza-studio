@@ -13,7 +13,10 @@
 //!   text with the OAuth token and the account's email). It is read only to
 //!   see whether somebody is signed in (a refresh token) and who; the tokens
 //!   are never used or sent. The sign-in file `~/.gemini/jetski-...` is a
-//!   leftover and is not read. Windows keeps it elsewhere: not read yet.
+//!   leftover and is not read. Windows keeps it elsewhere: not read yet, so
+//!   the reader below isn't built there at all (poni.exe keeps to its size
+//!   budget) and a look on Windows always ends in [`Trouble::NotFound`], as
+//!   it would with nothing to read.
 //! - Numbers: [`Cli::AgyUsage`] (`agy -p /usage --output-format json`) only
 //!   after [`Cli::AgyVersion`] says it is a version that answers `/usage`
 //!   itself (before 1.1.11 it sends the command to the model, which spends
@@ -25,23 +28,30 @@
 //! The answer format and the guards around `/usage` follow what Orca
 //! (stablyai/orca, MIT) learned reading it; no code taken.
 
-use super::{b64url, mask_email, num, time, Cli, Ctx, Got, NetFail, Provider, ProviderId, Reach, Reply, Snapshot, Source, Step, Trouble, Want, Window, WindowKind};
+use super::{Ctx, NetFail, Provider, ProviderId, Reply, Step, Trouble, Want};
+#[cfg(not(windows))]
+use super::{b64url, mask_email, num, time, Cli, Got, Reach, Snapshot, Source, Window, WindowKind};
+#[cfg(not(windows))]
 use serde_json::Value;
 
 /// The keychain item `agy` keeps its sign-in in.
 const KEYCHAIN_SERVICE: &str = "gemini";
 const KEYCHAIN_ACCOUNT: &str = "antigravity";
 /// How the Go `keyring` library marks a base64 value.
+#[cfg(not(windows))]
 const BASE64_PREFIX: &str = "go-keyring-base64:";
 
 /// The first `agy` that answers `/usage` itself in print mode.
+#[cfg(not(windows))]
 const MIN_VERSION: [u32; 3] = [1, 1, 11];
 
 /// The shortest gap between two runs of `agy`: its limits move slowly (a
 /// 5-hour and a weekly window), and a run costs about 2 seconds of CPU.
 const GAP_S: u64 = 15 * 60;
 
+#[cfg(not(windows))]
 const FIVE_HOURS_S: u32 = 5 * 3600;
+#[cfg(not(windows))]
 const WEEK_S: u32 = 7 * 86_400;
 
 pub struct Antigravity;
@@ -72,6 +82,14 @@ impl Provider for Antigravity {
     }
 }
 
+/// Windows: nothing is read there yet (`wants` is empty), so a look ends as
+/// it would with no sign-in found, without the reader in poni.exe.
+#[cfg(windows)]
+fn step(_cx: &Ctx, _replies: &[Result<Reply, NetFail>]) -> Result<Step, Trouble> {
+    Err(Trouble::NotFound)
+}
+
+#[cfg(not(windows))]
 fn step(cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Result<Step, Trouble> {
     let account = sign_in(cx)?;
     if cx.reach == Reach::Local {
@@ -91,6 +109,7 @@ fn step(cx: &Ctx, replies: &[Result<Reply, NetFail>]) -> Result<Step, Trouble> {
 /// Who is signed in (masked), once somebody is: the keychain item holds a
 /// refresh token. The access token's own expiry doesn't matter: it lasts an
 /// hour and `agy` renews it when it runs.
+#[cfg(not(windows))]
 fn sign_in(cx: &Ctx) -> Result<Option<String>, Trouble> {
     let item = match cx.got(0) {
         Got::Missing => return Err(Trouble::NotFound),
@@ -110,6 +129,7 @@ fn sign_in(cx: &Ctx) -> Result<Option<String>, Trouble> {
 }
 
 /// What running `agy` came to: its reply, or why not.
+#[cfg(not(windows))]
 fn ran(r: &Result<Reply, NetFail>) -> Result<&Reply, Trouble> {
     match r {
         Ok(r) if r.status == 200 => Ok(r),
@@ -124,6 +144,7 @@ fn ran(r: &Result<Reply, NetFail>) -> Result<&Reply, Trouble> {
 }
 
 /// `1.4.12` out of `agy --version`'s text.
+#[cfg(not(windows))]
 fn version_of(text: &str) -> Option<[u32; 3]> {
     text.split(|c: char| !(c.is_ascii_digit() || c == '.')).find_map(|word| {
         let mut parts = word.split('.');
@@ -133,6 +154,7 @@ fn version_of(text: &str) -> Option<[u32; 3]> {
 
 /// The limits out of `agy -p /usage --output-format json`: one JSON line
 /// (log lines may come before it).
+#[cfg(not(windows))]
 fn snapshot(stdout: &str, now: i64, account: Option<String>) -> Result<Snapshot, Trouble> {
     let answer = stdout
         .lines()
@@ -175,12 +197,18 @@ fn snapshot(stdout: &str, now: i64, account: Option<String>) -> Result<Snapshot,
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{drive_runs, parse_time, Dirs, Os};
+    use crate::{drive_runs, Cli, Dirs, Got, Os, Reach};
+    #[cfg(not(windows))]
+    use crate::parse_time;
 
+    #[cfg(not(windows))]
     const ITEM: &str = include_str!("fixtures/antigravity/keychain_item.txt");
+    #[cfg(not(windows))]
     const ITEM_NO_REFRESH: &str = include_str!("fixtures/antigravity/keychain_item_no_refresh.txt");
     const USAGE: &str = include_str!("fixtures/antigravity/usage.json");
+    #[cfg(not(windows))]
     const PROMPT: &str = include_str!("fixtures/antigravity/usage_prompt.json");
+    #[cfg(not(windows))]
     const EMPTY: &str = include_str!("fixtures/antigravity/usage_empty.json");
     const VERSION: &str = include_str!("fixtures/antigravity/version.txt");
     const NOW: i64 = 1_793_000_000;
@@ -201,11 +229,15 @@ mod tests {
         (ran, out)
     }
 
+    #[cfg(not(windows))]
     fn signed_in() -> Got {
         Got::Text(ITEM.into())
     }
 
+    /// The Mac's reader isn't built on Windows: this and the other
+    /// reader tests run on Linux and on the Mac.
     #[test]
+    #[cfg(not(windows))]
     fn reads_the_limits_of_every_group() {
         let (ran, out) = go(Os::Mac, signed_in(), Reach::Online, ok(VERSION), ok(USAGE));
         assert_eq!(ran, [Cli::AgyVersion, Cli::AgyUsage]);
@@ -229,6 +261,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn nobody_signed_in() {
         assert_eq!(go(Os::Mac, Got::Missing, Reach::Online, ok(VERSION), ok(USAGE)).1, Err(Trouble::NotFound));
         assert_eq!(go(Os::Mac, Got::Denied, Reach::Online, ok(VERSION), ok(USAGE)).1, Err(Trouble::Denied));
@@ -244,6 +277,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn a_look_at_this_computer_runs_nothing() {
         let dirs = Dirs::sample(Os::Mac);
         let gots = [signed_in()];
@@ -273,6 +307,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn an_old_agy_is_not_asked_for_its_limits() {
         // Before 1.1.11 `/usage` goes to the model and spends quota.
         let (ran, out) = go(Os::Mac, signed_in(), Reach::Online, ok("1.1.10\n"), ok(USAGE));
@@ -285,6 +320,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn agy_not_there_or_slow() {
         // Not installed: only its IDE signed in.
         let (ran, out) = go(Os::Mac, signed_in(), Reach::Online, Err(NetFail::Other("no program".into())), ok(USAGE));
@@ -299,6 +335,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn a_reply_that_is_not_the_limits_is_not_read() {
         // A model turn: `/usage` went to the model.
         let out = go(Os::Mac, signed_in(), Reach::Online, ok(VERSION), ok(PROMPT)).1;
