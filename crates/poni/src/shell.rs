@@ -90,7 +90,7 @@ pub fn open_startup_settings() {
 
 /// Open Settings > Privacy & security > Notifications (asynchronously),
 /// where Windows lists the apps that may read notifications: the only
-/// place the Notifications add-on can be allowed again once turned off.
+/// place Notifications can be allowed again once turned off.
 pub fn open_notification_settings() {
     run("open", || {
         let r = unsafe { ShellExecuteW(None, w!("open"), w!("ms-settings:privacy-notifications"), None, None, SW_SHOWNORMAL) };

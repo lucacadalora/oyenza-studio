@@ -1,9 +1,9 @@
 //! Add-ons page, the "+" at the end of the tab row: features only the people
 //! who switch them on get (`poni_core::addons`). Most download then; Script
-//! reader, System, Health, Stocks, Notifications and IELTS are already in
-//! the app and only show their pages (System's readings, Health's steps,
-//! Stocks' prices and Notifications' listening also run only while they are
-//! on; IELTS only while a session runs).
+//! reader, System, Health, Stocks, IELTS and Meeting notes are already in
+//! the app and only show their pages (System's readings, Health's steps and
+//! Stocks' prices also run only while they are on; IELTS only while a
+//! session runs, Meeting notes only while it records).
 //!
 //! One row per add-on: its icon, its name, what it does (or where its
 //! download stands, with a bar while it comes in), its size while it is off,
@@ -14,9 +14,8 @@
 //! One whose files this build can't get yet stays off and says so
 //! (`Status::Unpinned`).
 //! Both apps list every add-on ([`OFFERED`]) but Screen recorder, which shows
-//! once Oyenza Studio Recorder is installed, and Notifications, which only
-//! Windows has ([`rows`]). Eight rows (the recorder's with them) are one
-//! line each: the name, then the line after it.
+//! once Oyenza Studio Recorder is installed ([`rows`]). From seven rows each
+//! is one line: the name, then the line after it.
 //!
 //! A Studio Pro add-on's row says Pro where its size was. IELTS and the
 //! Downloader are listed only for an account with Pro ([`rows`]); the
@@ -66,16 +65,14 @@ pub fn height(st: &AppState) -> f32 {
 
 /// The page's rows: every add-on offered, Screen recorder only once Oyenza
 /// Studio Recorder is installed and has spoken to the island
-/// (`AppState::recorder_ready`), Notifications only on Windows (a Mac has
-/// no way to read other apps' notifications), IELTS only for an account the
-/// server says has Studio Pro, Downloader only where it's offered
+/// (`AppState::recorder_ready`), IELTS only for an account the server says
+/// has Studio Pro, Downloader only where it's offered
 /// (`AppState::downloader_offered`).
 fn rows(st: &AppState) -> Vec<&'static Addon> {
     OFFERED
         .iter()
         .copied()
         .filter(|a| a.id != addons::SCREEN_RECORDER.id || st.recorder_ready())
-        .filter(|a| a.id != addons::NOTIFICATIONS.id || cfg!(windows))
         .filter(|a| a.id != addons::DOWNLOADER.id || (st.downloader_offered && st.studio_pro() == Some(true)))
         .filter(|a| a.id != addons::IELTS.id || st.studio_pro() == Some(true))
         .collect()
@@ -254,7 +251,7 @@ mod tests {
 
     #[test]
     fn the_downloader_is_listed_and_switches_only_with_studio_pro() {
-        use poni_core::addons::{DOWNLOADER, NOTIFICATIONS};
+        use poni_core::addons::{DOWNLOADER, STOCKS};
         let mut st = AppState::new(Settings::default(), Store::default());
         st.downloader_offered = true;
         assert!(!pro_wanted(&st), "nothing to ask about at sign-in");
@@ -275,11 +272,11 @@ mod tests {
         // Not where it isn't offered (the Store build, the Mac), Pro or not.
         st.downloader_offered = false;
         assert!(!listed(&st) && !pro_wanted(&st));
-        // Notifications is free (Luca, 28 Oct): listed and on without Pro.
+        // A free add-on: listed and on without Pro.
         st.oyenza = Default::default();
-        st.settings.set_addon(NOTIFICATIONS.id, true);
-        st.addons.insert(NOTIFICATIONS.id, Status::Ready);
-        assert_eq!(status(&st, &NOTIFICATIONS), Status::Ready);
-        assert_eq!(rows(&st).iter().any(|a| a.id == NOTIFICATIONS.id), cfg!(windows));
+        st.settings.set_addon(STOCKS.id, true);
+        st.addons.insert(STOCKS.id, Status::Ready);
+        assert_eq!(status(&st, &STOCKS), Status::Ready);
+        assert!(rows(&st).iter().any(|a| a.id == STOCKS.id));
     }
 }
