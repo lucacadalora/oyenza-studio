@@ -242,23 +242,31 @@ pub fn create_helper_window() -> Result<HWND> {
     }
 }
 
-/// Whether Windows' own taskbar is docked along the top edge of `mon`.
+/// Whether one of Windows' own taskbars is docked along the top edge of
+/// `mon`: the main one, or another display's (one `Shell_SecondaryTrayWnd`
+/// per display, so each of them is looked at, not only the first).
 /// Third-party bars that reserve the top of the work area are not the
 /// taskbar; the island hangs over them.
 fn taskbar_at_top(mon: &RECT) -> bool {
     for class in [w!("Shell_TrayWnd"), w!("Shell_SecondaryTrayWnd")] {
-        let Ok(bar) = (unsafe { FindWindowW(class, PCWSTR::null()) }) else { continue };
-        if bar.is_invalid() || !unsafe { IsWindowVisible(bar) }.as_bool() {
-            continue;
-        }
-        let mut r = RECT::default();
-        if unsafe { GetWindowRect(bar, &mut r) }.is_ok()
-            && r.top <= mon.top + 2
-            && r.bottom > mon.top
-            && r.left < mon.right
-            && r.right > mon.left
-        {
-            return true;
+        let mut after = HWND::default();
+        // A handful of displays at most; the bound only guards the walk.
+        for _ in 0..16 {
+            let Ok(bar) = (unsafe { FindWindowExW(HWND::default(), after, class, PCWSTR::null()) }) else { break };
+            if bar.is_invalid() {
+                break;
+            }
+            after = bar;
+            let mut r = RECT::default();
+            if unsafe { IsWindowVisible(bar) }.as_bool()
+                && unsafe { GetWindowRect(bar, &mut r) }.is_ok()
+                && r.top <= mon.top + 2
+                && r.bottom > mon.top
+                && r.left < mon.right
+                && r.right > mon.left
+            {
+                return true;
+            }
         }
     }
     false
