@@ -242,10 +242,16 @@ pub fn tabs(st: &AppState) -> Vec<PageKind> {
 }
 
 /// The tabs Settings can switch off in this copy (its tabs row, and Tabs in
-/// the Settings window): the island's own pages, and Notifications only
-/// where the copy can read them (`AppState::notify_can`).
-pub fn hideable_tabs(st: &AppState) -> Vec<PageKind> {
-    PageKind::HIDEABLE.into_iter().filter(|&p| p != PageKind::Notifications || st.notify_can).collect()
+/// the Settings window): the island's own pages, and Notifications, the
+/// last of [`PageKind::HIDEABLE`], only where the copy can read them
+/// (`AppState::notify_can`).
+pub fn hideable_tabs(st: &AppState) -> &'static [PageKind] {
+    let all = &PageKind::HIDEABLE;
+    if st.notify_can {
+        all
+    } else {
+        &all[..all.len() - 1]
+    }
 }
 
 /// Where the island goes when its page leaves the row (an add-on switched
@@ -878,9 +884,11 @@ mod tests {
         // The download can't read other apps' notifications: no tab, nothing listens.
         let mut st = state();
         assert!(!st.notifications_on() && !tabs(&st).contains(&PageKind::Notifications));
+        assert_eq!(hideable_tabs(&st), &PageKind::HIDEABLE[..5], "Settings doesn't offer it");
         // The Store copy: on for everyone, without an add-on to switch on.
         st.notify_can = true;
         assert!(st.notifications_on() && tabs(&st).contains(&PageKind::Notifications));
+        assert_eq!(hideable_tabs(&st).last(), Some(&PageKind::Notifications));
         // Its chip in Settings' tabs row switches it off, tab and all, even
         // while its page is open.
         st.settings.hidden_tabs = vec!["notifications".into()];

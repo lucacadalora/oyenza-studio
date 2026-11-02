@@ -471,8 +471,8 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
             }
             // Notifications only in a copy that can read them; off, nothing listens.
             let tabs = crate::pages::hideable_tabs(st)
-                .into_iter()
-                .map(|p| {
+                .iter()
+                .map(|&p| {
                     let sub = (p == PageKind::Notifications).then_some("Messages from WhatsApp, Telegram and your phone");
                     item(Key::Tab(p), p.title(), sub, Ctl::Switch(Some(!st.tab_hidden(p))))
                 })

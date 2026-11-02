@@ -330,8 +330,9 @@ impl Settings {
         // v5: Notifications left the add-ons (it's on wherever Windows lets the
         // copy read notifications, and its chip in Settings' tabs row switches
         // it off). One switched off by hand as an add-on stays off, as a hidden
-        // tab; the add-on's key goes.
-        if self.settings_version < 5 && self.addons.remove("notifications") == Some(false) && !self.hidden_tabs.iter().any(|k| k == "notifications") {
+        // tab. Its old key stays in the file, unread, as keys this version
+        // doesn't know do.
+        if self.settings_version < 5 && self.addons.get("notifications") == Some(&false) && !self.hidden_tabs.iter().any(|k| k == "notifications") {
             self.hidden_tabs.push("notifications".into());
         }
         self.settings_version = self.settings_version.max(SETTINGS_VERSION);
@@ -566,14 +567,14 @@ mod tests {
     #[test]
     fn notifications_switched_off_as_an_add_on_stays_off() {
         // Until 0.2.24 Notifications was an add-on, off by default. One switched
-        // off by hand stays off, as a hidden tab, and the add-on's key goes.
+        // off by hand stays off, as a hidden tab.
         let s = serde_json::from_str::<Settings>(r#"{"settings_version":4,"addons":{"notifications":false,"sholat":true}}"#).unwrap().sanitized();
         assert_eq!(s.hidden_tabs, ["notifications"]);
-        assert!(!s.addons.contains_key("notifications") && s.addon_on("sholat"));
+        assert!(s.addon_on("sholat"));
         // Switched on, or never touched: on, like everyone's now.
         for file in [r#"{"settings_version":4,"addons":{"notifications":true}}"#, r#"{"settings_version":4}"#] {
             let s = serde_json::from_str::<Settings>(file).unwrap().sanitized();
-            assert!(s.hidden_tabs.is_empty() && !s.addons.contains_key("notifications"), "{file}");
+            assert!(s.hidden_tabs.is_empty(), "{file}");
         }
         // Once only: after that, the tabs row is its switch.
         let s = serde_json::from_str::<Settings>(r#"{"settings_version":5,"addons":{"notifications":false}}"#).unwrap().sanitized();
