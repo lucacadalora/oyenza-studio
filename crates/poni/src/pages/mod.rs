@@ -91,8 +91,8 @@ pub enum PageKind {
     Stocks,
     /// Links to save as video or sound, while the Downloader add-on is on ([`tabs`]).
     Downloads,
-    /// Which apps' notifications show on the island, while the
-    /// Notifications add-on is on ([`tabs`]; Windows only).
+    /// Which apps' notifications show on the island, while Notifications is
+    /// on ([`tabs`]; Windows' Store copy only).
     Notifications,
     /// The "+" at the end of the tab row: features to switch on, each of
     /// which downloads only then (`poni_core::addons`).
@@ -219,9 +219,11 @@ impl PageKind {
         self != PageKind::Settings
     }
 
-    /// The island's own pages, which Settings can take off the row. AI and
-    /// Oyenza stay; the add-ons' pages come and go with their switches.
-    pub const HIDEABLE: [PageKind; 5] = [PageKind::Media, PageKind::Today, PageKind::Shelf, PageKind::Tasks, PageKind::Focus];
+    /// The island's own pages, which Settings can take off the row, and
+    /// Notifications, which goes off with its tab (it's offered only where
+    /// the copy can read notifications). AI and Oyenza stay; the add-ons'
+    /// pages come and go with their switches.
+    pub const HIDEABLE: [PageKind; 6] = [PageKind::Media, PageKind::Today, PageKind::Shelf, PageKind::Tasks, PageKind::Focus, PageKind::Notifications];
 
     pub fn hideable(self) -> bool {
         Self::HIDEABLE.contains(&self)
@@ -229,13 +231,27 @@ impl PageKind {
 }
 
 /// The tabs in the header: every page but Settings, and Health, IELTS, Notes,
-/// System, Script, Record, Prayer, Stocks and Notifications only while their
-/// add-ons are on. Music, Today, Shelf, Tasks and Focus unless Settings took
-/// them off the row; one of those still shows while its page is open (a file
-/// dropped on the island opens the Shelf). AI and Oyenza are always there
+/// System, Script, Record, Prayer and Stocks only while their add-ons are on.
+/// Music, Today, Shelf, Tasks and Focus unless Settings took them off the
+/// row; one of those still shows while its page is open (a file dropped on
+/// the island opens the Shelf). Notifications wherever the copy can read
+/// them, unless Settings switched it off. AI and Oyenza are always there
 /// (signed out, Oyenza is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     row(st, Some(st.page))
+}
+
+/// The tabs Settings can switch off in this copy (its tabs row, and Tabs in
+/// the Settings window): the island's own pages, and Notifications, the
+/// last of [`PageKind::HIDEABLE`], only where the copy can read them
+/// (`AppState::notify_can`).
+pub fn hideable_tabs(st: &AppState) -> &'static [PageKind] {
+    let all = &PageKind::HIDEABLE;
+    if st.notify_can {
+        all
+    } else {
+        &all[..all.len() - 1]
+    }
 }
 
 /// Where the island goes when its page leaves the row (an add-on switched
@@ -864,12 +880,25 @@ mod tests {
     }
 
     #[test]
-    fn downloads_has_a_tab_only_with_studio_pro() {
-        // Notifications is free (Luca, 28 Oct): its tab needs no sign-in.
+    fn notifications_is_on_wherever_the_copy_can_read_them_until_switched_off() {
+        // The download can't read other apps' notifications: no tab, nothing listens.
         let mut st = state();
-        st.settings.set_addon(poni_core::addons::NOTIFICATIONS.id, true);
-        st.addons.insert(poni_core::addons::NOTIFICATIONS.id, poni_core::addons::Status::Ready);
-        assert_eq!(tabs(&st).contains(&PageKind::Notifications), cfg!(windows), "signed out, no Pro");
+        assert!(!st.notifications_on() && !tabs(&st).contains(&PageKind::Notifications));
+        assert_eq!(hideable_tabs(&st), &PageKind::HIDEABLE[..5], "Settings doesn't offer it");
+        // The Store copy: on for everyone, without an add-on to switch on.
+        st.notify_can = true;
+        assert!(st.notifications_on() && tabs(&st).contains(&PageKind::Notifications));
+        assert_eq!(hideable_tabs(&st).last(), Some(&PageKind::Notifications));
+        // Its chip in Settings' tabs row switches it off, tab and all, even
+        // while its page is open.
+        st.settings.hidden_tabs = vec!["notifications".into()];
+        st.page = PageKind::Notifications;
+        assert!(!st.notifications_on() && !tabs(&st).contains(&PageKind::Notifications));
+        assert_eq!(first_tab(&st), PageKind::Media);
+    }
+
+    #[test]
+    fn downloads_has_a_tab_only_with_studio_pro() {
         for (page, addon) in [(PageKind::Downloads, poni_core::addons::DOWNLOADER)] {
             let mut st = state();
             st.downloader_offered = true;

@@ -30,7 +30,7 @@
 }
 
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; background: var(--cream); }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; background: var(--cream); }
 body {
   margin: 0; min-height: 100vh; color: var(--ink); font: 400 16px/1.45 var(--font);
   background:

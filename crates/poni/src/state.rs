@@ -139,7 +139,7 @@ pub enum NoticeAction {
     /// Open the Update sheet in Settings (a new version's notice).
     OpenUpdate,
     /// Open the app another app's notification came from (its
-    /// AppUserModelID; the Notifications add-on). The island stays closed.
+    /// AppUserModelID; Notifications). The island stays closed.
     OpenApp(String),
 }
 
@@ -831,8 +831,13 @@ pub struct AppState {
     pub downloader_offered: bool,
     /// The recorder's recording, as it last told the island.
     pub rec: RecView,
-    /// Whether Windows lets the Notifications add-on read notifications.
+    /// Whether Windows lets the island read notifications.
     pub notify_access: NotifyAccess,
+    /// This copy can read other apps' notifications: Windows lets only an app
+    /// with a package identity, the Microsoft Store copy, do it. The download
+    /// can't, so it offers no Notifications at all. Set once at start (the
+    /// self-test sets it per scene).
+    pub notify_can: bool,
     /// The AI tab's readings (its choices: `settings.usage`).
     pub usage: UsageState,
     /// The IELTS page's session with Oyen (the IELTS add-on).
@@ -917,6 +922,7 @@ impl AppState {
             downloader_offered: false,
             rec: RecView::default(),
             notify_access: NotifyAccess::Unknown,
+            notify_can: false,
             usage: UsageState::default(),
             ielts: Default::default(),
             notes: Default::default(),
@@ -1016,14 +1022,16 @@ impl AppState {
         self.downloader_offered && self.studio_pro() == Some(true) && self.addon(poni_core::addons::DOWNLOADER.id) == AddonStatus::Ready
     }
 
-    /// The Notifications add-on is on (Windows): its tab shows, and new
-    /// notifications from the apps picked there show on the island.
+    /// Notifications is on: its tab shows, and new notifications from the
+    /// apps picked there show on the island. On by default wherever this copy
+    /// can read them (`notify_can`); its chip in Settings' tabs row switches
+    /// it off.
     pub fn notifications_on(&self) -> bool {
-        cfg!(windows) && self.addon(poni_core::addons::NOTIFICATIONS.id) == AddonStatus::Ready
+        self.notify_can && !self.tab_hidden(PageKind::Notifications)
     }
 
     /// Settings took this page's tab off the header's row (Music, Today,
-    /// Shelf, Tasks or Focus).
+    /// Shelf, Tasks, Focus or Notifications).
     pub fn tab_hidden(&self, p: PageKind) -> bool {
         p.hideable() && self.settings.hidden_tabs.iter().any(|k| k == p.key())
     }

@@ -1,5 +1,5 @@
 //! Notifications: other apps' notifications in the island (the Windows app's
-//! Notifications add-on; Windows' side is `services::notifications`).
+//! Store copy, on by default; Windows' side is `services::notifications`).
 //!
 //! Windows tells the app about each new notification: the app that sent it
 //! (its AppUserModelID and name) and its lines of text. This module decides
@@ -47,7 +47,7 @@ pub struct AppChoice {
     pub on: bool,
 }
 
-/// The Notifications add-on's choices (`Settings::notifications`).
+/// Notifications' choices (`Settings::notifications`).
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct NotificationSettings {
@@ -55,7 +55,7 @@ pub struct NotificationSettings {
     pub who: bool,
     /// Show the message itself. Off: it waits for Show.
     pub text: bool,
-    /// The apps that sent a notification since the add-on came on, in the
+    /// The apps that sent a notification since Notifications came on, in the
     /// order they first did.
     pub apps: Vec<AppChoice>,
 }

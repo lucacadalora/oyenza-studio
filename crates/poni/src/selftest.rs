@@ -44,7 +44,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, DOWNLOADER, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, DOWNLOADER, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
@@ -730,8 +730,8 @@ fn sample_message() -> poni_core::notifications::Seen {
 
 /// The Notifications scenes: what Windows answered, and the apps the page
 /// lists (WhatsApp and Telegram on, Phone Link switched off by hand, Outlook
-/// as every other app starts: off). Every other scene has the add-on's
-/// choices as they start.
+/// as every other app starts: off). Every other scene has its choices as
+/// they start.
 fn seed_notifications(st: &mut AppState, scene: Scene) {
     use crate::state::NotifyAccess;
     st.notify_access = match scene {
@@ -1159,7 +1159,7 @@ enum Scene {
     RecordActivity,
     RecordPaused,
     /// The Add-ons page with the recorder installed: Screen recorder's row
-    /// (eight rows with Notifications, a line each, the window no taller).
+    /// (a line each, the window no taller).
     AddonsRecorder,
     /// The Downloads page before anything was downloaded (`Page(Downloads)`
     /// shows one downloading, one waiting, one done and one failed).
@@ -1172,13 +1172,14 @@ enum Scene {
     /// Prayer times: the countdown 8 minutes before Ashar over a song with
     /// synced lyrics, its OK pressed (`Phase::PressOk`): the song's line again.
     PrayerOk,
-    /// The Notifications add-on: a WhatsApp message on the closed island...
+    /// Notifications (the Store copy): a WhatsApp message on the closed island...
     MessageNotice,
     /// ...with "Message text" switched off: it waits for Show.
     MessageHidden,
     /// The Notifications page before Windows was asked: Allow, no apps yet.
     NotifyAsk,
-    /// The Notifications page in the download from GitHub, which can't read them.
+    /// The Notifications page when Windows says this copy has no package (the
+    /// download offers no Notifications, so only a broken Store copy says it).
     NotifyNoPackage,
     /// The AI tab on made-up readings, as the page's picture shows it
     /// (`pages::usage::picture`): its plans, troubles, nothing found, ...
@@ -1202,6 +1203,9 @@ enum Scene {
     /// Settings with Today and Tasks taken off the tab row: their chips
     /// struck through, the header's row without them.
     SettingsTabs,
+    /// Settings in the Store copy: Notifications' chip beside the island's
+    /// own pages, on as everyone's starts, and its bell in the header's row.
+    SettingsTabsStore,
     /// Meeting notes: Oyen listening, 0:42 in, both bars moving.
     NotesListening,
     /// Meeting notes: the meeting handed over, Oyen writing.
@@ -1318,7 +1322,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 135] = [
+const SCENES: [Scene; 136] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1448,9 +1452,9 @@ const SCENES: [Scene; 135] = [
     Scene::DownloadActivity,
     // The prayer countdown's OK, pressed: the closed island sings again.
     Scene::PrayerOk,
-    // The Notifications add-on: a message on the closed island (shown, and
-    // waiting for Show), then its page once Windows allows it, before
-    // Windows was asked, and in the download from GitHub.
+    // Notifications (the Store copy): a message on the closed island (shown,
+    // and waiting for Show), then its page once Windows allows it, before
+    // Windows was asked, and with no package.
     Scene::MessageNotice,
     Scene::MessageHidden,
     Scene::Page(PageKind::Notifications),
@@ -1481,8 +1485,10 @@ const SCENES: [Scene; 135] = [
     Scene::IeltsCueCard,
     Scene::IeltsResult,
     Scene::IeltsMicDenied,
-    // Settings' tabs row with two of the island's pages off the row.
+    // Settings' tabs row with two of the island's pages off the row, then in
+    // the Store copy, with Notifications' chip.
     Scene::SettingsTabs,
+    Scene::SettingsTabsStore,
     // Meeting notes: the page before a meeting (the notes saved last), Oyen
     // listening, writing, the notes, and the closed island while he listens,
     // all made up (`seed_notes`).
@@ -1537,6 +1543,7 @@ impl Scene {
             Scene::SystemWaiting => "page-system-waiting".into(),
             Scene::SettingsStayOnTop => "page-settings-stay-on-top".into(),
             Scene::SettingsTabs => "page-settings-tabs".into(),
+            Scene::SettingsTabsStore => "page-settings-tabs-store".into(),
             Scene::ShelfPairing => "page-shelf-pairing".into(),
             Scene::ShelfPaired => "page-shelf-paired".into(),
             Scene::ShelfPairedPhones => "page-shelf-paired-phones".into(),
@@ -1632,6 +1639,7 @@ impl Scene {
             | Scene::SettingsSignedIn
             | Scene::SettingsStayOnTop
             | Scene::SettingsTabs
+            | Scene::SettingsTabsStore
             | Scene::SettingsAsideStay
             | Scene::SettingsUpdate
             | Scene::UpdateSheet
@@ -3319,12 +3327,14 @@ impl SelfTest {
         let system = scene.page() == Some(PageKind::System);
         let health = scene.page() == Some(PageKind::Health) || scene == Scene::HealthNotice;
         let stocks = scene.page() == Some(PageKind::Stocks);
-        // Notifications (Windows, off by default): on for its page and its notices.
-        let notify = scene.page() == Some(PageKind::Notifications) || matches!(scene, Scene::MessageNotice | Scene::MessageHidden);
+        // Notifications (on by default, but only in the Store copy: the self-test
+        // runs the download): as the Store copy for its page, its notices and
+        // the Settings scene with its chip.
+        st.notify_can = scene.page() == Some(PageKind::Notifications) || matches!(scene, Scene::MessageNotice | Scene::MessageHidden | Scene::SettingsTabsStore);
         let ielts = scene.page() == Some(PageKind::Ielts);
         // Meeting notes: on for its page and its pill.
         let notes = scene.page() == Some(PageKind::Notes) || scene == Scene::NotesActivity;
-        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (NOTIFICATIONS.id, notify), (IELTS.id, ielts), (MEETING_NOTES.id, notes)] {
+        for (id, on) in [(SYSTEM.id, system), (HEALTH.id, health), (STOCKS.id, stocks), (IELTS.id, ielts), (MEETING_NOTES.id, notes)] {
             st.settings.set_addon(id, on);
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }

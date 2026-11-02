@@ -216,23 +216,6 @@ pub const STOCKS: Addon = Addon {
     pro: false,
 };
 
-/// Notifications (Windows): other apps' notifications in the island, from
-/// the apps the person picks on its page (WhatsApp, Telegram and Phone Link
-/// to begin with), read through Windows' notification listener
-/// (`poni_core::notifications`). Its code is in the app, so there is nothing
-/// to download. Off, there is no Notifications tab and nothing listens.
-/// Windows lets only an app with a package identity read notifications, so
-/// it works in the Microsoft Store copy; the Mac has no way to read them.
-pub const NOTIFICATIONS: Addon = Addon {
-    id: "notifications",
-    title: "Notifications",
-    blurb: "Messages from WhatsApp, Telegram and your phone in the island.",
-    mac_blurb: None,
-    tag: "",
-    files: &[],
-    pro: false,
-};
-
 /// Screen recorder: the Record page and the recording pill, the face of
 /// Oyenza Studio Recorder (its own install, about 120 MB). Its code is in the
 /// island, so there is nothing to download. It shows on the Add-ons page once
@@ -359,8 +342,7 @@ pub const MEETING_NOTES: Addon = Addon {
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 11] =
-    [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER, &DOWNLOADER];
+pub const ALL: [&Addon; 10] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER, &DOWNLOADER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -476,7 +458,7 @@ mod tests {
 
     #[test]
     fn built_in_add_ons_are_off_until_switched_on() {
-        for a in [&SYSTEM, &HEALTH, &STOCKS, &NOTIFICATIONS, &IELTS, &MEETING_NOTES] {
+        for a in [&SYSTEM, &HEALTH, &STOCKS, &IELTS, &MEETING_NOTES] {
             assert!(!a.downloads() && a.size() == 0, "{}", a.id);
             assert_eq!(Addon::find(a.id), Some(a));
             assert_eq!(Status::Ready.line(a, false), "On");
@@ -484,6 +466,9 @@ mod tests {
         }
         // Clipboard history left the app after 0.2.8: no add-on by that id.
         assert_eq!(Addon::find("clipboard"), None);
+        // Notifications left the add-ons after 0.2.24: it's on wherever Windows
+        // lets the copy read notifications, and Settings' tabs row switches it off.
+        assert_eq!(Addon::find("notifications"), None);
     }
 
     #[test]
@@ -577,7 +562,7 @@ mod tests {
     fn add_ons_are_listed_in_order_each_with_its_own_id() {
         // The Add-ons page's order: the Downloader last.
         let ids: Vec<&str> = ALL.iter().map(|a| a.id).collect();
-        assert_eq!(ids, ["sholat", "ja", "script", "system", "health", "stocks", "notifications", "ielts", "notes", "recorder", "downloader"]);
+        assert_eq!(ids, ["sholat", "ja", "script", "system", "health", "stocks", "ielts", "notes", "recorder", "downloader"]);
         for (i, a) in ALL.iter().enumerate() {
             // The key in settings.json and the folder's name.
             assert!(!a.id.is_empty() && a.id.bytes().all(|b| b.is_ascii_lowercase()), "{}", a.id);
