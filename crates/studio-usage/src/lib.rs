@@ -47,6 +47,7 @@ pub mod opencode;
 pub mod openrouter;
 pub mod oyenza;
 pub mod pace;
+pub mod safe_storage;
 pub mod zai;
 
 /// The most requests one refresh of one service makes.
@@ -246,6 +247,12 @@ pub enum Want {
     /// writing it), caps a piece at 4 MiB and never keeps pieces between
     /// refreshes.
     Range { path: PathBuf, offset: u64, len: u32 },
+    /// Windows: bytes an Electron app sealed with `safeStorage`, opened by
+    /// Windows ([`safe_storage`]): `v10` bytes with `key` (its DPAPI blob
+    /// from the app's `Local State`) through AES-GCM, anything else as a
+    /// DPAPI blob alone. [`Got::Text`] with what was in them, [`Got::Missing`]
+    /// if they don't open or aren't text. A Mac answers [`Got::Missing`].
+    Unseal { sealed: safe_storage::Sealed, key: Option<safe_storage::Sealed> },
 }
 
 impl Want {

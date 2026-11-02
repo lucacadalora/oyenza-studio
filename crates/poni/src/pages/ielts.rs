@@ -45,9 +45,6 @@ const ROW_H: f32 = 30.0;
 /// Oyen's orange: his page's accent in every theme.
 const ACCENT: Color = oyen::ORANGE;
 const REC: Color = palette::RED;
-/// The Mac's microphone and voice come from branch ielts-coach-mac; until
-/// they're wired in there, the Mac page says the coach is on its way.
-const SOON: bool = cfg!(target_os = "macos");
 const DISCLAIMER: &str = "IELTS\u{ae} is a trademark of the IELTS partners. Not official IELTS material, not endorsed by them.";
 /// Where the microphone switch is: Windows Settings › Privacy & security ›
 /// Microphone, or System Settings › Privacy & Security › Microphone.
@@ -57,7 +54,7 @@ const SIGN_IN_TITLE: &str = "Latihan IELTS Speaking bareng Oyen";
 const SIGN_IN_BODY: &str = "Oyen jadi examiner IELTS kamu: nanya Part 1 sampai 3, dengerin jawabanmu, kasih band score, terus nge-roast. Masuk ke Oyenza dulu buat mulai.";
 
 pub fn height(st: &AppState) -> f32 {
-    if SOON || !signed_in(st) {
+    if !signed_in(st) {
         SIGNED_OUT_H
     } else {
         HEIGHT
@@ -75,10 +72,6 @@ fn signed_in(st: &AppState) -> bool {
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
-    if SOON {
-        draw_soon(ui, area);
-        return;
-    }
     if !signed_in(st) {
         let card = Rect::new(area.x, area.y, area.w, SIGNED_OUT_H);
         super::oyenza::sign_in_card(ui, st, card, SIGN_IN_TITLE, SIGN_IN_BODY, "ielts.sign-in");
@@ -508,21 +501,4 @@ fn problem_text(ui: &mut Ui, r: Rect, p: Problem) -> f32 {
     ui.c.text(p.title(), Rect::new(r.x, r.y, r.w, th + 1.0), &title);
     ui.c.text(&line, Rect::new(r.x, r.y + th + 4.0, r.w, bh + 1.0), &body);
     r.y + th + 4.0 + bh
-}
-
-// ---------------------------------------------------------------- the Mac, for now
-
-fn draw_soon(ui: &mut Ui, area: Rect) {
-    let at = Point::new(area.x + 48.0, area.y + area.h / 2.0);
-    head(ui, at, 80.0, Oyen::Rest { look: None });
-    let x = area.x + 112.0;
-    let w = (area.w - 112.0).clamp(0.0, 420.0);
-    let r = Rect::new(x, area.y + 40.0, w, 80.0);
-    let title = TextStyle::headline().wrap().top();
-    let body = TextStyle::footnote().color(palette::TEXT_DIM).wrap().top();
-    let t = "Latihan IELTS di Mac segera hadir";
-    let b = "Mikrofon dan suara Oyen di Mac lagi disiapin. Sementara ini, latihan bareng Oyen di PC Windows dulu ya.";
-    let (_, th) = ui.c.measure(t, &title, w);
-    ui.c.text(t, Rect::new(r.x, r.y, w, th + 1.0), &title);
-    ui.c.text(b, Rect::new(r.x, r.y + th + 4.0, w, 40.0), &body);
 }

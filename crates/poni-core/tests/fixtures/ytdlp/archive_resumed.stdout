@@ -1,0 +1,25 @@
+[archive.org] Extracting URL: https://archive.org/details/BigBuckBunny_124
+[archive.org] BigBuckBunny_124: Downloading webpage
+[archive.org] BigBuckBunny_124: Downloading JSON metadata
+[info] BigBuckBunny_124: Downloading 1 format(s): 2
+{"t":"info","id":"BigBuckBunny_124","title":"Big Buck Bunny","site":"ArchiveOrg","thumb":"https://archive.org/download/BigBuckBunny_124/BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000585.jpg","duration":596.46,"uploader":"jake@archive.org"}
+[download] Resuming download at byte 37747712
+[download] Destination: <dir>/Big Buck Bunny [BigBuckBunny_124].ogv
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37748736,"total":46935223,"est":0,"speed":0,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37750784,"total":46935223,"est":0,"speed":0,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37754880,"total":46935223,"est":0,"speed":6076146.134195634,"eta":1,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37763072,"total":46935223,"est":0,"speed":10110563.314500941,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37779456,"total":46935223,"est":0,"speed":17006512.47617831,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37812224,"total":46935223,"est":0,"speed":383593.9313598596,"eta":23,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":37877760,"total":46935223,"est":0,"speed":385579.52527688787,"eta":23,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":38008832,"total":46935223,"est":0,"speed":386955.8641293979,"eta":23,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":38270976,"total":46935223,"est":0,"speed":620055.2350458488,"eta":13,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":38795264,"total":46935223,"est":0,"speed":1033773.7850372429,"eta":7,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":39843840,"total":46935223,"est":0,"speed":1771903.3312854131,"eta":4,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":41940992,"total":46935223,"est":0,"speed":3096155.532100896,"eta":1,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":46135296,"total":46935223,"est":0,"speed":5458595.853235157,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"downloading","done":46935223,"total":46935223,"est":0,"speed":5963215.073076872,"eta":0,"frag":0,"frags":0}
+{"t":"dl","id":"BigBuckBunny_124","st":"finished","done":46935223,"total":46935223,"est":0,"speed":16335551.222768001,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"BigBuckBunny_124","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"BigBuckBunny_124","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/Big Buck Bunny [BigBuckBunny_124].ogv"}

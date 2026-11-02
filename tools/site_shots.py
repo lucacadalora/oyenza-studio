@@ -94,7 +94,7 @@ KEEP = {
     "idle-clock", "idle-eyes", "media-activity", "timer-activity", "volume-hud", "bluetooth-hud",
     "page-media", "page-focus", "page-health", "page-shelf", "page-tasks", "page-today-day",
     "page-shelf-phone-ask", "oyenza-money", "page-oyenza", "page-oyenza-signin", "page-settings", "page-system",
-    "page-settings-stay-on-top", "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
+    "page-shelf-pairing", "page-addons", "page-prayer", "prayer-countdown",
     "game-stats", "page-system-games", "page-system-power-estimate", "page-script", "page-script-reading", "media-lyric",
     "message-notice", "notes-activity",
     "page-ai",
@@ -110,7 +110,7 @@ GLASS_KEEP = {"light": {"page-media", "media-activity"}, "dark": {"page-media"},
 # Mac pictures, with the notch: the resting states sit in the menu bar's line,
 # cut to its middle (MAC_STRIP, in pixels at 200 %); the open pages hang below
 # the notch and are kept whole.
-MAC_KEEP = {"idle-clock", "media-activity", "timer-activity", "page-media", "page-today-day", "page-stocks"}
+MAC_KEEP = {"idle-clock", "media-activity", "timer-activity", "page-media", "page-today-day", "page-stocks", "page-notes-listening", "notes-activity", "page-ielts", "page-downloads"}
 MAC_STRIP = (840, 136)
 # Pill on a Mac: what hangs below the notch (the line being sung, pop-ups) floats there, so its
 # strips are cut taller to keep the pill and its shadow; the resting island stays in the ears.

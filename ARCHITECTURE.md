@@ -4,7 +4,7 @@ Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs f
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Today,
 Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, IELTS, Notes,
-System, Script, Prayer and Stocks pages once they are switched on). The Shelf's Phone drop serves a
+System, Script, Prayer, Stocks and Downloads pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
 It was called Oyen Poni until 0.2.0, and plain Poni before that. The code keeps the
@@ -40,7 +40,11 @@ crates take the new name (`studio-usage`).
 * **Rendering**: `gfx.rs`. The island window is a fixed-size, per-pixel-alpha
   layered window big enough for the largest island (widest, tallest page plus
   spring overshoot); the island is drawn centred in it, so a morph never moves
-  or resizes the window and the centre stays on one pixel.
+  or resizes the window and the centre stays on one pixel. Dragged along the
+  top edge (`Settings::island_x`, `poni_core::spot`), the window follows the
+  island until it meets the monitor's edge, and from there the island moves
+  inside the window, kept in by its outline's width as it morphs, so it opens
+  away from the edge (`App::place_surface`, `App::place_island`).
   * GPU renderer (default): Direct2D on a Direct3D 11 device (hardware, else
     WARP) draws into a premultiplied flip-model swap chain that
     DirectComposition shows on the window. The layered window's own bitmap is
@@ -126,11 +130,39 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   from `services::usage` through `AppEvent::Usage` into `st.usage`, and the
   page asks for refreshes, keys and inference.oyenza.com's connect through
   `Command::Usage`. See [AI usage](#ai-usage).
+* The Settings window, called Advanced settings: every setting in a window of its
+  own, a sidebar of sections (General, Appearance, Island, Music and lyrics, Pop-ups,
+  Tabs, Add-ons, Focus, Prayer times while that add-on is on, AI usage, Oyenza
+  account, About). The Settings page's last row and the menu's Advanced settings…
+  open it (`Command::OpenSettings`, `MenuCmd::ShowSettings`), and the island closes
+  as it opens (`App::show_settings`), so the open island never sits over it. Its
+  content is shared (`settings_window.rs`, a `View` both apps draw): a section is a
+  list of `Block`s (rows of `Item`s: a switch, a picker, a stepper or a button), and
+  a click comes back as an `Act` that `settings_window::apply` turns into the setting
+  and `Command::SaveSettings`. It draws with the pages' widgets on the same `AppState`
+  (Add-ons draws the Add-ons page itself, Oyenza account the Settings page's
+  account row), light or dark as the system is: its own surfaces from `Surfaces`,
+  everything on them through `look::glass(light)`, which turns the island's white
+  ink dark on the light window. It draws only when its input or what it shows
+  changes (`dirty` from `settings_changed` and the events it shows), never on the
+  frame clock, and closing it drops the window, its renderer and its pixels.
+  On Windows (`settings_host.rs`) it is a borderless layered window with its own
+  software `Gfx` (`Gfx::software_only`), drawn synchronously on its messages
+  (`App::paint_settings`); empty parts of the card move it (`HTCAPTION`), Esc
+  closes it, and `WM_SETTINGCHANGE` rereads light or dark. On the Mac
+  (`mac/settings_host.rs`) it is a real `NSWindow` with the system's title bar
+  buttons over the sidebar (transparent title bar, full-size content view), its
+  view drawn in `drawRect:` (`App::draw_settings`); its commands run with the next
+  frame, empty parts move it (`performWindowDragWithEvent:`), ⌘W closes it, and the
+  menu bar item has Advanced settings… (⌘,).
 * Settings (`pages/settings.rs`) has no tab (`PageKind::tabbed`): the gear right of
-  the tabs opens it, and pressing it again goes back. It changes what the tray menu
-  changes: settings through `Command::SaveSettings` (applied as a tray change is),
-  Start with Windows through `Command::SetAutostart` (read and set off the UI thread).
-  Its last row takes Music, Today, Shelf, Tasks or Focus off the tab row
+  the tabs opens it, and pressing it again goes back. It has the everyday settings,
+  the ones the tray menu also has, and last, under a line, Advanced settings (the
+  Settings window); a new version's Update sheet takes its rows' place. It changes
+  what the menu changes: settings through `Command::SaveSettings` (applied as a tray
+  change is), Start with Windows through `Command::SetAutostart` (read and set off
+  the UI thread).
+  Its Tabs row takes Music, Today, Shelf, Tasks or Focus off the tab row
   (`settings.hidden_tabs`, `PageKind::HIDEABLE`): `pages::tabs` leaves them out
   except while their page is open (a dropped file still opens the Shelf), and
   `pages::first_tab` is where the island goes when its page leaves the row.
@@ -169,6 +201,26 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   shut), with `If-None-Match`. Parsing, formats, the search and the chart's
   arithmetic are in `poni_core::stocks`; the prices stay in memory
   (`AppState::stocks`).
+* Downloads (`pages/downloads.rs`) is a tab only while the Downloader add-on
+  is on and its tools are in place (`AppState::downloader_on`; Windows and
+  the Mac, not in the Microsoft Store build, `autostart::packaged`): a link field,
+  Video or Sound, Download, and the downloads under it with Stop, Open and
+  Show in folder. yt-dlp does the work, with QuickJS-ng for YouTube's
+  JavaScript and a minimal FFmpeg (`tools/build-ffmpeg-min.sh`) to join
+  picture and sound; all three are the add-on's files (`addons/downloader/`
+  and `addons/downloader-mac/`, each app its own builds, docs/downloader.md). `poni_core::ytdlp` has the arguments yt-dlp runs with
+  and what each line it prints means, tested against its real output;
+  `poni_core::ytdlp_info` reads what a link holds, for the preview; and
+  `poni_core::downloads` keeps the jobs (two at once, the rest queued, in
+  memory only) and what the closed island's pill shows while they run
+  (`downloads::Pill`). `services::downloader` starts with the first download
+  and runs one yt-dlp per job with `CREATE_NO_WINDOW` inside a job object (on
+  the Mac, which runs the same file, as the leader of a process group of its
+  own), so Stop or quitting ends yt-dlp and the QuickJS and FFmpeg it
+  started; a thread per job reads its lines into `AppEvent::Download` and
+  ends with it. The app's side (`app_downloads.rs`, and the Mac's twin
+  `mac/app_downloads.rs`) starts queued jobs as places free up and puts
+  finished files, saved to the Downloads folder, on the Shelf.
 * Notifications (`pages/notifications.rs`) is a tab only while the
   Notifications add-on is on (`AppState::notifications_on`; Windows, built
   in): what Windows allows (`AppState::notify_access`, with Allow or
@@ -199,7 +251,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   127.0.0.1 (`ielts-turn`). On the Mac the page says it's coming (its audio is
   `mac/services/{mic,voice}.rs`, wired in next).
 * Notes (`pages/notes.rs`) is a tab only while the Meeting notes add-on is
-  on (`AppState::notes_on`; Windows; built in, nothing to download): one
+  on (`AppState::notes_on`; Windows and the Mac; built in, nothing to download): one
   click and Oyen listens to a meeting, then the Oyenza account writes its
   notes (catat-server's `/island/notes/*`). `poni_core::notes` holds the
   page's moments (`Taker` in `AppState::notes`), the mix, the calls'
@@ -215,7 +267,14 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   written, saves them as Markdown in `Documents\Oyenza Studio\Notes` and
   deletes the audio, which is kept for Try again until then. The closed
   island shows Oyen listening (`Activity::Notes`, ambient frames while it
-  shows).
+  shows). The Mac runs the same `services::notes` with its own two sources
+  (`mac/services/capture.rs`): the default input device, and the Mac's
+  own sound through a Core Audio process tap (macOS 14.2 and later; the
+  tap's functions looked up at run time) in a private aggregate device,
+  each an IOProc feeding a queue `poni_core::ielts::Downmix` turns into
+  16 kHz mono; `mac/app_notes.rs` is the app's side, as `mac/app_ielts.rs`
+  is the IELTS coach's (`mac/services/mic.rs` and `voice.rs`: AVAudioRecorder
+  and NSSound).
 * Timed page changes (an Undo pill lapsing) report their deadline through
   `pages::next_wake` so the app wakes exactly then instead of polling.
   `st.accent` = Windows accent (lightened); `st.media_accent()` = album-art colour.
@@ -250,7 +309,8 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
-| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, ielts (the IELTS page's calls, microphone and voice, only while that page is open or a session runs), mic (WASAPI capture, only while recording), notes (Meeting notes: the microphone and the PC's own sound, only while recording; the hand-over to the server, only after Stop until the notes are saved), voice (Oyen's clips, only while one plays), oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), notifications (the Notifications add-on: Windows' notification listener, in the Store copy only, event-driven while the add-on is on and Windows allows it), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, ielts (the IELTS page's calls, microphone and voice, only while that page is open or a session runs), mic (WASAPI capture, only while recording), notes (Meeting notes: the microphone and the PC's own sound, only while recording; the hand-over to the server, only after Stop until the notes are saved), voice (Oyen's clips, only while one plays), oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), notifications (the Notifications add-on: Windows' notification listener, in the Store copy only, event-driven while the add-on is on and Windows allows it), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release, or a tool's own release for the Downloader's yt-dlp and QuickJS-ng, when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), downloader (the Downloader's yt-dlp: one per download, without a window, in a job object that ends it and what it started; nothing between downloads), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
+| `settings_window.rs`, `settings_host.rs` | the Settings window: its sections, rows and drawing (shared with the Mac), and the Windows window that shows them |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
 | `version.rs` | which build this is for the menu's About line: the version, and from `build.rs` release, test build (commit) or local build, and the day CI built it |
 | `updates.rs` | new versions, the app's side: when to read the update file (`update.json` remembers), the island's notice ("Update available x", Hide), the offer the menu and Settings show, and on Windows the new version's Setup (downloaded first, run with `/S /reopen` now or before the next start); the Update sheet it opens is drawn by `pages/settings.rs` (rules in `poni_core::update`, the read and signature check in `services/update.rs`; docs/updates.md) |
@@ -258,7 +318,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 
 ## Data
 
-* Settings: `%APPDATA%\Poni\settings.json` (created with defaults; tray → "Open settings file").
+* Settings: `%APPDATA%\Poni\settings.json` (created with defaults; tray → "Open settings file", or the Settings window's About).
 * Data (tasks, shelf, focus stats, the Stocks list): `%APPDATA%\Poni\data.json`. Drinks logged by the old Water page stay in it untouched (`water`).
 * Cache + log: `%LOCALAPPDATA%\Poni\` (`lyrics\*.json`, `poni.log`), plus the Apple Music
   token sealed with DPAPI (`apple-music-token.bin`) and the web player's public
@@ -382,10 +442,11 @@ the Windows files are untouched.
 | File | What |
 |---|---|
 | `mac/gfx.rs` | `Canvas` on Core Graphics + Core Text, call for call the Windows API: sRGB colours, the theme's look, SF Pro (or the embedded Outfit), images, icons, clips, shape masks, transparency layers for fades. Also `Bitmap` (offscreen) |
-| `mac/window.rs` | A borderless, non-activating `NSPanel` above the menu bar (level 27, all Spaces), sized once for the largest island; its view draws (y down) and forwards input; a display link on the view paces frames at the screen's refresh (120 Hz on ProMotion) |
+| `mac/window.rs` | A borderless, non-activating `NSPanel` above the menu bar (level 27, all Spaces), sized once for the largest island; its view draws (y down) and forwards input; a display link on the view paces frames at the screen's refresh (120 Hz on ProMotion). Dragged along the top edge (`Settings::island_x`, `poni_core::spot`; screens without a notch, and Pill's floating island around one), the app places it around the spot, keeping a notch in it too, and spans it across the screen during the drag (`App::place_window`, `App::place_island`) |
 | `mac/app.rs` | The island's behaviour, ported from `app.rs`: hover lift, dwell to open, collapse delay, morphs and cross-fades, page switches, notices, the Pomodoro, settings and data. Clicks pass through to the apps below except over the island (the app toggles the panel's `ignoresMouseEvents` from global mouse-move monitors, which need no permission) |
-| `mac/notch.rs` | The camera notch: the resting clock and live activities sit in the menu bar's line left and right of the camera, the resting eyes play hide and seek with it (`poni_core::peek`), Minimal and Hidden hide inside it, notices and the open island hang below it. Pill is the pill or the notch: it rests inside it (the eyes beside it) and everything else floats below it |
+| `mac/notch.rs` | The camera notch: the resting clock and live activities sit in the menu bar's line left and right of the camera, the resting eyes play hide and seek with it (`poni_core::peek`), Minimal and Hidden hide inside it, notices and the open island hang below it. Pill is the pill or the notch: it rests inside it (the eyes beside it) and everything else floats below it; dragged along the top edge, it floats at its spot and slides back to dock in the notch as it rests (`notch::detach`) |
 | `mac/menubar.rs` | The menu bar item (Oyen's mark as a template image) and its menu, also on a right-click of the island |
+| `mac/settings_host.rs` | The Settings window: a real `NSWindow` (the system's title bar buttons over the sidebar) whose view draws the shared Settings content and forwards input; light or dark as the Mac is |
 | `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |
 | `mac/clock.rs`, `paths.rs`, `events.rs`, `services.rs`, `dragdrop.rs` | Local time, `~/Library` folders, the event channel (drained on the main queue), the accent colour, links, clipboard, sounds |
 | `mac/services/media.rs`, `mediaremote.rs` | What plays: macOS's own now playing (browsers, Spotify, Music, any player), read through the MediaRemote adapter (`third_party/mediaremote-adapter`, BSD-3), which `/usr/bin/perl` runs since macOS 15.4 answers Apple's own programs only; its stream runs while there is sound (Core Audio, `audio.rs`) or a track to show, `poni_core::mediaremote` reads it. Until it answers, Music and Spotify's own notifications and AppleScript |

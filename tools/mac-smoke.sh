@@ -118,6 +118,11 @@ if security add-generic-password -U -s "$kc_service" -a plain -w '{"claudeAiOaut
 else
   echo "(could not add the keychain test items to $kc_file: the keychain check is skipped)"
 fi
+# The IELTS coach's voice: a short mp3 like the ones its server sends (44.1 kHz mono, 128 kbps), for the
+# ielts-voice-mp3 step (the ielts-voice step writes its own WAV).
+if [ -f tools/mac-smoke-voice.mp3 ]; then
+  export PONI_SMOKE_MP3="$(pwd)/tools/mac-smoke-voice.mp3"
+fi
 sleep 1
 mkdir -p smoke
 "$bin" --smoke smoke > smoke/stdout.txt 2>&1 &
@@ -168,6 +173,8 @@ while kill -0 $pid 2>/dev/null && [ $SECONDS -lt $deadline ]; do
     case "$base" in
       # The menu opens under the menu bar item at the top right.
       *menu) screencapture -x "smoke/shot-$base.png" || true ;;
+      # Where along the top edge the island sits: the screen's whole width.
+      *-drag|*-drag-open|*-centre|*pill-rest) screencapture -x -R "$x,0,$w,$(( y + h + 40 ))" "smoke/shot-$base.png" || true ;;
       *) screencapture -x -R "$left,0,$(( w + 80 )),$(( y + h + 40 ))" "smoke/shot-$base.png" || true ;;
     esac
     if [ $shots -eq 0 ]; then screencapture -x smoke/screen-full.png || true; fi

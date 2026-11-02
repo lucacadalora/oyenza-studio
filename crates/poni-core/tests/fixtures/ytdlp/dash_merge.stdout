@@ -1,0 +1,137 @@
+[generic] Extracting URL: https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd
+[generic] bbb_30fps: Downloading webpage
+[generic] bbb_30fps: Extracting information
+[info] bbb_30fps: Downloading 1 format(s): bbb_30fps_320x180_200k+bbb_a64k
+{"t":"info","id":"bbb_30fps","title":"bbb_30fps","site":"Generic","thumb":null,"duration":null,"uploader":null}
+[dashsegments] Total fragments: 160
+[download] Destination: <dir>/bbb_30fps [bbb_30fps].fbbb_30fps_320x180_200k.mp4
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":705,"total":0,"est":112800.0,"speed":0,"eta":0,"frag":0,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":705,"total":0,"est":225600.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":1729,"total":0,"est":7453280.0,"speed":508.84701652905034,"eta":4393.197223103649,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":3777,"total":0,"est":7535200.0,"speed":508.84701652905034,"eta":4393.197223103649,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":7873,"total":0,"est":7699040.0,"speed":508.84701652905034,"eta":4393.197223103649,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":16065,"total":0,"est":8026720.0,"speed":508.84701652905034,"eta":4393.197223103649,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":32449,"total":0,"est":8682080.0,"speed":9078.326237115025,"eta":3983.628127195661,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":65217,"total":0,"est":9992800.0,"speed":21658.05993842499,"eta":3604.727052906315,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":93166,"total":0,"est":12614240.0,"speed":35791.57846685866,"eta":3262.461578286896,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":93166,"total":0,"est":14850160.0,"speed":35791.57846685866,"eta":3262.461578286896,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":94190,"total":0,"est":11355360.0,"speed":37300.147484022695,"eta":2963.8027082225117,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":96238,"total":0,"est":11409973.333333332,"speed":37300.147484022695,"eta":2963.8027082225117,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":100334,"total":0,"est":11519200.0,"speed":37300.147484022695,"eta":2963.8027082225117,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":108526,"total":0,"est":11737653.333333332,"speed":37300.147484022695,"eta":2963.8027082225117,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":124910,"total":0,"est":12174560.0,"speed":41569.25384935945,"eta":2690.8059666190948,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":157678,"total":0,"est":13048373.333333332,"speed":47149.15181017668,"eta":2443.149548219051,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":212913,"total":0,"est":14796000.0,"speed":56100.52673534419,"eta":2217.7768486820532,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":212913,"total":0,"est":17741866.666666668,"speed":56100.52673534419,"eta":2217.7768486820532,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":213937,"total":0,"est":12481840.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":215985,"total":0,"est":12522800.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":220081,"total":0,"est":12604720.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":228273,"total":0,"est":12768560.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":244657,"total":0,"est":13096240.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":277425,"total":0,"est":13751600.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":312046,"total":0,"est":15062320.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":312046,"total":0,"est":16447160.0,"speed":61815.47791597339,"eta":2012.3236396331924,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":313070,"total":0,"est":13099040.0,"speed":76576.443033066,"eta":1822.60822784006,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":315118,"total":0,"est":13131808.0,"speed":76576.443033066,"eta":1822.60822784006,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":319214,"total":0,"est":13197344.0,"speed":76576.443033066,"eta":1822.60822784006,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":327406,"total":0,"est":13328416.0,"speed":76576.443033066,"eta":1822.60822784006,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15666057,"total":0,"est":16066582.420382166,"speed":78926.42076691394,"eta":7.39999877087739,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15682441,"total":0,"est":16074930.955414012,"speed":77702.79778606964,"eta":7.184383842711378,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15715209,"total":0,"est":16091628.025477707,"speed":79112.59525544252,"eta":6.9227528964249565,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15758166,"total":0,"est":16125022.165605094,"speed":83141.75220980248,"eta":6.62689407923606,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15758166,"total":0,"est":16168800.0,"speed":83141.75220980248,"eta":6.62689407923606,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15759190,"total":0,"est":16064633.924050633,"speed":80259.18114978535,"eta":6.379587109148685,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15761238,"total":0,"est":16065670.886075947,"speed":80259.18114978535,"eta":6.379587109148685,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15765334,"total":0,"est":16067744.810126582,"speed":80259.18114978535,"eta":6.379587109148685,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15773526,"total":0,"est":16071892.658227848,"speed":80259.18114978535,"eta":6.379587109148685,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15789910,"total":0,"est":16080188.354430381,"speed":80255.70285656977,"eta":6.103356851218356,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15822678,"total":0,"est":16096779.746835444,"speed":73530.65253936866,"eta":5.966926956623956,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15863826,"total":0,"est":16129962.53164557,"speed":73530.65253936866,"eta":5.966926956623956,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15863826,"total":0,"est":16171631.392405063,"speed":73530.65253936866,"eta":5.966926956623956,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15864850,"total":0,"est":16068440.754716981,"speed":73933.50276244932,"eta":5.642147275725118,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15866898,"total":0,"est":16069471.194968555,"speed":73933.50276244932,"eta":5.642147275725118,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15870994,"total":0,"est":16071532.0754717,"speed":73933.50276244932,"eta":5.642147275725118,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15879186,"total":0,"est":16075653.836477987,"speed":73933.50276244932,"eta":5.642147275725118,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15895570,"total":0,"est":16083897.358490566,"speed":76234.04358073843,"eta":5.308720301822107,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15928338,"total":0,"est":16100384.402515722,"speed":78311.3193743753,"eta":4.984738516297805,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15968013,"total":0,"est":16133358.490566038,"speed":80923.39639082816,"eta":4.676277109549518,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15968013,"total":0,"est":16173283.018867925,"speed":80923.39639082816,"eta":4.676277109549518,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15969037,"total":0,"est":16033406.0,"speed":79499.73529213191,"eta":4.293147703628427,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15971085,"total":0,"est":16034430.0,"speed":79499.73529213191,"eta":4.293147703628427,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15975181,"total":0,"est":16036478.0,"speed":79499.73529213191,"eta":4.293147703628427,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15983373,"total":0,"est":16040574.0,"speed":79499.73529213191,"eta":4.293147703628427,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15999757,"total":0,"est":16048766.0,"speed":80579.82673384112,"eta":3.9228088374195464,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":16032525,"total":0,"est":16065150.0,"speed":81669.74860507605,"eta":3.569269049329516,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":16033406,"total":0,"est":16097918.0,"speed":81669.74860507605,"eta":3.569269049329516,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":16033406,"total":0,"est":16098799.0,"speed":81669.74860507605,"eta":3.569269049329516,"frag":160,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"finished","done":16033406,"total":16033406,"est":0,"speed":85084.71405601334,"eta":0,"frag":0,"frags":0}
+[dashsegments] Total fragments: 160
+[download] Destination: <dir>/bbb_30fps [bbb_30fps].fbbb_a64k.m4a
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":633,"total":0,"est":101280.0,"speed":0,"eta":0,"frag":0,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":633,"total":0,"est":202560.0,"speed":0,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":1657,"total":0,"est":2741200.0,"speed":4495.328566549137,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":3705,"total":0,"est":2823120.0,"speed":4495.328566549137,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":7801,"total":0,"est":2986960.0,"speed":4495.328566549137,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":15993,"total":0,"est":3314640.0,"speed":4495.328566549137,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":32377,"total":0,"est":3970000.0,"speed":4495.328566549137,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":34265,"total":0,"est":5280720.0,"speed":4495.328566549137,"eta":0,"frag":1,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":34265,"total":0,"est":5431760.0,"speed":4495.328566549137,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":35289,"total":0,"est":3609280.0,"speed":67315.08860088812,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":37337,"total":0,"est":3663893.333333333,"speed":67315.08860088812,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":41433,"total":0,"est":3773120.0,"speed":67315.08860088812,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":49625,"total":0,"est":3991573.333333333,"speed":67315.08860088812,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":66009,"total":0,"est":4428480.0,"speed":67315.08860088812,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":67674,"total":0,"est":5302293.333333334,"speed":67315.08860088812,"eta":0,"frag":2,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":67674,"total":0,"est":5391093.333333334,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":68698,"total":0,"est":4043160.0,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":70746,"total":0,"est":4084120.0,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":74842,"total":0,"est":4166040.0,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":83034,"total":0,"est":4329880.0,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":99418,"total":0,"est":4657560.0,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":101079,"total":0,"est":5312920.0,"speed":67315.08860088812,"eta":0,"frag":3,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":101079,"total":0,"est":5379360.0,"speed":67315.08860088812,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":102103,"total":0,"est":4302656.0,"speed":175061.27837618266,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":104151,"total":0,"est":4335424.0,"speed":175061.27837618266,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":108247,"total":0,"est":4400960.0,"speed":175061.27837618266,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":116439,"total":0,"est":4532032.0,"speed":175061.27837618266,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":132823,"total":0,"est":4794176.0,"speed":175061.27837618266,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":134458,"total":0,"est":5318464.0,"speed":175061.27837618266,"eta":0,"frag":4,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":134458,"total":0,"est":5370784.0,"speed":175061.27837618266,"eta":0,"frag":5,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5155802,"total":0,"est":5314012.307692308,"speed":70179.10713686493,"eta":7.943349668333241,"frag":155,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5172186,"total":0,"est":5322414.358974359,"speed":73575.2941959768,"eta":7.333344585469398,"frag":155,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5173994,"total":0,"est":5339218.461538461,"speed":73575.2941959768,"eta":7.333344585469398,"frag":155,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5173994,"total":0,"est":5341072.82051282,"speed":73575.2941959768,"eta":7.333344585469398,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5175018,"total":0,"est":5306736.305732484,"speed":72651.51499631659,"eta":6.786855124242442,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5177066,"total":0,"est":5307779.872611465,"speed":72651.51499631659,"eta":6.786855124242442,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5181162,"total":0,"est":5309867.006369427,"speed":72651.51499631659,"eta":6.786855124242442,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5189354,"total":0,"est":5314041.273885351,"speed":72651.51499631659,"eta":6.786855124242442,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5205738,"total":0,"est":5322389.8089171965,"speed":74181.25960064455,"eta":6.25820281205066,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5207235,"total":0,"est":5339086.878980892,"speed":74181.25960064455,"eta":6.25820281205066,"frag":156,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5207235,"total":0,"est":5340612.484076433,"speed":74181.25960064455,"eta":6.25820281205066,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5208259,"total":0,"est":5307041.012658227,"speed":62802.97591735801,"eta":5.904857219469534,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5210307,"total":0,"est":5308077.974683545,"speed":62802.97591735801,"eta":5.904857219469534,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5214403,"total":0,"est":5310151.898734177,"speed":62802.97591735801,"eta":5.904857219469534,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5222595,"total":0,"est":5314299.746835442,"speed":62802.97591735801,"eta":5.904857219469534,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5238979,"total":0,"est":5322595.443037974,"speed":57296.56610005965,"eta":5.502492274237913,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5240703,"total":0,"est":5339186.835443038,"speed":57296.56610005965,"eta":5.502492274237913,"frag":157,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5240703,"total":0,"est":5340932.658227849,"speed":57296.56610005965,"eta":5.502492274237913,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5241727,"total":0,"est":5307213.081761006,"speed":54206.20693478583,"eta":5.09158886602615,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5243775,"total":0,"est":5308243.522012578,"speed":54206.20693478583,"eta":5.09158886602615,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5247871,"total":0,"est":5310304.402515722,"speed":54206.20693478583,"eta":5.09158886602615,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5256063,"total":0,"est":5314426.1635220125,"speed":54206.20693478583,"eta":5.09158886602615,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5272447,"total":0,"est":5322669.685534592,"speed":54206.20693478583,"eta":5.09158886602615,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5274043,"total":0,"est":5339156.729559748,"speed":54206.20693478583,"eta":5.09158886602615,"frag":158,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5274043,"total":0,"est":5340762.767295597,"speed":54206.20693478583,"eta":5.09158886602615,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5275067,"total":0,"est":5278733.0,"speed":54035.204746260584,"eta":4.589264915576034,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5277115,"total":0,"est":5279757.0,"speed":54035.204746260584,"eta":4.589264915576034,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5278733,"total":0,"est":5281805.0,"speed":54035.204746260584,"eta":4.589264915576034,"frag":159,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"downloading","done":5278733,"total":0,"est":5283423.0,"speed":54035.204746260584,"eta":4.589264915576034,"frag":160,"frags":160}
+{"t":"dl","id":"bbb_30fps","st":"finished","done":5278733,"total":5278733,"est":0,"speed":62437.26746871807,"eta":0,"frag":0,"frags":0}
+{"t":"pp","id":"bbb_30fps","pp":"Merger","st":"started"}
+[Merger] Merging formats into "<dir>/bbb_30fps [bbb_30fps].mp4"
+{"t":"pp","id":"bbb_30fps","pp":"Merger","st":"finished"}
+Deleting original file <dir>/bbb_30fps [bbb_30fps].fbbb_a64k.m4a (pass -k to keep)
+Deleting original file <dir>/bbb_30fps [bbb_30fps].fbbb_30fps_320x180_200k.mp4 (pass -k to keep)
+{"t":"pp","id":"bbb_30fps","pp":"MoveFiles","st":"started"}
+{"t":"pp","id":"bbb_30fps","pp":"MoveFiles","st":"finished"}
+{"t":"done","path":"<dir>/bbb_30fps [bbb_30fps].mp4"}

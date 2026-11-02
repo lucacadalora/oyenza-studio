@@ -1,0 +1,33 @@
+{
+ "_type": "video",
+ "id": "BigBuckBunny_124",
+ "title": "Big Buck Bunny",
+ "fulltitle": "Big Buck Bunny",
+ "thumbnail": "https://archive.org/download/BigBuckBunny_124/BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000585.jpg",
+ "thumbnails": [
+  {"id": "BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000001.jpg", "url": "https://archive.org/download/BigBuckBunny_124/BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000001.jpg", "width": null, "height": null, "filesize": 10377},
+  {"id": "BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000045.jpg", "url": "https://archive.org/download/BigBuckBunny_124/BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000045.jpg", "width": null, "height": null, "filesize": 7069},
+  {"id": "BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000075.jpg", "url": "https://archive.org/download/BigBuckBunny_124/BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000075.jpg", "width": null, "height": null, "filesize": 7407},
+  {"id": "BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000585.jpg", "url": "https://archive.org/download/BigBuckBunny_124/BigBuckBunny_124.thumbs/Content/big_buck_bunny_720p_surround_000585.jpg", "width": null, "height": null, "filesize": 3795}
+ ],
+ "uploader": "jake@archive.org",
+ "duration": 596.46,
+ "duration_string": "9:56",
+ "license": "http://creativecommons.org/licenses/by/3.0/",
+ "upload_date": "20110701",
+ "webpage_url": "https://archive.org/details/BigBuckBunny_124",
+ "original_url": "https://archive.org/details/BigBuckBunny_124",
+ "webpage_url_domain": "archive.org",
+ "extractor": "archive.org",
+ "extractor_key": "ArchiveOrg",
+ "formats": [
+  {"format_id": "0", "format_note": "derivative", "format": "Ogg Video", "url": "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.ogv", "ext": "ogv", "protocol": "https", "width": 533, "height": 300, "tbr": null, "filesize": 46935223, "resolution": "533x300", "dynamic_range": "SDR", "video_ext": "ogv", "audio_ext": "none"},
+  {"format_id": "1", "format_note": "derivative", "format": "h.264", "url": "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4", "ext": "mp4", "protocol": "https", "width": 640, "height": 360, "tbr": null, "filesize": 61878609, "resolution": "640x360", "dynamic_range": "SDR", "video_ext": "mp4", "audio_ext": "none"},
+  {"format_id": "2", "format_note": "derivative", "format": "Cinepack", "url": "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.avi", "ext": "avi", "protocol": "https", "width": 1280, "height": 720, "tbr": null, "filesize": 332243668, "resolution": "1280x720", "dynamic_range": "SDR", "video_ext": "avi", "audio_ext": "none"}
+ ],
+ "format_id": "2",
+ "ext": "avi",
+ "width": 1280,
+ "height": 720,
+ "_version": {"version": "2026.10.26", "current_git_head": null, "release_git_head": null, "repository": "yt-dlp/yt-dlp"}
+}
