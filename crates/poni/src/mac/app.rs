@@ -25,6 +25,8 @@ use crate::pages::{self, PageKind};
 use crate::paths;
 use crate::pill;
 use crate::services;
+use crate::settings_host;
+use crate::settings_window::{self, Section};
 use crate::events::{AppleMusicStatus, LyricsResult};
 use crate::state::{
     AppState, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, OyenzaLink, PhoneAsk, PhoneDrop, PhoneTransfer, PrayerState,
@@ -40,7 +42,7 @@ use objc2_app_kit::{NSApplication, NSApplicationActivationPolicy, NSApplicationD
 use objc2_core_foundation::{CGPoint, CGRect, CGSize};
 use objc2_core_graphics::CGContext;
 use objc2_foundation::{NSNotification, NSNotificationCenter, NSRunLoop, NSRunLoopCommonModes, NSTimer};
-use poni_core::addons::{Status as AddonStatus, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, DOWNLOADER, HEALTH, JAPANESE_READINGS, PRAYER_TIMES, SYSTEM};
 use poni_core::frametime::MotionStats;
 use poni_core::phonedrop::{Event as PhoneEvent, QrMatrix};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -48,6 +50,7 @@ use poni_core::look::{Look, Material};
 use poni_core::oyenza;
 use poni_core::prayer::{Due, PlaceList, Prayer, PrayerMoment};
 use poni_core::settings::{IdleStyle, PrayerSound, Settings, Theme};
+use poni_core::spot;
 use poni_core::sysmon::{CoreKind, Module};
 use poni_core::store::{load_json, parse_json, save_json_atomic, LoadOutcome, Store};
 use std::cell::RefCell;
@@ -125,6 +128,23 @@ enum Deferred {
     Show,
     /// Open the menu bar item's menu (the smoke test's picture of it).
     OpenMenu,
+    /// Bring the Settings window (and the app) to the front.
+    ShowSettings,
+    /// Close the Settings window (its own close tells the app).
+    CloseSettings,
+}
+
+/// The Settings window's content and its renderer, while it is open.
+struct SettingsUi {
+    view: settings_window::View,
+    gfx: Gfx,
+    /// How long its frames took to draw (ms): the last one and the slowest
+    /// (the smoke test reports them).
+    draw_ms: f32,
+    draw_max_ms: f32,
+    /// The display link's frame: the refresh it will be shown on (mono
+    /// seconds), for the draw it asked for.
+    frame_t: Option<f64>,
 }
 
 /// Run `f` with the app if it isn't already borrowed (re-entrancy safe), then
@@ -141,6 +161,8 @@ fn enter<R>(f: impl FnOnce(&mut App) -> R) -> Option<R> {
             Deferred::ReleaseKeyboard => window::release_keyboard(),
             Deferred::Show => window::show(),
             Deferred::OpenMenu => crate::menubar::open_menu(),
+            Deferred::ShowSettings => settings_host::show(),
+            Deferred::CloseSettings => settings_host::close(),
         }
     }
     r
@@ -310,6 +332,28 @@ pub fn on_menu(cmd: MenuCmd) {
     enter(|a| a.on_menu(cmd));
 }
 
+/// The Settings window's view draws.
+pub fn draw_settings(ctx: &CGContext) {
+    enter(|a| a.draw_settings(ctx));
+}
+
+/// Input in the Settings window. True for a press where nothing takes it:
+/// the window then moves with the drag.
+pub fn settings_input(input: settings_host::Input) -> bool {
+    enter(|a| a.settings_input(input)).unwrap_or(false)
+}
+
+/// The Settings window's display link ticked.
+pub fn settings_step(timestamp: f64, target: f64) {
+    enter(|a| a.settings_step(timestamp, target));
+}
+
+/// The Settings window closed (its button, ⌘W).
+pub fn settings_closed() {
+    enter(|a| a.settings_closed());
+    settings_host::release();
+}
+
 pub fn drain_events() {
     enter(|a| {
         while let Ok(ev) = a.rx.try_recv() {
@@ -372,15 +416,28 @@ pub struct App {
     text_focus: bool,
     cursor: CursorKind,
     screen: ScreenInfo,
-    /// The window: a fixed-size surface (DIPs) the island is drawn centred in.
+    /// The island's room (DIPs): the window's size, unless the island was
+    /// dragged along the top edge around a notch (`place_window`).
     surface: (f32, f32),
-    /// Centre of the surface (where the island hangs from).
+    /// The window's left edge (DIPs from the screen's left edge) and width.
+    win: (f32, f32),
+    /// The island's centre in the window this frame (where it hangs from):
+    /// the notch (or the middle), or the spot it was dragged to.
     cx: f32,
+    /// The notch's centre in the window (the middle of the screen without one).
+    notch_cx: f32,
+    /// The spot along the top edge (`Settings::island_x`, in DIPs from the
+    /// screen's left edge) the window was last placed for.
+    laid_spot: Option<f32>,
+    /// A press on the closed island, which a sideways move turns into a drag.
+    grab: Option<Grab>,
     #[allow(dead_code)]
     sink: EventSink,
     rx: Receiver<AppEvent>,
     menubar: Option<MenuBar>,
     pending: Vec<Deferred>,
+    /// The Settings window's content and renderer, while it is open.
+    settings_ui: Option<SettingsUi>,
     /// Animation time of the last frame (the refresh it was shown on).
     last_frame_t: f64,
     /// The canvas drawn last frame (the next frame redraws it too).
@@ -429,6 +486,9 @@ pub struct App {
     today_watch: bool,
     /// The Health page is on screen (it asks for the phone's steps as it opens).
     health_shown: bool,
+    /// The IELTS or Add-ons page is on screen (it asks whether the account
+    /// has Studio Pro as it opens).
+    pro_shown: bool,
     /// Files are being dragged over the island.
     drag_hover: bool,
     /// The right-click menu is open over the open island: the pointer on
@@ -449,6 +509,23 @@ pub struct App {
     lyrics: Option<services::lyrics::LyricsService>,
     /// The add-ons' downloader: only while an add-on is switched on.
     addons: Option<services::addons::AddonService>,
+    /// The Downloader add-on's runner: started at the first download.
+    downloader: Option<services::downloader::DownloaderService>,
+    /// The IELTS coach's calls, microphone and voice, each only while needed.
+    ielts: services::ielts::Kit,
+    /// The IELTS coach paused the music playing as its session began.
+    ielts_music: bool,
+    /// The IELTS page was on screen at the last tick.
+    ielts_shown: bool,
+    /// The IELTS page held the island open at the last tick.
+    ielts_held: bool,
+    /// The Notes page's meeting while it is recorded (only then).
+    notes_rec: Option<services::notes::Recording>,
+    /// The meeting's audio once stopped, kept until its notes are saved (or
+    /// it is thrown away), for Try again.
+    notes_take: Option<services::notes::Take>,
+    /// When the meeting being taken down began (local time, for its notes).
+    notes_started: poni_core::datetime::LocalDateTime,
     /// The Stocks page's prices: started the first time the page opens.
     stocks: Option<services::stocks::StocksService>,
     /// The Stocks page was on screen at the last look (`set_stocks_watch`).
@@ -482,12 +559,34 @@ pub struct App {
     smoke_full_screen: Option<std::process::Child>,
     /// The Oyenza step's POST through the Mac's HTTP client: (arrived and answered, what happened).
     smoke_post: Option<(bool, String)>,
+    /// The IELTS coach's voice steps: the line playing and how it went.
+    smoke_voice: Option<SmokeVoice>,
+    /// Its microphone steps: what `Mic::start` gave, then what `stop` gave
+    /// (whether that's right, and what happened).
+    smoke_mic: Option<Result<services::mic::Mic, services::mic::MicError>>,
+    smoke_mic_stop: Option<(bool, String)>,
+    /// Meeting notes' recording step: the recording (or why none), then
+    /// what stopping it gave.
+    smoke_notes: Option<Result<(services::notes::Recording, bool, bool), poni_core::notes::CaptureIssue>>,
+    smoke_notes_stop: Option<(bool, String)>,
     /// The island floated on the last frame (Pill letting go of the notch).
     was_floating: bool,
     /// The port Oyenza Studio Recorder writes to (`services::recorder`).
     rec_port: Option<services::recorder::Port>,
     /// When the island next asks whether the recorder still runs (mono seconds).
     rec_alive_at: f64,
+}
+
+/// A press on the closed island: let go where it was, it opens the island;
+/// moved sideways first, it drags the island along the top edge.
+#[derive(Clone, Copy, Debug)]
+struct Grab {
+    /// Where the pointer was pressed, DIPs from the screen's left edge.
+    from: f32,
+    /// The island's centre then, DIPs from the screen's left edge.
+    centre: f32,
+    /// The pointer went past `spot::DRAG_SLOP`: a drag, not a click.
+    moved: bool,
 }
 
 impl App {
@@ -512,6 +611,8 @@ impl App {
         pinfo!("screen {}x{} pt at {}x, notch {:?}", screen.w, screen.h, screen.scale, screen.notch);
         let gfx = Gfx::new(screen.scale);
         let mut st = AppState::new(settings, store);
+        // The Downloader (Studio Pro): the Mac has it too.
+        st.downloader_offered = true;
         st.now = clock::mono();
         st.local = clock::local_now();
         st.unix = clock::unix_now();
@@ -532,11 +633,16 @@ impl App {
             cursor: CursorKind::Arrow,
             screen,
             surface: (0.0, 0.0),
+            win: (0.0, 0.0),
             cx: 0.0,
+            notch_cx: 0.0,
+            laid_spot: None,
+            grab: None,
             sink,
             rx,
             menubar: None,
             pending: Vec::new(),
+            settings_ui: None,
             last_frame_t: 0.0,
             prev_canvas: None,
             drawn: Drawn::default(),
@@ -563,6 +669,7 @@ impl App {
             oyenza_watch: false,
             today_watch: false,
             health_shown: false,
+            pro_shown: false,
             drag_hover: false,
             menu_open: false,
             script_held: false,
@@ -573,6 +680,14 @@ impl App {
             media: None,
             lyrics: None,
             addons: None,
+            downloader: None,
+            ielts: Default::default(),
+            ielts_music: false,
+            ielts_shown: false,
+            ielts_held: false,
+            notes_rec: None,
+            notes_take: None,
+            notes_started: Default::default(),
             stocks: None,
             stocks_open: false,
             usage: None,
@@ -591,6 +706,11 @@ impl App {
             smoke_devices: None,
             smoke_full_screen: None,
             smoke_post: None,
+            smoke_voice: None,
+            smoke_mic: None,
+            smoke_mic_stop: None,
+            smoke_notes: None,
+            smoke_notes_stop: None,
             was_floating: false,
             rec_port: None,
             rec_alive_at: 0.0,
@@ -607,7 +727,7 @@ impl App {
             self.updater = Some(crate::updates::Updater::start(paths::data_dir().join("update.json"), &mut self.st, crate::updates::unix_now()));
         }
         let line = crate::updates::menu_line(&self.st, self.updater.is_some());
-        self.menubar = Some(MenuBar::add(self.mtm, &self.st.settings, self.st.pinned, services::login::status(), &self.st.oyenza.link, line));
+        self.menubar = Some(MenuBar::add(self.mtm, &self.menu_settings(), self.st.pinned, services::login::status(), &self.st.oyenza.link, line));
         self.st.power = services::power::query();
         services::power::watch(self.sink.clone());
         services::audio::start(self.sink.clone());
@@ -620,6 +740,10 @@ impl App {
             }
         };
         self.sync_addons();
+        // A meeting the app closed on, waiting to be written up.
+        if self.st.notes_on() && self.smoke.is_none() {
+            self.notes_restore();
+        }
         self.schedule_update();
         self.fetch_setup();
         // Oyenza Studio Recorder installed: the Record tab can show (one
@@ -667,6 +791,9 @@ impl App {
     fn quit(&mut self, code: i32) {
         self.save_now();
         self.save_settings();
+        // Downloads under way end with the app (std::process::exit runs no
+        // destructors): yt-dlp's groups get their SIGTERM now.
+        self.downloader = None;
         pinfo!("Oyenza Studio exiting with code {code}");
         std::process::exit(code);
     }
@@ -687,6 +814,9 @@ impl App {
         self.refresh_time();
         self.tick();
         self.run_commands();
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.dirty) {
+            settings_host::redraw();
+        }
         if !self.st.cmds.is_empty() {
             self.set_timer(Timer::Wake, 1);
         }
@@ -864,12 +994,18 @@ impl App {
 
     /// Apply side effects of a settings change (from the menu, a reload or a page).
     fn settings_changed(&mut self, before: &Settings) {
+        // The Settings window shows the change.
+        if let Some(s) = self.settings_ui.as_mut() {
+            s.view.dirty = true;
+        }
         if before.theme != self.st.settings.theme {
             self.st.accent = theme_accent(self.st.settings.theme);
         }
         // The Pill theme's window keeps room for the gap above the island.
+        // Around a notch only Pill moves along the top edge (Move island to the centre).
         if pill::on(before.theme) != pill::on(self.st.settings.theme) {
             self.layout_surface();
+            self.refresh_menu();
         }
         // Hide or Stay on top of full-screen apps (Settings or the menu bar).
         if before.hide_in_fullscreen != self.st.settings.hide_in_fullscreen {
@@ -914,6 +1050,20 @@ impl App {
         if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
             self.locate();
         }
+        // The Downloader: off stops its downloads before its tools are deleted.
+        if before.addon_on(DOWNLOADER.id) && !self.st.settings.addon_on(DOWNLOADER.id) {
+            self.downloads_off();
+        }
+        // IELTS off: a session ends, the microphone and voice stop, the files go.
+        let ielts_id = poni_core::addons::IELTS.id;
+        if before.addon_on(ielts_id) && !self.st.settings.addon_on(ielts_id) {
+            self.ielts_off();
+        }
+        // Meeting notes off: a recording stops and its audio goes.
+        let notes_id = poni_core::addons::MEETING_NOTES.id;
+        if before.addon_on(notes_id) && !self.st.settings.addon_on(notes_id) {
+            self.notes_off();
+        }
         // An add-on switched on downloads its files; off deletes them.
         let mut addons_changed = false;
         for a in pages::addons::OFFERED {
@@ -944,20 +1094,167 @@ impl App {
     /// Hand the add-on switches to the downloader, starting it when one is
     /// on. It checks the files of the ones on (downloading what's missing),
     /// deletes those of one switched off, and sleeps in between; with none
-    /// on, it isn't started (see `AppEvent::Addon` for its end).
+    /// on, it isn't started (see `AppEvent::Addon` for its end). A Studio Pro
+    /// add-on's files (the Downloader's tools) wait for Pro (`pro_changed`).
     fn sync_addons(&mut self) {
         let on: Vec<&'static str> = pages::addons::OFFERED.iter().filter(|a| a.downloads() && self.st.settings.addon_on(a.id)).map(|a| a.id).collect();
+        let pro = self.st.studio_pro() == Some(true);
         match &self.addons {
             Some(svc) => {
                 for a in pages::addons::OFFERED {
                     svc.set(a.id, on.contains(&a.id));
                 }
+                svc.set_pro(pro);
             }
             None if !on.is_empty() => match services::addons::AddonService::start(self.sink.clone(), on) {
-                Ok(svc) => self.addons = Some(svc),
+                Ok(svc) => {
+                    svc.set_pro(pro);
+                    self.addons = Some(svc);
+                }
                 Err(e) => pwarn!("add-ons: unavailable ({e})"),
             },
             None => {}
+        }
+    }
+
+    // ------------------------------------------------------------ the Settings window
+
+    /// Advanced settings (the Settings page's last row, the menu's
+    /// Advanced settings…): the island closes and the window opens, so the
+    /// open island never sits over it.
+    fn show_settings(&mut self) {
+        self.collapse();
+        self.open_settings(None);
+    }
+
+    /// Open the Settings window on `section` (General when it opens), or
+    /// bring it forward, on that section when one is given.
+    fn open_settings(&mut self, section: Option<Section>) {
+        match self.settings_ui.as_mut() {
+            Some(s) => {
+                if let Some(sec) = section {
+                    s.view.show_section(sec);
+                    settings_host::redraw();
+                }
+            }
+            None => {
+                let scale = settings_host::create(self.mtm);
+                self.settings_ui = Some(SettingsUi { view: settings_window::View::new(section.unwrap_or(Section::General)), gfx: Gfx::new(scale), draw_ms: 0.0, draw_max_ms: 0.0, frame_t: None });
+                // Start at login's switch reads it.
+                self.st.ui.autostart = Some(services::login::status() == Login::On);
+                pinfo!("settings window: open");
+            }
+        }
+        // Add-ons lists IELTS and Meeting notes by the account's Pro, as its tab does.
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.section == Section::Addons) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+        self.pending.push(Deferred::ShowSettings);
+    }
+
+    /// Draw the Settings window (its view's drawRect), light or dark as the
+    /// window shows. The commands its clicks pushed run with the next frame.
+    fn draw_settings(&mut self, ctx: &CGContext) {
+        let Some(ui) = self.settings_ui.as_mut() else { return };
+        let light = settings_host::is_light();
+        ui.gfx.set_scale(settings_host::scale());
+        ui.gfx.set_look(poni_core::look::glass(light));
+        self.st.now = self.st.now.max(ui.frame_t.take().unwrap_or_else(clock::mono));
+        let now = self.st.now;
+        let frame = settings_window::Frame {
+            card: Rect::new(0.0, 0.0, settings_host::WIDTH as f32, settings_host::HEIGHT as f32),
+            own_chrome: false,
+            top: settings_host::TITLEBAR,
+            still: settings_host::reduce_motion() || !settings_host::has_frames(),
+        };
+        let before = ui.view.section;
+        let started = std::time::Instant::now();
+        let out = {
+            let mut canvas = ui.gfx.canvas(ctx);
+            ui.view.draw(&mut canvas, &mut self.st, now, frame, light)
+        };
+        ui.draw_ms = started.elapsed().as_secs_f32() * 1000.0;
+        ui.draw_max_ms = ui.draw_max_ms.max(ui.draw_ms);
+        let after = ui.view.section;
+        // A switch sliding, a highlight gliding: frames at the screen's rate until it arrives.
+        if out.moving {
+            settings_host::set_frames(true);
+        }
+        if out.close {
+            self.pending.push(Deferred::CloseSettings);
+        }
+        if out.again {
+            settings_host::redraw();
+        }
+        if after != before && after == Section::Addons {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+        if !self.st.cmds.is_empty() {
+            self.request_frame();
+        }
+    }
+
+    /// The display link's tick: draw the next frame while something glides,
+    /// and stop the frames once it has arrived.
+    fn settings_step(&mut self, timestamp: f64, target: f64) {
+        match self.settings_ui.as_mut().filter(|s| s.view.moving) {
+            Some(s) => {
+                // Stamp the frame with the refresh it will be shown on, as the
+                // island's are, so every step is a whole refresh.
+                let period = (target - timestamp).clamp(1.0 / 240.0, 1.0 / 24.0);
+                s.frame_t = Some(clock::mono() + period);
+                match s.view.next_clip() {
+                    // Only what moves: a switch's knob, a highlight's way.
+                    Some(r) => settings_host::redraw_in(r),
+                    None => settings_host::redraw(),
+                }
+            }
+            None => settings_host::set_frames(false),
+        }
+    }
+
+    /// Input in the Settings window. True for a press on an empty part:
+    /// the window moves with the drag.
+    fn settings_input(&mut self, input: settings_host::Input) -> bool {
+        let Some(ui) = self.settings_ui.as_mut() else { return false };
+        let v = &mut ui.view;
+        let redraw = match input {
+            settings_host::Input::Move { x, y } => v.hover(Point::new(x, y)),
+            settings_host::Input::Leave => {
+                v.leave();
+                true
+            }
+            settings_host::Input::Down { x, y } => {
+                let p = Point::new(x, y);
+                if v.hit_at(p).is_none() {
+                    return true;
+                }
+                v.press(p);
+                true
+            }
+            settings_host::Input::Up { x, y } => {
+                v.release(Point::new(x, y));
+                true
+            }
+            settings_host::Input::Wheel { x, y, notches } => {
+                v.wheel(Point::new(x, y), notches);
+                true
+            }
+            settings_host::Input::Scroll { x, y, points } => {
+                v.scroll_by(Point::new(x, y), points);
+                true
+            }
+        };
+        if redraw {
+            settings_host::redraw();
+        }
+        false
+    }
+
+    /// The Settings window closed: its content and renderer go.
+    fn settings_closed(&mut self) {
+        if self.settings_ui.take().is_some() {
+            pinfo!("settings window: closed");
         }
     }
 
@@ -965,12 +1262,14 @@ impl App {
         let before = self.st.settings.clone();
         let s = &mut self.st.settings;
         match cmd {
+            MenuCmd::ShowSettings => self.show_settings(),
             MenuCmd::TogglePinned => {
                 self.st.pinned = !self.st.pinned;
                 if !self.st.pinned {
                     self.maybe_schedule_collapse();
                 }
             }
+            MenuCmd::CentreIsland => s.island_x = None,
             MenuCmd::SetTheme(t) => s.theme = t,
             MenuCmd::SetIdleStyle(style) => s.idle_style = style,
             MenuCmd::ToggleSounds => s.sounds = !s.sounds,
@@ -1032,9 +1331,20 @@ impl App {
     fn refresh_menu(&mut self) {
         let login = services::login::status();
         let line = crate::updates::menu_line(&self.st, self.updater.is_some());
+        let s = self.menu_settings();
         if let Some(m) = self.menubar.as_mut() {
-            m.refresh(self.mtm, &self.st.settings, self.st.pinned, login, &self.st.oyenza.link, line);
+            m.refresh(self.mtm, &s, self.st.pinned, login, &self.st.oyenza.link, line);
         }
+    }
+
+    /// The settings as the menu shows them: a spot along the top edge only
+    /// where the island moves (Move island to the centre).
+    fn menu_settings(&self) -> Settings {
+        let mut s = self.st.settings.clone();
+        if !self.movable() {
+            s.island_x = None;
+        }
+        s
     }
 
     /// Start at login on or off. macOS may ask the person to allow it in
@@ -1326,6 +1636,15 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        // What the Settings window shows that a service reports.
+        let shown = matches!(ev, AppEvent::Update(_) | AppEvent::Oyenza(_) | AppEvent::Addon { .. } | AppEvent::Usage(_) | AppEvent::Located(_));
+        if let Some(s) = self.settings_ui.as_mut().filter(|_| shown) {
+            s.view.dirty = true;
+        }
+        // A download's bytes coming in while nobody can see the island (locked,
+        // displays asleep) wait for the next frame something else asks for:
+        // the pill catches up then, as nothing else of it moves on its own.
+        let unseen = matches!(ev, AppEvent::Download { line: poni_core::ytdlp::Line::Progress { .. }, .. }) && (self.away.0 || self.away.1);
         match ev {
             AppEvent::Media(session) => {
                 let prev_key = self.st.media.as_ref().map(|m| m.track_key.clone());
@@ -1473,6 +1792,18 @@ impl App {
             AppEvent::Locked(on) => self.set_away(None, Some(on)),
             AppEvent::Phone(e) => self.on_phone(e),
             AppEvent::Addon { id, status } => self.on_addon(id, status),
+            AppEvent::Download { id, line } => self.download_line(id, line),
+            AppEvent::DownloadEnded { id, ok } => self.download_ended(id, ok),
+            AppEvent::Ielts(reply) => self.ielts_reply(*reply),
+            AppEvent::VoiceEnded => {
+                if let Some(v) = self.smoke_voice.as_mut() {
+                    v.ended.get_or_insert(now);
+                }
+                self.ielts_voice_ended();
+            }
+            AppEvent::MicFailed(why) => self.ielts_mic_failed(why),
+            AppEvent::Notes(reply) => self.notes_reply(*reply),
+            AppEvent::NotesStopped(issue) => self.notes_stopped(issue),
             AppEvent::Update(services::update::UpdateEvent::Checked(r)) => {
                 let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
@@ -1512,7 +1843,9 @@ impl App {
         if let Some(before) = media_before {
             self.after_media_change(before, now);
         }
-        self.request_frame();
+        if !unseen {
+            self.request_frame();
+        }
     }
 
     /// Where an add-on's files stand, from the downloader.
@@ -1766,6 +2099,11 @@ impl App {
             self.screen = s;
             self.gfx.set_scale(s.scale);
             self.layout_surface();
+            // The same room on another screen still moves there, and a spot
+            // along the top edge is a share of this screen's width.
+            self.place_window();
+            // Whether the island can move here (Move island to the centre).
+            self.refresh_menu();
             // Whether a full-screen app is in front is a question per screen.
             services::fullscreen::check();
         }
@@ -1776,7 +2114,8 @@ impl App {
 
     /// Size and place the window once for the largest island (the widest,
     /// tallest expanded page plus spring overshoot). The island is drawn
-    /// centred in it, so a morph never moves or resizes the window.
+    /// centred in it, or at the spot it was dragged to, so a morph never
+    /// moves or resizes the window.
     fn layout_surface(&mut self) {
         let tallest = PageKind::ALL.iter().map(|p| pages::content_height(*p, &self.st)).fold(0.0f32, f32::max);
         self.layout_surface_for(self.st.settings.expanded_width, pages::HEADER_H + tallest + pages::PAD);
@@ -1791,9 +2130,80 @@ impl App {
         let h = ((body_h + self.strip()) * OVERSHOOT + top + bottom).ceil();
         if (w, h) != self.surface {
             self.surface = (w, h);
-            self.cx = w / 2.0;
-            self.prev_canvas = None;
-            window::place(&self.screen, w as f64, h as f64);
+            self.place_window();
+        }
+    }
+
+    /// Whether the island can be dragged along the top edge here: on a
+    /// screen without a notch in every theme, and around a notch in Pill,
+    /// whose island floats below the menu bar. The other themes' island
+    /// belongs at the camera.
+    fn movable(&self) -> bool {
+        self.screen.notch.is_none() || pill::on(self.st.settings.theme)
+    }
+
+    /// The spot along the top edge the island was dragged to, DIPs from the
+    /// screen's left edge: None in the middle (at the notch), and where it
+    /// can't move.
+    fn spot(&self) -> Option<f32> {
+        self.st.settings.island_x.filter(|_| self.movable()).map(|f| f * self.screen.w as f32)
+    }
+
+    /// Put the window at the top of the screen: centred on the notch (or the
+    /// middle), or around the spot the island was dragged to, as far as the
+    /// screen allows. Around a notch it keeps the notch in it too: Pill
+    /// docks there to rest, and slides between the two. While the island is
+    /// dragged the window spans the screen, so a drag never moves it.
+    fn place_window(&mut self) {
+        let (w, h) = self.surface;
+        let (sw, home) = (self.screen.w as f32, self.screen.cx as f32);
+        self.laid_spot = self.spot();
+        let at_home = ((home - w / 2.0).round(), w);
+        let (left, width) = match self.laid_spot {
+            _ if self.grab.is_some_and(|g| g.moved) => (0.0, sw),
+            None => at_home,
+            Some(at) => {
+                let l = spot::window_left(0, sw as i32, w as i32, at.round() as i32) as f32;
+                match self.screen.notch {
+                    Some(_) => {
+                        let (l, r) = (l.min(at_home.0), (l + w).max(at_home.0 + w));
+                        (l, r - l)
+                    }
+                    None => (l, w),
+                }
+            }
+        };
+        self.win = (left, width);
+        self.notch_cx = home - left;
+        self.prev_canvas = None;
+        window::place(&self.screen, left as f64, width as f64, h as f64);
+        self.place_island();
+    }
+
+    /// The island's centre in the window this frame: at the notch (or the
+    /// middle), or at the spot it was dragged to, moved in just enough to
+    /// keep its outline (as wide as it is now) in the window: opening near
+    /// the screen's edge, it grows away from the edge. Pill around a notch
+    /// docks at the notch to rest and slides to the spot as it floats.
+    fn place_island(&mut self) {
+        let Some(at) = self.laid_spot else {
+            self.cx = self.notch_cx;
+            return;
+        };
+        let at = at - self.win.0;
+        let want = match self.screen.notch {
+            Some(n) => self.notch_cx + (at - self.notch_cx) * notch::detach(self.island.top(), Some(n)),
+            None => at,
+        };
+        self.cx = spot::fit_centre(want, self.win.1, self.island.current().w, self.room().0);
+    }
+
+    /// The spot along the top edge changed since the window was placed (a
+    /// drag, Move island to the centre, Reload settings, another theme):
+    /// place it there. Called every frame; a move only on that change.
+    fn sync_spot(&mut self) {
+        if self.spot() != self.laid_spot {
+            self.place_window();
         }
     }
 
@@ -1913,7 +2323,7 @@ impl App {
         // already hovers, the resting island's ears too.
         if let Some(n) = self.screen.notch.filter(|_| self.island.floating()) {
             if p.y < n.h {
-                return (p.x - self.cx).abs() <= self.menu_line_w(n) / 2.0;
+                return (p.x - self.notch_cx).abs() <= self.menu_line_w(n) / 2.0;
             }
         }
         if !self.expanded {
@@ -1943,6 +2353,11 @@ impl App {
     // ------------------------------------------------------------ input
 
     fn on_pointer(&mut self, p: Point) {
+        if self.grab.is_some() {
+            self.input.mouse = Some(p);
+            self.drag_island(p);
+            return;
+        }
         self.peek_at(p);
         let inside = self.hovering_inside(p) || self.input.down;
         if !inside {
@@ -1979,7 +2394,7 @@ impl App {
         let Some(n) = self.screen.notch.filter(|_| self.st.settings.idle_style == IdleStyle::Eyes) else { return };
         let now = clock::mono().max(self.st.now);
         let before = notch::peek_key(&self.st, n, now);
-        self.st.ui.peek.point(Point::new(p.x - self.cx, p.y), now, n.w / 2.0);
+        self.st.ui.peek.point(Point::new(p.x - self.notch_cx, p.y), now, n.w / 2.0);
         if self.mode == Mode::Idle && !self.fullscreen_hidden && notch::peek_key(&self.st, n, now) != before {
             self.request_frame();
         }
@@ -2035,26 +2450,15 @@ impl App {
                         // The prayer countdown's OK, the same way.
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
+                    } else if self.movable() && (self.screen.notch.is_none() || self.island.floating()) {
+                        // Opens when the button comes up (`open_from_press`),
+                        // unless the pointer moves sideways first: then it
+                        // drags the island along the top edge (`drag_island`).
+                        self.grab = Some(Grab { from: self.win.0 + p.x, centre: self.win.0 + self.cx, moved: false });
+                        // Held still on it, it doesn't open by itself either.
+                        self.cancel_hover();
                     } else {
-                        // Clicking a notice jumps to its page (a new version's
-                        // may be waiting under a volume change or a game's readout).
-                        let shown = self.mode == Mode::Notice;
-                        if let Some(n) = self.st.notice.take_if(|_| shown) {
-                            match n.action {
-                                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
-                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
-                                Some(NoticeAction::OpenApp(_)) => {}
-                                Some(NoticeAction::StartFocus) => {
-                                    self.st.page = PageKind::Focus;
-                                    if !self.st.pomodoro.is_active() {
-                                        self.st.pomodoro.start(self.st.now);
-                                    }
-                                }
-                                None => {}
-                            }
-                        }
-                        self.st.hud = None;
-                        self.expand();
+                        self.open_from_press();
                     }
                 } else if self.text_focus && self.input.pressed_id != self.input.focused {
                     self.blur_text();
@@ -2062,7 +2466,19 @@ impl App {
                 self.request_frame();
             }
             ViewInput::Up { x, y } => {
-                let p = Point::new(x, y);
+                // A drop puts the window back around the island: the point
+                // came in the coordinates of the window as it was.
+                let left = self.win.0;
+                if let Some(g) = self.grab.take() {
+                    // What the closed island showed under the press doesn't click.
+                    self.input.pressed_id = None;
+                    if g.moved {
+                        self.dropped_island();
+                    } else {
+                        self.open_from_press();
+                    }
+                }
+                let p = Point::new(x + left - self.win.0, y);
                 self.input.mouse = Some(p);
                 let hit = self.hit_at(p).map(|h| h.id);
                 if let (Some(pid), Some(h)) = (self.input.pressed_id, hit) {
@@ -2141,6 +2557,76 @@ impl App {
         None
     }
 
+    /// A click on the closed island (pressed and let go, or on a notch's
+    /// island, pressed): a notice jumps to its page, and the island opens.
+    fn open_from_press(&mut self) {
+        // Clicking a notice jumps to its page (a new version's
+        // may be waiting under a volume change or a game's readout).
+        let shown = self.mode == Mode::Notice;
+        if let Some(n) = self.st.notice.take_if(|_| shown) {
+            match n.action {
+                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
+                Some(NoticeAction::OpenApp(_)) => {}
+                Some(NoticeAction::StartFocus) => {
+                    self.st.page = PageKind::Focus;
+                    if !self.st.pomodoro.is_active() {
+                        self.st.pomodoro.start(self.st.now);
+                    }
+                }
+                None => {}
+            }
+        }
+        self.st.hud = None;
+        self.expand();
+    }
+
+    /// The pointer moved while pressing the closed island: once it has gone
+    /// `spot::DRAG_SLOP` sideways, the island follows it along the top edge,
+    /// as far as it stays on the screen, and back to the middle when it
+    /// comes within `spot::SNAP` of it.
+    fn drag_island(&mut self, p: Point) {
+        let Some(g) = self.grab else { return };
+        let dx = self.win.0 + p.x - g.from;
+        if !g.moved {
+            if dx.abs() < spot::DRAG_SLOP {
+                return;
+            }
+            pinfo!("island: dragged along the top edge");
+            // The left-right cursor every macOS has (columnResizeCursor is macOS 15's).
+            #[allow(deprecated)]
+            NSCursor::resizeLeftRightCursor().set();
+            self.cursor = CursorKind::Arrow;
+        }
+        self.grab = Some(Grab { moved: true, ..g });
+        let sw = self.screen.w as f32;
+        let centre = spot::fit_centre(g.centre + dx, sw, self.island.current().w, self.room().0);
+        self.st.settings.island_x = spot::remember(centre, sw);
+        if g.moved {
+            self.sync_spot();
+        } else {
+            // The window spans the screen for the drag.
+            self.place_window();
+        }
+        self.request_frame();
+    }
+
+    /// A drag along the top edge ended: the island stays there (saved), and
+    /// doesn't open under the pointer that just let go of it.
+    fn dropped_island(&mut self) {
+        self.cancel_hover();
+        match self.st.settings.island_x {
+            Some(x) => pinfo!("island: moved to {:.0} % across the screen", x * 100.0),
+            None => pinfo!("island: back in the middle"),
+        }
+        // The window fits around the spot again.
+        self.place_window();
+        NSCursor::arrowCursor().set();
+        self.save_settings();
+        // Move island to the centre shows in the menu now (or goes).
+        self.refresh_menu();
+    }
+
     fn on_resign_key(&mut self) {
         // The person clicked elsewhere: the text field let go of the keyboard.
         self.pending.push(Deferred::ReleaseKeyboard);
@@ -2168,6 +2654,9 @@ impl App {
                 self.st.page = PageKind::Record;
             } else if self.st.page == PageKind::Record && !self.st.record_on() {
                 self.st.page = pages::first_tab(&self.st);
+            } else if self.mode == Mode::Activity(activities::Activity::Download) {
+                // The download pill opens on its page.
+                self.st.page = PageKind::Downloads;
             }
         }
         self.request_frame();
@@ -2479,12 +2968,13 @@ impl App {
                 Command::Pair(_) => {}
                 Command::Oyenza(c) => self.oyenza(c),
                 Command::GetCities(file) => services::cities::fetch(file, self.sink.clone()),
+                Command::Download(c) => self.download_cmd(c),
                 // Notifications is a Windows add-on: a Mac can't read other apps' notifications.
                 Command::Notify(_) => {}
+                Command::OpenSettings => self.show_settings(),
                 Command::Usage(c) => self.usage_cmd(c),
-                // The IELTS coach's microphone and voice come to the Mac with
-                // branch ielts-coach-mac; until then its page says so.
-                Command::Ielts(_) | Command::Notes(_) => {}
+                Command::Ielts(c) => self.ielts_cmd(c),
+                Command::Notes(c) => self.notes_cmd(c),
             }
         }
         self.sync_phone_offer();
@@ -2643,6 +3133,17 @@ impl App {
         }
     }
 
+    /// The IELTS, Notes or Add-ons page came on screen: whether the account has
+    /// Studio Pro, now (unless just asked). Never signed in: nothing starts.
+    fn set_pro_shown(&mut self, on: bool) {
+        if on != self.pro_shown {
+            self.pro_shown = on;
+            if let (true, Some(o)) = (on, &self.oyenza) {
+                o.send(OyenzaCmd::CheckPro);
+            }
+        }
+    }
+
     fn tell_oyenza_activity(&self) {
         if let Some(o) = &self.oyenza {
             o.set_activity(self.oyenza_activity());
@@ -2669,8 +3170,12 @@ impl App {
     fn on_oyenza(&mut self, ev: OyenzaEvent) {
         let now = self.st.now;
         let link_before = self.st.oyenza.link.clone();
+        let pro_before = self.st.studio_pro() == Some(true);
         match ev {
-            OyenzaEvent::Restored { account } => self.st.oyenza.link = OyenzaLink::Connected { account },
+            OyenzaEvent::Restored { account } => {
+                self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
+            }
             OyenzaEvent::Connecting { code, url, expires_in_s } => {
                 self.st.oyenza.link = OyenzaLink::Connecting { code, url, until: now + expires_in_s as f64 };
                 // Keep the code on screen while the person goes to oyenza.app.
@@ -2685,6 +3190,7 @@ impl App {
                 self.end_sign_in();
                 self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
                 self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
                 // Signed in from the Today page: back to it, where the day comes in.
                 if std::mem::take(&mut self.st.oyenza.from_today) {
                     self.st.page = PageKind::Today;
@@ -2774,6 +3280,8 @@ impl App {
                 self.end_sign_in();
                 self.st.oyenza = crate::state::OyenzaState::default();
                 self.st.health = None;
+                // Signed out: an IELTS session ends, and the ladder was the account's.
+                self.ielts_off();
                 let (title, subtitle) =
                     if by_server { ("Oyenza disconnected", "Sign in again in Settings") } else { ("Disconnected from Oyenza", "Sign in again any time in Settings") };
                 self.st.notify(Icon::Unlink, palette::TEXT_DIM, title, subtitle, 6.0, None);
@@ -2784,6 +3292,32 @@ impl App {
         if self.st.oyenza.link != link_before {
             self.refresh_menu();
             self.layout_surface();
+        }
+        if (self.st.studio_pro() == Some(true)) != pro_before {
+            self.pro_changed();
+        }
+    }
+
+    /// Signed in (at start, or just now) with the Downloader switched on:
+    /// whether the account has Studio Pro, now, so its tab doesn't wait for
+    /// the Add-ons page to open (`pages::addons::pro_wanted`).
+    fn ask_pro(&self) {
+        if let (true, Some(o)) = (pages::addons::pro_wanted(&self.st), &self.oyenza) {
+            o.send(OyenzaCmd::CheckPro);
+        }
+    }
+
+    /// Studio Pro came, or went (the server's word, or signing out): the
+    /// Downloader's downloads stop as it goes, and its files come with it
+    /// (`AddonService::set_pro`). Its tab follows by itself (`downloader_on`),
+    /// and its page on screen leaves for Add-ons (`tick`).
+    fn pro_changed(&mut self) {
+        let pro = self.st.studio_pro() == Some(true);
+        if !pro {
+            self.downloads_off();
+        }
+        if let Some(a) = self.addons.as_ref() {
+            a.set_pro(pro);
         }
     }
 
@@ -3046,8 +3580,11 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
+        self.ielts_tick();
+        self.notes_tick();
         self.check_recorder_alive(false);
-        // Prayer times, System, Health, Stocks, Screen recorder or IELTS switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, Screen recorder, IELTS or
+        // Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
@@ -3055,6 +3592,8 @@ impl App {
             PageKind::Stocks => !self.st.stocks_on(),
             PageKind::Record => !self.st.record_on(),
             PageKind::Ielts => !self.st.ielts_on(),
+            PageKind::Downloads => !self.st.downloader_on(),
+            PageKind::Notes => !self.st.notes_on(),
             _ => false,
         };
         if gone {
@@ -3096,6 +3635,9 @@ impl App {
             self.island.set_target(g, now, new_content);
             self.mode = target_mode;
             retarget = true;
+            if target_mode == Mode::Expanded(PageKind::Downloads) {
+                self.downloads_page_shown();
+            }
         } else {
             let g = self.geom_for(&self.mode);
             if g != self.island.target() {
@@ -3116,12 +3658,17 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
+        self.set_pro_shown(matches!(self.mode, Mode::Expanded(PageKind::Ielts | PageKind::Notes | PageKind::Addons)));
         self.set_stocks_watch();
         self.set_usage_watch();
         // The Pill theme floats the island below the top edge (below the menu
         // bar for what hangs under a notch).
         self.island.set_floating(self.gap_target(&self.mode));
         self.island.step(dt, now);
+        // Where the island was dragged along the top edge: the window for
+        // that spot, and the island in it for this frame's outline.
+        self.sync_spot();
+        self.place_island();
         // The island let go of the notch or docked again under a pointer that
         // didn't move: take the mouse there, or let it through, for where the
         // island is now (the smoke run moves its own pointer).
@@ -3142,7 +3689,7 @@ impl App {
         glass::show(glass_at);
 
         let canvas_r = self.island.canvas_rect_at(self.cx).inset(-2.0, -2.0);
-        let full = Rect::new(0.0, 0.0, self.surface.0, self.surface.1);
+        let full = Rect::new(0.0, 0.0, self.win.1, self.surface.1);
         // Floating at rest, only the content changes (the equalizer, a line,
         // the clock): redraw inside the body, and the shadow and hairline
         // around it stay as drawn. Whole DIPs and one more, so no pixel on its
@@ -3196,7 +3743,7 @@ impl App {
         let (floating, detach) = (self.island.floating(), notch::detach(self.island.top(), notch));
         // The smoke run's pretend notch (CI's Macs have none), painted where a
         // MacBook's camera hides the island, so its pictures show what one shows.
-        let pretend_notch = notch.filter(|_| self.smoke.is_some() && window::faking_notch()).map(|n| Rect::new(self.cx - n.w / 2.0, -12.0, n.w, n.h + 12.0));
+        let pretend_notch = notch.filter(|_| self.smoke.is_some() && window::faking_notch()).map(|n| Rect::new(self.notch_cx - n.w / 2.0, -12.0, n.w, n.h + 12.0));
         self.gfx.set_look(look);
         let mut hits = std::mem::take(&mut self.hits);
         hits.clear();
@@ -3307,6 +3854,9 @@ impl App {
             None => {}
         }
         self.run_commands();
+        if self.settings_ui.as_ref().is_some_and(|s| s.view.dirty) {
+            settings_host::redraw();
+        }
         let moving = !self.island.settled()
             || d.anim
             || d.repaint
@@ -3376,9 +3926,11 @@ impl App {
                 let name = SMOKE_STEPS[sm.step];
                 let ready = self.smoke_ready(name, now - t0);
                 // A lyrics lookup waits on LRCLIB (at least a second between
-                // requests); the Japanese readings add-on downloads 3.8 MB.
+                // requests), and when LRCLIB doesn't answer the service asks
+                // again 30 s later; the Japanese readings add-on downloads 3.8 MB.
                 let limit = match name {
-                    "music-check" | "ja-auto" => 25.0,
+                    "music-check" => 55.0,
+                    "ja-auto" => 25.0,
                     "ja-get" => 75.0,
                     "ja-off" | "prayer-off" => 15.0,
                     // Prayer times downloads 1.9 MB; Ashar comes 2 seconds in;
@@ -3421,7 +3973,16 @@ impl App {
                     if let Some((check, ok, detail)) = self.smoke_check(name) {
                         sm.note(check, ok, detail);
                     }
-                    let rect = window::frame_top_left();
+                    // The Settings window's steps picture that window, and the
+                    // drag steps the top of the whole screen (where along it the island is).
+                    let along = name.contains("-drag") || name.ends_with("-centre") || name == "notch-pill-rest";
+                    let rect = if name.starts_with("settings-window") && settings_host::is_open() {
+                        settings_host::frame_top_left()
+                    } else if along {
+                        window::screen_top_left(&self.screen, self.surface.1 as f64)
+                    } else {
+                        window::frame_top_left()
+                    };
                     sm.write_ready(name, rect);
                     sm.phase = SmokePhase::Wait(now);
                 }
@@ -3523,6 +4084,34 @@ impl App {
                 self.st.pomodoro.reset();
                 self.cost = DrawCost::default();
             }
+            // Dragged along the top edge: the music pill (Pill on a screen
+            // without a notch, then floating below one), pressed, moved 300
+            // DIPs right and let go, as the view's mouse events bring it. It
+            // stays closed, there.
+            "pill-drag" | "notch-pill-drag" => {
+                self.leave();
+                self.smoke_drag(300.0);
+            }
+            // A click on it there opens it there, whole on the screen. The
+            // pointer is on it first, as a real click's is (a pointer that
+            // isn't lets the open island close again).
+            "pill-drag-open" => {
+                let p = self.island.body_rect_at(self.cx).center();
+                self.on_pointer(p);
+                self.cancel_hover();
+                let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+                let _ = self.on_view_input(ViewInput::Up { x: p.x, y: p.y });
+            }
+            // Move island to the centre puts it back in the middle.
+            "pill-drag-centre" => {
+                self.leave();
+                self.collapse();
+                self.on_menu(MenuCmd::CentreIsland);
+            }
+            // Resting (notch-pill-collapsed stopped the music), Pill docks in
+            // the notch again, the spot kept for when it floats; the check looks.
+            "notch-pill-rest" => {}
+            "notch-pill-centre" => self.on_menu(MenuCmd::CentreIsland),
             // A made-up Japanese song: its lyrics go in the lyrics cache, as
             // if LRCLIB had answered before, and CI announces it as Spotify
             // would. Back in Classic first, as the menu step is, without the
@@ -3813,6 +4402,58 @@ impl App {
                 self.collapse();
             }
             "record-check" | "record-stop" | "record-gone" => {}
+            // The Settings window, from Advanced settings' command: dark, then light, then closed.
+            "settings-window" => {
+                self.leave();
+                self.collapse();
+                self.st.cmds.push(Command::OpenSettings);
+            }
+            "settings-window-light" => {
+                settings_host::force_appearance(true);
+                if let Some(s) = self.settings_ui.as_mut() {
+                    s.view.show_section(Section::Appearance);
+                }
+                settings_host::redraw();
+            }
+            "settings-window-closed" => self.pending.push(Deferred::CloseSettings),
+            // The IELTS coach's voice (services::voice): a short tone as a
+            // 16 kHz WAV, then, when CI passes one, a short mp3 like the
+            // server's, each to its end.
+            "ielts-voice" | "ielts-voice-mp3" => {
+                let file = if name == "ielts-voice" {
+                    let p = paths::data_dir().join("ielts").join("smoke-voice.wav");
+                    smoke_tone_wav(&p, 0.5).map(|()| Some(p)).map_err(|e| e.to_string())
+                } else {
+                    Ok(std::env::var_os("PONI_SMOKE_MP3").map(PathBuf::from))
+                };
+                let started = clock::mono();
+                self.smoke_voice = match file {
+                    Ok(Some(file)) => {
+                        let mut player = services::voice::VoicePlayer::default();
+                        let played = player.play(&file, &self.sink);
+                        Some(SmokeVoice { player, file, started, played, ended: None })
+                    }
+                    Ok(None) => None,
+                    Err(e) => Some(SmokeVoice { player: Default::default(), file: PathBuf::new(), started, played: Err(e), ended: None }),
+                };
+            }
+            // Its microphone (services::mic): whatever this Mac allows (a
+            // microphone or none; macOS's yes, no or a question nobody
+            // answers), start answers at once. The stop step comes after.
+            "ielts-mic" => {
+                self.smoke_voice = None;
+                let out = paths::data_dir().join("ielts").join("smoke-answer.wav");
+                self.smoke_mic = Some(services::mic::Mic::start(&out, &self.sink));
+            }
+            "ielts-mic-stop" => self.smoke_mic_stop = Some(self.smoke_mic_stopped()),
+            // Meeting notes' recording (services::notes with capture.rs): the
+            // microphone and the Mac's own sound through a Core Audio tap, for
+            // two seconds, whatever this Mac allows; the stop step follows.
+            "notes-capture" => {
+                let started = self.st.local;
+                self.smoke_notes = Some(services::notes::Recording::start(&paths::notes_audio_dir(), &started, &self.sink));
+            }
+            "notes-capture-stop" => self.smoke_notes_stop = Some(self.smoke_notes_stopped()),
             "menu" => {
                 // The pointer from notch-pill-ear leaves.
                 self.leave();
@@ -3840,9 +4481,12 @@ impl App {
             "system-gpu" | "system-memory" | "system-drives" | "system-network" => waited > 0.6,
             "system-power" => waited > 1.3,
             "shelf-drop" => self.st.shelf_thumbs.values().filter(|t| t.is_some()).count() >= 3 || waited > 5.0,
+            // LRCLIB busy, slow or down: the service asks again 30 s later,
+            // and the step waits for that answer too.
             "music-check" => {
-                let looked_up = !matches!(self.st.lyrics.status, LyricsStatus::Idle | LyricsStatus::Loading);
-                (self.st.media.is_some() && looked_up) || waited > 20.0
+                let status = &self.st.lyrics.status;
+                let looked_up = !matches!(status, LyricsStatus::Idle | LyricsStatus::Loading) && !lrclib_failed(status);
+                (self.st.media.is_some() && looked_up) || waited > 50.0
             }
             "ja-auto" => {
                 let l = &self.st.lyrics;
@@ -3878,6 +4522,14 @@ impl App {
             "now-playing" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_SERVICE_TRACK) || std::env::var_os("PONI_SMOKE_NOW_PLAYING").is_none() || waited > 15.0,
             "now-playing-browser" => self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_BROWSER_TRACK) || std::env::var_os("PONI_SMOKE_BROWSER").is_none() || waited > 25.0,
             "menu" => waited > 1.0,
+            // The line plays to its end (half a second).
+            "ielts-voice" | "ielts-voice-mp3" => self.smoke_voice.as_ref().is_none_or(|v| v.ended.is_some() || v.played.is_err()) || waited > 5.0,
+            // A second and a half of whatever the microphone hears.
+            "ielts-mic" => waited > 1.5,
+            // Two seconds of a meeting.
+            "notes-capture" => waited > 2.0,
+            "settings-window" | "settings-window-light" => (settings_host::is_open() && waited > 0.8) || waited > 5.0,
+            "settings-window-closed" => !settings_host::is_open() || waited > 3.0,
             "record-check" => self.mode == Mode::Activity(activities::Activity::Recording) || waited > 5.0,
             "record-gone" => self.st.rec.phase.is_none() || waited > 5.0,
             // About two seconds of frames at rest.
@@ -3892,6 +4544,20 @@ impl App {
     /// inside the notch (the eyes peek out beside it) and the music pill and
     /// the open card float below it, where the gap and the notch take the
     /// mouse and the menu bar beside the notch doesn't.
+    /// A press on the closed island, a move `dx` DIPs sideways and the
+    /// release there, as the view's mouse events bring them: in window DIPs,
+    /// each placed for the window as it is (it spans the screen once the
+    /// drag starts, and goes back around the island at the drop).
+    fn smoke_drag(&mut self, dx: f32) {
+        let p = self.island.body_rect_at(self.cx).center();
+        let from = self.win.0 + p.x;
+        let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+        for step in [spot::DRAG_SLOP + 1.0, dx] {
+            self.on_pointer(Point::new(from + step - self.win.0, p.y));
+        }
+        let _ = self.on_view_input(ViewInput::Up { x: from + dx - self.win.0, y: p.y });
+    }
+
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
         let look = *self.look() == poni_core::look::PILL && !glass::shown();
@@ -3937,6 +4603,18 @@ impl App {
     fn smoke_check(&self, name: &str) -> Option<(&'static str, bool, String)> {
         let gib = |b: u64| b as f64 / (1u64 << 30) as f64;
         match name {
+            "settings-window" => {
+                let open = settings_host::is_open() && self.settings_ui.is_some();
+                let at = settings_host::frame_top_left();
+                let ms = self.settings_ui.as_ref().map_or((0.0, 0.0), |s| (s.draw_ms, s.draw_max_ms));
+                let detail = format!("window {at:?}, {} mode, a frame draws in {:.1} ms (slowest {:.1})", if settings_host::is_light() { "light" } else { "dark" }, ms.0, ms.1);
+                Some(("settings-window-open", open, detail))
+            }
+            "settings-window-light" => Some(("settings-window-light", settings_host::is_light(), format!("section {:?}", self.settings_ui.as_ref().map(|s| s.view.section)))),
+            "settings-window-closed" => {
+                let gone = !settings_host::is_open() && self.settings_ui.is_none();
+                Some(("settings-window-closed", gone, format!("window {}, content {}", if settings_host::is_open() { "still open" } else { "gone" }, if self.settings_ui.is_some() { "kept" } else { "dropped" })))
+            }
             "record-check" | "record-gone" => {
                 let showing = self.mode == Mode::Activity(activities::Activity::Recording);
                 let recording = self.st.rec.phase == Some(poni_core::recorder::Phase::Recording);
@@ -4102,6 +4780,42 @@ impl App {
                 );
                 Some(("pill-ear-stays-open", ok, d))
             }
+            "pill-drag" | "notch-pill-drag" => {
+                let sw = self.screen.w as f32;
+                let (home, centre) = (self.screen.cx as f32, self.win.0 + self.cx);
+                let want = (home + 300.0).min(sw - self.island.current().w / 2.0 - self.room().0);
+                // Around a notch the window keeps the notch in it (Pill docks there to rest).
+                let notch_in = self.screen.notch.is_none_or(|n| self.notch_cx >= n.w / 2.0 && self.notch_cx + n.w / 2.0 <= self.win.1);
+                let ok = !self.expanded && self.st.settings.island_x.is_some() && (centre - want).abs() < 1.5 && notch_in;
+                let d = format!(
+                    "{:?}: centre {home:.0} -> {centre:.0} DIP across a {sw:.0} DIP screen (want {want:.0}), saved {:?}, {}; window {:.0}+{:.0}, the notch (or middle) at {:.0} in it",
+                    self.mode,
+                    self.st.settings.island_x,
+                    if self.expanded { "opened" } else { "closed" },
+                    self.win.0,
+                    self.win.1,
+                    self.notch_cx
+                );
+                Some((if self.screen.notch.is_some() { "notch-pill-dragged" } else { "island-dragged" }, ok, d))
+            }
+            "pill-drag-open" => {
+                let sw = self.screen.w as f32;
+                let b = self.island.body_rect_at(self.cx);
+                let (l, r) = (self.win.0 + b.x, self.win.0 + b.right());
+                let ok = self.expanded && l >= -0.5 && r <= sw + 0.5 && self.win.0 + b.center().x > self.screen.cx as f32;
+                Some(("island-opens-at-its-spot", ok, format!("{:?} from {l:.0} to {r:.0} DIP across a {sw:.0} DIP screen", self.mode)))
+            }
+            "notch-pill-rest" => {
+                let ok = self.spot().is_some() && self.mode == Mode::Idle && !self.island.floating() && (self.cx - self.notch_cx).abs() < 0.5;
+                let d = format!("{:?}, the island at {:.0} and the notch at {:.0} in the window, spot {:?}", self.mode, self.cx, self.notch_cx, self.spot());
+                Some(("notch-pill-docks-at-the-notch", ok, d))
+            }
+            "pill-drag-centre" | "notch-pill-centre" => {
+                let (home, centre) = (self.screen.cx as f32, self.win.0 + self.cx);
+                let ok = self.st.settings.island_x.is_none() && (centre - home).abs() < 0.5 && self.win.1 == self.surface.0;
+                let d = format!("centre {centre:.0} DIP (the notch or middle: {home:.0}), window {:.0} wide for a {:.0} room, saved {:?}", self.win.1, self.surface.0, self.st.settings.island_x);
+                Some((if self.screen.notch.is_some() { "notch-pill-centred" } else { "island-centred" }, ok, d))
+            }
             "pill-hover" => {
                 let (now, rest) = (self.island.current(), activities::geom(&self.mode, &self.st));
                 let want = pill::motion::hover_lift(rest);
@@ -4125,7 +4839,13 @@ impl App {
                 let l = &self.st.lyrics;
                 let lines = l.lyrics.as_ref().map_or(0, |x| x.lines.len());
                 let synced = l.lyrics.as_ref().is_some_and(|x| x.synced);
-                let ok = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK) && l.status == LyricsStatus::Found && lines > 0;
+                let track = self.st.media.as_ref().is_some_and(|m| m.title == SMOKE_TRACK);
+                // LRCLIB didn't answer, even asked again: an outside service's
+                // trouble, not this copy's, so it fails neither CI nor a release.
+                if track && lrclib_failed(&l.status) {
+                    return Some(("now-playing-lyrics", true, format!("skipped: {playing}, but LRCLIB didn't answer, even asked again 30 s later ({:?})", l.status)));
+                }
+                let ok = track && l.status == LyricsStatus::Found && lines > 0;
                 Some(("now-playing-lyrics", ok, format!("{playing}; lyrics {:?} from {}: {lines} lines, synced {synced}", l.status, l.source)))
             }
             "ja-auto" => {
@@ -4279,9 +4999,145 @@ impl App {
                 let d = format!("{status:?}; files {}; downloader {}", if gone { "deleted" } else { "still there" }, if self.addons.is_none() { "stopped" } else { "still running" });
                 Some(("ja-readings-off", ok, d))
             }
+            "ielts-voice" | "ielts-voice-mp3" => {
+                let check = if name == "ielts-voice" { "ielts-voice-wav" } else { "ielts-voice-mp3" };
+                let Some(v) = &self.smoke_voice else { return Some((check, true, "skipped: no mp3 on this run".into())) };
+                let ended = v.ended.map_or("never".to_string(), |t| format!("after {:.2} s", t - v.started));
+                let ok = v.played.is_ok() && v.ended.is_some() && !v.player.playing();
+                Some((check, ok, format!("{}: play {:?}, VoiceEnded {ended}", v.file.display(), v.played)))
+            }
+            "ielts-mic" => {
+                use services::mic::MicError;
+                let (ok, gave) = match &self.smoke_mic {
+                    Some(Ok(mic)) => (true, format!("Ok ({mic:?}, level {:.3})", mic.level())),
+                    Some(Err(MicError::NoDevice)) => (true, "NoDevice (no microphone on this Mac)".to_string()),
+                    Some(Err(MicError::Denied)) => (true, "Denied (macOS says no)".to_string()),
+                    Some(Err(MicError::Failed(e))) => (false, format!("Failed: {e}")),
+                    None => (false, "nothing".to_string()),
+                };
+                Some(("ielts-mic-start", ok, format!("Mic::start gave {gave}")))
+            }
+            "ielts-mic-stop" => {
+                let (ok, d) = self.smoke_mic_stop.clone().unwrap_or((false, "not run".into()));
+                Some(("ielts-mic-stop", ok, d))
+            }
+            "notes-capture-stop" => {
+                let (ok, d) = self.smoke_notes_stop.clone().unwrap_or((false, "not run".into()));
+                Some(("notes-capture", ok, d))
+            }
             _ => None,
         }
     }
+
+    /// The microphone's stop step: what `Mic::stop` gave, and whether that's
+    /// right for what `start` gave.
+    fn smoke_mic_stopped(&mut self) -> (bool, String) {
+        match self.smoke_mic.take() {
+            Some(Ok(mic)) => {
+                let was = format!("{mic:?}");
+                match mic.stop() {
+                    Ok((path, secs)) => match smoke_wav_format(&path) {
+                        Some((rate, channels, bits, at, bytes)) => {
+                            let ok = rate == 16_000 && channels == 1 && bits == 16 && secs > 1.0 && bytes >= 32_000;
+                            (ok, format!("{secs:.2} s in {}: {rate} Hz, {channels} channel(s), {bits}-bit, {bytes} bytes of samples from byte {at}", path.display()))
+                        }
+                        None => (false, format!("{secs:.2} s, but {} isn't a WAV file", path.display())),
+                    },
+                    // macOS's question still up (nobody answers it on CI), or
+                    // the person said no meanwhile: nothing was recorded.
+                    Err(e) if was == "asking macOS" || was == "turned down" => (true, format!("{e:?} (it was {was})")),
+                    Err(e) => (false, format!("{e:?} (it was {was})")),
+                }
+            }
+            Some(Err(e)) => (true, format!("nothing to stop: start gave {e:?}")),
+            None => (false, "Mic::start didn't run".into()),
+        }
+    }
+
+    /// Meeting notes' stop step: a recording that started stops into WAV
+    /// parts of 16 kHz mono; one that couldn't start says why. Either is
+    /// fine on a runner (no microphone, nobody to answer macOS's questions);
+    /// what fails is a crash, a hang, or parts in the wrong format.
+    fn smoke_notes_stopped(&mut self) -> (bool, String) {
+        match self.smoke_notes.take() {
+            Some(Ok((rec, mic, pc))) => {
+                let (lm, lp) = rec.levels();
+                match rec.stop() {
+                    Ok(take) => {
+                        let formats: Vec<_> = take.parts.iter().map(|p| smoke_wav_format(p).map(|(r, c, b, _, n)| (r, c, b, n))).collect();
+                        let ok = formats.iter().all(|f| matches!(f, Some((16_000, 1, 16, _))));
+                        let _ = std::fs::remove_dir_all(&take.dir);
+                        (ok, format!("microphone {mic}, the Mac's sound {pc}; levels {lm:.3}/{lp:.3}; {:.2} s in {} part(s) {formats:?}", take.secs, take.parts.len()))
+                    }
+                    Err(issue) => (true, format!("microphone {mic}, the Mac's sound {pc}; stop gave {issue:?}")),
+                }
+            }
+            // No microphone, or macOS saying no, is the runner's business; a
+            // recording that fails to start (a source hanging) is ours.
+            Some(Err(issue)) => (issue != poni_core::notes::CaptureIssue::Failed, format!("no recording: {issue:?}")),
+            None => (false, "Recording::start didn't run".into()),
+        }
+    }
+}
+
+/// The IELTS coach's voice step: the player, its file, when the line
+/// started, what `play` said and when `AppEvent::VoiceEnded` came.
+struct SmokeVoice {
+    player: services::voice::VoicePlayer,
+    file: PathBuf,
+    started: f64,
+    played: Result<(), String>,
+    ended: Option<f64>,
+}
+
+/// The voice step's line: a quiet 440 Hz tone, `secs` long, as a 16 kHz mono
+/// 16-bit WAV (the microphone's format too).
+fn smoke_tone_wav(path: &std::path::Path, secs: f32) -> std::io::Result<()> {
+    let n = (16_000.0 * secs) as u32;
+    let mut b = Vec::with_capacity(44 + 2 * n as usize);
+    b.extend_from_slice(b"RIFF");
+    b.extend_from_slice(&(36 + 2 * n).to_le_bytes());
+    b.extend_from_slice(b"WAVEfmt ");
+    b.extend_from_slice(&16u32.to_le_bytes());
+    b.extend_from_slice(&1u16.to_le_bytes()); // PCM
+    b.extend_from_slice(&1u16.to_le_bytes()); // mono
+    b.extend_from_slice(&16_000u32.to_le_bytes());
+    b.extend_from_slice(&32_000u32.to_le_bytes()); // bytes a second
+    b.extend_from_slice(&2u16.to_le_bytes()); // bytes a frame
+    b.extend_from_slice(&16u16.to_le_bytes()); // bits
+    b.extend_from_slice(b"data");
+    b.extend_from_slice(&(2 * n).to_le_bytes());
+    for i in 0..n {
+        let s = (i as f32 / 16_000.0 * 440.0 * std::f32::consts::TAU).sin() * 0.1 * i16::MAX as f32;
+        b.extend_from_slice(&(s as i16).to_le_bytes());
+    }
+    if let Some(dir) = path.parent() {
+        std::fs::create_dir_all(dir)?;
+    }
+    std::fs::write(path, b)
+}
+
+/// A WAV file's rate, channels, bits, and where its samples start and how
+/// many bytes they take (chunks such as Apple's FLLR padding skipped).
+fn smoke_wav_format(path: &std::path::Path) -> Option<(u32, u16, u16, usize, usize)> {
+    let b = std::fs::read(path).ok()?;
+    if b.get(0..4)? != b"RIFF" || b.get(8..12)? != b"WAVE" {
+        return None;
+    }
+    let u16_at = |i: usize| Some(u16::from_le_bytes(b.get(i..i + 2)?.try_into().ok()?));
+    let u32_at = |i: usize| Some(u32::from_le_bytes(b.get(i..i + 4)?.try_into().ok()?));
+    let (mut at, mut fmt) = (12, None);
+    while at + 8 <= b.len() {
+        let (id, len) = (&b[at..at + 4], u32_at(at + 4)? as usize);
+        if id == b"fmt " {
+            fmt = Some((u32_at(at + 12)?, u16_at(at + 10)?, u16_at(at + 22)?));
+        } else if id == b"data" {
+            let (rate, channels, bits) = fmt?;
+            return Some((rate, channels, bits, at + 8, len.min(b.len() - at - 8)));
+        }
+        at += 8 + len + (len & 1);
+    }
+    None
 }
 
 /// The keychain items tools/mac-smoke.sh adds for the AI tab's reader: their
@@ -4415,6 +5271,12 @@ fn smoke_post() -> (bool, String) {
     }
 }
 
+/// The song's lyrics failed on LRCLIB's side (busy, slow or down): the
+/// service asks again on its own.
+fn lrclib_failed(status: &LyricsStatus) -> bool {
+    matches!(status, LyricsStatus::Error(m) if services::lyrics::lrclib_trouble(m))
+}
+
 /// Lines of these lyrics that have romaji, and lines that need it.
 fn romaji_lines(l: &LyricsState) -> (usize, usize) {
     let needing = l.lyrics.as_ref().map_or(0, |x| x.lines.iter().filter(|line| poni_core::romanize::needs_roman(line.text.trim())).count());
@@ -4535,7 +5397,7 @@ fn system_report(st: &AppState) -> (bool, String) {
 }
 
 /// Oyen's orange in his theme, the Mac's accent colour otherwise.
-fn theme_accent(theme: Theme) -> Color {
+pub(crate) fn theme_accent(theme: Theme) -> Color {
     if oyen::on(theme) {
         oyen::ORANGE
     } else {
@@ -4617,7 +5479,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 68] = [
+const SMOKE_STEPS: [&str; 83] = [
     "idle",
     "hover",
     "open-focus",
@@ -4644,12 +5506,18 @@ const SMOKE_STEPS: [&str; 68] = [
     "pill-collapsed",
     "pill-hover",
     "pill-music-cost",
+    "pill-drag",
+    "pill-drag-open",
+    "pill-drag-centre",
     "notch-oyen-open",
     "notch-oyen-collapsed",
     "notch-glass-open",
     "notch-pill-open",
     "notch-pill-music",
+    "notch-pill-drag",
     "notch-pill-collapsed",
+    "notch-pill-rest",
+    "notch-pill-centre",
     "notch-pill-ear",
     "notch-eyes",
     "ja-notify",
@@ -4685,6 +5553,15 @@ const SMOKE_STEPS: [&str; 68] = [
     "record-check",
     "record-stop",
     "record-gone",
+    "settings-window",
+    "settings-window-light",
+    "settings-window-closed",
+    "ielts-voice",
+    "ielts-voice-mp3",
+    "ielts-mic",
+    "ielts-mic-stop",
+    "notes-capture",
+    "notes-capture-stop",
     "menu",
 ];
 /// The track CI announces as Spotify's own notification would.
@@ -4756,3 +5633,15 @@ impl Smoke {
         let _ = std::fs::write(self.dir.join("report.json"), out);
     }
 }
+
+// The Downloads page's commands and yt-dlp's reports.
+#[path = "app_downloads.rs"]
+mod downloads;
+
+// The IELTS coach's page, worker, microphone and voice.
+#[path = "app_ielts.rs"]
+mod ielts;
+
+// Meeting notes: the recording and the handing over.
+#[path = "app_notes.rs"]
+mod notes;

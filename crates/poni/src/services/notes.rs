@@ -1,5 +1,8 @@
 //! Meeting notes on this PC (the Meeting notes add-on): the recording and
-//! the handing over. The page and its moments are `poni_core::notes`.
+//! the handing over. The page and its moments are `poni_core::notes`. The
+//! Mac app runs this file too, with its own two sources
+//! (`mac/services/capture.rs`: the microphone, and the Mac's own sound
+//! through a Core Audio tap); everything else here is the same.
 //!
 //! The recording takes the default microphone and the default playback
 //! device's own sound (WASAPI loopback: whatever the PC plays, so the voices
@@ -21,10 +24,16 @@
 //! only, never the UI's or the log.
 
 use crate::events::{AppEvent, EventSink};
+#[cfg(target_os = "macos")]
+use crate::services::capture::Source;
 use crate::services::http::{Client, Method, MtaGuard};
-use crate::services::mic::{self, Device, MicError};
+use crate::services::mic::MicError;
+#[cfg(windows)]
+use crate::services::mic::{self, Device};
 use poni_core::datetime::LocalDateTime;
-use poni_core::ielts::{peak, WavWriter};
+#[cfg(windows)]
+use poni_core::ielts::peak;
+use poni_core::ielts::WavWriter;
 use poni_core::notes::{self, CaptureIssue, Lang, Mixer, Problem, Reply, Saved, View, PART_SECS, RATE};
 use poni_core::oyenza;
 use std::path::{Path, PathBuf};
@@ -32,7 +41,9 @@ use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 use std::sync::{mpsc, Arc};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
+#[cfg(windows)]
 use windows::Win32::Media::Audio::{eCapture, eConsole, eRender, EDataFlow, IMMDeviceEnumerator, MMDeviceEnumerator, AUDCLNT_BUFFERFLAGS_SILENT};
+#[cfg(windows)]
 use windows::Win32::System::Com::{CoCreateInstance, CoInitializeEx, CoTaskMemFree, CoUninitialize, CLSCTX_ALL, COINIT_MULTITHREADED};
 
 const USER_AGENT: &str = concat!("OyenzaStudio/", env!("CARGO_PKG_VERSION"), " (+https://github.com/lucacadalora/oyenza-studio)");
@@ -40,8 +51,12 @@ const USER_AGENT: &str = concat!("OyenzaStudio/", env!("CARGO_PKG_VERSION"), " (
 const OPEN_TIMEOUT: Duration = Duration::from_secs(5);
 /// How often the recording checks whether Windows' default devices changed.
 const DEVICE_CHECK: Duration = Duration::from_secs(2);
+/// How often the recording empties its sources (a 500 ms device buffer, or
+/// the Mac's queues, leave room for a late wake-up).
+const POLL: Duration = Duration::from_millis(40);
 const PART_SAMPLES: u64 = PART_SECS as u64 * RATE as u64;
 /// The level meters: the loudest sample of the last ~100 ms, eased down.
+#[cfg(windows)]
 const METER_FALL: f32 = 0.82;
 const CALL_TIMEOUT: Duration = Duration::from_secs(15);
 /// A five-minute part (9.6 MB) on a slow uplink.
@@ -125,6 +140,7 @@ impl Drop for Recording {
 }
 
 /// One source: its device while it works, and when to look again when not.
+#[cfg(windows)]
 struct Source {
     flow: EDataFlow,
     what: &'static str,
@@ -135,9 +151,24 @@ struct Source {
     level: f32,
 }
 
+#[cfg(windows)]
 impl Source {
+    fn mic() -> Source {
+        Source::new(eCapture, "notes: microphone")
+    }
+
+    fn pc() -> Source {
+        Source::new(eRender, "notes: the PC's sound")
+    }
+
     fn new(flow: EDataFlow, what: &'static str) -> Source {
         Source { flow, what, dev: None, id: None, pcm: Vec::with_capacity(RATE as usize / 4), level: 0.0 }
+    }
+
+    /// Not open, or Windows' default device changed (a headset plugged in, or
+    /// the one it had went away): open the default again.
+    fn moved(&self) -> bool {
+        self.dev.is_none() || default_id(self.flow) != self.id
     }
 
     fn open(&mut self) -> Result<(), MicError> {
@@ -190,6 +221,7 @@ impl Source {
 }
 
 /// Windows' default device of `flow` now, as its id.
+#[cfg(windows)]
 fn default_id(flow: EDataFlow) -> Option<String> {
     unsafe {
         let devices: IMMDeviceEnumerator = CoCreateInstance(&MMDeviceEnumerator, None, CLSCTX_ALL).ok()?;
@@ -250,10 +282,11 @@ impl Parts {
 /// The `poni-notes` thread: open both sources, say which did, then record
 /// until told to stop (or the longest meeting the server takes).
 fn capture(dir: &Path, shared: &Shared, sink: &EventSink, ready: mpsc::Sender<Result<(bool, bool), CaptureIssue>>) -> Result<Take, CaptureIssue> {
+    #[cfg(windows)]
     let com = unsafe { CoInitializeEx(None, COINIT_MULTITHREADED) };
     let out = (|| {
-        let mut mic = Source::new(eCapture, "notes: microphone");
-        let mut pc = Source::new(eRender, "notes: the PC's sound");
+        let mut mic = Source::mic();
+        let mut pc = Source::pc();
         let (m, p) = (mic.open(), pc.open());
         if let (Err(em), Err(ep)) = (&m, &p) {
             crate::pwarn!("notes: nothing to record (microphone: {em}; the PC's sound: {ep})");
@@ -308,7 +341,7 @@ fn capture(dir: &Path, shared: &Shared, sink: &EventSink, ready: mpsc::Sender<Re
             if checked.elapsed() >= DEVICE_CHECK {
                 checked = Instant::now();
                 for s in [&mut mic, &mut pc] {
-                    if s.dev.is_none() || default_id(s.flow) != s.id {
+                    if s.moved() {
                         s.close();
                         if s.open().is_ok() {
                             crate::pinfo!("notes: {} moved to the default device", s.what);
@@ -316,7 +349,7 @@ fn capture(dir: &Path, shared: &Shared, sink: &EventSink, ready: mpsc::Sender<Re
                     }
                 }
             }
-            std::thread::sleep(mic::POLL);
+            std::thread::sleep(POLL);
         }
         mic.close();
         pc.close();
@@ -327,6 +360,7 @@ fn capture(dir: &Path, shared: &Shared, sink: &EventSink, ready: mpsc::Sender<Re
         crate::pinfo!("notes: recorded {secs:.0} s in {} part(s)", parts.done.len());
         Ok(Take { dir: dir.to_path_buf(), parts: parts.done, secs })
     })();
+    #[cfg(windows)]
     if com.is_ok() {
         unsafe { CoUninitialize() };
     }

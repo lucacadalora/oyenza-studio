@@ -14,6 +14,8 @@ use crate::paths;
 use crate::pill;
 use crate::services::notifications::NotifyEvent;
 use crate::services::{self, Services};
+use crate::settings_host::{self, SettingsWindow};
+use crate::settings_window::Section;
 use crate::state::{
     AppState, FpsAccess, HudKind, InlineAction, Locate, LyricsState, LyricsStatus, Notice, NoticeAction, NotifyAccess, OyenzaLink, PairedPhone, PhoneAsk,
     PhoneDrop, PhoneTransfer, PhoneView, PrayerState,
@@ -22,6 +24,7 @@ use crate::tray::{self, Tray};
 use crate::ui::{wid, CursorKind, Hit, Input, KeyInput, MouseButton, Ui};
 use crate::window::{self, FrameClock, FrameTick, MonitorInfo};
 use crate::{dragdrop, selftest, shell};
+use poni_core::spot;
 use poni_core::addons::Status as AddonStatus;
 use poni_core::frametime::{ambient_divisor, MotionStats};
 use poni_core::geom::{palette, Color, Point, Rect};
@@ -157,6 +160,9 @@ pub fn main_entry() -> i32 {
 
 fn run(selftest_dir: Option<String>) -> Result<i32> {
     window::register_classes(island_wndproc, helper_wndproc)?;
+    if let Err(e) = settings_host::register(settings_wndproc) {
+        pwarn!("settings window: class not registered ({e})");
+    }
     let hwnd = window::create_island_window()?;
     let helper = window::create_helper_window()?;
     pinfo!("windows created");
@@ -312,6 +318,19 @@ unsafe extern "system" fn helper_wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: L
     }
 }
 
+/// The Settings window's messages (`settings_window`).
+unsafe extern "system" fn settings_wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM) -> LRESULT {
+    let mut deferred = Vec::new();
+    let res = with_app(|app| app.handle_settings_window(hwnd, msg, wp, lp, &mut deferred));
+    for d in deferred {
+        run_deferred(d);
+    }
+    match res {
+        Some(Some(r)) => r,
+        _ => DefWindowProcW(hwnd, msg, wp, lp),
+    }
+}
+
 fn run_deferred(d: Deferred) {
     match d {
         Deferred::DragOut(paths) => {
@@ -355,6 +374,8 @@ pub struct App {
     text_focus: bool,
     prev_foreground: HWND,
     monitor: MonitorInfo,
+    /// The Settings window, while it is open.
+    settings_win: Option<SettingsWindow>,
     clock: FrameClock,
     sink: EventSink,
     rx: Receiver<AppEvent>,
@@ -389,10 +410,15 @@ pub struct App {
     glass_moving: bool,
     /// Animation time of the last frame (the vblank it was shown on).
     last_frame_t: f64,
-    /// The window: a fixed-size surface the island is drawn centred in.
+    /// The window: a fixed-size surface the island is drawn in, centred on
+    /// the monitor unless the island was dragged along the top edge.
     surface: Surface,
-    /// Centre of the surface in DIPs (where the island hangs from).
+    /// The island's centre in the window, DIPs (where it hangs from): where
+    /// it rests (`home_cx`), unless its outline needs more room there.
     cx: f32,
+    /// Where the island's centre rests in the window, DIPs: the window's
+    /// middle, or off it once dragged towards an edge (`place_surface`).
+    home_cx: f32,
     /// Canvas pixels drawn last frame (the next frame clears them).
     prev_canvas_px: Option<RECT>,
     /// GPU renderer: the hit mask last pushed to the window, and when.
@@ -516,6 +542,11 @@ pub struct App {
     /// Whether the island floated when the window was last laid out (its
     /// room differs: see `sync_room`).
     laid_floating: bool,
+    /// The spot along the top edge (`Settings::island_x`) the window was
+    /// last laid out for (see `sync_spot`).
+    laid_spot: Option<f32>,
+    /// A press on the closed island, which a sideways move turns into a drag.
+    grab: Option<Grab>,
     /// New versions (`crate::updates`); None in the self-test and in a
     /// Store copy, which the Store updates.
     updater: Option<crate::updates::Updater>,
@@ -531,6 +562,18 @@ struct Surface {
     y: i32,
     w: i32,
     h: i32,
+}
+
+/// A press on the closed island: let go where it was, it opens the
+/// island; moved sideways first, it drags the island along the top edge.
+#[derive(Clone, Copy, Debug)]
+struct Grab {
+    /// Where the pointer was pressed, screen pixels across.
+    from_px: i32,
+    /// The island's centre then, DIPs from the monitor's left edge.
+    centre: f32,
+    /// The pointer went past `spot::DRAG_SLOP`: a drag, not a click.
+    moved: bool,
 }
 
 /// The grow springs overshoot by about 3 %; the surface leaves 5 %.
@@ -604,6 +647,8 @@ impl App {
         let taskbar_created_msg = unsafe { RegisterWindowMessageW(w!("TaskbarCreated")) };
         // Oyenza Studio Recorder installed: the Record tab can show (one registry read).
         st.recorder = selftest_dir.is_none() && services::recorder::installed();
+        // The Downloader: not in the Microsoft Store build.
+        st.downloader_offered = !crate::autostart::packaged();
         let selftest = selftest_dir.map(selftest::SelfTest::new);
         let saved_settings = st.settings.clone();
         Ok(Self {
@@ -621,6 +666,7 @@ impl App {
             text_focus: false,
             prev_foreground: HWND::default(),
             monitor,
+            settings_win: None,
             clock,
             sink,
             rx,
@@ -641,6 +687,7 @@ impl App {
             last_frame_t: 0.0,
             surface: Surface::default(),
             cx: 0.0,
+            home_cx: 0.0,
             prev_canvas_px: None,
             mask: None,
             motion: None,
@@ -703,6 +750,8 @@ impl App {
             phone_offer: Vec::new(),
             pair_offer: None,
             laid_floating: false,
+            laid_spot: None,
+            grab: None,
             updater: None,
             notify: None,
         })
@@ -760,6 +809,7 @@ impl App {
 
     fn shutdown(&mut self) -> i32 {
         self.save_now();
+        self.settings_win = None;
         // Stops the frame count's trace session (it would outlive Poni).
         self.frames = None;
         self.set_peek_hotkey(false);
@@ -834,16 +884,104 @@ impl App {
         let mon_w = self.monitor.rect.right - self.monitor.rect.left;
         let (w, h) = surface_size(&self.island, body_w, body_h, s, mon_w);
         self.laid_floating = self.island.floating();
-        let surface = Surface { x: self.monitor.rect.left + (mon_w - w) / 2, y: self.monitor.top(), w, h };
+        self.place_surface(w, h);
+    }
+
+    /// Put the `w`×`h` px window at the top of the monitor: centred, or as
+    /// near the spot the island was dragged to as the monitor allows. Past
+    /// that the island goes the rest of the way inside the window
+    /// (`place_island`).
+    fn place_surface(&mut self, w: i32, h: i32) {
+        let s = self.gfx.scale();
+        let (left, mon_w) = (self.monitor.rect.left, self.monitor.rect.right - self.monitor.rect.left);
+        self.laid_spot = self.st.settings.island_x;
+        let (x, home) = match self.laid_spot {
+            None => (left + (mon_w - w) / 2, w as f32 / 2.0 / s),
+            Some(f) => {
+                let at = left + (f * mon_w as f32).round() as i32;
+                let x = spot::window_left(left, mon_w, w, at);
+                (x, (at - x) as f32 / s)
+            }
+        };
+        self.home_cx = home;
+        let surface = Surface { x, y: self.monitor.top(), w, h };
         if surface != self.surface {
             self.surface = surface;
-            self.cx = w as f32 / 2.0 / s;
             self.prev_canvas_px = None;
             self.mask = None;
             if let Err(e) = self.gfx.set_surface(w, h) {
                 pwarn!("window surface {w}x{h} failed: {e}");
             }
         }
+        self.place_island();
+    }
+
+    /// The island's centre in the window this frame. In the middle, where
+    /// it rests. Dragged towards an edge, moved in just enough to keep its
+    /// outline (as wide as it is now) in the window: opening there, it
+    /// grows away from the edge.
+    fn place_island(&mut self) {
+        self.cx = match self.laid_spot {
+            None => self.home_cx,
+            Some(_) => spot::fit_centre(self.home_cx, self.surface.w as f32 / self.gfx.scale(), self.island.current().w, self.island.side_room()),
+        };
+    }
+
+    /// The spot along the top edge changed since the window was laid out
+    /// (a drag, the menu's Move island to the centre, Reload settings): lay
+    /// it out there. Called every frame; a layout only on that change.
+    fn sync_spot(&mut self) {
+        if self.st.settings.island_x != self.laid_spot {
+            self.place_surface(self.surface.w, self.surface.h);
+        }
+    }
+
+    /// Where a mouse message's point is on the screen, pixels across.
+    fn screen_x(&self, lp: LPARAM) -> i32 {
+        let mut pt = POINT { x: (lp.0 & 0xffff) as u16 as i16 as i32, y: ((lp.0 >> 16) & 0xffff) as u16 as i16 as i32 };
+        unsafe {
+            let _ = windows::Win32::Graphics::Gdi::ClientToScreen(self.hwnd, &mut pt);
+        }
+        pt.x
+    }
+
+    /// The pointer moved while pressing the closed island: once it has
+    /// gone `spot::DRAG_SLOP` sideways, the island follows it along the top
+    /// edge, as far as it stays on the screen, and back to the middle when
+    /// it comes within `spot::SNAP` of it.
+    fn drag_island(&mut self, lp: LPARAM) {
+        let Some(g) = self.grab else { return };
+        let s = self.gfx.scale();
+        let dx = self.screen_x(lp) - g.from_px;
+        if !g.moved {
+            if (dx.abs() as f32) < spot::DRAG_SLOP * s {
+                return;
+            }
+            pinfo!("island: dragged along the top edge");
+            // No WM_SETCURSOR comes while the mouse is captured.
+            unsafe {
+                if let Ok(c) = LoadCursorW(None, IDC_SIZEWE) {
+                    SetCursor(c);
+                }
+            }
+        }
+        self.grab = Some(Grab { moved: true, ..g });
+        let mon_w = (self.monitor.rect.right - self.monitor.rect.left) as f32 / s;
+        let centre = spot::fit_centre(g.centre + dx as f32 / s, mon_w, self.island.current().w, self.island.side_room());
+        self.st.settings.island_x = spot::remember(centre, mon_w);
+        self.sync_spot();
+        self.request_frame();
+    }
+
+    /// A drag along the top edge ended: the island stays there (saved), and
+    /// doesn't open under the pointer that just let go of it.
+    fn dropped_island(&mut self) {
+        self.cancel_hover();
+        match self.st.settings.island_x {
+            Some(x) => pinfo!("island: moved to {:.0} % across the screen", x * 100.0),
+            None => pinfo!("island: back in the middle"),
+        }
+        self.save_settings();
     }
 
     /// The island started or stopped floating since the window was laid out
@@ -918,6 +1056,42 @@ impl App {
         }
     }
 
+    /// A click on the closed island (pressed and let go without dragging
+    /// it): a notice jumps to its page or app, the download pill to its
+    /// page, and the island opens.
+    fn open_from_press(&mut self) {
+        // Clicking a notice jumps to its page (a new version's
+        // may be waiting under a volume change or a game's readout).
+        let shown = self.mode == Mode::Notice;
+        // Another app's notification opens that app instead.
+        let mut opened = false;
+        if let Some(n) = self.st.notice.take_if(|_| shown) {
+            match n.action {
+                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
+                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
+                Some(NoticeAction::StartFocus) => {
+                    self.st.page = PageKind::Focus;
+                    if !self.st.pomodoro.is_active() {
+                        self.st.pomodoro.start(self.st.now);
+                    }
+                }
+                Some(NoticeAction::OpenApp(id)) => {
+                    shell::open_app(&id);
+                    opened = true;
+                }
+                None => {}
+            }
+        }
+        // The download pill opens on its page.
+        if self.mode == Mode::Activity(activities::Activity::Download) {
+            self.st.page = PageKind::Downloads;
+        }
+        self.st.hud = None;
+        if !opened {
+            self.expand();
+        }
+    }
+
     fn release_mouse(&mut self) {
         self.input.down = false;
         self.input.pressed_id = None;
@@ -954,6 +1128,11 @@ impl App {
             }
             WM_MOUSEMOVE => {
                 let p = self.mouse_dip(lp);
+                if self.grab.is_some() {
+                    self.input.mouse = Some(p);
+                    self.drag_island(lp);
+                    return Some(LRESULT(0));
+                }
                 if self.over_stale_mask(p) {
                     // The pointer is over a part of the hit mask the outline
                     // already left: it isn't on the island.
@@ -1025,32 +1204,13 @@ impl App {
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
                     } else {
-                        // Clicking a notice jumps to its page (a new version's
-                        // may be waiting under a volume change or a game's readout).
-                        let shown = self.mode == Mode::Notice;
-                        // Another app's notification opens that app instead.
-                        let mut opened = false;
-                        if let Some(n) = self.st.notice.take_if(|_| shown) {
-                            match n.action {
-                                Some(NoticeAction::OpenPage(p)) => self.st.page = p,
-                                Some(NoticeAction::OpenUpdate) => self.st.open_update(),
-                                Some(NoticeAction::StartFocus) => {
-                                    self.st.page = PageKind::Focus;
-                                    if !self.st.pomodoro.is_active() {
-                                        self.st.pomodoro.start(self.st.now);
-                                    }
-                                }
-                                Some(NoticeAction::OpenApp(id)) => {
-                                    shell::open_app(&id);
-                                    opened = true;
-                                }
-                                None => {}
-                            }
-                        }
-                        self.st.hud = None;
-                        if !opened {
-                            self.expand();
-                        }
+                        // Opens when the button comes up (`open_from_press`),
+                        // unless the pointer moves sideways first: then it
+                        // drags the island along the top edge (`drag_island`).
+                        let centre = (self.surface.x - self.monitor.rect.left) as f32 / self.gfx.scale() + self.cx;
+                        self.grab = Some(Grab { from_px: self.screen_x(lp), centre, moved: false });
+                        // Held still on it, it doesn't open by itself either.
+                        self.cancel_hover();
                     }
                 } else if self.text_focus && self.input.pressed_id != self.input.focused {
                     self.blur_text();
@@ -1059,6 +1219,15 @@ impl App {
                 Some(LRESULT(0))
             }
             WM_LBUTTONUP => {
+                if let Some(g) = self.grab.take() {
+                    // What the closed island showed under the press doesn't click.
+                    self.input.pressed_id = None;
+                    if g.moved {
+                        self.dropped_island();
+                    } else {
+                        self.open_from_press();
+                    }
+                }
                 let p = self.mouse_dip(lp);
                 self.input.mouse = Some(p);
                 let hit = self.hit_at(p).map(|h| h.id);
@@ -1085,7 +1254,11 @@ impl App {
                 Some(LRESULT(0))
             }
             WM_CAPTURECHANGED_ => {
-                // Capture taken by someone else mid-press: drop the stale press.
+                // Capture taken by someone else mid-press: drop the stale press
+                // (a drag leaves the island where it got to).
+                if lp.0 != self.hwnd.0 as isize && self.grab.take().is_some_and(|g| g.moved) {
+                    self.dropped_island();
+                }
                 if lp.0 != self.hwnd.0 as isize && (self.input.down || self.input.pressed_id.is_some()) {
                     self.input.down = false;
                     self.input.pressed_id = None;
@@ -1325,13 +1498,238 @@ impl App {
         }
     }
 
+    // ------------------------------------------------------------ the Settings window
+
+    /// Advanced settings (the Settings page's last row, the menu's
+    /// Advanced settings…): the island closes and the window opens, so the
+    /// open island never sits over it.
+    fn show_settings(&mut self, deferred: &mut Vec<Deferred>) {
+        self.collapse();
+        self.open_settings_window(None, deferred);
+    }
+
+    /// Open the Settings window on `section` (General when it opens), or
+    /// bring it forward, on that section when one is given.
+    fn open_settings_window(&mut self, section: Option<Section>, deferred: &mut Vec<Deferred>) {
+        match self.settings_win.as_mut() {
+            Some(w) => {
+                if let Some(s) = section {
+                    w.view.show_section(s);
+                }
+                w.raise();
+            }
+            None => match SettingsWindow::new(self.monitor.work, self.gfx.dpi.round() as u32, section.unwrap_or(Section::General)) {
+                Ok(w) => {
+                    pinfo!("settings window: open");
+                    self.settings_win = Some(w);
+                    // Start with Windows is read off the UI thread; its answer draws the switch.
+                    crate::autostart::report(self.sink.clone(), None);
+                }
+                Err(e) => {
+                    pwarn!("settings window: couldn't open it ({e})");
+                    return;
+                }
+            },
+        }
+        if self.settings_win.as_ref().is_some_and(|w| w.view.section == Section::Addons) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+        self.paint_settings(deferred);
+    }
+
+    /// Close it: the window, its renderer and its pixels go.
+    fn close_settings_window(&mut self) {
+        if self.settings_win.take().is_some() {
+            pinfo!("settings window: closed");
+        }
+    }
+
+    /// Draw the Settings window, run what its clicks asked for and draw it
+    /// again with the result (a few times at most).
+    fn paint_settings(&mut self, deferred: &mut Vec<Deferred>) {
+        for _ in 0..4 {
+            self.st.now = self.st.now.max(clock::mono());
+            let now = self.st.now;
+            let Some(w) = self.settings_win.as_mut() else { return };
+            let before = w.view.section;
+            let out = w.paint(&mut self.st, now, None, false);
+            let after = w.view.section;
+            if out.close {
+                self.close_settings_window();
+                return;
+            }
+            // Add-ons lists IELTS and Meeting notes by the account's Pro, as its tab does.
+            if after != before && after == Section::Addons {
+                self.oyenza(OyenzaCmd::CheckPro);
+            }
+            let ran = !self.st.cmds.is_empty();
+            if ran {
+                self.run_commands(deferred);
+                self.request_frame();
+            }
+            let dirty = self.settings_win.as_ref().is_some_and(|w| w.view.dirty);
+            if !(out.again || ran || dirty) {
+                break;
+            }
+        }
+        // A switch sliding, a highlight gliding: the next frames come from the clock.
+        if self.settings_moving() {
+            self.request_frame();
+        }
+    }
+
+    /// Draw the Settings window on this frame when something in it changed
+    /// (all of it), or still glides (only what moves).
+    fn paint_settings_if_dirty(&mut self, deferred: &mut Vec<Deferred>) {
+        let Some(w) = self.settings_win.as_ref() else { return };
+        if w.view.dirty {
+            self.paint_settings(deferred);
+        } else if w.view.moving {
+            self.st.now = self.st.now.max(clock::mono());
+            let now = self.st.now;
+            if let Some(w) = self.settings_win.as_mut() {
+                let only = w.view.next_clip();
+                let _ = w.paint(&mut self.st, now, only, false);
+            }
+        }
+    }
+
+    /// Something in the Settings window glides: the frame clock keeps
+    /// ticking at the display's rate until it has arrived.
+    fn settings_moving(&self) -> bool {
+        self.settings_win.as_ref().is_some_and(|w| w.view.moving)
+    }
+
+    fn handle_settings_window(&mut self, hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM, deferred: &mut Vec<Deferred>) -> Option<LRESULT> {
+        let w = self.settings_win.as_mut().filter(|w| w.hwnd == hwnd)?;
+        let xy = |lp: LPARAM| ((lp.0 & 0xffff) as u16 as i16 as i32, ((lp.0 >> 16) & 0xffff) as u16 as i16 as i32);
+        match msg {
+            WM_NCHITTEST => {
+                // Empty parts of the card move the window; the shadow takes nothing.
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x - w.at.0, y - w.at.1);
+                let hit = if !w.card().contains(p) {
+                    HTNOWHERE
+                } else if w.drags_at(p) {
+                    HTCAPTION
+                } else {
+                    HTCLIENT
+                };
+                Some(LRESULT(hit as isize))
+            }
+            // A double-click on an empty part doesn't maximize it.
+            WM_NCLBUTTONDBLCLK => Some(LRESULT(0)),
+            WM_MOUSEMOVE => {
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x, y);
+                if !w.tracking {
+                    w.tracking = true;
+                    unsafe {
+                        let mut tme = TRACKMOUSEEVENT { cbSize: std::mem::size_of::<TRACKMOUSEEVENT>() as u32, dwFlags: TME_LEAVE, hwndTrack: hwnd, dwHoverTime: 0 };
+                        let _ = TrackMouseEvent(&mut tme);
+                    }
+                }
+                // Drawn again only when what's under the pointer changes.
+                if w.view.hover(p) {
+                    self.paint_settings(deferred);
+                }
+                Some(LRESULT(0))
+            }
+            WM_MOUSELEAVE => {
+                w.tracking = false;
+                w.view.leave();
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_LBUTTONDOWN => {
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x, y);
+                w.view.press(p);
+                unsafe {
+                    SetCapture(hwnd);
+                }
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_LBUTTONUP => {
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x, y);
+                w.view.release(p);
+                unsafe {
+                    let _ = ReleaseCapture();
+                }
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_MOUSEWHEEL => {
+                let raw = ((wp.0 >> 16) & 0xffff) as u16 as i16 as i32;
+                let delta = raw as f32 / WHEEL_DELTA as f32;
+                let (x, y) = xy(lp);
+                let p = w.mouse_dip(x - w.at.0, y - w.at.1);
+                // Whole notches glide; a precision touchpad's small steps follow the fingers.
+                if raw % WHEEL_DELTA as i32 == 0 {
+                    w.view.wheel(p, delta);
+                } else {
+                    w.view.scroll_by(p, delta * crate::settings_window::WHEEL_STEP);
+                }
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            WM_SETCURSOR if (lp.0 & 0xffff) as u32 == HTCLIENT => {
+                let kind = w.view.input.mouse.map_or(CursorKind::Arrow, |p| w.view.cursor_at(p));
+                unsafe {
+                    let id = match kind {
+                        CursorKind::Arrow => IDC_ARROW,
+                        CursorKind::Hand => IDC_HAND,
+                        CursorKind::Text => IDC_IBEAM,
+                    };
+                    if let Ok(c) = LoadCursorW(None, id) {
+                        SetCursor(c);
+                    }
+                }
+                Some(LRESULT(1))
+            }
+            // Windows switched between light and dark: the window follows.
+            WM_SETTINGCHANGE => {
+                w.refresh_mode();
+                self.paint_settings(deferred);
+                None
+            }
+            WM_KEYDOWN => {
+                let ctrl = unsafe { GetKeyState(VK_CONTROL.0 as i32) } < 0;
+                if wp.0 == VK_ESCAPE.0 as usize || (ctrl && wp.0 == b'W' as usize) {
+                    self.close_settings_window();
+                }
+                Some(LRESULT(0))
+            }
+            WM_CLOSE => {
+                self.close_settings_window();
+                Some(LRESULT(0))
+            }
+            WM_MOVE => {
+                w.at = xy(lp);
+                Some(LRESULT(0))
+            }
+            WM_DPICHANGED => {
+                // Dragged onto a display with another scale: Windows' place for it, drawn at that scale.
+                if let Some(r) = unsafe { (lp.0 as *const RECT).as_ref() } {
+                    w.at = (r.left, r.top);
+                }
+                w.set_dpi((wp.0 & 0xffff) as u32);
+                self.paint_settings(deferred);
+                Some(LRESULT(0))
+            }
+            _ => None,
+        }
+    }
+
     fn on_timer(&mut self, id: usize) {
         match id {
             TIMER_HOVER => {
                 unsafe {
                     let _ = KillTimer(self.hwnd, TIMER_HOVER);
                 }
-                if !self.hovering || self.expanded {
+                if !self.hovering || self.expanded || self.grab.is_some() {
                     self.hover_arm = None;
                 } else if self.mode == Mode::Notice && self.st.notice.as_ref().is_some_and(|n| n.inline.is_some()) {
                     // A notice with an inline pill stays put under a resting
@@ -1594,8 +1992,12 @@ impl App {
     fn on_oyenza(&mut self, ev: OyenzaEvent) {
         let now = self.st.now;
         let link_before = self.st.oyenza.link.clone();
+        let pro_before = self.st.studio_pro() == Some(true);
         match ev {
-            OyenzaEvent::Restored { account } => self.st.oyenza.link = OyenzaLink::Connected { account },
+            OyenzaEvent::Restored { account } => {
+                self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
+            }
             OyenzaEvent::Connecting { code, url, expires_in_s } => {
                 self.st.oyenza.link = OyenzaLink::Connecting { code, url, until: now + expires_in_s as f64 };
                 // Keep the code on screen while the person goes to oyenza.app.
@@ -1610,6 +2012,7 @@ impl App {
                 self.end_sign_in();
                 self.st.notify(Icon::Check, palette::GREEN, "Connected to Oyenza", format!("as {account}"), 6.0, Some(NoticeAction::OpenPage(PageKind::Oyenza)));
                 self.st.oyenza.link = OyenzaLink::Connected { account };
+                self.ask_pro();
                 // Signed in from the Today page: back to it, where the day comes in.
                 if std::mem::take(&mut self.st.oyenza.from_today) {
                     self.st.page = PageKind::Today;
@@ -1708,6 +2111,32 @@ impl App {
         // Signed in or out, the Oyenza page's height changes: the window fits the tallest page again.
         if self.st.oyenza.link != link_before {
             self.layout_surface();
+        }
+        if (self.st.studio_pro() == Some(true)) != pro_before {
+            self.pro_changed();
+        }
+    }
+
+    /// Signed in (at start, or just now) with the Downloader switched on:
+    /// whether the account has Studio Pro, now, so its tab doesn't wait for
+    /// the Add-ons page to open (`pages::addons::pro_wanted`).
+    fn ask_pro(&self) {
+        if pages::addons::pro_wanted(&self.st) {
+            self.oyenza(OyenzaCmd::CheckPro);
+        }
+    }
+
+    /// Studio Pro came, or went (the server's word, or signing out): the
+    /// Downloader's downloads stop as it goes, and its files come with it
+    /// (`Services::set_pro`). Its tab follows by itself (`downloader_on`), and
+    /// its page on screen leaves for Add-ons.
+    fn pro_changed(&mut self) {
+        let pro = self.st.studio_pro() == Some(true);
+        if !pro {
+            self.downloads_off();
+        }
+        if let Some(s) = self.services.as_ref() {
+            s.set_pro(pro);
         }
     }
 
@@ -1832,6 +2261,11 @@ impl App {
         if !before.prayer.follow_location && self.st.settings.prayer.follow_location && self.st.prayer_on() {
             self.locate();
         }
+        // The Downloader: off stops its downloads before its tools are deleted.
+        let downloader_id = poni_core::addons::DOWNLOADER.id;
+        if before.addon_on(downloader_id) && !self.st.settings.addon_on(downloader_id) {
+            self.downloads_off();
+        }
         // An add-on switched on downloads its files; off deletes them.
         for a in poni_core::addons::ALL {
             let on = self.st.settings.addon_on(a.id);
@@ -1890,6 +2324,18 @@ impl App {
         if before.usage.notices != self.st.settings.usage.notices {
             self.set_usage_watch();
         }
+        // The display the island hangs on, or its width when open (the
+        // Settings window has both).
+        if before.monitor != self.st.settings.monitor {
+            self.monitor = window::pick_monitor(self.st.settings.monitor);
+            self.set_dpi(self.monitor.dpi);
+            self.refresh_monitor();
+        } else if before.expanded_width != self.st.settings.expanded_width {
+            self.layout_surface();
+        }
+        if let Some(w) = self.settings_win.as_mut() {
+            w.view.dirty = true;
+        }
         // System's readings at rest: its history switch, while System is on.
         let history = self.st.settings.system_history_on();
         if before.system_history_on() != history && self.selftest.is_none() {
@@ -1920,7 +2366,9 @@ impl App {
             ToggleGamePeek => s.game_peek = !s.game_peek,
             ToggleSounds => s.sounds = !s.sounds,
             TogglePinned => self.st.pinned = !self.st.pinned,
+            CentreIsland => s.island_x = None,
             RecordScreen => crate::services::recorder::record_screen(self.hwnd),
+            ShowSettings => self.show_settings(&mut Vec::new()),
             ToggleAutostart => {
                 let on = crate::autostart::is_enabled();
                 if let Err(e) = crate::autostart::set_enabled(!on) {
@@ -1994,6 +2442,18 @@ impl App {
         let now = clock::mono();
         self.st.now = now;
         let media_before = matches!(ev, AppEvent::Media(_) | AppEvent::MediaTimeline { .. }).then(|| self.media_snapshot());
+        // What the Settings window shows that a service reports.
+        let shown = matches!(
+            ev,
+            AppEvent::Autostart(_) | AppEvent::Update(_) | AppEvent::Oyenza(_) | AppEvent::Addon { .. } | AppEvent::Usage(_) | AppEvent::Located(_) | AppEvent::Notify(_)
+        );
+        if let Some(w) = self.settings_win.as_mut().filter(|_| shown) {
+            w.view.dirty = true;
+        }
+        // A download's bytes coming in while nobody can see the island (locked,
+        // display off) wait for the next frame something else asks for: the
+        // pill catches up then, as nothing else of it moves on its own.
+        let unseen = matches!(ev, AppEvent::Download { line: poni_core::ytdlp::Line::Progress { .. }, .. }) && (self.locked || self.display_off);
         match ev {
             AppEvent::Backdrop => {
                 if self.glass.on_backdrop(self.hwnd, &mut self.gfx) {
@@ -2236,6 +2696,8 @@ impl App {
             AppEvent::Notify(ev) => self.on_notify(ev),
             AppEvent::Usage(ev) => self.on_usage(ev),
             AppEvent::AdzanEnded => self.adzan_ended(),
+            AppEvent::Download { id, line } => self.download_line(id, line),
+            AppEvent::DownloadEnded { id, ok } => self.download_ended(id, ok),
             AppEvent::Ielts(reply) => {
                 let fx = self.st.ielts.reply(*reply, now);
                 self.ielts_do(fx);
@@ -2265,7 +2727,9 @@ impl App {
         if let Some(before) = media_before {
             self.after_media_change(before, now);
         }
-        self.request_frame();
+        if !unseen {
+            self.request_frame();
+        }
     }
 
     /// (player, track, playing) of the current media session.
@@ -2320,7 +2784,7 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if self.st.page == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
-            } else if matches!(self.st.page, PageKind::Notes | PageKind::Addons) {
+            } else if matches!(self.st.page, PageKind::Notes | PageKind::Ielts | PageKind::Addons) {
                 self.oyenza(OyenzaCmd::CheckPro);
             }
         }
@@ -3092,12 +3556,13 @@ impl App {
         self.ielts_tick();
         self.notes_tick();
         self.script_tick();
-        // Prayer times, System, Health, Stocks or IELTS switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, IELTS or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Downloads => !self.st.downloader_on(),
             PageKind::Notifications => !self.st.notifications_on(),
             PageKind::Ielts => !self.st.ielts_on(),
             PageKind::Notes => !self.st.notes_on(),
@@ -3119,7 +3584,8 @@ impl App {
             self.refresh_time();
             self.tick();
             self.run_commands(deferred);
-            self.clock.set_active(false);
+            self.paint_settings_if_dirty(deferred);
+            self.clock.set_active(self.settings_moving());
             self.motion = None;
             self.schedule_wake();
             return;
@@ -3177,6 +3643,9 @@ impl App {
             }
             self.mode = target;
             retarget = true;
+            if target == Mode::Expanded(PageKind::Downloads) {
+                self.downloads_page_shown();
+            }
         } else {
             // Size can change within a mode (a page's height, the hover lift); follow it.
             let g = self.geom_for(&self.mode);
@@ -3206,6 +3675,8 @@ impl App {
         self.island.step(dt, now);
         self.sync_room();
         self.ensure_room();
+        self.sync_spot();
+        self.place_island();
         self.note_motion(retarget, rendered_at, period, dt as f64);
 
         let scale = self.gfx.scale();
@@ -3440,6 +3911,7 @@ impl App {
             None => {}
         }
         self.run_commands(deferred);
+        self.paint_settings_if_dirty(deferred);
 
         // Decide whether to keep the frame clock running. Real motion runs
         // at the display's full refresh rate; ambient motion runs on every
@@ -3456,7 +3928,8 @@ impl App {
             || glass_moving
             || !self.st.cmds.is_empty()
             || self.outgoing.is_some()
-            || self.page_anim.is_some();
+            || self.page_anim.is_some()
+            || self.settings_moving();
         // The display mode's rate, not the measured period: a divisor that
         // flips between 1 and 2 would be the uneven cadence it exists to avoid.
         let hz = self.clock.nominal_hz();
@@ -4248,7 +4721,7 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if p == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
-            } else if matches!(p, PageKind::Notes | PageKind::Addons) {
+            } else if matches!(p, PageKind::Notes | PageKind::Ielts | PageKind::Addons) {
                 self.oyenza(OyenzaCmd::CheckPro);
             }
         }
@@ -4315,6 +4788,7 @@ impl App {
                     self.settings_changed(&before);
                     self.save_settings();
                 }
+                Command::OpenSettings => self.show_settings(deferred),
                 Command::SaveStore => unsafe {
                     SetTimer(self.hwnd, TIMER_SAVE, 800, None);
                 },
@@ -4371,6 +4845,7 @@ impl App {
                         services::cities::fetch(file, self.sink.clone());
                     }
                 }
+                Command::Download(c) => self.download_cmd(c),
                 Command::Notify(c) => self.notify_cmd(c),
             }
         }
@@ -4770,6 +5245,11 @@ impl App {
         }
     }
 
+    /// Self-test: whether the island is open.
+    pub fn selftest_expanded(&self) -> bool {
+        self.expanded
+    }
+
     /// Self-test: a maximized window across the top of the island's monitor
     /// (what the full-screen watcher reports for one), or no window there.
     pub fn selftest_window_under(&mut self, under: bool) {
@@ -4862,6 +5342,71 @@ impl App {
     }
 
     /// At rest: outline settled, mode current, no page switch or outgoing fade.
+    /// The Settings window is open.
+    pub fn settings_window_open(&self) -> bool {
+        self.settings_win.is_some()
+    }
+
+    /// The Settings window on `section`, light or dark, opened if it isn't:
+    /// its pixels (premultiplied BGRA) and their size.
+    pub fn selftest_settings_shot(&mut self, section: Section, light: bool) -> (i32, i32, Vec<u8>) {
+        let mut deferred = Vec::new();
+        if self.settings_win.is_none() {
+            self.open_settings_window(Some(section), &mut deferred);
+        }
+        self.st.now = self.st.now.max(clock::mono());
+        let now = self.st.now;
+        let Some(w) = self.settings_win.as_mut() else { return (0, 0, Vec::new()) };
+        w.view.show_section(section);
+        w.view.input.mouse = None;
+        w.set_light(light);
+        let _ = w.paint(&mut self.st, now, None, true);
+        w.take_capture()
+    }
+
+    pub fn selftest_close_settings(&mut self) {
+        self.close_settings_window();
+    }
+
+    /// Draw the Settings window `n` times: whole (`only` None, as after a
+    /// click) or only a part (as a frame of a glide): each frame's time to
+    /// draw and show (ms), sorted.
+    pub fn selftest_settings_frames(&mut self, n: usize, only: Option<Rect>) -> Vec<f64> {
+        let mut out = Vec::with_capacity(n);
+        for _ in 0..n {
+            self.st.now = self.st.now.max(clock::mono());
+            let now = self.st.now;
+            let Some(w) = self.settings_win.as_mut() else { break };
+            let t = std::time::Instant::now();
+            let _ = w.paint(&mut self.st, now, only, false);
+            out.push(t.elapsed().as_secs_f64() * 1000.0);
+        }
+        out.sort_by(|a, b| a.total_cmp(b));
+        out
+    }
+
+    /// Film the Settings window as a person uses it (`settings_host::film`)
+    /// on this monitor, at `hz`. Its clicks change a setting: it goes back
+    /// as it was, unsaved, afterwards.
+    pub fn selftest_settings_film(&mut self, hz: f64, on_frame: impl FnMut(usize, i32, i32, &[u8], Option<RECT>)) -> Option<settings_host::Film> {
+        let (before, queued) = (self.st.settings.clone(), self.st.cmds.len());
+        let film = settings_host::film(&mut self.st, self.monitor.work, self.gfx.dpi.round() as u32, hz, on_frame);
+        self.st.settings = before;
+        self.st.cmds.truncate(queued);
+        self.st.now = clock::mono();
+        film.inspect_err(|e| pwarn!("selftest: the Settings window's film couldn't open its windows ({e})")).ok()
+    }
+
+    /// The scale the Settings window draws at.
+    pub fn selftest_settings_scale(&self) -> f32 {
+        self.settings_win.as_ref().map_or(1.0, |w| w.scale())
+    }
+
+    /// Where its card is in its window (DIPs).
+    pub fn selftest_settings_card(&self) -> Rect {
+        self.settings_win.as_ref().map_or(settings_host::card_rect(crate::settings_window::CARD_H), |w| w.card())
+    }
+
     pub fn selftest_settled(&self) -> bool {
         self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none() && !self.glass_moving
     }
@@ -4949,6 +5494,35 @@ impl App {
         self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut deferred);
         self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut deferred);
         self.expanded
+    }
+
+    /// A press on the island at `p` (DIPs), a move `dx` DIPs sideways and
+    /// the release there, through the island's own mouse messages. Returns
+    /// whether the island opened.
+    pub fn selftest_drag(&mut self, p: Point, dx: f32) -> bool {
+        let s = self.gfx.scale();
+        let lp = |p: Point| LPARAM(((((p.y * s).round() as i32 & 0xffff) << 16) | ((p.x * s).round() as i32 & 0xffff)) as isize);
+        let to = Point::new(p.x + dx, p.y);
+        let mut deferred = Vec::new();
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp(p), &mut deferred);
+        self.handle_island(WM_MOUSEMOVE, WPARAM(0x0001), lp(to), &mut deferred);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp(to), &mut deferred);
+        self.expanded
+    }
+
+    /// The island's centre, DIPs from its monitor's left edge.
+    pub fn selftest_island_centre(&self) -> f32 {
+        (self.surface.x - self.monitor.rect.left) as f32 / self.gfx.scale() + self.cx
+    }
+
+    /// The island's monitor's width in DIPs.
+    pub fn selftest_monitor_width(&self) -> f32 {
+        (self.monitor.rect.right - self.monitor.rect.left) as f32 / self.gfx.scale()
+    }
+
+    /// Room the island keeps beside its body (shoulders and hit margin, or the pill's shadow).
+    pub fn selftest_side_room(&self) -> f32 {
+        self.island.side_room()
     }
 
     /// The island body in window DIPs (where clicks land).
@@ -5077,6 +5651,10 @@ fn paired_phones(pairs: Vec<poni_core::pairdrop::Pair>) -> Vec<PairedPhone> {
 fn files_label(n: usize) -> String {
     format!("{n} {}", if n == 1 { "file" } else { "files" })
 }
+
+// The Downloads page's commands and yt-dlp's reports.
+#[path = "app_downloads.rs"]
+mod downloads;
 
 #[cfg(test)]
 mod tests {

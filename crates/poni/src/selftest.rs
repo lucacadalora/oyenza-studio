@@ -44,7 +44,7 @@ use crate::state::{
     OyenzaState, PhoneAsk, PairedPhone, PhoneDrop, PhoneTransfer, PhoneView, PowerState, PrayerState, SysStats, VolumeState,
 };
 use crate::ui::wid;
-use poni_core::addons::{Status as AddonStatus, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
+use poni_core::addons::{Status as AddonStatus, DOWNLOADER, HEALTH, IELTS, JAPANESE_READINGS, MEETING_NOTES, NOTIFICATIONS, PRAYER_TIMES, SCRIPT_READER, STOCKS, SYSTEM};
 use poni_core::notifications::NotificationSettings;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::health::{HealthDay, HealthSnapshot, HealthSource};
@@ -774,6 +774,50 @@ fn seed_stocks(st: &mut AppState, scene: Scene, now: f64) {
     picture(st, shows, now);
 }
 
+/// The Downloads page's list for its scenes, newest first: a YouTube link
+/// whose puzzle QuickJS is solving, a film coming in from PeerTube, a
+/// private video that failed and a finished film, moved along by yt-dlp's
+/// lines as the app moves them (`poni_core::downloads::Jobs`), so the bar and
+/// the island's pill count the bytes as they do for real; every other scene:
+/// none. No pictures, so nothing is fetched, and the self-test starts no
+/// downloader.
+fn seed_downloads(st: &mut AppState, scene: Scene) {
+    use poni_core::downloads::{Jobs, State};
+    use poni_core::ytdlp::{Line, Mode};
+    let ui = &mut st.ui.downloads;
+    ui.link.clear();
+    ui.mode = Mode::Video;
+    ui.scroll = 0.0;
+    ui.offer = None;
+    ui.note = None;
+    if !matches!(scene, Scene::Page(PageKind::Downloads) | Scene::DownloadActivity) {
+        st.downloads = Jobs::default();
+        return;
+    }
+    let unix = st.unix;
+    let info = |title: &str, site: &str| Line::Info { title: title.into(), site: site.into(), thumbnail: None, duration_s: None };
+    let mut jobs = Jobs::default();
+    // Oldest first: each one goes on top of the list.
+    let bunny = jobs.add("https://archive.org/details/BigBuckBunny_124".into(), Mode::Video, unix - 25 * 60);
+    jobs.starting(bunny);
+    jobs.apply(bunny, info("Big Buck Bunny", "Internet Archive"));
+    jobs.apply(bunny, Line::Done { path: "C:\\Users\\Sample\\Downloads\\Big Buck Bunny.mp4".into() });
+    jobs.set_size(bunny, 332_000_000);
+    let private = jobs.add("https://video.blender.org/w/4e0c1f7a-93b2-4d58-a6e1-2f8b9c3d7a51".into(), Mode::Video, unix - 4 * 60);
+    // yt-dlp's private video (`ytdlp::Problem::Private`), in the page's words.
+    if let Some(job) = jobs.list.iter_mut().find(|j| j.id == private) {
+        job.state = State::Failed("This video is private".into());
+    }
+    let film = jobs.add("https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605".into(), Mode::Video, unix - 50);
+    jobs.starting(film);
+    jobs.apply(film, info("OVERGROWN: a feature film project by Blender Studio", "PeerTube"));
+    jobs.apply(film, Line::Progress { done: 8_600_000, total: Some(23_300_000), speed: Some(2_100_000.0), eta_s: Some(7) });
+    let youtube = jobs.add("https://www.youtube.com/watch?v=aqz-KE-bpKQ".into(), Mode::Video, unix - 20);
+    jobs.starting(youtube);
+    jobs.apply(youtube, Line::Solving);
+    st.downloads = jobs;
+}
+
 /// The AI tab's scenes on made-up readings, every glide at its end
 /// (`pages::usage::picture`); every other scene: nothing read yet and the
 /// notices off, as on a first start (nothing reads it there, and no key
@@ -815,9 +859,9 @@ fn seed_notes(st: &mut AppState, scene: Scene, now: f64) {
     st.notes = Taker::default();
     st.ui.notes_kept = false;
     st.ui.notes_note = None;
-    // Studio Pro, as the server would say: on for the notes' own scenes.
+    // Studio Pro, as the server would say: on for the notes' and IELTS' own scenes.
     if st.oyenza.link != crate::state::OyenzaLink::Off {
-        st.oyenza.pro = Some(scene.page() == Some(PageKind::Notes) && scene != Scene::NotesPro);
+        st.oyenza.pro = Some(matches!(scene.page(), Some(PageKind::Notes | PageKind::Ielts)) && scene != Scene::NotesPro);
     }
     match scene {
         Scene::Page(PageKind::Notes) => st.notes.last = Some(sample_notes()),
@@ -1084,7 +1128,7 @@ enum Scene {
     UpdateNotice,
     /// The first start after an update: "Updated to", with What's new.
     UpdatedNotice,
-    /// Settings while a new version is offered: Update on its last row.
+    /// Settings while a new version is offered: Update to it in the version's row.
     SettingsUpdate,
     /// The Update sheet (the notice or the menu's "Update to" line opens it).
     UpdateSheet,
@@ -1117,6 +1161,14 @@ enum Scene {
     /// The Add-ons page with the recorder installed: Screen recorder's row
     /// (eight rows with Notifications, a line each, the window no taller).
     AddonsRecorder,
+    /// The Downloads page before anything was downloaded (`Page(Downloads)`
+    /// shows one downloading, one waiting, one done and one failed).
+    DownloadsEmpty,
+    /// The Add-ons page where the Downloader is offered (Windows outside the
+    /// Store build): its row, off, with its size (seven rows, as with the recorder).
+    AddonsDownloader,
+    /// The closed island while a download runs: its pill.
+    DownloadActivity,
     /// Prayer times: the countdown 8 minutes before Ashar over a song with
     /// synced lyrics, its OK pressed (`Phase::PressOk`): the song's line again.
     PrayerOk,
@@ -1160,6 +1212,17 @@ enum Scene {
     NotesActivity,
     /// Meeting notes signed in without Studio Pro: the Pro card.
     NotesPro,
+    /// The Add-ons page signed out where the Downloader is offered, its
+    /// tools in place from before: the Downloader and Notifications stay
+    /// off, each saying "Sign in with your Oyenza account".
+    AddonsPro,
+    /// A song playing on the closed island, which a real press, a move
+    /// sideways and the release drag to the right (`Phase::Drag`): it
+    /// stays closed there, and a click on it there still opens it.
+    IslandDrag,
+    /// The open island where it was dragged to the screen's right edge: it
+    /// grows away from the edge, whole on the screen.
+    IslandOpenAtEdge,
 }
 
 /// A later release than this build, as the update file describes one.
@@ -1195,6 +1258,54 @@ fn ai_alert(st: &AppState, out: bool) -> Option<studio_usage::alerts::Alert> {
     alerts::changes(Some(&read(0.7)), &read(if out { 1.0 } else { 0.9 }), st.unix, &cfg).into_iter().next()
 }
 
+/// How far the self-test drags the island to the right (DIPs).
+const DRAG_DX: f32 = 560.0;
+
+/// Drag the closed island `DRAG_DX` to the right through its own mouse
+/// messages: it follows the pointer (as far as the screen lets it), stays
+/// closed, and keeps the spot; a click on it there opens it, as in the
+/// middle. Leaves it closed where it went.
+fn drag_check(app: &mut App) -> (bool, String) {
+    let body = app.island_body();
+    let (from, mon_w) = (app.selftest_island_centre(), app.selftest_monitor_width());
+    let want = poni_core::spot::fit_centre(from + DRAG_DX, mon_w, body.w, app.selftest_side_room());
+    let opened = app.selftest_drag(body.center(), DRAG_DX);
+    let to = app.selftest_island_centre();
+    let spot = app.st.settings.island_x;
+    let moved = (to - want).abs() <= 1.5 && spot.is_some_and(|x| (x * mon_w - to).abs() <= 1.5);
+    // A click on it where it went.
+    let clicked = app.selftest_press(app.island_body().center());
+    app.selftest_set_expanded(false);
+    let ok = moved && !opened && clicked;
+    let detail = format!(
+        "centre {from:.1} -> {to:.1} DIP across a {mon_w:.0} DIP screen (want {want:.1}), saved {spot:?}, {} after the drag, {} on a click there",
+        if opened { "opened" } else { "closed" },
+        if clicked { "opened" } else { "stayed closed" }
+    );
+    (ok, detail)
+}
+
+/// Off the middle, the island is whole on the screen: dragged, where the
+/// drag took it; open at the right edge, grown away from the edge.
+fn on_screen_check(app: &App, scene: Scene) -> Check {
+    let mon_w = app.selftest_monitor_width();
+    let body = app.island_body();
+    let centre = app.selftest_island_centre();
+    let side = app.selftest_side_room();
+    let (left, right) = (centre - body.w / 2.0 - side, centre + body.w / 2.0 + side);
+    let whole = left >= -0.5 && right <= mon_w + 0.5;
+    let placed = match scene {
+        // Against the right edge: no room left beside it.
+        Scene::IslandOpenAtEdge => right >= mon_w - 1.5,
+        _ => centre > mon_w / 2.0 + poni_core::spot::SNAP,
+    };
+    check(
+        "island-on-screen",
+        whole && placed,
+        format!("{left:.1}..{right:.1} DIP (body {:.0} wide, centre {centre:.1}) on a {mon_w:.0} DIP screen", body.w),
+    )
+}
+
 /// Running under Wine: its ntdll exports `wine_get_version`.
 fn under_wine() -> bool {
     use windows::core::{s, w};
@@ -1207,7 +1318,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 128] = [
+const SCENES: [Scene; 135] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1328,6 +1439,13 @@ const SCENES: [Scene; 128] = [
     Scene::RecordActivity,
     Scene::RecordPaused,
     Scene::AddonsRecorder,
+    // The Downloader: the Downloads page with a download running, one
+    // waiting, one done and one failed, then empty; the Add-ons page with
+    // its row; and the closed island while it downloads.
+    Scene::Page(PageKind::Downloads),
+    Scene::DownloadsEmpty,
+    Scene::AddonsDownloader,
+    Scene::DownloadActivity,
     // The prayer countdown's OK, pressed: the closed island sings again.
     Scene::PrayerOk,
     // The Notifications add-on: a message on the closed island (shown, and
@@ -1374,6 +1492,11 @@ const SCENES: [Scene; 128] = [
     Scene::NotesReady,
     Scene::NotesActivity,
     Scene::NotesPro,
+    // The Add-ons page signed out, without Pro: no Downloader row.
+    Scene::AddonsPro,
+    // The island dragged along the top edge, closed, then open at the edge.
+    Scene::IslandDrag,
+    Scene::IslandOpenAtEdge,
 ];
 
 impl Scene {
@@ -1467,6 +1590,9 @@ impl Scene {
             Scene::RecordActivity => "record-activity".into(),
             Scene::RecordPaused => "record-paused-activity".into(),
             Scene::AddonsRecorder => "page-addons-recorder".into(),
+            Scene::DownloadsEmpty => "page-downloads-empty".into(),
+            Scene::AddonsDownloader => "page-addons-downloader".into(),
+            Scene::DownloadActivity => "download-activity".into(),
             Scene::PrayerOk => "prayer-countdown-ok".into(),
             Scene::MessageNotice => "message-notice".into(),
             Scene::MessageHidden => "message-hidden-notice".into(),
@@ -1487,6 +1613,9 @@ impl Scene {
             Scene::NotesReady => "page-notes-ready".into(),
             Scene::NotesActivity => "notes-activity".into(),
             Scene::NotesPro => "page-notes-pro".into(),
+            Scene::AddonsPro => "page-addons-pro".into(),
+            Scene::IslandDrag => "island-dragged".into(),
+            Scene::IslandOpenAtEdge => "island-open-at-edge".into(),
         }
     }
 
@@ -1525,15 +1654,35 @@ impl Scene {
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::RecordLive => Some(PageKind::Record),
-            Scene::AddonsRecorder => Some(PageKind::Addons),
+            Scene::AddonsRecorder | Scene::AddonsDownloader | Scene::AddonsPro => Some(PageKind::Addons),
+            Scene::DownloadsEmpty => Some(PageKind::Downloads),
             Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
             Scene::Ai(_) => Some(PageKind::Ai),
             Scene::IeltsSignedOut | Scene::IeltsTalking | Scene::IeltsRecording | Scene::IeltsCueCard | Scene::IeltsResult | Scene::IeltsMicDenied => {
                 Some(PageKind::Ielts)
             }
             Scene::NotesListening | Scene::NotesWriting | Scene::NotesReady | Scene::NotesPro => Some(PageKind::Notes),
+            Scene::IslandOpenAtEdge => Some(PageKind::Media),
             _ => None,
         }
+    }
+
+    /// The Downloader is offered (Windows outside the Store build), in its
+    /// own scenes only: the other Add-ons pictures keep their rows.
+    fn downloader(self) -> bool {
+        matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity | Scene::AddonsPro)
+    }
+
+    /// Signed in to an account with Studio Pro: the Downloader's own
+    /// scenes, which only Pro shows.
+    fn pro(self) -> bool {
+        matches!(
+            self,
+            Scene::Page(PageKind::Downloads)
+                | Scene::DownloadsEmpty
+                | Scene::AddonsDownloader
+                | Scene::DownloadActivity
+        )
     }
 
     /// Oyenza Studio Recorder is installed (Record by the Script page's Paste,
@@ -1606,7 +1755,12 @@ impl Scene {
     }
 
     fn media_playing(self) -> bool {
-        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk) || self.expanded()
+        matches!(self, Scene::Media | Scene::MediaTimer | Scene::MediaLyric | Scene::AsideLyric | Scene::AsidePeek | Scene::PrayerOk | Scene::IslandDrag) || self.expanded()
+    }
+
+    /// The island is off the middle of the screen.
+    fn moved(self) -> bool {
+        matches!(self, Scene::IslandDrag | Scene::IslandOpenAtEdge)
     }
 
     /// A maximized window is under the island.
@@ -2153,9 +2307,18 @@ enum Phase {
     Settle { i: usize, since: f64, steps: u32, stable: u32 },
     Click { i: usize },
     ClickWait { i: usize, since: f64, from: PageKind, want: PageKind },
+    /// After the scenes: a real click on the Settings page's last row,
+    /// Advanced settings (`clicked` once pressed): the window opens and the
+    /// island closes.
+    Advanced { since: f64, clicked: bool },
+    /// Then the Settings window's `k`-th section as a picture.
+    Window { k: usize },
     /// Scene `i` shows the prayer countdown; once it rests with its OK
     /// drawn, press OK (`Scene::PrayerOk`).
     PressOk { i: usize, since: f64 },
+    /// Scene `i` has a song on the closed island; once it rests, drag it
+    /// to the right (`Scene::IslandDrag`).
+    Drag { i: usize, since: f64 },
     /// The IELTS coach's one turn against a server of the self-test's own
     /// (Classic runs only; see [`IeltsRun`]).
     Ielts { since: f64 },
@@ -2454,6 +2617,13 @@ impl SelfTest {
             let _ = std::thread::Builder::new().name("selftest-addon".into()).spawn(move || {
                 let (mut ok, mut said) = (true, Vec::new());
                 for a in poni_core::addons::ALL {
+                    // An add-on whose files aren't on their release yet (the
+                    // Downloader until addon-downloader-1 is published) has
+                    // nothing to check; its switch says so (`Status::Unpinned`).
+                    if !a.pinned() {
+                        said.push(format!("{}: not pinned yet", a.id));
+                        continue;
+                    }
                     let (fine, detail) = crate::services::addons::fetch_for_selftest(a, &dir);
                     ok &= fine;
                     said.push(format!("{}: {detail}", a.id));
@@ -2568,6 +2738,147 @@ impl SelfTest {
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
+            Phase::Advanced { since, clicked: false } => {
+                // The Settings page on the open island, then a real click on
+                // its last row once the island has settled.
+                self.apply(app, Scene::Page(PageKind::Settings));
+                let at = app.selftest_hit_center(wid(pages::settings::ADVANCED_ID)).filter(|_| app.selftest_settled());
+                match at {
+                    Some(p) => {
+                        crate::pinfo!("selftest: clicking Advanced settings at ({:.0}, {:.0}) DIP", p.x, p.y);
+                        app.selftest_click(p);
+                        self.phase = Phase::Advanced { since: now, clicked: true };
+                    }
+                    None if now - since > self.settle_limit(app) => {
+                        self.checks.push(check("advanced-settings", false, "no Advanced settings row on the Settings page"));
+                        self.phase = Phase::Window { k: 0 };
+                    }
+                    None => {}
+                }
+            }
+            Phase::Advanced { since, clicked: true } => {
+                // The window opens and the island closes, so it never sits over the window.
+                let opened = app.settings_window_open();
+                if opened || now - since > CLICK_TIMEOUT {
+                    let closed = !app.selftest_expanded();
+                    let ok = opened && closed;
+                    let detail = format!(
+                        "the Settings window {} after {:.0} ms; the island {}",
+                        if opened { "opened" } else { "didn't open" },
+                        (now - since) * 1000.0,
+                        if closed { "closed" } else { "stayed open" }
+                    );
+                    if !ok {
+                        crate::pwarn!("selftest: Advanced settings: {detail}");
+                    }
+                    self.checks.push(check("advanced-settings", ok, detail));
+                    self.phase = Phase::Window { k: 0 };
+                }
+            }
+            Phase::Window { k } => {
+                // Each of the Settings window's sections, as a picture: dark,
+                // then General and Appearance light.
+                let mut list: Vec<_> = crate::settings_window::sections(&app.st).into_iter().map(|s| (s, false)).collect();
+                list.extend([(crate::settings_window::Section::General, true), (crate::settings_window::Section::Appearance, true)]);
+                match list.get(k) {
+                    Some(&(section, light)) => {
+                        let (w, h, px) = app.selftest_settings_shot(section, light);
+                        let name = format!("settings-window-{}{}", section.key(), if light { "-light" } else { "" });
+                        let sized = w > 0 && h > 0 && px.len() == (w as usize) * (h as usize) * 4;
+                        // The card is opaque where the sidebar meets the content.
+                        let solid = sized && {
+                            let s = app.selftest_settings_scale();
+                            let at = |x: f32, y: f32| px[(((y * s) as usize) * w as usize + (x * s) as usize) * 4 + 3];
+                            let card = app.selftest_settings_card();
+                            at(card.center().x, card.center().y) == 255 && at(1.0, 1.0) == 0
+                        };
+                        self.checks.push(check(&name, solid, format!("{w}x{h} px{}", if solid { "" } else { ", card not drawn" })));
+                        if sized {
+                            let scale = app.selftest_settings_scale();
+                            self.queue_write(&name, w, h, px, scale, None);
+                        }
+                        // Frames of a glide redraw the whole window: what one costs.
+                        if k == 0 {
+                            let median = |ms: &[f64]| ms.get(ms.len() / 2).copied().unwrap_or(f64::INFINITY);
+                            let full = app.selftest_settings_frames(30, None);
+                            // A glide's frame: the sidebar's highlight going a few rows down.
+                            let card = app.selftest_settings_card();
+                            let part = app.selftest_settings_frames(30, Some(Rect::new(card.x + 10.0, card.y + 80.0, 200.0, 140.0)));
+                            let detail = format!(
+                                "whole window {:.2} ms (best {:.2}, worst {:.2}), a glide's frame {:.2} ms (worst {:.2}), {} frames each at {:.0} %; 144 Hz leaves 6.94 ms a frame",
+                                median(&full),
+                                full.first().copied().unwrap_or(0.0),
+                                full.last().copied().unwrap_or(0.0),
+                                median(&part),
+                                part.last().copied().unwrap_or(0.0),
+                                full.len(),
+                                app.selftest_settings_scale() * 100.0
+                            );
+                            self.checks.push(check("settings-window-frame", median(&full) < SETTINGS_FRAME_BUDGET_MS, detail));
+                            // A person using it, filmed: what the glides' frames
+                            // drawn in part show must be what drawing it all shows.
+                            // PONI_SELFTEST_FILM keeps every frame as the screen shows
+                            // it (film-settings.bgra: premultiplied BGRA, one frame after
+                            // another) and the part each drew (film-settings.json).
+                            let mut keep = std::env::var_os("PONI_SELFTEST_FILM").and_then(|_| fs::File::create(self.dir.join("film-settings.bgra")).ok()).map(std::io::BufWriter::new);
+                            let mut parts = Vec::new();
+                            let film = app.selftest_settings_film(144.0, |k, _, _, px, part| {
+                                if let Some(out) = keep.as_mut() {
+                                    let _ = std::io::Write::write_all(out, px);
+                                    let part = part.map_or("null".to_string(), |r| format!("[{}, {}, {}, {}]", r.left, r.top, r.right, r.bottom));
+                                    parts.push(format!("{{\"frame\": {k}, \"part\": {part}}}"));
+                                }
+                            });
+                            if let (Some(mut out), Some(f)) = (keep.take(), film.as_ref()) {
+                                let _ = std::io::Write::flush(&mut out);
+                                let json = format!("{{\"fps\": 144, \"width\": {}, \"height\": {}, \"frames\": [\n  {}\n]}}\n", f.size.0, f.size.1, parts.join(",\n  "));
+                                if let Err(e) = fs::write(self.dir.join("film-settings.json"), json) {
+                                    crate::pwarn!("selftest: writing film-settings.json failed: {e}");
+                                }
+                            }
+                            let (ok, detail) = match film {
+                                Some(f) => {
+                                    let ms = &f.partial_ms;
+                                    let worst = match f.worst {
+                                        Some((k, n, r)) => format!("; worst frame {k}: {n} pixels in ({}, {})-({}, {})", r.left, r.top, r.right, r.bottom),
+                                        None => String::new(),
+                                    };
+                                    let missing = if f.missing.is_empty() { String::new() } else { format!("; not found: {}", f.missing.join(", ")) };
+                                    let ok = f.missing.is_empty() && f.differing.is_empty() && ms.len() >= 60;
+                                    // The frames that differ, as runs ("24-30, 151").
+                                    let mut runs: Vec<(usize, usize)> = Vec::new();
+                                    for &k in &f.differing {
+                                        match runs.last_mut() {
+                                            Some(r) if r.1 + 1 == k => r.1 = k,
+                                            _ => runs.push((k, k)),
+                                        }
+                                    }
+                                    let at = runs.iter().map(|&(a, b)| if a == b { a.to_string() } else { format!("{a}-{b}") }).collect::<Vec<_>>().join(", ");
+                                    let detail = format!(
+                                        "{} frames at 144 Hz ({}x{} px), {} of them a glide's drawn in part: {:.2} ms (worst {:.2}); {} frames differ from the window drawn whole{}{worst}{missing}",
+                                        f.frames,
+                                        f.size.0,
+                                        f.size.1,
+                                        ms.len(),
+                                        median(ms),
+                                        ms.last().copied().unwrap_or(0.0),
+                                        f.differing.len(),
+                                        if at.is_empty() { String::new() } else { format!(" ({at})") }
+                                    );
+                                    (ok, detail)
+                                }
+                                None => (false, "its windows didn't open".to_string()),
+                            };
+                            self.checks.push(check("settings-window-glide", ok, detail));
+                        }
+                        self.phase = Phase::Window { k: k + 1 };
+                    }
+                    None => {
+                        app.selftest_close_settings();
+                        self.phase = self.after_window(now);
+                    }
+                }
+            }
             Phase::PressOk { i, since } => {
                 // The countdown first, as a person sees it, then a real press
                 // on its OK: the island stays closed and the countdown goes.
@@ -2585,6 +2896,18 @@ impl SelfTest {
                     let away = crate::activities::prayer_countdown(&app.st).is_none();
                     let ok = at.is_some() && !opened && away;
                     self.checks.push(check("prayer-ok", ok, format!("{said}; the countdown {}", if away { "put away" } else { "still there" })));
+                    self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
+                }
+            }
+            Phase::Drag { i, since } => {
+                // In the middle, closed and still, then a real press on it, a
+                // move sideways and the release: it moves and stays closed.
+                // Then a click on it where it went: that still opens it.
+                self.apply(app, SCENES[i]);
+                let still = app.selftest_settled() && !app.selftest_expanded() && app.st.settings.island_x.is_none();
+                if still || now - since > self.settle_limit(app) {
+                    let (ok, detail) = if still { drag_check(app) } else { (false, "the island never rested closed in the middle".to_string()) };
+                    self.checks.push(check("island-drag", ok, detail));
                     self.phase = Phase::Settle { i, since: now, steps: 0, stable: 0 };
                 }
             }
@@ -2622,10 +2945,22 @@ impl SelfTest {
         match SCENES.get(i) {
             Some(Scene::TabClick | Scene::GearClick) => Phase::Click { i },
             Some(Scene::PrayerOk) => Phase::PressOk { i, since: now },
+            Some(Scene::IslandDrag) => Phase::Drag { i, since: now },
             Some(_) => Phase::Settle { i, since: now, steps: 0, stable: 0 },
-            // One IELTS turn end to end, in the plain Classic runs.
-            None if self.theme == Theme::Classic && self.glass.is_none() => Phase::Ielts { since: now },
-            None => self.after_scenes(now),
+            // Advanced settings opening the Settings window, then its
+            // sections (not over the Glass backdrops).
+            None if self.glass.is_none() => Phase::Advanced { since: now, clicked: false },
+            None => self.after_window(now),
+        }
+    }
+
+    /// After the scenes and the Settings window's pictures.
+    fn after_window(&self, now: f64) -> Phase {
+        // One IELTS turn end to end, in the plain Classic runs.
+        if self.theme == Theme::Classic && self.glass.is_none() {
+            Phase::Ielts { since: now }
+        } else {
+            self.after_scenes(now)
         }
     }
 
@@ -2835,6 +3170,12 @@ impl SelfTest {
         st.settings.hidden_tabs = if scene == Scene::SettingsTabs { vec!["today".into(), "tasks".into()] } else { Vec::new() };
         // Step aside is off in the app since 0.2.6; the self-test keeps drawing what's left of it.
         st.settings.step_aside = scene != Scene::SettingsAsideStay;
+        // In the middle, except where the drag left it (`Phase::Drag`) and at the right edge.
+        st.settings.island_x = match scene {
+            Scene::IslandDrag => st.settings.island_x,
+            Scene::IslandOpenAtEdge => Some(1.0),
+            _ => None,
+        };
         // A later version offered, only where Settings shows it. A copy from
         // GitHub reads the update file itself, so Settings has Check now.
         let looks = crate::state::UpdateView { looks: true, ..Default::default() };
@@ -2988,9 +3329,21 @@ impl SelfTest {
             st.addons.insert(id, if on { AddonStatus::Ready } else { AddonStatus::Off });
         }
         seed_stocks(st, scene, now);
+        // The Downloader: offered in its own scenes, and on there (its tools
+        // in place, so the tab shows) except on the Add-ons page, whose row
+        // shows it off; signed out (`AddonsPro`) it isn't listed at all.
+        // Its setting stays as it is, as for Prayer times above.
+        st.downloader_offered = scene.downloader();
+        let tab = scene.downloader() && scene != Scene::AddonsDownloader;
+        st.addons.insert(DOWNLOADER.id, if tab { AddonStatus::Ready } else { AddonStatus::Off });
+        seed_downloads(st, scene);
         seed_notifications(st, scene);
         seed_ielts(st, scene, now);
         seed_notes(st, scene, now);
+        if scene.pro() {
+            st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+            st.oyenza.pro = Some(true);
+        }
         // Oyen in the Oyenza tab long since arrived: at rest in every picture.
         st.ui.oyen_tab = Some((crate::oyen::TabMove::Arrive, f64::NEG_INFINITY));
         if scene.media_playing() {
@@ -3200,7 +3553,9 @@ impl SelfTest {
             let area = if self.glass.is_some() { Rect::new(body.x + 10.0, body.y, (body.w - 20.0).max(1.0), (body.h - 10.0).max(1.0)) } else { body };
             let lit = frame.content_pixels(area, scale, rgb8(look.ground));
             checks.push(check("content-drawn", lit >= 20, format!("{lit} content pixels inside the island")));
-            if let Some(run) = self.glass {
+            // Not where the island moved: the backdrop is a page laid out
+            // for the island in the middle.
+            if let Some(run) = self.glass.filter(|_| !scene.moved()) {
                 self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
             }
             if pill {
@@ -3222,6 +3577,9 @@ impl SelfTest {
         }
         if scene == Scene::MediaLyric {
             checks.push(lyric_line_check(&app.st));
+        }
+        if scene.moved() {
+            checks.push(on_screen_check(app, scene));
         }
         if scene == Scene::PrayerOk {
             // After OK: the song and its sung line until Ashar, as before the countdown.
@@ -3266,6 +3624,13 @@ impl SelfTest {
             let hidden = crate::window::capture_excluded(app.hwnd());
             let wine = under_wine();
             checks.push(check("recording-hidden-from-capture", hidden == can || (wine && !hidden), format!("display affinity: {}, Windows build {build:?}", if hidden { "left out of capture" } else { "in capture" })));
+        }
+        if scene.downloader() {
+            // The Downloads tab shows once the Downloader is on, not while
+            // it's off, nor without Pro with its tools in place.
+            let shown = pages::tabs(&app.st).contains(&PageKind::Downloads);
+            let want = !matches!(scene, Scene::AddonsDownloader | Scene::AddonsPro);
+            checks.push(check("downloads-tab", shown == want, format!("Downloads tab shown: {shown}, want {want}")));
         }
 
         let ok = checks.iter().all(|c| c.ok);
@@ -3901,6 +4266,11 @@ fn lyric_line_check(st: &AppState) -> Check {
 
 /// Centre of the first header tab. Mirrors `pages::draw_header`: tabs start at
 /// the header's left edge and are 30 DIPs wide while inactive.
+/// A Settings window frame must draw well inside a 60 Hz refresh even on
+/// CI's small runners (the window glides at the display's rate; 144 Hz
+/// leaves 6.94 ms).
+const SETTINGS_FRAME_BUDGET_MS: f64 = 12.0;
+
 fn first_tab_point(body: Rect) -> Point {
     let header = crate::pages::header_rect(body);
     Point::new(header.x + 15.0, header.center().y)

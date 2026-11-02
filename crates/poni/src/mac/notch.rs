@@ -180,6 +180,9 @@ fn ear(m: &Mode, st: &AppState) -> f32 {
         }
         // "10 min" in the right ear.
         Mode::Activity(Activity::Prayer) => 66.0,
+        // Meeting notes: Oyen in the left ear; the dot and "12:34", or
+        // "Writing…", in the right.
+        Mode::Activity(Activity::Notes) => 80.0,
         _ => 56.0,
     }
 }
@@ -341,6 +344,27 @@ pub fn draw_ears(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect, n: Notch)
             activities::recording_mark(ui, st, Point::new(left.center().x + 6.0, body.center().y));
             let (text, ts) = activities::recording_time(st);
             ui.c.text(&text, Rect::new(right.x, body.y, right.w - 6.0, body.h), &ts.center());
+            true
+        }
+        // Meeting notes: Oyen listening (or writing) in the left ear, the
+        // red dot and the time (or "Writing…") in the right; nothing under
+        // the camera.
+        Mode::Activity(Activity::Notes) => {
+            let cy = body.center().y;
+            let listening = st.notes.listening();
+            let what = if listening { crate::oyen::Coach::Listen { level: st.notes.mic.max(st.notes.pc) } } else { crate::oyen::Coach::Write };
+            crate::oyen::coach(ui.c, Point::new(left.center().x + 6.0, cy - 1.0), 22.0, ui.now, what);
+            // The head follows the voices, and the pencil its line.
+            ui.request_live();
+            if listening {
+                ui.c.fill_circle(Point::new(right.x + 10.0, cy), 4.0, palette::RED);
+                let ts = TextStyle::body().weight(Weight::Semibold).tabular().color(palette::TEXT).right();
+                let text = poni_core::notes::fmt_length(st.notes.elapsed(st.now));
+                ui.c.text(&text, Rect::new(right.x + 18.0, body.y, (right.w - 18.0 - 8.0).max(0.0), body.h), &ts);
+            } else {
+                let ts = TextStyle::footnote().weight(Weight::Semibold).color(palette::TEXT_DIM).center();
+                ui.c.text("Writing\u{2026}", Rect::new(right.x, body.y, (right.w - 6.0).max(0.0), body.h), &ts);
+            }
             true
         }
         // Art left and bars (or Oyen) right, no words under the camera: the

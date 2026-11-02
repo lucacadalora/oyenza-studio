@@ -41,5 +41,17 @@
 	<string>Prayer times uses your location to pick the nearest kab/kota. Your location stays on this Mac.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Prayer times uses your location to pick the nearest kab/kota. Your location stays on this Mac.</string>
+	<!-- Shown if macOS asks before the Downloader (or Phone drop) reaches a file in Downloads it didn't make, such as a stopped download's unfinished file. -->
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Oyenza Studio saves the videos and sounds you download, and the files you send from your phone, in Downloads.</string>
+	<!-- Shown when Meeting notes first records the Mac's own sound (a Core Audio tap, only while a meeting is recorded). -->
+	<key>NSAudioCaptureUsageDescription</key>
+	<string>Oyen listens to the voices of your call, from your Mac's own sound, to write your meeting notes.</string>
+	<!-- Shown when Meeting notes first saves notes in Documents › Oyenza Studio › Notes. -->
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Oyenza Studio saves your meeting notes in Documents, in Oyenza Studio › Notes.</string>
+	<!-- Shown when the IELTS coach or Meeting notes first records (the microphone runs only while it records). -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Oyen listens to your spoken IELTS answers and scores them, and to you in a meeting you take notes of.</string>
 </dict>
 </plist>

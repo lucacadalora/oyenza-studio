@@ -1,0 +1,100 @@
+# yt-dlp ships fixes most weeks, as sites (YouTube most of all) keep changing,
+# and the Downloader add-on takes only the yt-dlp whose size and SHA-256 are
+# built into the app: yt-dlp.exe on Windows, yt-dlp_macos on the Mac
+# (DOWNLOADER_WINDOWS and DOWNLOADER_MAC in crates/poni-core/src/addons.rs).
+# Every Monday, and by hand, tools/pin_ytdlp.py pins yt-dlp's latest release,
+# both files together, on main.
+# When that moves the pin, the change goes to the downloader/ytdlp-pin branch,
+# and the pull request "Downloader: yt-dlp <version>" is opened, or updated if
+# one is open. Merging it ships the new yt-dlp with the next release.
+# docs/downloader-pins.md says more.
+#
+# GitHub refuses the pull request until the repository allows it, once:
+# Settings › Actions › General › Workflow permissions › "Allow GitHub Actions to
+# create and approve pull requests". Until then the run fails with a link to
+# open it by hand. A push made with the workflow's own token starts no other
+# workflow, so ci is run on the branch by hand before merging.
+name: Downloader pins
+
+on:
+  schedule:
+    - cron: "23 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: downloader-pins
+  cancel-in-progress: false
+
+jobs:
+  ytdlp:
+    name: Pin yt-dlp's latest release
+    # Not in forks: the branch and the pull request belong to this repository.
+    if: github.repository == 'lucacadalora/oyenza-studio'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BRANCH: downloader/ytdlp-pin
+    steps:
+      # The pull request goes to main, so start from main whatever ref the run is on.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Pin the latest yt-dlp in addons.rs
+        id: pin
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/pin_ytdlp.py
+      - name: Push the branch, open or update the pull request
+        if: steps.pin.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.pin.outputs.version }}
+          PREVIOUS: ${{ steps.pin.outputs.previous }}
+          LINE: ${{ steps.pin.outputs.line }}
+        run: |
+          title="Downloader: yt-dlp $VERSION"
+          prs="repos/$GITHUB_REPOSITORY/pulls?head=$GITHUB_REPOSITORY_OWNER:$BRANCH&base=main&per_page=100"
+          open=$(gh api "$prs&state=open" --jq '.[0].number // empty')
+          # Closing the pull request for a version skips it: the next yt-dlp gets a new one.
+          if [ -z "$open" ] && [ "$(gh api "$prs&state=closed" --jq "[.[] | select(.title == \"$title\")] | length")" != 0 ]; then
+            echo "The pull request for yt-dlp $VERSION was closed, so none is opened for it again." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git switch -q -c "$BRANCH"
+          git add crates/poni-core/src/addons.rs
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "$title" -m "$LINE" -m "Pinned by the Downloader pins workflow (tools/pin_ytdlp.py)."
+          # The branch is this workflow's own: rewritten from main whenever it carries another pin.
+          if git fetch -q --depth=1 origin "$BRANCH" 2> /dev/null && git diff --quiet FETCH_HEAD HEAD -- crates/poni-core/src/addons.rs; then
+            echo "$BRANCH already carries this pin."
+          else
+            git push -q --force origin "HEAD:refs/heads/$BRANCH"
+          fi
+
+          docs="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/main/docs/downloader-pins.md"
+          body=$(cat <<EOF
+          yt-dlp [$VERSION](https://github.com/yt-dlp/yt-dlp/releases/tag/$VERSION) is out (main pins $PREVIOUS); its release notes say what it fixes.
+
+          $LINE
+
+          **Run ci on this branch before merging.** GitHub starts no workflow for a push made with a workflow's own token, so this pull request has no checks yet: Actions › ci › Run workflow on \`$BRANCH\`, or \`gh workflow run ci.yml --ref $BRANCH\`. If yt-dlp's notes ask for a newer QuickJS, pin that too: \`python3 tools/pin_ytdlp.py --quickjs\` for Windows, and for the Mac a new build from mac.yml's downloader-tools job on a new addon-downloader-mac pre-release (the pins doc says how).
+
+          Once merged, the next release carries it: copies with the Downloader on, Windows and Mac, find that their yt-dlp no longer matches and download the new one, once.
+
+          The [Downloader pins]($docs) workflow owns this branch and rewrites it from main when a newer yt-dlp is out, so commits added here don't last. Closing this pull request skips $VERSION.
+          EOF
+          )
+          if [ -n "$open" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/pulls/$open" -f title="$title" -f body="$body" > /dev/null
+            echo "Updated #$open: $title" >> "$GITHUB_STEP_SUMMARY"
+          elif url=$(gh api "repos/$GITHUB_REPOSITORY/pulls" -f title="$title" -f head="$BRANCH" -f base=main -f body="$body" --jq .html_url); then
+            echo "Opened $url: $title" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::GitHub refused the pull request. Allow it once in the repository's settings (Actions › General › Workflow permissions › Allow GitHub Actions to create and approve pull requests), or open it by hand: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/main...$BRANCH"
+            exit 1
+          fi
