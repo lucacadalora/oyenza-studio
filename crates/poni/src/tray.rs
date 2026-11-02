@@ -66,7 +66,11 @@ pub enum MenuCmd {
     ToggleGamePeek,
     ToggleSounds,
     TogglePinned,
+    /// "Move island to the centre": back from where it was dragged.
+    CentreIsland,
     ToggleAutostart,
+    /// "Advanced settings…": the Settings window.
+    ShowSettings,
     OpenSettings,
     ReloadSettings,
     OpenDataFolder,
@@ -123,6 +127,8 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
     let theme = |label: &str, t: Theme| item(label, MenuCmd::SetTheme(t), s.theme == t);
     let fullscreen = |label: &str, hide: bool| item(label, MenuCmd::SetHideFullscreen(hide), s.hide_in_fullscreen == hide);
     let mut items = vec![
+        item("Advanced settings…", MenuCmd::ShowSettings, false),
+        MenuItem::Separator,
         item("Keep island open", MenuCmd::TogglePinned, pinned),
         MenuItem::Sub { label: "Theme".into(), items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen), theme("Glass", Theme::Glass), theme("Pill", Theme::Pill)] },
         // The status bar is listed only in Pill, as on the Settings page: the
@@ -155,6 +161,11 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
         MenuItem::Separator,
         item("Quit Oyenza Studio", MenuCmd::Quit, false),
     ];
+    // Only once the island was dragged off the middle: the way back, under Keep island open.
+    if s.island_x.is_some() {
+        let at = items.iter().position(|i| matches!(i, MenuItem::Item { cmd: MenuCmd::TogglePinned, .. })).map_or(items.len(), |i| i + 1);
+        items.insert(at, item("Move island to the centre", MenuCmd::CentreIsland, false));
+    }
     // Only while the System add-on is on: its page's history, under Sounds.
     if s.system_on() {
         let at = items.iter().position(|i| matches!(i, MenuItem::Item { cmd: MenuCmd::ToggleSounds, .. })).unwrap_or(items.len());
@@ -258,7 +269,7 @@ pub fn show_menu(owner: HWND, pt: POINT, items: &[MenuItem]) -> Option<MenuCmd> 
         let cmd = if idx == 0 { None } else { cmds.get(idx - 1).copied() };
         let launches = matches!(
             cmd,
-            Some(MenuCmd::OpenSettings | MenuCmd::OpenDataFolder | MenuCmd::About | MenuCmd::LyricsCredit | MenuCmd::AppleMusicHelp | MenuCmd::OyenzaOpen)
+            Some(MenuCmd::ShowSettings | MenuCmd::OpenSettings | MenuCmd::OpenDataFolder | MenuCmd::About | MenuCmd::LyricsCredit | MenuCmd::AppleMusicHelp | MenuCmd::OyenzaOpen)
         );
         if !launches && !prev.is_invalid() && prev != owner && IsWindow(prev).as_bool() && GetForegroundWindow() == owner {
             let _ = SetForegroundWindow(prev);
@@ -332,6 +343,23 @@ mod tests {
         // Not while a version is on offer (its line comes first), nor with the checks off.
         assert!(!cmds(UpdateLine::Offer("0.2.5".into())).contains(&MenuCmd::CheckForUpdates));
         assert!(!cmds(UpdateLine::None).contains(&MenuCmd::CheckForUpdates));
+    }
+
+    #[test]
+    fn the_way_back_to_the_centre_shows_once_the_island_moved() {
+        let cmds = |s: &Settings| -> Vec<MenuCmd> {
+            menu_items(s, false, &OyenzaLink::Off, false, UpdateLine::None)
+                .into_iter()
+                .filter_map(|i| match i {
+                    MenuItem::Item { cmd, .. } => Some(cmd),
+                    _ => None,
+                })
+                .collect()
+        };
+        assert!(!cmds(&Settings::default()).contains(&MenuCmd::CentreIsland));
+        let moved = cmds(&Settings { island_x: Some(0.8), ..Settings::default() });
+        let pin = moved.iter().position(|c| *c == MenuCmd::TogglePinned).expect("no Keep island open");
+        assert_eq!(moved.get(pin + 1), Some(&MenuCmd::CentreIsland));
     }
 
     #[test]

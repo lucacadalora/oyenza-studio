@@ -15,7 +15,9 @@
 //! own action links ([`open_recorder_link`]): its fixed scheme and one
 //! percent-encoded value, as `poni_core::recorder` builds them; and an app
 //! by its AppUserModelID in the Apps folder ([`open_app`]), the characters
-//! of an id only.
+//! of an id only; the AI tab's Sign in: the Claude app's own `claude://`
+//! link ([`open_claude_app`]) and a service's sign-in command in a console
+//! window ([`run_in_console`]), its program checked, its arguments fixed.
 
 use std::sync::atomic::{AtomicUsize, Ordering};
 use windows::core::{w, HSTRING};
@@ -111,6 +113,44 @@ pub fn open_app(app_id: &str) {
         let r = unsafe { ShellExecuteW(None, w!("open"), w!("explorer.exe"), &HSTRING::from(args.as_str()), None, SW_SHOWNORMAL) };
         if (r.0 as isize) <= 32 {
             crate::pwarn!("open app failed ({}): {}", r.0 as isize, for_log(&args));
+        }
+    });
+}
+
+/// Open the Claude app through its own link, `claude://` (asynchronously):
+/// the AI tab's Sign in, used once the app's settings are on this PC, so
+/// the link has the app to go to. It signs Claude Code in.
+pub fn open_claude_app() {
+    run("open", || {
+        let r = unsafe { ShellExecuteW(None, w!("open"), w!("claude://"), None, None, SW_SHOWNORMAL) };
+        if (r.0 as isize) <= 32 {
+            crate::pwarn!("open failed ({}): claude://", r.0 as isize);
+        }
+    });
+}
+
+/// Run a service's own sign-in command in a console window that stays open
+/// after it (`cmd /k`), asynchronously: the AI tab's Sign in. `program` is
+/// an existing absolute path, or a bare name (`claude`) for cmd to find on
+/// PATH; `args` are the fixed words after it. Neither may hold a quote or a
+/// character cmd reads (`% & | < > ^ !`), so the line runs as written.
+pub fn run_in_console(program: &std::path::Path, args: &'static str) {
+    let text = program.to_string_lossy().into_owned();
+    let plain = |s: &str| !s.is_empty() && !s.chars().any(|c| c.is_control() || matches!(c, '"' | '%' | '&' | '|' | '<' | '>' | '^' | '!'));
+    let bare = program.components().count() == 1 && !text.contains(['\\', '/', ':']);
+    if !plain(&text) || !plain(args) || !(bare || program.is_absolute()) {
+        crate::pwarn!("console refused: {}", for_log(&text));
+        return;
+    }
+    // cmd from Windows' own folder, never one found elsewhere first.
+    let root = std::env::var_os("SystemRoot").map(std::path::PathBuf::from).filter(|p| p.is_absolute()).unwrap_or_else(|| r"C:\Windows".into());
+    let cmd = HSTRING::from(root.join("System32").join("cmd.exe").as_os_str());
+    // With /s, cmd drops the first and last quote and runs what's between.
+    let line = HSTRING::from(format!("/s /k \"\"{text}\" {args}\""));
+    run("console", move || {
+        let r = unsafe { ShellExecuteW(None, w!("open"), &cmd, &line, None, SW_SHOWNORMAL) };
+        if (r.0 as isize) <= 32 {
+            crate::pwarn!("console failed ({})", r.0 as isize);
         }
     });
 }

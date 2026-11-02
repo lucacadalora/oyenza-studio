@@ -57,6 +57,8 @@ codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.app
   || { echo "the app's signature lacks the Apple Events entitlement (installer/mac/poni.entitlements)" >&2; exit 1; }
 codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.apple.security.personal-information.location" \
   || { echo "the app's signature lacks the location entitlement (installer/mac/poni.entitlements)" >&2; exit 1; }
+codesign --display --entitlements - --xml "$app" 2> /dev/null | grep -q "com.apple.security.device.audio-input" \
+  || { echo "the app's signature lacks the microphone entitlement (installer/mac/poni.entitlements)" >&2; exit 1; }
 
 # 2. The DMG: the installer window with the signed app, signed too.
 base="$(basename "$src" .dmg)"

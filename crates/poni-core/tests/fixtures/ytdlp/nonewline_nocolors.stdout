@@ -1,0 +1,9 @@
+[PeerTube] Extracting URL: https://video.blender.org/w/b29290cc-dc51-4a12-bcb2-2aa5fece7605
+[PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading video JSON
+[PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading m3u8 information
+[PeerTube] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading description JSON
+[info] b29290cc-dc51-4a12-bcb2-2aa5fece7605: Downloading 1 format(s): Audio_only
+{"t":"info","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","title":"OVERGROWN: a feature film project by Blender Studio","site":"PeerTube","thumb":"https://video.blender.org/lazy-static/thumbnails/2d0a6dff-ad41-4e1c-a921-53338b30759c.jpg","duration":70,"uploader":"Blender"}
+[download] Destination: <dir>/OVERGROWN： a feature film project by Blender Studio [b29290cc-dc51-4a12-bcb2-2aa5fece7605].mp4
+[K{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","done":1024,"total":2799967,"est":0,"speed":0,"eta":0,"frag":0,"frags":0}[K{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","done":3072,"total":2799967,"est":0,"speed":0,"eta":0,"frag":0,"frags":0}[K{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","done":7168,"total":2799967,"est":0,"speed":6612001.555311195,"eta":0,"frag":0,"frags":0}[K{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","done":10241,"total":2799967,"est":0,"speed":7270458.236966825,"eta":0,"frag":0,"frags":0}[K{"t":"dl","id":"b29290cc-dc51-4a12-bcb2-2aa5fece7605","done":10241,"total":10241,"est":0,"speed":18352.165473349243,"eta":0,"frag":0,"frags":0}
+{"t":"done","path":"<dir>/OVERGROWN\uff1a a feature film project by Blender Studio [b29290cc-dc51-4a12-bcb2-2aa5fece7605].mp4"}
