@@ -519,8 +519,29 @@ impl Worker {
             UsageCmd::Connect => self.connect(),
             UsageCmd::CancelConnect => self.cancel_connect(),
             UsageCmd::Disconnect => self.disconnect(),
+            UsageCmd::SignIn(id) => self.sign_in(id),
             // The app keeps these in its settings; the watch brings them.
             UsageCmd::Hide(_) | UsageCmd::Show(_) => {}
+        }
+    }
+
+    /// The card's Sign in, for Claude Code: its own `claude auth login` in
+    /// a terminal window, or the Claude app (`claude::sign_in_via`). The
+    /// tab reads again as the person comes back to it.
+    fn sign_in(&self, id: ProviderId) {
+        use usage::claude::SignInVia;
+        if id != ProviderId::Claude {
+            return;
+        }
+        match usage::claude::sign_in_via(&self.dirs, |p| p.is_file()) {
+            SignInVia::App => {
+                crate::pinfo!("usage: claude: sign in: the Claude app");
+                open_claude_app();
+            }
+            SignInVia::Cli(program) => {
+                crate::pinfo!("usage: claude: sign in: claude auth login{}", if program.is_some() { "" } else { " (on PATH)" });
+                run_login(program);
+            }
         }
     }
 
@@ -824,6 +845,48 @@ fn computer_name() -> String {
 #[cfg(target_os = "macos")]
 fn computer_name() -> String {
     crate::services::phonedrop::computer_name().unwrap_or_default()
+}
+
+/// The Claude app, through its own link.
+#[cfg(not(target_os = "macos"))]
+fn open_claude_app() {
+    crate::shell::open_claude_app();
+}
+
+#[cfg(target_os = "macos")]
+fn open_claude_app() {
+    crate::services::open("claude://");
+}
+
+/// `claude auth login` in a console window: `program`, or `claude` as PATH
+/// finds it.
+#[cfg(not(target_os = "macos"))]
+fn run_login(program: Option<PathBuf>) {
+    crate::shell::run_in_console(program.as_deref().unwrap_or("claude".as_ref()), "auth login");
+}
+
+/// `claude auth login` in Terminal, which runs a `.command` file it's handed:
+/// one in Studio's cache folder that only the person can read or run.
+/// Without a known `program`, their login shell finds `claude` (a Mac app
+/// started from the Dock has no PATH of theirs).
+#[cfg(target_os = "macos")]
+fn run_login(program: Option<PathBuf>) {
+    use std::io::Write;
+    use std::os::unix::fs::OpenOptionsExt;
+    let quote = |s: &str| format!("'{}'", s.replace('\'', "'\\''"));
+    let login = match program {
+        Some(p) => format!("{} auth login", quote(&p.to_string_lossy())),
+        None => format!("\"${{SHELL:-/bin/zsh}}\" -lic {}", quote("claude auth login")),
+    };
+    let script = format!("#!/bin/sh\n# Oyenza Studio's AI tab: Claude Code's own sign-in.\n{login} && echo && echo 'Signed in. Oyenza Studio reads it when you open the AI tab.'\n");
+    let dir = crate::paths::cache_dir();
+    let path = dir.join("Claude Code sign-in.command");
+    let _ = std::fs::remove_file(&path);
+    let wrote = std::fs::create_dir_all(&dir).and_then(|()| std::fs::OpenOptions::new().write(true).create_new(true).mode(0o700).open(&path)).and_then(|mut f| f.write_all(script.as_bytes()));
+    match wrote {
+        Ok(()) => crate::services::open(&path.to_string_lossy()),
+        Err(e) => crate::pwarn!("usage: claude: sign-in script not written ({e})"),
+    }
 }
 
 /// One keychain item, through the Mac's reader (`services::keychain`), which

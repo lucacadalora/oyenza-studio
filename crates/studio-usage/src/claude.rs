@@ -147,6 +147,45 @@ fn app_folder(dirs: &Dirs) -> std::path::PathBuf {
     dirs.join(&dirs.config, &["Claude"])
 }
 
+/// What the card's Sign in button does ([`sign_in_via`]).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum SignInVia {
+    /// Claude Code's own sign-in, `claude auth login`, in a terminal window:
+    /// this program, or `claude` as the person's shell finds it (None). It
+    /// keeps the sign-in where this reader looks first.
+    Cli(Option<std::path::PathBuf>),
+    /// Open the Claude app (its `claude://` link): it signs Claude Code in,
+    /// and this reader reads the app's sign-in.
+    App,
+}
+
+/// Where Claude Code's installers put its program: the native installer,
+/// the older local one, npm's own folder, Homebrew (Apple silicon, then
+/// Intel), WinGet's links.
+const CLI_MAC: [&str; 5] = ["~/.local/bin/claude", "~/.claude/local/claude", "~/.npm-global/bin/claude", "/opt/homebrew/bin/claude", "/usr/local/bin/claude"];
+const CLI_WINDOWS: [&str; 3] = ["~/.local/bin/claude.exe", "%APPDATA%/npm/claude.cmd", "%LOCALAPPDATA%/Microsoft/WinGet/Links/claude.exe"];
+
+/// The Sign in button: Claude Code's own `claude auth login` where its
+/// program is in a place its installers use; else the Claude app, when its
+/// settings are on this computer; else `claude auth login` by name, for a
+/// program kept somewhere else.
+pub fn sign_in_via(dirs: &Dirs, is_file: impl Fn(&std::path::Path) -> bool) -> SignInVia {
+    let places = if dirs.os == Os::Mac { &CLI_MAC[..] } else { &CLI_WINDOWS[..] };
+    let place = |p: &str| match p.split_once('/') {
+        Some(("~", rest)) => dirs.home_join(&[rest]),
+        Some(("%APPDATA%", rest)) => dirs.join(&dirs.config, &[rest]),
+        Some(("%LOCALAPPDATA%", rest)) => dirs.join(&dirs.local, &[rest]),
+        _ => std::path::PathBuf::from(p),
+    };
+    if let Some(cli) = places.iter().map(|p| place(p)).find(|p| is_file(p)) {
+        return SignInVia::Cli(Some(cli));
+    }
+    if is_file(&dirs.join(&app_folder(dirs), &["config.json"])) {
+        return SignInVia::App;
+    }
+    SignInVia::Cli(None)
+}
+
 /// Where the Claude app's sign-in stands.
 enum App {
     Found(SignIn),
@@ -701,6 +740,27 @@ mod tests {
         let rows: Vec<_> = s.windows.iter().map(|w| (w.kind, w.label.as_str(), w.used, w.resets_at)).collect();
         let (five, week) = (Some(1_793_085_600), Some(1_793_350_800));
         assert_eq!(rows, vec![(WindowKind::Session, "5-hour", 0.4, five), (WindowKind::Weekly, "Weekly", 0.2, week), (WindowKind::Weekly, "Weekly · Opus", 0.12, week)]);
+    }
+
+    #[test]
+    fn sign_in_runs_claude_codes_own_login_first_then_opens_the_app() {
+        fn on<'a>(files: &'a [&str]) -> impl Fn(&std::path::Path) -> bool + 'a {
+            move |p| files.iter().any(|f| p == std::path::Path::new(f))
+        }
+        let mac = Dirs::sample(Os::Mac);
+        let app = "/Users/u/Library/Application Support/Claude/config.json";
+        let cli = |p: &str| SignInVia::Cli(Some(PathBuf::from(p)));
+        assert_eq!(sign_in_via(&mac, on(&["/Users/u/.local/bin/claude", app])), cli("/Users/u/.local/bin/claude"));
+        assert_eq!(sign_in_via(&mac, on(&["/opt/homebrew/bin/claude"])), cli("/opt/homebrew/bin/claude"));
+        // Only the app (someone who runs Claude Code through it): open it.
+        assert_eq!(sign_in_via(&mac, on(&[app])), SignInVia::App);
+        // Neither in a known place: `claude` as the shell finds it.
+        assert_eq!(sign_in_via(&mac, on(&[])), SignInVia::Cli(None));
+        let win = Dirs::sample(Os::Windows);
+        assert_eq!(sign_in_via(&win, on(&[r"C:\Users\u\AppData\Roaming\npm\claude.cmd"])), cli(r"C:\Users\u\AppData\Roaming\npm\claude.cmd"));
+        assert_eq!(sign_in_via(&win, on(&[r"C:\Users\u\.local\bin\claude.exe"])), cli(r"C:\Users\u\.local\bin\claude.exe"));
+        assert_eq!(sign_in_via(&win, on(&[r"C:\Users\u\AppData\Roaming\Claude\config.json"])), SignInVia::App);
+        assert_eq!(sign_in_via(&win, on(&[])), SignInVia::Cli(None));
     }
 
     #[test]
