@@ -598,3 +598,9 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 124823359403,Fetch the release to upgrade from,41297840714,1,2026-11-01T10:35:52Z,release-0.2.23,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 124826409471,Fetch the release to upgrade from,41298862166,1,2026-11-01T10:50:11Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 124826486143,Fetch the release to upgrade from,41298869962,1,2026-11-01T10:50:30Z,v0.2.23,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+125102006668,Fetch the release to upgrade from,41390556734,1,2026-11-02T04:54:05Z,ai-claude-signin,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+125113259441,Fetch the release to upgrade from,41393946385,1,2026-11-02T05:33:03Z,main,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+125144096988,Fetch the release to upgrade from,41404248175,1,2026-11-02T07:12:12Z,release-0.2.24,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+125147580579,Fetch the release to upgrade from,41404248175,2,2026-11-02T07:12:12Z,release-0.2.24,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+125144215857,Fetch the release to upgrade from,41404236773,1,2026-11-02T07:12:46Z,release-0.2.24,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+125151112984,Fetch the release to upgrade from,41406461770,1,2026-11-02T07:32:51Z,v0.2.24,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
