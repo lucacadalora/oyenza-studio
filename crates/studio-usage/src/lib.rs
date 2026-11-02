@@ -497,7 +497,8 @@ pub trait Provider: Sync {
     /// The service gets its numbers by running a program ([`Step::Run`]),
     /// which costs far more than a request: the worker runs it only for the
     /// person looking at the tab (or pressing Refresh), never for the
-    /// notices alone, which read only what is there.
+    /// notices alone, which read only what is there, and after the services
+    /// that don't, so their cards don't wait for it.
     fn runs_programs(&self) -> bool {
         false
     }

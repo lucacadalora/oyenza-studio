@@ -393,10 +393,15 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
   CPU unless `Watch { open, notices }` says someone wants it. It serves the
   wants (files within their size caps, the Mac keychain through
   `/usr/bin/security`, sealed secrets), runs the programs a reader asks for
-  (`mac/services/agy.rs`: a process group of its own at lowered priority, 30 s
-  at most, output capped and never logged; only for a look the person is
-  there for, never for the notices alone; held after a browser sign-in
-  prompt until Refresh), makes the requests with an HTTP
+  (`mac/services/agy.rs`: a process group of its own at lowered priority, in
+  a private folder that goes when the run ends, 30 s at most, output capped
+  and never logged, anything it leaves running ended; it never opens a
+  browser, since that folder comes first on its PATH with an `open` and an
+  `xdg-open` that only note the ask and fail, and `BROWSER` names them too;
+  a run that asks for a sign-in is stopped at once and held until Refresh;
+  only for a look the person is there for, never for the notices alone, and
+  after every other service, `look_order`, so their cards don't wait), makes
+  the requests with an HTTP
   client of its own (`Client::private`: no redirects, no cookies, no disk
   cache), keeps the last good snapshot per service, and reports
   `AppEvent::Usage` into `st.usage` (`UsageState`). The page's commands

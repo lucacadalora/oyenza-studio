@@ -24,8 +24,10 @@
 //! another host), keeps no cookies and caches nothing. A typed key a server
 //! refused isn't sent there again this run (`pace::Refusals`).
 //!
-//! Nothing is written but the typed keys, and the log gets one line per
-//! change of a service's state: never a token, a key, an answer or an email.
+//! Nothing is written but the typed keys (and, on a Mac, the private folder
+//! `agy` runs in, gone when the run ends), and the log gets one line per
+//! change of a service's state and one per run of `agy`: never a token, a
+//! key, an answer or an email.
 
 use crate::commands::UsageCmd;
 use crate::events::{AppEvent, EventSink};
@@ -314,7 +316,8 @@ impl Worker {
 
     // ------------------------------------------------------------ looking
 
-    /// Every shown service, once (`pace` says what each may do).
+    /// Every shown service, once (`pace` says what each may do), in
+    /// [`look_order`].
     fn look(&mut self, shared: &Shared) {
         let w = self.watch;
         let look = self.looks.begin(w.open, self.tick());
@@ -324,7 +327,7 @@ impl Worker {
         self.cfg = self.alert_cfg();
         let mut alerts = Vec::new();
         let mut cut = false;
-        for (i, p) in usage::all().into_iter().enumerate() {
+        for (i, p) in look_order() {
             if self.stop(shared) {
                 cut = true;
                 break;
@@ -757,6 +760,21 @@ impl Worker {
         }
         self.reread(oyenza::SECRET);
     }
+}
+
+/// The services a look goes through, with their places in `ProviderId::ALL`.
+/// On a Mac, a service that starts a program (Antigravity's `agy`, seconds
+/// long) comes after all the others, so their cards don't wait for it.
+#[cfg(target_os = "macos")]
+fn look_order() -> impl Iterator<Item = (usize, &'static dyn Provider)> {
+    let all = usage::all().into_iter().enumerate();
+    all.clone().filter(|(_, p)| !p.runs_programs()).chain(all.filter(|(_, p)| p.runs_programs()))
+}
+
+/// Windows starts no program for the tab: the services in their own order.
+#[cfg(not(target_os = "macos"))]
+fn look_order() -> impl Iterator<Item = (usize, &'static dyn Provider)> {
+    usage::all().into_iter().enumerate()
 }
 
 /// A service's place in `ProviderId::ALL`, and so in the worker's list.
