@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <meta name="referrer" content="no-referrer">
 <title>Oyenza Studio · Phone drop</title>
@@ -323,10 +323,6 @@ li.file:first-child { border-top: 0; }
     renderChosen();
   });
   $("send").addEventListener("click", send);
-  // No pinch zoom: Safari ignores user-scalable=no, so its pinch gesture is stopped here.
-  ["gesturestart", "gesturechange"].forEach(function (type) {
-    document.addEventListener(type, function (e) { e.preventDefault(); });
-  });
 
   loadInfo();
   setInterval(function () {

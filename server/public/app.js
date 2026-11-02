@@ -53,9 +53,13 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
 
-// The page works like an app, so it doesn't pinch-zoom. Android keeps to the viewport tag;
-// Safari ignores user-scalable=no, so its pinch gesture is stopped here.
-for (const type of ['gesturestart', 'gesturechange']) document.addEventListener(type, (e) => e.preventDefault());
+// Opened from the home screen, the page works like an app, and a stray two-finger touch shouldn't zoom it, so
+// there the viewport tag asks for no pinch-zoom. In a browser tab it still zooms, for anyone who needs the page
+// bigger, and the phone's own zoom settings always win. A double tap zooms nowhere (touch-action in app.css).
+if (isStandalone()) {
+  const viewport = document.querySelector('meta[name="viewport"]');
+  if (viewport && !viewport.content.includes('user-scalable')) viewport.content += ', maximum-scale=1, user-scalable=no';
+}
 
 let installPrompt = null;
 let installed = false;
