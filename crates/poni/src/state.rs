@@ -139,7 +139,7 @@ pub enum NoticeAction {
     /// Open the Update sheet in Settings (a new version's notice).
     OpenUpdate,
     /// Open the app another app's notification came from (its
-    /// AppUserModelID; the Notifications add-on). The island stays closed.
+    /// AppUserModelID; Notifications). The island stays closed.
     OpenApp(String),
 }
 

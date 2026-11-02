@@ -464,7 +464,7 @@ mod tests {
         }
         // Clipboard history left the app after 0.2.8: no add-on by that id.
         assert_eq!(Addon::find("clipboard"), None);
-        // Notifications left the add-ons after 0.2.16: it's on wherever Windows
+        // Notifications left the add-ons after 0.2.24: it's on wherever Windows
         // lets the copy read notifications, and Settings' tabs row switches it off.
         assert_eq!(Addon::find("notifications"), None);
     }

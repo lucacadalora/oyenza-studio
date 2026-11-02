@@ -550,7 +550,7 @@ pub struct App {
     /// New versions (`crate::updates`); None in the self-test and in a
     /// Store copy, which the Store updates.
     updater: Option<crate::updates::Updater>,
-    /// The Notifications add-on's listener while it is on; None while it's
+    /// Notifications' listener while it is on; None while it's
     /// off, in the download (no package identity) and in the self-test.
     notify: Option<services::notifications::Listener>,
 }

@@ -130,7 +130,7 @@ pub struct Settings {
     pub usage: UsageSettings,
     /// The Record page's choices (Oyenza Studio Recorder).
     pub record: RecordSettings,
-    /// The Notifications add-on's choices: which apps the island shows, and
+    /// Notifications' choices: which apps the island shows, and
     /// whether who it's from and the message show at once.
     pub notifications: crate::notifications::NotificationSettings,
     /// How Oyen talks on the IELTS page (Sopan, Gaul or Ngegas, the default).
@@ -565,7 +565,7 @@ mod tests {
 
     #[test]
     fn notifications_switched_off_as_an_add_on_stays_off() {
-        // Until 0.2.16 Notifications was an add-on, off by default. One switched
+        // Until 0.2.24 Notifications was an add-on, off by default. One switched
         // off by hand stays off, as a hidden tab, and the add-on's key goes.
         let s = serde_json::from_str::<Settings>(r#"{"settings_version":4,"addons":{"notifications":false,"sholat":true}}"#).unwrap().sanitized();
         assert_eq!(s.hidden_tabs, ["notifications"]);

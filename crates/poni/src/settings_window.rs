@@ -469,7 +469,14 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
             if !s.remember_page {
                 open.push(item(Key::StartPage, "Opens on", None, Ctl::Stepper(start_name.to_string())));
             }
-            let tabs = PageKind::HIDEABLE.iter().map(|p| item(Key::Tab(*p), p.title(), None, Ctl::Switch(Some(!st.tab_hidden(*p))))).collect();
+            // Notifications only in a copy that can read them; off, nothing listens.
+            let tabs = crate::pages::hideable_tabs(st)
+                .into_iter()
+                .map(|p| {
+                    let sub = (p == PageKind::Notifications).then_some("Messages from WhatsApp, Telegram and your phone");
+                    item(Key::Tab(p), p.title(), sub, Ctl::Switch(Some(!st.tab_hidden(p))))
+                })
+                .collect();
             vec![Block::Group(Some("When the island opens"), open), Block::Group(Some("Tabs in the island"), tabs), Block::Note("AI, Oyenza and the add-ons' pages always have a tab.")]
         }
         Section::Addons => vec![Block::Addons],
@@ -1672,6 +1679,19 @@ mod tests {
         apply(&mut st, Key::StartPage, Act::Step(-1));
         assert_eq!(st.settings.start_page, pages[pages.len() - 1].key());
         assert!(!pages.contains(&PageKind::Addons) && !pages.contains(&PageKind::Settings));
+    }
+
+    #[test]
+    fn notifications_switches_off_under_tabs_only_where_the_copy_can_read_them() {
+        let mut st = state();
+        let listed = |st: &AppState| row(Section::Tabs, st, Key::Tab(PageKind::Notifications)).is_some();
+        assert!(!listed(&st), "the download has no Notifications");
+        st.notify_can = true;
+        assert!(listed(&st) && st.notifications_on(), "on from the start in the Store copy");
+        apply(&mut st, Key::Tab(PageKind::Notifications), Act::Toggle);
+        assert!(!st.notifications_on() && st.cmds.iter().any(|c| matches!(c, Command::SaveSettings)));
+        apply(&mut st, Key::Tab(PageKind::Notifications), Act::Toggle);
+        assert!(st.notifications_on());
     }
 
     #[test]

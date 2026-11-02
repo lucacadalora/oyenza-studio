@@ -91,8 +91,8 @@ pub enum PageKind {
     Stocks,
     /// Links to save as video or sound, while the Downloader add-on is on ([`tabs`]).
     Downloads,
-    /// Which apps' notifications show on the island, while the
-    /// Notifications add-on is on ([`tabs`]; Windows only).
+    /// Which apps' notifications show on the island, while Notifications is
+    /// on ([`tabs`]; Windows' Store copy only).
     Notifications,
     /// The "+" at the end of the tab row: features to switch on, each of
     /// which downloads only then (`poni_core::addons`).
@@ -239,6 +239,13 @@ impl PageKind {
 /// (signed out, Oyenza is where to sign in). Add-ons is last, in both apps.
 pub fn tabs(st: &AppState) -> Vec<PageKind> {
     row(st, Some(st.page))
+}
+
+/// The tabs Settings can switch off in this copy (its tabs row, and Tabs in
+/// the Settings window): the island's own pages, and Notifications only
+/// where the copy can read them (`AppState::notify_can`).
+pub fn hideable_tabs(st: &AppState) -> Vec<PageKind> {
+    PageKind::HIDEABLE.into_iter().filter(|&p| p != PageKind::Notifications || st.notify_can).collect()
 }
 
 /// Where the island goes when its page leaves the row (an add-on switched

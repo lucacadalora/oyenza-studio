@@ -182,7 +182,7 @@ pub enum AppEvent {
     Download { id: u64, line: poni_core::ytdlp::Line },
     /// yt-dlp for download `id` ended (`ok`: it exited with 0).
     DownloadEnded { id: u64, ok: bool },
-    /// The Notifications add-on: what Windows allows, and new notifications
+    /// Notifications: what Windows allows, and new notifications
     /// (`services::notifications`).
     Notify(crate::services::notifications::NotifyEvent),
     /// The AI tab's readings, typed keys, inference.oyenza.com's link and

@@ -292,7 +292,7 @@ fn draw_tabs(ui: &mut Ui, st: &mut AppState, r: Rect) {
     let label_w = ui.c.measure("Tabs", &body, 200.0).0.ceil();
     ui.c.text("Tabs", Rect::new(r.x, r.y, label_w + 1.0, r.h), &body);
     let chip_st = TextStyle::footnote().weight(Weight::Semibold);
-    let pages: Vec<PageKind> = PageKind::HIDEABLE.into_iter().filter(|&p| p != PageKind::Notifications || st.notify_can).collect();
+    let pages = super::hideable_tabs(st);
     let gaps = CHIP_GAP * (pages.len() - 1) as f32;
     let full: Vec<f32> =
         pages.iter().map(|p| (CHIP_PAD + CHIP_ICON + CHIP_ICON_GAP + ui.c.measure(p.title(), &chip_st, 200.0).0 + CHIP_PAD).ceil()).collect();
