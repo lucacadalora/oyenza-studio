@@ -3933,7 +3933,7 @@ impl App {
                     "ja-auto" => 25.0,
                     "ja-get" => 75.0,
                     "ja-off" | "prayer-off" => 15.0,
-                    // Prayer times downloads 1.9 MB; Ashar comes 2 seconds in;
+                    // Prayer times downloads about 1 MB; Ashar comes 2 seconds in;
                     // macOS answers where the Mac is (or asks the person).
                     "prayer-get" => 75.0,
                     "prayer-adzan" | "prayer-locate" => 10.0,

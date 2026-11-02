@@ -197,7 +197,7 @@ jobs:
         run: |
           $dir = New-Item -ItemType Directory -Force -Path addon-home
           $env:PONI_HOME = $dir.FullName
-          $files = Join-Path $dir.FullName "cache\addons\sholat\addon-sholat-1"
+          $files = Join-Path $dir.FullName "cache\addons\sholat\addon-sholat-3"
           $log = Join-Path $dir.FullName "cache\poni.log"
           function Run-Poni($on, $pattern) {
             "{`"addons`":{`"sholat`":$on}}" | Set-Content (Join-Path $env:PONI_HOME "settings.json")
