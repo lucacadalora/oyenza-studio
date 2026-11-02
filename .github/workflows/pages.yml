@@ -16,7 +16,7 @@ name: Website
 on:
   push:
     branches: [main]
-    paths: ["site/**", "docs/brand/**", "tools/build_site.sh", "tools/ci-site-check.sh", "tools/make_update_feed.py", "crates/poni-core/data/update-keys.txt", ".github/workflows/pages.yml"]
+    paths: ["site/**", "docs/brand/**", "tools/build_site.sh", "tools/creator_links.py", "tools/ci-site-check.sh", "tools/make_update_feed.py", "crates/poni-core/data/update-keys.txt", ".github/workflows/pages.yml"]
   workflow_dispatch:
     inputs:
       released:

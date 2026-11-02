@@ -40,6 +40,10 @@ Put the website change in the release PR, or merge it to main just before you pu
 2. Once the tag's `ci` run has published the release, its `site` job runs `tools/ci-site-check.sh release`. If the page on main names the new version, the job starts the Website workflow, which puts the page live.
 3. If the page still names an older version, the job opens an issue, "Landing page not updated for vX", with this checklist. The first website deploy that names vX closes it.
 
+### Creator links
+
+`site/creators.json` lists the codes behind creator addresses like studio.oyenza.com/budi, and `tools/creator_links.py` (run by `tools/build_site.sh`) writes their forwarding pages. Codes only, never names or handles: the repository is public. How to add one: [docs/creators.md](docs/creators.md).
+
 ## Cutting a release
 
 Merges, tags and releases happen only when the maintainer says so.
