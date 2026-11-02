@@ -71,7 +71,7 @@ pub enum OyenzaCmd {
     CheckPro,
 }
 
-/// Requests for the Notifications add-on (`services::notifications`).
+/// Requests for Notifications (`services::notifications`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NotifyCmd {
     /// Ask Windows to let the island read notifications (its question).
@@ -233,7 +233,7 @@ pub enum Command {
     /// Get one of Prayer times' online city files ("ed", "near/55_-5"; the
     /// answer: `AppEvent::Cities`).
     GetCities(String),
-    /// The Notifications add-on.
+    /// Notifications.
     Notify(NotifyCmd),
     Usage(UsageCmd),
     /// The Downloads page (`pages::downloads`).

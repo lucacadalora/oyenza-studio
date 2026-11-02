@@ -4,7 +4,7 @@
 // (its collector at /ingest/). Both answer this host's cross-site requests.
 //
 // What is sent: the page, its title and language, where the visitor came from (referrer, utm_…), screen size, which
-// link was tapped (what kind: the Windows or Mac download, GitHub, the Oyenza app, a section; and where on the page),
+// link was tapped (what kind: the Windows or Mac download, GitHub, the Oyenza app, a section, or a send-to-computer button; and where on the page),
 // how long the page stayed in front and how far down it was read, load speed and script errors. Never anything typed,
 // never a cookie, nothing stored. Links to oyenza.app carry via=studio.oyenza.com (and ref + utm when counted), so an
 // account made from here says so.
@@ -184,6 +184,9 @@
       const t = e.target instanceof Element ? e.target : null;
       const toggle = t?.closest('[data-lang-toggle]');
       if (toggle) { event('lang', { to: lang() === 'en' ? 'id' : 'en', where: where(toggle) }); return; }
+      // Buttons that aren't links name themselves: data-tap="send-pc:share" on the send-to-computer card.
+      const b = t?.closest('[data-tap]');
+      if (b) { const [to, target] = b.dataset.tap.split(':'); event('tap', { to: clip(to, 20), target: clip(target || '', 20), where: where(b) }); flush(); return; }
       const a = t?.closest('a[href]');
       const k = a && kind(a);
       if (k) { event('tap', { ...k, where: where(a) }); flush(); } // at once: most taps leave the page
