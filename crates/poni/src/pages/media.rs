@@ -37,6 +37,10 @@ use std::collections::HashMap;
 
 /// Content height with a media session (the play button's bottom + air).
 const H_SESSION: f32 = 148.0;
+/// The equalizer's band under the player: tall enough to read as a spectrum,
+/// with a gap that keeps it off the lyrics credit above it.
+const STRIP_GAP: f32 = 14.0;
+const STRIP_H: f32 = 44.0;
 /// Content height of the "Nothing playing" state.
 const H_EMPTY: f32 = 124.0;
 
@@ -309,7 +313,7 @@ pub fn height(st: &AppState) -> f32 {
         return h;
     }
     if st.media.is_some() {
-        H_SESSION
+        H_SESSION + STRIP_GAP + STRIP_H
     } else {
         H_EMPTY
     }
@@ -465,6 +469,15 @@ fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &F
     // Real transitions (a lyric scroll catching up, a press) get full-rate
     // frames; the steady drift of the progress bar and lyrics while music
     // plays only needs ambient ~30 fps.
+    // The equalizer under the player: the same bars as the collapsed pill, at
+    // the same bar width, so the card and the pill read as one piece. It
+    // drifts on its own, so the page asks for a frame while it shows.
+    let strip = Rect::new(area.x, area.y + H_SESSION + STRIP_GAP, area.w, STRIP_H);
+    crate::activities::viz_bars(ui, st, strip, playing);
+    if !st.power.saver {
+        ui.request_anim();
+    }
+
     if anim {
         ui.request_anim();
     } else if playing && (has_dur || synced_shown) {

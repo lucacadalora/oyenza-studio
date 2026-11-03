@@ -135,7 +135,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
     let moving = (playing || level > 0.0) && !st.power.saver;
     let eq_x = body.right() - EQ_RIGHT - EQ_W;
     // The open card's equalizer colour, so the bars keep it through a morph.
-    equalizer(ui, eq_x, cy, super::music::eq_color(accent), level, moving, now);
+    equalizer(ui, eq_x, cy, super::music::eq_color(accent), level, moving, now, st.viz);
     middle(ui, st, body, art.right() + TEXT_CLEAR, eq_x - TEXT_CLEAR, lerp(PAUSED_TEXT, 1.0, level));
     true
 }
@@ -345,11 +345,21 @@ fn draw_art(ui: &mut Ui, st: &AppState, r: Rect, alpha: f32) {
 
 /// Four bars in the album's colour from `x`: rising and falling while
 /// music plays, all low and still while it's paused (`level` eases from
-/// one to the other).
-fn equalizer(ui: &mut Ui, x: f32, cy: f32, color: Color, level: f32, moving: bool, t: f64) {
+/// one to the other). They follow the sound the equalizer hears when it
+/// hears any (`bands`), else their stand-in dance.
+fn equalizer(ui: &mut Ui, x: f32, cy: f32, color: Color, level: f32, moving: bool, t: f64, bands: [f32; poni_core::viz::BANDS]) {
     let s = ui.c.scale().max(0.1);
+    let heard = moving && bands.iter().any(|b| *b > 0.02);
+    let chunk = bands.len() / BARS;
     for (i, still) in BARS_STILL.iter().enumerate() {
-        let k = if moving { bounce(i, t) } else { *still };
+        let k = if !moving {
+            *still
+        } else if heard {
+            // Four bars, twelve bands: each bar takes the loudest of its share.
+            bands[i * chunk..(i + 1) * chunk].iter().copied().fold(0.0f32, f32::max).max(0.08)
+        } else {
+            bounce(i, t)
+        };
         let h = BAR_LOW + (BAR_HIGH - BAR_LOW) * k * level;
         // Whole pixels across: 3 DIP bars stay crisp at 100 %.
         let bx = ((x + i as f32 * (BAR_W + BAR_GAP)) * s).round() / s;

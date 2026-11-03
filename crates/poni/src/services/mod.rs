@@ -40,6 +40,7 @@ pub mod sysmon;
 pub mod sysstats;
 pub mod update;
 pub mod usage;
+pub mod viz;
 pub mod voice;
 
 use crate::commands::{MediaCmd, OyenzaCmd, UsageCmd};
@@ -65,6 +66,8 @@ pub struct Services {
     /// Started the first time the AI tab opens or its notices are on
     /// ([`Services::usage_watch`]).
     usage: std::cell::OnceCell<Option<usage::UsageService>>,
+    /// Started and dropped with the music ([`Services::viz_watch`]).
+    viz: std::cell::RefCell<Option<viz::Viz>>,
     sink: EventSink,
 }
 
@@ -104,13 +107,30 @@ impl Services {
             .map(|a| a.id)
             .collect();
         let addons = started("add-ons", addons::AddonService::start(sink.clone(), on));
-        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), usage: std::cell::OnceCell::new(), downloader: std::cell::OnceCell::new(), sink: sink.clone() }
+        Self { media, lyrics, _audio: audio, _bluetooth: bluetooth, fullscreen, oyenza, pairdrop, addons, stocks: std::cell::OnceCell::new(), usage: std::cell::OnceCell::new(), viz: std::cell::RefCell::new(None), downloader: std::cell::OnceCell::new(), sink: sink.clone() }
     }
 
     pub fn stop(self, _helper: HWND) {
         if let Some(f) = self.fullscreen {
             f.stop();
         }
+    }
+
+    /// The equalizer: what the PC plays, as bars, while `on`. Its thread and
+    /// the playback device exist only while it is; turning it off gives the
+    /// device back and drops the bars to zero.
+    pub fn viz_watch(&self, on: bool) {
+        let mut cur = self.viz.borrow_mut();
+        if on && cur.is_none() {
+            *cur = started("equalizer", Ok::<_, std::convert::Infallible>(viz::Viz::start()));
+        } else if !on && cur.is_some() {
+            *cur = None;
+        }
+    }
+
+    /// The equalizer's bars, 0..1, left to right; zero when nothing is captured.
+    pub fn viz_levels(&self) -> [f32; poni_core::viz::BANDS] {
+        self.viz.borrow().as_ref().map_or([0.0; poni_core::viz::BANDS], viz::Viz::levels)
     }
 
     /// Run a one-off download on the add-on thread (the update file).
