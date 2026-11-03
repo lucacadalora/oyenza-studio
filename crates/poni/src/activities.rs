@@ -339,7 +339,12 @@ pub fn is_live(m: &Mode, st: &AppState) -> bool {
         Mode::Activity(Activity::Media) if oyen::on(st.settings.theme) => {
             oyen::music_moving(st.now, media.is_playing(), st.media_paused_at, &st.ui.notes)
         }
-        Mode::Activity(Activity::Media) | Mode::Activity(Activity::MediaTimer) => media.is_playing(),
+        Mode::Activity(Activity::Media) | Mode::Activity(Activity::MediaTimer) => {
+            // Playing, or paused with the pill still up: the strip's colour
+            // keeps drifting, so frames continue for those few seconds. On
+            // battery saver nothing moves.
+            media.is_playing() || !st.power.saver
+        }
         _ => false,
     }
 }
@@ -486,20 +491,6 @@ pub fn draw_eyes(ui: &mut Ui, st: &AppState, cx: f32, cy: f32, look: f32) {
     }
 }
 
-/// Little equalizer (4 bars): animated while playing, low and static when paused.
-fn equalizer(ui: &mut Ui, r: Rect, color: Color, playing: bool, t: f64) {
-    let n = 4;
-    let gap = 2.5;
-    let bw = (r.w - gap * (n as f32 - 1.0)) / n as f32;
-    for i in 0..n {
-        let phase = t * (5.0 + i as f64 * 1.3) + i as f64 * 1.7;
-        let amp = if playing { 0.35 + 0.65 * (0.5 + 0.5 * phase.sin()) as f32 } else { 0.25 };
-        let h = (r.h * amp).max(3.0);
-        let x = r.x + i as f32 * (bw + gap);
-        ui.c.fill_rrect(Rect::new(x, r.center().y - h / 2.0, bw, h), bw / 2.0, color);
-    }
-}
-
 /// Album art (or a note glyph), dimmed while the player is paused.
 fn art_or_icon(ui: &mut Ui, st: &AppState, r: Rect, playing: bool) {
     let art = st.media.as_ref().and_then(|m| m.art.as_ref());
@@ -570,6 +561,12 @@ pub fn draw_music(ui: &mut Ui, st: &mut AppState, body: Rect, words: bool) {
     let cy = body.center().y;
     let art = Rect::new(body.x + 12.0, cy - 11.0, 22.0, 22.0);
     let playing = st.media.as_ref().is_some_and(|m| m.is_playing());
+    // The equalizer fills the pill from the art's right edge to its end, so a
+    // bar never runs over the cover. Oyen's theme keeps his bop instead.
+    if !oyen::on(st.settings.theme) {
+        let x0 = art.right() + 8.0;
+        viz_bars(ui, st, Rect::new(x0, body.y + 3.0, body.right() - 8.0 - x0, body.h - 6.0), playing);
+    }
     art_or_icon(ui, st, art, playing);
     let eq = Rect::new(body.right() - 34.0, cy - 8.0, 20.0, 16.0);
     let sings = words && crate::pill::lyric::sings(st);
@@ -584,14 +581,62 @@ pub fn draw_music(ui: &mut Ui, st: &mut AppState, body: Rect, words: bool) {
         oyen::notes(ui.c, &st.ui.notes, st.now, cx, bar_y, sky, 1.0 - alpha);
         let f = oyen::music(st.now, playing, st.media_paused_at);
         oyen::peek(ui.c, &f, cx, bar_y, OYEN_MEDIA_W, body.y + 1.0);
-    } else {
-        equalizer(ui, eq, st.media_accent(), playing, st.now);
     }
+    // Words over a moving picture need a floor of their own: the whole pill
+    // darkens, drawn over the bars and under the text, so no edge shows.
     if sings {
         use crate::pill::media::{middle, PAUSED_TEXT, TEXT_CLEAR};
+        text_scrim(ui, body, 1.0);
         middle(ui, st, body, art.right() + TEXT_CLEAR, eq.x - TEXT_CLEAR, if playing { 1.0 } else { PAUSED_TEXT });
     } else if alpha > 0.01 {
+        text_scrim(ui, body, alpha);
         draw_peek(ui, st, art.right() + 10.0, eq.x - 10.0, body, alpha);
+    }
+}
+
+/// A dark backing for the pill's words, the size of the pill itself, so white
+/// text stays readable over the bars moving behind it and no edge of the
+/// backing shows.
+fn text_scrim(ui: &mut Ui, body: Rect, alpha: f32) {
+    ui.c.fill_rrect(body, 14.0, Color::black(0.62 * alpha));
+}
+
+/// The equalizer: bars growing up from `r`'s bottom edge, as many as fit at
+/// the pill's own bar width, so the small pill and the Music page look alike.
+/// Low and nearly still while paused; a stand-in motion when nothing is
+/// captured (no device, a Mac).
+pub(crate) fn viz_bars(ui: &mut Ui, st: &AppState, r: Rect, playing: bool) {
+    const GAP: f32 = 2.0;
+    /// A bar and its gap: the collapsed pill's own pitch.
+    const PITCH: f32 = 8.0;
+    let bands = poni_core::viz::BANDS;
+    let n = ((r.w / PITCH) as usize).clamp(4, bands);
+    let w = (r.w - GAP * (n - 1) as f32) / n as f32;
+    if w < 1.0 || r.h < 2.0 {
+        return;
+    }
+    let heard = playing && st.viz.iter().any(|b| *b > 0.02);
+    // The gradient drifts on its own: the strip never sits frozen, even
+    // between songs.
+    let phase = st.now as f32 * poni_core::viz::DRIFT_PER_SEC;
+    for i in 0..n {
+        // A narrow strip draws fewer bars than there are bands: each takes
+        // the loudest band of its share.
+        let from = i * bands / n;
+        let to = ((i + 1) * bands / n).max(from + 1);
+        let level = st.viz[from..to].iter().copied().fold(0.0f32, f32::max);
+        let k = if !playing {
+            0.12
+        } else if heard {
+            // A written level of 0.4 is well up a song's range, so the bars
+            // ride a curve: quiet passages show, loud ones fill.
+            level.max(0.02)
+        } else {
+            0.3 + 0.7 * (0.5 + 0.5 * (st.now * (4.0 + i as f64 * 0.6) + i as f64).sin()) as f32
+        };
+        let h = (r.h * k.powf(0.5)).max(1.0);
+        let x = r.x + i as f32 * (w + GAP);
+        ui.c.fill_rrect(Rect::new(x, r.bottom() - h, w, h), w / 2.0, poni_core::viz::bar_color(i, n, st.ui.viz_punch, phase));
     }
 }
 

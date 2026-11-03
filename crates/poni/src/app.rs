@@ -469,6 +469,11 @@ pub struct App {
     today_watch: bool,
     /// What the AI tab's worker was last told (`set_usage_watch`).
     usage_watch: services::usage::Watch,
+    /// Whether the equalizer's thread is reading the PC's sound
+    /// (`set_viz_watch`); it exists only while it does.
+    viz_on: bool,
+    /// The equalizer's average level last frame, to spot a rise in loudness.
+    viz_mean: f32,
     /// Show over games: the game's frames, counted while the readout shows.
     frames: Option<services::frames::Frames>,
     /// The process whose frames count (the full-screen app).
@@ -715,6 +720,8 @@ impl App {
             stocks_open: false,
             today_watch: false,
             usage_watch: services::usage::Watch::default(),
+            viz_on: false,
+            viz_mean: 0.0,
             frames: None,
             game_pid: None,
             game_peek_until: 0.0,
@@ -1897,6 +1904,24 @@ impl App {
         self.usage_watch = w;
         if let Some(s) = self.services.as_ref() {
             s.usage_watch(w);
+        }
+    }
+
+    /// The equalizer hears the PC's own sound only while a song plays on the
+    /// closed island and someone is at the PC: the playback device is opened
+    /// then and given back as soon as either stops (`Services::viz_watch`).
+    fn set_viz_watch(&mut self) {
+        let playing = self.st.settings.show_media_activity && self.st.media.as_ref().is_some_and(|m| m.is_playing());
+        // The self-test's scenes are stills: nothing is captured for them.
+        let on = playing && !self.locked && !self.display_off && !self.st.power.saver && self.selftest.is_none();
+        if on == self.viz_on {
+            return;
+        }
+        // Bars that stop hearing a song sink to nothing, whatever the stand-in
+        // would draw next.
+        self.viz_on = on;
+        if let Some(s) = self.services.as_ref() {
+            s.viz_watch(on);
         }
     }
 
@@ -3559,6 +3584,18 @@ impl App {
         self.ielts_tick();
         self.notes_tick();
         self.script_tick();
+        // The equalizer reads the PC's sound only while a song plays here.
+        self.set_viz_watch();
+        self.st.viz = match self.services.as_ref() {
+            Some(s) => s.viz_levels(),
+            None => [0.0; poni_core::viz::BANDS],
+        };
+        // A sudden rise in loudness bends the strip's colour; it settles in
+        // about a third of a second.
+        let mean = self.st.viz.iter().sum::<f32>() / self.st.viz.len() as f32;
+        let rise = (mean - self.viz_mean).max(0.0);
+        self.viz_mean = mean;
+        self.st.ui.viz_punch = (self.st.ui.viz_punch * 0.88).max((rise * 5.0).clamp(0.0, 1.0));
         // Prayer times, System, Health, Stocks, IELTS or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),

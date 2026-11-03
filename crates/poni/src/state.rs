@@ -337,6 +337,9 @@ pub struct PageUiState {
     pub lyric_track: String,
     /// Volume HUD bar position, gliding toward the real level.
     pub hud_level: f32,
+    /// The equalizer's colour shift, 0..1: a sharp rise in loudness sets it
+    /// and it settles back over a few frames.
+    pub viz_punch: f32,
     /// Collapsed media pill shows the track title until this mono time.
     pub peek_until: f64,
     /// Header tab under the pointer and since when (for hover labels).
@@ -766,6 +769,10 @@ pub struct AppState {
     pub local: LocalDateTime,
     pub unix: i64,
     pub media: Option<MediaSession>,
+    /// The equalizer's four bars, 0..1, from what the PC plays; zero when
+    /// nothing is captured (no device, another platform), and the bars keep
+    /// their stand-in motion.
+    pub viz: [f32; poni_core::viz::BANDS],
     pub lyrics: LyricsState,
     pub pomodoro: Pomodoro,
     pub volume: VolumeState,
@@ -887,6 +894,7 @@ impl AppState {
             local: LocalDateTime::default(),
             unix: 0,
             media: None,
+            viz: [0.0; poni_core::viz::BANDS],
             lyrics: LyricsState::default(),
             pomodoro,
             volume: VolumeState::default(),
