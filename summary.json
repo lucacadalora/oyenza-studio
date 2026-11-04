@@ -1,40 +1,40 @@
 {
   "repo": "lucacadalora/oyenza-studio",
-  "checked_at": "2026-11-04T11:37:19Z",
+  "checked_at": "2026-11-04T18:53:55Z",
   "since": "2026-10-24",
-  "downloads": 13102,
-  "github_count": 13354,
+  "downloads": 13150,
+  "github_count": 13402,
   "ci_count": 632,
-  "last_7_days": 7398,
+  "last_7_days": 7446,
   "latest": {
     "release": "v0.2.25",
-    "downloads": 1322
+    "downloads": 1368
   },
-  "stars": 132,
+  "stars": 134,
   "forks": 27,
   "watchers": 0,
   "releases": [
     {
       "release": "v0.2.25",
       "published": "2026-11-02T13:56:05Z",
-      "downloads": 1322,
-      "github_count": 1322,
+      "downloads": 1368,
+      "github_count": 1368,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 2,
-        "Oyen-Poni-Setup.exe": 25,
-        "Oyenza-Studio-0.2.25-mac.dmg": 116,
-        "Oyenza-Studio-0.2.25-portable.zip": 20,
+        "Oyen-Poni-Setup.exe": 30,
+        "Oyenza-Studio-0.2.25-mac.dmg": 120,
+        "Oyenza-Studio-0.2.25-portable.zip": 22,
         "Oyenza-Studio-Mac.dmg": 29,
-        "Oyenza-Studio-Setup-0.2.25.exe": 998,
-        "Oyenza-Studio-Setup.exe": 132
+        "Oyenza-Studio-Setup-0.2.25.exe": 1018,
+        "Oyenza-Studio-Setup.exe": 147
       }
     },
     {
       "release": "v0.2.24",
       "published": "2026-11-02T07:38:17Z",
-      "downloads": 656,
-      "github_count": 656,
+      "downloads": 657,
+      "github_count": 657,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 2,
@@ -42,7 +42,7 @@
         "Oyenza-Studio-0.2.24-mac.dmg": 85,
         "Oyenza-Studio-0.2.24-portable.zip": 3,
         "Oyenza-Studio-Mac.dmg": 3,
-        "Oyenza-Studio-Setup-0.2.24.exe": 522,
+        "Oyenza-Studio-Setup-0.2.24.exe": 523,
         "Oyenza-Studio-Setup.exe": 34
       }
     },
@@ -81,8 +81,8 @@
     {
       "release": "v0.2.21",
       "published": "2026-10-30T00:24:27Z",
-      "downloads": 1208,
-      "github_count": 1208,
+      "downloads": 1209,
+      "github_count": 1209,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 4,
@@ -90,7 +90,7 @@
         "Oyenza-Studio-0.2.21-mac.dmg": 90,
         "Oyenza-Studio-0.2.21-portable.zip": 8,
         "Oyenza-Studio-Mac.dmg": 33,
-        "Oyenza-Studio-Setup-0.2.21.exe": 844,
+        "Oyenza-Studio-Setup-0.2.21.exe": 845,
         "Oyenza-Studio-Setup.exe": 208
       }
     },
@@ -754,7 +754,7 @@
     },
     {
       "date": "2026-11-04",
-      "downloads": 133
+      "downloads": 181
     }
   ]
 }
