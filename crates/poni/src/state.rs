@@ -374,6 +374,8 @@ pub struct PageUiState {
     pub notes_saved_at: f64,
     pub notes_note: Option<(String, f64)>,
     pub notes_kept: bool,
+    /// The Pro add-on whose "what it does" page shows on the Add-ons page.
+    pub addon_about: Option<&'static str>,
 }
 
 /// Whether Windows lets Oyenza Studio read a game's frames. Its event tracing
@@ -949,6 +951,7 @@ impl AppState {
             PageKind::Notifications => !st.notifications_on(),
             PageKind::Ielts => !st.ielts_on(),
             PageKind::Notes => !st.notes_on(),
+            PageKind::Ai => !st.ai_usage_on(),
             p => st.tab_hidden(p),
         };
         if off {
@@ -1040,6 +1043,12 @@ impl AppState {
     /// without Studio Pro: the IELTS tab shows (signed out, its sign-in card).
     pub fn ielts_on(&self) -> bool {
         self.addon(poni_core::addons::IELTS.id) == AddonStatus::Ready && self.oyenza.pro != Some(false)
+    }
+
+    /// AI usage is on: the AI tab shows and its readers may run. It takes an
+    /// account the server says has Studio Pro.
+    pub fn ai_usage_on(&self) -> bool {
+        self.settings.ai_usage_on(self.studio_pro() == Some(true))
     }
 
     /// The signed-in account has Studio Pro, as the server last said.

@@ -1,5 +1,5 @@
-//! Claude Code: Anthropic's Pro, Max 5x and Max 20x plans. The 5-hour and
-//! weekly limits come from the endpoint Claude Code's own `/usage` asks.
+//! Claude Code: Anthropic's Pro, Max and Ultra plans. The 5-hour and weekly
+//! limits come from the endpoint Claude Code's own `/usage` asks.
 //!
 //! - Sign-in: Claude Code keeps its claude.ai sign-in (`claudeAiOauth`: an
 //!   access token, when it expires in milliseconds, the plan) in the Mac
@@ -52,6 +52,8 @@ const API: &str = "https://api.anthropic.com";
 const CLAUDE_CODE_CLIENT: &str = "9d1c250a-e61b-44d9-88ed-5944d1962f5e";
 const FIVE_HOURS_S: u32 = 5 * 3600;
 const WEEK_S: u32 = 7 * 86_400;
+/// The plan once called Max 20x ([`plan`]).
+const ULTRA: &str = "Ultra 10x";
 
 // What `wants` asks for, by position. The keychain is last, so on Windows,
 // which doesn't ask for it, the list just ends before it (`Ctx::got` answers
@@ -250,9 +252,13 @@ fn sign_in(got: &Got) -> Option<SignIn> {
     (!token.is_empty()).then(|| SignIn { token: token.to_string(), expires_at: o.get("expiresAt").and_then(time), plan: plan(text("subscriptionType"), text("rateLimitTier")) })
 }
 
-/// "Pro", "Max 5x", "Max 20x", "Team", "Enterprise": the subscription type
-/// first, else the rate-limit tier ("default_claude_max_20x"); a Max plan
+/// "Pro", "Max 5x", "Ultra 10x", "Team", "Enterprise": the subscription type
+/// first, else the rate-limit tier ("default_claude_max_5x"); a Max plan
 /// takes its multiplier from the tier. None for anything else.
+///
+/// Anthropic renamed Max 20x to Ultra, 10 times Pro's usage a week (Oct 2026),
+/// while sign-ins still say "max" and "default_claude_max_20x" (Claude Code
+/// 2.1.317 too), so that tier reads as Ultra here.
 fn plan(subscription: Option<&str>, tier: Option<&str>) -> Option<String> {
     let words = |s: Option<&str>| s.unwrap_or("").split(|c: char| !c.is_ascii_alphanumeric()).filter(|w| !w.is_empty()).map(str::to_ascii_lowercase).collect::<Vec<_>>();
     let (subscription, tier) = (words(subscription), words(tier));
@@ -261,12 +267,16 @@ fn plan(subscription: Option<&str>, tier: Option<&str>) -> Option<String> {
         "max" => {
             // The word after "max" in the tier, when it is a multiplier ("5x").
             let times = tier.iter().skip_while(|w| w.as_str() != "max").nth(1).filter(|w| w.strip_suffix('x').is_some_and(|n| !n.is_empty() && n.bytes().all(|b| b.is_ascii_digit())));
-            return Some(times.map_or_else(|| "Max".to_string(), |t| format!("Max {t}")));
+            return Some(match times.map(String::as_str) {
+                Some("20x") => ULTRA.to_string(),
+                Some(t) => format!("Max {t}"),
+                None => "Max".to_string(),
+            });
         }
         "pro" => "Pro",
         "team" => "Team",
         "enterprise" => "Enterprise",
-        _ => "Ultra",
+        _ => ULTRA,
     };
     Some(name.to_string())
 }
@@ -469,8 +479,8 @@ mod tests {
         let max20 = CREDENTIALS_JSON.replace("default_claude_max_5x", "default_claude_max_20x");
         let plan_of = |got: Vec<Got>| run(Os::Mac, &got, Reach::Online, &[reply(200, USAGE)]).1.unwrap().plan;
         // Both there: the keychain's.
-        assert_eq!(plan_of(mac(file(CREDENTIALS_JSON), Got::Text(max20.clone()))).as_deref(), Some("Max 20x"));
-        assert_eq!(plan_of(mac(Got::Missing, Got::Text(max20))).as_deref(), Some("Max 20x"));
+        assert_eq!(plan_of(mac(file(CREDENTIALS_JSON), Got::Text(max20.clone()))).as_deref(), Some("Ultra 10x"));
+        assert_eq!(plan_of(mac(Got::Missing, Got::Text(max20))).as_deref(), Some("Ultra 10x"));
         // No item, only MCP servers' sign-ins in it, or the keychain said no: the file's.
         assert_eq!(plan_of(mac(file(CREDENTIALS_JSON), Got::Missing)).as_deref(), Some("Max 5x"));
         assert_eq!(plan_of(mac(file(CREDENTIALS_JSON), Got::Text(MCP_ONLY.into()))).as_deref(), Some("Max 5x"));
@@ -542,7 +552,7 @@ mod tests {
         let bearer = asked[0].headers.iter().find(|(k, _)| k == "Authorization").map(|(_, v)| v.as_str());
         assert_eq!(bearer, Some("Bearer app-claude-code-token"));
         let s = out.unwrap();
-        assert_eq!((s.plan.as_deref(), s.windows.len()), (Some("Max 20x"), 5));
+        assert_eq!((s.plan.as_deref(), s.windows.len()), (Some("Ultra 10x"), 5));
         // macOS said no; not asked yet (the tab closed); another password.
         assert_eq!(run_with(Os::Mac, &mac_app(), Reach::Online, &[], |_| Got::Denied).1, Err(Trouble::Denied));
         assert_eq!(run_with(Os::Mac, &mac_app(), Reach::Online, &[], |_| Got::Missing).1, Err(Trouble::SignedOut));
@@ -668,10 +678,12 @@ mod tests {
         let cases = [
             (Some("pro"), Some("default_claude_ai"), Some("Pro")),
             (Some("max"), Some("default_claude_max_5x"), Some("Max 5x")),
-            (Some("max"), Some("default_claude_max_20x"), Some("Max 20x")),
+            (Some("max"), Some("default_claude_max_20x"), Some("Ultra 10x")),
             (Some("max"), None, Some("Max")),
             (Some("Max"), Some("default_claude_max"), Some("Max")),
-            (None, Some("default_claude_max_20x"), Some("Max 20x")),
+            (None, Some("default_claude_max_20x"), Some("Ultra 10x")),
+            (Some("ultra"), Some("default_claude_ultra"), Some("Ultra 10x")),
+            (None, Some("default_claude_ultra"), Some("Ultra 10x")),
             (Some("team"), Some("default_claude_max_5x"), Some("Team")),
             (Some("enterprise"), None, Some("Enterprise")),
             (None, Some("default_claude_ai"), None),
@@ -682,7 +694,7 @@ mod tests {
             assert_eq!(plan(subscription, tier).as_deref(), want, "{subscription:?} {tier:?}");
         }
         // Each plan, read through from the sign-in to the snapshot.
-        for (subscription, tier, want) in [("pro", "default_claude_ai", "Pro"), ("max", "default_claude_max_5x", "Max 5x"), ("max", "default_claude_max_20x", "Max 20x")] {
+        for (subscription, tier, want) in [("pro", "default_claude_ai", "Pro"), ("max", "default_claude_max_5x", "Max 5x"), ("max", "default_claude_max_20x", "Ultra 10x")] {
             let creds = CREDENTIALS_JSON.replace("\"max\"", &format!("\"{subscription}\"")).replace("default_claude_max_5x", tier);
             assert_eq!(online(&windows(file(&creds)), reply(200, USAGE)).unwrap().plan.as_deref(), Some(want));
         }

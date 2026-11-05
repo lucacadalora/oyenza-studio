@@ -62,7 +62,7 @@ pub enum PageKind {
     Tasks,
     Focus,
     /// AI usage: how much of each AI coding plan is left (`pages::usage`).
-    /// A core tab, always in the row.
+    /// Part of Studio Pro: in the row with it, until switched off.
     Ai,
     /// Oyenza, with Oyen himself as its tab (`oyen::tab`): signed out, the
     /// way to sign in; signed in, the money by day.
@@ -221,8 +221,8 @@ impl PageKind {
 
     /// The island's own pages, which Settings can take off the row, and
     /// Notifications, which goes off with its tab (it's offered only where
-    /// the copy can read notifications). AI and Oyenza stay; the add-ons'
-    /// pages come and go with their switches.
+    /// the copy can read notifications). Oyenza stays; the add-ons' pages come
+    /// and go with their switches, AI's with Studio Pro.
     pub const HIDEABLE: [PageKind; 6] = [PageKind::Media, PageKind::Today, PageKind::Shelf, PageKind::Tasks, PageKind::Focus, PageKind::Notifications];
 
     pub fn hideable(self) -> bool {
@@ -230,7 +230,8 @@ impl PageKind {
     }
 }
 
-/// The tabs in the header: every page but Settings, and Health, IELTS, Notes,
+/// The tabs in the header: every page but Settings, AI only with Studio Pro,
+/// and Health, IELTS, Notes,
 /// System, Script, Record, Prayer and Stocks only while their add-ons are on.
 /// Music, Today, Shelf, Tasks and Focus unless Settings took them off the
 /// row; one of those still shows while its page is open (a file dropped on
@@ -257,7 +258,7 @@ pub fn hideable_tabs(st: &AppState) -> &'static [PageKind] {
 /// Where the island goes when its page leaves the row (an add-on switched
 /// off, a tab hidden): the first tab, Music unless it's hidden.
 pub fn first_tab(st: &AppState) -> PageKind {
-    // Never empty: AI, Oyenza and Add-ons always have tabs.
+    // Never empty: Oyenza and Add-ons always have tabs.
     row(st, None)[0]
 }
 
@@ -268,6 +269,7 @@ fn row(st: &AppState, open: Option<PageKind>) -> Vec<PageKind> {
             PageKind::Health => st.health_on(),
             PageKind::Ielts => st.ielts_on(),
             PageKind::Notes => st.notes_on(),
+            PageKind::Ai => st.ai_usage_on(),
             PageKind::System => st.system_on(),
             PageKind::Prayer => st.prayer_on(),
             PageKind::Script => st.script_on(),
@@ -756,12 +758,14 @@ mod tests {
 
     #[test]
     fn the_row_is_the_island_s_own_pages_then_oyenza_then_the_plus() {
-        // Music, then Today beside it; Focus where Today was; AI after it;
-        // Oyenza last, signed in or not.
+        // Music, then Today beside it; Focus where Today was; AI after it,
+        // with Studio Pro; Oyenza last, signed in or not.
         use PageKind::*;
         let mut st = state();
-        assert_eq!(tabs(&st), [Media, Today, Shelf, Tasks, Focus, Ai, Oyenza, Addons]);
+        assert_eq!(tabs(&st), [Media, Today, Shelf, Tasks, Focus, Oyenza, Addons]);
         st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
+        assert_eq!(tabs(&st), [Media, Today, Shelf, Tasks, Focus, Oyenza, Addons]);
+        st.oyenza.pro = Some(true);
         assert_eq!(tabs(&st), [Media, Today, Shelf, Tasks, Focus, Ai, Oyenza, Addons]);
         // The add-ons' pages come after Oyenza (Health, Oyenza's steps, first), before the "+".
         for id in ["system", "script", "health"] {
@@ -778,21 +782,21 @@ mod tests {
         let mut st = state();
         st.settings.hidden_tabs = vec!["today".into(), "tasks".into(), "oyenza".into(), "addons".into()];
         st.page = Focus;
-        // AI, Oyenza and the "+" can't be hidden.
-        assert_eq!(tabs(&st), [Media, Shelf, Focus, Ai, Oyenza, Addons]);
+        // Oyenza and the "+" can't be hidden.
+        assert_eq!(tabs(&st), [Media, Shelf, Focus, Oyenza, Addons]);
         assert_eq!(first_tab(&st), Media);
         // Opened from elsewhere (a meeting's notice opens Today): its tab
         // shows while it's open, and stepping on leaves it behind.
         st.page = Today;
-        assert_eq!(tabs(&st), [Media, Today, Shelf, Focus, Ai, Oyenza, Addons]);
+        assert_eq!(tabs(&st), [Media, Today, Shelf, Focus, Oyenza, Addons]);
         st.page = step_tab(Today, &st, true);
         assert_eq!(st.page, Shelf);
         assert!(!tabs(&st).contains(&Today));
-        // Every one of them hidden: the island opens on AI.
+        // Every one of them hidden: the island opens on Oyenza.
         st.settings.hidden_tabs = PageKind::HIDEABLE.iter().map(|p| p.key().to_string()).collect();
-        st.page = Ai;
-        assert_eq!(tabs(&st), [Ai, Oyenza, Addons]);
-        assert_eq!(first_tab(&st), Ai);
+        st.page = Oyenza;
+        assert_eq!(tabs(&st), [Oyenza, Addons]);
+        assert_eq!(first_tab(&st), Oyenza);
         // A start on a hidden page opens on the first tab instead.
         let mut settings = poni_core::settings::Settings::default();
         settings.start_page = "today".into();
@@ -848,13 +852,21 @@ mod tests {
     }
 
     #[test]
-    fn ai_is_always_a_tab_and_never_makes_the_window_taller() {
-        let st = state();
-        assert!(tabs(&st).contains(&PageKind::Ai), "a core tab: no add-on to switch on");
+    fn ai_has_a_tab_only_with_studio_pro_and_never_makes_the_window_taller() {
+        let mut st = state();
+        assert!(!tabs(&st).contains(&PageKind::Ai), "signed out");
+        st.oyenza.link = OyenzaLink::Connected { account: "a\u{2022}\u{2022}\u{2022}@example.com".into() };
+        assert!(!tabs(&st).contains(&PageKind::Ai), "before the server's answer");
+        st.oyenza.pro = Some(false);
+        assert!(!tabs(&st).contains(&PageKind::Ai), "an account without Pro");
+        st.oyenza.pro = Some(true);
+        assert!(tabs(&st).contains(&PageKind::Ai), "on with Pro, nothing to switch on");
+        st.settings.set_addon(poni_core::addons::AI_USAGE.id, false);
+        assert!(!tabs(&st).contains(&PageKind::Ai), "switched off under Add-ons");
         assert_eq!(PageKind::from_key("ai"), PageKind::Ai);
-        // An island last open on the AI tab opens there again.
+        // Pro isn't known yet at start: an island last open on the AI tab opens on the first tab.
         let store = Store { last_page: "ai".into(), ..Store::default() };
-        assert_eq!(AppState::new(Settings { remember_page: true, ..Settings::default() }, store).page, PageKind::Ai);
+        assert_eq!(AppState::new(Settings { remember_page: true, ..Settings::default() }, store).page, PageKind::ALL[0]);
         assert!(content_height(PageKind::Ai, &st) <= content_height(PageKind::System, &st));
     }
 
@@ -962,7 +974,7 @@ mod tests {
         assert!(!tabs(&st).contains(&Ielts), "off for everyone until switched on");
         st.addons.insert("ielts", poni_core::addons::Status::Ready);
         st.addons.insert("health", poni_core::addons::Status::Ready);
-        assert_eq!(&tabs(&st)[6..], [Oyenza, Health, Ielts, Addons]);
+        assert_eq!(&tabs(&st)[5..], [Oyenza, Health, Ielts, Addons]);
         // Signed out it shows the sign-in card; signed in, every state is as
         // tall, and never taller than System: the window keeps its size.
         let signed_out = content_height(Ielts, &st);

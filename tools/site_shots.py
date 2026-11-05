@@ -99,7 +99,11 @@ KEEP = {
     "message-notice", "notes-activity",
     "page-ai",
     "page-settings-tabs", "page-notes-listening",
+    "page-ielts", "page-downloads",
 }
+# Kept only down to this row (pixels at 200 %): the IELTS sheet shows the levels,
+# not the talk-style lines under them.
+CUT_HEIGHT = {"page-ielts": 396}
 # The Pill section: the island at rest (clock and status bar looks), playing music (the line being
 # sung), a timer, a pop-up and a notice, and open on the Music page.
 PILL_KEEP = {"idle-clock", "idle-status", "media-activity", "timer-activity", "volume-hud", "health-notice", "page-media"}
@@ -210,6 +214,8 @@ def main() -> None:
         if name.endswith("-alpha") or name not in keep or not alpha.exists():
             continue
         img = cut(shot, alpha, floating)
+        if name in CUT_HEIGHT:
+            img = img.crop((0, 0, img.width, CUT_HEIGHT[name]))
         out = f"{name}-{lang}" if lang else name
         img.save(dst / f"{out}.webp", lossless=True, method=6)
         print(f"{theme}/{out}.webp  {img.width}x{img.height}")

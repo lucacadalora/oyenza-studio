@@ -547,7 +547,7 @@ pub fn provider(id: ProviderId) -> &'static dyn Provider {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Snapshot {
     pub provider: ProviderId,
-    /// "Plus", "Pro", "Max 20x", "Go", ...
+    /// "Plus", "Pro", "Ultra 10x", "Go", ...
     pub plan: Option<String>,
     /// Who is signed in, already masked ([`mask_email`]).
     pub account: Option<String>,

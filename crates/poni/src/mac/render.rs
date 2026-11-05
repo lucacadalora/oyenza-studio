@@ -1232,6 +1232,9 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             }
         }
         Scene::Ai(shows) => {
+            // AI usage is part of Studio Pro: signed in with it.
+            st.oyenza = fake_oyenza(&st, false);
+            st.oyenza.pro = Some(true);
             let now = st.now;
             crate::pages::usage::picture(&mut st, shows, now);
             st.page = PageKind::Ai;

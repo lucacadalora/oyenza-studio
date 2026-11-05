@@ -308,6 +308,12 @@ impl Settings {
         installed && self.addons.get(crate::addons::SCREEN_RECORDER.id).copied().unwrap_or(true)
     }
 
+    /// AI usage is on for an account with Studio Pro (`pro`): the AI tab shows
+    /// and its readers may run. It comes on with Pro, until switched off.
+    pub fn ai_usage_on(&self, pro: bool) -> bool {
+        pro && self.addons.get(crate::addons::AI_USAGE.id).copied().unwrap_or(true)
+    }
+
     /// Clamp values a user may have hand-edited into nonsense.
     pub fn sanitized(mut self) -> Self {
         // Only untouched old defaults move.
