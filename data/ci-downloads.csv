@@ -631,3 +631,10 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 125309373037,Fetch the release to upgrade from,41453315203,2,2026-11-02T13:33:39Z,release-0.2.25,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 125306114240,Fetch the release to upgrade from,41453337174,1,2026-11-02T13:33:58Z,release-0.2.25,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 125314292750,Fetch the release to upgrade from,41455604461,1,2026-11-02T13:50:48Z,v0.2.25,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+126998603790,Fetch the release to upgrade from,41951843660,1,2026-11-05T02:00:04Z,ai-plan-pro-card,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+127019521695,Fetch the release to upgrade from,41958313805,1,2026-11-05T02:59:09Z,update-count,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+127019956216,Fetch the release to upgrade from,41958306250,1,2026-11-05T03:00:29Z,metrics-took-release,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+127079983712,Fetch the release to upgrade from,41977096993,1,2026-11-05T06:01:07Z,ai-plan-pro-card,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+127082298400,Fetch the release to upgrade from,41977795868,1,2026-11-05T06:07:45Z,release-0.2.26,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+127082351633,Fetch the release to upgrade from,41977791646,1,2026-11-05T06:07:51Z,release-0.2.26,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+127094994214,Fetch the release to upgrade from,41981806490,1,2026-11-05T06:43:27Z,v0.2.26,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
