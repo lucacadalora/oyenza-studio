@@ -99,7 +99,7 @@ KEEP = {
     "message-notice", "notes-activity",
     "page-ai",
     "page-settings-tabs", "page-notes-listening",
-    "page-ielts", "page-downloads",
+    "page-ielts", "page-downloads", "page-addons-about",
 }
 # Kept only down to this row (pixels at 200 %): the IELTS sheet shows the levels,
 # not the talk-style lines under them.
