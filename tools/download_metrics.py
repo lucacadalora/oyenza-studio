@@ -96,6 +96,13 @@ def kind(file: str) -> str:
     return "other"
 
 
+# The files a copy downloads by itself when it finds a new version: docs/updates.md.
+# Copies read the update file from 0.2.6 on, and hourly from 0.2.13 on.
+UPDATER_WINDOWS = re.compile(r"Oyenza-Studio-Setup-\d+\.\d+\.\d+\.exe")
+UPDATER_MAC = re.compile(r"Oyenza-Studio-\d+\.\d+\.\d+-mac\.dmg")
+TOOK_RELEASE_SHOWN = 5
+
+
 def warn(message: str) -> None:
     print(f"::warning::{message}", flush=True)
 
@@ -475,9 +482,27 @@ def summarize(repo: str, rows: list[dict], api_releases: list[dict], repo_info: 
         "stars": repo_info["stargazers_count"],
         "forks": repo_info["forks_count"],
         "watchers": repo_info["subscribers_count"],
+        "took_release": took_release(ordered, stamp),
         "releases": ordered,
         "days": [{"date": d.isoformat(), "downloads": n} for d, n in days],
     }
+
+
+def took_release(releases: list[dict], stamp: datetime) -> list[dict]:
+    """The copies that fetched each release by themselves, newest release first.
+    `hours` is how long it was the latest: a release replaced within hours is
+    never fetched by copies that weren't online in those hours."""
+    dated = [r for r in releases if r["published"] and any(UPDATER_WINDOWS.fullmatch(f) or UPDATER_MAC.fullmatch(f) for f in r["files"])]
+    dated.sort(key=lambda r: r["published"], reverse=True)
+    rows = []
+    until = stamp
+    for r in dated[:TOOK_RELEASE_SHOWN]:
+        published = parse_time(r["published"])
+        windows = sum(n for f, n in r["files"].items() if UPDATER_WINDOWS.fullmatch(f))
+        mac = sum(n for f, n in r["files"].items() if UPDATER_MAC.fullmatch(f))
+        rows.append({"release": r["release"], "hours": round((until - published).total_seconds() / 3600, 1), "windows": windows, "mac": mac, "copies": windows + mac})
+        until = published
+    return rows
 
 
 def plural(n: int, word: str) -> str:
@@ -502,6 +527,17 @@ def page(s: dict, days: list[tuple[date, int]], steps: dict, traffic: list[dict]
     if len(days) >= 3:
         alt += f"; and per day, for the last {min(len(days), 30)} days"
     out += [f'<p align="center"><img src="downloads.svg" width="820" alt="{escape(alt)}"></p>', ""]
+
+    if s["took_release"]:
+        newest = s["took_release"][0]
+        out += ["## Copies that took each release", "",
+                "A copy downloads a new release by itself, once, so this counts copies in use rather than downloads. "
+                f"The closest we have to how many are running: **{newest['copies']:,}** took {newest['release'].removeprefix('v')} so far.", "",
+                "| Release | Latest for | Windows | Mac | Copies |", "| --- | --: | --: | --: | --: |"]
+        for i, r in enumerate(s["took_release"]):
+            hours = f"{r['hours']:,.1f} h" + (" so far" if i == 0 else "")
+            out.append(f"| {r['release'].removeprefix('v')} | {hours} | {r['windows']:,} | {r['mac']:,} | {r['copies']:,} |")
+        out.append("")
 
     out += ["## Per release", ""]
     kinds = [k for k in KINDS if any(kind(f) == k for r in s["releases"] for f in r["files"])]
@@ -550,6 +586,9 @@ def page(s: dict, days: list[tuple[date, int]], steps: dict, traffic: list[dict]
                    f"([ci-downloads.csv](data/ci-downloads.csv) lists each one). GitHub's own counters add up to {s['github_count']:,}.")
     out.append("- GitHub updates its counters every few minutes, so for a while a counter may not show a CI download that is already "
                "taken off. Each file's number keeps its highest reading, so numbers only go up.")
+    out.append("- Copies that took each release: a copy reads the update file about once an hour and then downloads the new release's "
+               "`Oyenza-Studio-Setup-<version>.exe` or `Oyenza-Studio-<version>-mac.dmg`. A retry or a click on those files on a release page counts too. "
+               "Not in it: copies of 0.2.5 and older and Microsoft Store copies, which don't read the file, a Mac copy that can't replace itself, and copies not online while the release was the latest.")
     out.append("- Still in the numbers: our own check of each new release (one download through the Download button) and any bots. "
                "GitHub can't tell those apart.")
     out.append("- Oyenza Studio itself sends nothing: no accounts, no tracking. These are GitHub's download counters, read every hour.")
