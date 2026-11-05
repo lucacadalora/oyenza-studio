@@ -27,6 +27,10 @@ Every copy of Oyenza Studio learns that a new version is out from one small file
 
 `signature` is ECDSA P-256 over the SHA-256 of the payload's UTF-8 bytes: r and s, 32 bytes each, big-endian, then base64. `key` names the key that made it.
 
+## Counting the checks
+
+Every read of this file is counted on its way to GitHub Pages, by a small Cloudflare Worker ([server/update-count](../server/update-count/README.md)). That gives a daily number of running copies with nothing added to the app. The file comes back untouched, and if the Worker fails, the read goes on to GitHub Pages anyway. No address is stored: [PRIVACY.md](../PRIVACY.md) has what is counted.
+
 ## Where it is made
 
 The Website workflow (`.github/workflows/pages.yml`) runs `tools/make_update_feed.py` in its `feed` job and puts the file into every deploy. A Pages deploy replaces the whole site, so each deploy needs a fresh copy. If the `feed` job fails, nothing is deployed, and the site and file already live stay live.
