@@ -2764,6 +2764,7 @@ impl App {
     fn set_page(&mut self, p: PageKind) {
         if p != self.st.page {
             self.st.page = p;
+            self.st.ui.addon_about = None;
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
@@ -2994,7 +2995,8 @@ impl App {
         // resting or not, so they go on once someone is back
         // (services::keychain). Told before the worker; nothing while it
         // stays the same.
-        services::keychain::set_watch(open, self.st.settings.usage.notices);
+        let notices = self.st.settings.usage.notices && self.st.ai_usage_on();
+        services::keychain::set_watch(open, notices);
         // The smoke run shows made-up readings (and checks the keychain on
         // its own): nothing is read, even from inside a step.
         if self.smoke_run {
@@ -3002,7 +3004,7 @@ impl App {
         }
         let w = services::usage::Watch {
             open,
-            notices: here && self.st.settings.usage.notices && !self.st.power.saver,
+            notices: here && notices && !self.st.power.saver,
             near_pct: self.st.settings.usage.near_pct,
             use_24h: self.st.settings.use_24h,
             hidden: services::usage::picked(&self.st.settings.usage.hidden),
@@ -3133,7 +3135,7 @@ impl App {
         }
     }
 
-    /// The IELTS, Notes or Add-ons page came on screen: whether the account has
+    /// The IELTS, Notes, Add-ons or AI page came on screen: whether the account has
     /// Studio Pro, now (unless just asked). Never signed in: nothing starts.
     fn set_pro_shown(&mut self, on: bool) {
         if on != self.pro_shown {
@@ -3583,8 +3585,8 @@ impl App {
         self.ielts_tick();
         self.notes_tick();
         self.check_recorder_alive(false);
-        // Prayer times, System, Health, Stocks, Screen recorder, IELTS or
-        // Downloader switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, Screen recorder, AI usage, IELTS
+        // or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
@@ -3594,6 +3596,7 @@ impl App {
             PageKind::Ielts => !self.st.ielts_on(),
             PageKind::Downloads => !self.st.downloader_on(),
             PageKind::Notes => !self.st.notes_on(),
+            PageKind::Ai => !self.st.ai_usage_on(),
             _ => false,
         };
         if gone {
@@ -3658,7 +3661,7 @@ impl App {
         self.set_oyenza_watch(self.mode == Mode::Expanded(PageKind::Oyenza));
         self.set_today_watch(self.mode == Mode::Expanded(PageKind::Today));
         self.set_health_shown(self.mode == Mode::Expanded(PageKind::Health));
-        self.set_pro_shown(matches!(self.mode, Mode::Expanded(PageKind::Ielts | PageKind::Notes | PageKind::Addons)));
+        self.set_pro_shown(matches!(self.mode, Mode::Expanded(PageKind::Ielts | PageKind::Notes | PageKind::Addons | PageKind::Ai)));
         self.set_stocks_watch();
         self.set_usage_watch();
         // The Pill theme floats the island below the top edge (below the menu
@@ -4264,6 +4267,10 @@ impl App {
             // of this Mac is read), then its keychain reader on test items.
             "ai-page" => {
                 self.st.notice = None;
+                // AI usage is part of Studio Pro: signed in with it for the AI
+                // steps ("ai-secret" ends them).
+                self.st.oyenza.link = OyenzaLink::Connected { account: "a\u{2022}\u{2022}\u{2022}@example.com".into() };
+                self.st.oyenza.pro = Some(true);
                 let now = self.st.now;
                 pages::usage::picture(&mut self.st, pages::usage::Picture::Plans, now);
                 self.set_page(PageKind::Ai);
@@ -4286,6 +4293,8 @@ impl App {
                 self.set_page(PageKind::Ai);
                 self.expand();
             }
+            // The last AI step: signed out again for the ones after it.
+            "ai-secret" => self.st.oyenza = Default::default(),
             // macOS's own now playing, as a browser tab reaches it: the
             // stream stops, tools/mac-smoke.sh starts the MediaRemote
             // adapter's test player, and sound (CI's Macs play none) starts

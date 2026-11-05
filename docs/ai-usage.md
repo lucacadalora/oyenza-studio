@@ -1,6 +1,6 @@
 # AI usage
 
-The **AI** tab shows how much is left of the AI coding plans on your computer, and your Oyenza Inference balance once you connect it. This page says, for each service, what Oyenza Studio reads on your computer, which server it asks, how often, what the card shows, and whether it needs a key you type. [PRIVACY.md](../PRIVACY.md) has the short version.
+**AI usage** is part of Studio Pro: the AI tab and its notices come with an account that has Pro, and switch off under Add-ons. The **AI** tab shows how much is left of the AI coding plans on your computer, and your Oyenza Inference balance once you connect it. This page says, for each service, what Oyenza Studio reads on your computer, which server it asks, how often, what the card shows, and whether it needs a key you type. [PRIVACY.md](../PRIVACY.md) has the short version.
 
 ## When it reads
 
@@ -57,7 +57,7 @@ With the tab closed and notices on, every server is asked at most every 10 minut
 - **Asks:** `GET https://api.anthropic.com/api/oauth/usage`, the address Claude Code's own `/usage` reads, with the access token. One request a refresh.
 - **Sign in:** when the card says you're signed out, or the sign-in ran out or was refused, its **Sign in** starts Claude Code's own sign-in, `claude auth login`, in a terminal window (Terminal on a Mac, a console window on Windows), when Claude Code's program is where its installers put it (`~/.local/bin`, `~/.claude/local`, npm's or Homebrew's folder, WinGet's links). Otherwise it opens the Claude app, whose sign-in the card then reads; with neither found, it runs `claude auth login` as your shell finds it. Oyenza Studio never sees your password: the sign-in happens in Claude Code or the Claude app, and the card reads the result the next time you open the AI tab.
 - **How often:** at most every 2 minutes while the tab is open. There is nothing to read offline.
-- **The card:** the plan (Pro, Max 5x, Max 20x, Team, Enterprise), the account's email (masked), **5-hour** and **Weekly** with when each resets, a weekly bar for each model your plan limits on its own (**Weekly · Opus**, **Weekly · Sonnet** and the like), extra usage this month against its cap when you've turned it on, and a credit balance for Claude's cloud sessions when Anthropic has given you one.
+- **The card:** the plan (Pro, Max 5x, Ultra 10x, Team, Enterprise), the account's email (masked), **5-hour** and **Weekly** with when each resets, a weekly bar for each model your plan limits on its own (**Weekly · Opus**, **Weekly · Sonnet** and the like), extra usage this month against its cap when you've turned it on, and a credit balance for Claude's cloud sessions when Anthropic has given you one.
 - **Typed key:** none.
 - **Not read:** Claude Code's logs (they carry no running total), and a sign-in kept in Windows' Credential Manager, which newer Claude Code versions can use instead of the file: such a computer reads as signed out for now.
 

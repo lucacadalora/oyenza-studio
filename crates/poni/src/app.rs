@@ -1884,7 +1884,7 @@ impl App {
         let here = !self.locked && !self.display_off && self.selftest.is_none();
         let w = services::usage::Watch {
             open: here && self.mode == Mode::Expanded(PageKind::Ai),
-            notices: here && self.st.settings.usage.notices && !self.st.power.saver,
+            notices: here && self.st.settings.usage.notices && self.st.ai_usage_on() && !self.st.power.saver,
             near_pct: self.st.settings.usage.near_pct,
             use_24h: self.st.settings.use_24h,
             hidden: services::usage::picked(&self.st.settings.usage.hidden),
@@ -2119,8 +2119,8 @@ impl App {
         }
     }
 
-    /// Signed in (at start, or just now) with the Downloader switched on:
-    /// whether the account has Studio Pro, now, so its tab doesn't wait for
+    /// Signed in (at start, or just now) with AI usage or the Downloader on:
+    /// whether the account has Studio Pro, now, so their tabs don't wait for
     /// the Add-ons page to open (`pages::addons::pro_wanted`).
     fn ask_pro(&self) {
         if pages::addons::pro_wanted(&self.st) {
@@ -2787,7 +2787,7 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if self.st.page == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
-            } else if matches!(self.st.page, PageKind::Notes | PageKind::Ielts | PageKind::Addons) {
+            } else if matches!(self.st.page, PageKind::Notes | PageKind::Ielts | PageKind::Addons | PageKind::Ai) {
                 self.oyenza(OyenzaCmd::CheckPro);
             }
         }
@@ -3559,7 +3559,7 @@ impl App {
         self.ielts_tick();
         self.notes_tick();
         self.script_tick();
-        // Prayer times, System, Health, Stocks, IELTS or Downloader switched off: its tab is gone.
+        // Prayer times, System, Health, Stocks, AI usage, IELTS or Downloader switched off: its tab is gone.
         let gone = match self.st.page {
             PageKind::Prayer => !self.st.prayer_on(),
             PageKind::System => !self.st.system_on(),
@@ -3569,6 +3569,7 @@ impl App {
             PageKind::Notifications => !self.st.notifications_on(),
             PageKind::Ielts => !self.st.ielts_on(),
             PageKind::Notes => !self.st.notes_on(),
+            PageKind::Ai => !self.st.ai_usage_on(),
             _ => false,
         };
         if gone {
@@ -4702,6 +4703,7 @@ impl App {
     fn set_page(&mut self, p: PageKind) {
         if p != self.st.page {
             self.st.page = p;
+            self.st.ui.addon_about = None;
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
@@ -4724,7 +4726,7 @@ impl App {
                 self.oyenza(OyenzaCmd::RefreshHealth);
             } else if p == PageKind::Notifications {
                 self.notify_cmd(NotifyCmd::Check);
-            } else if matches!(p, PageKind::Notes | PageKind::Ielts | PageKind::Addons) {
+            } else if matches!(p, PageKind::Notes | PageKind::Ielts | PageKind::Addons | PageKind::Ai) {
                 self.oyenza(OyenzaCmd::CheckPro);
             }
         }

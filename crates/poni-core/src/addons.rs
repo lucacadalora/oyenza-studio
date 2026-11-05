@@ -306,13 +306,29 @@ pub fn is_downloader_tool(name: &str) -> bool {
     [YTDLP_EXE, QJS_EXE, FFMPEG_EXE].contains(&name)
 }
 
+/// AI usage: the AI tab (`studio_usage`), what's left of each AI plan on this
+/// computer and when it resets. A tab for everyone up to 0.2.25; part of
+/// Studio Pro in the versions after it. Its code is in the app, so there is
+/// nothing to download. Without Pro there is no AI tab or Settings section,
+/// and nothing is read. With Pro it's on until switched off
+/// ([`Settings::ai_usage_on`]).
+pub const AI_USAGE: Addon = Addon {
+    id: "ai",
+    title: "AI usage",
+    blurb: "Track your AI usage.",
+    mac_blurb: None,
+    tag: "",
+    files: &[],
+    pro: true,
+};
+
 /// IELTS: Oyen's IELTS Speaking coach, the IELTS page (`crate::ielts`):
 /// Oyen asks the questions out loud, listens to the answers through the
 /// microphone and gives a band score, through the Oyenza account. Its code
 /// is in the app, so there is nothing to download. Off, there is no IELTS
 /// tab, and nothing of it runs: no microphone, no player, no calls. Part of
-/// Studio Pro: the Add-ons page lists it only for an account the server says
-/// has Pro, and its tab goes once the server says an account hasn't.
+/// Studio Pro: it switches on only for an account the server says has Pro,
+/// and its tab goes once the server says an account hasn't.
 pub const IELTS: Addon = Addon {
     id: "ielts",
     title: "IELTS",
@@ -342,7 +358,7 @@ pub const MEETING_NOTES: Addon = Addon {
 };
 
 /// Every add-on, in the order the Add-ons page lists them.
-pub const ALL: [&Addon; 10] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &IELTS, &MEETING_NOTES, &SCREEN_RECORDER, &DOWNLOADER];
+pub const ALL: [&Addon; 11] = [&PRAYER_TIMES, &JAPANESE_READINGS, &SCRIPT_READER, &SYSTEM, &HEALTH, &STOCKS, &SCREEN_RECORDER, &AI_USAGE, &MEETING_NOTES, &IELTS, &DOWNLOADER];
 
 /// Whether Japanese readings switch themselves on for a song whose kanji went
 /// unread for want of them (`wants`): only while the person reads
@@ -451,9 +467,22 @@ mod tests {
     }
 
     #[test]
-    fn pro_is_ielts_meeting_notes_and_the_downloader() {
+    fn pro_is_ai_usage_meeting_notes_ielts_and_the_downloader() {
         let pro: Vec<&str> = ALL.iter().filter(|a| a.pro).map(|a| a.id).collect();
-        assert_eq!(pro, vec!["ielts", "notes", "downloader"]);
+        assert_eq!(pro, vec!["ai", "notes", "ielts", "downloader"]);
+    }
+
+    #[test]
+    fn ai_usage_comes_with_pro_until_switched_off() {
+        assert!(!AI_USAGE.downloads() && AI_USAGE.size() == 0);
+        assert_eq!(Status::Off.line(&AI_USAGE, false), "Track your AI usage.");
+        let mut s = Settings::default();
+        assert!(!s.ai_usage_on(false), "no Pro: no AI tab");
+        assert!(s.ai_usage_on(true), "Pro is the switch");
+        s.set_addon(AI_USAGE.id, false);
+        assert!(!s.ai_usage_on(true), "switched off by hand: stays off");
+        s.set_addon(AI_USAGE.id, true);
+        assert!(s.ai_usage_on(true) && !s.ai_usage_on(false));
     }
 
     #[test]
@@ -560,9 +589,9 @@ mod tests {
 
     #[test]
     fn add_ons_are_listed_in_order_each_with_its_own_id() {
-        // The Add-ons page's order: the Downloader last.
+        // The Add-ons page's order: the free ones, then Studio Pro's.
         let ids: Vec<&str> = ALL.iter().map(|a| a.id).collect();
-        assert_eq!(ids, ["sholat", "ja", "script", "system", "health", "stocks", "ielts", "notes", "recorder", "downloader"]);
+        assert_eq!(ids, ["sholat", "ja", "script", "system", "health", "stocks", "recorder", "ai", "notes", "ielts", "downloader"]);
         for (i, a) in ALL.iter().enumerate() {
             // The key in settings.json and the folder's name.
             assert!(!a.id.is_empty() && a.id.bytes().all(|b| b.is_ascii_lowercase()), "{}", a.id);

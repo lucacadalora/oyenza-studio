@@ -522,6 +522,17 @@ main { container-type: inline-size; }
 /* The button sits at the bottom, level with the end of the taller card. */
 .price-card .btn { align-self: flex-start; margin-top: auto; }
 .price-strip { border-radius: 14px; margin-top: 4px; }
+/* Each Pro feature is a row that opens what it does, so people know before they buy. */
+.pro-feats { list-style: none; margin: 8px -12px 0; padding: 0; display: grid; gap: 2px; }
+.pro-feat { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 26px; gap: 14px; align-items: center; padding: 12px; border-radius: 14px; transition: background-color 0.2s var(--ease); }
+.pro-feat:hover { background: rgba(0, 0, 0, 0.05); }
+.pro-feat:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.pro-feat b { display: block; color: var(--ink); font-weight: 600; }
+.pro-feat i { width: 26px; height: 26px; border-radius: 50%; background: #333336; color: #fff; display: grid; place-items: center; }
+.pro-feat i .ico { width: 13px; height: 13px; stroke-width: 2.4; }
+.sheet-shot { position: relative; isolation: isolate; overflow: hidden; border-radius: 18px; padding-bottom: 20px; margin: 6px 0 4px; }
+/* The island runs on past the frame: only its top part is the picture. */
+.sheet-shot.cut { padding-bottom: 0; }
 .price-facts { margin-top: 20px; }
 
 .foot { background: var(--alt); padding: 0 0 calc(40px + env(safe-area-inset-bottom, 0px)); }
@@ -733,7 +744,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#music" data-k="music lyrics spotify apple youtube lrclib songs"><i class="ic" style="--c:#ff2d55"><svg class="ico"><use href="#i-music"/></svg></i><span>Music and lyrics</span></a>
       <a class="side-item" href="#read-along" data-k="korean japanese chinese romaji pinyin pronunciation reading kanji"><i class="ic" style="--c:#af52de"><svg class="ico"><use href="#i-lang"/></svg></i><span>Read along</span></a>
       <a class="side-item" href="#focus" data-k="pomodoro timer focus"><i class="ic" style="--c:#5856d6"><svg class="ico"><use href="#i-timer"/></svg></i><span>Focus</span></a>
-      <a class="side-item" href="#ai" data-k="ai usage codex claude code opencode go gemini cli antigravity agy cursor github copilot kimi code z.ai zai glm minimax openrouter oyenza inference limits plan quota credits balance spend resets heads-up notices new"><i class="ic" style="--c:#00c7be"><svg class="ico"><use href="#i-meter"/></svg></i><span>AI usage</span><span class="tag">New</span></a>
+      <a class="side-item" href="#ai" data-k="ai usage codex claude code opencode go gemini cli antigravity agy cursor github copilot kimi code z.ai zai glm minimax openrouter oyenza inference limits plan quota credits balance spend resets heads-up notices pro"><i class="ic" style="--c:#00c7be"><svg class="ico"><use href="#i-meter"/></svg></i><span>AI usage</span><span class="tag">Pro</span></a>
       <a class="side-item" href="#health" data-k="steps health apple health connect add-on"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-steps"/></svg></i><span>Health</span></a>
       <a class="side-item" href="#shelf" data-k="files shelf drag drop"><i class="ic" style="--c:#007aff"><svg class="ico"><use href="#i-tray"/></svg></i><span>Shelf</span></a>
       <a class="side-item" href="#tasks" data-k="todo to-do tasks list"><i class="ic" style="--c:#ff9500"><svg class="ico"><use href="#i-list"/></svg></i><span>Tasks</span></a>
@@ -768,7 +779,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Get it</p>
       <a class="side-item" href="#privacy" data-k="privacy data light fast size open source mit"><i class="ic" style="--c:#007aff"><svg class="ico"><use href="#i-lock"/></svg></i><span>Privacy</span></a>
-      <a class="side-item" href="#pricing" data-k="pricing price prices cost free pro plan subscription monthly yearly trial buy meeting notes notetaker record transcript summary meet zoom teams notifications whatsapp telegram phone link"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span>Pricing</span></a>
+      <a class="side-item" href="#pricing" data-k="pricing price prices cost free pro plan subscription monthly yearly trial buy ai usage ielts downloader meeting notes notetaker record transcript summary meet zoom teams notifications whatsapp telegram phone link"><i class="ic" style="--c:#34c759"><svg class="ico"><use href="#i-tag"/></svg></i><span>Pricing</span></a>
       <a class="side-item" href="#get" data-k="install download setup smartscreen dmg get"><i class="ic" style="--c:#0071e3"><svg class="ico"><use href="#i-download"/></svg></i><span>Get Oyenza Studio</span></a>
     </div>
     <p class="side-empty" id="sideEmpty" hidden>No feature by that name. Try "lyrics" or "files".</p>
@@ -1090,7 +1101,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <!-- The AI tab, right after Focus in the island's row of tabs. -->
   <section class="sec" id="ai" aria-labelledby="ai-title">
     <div class="content head rv">
-      <p class="t-label new">New in 0.2.16</p>
+      <p class="t-label new">Studio Pro</p>
       <h3 class="t-l" id="ai-title">Your AI limits, before you hit them.</h3>
       <p class="t-intro"><b>Codex, Claude Code, OpenCode Go</b> and more: what's left of each plan, and when it resets.</p>
       <button class="more" type="button" data-more="m-ai">More about AI usage<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
@@ -1504,7 +1515,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <tr><th scope="row">Music, with synced lyrics</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Readings under Korean, Japanese and Chinese lines</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Focus timer and tasks</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
-          <tr><th scope="row">AI usage, with heads-up notices</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
+          <tr><th scope="row">AI usage, with heads-up notices (Pro)</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Shelf, with Phone drop over the same Wi-Fi</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">System page, an add-on</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
           <tr><th scope="row">Stocks, an add-on</th><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td><td class="c yes"><svg viewBox="0 0 24 24" role="img" aria-label="Yes"><use href="#i-check"/></svg></td></tr>
@@ -1575,13 +1586,13 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <section class="sec" id="pricing" aria-labelledby="pricing-title">
     <div class="content head center rv">
       <h2 class="t-l" id="pricing-title">Studio is free. Pro is on its way.</h2>
-      <p class="t-intro">Everything else Studio does stays free, with no account. <b>Pro brings Meeting notes, the IELTS coach and the Downloader,</b> for $2.99 a month or $12 a year.</p>
+      <p class="t-intro">Everything else Studio does stays free, with no account. <b>Pro brings AI usage, Meeting notes, the IELTS coach and the Downloader,</b> for $2.99 a month or $12 a year.</p>
     </div>
     <div class="content price-cards">
       <article class="price-card rv" aria-labelledby="price-free-title">
         <h3 class="t-card" id="price-free-title">Free</h3>
         <p class="price"><b>$0</b></p>
-        <p class="t-tile">Everything Studio does today, on Windows and Mac. <b>No account needed.</b> Free and open source.</p>
+        <p class="t-tile">Everything outside Pro, on Windows and Mac. <b>No account needed.</b> Free and open source.</p>
         <ul class="price-list t-tile">
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Music with synced lyrics, and Read along</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Focus, Tasks, the Shelf and Phone drop</span></li>
@@ -1599,10 +1610,13 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <img class="look-classic" src="assets/shots/classic/notes-activity.webp" alt="Oyen listening on the closed island: the red dot and 12:34 of the meeting so far" width="139" height="32" loading="lazy">
           <img class="look-oyen" src="assets/shots/oyen/notes-activity.webp" alt="Oyen listening to a meeting on the closed island, in the Oyen theme" width="139" height="32" loading="lazy">
         </div></div>
+        <ul class="pro-feats t-tile" aria-label="What Pro brings. Each opens what it does.">
+          <li><button class="pro-feat" type="button" data-more="m-ai"><span><b>AI usage</b>Track your AI usage: what's left of each plan, and when it resets.</span><i><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></i></button></li>
+          <li><button class="pro-feat" type="button" data-more="m-notes"><span><b>Meeting notes</b>One click, and Oyen listens to your call, with no bot joining, then writes it up.</span><i><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></i></button></li>
+          <li><button class="pro-feat" type="button" data-more="m-ielts"><span><b>The IELTS coach</b>Oyen asks IELTS Speaking questions out loud and gives you a band.</span><i><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></i></button></li>
+          <li><button class="pro-feat" type="button" data-more="m-downloader"><span><b>The Downloader</b>Paste a link and save its video or sound.</span><i><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></i></button></li>
+        </ul>
         <ul class="price-list t-tile">
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Meeting notes:</b> one click, and Oyen listens to your call in Meet, Zoom, Teams or WhatsApp, with no bot joining, then writes up the summary, the decisions and who does what, with the whole transcript.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>The IELTS coach:</b> Oyen asks IELTS Speaking questions out loud, listens to your answers and gives you a band.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>The Downloader:</b> paste a link and save its video or sound. Only what you have the right to keep.</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Your recordings go to Oyenza's server</b> to be written up or scored, and are deleted once that's done.</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><b>Up to 3 computers</b> on one Oyenza account.</span></li>
         </ul>
@@ -1612,7 +1626,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content facts price-facts">
       <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Try Pro for 7 days.</h3><p class="t-tile">Free, and no card. The 7 days start the first time you switch on Pro.</p></div>
       <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">No license key.</h3><p class="t-tile">Pro comes with your Oyenza account. Sign in with a code, like on a TV. Making an account is free.</p></div>
-      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Free stays free.</h3><p class="t-tile">If Pro ends, only Meeting notes, IELTS and the Downloader stop. The notes and files you made stay on your computer, and everything else keeps working.</p></div>
+      <div class="fact rv"><h3 class="t-card" style="font-size:21px;line-height:1.19">Free stays free.</h3><p class="t-tile">If Pro ends, only AI usage, Meeting notes, IELTS and the Downloader stop. The notes and files you made stay on your computer, and everything else keeps working.</p></div>
     </div>
   </section>
 
@@ -1694,9 +1708,10 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 <dialog class="more-sheet" id="m-ai" aria-labelledby="m-ai-t">
   <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
   <div class="sheet-body">
-    <p class="t-label new">New in 0.2.16 · Windows and Mac</p>
+    <p class="t-label new">Studio Pro · Windows and Mac</p>
     <h2 class="t-m" id="m-ai-t">Your AI limits, before you hit them.</h2>
-    <p>The AI tab sits right after Focus. <b>Each AI service on your computer gets a card:</b> your plan, each limit as a bar with when it resets, credits or balance left, and today's spend where the service tells it. Services it doesn't find stay off the list. Under Services, hide any of them, or add one with its key.</p>
+    <div class="sheet-shot"><div class="sky-fill"></div><div class="isl"><img class="look-classic" src="assets/shots/classic/page-ai.webp" alt="The AI tab: a card for each AI service, with each limit as a bar" width="660" height="335" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-ai.webp" alt="The AI tab in the Oyen theme" width="660" height="335" loading="lazy"></div></div>
+    <p>Track your AI usage. The AI tab sits right after Focus. <b>Each AI service on your computer gets a card:</b> your plan, each limit as a bar with when it resets, credits or balance left, and today's spend where the service tells it. Services it doesn't find stay off the list. Under Services, hide any of them, or add one with its key.</p>
     <h4>The services</h4>
     <ul class="names" aria-label="Services the AI tab reads">
       <li>Codex</li>
@@ -1722,6 +1737,41 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <p>Connect your inference.oyenza.com account the way you sign in on a TV: the AI tab shows 8 letters, and you approve them in your inference.oyenza.com dashboard. Oyenza Studio then gets a key that can only read your balance and spend. It never sees your prompts, keys or payments, and it can't spend your credit. Disconnect it in the AI tab, or in the dashboard under Connected apps.</p>
   </div>
 </dialog>
+<dialog class="more-sheet" id="m-notes" aria-labelledby="m-notes-t">
+  <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
+  <div class="sheet-body">
+    <p class="t-label new">Studio Pro · Windows and Mac</p>
+    <h2 class="t-m" id="m-notes-t">Your call, written up.</h2>
+    <div class="sheet-shot"><div class="sky-fill"></div><div class="isl"><img class="look-classic" src="assets/shots/classic/page-notes-listening.webp" alt="The Notes page while Oyen listens: the time so far and a bar for each sound" width="660" height="259" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-notes-listening.webp" alt="The Notes page while Oyen listens, in the Oyen theme" width="660" height="259" loading="lazy"></div></div>
+    <p><b>One click, and Oyen listens to your call</b> in Meet, Zoom, Teams or WhatsApp, with no bot joining. He hears your microphone and your computer's own sound. Stop when it's over, and he writes up the summary, the decisions and who does what, with the whole transcript.</p>
+    <p>While he listens, the closed island shows him with a red dot and the time so far. The notes are saved on your computer.</p>
+    <p><b>Your recording goes to Oyenza's server</b> to be written up, and is deleted once your notes are saved. On a Mac, hearing the computer's own sound takes macOS 14.2 or later.</p>
+  </div>
+</dialog>
+
+<dialog class="more-sheet" id="m-ielts" aria-labelledby="m-ielts-t">
+  <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
+  <div class="sheet-body">
+    <p class="t-label new">Studio Pro · Windows and Mac</p>
+    <h2 class="t-m" id="m-ielts-t">Practise IELTS Speaking, out loud.</h2>
+    <div class="sheet-shot cut"><div class="sky-fill"></div><div class="isl"><img class="look-classic" src="assets/shots/classic/page-ielts.webp" alt="The IELTS page: Oyen beside five levels, each with its target band, the first ones done and the rest still locked" width="660" height="198" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-ielts.webp" alt="The IELTS page in the Oyen theme" width="660" height="198" loading="lazy"></div></div>
+    <p><b>Oyen asks IELTS Speaking questions out loud,</b> listens to your answers through your microphone and gives you a band.</p>
+    <p>It's practice: the band is Oyen's estimate, not an official IELTS result. <b>Your answers go to Oyenza's server</b> to be scored, and are deleted once that's done.</p>
+    <p class="t-small">IELTS® is a trademark of the IELTS partners. Not official IELTS material, not endorsed by them.</p>
+  </div>
+</dialog>
+
+<dialog class="more-sheet" id="m-downloader" aria-labelledby="m-downloader-t">
+  <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
+  <div class="sheet-body">
+    <p class="t-label new">Studio Pro · Windows and Mac</p>
+    <h2 class="t-m" id="m-downloader-t">Paste a link. Keep the video or the sound.</h2>
+    <div class="sheet-shot"><div class="sky-fill"></div><div class="isl"><img class="look-classic" src="assets/shots/classic/page-downloads.webp" alt="The Downloads page: paste a link, pick Video or Sound, and each download with its progress" width="660" height="335" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-downloads.webp" alt="The Downloads page in the Oyen theme" width="660" height="335" loading="lazy"></div></div>
+    <p><b>Paste a link, pick Video or Sound,</b> and watch it come in to Downloads and the Shelf. Only what you have the right to keep.</p>
+    <p>It works with yt-dlp, and its tools download once you switch it on. Nothing runs unless a download does. It isn't in the Microsoft Store copy.</p>
+  </div>
+</dialog>
+
 <dialog class="more-sheet" id="m-system" aria-labelledby="m-system-t">
   <form method="dialog"><button class="sheet-x" aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button></form>
   <div class="sheet-body">

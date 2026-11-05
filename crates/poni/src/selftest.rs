@@ -1220,6 +1220,8 @@ enum Scene {
     /// tools in place from before: the Downloader and Notifications stay
     /// off, each saying "Sign in with your Oyenza account".
     AddonsPro,
+    /// What a Pro add-on does, the page its row opens without Pro.
+    AddonsAbout,
     /// A song playing on the closed island, which a real press, a move
     /// sideways and the release drag to the right (`Phase::Drag`): it
     /// stays closed there, and a click on it there still opens it.
@@ -1322,7 +1324,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 136] = [
+const SCENES: [Scene; 137] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1460,7 +1462,7 @@ const SCENES: [Scene; 136] = [
     Scene::Page(PageKind::Notifications),
     Scene::NotifyAsk,
     Scene::NotifyNoPackage,
-    // The AI tab, a core tab after Focus, in every picture the page has
+    // The AI tab, with Studio Pro after Focus, in every picture the page has
     // (`AiPicture::ALL`): plans, troubles, nothing found, the first look,
     // Oyenza Inference connecting and connected, the Services list and a
     // key being typed there.
@@ -1503,6 +1505,7 @@ const SCENES: [Scene; 136] = [
     // The island dragged along the top edge, closed, then open at the edge.
     Scene::IslandDrag,
     Scene::IslandOpenAtEdge,
+    Scene::AddonsAbout,
 ];
 
 impl Scene {
@@ -1621,6 +1624,7 @@ impl Scene {
             Scene::NotesActivity => "notes-activity".into(),
             Scene::NotesPro => "page-notes-pro".into(),
             Scene::AddonsPro => "page-addons-pro".into(),
+            Scene::AddonsAbout => "page-addons-about".into(),
             Scene::IslandDrag => "island-dragged".into(),
             Scene::IslandOpenAtEdge => "island-open-at-edge".into(),
         }
@@ -1662,7 +1666,7 @@ impl Scene {
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
             Scene::RecordLive => Some(PageKind::Record),
-            Scene::AddonsRecorder | Scene::AddonsDownloader | Scene::AddonsPro => Some(PageKind::Addons),
+            Scene::AddonsRecorder | Scene::AddonsDownloader | Scene::AddonsPro | Scene::AddonsAbout => Some(PageKind::Addons),
             Scene::DownloadsEmpty => Some(PageKind::Downloads),
             Scene::NotifyAsk | Scene::NotifyNoPackage => Some(PageKind::Notifications),
             Scene::Ai(_) => Some(PageKind::Ai),
@@ -1681,8 +1685,8 @@ impl Scene {
         matches!(self, Scene::Page(PageKind::Downloads) | Scene::DownloadsEmpty | Scene::AddonsDownloader | Scene::DownloadActivity | Scene::AddonsPro)
     }
 
-    /// Signed in to an account with Studio Pro: the Downloader's own
-    /// scenes, which only Pro shows.
+    /// Signed in to an account with Studio Pro: the Downloader's own scenes
+    /// and the AI tab's, which only Pro shows.
     fn pro(self) -> bool {
         matches!(
             self,
@@ -1690,6 +1694,7 @@ impl Scene {
                 | Scene::DownloadsEmpty
                 | Scene::AddonsDownloader
                 | Scene::DownloadActivity
+                | Scene::Ai(_)
         )
     }
 
@@ -2788,9 +2793,20 @@ impl SelfTest {
                 // then General and Appearance light.
                 let mut list: Vec<_> = crate::settings_window::sections(&app.st).into_iter().map(|s| (s, false)).collect();
                 list.extend([(crate::settings_window::Section::General, true), (crate::settings_window::Section::Appearance, true)]);
+                // AI usage takes Studio Pro: its section as an account with Pro has it.
+                let ai = crate::settings_window::Section::Ai;
+                if !list.contains(&(ai, false)) {
+                    list.push((ai, false));
+                }
                 match list.get(k) {
                     Some(&(section, light)) => {
+                        let was = (app.st.oyenza.link.clone(), app.st.oyenza.pro);
+                        if section == ai {
+                            app.st.oyenza.link = OyenzaLink::Connected { account: "a\u{2022}\u{2022}\u{2022}@example.com".into() };
+                            app.st.oyenza.pro = Some(true);
+                        }
                         let (w, h, px) = app.selftest_settings_shot(section, light);
+                        (app.st.oyenza.link, app.st.oyenza.pro) = was;
                         let name = format!("settings-window-{}{}", section.key(), if light { "-light" } else { "" });
                         let sized = w > 0 && h > 0 && px.len() == (w as usize) * (h as usize) * 4;
                         // The card is opaque where the sidebar meets the content.
@@ -3341,7 +3357,7 @@ impl SelfTest {
         seed_stocks(st, scene, now);
         // The Downloader: offered in its own scenes, and on there (its tools
         // in place, so the tab shows) except on the Add-ons page, whose row
-        // shows it off; signed out (`AddonsPro`) it isn't listed at all.
+        // shows it off; signed out (`AddonsPro`) its row says what it is.
         // Its setting stays as it is, as for Prayer times above.
         st.downloader_offered = scene.downloader();
         let tab = scene.downloader() && scene != Scene::AddonsDownloader;
@@ -3350,6 +3366,7 @@ impl SelfTest {
         seed_notifications(st, scene);
         seed_ielts(st, scene, now);
         seed_notes(st, scene, now);
+        st.ui.addon_about = (scene == Scene::AddonsAbout).then_some(poni_core::addons::AI_USAGE.id);
         if scene.pro() {
             st.oyenza.link = OyenzaLink::Connected { account: "a•••@example.com".into() };
             st.oyenza.pro = Some(true);

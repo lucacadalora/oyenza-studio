@@ -215,10 +215,12 @@ impl Section {
         }
     }
 
-    /// Prayer times has a section only while its add-on is on.
+    /// Prayer times has a section only while its add-on is on, AI usage only
+    /// with Studio Pro.
     pub fn shown(self, st: &AppState) -> bool {
         match self {
             Section::Prayer => st.prayer_on(),
+            Section::Ai => st.ai_usage_on(),
             _ => true,
         }
     }
@@ -477,7 +479,7 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
                     item(Key::Tab(p), p.title(), sub, Ctl::Switch(Some(!st.tab_hidden(p))))
                 })
                 .collect();
-            vec![Block::Group(Some("When the island opens"), open), Block::Group(Some("Tabs in the island"), tabs), Block::Note("AI, Oyenza and the add-ons' pages always have a tab.")]
+            vec![Block::Group(Some("When the island opens"), open), Block::Group(Some("Tabs in the island"), tabs), Block::Note("Oyenza and the add-ons' pages always have a tab.")]
         }
         Section::Addons => vec![Block::Addons],
         Section::Focus => {
