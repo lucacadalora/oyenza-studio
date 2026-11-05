@@ -375,6 +375,27 @@ struct Worker {
     mgr: Option<ManagerSub>,
     next_sid: u64,
     chosen: Option<u64>,
+    /// A different playing session that wants to take over, and since when:
+    /// the switch waits until it has stayed the pick for a moment, so a
+    /// browser tab that appears and closes doesn't make the island jump.
+    pending_switch: Option<(u64, Instant)>,
+    /// The last dedicated (non-browser) player we followed. It keeps the
+    /// island while it is alive: a browser tab that claims playback must not
+    /// take over from paused or re-created music.
+    /// The AUMID of the last dedicated player. Keyed by app, not by session:
+    /// Yandex Music recreates its session on every track change and a session
+    /// id would go stale within seconds.
+    last_music_app: Option<String>,
+    /// When the music app was last followed: the island holds its frame while
+    /// the player recreates its session on a track change.
+    last_music_at: Option<Instant>,
+    /// The AUMID of the app we show, kept separately from the session list so
+    /// a player that recreates its session still counts as the same app.
+    last_app: Option<String>,
+    /// When no session could be chosen: the island keeps its last frame for
+    /// `LOST_HOLD` so a player that recreates its session on every track
+    /// change (Yandex Music does) doesn't make it blink.
+    lost_at: Option<Instant>,
 
     // Chosen-session cache.
     meta: Option<Meta>,
@@ -415,6 +436,11 @@ impl Worker {
             mgr: None,
             next_sid: 1,
             chosen: None,
+            pending_switch: None,
+            last_music_app: None,
+            last_music_at: None,
+            last_app: None,
+            lost_at: None,
             meta: None,
             thumb: None,
             start_ticks: 0,
@@ -656,8 +682,87 @@ impl Worker {
         let alive: Vec<bool> = self.sessions.iter().map(|t| !t.dead).collect();
         let playing: Vec<bool> =
             self.sessions.iter().map(|t| !t.dead && playback_status(&t.session) == PlaybackStatus::Playing).collect();
+        let music: Vec<bool> = self.sessions.iter().map(|t| !nowplaying::is_browser(&t.aumid)).collect();
         let prev = self.chosen.and_then(|sid| self.index_of(sid));
-        pick_session(cur, prev, &playing, &alive)
+        let idx = pick_session(cur, prev, &playing, &alive, &music);
+        // A dedicated player outranks any browser while it is alive, whatever
+        // its playback status: Opera GX reports Playing for a paused tab and
+        // stole the island from the music app over and over.
+        let music_app = self.last_music_app.as_deref();
+        let keep = music_app.and_then(|app| {
+            (0..self.sessions.len())
+                .find(|i| alive[*i] && music[*i] && self.sessions[*i].aumid == app)
+        });
+        keep_music(keep, idx, &playing, &music)
+    }
+
+    /// True when the music app we show has no session right now but was
+    /// followed a moment ago: a player that recreates its session on a track
+    /// change would otherwise show "Nothing playing" for a split second.
+    fn music_reloading(&self) -> bool {
+        const RELOAD_HOLD: Duration = Duration::from_secs(2);
+        self.last_music_app.is_some()
+            && self.last_music_at.is_some_and(|at| at.elapsed() < RELOAD_HOLD)
+    }
+
+    /// Hold a switch between two playing sessions until the new one has stayed
+    /// the pick for `SWITCH_HOLD`: chatty players (a browser tab that appears
+    /// and closes, a screenshot tool claiming media) otherwise make the island
+    /// jump between layouts several times a second.
+    fn debounce(&mut self, idx: Option<usize>) -> Option<usize> {
+        // Any change of the followed session waits this long: a player that
+        // recreates its session on every track change (Yandex Music) would
+        // otherwise hand the island to whoever is next in Windows' list and
+        // take it back a moment later.
+        const SWITCH_HOLD: Duration = Duration::from_millis(1200);
+        let now = Instant::now();
+        let pick = idx.and_then(|i| self.sessions.get(i)).map(|t| t.sid);
+        let Some(chosen) = self.chosen else {
+            self.pending_switch = None;
+            return idx;
+        };
+        if pick == Some(chosen) {
+            self.pending_switch = None;
+            return idx;
+        }
+        let current = self.index_of(chosen);
+        let pending_sid = pick.unwrap_or(0);
+        match self.pending_switch {
+            Some((sid, since)) if sid == pending_sid => {
+                if now.duration_since(since) >= SWITCH_HOLD {
+                    self.pending_switch = None;
+                    idx
+                } else {
+                    self.refresh_at = Some(since + SWITCH_HOLD);
+                    current
+                }
+            }
+            _ => {
+                self.pending_switch = Some((pending_sid, now));
+                self.refresh_at = Some(now + SWITCH_HOLD);
+                current
+            }
+        }
+    }
+
+    /// True while the island should keep showing what it showed although no
+    /// session can be chosen right now; also schedules the refresh that ends
+    /// the hold. False means "hide now".
+    fn hold_empty(&mut self) -> bool {
+        const LOST_HOLD: Duration = Duration::from_millis(1200);
+        let now = Instant::now();
+        match self.lost_at {
+            Some(at) if now.duration_since(at) < LOST_HOLD => {
+                self.refresh_at = Some(at + LOST_HOLD);
+                true
+            }
+            Some(_) => false,
+            None => {
+                self.lost_at = Some(now);
+                self.refresh_at = Some(now + LOST_HOLD);
+                true
+            }
+        }
     }
 
     /// Make `idx` the followed session. Returns true when it changed.
@@ -666,17 +771,32 @@ impl Worker {
         if sid == self.chosen {
             return false;
         }
+        // A player that recreates its session (Yandex Music does it on every
+        // track change) is the same app: keep the cached art and layout so the
+        // island doesn't blink, and don't log it as a switch.
+        let old_app = self.last_app.clone();
+        let new_app = idx.and_then(|i| self.sessions.get(i)).map(|t| t.aumid.clone());
+        let same_app = old_app.is_some() && old_app == new_app;
         if let Some(old) = self.chosen.and_then(|s| self.index_of(s)) {
             self.sessions[old].unfollow();
         }
         self.chosen = sid;
-        self.reset_chosen_cache();
+        if !same_app {
+            self.reset_chosen_cache();
+        }
         if let Some(i) = idx {
             let tx = self.tx.clone();
             self.sessions[i].follow(&tx);
             let aumid = self.sessions[i].aumid.clone();
-            let name = self.app_name(&aumid);
-            crate::pinfo!("media: following {name}");
+            if !same_app {
+                let name = self.app_name(&aumid);
+                crate::pinfo!("media: following {name}");
+            }
+            self.last_app = Some(aumid.clone());
+            if !nowplaying::is_browser(&aumid) {
+                self.last_music_app = Some(aumid.clone());
+                self.last_music_at = Some(Instant::now());
+            }
         }
         true
     }
@@ -715,7 +835,16 @@ impl Worker {
         }
         let mut allow_reload = !d.sessions;
         for _ in 0..3 {
-            let idx = self.choose(allow_reload);
+            let chosen = self.choose(allow_reload);
+            let mut idx = self.debounce(chosen);
+            // Our music app is between sessions (a track change): hold the
+            // frame instead of jumping to whatever browser is around.
+            if idx.is_some_and(|i| nowplaying::is_browser(&self.sessions[i].aumid)) && self.music_reloading() {
+                idx = None;
+            }
+            if idx.is_none() && self.hold_empty() {
+                return;
+            }
             allow_reload = false;
             if self.mgr.is_none() {
                 return;
@@ -725,6 +854,7 @@ impl Worker {
                 self.show_nothing();
                 return;
             };
+            self.lost_at = None;
             match self.read_and_publish(i, d.props || changed, d.props, force) {
                 Ok(()) => return,
                 Err(e) => {
@@ -847,7 +977,13 @@ impl Worker {
     fn publish(&mut self, caps: Caps, timeline: Timeline, fresh_props: bool, explicit_props: bool, force: bool) {
         let Some(meta) = self.meta.clone() else { return };
         if meta.title.is_empty() {
-            self.show_nothing();
+            // A session that just appeared (a player recreating it on a track
+            // change) hasn't read its metadata yet: keep the frame we show
+            // instead of flashing "Nothing playing".
+            let same_app = self.shown.as_ref().is_some_and(|s| s.meta.app_id == meta.app_id);
+            if !same_app {
+                self.show_nothing();
+            }
             return;
         }
         let key = MediaSession::make_track_key(&meta.title, &meta.artist, &meta.album);
@@ -1128,24 +1264,61 @@ fn shell_display_name(aumid: &str) -> Option<String> {
 
 // ------------------------------------------------------------------ pure logic
 
+/// A dedicated player outranks any browser while it is alive, whatever its
+/// playback status: Opera GX reports Playing for a paused tab and stole the
+/// island from the music app over and over. Only a *different* music app that
+/// is playing takes over.
+fn keep_music(keep: Option<usize>, pick: Option<usize>, playing: &[bool], music: &[bool]) -> Option<usize> {
+    match keep {
+        Some(km) => {
+            let another_music_plays = (0..playing.len())
+                .any(|i| i != km && playing.get(i).copied().unwrap_or(false) && music.get(i).copied().unwrap_or(false));
+            if another_music_plays { pick } else { Some(km) }
+        }
+        None => pick,
+    }
+}
+
 /// The current session, unless it isn't playing while another one is (then
 /// prefer the playing one, sticking with the previous pick when it plays).
+/// A dedicated player beats a browser: Opera GX keeps claiming playback for a
+/// paused tab and used to steal the island from the music app.
 /// Dead sessions are never picked.
-fn pick_session(current: Option<usize>, previous: Option<usize>, playing: &[bool], alive: &[bool]) -> Option<usize> {
+fn pick_session(
+    current: Option<usize>,
+    previous: Option<usize>,
+    playing: &[bool],
+    alive: &[bool],
+    music: &[bool],
+) -> Option<usize> {
     let ok = |i: &usize| alive.get(*i).copied().unwrap_or(false);
-    let is_playing = |i: &usize| playing.get(*i).copied().unwrap_or(false);
+    let playing_at = |i: &usize| ok(i) && playing.get(*i).copied().unwrap_or(false);
+    let music_at = |i: &usize| music.get(*i).copied().unwrap_or(false);
+    let music_playing: Vec<usize> = (0..playing.len()).filter(|i| playing_at(i) && music_at(i)).collect();
+    if !music_playing.is_empty() {
+        if let Some(p) = previous.filter(|p| music_playing.contains(p)) {
+            return Some(p);
+        }
+        if let Some(c) = current.filter(|c| music_playing.contains(c)) {
+            return Some(c);
+        }
+        return music_playing.first().copied();
+    }
     let current = current.filter(ok);
     let previous = previous.filter(ok);
-    if let Some(c) = current.filter(is_playing) {
+    if let Some(c) = current.filter(playing_at) {
         return Some(c);
     }
-    if let Some(p) = previous.filter(is_playing) {
+    if let Some(p) = previous.filter(playing_at) {
         return Some(p);
     }
-    if let Some(i) = (0..playing.len()).find(|i| ok(i) && is_playing(i)) {
+    if let Some(i) = (0..playing.len()).find(|i| playing_at(i)) {
         return Some(i);
     }
-    current.or(previous).or_else(|| (0..alive.len()).find(ok))
+    // Nothing plays: keep the session we already show (paused music stays on
+    // screen) but never adopt a stranger. Taking whatever Windows calls
+    // "current" made the island hop to browser tabs and a screenshot tool.
+    previous
 }
 
 /// Convert a GSMTC timeline snapshot (100 ns ticks) into our monotonic clock.
@@ -1337,19 +1510,50 @@ mod tests {
     #[test]
     fn picks_current_unless_another_plays() {
         let alive = [true, true, true];
-        assert_eq!(pick_session(Some(0), None, &[true, true, false], &alive), Some(0));
-        assert_eq!(pick_session(Some(0), None, &[false, false, true], &alive), Some(2));
-        assert_eq!(pick_session(Some(0), Some(1), &[false, true, true], &alive), Some(1));
-        assert_eq!(pick_session(Some(0), Some(1), &[false, false, false], &alive), Some(0));
-        assert_eq!(pick_session(None, Some(1), &[false, false, false], &alive), Some(1));
-        assert_eq!(pick_session(None, None, &[false, false, false], &alive), Some(0));
-        assert_eq!(pick_session(None, None, &[], &[]), None);
+        let all_music = [true, true, true];
+        assert_eq!(pick_session(Some(0), None, &[true, true, false], &alive, &all_music), Some(0));
+        assert_eq!(pick_session(Some(0), None, &[false, false, true], &alive, &all_music), Some(2));
+        assert_eq!(pick_session(Some(0), Some(1), &[false, true, true], &alive, &all_music), Some(1));
+        // Nothing plays: the session we already show wins over "current".
+        assert_eq!(pick_session(Some(0), Some(1), &[false, false, false], &alive, &all_music), Some(1));
+        assert_eq!(pick_session(None, Some(1), &[false, false, false], &alive, &all_music), Some(1));
+        // Nothing plays and neither the current nor the previous session is
+        // known: a random live session is not a pick (it flickered the island).
+        assert_eq!(pick_session(None, None, &[false, false, false], &alive, &all_music), None);
+        assert_eq!(pick_session(Some(0), None, &[false, false, false], &alive, &all_music), None);
+        assert_eq!(pick_session(None, None, &[], &[], &[]), None);
+    }
+
+    #[test]
+    fn a_dedicated_player_beats_a_browser() {
+        // 0: browser claiming playback, 1: music app playing.
+        let alive = [true, true];
+        let music = [false, true];
+        assert_eq!(pick_session(Some(0), None, &[true, true], &alive, &music), Some(1));
+        assert_eq!(pick_session(Some(0), Some(0), &[true, true], &alive, &music), Some(1));
+        // Only the browser plays: it is shown.
+        assert_eq!(pick_session(Some(0), None, &[true, false], &alive, &music), Some(0));
+    }
+
+    #[test]
+    fn the_music_app_is_kept_even_when_it_is_paused() {
+        // 0: browser "playing", 1: music app alive but paused.
+        let playing = [true, false];
+        let music = [false, true];
+        assert_eq!(keep_music(Some(1), Some(0), &playing, &music), Some(1));
+        // Another music app that really plays takes over.
+        let playing = [true, true];
+        let music = [true, true];
+        assert_eq!(keep_music(Some(1), Some(0), &playing, &music), Some(0));
+        // No music app to keep: whatever was picked stays.
+        assert_eq!(keep_music(None, Some(0), &playing, &music), Some(0));
     }
 
     #[test]
     fn skips_dead_sessions() {
-        assert_eq!(pick_session(Some(0), None, &[false, false], &[false, true]), Some(1));
-        assert_eq!(pick_session(Some(0), Some(0), &[false], &[false]), None);
+        let all_music = [true, true];
+        assert_eq!(pick_session(Some(0), None, &[false, false], &[false, true], &all_music), None);
+        assert_eq!(pick_session(Some(0), Some(0), &[false], &[false], &[true]), None);
     }
 
     #[test]
