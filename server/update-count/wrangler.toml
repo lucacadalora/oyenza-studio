@@ -1,0 +1,19 @@
+# README.md has the order of things. The route below is the trial name; the real
+# one, studio.oyenza.com/latest.json, goes in only on the maintainer's word.
+name = "studio-update-count"
+main = "worker.mjs"
+compatibility_date = "2026-07-01"
+workers_dev = true
+routes = [{ pattern = "studio-check.oyenza.com/latest.json", zone_name = "oyenza.com" }]
+
+# No logs, so no address lands in one.
+[observability]
+enabled = false
+
+[[durable_objects.bindings]]
+name = "TALLY"
+class_name = "Tally"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Tally"]

@@ -552,7 +552,7 @@ def page(s: dict, days: list[tuple[date, int]], steps: dict, traffic: list[dict]
                "taken off. Each file's number keeps its highest reading, so numbers only go up.")
     out.append("- Still in the numbers: our own check of each new release (one download through the Download button) and any bots. "
                "GitHub can't tell those apart.")
-    out.append("- Oyenza Studio itself sends nothing: no accounts, no tracking. These are GitHub's download counters, read every hour.")
+    out.append(f"- These are GitHub's download counters, read every hour. Nothing in the app reports what you do: [PRIVACY.md](https://github.com/{repo}/blob/main/PRIVACY.md) lists every request it makes.")
     if s["since"]:
         out.append(f"- GitHub keeps no dates for downloads, so everything before the first reading counts on {day_text(days[0][0]) if days else 'that day'}.")
     if not traffic:
