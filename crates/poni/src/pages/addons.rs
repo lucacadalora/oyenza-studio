@@ -171,7 +171,7 @@ fn draw_about(ui: &mut Ui, st: &mut AppState, area: Rect, a: &Addon) {
     let h = ui.c.measure(body, &para, w).1;
     ui.c.text(body, Rect::new(x, area.y + 50.0, w, h + 1.0), &para);
     let y = area.y + 50.0 + h + 8.0;
-    ui.c.text("Studio Pro is in early access. It comes with your Oyenza account.", Rect::new(x, y, w, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+    ui.c.text("Studio Pro is in early access and can't be bought yet.", Rect::new(x, y, w, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
     let y = y + 25.0;
     let see = "See Studio Pro";
     let see_w = ui.pill_width(see, false, true);
