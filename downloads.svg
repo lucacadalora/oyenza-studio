@@ -3,12 +3,11 @@
 <rect width="820" height="730" rx="16" fill="#FFF1DE"/>
 <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Helvetica, Arial, sans-serif">
 <path d="M100.5,68.0L100.5,448.0" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M73.0,634.5L744.9,634.5" stroke="#EAD7BC" stroke-width="1"/>
-<path d="M783.8,634.5L792.0,634.5" stroke="#EAD7BC" stroke-width="1"/>
+<path d="M73.0,634.5L792.0,634.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,584.5L792.0,584.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M101.0,75.0H181.4A4.0,4.0 0 0 1 185.4,79.0V89.0A4.0,4.0 0 0 1 181.4,93.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,75.0H190.8A4.0,4.0 0 0 1 194.8,79.0V89.0A4.0,4.0 0 0 1 190.8,93.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,107.0H256.7A4.0,4.0 0 0 1 260.7,111.0V121.0A4.0,4.0 0 0 1 256.7,125.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,139.0H168.5A4.0,4.0 0 0 1 172.5,143.0V153.0A4.0,4.0 0 0 1 168.5,157.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,171.0H216.7A4.0,4.0 0 0 1 220.7,175.0V185.0A4.0,4.0 0 0 1 216.7,189.0H101.0Z" fill="#D9661C"/>
@@ -32,10 +31,10 @@
 <path d="M586.4,684.0V607.6A4.0,4.0 0 0 1 590.4,603.6H606.4A4.0,4.0 0 0 1 610.4,607.6V684.0Z" fill="#D9661C"/>
 <path d="M641.7,684.0V649.5A4.0,4.0 0 0 1 645.7,645.5H661.7A4.0,4.0 0 0 1 665.7,649.5V684.0Z" fill="#D9661C"/>
 <path d="M697.0,684.0V679.0A4.0,4.0 0 0 1 701.0,675.0H717.0A4.0,4.0 0 0 1 721.0,679.0V684.0Z" fill="#D9661C"/>
-<path d="M752.3,684.0V642.7A4.0,4.0 0 0 1 756.3,638.7H772.3A4.0,4.0 0 0 1 776.3,642.7V684.0Z" fill="#D9661C"/>
+<path d="M752.3,684.0V638.4A4.0,4.0 0 0 1 756.3,634.4H772.3A4.0,4.0 0 0 1 776.3,638.4V684.0Z" fill="#D9661C"/>
 <text x="28.0" y="44.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per release</text>
 <text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.26</text>
-<text x="193.4" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">776</text>
+<text x="202.8" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">862</text>
 <text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.25</text>
 <text x="268.7" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">1,468</text>
 <text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.24</text>
@@ -59,7 +58,7 @@
 <text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">38 older</text>
 <text x="749.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">5,886</text>
 <text x="28.0" y="496.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per day</text>
-<text x="764.3" y="631.7" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">906</text>
+<text x="764.3" y="627.4" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">992</text>
 <text x="377.2" y="572.0" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">2,101</text>
 <text x="63.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
 <text x="63.0" y="638.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,000</text>
