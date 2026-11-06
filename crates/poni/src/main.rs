@@ -75,6 +75,8 @@ mod ui;
 mod version;
 #[cfg(any(windows, target_os = "macos"))]
 mod updates;
+#[cfg(any(windows, target_os = "macos"))]
+mod counts;
 #[cfg(windows)]
 mod window;
 

@@ -138,6 +138,8 @@ pub enum NoticeAction {
     StartFocus,
     /// Open the Update sheet in Settings (a new version's notice).
     OpenUpdate,
+    /// Open the usage counts question in Settings (`crate::counts`).
+    OpenCounts,
     /// Open the app another app's notification came from (its
     /// AppUserModelID; Notifications). The island stays closed.
     OpenApp(String),
@@ -220,6 +222,9 @@ pub struct UpdateView {
     /// Settings shows the Update sheet in place of its rows (until the
     /// island closes or the page changes).
     pub sheet: bool,
+    /// Settings shows the usage counts question in place of its rows
+    /// (`crate::counts`), until it is answered or the island closes.
+    pub counts_sheet: bool,
     /// Its Setup is downloaded and checked (Windows): the sheet offers
     /// Install now and Install on next start.
     pub ready: bool,
@@ -848,6 +853,8 @@ pub struct AppState {
     pub notes: poni_core::notes::Taker,
     /// Side effects requested during the frame.
     pub cmds: Vec<Command>,
+    /// Opt-in usage counts (`crate::counts`).
+    pub tally: crate::counts::Tally,
 }
 
 impl AppState {
@@ -929,6 +936,7 @@ impl AppState {
             ielts: Default::default(),
             notes: Default::default(),
             cmds: Vec::new(),
+            tally: Default::default(),
         };
         // A list from a hand-edited file keeps to codes, each once, ten at most.
         st.store.stocks.tidy();
@@ -1173,11 +1181,16 @@ impl AppState {
     }
 
     pub fn cmd(&mut self, c: Command) {
+        if self.settings.share_counts {
+            if let Some(f) = c.counted_feature() {
+                crate::counts::feature(self, f);
+            }
+        }
         self.cmds.push(c);
     }
 
     pub fn media_cmd(&mut self, c: MediaCmd) {
-        self.cmds.push(Command::Media(c));
+        self.cmd(Command::Media(c));
     }
 
     /// Mark the persisted store as changed.
@@ -1206,6 +1219,15 @@ impl AppState {
         }
         self.page = PageKind::Settings;
         self.update.sheet = true;
+    }
+
+    /// The usage counts question: Settings, with it in place of the rows.
+    pub fn open_counts(&mut self) {
+        if self.page != PageKind::Settings {
+            self.ui.before_settings = Some(self.page);
+        }
+        self.page = PageKind::Settings;
+        self.update.counts_sheet = true;
     }
 
     /// Give the current notice a one-click inline action pill.

@@ -15,6 +15,25 @@ pub enum MediaCmd {
     Prepare,
 }
 
+impl Command {
+    /// The feature this counts as in the usage counts, if any (only with
+    /// the person's yes: `crate::counts`).
+    pub fn counted_feature(&self) -> Option<&'static str> {
+        Some(match self {
+            Command::Media(m) if *m != MediaCmd::Prepare => "media_controls",
+            Command::Phone(_) => "phone_drop",
+            Command::Pair(_) => "paired_phone",
+            Command::Ielts(IeltsCmd::Start) => "ielts",
+            Command::Notes(NotesCmd::Start) => "notes",
+            Command::Download(DownloadCmd::Start { .. }) => "downloader",
+            Command::Record | Command::RecordScreen => "record",
+            Command::SetPinned(true) => "pin",
+            Command::OpenSettings => "advanced_settings",
+            _ => return None,
+        })
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Sound {
     /// Gentle chime (timer finished, reminder).

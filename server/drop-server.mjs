@@ -12,6 +12,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COUNTS, createCounts } from './counts.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -170,6 +171,9 @@ export function createDropServer(options = {}) {
   const kicks = new Map(); // PC client id -> Unix ms of a kick that found no open wait
   const buckets = new Map(); // address -> { start, n }
   const files = loadStatic(publicDir);
+
+  const counts = createCounts({ dataDir, logError });
+  const countsUse = new Map(); // address -> { start, n } usage reports this hour
 
   const turnUse = new Map(); // address -> { start, n } relay passes handed out this hour
   let turnHour = { start: 0, n: 0 };
@@ -567,6 +571,29 @@ export function createDropServer(options = {}) {
   }
 
   // May this request get a relay pass? Counts it when yes.
+  // ----- opt-in usage counts (counts.mjs) -----
+
+  // At most this many reports from one address an hour, kept in memory only.
+  function countsAllowed(req, now) {
+    const key = clientAddress(req);
+    let u = countsUse.get(key);
+    if (!u || now - u.start >= 3600_000) {
+      if (!u && countsUse.size >= o.bucketsMax) countsUse.delete(countsUse.keys().next().value);
+      u = { start: now, n: 0 };
+      countsUse.set(key, u);
+    }
+    u.n += 1;
+    return u.n <= COUNTS.perAddressHour;
+  }
+
+  function countsReport(req, res, b) {
+    if (JSON.stringify(b).length > COUNTS.bodyMax) return badRequest(res);
+    if (!countsAllowed(req, Date.now())) return fail(res, 429, 'slow-down', { 'Retry-After': '3600' });
+    if (!counts.add(b)) return badRequest(res);
+    res.writeHead(204);
+    res.end();
+  }
+
   function turnAllowed(req, r, now) {
     if (!turnKeyId || !turnToken || !online(r, now)) return false;
     if (now - turnHour.start >= 3600_000) turnHour = { start: now, n: 0 };
@@ -600,6 +627,7 @@ export function createDropServer(options = {}) {
   }
 
   const ROUTES = new Map([
+    ['/api/counts', countsReport],
     ['/api/pc/wait', pcWait],
     ['/api/pc/kick', pcKick],
     ['/api/pc/send', pcSend],
@@ -780,6 +808,7 @@ export function createDropServer(options = {}) {
     for (const [c, at] of kicks) if (now - at >= o.kickMs) kicks.delete(c);
     for (const [k, b] of buckets) if (now - b.start >= o.rateWindowMs) buckets.delete(k);
     for (const [k, u] of turnUse) if (now - u.start >= 3600_000) turnUse.delete(k);
+    for (const [k, u] of countsUse) if (now - u.start >= 3600_000) countsUse.delete(k);
     if (now - lastRoomSweep >= 60_000) {
       lastRoomSweep = now;
       for (const [id, r] of rooms) {
@@ -823,6 +852,7 @@ export function createDropServer(options = {}) {
     close() {
       clearInterval(sweeper);
       if (goneTimer) writeGone();
+      counts.flush();
       for (const w of [...clients.values()]) answerPcWait(w);
       for (const s of sessions.values()) answerPhoneWait(s);
       return new Promise((resolve) => {

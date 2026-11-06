@@ -1525,7 +1525,8 @@ impl App {
     /// comes back as `UpdateEvent::Checked`.
     fn read_update_file(&mut self, now: u64) {
         self.start_addon_thread();
-        let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone()))).is_some();
+        let counts = crate::counts::outbox(&mut self.st);
+        let started = self.addons.as_ref().map(|a| a.run(services::update::check_job(self.sink.clone(), counts))).is_some();
         if let Some(u) = self.updater.as_mut() {
             u.begin();
             if !started {
@@ -1808,6 +1809,7 @@ impl App {
                 let open = self.updater.as_mut().is_some_and(|u| u.checked(&mut self.st, r, crate::updates::unix_now()));
                 self.schedule_update();
                 self.fetch_setup();
+                crate::counts::maybe_ask(&mut self.st, self.expanded);
                 self.refresh_menu();
                 // Check for updates… found a new version: the Update sheet.
                 if open {
@@ -2567,6 +2569,7 @@ impl App {
             match n.action {
                 Some(NoticeAction::OpenPage(p)) => self.st.page = p,
                 Some(NoticeAction::OpenUpdate) => self.st.open_update(),
+                Some(NoticeAction::OpenCounts) => self.st.open_counts(),
                 Some(NoticeAction::OpenApp(_)) => {}
                 Some(NoticeAction::StartFocus) => {
                     self.st.page = PageKind::Focus;
@@ -2751,6 +2754,7 @@ impl App {
                 self.st.page = self.st.ui.before_settings.take().filter(|p| pages::tabs(&self.st).contains(p)).unwrap_or_else(|| pages::first_tab(&self.st));
             }
             self.st.update.sheet = false;
+            self.st.update.counts_sheet = false;
             self.st.update.said = None;
             // A notice that arrived while expanded gets its full time now.
             let min_until = self.st.now + 4.0;
@@ -2768,6 +2772,7 @@ impl App {
             // Settings is never where the island opens next time.
             if p != PageKind::Settings {
                 self.st.update.sheet = false;
+                self.st.update.counts_sheet = false;
                 self.st.update.said = None;
                 self.st.store.last_page = p.key().to_string();
                 self.set_timer(Timer::Save, 800);
