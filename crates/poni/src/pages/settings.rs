@@ -138,6 +138,9 @@ const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
 pub const ADVANCED_ID: &str = "settings.advanced";
 
 pub fn height(st: &AppState) -> f32 {
+    if st.update.counts_sheet {
+        return SHEET_H;
+    }
     match st.update.offer {
         Some(_) if st.update.sheet => SHEET_H,
         _ => HEIGHT,
@@ -150,6 +153,10 @@ pub fn next_wake(st: &AppState) -> Option<f64> {
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
+    if st.update.counts_sheet {
+        draw_counts_sheet(ui, st, area);
+        return;
+    }
     if let Some(rel) = st.update.offer.clone().filter(|_| st.update.sheet) {
         draw_sheet(ui, st, area, &rel);
         return;
@@ -497,6 +504,45 @@ fn draw_sheet(ui: &mut Ui, st: &mut AppState, area: Rect, rel: &Release) {
     let nr = Rect::new(area.x, area.y + NOTES_Y, nw, PILL_SMALL);
     if ui.pill(wid("update.notes"), nr, &notes, Some(Icon::Open), PillStyle::Utility).clicked {
         st.cmd(Command::OpenUrl(rel.notes.clone()));
+    }
+}
+
+/// The usage counts question, on the Update sheet's layout: what it is, what
+/// is never in it, yes or no, and the report itself (`crate::counts`).
+fn draw_counts_sheet(ui: &mut Ui, st: &mut AppState, area: Rect) {
+    let head = Rect::new(area.x, area.y, area.w, ACCOUNT_H);
+    let cy = head.center().y;
+    let accent = st.accent;
+    let c = Point::new(head.x + ICON / 2.0, cy);
+    ui.c.fill_circle(c, ICON / 2.0, accent.with_alpha(0.22));
+    ui.c.icon(Icon::Eye, Rect::from_center(c, 20.0, 20.0), accent);
+    let x = head.x + TEXT_X;
+    let w = (head.right() - x).max(0.0);
+    ui.c.text("Share usage counts?", Rect::new(x, cy - 19.0, w, 20.0), &TextStyle::headline());
+    let line = "A weekly count of the tabs and features you use. Off unless you say yes.";
+    ui.c.text(line, Rect::new(x, cy + 1.0, w, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
+
+    let px = 1.0 / ui.c.scale().max(0.5);
+    ui.c.fill_rect(Rect::new(area.x, area.y + RULE_Y, area.w, px), Color::white(0.10));
+    let label_st = TextStyle::caption().weight(Weight::Semibold).color(palette::TEXT_FAINT);
+    ui.c.text("NEVER SENT", Rect::new(area.x, area.y + SHEET_CAPTION_Y, area.w, 14.0), &label_st);
+    let never = "Songs, files, links, what you type, your name or your account.";
+    ui.c.text(never, Rect::new(area.x, area.y + SHEET_HEADLINE_Y, area.w, 20.0), &TextStyle::body());
+
+    let card_w = ((area.w - CARD_GAP) / 2.0).max(0.0);
+    let yes = Rect::new(area.x, area.y + CARDS_Y, card_w, CARD_H);
+    let no = Rect::new(area.x + card_w + CARD_GAP, area.y + CARDS_Y, card_w, CARD_H);
+    if card(ui, wid("counts.yes"), yes, Icon::Check, "Yes, share counts", "Once a week, off any time", accent) {
+        crate::counts::set_sharing(st, true);
+    }
+    if card(ui, wid("counts.no"), no, Icon::Close, "No thanks", "Nothing is counted or sent", accent) {
+        crate::counts::set_sharing(st, false);
+    }
+    let see = "See what's sent";
+    let sw = ui.pill_width(see, true, true).min(area.w);
+    let sr = Rect::new(area.x, area.y + NOTES_Y, sw, PILL_SMALL);
+    if ui.pill(wid("counts.see"), sr, see, Some(Icon::Open), PillStyle::Utility).clicked {
+        crate::counts::preview(st);
     }
 }
 

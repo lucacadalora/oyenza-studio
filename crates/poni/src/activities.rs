@@ -11,7 +11,7 @@ use crate::icons::Icon;
 use crate::island::Geom;
 use crate::oyen;
 use crate::pages::{self, PageKind};
-use crate::state::{AppState, FpsAccess, HudKind, InlineAction, Notice};
+use crate::state::{AppState, FpsAccess, HudKind, InlineAction, Notice, NoticeAction};
 use crate::ui::{wid, PillStyle, Ui, PILL_SMALL};
 use poni_core::datetime::{fmt_clock, fmt_countdown};
 use poni_core::frames::fmt_fps;
@@ -992,6 +992,7 @@ pub(crate) fn inline_look(st: &AppState, n: &Notice, a: InlineAction) -> (&'stat
         InlineAction::WhatsNew => ("What's new", Some(Icon::Open), n.color),
         // Another app's notification: open that app.
         InlineAction::Open => ("Open", Some(Icon::Open), n.color),
+        InlineAction::Hide if n.action == Some(NoticeAction::OpenCounts) => ("No thanks", None, palette::TEXT_DIM),
         InlineAction::Hide => ("Hide", None, palette::TEXT_DIM),
     }
 }
