@@ -7,7 +7,7 @@
 <path d="M73.0,584.5L792.0,584.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M101.0,75.0H258.6A4.0,4.0 0 0 1 262.6,79.0V89.0A4.0,4.0 0 0 1 258.6,93.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,75.0H262.2A4.0,4.0 0 0 1 266.2,79.0V89.0A4.0,4.0 0 0 1 262.2,93.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,107.0H256.4A4.0,4.0 0 0 1 260.4,111.0V121.0A4.0,4.0 0 0 1 256.4,125.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,139.0H168.4A4.0,4.0 0 0 1 172.4,143.0V153.0A4.0,4.0 0 0 1 168.4,157.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,171.0H216.4A4.0,4.0 0 0 1 220.4,175.0V185.0A4.0,4.0 0 0 1 216.4,189.0H101.0Z" fill="#D9661C"/>
@@ -34,10 +34,10 @@
 <path d="M622.7,684.0V638.4A4.0,4.0 0 0 1 626.7,634.4H642.7A4.0,4.0 0 0 1 646.7,638.4V684.0Z" fill="#D9661C"/>
 <path d="M667.7,684.0V666.6A4.0,4.0 0 0 1 671.7,662.6H687.7A4.0,4.0 0 0 1 691.7,666.6V684.0Z" fill="#D9661C"/>
 <path d="M712.6,684.0V678.8A4.0,4.0 0 0 1 716.6,674.8H732.6A4.0,4.0 0 0 1 736.6,678.8V684.0Z" fill="#D9661C"/>
-<path d="M757.5,684.0V684.0A2.2,2.2 0 0 1 759.8,681.8H779.3A2.2,2.2 0 0 1 781.5,684.0V684.0Z" fill="#D9661C"/>
+<path d="M757.5,684.0V684.0A3.9,3.9 0 0 1 761.4,680.1H777.6A3.9,3.9 0 0 1 781.5,684.0V684.0Z" fill="#D9661C"/>
 <text x="28.0" y="44.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per release</text>
 <text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.26</text>
-<text x="270.6" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">1,491</text>
+<text x="274.2" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">1,524</text>
 <text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.25</text>
 <text x="268.4" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">1,470</text>
 <text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.24</text>
@@ -61,7 +61,7 @@
 <text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">38 older</text>
 <text x="749.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">5,907</text>
 <text x="28.0" y="496.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per day</text>
-<text x="769.5" y="674.8" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">45</text>
+<text x="769.5" y="673.1" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">78</text>
 <text x="320.2" y="572.0" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">2,101</text>
 <text x="63.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
 <text x="63.0" y="638.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,000</text>
