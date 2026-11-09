@@ -641,3 +641,4 @@ job_id,step,run_id,attempt,started_at,branch,workflow,release,file
 127982155069,Fetch the release to upgrade from,42243403819,1,2026-11-06T15:34:22Z,usage-counts,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 129056292938,Fetch the release to upgrade from,42585573698,1,2026-11-09T08:28:05Z,mac-keychain-in-app,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
 129149427900,Fetch the release to upgrade from,42613503352,1,2026-11-09T12:05:15Z,mac-keychain-in-app,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
+129288167227,Fetch the release to upgrade from,42653601245,1,2026-11-09T16:23:14Z,mac-keychain-in-app,ci.yml,v0.1.1,Poni-Setup-0.1.1.exe
