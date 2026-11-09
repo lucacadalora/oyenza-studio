@@ -110,8 +110,17 @@ PY
 # The "Safe Storage" item the reader asks for from inside the app (as it
 # does Claude's and Cursor's) the app adds itself: one made here would trust
 # security alone, and reading it from the app would bring up macOS's prompt.
+# The app adds it to the default keychain, so for the run that is the first
+# keychain of the search list too (the signing jobs' list holds their own
+# keychain alone; on a person's Mac the two are already the same).
 kc_service="Oyenza Studio smoke"
 kc_file=$(security list-keychains -d user | head -1 | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//')
+kc_default=$(security default-keychain -d user | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//')
+if [ "$kc_default" = "$kc_file" ]; then
+  kc_default=
+else
+  security default-keychain -d user -s "$kc_file" || echo "(could not make $kc_file the default keychain)"
+fi
 security delete-generic-password -s "$kc_service" -a absent > /dev/null 2>&1
 if security add-generic-password -U -s "$kc_service" -a plain -w '{"claudeAiOauth":{"accessToken":"test-token"}}' "$kc_file" \
   && security add-generic-password -U -s "$kc_service" -a accent -X 636166c3a90a6e657874 "$kc_file" \
@@ -208,6 +217,7 @@ if [ -n "$recorder_failed" ]; then
   code=1
 fi
 for a in plain accent; do security delete-generic-password -s "$kc_service" -a "$a" > /dev/null 2>&1; done
+if [ -n "$kc_default" ]; then security default-keychain -d user -s "$kc_default" || true; fi
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true
