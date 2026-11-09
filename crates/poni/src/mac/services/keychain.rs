@@ -32,7 +32,7 @@
 //! The password never goes into the log.
 
 use super::cf::{self, CFTypeRef};
-use objc2_core_foundation::{CFBoolean, CFDictionary, CFString, CFType};
+use objc2_core_foundation::{CFBoolean, CFData, CFDictionary, CFString, CFType};
 use studio_usage::{Got, FILE_MAX};
 use std::io::Read;
 use std::process::{Command, Stdio};
@@ -65,7 +65,40 @@ extern "C" {
     static kSecReturnData: &'static CFString;
     static kSecMatchLimit: &'static CFString;
     static kSecMatchLimitOne: &'static CFString;
+    static kSecValueData: &'static CFString;
     fn SecItemCopyMatching(query: CFTypeRef, result: *mut CFTypeRef) -> i32;
+    fn SecItemAdd(attributes: CFTypeRef, result: *mut CFTypeRef) -> i32;
+    fn SecItemDelete(query: CFTypeRef) -> i32;
+}
+
+/// A query dictionary as the plain pointer Security.framework takes.
+fn dict_ref(d: &CFDictionary<CFString, CFType>) -> CFTypeRef {
+    d.as_opaque() as *const _ as CFTypeRef
+}
+
+/// The smoke run's own "Safe Storage" item (`password`, or `None` to remove
+/// it), added from inside the app: it trusts the app, so reading it back
+/// asks nobody. One `security` adds trusts that tool alone, and reading that
+/// from the app brings up macOS's prompt, which a CI runner can't answer.
+/// The keychain's status: 0 when done.
+pub fn smoke_item(service: &str, account: &str, password: Option<&str>) -> i32 {
+    let (service, account) = (CFString::from_str(service), CFString::from_str(account));
+    // SAFETY: Security.framework's constants, there for the whole run.
+    let (class, generic, attr_service, attr_account, value) = unsafe { (kSecClass, kSecClassGenericPassword, kSecAttrService, kSecAttrAccount, kSecValueData) };
+    let keys = [class, attr_service, attr_account];
+    let values: [&CFType; 3] = [generic.as_ref(), service.as_ref(), account.as_ref()];
+    let query = CFDictionary::<CFString, CFType>::from_slices(&keys, &values);
+    // SAFETY: a dictionary alive for the call.
+    let deleted = unsafe { SecItemDelete(dict_ref(&query)) };
+    let Some(password) = password else {
+        return if deleted == SEC_NOT_FOUND { 0 } else { deleted };
+    };
+    let data = CFData::from_bytes(password.as_bytes());
+    let keys = [class, attr_service, attr_account, value];
+    let values: [&CFType; 4] = [generic.as_ref(), service.as_ref(), account.as_ref(), data.as_ref()];
+    let item = CFDictionary::<CFString, CFType>::from_slices(&keys, &values);
+    // SAFETY: a dictionary alive for the call; no result asked for.
+    unsafe { SecItemAdd(dict_ref(&item), std::ptr::null_mut()) }
 }
 // `security` exits with the low byte of the keychain's error code (Claude
 // Code reads these three the same way).
@@ -239,7 +272,7 @@ fn copy_password(service: &str, account: Option<&str>) -> (Got, String) {
     let query = CFDictionary::<CFString, CFType>::from_slices(&keys, &values);
     let mut out: CFTypeRef = std::ptr::null();
     // SAFETY: a query dictionary alive for the call; `out` is ours to release.
-    let status = unsafe { SecItemCopyMatching(query.as_opaque() as *const _ as CFTypeRef, &mut out) };
+    let status = unsafe { SecItemCopyMatching(dict_ref(&query), &mut out) };
     let bytes = cf::data_bytes(out);
     if !out.is_null() {
         // SAFETY: SecItemCopyMatching handed it over with a retain.

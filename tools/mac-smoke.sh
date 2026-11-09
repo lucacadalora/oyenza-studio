@@ -107,17 +107,14 @@ PY
 # reading them asks nobody, in the first keychain of the search list (the
 # signing check puts its own there alone), where the reader's search finds
 # them. The app checks them only with PONI_SMOKE_KEYCHAIN.
-# Plus a "Safe Storage" item, which the reader asks for from inside the app
-# (as it does Claude's and Cursor's): open to every app (-A), so that read
-# asks nobody either.
+# The "Safe Storage" item the reader asks for from inside the app (as it
+# does Claude's and Cursor's) the app adds itself: one made here would trust
+# security alone, and reading it from the app would bring up macOS's prompt.
 kc_service="Oyenza Studio smoke"
-kc_safe="Oyenza Studio smoke Safe Storage"
 kc_file=$(security list-keychains -d user | head -1 | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//')
 security delete-generic-password -s "$kc_service" -a absent > /dev/null 2>&1
-for a in plain absent; do security delete-generic-password -s "$kc_safe" -a "$a" > /dev/null 2>&1; done
 if security add-generic-password -U -s "$kc_service" -a plain -w '{"claudeAiOauth":{"accessToken":"test-token"}}' "$kc_file" \
   && security add-generic-password -U -s "$kc_service" -a accent -X 636166c3a90a6e657874 "$kc_file" \
-  && security add-generic-password -A -s "$kc_safe" -a plain -w 'c2VhbGluZy1rZXk=' "$kc_file" \
   && security find-generic-password -s "$kc_service" -a accent > /dev/null 2>&1; then
   export PONI_SMOKE_KEYCHAIN=1
   echo "keychain test items in $kc_file; security prints the accented one as: $(security find-generic-password -s "$kc_service" -a accent -w)"
@@ -211,7 +208,6 @@ if [ -n "$recorder_failed" ]; then
   code=1
 fi
 for a in plain accent; do security delete-generic-password -s "$kc_service" -a "$a" > /dev/null 2>&1; done
-security delete-generic-password -s "$kc_safe" -a plain > /dev/null 2>&1
 echo "smoke exit code: $code ($shots screenshots)"
 echo "---- report.json"; cat smoke/report.json || echo "(missing)"
 echo "---- poni.log"; tail -80 smoke/home/poni.log || true
