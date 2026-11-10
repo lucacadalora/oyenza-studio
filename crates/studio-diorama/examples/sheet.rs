@@ -41,10 +41,12 @@ fn main() {
     };
     std::fs::create_dir_all(&dir).expect("make the folder");
     if let Some(hhmm) = args.iter().find_map(|a| a.strip_prefix("slide=").and_then(|t| t.parse::<u32>().ok())) {
-        // The ball slid by hand from where it rests at that time to the other end.
+        // The ball slid by hand from where it rests at that time to the other
+        // end: 13 frames, or 49 for a film.
         let m = moment((hhmm / 100 * 60 + hhmm % 100) as f32);
-        for i in 0..=12 {
-            let lens = i as f32 / 12.0;
+        let steps = if has("film") { 48 } else { 12 };
+        for i in 0..=steps {
+            let lens = i as f32 / steps as f32;
             save(&dir, &format!("slide-{i:02}"), &m.slid(if m.night() { 1.0 - lens } else { lens }), scale, 0.0);
         }
         return;
