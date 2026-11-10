@@ -55,8 +55,8 @@ const COL_GAP: f32 = 24.0;
 const ROW_BLEED: f32 = 8.0;
 /// Pickers: the selection's inset in the track, and each choice's padding.
 /// Side by side, the theme and idle look pickers may close their choices up
-/// to SEG_PAD_MIN to fit their columns (the Pill theme's five idle looks at
-/// the default width).
+/// to SEG_PAD_MIN to fit their columns (the five themes, and the Pill
+/// theme's five idle looks, at the default width).
 const SEG_INSET: f32 = 2.0;
 const SEG_PAD: f32 = 11.0;
 const SEG_PAD_MIN: f32 = 7.5;
@@ -86,7 +86,7 @@ const CHIP_ICON_GAP: f32 = 5.0;
 const CHIP_GAP: f32 = 6.0;
 
 // Glass: on Windows from a copy of the screen, on a Mac macOS's own glass.
-const THEMES: [(Theme, &str); 4] = [(Theme::Classic, "Classic"), (Theme::Oyen, "Oyen"), (Theme::Glass, "Glass"), (Theme::Pill, "Pill")];
+const THEMES: [(Theme, &str); 5] = [(Theme::Classic, "Classic"), (Theme::Oyen, "Oyen"), (Theme::Glass, "Glass"), (Theme::Pill, "Pill"), (Theme::Diorama, "Diorama")];
 
 /// An idle look's name in the picker (`eyes` is Oyen in his theme).
 fn idle_name(s: IdleStyle, eyes: &'static str) -> &'static str {
@@ -97,6 +97,13 @@ fn idle_name(s: IdleStyle, eyes: &'static str) -> &'static str {
         IdleStyle::Hidden => "Hidden",
         IdleStyle::Status => "Status",
     }
+}
+
+/// The idle looks `theme` offers, as the picker names them.
+fn idle_names(theme: Theme) -> Vec<&'static str> {
+    // In the Oyen theme the eyes are Oyen's own (as in the tray menu).
+    let eyes = if theme == Theme::Oyen { "Oyen" } else { "Eyes" };
+    status::looks(theme).iter().map(|s| idle_name(*s, eyes)).collect()
 }
 
 /// The switches, as the tray menu names them.
@@ -166,15 +173,13 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let theme_names: Vec<&str> = THEMES.iter().map(|t| t.1).collect();
     let theme_sel = THEMES.iter().position(|t| t.0 == st.settings.theme).unwrap_or(0);
     let looks = status::looks(st.settings.theme);
-    // In the Oyen theme the eyes are Oyen's own (as in the tray menu).
-    let eyes = if st.settings.theme == Theme::Oyen { "Oyen" } else { "Eyes" };
-    let look_names: Vec<&str> = looks.iter().map(|s| idle_name(*s, eyes)).collect();
+    let look_names = idle_names(st.settings.theme);
     let look_sel = looks.iter().position(|s| *s == status::shown(st.settings.theme, st.settings.idle_style)).unwrap_or(0);
     // Side by side under their labels when both fit their columns, each
     // closed up only as far as it needs; else a row each. Whether they fit is
-    // asked of this theme's own looks, so Classic, Oyen and Glass sit side by
-    // side exactly where they always did (at a narrow island picking Pill,
-    // with its fifth look, can stack them).
+    // asked of the five themes and of this theme's own looks: at the default
+    // width both do in every theme, and an island narrower than about 560
+    // gives each a row, where every name has its room.
     let theme_pad = pad_to_fit(ui, &theme_names, col_w);
     let side_by_side = theme_pad >= SEG_PAD_MIN && pad_to_fit(ui, &look_names, col_w) >= SEG_PAD_MIN;
     let (theme_pick, look_pick) = if side_by_side {
@@ -714,4 +719,44 @@ pub(crate) fn draw_switch(c: &mut crate::gfx::Canvas, r: Rect, on: bool, accent:
     let d = r.h - 2.0 * KNOB_INSET;
     let x = if on { r.right() - KNOB_INSET - d / 2.0 } else { r.x + KNOB_INSET + d / 2.0 };
     c.fill_circle(Point::new(x, r.center().y), d / 2.0, palette::ON_ACCENT);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Where a theme comes in the picker. No `_` arm: a theme added to the
+    /// enum stops this compiling until it has a place, and then the test
+    /// below asks the picker for it.
+    fn place(t: Theme) -> usize {
+        match t {
+            Theme::Classic => 0,
+            Theme::Oyen => 1,
+            Theme::Glass => 2,
+            Theme::Pill => 3,
+            Theme::Diorama => 4,
+        }
+    }
+
+    #[test]
+    fn the_theme_picker_has_every_theme_by_its_name() {
+        assert_eq!(THEMES.map(|t| t.1), ["Classic", "Oyen", "Glass", "Pill", "Diorama"]);
+        for (i, (theme, name)) in THEMES.iter().enumerate() {
+            assert_eq!(place(*theme), i, "{name}");
+        }
+    }
+
+    #[test]
+    fn the_idle_look_picker_names_each_themes_own_looks() {
+        for theme in [Theme::Classic, Theme::Glass, Theme::Diorama] {
+            assert_eq!(idle_names(theme), ["Clock", "Eyes", "Minimal", "Hidden"], "{theme:?}");
+        }
+        // In his theme the eyes are Oyen's own, and the status bar is Pill's.
+        assert_eq!(idle_names(Theme::Oyen), ["Clock", "Oyen", "Minimal", "Hidden"]);
+        assert_eq!(idle_names(Theme::Pill), ["Clock", "Eyes", "Minimal", "Hidden", "Status"]);
+        // A name for every look a theme offers, one choice each.
+        for (theme, _) in THEMES {
+            assert_eq!(idle_names(theme).len(), status::looks(theme).len(), "{theme:?}");
+        }
+    }
 }

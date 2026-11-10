@@ -130,9 +130,12 @@ pub fn menu_items(s: &Settings, pinned: bool, oyenza: &OyenzaLink, recorder: boo
         item("Advanced settings…", MenuCmd::ShowSettings, false),
         MenuItem::Separator,
         item("Keep island open", MenuCmd::TogglePinned, pinned),
-        MenuItem::Sub { label: "Theme".into(), items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen), theme("Glass", Theme::Glass), theme("Pill", Theme::Pill)] },
+        MenuItem::Sub {
+            label: "Theme".into(),
+            items: vec![theme("Classic", Theme::Classic), theme("Oyen", Theme::Oyen), theme("Glass", Theme::Glass), theme("Pill", Theme::Pill), theme("Diorama", Theme::Diorama)],
+        },
         // The status bar is listed only in Pill, as on the Settings page: the
-        // other themes would draw the clock for it.
+        // other themes would draw the clock for it (Diorama its picture).
         MenuItem::Sub { label: "Idle look".into(), items: crate::pill::status::looks(s.theme).iter().map(|l| style(*l)).collect() },
         MenuItem::Separator,
         item("Synced lyrics", MenuCmd::ToggleLyrics, s.lyrics),
@@ -407,12 +410,58 @@ mod tests {
         assert_eq!(idle_choices(&pill).last(), Some(&("Status bar".to_string(), true)));
         // Another theme draws the clock for the status bar: Clock is checked,
         // and Status comes back with Pill.
-        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass] {
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Diorama] {
             let s = Settings { theme, ..pill.clone() };
             let choices = idle_choices(&s);
             assert_eq!(choices.len(), 4, "{theme:?}");
             assert_eq!(choices[0], ("Clock".to_string(), true), "{theme:?}");
             assert!(choices.iter().skip(1).all(|c| !c.1), "{theme:?}");
+            assert!(choices.iter().all(|c| c.0 != "Status bar"), "{theme:?}");
+        }
+        // Diorama's looks by name: its picture with the time, Pill's eyes,
+        // the picture alone, and nothing until the pointer comes.
+        let diorama = Settings { theme: Theme::Diorama, idle_style: IdleStyle::Minimal, ..Settings::default() };
+        assert_eq!(idle_choices(&diorama), [("Clock".to_string(), false), ("Eyes".to_string(), false), ("Minimal".to_string(), true), ("Hidden until hover".to_string(), false)]);
+    }
+
+    /// Where a theme comes in the menu. No `_` arm: a theme added to the
+    /// enum stops this compiling until it has a place, and then the test
+    /// below asks the menu for it.
+    fn place(t: Theme) -> usize {
+        match t {
+            Theme::Classic => 0,
+            Theme::Oyen => 1,
+            Theme::Glass => 2,
+            Theme::Pill => 3,
+            Theme::Diorama => 4,
+        }
+    }
+
+    fn theme_choices(s: &Settings) -> Vec<(String, MenuCmd, bool)> {
+        let items = menu_items(s, false, &OyenzaLink::Off, false, UpdateLine::None);
+        let Some(MenuItem::Sub { items, .. }) = items.into_iter().find(|i| matches!(i, MenuItem::Sub { label, .. } if label == "Theme")) else {
+            panic!("no theme submenu");
+        };
+        items
+            .into_iter()
+            .filter_map(|i| match i {
+                MenuItem::Item { label, cmd, checked } => Some((label, cmd, checked)),
+                _ => None,
+            })
+            .collect()
+    }
+
+    #[test]
+    fn the_theme_submenu_has_every_theme_and_checks_the_one_in_use() {
+        let names = ["Classic", "Oyen", "Glass", "Pill", "Diorama"];
+        let choices = theme_choices(&Settings::default());
+        assert_eq!(choices.iter().map(|c| c.0.as_str()).collect::<Vec<_>>(), names);
+        for (i, (label, cmd, _)) in choices.iter().enumerate() {
+            let MenuCmd::SetTheme(theme) = *cmd else { panic!("{label} doesn't set a theme") };
+            assert_eq!(place(theme), i, "{label}");
+            // Picked, it is the one checked.
+            let checked: Vec<bool> = theme_choices(&Settings { theme, ..Settings::default() }).into_iter().map(|c| c.2).collect();
+            assert_eq!(checked, (0..names.len()).map(|j| j == i).collect::<Vec<_>>(), "{label}");
         }
     }
 
