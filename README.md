@@ -277,7 +277,7 @@ Diorama is Pill with a picture in its resting capsule: a long, small window onto
 - **The time** is written in the sky between the house and the tree, 12- or 24-hour as you've set it. On a laptop, a bolt stands beside it while the battery charges, and a red battery at 20% or less. Pick **Idle look › Minimal** for the place without the clock.
 - **Your own sunrise and sunset.** With the [Prayer times](#add-ons) add-on on and a place picked, the sun rises and sets when it does there. Otherwise it rises at six and sets at six.
 - **On a MacBook with a notch**, the resting pill floats just below the notch instead of hiding in it, and stays where you drag it along the top edge.
-- **The whole island matches.** The open card, the music pill, timers, pop-ups and notices are the same raised frame round a pane: cream with slate ink by day, indigo with cream ink and the lamp's gold at night, in the Outfit typeface. They change with the ball.
+- **The whole island matches.** The open card, the music pill, timers, pop-ups and notices are the same raised frame round a pane: cream with slate ink by day, indigo with cream ink and the window's gold at night, in the Outfit typeface. They change with the ball.
 - **What it costs:** the picture is painted once a minute, with the tick the clock already wakes for, and nothing runs in between. The ball's roll draws frames for about a second and a half; a slide draws one each time the pointer moves.
 
 Everything else works as in Pill: music, timers, pop-ups, notices and the open card, with the same pages and sizes.
