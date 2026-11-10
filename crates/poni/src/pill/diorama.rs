@@ -109,6 +109,13 @@ pub fn shows(st: &AppState) -> bool {
     st.settings.theme == Theme::Diorama && st.settings.idle_style != IdleStyle::Hidden
 }
 
+/// The theme shows its night: the glass ball rests on the tree, where the
+/// sun being down puts it. The open card, the pop-ups and every other pill
+/// of the theme take its night look then, and its day look otherwise.
+pub fn night(st: &AppState) -> bool {
+    moment(st).night()
+}
+
 /// The time is written in the picture's sky: for the clock (and the status
 /// bar, which is the Pill theme's own); not for Minimal (or Eyes).
 fn timed(st: &AppState) -> bool {
