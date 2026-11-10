@@ -3522,7 +3522,7 @@ impl App {
 
     fn refresh_time(&mut self) {
         self.st.now = clock::mono();
-        self.st.local = clock::local_now();
+        self.st.local = clock::local_shown();
         self.st.unix = clock::unix_now();
     }
 
@@ -5414,6 +5414,13 @@ impl App {
 
     pub fn selftest_settled(&self) -> bool {
         self.island.settled() && self.target_mode() == self.mode && self.page_anim.is_none() && self.outgoing.is_none() && !self.glass_moving
+    }
+
+    /// Self-test: the frame just drawn left the frame clock running, so
+    /// something moves or asked for more frames (false = the app rests,
+    /// drawing nothing until an event or a timer wakes it).
+    pub fn selftest_frames_wanted(&self) -> bool {
+        self.clock.active()
     }
 
     /// Self-test, Glass theme: `px` (BGRA, the window's size) is what's under
