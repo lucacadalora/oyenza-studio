@@ -41,7 +41,7 @@ Point at the island or click it to open it, then scroll over the header to switc
 - Tasks: a tiny to-do list
 - Clipboard: recent copied text, kept in memory only
 - Today: the date and calendar, plus CPU, memory, disk and battery
-- Add-ons (the + at the end of the tabs): extra features that download only when you switch them on. The first is Prayer times: today's times for your city, from Kemenag RI in Indonesia (Umm al-Qura in Makkah, Madinah and Jeddah) and by the method each country follows elsewhere, a countdown before each prayer, and a tone or the adzan when it's time
+- Add-ons (the + at the end of the tabs): extra features that download only when you switch them on. The first is Prayer times: today's times for your city, from Kemenag RI in Indonesia (Umm al-Qura in Makkah, Madinah and Jeddah) and by the method each country follows elsewhere, a countdown before each prayer, and a tone or the adzan when it's time. Caffeine is built in, with nothing to download: add what you drink, by its shots or by the cup, and see how much caffeine is still in you hour by hour, with the day's last call for coffee and a reminder before it. Your drinks stay on your PC
 
 Native and light: no web view, no account, and no CPU use while nothing moves. Your data stays on your PC.
 
@@ -60,6 +60,7 @@ First release in the Microsoft Store.
 - A tiny to-do list
 - Clipboard history kept in memory only
 - Prayer times as an optional add-on: Kemenag RI's times for your city in Indonesia, any city's elsewhere, a countdown and the adzan
+- Caffeine as an optional add-on: add what you drink by its shots or by the cup, see how much is still in you at bedtime, and get a reminder before your last coffee
 - Phone drop: send photos and files from your phone to the Shelf, or Shelf files to your phone, over your Wi-Fi
 - Paired phones: pair a phone once, then send to the Shelf from any network
 - Volume, charging and Bluetooth headset pop-ups with battery level
