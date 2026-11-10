@@ -407,6 +407,11 @@ pub fn left_by_hand(st: &AppState) -> Option<bool> {
     LEFT.with(|l| l.get()).filter(|l| l.holds(now)).map(|l| l.night)
 }
 
+/// In thousandths: the eye sees no finer, and a settled ball is exact.
+fn thousandths(v: f32) -> f32 {
+    (v * 1000.0).round() / 1000.0
+}
+
 /// Where the glass ball is in the picture drawn at `at` (the resting pill
 /// `rest`, centred in it), `lens` of the way across: the square end it
 /// fills, which takes the pointer.
@@ -454,8 +459,6 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
     // The time in its sky (and the badge) are the clock's, now.
     pic.clock = m.clock;
     pic.badge = m.badge;
-    // In thousandths: the eye sees no finer, and a settled ball is exact.
-    let thousandths = |v: f32| (v * 1000.0).round() / 1000.0;
     pic.lens = thousandths(pic.lens);
     pic.dark = pic.dark.map(thousandths);
     let m = pic;

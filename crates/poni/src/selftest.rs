@@ -3951,7 +3951,7 @@ impl SelfTest {
         clock::hold(Some(t0 + 0.45));
         let night = Moment { dark: None, ..before.moment.slid(1.0) };
         let (night_wants, at_night, _) = look(app, &night);
-        let theme_night = crate::pill::diorama::night(&app.st);
+        let theme_night = crate::pill::diorama::night(&app.st) && crate::pill::diorama::left_by_hand(&app.st) == Some(true);
         checks.push(check(
             "diorama-slid",
             rolls_on && !night_wants && theme_night && picture_ok(at_night),
