@@ -93,7 +93,7 @@ On a desktop, **Power** shows what the whole PC draws: split into the CPU, the g
 
 The island is black by default, like the one on a phone. **Oyen** turns it warm cream, and Oyen the cat moves in: he peeks over the edge, follows your pointer and sleeps from midnight to five. **Glass** bends and frosts whatever is behind it, after Apple's Liquid Glass; on a Mac it's macOS's own glass. **Pill**, new in 0.1.21, changes the shape: the island floats just below the top of the screen as a black capsule, with the time and battery at rest, the song and the line being sung while music plays, and a rounded card when it opens. **Diorama**, new in 0.2.27, is Pill with a picture in its resting capsule: a small window onto a pixel-art place, a house, a tree and a sky that follows your clock from dawn to night.
 
-<p align="center"><img src="docs/brand/readme/themes.webp" width="880" alt="The Music page in Classic, in the Oyen theme, in the Glass theme over a light and a dark page, and in the Pill theme as a card floating below the top edge, beside Pill's capsule while music plays"></p>
+<p align="center"><img src="docs/brand/readme/themes.webp" width="880" alt="The Music page in Classic, in the Oyen theme, in the Glass theme over a light and a dark page, in the Pill theme as a card floating below the top edge, beside Pill's capsule while music plays, and the Diorama theme's resting pill by day and at night: a pixel-art house and tree under a blue sky, then under the moon and stars"></p>
 
 [The Oyen theme](#the-oyen-theme) &nbsp;·&nbsp; [The Glass theme](#the-glass-theme) &nbsp;·&nbsp; [The Pill theme](#the-pill-theme) &nbsp;·&nbsp; [The Diorama theme](#the-diorama-theme)
 
