@@ -26,8 +26,8 @@ edge, so its pictures keep that gap above the island:
     python3 tools/site_shots.py out-pill pill
 
 The Diorama theme is Pill's island with a picture as its resting pill, so
-only that pill is cut (DIORAMA_KEEP: in the morning, at the golden hour and
-at night). A Diorama run takes those pictures after its scenes, each at a set
+only that pill is cut (DIORAMA_KEEP: at dawn, in the morning, at the golden
+hour and at night). A Diorama run takes those pictures after its scenes, each at a set
 time of day whenever the run is (diorama-<what>.png, no number), and with
 PONI_SELFTEST_DIORAMA=only it takes them alone, in a few seconds. They go
 into site/assets/shots/diorama/<what>.webp with the gap above them, like
@@ -139,10 +139,10 @@ MAC_PILL_KEEP = {"idle-clock", "media-activity", "volume-hud", "page-media", "pa
 MAC_PILL_STRIP = (840, 216)
 # Resting states the page shows at twice their size, cut from a 400 % run.
 ZOOM_KEEP = {"idle-clock", "media-activity", "media-lyric", "timer-activity", "volume-hud", "bluetooth-hud", "prayer-countdown", "oyenza-money", "game-stats"}
-# Diorama: its resting pill by day, at the golden hour and at night, from the pictures a Diorama run
-# takes at set times (diorama-morning.png is 10:08, diorama-golden-hour.png 17:40, diorama-night.png
-# 21:30). Everything else it shows is Pill's.
-DIORAMA_KEEP = {"morning", "golden-hour", "night"}
+# Diorama: its resting pill at dawn, by day, at the golden hour and at night, from the pictures a
+# Diorama run takes at set times (diorama-dawn.png is 06:10, diorama-morning.png 10:08,
+# diorama-golden-hour.png 17:40, diorama-night.png 21:30). Everything else it shows is Pill's.
+DIORAMA_KEEP = {"dawn", "morning", "golden-hour", "night"}
 
 
 def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:
