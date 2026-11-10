@@ -539,6 +539,8 @@ pub struct App {
     updater: Option<crate::updates::Updater>,
     /// Prayer times' adzan, while it plays.
     adzan: services::adzan::AdzanPlayer,
+    /// Caffeine's reminder before last call: its minute and the day it showed.
+    last_call: crate::last_call::Reminder,
     motion: Option<MotionStats>,
     motion_name: &'static str,
     motions_logged: u32,
@@ -569,6 +571,8 @@ pub struct App {
     /// what stopping it gave.
     smoke_notes: Option<Result<(services::notes::Recording, bool, bool), poni_core::notes::CaptureIssue>>,
     smoke_notes_stop: Option<(bool, String)>,
+    /// The Caffeine steps: the drinks in the log before the one they add.
+    smoke_drinks: Option<usize>,
     /// The island floated on the last frame (Pill letting go of the notch).
     was_floating: bool,
     /// The port Oyenza Studio Recorder writes to (`services::recorder`).
@@ -694,6 +698,7 @@ impl App {
             usage_watch: services::usage::Watch::default(),
             updater: None,
             adzan: Default::default(),
+            last_call: Default::default(),
             motion: None,
             motion_name: "morph",
             motions_logged: 0,
@@ -711,6 +716,7 @@ impl App {
             smoke_mic_stop: None,
             smoke_notes: None,
             smoke_notes_stop: None,
+            smoke_drinks: None,
             was_floating: false,
             rec_port: None,
             rec_alive_at: 0.0,
@@ -953,6 +959,11 @@ impl App {
             consider(ends_at + 0.005);
         }
         if let Some(t) = activities::next_wake(&self.mode, &self.st) {
+            consider(t);
+        }
+        // Caffeine's reminder comes on its minute, the island asleep or not
+        // (one wake a day at most).
+        if let Some(t) = self.last_call.wake(&self.st) {
             consider(t);
         }
         if let Mode::Expanded(p) = self.mode {
@@ -3605,6 +3616,12 @@ impl App {
         }
         self.script_held = held;
         self.prayer_tick();
+        // Caffeine's reminder before last call waits for the island the same
+        // way, behind a prayer's notice, which doesn't wait.
+        let here = !(self.away.0 || self.away.1) && !self.expanded && !self.fullscreen_hidden;
+        if self.last_call.tick(&mut self.st, here) {
+            self.request_frame();
+        }
         self.ielts_tick();
         self.notes_tick();
         self.check_recorder_alive(false);
@@ -3615,6 +3632,7 @@ impl App {
             PageKind::System => !self.st.system_on(),
             PageKind::Health => !self.st.health_on(),
             PageKind::Stocks => !self.st.stocks_on(),
+            PageKind::Caffeine => !self.st.caffeine_on(),
             PageKind::Record => !self.st.record_on(),
             PageKind::Ielts => !self.st.ielts_on(),
             PageKind::Downloads => !self.st.downloader_on(),
@@ -4213,6 +4231,30 @@ impl App {
                 self.st.settings.set_addon(PRAYER_TIMES.id, false);
                 self.st.cmds.push(Command::SaveSettings);
             }
+            // Caffeine from the Add-ons tab (built in: nothing downloads),
+            // then its tab, a drink in its log and off again. The drink is a
+            // 2-shot Americano at the minute the Mac's clock shows; data.json
+            // saves it.
+            "caffeine-on" => {
+                self.st.settings.set_addon(poni_core::addons::CAFFEINE.id, true);
+                self.st.cmds.push(Command::SaveSettings);
+            }
+            "caffeine-page" => {
+                self.set_page(PageKind::Caffeine);
+                self.expand();
+            }
+            "caffeine-add" => {
+                use poni_core::caffeine::{local_minute, Bean, Drink, Kind};
+                self.smoke_drinks = Some(self.st.store.caffeine.drinks.len());
+                let (kind, amount, bean) = (Kind::Americano, 2, Bean::Arabica);
+                let at = local_minute(&clock::local_now());
+                self.st.store.caffeine.add(Drink { id: 0, at, kind, amount, bean: Some(bean), mg: kind.mg(amount, bean), name: String::new() });
+                self.st.cmds.push(Command::SaveStore);
+            }
+            "caffeine-off" => {
+                self.st.settings.set_addon(poni_core::addons::CAFFEINE.id, false);
+                self.st.cmds.push(Command::SaveSettings);
+            }
             // A plain window goes full screen in a Space of its own (a second
             // copy of the app): with Hide, macOS leaves the island on the
             // desktop's Space, and the island knows.
@@ -4577,6 +4619,13 @@ impl App {
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
             "prayer-locate" => self.st.prayer.locate != Locate::Asking || waited > 6.0,
             "prayer-off" => (self.st.addon(PRAYER_TIMES.id) == AddonStatus::Off && !prayer_folder().exists() && self.addons.is_none()) || waited > 10.0,
+            // Built in, Caffeine is on as soon as it's switched on; off, its
+            // tab goes and the island moves to Add-ons.
+            "caffeine-on" => self.st.caffeine_on() || waited > 3.0,
+            "caffeine-page" => (self.expanded && self.st.page == PageKind::Caffeine && waited > 0.6) || waited > 4.0,
+            // data.json is saved 800 ms after a change (`Command::SaveStore`).
+            "caffeine-add" => waited > 1.2,
+            "caffeine-off" => (!self.st.caffeine_on() && self.st.page != PageKind::Caffeine) || waited > 4.0,
             "headphones" => self.smoke_devices.as_ref().is_some_and(|(before, _)| services::audio::list_changes() > *before) || waited > 4.0,
             "fullscreen-hide" => self.fullscreen_hidden || waited > 12.0,
             "fullscreen-stay" => (!self.fullscreen_hidden && window::is_shown() && waited > 1.0) || waited > 6.0,
@@ -4624,6 +4673,29 @@ impl App {
             self.on_pointer(Point::new(from + step - self.win.0, p.y));
         }
         let _ = self.on_view_input(ViewInput::Up { x: from + dx - self.win.0, y: p.y });
+    }
+
+    /// Page `p` drawn alone offscreen as the window draws it (in this look,
+    /// at the window's scale), on the island's ground: how many of its pixels
+    /// stand clearly apart from that ground, as the Windows self-test counts
+    /// content pixels. An empty page has none.
+    fn smoke_page_pixels(&mut self, p: PageKind) -> usize {
+        let scale = self.gfx.scale();
+        let area = Rect::new(0.0, 0.0, self.st.settings.expanded_width - 2.0 * pages::PAD, pages::content_height(p, &self.st));
+        let Some(bmp) = crate::gfx::Bitmap::new((area.w * scale).ceil() as usize, (area.h * scale).ceil() as usize, scale) else { return 0 };
+        let look = self.look();
+        self.gfx.set_look(look);
+        {
+            let mut c = self.gfx.canvas(bmp.ctx());
+            c.fill_rect(area, palette::ISLAND);
+            let (mut input, mut hits) = (Input::default(), Vec::new());
+            let now = self.st.now;
+            let mut ui = Ui::new(&mut c, &mut input, &mut hits, now);
+            pages::draw_page(&mut ui, &mut self.st, area, p);
+        }
+        // Premultiplied BGRA, opaque on the ground.
+        let ground = [look.ground.b, look.ground.g, look.ground.r].map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8);
+        bmp.pixels().as_chunks::<4>().0.iter().filter(|px| px[3] >= 200 && px[..3].iter().zip(ground).any(|(&a, b)| a.abs_diff(b) >= 140)).count()
     }
 
     /// The Pill theme on the real window: where the island sits, and which
@@ -4680,8 +4752,9 @@ impl App {
         )
     }
 
-    /// What each new part of the app did on a real Mac.
-    fn smoke_check(&self, name: &str) -> Option<(&'static str, bool, String)> {
+    /// What each new part of the app did on a real Mac (mutable: a page is
+    /// drawn offscreen for some).
+    fn smoke_check(&mut self, name: &str) -> Option<(&'static str, bool, String)> {
         let gib = |b: u64| b as f64 / (1u64 << 30) as f64;
         match name {
             "settings-window" => {
@@ -5023,6 +5096,53 @@ impl App {
                 let tab = pages::tabs(&self.st).contains(&PageKind::Prayer);
                 let ok = status == AddonStatus::Off && gone && self.st.prayer.places.is_none() && !tab && self.addons.is_none();
                 Some(("prayer-off", ok, format!("{status:?}; files {}; Prayer tab: {tab}", if gone { "deleted" } else { "still there" })))
+            }
+            // Built in, so switching it on starts nothing: no download, and
+            // the add-ons' downloader (stopped with Prayer times) stays so.
+            "caffeine-on" => {
+                let addon = &poni_core::addons::CAFFEINE;
+                let status = self.st.addon(addon.id);
+                let tab = pages::tabs(&self.st).contains(&PageKind::Caffeine);
+                let ok = status == AddonStatus::Ready && tab && self.addons.is_none();
+                let downloader = if self.addons.is_none() { "not started" } else { "running" };
+                Some(("caffeine-addon", ok, format!("{}; Caffeine tab: {tab}; add-ons' downloader {downloader}", status.line(addon, true))))
+            }
+            // Open at the page's size, and the page drew: drawn alone
+            // offscreen, an empty page has no content pixels.
+            "caffeine-page" => {
+                let lit = self.smoke_page_pixels(PageKind::Caffeine);
+                let (g, want) = (self.island.current(), self.geom_for(&Mode::Expanded(PageKind::Caffeine)));
+                let tabs = pages::tabs(&self.st);
+                let sized = (g.w - want.w).abs() < 0.5 && (g.h - want.h).abs() < 0.5;
+                let ok = self.mode == Mode::Expanded(PageKind::Caffeine) && tabs.contains(&PageKind::Caffeine) && sized && lit >= 20;
+                let d = format!("{:?} at {:.0}x{:.0} DIP (the page's {:.0}x{:.0}), {} tabs; {lit} content pixels in the page drawn alone", self.mode, g.w, g.h, want.w, want.h, tabs.len());
+                Some(("caffeine-page", ok, d))
+            }
+            // The drink is in the log and today's count, data.json (saved a
+            // moment later) holds the same log, and the page draws it.
+            "caffeine-add" => {
+                use poni_core::caffeine::{local_minute, Today};
+                let lit = self.smoke_page_pixels(PageKind::Caffeine);
+                let before = self.smoke_drinks.unwrap_or(0);
+                let log = &self.st.store.caffeine;
+                let today = Today::of(log, &self.st.settings.caffeine, local_minute(&clock::local_now()));
+                let (saved, _): (Store, _) = load_json(&paths::store_path());
+                let kept = saved.caffeine == *log;
+                let ok = log.drinks.len() == before + 1 && today.count >= 1 && kept && lit >= 20;
+                let d = format!(
+                    "{before} -> {} drinks in the log; today {} drinks, {:.0} mg; data.json holds them: {kept}; {lit} content pixels in the page drawn alone",
+                    log.drinks.len(),
+                    today.count,
+                    today.total_mg
+                );
+                Some(("caffeine-drink", ok, d))
+            }
+            "caffeine-off" => {
+                let status = self.st.addon(poni_core::addons::CAFFEINE.id);
+                let tab = pages::tabs(&self.st).contains(&PageKind::Caffeine);
+                let ok = status == AddonStatus::Off && !tab && self.st.page != PageKind::Caffeine && self.mode != Mode::Expanded(PageKind::Caffeine);
+                let d = format!("{status:?}; Caffeine tab: {tab}; {:?}; {} drinks in the log", self.mode, self.st.store.caffeine.drinks.len());
+                Some(("caffeine-off", ok, d))
             }
             "fullscreen-hide" => {
                 let ok = self.front_full_screen && self.fullscreen_hidden && !window::is_shown();
@@ -5587,7 +5707,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 86] = [
+const SMOKE_STEPS: [&str; 90] = [
     "idle",
     "hover",
     "open-focus",
@@ -5643,6 +5763,10 @@ const SMOKE_STEPS: [&str; 86] = [
     "prayer-stop",
     "prayer-locate",
     "prayer-off",
+    "caffeine-on",
+    "caffeine-page",
+    "caffeine-add",
+    "caffeine-off",
     "fullscreen-hide",
     "fullscreen-stay",
     "fullscreen-back",

@@ -364,6 +364,9 @@ pub struct PageUiState {
     pub peek: poni_core::peek::Peek,
     /// The Stocks page: its scroll, search, edit mode and chart animation.
     pub stocks: crate::pages::stocks::StocksUi,
+    /// The Caffeine page: the drink picked, a drag, the list's scroll, Add
+    /// a drink while it's open, and the chart kept with its painted dots.
+    pub caffeine: crate::pages::caffeine::CaffeineUi,
     /// The Downloads page: its link field, mode and scroll.
     pub downloads: crate::pages::downloads::DownloadsUi,
     /// The AI tab's own state while it shows (`pages::usage`).
@@ -927,6 +930,9 @@ impl AppState {
         };
         // A list from a hand-edited file keeps to codes, each once, ten at most.
         st.store.stocks.tidy();
+        // Drinks in time order, each with its own id (old ones go when one is
+        // added, with the real time).
+        st.store.caffeine.mend();
         // On ones start by checking their files (the worker reports back);
         // one without files is ready at once.
         for a in poni_core::addons::ALL {
@@ -941,6 +947,7 @@ impl AppState {
             PageKind::System => !st.system_on(),
             PageKind::Health => !st.health_on(),
             PageKind::Stocks => !st.stocks_on(),
+            PageKind::Caffeine => !st.caffeine_on(),
             PageKind::Downloads => !st.downloader_on(),
             PageKind::Record => !st.record_on(),
             PageKind::Notifications => !st.notifications_on(),
@@ -1012,6 +1019,12 @@ impl AppState {
     /// for only while the page is on screen).
     pub fn stocks_on(&self) -> bool {
         self.addon(poni_core::addons::STOCKS.id) == AddonStatus::Ready
+    }
+
+    /// The Caffeine add-on is on: the Caffeine tab shows, and the island
+    /// reminds of the day's last call.
+    pub fn caffeine_on(&self) -> bool {
+        self.addon(poni_core::addons::CAFFEINE.id) == AddonStatus::Ready
     }
 
     /// The Downloader add-on is on, with its tools in place, for an account

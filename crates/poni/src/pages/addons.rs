@@ -131,6 +131,7 @@ fn icon(a: &Addon) -> Icon {
         "system" => Icon::Gauge,
         "health" => Icon::Steps,
         "stocks" => Icon::Stocks,
+        "caffeine" => Icon::Coffee,
         "notifications" => Icon::Bell,
         "recorder" => Icon::Recorder,
         "downloader" => Icon::Download,

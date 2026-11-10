@@ -197,6 +197,12 @@ enum Scene {
     NotesListening,
     NotesActivity,
     AddonsPro,
+    /// The Caffeine add-on at 15:42 (`seed_caffeine`): the page on a day of
+    /// three drinks, last call past, and on a day with none yet.
+    Caffeine,
+    CaffeineEmpty,
+    /// That day with Add a drink open on a 2-shot es kopi susu (`pages::caffeine::picture`).
+    CaffeineAdd,
     /// The Diorama theme's resting pill, in that theme only: its picture
     /// at one of a day's hours, or in another of its shapes (`Rest`).
     /// Around a notch it floats below the menu bar.
@@ -349,6 +355,8 @@ const DIORAMA_NIGHT_SCENES: [Scene; 4] = [Scene::Page(PageKind::Media), Scene::P
 /// The night's hour and minute.
 const DIORAMA_NIGHT: (u8, u8) = (21, 30);
 
+/// The Caffeine page, after Meeting notes (so every other picture keeps its number).
+const CAFFEINE_SCENES: [Scene; 3] = [Scene::Caffeine, Scene::CaffeineEmpty, Scene::CaffeineAdd];
 /// The Diorama theme's resting pill, in that theme only, after the peek
 /// strip's number (which a run without a notch leaves free), so every other
 /// picture keeps its number.
@@ -363,6 +371,15 @@ const DIORAMA_SCENES: [Scene; 9] = [
     Scene::Diorama(Rest::Hover),
     Scene::Diorama(Rest::Slide),
 ];
+
+/// What every theme draws after Pill's pictures, in its order: the Japanese
+/// song, the Add-ons tab, Prayer times, Settings, the headphone pop-up,
+/// Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update
+/// sheet, Record, the AI tab, IELTS, the Downloader, Meeting notes and Caffeine.
+fn later_scenes() -> impl Iterator<Item = Scene> {
+    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES).chain(DOWNLOAD_SCENES).chain(NOTES_SCENES).chain(CAFFEINE_SCENES);
+    JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later)
+}
 
 impl Scene {
     fn name(self) -> String {
@@ -425,6 +442,9 @@ impl Scene {
             Scene::NotesListening => "page-notes-listening".into(),
             Scene::NotesActivity => "notes-activity".into(),
             Scene::AddonsPro => "page-addons-pro".into(),
+            Scene::Caffeine => "page-caffeine".into(),
+            Scene::CaffeineEmpty => "page-caffeine-empty".into(),
+            Scene::CaffeineAdd => "page-caffeine-add".into(),
             Scene::Diorama(r) => r.name().into(),
         }
     }
@@ -495,11 +515,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // The Japanese song, the Add-ons tab, Prayer times, Settings, the headphone pop-up, Oyenza, Power, Today signed in, Prayer times abroad, Stocks, the Update sheet, Record, the AI tab, IELTS and the Downloader in every theme, after Pill's.
+    // The Japanese song to Caffeine (`later_scenes`) in every theme, after Pill's.
     let first = SCENES.len() + SYSTEM_SCENES.len() + 2 + PILL_SCENES.len();
     let mut next = first;
-    let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES).chain(DOWNLOAD_SCENES).chain(NOTES_SCENES);
-    for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
+    for (k, scene) in later_scenes().enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
         match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), None, &path) {
             Ok(()) => println!("render: {}", path.display()),
@@ -565,7 +584,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
 /// top (the website's full-screen chapter). Each is (section, light, Stay on top).
 fn settings_shots() -> Vec<(crate::settings_window::Section, bool, bool)> {
     use crate::settings_window::Section;
-    let mut v: Vec<_> = Section::ALL.into_iter().filter(|s| *s != Section::Prayer).map(|s| (s, false, false)).collect();
+    let mut v: Vec<_> = Section::ALL.into_iter().filter(|s| !matches!(s, Section::Prayer | Section::Caffeine)).map(|s| (s, false, false)).collect();
     v.extend([(Section::General, true, false), (Section::Appearance, true, false), (Section::Island, false, true)]);
     v
 }
@@ -917,6 +936,31 @@ fn seed_downloads(st: &mut AppState) {
 fn health_on(st: &mut AppState) {
     st.settings.set_addon(poni_core::addons::HEALTH.id, true);
     st.addons.insert(poni_core::addons::HEALTH.id, AddonStatus::Ready);
+}
+
+/// The Caffeine add-on switched on, its clock at 15:42 on the pictures' day,
+/// bedtime 23:00 and its other choices as they come. `drinks`: 07:30 a Kopi
+/// sachet, 10:15 an Es kopi susu (2 shots, Blend) and 12:00 an Americano (2
+/// shots, Arabica), 400 mg in all; the usual drink is then that Americano,
+/// so last call (about 12:07) is past. Only the add-on's own data
+/// (`store.caffeine`, `settings.caffeine`), so the page draws them however
+/// it lays them out.
+fn seed_caffeine(st: &mut AppState, drinks: bool) {
+    use poni_core::caffeine::{local_minute, Bean, Drink, Kind, Log, Prefs};
+    st.settings.set_addon(poni_core::addons::CAFFEINE.id, true);
+    st.addons.insert(poni_core::addons::CAFFEINE.id, AddonStatus::Ready);
+    set_clock(st, 15, 42);
+    st.settings.caffeine = Prefs { bedtime: 23 * 60, ..Prefs::default() };
+    st.store.caffeine = Log::default();
+    if !drinks {
+        return;
+    }
+    let midnight = local_minute(&st.local) - st.local.minute_of_day() as i64;
+    let day = [(7, 30, Kind::Sachet, 1, None), (10, 15, Kind::KopiSusu, 2, Some(Bean::Blend)), (12, 0, Kind::Americano, 2, Some(Bean::Arabica))];
+    for (hour, minute, kind, amount, bean) in day {
+        let mg = kind.mg(amount, bean.unwrap_or_default());
+        st.store.caffeine.add(Drink { id: 0, at: midnight + hour * 60 + minute, kind, amount, bean, mg, name: String::new() });
+    }
 }
 
 fn base_state(theme: Theme) -> AppState {
@@ -1327,6 +1371,17 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             crate::pages::stocks::picture(&mut st, shows, now);
             st.page = PageKind::Stocks;
             Mode::Expanded(PageKind::Stocks)
+        }
+        Scene::Caffeine | Scene::CaffeineEmpty => {
+            seed_caffeine(&mut st, scene == Scene::Caffeine);
+            st.page = PageKind::Caffeine;
+            Mode::Expanded(PageKind::Caffeine)
+        }
+        Scene::CaffeineAdd => {
+            seed_caffeine(&mut st, false);
+            crate::pages::caffeine::picture(&mut st, crate::pages::caffeine::Picture::Add);
+            st.page = PageKind::Caffeine;
+            Mode::Expanded(PageKind::Caffeine)
         }
         Scene::Record | Scene::RecordLive | Scene::RecordActivity | Scene::RecordPaused | Scene::AddonsRecorder => {
             use poni_core::recorder::Phase as RecPhase;
@@ -1801,4 +1856,44 @@ fn art_sample(u: f32, v: f32) -> [f32; 3] {
         c = if u > 0.34 { mix(paper, rgb(0xD9D2C4), 0.55) } else { paper };
     }
     c
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use poni_core::caffeine::{hhmm, local_minute, Today};
+
+    #[test]
+    fn every_picture_has_a_name_of_its_own() {
+        // A theme's run: the first scenes, Pill's own, every theme's later
+        // ones and Diorama's day (the frame strips name themselves).
+        let mut names = std::collections::BTreeSet::new();
+        for scene in SCENES.into_iter().chain(SYSTEM_SCENES).chain(PILL_SCENES).chain(later_scenes()).chain(DIORAMA_SCENES) {
+            let name = scene.name();
+            assert!(names.insert(name.clone()), "two pictures named {name}");
+        }
+        assert!(names.contains("page-caffeine") && names.contains("page-caffeine-empty"));
+    }
+
+    #[test]
+    fn the_caffeine_pictures_show_their_day_at_15_42() {
+        let mut st = base_state(Theme::Classic);
+        seed_caffeine(&mut st, true);
+        let now = local_minute(&st.local);
+        assert_eq!((st.local.day_key(), hhmm(now)), ("2026-10-24".to_string(), "15:42".to_string()));
+        assert!(pages::tabs(&st).contains(&PageKind::Caffeine));
+        let drinks: Vec<String> = st.store.caffeine.drinks.iter().map(|d| format!("{} {} ({}) {:.0} mg", hhmm(d.at), d.title(), d.detail(), d.mg)).collect();
+        assert_eq!(drinks, ["07:30 Kopi sachet (1 sachet) 40 mg", "10:15 Es kopi susu (2 shots \u{b7} Blend) 210 mg", "12:00 Americano (2 shots \u{b7} Arabica) 150 mg"]);
+        let today = Today::of(&st.store.caffeine, &st.settings.caffeine, now);
+        assert_eq!((today.count, today.total_mg, hhmm(today.bed)), (3, 400.0, "23:00".to_string()));
+        // Last call is worked out for the usual drink, the Americano, and is past.
+        assert_eq!(today.usual.phrase, "a 2-shot Americano");
+        assert!(today.last_call.is_some_and(|call| call > today.start && call < now), "{:?}", today.last_call.map(hhmm));
+        // The empty day: no drinks, the same clock, the tab still there.
+        let mut st = base_state(Theme::Classic);
+        seed_caffeine(&mut st, false);
+        assert!(st.store.caffeine.drinks.is_empty());
+        assert_eq!(hhmm(local_minute(&st.local)), "15:42");
+        assert!(pages::tabs(&st).contains(&PageKind::Caffeine));
+    }
 }

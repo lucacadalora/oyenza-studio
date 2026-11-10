@@ -43,6 +43,8 @@ mod icons;
 #[cfg(any(windows, target_os = "macos"))]
 mod island;
 #[cfg(any(windows, target_os = "macos"))]
+mod last_call;
+#[cfg(any(windows, target_os = "macos"))]
 mod oyen;
 #[cfg(any(windows, target_os = "macos"))]
 mod pages;
