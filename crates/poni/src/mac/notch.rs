@@ -28,6 +28,13 @@
 //! moves on its own spring (island.rs, `pill::motion::TOP`) and the outline
 //! lets go of the edge smoothly ([`detached_segments`]).
 //!
+//! The Diorama theme is Pill's island with a picture in its resting pill,
+//! and inside the notch nobody would see the picture. So where the resting
+//! pill is the picture (`pill::diorama::shows`) it floats under the menu
+//! bar like everything else Pill shows, and stays at the spot it was
+//! dragged to instead of docking in the notch; pointing at the notch still
+//! lifts and opens it. Its Eyes and Hidden looks rest as Pill's do.
+//!
 //! Screens without a notch (older Macs, external displays) show the island
 //! exactly as Windows does.
 
@@ -110,9 +117,12 @@ pub fn fit(m: &Mode, st: &AppState) -> Fit {
 /// pill floats for as long as it shows, so it never jumps up into the
 /// menu bar's line when a song has no line to sing (the intro, a break, a
 /// pause, a song without synced lyrics) and back down at the next one.
+/// Diorama's resting pill floats too where it is the picture, which the
+/// notch would hide.
 fn pill_fit(m: &Mode, st: &AppState) -> Fit {
     match m {
         Mode::Idle if st.settings.idle_style == IdleStyle::Eyes => Fit::Ears,
+        Mode::Idle if pill::diorama::shows(st) => Fit::Below,
         Mode::Idle | Mode::Aside => Fit::Inside,
         Mode::Activity(_) | Mode::Hud(_) | Mode::Notice | Mode::Expanded(_) => Fit::Below,
     }
@@ -426,4 +436,89 @@ fn peek_look(st: &AppState, spot: Point, now: f64) -> Option<(f32, f32)> {
 pub fn peek_key(st: &AppState, n: Notch, now: f64) -> (bool, Option<(f32, f32)>) {
     let (spot, _) = peek_spot(st, n, now);
     (st.ui.peek.left, peek_look(st, spot, now))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::activities::HudTag;
+    use crate::pages::PageKind;
+    use poni_core::datetime::LocalDateTime;
+    use poni_core::settings::{Settings, Theme};
+    use poni_core::store::Store;
+
+    const N: Notch = Notch::MACBOOK;
+    /// A resting pill's size without a notch.
+    const BASE: Geom = Geom::new(120.0, 32.0, 16.0);
+    /// What shows on the closed island, and the open card.
+    const SHOWN: [Mode; 5] = [Mode::Activity(Activity::Media), Mode::Activity(Activity::Timer), Mode::Hud(HudTag::Volume), Mode::Notice, Mode::Expanded(PageKind::Today)];
+
+    fn state(theme: Theme, style: IdleStyle) -> AppState {
+        let mut st = AppState::new(Settings { theme, idle_style: style, ..Settings::default() }, Store::default());
+        st.local = LocalDateTime { year: 2026, month: 11, day: 10, hour: 10, minute: 8, second: 0 };
+        st
+    }
+
+    #[test]
+    fn pill_rests_inside_the_notch_and_floats_what_shows() {
+        for style in [IdleStyle::Clock, IdleStyle::Status, IdleStyle::Minimal, IdleStyle::Hidden] {
+            let st = state(Theme::Pill, style);
+            assert_eq!(fit(&Mode::Idle, &st), Fit::Inside, "{style:?}");
+            assert!(!floats(&Mode::Idle, &st), "{style:?}");
+            assert_eq!(pill_gap(&Mode::Idle, &st, N), None, "{style:?}");
+            // A hair smaller than the notch, whatever the pill's own size.
+            assert_eq!(geom(&Mode::Idle, &st, N, BASE), Geom::new(183.0, 31.0, 16.0), "{style:?}");
+        }
+        for theme in [Theme::Pill, Theme::Diorama] {
+            let st = state(theme, IdleStyle::Clock);
+            for m in SHOWN {
+                assert_eq!(fit(&m, &st), Fit::Below, "{theme:?} {m:?}");
+                assert!(floats(&m, &st), "{theme:?} {m:?}");
+                assert_eq!(pill_gap(&m, &st, N), Some(40.0), "{theme:?} {m:?}");
+                assert_eq!(strip(&m, &st, N), 0.0, "{theme:?} {m:?}");
+            }
+        }
+    }
+
+    #[test]
+    fn dioramas_picture_rests_floating_below_the_menu_bar() {
+        for style in [IdleStyle::Clock, IdleStyle::Status, IdleStyle::Minimal] {
+            let st = state(Theme::Diorama, style);
+            assert_eq!(fit(&Mode::Idle, &st), Fit::Below, "{style:?}");
+            assert!(floats(&Mode::Idle, &st), "{style:?}");
+            assert_eq!(pill_gap(&Mode::Idle, &st, N), Some(N.h + pill::TOP_GAP), "{style:?}");
+            // At the picture's own size, with no strip behind the camera.
+            let rest = pill::diorama::geom(&st).expect("the picture's size");
+            assert_eq!(rest.h, 38.0, "{style:?}");
+            assert_eq!(geom(&Mode::Idle, &st, N, activities::geom(&Mode::Idle, &st)), rest, "{style:?}");
+            assert_eq!(strip(&Mode::Idle, &st, N), 0.0, "{style:?}");
+            let body = Rect::new(100.0, 40.0, rest.w, rest.h);
+            assert_eq!(content_body(&Mode::Idle, &st, N, body), body, "{style:?}");
+        }
+        // The eyes peek out beside the camera and Hidden hides inside it, as in Pill.
+        for theme in [Theme::Pill, Theme::Diorama] {
+            let eyes = state(theme, IdleStyle::Eyes);
+            assert_eq!(fit(&Mode::Idle, &eyes), Fit::Ears, "{theme:?}");
+            assert_eq!(pill_gap(&Mode::Idle, &eyes, N), None, "{theme:?}");
+            assert_eq!(geom(&Mode::Idle, &eyes, N, BASE), Geom::new(N.w + 2.0 * PEEK_EAR, N.h, EARS_R), "{theme:?}");
+            let hidden = state(theme, IdleStyle::Hidden);
+            assert_eq!(fit(&Mode::Idle, &hidden), Fit::Inside, "{theme:?}");
+            assert_eq!(pill_gap(&Mode::Idle, &hidden, N), None, "{theme:?}");
+            assert_eq!(geom(&Mode::Idle, &hidden, N, BASE), Geom::new(N.w - 2.0, N.h - 1.0, N.h / 2.0), "{theme:?}");
+        }
+    }
+
+    #[test]
+    fn a_floating_pill_counts_as_out_even_under_the_pointer() {
+        // Attached, halfway out, and floating below the menu bar.
+        assert_eq!(detach(0.0, Some(N)), 0.0);
+        assert_eq!(detach(19.0, Some(N)), 0.5);
+        assert_eq!(detach(N.h + pill::TOP_GAP, Some(N)), 1.0);
+        // Under the pointer it rises into its gap and is still all the way
+        // out: a resting pill dragged along the top edge keeps its spot.
+        let lifted = pill::motion::hover_lift(Geom::new(100.0, 38.0, 19.0));
+        assert_eq!(detach(N.h + pill::TOP_GAP + lifted.dy, Some(N)), 1.0);
+        // Without a notch, out is as far as the gap.
+        assert_eq!(detach(pill::TOP_GAP + lifted.dy, None), 1.0);
+    }
 }

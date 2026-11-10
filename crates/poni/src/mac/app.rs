@@ -1000,12 +1000,14 @@ impl App {
         }
         if before.theme != self.st.settings.theme {
             self.st.accent = theme_accent(self.st.settings.theme);
+            // The menu ticks the theme and lists its idle looks (the status
+            // bar is Pill's alone, not Diorama's). Around a notch only Pill's
+            // island moves along the top edge (Move island to the centre).
+            self.refresh_menu();
         }
         // The Pill theme's window keeps room for the gap above the island.
-        // Around a notch only Pill moves along the top edge (Move island to the centre).
         if pill::on(before.theme) != pill::on(self.st.settings.theme) {
             self.layout_surface();
-            self.refresh_menu();
         }
         // Hide or Stay on top of full-screen apps (Settings or the menu bar).
         if before.hide_in_fullscreen != self.st.settings.hide_in_fullscreen {
@@ -2184,7 +2186,8 @@ impl App {
     /// middle), or at the spot it was dragged to, moved in just enough to
     /// keep its outline (as wide as it is now) in the window: opening near
     /// the screen's edge, it grows away from the edge. Pill around a notch
-    /// docks at the notch to rest and slides to the spot as it floats.
+    /// docks at the notch to rest and slides to the spot as it floats;
+    /// Diorama's picture rests floating, so it stays at the spot.
     fn place_island(&mut self) {
         let Some(at) = self.laid_spot else {
             self.cx = self.notch_cx;
@@ -4366,6 +4369,15 @@ impl App {
                     self.on_pointer(p);
                 }
             }
+            // Diorama around the notch, on the clock look again: its resting
+            // pill is its picture, so where Pill's hides inside the notch it
+            // floats below the menu bar. The glass ball rolls in as the theme
+            // is picked (smoke_ready waits for it); ja-notify goes back to
+            // Classic.
+            "notch-diorama" => {
+                self.st.settings.idle_style = IdleStyle::Clock;
+                self.on_menu(MenuCmd::SetTheme(Theme::Diorama));
+            }
             // Pill floats below the top edge, open and resting; around the
             // notch it rests inside it and opens below it.
             "pill-open" | "notch-pill-open" => {
@@ -4516,6 +4528,9 @@ impl App {
             },
             // The eyes are out on the camera's other side.
             "notch-eyes" => !self.st.ui.peek.along(clock::mono()).1 || waited > 3.0,
+            // The glass ball has rolled into place: a second and a half from
+            // the theme's first frame.
+            "notch-diorama" => waited > 2.5,
             // The countdown ticks at least once.
             "prayer-page" => waited > 1.5,
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
@@ -4547,12 +4562,6 @@ impl App {
         }
     }
 
-    /// The Pill theme on the real window: where the island sits, and which
-    /// points take the mouse. Without a notch it floats `TOP_GAP` below the
-    /// top edge and the gap above it takes the mouse; around a notch it rests
-    /// inside the notch (the eyes peek out beside it) and the music pill and
-    /// the open card float below it, where the gap and the notch take the
-    /// mouse and the menu bar beside the notch doesn't.
     /// A press on the closed island, a move `dx` DIPs sideways and the
     /// release there, as the view's mouse events bring them: in window DIPs,
     /// each placed for the window as it is (it spans the screen once the
@@ -4567,6 +4576,13 @@ impl App {
         let _ = self.on_view_input(ViewInput::Up { x: from + dx - self.win.0, y: p.y });
     }
 
+    /// The Pill theme on the real window: where the island sits, and which
+    /// points take the mouse. Without a notch it floats `TOP_GAP` below the
+    /// top edge and the gap above it takes the mouse; around a notch it rests
+    /// inside the notch (the eyes peek out beside it) and the music pill and
+    /// the open card float below it, where the gap and the notch take the
+    /// mouse and the menu bar beside the notch doesn't. Diorama's resting
+    /// picture floats there too.
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
         let look = *self.look() == poni_core::look::PILL && !glass::shown();
@@ -4744,6 +4760,15 @@ impl App {
                     notch::peek_key(&self.st, n, clock::mono()).1
                 );
                 Some(("eyes-around-notch", ok, d))
+            }
+            // Diorama's resting pill: floating as Pill's music pill does, at
+            // its picture's size.
+            "notch-diorama" => {
+                let (_, placed, d) = self.pill_report();
+                let g = self.island.current();
+                let sized = pill::diorama::geom(&self.st).is_some_and(|p| (g.w, g.h) == (p.w, p.h));
+                let ok = placed && self.mode == Mode::Idle && sized;
+                Some(("diorama-rests-floating", ok, format!("{d}; its picture's size: {sized}")))
             }
             "music-cost" | "pill-music-cost" => {
                 let c = self.cost;
@@ -5488,7 +5513,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 83] = [
+const SMOKE_STEPS: [&str; 84] = [
     "idle",
     "hover",
     "open-focus",
@@ -5529,6 +5554,7 @@ const SMOKE_STEPS: [&str; 83] = [
     "notch-pill-centre",
     "notch-pill-ear",
     "notch-eyes",
+    "notch-diorama",
     "ja-notify",
     "ja-auto",
     "ja-get",
