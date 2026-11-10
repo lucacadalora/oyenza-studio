@@ -128,7 +128,7 @@ On a MacBook, the island lives around the camera notch: the album art on one sid
 <td align="center" width="25%"><h3>2.4 MB</h3>download on Windows</td>
 <td align="center" width="25%"><h3>Rust</h3>native code, no web view, no runtime</td>
 <td align="center" width="25%"><h3>60–240 Hz</h3>drawn on the GPU, in step with your screen</td>
-<td align="center" width="25%"><h3>0</h3>accounts, ads or analytics</td>
+<td align="center" width="25%"><h3>0</h3>accounts or ads</td>
 </tr>
 </table>
 
@@ -136,7 +136,7 @@ On Windows it draws on your graphics card in step with your display's refresh ra
 
 ## Your data stays on your computer
 
-- **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads and no analytics.
+- **No account, no tracking.** Tasks, the Shelf and focus history are files in your own user folder. There are no ads. The app counts nothing unless you say yes to a weekly count of the tabs and features you use, which never includes your songs, files, links, typing or name ([what's in it](docs/usage-counts.md)).
 - **Your files stay yours.** Phone drop asks before it takes anything and uses your own Wi-Fi. Files from paired phones are encrypted with keys made on the two devices, and the meeting server never sees them.
 - **Little goes online.** Lyrics lookups go to LRCLIB while a song plays, and once an hour the app reads one small file to see whether a new version is out. Apple Music lyrics, Oyenza, paired phones and add-ons connect only after you turn them on, and the AI tab asks your AI services only while it's open or its notices are on. [PRIVACY.md](PRIVACY.md) lists every request.
 

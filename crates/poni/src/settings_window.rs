@@ -295,6 +295,8 @@ pub enum Key {
     PrayerFollow,
     AiNotices,
     AiNear,
+    ShareCounts,
+    SeeCounts,
     SettingsFile,
     DataFolder,
     ReleaseNotes,
@@ -559,23 +561,37 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
             vec![Block::Group(None, rows), Block::Note("Services, keys and the Oyenza Inference connect are on the AI tab.")]
         }
         Section::Oyenza => vec![Block::Account],
-        Section::About => vec![
-            Block::Version,
-            Block::Group(
-                None,
-                vec![
-                    item(Key::ReleaseNotes, "What's new", Some("This version's release notes"), Ctl::Button("Open")),
-                    item(Key::LyricsCredit, "Lyrics", Some("Synced lyrics come from LRCLIB"), Ctl::Button("lrclib.net")),
-                ],
-            ),
-            Block::Group(
-                Some("Files"),
-                vec![
-                    item(Key::SettingsFile, "Settings file", Some("settings.json, the same settings as a file"), Ctl::Button("Open")),
-                    item(Key::DataFolder, "Data folder", Some("Tasks, the Shelf and your Focus history"), Ctl::Button("Open")),
-                ],
-            ),
-        ],
+        Section::About => {
+            let mut blocks = vec![
+                Block::Version,
+                Block::Group(
+                    None,
+                    vec![
+                        item(Key::ReleaseNotes, "What's new", Some("This version's release notes"), Ctl::Button("Open")),
+                        item(Key::LyricsCredit, "Lyrics", Some("Synced lyrics come from LRCLIB"), Ctl::Button("lrclib.net")),
+                    ],
+                ),
+                Block::Group(
+                    Some("Files"),
+                    vec![
+                        item(Key::SettingsFile, "Settings file", Some("settings.json, the same settings as a file"), Ctl::Button("Open")),
+                        item(Key::DataFolder, "Data folder", Some("Tasks, the Shelf and your Focus history"), Ctl::Button("Open")),
+                    ],
+                ),
+            ];
+            // Reports go with the look at the update file, which a Store
+            // copy doesn't take.
+            if st.update.looks {
+                blocks.push(Block::Group(
+                    Some("Privacy"),
+                    vec![
+                        switch(Key::ShareCounts, "Share usage counts", Some("A weekly count of tabs and features, nothing else"), st.settings.share_counts),
+                        item(Key::SeeCounts, "See what's sent", Some("This week's report so far, as a file"), Ctl::Button("Open")),
+                    ],
+                ));
+            }
+            blocks
+        }
     }
 }
 
@@ -684,6 +700,15 @@ pub fn apply(st: &mut AppState, key: Key, act: Act) {
         Key::PrayerFollow => s.prayer.follow_location = !s.prayer.follow_location,
         Key::AiNotices => s.usage.notices = !s.usage.notices,
         Key::AiNear => s.usage.near_pct = (s.usage.near_pct as i32 + step * 5).clamp(50, 95) as u8,
+        Key::ShareCounts => {
+            let on = !st.settings.share_counts;
+            crate::counts::set_sharing(st, on);
+            return;
+        }
+        Key::SeeCounts => {
+            crate::counts::preview(st);
+            return;
+        }
         Key::SettingsFile => {
             st.cmd(Command::OpenPath(crate::paths::settings_path().to_string_lossy().into_owned()));
             return;
@@ -1717,7 +1742,7 @@ mod tests {
                 match it.key {
                     // Start with Windows waits for its reading; the buttons open things.
                     Key::Autostart => assert!(st.cmds.is_empty()),
-                    Key::SettingsFile | Key::DataFolder | Key::ReleaseNotes | Key::LyricsCredit => assert!(opens, "{:?}", it.key),
+                    Key::SeeCounts | Key::SettingsFile | Key::DataFolder | Key::ReleaseNotes | Key::LyricsCredit => assert!(opens, "{:?}", it.key),
                     _ => assert!(saved, "{:?} didn't save", it.key),
                 }
             }

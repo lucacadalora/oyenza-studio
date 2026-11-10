@@ -42,8 +42,13 @@ pub enum UpdateEvent {
 }
 
 /// A job for the add-on thread: read the file, answer with `AppEvent::Update`.
-pub fn check_job(sink: EventSink) -> Job {
+/// A finished week's usage report (`crate::counts`, only if the person said
+/// yes) goes on the same look, so it needs no timer of its own.
+pub fn check_job(sink: EventSink, counts: Option<std::path::PathBuf>) -> Job {
     Box::new(move |client: Result<&Client, &str>| {
+        if let (Ok(c), Some(path)) = (client, counts.as_deref()) {
+            crate::counts::send(c, path);
+        }
         let r = client.map_err(str::to_string).and_then(check);
         match &r {
             Ok(rel) => crate::pinfo!("updates: the latest release is {} ({})", rel.version, rel.date),

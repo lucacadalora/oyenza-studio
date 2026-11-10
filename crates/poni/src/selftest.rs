@@ -1239,6 +1239,8 @@ enum Scene {
     AddonsPro,
     /// What a Pro add-on does, the page its row opens without Pro.
     AddonsAbout,
+    CountsAsk,
+    CountsSheet,
     /// A song playing on the closed island, which a real press, a move
     /// sideways and the release drag to the right (`Phase::Drag`): it
     /// stays closed there, and a click on it there still opens it.
@@ -1341,7 +1343,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 137] = [
+const SCENES: [Scene; 139] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1523,6 +1525,9 @@ const SCENES: [Scene; 137] = [
     Scene::IslandDrag,
     Scene::IslandOpenAtEdge,
     Scene::AddonsAbout,
+    // The usage counts question: on the island, then in Settings.
+    Scene::CountsAsk,
+    Scene::CountsSheet,
 ];
 
 impl Scene {
@@ -1642,6 +1647,8 @@ impl Scene {
             Scene::NotesPro => "page-notes-pro".into(),
             Scene::AddonsPro => "page-addons-pro".into(),
             Scene::AddonsAbout => "page-addons-about".into(),
+            Scene::CountsAsk => "counts-ask".into(),
+            Scene::CountsSheet => "page-counts-sheet".into(),
             Scene::IslandDrag => "island-dragged".into(),
             Scene::IslandOpenAtEdge => "island-open-at-edge".into(),
         }
@@ -1664,7 +1671,8 @@ impl Scene {
             | Scene::SettingsAsideStay
             | Scene::SettingsUpdate
             | Scene::UpdateSheet
-            | Scene::UpdateReady => Some(PageKind::Settings),
+            | Scene::UpdateReady
+            | Scene::CountsSheet => Some(PageKind::Settings),
             Scene::SystemMemory
             | Scene::SystemDrives
             | Scene::SystemNetwork
@@ -3602,6 +3610,7 @@ impl SelfTest {
                 ready: scene == Scene::UpdateReady,
                 ..looks
             },
+            Scene::CountsSheet => crate::state::UpdateView { counts_sheet: true, ..looks },
             _ => looks,
         };
         // A new song's title shows for its few seconds (held here).
@@ -3704,6 +3713,7 @@ impl SelfTest {
                 inline: Some(InlineAction::ShowAmount),
                 reveal: Some("Rp 54.990".into()),
             }),
+            Scene::CountsAsk => Some(crate::counts::ask_notice(st.accent, until)),
             Scene::AiNotice | Scene::AiNoticeOut => ai_alert(st, scene == Scene::AiNoticeOut).map(|a| crate::state::usage_notice(&a, st.accent, until)),
             _ => None,
         };

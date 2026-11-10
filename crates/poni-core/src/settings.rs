@@ -132,6 +132,11 @@ pub struct Settings {
     /// front. Its own name: the corner test build wrote `game_readout`
     /// ("peek" as its default) into the files of the people who tried it.
     pub game_peek: bool,
+    /// Usage counts: the person said yes (`crate::counts` in the app). Off
+    /// until they do; nothing is counted while it's off.
+    pub share_counts: bool,
+    /// The island has asked about usage counts. It asks once.
+    pub counts_asked: bool,
     /// The AI tab's choices (its readers are the `studio-usage` crate).
     pub usage: UsageSettings,
     /// The Record page's choices (Oyenza Studio Recorder).
@@ -257,6 +262,8 @@ impl Default for Settings {
             prayer: PrayerSettings::default(),
             game_stats: false,
             game_peek: false,
+            share_counts: false,
+            counts_asked: false,
             usage: UsageSettings::default(),
             record: RecordSettings::default(),
             notifications: crate::notifications::NotificationSettings::default(),
