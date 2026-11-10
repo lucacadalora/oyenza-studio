@@ -91,7 +91,14 @@ pub fn hairline(scale: f32) -> f32 {
 /// swallow clicks meant for the app under it (a browser's tabs, beside and
 /// below the resting pill). It is also the renderer that pays for every
 /// pixel on the CPU. The GPU renderer, WARP included, and the Mac's draw it.
+///
+/// A look with a frame (Diorama's) has its body drawn as that frame round a
+/// pane instead ([`draw_framed_body`]), wherever the island floats.
 pub fn draw_body(c: &mut Canvas, body: Rect, radius: f32, fill: Color, border: Option<Color>) {
+    if let Some(frame) = c.look().frame {
+        draw_framed_body(c, body, radius, fill, border, &frame);
+        return;
+    }
     let s = c.scale();
     let body = snap(body, s);
     let r = radius.min(body.h / 2.0).min(body.w / 2.0).max(0.0);
@@ -100,10 +107,78 @@ pub fn draw_body(c: &mut Canvas, body: Rect, radius: f32, fill: Color, border: O
     }
     c.path(&segments(body, r), Some(fill), None);
     if let Some(b) = border {
-        let w = hairline(s);
-        let ink = b.with_alpha((b.a / w).min(1.0));
-        c.path(&segments(body.inset(w / 2.0, w / 2.0), r - w / 2.0), None, Some((ink, w)));
+        hairline_round(c, body, r, b);
     }
+}
+
+/// A `border` hairline all the way round, just inside `body`'s edge.
+fn hairline_round(c: &mut Canvas, body: Rect, r: f32, b: Color) {
+    let w = hairline(c.scale());
+    let ink = b.with_alpha((b.a / w).min(1.0));
+    c.path(&segments(body.inset(w / 2.0, w / 2.0), r - w / 2.0), None, Some((ink, w)));
+}
+
+/// The frame's thickness (DIPs) round a body `w` by `h`: the resting
+/// picture's bezel (`studio_diorama::BEZEL`) at the resting pill's height,
+/// growing with the shorter side to [`FRAME_MAX`] for the open card, so the
+/// pill's frame turns into the card's as the island opens.
+pub fn frame_width(w: f32, h: f32) -> f32 {
+    let t = ((w.min(h) - studio_diorama::H) / (FRAME_GROWN - studio_diorama::H)).clamp(0.0, 1.0);
+    studio_diorama::BEZEL + (FRAME_MAX - studio_diorama::BEZEL) * t
+}
+
+/// The open card's frame, and the shorter side from which a body has it.
+pub const FRAME_MAX: f32 = 5.0;
+const FRAME_GROWN: f32 = 150.0;
+/// How far the frame's shadow on the pane reaches below its top edge (DIPs),
+/// and how dark it starts there.
+const PANE_SHADE: f32 = 5.0;
+const PANE_SHADE_ALPHA: f32 = 0.16;
+/// How far the light takes the frame's face toward its lit colour at the
+/// top, and toward its unlit one at the bottom.
+const FRAME_LIT: f32 = 0.85;
+const FRAME_UNLIT: f32 = 0.7;
+
+/// The Diorama island's body: the resting pill's raised frame round a pane,
+/// grown to `body`. Pill's drop shadow (in `frame.shadow`: black by day,
+/// the window's warm glow at night); the frame over the outline, lit at the
+/// top, its face at mid-height and turned away from the light at the bottom;
+/// the pane, `fill` as the look paints it (its ground), inset by the frame's
+/// width, with the frame's soft shadow along its top edge; and a firm
+/// `border` line round the outside. `fill`'s opacity is the body's (the Mac
+/// fades a Hidden island out this way).
+///
+/// Vector fills only, nothing kept between frames: the shadow as Pill's,
+/// two opaque gradient fills (the frame; the pane with its shadow) and the
+/// line. The frame's colours are drawn as they are (a look would repaint
+/// the lit frame's white as its ink), the pane and the line as the look
+/// paints them.
+pub fn draw_framed_body(c: &mut Canvas, body: Rect, radius: f32, fill: Color, border: Option<Color>, frame: &poni_core::look::Frame) {
+    let s = c.scale();
+    let body = snap(body, s);
+    let r = radius.min(body.h / 2.0).min(body.w / 2.0).max(0.0);
+    let ground = c.look().paint(fill).with_alpha(1.0);
+    let line = border.map(|b| c.look().paint(b));
+    let fw = frame_width(body.w, body.h).min(body.h / 2.0).min(body.w / 2.0);
+    let inner = body.inset(fw, fw);
+    let lit = Color::lerp(frame.face, frame.lit, FRAME_LIT);
+    let unlit = Color::lerp(frame.face, frame.unlit, FRAME_UNLIT);
+    let shaded = Color::lerp(ground, frame.shade, PANE_SHADE_ALPHA);
+    c.unthemed(|c| {
+        c.with_alpha(fill.a, |c| {
+            if c.on_gpu() && casts_shadow(fill) {
+                c.rrect_shadow(body.offset(0.0, SHADOW_DROP), r, frame.shadow, &SHADOW_RAMP);
+            }
+            c.fill_path_stops(&segments(body, r), body.y, body.bottom(), &[(0.0, lit), (0.5, frame.face), (1.0, unlit)]);
+            if inner.w > 0.0 && inner.h > 0.0 {
+                let reach = PANE_SHADE.min(inner.h);
+                c.fill_path_stops(&segments(inner, (r - fw).max(0.0)), inner.y, inner.y + reach, &[(0.0, shaded), (1.0, ground)]);
+            }
+            if let Some(b) = line {
+                hairline_round(c, body, r, b);
+            }
+        })
+    });
 }
 
 /// Whether a body filled with `fill` casts its shadow (at `fill.a` times
@@ -478,6 +553,22 @@ mod tests {
             assert_eq!(count(&shadow_plan(snap(rect(190.0, 12.0, 620.0, 216.0), s), 40.0, &SHADOW_RAMP, s).unwrap()), (4, 4), "{s}: card");
             assert_eq!(count(&shadow_plan(snap(rect(10.0, 12.0, 30.0, 90.0), s), 40.0, &SHADOW_RAMP, s).unwrap()), (2, 2), "{s}: upright");
             assert_eq!(count(&shadow_plan(snap(rect(10.0, 12.0, 40.0, 40.0), s), 20.0, &SHADOW_RAMP, s).unwrap()), (1, 0), "{s}: circle");
+        }
+    }
+
+    #[test]
+    fn the_frame_grows_from_the_pills_bezel_to_the_cards() {
+        // The resting pill's own frame at its height (under the pointer too,
+        // where the picture covers the body), the open card's at its size.
+        assert_eq!(frame_width(100.0, studio_diorama::H), studio_diorama::BEZEL);
+        assert_eq!(frame_width(124.0, 30.0), studio_diorama::BEZEL);
+        assert_eq!(frame_width(620.0, 216.0), FRAME_MAX);
+        // On the way between them it grows without a step.
+        let mut last = frame_width(620.0, 30.0);
+        for h in (30..=240).map(|h| h as f32) {
+            let w = frame_width(620.0, h);
+            assert!(w >= last && w - last < 0.05, "{h}: {w} after {last}");
+            last = w;
         }
     }
 

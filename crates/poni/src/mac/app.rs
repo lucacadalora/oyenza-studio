@@ -2274,12 +2274,10 @@ impl App {
     }
 
     /// How the island paints: the theme's look, or around a notch the one
-    /// that meets its black (Oyen goes black there).
+    /// that meets its black (Oyen goes black there); Diorama's by day or at
+    /// night, as its picture shows (it floats below a notch).
     fn look(&self) -> &'static Look {
-        match self.screen.notch {
-            Some(_) => poni_core::look::around_notch(self.st.settings.theme),
-            None => poni_core::look::of(self.st.settings.theme),
-        }
+        pill::look(&self.st, self.screen.notch.is_some())
     }
 
     /// The resting island is out of sight: hidden until hover, or inside the notch.
@@ -5501,6 +5499,9 @@ fn system_report(st: &AppState) -> (bool, String) {
 pub(crate) fn theme_accent(theme: Theme) -> Color {
     if oyen::on(theme) {
         oyen::ORANGE
+    } else if theme == Theme::Diorama {
+        // Its own, which its day and night looks paint as theirs.
+        poni_core::look::DIORAMA_ACCENT
     } else {
         services::system_accent().unwrap_or(palette::BLUE)
     }
