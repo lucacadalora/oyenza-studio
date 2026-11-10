@@ -46,7 +46,7 @@ jobs:
           cargo build -p poni --release --target x86_64-apple-darwin
 
       - name: Unit tests (core)
-        run: cargo test -p poni-core -p studio-usage --release
+        run: cargo test -p poni-core -p studio-usage -p studio-diorama --release
 
       # The Downloader add-on for real (services/downloader_live.rs): yt-dlp,
       # our QuickJS-ng and our FFmpeg exactly as poni_core::addons pins them
@@ -59,10 +59,18 @@ jobs:
         timeout-minutes: 10
         run: cargo test -p poni --release --target aarch64-apple-darwin the_pinned_tools_download_a_real_link -- --ignored --nocapture
 
+      # The island around a MacBook's notch (mac/notch.rs): where each state
+      # sits in Pill and in Diorama, whose resting pill floats below the menu
+      # bar. The Mac app's own tests build only for a Mac, so they run here,
+      # from the test build the step above made.
+      - name: Unit tests (the island around a notch)
+        run: cargo test -p poni --release --target aarch64-apple-darwin notch::tests
+
       # Every island state with sample data, Classic, Oyen, Glass (a
-      # smoked stand-in for macOS's glass) and Pill, without and with a
-      # MacBook's notch. The runner has no notch, so this is where the notch
-      # layouts are looked at.
+      # smoked stand-in for macOS's glass), Pill and Diorama (Pill with a
+      # picture in its resting pill, drawn through a day), without and with
+      # a MacBook's notch. The runner has no notch, so this is where the
+      # notch layouts are looked at.
       - name: Render the island (offscreen)
         run: |
           bin=target/aarch64-apple-darwin/release/poni
@@ -70,10 +78,12 @@ jobs:
           $bin --render mac-renders --theme oyen
           $bin --render mac-renders --theme glass
           $bin --render mac-renders --theme pill
+          $bin --render mac-renders --theme diorama
           $bin --render mac-renders --notch
           $bin --render mac-renders --theme oyen --notch
           $bin --render mac-renders --theme glass --notch
           $bin --render mac-renders --theme pill --notch
+          $bin --render mac-renders --theme diorama --notch
           ls mac-renders | wc -l
 
       # What plays, from macOS's own now playing (browsers, Spotify, Music):
@@ -106,12 +116,12 @@ jobs:
       # Today with live stats), the timer, a notice, the volume and charging
       # pop-ups, files dropped on the Shelf, a Spotify "now playing"
       # notification with its lyrics looked up on LRCLIB, the Glass theme,
-      # Pill floating below the top edge, Oyen, Glass and Pill around a notch
-      # the app pretends the screen has, the adapter's test player in macOS's
-      # own now playing, a tab playing in the runner's Edge (YouTube's way of
-      # naming a song), the AI tab's keychain reads (test items of its own),
-      # and the menu. At each state the app writes where its window is and
-      # waits; tools/mac-smoke.sh takes the screenshot and answers.
+      # Pill floating below the top edge, Oyen, Glass, Pill and Diorama around
+      # a notch the app pretends the screen has, the adapter's test player in
+      # macOS's own now playing, a tab playing in the runner's Edge (YouTube's
+      # way of naming a song), the AI tab's keychain reads (test items of its
+      # own), and the menu. At each state the app writes where its window is
+      # and waits; tools/mac-smoke.sh takes the screenshot and answers.
       - name: Smoke run (the real window, with screenshots)
         env:
           MEDIAREMOTE_TEST_CLIENT: build/mediaremote/MediaRemoteAdapterTestClient

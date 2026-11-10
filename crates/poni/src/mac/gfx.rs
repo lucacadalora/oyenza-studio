@@ -1026,6 +1026,17 @@ impl<'a> Canvas<'a> {
 
     /// Draw an image cover-fitted into `r` with rounded corners.
     pub fn image(&mut self, img: &Image, r: Rect, radius: f32) {
+        self.image_as(img, r, radius, false);
+    }
+
+    /// Draw an image that was painted for exactly the pixels `r` covers
+    /// (the Diorama theme's picture), each pixel as it is: pixel art must
+    /// not be smoothed. `r` sits on whole pixels.
+    pub fn image_exact(&mut self, img: &Image, r: Rect, radius: f32) {
+        self.image_as(img, r, radius, true);
+    }
+
+    fn image_as(&mut self, img: &Image, r: Rect, radius: f32, exact: bool) {
         if img.width == 0 || img.height == 0 || r.w <= 0.0 || r.h <= 0.0 {
             return;
         }
@@ -1040,11 +1051,22 @@ impl<'a> Canvas<'a> {
         self.add_rrect(r, radius);
         CGContext::clip(self.cg());
         CGContext::set_alpha(self.cg(), self.alpha as CGFloat);
+        if exact {
+            // Restored with the graphics state below.
+            CGContext::set_interpolation_quality(self.cg(), CGInterpolationQuality::None);
+        }
         // Images draw bottom-up; flip them back in this y-down space.
         CGContext::translate_ctm(self.cg(), ox as CGFloat, (oy + dh) as CGFloat);
         CGContext::scale_ctm(self.cg(), 1.0, -1.0);
         CGContext::draw_image(self.cg(), cgrect(Rect::new(0.0, 0.0, dw, dh)), Some(&cg));
         CGContext::restore_g_state(self.cg());
+    }
+
+    /// Let go of the renderer's copy of `img`. For a picture that is painted
+    /// anew now and then (the Diorama theme's pill), so the copies of its
+    /// earlier paintings don't wait in the cache for its next sweep.
+    pub fn forget_image(&mut self, img: &Image) {
+        self.g.images.remove(&img.id);
     }
 
     /// Draw a vector icon (24×24 design grid) scaled into `r`.

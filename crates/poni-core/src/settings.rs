@@ -37,6 +37,12 @@ pub enum Theme {
     /// capsule, with its own layouts: the time and battery at rest, the song
     /// while music plays, a rounded card when it opens.
     Pill,
+    /// Diorama: the Pill theme's floating island, and at rest a small
+    /// window onto a pixel-art place that keeps the day's hours: a house, a
+    /// tree, the sun and the moon on their way across, and a glass ball
+    /// that rolls from the house to the tree when night falls
+    /// (`crates/studio-diorama`). Everything else is Pill's.
+    Diorama,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -429,6 +435,34 @@ mod tests {
         assert_eq!(s.theme, Theme::Glass);
         let s: Settings = serde_json::from_str(r#"{"theme":"pill"}"#).unwrap();
         assert_eq!(s.theme, Theme::Pill);
+        let s: Settings = serde_json::from_str(r#"{"theme":"diorama"}"#).unwrap();
+        assert_eq!(s.theme, Theme::Diorama);
+    }
+
+    #[test]
+    fn every_theme_is_written_by_its_name_and_read_back() {
+        // No `_` arm: a theme added to the enum stops this compiling until
+        // it has its name here, and then the loop below asks for it.
+        let name = |t: Theme| match t {
+            Theme::Classic => "classic",
+            Theme::Oyen => "oyen",
+            Theme::Glass => "glass",
+            Theme::Pill => "pill",
+            Theme::Diorama => "diorama",
+        };
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill, Theme::Diorama] {
+            let s = Settings { theme, ..Settings::default() };
+            let j = serde_json::to_string(&s).unwrap();
+            assert!(j.contains(&format!(r#""theme":"{}""#, name(theme))), "{theme:?}: {j}");
+            let back: Settings = serde_json::from_str(&j).unwrap();
+            assert_eq!(back, s, "{theme:?}");
+            // It survives the clean-up a loaded file goes through.
+            assert_eq!(back.sanitized().theme, theme);
+        }
+        // A theme this version doesn't know is not read as another one: the
+        // file doesn't parse, and `store::load_json` sets it aside for its
+        // backup (or the defaults), as it does a damaged file.
+        assert!(serde_json::from_str::<Settings>(r#"{"theme":"snowglobe"}"#).is_err());
     }
 
     #[test]

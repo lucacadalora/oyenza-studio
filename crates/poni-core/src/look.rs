@@ -19,7 +19,8 @@
 //! solid ground, Glass draws liquid glass there (gfx and the glass shader)
 //! and paints content in the light or dark Glass look on top. And its
 //! shape: every theme hangs from the top edge like a notch, except Pill,
-//! which floats below it as a capsule (`crate::settings::Theme::Pill`).
+//! which floats below it as a capsule (`crate::settings::Theme::Pill`), and
+//! Diorama, which is Pill with a picture in its resting capsule.
 
 use crate::geom::{palette, Color};
 use crate::settings::Theme;
@@ -192,7 +193,8 @@ pub fn of(theme: Theme) -> &'static Look {
         Theme::Classic => &CLASSIC,
         Theme::Oyen => &OYEN,
         Theme::Glass => &GLASS_DARK,
-        Theme::Pill => &PILL,
+        // Diorama is Pill's island: only what rests in it differs.
+        Theme::Pill | Theme::Diorama => &PILL,
     }
 }
 
@@ -205,7 +207,7 @@ pub fn around_notch(theme: Theme) -> &'static Look {
         Theme::Classic => &CLASSIC,
         Theme::Oyen => &OYEN_NIGHT,
         Theme::Glass => &GLASS_DARK,
-        Theme::Pill => &PILL,
+        Theme::Pill | Theme::Diorama => &PILL,
     }
 }
 
@@ -326,6 +328,9 @@ mod tests {
     fn pill_floats_and_paints_like_classic() {
         assert_eq!(PILL.shape, Shape::Pill);
         assert_eq!(*of(Theme::Pill), PILL);
+        // Diorama is Pill's island with a picture at rest: the same look.
+        assert_eq!(*of(Theme::Diorama), PILL);
+        assert_eq!(*around_notch(Theme::Diorama), PILL);
         for look in [&CLASSIC, &OYEN, &OYEN_NIGHT, &GLASS_DARK, &GLASS_LIGHT] {
             assert_eq!(look.shape, Shape::Notch);
         }

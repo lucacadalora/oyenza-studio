@@ -56,23 +56,28 @@ thread_local! {
 }
 
 /// The idle looks a theme offers, in the pickers' order. Status is the Pill
-/// theme's own: the other themes draw the clock for it.
+/// theme's own: the other themes draw the clock for it. Diorama rests as
+/// its picture, with the time in it (Clock) or without (Minimal), or
+/// hidden: it has no eyes.
 pub fn looks(theme: Theme) -> &'static [IdleStyle] {
     const ALL: [IdleStyle; 5] = [IdleStyle::Clock, IdleStyle::Eyes, IdleStyle::Minimal, IdleStyle::Hidden, IdleStyle::Status];
-    if super::on(theme) {
-        &ALL
-    } else {
-        &ALL[..4]
+    const DIORAMA: [IdleStyle; 3] = [IdleStyle::Clock, IdleStyle::Minimal, IdleStyle::Hidden];
+    match theme {
+        Theme::Pill => &ALL,
+        Theme::Diorama => &DIORAMA,
+        _ => &ALL[..4],
     }
 }
 
 /// The look `theme` draws for `style`, which a picker marks: outside Pill,
-/// Status shows the clock (and comes back when Pill does).
+/// Status shows the clock (and comes back when Pill does); in Diorama, Eyes
+/// shows the picture alone, as Minimal does (and comes back with another
+/// theme).
 pub fn shown(theme: Theme, style: IdleStyle) -> IdleStyle {
-    if style == IdleStyle::Status && !super::on(theme) {
-        IdleStyle::Clock
-    } else {
-        style
+    match style {
+        IdleStyle::Status if theme != Theme::Pill => IdleStyle::Clock,
+        IdleStyle::Eyes if theme == Theme::Diorama => IdleStyle::Minimal,
+        _ => style,
     }
 }
 
@@ -213,6 +218,18 @@ mod tests {
             assert_eq!(shown(theme, IdleStyle::Status), IdleStyle::Clock, "{theme:?}");
             assert_eq!(shown(theme, IdleStyle::Eyes), IdleStyle::Eyes, "{theme:?}");
         }
+    }
+
+    #[test]
+    fn diorama_rests_as_its_picture_with_the_time_or_without() {
+        assert_eq!(looks(Theme::Diorama), &[IdleStyle::Clock, IdleStyle::Minimal, IdleStyle::Hidden]);
+        // Every look a picker offers is one it then marks.
+        for style in looks(Theme::Diorama) {
+            assert_eq!(shown(Theme::Diorama, *style), *style);
+        }
+        // Looks left over from another theme show as what the picture does.
+        assert_eq!(shown(Theme::Diorama, IdleStyle::Status), IdleStyle::Clock);
+        assert_eq!(shown(Theme::Diorama, IdleStyle::Eyes), IdleStyle::Minimal);
     }
 
     #[test]

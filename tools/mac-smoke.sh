@@ -11,7 +11,8 @@
 # shows. Pill floats below the top edge (pill-*), and around the notch rests
 # inside it while its music and open card float below it (notch-pill-*); its pill-theme
 # check in the report says where the island sat and which points took the
-# mouse.
+# mouse. Diorama's resting pill is its picture, so it floats below the notch
+# too (notch-diorama).
 #
 # Usage: tools/mac-smoke.sh "<path to the app's poni binary>"
 # Not -e: the report must print even when a check fails.

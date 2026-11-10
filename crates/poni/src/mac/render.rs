@@ -1,4 +1,4 @@
-//! `poni --render <dir> [--theme classic|oyen|glass|pill] [--notch]`: draw the island's
+//! `poni --render <dir> [--theme classic|oyen|glass|pill|diorama] [--notch]`: draw the island's
 //! states with sample data into PNGs, offscreen, through the Mac renderer.
 //! CI runs it on a Mac with no notch and no person at the screen, so this is
 //! how the Mac drawing gets looked at: every page and activity, each theme,
@@ -11,8 +11,11 @@
 //! place (the smoke run's screenshots show the real one). Pill floats below
 //! the top edge, or around a notch rests inside it and floats below the menu
 //! bar for everything else (notch.rs). Around a
-//! notch, the last picture is the Eyes look's hide and seek with the camera
-//! as it moves, a frame a row (`render_peek`).
+//! notch, the last picture every theme has is the Eyes look's hide and seek
+//! with the camera as it moves, a frame a row (`render_peek`). Diorama is
+//! Pill with a picture in its resting pill: after those, its run draws that
+//! picture through a day (`DIORAMA_SCENES`), floating below the menu bar
+//! around a notch too.
 //!
 //! The music scenes use made-up data to test the drawing; the Mac app shows
 //! music once the media slice is built. The System page's scenes show a
@@ -193,6 +196,52 @@ enum Scene {
     NotesListening,
     NotesActivity,
     AddonsPro,
+    /// The Diorama theme's resting pill, in that theme only: its picture
+    /// at one of a day's hours, or in another of its shapes (`Rest`).
+    /// Around a notch it floats below the menu bar.
+    Diorama(Rest),
+}
+
+/// What a picture of the Diorama theme's resting pill shows: dawn (06:10),
+/// the morning (10:08), the golden hour (17:40), night (21:30) and the
+/// small hours (02:30); then the morning written on a 12-hour clock, as the
+/// Minimal look (the place alone) and under the pointer.
+#[derive(Clone, Copy, Debug, PartialEq)]
+enum Rest {
+    Dawn,
+    Morning,
+    GoldenHour,
+    Night,
+    SmallHours,
+    TwelveHour,
+    Minimal,
+    Hover,
+}
+
+impl Rest {
+    /// The picture's time of day: its hour and minute.
+    fn time(self) -> (u8, u8) {
+        match self {
+            Rest::Dawn => (6, 10),
+            Rest::Morning | Rest::TwelveHour | Rest::Minimal | Rest::Hover => (10, 8),
+            Rest::GoldenHour => (17, 40),
+            Rest::Night => (21, 30),
+            Rest::SmallHours => (2, 30),
+        }
+    }
+
+    fn name(self) -> &'static str {
+        match self {
+            Rest::Dawn => "idle-dawn",
+            Rest::Morning => "idle-morning",
+            Rest::GoldenHour => "idle-golden-hour",
+            Rest::Night => "idle-night",
+            Rest::SmallHours => "idle-small-hours",
+            Rest::TwelveHour => "idle-12-hour",
+            Rest::Minimal => "idle-minimal",
+            Rest::Hover => "idle-clock-hover",
+        }
+    }
 }
 
 const SCENES: [Scene; 19] = [
@@ -230,7 +279,8 @@ const SYSTEM_SCENES: [Scene; 6] = [
 ];
 
 /// Pill's own looks, after its frames strip (number 26), so every other
-/// picture keeps its number.
+/// picture keeps its number. Diorama, Pill's island, has them too, but for
+/// the status bar: that look is Pill's alone, and its number stays free.
 const PILL_SCENES: [Scene; 2] = [Scene::IdleStatus, Scene::MediaNoLine];
 
 /// The Japanese song, after Pill's pictures (numbers 26-28, in that theme
@@ -287,6 +337,19 @@ const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
 const DOWNLOAD_SCENES: [Scene; 3] = [Scene::Downloads, Scene::DownloadActivity, Scene::AddonsDownloader];
 /// Meeting notes and every Pro add-on, after the Downloader.
 const NOTES_SCENES: [Scene; 3] = [Scene::NotesListening, Scene::NotesActivity, Scene::AddonsPro];
+/// The Diorama theme's resting pill, in that theme only, after the peek
+/// strip's number (which a run without a notch leaves free), so every other
+/// picture keeps its number.
+const DIORAMA_SCENES: [Scene; 8] = [
+    Scene::Diorama(Rest::Dawn),
+    Scene::Diorama(Rest::Morning),
+    Scene::Diorama(Rest::GoldenHour),
+    Scene::Diorama(Rest::Night),
+    Scene::Diorama(Rest::SmallHours),
+    Scene::Diorama(Rest::TwelveHour),
+    Scene::Diorama(Rest::Minimal),
+    Scene::Diorama(Rest::Hover),
+];
 
 impl Scene {
     fn name(self) -> String {
@@ -349,6 +412,7 @@ impl Scene {
             Scene::NotesListening => "page-notes-listening".into(),
             Scene::NotesActivity => "notes-activity".into(),
             Scene::AddonsPro => "page-addons-pro".into(),
+            Scene::Diorama(r) => r.name().into(),
         }
     }
 }
@@ -363,6 +427,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         Some("oyen") => Theme::Oyen,
         Some("glass") => Theme::Glass,
         Some("pill") => Theme::Pill,
+        Some("diorama") => Theme::Diorama,
         _ => Theme::Classic,
     };
     let notch = args.iter().any(|a| a == "--notch").then_some(Notch::MACBOOK);
@@ -371,6 +436,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         Theme::Oyen => "-oyen",
         Theme::Glass => "-glass",
         Theme::Pill => "-pill",
+        Theme::Diorama => "-diorama",
     };
     let suffix = format!("{name}{}", if notch.is_some() { "-notch" } else { "" });
     // A home of its own, so add-ons on this Mac don't change the pictures.
@@ -402,6 +468,10 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
         for (k, scene) in PILL_SCENES.into_iter().enumerate() {
+            // The status bar is a look only the Pill theme offers.
+            if scene == Scene::IdleStatus && !crate::pill::status::looks(theme).contains(&IdleStyle::Status) {
+                continue;
+            }
             let path = out.join(format!("{:02}-{}{suffix}.png", n + 1 + k, scene.name()));
             match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
                 Ok(()) => println!("render: {}", path.display()),
@@ -442,7 +512,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
         }
     }
     let next = next + settings_shots().len();
-    // Around a notch, last: the Eyes look's hide and seek with the camera.
+    // Around a notch, last of every theme's: the Eyes look's hide and seek with the camera.
     if let Some(n) = notch {
         let path = out.join(format!("{next:02}-peek-frames{suffix}.png"));
         match render_peek(&mut gfx, theme, n, &path) {
@@ -450,6 +520,19 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             Err(e) => {
                 eprintln!("render: {}: {e}", path.display());
                 failed += 1;
+            }
+        }
+    }
+    // Diorama's resting pill through a day, after the peek strip's number.
+    if theme == Theme::Diorama {
+        for (k, scene) in DIORAMA_SCENES.into_iter().enumerate() {
+            let path = out.join(format!("{:02}-{}{suffix}.png", next + 1 + k, scene.name()));
+            match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+                Ok(()) => println!("render: {}", path.display()),
+                Err(e) => {
+                    eprintln!("render: {}: {e}", path.display());
+                    failed += 1;
+                }
             }
         }
     }
@@ -510,6 +593,8 @@ fn render_morph(gfx: &mut Gfx, theme: Theme, notch: Option<Notch>, path: &Path) 
     const DT: f32 = 1.0 / 60.0;
     /// The strip is drawn at one pixel per DIP (it is long).
     const STRIP_SCALE: f32 = 1.0;
+    // Diorama's resting pill, where the island closes to: its ball at rest.
+    crate::pill::diorama::settle();
     let mut st = base_state(theme);
     st.page = PageKind::Today;
     let (rest, open) = (Mode::Idle, Mode::Expanded(PageKind::Today));
@@ -834,6 +919,14 @@ fn base_state(theme: Theme) -> AppState {
     st
 }
 
+/// The picture's clock at `hour`:`minute` of its day, instead of 09:41.
+fn set_clock(st: &mut AppState, hour: u8, minute: u8) {
+    let was = st.local.hour as i64 * 3600 + st.local.minute as i64 * 60;
+    st.local.hour = hour;
+    st.local.minute = minute;
+    st.unix += hour as i64 * 3600 + minute as i64 * 60 - was;
+}
+
 /// A later version than this build, with its DMG, for the Update sheet.
 fn fake_release() -> poni_core::update::Release {
     let mut parts: Vec<u64> = crate::version::VERSION.split('.').filter_map(|p| p.parse().ok()).collect();
@@ -1005,6 +1098,9 @@ fn ja_status(st: &mut AppState, status: AddonStatus) -> AddonStatus {
 }
 
 fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>, ja: Option<&[Pronounced; 2]>, path: &Path) -> Result<(), String> {
+    // Diorama's glass ball rests where this picture's time has it, whatever
+    // the picture before it showed.
+    crate::pill::diorama::settle();
     let mut st = base_state(theme);
     let mut hovering = false;
     let mode = match scene {
@@ -1332,6 +1428,17 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
             st.notify(Icon::Moon, st.accent, title, format!("{} \u{b7} {place}", site.hhmm(ashar)), 30.0, Some(NoticeAction::OpenPage(PageKind::Prayer)));
             st.set_notice_inline(InlineAction::StopAdzan);
             Mode::Notice
+        }
+        Scene::Diorama(shows) => {
+            let (hour, minute) = shows.time();
+            set_clock(&mut st, hour, minute);
+            match shows {
+                Rest::Dawn | Rest::Morning | Rest::GoldenHour | Rest::Night | Rest::SmallHours => {}
+                Rest::TwelveHour => st.settings.use_24h = false,
+                Rest::Minimal => st.settings.idle_style = IdleStyle::Minimal,
+                Rest::Hover => hovering = true,
+            }
+            Mode::Idle
         }
     };
 
