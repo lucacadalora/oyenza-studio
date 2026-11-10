@@ -138,21 +138,22 @@ fn sun(st: &AppState) -> (f32, f32) {
     if !st.prayer_on() {
         return HOUSE_DAY;
     }
-    let Some(site) = st.prayer.site() else { return HOUSE_DAY };
-    let now = st.prayer_now();
-    let Some(t) = poni_core::prayer::day_times(&site, site.local_day(now)) else { return HOUSE_DAY };
-    // This computer's clock against UTC, to the minute: the place's sun
-    // on the clock the picture's time comes from.
+    // This computer's clock against UTC, to the minute.
     let local = st.local.hour as i64 * 3600 + st.local.minute as i64 * 60 + st.local.second as i64;
     let ahead = (((local - st.unix.rem_euclid(86_400)) as f64 / 60.0).round() as i64 * 60 + 43_200).rem_euclid(86_400) - 43_200;
+    st.prayer.site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY)
+}
+
+/// Sunrise and sunset (the schedule's terbit and maghrib) at `site` on its
+/// own date at `now` (UTC seconds), as minutes of the day on a clock
+/// `ahead` seconds east of UTC: the place's sun on the clock the picture's
+/// time comes from. `None` where the day has no sunrise or sunset, or one
+/// the picture can't show (the sun up or down for less than two hours).
+fn sun_at(site: &poni_core::prayer::Site, now: i64, ahead: i64) -> Option<(f32, f32)> {
+    let t = poni_core::prayer::day_times(site, site.local_day(now))?;
     let minute = |utc: i64| ((utc + ahead).div_euclid(60).rem_euclid(1440)) as f32;
     let (rise, set) = (minute(t.terbit), minute(t.maghrib));
-    // A day the picture can show: the sun up for two hours at least, down for two.
-    if set - rise >= 120.0 && set - rise <= 1320.0 {
-        (rise, set)
-    } else {
-        HOUSE_DAY
-    }
+    (set - rise >= 120.0 && set - rise <= 1320.0).then_some((rise, set))
 }
 
 /// The moment the pill shows, the ball where the time has it.
@@ -276,6 +277,23 @@ mod tests {
         assert_eq!(m.day, 9810);
         assert_eq!(m.clock, Some(Clock { hour: 17, minute: 5, h24: true }));
         assert_eq!((m.lens, moment(&state(18, 0)).lens, moment(&state(5, 59)).lens), (0.0, 1.0, 1.0));
+    }
+
+    #[test]
+    fn with_a_prayer_place_the_sun_keeps_its_hours_there() {
+        use poni_core::prayer::{Clock as Zone, Method, Site, KEMENAG_ISYA_ANGLE, KEMENAG_SUBUH_ANGLE};
+        // Jakarta on 10 November 2026, 12:00 WIB (05:00 UTC), on a
+        // computer keeping WIB: up about 05:26, down about 17:49.
+        let jakarta = Site { lat: -6.2, lng: 106.816, clock: Zone::Fixed(420), h0: -1.0, subuh_angle: KEMENAG_SUBUH_ANGLE, isya_angle: KEMENAG_ISYA_ANGLE, method: Method::Kemenag, hanafi: false };
+        let noon_utc = poni_core::datetime::days_from_civil(2026, 11, 10) * 86_400 + 5 * 3600;
+        let (rise, set) = sun_at(&jakarta, noon_utc, 7 * 3600).expect("Jakarta has a sunrise");
+        assert!((320.0..=335.0).contains(&rise), "sunrise at minute {rise}");
+        assert!((1062.0..=1076.0).contains(&set), "sunset at minute {set}");
+        // The same place seen from a computer an hour ahead (WITA): an hour later on its clock.
+        let (rise_wita, set_wita) = sun_at(&jakarta, noon_utc, 8 * 3600).unwrap();
+        assert_eq!((rise_wita, set_wita), (rise + 60.0, set + 60.0));
+        // Without the add-on, the house's own day.
+        assert_eq!(sun(&state(12, 0)), HOUSE_DAY);
     }
 
     #[test]
