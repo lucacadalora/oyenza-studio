@@ -1818,17 +1818,22 @@ mod tests {
         assert!(looks(&st).contains(&"Status"));
         st.settings.theme = Theme::Oyen;
         assert!(looks(&st).contains(&"Oyen"));
-        // The status bar is Pill's own: Diorama has the other four, and
-        // draws its clock for a status bar picked in Pill.
+        // Diorama rests as its picture: with the time, alone, or hidden. It
+        // draws its clock for a status bar picked in Pill, and the picture
+        // alone for eyes picked elsewhere.
         st.settings.theme = Theme::Diorama;
         st.settings.idle_style = IdleStyle::Status;
-        assert_eq!(looks(&st), ["Clock", "Eyes", "Minimal", "Hidden"]);
+        assert_eq!(looks(&st), ["Clock", "Minimal", "Hidden"]);
         assert_eq!(row(Section::Appearance, &st, Key::IdleLook).map(|i| i.ctl), Some(Ctl::Choice(looks(&st), Some(0))));
-        // A pick there is one of its four.
+        st.settings.idle_style = IdleStyle::Eyes;
+        assert_eq!(row(Section::Appearance, &st, Key::IdleLook).map(|i| i.ctl), Some(Ctl::Choice(looks(&st), Some(1))));
+        // A pick there is one of its three.
         apply(&mut st, Key::IdleLook, Act::Pick(2));
+        assert_eq!(st.settings.idle_style, IdleStyle::Hidden);
+        apply(&mut st, Key::IdleLook, Act::Pick(1));
         assert_eq!(st.settings.idle_style, IdleStyle::Minimal);
         st.cmds.clear();
-        apply(&mut st, Key::IdleLook, Act::Pick(4));
+        apply(&mut st, Key::IdleLook, Act::Pick(3));
         assert!(st.cmds.is_empty() && st.settings.idle_style == IdleStyle::Minimal);
     }
 

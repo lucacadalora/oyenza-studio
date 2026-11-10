@@ -748,9 +748,11 @@ mod tests {
 
     #[test]
     fn the_idle_look_picker_names_each_themes_own_looks() {
-        for theme in [Theme::Classic, Theme::Glass, Theme::Diorama] {
+        for theme in [Theme::Classic, Theme::Glass] {
             assert_eq!(idle_names(theme), ["Clock", "Eyes", "Minimal", "Hidden"], "{theme:?}");
         }
+        // Diorama rests as its picture, with the time or alone: no eyes.
+        assert_eq!(idle_names(Theme::Diorama), ["Clock", "Minimal", "Hidden"]);
         // In his theme the eyes are Oyen's own, and the status bar is Pill's.
         assert_eq!(idle_names(Theme::Oyen), ["Clock", "Oyen", "Minimal", "Hidden"]);
         assert_eq!(idle_names(Theme::Pill), ["Clock", "Eyes", "Minimal", "Hidden", "Status"]);

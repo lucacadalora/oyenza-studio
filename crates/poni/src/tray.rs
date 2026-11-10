@@ -413,15 +413,18 @@ mod tests {
         for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Diorama] {
             let s = Settings { theme, ..pill.clone() };
             let choices = idle_choices(&s);
-            assert_eq!(choices.len(), 4, "{theme:?}");
+            assert_eq!(choices.len(), if theme == Theme::Diorama { 3 } else { 4 }, "{theme:?}");
             assert_eq!(choices[0], ("Clock".to_string(), true), "{theme:?}");
             assert!(choices.iter().skip(1).all(|c| !c.1), "{theme:?}");
             assert!(choices.iter().all(|c| c.0 != "Status bar"), "{theme:?}");
         }
-        // Diorama's looks by name: its picture with the time, Pill's eyes,
-        // the picture alone, and nothing until the pointer comes.
+        // Diorama's looks by name: its picture with the time, the picture
+        // alone, and nothing until the pointer comes. It has no eyes: a
+        // setting left on Eyes shows the picture alone, so Minimal is checked.
         let diorama = Settings { theme: Theme::Diorama, idle_style: IdleStyle::Minimal, ..Settings::default() };
-        assert_eq!(idle_choices(&diorama), [("Clock".to_string(), false), ("Eyes".to_string(), false), ("Minimal".to_string(), true), ("Hidden until hover".to_string(), false)]);
+        let looks = [("Clock".to_string(), false), ("Minimal".to_string(), true), ("Hidden until hover".to_string(), false)];
+        assert_eq!(idle_choices(&diorama), looks);
+        assert_eq!(idle_choices(&Settings { idle_style: IdleStyle::Eyes, ..diorama }), looks);
     }
 
     /// Where a theme comes in the menu. No `_` arm: a theme added to the

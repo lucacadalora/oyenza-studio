@@ -1326,9 +1326,10 @@ mod tests {
             st
         };
         let (mut pill, mut diorama) = (state(Theme::Pill), state(Theme::Diorama));
-        // The clock (and the status bar, which is Pill's) and Minimal are
-        // the picture: 38 tall, where Pill's capsules are 32 and 24.
-        for (look, w) in [(IdleStyle::Clock, 100.0), (IdleStyle::Status, 100.0), (IdleStyle::Minimal, 80.0)] {
+        // Every look but Hidden is the picture, 38 tall where Pill's
+        // capsules are 32 and 24: with the time for the clock (and the
+        // status bar, which is Pill's), alone for Minimal (and Eyes).
+        for (look, w) in [(IdleStyle::Clock, 100.0), (IdleStyle::Status, 100.0), (IdleStyle::Minimal, 80.0), (IdleStyle::Eyes, 80.0)] {
             diorama.settings.idle_style = look;
             let g = geom(&Mode::Idle, &diorama);
             assert_eq!((g.w, g.h, g.r), (w, 38.0, 19.0), "{look:?}");
@@ -1336,12 +1337,12 @@ mod tests {
         }
         pill.settings.idle_style = IdleStyle::Minimal;
         assert_eq!(geom(&Mode::Idle, &pill).h, 24.0);
-        // Eyes and Hidden stay Pill's, and so does everything live or open.
-        for look in [IdleStyle::Eyes, IdleStyle::Hidden] {
-            pill.settings.idle_style = look;
-            diorama.settings.idle_style = look;
-            assert_eq!(geom(&Mode::Idle, &diorama), geom(&Mode::Idle, &pill), "{look:?}");
-        }
+        // No blink to wake for where the eyes are the picture.
+        assert_eq!(next_wake(&Mode::Idle, &diorama), None);
+        // Hidden stays Pill's, and so does everything live or open.
+        pill.settings.idle_style = IdleStyle::Hidden;
+        diorama.settings.idle_style = IdleStyle::Hidden;
+        assert_eq!(geom(&Mode::Idle, &diorama), geom(&Mode::Idle, &pill));
         for m in [
             Mode::Activity(Activity::Timer),
             Mode::Activity(Activity::Download),
