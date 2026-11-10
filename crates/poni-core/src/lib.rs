@@ -10,6 +10,7 @@
 pub mod addons;
 pub mod agenda;
 pub mod applemusic;
+pub mod caffeine;
 pub mod datetime;
 pub mod downloads;
 pub mod frames;

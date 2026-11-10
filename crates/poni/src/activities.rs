@@ -407,6 +407,8 @@ fn draw_oyen_rest(ui: &mut Ui, st: &AppState, body: Rect, cx: f32, w: f32, bar_y
 }
 
 pub fn draw(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect) {
+    // The Caffeine page's chart goes once the island has been closed a moment.
+    crate::pages::caffeine::put_away(ui, st);
     if crate::pill::draw(ui, st, m, body) {
         return;
     }

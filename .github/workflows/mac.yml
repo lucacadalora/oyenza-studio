@@ -61,10 +61,12 @@ jobs:
 
       # The island around a MacBook's notch (mac/notch.rs): where each state
       # sits in Pill and in Diorama, whose resting pill floats below the menu
-      # bar. The Mac app's own tests build only for a Mac, so they run here,
-      # from the test build the step above made.
-      - name: Unit tests (the island around a notch)
-        run: cargo test -p poni --release --target aarch64-apple-darwin notch::tests
+      # bar; and the renders' sample data (mac/render.rs): every picture named
+      # once, and Caffeine's day as its pictures say. The Mac app's own tests
+      # build only for a Mac, so they run here, from the test build the step
+      # above made.
+      - name: Unit tests (the island around a notch, the renders)
+        run: cargo test -p poni --release --target aarch64-apple-darwin -- notch::tests render::tests
 
       # Every island state with sample data, Classic, Oyen, Glass (a
       # smoked stand-in for macOS's glass), Pill and Diorama (Pill with a

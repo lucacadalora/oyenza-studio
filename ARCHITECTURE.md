@@ -4,7 +4,7 @@ Oyenza Studio is a "living notch" for Windows 10/11: a black island that hangs f
 top-centre of the screen, shows live activities (media, timers, pop-ups) while
 collapsed, and expands on hover into pages (Music + synced lyrics, Today,
 Shelf, Tasks, Focus, AI and Oyenza, plus the add-ons' Health, IELTS, Notes,
-System, Script, Prayer, Stocks and Downloads pages once they are switched on). The Shelf's Phone drop serves a
+System, Script, Prayer, Stocks, Caffeine and Downloads pages once they are switched on). The Shelf's Phone drop serves a
 small web page on the local network so a phone can send files to it.
 
 It was called Oyen Poni until 0.2.0, and plain Poni before that. The code keeps the
@@ -18,7 +18,7 @@ crates take the new name (`studio-usage`, `studio-diorama`).
 
 | Crate | What | Builds on |
 |---|---|---|
-| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
+| `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the Caffeine add-on's numbers (`caffeine.rs`: the drinks by shots and beans or by serving, the curve of the caffeine still in the body, last call and the reminder's time, every number's source in docs/caffeine.md), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
 | `crates/studio-usage` | The AI tab's readers: one per AI coding service behind one contract, heads-up notices from their readings, and inference.oyenza.com's device connect; see [AI usage](#ai-usage). Pure, like poni-core, and built for size. | any OS (`cargo test -p studio-usage`) |
 | `crates/studio-diorama` | The Diorama theme's picture: the resting pill as a small window onto a pixel-art place that keeps the day's hours (a house, a tree, a sky that follows the clock, and a glass ball that rolls from the house to the tree as night falls). `render` turns a `Moment` (the minute, when the sun rises and sets, where the ball is, what the clock says) into the pill's pixels for a `View` (its size and the display's scale); `width` and `H` are the pill's size (`LONG` by 38, about a notch). `Moment::slid` is the place with the ball slid by hand: the time runs on with the ball through the next sunset or sunrise. No clock, no state and no OS calls: the app says what time it is and draws the result as an image (`pill/diorama.rs`), so Windows and the Mac show the same pixels. Pure, with no dependencies, and built for size: it paints once a minute while the pill rests and for the frames of the ball's roll, never in a frame of anything else. | any OS (`cargo test -p studio-diorama`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
@@ -141,7 +141,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   `Command::Usage`. See [AI usage](#ai-usage).
 * The Settings window, called Advanced settings: every setting in a window of its
   own, a sidebar of sections (General, Appearance, Island, Music and lyrics, Pop-ups,
-  Tabs, Add-ons, Focus, Prayer times while that add-on is on, AI usage, Oyenza
+  Tabs, Add-ons, Focus, Prayer times and Caffeine while their add-ons are on, AI usage, Oyenza
   account, About). The Settings page's last row and the menu's Advanced settings…
   open it (`Command::OpenSettings`, `MenuCmd::ShowSettings`), and the island closes
   as it opens (`App::show_settings`), so the open island never sits over it. Its
@@ -210,6 +210,19 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   shut), with `If-None-Match`. Parsing, formats, the search and the chart's
   arithmetic are in `poni_core::stocks`; the prices stay in memory
   (`AppState::stocks`).
+* Caffeine (`pages/caffeine.rs`) is a tab only while the Caffeine add-on is
+  on (`AppState::caffeine_on`; built in, nothing to download): the drinks the
+  person adds, a chart of the caffeine still in the body from 06:00 to 06:00,
+  and the day's last call, the latest time the usual drink can go in and leave
+  at most `bed_limit_mg` (35 mg) at bedtime. An espresso drink is its shots
+  times its beans' mg (`Bean::mg_per_shot`), any other drink servings of a
+  fixed size (`Kind::mg_each`); a drink's time starts at now and moves when its
+  dot is dragged. The drinks are `store.caffeine` (`poni_core::caffeine::Log`,
+  the last 14 days) and the choices `settings.caffeine` (`caffeine::Prefs`);
+  the curve, last call and the reminder's time and words are in
+  `poni_core::caffeine`, with every number's source in docs/caffeine.md. The
+  reminder, 30 minutes before last call, is a notice in `tick` at
+  `caffeine::reminder_at`, nothing running in between. Nothing goes online.
 * Downloads (`pages/downloads.rs`) is a tab only while the Downloader add-on
   is on and its tools are in place (`AppState::downloader_on`; Windows and
   the Mac, not in the Microsoft Store build, `autostart::packaged`): a link field,
@@ -320,6 +333,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
+| `last_call.rs` | the Caffeine add-on's reminder: the minute it shows (`poni_core::caffeine::reminder_at`, worked out again only when the drinks, the settings or the day change), once a day, as a notice from `tick`; the app's wake time includes it; nothing runs in between |
 | `services/*.rs` | media (Apple Music's own progress slider and back button through UI Automation in `applemusic_ui`: it declines both from Windows' media controls), lyrics/http, audio, bluetooth, fullscreen, clipboard (plain-text read and write for paste and the Apple Music token; nothing watches it), imaging, ielts (the IELTS page's calls, microphone and voice, only while that page is open or a session runs), mic (WASAPI capture, only while recording), notes (Meeting notes: the microphone and the PC's own sound, only while recording; the hand-over to the server, only after Stop until the notes are saved), voice (Oyen's clips, only while one plays), oyenza, power, sound, stocks (the Stocks page's prices from oyenza.trade, only while the page is open), notifications (Notifications: Windows' notification listener, in the Store copy only, event-driven while it is on and Windows allows it), sysstats, usage (the AI tab's readings: each service's own sign-in files and server, only while the tab is open or the heads-up notices are on; see [AI usage](#ai-usage)), phonedrop (started and stopped by the Shelf's phone panel), sysmon (the System page's readings: each second while the page is open or a game's readout shows, a light reading a second for the kept minute while it's closed; all of it rests while nobody is at the PC, the kept minute also on battery saver; while the page is open on a desktop it also loads NVML for an NVIDIA card's watts and reads a power supply that reports over USB, both closed with the page), psu (that power supply: found among the HID devices by its USB ids, read with requests only, replies matched to them), addons (add-on files: downloaded from their GitHub pre-release, or a tool's own release for the Downloader's yt-dlp and QuickJS-ng, when an add-on is switched on, checked against the size and SHA-256 in `poni_core::addons`, deleted when it is switched off; asleep otherwise), downloader (the Downloader's yt-dlp: one per download, without a window, in a job object that ends it and what it started; nothing between downloads), frames (Show over games' frame count: a real-time event tracing session of the game's Present calls, only while the readout shows; the one-time OK that lets the app read it is `poni.exe --allow-fps <SID>`, run elevated) |
 | `settings_window.rs`, `settings_host.rs` | the Settings window: its sections, rows and drawing (shared with the Mac), and the Windows window that shows them |
 | `dragdrop.rs`, `shell.rs`, `tray.rs`, `autostart.rs` | OS integration |
@@ -330,7 +344,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 ## Data
 
 * Settings: `%APPDATA%\Poni\settings.json` (created with defaults; tray → "Open settings file", or the Settings window's About).
-* Data (tasks, shelf, focus stats, the Stocks list): `%APPDATA%\Poni\data.json`. Drinks logged by the old Water page stay in it untouched (`water`).
+* Data (tasks, shelf, focus stats, the Stocks list, the Caffeine drinks): `%APPDATA%\Poni\data.json`. Drinks logged by the old Water page stay in it untouched (`water`).
 * Cache + log: `%LOCALAPPDATA%\Poni\` (`lyrics\*.json`, `poni.log`), plus the Apple Music
   token sealed with DPAPI (`apple-music-token.bin`) and the web player's public
   developer token (`apple-music-web.json`).
@@ -355,6 +369,12 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
   `~/Library/Application Support/Poni/`); which services are hidden or added
   and the notices switch in `settings.json` (`usage`); the readings in memory
   only. See [AI usage](#ai-usage).
+* Caffeine (once switched on): the drinks in data.json (`store.caffeine`:
+  each one's kind, shots or servings, beans, time and mg, the mg fixed when it
+  was added; the last 14 days, at most 400) and the add-on's choices in
+  settings.json (`settings.caffeine`: bedtime, half-life, the bedtime and day
+  limits, the reminder, the beans the picker starts with). Both stay on the
+  computer; nothing about them is sent.
 * `PONI_HOME` overrides both (the self-test uses it).
 
 ## AI usage

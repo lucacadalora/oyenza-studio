@@ -1,6 +1,6 @@
 //! The Settings window's content: every setting Oyenza Studio has, in a
 //! sidebar of sections (General, Appearance, Island, Music and lyrics,
-//! Pop-ups, Tabs, Add-ons, Focus, Prayer, AI, Oyenza, About), called
+//! Pop-ups, Tabs, Add-ons, Focus, Prayer, Caffeine, AI, Oyenza, About), called
 //! Advanced settings. The last row of the island's Settings page (behind
 //! the gear) and the menu's Advanced settings… open it, in a window of its
 //! own: on Windows a borderless one (`settings_host.rs`), on the Mac a real
@@ -28,6 +28,7 @@ use crate::pill::status;
 use crate::state::AppState;
 use crate::ui::{wid, wid_n, CursorKind, Hit, Input, MouseButton, PillStyle, Ui, PILL_GAP, PILL_SMALL};
 use crate::version::VERSION;
+use poni_core::caffeine;
 use poni_core::geom::{palette, Color, Point, Rect};
 use poni_core::settings::{IdleStyle, MonitorChoice, PrayerFollow, PrayerSound, Theme};
 use std::cell::RefCell;
@@ -154,13 +155,14 @@ pub enum Section {
     Addons,
     Focus,
     Prayer,
+    Caffeine,
     Ai,
     Oyenza,
     About,
 }
 
 impl Section {
-    pub const ALL: [Section; 12] = [
+    pub const ALL: [Section; 13] = [
         Section::General,
         Section::Appearance,
         Section::Island,
@@ -170,6 +172,7 @@ impl Section {
         Section::Addons,
         Section::Focus,
         Section::Prayer,
+        Section::Caffeine,
         Section::Ai,
         Section::Oyenza,
         Section::About,
@@ -186,6 +189,7 @@ impl Section {
             Section::Addons => "Add-ons",
             Section::Focus => "Focus",
             Section::Prayer => "Prayer times",
+            Section::Caffeine => "Caffeine",
             Section::Ai => "AI usage",
             Section::Oyenza => "Oyenza account",
             Section::About => "About",
@@ -204,6 +208,7 @@ impl Section {
             Section::Addons => "addons",
             Section::Focus => "focus",
             Section::Prayer => "prayer",
+            Section::Caffeine => "caffeine",
             Section::Ai => "ai",
             Section::Oyenza => "oyenza",
             Section::About => "about",
@@ -221,6 +226,7 @@ impl Section {
             Section::Addons => Icon::Addons,
             Section::Focus => Icon::Timer,
             Section::Prayer => Icon::Moon,
+            Section::Caffeine => Icon::Coffee,
             Section::Ai => Icon::Ai,
             Section::Oyenza => Icon::Oyenza,
             Section::About => Icon::Gear,
@@ -239,17 +245,19 @@ impl Section {
             Section::Addons => Color::hex(0x0A84FF),
             Section::Focus => palette::ORANGE,
             Section::Prayer => Color::hex(0x30B0A0),
+            Section::Caffeine => Color::hex(0xA2845E),
             Section::Ai => palette::PURPLE,
             Section::Oyenza => palette::ORANGE,
             Section::About => Color::hex(0x8E8E93),
         }
     }
 
-    /// Prayer times has a section only while its add-on is on, AI usage only
-    /// with Studio Pro.
+    /// Prayer times and Caffeine have a section only while their add-ons are
+    /// on, AI usage only with Studio Pro.
     pub fn shown(self, st: &AppState) -> bool {
         match self {
             Section::Prayer => st.prayer_on(),
+            Section::Caffeine => st.caffeine_on(),
             Section::Ai => st.ai_usage_on(),
             _ => true,
         }
@@ -299,6 +307,11 @@ pub enum Key {
     PrayerPause,
     PrayerFollow,
     PrayerCalendar,
+    CaffeineBedtime,
+    CaffeineHalfLife,
+    CaffeineBedLimit,
+    CaffeineDayLimit,
+    CaffeineRemind,
     AiNotices,
     AiNear,
     SettingsFile,
@@ -386,6 +399,12 @@ const AUTOSTART: (&str, &str) = if cfg!(target_os = "macos") {
 };
 const WIDTH_STEP: f32 = 20.0;
 const OFFSET_STEP: i32 = 100;
+/// Caffeine's Left at bedtime and Day limit rows: the least, the most and
+/// the step between (mg).
+const BED_LIMIT_MG: (i32, i32, i32) = (10, 80, 5);
+const DAY_LIMIT_MG: (i32, i32, i32) = (100, 1000, 50);
+/// Its Bedtime row goes by quarter hours.
+const BEDTIME_STEP: i32 = 15;
 
 fn chosen<T: PartialEq>(list: &[(T, &str)], v: T) -> Option<usize> {
     list.iter().position(|(x, _)| *x == v)
@@ -418,6 +437,15 @@ fn start_pages(st: &AppState) -> Vec<PageKind> {
 
 fn minutes(m: u32) -> String {
     format!("{m} min")
+}
+
+/// A half-life as Caffeine's row shows it: "5 h", "2.5 h".
+fn half_life_text(h: f32) -> String {
+    if h.fract() == 0.0 {
+        format!("{h:.0} h")
+    } else {
+        format!("{h:.1} h")
+    }
 }
 
 /// The lyrics' shift as people say it.
@@ -574,6 +602,23 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
             }
             vec![Block::Group(None, rows), Block::Note("Services, keys and the Oyenza Inference connect are on the AI tab.")]
         }
+        Section::Caffeine => {
+            let c = s.caffeine.sane();
+            let remind = format!("On the island, {} minutes before", caffeine::REMIND_BEFORE);
+            vec![
+                Block::Group(
+                    Some("Last call"),
+                    vec![
+                        item(Key::CaffeineBedtime, "Bedtime", Some("When you usually go to sleep"), Ctl::Stepper(caffeine::hhmm(c.bedtime.into()))),
+                        item(Key::CaffeineHalfLife, "Half-life", Some("Most adults: 2 to 10 hours"), Ctl::Stepper(half_life_text(c.half_life))),
+                        item(Key::CaffeineBedLimit, "Left at bedtime", Some("Last call is when more than this of one drink would still be in you at bedtime"), Ctl::Stepper(format!("{} mg", c.bed_limit_mg))),
+                        switch(Key::CaffeineRemind, "Remind me before last call", Some(remind.as_str()), c.remind),
+                    ],
+                ),
+                Block::Group(None, vec![item(Key::CaffeineDayLimit, "Day limit", Some("400 mg a day for healthy adults, 200 mg in pregnancy"), Ctl::Stepper(format!("{} mg", c.day_limit_mg)))]),
+                Block::Note("Add what you drink on the island's Caffeine page."),
+            ]
+        }
         Section::Oyenza => vec![Block::Account],
         Section::About => vec![
             Block::Version,
@@ -614,6 +659,51 @@ pub fn nav_id(st: &AppState, section: Section) -> Option<u64> {
 fn step_min(v: u32, d: i32, lo: u32, hi: u32) -> u32 {
     let by = if (d < 0 && v <= 5) || (d > 0 && v < 5) { 1 } else { 5 };
     (v as i64 + d as i64 * by).clamp(lo as i64, hi as i64) as u32
+}
+
+/// `v` moved `d` steps of `by` along their grid (a value between two goes
+/// to the next one that way), kept to `lo..=hi`.
+fn step_on(v: i32, d: i32, by: i32, lo: i32, hi: i32) -> i32 {
+    let below = v.div_euclid(by) * by;
+    let from = if d == 0 {
+        v
+    } else if d < 0 && below != v {
+        below + by
+    } else {
+        below
+    };
+    (from + d * by).clamp(lo, hi)
+}
+
+/// Milligrams `d` steps along one of Caffeine's mg rows (`BED_LIMIT_MG`, `DAY_LIMIT_MG`).
+fn step_mg(v: u16, d: i32, (lo, hi, by): (i32, i32, i32)) -> u16 {
+    step_on(i32::from(v), d, by, lo, hi) as u16
+}
+
+/// Bedtime `d` quarter hours later (earlier for a negative `d`), within
+/// the times offered (`caffeine::BEDTIMES`, which counts on from 24:00 after
+/// midnight), kept as minutes after midnight.
+fn step_bedtime(bedtime: u16, d: i32) -> u16 {
+    let day = caffeine::DAY as i32;
+    let mut v = i32::from(bedtime) % day;
+    if v < caffeine::DAY_START as i32 {
+        v += day;
+    }
+    let (lo, hi) = (i32::from(*caffeine::BEDTIMES.start()), i32::from(*caffeine::BEDTIMES.end()));
+    (step_on(v, d, BEDTIME_STEP, lo, hi) % day) as u16
+}
+
+/// The half-life `d` places along `caffeine::HALF_LIVES` (one between two
+/// goes to the next one that way), within its ends.
+fn step_half_life(h: f32, d: i32) -> f32 {
+    let list = caffeine::HALF_LIVES;
+    (0..d.unsigned_abs()).fold(h, |h, _| {
+        if d > 0 {
+            list.iter().copied().find(|x| *x > h + 0.01).unwrap_or(list[list.len() - 1])
+        } else {
+            list.iter().rev().copied().find(|x| *x < h - 0.01).unwrap_or(list[0])
+        }
+    })
 }
 
 /// Carry out `act` on the row `key`. Settings save through
@@ -702,6 +792,11 @@ pub fn apply(st: &mut AppState, key: Key, act: Act) {
             Act::Pick(i) if i < FOLLOWS.len() => s.prayer.follow = FOLLOWS[i].0,
             _ => return,
         },
+        Key::CaffeineBedtime => s.caffeine.bedtime = step_bedtime(s.caffeine.sane().bedtime, step),
+        Key::CaffeineHalfLife => s.caffeine.half_life = step_half_life(s.caffeine.sane().half_life, step),
+        Key::CaffeineBedLimit => s.caffeine.bed_limit_mg = step_mg(s.caffeine.sane().bed_limit_mg, step, BED_LIMIT_MG),
+        Key::CaffeineDayLimit => s.caffeine.day_limit_mg = step_mg(s.caffeine.sane().day_limit_mg, step, DAY_LIMIT_MG),
+        Key::CaffeineRemind => s.caffeine.remind = !s.caffeine.remind,
         Key::AiNotices => s.usage.notices = !s.usage.notices,
         Key::AiNear => s.usage.near_pct = (s.usage.near_pct as i32 + step * 5).clamp(50, 95) as u8,
         Key::SettingsFile => {
@@ -1839,6 +1934,126 @@ mod tests {
         assert!(!sections(&st).contains(&Section::Prayer));
         assert_eq!(sections(&st).first(), Some(&Section::General));
         assert_eq!(sections(&st).last(), Some(&Section::About));
+    }
+
+    /// Caffeine switched on, as its switch on the Add-ons page leaves it.
+    fn with_caffeine() -> AppState {
+        let mut s = Settings::default();
+        s.set_addon(poni_core::addons::CAFFEINE.id, true);
+        AppState::new(s, Store::default())
+    }
+
+    #[test]
+    fn caffeine_has_a_section_only_while_its_add_on_is_on() {
+        assert!(!sections(&state()).contains(&Section::Caffeine));
+        let mut st = with_caffeine();
+        let list = sections(&st);
+        // After Focus (and Prayer times while that is on), with its cup.
+        let at = list.iter().position(|s| *s == Section::Caffeine).expect("its section");
+        assert_eq!((list[at - 1], list.last()), (Section::Focus, Some(&Section::About)));
+        assert_eq!((Section::Caffeine.title(), Section::Caffeine.key(), Section::Caffeine.icon()), ("Caffeine", "caffeine", Icon::Coffee));
+        // Switched off, it goes from the sidebar (an open window shows General).
+        st.addons.insert(poni_core::addons::CAFFEINE.id, poni_core::addons::Status::Off);
+        assert!(!sections(&st).contains(&Section::Caffeine));
+    }
+
+    #[test]
+    fn caffeine_rows_apply_and_stay_in_range() {
+        let mut st = with_caffeine();
+        let steppers = [Key::CaffeineBedtime, Key::CaffeineHalfLife, Key::CaffeineBedLimit, Key::CaffeineDayLimit];
+        let shown = |st: &AppState| -> Vec<String> {
+            steppers
+                .into_iter()
+                .map(|k| match row(Section::Caffeine, st, k).map(|i| i.ctl) {
+                    Some(Ctl::Stepper(v)) => v,
+                    other => panic!("{k:?}: {other:?}"),
+                })
+                .collect()
+        };
+        assert_eq!(shown(&st), ["23:00", "5 h", "35 mg", "400 mg"]);
+        // A step up: a quarter hour, the next half-life, 5 mg and 50 mg. Each saves.
+        for k in steppers {
+            st.cmds.clear();
+            apply(&mut st, k, Act::Step(1));
+            assert!(st.cmds.iter().any(|c| matches!(c, Command::SaveSettings)), "{k:?}");
+        }
+        assert_eq!(shown(&st), ["23:15", "5.5 h", "40 mg", "450 mg"]);
+        // To their ends and no further.
+        for _ in 0..100 {
+            steppers.into_iter().for_each(|k| apply(&mut st, k, Act::Step(1)));
+        }
+        assert_eq!(shown(&st), ["03:00", "15 h", "80 mg", "1000 mg"]);
+        let c = &st.settings.caffeine;
+        assert_eq!((c.bedtime, c.half_life, c.bed_limit_mg, c.day_limit_mg), (3 * 60, 15.0, 80, 1000));
+        for _ in 0..100 {
+            steppers.into_iter().for_each(|k| apply(&mut st, k, Act::Step(-1)));
+        }
+        assert_eq!(shown(&st), ["20:00", "2 h", "10 mg", "100 mg"]);
+        // Bedtime goes past midnight and back, kept as minutes after midnight.
+        st.settings.caffeine.bedtime = 23 * 60 + 45;
+        apply(&mut st, Key::CaffeineBedtime, Act::Step(1));
+        assert_eq!((st.settings.caffeine.bedtime, shown(&st)[0].as_str()), (0, "00:00"));
+        apply(&mut st, Key::CaffeineBedtime, Act::Step(1));
+        assert_eq!(st.settings.caffeine.bedtime, 15);
+        apply(&mut st, Key::CaffeineBedtime, Act::Step(-1));
+        apply(&mut st, Key::CaffeineBedtime, Act::Step(-1));
+        assert_eq!(st.settings.caffeine.bedtime, 23 * 60 + 45);
+        // A value typed into the file goes to the next step that way, or
+        // back into the rows' range.
+        for (d, to) in [(1, 23 * 60 + 15), (-1, 23 * 60)] {
+            st.settings.caffeine.bedtime = 23 * 60 + 7;
+            apply(&mut st, Key::CaffeineBedtime, Act::Step(d));
+            assert_eq!(st.settings.caffeine.bedtime, to);
+        }
+        st.settings.caffeine.bedtime = 12 * 60;
+        apply(&mut st, Key::CaffeineBedtime, Act::Step(-1));
+        assert_eq!(st.settings.caffeine.bedtime, 20 * 60);
+        st.settings.caffeine.half_life = 5.2;
+        apply(&mut st, Key::CaffeineHalfLife, Act::Step(1));
+        assert_eq!(st.settings.caffeine.half_life, 5.5);
+        st.settings.caffeine.half_life = f32::NAN;
+        apply(&mut st, Key::CaffeineHalfLife, Act::Step(-1));
+        assert_eq!(st.settings.caffeine.half_life, 4.5);
+        st.settings.caffeine.bed_limit_mg = 37;
+        apply(&mut st, Key::CaffeineBedLimit, Act::Step(-1));
+        assert_eq!(st.settings.caffeine.bed_limit_mg, 35);
+        st.settings.caffeine.day_limit_mg = 5000;
+        apply(&mut st, Key::CaffeineDayLimit, Act::Step(-1));
+        assert_eq!(st.settings.caffeine.day_limit_mg, 1000);
+        // What the rows set is what the add-on uses as it is.
+        assert_eq!(st.settings.caffeine.sane(), st.settings.caffeine);
+        // The reminder's switch.
+        let remind = |st: &AppState| row(Section::Caffeine, st, Key::CaffeineRemind).map(|i| i.ctl);
+        assert_eq!(remind(&st), Some(Ctl::Switch(Some(true))));
+        apply(&mut st, Key::CaffeineRemind, Act::Toggle);
+        assert!(!st.settings.caffeine.remind && st.cmds.iter().any(|c| matches!(c, Command::SaveSettings)));
+        assert_eq!(remind(&st), Some(Ctl::Switch(Some(false))));
+        apply(&mut st, Key::CaffeineRemind, Act::Toggle);
+        assert!(st.settings.caffeine.remind);
+    }
+
+    #[test]
+    fn the_sidebar_has_room_for_every_section_at_full_height() {
+        // Every section but About is a row from the top, About sits 12 DIPs
+        // above the card's bottom (`draw_sidebar`), with Prayer times,
+        // Caffeine and AI usage all shown. The Mac's window buttons take
+        // `TITLEBAR` (28) of its 600.
+        let rows = (Section::ALL.len() - 1) as f32;
+        let last = NAV_Y + rows * (NAV_H + NAV_GAP) - NAV_GAP;
+        assert!(last + NAV_GAP <= CARD_H - 12.0 - NAV_H, "Windows: {last}");
+        assert!(28.0 + last + NAV_GAP <= 600.0 - 12.0 - NAV_H, "Mac: {last}");
+    }
+
+    #[test]
+    fn caffeine_fits_the_window_at_its_full_height_without_scrolling() {
+        let st = with_caffeine();
+        let content: f32 = blocks(Section::Caffeine, &st).iter().map(|b| block_h(&st, b) + GROUP_GAP).sum();
+        assert!(content + 16.0 <= CARD_H - CONTENT_Y - 1.0, "{content}");
+        // Its help lines say the half-life's usual range and the day's limits.
+        let sub = |k| row(Section::Caffeine, &st, k).and_then(|i| i.sub).unwrap_or_default();
+        assert_eq!(sub(Key::CaffeineHalfLife), "Most adults: 2 to 10 hours");
+        assert_eq!(sub(Key::CaffeineDayLimit), "400 mg a day for healthy adults, 200 mg in pregnancy");
+        assert_eq!(sub(Key::CaffeineRemind), format!("On the island, {} minutes before", caffeine::REMIND_BEFORE));
     }
 
     #[test]
