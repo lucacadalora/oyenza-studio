@@ -5264,7 +5264,7 @@ mod tests {
         let named = |fails: &[String]| fails.iter().map(|f| f.split(':').next().unwrap_or("").to_string()).collect::<Vec<_>>();
         for scale in [1.0, 2.0] {
             // A black capsule: Pill's resting pill, where the picture should be.
-            let black = failing(rest("noon"), scale, |_, _, _, px| px.chunks_exact_mut(4).filter(|p| p[3] == 255).for_each(|p| p[..3].fill(0)));
+            let black = failing(rest("noon"), scale, |_, _, _, px| px.as_chunks_mut::<4>().0.iter_mut().filter(|p| p[3] == 255).for_each(|p| p[..3].fill(0)));
             assert_eq!(named(&black), ["diorama-frame", "diorama-sky", "diorama-picture"], "{scale}: {black:?}");
             // The ball on the wrong end, and the night with it.
             let wrong_end = failing(rest("noon"), scale, |m, _, _, _| m.lens = 1.0);
