@@ -5546,21 +5546,27 @@ impl App {
         self.expanded
     }
 
-    /// Press at `from`, move to each of `to` in turn, then let go there (a
-    /// slide of Diorama's glass ball, or with no moves a tap). The clock the
-    /// self-test holds stands still meanwhile, so nothing is thrown.
-    pub fn selftest_press_moves(&mut self, from: Point, to: &[Point], release: bool) {
+    /// The left button goes down at `p` (window DIPs) and stays down.
+    pub fn selftest_button_down(&mut self, p: Point) {
+        let lp = self.selftest_lparam(p);
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut Vec::new());
+    }
+
+    /// The pointer moves to `p` with the left button down.
+    pub fn selftest_move(&mut self, p: Point) {
+        let lp = self.selftest_lparam(p);
+        self.handle_island(WM_MOUSEMOVE, WPARAM(0x0001), lp, &mut Vec::new());
+    }
+
+    /// The left button comes up at `p`.
+    pub fn selftest_button_up(&mut self, p: Point) {
+        let lp = self.selftest_lparam(p);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut Vec::new());
+    }
+
+    fn selftest_lparam(&self, p: Point) -> LPARAM {
         let s = self.gfx.scale();
-        let lp = |p: Point| LPARAM(((((p.y * s).round() as i32 & 0xffff) << 16) | ((p.x * s).round() as i32 & 0xffff)) as isize);
-        let mut deferred = Vec::new();
-        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp(from), &mut deferred);
-        for p in to {
-            self.handle_island(WM_MOUSEMOVE, WPARAM(0x0001), lp(*p), &mut deferred);
-        }
-        if release {
-            let last = to.last().copied().unwrap_or(from);
-            self.handle_island(WM_LBUTTONUP, WPARAM(0), lp(last), &mut deferred);
-        }
+        LPARAM(((((p.y * s).round() as i32 & 0xffff) << 16) | ((p.x * s).round() as i32 & 0xffff)) as isize)
     }
 
     /// The island's centre, DIPs from its monitor's left edge.

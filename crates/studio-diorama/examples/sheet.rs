@@ -1,9 +1,11 @@
 //! Paints the Diorama pill at a list of moments, for looking at while
 //! drawing it: `cargo run -p studio-diorama --example sheet -- <out-dir>
-//! [scale] [12h] [bare] [charging|low] [day=N] [film]`. One PPM per moment
-//! (`HHMM.ppm`, and `roll-NN.ppm` for the ball's roll at sunset), which any
-//! image tool opens; `film` writes a whole day instead, a frame every five
-//! minutes. Not part of the app.
+//! [scale] [12h] [bare] [charging|low] [day=N] [film] [slide=HHMM]`. One PPM
+//! per moment (`HHMM.ppm`, and `roll-NN.ppm` for the ball's roll at
+//! sunset), which any image tool opens; `film` writes a whole day instead, a
+//! frame every five minutes; `slide=HHMM` the ball slid by hand across the
+//! pane at that time (`slide-NN.ppm`, from where it rests). Not part of the
+//! app.
 
 use std::io::Write;
 use studio_diorama::{render, width, Badge, Clock, Moment, View, H};
@@ -33,11 +35,20 @@ fn main() {
     let day: i32 = args.iter().find_map(|a| a.strip_prefix("day=").and_then(|d| d.parse().ok())).unwrap_or(9817);
     let moment = |minute: f32| {
         let clock = (!has("bare")).then_some(Clock { hour: (minute / 60.0) as u8 % 24, minute: (minute % 60.0) as u8, h24: !has("12h") });
-        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day, lens: 0.0, clock, badge };
+        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day, lens: 0.0, clock, badge, dark: None };
         m.lens = m.rest_lens();
         m
     };
     std::fs::create_dir_all(&dir).expect("make the folder");
+    if let Some(hhmm) = args.iter().find_map(|a| a.strip_prefix("slide=").and_then(|t| t.parse::<u32>().ok())) {
+        // The ball slid by hand from where it rests at that time to the other end.
+        let m = moment((hhmm / 100 * 60 + hhmm % 100) as f32);
+        for i in 0..=12 {
+            let lens = i as f32 / 12.0;
+            save(&dir, &format!("slide-{i:02}"), &m.slid(if m.night() { 1.0 - lens } else { lens }), scale, 0.0);
+        }
+        return;
+    }
     if has("film") {
         // A whole day, a frame every five minutes, with the ball's roll at
         // sunrise and at sunset in between: `film-NNNN.ppm`.

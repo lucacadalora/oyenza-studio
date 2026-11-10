@@ -93,6 +93,7 @@ const DIORAMA_MOMENT: studio_diorama::Moment = studio_diorama::Moment {
     lens: 0.0,
     clock: Some(studio_diorama::Clock { hour: 10, minute: 8, h24: true }),
     badge: None,
+    dark: None,
 };
 /// A wheel notch scrolls this far.
 pub const WHEEL_STEP: f32 = 48.0;

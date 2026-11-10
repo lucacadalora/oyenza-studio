@@ -69,16 +69,6 @@ const SLIDE_SLOP: f32 = 2.0;
 const FLING: f32 = 2.5;
 /// A pointer that rested this long (seconds) before letting go threw nothing.
 const FLING_STALE: f64 = 0.08;
-/// Where a slide takes the place, in minutes from the next sunset (by day)
-/// or sunrise (at night): halfway across the golden hour ten minutes before
-/// sunset, at the tree the night 45 minutes after it, once dusk has
-/// deepened (the picture deepens it over 35); back the other way the glow
-/// ten minutes after sunrise halfway, and the day 50 minutes after it, once
-/// dawn has turned (over 45).
-const SET_HALF: f64 = -10.0;
-const SET_END: f64 = 45.0;
-const RISE_HALF: f64 = 10.0;
-const RISE_END: f64 = 50.0;
 
 /// Everything the painting shows: it is painted again when one changes.
 #[derive(Clone, Copy, PartialEq)]
@@ -95,10 +85,10 @@ struct Ball {
     to: f32,
     t0: f64,
     dur: f64,
-    /// Sent by hand: the place runs through the day with it ([`Scrub`]).
-    /// The sun's own rolls (and the theme being picked) keep the clock's
-    /// minute.
-    hand: Option<Scrub>,
+    /// Sent by hand from the clock's moment then: the place runs through
+    /// the day with it (`Moment::slid`). The sun's own rolls (and the theme
+    /// being picked) keep the clock's minute.
+    hand: Option<Moment>,
     /// Let go while moving: it carries on and comes to rest gently. Else it
     /// sets off gently too.
     thrown: bool,
@@ -115,53 +105,6 @@ impl Ball {
         let t = ((now - self.t0) / self.dur.max(1e-3)).clamp(0.0, 1.0) as f32;
         let eased = if self.thrown { 1.0 - (1.0 - t).powi(3) } else { t * t * t * (t * (6.0 * t - 15.0) + 10.0) };
         (self.from + (self.to - self.from) * eased, t < 1.0 && self.from != self.to)
-    }
-}
-
-/// The place's day while the ball goes by hand: what it shows with the
-/// ball at the house (`day`), halfway (`half`) and at the tree (`night`),
-/// in minutes since 1 January 2000 (so a night can run on past midnight).
-/// One end is the clock's minute; the other is the far side of the next
-/// sunset or sunrise, which the place keeps if the ball is left there.
-#[derive(Clone, Copy, Debug, PartialEq)]
-struct Scrub {
-    day: f64,
-    half: f64,
-    night: f64,
-}
-
-impl Scrub {
-    /// From the clock at `now` (minutes since 1 January 2000), the sun's
-    /// times in minutes of the day, and whether it is down.
-    fn from(now: f64, sunrise: f32, sunset: f32, night: bool) -> Scrub {
-        if night {
-            let rise = next(now, sunrise);
-            Scrub { night: now, half: rise + RISE_HALF, day: rise + RISE_END }
-        } else {
-            let set = next(now, sunset);
-            Scrub { day: now, half: (set + SET_HALF).max(now), night: set + SET_END }
-        }
-    }
-
-    /// What the place shows with the ball `lens` of the way across.
-    fn at(&self, lens: f32) -> f64 {
-        let l = lens.clamp(0.0, 1.0) as f64;
-        if l <= 0.5 {
-            self.day + (self.half - self.day) * l * 2.0
-        } else {
-            self.half + (self.night - self.half) * (l * 2.0 - 1.0)
-        }
-    }
-}
-
-/// The first `minute` of a day (minutes since midnight) at or after `now`
-/// (minutes since 1 January 2000).
-fn next(now: f64, minute: f32) -> f64 {
-    let t = (now / 1440.0).floor() * 1440.0 + minute as f64;
-    if t >= now {
-        t
-    } else {
-        t + 1440.0
     }
 }
 
@@ -196,7 +139,8 @@ struct Held {
     /// When it last moved (mono seconds) and how fast (ends a second).
     t: f64,
     speed: f32,
-    scrub: Scrub,
+    /// The clock's moment at the press, which the slide runs on from.
+    from: Moment,
 }
 
 thread_local! {
@@ -324,6 +268,7 @@ fn moment(st: &AppState) -> Moment {
         lens: 0.0,
         clock: clock(st),
         badge: badge(st),
+        dark: None,
     };
     m.lens = m.rest_lens();
     m
@@ -342,6 +287,12 @@ fn show_at(m: &mut Moment, t: f64) {
     m.minute = (t - day * 1440.0) as f32;
 }
 
+/// What the place shows with the ball slid `lens` of the way across from
+/// the clock's moment `from`, in minutes since 1 January 2000.
+fn slid_to(from: &Moment, lens: f32) -> f64 {
+    minutes(&from.slid(lens))
+}
+
 /// Where the ball rests and the minute the place shows at rest, for the
 /// clock's moment `m`: the sun's end and the clock's minute, or the end a
 /// hand left it at and that side of the day, while it holds.
@@ -355,7 +306,7 @@ fn resting(m: &Moment) -> (f32, f64) {
 
 /// Where the ball is at `now` on its way to `rest`, whether it rolls, and
 /// the day a hand sent it with.
-fn ball(rest: f32, now: f64) -> (f32, bool, Option<Scrub>) {
+fn ball(rest: f32, now: f64) -> (f32, bool, Option<Moment>) {
     let picked = PICKED.with(|p| p.replace(false));
     let b = match BALL.with(|b| b.get()) {
         // Just picked: it rolls in from the other end, and the day (or the
@@ -382,9 +333,8 @@ pub fn grab(st: &AppState, x: f32) {
         Some(b) => b.at(now).0,
         None => resting(&m).0,
     };
-    let scrub = Scrub::from(minutes(&m), m.sunrise, m.sunset, m.night());
     let travel = (rest.w - rest.h).max(1.0);
-    HELD.with(|h| h.set(Some(Held { from_x: x, from_lens: lens, lens, travel, moved: false, t: now, speed: 0.0, scrub })));
+    HELD.with(|h| h.set(Some(Held { from_x: x, from_lens: lens, lens, travel, moved: false, t: now, speed: 0.0, from: m })));
 }
 
 /// The pointer at `x` (DIPs across the window) at `now` (mono seconds)
@@ -438,10 +388,10 @@ pub fn let_go(st: &AppState, now: f64) -> bool {
         0.0
     };
     let (dur, thrown) = if held.moved { (0.16 + 0.44 * (to - held.lens).abs() as f64, true) } else { (FLIP, false) };
-    BALL.with(|b| b.set(Some(Ball { from: held.lens, to, t0: now, dur, hand: Some(held.scrub), thrown })));
+    BALL.with(|b| b.set(Some(Ball { from: held.lens, to, t0: now, dur, hand: Some(held.from), thrown })));
     let night = to >= 0.5;
     let sun_night = moment(st).night();
-    LEFT.with(|l| l.set((night != sun_night).then(|| Left { night, until: held.scrub.at(to) })));
+    LEFT.with(|l| l.set((night != sun_night).then(|| Left { night, until: slid_to(&held.from, to) })));
     true
 }
 
@@ -464,7 +414,7 @@ fn ball_rect(at: Rect, rest: Geom, lens: f32) -> Rect {
 /// or look): Pill draws it.
 pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
     let Some(rest) = geom(st) else { return false };
-    let mut m = moment(st);
+    let m = moment(st);
     // The clock came round to where the ball was left: it follows the sun again.
     let now = minutes(&m);
     LEFT.with(|l| {
@@ -473,21 +423,35 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
         }
     });
     let (rest_lens, shown) = resting(&m);
-    let (lens, place) = match HELD.with(|h| h.get()) {
+    let mut pic = match HELD.with(|h| h.get()) {
         // In hand: it goes where the pointer takes it, and the day with it.
-        Some(h) => (h.lens, h.scrub.at(h.lens)),
+        Some(h) => h.from.slid(h.lens),
         None => {
             let (lens, rolling, hand) = ball(rest_lens, st.now);
             if rolling {
                 ui.request_anim();
             }
-            (lens, hand.filter(|_| rolling).map_or(shown, |s| s.at(lens)))
+            match hand.filter(|_| rolling) {
+                // On its way to an end from a hand: the day goes on with it.
+                Some(from) => from.slid(lens),
+                // Resting (or the sun's roll): the minute it shows there.
+                None => {
+                    let mut p = m;
+                    show_at(&mut p, shown);
+                    p.lens = lens;
+                    p
+                }
+            }
         }
     };
-    // The place's minute and date; the time in its sky stays the clock's.
-    show_at(&mut m, place);
+    // The time in its sky (and the badge) are the clock's, now.
+    pic.clock = m.clock;
+    pic.badge = m.badge;
     // In thousandths: the eye sees no finer, and a settled ball is exact.
-    m.lens = (lens * 1000.0).round() / 1000.0;
+    let thousandths = |v: f32| (v * 1000.0).round() / 1000.0;
+    pic.lens = thousandths(pic.lens);
+    pic.dark = pic.dark.map(thousandths);
+    let m = pic;
 
     // Under the pointer the body swells and the frame with it; the pane
     // keeps its size. The picture is the body's size for as far as that
@@ -641,22 +605,15 @@ mod tests {
     fn a_slide_runs_through_the_sunset_into_the_night_and_back() {
         // By day: from the clock's minute, through the golden hour ten
         // minutes before sunset halfway, to the night 45 minutes after it.
-        let day = Scrub::from(abs(10, 8), 360.0, 1080.0, false);
-        assert_eq!((day.at(0.0), day.at(0.5), day.at(1.0)), (abs(10, 8), abs(17, 50), abs(18, 45)));
-        assert_eq!(day.at(0.25), (abs(10, 8) + abs(17, 50)) / 2.0);
-        // Ten minutes before sunset the golden hour is where it starts.
-        let late = Scrub::from(abs(17, 55), 360.0, 1080.0, false);
-        assert_eq!((late.at(0.0), late.at(0.5)), (abs(17, 55), abs(17, 55)));
+        let day = moment(&state(10, 8));
+        assert_eq!((slid_to(&day, 0.0), slid_to(&day, 0.5), slid_to(&day, 1.0)), (abs(10, 8), abs(17, 50), abs(18, 45)));
         // At night: on through the small hours to the glow ten minutes
         // after sunrise, and the day 50 minutes after it, the next morning.
-        let night = Scrub::from(abs(22, 0), 360.0, 1080.0, true);
-        assert_eq!((night.at(1.0), night.at(0.5), night.at(0.0)), (abs(22, 0), abs(30, 10), abs(30, 50)));
-        // After midnight the morning is the same day's.
-        let small = Scrub::from(abs(2, 30), 360.0, 1080.0, true);
-        assert_eq!((small.at(0.5), small.at(0.0)), (abs(6, 10), abs(6, 50)));
+        let night = moment(&state(22, 0));
+        assert_eq!((slid_to(&night, 1.0), slid_to(&night, 0.5), slid_to(&night, 0.0)), (abs(22, 0), abs(30, 10), abs(30, 50)));
         // The place's date turns with it: 06:50 the next morning.
-        let mut m = moment(&state(22, 0));
-        show_at(&mut m, night.at(0.0));
+        let mut m = night;
+        show_at(&mut m, slid_to(&night, 0.0));
         assert_eq!((m.day, m.minute), (9811, 410.0));
     }
 

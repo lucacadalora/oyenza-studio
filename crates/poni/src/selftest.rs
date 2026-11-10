@@ -1830,11 +1830,14 @@ struct Rest {
     /// The sun sets a minute later: the picture is the glass ball halfway
     /// to the tree (`SelfTest::sunset`).
     roll: bool,
+    /// Slid by hand: the picture is the glass ball held halfway, at the
+    /// sunset it passes (`SelfTest::slide`).
+    slide: bool,
 }
 
 impl Rest {
     const fn at(name: &'static str, hour: u8, minute: u8) -> Rest {
-        Rest { name, hour, minute, h12: false, badge: None, minimal: false, hover: false, roll: false }
+        Rest { name, hour, minute, h12: false, badge: None, minimal: false, hover: false, roll: false, slide: false }
     }
 
     fn time(&self) -> LocalDateTime {
@@ -1855,7 +1858,7 @@ impl Rest {
 /// The day every Diorama picture is taken on: the moon three days past full.
 const REST_DAY: (i32, u8, u8) = (2026, 10, 29);
 
-static RESTS: [Rest; 14] = [
+static RESTS: [Rest; 15] = [
     // The day's hours, then the night's.
     Rest::at("dawn", 6, 10),
     Rest::at("morning", 10, 8),
@@ -1874,8 +1877,10 @@ static RESTS: [Rest; 14] = [
     Rest { h12: true, badge: Some(Badge::Charging), ..Rest::at("12-hour-charging", 12, 59) },
     Rest { minimal: true, ..Rest::at("minimal", 10, 8) },
     Rest { hover: true, ..Rest::at("hover", 10, 8) },
-    // Last, as it holds the app's clock for a moment: the minute before
-    // sunset, then the ball on its way.
+    // The last two hold the app's clock for a moment. The morning, then the
+    // ball slid halfway by hand, let go and tapped back.
+    Rest { slide: true, ..Rest::at("slide", 10, 8) },
+    // The minute before sunset, then the ball on its way.
     Rest { roll: true, ..Rest::at("roll", 17, 59) },
 ];
 
@@ -1926,6 +1931,7 @@ impl Sight {
             lens: 0.0,
             clock,
             badge,
+            dark: None,
         };
         moment.lens = moment.rest_lens();
         let what = format!(
@@ -3894,6 +3900,99 @@ impl SelfTest {
         Some(mid).filter(|(w, h, px)| *w > 0 && *h > 0 && px.len() == (*w as usize) * (*h as usize) * 4)
     }
 
+    /// The glass ball slid by hand in the picture `diorama-slide`: pressed on
+    /// the house end and carried halfway, it shows the sunset it passes
+    /// (`Moment::slid`) and asks for no frames while the pointer rests. Let
+    /// go there, it rolls on to the tree and the theme keeps the night 45
+    /// minutes after sunset, the clock in the sky still the morning's;
+    /// tapped, it rolls back to the house and the morning. Each is
+    /// `studio_diorama`'s picture. Returns the frame of the ball halfway,
+    /// the picture kept. Waits its rolls out (about 1.6 s), as `sunset` does.
+    fn slide(&self, app: &mut App, before: &Sight, scale: f32, checks: &mut Vec<Check>) -> Option<(i32, i32, Vec<u8>)> {
+        let wait = |s: f64| std::thread::sleep(std::time::Duration::from_secs_f64(s));
+        let (rest, shown) = before.sizes();
+        let look = |app: &mut App, m: &Moment| {
+            let (w, h, px, _) = app.selftest_capture();
+            let wants = app.selftest_frames_wanted();
+            let origin = app.selftest_capture_rect();
+            let seen = picture_match(&Frame { w, h, px: &px }, app.island_body(), (origin.left, origin.top), scale, m, rest, shown);
+            (wants, seen, (w, h, px))
+        };
+        let said = |on: bool| if on { "asked for frames" } else { "asked for none" };
+        let body = app.island_body();
+        // The ball rests on the house, the pane's left end; it goes the
+        // pane's width less its own to the tree.
+        let (y, travel) = (body.center().y, rest.0 - rest.1);
+        let on_house = Point::new(body.x + (body.w - rest.0) / 2.0 + rest.1 / 2.0, y);
+        let halfway = Point::new(on_house.x + travel / 2.0, y);
+        let on_tree = Point::new(on_house.x + travel, y);
+        let t0 = clock::mono();
+        clock::hold(Some(t0));
+        app.selftest_button_down(on_house);
+        app.selftest_move(halfway);
+        let in_hand = crate::pill::diorama::held();
+        let (held_wants, half, mid) = look(app, &before.moment.slid(0.5));
+        checks.push(check(
+            "diorama-slide",
+            in_hand && !held_wants && picture_ok(half),
+            format!(
+                "pressed on the house end and carried halfway, the ball is {}in hand and the frame {} while the pointer rests; {} of {} pixels inside the pill are studio_diorama's picture of the sunset it passes (largest difference in a channel: {})",
+                if in_hand { "" } else { "not " },
+                said(held_wants),
+                half.0,
+                half.1,
+                half.2
+            ),
+        ));
+        // Let go halfway: on to the tree, the nearer end.
+        app.selftest_button_up(halfway);
+        let (rolls_on, _, _) = look(app, &before.moment.slid(0.5));
+        wait(0.45);
+        clock::hold(Some(t0 + 0.45));
+        let night = Moment { dark: None, ..before.moment.slid(1.0) };
+        let (night_wants, at_night, _) = look(app, &night);
+        let theme_night = crate::pill::diorama::night(&app.st);
+        checks.push(check(
+            "diorama-slid",
+            rolls_on && !night_wants && theme_night && picture_ok(at_night),
+            format!(
+                "let go halfway, the ball {} and 0.45 s on {}; the theme shows its {}, and {} of {} pixels inside the pill are studio_diorama's picture of the night 45 minutes after sunset with the clock at {:02}:{:02} (largest difference in a channel: {})",
+                said(rolls_on),
+                said(night_wants),
+                if theme_night { "night" } else { "day" },
+                at_night.0,
+                at_night.1,
+                app.st.local.hour,
+                app.st.local.minute,
+                at_night.2
+            ),
+        ));
+        // A tap on it at the tree: back to the house, and the morning (and
+        // the island stays closed).
+        let opened = app.selftest_press(on_tree);
+        let (flips, _, _) = look(app, &before.moment);
+        wait(1.15);
+        clock::hold(Some(t0 + 1.6));
+        let (back_wants, back, _) = look(app, &before.moment);
+        let back_night = crate::pill::diorama::night(&app.st);
+        clock::hold(None);
+        checks.push(check(
+            "diorama-tap",
+            !opened && flips && !back_wants && !back_night && picture_ok(back),
+            format!(
+                "tapped at the tree, the island {} and the ball {}; 1.15 s on it {}; the theme shows its {}, and {} of {} pixels inside the pill are studio_diorama's picture of the morning (largest difference in a channel: {})",
+                if opened { "opened" } else { "stayed closed" },
+                said(flips),
+                said(back_wants),
+                if back_night { "night" } else { "day" },
+                back.0,
+                back.1,
+                back.2
+            ),
+        ));
+        Some(mid).filter(|(w, h, px)| *w > 0 && *h > 0 && px.len() == (*w as usize) * (*h as usize) * 4)
+    }
+
     fn media_session(&self, timeline: Timeline) -> MediaSession {
         MediaSession {
             app_id: "Spotify.exe".into(),
@@ -4110,6 +4209,12 @@ impl SelfTest {
                 if let Some(r) = rest.filter(|r| r.roll) {
                     // Kept as the picture: the ball halfway to the tree.
                     if let Some((_, _, mid)) = self.sunset(app, r, &sight, scale, &mut checks).filter(|(mw, mh, _)| (*mw, *mh) == (w, h)) {
+                        px = mid;
+                    }
+                }
+                if rest.is_some_and(|r| r.slide) {
+                    // Kept as the picture: the ball held halfway, at the sunset.
+                    if let Some((_, _, mid)) = self.slide(app, &sight, scale, &mut checks).filter(|(mw, mh, _)| (*mw, *mh) == (w, h)) {
                         px = mid;
                     }
                 }
@@ -5210,9 +5315,13 @@ mod tests {
         assert_eq!(wide("minimal").0, (80.0, 38.0));
         // Under the pointer: 6 more each way around the same pane.
         assert_eq!(wide("hover"), ((100.0, 38.0), (106.0, 44.0)));
-        // The roll holds the app's clock, so it is the last, a minute before the house's sunset.
+        // The roll holds the app's clock, so it is the last, a minute before
+        // the house's sunset; the slide by hand, which holds it too, just
+        // before it.
         let last = RESTS.last().expect("pictures");
         assert!(last.roll && RESTS.iter().filter(|r| r.roll).count() == 1);
+        assert!(RESTS[RESTS.len() - 2].slide && RESTS.iter().filter(|r| r.slide).count() == 1);
+        assert_eq!(at("slide"), (10, 8));
         assert_eq!((last.hour as f32 * 60.0 + last.minute as f32 + 1.0, DAY_ZERO), (HOUSE_DAY.1, days_from_civil(2000, 1, 1)));
     }
 

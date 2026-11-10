@@ -1004,10 +1004,16 @@ pub(crate) fn night_share(lens: f32) -> f32 {
     t * t * (3.0 - 2.0 * t)
 }
 
+/// How far a moment's picture has gone over to the night side: as far as
+/// the ball has rolled, or where a slide by hand says (`Moment::dark`).
+pub(crate) fn darkness(m: &Moment) -> f32 {
+    m.dark.map_or_else(|| night_share(m.lens), |d| d.clamp(0.0, 1.0))
+}
+
 /// The picture for a moment, `w` x `h` art pixels.
 pub(crate) fn paint(m: &Moment, w: i32, h: i32) -> Art {
     let lay = Layout::new(w);
-    let share = night_share(m.lens);
+    let share = darkness(m);
     let mut art = if share <= 0.0 {
         paint_side(m, &lay, h, false)
     } else if share >= 1.0 {
@@ -1079,7 +1085,7 @@ mod tests {
 
     fn at(hhmm: u32) -> Moment {
         let minute = (hhmm / 100 * 60 + hhmm % 100) as f32;
-        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day: 9817, lens: 0.0, clock: Some(Clock { hour: (hhmm / 100) as u8, minute: (hhmm % 100) as u8, h24: true }), badge: None };
+        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day: 9817, lens: 0.0, dark: None, clock: Some(Clock { hour: (hhmm / 100) as u8, minute: (hhmm % 100) as u8, h24: true }), badge: None };
         m.lens = m.rest_lens();
         m
     }
