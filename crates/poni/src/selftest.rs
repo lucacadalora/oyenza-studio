@@ -1913,7 +1913,10 @@ impl Sight {
     /// charging: no badge).
     fn of(st: &AppState, rest: Option<&Rest>) -> Sight {
         let l = &st.local;
-        let clock = (st.settings.idle_style != IdleStyle::Minimal).then_some(Clock { hour: l.hour, minute: l.minute, h24: st.settings.use_24h });
+        // The time is in the sky for the clock (and a status bar left from
+        // Pill); Minimal is the place alone, and so is a setting left on Eyes.
+        let timed = matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status);
+        let clock = timed.then_some(Clock { hour: l.hour, minute: l.minute, h24: st.settings.use_24h });
         let badge = rest.and_then(|r| r.badge);
         let mut moment = Moment {
             minute: (l.hour as u32 * 60 + l.minute as u32) as f32,
@@ -1933,7 +1936,7 @@ impl Sight {
             match clock {
                 Some(c) if c.h24 => "a 24-hour clock",
                 Some(_) => "a 12-hour clock",
-                None => "no clock (Minimal)",
+                None => "no clock",
             },
             match badge {
                 Some(Badge::Charging) => " with the charging bolt",
