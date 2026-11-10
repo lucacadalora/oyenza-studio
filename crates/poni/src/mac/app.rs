@@ -4635,7 +4635,13 @@ impl App {
     /// picture floats there too.
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
-        let look = *self.look() == poni_core::look::PILL && !glass::shown();
+        // Pill's own look, or Diorama's of the side of the day its ball rests on.
+        let want = match self.st.settings.theme {
+            Theme::Diorama => poni_core::look::diorama(pill::diorama::night(&self.st)),
+            _ => &poni_core::look::PILL,
+        };
+        let look = self.look() == want && !glass::shown();
+        let look_name = if self.st.settings.theme == Theme::Diorama { "Diorama's look" } else { "Pill's look" };
         let at = |x: f32, y: f32| self.hovering_inside(Point::new(x, y));
         let (ok, place) = match self.screen.notch {
             None => {
@@ -4670,7 +4676,7 @@ impl App {
         (
             "pill-theme",
             ok && look,
-            format!("{:?}, {:.0}x{:.0} DIP r {:.0}, {place}; Pill's look: {look}", self.mode, g.w, g.h, g.r),
+            format!("{:?}, {:.0}x{:.0} DIP r {:.0}, {place}; {look_name}: {look}", self.mode, g.w, g.h, g.r),
         )
     }
 
