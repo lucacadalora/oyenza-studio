@@ -33,7 +33,9 @@
 //! pill is the picture (`pill::diorama::shows`) it floats under the menu
 //! bar like everything else Pill shows, and stays at the spot it was
 //! dragged to instead of docking in the notch; pointing at the notch still
-//! lifts and opens it. Its Eyes and Hidden looks rest as Pill's do.
+//! lifts and opens it. Every idle look but Hidden rests as the picture
+//! there (a setting left on Eyes shows it without the clock), and Hidden
+//! hides inside the notch as Pill's does.
 //!
 //! Screens without a notch (older Macs, external displays) show the island
 //! exactly as Windows does.
@@ -121,8 +123,9 @@ pub fn fit(m: &Mode, st: &AppState) -> Fit {
 /// notch would hide.
 fn pill_fit(m: &Mode, st: &AppState) -> Fit {
     match m {
-        Mode::Idle if st.settings.idle_style == IdleStyle::Eyes => Fit::Ears,
+        // Diorama first: it has no eyes, so a setting left on Eyes is its picture too.
         Mode::Idle if pill::diorama::shows(st) => Fit::Below,
+        Mode::Idle if st.settings.idle_style == IdleStyle::Eyes => Fit::Ears,
         Mode::Idle | Mode::Aside => Fit::Inside,
         Mode::Activity(_) | Mode::Hud(_) | Mode::Notice | Mode::Expanded(_) => Fit::Below,
     }
@@ -482,7 +485,7 @@ mod tests {
 
     #[test]
     fn dioramas_picture_rests_floating_below_the_menu_bar() {
-        for style in [IdleStyle::Clock, IdleStyle::Status, IdleStyle::Minimal] {
+        for style in [IdleStyle::Clock, IdleStyle::Status, IdleStyle::Minimal, IdleStyle::Eyes] {
             let st = state(Theme::Diorama, style);
             assert_eq!(fit(&Mode::Idle, &st), Fit::Below, "{style:?}");
             assert!(floats(&Mode::Idle, &st), "{style:?}");
@@ -495,12 +498,14 @@ mod tests {
             let body = Rect::new(100.0, 40.0, rest.w, rest.h);
             assert_eq!(content_body(&Mode::Idle, &st, N, body), body, "{style:?}");
         }
-        // The eyes peek out beside the camera and Hidden hides inside it, as in Pill.
+        // Pill's eyes peek out beside the camera (Diorama has none: a
+        // setting left on Eyes is its picture, above), and Hidden hides
+        // inside the notch in both.
+        let eyes = state(Theme::Pill, IdleStyle::Eyes);
+        assert_eq!(fit(&Mode::Idle, &eyes), Fit::Ears);
+        assert_eq!(pill_gap(&Mode::Idle, &eyes, N), None);
+        assert_eq!(geom(&Mode::Idle, &eyes, N, BASE), Geom::new(N.w + 2.0 * PEEK_EAR, N.h, EARS_R));
         for theme in [Theme::Pill, Theme::Diorama] {
-            let eyes = state(theme, IdleStyle::Eyes);
-            assert_eq!(fit(&Mode::Idle, &eyes), Fit::Ears, "{theme:?}");
-            assert_eq!(pill_gap(&Mode::Idle, &eyes, N), None, "{theme:?}");
-            assert_eq!(geom(&Mode::Idle, &eyes, N, BASE), Geom::new(N.w + 2.0 * PEEK_EAR, N.h, EARS_R), "{theme:?}");
             let hidden = state(theme, IdleStyle::Hidden);
             assert_eq!(fit(&Mode::Idle, &hidden), Fit::Inside, "{theme:?}");
             assert_eq!(pill_gap(&Mode::Idle, &hidden, N), None, "{theme:?}");

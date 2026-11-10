@@ -2394,7 +2394,8 @@ impl App {
     /// move here, so the eyes cost a redraw only when their side or where
     /// they look changes.
     fn peek_at(&mut self, p: Point) {
-        let Some(n) = self.screen.notch.filter(|_| self.st.settings.idle_style == IdleStyle::Eyes) else { return };
+        // (Not in Diorama, which rests as its picture and has no eyes.)
+        let Some(n) = self.screen.notch.filter(|_| self.st.settings.idle_style == IdleStyle::Eyes && !pill::diorama::shows(&self.st)) else { return };
         let now = clock::mono().max(self.st.now);
         let before = notch::peek_key(&self.st, n, now);
         self.st.ui.peek.point(Point::new(p.x - self.notch_cx, p.y), now, n.w / 2.0);
