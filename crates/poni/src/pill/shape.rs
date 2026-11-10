@@ -564,7 +564,7 @@ mod tests {
         assert_eq!(frame_width(124.0, 30.0), studio_diorama::BEZEL);
         assert_eq!(frame_width(620.0, 216.0), FRAME_MAX);
         // On the way between them it grows without a step.
-        let mut last = 0.0;
+        let mut last = frame_width(620.0, 30.0);
         for h in (30..=240).map(|h| h as f32) {
             let w = frame_width(620.0, h);
             assert!(w >= last && w - last < 0.05, "{h}: {w} after {last}");

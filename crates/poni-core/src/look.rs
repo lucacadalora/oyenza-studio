@@ -283,8 +283,10 @@ pub const DIORAMA_NIGHT: Look = Look {
         lit: Color::hex(0x55558A),
         unlit: Color::hex(0x11122A),
         shade: Color::hex(0x10142E),
-        // The window's glow, deepened halfway to black: a warm shadow.
-        shadow: Color::hex(0x75571D),
+        // The window's glow deepened a third of the way to black: on a dark
+        // screen the island glows warm, on a light one it still casts a
+        // (warm) shadow.
+        shadow: Color::hex(0xA37A29),
     }),
     swaps: &[
         Swap { from: DIORAMA_ACCENT, fill: WINDOW_GLOW, text: WINDOW_LIGHT },
