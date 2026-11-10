@@ -400,6 +400,13 @@ pub fn held() -> bool {
     HELD.with(|h| h.get().is_some())
 }
 
+/// The side of the day a hand left the ball on against the sun (`true`:
+/// the night), while the theme keeps it; `None` when it follows the sun.
+pub fn left_by_hand(st: &AppState) -> Option<bool> {
+    let now = minutes(&moment(st));
+    LEFT.with(|l| l.get()).filter(|l| l.holds(now)).map(|l| l.night)
+}
+
 /// Where the glass ball is in the picture drawn at `at` (the resting pill
 /// `rest`, centred in it), `lens` of the way across: the square end it
 /// fills, which takes the pointer.
@@ -645,6 +652,7 @@ mod tests {
         assert_eq!((lens, rolling), (1.0, false));
         // At rest it shows the night it was slid to, 18:45, the clock still 10:08.
         assert_eq!(resting(&moment(&st)), (1.0, abs(18, 45)));
+        assert_eq!(left_by_hand(&st), Some(true));
         // At sunset the sun agrees; at 18:45 the clock has come round to it.
         st.local.hour = 18;
         st.local.minute = 0;
@@ -675,7 +683,7 @@ mod tests {
         grab(&st, 300.0 + TRAVEL);
         assert!(let_go(&st, 20.1));
         assert!(!night(&st));
-        assert_eq!(LEFT.with(|l| l.get()), None);
+        assert_eq!(left_by_hand(&st), None);
         assert_eq!(resting(&moment(&st)), (0.0, abs(14, 0)));
         settle();
     }

@@ -4400,6 +4400,25 @@ impl App {
                 self.st.settings.idle_style = IdleStyle::Clock;
                 self.on_menu(MenuCmd::SetTheme(Theme::Diorama));
             }
+            // Its glass ball slid by hand to the other end, through the
+            // view's own mouse events: pressed, carried along in three moves
+            // and let go there. Then tapped, back where the sun has it.
+            "notch-diorama-slide" => {
+                if let (Some(p), Some(rest)) = (self.smoke_ball(), pill::diorama::geom(&self.st)) {
+                    let way = if pill::diorama::night(&self.st) { -1.0 } else { 1.0 } * (rest.w - rest.h);
+                    let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+                    for f in [0.3, 0.7, 1.0] {
+                        self.on_pointer(Point::new(p.x + f * way, p.y));
+                    }
+                    let _ = self.on_view_input(ViewInput::Up { x: p.x + way, y: p.y });
+                }
+            }
+            "notch-diorama-tap" => {
+                if let Some(p) = self.smoke_ball() {
+                    let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+                    let _ = self.on_view_input(ViewInput::Up { x: p.x, y: p.y });
+                }
+            }
             // Pill floats below the top edge, open and resting; around the
             // notch it rests inside it and opens below it.
             "pill-open" | "notch-pill-open" => {
@@ -4553,6 +4572,8 @@ impl App {
             // The glass ball has rolled into place: a second and a half from
             // the theme's first frame.
             "notch-diorama" => waited > 2.5,
+            // On to its end (at most 0.6 s), and a tap's roll back (1.1 s).
+            "notch-diorama-slide" | "notch-diorama-tap" => waited > 1.6,
             // The countdown ticks at least once.
             "prayer-page" => waited > 1.5,
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
@@ -4582,6 +4603,15 @@ impl App {
             "music-cost" | "pill-music-cost" => waited > 2.5,
             _ => true,
         }
+    }
+
+    /// Where Diorama's glass ball is on the resting pill, window DIPs: the
+    /// house end by day, the tree end at night.
+    fn smoke_ball(&self) -> Option<Point> {
+        let rest = pill::diorama::geom(&self.st)?;
+        let body = self.island.body_rect_at(self.cx);
+        let lens = if pill::diorama::night(&self.st) { 1.0 } else { 0.0 };
+        Some(Point::new(body.x + (body.w - rest.w) / 2.0 + rest.h / 2.0 + lens * (rest.w - rest.h), body.center().y))
     }
 
     /// A press on the closed island, a move `dx` DIPs sideways and the
@@ -4791,6 +4821,21 @@ impl App {
                 let sized = pill::diorama::geom(&self.st).is_some_and(|p| (g.w, g.h) == (p.w, p.h));
                 let ok = placed && self.mode == Mode::Idle && sized;
                 Some(("diorama-rests-floating", ok, format!("{d}; its picture's size: {sized}")))
+            }
+            // Slid to the far end, the ball stays there against the sun and
+            // the theme with it; tapped, it follows the sun again. Neither
+            // opens or moves the island.
+            "notch-diorama-slide" | "notch-diorama-tap" => {
+                let slid = name == "notch-diorama-slide";
+                let left = pill::diorama::left_by_hand(&self.st);
+                let (_, placed, d) = self.pill_report();
+                let ok = left.is_some() == slid && !pill::diorama::held() && !self.expanded && self.mode == Mode::Idle && placed;
+                let side = match left {
+                    Some(true) => "left on the tree: the theme keeps the night",
+                    Some(false) => "left on the house: the theme keeps the day",
+                    None => "where the sun has it",
+                };
+                Some((if slid { "diorama-slid-by-hand" } else { "diorama-tapped-back" }, ok, format!("the ball is {side}; the island is {}; {d}", if self.expanded { "open" } else { "closed" })))
             }
             "music-cost" | "pill-music-cost" => {
                 let c = self.cost;
@@ -5535,7 +5580,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 84] = [
+const SMOKE_STEPS: [&str; 86] = [
     "idle",
     "hover",
     "open-focus",
@@ -5577,6 +5622,8 @@ const SMOKE_STEPS: [&str; 84] = [
     "notch-pill-ear",
     "notch-eyes",
     "notch-diorama",
+    "notch-diorama-slide",
+    "notch-diorama-tap",
     "ja-notify",
     "ja-auto",
     "ja-get",
