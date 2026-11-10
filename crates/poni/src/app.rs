@@ -1135,6 +1135,12 @@ impl App {
                     self.drag_island(lp);
                     return Some(LRESULT(0));
                 }
+                if pill::diorama::slide(p.x, clock::mono()) {
+                    // The glass ball in hand follows the pointer (captured, so anywhere).
+                    self.input.mouse = Some(p);
+                    self.request_frame();
+                    return Some(LRESULT(0));
+                }
                 if self.over_stale_mask(p) {
                     // The pointer is over a part of the hit mask the outline
                     // already left: it isn't on the island.
@@ -1205,6 +1211,13 @@ impl App {
                         // The prayer countdown's OK, the same way.
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
+                    } else if self.input.pressed_id == Some(wid(pill::diorama::BALL_ID)) {
+                        // Diorama's glass ball: in hand until the button comes
+                        // up, sliding with the pointer; the island neither
+                        // opens nor moves.
+                        self.input.pressed_id = None;
+                        pill::diorama::grab(&self.st, p.x);
+                        self.cancel_hover();
                     } else {
                         // Opens when the button comes up (`open_from_press`),
                         // unless the pointer moves sideways first: then it
@@ -1221,6 +1234,11 @@ impl App {
                 Some(LRESULT(0))
             }
             WM_LBUTTONUP => {
+                if pill::diorama::let_go(&self.st, clock::mono()) {
+                    // The ball rolls on to its end; the island stays closed under the pointer.
+                    self.input.pressed_id = None;
+                    self.cancel_hover();
+                }
                 if let Some(g) = self.grab.take() {
                     // What the closed island showed under the press doesn't click.
                     self.input.pressed_id = None;
@@ -1260,6 +1278,9 @@ impl App {
                 // (a drag leaves the island where it got to).
                 if lp.0 != self.hwnd.0 as isize && self.grab.take().is_some_and(|g| g.moved) {
                     self.dropped_island();
+                }
+                if lp.0 != self.hwnd.0 as isize && pill::diorama::let_go(&self.st, clock::mono()) {
+                    self.request_frame();
                 }
                 if lp.0 != self.hwnd.0 as isize && (self.input.down || self.input.pressed_id.is_some()) {
                     self.input.down = false;
@@ -1383,7 +1404,7 @@ impl App {
                 }
                 if msg == WM_SETTINGCHANGE && self.st.settings.theme == Theme::Glass {
                     self.st.accent = theme_accent(Theme::Glass);
-                } else if msg == WM_SETTINGCHANGE && !oyen::on(self.st.settings.theme) {
+                } else if msg == WM_SETTINGCHANGE && !oyen::on(self.st.settings.theme) && self.st.settings.theme != Theme::Diorama {
                     if let Some(a) = services::system_accent() {
                         self.st.accent = a;
                     }
@@ -1741,6 +1762,9 @@ impl App {
                 } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
                     // So does the prayer countdown under a pointer resting on
                     // its OK (resting on the rest of it still opens).
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(pill::diorama::BALL_ID)) {
+                    // And Diorama's resting pill under a pointer resting on its
+                    // glass ball, which is there to be slid.
                 } else {
                     self.expand();
                 }
@@ -3760,7 +3784,7 @@ impl App {
             self.gfx.prepare_glass(&p, canvas_px);
             Some(p)
         } else {
-            self.gfx.set_look(poni_core::look::of(self.st.settings.theme));
+            self.gfx.set_look(pill::look(&self.st, false));
             None
         };
         let (repaint, anim, focus, ui_live) = match self.gfx.begin(dirty) {
@@ -5522,6 +5546,29 @@ impl App {
         self.expanded
     }
 
+    /// The left button goes down at `p` (window DIPs) and stays down.
+    pub fn selftest_button_down(&mut self, p: Point) {
+        let lp = self.selftest_lparam(p);
+        self.handle_island(WM_LBUTTONDOWN, WPARAM(0), lp, &mut Vec::new());
+    }
+
+    /// The pointer moves to `p` with the left button down.
+    pub fn selftest_move(&mut self, p: Point) {
+        let lp = self.selftest_lparam(p);
+        self.handle_island(WM_MOUSEMOVE, WPARAM(0x0001), lp, &mut Vec::new());
+    }
+
+    /// The left button comes up at `p`.
+    pub fn selftest_button_up(&mut self, p: Point) {
+        let lp = self.selftest_lparam(p);
+        self.handle_island(WM_LBUTTONUP, WPARAM(0), lp, &mut Vec::new());
+    }
+
+    fn selftest_lparam(&self, p: Point) -> LPARAM {
+        let s = self.gfx.scale();
+        LPARAM(((((p.y * s).round() as i32 & 0xffff) << 16) | ((p.x * s).round() as i32 & 0xffff)) as isize)
+    }
+
     /// The island's centre, DIPs from its monitor's left edge.
     pub fn selftest_island_centre(&self) -> f32 {
         (self.surface.x - self.monitor.rect.left) as f32 / self.gfx.scale() + self.cx
@@ -5558,10 +5605,13 @@ impl App {
     }
 }
 
-/// Oyen's orange in his theme, Windows' accent colour otherwise.
+/// Oyen's orange in his theme, Diorama's own (which its day and night looks
+/// paint as theirs), Windows' accent colour otherwise.
 fn theme_accent(theme: Theme) -> Color {
     if oyen::on(theme) {
         oyen::ORANGE
+    } else if theme == Theme::Diorama {
+        poni_core::look::DIORAMA_ACCENT
     } else if theme == Theme::Glass {
         services::system_accent_base().unwrap_or(palette::BLUE)
     } else {

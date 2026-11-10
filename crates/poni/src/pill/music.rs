@@ -163,7 +163,7 @@ fn columns(w: f32, lyrics_on: bool, scale: f32) -> Columns {
 
 fn draw_session(ui: &mut Ui, st: &mut AppState, area: Rect, a: &mut Anim, fr: &Frame) {
     let now = st.now;
-    let accent = eq_color(st.media_accent());
+    let accent = eq_color(st.media_accent(), ui.c.look().light);
     let lyrics_on = st.settings.lyrics;
     let pronounce = st.settings.lyrics_pronunciation;
     let offset_s = f64::from(st.settings.lyrics_offset_ms) / 1000.0;
@@ -440,11 +440,16 @@ fn equalizer(ui: &mut Ui, right: f32, cy: f32, color: Color, eq: EqState, t: f64
 
 /// The album's colour for the equalizer, lifted so a dark or dull cover still
 /// reads on the black card (HSL lightness at least 0.62, saturation at least
-/// 0.55, as the spec's mockup); a grey cover stays grey.
-pub fn eq_color(c: Color) -> Color {
+/// 0.55, as the spec's mockup); a grey cover stays grey. On a `light` look's
+/// ground (Diorama by day) a colour is deepened instead (lightness at most
+/// 0.42), so a bright cover's bars don't fade into the cream; grey is the
+/// look's to paint.
+pub fn eq_color(c: Color, light: bool) -> Color {
     let (h, s, l) = to_hsl(c);
-    let s = if s < 0.08 { s } else { s.max(0.55) };
-    from_hsl(h, s, l.max(0.62)).with_alpha(c.a)
+    let grey = s < 0.08;
+    let s = if grey { s } else { s.max(0.55) };
+    let l = if light && !grey { l.min(0.42) } else { l.max(0.62) };
+    from_hsl(h, s, l).with_alpha(c.a)
 }
 
 fn to_hsl(c: Color) -> (f32, f32, f32) {
@@ -597,15 +602,19 @@ mod tests {
 
     #[test]
     fn the_equalizer_lifts_dark_covers_and_keeps_grey_ones_grey() {
-        let (_, s, l) = to_hsl(eq_color(Color::hex(0x5A1020)));
+        let (_, s, l) = to_hsl(eq_color(Color::hex(0x5A1020), false));
         assert!(l >= 0.619 && s >= 0.549, "lifted to s {s} l {l}");
         // Already bright and vivid: unchanged.
         let pink = Color::hex(0xFF78B0);
-        let out = eq_color(pink);
+        let out = eq_color(pink, false);
         assert!((out.r - pink.r).abs() < 0.01 && (out.g - pink.g).abs() < 0.01 && (out.b - pink.b).abs() < 0.01);
         // Grey stays grey (no hue to lift into).
-        let grey = eq_color(Color::rgba(0.3, 0.3, 0.3, 1.0));
+        let grey = eq_color(Color::rgba(0.3, 0.3, 0.3, 1.0), false);
         assert!((grey.r - grey.g).abs() < 1e-4 && (grey.g - grey.b).abs() < 1e-4 && grey.r >= 0.619);
+        // On a light ground a bright cover's colour deepens; grey stays as on black.
+        let (_, s, l) = to_hsl(eq_color(pink, true));
+        assert!(l <= 0.421 && s >= 0.549, "deepened to s {s} l {l}");
+        assert_eq!(eq_color(Color::rgba(0.3, 0.3, 0.3, 1.0), true), grey);
         // Round trip.
         let c = Color::hex(0x3478F6);
         let (h, s, l) = to_hsl(c);

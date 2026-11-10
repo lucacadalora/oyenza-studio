@@ -1807,6 +1807,23 @@ impl<'a> Canvas<'a> {
         }
     }
 
+    /// Fill a path with a vertical gradient through `stops` (where between
+    /// `y0` and `y1`, 0 to 1, and the colour there); above `y0` and below
+    /// `y1` the end colours carry on. Give it opaque colours: Wine's
+    /// Direct2D adds a part-transparent stop's colour unpremultiplied (so a
+    /// fade to clear white paints white), and the self-test runs there.
+    pub fn fill_path_stops(&mut self, segs: &[Seg], y0: f32, y1: f32, stops: &[(f32, Color)]) {
+        let Ok(geo) = self.g.path_geometry(segs, true) else { return };
+        let stops: Vec<D2D1_GRADIENT_STOP> = stops.iter().map(|&(position, c)| D2D1_GRADIENT_STOP { position, color: d2d_color(self.g.look.paint(c)) }).collect();
+        unsafe {
+            let Ok(coll) = self.g.rt.CreateGradientStopCollection(&stops, D2D1_GAMMA_2_2, D2D1_EXTEND_MODE_CLAMP) else { return };
+            let props = D2D1_LINEAR_GRADIENT_BRUSH_PROPERTIES { startPoint: pt(0.0, y0), endPoint: pt(0.0, y1) };
+            let Ok(brush) = self.g.rt.CreateLinearGradientBrush(&props, None, &coll) else { return };
+            brush.SetOpacity(self.alpha);
+            self.g.rt.FillGeometry(&geo, &brush, None);
+        }
+    }
+
     /// A soft shadow round the rounded rectangle `r` (corner `radius`): `c`
     /// at the opacity `ramp` gives by distance from the edge (DIPs, negative
     /// inside, in order), from its first stop inside the edge to its last

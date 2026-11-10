@@ -135,7 +135,8 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
     let moving = (playing || level > 0.0) && !st.power.saver;
     let eq_x = body.right() - EQ_RIGHT - EQ_W;
     // The open card's equalizer colour, so the bars keep it through a morph.
-    equalizer(ui, eq_x, cy, super::music::eq_color(accent), level, moving, now);
+    let bars = super::music::eq_color(accent, ui.c.look().light);
+    equalizer(ui, eq_x, cy, bars, level, moving, now);
     middle(ui, st, body, art.right() + TEXT_CLEAR, eq_x - TEXT_CLEAR, lerp(PAUSED_TEXT, 1.0, level));
     true
 }

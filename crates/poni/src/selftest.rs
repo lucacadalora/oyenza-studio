@@ -35,6 +35,10 @@
 //! once drawn; only the rolling ball does (see `diorama_checks`).
 //! PONI_SELFTEST_DIORAMA=only takes those pictures and skips the scenes: a
 //! few seconds instead of a minute and a half, for looking at the art.
+//! The whole island takes the picture's day or night look, so a Diorama run
+//! holds the scenes' clock at 10:08 of the day it runs (its pictures keep
+//! their own times), whenever CI runs it; PONI_SELFTEST_DIORAMA=night holds
+//! them at 21:30 instead: every scene in the night look.
 //!
 //! PONI_SELFTEST_PRAYER_AT=HH:MM shows the Prayer page at that time of the
 //! day (the other Prayer scenes stay 8 minutes before Ashar).
@@ -1851,11 +1855,14 @@ struct Rest {
     /// The sun sets a minute later: the picture is the glass ball halfway
     /// to the tree (`SelfTest::sunset`).
     roll: bool,
+    /// Slid by hand: the picture is the glass ball held halfway, at the
+    /// sunset it passes (`SelfTest::slide`).
+    slide: bool,
 }
 
 impl Rest {
     const fn at(name: &'static str, hour: u8, minute: u8) -> Rest {
-        Rest { name, hour, minute, h12: false, badge: None, minimal: false, hover: false, roll: false }
+        Rest { name, hour, minute, h12: false, badge: None, minimal: false, hover: false, roll: false, slide: false }
     }
 
     fn time(&self) -> LocalDateTime {
@@ -1876,7 +1883,7 @@ impl Rest {
 /// The day every Diorama picture is taken on: the moon three days past full.
 const REST_DAY: (i32, u8, u8) = (2026, 10, 29);
 
-static RESTS: [Rest; 14] = [
+static RESTS: [Rest; 15] = [
     // The day's hours, then the night's.
     Rest::at("dawn", 6, 10),
     Rest::at("morning", 10, 8),
@@ -1895,8 +1902,10 @@ static RESTS: [Rest; 14] = [
     Rest { h12: true, badge: Some(Badge::Charging), ..Rest::at("12-hour-charging", 12, 59) },
     Rest { minimal: true, ..Rest::at("minimal", 10, 8) },
     Rest { hover: true, ..Rest::at("hover", 10, 8) },
-    // Last, as it holds the app's clock for a moment: the minute before
-    // sunset, then the ball on its way.
+    // The last two hold the app's clock for a moment. The morning, then the
+    // ball slid halfway by hand, let go and tapped back.
+    Rest { slide: true, ..Rest::at("slide", 10, 8) },
+    // The minute before sunset, then the ball on its way.
     Rest { roll: true, ..Rest::at("roll", 17, 59) },
 ];
 
@@ -1947,6 +1956,7 @@ impl Sight {
             lens: 0.0,
             clock,
             badge,
+            dark: None,
         };
         moment.lens = moment.rest_lens();
         let what = format!(
@@ -2027,6 +2037,17 @@ fn luma(p: [u8; 4]) -> f32 {
     0.114 * p[0] as f32 + 0.587 * p[1] as f32 + 0.299 * p[2] as f32
 }
 
+/// The Diorama frame's colour by day, of a `[b, g, r, a]` pixel: light, no
+/// bluer than red (cream).
+fn cream_frame(p: [u8; 4]) -> bool {
+    luma(p) >= 150.0 && p[2] >= p[0]
+}
+
+/// The Diorama frame's colour at night: dark, bluer than red (indigo).
+fn indigo_frame(p: [u8; 4]) -> bool {
+    luma(p) <= 110.0 && p[0] > p[2]
+}
+
 /// The Diorama theme's own checks for a picture of its resting pill, in the
 /// captured `frame` (`body` and `origin` as for [`picture_match`]; `geom`
 /// is what `pill::diorama` asks the island for).
@@ -2079,8 +2100,7 @@ fn diorama_checks(frame: &Frame, body: Rect, origin: (i32, i32), scale: f32, s: 
     let px = |x: f32, y: f32| frame.at((x * scale).floor() as i32, (y * scale).floor() as i32);
     let (mx, my) = (b.x + b.w / 2.0, b.y + b.h / 2.0);
     let ring = [px(mx, b.y + mid), px(mx, b.bottom() - mid), px(b.x + mid, my), px(b.right() - mid, my)];
-    let cream = |p: [u8; 4]| luma(p) >= 150.0 && p[2] >= p[0];
-    let indigo = |p: [u8; 4]| luma(p) <= 110.0 && p[0] > p[2];
+    let (cream, indigo) = (cream_frame, indigo_frame);
     let said = ring.map(|[b, g, r, _]| format!("rgb({r}, {g}, {b})")).join(", ");
     if m.lens <= 0.0 {
         checks.push(check("diorama-frame", ring.into_iter().all(cream), format!("top, bottom, left, right: {said}; want cream (light, no bluer than red) by day")));
@@ -2718,6 +2738,10 @@ pub struct SelfTest {
     /// PONI_SELFTEST_DIORAMA=only, in the Diorama theme: its own pictures
     /// (`RESTS`) and no scene.
     rests_only: bool,
+    /// The Diorama theme's scenes: the clock they are held at (its
+    /// pictures hold their own), and whether that is night
+    /// (PONI_SELFTEST_DIORAMA=night).
+    diorama_clock: Option<(LocalDateTime, bool)>,
     /// The clock's 12 or 24 hours as the run found them: the Diorama
     /// pictures change the setting and put it back.
     use_24h: bool,
@@ -2782,7 +2806,13 @@ impl SelfTest {
             Ok("diorama") => Theme::Diorama,
             _ => Theme::Classic,
         };
-        let rests_only = theme == Theme::Diorama && std::env::var("PONI_SELFTEST_DIORAMA").is_ok_and(|v| v.trim().eq_ignore_ascii_case("only"));
+        let diorama_run = std::env::var("PONI_SELFTEST_DIORAMA").map(|v| v.trim().to_ascii_lowercase()).unwrap_or_default();
+        let rests_only = theme == Theme::Diorama && diorama_run == "only";
+        // The day the run starts, at a time in the morning (or the night):
+        // the scenes' look never depends on when CI runs them.
+        let night_run = diorama_run == "night";
+        let (hour, minute) = if night_run { (21, 30) } else { (10, 8) };
+        let diorama_clock = (theme == Theme::Diorama).then(|| (LocalDateTime { hour, minute, second: 0, ..clock::local_now() }, night_run));
         Self {
             dir: PathBuf::from(dir),
             t0: Instant::now(),
@@ -2805,6 +2835,7 @@ impl SelfTest {
             dpi_applied: false,
             theme,
             rests_only,
+            diorama_clock,
             use_24h: true,
             glass: None,
             budget_ms: FRAME_BUDGET_MS,
@@ -3353,6 +3384,7 @@ impl SelfTest {
                     } else {
                         // The PC's own clock again, and its 12 or 24 hours.
                         clock::hold_local(None);
+                        crate::pill::hold_night(None);
                         app.st.settings.use_24h = self.use_24h;
                         self.phase = self.after_scenes(clock::mono());
                     }
@@ -3581,13 +3613,25 @@ impl SelfTest {
         };
         if st.settings.theme != self.theme {
             st.settings.theme = self.theme;
-            st.accent = if self.theme == Theme::Oyen { crate::oyen::ORANGE } else { palette::BLUE };
+            st.accent = match self.theme {
+                Theme::Oyen => crate::oyen::ORANGE,
+                // Diorama's own, as the app keeps it (`theme_accent`).
+                Theme::Diorama => poni_core::look::DIORAMA_ACCENT,
+                _ => palette::BLUE,
+            };
         }
         // Diorama's glass ball rests where the time has it in every picture:
         // it would roll in as the theme is picked, and across if the sun
         // set or rose during the run.
         if self.theme == Theme::Diorama {
             crate::pill::diorama::settle();
+        }
+        // Diorama's scenes on the run's held clock, in its day or night look
+        // (held too: with a Prayer times place the sun is that place's, at
+        // its real hour).
+        if let Some((at, night)) = self.diorama_clock {
+            clock::hold_local(Some(at));
+            crate::pill::hold_night(Some(night));
         }
         if let Some(run) = self.glass {
             // What's under the window: drawn again whenever the window grows.
@@ -3851,6 +3895,8 @@ impl SelfTest {
     fn apply_rest(&self, app: &mut App, r: &Rest) {
         self.apply(app, Scene::IdleClock);
         clock::hold_local(Some(r.time()));
+        // The island's look follows the picture's own sun.
+        crate::pill::hold_night(None);
         let st = &mut app.st;
         st.settings.use_24h = !r.h12;
         if r.minimal {
@@ -3927,6 +3973,99 @@ impl SelfTest {
                 arrived.0,
                 arrived.1,
                 arrived.2
+            ),
+        ));
+        Some(mid).filter(|(w, h, px)| *w > 0 && *h > 0 && px.len() == (*w as usize) * (*h as usize) * 4)
+    }
+
+    /// The glass ball slid by hand in the picture `diorama-slide`: pressed on
+    /// the house end and carried halfway, it shows the sunset it passes
+    /// (`Moment::slid`) and asks for no frames while the pointer rests. Let
+    /// go there, it rolls on to the tree and the theme keeps the night 45
+    /// minutes after sunset, the clock in the sky still the morning's;
+    /// tapped, it rolls back to the house and the morning. Each is
+    /// `studio_diorama`'s picture. Returns the frame of the ball halfway,
+    /// the picture kept. Waits its rolls out (about 1.6 s), as `sunset` does.
+    fn slide(&self, app: &mut App, before: &Sight, scale: f32, checks: &mut Vec<Check>) -> Option<(i32, i32, Vec<u8>)> {
+        let wait = |s: f64| std::thread::sleep(std::time::Duration::from_secs_f64(s));
+        let (rest, shown) = before.sizes();
+        let look = |app: &mut App, m: &Moment| {
+            let (w, h, px, _) = app.selftest_capture();
+            let wants = app.selftest_frames_wanted();
+            let origin = app.selftest_capture_rect();
+            let seen = picture_match(&Frame { w, h, px: &px }, app.island_body(), (origin.left, origin.top), scale, m, rest, shown);
+            (wants, seen, (w, h, px))
+        };
+        let said = |on: bool| if on { "asked for frames" } else { "asked for none" };
+        let body = app.island_body();
+        // The ball rests on the house, the pane's left end; it goes the
+        // pane's width less its own to the tree.
+        let (y, travel) = (body.center().y, rest.0 - rest.1);
+        let on_house = Point::new(body.x + (body.w - rest.0) / 2.0 + rest.1 / 2.0, y);
+        let halfway = Point::new(on_house.x + travel / 2.0, y);
+        let on_tree = Point::new(on_house.x + travel, y);
+        let t0 = clock::mono();
+        clock::hold(Some(t0));
+        app.selftest_button_down(on_house);
+        app.selftest_move(halfway);
+        let in_hand = crate::pill::diorama::held();
+        let (held_wants, half, mid) = look(app, &before.moment.slid(0.5));
+        checks.push(check(
+            "diorama-slide",
+            in_hand && !held_wants && picture_ok(half),
+            format!(
+                "pressed on the house end and carried halfway, the ball is {}in hand and the frame {} while the pointer rests; {} of {} pixels inside the pill are studio_diorama's picture of the sunset it passes (largest difference in a channel: {})",
+                if in_hand { "" } else { "not " },
+                said(held_wants),
+                half.0,
+                half.1,
+                half.2
+            ),
+        ));
+        // Let go halfway: on to the tree, the nearer end.
+        app.selftest_button_up(halfway);
+        let (rolls_on, _, _) = look(app, &before.moment.slid(0.5));
+        wait(0.45);
+        clock::hold(Some(t0 + 0.45));
+        let night = Moment { dark: None, ..before.moment.slid(1.0) };
+        let (night_wants, at_night, _) = look(app, &night);
+        let theme_night = crate::pill::diorama::night(&app.st) && crate::pill::diorama::left_by_hand(&app.st) == Some(true);
+        checks.push(check(
+            "diorama-slid",
+            rolls_on && !night_wants && theme_night && picture_ok(at_night),
+            format!(
+                "let go halfway, the ball {} and 0.45 s on {}; the theme shows its {}, and {} of {} pixels inside the pill are studio_diorama's picture of the night 45 minutes after sunset with the clock at {:02}:{:02} (largest difference in a channel: {})",
+                said(rolls_on),
+                said(night_wants),
+                if theme_night { "night" } else { "day" },
+                at_night.0,
+                at_night.1,
+                app.st.local.hour,
+                app.st.local.minute,
+                at_night.2
+            ),
+        ));
+        // A tap on it at the tree: back to the house, and the morning (and
+        // the island stays closed).
+        let opened = app.selftest_press(on_tree);
+        let (flips, _, _) = look(app, &before.moment);
+        wait(1.15);
+        clock::hold(Some(t0 + 1.6));
+        let (back_wants, back, _) = look(app, &before.moment);
+        let back_night = crate::pill::diorama::night(&app.st);
+        clock::hold(None);
+        checks.push(check(
+            "diorama-tap",
+            !opened && flips && !back_wants && !back_night && picture_ok(back),
+            format!(
+                "tapped at the tree, the island {} and the ball {}; 1.15 s on it {}; the theme shows its {}, and {} of {} pixels inside the pill are studio_diorama's picture of the morning (largest difference in a channel: {})",
+                if opened { "opened" } else { "stayed closed" },
+                said(flips),
+                said(back_wants),
+                if back_night { "night" } else { "day" },
+                back.0,
+                back.1,
+                back.2
             ),
         ));
         Some(mid).filter(|(w, h, px)| *w > 0 && *h > 0 && px.len() == (*w as usize) * (*h as usize) * 4)
@@ -4076,8 +4215,29 @@ impl SelfTest {
                 // A picture covers the island's ground: opaque is the rule
                 // here, and `diorama_checks` look at what it shows.
                 checks.push(check("diorama-opaque", a >= 254, format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), 3 DIPs inside the picture")));
+            } else if let Some(f) = crate::pill::look(&app.st, false).frame {
+                // Diorama: the body is a frame round a pane. Halfway through
+                // the frame at the top it is the frame's (cream by day,
+                // indigo at night); just past it at the left end, halfway
+                // down (no page draws there, and the frame's shadow on the
+                // pane is along its top), the look's ground.
+                let fw = crate::pill::shape::frame_width(body.w, body.h);
+                let rim = frame.at(cx, ((body.y + fw / 2.0) * scale).floor() as i32);
+                let night = !crate::pill::look(&app.st, false).light;
+                let said = format!("rgb({}, {}, {})", rim[2], rim[1], rim[0]);
+                let ok = if night { indigo_frame(rim) } else { cream_frame(rim) };
+                checks.push(check("diorama-body-frame", ok, format!("{fw:.1} DIP frame, {said} halfway through it at the top; want the frame's {} (face rgb{:?})", if night { "indigo" } else { "cream" }, rgb8(f.face))));
+                let ground = rgb8(crate::pill::look(&app.st, false).ground);
+                let (px, py) = (((body.x + fw + 1.5) * scale).floor() as i32, ((body.y + body.h / 2.0) * scale).floor() as i32);
+                let [b, g, r, a] = frame.at(px, py);
+                let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
+                checks.push(check(
+                    "body-opaque-ground",
+                    a >= 254 && off <= 6,
+                    format!("pixel ({px}, {py}) = rgba({r}, {g}, {b}, {a}), ground rgb{ground:?}, 1.5 DIPs inside the frame at the left end"),
+                ));
             } else {
-                let ground = rgb8(poni_core::look::of(self.theme).ground);
+                let ground = rgb8(crate::pill::look(&app.st, false).ground);
                 let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
                 let inside = if pill { ", 3 DIPs inside the floating body" } else { "" };
                 checks.push(check(
@@ -4107,7 +4267,7 @@ impl SelfTest {
                 ));
             }
 
-            let look = if self.glass.is_some() { app.selftest_glass_state().2 } else { poni_core::look::of(self.theme) };
+            let look = if self.glass.is_some() { app.selftest_glass_state().2 } else { crate::pill::look(&app.st, false) };
             // Glass: away from the bright rim, which isn't content.
             let area = if self.glass.is_some() { Rect::new(body.x + 10.0, body.y, (body.w - 20.0).max(1.0), (body.h - 10.0).max(1.0)) } else { body };
             let lit = frame.content_pixels(area, scale, rgb8(look.ground));
@@ -4118,7 +4278,9 @@ impl SelfTest {
                 self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
             }
             if pill {
-                pill_checks(&frame, body, scale, &mut checks);
+                // Diorama's night island casts the window's warm glow.
+                let shadow = look.frame.map_or([0, 0, 0], |f| rgb8(f.shadow));
+                pill_checks(&frame, body, scale, shadow, &mut checks);
             }
             // In the Diorama theme the clock rests as the picture, and so does
             // the status bar's look (the bar itself is the Pill theme's own).
@@ -4148,6 +4310,12 @@ impl SelfTest {
                 if let Some(r) = rest.filter(|r| r.roll) {
                     // Kept as the picture: the ball halfway to the tree.
                     if let Some((_, _, mid)) = self.sunset(app, r, &sight, scale, &mut checks).filter(|(mw, mh, _)| (*mw, *mh) == (w, h)) {
+                        px = mid;
+                    }
+                }
+                if rest.is_some_and(|r| r.slide) {
+                    // Kept as the picture: the ball held halfway, at the sunset.
+                    if let Some((_, _, mid)) = self.slide(app, &sight, scale, &mut checks).filter(|(mw, mh, _)| (*mw, *mh) == (w, h)) {
                         px = mid;
                     }
                 }
@@ -4701,8 +4869,9 @@ impl Frame<'_> {
         n
     }
 
-    /// What rows `0..rows` hold (see [`GapScan`]).
-    fn gap_scan(&self, rows: i32) -> GapScan {
+    /// What rows `0..rows` hold (see [`GapScan`]), the island's shadow
+    /// being `shadow` (rgb).
+    fn gap_scan(&self, rows: i32, shadow: [u8; 3]) -> GapScan {
         let mut g = GapScan { most: 0, edge: 0, coloured: 0, hit: 0 };
         for y in 0..rows.min(self.h) {
             for x in 0..self.w {
@@ -4711,8 +4880,10 @@ impl Frame<'_> {
                 if y == 0 {
                     g.edge = g.edge.max(a);
                 }
-                // Premultiplied: black at any alpha stays (0, 0, 0); 2 allows rounding.
-                g.coloured += usize::from(r.max(gr).max(b) > 2);
+                // Premultiplied: the shadow's colour at any alpha stays that
+                // colour times the alpha (black: (0, 0, 0)); 2 allows rounding.
+                let want = shadow.map(|c| ((c as u32 * a as u32 + 127) / 255) as u8);
+                g.coloured += usize::from([r, gr, b].iter().zip(want).any(|(&p, q)| p.abs_diff(q) > 2));
                 g.hit += usize::from(a == 1);
             }
         }
@@ -4807,10 +4978,10 @@ const PILL_GAP_EDGE_MAX: u8 = 8;
 /// window keeps beside and below the body: a shadow that reaches the window's
 /// side or bottom edge is cut off there, a hard line on a light wallpaper.
 /// (The top edge is the screen's, and the gap check reads it.)
-fn pill_checks(frame: &Frame, body: Rect, scale: f32, checks: &mut Vec<Check>) {
+fn pill_checks(frame: &Frame, body: Rect, scale: f32, shadow: [u8; 3], checks: &mut Vec<Check>) {
     // Rows wholly above the body.
     let gap = (body.y * scale).floor() as i32;
-    let g = frame.gap_scan(gap);
+    let g = frame.gap_scan(gap, shadow);
     let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
     let first = (0..frame.h).find(|&y| frame.at(cx, y)[3] >= 128);
     let want = body.y * scale;
@@ -4820,7 +4991,7 @@ fn pill_checks(frame: &Frame, body: Rect, scale: f32, checks: &mut Vec<Check>) {
         gap > 0 && g.most <= PILL_GAP_SHADOW_MAX && g.edge <= PILL_GAP_EDGE_MAX && g.coloured == 0 && starts,
         format!(
             "rows 0-{} above the body: max alpha {} (want <= {PILL_GAP_SHADOW_MAX}), {} on the screen's edge (want <= {PILL_GAP_EDGE_MAX}), \
-             {} coloured pixels (want 0: shadow and hit pixels are black), {} hit pixels at alpha 1; the body starts at row {} (geometry {want:.1})",
+             {} coloured pixels (want 0: hit pixels are black and the shadow rgb{shadow:?}), {} hit pixels at alpha 1; the body starts at row {} (geometry {want:.1})",
             gap - 1,
             g.most,
             g.edge,
@@ -5238,19 +5409,22 @@ mod tests {
             assert!(RESTS[..k].iter().all(|q| q.name != r.name), "{} twice", r.name);
             assert!(!r.name.is_empty() && r.name.bytes().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-'), "{}", r.name);
         }
-        // The widths the pill has: 100, 112 with a 12-hour clock or a badge, 124 with both, 80 without a clock.
+        // The pill is as long as a notch whatever it shows: 190 by 38, with
+        // a 12-hour clock, a badge, both, or no clock.
         let wide = |name: &str| Sight::of(&state(rest(name)), Some(rest(name))).sizes();
-        assert_eq!(wide("noon"), ((100.0, 38.0), (100.0, 38.0)));
-        assert_eq!(wide("12-hour").0, (112.0, 38.0));
-        assert_eq!(wide("charging").0, (112.0, 38.0));
-        assert_eq!(wide("low-battery").0, (112.0, 38.0));
-        assert_eq!(wide("12-hour-charging").0, (124.0, 38.0));
-        assert_eq!(wide("minimal").0, (80.0, 38.0));
+        assert_eq!(wide("noon"), ((190.0, 38.0), (190.0, 38.0)));
+        for name in ["12-hour", "charging", "low-battery", "12-hour-charging", "minimal"] {
+            assert_eq!(wide(name).0, (190.0, 38.0), "{name}");
+        }
         // Under the pointer: 6 more each way around the same pane.
-        assert_eq!(wide("hover"), ((100.0, 38.0), (106.0, 44.0)));
-        // The roll holds the app's clock, so it is the last, a minute before the house's sunset.
+        assert_eq!(wide("hover"), ((190.0, 38.0), (196.0, 44.0)));
+        // The roll holds the app's clock, so it is the last, a minute before
+        // the house's sunset; the slide by hand, which holds it too, just
+        // before it.
         let last = RESTS.last().expect("pictures");
         assert!(last.roll && RESTS.iter().filter(|r| r.roll).count() == 1);
+        assert!(RESTS[RESTS.len() - 2].slide && RESTS.iter().filter(|r| r.slide).count() == 1);
+        assert_eq!(at("slide"), (10, 8));
         assert_eq!((last.hour as f32 * 60.0 + last.minute as f32 + 1.0, DAY_ZERO), (HOUSE_DAY.1, days_from_civil(2000, 1, 1)));
     }
 
@@ -5291,7 +5465,7 @@ mod tests {
             st.settings.idle_style = if k % 5 == 0 { IdleStyle::Status } else { IdleStyle::Clock };
             let sight = Sight::of(&st, None);
             let (pane, shown) = sight.sizes();
-            assert_eq!(pane.0, if st.settings.use_24h { 100.0 } else { 112.0 });
+            assert_eq!(pane.0, 190.0);
             let (w, h, px, body) = drawn(&sight.moment, pane, shown, shown.1 / 2.0, 1.0);
             let mut checks = Vec::new();
             diorama_checks(&Frame { w, h, px: &px }, body, (0, 0), 1.0, &sight, crate::pill::diorama::geom(&st), &mut checks);
@@ -5324,22 +5498,22 @@ mod tests {
             let boxy = failing(rest("noon"), scale, |_, _, radius, _| *radius = 12.0);
             assert_eq!(named(&boxy), ["diorama-capsule"], "{scale}: {boxy:?}");
             // Under the pointer, a pill that didn't swell.
-            let flat = failing(rest("hover"), scale, |_, shown, radius, _| (*shown, *radius) = ((100.0, 38.0), 19.0));
+            let flat = failing(rest("hover"), scale, |_, shown, radius, _| (*shown, *radius) = ((190.0, 38.0), 19.0));
             assert_eq!(named(&flat), ["diorama-size", "diorama-lift", "diorama-picture"], "{scale}: {flat:?}");
         }
     }
 
     #[test]
     fn a_pill_on_half_a_pixel_is_looked_for_where_the_window_puts_it() {
-        // At 125 % a 100 DIP pill is 125 pixels wide: in the middle of a
+        // At 125 % a 190 DIP pill is 237.5 pixels wide: in the middle of a
         // window an even number of pixels wide its edges fall on half
         // pixels, which the app rounds in the window's coordinates. The
-        // frame starts 250 pixels into the window.
+        // frame starts 150 pixels into the window.
         let r = rest("noon");
         let st = state(r);
         let sight = Sight::of(&st, Some(r));
         let (pane, shown) = sight.sizes();
-        let origin = (250, 0);
+        let origin = (150, 0);
         // The middle of a 692, a 1000 and a 693 pixel window, and one that is no pixel's edge.
         for cx in [276.8, 400.0, 277.2, 300.3] {
             let (w, h, px, body) = drawn_at(&sight.moment, pane, shown, shown.1 / 2.0, 1.25, cx, origin);

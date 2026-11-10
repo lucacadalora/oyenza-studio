@@ -42,6 +42,17 @@ const BALL_RIM: f32 = 1.14;
 const BALL_FRINGE: f32 = 0.03;
 /// Toward the light: up and to the left.
 const LIGHT: (f32, f32) = (-0.45, -0.893);
+/// Where a slide by hand takes the place, in minutes from the next sunset
+/// by day: halfway, ten minutes before it, in the golden hour; at the tree
+/// 45 minutes after it, once dusk has deepened (over 35).
+const SLID_SET: (f64, f64) = (-10.0, 45.0);
+/// And at night from the next sunrise: halfway ten minutes after it, in the
+/// glow; at the house 50 minutes after it, once dawn has turned into day
+/// (over 45).
+const SLID_RISE: (f64, f64) = (10.0, 50.0);
+/// A slide goes over from one side of the day to the other within this much
+/// of the way (either side of where it passes the sunset or sunrise).
+const SLID_TURN: f32 = 0.07;
 
 /// What the clock in the sky says.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -80,6 +91,11 @@ pub struct Moment {
     /// The time to write in the sky, or none (the Minimal look).
     pub clock: Option<Clock>,
     pub badge: Option<Badge>,
+    /// How far the picture has gone over to the night side, where that
+    /// isn't how far the ball has rolled (`lens`): a slide by hand keeps one
+    /// time of day and goes over around the sunset or sunrise it passes
+    /// ([`Moment::slid`]). `None`: with the ball.
+    pub dark: Option<f32>,
 }
 
 impl Moment {
@@ -97,12 +113,51 @@ impl Moment {
             0.0
         }
     }
+
+    /// The place with the glass ball slid by hand `lens` of the way across
+    /// (0 the house, 1 the tree) from where this minute rests it: it runs
+    /// on through the day with the ball. By day through the golden hour
+    /// (halfway) into the night after the next sunset; at night on through
+    /// the small hours and the glow before sunrise (halfway) into the next
+    /// morning. Its minute and date change with it, not the time written in
+    /// its sky.
+    pub fn slid(&self, lens: f32) -> Moment {
+        let now = self.minute as f64;
+        let (half, far) = if self.night() {
+            let rise = if self.sunrise as f64 >= now { self.sunrise as f64 } else { self.sunrise as f64 + 1440.0 };
+            (rise + SLID_RISE.0, rise + SLID_RISE.1)
+        } else {
+            let set = self.sunset as f64;
+            ((set + SLID_SET.0).max(now), set + SLID_SET.1)
+        };
+        let lens = lens.clamp(0.0, 1.0);
+        // How far from the clock's end: the house by day, the tree at night.
+        let away = if self.night() { 1.0 - lens } else { lens } as f64;
+        let t = if away <= 0.5 { now + (half - now) * away * 2.0 } else { half + (far - half) * (away * 2.0 - 1.0) };
+        let days = (t / 1440.0).floor();
+        // Where on the way it passes the sunset (after halfway) or the
+        // sunrise (before), and goes over to the far side there.
+        let turn = if self.night() {
+            let rise = half - SLID_RISE.0;
+            0.5 * (rise - now) / (half - now).max(1e-3)
+        } else {
+            0.5 + 0.5 * (self.sunset as f64 - half) / (far - half).max(1e-3)
+        } as f32;
+        let over = smoothstep(turn - SLID_TURN, turn + SLID_TURN, away as f32);
+        let dark = if self.night() { 1.0 - over } else { over };
+        Moment { minute: (t - days * 1440.0) as f32, day: self.day + days as i32, lens, dark: Some(dark), ..*self }
+    }
 }
 
-/// The resting pill's width in DIPs for what it shows: the house's end, the
-/// tree's end and a middle wide enough for the clock (12-hour times keep
-/// room for "12:59 PM", so the pill never changes width with the hour) and
-/// the badge. An even number, so the centred pill sits on whole pixels.
+/// How long the resting pill is, in DIPs: about a MacBook's notch, so it
+/// reads as an island and the glass ball has a long way to slide.
+pub const LONG: f32 = 190.0;
+
+/// The resting pill's width in DIPs for what it shows: [`LONG`], or longer
+/// where the house's end, the tree's end and a middle wide enough for the
+/// clock (12-hour times keep room for "12:59 PM", so the pill never changes
+/// width with the hour) and the badge need it. An even number, so the
+/// centred pill sits on whole pixels.
 pub fn width(clock: Option<Clock>, badge: Option<Badge>) -> f32 {
     let mid = match clock {
         None => scene::MID_BARE,
@@ -111,7 +166,7 @@ pub fn width(clock: Option<Clock>, badge: Option<Badge>) -> f32 {
             written + 2 * scene::MID_PAD
         }
     };
-    let w = scene::HOUSE_ZONE + mid + scene::TREE_ZONE;
+    let w = (scene::HOUSE_ZONE + mid + scene::TREE_ZONE).max(LONG as i32);
     (w + (w & 1)) as f32
 }
 
@@ -195,7 +250,7 @@ pub fn render(m: &Moment, v: &View) -> Picture {
     let pw = ((v.w.min(aw as f32 + 64.0) * s).round() as i32).max(1);
     let ph = ((v.h.min(ah as f32 + 64.0) * s).round() as i32).max(1);
     let art = scene::paint(m, aw, ah);
-    let dark = scene::night_share(m.lens);
+    let dark = scene::darkness(m);
 
     // The place stays its size, centred on whole pixels; the body in DIPs.
     let ox = ((pw as f32 - aw as f32 * s) / 2.0).round() / s;
@@ -315,7 +370,7 @@ mod tests {
     use super::*;
 
     fn moment(minute: f32) -> Moment {
-        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day: 9800, lens: 0.0, clock: Some(Clock { hour: (minute / 60.0) as u8, minute: (minute % 60.0) as u8, h24: true }), badge: None };
+        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day: 9800, lens: 0.0, clock: Some(Clock { hour: (minute / 60.0) as u8, minute: (minute % 60.0) as u8, h24: true }), badge: None, dark: None };
         m.lens = m.rest_lens();
         m
     }
@@ -334,11 +389,13 @@ mod tests {
     fn the_pill_is_as_wide_as_what_it_shows() {
         let h24 = Clock { hour: 13, minute: 27, h24: true };
         let h12 = Clock { h24: false, ..h24 };
-        assert_eq!(width(None, None), 80.0);
-        assert_eq!(width(Some(h24), None), 100.0);
-        assert_eq!(width(Some(h12), None), 112.0);
-        assert_eq!(width(Some(h24), Some(Badge::Charging)), 112.0);
-        assert_eq!(width(Some(h12), Some(Badge::Low(12))), 124.0);
+        // As long as a notch, whatever it shows: the widest time with a
+        // badge ("12:59 PM" and the battery) leaves room to spare.
+        for (clock, badge) in [(None, None), (Some(h24), None), (Some(h12), None), (Some(h24), Some(Badge::Charging)), (Some(h12), Some(Badge::Low(12)))] {
+            assert_eq!(width(clock, badge), LONG, "{clock:?} {badge:?}");
+        }
+        let widest = scene::HOUSE_ZONE + scene::CLOCK_W + scene::MERIDIEM_W + scene::BADGE_W + 2 * scene::MID_PAD + scene::TREE_ZONE;
+        assert!((widest as f32) < LONG - 50.0, "{widest}");
         // Even, so the centred pill lands on whole pixels at 100 %.
         for w in [width(None, None), width(Some(h24), None), width(Some(h12), Some(Badge::Charging))] {
             assert_eq!(w % 2.0, 0.0);
@@ -360,14 +417,14 @@ mod tests {
         let m = moment(600.0);
         for scale in [1.0, 1.25, 1.5, 1.75, 2.0, 3.0] {
             let p = render(&m, &view(&m, scale));
-            assert_eq!((p.w, p.h), ((100.0 * scale).round() as u32, (38.0 * scale).round() as u32), "{scale}");
+            assert_eq!((p.w, p.h), ((LONG * scale).round() as u32, (38.0 * scale).round() as u32), "{scale}");
             assert_eq!(p.bgra.len(), (p.w * p.h * 4) as usize);
             assert!(p.bgra.chunks(4).all(|c| c[3] == 255), "{scale}: opaque");
         }
         // Under the pointer the body is larger and so is the picture.
-        let lifted = View { w: 106.0, h: 44.0, ..view(&m, 2.0) };
+        let lifted = View { w: LONG + 6.0, h: 44.0, ..view(&m, 2.0) };
         let p = render(&m, &lifted);
-        assert_eq!((p.w, p.h), (212, 88));
+        assert_eq!((p.w, p.h), (392, 88));
     }
 
     #[test]
@@ -424,6 +481,46 @@ mod tests {
             assert!(x0 as f32 >= H / 2.0 + r, "{clock:?}: starts at {x0}, the ball ends at {}", H / 2.0 + r);
             assert!(x1 as f32 <= w as f32 - H / 2.0 - r, "{clock:?}: ends at {x1}");
         }
+    }
+
+    #[test]
+    fn a_slide_runs_the_place_on_through_the_sunset_or_the_night() {
+        let at = |m: Moment| (m.day, m.minute, m.lens);
+        // 10:08: halfway is the golden hour, ten minutes before sunset; at
+        // the tree the night 45 minutes after it, on the same date.
+        let m = moment(608.0);
+        assert_eq!(at(m.slid(0.0)), (m.day, 608.0, 0.0));
+        assert_eq!(at(m.slid(0.5)), (m.day, 1070.0, 0.5));
+        assert_eq!(at(m.slid(1.0)), (m.day, 1125.0, 1.0));
+        assert_eq!(m.slid(0.25).minute, (608.0 + 1070.0) / 2.0);
+        // Ten minutes before sunset the golden hour is already here.
+        assert_eq!(moment(1075.0).slid(0.5).minute, 1075.0);
+        // 22:00 on the tree: halfway the glow after sunrise, at the house the
+        // morning, both the next day.
+        let n = moment(1320.0);
+        assert_eq!(at(n.slid(1.0)), (n.day, 1320.0, 1.0));
+        assert_eq!(at(n.slid(0.5)), (n.day + 1, 370.0, 0.5));
+        assert_eq!(at(n.slid(0.0)), (n.day + 1, 410.0, 0.0));
+        // After midnight the morning is the same date's.
+        let small = moment(150.0);
+        assert_eq!(at(small.slid(0.0)), (small.day, 410.0, 0.0));
+        // The sky's clock stays.
+        assert_eq!(n.slid(0.0).clock, n.clock);
+        // And the picture goes through the sunset: halfway it is warmer than
+        // the day and lighter than the night it ends at.
+        let v = view(&m, 2.0);
+        let (day, half, night) = (luma(&render(&m.slid(0.0), &v)), luma(&render(&m.slid(0.5), &v)), luma(&render(&m.slid(1.0), &v)));
+        assert!(day > half && half > night, "{day} {half} {night}");
+        // It keeps one side of the day until it passes the sunset (at 0.59
+        // of the way at 10:08), and is wholly over soon after; its ends are
+        // the pictures at rest there.
+        let dark = |m: &Moment, lens: f32| m.slid(lens).dark.unwrap();
+        assert_eq!((dark(&m, 0.0), dark(&m, 0.5), dark(&m, 0.7), dark(&m, 1.0)), (0.0, 0.0, 1.0, 1.0));
+        assert!((dark(&m, 0.59) - 0.5).abs() < 0.05, "{}", dark(&m, 0.59));
+        assert_eq!(dark(&n, 1.0), 1.0);
+        assert_eq!(dark(&n, 0.0), 0.0);
+        let rest = Moment { minute: 1125.0, ..m };
+        assert_eq!(render(&m.slid(1.0), &v), render(&Moment { lens: 1.0, ..rest }, &v));
     }
 
     #[test]

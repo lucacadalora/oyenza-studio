@@ -267,18 +267,20 @@ The pages and features are the same as in Classic.
 
 ### The Diorama theme
 
-Diorama is Pill with a picture in its resting capsule: a small window onto a pixel-art place that keeps the hours of your day. Pick it with right-click › **Theme › Diorama**, or the gear › **Theme › Diorama**; on a Mac, in the menu bar's Theme menu.
+Diorama is Pill with a picture in its resting capsule: a long, small window onto a pixel-art place that keeps the hours of your day, as long as a MacBook's notch. Pick it with right-click › **Theme › Diorama**, or the gear › **Theme › Diorama**; on a Mac, in the menu bar's Theme menu.
 
-- **The place.** Behind a raised frame, cream by day and indigo at night, stand a house at one end and a tree at the other, with a fence and a letter box between them and hills behind.
+- **The place.** Behind a raised frame, cream by day and indigo at night, stand a house at one end and a tree at the other, with a letter box, a garden fence and a lamp post between them and hills behind. The lamp is lit from dusk through the night.
 - **It follows your clock.** Dawn is pink, the day is blue with the sun crossing the sky and clouds drifting by, the light turns golden from about an hour before sunset, and after dusk the stars come out one by one under the moon in tonight's phase. The window is lit until midnight and again from five, with smoke from the chimney while breakfast and supper cook.
 - **The cat's day.** An orange cat sits by the door at dawn, walks out to the tree, naps under it around noon, comes home for the golden hour and sits in the lit window after dark. From midnight to five it's nowhere to be seen.
 - **The glass ball.** A glass ball that magnifies what's under it rests on the house by day and on the tree at night. At sunset it rolls across and night falls behind it; at sunrise it rolls back. It rolls once when you pick the theme, too.
+- **Slide it.** Press the glass ball and slide it along: the place runs on through the day with it, through the golden hour and the sunset into the night (or at night through the small hours into the morning). Let go and it rolls on to the end it was nearer, or the one you threw it toward; tap it to send it to the other end. Left on the other side of the day, the whole theme keeps that side until the clock comes round to it: by day, 45 minutes after sunset; at night, 50 minutes after sunrise. Pressing the ball never opens or moves the island; press anywhere else on it for that.
 - **The time** is written in the sky between the house and the tree, 12- or 24-hour as you've set it. On a laptop, a bolt stands beside it while the battery charges, and a red battery at 20% or less. Pick **Idle look › Minimal** for the place without the clock.
 - **Your own sunrise and sunset.** With the [Prayer times](#add-ons) add-on on and a place picked, the sun rises and sets when it does there. Otherwise it rises at six and sets at six.
 - **On a MacBook with a notch**, the resting pill floats just below the notch instead of hiding in it, and stays where you drag it along the top edge.
-- **What it costs:** the picture is painted once a minute, with the tick the clock already wakes for, and nothing runs in between. The ball's roll draws frames for about a second and a half.
+- **The whole island matches.** The open card, the music pill, timers, pop-ups and notices are the same raised frame round a pane: cream with slate ink by day, indigo with cream ink and the window's gold at night, in the Outfit typeface. They change with the ball.
+- **What it costs:** the picture is painted once a minute, with the tick the clock already wakes for, and nothing runs in between. The ball's roll draws frames for about a second and a half; a slide draws one each time the pointer moves.
 
-Everything else is Pill's: music, timers, pop-ups, notices and the open card.
+Everything else works as in Pill: music, timers, pop-ups, notices and the open card, with the same pages and sizes.
 
 ### Show over games
 

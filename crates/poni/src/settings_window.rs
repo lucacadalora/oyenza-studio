@@ -82,6 +82,10 @@ const THEME_FLOAT: f32 = 7.0;
 /// Diorama's picture floats nearer the edge: it is drawn at its own size,
 /// pixel for pixel, and is taller than the little capsules beside it.
 const DIORAMA_FLOAT: f32 = 3.0;
+/// The card's picture is the place on a shorter pane than the resting
+/// pill's (`studio_diorama::LONG`), so it fits the little screen at its own
+/// size: the house, the clock, the fence and the tree.
+const DIORAMA_CARD_W: f32 = 120.0;
 /// The Diorama card shows the theme's own picture as it rests on the real
 /// screen: this moment of it, a morning at the 10:08 the other cards' clocks
 /// say, the glass ball on the house.
@@ -93,6 +97,7 @@ const DIORAMA_MOMENT: studio_diorama::Moment = studio_diorama::Moment {
     lens: 0.0,
     clock: Some(studio_diorama::Clock { hour: 10, minute: 8, h24: true }),
     badge: None,
+    dark: None,
 };
 /// A wheel notch scrolls this far.
 pub const WHEEL_STEP: f32 = 48.0;
@@ -1611,7 +1616,7 @@ thread_local! {
 /// theme's resting pill at [`DIORAMA_MOMENT`], at its own size (a smaller
 /// copy would smear its pixels and the time in its sky).
 fn diorama_picture(scale: f32) -> studio_diorama::Picture {
-    let (w, h) = (studio_diorama::width(DIORAMA_MOMENT.clock, DIORAMA_MOMENT.badge), studio_diorama::H);
+    let (w, h) = (DIORAMA_CARD_W, studio_diorama::H);
     studio_diorama::render(&DIORAMA_MOMENT, &studio_diorama::View { w, h, rest_w: w, rest_h: h, scale })
 }
 
@@ -1912,7 +1917,7 @@ mod tests {
         // Every card's line keeps its measure, and its little screen has
         // room for the widest island drawn on it with air either side.
         assert!(cards[0].w - 24.0 >= THEME_LINE_W);
-        assert!(cards[0].w - 20.0 >= studio_diorama::width(DIORAMA_MOMENT.clock, DIORAMA_MOMENT.badge) + 2.0 * 16.0);
+        assert!(cards[0].w - 20.0 >= DIORAMA_CARD_W + 2.0 * 16.0);
     }
 
     #[test]
@@ -1934,8 +1939,8 @@ mod tests {
         let screen = Rect::new(282.0, 104.0, 160.0, THEME_PREVIEW_H);
         for scale in [1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0] {
             let p = diorama_picture(scale);
-            // The resting pill's own size, 100 x 38 DIP, to the pixel.
-            assert_eq!(p.w as f32, 100.0 * scale, "{scale}");
+            // The card's pane, 120 x 38 DIP, to the pixel.
+            assert_eq!(p.w as f32, DIORAMA_CARD_W * scale, "{scale}");
             assert!((p.h as f32 - studio_diorama::H * scale).abs() <= 0.5, "{scale}: {} px tall", p.h);
             assert_eq!(p.bgra.len(), (p.w * p.h * 4) as usize, "{scale}");
             // Its place has the picture's own shape (so nothing of it is
@@ -1962,14 +1967,14 @@ mod tests {
         let view = View::new(Section::Appearance);
         let (first, replaced) = diorama_image(2.0);
         assert!(replaced.is_none());
-        assert_eq!((first.width, first.height), (200, 76));
+        assert_eq!((first.width, first.height), (240, 76));
         // Drawn again, it is the same painting.
         let (again, replaced) = diorama_image(2.0);
         assert!(std::sync::Arc::ptr_eq(&first, &again) && replaced.is_none());
         // On a screen of another scale it is painted for that one, and the
         // canvas gets the old painting to let go of.
         let (small, replaced) = diorama_image(1.0);
-        assert_eq!((small.width, small.height), (100, 38));
+        assert_eq!((small.width, small.height), (120, 38));
         assert!(replaced.is_some_and(|old| std::sync::Arc::ptr_eq(&old, &first)));
         // The window closes: nothing of it is kept.
         drop(view);

@@ -883,6 +883,9 @@ impl App {
                 } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
                     // So does the prayer countdown under a pointer resting on
                     // its OK (resting on the rest of it still opens).
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(pill::diorama::BALL_ID)) {
+                    // And Diorama's resting pill under a pointer resting on its
+                    // glass ball, which is there to be slid.
                 } else {
                     self.expand();
                 }
@@ -2271,12 +2274,10 @@ impl App {
     }
 
     /// How the island paints: the theme's look, or around a notch the one
-    /// that meets its black (Oyen goes black there).
+    /// that meets its black (Oyen goes black there); Diorama's by day or at
+    /// night, as its picture shows (it floats below a notch).
     fn look(&self) -> &'static Look {
-        match self.screen.notch {
-            Some(_) => poni_core::look::around_notch(self.st.settings.theme),
-            None => poni_core::look::of(self.st.settings.theme),
-        }
+        pill::look(&self.st, self.screen.notch.is_some())
     }
 
     /// The resting island is out of sight: hidden until hover, or inside the notch.
@@ -2359,6 +2360,12 @@ impl App {
         if self.grab.is_some() {
             self.input.mouse = Some(p);
             self.drag_island(p);
+            return;
+        }
+        if pill::diorama::slide(p.x, clock::mono()) {
+            // Diorama's glass ball in hand follows the pointer.
+            self.input.mouse = Some(p);
+            self.request_frame();
             return;
         }
         self.peek_at(p);
@@ -2454,6 +2461,13 @@ impl App {
                         // The prayer countdown's OK, the same way.
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
+                    } else if self.input.pressed_id == Some(wid(pill::diorama::BALL_ID)) {
+                        // Diorama's glass ball: in hand until the button comes
+                        // up, sliding with the pointer; the island neither
+                        // opens nor moves.
+                        self.input.pressed_id = None;
+                        pill::diorama::grab(&self.st, p.x);
+                        self.cancel_hover();
                     } else if self.movable() && (self.screen.notch.is_none() || self.island.floating()) {
                         // Opens when the button comes up (`open_from_press`),
                         // unless the pointer moves sideways first: then it
@@ -2473,6 +2487,11 @@ impl App {
                 // A drop puts the window back around the island: the point
                 // came in the coordinates of the window as it was.
                 let left = self.win.0;
+                if pill::diorama::let_go(&self.st, clock::mono()) {
+                    // The ball rolls on to its end; the island stays closed under the pointer.
+                    self.input.pressed_id = None;
+                    self.cancel_hover();
+                }
                 if let Some(g) = self.grab.take() {
                     // What the closed island showed under the press doesn't click.
                     self.input.pressed_id = None;
@@ -4379,6 +4398,25 @@ impl App {
                 self.st.settings.idle_style = IdleStyle::Clock;
                 self.on_menu(MenuCmd::SetTheme(Theme::Diorama));
             }
+            // Its glass ball slid by hand to the other end, through the
+            // view's own mouse events: pressed, carried along in three moves
+            // and let go there. Then tapped, back where the sun has it.
+            "notch-diorama-slide" => {
+                if let (Some(p), Some(rest)) = (self.smoke_ball(), pill::diorama::geom(&self.st)) {
+                    let way = if pill::diorama::night(&self.st) { -1.0 } else { 1.0 } * (rest.w - rest.h);
+                    let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+                    for f in [0.3, 0.7, 1.0] {
+                        self.on_pointer(Point::new(p.x + f * way, p.y));
+                    }
+                    let _ = self.on_view_input(ViewInput::Up { x: p.x + way, y: p.y });
+                }
+            }
+            "notch-diorama-tap" => {
+                if let Some(p) = self.smoke_ball() {
+                    let _ = self.on_view_input(ViewInput::Down { x: p.x, y: p.y, double: false });
+                    let _ = self.on_view_input(ViewInput::Up { x: p.x, y: p.y });
+                }
+            }
             // Pill floats below the top edge, open and resting; around the
             // notch it rests inside it and opens below it.
             "pill-open" | "notch-pill-open" => {
@@ -4532,6 +4570,8 @@ impl App {
             // The glass ball has rolled into place: a second and a half from
             // the theme's first frame.
             "notch-diorama" => waited > 2.5,
+            // On to its end (at most 0.6 s), and a tap's roll back (1.1 s).
+            "notch-diorama-slide" | "notch-diorama-tap" => waited > 1.6,
             // The countdown ticks at least once.
             "prayer-page" => waited > 1.5,
             "prayer-adzan" => self.st.prayer.adzan || waited > 6.0,
@@ -4563,6 +4603,15 @@ impl App {
         }
     }
 
+    /// Where Diorama's glass ball is on the resting pill, window DIPs: the
+    /// house end by day, the tree end at night.
+    fn smoke_ball(&self) -> Option<Point> {
+        let rest = pill::diorama::geom(&self.st)?;
+        let body = self.island.body_rect_at(self.cx);
+        let lens = if pill::diorama::night(&self.st) { 1.0 } else { 0.0 };
+        Some(Point::new(body.x + (body.w - rest.w) / 2.0 + rest.h / 2.0 + lens * (rest.w - rest.h), body.center().y))
+    }
+
     /// A press on the closed island, a move `dx` DIPs sideways and the
     /// release there, as the view's mouse events bring them: in window DIPs,
     /// each placed for the window as it is (it spans the screen once the
@@ -4586,7 +4635,13 @@ impl App {
     /// picture floats there too.
     fn pill_report(&self) -> (&'static str, bool, String) {
         let body = self.island.body_rect_at(self.cx);
-        let look = *self.look() == poni_core::look::PILL && !glass::shown();
+        // Pill's own look, or Diorama's of the side of the day its ball rests on.
+        let want = match self.st.settings.theme {
+            Theme::Diorama => poni_core::look::diorama(pill::diorama::night(&self.st)),
+            _ => &poni_core::look::PILL,
+        };
+        let look = self.look() == want && !glass::shown();
+        let look_name = if self.st.settings.theme == Theme::Diorama { "Diorama's look" } else { "Pill's look" };
         let at = |x: f32, y: f32| self.hovering_inside(Point::new(x, y));
         let (ok, place) = match self.screen.notch {
             None => {
@@ -4621,7 +4676,7 @@ impl App {
         (
             "pill-theme",
             ok && look,
-            format!("{:?}, {:.0}x{:.0} DIP r {:.0}, {place}; Pill's look: {look}", self.mode, g.w, g.h, g.r),
+            format!("{:?}, {:.0}x{:.0} DIP r {:.0}, {place}; {look_name}: {look}", self.mode, g.w, g.h, g.r),
         )
     }
 
@@ -4770,6 +4825,21 @@ impl App {
                 let sized = pill::diorama::geom(&self.st).is_some_and(|p| (g.w, g.h) == (p.w, p.h));
                 let ok = placed && self.mode == Mode::Idle && sized;
                 Some(("diorama-rests-floating", ok, format!("{d}; its picture's size: {sized}")))
+            }
+            // Slid to the far end, the ball stays there against the sun and
+            // the theme with it; tapped, it follows the sun again. Neither
+            // opens or moves the island.
+            "notch-diorama-slide" | "notch-diorama-tap" => {
+                let slid = name == "notch-diorama-slide";
+                let left = pill::diorama::left_by_hand(&self.st);
+                let (_, placed, d) = self.pill_report();
+                let ok = left.is_some() == slid && !pill::diorama::held() && !self.expanded && self.mode == Mode::Idle && placed;
+                let side = match left {
+                    Some(true) => "left on the tree: the theme keeps the night",
+                    Some(false) => "left on the house: the theme keeps the day",
+                    None => "where the sun has it",
+                };
+                Some((if slid { "diorama-slid-by-hand" } else { "diorama-tapped-back" }, ok, format!("the ball is {side}; the island is {}; {d}", if self.expanded { "open" } else { "closed" })))
             }
             "music-cost" | "pill-music-cost" => {
                 let c = self.cost;
@@ -5435,6 +5505,9 @@ fn system_report(st: &AppState) -> (bool, String) {
 pub(crate) fn theme_accent(theme: Theme) -> Color {
     if oyen::on(theme) {
         oyen::ORANGE
+    } else if theme == Theme::Diorama {
+        // Its own, which its day and night looks paint as theirs.
+        poni_core::look::DIORAMA_ACCENT
     } else {
         services::system_accent().unwrap_or(palette::BLUE)
     }
@@ -5514,7 +5587,7 @@ pub fn draw_content(
 
 // ---------------------------------------------------------------- smoke test bookkeeping
 
-const SMOKE_STEPS: [&str; 84] = [
+const SMOKE_STEPS: [&str; 86] = [
     "idle",
     "hover",
     "open-focus",
@@ -5556,6 +5629,8 @@ const SMOKE_STEPS: [&str; 84] = [
     "notch-pill-ear",
     "notch-eyes",
     "notch-diorama",
+    "notch-diorama-slide",
+    "notch-diorama-tap",
     "ja-notify",
     "ja-auto",
     "ja-get",
