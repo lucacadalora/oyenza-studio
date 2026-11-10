@@ -509,6 +509,12 @@ impl FrameClock {
         }
     }
 
+    /// Whether the clock runs: the last frame asked for another one (the
+    /// self-test reads it to see that a picture at rest asks for none).
+    pub fn active(&self) -> bool {
+        *self.shared.active.lock().unwrap()
+    }
+
     /// Post on every `n`-th vblank (1 = every refresh).
     pub fn set_divisor(&self, n: u32) {
         self.shared.divisor.store(n.max(1), Ordering::Relaxed);
