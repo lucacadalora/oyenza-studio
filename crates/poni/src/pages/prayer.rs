@@ -50,7 +50,7 @@ const PLACE_Y: f32 = 70.0;
 /// time under the dots.
 const INFO_H: f32 = 15.0;
 /// At least this between the Hijri date and the times on that row.
-const HIJRI_GAP: f32 = 16.0;
+const HIJRI_GAP: f32 = 12.0;
 const ARC_END_Y: f32 = 56.0;
 const ARC_TOP_Y: f32 = 28.0;
 const LABEL_Y: f32 = 64.0;
@@ -178,12 +178,20 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let q = prayer::qibla(place_pt.0, place_pt.1);
     let info = format!("Imsak {} \u{b7} Terbit {} \u{b7} Qibla {q:.0}\u{b0} {}", site.hhmm(times.imsak), site.hhmm(times.terbit), compass(q));
     let info_style = TextStyle::caption().color(palette::TEXT_DIM);
-    ui.c.text(&info, Rect::new(gx, area.y, arc.w, INFO_H), &info_style.clone().right());
-    // Today's Hijri date at the arc's left, by the calendar followed, where
-    // it fits beside the times.
+    // Today's Hijri date at the arc's left, by the calendar followed. Where
+    // the row is short, the qibla's compass point goes first, then the date.
     let hijri = hijri::date(st.settings.prayer.follow.calendar(), day).label();
-    let need = ui.c.measure(&hijri, &info_style, arc.w).0 + ui.c.measure(&info, &info_style, arc.w).0 + HIJRI_GAP;
-    if need <= arc.w {
+    let hw = ui.c.measure(&hijri, &info_style, arc.w).0 + HIJRI_GAP;
+    let short = info.trim_end_matches(compass(q)).trim_end().to_string();
+    let (info, show_hijri) = if hw + ui.c.measure(&info, &info_style, arc.w).0 <= arc.w {
+        (info, true)
+    } else if hw + ui.c.measure(&short, &info_style, arc.w).0 <= arc.w {
+        (short, true)
+    } else {
+        (info, false)
+    };
+    ui.c.text(&info, Rect::new(gx, area.y, arc.w, INFO_H), &info_style.clone().right());
+    if show_hijri {
         ui.c.text(&hijri, Rect::new(gx, area.y, arc.w, INFO_H), &info_style.clone().color(palette::TEXT));
     }
     draw_day(ui, arc, &site, &times, day, now, next, accent);
@@ -493,8 +501,8 @@ fn follow_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
         st.cmd(Command::SaveSettings);
     }
     let note = match st.settings.prayer.follow {
-        PrayerFollow::Kemenag => "Kemenag's schedule, and the government's calendar",
-        PrayerFollow::Muhammadiyah => "Majelis Tarjih's schedule, and the KHGT calendar",
+        PrayerFollow::Kemenag => "Kemenag's times, the isbat's dates",
+        PrayerFollow::Muhammadiyah => "Majelis Tarjih's times, KHGT dates",
     };
     let nx = px + super::settings::picker_width(ui, &names) + 12.0;
     if nx + 120.0 < r.right() {
