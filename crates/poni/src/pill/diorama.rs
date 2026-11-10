@@ -151,6 +151,9 @@ thread_local! {
     static HELD: Cell<Option<Held>> = const { Cell::new(None) };
     /// Where it was left by hand, against the sun.
     static LEFT: Cell<Option<Left>> = const { Cell::new(None) };
+    /// The Prayer times place's sunrise and sunset, worked out once a
+    /// quarter of an hour: the whole theme's look asks for them every frame.
+    static SUN: Cell<Option<(SunKey, (f32, f32))>> = const { Cell::new(None) };
     /// Another theme has drawn since the picture last showed: when it shows
     /// again, the theme was just picked, and the ball rolls into place.
     static PICKED: Cell<bool> = const { Cell::new(false) };
@@ -232,16 +235,30 @@ fn badge(st: &AppState) -> Option<Badge> {
     }
 }
 
+/// What the Prayer place's sun times were worked out for: the place, the
+/// quarter of an hour and this computer's clock against UTC.
+#[derive(Clone, Copy, PartialEq)]
+struct SunKey {
+    lat: u64,
+    lng: u64,
+    quarter: i64,
+    ahead: i64,
+}
+
 /// When the sun rises and sets, in minutes of this computer's day: at the
 /// Prayer times add-on's place when it has one, else six to six.
 fn sun(st: &AppState) -> (f32, f32) {
-    if !st.prayer_on() {
-        return HOUSE_DAY;
-    }
+    let Some(place) = st.prayer.place.as_ref().filter(|_| st.prayer_on()) else { return HOUSE_DAY };
     // This computer's clock against UTC, to the minute.
     let local = st.local.hour as i64 * 3600 + st.local.minute as i64 * 60 + st.local.second as i64;
     let ahead = (((local - st.unix.rem_euclid(86_400)) as f64 / 60.0).round() as i64 * 60 + 43_200).rem_euclid(86_400) - 43_200;
-    st.prayer.site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY)
+    let key = SunKey { lat: place.lat.to_bits(), lng: place.lng.to_bits(), quarter: st.prayer_now().div_euclid(900), ahead };
+    if let Some((_, times)) = SUN.with(|s| s.get()).filter(|(k, _)| *k == key) {
+        return times;
+    }
+    let times = st.prayer.site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY);
+    SUN.with(|s| s.set(Some((key, times))));
+    times
 }
 
 /// Sunrise and sunset (the schedule's terbit and maghrib) at `site` on its
