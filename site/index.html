@@ -304,11 +304,20 @@ main { container-type: inline-size; }
 .news-tile.wide { grid-column: span 2; width: auto; margin-inline: 0; }
 .news-visual { position: relative; display: grid; place-items: center; height: 240px; margin-bottom: 14px; overflow: hidden; background: #f4d2b8 url("assets/wall/morning.jpg") center 40% / cover no-repeat; }
 .news-visual > img { width: auto; height: auto; max-width: 88%; max-height: 74%; filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.32)); }
-/* Diorama: its resting pill at four moments of a day, each at twice its size. Every picture keeps the gap the pill
-   floats in above it, so the rows part by themselves and the block's own bottom padding centres it. */
-.dio-grid { display: grid; grid-template-columns: repeat(2, 200px); gap: 0 20px; padding-bottom: 16px; }
-.dio-grid img, .dio-day img { width: 100%; height: auto; }
-.dio-grid img, .dio-day img, .dio-strip img, .dio-look img { filter: drop-shadow(0 5px 9px rgba(40, 30, 10, 0.3)); }
+/* Diorama's resting pill, 190 DIP long. In the 0.2.29 card at twice its size (each art pixel two, four on sharper
+   screens), at rest and then with the glass ball held halfway; in the 0.2.27 card at its own size, at four moments
+   of a day. Every picture keeps the gap the pill floats in above it, so the rows part by themselves and the block's
+   own bottom padding centres it. */
+.dio-pair, .dio-stack { display: grid; padding-bottom: 12px; }
+.dio-pair { grid-template-columns: 380px; }
+.dio-stack { grid-template-columns: 190px; padding-bottom: 8px; }
+.dio-pair img, .dio-stack img, .dio-day img { width: 100%; height: auto; }
+.dio-pair img, .dio-stack img, .dio-day img, .dio-strip img, .dio-look img { filter: drop-shadow(0 5px 9px rgba(40, 30, 10, 0.3)); }
+/* The glass ball held halfway (slide.webp), a hand on it as the pointer shows there: the fingertip low on the ball,
+   a little right of its middle. The hand is 20x24 DIP, so 40x48 on a picture at twice the pill's size. */
+.dio-held { position: relative; display: block; }
+.dio-held > img { display: block; }
+.dio-hand { position: absolute; left: 47.37%; top: 73.9%; width: 10.53%; height: auto; aspect-ratio: 20 / 24; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.28)); }
 /* An open island hangs from the top of the screen: here from the card's top edge, larger than the card. */
 .news-visual.top > img { position: absolute; top: 0; width: 150%; max-width: none; max-height: none; }
 .news-visual.top.left > img { left: 7%; }
@@ -453,8 +462,9 @@ main { container-type: inline-size; }
 .sw-glass { background: linear-gradient(140deg, #ffffff 10%, #cfd9e8 55%, #f3d8c4 100%); }
 .sw-pill { width: 44px !important; border-radius: 999px !important; background: #000; }
 .sw-diorama { width: 44px !important; border-radius: 999px !important; background: linear-gradient(#8faee2 0 58%, #6f9048 58%); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12), inset 0 0 0 3px #efe9db !important; }
-/* Diorama's look is its resting pill: the 400 % shot at its own size, so every art pixel is four. */
-.dio-look img { width: 400px; image-rendering: pixelated; }
+/* Diorama's look is its resting pill: the 400 % shot at its own size, so every art pixel is four (on a narrower
+   stage, half that: every art pixel two). */
+.dio-look img { width: 760px; image-rendering: pixelated; }
 .look-cap { text-align: center; margin: 18px auto 0; max-width: 34em; min-height: 3em; }
 
 .cards3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -468,15 +478,20 @@ main { container-type: inline-size; }
 .pill-strip { height: 132px; }
 /* Diorama's resting pill, at twice its size: each art pixel is two, and four on sharper screens (the 400 % shots). */
 .dio-strip { height: 144px; }
-.dio-strip .isl img { width: 200px; }
-.dio-day { display: grid; grid-template-columns: repeat(4, 200px); justify-content: center; gap: 0 16px; padding: 4px 14px 0; }
-/* One day as a film, in the sheet only: twice its own pixels, so each art pixel is four (a phone shows it at its
-   own size). It is asked for when the sheet opens, not with the page: a closed sheet is not drawn, and a lazy
-   picture loads only once it is. With reduced motion the morning's still stands in, the gap it floats in above it.
+.dio-strip .isl > img, .dio-strip .dio-held { width: 380px; max-width: 100%; }
+.dio-strip .dio-held > img { width: 100%; height: auto; }
+.dio-day { display: grid; grid-template-columns: repeat(2, minmax(0, 380px)); justify-content: center; gap: 0 16px; padding: 4px 14px 0; }
+/* The island around the pill, by day and at night: the open card, then the music pill and a notice together. */
+.dio-pills { height: auto; display: grid; justify-items: center; padding: 6px 0 22px; }
+.dio-pills img { max-width: calc(100% - 24px); height: auto; }
+.dio-island { background: var(--alt); }
+/* The slide as a film, in the sheet only: at its own pixels, so each art pixel is two (a phone shows it at half
+   that). It is asked for when the sheet opens, not with the page: a closed sheet is not drawn, and a lazy picture
+   loads only once it is. With reduced motion the ball held halfway stands in, the gap it floats in above it.
    The card sits in a plain box: as a row of the sheet's grid itself, a card that clips would be squeezed to nothing. */
 .dio-film .strip { height: auto; display: grid; place-items: center; padding: 28px 16px; }
-.dio-film .strip img { width: 400px; max-width: 100%; height: auto; image-rendering: pixelated; filter: drop-shadow(0 5px 9px rgba(40, 30, 10, 0.3)); }
-@media (max-width: 520px) { .dio-film .strip img { width: 200px; } }
+.dio-film .strip img { width: 380px; max-width: 100%; height: auto; image-rendering: pixelated; filter: drop-shadow(0 5px 9px rgba(40, 30, 10, 0.3)); }
+@media (max-width: 520px) { .dio-film .strip img { width: 190px; } }
 .dio-film .still-cap { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .dio-film .strip { padding-top: 0; }
@@ -610,7 +625,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .sec { --sp: 120px; }
   .split { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .news { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .dio-day { grid-template-columns: repeat(2, 200px); }
+  .dio-look img { width: 380px; }
   .rest-pin { grid-template-columns: minmax(0, 290px) minmax(0, 1fr); gap: 28px; }
   .oyenza { grid-template-columns: minmax(0, 1fr); padding: 48px; }
   .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -643,9 +658,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   .browser-tab { padding: 0 10px; gap: 6px; }
   .browser-tab + .browser-tab { display: none; }
   .browser-cursor { top: 14px; }
-  .dio-grid, .dio-day { grid-template-columns: repeat(2, minmax(0, 150px)); gap: 0 14px; }
-  .dio-grid { padding-bottom: 12px; }
-  .dio-look img { width: 300px; }
+  .dio-pair { grid-template-columns: minmax(0, 285px); }
+  .dio-day { grid-template-columns: minmax(0, 380px); }
+  .dio-look img { width: 100%; image-rendering: auto; }
   .stats { gap: 28px; margin-top: 44px; }
   .stat > b { font-size: 32px; }
   .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -746,6 +761,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <symbol id="i-script" viewBox="0 0 24 24"><path d="M4 5.5h16M4 10h11M4 14.5h16M4 19h8"/><path d="M19 9l2 1-2 1z" fill="currentColor"/></symbol>
   <symbol id="i-pill" viewBox="0 0 24 24"><rect x="2.5" y="8" width="19" height="8" rx="4"/></symbol>
   <symbol id="i-diorama" viewBox="0 0 24 24"><path d="M2.5 13.5 9 8l6.5 5.5M4.5 12v8h9v-8"/><circle cx="18.5" cy="6.5" r="2.5"/></symbol>
+  <!-- The pointing hand over Diorama's glass ball (the film in its sheet draws the same hand): every part outlined
+       in black, then filled white on top, so the outline goes round the whole hand. The fingertip is at (7, 1). -->
+  <symbol id="i-hand" viewBox="0 0 20 24"><g fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"><rect x="5.5" y="1" width="3" height="14" rx="1.5"/><rect x="8.5" y="7.6" width="3" height="8" rx="1.5"/><rect x="11.5" y="8.6" width="3" height="8" rx="1.5"/><rect x="14.5" y="10" width="2.8" height="7" rx="1.4"/><path d="M5.5 12.5H17.3V17.2Q17.3 22 12.6 22H10.1Q6.6 22 5.6 18.6L2.4 13.6Q1.7 12.4 2.8 11.8Q3.8 11.3 4.6 12.2L5.5 13.4Z"/></g><g fill="#fff"><rect x="5.5" y="1" width="3" height="14" rx="1.5"/><rect x="8.5" y="7.6" width="3" height="8" rx="1.5"/><rect x="11.5" y="8.6" width="3" height="8" rx="1.5"/><rect x="14.5" y="10" width="2.8" height="7" rx="1.4"/><path d="M5.5 12.5H17.3V17.2Q17.3 22 12.6 22H10.1Q6.6 22 5.6 18.6L2.4 13.6Q1.7 12.4 2.8 11.8Q3.8 11.3 4.6 12.2L5.5 13.4Z"/></g><path d="M8.5 9.8V12.6M11.5 10.6V13.2M14.5 11.8V13.8" fill="none" stroke="#000" stroke-width="0.8" stroke-linecap="round"/></symbol>
   <symbol id="i-laptop" viewBox="0 0 24 24"><path d="M4.5 16V6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2V16M2.5 16h19l-1 3.5h-17z"/><path d="M10.5 4.5h3v1a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1z"/></symbol>
   <symbol id="i-columns" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M12 4v16M3 9.5h18"/></symbol>
   <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7.5V5a1.5 1.5 0 0 0-1.5-1.5H5.5a2.5 2.5 0 0 0 0 5h14A1.5 1.5 0 0 1 21 10v3h-3.5a2 2 0 0 0 0 4H21v1.5a1.5 1.5 0 0 1-1.5 1.5h-14A2.5 2.5 0 0 1 3 17.5V6"/></symbol>
@@ -781,7 +799,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="side-sec">
       <p class="side-group">Overview</p>
       <a class="side-item" href="#top" data-k="home start download hero notch island"><i class="ic" style="--c:#1d1d1f"><svg class="ico"><use href="#i-screen"/></svg></i><span>A living notch</span></a>
-      <a class="side-item" href="#new" data-k="new release 0.2.28 latest changes prayer times kemenag muhammadiyah khgt kalender hijriah global tunggal hijri date tanggal hijriah majelis tarjih subuh 18 isbat ramadan syawal 0.2.27 diorama fifth look theme pixel art house tree cat sky day night dawn golden hour sunset sunrise moon stars glass ball resting pill see what pro brings studio pro add-ons every pro feature ai usage claude ultra 10x max 20x clearer adzan azan athan adhan prayer times sound recording antigravity agy ai tab mac top bar mydockfinder menu bar over notifications store tabs phone drop double tap zoom move the island drag along the top edge left right side browser tabs out of the way centre center mac macbook notch pill menu bar settings in the island againgear advanced settings window island closes update in version row check now settings window glides smooth motion 144 fps 120 hz promotion slide switches highlight trackpad scroll reduce motion downloader progress youtube puzzle solving meeting notes mac ielts coach speaking band downloader video sound studio pro settings window gear every setting one place sidebar light dark mode mac window title bar meeting notes record call transcript summary action items pro ai tab usage codex claude code opencode go gemini cursor copilot kimi glm minimax openrouter limits plans resets heads-up tabs hide switch off music today shelf tasks focus prayer countdown ok lyrics come back steps two hours ielts notifications whatsapp telegram mac signed developer id notarized checked by apple opens open anyway gone privacy security permissions once more right click menu stays open island stays open always looks for new versions version check now bluetooth pop-ups headphones speakers paired quiet connected disconnected check for updates every hour check now update available stays lyrics bar zen firefox stocks prices fixed getting prices mac updates install in place ihsg idx saham watchlist chart oyenza.trade today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.28</span></a>
+      <a class="side-item" href="#new" data-k="new release 0.2.29 latest changes slide the glass ball drag hand day night switch sunset dusk diorama long pill as long as a notch lamp post bushes fence whole island matches frame cream indigo open card notices 0.2.28 prayer times kemenag muhammadiyah khgt kalender hijriah global tunggal hijri date tanggal hijriah majelis tarjih subuh 18 isbat ramadan syawal 0.2.27 diorama fifth look theme pixel art house tree cat sky day night dawn golden hour sunset sunrise moon stars glass ball resting pill see what pro brings studio pro add-ons every pro feature ai usage claude ultra 10x max 20x clearer adzan azan athan adhan prayer times sound recording antigravity agy ai tab mac top bar mydockfinder menu bar over notifications store tabs phone drop double tap zoom move the island drag along the top edge left right side browser tabs out of the way centre center mac macbook notch pill menu bar settings in the island againgear advanced settings window island closes update in version row check now settings window glides smooth motion 144 fps 120 hz promotion slide switches highlight trackpad scroll reduce motion downloader progress youtube puzzle solving meeting notes mac ielts coach speaking band downloader video sound studio pro settings window gear every setting one place sidebar light dark mode mac window title bar meeting notes record call transcript summary action items pro ai tab usage codex claude code opencode go gemini cursor copilot kimi glm minimax openrouter limits plans resets heads-up tabs hide switch off music today shelf tasks focus prayer countdown ok lyrics come back steps two hours ielts notifications whatsapp telegram mac signed developer id notarized checked by apple opens open anyway gone privacy security permissions once more right click menu stays open island stays open always looks for new versions version check now bluetooth pop-ups headphones speakers paired quiet connected disconnected check for updates every hour check now update available stays lyrics bar zen firefox stocks prices fixed getting prices mac updates install in place ihsg idx saham watchlist chart oyenza.trade today five weeks week ahead schedule month grid dots allow turn on prayer times anywhere world city mac youtube spotify browser now playing pill notch oyen oyenza tab system health add-ons clipboard history gone today your day google calendar gmail meeting join flights bills clipboard add-on touch screen tablet taps tap through notch eyes hide and seek macbook camera update available new version install now next start updater mac installer dmg window steps health oyenza sign in mac headphones full screen power island stays maximized windows sing along romaji lyrics mac prayer script reader teleprompter games power"><i class="ic" style="--c:#bf4800"><svg class="ico"><use href="#i-spark"/></svg></i><span>New in 0.2.29</span></a>
       <a class="side-item" href="#highlights" data-k="best gallery overview"><i class="ic" style="--c:#ff9f0a"><svg class="ico"><use href="#i-spark"/></svg></i><span>Highlights</span></a>
       <a class="side-item" href="#features" data-k="rest idle music timer volume charging headphones bluetooth money clock eyes prayer countdown"><i class="ic" style="--c:#636366"><svg class="ico"><use href="#i-island"/></svg></i><span>While it rests</span></a>
     </div>
@@ -815,7 +833,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <a class="side-item" href="#oyen" data-k="oyen theme cat cream orange"><i class="ic" style="--c:#f0892e"><img src="brand/oyen-mark-white.svg" alt="" width="14" height="14"></i><span>Oyen</span></a>
       <a class="side-item" href="#glass" data-k="glass liquid theme frosted"><i class="ic" style="--c:#64d2ff"><svg class="ico"><use href="#i-drop"/></svg></i><span>Glass</span></a>
       <a class="side-item" href="#pill" data-k="pill capsule floating theme"><i class="ic" style="--c:#1d1d1f"><svg class="ico"><use href="#i-pill"/></svg></i><span>Pill</span></a>
-      <a class="side-item" href="#diorama" data-k="diorama pixel art house tree cat sky day night dawn golden hour sunset sunrise moon stars glass ball clock theme look"><i class="ic" style="--c:#6f9048"><svg class="ico"><use href="#i-diorama"/></svg></i><span>Diorama</span></a>
+      <a class="side-item" href="#diorama" data-k="diorama pixel art house tree cat sky day night dawn golden hour sunset sunrise moon stars glass ball slide drag switch long pill notch lamp post whole island cream indigo frame clock theme look"><i class="ic" style="--c:#6f9048"><svg class="ico"><use href="#i-diorama"/></svg></i><span>Diorama</span></a>
     </div>
     <div class="side-sec">
       <p class="side-group">Mac and account</p>
@@ -881,9 +899,9 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
           <div class="hero-copy">
             <h1 class="t-hero-eyebrow">Oyenza Studio</h1>
             <p class="t-hero">A living notch.</p>
-            <a class="t-avail" href="#new">New in 0.2.28: Prayer times can follow Muhammadiyah, with the KHGT Hijri date.</a>
+            <a class="t-avail" href="#new">New in 0.2.29: slide Diorama's glass ball, like a day and night switch.</a>
             <div class="buybox">
-              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.2&nbsp;MB</span> · Mac <span data-release="mac-size">5.9&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.28</span></a></span></div>
+              <div><b>Free for Windows and Mac</b><span class="fine">Open source · Windows <span data-release="size">3.2&nbsp;MB</span> · Mac <span data-release="mac-size">5.9&nbsp;MB</span> · <a class="notes" data-release="notes" href="https://github.com/lucacadalora/oyenza-studio/releases/latest">What's new in <span data-release="version">0.2.29</span></a></span></div>
               <a class="btn dl-primary" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Setup.exe"><span class="dl-word">Download</span><span class="send-word">Send to your computer</span></a>
             </div>
             <a class="link hero-other dl-other" data-release="mac-link" href="https://github.com/lucacadalora/oyenza-studio/releases/latest/download/Oyenza-Studio-Mac.dmg">Download for Mac</a>
@@ -903,25 +921,25 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
 
   <section class="sec band" id="new" aria-labelledby="new-title">
     <div class="content head rv">
-      <h2 class="t-l" id="new-title">New in 0.2.28.</h2>
+      <h2 class="t-l" id="new-title">New in 0.2.29.</h2>
       <button class="more" type="button" data-more="m-new">Everything new, release by release<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content news">
+      <a class="news-tile shot wide rv" href="#diorama">
+        <span class="news-visual" aria-hidden="true"><span class="dio-pair"><img src="assets/shots/diorama/morning.webp" srcset="assets/shots/diorama/morning.webp 1x, assets/shots/zoom/diorama/morning.webp 2x" alt="" width="380" height="92" loading="lazy"><span class="dio-held"><img src="assets/shots/diorama/slide.webp" srcset="assets/shots/diorama/slide.webp 1x, assets/shots/zoom/diorama/slide.webp 2x" alt="" width="380" height="92" loading="lazy"><svg class="dio-hand" viewBox="0 0 20 24"><use href="#i-hand"/></svg></span></span></span>
+        <p class="t-card">Slide the glass ball</p><p class="t-tile">Press Diorama's glass ball and slide it, like a day and night switch: the place runs on with it, through the golden hour and the sunset into the night. The pill is as long as a notch now, and the whole island wears its frame, cream by day and indigo at night.</p>
+      </a>
       <a class="news-tile shot rv" href="#prayer">
         <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/classic/page-prayer-muhammadiyah.webp" alt="" width="660" height="225" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-prayer-muhammadiyah.webp" alt="" width="660" height="225" loading="lazy"></span>
         <p class="t-card">Kemenag or Muhammadiyah</p><p class="t-tile">Prayer times can follow Muhammadiyah now: Majelis Tarjih's times and the Kalender Hijriah Global Tunggal (KHGT). Today's Hijri date shows above the arc, by the calendar you pick. Kemenag stays the default.</p>
       </a>
-      <a class="news-tile shot wide rv" href="#diorama">
-        <span class="news-visual" aria-hidden="true"><span class="dio-grid"><img src="assets/shots/diorama/dawn.webp" srcset="assets/shots/diorama/dawn.webp 1x, assets/shots/zoom/diorama/dawn.webp 2x" alt="" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/morning.webp" srcset="assets/shots/diorama/morning.webp 1x, assets/shots/zoom/diorama/morning.webp 2x" alt="" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/golden-hour.webp" srcset="assets/shots/diorama/golden-hour.webp 1x, assets/shots/zoom/diorama/golden-hour.webp 2x" alt="" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/night.webp" srcset="assets/shots/diorama/night.webp 1x, assets/shots/zoom/diorama/night.webp 2x" alt="" width="200" height="92" loading="lazy"></span></span>
+      <a class="news-tile shot rv" href="#diorama">
+        <span class="news-visual" aria-hidden="true"><span class="dio-stack"><img src="assets/shots/diorama/dawn.webp" srcset="assets/shots/diorama/dawn.webp 2x, assets/shots/zoom/diorama/dawn.webp 4x" alt="" width="190" height="46" loading="lazy"><img src="assets/shots/diorama/morning.webp" srcset="assets/shots/diorama/morning.webp 2x, assets/shots/zoom/diorama/morning.webp 4x" alt="" width="190" height="46" loading="lazy"><img src="assets/shots/diorama/golden-hour.webp" srcset="assets/shots/diorama/golden-hour.webp 2x, assets/shots/zoom/diorama/golden-hour.webp 4x" alt="" width="190" height="46" loading="lazy"><img src="assets/shots/diorama/night.webp" srcset="assets/shots/diorama/night.webp 2x, assets/shots/zoom/diorama/night.webp 4x" alt="" width="190" height="46" loading="lazy"></span></span>
         <p class="t-card">Diorama, a fifth look</p><p class="t-tile">The resting pill becomes a small window onto a pixel-art place: a house, a tree and a sky that follows your clock, from dawn through the golden hour to the stars. At sunset a glass ball rolls across, and night falls behind it. On Windows and Mac.</p>
       </a>
       <a class="news-tile shot rv" href="#pricing">
         <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/classic/page-addons-about.webp" alt="" width="660" height="332" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-addons-about.webp" alt="" width="660" height="332" loading="lazy"></span>
         <p class="t-card">See what Pro brings</p><p class="t-tile">The Add-ons tab lists every Pro feature now, and a click says what it does. AI usage is part of Studio Pro from this version, next to Meeting notes, the IELTS coach and the Downloader.</p>
-      </a>
-      <a class="news-tile shot rv" href="#prayer">
-        <span class="news-visual top left" aria-hidden="true"><img class="look-classic" src="assets/shots/classic/page-prayer.webp" alt="" width="660" height="225" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-prayer.webp" alt="" width="660" height="225" loading="lazy"></span>
-        <p class="t-card">A clearer adzan</p><p class="t-tile">Prayer times plays a new recording of the adzan: clear and full, without the crowd and the echo of the old one. The add-on is 959&nbsp;KB now, half its old size.</p>
       </a>
       <a class="news-tile shot rv" href="#ai">
         <span class="news-visual top right" aria-hidden="true"><img class="look-classic" src="assets/shots/classic/page-ai.webp" alt="" width="660" height="335" loading="lazy"><img class="look-oyen" src="assets/shots/oyen/page-ai.webp" alt="" width="660" height="335" loading="lazy"></span>
@@ -1397,7 +1415,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
         <div class="lk" data-k="oyen"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/oyen/page-media.webp" alt="Oyen: the cream island with brown type and Oyen's orange, open on the Music page" width="660" height="227" loading="lazy"></div></div>
         <div class="lk" data-k="glass"><img class="lk-whole" src="assets/shots/glass/light-page-media.webp" alt="Glass: the Music page as frosted glass over a bright web page, which bends at the rim" width="756" height="267" loading="lazy"></div>
         <div class="lk" data-k="pill"><div class="sky-fill"></div><div class="isl float"><img src="assets/shots/pill/page-media.webp" alt="Pill: a black card with four rounded corners floating below the top edge, on the Music page" width="620" height="224" loading="lazy"></div></div>
-        <div class="lk" data-k="diorama"><div class="sky-fill"></div><div class="isl dio-look"><img src="assets/shots/zoom/diorama/morning.webp" alt="Diorama: the resting pill as a small window in a cream frame, with a pixel-art house under a glass ball, 10:08 written in a blue sky, a fence, a cat and a tree" width="400" height="184" loading="lazy"></div></div>
+        <div class="lk" data-k="diorama"><div class="sky-fill"></div><div class="isl dio-look"><img src="assets/shots/zoom/diorama/morning.webp" alt="Diorama: the resting pill as a long, small window in a cream frame, with a pixel-art house under a glass ball, 10:08 written in a blue sky, a fence, a lamp post, a cat and a tree" width="760" height="184" loading="lazy"></div></div>
       </div>
       <div class="swatches" role="radiogroup" aria-label="Look">
         <button class="sw" type="button" role="radio" aria-checked="true" data-k="classic"><i class="sw-classic"></i>Classic</button>
@@ -1498,31 +1516,51 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     <div class="content head rv">
       <p class="t-label">Diorama</p>
       <h2 class="t-l" id="diorama-title">A little place that keeps your day.</h2>
-      <p class="t-intro">Pill's resting capsule becomes a window onto a pixel-art house and tree. <b>Its sky follows your clock.</b></p>
+      <p class="t-intro">The resting pill becomes a window onto a pixel-art house and tree, as long as a notch. <b>Its sky follows your clock.</b> New in 0.2.29: slide the glass ball, and the whole island matches.</p>
       <button class="more" type="button" data-more="m-diorama">More about Diorama<i><svg class="ico"><use href="#i-plus"/></svg></i></button>
     </div>
     <div class="content">
-      <div class="cards3">
+      <div class="duo">
         <figure class="shot-card rv">
-          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/morning.webp" srcset="assets/shots/diorama/morning.webp 1x, assets/shots/zoom/diorama/morning.webp 2x" alt="The Diorama pill by day: a cream frame around a house under a glass ball, 10:08 written in a blue sky, a fence, a cat and a tree" width="200" height="92" loading="lazy"></div></div>
+          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/morning.webp" srcset="assets/shots/diorama/morning.webp 1x, assets/shots/zoom/diorama/morning.webp 2x" alt="The Diorama pill by day, as long as a notch: a cream frame around a house under a glass ball, 10:08 written in a blue sky, a fence, a lamp post, a cat and a tree" width="380" height="92" loading="lazy"></div></div>
           <figcaption class="t-tile"><b>Day.</b> The sun crosses the sky, and the cat sits under the tree.</figcaption>
         </figure>
         <figure class="shot-card rv">
-          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/golden-hour.webp" srcset="assets/shots/diorama/golden-hour.webp 1x, assets/shots/zoom/diorama/golden-hour.webp 2x" alt="The Diorama pill at 17:40: the sky and the tree turn golden, and the sun is low beside the tree" width="200" height="92" loading="lazy"></div></div>
+          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/night.webp" srcset="assets/shots/diorama/night.webp 1x, assets/shots/zoom/diorama/night.webp 2x" alt="The Diorama pill at 21:30: an indigo frame, the glass ball over the tree, stars, the moon, a lit window and the lamp post lit" width="380" height="92" loading="lazy"></div></div>
+          <figcaption class="t-tile"><b>Night.</b> The moon in tonight's phase, a lit window and the lamp.</figcaption>
+        </figure>
+      </div>
+      <div class="duo gap-t">
+        <figure class="shot-card rv">
+          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/golden-hour.webp" srcset="assets/shots/diorama/golden-hour.webp 1x, assets/shots/zoom/diorama/golden-hour.webp 2x" alt="The Diorama pill at 17:40: the sky and the tree turn golden, and the sun is low beside the tree" width="380" height="92" loading="lazy"></div></div>
           <figcaption class="t-tile"><b>Golden hour.</b> The light turns before sunset.</figcaption>
         </figure>
         <figure class="shot-card rv">
-          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/night.webp" srcset="assets/shots/diorama/night.webp 1x, assets/shots/zoom/diorama/night.webp 2x" alt="The Diorama pill at 21:30: an indigo frame, the glass ball over the tree, stars, the moon and a lit window" width="200" height="92" loading="lazy"></div></div>
-          <figcaption class="t-tile"><b>Night.</b> The moon in tonight's phase, and a lit window.</figcaption>
+          <div class="strip dio-strip"><div class="sky-fill"></div><div class="isl"><span class="dio-held"><img src="assets/shots/diorama/slide.webp" srcset="assets/shots/diorama/slide.webp 1x, assets/shots/zoom/diorama/slide.webp 2x" alt="A hand holds the glass ball halfway along the pill at 10:08: the place has run on to the sunset, under a golden sky, and the ball magnifies the time" width="380" height="92" loading="lazy"><svg class="dio-hand" viewBox="0 0 20 24" aria-hidden="true"><use href="#i-hand"/></svg></span></div></div>
+          <figcaption class="t-tile"><b>Slide it.</b> Press the ball, and the day runs on into the night.</figcaption>
         </figure>
       </div>
-      <!-- A whole day. The three pictures above are the self-test's (tools/site_shots.py DIR diorama); these eight
-           are painted by the crate's own example (cargo run -p studio-diorama --example sheet -- DIR 2, and 4 for
-           zoom/), which paints the very pixels the app draws, and cut to the same outline with the same gap above. -->
+      <!-- A whole day. The four pictures above are the self-test's (tools/site_shots.py DIR diorama); these eight
+           are painted by the crate's own example (cargo run -p studio-diorama --example sheet -- DIR 2 day=9798, and 4
+           for zoom/), which paints the very pixels the app draws, and cut to the same outline with the same gap above. -->
       <figure class="shot-card rv gap-t">
-        <div class="strip tall"><div class="sky-fill"></div><div class="dio-day"><img src="assets/shots/diorama/day-0600.webp" srcset="assets/shots/diorama/day-0600.webp 1x, assets/shots/zoom/diorama/day-0600.webp 2x" alt="06:00, dawn: a pink sky and a lit window" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-0700.webp" srcset="assets/shots/diorama/day-0700.webp 1x, assets/shots/zoom/diorama/day-0700.webp 2x" alt="07:00: a blue sky, and the cat on its way to the tree" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-1200.webp" srcset="assets/shots/diorama/day-1200.webp 1x, assets/shots/zoom/diorama/day-1200.webp 2x" alt="12:00, noon: the sun is high and the cat naps under the tree" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-1759.webp" srcset="assets/shots/diorama/day-1759.webp 1x, assets/shots/zoom/diorama/day-1759.webp 2x" alt="17:59: a golden sky, the sun low on the right" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-1800.webp" srcset="assets/shots/diorama/day-1800.webp 1x, assets/shots/zoom/diorama/day-1800.webp 2x" alt="18:00, sunset: the glass ball rolls across the middle, and the day and the night show through each other" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-1815.webp" srcset="assets/shots/diorama/day-1815.webp 1x, assets/shots/zoom/diorama/day-1815.webp 2x" alt="18:15, dusk: an indigo frame, a purple and orange sky, the ball over the tree" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-2359.webp" srcset="assets/shots/diorama/day-2359.webp 1x, assets/shots/zoom/diorama/day-2359.webp 2x" alt="23:59: night, with the window still lit" width="200" height="92" loading="lazy"><img src="assets/shots/diorama/day-0000.webp" srcset="assets/shots/diorama/day-0000.webp 1x, assets/shots/zoom/diorama/day-0000.webp 2x" alt="00:00: the window is dark" width="200" height="92" loading="lazy"></div></div>
+        <div class="strip tall"><div class="sky-fill"></div><div class="dio-day"><img src="assets/shots/diorama/day-0600.webp" srcset="assets/shots/diorama/day-0600.webp 1x, assets/shots/zoom/diorama/day-0600.webp 2x" alt="06:00, dawn: a pink sky and a lit window" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-0700.webp" srcset="assets/shots/diorama/day-0700.webp 1x, assets/shots/zoom/diorama/day-0700.webp 2x" alt="07:00: a blue sky, and the cat on its way to the tree" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-1200.webp" srcset="assets/shots/diorama/day-1200.webp 1x, assets/shots/zoom/diorama/day-1200.webp 2x" alt="12:00, noon: the sun is high and the cat naps under the tree" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-1759.webp" srcset="assets/shots/diorama/day-1759.webp 1x, assets/shots/zoom/diorama/day-1759.webp 2x" alt="17:59: a golden sky, the sun low on the right" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-1800.webp" srcset="assets/shots/diorama/day-1800.webp 1x, assets/shots/zoom/diorama/day-1800.webp 2x" alt="18:00, sunset: the glass ball rolls across the middle, and the day and the night show through each other" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-1815.webp" srcset="assets/shots/diorama/day-1815.webp 1x, assets/shots/zoom/diorama/day-1815.webp 2x" alt="18:15, dusk: an indigo frame, a purple and orange sky, the ball over the tree and the lamp lit" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-2359.webp" srcset="assets/shots/diorama/day-2359.webp 1x, assets/shots/zoom/diorama/day-2359.webp 2x" alt="23:59: night, with the window still lit" width="380" height="92" loading="lazy"><img src="assets/shots/diorama/day-0000.webp" srcset="assets/shots/diorama/day-0000.webp 1x, assets/shots/zoom/diorama/day-0000.webp 2x" alt="00:00: the window is dark, and the lamp still lit" width="380" height="92" loading="lazy"></div></div>
         <figcaption class="t-tile"><b>A whole day.</b> Dawn, the cat heading out, noon, the last golden minute, the ball rolling at sunset, dusk, and lights out at midnight.</figcaption>
       </figure>
+      <!-- The rest of the island, from a whole Diorama run held at 10:08 and one held at 21:30
+           (tools/site_shots.py DIR diorama day, and ... diorama night). -->
+      <div class="duo gap-t">
+        <figure class="card dio-island rv">
+          <div class="strip tall"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/page-media-day.webp" alt="The open island in Diorama by day: the Music page in a cream card with a raised frame and slate type, with the album art, the controls and the synced lyrics" width="620" height="224" loading="lazy"></div></div>
+          <div class="strip dio-pills"><div class="sky-fill"></div><img src="assets/shots/diorama/media-activity-day.webp" alt="The music pill by day, with the line being sung, in the same cream frame" width="312" height="40" loading="lazy"><img src="assets/shots/diorama/health-notice-day.webp" alt="A notice by day: 8,412 steps today, daily step goal reached" width="200" height="56" loading="lazy"></div>
+          <figcaption class="t-tile"><b>The whole island, by day.</b> Cream, with slate ink.</figcaption>
+        </figure>
+        <figure class="card dio-island rv">
+          <div class="strip tall"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/page-media-night.webp" alt="The open island in Diorama at night: the Music page in an indigo card with cream type and the controls" width="620" height="224" loading="lazy"></div></div>
+          <div class="strip dio-pills"><div class="sky-fill"></div><img src="assets/shots/diorama/media-activity-night.webp" alt="The music pill at night, in indigo with cream type" width="312" height="40" loading="lazy"><img src="assets/shots/diorama/health-notice-night.webp" alt="The same notice at night" width="200" height="56" loading="lazy"></div>
+          <figcaption class="t-tile"><b>At night.</b> Indigo, with cream ink and the window's gold.</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -1962,28 +2000,33 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <div class="sheet-body">
     <p class="t-label new">New in 0.2.27</p>
     <h2 class="t-m" id="m-diorama-t">Diorama. A little place that keeps your day.</h2>
-    <p>Diorama is Pill with a picture in its resting capsule: a small window onto a pixel-art place. Behind a raised frame, cream by day and indigo at night, stand a house at one end and a tree at the other, with a fence and a letter box between them and the time written in the sky.</p>
+    <p>Diorama is Pill with a picture in its resting capsule: a small window onto a pixel-art place, as long as a MacBook's notch. Behind a raised frame, cream by day and indigo at night, stand a house at one end and a tree at the other, with a letter box, a garden fence, two bushes and a lamp post between them, and the time written in the sky.</p>
     <div class="dio-film"><figure class="shot-card">
       <div class="strip"><div class="sky-fill"></div>
         <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="assets/shots/zoom/diorama/morning.webp" width="400" height="184">
-          <img src="assets/shots/diorama/day.webp" alt="One day in 25 seconds: at six the glass ball rolls from the tree to the house and day breaks, the sun crosses a blue sky while the cat walks to the tree and naps there, the light turns golden, at sunset the ball rolls back to the tree and night falls, the moon crosses the sky above a lit window, and at midnight the window goes dark" width="200" height="76" loading="lazy">
+          <source media="(prefers-reduced-motion: reduce)" srcset="assets/shots/zoom/diorama/slide.webp" width="760" height="184">
+          <img src="assets/shots/diorama/slide-film.webp" alt="A hand presses the glass ball on the house and slides it along the pill: the day runs on through the golden hour and the sunset, and as the ball reaches the tree the frame turns indigo, the stars come out and the window and the lamp light up; then the hand slides it back, and the place runs back to the morning" width="380" height="102" loading="lazy">
         </picture>
       </div>
-      <figcaption class="t-tile"><span class="film-cap"><b>One whole day in 25 seconds.</b> On your screen it moves a few pixels a minute.</span><span class="still-cap"><b>A morning there.</b> A film of the whole day plays here when your system allows motion. On your screen the place moves a few pixels a minute.</span></figcaption>
+      <figcaption class="t-tile"><span class="film-cap"><b>The slide, by hand.</b> Into the night and back to the morning, as fast as you slide it.</span><span class="still-cap"><b>The ball held halfway,</b> at the sunset it passes. A film of the slide plays here when your system allows motion.</span></figcaption>
     </figure></div>
+    <p><b>New in 0.2.29: slide the glass ball.</b> Press it and slide it along, like a day and night switch: the place runs on through the day with it, through the golden hour and the sunset into the night, or at night through the small hours into the morning. Let go and it rolls on to the end it was nearer, or the one you threw it toward; tap it to send it to the other end. Left on the other side of the day, the whole theme keeps that side until the clock comes round to it: by day, 45 minutes after sunset; at night, 50 minutes after sunrise. Pressing the ball never opens or moves the island; press anywhere else on it for that.</p>
     <ul>
       <li><b>The sky follows your clock:</b> pink at dawn, blue by day with the sun crossing it, golden from about an hour before sunset, then dusk, the stars one by one and the moon in tonight's phase.</li>
-      <li><b>The house keeps hours:</b> the window is lit until midnight and again from five, and smoke rises while breakfast and supper cook.</li>
+      <li><b>The house keeps hours:</b> the window is lit until midnight and again from five, smoke rises while breakfast and supper cook, and the lamp post is lit from dusk.</li>
       <li><b>The cat's day:</b> an orange cat sits by the door at dawn, naps under the tree around noon, comes home for the golden hour and sits in the lit window after dark.</li>
       <li><b>The glass ball</b> magnifies what's under it. It rests on the house by day and on the tree at night. At sunset it rolls across and night falls behind it; at sunrise it rolls back. It rolls once when you pick the theme, too.</li>
       <li><b>The time</b> is 12- or 24-hour as you've set it. On a laptop, a bolt stands beside it while the battery charges, and a red battery at 20% or less. Idle look › Minimal shows the place without the clock, and Hidden until hover hides it. Diorama has no eyes and no status bar.</li>
       <li><b>Your own sunrise and sunset:</b> with the Prayer times add-on on and a place picked, the sun rises and sets when it does there. Otherwise it rises at six and sets at six.</li>
+      <li><b>The whole island matches:</b> the open card, the music pill, timers, pop-ups and notices are the same raised frame round a pane, cream with slate ink by day, indigo with cream ink and the window's gold at night, in the Outfit typeface. They change with the ball. Their pages and sizes are Pill's.</li>
       <li><b>On a MacBook with a notch,</b> the resting pill floats just below the notch instead of hiding in it, and stays where you drag it.</li>
-      <li><b>Nothing new runs at rest:</b> the picture is painted once a minute, with the tick the clock already wakes for. Only the ball's roll draws frames, for about a second and a half.</li>
-      <li>Music, timers, pop-ups, notices and the open card are Pill's. Classic stays the default look.</li>
+      <li><b>Nothing new runs at rest:</b> the picture is painted once a minute, with the tick the clock already wakes for. The ball's roll draws frames for about a second and a half, and a slide draws one each time the pointer moves.</li>
     </ul>
-    <p>Right-click the island, then <kbd>Theme</kbd> › <kbd>Diorama</kbd>. Or open the island, press the gear and pick <kbd>Diorama</kbd> under Theme. On a Mac, it's in the menu bar's Theme menu.</p>
+    <div><figure class="shot-card">
+      <div class="strip tall"><div class="sky-fill"></div><div class="isl"><img src="assets/shots/diorama/page-settings-day.webp" alt="Settings in the island, in Diorama by day: Diorama picked under Theme, Clock under Idle look, and Version 0.2.29" width="620" height="330" loading="lazy"></div></div>
+      <figcaption class="t-tile"><b>Diorama, picked in Settings.</b> The gear opens it in the island.</figcaption>
+    </figure></div>
+    <p>Right-click the island, then <kbd>Theme</kbd> › <kbd>Diorama</kbd>. Or open the island, press the gear and pick <kbd>Diorama</kbd> under Theme. On a Mac, it's in the menu bar's Theme menu. Classic stays the default look.</p>
   </div>
 </dialog>
 <dialog class="more-sheet" id="m-mac" aria-labelledby="m-mac-t">
@@ -2000,7 +2043,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
       <li>Oyenza sign-in: money in and out, bills due and your last 7 days on the island, as on Windows. The Mac's key stays in a file only your Mac account can read.</li>
       <li>Glass is macOS's own glass, Liquid Glass on macOS 26 and a dark blur before it, with a black strip where it meets the notch.</li>
       <li>Pill: on a MacBook with a notch, the resting island goes back into the notch; music, the timer, the prayer countdown, pop-ups, notices and the open island float as the pill just below it. Without a notch it floats below the top of the screen, as on Windows.</li>
-      <li>Diorama: its resting pill floats just below the notch, where its picture shows, instead of going back into it, and stays where you drag it. The rest is Pill's.</li>
+      <li>Diorama: its resting pill floats just below the notch, where its picture shows, instead of going back into it, and stays where you drag it. Everything else hangs below the notch as Pill's does, in Diorama's frame.</li>
     </ul>
     <p><b>New in 0.2.1:</b> Japanese readings and Script reader are add-ons in the Mac's Add-ons tab, so the download is about a third of what it was.</p>
     <p><b>New in 0.2.3:</b> Prayer times, in the Mac's Add-ons tab: Location Services finds your city, or you type it, the adzan plays when it's time, and around the notch the countdown sits beside the camera.</p>
@@ -2057,6 +2100,10 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
   <div class="sheet-body">
     <p class="t-label">Everything new</p>
     <h2 class="t-m" id="m-new-t">Release by release.</h2>
+    <h4>New in 0.2.25</h4>
+    <ul class="new-list">
+      <li><i class="ic" style="--c:#5e5ce6"><svg class="ico"><use href="#i-moon"/></svg></i><span><b>A clearer adzan</b>Prayer times plays a new recording of the adzan: clear and full, without the crowd and the echo of the old one. The add-on is 959&nbsp;KB now, half its old size.</span></li>
+    </ul>
     <h4>New in 0.2.22</h4>
     <ul class="new-list">
       <li><i class="ic" style="--c:#8e8e93"><svg class="ico"><use href="#i-gear"/></svg></i><span><b>Move the island</b>Press the island and drag it along the top edge, out of your browser's tabs. It stays there, and opens away from the edge. On Windows; on a Mac too from 0.2.23, in every theme without a notch, and in Pill and Diorama around a MacBook's notch.</span></li>
@@ -2362,7 +2409,7 @@ dialog.more-sheet::backdrop { background: rgba(0, 0, 0, 0.42); -webkit-backdrop-
     oyen: '<b>Oyen.</b> Warm cream, his orange, and Oyen peeking over the edge.',
     glass: '<b>Glass.</b> It bends what\'s under it, light or dark with what\'s behind it.',
     pill: '<b>Pill.</b> A black capsule floating a little below the top.',
-    diorama: '<b>Diorama.</b> Pill, with a little pixel-art place in its resting capsule that keeps your day.'
+    diorama: '<b>Diorama.</b> A little pixel-art place that keeps your day, in a pill as long as a notch.'
   };
   var stage = document.getElementById('looksStage');
   var sws = [].slice.call(document.querySelectorAll('.sw'));

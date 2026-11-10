@@ -158,8 +158,11 @@ ZOOM_KEEP = {"idle-clock", "media-activity", "media-lyric", "timer-activity", "v
 # halfway by hand, at the sunset it passes (diorama-slide.png).
 DIORAMA_KEEP = {"dawn", "morning", "golden-hour", "night", "slide"}
 # The rest of Diorama's island, in the resting pill's frame, by day and at night: open on the
-# Music page and on Settings, playing music, and a notice.
-DIORAMA_PAGES = {"page-media", "page-settings", "media-activity", "health-notice"}
+# Music page, playing music, and a notice; and by day, open on Settings with Diorama picked.
+DIORAMA_PAGES = {
+    "day": {"page-media", "page-settings", "media-activity", "health-notice"},
+    "night": {"page-media", "media-activity", "health-notice"},
+}
 
 
 def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:
@@ -247,7 +250,7 @@ def diorama_pages(src: Path, when: str) -> None:
     for shot in sorted(src.glob("[0-9][0-9]*-*.png")):
         name = re.sub(r"^\d+-", "", shot.stem)
         alpha = shot.with_name(shot.stem + "-alpha.png")
-        if name not in DIORAMA_PAGES or not alpha.exists():
+        if name not in DIORAMA_PAGES[when] or not alpha.exists():
             continue
         img = cut(shot, alpha, floating=True)
         # The frame says which run it is: cream by day, indigo at night.
