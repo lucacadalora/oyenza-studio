@@ -237,8 +237,8 @@ impl Side {
     }
 }
 
-/// Where the minute `t` is between sunrise and sunset, 0..1 (outside the
-/// day it stays at its ends).
+/// Where the minute is between sunrise and sunset, 0..1 (outside the day
+/// it stays at its ends).
 fn day_part(m: &Moment) -> f32 {
     ((m.minute - m.sunrise) / (m.sunset - m.sunrise).max(1.0)).clamp(0.0, 1.0)
 }
@@ -624,7 +624,7 @@ fn stars(art: &mut Art, side: &Side, m: &Moment, lay: &Layout) {
         if m.clock.is_some() && x >= lay.mid0 + 2 && x < lay.mid1 - 2 && (CLOCK_Y - 3..CLOCK_Y + DIGIT_H + 3).contains(&y) {
             continue;
         }
-        let dim = rnd(i, 4, 11) < 0.4 || hash(i, minute, 5) % 5 == 0;
+        let dim = rnd(i, 4, 11) < 0.4 || hash(i, minute, 5) & 7 == 0;
         let c = side.color(if dim { mat::STAR_DIM } else { mat::STAR }, x, y);
         art.set(x, y, c);
         // Every seventh is a little cross.
@@ -721,10 +721,13 @@ fn tree(art: &mut Art, side: &Side, cx: i32, base: i32) {
                 if d > 1.0 - 0.16 * rnd(x, y, 43) {
                     continue;
                 }
-                let light = -0.5 * ux - 0.8 * uy + 0.3 * (rnd(x, y, 42) - 0.5);
-                leaf = Some(if light > 0.38 {
+                // Its own upper left, the crown's upper left, and leaves in
+                // little bunches that catch the light or don't.
+                let bunch = rnd((x + y.div_euclid(2)).div_euclid(2), y.div_euclid(2), 41) - 0.5;
+                let light = 0.45 * (-0.5 * ux - 0.8 * uy) + 0.4 * (-0.45 * dx as f32 - 0.9 * dy as f32) / CROWN as f32 + 0.75 * bunch + 0.3 * (rnd(x, y, 42) - 0.5);
+                leaf = Some(if light > 0.3 {
                     mat::LEAF_LIGHT
-                } else if light < -0.42 {
+                } else if light < -0.3 {
                     mat::LEAF_DARK
                 } else {
                     mat::LEAF
@@ -1057,6 +1060,116 @@ mod tests {
                 assert!(apart >= 3, "{i} and {j} differ by {apart} pixels");
             }
         }
+    }
+
+    fn at(hhmm: u32) -> Moment {
+        let minute = (hhmm / 100 * 60 + hhmm % 100) as f32;
+        let mut m = Moment { minute, sunrise: 360.0, sunset: 1080.0, day: 9817, lens: 0.0, clock: Some(Clock { hour: (hhmm / 100) as u8, minute: (hhmm % 100) as u8, h24: true }), badge: None };
+        m.lens = m.rest_lens();
+        m
+    }
+
+    #[test]
+    fn the_day_side_goes_from_dawn_to_day_to_gold() {
+        let keys = |hhmm| {
+            let s = day_side(&at(hhmm));
+            (s.a, s.b, s.f)
+        };
+        assert_eq!(keys(600), (DAWN, DAY, 0.0));
+        assert_eq!(keys(645), (DAY, GOLD, 0.0));
+        assert_eq!(keys(1200), (DAY, GOLD, 0.0));
+        // The light starts to turn 75 minutes before sunset and is golden
+        // for the last quarter of an hour.
+        assert_eq!(keys(1645), (DAY, GOLD, 0.0));
+        assert!((keys(1715).2 - 0.5).abs() < 1e-5);
+        assert_eq!(keys(1745), (DAY, GOLD, 1.0));
+        assert_eq!(keys(1759), (DAY, GOLD, 1.0));
+        // Past its ends it stays what it was there (the side that is not
+        // showing while the ball rolls).
+        assert_eq!(keys(2200), (DAY, GOLD, 1.0));
+        assert_eq!(keys(300), (DAWN, DAY, 0.0));
+    }
+
+    #[test]
+    fn the_night_deepens_after_sunset_and_thins_before_sunrise() {
+        let depth = |hhmm| night_depth(&at(hhmm));
+        assert_eq!(depth(1800), 0.0);
+        assert!((depth(1817) - 17.0 / 35.0).abs() < 1e-5);
+        assert_eq!((depth(1835), depth(2359), depth(0), depth(300)), (1.0, 1.0, 1.0, 1.0));
+        assert_eq!(depth(520), 1.0);
+        assert!((depth(540) - 0.5).abs() < 1e-5);
+        assert!(depth(559) < 0.03);
+        // By day the night side is the deep night.
+        assert_eq!(depth(1200), 1.0);
+    }
+
+    #[test]
+    fn the_house_keeps_hours() {
+        let lit = |hhmm| night_side(&at(hhmm)).lit;
+        // Lit from dusk to midnight and again from five; dark in between.
+        assert!(lit(1800) && lit(2130) && lit(2359));
+        assert!(!lit(0) && !lit(230) && !lit(459));
+        assert!(lit(500) && lit(559));
+        // Smoke at breakfast and at supper.
+        let smoke = |hhmm| day_side(&at(hhmm)).lit;
+        assert!(smoke(600) && smoke(729) && !smoke(730) && !smoke(1200) && !smoke(1630) && smoke(1631) && smoke(1759));
+    }
+
+    #[test]
+    fn the_sun_and_the_moon_cross_above_the_clock() {
+        for w in [80, 100, 112, 124] {
+            // They rise and set behind the hills, at the two ends.
+            let (x0, y0) = orbit(0.0, w);
+            let (x1, y1) = orbit(1.0, w);
+            assert_eq!((x0, x1), (6.0, w as f32 - 6.0));
+            assert!(y0 >= (HORIZON - 5) as f32 && y1 >= (HORIZON - 5) as f32);
+            // Over the middle of their way they keep to the top row, the
+            // moon's disc (3.4 across each way) clear of the clock's edge.
+            for i in 17..=83 {
+                let (_, y) = orbit(i as f32 / 100.0, w);
+                assert!(y + 3.4 < (CLOCK_Y - 1) as f32, "{w}: at {i} % the row is {y}");
+            }
+        }
+    }
+
+    #[test]
+    fn the_time_is_written_between_the_house_and_the_tree() {
+        // The picture with the clock and without differ only in the middle.
+        for hhmm in [1008, 2130] {
+            let with = at(hhmm);
+            let without = Moment { clock: None, ..with };
+            let (a, b) = (paint(&with, 100, 38), paint(&without, 100, 38));
+            let lay = Layout::new(100);
+            let mut changed = 0;
+            for y in 0..38 {
+                for x in 0..100 {
+                    if a.get(x, y) != b.get(x, y) {
+                        changed += 1;
+                        // The digits and their edge, and the stars that keep
+                        // clear of them (a cross star reaches one pixel on).
+                        assert!(x > lay.mid0 && x < lay.mid1 - 1, "{hhmm}: {x},{y}");
+                        assert!((CLOCK_Y - 4..CLOCK_Y + DIGIT_H + 4).contains(&y), "{hhmm}: {x},{y}");
+                    }
+                }
+            }
+            assert!(changed > 100, "{hhmm}: {changed} pixels of clock");
+        }
+        // A pill too narrow for the clock leaves it out rather than cut it.
+        assert_eq!(paint(&at(1008), 80, 38).px, paint(&Moment { clock: None, ..at(1008) }, 80, 38).px);
+    }
+
+    #[test]
+    fn the_ball_takes_the_picture_from_day_to_night() {
+        assert_eq!((night_share(0.0), night_share(0.12), night_share(0.5), night_share(0.88), night_share(1.0)), (0.0, 0.0, 0.5, 1.0, 1.0));
+        // Halfway across, half the pixels are the night's.
+        let m = at(1800);
+        let (day, night) = (paint(&Moment { lens: 0.0, ..m }, 100, 38), paint(&Moment { lens: 1.0, ..m }, 100, 38));
+        let mid = paint(&Moment { lens: 0.5, clock: None, ..m }, 100, 38);
+        let (day, night) = (Art { px: paint(&Moment { lens: 0.0, clock: None, ..m }, 100, 38).px, ..day }, Art { px: paint(&Moment { lens: 1.0, clock: None, ..m }, 100, 38).px, ..night });
+        let from_night = mid.px.iter().zip(&day.px).zip(&night.px).filter(|((p, d), n)| p != d && p == n).count();
+        let from_day = mid.px.iter().zip(&day.px).zip(&night.px).filter(|((p, d), n)| p == d && p != n).count();
+        assert!(mid.px.iter().zip(&day.px).zip(&night.px).all(|((p, d), n)| p == d || p == n));
+        assert!((from_night as f32 / (from_night + from_day) as f32 - 0.5).abs() < 0.03, "{from_night} night, {from_day} day");
     }
 
     #[test]
