@@ -842,7 +842,7 @@ fn seed_prayer(st: &mut AppState, picking: bool) -> Result<(poni_core::prayer::S
     // The website's "ed" file, as if it had come.
     let ed = World::parse(poni_core::prayer::world::SAMPLE.into())?;
     st.prayer.cities = [("ed".to_string(), CityFile::Here(std::sync::Arc::new(ed)))].into();
-    let site = st.prayer.site().ok_or("no site for Kota Jakarta")?;
+    let site = st.prayer_site().ok_or("no site for Kota Jakarta")?;
     let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).ok_or("no times today")?.ashar;
     st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
     st.prayer.handled_until = Some(st.prayer_now());
@@ -863,7 +863,7 @@ fn seed_prayer_world(st: &mut AppState, picking: bool) -> Result<(), String> {
     };
     st.settings.prayer.world_place = st.prayer.place.as_ref().and_then(|p| p.world_lines.clone());
     st.settings.prayer.follow_location = false;
-    let site = st.prayer.site().ok_or("no site for Edinburgh")?;
+    let site = st.prayer_site().ok_or("no site for Edinburgh")?;
     let ashar = poni_core::prayer::day_times(&site, site.local_day(st.unix)).ok_or("no times in Edinburgh today")?.ashar;
     st.prayer.clock_shift = ashar - 8 * 60 - st.unix;
     st.prayer.handled_until = Some(st.prayer_now());

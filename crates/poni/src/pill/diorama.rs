@@ -235,12 +235,14 @@ fn badge(st: &AppState) -> Option<Badge> {
     }
 }
 
-/// What the Prayer place's sun times were worked out for: the place, the
-/// quarter of an hour and this computer's clock against UTC.
+/// What the Prayer place's sun times were worked out for: the place, whose
+/// schedule it follows, the quarter of an hour and this computer's clock
+/// against UTC.
 #[derive(Clone, Copy, PartialEq)]
 struct SunKey {
     lat: u64,
     lng: u64,
+    follow: poni_core::settings::PrayerFollow,
     quarter: i64,
     ahead: i64,
 }
@@ -252,11 +254,11 @@ fn sun(st: &AppState) -> (f32, f32) {
     // This computer's clock against UTC, to the minute.
     let local = st.local.hour as i64 * 3600 + st.local.minute as i64 * 60 + st.local.second as i64;
     let ahead = (((local - st.unix.rem_euclid(86_400)) as f64 / 60.0).round() as i64 * 60 + 43_200).rem_euclid(86_400) - 43_200;
-    let key = SunKey { lat: place.lat.to_bits(), lng: place.lng.to_bits(), quarter: st.prayer_now().div_euclid(900), ahead };
+    let key = SunKey { lat: place.lat.to_bits(), lng: place.lng.to_bits(), follow: st.settings.prayer.follow, quarter: st.prayer_now().div_euclid(900), ahead };
     if let Some((_, times)) = SUN.with(|s| s.get()).filter(|(k, _)| *k == key) {
         return times;
     }
-    let times = st.prayer.site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY);
+    let times = st.prayer_site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY);
     SUN.with(|s| s.set(Some((key, times))));
     times
 }
