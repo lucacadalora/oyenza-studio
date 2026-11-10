@@ -1098,7 +1098,7 @@ mod tests {
         let mut st = playing(Some("[00:10.00]紙の舟よ\n[00:14.00]Paper boats\n"));
         assert_eq!(geom(&media, &st).h, 32.0, "no readings: one row");
         st.lyrics.ruby = vec![vec![Ruby { text: "紙の舟よ".into(), roman: "kami no fune yo".into() }], Vec::new()];
-        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill, Theme::Diorama] {
             st.settings.theme = theme;
             assert_eq!(geom(&media, &st).h, crate::pill::media::H_READS, "{theme:?}: the line over its reading");
         }
@@ -1275,7 +1275,7 @@ mod tests {
         use poni_core::settings::Theme;
         let m = Mode::Activity(Activity::Download);
         let mut st = with_downloads(AppState::new(Settings::default(), Store::default()), 1);
-        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill, Theme::Diorama] {
             st.settings.theme = theme;
             assert!(!is_live(&m, &st), "{theme:?}");
             assert_eq!(next_wake(&m, &st), None, "{theme:?}: it repaints as yt-dlp reports");
@@ -1300,14 +1300,14 @@ mod tests {
         st.downloads.apply(id, Line::Progress { done: 12_400_000, total: Some(45_100_000), speed: Some(2.1e6), eta_s: Some(14) });
         let DownloadView { fraction: Some(f), count: 1 } = download_view(&st) else { panic!("{:?}", download_view(&st)) };
         assert_eq!(download_pct(f), "27%");
-        for theme in [Theme::Classic, Theme::Pill] {
+        for theme in [Theme::Classic, Theme::Pill, Theme::Diorama] {
             st.settings.theme = theme;
             assert_eq!(geom(&m, &st).w, DOWNLOAD_W, "{theme:?}");
         }
         // A second one, queued: the count shows beside the mark.
         add(&mut st, "https://archive.org/details/BigBuckBunny_124");
         assert!(download_many(&st));
-        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill, Theme::Diorama] {
             st.settings.theme = theme;
             assert_eq!(geom(&m, &st).w, DOWNLOAD_MANY_W, "{theme:?}");
         }
@@ -1315,6 +1315,43 @@ mod tests {
         st.downloads.apply(id, Line::Stage(poni_core::ytdlp::Stage::Merging));
         let DownloadView { fraction: Some(f), count: 2 } = download_view(&st) else { panic!("{:?}", download_view(&st)) };
         assert_eq!(download_pct(f), "100%");
+    }
+
+    #[test]
+    fn diorama_rests_as_its_picture_and_is_pill_in_everything_else() {
+        use poni_core::settings::Theme;
+        let state = |theme| {
+            let mut st = AppState::new(Settings { theme, ..Settings::default() }, Store::default());
+            st.power.has_battery = false;
+            st
+        };
+        let (mut pill, mut diorama) = (state(Theme::Pill), state(Theme::Diorama));
+        // The clock (and the status bar, which is Pill's) and Minimal are
+        // the picture: 38 tall, where Pill's capsules are 32 and 24.
+        for (look, w) in [(IdleStyle::Clock, 100.0), (IdleStyle::Status, 100.0), (IdleStyle::Minimal, 80.0)] {
+            diorama.settings.idle_style = look;
+            let g = geom(&Mode::Idle, &diorama);
+            assert_eq!((g.w, g.h, g.r), (w, 38.0, 19.0), "{look:?}");
+            assert!(!is_live(&Mode::Idle, &diorama), "{look:?}: nothing moves at rest");
+        }
+        pill.settings.idle_style = IdleStyle::Minimal;
+        assert_eq!(geom(&Mode::Idle, &pill).h, 24.0);
+        // Eyes and Hidden stay Pill's, and so does everything live or open.
+        for look in [IdleStyle::Eyes, IdleStyle::Hidden] {
+            pill.settings.idle_style = look;
+            diorama.settings.idle_style = look;
+            assert_eq!(geom(&Mode::Idle, &diorama), geom(&Mode::Idle, &pill), "{look:?}");
+        }
+        for m in [
+            Mode::Activity(Activity::Timer),
+            Mode::Activity(Activity::Download),
+            Mode::Hud(HudTag::Volume),
+            Mode::Notice,
+            Mode::Expanded(PageKind::Settings),
+            Mode::Aside,
+        ] {
+            assert_eq!(geom(&m, &diorama), geom(&m, &pill), "{m:?}");
+        }
     }
 
     #[test]
