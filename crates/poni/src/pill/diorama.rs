@@ -87,6 +87,14 @@ pub fn note_theme(theme: Theme) {
     }
 }
 
+/// Another theme draws the island: let the painting go, the renderer's
+/// copy of it too.
+pub fn put_away(ui: &mut Ui) {
+    if let Some((_, image)) = KEPT.with(|kept| kept.borrow_mut().take()) {
+        ui.c.forget_image(&image);
+    }
+}
+
 /// Put the ball where the time has it, with no roll on the way (the
 /// self-test and the Mac's renders, whose pictures must not depend on what
 /// was drawn before them).

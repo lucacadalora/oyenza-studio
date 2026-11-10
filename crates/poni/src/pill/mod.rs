@@ -70,6 +70,9 @@ pub fn geom(m: &Mode, st: &AppState) -> Option<Geom> {
 
 /// Draw the collapsed `m` the Pill way. `false` = draw it as Classic does.
 pub fn draw(ui: &mut Ui, st: &mut AppState, m: &Mode, body: Rect) -> bool {
+    if st.settings.theme != Theme::Diorama {
+        diorama::put_away(ui);
+    }
     if !on(st.settings.theme) {
         return false;
     }
