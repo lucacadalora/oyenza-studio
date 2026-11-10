@@ -188,10 +188,12 @@ impl Ball {
 /// Paint the pill for `m` in `v`.
 pub fn render(m: &Moment, v: &View) -> Picture {
     let s = if v.scale.is_finite() { v.scale.clamp(0.5, 8.0) } else { 1.0 };
-    let aw = (v.rest_w.round() as i32).clamp(8, 1024);
-    let ah = (v.rest_h.round() as i32).clamp(8, 256);
-    let pw = ((v.w * s).round() as i32).clamp(1, 8192);
-    let ph = ((v.h * s).round() as i32).clamp(1, 2048);
+    // Sizes a pill can have; anything else is cut to them rather than
+    // painted (or allocated) as asked.
+    let aw = (v.rest_w.round() as i32).clamp(8, 400);
+    let ah = (v.rest_h.round() as i32).clamp(8, 100);
+    let pw = ((v.w.min(aw as f32 + 64.0) * s).round() as i32).max(1);
+    let ph = ((v.h.min(ah as f32 + 64.0) * s).round() as i32).max(1);
     let art = scene::paint(m, aw, ah);
     let dark = scene::night_share(m.lens);
 
@@ -432,9 +434,12 @@ mod tests {
             View { w: 40.0, h: 12.0, rest_w: 100.0, rest_h: 38.0, scale: 1.0 },
             View { w: 100.0, h: 38.0, rest_w: 100.0, rest_h: 38.0, scale: f32::NAN },
             View { w: 300.0, h: 200.0, rest_w: 100.0, rest_h: 38.0, scale: 0.1 },
+            View { w: 1.0e9, h: f32::INFINITY, rest_w: 1.0e9, rest_h: 1.0e9, scale: 1.0e9 },
         ] {
             let p = render(&m, &v);
             assert_eq!(p.bgra.len(), (p.w * p.h * 4) as usize);
+            // Never more than a pill at the largest scale.
+            assert!(p.w <= 464 * 8 && p.h <= 164 * 8, "{} x {}", p.w, p.h);
         }
         let odd = Moment { sunrise: 900.0, sunset: 300.0, lens: 7.0, minute: -5.0, ..m };
         render(&odd, &view(&m, 1.0));
