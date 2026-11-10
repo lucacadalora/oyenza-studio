@@ -468,6 +468,40 @@ jobs:
             exit 1
           }
 
+      # The same pictures alone (PONI_SELFTEST_DIORAMA=only, a few seconds a
+      # run) at 125 %, 150 % and 200 %: the picture is painted for the
+      # display's own scale, so each scale is its own pixels, and between
+      # whole scales its art pixels fall on part pixels.
+      - name: Self-test, Diorama's pictures at 125 %, 150 % and 200 %
+        if: matrix.group == 'smoke'
+        shell: pwsh
+        env:
+          PONI_SELFTEST_THEME: diorama
+          PONI_SELFTEST_DIORAMA: only
+        run: |
+          $failed = @()
+          foreach ($dpi in 120, 144, 192) {
+            $env:PONI_SELFTEST_DPI = "$dpi"
+            $dir = "selftest-diorama-$dpi"
+            New-Item -ItemType Directory -Force -Path $dir | Out-Null
+            $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest",$dir -PassThru
+            $null = $p.Handle
+            if (-not $p.WaitForExit(90000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+            $said = "(no report)"
+            $checked = 0
+            if (Test-Path "$dir\report.json") {
+              $r = Get-Content "$dir\report.json" -Raw | ConvertFrom-Json
+              $said = "states passed: $($r.states_passed)/$($r.states_total); failed: $($r.failed_checks -join ', ')"
+              $checked = @($r.states | Where-Object { $_.name -like 'diorama-*' } | ForEach-Object { $_.checks } | Where-Object { $_.name -eq 'diorama-picture' }).Count
+            }
+            "$dpi DPI: exit code $code; diorama-picture checks run: $checked; $said"
+            if ($code -ne 0 -or $checked -eq 0) {
+              $failed += $dpi
+              Get-Content "$dir\home\cache\poni.log" -Tail 40 -ErrorAction SilentlyContinue
+            }
+          }
+          if ($failed) { "::error title=Diorama self-test::failed at $($failed -join ', ') DPI"; exit 1 }
+
       - name: Build installer (Inno Setup)
         if: matrix.group == 'smoke'
         shell: pwsh
@@ -502,6 +536,9 @@ jobs:
             smoke-soft
             selftest-pill
             selftest-diorama
+            selftest-diorama-120
+            selftest-diorama-144
+            selftest-diorama-192
             smoke-pill
             smoke-touch
             smoke-touch-pill
