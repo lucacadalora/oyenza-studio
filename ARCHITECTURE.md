@@ -12,7 +12,7 @@ old short name where people don't see it: the crates (`poni`, `poni-core`), `pon
 its folders (`%LOCALAPPDATA%\Programs\Poni`, `%APPDATA%\Poni`), the uninstall key and
 Run value, `Local\Poni.Island`, the Mac bundle id `com.oyenza.poni` and the `PONI_*`
 variables. Changing those would break upgrades and settings, so they stay. New
-crates take the new name (`studio-usage`).
+crates take the new name (`studio-usage`, `studio-diorama`).
 
 ## Crates
 
@@ -20,6 +20,7 @@ crates take the new name (`studio-usage`).
 |---|---|---|
 | `crates/poni-core` | Pure logic + models: geometry/colour, springs, LRC parsing, LRCLIB URL/JSON, Apple Music lyrics (web-player token, API replies, TTML), romaji under Japanese, Korean and Chinese lyrics (`romanize/`; Japanese kanji come from Windows' reading analyzer, or from Oyenza Studio's own dictionary, `romanize/ja_dict.rs` with `data/ja-readings.dic.zst`, built by `tools/make_ja_dict.py`, which both apps download as the Japanese readings add-on), player metadata fix-ups, Pomodoro, the steps snapshot Oyenza sends (`health.rs`), tasks, shelf, settings, JSON store, SVG path parser, Oyen's face (`oyen/`, a port of the Oyenza app's built face, checked against its Swift port by `oyen/swift_check.rs`), Phone drop (`phonedrop/`: the LAN web server, the phone page, safe file names, QR codes), add-ons (`addons.rs`: each add-on's files with their size and SHA-256, and what the Add-ons page says; `sha256.rs` checks them), prayer times (`prayer/`: Adhan's sun math ported from adhan-js, with Kemenag RI's rules for Indonesia, Umm al-Qura for Saudi Arabia and each country's method elsewhere, checked against Kemenag's published 2026 schedule, Oyen Umroh's engine and adhan-js itself; Kemenag's places are `addons/sholat/places.json`; the world's cities are small files on the website, `site/places/1/`, built by `tools/make_world_places.py` and read by `prayer/world.rs`), the System page's arithmetic (`sysmon.rs`: CPU load, per-app usage from two process lists, the process list's binary layout, a minute of history, number formats), the whole PC's power (`power.rs`: the Corsair HXi/RMi and MSI Ai power supplies' USB protocols, decoded from their replies, and the estimate when a PSU doesn't report). **No OS calls** beyond `std` file and socket I/O (`store`, `phonedrop`), so the server's tests run over real sockets anywhere. | any OS (`cargo test -p poni-core`) |
 | `crates/studio-usage` | The AI tab's readers: one per AI coding service behind one contract, heads-up notices from their readings, and inference.oyenza.com's device connect; see [AI usage](#ai-usage). Pure, like poni-core, and built for size. | any OS (`cargo test -p studio-usage`) |
+| `crates/studio-diorama` | The Diorama theme's picture: the resting pill as a small window onto a pixel-art place that keeps the day's hours (a house, a tree, a sky that follows the clock, and a glass ball that rolls from the house to the tree as night falls). `render` turns a `Moment` (the minute, when the sun rises and sets, where the ball is, what the clock says) into the pill's pixels for a `View` (its size and the display's scale); `width` and `H` are the pill's size. No clock, no state and no OS calls: the app says what time it is and draws the result as an image (`pill/diorama.rs`), so Windows and the Mac show the same pixels. Pure, with no dependencies, and built for size: it paints once a minute while the pill rests and for the frames of the ball's roll, never in a frame of anything else. | any OS (`cargo test -p studio-diorama`) |
 | `crates/poni` | The Windows app (Win32 + Direct2D + WinRT via `windows` 0.58) | Windows only (`cargo wcheck` / `cargo wbuild` cross from macOS/Linux) |
 | `crates/poni/src/mac/` | The Mac app (AppKit + Core Graphics + Core Text via `objc2`): its own window, renderer, main loop, notch layouts and menu bar item around the same state, pages, activities and Oyen. See [The Mac app](#the-mac-app). | macOS 14+ (`cargo mcheck` type-checks it from Linux) |
 
@@ -73,7 +74,11 @@ crates take the new name (`studio-usage`).
   showing. Real motion runs on every vblank; ambient motion on every n-th
   (the equalizer near 60 fps, a drifting progress bar near 30). Otherwise the
   frame clock thread is parked and one-shot timers wake the UI for the next
-  visible change (countdown second, HUD expiry, minute tick). One thing
+  visible change (countdown second, HUD expiry, minute tick). The Diorama
+  theme's resting picture is painted with that minute tick, the one the
+  clock already wakes for, and kept as an image until something it shows
+  changes; its glass ball's roll (at sunset, at sunrise and when the theme
+  is picked) asks for about a second and a half of frames. One thing
   that can read at rest is the System page's kept minute, and only once the
   System add-on is on (`Settings::system_history_on`: the add-on, and
   `system_history`, on by default): a light reading a second, about 0.35 ms
@@ -307,7 +312,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 | `app.rs` | message loop, island state machine, input, timers, commands |
 | `activities.rs` | collapsed modes + their geometry and drawing |
 | `oyen.rs` | Oyen: draws `poni_core::oyen` frames peeking over the island's edge in his theme (idle, beside the clock, in the media pill), and in every theme as the Oyenza tab's icon (`oyen::tab`: he rises into the tab and waves as the island opens, blinks and flicks an ear now and then, watches the pointer over the tab row, hops when his tab is picked) |
-| `pill/*.rs` | the Pill theme (`Theme::Pill`, `look::PILL` with `Shape::Pill`): the island floats `pill::TOP_GAP` below the top edge (`Island::set_floating`); `shape` draws the floating outline, shadow and hit area, `motion` its springs, and one module per surface (`idle`, `status`, `media`, `lyric`, `live`, `hud`, `notice`, `expanded`, `music`) behind hooks in `activities.rs` and `pages` that fall back to Classic's drawing |
+| `pill/*.rs` | the Pill theme (`Theme::Pill`, `look::PILL` with `Shape::Pill`): the island floats `pill::TOP_GAP` below the top edge (`Island::set_floating`); `shape` draws the floating outline, shadow and hit area, `motion` its springs, and one module per surface (`idle`, `status`, `media`, `lyric`, `live`, `hud`, `notice`, `expanded`, `music`) behind hooks in `activities.rs` and `pages` that fall back to Classic's drawing. The Diorama theme (`Theme::Diorama`) is this island too, so `pill::on` is true for both; `diorama` is its resting pill, the app's side of `studio_diorama`'s picture: the moment (the clock, the sun's times, the battery), the glass ball's roll, and the painting kept between frames |
 | `gfx.rs`, `icons.rs`, `ui.rs`, `island.rs`, `window.rs` | rendering/UI foundation |
 | `state.rs`, `events.rs`, `commands.rs` | shared contracts |
 | `pages/*.rs` | expanded pages |
@@ -441,6 +446,7 @@ service by service, in people's words: [docs/ai-usage.md](docs/ai-usage.md).
 
 ```
 cargo test -p poni-core          # logic tests, any OS
+cargo test -p studio-diorama     # the Diorama theme's picture, any OS
 python3 tools/make_ja_dict.py    # rebuild the Japanese reading dictionary, fixes in tools/ja_dict_fixes.csv (--check compares)
 cargo wcheck                     # type-check the Windows app from macOS/Linux
 cargo wbuild                     # cross-build target/x86_64-pc-windows-gnu/release/poni.exe (needs mingw-w64)
@@ -462,7 +468,7 @@ the Windows files are untouched.
 | `mac/gfx.rs` | `Canvas` on Core Graphics + Core Text, call for call the Windows API: sRGB colours, the theme's look, SF Pro (or the embedded Outfit), images, icons, clips, shape masks, transparency layers for fades. Also `Bitmap` (offscreen) |
 | `mac/window.rs` | A borderless, non-activating `NSPanel` above the menu bar (level 27, all Spaces), sized once for the largest island; its view draws (y down) and forwards input; a display link on the view paces frames at the screen's refresh (120 Hz on ProMotion). Dragged along the top edge (`Settings::island_x`, `poni_core::spot`; screens without a notch, and Pill's floating island around one), the app places it around the spot, keeping a notch in it too, and spans it across the screen during the drag (`App::place_window`, `App::place_island`) |
 | `mac/app.rs` | The island's behaviour, ported from `app.rs`: hover lift, dwell to open, collapse delay, morphs and cross-fades, page switches, notices, the Pomodoro, settings and data. Clicks pass through to the apps below except over the island (the app toggles the panel's `ignoresMouseEvents` from global mouse-move monitors, which need no permission) |
-| `mac/notch.rs` | The camera notch: the resting clock and live activities sit in the menu bar's line left and right of the camera, the resting eyes play hide and seek with it (`poni_core::peek`), Minimal and Hidden hide inside it, notices and the open island hang below it. Pill is the pill or the notch: it rests inside it (the eyes beside it) and everything else floats below it; dragged along the top edge, it floats at its spot and slides back to dock in the notch as it rests (`notch::detach`) |
+| `mac/notch.rs` | The camera notch: the resting clock and live activities sit in the menu bar's line left and right of the camera, the resting eyes play hide and seek with it (`poni_core::peek`), Minimal and Hidden hide inside it, notices and the open island hang below it. Pill is the pill or the notch: it rests inside it (the eyes beside it) and everything else floats below it; dragged along the top edge, it floats at its spot and slides back to dock in the notch as it rests (`notch::detach`). Diorama is Pill's island here too, except at rest: its picture floats just below the notch, at the spot it was dragged to, instead of hiding inside it (Hidden still hides there) |
 | `mac/menubar.rs` | The menu bar item (Oyen's mark as a template image) and its menu, also on a right-click of the island |
 | `mac/settings_host.rs` | The Settings window: a real `NSWindow` (the system's title bar buttons over the sidebar) whose view draws the shared Settings content and forwards input; light or dark as the Mac is |
 | `mac/render.rs` | `poni --render <dir> [--theme oyen] [--notch]`: every state with sample data as PNGs, offscreen (CI's way to look at the Mac drawing; the runners have no notch) |

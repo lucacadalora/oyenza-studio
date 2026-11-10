@@ -89,13 +89,13 @@ On a desktop, **Power** shows what the whole PC draws: split into the CPU, the g
 
 [What it reads, service by service](docs/ai-usage.md)
 
-### Black, Oyen, Glass or Pill
+### Black, Oyen, Glass, Pill or Diorama
 
-The island is black by default, like the one on a phone. **Oyen** turns it warm cream, and Oyen the cat moves in: he peeks over the edge, follows your pointer and sleeps from midnight to five. **Glass** bends and frosts whatever is behind it, after Apple's Liquid Glass; on a Mac it's macOS's own glass. **Pill**, new in 0.1.21, changes the shape: the island floats just below the top of the screen as a black capsule, with the time and battery at rest, the song and the line being sung while music plays, and a rounded card when it opens.
+The island is black by default, like the one on a phone. **Oyen** turns it warm cream, and Oyen the cat moves in: he peeks over the edge, follows your pointer and sleeps from midnight to five. **Glass** bends and frosts whatever is behind it, after Apple's Liquid Glass; on a Mac it's macOS's own glass. **Pill**, new in 0.1.21, changes the shape: the island floats just below the top of the screen as a black capsule, with the time and battery at rest, the song and the line being sung while music plays, and a rounded card when it opens. **Diorama**, new in 0.2.27, is Pill with a picture in its resting capsule: a small window onto a pixel-art place, a house, a tree and a sky that follows your clock from dawn to night.
 
 <p align="center"><img src="docs/brand/readme/themes.webp" width="880" alt="The Music page in Classic, in the Oyen theme, in the Glass theme over a light and a dark page, and in the Pill theme as a card floating below the top edge, beside Pill's capsule while music plays"></p>
 
-[The Oyen theme](#the-oyen-theme) &nbsp;·&nbsp; [The Glass theme](#the-glass-theme) &nbsp;·&nbsp; [The Pill theme](#the-pill-theme)
+[The Oyen theme](#the-oyen-theme) &nbsp;·&nbsp; [The Glass theme](#the-glass-theme) &nbsp;·&nbsp; [The Pill theme](#the-pill-theme) &nbsp;·&nbsp; [The Diorama theme](#the-diorama-theme)
 
 ### Your money, as it moves
 
@@ -115,7 +115,7 @@ Today's times for your kab/kota as Kemenag RI publishes them, or for your city a
 
 ### On a Mac, it wraps the notch
 
-On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Whatever plays, with lyrics: Music, Spotify, YouTube and Spotify in your browser, any player that macOS's own now playing shows; the focus timer, the Shelf and Phone drop, tasks, Today and the System add-on are all there, in the Classic, Oyen, Glass or Pill theme.
+On a MacBook, the island lives around the camera notch: the album art on one side, the beat on the other, and it opens downward when you point at it. Whatever plays, with lyrics: Music, Spotify, YouTube and Spotify in your browser, any player that macOS's own now playing shows; the focus timer, the Shelf and Phone drop, tasks, Today and the System add-on are all there, in the Classic, Oyen, Glass, Pill or Diorama theme.
 
 <p align="center"><img src="docs/brand/readme/mac.webp" width="880" alt="On a MacBook: music playing and a focus timer either side of the notch, and the Music page opening below it"></p>
 
@@ -194,7 +194,7 @@ Yes, on Windows 10 and 11. Glass needs Windows 10 version 2004 or later to bend 
 <summary><b>What's different on a Mac?</b></summary>
 <br>
 
-The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Today, the System add-on, Prayer times, the Classic, Oyen, Glass and Pill themes, headphone pop-ups, hiding in full-screen apps, Oyenza sign-in and start at login. Not on the Mac yet: paired phones and Show over games. [On a Mac](#on-a-mac) has the details.
+The island wraps the notch, and the Mac has music with lyrics, Focus, the Shelf with Phone drop, Tasks, Today, the System add-on, Prayer times, the Classic, Oyen, Glass, Pill and Diorama themes, headphone pop-ups, hiding in full-screen apps, Oyenza sign-in and start at login. Not on the Mac yet: paired phones and Show over games. [On a Mac](#on-a-mac) has the details.
 
 </details>
 
@@ -210,7 +210,7 @@ Yes: right-click the island › **In full-screen apps** › **Hide**. Pick **Sta
 <summary><b>Does it cover my browser tabs?</b></summary>
 <br>
 
-It sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. You can move it: press the closed island and drag it left or right along the top edge. It stays where you leave it, also after a restart, and opens away from the screen's edge. To put it back, drag it to the middle (it snaps there) or right-click it › **Move island to the centre** (on a Mac, also in the menu bar under Oyen's mark). On a MacBook with a notch the island lives in the menu bar around the camera, above your tabs, and stays there; only the Pill theme's island, which floats below the menu bar, moves, and it docks back in the notch to rest. To keep the top edge clear while nothing plays, right-click the island › **Idle look** › **Hidden until hover**: only an invisible strip stays at the top edge until you point at it.
+It sits over the middle of the top edge, so over a maximized browser it can cover the tabs there. You can move it: press the closed island and drag it left or right along the top edge. It stays where you leave it, also after a restart, and opens away from the screen's edge. To put it back, drag it to the middle (it snaps there) or right-click it › **Move island to the centre** (on a Mac, also in the menu bar under Oyen's mark). On a MacBook with a notch the island lives in the menu bar around the camera, above your tabs, and stays there; only the Pill and Diorama themes' island, which floats below the menu bar, moves, and Pill's docks back in the notch to rest. To keep the top edge clear while nothing plays, right-click the island › **Idle look** › **Hidden until hover**: only an invisible strip stays at the top edge until you point at it.
 
 </details>
 
@@ -229,8 +229,8 @@ The details behind each feature.
 ### Settings and options
 
 The gear at the top right of the open island opens **Settings**: your Oyenza account first, then the theme, the idle look and the switches below, and last **Advanced settings**. That opens a window with every setting in one place, and the island closes as it opens: General (start with Windows, sounds, the 24-hour clock, the version with **Check now**), Appearance (the theme and the idle look), Island (how soon it opens and closes, its width, the display, full-screen apps and games), Music and lyrics, Pop-ups (volume, charger and battery, Bluetooth), Tabs, Add-ons, Focus, Prayer times, AI usage, your Oyenza account and About. It follows Windows' light or dark mode. Right-click the island or the tray icon for the quick ones, and **Advanced settings…** opens the window too:
-- the theme: Classic, Oyen, Glass or Pill
-- the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock)
+- the theme: Classic, Oyen, Glass, Pill or Diorama
+- the idle look: clock, eyes (Oyen in his theme), minimal, hidden until you hover, or a status bar (in Pill; the other themes show the clock); Diorama has the clock, minimal and hidden
 - lyrics (and the pronunciation line under Japanese, Korean and Chinese lyrics) and sounds
 - in full-screen apps: hide, or stay on top of borderless games and videos (a game in exclusive full-screen mode still covers it), and show FPS, GPU and CPU over games
 - start with Windows, which version you have (**About Oyenza Studio**, with the build's day; it opens that version's release notes), and quit
@@ -265,6 +265,21 @@ Pill changes the island's shape and layouts, not only its colours. Pick it with 
 
 The pages and features are the same as in Classic.
 
+### The Diorama theme
+
+Diorama is Pill with a picture in its resting capsule: a small window onto a pixel-art place that keeps the hours of your day. Pick it with right-click › **Theme › Diorama**, or the gear › **Theme › Diorama**; on a Mac, in the menu bar's Theme menu.
+
+- **The place.** Behind a raised frame, cream by day and indigo at night, stand a house at one end and a tree at the other, with a fence and a letter box between them and hills behind.
+- **It follows your clock.** Dawn is pink, the day is blue with the sun crossing the sky and clouds drifting by, the light turns golden in the hour before sunset, and after dusk the stars come out one by one under the moon in tonight's phase. The window is lit until midnight and again from five, with smoke from the chimney while breakfast and supper cook.
+- **The cat's day.** An orange cat sits by the door at dawn, walks out to the tree, naps under it around noon, comes home for the golden hour and sits in the lit window after dark. From midnight to five it's nowhere to be seen.
+- **The glass ball.** A glass ball that magnifies what's under it rests on the house by day and on the tree at night. At sunset it rolls across and night falls behind it; at sunrise it rolls back. It rolls once when you pick the theme, too.
+- **The time** is written in the sky between the house and the tree, 12- or 24-hour as you've set it. On a laptop, a bolt stands beside it while the battery charges, and a red battery at 20% or less. Pick **Idle look › Minimal** for the place without the clock.
+- **Your own sunrise and sunset.** With the [Prayer times](#add-ons) add-on on and a place picked, the sun rises and sets when it does there. Otherwise it rises at six and sets at six.
+- **On a MacBook with a notch**, the resting pill floats just below the notch instead of hiding in it, and stays where you drag it along the top edge.
+- **What it costs:** the picture is painted once a minute, with the tick the clock already wakes for, and nothing runs in between. The ball's roll draws frames for about a second and a half.
+
+Everything else is Pill's: music, timers, pop-ups, notices and the open card.
+
 ### Show over games
 
 Switch on **Show over games** (System › Games, or right-click › In full-screen apps) and, while a game fills the screen in borderless full-screen, the island becomes a small readout: frames per second, the GPU's load and temperature and the CPU's load. It stays for as long as the game is in front; **Alt+Shift+F** hides it until the next game, and pressing it again brings it back. Any window over a borderless game, the island included, makes Windows combine the two before they reach the screen, which costs the game about a frame of delay. If you'd rather not pay it, pick **Readout › Peeks** in System › Games (or right-click › In full-screen apps › Only for a few seconds): the readout then shows for a few seconds when the game comes to the front, when the frame rate drops sharply and whenever you press Alt+Shift+F, then hides, and in between the game's frames go straight to the screen. Turning it on also lets the island show over full-screen apps; picking Hide there turns it off again. Alt+Shift+F belongs to Oyenza Studio only while a game is in front.
@@ -277,7 +292,7 @@ Windows lets only admins and the **Performance Log Users** group read that log. 
 
 On a MacBook with a camera notch, the island lives around it: what's playing sits either side of the camera (the album art on the left and the beat on the right, a timer's ring and its minutes the same way), and the island opens downward from the notch when you point at it. On a Mac without a notch, or on another display, it hangs from the top of the screen as it does on Windows. Around the notch, the Oyen theme goes black like the notch itself, with Oyen's cream type, his orange and his face on it. Pick the eyes as the idle look and they play hide and seek with the camera: they peek out beside it on your pointer's side and follow your pointer anywhere on the screen, and when it crosses over they duck behind the camera and come out on the other side. Oyen does the same in his theme.
 
-The Mac app has the island, whatever plays with synced lyrics (Music, Spotify, a browser's YouTube or Spotify tab, any player in macOS's own now playing, read through the open-source MediaRemote adapter; Apple Music's own lyrics with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, Today with your Mac's CPU, memory, disk and battery, the System add-on with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps, pop-ups for volume, charging and Bluetooth headphones (without the battery level; macOS shows AirPods' own when they connect), [Prayer times](#add-ons) (Location Services finds your city, or you type it), the Classic, Oyen, Glass and Pill themes ([Pill](#the-pill-theme) floats just below the notch for music, pop-ups and the open card, and rests inside it), hiding in full-screen apps (or staying on top of them), [Oyenza sign-in](#oyenza-optional) and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: paired phones and Show over games.
+The Mac app has the island, whatever plays with synced lyrics (Music, Spotify, a browser's YouTube or Spotify tab, any player in macOS's own now playing, read through the open-source MediaRemote adapter; Apple Music's own lyrics with [your token](#apple-music-lyrics)), the focus timer, the Shelf with [Phone drop](#phone-drop) over the same Wi-Fi, tasks, Today with your Mac's CPU, memory, disk and battery, the System add-on with your Mac's CPU, graphics, memory, drives, network, battery and busiest apps, pop-ups for volume, charging and Bluetooth headphones (without the battery level; macOS shows AirPods' own when they connect), [Prayer times](#add-ons) (Location Services finds your city, or you type it), the Classic, Oyen, Glass, Pill and Diorama themes ([Pill](#the-pill-theme) floats just below the notch for music, pop-ups and the open card, and rests inside it; [Diorama](#the-diorama-theme) rests just below it too), hiding in full-screen apps (or staying on top of them), [Oyenza sign-in](#oyenza-optional) and start at login. Every option is in the menu bar, under Oyen's mark. Not on the Mac yet: paired phones and Show over games.
 
 The Mac pictures come from the Mac app itself (`poni --render <dir> --notch`, run by the `mac` workflow on a macOS runner with a MacBook's notch drawn in).
 
@@ -389,13 +404,14 @@ Oyenza Studio is a Cargo workspace:
 |---|---|
 | `crates/poni-core` | Pure logic (springs, lyrics parsing, Pomodoro, steps, tasks, settings…), Phone drop's small web server and paired phone drop (pairing, signed messages, the WebRTC link). Unit-tested on any OS. |
 | `crates/studio-usage` | The AI tab's readers: how much of each AI coding plan is left, from the computer and each service's own server, and the inference.oyenza.com connect. Unit-tested on any OS. |
+| `crates/studio-diorama` | The Diorama theme's picture: its pixel-art place at any minute of the day, painted in plain Rust with no dependencies. Unit-tested on any OS. |
 | `server` | The meeting server and phone page for paired phones (`drop.oyenza.com`); Node, no dependencies. |
 | `crates/poni` | The app. On Windows: Win32 + Direct2D + WinRT through [windows-rs](https://github.com/microsoft/windows-rs). On a Mac (`src/mac/`): AppKit, Core Graphics and Core Text through [objc2](https://github.com/madsmtm/objc2), drawing the same pages. |
 
 On Windows, with Rust stable and the MSVC toolchain:
 
 ```
-cargo test -p poni-core -p studio-usage
+cargo test -p poni-core -p studio-usage -p studio-diorama
 cargo build -p poni --release        # target\release\poni.exe
 ```
 
@@ -432,7 +448,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit: threads, the rend
 
 ### Website
 
-The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Every release updates it too ([AGENTS.md](AGENTS.md#every-release-updates-the-website) has the checklist). A page that names a version not released yet waits until that release is published, and a release whose page wasn't updated opens an issue. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % (Classic and Oyen, plus Pill for its own section), and its Mac pictures from the `mac` workflow's renders (`tools/site_shots.py`).
+The website is `site/index.html`, published with GitHub Pages by `.github/workflows/pages.yml` whenever `site/` or `docs/brand/` changes on main. Every release updates it too ([AGENTS.md](AGENTS.md#every-release-updates-the-website) has the checklist). A page that names a version not released yet waits until that release is published, and a release whose page wasn't updated opens an issue. Preview it with `tools/build_site.sh && python3 -m http.server -d _site 8000`. Its island screenshots come from the self-test at 200 % (Classic and Oyen, plus Pill and Diorama for their own sections), and its Mac pictures from the `mac` workflow's renders (`tools/site_shots.py`).
 
 The README's feature pictures are drawn from those same screenshots by `tools/make_readme_art.py` (from `tools/readme_art.html`) into `docs/brand/readme/`. Rerun it after retaking the screenshots.
 
