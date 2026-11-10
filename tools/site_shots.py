@@ -25,6 +25,17 @@ edge, so its pictures keep that gap above the island:
     PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=pill tools/run-selftest-wine.sh target/.../poni.exe out-pill
     python3 tools/site_shots.py out-pill pill
 
+The Diorama theme is Pill's island with a picture as its resting pill, so
+only that pill is cut (DIORAMA_KEEP: in the morning, at the golden hour and
+at night). A Diorama run takes those pictures after its scenes, each at a set
+time of day whenever the run is (diorama-<what>.png, no number), and with
+PONI_SELFTEST_DIORAMA=only it takes them alone, in a few seconds. They go
+into site/assets/shots/diorama/<what>.webp with the gap above them, like
+Pill's:
+
+    PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=diorama PONI_SELFTEST_DIORAMA=only tools/run-selftest-wine.sh target/.../poni.exe out-diorama
+    python3 tools/site_shots.py out-diorama diorama
+
 In the Oyen theme, music notes float up beside Oyen on the beat, and the
 scene's single frame may fall between notes. Record the media pill frame by
 frame (PONI_SELFTEST_LOOP=1 writes loop-media-NNN.png), pick a frame with
@@ -71,6 +82,12 @@ virtual screen than Wine's default:
     PONI_SELFTEST_DPI=384 PONI_SELFTEST_SCREEN=4096x2400x24 PONI_SELFTEST_THEME=oyen tools/run-selftest-wine.sh target/.../poni.exe out-oyen-4x
     python3 tools/site_shots.py out-classic-4x classic zoom
     python3 tools/site_shots.py out-oyen-4x oyen zoom
+
+Diorama's resting pill at twice its size comes from a 400 % Diorama run the
+same way (zoom/diorama/<what>.webp):
+
+    PONI_SELFTEST_DPI=384 PONI_SELFTEST_SCREEN=4096x2400x24 PONI_SELFTEST_THEME=diorama PONI_SELFTEST_DIORAMA=only tools/run-selftest-wine.sh target/.../poni.exe out-diorama-4x
+    python3 tools/site_shots.py out-diorama-4x diorama zoom
 
 At 400 % the frame-time checks fail under Wine (drawing is slower); the
 pictures are still right.
@@ -122,6 +139,10 @@ MAC_PILL_KEEP = {"idle-clock", "media-activity", "volume-hud", "page-media", "pa
 MAC_PILL_STRIP = (840, 216)
 # Resting states the page shows at twice their size, cut from a 400 % run.
 ZOOM_KEEP = {"idle-clock", "media-activity", "media-lyric", "timer-activity", "volume-hud", "bluetooth-hud", "prayer-countdown", "oyenza-money", "game-stats"}
+# Diorama: its resting pill by day, at the golden hour and at night, from the pictures a Diorama run
+# takes at set times (diorama-morning.png is 10:08, diorama-golden-hour.png 17:40, diorama-night.png
+# 21:30). Everything else it shows is Pill's.
+DIORAMA_KEEP = {"morning", "golden-hour", "night"}
 
 
 def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:
@@ -185,12 +206,31 @@ def mac(src: Path, only: str | None = None) -> None:
         print(f"mac/{theme}/{name}.webp  {img.width}x{img.height}")
 
 
+def diorama(src: Path, zoom: bool) -> None:
+    dst = ROOT / "site" / "assets" / "shots"
+    dst = dst / "zoom" / "diorama" if zoom else dst / "diorama"
+    dst.mkdir(parents=True, exist_ok=True)
+    where = "zoom/diorama" if zoom else "diorama"
+    for name in sorted(DIORAMA_KEEP):
+        shot = src / f"diorama-{name}.png"
+        alpha = src / f"diorama-{name}-alpha.png"
+        if not shot.exists() or not alpha.exists():
+            sys.exit(f"{shot} or its -alpha.png is missing: is {src} a PONI_SELFTEST_THEME=diorama run?")
+        # It floats below the top edge, like Pill: the gap above it is kept.
+        img = cut(shot, alpha, floating=True)
+        img.save(dst / f"{name}.webp", lossless=True, method=6)
+        print(f"{where}/{name}.webp  {img.width}x{img.height}")
+
+
 def main() -> None:
     if len(sys.argv) == 4 and sys.argv[2] == "glass" and sys.argv[3] in ("light", "dark", "flip"):
         glass(Path(sys.argv[1]), sys.argv[3])
         return
     if len(sys.argv) in (3, 4) and sys.argv[2] == "mac":
         mac(Path(sys.argv[1]), sys.argv[3] if len(sys.argv) == 4 else None)
+        return
+    if sys.argv[2:] in (["diorama"], ["diorama", "zoom"]):
+        diorama(Path(sys.argv[1]), len(sys.argv) == 4)
         return
     if len(sys.argv) not in (3, 4) or sys.argv[2] not in ("classic", "oyen", "pill"):
         sys.exit(__doc__)

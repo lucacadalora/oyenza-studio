@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      - run: cargo test -p poni-core -p studio-usage
+      - run: cargo test -p poni-core -p studio-usage -p studio-diorama
       # THIRD-PARTY-NOTICES.txt ships with every build: it must list every
       # crate poni.exe links (run the script after changing dependencies).
       - name: Third-party notices up to date
@@ -124,9 +124,11 @@ jobs:
   #   classic: the scripted self-test, the add-on on/off run, Japanese lyrics,
   #            the Pill smoke run
   #   glass:   the Glass self-tests, the Glass smoke run, the Pill self-test
-  #   smoke:   the smoke run, the software renderer, the Inno Setup check
+  #   smoke:   the smoke run, the software renderer, the Diorama self-test,
+  #            the Inno Setup check
   # The Pill steps went to the two machines with the most room; smoke has
-  # the longest steps (its smoke run includes the weight check).
+  # the longest steps (its smoke run includes the weight check). The Diorama
+  # self-test went to smoke, which finished about 40 s before the other two.
   # On CI's software GPU a slow frame doesn't fail a self-test; it shows as a
   # warning on the run page.
   selftest:
@@ -427,6 +429,45 @@ jobs:
           ./tools/ci-smoke.ps1 -Exe target\release\poni.exe -Out smoke-soft
           ./tools/ci-smoke-touch.ps1 -Exe target\release\poni.exe -Out smoke-touch-soft
 
+      # The Diorama theme: the Pill theme's island with a picture as its
+      # resting pill, so every scene runs as in the Pill self-test. After
+      # them the self-test takes that pill's own pictures at set times of day
+      # (diorama-*.png) and checks each one: its size, that it is
+      # studio_diorama's picture of that moment (diorama-picture), and that
+      # at rest it asks for no frames (diorama-rests). After this machine's
+      # smoke runs, so their numbers are there whatever this step says.
+      - name: Self-test, Diorama theme
+        if: matrix.group == 'smoke'
+        shell: pwsh
+        env:
+          PONI_SELFTEST_THEME: diorama
+        run: |
+          Add-Type -AssemblyName System.Windows.Forms
+          Add-Type -Namespace PoniCiDiorama -Name User32 -MemberDefinition '[DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);'
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          [PoniCiDiorama.User32]::SetCursorPos([int]($b.Width / 2), [int]($b.Height / 2)) | Out-Null
+
+          New-Item -ItemType Directory -Force -Path selftest-diorama | Out-Null
+          $p = Start-Process -FilePath target\release\poni.exe -ArgumentList "--selftest","selftest-diorama" -PassThru
+          $null = $p.Handle
+          if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force; $code = -1 } else { $code = $p.ExitCode }
+          "diorama self-test exit code: $code"
+          if (Test-Path selftest-diorama\report.json) {
+            $r = Get-Content selftest-diorama\report.json -Raw | ConvertFrom-Json
+            "renderer: $($r.renderer); states passed: $($r.states_passed)/$($r.states_total); failed: $($r.failed_checks -join ', ')"
+            if ($r.slow_frames) { "::warning title=Slow Diorama frames on CI's software GPU (not counted)::$($r.slow_frames -join '; ')" }
+            # A theme the self-test doesn't read runs (and passes) as Classic:
+            # make sure Diorama's own pictures were taken and checked.
+            $pictures = @($r.states | Where-Object { $_.name -like 'diorama-*' })
+            $checked = @($pictures | ForEach-Object { $_.checks } | Where-Object { $_.name -eq 'diorama-picture' }).Count
+            "diorama pictures: $($pictures.Count); diorama-picture checks run on them: $checked"
+            if ($checked -eq 0) { "::error title=Diorama self-test::no diorama-picture check ran, so this was not a Diorama run"; exit 1 }
+          }
+          if ($code -ne 0) {
+            Get-Content selftest-diorama\home\cache\poni.log -Tail 80 -ErrorAction SilentlyContinue
+            exit 1
+          }
+
       - name: Build installer (Inno Setup)
         if: matrix.group == 'smoke'
         shell: pwsh
@@ -460,6 +501,7 @@ jobs:
             selftest-soft
             smoke-soft
             selftest-pill
+            selftest-diorama
             smoke-pill
             smoke-touch
             smoke-touch-pill
