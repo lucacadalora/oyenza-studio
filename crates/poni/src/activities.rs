@@ -165,7 +165,7 @@ pub fn prayer_countdown(st: &AppState) -> Option<(poni_core::prayer::Prayer, i64
     if !st.prayer_on() {
         return None;
     }
-    let site = st.prayer.site()?;
+    let site = st.prayer_site()?;
     poni_core::prayer::countdown(&site, st.prayer_now(), st.settings.prayer.remind_before_min)
         .filter(|(m, _)| st.prayer.countdown_ok != Some(m.at))
         .map(|(m, left)| (m.prayer, left))
@@ -1119,7 +1119,7 @@ mod tests {
         .expect("the place");
         st.prayer.place = list.find("jakarta").cloned();
         st.prayer.places = Some(std::sync::Arc::new(list));
-        let site = st.prayer.site().expect("its site");
+        let site = st.prayer_site().expect("its site");
         let times = poni_core::prayer::day_times(&site, site.local_day(st.unix)).expect("today's times");
         st.prayer.clock_shift = times.ashar - secs - st.unix;
         (st, times)

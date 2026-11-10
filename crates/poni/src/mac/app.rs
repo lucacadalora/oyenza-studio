@@ -1976,7 +1976,7 @@ impl App {
         if self.st.settings.prayer.follow_location && self.st.prayer.located_at.is_none_or(|t| self.st.unix - t >= 3 * 3600) {
             self.locate();
         }
-        let Some(site) = self.st.prayer.site() else { return };
+        let Some(site) = self.st.prayer_site() else { return };
         let now = self.st.prayer_now();
         let Some(from) = self.st.prayer.handled_until else {
             self.st.prayer.handled_until = Some(now);
@@ -1998,7 +1998,7 @@ impl App {
     /// A prayer's time came: the island says so and plays the chosen sound.
     /// Quiet when it's late (after a sleep) or a full-screen app hides the island.
     fn prayer_moment(&mut self, m: PrayerMoment, ring: bool) {
-        let Some(site) = self.st.prayer.site() else { return };
+        let Some(site) = self.st.prayer_site() else { return };
         let place = self.st.prayer.place.as_ref().map_or(String::new(), |p| p.label.clone());
         let ring = ring && !self.fullscreen_hidden;
         let sound = if ring { self.st.settings.prayer.sound } else { PrayerSound::Silent };
@@ -2050,7 +2050,7 @@ impl App {
     /// countdown.
     fn prayer_countdown_ok(&mut self) {
         self.refresh_time();
-        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer_site()) {
             pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
         }
     }
@@ -4162,7 +4162,7 @@ impl App {
             // OK (what a click on it does). The next step's adzan still comes.
             "prayer-ok" => {
                 let unix = clock::unix_now();
-                if let Some(ashar) = self.st.prayer.site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| t.ashar)) {
+                if let Some(ashar) = self.st.prayer_site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| t.ashar)) {
                     self.st.prayer.clock_shift = ashar - 5 * 60 - unix;
                     self.st.prayer.handled_until = Some(ashar - 5 * 60);
                 }
@@ -4173,7 +4173,7 @@ impl App {
                 self.st.settings.prayer.sound = PrayerSound::Adzan;
                 self.st.cmds.push(Command::SaveSettings);
                 let unix = clock::unix_now();
-                if let Some((site, ashar)) = self.st.prayer.site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| (s, t.ashar))) {
+                if let Some((site, ashar)) = self.st.prayer_site().and_then(|s| poni_core::prayer::day_times(&s, s.local_day(unix)).map(|t| (s, t.ashar))) {
                     self.st.prayer.clock_shift = ashar - 2 - unix;
                     self.st.prayer.handled_until = Some(ashar - 2);
                     pinfo!("smoke: Ashar in {} is {}", site.hhmm(ashar), self.st.prayer.place.as_ref().map_or("", |p| p.label.as_str()));
@@ -4922,12 +4922,12 @@ impl App {
             "prayer-page" => {
                 let tabs = pages::tabs(&self.st);
                 let now = self.st.prayer_now();
-                let next = self.st.prayer.site().and_then(|s| poni_core::prayer::next_prayer(&s, now).map(|m| format!("{} at {}", m.prayer.name(), s.hhmm(m.at))));
+                let next = self.st.prayer_site().and_then(|s| poni_core::prayer::next_prayer(&s, now).map(|m| format!("{} at {}", m.prayer.name(), s.hhmm(m.at))));
                 let ok = self.st.page == PageKind::Prayer && tabs.contains(&PageKind::Prayer) && next.is_some();
                 Some(("prayer-page", ok, format!("{} tabs; next: {}", tabs.len(), next.unwrap_or_else(|| "none".into()))))
             }
             "prayer-ok" => {
-                let running = self.st.prayer.site().and_then(|s| poni_core::prayer::countdown(&s, self.st.prayer_now(), self.st.settings.prayer.remind_before_min));
+                let running = self.st.prayer_site().and_then(|s| poni_core::prayer::countdown(&s, self.st.prayer_now(), self.st.settings.prayer.remind_before_min));
                 let shown = activities::prayer_countdown(&self.st);
                 let ok = running.is_some() && shown.is_none() && self.st.prayer.countdown_ok == running.map(|(m, _)| m.at);
                 Some(("prayer-ok", ok, format!("countdown {:?}, on the island: {shown:?}", running.map(|(m, left)| (m.prayer, left)))))

@@ -12,6 +12,12 @@
 //! - Ihtiyat: round up to the whole minute, then add 2 minutes (Dzuhur 3);
 //!   Terbit drops the seconds, then takes 2 off. Imsak = Subuh - 10 minutes.
 //!
+//! With Muhammadiyah followed (`settings.prayer.follow`), Indonesian places
+//! use Majelis Tarjih's rules instead ([`MUHAMMADIYAH`]): Subuh and Isya at
+//! 18°, Terbit and Maghrib at -1.07°, 1 minute added before rounding up
+//! (Terbit: rounded down, then 2 minutes off). They match
+//! khgt.muhammadiyah.or.id's own times to the minute or within one.
+//!
 //! Makkah, Madinah and Jeddah use Umm al-Qura, the times the Haram follows:
 //! Subuh at 18.5°, Isya 90 minutes after Maghrib (120 in Ramadan), nearest
 //! minute.
@@ -109,6 +115,17 @@ impl Place {
             method: self.method,
             hanafi: self.hanafi,
         })
+    }
+
+    /// What the engine needs when the person follows `follow`: Muhammadiyah's
+    /// times replace Kemenag's for Indonesian places; elsewhere the place's
+    /// own method stays.
+    pub fn site_for(&self, follow: crate::settings::PrayerFollow) -> Option<Site> {
+        let mut site = self.site()?;
+        if follow == crate::settings::PrayerFollow::Muhammadiyah && site.method == Method::Kemenag {
+            site.method = Method::Muhammadiyah;
+        }
+        Some(site)
     }
 
     /// From the world list (anywhere outside Indonesia but the three Saudi places).
@@ -240,6 +257,9 @@ pub enum Method {
     /// Kemenag RI (Bimas Islam), for Indonesia.
     #[default]
     Kemenag,
+    /// Muhammadiyah's Majelis Tarjih, for Indonesian places when the
+    /// Muhammadiyah choice is on (`settings.prayer.follow`).
+    Muhammadiyah,
     /// Umm al-Qura, for Saudi Arabia (and its neighbours in the world list).
     UmmAlQura,
     // The world list's (by country), as Adhan has them.
@@ -262,6 +282,7 @@ impl Method {
     pub fn from_key(key: &str) -> Option<Method> {
         Some(match key {
             "kemenag" => Method::Kemenag,
+            "muhammadiyah" => Method::Muhammadiyah,
             "ummalqura" => Method::UmmAlQura,
             "mwl" => Method::MuslimWorldLeague,
             "egyptian" => Method::Egyptian,
@@ -281,6 +302,7 @@ impl Method {
     pub fn name(self) -> &'static str {
         match self {
             Method::Kemenag => "Kemenag",
+            Method::Muhammadiyah => "Muhammadiyah",
             Method::UmmAlQura => "Umm al-Qura",
             Method::MuslimWorldLeague => "Muslim World League",
             Method::Egyptian => "Egyptian authority",
@@ -297,7 +319,7 @@ impl Method {
 
     fn adhan(self) -> Option<adhan::Method> {
         Some(match self {
-            Method::Kemenag | Method::UmmAlQura => return None,
+            Method::Kemenag | Method::Muhammadiyah | Method::UmmAlQura => return None,
             Method::MuslimWorldLeague => adhan::Method::MUSLIM_WORLD_LEAGUE,
             Method::Egyptian => adhan::Method::EGYPTIAN,
             Method::Karachi => adhan::Method::KARACHI,
@@ -515,6 +537,7 @@ pub fn day_times(site: &Site, day: i64) -> Option<DayTimes> {
     let (y, m, d) = civil_from_days(day);
     let ms = match site.method {
         Method::Kemenag => kemenag(site, y, m, d)?,
+        Method::Muhammadiyah => muhammadiyah(site, y, m, d, &MUHAMMADIYAH)?,
         Method::UmmAlQura => umm_al_qura(site, day, y, m, d)?,
         other => adhan::method_times(y, m, d, site.lat, site.lng, &other.adhan()?, if site.hanafi { 2.0 } else { 1.0 })?,
     };
@@ -549,6 +572,49 @@ fn kemenag(site: &Site, y: i32, m: u8, d: u8) -> Option<[i64; 6]> {
         ceil_minute(t.asr + 2 * MIN_MS),
         ceil_minute(hz.isha + 2 * MIN_MS),
         ceil_minute(t.isha + 2 * MIN_MS),
+    ])
+}
+
+/// How Muhammadiyah's times are worked out (Majelis Tarjih, Pedoman Hisab
+/// Muhammadiyah; Subuh moved to 18° by Munas Tarjih XXXI, 2020).
+#[derive(Clone, Copy, Debug)]
+pub(crate) struct MuhammadiyahRules {
+    pub subuh_angle: f64,
+    pub isya_angle: f64,
+    /// Sun's centre for Terbit and Maghrib: semidiameter, refraction and the
+    /// dip of a horizon seen from some height.
+    pub horizon: f64,
+    /// Ihtiyat in minutes: added before rounding up (Terbit: taken off after
+    /// rounding down).
+    pub after: i64,
+    pub dzuhur_after: i64,
+    pub terbit_before: i64,
+}
+
+/// Fitted to khgt.muhammadiyah.or.id's own times for November 2026 (Jakarta
+/// and Yogyakarta every day, three other cities one day): see tests.rs.
+pub(crate) const MUHAMMADIYAH: MuhammadiyahRules =
+    MuhammadiyahRules { subuh_angle: 18.0, isya_angle: 18.0, horizon: -1.07, after: 1, dzuhur_after: 1, terbit_before: 2 };
+
+/// Subuh, Terbit, Dzuhur, Ashar, Maghrib, Isya in UTC milliseconds.
+pub(crate) fn muhammadiyah(site: &Site, y: i32, m: u8, d: u8, r: &MuhammadiyahRules) -> Option<[i64; 6]> {
+    let base = Params {
+        fajr_angle: r.subuh_angle,
+        isha_angle: r.isya_angle,
+        isha_interval_min: 0.0,
+        shadow_length: 1.0,
+        high_latitude: HighLatitudeRule::recommended(site.lat),
+    };
+    let t = adhan::moments(y, m, d, site.lat, site.lng, &base)?;
+    let horizon = Params { fajr_angle: -r.horizon, isha_angle: -r.horizon, ..base };
+    let hz = adhan::moments(y, m, d, site.lat, site.lng, &horizon)?;
+    Some([
+        ceil_minute(t.fajr + r.after * MIN_MS),
+        floor_minute(hz.fajr) - r.terbit_before * MIN_MS,
+        ceil_minute(t.dhuhr + r.dzuhur_after * MIN_MS),
+        ceil_minute(t.asr + r.after * MIN_MS),
+        ceil_minute(hz.isha + r.after * MIN_MS),
+        ceil_minute(t.isha + r.after * MIN_MS),
     ])
 }
 

@@ -69,7 +69,7 @@ use poni_core::phonedrop::QrMatrix;
 use poni_core::prayer::{PlaceList, World};
 use poni_core::pomodoro::{Phase as PomoPhase, RunState};
 use poni_core::power::{PowerReading, PsuReading, Rail};
-use poni_core::settings::{IdleStyle, Theme};
+use poni_core::settings::{IdleStyle, PrayerFollow, Theme};
 use poni_core::shelf::ShelfItem;
 use poni_core::frames::FrameRate;
 use poni_core::sysmon::{
@@ -933,7 +933,15 @@ fn sample_notes() -> poni_core::notes::Saved {
 fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
     let on = matches!(
         scene,
-        Scene::Page(PageKind::Prayer) | Scene::PrayerPicker | Scene::PrayerCountdown | Scene::PrayerNotice | Scene::PrayerPickerWorld | Scene::PrayerWorld | Scene::PrayerOk
+        Scene::Page(PageKind::Prayer)
+            | Scene::PrayerPicker
+            | Scene::PrayerCountdown
+            | Scene::PrayerNotice
+            | Scene::PrayerPickerWorld
+            | Scene::PrayerWorld
+            | Scene::PrayerOk
+            | Scene::PrayerMuhammadiyah
+            | Scene::PrayerPickerFollow
     );
     if !on {
         st.prayer = PrayerState::default();
@@ -955,13 +963,14 @@ fn seed_prayer(st: &mut AppState, scene: Scene, until: f64) {
     st.prayer.suggested = false;
     st.prayer.locate = Locate::Found { km: 2.0 };
     st.prayer.located_at = Some(st.unix);
-    st.prayer.picking = matches!(scene, Scene::PrayerPicker | Scene::PrayerPickerWorld);
+    st.settings.prayer.follow = if scene == Scene::PrayerMuhammadiyah { PrayerFollow::Muhammadiyah } else { PrayerFollow::Kemenag };
+    st.prayer.picking = matches!(scene, Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerPickerFollow);
     st.prayer.query = match scene {
         Scene::PrayerPicker => "band".into(),
         Scene::PrayerPickerWorld => "edin".into(),
         _ => String::new(),
     };
-    let site = st.prayer.site().expect("the place's site");
+    let site = st.prayer_site().expect("the place's site");
     let today = site.local_day(st.unix);
     let ashar = poni_core::prayer::day_times(&site, today).expect("today's times").ashar;
     // PONI_SELFTEST_PRAYER_AT=HH:MM: the Prayer page at that time of
@@ -1239,6 +1248,12 @@ enum Scene {
     AddonsPro,
     /// What a Pro add-on does, the page its row opens without Pro.
     AddonsAbout,
+    /// Prayer times in Jakarta following Muhammadiyah: Majelis Tarjih's
+    /// times, the KHGT date, "Muhammadiyah" beside the place.
+    PrayerMuhammadiyah,
+    /// Prayer times: the place picker with nothing typed, the row choosing
+    /// Kemenag's or Muhammadiyah's times and dates at its bottom.
+    PrayerPickerFollow,
     /// A song playing on the closed island, which a real press, a move
     /// sideways and the release drag to the right (`Phase::Drag`): it
     /// stays closed there, and a click on it there still opens it.
@@ -1341,7 +1356,7 @@ const SAMPLE_SCRIPT: &str = "Hi everyone, this one takes two minutes. Today I'll
 Drop any file on the island and it waits on the Shelf. Press the phone button, scan the code, and the file is on your phone. \
 No cable, no account, nothing to install on the phone.\n\nThat's it. Thanks for watching.";
 
-const SCENES: [Scene; 137] = [
+const SCENES: [Scene; 139] = [
     Scene::IdleClock,
     Scene::IdleEyes,
     Scene::Media,
@@ -1523,6 +1538,10 @@ const SCENES: [Scene; 137] = [
     Scene::IslandDrag,
     Scene::IslandOpenAtEdge,
     Scene::AddonsAbout,
+    // Prayer times following Muhammadiyah (its times and the KHGT date), and
+    // the place picker before anything is typed: the Kemenag / Muhammadiyah row.
+    Scene::PrayerMuhammadiyah,
+    Scene::PrayerPickerFollow,
 ];
 
 impl Scene {
@@ -1642,6 +1661,8 @@ impl Scene {
             Scene::NotesPro => "page-notes-pro".into(),
             Scene::AddonsPro => "page-addons-pro".into(),
             Scene::AddonsAbout => "page-addons-about".into(),
+            Scene::PrayerMuhammadiyah => "page-prayer-muhammadiyah".into(),
+            Scene::PrayerPickerFollow => "page-prayer-picker-follow".into(),
             Scene::IslandDrag => "island-dragged".into(),
             Scene::IslandOpenAtEdge => "island-open-at-edge".into(),
         }
@@ -1678,7 +1699,7 @@ impl Scene {
             Scene::ShelfPairing | Scene::ShelfPaired | Scene::ShelfPairedPhones => Some(PageKind::Shelf),
             Scene::AddonsDownloading | Scene::AddonsOn | Scene::AddonsOffline | Scene::AddonsFailed => Some(PageKind::Addons),
             Scene::JaOffer | Scene::JaGetting => Some(PageKind::Media),
-            Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerWorld => Some(PageKind::Prayer),
+            Scene::PrayerPicker | Scene::PrayerPickerWorld | Scene::PrayerWorld | Scene::PrayerMuhammadiyah | Scene::PrayerPickerFollow => Some(PageKind::Prayer),
             Scene::ScriptReading | Scene::ScriptRecorder => Some(PageKind::Script),
             Scene::TodayDay | Scene::TodayNoApps | Scene::TodayTiles | Scene::TodayOff | Scene::TodayPicked => Some(PageKind::Today),
             Scene::StocksPicked | Scene::StocksSearch | Scene::StocksEdit => Some(PageKind::Stocks),
