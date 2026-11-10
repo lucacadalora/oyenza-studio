@@ -29,7 +29,7 @@ use crate::state::AppState;
 use crate::ui::{wid, wid_n, CursorKind, Hit, Input, MouseButton, PillStyle, Ui, PILL_GAP, PILL_SMALL};
 use crate::version::VERSION;
 use poni_core::geom::{palette, Color, Point, Rect};
-use poni_core::settings::{IdleStyle, MonitorChoice, PrayerSound, Theme};
+use poni_core::settings::{IdleStyle, MonitorChoice, PrayerFollow, PrayerSound, Theme};
 use std::cell::RefCell;
 use std::collections::HashMap;
 
@@ -293,6 +293,7 @@ pub enum Key {
     PrayerCountdown,
     PrayerPause,
     PrayerFollow,
+    PrayerCalendar,
     AiNotices,
     AiNear,
     SettingsFile,
@@ -363,6 +364,8 @@ const CLOSE: [(u32, &str); 3] = [(0, "At once"), (400, "Short"), (1000, "Long")]
 const DISPLAYS: [(MonitorChoice, &str); 2] = [(MonitorChoice::Primary, "Main display"), (MonitorChoice::Cursor, "Under the pointer")];
 const FULLSCREEN: [(bool, &str); 2] = [(true, "Hide"), (false, "Stay on top")];
 const SOUNDS: [(PrayerSound, &str); 3] = [(PrayerSound::Adzan, "Adzan"), (PrayerSound::Tone, "Tone"), (PrayerSound::Silent, "Silent")];
+/// Whose times and Hijri dates (the Prayer page's place picker has the same).
+const FOLLOWS: [(PrayerFollow, &str); 2] = [(PrayerFollow::Kemenag, "Kemenag"), (PrayerFollow::Muhammadiyah, "Muhammadiyah (KHGT)")];
 const THEMES: [(Theme, &str, &str); 5] = [
     (Theme::Classic, "Classic", "A black island at the top edge"),
     (Theme::Oyen, "Oyen", "Oyen lives in the island"),
@@ -537,7 +540,15 @@ pub fn blocks(section: Section, st: &AppState) -> Vec<Block> {
         Section::Prayer => {
             let p = &s.prayer;
             let countdown = if p.remind_before_min == 0 { "Off".to_string() } else { minutes(p.remind_before_min) };
+            let follow_sub = match p.follow {
+                PrayerFollow::Kemenag => "Kemenag's times, the government's Hijri dates",
+                PrayerFollow::Muhammadiyah => "Majelis Tarjih's times, the KHGT calendar",
+            };
             vec![
+                Block::Group(
+                    Some("Times and Hijri dates"),
+                    vec![item(Key::PrayerCalendar, "Follow", Some(follow_sub), Ctl::Choice(names(&FOLLOWS), chosen(&FOLLOWS, p.follow)))],
+                ),
                 Block::Group(
                     Some("When it's time"),
                     vec![
@@ -682,6 +693,10 @@ pub fn apply(st: &mut AppState, key: Key, act: Act) {
         Key::PrayerCountdown => s.prayer.remind_before_min = step_min(s.prayer.remind_before_min, step, 0, 60),
         Key::PrayerPause => s.prayer.pause_music = !s.prayer.pause_music,
         Key::PrayerFollow => s.prayer.follow_location = !s.prayer.follow_location,
+        Key::PrayerCalendar => match act {
+            Act::Pick(i) if i < FOLLOWS.len() => s.prayer.follow = FOLLOWS[i].0,
+            _ => return,
+        },
         Key::AiNotices => s.usage.notices = !s.usage.notices,
         Key::AiNear => s.usage.near_pct = (s.usage.near_pct as i32 + step * 5).clamp(50, 95) as u8,
         Key::SettingsFile => {
@@ -1722,6 +1737,21 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn prayer_times_picks_kemenag_or_muhammadiyah() {
+        let mut st = state();
+        let row = |st: &AppState| blocks(Section::Prayer, st).into_iter().find_map(|b| match b {
+            Block::Group(_, items) => items.into_iter().find(|i| i.key == Key::PrayerCalendar),
+            _ => None,
+        });
+        assert_eq!(row(&st).map(|i| i.ctl), Some(Ctl::Choice(vec!["Kemenag", "Muhammadiyah (KHGT)"], Some(0))));
+        apply(&mut st, Key::PrayerCalendar, Act::Pick(1));
+        assert_eq!(st.settings.prayer.follow, PrayerFollow::Muhammadiyah);
+        assert_eq!(row(&st).map(|i| i.ctl), Some(Ctl::Choice(vec!["Kemenag", "Muhammadiyah (KHGT)"], Some(1))));
+        apply(&mut st, Key::PrayerCalendar, Act::Pick(0));
+        assert_eq!(st.settings.prayer.follow, PrayerFollow::Kemenag);
     }
 
     #[test]

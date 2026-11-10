@@ -3166,6 +3166,11 @@ impl SelfTest {
                 if !list.contains(&(ai, false)) {
                     list.push((ai, false));
                 }
+                // Prayer times has a section only while its add-on is on: as it is then.
+                let prayer = crate::settings_window::Section::Prayer;
+                if !list.contains(&(prayer, false)) {
+                    list.push((prayer, false));
+                }
                 match list.get(k) {
                     Some(&(section, light)) => {
                         let was = (app.st.oyenza.link.clone(), app.st.oyenza.pro);
@@ -3173,8 +3178,20 @@ impl SelfTest {
                             app.st.oyenza.link = OyenzaLink::Connected { account: "a\u{2022}\u{2022}\u{2022}@example.com".into() };
                             app.st.oyenza.pro = Some(true);
                         }
+                        let prayer_was = (app.st.addons.get(PRAYER_TIMES.id).cloned(), app.st.prayer.places.clone());
+                        if section == prayer {
+                            app.st.addons.insert(PRAYER_TIMES.id, AddonStatus::Ready);
+                            app.st.prayer.places.get_or_insert_with(|| std::sync::Arc::new(PlaceList::parse(SAMPLE_PLACES).expect("sample places")));
+                        }
                         let (w, h, px) = app.selftest_settings_shot(section, light);
                         (app.st.oyenza.link, app.st.oyenza.pro) = was;
+                        if section == prayer {
+                            match prayer_was.0 {
+                                Some(a) => app.st.addons.insert(PRAYER_TIMES.id, a),
+                                None => app.st.addons.remove(PRAYER_TIMES.id),
+                            };
+                            app.st.prayer.places = prayer_was.1;
+                        }
                         let name = format!("settings-window-{}{}", section.key(), if light { "-light" } else { "" });
                         let sized = w > 0 && h > 0 && px.len() == (w as usize) * (h as usize) * 4;
                         // The card is opaque where the sidebar meets the content.
