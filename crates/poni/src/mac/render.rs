@@ -205,7 +205,8 @@ enum Scene {
 /// What a picture of the Diorama theme's resting pill shows: dawn (06:10),
 /// the morning (10:08), the golden hour (17:40), night (21:30) and the
 /// small hours (02:30); then the morning written on a 12-hour clock, as the
-/// Minimal look (the place alone) and under the pointer.
+/// Minimal look (the place alone), under the pointer, and with its glass
+/// ball held halfway by hand, at the sunset it passes.
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum Rest {
     Dawn,
@@ -216,6 +217,7 @@ enum Rest {
     TwelveHour,
     Minimal,
     Hover,
+    Slide,
 }
 
 impl Rest {
@@ -223,7 +225,7 @@ impl Rest {
     fn time(self) -> (u8, u8) {
         match self {
             Rest::Dawn => (6, 10),
-            Rest::Morning | Rest::TwelveHour | Rest::Minimal | Rest::Hover => (10, 8),
+            Rest::Morning | Rest::TwelveHour | Rest::Minimal | Rest::Hover | Rest::Slide => (10, 8),
             Rest::GoldenHour => (17, 40),
             Rest::Night => (21, 30),
             Rest::SmallHours => (2, 30),
@@ -240,6 +242,7 @@ impl Rest {
             Rest::TwelveHour => "idle-12-hour",
             Rest::Minimal => "idle-minimal",
             Rest::Hover => "idle-clock-hover",
+            Rest::Slide => "idle-slide",
         }
     }
 }
@@ -340,7 +343,7 @@ const NOTES_SCENES: [Scene; 3] = [Scene::NotesListening, Scene::NotesActivity, S
 /// The Diorama theme's resting pill, in that theme only, after the peek
 /// strip's number (which a run without a notch leaves free), so every other
 /// picture keeps its number.
-const DIORAMA_SCENES: [Scene; 8] = [
+const DIORAMA_SCENES: [Scene; 9] = [
     Scene::Diorama(Rest::Dawn),
     Scene::Diorama(Rest::Morning),
     Scene::Diorama(Rest::GoldenHour),
@@ -349,6 +352,7 @@ const DIORAMA_SCENES: [Scene; 8] = [
     Scene::Diorama(Rest::TwelveHour),
     Scene::Diorama(Rest::Minimal),
     Scene::Diorama(Rest::Hover),
+    Scene::Diorama(Rest::Slide),
 ];
 
 impl Scene {
@@ -1437,6 +1441,12 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
                 Rest::TwelveHour => st.settings.use_24h = false,
                 Rest::Minimal => st.settings.idle_style = IdleStyle::Minimal,
                 Rest::Hover => hovering = true,
+                // In hand from the house end and carried halfway across.
+                Rest::Slide => {
+                    let travel = crate::pill::diorama::geom(&st).map_or(0.0, |g| g.w - g.h);
+                    crate::pill::diorama::grab(&st, 0.0);
+                    crate::pill::diorama::slide(travel / 2.0, st.now);
+                }
             }
             Mode::Idle
         }
