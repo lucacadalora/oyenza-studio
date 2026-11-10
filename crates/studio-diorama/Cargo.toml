@@ -1,0 +1,15 @@
+[package]
+name = "studio-diorama"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Oyenza Studio's Diorama theme: the resting pill as a small glass window onto a pixel-art place that keeps the day's hours (pure Rust, no dependencies, unit-tested on any OS)."
+
+# Its own crate so the workspace's release profile can build it for size: the
+# picture is painted once a minute while the pill rests, and for a moment as
+# its glass ball rolls at sunrise and sunset, never in a frame of anything
+# else (AGENTS.md, Keep it light).
+
+[dependencies]

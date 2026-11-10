@@ -5,6 +5,9 @@
 //! card. Everything else (pages' behaviour, services, settings) is shared
 //! with the other themes.
 //!
+//! The Diorama theme is this island too ([`on`] is true for both): only its
+//! resting pill differs, a small window onto a pixel-art place ([`diorama`]).
+//!
 //! How it plugs in: `poni_core::look::PILL` has `Shape::Pill`, the island
 //! floats [`TOP_GAP`] below the edge (`Island::set_floating`), [`shape`]
 //! draws the outline, and the hooks below let each surface lay itself out
@@ -18,6 +21,7 @@
 //! (the open card's frame and header), [`music`] (the open Music page) and
 //! [`motion`] (how the floating shape moves).
 
+pub mod diorama;
 pub mod expanded;
 pub mod hud;
 pub mod idle;
@@ -40,12 +44,15 @@ use poni_core::settings::Theme;
 /// The island floats this far below the screen's top edge (DIPs).
 pub const TOP_GAP: f32 = 8.0;
 
+/// The island floats and lays itself out the Pill way: in the Pill theme
+/// and in Diorama, which is Pill with a picture in its resting capsule.
 pub fn on(theme: Theme) -> bool {
-    theme == Theme::Pill
+    matches!(theme, Theme::Pill | Theme::Diorama)
 }
 
 /// The island's size for `m` in the Pill theme, or `None` for Classic's.
 pub fn geom(m: &Mode, st: &AppState) -> Option<Geom> {
+    diorama::note_theme(st.settings.theme);
     if !on(st.settings.theme) {
         return None;
     }

@@ -1985,6 +1985,13 @@ impl<'a> Canvas<'a> {
         }
     }
 
+    /// Let go of the renderer's copy of `img`. For a picture that is painted
+    /// anew now and then (the Diorama theme's pill), so the copies of its
+    /// earlier paintings don't wait in the cache for its next sweep.
+    pub fn forget_image(&mut self, img: &Image) {
+        self.g.bitmaps.remove(&img.id);
+    }
+
     /// Draw a vector icon (24×24 design grid) scaled into `r`.
     pub fn icon(&mut self, icon: Icon, r: Rect, color: Color) {
         let geoms = self.g.icon_geometry(icon);

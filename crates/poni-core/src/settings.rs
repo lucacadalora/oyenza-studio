@@ -37,6 +37,12 @@ pub enum Theme {
     /// capsule, with its own layouts: the time and battery at rest, the song
     /// while music plays, a rounded card when it opens.
     Pill,
+    /// Diorama: the Pill theme's floating island, and at rest a small
+    /// window onto a pixel-art place that keeps the day's hours: a house, a
+    /// tree, the sun and the moon on their way across, and a glass ball
+    /// that rolls from the house to the tree when night falls
+    /// (`crates/studio-diorama`). Everything else is Pill's.
+    Diorama,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]

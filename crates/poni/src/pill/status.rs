@@ -56,10 +56,11 @@ thread_local! {
 }
 
 /// The idle looks a theme offers, in the pickers' order. Status is the Pill
-/// theme's own: the other themes draw the clock for it.
+/// theme's own: the other themes draw the clock for it (Diorama too, whose
+/// clock is its picture).
 pub fn looks(theme: Theme) -> &'static [IdleStyle] {
     const ALL: [IdleStyle; 5] = [IdleStyle::Clock, IdleStyle::Eyes, IdleStyle::Minimal, IdleStyle::Hidden, IdleStyle::Status];
-    if super::on(theme) {
+    if theme == Theme::Pill {
         &ALL
     } else {
         &ALL[..4]
@@ -69,7 +70,7 @@ pub fn looks(theme: Theme) -> &'static [IdleStyle] {
 /// The look `theme` draws for `style`, which a picker marks: outside Pill,
 /// Status shows the clock (and comes back when Pill does).
 pub fn shown(theme: Theme, style: IdleStyle) -> IdleStyle {
-    if style == IdleStyle::Status && !super::on(theme) {
+    if style == IdleStyle::Status && theme != Theme::Pill {
         IdleStyle::Clock
     } else {
         style
@@ -207,7 +208,7 @@ mod tests {
     fn status_is_the_pill_themes_own() {
         assert_eq!(looks(Theme::Pill).last(), Some(&IdleStyle::Status));
         assert_eq!(shown(Theme::Pill, IdleStyle::Status), IdleStyle::Status);
-        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass] {
+        for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Diorama] {
             assert_eq!(looks(theme), &looks(Theme::Pill)[..4], "{theme:?}");
             // They draw the clock for it, so a picker marks Clock.
             assert_eq!(shown(theme, IdleStyle::Status), IdleStyle::Clock, "{theme:?}");
