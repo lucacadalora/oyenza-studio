@@ -73,15 +73,18 @@ const THEME_CARD_H: f32 = 154.0;
 const THEME_PREVIEW_H: f32 = 74.0;
 const THEME_GAP: f32 = 12.0;
 /// A card's line of words wraps at this measure, not at the card's width:
-/// here each line breaks into two of about the same length, where the whole
-/// width leaves one word alone on the second.
+/// here the longer lines break into two fuller ones, where the whole width
+/// leaves one word alone on the second.
 const THEME_LINE_W: f32 = 108.0;
-/// On the cards' little screens, Pill and Diorama float this far below the
+/// On the cards' little screens, Pill's capsule floats this far below the
 /// top edge.
 const THEME_FLOAT: f32 = 7.0;
-/// The Diorama card shows the theme's own picture, small: this moment of it,
-/// a morning at the 10:08 the other cards' clocks say, the glass ball on the
-/// house.
+/// Diorama's picture floats nearer the edge: it is drawn at its own size,
+/// pixel for pixel, and is taller than the little capsules beside it.
+const DIORAMA_FLOAT: f32 = 3.0;
+/// The Diorama card shows the theme's own picture as it rests on the real
+/// screen: this moment of it, a morning at the 10:08 the other cards' clocks
+/// say, the glass ball on the house.
 const DIORAMA_MOMENT: studio_diorama::Moment = studio_diorama::Moment {
     minute: 608.0,
     sunrise: 360.0,
@@ -91,9 +94,6 @@ const DIORAMA_MOMENT: studio_diorama::Moment = studio_diorama::Moment {
     clock: Some(studio_diorama::Clock { hour: 10, minute: 8, h24: true }),
     badge: None,
 };
-/// At this share of the resting pill's size: 72 DIP wide, as Pill's capsule
-/// on the card beside it.
-const DIORAMA_SMALL: f32 = 0.72;
 /// A wheel notch scrolls this far.
 pub const WHEEL_STEP: f32 = 48.0;
 
@@ -1593,11 +1593,11 @@ thread_local! {
 }
 
 /// The Diorama card's picture for a canvas of `scale` pixels per DIP: the
-/// theme's resting pill at [`DIORAMA_MOMENT`], [`DIORAMA_SMALL`] of its size,
-/// painted with exactly the pixels it covers there.
+/// theme's resting pill at [`DIORAMA_MOMENT`], at its own size (a smaller
+/// copy would smear its pixels and the time in its sky).
 fn diorama_picture(scale: f32) -> studio_diorama::Picture {
     let (w, h) = (studio_diorama::width(DIORAMA_MOMENT.clock, DIORAMA_MOMENT.badge), studio_diorama::H);
-    studio_diorama::render(&DIORAMA_MOMENT, &studio_diorama::View { w, h, rest_w: w, rest_h: h, scale: scale * DIORAMA_SMALL })
+    studio_diorama::render(&DIORAMA_MOMENT, &studio_diorama::View { w, h, rest_w: w, rest_h: h, scale })
 }
 
 /// That picture as an image, painted once for a scale and kept. With it
@@ -1617,7 +1617,7 @@ fn diorama_image(scale: f32) -> (Image, Option<Image>) {
 }
 
 /// Where the Diorama card's picture goes on its little `screen`: centred,
-/// floating as far below the top edge as Pill's capsule, on whole pixels and
+/// floating [`DIORAMA_FLOAT`] below the top edge, on whole pixels and
 /// exactly as large as its `px` pixels are at `scale`. So it is drawn pixel
 /// for pixel: `Canvas::image` fills its rect, and a rect of another shape
 /// would crop the picture.
@@ -1625,7 +1625,7 @@ fn diorama_spot(screen: Rect, px: (u32, u32), scale: f32) -> Rect {
     let s = scale.max(0.25);
     let snap = |v: f32| (v * s).round() / s;
     let (w, h) = (px.0 as f32 / s, px.1 as f32 / s);
-    Rect::new(snap(screen.center().x - w / 2.0), snap(screen.y + THEME_FLOAT), w, h)
+    Rect::new(snap(screen.center().x - w / 2.0), snap(screen.y + DIORAMA_FLOAT), w, h)
 }
 
 /// A theme's island on a small screen: hanging from its top edge, glass,
@@ -1882,18 +1882,31 @@ mod tests {
         // Every card's line keeps its measure, and its little screen has
         // room for the widest island drawn on it with air either side.
         assert!(cards[0].w - 24.0 >= THEME_LINE_W);
-        assert!(cards[0].w - 20.0 >= 72.0 + 2.0 * 16.0);
+        assert!(cards[0].w - 20.0 >= studio_diorama::width(DIORAMA_MOMENT.clock, DIORAMA_MOMENT.badge) + 2.0 * 16.0);
     }
 
     #[test]
-    fn the_diorama_card_shows_the_themes_picture_small_and_whole() {
+    fn appearance_fits_the_window_at_its_full_height_without_scrolling() {
+        let mut st = state();
+        // In every theme: Pill's fifth idle look is one more choice in its
+        // row, not one more row.
+        for (theme, _, _) in THEMES {
+            st.settings.theme = theme;
+            let content: f32 = blocks(Section::Appearance, &st).iter().map(|b| block_h(&st, b) + GROUP_GAP).sum();
+            // What the card shows under its title, less the room the scroll
+            // keeps under the last block.
+            assert!(content + 16.0 <= CARD_H - CONTENT_Y - 1.0, "{theme:?}: {content}");
+        }
+    }
+
+    #[test]
+    fn the_diorama_card_shows_the_themes_picture_whole_at_its_own_size() {
         let screen = Rect::new(282.0, 104.0, 160.0, THEME_PREVIEW_H);
         for scale in [1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0] {
             let p = diorama_picture(scale);
-            // 72 DIP wide, as Pill's capsule on the card beside it, and as
-            // tall as the pill is at that size, to the pixel.
-            assert_eq!(p.w as f32, 72.0 * scale, "{scale}");
-            assert!((p.h as f32 - studio_diorama::H * DIORAMA_SMALL * scale).abs() <= 0.5, "{scale}: {} px tall", p.h);
+            // The resting pill's own size, 100 x 38 DIP, to the pixel.
+            assert_eq!(p.w as f32, 100.0 * scale, "{scale}");
+            assert!((p.h as f32 - studio_diorama::H * scale).abs() <= 0.5, "{scale}: {} px tall", p.h);
             assert_eq!(p.bgra.len(), (p.w * p.h * 4) as usize, "{scale}");
             // Its place has the picture's own shape (so nothing of it is
             // cropped or stretched) on whole pixels, inside the screen.
@@ -1904,7 +1917,9 @@ mod tests {
                 assert!((v * scale - (v * scale).round()).abs() < 1e-3, "{scale}: {at:?}");
             }
             assert!((at.center().x - screen.center().x).abs() <= 0.5 / scale + 1e-3, "{scale}: {at:?}");
-            assert!((at.y - (screen.y + THEME_FLOAT)).abs() <= 0.5 / scale + 1e-3 && at.bottom() + 2.0 < screen.bottom(), "{scale}: {at:?}");
+            assert!((at.y - (screen.y + DIORAMA_FLOAT)).abs() <= 0.5 / scale + 1e-3 && at.bottom() + 2.0 < screen.bottom(), "{scale}: {at:?}");
+            // Room beside it on the card's screen, as beside Pill's capsule.
+            assert!(at.x - screen.x >= 16.0 && screen.right() - at.right() >= 16.0, "{scale}: {at:?}");
         }
         // A morning: the sun is up and the glass ball rests on the house.
         assert!(!DIORAMA_MOMENT.night() && DIORAMA_MOMENT.lens == DIORAMA_MOMENT.rest_lens());
@@ -1917,14 +1932,14 @@ mod tests {
         let view = View::new(Section::Appearance);
         let (first, replaced) = diorama_image(2.0);
         assert!(replaced.is_none());
-        assert_eq!((first.width, first.height), (144, 55));
+        assert_eq!((first.width, first.height), (200, 76));
         // Drawn again, it is the same painting.
         let (again, replaced) = diorama_image(2.0);
         assert!(std::sync::Arc::ptr_eq(&first, &again) && replaced.is_none());
         // On a screen of another scale it is painted for that one, and the
         // canvas gets the old painting to let go of.
         let (small, replaced) = diorama_image(1.0);
-        assert_eq!((small.width, small.height), (72, 27));
+        assert_eq!((small.width, small.height), (100, 38));
         assert!(replaced.is_some_and(|old| std::sync::Arc::ptr_eq(&old, &first)));
         // The window closes: nothing of it is kept.
         drop(view);
