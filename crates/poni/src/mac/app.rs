@@ -5179,6 +5179,11 @@ fn smoke_wav_format(path: &std::path::Path) -> Option<(u32, u16, u16, usize, usi
 /// service, and the passwords of the accounts "plain" and "accent" (an accent
 /// and a line break, which `security` prints as hex). "absent" is never added.
 const SMOKE_KEYCHAIN: (&str, &str, &str) = ("Oyenza Studio smoke", "{\"claudeAiOauth\":{\"accessToken\":\"test-token\"}}", "caf\u{e9}\nnext");
+/// The "<App> Safe Storage" item the keychain step adds from inside the app
+/// (so it trusts the app and no prompt comes up) and removes after, which
+/// the reader asks for from inside the app: its service, and the password
+/// of the account "plain" ("absent" is never added).
+const SMOKE_SAFE_STORAGE: (&str, &str) = ("Oyenza Studio smoke Safe Storage", "c2VhbGluZy1rZXk=");
 
 /// The smoke test of the AI tab's keychain reader (`services::keychain`) on
 /// the items above, with the tab closed, open, then closed with the notices
@@ -5205,21 +5210,30 @@ fn smoke_keychain() -> (bool, String) {
     let open = [k::read(svc, Some("plain")), k::read(svc, Some("accent")), k::read(svc, Some("absent"))];
     let ms = t.elapsed().as_millis();
     let open_ok = open == [text(plain), text(accent), Got::Missing] && asked() == 3;
+    // A Safe Storage item, asked for from inside the app (SecItemCopyMatching).
+    let (safe_svc, safe_pw) = SMOKE_SAFE_STORAGE;
+    let added = k::smoke_item(safe_svc, "plain", Some(safe_pw));
+    let in_app = [k::read(safe_svc, Some("plain")), k::read(safe_svc, Some("absent"))];
+    let in_app_ok = added == 0 && in_app == [text(safe_pw), Got::Missing] && asked() == 5;
     // Once an opening: the next read is the one kept.
-    let again = k::read(svc, Some("plain"));
-    let again_ok = again == text(plain) && asked() == 3;
+    let again = [k::read(svc, Some("plain")), k::read(safe_svc, Some("plain"))];
+    let again_ok = again == [text(plain), text(safe_pw)] && asked() == 5;
     // Closed with the notices on: what was read while it was open.
     k::set_watch(false, true);
     let notices = k::read(svc, Some("plain"));
-    let notices_ok = notices == text(plain) && asked() == 3;
+    let notices_ok = notices == text(plain) && asked() == 5;
     // Nobody watching: forgotten.
     k::set_watch(false, false);
     let gone = k::read(svc, Some("plain"));
-    let gone_ok = gone == Got::Missing && asked() == 3;
+    let gone_ok = gone == Got::Missing && asked() == 5;
     k::ask_again();
-    let ok = closed_ok && open_ok && again_ok && notices_ok && gone_ok;
+    let removed = k::smoke_item(safe_svc, "plain", None);
+    let ok = closed_ok && open_ok && in_app_ok && again_ok && notices_ok && gone_ok && removed == 0;
     // Got's Debug shows a text's length, never the text.
-    let d = format!("tab closed: {closed:?}; open: {open:?} in {ms} ms; again: {again:?}; notices only: {notices:?}; nobody watching: {gone:?}; macOS asked {} times", asked());
+    let d = format!(
+        "tab closed: {closed:?}; open: {open:?} in {ms} ms; asked by the app: {in_app:?} (added: {added}, removed: {removed}); again: {again:?}; notices only: {notices:?}; nobody watching: {gone:?}; macOS asked {} times",
+        asked()
+    );
     (ok, d)
 }
 

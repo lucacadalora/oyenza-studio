@@ -4,12 +4,24 @@
 //! ("Cursor Safe Storage", "Claude Safe Storage": those the apps made
 //! themselves, so macOS asks the person before it hands one over).
 //!
-//! It is read with macOS's own `/usr/bin/security` (`find-generic-password
-//! -w`), the tool Claude Code keeps that item with, so the keychain usually
-//! hands it over without asking. When it does ask (an item made another
-//! way, a locked keychain), macOS shows its own prompt naming "security" and
-//! the item, with a field for the Mac's password and Always Allow, Deny and
-//! Allow. That prompt must never come out of nowhere, so macOS is asked only
+//! Which way an item is read follows who made it:
+//!
+//! - Items made with macOS's own `/usr/bin/security` (Claude Code's, and
+//!   Antigravity's through the Go `keyring` library) trust that tool, so they
+//!   are read with it (`find-generic-password -w`) and the keychain hands
+//!   them over without asking. Asked from inside the app, macOS would ask
+//!   every time Claude Code rewrites its item.
+//! - "<App> Safe Storage" items, which Chromium and Electron apps make with
+//!   macOS's keychain calls, trust only the app that made them, so macOS
+//!   asks the person whoever reads them. They are read from inside Oyenza
+//!   Studio (`SecItemCopyMatching`), so the prompt names Oyenza Studio, and
+//!   Always Allow trusts Oyenza Studio alone (its signature, kept across
+//!   updates). Read with `security`, the prompt named "security", and Always
+//!   Allow let any program read the item with that tool without asking.
+//!
+//! macOS's prompt names the reader and the item, with a field for the Mac's
+//! password and Always Allow, Deny and Allow (a locked keychain asks too).
+//! That prompt must never come out of nowhere, so macOS is asked only
 //! while the AI tab is on screen, at most once an item each time the tab
 //! opens, and never again after a no until the person clicks Refresh. With
 //! the tab closed (the heads-up notices reading in the background) a read
@@ -19,6 +31,8 @@
 //!
 //! The password never goes into the log.
 
+use super::cf::{self, CFTypeRef};
+use objc2_core_foundation::{CFBoolean, CFData, CFDictionary, CFString, CFType};
 use studio_usage::{Got, FILE_MAX};
 use std::io::Read;
 use std::process::{Command, Stdio};
@@ -30,6 +44,62 @@ const SECURITY: &str = "/usr/bin/security";
 /// One read waits this long at most: time for the person to read macOS's
 /// prompt and type their password. Then it gives up, as a no.
 const TIMEOUT: Duration = Duration::from_secs(60);
+/// The end of the items read from inside the app ("Claude Safe Storage").
+const SAFE_STORAGE: &str = " Safe Storage";
+
+// The keychain's own error codes, for a read from inside the app.
+/// errSecItemNotFound.
+const SEC_NOT_FOUND: i32 = -25300;
+/// errSecNoDefaultKeychain.
+const SEC_NO_DEFAULT_KEYCHAIN: i32 = -25307;
+/// errSecNoSuchKeychain.
+const SEC_NO_KEYCHAIN: i32 = -25294;
+
+#[link(name = "Security", kind = "framework")]
+#[allow(non_upper_case_globals)]
+extern "C" {
+    static kSecClass: &'static CFString;
+    static kSecClassGenericPassword: &'static CFString;
+    static kSecAttrService: &'static CFString;
+    static kSecAttrAccount: &'static CFString;
+    static kSecReturnData: &'static CFString;
+    static kSecMatchLimit: &'static CFString;
+    static kSecMatchLimitOne: &'static CFString;
+    static kSecValueData: &'static CFString;
+    fn SecItemCopyMatching(query: CFTypeRef, result: *mut CFTypeRef) -> i32;
+    fn SecItemAdd(attributes: CFTypeRef, result: *mut CFTypeRef) -> i32;
+    fn SecItemDelete(query: CFTypeRef) -> i32;
+}
+
+/// A query dictionary as the plain pointer Security.framework takes.
+fn dict_ref(d: &CFDictionary<CFString, CFType>) -> CFTypeRef {
+    d.as_opaque() as *const _ as CFTypeRef
+}
+
+/// The smoke run's own "Safe Storage" item (`password`, or `None` to remove
+/// it), added from inside the app: it trusts the app, so reading it back
+/// asks nobody. One `security` adds trusts that tool alone, and reading that
+/// from the app brings up macOS's prompt, which a CI runner can't answer.
+/// The keychain's status: 0 when done.
+pub fn smoke_item(service: &str, account: &str, password: Option<&str>) -> i32 {
+    let (service, account) = (CFString::from_str(service), CFString::from_str(account));
+    // SAFETY: Security.framework's constants, there for the whole run.
+    let (class, generic, attr_service, attr_account, value) = unsafe { (kSecClass, kSecClassGenericPassword, kSecAttrService, kSecAttrAccount, kSecValueData) };
+    let keys = [class, attr_service, attr_account];
+    let values: [&CFType; 3] = [generic.as_ref(), service.as_ref(), account.as_ref()];
+    let query = CFDictionary::<CFString, CFType>::from_slices(&keys, &values);
+    // SAFETY: a dictionary alive for the call.
+    let deleted = unsafe { SecItemDelete(dict_ref(&query)) };
+    let Some(password) = password else {
+        return if deleted == SEC_NOT_FOUND { 0 } else { deleted };
+    };
+    let data = CFData::from_bytes(password.as_bytes());
+    let keys = [class, attr_service, attr_account, value];
+    let values: [&CFType; 4] = [generic.as_ref(), service.as_ref(), account.as_ref(), data.as_ref()];
+    let item = CFDictionary::<CFString, CFType>::from_slices(&keys, &values);
+    // SAFETY: a dictionary alive for the call; no result asked for.
+    unsafe { SecItemAdd(dict_ref(&item), std::ptr::null_mut()) }
+}
 // `security` exits with the low byte of the keychain's error code (Claude
 // Code reads these three the same way).
 /// errSecItemNotFound (-25300).
@@ -134,10 +204,95 @@ pub fn read(service: &str, account: Option<&str>) -> Got {
     got
 }
 
+/// Ask macOS once, the way the item wants (see the top of this file).
+fn ask(service: &str, account: Option<&str>) -> Got {
+    if service.ends_with(SAFE_STORAGE) {
+        ask_in_app(service, account)
+    } else {
+        ask_tool(service, account)
+    }
+}
+
+/// In-app reads that gave up waiting while macOS's prompt was still up:
+/// not asked again until it is answered, so the person never gets two.
+static WAITING: Mutex<Vec<(String, Option<String>)>> = Mutex::new(Vec::new());
+
+fn waiting() -> MutexGuard<'static, Vec<(String, Option<String>)>> {
+    WAITING.lock().unwrap_or_else(|p| p.into_inner())
+}
+
+/// Ask macOS once from inside the app (`SecItemCopyMatching`), so its prompt
+/// names Oyenza Studio, waiting at most [`TIMEOUT`]. The call can't be
+/// called off, so it runs on a thread of its own: past the wait, the prompt
+/// stays up until the person answers, and that late answer is dropped (the
+/// read is a no until Refresh, as with `security`).
+fn ask_in_app(service: &str, account: Option<&str>) -> Got {
+    let started = Instant::now();
+    let item = (service.to_string(), account.map(str::to_string));
+    {
+        let mut w = waiting();
+        if w.contains(&item) {
+            pinfo!("keychain: {service}: macOS's prompt for it is still up");
+            return Got::Denied;
+        }
+        w.push(item.clone());
+    }
+    ASKED.fetch_add(1, Ordering::Relaxed);
+    let (tx, rx) = mpsc::channel();
+    let asked = item.clone();
+    let thread = std::thread::Builder::new().name("poni-keychain".into()).spawn(move || {
+        let answer = copy_password(&asked.0, asked.1.as_deref());
+        waiting().retain(|w| *w != asked);
+        let _ = tx.send(answer);
+    });
+    if let Err(e) = thread {
+        waiting().retain(|w| *w != item);
+        pwarn!("keychain: {service}: no thread to ask with ({e})");
+        return Got::Missing;
+    }
+    let (got, what) = rx.recv_timeout(TIMEOUT).unwrap_or_else(|_| (Got::Denied, "no answer in time".to_string()));
+    pinfo!("keychain: {service}: {what} after {} ms (asked by the app)", started.elapsed().as_millis());
+    got
+}
+
+/// `SecItemCopyMatching` for the generic password `service` (and `account`,
+/// if given): its bytes as text, or why not. Blocks while macOS asks.
+fn copy_password(service: &str, account: Option<&str>) -> (Got, String) {
+    let service = CFString::from_str(service);
+    let account = account.filter(|a| !a.is_empty()).map(CFString::from_str);
+    // SAFETY: Security.framework's constants, there for the whole run.
+    let (class, generic, attr_service, attr_account, return_data, limit, one) =
+        unsafe { (kSecClass, kSecClassGenericPassword, kSecAttrService, kSecAttrAccount, kSecReturnData, kSecMatchLimit, kSecMatchLimitOne) };
+    let mut keys: Vec<&CFString> = vec![class, attr_service, return_data, limit];
+    let mut values: Vec<&CFType> = vec![generic.as_ref(), service.as_ref(), CFBoolean::new(true).as_ref(), one.as_ref()];
+    if let Some(a) = &account {
+        keys.push(attr_account);
+        values.push(a.as_ref());
+    }
+    let query = CFDictionary::<CFString, CFType>::from_slices(&keys, &values);
+    let mut out: CFTypeRef = std::ptr::null();
+    // SAFETY: a query dictionary alive for the call; `out` is ours to release.
+    let status = unsafe { SecItemCopyMatching(dict_ref(&query), &mut out) };
+    let bytes = cf::data_bytes(out);
+    if !out.is_null() {
+        // SAFETY: SecItemCopyMatching handed it over with a retain.
+        unsafe { cf::CFRelease(out) };
+    }
+    match (status, bytes) {
+        (0, Some(b)) if b.len() as u64 > FILE_MAX => (Got::Missing, "too big".to_string()),
+        (0, Some(b)) if b.is_empty() => (Got::Missing, "empty".to_string()),
+        (0, Some(b)) => (Got::Text(String::from_utf8_lossy(&b).into_owned()), "read".to_string()),
+        (0, None) => (Got::Missing, "no password in it".to_string()),
+        (SEC_NOT_FOUND | SEC_NO_DEFAULT_KEYCHAIN | SEC_NO_KEYCHAIN, _) => (Got::Missing, "not there".to_string()),
+        // Deny (-128), a closed prompt or a keychain left locked.
+        (code, _) => (Got::Denied, format!("no (keychain said {code})")),
+    }
+}
+
 /// Ask macOS once: `security find-generic-password -s <service> [-a
 /// <account>] -w`, waiting for it (and for the person, if it prompts) at
 /// most [`TIMEOUT`].
-fn ask(service: &str, account: Option<&str>) -> Got {
+fn ask_tool(service: &str, account: Option<&str>) -> Got {
     let started = Instant::now();
     let mut cmd = Command::new(SECURITY);
     cmd.args(["find-generic-password", "-s", service]);

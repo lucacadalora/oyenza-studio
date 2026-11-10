@@ -6,8 +6,9 @@
 //! - Mac: `v10`, then AES-128-CBC with 16 spaces as the IV. The key is
 //!   PBKDF2-HMAC-SHA1 of the password in the keychain item "<App> Safe
 //!   Storage" (salt `saltysalt`, 1003 rounds, 16 bytes). The keychain asks
-//!   the person first (macOS names "security" and the item), so it is read
-//!   like Claude Code's own item: only while the AI tab is on screen.
+//!   the person first (macOS names Oyenza Studio and the item: the Mac app
+//!   reads it itself), so it is read like Claude Code's own item: only while
+//!   the AI tab is on screen.
 //! - Windows: `v10`, a 12-byte nonce, then AES-256-GCM with the tag last.
 //!   The key sits in the app's `Local State` (`os_crypt.encrypted_key`:
 //!   base64 of `DPAPI` and a DPAPI blob only this Windows user can open).
