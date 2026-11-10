@@ -119,8 +119,10 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect);  // draw + handle input
 * Widgets: `icon_button`, `pill`, `progress_bar` (returns seek fraction),
   `text_input` / `text_input_row` (return submitted/cancelled), `wheel_in(rect)`.
 * Drawing: `ui.c` is a `Canvas`: `fill_rrect`, `stroke_rrect`, `fill_circle`,
-  `ring`, `arc`, `line`, `text(s, rect, &TextStyle)`, `measure`, `image`,
-  `icon(Icon, rect, color)`, `clip/unclip`, `with_alpha`.
+  `ring`, `arc`, `line`, `text(s, rect, &TextStyle)`, `measure`, `image`
+  (`image_exact` for a picture painted for the very pixels it covers, as
+  Diorama's: drawn unsmoothed), `icon(Icon, rect, color)`, `clip/unclip`,
+  `with_alpha`.
 * Text: `TextStyle::new(size).weight(Weight::Semibold).color(c).center()/.right().tabular().wrap().top()`.
   Single-line text is ellipsized automatically.
 * Colours: `poni_core::geom::palette` (island is pure black; text is white at

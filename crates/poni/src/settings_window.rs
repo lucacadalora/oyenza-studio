@@ -1669,7 +1669,7 @@ fn draw_theme_preview(c: &mut Canvas, theme: Theme, screen: Rect) {
             }
             let body = diorama_spot(screen, (image.width, image.height), scale);
             c.fill_rrect(body.offset(0.0, 2.0), body.h / 2.0, Color::black(0.25));
-            c.image(&image, body, body.h / 2.0);
+            c.image_exact(&image, body, body.h / 2.0);
         }
     }
     c.unclip();

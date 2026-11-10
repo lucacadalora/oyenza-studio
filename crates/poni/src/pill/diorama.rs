@@ -233,7 +233,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
             }
         }
     });
-    ui.c.image(&image, at, at.h / 2.0);
+    ui.c.image_exact(&image, at, at.h / 2.0);
     true
 }
 
