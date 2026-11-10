@@ -243,11 +243,20 @@ fn day_part(m: &Moment) -> f32 {
     ((m.minute - m.sunrise) / (m.sunset - m.sunrise).max(1.0)).clamp(0.0, 1.0)
 }
 
-/// Where the minute is between sunset and the next sunrise, 0..1 (by day,
-/// the middle of the night).
+/// Where the minute is between sunset and the next sunrise, 0..1. By day
+/// the night side shows only while the ball rolls: within an hour of
+/// sunrise the moon has just set, within an hour of sunset it is about to
+/// rise, so each roll carries on from the night it joins; in between (the
+/// theme picked in the middle of the day) it stands in the middle of its way.
 fn night_part(m: &Moment) -> f32 {
     if !m.night() {
-        return 0.5;
+        return if m.minute - m.sunrise < 60.0 {
+            1.0
+        } else if m.sunset - m.minute < 60.0 {
+            0.0
+        } else {
+            0.5
+        };
     }
     let len = (1440.0 - (m.sunset - m.sunrise)).max(1.0);
     let since = if m.minute >= m.sunset { m.minute - m.sunset } else { m.minute + 1440.0 - m.sunset };
@@ -268,12 +277,18 @@ fn day_side(m: &Moment) -> Side {
 }
 
 /// How deep into the night the minute is: 0 at sunset and at sunrise, 1
-/// from 35 minutes after the one to 40 before the other (and by day).
+/// from 35 minutes after the one to 40 before the other. By day it is the
+/// same the other way round (as deep as the day is far from its ends), so
+/// the night the ball rolls away from at sunrise is the one that was
+/// showing, and the theme picked at noon rolls in from the deep night.
 fn night_depth(m: &Moment) -> f32 {
-    if !m.night() {
-        return 1.0;
-    }
-    let (since, left) = if m.minute >= m.sunset { (m.minute - m.sunset, m.sunrise + 1440.0 - m.minute) } else { (m.minute + 1440.0 - m.sunset, m.sunrise - m.minute) };
+    let (since, left) = if !m.night() {
+        (m.sunset - m.minute, m.minute - m.sunrise)
+    } else if m.minute >= m.sunset {
+        (m.minute - m.sunset, m.sunrise + 1440.0 - m.minute)
+    } else {
+        (m.minute + 1440.0 - m.sunset, m.sunrise - m.minute)
+    };
     (since / 35.0).min(left / 40.0).clamp(0.0, 1.0)
 }
 
@@ -1099,8 +1114,25 @@ mod tests {
         assert_eq!(depth(520), 1.0);
         assert!((depth(540) - 0.5).abs() < 1e-5);
         assert!(depth(559) < 0.03);
-        // By day the night side is the deep night.
-        assert_eq!(depth(1200), 1.0);
+        // By day the night side is the deep night, and at the day's two
+        // ends the night it has just been or is about to be.
+        assert_eq!((depth(1200), depth(640), depth(1725)), (1.0, 1.0, 1.0));
+        assert_eq!(depth(600), 0.0);
+        assert!((depth(620) - 0.5).abs() < 1e-5);
+        assert!(depth(1759) < 0.03);
+    }
+
+    #[test]
+    fn the_rolls_join_the_night_they_leave_and_enter() {
+        // A minute before sunrise and at it, the night side is the same
+        // glow with the moon gone down; a minute before sunset and at it,
+        // the day side is the same gold with the sun gone down.
+        let side = |hhmm, night: bool| paint_side(&at(hhmm), &Layout::new(100), 38, night).px;
+        let differ = |a: &[Rgb], b: &[Rgb]| a.iter().zip(b).filter(|(x, y)| x != y).count();
+        // A minute of the dissolve, the clouds a step on, a star or two.
+        assert!(differ(&side(559, true), &side(600, true)) < 200, "{}", differ(&side(559, true), &side(600, true)));
+        assert!(differ(&side(1759, false), &side(1800, false)) < 200, "{}", differ(&side(1759, false), &side(1800, false)));
+        assert_eq!((night_part(&at(559)) > 0.99, night_part(&at(600)), night_part(&at(1759)), night_part(&at(1800)), night_part(&at(1200))), (true, 1.0, 0.0, 0.0, 0.5));
     }
 
     #[test]

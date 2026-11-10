@@ -1,8 +1,9 @@
 //! Paints the Diorama pill at a list of moments, for looking at while
 //! drawing it: `cargo run -p studio-diorama --example sheet -- <out-dir>
-//! [scale] [12h] [bare] [charging|low]`. One PPM per moment (`HHMM.ppm`,
-//! and `roll-NN.ppm` for the ball's roll at sunset), which any image tool
-//! opens. Not part of the app.
+//! [scale] [12h] [bare] [charging|low] [day=N] [film]`. One PPM per moment
+//! (`HHMM.ppm`, and `roll-NN.ppm` for the ball's roll at sunset), which any
+//! image tool opens; `film` writes a whole day instead, a frame every five
+//! minutes. Not part of the app.
 
 use std::io::Write;
 use studio_diorama::{render, width, Badge, Clock, Moment, View, H};
@@ -37,6 +38,31 @@ fn main() {
         m
     };
     std::fs::create_dir_all(&dir).expect("make the folder");
+    if has("film") {
+        // A whole day, a frame every five minutes, with the ball's roll at
+        // sunrise and at sunset in between: `film-NNNN.ppm`.
+        let mut n = 0;
+        let mut frame = |m: &Moment| {
+            save(&dir, &format!("film-{n:04}"), m, scale, 0.0);
+            n += 1;
+        };
+        for step in 0..288 {
+            let minute = (step * 5) as f32;
+            for (at, from) in [(360.0, 1.0), (1080.0, 0.0)] {
+                if minute == at {
+                    for i in 0..=24 {
+                        let t = i as f32 / 24.0;
+                        let eased = t * t * t * (t * (6.0 * t - 15.0) + 10.0);
+                        let mut m = moment(minute);
+                        m.lens = from + (1.0 - 2.0 * from) * eased;
+                        frame(&m);
+                    }
+                }
+            }
+            frame(&moment(minute));
+        }
+        return;
+    }
     for hhmm in [0, 430, 545, 600, 615, 640, 700, 800, 1008, 1200, 1327, 1500, 1650, 1715, 1740, 1759, 1800, 1815, 1840, 2000, 2130, 2359] {
         let m = moment((hhmm / 100 * 60 + hhmm % 100) as f32);
         save(&dir, &format!("{hhmm:04}"), &m, scale, 0.0);
