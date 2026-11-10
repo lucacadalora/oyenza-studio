@@ -36,6 +36,10 @@ use studio_diorama::{Badge, Clock, Moment, View};
 
 /// The glass ball's roll from one end of the pane to the other (seconds).
 const ROLL: f64 = 1.5;
+/// How much larger than the resting pill the picture gets with the body:
+/// the swelling under the pointer ([`super::motion::HOVER_OUTSET`] on each
+/// side) and room for its springs to overshoot.
+const SWELL: f32 = 2.0 * super::motion::HOVER_OUTSET + 4.0;
 /// The sun's hours when no place says otherwise: six to six.
 const HOUSE_DAY: (f32, f32) = (360.0, 1080.0);
 /// 1 January 2000 in days since 1970, where `Moment::day` counts from.
@@ -196,11 +200,12 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, body: Rect) -> bool {
         ui.request_anim();
     }
 
-    // Under the pointer the body swells evenly and the frame with it; the
-    // pane keeps its size. A body still on its way here from another shape
-    // is larger than that: the picture waits in its top middle.
-    let lift = ((body.w - rest.w).min(body.h - rest.h) / 2.0).clamp(0.0, super::motion::HOVER_OUTSET);
-    let (w, h) = (rest.w + 2.0 * lift, rest.h + 2.0 * lift);
+    // Under the pointer the body swells and the frame with it; the pane
+    // keeps its size. The picture is the body's size for as far as that
+    // swelling goes (and its springs overshoot); a body still on its way
+    // here from another shape is larger than that, and the picture waits
+    // in its top middle, its frame at its thickest.
+    let (w, h) = (body.w.clamp(rest.w, rest.w + SWELL), body.h.clamp(rest.h, rest.h + SWELL));
     let scale = ui.c.scale();
     let at = super::shape::snap(Rect::new(body.center().x - w / 2.0, body.y, w, h), scale);
     let key = Key { moment: m, view: View { w: at.w, h: at.h, rest_w: rest.w, rest_h: rest.h, scale } };
