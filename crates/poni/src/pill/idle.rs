@@ -4,8 +4,8 @@
 //! `IdleStyle` still picks what rests there (Clock, Minimal, Eyes, Hidden,
 //! and Status, which [`super::status`] draws). `None` / `false` = Classic's
 //! layout. [`battery`] is the drawn battery for the other Pill surfaces.
-//! In the Diorama theme the clock and Minimal are its picture
-//! ([`super::diorama`]); Eyes and Hidden stay as they are here.
+//! In the Diorama theme every look but Hidden rests as its picture
+//! ([`super::diorama`]).
 
 use crate::gfx::{Canvas, TextStyle, Weight};
 use crate::island::Geom;

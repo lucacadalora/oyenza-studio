@@ -6,8 +6,12 @@
 //!
 //! Diorama is the Pill theme's island ([`super::on`]), so everything but
 //! the resting pill is Pill's: music, timers, pop-ups and the open card.
-//! Of the idle looks, the clock is the picture with the time in it, and
-//! Minimal the picture alone; Eyes and Hidden stay Pill's.
+//! Whatever idle look is picked, the theme rests as its picture: the clock
+//! is the picture with the time in it, Minimal the picture alone. Only
+//! Hidden hides it, as it hides every theme's island. The theme has no
+//! eyes and no status bar of its own, so its pickers offer neither
+//! ([`super::status::looks`]); a setting left on one of them from another
+//! theme shows the picture alone, or with the clock.
 //!
 //! Nothing new runs at rest. The picture is painted when the minute tick
 //! redraws the pill (the app already wakes for it, for the clock) and kept
@@ -87,10 +91,16 @@ pub fn settle() {
     PICKED.with(|p| p.set(false));
 }
 
-/// The resting pill is the picture: in the Diorama theme, for the looks
-/// that show it.
+/// The resting pill is the picture: in the Diorama theme, whatever the
+/// idle look, unless it is Hidden.
 pub fn shows(st: &AppState) -> bool {
-    st.settings.theme == Theme::Diorama && matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status | IdleStyle::Minimal)
+    st.settings.theme == Theme::Diorama && st.settings.idle_style != IdleStyle::Hidden
+}
+
+/// The time is written in the picture's sky: for the clock (and the status
+/// bar, which is the Pill theme's own); not for Minimal (or Eyes).
+fn timed(st: &AppState) -> bool {
+    matches!(st.settings.idle_style, IdleStyle::Clock | IdleStyle::Status)
 }
 
 /// The resting pill's size, or `None` where it isn't the picture.
@@ -100,14 +110,14 @@ pub fn geom(st: &AppState) -> Option<Geom> {
 
 /// The time in the sky; Minimal is the place alone.
 fn clock(st: &AppState) -> Option<Clock> {
-    (st.settings.idle_style != IdleStyle::Minimal).then_some(Clock { hour: st.local.hour, minute: st.local.minute, h24: st.settings.use_24h })
+    timed(st).then_some(Clock { hour: st.local.hour, minute: st.local.minute, h24: st.settings.use_24h })
 }
 
 /// Beside the time, as Classic's clock has it: a bolt while the battery
 /// charges, the battery in red at 20 % or less.
 fn badge(st: &AppState) -> Option<Badge> {
     let p = &st.power;
-    if !p.has_battery || st.settings.idle_style == IdleStyle::Minimal {
+    if !p.has_battery || !timed(st) {
         None
     } else if p.charging {
         Some(Badge::Charging)
@@ -237,13 +247,15 @@ mod tests {
         // The status bar is the Pill theme's: here it is the clock.
         st.settings.idle_style = IdleStyle::Status;
         assert_eq!(geom(&st), Some(Geom::new(112.0, 38.0, 19.0)));
-        st.settings.idle_style = IdleStyle::Minimal;
-        assert_eq!(geom(&st), Some(Geom::new(80.0, 38.0, 19.0)));
-        // Eyes and Hidden stay Pill's, and so does every other theme.
-        for style in [IdleStyle::Eyes, IdleStyle::Hidden] {
+        // Minimal is the place alone, and so is a setting left on Eyes.
+        for style in [IdleStyle::Minimal, IdleStyle::Eyes] {
             st.settings.idle_style = style;
-            assert_eq!(geom(&st), None, "{style:?}");
+            assert_eq!(geom(&st), Some(Geom::new(80.0, 38.0, 19.0)), "{style:?}");
+            assert_eq!(moment(&st).clock, None, "{style:?}");
         }
+        // Hidden hides it, and every other theme rests its own way.
+        st.settings.idle_style = IdleStyle::Hidden;
+        assert_eq!(geom(&st), None);
         st.settings.idle_style = IdleStyle::Clock;
         for theme in [Theme::Classic, Theme::Oyen, Theme::Glass, Theme::Pill] {
             st.settings.theme = theme;

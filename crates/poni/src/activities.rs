@@ -359,7 +359,8 @@ pub fn next_wake(m: &Mode, st: &AppState) -> Option<f64> {
         if !night(st) {
             consider(oyen::next_rest_move(now));
         }
-    } else if *m == Mode::Idle && st.settings.idle_style == IdleStyle::Eyes {
+    } else if *m == Mode::Idle && st.settings.idle_style == IdleStyle::Eyes && !crate::pill::diorama::shows(st) {
+        // (The Diorama theme rests as its picture, which has no eyes to blink.)
         let phase = now % BLINK_PERIOD;
         consider(if phase < BLINK_LEN { now - phase + BLINK_LEN } else { now - phase + BLINK_PERIOD });
     }
