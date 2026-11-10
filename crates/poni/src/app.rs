@@ -4321,7 +4321,7 @@ impl App {
         if self.st.settings.prayer.follow_location && self.st.prayer.located_at.is_none_or(|t| self.st.unix - t >= 3 * 3600) {
             self.locate();
         }
-        let Some(site) = self.st.prayer.site() else { return };
+        let Some(site) = self.st.prayer_site() else { return };
         let now = self.st.prayer_now();
         let Some(from) = self.st.prayer.handled_until else {
             self.st.prayer.handled_until = Some(now);
@@ -4343,7 +4343,7 @@ impl App {
     /// A prayer's time came: the island says so and plays the chosen sound.
     /// Quiet when it's late (after a sleep) or a full-screen app hides the island.
     fn prayer_moment(&mut self, m: PrayerMoment, ring: bool) {
-        let Some(site) = self.st.prayer.site() else { return };
+        let Some(site) = self.st.prayer_site() else { return };
         let place = self.st.prayer.place.as_ref().map_or(String::new(), |p| p.label.clone());
         let quiet = !ring || self.fullscreen_hidden;
         let sound = if quiet { PrayerSound::Silent } else { self.st.settings.prayer.sound };
@@ -4394,7 +4394,7 @@ impl App {
     /// countdown.
     fn prayer_countdown_ok(&mut self) {
         self.refresh_time();
-        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer.site()) {
+        if let (Some(m), Some(site)) = (self.st.prayer_countdown_ok(), self.st.prayer_site()) {
             pinfo!("prayer: countdown put away until {} at {}", m.prayer.name(), site.hhmm(m.at));
         }
     }

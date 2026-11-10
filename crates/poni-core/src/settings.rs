@@ -200,6 +200,27 @@ pub enum PrayerSound {
     Silent,
 }
 
+/// Whose prayer times and Hijri dates the add-on follows.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PrayerFollow {
+    /// Kemenag RI: its times, and the government's Hijri calendar (MABIMS, isbat).
+    #[default]
+    Kemenag,
+    /// Muhammadiyah: Majelis Tarjih's times (Subuh at 18°) for Indonesian
+    /// places, and the Kalender Hijriah Global Tunggal (KHGT) everywhere.
+    Muhammadiyah,
+}
+
+impl PrayerFollow {
+    pub fn calendar(self) -> crate::hijri::Calendar {
+        match self {
+            PrayerFollow::Kemenag => crate::hijri::Calendar::Kemenag,
+            PrayerFollow::Muhammadiyah => crate::hijri::Calendar::Khgt,
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct PrayerSettings {
@@ -217,11 +238,21 @@ pub struct PrayerSettings {
     pub remind_before_min: u32,
     /// Pause music that is playing when the adzan starts (it stays paused).
     pub pause_music: bool,
+    /// Kemenag's times and calendar, or Muhammadiyah's.
+    pub follow: PrayerFollow,
 }
 
 impl Default for PrayerSettings {
     fn default() -> Self {
-        Self { place: None, world_place: None, follow_location: true, sound: PrayerSound::Tone, remind_before_min: 10, pause_music: true }
+        Self {
+            place: None,
+            world_place: None,
+            follow_location: true,
+            sound: PrayerSound::Tone,
+            remind_before_min: 10,
+            pause_music: true,
+            follow: PrayerFollow::Kemenag,
+        }
     }
 }
 
@@ -422,6 +453,10 @@ mod tests {
         let s = s.sanitized();
         assert_eq!((s.prayer.place.as_deref(), s.prayer.sound, s.prayer.remind_before_min), (Some("jakarta"), PrayerSound::Adzan, 60));
         assert!(s.prayer.follow_location);
+        assert_eq!(s.prayer.follow, PrayerFollow::Kemenag, "settings from before the choice follow Kemenag");
+        let m: Settings = serde_json::from_str(r#"{"prayer":{"follow":"muhammadiyah"}}"#).unwrap();
+        assert_eq!(m.prayer.follow, PrayerFollow::Muhammadiyah);
+        assert!(serde_json::to_string(&m).unwrap().contains(r#""follow":"muhammadiyah""#));
     }
 
     #[test]

@@ -609,11 +609,6 @@ pub struct PrayerState {
     pub clock_shift: i64,
 }
 
-impl PrayerState {
-    pub fn site(&self) -> Option<Site> {
-        self.place.as_ref().and_then(|p| p.site())
-    }
-}
 
 /// What Oyenza Studio Recorder last said about its recording
 /// (`poni_core::recorder::Message::State`).
@@ -1069,6 +1064,12 @@ impl AppState {
         self.addon(poni_core::addons::PRAYER_TIMES.id) == AddonStatus::Ready && self.prayer.places.is_some()
     }
 
+    /// The place the times are for, as the engine needs it, with the
+    /// person's choice of Kemenag's or Muhammadiyah's times.
+    pub fn prayer_site(&self) -> Option<Site> {
+        self.prayer.place.as_ref().and_then(|p| p.site_for(self.settings.prayer.follow))
+    }
+
     /// The prayer clock, UTC seconds (the self-test moves it).
     pub fn prayer_now(&self) -> i64 {
         self.unix + self.prayer.clock_shift
@@ -1079,7 +1080,7 @@ impl AppState {
     /// since what rings follows the prayer clock, not the countdown. Returns
     /// the prayer put away (none when no countdown runs).
     pub fn prayer_countdown_ok(&mut self) -> Option<PrayerMoment> {
-        let site = self.prayer.site()?;
+        let site = self.prayer_site()?;
         let (m, _) = poni_core::prayer::countdown(&site, self.prayer_now(), self.settings.prayer.remind_before_min)?;
         self.prayer.countdown_ok = Some(m.at);
         Some(m)

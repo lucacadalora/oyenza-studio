@@ -22,8 +22,9 @@ use crate::icons::Icon;
 use crate::state::{AppState, CityFile, Locate};
 use crate::ui::{wid, wid_n, PillStyle, Ui, PILL_SMALL};
 use poni_core::geom::{palette, Color, Point, Rect};
+use poni_core::hijri;
 use poni_core::prayer::{self, world, DayTimes, Method, Place, Prayer, PrayerMoment, Site, World};
-use poni_core::settings::PrayerSound;
+use poni_core::settings::{PrayerFollow, PrayerSound};
 use poni_core::svgpath::Seg;
 use std::f32::consts::PI;
 use std::sync::Arc;
@@ -48,6 +49,8 @@ const PLACE_Y: f32 = 70.0;
 /// row, the arc's ends and its top under them, then each prayer's name and
 /// time under the dots.
 const INFO_H: f32 = 15.0;
+/// At least this between the Hijri date and the times on that row.
+const HIJRI_GAP: f32 = 12.0;
 const ARC_END_Y: f32 = 56.0;
 const ARC_TOP_Y: f32 = 28.0;
 const LABEL_Y: f32 = 64.0;
@@ -87,6 +90,9 @@ const SEARCH_H: f32 = 32.0;
 const RESULT_H: f32 = 26.0;
 const RESULTS: usize = 8;
 const QURAN: &str = "https://quran.oyenza.com";
+/// The picker's row for whose times and Hijri dates, at its bottom.
+const FOLLOW_H: f32 = 28.0;
+const FOLLOWS: [(PrayerFollow, &str); 2] = [(PrayerFollow::Kemenag, "Kemenag"), (PrayerFollow::Muhammadiyah, "Muhammadiyah (KHGT)")];
 /// Where location is allowed for Oyenza Studio: Windows' Settings › Privacy &
 /// security › Location, or the Mac's System Settings › Privacy & Security ›
 /// Location Services.
@@ -110,7 +116,7 @@ pub fn height(_st: &AppState) -> f32 {
 /// asks only while the page is open and someone is at the PC, so the page
 /// draws once a second then, and never otherwise.
 pub fn next_wake(st: &AppState) -> Option<f64> {
-    if st.prayer.picking || st.prayer.site().is_none() {
+    if st.prayer.picking || st.prayer_site().is_none() {
         return None;
     }
     // Right after the wall clock's next whole second, so each frame shows a new one.
@@ -123,7 +129,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
         picker(ui, st, area);
         return;
     }
-    let Some(site) = st.prayer.site() else {
+    let Some(site) = st.prayer_site() else {
         super::empty_state(ui, area, Icon::Moon, "No place yet", "Pick your city to see its times");
         let w = ui.pill_width("Pick a place", false, true);
         let r = Rect::new(area.center().x - w / 2.0, area.bottom() - PILL_SMALL, w, PILL_SMALL);
@@ -157,7 +163,7 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let name_style = TextStyle::footnote().weight(Weight::Semibold);
     ui.c.text(place, Rect::new(x, area.y + PLACE_Y, left_w, 17.0), &name_style);
     // Who sets the times, after the name, where it isn't Kemenag.
-    if let Some(tag) = st.prayer.place.as_ref().and_then(method_tag) {
+    if let Some(tag) = method_tag(&site, st.prayer.place.as_ref().is_some_and(|p| p.hanafi)) {
         let tx = x + ui.c.measure(place, &name_style, left_w).0.ceil() + 6.0;
         if tx < x + left_w - 40.0 {
             ui.c.text(&tag, Rect::new(tx, area.y + PLACE_Y, x + left_w - tx, 17.0), &TextStyle::footnote().color(palette::TEXT_DIM));
@@ -171,7 +177,23 @@ pub fn draw(ui: &mut Ui, st: &mut AppState, area: Rect) {
     let place_pt = st.prayer.place.as_ref().map(|p| (p.lat, p.lng)).unwrap_or_default();
     let q = prayer::qibla(place_pt.0, place_pt.1);
     let info = format!("Imsak {} \u{b7} Terbit {} \u{b7} Qibla {q:.0}\u{b0} {}", site.hhmm(times.imsak), site.hhmm(times.terbit), compass(q));
-    ui.c.text(&info, Rect::new(gx, area.y, arc.w, INFO_H), &TextStyle::caption().color(palette::TEXT_DIM).right());
+    let info_style = TextStyle::caption().color(palette::TEXT_DIM);
+    // Today's Hijri date at the arc's left, by the calendar followed. Where
+    // the row is short, the qibla's compass point goes first, then the date.
+    let hijri = hijri::date(st.settings.prayer.follow.calendar(), day).label();
+    let hw = ui.c.measure(&hijri, &info_style, arc.w).0 + HIJRI_GAP;
+    let short = info.trim_end_matches(compass(q)).trim_end().to_string();
+    let (info, show_hijri) = if hw + ui.c.measure(&info, &info_style, arc.w).0 <= arc.w {
+        (info, true)
+    } else if hw + ui.c.measure(&short, &info_style, arc.w).0 <= arc.w {
+        (short, true)
+    } else {
+        (info, false)
+    };
+    ui.c.text(&info, Rect::new(gx, area.y, arc.w, INFO_H), &info_style.clone().right());
+    if show_hijri {
+        ui.c.text(&hijri, Rect::new(gx, area.y, arc.w, INFO_H), &info_style.clone().color(palette::TEXT));
+    }
     draw_day(ui, arc, &site, &times, day, now, next, accent);
 
     // ---- Footer. Left: Change place, Read Quran. Right, under the arc:
@@ -325,11 +347,11 @@ fn compass(deg: f64) -> &'static str {
 }
 
 /// The method a place's times follow, where it isn't Kemenag's: "Moonsighting
-/// Committee", "Karachi, Hanafi".
-fn method_tag(p: &Place) -> Option<String> {
-    match p.method {
+/// Committee", "Karachi, Hanafi", "Muhammadiyah".
+fn method_tag(site: &Site, hanafi: bool) -> Option<String> {
+    match site.method {
         Method::Kemenag => None,
-        m if p.hanafi => Some(format!("{}, Hanafi", m.name())),
+        m if hanafi => Some(format!("{}, Hanafi", m.name())),
         m => Some(m.name().to_string()),
     }
 }
@@ -427,6 +449,7 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
                 st.cmd(Command::OpenUrl(LOCATION_SETTINGS.into()));
             }
         }
+        follow_row(ui, st, Rect::new(area.x, area.bottom() - FOLLOW_H, area.w, FOLLOW_H));
         return;
     }
     if count == 0 {
@@ -460,6 +483,30 @@ fn picker(ui: &mut Ui, st: &mut AppState, area: Rect) {
     }
     if let Some(p) = clicked.and_then(|i| found(st, i)) {
         choose(st, p);
+    }
+}
+
+/// Whose times and Hijri dates: Kemenag's or Muhammadiyah's (KHGT), with a
+/// line on what the choice changes.
+fn follow_row(ui: &mut Ui, st: &mut AppState, r: Rect) {
+    let label = "Times and Hijri dates";
+    let ls = TextStyle::body();
+    let lw = ui.c.measure(label, &ls, r.w).0.ceil();
+    ui.c.text(label, Rect::new(r.x, r.y, lw + 2.0, r.h), &ls);
+    let names = FOLLOWS.map(|f| f.1);
+    let sel = FOLLOWS.iter().position(|f| f.0 == st.settings.prayer.follow).unwrap_or(0);
+    let px = r.x + lw + 12.0;
+    if let Some(i) = super::settings::picker(ui, "prayer.follow", px, r.y + (r.h - 24.0) / 2.0, 24.0, &names, sel) {
+        st.settings.prayer.follow = FOLLOWS[i].0;
+        st.cmd(Command::SaveSettings);
+    }
+    let note = match st.settings.prayer.follow {
+        PrayerFollow::Kemenag => "Kemenag's times, the isbat's dates",
+        PrayerFollow::Muhammadiyah => "Majelis Tarjih's times, KHGT dates",
+    };
+    let nx = px + super::settings::picker_width(ui, &names) + 12.0;
+    if nx + 120.0 < r.right() {
+        ui.c.text(note, Rect::new(nx, r.y, r.right() - nx, r.h), &TextStyle::footnote().color(palette::TEXT_DIM));
     }
 }
 

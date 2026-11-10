@@ -149,7 +149,7 @@ fn sun(st: &AppState) -> (f32, f32) {
     // This computer's clock against UTC, to the minute.
     let local = st.local.hour as i64 * 3600 + st.local.minute as i64 * 60 + st.local.second as i64;
     let ahead = (((local - st.unix.rem_euclid(86_400)) as f64 / 60.0).round() as i64 * 60 + 43_200).rem_euclid(86_400) - 43_200;
-    st.prayer.site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY)
+    st.prayer_site().and_then(|site| sun_at(&site, st.prayer_now(), ahead)).unwrap_or(HOUSE_DAY)
 }
 
 /// Sunrise and sunset (the schedule's terbit and maghrib) at `site` on its
