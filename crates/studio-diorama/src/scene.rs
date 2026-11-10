@@ -510,6 +510,20 @@ impl Layout {
     fn tree_spot(&self) -> i32 {
         self.tree_x - 3
     }
+
+    /// How many runs of fence the garden has: one on a short pill, up to
+    /// three on a long one (a quarter of the middle).
+    fn fence_runs(&self) -> i32 {
+        ((self.mid1 - self.mid0) / 4 / (FENCE.w - 1)).clamp(1, 3)
+    }
+
+    /// Where the lamp post stands, four fifths of the way along the middle,
+    /// clear of the widest clock (12-hour with a badge) and of the tree's
+    /// crown; none on a pill too short for it.
+    fn lamp_x(&self) -> Option<i32> {
+        let mid = self.mid1 - self.mid0;
+        (mid >= 100).then_some(self.mid0 + mid * 4 / 5)
+    }
 }
 
 fn paint_side(m: &Moment, lay: &Layout, h: i32, night: bool) -> Art {
@@ -543,14 +557,89 @@ fn paint_side(m: &Moment, lay: &Layout, h: i32, night: bool) -> Art {
     }
     if lay.mid1 - lay.mid0 >= MID_BARE {
         blit(&mut art, &side, &POSTBOX, lay.mid0 + 1, HORIZON - 4, false);
-        blit(&mut art, &side, &FENCE, lay.mid0 + 5, HORIZON - 4, false);
+        // The garden fence: a run of pickets, longer where the pill is long.
+        let runs = lay.fence_runs();
+        for k in 0..runs {
+            blit(&mut art, &side, &FENCE, lay.mid0 + 5 + k * (FENCE.w - 1), HORIZON - 4, false);
+        }
+        if runs > 1 {
+            bush(&mut art, &side, lay.mid0 + 5 + runs * (FENCE.w - 1) + 3, HORIZON + 1, 3);
+        }
+    }
+    let lamp = lay.lamp_x();
+    if let Some(x) = lamp {
+        bush(&mut art, &side, lay.mid0 + (lay.mid1 - lay.mid0) * 11 / 20, HORIZON + 1, 2);
+        lamp_post(&mut art, &side, x, night);
+        if night {
+            lamp_pool(&mut art, &side, x);
+        }
     }
     tree(&mut art, &side, lay.tree_x, HORIZON + 1);
     cat(&mut art, &side, m, lay, night, (hx + WINDOW_AT.0, hy + WINDOW_AT.1));
     if night && side.lit {
         window_light(&mut art, &side, hx + WINDOW_AT.0 + 2, hy + WINDOW_AT.1 + 2, lay);
     }
+    if let Some(x) = lamp.filter(|_| night) {
+        lamp_halo(&mut art, &side, x);
+    }
     art
+}
+
+/// The lamp post's lantern row: under the clock's, clear of the sun's and
+/// the moon's way along the top.
+const LAMP_TOP: i32 = HORIZON - 11;
+
+/// The lamp post in the garden: a slim post on a foot, and a lantern on
+/// top, its glass dark by day and lit from dusk through the night (it isn't
+/// the house's, so it stays on while the house sleeps).
+fn lamp_post(art: &mut Art, side: &Side, x: i32, night: bool) {
+    for y in LAMP_TOP + 3..=HORIZON {
+        art.set(x, y, side.color(mat::POST, x, y));
+    }
+    for dx in [-1, 1] {
+        art.set(x + dx, HORIZON, side.color(mat::POST, x + dx, HORIZON));
+    }
+    let glass = if night { mat::ORB } else { mat::WINDOW };
+    for dx in -1..=1 {
+        art.set(x + dx, LAMP_TOP, side.color(mat::POST, x + dx, LAMP_TOP));
+        art.set(x + dx, LAMP_TOP + 1, side.color(glass, x + dx, LAMP_TOP + 1));
+        art.set(x + dx, LAMP_TOP + 2, side.color(if dx == 0 { glass } else { mat::POST }, x + dx, LAMP_TOP + 2));
+    }
+    art.set(x, LAMP_TOP - 1, side.color(mat::POST, x, LAMP_TOP - 1));
+}
+
+/// The lamp's light on the grass at night, under where the cat walks.
+fn lamp_pool(art: &mut Art, side: &Side, x: i32) {
+    let grain = |x: i32, y: i32| 0.55 * bayer4(x, y) + 0.45 * rnd(x, y, 61);
+    let (px, py) = (x as f32, (HORIZON + 3) as f32);
+    for y in HORIZON + 1..art.h {
+        for gx in x - 10..=x + 10 {
+            let (ex, ey) = ((gx as f32 - px) / 10.0, (y as f32 - py) / 3.2);
+            let d = (ex * ex + ey * ey).sqrt();
+            if grain(gx, y) < 0.7 * (1.0 - d) {
+                art.set(gx, y, side.color(if d < 0.4 && rnd(gx, y, 62) < 0.5 { mat::GLOW } else { mat::GLOW_DEEP }, gx, y));
+            }
+        }
+    }
+}
+
+/// The lantern's glow in the dark around it.
+fn lamp_halo(art: &mut Art, side: &Side, x: i32) {
+    let grain = |x: i32, y: i32| 0.55 * bayer4(x, y) + 0.45 * rnd(x, y, 63);
+    let cy = LAMP_TOP + 1;
+    for dy in -3..=4 {
+        for dx in -4..=4 {
+            let (gx, gy) = (x + dx, cy + dy);
+            let lantern = dx.abs() <= 1 && (-1..=1).contains(&dy);
+            if lantern || (dx == 0 && dy > 1) {
+                continue;
+            }
+            let d = ((dx * dx) as f32 + (dy * dy) as f32 * 1.3).sqrt();
+            if grain(gx, gy) < 0.8 * (1.0 - d / 4.4) {
+                art.set(gx, gy, side.color(if d < 2.4 { mat::GLOW } else { mat::GLOW_DEEP }, gx, gy));
+            }
+        }
+    }
 }
 
 /// The sun on its arc from the left horizon to the right one: a disc with a

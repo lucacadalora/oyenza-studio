@@ -149,10 +149,15 @@ impl Moment {
     }
 }
 
-/// The resting pill's width in DIPs for what it shows: the house's end, the
-/// tree's end and a middle wide enough for the clock (12-hour times keep
-/// room for "12:59 PM", so the pill never changes width with the hour) and
-/// the badge. An even number, so the centred pill sits on whole pixels.
+/// How long the resting pill is, in DIPs: about a MacBook's notch, so it
+/// reads as an island and the glass ball has a long way to slide.
+pub const LONG: f32 = 190.0;
+
+/// The resting pill's width in DIPs for what it shows: [`LONG`], or longer
+/// where the house's end, the tree's end and a middle wide enough for the
+/// clock (12-hour times keep room for "12:59 PM", so the pill never changes
+/// width with the hour) and the badge need it. An even number, so the
+/// centred pill sits on whole pixels.
 pub fn width(clock: Option<Clock>, badge: Option<Badge>) -> f32 {
     let mid = match clock {
         None => scene::MID_BARE,
@@ -161,7 +166,7 @@ pub fn width(clock: Option<Clock>, badge: Option<Badge>) -> f32 {
             written + 2 * scene::MID_PAD
         }
     };
-    let w = scene::HOUSE_ZONE + mid + scene::TREE_ZONE;
+    let w = (scene::HOUSE_ZONE + mid + scene::TREE_ZONE).max(LONG as i32);
     (w + (w & 1)) as f32
 }
 
@@ -384,11 +389,13 @@ mod tests {
     fn the_pill_is_as_wide_as_what_it_shows() {
         let h24 = Clock { hour: 13, minute: 27, h24: true };
         let h12 = Clock { h24: false, ..h24 };
-        assert_eq!(width(None, None), 80.0);
-        assert_eq!(width(Some(h24), None), 100.0);
-        assert_eq!(width(Some(h12), None), 112.0);
-        assert_eq!(width(Some(h24), Some(Badge::Charging)), 112.0);
-        assert_eq!(width(Some(h12), Some(Badge::Low(12))), 124.0);
+        // As long as a notch, whatever it shows: the widest time with a
+        // badge ("12:59 PM" and the battery) leaves room to spare.
+        for (clock, badge) in [(None, None), (Some(h24), None), (Some(h12), None), (Some(h24), Some(Badge::Charging)), (Some(h12), Some(Badge::Low(12)))] {
+            assert_eq!(width(clock, badge), LONG, "{clock:?} {badge:?}");
+        }
+        let widest = scene::HOUSE_ZONE + scene::CLOCK_W + scene::MERIDIEM_W + scene::BADGE_W + 2 * scene::MID_PAD + scene::TREE_ZONE;
+        assert!((widest as f32) < LONG - 50.0, "{widest}");
         // Even, so the centred pill lands on whole pixels at 100 %.
         for w in [width(None, None), width(Some(h24), None), width(Some(h12), Some(Badge::Charging))] {
             assert_eq!(w % 2.0, 0.0);
@@ -410,14 +417,14 @@ mod tests {
         let m = moment(600.0);
         for scale in [1.0, 1.25, 1.5, 1.75, 2.0, 3.0] {
             let p = render(&m, &view(&m, scale));
-            assert_eq!((p.w, p.h), ((100.0 * scale).round() as u32, (38.0 * scale).round() as u32), "{scale}");
+            assert_eq!((p.w, p.h), ((LONG * scale).round() as u32, (38.0 * scale).round() as u32), "{scale}");
             assert_eq!(p.bgra.len(), (p.w * p.h * 4) as usize);
             assert!(p.bgra.chunks(4).all(|c| c[3] == 255), "{scale}: opaque");
         }
         // Under the pointer the body is larger and so is the picture.
-        let lifted = View { w: 106.0, h: 44.0, ..view(&m, 2.0) };
+        let lifted = View { w: LONG + 6.0, h: 44.0, ..view(&m, 2.0) };
         let p = render(&m, &lifted);
-        assert_eq!((p.w, p.h), (212, 88));
+        assert_eq!((p.w, p.h), (392, 88));
     }
 
     #[test]

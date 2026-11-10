@@ -5305,16 +5305,15 @@ mod tests {
             assert!(RESTS[..k].iter().all(|q| q.name != r.name), "{} twice", r.name);
             assert!(!r.name.is_empty() && r.name.bytes().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-'), "{}", r.name);
         }
-        // The widths the pill has: 100, 112 with a 12-hour clock or a badge, 124 with both, 80 without a clock.
+        // The pill is as long as a notch whatever it shows: 190 by 38, with
+        // a 12-hour clock, a badge, both, or no clock.
         let wide = |name: &str| Sight::of(&state(rest(name)), Some(rest(name))).sizes();
-        assert_eq!(wide("noon"), ((100.0, 38.0), (100.0, 38.0)));
-        assert_eq!(wide("12-hour").0, (112.0, 38.0));
-        assert_eq!(wide("charging").0, (112.0, 38.0));
-        assert_eq!(wide("low-battery").0, (112.0, 38.0));
-        assert_eq!(wide("12-hour-charging").0, (124.0, 38.0));
-        assert_eq!(wide("minimal").0, (80.0, 38.0));
+        assert_eq!(wide("noon"), ((190.0, 38.0), (190.0, 38.0)));
+        for name in ["12-hour", "charging", "low-battery", "12-hour-charging", "minimal"] {
+            assert_eq!(wide(name).0, (190.0, 38.0), "{name}");
+        }
         // Under the pointer: 6 more each way around the same pane.
-        assert_eq!(wide("hover"), ((100.0, 38.0), (106.0, 44.0)));
+        assert_eq!(wide("hover"), ((190.0, 38.0), (196.0, 44.0)));
         // The roll holds the app's clock, so it is the last, a minute before
         // the house's sunset; the slide by hand, which holds it too, just
         // before it.
@@ -5362,7 +5361,7 @@ mod tests {
             st.settings.idle_style = if k % 5 == 0 { IdleStyle::Status } else { IdleStyle::Clock };
             let sight = Sight::of(&st, None);
             let (pane, shown) = sight.sizes();
-            assert_eq!(pane.0, if st.settings.use_24h { 100.0 } else { 112.0 });
+            assert_eq!(pane.0, 190.0);
             let (w, h, px, body) = drawn(&sight.moment, pane, shown, shown.1 / 2.0, 1.0);
             let mut checks = Vec::new();
             diorama_checks(&Frame { w, h, px: &px }, body, (0, 0), 1.0, &sight, crate::pill::diorama::geom(&st), &mut checks);
@@ -5395,22 +5394,22 @@ mod tests {
             let boxy = failing(rest("noon"), scale, |_, _, radius, _| *radius = 12.0);
             assert_eq!(named(&boxy), ["diorama-capsule"], "{scale}: {boxy:?}");
             // Under the pointer, a pill that didn't swell.
-            let flat = failing(rest("hover"), scale, |_, shown, radius, _| (*shown, *radius) = ((100.0, 38.0), 19.0));
+            let flat = failing(rest("hover"), scale, |_, shown, radius, _| (*shown, *radius) = ((190.0, 38.0), 19.0));
             assert_eq!(named(&flat), ["diorama-size", "diorama-lift", "diorama-picture"], "{scale}: {flat:?}");
         }
     }
 
     #[test]
     fn a_pill_on_half_a_pixel_is_looked_for_where_the_window_puts_it() {
-        // At 125 % a 100 DIP pill is 125 pixels wide: in the middle of a
+        // At 125 % a 190 DIP pill is 237.5 pixels wide: in the middle of a
         // window an even number of pixels wide its edges fall on half
         // pixels, which the app rounds in the window's coordinates. The
-        // frame starts 250 pixels into the window.
+        // frame starts 150 pixels into the window.
         let r = rest("noon");
         let st = state(r);
         let sight = Sight::of(&st, Some(r));
         let (pane, shown) = sight.sizes();
-        let origin = (250, 0);
+        let origin = (150, 0);
         // The middle of a 692, a 1000 and a 693 pixel window, and one that is no pixel's edge.
         for cx in [276.8, 400.0, 277.2, 300.3] {
             let (w, h, px, body) = drawn_at(&sight.moment, pane, shown, shown.1 / 2.0, 1.25, cx, origin);

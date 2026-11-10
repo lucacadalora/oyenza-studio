@@ -501,16 +501,17 @@ mod tests {
     #[test]
     fn the_picture_rests_in_its_theme_for_the_clock_and_minimal() {
         let mut st = state(10, 8);
-        assert_eq!(geom(&st), Some(Geom::new(100.0, 38.0, 19.0)));
+        // As long as a notch, whatever the clock.
+        assert_eq!(geom(&st), Some(Geom::new(190.0, 38.0, 19.0)));
         st.settings.use_24h = false;
-        assert_eq!(geom(&st), Some(Geom::new(112.0, 38.0, 19.0)));
+        assert_eq!(geom(&st), Some(Geom::new(190.0, 38.0, 19.0)));
         // The status bar is the Pill theme's: here it is the clock.
         st.settings.idle_style = IdleStyle::Status;
-        assert_eq!(geom(&st), Some(Geom::new(112.0, 38.0, 19.0)));
+        assert_eq!(moment(&st).clock.map(|c| c.h24), Some(false));
         // Minimal is the place alone, and so is a setting left on Eyes.
         for style in [IdleStyle::Minimal, IdleStyle::Eyes] {
             st.settings.idle_style = style;
-            assert_eq!(geom(&st), Some(Geom::new(80.0, 38.0, 19.0)), "{style:?}");
+            assert_eq!(geom(&st), Some(Geom::new(190.0, 38.0, 19.0)), "{style:?}");
             assert_eq!(moment(&st).clock, None, "{style:?}");
         }
         // Hidden hides it, and every other theme rests its own way.
@@ -560,8 +561,8 @@ mod tests {
         assert_eq!(badge(&st), Some(Badge::Low(20)));
         st.power.charging = true;
         assert_eq!(badge(&st), Some(Badge::Charging));
-        // It makes room for itself beside the time.
-        assert_eq!(geom(&st), Some(Geom::new(112.0, 38.0, 19.0)));
+        // The long pill has room for it beside the time.
+        assert_eq!(geom(&st), Some(Geom::new(190.0, 38.0, 19.0)));
         st.settings.idle_style = IdleStyle::Minimal;
         assert_eq!(badge(&st), None);
     }
@@ -596,6 +597,9 @@ mod tests {
         settle();
     }
 
+    /// How far the ball goes from one end of the long pill to the other.
+    const TRAVEL: f32 = 190.0 - 38.0;
+
     /// 10 November 2026 at `hour:minute`, as minutes since 1 January 2000.
     fn abs(hour: u32, minute: u32) -> f64 {
         9810.0 * 1440.0 + (hour * 60 + minute) as f64
@@ -622,15 +626,15 @@ mod tests {
         settle();
         let mut st = state(10, 8);
         st.now = 50.0;
-        // 100 DIPs wide: the ball goes 62 DIPs from one end to the other.
+        // 190 DIPs long: the ball goes 152 DIPs from one end to the other.
         grab(&st, 500.0);
         assert!(held() && !night(&st));
         // A tremble is still a tap.
         assert!(slide(501.0, 50.05));
         assert_eq!(HELD.with(|h| h.get()).map(|h| (h.lens, h.moved)), Some((0.0, false)));
         // Two thirds of the way across, slowly: the look follows the hand.
-        slide(500.0 + 0.4 * 62.0, 50.5);
-        slide(500.0 + 0.66 * 62.0, 51.5);
+        slide(500.0 + 0.4 * TRAVEL, 50.5);
+        slide(500.0 + 0.66 * TRAVEL, 51.5);
         assert!(night(&st));
         // Held still, then let go: it goes on to the tree, the nearer end.
         assert!(let_go(&st, 51.7));
@@ -668,7 +672,7 @@ mod tests {
         // Tapped again, it rolls back to the house, and the day is the clock's.
         st.now = 20.0;
         ball(1.0, 20.0);
-        grab(&st, 362.0);
+        grab(&st, 300.0 + TRAVEL);
         assert!(let_go(&st, 20.1));
         assert!(!night(&st));
         assert_eq!(LEFT.with(|l| l.get()), None);
@@ -683,16 +687,16 @@ mod tests {
         st.now = 5.0;
         grab(&st, 400.0);
         // A fifth of the way in 50 ms: four ends a second.
-        slide(400.0 + 0.1 * 62.0, 5.025);
-        slide(400.0 + 0.2 * 62.0, 5.05);
+        slide(400.0 + 0.1 * TRAVEL, 5.025);
+        slide(400.0 + 0.2 * TRAVEL, 5.05);
         assert!(let_go(&st, 5.06));
         assert!(night(&st));
         // The same, but held still before letting go: back to the house.
         st.now = 10.0;
         settle();
         grab(&st, 400.0);
-        slide(400.0 + 0.1 * 62.0, 10.025);
-        slide(400.0 + 0.2 * 62.0, 10.05);
+        slide(400.0 + 0.1 * TRAVEL, 10.025);
+        slide(400.0 + 0.2 * TRAVEL, 10.05);
         assert!(let_go(&st, 10.3));
         assert!(!night(&st));
         settle();
@@ -704,9 +708,9 @@ mod tests {
         let mut st = state(22, 0);
         st.now = 1.0;
         assert!(night(&st));
-        // The ball rests on the tree: 62 DIPs back toward the house.
+        // The ball rests on the tree: 152 DIPs back toward the house.
         grab(&st, 600.0);
-        slide(600.0 - 0.8 * 62.0, 1.5);
+        slide(600.0 - 0.8 * TRAVEL, 1.5);
         assert!(!night(&st));
         let_go(&st, 2.0);
         assert!(!night(&st));

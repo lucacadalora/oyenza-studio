@@ -1326,10 +1326,11 @@ mod tests {
             st
         };
         let (mut pill, mut diorama) = (state(Theme::Pill), state(Theme::Diorama));
-        // Every look but Hidden is the picture, 38 tall where Pill's
-        // capsules are 32 and 24: with the time for the clock (and the
-        // status bar, which is Pill's), alone for Minimal (and Eyes).
-        for (look, w) in [(IdleStyle::Clock, 100.0), (IdleStyle::Status, 100.0), (IdleStyle::Minimal, 80.0), (IdleStyle::Eyes, 80.0)] {
+        // Every look but Hidden is the picture, as long as a notch and 38
+        // tall where Pill's capsules are 32 and 24: with the time for the
+        // clock (and the status bar, which is Pill's), alone for Minimal
+        // (and Eyes).
+        for (look, w) in [(IdleStyle::Clock, 190.0), (IdleStyle::Status, 190.0), (IdleStyle::Minimal, 190.0), (IdleStyle::Eyes, 190.0)] {
             diorama.settings.idle_style = look;
             let g = geom(&Mode::Idle, &diorama);
             assert_eq!((g.w, g.h, g.r), (w, 38.0, 19.0), "{look:?}");
