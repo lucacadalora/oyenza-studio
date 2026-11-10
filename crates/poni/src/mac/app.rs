@@ -883,6 +883,9 @@ impl App {
                 } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(activities::PRAYER_OK_ID)) {
                     // So does the prayer countdown under a pointer resting on
                     // its OK (resting on the rest of it still opens).
+                } else if self.input.mouse.and_then(|p| self.hit_at(p)).is_some_and(|h| h.id == wid(pill::diorama::BALL_ID)) {
+                    // And Diorama's resting pill under a pointer resting on its
+                    // glass ball, which is there to be slid.
                 } else {
                     self.expand();
                 }
@@ -2361,6 +2364,12 @@ impl App {
             self.drag_island(p);
             return;
         }
+        if pill::diorama::slide(p.x, clock::mono()) {
+            // Diorama's glass ball in hand follows the pointer.
+            self.input.mouse = Some(p);
+            self.request_frame();
+            return;
+        }
         self.peek_at(p);
         let inside = self.hovering_inside(p) || self.input.down;
         if !inside {
@@ -2454,6 +2463,13 @@ impl App {
                         // The prayer countdown's OK, the same way.
                         self.input.pressed_id = None;
                         self.prayer_countdown_ok();
+                    } else if self.input.pressed_id == Some(wid(pill::diorama::BALL_ID)) {
+                        // Diorama's glass ball: in hand until the button comes
+                        // up, sliding with the pointer; the island neither
+                        // opens nor moves.
+                        self.input.pressed_id = None;
+                        pill::diorama::grab(&self.st, p.x);
+                        self.cancel_hover();
                     } else if self.movable() && (self.screen.notch.is_none() || self.island.floating()) {
                         // Opens when the button comes up (`open_from_press`),
                         // unless the pointer moves sideways first: then it
@@ -2473,6 +2489,11 @@ impl App {
                 // A drop puts the window back around the island: the point
                 // came in the coordinates of the window as it was.
                 let left = self.win.0;
+                if pill::diorama::let_go(&self.st, clock::mono()) {
+                    // The ball rolls on to its end; the island stays closed under the pointer.
+                    self.input.pressed_id = None;
+                    self.cancel_hover();
+                }
                 if let Some(g) = self.grab.take() {
                     // What the closed island showed under the press doesn't click.
                     self.input.pressed_id = None;
