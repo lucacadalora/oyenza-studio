@@ -25,9 +25,10 @@ edge, so its pictures keep that gap above the island:
     PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=pill tools/run-selftest-wine.sh target/.../poni.exe out-pill
     python3 tools/site_shots.py out-pill pill
 
-The Diorama theme is Pill's island with a picture as its resting pill, so
-only that pill is cut (DIORAMA_KEEP: at dawn, in the morning, at the golden
-hour and at night). A Diorama run takes those pictures after its scenes, each at a set
+The Diorama theme is Pill's island with a picture as its resting pill, and
+that pill has pictures of its own (DIORAMA_KEEP: at dawn, in the morning, at
+the golden hour, at night, and the glass ball held halfway by hand). A
+Diorama run takes those pictures after its scenes, each at a set
 time of day whenever the run is (diorama-<what>.png, no number), and with
 PONI_SELFTEST_DIORAMA=only it takes them alone, in a few seconds. They go
 into site/assets/shots/diorama/<what>.webp with the gap above them, like
@@ -35,6 +36,18 @@ Pill's:
 
     PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=diorama PONI_SELFTEST_DIORAMA=only tools/run-selftest-wine.sh target/.../poni.exe out-diorama
     python3 tools/site_shots.py out-diorama diorama
+
+The rest of Diorama's island wears the resting pill's frame, cream by day
+and indigo at night, so the states the page shows of it (DIORAMA_PAGES) are
+cut from a whole Diorama run, which holds its scenes at 10:08, or at 21:30
+with PONI_SELFTEST_DIORAMA=night. They go into
+site/assets/shots/diorama/<state>-day.webp and <state>-night.webp, with the
+gap above them:
+
+    PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=diorama tools/run-selftest-wine.sh target/.../poni.exe out-diorama-day
+    PONI_SELFTEST_DPI=192 PONI_SELFTEST_THEME=diorama PONI_SELFTEST_DIORAMA=night tools/run-selftest-wine.sh target/.../poni.exe out-diorama-night
+    python3 tools/site_shots.py out-diorama-day diorama day
+    python3 tools/site_shots.py out-diorama-night diorama night
 
 In the Oyen theme, music notes float up beside Oyen on the beat, and the
 scene's single frame may fall between notes. Record the media pill frame by
@@ -141,8 +154,15 @@ MAC_PILL_STRIP = (840, 216)
 ZOOM_KEEP = {"idle-clock", "media-activity", "media-lyric", "timer-activity", "volume-hud", "bluetooth-hud", "prayer-countdown", "oyenza-money", "game-stats"}
 # Diorama: its resting pill at dawn, by day, at the golden hour and at night, from the pictures a
 # Diorama run takes at set times (diorama-dawn.png is 06:10, diorama-morning.png 10:08,
-# diorama-golden-hour.png 17:40, diorama-night.png 21:30). Everything else it shows is Pill's.
-DIORAMA_KEEP = {"dawn", "morning", "golden-hour", "night"}
+# diorama-golden-hour.png 17:40, diorama-night.png 21:30), and at 10:08 with the glass ball held
+# halfway by hand, at the sunset it passes (diorama-slide.png).
+DIORAMA_KEEP = {"dawn", "morning", "golden-hour", "night", "slide"}
+# The rest of Diorama's island, in the resting pill's frame, by day and at night: open on the
+# Music page, playing music, and a notice; and by day, open on Settings with Diorama picked.
+DIORAMA_PAGES = {
+    "day": {"page-media", "page-settings", "media-activity", "health-notice"},
+    "night": {"page-media", "media-activity", "health-notice"},
+}
 
 
 def cut(shot: Path, alpha: Path, floating: bool = False) -> Image.Image:
@@ -222,12 +242,35 @@ def diorama(src: Path, zoom: bool) -> None:
         print(f"{where}/{name}.webp  {img.width}x{img.height}")
 
 
+def diorama_pages(src: Path, when: str) -> None:
+    dst = ROOT / "site" / "assets" / "shots" / "diorama"
+    dst.mkdir(parents=True, exist_ok=True)
+    if not (src / "diorama-morning.png").exists():
+        sys.exit(f"{src} has no diorama-morning.png: is it a PONI_SELFTEST_THEME=diorama run?")
+    for shot in sorted(src.glob("[0-9][0-9]*-*.png")):
+        name = re.sub(r"^\d+-", "", shot.stem)
+        alpha = shot.with_name(shot.stem + "-alpha.png")
+        if name not in DIORAMA_PAGES[when] or not alpha.exists():
+            continue
+        img = cut(shot, alpha, floating=True)
+        # The frame says which run it is: cream by day, indigo at night.
+        px = np.asarray(img).reshape(-1, 4)
+        light = float(np.median(px[px[:, 3] > 250][:, :3].mean(axis=1)))
+        if (light > 128) != (when == "day"):
+            sys.exit(f"{shot.name} is {'light' if light > 128 else 'dark'} (median {light:.0f} of 255): is {src} a {when} run?")
+        img.save(dst / f"{name}-{when}.webp", lossless=True, method=6)
+        print(f"diorama/{name}-{when}.webp  {img.width}x{img.height}")
+
+
 def main() -> None:
     if len(sys.argv) == 4 and sys.argv[2] == "glass" and sys.argv[3] in ("light", "dark", "flip"):
         glass(Path(sys.argv[1]), sys.argv[3])
         return
     if len(sys.argv) in (3, 4) and sys.argv[2] == "mac":
         mac(Path(sys.argv[1]), sys.argv[3] if len(sys.argv) == 4 else None)
+        return
+    if sys.argv[2:] in (["diorama", "day"], ["diorama", "night"]):
+        diorama_pages(Path(sys.argv[1]), sys.argv[3])
         return
     if sys.argv[2:] in (["diorama"], ["diorama", "zoom"]):
         diorama(Path(sys.argv[1]), len(sys.argv) == 4)
