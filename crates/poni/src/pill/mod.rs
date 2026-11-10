@@ -40,6 +40,7 @@ use crate::state::AppState;
 use crate::ui::Ui;
 use poni_core::geom::Rect;
 use poni_core::settings::Theme;
+use std::sync::atomic::{AtomicU8, Ordering};
 
 /// The island floats this far below the screen's top edge (DIPs).
 pub const TOP_GAP: f32 = 8.0;
@@ -48,6 +49,38 @@ pub const TOP_GAP: f32 = 8.0;
 /// and in Diorama, which is Pill with a picture in its resting capsule.
 pub fn on(theme: Theme) -> bool {
     matches!(theme, Theme::Pill | Theme::Diorama)
+}
+
+/// The look the island paints in this frame: the theme's
+/// (`poni_core::look::of`, or `around_notch` where it wraps a camera notch),
+/// except that Diorama's takes its night when the picture does
+/// ([`diorama::night`]), the whole island with it. Glass picks its own.
+pub fn look(st: &AppState, around_notch: bool) -> &'static poni_core::look::Look {
+    match st.settings.theme {
+        // It floats below a notch too, so it keeps its look there.
+        Theme::Diorama => {
+            let night = match HELD_NIGHT.load(Ordering::Relaxed) {
+                0 => false,
+                1 => true,
+                _ => diorama::night(st),
+            };
+            poni_core::look::diorama(night)
+        }
+        theme if around_notch => poni_core::look::around_notch(theme),
+        theme => poni_core::look::of(theme),
+    }
+}
+
+/// Self-test only: Diorama's look held by day (0) or at night (1), or
+/// following its picture (anything else, as the app always does).
+static HELD_NIGHT: AtomicU8 = AtomicU8::new(u8::MAX);
+
+/// Self-test only: hold Diorama's look at night (`Some(true)`) or by day,
+/// whatever the picture's sun says, or let it follow the picture again with
+/// `None` (as `clock::hold_local` holds the clock). The Mac has no self-test.
+#[cfg_attr(not(windows), allow(dead_code))]
+pub fn hold_night(night: Option<bool>) {
+    HELD_NIGHT.store(night.map_or(u8::MAX, u8::from), Ordering::Relaxed);
 }
 
 /// The island's size for `m` in the Pill theme, or `None` for Classic's.

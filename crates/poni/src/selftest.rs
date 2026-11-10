@@ -35,6 +35,10 @@
 //! once drawn; only the rolling ball does (see `diorama_checks`).
 //! PONI_SELFTEST_DIORAMA=only takes those pictures and skips the scenes: a
 //! few seconds instead of a minute and a half, for looking at the art.
+//! The whole island takes the picture's day or night look, so a Diorama run
+//! holds the scenes' clock at 10:08 of the day it runs (its pictures keep
+//! their own times), whenever CI runs it; PONI_SELFTEST_DIORAMA=night holds
+//! them at 21:30 instead: every scene in the night look.
 //!
 //! PONI_SELFTEST_PRAYER_AT=HH:MM shows the Prayer page at that time of the
 //! day (the other Prayer scenes stay 8 minutes before Ashar).
@@ -2006,6 +2010,17 @@ fn luma(p: [u8; 4]) -> f32 {
     0.114 * p[0] as f32 + 0.587 * p[1] as f32 + 0.299 * p[2] as f32
 }
 
+/// The Diorama frame's colour by day, of a `[b, g, r, a]` pixel: light, no
+/// bluer than red (cream).
+fn cream_frame(p: [u8; 4]) -> bool {
+    luma(p) >= 150.0 && p[2] >= p[0]
+}
+
+/// The Diorama frame's colour at night: dark, bluer than red (indigo).
+fn indigo_frame(p: [u8; 4]) -> bool {
+    luma(p) <= 110.0 && p[0] > p[2]
+}
+
 /// The Diorama theme's own checks for a picture of its resting pill, in the
 /// captured `frame` (`body` and `origin` as for [`picture_match`]; `geom`
 /// is what `pill::diorama` asks the island for).
@@ -2058,8 +2073,7 @@ fn diorama_checks(frame: &Frame, body: Rect, origin: (i32, i32), scale: f32, s: 
     let px = |x: f32, y: f32| frame.at((x * scale).floor() as i32, (y * scale).floor() as i32);
     let (mx, my) = (b.x + b.w / 2.0, b.y + b.h / 2.0);
     let ring = [px(mx, b.y + mid), px(mx, b.bottom() - mid), px(b.x + mid, my), px(b.right() - mid, my)];
-    let cream = |p: [u8; 4]| luma(p) >= 150.0 && p[2] >= p[0];
-    let indigo = |p: [u8; 4]| luma(p) <= 110.0 && p[0] > p[2];
+    let (cream, indigo) = (cream_frame, indigo_frame);
     let said = ring.map(|[b, g, r, _]| format!("rgb({r}, {g}, {b})")).join(", ");
     if m.lens <= 0.0 {
         checks.push(check("diorama-frame", ring.into_iter().all(cream), format!("top, bottom, left, right: {said}; want cream (light, no bluer than red) by day")));
@@ -2697,6 +2711,10 @@ pub struct SelfTest {
     /// PONI_SELFTEST_DIORAMA=only, in the Diorama theme: its own pictures
     /// (`RESTS`) and no scene.
     rests_only: bool,
+    /// The Diorama theme's scenes: the clock they are held at (its
+    /// pictures hold their own), and whether that is night
+    /// (PONI_SELFTEST_DIORAMA=night).
+    diorama_clock: Option<(LocalDateTime, bool)>,
     /// The clock's 12 or 24 hours as the run found them: the Diorama
     /// pictures change the setting and put it back.
     use_24h: bool,
@@ -2761,7 +2779,13 @@ impl SelfTest {
             Ok("diorama") => Theme::Diorama,
             _ => Theme::Classic,
         };
-        let rests_only = theme == Theme::Diorama && std::env::var("PONI_SELFTEST_DIORAMA").is_ok_and(|v| v.trim().eq_ignore_ascii_case("only"));
+        let diorama_run = std::env::var("PONI_SELFTEST_DIORAMA").map(|v| v.trim().to_ascii_lowercase()).unwrap_or_default();
+        let rests_only = theme == Theme::Diorama && diorama_run == "only";
+        // The day the run starts, at a time in the morning (or the night):
+        // the scenes' look never depends on when CI runs them.
+        let night_run = diorama_run == "night";
+        let (hour, minute) = if night_run { (21, 30) } else { (10, 8) };
+        let diorama_clock = (theme == Theme::Diorama).then(|| (LocalDateTime { hour, minute, second: 0, ..clock::local_now() }, night_run));
         Self {
             dir: PathBuf::from(dir),
             t0: Instant::now(),
@@ -2784,6 +2808,7 @@ impl SelfTest {
             dpi_applied: false,
             theme,
             rests_only,
+            diorama_clock,
             use_24h: true,
             glass: None,
             budget_ms: FRAME_BUDGET_MS,
@@ -3315,6 +3340,7 @@ impl SelfTest {
                     } else {
                         // The PC's own clock again, and its 12 or 24 hours.
                         clock::hold_local(None);
+                        crate::pill::hold_night(None);
                         app.st.settings.use_24h = self.use_24h;
                         self.phase = self.after_scenes(clock::mono());
                     }
@@ -3543,13 +3569,25 @@ impl SelfTest {
         };
         if st.settings.theme != self.theme {
             st.settings.theme = self.theme;
-            st.accent = if self.theme == Theme::Oyen { crate::oyen::ORANGE } else { palette::BLUE };
+            st.accent = match self.theme {
+                Theme::Oyen => crate::oyen::ORANGE,
+                // Diorama's own, as the app keeps it (`theme_accent`).
+                Theme::Diorama => poni_core::look::DIORAMA_ACCENT,
+                _ => palette::BLUE,
+            };
         }
         // Diorama's glass ball rests where the time has it in every picture:
         // it would roll in as the theme is picked, and across if the sun
         // set or rose during the run.
         if self.theme == Theme::Diorama {
             crate::pill::diorama::settle();
+        }
+        // Diorama's scenes on the run's held clock, in its day or night look
+        // (held too: with a Prayer times place the sun is that place's, at
+        // its real hour).
+        if let Some((at, night)) = self.diorama_clock {
+            clock::hold_local(Some(at));
+            crate::pill::hold_night(Some(night));
         }
         if let Some(run) = self.glass {
             // What's under the window: drawn again whenever the window grows.
@@ -3813,6 +3851,8 @@ impl SelfTest {
     fn apply_rest(&self, app: &mut App, r: &Rest) {
         self.apply(app, Scene::IdleClock);
         clock::hold_local(Some(r.time()));
+        // The island's look follows the picture's own sun.
+        crate::pill::hold_night(None);
         let st = &mut app.st;
         st.settings.use_24h = !r.h12;
         if r.minimal {
@@ -4038,8 +4078,29 @@ impl SelfTest {
                 // A picture covers the island's ground: opaque is the rule
                 // here, and `diorama_checks` look at what it shows.
                 checks.push(check("diorama-opaque", a >= 254, format!("pixel ({cx}, {top}) = rgba({r}, {g}, {b}, {a}), 3 DIPs inside the picture")));
+            } else if let Some(f) = crate::pill::look(&app.st, false).frame {
+                // Diorama: the body is a frame round a pane. Halfway through
+                // the frame at the top it is the frame's (cream by day,
+                // indigo at night); just past it at the left end, halfway
+                // down (no page draws there, and the frame's shadow on the
+                // pane is along its top), the look's ground.
+                let fw = crate::pill::shape::frame_width(body.w, body.h);
+                let rim = frame.at(cx, ((body.y + fw / 2.0) * scale).floor() as i32);
+                let night = !crate::pill::look(&app.st, false).light;
+                let said = format!("rgb({}, {}, {})", rim[2], rim[1], rim[0]);
+                let ok = if night { indigo_frame(rim) } else { cream_frame(rim) };
+                checks.push(check("diorama-body-frame", ok, format!("{fw:.1} DIP frame, {said} halfway through it at the top; want the frame's {} (face rgb{:?})", if night { "indigo" } else { "cream" }, rgb8(f.face))));
+                let ground = rgb8(crate::pill::look(&app.st, false).ground);
+                let (px, py) = (((body.x + fw + 1.5) * scale).floor() as i32, ((body.y + body.h / 2.0) * scale).floor() as i32);
+                let [b, g, r, a] = frame.at(px, py);
+                let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
+                checks.push(check(
+                    "body-opaque-ground",
+                    a >= 254 && off <= 6,
+                    format!("pixel ({px}, {py}) = rgba({r}, {g}, {b}, {a}), ground rgb{ground:?}, 1.5 DIPs inside the frame at the left end"),
+                ));
             } else {
-                let ground = rgb8(poni_core::look::of(self.theme).ground);
+                let ground = rgb8(crate::pill::look(&app.st, false).ground);
                 let off = [r, g, b].iter().zip(ground).map(|(&p, q)| p.abs_diff(q)).max().unwrap_or(0);
                 let inside = if pill { ", 3 DIPs inside the floating body" } else { "" };
                 checks.push(check(
@@ -4069,7 +4130,7 @@ impl SelfTest {
                 ));
             }
 
-            let look = if self.glass.is_some() { app.selftest_glass_state().2 } else { poni_core::look::of(self.theme) };
+            let look = if self.glass.is_some() { app.selftest_glass_state().2 } else { crate::pill::look(&app.st, false) };
             // Glass: away from the bright rim, which isn't content.
             let area = if self.glass.is_some() { Rect::new(body.x + 10.0, body.y, (body.w - 20.0).max(1.0), (body.h - 10.0).max(1.0)) } else { body };
             let lit = frame.content_pixels(area, scale, rgb8(look.ground));
@@ -4080,7 +4141,9 @@ impl SelfTest {
                 self.glass_checks(app, scene, run, &px, w, h, body, scale, &mut checks);
             }
             if pill {
-                pill_checks(&frame, body, scale, &mut checks);
+                // Diorama's night island casts the window's warm glow.
+                let shadow = look.frame.map_or([0, 0, 0], |f| rgb8(f.shadow));
+                pill_checks(&frame, body, scale, shadow, &mut checks);
             }
             // In the Diorama theme the clock rests as the picture, and so does
             // the status bar's look (the bar itself is the Pill theme's own).
@@ -4663,8 +4726,9 @@ impl Frame<'_> {
         n
     }
 
-    /// What rows `0..rows` hold (see [`GapScan`]).
-    fn gap_scan(&self, rows: i32) -> GapScan {
+    /// What rows `0..rows` hold (see [`GapScan`]), the island's shadow
+    /// being `shadow` (rgb).
+    fn gap_scan(&self, rows: i32, shadow: [u8; 3]) -> GapScan {
         let mut g = GapScan { most: 0, edge: 0, coloured: 0, hit: 0 };
         for y in 0..rows.min(self.h) {
             for x in 0..self.w {
@@ -4673,8 +4737,10 @@ impl Frame<'_> {
                 if y == 0 {
                     g.edge = g.edge.max(a);
                 }
-                // Premultiplied: black at any alpha stays (0, 0, 0); 2 allows rounding.
-                g.coloured += usize::from(r.max(gr).max(b) > 2);
+                // Premultiplied: the shadow's colour at any alpha stays that
+                // colour times the alpha (black: (0, 0, 0)); 2 allows rounding.
+                let want = shadow.map(|c| ((c as u32 * a as u32 + 127) / 255) as u8);
+                g.coloured += usize::from([r, gr, b].iter().zip(want).any(|(&p, q)| p.abs_diff(q) > 2));
                 g.hit += usize::from(a == 1);
             }
         }
@@ -4769,10 +4835,10 @@ const PILL_GAP_EDGE_MAX: u8 = 8;
 /// window keeps beside and below the body: a shadow that reaches the window's
 /// side or bottom edge is cut off there, a hard line on a light wallpaper.
 /// (The top edge is the screen's, and the gap check reads it.)
-fn pill_checks(frame: &Frame, body: Rect, scale: f32, checks: &mut Vec<Check>) {
+fn pill_checks(frame: &Frame, body: Rect, scale: f32, shadow: [u8; 3], checks: &mut Vec<Check>) {
     // Rows wholly above the body.
     let gap = (body.y * scale).floor() as i32;
-    let g = frame.gap_scan(gap);
+    let g = frame.gap_scan(gap, shadow);
     let cx = ((body.x + body.w / 2.0) * scale).floor() as i32;
     let first = (0..frame.h).find(|&y| frame.at(cx, y)[3] >= 128);
     let want = body.y * scale;
@@ -4782,7 +4848,7 @@ fn pill_checks(frame: &Frame, body: Rect, scale: f32, checks: &mut Vec<Check>) {
         gap > 0 && g.most <= PILL_GAP_SHADOW_MAX && g.edge <= PILL_GAP_EDGE_MAX && g.coloured == 0 && starts,
         format!(
             "rows 0-{} above the body: max alpha {} (want <= {PILL_GAP_SHADOW_MAX}), {} on the screen's edge (want <= {PILL_GAP_EDGE_MAX}), \
-             {} coloured pixels (want 0: shadow and hit pixels are black), {} hit pixels at alpha 1; the body starts at row {} (geometry {want:.1})",
+             {} coloured pixels (want 0: hit pixels are black and the shadow rgb{shadow:?}), {} hit pixels at alpha 1; the body starts at row {} (geometry {want:.1})",
             gap - 1,
             g.most,
             g.edge,

@@ -887,6 +887,33 @@ impl<'a> Canvas<'a> {
         CGContext::restore_g_state(self.cg());
     }
 
+    /// Fill a path with a vertical gradient through `stops` (where between
+    /// `y0` and `y1`, 0 to 1, and the colour there); above `y0` and below
+    /// `y1` the end colours carry on, as Direct2D's gradient brush does on
+    /// Windows.
+    pub fn fill_path_stops(&mut self, segs: &[Seg], y0: f32, y1: f32, stops: &[(f32, Color)]) {
+        let n = stops.len().min(8);
+        if n < 2 {
+            return;
+        }
+        let mut comps: [CGFloat; 32] = [0.0; 32];
+        let mut at: [CGFloat; 8] = [0.0; 8];
+        for (k, &(t, c)) in stops.iter().take(n).enumerate() {
+            comps[k * 4..k * 4 + 4].copy_from_slice(&self.components(self.g.look.paint(c)));
+            at[k] = t as CGFloat;
+        }
+        let Some(grad) = (unsafe { CGGradient::with_color_components(Some(&self.g.srgb), comps.as_ptr(), at.as_ptr(), n) }) else { return };
+        CGContext::save_g_state(self.cg());
+        let p = cg_path(segs);
+        CGContext::begin_path(self.cg());
+        CGContext::add_path(self.cg(), Some(&p));
+        CGContext::clip(self.cg());
+        let (from, to) = (CGPoint { x: 0.0, y: y0 as CGFloat }, CGPoint { x: 0.0, y: y1 as CGFloat });
+        let extend = CGGradientDrawingOptions::DrawsBeforeStartLocation | CGGradientDrawingOptions::DrawsAfterEndLocation;
+        CGContext::draw_linear_gradient(self.cg(), Some(&grad), from, to, extend);
+        CGContext::restore_g_state(self.cg());
+    }
+
     /// A soft shadow round the rounded rectangle `r` (corner `radius`): `c`
     /// at the opacity `ramp` gives by distance from the edge (DIPs, negative
     /// inside, in order), from its first stop inside the edge to its last

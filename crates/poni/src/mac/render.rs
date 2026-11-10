@@ -15,7 +15,8 @@
 //! with the camera as it moves, a frame a row (`render_peek`). Diorama is
 //! Pill with a picture in its resting pill: after those, its run draws that
 //! picture through a day (`DIORAMA_SCENES`), floating below the menu bar
-//! around a notch too.
+//! around a notch too, and then the island in its night look
+//! (`DIORAMA_NIGHT_SCENES`): its other pictures are by day (09:41).
 //!
 //! The music scenes use made-up data to test the drawing; the Mac app shows
 //! music once the media slice is built. The System page's scenes show a
@@ -337,6 +338,14 @@ const IELTS_SCENES: [Scene; 1] = [Scene::Ielts];
 const DOWNLOAD_SCENES: [Scene; 3] = [Scene::Downloads, Scene::DownloadActivity, Scene::AddonsDownloader];
 /// Meeting notes and every Pro add-on, after the Downloader.
 const NOTES_SCENES: [Scene; 3] = [Scene::NotesListening, Scene::NotesActivity, Scene::AddonsPro];
+/// The Diorama theme's island at night (21:30), in that theme only, after
+/// its resting pill's pictures: the open card on the Music and Settings
+/// pages, the music pill and a notice, in the night look (every other
+/// picture is by day, in the day look).
+const DIORAMA_NIGHT_SCENES: [Scene; 4] = [Scene::Page(PageKind::Media), Scene::Page(PageKind::Settings), Scene::Media, Scene::FocusNotice];
+/// The night's hour and minute.
+const DIORAMA_NIGHT: (u8, u8) = (21, 30);
+
 /// The Diorama theme's resting pill, in that theme only, after the peek
 /// strip's number (which a run without a notch leaves free), so every other
 /// picture keeps its number.
@@ -448,7 +457,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     let mut gfx = Gfx::new(SCALE);
     for (i, scene) in SCENES.into_iter().chain(SYSTEM_SCENES).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", i + 1, scene.name()));
-        match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+        match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), None, &path) {
             Ok(()) => println!("render: {}", path.display()),
             Err(e) => {
                 eprintln!("render: {}: {e}", path.display());
@@ -473,7 +482,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
                 continue;
             }
             let path = out.join(format!("{:02}-{}{suffix}.png", n + 1 + k, scene.name()));
-            match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+            match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), None, &path) {
                 Ok(()) => println!("render: {}", path.display()),
                 Err(e) => {
                     eprintln!("render: {}: {e}", path.display());
@@ -488,7 +497,7 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
     let later = SETTINGS_SCENES.into_iter().chain(HEADPHONE_SCENES).chain(OYENZA_SCENES).chain(POWER_SCENES).chain(TODAY_SCENES).chain(PRAYER_WORLD_SCENES).chain(STOCKS_SCENES).chain(UPDATE_SCENES).chain(RECORD_SCENES).chain(ai_scenes()).chain(IELTS_SCENES).chain(DOWNLOAD_SCENES).chain(NOTES_SCENES);
     for (k, scene) in JA_SCENES.into_iter().chain(ADDON_SCENES).chain(PRAYER_SCENES).chain(later).enumerate() {
         let path = out.join(format!("{:02}-{}{suffix}.png", first + k, scene.name()));
-        match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+        match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), None, &path) {
             Ok(()) => println!("render: {}", path.display()),
             Err(e) => {
                 eprintln!("render: {}: {e}", path.display());
@@ -523,11 +532,14 @@ pub fn run(dir: &str, args: &[String]) -> i32 {
             }
         }
     }
-    // Diorama's resting pill through a day, after the peek strip's number.
+    // Diorama's resting pill through a day, after the peek strip's number,
+    // then the island at night.
     if theme == Theme::Diorama {
-        for (k, scene) in DIORAMA_SCENES.into_iter().enumerate() {
-            let path = out.join(format!("{:02}-{}{suffix}.png", next + 1 + k, scene.name()));
-            match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), &path) {
+        let night = DIORAMA_NIGHT_SCENES.into_iter().map(|s| (s, Some(DIORAMA_NIGHT)));
+        for (k, (scene, at)) in DIORAMA_SCENES.into_iter().map(|s| (s, None)).chain(night).enumerate() {
+            let when = if at.is_some() { "-night" } else { "" };
+            let path = out.join(format!("{:02}-{}{when}{suffix}.png", next + 1 + k, scene.name()));
+            match render_scene(&mut gfx, scene, theme, notch, ja.as_ref(), at, &path) {
                 Ok(()) => println!("render: {}", path.display()),
                 Err(e) => {
                     eprintln!("render: {}: {e}", path.display());
@@ -609,7 +621,7 @@ fn render_morph(gfx: &mut Gfx, theme: Theme, notch: Option<Notch>, path: &Path) 
     let cell_h = (notch.map_or(0.0, |n| n.h) + crate::pill::TOP_GAP + ends[1].1.h * 1.06 + 28.0).ceil();
     let (w_px, h_px) = ((2.0 * cell_w * STRIP_SCALE).ceil() as usize, (FRAMES.len() as f32 * cell_h * STRIP_SCALE).ceil() as usize);
     let bmp = Bitmap::new(w_px, h_px, STRIP_SCALE).ok_or("no bitmap context")?;
-    let look = if notch.is_some() { poni_core::look::around_notch(theme) } else { poni_core::look::of(theme) };
+    let look = crate::pill::look(&st, notch.is_some());
     for (col, (from, to)) in [(0usize, 1usize), (1, 0)].into_iter().enumerate() {
         let (_, g_from, gap_from) = ends[from];
         let (to_mode, g_to, gap_to) = ends[to];
@@ -909,7 +921,11 @@ fn base_state(theme: Theme) -> AppState {
     st.now = NOW_MONO;
     st.unix = NOW_UNIX;
     st.local = LocalDateTime { year: 2026, month: 10, day: 24, hour: 9, minute: 41, second: 0 };
-    st.accent = if theme == Theme::Oyen { crate::oyen::ORANGE } else { palette::BLUE };
+    st.accent = match theme {
+        Theme::Oyen => crate::oyen::ORANGE,
+        Theme::Diorama => poni_core::look::DIORAMA_ACCENT,
+        _ => palette::BLUE,
+    };
     st.volume = VolumeState { level: 0.64, muted: false, known: true };
     st.power = PowerState { has_battery: true, percent: 76, charging: false, on_ac: false, saver: false };
     st.stats = SysStats { valid: true, cpu: 0.23, mem_used: 9 << 30, mem_total: 16 << 30, disk_free: 212 << 30, disk_total: 476 << 30, uptime_s: 3 * 86_400 + 4 * 3600 };
@@ -1097,11 +1113,16 @@ fn ja_status(st: &mut AppState, status: AddonStatus) -> AddonStatus {
     status
 }
 
-fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>, ja: Option<&[Pronounced; 2]>, path: &Path) -> Result<(), String> {
+/// One picture of `scene`, on the clock's `at` (hour, minute) of its day
+/// instead of 09:41 where given.
+fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>, ja: Option<&[Pronounced; 2]>, at: Option<(u8, u8)>, path: &Path) -> Result<(), String> {
     // Diorama's glass ball rests where this picture's time has it, whatever
     // the picture before it showed.
     crate::pill::diorama::settle();
     let mut st = base_state(theme);
+    if let Some((hour, minute)) = at {
+        set_clock(&mut st, hour, minute);
+    }
     let mut hovering = false;
     let mode = match scene {
         Scene::IdleClock => Mode::Idle,
@@ -1495,8 +1516,8 @@ fn render_scene(gfx: &mut Gfx, scene: Scene, theme: Theme, notch: Option<Notch>,
     }
 
     // The island, drawn by the app's own content code (around a notch in
-    // the look that meets its black).
-    let look = if notch.is_some() { poni_core::look::around_notch(theme) } else { poni_core::look::of(theme) };
+    // the look that meets its black; Diorama's by day or at night).
+    let look = crate::pill::look(&st, notch.is_some());
     gfx.set_look(look);
     {
         let mut c = gfx.canvas(bmp.ctx());
@@ -1543,8 +1564,7 @@ fn warm_up(gfx: &mut Gfx, st: &mut AppState, mode: Mode, notch: Option<Notch>, g
     let h = island.top() + g.h + MARGIN_BOTTOM;
     let bmp = Bitmap::new((w * SCALE).ceil() as usize, (h * SCALE).ceil() as usize, SCALE).ok_or("no bitmap context")?;
     let body = island.body_rect_at(w / 2.0);
-    let theme = st.settings.theme;
-    gfx.set_look(if notch.is_some() { poni_core::look::around_notch(theme) } else { poni_core::look::of(theme) });
+    gfx.set_look(crate::pill::look(st, notch.is_some()));
     let mut c = gfx.canvas(bmp.ctx());
     let mut input = Input::default();
     if hovering {
