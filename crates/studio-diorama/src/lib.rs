@@ -37,7 +37,8 @@ const BALL_GAP: f32 = 1.5;
 /// the place bends round it.
 const BALL_MAG: f32 = 1.42;
 const BALL_RIM: f32 = 1.14;
-/// How much more red bends than blue at the rim (the ball's coloured edge).
+/// How much less red bends than green at the rim, and blue more (the
+/// ball's coloured edge).
 const BALL_FRINGE: f32 = 0.03;
 /// Toward the light: up and to the left.
 const LIGHT: (f32, f32) = (-0.45, -0.893);
@@ -168,17 +169,19 @@ struct Ball {
 }
 
 impl Ball {
-    /// Where the ball shows the picture from at (x, y), for a colour that
-    /// bends `bend` times as much as green. `None` outside the ball.
-    fn through(&self, x: f32, y: f32, bend: f32) -> Option<(f32, f32)> {
+    /// Where the ball shows the picture from at (x, y): the point for
+    /// green, and how much further out red's and nearer blue's are along
+    /// the same line (the rim's coloured edge). `None` outside the ball.
+    fn through(&self, x: f32, y: f32) -> Option<[(f32, f32); 3]> {
         let (dx, dy) = (x - self.cx, y - self.cy);
         let t2 = (dx * dx + dy * dy) / (self.r * self.r);
         if t2 >= 1.0 {
             return None;
         }
         // Magnified evenly over the middle, squeezed toward the rim.
-        let k = (1.0 + (BALL_MAG * BALL_RIM - 1.0) * t2 * t2) / BALL_MAG * (1.0 + (bend - 1.0) * t2);
-        Some((self.cx + dx * k, self.cy + dy * k))
+        let k = (1.0 + (BALL_MAG * BALL_RIM - 1.0) * t2 * t2) / BALL_MAG;
+        let at = |k: f32| (self.cx + dx * k, self.cy + dy * k);
+        Some([at(k * (1.0 - BALL_FRINGE * t2)), at(k), at(k * (1.0 + BALL_FRINGE * t2))])
     }
 }
 
@@ -236,21 +239,25 @@ pub fn render(m: &Moment, v: &View) -> Picture {
                 let bd = (bx * bx + by * by).sqrt();
                 let near_ball = bd < ball.r + 1.0;
                 // What shows here: the place, through the ball where it is.
-                let n = if near_ball || !whole { 3 } else { 1 };
+                // Several samples a pixel where the ball bends the picture
+                // or the scale leaves art pixels on part pixels.
+                let n = match (near_ball || !whole, s >= 2.0) {
+                    (false, _) => 1,
+                    (true, false) => 3,
+                    (true, true) => 2,
+                };
                 let mut sum = [0u32; 3];
                 for j in 0..n {
                     for i in 0..n {
                         let fx = (px as f32 + (i as f32 + 0.5) / n as f32) / s - ox;
                         let fy = (py as f32 + (j as f32 + 0.5) / n as f32) / s - oy;
-                        match ball.through(fx, fy, 1.0) {
-                            Some((gx, gy)) if near_ball => {
-                                let (rx, ry) = ball.through(fx, fy, 1.0 - BALL_FRINGE).unwrap_or((gx, gy));
-                                let (qx, qy) = ball.through(fx, fy, 1.0 + BALL_FRINGE).unwrap_or((gx, gy));
-                                sum[0] += art.get(rx.floor() as i32, ry.floor() as i32)[0] as u32;
-                                sum[1] += art.get(gx.floor() as i32, gy.floor() as i32)[1] as u32;
-                                sum[2] += art.get(qx.floor() as i32, qy.floor() as i32)[2] as u32;
+                        match ball.through(fx, fy).filter(|_| near_ball) {
+                            Some(at) => {
+                                for (ch, (ax, ay)) in at.into_iter().enumerate() {
+                                    sum[ch] += art.get(ax.floor() as i32, ay.floor() as i32)[ch] as u32;
+                                }
                             }
-                            _ => {
+                            None => {
                                 let p = art.get(fx.floor() as i32, fy.floor() as i32);
                                 sum[0] += p[0] as u32;
                                 sum[1] += p[1] as u32;
@@ -270,7 +277,7 @@ pub fn render(m: &Moment, v: &View) -> Picture {
                     let glass = ((ball.r - bd) * s + 0.5).clamp(0.0, 1.0);
                     let t = (bd / ball.r).min(1.0);
                     let facing = if bd > 1e-3 { (bx * LIGHT.0 + by * LIGHT.1) / bd } else { 0.0 };
-                    let bright = 1.0 - 0.55 * dark;
+                    let bright = 1.0 - 0.35 * dark;
                     // Darker toward its rim; a crescent of light along the
                     // rim on the lit side; a soft window of light above
                     // the middle; a little light coming back opposite.

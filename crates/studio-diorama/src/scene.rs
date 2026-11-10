@@ -98,36 +98,36 @@ const NIGHT: usize = 4;
 /// Every material in every key: dawn, day, the golden hour, dusk, night.
 #[rustfmt::skip]
 const PAL: [[u32; 5]; mat::COUNT] = [
-    /* cloud        */ [0xFFF2E8, 0xFFFFFF, 0xFBE9C9, 0x5C5088, 0x23264F],
-    /* cloud shade  */ [0xF1BBAA, 0xDCE6F5, 0xEFA238, 0x9A5A7A, 0x1B1E44],
-    /* hill far     */ [0x8E9CC8, 0x8FA8D0, 0x5E79A8, 0x3A3F78, 0x171A44],
-    /* hill near    */ [0x7A8ABB, 0x7C97C4, 0x516A98, 0x2F3468, 0x13163C],
-    /* grass light  */ [0x86A870, 0x8CA85C, 0x7A8C45, 0x3F5648, 0x232858],
-    /* grass        */ [0x678B5A, 0x6F9048, 0x5C7234, 0x334A40, 0x1B1F4A],
-    /* grass dark   */ [0x4F7049, 0x56763A, 0x435628, 0x283B36, 0x14173C],
-    /* path         */ [0xD6CABE, 0xD6CEBB, 0xCDB78F, 0x6A6680, 0x2C3060],
-    /* path dark    */ [0xBBAEA1, 0xBDB5A1, 0xAB9670, 0x56526C, 0x232756],
-    /* wall         */ [0xFDF1E8, 0xFFFFFF, 0xFBE3A4, 0x7C7CA8, 0x2D3162],
-    /* wall line    */ [0xE8D2C7, 0xE4DED0, 0xE6BF6A, 0x6A6A96, 0x262A58],
-    /* roof         */ [0x3A4072, 0x3B4274, 0x363C6C, 0x23274F, 0x171A40],
-    /* roof light   */ [0x6A73A2, 0x6E78A6, 0x5E6794, 0x3A3F70, 0x262A58],
+    /* cloud        */ [0xFFF2E8, 0xFFFFFF, 0xFBE9C9, 0x5C5088, 0x1F2352],
+    /* cloud shade  */ [0xF1BBAA, 0xDCE6F5, 0xEFA238, 0x9A5A7A, 0x191C48],
+    /* hill far     */ [0x8E9CC8, 0x8FA8D0, 0x5E79A8, 0x3A3F78, 0x1D2152],
+    /* hill near    */ [0x7A8ABB, 0x7C97C4, 0x516A98, 0x2F3468, 0x181B48],
+    /* grass light  */ [0x86A870, 0x8CA85C, 0x7A8C45, 0x3F5648, 0x2A2F66],
+    /* grass        */ [0x678B5A, 0x6F9048, 0x5C7234, 0x334A40, 0x20245A],
+    /* grass dark   */ [0x4F7049, 0x56763A, 0x435628, 0x283B36, 0x191C4C],
+    /* path         */ [0xD6CABE, 0xD6CEBB, 0xCDB78F, 0x6A6680, 0x343A72],
+    /* path dark    */ [0xBBAEA1, 0xBDB5A1, 0xAB9670, 0x56526C, 0x2A2F64],
+    /* wall         */ [0xFDF1E8, 0xFFFFFF, 0xFBE3A4, 0x7C7CA8, 0x3A3F7C],
+    /* wall line    */ [0xE8D2C7, 0xE4DED0, 0xE6BF6A, 0x6A6A96, 0x30356C],
+    /* roof         */ [0x3A4072, 0x3B4274, 0x363C6C, 0x23274F, 0x1A1D46],
+    /* roof light   */ [0x6A73A2, 0x6E78A6, 0x5E6794, 0x3A3F70, 0x2C3166],
     /* roof dark    */ [0x2A305E, 0x2B3160, 0x272C58, 0x1A1D40, 0x101232],
     /* window       */ [0xF8D070, 0x2E376B, 0xDDAA3C, 0xFFD76A, 0xFFD76A],
     /* window glint */ [0xFFF2BF, 0x8E9BD0, 0xF8D680, 0xFFF2B8, 0xFFF2B8],
-    /* shutter      */ [0xCC8430, 0xD88A2A, 0xC97A22, 0x7A5A4A, 0x2A2A52],
+    /* shutter      */ [0xCC8430, 0xD88A2A, 0xC97A22, 0x7A5A4A, 0x30305E],
     /* shutter dark */ [0xA8691F, 0xB56E1C, 0x9E5D16, 0x5E4438, 0x20203F],
-    /* door         */ [0xC0935C, 0xC99B5C, 0xB9853F, 0x6A5648, 0x23264F],
+    /* door         */ [0xC0935C, 0xC99B5C, 0xB9853F, 0x6A5648, 0x2A2E60],
     /* door dark    */ [0x876437, 0x8E6836, 0x7E5A2A, 0x4E3E36, 0x1A1C40],
-    /* leaf light   */ [0x86A870, 0x86A558, 0xCB8C2C, 0x3F5648, 0x1E2250],
-    /* leaf         */ [0x678B58, 0x6B8C46, 0x5E7631, 0x2F4640, 0x151840],
-    /* leaf dark    */ [0x4C6D46, 0x4F6E35, 0x445A27, 0x233635, 0x0E1030],
-    /* trunk        */ [0x9C6030, 0xA8652B, 0x96581F, 0x4E3A34, 0x151840],
+    /* leaf light   */ [0x86A870, 0x86A558, 0xCB8C2C, 0x3F5648, 0x1C2050],
+    /* leaf         */ [0x678B58, 0x6B8C46, 0x5E7631, 0x2F4640, 0x141740],
+    /* leaf dark    */ [0x4C6D46, 0x4F6E35, 0x445A27, 0x233635, 0x0D0F2E],
+    /* trunk        */ [0x9C6030, 0xA8652B, 0x96581F, 0x4E3A34, 0x141740],
     /* trunk dark   */ [0x744722, 0x7E4B20, 0x6C3F18, 0x3A2A2A, 0x0E1030],
-    /* fence        */ [0xCC8430, 0xD88A2A, 0xD88A2A, 0x6E5446, 0x23264F],
-    /* fence dark   */ [0xA0641F, 0xA9681C, 0xA9681C, 0x54403A, 0x1B1E44],
-    /* flower a     */ [0xF2C24F, 0xF2C24F, 0xF2C24F, 0x8A7A5A, 0x3A3F78],
-    /* flower b     */ [0xFFFFFF, 0xFFFFFF, 0xFBE9C9, 0x9A9AB8, 0x5A5F98],
-    /* flower c     */ [0xE7774A, 0xE7774A, 0xE7774A, 0x8A5A52, 0x3A3060],
+    /* fence        */ [0xCC8430, 0xD88A2A, 0xD88A2A, 0x6E5446, 0x2E3268],
+    /* fence dark   */ [0xA0641F, 0xA9681C, 0xA9681C, 0x54403A, 0x22265A],
+    /* flower a     */ [0xF2C24F, 0xF2C24F, 0xF2C24F, 0x8A7A5A, 0x4A4F8A],
+    /* flower b     */ [0xFFFFFF, 0xFFFFFF, 0xFBE9C9, 0x9A9AB8, 0x7A80B8],
+    /* flower c     */ [0xE7774A, 0xE7774A, 0xE7774A, 0x8A5A52, 0x4A3F78],
     /* cat          */ [0xE98B2E, 0xE98B2E, 0xE07E24, 0x6E4A3A, 0x151840],
     /* cat dark     */ [0xB8621C, 0xB8621C, 0xA8561A, 0x4E342C, 0x0E1030],
     /* cat light    */ [0xFFF3DF, 0xFFF3DF, 0xFBE3C0, 0x9A8A8A, 0x23264F],
@@ -155,7 +155,7 @@ const SKY: [[(u8, u32); 6]; 5] = [
     /* day   */ [(0, 0x8FAEE2), (14, 0x8FAEE2), (40, 0xBCD0F0), (58, 0xDCE7F6), (82, 0xF6EFDD), (100, 0xF6EFDD)],
     /* gold  */ [(0, 0x546E9E), (24, 0x6B84B2), (40, 0xEFA238), (62, 0xF7B852), (82, 0x8D96B2), (100, 0x6E86B4)],
     /* dusk  */ [(0, 0x242A60), (28, 0x3A3A78), (54, 0x7A4E7E), (76, 0xD9814C), (100, 0xF0A85A), (100, 0xF0A85A)],
-    /* night */ [(0, 0x0A0B2A), (45, 0x0F1134), (80, 0x15183F), (100, 0x1B1E48), (100, 0x1B1E48), (100, 0x1B1E48)],
+    /* night */ [(0, 0x0A0B2A), (35, 0x0E1033), (70, 0x191C4A), (100, 0x252A60), (100, 0x252A60), (100, 0x252A60)],
 ];
 
 // ---------------------------------------------------------------- dither
@@ -331,11 +331,6 @@ fn glyph(c: u8) -> Option<usize> {
         b'O' => mat::DOOR,
         b'o' => mat::DOOR_DARK,
         b'C' => mat::CHIMNEY,
-        b'F' => mat::LEAF,
-        b'f' => mat::LEAF_LIGHT,
-        b'd' => mat::LEAF_DARK,
-        b'T' => mat::TRUNK,
-        b't' => mat::TRUNK_DARK,
         b'P' => mat::FENCE,
         b'p' => mat::FENCE_DARK,
         b'M' => mat::POST,
@@ -360,51 +355,27 @@ const HOUSE: Sprite = Sprite {
 ..RRRRRRRRrrRRRRR.\
 .RRrrRRRRRRRRRrrRR\
 RRRRRRRrrRRRRRRRRR\
-DRDRDRDRDRDRDRDRDR\
-.DWDWDWDWDWDWDWDD.\
+RRRRRRRRRRRRRRRRRR\
+.RWRWRWRWRWRWRWR..\
 ..LLLLLLLLLLLLLL..\
-..WSGGGGSWWoooWW..\
-..WSGgGGSWWoOoWW..\
-..LSGGgGSLLoOoLL..\
-..WSGGGGSWWoOoWW..\
-..WsssssswWoOkWW..\
-..LLLLLLLLLoOoLL..\
+..SGGGGGSWWoooWW..\
+..SGGgGGSWWoOoWW..\
+..SGgGGGSLLoOoLL..\
+..SGGGGGSWWoODWW..\
+..SGGGGGSWWoOoWW..\
+..sssssssLLoOoLL..\
 ..WWWWWWWWWoOoWW..\
 ..WWWWWWWWWoOoWW..",
 };
 /// Where things are in the house, from its top-left pixel.
-const WINDOW_AT: (i32, i32) = (4, 10);
+const WINDOW_AT: (i32, i32) = (3, 10);
 const CHIMNEY_AT: (i32, i32) = (12, 0);
 const DOOR_AT: i32 = 12;
 
-/// The tree: a round crown in three greens over a short trunk.
-const TREE: Sprite = Sprite {
-    w: 19,
-    rows: "\
-......FFFFFF.......\
-....FFfffFFFFFF....\
-..FFFffffFFFFFFFF..\
-.FFFfffFFFFFfFFFFF.\
-.FFffFFFFFFfffFFFF.\
-FFFfFFFFdFFFffFFFFF\
-FFFFFFFdddFFFFFFdFF\
-FFfFFFFFdFFFFFFdddF\
-FFffFFFFFFFFFFFFdFF\
-.FFFFdFFFFFFFdFFFF.\
-.FFFdddFFFFFdddFFF.\
-..FFFdFFFdFFFdFFF..\
-...dFFFFdddFFFFd...\
-....ddFFFdFFFdd....\
-......dddTtddd.....\
-........TTt........\
-........TTt........\
-........TTt........\
-........TTt........\
-........TTt........\
-.......TTTtt.......\
-......TTTTttt......",
-};
-const TREE_X: i32 = 2;
+/// The tree's trunk stands this far in from the right end's zone, and its
+/// crown is this wide on each side of it.
+const TREE_X: i32 = 12;
+const CROWN: i32 = 10;
 
 /// Seven pickets on two rails.
 const FENCE: Sprite = Sprite {
@@ -504,6 +475,7 @@ fn height(s: &Sprite) -> i32 {
 struct Layout {
     w: i32,
     house_x: i32,
+    /// The tree's trunk.
     tree_x: i32,
     /// The middle: from this column up to (not including) `mid1`.
     mid0: i32,
@@ -521,7 +493,7 @@ impl Layout {
     }
 
     fn tree_spot(&self) -> i32 {
-        self.tree_x - 2
+        self.tree_x - 3
     }
 }
 
@@ -537,11 +509,13 @@ fn paint_side(m: &Moment, lay: &Layout, h: i32, night: bool) -> Art {
     }
     if night {
         stars(&mut art, &side, m, lay);
+    }
+    clouds(&mut art, &side, m, lay);
+    if night {
         moon(&mut art, &side, m, lay);
     } else {
         sun(&mut art, &side, m, lay);
     }
-    clouds(&mut art, &side, m, lay);
     hills(&mut art, &side, lay);
     ground(&mut art, &side, lay, h);
     bush(&mut art, &side, 4, HORIZON + 1, 4);
@@ -556,7 +530,7 @@ fn paint_side(m: &Moment, lay: &Layout, h: i32, night: bool) -> Art {
         blit(&mut art, &side, &POSTBOX, lay.mid0 + 1, HORIZON - 4, false);
         blit(&mut art, &side, &FENCE, lay.mid0 + 5, HORIZON - 4, false);
     }
-    blit(&mut art, &side, &TREE, lay.tree_x, HORIZON + 1 - height(&TREE) + 1, false);
+    tree(&mut art, &side, lay.tree_x, HORIZON + 1);
     cat(&mut art, &side, m, lay, night, (hx + WINDOW_AT.0, hy + WINDOW_AT.1));
     if night && side.lit {
         window_light(&mut art, &side, hx + WINDOW_AT.0 + 2, hy + WINDOW_AT.1 + 2, lay);
@@ -575,14 +549,23 @@ fn sun(art: &mut Art, side: &Side, m: &Moment, lay: &Layout) {
 /// The moon on the same arc through the night, in tonight's phase.
 fn moon(art: &mut Art, side: &Side, m: &Moment, lay: &Layout) {
     let (cx, cy) = orbit(night_part(m), lay.w);
-    orb(art, side, cx, cy, 2.9, 5.0, Some(moon_phase(m.day)));
+    orb(art, side, cx, cy, 3.4, 6.0, Some(moon_phase(m.day)));
 }
+
+/// The row the sun and the moon cross the sky on: above the clock.
+const ORBIT_TOP: f32 = 6.0;
 
 /// Where the sun or the moon is, `u` of the way across the sky.
 fn orbit(u: f32, w: i32) -> (f32, f32) {
+    // Up over the first sixth of the way, along the top above the clock,
+    // down over the last sixth.
     let low = (HORIZON - 4) as f32;
+    let ramp = |v: f32| {
+        let t = (v / 0.17).clamp(0.0, 1.0);
+        t * t * (3.0 - 2.0 * t)
+    };
     let x = 6.0 + u * (w as f32 - 12.0);
-    let y = low - (std::f32::consts::PI * u).sin() * (low - 6.0);
+    let y = low - ramp(u) * ramp(1.0 - u) * (low - ORBIT_TOP);
     (x.round(), y.round())
 }
 
@@ -593,9 +576,11 @@ fn moon_phase(day: i32) -> f32 {
 }
 
 /// A disc of radius `r` at (cx, cy) with a halo out to `halo`, sparser the
-/// further out. `phase` cuts the moon's dark part away.
+/// further out. `phase` is the moon's: its dark part shows faintly, and the
+/// halo is as strong as the part that is lit.
 fn orb(art: &mut Art, side: &Side, cx: f32, cy: f32, r: f32, halo: f32, phase: Option<f32>) {
     let reach = halo.ceil() as i32 + 1;
+    let glow = phase.map_or(1.0, |p| (1.0 - (2.0 * std::f32::consts::PI * p).cos()) / 2.0);
     for dy in -reach..=reach {
         for dx in -reach..=reach {
             let (x, y) = (cx as i32 + dx, cy as i32 + dy);
@@ -611,12 +596,13 @@ fn orb(art: &mut Art, side: &Side, cx: f32, cy: f32, r: f32, halo: f32, phase: O
                     let edge = k * (r * r - (dy * dy) as f32).max(0.0).sqrt();
                     let lit = if p < 0.5 { dx as f32 >= edge } else { (dx as f32) <= -edge };
                     if !lit {
+                        art.set(x, y, side.color(mat::HALO, x, y));
                         continue;
                     }
                 }
                 let shade = phase.is_some() && rnd(dx, dy, 7) < 0.22 && d > 0.5;
                 art.set(x, y, side.color(if shade { mat::ORB_SHADE } else { mat::ORB }, x, y));
-            } else if d <= halo && bayer4(x, y) < 0.62 * (1.0 - (d - r) / (halo - r)) {
+            } else if d <= halo && 0.6 * bayer4(x, y) + 0.4 * rnd(x, y, 8) < 0.62 * glow * (1.0 - (d - r) / (halo - r)) {
                 art.set(x, y, side.color(mat::HALO, x, y));
             }
         }
@@ -628,13 +614,16 @@ fn orb(art: &mut Art, side: &Side, cx: f32, cy: f32, r: f32, halo: f32, phase: O
 fn stars(art: &mut Art, side: &Side, m: &Moment, lay: &Layout) {
     let depth = night_depth(m);
     let minute = m.minute as i32;
-    let n = lay.w / 5;
+    let n = lay.w / 4;
     for i in 0..n {
         if rnd(i, 1, 11) * 0.8 + 0.1 > depth {
             continue;
         }
         let x = 2 + (rnd(i, 2, 11) * (lay.w - 4) as f32) as i32;
         let y = 3 + (rnd(i, 3, 11) * (HORIZON - 10) as f32) as i32;
+        if m.clock.is_some() && x >= lay.mid0 + 2 && x < lay.mid1 - 2 && (CLOCK_Y - 3..CLOCK_Y + DIGIT_H + 3).contains(&y) {
+            continue;
+        }
         let dim = rnd(i, 4, 11) < 0.4 || hash(i, minute, 5) % 5 == 0;
         let c = side.color(if dim { mat::STAR_DIM } else { mat::STAR }, x, y);
         art.set(x, y, c);
@@ -680,12 +669,11 @@ fn ground(art: &mut Art, side: &Side, lay: &Layout, h: i32) {
     for y in HORIZON..h {
         let row = y - HORIZON;
         for x in 0..lay.w {
-            let n = rnd(x / 2, y, 21);
-            let mut m = if row == 0 && rnd(x, 0, 22) < 0.7 {
+            // Lighter along its top and in tufts, darker toward the front.
+            let n = rnd(x.div_euclid(2), y, 21) + 0.035 * row as f32;
+            let mut m = if (row == 0 && rnd(x, 0, 22) < 0.75) || n < 0.2 {
                 mat::GRASS_LIGHT
-            } else if n < 0.16 {
-                mat::GRASS_LIGHT
-            } else if n > 0.80 {
+            } else if n > 0.86 {
                 mat::GRASS_DARK
             } else {
                 mat::GRASS
@@ -698,6 +686,53 @@ fn ground(art: &mut Art, side: &Side, lay: &Layout, h: i32) {
                 m = [mat::FLOWER_A, mat::FLOWER_B, mat::FLOWER_C][(hash(x, y, 25) % 3) as usize];
             }
             art.set(x, y, side.color(m, x, y));
+        }
+    }
+}
+
+/// The tree, its trunk on column `cx` and its roots on row `base`: a crown
+/// of overlapping rounds, lit from the upper left in patches, over a short
+/// trunk that forks into it.
+fn tree(art: &mut Art, side: &Side, cx: i32, base: i32) {
+    for y in base - 10..=base {
+        let foot = (y - (base - 2)).max(0);
+        for dx in -1 - foot..=1 + foot {
+            let m = if dx > 0 || (foot > 0 && dx == -1 - foot) { mat::TRUNK_DARK } else { mat::TRUNK };
+            art.set(cx + dx, y, side.color(m, cx + dx, y));
+        }
+    }
+    // The crown's clumps, back to front: (across, down, radius) from its
+    // middle. Each is lit on its own upper left and dark on its lower
+    // right, so the crown reads as heaped leaves, not one ball.
+    #[rustfmt::skip]
+    const CLUMPS: [(f32, f32, f32); 8] = [
+        (0.0, -5.2, 4.2), (-4.6, -2.2, 4.3), (4.6, -2.6, 4.5), (-7.2, 1.8, 3.3),
+        (7.3, 1.6, 3.5), (0.0, 0.5, 4.6), (-3.4, 3.6, 3.7), (3.4, 3.9, 3.8),
+    ];
+    let cy = base - 15;
+    for dy in -CROWN..=CROWN {
+        for dx in -CROWN - 1..=CROWN + 1 {
+            let (x, y) = (cx + dx, cy + dy);
+            let mut leaf = None;
+            for &(ox, oy, r) in &CLUMPS {
+                let (ux, uy) = ((dx as f32 - ox) / r, (dy as f32 - oy) / r);
+                let d = (ux * ux + uy * uy).sqrt();
+                // A ragged edge: a clump ends a little sooner here and there.
+                if d > 1.0 - 0.16 * rnd(x, y, 43) {
+                    continue;
+                }
+                let light = -0.5 * ux - 0.8 * uy + 0.3 * (rnd(x, y, 42) - 0.5);
+                leaf = Some(if light > 0.38 {
+                    mat::LEAF_LIGHT
+                } else if light < -0.42 {
+                    mat::LEAF_DARK
+                } else {
+                    mat::LEAF
+                });
+            }
+            if let Some(m) = leaf {
+                art.set(x, y, side.color(m, x, y));
+            }
         }
     }
 }
@@ -745,7 +780,7 @@ fn cat(art: &mut Art, side: &Side, m: &Moment, lay: &Layout, night: bool, window
         if side.lit {
             // Two ears and a back against the light.
             let ink = rgb(0x2A1D3A);
-            for (dx, dy) in [(1, 1), (3, 1), (1, 2), (2, 2), (3, 2), (1, 3), (2, 3), (3, 3)] {
+            for (dx, dy) in [(1, 2), (3, 2), (1, 3), (2, 3), (3, 3), (1, 4), (2, 4), (3, 4)] {
                 art.set(window.0 + dx, window.1 + dy, ink);
             }
         }
@@ -773,31 +808,37 @@ fn cat(art: &mut Art, side: &Side, m: &Moment, lay: &Layout, night: bool, window
     }
 }
 
-/// The lit window's light on what is around it: dithered amber on the wall
-/// beside it, and a pool on the grass in front of the house.
+/// The lit window's light on what is around it: amber on the wall beside
+/// it, a lamp by the door, and a pool on the grass in front of the house,
+/// each thinning out in a dither that is part pattern, part chance.
 fn window_light(art: &mut Art, side: &Side, cx: i32, cy: i32, lay: &Layout) {
-    let strength = 0.55 + 0.45 * side.f;
+    let strength = 0.6 + 0.4 * side.f;
+    let grain = |x: i32, y: i32| 0.55 * bayer4(x, y) + 0.45 * rnd(x, y, 51);
     for dy in -4..=5 {
-        for dx in -5..=6 {
+        for dx in -5..=7 {
             let (x, y) = (cx + dx, cy + dy);
             // The glass itself is already lit.
-            if (-2..2).contains(&dx) && (-2..2).contains(&dy) {
+            if (-2..=2).contains(&dx) && (-2..=2).contains(&dy) {
                 continue;
             }
-            let d = ((dx * dx + dy * dy) as f32).sqrt();
+            let d = ((dx * dx) as f32 + (dy * dy) as f32 * 1.4).sqrt();
             let on_wall = x >= lay.house_x + 2 && x < lay.house_x + 16 && y < HORIZON;
-            if on_wall && bayer4(x, y) < strength * (1.0 - d / 5.5) {
-                art.set(x, y, side.color(mat::GLOW, x, y));
+            if on_wall && grain(x, y) < strength * (1.0 - d / 5.0) {
+                art.set(x, y, side.color(if d < 3.2 { mat::GLOW } else { mat::GLOW_DEEP }, x, y));
             }
         }
     }
-    let (px, py) = (cx as f32 + 1.0, (HORIZON + 4) as f32);
+    // The lamp beside the door.
+    let (lx, ly) = (lay.house_x + 15, cy - 1);
+    art.set(lx, ly, side.color(mat::ORB, lx, ly));
+    art.set(lx, ly + 1, side.color(mat::GLOW, lx, ly + 1));
+    let (px, py) = (cx as f32 + 5.0, (HORIZON + 3) as f32);
     for y in HORIZON + 1..art.h {
-        for x in cx - 10..cx + 12 {
-            let (ex, ey) = ((x as f32 - px) / 9.0, (y as f32 - py) / 3.6);
+        for x in cx - 9..cx + 22 {
+            let (ex, ey) = ((x as f32 - px) / 13.0, (y as f32 - py) / 3.6);
             let d = (ex * ex + ey * ey).sqrt();
-            if bayer4(x, y) < strength * (1.0 - d) {
-                art.set(x, y, side.color(if d < 0.45 { mat::GLOW } else { mat::GLOW_DEEP }, x, y));
+            if grain(x, y) < 0.8 * strength * (1.0 - d) {
+                art.set(x, y, side.color(if d < 0.35 && rnd(x, y, 52) < 0.5 { mat::GLOW } else { mat::GLOW_DEEP }, x, y));
             }
         }
     }
@@ -805,6 +846,8 @@ fn window_light(art: &mut Art, side: &Side, cx: i32, cy: i32, lay: &Layout) {
 
 // -------------------------------------------------------------- the clock
 
+/// The row the clock's digits start on.
+const CLOCK_Y: i32 = 11;
 /// A digit's width; all are [`DIGIT_H`] tall.
 pub(crate) const DIGIT_W: i32 = 5;
 pub(crate) const DIGIT_H: i32 = 8;
@@ -849,10 +892,8 @@ impl Ink {
     /// Onto the picture, each cell with a one-pixel edge of `edge` around it.
     fn stamp(&self, art: &mut Art, edge: Rgb) {
         for &(x, y, _) in &self.cells {
-            for dy in -1..=1 {
-                for dx in -1..=1 {
-                    art.set(x + dx, y + dy, edge);
-                }
+            for (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)] {
+                art.set(x + dx, y + dy, edge);
             }
         }
         for &(x, y, c) in &self.cells {
@@ -862,6 +903,7 @@ impl Ink {
 }
 
 const CLOCK_INK: Rgb = rgb(0xFFF8E8);
+const CLOCK_SLATE: Rgb = rgb(0x2B3160);
 const BOLT_INK: Rgb = rgb(0x5FD068);
 const LOW_INK: Rgb = rgb(0xFF6A5E);
 
@@ -888,7 +930,7 @@ fn write_clock(art: &mut Art, lay: &Layout, c: &Clock, badge: Option<Badge>, dar
     let (hour, pm) = hour_shown(c);
     let w = written_w(c, badge);
     let mut x = (lay.mid0 + lay.mid1 - w) / 2;
-    let y = 10;
+    let y = CLOCK_Y;
     let mut ink = Ink { cells: Vec::new() };
     let digit = |ink: &mut Ink, x: &mut i32, d: u8| {
         ink.bits(&DIGITS[(d % 10) as usize], DIGIT_W, *x, y, CLOCK_INK);
@@ -920,9 +962,18 @@ fn write_clock(art: &mut Art, lay: &Layout, c: &Clock, badge: Option<Badge>, dar
         }
         None => {}
     }
-    // The edge: the roof's slate by day, the night's own dark after it.
-    let edge = if dark > 0.5 { rgb(0x0A0B2A) } else { rgb(0x2B3160) };
-    ink.stamp(art, edge);
+    // By day the roof's slate with a cream edge, which only shows where the
+    // sky is dark or golden; at night cream on the dark.
+    if dark > 0.5 {
+        ink.stamp(art, rgb(0x0A0B2A));
+    } else {
+        for cell in &mut ink.cells {
+            if cell.2 == CLOCK_INK {
+                cell.2 = CLOCK_SLATE;
+            }
+        }
+        ink.stamp(art, CLOCK_INK);
+    }
 }
 
 // ------------------------------------------------------------------ paint
@@ -982,12 +1033,11 @@ mod tests {
 
     #[test]
     fn sprites_are_whole_rows_of_known_letters() {
-        for s in [&HOUSE, &TREE, &FENCE, &POSTBOX, &CLOUD_BIG, &CLOUD_SMALL, &CAT_SITS, &CAT_NAPS, &CAT_WALKS[0], &CAT_WALKS[1]] {
+        for s in [&HOUSE, &FENCE, &POSTBOX, &CLOUD_BIG, &CLOUD_SMALL, &CAT_SITS, &CAT_NAPS, &CAT_WALKS[0], &CAT_WALKS[1]] {
             assert_eq!(s.rows.len() as i32 % s.w, 0, "{} wide", s.w);
             assert!(s.rows.bytes().all(|c| c == b'.' || glyph(c).is_some()));
         }
         assert_eq!(height(&HOUSE), 18);
-        assert_eq!(height(&TREE), 22);
     }
 
     #[test]
