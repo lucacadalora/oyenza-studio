@@ -3,15 +3,15 @@
 <rect width="820" height="730" rx="16" fill="#FFF1DE"/>
 <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Helvetica, Arial, sans-serif">
 <path d="M100.5,68.0L100.5,448.0" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M73.0,634.5L753.6,634.5" stroke="#EAD7BC" stroke-width="1"/>
+<path d="M73.0,634.5L792.0,634.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,584.5L792.0,584.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M101.0,75.0H212.4A4.0,4.0 0 0 1 216.4,79.0V89.0A4.0,4.0 0 0 1 212.4,93.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,75.0H219.5A4.0,4.0 0 0 1 223.5,79.0V89.0A4.0,4.0 0 0 1 219.5,93.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,107.0H135.9A4.0,4.0 0 0 1 139.9,111.0V121.0A4.0,4.0 0 0 1 135.9,125.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,139.0H142.0A4.0,4.0 0 0 1 146.0,143.0V153.0A4.0,4.0 0 0 1 142.0,157.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,171.0H125.8A4.0,4.0 0 0 1 129.8,175.0V185.0A4.0,4.0 0 0 1 125.8,189.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,203.0H263.3A4.0,4.0 0 0 1 267.3,207.0V217.0A4.0,4.0 0 0 1 263.3,221.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,203.0H264.9A4.0,4.0 0 0 1 268.9,207.0V217.0A4.0,4.0 0 0 1 264.9,221.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,235.0H220.0A4.0,4.0 0 0 1 224.0,239.0V249.0A4.0,4.0 0 0 1 220.0,253.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,267.0H152.3A4.0,4.0 0 0 1 156.3,271.0V281.0A4.0,4.0 0 0 1 152.3,285.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,299.0H189.3A4.0,4.0 0 0 1 193.3,303.0V313.0A4.0,4.0 0 0 1 189.3,317.0H101.0Z" fill="#D9661C"/>
@@ -19,28 +19,29 @@
 <path d="M101.0,363.0H198.1A4.0,4.0 0 0 1 202.1,367.0V377.0A4.0,4.0 0 0 1 198.1,381.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,395.0H131.4A4.0,4.0 0 0 1 135.4,399.0V409.0A4.0,4.0 0 0 1 131.4,413.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,427.0H737.4A4.0,4.0 0 0 1 741.4,431.0V441.0A4.0,4.0 0 0 1 737.4,445.0H101.0Z" fill="#D9661C"/>
-<path d="M80.6,684.0V680.5A4.0,4.0 0 0 1 84.6,676.5H99.3A4.0,4.0 0 0 1 103.3,680.5V684.0Z" fill="#D9661C"/>
-<path d="M118.4,684.0V649.6A4.0,4.0 0 0 1 122.4,645.6H137.1A4.0,4.0 0 0 1 141.1,649.6V684.0Z" fill="#D9661C"/>
-<path d="M156.3,684.0V607.3A4.0,4.0 0 0 1 160.3,603.3H175.0A4.0,4.0 0 0 1 179.0,607.3V684.0Z" fill="#D9661C"/>
-<path d="M194.1,684.0V604.5A4.0,4.0 0 0 1 198.1,600.5H212.8A4.0,4.0 0 0 1 216.8,604.5V684.0Z" fill="#D9661C"/>
-<path d="M231.9,684.0V612.9A4.0,4.0 0 0 1 235.9,608.9H250.6A4.0,4.0 0 0 1 254.6,612.9V684.0Z" fill="#D9661C"/>
-<path d="M269.8,684.0V583.0A4.0,4.0 0 0 1 273.8,579.0H288.5A4.0,4.0 0 0 1 292.5,583.0V684.0Z" fill="#D9661C"/>
-<path d="M307.6,684.0V630.1A4.0,4.0 0 0 1 311.6,626.1H326.3A4.0,4.0 0 0 1 330.3,630.1V684.0Z" fill="#D9661C"/>
-<path d="M345.5,684.0V655.5A4.0,4.0 0 0 1 349.5,651.5H364.2A4.0,4.0 0 0 1 368.2,655.5V684.0Z" fill="#D9661C"/>
-<path d="M383.3,684.0V639.0A4.0,4.0 0 0 1 387.3,635.0H402.0A4.0,4.0 0 0 1 406.0,639.0V684.0Z" fill="#D9661C"/>
-<path d="M421.1,684.0V607.6A4.0,4.0 0 0 1 425.1,603.6H439.9A4.0,4.0 0 0 1 443.9,607.6V684.0Z" fill="#D9661C"/>
-<path d="M459.0,684.0V649.5A4.0,4.0 0 0 1 463.0,645.5H477.7A4.0,4.0 0 0 1 481.7,649.5V684.0Z" fill="#D9661C"/>
-<path d="M496.8,684.0V679.0A4.0,4.0 0 0 1 500.8,675.0H515.5A4.0,4.0 0 0 1 519.5,679.0V684.0Z" fill="#D9661C"/>
-<path d="M534.7,684.0V638.4A4.0,4.0 0 0 1 538.7,634.4H553.4A4.0,4.0 0 0 1 557.4,638.4V684.0Z" fill="#D9661C"/>
-<path d="M572.5,684.0V666.6A4.0,4.0 0 0 1 576.5,662.6H591.2A4.0,4.0 0 0 1 595.2,666.6V684.0Z" fill="#D9661C"/>
-<path d="M610.4,684.0V678.8A4.0,4.0 0 0 1 614.4,674.8H629.1A4.0,4.0 0 0 1 633.1,678.8V684.0Z" fill="#D9661C"/>
-<path d="M648.2,684.0V681.7A4.0,4.0 0 0 1 652.2,677.7H666.9A4.0,4.0 0 0 1 670.9,681.7V684.0Z" fill="#D9661C"/>
-<path d="M686.0,684.0V678.5A4.0,4.0 0 0 1 690.0,674.5H704.7A4.0,4.0 0 0 1 708.7,678.5V684.0Z" fill="#D9661C"/>
-<path d="M723.9,684.0V580.2A4.0,4.0 0 0 1 727.9,576.2H742.6A4.0,4.0 0 0 1 746.6,580.2V684.0Z" fill="#D9661C"/>
-<path d="M761.7,684.0V647.2A4.0,4.0 0 0 1 765.7,643.2H780.4A4.0,4.0 0 0 1 784.4,647.2V684.0Z" fill="#D9661C"/>
+<path d="M80.2,684.0V680.5A4.0,4.0 0 0 1 84.2,676.5H97.8A4.0,4.0 0 0 1 101.8,680.5V684.0Z" fill="#D9661C"/>
+<path d="M116.1,684.0V649.6A4.0,4.0 0 0 1 120.1,645.6H133.7A4.0,4.0 0 0 1 137.7,649.6V684.0Z" fill="#D9661C"/>
+<path d="M152.1,684.0V607.3A4.0,4.0 0 0 1 156.1,603.3H169.7A4.0,4.0 0 0 1 173.7,607.3V684.0Z" fill="#D9661C"/>
+<path d="M188.0,684.0V604.5A4.0,4.0 0 0 1 192.0,600.5H205.6A4.0,4.0 0 0 1 209.6,604.5V684.0Z" fill="#D9661C"/>
+<path d="M224.0,684.0V612.9A4.0,4.0 0 0 1 228.0,608.9H241.6A4.0,4.0 0 0 1 245.6,612.9V684.0Z" fill="#D9661C"/>
+<path d="M259.9,684.0V583.0A4.0,4.0 0 0 1 263.9,579.0H277.5A4.0,4.0 0 0 1 281.5,583.0V684.0Z" fill="#D9661C"/>
+<path d="M295.9,684.0V630.1A4.0,4.0 0 0 1 299.9,626.1H313.5A4.0,4.0 0 0 1 317.5,630.1V684.0Z" fill="#D9661C"/>
+<path d="M331.8,684.0V655.5A4.0,4.0 0 0 1 335.8,651.5H349.4A4.0,4.0 0 0 1 353.4,655.5V684.0Z" fill="#D9661C"/>
+<path d="M367.8,684.0V639.0A4.0,4.0 0 0 1 371.8,635.0H385.4A4.0,4.0 0 0 1 389.4,639.0V684.0Z" fill="#D9661C"/>
+<path d="M403.7,684.0V607.6A4.0,4.0 0 0 1 407.7,603.6H421.3A4.0,4.0 0 0 1 425.3,607.6V684.0Z" fill="#D9661C"/>
+<path d="M439.7,684.0V649.5A4.0,4.0 0 0 1 443.7,645.5H457.3A4.0,4.0 0 0 1 461.3,649.5V684.0Z" fill="#D9661C"/>
+<path d="M475.6,684.0V679.0A4.0,4.0 0 0 1 479.6,675.0H493.2A4.0,4.0 0 0 1 497.2,679.0V684.0Z" fill="#D9661C"/>
+<path d="M511.6,684.0V638.4A4.0,4.0 0 0 1 515.6,634.4H529.2A4.0,4.0 0 0 1 533.2,638.4V684.0Z" fill="#D9661C"/>
+<path d="M547.5,684.0V666.6A4.0,4.0 0 0 1 551.5,662.6H565.1A4.0,4.0 0 0 1 569.1,666.6V684.0Z" fill="#D9661C"/>
+<path d="M583.5,684.0V678.8A4.0,4.0 0 0 1 587.5,674.8H601.1A4.0,4.0 0 0 1 605.1,678.8V684.0Z" fill="#D9661C"/>
+<path d="M619.4,684.0V681.7A4.0,4.0 0 0 1 623.4,677.7H637.0A4.0,4.0 0 0 1 641.0,681.7V684.0Z" fill="#D9661C"/>
+<path d="M655.4,684.0V678.5A4.0,4.0 0 0 1 659.4,674.5H673.0A4.0,4.0 0 0 1 677.0,678.5V684.0Z" fill="#D9661C"/>
+<path d="M691.3,684.0V580.2A4.0,4.0 0 0 1 695.3,576.2H708.9A4.0,4.0 0 0 1 712.9,580.2V684.0Z" fill="#D9661C"/>
+<path d="M727.3,684.0V647.2A4.0,4.0 0 0 1 731.3,643.2H744.9A4.0,4.0 0 0 1 748.9,647.2V684.0Z" fill="#D9661C"/>
+<path d="M763.2,684.0V682.9A4.0,4.0 0 0 1 767.2,678.9H780.8A4.0,4.0 0 0 1 784.8,682.9V684.0Z" fill="#D9661C"/>
 <text x="28.0" y="44.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per release</text>
 <text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.30</text>
-<text x="224.4" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">1,381</text>
+<text x="231.5" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">1,465</text>
 <text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.29</text>
 <text x="147.9" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">465</text>
 <text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.28</text>
@@ -48,7 +49,7 @@
 <text x="91.0" y="184.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.27</text>
 <text x="137.8" y="184.5" font-size="14" fill="#2B1B10" font-weight="600">344</text>
 <text x="91.0" y="216.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.26</text>
-<text x="275.3" y="216.5" font-size="14" fill="#2B1B10" font-weight="600">1,990</text>
+<text x="276.9" y="216.5" font-size="14" fill="#2B1B10" font-weight="600">2,008</text>
 <text x="91.0" y="248.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.25</text>
 <text x="232.0" y="248.5" font-size="14" fill="#2B1B10" font-weight="600">1,471</text>
 <text x="91.0" y="280.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.24</text>
@@ -64,14 +65,14 @@
 <text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">42 older</text>
 <text x="749.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">7,661</text>
 <text x="28.0" y="496.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per day</text>
-<text x="773.1" y="636.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">815</text>
-<text x="735.2" y="569.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">2,155</text>
+<text x="774.0" y="671.9" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">102</text>
+<text x="702.1" y="569.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">2,155</text>
 <text x="63.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
 <text x="63.0" y="638.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,000</text>
 <text x="63.0" y="588.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">2,000</text>
 <text x="63.0" y="538.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">3,000</text>
-<text x="773.1" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">11 Nov</text>
-<text x="508.2" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">4 Nov</text>
-<text x="243.3" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">28 Oct</text>
+<text x="774.0" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">12 Nov</text>
+<text x="522.4" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">5 Nov</text>
+<text x="270.7" y="704.0" font-size="12" fill="#7A6450" text-anchor="middle">29 Oct</text>
 </g>
 </svg>
