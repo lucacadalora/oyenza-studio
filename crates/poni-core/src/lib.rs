@@ -1,4 +1,4 @@
-//! Platform-independent models and logic for Poni.
+﻿//! Platform-independent models and logic for Poni.
 //!
 //! Everything here is pure Rust with no OS calls so it can be unit-tested on
 //! any machine. The Windows crate (`poni`) owns all I/O and rendering and
@@ -53,6 +53,7 @@ pub mod todo;
 pub mod ttml;
 pub mod update;
 pub mod urlenc;
+pub mod yandex;
 pub mod ytdlp;
 pub mod ytdlp_info;
 pub mod ytdlp_partial;

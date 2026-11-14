@@ -53,6 +53,11 @@ pub fn apple_music_web_token_path() -> PathBuf {
     cache_dir().join("apple-music-web.json")
 }
 
+/// The user's Yandex Music OAuth token, sealed the same way as Apple's.
+pub fn yandex_token_path() -> PathBuf {
+    cache_dir().join("yandex-music-token.bin")
+}
+
 /// Where files sent from a phone land: `Downloads\Oyenza Studio` (wherever the
 /// user moved Downloads to), or `Downloads\Oyen Poni` where an install from
 /// before the rename made it: Shelf items link to the files in it. Under

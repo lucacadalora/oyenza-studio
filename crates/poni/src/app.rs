@@ -87,6 +87,9 @@ const WTS_SESSION_UNLOCK_: usize = 8;
 
 /// Steps for copying the Apple Music token (README).
 const APPLE_MUSIC_HELP_URL: &str = "https://github.com/lucacadalora/oyenza-studio#apple-music-lyrics";
+/// Where the Yandex Music token comes from: Yandex's own sign-in page, whose
+/// redirect carries `access_token` in its address.
+const YANDEX_MUSIC_HELP_URL: &str = "https://oauth.yandex.ru/authorize?response_type=token&client_id=23cabbbdc6cd418abb4b39c32c41195d";
 /// Phone drop closes itself after this long without a request from a phone.
 const PHONE_IDLE_S: f64 = 600.0;
 
@@ -1890,6 +1893,46 @@ impl App {
         self.st.notify(Icon::Lyrics, palette::BLUE, "Apple Music lyrics off", "Lyrics from LRCLIB only", 4.0, None);
     }
 
+    /// Save the Yandex Music OAuth token copied from the browser (sealed with
+    /// DPAPI) and take it off the clipboard.
+    fn use_yandex_music_token(&mut self) {
+        let text = services::clipboard::read_text(self.hwnd).unwrap_or_default();
+        let Some(token) = poni_core::yandex::clean_token(&text) else {
+            // Nothing usable on the clipboard: open the page the token comes
+            // from, so the next press has something to read.
+            shell::open(YANDEX_MUSIC_HELP_URL);
+            self.st.notify(
+                Icon::Lyrics,
+                palette::ORANGE,
+                "No Yandex Music token copied",
+                "Yandex's page is open: sign in, copy access_token, then press again",
+                9.0,
+                None,
+            );
+            return;
+        };
+        if let Err(e) = services::secret::save(&paths::yandex_token_path(), &token) {
+            pwarn!("yandex music: cannot save the token ({e})");
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "Couldn't save the token", "Details in poni.log", 5.0, None);
+            return;
+        }
+        pinfo!("yandex music: token saved");
+        services::clipboard::set_text(self.helper, "");
+        self.refetch_lyrics();
+        self.st.notify(Icon::Lyrics, palette::BLUE, "Yandex Music lyrics on", "LRCLIB fills in the rest", 5.0, None);
+    }
+
+    fn forget_yandex_music_token(&mut self) {
+        if let Err(e) = services::secret::delete(&paths::yandex_token_path()) {
+            pwarn!("yandex music: cannot remove the token ({e})");
+            self.st.notify(Icon::Lyrics, palette::ORANGE, "Couldn't remove the token", "Details in poni.log", 5.0, None);
+            return;
+        }
+        pinfo!("yandex music: token removed");
+        self.refetch_lyrics();
+        self.st.notify(Icon::Lyrics, palette::BLUE, "Yandex Music lyrics off", "Lyrics from LRCLIB only", 4.0, None);
+    }
+
     fn on_apple_music(&mut self, status: AppleMusicStatus) {
         let (color, title, subtitle) = match status {
             AppleMusicStatus::Accepted => (palette::GREEN, "Apple Music lyrics on", "LRCLIB fills in the rest"),
@@ -2445,6 +2488,9 @@ impl App {
             AppleMusicToken => self.use_apple_music_token(),
             AppleMusicHelp => shell::open(APPLE_MUSIC_HELP_URL),
             AppleMusicForget => self.forget_apple_music_token(),
+            YandexMusicToken => self.use_yandex_music_token(),
+            YandexMusicHelp => shell::open(YANDEX_MUSIC_HELP_URL),
+            YandexMusicForget => self.forget_yandex_music_token(),
             OyenzaSignIn => self.oyenza(OyenzaCmd::SignIn),
             OyenzaCancel => self.oyenza(OyenzaCmd::Cancel),
             OyenzaDisconnect => self.oyenza(OyenzaCmd::Disconnect),

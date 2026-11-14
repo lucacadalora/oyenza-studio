@@ -38,6 +38,7 @@ pub mod notifications;
 pub mod stocks;
 pub mod sysmon;
 pub mod sysstats;
+pub mod yandex;
 pub mod update;
 pub mod usage;
 pub mod voice;
@@ -112,6 +113,7 @@ impl Services {
             f.stop();
         }
     }
+
 
     /// Run a one-off download on the add-on thread (the update file).
     /// False when that thread couldn't start.

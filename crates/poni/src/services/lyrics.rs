@@ -34,6 +34,7 @@
 
 use crate::events::{AppEvent, AppleMusicStatus, EventSink, LyricsResult};
 use crate::services::applemusic::{AppleMusic, Check, Miss};
+use crate::services::yandex::Yandex;
 use crate::services::http::{self, Client, FetchError, MtaGuard};
 use crate::state::MediaSession;
 use poni_core::lrclib::{self, LrclibRecord, TrackQuery};
@@ -50,6 +51,7 @@ use pure::{duration_secs, is_fresh, lyrics_for, prune_victims, retry_delay, usab
 const USER_AGENT: &str = concat!("OyenzaStudio/", env!("CARGO_PKG_VERSION"), " (+https://github.com/lucacadalora/oyenza-studio)");
 const SOURCE: &str = "LRCLIB";
 const APPLE_SOURCE: &str = "Apple Music";
+const YANDEX_SOURCE: &str = "Yandex Music";
 /// Minimum gap between two requests to LRCLIB.
 const MIN_GAP: Duration = Duration::from_secs(1);
 /// 429 without a usable `Retry-After`.
@@ -214,7 +216,8 @@ fn worker_main(shared: Arc<Shared>, sink: EventSink) {
     let cache_dir = crate::paths::lyrics_cache_dir();
     prune_cache(&cache_dir);
     let apple = AppleMusic::new();
-    let mut w = Worker { shared, sink, cache_dir, apple, client: None, last_request: None, blocked_until: None, writes: 0 };
+    let yandex = Yandex::new();
+    let mut w = Worker { shared, sink, cache_dir, apple, yandex, client: None, last_request: None, blocked_until: None, writes: 0 };
     while let Some(work) = w.next_job() {
         match work {
             Work::Lookup(job) => w.process(job),
@@ -228,6 +231,7 @@ struct Worker {
     sink: EventSink,
     cache_dir: PathBuf,
     apple: AppleMusic,
+    yandex: Yandex,
     /// Created on first use; reused so connections are pooled.
     client: Option<Client>,
     /// When the last request to LRCLIB finished.
@@ -333,6 +337,11 @@ impl Worker {
             // Nothing to search for; answer so the UI doesn't sit on "loading".
             return Ok(LyricsResult::NotFound);
         }
+        if self.yandex.enabled() {
+            if let Some(result) = self.lookup_yandex(job, &q)? {
+                return Ok(result);
+            }
+        }
         if self.apple.enabled() {
             if let Some(result) = self.lookup_apple(job, &q)? {
                 return Ok(result);
@@ -377,6 +386,48 @@ impl Worker {
                 }
                 // An expired hit still beats asking LRCLIB.
                 Ok(cached.as_ref().and_then(|e| e.record.as_ref()).map(|r| to_result(Some(r), job, APPLE_SOURCE)))
+            }
+        }
+    }
+
+    /// Yandex Music's synced lyrics; `Ok(None)` hands the song to LRCLIB.
+    fn lookup_yandex(&mut self, job: &Job, q: &TrackQuery) -> Result<Option<LyricsResult>, Halt> {
+        // A token saved or removed in the tray takes effect on the next song.
+        self.yandex.reload_token();
+        if !self.yandex.enabled() {
+            return Ok(None);
+        }
+        let key = format!("ym-{}", lrclib::cache_key(q));
+        let path = self.cache_dir.join(format!("{key}.json"));
+        let cached = read_cache(&path);
+        if let Some(entry) = &cached {
+            if is_fresh(entry, crate::clock::unix_now()) {
+                return Ok(entry.record.as_ref().map(|r| to_result(Some(r), job, YANDEX_SOURCE)));
+            }
+        }
+        let (shared, track_key) = (self.shared.clone(), job.track_key.clone());
+        let live = move || {
+            let q = shared.lock();
+            !q.shutdown && q.newest_key == track_key
+        };
+        match self.yandex.find(q, &live) {
+            Ok(Some(record)) => {
+                crate::pinfo!("lyrics {key}: synced from Yandex Music");
+                self.store(&path, &CacheEntry::new(Some(record.clone()), crate::clock::unix_now()));
+                Ok(Some(to_result(Some(&record), job, YANDEX_SOURCE)))
+            }
+            Ok(None) => {
+                crate::pinfo!("lyrics {key}: nothing usable on Yandex Music");
+                self.store(&path, &CacheEntry::new(None, crate::clock::unix_now()));
+                Ok(None)
+            }
+            Err(Miss::Abandoned) => Err(Halt::Abandoned),
+            Err(miss) => {
+                if let Miss::Unreachable(why) = &miss {
+                    crate::pwarn!("lyrics: Yandex Music unavailable ({why}); asking the next source");
+                }
+                // An expired hit still beats asking the next source.
+                Ok(cached.as_ref().and_then(|e| e.record.as_ref()).map(|r| to_result(Some(r), job, YANDEX_SOURCE)))
             }
         }
     }
