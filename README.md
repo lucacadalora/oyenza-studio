@@ -427,6 +427,11 @@ cargo wbuild                          # target/x86_64-pc-windows-gnu/release/pon
 NSIS_HOST=user@linux-box tools/package.sh   # exe + portable zip + installer into dist/
 ```
 
+The same two aliases also work on Windows itself, without Visual Studio and without admin rights (a work laptop, say): install Rust with the `stable-x86_64-pc-windows-gnu` toolchain and a MinGW-w64 build that ships `x86_64-w64-mingw32-gcc` and `windres` (for example [WinLibs](https://winlibs.com), `winget install BrechtSanders.WinLibs.POSIX.UCRT`, a per-user install), then run `cargo wbuild --locked` from a shell where both are on the `PATH`. Good to know:
+
+- The release profile is tuned for the smallest, fastest app (`lto = true`, `codegen-units = 1`), so the last step, `poni` itself, runs on one core: about 30 minutes on a 15 W laptop. For a quick local try, `CARGO_PROFILE_RELEASE_LTO=thin CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16 cargo wbuild` is much faster.
+- MSVC builds load `d2d1`, `dwrite`, `dwmapi` and `winmm` from System32 only (`/DEPENDENTLOADFLAG:0x800` in `crates/poni/build.rs`); GNU's linker has no such flag, so keep a GNU-built `poni.exe` in a folder only you can write to, such as `%LOCALAPPDATA%\Programs`, not in Downloads.
+
 On a Mac, with Rust stable:
 
 ```
