@@ -1,14 +1,14 @@
 {
   "repo": "lucacadalora/oyenza-studio",
-  "checked_at": "2026-11-18T13:30:19Z",
+  "checked_at": "2026-11-18T21:38:24Z",
   "since": "2026-10-24",
-  "downloads": 19308,
-  "github_count": 19618,
+  "downloads": 19353,
+  "github_count": 19663,
   "ci_count": 689,
-  "last_7_days": 1269,
+  "last_7_days": 1314,
   "latest": {
     "release": "v0.2.30",
-    "downloads": 2512
+    "downloads": 2555
   },
   "stars": 173,
   "forks": 44,
@@ -17,17 +17,17 @@
     {
       "release": "v0.2.30",
       "published": "2026-11-10T12:53:31Z",
-      "downloads": 2512,
-      "github_count": 2512,
+      "downloads": 2555,
+      "github_count": 2555,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 13,
         "Oyen-Poni-Setup.exe": 62,
-        "Oyenza-Studio-0.2.30-mac.dmg": 207,
-        "Oyenza-Studio-0.2.30-portable.zip": 234,
-        "Oyenza-Studio-Mac.dmg": 152,
-        "Oyenza-Studio-Setup-0.2.30.exe": 1304,
-        "Oyenza-Studio-Setup.exe": 540
+        "Oyenza-Studio-0.2.30-mac.dmg": 208,
+        "Oyenza-Studio-0.2.30-portable.zip": 249,
+        "Oyenza-Studio-Mac.dmg": 155,
+        "Oyenza-Studio-Setup-0.2.30.exe": 1312,
+        "Oyenza-Studio-Setup.exe": 556
       }
     },
     {
@@ -81,8 +81,8 @@
     {
       "release": "v0.2.26",
       "published": "2026-11-05T06:48:53Z",
-      "downloads": 2072,
-      "github_count": 2072,
+      "downloads": 2073,
+      "github_count": 2073,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 7,
@@ -90,7 +90,7 @@
         "Oyenza-Studio-0.2.26-mac.dmg": 131,
         "Oyenza-Studio-0.2.26-portable.zip": 307,
         "Oyenza-Studio-Mac.dmg": 127,
-        "Oyenza-Studio-Setup-0.2.26.exe": 1086,
+        "Oyenza-Studio-Setup-0.2.26.exe": 1087,
         "Oyenza-Studio-Setup.exe": 368
       }
     },
@@ -767,12 +767,12 @@
     {
       "release": "v0.1.1",
       "published": "2026-10-24T05:54:33Z",
-      "downloads": 238,
-      "github_count": 927,
+      "downloads": 239,
+      "github_count": 928,
       "ci_count": 689,
       "files": {
         "Poni-0.1.1-portable.zip": 2,
-        "Poni-Setup-0.1.1.exe": 236
+        "Poni-Setup-0.1.1.exe": 237
       }
     },
     {
@@ -890,7 +890,7 @@
     },
     {
       "date": "2026-11-18",
-      "downloads": 80
+      "downloads": 125
     }
   ]
 }
