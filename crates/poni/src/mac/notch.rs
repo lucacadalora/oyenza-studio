@@ -107,8 +107,9 @@ pub fn fit(m: &Mode, st: &AppState) -> Fit {
         Mode::Idle | Mode::Aside => Fit::Inside,
         // The music pill sings the current line (every theme), which needs
         // the width the camera takes: it hangs below the notch while there
-        // is a line.
-        Mode::Activity(Activity::Media) if pill::lyric::current(st).is_some() => Fit::Below,
+        // is a line. So does music with the timer: its line sits between the
+        // art and the ring, as in the music pill (`activities`).
+        Mode::Activity(Activity::Media | Activity::MediaTimer) if pill::lyric::current(st).is_some() => Fit::Below,
         Mode::Activity(_) => Fit::Ears,
         Mode::Hud(_) | Mode::Notice | Mode::Expanded(_) => Fit::Below,
     }

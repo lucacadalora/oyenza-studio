@@ -304,7 +304,19 @@ pub fn geom(m: &Mode, st: &AppState) -> Geom {
             let long = fmt_countdown(st.pomodoro.remaining(st.now)).len() > 5;
             Geom::new(if long { 112.0 } else { 96.0 }, 32.0, 15.0)
         }
-        Mode::Activity(Activity::MediaTimer) => Geom::new(132.0, 32.0, 15.0),
+        Mode::Activity(Activity::MediaTimer) => {
+            // With a line being sung the pill keeps the words between the art
+            // and the clock: the music pill's width, plus the countdown's end.
+            if crate::pill::lyric::sings(st) {
+                if crate::pill::lyric::reads(st) {
+                    Geom::new(crate::pill::media::timer_fit_w(), crate::pill::media::H_READS, 22.0)
+                } else {
+                    Geom::new(crate::pill::media::timer_fit_w(), 32.0, 15.0)
+                }
+            } else {
+                Geom::new(132.0, 32.0, 15.0)
+            }
+        }
         Mode::Activity(Activity::Prayer) => Geom::new(PRAYER_W, 32.0, 15.0),
         Mode::Activity(Activity::Game) => Geom::new(if game_temp(st).is_some() { GAME_W } else { GAME_NO_TEMP_W }, 32.0, 15.0),
         Mode::Activity(Activity::Recording) => Geom::new(recording_w(st), 32.0, 15.0),
@@ -369,7 +381,7 @@ pub fn next_wake(m: &Mode, st: &AppState) -> Option<f64> {
             consider(end);
         }
     }
-    if *m == Mode::Activity(Activity::Media) {
+    if matches!(m, Mode::Activity(Activity::Media | Activity::MediaTimer)) {
         consider(st.ui.peek_until);
         // The next sung line: the equalizer's frames stop while paused or
         // on battery saver, and Oyen's when his notes are gone.
@@ -636,6 +648,8 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
         Activity::Notes => draw_notes(ui, st, body),
         Activity::MediaTimer => {
             // Art on the left; the ring sits right next to its countdown.
+            // While the song has synced lyrics the line being sung keeps the
+            // middle, as in the music pill, instead of giving way to the timer.
             art_or_icon(ui, st, art, playing);
             let p = &st.pomodoro;
             let col = phase_color(p.phase);
@@ -644,8 +658,12 @@ fn draw_activity(ui: &mut Ui, st: &mut AppState, a: Activity, body: Rect) {
             let ts = countdown_style(col, paused);
             let (tw, _) = ui.c.measure(&text, &ts, 200.0);
             let right = body.right() - 14.0;
-            ui.c.text(&text, Rect::new(right - 64.0, body.y, 64.0, body.h), &ts.right());
             let c = Point::new(right - tw - 6.0 - 7.0, cy);
+            if crate::pill::lyric::sings(st) {
+                use crate::pill::media::{middle, PAUSED_TEXT, TEXT_CLEAR};
+                middle(ui, st, body, art.right() + TEXT_CLEAR, c.x - 7.0 - TEXT_CLEAR, if playing { 1.0 } else { PAUSED_TEXT });
+            }
+            ui.c.text(&text, Rect::new(right - 64.0, body.y, 64.0, body.h), &ts.right());
             ui.c.ring(c, 7.0, 2.2, p.progress(st.now), RING_TRACK, col);
         }
     }

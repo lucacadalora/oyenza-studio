@@ -38,6 +38,9 @@ pub(crate) const H_READS: f32 = 46.0;
 /// The pill is its text plus this much: the art and the equalizer with
 /// their gaps, the same on both sides so the text centres (spec 6.5).
 const SIDES: f32 = 88.0;
+/// Music with the timer: the ring and its countdown take the equalizer's
+/// place and need this much more room, so the sung line keeps its width.
+pub(crate) const TIMER_SIDES: f32 = 56.0;
 const MIN_W: f32 = 240.0;
 const MAX_W: f32 = 520.0;
 /// The song ("Title · artist") is held to the spec's width for a title on
@@ -165,6 +168,12 @@ pub(crate) fn middle(ui: &mut Ui, st: &AppState, body: Rect, x0: f32, x1: f32, a
 /// (between [`MIN_W`] and [`MAX_W`]; the pill follows a frame late).
 pub(crate) fn fit_w() -> f32 {
     FIT_W.get()
+}
+
+/// Music with the timer: the sung line's width plus the ring and countdown
+/// at the right end ([`TIMER_SIDES`]), in the same steps and bounds.
+pub(crate) fn timer_fit_w() -> f32 {
+    (((FIT_W.get() + TIMER_SIDES) / W_STEP).ceil() * W_STEP).clamp(MIN_W, MAX_W + TIMER_SIDES)
 }
 
 /// The bars move at the equalizer's ambient rate (near 60 fps, as in
@@ -448,6 +457,16 @@ mod tests {
                 w += 0.7;
             }
         }
+    }
+
+    #[test]
+    fn the_timer_pill_keeps_the_line_and_makes_room_for_the_countdown() {
+        FIT_W.set(288.0);
+        assert_eq!(timer_fit_w(), 344.0, "the line's pill plus the countdown's side");
+        FIT_W.set(MIN_W);
+        assert_eq!(timer_fit_w(), MIN_W + TIMER_SIDES, "the narrowest pill still fits the ring");
+        FIT_W.set(MAX_W);
+        assert_eq!(timer_fit_w(), MAX_W + TIMER_SIDES, "a long line stops at the widest pill");
     }
 
     #[test]

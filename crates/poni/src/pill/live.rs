@@ -85,6 +85,12 @@ fn capsule(w: f32) -> Geom {
 }
 
 pub fn geom(a: Activity, st: &AppState) -> Option<Geom> {
+    // Music with the timer keeps the sung line between its art and its ring,
+    // as the music pill does: the line's width plus the countdown's end.
+    if a == Activity::MediaTimer && crate::pill::lyric::sings(st) {
+        let h = crate::pill::media::height(st);
+        return Some(Geom::new(crate::pill::media::timer_fit_w(), h, h / 2.0));
+    }
     let w = match a {
         // Oyen's head, listening or writing, is the same pill in every theme.
         Activity::Media | Activity::Notes => return None,
@@ -249,8 +255,16 @@ fn draw_media_timer(ui: &mut Ui, st: &AppState, body: Rect) {
     // so the ring stays put as the seconds go.
     let (tw, _) = ui.c.measure(&text, &ts, 200.0);
     let right = body.right() - DIGITS_RIGHT;
-    ui.c.text(&text, Rect::new(right - 80.0, body.y, 80.0, body.h), &ts.right());
     let c = Point::new(right - tw - MARK_GAP - RING_D / 2.0, cy);
+    // With synced lyrics, the line being sung keeps the middle (the music
+    // pill's words), between the art and the ring.
+    if crate::pill::lyric::sings(st) {
+        use crate::pill::media::{middle, PAUSED_TEXT, TEXT_CLEAR};
+        let x0 = body.x + ART_INSET + ART + TEXT_CLEAR;
+        let x1 = c.x - RING_D / 2.0 - TEXT_CLEAR;
+        middle(ui, st, body, x0, x1, if playing { 1.0 } else { PAUSED_TEXT });
+    }
+    ui.c.text(&text, Rect::new(right - 80.0, body.y, 80.0, body.h), &ts.right());
     timer_mark(ui, c, p.progress(st.now), phase_color(p.phase), paused);
 }
 
