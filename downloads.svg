@@ -7,11 +7,11 @@
 <path d="M73.0,584.5L792.0,584.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M101.0,75.0H327.9A4.0,4.0 0 0 1 331.9,79.0V89.0A4.0,4.0 0 0 1 327.9,93.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,75.0H329.8A4.0,4.0 0 0 1 333.8,79.0V89.0A4.0,4.0 0 0 1 329.8,93.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,107.0H135.8A4.0,4.0 0 0 1 139.8,111.0V121.0A4.0,4.0 0 0 1 135.8,125.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,139.0H141.9A4.0,4.0 0 0 1 145.9,143.0V153.0A4.0,4.0 0 0 1 141.9,157.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,171.0H125.6A4.0,4.0 0 0 1 129.6,175.0V185.0A4.0,4.0 0 0 1 125.6,189.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,203.0H269.6A4.0,4.0 0 0 1 273.6,207.0V217.0A4.0,4.0 0 0 1 269.6,221.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,203.0H269.8A4.0,4.0 0 0 1 273.8,207.0V217.0A4.0,4.0 0 0 1 269.8,221.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,235.0H220.2A4.0,4.0 0 0 1 224.2,239.0V249.0A4.0,4.0 0 0 1 220.2,253.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,267.0H152.6A4.0,4.0 0 0 1 156.6,271.0V281.0A4.0,4.0 0 0 1 152.6,285.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,299.0H189.3A4.0,4.0 0 0 1 193.3,303.0V313.0A4.0,4.0 0 0 1 189.3,317.0H101.0Z" fill="#D9661C"/>
@@ -47,10 +47,10 @@
 <path d="M697.8,684.0V681.8A4.0,4.0 0 0 1 701.8,677.8H708.7A4.0,4.0 0 0 1 712.7,681.8V684.0Z" fill="#D9661C"/>
 <path d="M722.6,684.0V682.8A4.0,4.0 0 0 1 726.6,678.8H733.5A4.0,4.0 0 0 1 737.5,682.8V684.0Z" fill="#D9661C"/>
 <path d="M747.4,684.0V683.4A4.0,4.0 0 0 1 751.4,679.4H758.2A4.0,4.0 0 0 1 762.2,683.4V684.0Z" fill="#D9661C"/>
-<path d="M772.2,684.0V684.0A1.2,1.2 0 0 1 773.4,682.8H785.8A1.2,1.2 0 0 1 787.0,684.0V684.0Z" fill="#D9661C"/>
+<path d="M772.2,684.0V684.0A2.6,2.6 0 0 1 774.7,681.5H784.5A2.6,2.6 0 0 1 787.0,684.0V684.0Z" fill="#D9661C"/>
 <text x="28.0" y="44.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per release</text>
 <text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.30</text>
-<text x="339.9" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">2,773</text>
+<text x="341.8" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">2,796</text>
 <text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.29</text>
 <text x="147.8" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">466</text>
 <text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.28</text>
@@ -58,9 +58,9 @@
 <text x="91.0" y="184.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.27</text>
 <text x="137.6" y="184.5" font-size="14" fill="#2B1B10" font-weight="600">344</text>
 <text x="91.0" y="216.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.26</text>
-<text x="281.6" y="216.5" font-size="14" fill="#2B1B10" font-weight="600">2,073</text>
+<text x="281.8" y="216.5" font-size="14" fill="#2B1B10" font-weight="600">2,075</text>
 <text x="91.0" y="248.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.25</text>
-<text x="232.2" y="248.5" font-size="14" fill="#2B1B10" font-weight="600">1,479</text>
+<text x="232.2" y="248.5" font-size="14" fill="#2B1B10" font-weight="600">1,480</text>
 <text x="91.0" y="280.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.24</text>
 <text x="164.6" y="280.5" font-size="14" fill="#2B1B10" font-weight="600">668</text>
 <text x="91.0" y="312.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.23</text>
@@ -74,7 +74,7 @@
 <text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">42 older</text>
 <text x="749.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">7,691</text>
 <text x="28.0" y="496.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per day</text>
-<text x="779.6" y="675.8" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">25</text>
+<text x="779.6" y="674.5" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">51</text>
 <text x="506.9" y="569.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">2,155</text>
 <text x="63.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
 <text x="63.0" y="638.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,000</text>
