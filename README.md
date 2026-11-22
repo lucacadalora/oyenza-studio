@@ -1,16 +1,16 @@
 <p align="center"><img src="art/oyen-poni-peek.webp" width="260" alt="Oyen peeking over a playing island"></p>
 
-<h1 align="center">19,749 downloads</h1>
+<h1 align="center">19,783 downloads</h1>
 
-<p align="center">of Oyenza Studio for Windows, from GitHub since 24 Oct 2026<br>Latest release, 0.2.30: <b>2,814</b> · Last 7 days: <b>857</b> · <b>177</b> stars on GitHub</p>
+<p align="center">of Oyenza Studio for Windows, from GitHub since 24 Oct 2026<br>Latest release, 0.2.30: <b>2,845</b> · Last 7 days: <b>891</b> · <b>178</b> stars on GitHub</p>
 
-<p align="center"><img src="downloads.svg" width="820" alt="Bar chart of downloads per release: 0.2.30 2,814, 0.2.29 469, 0.2.28 542, 0.2.27 347, 0.2.26 2,078, 0.2.25 1,483, 0.2.24 671, 0.2.23 1,111, 0.2.22 814, 0.2.21 1,215, 0.2.20 414, 42 older 7,791; and per day, for the last 30 days"></p>
+<p align="center"><img src="downloads.svg" width="820" alt="Bar chart of downloads per release: 0.2.30 2,845, 0.2.29 469, 0.2.28 542, 0.2.27 347, 0.2.26 2,078, 0.2.25 1,483, 0.2.24 671, 0.2.23 1,111, 0.2.22 814, 0.2.21 1,215, 0.2.20 414, 42 older 7,794; and per day, for the last 30 days"></p>
 
 ## Per release
 
 | Release | Published | Download button | Versioned installer | Portable zip | Other files | Total |
 | --- | --- | --: | --: | --: | --: | --: |
-| [0.2.30](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.30) | 10 Nov 2026 | 710 | 1,362 | 341 | 401 | 2,814 |
+| [0.2.30](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.30) | 10 Nov 2026 | 727 | 1,364 | 342 | 412 | 2,845 |
 | [0.2.29](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.29) | 10 Nov 2026 | 23 | 349 | 1 | 96 | 469 |
 | [0.2.28](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.28) | 10 Nov 2026 | 44 | 388 | 2 | 108 | 542 |
 | [0.2.27](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.27) | 10 Nov 2026 | 21 | 252 | 1 | 73 | 347 |
@@ -26,7 +26,7 @@
 | [0.2.17](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.17) | 29 Oct 2026 | 45 | 283 | 6 | 49 | 383 |
 | [0.2.16](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.16) | 28 Oct 2026 | 41 | 459 | 3 | 65 | 568 |
 | [0.2.15](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.15) | 28 Oct 2026 | 6 | 121 | 4 | 12 | 143 |
-| [0.2.14](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.14) | 28 Oct 2026 | 106 | 462 | 4 | 65 | 637 |
+| [0.2.14](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.14) | 28 Oct 2026 | 106 | 463 | 4 | 65 | 638 |
 | [0.2.13](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.13) | 27 Oct 2026 | 303 | 695 | 9 | 121 | 1,128 |
 | [0.2.12](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.12) | 27 Oct 2026 | 11 | 15 | 3 | 1 | 30 |
 | [0.2.11](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.11) | 26 Oct 2026 | 469 | 405 | 7 | 117 | 998 |
@@ -61,15 +61,15 @@
 | [0.1.4](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.4) | 24 Oct 2026 | 2 | 4 | 2 | — | 8 |
 | [0.1.3](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.3) | 24 Oct 2026 | 4 | 3 | 2 | — | 9 |
 | [0.1.2](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.2) | 24 Oct 2026 | 2 | 5 | 2 | — | 9 |
-| [0.1.1](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.1) | 24 Oct 2026 | — | 242 | 2 | — | 244 |
+| [0.1.1](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.1) | 24 Oct 2026 | — | 244 | 2 | — | 246 |
 | [0.1.0](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.0) | 24 Oct 2026 | — | 3 | 3 | — | 6 |
-| **All releases** | | **4,711** | **11,583** | **989** | **2,466** | **19,749** |
+| **All releases** | | **4,728** | **11,588** | **990** | **2,477** | **19,783** |
 
 ## Per day
 
 | Day | Downloads |
 | --- | --: |
-| Today | 12 |
+| Today | 46 |
 | 21 Nov 2026 | 187 |
 | 20 Nov 2026 | 92 |
 | 19 Nov 2026 | 105 |
@@ -102,13 +102,13 @@
 
 ## On GitHub
 
-177 stars · 45 forks · 0 watching
+178 stars · 45 forks · 0 watching
 
 <details>
 <summary>How we count</summary>
 
 - GitHub counts every download of a release file. The Download button on the [website](https://studio.oyenza.com/) and in the README always fetches `Oyenza-Studio-Setup.exe` from the newest release; the versioned installer and the portable zip are on each release's page.
-- Our CI downloads Poni-Setup-0.1.1.exe (0.1.1) while it tests each push, and GitHub counts those too: 689 so far, left out of every number here ([ci-downloads.csv](data/ci-downloads.csv) lists each one). GitHub's own counters add up to 20,061.
+- Our CI downloads Poni-Setup-0.1.1.exe (0.1.1) while it tests each push, and GitHub counts those too: 689 so far, left out of every number here ([ci-downloads.csv](data/ci-downloads.csv) lists each one). GitHub's own counters add up to 20,095.
 - GitHub updates its counters every few minutes, so for a while a counter may not show a CI download that is already taken off. Each file's number keeps its highest reading, so numbers only go up.
 - Still in the numbers: our own check of each new release (one download through the Download button) and any bots. GitHub can't tell those apart.
 - Oyenza Studio itself sends nothing: no accounts, no tracking. These are GitHub's download counters, read every hour.
@@ -117,4 +117,4 @@
 
 </details>
 
-<sub>Updated 22 Nov 2026, 02:40 UTC by [Download stats](https://github.com/lucacadalora/oyenza-studio/actions/workflows/metrics.yml), every hour · Data: [downloads](data/downloads.csv), [CI downloads](data/ci-downloads.csv), [stars](data/repo.csv), [summary.json](summary.json)</sub>
+<sub>Updated 22 Nov 2026, 10:22 UTC by [Download stats](https://github.com/lucacadalora/oyenza-studio/actions/workflows/metrics.yml), every hour · Data: [downloads](data/downloads.csv), [CI downloads](data/ci-downloads.csv), [stars](data/repo.csv), [summary.json](summary.json)</sub>
