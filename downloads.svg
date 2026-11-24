@@ -7,16 +7,16 @@
 <path d="M73.0,584.5L792.0,584.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,534.5L792.0,534.5" stroke="#EAD7BC" stroke-width="1"/>
 <path d="M73.0,684.5L792.0,684.5" stroke="#D8BF9C" stroke-width="1"/>
-<path d="M101.0,75.0H336.8A4.0,4.0 0 0 1 340.8,79.0V89.0A4.0,4.0 0 0 1 336.8,93.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,75.0H338.4A4.0,4.0 0 0 1 342.4,79.0V89.0A4.0,4.0 0 0 1 338.4,93.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,107.0H135.3A4.0,4.0 0 0 1 139.3,111.0V121.0A4.0,4.0 0 0 1 135.3,125.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,139.0H141.2A4.0,4.0 0 0 1 145.2,143.0V153.0A4.0,4.0 0 0 1 141.2,157.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,171.0H125.4A4.0,4.0 0 0 1 129.4,175.0V185.0A4.0,4.0 0 0 1 125.4,189.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,203.0H265.7A4.0,4.0 0 0 1 269.7,207.0V217.0A4.0,4.0 0 0 1 265.7,221.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,235.0H217.5A4.0,4.0 0 0 1 221.5,239.0V249.0A4.0,4.0 0 0 1 217.5,253.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,267.0H151.7A4.0,4.0 0 0 1 155.7,271.0V281.0A4.0,4.0 0 0 1 151.7,285.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,267.0H151.6A4.0,4.0 0 0 1 155.6,271.0V281.0A4.0,4.0 0 0 1 151.6,285.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,299.0H187.3A4.0,4.0 0 0 1 191.3,303.0V313.0A4.0,4.0 0 0 1 187.3,317.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,331.0H163.2A4.0,4.0 0 0 1 167.2,335.0V345.0A4.0,4.0 0 0 1 163.2,349.0H101.0Z" fill="#D9661C"/>
-<path d="M101.0,363.0H195.8A4.0,4.0 0 0 1 199.8,367.0V377.0A4.0,4.0 0 0 1 195.8,381.0H101.0Z" fill="#D9661C"/>
+<path d="M101.0,363.0H195.7A4.0,4.0 0 0 1 199.7,367.0V377.0A4.0,4.0 0 0 1 195.7,381.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,395.0H130.8A4.0,4.0 0 0 1 134.8,399.0V409.0A4.0,4.0 0 0 1 130.8,413.0H101.0Z" fill="#D9661C"/>
 <path d="M101.0,427.0H737.4A4.0,4.0 0 0 1 741.4,431.0V441.0A4.0,4.0 0 0 1 737.4,445.0H101.0Z" fill="#D9661C"/>
 <path d="M77.8,684.0V607.3A4.0,4.0 0 0 1 81.8,603.3H88.2A4.0,4.0 0 0 1 92.2,607.3V684.0Z" fill="#D9661C"/>
@@ -48,12 +48,12 @@
 <path d="M700.9,684.0V678.6A4.0,4.0 0 0 1 704.9,674.6H711.3A4.0,4.0 0 0 1 715.3,678.6V684.0Z" fill="#D9661C"/>
 <path d="M724.9,684.0V683.5A4.0,4.0 0 0 1 728.9,679.5H735.3A4.0,4.0 0 0 1 739.3,683.5V684.0Z" fill="#D9661C"/>
 <path d="M748.9,684.0V678.5A4.0,4.0 0 0 1 752.9,674.5H759.2A4.0,4.0 0 0 1 763.2,678.5V684.0Z" fill="#D9661C"/>
-<path d="M772.8,684.0V684.0A0.6,0.6 0 0 1 773.4,683.4H786.6A0.6,0.6 0 0 1 787.2,684.0V684.0Z" fill="#D9661C"/>
+<path d="M772.8,684.0V684.0A1.8,1.8 0 0 1 774.6,682.2H785.5A1.8,1.8 0 0 1 787.2,684.0V684.0Z" fill="#D9661C"/>
 <text x="28.0" y="44.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per release</text>
 <text x="91.0" y="88.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.30</text>
-<text x="348.8" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">2,957</text>
+<text x="350.4" y="88.5" font-size="14" fill="#2B1B10" font-weight="600">2,978</text>
 <text x="91.0" y="120.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.29</text>
-<text x="147.3" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">472</text>
+<text x="147.3" y="120.5" font-size="14" fill="#2B1B10" font-weight="600">473</text>
 <text x="91.0" y="152.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.28</text>
 <text x="153.2" y="152.5" font-size="14" fill="#2B1B10" font-weight="600">545</text>
 <text x="91.0" y="184.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.27</text>
@@ -63,19 +63,19 @@
 <text x="91.0" y="248.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.25</text>
 <text x="229.5" y="248.5" font-size="14" fill="#2B1B10" font-weight="600">1,486</text>
 <text x="91.0" y="280.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.24</text>
-<text x="163.7" y="280.5" font-size="14" fill="#2B1B10" font-weight="600">674</text>
+<text x="163.6" y="280.5" font-size="14" fill="#2B1B10" font-weight="600">674</text>
 <text x="91.0" y="312.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.23</text>
 <text x="199.3" y="312.5" font-size="14" fill="#2B1B10" font-weight="600">1,114</text>
 <text x="91.0" y="344.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.22</text>
 <text x="175.2" y="344.5" font-size="14" fill="#2B1B10" font-weight="600">817</text>
 <text x="91.0" y="376.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.21</text>
-<text x="207.8" y="376.5" font-size="14" fill="#2B1B10" font-weight="600">1,218</text>
+<text x="207.7" y="376.5" font-size="14" fill="#2B1B10" font-weight="600">1,218</text>
 <text x="91.0" y="408.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">0.2.20</text>
 <text x="142.8" y="408.5" font-size="14" fill="#2B1B10" font-weight="600">417</text>
 <text x="91.0" y="440.0" font-size="14" fill="#6B5442" text-anchor="end" style="font-variant-numeric: tabular-nums">42 older</text>
-<text x="749.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">7,898</text>
+<text x="749.4" y="440.5" font-size="14" fill="#2B1B10" font-weight="600">7,899</text>
 <text x="28.0" y="496.0" font-size="16" fill="#2B1B10" font-weight="600">Downloads per day</text>
-<text x="780.0" y="676.4" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">12</text>
+<text x="780.0" y="675.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">35</text>
 <text x="444.5" y="569.2" font-size="13" fill="#2B1B10" font-weight="600" text-anchor="middle">2,155</text>
 <text x="63.0" y="688.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
 <text x="63.0" y="638.5" font-size="12" fill="#7A6450" text-anchor="end" style="font-variant-numeric: tabular-nums">1,000</text>

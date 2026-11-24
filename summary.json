@@ -1,14 +1,14 @@
 {
   "repo": "lucacadalora/oyenza-studio",
-  "checked_at": "2026-11-24T05:01:10Z",
+  "checked_at": "2026-11-24T16:30:31Z",
   "since": "2026-10-24",
-  "downloads": 20029,
-  "github_count": 20343,
+  "downloads": 20052,
+  "github_count": 20366,
   "ci_count": 689,
-  "last_7_days": 801,
+  "last_7_days": 824,
   "latest": {
     "release": "v0.2.30",
-    "downloads": 2957
+    "downloads": 2978
   },
   "stars": 179,
   "forks": 46,
@@ -17,24 +17,24 @@
     {
       "release": "v0.2.30",
       "published": "2026-11-10T12:53:31Z",
-      "downloads": 2957,
-      "github_count": 2957,
+      "downloads": 2978,
+      "github_count": 2978,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 15,
-        "Oyen-Poni-Setup.exe": 85,
+        "Oyen-Poni-Setup.exe": 86,
         "Oyenza-Studio-0.2.30-mac.dmg": 220,
         "Oyenza-Studio-0.2.30-portable.zip": 363,
-        "Oyenza-Studio-Mac.dmg": 187,
-        "Oyenza-Studio-Setup-0.2.30.exe": 1393,
-        "Oyenza-Studio-Setup.exe": 694
+        "Oyenza-Studio-Mac.dmg": 190,
+        "Oyenza-Studio-Setup-0.2.30.exe": 1395,
+        "Oyenza-Studio-Setup.exe": 709
       }
     },
     {
       "release": "v0.2.29",
       "published": "2026-11-10T11:08:04Z",
-      "downloads": 472,
-      "github_count": 472,
+      "downloads": 473,
+      "github_count": 473,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 5,
@@ -43,7 +43,7 @@
         "Oyenza-Studio-0.2.29-portable.zip": 1,
         "Oyenza-Studio-Mac.dmg": 16,
         "Oyenza-Studio-Setup-0.2.29.exe": 350,
-        "Oyenza-Studio-Setup.exe": 18
+        "Oyenza-Studio-Setup.exe": 19
       }
     },
     {
@@ -767,12 +767,12 @@
     {
       "release": "v0.1.1",
       "published": "2026-10-24T05:54:33Z",
-      "downloads": 249,
-      "github_count": 938,
+      "downloads": 250,
+      "github_count": 939,
       "ci_count": 689,
       "files": {
         "Poni-0.1.1-portable.zip": 2,
-        "Poni-Setup-0.1.1.exe": 247
+        "Poni-Setup-0.1.1.exe": 248
       }
     },
     {
@@ -914,7 +914,7 @@
     },
     {
       "date": "2026-11-24",
-      "downloads": 12
+      "downloads": 35
     }
   ]
 }
