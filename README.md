@@ -1,75 +1,76 @@
 <p align="center"><img src="art/oyen-poni-peek.webp" width="260" alt="Oyen peeking over a playing island"></p>
 
-<h1 align="center">20,246 downloads</h1>
+<h1 align="center">20,533 downloads</h1>
 
-<p align="center">of Oyenza Studio for Windows, from GitHub since 24 Oct 2026<br>Latest release, 0.2.30: <b>3,035</b> · Last 7 days: <b>893</b> · <b>181</b> stars on GitHub</p>
+<p align="center">of Oyenza Studio for Windows, from GitHub since 24 Oct 2026<br>Latest release, 0.2.30: <b>3,060</b> · Last 7 days: <b>1,075</b> · <b>181</b> stars on GitHub</p>
 
-<p align="center"><img src="downloads.svg" width="820" alt="Bar chart of downloads per release: 0.2.30 3,035, 0.2.29 476, 0.2.28 548, 0.2.27 353, 0.2.26 2,084, 0.2.25 1,489, 0.2.24 677, 0.2.23 1,117, 0.2.22 820, 0.2.21 1,221, 0.2.20 420, 42 older 8,006; and per day, for the last 30 days"></p>
+<p align="center"><img src="downloads.svg" width="820" alt="Bar chart of downloads per release: 0.2.30 3,060, 0.2.29 482, 0.2.28 554, 0.2.27 359, 0.2.26 2,090, 0.2.25 1,495, 0.2.24 683, 0.2.23 1,123, 0.2.22 826, 0.2.21 1,227, 0.2.20 426, 42 older 8,208; and per day, for the last 30 days"></p>
 
 ## Per release
 
 | Release | Published | Download button | Versioned installer | Portable zip | Other files | Total |
 | --- | --- | --: | --: | --: | --: | --: |
-| [0.2.30](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.30) | 10 Nov 2026 | 837 | 1,406 | 366 | 426 | 3,035 |
-| [0.2.29](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.29) | 10 Nov 2026 | 28 | 351 | 1 | 96 | 476 |
-| [0.2.28](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.28) | 10 Nov 2026 | 48 | 390 | 2 | 108 | 548 |
-| [0.2.27](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.27) | 10 Nov 2026 | 25 | 254 | 1 | 73 | 353 |
-| [0.2.26](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.26) | 5 Nov 2026 | 421 | 1,091 | 307 | 265 | 2,084 |
-| [0.2.25](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.25) | 2 Nov 2026 | 231 | 1,054 | 36 | 168 | 1,489 |
-| [0.2.24](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.24) | 2 Nov 2026 | 49 | 528 | 4 | 96 | 677 |
-| [0.2.23](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.23) | 1 Nov 2026 | 98 | 881 | 34 | 104 | 1,117 |
-| [0.2.22](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.22) | 31 Oct 2026 | 94 | 619 | 16 | 91 | 820 |
-| [0.2.21](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.21) | 30 Oct 2026 | 235 | 851 | 8 | 127 | 1,221 |
-| [0.2.20](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.20) | 29 Oct 2026 | 38 | 336 | 5 | 41 | 420 |
-| [0.2.19](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.19) | 29 Oct 2026 | 50 | 425 | 6 | 62 | 543 |
-| [0.2.18](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.18) | 29 Oct 2026 | 23 | 212 | 3 | 41 | 279 |
-| [0.2.17](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.17) | 29 Oct 2026 | 49 | 285 | 6 | 50 | 390 |
-| [0.2.16](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.16) | 28 Oct 2026 | 43 | 459 | 3 | 65 | 570 |
-| [0.2.15](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.15) | 28 Oct 2026 | 10 | 123 | 4 | 12 | 149 |
-| [0.2.14](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.14) | 28 Oct 2026 | 110 | 465 | 4 | 65 | 644 |
-| [0.2.13](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.13) | 27 Oct 2026 | 307 | 697 | 9 | 121 | 1,134 |
-| [0.2.12](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.12) | 27 Oct 2026 | 15 | 17 | 3 | 1 | 36 |
-| [0.2.11](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.11) | 26 Oct 2026 | 473 | 407 | 7 | 117 | 1,004 |
-| [0.2.10](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.10) | 26 Oct 2026 | 39 | 52 | 3 | 14 | 108 |
-| [0.2.9](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.9) | 26 Oct 2026 | 40 | 23 | 5 | 6 | 74 |
-| [0.2.8](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.8) | 26 Oct 2026 | 290 | 89 | 14 | 71 | 464 |
-| [0.2.7](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.7) | 26 Oct 2026 | 48 | 17 | 3 | 9 | 77 |
-| [0.2.6](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.6) | 25 Oct 2026 | 750 | 34 | 18 | 141 | 943 |
-| [0.2.5](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.5) | 25 Oct 2026 | 25 | 5 | 5 | 3 | 38 |
-| [0.2.4](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.4) | 25 Oct 2026 | 148 | 12 | 9 | 25 | 194 |
-| [0.2.3](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.3) | 25 Oct 2026 | 62 | 28 | 4 | 19 | 113 |
-| [0.2.2](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.2) | 25 Oct 2026 | 88 | 10 | 5 | 13 | 116 |
-| [0.2.1](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.1) | 25 Oct 2026 | 15 | 3 | 3 | 4 | 25 |
-| [0.2.0](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.0) | 25 Oct 2026 | 50 | 10 | 5 | 10 | 75 |
-| [0.1.21](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.21) | 25 Oct 2026 | 11 | 6 | 3 | 3 | 23 |
-| [0.1.20](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.20) | 24 Oct 2026 | 21 | 7 | 4 | 5 | 37 |
-| [0.1.19](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.19) | 24 Oct 2026 | 7 | 5 | 2 | 3 | 17 |
-| [0.1.18](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.18) | 24 Oct 2026 | 7 | 6 | 3 | 1 | 17 |
-| [0.1.17](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.17) | 24 Oct 2026 | 100 | 240 | 51 | 35 | 426 |
-| [0.1.16](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.16) | 24 Oct 2026 | 5 | 5 | 2 | 2 | 14 |
-| [0.1.15](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.15) | 24 Oct 2026 | 6 | 4 | 2 | 2 | 14 |
-| [0.1.14](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.14) | 24 Oct 2026 | 17 | 8 | 6 | — | 31 |
-| [0.1.13](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.13) | 24 Oct 2026 | 10 | 5 | 2 | — | 17 |
-| [0.1.12](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.12) | 24 Oct 2026 | 15 | 6 | 3 | — | 24 |
-| [0.1.11](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.11) | 24 Oct 2026 | 5 | 5 | 5 | — | 15 |
-| [0.1.10](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.10) | 24 Oct 2026 | 4 | 5 | 2 | — | 11 |
-| [0.1.9](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.9) | 24 Oct 2026 | 7 | 9 | 5 | — | 21 |
-| [0.1.8](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.8) | 24 Oct 2026 | 6 | 4 | 5 | — | 15 |
-| [0.1.7](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.7) | 24 Oct 2026 | 6 | 4 | 2 | — | 12 |
-| [0.1.6](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.6) | 24 Oct 2026 | 8 | 5 | 4 | — | 17 |
-| [0.1.5](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.5) | 24 Oct 2026 | 10 | 6 | 3 | — | 19 |
-| [0.1.4](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.4) | 24 Oct 2026 | 4 | 6 | 2 | — | 12 |
-| [0.1.3](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.3) | 24 Oct 2026 | 6 | 5 | 2 | — | 13 |
-| [0.1.2](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.2) | 24 Oct 2026 | 4 | 7 | 2 | — | 13 |
-| [0.1.1](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.1) | 24 Oct 2026 | — | 252 | 2 | — | 254 |
-| [0.1.0](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.0) | 24 Oct 2026 | — | 5 | 3 | — | 8 |
-| **All releases** | | **4,998** | **11,739** | **1,014** | **2,495** | **20,246** |
+| [0.2.30](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.30) | 10 Nov 2026 | 846 | 1,411 | 376 | 427 | 3,060 |
+| [0.2.29](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.29) | 10 Nov 2026 | 32 | 353 | 1 | 96 | 482 |
+| [0.2.28](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.28) | 10 Nov 2026 | 52 | 392 | 2 | 108 | 554 |
+| [0.2.27](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.27) | 10 Nov 2026 | 29 | 256 | 1 | 73 | 359 |
+| [0.2.26](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.26) | 5 Nov 2026 | 425 | 1,093 | 307 | 265 | 2,090 |
+| [0.2.25](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.25) | 2 Nov 2026 | 235 | 1,056 | 36 | 168 | 1,495 |
+| [0.2.24](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.24) | 2 Nov 2026 | 53 | 530 | 4 | 96 | 683 |
+| [0.2.23](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.23) | 1 Nov 2026 | 102 | 883 | 34 | 104 | 1,123 |
+| [0.2.22](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.22) | 31 Oct 2026 | 98 | 621 | 16 | 91 | 826 |
+| [0.2.21](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.21) | 30 Oct 2026 | 239 | 853 | 8 | 127 | 1,227 |
+| [0.2.20](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.20) | 29 Oct 2026 | 42 | 338 | 5 | 41 | 426 |
+| [0.2.19](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.19) | 29 Oct 2026 | 54 | 427 | 6 | 62 | 549 |
+| [0.2.18](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.18) | 29 Oct 2026 | 27 | 214 | 3 | 41 | 285 |
+| [0.2.17](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.17) | 29 Oct 2026 | 53 | 287 | 6 | 50 | 396 |
+| [0.2.16](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.16) | 28 Oct 2026 | 45 | 459 | 3 | 65 | 572 |
+| [0.2.15](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.15) | 28 Oct 2026 | 14 | 125 | 4 | 12 | 155 |
+| [0.2.14](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.14) | 28 Oct 2026 | 114 | 467 | 4 | 65 | 650 |
+| [0.2.13](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.13) | 27 Oct 2026 | 311 | 699 | 9 | 121 | 1,140 |
+| [0.2.12](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.12) | 27 Oct 2026 | 19 | 19 | 3 | 1 | 42 |
+| [0.2.11](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.11) | 26 Oct 2026 | 477 | 409 | 7 | 117 | 1,010 |
+| [0.2.10](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.10) | 26 Oct 2026 | 43 | 54 | 3 | 14 | 114 |
+| [0.2.9](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.9) | 26 Oct 2026 | 44 | 25 | 5 | 6 | 80 |
+| [0.2.8](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.8) | 26 Oct 2026 | 294 | 91 | 14 | 71 | 470 |
+| [0.2.7](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.7) | 26 Oct 2026 | 52 | 19 | 3 | 9 | 83 |
+| [0.2.6](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.6) | 25 Oct 2026 | 754 | 36 | 18 | 141 | 949 |
+| [0.2.5](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.5) | 25 Oct 2026 | 29 | 7 | 5 | 3 | 44 |
+| [0.2.4](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.4) | 25 Oct 2026 | 152 | 14 | 9 | 25 | 200 |
+| [0.2.3](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.3) | 25 Oct 2026 | 66 | 30 | 4 | 19 | 119 |
+| [0.2.2](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.2) | 25 Oct 2026 | 92 | 12 | 5 | 13 | 122 |
+| [0.2.1](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.1) | 25 Oct 2026 | 19 | 5 | 3 | 4 | 31 |
+| [0.2.0](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.2.0) | 25 Oct 2026 | 54 | 12 | 5 | 10 | 81 |
+| [0.1.21](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.21) | 25 Oct 2026 | 13 | 8 | 3 | 3 | 27 |
+| [0.1.20](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.20) | 24 Oct 2026 | 23 | 9 | 4 | 5 | 41 |
+| [0.1.19](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.19) | 24 Oct 2026 | 9 | 7 | 2 | 3 | 21 |
+| [0.1.18](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.18) | 24 Oct 2026 | 9 | 8 | 3 | 1 | 21 |
+| [0.1.17](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.17) | 24 Oct 2026 | 102 | 242 | 51 | 35 | 430 |
+| [0.1.16](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.16) | 24 Oct 2026 | 7 | 7 | 2 | 2 | 18 |
+| [0.1.15](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.15) | 24 Oct 2026 | 8 | 6 | 2 | 2 | 18 |
+| [0.1.14](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.14) | 24 Oct 2026 | 19 | 10 | 6 | — | 35 |
+| [0.1.13](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.13) | 24 Oct 2026 | 12 | 7 | 2 | — | 21 |
+| [0.1.12](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.12) | 24 Oct 2026 | 17 | 8 | 3 | — | 28 |
+| [0.1.11](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.11) | 24 Oct 2026 | 7 | 7 | 5 | — | 19 |
+| [0.1.10](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.10) | 24 Oct 2026 | 6 | 7 | 2 | — | 15 |
+| [0.1.9](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.9) | 24 Oct 2026 | 9 | 11 | 5 | — | 25 |
+| [0.1.8](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.8) | 24 Oct 2026 | 8 | 6 | 5 | — | 19 |
+| [0.1.7](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.7) | 24 Oct 2026 | 8 | 6 | 2 | — | 16 |
+| [0.1.6](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.6) | 24 Oct 2026 | 10 | 7 | 4 | — | 21 |
+| [0.1.5](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.5) | 24 Oct 2026 | 12 | 8 | 3 | — | 23 |
+| [0.1.4](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.4) | 24 Oct 2026 | 6 | 8 | 2 | — | 16 |
+| [0.1.3](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.3) | 24 Oct 2026 | 8 | 7 | 2 | — | 17 |
+| [0.1.2](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.2) | 24 Oct 2026 | 6 | 9 | 2 | — | 17 |
+| [0.1.1](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.1) | 24 Oct 2026 | — | 256 | 2 | — | 258 |
+| [0.1.0](https://github.com/lucacadalora/oyenza-studio/releases/tag/v0.1.0) | 24 Oct 2026 | — | 7 | 3 | — | 10 |
+| **All releases** | | **5,165** | **11,848** | **1,024** | **2,496** | **20,533** |
 
 ## Per day
 
 | Day | Downloads |
 | --- | --: |
-| Today | 194 |
+| Today | 287 |
+| 25 Nov 2026 | 194 |
 | 24 Nov 2026 | 35 |
 | 23 Nov 2026 | 191 |
 | 22 Nov 2026 | 89 |
@@ -98,7 +99,6 @@
 | 30 Oct 2026 | 1,158 |
 | 29 Oct 2026 | 2,101 |
 | 28 Oct 2026 | 1,502 |
-| 27 Oct 2026 | 1,671 |
 
 Every day since 24 Oct 2026: [downloads.csv](data/downloads.csv).
 
@@ -110,7 +110,7 @@ Every day since 24 Oct 2026: [downloads.csv](data/downloads.csv).
 <summary>How we count</summary>
 
 - GitHub counts every download of a release file. The Download button on the [website](https://studio.oyenza.com/) and in the README always fetches `Oyenza-Studio-Setup.exe` from the newest release; the versioned installer and the portable zip are on each release's page.
-- Our CI downloads Poni-Setup-0.1.1.exe (0.1.1) while it tests each push, and GitHub counts those too: 689 so far, left out of every number here ([ci-downloads.csv](data/ci-downloads.csv) lists each one). GitHub's own counters add up to 20,562.
+- Our CI downloads Poni-Setup-0.1.1.exe (0.1.1) while it tests each push, and GitHub counts those too: 689 so far, left out of every number here ([ci-downloads.csv](data/ci-downloads.csv) lists each one). GitHub's own counters add up to 20,853.
 - GitHub updates its counters every few minutes, so for a while a counter may not show a CI download that is already taken off. Each file's number keeps its highest reading, so numbers only go up.
 - Still in the numbers: our own check of each new release (one download through the Download button) and any bots. GitHub can't tell those apart.
 - Oyenza Studio itself sends nothing: no accounts, no tracking. These are GitHub's download counters, read every hour.
@@ -119,4 +119,4 @@ Every day since 24 Oct 2026: [downloads.csv](data/downloads.csv).
 
 </details>
 
-<sub>Updated 25 Nov 2026, 20:14 UTC by [Download stats](https://github.com/lucacadalora/oyenza-studio/actions/workflows/metrics.yml), every hour · Data: [downloads](data/downloads.csv), [CI downloads](data/ci-downloads.csv), [stars](data/repo.csv), [summary.json](summary.json)</sub>
+<sub>Updated 26 Nov 2026, 03:12 UTC by [Download stats](https://github.com/lucacadalora/oyenza-studio/actions/workflows/metrics.yml), every hour · Data: [downloads](data/downloads.csv), [CI downloads](data/ci-downloads.csv), [stars](data/repo.csv), [summary.json](summary.json)</sub>
