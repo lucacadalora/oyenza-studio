@@ -1,14 +1,14 @@
 {
   "repo": "lucacadalora/oyenza-studio",
-  "checked_at": "2026-11-28T05:00:49Z",
+  "checked_at": "2026-11-28T14:34:33Z",
   "since": "2026-10-24",
-  "downloads": 20638,
-  "github_count": 20958,
+  "downloads": 20651,
+  "github_count": 20971,
   "ci_count": 689,
-  "last_7_days": 901,
+  "last_7_days": 914,
   "latest": {
     "release": "v0.2.30",
-    "downloads": 3160
+    "downloads": 3171
   },
   "stars": 185,
   "forks": 48,
@@ -17,8 +17,8 @@
     {
       "release": "v0.2.30",
       "published": "2026-11-10T12:53:31Z",
-      "downloads": 3160,
-      "github_count": 3160,
+      "downloads": 3171,
+      "github_count": 3171,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 17,
@@ -26,8 +26,8 @@
         "Oyenza-Studio-0.2.30-mac.dmg": 224,
         "Oyenza-Studio-0.2.30-portable.zip": 398,
         "Oyenza-Studio-Mac.dmg": 201,
-        "Oyenza-Studio-Setup-0.2.30.exe": 1429,
-        "Oyenza-Studio-Setup.exe": 792
+        "Oyenza-Studio-Setup-0.2.30.exe": 1432,
+        "Oyenza-Studio-Setup.exe": 800
       }
     },
     {
@@ -81,8 +81,8 @@
     {
       "release": "v0.2.26",
       "published": "2026-11-05T06:48:53Z",
-      "downloads": 2090,
-      "github_count": 2090,
+      "downloads": 2091,
+      "github_count": 2091,
       "ci_count": 0,
       "files": {
         "Oyen-Poni-Mac.dmg": 7,
@@ -90,7 +90,7 @@
         "Oyenza-Studio-0.2.26-mac.dmg": 131,
         "Oyenza-Studio-0.2.26-portable.zip": 307,
         "Oyenza-Studio-Mac.dmg": 127,
-        "Oyenza-Studio-Setup-0.2.26.exe": 1093,
+        "Oyenza-Studio-Setup-0.2.26.exe": 1094,
         "Oyenza-Studio-Setup.exe": 374
       }
     },
@@ -767,12 +767,12 @@
     {
       "release": "v0.1.1",
       "published": "2026-10-24T05:54:33Z",
-      "downloads": 261,
-      "github_count": 950,
+      "downloads": 262,
+      "github_count": 951,
       "ci_count": 689,
       "files": {
         "Poni-0.1.1-portable.zip": 2,
-        "Poni-Setup-0.1.1.exe": 259
+        "Poni-Setup-0.1.1.exe": 260
       }
     },
     {
@@ -930,7 +930,7 @@
     },
     {
       "date": "2026-11-28",
-      "downloads": 13
+      "downloads": 26
     }
   ]
 }
